@@ -116,7 +116,7 @@ static void netplay_update_resources(void)
     server_bind_address = gtk_entry_get_text(GTK_ENTRY(np_server_bind));
     util_string_to_long(p, NULL, 10, &port);
     if (port < 1 || port > 0xFFFF) {
-        ui_error(_("Invalid Port number"));
+        ui_error(_("Invalid port number"));
         return;
     }
     resources_set_int("NetworkServerPort", (int)port);
@@ -225,7 +225,7 @@ static GtkWidget *build_netplay_dialog(void)
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 
-    l = gtk_label_new(_("TCP-Port: "));
+    l = gtk_label_new(_("TCP port: "));
     gtk_container_add(GTK_CONTAINER(hb), l);
     gtk_widget_show(l);
 

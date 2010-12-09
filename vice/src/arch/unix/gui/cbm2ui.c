@@ -72,13 +72,13 @@ static ui_menu_entry_t set_viciimodel_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t cbm2ui_main_romset_submenu[] = {
-    { N_("Load new Kernal"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new kernal ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new Chargen"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new character ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
-    { N_("Load new Basic"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new BASIC ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"BasicName", NULL },
     { NULL }

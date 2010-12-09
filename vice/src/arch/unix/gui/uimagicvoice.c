@@ -40,7 +40,7 @@
 
 UI_CALLBACK(set_magicvoice_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Magic Voice image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Magic Voice file"), UILIB_FILTER_ALL);
 }
 
 UI_MENU_DEFINE_TOGGLE(MagicVoiceCartridgeEnabled)

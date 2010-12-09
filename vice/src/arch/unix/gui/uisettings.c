@@ -192,7 +192,7 @@ static UI_CALLBACK(set_custom_maximum_speed)
     } else {
         vsync_suspend_speed_eval();
         msg_string = lib_stralloc(_("Enter speed"));
-        button = ui_input_string(_("Maximum run speed"), msg_string, input_string, 32);
+        button = ui_input_string(_("Maximum speed"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             int current_refresh_rate;

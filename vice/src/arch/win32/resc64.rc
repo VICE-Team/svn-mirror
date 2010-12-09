@@ -85,7 +85,7 @@ BEGIN
             MENUITEM "", IDM_CART_ATTACH_SS4
             MENUITEM "", IDM_CART_ATTACH_SS5
             MENUITEM "", IDM_CART_ATTACH_STB
-            POPUP "Expert Cartridge"
+            POPUP "Expert cartridge"
             BEGIN
                 MENUITEM "",    IDM_CART_ENABLE_EXPERT
                 MENUITEM SEPARATOR

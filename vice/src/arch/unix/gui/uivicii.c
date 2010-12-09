@@ -101,7 +101,7 @@ static UI_CALLBACK(radio_renderer)
 static ui_menu_entry_t renderer_submenu[] = {
     { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
-    { N_("CRT Emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
+    { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
     { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)2, NULL },
@@ -173,7 +173,7 @@ ui_menu_entry_t vicii_submenu[] = {
     { N_("Renderer"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
-    { N_("CRT Emulation Settings"), UI_MENU_TYPE_NORMAL,
+    { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, PALMode_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },

@@ -157,13 +157,13 @@ static ui_menu_entry_t sidcart_submenu[] = {
 };
 
 static ui_menu_entry_t vic20ui_main_romset_submenu[] = {
-    { N_("Load new Kernal ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new kernal ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new Basic ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new BASIC ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"BasicName", NULL },
-    { N_("Load new Character ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new character ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
     { NULL }
@@ -336,7 +336,7 @@ UI_CALLBACK(set_mc_nvram_image_name)
 }
 
 static ui_menu_entry_t cartridge_options_submenu[] = {
-    { N_("Reset on cartridge change"), UI_MENU_TYPE_TICK,
+    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { N_("Final Expansion write back"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FinalExpansionWriteBack, NULL, NULL },

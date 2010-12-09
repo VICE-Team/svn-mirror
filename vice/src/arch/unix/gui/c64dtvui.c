@@ -146,7 +146,7 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t c64dtv_model_submenu[] = {
-    { N_("Blitter Revision"), UI_MENU_TYPE_NORMAL,
+    { N_("DTV revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64dtv_revision_submenu },
     { N_("VIC-II model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_viciimodel_submenu },

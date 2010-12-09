@@ -36,23 +36,23 @@
 static video_canvas_t *cached_canvas;
 
 typedef struct pal_res_s {
-    char *label;		/* Label of Adjustmentbar */
-    char *res;			/* Associated resource */
-    int scale;			/* Scale to adjust to value range 0..4000 */
-    GtkObject *adj;		/* pointer to widget */
-    GtkWidget *w;		/* widget holding the scrollbar+label */
+    char *label;        /* Label of Adjustmentbar */
+    char *res;          /* Associated resource */
+    int scale;          /* Scale to adjust to value range 0..4000 */
+    GtkObject *adj;     /* pointer to widget */
+    GtkWidget *w;       /* widget holding the scrollbar+label */
 } pal_res_t;
 
 static pal_res_t ctrls[] = {
     { N_("Blurredness"), "PALBlur", 4, NULL, NULL },
-    { N_("Scanline Shade"), "PALScanLineShade", 4, NULL, NULL  },
+    { N_("Scanline shade"), "PALScanLineShade", 4, NULL, NULL  },
     { N_("Saturation"), "ColorSaturation", 2, NULL, NULL  },
     { N_("Contrast"), "ColorContrast", 2, NULL, NULL  },
     { N_("Brightness"), "ColorBrightness", 2, NULL, NULL  },
     { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
     { N_("Tint"), "ColorTint", 2, NULL, NULL  },
-    { N_("Odd Line Phase"), "PALOddLinePhase", 2, NULL, NULL  },
-    { N_("Odd Line Offset"), "PALOddLineOffset", 2, NULL, NULL  },
+    { N_("Odd lines phase"), "PALOddLinePhase", 2, NULL, NULL  },
+    { N_("Odd lines offset"), "PALOddLineOffset", 2, NULL, NULL  },
 };
 
 static void upd_sb (GtkAdjustment *adj, gpointer data)
@@ -95,7 +95,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     int v;
 
     cached_canvas = canvas;
-    f = gtk_frame_new(_("CRT Settings"));
+    f = gtk_frame_new(_("CRT settings"));
 
     b = gtk_vbox_new(FALSE, 5);
 

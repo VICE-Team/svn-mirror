@@ -426,7 +426,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Emulator identification"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_EmuID, NULL, NULL },
-    { N_("Power off on cartridge change"), UI_MENU_TYPE_TICK,
+    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };

@@ -358,9 +358,9 @@ static ui_menu_entry_t set_joystick_device_4_submenu[] = {
 };
 
 static ui_menu_entry_t joystick_settings_c64_submenu[] = {
-    { N_("Joystick device in port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick device in port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -368,30 +368,30 @@ static ui_menu_entry_t joystick_settings_c64_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
-    { N_("Swap joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Userport Joystick Interface"), UI_MENU_TYPE_TICK,
+    { N_("Userport joystick adapter"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
-    { N_("Userport Joystick Interface Type"), UI_MENU_TYPE_NORMAL,
+    { N_("Userport joystick adapter type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_joystick_type_c64_submenu },
-    { N_("Joystick device in extra port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_3_submenu },
-    { N_("Joystick device in extra port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
-    { N_("Swap userport joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
-    { N_("Joystick device in port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick device in port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -399,30 +399,30 @@ static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
-    { N_("Swap joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Userport Joystick Interface"), UI_MENU_TYPE_TICK,
+    { N_("Userport joystick adapter"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
-    { N_("Userport Joystick Interface Type"), UI_MENU_TYPE_NORMAL,
+    { N_("Userport joystick adapter type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_joystick_type_submenu },
-    { N_("Joystick device in extra port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_3_submenu },
-    { N_("Joystick device in extra port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
-    { N_("Swap userport joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
-    { N_("Joystick device in port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick device in port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -430,11 +430,11 @@ static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
-    { N_("Swap joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { NULL }
 };
@@ -445,26 +445,26 @@ static ui_menu_entry_t joystick_settings_pet_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Userport Joystick Interface"), UI_MENU_TYPE_TICK,
+    { N_("Userport joystick adapter"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
-    { N_("Userport Joystick Interface Type"), UI_MENU_TYPE_NORMAL,
+    { N_("Userport joystick adapter type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_joystick_type_submenu },
-    { N_("Joystick device in extra port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_3_submenu },
-    { N_("Joystick device in extra port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
-    { N_("Swap userport joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
-    { N_("Joystick device in port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -472,28 +472,28 @@ static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Userport Joystick Interface"), UI_MENU_TYPE_TICK,
+    { N_("Userport joystick adapter"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExtraJoy, NULL, NULL },
-    { N_("Userport Joystick Interface Type"), UI_MENU_TYPE_NORMAL,
+    { N_("Userport joystick adapter type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, userport_joystick_type_submenu },
-    { N_("Joystick device in extra port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_3_submenu },
-    { N_("Joystick device in extra port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
-    { N_("Swap userport joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
     { NULL }
 };
 
 static ui_menu_entry_t joystick_settings_plus4_submenu[] = {
-    { N_("Joystick device in port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_1_submenu },
-    { N_("Joystick device in port 2"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
@@ -501,22 +501,22 @@ static ui_menu_entry_t joystick_settings_plus4_submenu[] = {
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
-    { N_("Allow opposite joystick directions"), UI_MENU_TYPE_TICK,
+    { N_("Allow opposite directions"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_JoyOpposite, NULL, NULL },
     { N_("Allow keyset joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeySetEnable, NULL, NULL, KEYSYM_J, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
-    { N_("Swap joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SIDcart joystick"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SIDCartJoy, NULL, NULL },
-    { N_("Joystick device in extra port 1"), UI_MENU_TYPE_NORMAL,
+    { N_("Joystick in extra port #1"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_3_submenu },
     { NULL }
 };
 
 ui_menu_entry_t joystick_options_submenu[] = {
-    { N_("Swap joystick ports"), UI_MENU_TYPE_NORMAL,
+    { N_("Swap joysticks"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)swap_joystick_ports, NULL, NULL, KEYSYM_j, UI_HOTMOD_META },
     { NULL }
 };

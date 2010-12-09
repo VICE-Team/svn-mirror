@@ -52,8 +52,8 @@ BEGIN
   IDS_MMCREPLAY_CAPTION             "MMC Replay settings"
   IDS_MMCREPLAY_CARDIMAGE_LABEL     "Card Image"
   IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM Image"
-  IDS_MMCREPLAY_RESCUEMODE          "Rescue Mode"
-  IDS_MMCREPLAY_SDTYPE_LABEL        "SD Type"
+  IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
+  IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "read/write"
 END
 

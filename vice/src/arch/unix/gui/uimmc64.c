@@ -86,7 +86,7 @@ ui_menu_entry_t mmc64_submenu[] = {
     { N_("MMC64 image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmc64_image_name,
       (ui_callback_data_t)"MMC64imagefilename", NULL },
-    { N_("MMC64 card type"), UI_MENU_TYPE_NORMAL,
+    { N_("Card type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmc64_sd_type_submenu },
     { NULL }
 };

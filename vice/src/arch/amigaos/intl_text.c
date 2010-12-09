@@ -687,7 +687,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_STRUCTURED_BASIC_IMAGE_SV, "Structure Basic-fil..." },
 /* tr */ { IDMS_STRUCTURED_BASIC_IMAGE_TR, "Structured Basic imajý..." },
 
-/* en */ { IDMS_EXPERT_CART,    "Expert Cartridge" },
+/* en */ { IDMS_EXPERT_CART,    "Expert cartridge" },
 /* da */ { IDMS_EXPERT_CART_DA, "Expert Cartridge" },
 /* de */ { IDMS_EXPERT_CART_DE, "Expert Cartridge" },
 /* fr */ { IDMS_EXPERT_CART_FR, "Activer les paramètres des cartouches experts..." },
@@ -940,7 +940,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_START_STOP_PLAYBACK_SV, "Börja/sluta spela upp händelser" },
 /* tr */ { IDMS_START_STOP_PLAYBACK_TR, "Kayýttan Yürütme Tarihçesini Baþlat/Durdur" },
 
-/* en */ { IDMS_SET_MILESTONE,    "Set Recording Milestone" },
+/* en */ { IDMS_SET_MILESTONE,    "Set recording milestone" },
 /* da */ { IDMS_SET_MILESTONE_DA, "Angiv optagelses-bogmærke" },
 /* de */ { IDMS_SET_MILESTONE_DE, "Setze Aufnahme Meilenstein" },
 /* fr */ { IDMS_SET_MILESTONE_FR, "" },  /* fuzzy */
@@ -951,7 +951,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SET_MILESTONE_SV, "Ange inspelningsbokmärke" },
 /* tr */ { IDMS_SET_MILESTONE_TR, "Kayýt kilometre taþý koy" },
 
-/* en */ { IDMS_RETURN_TO_MILESTONE,    "Return to Milestone" },
+/* en */ { IDMS_RETURN_TO_MILESTONE,    "Return to milestone" },
 /* da */ { IDMS_RETURN_TO_MILESTONE_DA, "Gå til bogmærke" },
 /* de */ { IDMS_RETURN_TO_MILESTONE_DE, "Rückkehr zum Meilenstein" },
 /* fr */ { IDMS_RETURN_TO_MILESTONE_FR, "" },  /* fuzzy */
@@ -1193,7 +1193,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_1_10_SV, "1/10" },
 /* tr */ { IDMS_1_10_TR, "1/10" },
 
-/* en */ { IDMS_MAXIMUM_SPEED,    "Maximum Speed" },
+/* en */ { IDMS_MAXIMUM_SPEED,    "Maximum speed" },
 /* da */ { IDMS_MAXIMUM_SPEED_DA, "Maximal hastighed" },
 /* de */ { IDMS_MAXIMUM_SPEED_DE, "Maximale Geschwindigkeit" },
 /* fr */ { IDMS_MAXIMUM_SPEED_FR, "" },  /* fuzzy */
@@ -1413,7 +1413,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_VDC_REV_2_SV, "Utgåva 2" },
 /* tr */ { IDMS_VDC_REV_2_TR, "Düzeltme 2" },
 
-/* en */ { IDMS_SWAP_JOYSTICKS,    "Swap Joysticks" },
+/* en */ { IDMS_SWAP_JOYSTICKS,    "Swap joysticks" },
 /* da */ { IDMS_SWAP_JOYSTICKS_DA, "Byt om på joystickportene" },
 /* de */ { IDMS_SWAP_JOYSTICKS_DE, "Joystick ports austauschen" },
 /* fr */ { IDMS_SWAP_JOYSTICKS_FR, "" },  /* fuzzy */
@@ -1424,7 +1424,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SWAP_JOYSTICKS_SV, "Växla spelportarna" },
 /* tr */ { IDMS_SWAP_JOYSTICKS_TR, "Joysticklerin Yerlerini Deðiþtir" },
 
-/* en */ { IDMS_SWAP_USERPORT_JOYSTICKS,    "Swap Userport Joysticks" },
+/* en */ { IDMS_SWAP_USERPORT_JOYSTICKS,    "Swap userport joysticks" },
 /* da */ { IDMS_SWAP_USERPORT_JOYSTICKS_DA, "Byt om på brugerportjoysticks" },
 /* de */ { IDMS_SWAP_USERPORT_JOYSTICKS_DE, "Userport Joystick Ports austauschen" },
 /* fr */ { IDMS_SWAP_USERPORT_JOYSTICKS_FR, "" },  /* fuzzy */
@@ -1446,7 +1446,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_JOY_KEYS_SV, "Aktivera styrspak via tangenter" },
 /* tr */ { IDMS_ENABLE_JOY_KEYS_TR, "Joy Tuþlarýný Aktif Et" },
 
-/* en */ { IDMS_ENABLE_JOY_KEYS,    "Allow opposite joystick directions" },
+/* en */ { IDMS_ENABLE_JOY_KEYS,    "Allow opposite directions" },
 /* da */ { IDMS_ENABLE_JOY_KEYS_DA, "Tillad modsatte joystickretninger" },
 /* de */ { IDMS_ENABLE_JOY_KEYS_DE, "Gegnüberliegende Richtungen zulassen" },
 /* fr */ { IDMS_ENABLE_JOY_KEYS_FR, "" },  /* fuzzy */
@@ -2282,7 +2282,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FINAL_EXPANSION_WRITEBACK_SV, "Aktivera Final Expansion-återskrivning" },
 /* tr */ { IDMS_FINAL_EXPANSION_WRITEBACK_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_MEGACART_WRITEBACK,    "Enable Mega-Cart non-volatile RAM write-back" },
+/* en */ { IDMS_MEGACART_WRITEBACK,    "Enable Mega-Cart NvRAM writeback" },
 /* da */ { IDMS_MEGACART_WRITEBACK_DA, "Aktivér Mega-Cart NVRAM tilbageskrivning" },
 /* de */ { IDMS_MEGACART_WRITEBACK_DE, "Mega-Cart nicht-flüchtiges RAM rückschreiben aktivieren" },
 /* fr */ { IDMS_MEGACART_WRITEBACK_FR, "" },  /* fuzzy */
@@ -2920,7 +2920,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMES_ERROR_CONNECTING_CLIENT_SV, "Fel vid anslutning til klienten." },
 /* tr */ { IDMES_ERROR_CONNECTING_CLIENT_TR, "Ýstemciye baðlanýrken bir hata oluþtu." },
 
-/* en */ { IDMES_INVALID_PORT_NUMBER,    "Invalid Port number" },
+/* en */ { IDMES_INVALID_PORT_NUMBER,    "Invalid port number" },
 /* da */ { IDMES_INVALID_PORT_NUMBER_DA, "Ugyldigt portnummer" },
 /* de */ { IDMES_INVALID_PORT_NUMBER_DE, "Ungültige Port Nummer" },
 /* fr */ { IDMES_INVALID_PORT_NUMBER_FR, "Nom de fichier invalide" },
@@ -3008,7 +3008,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CURRENT_MODE_SV, "Nuvarande läge" },
 /* tr */ { IDS_CURRENT_MODE_TR, "Geçerli mod" },
 
-/* en */ { IDS_TCP_PORT,    "TCP-Port" },
+/* en */ { IDS_TCP_PORT,    "TCP port" },
 /* da */ { IDS_TCP_PORT_DA, "TCP-port" },
 /* de */ { IDS_TCP_PORT_DE, "TCP-Port" },
 /* fr */ { IDS_TCP_PORT_FR, "Port TCP" },
@@ -3646,7 +3646,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ENABLED_SV, "Aktiverad" },
 /* tr */ { IDS_ENABLED_TR, "Aktif" },
 
-/* en */ { IDS_RS232_DEVICE_1,    "RS232 Device 1" },
+/* en */ { IDS_RS232_DEVICE_1,    "RS232 device 1" },
 /* da */ { IDS_RS232_DEVICE_1_DA, "RS232-enhed 1" },
 /* de */ { IDS_RS232_DEVICE_1_DE, "RS232 Gerät 1" },
 /* fr */ { IDS_RS232_DEVICE_1_FR, "" },  /* fuzzy */
@@ -3657,7 +3657,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RS232_DEVICE_1_SV, "RS232-enhet 1" },
 /* tr */ { IDS_RS232_DEVICE_1_TR, "RS232 Aygýt 1" },
 
-/* en */ { IDS_RS232_DEVICE_2,    "RS232 Device 2" },
+/* en */ { IDS_RS232_DEVICE_2,    "RS232 device 2" },
 /* da */ { IDS_RS232_DEVICE_2_DA, "RS232-enhed 2" },
 /* de */ { IDS_RS232_DEVICE_2_DE, "RS232 Gerät 2" },
 /* fr */ { IDS_RS232_DEVICE_2_FR, "" },  /* fuzzy */
@@ -3668,7 +3668,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RS232_DEVICE_2_SV, "RS232-enhet 2" },
 /* tr */ { IDS_RS232_DEVICE_2_TR, "RS232 Aygýt 2" },
 
-/* en */ { IDS_RS232_DEVICE_3,    "RS232 Device 3" },
+/* en */ { IDS_RS232_DEVICE_3,    "RS232 device 3" },
 /* da */ { IDS_RS232_DEVICE_3_DA, "RS232-enhed 3" },
 /* de */ { IDS_RS232_DEVICE_3_DE, "RS232 Gerät 3" },
 /* fr */ { IDS_RS232_DEVICE_3_FR, "" },  /* fuzzy */
@@ -3679,7 +3679,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RS232_DEVICE_3_SV, "RS232-enhet 3" },
 /* tr */ { IDS_RS232_DEVICE_3_TR, "RS232 Aygýt 3" },
 
-/* en */ { IDS_RS232_DEVICE_4,    "RS232 Device 4" },
+/* en */ { IDS_RS232_DEVICE_4,    "RS232 device 4" },
 /* da */ { IDS_RS232_DEVICE_4_DA, "RS232-enhed 4" },
 /* de */ { IDS_RS232_DEVICE_4_DE, "RS232 Gerät 4" },
 /* fr */ { IDS_RS232_DEVICE_4_FR, "" },  /* fuzzy */
@@ -3756,7 +3756,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ACIA_DEVICE_SV, "ACIA-enhet" },
 /* tr */ { IDS_ACIA_DEVICE_TR, "ACIA aygýtý" },
 
-/* en */ { IDS_ACIA_INTERRUPT,    "ACIA Interrupt" },
+/* en */ { IDS_ACIA_INTERRUPT,    "ACIA interrupt" },
 /* da */ { IDS_ACIA_INTERRUPT_DA, "ACIA-interrupt" },
 /* de */ { IDS_ACIA_INTERRUPT_DE, "ACIA Interrupt" },
 /* fr */ { IDS_ACIA_INTERRUPT_FR, "" },  /* fuzzy */
@@ -3767,7 +3767,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ACIA_INTERRUPT_SV, "ACIA-avbrott" },
 /* tr */ { IDS_ACIA_INTERRUPT_TR, "ACIA Kesmesi" },
 
-/* en */ { IDS_ACIA_MODE,    "ACIA Mode" },
+/* en */ { IDS_ACIA_MODE,    "ACIA mode" },
 /* da */ { IDS_ACIA_MODE_DA, "ACIA-tilstand" },
 /* de */ { IDS_ACIA_MODE_DE, "ACIA Modus" },
 /* fr */ { IDS_ACIA_MODE_FR, "" },  /* fuzzy */
@@ -3866,7 +3866,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_C64DTV_ROM_FILENAME_SV, "C64DTV-ROM-fil" },
 /* tr */ { IDS_C64DTV_ROM_FILENAME_TR, "C64DTV ROM dosyasý" },
 
-/* en */ { IDS_C64DTV_REVISION,    "C64DTV revision" },
+/* en */ { IDS_C64DTV_REVISION,    "DTV revision" },
 /* da */ { IDS_C64DTV_REVISION_DA, "C64DTV-revision" },
 /* de */ { IDS_C64DTV_REVISION_DE, "C64DTV Revision" },
 /* fr */ { IDS_C64DTV_REVISION_FR, "" },  /* fuzzy */
@@ -4372,7 +4372,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_USERPORT_ADAPTER_TYPE_SV, "Typ av adapter för användarportstyrspakar" },
 /* tr */ { IDS_USERPORT_ADAPTER_TYPE_TR, "Userport joystick dönüþtürücü tipi" },
 
-/* en */ { IDS_JOYSTICK_IN_USERPORT_PORT_1,    "Joystick in userport adapter port #1" },
+/* en */ { IDS_JOYSTICK_IN_USERPORT_PORT_1,    "Joystick in extra port #1" },
 /* da */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_DA, "Joystick på brugerport adapter port 1" },
 /* de */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_DE, "Joystick in Userport Adapter Port #1" },
 /* fr */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_FR, "" },  /* fuzzy */
@@ -4383,7 +4383,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_SV, "Styrspak i användarportsadapterport 1" },
 /* tr */ { IDS_JOYSTICK_IN_USERPORT_PORT_1_TR, "Joystick userport dönüþtürücü port #1'de" },
 
-/* en */ { IDS_JOYSTICK_IN_USERPORT_PORT_2,    "Joystick in userport adapter port #2" },
+/* en */ { IDS_JOYSTICK_IN_USERPORT_PORT_2,    "Joystick in extra port #2" },
 /* da */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_DA, "Joystick på brugerport adapter port 1" },
 /* de */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_DE, "Joystick in Userport Adapter Port #2" },
 /* fr */ { IDS_JOYSTICK_IN_USERPORT_PORT_2_FR, "" },  /* fuzzy */
@@ -4417,7 +4417,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_JOYSTICK_IN_SIDCART_PORT_SV, "Styrspak i SIDcart-spelport" },
 /* tr */ { IDS_JOYSTICK_IN_SIDCART_PORT_TR, "Joystick SID kartuþu joystick portuna takýlý" },
 
-/* en */ { IDS_JOYSTICK_SETTINGS,    "Joystick Settings" },
+/* en */ { IDS_JOYSTICK_SETTINGS,    "Joystick settings" },
 /* da */ { IDS_JOYSTICK_SETTINGS_DA, "Joystickindstillinger" },
 /* de */ { IDS_JOYSTICK_SETTINGS_DE, "Joystick Einstellungen" },
 /* fr */ { IDS_JOYSTICK_SETTINGS_FR, "" },  /* fuzzy */
@@ -5110,7 +5110,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_USERPORT_RS232_SV, "Användarport-RS232" },
 /* tr */ { IDS_USERPORT_RS232_TR, "Userport RS232" },
 
-/* en */ { IDS_USERPORT_DEVICE,    "Userport RS232 Device" },
+/* en */ { IDS_USERPORT_DEVICE,    "Userport RS232 device" },
 /* da */ { IDS_USERPORT_DEVICE_DA, "Brugerportens RS232-enhed" },
 /* de */ { IDS_USERPORT_DEVICE_DE, "Userport RS232 Gerät" },
 /* fr */ { IDS_USERPORT_DEVICE_FR, "" },  /* fuzzy */
@@ -5616,7 +5616,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MMC64_IMAGE_FILE_SV, "MMC/SD-avbildningsfil" },
 /* tr */ { IDS_MMC64_IMAGE_FILE_TR, "MMC/SD Imaj Dosyasý" },
 
-/* en */ { IDS_SD_TYPE,    "SD Type" },
+/* en */ { IDS_SD_TYPE,    "Card type" },
 /* da */ { IDS_SD_TYPE_DA, "" },  /* fuzzy */
 /* de */ { IDS_SD_TYPE_DE, "" },  /* fuzzy */
 /* fr */ { IDS_SD_TYPE_FR, "" },  /* fuzzy */
@@ -6122,7 +6122,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NEW_PAL_TINT_0_2_SV, "Färgton (0..2)" },
 /* tr */ { IDS_NEW_PAL_TINT_0_2_TR, "Ton (0..2)" },
 
-/* en */ { IDS_NEW_PAL_PHASE_0_2,    "Odd Lines Phase (0..2)" },
+/* en */ { IDS_NEW_PAL_PHASE_0_2,    "Odd lines phase (0..2)" },
 /* da */ { IDS_NEW_PAL_PHASE_0_2_DA, "Fase for ulige linjer (0..2)" },
 /* de */ { IDS_NEW_PAL_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)" },
 /* fr */ { IDS_NEW_PAL_PHASE_0_2_FR, "" },  /* fuzzy */
@@ -6133,7 +6133,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NEW_PAL_PHASE_0_2_SV, "Fas för udda linjer (0..2)" },
 /* tr */ { IDS_NEW_PAL_PHASE_0_2_TR, "Tek Satýrlar Fazý (0..2)" },
 
-/* en */ { IDS_NEW_PAL_OFFSET_0_2,    "Odd Lines Offset (0..2)" },
+/* en */ { IDS_NEW_PAL_OFFSET_0_2,    "Odd lines offset (0..2)" },
 /* da */ { IDS_NEW_PAL_OFFSET_0_2_DA, "Offset for ulige linjer (0..2)" },
 /* de */ { IDS_NEW_PAL_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)" },
 /* fr */ { IDS_NEW_PAL_OFFSET_0_2_FR, "" },  /* fuzzy */
@@ -6595,7 +6595,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DIGIMAX_ENABLED_SV, "Digimax aktiverad" },
 /* tr */ { IDS_DIGIMAX_ENABLED_TR, "Digimax'ý Aktif Et" },
 
-/* en */ { IDS_DIGIMAX_BASE,    "Digimax Base" },
+/* en */ { IDS_DIGIMAX_BASE,    "Digimax base" },
 /* da */ { IDS_DIGIMAX_BASE_DA, "Digimaxbase" },
 /* de */ { IDS_DIGIMAX_BASE_DE, "Digimax Basis" },
 /* fr */ { IDS_DIGIMAX_BASE_FR, "Base Digimax" },

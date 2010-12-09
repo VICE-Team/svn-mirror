@@ -562,8 +562,8 @@ BEGIN
     IDS_MI_CART_VIC20_4KB_B000        "4KB image at $&B000..."
     IDS_MI_VIC_SETTINGS               "V&IC settings..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
-    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable VIC Flash Plugin write-back"
-    IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart non-volatile RAM write-back"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write-back"
+    IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
 END
 

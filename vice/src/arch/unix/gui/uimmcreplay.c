@@ -80,9 +80,9 @@ ui_menu_entry_t mmcreplay_submenu[] = {
       (ui_callback_data_t)"MMCREEPROMImage", NULL },
     { N_("Enable writes to EEPROM image"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCREEPROMRW, NULL, NULL },
-    { N_("Enable rescue mode"), UI_MENU_TYPE_TICK,
+    { N_("Rescue mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCRRescueMode, NULL, NULL },
-    { N_("Card Type"), UI_MENU_TYPE_NORMAL,
+    { N_("Card type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmcreplay_sd_type_submenu },
     { NULL }
 };

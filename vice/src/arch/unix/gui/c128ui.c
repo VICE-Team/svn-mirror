@@ -325,7 +325,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Emulator identification"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_EmuID, NULL, NULL },
-    { N_("Power off on cartridge change"), UI_MENU_TYPE_TICK,
+    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };
@@ -345,7 +345,7 @@ static ui_menu_entry_t c128ui_main_romset_submenu[] = {
     { N_("Load new Basic Hi ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"BasicHiName", NULL },
-    { N_("Load new Chargen ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new character ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
     { NULL }

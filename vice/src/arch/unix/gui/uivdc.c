@@ -72,7 +72,7 @@ static UI_CALLBACK(radio_renderer)
 static ui_menu_entry_t renderer_submenu[] = {
     { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)0, NULL },
-    { N_("CRT Emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
+    { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
       (ui_callback_data_t)1, NULL },
 #if 0
     { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
@@ -84,11 +84,11 @@ static ui_menu_entry_t renderer_submenu[] = {
 UI_MENU_DEFINE_RADIO(VDCRevision)
 
 static ui_menu_entry_t set_vdc_revison_submenu[] = {
-    { N_("Revison 0"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
+    { N_("Rev 0"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)0, NULL },
-    { N_("Revison 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
+    { N_("Rev 1"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)1, NULL },
-    { N_("Revison 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
+    { N_("Rev 2"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCRevision,
       (ui_callback_data_t)2, NULL },
     { NULL }
 };
@@ -162,7 +162,7 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("Renderer"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
-    { N_("CRT Emulation Settings"), UI_MENU_TYPE_NORMAL,
+    { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, PALMode_submenu },
 #endif
 #ifdef HAVE_HWSCALE

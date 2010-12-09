@@ -262,7 +262,7 @@ static void load_snapshot_trap(WORD unused_addr, void *data)
         filename = (char *)data;
     } else {
         uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SNAPSHOT, UILIB_FILTER_ALL };
-        filename = ui_select_file(_("Load snapshot"), NULL, 0, load_snapshot_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
+        filename = ui_select_file(_("Load snapshot image"), NULL, 0, load_snapshot_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
         if (button != UI_BUTTON_OK) {
             lib_free(filename);
             return;
