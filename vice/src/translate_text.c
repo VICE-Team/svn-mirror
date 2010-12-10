@@ -2837,6 +2837,20 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_NTSC_SYNC_FACTOR_TR, "NTSC senkron faktörü kullan"},
 #endif
 
+/* c64/c64-cmdline-options.c, c64/psid.c */
+/* en */ {IDCLS_USE_PALN_SYNC_FACTOR,    N_("Use PAL-N sync factor")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_USE_PALN_SYNC_FACTOR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_USE_PALN_SYNC_FACTOR_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_USE_PALN_SYNC_FACTOR_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_USE_PALN_SYNC_FACTOR_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_USE_PALN_SYNC_FACTOR_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_USE_PALN_SYNC_FACTOR_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_USE_PALN_SYNC_FACTOR_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_USE_PALN_SYNC_FACTOR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_USE_PALN_SYNC_FACTOR_TR, ""},  /* fuzzy */
+#endif
+
 /* c128/c128-cmdline-options.c, c128/functionrom.c,
    c64/c64-cmdline-options.c, c64/cart/georam.c,
    c64/cart/ramcart.c, c64/cart/reu.c, c64/cart/c64cart.c,
