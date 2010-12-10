@@ -27,7 +27,7 @@ EXTRA_DIST = \
 	IECDriveSettings.nib/designable.nib \
 	IECDriveSettings.nib/keyedobjects.nib \
 	IOTree.plist \
-	IOTreeWíndow.nib/designable.nib \
+	IOTreeWindow.nib/designable.nib \
 	IOTreeWindow.nib/keyedobjects.nib \
 	MemoryWindow.nib/designable.nib \
 	MemoryWindow.nib/keyedobjects.nib \

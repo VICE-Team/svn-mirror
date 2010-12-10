@@ -72,6 +72,7 @@ libarchgui_a_SOURCES = \
 	uieasyflash.c \
 	uieasyflash.h \
 	uiedisk.h \
+	uiedit.h \
 	uiexpert.c \
 	uiexpert.h \
 	uifliplist.c \
