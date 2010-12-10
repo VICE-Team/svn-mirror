@@ -1,3 +1,678 @@
+2010-12-10  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* Version 2.2.9
+
+2010-12-10  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* src/arch/unix/gui/Makefile.am,
+	  src/arch/unix/macosx/Resources/English.lproj/Makefile.am: Add
+	  necessary files for 'make dist'
+
+2010-12-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c, src/arch/win32/archdep.c: Added
+	  windows implementation of the 'fix permissions on file'
+	  function.
+
+2010-12-09  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in: Support MinGW crosscompilation on Linux
+
+2010-12-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	  po/pl.po, po/sv.po, po/tr.po: Update po files (still not
+	  final)
+
+	* src/arch/amigaos/intl_text.c, src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/c64scui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uicrtc.c,
+	  src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uimagicvoice.c, src/arch/unix/gui/uimmc64.c,
+	  src/arch/unix/gui/uimmcreplay.c, src/arch/unix/gui/uipalemu.c,
+	  src/arch/unix/gui/uisettings.c, src/arch/unix/gui/uited.c,
+	  src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	  src/arch/unix/gui/uivicii.c, src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/x11/gnome/uinetplay.c,
+	  src/arch/unix/x11/gnome/uipalcontrol.c,
+	  src/arch/unix/x11/xaw/uisnapshot.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resc64dtv.rc, src/arch/win32/resdigimax.rc,
+	  src/arch/win32/resmmc64.rc, src/arch/win32/resmmcreplay.rc,
+	  src/arch/win32/resvic20.rc: More translation unification work
+
+2010-12-08  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/amigaos/intl_text.c, src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/c64scui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/uiattach.c, src/arch/unix/gui/uiautostart.c,
+	  src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uidatasette.c,
+	  src/arch/unix/gui/uidrive.c, src/arch/unix/gui/uidrivec128.c,
+	  src/arch/unix/gui/uidrivec64.c,
+	  src/arch/unix/gui/uidrivec64dtv.c,
+	  src/arch/unix/gui/uidrivepetcbm2.c,
+	  src/arch/unix/gui/uidriveplus4.c,
+	  src/arch/unix/gui/uidrivevic20.c,
+	  src/arch/unix/gui/uifliplist.c, src/arch/unix/gui/uiisepic.c,
+	  src/arch/unix/gui/uijoystick2.c, src/arch/unix/gui/uisid.c,
+	  src/arch/unix/gui/uited.c, src/arch/unix/gui/uivdc.c,
+	  src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c,
+	  src/arch/unix/x11/gnome/uiscreenshot.c,
+	  src/arch/unix/x11/gnome/uisnapshot.c, src/arch/win32/res.rc,
+	  src/arch/win32/resautostart.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/reseasyflash.rc, src/arch/win32/resgeoram.rc,
+	  src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	  src/arch/win32/resmidi.rc, src/arch/win32/ressid.rc,
+	  src/arch/win32/ressiddtv.rc, src/arch/win32/resvic20.rc,
+	  src/arch/win32/resvicii.rc: Unify some win32/amiga/*nix
+	  strings, fix MIDI and ISEPIC to all caps
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uirenderer.c:
+	  Handle Scale2x resources in a less noisy way on *nix
+
+	* src/arch/unix/gui/uisound.c: Un-*-prefix the sound device menu
+
+	* src/arch/unix/gp2x/uimenu.h, src/arch/unix/gui/c128ui.c,
+	  src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/c64scui.c,
+	  src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	  src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	  src/arch/unix/gui/uiacia1.c, src/arch/unix/gui/uiattach.c,
+	  src/arch/unix/gui/uiautostart.c,
+	  src/arch/unix/gui/uic64_256k.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uic64dtv.c, src/arch/unix/gui/uicommands.c,
+	  src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uidatasette.c,
+	  src/arch/unix/gui/uidigimax.c, src/arch/unix/gui/uidqbb.c,
+	  src/arch/unix/gui/uidrive.c, src/arch/unix/gui/uidrivec128.c,
+	  src/arch/unix/gui/uidrivec64.c,
+	  src/arch/unix/gui/uidrivec64c128.c,
+	  src/arch/unix/gui/uidrivec64dtv.c,
+	  src/arch/unix/gui/uidrivec64vic20.c,
+	  src/arch/unix/gui/uidriveiec.c,
+	  src/arch/unix/gui/uidrivepetcbm2.c,
+	  src/arch/unix/gui/uidriveplus4.c,
+	  src/arch/unix/gui/uidrivevic20.c,
+	  src/arch/unix/gui/uieasyflash.c, src/arch/unix/gui/uiexpert.c,
+	  src/arch/unix/gui/uifliplist.c,
+	  src/arch/unix/gui/uifullscreen-menu.h,
+	  src/arch/unix/gui/uigeoram.c, src/arch/unix/gui/uiide64.c,
+	  src/arch/unix/gui/uiisepic.c, src/arch/unix/gui/uijoystick2.c,
+	  src/arch/unix/gui/uikeyboard.c,
+	  src/arch/unix/gui/uilightpen.c,
+	  src/arch/unix/gui/uimagicvoice.c, src/arch/unix/gui/uimidi.c,
+	  src/arch/unix/gui/uimmc64.c, src/arch/unix/gui/uimmcreplay.c,
+	  src/arch/unix/gui/uimouse.c, src/arch/unix/gui/uinetplay.c,
+	  src/arch/unix/gui/uipalemu.c,
+	  src/arch/unix/gui/uiperipheral.c,
+	  src/arch/unix/gui/uiperipheraliec.c,
+	  src/arch/unix/gui/uiperipheralieee.c,
+	  src/arch/unix/gui/uipetdww.c, src/arch/unix/gui/uipetreu.c,
+	  src/arch/unix/gui/uiplus256k.c, src/arch/unix/gui/uiplus60k.c,
+	  src/arch/unix/gui/uiprinter.c,
+	  src/arch/unix/gui/uiprinteriec.c,
+	  src/arch/unix/gui/uiprinteriecplus4.c,
+	  src/arch/unix/gui/uiprinterieee.c,
+	  src/arch/unix/gui/uips2mouse.c, src/arch/unix/gui/uiramcart.c,
+	  src/arch/unix/gui/uiretroreplay.c, src/arch/unix/gui/uireu.c,
+	  src/arch/unix/gui/uiromset.c, src/arch/unix/gui/uirs232.c,
+	  src/arch/unix/gui/uirs232c64c128.c,
+	  src/arch/unix/gui/uirs232petplus4cbm2.c,
+	  src/arch/unix/gui/uirs232user.c,
+	  src/arch/unix/gui/uisettings.c, src/arch/unix/gui/uisid.c,
+	  src/arch/unix/gui/uisound.c,
+	  src/arch/unix/gui/uisoundexpander.c,
+	  src/arch/unix/gui/uited.c, src/arch/unix/gui/uitfe.c,
+	  src/arch/unix/gui/uitpi.c, src/arch/unix/gui/uiv364speech.c,
+	  src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	  src/arch/unix/gui/uivicii.c, src/arch/unix/gui/vic20ui.c,
+	  src/arch/unix/gui/vsidui.c, src/arch/unix/x11/gnome/uiedit.c,
+	  src/arch/unix/x11/gnome/uimenu.c, src/arch/unix/x11/vidmode.c,
+	  src/arch/unix/x11/x11menu.h, src/arch/unix/x11/xaw/uimenu.c,
+	  src/arch/unix/x11/xaw/x11ui.c, src/arch/unix/x11/xrandr.c:
+	  Change *nix menus to use a new entry in the menu item struct
+	  to determine if a checkmark is needed (or the item is a
+	  separator), removing the *-prefixes and thus making the
+	  translations mergeable with the amiga ones (and partially
+	  win32 as well), hopefully leading into much smaller .po files.
+	  Also fixed a Xaw vsid segfault and did some N_() cleanup.
+
+2010-12-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc64.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/uic64.c: Fixed the windows c64(sc) model
+	  selection dialog.
+
+2010-12-07  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	  src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	  src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uic64cart.c,
+	  src/arch/unix/gui/uigeoram.c, src/arch/unix/gui/uipetreu.c,
+	  src/arch/unix/gui/uiramcart.c, src/arch/unix/gui/uireu.c,
+	  src/arch/unix/gui/uisound.c, src/arch/unix/gui/uivdc.c,
+	  src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c,
+	  src/arch/unix/x11/gnome/about.c: Menu item cleanup: sec -> s,
+	  kByte/KB -> kB, remove unneeded N_()s
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/c64cartsystem.h,
+	  src/c64/cart/final3.h, src/c64/cart/retroreplay.c,
+	  src/c64/cart/retroreplay.h: Fail also on snapshot save if an
+	  attached cartridge has no handler. Apply some RR flag unsigned
+	  int -> int changes and prototype fixes (note to self: don't
+	  forget warning options when using custom CFLAGS)
+
+2010-12-06  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-12-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/digimax.c,
+	  src/c64/cart/digimax.h, src/c64/cart/easyflash.c: Digimax cart
+	  snapshots implemented, EasyFlash jumper state added to
+	  snapshot
+
+	* src/c64/cart/actionreplay2.c, src/c64/cart/actionreplay2.h,
+	  src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay3.h,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/capture.c,
+	  src/c64/cart/capture.h, src/c64/cart/diashowmaker.c,
+	  src/c64/cart/diashowmaker.h, src/c64/cart/exos.c,
+	  src/c64/cart/exos.h, src/c64/cart/freezeframe.c,
+	  src/c64/cart/freezeframe.h, src/c64/cart/freezemachine.c,
+	  src/c64/cart/freezemachine.h, src/c64/cart/gamekiller.c,
+	  src/c64/cart/gamekiller.h, src/c64/cart/mach5.c,
+	  src/c64/cart/mach5.h, src/c64/cart/prophet64.c,
+	  src/c64/cart/prophet64.h, src/c64/cart/retroreplay.c,
+	  src/c64/cart/retroreplay.h, src/c64/cart/snapshot64.c,
+	  src/c64/cart/snapshot64.h, src/c64/cart/superexplode5.c,
+	  src/c64/cart/superexplode5.h, src/c64/cart/supersnapshot4.c,
+	  src/c64/cart/supersnapshot4.h: Still more cart snapshots
+	  implemented
+
+	* src/c64/cart/actionreplay4.c, src/c64/cart/actionreplay4.h,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/comal80.c,
+	  src/c64/cart/comal80.h, src/c64/cart/delaep256.c,
+	  src/c64/cart/delaep256.h, src/c64/cart/delaep64.c,
+	  src/c64/cart/delaep64.h, src/c64/cart/delaep7x8.c,
+	  src/c64/cart/delaep7x8.h, src/c64/cart/finalplus.c,
+	  src/c64/cart/finalplus.h, src/c64/cart/mikroass.c,
+	  src/c64/cart/mikroass.h, src/c64/cart/rexep256.c,
+	  src/c64/cart/rexep256.h, src/c64/cart/ross.c,
+	  src/c64/cart/ross.h, src/c64/cart/stardos.c,
+	  src/c64/cart/stardos.h, src/c64/cart/stb.c,
+	  src/c64/cart/stb.h: Even more cart snapshots implemented, fix
+	  for REX EP256 io2 handlers
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/dinamic.c,
+	  src/c64/cart/dinamic.h, src/c64/cart/final.c,
+	  src/c64/cart/final.h, src/c64/cart/gs.c, src/c64/cart/gs.h,
+	  src/c64/cart/magicdesk.c, src/c64/cart/magicdesk.h,
+	  src/c64/cart/magicformel.c, src/c64/cart/magicformel.h,
+	  src/c64/cart/rexutility.c, src/c64/cart/rexutility.h,
+	  src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot.h,
+	  src/c64/cart/warpspeed.c, src/c64/cart/warpspeed.h,
+	  src/c64/cart/westermann.c, src/c64/cart/westermann.h,
+	  src/c64/cart/zaxxon.c, src/c64/cart/zaxxon.h: Yet more cart
+	  snapshots implemented
+
+2010-12-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/atomicpower.c, src/c64/cart/atomicpower.h,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/epyxfastload.c,
+	  src/c64/cart/epyxfastload.h, src/c64/cart/expert.c,
+	  src/c64/cart/expert.h, src/c64/cart/funplay.c,
+	  src/c64/cart/funplay.h, src/c64/cart/kcs.c,
+	  src/c64/cart/kcs.h, src/c64/cart/simonsbasic.c,
+	  src/c64/cart/simonsbasic.h, src/c64/cart/supergames.c,
+	  src/c64/cart/supergames.h: More cart snapshots implemented
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/final3.c,
+	  src/c64/cart/final3.h, src/c64/cart/generic.c,
+	  src/c64/cart/generic.h, src/c64/cart/ocean.c,
+	  src/c64/cart/ocean.h: Add FC3, Ocean and generic cart
+	  snapshots
+
+2010-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiperipheral.c: Added the 'raw' printer driver
+	  to the windows ui.
+
+2010-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uic64.c:
+	  Internationalized the windows c64 model selection dialog and
+	  added the 'old cia with timer bug'.
+
+2010-12-04  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/cart/c64carthooks.c: Add requested placeholders
+
+	* src/c64/c64cart.h, src/c64/cart/mmcreplay.c: Make MMC Replay
+	  use its own dynamic array for RAM, drop C64CART_RAM_LIMIT to
+	  lowest common of export_ram0 usage. Reduces memory footprint
+	  by 16MB
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/c64cartsystem.h: Handle cart alarms on snapshots
+
+	* src/c64/c64memsnapshot.c, src/c64/cart/actionreplay.c,
+	  src/c64/cart/actionreplay.h, src/c64/cart/c64cart.c,
+	  src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/c64cartsystem.h, src/c64/cart/easyflash.c,
+	  src/c64/cart/easyflash.h: General C64 cartridge snapshot
+	  implementation, support added for Action Replay and EasyFlash
+
+2010-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/reside64.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uiide64.c:
+	  Updated win32 IDE64 dialog.
+
+	* src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resvic20.rc, src/arch/win32/vic20ui.c: Added
+	  the VIC Flash Plugin writeback item to the win32 ui.
+
+	* src/arch/win32/resautostart.rc, src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uiautostart.c:
+	  Added 'load to basic start' item to the win32 autostart
+	  dialog.
+
+2010-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/arch.dsp, src/arch/win32/plus4ui.c,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	  src/arch/win32/resv364speech.rc,
+	  src/arch/win32/uiv364speech.c, src/arch/win32/uiv364speech.h,
+	  src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/cartconv.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/arch/win32/xplus4.dsp,
+	  src/arch/win64/arch.vcproj, src/arch/win64/xplus4.vcproj:
+	  Added v364 speech to the windows ui.
+
+2010-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/arch.dsp, src/arch/win32/c128ui.c,
+	  src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	  src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	  src/arch/win32/resdialogs.txt,
+	  src/arch/win32/resmagicvoice.rc, src/arch/win32/resmenu.txt,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uimagicvoice.c,
+	  src/arch/win32/uimagicvoice.h, src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/cartconv.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/arch/win32/x128.dsp,
+	  src/arch/win32/x64.dsp, src/arch/win64/arch.vcproj,
+	  src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj: Added
+	  Magic Voice to the windows ui.
+
+2010-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am,
+	  src/arch/win32/arch.dsp, src/arch/win32/petui.c,
+	  src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	  src/arch/win32/respet.rc, src/arch/win32/respetdww.rc,
+	  src/arch/win32/resstrings.txt, src/arch/win32/uipetdww.c,
+	  src/arch/win32/uipetdww.h, src/arch/win32/watcom/arch.tgt,
+	  src/arch/win32/watcom/cartconv.tgt,
+	  src/arch/win32/watcom/vice.wpj, src/arch/win32/xpet.dsp,
+	  src/arch/win64/arch.vcproj, src/arch/win64/xpet.vcproj: Added
+	  PET DWW dialog to the windows ui.
+
+2010-11-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c64ui.c,
+	  src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/intl_text.c,
+	  src/arch/amigaos/mui/uic64model.c,
+	  src/arch/amigaos/mui/uic64model.h, src/arch/amigaos/ui.c,
+	  src/arch/amigaos/uires.h: Added c64 model selection support to
+	  the amiga ui.
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uipetdww.c,
+	  src/arch/amigaos/mui/uipetdww.h, src/arch/amigaos/petui.c,
+	  src/arch/amigaos/petuires.h, src/arch/amigaos/uires.h: Added
+	  PET DWW dialog to the amiga ui.
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c64ui.c,
+	  src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.txt,
+	  src/arch/amigaos/intl_text.c,
+	  src/arch/amigaos/mui/uimmcreplay.c,
+	  src/arch/amigaos/mui/uimmcreplay.h: Added MMC Replay dialog to
+	  the amiga ui.
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	  src/arch/amigaos/mui/uimmc64.c: Added SD type to the amiga
+	  mmc64 dialog.
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	  src/arch/amigaos/mui/uivideoc128.c,
+	  src/arch/amigaos/mui/uivideoc64plus4vic20.c: Changed the gamma
+	  range to 0..4
+
+	* src/arch/amigaos/make-bindist.sh: Fixed a typo.
+
+2010-11-27  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/6510core.c, src/6510dtvcore.c, src/core/ciacore.c,
+	  src/interrupt.c, src/interrupt.h: Drop pending IRQs after a
+	  finite number of cycles, adjust CIA interrupt line rise timing
+	  after ACK. Fixes cia-int for 6526.
+
+2010-11-24  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/vic-cycle.c, src/vic20/vic-snapshot.c,
+	  src/vic20/vic.c, src/vic20/vic.h, src/vic20/vic20.c,
+	  src/vic20/vic20via.h, src/vic20/vic20via2.c: Bring x64sc-style
+	  lightpen handling to xvic
+
+	* src/vic20/vic-mem.c: xvic: fix vic_peek, return 0xff on paddle
+	  regs if nothing is connected, use correct lightpen_read
+	  function on paddle Y reg
+
+	* configure.in: Skip native joystick checks when using SDL UI,
+	  uppercase a few acronyms
+
+	* src/vic20/vic20sound.c, src/vicii/vicii-clock-stretch.c,
+	  src/video/render1x1.c, src/video/render1x2.c,
+	  src/video/render1x2crt.c, src/video/render2x2.c,
+	  src/video/render2x2ntsc.c, src/video/render2x2pal.c,
+	  src/video/renderscale2x.c, src/video/renderyuv.c,
+	  src/video/renderyuv.h, src/video/video-canvas.c,
+	  src/video/video-cmdline-options.c, src/video/video-color.c,
+	  src/video/video-render.c, src/video/video-resources-pal.c,
+	  src/video/video-resources.c, src/video/video-resources.h: Some
+	  coding style cleanup
+
+2010-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/ui.c: Reverted menu item deletion, however, in
+	  x64 c64 model selection menu item is ghosted, fix needed.
+
+	* src/arch/win32/ui.c: Got rid of the c64 model menu item in x64
+	  in the win32/64 ui.
+
+2010-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Enabled libpng and libz detection for amigaos3.
+
+2010-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimediafile.c: Changed the win32 default gfx
+	  output driver from png to bmp when no png support is compiled
+	  in (Fixes the media save dialog box crash).
+
+2010-11-19  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_settings.c: SDL: add load/save settings
+	  from/to items
+
+	* data/PET/sdl_bgrs.vkm, data/PET/sdl_buks.vkm: Fix SDL xpet
+	  keymap shift definitions
+
+2010-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ., configure.in, src/Makefile.am,
+	  src/arch/msdos/lightpendrv.c, src/arch/msdos/lightpendrv.h,
+	  src/arch/sdl/lightpendrv.c, src/arch/sdl/lightpendrv.h,
+	  src/arch/sdl/menu_lightpen.c, src/arch/sdl/menu_lightpen.h,
+	  src/arch/sdl/menu_midi.c, src/arch/sdl/menu_midi.h,
+	  src/arch/sdl/menu_network.c, src/arch/sdl/menu_network.h,
+	  src/arch/sdl/menu_rs232.c, src/arch/sdl/menu_rs232.h,
+	  src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_tfe.h,
+	  src/arch/sdl/rs232dev.c, src/arch/sdl/rs232dev.h,
+	  src/arch/sdl/rs232net.c, src/arch/sdl/rs232net.h,
+	  src/arch/sdl/uipause.c, src/arch/sdl/win32-msvc/Makefile.am,
+	  src/arch/sdl/win32-msvc/config.h,
+	  src/arch/sdl/win32-msvc/gfxoutputdrv.dsp,
+	  src/arch/sdl/win32-msvc/png.dsp,
+	  src/arch/sdl/win32-msvc/vice.dsw,
+	  src/arch/sdl/win32-msvc/zlib.dsp,
+	  src/arch/sdl/win64-msvc/Makefile.am,
+	  src/arch/sdl/win64-msvc/config.h,
+	  src/arch/sdl/win64-msvc/gfxoutputdrv.vcproj,
+	  src/arch/sdl/win64-msvc/png.vcproj,
+	  src/arch/sdl/win64-msvc/vice.sln,
+	  src/arch/sdl/win64-msvc/zlib.vcproj,
+	  src/arch/unix/gui/uiautostart.c,
+	  src/arch/unix/gui/uiautostart.h,
+	  src/arch/unix/gui/uieasyflash.c,
+	  src/arch/unix/gui/uieasyflash.h, src/arch/win32/Makefile.am,
+	  src/arch/win32/gfxoutputdrv.dsp, src/arch/win32/lightpendrv.c,
+	  src/arch/win32/lightpendrv.h, src/arch/win32/msvc/config.h,
+	  src/arch/win32/png.dsp, src/arch/win32/rs232dev.c,
+	  src/arch/win32/rs232dev.h, src/arch/win32/rs232net.c,
+	  src/arch/win32/rs232net.h, src/arch/win32/vice.dsw,
+	  src/arch/win32/zlib.dsp, src/arch/win64/Makefile.am,
+	  src/arch/win64/gfxoutputdrv.vcproj, src/arch/win64/png.vcproj,
+	  src/arch/win64/vice.sln, src/arch/win64/zlib.vcproj,
+	  src/gfxoutputdrv/Makefile.am, src/lib/Makefile.am,
+	  src/lib/lpng, src/lib/zlib, src/lightpen.c, src/lightpen.h,
+	  src/resid-dtv, src/viciisc/vicii-lightpen.c,
+	  src/viciisc/vicii-lightpen.h: Merged the png/zlib unbundle
+	  branch (svn merge
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/v2.2/v2.2.8
+	  https://vice-emu.svn.sourceforge.net/svnroot/vice-emu/tags/viceplus/v2.2.8-unbundle).
+
+2010-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/make-bindist.sh: Fixed the amiga
+	  make-bindist.sh script.
+
+	* src/arch/amigaos/c64ui.c: Duplicated the c64ui_init() routine
+	  for c64sc for now, while working on implementing the c64sc ui
+	  elements.
+
+	* configure.in: For amigaos3 and morphos, only compile cw3 and
+	  hardsid support when openpci is present.
+
+	* src/arch/amigaos/mousedrv.c: Include exec/interrupts.h for
+	  amigaos3 too.
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	  src/arch/amigaos/petuires.h: Fixed some translations related
+	  issues.
+
+	* src/raster/Makefile.am, src/video/Makefile.am: Removed
+	  hardcoded AM_CFLAGS.
+
+2010-11-16  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/cart/finalexpansion.c, src/vic20/cart/megacart.c,
+	  src/vic20/cart/vic-fp.c: Small xvic cart monitor io output
+	  cleanup
+
+	* src/c64/cart/easyflash.c: Use 8kB interleaving for EasyFlash
+	  .bin files
+
+2010-11-14  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/vic20/vic-cycle.c: Remove VIC idle fetches
+
+2010-11-14  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/IOTree.plist:
+	  macosx: added 6510 on chip I/O register to IO tree
+
+	* src/arch/unix/macosx/Resources/English.lproj/IOTree.plist,
+	  src/arch/unix/macosx/cocoa/dialog/iotreeitem.m: macosx: added
+	  SID and CIAs to IO tree
+
+	* src/arch/unix/macosx/Resources/English.lproj/IOTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/IOTreeWindow.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IOTreeWindow.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/iotreeitem.h,
+	  src/arch/unix/macosx/cocoa/dialog/iotreeitem.m,
+	  src/arch/unix/macosx/cocoa/dialog/iotreewindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m:
+	  macosx: completed VIC-II IO tree
+
+2010-11-12  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64io.c: Consider cart detach and/or hang a side
+	  effect and simply return the first match on monitor peeks to
+	  I/O
+
+2010-11-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: readded some #ifdef
+	  USE_XF86_EXTENSIONS (unbreaks compilation if it is not
+	  defined)
+
+2010-11-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data, src/arch/sdl/win64-msvc,
+	  src/arch/sdl/win64-msvc/arch.vcproj,
+	  src/arch/sdl/win64-msvc/c64cart.vcproj,
+	  src/arch/sdl/win64-msvc/c64dtvstubs.vcproj,
+	  src/arch/sdl/win64-msvc/c64sc.vcproj,
+	  src/arch/sdl/win64-msvc/core.vcproj,
+	  src/arch/sdl/win64-msvc/crtc.vcproj,
+	  src/arch/sdl/win64-msvc/printerdrv.vcproj,
+	  src/arch/sdl/win64-msvc/vdc.vcproj,
+	  src/arch/sdl/win64-msvc/vicii.vcproj,
+	  src/arch/sdl/win64-msvc/viciidtv.vcproj,
+	  src/arch/sdl/win64-msvc/viciinew.vcproj,
+	  src/arch/sdl/win64-msvc/video.vcproj,
+	  src/arch/sdl/win64-msvc/x128.vcproj,
+	  src/arch/sdl/win64-msvc/x64.vcproj,
+	  src/arch/sdl/win64-msvc/x64dtv.vcproj,
+	  src/arch/sdl/win64-msvc/x64sc.vcproj,
+	  src/arch/sdl/win64-msvc/xcbm2.vcproj,
+	  src/arch/sdl/win64-msvc/xpet.vcproj,
+	  src/arch/sdl/win64-msvc/xplus4.vcproj,
+	  src/arch/sdl/win64-msvc/xvic.vcproj: Updated win64 sdl msvc
+	  project files and svn ignores.
+
+	* src/arch/sdl/win32-msvc, src/arch/sdl/win32-msvc/Makefile.am,
+	  src/arch/sdl/win32-msvc/vice.manifest: Updated the win32 sdl
+	  msvc project files and svn ignores.
+
+2010-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64, src/arch/win64/arch.vcproj,
+	  src/arch/win64/base.vcproj, src/arch/win64/c64cart.vcproj,
+	  src/arch/win64/c64dtvstubs.vcproj,
+	  src/arch/win64/c64sc.vcproj, src/arch/win64/core.vcproj,
+	  src/arch/win64/crtc.vcproj, src/arch/win64/printerdrv.vcproj,
+	  src/arch/win64/vdc.vcproj, src/arch/win64/vice.sln,
+	  src/arch/win64/viciinew.vcproj, src/arch/win64/video.vcproj,
+	  src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj,
+	  src/arch/win64/x64dtv.vcproj, src/arch/win64/x64sc.vcproj,
+	  src/arch/win64/xcbm2.vcproj, src/arch/win64/xpet.vcproj,
+	  src/arch/win64/xplus4.vcproj, src/arch/win64/xvic.vcproj:
+	  Fixed and updated the win64 project files.
+
+2010-11-09  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/raster/raster.c, src/viciisc/vicii-draw-cycle.c: Fix
+	  last_color_reg check that caused writes past a table, landing
+	  in ActiveRasters (on some systems). Remove related workaround
+	  (and comments) in raster.c.
+
+2010-11-09  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/reu.c,
+	  src/c64/cart/reu.h: hooked up reu to generic bin load/save api
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/georam.c,
+	  src/c64/cart/georam.h: hooked up georam to generic bin
+	  load/save api
+
+2010-11-08  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	  src/c64/cart/ramcart.c, src/c64/cart/ramcart.h: hooked up
+	  ramcart to generic bin load/save api
+
+2010-11-08  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2010-11-08  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	  src/c64/cart/dqbb.c, src/c64/cart/dqbb.h: hooked up dqbb to
+	  generic bin load/save api
+
+2010-11-07  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/IOTree.plist,
+	  src/arch/unix/macosx/Resources/English.lproj/IOTreeWindow.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IOTreeWindow.nib/designable.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/IOTreeWindow.nib/keyedobjects.nib,
+	  src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	  src/arch/unix/macosx/cocoa/dialog/iotreeitem.h,
+	  src/arch/unix/macosx/cocoa/dialog/iotreeitem.m,
+	  src/arch/unix/macosx/cocoa/dialog/iotreewindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/iotreewindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	  src/arch/unix/macosx/cocoa/viceapplication.h,
+	  src/arch/unix/macosx/cocoa/viceapplication.m: macosx:
+	  introduced IO tree debugger window
+
+2010-11-07  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c:
+	  arch/unix/x11/gnome/uiscreenshot.c (ui_screenshot_dialog):
+	  Check gfxoutputdrv's default extension before `strcmp'ing it.
+	  Avoids a segfault.
+
+	* src/arch/unix/x11/gnome/uiedit.c: arch/unix/x11/gnome/uiedit.c
+	  (paste_callback): Check whether `text' contains something, if
+	  not silenly return. Prevents segfault if pastbuffer is empty
+	  (i.e. X-selections aren't gtk+ selections without explicit
+	  `Copy' command)
+
+2010-11-07  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/disassemblywindowcontroller.h,
+	  src/arch/unix/macosx/cocoa/dialog/disassemblywindowcontroller.m,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.h,
+	  src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m:
+	  macosx: added breakpoint menu in disass view
+
+2010-11-06  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciisc/vicii-chip-model.c: Moved check sprite display
+	  cycle for NTSC and PAL-N. Fixes spritegap3 (mostly).
+
+2010-11-06  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciisc/vicii-cmdline-options.c,
+	  src/viciisc/vicii-cycle.c, src/viciisc/vicii-fetch.c,
+	  src/viciisc/vicii-mem.c, src/viciisc/vicii.c: Add -VICIImodel
+	  6572/paln/drean, useless include (and other) cleanup
+
+2010-11-05  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/viciisc/vicii.c: Do not tamper with d011/2 on VIC-II
+	  reset, fixes reset behaviour
+
+2010-11-05  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciisc/vicii-chip-model.c: Modified NTSC/PAL-N sprite
+	  coordinate repeat. Fixes lightpen and spritescan.
+
+2010-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/fullscrn-ddraw.c, src/arch/win32/ui.h,
+	  src/arch/win32/video-ddraw.c: Win64 anonymous union updates.
+
+2010-11-05  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+
+	* ChangeLog: Trying to fix the characters which were wrong.
+
 2010-11-05  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* Version 2.2.8
