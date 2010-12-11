@@ -31,9 +31,17 @@ palettes = \
 
 x11_keymaps = \
 	x11_bdep.vkm \
+	x11_bdep_de.vkm \
 	x11_bdes.vkm \
+	x11_bdes_de.vkm \
+	x11_bgrp.vkm \
+	x11_bgrp_de.vkm \
 	x11_bgrs.vkm \
-	x11_buks.vkm
+	x11_bgrs_de.vkm \
+	x11_bukp.vkm \
+	x11_bukp_de.vkm \
+	x11_buks.vkm \
+	x11_buks_de.vkm
 
 sdl_keymaps = \
 	sdl_buks.vkm \
