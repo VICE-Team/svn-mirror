@@ -313,7 +313,9 @@ EXTRA_DIST = \
 	watcom/fileio.tgt \
 	watcom/fsdevice.tgt \
 	watcom/gentr.tgt \
+	watcom/gentranslate32.c \
 	watcom/gentranslate32.tgt \
+	watcom/genwinres32.c \
 	watcom/genwinres32.tgt \
 	watcom/genwr.tgt \
 	watcom/genwt.bat \
