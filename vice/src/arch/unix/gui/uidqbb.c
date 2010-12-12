@@ -84,6 +84,6 @@ static UI_CALLBACK(dqbb_save_callback)
     if (CHECK_MENUS) {
         ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_DQBB));
     } else {
-        ui_cartridge_save_dialog(CARTRIDGE_EXPERT);
+        ui_cartridge_save_dialog(CARTRIDGE_DQBB);
     }
 }
