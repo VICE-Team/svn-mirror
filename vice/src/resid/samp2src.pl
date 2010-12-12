@@ -1,7 +1,7 @@
 #! /usr/bin/perl -w
 #   ---------------------------------------------------------------------------
 #   This file is part of reSID, a MOS6581 SID emulator engine.
-#   Copyright (C) 2004  Dag Lem <resid@nimrod.no>
+#   Copyright (C) 2010  Dag Lem <resid@nimrod.no>
 # 
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ open(F, ">$out") or die($!);
 print F <<\EOF;
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2004  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2010  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -52,13 +52,13 @@ print F <<\EOF;
 
 EOF
 
-print F "#include \"wave.h\"\n\nreg8 WaveformGenerator::$name\[\] =\n{\n";
+print F "{\n";
 
 for (my $i = 0; $i < length($data); $i += 8) {
-  print F sprintf("/* 0x%03x: */ ", $i), map(sprintf(" 0x%02x,", $_), unpack("C*", substr($data, $i, 8))), "\n";
+  print F sprintf("/* 0x%03x: */ ", $i), map(sprintf(" 0x%03x,", $_ << 4), unpack("C*", substr($data, $i, 8))), "\n";
 }
 
-print F "};\n";
+print F "},\n";
 
 close(F) or die($!);
 

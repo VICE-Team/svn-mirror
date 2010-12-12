@@ -20,6 +20,9 @@
 #define __VOICE_CC__
 #include "voice.h"
 
+namespace reSID
+{
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
@@ -52,3 +55,5 @@ void Voice::reset()
   wave.reset();
   envelope.reset();
 }
+
+} // namespace reSID

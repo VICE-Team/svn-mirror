@@ -57,12 +57,14 @@ extern "C" {
 #include "resid/sid.h"
 /* resid-dtv/ is used for DTVSID, but the API is the same */
 
+using namespace reSID;
+
 extern "C" {
 
 struct sound_s
 {
     /* resid sid implementation */
-    RESID	*sid;
+    SID	*sid;
 };
 
 typedef struct sound_s sound_t;
@@ -73,7 +75,7 @@ static sound_t *resid_open(BYTE *sidstate)
     int	i;
 
     psid = new sound_t;
-    psid->sid = new RESID;
+    psid->sid = new SID;
 
     for (i = 0x00; i <= 0x18; i++) {
 	psid->sid->write(i, sidstate[i]);
@@ -112,22 +114,26 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     default:
     case 0:
       psid->sid->set_chip_model(MOS6581);
+      psid->sid->set_voice_mask(0x07);
       psid->sid->input(0);
       strcpy(model_text, "MOS6581");
       break;
     case 1:
       psid->sid->set_chip_model(MOS8580);
+      psid->sid->set_voice_mask(0x07);
       psid->sid->input(0);
       strcpy(model_text, "MOS8580");
       break;
     case 2:
       psid->sid->set_chip_model(MOS8580);
+      psid->sid->set_voice_mask(0x0f);
       psid->sid->input(-32768);
       strcpy(model_text, "MOS8580 + digi boost");
       break;
 #if 0
     case 3: /* not yet */
       psid->sid->set_chip_model(MOS6581R4);
+      psid->sid->set_voice_mask(0x07);
       psid->sid->input(0);
       strcpy(model_text, "MOS6581R4");
       break;
@@ -151,11 +157,11 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
 	strcpy(method_text, "interpolating");
 	break;
       case 2:
-        method = SAMPLE_RESAMPLE_INTERPOLATE;
+        method = SAMPLE_RESAMPLE;
 	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
 	break;
       case 3:
-        method = SAMPLE_RESAMPLE_FAST;
+        method = SAMPLE_RESAMPLE_FASTMEM;
 	sprintf(method_text, "resampling, pass to %dHz", (int)passband);
 	break;
     }
@@ -213,7 +219,7 @@ static char *resid_dump_state(sound_t *psid)
 
 static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
-    RESID::State state;
+    SID::State state;
     unsigned int i;
 
     state = psid->sid->read_state();
@@ -239,7 +245,7 @@ static void resid_state_read(sound_t *psid, sid_snapshot_state_t *sid_state)
 
 static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
 {
-    RESID::State state;
+    SID::State state;
     unsigned int i;
 
     for (i = 0; i < 0x20; i++) {
@@ -262,7 +268,7 @@ static void resid_state_write(sound_t *psid, sid_snapshot_state_t *sid_state)
         state.hold_zero[i] = (sid_state->hold_zero[i] != 0);
     }
 
-    psid->sid->write_state((const RESID::State)state);
+    psid->sid->write_state((const SID::State)state);
 }
 
 sid_engine_t resid_hooks =

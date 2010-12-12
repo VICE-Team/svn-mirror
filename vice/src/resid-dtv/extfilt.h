@@ -22,6 +22,9 @@
 
 #include "siddefs.h"
 
+namespace reSID
+{
+
 // ----------------------------------------------------------------------------
 // The audio output stage in a Commodore 64 consists of two STC networks,
 // a low-pass filter with 3-dB frequency 16kHz followed by a high-pass
@@ -107,5 +110,7 @@ sound_sample ExternalFilter::output()
 }
 
 #endif // RESID_INLINING || defined(__EXTFILT_CC__)
+
+} // namespace reSID
 
 #endif // not __EXTFILT_H__

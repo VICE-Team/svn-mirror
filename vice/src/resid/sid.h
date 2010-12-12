@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2004  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2010  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef VICE__SID_H__
-#define VICE__SID_H__
+#ifndef __SID_H__
+#define __SID_H__
 
 #include "siddefs.h"
 #include "voice.h"
@@ -26,22 +26,23 @@
 #include "extfilt.h"
 #include "pot.h"
 
-class RESID
+namespace reSID
+{
+
+class SID
 {
 public:
-  RESID();
-  ~RESID();
+  SID();
+  ~SID();
 
   void set_chip_model(chip_model model);
+  void set_voice_mask(reg4 mask);
   void enable_filter(bool enable);
   void enable_external_filter(bool enable);
   bool set_sampling_parameters(double clock_freq, sampling_method method,
 			       double sample_freq, double pass_freq = -1,
 			       double filter_scale = 0.97);
   void adjust_sampling_frequency(double sample_freq);
-
-  void fc_default(const fc_point*& points, int& count);
-  PointPlotter<sound_sample> fc_plotter();
 
   void clock();
   void clock(cycle_count delta_t);
@@ -62,9 +63,17 @@ public:
 
     reg8 bus_value;
     cycle_count bus_value_ttl;
+    cycle_count write_pipeline;
+    reg8 write_address;
+    reg4 voice_mask;
 
     reg24 accumulator[3];
     reg24 shift_register[3];
+    cycle_count shift_register_reset[3];
+    cycle_count shift_pipeline[3];
+    cycle_count pulse_output[3];
+    cycle_count floating_output_ttl[3];
+
     reg16 rate_counter[3];
     reg16 rate_counter_period[3];
     reg16 exponential_counter[3];
@@ -72,30 +81,33 @@ public:
     reg8 envelope_counter[3];
     EnvelopeGenerator::State envelope_state[3];
     bool hold_zero[3];
+    cycle_count envelope_pipeline[3];
   };
     
   State read_state();
   void write_state(const State& state);
 
   // 16-bit input (EXT IN).
-  void input(int sample);
+  void input(short sample);
 
   // 16-bit output (AUDIO OUT).
-  int output();
-  // n-bit output.
-  int output(int bits);
+  short output();
 
-protected:
+  //FIXME:
+  //protected:
+public:
   static double I0(double x);
   RESID_INLINE int clock_fast(cycle_count& delta_t, short* buf, int n,
 			      int interleave);
   RESID_INLINE int clock_interpolate(cycle_count& delta_t, short* buf, int n,
 				     int interleave);
-  RESID_INLINE int clock_resample_interpolate(cycle_count& delta_t, short* buf,
-					      int n, int interleave);
-  RESID_INLINE int clock_resample_fast(cycle_count& delta_t, short* buf,
-				       int n, int interleave);
+  RESID_INLINE int clock_resample(cycle_count& delta_t, short* buf,
+				  int n, int interleave);
+  RESID_INLINE int clock_resample_fastmem(cycle_count& delta_t, short* buf,
+					  int n, int interleave);
+  RESID_INLINE void write();
 
+  chip_model sid_model;
   Voice voice[3];
   Filter filter;
   ExternalFilter extfilt;
@@ -105,27 +117,32 @@ protected:
   reg8 bus_value;
   cycle_count bus_value_ttl;
 
+  // Pipeline for writes on the MOS8580.
+  cycle_count write_pipeline;
+  reg8 write_address;
+
   double clock_frequency;
 
-  // External audio input.
-  int ext_in;
+  enum {
+    // Resampling constants.
+    // The error in interpolated lookup is bounded by 1.234/L^2,
+    // while the error in non-interpolated lookup is bounded by
+    // 0.7854/L + 0.4113/L^2, see
+    // http://www-ccrma.stanford.edu/~jos/resample/Choice_Table_Size.html
+    // For a resolution of 16 bits this yields L >= 285 and L >= 51473,
+    // respectively.
+    FIR_N = 125,
+    FIR_RES = 285,
+    FIR_RES_FASTMEM = 51473,
+    FIR_SHIFT = 15,
 
-  // Resampling constants.
-  // The error in interpolated lookup is bounded by 1.234/L^2,
-  // while the error in non-interpolated lookup is bounded by
-  // 0.7854/L + 0.4113/L^2, see
-  // http://www-ccrma.stanford.edu/~jos/resample/Choice_Table_Size.html
-  // For a resolution of 16 bits this yields L >= 285 and L >= 51473,
-  // respectively.
-  enum { FIR_N = 125 };
-  enum { FIR_RES_INTERPOLATE = 285 };
-  enum { FIR_RES_FAST = 51473 };
-  enum { FIR_SHIFT = 15 };
-  enum { RINGSIZE = 16384 };
+    RINGSIZE = 1 << 14,
+    RINGMASK = RINGSIZE - 1,
 
-  // Fixpoint constants (16.16 bits).
-  enum { FIXP_SHIFT = 16 };
-  enum { FIXP_MASK = 0xffff };
+    // Fixed point constants (16.16 bits).
+    FIXP_SHIFT = 16,
+    FIXP_MASK = 0xffff,
+  };
 
   // Sampling variables.
   sampling_method sampling;
@@ -142,5 +159,7 @@ protected:
   // FIR_RES filter tables (FIR_N*FIR_RES).
   short* fir;
 };
+
+} // namespace reSID
 
 #endif // not __SID_H__

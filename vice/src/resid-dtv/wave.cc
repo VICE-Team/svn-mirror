@@ -25,6 +25,9 @@
 #define __WAVE_CC__
 #include "wave.h"
 
+namespace reSID
+{
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
@@ -116,3 +119,5 @@ void WaveformGenerator::reset()
 
   msb_rising = false;
 }
+
+} // namespace reSID

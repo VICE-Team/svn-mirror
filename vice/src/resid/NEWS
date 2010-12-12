@@ -1,3 +1,80 @@
+Changes in reSID version 1.0
+----------------------------
+
+*** NB! This is a pre-release, for testing only. ***
+
+This release of reSID brings SID emulation to the next level.
+
+The complete known digital state machine is emulated with full cycle
+accuracy, and the emulation of the SID 6581 filter is, for the first
+time, getting quite close to a real SID chip.
+
+This release would not have been possible without the work of Michael
+Huth, who has made high quality SID die photographs available, and
+Tommi Lempinen, who has done impressive work revectorizing and
+annotating these die photographs.
+
+The revectorized die photographs have made it possible to model the
+SID filter and audio output stage topology at the transistor level. A
+DAQ has been used to sample the SID capacitor pins in order to work
+out an op-amp transfer function, and furthermore transistor currents
+and thus transistor parameters.
+
+The revectorized die photographs have also been used to work out
+correct models for the noise waveform shift register and for the MOS
+6581 non-monotonic D/A converters.
+
+Honorable mention must also go to Otto Jarvinen, for his important
+contributions to understanding of the SID chip and thus emulation
+quality (test bit behavior, waveform 0 behavior), and to Antti
+Lankila, for tirelessly working to improve SID emulation.
+
+The improvements to emulation are summarized as follows:
+
+* Data bus
+  - MOS 8580 one-cycle pipeline write delay
+* Waveform generator
+  - Shift register
+    - corrected output and feedback topology
+    - effects of the test bit
+    - two-cycle pipeline delay (only for single-cycle clocking)
+    - writes by combined waveforms
+  - Pulse waveform one-cycle pipeline delay (only for single-cycle
+    clocking)
+  - Emulation of floating waveform DAC input for waveform 0
+  - Accurate model of non-monotonic MOS 6581 D/A converter
+* Envelope generator
+  - Exponential frequency divider one-cycle pipeline delay (only for
+    single-cycle clocking)
+  - Accurate model of non-monotonic MOS 6581 D/A converter
+* Filter and audio output stage
+  - Accurate model of complete topology for the MOS 6581
+  - Accurate model of the MOS 6581 op-amps
+  - Accurate model of gain/summer op-amp transistor inputs and feedbacks
+  - Accurate model of integrator op-amp VCR inputs
+  - Accurate model of non-monotonic MOS 6581 D/A converter
+* External filter
+  - Improved resolution
+
+Some other improvements are:
+
+* The SID interface is enclosed in the namespace "reSID" to avoid name
+  clashes with other libraries.
+* Architecture specific optimizations, including vectorization, are
+  available via the default configure option --enable-arch=native.
+* Branch prediction hints are included via the default configure
+  option --enable-branch-hints.
+* Fixed a bug in resampling FIR table wraparound, courtesy of Antti
+  Lankila.
+* Novel near branch-free calculation of waveform outputs, inspired by
+  Antti Lankilas resid-fp fork.
+* Voice muting is available for test purposes.
+
+Enjoy!
+
+Dag Lem
+
+
 Changes in reSID version 0.16
 -----------------------------
 

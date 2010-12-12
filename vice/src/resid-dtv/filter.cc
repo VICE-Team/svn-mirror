@@ -20,6 +20,9 @@
 #define __FILTER_CC__
 #include "filter.h"
 
+namespace reSID
+{
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
@@ -43,3 +46,5 @@ void Filter::writeMODE_VOL(reg8 mode_vol)
   voice3off = mode_vol & 0x80;
   vol = mode_vol & 0x0f;
 }
+
+} // namespace reSID

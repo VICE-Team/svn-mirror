@@ -24,6 +24,9 @@
 #include "wave.h"
 #include "envelope.h"
 
+namespace reSID
+{
+
 class Voice
 {
 public:
@@ -42,7 +45,7 @@ protected:
   WaveformGenerator wave;
   EnvelopeGenerator envelope;
 
-friend class RESID;
+friend class SID;
 };
 
 
@@ -71,5 +74,7 @@ sound_sample Voice::output(unsigned int volume)
 }
 
 #endif // RESID_INLINING || defined(__VOICE_CC__)
+
+} // namespace reSID
 
 #endif // not __VOICE_H__

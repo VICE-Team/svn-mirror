@@ -25,6 +25,9 @@
 #define __ENVELOPE_CC__
 #include "envelope.h"
 
+namespace reSID
+{
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
@@ -169,3 +172,5 @@ void EnvelopeGenerator::writeENV(reg8 value)
 {
   envelope_counter = value;
 }
+
+} // namespace reSID

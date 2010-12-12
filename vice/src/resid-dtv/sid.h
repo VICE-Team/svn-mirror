@@ -29,17 +29,21 @@
 #include "filter.h"
 #include "extfilt.h"
 
-class RESID
+namespace reSID
+{
+
+class SID
 {
 public:
-  RESID();
-  ~RESID();
+  SID();
+  ~SID();
   
   /* Some hacks to keep DTV looking like regular ReSID engine -- hopefully
    * removed at some point. */
   void set_chip_model(chip_model ignored);
+  void set_voice_mask(reg4 mask);
   void enable_filter(bool enable);
-  void input(int input);
+  void input(short input);
 
   void enable_external_filter(bool enable);
   bool set_sampling_parameters(double clock_freq, sampling_method method,
@@ -133,5 +137,7 @@ protected:
   // FIR_RES filter tables (FIR_N*FIR_RES).
   short* fir;
 };
+
+} // namespace reSID
 
 #endif // not __SID_H__

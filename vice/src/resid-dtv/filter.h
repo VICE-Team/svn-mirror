@@ -22,6 +22,9 @@
 
 #include "siddefs.h"
 
+namespace reSID
+{
+
 class Filter
 {
 public:
@@ -47,7 +50,7 @@ protected:
   // Temporary state of filter.
   sound_sample Vnf;
 
-friend class RESID;
+friend class SID;
 };
 
 
@@ -86,5 +89,7 @@ sound_sample Filter::output()
 }
 
 #endif // RESID_INLINING || defined(__FILTER_CC__)
+
+} // namespace reSID
 
 #endif // not __FILTER_H__

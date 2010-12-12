@@ -30,6 +30,9 @@
 #include "siddefs.h"
 #include "bittrain.h"
 
+namespace reSID
+{
+
 // ----------------------------------------------------------------------------
 // A 24 bit accumulator is the basis for waveform generation. FREQ is added to
 // the lower 16 bits of the accumulator each cycle.
@@ -94,7 +97,7 @@ protected:
   RESID_INLINE reg8 outputN___();
 
 friend class Voice;
-friend class RESID;
+friend class SID;
 };
 
 
@@ -255,5 +258,7 @@ unsigned int WaveformGenerator::output()
 }
 
 #endif // RESID_INLINING || defined(__WAVE_CC__)
+
+} // namespace reSID
 
 #endif // not __WAVE_H__

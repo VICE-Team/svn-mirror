@@ -1,5 +1,7 @@
-* Determine the characteristics of the SID filter integrators. Spice
-  may perhaps be used to simulate the filter circuit.
+* Refine the MOS 6581 filter model / parameters. Build an accurate MOS
+  8580 filter model.
+
+* Expose an interface for tunable filter parameters.
 
 * Write documentation. Possibly a paper describing how SID was reverse
   engineered.

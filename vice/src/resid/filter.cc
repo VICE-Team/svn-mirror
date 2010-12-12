@@ -1,6 +1,6 @@
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
-//  Copyright (C) 2004  Dag Lem <resid@nimrod.no>
+//  Copyright (C) 2010  Dag Lem <resid@nimrod.no>
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,91 +18,143 @@
 //  ---------------------------------------------------------------------------
 
 #define __FILTER_CC__
+
 #include "filter.h"
+#include "dac.h"
+#include "spline.h"
 
-// Maximum cutoff frequency is specified as
-// FCmax = 2.6e-5/C = 2.6e-5/2200e-12 = 11818.
-//
-// Measurements indicate a cutoff frequency range of approximately
-// 220Hz - 18kHz on a MOS6581 fitted with 470pF capacitors. The function
-// mapping FC to cutoff frequency has the shape of the tanh function, with
-// a discontinuity at FCHI = 0x80.
-// In contrast, the MOS8580 almost perfectly corresponds with the
-// specification of a linear mapping from 30Hz to 12kHz.
-// 
-// The mappings have been measured by feeding the SID with an external
-// signal since the chip itself is incapable of generating waveforms of
-// higher fundamental frequency than 4kHz. It is best to use the bandpass
-// output at full resonance to pick out the cutoff frequency at any given
-// FC setting.
-//
-// The mapping function is specified with spline interpolation points and
-// the function values are retrieved via table lookup.
-//
-// NB! Cutoff frequency characteristics may vary, we have modeled two
-// particular Commodore 64s.
-
-fc_point Filter::f0_points_6581[] =
+namespace reSID
 {
-  //  FC      f         FCHI FCLO
-  // ----------------------------
-  {    0,   220 },   // 0x00      - repeated end point
-  {    0,   220 },   // 0x00
-  {  128,   230 },   // 0x10
-  {  256,   250 },   // 0x20
-  {  384,   300 },   // 0x30
-  {  512,   420 },   // 0x40
-  {  640,   780 },   // 0x50
-  {  768,  1600 },   // 0x60
-  {  832,  2300 },   // 0x68
-  {  896,  3200 },   // 0x70
-  {  960,  4300 },   // 0x78
-  {  992,  5000 },   // 0x7c
-  { 1008,  5400 },   // 0x7e
-  { 1016,  5700 },   // 0x7f
-  { 1023,  6000 },   // 0x7f 0x07
-  { 1023,  6000 },   // 0x7f 0x07 - discontinuity
-  { 1024,  4600 },   // 0x80      -
-  { 1024,  4600 },   // 0x80
-  { 1032,  4800 },   // 0x81
-  { 1056,  5300 },   // 0x84
-  { 1088,  6000 },   // 0x88
-  { 1120,  6600 },   // 0x8c
-  { 1152,  7200 },   // 0x90
-  { 1280,  9500 },   // 0xa0
-  { 1408, 12000 },   // 0xb0
-  { 1536, 14500 },   // 0xc0
-  { 1664, 16000 },   // 0xd0
-  { 1792, 17100 },   // 0xe0
-  { 1920, 17700 },   // 0xf0
-  { 2047, 18000 },   // 0xff 0x07
-  { 2047, 18000 }    // 0xff 0x07 - repeated end point
+
+// This is the SID op-amp voltage transfer function, measured on a chip marked
+// MOS 6581R4AR 0687 14.
+// All measured chips have op-amps with maximum output voltages (and thus
+// maximum input voltages) well within the range of 0.75V - 10.25V.
+
+static double_point opamp_voltage_6581[] = {
+  {  0.75, 10.02 },  // Approximate start of actual range
+  {  0.75, 10.02 },  // Repeated point
+  {  2.50, 10.13 },
+  {  2.75, 10.12 },
+  {  2.90, 10.04 },
+  {  3.00,  9.92 },
+  {  3.10,  9.74 },
+  {  3.25,  9.40 },
+  {  3.50,  8.68 },
+  {  4.00,  6.90 },
+  {  4.25,  5.88 },
+  {  4.53,  4.53 },  // Working point (vi = vo)
+  {  4.75,  3.20 },
+  {  4.90,  2.30 },  // Change of curvature
+  {  4.95,  2.05 },
+  {  5.00,  1.90 },
+  {  5.10,  1.71 },
+  {  5.25,  1.57 },
+  {  5.50,  1.41 },
+  {  6.00,  1.23 },
+  {  7.50,  1.02 },
+  {  9.00,  0.93 },
+  { 10.25,  0.91 },  // Approximate end of actual range
+  { 10.25,  0.91 }   // Repeated end point
 };
 
-fc_point Filter::f0_points_8580[] =
-{
-  //  FC      f         FCHI FCLO
-  // ----------------------------
-  {    0,     0 },   // 0x00      - repeated end point
-  {    0,     0 },   // 0x00
-  {  128,   800 },   // 0x10
-  {  256,  1600 },   // 0x20
-  {  384,  2500 },   // 0x30
-  {  512,  3300 },   // 0x40
-  {  640,  4100 },   // 0x50
-  {  768,  4800 },   // 0x60
-  {  896,  5600 },   // 0x70
-  { 1024,  6500 },   // 0x80
-  { 1152,  7500 },   // 0x90
-  { 1280,  8400 },   // 0xa0
-  { 1408,  9200 },   // 0xb0
-  { 1536,  9800 },   // 0xc0
-  { 1664, 10500 },   // 0xd0
-  { 1792, 11000 },   // 0xe0
-  { 1920, 11700 },   // 0xf0
-  { 2047, 12500 },   // 0xff 0x07
-  { 2047, 12500 }    // 0xff 0x07 - repeated end point
+// FIXME: Measure for the 8580.
+static double_point opamp_voltage_8580[] = {
+  {  0.75, 10.02 },  // Approximate start of actual range
+  {  0.75, 10.02 },  // Repeated point
+  {  2.50, 10.13 },
+  {  2.75, 10.12 },
+  {  2.90, 10.04 },
+  {  3.00,  9.92 },
+  {  3.10,  9.74 },
+  {  3.25,  9.40 },
+  {  3.50,  8.68 },
+  {  4.00,  6.90 },
+  {  4.25,  5.88 },
+  {  4.53,  4.53 },  // Working point (vi = vo)
+  {  4.75,  3.20 },
+  {  4.90,  2.30 },  // Change of curvature
+  {  4.95,  2.05 },
+  {  5.00,  1.90 },
+  {  5.10,  1.71 },
+  {  5.25,  1.57 },
+  {  5.50,  1.41 },
+  {  6.00,  1.23 },
+  {  7.50,  1.02 },
+  {  9.00,  0.93 },
+  { 10.25,  0.91 },  // Approximate end of actual range
+  { 10.25,  0.91 }   // Repeated end point
 };
+
+
+typedef struct {
+  // Op-amp transfer function.
+  double_point* opamp_voltage;
+  int opamp_voltage_size;
+  // Voice output characteristics.
+  double voice_voltage_range;
+  double voice_DC_voltage;
+  // Capacitor value.
+  double C;
+  // Transistor parameters.
+  double Vdd;
+  double Vth;      // Threshold voltage
+  double K1_vcr;   // 1/2*u*Cox
+  double WL_vcr;   // W/L for VCR
+  double K1_snake; // 1/2*u*Cox
+  double WL_snake; // W/L for "snake"
+  // DAC parameters.
+  double dac_zero;
+  double dac_scale;
+  double dac_2R_div_R;
+  bool dac_term;
+} model_filter_init_t;
+
+static model_filter_init_t model_filter_init[2] = {
+  {
+    opamp_voltage_6581,
+    sizeof(opamp_voltage_6581)/sizeof(*opamp_voltage_6581),
+    // The dynamic analog range of one voice is approximately 1.5V,
+    // riding at a DC level of approximately 5.0V.
+    1.5,
+    5.0,
+    // Capacitor value.
+    470e-12,
+    // Transistor parameters.
+    12.18,
+    1.31,
+    10e-6,
+    9.0/1,
+    10e-6,
+    1.0/115,
+    // DAC parameters.
+    6.65,
+    2.63,
+    2.20,
+    false
+  },
+  {
+    opamp_voltage_8580,
+    sizeof(opamp_voltage_8580)/sizeof(*opamp_voltage_8580),
+    // FIXME: Measure for the 8580.
+    1.5,
+    0.75,  // FIXME: For now we pretend that the working point is 0V.
+    470e-12,
+    12.18,
+    1.31,
+    15e-6,
+    9.0/1,
+    10e-6,
+    1.0/115,
+    6.65,
+    2.63,
+    2.00,
+    true
+  }
+};
+
+
+Filter::model_filter_t Filter::model_filter[2];
 
 
 // ----------------------------------------------------------------------------
@@ -110,35 +162,170 @@ fc_point Filter::f0_points_8580[] =
 // ----------------------------------------------------------------------------
 Filter::Filter()
 {
-  fc = 0;
+  static bool class_init;
 
-  res = 0;
+  if (!class_init) {
+    for (int m = 0; m < 2; m++) {
+      model_filter_init_t& fi = model_filter_init[m];
+      model_filter_t& mf = model_filter[m];
 
-  filt = 0;
+      // Convert op-amp voltage transfer to 16 bit values.
+      double vmin = fi.opamp_voltage[0][0];
+      double vmax = fi.opamp_voltage[fi.opamp_voltage_size - 1][0];
+      double denorm = vmax - vmin;
+      double norm = 1.0/denorm;
 
-  voice3off = 0;
+      // Scaling and translation constants.
+      double N19 = norm*((1u << 19) - 1);
+      double N31 = norm*((1u << 31) - 1);
+      mf.vo_N19 = N19;  // FIXME: Remove?
+      mf.vo_T19 = N19*vmin;
 
-  hp_bp_lp = 0;
+      // The "zero" output level of the voices.
+      // The digital range of one voice is 20 bits, while the input range
+      // of the op-amps is 19 bits. Hence the left shift by 13 instead of 14.
+      double N13 = norm*(1u << 13);
+      mf.voice_scale_s14 = N13*fi.voice_voltage_range;
+      mf.voice_DC = N19*(fi.voice_DC_voltage - vmin);
 
-  vol = 0;
+      // Vth, Vdd - Vth
+      mf.Vth = N19*fi.Vth + 0.5;
+      mf.Vddt = N19*(fi.Vdd - fi.Vth) + 0.5;
 
-  // State of filter.
-  Vhp = 0;
-  Vbp = 0;
-  Vlp = 0;
-  Vnf = 0;
+      // Normalized VCR and snake current factors, 1 cycle at 1MHz.
+      // Fit in 12 bits.
+      mf.n_vcr = denorm*(1 << 9)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5;
+      mf.n_snake = denorm*(1 << 19)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5;
+
+      // Create lookup table mapping op-amp input voltage to op-amp output
+      // voltage: vx -> vo
+      double_point scaled_voltage[fi.opamp_voltage_size];
+
+      for (int i = 0; i < fi.opamp_voltage_size; i++) {
+	// The target output range is 16 bits, in order to fit in an unsigned
+	// short.
+	//
+	// The y axis is temporarily scaled to 31 bits for maximum accuracy in
+	// the calculated derivative.
+	//
+	// Values are normalized using
+	//
+	//   x_n = m*2^N*(x - xmin)
+	//
+	// and are translated back later (for fixed point math) using
+	//
+	//   m*2^N*x = x_n - m*2^N*xmin
+	//
+	scaled_voltage[i][0] = N19*(fi.opamp_voltage[i][0] - vmin);
+	scaled_voltage[i][1] = N31*(fi.opamp_voltage[i][1] - vmin);
+      }
+
+      interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
+		  PointPlotter<int>(mf.opamp), 1.0);
+
+      // Store both fn and dfn in the same table.
+      int f = mf.opamp[0];
+      for (int i = 0; i < (1 << 19); i++) {
+	int fp = f;
+	f = mf.opamp[i];  // Scaled by m*2^31
+	// m*2^31*dy/1 = (m*2^31*dy)/(m*2^19*dx) = 2^12*dy/dx
+	int df = f - fp;  // Scaled by 2^12
+
+	// High 13 bits (12 bits + sign bit): 2^8*dfn
+	// Low 19 bits (unsigned):            m*2^19*(fn - xmin)
+	mf.opamp[i] = ((df << (19 + 8 - 12)) & ~0x7ffff) | (f >> 12);
+      }
+
+      // Create lookup tables for gains / summers.
+
+      // 4 bit "resistor" ladders in the bandpass resonance gain and the audio
+      // output gain necessitate 16 gain tables.
+      // From die photographs of the bandpass and volume "resistor" ladders
+      // it follows that gain ~ vol/8 and 1/Q ~ ~res/8 (assuming ideal
+      // op-amps and ideal "resistors").
+      int x;
+      x = mf.vo_T19;
+      for (int n8 = 0; n8 < 16; n8++) {
+	int n = n8 << 4;  // Scaled by 2^7
+	for (int vi = 0; vi < (1 << 16); vi++) {
+	  mf.gain[n8][vi] = solve_gain(n, vi << 3, x, mf) >> 3;
+	}
+      }
+
+      // The filter summer operates at n ~ 1, and has 5 fundamentally different
+      // input configurations (2 - 6 input "resistors").
+      //
+      // Note that all "on" transistors are modeled as one. This is not
+      // entirely accurate, since the input for each transistor is different,
+      // and transistors are not linear components. However modeling all
+      // transistors separately would
+      x = mf.vo_T19;
+      int offset = 0;
+      int size;
+      for (int i = 0; i < 5; i++) {
+	int idiv = 2 + i;        // 2 - 6 input "resistors".
+	int n_idiv = idiv << 7;  // n*idiv, scaled by 2^7
+	size = idiv << 16;
+	for (int vi = 0; vi < size; vi++) {
+	  mf.summer[offset + vi] =
+	    solve_gain(n_idiv, (vi << 3)/idiv, x, mf) >> 3;
+	}
+	offset += size;
+      }
+
+      // The audio mixer operates at n ~ 8/6, and has 8 fundamentally different
+      // input configurations (0 - 7 input "resistors").
+      //
+      // All "on", transistors are modeled as one - see comments above for
+      // the filter summer.
+      x = mf.vo_T19;
+      offset = 0;
+      size = 1;  // Only one lookup element for 0 input "resistors".
+      for (int i = 0; i < 8; i++) {
+	int idiv = i;                 // 0 - 7 input "resistors".
+	int n_idiv = (idiv << 7)*8/6; // n*idiv, scaled by 2^7
+	if (idiv == 0) {
+	  // Avoid division by zero; the result will be correct since
+	  // n_idiv = 0.
+	  idiv = 1;
+	}
+	for (int vi = 0; vi < size; vi++) {
+	  mf.mixer[offset + vi] =
+	    solve_gain(n_idiv, (vi << 3)/idiv, x, mf) >> 3;
+	}
+	offset += size;
+	size = (i + 1) << 16;
+      }
+
+      // Create lookup table mapping capacitor voltage to op-amp input voltage:
+      // vc -> vx
+      for (int i = 0; i < fi.opamp_voltage_size; i++) {
+	scaled_voltage[i][0] = (N19*(fi.opamp_voltage[i][0] - fi.opamp_voltage[i][1]) + (1 << 19))/2;
+	scaled_voltage[i][1] = N19*fi.opamp_voltage[i][0];
+      }
+
+      mf.vc_min = N19*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]);
+      mf.vc_max = N19*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]);
+
+      interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
+		  PointPlotter<int>(mf.opamp), 1.0);
+
+      // DAC table.
+      int bits = 11;
+      build_dac_table(mf.f0_dac, bits, fi.dac_2R_div_R, fi.dac_term);
+      for (int i = 0; i < (1 << bits); i++) {
+	mf.f0_dac[i] = N19*(fi.dac_zero + mf.f0_dac[i]*fi.dac_scale/(1 << bits)) + 0.5;
+      }
+    }
+
+    class_init = true;
+  }
 
   enable_filter(true);
-
-  // Create mappings from FC to cutoff frequency.
-  interpolate(f0_points_6581, f0_points_6581
-	      + sizeof(f0_points_6581)/sizeof(*f0_points_6581) - 1,
-	      PointPlotter<sound_sample>(f0_6581), 1.0);
-  interpolate(f0_points_8580, f0_points_8580
-	      + sizeof(f0_points_8580)/sizeof(*f0_points_8580) - 1,
-	      PointPlotter<sound_sample>(f0_8580), 1.0);
-
   set_chip_model(MOS6581);
+  set_voice_mask(0x07);
+  input(0);
+  reset();
 }
 
 
@@ -148,6 +335,7 @@ Filter::Filter()
 void Filter::enable_filter(bool enable)
 {
   enabled = enable;
+  set_sum_mix();
 }
 
 
@@ -156,34 +344,21 @@ void Filter::enable_filter(bool enable)
 // ----------------------------------------------------------------------------
 void Filter::set_chip_model(chip_model model)
 {
-  if (model == MOS6581) {
-    // The mixer has a small input DC offset. This is found as follows:
-    //
-    // The "zero" output level of the mixer measured on the SID audio
-    // output pin is 5.50V at zero volume, and 5.44 at full
-    // volume. This yields a DC offset of (5.44V - 5.50V) = -0.06V.
-    //
-    // The DC offset is thus -0.06V/1.05V ~ -1/18 of the dynamic range
-    // of one voice. See voice.cc for measurement of the dynamic
-    // range.
-
-    mixer_DC = -0xfff*0xff/18 >> 7;
-
-    f0 = f0_6581;
-    f0_points = f0_points_6581;
-    f0_count = sizeof(f0_points_6581)/sizeof(*f0_points_6581);
-  }
-  else {
-    // No DC offsets in the MOS8580.
-    mixer_DC = 0;
-
-    f0 = f0_8580;
-    f0_points = f0_points_8580;
-    f0_count = sizeof(f0_points_8580)/sizeof(*f0_points_8580);
-  }
+  sid_model = model;
 
   set_w0();
-  set_Q();
+}
+
+
+// ----------------------------------------------------------------------------
+// Mask for voices routed into the filter / audio output stage.
+// Used to physically connect/disconnect EXT IN, and for test purposes
+// (voice muting).
+// ----------------------------------------------------------------------------
+void Filter::set_voice_mask(reg4 mask)
+{
+  voice_mask = 0xf0 | (mask & 0x0f);
+  set_sum_mix();
 }
 
 
@@ -193,25 +368,18 @@ void Filter::set_chip_model(chip_model model)
 void Filter::reset()
 {
   fc = 0;
-
   res = 0;
-
   filt = 0;
-
-  voice3off = 0;
-
-  hp_bp_lp = 0;
-
+  mode = 0;
   vol = 0;
 
-  // State of filter.
   Vhp = 0;
-  Vbp = 0;
-  Vlp = 0;
-  Vnf = 0;
+  Vbp = Vbp_x = Vbp_vc = 0;
+  Vlp = Vlp_x = Vlp_vc = 0;
 
   set_w0();
   set_Q();
+  set_sum_mix();
 }
 
 
@@ -236,13 +404,13 @@ void Filter::writeRES_FILT(reg8 res_filt)
   set_Q();
 
   filt = res_filt & 0x0f;
+  set_sum_mix();
 }
 
 void Filter::writeMODE_VOL(reg8 mode_vol)
 {
-  voice3off = mode_vol & 0x80;
-
-  hp_bp_lp = (mode_vol >> 4) & 0x07;
+  mode = mode_vol & 0xf0;
+  set_sum_mix();
 
   vol = mode_vol & 0x0f;
 }
@@ -250,56 +418,55 @@ void Filter::writeMODE_VOL(reg8 mode_vol)
 // Set filter cutoff frequency.
 void Filter::set_w0()
 {
+  model_filter_t& f = model_filter[sid_model];
+  Vw = f.f0_dac[fc];
+
+  // FIXME: w0 is temporarily used for MOS 8580 emulation.
   const double pi = 3.1415926535897932385;
 
   // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
   // shifting 20 times (2 ^ 20 = 1048576).
-  w0 = static_cast<sound_sample>(2*pi*f0[fc]*1.048576);
-
-  // Limit f0 to 16kHz to keep 1 cycle filter stable.
-  const sound_sample w0_max_1 = static_cast<sound_sample>(2*pi*16000*1.048576);
-  w0_ceil_1 = w0 <= w0_max_1 ? w0 : w0_max_1;
-
-  // Limit f0 to 4kHz to keep delta_t cycle filter stable.
-  const sound_sample w0_max_dt = static_cast<sound_sample>(2*pi*4000*1.048576);
-  w0_ceil_dt = w0 <= w0_max_dt ? w0 : w0_max_dt;
+  // MOS 8580 cutoff: 0 - 12.5kHz.
+  w0 = 2*pi*12500*fc/(1 << 11)*1.048576;
 }
 
 // Set filter resonance.
 void Filter::set_Q()
 {
-  // Q is controlled linearly by res. Q has approximate range [0.707, 1.7].
+  // 1/Q is controlled linearly by res. From die photographs of the resonance
+  // "resistor" ladder it follows that 1/Q ~ ~res/8 (assuming an ideal op-amp
+  // and ideal "resistors"). This implies that Q ranges from 0.533 (res = 0)
+  // to 8 (res = E). For res = F, Q is actually theoretically unlimited, which
+  // is quite unheard of in a filter circuit.
+  // To obtain Q ~ 1/sqrt(2) = 0.707 for maximally flat frequency response,
+  // res should be set to 4: Q = 8/~4 = 8/11 = 0.7272 (again assuming an ideal
+  // op-amp and ideal "resistors").
+  // For the 6581, Q as low as 0.707 is not achievable because of low gain
+  // op-amps; res = 0 should yield the flattest possible frequency response at
+  // Q ~ 0.8 - 1.0 in the op-amp's pseudo-linear range (high amplitude signals
+  // will be clipped).
   // As resonance is increased, the filter must be clocked more often to keep
-  // stable.
+  // it stable.
 
+  // The coefficient 8 is dispensed of later by right-shifting 3 times
+  // (2 ^ 3 = 8).
+  _8_div_Q = ~res & 0x0f;
+
+  // FIXME: Temporary code for MOS 8580.
   // The coefficient 1024 is dispensed of later by right-shifting 10 times
   // (2 ^ 10 = 1024).
-  _1024_div_Q = static_cast<sound_sample>(1024.0/(0.707 + 1.0*res/0x0f));
+  _1024_div_Q = 1024.0/(0.707 + 1.0*res/0x0f);
 }
 
-// ----------------------------------------------------------------------------
-// Spline functions.
-// ----------------------------------------------------------------------------
-
-// ----------------------------------------------------------------------------
-// Return the array of spline interpolation points used to map the FC register
-// to filter cutoff frequency.
-// ----------------------------------------------------------------------------
-void Filter::fc_default(const fc_point*& points, int& count)
+// Set input routing bits.
+void Filter::set_sum_mix()
 {
-  points = f0_points;
-  count = f0_count;
+  // NB! voice3off (mode bit 7) only affects voice 3 if it is routed directly
+  // to the mixer.
+  sum = filt & voice_mask;
+  mix =
+    (enabled ? (mode & 0x70) | ((~(filt | (mode & 0x80) >> 5)) & 0x0f) : 0x0f)
+    & voice_mask;
 }
 
-// ----------------------------------------------------------------------------
-// Given an array of interpolation points p with n points, the following
-// statement will specify a new FC mapping:
-//   interpolate(p, p + n - 1, filter.fc_plotter(), 1.0);
-// Note that the x range of the interpolation points *must* be [0, 2047],
-// and that additional end points *must* be present since the end points
-// are not interpolated.
-// ----------------------------------------------------------------------------
-PointPlotter<sound_sample> Filter::fc_plotter()
-{
-  return PointPlotter<sound_sample>(f0);
-}
+} // namespace reSID

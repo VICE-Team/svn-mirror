@@ -83,5 +83,26 @@ storage of the samples. The current resampling implementation builds
 on these ideas, improving on them by using shifted filter tables for
 generalization and accuracy.
 
+Otto Jarvinen has made great contributions to SID emulation by
+thoroughly investigating and documenting the effects of the test bit
+on the noise waveform shift register, and the behavior of waveform 0.
+He has demonstrated how the test bit can be used to generate entirely
+new waveforms, and how waveform 0 can be used to generate 8-bit
+samples.
+
+Michael Huth has made high quality SID die photographs available, and
+Tommi Lempinen has done impressive work revectorizing and annotating
+these die photographs. The current level of accuracy in the emulation
+of the SID filter would not have been possible without the work of
+Michael and Tommi.
+
+Antti Lankila has worked tirelessly on improving SID emulation in his
+fork of reSID, resid-fp. He has, among other things, measured and
+described the main non-monotonous behavior of the SID 6581 D/A
+converters, measured and analyzed small-signal filter cutoff curves
+for several SID 6581 chips, and is always willing to help with
+analysis in the quest for ever improved SID emulation. He has also
+found and corrected a bug in the reSID resampling code.
+
 Finally I would like to thank my business partner Stian W. Arnesen for
 putting up with all this nonsense.

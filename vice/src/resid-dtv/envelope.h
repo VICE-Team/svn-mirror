@@ -30,6 +30,9 @@
 #include "siddefs.h"
 #include "bittrain.h"
 
+namespace reSID
+{
+
 // ----------------------------------------------------------------------------
 // A 15 bit counter is used to implement the envelope rates, in effect
 // dividing the clock to the envelope counter by the currently selected rate
@@ -82,7 +85,7 @@ protected:
   // The 16 selectable sustain levels.
   static reg8 sustain_level[];
 
-friend class RESID;
+friend class SID;
 };
 
 // ----------------------------------------------------------------------------
@@ -165,5 +168,7 @@ unsigned int EnvelopeGenerator::output()
 }
 
 #endif // RESID_INLINING || defined(__ENVELOPE_CC__)
+
+} // namespace reSID
 
 #endif // not __ENVELOPE_H__

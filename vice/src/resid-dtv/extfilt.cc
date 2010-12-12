@@ -20,6 +20,8 @@
 #define __EXTFILT_CC__
 #include "extfilt.h"
 
+namespace reSID
+{
 
 // ----------------------------------------------------------------------------
 // Constructor.
@@ -43,3 +45,5 @@ void ExternalFilter::reset()
 
 /* API compatibility hacks */
 void ExternalFilter::enable_filter(bool enable) { ; }
+
+} // namespace reSID

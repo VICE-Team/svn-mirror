@@ -17,15 +17,14 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#include "pot.h"
+#ifndef __DAC_H__
+#define __DAC_H__
 
 namespace reSID
 {
 
-reg8 Potentiometer::readPOT()
-{
-  // NB! Not modeled.
-  return 0xff;
-}
+void build_dac_table(unsigned int* dac, int bits, double _2R_div_R, bool term);
 
 } // namespace reSID
+
+#endif // not __DAC_H__

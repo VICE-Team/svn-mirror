@@ -18,7 +18,11 @@
 //  ---------------------------------------------------------------------------
 
 #define __VOICE_CC__
+
 #include "voice.h"
+
+namespace reSID
+{
 
 // ----------------------------------------------------------------------------
 // Constructor.
@@ -34,6 +38,7 @@ Voice::Voice()
 void Voice::set_chip_model(chip_model model)
 {
   wave.set_chip_model(model);
+  envelope.set_chip_model(model);
 
   if (model == MOS6581) {
     // The waveform D/A converter introduces a DC offset in the signal
@@ -73,35 +78,23 @@ void Voice::set_chip_model(chip_model model)
     // The waveform output range is 0x000 to 0xfff, so the "zero"
     // level should ideally have been 0x800. In the measured chip, the
     // waveform output "zero" level was found to be 0x380 (i.e. $d41b
-    // = 0x38) at 5.94V.
-
+    // = 0x38) at an audio output voltage of 5.94V.
+    //
+    // With knowledge of the mixer op-amp characteristics, further estimates
+    // of waveform voltages can be obtained by sampling the EXT IN pin.
+    // From EXT IN samples, the corresponding waveform output can be found by
+    // using the model for the mixer.
+    //
+    // Such measurements have been done on a chip marked MOS 6581R4AR
+    // 0687 14, and the following results have been obtained:
+    // * The full range of one voice is approximately 1.5V.
+    // * The "zero" level rides at approximately 5.0V.
+    //
     wave_zero = 0x380;
-
-    // The envelope multiplying D/A converter introduces another DC
-    // offset. This is isolated by the following measurements:
-    //
-    // * The "zero" output level of the mixer at full volume is 5.44V.
-    // * Routing one voice to the mixer at full volume yields
-    //     6.75V at maximum voice output (wave = 0xfff, sustain = 0xf)
-    //     5.94V at "zero" voice output  (wave = any,   sustain = 0x0)
-    //     5.70V at minimum voice output (wave = 0x000, sustain = 0xf)
-    // * The DC offset of one voice is (5.94V - 5.44V) = 0.50V
-    // * The dynamic range of one voice is |6.75V - 5.70V| = 1.05V
-    // * The DC offset is thus 0.50V/1.05V ~ 1/2 of the dynamic range.
-    //
-    // Note that by removing the DC offset, we get the following ranges for
-    // one voice:
-    //     y > 0: (6.75V - 5.44V) - 0.50V =  0.81V
-    //     y < 0: (5.70V - 5.44V) - 0.50V = -0.24V
-    // The scaling of the voice amplitude is not symmetric about y = 0;
-    // this follows from the DC level in the waveform output.
-
-    voice_DC = 0x800*0xff;
   }
   else {
     // No DC offsets in the MOS8580.
     wave_zero = 0x800;
-    voice_DC = 0;
   }
 }
 
@@ -130,3 +123,5 @@ void Voice::reset()
   wave.reset();
   envelope.reset();
 }
+
+} // namespace reSID
