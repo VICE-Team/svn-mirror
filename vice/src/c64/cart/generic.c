@@ -50,12 +50,16 @@
 
     size   type   roml          romh
     ----   ----   ----          ----
-     4k    ulti   n/a           $F000-$FFFF
-     8k    norm   $8000-$9FFF   n/a
+     4k    8k     $8000-$8FFF(*)n/a             FIXME
+     4k    ulti   n/a           $F000-$FFFF(*)  FIXME
+     8k    8k     $8000-$9FFF   n/a
      8k    ulti   n/a           $E000-$FFFF
-    16k    norm   $8000-$9FFF   $A000-$BFFF
+    12k    16k    $8000-$9FFF   $e000-$eFFF(*)  FIXME
+    12k    ulti   $8000-$9FFF   $F000-$FFFF(*)  FIXME
+    16k    16k    $8000-$9FFF   $A000-$BFFF
     16k    ulti   $8000-$9FFF   $E000-$FFFF
 
+    *) actually mirrored over the whole 8k block.
 */
 
 /* #define DBGGENERIC */
@@ -137,7 +141,11 @@ int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
 int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+        /* also accept 12k binaries */
+        if (util_file_load(filename, rawcart, 0x3000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
+        memcpy(&rawcart[0x3000], &rawcart[0x2000], 0x1000);
     }
 
     if (c64export_add(&export_res_16kb) < 0) {
@@ -150,7 +158,14 @@ int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
 int generic_ultimax_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+        /* also accept 12k binaries */
+        if (util_file_load(filename, rawcart, 0x3000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            /* also accept 4k binaries */
+            if (util_file_load(filename, &rawcart[0x2000], 0x1000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                return -1;
+            }
+        }
+        memcpy(&rawcart[0x3000], &rawcart[0x2000], 0x1000);
     }
 
     if (c64export_add(&export_res_ultimax) < 0) {
@@ -183,7 +198,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         DBG(("type %d\n", crttype));
         /* try to read next CHIP header in case of 16k Ultimax cart */
         if (fread(chipheader, 0x10, 1, fd) < 1) {
-        DBG(("type %d (generic game)\n", crttype));
+            DBG(("type %d (generic game)\n", crttype));
             if (crttype == CARTRIDGE_GENERIC_8KB) {
                 if (c64export_add(&export_res_8kb) < 0) {
                     return -1;

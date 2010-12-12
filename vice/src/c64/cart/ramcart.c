@@ -120,7 +120,7 @@ static int ramcart_deactivate(void);
 static int ramcart_enabled;
 
 /* Flag: Is the RAMCART readonly ?  */
-int ramcart_readonly = 0;
+int ramcart_readonly = 0; /* FIXME: make static */
 
 /* Size of the RAMCART.  */
 static int ramcart_size = 0;
@@ -130,6 +130,8 @@ static int ramcart_size_kb = 0;
 
 /* Filename of the RAMCART image.  */
 static char *ramcart_filename = NULL;
+
+static int ramcart_write_image = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -258,11 +260,12 @@ static int ramcart_deactivate(void)
     }
 
     if (!util_check_null_string(ramcart_filename)) {
-        if (util_file_save(ramcart_filename, ramcart_ram, ramcart_size) < 0) {
-            log_message(ramcart_log, "Writing RAMCART image %s failed.", ramcart_filename);
-            return -1;
+        if (ramcart_write_image) {
+            log_message(LOG_DEFAULT, "Writing RAMCART image %s.", ramcart_filename);
+            if (ramcart_flush_image() < 0) {
+                log_message(LOG_DEFAULT, "Writing RAMCART image %s failed.", ramcart_filename);
+            }
         }
-        log_message(ramcart_log, "Writing RAMCART image %s.", ramcart_filename);
     }
 
     lib_free(ramcart_ram);
@@ -363,6 +366,16 @@ static int set_ramcart_filename(const char *name, void *param)
     return 0;
 }
 
+static int set_ramcart_image_write(int val, void *param)
+{
+    if (ramcart_write_image && !val) {
+        ramcart_write_image = 0;
+    } else if (!ramcart_write_image && val) {
+        ramcart_write_image = 1;
+    }
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static const resource_string_t resources_string[] = {
@@ -378,6 +391,8 @@ static const resource_int_t resources_int[] = {
       &ramcart_readonly, set_ramcart_readonly, NULL },
     { "RAMCARTsize", 128, RES_EVENT_NO, NULL,
       &ramcart_size_kb, set_ramcart_size, NULL },
+    { "RAMCARTImageWrite", 0, RES_EVENT_NO, NULL,
+      &ramcart_write_image, set_ramcart_image_write, NULL },
     { NULL }
 };
 
@@ -410,16 +425,26 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_RAMCART,
       NULL, NULL },
-    { "-ramcartimage", SET_RESOURCE, 1,
-      NULL, NULL, "RAMCARTfilename", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_RAMCART_NAME,
-      NULL, NULL },
     { "-ramcartsize", SET_RESOURCE, 1,
       NULL, NULL, "RAMCARTsize", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_SIZE_IN_KB, IDCLS_RAMCART_SIZE,
       NULL, NULL },
+    { "-ramcartimage", SET_RESOURCE, 1,
+      NULL, NULL, "RAMCARTfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_RAMCART_NAME,
+      NULL, NULL },
+    { "-ramcartimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "RAMCARTImageWrite", (resource_value_t)1,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("allow writing to RAMCart image") },
+    { "+ramcartimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "RAMCARTImageWrite", (resource_value_t)0,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("do not write to RAMCart image") },
     { NULL }
 };
 

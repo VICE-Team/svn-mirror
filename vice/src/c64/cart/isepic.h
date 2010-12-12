@@ -29,8 +29,9 @@
 
 #include "types.h"
 
-extern int isepic_switch;
+extern int isepic_switch; /* FIXME: remove */
 extern int isepic_cart_enabled(void);
+extern int isepic_cart_active(void);
 extern int isepic_freeze_allowed(void);
 extern void isepic_freeze(void);
 extern void isepic_reset(void);

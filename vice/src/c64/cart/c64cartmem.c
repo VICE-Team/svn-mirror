@@ -287,7 +287,7 @@ BYTE REGPARM1 roml_read(WORD addr)
         return tpi_roml_read(addr);
     }
     /* "Slot 1" */
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         return isepic_page_read(addr);
     }
     if (expert_cart_enabled()) {
@@ -443,7 +443,7 @@ BYTE REGPARM1 romh_read(WORD addr)
     if (dqbb_cart_enabled()) {
         return dqbb_romh_read(addr);
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         return isepic_romh_read(addr);
     }
 
@@ -513,7 +513,7 @@ BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
     if (expert_cart_enabled()) {
         return expert_romh_read(addr);
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         return isepic_romh_read(addr);
     }
 
@@ -576,7 +576,7 @@ void REGPARM2 romh_store(WORD addr, BYTE value)
         mem_store_without_ultimax(addr, value);
     }
     /* "Slot 1" */
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         isepic_romh_store(addr, value);
     }
 
@@ -747,7 +747,7 @@ BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
     if (expert_cart_enabled()) {
         return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         /* return mem_read_without_ultimax(addr); */ /* fake ultimax hack */
         return isepic_page_read(addr);
     }
@@ -787,7 +787,7 @@ void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value)
     if (expert_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack */
     }
 
@@ -829,7 +829,7 @@ BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
     if (expert_cart_enabled()) {
         return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 basic, ram */
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         /* return mem_read_without_ultimax(addr); */ /* fake ultimax hack */
         return isepic_page_read(addr);
     }
@@ -869,7 +869,7 @@ void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value)
     if (expert_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack */
     }
 
@@ -906,7 +906,7 @@ BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
     if (expert_cart_enabled()) {
         return mem_read_without_ultimax(addr); /* fake ultimax hack, c64 ram */
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         /* return mem_read_without_ultimax(addr); */ /* fake ultimax hack */
         return isepic_page_read(addr);
     }
@@ -944,7 +944,7 @@ void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value)
     if (expert_cart_enabled()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack, c64 ram */
     }
-    if (isepic_cart_enabled()) {
+    if (isepic_cart_active()) {
         mem_store_without_ultimax(addr, value); /* fake ultimax hack */
     }
 

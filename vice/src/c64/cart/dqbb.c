@@ -98,6 +98,8 @@ static char *dqbb_filename = NULL;
 
 static int reg_value = 0;
 
+static int dqbb_write_image = 0;
+
 /* ------------------------------------------------------------------------- */
 static BYTE REGPARM1 dqbb_io1_peek(WORD addr);
 static void REGPARM2 dqbb_io1_store(WORD addr, BYTE byte);
@@ -248,6 +250,16 @@ static int set_dqbb_filename(const char *name, void *param)
     return 0;
 }
 
+static int set_dqbb_image_write(int val, void *param)
+{
+    if (dqbb_write_image && !val) {
+        dqbb_write_image = 0;
+    } else if (!dqbb_write_image && val) {
+        dqbb_write_image = 1;
+    }
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
@@ -259,6 +271,8 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "DQBB", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &dqbb_enabled, set_dqbb_enabled, NULL },
+    { "DQBBImageWrite", 0, RES_EVENT_NO, NULL,
+      &dqbb_write_image, set_dqbb_image_write, NULL },
     { NULL }
 };
 
@@ -296,6 +310,16 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_DQBB_NAME,
       NULL, NULL },
+    { "-dqbbimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "DQBBImageWrite", (resource_value_t)1,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("allow writing to DQBB image") },
+    { "+dqbbimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "DQBBImageWrite", (resource_value_t)0,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("do not write to DQBB image") },
     { NULL }
 };
 

@@ -47,6 +47,33 @@
 *  - bit 0 and bit 1 set deactivate EXROM and expose the RAM
 */
 
+/* ---------------------------------------------------------------------*/
+
+static BYTE REGPARM1 stb_io1_read(WORD addr);
+static BYTE REGPARM1 stb_io1_peek(WORD addr);
+static void REGPARM2 stb_io1_store(WORD addr, BYTE value);
+
+static io_source_t stb_device = {
+    "Structured Basic",
+    IO_DETACH_CART,
+    NULL,
+    0xde00, 0xdeff, 0xff,
+    0, /* read is never valid */
+    stb_io1_store,
+    stb_io1_read,
+    stb_io1_peek,
+    NULL, /* dump */
+    CARTRIDGE_STRUCTURED_BASIC
+};
+
+static io_source_list_t *stb_list_item = NULL;
+
+static const c64export_resource_t export_res = {
+    "Structured Basic", 1, 0, &stb_device, NULL, CARTRIDGE_STRUCTURED_BASIC
+};
+
+/* ---------------------------------------------------------------------*/
+
 static void stb_io(WORD addr)
 {
     switch (addr & 3) {
@@ -74,31 +101,15 @@ static BYTE REGPARM1 stb_io1_read(WORD addr)
     return 0;
 }
 
+static BYTE REGPARM1 stb_io1_peek(WORD addr)
+{
+    return 0;
+}
+
 static void REGPARM2 stb_io1_store(WORD addr, BYTE value)
 {
     stb_io(addr);
 }
-
-/* ---------------------------------------------------------------------*/
-
-static io_source_t stb_device = {
-    "Structured Basic",
-    IO_DETACH_CART,
-    NULL,
-    0xde00, 0xdeff, 0xff,
-    0, /* read is never valid */
-    stb_io1_store,
-    stb_io1_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
-    CARTRIDGE_STRUCTURED_BASIC
-};
-
-static io_source_list_t *stb_list_item = NULL;
-
-static const c64export_resource_t export_res = {
-    "Structured Basic", 1, 0, &stb_device, NULL, CARTRIDGE_STRUCTURED_BASIC
-};
 
 /* ---------------------------------------------------------------------*/
 

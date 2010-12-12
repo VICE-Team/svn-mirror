@@ -122,6 +122,8 @@ static int mmcr_sd_type = 0;
 static char *mmcr_filename = NULL;
 static int mmcr_filetype = 0;
 
+static int mmcr_write_image = 0;
+
 static const char STRING_MMC_REPLAY[] = "MMC Replay";
 
 /*
@@ -2674,7 +2676,7 @@ int mmcreplay_flush_image(void)
 
 void mmcreplay_detach(void)
 {
-    if (/* mmcr_bios_write && */ flashrom_state->flash_dirty) {
+    if (mmcr_write_image && flashrom_state->flash_dirty) {
          mmcreplay_flush_image();
     }
 
@@ -2773,6 +2775,16 @@ static int set_mmcr_sd_type(int val, void* param)
     return 0;
 }
 
+static int set_mmcr_image_write(int val, void *param)
+{
+    if (mmcr_write_image && !val) {
+        mmcr_write_image = 0;
+    } else if (!mmcr_write_image && val) {
+        mmcr_write_image = 1;
+    }
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "MMCRCardImage", "", RES_EVENT_NO, NULL,
       &mmcr_card_filename, set_mmcr_card_filename, NULL },
@@ -2782,14 +2794,16 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "MMCRCardRW", 1, RES_EVENT_NO, NULL,
-      &mmcr_card_rw, set_mmcr_card_rw, NULL },
-    { "MMCREEPROMRW", 1, RES_EVENT_NO, NULL,
-      &mmcr_eeprom_rw, set_mmcr_eeprom_rw, NULL },
     { "MMCRRescueMode", 0, RES_EVENT_NO, NULL,
       &enable_rescue_mode, set_mmcr_rescue_mode, NULL },
+    { "MMCRImageWrite", 0, RES_EVENT_NO, NULL,
+      &mmcr_write_image, set_mmcr_image_write, NULL },
+    { "MMCRCardRW", 1, RES_EVENT_NO, NULL,
+      &mmcr_card_rw, set_mmcr_card_rw, NULL },
     { "MMCRSDType", 0, RES_EVENT_NO, NULL,
       &mmcr_sd_type, set_mmcr_sd_type, NULL },
+    { "MMCREEPROMRW", 1, RES_EVENT_NO, NULL,
+      &mmcr_eeprom_rw, set_mmcr_eeprom_rw, NULL },
     { NULL }
 };
 
@@ -2808,6 +2822,26 @@ void mmcreplay_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
+    { "-mmcrrescue", SET_RESOURCE, 0,
+      NULL, NULL, "MMCRRescueMode", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE,
+      NULL, NULL },
+    { "+mmcrrescue", SET_RESOURCE, 0,
+      NULL, NULL, "MMCRRescueMode", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE,
+      NULL, NULL },
+    { "-mmcrimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "MMCRImageWrite", (resource_value_t)1,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("allow writing to MMCR image") },
+    { "+mmcrimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "MMCRImageWrite", (resource_value_t)0,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("do not write to MMCR image") },
     { "-mmcrcardimage", SET_RESOURCE, 1,
       NULL, NULL, "MMCRCardImage", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -2837,16 +2871,6 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "MMCREEPROMRW", (resource_value_t)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_MMC_REPLAY_EEPROM_WRITE_DISABLE,
-      NULL, NULL },
-    { "-mmcrrescue", SET_RESOURCE, 0,
-      NULL, NULL, "MMCRRescueMode", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE,
-      NULL, NULL },
-    { "+mmcrrescue", SET_RESOURCE, 0,
-      NULL, NULL, "MMCRRescueMode", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE,
       NULL, NULL },
     { NULL }
 };

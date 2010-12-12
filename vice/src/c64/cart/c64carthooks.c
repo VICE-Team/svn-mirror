@@ -730,7 +730,7 @@ const char *cart_get_file_name(int type)
 
         /* Main Slot handled in c64cart.c:cartridge_get_file_name */
     }
-    return ""; /* ? */
+    return ""; /* FIXME ? */
 }
 
 /* ------------------------------------------------------------------------- */

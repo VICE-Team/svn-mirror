@@ -43,7 +43,23 @@
 /*
     KCS Power Cartridge
 
-    - 16kb ROM
+    - 16kb ROM, 128 bytes RAM
+
+    io1:
+    - the second last page of the first 8k bank is visible
+    - when reading, bit 1 of the address selects mapping mode:
+      0 : 8k game
+      1 : cartridge disabled
+
+    - when writing, 16k game mode is selected
+
+    io2:
+    - cartridge RAM
+    - when reading, if bit 7 of the address is set freeze mode
+      is released and ultimax mapping selected
+
+    - when writing, 16k game mode is selected (?)
+    - writes go to cartridge RAM 
 */
 
 static BYTE REGPARM1 kcs_io1_read(WORD addr)
@@ -72,12 +88,12 @@ static BYTE REGPARM1 kcs_io2_read(WORD addr)
     if (addr & 0x80) {
         cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
     }
-    return export_ram0[0x1f00 + (addr & 0xff)];
+    return export_ram0[0x1f00 + (addr & 0x7f)];
 }
 
 static BYTE REGPARM1 kcs_io2_peek(WORD addr)
 {
-    return export_ram0[0x1f00 + (addr & 0xff)];
+    return export_ram0[0x1f00 + (addr & 0x7f)];
 }
 
 static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
@@ -85,7 +101,7 @@ static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
     if (!export.ultimax_phi2) { /* FIXME */
         cartridge_config_changed(1, 1, CMODE_WRITE);
     }
-    export_ram0[0x1f00 + (addr & 0xff)] = value;
+    export_ram0[0x1f00 + (addr & 0x7f)] = value;
 }
 
 /* ---------------------------------------------------------------------*/

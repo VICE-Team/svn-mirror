@@ -248,6 +248,8 @@ static struct reu_ba_s reu_ba = {
     NULL, NULL, NULL, 0, 0
 };
 
+static int reu_write_image = 0;
+
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
@@ -468,6 +470,16 @@ static int set_reu_filename(const char *name, void *param)
     return 0;
 }
 
+static int set_reu_image_write(int val, void *param)
+{
+    if (reu_write_image && !val) {
+        reu_write_image = 0;
+    } else if (!reu_write_image && val) {
+        reu_write_image = 1;
+    }
+    return 0;
+}
+
 /*! \brief string resources used by the REU module */
 static const resource_string_t resources_string[] = {
     { "REUfilename", "", RES_EVENT_NO, NULL,
@@ -479,6 +491,8 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &reu_enabled, set_reu_enabled, NULL },
+    { "REUImageWrite", 0, RES_EVENT_NO, NULL,
+      &reu_write_image, set_reu_image_write, NULL },
     { "REUsize", 512, RES_EVENT_NO, NULL,
       &reu_size_kb, set_reu_size, NULL },
     { "REUfirstUnusedRegister", REU_REG_RW_UNUSED, RES_EVENT_NO, NULL,
@@ -523,16 +537,26 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_REU,
       NULL, NULL },
-    { "-reuimage", SET_RESOURCE, 1,
-      NULL, NULL, "REUfilename", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_REU_NAME,
-      NULL, NULL },
     { "-reusize", SET_RESOURCE, 1,
       NULL, NULL, "REUsize", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_SIZE_IN_KB, IDCLS_REU_SIZE,
       NULL, NULL },
+    { "-reuimage", SET_RESOURCE, 1,
+      NULL, NULL, "REUfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_REU_NAME,
+      NULL, NULL },
+    { "-reuimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "REUImageWrite", (resource_value_t)1,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("allow writing to REU image") },
+    { "+reuimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "REUImageWrite", (resource_value_t)0,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("do not write to REU image") },
     { NULL }
 };
 
@@ -641,11 +665,12 @@ static int reu_deactivate(void)
     }
 
     if (!util_check_null_string(reu_filename)) {
-        if (util_file_save(reu_filename, reu_ram, reu_size) < 0) {
-            log_message(reu_log, "Writing REU image %s failed.", reu_filename);
-            return -1;
+        if (reu_write_image) {
+            log_message(LOG_DEFAULT, "Writing REU image %s.", reu_filename);
+            if (reu_flush_image() < 0) {
+                log_message(LOG_DEFAULT, "Writing REU image %s failed.", reu_filename);
+            }
         }
-        log_message(reu_log, "Writing REU image %s.", reu_filename);
     }
 
     lib_free(reu_ram);

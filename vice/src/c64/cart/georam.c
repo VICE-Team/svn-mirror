@@ -128,6 +128,8 @@ static int georam_size_kb = 0;
 /* Filename of the GEORAM image.  */
 static char *georam_filename = NULL;
 
+static int georam_write_image = 0;
+
 /* ---------------------------------------------------------------------*/
 
 static BYTE REGPARM1 georam_io1_read(WORD addr);
@@ -256,11 +258,12 @@ static int georam_deactivate(void)
     }
 
     if (!util_check_null_string(georam_filename)) {
-        if (util_file_save(georam_filename, georam_ram, georam_size) < 0) {
-            log_message(georam_log, "Writing GEORAM image %s failed.", georam_filename);
-            return -1;
+        if (georam_write_image) {
+            log_message(LOG_DEFAULT, "Writing GEORAM image %s.", georam_filename);
+            if (georam_flush_image() < 0) {
+                log_message(LOG_DEFAULT, "Writing GEORAM image %s failed.", georam_filename);
+            }
         }
-        log_message(georam_log, "Writing GEORAM image %s.", georam_filename);
     }
 
     lib_free(georam_ram);
@@ -352,6 +355,16 @@ static int set_georam_filename(const char *name, void *param)
     return 0;
 }
 
+static int set_georam_image_write(int val, void *param)
+{
+    if (georam_write_image && !val) {
+        georam_write_image = 0;
+    } else if (!georam_write_image && val) {
+        georam_write_image = 1;
+    }
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "GEORAMfilename", "", RES_EVENT_NO, NULL,
       &georam_filename, set_georam_filename, NULL },
@@ -363,6 +376,8 @@ static const resource_int_t resources_int[] = {
       &georam_enabled, set_georam_enabled, NULL },
     { "GEORAMsize", 512, RES_EVENT_NO, NULL,
       &georam_size_kb, set_georam_size, NULL },
+    { "GEORAMImageWrite", 0, RES_EVENT_NO, NULL,
+      &georam_write_image, set_georam_image_write, NULL },
     { NULL }
 };
 
@@ -395,16 +410,26 @@ static const cmdline_option_t cmdline_options[] =
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_GEORAM,
       NULL, NULL },
-    { "-georamimage", SET_RESOURCE, 1,
-      NULL, NULL, "GEORAMfilename", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_GEORAM_NAME,
-      NULL, NULL },
     { "-georamsize", SET_RESOURCE, 1,
       NULL, NULL, "GEORAMsize", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_SIZE_IN_KB, IDCLS_GEORAM_SIZE,
       NULL, NULL },
+    { "-georamimage", SET_RESOURCE, 1,
+      NULL, NULL, "GEORAMfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_GEORAM_NAME,
+      NULL, NULL },
+    { "-georamimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "GEORAMImageWrite", (resource_value_t)1,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("allow writing to GEORAM image") },
+    { "+georamimagerw", SET_RESOURCE, 0,
+      NULL, NULL, "GEORAMImageWrite", (resource_value_t)0,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("do not write to GEORAM image") },
     { NULL }
 };
 

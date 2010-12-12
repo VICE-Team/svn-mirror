@@ -44,18 +44,52 @@
 /*
     Super Snapshot v4
 
-    - 32K ROM,4*8K Banks
+    - 32K ROM,2*16K Banks
+    - 8k RAM
 
     io1: (read/write)
-        cart ram
+        second last page of cart ram
 
     io2 (read)
-     df01 - ram config
-          - cart rom
+     df01 - ram config (register)
+     else - cart rom (last page of first 8k of current bank)
     io2 (write)
-     df00 -
-     df01 -
+     df00 -  (register)
+
+        7xxx3210
+
+        bit 0 - ?
+        bit 1 - ? (write 1 to release freeze mode)
+        bit 2 - ROM bank select
+        bit 3 - write 1 to disable cartridge
+        bit 7 - ?
+
+        if bit0, bit1, bit7 are all 0, then
+            - ultimax mapping is selected
+            - RAM is enabled at ROML
+        else if bit 0 is 0, then
+            - 16k mapping is enabled
+            if bit 0 is 1, then
+            - 8k mapping is enabled
+
+     df01 - ram config (register)
+
+        if written value == last value - 1, then
+            - ultimax mapping is selected
+            - RAM is enabled at ROML
+
+        if written value == last value + 1, then
+            - ROM is enabled at ROML
+            - exrom is deasserted (switch to either 8k or 16k mapping)
 */
+
+/* #define DBGSS4 */
+
+#ifdef DBGSS4
+#define DBG(x) printf x
+#else
+#define DBG(x)
+#endif
 
 /* Super Snapshot configuration flags.  */
 static BYTE ramconfig = 0xff, romconfig = 9;
@@ -123,27 +157,48 @@ BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
     }
 
     addr |= 0xdf00;
-
-    switch (roml_bank) {
-        case 0:
-            return roml_banks[addr & 0x1fff];
-        case 1:
-            return roml_banks[(addr & 0x1fff) + 0x2000];
-        case 2:
-            return roml_banks[(addr & 0x1fff) + 0x4000];
-        case 3:
-            return roml_banks[(addr & 0x1fff) + 0x6000];
-    }
-    ss4_io2_device.io_source_valid = 0;
-    return 0;
+    return roml_banks[(addr & 0x1fff) + (0x2000 * roml_bank)];
 }
 
-/* FIXME: this one is odd, it probably doesnt quite do what really happens */
 void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 {
+    DBG(("SS4: io2 w %04x %02x\n", addr, value));
+
     if ((addr & 0xff) == 0) {
         int mode = CMODE_WRITE;
 
+#ifdef DBGSS4
+        if (value & ~(0x80 | 0x08  | 0x04 | 0x02 | 0x01)) {
+            DBG(("poof!\n"));
+            exit(-1);
+        }
+#endif
+        mode |= ((ramconfig == 0) ? CMODE_EXPORT_RAM : 0);
+
+        if (value & 0x83) {
+            if (value & 0x01) {
+                romconfig = 0;
+            } else {
+                romconfig = 1;
+            }
+        } else {
+            romconfig = 3;
+            mode |= CMODE_EXPORT_RAM;
+        }
+
+        if (value & 0x02) {
+            mode |= CMODE_RELEASE_FREEZE;
+        }
+        if (value & 0x04) {
+            romconfig |= (1 << CMODE_BANK_SHIFT);
+        }
+        if (value & 0x08) {
+            romconfig = 2; /* disable cart */
+            mode |= CMODE_PHI2_RAM;
+        }
+
+/* old code, remove this if the above seems to work ok */
+#if 0
         romconfig = (BYTE)((value == 2) ? 1 : (1 | (1 << CMODE_BANK_SHIFT)));
         mode = mode | ((ramconfig == 0) ? CMODE_EXPORT_RAM : 0);
         if ((value & 0x7f) == 0) {
@@ -161,16 +216,20 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
             romconfig = 2; /* exrom */
             mode |= CMODE_PHI2_RAM;
         }
+#endif
         cartridge_config_changed((BYTE)(romconfig & 3), romconfig, mode);
     }
     if ((addr & 0xff) == 1) {
         int mode = CMODE_WRITE;
+        /* FIXME: this is odd, it probably doesnt quite do what really happens */
         if (((ramconfig - 1) & 0xff) == value) {
+            DBG(("SS4: - %02x %02x\n", ramconfig, value));
             ramconfig = value;
             romconfig |= 3; /* game,exrom */
             mode |= CMODE_EXPORT_RAM;
         }
         if (((ramconfig + 1) & 0xff) == value) {
+            DBG(("SS4: + %02x %02x\n", ramconfig, value));
             ramconfig = value;
             romconfig &= ~(1 << 1); /* exrom */
             mode &= ~(CMODE_EXPORT_RAM);
