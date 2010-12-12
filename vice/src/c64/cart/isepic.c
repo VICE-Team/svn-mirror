@@ -217,9 +217,9 @@ static int isepic_deactivate(void)
 
     if (!util_check_null_string(isepic_filename)) {
         if (isepic_write_image) {
-            log_message(LOG_DEFAULT, "Writing Expert Cartridge image %s.", isepic_filename);
+            log_message(LOG_DEFAULT, "Writing ISEPIC Cartridge image %s.", isepic_filename);
             if (isepic_flush_image() < 0) {
-                log_message(LOG_DEFAULT, "Writing Expert Cartridge image %s failed.", isepic_filename);
+                log_message(LOG_DEFAULT, "Writing ISEPIC Cartridge image %s failed.", isepic_filename);
             }
         }
     }
