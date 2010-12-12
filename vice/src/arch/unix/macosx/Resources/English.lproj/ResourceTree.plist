@@ -809,6 +809,8 @@
 			<string>SyncDrawFlickerFix,b</string>
 			<key>Sync Draw Buffers</key>
 			<string>SyncDrawBuffers,i</string>
+			<key>True Pixel Aspect Ratio</key>
+			<string>TrueAspectRatio,b</string>
 		</dict>
 		<key>Remote Monitor</key>
 		<dict>

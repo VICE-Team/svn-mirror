@@ -118,4 +118,14 @@
     toggler = t;
 }
 
+-(void)setCanvasId:(int)id
+{
+    canvasId = id;
+}
+
+-(int)canvasId
+{
+    return canvasId;
+}
+
 @end

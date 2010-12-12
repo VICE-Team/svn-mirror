@@ -40,15 +40,17 @@
     
     float scale_x;
     float scale_y;
+    
+    float pixelAspectRatio;
 }
 
 // create the window and setup canvas structure
-- (id)initWithContentRect:(NSRect)rect title:(NSString *)title canvasSize:(NSSize)size;
+- (id)initWithContentRect:(NSRect)rect title:(NSString *)title canvasSize:(NSSize)size pixelAspectRatio:(float)par;
 
 // return the GLView for render access
 - (VICEGLView *)getVICEGLView;
 // resize canvas
-- (void)resizeCanvas:(NSSize)size;
+- (void)resizeCanvas:(NSSize)size pixelAspectRatio:(float)par;
 
 // return canvas id
 - (int)canvasId;

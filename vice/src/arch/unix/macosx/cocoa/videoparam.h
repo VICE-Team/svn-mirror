@@ -39,6 +39,7 @@ struct video_param_s
     int sync_draw_mode;
     int sync_draw_buffers;
     int sync_draw_flicker_fix;
+    int true_pixel_aspect;
 };
 typedef struct video_param_s video_param_t;
 

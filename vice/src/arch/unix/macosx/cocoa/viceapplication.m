@@ -28,6 +28,8 @@
 #include "viewport.h"
 #include "uiapi.h"
 #include "monitor.h"
+#include "viewport.h"
+#include "videoparam.h"
 
 #import "viceapplication.h"
 #import "vicenotifications.h"
@@ -505,14 +507,24 @@ const float control_win_width = 200;
     else
         title = [NSString stringWithFormat:@"%s #%d",canvas->viewport->title,canvasCount];
     
+    // adjust desired window size for pixel aspect
+    float pixel_aspect_ratio = 1.0f;
+    NSSize desiredWindowSize = size;
+    if(canvas->video_param->true_pixel_aspect) {
+        pixel_aspect_ratio = canvas->geometry->pixel_aspect_ratio;
+        desiredWindowSize.width *= pixel_aspect_ratio;
+    }
+
     // create a new vice window (and a glView)
-    VICEWindow *window = [[VICEWindow alloc] initWithContentRect:[self placeCanvas:size]
+    VICEWindow *window = [[VICEWindow alloc] initWithContentRect:[self placeCanvas:desiredWindowSize]
                                                            title:title
-                                                      canvasSize:size];
+                                                      canvasSize:size
+                                                pixelAspectRatio:pixel_aspect_ratio];
 
     // setup embedded gl view
     VICEGLView *glView = [window getVICEGLView];
     [glView setCanvasId:canvas->canvasId];
+    [glView setPixelAspectRatio:pixel_aspect_ratio];
 
     // fill canvas structure for rendering
     canvas->window = window;
@@ -557,8 +569,14 @@ const float control_win_width = 200;
 {
     video_canvas_t *canvas = *(video_canvas_t **)[canvasPtr bytes];
 
+    // retrieve active pixel aspect ratio
+    float pixel_aspect_ratio = 1.0f;
+    if(canvas->video_param->true_pixel_aspect) {
+        pixel_aspect_ratio = canvas->geometry->pixel_aspect_ratio;
+    }
+    
     // resize canvas window (and glView)
-    [canvas->window resizeCanvas:size];
+    [canvas->window resizeCanvas:size pixelAspectRatio:pixel_aspect_ratio];
 
     // update canvas parameters for rendering
     VICEGLView *glView = [canvas->window getVICEGLView];

@@ -30,7 +30,7 @@
 
 @implementation VICEWindow
 
-- (id)initWithContentRect:(NSRect)rect title:(NSString *)title canvasSize:(NSSize)size
+- (id)initWithContentRect:(NSRect)rect title:(NSString *)title canvasSize:(NSSize)size pixelAspectRatio:(float)par
 {    
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
 
@@ -46,7 +46,11 @@
     if ([def boolForKey:@"Textured Windows"])
         style |= NSTexturedBackgroundWindowMask;
     
-    // create window
+    // store pixel aspect ratio
+    pixelAspectRatio = par;
+    
+    // create window with desired size...
+    // Note: size might get overwritten by user prefs
     self = [super initWithContentRect:rect
                             styleMask:style
                               backing:NSBackingStoreBuffered
@@ -57,7 +61,7 @@
     // setup window
     [self setTitle:title];
     [self setFrameAutosaveName:title];
-    [self setContentMinSize:NSMakeSize(canvas_width / 2, canvas_height / 2)];
+    [self setContentMinSize:NSMakeSize(canvas_width * par / 2.0f, canvas_height / 2.0f)];
 
     // now size could have changed due to prefences size
     // so determine current canvas size
@@ -91,6 +95,9 @@
     [canvasView setAutoresizingMask: (NSViewWidthSizable | NSViewHeightSizable)];
     [canvasView resizeCanvas:NSMakeSize(canvas_width, canvas_height)];
     [canvasContainer addSubview:canvasView];
+
+    // propagate pixel aspect ratio
+    [canvasView setPixelAspectRatio:pixelAspectRatio];
 
     isFullscreen = false;
     return self;
@@ -128,34 +135,38 @@
     return [canvasView canvasId];
 }
 
-- (void)resizeCanvasToFactorX:(float)fx andY:(float)fy
+- (void)resizeWindowToFactorX:(float)fx andY:(float)fy
 {
     NSRect f = [self frame];
     NSSize s = [[self contentView] bounds].size;
     
-    f.size.width  = original_canvas_size.width * fx;
+    f.size.width  = original_canvas_size.width * fx * pixelAspectRatio;
     f.size.height += original_canvas_size.height * fy - s.height;
     f.origin.y    += s.height - original_canvas_size.height * fy;
     [self setFrame:f display:YES];
 }
 
-- (void)resizeCanvas:(NSSize)size
+- (void)resizeCanvas:(NSSize)size pixelAspectRatio:(float)par
 {
     // do not resize if same size
     if ((original_canvas_size.width  == size.width) && 
-        (original_canvas_size.height == size.height)) {
+        (original_canvas_size.height == size.height) &&
+        (pixelAspectRatio == par)) {
       return;
     }
     
     original_canvas_size = size;
+    pixelAspectRatio = par;
+    [canvasView setPixelAspectRatio:par];
     [canvasView resizeCanvas:size];
     
     //NSLog(@"resize: canvas %g x %g scale %g x %g",size.width,size.height,scale_x,scale_y);
 
-    [self setContentMinSize:NSMakeSize(size.width / 2, size.height / 2)];
-    [self resizeCanvasToFactorX:scale_x andY:scale_y];
+    [self setContentMinSize:NSMakeSize(size.width * par / 2.0f, size.height / 2.0f)];
+    [self resizeWindowToFactorX:scale_x andY:scale_y];
 }
 
+// Note: resize Window here... not Canvas!
 - (void)resizeCanvasToMultipleSize:(id)sender
 {
     int factor = 1;
@@ -164,7 +175,7 @@
 
     scale_x = factor;
     scale_y = factor;
-    [self resizeCanvasToFactorX:factor andY:factor];
+    [self resizeWindowToFactorX:factor andY:factor];
 }
 
 - (BOOL)windowShouldClose:(id)sender
@@ -184,12 +195,15 @@
     float contentHeight = proposedFrameSize.height - titleHeight;
     float contentWidth  = proposedFrameSize.width;
 
+    float canvasWidthPAR = original_canvas_size.width * pixelAspectRatio;
+    float canvasHeight = original_canvas_size.height;
+
     // SHIFT allows all sizes unconstraint
     if (modifierMask & NSShiftKeyMask ||
         ![[self contentView] inLiveResize])
     {
-        scale_x = contentWidth  / original_canvas_size.width;
-        scale_y = contentHeight / original_canvas_size.height;
+        scale_x = contentWidth  / canvasWidthPAR;
+        scale_y = contentHeight / canvasHeight;
         
         return proposedFrameSize;
     }
@@ -197,18 +211,24 @@
     // ALT locks to multiple size x1, x2, ...
     if (modifierMask & NSAlternateKeyMask)
     {
-        float ratio = floor(contentHeight / original_canvas_size.height + 0.5);
-        if (ratio < 1.0)
-            ratio = 1.0;
-        contentHeight = original_canvas_size.height * ratio;
+        float scale = floor(contentHeight / canvasHeight + 0.5);
+        if (scale < 1.0)
+            scale = 1.0;
+        contentWidth  = scale * canvasWidthPAR;
+        contentHeight = scale * canvasHeight;
+        
+        scale_x = scale;
+        scale_y = scale;
+        
+        return NSMakeSize(contentWidth, contentHeight + titleHeight);
     }
 
-    float aspect_ratio = original_canvas_size.width / original_canvas_size.height;
-    contentWidth = contentHeight * aspect_ratio;
-    
-    // update canvas to window scale
-    scale_x = contentWidth  / original_canvas_size.width;
-    scale_y = contentHeight / original_canvas_size.height;
+    // arbitrary but proportional scale
+    float scale = contentHeight / canvasHeight;
+    contentWidth  = scale * canvasWidthPAR;
+
+    scale_x = scale;
+    scale_y = scale;
     
     return NSMakeSize(contentWidth, contentHeight + titleHeight);
 }
@@ -241,6 +261,7 @@
     } else {
         [self orderOut:nil];
         fullscreenWindow = [[FullscreenWindow alloc] init];
+        [fullscreenWindow setCanvasId:[canvasView canvasId]];
         [fullscreenWindow setToggler:self];
         [fullscreenWindow setContentView:canvasView];
         [fullscreenWindow makeKeyAndOrderFront:self];

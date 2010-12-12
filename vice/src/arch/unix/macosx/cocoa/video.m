@@ -45,7 +45,7 @@ static video_param_t video_param;
 // ---------- VICE Video Resources ----------
 
 /* tell all canvases to reconfigure after setting new video_param resources */
-static void video_reconfigure()
+static void video_reconfigure(int sizeAffected)
 {
     int numCanvases = [theVICEMachine getNumCanvases];
     int i;
@@ -55,8 +55,14 @@ static void video_reconfigure()
 
         NSData *data = [NSData dataWithBytes:&canvas length:sizeof(video_canvas_t *)];
 
-        // call UI thread to reconfigure canvas
-        [[theVICEMachine app] reconfigureCanvas:data];
+        if(sizeAffected) {
+            int width = canvas->width;
+            int height = canvas->height;
+            [[theVICEMachine app] resizeCanvas:data withSize:NSMakeSize(width,height)];
+        } else {
+            // call UI thread to reconfigure canvas
+            [[theVICEMachine app] reconfigureCanvas:data];
+        }
     }
 }
 
@@ -67,7 +73,7 @@ static int set_sync_draw_mode(int val, void *param)
     
     if(val != video_param.sync_draw_mode) {
         video_param.sync_draw_mode = val;
-        video_reconfigure();
+        video_reconfigure(0);
     }
     return 0;
 }
@@ -81,7 +87,7 @@ static int set_sync_draw_buffers(int val, void *param)
 
     if(val != video_param.sync_draw_buffers) {            
         video_param.sync_draw_buffers = val;
-        video_reconfigure();
+        video_reconfigure(0);
     }
     return 0;
 }
@@ -95,7 +101,21 @@ static int set_sync_draw_flicker_fix(int val, void *param)
 
     if(val != video_param.sync_draw_flicker_fix) {            
         video_param.sync_draw_flicker_fix = val;
-        video_reconfigure();
+        video_reconfigure(0);
+    }
+    return 0;
+}
+
+static int set_true_pixel_aspect(int val, void *param)
+{
+    if(val)
+        val = 1;
+    else
+        val = 0;
+
+    if(val != video_param.true_pixel_aspect) {            
+        video_param.true_pixel_aspect = val;
+        video_reconfigure(1);
     }
     return 0;
 }
@@ -108,6 +128,8 @@ static resource_int_t resources_int[] =
        &video_param.sync_draw_buffers, set_sync_draw_buffers, NULL },
     { "SyncDrawFlickerFix", 0, RES_EVENT_NO, NULL,
        &video_param.sync_draw_flicker_fix, set_sync_draw_flicker_fix, NULL },
+    { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
+       &video_param.true_pixel_aspect, set_true_pixel_aspect, NULL },
     { NULL }
  };
 
@@ -143,6 +165,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       NULL, T_("Enable flicker fixing in sync draw") },
+    { "-trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Enable true aspect ratio") },
+    { "+trueaspect", SET_RESOURCE, 0,
+      NULL, NULL, "TrueAspectRatio", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Disable true aspect ratio") },
     { NULL }
 };
 

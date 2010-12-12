@@ -120,6 +120,9 @@ typedef struct texture_s texture_t;
     CGLContextObj        cglPixelBufferContext;
     BOOL                 pixelBufferValid;
     GLuint               pixelBufferTextureId;
+    
+    // Pixel Aspect Ratio
+    float           pixelAspectRatio;
 }
 
 // ----- interface -----
@@ -150,6 +153,9 @@ typedef struct texture_s texture_t;
 
 // return the current canvas id assigned to this view
 - (int)canvasId;
+
+// set the pixel aspect ratio for this view
+- (void)setPixelAspectRatio:(float)par;
 
 // ----- local -----
 

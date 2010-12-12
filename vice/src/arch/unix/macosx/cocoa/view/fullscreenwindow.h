@@ -34,6 +34,8 @@
 @interface FullscreenWindow : NSWindow
 {
     id<FullscreenToggling> toggler;
+    
+    int canvasId;
 }
 
 -(id)init;
@@ -43,6 +45,9 @@
 
 -(void)toggleFullscreen:(id)sender;
 -(void)setToggler:(id<FullscreenToggling>)toggler;
+
+-(void)setCanvasId:(int)id;
+-(int)canvasId;
 
 @end
 

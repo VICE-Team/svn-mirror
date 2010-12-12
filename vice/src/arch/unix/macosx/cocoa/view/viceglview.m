@@ -109,6 +109,9 @@ extern log_t video_log;
     // ----- Texture -----
     [self initTextures];
 
+    // ----- Pixel Aspect Ratio -----
+    pixelAspectRatio = 1.0f;
+
     return self;
 }
 
@@ -394,6 +397,14 @@ extern log_t video_log;
     return canvasId;
 }
 
+- (void)setPixelAspectRatio:(float)par
+{
+    if(par != pixelAspectRatio) {
+        pixelAspectRatio = par;
+        log_message(video_log, "set canvas [%d] pixel aspect ratio to %g", canvasId, pixelAspectRatio);
+    }
+}
+
 // ---------- Cocoa Calls ---------------------------------------------------
 
 - (void)commonGLSetup
@@ -464,7 +475,7 @@ extern log_t video_log;
     
     // reshape viewport so that the texture size fits in without ratio distortion
     float ratio = size.width / size.height;
-    float textureRatio = textureSize.width / textureSize.height;
+    float textureRatio = textureSize.width * pixelAspectRatio / textureSize.height;    
     viewSize    = size;
     viewOrigin  = NSMakePoint(0.0,0.0);
     if (ratio < (textureRatio-0.01)) {
