@@ -345,8 +345,6 @@ void Filter::enable_filter(bool enable)
 void Filter::set_chip_model(chip_model model)
 {
   sid_model = model;
-
-  set_w0();
 }
 
 
