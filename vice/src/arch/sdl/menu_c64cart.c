@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -199,19 +200,142 @@ static UI_MENU_CALLBACK(set_c64_cart_default_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(c64_cart_flush_callback)
+{
+    if (activated) {
+        int cartid = vice_ptr_to_int(param);
+
+        if (cartridge_flush_image(cartid) < 0) {
+            ui_error("Cannot save cartridge image.");
+        }
+    }
+    return NULL;
+}
+
+
+/* RAMCART */
+
+UI_MENU_DEFINE_TOGGLE(RAMCART)
+UI_MENU_DEFINE_TOGGLE(RAMCART_RO)
+UI_MENU_DEFINE_RADIO(RAMCARTsize)
+UI_MENU_DEFINE_FILE_STRING(RAMCARTfilename)
+UI_MENU_DEFINE_TOGGLE(RAMCARTImageWrite)
+
+static const ui_menu_entry_t ramcart_menu[] = {
+    { "Enable RAMCART",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RAMCART_callback,
+      NULL },
+    { "RAMCART read-only",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RAMCART_RO_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Memory size"),
+    { "64kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_RAMCARTsize_callback,
+      (ui_callback_data_t)64 },
+    { "128kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_RAMCARTsize_callback,
+      (ui_callback_data_t)128 },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "RAMCART image file",
+      MENU_ENTRY_DIALOG,
+      file_string_RAMCARTfilename_callback,
+      (ui_callback_data_t)"Select RAMCART image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RAMCARTImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_RAMCART },
+    SDL_MENU_LIST_END
+};
+
+
+/* REU */
+
+UI_MENU_DEFINE_TOGGLE(REU)
+UI_MENU_DEFINE_RADIO(REUsize)
+UI_MENU_DEFINE_FILE_STRING(REUfilename)
+UI_MENU_DEFINE_TOGGLE(REUImageWrite)
+
+static const ui_menu_entry_t reu_menu[] = {
+    { "Enable REU",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_REU_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Memory size"),
+    { "128kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)128 },
+    { "256kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)256 },
+    { "512kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)512 },
+    { "1024kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)1024 },
+    { "2048kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)2048 },
+    { "4096kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)4096 },
+    { "8192kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)8192 },
+    { "16384kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_REUsize_callback,
+      (ui_callback_data_t)16384 },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "REU image file",
+      MENU_ENTRY_DIALOG,
+      file_string_REUfilename_callback,
+      (ui_callback_data_t)"Select REU image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_REUImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_REU },
+    SDL_MENU_LIST_END
+};
+
 
 /* Expert cartridge */
 
 UI_MENU_DEFINE_TOGGLE(ExpertCartridgeEnabled)
 UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
+UI_MENU_DEFINE_FILE_STRING(Expertfilename)
+UI_MENU_DEFINE_TOGGLE(ExpertImageWrite)
 
 static const ui_menu_entry_t expert_cart_menu[] = {
-    { "Enable Expert cartridge",
+    { "Enable Expert Cartridge",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_ExpertCartridgeEnabled_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Expert cartridge mode"),
+    SDL_MENU_ITEM_TITLE("Expert Cartridge mode"),
     { "Off",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExpertCartridgeMode_callback,
@@ -224,6 +348,20 @@ static const ui_menu_entry_t expert_cart_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_ExpertCartridgeMode_callback,
       (ui_callback_data_t)EXPERT_MODE_ON },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "Expert Cartridge image file",
+      MENU_ENTRY_DIALOG,
+      file_string_Expertfilename_callback,
+      (ui_callback_data_t)"Select Expert image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_ExpertImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_EXPERT },
     SDL_MENU_LIST_END
 };
 
@@ -232,6 +370,7 @@ static const ui_menu_entry_t expert_cart_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(DQBB)
 UI_MENU_DEFINE_FILE_STRING(DQBBfilename)
+UI_MENU_DEFINE_TOGGLE(DQBBImageWrite)
 
 static const ui_menu_entry_t dqbb_cart_menu[] = {
     { "Enable DQBB",
@@ -244,6 +383,14 @@ static const ui_menu_entry_t dqbb_cart_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_DQBBfilename_callback,
       (ui_callback_data_t)"Select DQBB image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DQBBImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_DQBB },
     SDL_MENU_LIST_END
 };
 
@@ -252,6 +399,8 @@ static const ui_menu_entry_t dqbb_cart_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
 UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
+UI_MENU_DEFINE_FILE_STRING(Isepicfilename)
+UI_MENU_DEFINE_TOGGLE(IsepicImageWrite)
 
 static const ui_menu_entry_t isepic_cart_menu[] = {
     { "Enable ISEPIC cart",
@@ -262,6 +411,20 @@ static const ui_menu_entry_t isepic_cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IsepicSwitch_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "ISEPIC image file",
+      MENU_ENTRY_DIALOG,
+      file_string_Isepicfilename_callback,
+      (ui_callback_data_t)"Select ISEPIC image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IsepicImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_ISEPIC },
     SDL_MENU_LIST_END
 };
 
@@ -271,29 +434,80 @@ static const ui_menu_entry_t isepic_cart_menu[] = {
 UI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
 UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
 
-static UI_MENU_CALLBACK(easyflash_save_callback)
-{
-    if (activated) {
-        if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
-            ui_error("Cannot save cartridge image.");
-        }
-    }
-    return NULL;
-}
 
 static const ui_menu_entry_t easyflash_cart_menu[] = {
     { "Jumper",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EasyFlashJumper_callback,
       NULL },
-    { "Save CRT on detach",
+    { "Save image on detach",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EasyFlashWriteCRT_callback,
       NULL },
-    { "Save CRT now",
+    { "Save image now",
       MENU_ENTRY_OTHER,
-      easyflash_save_callback,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_EASYFLASH },
+    SDL_MENU_LIST_END
+};
+
+
+/* GEORAM */
+
+UI_MENU_DEFINE_TOGGLE(GEORAM)
+UI_MENU_DEFINE_RADIO(GEORAMsize)
+UI_MENU_DEFINE_FILE_STRING(GEORAMfilename)
+UI_MENU_DEFINE_TOGGLE(GEORAMImageWrite)
+
+static const ui_menu_entry_t georam_menu[] = {
+    { "Enable GEORAM",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GEORAM_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Memory size"),
+    { "64kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)64 },
+    { "128kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)128 },
+    { "256kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)256 },
+    { "512kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)512 },
+    { "1024kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)1024 },
+    { "2048kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)2048 },
+    { "4096kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)4096 },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "GEORAM image file",
+      MENU_ENTRY_DIALOG,
+      file_string_GEORAMfilename_callback,
+      (ui_callback_data_t)"Select GEORAM image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GEORAMImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_GEORAM },
     SDL_MENU_LIST_END
 };
 
@@ -350,27 +564,30 @@ static const ui_menu_entry_t mmc64_cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_MMC64_flashjumper_callback,
       NULL },
-    { "BIOS writes",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMC64_bios_write_callback,
-      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("MMC64 BIOS image"),
     { "MMC64 BIOS image file",
       MENU_ENTRY_DIALOG,
       file_string_MMC64BIOSfilename_callback,
       (ui_callback_data_t)"Select MMC64 BIOS image" },
-    SDL_MENU_ITEM_SEPARATOR,
-    { "MMC64 image read-only",
+    { "Save image on detach",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMC64_RO_callback,
+      toggle_MMC64_bios_write_callback,
       NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_MMC64 },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("MMC64 MMC/SD image"),
     { "MMC64 MMC/SD image file",
       MENU_ENTRY_DIALOG,
       file_string_MMC64imagefilename_callback,
       (ui_callback_data_t)"Select MMC64 MMC/SD image" },
+    { "MMC64 image read-only",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMC64_RO_callback,
+      NULL },
     { "Card type",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -408,27 +625,46 @@ UI_MENU_DEFINE_FILE_STRING(MMCREEPROMImage)
 UI_MENU_DEFINE_TOGGLE(MMCRCardRW)
 UI_MENU_DEFINE_TOGGLE(MMCREEPROMRW)
 UI_MENU_DEFINE_TOGGLE(MMCRRescueMode)
+UI_MENU_DEFINE_TOGGLE(MMCRImageWrite)
 
 static const ui_menu_entry_t mmcreplay_cart_menu[] = {
-    { "Card image file",
+    { "Rescue mode",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMCRRescueMode_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("MMCR BIOS image"),
+    { "MMCR BIOS image file",
       MENU_ENTRY_DIALOG,
-      file_string_MMCRCardImage_callback,
-      (ui_callback_data_t)"Select MMC Replay card image" },
+      file_string_MMC64BIOSfilename_callback,
+      (ui_callback_data_t)"Select MMC64 BIOS image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_MMCRImageWrite_callback,
+      NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_MMC_REPLAY },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("MMCR EEPROM image"),
     { "EEPROM image file",
       MENU_ENTRY_DIALOG,
       file_string_MMCREEPROMImage_callback,
       (ui_callback_data_t)"Select MMC Replay EEPROM image" },
-    { "Enable writes to card image",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMCRCardRW_callback,
-      NULL },
     { "Enable writes to EEPROM image",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_MMCREEPROMRW_callback,
       NULL },
-    { "Enable rescue mode",
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("MMCR MMC/SD image"),
+    { "Card image file",
+      MENU_ENTRY_DIALOG,
+      file_string_MMCRCardImage_callback,
+      (ui_callback_data_t)"Select MMC Replay card image" },
+    { "Enable writes to card image",
       MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_MMCRRescueMode_callback,
+      toggle_MMCRCardRW_callback,
       NULL },
     { "Card type",
       MENU_ENTRY_SUBMENU,
@@ -453,10 +689,14 @@ static const ui_menu_entry_t retroreplay_cart_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RRFlashJumper_callback,
       NULL },
-    { "BIOS writes",
+    { "Save image on detach",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RRBiosWrite_callback,
       NULL },
+    { "Save image now",
+      MENU_ENTRY_OTHER,
+      c64_cart_flush_callback,
+      (ui_callback_data_t)CARTRIDGE_RETRO_REPLAY },
     SDL_MENU_LIST_END
 };
 
@@ -492,11 +732,11 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)attach_raw_cart_menu },
-    SDL_MENU_ITEM_SEPARATOR,
     { "Detach cartridge image",
       MENU_ENTRY_OTHER,
       detach_c64_cart_callback,
       NULL },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Cartridge freeze",
       MENU_ENTRY_OTHER,
       c64_cart_freeze_callback,

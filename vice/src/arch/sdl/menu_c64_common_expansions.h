@@ -33,9 +33,6 @@
 
 extern const ui_menu_entry_t soundexpander_menu[];
 extern const ui_menu_entry_t digimax_menu[];
-extern const ui_menu_entry_t georam_menu[];
 extern const ui_menu_entry_t ide64_menu[];
-extern const ui_menu_entry_t ramcart_menu[];
-extern const ui_menu_entry_t reu_menu[];
 
 #endif
