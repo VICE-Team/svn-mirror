@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __VOICE_H__
-#define __VOICE_H__
+#ifndef RESID_VOICE_H
+#define RESID_VOICE_H
 
 #include "siddefs.h"
 #include "wave.h"
@@ -59,7 +59,7 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINING || defined(__VOICE_CC__)
+#if RESID_INLINING || defined(RESID_VOICE_CC)
 
 // ----------------------------------------------------------------------------
 // Amplitude modulated waveform output (20 bits).
@@ -102,8 +102,8 @@ int Voice::output()
   return (wave.output() - wave_zero)*envelope.output();
 }
 
-#endif // RESID_INLINING || defined(__VOICE_CC__)
+#endif // RESID_INLINING || defined(RESID_VOICE_CC)
 
 } // namespace reSID
 
-#endif // not __VOICE_H__
+#endif // not RESID_VOICE_H

@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __WAVE_H__
-#define __WAVE_H__
+#ifndef RESID_WAVE_H
+#define RESID_WAVE_H
 
 #include "siddefs.h"
 
@@ -128,7 +128,7 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINING || defined(__WAVE_CC__)
+#if RESID_INLINING || defined(RESID_WAVE_CC)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
@@ -549,8 +549,8 @@ reg12 WaveformGenerator::output()
   return model_dac[sid_model][waveform_output];
 }
 
-#endif // RESID_INLINING || defined(__WAVE_CC__)
+#endif // RESID_INLINING || defined(RESID_WAVE_CC)
 
 } // namespace reSID
 
-#endif // not __WAVE_H__
+#endif // not RESID_WAVE_H

@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __SPLINE_H__
-#define __SPLINE_H__
+#ifndef RESID_SPLINE_H
+#define RESID_SPLINE_H
 
 namespace reSID
 {
@@ -273,4 +273,4 @@ class PointPlotter
 
 } // namespace reSID
 
-#endif // not __SPLINE_H__
+#endif // not RESID_SPLINE_H

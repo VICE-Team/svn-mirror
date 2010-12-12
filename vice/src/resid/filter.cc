@@ -17,7 +17,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __FILTER_CC__
+#define RESID_FILTER_CC
 
 #include "filter.h"
 #include "dac.h"
@@ -258,7 +258,7 @@ Filter::Filter()
       // Note that all "on" transistors are modeled as one. This is not
       // entirely accurate, since the input for each transistor is different,
       // and transistors are not linear components. However modeling all
-      // transistors separately would
+      // transistors separately would be extremely costly.
       x = mf.vo_T19;
       int offset = 0;
       int size;

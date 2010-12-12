@@ -17,7 +17,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __WAVE_CC__
+#define RESID_WAVE_CC
 
 #include "wave.h"
 #include "dac.h"

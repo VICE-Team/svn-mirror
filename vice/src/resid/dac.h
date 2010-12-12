@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __DAC_H__
-#define __DAC_H__
+#ifndef RESID_DAC_H
+#define RESID_DAC_H
 
 namespace reSID
 {
@@ -27,4 +27,4 @@ void build_dac_table(unsigned int* dac, int bits, double _2R_div_R, bool term);
 
 } // namespace reSID
 
-#endif // not __DAC_H__
+#endif // not RESID_DAC_H

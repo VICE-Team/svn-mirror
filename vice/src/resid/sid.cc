@@ -17,7 +17,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __SID_CC__
+#define RESID_SID_CC
 
 #include "sid.h"
 #include <math.h>

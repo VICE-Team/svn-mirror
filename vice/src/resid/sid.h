@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __SID_H__
-#define __SID_H__
+#ifndef RESID_SID_H
+#define RESID_SID_H
 
 #include "siddefs.h"
 #include "voice.h"
@@ -162,4 +162,4 @@ public:
 
 } // namespace reSID
 
-#endif // not __SID_H__
+#endif // not RESID_SID_H

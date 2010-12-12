@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __ENVELOPE_H__
-#define __ENVELOPE_H__
+#ifndef RESID_ENVELOPE_H
+#define RESID_ENVELOPE_H
 
 #include "siddefs.h"
 
@@ -98,7 +98,7 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINING || defined(__ENVELOPE_CC__)
+#if RESID_INLINING || defined(RESID_ENVELOPE_CC)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
@@ -329,8 +329,8 @@ void EnvelopeGenerator::set_exponential_counter()
   }
 }
 
-#endif // RESID_INLINING || defined(__ENVELOPE_CC__)
+#endif // RESID_INLINING || defined(RESID_ENVELOPE_CC)
 
 } // namespace reSID
 
-#endif // not __ENVELOPE_H__
+#endif // not RESID_ENVELOPE_H

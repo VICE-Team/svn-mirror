@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __FILTER_H__
-#define __FILTER_H__
+#ifndef RESID_FILTER_H
+#define RESID_FILTER_H
 
 #include "siddefs.h"
 #include <math.h>
@@ -464,7 +464,7 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINING || defined(__FILTER_CC__)
+#if RESID_INLINING || defined(RESID_FILTER_CC)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
@@ -1505,8 +1505,8 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
   return (x - vc) - mf.vo_T19;
 }
 
-#endif // RESID_INLINING || defined(__FILTER_CC__)
+#endif // RESID_INLINING || defined(RESID_FILTER_CC)
 
 } // namespace reSID
 
-#endif // not __FILTER_H__
+#endif // not RESID_FILTER_H

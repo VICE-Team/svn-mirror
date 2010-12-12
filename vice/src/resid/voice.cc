@@ -17,7 +17,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#define __VOICE_CC__
+#define RESID_VOICE_CC
 
 #include "voice.h"
 

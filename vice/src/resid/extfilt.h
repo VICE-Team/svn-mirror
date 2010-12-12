@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __EXTFILT_H__
-#define __EXTFILT_H__
+#ifndef RESID_EXTFILT_H
+#define RESID_EXTFILT_H
 
 #include "siddefs.h"
 
@@ -74,7 +74,7 @@ friend class SID;
 // time a sample is calculated.
 // ----------------------------------------------------------------------------
 
-#if RESID_INLINING || defined(__EXTFILT_CC__)
+#if RESID_INLINING || defined(RESID_EXTFILT_CC)
 
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
@@ -157,8 +157,8 @@ short ExternalFilter::output()
   return Vo;
 }
 
-#endif // RESID_INLINING || defined(__EXTFILT_CC__)
+#endif // RESID_INLINING || defined(RESID_EXTFILT_CC)
 
 } // namespace reSID
 
-#endif // not __EXTFILT_H__
+#endif // not RESID_EXTFILT_H
