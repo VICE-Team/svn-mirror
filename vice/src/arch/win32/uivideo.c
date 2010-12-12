@@ -50,10 +50,6 @@
 #include "winlong.h"
 #include "winmain.h"
 
-static char *palette_file = NULL;
-static char *palette_file2 = NULL;
-static int  res_extpalette;
-
 static const char *vicii_palettes[] = {
     "default",
     "c64hq",
@@ -94,42 +90,54 @@ typedef struct {
     const char **palette_names;
     char *res_PaletteFile_name;
     char *res_ExternalPalette_name;
-    int  palette_mode;
-    char *page_title;
+    int page_title;
+    int external_pal;
+    char *file_name;
+    char *scale2x_resource;
 } Chip_Parameters;
 
 static Chip_Parameters chip_param_table[] =
 {
     { vicii_palettes, "VICIIPaletteFile", "VICIIExternalPalette",
-      UI_VIDEO_PAL, "VICII Palette"},
+      IDS_VICII_PALETTE, 0, NULL, "VICIIScale2x" },
     { vic_palettes, "VICPaletteFile", "VICExternalPalette",
-      UI_VIDEO_PAL, "VIC Palette"},
-    { crtc_palettes, "CRTCPaletteFile", NULL,
-      UI_VIDEO_RGB, "CRTC Palette"},
-    { vdc_palettes, "VDCPaletteFile", NULL,
-      UI_VIDEO_RGB, "VDC Palette"},
+      IDS_VIC_PALETTE, 0, NULL, "VICScale2x" },
+    { crtc_palettes, "CRTCPaletteFile", "CRTCExternalPalette",
+      IDS_CRTC_PALETTE, 0, NULL, NULL },
+    { vdc_palettes, "VDCPaletteFile", "VDCExternalPalette",
+      IDS_VDC_PALETTE, 0, NULL, NULL },
     { ted_palettes, "TEDPaletteFile", "TEDExternalPalette",
-      UI_VIDEO_PAL, "TED Palette"},
+      IDS_TED_PALETTE, 0, NULL, "TEDScale2x" },
 };
 
+static HWND palette_dialog_1 = NULL;
+static Chip_Parameters *current_chip_1 = NULL;
+static Chip_Parameters *current_chip_2 = NULL;
+
 static uilib_localize_dialog_param color_dialog_trans[] = {
-    { IDC_COLORS_SATURATION, IDS_COLORS_SATURATION, 0 },
-    { IDC_COLORS_CONTRAST, IDS_COLORS_CONTRAST, 0 },
-    { IDC_COLORS_BRIGHTNESS, IDS_COLORS_BRIGHTNESS, 0 },
+    { IDC_VIDEO_COLORS_GAMMA_LABEL, IDS_COLORS_GAMMA, 0 },
+    { IDC_VIDEO_COLORS_TINT_LABEL, IDS_COLORS_TINT, 0 },
+    { IDC_VIDEO_COLORS_SATURATION_LABEL, IDS_COLORS_SATURATION, 0 },
+    { IDC_VIDEO_COLORS_CONTRAST_LABEL, IDS_COLORS_CONTRAST, 0 },
+    { IDC_VIDEO_COLORS_BRIGHTNESS_LABEL, IDS_COLORS_BRIGHTNESS, 0 },
     { 0, 0, 0 }
 };
 
 static uilib_dialog_group color_left_group[] = {
-    { IDC_COLORS_SATURATION, 0 },
-    { IDC_COLORS_CONTRAST, 0 },
-    { IDC_COLORS_BRIGHTNESS, 0 },
+    { IDC_VIDEO_COLORS_GAMMA_LABEL, 0 },
+    { IDC_VIDEO_COLORS_TINT_LABEL, 0 },
+    { IDC_VIDEO_COLORS_SATURATION_LABEL, 0 },
+    { IDC_VIDEO_COLORS_CONTRAST_LABEL, 0 },
+    { IDC_VIDEO_COLORS_BRIGHTNESS_LABEL, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group color_right_group[] = {
-    { IDC_VIDEO_COLORS_SAT, 0 },
-    { IDC_VIDEO_COLORS_CON, 0 },
-    { IDC_VIDEO_COLORS_BRI, 0 },
+    { IDC_VIDEO_COLORS_GAMMA, 0 },
+    { IDC_VIDEO_COLORS_TINT, 0 },
+    { IDC_VIDEO_COLORS_SATURATION, 0 },
+    { IDC_VIDEO_COLORS_CONTRAST, 0 },
+    { IDC_VIDEO_COLORS_BRIGHTNESS, 0 },
     { 0, 0 }
 };
 
@@ -152,44 +160,57 @@ static void init_color_dialog(HWND hwnd)
     /* move the right group to the correct position */
     uilib_move_group(hwnd, color_right_group, xpos + 10);
 
+    resources_get_int("ColorGamma", &val);
+    fval = ((double)val) / 1000.0;
+    _stprintf(newval, TEXT("%.3f"), (float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAMMA, newval);
+
+    resources_get_int("ColorTint", &val);
+    fval = ((double)val) / 1000.0;
+    _stprintf(newval, TEXT("%.3f"), (float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_TINT, newval);
+
     resources_get_int("ColorSaturation", &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, newval);
+    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_SATURATION, newval);
 
     resources_get_int("ColorContrast", &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, newval);
+    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_CONTRAST, newval);
 
     resources_get_int("ColorBrightness", &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, newval);
+    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRIGHTNESS, newval);
 }
 
-static uilib_localize_dialog_param new_pal_dialog_trans[] = {
-    { IDC_NEW_PAL_TINT, IDS_NEW_PAL_TINT, 0 },
-    { IDC_NEW_PAL_ODD_LINES_PHASE, IDS_NEW_PAL_ODD_LINES_PHASE, 0 },
-    { IDC_NEW_PAL_ODD_LINES_OFFSET, IDS_NEW_PAL_ODD_LINES_OFFSET, 0 },
+static uilib_localize_dialog_param crt_emulation_dialog_trans[] = {
+    { IDC_VIDEO_CRT_SCANLINE_SHADE_LABEL, IDS_CRT_SCANLINE_SHADE, 0 },
+    { IDC_VIDEO_CRT_BLUR_LABEL, IDS_CRT_BLUR, 0 },
+    { IDC_VIDEO_CRT_ODDLINE_PHASE_LABEL, IDS_CRT_ODDLINE_PHASE, 0 },
+    { IDC_VIDEO_CRT_ODDLINE_OFFSET_LABEL, IDS_CRT_ODDLINE_OFFSET, 0 },
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group new_pal_left_group[] = {
-    { IDC_NEW_PAL_TINT, 0 },
-    { IDC_NEW_PAL_ODD_LINES_PHASE, 0 },
-    { IDC_NEW_PAL_ODD_LINES_OFFSET, 0 },
+static uilib_dialog_group crt_emulation_left_group[] = {
+    { IDC_VIDEO_CRT_SCANLINE_SHADE_LABEL, 0 },
+    { IDC_VIDEO_CRT_BLUR_LABEL, 0 },
+    { IDC_VIDEO_CRT_ODDLINE_PHASE_LABEL, 0 },
+    { IDC_VIDEO_CRT_ODDLINE_OFFSET_LABEL, 0 },
     { 0, 0 }
 };
 
-static uilib_dialog_group new_pal_right_group[] = {
-    { IDC_VIDEO_NEW_PAL_TINT, 0 },
-    { IDC_VIDEO_NEW_PAL_PHASE, 0 },
-    { IDC_VIDEO_NEW_PAL_OFFSET, 0 },
+static uilib_dialog_group crt_emulation_right_group[] = {
+    { IDC_VIDEO_CRT_SCANLINE_SHADE, 0 },
+    { IDC_VIDEO_CRT_BLUR, 0 },
+    { IDC_VIDEO_CRT_ODDLINE_PHASE, 0 },
+    { IDC_VIDEO_CRT_ODDLINE_OFFSET, 0 },
     { 0, 0 }
 };
 
-static void init_new_pal_dialog(HWND hwnd)
+static void init_crt_emulation_dialog(HWND hwnd)
 {
     int val;
     double fval;
@@ -197,85 +218,58 @@ static void init_new_pal_dialog(HWND hwnd)
     int xpos;
 
     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, new_pal_dialog_trans);
+    uilib_localize_dialog(hwnd, crt_emulation_dialog_trans);
 
     /* adjust the size of the elements in the left group */
-    uilib_adjust_group_width(hwnd, new_pal_left_group);
+    uilib_adjust_group_width(hwnd, crt_emulation_left_group);
 
     /* get the max x of the left group */
-    uilib_get_group_max_x(hwnd, new_pal_left_group, &xpos);
+    uilib_get_group_max_x(hwnd, crt_emulation_left_group, &xpos);
 
     /* move the right group to the correct position */
-    uilib_move_group(hwnd, new_pal_right_group, xpos + 10);
+    uilib_move_group(hwnd, crt_emulation_right_group, xpos + 10);
 
-    resources_get_int("ColorTint", &val);
+    resources_get_int("PALScanLineShade", &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_TINT, newval);
+    SetDlgItemText(hwnd, IDC_VIDEO_CRT_SCANLINE_SHADE, newval);
+
+    resources_get_int("PALBlur", &val);
+    fval = ((double)val) / 1000.0;
+    _stprintf(newval, TEXT("%.3f"), (float)fval);
+    SetDlgItemText(hwnd, IDC_VIDEO_CRT_BLUR, newval);
 
     resources_get_int("PALOddLinePhase", &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_PHASE, newval);
+    SetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_PHASE, newval);
 
     resources_get_int("PALOddLineOffset", &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_OFFSET, newval);
+    SetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_OFFSET, newval);
 }
 
-static Chip_Parameters *current_chip;
-static Chip_Parameters *current_chip2;
-
-static uilib_localize_dialog_param advanced_dialog_trans[] = {
-    { IDC_VIDEO_GAMMA, IDS_VIDEO_GAMMA, 0 },
-    { IDC_VIDEO_PHASE, IDS_VIDEO_PHASE, 0 },
-    { IDC_VIDEO_PAL_SHADE, IDS_VIDEO_PAL_SHADE, 0 },
-    { IDC_VIDEO_PAL_BLUR, IDS_VIDEO_PAL_BLUR, 0 },
+static uilib_localize_dialog_param palette_dialog_trans[] = {
     { IDC_TOGGLE_VIDEO_EXTPALETTE, IDS_TOGGLE_VIDEO_EXTPALETTE, 0 },
     { IDC_VIDEO_CUSTOM_BROWSE, IDS_BROWSE, 0 },
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group advanced_left_group[] = {
-    { IDC_VIDEO_GAMMA, 0 },
-    { IDC_VIDEO_PHASE, 0 },
-    { IDC_VIDEO_PAL_SHADE, 0 },
-    { IDC_VIDEO_PAL_BLUR, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group advanced_right_group[] = {
-    { IDC_VIDEO_COLORS_GAM, 0 },
-    { IDC_VIDEO_COLORS_PHA, 0 },
-    { IDC_VIDEO_ADVANCED_SHADE, 0 },
-    { IDC_VIDEO_ADVANCED_BLUR, 0 },
-    { 0, 0 }
-};
-
-static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
+static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
-    int n, val;
-    double fval;
-    TCHAR newval[64];
+    int n;
     const char *path;
     TCHAR *st_path;
     HWND filename_hwnd;
-    int xpos;
-    int xstart;
-    int size;
+    int xstart, xpos, size;
+
+    if (palette_dialog_1 == NULL) {
+        palette_dialog_1 = hwnd;
+    }
 
     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, advanced_dialog_trans);
-
-    /* adjust the size of the elements in the left group */
-    uilib_adjust_group_width(hwnd, advanced_left_group);
-
-    /* get the max x of the left group */
-    uilib_get_group_max_x(hwnd, advanced_left_group, &xpos);
-
-    /* move the right group to the correct position */
-    uilib_move_group(hwnd, advanced_right_group, xpos + 10);
+    uilib_localize_dialog(hwnd, palette_dialog_trans);
 
     /* adjust the size of the external palette element */
     uilib_adjust_element_width(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE);
@@ -294,38 +288,6 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
         uilib_move_and_set_element_width(hwnd, IDC_VIDEO_CUSTOM_NAME, xpos + 10, size - (xstart - (xpos + 10)));
     }
 
-    current_chip = chip_type;
-
-    resources_get_int("ColorGamma", &val);
-    fval = ((double)val) / 1000.0;
-    _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, newval);
-
-    /* As long as 'phase' isn't implemented, set a constant entry  */
-    SetDlgItemText(hwnd, IDC_VIDEO_COLORS_PHA, TEXT("N/A"));
-
-    resources_get_int("PALScanLineShade", &val);
-    fval = ((double)val) / 1000.0;
-    _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, newval);
-
-    resources_get_int("PALBlur", &val);
-    fval = ((double)val) / 1000.0;
-    _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, newval);
-
-    if (chip_type->res_ExternalPalette_name) {
-        resources_get_int(chip_type->res_ExternalPalette_name, &n);
-        CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n ? BST_CHECKED : BST_UNCHECKED);
-        res_extpalette = n;
-    } else {
-        res_extpalette = 0;
-        EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE), FALSE);
-    }
-
-    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_BROWSE), res_extpalette);
-    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME), res_extpalette);
-
     filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME);
     SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
     n = 0 ;
@@ -334,53 +296,72 @@ static void init_advanced_dialog(HWND hwnd, Chip_Parameters *chip_type)
         n++;
     }
     resources_get_string(chip_type->res_PaletteFile_name, &path);
-    palette_file = lib_stralloc(path);
+    lib_free(chip_type->file_name);
+    chip_type->file_name = lib_stralloc(path);
     st_path = system_mbstowcs_alloc(path);
     SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_path);
     system_mbstowcs_free(st_path);
+
+    resources_get_int(chip_type->res_ExternalPalette_name, &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, n ? BST_CHECKED : BST_UNCHECKED);
+    chip_type->external_pal = n;
 }
 
-static uilib_localize_dialog_param palette_dialog_trans[] = {
-    { IDC_VIDEO_CUSTOM_BROWSE, IDS_BROWSE, 0 },
-    { 0, 0, 0 }
+static uilib_localize_dialog_param render_filter_dialog_trans[] = {
+    {IDC_VIDEO_RENDER_FILTER_LABEL, IDS_RENDER_FILTER, 0},
+    {0, 0, 0}
 };
 
-static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
+static uilib_dialog_group render_filter_left_group[] = {
+    {IDC_VIDEO_RENDER_FILTER_LABEL,  0},
+    {0, 0}
+};
+
+static uilib_dialog_group render_filter_right_group[] = {
+    {IDC_VIDEO_RENDER_FILTER,  0},
+    {0, 0}
+};
+
+static void init_render_filter_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
-    int n;
-    const char *path;
-    TCHAR *st_path;
-    HWND filename_hwnd;
+    HWND setting_hwnd;
+    int xpos;
+    int res_value;
 
     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, palette_dialog_trans);
+    uilib_localize_dialog(hwnd, render_filter_dialog_trans);
 
-    current_chip2 = chip_type;
+    /* adjust the size of the elements in the left group */
+    uilib_adjust_group_width(hwnd, render_filter_left_group);
 
-    filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME);
-    SendMessage(filename_hwnd, CB_RESETCONTENT, 0, 0);
-    n = 0 ;
-    while (chip_type->palette_names[n] != NULL) {
-        SendMessage(filename_hwnd, CB_ADDSTRING, 0, (LPARAM)chip_type->palette_names[n]);
-        n++;
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, render_filter_left_group, &xpos);
+
+    /* set the position of the right group */
+    uilib_move_group(hwnd, render_filter_right_group, xpos + 10);
+
+    setting_hwnd = GetDlgItem(hwnd, IDC_VIDEO_RENDER_FILTER);
+    SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
+    SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_CRT_EMULATION));
+    if (chip_type->scale2x_resource != NULL) {
+        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SCALE2X));
     }
-    resources_get_string(chip_type->res_PaletteFile_name, &path);
-    palette_file2 = lib_stralloc(path);
-    st_path = system_mbstowcs_alloc(path);
-    SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_path);
-    system_mbstowcs_free(st_path);
-}
 
-static void update_palettename(char *name)
-{
-    lib_free(palette_file);
-    palette_file = lib_stralloc(name);
-}
-
-static void update_palettename2(char *name)
-{
-    lib_free(palette_file2);
-    palette_file2 = lib_stralloc(name);
+    resources_get_int("PALEmulation", &res_value);
+    if (res_value == 1) {
+        SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)1, 0);
+    } else {
+        if (chip_type->scale2x_resource != NULL) {
+            resources_get_int(chip_type->scale2x_resource, &res_value);
+            if (res_value == 1) {
+                SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)2, 0);
+            } else {
+                SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)0, 0);
+            }
+        } else {
+            SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)0, 0);
+        }
+    }
 }
 
 static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -392,15 +373,23 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
-                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SAT, s, 100);
+                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAMMA, s, 100);
+                _stscanf(s, TEXT("%f"), &tf);
+                ival = (int)(tf * 1000.0 + 0.5);
+                resources_set_int("ColorGamma", ival);
+                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_TINT, s, 100);
+                _stscanf(s, TEXT("%f"), &tf);
+                ival = (int)(tf * 1000.0 + 0.5);
+                resources_set_int("ColorTint", ival);
+                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SATURATION, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
                 ival = (int)(tf * 1000.0 + 0.5);
                 resources_set_int("ColorSaturation", ival);
-                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_CON, s, 100);
+                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_CONTRAST, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
                 ival = (int)(tf * 1000.0 + 0.5);
                 resources_set_int("ColorContrast", ival);
-                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRI, s, 100);
+                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRIGHTNESS, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
                 ival = (int)(tf * 1000.0 + 0.5);
                 resources_set_int("ColorBrightness", ival);
@@ -415,9 +404,11 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
         case WM_COMMAND:
             type = LOWORD(wparam);
             switch (type) {
-                case IDC_VIDEO_COLORS_SAT:
-                case IDC_VIDEO_COLORS_CON:
-                case IDC_VIDEO_COLORS_BRI:
+                case IDC_VIDEO_COLORS_GAMMA:
+                case IDC_VIDEO_COLORS_TINT:
+                case IDC_VIDEO_COLORS_SATURATION:
+                case IDC_VIDEO_COLORS_CONTRAST:
+                case IDC_VIDEO_COLORS_BRIGHTNESS:
                     break;
             }
             return TRUE;
@@ -425,7 +416,7 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
     return FALSE;
 }
 
-static INT_PTR CALLBACK dialog_new_pal_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_crt_emulation_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type, ival;
     float tf;
@@ -434,32 +425,41 @@ static INT_PTR CALLBACK dialog_new_pal_proc(HWND hwnd, UINT msg, WPARAM wparam, 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
-                GetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_TINT, s, 100);
+                GetDlgItemText(hwnd, IDC_VIDEO_CRT_SCANLINE_SHADE, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
                 ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("ColorTint", ival);
-                GetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_PHASE, s, 100);
+                resources_set_int("PALScanLineShade", ival);
+
+                GetDlgItemText(hwnd, IDC_VIDEO_CRT_BLUR, s, 100);
+                _stscanf(s, TEXT("%f"), &tf);
+                ival = (int)(tf * 1000.0 + 0.5);
+                resources_set_int("PALBlur", ival);
+
+                GetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_PHASE, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
                 ival = (int)(tf * 1000.0 + 0.5);
                 resources_set_int("PALOddLinePhase", ival);
-                GetDlgItemText(hwnd, IDC_VIDEO_NEW_PAL_OFFSET, s, 100);
+
+                GetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_OFFSET, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
                 ival = (int)(tf * 1000.0 + 0.5);
                 resources_set_int("PALOddLineOffset", ival);
+
                 querynewpalette = 1;
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
             return FALSE;
         case WM_INITDIALOG:
-            init_new_pal_dialog(hwnd);
+            init_crt_emulation_dialog(hwnd);
             return TRUE;
         case WM_COMMAND:
             type = LOWORD(wparam);
             switch (type) {
-                case IDC_VIDEO_NEW_PAL_TINT:
-                case IDC_VIDEO_NEW_PAL_PHASE:
-                case IDC_VIDEO_NEW_PAL_OFFSET:
+                case IDC_VIDEO_CRT_SCANLINE_SHADE:
+                case IDC_VIDEO_CRT_BLUR:
+                case IDC_VIDEO_CRT_ODDLINE_PHASE:
+                case IDC_VIDEO_CRT_ODDLINE_OFFSET:
                     break;
             }
             return TRUE;
@@ -467,58 +467,41 @@ static INT_PTR CALLBACK dialog_new_pal_proc(HWND hwnd, UINT msg, WPARAM wparam, 
     return FALSE;
 }
 
-static INT_PTR CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_palette_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int type, ival;
-    float tf;
-    TCHAR s[100];
+    int type;
+    Chip_Parameters *chip_type = (hwnd == palette_dialog_1) ? current_chip_1 : current_chip_2;
 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
-                GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAM, s, 100);
-                _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("ColorGamma", ival);
-
-                resources_set_int(current_chip->res_ExternalPalette_name, res_extpalette);
-
-                GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_SHADE, s, 100);
-                _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("PALScanLineShade", ival);
-
-                GetDlgItemText(hwnd, IDC_VIDEO_ADVANCED_BLUR, s, 100);
-                _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("PALBlur", ival);
+                resources_set_int(chip_type->res_ExternalPalette_name, chip_type->external_pal);
 
                 querynewpalette = 1;
-                if (resources_set_string(current_chip->res_PaletteFile_name, palette_file) < 0) {
+                if (resources_set_string(chip_type->res_PaletteFile_name, chip_type->file_name) < 0) {
                     ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
-                    resources_set_int(current_chip->res_ExternalPalette_name, res_extpalette);
+                    resources_set_int(chip_type->res_ExternalPalette_name, 0);
                     SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
                     return TRUE;
                 }
-                lib_free(palette_file);
-                palette_file = NULL;
-                resources_set_int(current_chip->res_ExternalPalette_name, res_extpalette);
+                lib_free(chip_type->file_name);
+                chip_type->file_name = NULL;
+                resources_set_int(chip_type->res_ExternalPalette_name, chip_type->external_pal);
+                palette_dialog_1 = NULL;
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
             return FALSE;
         case WM_INITDIALOG:
-            init_advanced_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
+            init_palette_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
             return TRUE;
         case WM_COMMAND:
             type = LOWORD(wparam);
             switch (type) {
                 case IDC_TOGGLE_VIDEO_EXTPALETTE:
-                    res_extpalette = !res_extpalette;
-                    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_BROWSE), res_extpalette);
-                    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME), res_extpalette);
-                    break;
-                case IDC_VIDEO_COLORS_GAM:
+                    chip_type->external_pal = !chip_type->external_pal;
+                    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_BROWSE), chip_type->external_pal);
+                    EnableWindow(GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME), chip_type->external_pal);
                     break;
                 case IDC_VIDEO_CUSTOM_BROWSE:
                     {
@@ -530,9 +513,10 @@ static INT_PTR CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
                             SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_name);
                             name = system_wcstombs_alloc(st_name);
-                            update_palettename(name);
+                            lib_free(chip_type->file_name);
+                            chip_type->file_name = name;
                             system_wcstombs_free(name);
-                            res_extpalette = 1;
+                            chip_type->external_pal = 1;
                             CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
                             lib_free(st_name);
                         }
@@ -545,9 +529,10 @@ static INT_PTR CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg, WPARAM wparam,
 
                         GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st, 100);
                         system_wcstombs(s, st, 100);
-                        update_palettename(s);
+                        lib_free(chip_type->file_name);
+                        chip_type->file_name = s;
 
-                        res_extpalette = 1;
+                        chip_type->external_pal = 1;
                         CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
 
                         break;
@@ -558,57 +543,48 @@ static INT_PTR CALLBACK dialog_advanced_proc(HWND hwnd, UINT msg, WPARAM wparam,
     return FALSE;
 }
 
-static INT_PTR CALLBACK dialog_palette_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+static INT_PTR CALLBACK dialog_render_filter_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int type;
+    int index;
+    int crt;
+    int scale2x;
 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
-                querynewpalette = 1;
-                if (resources_set_string(current_chip2->res_PaletteFile_name, palette_file2) < 0) {
-                    ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
-                    SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
-                    return TRUE;
+                index = (int)SendMessage(GetDlgItem(hwnd, IDC_VIDEO_RENDER_FILTER), CB_GETCURSEL, 0, 0);
+                switch (index) {
+                    case 0:
+                    default:
+                        crt = 0;
+                        scale2x = 0;
+                        break;
+                    case 1:
+                        crt = 1;
+                        scale2x = 0;
+                        break;
+                    case 2:
+                        crt = 0;
+                        scale2x = 1;
+                        break;
                 }
-                lib_free(palette_file2);
-                palette_file2 = NULL;
+                resources_set_int("PALEmulation", crt);
+                if (current_chip_1->scale2x_resource != NULL) {
+                    resources_set_int(current_chip_1->scale2x_resource, scale2x);
+                }
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
             return FALSE;
         case WM_INITDIALOG:
-            init_palette_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
+            init_render_filter_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
             return TRUE;
         case WM_COMMAND:
             type = LOWORD(wparam);
             switch (type) {
-                case IDC_VIDEO_CUSTOM_BROWSE:
-                    {
-                        TCHAR *st_name;
-
-                        if ((st_name = uilib_select_file(hwnd, translate_text(IDS_LOAD_VICE_PALETTE_FILE), UILIB_FILTER_ALL | UILIB_FILTER_PALETTE,
-                                                         UILIB_SELECTOR_TYPE_FILE_LOAD, UILIB_SELECTOR_STYLE_DEFAULT)) != NULL) {
-                            char *name;
-
-                            SetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st_name);
-                            name = system_wcstombs_alloc(st_name);
-                            update_palettename2(name);
-                            system_wcstombs_free(name);
-                            lib_free(st_name);
-                        }
-                    }
-                    break;
-                case IDC_VIDEO_CUSTOM_NAME:
-                    {
-                        TCHAR st[100];
-                        char s[100];
-
-                        GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st, 100);
-                        system_wcstombs(s, st, 100);
-                        update_palettename2(s);
-                        break;
-                    }
+                case IDC_VIDEO_RENDER_FILTER:
+                    return FALSE;
             }
             return TRUE;
     }
@@ -617,12 +593,12 @@ static INT_PTR CALLBACK dialog_palette_proc(HWND hwnd, UINT msg, WPARAM wparam, 
 
 void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 {
-    PROPSHEETPAGE psp[5];
+    PROPSHEETPAGE psp[6];
     PROPSHEETHEADER psh;
     int i;
     Chip_Parameters *chip_param;
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 6; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -637,59 +613,47 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 
     chip_param = &chip_param_table[chip_type1];
 
-    if (chip_param->palette_mode == UI_VIDEO_PAL) {
-        psp[0].pfnDlgProc = dialog_fullscreen_proc;
-        psp[0].pszTitle = translate_text(IDS_FULLSCREEN);
-        psp[1].pfnDlgProc = dialog_advanced_proc;
-        psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
-        psp[1].lParam = (LPARAM)chip_param;
-        psp[2].pfnDlgProc = dialog_new_pal_proc;
-        psp[2].pszTitle = translate_text(IDS_NEW_PAL);
-        psp[3].pfnDlgProc = dialog_color_proc;
-        psp[3].pszTitle = translate_text(IDS_COLORS);
+    psp[0].pfnDlgProc = dialog_fullscreen_proc;
+    psp[0].pszTitle = translate_text(IDS_FULLSCREEN);
+    psp[1].pfnDlgProc = dialog_palette_proc;
+    psp[1].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->page_title));
+    psp[1].lParam = (LPARAM)chip_param;
+    current_chip_1 = chip_param;
+    psp[2].pfnDlgProc = dialog_crt_emulation_proc;
+    psp[2].pszTitle = translate_text(IDS_CRT_EMULATION);
+    psp[3].pfnDlgProc = dialog_color_proc;
+    psp[3].pszTitle = translate_text(IDS_COLORS);
+    psp[4].pfnDlgProc = dialog_render_filter_proc;
+    psp[4].pszTitle = translate_text(IDS_RENDER_FILTER);
+    psp[4].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
-        psp[0].pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-        psp[1].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
-        psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_NEW_PAL_DIALOG);
-        psp[3].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+    psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
+    psp[3].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+    psp[4].pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
 #else
-        psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-        psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_ADVANCED_DIALOG);
-        psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_NEW_PAL_DIALOG);
-        psp[3].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+    psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
+    psp[3].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+    psp[4].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
 #endif
-        psh.nPages = 4;
-    } else {
-        psp[0].pfnDlgProc = dialog_fullscreen_proc;
-        psp[0].pszTitle = translate_text(IDS_FULLSCREEN);
-        psp[1].pfnDlgProc = dialog_palette_proc;
-        psp[1].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
-        psp[1].lParam = (LPARAM)chip_param;
-
-#ifdef _ANONYMOUS_UNION
-        psp[0].pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-        psp[1].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
-#else
-        psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DIALOG);
-        psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
-#endif
-        psh.nPages = 2;
-    }
+    psh.nPages = 5;
 
     if (chip_type2 != UI_VIDEO_CHIP_NONE) {
-        int index = psh.nPages;
-    
         chip_param = &chip_param_table[chip_type2];
+        current_chip_2 = chip_param;
 
-        psp[index].pfnDlgProc = dialog_palette_proc;
-        psp[index].pszTitle = system_mbstowcs_alloc(chip_param->page_title);
-        psp[index].lParam = (LPARAM)chip_param;
+        psp[5].pfnDlgProc = dialog_palette_proc;
+        psp[5].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->page_title));
+        psp[5].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
-        psp[index].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+        psp[5].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #else
-        psp[index].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
+        psp[5].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #endif
         psh.nPages++;
     }

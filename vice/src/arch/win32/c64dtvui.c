@@ -58,8 +58,6 @@ static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
 static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "PS2Mouse", IDM_PS2MOUSE },
     { "Mouse", IDM_MOUSE },
@@ -236,8 +234,6 @@ ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
     { IDM_TOGGLE_WARP_MODE, IDS_MI_TOGGLE_WARP_MODE },
     { IDM_TOGGLE_DX9DISABLE, IDS_MI_TOGGLE_DX9DISABLE },
     { IDM_TOGGLE_ALWAYSONTOP, IDS_MI_TOGGLE_ALWAYSONTOP },
-    { IDM_TOGGLE_FASTPAL, IDS_MI_TOGGLE_FASTPAL },
-    { IDM_TOGGLE_SCALE2X, IDS_MI_TOGGLE_SCALE2X },
     { IDM_SWAP_JOYSTICK, IDS_MI_SWAP_JOYSTICK },
     { IDM_SWAP_EXTRA_JOYSTICK, IDS_MI_SWAP_EXTRA_JOYSTICK },
     { IDM_ALLOW_JOY_OPPOSITE_TOGGLE, IDS_MI_ALLOW_JOY_OPPOSITE },

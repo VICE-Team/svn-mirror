@@ -655,73 +655,52 @@ IDD_VIDEO_COLORS_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT    "", IDC_COLORS_SATURATION,
+    LTEXT    "", IDC_VIDEO_COLORS_GAMMA_LABEL,
              12, 12, 40, 8
-    EDITTEXT IDC_VIDEO_COLORS_SAT,
+    EDITTEXT IDC_VIDEO_COLORS_GAMMA,
              85, 10, 32, 12, WS_TABSTOP
-    LTEXT    "", IDC_COLORS_CONTRAST,
+    LTEXT    "", IDC_VIDEO_COLORS_TINT_LABEL,
              12, 24, 40, 8
-    EDITTEXT IDC_VIDEO_COLORS_CON,
+    EDITTEXT IDC_VIDEO_COLORS_TINT,
              85, 22, 32, 12, WS_TABSTOP
-    LTEXT    "", IDC_COLORS_BRIGHTNESS,
+    LTEXT    "", IDC_VIDEO_COLORS_SATURATION_LABEL,
              12, 36, 40, 8
-    EDITTEXT IDC_VIDEO_COLORS_BRI,
+    EDITTEXT IDC_VIDEO_COLORS_SATURATION,
              85, 34, 32, 12, WS_TABSTOP
+    LTEXT    "", IDC_VIDEO_COLORS_CONTRAST_LABEL,
+             12, 48, 40, 8
+    EDITTEXT IDC_VIDEO_COLORS_CONTRAST,
+             85, 46, 32, 12, WS_TABSTOP
+    LTEXT    "", IDC_VIDEO_COLORS_BRIGHTNESS_LABEL,
+             12, 60, 40, 8
+    EDITTEXT IDC_VIDEO_COLORS_BRIGHTNESS,
+             85, 58, 32, 12, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
 
 // dialog template for all languages
 
-IDD_VIDEO_NEW_PAL_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
+IDD_VIDEO_CRT_EMULATION_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT    "", IDC_NEW_PAL_TINT,
+    LTEXT    "", IDC_VIDEO_CRT_SCANLINE_SHADE_LABEL,
              12, 12, 60, 8
-    EDITTEXT IDC_VIDEO_NEW_PAL_TINT,
+    EDITTEXT IDC_VIDEO_CRT_SCANLINE_SHADE,
              105, 10, 32, 12, WS_TABSTOP
-    LTEXT    "", IDC_NEW_PAL_ODD_LINES_PHASE,
+    LTEXT    "", IDC_VIDEO_CRT_BLUR_LABEL,
              12, 24, 60, 8
-    EDITTEXT IDC_VIDEO_NEW_PAL_PHASE,
+    EDITTEXT IDC_VIDEO_CRT_BLUR,
              105, 22, 32, 12, WS_TABSTOP
-    LTEXT    "", IDC_NEW_PAL_ODD_LINES_OFFSET,
+    LTEXT    "", IDC_VIDEO_CRT_ODDLINE_PHASE_LABEL,
              12, 36, 60, 8
-    EDITTEXT IDC_VIDEO_NEW_PAL_OFFSET,
+    EDITTEXT IDC_VIDEO_CRT_ODDLINE_PHASE,
              105, 34, 32, 12, WS_TABSTOP
-END
-
-// -----------------------------------------------------------------------------
-
-// dialog template for all languages
-
-IDD_VIDEO_ADVANCED_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT        "", IDC_VIDEO_GAMMA,
-                 12, 12, 40, 8
-    EDITTEXT     IDC_VIDEO_COLORS_GAM,
-                 85, 10, 32, 12, WS_TABSTOP
-    LTEXT        "", IDC_VIDEO_PHASE,
-                 12, 24, 40, 8
-    EDITTEXT     IDC_VIDEO_COLORS_PHA,
-                 85, 22, 32, 12, WS_TABSTOP
-    LTEXT        "", IDC_VIDEO_PAL_SHADE,
-                 12, 41, 40, 8
-    EDITTEXT     IDC_VIDEO_ADVANCED_SHADE,
-                 85, 39, 32, 12, WS_TABSTOP
-    LTEXT        "", IDC_VIDEO_PAL_BLUR,
-                 12, 53, 40, 8
-    EDITTEXT     IDC_VIDEO_ADVANCED_BLUR,
-                 85, 51, 32, 12, WS_TABSTOP
-
-    AUTOCHECKBOX "", IDC_TOGGLE_VIDEO_EXTPALETTE,
-                 12, 47+23+12, 70, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-    COMBOBOX     IDC_VIDEO_CUSTOM_NAME,
-                 85, 45+23+12, 120, 112, CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON   "", IDC_VIDEO_CUSTOM_BROWSE,
-                 85, 63+23+12, 50, 14, WS_GROUP
+    LTEXT    "", IDC_VIDEO_CRT_ODDLINE_OFFSET_LABEL,
+             12, 48, 60, 8
+    EDITTEXT IDC_VIDEO_CRT_ODDLINE_OFFSET,
+             105, 46, 32, 12, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -732,10 +711,26 @@ IDD_VIDEO_PALETTE_DIALOG DIALOG DISCARDABLE  0, 0, 180, 87
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    COMBOBOX   IDC_VIDEO_CUSTOM_NAME,
-               12, 12, 120, 112, CBS_DROPDOWN | WS_VSCROLL | WS_GROUP | WS_TABSTOP
-    PUSHBUTTON "&Browse...", IDC_VIDEO_CUSTOM_BROWSE,
-               12, 12+18, 50, 14, WS_GROUP
+    AUTOCHECKBOX "", IDC_TOGGLE_VIDEO_EXTPALETTE,
+                 12, 12, 70, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    COMBOBOX     IDC_VIDEO_CUSTOM_NAME,
+                 12, 12+12, 120, 112, CBS_DROPDOWN | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+    PUSHBUTTON   "&Browse...", IDC_VIDEO_CUSTOM_BROWSE,
+                 12, 12+18+12, 50, 14, WS_GROUP
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_RENDER_FILTER_DIALOG DIALOG DISCARDABLE  0, 0, 180,124
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT        "", IDC_VIDEO_RENDER_FILTER_LABEL,
+                 9, 12, 120, 8
+    COMBOBOX     IDC_VIDEO_RENDER_FILTER,
+                 9, 13, 150, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -1119,7 +1114,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Load VICE palette file"
   IDS_FULLSCREEN                  "Fullscreen/DirectX"
   IDS_COLORS                      "Colors"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Video settings"
   IDS_FILE_SYSTEM                 "File system"
 #ifdef HAVE_OPENCBM
@@ -1304,16 +1301,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Render to DX Primary surface"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
   IDS_COLORS_SATURATION           "Saturation (0..2)"
   IDS_COLORS_CONTRAST             "Contrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
-  IDS_NEW_PAL_TINT                "Tint (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Odd lines phase (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Odd lines offset (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Phase (0..2)"
-  IDS_VIDEO_PAL_SHADE             "PAL Shade (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL Blur (0..1)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "External Palette:"
   IDS_RAM_CAPTION                 "RAM settings"
   IDS_RAM_INIT_AT_POWERUP         "Initialization at powerup"
@@ -1535,8 +1536,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warp mode"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Always on Top"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "PAL Emulation"
-  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "Swap &Joysticks"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "Swap &Userport joysticks"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Allow opposite directions"
@@ -1718,7 +1717,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Indlæs VICE-palette"
   IDS_FULLSCREEN                  "Fuldskærm/DirectX"
   IDS_COLORS                      "Farver"
-  IDS_NEW_PAL                     "Ny PAL-emulering"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Grafikindstillinger"
   IDS_FILE_SYSTEM                 "Filsystem"
 #ifdef HAVE_OPENCBM
@@ -1903,16 +1904,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rendér til DXs primære overflade"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Vælg aspektforhold (0,5-2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
-  IDS_COLORS_SATURATION           "Mætning (0..2)"
-  IDS_COLORS_CONTRAST             "Kontrast (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Lysstyrke (0..2)"
-  IDS_NEW_PAL_TINT                "Farvetone (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Fase for ulige linjer (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Offset for ulige linjer (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Fase (0..2)"
-  IDS_VIDEO_PAL_SHADE             "Skanlinjeskygge (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL-udtværing (0..1)"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
+  IDS_COLORS_SATURATION           "Saturation (0..2)"
+  IDS_COLORS_CONTRAST             "Contrast (0..2)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Ekstern palette:"
   IDS_RAM_CAPTION                 "RAM-indstillinger"
   IDS_RAM_INIT_AT_POWERUP         "Initialisering ved power-up"
@@ -2134,8 +2139,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warp-tilstand"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Altid øverst"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "PAL-emulering"
-  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "Byt om på &joysticks"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "Byt om på br&ugerportjoysticks"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Tillad modsatte joystickretninger"
@@ -2317,7 +2320,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "VICE Paletten Datei laden"
   IDS_FULLSCREEN                  "Vollbild/Direct X"
   IDS_COLORS                      "Farben"
-  IDS_NEW_PAL                     "PAL Emulation"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Video Einstellungen"
   IDS_FILE_SYSTEM                 "Dateisystem"
 #ifdef HAVE_OPENCBM
@@ -2502,16 +2507,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "DX Primary Oberflächenrendering"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Seitenverhältnis beibehalten (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "Echtes Seitenverhältnis"
-  IDS_COLORS_SATURATION           "Sättigung (0..2)"
-  IDS_COLORS_CONTRAST             "Kontrast (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Helligkeit (0..2)"
-  IDS_NEW_PAL_TINT                "Farbton (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Ungerade Zeilenphase (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Ungerader Zeilenoffset (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Phase (0..2)"
-  IDS_VIDEO_PAL_SHADE             "PAL Schatten (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL Unschärfe (0..1)"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
+  IDS_COLORS_SATURATION           "Saturation (0..2)"
+  IDS_COLORS_CONTRAST             "Contrast (0..2)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Externe Farbtabelle:"
   IDS_RAM_CAPTION                 "RAM Einstellungen"
   IDS_RAM_INIT_AT_POWERUP         "Initialisierung beim Kaltstart"
@@ -2733,8 +2742,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warp modus"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Immer im Vordergrund"
   IDS_MI_TOGGLE_DX9DISABLE        "DirectX9 deaktivieren"
-  IDS_MI_TOGGLE_FASTPAL           "PAL Emulation"
-  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "&Joystick ports austauschen"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "&Userport Joystick ports austauschen"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Gegnüberliegende Richtungen zulassen"
@@ -2916,7 +2923,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Charger un fichier de palette VICE"
   IDS_FULLSCREEN                  "Fullscreen/DirectX"
   IDS_COLORS                      "Couleurs"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Paramètres vidéo"
   IDS_FILE_SYSTEM                 "Système de fichiers"
 #ifdef HAVE_OPENCBM
@@ -3101,16 +3110,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rendu à la surface primaire DX"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
   IDS_COLORS_SATURATION           "Saturation (0..2)"
-  IDS_COLORS_CONTRAST             "Contraste (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Luminosité (0..2)"
-  IDS_NEW_PAL_TINT                "Tint (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Odd lines phase (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Odd lines offset (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Phase (0..2)"
-  IDS_VIDEO_PAL_SHADE             "Ombrage PAL (0..1)"
-  IDS_VIDEO_PAL_BLUR              "Flou PAL (0..1)"
+  IDS_COLORS_CONTRAST             "Contrast (0..2)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Palette externe:"
   IDS_RAM_CAPTION                 "Paramètres de la RAM"
   IDS_RAM_INIT_AT_POWERUP         "Initialisation au démarrage"
@@ -3332,8 +3345,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warp mode"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Toujours au dessus"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "Émulation PAL"
-  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "Swap &Joysticks"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "Swap &Userport joysticks"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Allow opposite joystick directions"
@@ -3518,7 +3529,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "VICE paletta fájl betöltése"
   IDS_FULLSCREEN                  "Teljes képernyõ/DirectX"
   IDS_COLORS                      "Színek"
-  IDS_NEW_PAL                     "Új PAL emuláció"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Videó beállításai"
   IDS_FILE_SYSTEM                 "Fájlrendszer"
 #ifdef HAVE_OPENCBM
@@ -3703,16 +3716,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rajzolás a DX elsõdleges felületre"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Képarány megtartása (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
-  IDS_COLORS_SATURATION           "Telítettség (0..2)"
-  IDS_COLORS_CONTRAST             "Kontraszt (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Fényesség (0..2)"
-  IDS_NEW_PAL_TINT                "Szín (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Páratlan sorok fázisa (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Páratlan sorok offszetje (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Fázis (0..2)"
-  IDS_VIDEO_PAL_SHADE             "PAL árnyalás (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL elmosás (0..1)"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
+  IDS_COLORS_SATURATION           "Saturation (0..2)"
+  IDS_COLORS_CONTRAST             "Contrast (0..2)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Külsõ paletta:"
   IDS_RAM_CAPTION                 "RAM beállításai"
   IDS_RAM_INIT_AT_POWERUP         "Alaphelyzetbe állítás bekapcsoláskor"
@@ -3934,8 +3951,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Hipergyors mód"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Mindig felül"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "PAL emuláció"
-  IDS_MI_TOGGLE_SCALE2X           "Élsimítás"
   IDS_MI_SWAP_JOYSTICK            "Botkormányok &felcserélése"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "&Userport botkormányok felcserélése"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Ellentétes botkormány irányok engedélyezése"
@@ -4120,7 +4135,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Carica il file di palette di VICE"
   IDS_FULLSCREEN                  "Schermo intero/DirectX"
   IDS_COLORS                      "Colori"
-  IDS_NEW_PAL                     "Emulazione PAL"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Impostazioni video"
   IDS_FILE_SYSTEM                 "File system"
 #ifdef HAVE_OPENCBM
@@ -4305,16 +4322,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Visualizza sulla superficie primaria DX"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Mantieni il rapporto di formato (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
-  IDS_COLORS_SATURATION           "Saturazione (0..2)"
-  IDS_COLORS_CONTRAST             "Contrasto (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Luminosità (0..2)"
-  IDS_NEW_PAL_TINT                "Sfumatura (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Fase linee dispari (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Offset linee dispari (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Fase (0..2)"
-  IDS_VIDEO_PAL_SHADE             "Ombra PAL (0..1)"
-  IDS_VIDEO_PAL_BLUR              "Sfuocatura PAL (0..1)"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
+  IDS_COLORS_SATURATION           "Saturation (0..2)"
+  IDS_COLORS_CONTRAST             "Contrast (0..2)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Palette esterna:"
   IDS_RAM_CAPTION                 "Impostazioni RAM"
   IDS_RAM_INIT_AT_POWERUP         "Inizializzazione all'accensione"
@@ -4536,8 +4557,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "Modalità &turbo"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Sempre in primo piano"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "Emulazione PAL"
-  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "Scambia &Joystick"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "Scambia joystick su &Userport"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Allow opposite joystick directions"
@@ -4719,7 +4738,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Laad VICE paletbestand"
   IDS_FULLSCREEN                  "Volscherm/DirectX"
   IDS_COLORS                      "Kleuren"
-  IDS_NEW_PAL                     "Nieuwe PAL emulatie"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Videoinstellingen"
   IDS_FILE_SYSTEM                 "Bestandssysteem"
 #ifdef HAVE_OPENCBM
@@ -4904,16 +4925,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Render naar DX Primaire oppervlakte"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Aspect ratio gebruiken (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
-  IDS_COLORS_SATURATION           "Verzadiging (0..2)"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
+  IDS_COLORS_SATURATION           "Saturation (0..2)"
   IDS_COLORS_CONTRAST             "Contrast (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Helderheid (0..2)"
-  IDS_NEW_PAL_TINT                "Tint (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Oneven lijnen fase (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Oneven lijnen compensatie (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Fase (0..2)"
-  IDS_VIDEO_PAL_SHADE             "PAL-Schaduw (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL-Wazigheid (0..1)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Extern palet:"
   IDS_RAM_CAPTION                 "RAM-instellingen"
   IDS_RAM_INIT_AT_POWERUP         "Initialisatie bij opstarten"
@@ -5135,8 +5160,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warpmodus"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Altijd Boven"
   IDS_MI_TOGGLE_DX9DISABLE        "DirectX9 uitschakelen"
-  IDS_MI_TOGGLE_FASTPAL           "PAL-emulatie"
-  IDS_MI_TOGGLE_SCALE2X           "Schaal2x"
   IDS_MI_SWAP_JOYSTICK            "Verwissel &Joysticks"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "Verwissel &Userport joysticks"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Tegenovergestelde joystick richtingen toestaan"
@@ -5321,7 +5344,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Load VICE palette file"
   IDS_FULLSCREEN                  "Fullscreen/DirectX"
   IDS_COLORS                      "Colors"
-  IDS_NEW_PAL                     "New PAL emulation"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Video settings"
   IDS_FILE_SYSTEM                 "File system"
 #ifdef HAVE_OPENCBM
@@ -5506,16 +5531,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Render to DX Primary surface"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Keep aspect ratio (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
   IDS_COLORS_SATURATION           "Saturation (0..2)"
   IDS_COLORS_CONTRAST             "Contrast (0..2)"
   IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
-  IDS_NEW_PAL_TINT                "Tint (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Odd lines phase (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Odd lines offset (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Phase (0..2)"
-  IDS_VIDEO_PAL_SHADE             "PAL Shade (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL Blur (0..1)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "External Palette:"
   IDS_RAM_CAPTION                 "RAM Settings"
   IDS_RAM_INIT_AT_POWERUP         "Initialization at powerup"
@@ -5737,8 +5766,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warp mode"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Always on Top"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "Emulacja PAL"
-  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "Swap &Joysticks"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "Swap &Userport joysticks"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Allow opposite joystick directions"
@@ -5923,7 +5950,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "Läs in VICE-palettfil"
   IDS_FULLSCREEN                  "Fullskärm/DirectX"
   IDS_COLORS                      "Färger"
-  IDS_NEW_PAL                     "Ny PAL-emulering"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Grafikinställningar"
   IDS_FILE_SYSTEM                 "Filsystem"
 #ifdef HAVE_OPENCBM
@@ -6108,16 +6137,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "Rendrera till DXs primära yta"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "Behåll bredd-/höjdförhållande (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
-  IDS_COLORS_SATURATION           "Mättnad (0..2)"
-  IDS_COLORS_CONTRAST             "Kontrast (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Ljusstyrka (0..2)"
-  IDS_NEW_PAL_TINT                "Färgton (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Fas för udda linjer (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Utjämning för udda linjer (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Fas (0..2)"
-  IDS_VIDEO_PAL_SHADE             "PAL-skuggning (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL-suddighet (0..1)"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
+  IDS_COLORS_SATURATION           "Saturation (0..2)"
+  IDS_COLORS_CONTRAST             "Contrast (0..2)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Extern palett:"
   IDS_RAM_CAPTION                 "RAM-inställningar"
   IDS_RAM_INIT_AT_POWERUP         "Initiering vid strömpåslag"
@@ -6339,8 +6372,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warpläge"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Alltid överst"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "PAL-emulering"
-  IDS_MI_TOGGLE_SCALE2X           "Scale2x"
   IDS_MI_SWAP_JOYSTICK            "Växla &spelportarna"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "Växla &användarportstyrspakar"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Tillåt motsatta riktningar på styrspak"
@@ -6525,7 +6556,9 @@ BEGIN
   IDS_LOAD_VICE_PALETTE_FILE      "VICE palet dosyasý yükle"
   IDS_FULLSCREEN                  "Tam Ekran/DirectX"
   IDS_COLORS                      "Renkler"
-  IDS_NEW_PAL                     "Yeni PAL emülasyonu"
+  IDS_CRT_EMULATION               "CRT emulation"
+  IDS_RENDER_FILTER               "Render filter"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Görüntü ayarlarý"
   IDS_FILE_SYSTEM                 "Dosya sistemi"
 #ifdef HAVE_OPENCBM
@@ -6710,16 +6743,20 @@ BEGIN
   IDS_TOGGLE_VIDEO_DX_PRIMARY     "DX Birincil yüzeyine çiz"
   IDS_TOGGLE_KEEP_ASPECT_RATIO    "En boy oraný koru (0,5..2)"
   IDS_TOGGLE_TRUE_ASPECT_RATIO    "True aspect ratio"
-  IDS_COLORS_SATURATION           "Doygunluk (0..2)"
-  IDS_COLORS_CONTRAST             "Karþýtlýk (0..2)"
-  IDS_COLORS_BRIGHTNESS           "Parlaklýk (0..2)"
-  IDS_NEW_PAL_TINT                "Ton (0..2)"
-  IDS_NEW_PAL_ODD_LINES_PHASE     "Tek satýrlar fazý (0..2)"
-  IDS_NEW_PAL_ODD_LINES_OFFSET    "Tek satýrlar ofseti (0..2)"
-  IDS_VIDEO_GAMMA                 "Gamma (0..4)"
-  IDS_VIDEO_PHASE                 "Faz (0..2)"
-  IDS_VIDEO_PAL_SHADE             "PAL Nüansý (0..1)"
-  IDS_VIDEO_PAL_BLUR              "PAL Bulanýklýðý (0..1)"
+  IDS_COLORS_GAMMA                "Gamma (0..2)"
+  IDS_COLORS_TINT                 "Tint (0..2)"
+  IDS_COLORS_SATURATION           "Saturation (0..2)"
+  IDS_COLORS_CONTRAST             "Contrast (0..2)"
+  IDS_COLORS_BRIGHTNESS           "Brightness (0..2)"
+  IDS_CRT_SCANLINE_SHADE          "Scan line shade (0..1)"
+  IDS_CRT_BLUR                    "Blur (0..1)"
+  IDS_CRT_ODDLINE_PHASE           "Odd lines phase (0..2)"
+  IDS_CRT_ODDLINE_OFFSET          "Odd lines offset (0..2)"
+  IDS_VICII_PALETTE               "VICII Palette"
+  IDS_VIC_PALETTE                 "VIC Palette"
+  IDS_CRTC_PALETTE                "CRTC Palette"
+  IDS_VDC_PALETTE                 "VDC Palette"
+  IDS_TED_PALETTE                 "TED Palette"
   IDS_TOGGLE_VIDEO_EXTPALETTE     "Harici Palet:"
   IDS_RAM_CAPTION                 "RAM Ayarlarý"
   IDS_RAM_INIT_AT_POWERUP         "Güç verildiðinde baþlangýç ayarlarýný yap"
@@ -6941,8 +6978,6 @@ BEGIN
   IDS_MI_TOGGLE_WARP_MODE         "&Warp modu"
   IDS_MI_TOGGLE_ALWAYSONTOP       "Her zaman üstte"
   IDS_MI_TOGGLE_DX9DISABLE        "Disable DirectX9"
-  IDS_MI_TOGGLE_FASTPAL           "PAL Emülasyonu"
-  IDS_MI_TOGGLE_SCALE2X           "2x Geniþlet"
   IDS_MI_SWAP_JOYSTICK            "&Joystickleri Yer Deðiþtir"
   IDS_MI_SWAP_EXTRA_JOYSTICK      "&Userport Joysticklerini Yer Deðiþtir"
   IDS_MI_ALLOW_JOY_OPPOSITE       "Allow opposite joystick directions"

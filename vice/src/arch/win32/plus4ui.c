@@ -60,8 +60,6 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "TEDScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { NULL, 0 }
 };
 
@@ -249,8 +247,6 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_TOGGLE_WARP_MODE, IDS_MI_TOGGLE_WARP_MODE },
     { IDM_TOGGLE_DX9DISABLE, IDS_MI_TOGGLE_DX9DISABLE },
     { IDM_TOGGLE_ALWAYSONTOP, IDS_MI_TOGGLE_ALWAYSONTOP },
-    { IDM_TOGGLE_FASTPAL, IDS_MI_TOGGLE_FASTPAL },
-    { IDM_TOGGLE_SCALE2X, IDS_MI_TOGGLE_SCALE2X },
     { IDM_SWAP_JOYSTICK, IDS_MI_SWAP_JOYSTICK },
     { IDM_ALLOW_JOY_OPPOSITE_TOGGLE, IDS_MI_ALLOW_JOY_OPPOSITE },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
