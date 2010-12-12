@@ -3,6 +3,7 @@
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -79,22 +80,23 @@ static int is_new_cia(int model)
 }
 
 struct model_s {
-    int vicii;
-    int video;
-    int luma;
-    int cia;
-    int glue;
-    int sid;
+    int vicii;      /* VIC-II model */
+    int video;      /* machine video timing */
+    int luma;       /* old or new */
+    int cia;        /* old or new */
+    int glue;       /* discrete or ASIC */
+    int sid;        /* old or new */
+    int sid_model;  /* specific type for reSID-fp */
 };
 
 static struct model_s c64models[] = {
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, SID_MODEL_DEFAULT_NEW },
-    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, SID_MODEL_DEFAULT_NEW },
-    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, SID_MODEL_DEFAULT_OLD }
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW },
+    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW },
+    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
+    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD }
 };
 
 /* ------------------------------------------------------------------------- */
@@ -118,7 +120,7 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
          && (c64models[i].luma == new_luma)
          && (is_new_cia(c64models[i].cia) == new_cia)
          && (c64models[i].glue == glue_logic)
-         && (is_new_sid(c64models[i].sid) == new_sid)) {
+         && (c64models[i].sid == new_sid)) {
             return i;
         }
     }
@@ -139,8 +141,8 @@ int c64model_get(void)
         return -1;
     }
 
-    return c64model_get_temp(vicii_model, sid_model, glue_logic, 
-                            cia1_model, cia2_model, new_luma);
+    return c64model_get_temp(vicii_model, sid_model, glue_logic,
+                             cia1_model, cia2_model, new_luma);
 }
 
 void c64model_set_temp(int model, int *vicii_model, int *sid_model,
@@ -148,11 +150,13 @@ void c64model_set_temp(int model, int *vicii_model, int *sid_model,
                        int *new_luma)
 {
     int old_model;
+    int old_engine;
+    int old_sid_model;
     int new_sid_model;
     int old_type;
     int new_type;
 
-    old_model = c64model_get_temp(*vicii_model, *sid_model, *glue_logic, 
+    old_model = c64model_get_temp(*vicii_model, *sid_model, *glue_logic,
                                   *cia1_model, *cia2_model, *new_luma);
 
     if ((model == old_model) || (model == C64MODEL_UNKNOWN)) {
@@ -166,16 +170,23 @@ void c64model_set_temp(int model, int *vicii_model, int *sid_model,
     *new_luma = c64models[model].luma;
 
     /* Only change the SID model if the model changes from 6581 to 8580
-       or ReSID-fp wasn't used. This allows to switch between "pal"/"oldpal"
-       without changing the specific SID model. ReSID-fp is enforced, since
-       x64sc aims for accuracy. */
-    new_sid_model = c64models[model].sid;
+       or the specific SID type changes if reSID-fp is used. This allows
+       to switch between "pal"/"oldpal" without changing the specific
+       SID model. The current engine is preserved. */
+    old_engine = (*sid_model >> 8);
+    old_sid_model = (*sid_model & 0xff);
 
-    old_type = is_new_sid(*sid_model);
+    if (old_engine == SID_ENGINE_RESID_FP) {
+        new_sid_model = c64models[model].sid_model;
+    } else {
+        new_sid_model = c64models[model].sid;
+    }
+
+    old_type = is_new_sid(old_sid_model);
     new_type = is_new_sid(new_sid_model);
 
-    if (((*sid_model >> 8) !=  SID_ENGINE_RESID_FP) || (old_type != new_type)) {
-        *sid_model = (SID_ENGINE_RESID_FP << 8 ) | new_sid_model;
+    if (((old_engine == SID_ENGINE_RESID_FP) && (new_sid_model != old_sid_model)) || (old_type != new_type)) {
+        *sid_model = (old_engine << 8) | new_sid_model;
     }
 }
 
@@ -200,17 +211,21 @@ void c64model_set(int model)
     resources_set_int("GlueLogic", c64models[model].glue);
 
     /* Only change the SID model if the model changes from 6581 to 8580
-       or ReSID-fp wasn't used. This allows to switch between "pal"/"oldpal"
-       without changing the specific SID model. ReSID-fp is enforced, since
-       x64sc aims for accuracy. */
+       or the specific SID type changes if residfp is used. This allows
+       to switch between "pal"/"oldpal" without changing the specific
+       SID model. The current engine is preserved. */
     resources_get_int("SidEngine", &old_engine);
     resources_get_int("SidModel", &old_sid_model);
-    new_sid_model = c64models[model].sid;
+    if (old_engine == SID_ENGINE_RESID_FP) {
+        new_sid_model = c64models[model].sid_model;
+    } else {
+        new_sid_model = c64models[model].sid;
+    }
 
     old_type = is_new_sid(old_sid_model);
     new_type = is_new_sid(new_sid_model);
 
-    if ((old_engine != SID_ENGINE_RESID_FP) || (old_type != new_type)) {
-        sid_set_engine_model(SID_ENGINE_RESID_FP, new_sid_model);
+    if (((old_engine == SID_ENGINE_RESID_FP) && (new_sid_model != old_sid_model)) || (old_type != new_type)) {
+        sid_set_engine_model(old_engine, new_sid_model);
     }
 }

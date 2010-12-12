@@ -96,11 +96,7 @@ static int set_sid_engine(int set_engine, void *param)
 
     if (engine == SID_ENGINE_DEFAULT) {
 #ifdef HAVE_RESID
-        if (machine_class == VICE_MACHINE_C64SC) {
-            engine = SID_ENGINE_RESID_FP;
-        } else {
-            engine = SID_ENGINE_RESID;
-        }
+        engine = SID_ENGINE_RESID;
 #else
         engine = SID_ENGINE_FASTSID;
 #endif
@@ -194,8 +190,6 @@ static int set_sid_model(int val, void *param)
 #ifdef HAVE_RESID
         if (machine_class == VICE_MACHINE_C64DTV) {
             sid_model = SID_MODEL_DTVSID;
-        } else if (machine_class == VICE_MACHINE_C64SC) {
-            sid_model = SID_MODEL_6581R4AR_3789;
         } else
 #endif
         {
