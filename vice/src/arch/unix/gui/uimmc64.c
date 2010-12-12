@@ -28,6 +28,9 @@
 
 #include <stdio.h>
 
+#include "cartridge.h"
+#include "uiapi.h"
+#include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uimmc64.h"
@@ -39,15 +42,11 @@ UI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
 UI_MENU_DEFINE_TOGGLE(MMC64_RO)
 UI_MENU_DEFINE_RADIO(MMC64_sd_type)
 
-UI_CALLBACK(set_mmc64_bios_name)
-{
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC64 BIOS name"), UILIB_FILTER_ALL);
-}
+UI_CALLBACK(set_mmc64_bios_name);
+static UI_CALLBACK(mmc64_flush_callback);
+static UI_CALLBACK(mmc64_save_callback);
 
-UI_CALLBACK(set_mmc64_image_name)
-{
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC64 image"), UILIB_FILTER_ALL);
-}
+UI_CALLBACK(set_mmc64_image_name);
 
 static ui_menu_entry_t mmc64_revision_submenu[] = {
     { N_("Rev. A"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MMC64_revision,
@@ -72,21 +71,59 @@ static ui_menu_entry_t mmc64_sd_type_submenu[] = {
 ui_menu_entry_t mmc64_submenu[] = {
     { N_("Enable MMC64"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMC64, NULL, NULL },
-    { N_("MMC64 Revision"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, mmc64_revision_submenu },
     { N_("Enable MMC64 flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMC64_flashjumper, NULL, NULL },
-    { N_("Enable MMC64 BIOS save when changed"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MMC64_bios_write, NULL, NULL },
+    { N_("MMC64 Revision"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, mmc64_revision_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("MMC64 BIOS name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmc64_bios_name,
       (ui_callback_data_t)"MMC64BIOSfilename", NULL },
-    { N_("Enable MMC64 image read-only"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_MMC64_RO, NULL, NULL },
-    { N_("MMC64 image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save MMC64 BIOS when changed"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_MMC64_bios_write, NULL, NULL },
+    { N_("Save MMC64 BIOS image now"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)mmc64_flush_callback, NULL, NULL },
+    { N_("Save MMC64 BIOS image as..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)mmc64_save_callback, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Card image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmc64_image_name,
       (ui_callback_data_t)"MMC64imagefilename", NULL },
+    { N_("Enable MMC64 image read-only"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_MMC64_RO, NULL, NULL },
+    /* Translators: this means card as in SD/MMC card, not a cartridge! */
     { N_("Card type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmc64_sd_type_submenu },
     { NULL }
 };
+
+UI_CALLBACK(set_mmc64_bios_name)
+{
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC64 BIOS name"), UILIB_FILTER_ALL);
+}
+
+static UI_CALLBACK(mmc64_save_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_MMC64));
+    } else {
+        ui_cartridge_save_dialog(CARTRIDGE_MMC64);
+    }
+}
+
+static UI_CALLBACK(mmc64_flush_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_MMC64));
+    } else {
+        if (cartridge_flush_image(CARTRIDGE_MMC64) < 0) {
+            ui_error(_("Can not save cartridge"));
+        }
+    }
+}
+
+UI_CALLBACK(set_mmc64_image_name)
+{
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC64 image"), UILIB_FILTER_ALL);
+}
+

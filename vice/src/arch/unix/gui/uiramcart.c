@@ -28,6 +28,9 @@
 
 #include <stdio.h>
 
+#include "cartridge.h"
+#include "uiapi.h"
+#include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uiramcart.h"
@@ -35,16 +38,11 @@
 UI_MENU_DEFINE_TOGGLE(RAMCART)
 UI_MENU_DEFINE_RADIO(RAMCARTsize)
 UI_MENU_DEFINE_TOGGLE(RAMCART_RO)
+UI_MENU_DEFINE_TOGGLE(RAMCARTImageWrite) /* FIXME */
 
-UI_CALLBACK(set_ramcart_image_name)
-{
-#ifdef USE_GNOMEUI
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("RAMCART image"), UILIB_FILTER_ALL);
-#else
-    /* XAW ui does not allow to enter non existing file in file browser */
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("RAMCART image"), _("Image:"));
-#endif
-}
+UI_CALLBACK(set_ramcart_image_name);
+static UI_CALLBACK(ramcart_flush_callback);
+static UI_CALLBACK(ramcart_save_callback);
 
 static ui_menu_entry_t ramcart_size_submenu[] = {
     { "64kB", UI_MENU_TYPE_TICK, (ui_callback_t)radio_RAMCARTsize,
@@ -61,8 +59,45 @@ ui_menu_entry_t ramcart_submenu[] = {
       (ui_callback_t)toggle_RAMCART_RO, NULL, NULL },
     { N_("RAMCART size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ramcart_size_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("RAMCART image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ramcart_image_name,
       (ui_callback_data_t)"RAMCARTfilename", NULL },
+    { N_("Save RAMCART image when changed"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_RAMCARTImageWrite, NULL, NULL },
+    { N_("Save RAMCART image now"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ramcart_flush_callback, NULL, NULL },
+    { N_("Save RAMCART image as..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ramcart_save_callback, NULL, NULL },
     { NULL }
 };
+
+UI_CALLBACK(set_ramcart_image_name)
+{
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("RAMCART image"), UILIB_FILTER_ALL);
+#else
+    /* XAW ui does not allow to enter non existing file in file browser */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("RAMCART image"), _("Image:"));
+#endif
+}
+
+static UI_CALLBACK(ramcart_save_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_RAMCART));
+    } else {
+        ui_cartridge_save_dialog(CARTRIDGE_RAMCART);
+    }
+}
+
+static UI_CALLBACK(ramcart_flush_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_RAMCART));
+    } else {
+        if (cartridge_flush_image(CARTRIDGE_RAMCART) < 0) {
+            ui_error(_("Can not save cartridge"));
+        }
+    }
+}

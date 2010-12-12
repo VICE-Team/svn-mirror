@@ -28,28 +28,62 @@
 
 #include <stdio.h>
 
+#include "cartridge.h"
+#include "uiapi.h"
+#include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uidqbb.h"
 
-
 UI_MENU_DEFINE_TOGGLE(DQBB)
+UI_MENU_DEFINE_TOGGLE(DQBBImageWrite) /* FIXME */
 
-UI_CALLBACK(set_dqbb_image_name)
-{
-#ifdef USE_GNOMEUI
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("DQBB image"), UILIB_FILTER_ALL);
-#else
-    /* XAW ui does not allow to enter non existing file in file browser */
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("DQBB image"), _("Image:"));
-#endif
-}
+static UI_CALLBACK(dqbb_set_image_name);
+static UI_CALLBACK(dqbb_flush_callback);
+static UI_CALLBACK(dqbb_save_callback);
 
 ui_menu_entry_t dqbb_submenu[] = {
     { N_("Enable DQBB"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DQBB, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("DQBB image name..."), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)set_dqbb_image_name,
+      (ui_callback_t)dqbb_set_image_name,
       (ui_callback_data_t)"DQBBfilename", NULL },
+    { N_("Save DQBB image when changed"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DQBBImageWrite, NULL, NULL },
+    { N_("Save DQBB image now"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)dqbb_flush_callback, NULL, NULL },
+    { N_("Save DQBB image as..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)dqbb_save_callback, NULL, NULL },
     { NULL }
 };
+
+static UI_CALLBACK(dqbb_set_image_name)
+{
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("DQBB image"), UILIB_FILTER_ALL);
+#else
+    /* FIXME: XAW ui does not allow to enter non existing file in file browser */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("DQBB image"), _("Image:"));
+#endif
+}
+
+static UI_CALLBACK(dqbb_flush_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_DQBB));
+    } else {
+        if (cartridge_flush_image(CARTRIDGE_DQBB) < 0) {
+            ui_error(_("Can not save cartridge"));
+        }
+    }
+}
+
+static UI_CALLBACK(dqbb_save_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_DQBB));
+    } else {
+        ui_cartridge_save_dialog(CARTRIDGE_EXPERT);
+    }
+}

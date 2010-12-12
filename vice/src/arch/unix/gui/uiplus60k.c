@@ -40,7 +40,7 @@ UI_CALLBACK(set_plus60k_image_name)
 #ifdef USE_GNOMEUI
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS60K image"), UILIB_FILTER_ALL);
 #else
-    /* XAW ui does not allow to enter non existing file in file browser */
+    /* FIXME: XAW ui does not allow to enter non existing file in file browser */
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS60K image"), _("Image:"));
 #endif
 }
@@ -58,6 +58,7 @@ ui_menu_entry_t plus60k_submenu[] = {
       (ui_callback_t)toggle_PLUS60K, NULL, NULL },
     { N_("PLUS60K base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus60k_base_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("PLUS60K image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_plus60k_image_name,
       (ui_callback_data_t)"PLUS60Kfilename", NULL },

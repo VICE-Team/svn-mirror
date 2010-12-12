@@ -163,6 +163,9 @@ static UI_CALLBACK(set_sectors)
 }
 
 ui_menu_entry_t ide64_submenu[] = {
+    { N_("Hardware version 4"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IDE64version4, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("IDE64 image 1 name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image1", NULL },
@@ -176,8 +179,6 @@ ui_menu_entry_t ide64_submenu[] = {
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image4", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Hardware version 4"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IDE64version4, NULL, NULL },
     { N_("Autodetect image size"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IDE64AutodetectSize, NULL, NULL },
     { N_("Cylinders..."), UI_MENU_TYPE_NORMAL,

@@ -38,13 +38,13 @@
 #include "uiexpert.h"
 #include "vsync.h"
 
-static UI_CALLBACK(expert_save_cartridge)
-{
-    ui_cartridge_save_dialog(CARTRIDGE_EXPERT);
-}
-
 UI_MENU_DEFINE_RADIO(ExpertCartridgeMode)
 UI_MENU_DEFINE_TOGGLE(ExpertCartridgeEnabled)
+UI_MENU_DEFINE_TOGGLE(ExpertImageWrite) /* FIXME */
+
+static UI_CALLBACK(expert_set_image_name); /* FIXME */
+static UI_CALLBACK(expert_flush_cartridge);
+static UI_CALLBACK(expert_save_cartridge);
 
 ui_menu_entry_t expert_submenu[] = {
     { N_("Enable Expert Cartridge"), UI_MENU_TYPE_TICK,
@@ -57,7 +57,45 @@ ui_menu_entry_t expert_submenu[] = {
     { N_("On"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExpertCartridgeMode,
       (ui_callback_data_t)EXPERT_MODE_ON, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Expert Cartridge image name..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)expert_set_image_name,
+      (ui_callback_data_t)"Expertfilename", NULL },
+    { N_("Save Expert Cartridge image when changed"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_ExpertImageWrite, NULL, NULL },
+    { N_("Save Expert Cartridge image now"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)expert_flush_cartridge, NULL, NULL },
     { N_("Save Expert Cartridge image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)expert_save_cartridge, NULL, NULL },
     { NULL }
 };
+
+static UI_CALLBACK(expert_set_image_name)
+{
+#ifdef USE_GNOMEUI
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Expert Cartridge image"), UILIB_FILTER_ALL);
+#else
+    /* FIXME: XAW ui does not allow to enter non existing file in file browser */
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Expert Cartridge image"), _("Image:"));
+#endif
+}
+
+static UI_CALLBACK(expert_flush_cartridge)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_EXPERT));
+    } else {
+        if (cartridge_flush_image(CARTRIDGE_EXPERT) < 0) {
+            ui_error(_("Can not save cartridge"));
+        }
+    }
+}
+
+static UI_CALLBACK(expert_save_cartridge)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_EXPERT));
+    } else {
+        ui_cartridge_save_dialog(CARTRIDGE_EXPERT);
+    }
+}
+

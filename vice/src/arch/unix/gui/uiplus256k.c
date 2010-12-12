@@ -39,7 +39,7 @@ UI_CALLBACK(set_plus256k_image_name)
 #ifdef USE_GNOMEUI
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS256K image"), UILIB_FILTER_ALL);
 #else
-    /* XAW ui does not allow to enter non existing file in file browser */
+    /* FIXME: XAW ui does not allow to enter non existing file in file browser */
     uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS256K image"), _("Image:"));
 #endif
 }
@@ -47,6 +47,7 @@ UI_CALLBACK(set_plus256k_image_name)
 ui_menu_entry_t plus256k_submenu[] = {
     { N_("Enable PLUS256K"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_PLUS256K, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("PLUS256K image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_plus256k_image_name,
       (ui_callback_data_t)"PLUS256Kfilename", NULL },

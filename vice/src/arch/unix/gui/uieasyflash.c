@@ -31,6 +31,7 @@
 
 #include "cartridge.h"
 #include "uiapi.h"
+#include "uicartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uieasyflash.h"
@@ -38,19 +39,39 @@
 UI_MENU_DEFINE_TOGGLE(EasyFlashJumper)
 UI_MENU_DEFINE_TOGGLE(EasyFlashWriteCRT)
 
-static UI_CALLBACK(easyflash_save_callback)
-{
-    if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
-        ui_error(_("Cannot save cartridge"));
-    }
-}
+static UI_CALLBACK(easyflash_flush_callback);
+static UI_CALLBACK(easyflash_save_callback);
 
 ui_menu_entry_t easyflash_submenu[] = {
-    { N_("Jumper"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_EasyFlashJumper,
-      NULL, NULL },
-    { N_("Save CRT on detach"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_EasyFlashWriteCRT,
-      NULL, NULL },
-    { N_("Save CRT now"), UI_MENU_TYPE_NORMAL,
+    { N_("Jumper"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_EasyFlashJumper, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Save Easyflash image on detach"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_EasyFlashWriteCRT, NULL, NULL },
+    { N_("Save Easyflash image now"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)easyflash_flush_callback, NULL, NULL },
+    { N_("Save Easyflash image as..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)easyflash_save_callback, NULL, NULL },
     { NULL }
 };
+
+static UI_CALLBACK(easyflash_flush_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_EASYFLASH));
+    } else {
+        if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
+            ui_error(_("Can not save cartridge"));
+        }
+    }
+}
+
+static UI_CALLBACK(easyflash_save_callback)
+{
+    if (CHECK_MENUS) {
+        ui_menu_set_sensitive(w, cartridge_type_enabled(CARTRIDGE_EASYFLASH));
+    } else {
+        ui_cartridge_save_dialog(CARTRIDGE_EASYFLASH);
+    }
+}
+
