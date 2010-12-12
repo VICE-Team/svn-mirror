@@ -99,7 +99,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION      "IDE64-indstilliinger"
+    IDS_IDE64_CAPTION      "IDE64-indstillinger"
     IDS_IDE64_V4           "Enable IDE64 V4"
     IDS_IDE64_IMAGE_1      "&HD image #1 file"
     IDS_IDE64_IMAGE_2      "&HD image #2 file"
@@ -121,11 +121,11 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64 Einstellungen"
-    IDS_IDE64_V4           "Enable IDE64 V4"
-    IDS_IDE64_IMAGE_1      "&HD image #1 file"
-    IDS_IDE64_IMAGE_2      "&HD image #2 file"
-    IDS_IDE64_IMAGE_3      "&HD image #3 file"
-    IDS_IDE64_IMAGE_4      "&HD image #4 file"
+    IDS_IDE64_V4           "IDE64 V4 aktivieren"
+    IDS_IDE64_IMAGE_1      "&HD Image #1 Datei"
+    IDS_IDE64_IMAGE_2      "&HD Image #2 Datei"
+    IDS_IDE64_IMAGE_3      "&HD Image #3 Datei"
+    IDS_IDE64_IMAGE_4      "&HD Image #4 Datei"
     IDS_IDE64_GEOMETRY     "&Geometrie"
     IDS_IDE64_AUTODETECT   "&Automatische Erkennung"
     IDS_IDE64_CYLINDERS    "Zylinder"
@@ -141,7 +141,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION      "Paramètres IDE64"
+    IDS_IDE64_CAPTION      "IDE64 settings"
     IDS_IDE64_V4           "Enable IDE64 V4"
     IDS_IDE64_IMAGE_1      "&HD image #1 file"
     IDS_IDE64_IMAGE_2      "&HD image #2 file"
@@ -234,7 +234,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION      "IDE64 Settings"
+    IDS_IDE64_CAPTION      "IDE64 settings"
     IDS_IDE64_V4           "Enable IDE64 V4"
     IDS_IDE64_IMAGE_1      "&HD image #1 file"
     IDS_IDE64_IMAGE_2      "&HD image #2 file"
@@ -259,11 +259,11 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64-inställningar"
-    IDS_IDE64_V4           "Enable IDE64 V4"
-    IDS_IDE64_IMAGE_1      "&HD image #1 file"
-    IDS_IDE64_IMAGE_2      "&HD image #2 file"
-    IDS_IDE64_IMAGE_3      "&HD image #3 file"
-    IDS_IDE64_IMAGE_4      "&HD image #4 file"
+    IDS_IDE64_V4           "Aktivera IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD-avbildningsfil 1"
+    IDS_IDE64_IMAGE_2      "&HD-avbildningsfil 2"
+    IDS_IDE64_IMAGE_3      "&HD-avbildningsfil 3"
+    IDS_IDE64_IMAGE_4      "&HD-avbildningsfil 4"
     IDS_IDE64_GEOMETRY     "&Geometri"
     IDS_IDE64_AUTODETECT   "&Autodetektera"
     IDS_IDE64_CYLINDERS    "Cylindrar"
@@ -282,7 +282,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_CAPTION      "IDE64 Ayarlarý"
+    IDS_IDE64_CAPTION      "IDE64 ayarlarý"
     IDS_IDE64_V4           "Enable IDE64 V4"
     IDS_IDE64_IMAGE_1      "&HD image #1 file"
     IDS_IDE64_IMAGE_2      "&HD image #2 file"
@@ -299,4 +299,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

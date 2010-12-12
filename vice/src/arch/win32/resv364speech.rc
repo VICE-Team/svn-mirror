@@ -53,10 +53,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_V364SPEECH_CAPTION     "V364 Speech Settings"
-  IDS_V364SPEECH_ENABLE      "&Enable V364 Speech"
-  IDS_V364SPEECH_FILE        "V364 Speech ROM file"
-  IDS_V364SPEECH_SELECT_FILE "Select ROM file for V364 Speech"
+  IDS_V364SPEECH_CAPTION     "V364 Stimme Einstellungen"
+  IDS_V364SPEECH_ENABLE      "V364 Spracherw&eiterung aktivieren"
+  IDS_V364SPEECH_FILE        "V364 Stimme ROM Datei"
+  IDS_V364SPEECH_SELECT_FILE "Datei für V364 Stimme ROM auswählen"
 END
 
 
@@ -137,10 +137,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_V364SPEECH_CAPTION     "V364 Speech Settings"
-  IDS_V364SPEECH_ENABLE      "&Enable V364 Speech"
-  IDS_V364SPEECH_FILE        "V364 Speech ROM file"
-  IDS_V364SPEECH_SELECT_FILE "Select ROM file for V364 Speech"
+  IDS_V364SPEECH_CAPTION     "V364-röstinställningar"
+  IDS_V364SPEECH_ENABLE      "&Aktivera V364-röst"
+  IDS_V364SPEECH_FILE        "ROM-fil för V364-röst"
+  IDS_V364SPEECH_SELECT_FILE "Välj ROM-fil för V364-röst"
 END
 
 
@@ -160,4 +160,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

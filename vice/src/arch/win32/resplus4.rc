@@ -549,7 +549,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Funktions ROM Image Datei low (3plus1)"
   IDS_MI_CART_ATTACH_FUNCHI       "Funktions ROM Image Datei high (3plus1)"
   IDS_MI_PLUS4_SETTINGS           "P&lus4 Einstellungen..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Stimme Einstellungen"
 END
 
 
@@ -753,7 +753,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Funktion låg-avbildning (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Funktion hög-avbildning (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4-inställningar..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364-röstinställningar..."
 END
 
 
@@ -793,4 +793,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

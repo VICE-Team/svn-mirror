@@ -79,7 +79,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-fil"
   IDS_MMC64_IMAGE_RO         "MMC/SD-image skrivebeskyttet"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-&imagefil"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
 END
 
 
@@ -95,7 +95,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS Datei"
   IDS_MMC64_IMAGE_RO         "MMC/SD Image Schreibschutz"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Image Name"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card Typ"
 END
 
 
@@ -111,7 +111,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "Fichier du &BIOS"
   IDS_MMC64_IMAGE_RO         "Image MMC/SD en lecture seule"
   IDS_MMC64_IMAGE_FILE_LABEL "Nom de l’image de fichier MMC/SD"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
 END
 
 
@@ -130,7 +130,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS fájl"
   IDS_MMC64_IMAGE_RO         "MMC/SD képmás csak olvasható"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &képmás fájl"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -149,7 +149,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "File del &BIOS"
   IDS_MMC64_IMAGE_RO         "Immagine MMC/SD in sola lettura"
   IDS_MMC64_IMAGE_FILE_LABEL "File &immagine MMC/SD"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
 END
 
 
@@ -165,7 +165,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-bestand"
   IDS_MMC64_IMAGE_RO         "MMC/SD-bestand alleen-lezen"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-b&estand"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
 END
 
 
@@ -184,7 +184,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS File"
   IDS_MMC64_IMAGE_RO         "MMC/SD Image read-only"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Image File"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -203,7 +203,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-fil"
   IDS_MMC64_IMAGE_RO         "MMC/SD-avbildning skrivskyddad"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-&avbildningsfil"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Korttyp"
 END
 
 
@@ -222,7 +222,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS Dosyasý"
   IDS_MMC64_IMAGE_RO         "Salt Okunur MMC/SD Imajý"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Imaj Dosyasý"
-  IDS_MMC64_SDTYPE_LABEL     "SD Type"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

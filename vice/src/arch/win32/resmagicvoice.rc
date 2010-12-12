@@ -53,10 +53,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
-  IDS_MAGICVOICE_ENABLE      "&Enable Magic Voice"
-  IDS_MAGICVOICE_FILE        "Magic Voice file"
-  IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice Einstellungen"
+  IDS_MAGICVOICE_ENABLE      "&Magic Voice aktivieren"
+  IDS_MAGICVOICE_FILE        "Magic Voice Datei"
+  IDS_MAGICVOICE_SELECT_FILE "Datei für Magic Voice auswählen"
 END
 
 
@@ -137,10 +137,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
-  IDS_MAGICVOICE_ENABLE      "&Enable Magic Voice"
-  IDS_MAGICVOICE_FILE        "Magic Voice file"
-  IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice-inställningar"
+  IDS_MAGICVOICE_ENABLE      "&Aktivera Magic Voice"
+  IDS_MAGICVOICE_FILE        "Magic Voice-fil"
+  IDS_MAGICVOICE_SELECT_FILE "Välj fil för Magic Voice"
 END
 
 
@@ -160,4 +160,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

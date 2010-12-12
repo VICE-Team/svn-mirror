@@ -55,11 +55,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "MIDI-indstillinger"
-  IDS_MIDI_ENABLE     "&Aktivér MIDI"
-  IDS_MIDI_TYPE_LABEL "MIDI-cartridgetype"
-  IDS_MIDI_IN_LABEL   "MIDI-inddataenhed"
-  IDS_MIDI_OUT_LABEL  "MIDI-uddataenhed"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI type"
+  IDS_MIDI_IN_LABEL   "MIDI-In device"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
 END
 
 
@@ -68,11 +68,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Einstellungen"
-  IDS_MIDI_ENABLE     "Midi aktivi&eren"
-  IDS_MIDI_TYPE_LABEL "Midi Modul Type"
-  IDS_MIDI_IN_LABEL   "Midi-Eingang Gerät"
-  IDS_MIDI_OUT_LABEL  "Midi-Ausgang Gerät"
+  IDS_MIDI_CAPTION    "MIDI Einstellungen"
+  IDS_MIDI_ENABLE     "MIDI aktivier&en"
+  IDS_MIDI_TYPE_LABEL "MIDI Typ"
+  IDS_MIDI_IN_LABEL   "MIDI-In Gerät"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out Gerät"
 END
 
 
@@ -81,11 +81,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Settings"
-  IDS_MIDI_ENABLE     "&Enable midi"
-  IDS_MIDI_TYPE_LABEL "Midi cart type"
-  IDS_MIDI_IN_LABEL   "Midi-in device"
-  IDS_MIDI_OUT_LABEL  "Midi-out device"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI type"
+  IDS_MIDI_IN_LABEL   "MIDI-In device"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
 END
 
 
@@ -97,11 +97,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi beállításai"
-  IDS_MIDI_ENABLE     "Midi &engedélyezése"
-  IDS_MIDI_TYPE_LABEL "Midi cartridge típusa"
-  IDS_MIDI_IN_LABEL   "Midi-in eszköz"
-  IDS_MIDI_OUT_LABEL  "Midi-out eszköz"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI type"
+  IDS_MIDI_IN_LABEL   "MIDI-In device"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -113,11 +113,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Impostazioni Midi"
-  IDS_MIDI_ENABLE     "&Attiva midi"
-  IDS_MIDI_TYPE_LABEL "Tipo di cartuccia Midi"
-  IDS_MIDI_IN_LABEL   "Dispositivo Midi-in"
-  IDS_MIDI_OUT_LABEL  "Dispositivo Midi-out"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI type"
+  IDS_MIDI_IN_LABEL   "MIDI-In device"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
 END
 
 
@@ -126,11 +126,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Instellingen"
-  IDS_MIDI_ENABLE     "&Activeer midi"
-  IDS_MIDI_TYPE_LABEL "Midi cartridge soort"
-  IDS_MIDI_IN_LABEL   "Midi-in apparaat"
-  IDS_MIDI_OUT_LABEL  "Midi-out apparaat"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI soort"
+  IDS_MIDI_IN_LABEL   "MIDI-In apparaat"
+  IDS_MIDI_OUT_LABEL  "MIDI-uit apparaat"
 END
 
 
@@ -142,11 +142,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Settings"
-  IDS_MIDI_ENABLE     "&Enable midi"
-  IDS_MIDI_TYPE_LABEL "Midi cart type"
-  IDS_MIDI_IN_LABEL   "Midi-in device"
-  IDS_MIDI_OUT_LABEL  "Midi-out device"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI type"
+  IDS_MIDI_IN_LABEL   "MIDI-In device"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -158,11 +158,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi-inställningar"
-  IDS_MIDI_ENABLE     "&Aktivera midi"
-  IDS_MIDI_TYPE_LABEL "Midimodultyp"
-  IDS_MIDI_IN_LABEL   "Inenhet för Midi"
-  IDS_MIDI_OUT_LABEL  "Utenhet för Midi"
+  IDS_MIDI_CAPTION    "MIDI-inställningar"
+  IDS_MIDI_ENABLE     "&Aktivera MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI-typ"
+  IDS_MIDI_IN_LABEL   "Enhet för MIDI-in"
+  IDS_MIDI_OUT_LABEL  "Enhet för MIDI-ut"
 END
 
 
@@ -174,11 +174,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MIDI_CAPTION    "Midi Ayarlarý"
-  IDS_MIDI_ENABLE     "Midi'yi aktif &et"
-  IDS_MIDI_TYPE_LABEL "Midi kart tipi"
-  IDS_MIDI_IN_LABEL   "Midi-in aygýtý"
-  IDS_MIDI_OUT_LABEL  "Midi-out aygýtý"
+  IDS_MIDI_CAPTION    "MIDI settings"
+  IDS_MIDI_ENABLE     "&Enable MIDI"
+  IDS_MIDI_TYPE_LABEL "MIDI type"
+  IDS_MIDI_IN_LABEL   "MIDI-In device"
+  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

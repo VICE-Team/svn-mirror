@@ -676,7 +676,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAM9       "$&9*** als RAM (nur 8296)"
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM (nur 8296)"
   IDS_MI_PET_SETTINGS            "P&ET Einstellungen..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET &DWW Einstellungen..."
   IDS_MI_PETREU_SETTINGS         "PET &REU Einstellungen..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "PET &Userport DAC aktivi&eren"
 END
@@ -904,9 +904,9 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAM9       "$&9*** som RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
   IDS_MI_PET_SETTINGS            "P&ET-inställningar..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET &DWW-inställningar..."
   IDS_MI_PETREU_SETTINGS         "PET &REU-inställningar..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera PET användarport-&D/A-omvandlare"
 END
 
 
@@ -950,4 +950,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

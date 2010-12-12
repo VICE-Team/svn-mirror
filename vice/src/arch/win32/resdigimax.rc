@@ -40,7 +40,7 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimaxindstillinger"
   IDS_DIGIMAX_ENABLE  "&Aktivér Digimax"
-  IDS_DIGIMAX_BASE    "Digimax baseadresse"
+  IDS_DIGIMAX_BASE    "Digimax-base"
 END
 
 
@@ -51,7 +51,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimax Einstellungen"
   IDS_DIGIMAX_ENABLE  "Digimax aktivi&eren"
-  IDS_DIGIMAX_BASE    "Digimax Basis Adresse"
+  IDS_DIGIMAX_BASE    "Digimax Basis"
 END
 
 
@@ -62,7 +62,7 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimax Settings"
   IDS_DIGIMAX_ENABLE  "&Enable digimax"
-  IDS_DIGIMAX_BASE    "Digimax base address"
+  IDS_DIGIMAX_BASE    "Base Digimax"
 END
 
 
@@ -76,7 +76,7 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimax beállításai"
   IDS_DIGIMAX_ENABLE  "Digimax &engedélyezése"
-  IDS_DIGIMAX_BASE    "Digimax báziscíme"
+  IDS_DIGIMAX_BASE    "Digimax báziscím"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -90,7 +90,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Impostazioni digimax"
   IDS_DIGIMAX_ENABLE  "&Attiva digimax"
-  IDS_DIGIMAX_BASE    "Indirizzo base Digimax"
+  IDS_DIGIMAX_BASE    "Indirizzo base digimax"
 END
 
 
@@ -101,7 +101,7 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimaxinstellingen"
   IDS_DIGIMAX_ENABLE  "&Activeer digimax"
-  IDS_DIGIMAX_BASE    "Digimax-basisadres"
+  IDS_DIGIMAX_BASE    "Digimax basisadres"
 END
 
 
@@ -115,7 +115,7 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimax Settings"
   IDS_DIGIMAX_ENABLE  "&Enable digimax"
-  IDS_DIGIMAX_BASE    "Digimax base address"
+  IDS_DIGIMAX_BASE    "Digimax base"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -129,7 +129,7 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimaxinställningar"
   IDS_DIGIMAX_ENABLE  "&Aktivera Digimax"
-  IDS_DIGIMAX_BASE    "Basadress för Digimax"
+  IDS_DIGIMAX_BASE    "Digimax-bas"
 END
 
 
@@ -143,7 +143,7 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_DIGIMAX_CAPTION "Digimax Ayarlarý"
   IDS_DIGIMAX_ENABLE  "Digimax'ý aktif &et"
-  IDS_DIGIMAX_BASE    "Digimax taban adresi"
+  IDS_DIGIMAX_BASE    "Digimax taban"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
