@@ -438,7 +438,7 @@ msgstr "CIA 1 model"
 #: src/arch/unix/gui/c64ui.c:252 src/arch/win32/resc64.rc.po.c:542
 #: src/arch/amigaos/intl_text.c.po.c:7146
 msgid "CIA 2 model"
-`msgstr "CIA 2 model"
+msgstr "CIA 2 model"
 
 #: src/arch/unix/gui/c128ui.c:468
 msgid "Always switch to C64 mode"
