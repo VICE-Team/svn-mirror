@@ -195,10 +195,12 @@ int parallel_trap_attention(int b)
           case 0xf0:            /* Open File needs the filename first */
             TrapSecondary = b;
             p = serial_device_get(TrapDevice & 0x0f);
+#ifndef DELAYEDCLOSE
             vdrive = (void *)file_system_get_vdrive(TrapDevice & 0x0f);
             if (p->isopen[b & 0x0f] == 2) {
                (*(p->closef))(vdrive, b & 0x0f);
             }
+#endif
             p->isopen[b & 0x0f] = 1;
             break;
         }
