@@ -138,7 +138,7 @@ static BYTE REGPARM1 georam_io2_peek(WORD addr);
 static void REGPARM2 georam_io2_store(WORD addr, BYTE byte);
 
 static io_source_t georam_io1_device = {
-    "GEORAM",
+    CARTRIDGE_NAME_GEORAM,
     IO_DETACH_RESOURCE,
     "GEORAM",
     0xde00, 0xdeff, 0xff,
@@ -151,7 +151,7 @@ static io_source_t georam_io1_device = {
 };
 
 static io_source_t georam_io2_device = {
-    "GEORAM",
+    CARTRIDGE_NAME_GEORAM,
     IO_DETACH_RESOURCE,
     "GEORAM",
     0xdf80, 0xdfff, 0x7f,
@@ -167,7 +167,7 @@ static io_source_list_t *georam_io1_list_item = NULL;
 static io_source_list_t *georam_io2_list_item = NULL;
 
 static const c64export_resource_t export_res= {
-    "GEORAM", 0, 0, &georam_io1_device, &georam_io2_device, CARTRIDGE_GEORAM
+    CARTRIDGE_NAME_GEORAM, 0, 0, &georam_io1_device, &georam_io2_device, CARTRIDGE_GEORAM
 };
 
 /* ------------------------------------------------------------------------- */
@@ -424,12 +424,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "GEORAMImageWrite", (resource_value_t)1,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("allow writing to GEORAM image") },
+      NULL, T_("Allow writing to GEORAM image") },
     { "+georamimagerw", SET_RESOURCE, 0,
       NULL, NULL, "GEORAMImageWrite", (resource_value_t)0,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("do not write to GEORAM image") },
+      NULL, T_("Do not write to GEORAM image") },
     { NULL }
 };
 

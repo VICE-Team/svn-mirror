@@ -105,7 +105,7 @@ static BYTE REGPARM1 dqbb_io1_peek(WORD addr);
 static void REGPARM2 dqbb_io1_store(WORD addr, BYTE byte);
 
 static io_source_t dqbb_io1_device = {
-    "DOUBLE QUICK BROWN BOX",
+    CARTRIDGE_NAME_DQBB,
     IO_DETACH_RESOURCE,
     "DQBB",
     0xde00, 0xdeff, 0x01,
@@ -120,7 +120,7 @@ static io_source_t dqbb_io1_device = {
 static io_source_list_t *dqbb_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Double Quick Brown Box", 1, 1, &dqbb_io1_device, NULL, CARTRIDGE_DQBB
+    CARTRIDGE_NAME_DQBB, 1, 1, &dqbb_io1_device, NULL, CARTRIDGE_DQBB
 };
 
 /* ------------------------------------------------------------------------- */
@@ -314,12 +314,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "DQBBImageWrite", (resource_value_t)1,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("allow writing to DQBB image") },
+      NULL, T_("Allow writing to DQBB image") },
     { "+dqbbimagerw", SET_RESOURCE, 0,
       NULL, NULL, "DQBBImageWrite", (resource_value_t)0,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("do not write to DQBB image") },
+      NULL, T_("Do not write to DQBB image") },
     { NULL }
 };
 

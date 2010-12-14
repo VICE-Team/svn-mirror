@@ -141,7 +141,7 @@ static BYTE REGPARM1 ramcart_io2_read(WORD addr);
 static void REGPARM2 ramcart_io2_store(WORD addr, BYTE byte);
 
 static io_source_t ramcart_io1_device = {
-    "RAMCART",
+    CARTRIDGE_NAME_RAMCART,
     IO_DETACH_RESOURCE,
     "RAMCART",
     0xde00, 0xdeff, 0x01,
@@ -154,7 +154,7 @@ static io_source_t ramcart_io1_device = {
 };
 
 static io_source_t ramcart_io2_device = {
-    "RAMCART",
+    CARTRIDGE_NAME_RAMCART,
     IO_DETACH_RESOURCE,
     "RAMCART",
     0xdf00, 0xdfff, 0xff,
@@ -170,7 +170,7 @@ static io_source_list_t *ramcart_io1_list_item = NULL;
 static io_source_list_t *ramcart_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "RAMCART", 1, 0, &ramcart_io1_device, &ramcart_io2_device, CARTRIDGE_RAMCART
+    CARTRIDGE_NAME_RAMCART, 1, 0, &ramcart_io1_device, &ramcart_io2_device, CARTRIDGE_RAMCART
 };
 
 /* ------------------------------------------------------------------------- */
@@ -439,12 +439,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "RAMCARTImageWrite", (resource_value_t)1,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("allow writing to RAMCart image") },
+      NULL, T_("Allow writing to RAMCart image") },
     { "+ramcartimagerw", SET_RESOURCE, 0,
       NULL, NULL, "RAMCARTImageWrite", (resource_value_t)0,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("do not write to RAMCart image") },
+      NULL, T_("Do not write to RAMCart image") },
     { NULL }
 };
 

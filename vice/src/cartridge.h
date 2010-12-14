@@ -197,14 +197,14 @@ extern BYTE cartridge_peek_mem(WORD addr);
      to Camel Case ("ACTION REPLAY V5" -> "Action Replay V5"), *except* if the
      cart name constitutes an actual name (as in noun) by itself ("ISEPIC", "EXOS").
 */
-#define CARTRIDGE_NAME_DIGIMAX            "Digimax"
+#define CARTRIDGE_NAME_DIGIMAX            "DigiMAX" /* http://starbase.globalpc.net/~ezekowitz/vanessa/hobbies/projects.html */
 #define CARTRIDGE_NAME_DQBB               "Double Quick Brown Box" /* on the cart itself its all uppercase ? */
 #define CARTRIDGE_NAME_GEORAM             "Georam"
 #define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
 #define CARTRIDGE_NAME_RAMCART            "Ramcart"
 #define CARTRIDGE_NAME_REU                "REU"
-#define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Soundexpander"
-#define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Soundsampler"
+#define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
+#define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
 #define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
 #define CARTRIDGE_NAME_MIDI_DATEL         "Datel MIDI"
 #define CARTRIDGE_NAME_MIDI_SEQUENTIAL    "Sequential MIDI"
@@ -215,10 +215,10 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_ACTION_REPLAY      "Action Replay V5" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
 #define CARTRIDGE_NAME_FINAL_III          "The Final Cartridge III" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
-#define CARTRIDGE_NAME_SIMONS_BASIC       "Simons Basic"
+#define CARTRIDGE_NAME_SIMONS_BASIC       "Simons' BASIC" /* http://en.wikipedia.org/wiki/Simons'_BASIC */
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_EXPERT             "Expert Cartridge" /* http://rr.pokefinder.org/wiki/Expert_Cartridge */
-#define CARTRIDGE_NAME_FUNPLAY            "Funplay"
+#define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
 #define CARTRIDGE_NAME_SUPER_GAMES        "Supergames"
 #define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* http://rr.pokefinder.org/wiki/Nordic_Power */
 #define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */
@@ -226,7 +226,7 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_REX                "REX"
 #define CARTRIDGE_NAME_FINAL_I            "The Final Cartridge" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
 #define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
-#define CARTRIDGE_NAME_GS                 "C64 Gamesystem"
+#define CARTRIDGE_NAME_GS                 "C64 Games System" /* http://retro.lonningdal.net/home.php?page=Computers&select=c64gs&image=c64gs4.jpg */
 #define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
 #define CARTRIDGE_NAME_DINAMIC            "Dinamic"
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"

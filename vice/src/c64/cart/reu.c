@@ -258,7 +258,7 @@ static BYTE REGPARM1 reu_io2_read(WORD addr);
 static BYTE REGPARM1 reu_io2_peek(WORD addr);
 
 static io_source_t reu_io2_device = {
-    "REU",
+    CARTRIDGE_NAME_REU,
     IO_DETACH_RESOURCE,
     "REU",
     0xdf00, 0xdfff, REU_REG_LAST_REG,
@@ -273,7 +273,7 @@ static io_source_t reu_io2_device = {
 static io_source_list_t *reu_list_item = NULL;
 
 static const c64export_resource_t export_res_reu= {
-    "REU", 0, 0, NULL, &reu_io2_device, CARTRIDGE_REU
+    CARTRIDGE_NAME_REU, 0, 0, NULL, &reu_io2_device, CARTRIDGE_REU
 };
 
 /* ------------------------------------------------------------------------- */
@@ -551,12 +551,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "REUImageWrite", (resource_value_t)1,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("allow writing to REU image") },
+      NULL, T_("Allow writing to REU image") },
     { "+reuimagerw", SET_RESOURCE, 0,
       NULL, NULL, "REUImageWrite", (resource_value_t)0,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("do not write to REU image") },
+      NULL, T_("Do not write to REU image") },
     { NULL }
 };
 

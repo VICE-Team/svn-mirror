@@ -128,7 +128,7 @@ static BYTE REGPARM1 isepic_io2_read(WORD addr);
 static void REGPARM2 isepic_io2_store(WORD addr, BYTE byte);
 
 static io_source_t isepic_io1_device = {
-    "ISEPIC",
+    CARTRIDGE_NAME_ISEPIC,
     IO_DETACH_RESOURCE,
     "IsepicCartridgeEnabled",
     0xde00, 0xdeff, 0x07,
@@ -141,7 +141,7 @@ static io_source_t isepic_io1_device = {
 };
 
 static io_source_t isepic_io2_device = {
-    "ISEPIC",
+    CARTRIDGE_NAME_ISEPIC,
     IO_DETACH_RESOURCE,
     "IsepicCartridgeEnabled",
     0xdf00, 0xdfff, 0xff,
@@ -154,7 +154,7 @@ static io_source_t isepic_io2_device = {
 };
 
 static const c64export_resource_t export_res = {
-    "ISEPIC", 1, 1, &isepic_io1_device, &isepic_io2_device, CARTRIDGE_ISEPIC
+    CARTRIDGE_NAME_ISEPIC, 1, 1, &isepic_io1_device, &isepic_io2_device, CARTRIDGE_ISEPIC
 };
 
 static io_source_list_t *isepic_io1_list_item = NULL;
@@ -384,17 +384,17 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "Isepicfilename", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("set Isepic image name") },
+      NULL, T_("Set ISEPIC image name") },
     { "-isepicimagerw", SET_RESOURCE, 0,
       NULL, NULL, "IsepicImageWrite", (resource_value_t)1,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("allow writing to Isepic image") },
+      NULL, T_("Allow writing to ISEPIC image") },
     { "+isepicimagerw", SET_RESOURCE, 0,
       NULL, NULL, "IsepicImageWrite", (resource_value_t)0,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("do not write to Isepic image") },
+      NULL, T_("Do not write to ISEPIC image") },
     { NULL }
 };
 

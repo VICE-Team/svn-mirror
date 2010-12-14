@@ -124,7 +124,7 @@ static int mmcr_filetype = 0;
 
 static int mmcr_write_image = 0;
 
-static const char STRING_MMC_REPLAY[] = "MMC Replay";
+static const char STRING_MMC_REPLAY[] = CARTRIDGE_NAME_MMC_REPLAY;
 
 /*
 Features
@@ -278,7 +278,7 @@ static BYTE REGPARM1 mmcreplay_io2_read(WORD addr);
 static void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t mmcreplay_io1_device = {
-    "MMC Replay",
+    CARTRIDGE_NAME_MMC_REPLAY,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -291,7 +291,7 @@ static io_source_t mmcreplay_io1_device = {
 };
 
 static io_source_t mmcreplay_io2_device = {
-    "MMC Replay",
+    CARTRIDGE_NAME_MMC_REPLAY,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -307,7 +307,7 @@ static io_source_list_t *mmcreplay_io1_list_item = NULL;
 static io_source_list_t *mmcreplay_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "MMC Replay", 1, 1, &mmcreplay_io1_device, &mmcreplay_io2_device, CARTRIDGE_MMC_REPLAY
+    CARTRIDGE_NAME_MMC_REPLAY, 1, 1, &mmcreplay_io1_device, &mmcreplay_io2_device, CARTRIDGE_MMC_REPLAY
 };
 
 /********************************************************************************************************************/
@@ -2836,12 +2836,12 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "MMCRImageWrite", (resource_value_t)1,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("allow writing to MMCR image") },
+      NULL, T_("Allow writing to MMCR image") },
     { "+mmcrimagerw", SET_RESOURCE, 0,
       NULL, NULL, "MMCRImageWrite", (resource_value_t)0,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("do not write to MMCR image") },
+      NULL, T_("Do not write to MMCR image") },
     { "-mmcrcardimage", SET_RESOURCE, 1,
       NULL, NULL, "MMCRCardImage", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

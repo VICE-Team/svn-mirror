@@ -146,7 +146,7 @@ static void REGPARM2 ide64_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 ide64_io1_read(WORD addr);
 
 static io_source_t ide64_device = {
-    "IDE64",
+    CARTRIDGE_NAME_IDE64,
     IO_DETACH_CART,
     NULL,
     0xde20, 0xdeff, 0xff,
@@ -161,7 +161,7 @@ static io_source_t ide64_device = {
 static io_source_list_t *ide64_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "IDE64", 1, 1, &ide64_device, NULL, CARTRIDGE_IDE64
+    CARTRIDGE_NAME_IDE64, 1, 1, &ide64_device, NULL, CARTRIDGE_IDE64
 };
 
 /* ---------------------------------------------------------------------*/

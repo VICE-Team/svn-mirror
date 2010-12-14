@@ -218,7 +218,7 @@ static int expert_write_image = 0;
 
 #define EXPERT_RAM_SIZE 8192
 
-static const char STRING_EXPERT[] = "Expert Cartridge";
+static const char STRING_EXPERT[] = CARTRIDGE_NAME_EXPERT;
 
 static int expert_load_image(void);
 
@@ -229,7 +229,7 @@ BYTE REGPARM1 expert_io1_peek(WORD addr);
 void REGPARM2 expert_io1_store(WORD addr, BYTE value);
 
 static io_source_t expert_io1_device = {
-    "Expert",
+    CARTRIDGE_NAME_EXPERT,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xde01, 0xff,
@@ -242,7 +242,7 @@ static io_source_t expert_io1_device = {
 };
 
 static const c64export_resource_t export_res = {
-    "Expert Cartridge", 1, 1, &expert_io1_device, NULL, CARTRIDGE_EXPERT
+    CARTRIDGE_NAME_EXPERT, 1, 1, &expert_io1_device, NULL, CARTRIDGE_EXPERT
 };
 
 static io_source_list_t *expert_io1_list_item = NULL;
@@ -896,17 +896,17 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "Expertfilename", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("set Expert Cartridge image name") },
+      NULL, T_("Set Expert Cartridge image name") },
     { "-expertimagerw", SET_RESOURCE, 0,
       NULL, NULL, "ExpertImageWrite", (resource_value_t)1,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("allow writing to Expert Cartridge image") },
+      NULL, T_("Allow writing to Expert Cartridge image") },
     { "+expertimagerw", SET_RESOURCE, 0,
       NULL, NULL, "ExpertImageWrite", (resource_value_t)0,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
       IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("do not write to Expert Cartridge image") },
+      NULL, T_("Do not write to Expert Cartridge image") },
     { NULL }
 };
 
