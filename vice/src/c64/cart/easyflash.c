@@ -93,7 +93,7 @@ static BYTE easyflash_ram[256];
 static char *easyflash_filename = NULL;
 static int easyflash_filetype = 0;
 
-static const char STRING_EASYFLASH[] = "EasyFlash Cartridge";
+static const char STRING_EASYFLASH[] = CARTRIDGE_NAME_EASYFLASH;
 
 /* ---------------------------------------------------------------------*/
 
@@ -148,7 +148,7 @@ static int REGPARM1 easyflash_io1_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t easyflash_io1_device = {
-    "EasyFlash",
+    CARTRIDGE_NAME_EASYFLASH,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0x03,
@@ -161,7 +161,7 @@ static io_source_t easyflash_io1_device = {
 };
 
 static io_source_t easyflash_io2_device = {
-    "EasyFlash",
+    CARTRIDGE_NAME_EASYFLASH,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -177,7 +177,7 @@ static io_source_list_t *easyflash_io1_list_item = NULL;
 static io_source_list_t *easyflash_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "EasyFlash", 1, 1, &easyflash_io1_device, &easyflash_io2_device, CARTRIDGE_EASYFLASH
+    CARTRIDGE_NAME_EASYFLASH, 1, 1, &easyflash_io1_device, &easyflash_io2_device, CARTRIDGE_EASYFLASH
 };
 
 /* ---------------------------------------------------------------------*/

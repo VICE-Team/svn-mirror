@@ -772,7 +772,7 @@ static int REGPARM1 magicvoice_io2_dump(void)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t magicvoice_io2_device = {
-    "Magic Voice",
+    CARTRIDGE_NAME_MAGIC_VOICE,
     IO_DETACH_CART,
     NULL,
     0xdf80, 0xdfff, 0x07,
@@ -787,7 +787,7 @@ static io_source_t magicvoice_io2_device = {
 static io_source_list_t *magicvoice_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Magic Voice", 1, 1, NULL, &magicvoice_io2_device, CARTRIDGE_MAGIC_VOICE
+    CARTRIDGE_NAME_MAGIC_VOICE, 1, 1, NULL, &magicvoice_io2_device, CARTRIDGE_MAGIC_VOICE
 };
 
 /* ---------------------------------------------------------------------*/

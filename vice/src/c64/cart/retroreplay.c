@@ -115,7 +115,7 @@ static flash040_context_t *flashrom_state = NULL;
 static char *retroreplay_filename = NULL;
 static int retroreplay_filetype = 0;
 
-static const char STRING_RETRO_REPLAY[] = "Retro Replay";
+static const char STRING_RETRO_REPLAY[] = CARTRIDGE_NAME_RETRO_REPLAY;
 
 /* ---------------------------------------------------------------------*/
 
@@ -126,7 +126,7 @@ static BYTE REGPARM1 retroreplay_io2_read(WORD addr);
 static void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t retroreplay_io1_device = {
-    "Retro Replay",
+    CARTRIDGE_NAME_RETRO_REPLAY,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -139,7 +139,7 @@ static io_source_t retroreplay_io1_device = {
 };
 
 static io_source_t retroreplay_io2_device = {
-    "Retro Replay",
+    CARTRIDGE_NAME_RETRO_REPLAY,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -155,7 +155,7 @@ static io_source_list_t *retroreplay_io1_list_item = NULL;
 static io_source_list_t *retroreplay_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Retro Replay", 1, 1, &retroreplay_io1_device, &retroreplay_io2_device, CARTRIDGE_RETRO_REPLAY
+    CARTRIDGE_NAME_RETRO_REPLAY, 1, 1, &retroreplay_io1_device, &retroreplay_io2_device, CARTRIDGE_RETRO_REPLAY
 };
 
 /* ---------------------------------------------------------------------*/

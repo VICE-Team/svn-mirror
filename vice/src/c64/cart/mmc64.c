@@ -149,7 +149,7 @@ static BYTE mmc64_bios[0x2002];
 static int mmc64_bios_offset = 0;
 static int mmc64_bios_type = 0;
 
-static const char STRING_MMC64[] = "MMC64";
+static const char STRING_MMC64[] = CARTRIDGE_NAME_MMC64;
 
 static int mmc64_activate(void);
 static int mmc64_deactivate(void);
@@ -164,7 +164,7 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value);
 static BYTE REGPARM1 mmc64_io2_read(WORD addr);
 
 static io_source_t mmc64_io1_clockport_device = {
-    "MMC64 CLOCKPORT ENABLE",
+    CARTRIDGE_NAME_MMC64 " CLOCKPORT ENABLE",
     IO_DETACH_RESOURCE,
     "MMC64",
     0xde01, 0xde01, 0x01,
@@ -177,7 +177,7 @@ static io_source_t mmc64_io1_clockport_device = {
 };
 
 static io_source_t mmc64_io2_clockport_device = {
-    "MMC64 CLOCKPORT ENABLE",
+    CARTRIDGE_NAME_MMC64 " CLOCKPORT ENABLE",
     IO_DETACH_RESOURCE,
     "MMC64",
     0xdf21, 0xdf21, 0x01,
@@ -194,11 +194,11 @@ static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device
 /* FIXME: register/handle this resource properly */
 
 static const c64export_resource_t export_cp_res = {
-    "MMC64 Clockport", 0, 0, &mmc64_io1_clockport_device, &mmc64_io2_clockport_device, CARTRIDGE_MMC64
+    CARTRIDGE_NAME_MMC64 " Clockport", 0, 0, &mmc64_io1_clockport_device, &mmc64_io2_clockport_device, CARTRIDGE_MMC64
 };
 
 static io_source_t mmc64_io2_device = {
-    "MMC64",
+    CARTRIDGE_NAME_MMC64,
     IO_DETACH_RESOURCE,
     "MMC64",
     0xdf10, 0xdf13, 0x03,
@@ -211,7 +211,7 @@ static io_source_t mmc64_io2_device = {
 };
 
 static io_source_t mmc64_io1_device = {
-    "MMC64",
+    CARTRIDGE_NAME_MMC64,
     IO_DETACH_RESOURCE,
     "MMC64",
     0xde10, 0xde13, 0x03,
@@ -228,7 +228,7 @@ static io_source_list_t *mmc64_io1_list_item = NULL;
 static io_source_list_t *mmc64_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "MMC64", 1, 0, &mmc64_io1_device, &mmc64_io2_device, CARTRIDGE_MMC64
+    CARTRIDGE_NAME_MMC64, 1, 0, &mmc64_io1_device, &mmc64_io2_device, CARTRIDGE_MMC64
 };
 
 /* ---------------------------------------------------------------------*/
