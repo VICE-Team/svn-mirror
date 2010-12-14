@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -80,14 +81,16 @@ static char *convert_cmdline_to_40_cols(char *text)
 
 static void make_40_cols(char *text)
 {
-    unsigned int i = 40;
+    int i = 40;
+    int len = strlen(text);
 
-    while (i < strlen(text)) {
+    while (i < len) {
         while (text[i] != ' ') {
             i--;
         }
         text[i] = '\n';
         text += i + 1;
+        len -= i + 1;
         i = 40;
     }
 }
@@ -98,7 +101,7 @@ static char *contrib_convert(char *text)
     char *pos;
     unsigned int i = 0;
     unsigned int j = 0;
-    int single=0;
+    int single = 0;
     size_t size;
 
     size = strlen(text);
@@ -158,8 +161,26 @@ static char *contrib_convert(char *text)
     return new_text;
 }
 
+static unsigned int scroll_up(const char *text, int first_line, int amount)
+{
+    int line = first_line;
+
+    while ((amount--) && (line > 0)) {
+        int i = line - 2;
+
+        while ((i >= 0) && (text[i] != '\n')) {
+            --i;
+        }
+
+        line = i + 1;
+    }
+
+    return line;
+}
+
 static void show_text(const char *text)
 {
+    int first_line = 0;
     int next_line = 0;
     int next_page = 0;
     unsigned int current_line = 0;
@@ -171,9 +192,10 @@ static void show_text(const char *text)
 
     menu_draw = sdl_ui_get_menu_param();
 
-    string = lib_malloc(81);
+    string = lib_malloc(512);
     while (active) {
         sdl_ui_clear();
+        first_line = current_line;
         for (y = 0; (y < menu_draw->max_text_y) && (current_line < strlen(text)); y++) {
             z = 0;
             for (x = 0; text[current_line + x] != '\n'; x++) {
@@ -224,10 +246,12 @@ static void show_text(const char *text)
         next_page = current_line;
         active_keys = 1;
         sdl_ui_refresh();
+
         while (active_keys) {
             switch(sdl_ui_menu_poll_input()) {
                 case MENU_ACTION_CANCEL:
                 case MENU_ACTION_EXIT:
+                case MENU_ACTION_SELECT:
                     active_keys = 0;
                     active = 0;
                     break;
@@ -238,6 +262,14 @@ static void show_text(const char *text)
                 case MENU_ACTION_DOWN:
                     active_keys = 0;
                     current_line = next_line;
+                    break;
+                case MENU_ACTION_LEFT:
+                    active_keys = 0;
+                    current_line = scroll_up(text, first_line, menu_draw->max_text_y);
+                    break;
+                case MENU_ACTION_UP:
+                    active_keys = 0;
+                    current_line = scroll_up(text, first_line, 1);
                     break;
                 default:
                     SDL_Delay(10);
@@ -272,10 +304,12 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 2007-2010 Daniel Kahlin", 16);
         sdl_ui_print_center("(C) 2008-2010 Antti S. Lankila", 17);
         sdl_ui_refresh();
+
         while (active) {
             switch(sdl_ui_menu_poll_input()) {
                 case MENU_ACTION_CANCEL:
                 case MENU_ACTION_EXIT:
+                case MENU_ACTION_SELECT:
                     active = 0;
                     break;
                 default:
