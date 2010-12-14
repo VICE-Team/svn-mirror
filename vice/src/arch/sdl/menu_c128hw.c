@@ -30,6 +30,7 @@
 
 #include "types.h"
 
+#include "cartridge.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
@@ -136,7 +137,7 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)rs232_menu },
 #endif
-    { "Digimax settings",
+    { CARTRIDGE_NAME_DIGIMAX " settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)digimax_menu },
@@ -151,16 +152,16 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       (ui_callback_data_t)midi_c64_menu },
 #endif
 #ifdef HAVE_TFE
-    { "The Final Ethernet settings",
+    { CARTRIDGE_NAME_TFE " settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { "SFX Sound Expander settings",
+    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)soundexpander_menu },
-    { "SFX Sound Sampler",
+    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SFXSoundSampler_callback,
       NULL },

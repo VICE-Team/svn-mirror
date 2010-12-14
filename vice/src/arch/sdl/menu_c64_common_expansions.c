@@ -30,6 +30,7 @@
 
 #include "types.h"
 
+#include "cartridge.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_common.h"
 #include "uimenu.h"
@@ -40,7 +41,7 @@ UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
 UI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
 
 const ui_menu_entry_t soundexpander_menu[] = {
-    { "Enable SFX Sound Expander",
+    { "Enable " CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SFXSoundExpander_callback,
       NULL },
@@ -64,7 +65,7 @@ UI_MENU_DEFINE_TOGGLE(DIGIMAX)
 UI_MENU_DEFINE_RADIO(DIGIMAXbase)
 
 const ui_menu_entry_t digimax_menu[] = {
-    { "Enable Digimax",
+    { "Enable " CARTRIDGE_NAME_DIGIMAX,
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DIGIMAX_callback,
       NULL },
@@ -161,22 +162,22 @@ const ui_menu_entry_t ide64_menu[] = {
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("HD images"),
-    { "IDE64 HD1 image file",
+    { "HD1 image file",
       MENU_ENTRY_DIALOG,
       file_string_IDE64Image1_callback,
-      (ui_callback_data_t)"Select IDE64 HD1 image" },
-    { "IDE64 HD2 image file",
+      (ui_callback_data_t)"Select HD1 image" },
+    { "HD2 image file",
       MENU_ENTRY_DIALOG,
       file_string_IDE64Image2_callback,
-      (ui_callback_data_t)"Select IDE64 HD2 image" },
-    { "IDE64 HD3 image file",
+      (ui_callback_data_t)"Select HD2 image" },
+    { "HD3 image file",
       MENU_ENTRY_DIALOG,
       file_string_IDE64Image3_callback,
-      (ui_callback_data_t)"Select IDE64 HD3 image" },
-    { "IDE64 HD4 image file",
+      (ui_callback_data_t)"Select HD3 image" },
+    { "HD4 image file",
       MENU_ENTRY_DIALOG,
       file_string_IDE64Image4_callback,
-      (ui_callback_data_t)"Select IDE64 HD4 image" },
+      (ui_callback_data_t)"Select HD4 image" },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("HD geometry"),
     { "Autodetect geometry",
