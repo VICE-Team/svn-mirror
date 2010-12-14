@@ -105,6 +105,7 @@ void ui_about(gpointer data)
         "Marco van den Heuvel - Dutch\n"
         "Flooder - Polish\n"
         "Czirkos Zoltan, Karai Csaba - Hungarian\n"
+	"Emir Akaydin (aka: Skate) - Turkish\n"
     );
 
     if (!about) {
