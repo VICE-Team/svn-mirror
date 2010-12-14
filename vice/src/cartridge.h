@@ -187,6 +187,83 @@ extern BYTE cartridge_peek_mem(WORD addr);
 
 #define CARTRIDGE_LAST                 52 /* cartconv: last cartridge in list */
 
+/* list of canonical names for the c64 cartridges: */
+/* note: often it is hard to determine "the" official name, let alone the way it
+   should be capitalized. because of that we go by the following rules:
+   - if even the actual spelling and/or naming is unclear, then the most "common"
+     variant is choosen ("Expert Cartridge" vs "The Expert")
+   - in many cases the name is printed all uppercase both on screen and in other
+     sources (manual, adverts). we refrain from doing the same here and convert
+     to Camel Case ("ACTION REPLAY V5" -> "Action Replay V5"), *except* if the
+     cart name constitutes an actual name (as in noun) by itself ("ISEPIC", "EXOS").
+*/
+#define CARTRIDGE_NAME_DIGIMAX            "Digimax"
+#define CARTRIDGE_NAME_DQBB               "Double Quick Brown Box" /* on the cart itself its all uppercase ? */
+#define CARTRIDGE_NAME_GEORAM             "Georam"
+#define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
+#define CARTRIDGE_NAME_RAMCART            "Ramcart"
+#define CARTRIDGE_NAME_REU                "REU"
+#define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Soundexpander"
+#define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Soundsampler"
+#define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
+#define CARTRIDGE_NAME_MIDI_DATEL         "Datel MIDI"
+#define CARTRIDGE_NAME_MIDI_SEQUENTIAL    "Sequential MIDI"
+#define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
+#define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
+#define CARTRIDGE_NAME_TFE                "The Final Ethernet"
+#define CARTRIDGE_NAME_TURBO232           "Turbo-232"
+#define CARTRIDGE_NAME_ACTION_REPLAY      "Action Replay V5" /* http://rr.pokefinder.org/wiki/Action_Replay */
+#define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
+#define CARTRIDGE_NAME_FINAL_III          "The Final Cartridge III" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
+#define CARTRIDGE_NAME_SIMONS_BASIC       "Simons Basic"
+#define CARTRIDGE_NAME_OCEAN              "Ocean"
+#define CARTRIDGE_NAME_EXPERT             "Expert Cartridge" /* http://rr.pokefinder.org/wiki/Expert_Cartridge */
+#define CARTRIDGE_NAME_FUNPLAY            "Funplay"
+#define CARTRIDGE_NAME_SUPER_GAMES        "Supergames"
+#define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* http://rr.pokefinder.org/wiki/Nordic_Power */
+#define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */
+#define CARTRIDGE_NAME_WESTERMANN         "Westermann"
+#define CARTRIDGE_NAME_REX                "REX"
+#define CARTRIDGE_NAME_FINAL_I            "The Final Cartridge" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
+#define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
+#define CARTRIDGE_NAME_GS                 "C64 Gamesystem"
+#define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
+#define CARTRIDGE_NAME_DINAMIC            "Dinamic"
+#define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
+#define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk"
+#define CARTRIDGE_NAME_SUPER_SNAPSHOT_V5  "Super Snapshot V5" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_COMAL80            "Comal 80"
+#define CARTRIDGE_NAME_STRUCTURED_BASIC   "Structured BASIC"
+#define CARTRIDGE_NAME_ROSS               "ROSS"
+#define CARTRIDGE_NAME_DELA_EP64          "Dela EP64"
+#define CARTRIDGE_NAME_DELA_EP7x8         "Dela EP7x8"
+#define CARTRIDGE_NAME_DELA_EP256         "Dela EP256"
+#define CARTRIDGE_NAME_REX_EP256          "REX EP256"
+#define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikroassembler"
+#define CARTRIDGE_NAME_FINAL_PLUS         "Final Cartridge Plus" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
+#define CARTRIDGE_NAME_ACTION_REPLAY4     "Action Replay MK4" /* http://rr.pokefinder.org/wiki/Action_Replay */
+#define CARTRIDGE_NAME_STARDOS            "Stardos" /* see manual http://rr.pokefinder.org/wiki/StarDOS */
+#define CARTRIDGE_NAME_EASYFLASH          "EasyFlash" /* see http://skoe.de/easyflash/ */
+#define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
+#define CARTRIDGE_NAME_ACTION_REPLAY3     "Action Replay MK3" /* http://rr.pokefinder.org/wiki/Action_Replay */
+#define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
+#define CARTRIDGE_NAME_MMC64              "MMC64" /* see manual */
+#define CARTRIDGE_NAME_MMC_REPLAY         "MMC Replay" /* see manual */
+#define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
+#define CARTRIDGE_NAME_SUPER_SNAPSHOT     "Super Snapshot v4" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_IEEE488            "IEEE 488"
+#define CARTRIDGE_NAME_GAME_KILLER        "Game Killer" /* http://rr.pokefinder.org/wiki/Game_Killer */
+#define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
+#define CARTRIDGE_NAME_EXOS               "EXOS" /* http://rr.pokefinder.org/wiki/ExOS */
+#define CARTRIDGE_NAME_FREEZE_FRAME       "Freeze Frame" /* http://rr.pokefinder.org/wiki/Freeze_Frame */
+#define CARTRIDGE_NAME_FREEZE_MACHINE     "Freeze Machine" /* http://rr.pokefinder.org/wiki/Freeze_Frame */
+#define CARTRIDGE_NAME_SNAPSHOT64         "Snapshot 64" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_SUPER_EXPLODE_V5   "Super Explode V5.0" /* http://rr.pokefinder.org/wiki/Super_Explode */
+#define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
+#define CARTRIDGE_NAME_ACTION_REPLAY2     "Action Replay MK2" /* http://rr.pokefinder.org/wiki/Action_Replay */
+#define CARTRIDGE_NAME_MACH5              "MACH 5" /* http://rr.pokefinder.org/wiki/MACH_5 */
+#define CARTRIDGE_NAME_DIASHOW_MAKER      "Diashow Maker"
+
 /*
  * VIC20 cartridge system
  */
