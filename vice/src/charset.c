@@ -116,6 +116,16 @@ static BYTE petcii_fix_dupes(BYTE c)
     return c;
 }
 
+/*
+    when mapping to ascii, unmapable characters are NOT mapped to '?',
+    but '.' instead, because:
+    - filenames will be eventually translated by this function and then
+      used on the host filesystem. adding wildcards into those is probably
+      not a good idea at this point.
+*/
+
+#define ASCII_UNMAPPED  '.'
+
 BYTE charset_p_toascii(BYTE c, int cs)
 {
     if (cs) {
@@ -134,7 +144,7 @@ BYTE charset_p_toascii(BYTE c, int cs)
         return '\r';
     } else if ((c >= 0x00) && (c <= 0x1f)) {
         /* unhandled ctrl codes */
-        return '.';
+        return ASCII_UNMAPPED;
     } else if (c == 0xa0) { /* petscii Shifted Space */
         return ' ';
     } else if ((c >= 0xc1) && (c <= 0xda)) {
@@ -145,8 +155,18 @@ BYTE charset_p_toascii(BYTE c, int cs)
         return (BYTE)((c - 0x41) + 'a');
     }
 
-    return ((isprint(c) ? c : '.'));
+    return ((isprint(c) ? c : ASCII_UNMAPPED));
 }
+
+/*
+    when mapping ascii to petscii, mapping unmapable to '.' breaks
+    loading files with certain names, in particulare foobar~1.prg style
+    names. mapping them to '?' instead will allow this (and other)
+    stuff to work.
+*/
+
+/* #define PETSCII_UNMAPPED 0x2e */     /* petscii "." */
+#define PETSCII_UNMAPPED 0x3f     /* petscii "?" */
 
 BYTE charset_p_topetcii(BYTE c)
 {
@@ -157,7 +177,7 @@ BYTE charset_p_topetcii(BYTE c)
         return 0x0a;
     } else if ((c >= 0x00) && (c <= 0x1f)) {
         /* unhandled ctrl codes */
-        return 0x2e; /* petscii "." */
+        return PETSCII_UNMAPPED;
     } else if (c == '`') {
         return 0x27; /* petscii "'" */
     } else if ((c >= 'a') && (c <= 'z')) {
@@ -170,7 +190,7 @@ BYTE charset_p_topetcii(BYTE c)
     } else if (c >= 0x7b) {
         /* last not least, ascii codes >= 0x7b can not be
            represented properly in petscii */
-        return 0x2e; /* petscii "." */
+        return PETSCII_UNMAPPED;
     }
 
     return petcii_fix_dupes(c);
