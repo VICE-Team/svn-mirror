@@ -218,19 +218,19 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_SIMONS_BASIC       "Simons' BASIC" /* http://en.wikipedia.org/wiki/Simons'_BASIC */
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_EXPERT             "Expert Cartridge" /* http://rr.pokefinder.org/wiki/Expert_Cartridge */
-#define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
-#define CARTRIDGE_NAME_SUPER_GAMES        "Supergames"
-#define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* http://rr.pokefinder.org/wiki/Nordic_Power */
+#define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* "Fun Play, Power Play" */ /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
+#define CARTRIDGE_NAME_SUPER_GAMES        "Super Games"
+#define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* "Atomic Power, Nordic Power" */ /* http://rr.pokefinder.org/wiki/Nordic_Power */
 #define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */
-#define CARTRIDGE_NAME_WESTERMANN         "Westermann"
-#define CARTRIDGE_NAME_REX                "REX"
+#define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
+#define CARTRIDGE_NAME_REX                "REX Utility"
 #define CARTRIDGE_NAME_FINAL_I            "The Final Cartridge" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
 #define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
 #define CARTRIDGE_NAME_GS                 "C64 Games System" /* http://retro.lonningdal.net/home.php?page=Computers&select=c64gs&image=c64gs4.jpg */
 #define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
 #define CARTRIDGE_NAME_DINAMIC            "Dinamic"
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
-#define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk"
+#define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* "Magic Desk, Domark, Hes Australia" */
 #define CARTRIDGE_NAME_SUPER_SNAPSHOT_V5  "Super Snapshot V5" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
 #define CARTRIDGE_NAME_COMAL80            "Comal 80"
 #define CARTRIDGE_NAME_STRUCTURED_BASIC   "Structured BASIC"
@@ -239,11 +239,12 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_DELA_EP7x8         "Dela EP7x8"
 #define CARTRIDGE_NAME_DELA_EP256         "Dela EP256"
 #define CARTRIDGE_NAME_REX_EP256          "REX EP256"
-#define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikroassembler"
+#define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikro Assembler"
 #define CARTRIDGE_NAME_FINAL_PLUS         "Final Cartridge Plus" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
 #define CARTRIDGE_NAME_ACTION_REPLAY4     "Action Replay MK4" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_STARDOS            "Stardos" /* see manual http://rr.pokefinder.org/wiki/StarDOS */
 #define CARTRIDGE_NAME_EASYFLASH          "EasyFlash" /* see http://skoe.de/easyflash/ */
+#define CARTRIDGE_NAME_EASYFLASH_XBANK    "EasyFlash Xbank" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
 #define CARTRIDGE_NAME_ACTION_REPLAY3     "Action Replay MK3" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
