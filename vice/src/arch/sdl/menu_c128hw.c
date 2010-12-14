@@ -120,7 +120,7 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)ram_menu },
-    { "RAM banks 2 & 3",
+    { "RAM banks 2 and 3",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_C128FullBanks_callback,
       NULL },
