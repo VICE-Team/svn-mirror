@@ -19,6 +19,16 @@
 
 #define RESID_DAC_CC
 
+#ifndef INFINITY
+union MSVC_EVIL_FLOAT_HACK
+{
+   unsigned __int8 Bytes[4];
+   float Value;
+};
+static union MSVC_EVIL_FLOAT_HACK INFINITY_HACK = {{0x00, 0x00, 0x80, 0x7F}};
+#define INFINITY (INFINITY_HACK.Value)
+#endif
+
 #include "dac.h"
 #include <math.h>
 

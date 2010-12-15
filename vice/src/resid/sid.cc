@@ -22,6 +22,10 @@
 #include "sid.h"
 #include <math.h>
 
+#ifndef round
+#define round(x) (x>=0.0?floor(x+0.5):ceil(x-0.5))
+#endif
+
 namespace reSID
 {
 
@@ -557,7 +561,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // sample_offset a whole multiple of the filter table resolution.
   int res = method == SAMPLE_RESAMPLE ?
     FIR_RES : FIR_RES_FASTMEM;
-  int n = (int)ceil(log(res/f_cycles_per_sample)/log(2));
+  int n = (int)ceil(log(res/f_cycles_per_sample)/log(2.0f));
   fir_RES = 1 << n;
 
   // Allocate memory for FIR tables.
