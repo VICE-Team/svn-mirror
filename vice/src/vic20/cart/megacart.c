@@ -306,7 +306,7 @@ void REGPARM2 megacart_io3_store(WORD addr, BYTE value)
 void megacart_init(void)
 {
     if (megacart_log == LOG_ERR) {
-        megacart_log = log_open("Mega-Cart");
+        megacart_log = log_open(CARTRIDGE_VIC20_NAME_MEGACART);
     }
 
     reset_mode = BUTTON_RESET;
@@ -519,17 +519,17 @@ int megacart_cmdline_options_init(void)
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "MEGACART"
- 
+
 int megacart_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
- 
+
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
                           VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
- 
+
     if (0
         || (SMW_B(m, bank_low_reg) < 0)
         || (SMW_B(m, bank_high_reg) < 0)
@@ -656,5 +656,5 @@ void megacart_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     /* The registers are rather far apart in the address space, so instead
        of flooding the "io" output, just show the start of I/O3 range. */
-    mon_ioreg_add_list(mem_ioreg_list, "Mega-Cart", 0x9c00, 0x9c00, megacart_mon_dump);
+    mon_ioreg_add_list(mem_ioreg_list, CARTRIDGE_VIC20_NAME_MEGACART, 0x9c00, 0x9c00, megacart_mon_dump);
 }

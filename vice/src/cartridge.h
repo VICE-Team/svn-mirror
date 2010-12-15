@@ -274,12 +274,12 @@ extern BYTE cartridge_peek_mem(WORD addr);
  * VIC20 cartridge system
  */
 /* #define CARTRIDGE_NONE               -1 */
-#define CARTRIDGE_VIC20_GENERIC         1
-#define CARTRIDGE_VIC20_MEGACART        2
-#define CARTRIDGE_VIC20_FINAL_EXPANSION 3
-#define CARTRIDGE_VIC20_FP              4
+#define CARTRIDGE_VIC20_GENERIC         1   /* generic.c */
+#define CARTRIDGE_VIC20_MEGACART        2   /* megacart.c */
+#define CARTRIDGE_VIC20_FINAL_EXPANSION 3   /* finalexpansion.c */
+#define CARTRIDGE_VIC20_FP              4   /* vic-fp.c */
 
-/* 
+/*
  * VIC20 Generic cartridges
  *
  * The cartridge types below are only used during attach requests.
@@ -303,6 +303,12 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_VIC20_16KB_2000    0x8013
 #define CARTRIDGE_VIC20_16KB_4000    0x8019
 #define CARTRIDGE_VIC20_16KB_6000    0x8015
+
+/* list of canonical names for the VIC20 cartridges: */
+#define CARTRIDGE_VIC20_NAME_MEGACART        "Mega-Cart" /* http://mega-cart.com/ */
+#define CARTRIDGE_VIC20_NAME_FINAL_EXPANSION "Final Expansion"
+#define CARTRIDGE_VIC20_NAME_FP              "Vic Flash Plugin" /* http://www.ktverkko.fi/~msmakela/8bit/vfp/index.en.html */
+
 
 /*
  * plus4 cartridge system

@@ -515,7 +515,7 @@ const char *generic_get_file_name(WORD addr)
 int generic_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    
+
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
                           VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
     if (m == NULL) {
@@ -534,7 +534,7 @@ int generic_snapshot_write_module(snapshot_t *s)
     snapshot_module_close(m);
     return 0;
 }
-    
+
 int generic_snapshot_read_module(snapshot_t *s)
 {
     BYTE vmajor, vminor;

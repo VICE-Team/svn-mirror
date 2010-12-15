@@ -546,7 +546,7 @@ void REGPARM2 finalexpansion_io3_store(WORD addr, BYTE value)
 void finalexpansion_init(void)
 {
     if (fe_log == LOG_ERR) {
-        fe_log = log_open("Final Expansion");
+        fe_log = log_open(CARTRIDGE_VIC20_NAME_FINAL_EXPANSION);
     }
 
     register_a = 0x00;
@@ -577,20 +577,20 @@ static int zfile_load(const char *filename, BYTE *dest)
                     filename);
         return -1;
     }
-    fsize=util_file_length(fd);
- 
+    fsize = util_file_length(fd);
+
     if (fsize < 0x8000) {
         size_t tsize;
         size_t offs;
-        tsize=(fsize+0x0fff) & 0xfffff000;
+        tsize = (fsize+0x0fff) & 0xfffff000;
         offs = 0x8000 - tsize;
         dest += offs;
-        log_message(fe_log, "Size less than 32Kb.  Aligning as close as possible to the 32Kb boundary in 4Kb blocks. (0x%06X-0x%06X)", (unsigned int)offs, (unsigned int)(offs+tsize));
+        log_message(fe_log, "Size less than 32kB.  Aligning as close as possible to the 32kB boundary in 4kB blocks. (0x%06X-0x%06X)", (unsigned int)offs, (unsigned int)(offs+tsize));
     } else if (fsize < (size_t)CART_ROM_SIZE) {
-        log_message(fe_log, "Size less than 512Kb, padding.");
+        log_message(fe_log, "Size less than 512kB, padding.");
     } else if (fsize > (size_t)CART_ROM_SIZE) {
-        fsize=CART_ROM_SIZE;
-        log_message(fe_log, "Size larger than 512Kb, truncating.");
+        fsize = CART_ROM_SIZE;
+        log_message(fe_log, "Size larger than 512kB, truncating.");
     }
     if ( fread(dest, fsize, 1, fd) < 1) {
         log_message(fe_log, "Failed to read image `%s'!",
@@ -980,5 +980,5 @@ static int REGPARM1 finalexpansion_mon_dump(void)
 
 void finalexpansion_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
-    mon_ioreg_add_list(mem_ioreg_list, "Final Expansion", 0x9c02, 0x9c03, finalexpansion_mon_dump);
+    mon_ioreg_add_list(mem_ioreg_list, CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, 0x9c02, 0x9c03, finalexpansion_mon_dump);
 }

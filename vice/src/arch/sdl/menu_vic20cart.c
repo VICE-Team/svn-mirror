@@ -48,13 +48,13 @@ static UI_MENU_CALLBACK(attach_cart_callback)
     if (activated) {
         switch (vice_ptr_to_int(param)) {
             case CARTRIDGE_VIC20_FP:
-                title = "Select Vic Flash Plugin image";
+                title = "Select " CARTRIDGE_VIC20_NAME_FP " image";
                 break;
             case CARTRIDGE_VIC20_MEGACART:
-                title = "Select Mega-Cart image";
+                title = "Select " CARTRIDGE_VIC20_NAME_MEGACART " image";
                 break;
             case CARTRIDGE_VIC20_FINAL_EXPANSION:
-                title = "Select Final Expansion image";
+                title = "Select " CARTRIDGE_VIC20_NAME_FP " image";
                 break;
             case CARTRIDGE_VIC20_DETECT:
             case CARTRIDGE_VIC20_GENERIC:
@@ -139,15 +139,15 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_GENERIC },
-    { "Attach Mega-Cart image",
+    { "Attach " CARTRIDGE_VIC20_NAME_MEGACART " image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_MEGACART },
-    { "Attach Final Expansion image",
+    { "Attach " CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_FINAL_EXPANSION },
-    { "Attach Vic Flash Plugin image",
+    { "Attach " CARTRIDGE_VIC20_NAME_FP " image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
       (ui_callback_data_t)CARTRIDGE_VIC20_FP },
@@ -170,21 +170,21 @@ const ui_menu_entry_t vic20cart_menu[] = {
       toggle_CartridgeReset_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    { "Final Expansion write back",
+    { CARTRIDGE_VIC20_NAME_FINAL_EXPANSION " write back",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_FinalExpansionWriteBack_callback,
       NULL },
-    { "Vic Flash Plugin write back",
+    { CARTRIDGE_VIC20_NAME_FP " write back",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VicFlashPluginWriteBack_callback,
       NULL },
-    { "Mega-Cart NvRAM write back",
+    { CARTRIDGE_VIC20_NAME_MEGACART " NvRAM write back",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_MegaCartNvRAMWriteBack_callback,
       NULL },
-    { "Mega-Cart NvRAM file",
+    { CARTRIDGE_VIC20_NAME_MEGACART " NvRAM file",
       MENU_ENTRY_DIALOG,
       file_string_MegaCartNvRAMfilename_callback,
-      (ui_callback_data_t)"Select Mega-Cart NvRAM image" },
+      (ui_callback_data_t)"Select " CARTRIDGE_VIC20_NAME_MEGACART " NvRAM image" },
     SDL_MENU_LIST_END
 };

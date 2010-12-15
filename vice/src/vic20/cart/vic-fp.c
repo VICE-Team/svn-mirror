@@ -249,7 +249,7 @@ void REGPARM2 vic_fp_io2_store(WORD addr, BYTE value)
 void vic_fp_init(void)
 {
     if (fp_log == LOG_ERR) {
-        fp_log = log_open("Vic Flash Plugin");
+        fp_log = log_open(CARTRIDGE_VIC20_NAME_FP);
     }
 }
 
@@ -394,7 +394,7 @@ int vic_fp_cmdline_options_init(void)
 
 #define VIC20CART_DUMP_VER_MAJOR   2
 #define VIC20CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "VIC-FlashPlugin"
+#define SNAP_MODULE_NAME  "VICFLASHPLUGIN"
 #define FLASH_SNAP_MODULE_NAME  "FLASH040FP"
 
 int vic_fp_snapshot_write_module(snapshot_t *s)
@@ -498,5 +498,5 @@ static int REGPARM1 vic_fp_mon_dump(void)
 
 void vic_fp_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
-    mon_ioreg_add_list(mem_ioreg_list, "Vic Flash Plugin", 0x9800, 0x9801, vic_fp_mon_dump);
+    mon_ioreg_add_list(mem_ioreg_list, CARTRIDGE_VIC20_NAME_FP, 0x9800, 0x9801, vic_fp_mon_dump);
 }
