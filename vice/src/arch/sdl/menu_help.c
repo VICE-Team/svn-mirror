@@ -42,9 +42,9 @@
 #include "util.h"
 #include "version.h"
 
-static void make_40_cols(char *text, int len)
+static void make_n_cols(char *text, int len, int cols)
 {
-    int i = 40;
+    int i = cols;
 
     while (i < len) {
         while (text[i] != ' ' && (i > 0)) {
@@ -60,11 +60,11 @@ static void make_40_cols(char *text, int len)
         text[i] = '\n';
         text += i + 1;
         len -= i + 1;
-        i = 40;
+        i = cols;
     }
 }
 
-static char *convert_cmdline_to_40_cols(const char *text)
+static char *convert_cmdline_to_n_cols(const char *text, int cols)
 {
     char *new_text;
     int num_options;
@@ -91,8 +91,8 @@ static char *convert_cmdline_to_40_cols(const char *text)
 
         new_text[index + j] = '\n';
 
-        if (j > 40) {
-            make_40_cols(&(new_text[index]), j);
+        if (j > cols) {
+            make_n_cols(&(new_text[index]), j, cols);
         }
 
         current_line += j + 1;
@@ -104,7 +104,7 @@ static char *convert_cmdline_to_40_cols(const char *text)
 }
 
 
-static char *contrib_convert(char *text)
+static char *contrib_convert(char *text, int cols)
 {
     char *new_text;
     char *pos;
@@ -160,7 +160,7 @@ static char *contrib_convert(char *text)
     pos = new_text;
     while (*pos != 0) {
         len = strlen(pos);
-        make_40_cols(pos, len);
+        make_n_cols(pos, len, cols);
         pos += len + 1;
     }
 
@@ -340,21 +340,15 @@ static UI_MENU_CALLBACK(cmdline_callback)
 {
     menu_draw_t *menu_draw;
     char *options;
-    char *options40;
+    char *options_n;
 
     if (activated) {
         menu_draw = sdl_ui_get_menu_param();
-        if (menu_draw->max_text_x > 60) {
-            options = cmdline_options_string();
-            show_text((const char *)options);
-            lib_free(options);
-        } else {
-            options = cmdline_options_string();
-            options40 = convert_cmdline_to_40_cols(options);
-            lib_free(options);
-            show_text((const char *)options40);
-            lib_free(options40);
-        }
+        options = cmdline_options_string();
+        options_n = convert_cmdline_to_n_cols(options, menu_draw->max_text_x);
+        lib_free(options);
+        show_text((const char *)options_n);
+        lib_free(options_n);
     }
     return NULL;
 }
@@ -362,17 +356,13 @@ static UI_MENU_CALLBACK(cmdline_callback)
 static UI_MENU_CALLBACK(contributors_callback)
 {
     menu_draw_t *menu_draw;
-    char *info_contrib_text40;
+    char *info_contrib_text_n;
 
     if (activated) {
         menu_draw = sdl_ui_get_menu_param();
-        if (menu_draw->max_text_x > 60) {
-            show_text((const char *)info_contrib_text);
-        } else {
-            info_contrib_text40 = contrib_convert((char *)info_contrib_text);
-            show_text((const char *)info_contrib_text40);
-            lib_free(info_contrib_text40);
-        }
+        info_contrib_text_n = contrib_convert((char *)info_contrib_text, menu_draw->max_text_x);
+        show_text((const char *)info_contrib_text_n);
+        lib_free(info_contrib_text_n);
     }
     return NULL;
 }
