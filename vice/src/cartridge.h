@@ -196,13 +196,17 @@ extern BYTE cartridge_peek_mem(WORD addr);
      sources (manual, adverts). we refrain from doing the same here and convert
      to Camel Case ("ACTION REPLAY V5" -> "Action Replay V5"), *except* if the
      cart name constitutes an actual name (as in noun) by itself ("ISEPIC", "EXOS").
+     additionally common abrevations such as RAM or EPROM will get written uppercase
+     if in doubt.
+   - although generally these cartridge names should never get translated, some
+     generic stuff is translated to english ("EPROM Karte" -> "EPROM Cart")
 */
 #define CARTRIDGE_NAME_DIGIMAX            "DigiMAX" /* http://starbase.globalpc.net/~ezekowitz/vanessa/hobbies/projects.html */
 #define CARTRIDGE_NAME_DQBB               "Double Quick Brown Box" /* on the cart itself its all uppercase ? */
-#define CARTRIDGE_NAME_GEORAM             "Georam"
+#define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
-#define CARTRIDGE_NAME_RAMCART            "Ramcart"
-#define CARTRIDGE_NAME_REU                "REU"
+#define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
+#define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
 #define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
 #define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
 #define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
@@ -211,17 +215,17 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
 #define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
 #define CARTRIDGE_NAME_TFE                "The Final Ethernet"
-#define CARTRIDGE_NAME_RRNET              "RR-Net"
-#define CARTRIDGE_NAME_TURBO232           "Turbo-232" /* "ACIA/SWIFTLINK/TURBO232" */
+#define CARTRIDGE_NAME_RRNET              "RR-Net" /* see manual */
+#define CARTRIDGE_NAME_TURBO232           "Turbo232" /* also: "ACIA/SWIFTLINK" */ /*http://www.retroport.de/C64_C128_Hardware2.html */
 #define CARTRIDGE_NAME_ACTION_REPLAY      "Action Replay V5" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
 #define CARTRIDGE_NAME_FINAL_III          "The Final Cartridge III" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
 #define CARTRIDGE_NAME_SIMONS_BASIC       "Simons' BASIC" /* http://en.wikipedia.org/wiki/Simons'_BASIC */
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_EXPERT             "Expert Cartridge" /* http://rr.pokefinder.org/wiki/Expert_Cartridge */
-#define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* "Fun Play, Power Play" */ /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
+#define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* also: "Power Play" */ /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
 #define CARTRIDGE_NAME_SUPER_GAMES        "Super Games"
-#define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* "Atomic Power, Nordic Power" */ /* http://rr.pokefinder.org/wiki/Nordic_Power */
+#define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* also: "Nordic Power" */ /* http://rr.pokefinder.org/wiki/Nordic_Power */
 #define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */
 #define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
 #define CARTRIDGE_NAME_REX                "REX Utility"
@@ -231,15 +235,15 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
 #define CARTRIDGE_NAME_DINAMIC            "Dinamic"
 #define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
-#define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* "Magic Desk, Domark, Hes Australia" */
+#define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* also: "Domark, Hes Australia" */
 #define CARTRIDGE_NAME_SUPER_SNAPSHOT_V5  "Super Snapshot V5" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
-#define CARTRIDGE_NAME_COMAL80            "Comal 80"
+#define CARTRIDGE_NAME_COMAL80            "Comal 80" /* http://www.retroport.de/C64_C128_Hardware.html */
 #define CARTRIDGE_NAME_STRUCTURED_BASIC   "Structured BASIC"
 #define CARTRIDGE_NAME_ROSS               "ROSS"
 #define CARTRIDGE_NAME_DELA_EP64          "Dela EP64"
 #define CARTRIDGE_NAME_DELA_EP7x8         "Dela EP7x8"
 #define CARTRIDGE_NAME_DELA_EP256         "Dela EP256"
-#define CARTRIDGE_NAME_REX_EP256          "REX EP256"
+#define CARTRIDGE_NAME_REX_EP256          "REX 256k EPROM Cart" /* http://www.retroport.de/Rex.html */
 #define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikro Assembler"
 #define CARTRIDGE_NAME_FINAL_PLUS         "Final Cartridge Plus" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
 #define CARTRIDGE_NAME_ACTION_REPLAY4     "Action Replay MK4" /* http://rr.pokefinder.org/wiki/Action_Replay */
@@ -252,8 +256,8 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_MMC64              "MMC64" /* see manual */
 #define CARTRIDGE_NAME_MMC_REPLAY         "MMC Replay" /* see manual */
 #define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
-#define CARTRIDGE_NAME_SUPER_SNAPSHOT     "Super Snapshot v4" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
-#define CARTRIDGE_NAME_IEEE488            "IEEE 488"
+#define CARTRIDGE_NAME_SUPER_SNAPSHOT     "Super Snapshot V4" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
 #define CARTRIDGE_NAME_GAME_KILLER        "Game Killer" /* http://rr.pokefinder.org/wiki/Game_Killer */
 #define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
 #define CARTRIDGE_NAME_EXOS               "EXOS" /* http://rr.pokefinder.org/wiki/ExOS */
@@ -264,7 +268,7 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
 #define CARTRIDGE_NAME_ACTION_REPLAY2     "Action Replay MK2" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_MACH5              "MACH 5" /* http://rr.pokefinder.org/wiki/MACH_5 */
-#define CARTRIDGE_NAME_DIASHOW_MAKER      "Diashow Maker"
+#define CARTRIDGE_NAME_DIASHOW_MAKER      "Diashow-Maker" /* http://www.retroport.de/Rex.html */
 
 /*
  * VIC20 cartridge system
