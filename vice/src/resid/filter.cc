@@ -199,7 +199,10 @@ Filter::Filter()
 
       // Create lookup table mapping op-amp input voltage to op-amp output
       // voltage: vx -> vo
-      double_point scaled_voltage[fi.opamp_voltage_size];
+      // FIXME: No variable length arrays in ISO C++, hardcoding to max 50
+      // points.
+      // double_point scaled_voltage[fi.opamp_voltage_size];
+      double_point scaled_voltage[50];
 
       for (int i = 0; i < fi.opamp_voltage_size; i++) {
 	// The target output range is 16 bits, in order to fit in an unsigned

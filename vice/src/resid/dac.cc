@@ -54,7 +54,9 @@ namespace reSID
 
 void build_dac_table(unsigned int* dac, int bits, double _2R_div_R, bool term)
 {
-  double vbit[bits];
+  // FIXME: No variable length arrays in ISO C++, hardcoding to max 12 bits.
+  // double vbit[bits];
+  double vbit[12];
 
   // Calculate voltage contribution by each individual bit in the R-2R ladder.
   for (int set_bit = 0; set_bit < bits; set_bit++) {
