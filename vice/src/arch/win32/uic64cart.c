@@ -44,18 +44,6 @@
 #include "uicart.h"
 #include "uilib.h"
 
-static const ui_res_possible_values_t CartMode[] = {
-    { EXPERT_MODE_OFF, IDM_CART_MODE_OFF },
-    { EXPERT_MODE_PRG, IDM_CART_MODE_PRG },
-    { EXPERT_MODE_ON, IDM_CART_MODE_ON },
-    { -1, 0 }
-};
-
-static const ui_res_value_list_t c64_ui_res_values[] = {
-    { "ExpertCartridgeMode", CartMode, 0 },
-    { NULL, NULL, 0 }
-};
-
 static const uicart_params_t c64_ui_cartridges[] = {
     { IDM_CART_ATTACH_CRT, CARTRIDGE_CRT, IDS_ATTACH_CRT_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_CRT },
     { IDM_CART_ATTACH_8KB, CARTRIDGE_GENERIC_8KB, IDS_ATTACH_RAW_8KB_CART_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
@@ -118,5 +106,4 @@ void uic64cart_proc(WPARAM wparam, HWND hwnd)
 
 void uic64cart_init(void)
 {
-    ui_register_res_values(c64_ui_res_values);
 }

@@ -58,6 +58,7 @@ static uilib_localize_dialog_param mmcreplay_dialog_trans[] = {
     { IDC_MMCREPLAY_EEPROMRW, IDS_MMCREPLAY_READ_WRITE, 0 },
     { IDC_MMCREPLAY_RESCUEMODE, IDS_MMCREPLAY_RESCUEMODE, 0 },
     { IDC_MMCREPLAY_SDTYPE_LABEL, IDS_MMCREPLAY_SDTYPE_LABEL, 0 },
+    { IDC_MMCREPLAY_WRITE_ENABLE, IDS_MMCREPLAY_WRITE_ENABLE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -84,6 +85,9 @@ static void init_mmcreplay_dialog(HWND hwnd)
 
     resources_get_int("MMCRCardRW", &res_value);
     CheckDlgButton(hwnd, IDC_MMCREPLAY_CARDRW, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_int("MMCRImageWrite", &res_value);
+    CheckDlgButton(hwnd, IDC_MMCREPLAY_WRITE_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     resources_get_string("MMCREEPROMImage", &mmcreplay_eeprom_file);
     st_mmcreplay_eeprom_file = system_mbstowcs_alloc(mmcreplay_eeprom_file);
@@ -118,6 +122,7 @@ static void end_mmcreplay_dialog(HWND hwnd)
     resources_set_string("MMCREEPROMImage", s);
 
     resources_set_int("MMCRCardRW", (IsDlgButtonChecked(hwnd, IDC_MMCREPLAY_CARDRW) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("MMCRImageWrite", (IsDlgButtonChecked(hwnd, IDC_MMCREPLAY_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("MMCREEPROMRW", (IsDlgButtonChecked(hwnd, IDC_MMCREPLAY_EEPROMRW) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("MMCRRescueMode", (IsDlgButtonChecked(hwnd, IDC_MMCREPLAY_RESCUEMODE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("MMCRSDType", (int)SendMessage(GetDlgItem(hwnd, IDC_MMCREPLAY_SDTYPE), CB_GETCURSEL, 0, 0));

@@ -18,6 +18,8 @@ FONT 8, "MS Sans Serif"
 BEGIN
     AUTOCHECKBOX    "",IDC_DQBB_ENABLE,
                     7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "",IDC_DQBB_WRITE_ENABLE,
+                    7, 32, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "", IDC_DQBB_FILE_LABEL,
                     9, 44, 46, 8
     PUSHBUTTON      "", IDC_DQBB_BROWSE,
@@ -38,10 +40,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Select file for DQBB"
-  IDS_DQBB_CAPTION     "DQBB Settings"
-  IDS_DQBB_ENABLE      "&Enable DQBB"
-  IDS_DQBB_FILE_LABEL  "DQBB file"
+  IDS_SELECT_FILE_DQBB  "Select file for DQBB"
+  IDS_DQBB_CAPTION      "DQBB Settings"
+  IDS_DQBB_ENABLE       "&Enable DQBB"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB file"
 END
 
 
@@ -50,10 +53,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Vælg fil for DQBB"
-  IDS_DQBB_CAPTION     "DQBB-indstillinger"
-  IDS_DQBB_ENABLE      "&Aktivér DQBB"
-  IDS_DQBB_FILE_LABEL  "DQBB-fil"
+  IDS_SELECT_FILE_DQBB  "Vælg fil for DQBB"
+  IDS_DQBB_CAPTION      "DQBB-indstillinger"
+  IDS_DQBB_ENABLE       "&Aktivér DQBB"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB-fil"
 END
 
 
@@ -62,10 +66,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Datei für DQBB auswählen"
-  IDS_DQBB_CAPTION     "DQBB Einstellungen"
-  IDS_DQBB_ENABLE      "DQBB Aktivier&en"
-  IDS_DQBB_FILE_LABEL  "DQBB Datei"
+  IDS_SELECT_FILE_DQBB  "Datei für DQBB auswählen"
+  IDS_DQBB_CAPTION      "DQBB Einstellungen"
+  IDS_DQBB_ENABLE       "DQBB Aktivier&en"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB Datei"
 END
 
 
@@ -74,10 +79,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Select file for DQBB"
-  IDS_DQBB_CAPTION     "DQBB Settings"
-  IDS_DQBB_ENABLE      "&Enable DQBB"
-  IDS_DQBB_FILE_LABEL  "DQBB file"
+  IDS_SELECT_FILE_DQBB  "Select file for DQBB"
+  IDS_DQBB_CAPTION      "DQBB Settings"
+  IDS_DQBB_ENABLE       "&Enable DQBB"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB file"
 END
 
 
@@ -89,10 +95,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Válasszon fájlt a DQBB-hez"
-  IDS_DQBB_CAPTION     "DQBB beállításai"
-  IDS_DQBB_ENABLE      "DQBB &engedélyezése"
-  IDS_DQBB_FILE_LABEL  "DQBB fájl"
+  IDS_SELECT_FILE_DQBB  "Válasszon fájlt a DQBB-hez"
+  IDS_DQBB_CAPTION      "DQBB beállításai"
+  IDS_DQBB_ENABLE       "DQBB &engedélyezése"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB fájl"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -104,10 +111,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Seleziona il file per DQBB"
-  IDS_DQBB_CAPTION     "Impostazioni DQBB"
-  IDS_DQBB_ENABLE      "&Attiva DQBB"
-  IDS_DQBB_FILE_LABEL  "File DQBB"
+  IDS_SELECT_FILE_DQBB  "Seleziona il file per DQBB"
+  IDS_DQBB_CAPTION      "Impostazioni DQBB"
+  IDS_DQBB_ENABLE       "&Attiva DQBB"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "File DQBB"
 END
 
 
@@ -116,10 +124,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Selecteer bestand voor DQBB"
-  IDS_DQBB_CAPTION     "DQBB instellingen"
-  IDS_DQBB_ENABLE      "&Activeer DQBB"
-  IDS_DQBB_FILE_LABEL  "DQBB bestand"
+  IDS_SELECT_FILE_DQBB  "Selecteer bestand voor DQBB"
+  IDS_DQBB_CAPTION      "DQBB instellingen"
+  IDS_DQBB_ENABLE       "&Activeer DQBB"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB bestand"
 END
 
 
@@ -131,10 +140,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Select file for DQBB"
-  IDS_DQBB_CAPTION     "DQBB Settings"
-  IDS_DQBB_ENABLE      "&Enable DQBB"
-  IDS_DQBB_FILE_LABEL  "DQBB file"
+  IDS_SELECT_FILE_DQBB  "Select file for DQBB"
+  IDS_DQBB_CAPTION      "DQBB Settings"
+  IDS_DQBB_ENABLE       "&Enable DQBB"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB file"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -146,10 +156,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "Välj fil för DQBB"
-  IDS_DQBB_CAPTION     "DQBB-inställningar"
-  IDS_DQBB_ENABLE      "&Aktivera DQBB"
-  IDS_DQBB_FILE_LABEL  "DQBB-fil"
+  IDS_SELECT_FILE_DQBB  "Välj fil för DQBB"
+  IDS_DQBB_CAPTION      "DQBB-inställningar"
+  IDS_DQBB_ENABLE       "&Aktivera DQBB"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB-fil"
 END
 
 
@@ -161,13 +172,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_DQBB "DQBB için dosya seç"
-  IDS_DQBB_CAPTION     "DQBB Ayarlarý"
-  IDS_DQBB_ENABLE      "DQBB'yi aktif &et"
-  IDS_DQBB_FILE_LABEL  "DQBB dosyasý"
+  IDS_SELECT_FILE_DQBB  "DQBB için dosya seç"
+  IDS_DQBB_CAPTION      "DQBB Ayarlarý"
+  IDS_DQBB_ENABLE       "DQBB'yi aktif &et"
+  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_FILE_LABEL   "DQBB dosyasý"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 

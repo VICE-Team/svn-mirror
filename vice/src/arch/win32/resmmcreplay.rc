@@ -10,7 +10,7 @@
 #endif
 
 // template of dialog for all languages
-IDD_MMCREPLAY_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 120
+IDD_MMCREPLAY_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 140
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -30,16 +30,18 @@ BEGIN
                     120, 41, 60, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     EDITTEXT        IDC_MMCREPLAY_EEPROMIMAGE,
                     9, 55, 160, 12, WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_MMCREPLAY_WRITE_ENABLE,
+                    9, 75, 160, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_MMCREPLAY_RESCUEMODE,
-                    9, 75, 60, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+                    9, 95, 60, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT           "", IDC_MMCREPLAY_SDTYPE_LABEL,
-                    80, 75, 30, 8
+                    80, 95, 30, 8
     COMBOBOX        IDC_MMCREPLAY_SDTYPE,
-                    115, 73, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                    115, 93, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     DEFPUSHBUTTON   "", IDOK,
-                    30, 98, 50, 14, WS_TABSTOP
+                    30, 108, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL,
-                    90, 98, 50, 14, WS_TABSTOP
+                    90, 108, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -55,6 +57,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "read/write"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 
 
@@ -69,6 +72,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "skrivbar"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 
 
@@ -83,6 +87,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue Modus"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card Typ"
   IDS_MMCREPLAY_READ_WRITE          "lese/schreibe"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 
 
@@ -97,6 +102,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "lecture/écriture"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 
 
@@ -114,6 +120,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "írható/olvasható"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -131,6 +138,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "lettura/scrittura"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 
 
@@ -145,6 +153,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "lees/schrijf"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 
 
@@ -162,6 +171,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "read/write"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -179,6 +189,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Räddningsläge"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Korttyp"
   IDS_MMCREPLAY_READ_WRITE          "skrivbar"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 
 
@@ -196,9 +207,9 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
   IDS_MMCREPLAY_READ_WRITE          "oku/yaz"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 

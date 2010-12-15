@@ -41,11 +41,10 @@
 #include "uiramcart.h"
 #include "winmain.h"
 
-#define NUM_OF_RAMCART_SIZE 2
-
-static const int ui_ramcart_size[NUM_OF_RAMCART_SIZE] = {
+static const int ui_ramcart_size[] = {
     64,
-    128
+    128,
+    0
 };
 
 static void enable_ramcart_controls(HWND hwnd)
@@ -54,6 +53,7 @@ static void enable_ramcart_controls(HWND hwnd)
 
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_RAMCART_ENABLE) == BST_CHECKED) ? 1 : 0;
 
+    EnableWindow(GetDlgItem(hwnd, IDC_RAMCART_WRITE_ENABLE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_RAMCART_RO), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_RAMCART_SIZE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_RAMCART_BROWSE), is_enabled);
@@ -64,12 +64,18 @@ static uilib_localize_dialog_param ramcart_dialog[] = {
     { 0, IDS_RAMCART_CAPTION, -1 },
     { IDC_RAMCART_ENABLE, IDS_RAMCART_ENABLE, 0 },
     { IDC_RAMCART_RO, IDS_RAMCART_READONLY, 0 },
+    { IDC_RAMCART_WRITE_ENABLE, IDS_RAMCART_WRITE_ENABLE, 0 },
     { IDC_RAMCART_SIZE_LABEL, IDS_RAMCART_SIZE, 0 },
     { IDC_RAMCART_FILE_LABEL, IDS_RAMCART_FILE, 0 },
     { IDC_RAMCART_BROWSE, IDS_BROWSE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
+};
+
+static uilib_dialog_group ramcart_maingroup[] = {
+    { IDC_RAMCART_WRITE_ENABLE, 1 },
+    { 0, 0 }
 };
 
 static uilib_dialog_group ramcart_leftgroup1[] = {
@@ -107,6 +113,7 @@ static void init_ramcart_dialog(HWND hwnd)
 
     uilib_localize_dialog(hwnd, ramcart_dialog);
     uilib_get_group_extent(hwnd, ramcart_leftgroup1, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, ramcart_maingroup);
     uilib_adjust_group_width(hwnd, ramcart_leftgroup1);
     uilib_move_and_adjust_group_width(hwnd, ramcart_rightgroup1, xsize + 30);
     uilib_get_group_extent(hwnd, ramcart_leftgroup2, &xsize2, &ysize);
@@ -116,11 +123,14 @@ static void init_ramcart_dialog(HWND hwnd)
     resources_get_int("RAMCART", &res_value);
     CheckDlgButton(hwnd, IDC_RAMCART_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
+    resources_get_int("RAMCARTImageWrite", &res_value);
+    CheckDlgButton(hwnd, IDC_RAMCART_WRITE_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     resources_get_int("RAMCART_RO", &res_value);
     CheckDlgButton(hwnd, IDC_RAMCART_RO, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     temp_hwnd = GetDlgItem(hwnd, IDC_RAMCART_SIZE);
-    for (res_value_loop = 0; res_value_loop < NUM_OF_RAMCART_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; ui_ramcart_size[res_value_loop] != 0; res_value_loop++) {
         TCHAR st[10];
 
         _itot(ui_ramcart_size[res_value_loop], st, 10);
@@ -129,7 +139,7 @@ static void init_ramcart_dialog(HWND hwnd)
     }
     resources_get_int("RAMCARTsize", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < NUM_OF_RAMCART_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; ui_ramcart_size[res_value_loop] != 0; res_value_loop++) {
         if (ui_ramcart_size[res_value_loop] == res_value) {
             active_value = res_value_loop;
         }
@@ -150,6 +160,7 @@ static void end_ramcart_dialog(HWND hwnd)
     char s[MAX_PATH];
 
     resources_set_int("RAMCART", (IsDlgButtonChecked(hwnd, IDC_RAMCART_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("RAMCARTImageWrite", (IsDlgButtonChecked(hwnd, IDC_RAMCART_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("RAMCART_RO", (IsDlgButtonChecked(hwnd, IDC_RAMCART_RO) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("RAMCARTsize", ui_ramcart_size[SendMessage(GetDlgItem(hwnd, IDC_RAMCART_SIZE), CB_GETCURSEL, 0, 0)]);
 

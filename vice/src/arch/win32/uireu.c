@@ -42,8 +42,7 @@
 #include "uireu.h"
 #include "winmain.h"
 
-#define NUM_OF_REU_SIZE 8
-static const int ui_reu_size[NUM_OF_REU_SIZE] = {
+static const int ui_reu_size[] = {
     128,
     256,
     512,
@@ -51,7 +50,8 @@ static const int ui_reu_size[NUM_OF_REU_SIZE] = {
     2048,
     4096,
     8192,
-    16384
+    16384,
+    0
 };
 
 static void enable_reu_controls(HWND hwnd)
@@ -60,6 +60,7 @@ static void enable_reu_controls(HWND hwnd)
 
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_REU_ENABLE) == BST_CHECKED) ? 1 : 0;
 
+    EnableWindow(GetDlgItem(hwnd, IDC_REU_WRITE_ENABLE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_REU_SIZE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_REU_BROWSE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_REU_FILE), is_enabled);
@@ -69,11 +70,18 @@ static uilib_localize_dialog_param reu_dialog[] = {
     { 0, IDS_REU_CAPTION, -1 },
     { IDC_REU_ENABLE, IDS_REU_ENABLE, 0 },
     { IDC_REU_SIZE_LABEL, IDS_REU_SIZE, 0 },
+    { IDC_REU_WRITE_ENABLE, IDS_REU_WRITE_ENABLE, 0 },
     { IDC_REU_FILE_LABEL, IDS_REU_FILE, 0 },
     { IDC_REU_BROWSE, IDS_BROWSE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
+};
+
+static uilib_dialog_group reu_maingroup[] = {
+    { IDC_REU_ENABLE, 1 },
+    { IDC_REU_WRITE_ENABLE, 1},
+    { 0, 0 }
 };
 
 static uilib_dialog_group reu_leftgroup[] = {
@@ -99,6 +107,7 @@ static void init_reu_dialog(HWND hwnd)
     int xsize, ysize;
 
     uilib_localize_dialog(hwnd, reu_dialog);
+    uilib_adjust_group_width(hwnd, reu_maingroup);
     uilib_get_group_extent(hwnd, reu_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, reu_leftgroup);
     uilib_move_group(hwnd, reu_rightgroup, xsize + 30);
@@ -106,8 +115,11 @@ static void init_reu_dialog(HWND hwnd)
     resources_get_int("REU", &res_value);
     CheckDlgButton(hwnd, IDC_REU_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
+    resources_get_int("REUImageWrite", &res_value);
+    CheckDlgButton(hwnd, IDC_REU_WRITE_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     temp_hwnd = GetDlgItem(hwnd, IDC_REU_SIZE);
-    for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; ui_reu_size[res_value_loop] != 0; res_value_loop++) {
         TCHAR st[10];
 
         _itot(ui_reu_size[res_value_loop], st, 10);
@@ -116,7 +128,7 @@ static void init_reu_dialog(HWND hwnd)
     }
     resources_get_int("REUsize", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < NUM_OF_REU_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; ui_reu_size[res_value_loop] != 0; res_value_loop++) {
         if (ui_reu_size[res_value_loop] == res_value) {
             active_value = res_value_loop;
         }
@@ -137,6 +149,7 @@ static void end_reu_dialog(HWND hwnd)
     char s[MAX_PATH];
 
     resources_set_int("REU", (IsDlgButtonChecked(hwnd, IDC_REU_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("REUImageWrite", (IsDlgButtonChecked(hwnd, IDC_REU_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("REUsize", ui_reu_size[SendMessage(GetDlgItem(hwnd, IDC_REU_SIZE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_REU_FILE, st, MAX_PATH);

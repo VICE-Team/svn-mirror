@@ -48,20 +48,37 @@ static void enable_isepic_controls(HWND hwnd)
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_ISEPIC_ENABLE) == BST_CHECKED) ? 1 : 0;
 
     EnableWindow(GetDlgItem(hwnd, IDC_ISEPIC_SWITCH), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_ISEPIC_WRITE_ENABLE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_ISEPIC_BROWSE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_ISEPIC_FILE), is_enabled);
 }
 
 static uilib_localize_dialog_param isepic_dialog_trans[] = {
     { 0, IDS_ISEPIC_CAPTION, -1 },
     { IDC_ISEPIC_ENABLE, IDS_ISEPIC_ENABLE, 0 },
     { IDC_ISEPIC_SWITCH, IDS_ISEPIC_SWITCH, 0 },
+    { IDC_ISEPIC_WRITE_ENABLE, IDS_ISEPIC_WRITE_ENABLE, 0 },
+    { IDC_ISEPIC_FILE_LABEL, IDS_ISEPIC_FILE_LABEL, 0 },
+    { IDC_ISEPIC_BROWSE, IDS_BROWSE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group isepic_group[] = {
+static uilib_dialog_group isepic_main_group[] = {
     { IDC_ISEPIC_ENABLE, 1 },
+    { IDC_ISEPIC_WRITE_ENABLE, 1 },
     { IDC_ISEPIC_SWITCH, 1 },
+    { IDC_ISEPIC_FILE_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group isepic_right_group[] = {
+    { IDC_ISEPIC_ENABLE, 0 },
+    { IDC_ISEPIC_WRITE_ENABLE, 0 },
+    { IDC_ISEPIC_SWITCH, 0 },
+    { IDC_ISEPIC_BROWSE, 0 },
+    { IDC_ISEPIC_FILE, 0 },
     { 0, 0 }
 };
 
@@ -76,19 +93,27 @@ static void init_isepic_dialog(HWND hwnd)
     int res_value;
     int xpos;
     RECT rect;
+    const char *isepicfile;
+    TCHAR *st_isepicfile;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, isepic_dialog_trans);
 
     /* adjust the size of the elements in the main group */
-    uilib_adjust_group_width(hwnd, isepic_group);
+    uilib_adjust_group_width(hwnd, isepic_main_group);
 
-    /* get the max x of the main group */
-    uilib_get_group_max_x(hwnd, isepic_group, &xpos);
+    /* get the max x of the file name label element */
+    uilib_get_element_max_x(hwnd, IDC_ISEPIC_FILE_LABEL, &xpos);
+
+    /* move the browse button to the correct position */
+    uilib_move_element(hwnd, IDC_ISEPIC_BROWSE, xpos + 10);
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, isepic_right_group, &xpos);
 
     /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
-    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
 
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, move_buttons_group, 0);
@@ -98,14 +123,35 @@ static void init_isepic_dialog(HWND hwnd)
     
     resources_get_int("IsepicSwitch", &res_value);
     CheckDlgButton(hwnd, IDC_ISEPIC_SWITCH, res_value ? BST_CHECKED : BST_UNCHECKED);
+    
+    resources_get_int("IsepicImageWrite", &res_value);
+    CheckDlgButton(hwnd, IDC_ISEPIC_WRITE_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_string("Isepicfilename", &isepicfile);
+    st_isepicfile = system_mbstowcs_alloc(isepicfile);
+    SetDlgItemText(hwnd, IDC_ISEPIC_FILE, isepicfile != NULL ? st_isepicfile : TEXT(""));
+    system_mbstowcs_free(st_isepicfile);
 
     enable_isepic_controls(hwnd);
 }
 
 static void end_isepic_dialog(HWND hwnd)
 {
+    TCHAR st[MAX_PATH];
+    char s[MAX_PATH];
+
     resources_set_int("IsepicCartridgeEnabled", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("IsepicSwitch", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_SWITCH) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("IsepicImageWrite", (IsDlgButtonChecked(hwnd, IDC_ISEPIC_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
+
+    GetDlgItemText(hwnd, IDC_ISEPIC_FILE, st, MAX_PATH);
+    system_wcstombs(s, st, MAX_PATH);
+    resources_set_string("Isepicfilename", s);
+}
+
+static void browse_isepic_file(HWND hwnd)
+{
+    uilib_select_browse(hwnd, translate_text(IDS_SELECT_FILE_ISEPIC), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_ISEPIC_FILE);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -118,6 +164,9 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
             switch (command) {
                 case IDC_ISEPIC_ENABLE:
                     enable_isepic_controls(hwnd);
+                    break;
+                case IDC_ISEPIC_BROWSE:
+                    browse_isepic_file(hwnd);
                     break;
                 case IDOK:
                     end_isepic_dialog(hwnd);

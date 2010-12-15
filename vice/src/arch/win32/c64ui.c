@@ -45,6 +45,7 @@
 #include "uidqbb.h"
 #include "uidrivec64.h"
 #include "uieasyflash.h"
+#include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uiisepic.h"
@@ -82,9 +83,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
-    { "IsepicSwitch", IDM_ISEPIC_SWITCH },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
-    { "ExpertCartridgeEnabled", IDM_CART_ENABLE_EXPERT },
     { NULL, 0 }
 };
 
@@ -261,9 +260,6 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_DATASETTE_CONTROL_RECORD, IDS_MI_DATASETTE_RECORD },
     { IDM_DATASETTE_CONTROL_RESET, IDS_MI_DATASETTE_RESET },
     { IDM_DATASETTE_RESET_COUNTER, IDS_MI_DATASETTE_RESET_COUNTER },
-    { IDM_CART_ENABLE_EXPERT, IDS_MI_CART_ENABLE_EXPERT },
-    { IDM_CART_MODE_OFF, IDS_MI_CART_MODE_OFF },
-    { IDM_CART_MODE_ON, IDS_MI_CART_MODE_ON },
     { IDM_CART_SET_DEFAULT, IDS_MI_CART_SET_DEFAULT },
     { IDM_TOGGLE_CART_RESET, IDS_MI_TOGGLE_CART_RESET },
     { IDM_CART_DETACH, IDS_MI_CART_DETACH },
@@ -327,6 +323,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS },
     { IDM_RAMCART_SETTINGS, IDS_MI_RAMCART_SETTINGS },
     { IDM_DQBB_SETTINGS, IDS_MI_DQBB_SETTINGS },
+    { IDM_EXPERT_SETTINGS, IDS_MI_EXPERT_SETTINGS },
     { IDM_ISEPIC_SETTINGS, IDS_MI_ISEPIC_SETTINGS },
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
@@ -378,7 +375,6 @@ ui_popup_translation_table_t c64ui_popup_translation_table[] = {
     { 2, IDS_MP_FLIP_LIST },
     { 2, IDS_MP_DATASETTE_CONTROL },
     { 2, IDS_MP_ATTACH_CARTRIDGE_IMAGE },
-    { 3, IDS_MP_EXPERT_CARTRIDGE },
     { 2, IDS_MP_RESET },
 #ifdef DEBUG
     { 2, IDS_MP_DEBUG },
@@ -521,6 +517,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_DQBB_SETTINGS:
             ui_dqbb_settings_dialog(hwnd);
+            break;
+        case IDM_EXPERT_SETTINGS:
+            ui_expert_settings_dialog(hwnd);
             break;
         case IDM_ISEPIC_SETTINGS:
             ui_isepic_settings_dialog(hwnd);

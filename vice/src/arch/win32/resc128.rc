@@ -85,14 +85,6 @@ BEGIN
             MENUITEM "", IDM_CART_ATTACH_SS4
             MENUITEM "", IDM_CART_ATTACH_SS5
             MENUITEM "", IDM_CART_ATTACH_STB
-            POPUP "Expert cartridge"
-            BEGIN
-                MENUITEM "", IDM_CART_ENABLE_EXPERT
-                MENUITEM SEPARATOR
-                MENUITEM "",    IDM_CART_MODE_OFF
-                MENUITEM "Prg", IDM_CART_MODE_PRG
-                MENUITEM "",    IDM_CART_MODE_ON
-            END
             MENUITEM SEPARATOR
             MENUITEM "", IDM_CART_SET_DEFAULT
             MENUITEM "", IDM_TOGGLE_CART_RESET
@@ -254,6 +246,7 @@ BEGIN
             MENUITEM "", IDM_REU_SETTINGS
             MENUITEM "", IDM_GEORAM_SETTINGS
             MENUITEM "", IDM_RAMCART_SETTINGS
+            MENUITEM "", IDM_EXPERT_SETTINGS
             MENUITEM "", IDM_MIDI_SETTINGS
             MENUITEM "", IDM_MMC64_SETTINGS
             MENUITEM "", IDM_MMCREPLAY_SETTINGS

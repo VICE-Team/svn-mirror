@@ -41,16 +41,15 @@
 #include "uigeoram.h"
 #include "winmain.h"
 
-#define NUM_OF_GEORAM_SIZE 7
-
-static const int ui_georam_size[NUM_OF_GEORAM_SIZE] = {
+static const int ui_georam_size[] = {
     64,
     128,
     256,
     512,
     1024,
     2048,
-    4096
+    4096,
+    0
 };
 
 static void enable_georam_controls(HWND hwnd)
@@ -59,6 +58,7 @@ static void enable_georam_controls(HWND hwnd)
 
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_GEORAM_ENABLE) == BST_CHECKED) ? 1 : 0;
 
+    EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_WRITE_ENABLE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_SIZE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_BROWSE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_FILE), is_enabled);
@@ -68,6 +68,7 @@ static uilib_localize_dialog_param georam_dialog_trans[] = {
     { 0, IDS_GEORAM_CAPTION, -1 },
     { IDC_GEORAM_ENABLE, IDS_GEORAM_ENABLE, 0 },
     { IDC_GEORAM_SIZE_LABEL, IDS_GEORAM_SIZE_LABEL, 0 },
+    { IDC_GEORAM_WRITE_ENABLE, IDS_GEORAM_WRITE_ENABLE, 0 },
     { IDC_GEORAM_FILE_LABEL, IDS_GEORAM_FILE_LABEL, 0 },
     { IDC_GEORAM_BROWSE, IDS_BROWSE, 0 },
     { IDOK, IDS_OK, 0 },
@@ -77,6 +78,7 @@ static uilib_localize_dialog_param georam_dialog_trans[] = {
 
 static uilib_dialog_group georam_main_group[] = {
     { IDC_GEORAM_ENABLE, 1 },
+    { IDC_GEORAM_WRITE_ENABLE, 1 },
     { IDC_GEORAM_SIZE_LABEL, 0 },
     { IDC_GEORAM_FILE_LABEL, 0 },
     { 0, 0 }
@@ -84,6 +86,7 @@ static uilib_dialog_group georam_main_group[] = {
 
 static uilib_dialog_group georam_right_group[] = {
     { IDC_GEORAM_ENABLE, 0 },
+    { IDC_GEORAM_WRITE_ENABLE, 0 },
     { IDC_GEORAM_SIZE, 0 },
     { IDC_GEORAM_BROWSE, 0 },
     { IDC_GEORAM_FILE, 0 },
@@ -138,8 +141,11 @@ static void init_georam_dialog(HWND hwnd)
     resources_get_int("GEORAM", &res_value);
     CheckDlgButton(hwnd, IDC_GEORAM_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
+    resources_get_int("GEORAMImageWrite", &res_value);
+    CheckDlgButton(hwnd, IDC_GEORAM_WRITE_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     temp_hwnd = GetDlgItem(hwnd, IDC_GEORAM_SIZE);
-    for (res_value_loop = 0; res_value_loop < NUM_OF_GEORAM_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; ui_georam_size[res_value_loop] != 0; res_value_loop++) {
         TCHAR st[10];
 
         _itot(ui_georam_size[res_value_loop], st, 10);
@@ -148,7 +154,7 @@ static void init_georam_dialog(HWND hwnd)
     }
     resources_get_int("GEORAMsize", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < NUM_OF_GEORAM_SIZE; res_value_loop++) {
+    for (res_value_loop = 0; ui_georam_size[res_value_loop] != 0; res_value_loop++) {
         if (ui_georam_size[res_value_loop] == res_value) {
             active_value = res_value_loop;
         }
@@ -169,6 +175,7 @@ static void end_georam_dialog(HWND hwnd)
     char s[MAX_PATH];
 
     resources_set_int("GEORAM", (IsDlgButtonChecked(hwnd, IDC_GEORAM_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("GEORAMImageWrite", (IsDlgButtonChecked(hwnd, IDC_GEORAM_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("GEORAMsize", ui_georam_size[SendMessage(GetDlgItem(hwnd, IDC_GEORAM_SIZE), CB_GETCURSEL, 0, 0)]);
 
     GetDlgItemText(hwnd, IDC_GEORAM_FILE, st, MAX_PATH);

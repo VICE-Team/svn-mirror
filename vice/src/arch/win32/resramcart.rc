@@ -11,7 +11,7 @@
 
 // template of dialog for all languages
 
-IDD_RAMCART_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
+IDD_RAMCART_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 122
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -23,17 +23,19 @@ BEGIN
                   9, 24, 53, 8
     COMBOBOX      IDC_RAMCART_SIZE,
                   66, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX  "", IDC_RAMCART_WRITE_ENABLE,
+                  7, 36, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     LTEXT         "", IDC_RAMCART_FILE_LABEL,
-                  9, 44, 50, 8
+                  9, 56, 50, 8
     PUSHBUTTON    "", IDC_RAMCART_BROWSE,
-                  66, 42, 50, 14, 0
+                  66, 54, 50, 14, 0
     EDITTEXT      IDC_RAMCART_FILE,
-                  9, 58, 160, 12, WS_TABSTOP
+                  9, 70, 160, 12, WS_TABSTOP
 
     DEFPUSHBUTTON "", IDOK,
-                  30, 90, 50, 14, WS_TABSTOP
+                  30, 102, 50, 14, WS_TABSTOP
     PUSHBUTTON    "", IDCANCEL,
-                  90, 90, 50, 14, WS_TABSTOP
+                  90, 102, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -43,12 +45,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART Settings"
-  IDS_RAMCART_ENABLE      "&Enable RAMCART"
-  IDS_RAMCART_READONLY    "&Read Only"
-  IDS_RAMCART_SIZE        "RAMCART size"
-  IDS_RAMCART_FILE        "RAMCART file"
-  IDS_RAMCART_SELECT_FILE "Select file for RAMCART"
+  IDS_RAMCART_CAPTION      "RAMCART Settings"
+  IDS_RAMCART_ENABLE       "&Enable RAMCART"
+  IDS_RAMCART_READONLY     "&Read Only"
+  IDS_RAMCART_SIZE         "RAMCART size"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART file"
+  IDS_RAMCART_SELECT_FILE  "Select file for RAMCART"
 END
 
 
@@ -57,12 +60,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART-indstillinger"
-  IDS_RAMCART_ENABLE      "&Aktivér RAMCART"
-  IDS_RAMCART_READONLY    "&Kun læseadgang"
-  IDS_RAMCART_SIZE        "RAMCART størrelse"
-  IDS_RAMCART_FILE        "RAMCART-fil"
-  IDS_RAMCART_SELECT_FILE "Vælg fil for RAMCART"
+  IDS_RAMCART_CAPTION      "RAMCART-indstillinger"
+  IDS_RAMCART_ENABLE       "&Aktivér RAMCART"
+  IDS_RAMCART_READONLY     "&Kun læseadgang"
+  IDS_RAMCART_SIZE         "RAMCART størrelse"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART-fil"
+  IDS_RAMCART_SELECT_FILE  "Vælg fil for RAMCART"
 END
 
 
@@ -71,12 +75,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART Einstellungen"
-  IDS_RAMCART_ENABLE      "RAMCART aktivi&eren"
-  IDS_RAMCART_READONLY    "Sch&reibgschutz"
-  IDS_RAMCART_SIZE        "RAMCART Größe"
-  IDS_RAMCART_FILE        "RAMCART Datei"
-  IDS_RAMCART_SELECT_FILE "Datei für RAMCART auswählen"
+  IDS_RAMCART_CAPTION      "RAMCART Einstellungen"
+  IDS_RAMCART_ENABLE       "RAMCART aktivi&eren"
+  IDS_RAMCART_READONLY     "Sch&reibgschutz"
+  IDS_RAMCART_SIZE         "RAMCART Größe"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART Datei"
+  IDS_RAMCART_SELECT_FILE  "Datei für RAMCART auswählen"
 END
 
 
@@ -85,12 +90,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "Paramètres RAMCART"
-  IDS_RAMCART_ENABLE      "&Activer RAMCART"
-  IDS_RAMCART_READONLY    "&Lecture seule"
-  IDS_RAMCART_SIZE        "Taille du RAMCART"
-  IDS_RAMCART_FILE        "Fichier RAMCART"
-  IDS_RAMCART_SELECT_FILE "Sélectionner fichier pour RAMCART"
+  IDS_RAMCART_CAPTION      "Paramètres RAMCART"
+  IDS_RAMCART_ENABLE       "&Activer RAMCART"
+  IDS_RAMCART_READONLY     "&Lecture seule"
+  IDS_RAMCART_SIZE         "Taille du RAMCART"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "Fichier RAMCART"
+  IDS_RAMCART_SELECT_FILE  "Sélectionner fichier pour RAMCART"
 END
 
 
@@ -102,12 +108,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART beállításai"
-  IDS_RAMCART_ENABLE      "RAMCART &engedélyezése"
-  IDS_RAMCART_READONLY    "&Csak olvasható"
-  IDS_RAMCART_SIZE        "RAMCART mérete"
-  IDS_RAMCART_FILE        "RAMCART fájl"
-  IDS_RAMCART_SELECT_FILE "Válasszon fájlt a RAMCART-hoz"
+  IDS_RAMCART_CAPTION      "RAMCART beállításai"
+  IDS_RAMCART_ENABLE       "RAMCART &engedélyezése"
+  IDS_RAMCART_READONLY     "&Csak olvasható"
+  IDS_RAMCART_SIZE         "RAMCART mérete"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART fájl"
+  IDS_RAMCART_SELECT_FILE  "Válasszon fájlt a RAMCART-hoz"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -119,12 +126,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "Impostazioni RAMCART"
-  IDS_RAMCART_ENABLE      "&Attiva RAMCART"
-  IDS_RAMCART_READONLY    "&Accesso in sola lettura"
-  IDS_RAMCART_SIZE        "Dimensione RAMCART"
-  IDS_RAMCART_FILE        "File della RAMCART"
-  IDS_RAMCART_SELECT_FILE "Seleziona il file per la RAMCART"
+  IDS_RAMCART_CAPTION      "Impostazioni RAMCART"
+  IDS_RAMCART_ENABLE       "&Attiva RAMCART"
+  IDS_RAMCART_READONLY     "&Accesso in sola lettura"
+  IDS_RAMCART_SIZE         "Dimensione RAMCART"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "File della RAMCART"
+  IDS_RAMCART_SELECT_FILE  "Seleziona il file per la RAMCART"
 END
 
 
@@ -133,12 +141,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART-instellingen"
-  IDS_RAMCART_ENABLE      "&Activeer RAMCART"
-  IDS_RAMCART_READONLY    "Alleen &lezen"
-  IDS_RAMCART_SIZE        "RAMCART-grootte"
-  IDS_RAMCART_FILE        "RAMCART-bestand"
-  IDS_RAMCART_SELECT_FILE "Selecteer bestand voor RAMCART"
+  IDS_RAMCART_CAPTION      "RAMCART-instellingen"
+  IDS_RAMCART_ENABLE       "&Activeer RAMCART"
+  IDS_RAMCART_READONLY     "Alleen &lezen"
+  IDS_RAMCART_SIZE         "RAMCART-grootte"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART-bestand"
+  IDS_RAMCART_SELECT_FILE  "Selecteer bestand voor RAMCART"
 END
 
 
@@ -150,12 +159,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART Settings"
-  IDS_RAMCART_ENABLE      "&Enable RAMCART"
-  IDS_RAMCART_READONLY    "&Read Only"
-  IDS_RAMCART_SIZE        "Rozmiar RAMCART"
-  IDS_RAMCART_FILE        "RAMCART file"
-  IDS_RAMCART_SELECT_FILE "Select file for RAMCART"
+  IDS_RAMCART_CAPTION      "RAMCART Settings"
+  IDS_RAMCART_ENABLE       "&Enable RAMCART"
+  IDS_RAMCART_READONLY     "&Read Only"
+  IDS_RAMCART_SIZE         "Rozmiar RAMCART"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART file"
+  IDS_RAMCART_SELECT_FILE  "Select file for RAMCART"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -167,12 +177,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART-inställningar"
-  IDS_RAMCART_ENABLE      "&Aktivera RAMCART"
-  IDS_RAMCART_READONLY    "&Endast läsåtkomst"
-  IDS_RAMCART_SIZE        "Storlek på RAMCART"
-  IDS_RAMCART_FILE        "RAMCART-fil"
-  IDS_RAMCART_SELECT_FILE "Välj fil för RAMCART"
+  IDS_RAMCART_CAPTION      "RAMCART-inställningar"
+  IDS_RAMCART_ENABLE       "&Aktivera RAMCART"
+  IDS_RAMCART_READONLY     "&Endast läsåtkomst"
+  IDS_RAMCART_SIZE         "Storlek på RAMCART"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART-fil"
+  IDS_RAMCART_SELECT_FILE  "Välj fil för RAMCART"
 END
 
 
@@ -184,15 +195,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION     "RAMCART Ayarlarý"
-  IDS_RAMCART_ENABLE      "RAMCART'ý aktif &et"
-  IDS_RAMCART_READONLY    "Salt Okunu&r"
-  IDS_RAMCART_SIZE        "RAMCART boyutu"
-  IDS_RAMCART_FILE        "RAMCART dosyasý"
-  IDS_RAMCART_SELECT_FILE "RAMCART için dosya seçin"
+  IDS_RAMCART_CAPTION      "RAMCART Ayarlarý"
+  IDS_RAMCART_ENABLE       "RAMCART'ý aktif &et"
+  IDS_RAMCART_READONLY     "Salt Okunu&r"
+  IDS_RAMCART_SIZE         "RAMCART boyutu"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RAMCART image when changed"
+  IDS_RAMCART_FILE         "RAMCART dosyasý"
+  IDS_RAMCART_SELECT_FILE  "RAMCART için dosya seçin"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 

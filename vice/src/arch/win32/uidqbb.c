@@ -47,6 +47,7 @@ static void enable_dqbb_controls(HWND hwnd)
 
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_DQBB_ENABLE) == BST_CHECKED) ? 1 : 0;
 
+    EnableWindow(GetDlgItem(hwnd, IDC_DQBB_WRITE_ENABLE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_DQBB_BROWSE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_DQBB_FILE), is_enabled);
 }
@@ -54,6 +55,7 @@ static void enable_dqbb_controls(HWND hwnd)
 static uilib_localize_dialog_param dqbb_dialog_trans[] = {
     { 0, IDS_DQBB_CAPTION, -1 },
     { IDC_DQBB_ENABLE, IDS_DQBB_ENABLE, 0 },
+    { IDC_DQBB_WRITE_ENABLE, IDS_DQBB_WRITE_ENABLE, 0 },
     { IDC_DQBB_FILE_LABEL, IDS_DQBB_FILE_LABEL, 0 },
     { IDC_DQBB_BROWSE, IDS_BROWSE, 0 },
     { IDOK, IDS_OK, 0 },
@@ -63,12 +65,14 @@ static uilib_localize_dialog_param dqbb_dialog_trans[] = {
 
 static uilib_dialog_group dqbb_main_group[] = {
     { IDC_DQBB_ENABLE, 1 },
+    { IDC_DQBB_WRITE_ENABLE, 1 },
     { IDC_DQBB_FILE_LABEL, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group dqbb_right_group[] = {
     { IDC_DQBB_ENABLE, 0 },
+    { IDC_DQBB_WRITE_ENABLE, 0 },
     { IDC_DQBB_FILE, 0 },
     { IDC_DQBB_BROWSE, 0 },
     { 0, 0 }
@@ -113,6 +117,9 @@ static void init_dqbb_dialog(HWND hwnd)
     resources_get_int("DQBB", &res_value);
     CheckDlgButton(hwnd, IDC_DQBB_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
+    resources_get_int("DQBBImageWrite", &res_value);
+    CheckDlgButton(hwnd, IDC_DQBB_WRITE_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
     resources_get_string("DQBBfilename", &dqbbfile);
     st_dqbbfile = system_mbstowcs_alloc(dqbbfile);
     SetDlgItemText(hwnd, IDC_DQBB_FILE, dqbbfile != NULL ? st_dqbbfile : TEXT(""));
@@ -127,6 +134,8 @@ static void end_dqbb_dialog(HWND hwnd)
     char s[MAX_PATH];
 
     resources_set_int("DQBB", (IsDlgButtonChecked(hwnd, IDC_DQBB_ENABLE) == BST_CHECKED ? 1 : 0 ));
+
+    resources_set_int("DQBBImageWrite", (IsDlgButtonChecked(hwnd, IDC_DQBB_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
     GetDlgItemText(hwnd, IDC_DQBB_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
