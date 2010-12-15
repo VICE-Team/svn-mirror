@@ -74,9 +74,9 @@ static ui_menu_entry_t digimax_base_submenu[] = {
 };
 
 ui_menu_entry_t digimax_submenu[] = {
-    { N_("Enable digimax"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DIGIMAX, NULL, NULL },
-    { N_("Digimax base"), UI_MENU_TYPE_NORMAL,
+    { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_base_submenu },
     { NULL }
 };

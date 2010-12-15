@@ -46,9 +46,10 @@ UI_CALLBACK(set_interface_name)
 }
 
 ui_menu_entry_t tfe_submenu[] = {
-    { N_("Enable Ethernet"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNET_ACTIVE, NULL, NULL },
-    { N_("RR-NET compatibility mode"), UI_MENU_TYPE_TICK,
+    /* Translators: "RR-Net" is the name of the network addon and should not get translated */
+    { N_("RR-Net compatibility mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNET_AS_RR, NULL, NULL },
     { N_("Interface..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_interface_name,

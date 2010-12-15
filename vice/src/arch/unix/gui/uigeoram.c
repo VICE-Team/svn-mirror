@@ -62,19 +62,19 @@ static ui_menu_entry_t georam_size_submenu[] = {
 };
 
 ui_menu_entry_t georam_submenu[] = {
-    { N_("Enable GEORAM"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_GEORAM, NULL, NULL },
-    { N_("GEORAM size"), UI_MENU_TYPE_NORMAL,
+    { N_("Size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, georam_size_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("GEORAM image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_georam_image_name,
       (ui_callback_data_t)"GEORAMfilename", NULL },
-    { N_("Save GEORAM image when changed"), UI_MENU_TYPE_TICK,
+    { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_GEORAMImageWrite, NULL, NULL },
-    { N_("Save GEORAM image now"), UI_MENU_TYPE_NORMAL,
+    { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)georam_flush_callback, NULL, NULL },
-    { N_("Save GEORAM image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)georam_save_callback, NULL, NULL },
     { NULL }
 };

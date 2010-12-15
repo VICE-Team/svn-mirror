@@ -43,16 +43,16 @@ static UI_CALLBACK(retroreplay_flush_callback);
 static UI_CALLBACK(retroreplay_save_callback);
 
 ui_menu_entry_t retroreplay_submenu[] = {
-    { N_("Enable RR flashjumper"), UI_MENU_TYPE_TICK,
+    { N_("Enable flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRFlashJumper, NULL, NULL },
-    { N_("Set RR bankjumper"), UI_MENU_TYPE_TICK,
+    { N_("Enable bankjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRBankJumper, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable RR ROM save when changed"), UI_MENU_TYPE_TICK,
+    { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRBiosWrite, NULL, NULL },
-    { N_("Save RR ROM image now"), UI_MENU_TYPE_NORMAL,
+    { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)retroreplay_flush_callback, NULL, NULL },
-    { N_("Save RR ROM image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)retroreplay_save_callback, NULL, NULL },
     { NULL }
 };

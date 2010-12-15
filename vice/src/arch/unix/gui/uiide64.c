@@ -43,7 +43,7 @@ UI_CALLBACK(set_ide64_image_name)
 }
 
 UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
-UI_MENU_DEFINE_TOGGLE(IDE64version4)
+UI_MENU_DEFINE_RADIO(IDE64version4)
 
 static UI_CALLBACK(set_cylinders)
 {
@@ -162,20 +162,28 @@ static UI_CALLBACK(set_sectors)
     }
 }
 
+static ui_menu_entry_t ide64_revision_submenu[] = {
+    { N_("Version 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version4,
+      (ui_callback_data_t)0, NULL },
+    { N_("Version 4"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_IDE64version4,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
 ui_menu_entry_t ide64_submenu[] = {
-    { N_("Hardware version 4"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IDE64version4, NULL, NULL },
+    { N_("Revision"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ide64_revision_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("IDE64 image 1 name..."), UI_MENU_TYPE_NORMAL,
+    { N_("HD image 1 name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image1", NULL },
-    { N_("IDE64 image 2 name..."), UI_MENU_TYPE_NORMAL,
+    { N_("HD image 2 name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image2", NULL },
-    { N_("IDE64 image 3 name..."), UI_MENU_TYPE_NORMAL,
+    { N_("HD image 3 name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image3", NULL },
-    { N_("IDE64 image 4 name..."), UI_MENU_TYPE_NORMAL,
+    { N_("HD image 4 name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image4", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },

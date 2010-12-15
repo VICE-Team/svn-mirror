@@ -112,7 +112,7 @@ static ui_menu_entry_t sidcart_clock_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
 
 static ui_menu_entry_t sidcart_submenu[] = {
-    { N_("Enable SID cart"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidCart, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
@@ -121,6 +121,7 @@ static ui_menu_entry_t sidcart_submenu[] = {
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("SID address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_address_submenu },
+    /* Translators: "SID clock" as in "CPU Frequency" */
     { N_("SID clock"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_clock_submenu },
     { NULL }

@@ -62,7 +62,7 @@ static ui_menu_entry_t mmcreplay_sd_type_submenu[] = {
 
 
 ui_menu_entry_t mmcreplay_submenu[] = {
-    { N_("Rescue mode"), UI_MENU_TYPE_TICK,
+    { N_("Enable rescue mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCRRescueMode, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
@@ -72,16 +72,18 @@ ui_menu_entry_t mmcreplay_submenu[] = {
     { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)mmcreplay_save_callback, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Card image filename..."), UI_MENU_TYPE_NORMAL,
+    /* Translators: this means card as in SD/MMC card, not a cartridge! */
+    { N_("Card image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmcreplay_card_filename,
       (ui_callback_data_t)"MMCRCardImage", NULL },
+    /* Translators: this means card as in SD/MMC card, not a cartridge! */
     { N_("Enable writes to card image"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCRCardRW, NULL, NULL },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
     { N_("Card type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmcreplay_sd_type_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("EEPROM image filename..."), UI_MENU_TYPE_NORMAL,
+    { N_("EEPROM image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mmcreplay_eeprom_filename,
       (ui_callback_data_t)"MMCREEPROMImage", NULL },
     { N_("Enable writes to EEPROM image"), UI_MENU_TYPE_TICK,

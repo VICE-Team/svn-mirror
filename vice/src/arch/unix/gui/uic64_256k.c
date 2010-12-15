@@ -58,12 +58,12 @@ static ui_menu_entry_t c64_256k_base_submenu[] = {
 };
 
 ui_menu_entry_t c64_256k_submenu[] = {
-    { N_("Enable 256K"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_C64_256K, NULL, NULL },
-    { N_("256K base"), UI_MENU_TYPE_NORMAL,
+    { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_256k_base_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("256K image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_c64_256k_image_name,
       (ui_callback_data_t)"C64_256Kfilename", NULL },
     { NULL }

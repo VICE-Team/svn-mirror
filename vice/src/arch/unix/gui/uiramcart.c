@@ -53,21 +53,21 @@ static ui_menu_entry_t ramcart_size_submenu[] = {
 };
 
 ui_menu_entry_t ramcart_submenu[] = {
-    { N_("Enable RAMCART"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RAMCART, NULL, NULL },
     { N_("Readonly"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RAMCART_RO, NULL, NULL },
-    { N_("RAMCART size"), UI_MENU_TYPE_NORMAL,
+    { N_("Size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ramcart_size_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("RAMCART image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_ramcart_image_name,
       (ui_callback_data_t)"RAMCARTfilename", NULL },
-    { N_("Save RAMCART image when changed"), UI_MENU_TYPE_TICK,
+    { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RAMCARTImageWrite, NULL, NULL },
-    { N_("Save RAMCART image now"), UI_MENU_TYPE_NORMAL,
+    { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ramcart_flush_callback, NULL, NULL },
-    { N_("Save RAMCART image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ramcart_save_callback, NULL, NULL },
     { NULL }
 };

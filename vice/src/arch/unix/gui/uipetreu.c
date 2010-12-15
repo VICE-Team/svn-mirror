@@ -58,11 +58,11 @@ static ui_menu_entry_t petreu_size_submenu[] = {
 };
 
 ui_menu_entry_t petreu_submenu[] = {
-    { N_("Enable PET REU"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_PETREU, NULL, NULL },
-    { N_("PET REU size"), UI_MENU_TYPE_NORMAL,
+    { N_("Size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petreu_size_submenu },
-    { N_("PET REU image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_petreu_image_name,
       (ui_callback_data_t)"PETREUfilename", NULL },
     { NULL }

@@ -79,12 +79,12 @@ static ui_menu_entry_t midi_mode_submenu[] = {
 };
 
 ui_menu_entry_t midi_c64_submenu[] = {
-    { N_("Enable MIDI"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
-    { N_("MIDI type"), UI_MENU_TYPE_NORMAL,
+    { N_("Type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_mode_submenu },
 #ifdef USE_ALSA
-    { N_("MIDI driver"), UI_MENU_TYPE_NORMAL,
+    { N_("Driver"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_driver_submenu },
 #endif
     { N_("MIDI-In device..."), UI_MENU_TYPE_NORMAL,
@@ -97,10 +97,10 @@ ui_menu_entry_t midi_c64_submenu[] = {
 };
 
 ui_menu_entry_t midi_vic20_submenu[] = {
-    { N_("Enable MIDI"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MIDIEnable, NULL, NULL },
 #ifdef USE_ALSA
-    { N_("MIDI driver"), UI_MENU_TYPE_NORMAL,
+    { N_("Driver"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_driver_submenu },
 #endif
     { N_("MIDI-In device..."), UI_MENU_TYPE_NORMAL,

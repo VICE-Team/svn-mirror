@@ -54,12 +54,12 @@ static ui_menu_entry_t plus60k_base_submenu[] = {
 };
 
 ui_menu_entry_t plus60k_submenu[] = {
-    { N_("Enable PLUS60K"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_PLUS60K, NULL, NULL },
-    { N_("PLUS60K base address"), UI_MENU_TYPE_NORMAL,
+    { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus60k_base_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("PLUS60K image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_plus60k_image_name,
       (ui_callback_data_t)"PLUS60Kfilename", NULL },
     { NULL }

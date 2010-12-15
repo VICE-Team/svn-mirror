@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "cartridge.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uisoundexpander.h"
@@ -44,7 +45,7 @@ static ui_menu_entry_t soundexpander_chip_submenu[] = {
 };
 
 ui_menu_entry_t soundexpander_submenu[] = {
-    { N_("Enable SFX Sound Expander"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SFXSoundExpander, NULL, NULL },
     { N_("YM chip type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, soundexpander_chip_submenu },

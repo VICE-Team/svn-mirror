@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "c64model.h"
+#include "cartridge.h"
 #include "cia.h"
 #include "debug.h"
 #include "icon.h"
@@ -368,40 +369,41 @@ UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("256K RAM Expansion"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_256k_submenu },
-    { N_("GEORAM Expansion Unit"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, georam_submenu },
     { N_("PLUS60K RAM Expansion"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus60k_submenu },
     { N_("PLUS256K RAM Expansion"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus256k_submenu },
-    { N_("RAM Expansion Cart"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ramcart_submenu },
-    { N_("RAM Expansion Unit"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, reu_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Double Quick Brown Box cartridge"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_GEORAM, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, georam_submenu },
+    { CARTRIDGE_NAME_REU, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, reu_submenu },
+    { CARTRIDGE_NAME_RAMCART, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ramcart_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { CARTRIDGE_NAME_DQBB, UI_MENU_TYPE_NORMAL,
       NULL, NULL, dqbb_submenu },
-    { N_("Expert cartridge"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_EXPERT, UI_MENU_TYPE_NORMAL,
       NULL, NULL, expert_submenu },
-    { N_("ISEPIC cartridge"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_ISEPIC, UI_MENU_TYPE_NORMAL,
       NULL, NULL, isepic_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("EasyFlash cartridge"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_EASYFLASH, UI_MENU_TYPE_NORMAL,
       NULL, NULL, easyflash_submenu },
-    { N_("IDE64 emulation"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_IDE64, UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_submenu },
-    { N_("MMC64 emulation"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_MMC64, UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmc64_submenu },
-    { N_("MMC Replay emulation"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_MMC_REPLAY, UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmcreplay_submenu },
-    { N_("Retro Replay cartridge"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_RETRO_REPLAY, UI_MENU_TYPE_NORMAL,
       NULL, NULL, retroreplay_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef HAVE_TFE
     { N_("Ethernet emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, tfe_submenu },
 #endif
-    { N_("IEEE 488 Interface"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
       NULL, NULL, tpi_submenu },
 #ifdef HAVE_MOUSE
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -411,17 +413,17 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, lightpen_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Digimax Cart"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_DIGIMAX, UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_submenu },
-    { N_("Magic Voice"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_MAGIC_VOICE, UI_MENU_TYPE_NORMAL,
       NULL, NULL, magicvoice_submenu },
 #ifdef HAVE_MIDI
     { N_("MIDI emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_c64_submenu },
 #endif
-    { N_("SFX Sound Expander emulation"), UI_MENU_TYPE_NORMAL,
+    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER, UI_MENU_TYPE_NORMAL,
       NULL, NULL, soundexpander_submenu },
-    { N_("SFX Sound Sampler emulation"), UI_MENU_TYPE_TICK,
+    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER, UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Emulator identification"), UI_MENU_TYPE_TICK,

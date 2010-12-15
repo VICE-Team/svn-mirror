@@ -143,14 +143,16 @@ static ui_menu_entry_t sidcart_clock_submenu[] = {
 };
 
 static ui_menu_entry_t sidcart_submenu[] = {
-    { N_("Enable SID cart"), UI_MENU_TYPE_TICK,
+    { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidCart, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_model_noresid_submenu },
     { N_("SID filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("SID address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_address_submenu },
+    /* Translators: "SID clock" as in "CPU Frequency" */
     { N_("SID clock"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_clock_submenu },
     { NULL }
@@ -335,16 +337,22 @@ UI_CALLBACK(set_mc_nvram_image_name)
 #endif
 }
 
-static ui_menu_entry_t cartridge_options_submenu[] = {
-    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
-    { N_("Final Expansion write back"), UI_MENU_TYPE_TICK,
+static ui_menu_entry_t fexp_submenu[] = {
+    { N_("Enable image write back"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FinalExpansionWriteBack, NULL, NULL },
-    { N_("Vic Flash Plugin write back"), UI_MENU_TYPE_TICK,
+    { NULL }
+};
+
+static ui_menu_entry_t vicflash_submenu[] = {
+    { N_("Enable image write back"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VicFlashPluginWriteBack, NULL, NULL },
-    { N_("Mega-Cart NvRAM write back"), UI_MENU_TYPE_TICK,
+    { NULL }
+};
+
+static ui_menu_entry_t megacart_submenu[] = {
+    { N_("Enable NvRAM image write back"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MegaCartNvRAMWriteBack, NULL, NULL },
-    { N_("Mega-Cart NvRAM file..."), UI_MENU_TYPE_NORMAL,
+    { N_("NvRAM image file..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_mc_nvram_image_name,
       (ui_callback_data_t)"MegaCartNvRAMfilename", NULL },
     { NULL }
@@ -355,11 +363,8 @@ static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
       NULL, NULL, attach_cartridge_image_submenu },
     { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_cartridge, NULL, NULL },
-    { N_("Cartridge options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cartridge_options_submenu },
     { NULL }
 };
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -502,6 +507,13 @@ static ui_menu_entry_t vic20_model_submenu[] = {
 };
 
 static ui_menu_entry_t io_extensions_submenu[] = {
+    { CARTRIDGE_VIC20_NAME_MEGACART, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, megacart_submenu },
+    { CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, fexp_submenu },
+    { CARTRIDGE_VIC20_NAME_FP, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, vicflash_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SID cartridge settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
     { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
@@ -517,6 +529,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Emulator identification"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_EmuID, NULL, NULL },
+    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };
 
