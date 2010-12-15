@@ -66,6 +66,7 @@ static struct model_s model_match[] = {
     { "ntsc", C64MODEL_C64_NTSC },
     { "c64ntsc", C64MODEL_C64_NTSC },
     { "c64cntsc", C64MODEL_C64C_NTSC },
+    { "newntsc", C64MODEL_C64C_NTSC },
     { "c64newntsc", C64MODEL_C64C_NTSC },
     { "oldntsc", C64MODEL_C64_OLD_NTSC },
     { "c64oldntsc", C64MODEL_C64_OLD_NTSC },

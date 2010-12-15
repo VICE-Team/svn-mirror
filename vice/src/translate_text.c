@@ -3508,7 +3508,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-cmdline-options.c */
-/* en */ {IDCLS_SET_C64_MODEL,    N_("Set C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)")},
+/* en */ {IDCLS_SET_C64_MODEL,    N_("Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_C64_MODEL_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_C64_MODEL_DE, "Wähle C64 Modell (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)"},

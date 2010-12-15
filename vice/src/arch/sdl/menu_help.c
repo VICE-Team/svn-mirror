@@ -42,12 +42,34 @@
 #include "util.h"
 #include "version.h"
 
-static char *convert_cmdline_to_40_cols(char *text)
+static void make_40_cols(char *text, int len)
+{
+    int i = 40;
+
+    while (i < len) {
+        while (text[i] != ' ' && (i > 0)) {
+            i--;
+        }
+
+        if (i == 0) {
+            /* line with >40 chars and no spaces;
+               abort and let sdl_ui_print truncate */
+            return;
+        }
+
+        text[i] = '\n';
+        text += i + 1;
+        len -= i + 1;
+        i = 40;
+    }
+}
+
+static char *convert_cmdline_to_40_cols(const char *text)
 {
     char *new_text;
     int num_options;
     int current_line;
-    int i, j, k, index;
+    int i, j, index;
 
     num_options = cmdline_get_num_options();
     new_text = lib_malloc(strlen(text) + num_options);
@@ -66,11 +88,13 @@ static char *convert_cmdline_to_40_cols(char *text)
         for (j = 0; text[current_line + j] != '\n'; j++) {
             new_text[index + j] = text[current_line + j];
         }
+
         new_text[index + j] = '\n';
+
         if (j > 40) {
-            for (k = 39; text[current_line + k] != ' '; k--);
-            new_text[index + k] = '\n';
+            make_40_cols(&(new_text[index]), j);
         }
+
         current_line += j + 1;
         index += j + 1;
         new_text[index] = '\n';
@@ -79,21 +103,6 @@ static char *convert_cmdline_to_40_cols(char *text)
     return new_text;
 }
 
-static void make_40_cols(char *text)
-{
-    int i = 40;
-    int len = strlen(text);
-
-    while (i < len) {
-        while (text[i] != ' ') {
-            i--;
-        }
-        text[i] = '\n';
-        text += i + 1;
-        len -= i + 1;
-        i = 40;
-    }
-}
 
 static char *contrib_convert(char *text)
 {
@@ -102,6 +111,7 @@ static char *contrib_convert(char *text)
     unsigned int i = 0;
     unsigned int j = 0;
     int single = 0;
+    int len;
     size_t size;
 
     size = strlen(text);
@@ -146,10 +156,12 @@ static char *contrib_convert(char *text)
         }
         i++;
     }
+
     pos = new_text;
     while (*pos != 0) {
-        make_40_cols(pos);
-        pos += strlen(pos) + 1;
+        len = strlen(pos);
+        make_40_cols(pos, len);
+        pos += len + 1;
     }
 
     for (i = 0; i < j; i++) {
@@ -184,6 +196,7 @@ static void show_text(const char *text)
     int next_line = 0;
     int next_page = 0;
     unsigned int current_line = 0;
+    unsigned int len;
     int x, y, z;
     int active = 1;
     int active_keys;
@@ -192,11 +205,13 @@ static void show_text(const char *text)
 
     menu_draw = sdl_ui_get_menu_param();
 
-    string = lib_malloc(512);
+    string = lib_malloc(128);
+    len = strlen(text);
+
     while (active) {
         sdl_ui_clear();
         first_line = current_line;
-        for (y = 0; (y < menu_draw->max_text_y) && (current_line < strlen(text)); y++) {
+        for (y = 0; (y < menu_draw->max_text_y) && (current_line < len); y++) {
             z = 0;
             for (x = 0; text[current_line + x] != '\n'; x++) {
                 switch (text[current_line + x]) {
