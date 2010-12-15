@@ -54,7 +54,7 @@ static void REGPARM2 sfx_soundsampler_sound_store(WORD addr, BYTE value)
 /* ------------------------------------------------------------------------- */
 
 static io_source_t sfx_soundsampler_device = {
-    "SFX Sound Sampler",
+    CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
     IO_DETACH_RESOURCE,
     "SFXSoundSampler",
     0xde00, 0xdeff, 0x01,
@@ -69,7 +69,7 @@ static io_source_t sfx_soundsampler_device = {
 static io_source_list_t *sfx_soundsampler_list_item = NULL;
 
 static const c64export_resource_t export_res= {
-    "SFX Sound Sampler", 0, 0, &sfx_soundsampler_device, NULL, CARTRIDGE_SFX_SOUND_SAMPLER
+    CARTRIDGE_NAME_SFX_SOUND_SAMPLER, 0, 0, &sfx_soundsampler_device, NULL, CARTRIDGE_SFX_SOUND_SAMPLER
 };
 
 /* ------------------------------------------------------------------------- */

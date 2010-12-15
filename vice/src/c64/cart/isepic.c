@@ -112,7 +112,7 @@ static unsigned int isepic_page = 0;
 static char *isepic_filename = NULL;
 static int isepic_filetype = 0;
 
-static const char STRING_ISEPIC[] = "Isepic Cartridge";
+static const char STRING_ISEPIC[] = CARTRIDGE_NAME_ISEPIC;
 
 #define ISEPIC_RAM_SIZE 2048
 

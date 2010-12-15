@@ -72,7 +72,7 @@ static void REGPARM2 p64_io2_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t p64_device = {
-    "Prophet 64",
+    CARTRIDGE_NAME_P64,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -87,7 +87,7 @@ static io_source_t p64_device = {
 static io_source_list_t *p64_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Prophet 64", 1, 0, NULL, &p64_device, CARTRIDGE_P64
+    CARTRIDGE_NAME_P64, 1, 0, NULL, &p64_device, CARTRIDGE_P64
 };
 
 /* ---------------------------------------------------------------------*/

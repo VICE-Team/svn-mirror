@@ -90,7 +90,7 @@ static void REGPARM2 tfe_store(WORD io_address, BYTE byte);
 static BYTE REGPARM1 tfe_read(WORD io_address);
 
 static io_source_t rrnet_io1_mmc64_device = {
-    "RRNET on MMC64 CLOCKPORT",
+    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC64 " Clockport",
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xde02, 0xde0f, 0x0f,
@@ -103,7 +103,7 @@ static io_source_t rrnet_io1_mmc64_device = {
 };
 
 static io_source_t rrnet_io1_retroreplay_device = {
-    "RRNET on RETRO REPLAY CLOCKPORT",
+    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_RETRO_REPLAY " Clockport",
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xde02, 0xde0f, 0x0f,
@@ -116,7 +116,7 @@ static io_source_t rrnet_io1_retroreplay_device = {
 };
 
 static io_source_t rrnet_io1_mmcreplay_device = {
-    "RRNET on MMC REPLAY CLOCKPORT",
+    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC_REPLAY " Clockport",
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xde02, 0xde0f, 0x0f,
@@ -129,7 +129,7 @@ static io_source_t rrnet_io1_mmcreplay_device = {
 };
 
 static io_source_t rrnet_io1_device = {
-    "RRNET",
+    CARTRIDGE_NAME_RRNET,
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xde00, 0xde0f, 0x0f,
@@ -142,7 +142,7 @@ static io_source_t rrnet_io1_device = {
 };
 
 static io_source_t tfe_io1_device = {
-    "TFE",
+    CARTRIDGE_NAME_TFE,
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xde00, 0xdeff, 0x0f,
@@ -155,7 +155,7 @@ static io_source_t tfe_io1_device = {
 };
 
 static io_source_t rrnet_io2_mmc64_device = {
-    "RRNET on MMC64 CLOCKPORT",
+    CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC64 " Clockport",
     IO_DETACH_RESOURCE,
     "ETHERNET_ACTIVE",
     0xdf22, 0xdf2f, 0x0f,
@@ -168,7 +168,7 @@ static io_source_t rrnet_io2_mmc64_device = {
 };
 
 static c64export_resource_t export_res = {
-    "TFE", 0, 0, &tfe_io1_device, NULL, CARTRIDGE_TFE
+    CARTRIDGE_NAME_TFE, 0, 0, &tfe_io1_device, NULL, CARTRIDGE_TFE
 };
 
 /* current configurations */

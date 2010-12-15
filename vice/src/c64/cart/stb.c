@@ -54,7 +54,7 @@ static BYTE REGPARM1 stb_io1_peek(WORD addr);
 static void REGPARM2 stb_io1_store(WORD addr, BYTE value);
 
 static io_source_t stb_device = {
-    "Structured Basic",
+    CARTRIDGE_NAME_STRUCTURED_BASIC,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -69,7 +69,7 @@ static io_source_t stb_device = {
 static io_source_list_t *stb_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Structured Basic", 1, 0, &stb_device, NULL, CARTRIDGE_STRUCTURED_BASIC
+    CARTRIDGE_NAME_STRUCTURED_BASIC, 1, 0, &stb_device, NULL, CARTRIDGE_STRUCTURED_BASIC
 };
 
 /* ---------------------------------------------------------------------*/

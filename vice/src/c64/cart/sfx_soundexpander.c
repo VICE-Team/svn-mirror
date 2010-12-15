@@ -61,7 +61,7 @@ static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr);
 static BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr);
 
 static io_source_t sfx_soundexpander_sound_device = {
-    "SFX Sound Expander",
+    CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
     IO_DETACH_RESOURCE,
     "SFXSoundExpander",
     0xdf00, 0xdfff, 0x7f,
@@ -74,7 +74,7 @@ static io_source_t sfx_soundexpander_sound_device = {
 };
 
 static io_source_t sfx_soundexpander_piano_device = {
-    "SFX Sound Expander",
+    CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
     IO_DETACH_RESOURCE,
     "SFXSoundExpander",
     0xdf00, 0xdfff, 0x1f,
@@ -90,11 +90,11 @@ static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
 static io_source_list_t *sfx_soundexpander_piano_list_item = NULL;
 
 static const c64export_resource_t export_res_sound= {
-    "SFX Sound Expander", 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_SAMPLER
+    CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_SAMPLER
 };
 
 static const c64export_resource_t export_res_piano= {
-    "SFX Sound Expander", 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_SAMPLER
+    CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_SAMPLER
 };
 
 /* ------------------------------------------------------------------------- */

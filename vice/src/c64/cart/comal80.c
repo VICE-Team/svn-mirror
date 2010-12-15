@@ -74,7 +74,7 @@ static BYTE REGPARM1 comal80_io1_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t comal80_device = {
-    "COMAL80",
+    CARTRIDGE_NAME_COMAL80,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -89,7 +89,7 @@ static io_source_t comal80_device = {
 static io_source_list_t *comal80_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Comal-80", 1, 1, &comal80_device, NULL, CARTRIDGE_COMAL80
+    CARTRIDGE_NAME_COMAL80, 1, 1, &comal80_device, NULL, CARTRIDGE_COMAL80
 };
 
 /* ---------------------------------------------------------------------*/

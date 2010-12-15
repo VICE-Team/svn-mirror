@@ -96,7 +96,7 @@ static BYTE REGPARM1 atomicpower_io2_read(WORD addr);
 static void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value);
 
 static io_source_t atomicpower_io1_device = {
-    "Atomic Power",
+    CARTRIDGE_NAME_ATOMIC_POWER,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -109,7 +109,7 @@ static io_source_t atomicpower_io1_device = {
 };
 
 static io_source_t atomicpower_io2_device = {
-    "Atomic Power",
+    CARTRIDGE_NAME_ATOMIC_POWER,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -125,7 +125,7 @@ static io_source_list_t *atomicpower_io1_list_item = NULL;
 static io_source_list_t *atomicpower_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Action Power", 1, 1, &atomicpower_io1_device, &atomicpower_io2_device, CARTRIDGE_ATOMIC_POWER
+    CARTRIDGE_NAME_ATOMIC_POWER, 1, 1, &atomicpower_io1_device, &atomicpower_io2_device, CARTRIDGE_ATOMIC_POWER
 };
 
 /* ---------------------------------------------------------------------*/

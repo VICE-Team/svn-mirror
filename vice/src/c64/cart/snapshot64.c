@@ -84,7 +84,7 @@ static BYTE REGPARM1 snapshot64_io2_read(WORD addr);
 static void REGPARM2 snapshot64_io2_store(WORD addr, BYTE value);
 
 static io_source_t ss64_io2_device = {
-    "Snapshot 64",
+    CARTRIDGE_NAME_SNAPSHOT64,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -99,7 +99,7 @@ static io_source_t ss64_io2_device = {
 static io_source_list_t *ss64_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Snapshot 64", 1, 1, NULL, &ss64_io2_device, CARTRIDGE_SNAPSHOT64
+    CARTRIDGE_NAME_SNAPSHOT64, 1, 1, NULL, &ss64_io2_device, CARTRIDGE_SNAPSHOT64
 };
 
 /* ---------------------------------------------------------------------*/

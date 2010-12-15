@@ -102,7 +102,7 @@ static BYTE REGPARM1 stardos_io2_read(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stardos_io1_device = {
-    "StarDOS",
+    CARTRIDGE_NAME_STARDOS,
     IO_DETACH_CART,
     NULL,
     0xde61, 0xde61, 0x01,
@@ -115,7 +115,7 @@ static io_source_t stardos_io1_device = {
 };
 
 static io_source_t stardos_io2_device = {
-    "StarDOS",
+    CARTRIDGE_NAME_STARDOS,
     IO_DETACH_CART,
     NULL,
     0xdfa1, 0xdfa1, 0x01,
@@ -131,7 +131,7 @@ static io_source_list_t *stardos_io1_list_item = NULL;
 static io_source_list_t *stardos_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "StarDOS", 1, 1, &stardos_io1_device, &stardos_io2_device, CARTRIDGE_STARDOS
+    CARTRIDGE_NAME_STARDOS, 1, 1, &stardos_io1_device, &stardos_io2_device, CARTRIDGE_STARDOS
 };
 
 /* ---------------------------------------------------------------------*/

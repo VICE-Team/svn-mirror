@@ -88,7 +88,7 @@ static void REGPARM2 gamekiller_io2_store(WORD addr, BYTE value)
 }
 
 static io_source_t gamekiller_io1_device = {
-    "Game Killer",
+    CARTRIDGE_NAME_GAME_KILLER,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -101,7 +101,7 @@ static io_source_t gamekiller_io1_device = {
 };
 
 static io_source_t gamekiller_io2_device = {
-    "Game Killer",
+    CARTRIDGE_NAME_GAME_KILLER,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -117,7 +117,7 @@ static io_source_list_t *gamekiller_io1_list_item = NULL;
 static io_source_list_t *gamekiller_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Game Killer", 1, 1, &gamekiller_io1_device, &gamekiller_io2_device, CARTRIDGE_GAME_KILLER
+    CARTRIDGE_NAME_GAME_KILLER, 1, 1, &gamekiller_io1_device, &gamekiller_io2_device, CARTRIDGE_GAME_KILLER
 };
 
 /* ---------------------------------------------------------------------*/

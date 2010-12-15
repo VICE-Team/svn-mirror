@@ -110,7 +110,7 @@ static BYTE REGPARM1 delaep7x8_io1_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t delaep7x8_device = {
-    "DELA EP7x8",
+    CARTRIDGE_NAME_DELA_EP7x8,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -125,7 +125,7 @@ static io_source_t delaep7x8_device = {
 static io_source_list_t *delaep7x8_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Dela EP7x8", 1, 0, &delaep7x8_device, NULL, CARTRIDGE_DELA_EP7x8
+    CARTRIDGE_NAME_DELA_EP7x8, 1, 0, &delaep7x8_device, NULL, CARTRIDGE_DELA_EP7x8
 };
 
 /* ---------------------------------------------------------------------*/

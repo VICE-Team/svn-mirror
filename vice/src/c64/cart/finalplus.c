@@ -78,7 +78,7 @@ static BYTE REGPARM1 final_plus_io2_read(WORD addr);
 static void REGPARM2 final_plus_io2_store(WORD addr, BYTE value);
 
 static io_source_t final_plus_io2_device = {
-    "Final Plus",
+    CARTRIDGE_NAME_FINAL_PLUS,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -93,7 +93,7 @@ static io_source_t final_plus_io2_device = {
 static io_source_list_t *final_plus_io2_list_item = NULL;
 
 static const c64export_resource_t export_res_plus = {
-    "Final Plus", 1, 1, NULL, &final_plus_io2_device, CARTRIDGE_FINAL_PLUS
+    CARTRIDGE_NAME_FINAL_PLUS, 1, 1, NULL, &final_plus_io2_device, CARTRIDGE_FINAL_PLUS
 };
 
 /* ---------------------------------------------------------------------*/

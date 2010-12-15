@@ -75,7 +75,7 @@ static BYTE REGPARM1 aciacart_read(WORD addr);
 /* FIXME: indiviudal IDs should be used to reflect individual carts (unless 100% identical) */
 
 static io_source_t acia_de_device = {
-    "ACIA/SWIFTLINK/TURBO232",
+    CARTRIDGE_NAME_TURBO232,
     IO_DETACH_RESOURCE,
     "Acia1Enable",
     0xde00, 0xde07, 0x07,
@@ -90,7 +90,7 @@ static io_source_t acia_de_device = {
 static io_source_list_t *acia_de_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Turbo232", 0, 0, &acia_de_device, NULL, CARTRIDGE_TURBO232
+    CARTRIDGE_NAME_TURBO232, 0, 0, &acia_de_device, NULL, CARTRIDGE_TURBO232
 };
 #endif
 

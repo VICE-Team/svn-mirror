@@ -133,7 +133,7 @@ static BYTE REGPARM1 rexep256_io2_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t rexep256_device = {
-    "REX EP256",
+    CARTRIDGE_NAME_REX_EP256,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -148,7 +148,7 @@ static io_source_t rexep256_device = {
 static io_source_list_t *rexep256_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "REX EP256", 1, 0, NULL, &rexep256_device, CARTRIDGE_REX_EP256
+    CARTRIDGE_NAME_REX_EP256, 1, 0, NULL, &rexep256_device, CARTRIDGE_REX_EP256
 };
 
 /* ---------------------------------------------------------------------*/

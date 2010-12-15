@@ -92,7 +92,7 @@ static BYTE REGPARM1 funplay_io1_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t funplay_device = {
-    "Fun Play",
+    CARTRIDGE_NAME_FUNPLAY,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -107,7 +107,7 @@ static io_source_t funplay_device = {
 static io_source_list_t *funplay_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Fun Play", 1, 1, &funplay_device, NULL, CARTRIDGE_FUNPLAY
+    CARTRIDGE_NAME_FUNPLAY, 1, 1, &funplay_device, NULL, CARTRIDGE_FUNPLAY
 };
 
 /* ---------------------------------------------------------------------*/

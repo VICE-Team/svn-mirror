@@ -85,7 +85,7 @@ static BYTE REGPARM1 supergames_io2_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t supergames_device = {
-    "SUPERGAMES",
+    CARTRIDGE_NAME_SUPER_GAMES,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -100,7 +100,7 @@ static io_source_t supergames_device = {
 static io_source_list_t *supergames_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Super Games", 1, 1, NULL, &supergames_device, CARTRIDGE_SUPER_GAMES
+    CARTRIDGE_NAME_SUPER_GAMES, 1, 1, NULL, &supergames_device, CARTRIDGE_SUPER_GAMES
 };
 
 /* ---------------------------------------------------------------------*/

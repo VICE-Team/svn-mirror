@@ -71,7 +71,7 @@ static BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr);
 static void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value);
 
 static io_source_t ss5_device = {
-    "SUPER SNAPSHOT 5",
+    CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -86,7 +86,7 @@ static io_source_t ss5_device = {
 static io_source_list_t *ss5_list_item = NULL;
 
 static const c64export_resource_t export_res_v5 = {
-    "Super Snapshot V5", 1, 1, &ss5_device, NULL, CARTRIDGE_SUPER_SNAPSHOT_V5
+    CARTRIDGE_NAME_SUPER_SNAPSHOT_V5, 1, 1, &ss5_device, NULL, CARTRIDGE_SUPER_SNAPSHOT_V5
 };
 
 /* ---------------------------------------------------------------------*/

@@ -112,7 +112,7 @@ static BYTE REGPARM1 se5_io2_read(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t se5_io2_device = {
-    "Super Explode V5",
+    CARTRIDGE_NAME_SUPER_EXPLODE_V5,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -127,7 +127,7 @@ static io_source_t se5_io2_device = {
 static io_source_list_t *se5_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Super Explode V5", 1, 0, NULL, &se5_io2_device, CARTRIDGE_SUPER_EXPLODE_V5
+    CARTRIDGE_NAME_SUPER_EXPLODE_V5, 1, 0, NULL, &se5_io2_device, CARTRIDGE_SUPER_EXPLODE_V5
 };
 
 /* ---------------------------------------------------------------------*/

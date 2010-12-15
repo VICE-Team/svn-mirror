@@ -83,7 +83,7 @@ static BYTE REGPARM1 ross_io2_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ross_io1_device = {
-    "ROSS",
+    CARTRIDGE_NAME_ROSS,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -96,7 +96,7 @@ static io_source_t ross_io1_device = {
 };
 
 static io_source_t ross_io2_device = {
-    "ROSS",
+    CARTRIDGE_NAME_ROSS,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -112,7 +112,7 @@ static io_source_list_t *ross_io1_list_item = NULL;
 static io_source_list_t *ross_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Ross", 1, 1, &ross_io1_device, &ross_io2_device, CARTRIDGE_ROSS
+    CARTRIDGE_NAME_ROSS, 1, 1, &ross_io1_device, &ross_io2_device, CARTRIDGE_ROSS
 };
 
 /* ---------------------------------------------------------------------*/

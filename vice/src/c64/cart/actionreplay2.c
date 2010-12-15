@@ -291,7 +291,7 @@ static BYTE REGPARM1 actionreplay2_io2_peek(WORD addr);
 static void REGPARM2 actionreplay2_io2_store(WORD addr, BYTE value);
 
 static io_source_t actionreplay2_io1_device = {
-    "Action Replay II",
+    CARTRIDGE_NAME_ACTION_REPLAY2,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -304,7 +304,7 @@ static io_source_t actionreplay2_io1_device = {
 };
 
 static io_source_t actionreplay2_io2_device = {
-    "Action Replay II",
+    CARTRIDGE_NAME_ACTION_REPLAY2,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -320,7 +320,7 @@ static io_source_list_t *actionreplay2_io1_list_item = NULL;
 static io_source_list_t *actionreplay2_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Action Replay II", 1, 1, &actionreplay2_io1_device, &actionreplay2_io2_device, CARTRIDGE_ACTION_REPLAY2
+    CARTRIDGE_NAME_ACTION_REPLAY2, 1, 1, &actionreplay2_io1_device, &actionreplay2_io2_device, CARTRIDGE_ACTION_REPLAY2
 };
 
 /* ---------------------------------------------------------------------*/

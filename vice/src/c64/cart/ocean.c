@@ -80,7 +80,7 @@ static BYTE REGPARM1 ocean_io1_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ocean_device = {
-    "Ocean",
+    CARTRIDGE_NAME_OCEAN,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -95,7 +95,7 @@ static io_source_t ocean_device = {
 static io_source_list_t *ocean_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Ocean", 1, 1, &ocean_device, NULL, CARTRIDGE_OCEAN
+    CARTRIDGE_NAME_OCEAN, 1, 1, &ocean_device, NULL, CARTRIDGE_OCEAN
 };
 
 /* ---------------------------------------------------------------------*/

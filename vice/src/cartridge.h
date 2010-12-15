@@ -211,7 +211,8 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
 #define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
 #define CARTRIDGE_NAME_TFE                "The Final Ethernet"
-#define CARTRIDGE_NAME_TURBO232           "Turbo-232"
+#define CARTRIDGE_NAME_RRNET              "RR-Net"
+#define CARTRIDGE_NAME_TURBO232           "Turbo-232" /* "ACIA/SWIFTLINK/TURBO232" */
 #define CARTRIDGE_NAME_ACTION_REPLAY      "Action Replay V5" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
 #define CARTRIDGE_NAME_FINAL_III          "The Final Cartridge III" /* http://rr.pokefinder.org/wiki/Final_Cartridge */

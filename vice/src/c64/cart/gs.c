@@ -74,7 +74,7 @@ static BYTE REGPARM1 gs_io1_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t gs_device = {
-    "GS",
+    CARTRIDGE_NAME_GS,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -89,7 +89,7 @@ static io_source_t gs_device = {
 static io_source_list_t *gs_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "GS", 1, 1, &gs_device, NULL, CARTRIDGE_GS
+    CARTRIDGE_NAME_GS, 1, 1, &gs_device, NULL, CARTRIDGE_GS
 };
 
 /* ---------------------------------------------------------------------*/

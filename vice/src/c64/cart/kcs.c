@@ -107,7 +107,7 @@ static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t kcs_io1_device = {
-    "KCS POWER",
+    CARTRIDGE_NAME_KCS_POWER,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -120,7 +120,7 @@ static io_source_t kcs_io1_device = {
 };
 
 static io_source_t kcs_io2_device = {
-    "KCS POWER",
+    CARTRIDGE_NAME_KCS_POWER,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -136,7 +136,7 @@ static io_source_list_t *kcs_io1_list_item = NULL;
 static io_source_list_t *kcs_io2_list_item = NULL;
 
 static const c64export_resource_t export_res_kcs = {
-    "KCS Power", 1, 1, &kcs_io1_device, &kcs_io2_device, CARTRIDGE_KCS_POWER
+    CARTRIDGE_NAME_KCS_POWER, 1, 1, &kcs_io1_device, &kcs_io2_device, CARTRIDGE_KCS_POWER
 };
 
 /* ---------------------------------------------------------------------*/

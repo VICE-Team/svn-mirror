@@ -139,7 +139,7 @@ static BYTE REGPARM1 magicformel_io2_read(WORD addr);
 static BYTE REGPARM1 magicformel_io2_peek(WORD addr);
 
 static io_source_t magicformel_io1_device = {
-    "Magic Formel",
+    CARTRIDGE_NAME_MAGIC_FORMEL,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -152,7 +152,7 @@ static io_source_t magicformel_io1_device = {
 };
 
 static io_source_t magicformel_io2_device = {
-    "Magic Formel",
+    CARTRIDGE_NAME_MAGIC_FORMEL,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -168,7 +168,7 @@ static io_source_list_t *magicformel_io1_list_item = NULL;
 static io_source_list_t *magicformel_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Magic Formel", 1, 1, &magicformel_io1_device, &magicformel_io2_device, CARTRIDGE_MAGIC_FORMEL
+    CARTRIDGE_NAME_MAGIC_FORMEL, 1, 1, &magicformel_io1_device, &magicformel_io2_device, CARTRIDGE_MAGIC_FORMEL
 };
 
 /* ---------------------------------------------------------------------*/

@@ -68,7 +68,7 @@ static void REGPARM2 simon_io1_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t simon_device = {
-    "Simon's Basic",
+    CARTRIDGE_NAME_SIMONS_BASIC,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -83,7 +83,7 @@ static io_source_t simon_device = {
 static io_source_list_t *simon_list_item = NULL;
 
 static const c64export_resource_t export_res_simon = {
-    "Simon's Basic", 1, 1, &simon_device, NULL, CARTRIDGE_SIMONS_BASIC
+    CARTRIDGE_NAME_SIMONS_BASIC, 1, 1, &simon_device, NULL, CARTRIDGE_SIMONS_BASIC
 };
 
 /* ---------------------------------------------------------------------*/

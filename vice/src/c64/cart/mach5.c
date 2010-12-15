@@ -82,7 +82,7 @@ static void REGPARM2 mach5_io2_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t mach5_io1_device = {
-    "Mach 5",
+    CARTRIDGE_NAME_MACH5,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -95,7 +95,7 @@ static io_source_t mach5_io1_device = {
 };
 
 static io_source_t mach5_io2_device = {
-    "Mach 5",
+    CARTRIDGE_NAME_MACH5,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -111,7 +111,7 @@ static io_source_list_t *mach5_io1_list_item = NULL;
 static io_source_list_t *mach5_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Mach 5", 1, 0, &mach5_io1_device, &mach5_io2_device, CARTRIDGE_MACH5
+    CARTRIDGE_NAME_MACH5, 1, 0, &mach5_io1_device, &mach5_io2_device, CARTRIDGE_MACH5
 };
 
 /* ---------------------------------------------------------------------*/

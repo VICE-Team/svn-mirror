@@ -96,7 +96,7 @@
 #endif
 
 static const c64export_resource_t export_res = {
-    "Capture", 1, 1, NULL, NULL, CARTRIDGE_CAPTURE
+    CARTRIDGE_NAME_CAPTURE, 1, 1, NULL, NULL, CARTRIDGE_CAPTURE
 };
 
 static int cart_enabled = 0;

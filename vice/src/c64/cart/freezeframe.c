@@ -106,7 +106,7 @@ static void REGPARM2 freezeframe_io2_store(WORD addr, BYTE value)
 }
 
 static io_source_t freezeframe_io1_device = {
-    "Freeze Frame",
+    CARTRIDGE_NAME_FREEZE_FRAME,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -118,7 +118,7 @@ static io_source_t freezeframe_io1_device = {
     CARTRIDGE_FREEZE_FRAME
 };
 static io_source_t freezeframe_io2_device = {
-    "Freeze Frame",
+    CARTRIDGE_NAME_FREEZE_FRAME,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -134,7 +134,7 @@ static io_source_list_t *freezeframe_io1_list_item = NULL;
 static io_source_list_t *freezeframe_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Freeze Frame", 1, 1, &freezeframe_io1_device, &freezeframe_io2_device, CARTRIDGE_FREEZE_FRAME
+    CARTRIDGE_NAME_FREEZE_FRAME, 1, 1, &freezeframe_io1_device, &freezeframe_io2_device, CARTRIDGE_FREEZE_FRAME
 };
 
 /* ---------------------------------------------------------------------*/

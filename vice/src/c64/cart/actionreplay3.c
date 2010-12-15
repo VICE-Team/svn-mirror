@@ -72,7 +72,7 @@ static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 actionreplay3_io2_read(WORD addr);
 
 static io_source_t actionreplay3_io1_device = {
-    "Action Replay III",
+    CARTRIDGE_NAME_ACTION_REPLAY3,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -85,7 +85,7 @@ static io_source_t actionreplay3_io1_device = {
 };
 
 static io_source_t actionreplay3_io2_device = {
-    "Action Replay III",
+    CARTRIDGE_NAME_ACTION_REPLAY3,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -191,7 +191,7 @@ void actionreplay3_config_setup(BYTE *rawcart)
 /* ---------------------------------------------------------------------*/
 
 static const c64export_resource_t export_res = {
-    "Action Replay III", 1, 1, &actionreplay3_io1_device, &actionreplay3_io2_device, CARTRIDGE_ACTION_REPLAY3
+    CARTRIDGE_NAME_ACTION_REPLAY3, 1, 1, &actionreplay3_io1_device, &actionreplay3_io2_device, CARTRIDGE_ACTION_REPLAY3
 };
 
 static int actionreplay3_common_attach(void)

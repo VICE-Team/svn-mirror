@@ -50,7 +50,7 @@
  */
 
 static const c64export_resource_t export_res = {
-    "Zaxxon", 1, 1, NULL, NULL, CARTRIDGE_ZAXXON
+    CARTRIDGE_NAME_ZAXXON, 1, 1, NULL, NULL, CARTRIDGE_ZAXXON
 };
 
 BYTE REGPARM1 zaxxon_roml_read(WORD addr)

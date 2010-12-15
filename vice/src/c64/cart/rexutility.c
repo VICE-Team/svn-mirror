@@ -69,7 +69,7 @@ static BYTE REGPARM1 rex_io2_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t rex_device = {
-    "REX UTIL CART",
+    CARTRIDGE_NAME_REX,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -84,7 +84,7 @@ static io_source_t rex_device = {
 static io_source_list_t *rex_list_item = NULL;
 
 static const c64export_resource_t export_res_rex = {
-    "REX", 0, 0, NULL, &rex_device, CARTRIDGE_REX
+    CARTRIDGE_NAME_REX, 0, 0, NULL, &rex_device, CARTRIDGE_REX
 };
 
 /* ---------------------------------------------------------------------*/

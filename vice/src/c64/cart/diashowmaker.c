@@ -101,7 +101,7 @@ static void REGPARM2 dsm_io1_store(WORD addr, BYTE value)
 }
 
 static io_source_t dsm_io1_device = {
-    "Diashow Maker",
+    CARTRIDGE_NAME_DIASHOW_MAKER,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -116,7 +116,7 @@ static io_source_t dsm_io1_device = {
 static io_source_list_t *dsm_io1_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Diashow Maker", 1, 1, &dsm_io1_device, NULL, CARTRIDGE_DIASHOW_MAKER
+    CARTRIDGE_NAME_DIASHOW_MAKER, 1, 1, &dsm_io1_device, NULL, CARTRIDGE_DIASHOW_MAKER
 };
 
 /* ---------------------------------------------------------------------*/

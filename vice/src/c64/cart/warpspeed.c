@@ -63,7 +63,7 @@ static BYTE REGPARM1 warpspeed_io2_read(WORD addr);
 static void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value);
 
 static io_source_t warpspeed_io1_device = {
-    "Warpspeed",
+    CARTRIDGE_NAME_WARPSPEED,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -76,7 +76,7 @@ static io_source_t warpspeed_io1_device = {
 };
 
 static io_source_t warpspeed_io2_device = {
-    "Warpspeed",
+    CARTRIDGE_NAME_WARPSPEED,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -116,7 +116,7 @@ void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value)
 /* ---------------------------------------------------------------------*/
 
 static const c64export_resource_t export_res_warpspeed = {
-    "Warpspeed", 1, 0, &warpspeed_io1_device, &warpspeed_io2_device, CARTRIDGE_WARPSPEED
+    CARTRIDGE_NAME_WARPSPEED, 1, 0, &warpspeed_io1_device, &warpspeed_io2_device, CARTRIDGE_WARPSPEED
 };
 
 /* ---------------------------------------------------------------------*/

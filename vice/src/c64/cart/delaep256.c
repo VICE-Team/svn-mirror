@@ -95,7 +95,7 @@ static BYTE REGPARM1 delaep256_io1_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t delaep256_device = {
-    "DELA EP256",
+    CARTRIDGE_NAME_DELA_EP256,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -110,7 +110,7 @@ static io_source_t delaep256_device = {
 static io_source_list_t *delaep256_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Dela EP256", 1, 0, &delaep256_device, NULL, CARTRIDGE_DELA_EP256
+    CARTRIDGE_NAME_DELA_EP256, 1, 0, &delaep256_device, NULL, CARTRIDGE_DELA_EP256
 };
 
 /* ---------------------------------------------------------------------*/

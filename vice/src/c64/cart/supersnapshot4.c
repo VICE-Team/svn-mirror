@@ -103,7 +103,7 @@ static BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr);
 static void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value);
 
 static io_source_t ss4_io1_device = {
-    "Super Snapshot 4",
+    CARTRIDGE_NAME_SUPER_SNAPSHOT,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -116,7 +116,7 @@ static io_source_t ss4_io1_device = {
 };
 
 static io_source_t ss4_io2_device = {
-    "Super Snapshot 4",
+    CARTRIDGE_NAME_SUPER_SNAPSHOT,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -133,7 +133,7 @@ static io_source_list_t *ss4_io2_list_item = NULL;
 
 
 static const c64export_resource_t export_res_v4 = {
-    "Super Snapshot V4", 1, 1, &ss4_io1_device, &ss4_io2_device, CARTRIDGE_SUPER_SNAPSHOT
+    CARTRIDGE_NAME_SUPER_SNAPSHOT, 1, 1, &ss4_io1_device, &ss4_io2_device, CARTRIDGE_SUPER_SNAPSHOT
 };
 
 /* ---------------------------------------------------------------------*/

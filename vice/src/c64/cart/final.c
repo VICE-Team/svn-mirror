@@ -70,7 +70,7 @@ static BYTE REGPARM1 final_v1_io2_peek(WORD addr);
 static void REGPARM2 final_v1_io2_store(WORD addr, BYTE value);
 
 static io_source_t final1_io1_device = {
-    "Final I",
+    CARTRIDGE_NAME_FINAL_I,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -83,7 +83,7 @@ static io_source_t final1_io1_device = {
 };
 
 static io_source_t final1_io2_device = {
-    "Final I",
+    CARTRIDGE_NAME_FINAL_I,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -99,7 +99,7 @@ static io_source_list_t *final1_io1_list_item = NULL;
 static io_source_list_t *final1_io2_list_item = NULL;
 
 static const c64export_resource_t export_res_v1 = {
-    "Final V1", 1, 0, &final1_io1_device, &final1_io2_device, CARTRIDGE_FINAL_I
+    CARTRIDGE_NAME_FINAL_I, 1, 0, &final1_io1_device, &final1_io2_device, CARTRIDGE_FINAL_I
 };
 
 /* ---------------------------------------------------------------------*/

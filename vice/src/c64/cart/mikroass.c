@@ -64,7 +64,7 @@ static BYTE REGPARM1 mikroass_io2_read(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t mikroass_io1_device = {
-    "MIKRO ASSEMBLER",
+    CARTRIDGE_NAME_MIKRO_ASSEMBLER,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -77,7 +77,7 @@ static io_source_t mikroass_io1_device = {
 };
 
 static io_source_t mikroass_io2_device = {
-    "MIKRO ASSEMBLER",
+    CARTRIDGE_NAME_MIKRO_ASSEMBLER,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
@@ -93,7 +93,7 @@ static io_source_list_t *mikroass_io1_list_item = NULL;
 static io_source_list_t *mikroass_io2_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Mikro Assembler", 1, 0, &mikroass_io1_device, &mikroass_io2_device, CARTRIDGE_MIKRO_ASSEMBLER
+    CARTRIDGE_NAME_MIKRO_ASSEMBLER, 1, 0, &mikroass_io1_device, &mikroass_io2_device, CARTRIDGE_MIKRO_ASSEMBLER
 };
 
 /* ---------------------------------------------------------------------*/

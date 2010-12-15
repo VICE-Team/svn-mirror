@@ -84,7 +84,7 @@ static BYTE REGPARM1 tpi_peek(WORD addr);
 static int REGPARM1 tpi_dump(void);
 
 static io_source_t tpi_device = {
-    "IEEE488",
+    CARTRIDGE_NAME_IEEE488,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0x07,
@@ -99,7 +99,7 @@ static io_source_t tpi_device = {
 static io_source_list_t *tpi_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "IEEE488", 0, 0, NULL, &tpi_device, CARTRIDGE_IEEE488
+    CARTRIDGE_NAME_IEEE488, 0, 0, NULL, &tpi_device, CARTRIDGE_IEEE488
 };
 
 /* ---------------------------------------------------------------------*/

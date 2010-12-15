@@ -54,7 +54,7 @@
 */
 
 static const c64export_resource_t export_res = {
-    "Exos", 1, 1, NULL, NULL, CARTRIDGE_EXOS
+    CARTRIDGE_NAME_EXOS, 1, 1, NULL, NULL, CARTRIDGE_EXOS
 };
 
 /* ---------------------------------------------------------------------*/

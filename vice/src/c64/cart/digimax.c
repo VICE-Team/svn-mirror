@@ -76,7 +76,7 @@ static void REGPARM2 digimax_sound_store(WORD addr, BYTE value);
 static BYTE REGPARM1 digimax_sound_read(WORD addr);
 
 static io_source_t digimax_device = {
-    "DIGIMAX",
+    CARTRIDGE_NAME_DIGIMAX,
     IO_DETACH_RESOURCE,
     "DIGIMAX",
     0xde00, 0xde03, 0x03,
@@ -91,7 +91,7 @@ static io_source_t digimax_device = {
 static io_source_list_t * digimax_list_item = NULL;
 
 static c64export_resource_t export_res = {
-    "DIGIMAX", 0, 0, &digimax_device, NULL, CARTRIDGE_DIGIMAX
+    CARTRIDGE_NAME_DIGIMAX, 0, 0, &digimax_device, NULL, CARTRIDGE_DIGIMAX
 };
 
 /* ---------------------------------------------------------------------*/

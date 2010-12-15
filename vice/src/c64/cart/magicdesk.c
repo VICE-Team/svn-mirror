@@ -75,7 +75,7 @@ static BYTE REGPARM1 magicdesk_io1_peek(WORD addr)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t magicdesk_device = {
-    "Magic Desk",
+    CARTRIDGE_NAME_MAGIC_DESK,
     IO_DETACH_CART,
     NULL,
     0xde00, 0xdeff, 0xff,
@@ -90,7 +90,7 @@ static io_source_t magicdesk_device = {
 static io_source_list_t *magicdesk_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    "Magic Desk", 1, 1, &magicdesk_device, NULL, CARTRIDGE_MAGIC_DESK
+    CARTRIDGE_NAME_MAGIC_DESK, 1, 1, &magicdesk_device, NULL, CARTRIDGE_MAGIC_DESK
 };
 
 /* ---------------------------------------------------------------------*/
