@@ -92,7 +92,6 @@ static const ui_menu_entry_t vdc_menu[] = {
 UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
-UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
     { "Joystick settings",
@@ -131,7 +130,7 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       (ui_callback_data_t)c128_rom_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Hardware expansions"),
-#ifdef HAVE_RS232 
+#ifdef HAVE_RS232
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -157,14 +156,6 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)soundexpander_menu },
-    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SFXSoundSampler_callback,
-      NULL },
     { "Emulator ID",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,

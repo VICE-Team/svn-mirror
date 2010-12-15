@@ -35,29 +35,6 @@
 #include "menu_common.h"
 #include "uimenu.h"
 
-/* SFS SOUNDEXPANDER MENU */
-
-UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
-UI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
-
-const ui_menu_entry_t soundexpander_menu[] = {
-    { "Enable " CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SFXSoundExpander_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("YM chip type"),
-    { "3526",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SFXSoundExpanderChip_callback,
-      (ui_callback_data_t)3526 },
-    { "3812",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SFXSoundExpanderChip_callback,
-      (ui_callback_data_t)3812 },
-    SDL_MENU_LIST_END
-};
-
 
 /* DIGIMAX MENU */
 

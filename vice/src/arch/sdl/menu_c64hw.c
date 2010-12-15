@@ -62,7 +62,6 @@
 #include "uimenu.h"
 
 UI_MENU_DEFINE_TOGGLE(EmuID)
-UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 const ui_menu_entry_t c64_hardware_menu[] = {
     { "Model settings",
@@ -127,14 +126,6 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)soundexpander_menu },
-    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SFXSoundSampler_callback,
-      NULL },
     { "Emulator ID",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,
@@ -205,14 +196,6 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
-      MENU_ENTRY_SUBMENU,
-      submenu_callback,
-      (ui_callback_data_t)soundexpander_menu },
-    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_SFXSoundSampler_callback,
-      NULL },
     { "Emulator ID",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_EmuID_callback,

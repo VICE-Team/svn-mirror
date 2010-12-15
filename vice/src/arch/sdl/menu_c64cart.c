@@ -862,9 +862,34 @@ static const ui_menu_entry_t magicvoice_cart_menu[] = {
 };
 
 
+/* SFX Sound Expander */
+
+UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
+UI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
+
+static const ui_menu_entry_t soundexpander_menu[] = {
+    { "Enable " CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundExpander_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("YM chip type"),
+    { "3526",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SFXSoundExpanderChip_callback,
+      (ui_callback_data_t)3526 },
+    { "3812",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SFXSoundExpanderChip_callback,
+      (ui_callback_data_t)3812 },
+    SDL_MENU_LIST_END
+};
+
+
 /* Cartridge menu */
 
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 
 const ui_menu_entry_t c64cart_menu[] = {
     { "Attach CRT image",
@@ -942,5 +967,13 @@ const ui_menu_entry_t c64cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)magicvoice_cart_menu },
+    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)soundexpander_menu },
+    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundSampler_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
