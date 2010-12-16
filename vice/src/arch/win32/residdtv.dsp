@@ -214,7 +214,7 @@ SOURCE=..\..\resid-dtv\sid.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\siddefs.h
+SOURCE=..\..\resid-dtv\siddtvdefs.h
 # End Source File
 # Begin Source File
 
