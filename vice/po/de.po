@@ -9778,7 +9778,7 @@ msgstr "Aufnahmegerät %s existiert nicht!"
 
 #: src/translate_text.c.po.c:273
 msgid "Recording device must be different from playback device"
-msgstr "Aufnahmegerät muß unteschiedlich vom Abspielgerät sein"
+msgstr "Aufnahmegerät muss unterschiedlich vom Abspielgerät sein"
 
 #: src/translate_text.c.po.c:287
 #, c-format
@@ -10112,7 +10112,7 @@ msgstr ""
 "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
 "<Adresse>         bezeichnet die Adresse welche mit dem Bezeichner assoziert "
 "werden soll.\n"
-"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") "
+"<Bezeichner>      Name des Bezeichners; Muss mit einem Punkt (\".\") "
 "starten.\n"
 "\n"
 "Assoziiert einen Bezeichner mit einer Adresse. Dieser Bezeichner kann \n"
@@ -10132,7 +10132,7 @@ msgid ""
 "Delete a previously defined label."
 msgstr ""
 "<Speicherbereich> ist aus: C: 8: 9: 10: 11:\n"
-"<Bezeichner>      Name des Bezeichners; Muß mit einem Punkt (\".\") "
+"<Bezeichner>      Name des Bezeichners; Muss mit einem Punkt (\".\") "
 "starten.\n"
 "\n"
 "Löscht einen zuvor definierten Bezeichner."
