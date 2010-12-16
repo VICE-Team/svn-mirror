@@ -64,7 +64,7 @@ ui_menu_entry_t expert_submenu[] = {
       (ui_callback_t)toggle_ExpertImageWrite, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)expert_flush_cartridge, NULL, NULL },
-    { N_("Save image..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)expert_save_cartridge, NULL, NULL },
     { NULL }
 };

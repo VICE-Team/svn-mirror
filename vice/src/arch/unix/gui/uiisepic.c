@@ -55,7 +55,7 @@ ui_menu_entry_t isepic_submenu[] = {
       (ui_callback_t)toggle_IsepicImageWrite, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)isepic_flush_cartridge, NULL, NULL },
-    { N_("Save image as ..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)isepic_save_cartridge, NULL, NULL },
     { NULL }
 };
