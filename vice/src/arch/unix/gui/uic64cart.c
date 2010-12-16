@@ -87,6 +87,18 @@ static UI_CALLBACK(freeze_cartridge)
     cartridge_trigger_freeze();
 }
 
+/*
+    FIXME: ideally attaching a binary image should be done
+           through an extended file selector, which lets you
+           pick the actual cart type from a list.
+
+           since there are some many (>50) different carts, it
+           is pointless to put them all here, for this reason
+           only a handful of commonly used "Main Slot" carts are
+           here.
+
+    FIXME: names should ideally be taken from cartridge.h
+*/
 static ui_menu_entry_t attach_cartridge_image_submenu[] = {
     { N_("Smart attach CRT image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
@@ -99,40 +111,40 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_16KB, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Attach Action Replay 5 image..."), UI_MENU_TYPE_NORMAL,
+    /* Translators: "Action Replay V5" is the name of the cartridge and should not get translated. */
+    { N_("Attach Action Replay V5 image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
+    /* Translators: "Atomic Power" is the name of the cartridge and should not get translated. */
     { N_("Attach Atomic Power image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
-    { N_("Attach Epyx fastload image..."), UI_MENU_TYPE_NORMAL,
+    /* Translators: "EasyFlash" is the name of the cartridge and should not get translated. */
+    { N_("Attach EasyFlash image..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
+      CARTRIDGE_EASYFLASH, NULL },
+    /* Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated. */
+    { N_("Attach Epyx FastLoad image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EPYX_FASTLOAD, NULL },
-    { N_("Attach Expert Cartridge image..."), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_EXPERT, NULL },
-    { N_("Attach IDE64 interface image..."), UI_MENU_TYPE_NORMAL,
+    /* Translators: "IDE64" is the name of the cartridge and should not get translated. */
+    { N_("Attach IDE64 image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IDE64, NULL },
-    { N_("Attach IEEE488 interface image..."), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_IEEE488, NULL },
-    { N_("Attach ISEPIC image..."), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_ISEPIC, NULL },
+    /* Translators: "Magic Formel" is the name of the cartridge and should not get translated. */
     { N_("Attach Magic Formel image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MAGIC_FORMEL, NULL },
-    { N_("Attach MMC64 image..."), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)attach_cartridge, (ui_callback_data_t)
-      CARTRIDGE_MMC64, NULL },
+    /* Translators: "MMC Replay" is the name of the cartridge and should not get translated. */
     { N_("Attach MMC Replay image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MMC_REPLAY, NULL },
+    /* Translators: "Retro Replay" is the name of the cartridge and should not get translated. */
     { N_("Attach Retro Replay image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_RETRO_REPLAY, NULL },
-    { N_("Attach Super Snapshot 5 image..."), UI_MENU_TYPE_NORMAL,
+    /* Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated. */
+    { N_("Attach Super Snapshot V5 image..."), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
