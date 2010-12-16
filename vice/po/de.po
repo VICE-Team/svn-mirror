@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-16 20:43+0100\n"
+"POT-Creation-Date: 2010-12-16 22:39+0100\n"
 "PO-Revision-Date: 2010-12-16 21:16+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -386,7 +386,7 @@ msgstr "VDC Einstellungen"
 
 #: src/arch/unix/gui/c128ui.c:498 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:518 src/arch/unix/gui/c64ui.c:578
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:338
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:5254
 msgid "SID settings"
@@ -408,7 +408,7 @@ msgstr "RS232 Einstellungen"
 #: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
 #: src/arch/unix/gui/petui.c:556 src/arch/unix/gui/plus4ui.c:378
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:696
-#: src/arch/unix/gui/vsidui.c:399 src/arch/amigaos/intl_text.c.po.c:6
+#: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:6
 msgid "File"
 msgstr "Datei"
 
@@ -444,7 +444,7 @@ msgstr "Optionen"
 #: src/arch/unix/gui/c64scui.c:662 src/arch/unix/gui/c64ui.c:722
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
 #: src/arch/unix/gui/petui.c:566 src/arch/unix/gui/plus4ui.c:388
-#: src/arch/unix/gui/vic20ui.c:706 src/arch/unix/gui/vsidui.c:401
+#: src/arch/unix/gui/vic20ui.c:706 src/arch/unix/gui/vsidui.c:400
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1231
 #: src/arch/amigaos/intl_text.c.po.c:1623
 msgid "Settings"
@@ -1079,80 +1079,77 @@ msgstr "Erweiterungsmodul einlegen"
 msgid "Cannot attach cartridge"
 msgstr "Kann Modul Image nicht einlegen"
 
-#: src/arch/unix/gui/uic64cart.c:91
+#: src/arch/unix/gui/uic64cart.c:103
 msgid "Smart attach CRT image..."
 msgstr "Smart-Einlegen von CRT Image..."
 
-#: src/arch/unix/gui/uic64cart.c:95
+#: src/arch/unix/gui/uic64cart.c:107
 msgid "Attach generic 8kB image..."
 msgstr "Universal 8Kb Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:98
+#: src/arch/unix/gui/uic64cart.c:110
 msgid "Attach generic 16kB image..."
 msgstr "Universal 16Kb Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:102
-msgid "Attach Action Replay 5 image..."
-msgstr "Action Replay 5 Image einlegen..."
+#. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:115
+msgid "Attach Action Replay V5 image..."
+msgstr "Action Replay V5 Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:105
+#. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:119
 msgid "Attach Atomic Power image..."
 msgstr "Atomic Power Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:108
-msgid "Attach Epyx fastload image..."
-msgstr "Epyx Fastload Image einlegen..."
-
-#: src/arch/unix/gui/uic64cart.c:111
-msgid "Attach Expert Cartridge image..."
-msgstr "Expert Cartridge Image einlegen..."
-
-#: src/arch/unix/gui/uic64cart.c:114
-msgid "Attach IDE64 interface image..."
-msgstr "IDE64 Schnittstellenmodul einlegen..."
-
-#: src/arch/unix/gui/uic64cart.c:117
-msgid "Attach IEEE488 interface image..."
-msgstr "IEEE 488 Schnittstellenmodul einlegen..."
-
-#: src/arch/unix/gui/uic64cart.c:120
-msgid "Attach ISEPIC image..."
-msgstr "ISEPIC Image einlegen..."
-
+#. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:123
+msgid "Attach EasyFlash image..."
+msgstr "EasyFlash Image einlegen..."
+
+#. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:127
+msgid "Attach Epyx FastLoad image..."
+msgstr "Epyx FastLoad Image einlegen..."
+
+#. Translators: "IDE64" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:131
+msgid "Attach IDE64 image..."
+msgstr "IDE64 Image einlegen..."
+
+#. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:135
 msgid "Attach Magic Formel image..."
 msgstr "Magic Formel Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:126
-msgid "Attach MMC64 image..."
-msgstr "MMC64 Image einlegen..."
-
-#: src/arch/unix/gui/uic64cart.c:129
+#. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:139
 msgid "Attach MMC Replay image..."
 msgstr "MMC Replay Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:132
+#. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:143
 msgid "Attach Retro Replay image..."
 msgstr "Retro Replay Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:135
-msgid "Attach Super Snapshot 5 image..."
-msgstr "Super Snapshot 5 Image einlegen..."
+#. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
+#: src/arch/unix/gui/uic64cart.c:147
+msgid "Attach Super Snapshot V5 image..."
+msgstr "Super Snapshot V5 Image einlegen..."
 
-#: src/arch/unix/gui/uic64cart.c:139 src/arch/unix/gui/vic20ui.c:320
+#: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:320
 #: src/arch/amigaos/intl_text.c.po.c:721
 msgid "Set cartridge as default"
 msgstr "Aktuelles Erweiterungsmodul als standard aktivieren"
 
-#: src/arch/unix/gui/uic64cart.c:145 src/arch/unix/gui/vic20ui.c:362
+#: src/arch/unix/gui/uic64cart.c:157 src/arch/unix/gui/vic20ui.c:362
 msgid "Attach a cartridge image"
 msgstr "Erweiterungsmodul Image einlegen"
 
-#: src/arch/unix/gui/uic64cart.c:147 src/arch/amigaos/intl_text.c.po.c:424
+#: src/arch/unix/gui/uic64cart.c:159 src/arch/amigaos/intl_text.c.po.c:424
 msgid "Detach cartridge image"
 msgstr "Erweiterungsmodul Image entfernen"
 
-#: src/arch/unix/gui/uic64cart.c:149 src/arch/amigaos/intl_text.c.po.c:743
+#: src/arch/unix/gui/uic64cart.c:161 src/arch/amigaos/intl_text.c.po.c:743
 msgid "Cartridge freeze"
 msgstr "Erweiterungsmodul Freeze"
 
@@ -2350,7 +2347,7 @@ msgstr "Positions Keymap Datei auswählen"
 
 #: src/arch/unix/gui/uikeyboard.c:190
 msgid "Dump keymap to file"
-msgstr "Aktuelle Keymap auf Datei speichern"
+msgstr "Aktuelle Keymap in Datei speichern"
 
 #: src/arch/unix/gui/uikeyboard.c:195 src/arch/win32/res.rc.po.c:943
 msgid "Keyboard settings"
@@ -3434,7 +3431,7 @@ msgstr "Ethernet Schnittstelle"
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uitfe.c:52
 msgid "RR-Net compatibility mode"
-msgstr "RR-NET kompatibler Modus"
+msgstr "RR-Net kompatibler Modus"
 
 #: src/arch/unix/gui/uitfe.c:54
 msgid "Interface..."
@@ -3643,24 +3640,24 @@ msgstr "PSID Datei laden"
 msgid "Load PSID file..."
 msgstr "PSID Datei laden..."
 
-#: src/arch/unix/gui/vsidui.c:336
+#: src/arch/unix/gui/vsidui.c:335
 msgid "Override PSID settings"
 msgstr "PSID Einstellungen ignorieren"
 
-#: src/arch/unix/gui/vsidui.c:340 src/arch/amigaos/intl_text.c.po.c:1513
+#: src/arch/unix/gui/vsidui.c:339 src/arch/amigaos/intl_text.c.po.c:1513
 msgid "Video standard"
 msgstr "Video Standard"
 
-#: src/arch/unix/gui/vsidui.c:419
+#: src/arch/unix/gui/vsidui.c:418
 msgid "Default Tune"
 msgstr "Default Tune"
 
-#: src/arch/unix/gui/vsidui.c:439
+#: src/arch/unix/gui/vsidui.c:438
 #, c-format
 msgid "Tune %d"
 msgstr "Tune %d"
 
-#: src/arch/unix/gui/vsidui.c:466
+#: src/arch/unix/gui/vsidui.c:465
 msgid "VSID: The SID Emulator"
 msgstr "VSID: DER SID Emulator"
 
@@ -5677,11 +5674,11 @@ msgstr "&Positional"
 
 #: src/arch/win32/res.rc.po.c:1259
 msgid "Dump keyset"
-msgstr "Aktuelle Keymap auf Datei speichern"
+msgstr "Aktuelle Keymap in Datei speichern"
 
 #: src/arch/win32/res.rc.po.c:1260
 msgid "Dump shortcuts"
-msgstr "Aktuelle Tastenkürzel auf Datei speichern"
+msgstr "Aktuelle Tastenkürzel in Datei speichern"
 
 #: src/arch/win32/res.rc.po.c:1261
 msgid "&Symbolic US"
@@ -12587,261 +12584,3 @@ msgstr "Digimax Cartridge deaktivieren"
 #: src/translate_text.c.po.c:9809
 msgid "Base address of the digimax cartridge"
 msgstr "Basis Adresse für Digimax Erweiterung"
-
-#~ msgid "GEORAM Expansion Unit"
-#~ msgstr "GEORAM Erweiterung"
-
-#~ msgid "RAM Expansion Cart"
-#~ msgstr "RAM Speichererweiterungsmodul"
-
-#~ msgid "RAM Expansion Unit"
-#~ msgstr "RAM Speichererweiterung"
-
-#~ msgid "Double Quick Brown Box cartridge"
-#~ msgstr "Double Quick Brown Box Modul"
-
-#~ msgid "ISEPIC cartridge"
-#~ msgstr "ISEPIC Modul"
-
-#~ msgid "EasyFlash cartridge"
-#~ msgstr "EasyFlash Erweiterungsmodul"
-
-#~ msgid "IDE64 emulation"
-#~ msgstr "IDE64 Emulation"
-
-#~ msgid "MMC64 emulation"
-#~ msgstr "MMC64 Emulation"
-
-#~ msgid "MMC Replay emulation"
-#~ msgstr "MMC Replay Emulation"
-
-#~ msgid "Retro Replay cartridge"
-#~ msgstr "Retro Replay Erweiterungsmodul"
-
-#~ msgid "IEEE 488 Interface"
-#~ msgstr "IEEE 488 Schnittstelle"
-
-#~ msgid "Digimax Cart"
-#~ msgstr "Digimax Modul"
-
-#~ msgid "Magic Voice"
-#~ msgstr "Magic Voice"
-
-#~ msgid "SFX Sound Expander emulation"
-#~ msgstr "SFX Sound Expander Emulation"
-
-#~ msgid "SFX Sound Sampler emulation"
-#~ msgstr "SFX Sound Sampler Emulation"
-
-#~ msgid "Enable SID cart"
-#~ msgstr "SID Modul aktivieren"
-
-#~ msgid "Enable 256K"
-#~ msgstr "256K aktivieren"
-
-#~ msgid "256K base"
-#~ msgstr "256K Basis"
-
-#~ msgid "256K image name..."
-#~ msgstr "256K Image Name..."
-
-#~ msgid "Enable digimax"
-#~ msgstr "Digimax aktivieren"
-
-#~ msgid "Enable DQBB"
-#~ msgstr "DQBB Aktivieren"
-
-#~ msgid "DQBB image name..."
-#~ msgstr "DQBB Image Name..."
-
-#~ msgid "Save DQBB image now"
-#~ msgstr "DQBB Imagedatei jetzt speichern"
-
-#~ msgid "Save DQBB image as..."
-#~ msgstr "DQBB Imagedatei Name..."
-
-#~ msgid "Jumper"
-#~ msgstr "Jumper"
-
-#~ msgid "Save Easyflash image on detach"
-#~ msgstr "EasyFlash Imagedatei beim Entfernen speichern"
-
-#~ msgid "Save Easyflash image now"
-#~ msgstr "EasyFlash Imagedatei jetzt speichern"
-
-#~ msgid "Save Easyflash image as..."
-#~ msgstr "Snapshot Datei speichern..."
-
-#~ msgid "Expert Cartridge image name..."
-#~ msgstr "Expert Cartridge Imagedatei speichern..."
-
-#~ msgid "Save Expert Cartridge image now"
-#~ msgstr "Expert Cartridge Imagedatei jetzt speichern"
-
-#~ msgid "Save Expert Cartridge image..."
-#~ msgstr "Expert Cartridge Image speichern..."
-
-#~ msgid "Enable GEORAM"
-#~ msgstr "Aktivieren der GEORAM"
-
-#~ msgid "GEORAM image name..."
-#~ msgstr "GEORAM Image Name..."
-
-#~ msgid "Save GEORAM image now"
-#~ msgstr "GEORAM Imagedatei jetzt speichern"
-
-#~ msgid "Save GEORAM image as..."
-#~ msgstr "GEORAM Imagedatei Name..."
-
-#~ msgid "Hardware version 4"
-#~ msgstr "Hardware Version 4"
-
-#~ msgid "Enable ISEPIC"
-#~ msgstr "Aktiviere ISEPIC"
-
-#~ msgid "ISEPIC image name..."
-#~ msgstr "ISEPIC Imagedatei Name..."
-
-#~ msgid "Save ISEPIC image now"
-#~ msgstr "ISEPIC Imagedatei jetzt speichern"
-
-#~ msgid "Save ISEPIC image as ..."
-#~ msgstr "ISEPIC Imagedatei speichern..."
-
-#~ msgid "Enable Magic Voice cartridge"
-#~ msgstr "Magic Voice Cartridge aktivieren"
-
-#~ msgid "Set Magic Voice ROM image..."
-#~ msgstr "Magic Formel Image setzen..."
-
-#~ msgid "Enable MIDI"
-#~ msgstr "MIDI aktivieren"
-
-#~ msgid "Enable MMC64"
-#~ msgstr "MMC64 aktivieren"
-
-#~ msgid "Enable MMC64 flashjumper"
-#~ msgstr "MMC64 Flashjumper aktivieren"
-
-#~ msgid "MMC64 Revision"
-#~ msgstr "MMC64 Revision"
-
-#~ msgid "MMC64 BIOS name..."
-#~ msgstr "MMC64 BIOS Name..."
-
-#~ msgid "Save MMC64 BIOS image now"
-#~ msgstr "MMC64 BIOS Imagedatei jetzt speichern"
-
-#~ msgid "Save MMC64 BIOS image as..."
-#~ msgstr "MMC64 BIOS Imagedatei speichern..."
-
-#~ msgid "Enable MMC64 image read-only"
-#~ msgstr "MMC64 Image Schreibschutz aktivieren"
-
-#~ msgid "Card image filename..."
-#~ msgstr "Card Imagedateiname..."
-
-#~ msgid "Enable PET DWW"
-#~ msgstr "Aktivieren der PET DWW"
-
-#~ msgid "PET DWW image name..."
-#~ msgstr "PET DWW Image Name..."
-
-#~ msgid "Enable PET REU"
-#~ msgstr "Aktivieren der PETREU"
-
-#~ msgid "PET REU image name..."
-#~ msgstr "PET REU Image Name..."
-
-#~ msgid "Enable PLUS256K"
-#~ msgstr "PLUS256K aktivieren"
-
-#~ msgid "PLUS256K image name..."
-#~ msgstr "PLUS256K Image Name..."
-
-#~ msgid "Enable PLUS60K"
-#~ msgstr "PLUS60K aktivieren"
-
-#~ msgid "Enable RAMCART"
-#~ msgstr "Aktivieren der RAMCART"
-
-#~ msgid "RAMCART image name..."
-#~ msgstr "RAMCART Image Name..."
-
-#~ msgid "Save RAMCART image now"
-#~ msgstr "RAMCART Imagedatei jetzt speichern"
-
-#~ msgid "Save RAMCART image as..."
-#~ msgstr "RAMCART Imagedatei speichern..."
-
-#~ msgid "Set RR bankjumper"
-#~ msgstr "Setze RR Bank Jumper"
-
-#~ msgid "Enable RR ROM save when changed"
-#~ msgstr "RR ROM Speicherung bei Änderung aktivieren"
-
-#~ msgid "Save RR ROM image now"
-#~ msgstr "RR ROM Imagedatei jetzt speichern"
-
-#~ msgid "Save RR ROM image as..."
-#~ msgstr "RR ROM Imagedatei speichern..."
-
-#~ msgid "Enable REU"
-#~ msgstr "Aktivieren der REU"
-
-#~ msgid "REU image name..."
-#~ msgstr "REU Image Name..."
-
-#~ msgid "Save REU image now"
-#~ msgstr "REU Imagedatei jetzt speichern"
-
-#~ msgid "Save REU image as..."
-#~ msgstr "REU Imagedatei speichern..."
-
-#~ msgid "Enable SFX Sound Expander"
-#~ msgstr "SFX Sound Expander aktivieren"
-
-#~ msgid "Enable Ethernet"
-#~ msgstr "Ethernet aktivieren"
-
-#~ msgid "Enable IEEE 488 Interface"
-#~ msgstr "IEEE 488 Schnittstelle aktivieren"
-
-#~ msgid "Set IEEE 488 Interface ROM image..."
-#~ msgstr "IEEE 488 Schnittstellenmodul Image..."
-
-#~ msgid "Enable V364 Speech"
-#~ msgstr "V364 Spracherweiterung aktivieren"
-
-#~ msgid "Set Speech ROM image..."
-#~ msgstr "Spracherweiterung ROM Image"
-
-#~ msgid "Final Expansion write back"
-#~ msgstr "Final Expansion rückschreiben"
-
-#~ msgid "Vic Flash Plugin write back"
-#~ msgstr "Vic Flash Plugin rückschreiben"
-
-#~ msgid "Mega-Cart NvRAM write back"
-#~ msgstr "Mega-Cart NvRAM rückschreiben"
-
-#~ msgid "Mega-Cart NvRAM file..."
-#~ msgstr "Mega-Cart NvRAM Datei..."
-
-#~ msgid "Cartridge options"
-#~ msgstr "Erweiterungsmodul Einstellungen"
-
-#~ msgid "Save CRT on detach"
-#~ msgstr "CRT Imagedatei beim entfernen speichern"
-
-#~ msgid "Enable MMC64 BIOS save when changed"
-#~ msgstr "MMC64 BIOS Speicherung bei Änderung aktivieren"
-
-#~ msgid "MMC64 image name..."
-#~ msgstr "MMC64 Image Name..."
-
-#~ msgid "New PAL emulation"
-#~ msgstr "PAL Emulation"
-
-#~ msgid "Phase (0..2)"
-#~ msgstr "Phase (0..2)"
