@@ -19,6 +19,9 @@
 
 #define RESID_DAC_CC
 
+#include "dac.h"
+#include <math.h>
+
 #ifndef INFINITY
 union MSVC_EVIL_FLOAT_HACK
 {
@@ -28,9 +31,6 @@ union MSVC_EVIL_FLOAT_HACK
 static union MSVC_EVIL_FLOAT_HACK INFINITY_HACK = {{0x00, 0x00, 0x80, 0x7F}};
 #define INFINITY (INFINITY_HACK.Value)
 #endif
-
-#include "dac.h"
-#include <math.h>
 
 namespace reSID
 {

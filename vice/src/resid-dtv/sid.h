@@ -23,7 +23,7 @@
 #ifndef VICE__SID_H__
 #define VICE__SID_H__
 
-#include "siddefs.h"
+#include "siddtvdefs.h"
 #include "bittrain.h"
 #include "voice.h"
 #include "filter.h"

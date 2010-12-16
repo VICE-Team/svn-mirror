@@ -18,4 +18,4 @@
 //  ---------------------------------------------------------------------------
 
 #define __VERSION_CC__
-#include "siddefs.h"
+#include "siddtvdefs.h"

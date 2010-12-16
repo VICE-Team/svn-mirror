@@ -106,4 +106,4 @@ AC_SUBST(HAVE_MMINTRIN_H)
 
 dnl Checks for library functions.
 
-AC_OUTPUT(Makefile siddefs.h)
+AC_OUTPUT(Makefile siddtvdefs.h)

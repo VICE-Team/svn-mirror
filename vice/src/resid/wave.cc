@@ -28,21 +28,21 @@ namespace reSID
 // Waveform lookup tables.
 reg12 WaveformGenerator::model_wave[2][8][1 << 12] = {
   {
-    {},
-    {},
-    {},
+    {0},
+    {0},
+    {0},
 #include "wave6581__ST.h"
-    {},
+    {0},
 #include "wave6581_P_T.h"
 #include "wave6581_PS_.h"
 #include "wave6581_PST.h"
   },
   {
-    {},
-    {},
-    {},
+    {0},
+    {0},
+    {0},
 #include "wave8580__ST.h"
-    {},
+    {0},
 #include "wave8580_P_T.h"
 #include "wave8580_PS_.h"
 #include "wave8580_PST.h"
@@ -52,8 +52,8 @@ reg12 WaveformGenerator::model_wave[2][8][1 << 12] = {
 
 // DAC lookup tables.
 reg12 WaveformGenerator::model_dac[2][1 << 12] = {
-  {},
-  {},
+  {0},
+  {0},
 };
 
 

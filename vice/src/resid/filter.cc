@@ -228,15 +228,15 @@ Filter::Filter()
 
       // Store both fn and dfn in the same table.
       int f = mf.opamp[0];
-      for (int i = 0; i < (1 << 19); i++) {
+      for (int j = 0; j < (1 << 19); j++) {
 	int fp = f;
-	f = mf.opamp[i];  // Scaled by m*2^31
+	f = mf.opamp[j];  // Scaled by m*2^31
 	// m*2^31*dy/1 = (m*2^31*dy)/(m*2^19*dx) = 2^12*dy/dx
 	int df = f - fp;  // Scaled by 2^12
 
 	// High 13 bits (12 bits + sign bit): 2^8*dfn
 	// Low 19 bits (unsigned):            m*2^19*(fn - xmin)
-	mf.opamp[i] = ((df << (19 + 8 - 12)) & ~0x7ffff) | (f >> 12);
+	mf.opamp[j] = ((df << (19 + 8 - 12)) & ~0x7ffff) | (f >> 12);
       }
 
       // Create lookup tables for gains / summers.
@@ -265,8 +265,8 @@ Filter::Filter()
       x = mf.vo_T19;
       int offset = 0;
       int size;
-      for (int i = 0; i < 5; i++) {
-	int idiv = 2 + i;        // 2 - 6 input "resistors".
+      for (int k = 0; k < 5; k++) {
+	int idiv = 2 + k;        // 2 - 6 input "resistors".
 	int n_idiv = idiv << 7;  // n*idiv, scaled by 2^7
 	size = idiv << 16;
 	for (int vi = 0; vi < size; vi++) {
@@ -284,8 +284,8 @@ Filter::Filter()
       x = mf.vo_T19;
       offset = 0;
       size = 1;  // Only one lookup element for 0 input "resistors".
-      for (int i = 0; i < 8; i++) {
-	int idiv = i;                 // 0 - 7 input "resistors".
+      for (int l = 0; l < 8; l++) {
+	int idiv = l;                 // 0 - 7 input "resistors".
 	int n_idiv = (idiv << 7)*8/6; // n*idiv, scaled by 2^7
 	if (idiv == 0) {
 	  // Avoid division by zero; the result will be correct since
@@ -297,14 +297,14 @@ Filter::Filter()
 	    solve_gain(n_idiv, (vi << 3)/idiv, x, mf) >> 3;
 	}
 	offset += size;
-	size = (i + 1) << 16;
+	size = (l + 1) << 16;
       }
 
       // Create lookup table mapping capacitor voltage to op-amp input voltage:
       // vc -> vx
-      for (int i = 0; i < fi.opamp_voltage_size; i++) {
-	scaled_voltage[i][0] = (N19*(fi.opamp_voltage[i][0] - fi.opamp_voltage[i][1]) + (1 << 19))/2;
-	scaled_voltage[i][1] = N19*fi.opamp_voltage[i][0];
+      for (int m = 0; m < fi.opamp_voltage_size; m++) {
+	scaled_voltage[m][0] = (N19*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 19))/2;
+	scaled_voltage[m][1] = N19*fi.opamp_voltage[m][0];
       }
 
       mf.vc_min = N19*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]);
@@ -316,8 +316,8 @@ Filter::Filter()
       // DAC table.
       int bits = 11;
       build_dac_table(mf.f0_dac, bits, fi.dac_2R_div_R, fi.dac_term);
-      for (int i = 0; i < (1 << bits); i++) {
-	mf.f0_dac[i] = N19*(fi.dac_zero + mf.f0_dac[i]*fi.dac_scale/(1 << bits)) + 0.5;
+      for (int n = 0; n < (1 << bits); n++) {
+	mf.f0_dac[n] = N19*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5;
       }
     }
 

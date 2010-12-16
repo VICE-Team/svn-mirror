@@ -955,8 +955,8 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
 
     // Convolution with filter impulse response.
     int v2 = 0;
-    for (int j = 0; j < fir_N; j++) {
-      v2 += sample_start[j]*fir_start[j];
+    for (int k = 0; k < fir_N; k++) {
+      v2 += sample_start[k]*fir_start[k];
     }
 
     // Linear interpolation.

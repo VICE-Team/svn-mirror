@@ -148,8 +148,8 @@ reg8 EnvelopeGenerator::sustain_level[] = {
 
 // DAC lookup tables.
 reg12 EnvelopeGenerator::model_dac[2][1 << 8] = {
-  {},
-  {},
+  {0},
+  {0},
 };
 
 

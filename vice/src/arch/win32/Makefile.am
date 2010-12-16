@@ -286,6 +286,7 @@ EXTRA_DIST = \
 	msvc/stdint.h \
 	msvc/system.h \
 	msvc/siddefs.h \
+	msvc/siddtvdefs.h \
 	msvc/siddefs-fp.h \
 	msvc/wpcap/bittypes.h \
 	msvc/wpcap/ip6_misc.h \

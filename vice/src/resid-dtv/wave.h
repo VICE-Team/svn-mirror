@@ -27,7 +27,7 @@
 #ifndef VICE__WAVE_H__
 #define VICE__WAVE_H__
 
-#include "siddefs.h"
+#include "siddtvdefs.h"
 #include "bittrain.h"
 
 namespace reSID
