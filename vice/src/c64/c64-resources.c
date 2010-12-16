@@ -37,7 +37,6 @@
 #include "c64rom.h"
 #include "cartridge.h"
 #include "cia.h"
-#include "emuid.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -74,26 +73,6 @@ static char *kernal_rom_name = NULL;
 /* Kernal revision for ROM patcher.  */
 char *kernal_revision = NULL;
 
-/* Flag: Do we enable the Emulator ID?  */
-int emu_id_enabled;
-
-static BYTE REGPARM1 emu_id_read(WORD address)
-{
-    return emuid_read((WORD)(address - 0xdfa0));
-}
-
-static io_source_t emu_id_device = {
-    "EMU ID",
-    IO_DETACH_RESOURCE,
-    "EmuID",
-    0xdfa0, 0xdfff, 0xff,
-    1, /* read is always valid */
-    NULL,
-    emu_id_read
-};
-
-static io_source_list_t *emu_id_list_item = NULL;
-
 int cia1_model;
 int cia2_model;
 
@@ -123,20 +102,6 @@ static int set_basic_rom_name(const char *val, void *param)
     }
 
     return c64rom_load_basic(basic_rom_name);
-}
-
-static int set_emu_id_enabled(int val, void *param)
-{
-    if (val != emu_id_enabled) {
-        if (!val) {
-            c64io_unregister(emu_id_list_item);
-            emu_id_list_item = NULL;
-        } else {
-            emu_id_list_item = c64io_register(&emu_id_device);
-        }
-        emu_id_enabled = val;
-    }
-    return 0;
 }
 
 static int set_cia1_model(int val, void *param)
@@ -276,8 +241,6 @@ static const resource_int_t resources_int[] = {
     { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "EmuID", 0, RES_EVENT_SAME, NULL,
-      &emu_id_enabled, set_emu_id_enabled, NULL },
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,

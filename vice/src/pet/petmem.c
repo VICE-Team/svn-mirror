@@ -33,7 +33,6 @@
 
 #include "crtc-mem.h"
 #include "crtctypes.h"
-#include "emuid.h"
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
@@ -103,20 +102,6 @@ static int bank8offset = 0;
 static int bankCoffset = 0;
 
 static log_t pet_mem_log = LOG_ERR;
-
-/* ------------------------------------------------------------------------- */
-
-/* PET-specific resources.  */
-
-/* Flag: Do we enable the Emulator ID?  */
-static int emu_id_enabled;
-
-/* hardware config */
-
-void mem_toggle_emu_id(int flag)
-{
-    emu_id_enabled = flag;
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -382,9 +367,6 @@ static void REGPARM2 store_io(WORD addr, BYTE value)
 static BYTE REGPARM1 read_io(WORD addr)
 {
     BYTE v1, v2, v3, v4;
-
-    if (emu_id_enabled && addr >= 0xe8a0)
-        return emuid_read((WORD)(addr - 0xe8a0));
 
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */
@@ -827,7 +809,6 @@ int mem_rom_trap_allowed(WORD addr)
     return (addr >= 0xf000) && !(petmem_map_reg & 0x80);
 }
 
-
 /* ------------------------------------------------------------------------- */
 
 /* Banked memory access functions for the monitor.  */
@@ -835,9 +816,6 @@ int mem_rom_trap_allowed(WORD addr)
 static BYTE peek_bank_io(WORD addr)
 {
     BYTE v1, v2, v3, v4;
-
-    if (emu_id_enabled && addr >= 0xe8a0)
-        return emuid_read((WORD)(addr - 0xe8a0));
 
     switch (addr & 0xf0) {
       case 0x10:                /* PIA1 */

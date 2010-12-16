@@ -103,9 +103,6 @@ static char *basic64_rom_name = NULL;
 /* Name of the Kernal ROM.  */
 static char *kernal64_rom_name = NULL;
 
-/* Flag: Do we enable the Emulator ID?  */
-int emu_id_enabled;
-
 /* Flag: Do we enable the emulation of banks 2 and 3 of ram? */
 int c128_full_banks;
 
@@ -370,17 +367,6 @@ static int set_basic64_rom_name(const char *val, void *param)
     return c128rom_load_basic64(basic64_rom_name);
 }
 
-static int set_emu_id_enabled(int val, void *param)
-{
-    if (!val) {
-        emu_id_enabled = 0;
-        return 0;
-    } else {
-        emu_id_enabled = 1;
-        return 0;
-    }
-}
-
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -494,8 +480,6 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[13], set_romset_firmware, (void *)13 },
     { "RomsetBasic64Name", 0, RES_EVENT_NO, NULL,
       &romset_firmware[14], set_romset_firmware, (void *)14 },
-    { "EmuID", 0, RES_EVENT_SAME, NULL,
-      &emu_id_enabled, set_emu_id_enabled, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C128_SYM, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

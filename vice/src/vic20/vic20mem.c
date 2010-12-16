@@ -37,7 +37,6 @@
 
 #include "cartridge.h"
 #include "cart/vic20cartmem.h"
-#include "emuid.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -215,38 +214,12 @@ static BYTE REGPARM1 via_peek(WORD addr)
     }
 }
 
-static BYTE REGPARM1 read_emuid(WORD addr)
-{
-    addr &= 0xff;
-
-    if (addr >= 0xa0)
-        return emuid_read((WORD)(addr - 0xa0));
-
-    return 0xff;
-}
-
-static void REGPARM2 store_emuid(WORD addr, BYTE value)
-{
-#if 0
-    addr &= 0xff;
-    if (addr == 0xff) {
-        emulator_id[addr - 0xa0] ^= 0xff;
-    }
-#endif
-}
-
 /*-------------------------------------------------------------------*/
 
 static BYTE REGPARM1 io3_read(WORD addr)
 {
     if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f) {
         vic20_cpu_last_data = sid_read(addr);
-        vic20_mem_v_bus_read(addr);
-        return vic20_cpu_last_data;
-    }
-
-    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) {
-        vic20_cpu_last_data = read_emuid(addr);
         vic20_mem_v_bus_read(addr);
         return vic20_cpu_last_data;
     }
@@ -279,10 +252,6 @@ static void REGPARM2 io3_store(WORD addr, BYTE value)
         sid_store(addr,value);
     }
 
-    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) {
-        store_emuid(addr, value);
-    }
-
 #ifdef HAVE_MIDI
     if (midi_enabled && (addr & 0xff00) == 0x9c00) {
         midi_store((WORD)(addr & 0xff), value);
@@ -305,10 +274,6 @@ static BYTE REGPARM1 io3_peek(WORD addr)
         return sid_peek(addr);
     }
 #endif
-
-    if (emu_id_enabled && (addr & 0xff00) == 0x9f00) {
-        return read_emuid(addr);
-    }
 
 #ifdef HAVE_MIDI
 #if 0

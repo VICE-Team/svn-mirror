@@ -64,9 +64,6 @@ static char *basic_rom_name = NULL;
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name = NULL;
 
-/* Flag: Do we enable the Emulator ID?  */
-int emu_id_enabled;
-
 /* Flag: Do we enable the VIC-1112 IEEE488 interface?  */
 int ieee488_enabled;
 
@@ -138,12 +135,6 @@ static int set_ram_block_5_enabled(int value, void *param)
     return 0;
 }
 
-static int set_emu_id_enabled(int val, void *param)
-{
-    emu_id_enabled = val;
-    return 0;
-}
-
 static int set_ieee488_enabled(int val, void *param)
 {
     ieee488_enabled = val;
@@ -152,14 +143,6 @@ static int set_ieee488_enabled(int val, void *param)
 
     return 0;
 }
-
-#if 0
-/* Enable/disable the Emulator ID.  */
-void mem_toggle_emu_id(int flag)
-{
-    emu_id_enabled = flag;
-}
-#endif
 
 static int set_sync_factor(int val, void *param)
 {
@@ -231,8 +214,6 @@ static const resource_int_t resources_int[] =
       &ram_block_3_enabled, set_ram_block_3_enabled, NULL },
     { "RAMBlock5", 0, RES_EVENT_SAME, NULL,
       &ram_block_5_enabled, set_ram_block_5_enabled, NULL },
-    { "EmuID", 0, RES_EVENT_SAME, NULL,
-      &emu_id_enabled, set_emu_id_enabled, NULL },
     { "IEEE488", 0, RES_EVENT_SAME, NULL,
       &ieee488_enabled, set_ieee488_enabled, NULL },
 #ifdef COMMON_KBD

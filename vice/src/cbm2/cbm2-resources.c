@@ -80,9 +80,6 @@ int cart4_ram = 0;
 int cart6_ram = 0;
 int cartC_ram = 0;
 
-/* Flag: Do we enable the Emulator ID?  */
-int emu_id_enabled;
-
 static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
 /* ramsize starts counting at 0x10000 if less than 512. If 512 or more,
@@ -243,12 +240,6 @@ static int set_cartC_ram(int val, void *param)
     return 0;
 }
 
-static int set_emu_id_enabled(int val, void *param)
-{
-    emu_id_enabled = val;
-    return 0;
-}
-
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -350,8 +341,6 @@ static const resource_int_t resources_int[] = {
       &use_vicii, set_use_vicii, NULL },
     { "ModelLine", 2, RES_EVENT_SAME, NULL,
       &cbm2_model_line, set_cbm2_model_line, NULL },
-    { "EmuID", 0, RES_EVENT_SAME, NULL,
-      &emu_id_enabled, set_emu_id_enabled, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_CBM2_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

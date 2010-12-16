@@ -40,7 +40,5 @@ extern int cartC_ram;
 extern int cbm2_model_line;
 extern int ramsize;
 
-extern int emu_id_enabled;
-
 #endif
 

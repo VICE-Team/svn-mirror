@@ -126,7 +126,6 @@ noinst_HEADERS = \
 	dma.h \
 	dynlib.h \
 	embedded.h \
-	emuid.h \
 	event.h \
 	fileio.h \
 	findpath.h \
@@ -243,7 +242,6 @@ base_sources = \
 	debug.c \
 	dma.c \
 	embedded.c \
-	emuid.c \
 	event.c \
 	findpath.c \
 	fliplist.c \

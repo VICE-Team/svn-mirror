@@ -42,7 +42,6 @@
 #include "crtc-mem.h"
 #include "crtc.h"
 #include "crtctypes.h"
-#include "emuid.h"
 #include "kbdbuf.h"
 #include "machine.h"
 #include "mem.h"
@@ -214,14 +213,6 @@ void cbm2_set_tpi1cb(int a) {
     if (cbm2_isC500) {
         c500_set_phi1_bank(a);
     }
-}
-
-/* ------------------------------------------------------------------------- */
-
-/* Enable/disable the Emulator ID.  */
-void mem_toggle_emu_id(int flag)
-{
-    emu_id_enabled = flag;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -617,14 +608,8 @@ void REGPARM2 store_io(WORD addr, BYTE value)
     }
 }
 
-
 BYTE REGPARM1 read_io(WORD addr)
 {
-/*
-    if (emu_id_enabled && addr >= 0xE8A0)
-        return emuid_read(addr - e8a0);
-*/
-
     switch (addr & 0xf800) {
       case 0xd000:
         return rom_read(addr);

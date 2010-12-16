@@ -70,11 +70,6 @@
 #define KBD_INDEX_PET_BDES  4
 #define KBD_INDEX_PET_BDEP  5
 
-
-/* Flag: Do we enable the Emulator ID?  */
-int emu_id_enabled;
-
-
 static int romset_firmware[7];
 
 static int sync_factor;
@@ -274,14 +269,6 @@ static int set_eoiblank_enabled(int val, void *param)
     return 0;
 }
 
-/* Enable/disable the Emulator ID.  */
-
-static int set_emu_id_enabled(int val, void *param)
-{
-    emu_id_enabled = val;
-    return 0;
-}
-
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -384,8 +371,6 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[5], set_romset_firmware, (void *)5 },
     { "RomsetRomModuleBName", 0, RES_EVENT_NO, NULL,
       &romset_firmware[6], set_romset_firmware, (void *)6 },
-    { "EmuID", 0, RES_EVENT_SAME, NULL,
-      &emu_id_enabled, set_emu_id_enabled, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_PET_BUKS, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
