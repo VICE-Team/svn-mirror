@@ -1102,7 +1102,7 @@ msgstr "Verwende ':' mit RUN"
 
 #: src/arch/unix/gui/uiautostart.c:64 src/arch/win32/resautostart.rc.po.c:43
 msgid "Load to BASIC start"
-msgstr "Lade auf Basic Start"
+msgstr "Lade an Basic Start"
 
 #: src/arch/unix/gui/uiautostart.c:66 src/arch/win32/resautostart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:6926
@@ -2392,7 +2392,7 @@ msgstr "Keymap definieren"
 #: src/arch/unix/gui/uijoystick2.c:475 src/arch/unix/gui/uijoystick2.c:504
 #: src/arch/win32/res.rc.po.c:1406 src/arch/amigaos/intl_text.c.po.c:1425
 msgid "Allow opposite directions"
-msgstr "Gegnüberliegende Richtungen zulassen"
+msgstr "Gegenüberliegende Richtungen zulassen"
 
 #: src/arch/unix/gui/uijoystick2.c:373 src/arch/unix/gui/uijoystick2.c:404
 #: src/arch/unix/gui/uijoystick2.c:435 src/arch/unix/gui/uijoystick2.c:450
@@ -2549,8 +2549,8 @@ msgid "MIDI type"
 msgstr "MIDI Typ"
 
 #: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
-msgid "MIDI driver"
-msgstr "MIDI Treiber"
+msgid "Driver"
+msgstr "Treiber"
 
 #: src/arch/unix/gui/uimidi.c:90 src/arch/unix/gui/uimidi.c:106
 msgid "MIDI-In device..."
@@ -2996,8 +2996,8 @@ msgid "PLUS60K base address"
 msgstr "PLUS60K Basis Adresse"
 
 #: src/arch/unix/gui/uiplus60k.c:62
-msgid "PLUS60K image name..."
-msgstr "PLUS60K Image Name..."
+msgid "Image name..."
+msgstr "Imagedatei Name..."
 
 #: src/arch/unix/gui/uiprinter.c:85 src/arch/unix/gui/uiprinter.c:100
 #: src/arch/unix/gui/uiprinter.c:112
@@ -3132,7 +3132,7 @@ msgstr "Aktivieren der RAMCART"
 
 #: src/arch/unix/gui/uiramcart.c:58
 msgid "Readonly"
-msgstr "Schreibgschutz"
+msgstr "Schreibgeschützt"
 
 #: src/arch/unix/gui/uiramcart.c:60 src/arch/win32/resramcart.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:4990
@@ -3515,7 +3515,7 @@ msgstr "Einstellungen von Datei laden..."
 
 #: src/arch/unix/gui/uisettings.c:407
 msgid "Restore default settings"
-msgstr "Wiederherstellen Standard Einstellungen"
+msgstr "Standard Einstellungen wiederherstellen"
 
 #: src/arch/unix/gui/uisettings.c:410 src/arch/amigaos/intl_text.c.po.c:2360
 msgid "Save settings on exit"
@@ -3676,7 +3676,7 @@ msgstr "Exakt"
 
 #: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:8757
 msgid "Enable sound playback"
-msgstr "Sound Wiedergaben einschalten"
+msgstr "Sound Wiedergabe einschalten"
 
 #. Do not change position as position 2 is hard coded.
 #: src/arch/unix/gui/uisound.c:131
@@ -6717,7 +6717,7 @@ msgstr "Einstellungen &Laden"
 
 #: src/arch/win32/res.rc.po.c:1451
 msgid "Set de&fault settings"
-msgstr "&Wiederherstellen Standard Einstellungen"
+msgstr "Standard Einstellungen &wiederherstellen"
 
 #: src/arch/win32/res.rc.po.c:1452
 msgid "Save settings on e&xit"
@@ -9021,7 +9021,7 @@ msgstr "Gespeicherte Einstellungen Laden"
 
 #: src/arch/amigaos/intl_text.c.po.c:2349
 msgid "Set default settings"
-msgstr "Wiederherstellen Standard Einstellungen"
+msgstr "Standard Einstellungen wiederherstellen"
 
 #: src/arch/amigaos/intl_text.c.po.c:2382
 msgid "Help"
@@ -10779,7 +10779,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:2645
 msgid "On autostart, load to BASIC start (without ',1')"
-msgstr "Bei Autostart, lade auf BASIC Start (ohne ',1')"
+msgstr "Bei Autostart, lade an BASIC Start (ohne ',1')"
 
 #: src/translate_text.c.po.c:2659
 msgid "On autostart, load with ',1'"
@@ -12209,7 +12209,7 @@ msgstr "Scale2x deaktivieren"
 
 #: src/translate_text.c.po.c:7655
 msgid "Use an internal calculated palette"
-msgstr "Benutzse intern berechnete Palette"
+msgstr "Benutze intern berechnete Palette"
 
 #: src/translate_text.c.po.c:7669
 msgid "Use an external palette (file)"
@@ -12443,7 +12443,7 @@ msgstr "Benutze vsid Modus"
 
 #: src/translate_text.c.po.c:8435
 msgid "Restore default (factory) settings"
-msgstr "Wiederherstellen Standard Einstellungen"
+msgstr "Standard Einstellungen wiederherstellen"
 
 #: src/translate_text.c.po.c:8449
 msgid "<filename>"
@@ -12531,7 +12531,7 @@ msgstr "Länge des Speicherblocks der mit dem gleichen Muster initialisiert ist"
 
 #: src/translate_text.c.po.c:8771
 msgid "Disable sound playback"
-msgstr "Sound Wiedergaben ausschalten"
+msgstr "Sound Wiedergabe ausschalten"
 
 #: src/translate_text.c.po.c:8785
 msgid "Set sound sample rate to <value> Hz"
