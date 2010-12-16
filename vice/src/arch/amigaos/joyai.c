@@ -703,7 +703,7 @@ int joyai_config(int joy)
                 MUIA_Application_Title, KEYNAME,
                 MUIA_Application_Version, "$VER: " KEYNAME " v1.0",
                 MUIA_Application_Copyright, "Mathias Roslund & Marco van den Heuvel",
-                MUIA_Application_Description, KEYNAME,
+                MUIA_Application_Description, "Versatile Commodore Emulator",
                 SubWindow, window = WindowObject,
                 MUIA_Window_Title, KEYNAME,
                 MUIA_Window_ID, MAKE_ID('0', 'W', 'I', 'N'),
