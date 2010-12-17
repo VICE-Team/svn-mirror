@@ -90,17 +90,19 @@
 				</dict>
 				<key>IDE64</key>
 				<dict>
+					<key>Version 4</key>
+					<string>IDE64Version4,b</string>
 					<key>Autodetect Size</key>
 					<string>IDE64AutodetectSize,b</string>
 					<key>Cylinders</key>
 					<string>IDE64Cylinders,i</string>
-					<key>HD Image File V1</key>
+					<key>HD Image File 1</key>
 					<string>IDE64Image1,fs</string>
-					<key>HD Image File V2</key>
+					<key>HD Image File 2</key>
 					<string>IDE64Image2,fs</string>
-					<key>HD Image File V3</key>
+					<key>HD Image File 3</key>
 					<string>IDE64Image3,fs</string>
-					<key>HD Image File V4</key>
+					<key>HD Image File 4</key>
 					<string>IDE64Image4,fs</string>
 					<key>Heads</key>
 					<string>IDE64Heads,i</string>
