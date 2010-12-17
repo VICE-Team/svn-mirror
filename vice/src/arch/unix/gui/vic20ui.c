@@ -220,8 +220,6 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock2)
 UI_MENU_DEFINE_TOGGLE(RAMBlock3)
 UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
-
 static ui_menu_entry_t memory_settings_submenu[] = {
     { N_("Common configurations"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, common_memory_configurations_submenu },
@@ -527,8 +525,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, midi_vic20_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Emulator identification"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_EmuID, NULL, NULL },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }

@@ -220,7 +220,6 @@ static ui_menu_entry_t petui_main_romset_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(PETUserportDAC)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
@@ -234,9 +233,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       (ui_callback_t)toggle_PETUserportDAC, NULL, NULL },
     { N_("PET userport diagnostic pin"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Emulator identification"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_EmuID, NULL, NULL },
     { NULL }
 };
 

@@ -362,7 +362,6 @@ static ui_menu_entry_t model_options_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
@@ -426,8 +425,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER, UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Emulator identification"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_EmuID, NULL, NULL },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
