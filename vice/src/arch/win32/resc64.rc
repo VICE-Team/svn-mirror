@@ -209,7 +209,6 @@ BEGIN
             MENUITEM "&Old NTSC-M", IDM_SYNC_FACTOR_NTSCOLD
             MENUITEM "PAL-&N",      IDM_SYNC_FACTOR_PALN
         END
-        MENUITEM "", IDM_TOGGLE_EMUID
         MENUITEM "", IDM_MOUSE
     END
     POPUP "S&ettings"

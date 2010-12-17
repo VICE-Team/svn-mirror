@@ -55,7 +55,6 @@ static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
 };
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
-    { "EmuID", IDM_TOGGLE_EMUID },
     { "PETUserportDAC", IDM_TOGGLE_PET_USERPORT_DAC },
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
@@ -274,7 +273,6 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_ALLOW_JOY_OPPOSITE_TOGGLE, IDS_MI_ALLOW_JOY_OPPOSITE },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
-    { IDM_TOGGLE_EMUID, IDS_MI_TOGGLE_EMUID },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },

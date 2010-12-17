@@ -176,8 +176,6 @@ BEGIN
             MENUITEM "&PAL",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC", IDM_SYNC_FACTOR_NTSC
         END
-        MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_EMUID
     END
     POPUP "S&ettings"
     BEGIN

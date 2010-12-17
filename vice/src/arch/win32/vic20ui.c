@@ -61,7 +61,6 @@ static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
 };
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
-    { "EmuID", IDM_TOGGLE_EMUID },
     { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
@@ -271,7 +270,6 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_ALLOW_JOY_OPPOSITE_TOGGLE, IDS_MI_ALLOW_JOY_OPPOSITE },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
-    { IDM_TOGGLE_EMUID, IDS_MI_TOGGLE_EMUID },
     { IDM_IEEE488, IDS_MI_IEEE488 },
     { IDM_PADDLES, IDS_MI_PADDLES },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
