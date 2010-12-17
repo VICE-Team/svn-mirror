@@ -32,11 +32,11 @@
 namespace reSID
 {
 
-class SID
+class RESID
 {
 public:
-  SID();
-  ~SID();
+  RESID();
+  ~RESID();
   
   /* Some hacks to keep DTV looking like regular ReSID engine -- hopefully
    * removed at some point. */

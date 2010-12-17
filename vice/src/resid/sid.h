@@ -29,11 +29,11 @@
 namespace reSID
 {
 
-class SID
+class RESID
 {
 public:
-  SID();
-  ~SID();
+  RESID();
+  ~RESID();
 
   void set_chip_model(chip_model model);
   void set_voice_mask(reg4 mask);

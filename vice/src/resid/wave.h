@@ -118,7 +118,7 @@ protected:
   static reg12 model_dac[2][1 << 12];
 
 friend class Voice;
-friend class SID;
+friend class RESID;
 };
 
 

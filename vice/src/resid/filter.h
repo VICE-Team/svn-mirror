@@ -454,7 +454,7 @@ protected:
 
   static model_filter_t model_filter[2];
 
-friend class SID;
+friend class RESID;
 };
 
 
