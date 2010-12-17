@@ -4,6 +4,7 @@ EXTRA_DIST = \
 	dirent.h \
 	siddefs.h \
 	siddefs-fp.h \
+	siddtvdefs.h \
 	make-bindist.bat \
 	_vice.dsp \
 	arch.dsp \

@@ -82,6 +82,35 @@ LIB32=link.exe -lib
 # Name "resid - Win32 Debug"
 # Begin Source File
 
+SOURCE=..\..\..\resid\dac.cc
+
+!IF  "$(CFG)" == "resid - Win32 Release"
+
+# Begin Custom Build
+InputPath=..\..\..\resid\dac.cc
+InputName=dac
+
+"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch" /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
+
+# Begin Custom Build
+InputPath=..\..\..\resid\dac.cc
+InputName=dac
+
+"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Debug/resid.pch" /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ENDIF 
+
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\resid\envelope.cc
 
 !IF  "$(CFG)" == "resid - Win32 Release"
@@ -347,238 +376,6 @@ InputName=wave
 # Begin Source File
 
 SOURCE=..\..\..\resid\wave.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave6581__ST.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581__ST.cc
-InputName=wave6581__ST
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581__ST.cc
-InputName=wave6581__ST
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave6581_P_T.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581_P_T.cc
-InputName=wave6581_P_T
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581_P_T.cc
-InputName=wave6581_P_T
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave6581_PS_.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581_PS_.cc
-InputName=wave6581_PS_
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581_PS_.cc
-InputName=wave6581_PS_
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave6581_PST.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581_PST.cc
-InputName=wave6581_PST
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave6581_PST.cc
-InputName=wave6581_PST
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave8580__ST.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580__ST.cc
-InputName=wave8580__ST
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580__ST.cc
-InputName=wave8580__ST
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave8580_P_T.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580_P_T.cc
-InputName=wave8580_P_T
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580_P_T.cc
-InputName=wave8580_P_T
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave8580_PS_.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580_PS_.cc
-InputName=wave8580_PS_
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580_PS_.cc
-InputName=wave8580_PS_
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\resid\wave8580_PST.cc
-
-!IF  "$(CFG)" == "resid - Win32 Release"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580_PST.cc
-InputName=wave8580_PST
-
-"libs\resid\Release/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MD /W3 /EHsc /I ".\\" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\resid\Release/resid.pch"  /Fo"libs\resid\Release/" /Fd"libs\resid\Release/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ELSEIF  "$(CFG)" == "resid - Win32 Debug"
-
-# Begin Custom Build
-InputPath=..\..\..\resid\wave8580_PST.cc
-InputName=wave8580_PST
-
-"libs\resid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	cl /nologo /MDd /W3 /EHsc /Z7 /Od /I ".\\" /D "WIN32" /D "_WINDOWS" /D PACKAGE=\"resid\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\resid\Debug/resid.pch"  /Fo"libs\resid\Debug/" /Fd"libs\resid\Debug/" /FD /TP /c "$(InputPath)"
-
-# End Custom Build
-
-!ENDIF 
-
 # End Source File
 # End Target
 # End Project

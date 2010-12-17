@@ -142,10 +142,6 @@ SOURCE="..\..\..\dma.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\emuid.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\..\event.c"
 # End Source File
 # Begin Source File
