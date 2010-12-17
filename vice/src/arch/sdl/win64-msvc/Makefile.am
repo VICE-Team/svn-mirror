@@ -49,6 +49,7 @@ EXTRA_DIST = \
 	sid.vcproj \
 	siddefs.h \
 	siddefs-fp.h \
+	siddtvdefs.h \
 	sounddrv.vcproj \
 	tape.vcproj \
 	tcbm.vcproj \

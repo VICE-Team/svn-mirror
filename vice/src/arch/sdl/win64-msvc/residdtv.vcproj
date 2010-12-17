@@ -489,7 +489,7 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\..\resid-dtv\siddefs.h"
+			RelativePath="..\..\..\resid-dtv\siddtvdefs.h"
 			>
 		</File>
 		<File
