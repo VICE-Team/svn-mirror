@@ -108,7 +108,7 @@ AS_IF([test "$resid_cv_builtin_expect" = no],
 
 dnl Checks for library functions.
 if test x"$host_os" != "xminix"; then
-  AC_CHECK_FUNCS(sqrtf)
+  AC_CHECK_FUNCS(sqrtf, [HAVE_SQRTF=1], [HAVE_SQRTF=0])
 fi
 
 AC_MSG_CHECKING([if the sqrtf prototype is present])
@@ -122,6 +122,7 @@ AC_TRY_COMPILE([#include <math.h>
                 HAVE_SQRTF_PROTOTYPE=0
                 ])
 
+AC_SUBST(HAVE_SQRTF)
 AC_SUBST(HAVE_SQRTF_PROTOTYPE)
 
 AC_CONFIG_FILES([Makefile siddefs.h])

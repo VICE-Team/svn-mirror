@@ -84,4 +84,8 @@ const char* resid_version_string = VERSION;
 #define HAVE_SQRTF_PROTOTYPE
 #endif
 
+#if @HAVE_SQRTF@ && !defined(HAVE_SQRTF)
+#define HAVE_SQRTF
+#endif
+
 #endif // not VICE__SIDDEFS_H__
