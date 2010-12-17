@@ -34,10 +34,10 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSWindowTemplate" id="992965553">
-				<int key="NSWindowStyleMask">27</int>
+				<int key="NSWindowStyleMask">31</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{0, 480}, {458, 398}}</string>
-				<int key="NSWTFlags">-268435456</int>
+				<int key="NSWTFlags">-536870912</int>
 				<string key="NSWindowTitle">IO Tree</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
