@@ -23,6 +23,17 @@
 #include "siddefs.h"
 #include <math.h>
 
+#ifndef HAVE_SQRTF_PROTOTYPE
+extern float logf(float val);
+#endif
+ 
+#ifndef HAVE_SQRTF
+static float sqrtf(float val)
+{
+    return (float)sqrt((double)val);
+}
+#endif
+
 namespace reSID
 {
 

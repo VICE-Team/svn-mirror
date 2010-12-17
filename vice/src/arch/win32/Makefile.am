@@ -365,6 +365,7 @@ EXTRA_DIST = \
 	watcom/sid.tgt \
 	watcom/siddefs.h \
 	watcom/siddefs-fp.h \
+	watcom/siddtvdefs.h \
 	watcom/sounddrv.tgt \
 	watcom/system.h \
 	watcom/tape.tgt \
