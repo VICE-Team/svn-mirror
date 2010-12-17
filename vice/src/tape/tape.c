@@ -52,7 +52,6 @@
 #include "types.h"
 #include "uiapi.h"
 
-
 /* #define DEBUG_TAPE */
 
 /* Cassette Format Constants */
@@ -98,8 +97,9 @@ void tape_traps_install(void)
     const trap_t *p;
 
     if (tape_traps != NULL) {
-        for (p = tape_traps; p->func != NULL; p++)
+        for (p = tape_traps; p->func != NULL; p++) {
             traps_add(p);
+        }
     }
 }
 
@@ -108,26 +108,14 @@ void tape_traps_deinstall(void)
     const trap_t *p;
 
     if (tape_traps != NULL) {
-        for (p = tape_traps; p->func != NULL; p++)
+        for (p = tape_traps; p->func != NULL; p++) {
             traps_remove(p);
+        }
     }
 }
 
-/* Initialize the tape emulation, using the traps in `trap_list'.  */
-/* FIXME: This should be passed through a struct.  */
-int tape_init(const tape_init_t *init)
+static void tape_init_vars(const tape_init_t *init)
 {
-    if (tape_log == LOG_ERR)
-        tape_log = log_open("Tape");
-
-    tape_internal_init();
-    tape_image_init();
-
-    lib_free(tape_image_dev1);
-    tape_image_dev1 = lib_calloc(1, sizeof(tape_image_t));
-
-    tap_init(init);
-
     /* Set addresses of tape routine variables.  */
     st_addr = init->st_addr;
     buffer_pointer_addr = init->buffer_pointer_addr;
@@ -141,11 +129,43 @@ int tape_init(const tape_init_t *init)
     kbd_buf_pending_addr = init->kbd_buf_pending_addr;
 
     tape_traps = init->trap_list;
+}
+
+/* Initialize the tape emulation, using the traps in `trap_list'.  */
+/* FIXME: This should be passed through a struct.  */
+int tape_init(const tape_init_t *init)
+{
+    if (tape_log == LOG_ERR) {
+        tape_log = log_open("Tape");
+    }
+
+    tape_internal_init();
+    tape_image_init();
+
+    lib_free(tape_image_dev1);
+    tape_image_dev1 = lib_calloc(1, sizeof(tape_image_t));
+
+    tap_init(init);
+
+    tape_init_vars(init);
     tape_traps_install();
 
-    if (tape_is_initialized)
-        return 0;
     tape_is_initialized = 1;
+    return 0;
+}
+
+/* re-init the traps, needed to switch between different configurations in x128 */
+int tape_reinit(const tape_init_t *init)
+{
+    if (tape_is_initialized == 0) {
+        return -1;
+    }
+
+    tape_traps_deinstall();
+    tape_traps = NULL;
+
+    tape_init_vars(init);
+    tape_traps_install();
 
     return 0;
 }
@@ -157,12 +177,14 @@ void tape_shutdown(void)
 
 int tape_deinstall(void)
 {
-    if (!tape_is_initialized)
+    if (!tape_is_initialized) {
         return -1;
+    }
 
     if (tape_image_dev1->name != NULL &&
-        tape_image_dev1->type == TAPE_TYPE_T64)
+        tape_image_dev1->type == TAPE_TYPE_T64) {
         tape_image_detach_internal(1);
+    }
 
     tape_traps_deinstall();
 
@@ -220,8 +242,9 @@ int tape_find_header_trap(void)
         }
     }
 
-    if (err)
+    if (err) {
         cassette_buffer[CAS_TYPE_OFFSET] = TAPE_CAS_TYPE_EOF;
+    }
 
     mem_store(st_addr, 0);      /* Clear the STATUS word.  */
     mem_store(verify_flag_addr, 0);
@@ -286,8 +309,9 @@ int tape_find_header_trap_plus4(void)
         }
     }
 
-    if (err)
+    if (err) {
         mem_store(0xF8, TAPE_CAS_TYPE_EOF);
+    }
 
     mem_store(0xb6, 0x33);
     mem_store(0xb7, 0x03);
@@ -400,8 +424,9 @@ int tape_receive_trap_plus4(void)
 
 const char *tape_get_file_name(void)
 {
-    if (tape_image_dev1 == NULL)
+    if (tape_image_dev1 == NULL) {
         return "";
+    }
 
     return tape_image_dev1->name;
 }
@@ -409,8 +434,9 @@ const char *tape_get_file_name(void)
 int tape_tap_attched(void)
 {
     if (tape_image_dev1->name != NULL
-        && tape_image_dev1->type == TAPE_TYPE_TAP)
+        && tape_image_dev1->type == TAPE_TYPE_TAP) {
         return 1;
+    }
 
     return 0;
 }
@@ -423,11 +449,13 @@ int tape_image_detach_internal(unsigned int unit)
     int retval = 0;
     char event_data[2];
 
-    if (unit != 1)
+    if (unit != 1) {
         return -1;
+    }
 
-    if (tape_image_dev1 == NULL || tape_image_dev1->name == NULL)
+    if (tape_image_dev1 == NULL || tape_image_dev1->name == NULL) {
         return 0;
+    }
 
     switch (tape_image_dev1->type) {
       case TAPE_TYPE_T64:
@@ -464,14 +492,16 @@ int tape_image_detach(unsigned int unit)
 {
     char event_data[2];
 
-    if (unit != 1)
+    if (unit != 1) {
         return -1;
+    }
 
     event_data[0] = (char)unit;
     event_data[1] = 0;
 
-    if (event_playback_active())
+    if (event_playback_active()) {
         return -1;
+    }
 
     if (network_connected()) {
         network_event_record(EVENT_ATTACHTAPE, (void *)event_data, 2);
@@ -486,11 +516,13 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
 {
     tape_image_t tape_image;
 
-    if (unit != 1)
+    if (unit != 1) {
         return -1;
+    }
 
-    if (!name || !*name)
+    if (!name || !*name) {
         return -1;
+    }
 
     tape_image.name = lib_stralloc(name);
     tape_image.read_only = 0;
@@ -534,21 +566,23 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
 
 int tape_image_attach(unsigned int unit, const char *name)
 {
-   if (event_playback_active())
+    if (event_playback_active()) {
         return -1;
+    }
 
     if (network_connected()) {
         network_attach_image(unit, name);
         return 0;
     }
 
-   return tape_image_attach_internal(unit, name);
+    return tape_image_attach_internal(unit, name);
 }
 
 void tape_image_event_playback(unsigned int unit, const char *filename)
 {
-    if (filename == NULL || filename[0] == 0)
+    if (filename == NULL || filename[0] == 0) {
         tape_image_detach_internal(unit);
-    else
+    } else {
         tape_image_attach_internal(unit, filename);
+    }
 }

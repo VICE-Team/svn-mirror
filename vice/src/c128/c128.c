@@ -208,7 +208,7 @@ static const trap_t c128_tape_traps[] = {
     }
 };
 
-static const tape_init_t tapeinit = {
+static const tape_init_t tapeinit_c128_mode = {
     0xb2,
     0x90,
     0x93,
@@ -226,6 +226,51 @@ static const tape_init_t tapeinit = {
     74 * 8,
     100 * 8
 };
+
+static const tape_init_t tapeinit_c64_mode = {
+    0xb2,
+    0x90,
+    0x93,
+    0x29f,
+    0,
+    0xc1,
+    0xae,
+    0x277,
+    0xc6,
+    c128_tape_traps,
+    36 * 8,
+    54 * 8,
+    55 * 8,
+    73 * 8,
+    74 * 8,
+    100 * 8
+};
+
+static int tapemode = 0;
+
+void machine_tape_init_c64(void)
+{
+    if (tapemode != 1) {
+        if (tapemode == 0) {
+            tape_init(&tapeinit_c64_mode);
+        } else {
+            tape_reinit(&tapeinit_c64_mode);
+        }
+        tapemode = 1;
+    }
+}
+
+void machine_tape_init_c128(void)
+{
+    if (tapemode != 2) {
+        if (tapemode == 0) {
+            tape_init(&tapeinit_c128_mode);
+        } else {
+            tape_reinit(&tapeinit_c128_mode);
+        }
+        tapemode = 2;
+    }
+}
 
 static log_t c128_log = LOG_ERR;
 static machine_timing_t machine_timing;
@@ -377,7 +422,7 @@ int machine_specific_init(void)
     printer_init();
 
     /* Initialize the tape emulation.  */
-    tape_init(&tapeinit);
+    machine_tape_init_c128();
 
     /* Initialize the datasette emulation.  */
     datasette_init();

@@ -182,6 +182,7 @@ static void mmu_switch_to_c64mode(void)
         mmu[0] = 0x3e;
         mmu[5] = 0xf7;
     }
+    machine_tape_init_c64();
     mem_update_config(0x80 + mmu_config64);
 #if !defined(__OS2__) && !defined(RISCOS)
     keyboard_alternative_set(1);
@@ -196,6 +197,7 @@ static void mmu_switch_to_c128mode(void)
 #ifdef MMU_DEBUG
     log_message(mmu_log, "mmu_switch_to_c128mode\n");
 #endif
+    machine_tape_init_c128();
     mem_update_config(((mmu[0] & 0x2) ? 0 : 1) |
                       ((mmu[0] & 0x0c) >> 1) |
                       ((mmu[0] & 0x30) >> 1) |
