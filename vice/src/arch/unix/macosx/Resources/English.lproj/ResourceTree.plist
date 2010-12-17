@@ -74,6 +74,10 @@
 				</dict>
 				<key>Expert Cartridge</key>
 				<dict>
+					<key>Image File</key>
+					<string>Expertfilename,fs</string>
+					<key>Write Image</key>
+					<string>ExpertImageWrite,b</string>
 					<key>Enable</key>
 					<string>ExpertCartridgeEnabled,b</string>
 					<key>Mode</key>
@@ -81,6 +85,8 @@
 				</dict>
 				<key>GEORAM</key>
 				<dict>
+					<key>Write Image</key>
+					<string>GEORAMImageWrite,b</string>
 					<key>Enable</key>
 					<string>GEORAM,b</string>
 					<key>Image File</key>
@@ -142,6 +148,8 @@
 				</dict>
 				<key>MMCReplay</key>
 				<dict>
+					<key>Write Image</key>
+					<string>MMCRImageWrite,b</string>
 					<key>Card Image</key>
 					<string>MMCRCardImage,fs</string>
 					<key>EEPROM Image</key>
@@ -157,6 +165,8 @@
 				</dict>
 				<key>RAMCART</key>
 				<dict>
+					<key>Write Image</key>
+					<string>RAMCARTImageWrite,b</string>
 					<key>Enable</key>
 					<string>RAMCART,b</string>
 					<key>Image File</key>
@@ -168,6 +178,8 @@
 				</dict>
 				<key>REU</key>
 				<dict>
+					<key>Write Image</key>
+					<string>REUImageWrite,b</string>
 					<key>Enable</key>
 					<string>REU,b</string>
 					<key>Image File</key>
@@ -288,6 +300,8 @@
 				</dict>
 				<key>Double Quick Brown Box</key>
 				<dict>
+					<key>Write Image</key>
+					<string>DQBBImageWrite,b</string>
 					<key>Enable</key>
 					<string>DQBB,b</string>
 					<key>Image File</key>
@@ -295,10 +309,14 @@
 				</dict>
 				<key>Isepic</key>
 				<dict>
+					<key>Image File</key>
+					<string>Isepicfilename,fs</string>
 					<key>Enable</key>
 					<string>IsepicCartridgeEnabled,b</string>
 					<key>Enable Switch</key>
 					<string>IsepicSwitch,b</string>
+					<key>Write Image</key>
+					<string>IsepicImageWrite,b</string>
 				</dict>
 				<key>Plus60k</key>
 				<dict>
