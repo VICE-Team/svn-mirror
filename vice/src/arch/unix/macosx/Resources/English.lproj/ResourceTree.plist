@@ -94,8 +94,14 @@
 					<string>IDE64AutodetectSize,b</string>
 					<key>Cylinders</key>
 					<string>IDE64Cylinders,i</string>
-					<key>HD Image File</key>
-					<string>IDE64Image,fs</string>
+					<key>HD Image File V1</key>
+					<string>IDE64Image1,fs</string>
+					<key>HD Image File V2</key>
+					<string>IDE64Image2,fs</string>
+					<key>HD Image File V3</key>
+					<string>IDE64Image3,fs</string>
+					<key>HD Image File V4</key>
+					<string>IDE64Image4,fs</string>
 					<key>Heads</key>
 					<string>IDE64Heads,i</string>
 					<key>Sectors</key>
