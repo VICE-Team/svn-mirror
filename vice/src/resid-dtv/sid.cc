@@ -86,7 +86,7 @@ namespace reSID
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-RESID::RESID()
+SID::SID()
 {
   static bool tableinit = false;
   if (! tableinit) {
@@ -113,7 +113,7 @@ RESID::RESID()
 // ----------------------------------------------------------------------------
 // Destructor.
 // ----------------------------------------------------------------------------
-RESID::~RESID()
+SID::~SID()
 {
   delete[] sample;
   delete[] fir;
@@ -122,7 +122,7 @@ RESID::~RESID()
 // ----------------------------------------------------------------------------
 // SID reset.
 // ----------------------------------------------------------------------------
-void RESID::reset()
+void SID::reset()
 {
   for (int i = 0; i < 3; i++) {
     voice[i].reset();
@@ -136,7 +136,7 @@ void RESID::reset()
 // ----------------------------------------------------------------------------
 // Read sample from audio output.
 // ----------------------------------------------------------------------------
-int RESID::output()
+int SID::output()
 {
   int v = extfilt.output();
   const int half = 1 << 15;
@@ -166,7 +166,7 @@ int RESID::output()
 // value instead). With this in mind we return the last value written to
 // any SID register for $2000 cycles without modeling the bit fading.
 // ----------------------------------------------------------------------------
-reg8 RESID::read(reg8 offset)
+reg8 SID::read(reg8 offset)
 {
   switch (offset) {
   case 0x19:
@@ -186,7 +186,7 @@ reg8 RESID::read(reg8 offset)
 // ----------------------------------------------------------------------------
 // Write registers.
 // ----------------------------------------------------------------------------
-void RESID::write(reg8 offset, reg8 value)
+void SID::write(reg8 offset, reg8 value)
 {
   bus_value = value;
 
@@ -273,7 +273,7 @@ void RESID::write(reg8 offset, reg8 value)
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-RESID::State::State()
+SID::State::State()
 {
   int i;
 
@@ -300,7 +300,7 @@ RESID::State::State()
 // ----------------------------------------------------------------------------
 // Read state.
 // ----------------------------------------------------------------------------
-RESID::State RESID::read_state()
+SID::State SID::read_state()
 {
   State state;
   int i, j;
@@ -355,7 +355,7 @@ RESID::State RESID::read_state()
 // ----------------------------------------------------------------------------
 // Write state.
 // ----------------------------------------------------------------------------
-void RESID::write_state(const State& state)
+void SID::write_state(const State& state)
 {
   int i;
 
@@ -382,7 +382,7 @@ void RESID::write_state(const State& state)
 // ----------------------------------------------------------------------------
 // Enable external filter.
 // ----------------------------------------------------------------------------
-void RESID::enable_external_filter(bool enable)
+void SID::enable_external_filter(bool enable)
 {
   extfilt.enable_filter(enable);
 }
@@ -392,7 +392,7 @@ void RESID::enable_external_filter(bool enable)
 // I0() computes the 0th order modified Bessel function of the first kind.
 // This function is originally from resample-1.5/filterkit.c by J. O. Smith.
 // ----------------------------------------------------------------------------
-double RESID::I0(double x)
+double SID::I0(double x)
 {
   // Max error acceptable in I0.
   const double I0e = 1e-10;
@@ -435,7 +435,7 @@ double RESID::I0(double x)
 // to slightly below 20kHz. This constraint ensures that the FIR table is
 // not overfilled.
 // ----------------------------------------------------------------------------
-bool RESID::set_sampling_parameters(double clock_freq, sampling_method method,
+bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 				  double sample_freq, double pass_freq,
 				  double filter_scale)
 {
@@ -548,7 +548,7 @@ bool RESID::set_sampling_parameters(double clock_freq, sampling_method method,
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
 // ----------------------------------------------------------------------------
-void RESID::clock()
+void SID::clock()
 {
   int i;
 
@@ -588,7 +588,7 @@ void RESID::clock()
 // }
 // 
 // ----------------------------------------------------------------------------
-int RESID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
+int SID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 {
   switch (sampling) {
   default:
@@ -612,7 +612,7 @@ int RESID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 // sampling noise.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int RESID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
+int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 			   int interleave)
 {
   int s = 0;
@@ -719,7 +719,7 @@ static inline int convolve(const short *a, const short *b, int n)
 // implementation dependent in the C++ standard.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int RESID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
+int SID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 				    int interleave)
 {
   int s = 0;
@@ -796,7 +796,7 @@ int RESID::clock_resample_interpolate(cycle_count& delta_t, short* buf, int n,
 // SID clocking with audio sampling - cycle based with audio resampling.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int RESID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
+int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
 			     int interleave)
 {
   int s = 0;
@@ -851,9 +851,9 @@ int RESID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
 }
 
 /* ReSID API adaptation hacks */
-void RESID::set_chip_model(chip_model model) { }
-void RESID::set_voice_mask(reg4 mask) { }
-void RESID::enable_filter(bool enable) { }
-void RESID::input(short sample) { }
+void SID::set_chip_model(chip_model model) { }
+void SID::set_voice_mask(reg4 mask) { }
+void SID::enable_filter(bool enable) { }
+void SID::input(short sample) { }
 
 } // namespace reSID

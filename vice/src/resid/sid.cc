@@ -32,7 +32,7 @@ namespace reSID
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-RESID::RESID()
+SID::SID()
 {
   // Initialize pointers.
   sample = 0;
@@ -54,7 +54,7 @@ RESID::RESID()
 // ----------------------------------------------------------------------------
 // Destructor.
 // ----------------------------------------------------------------------------
-RESID::~RESID()
+SID::~SID()
 {
   delete[] sample;
   delete[] fir;
@@ -64,7 +64,7 @@ RESID::~RESID()
 // ----------------------------------------------------------------------------
 // Set chip model.
 // ----------------------------------------------------------------------------
-void RESID::set_chip_model(chip_model model)
+void SID::set_chip_model(chip_model model)
 {
   sid_model = model;
 
@@ -79,7 +79,7 @@ void RESID::set_chip_model(chip_model model)
 // ----------------------------------------------------------------------------
 // SID reset.
 // ----------------------------------------------------------------------------
-void RESID::reset()
+void SID::reset()
 {
   for (int i = 0; i < 3; i++) {
     voice[i].reset();
@@ -98,7 +98,7 @@ void RESID::reset()
 // Note that to mix in an external audio signal, the signal should be
 // resampled to 1MHz first to avoid sampling noise.
 // ----------------------------------------------------------------------------
-void RESID::input(short sample)
+void SID::input(short sample)
 {
   // The input can be used to simulate the MOS8580 "digi boost" hardware hack.
   filter.input(sample);
@@ -107,7 +107,7 @@ void RESID::input(short sample)
 // ----------------------------------------------------------------------------
 // Read 16-bit sample from audio output.
 // ----------------------------------------------------------------------------
-short RESID::output()
+short SID::output()
 {
   return extfilt.output();
 }
@@ -130,7 +130,7 @@ short RESID::output()
 // value instead). With this in mind we return the last value written to
 // any SID register for $4000 cycles without modeling the bit fading.
 // ----------------------------------------------------------------------------
-reg8 RESID::read(reg8 offset)
+reg8 SID::read(reg8 offset)
 {
   switch (offset) {
   case 0x19:
@@ -152,7 +152,7 @@ reg8 RESID::read(reg8 offset)
 // Writes are one cycle delayed on the MOS8580. This is only modeled for
 // single cycle clocking.
 // ----------------------------------------------------------------------------
-void RESID::write(reg8 offset, reg8 value)
+void SID::write(reg8 offset, reg8 value)
 {
   write_address = offset;
   bus_value = value;
@@ -173,7 +173,7 @@ void RESID::write(reg8 offset, reg8 value)
 // Write registers.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-void RESID::write()
+void SID::write()
 {
   switch (write_address) {
   case 0x00:
@@ -263,7 +263,7 @@ void RESID::write()
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
-RESID::State::State()
+SID::State::State()
 {
   int i;
 
@@ -300,7 +300,7 @@ RESID::State::State()
 // ----------------------------------------------------------------------------
 // Read state.
 // ----------------------------------------------------------------------------
-RESID::State RESID::read_state()
+SID::State SID::read_state()
 {
   State state;
   int i, j;
@@ -366,7 +366,7 @@ RESID::State RESID::read_state()
 // ----------------------------------------------------------------------------
 // Write state.
 // ----------------------------------------------------------------------------
-void RESID::write_state(const State& state)
+void SID::write_state(const State& state)
 {
   int i;
 
@@ -405,7 +405,7 @@ void RESID::write_state(const State& state)
 // Used to physically connect/disconnect EXT IN, and for test purposed
 // (voice muting).
 // ----------------------------------------------------------------------------
-void RESID::set_voice_mask(reg4 mask)
+void SID::set_voice_mask(reg4 mask)
 {
   filter.set_voice_mask(mask);
 }
@@ -414,7 +414,7 @@ void RESID::set_voice_mask(reg4 mask)
 // ----------------------------------------------------------------------------
 // Enable filter.
 // ----------------------------------------------------------------------------
-void RESID::enable_filter(bool enable)
+void SID::enable_filter(bool enable)
 {
   filter.enable_filter(enable);
 }
@@ -423,7 +423,7 @@ void RESID::enable_filter(bool enable)
 // ----------------------------------------------------------------------------
 // Enable external filter.
 // ----------------------------------------------------------------------------
-void RESID::enable_external_filter(bool enable)
+void SID::enable_external_filter(bool enable)
 {
   extfilt.enable_filter(enable);
 }
@@ -433,7 +433,7 @@ void RESID::enable_external_filter(bool enable)
 // I0() computes the 0th order modified Bessel function of the first kind.
 // This function is originally from resample-1.5/filterkit.c by J. O. Smith.
 // ----------------------------------------------------------------------------
-double RESID::I0(double x)
+double SID::I0(double x)
 {
   // Max error acceptable in I0.
   const double I0e = 1e-6;
@@ -476,7 +476,7 @@ double RESID::I0(double x)
 // to slightly below 20kHz. This constraint ensures that the FIR table is
 // not overfilled.
 // ----------------------------------------------------------------------------
-bool RESID::set_sampling_parameters(double clock_freq, sampling_method method,
+bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 				  double sample_freq, double pass_freq,
 				  double filter_scale)
 {
@@ -614,7 +614,7 @@ bool RESID::set_sampling_parameters(double clock_freq, sampling_method method,
 // that any adjustment of the sampling frequency will change the
 // characteristics of the resampling filter, since the filter is not rebuilt.
 // ----------------------------------------------------------------------------
-void RESID::adjust_sampling_frequency(double sample_freq)
+void SID::adjust_sampling_frequency(double sample_freq)
 {
   cycles_per_sample =
     cycle_count(clock_frequency/sample_freq*(1 << FIXP_SHIFT) + 0.5);
@@ -624,7 +624,7 @@ void RESID::adjust_sampling_frequency(double sample_freq)
 // ----------------------------------------------------------------------------
 // SID clocking - 1 cycle.
 // ----------------------------------------------------------------------------
-void RESID::clock()
+void SID::clock()
 {
   int i;
 
@@ -669,7 +669,7 @@ void RESID::clock()
 // ----------------------------------------------------------------------------
 // SID clocking - delta_t cycles.
 // ----------------------------------------------------------------------------
-void RESID::clock(cycle_count delta_t)
+void SID::clock(cycle_count delta_t)
 {
   int i;
 
@@ -774,7 +774,7 @@ void RESID::clock(cycle_count delta_t)
 // }
 // 
 // ----------------------------------------------------------------------------
-int RESID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
+int SID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 {
   switch (sampling) {
   default:
@@ -793,7 +793,7 @@ int RESID::clock(cycle_count& delta_t, short* buf, int n, int interleave)
 // SID clocking with audio sampling - delta clocking picking nearest sample.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int RESID::clock_fast(cycle_count& delta_t, short* buf, int n,
+int SID::clock_fast(cycle_count& delta_t, short* buf, int n,
 		    int interleave)
 {
   int s = 0;
@@ -830,7 +830,7 @@ int RESID::clock_fast(cycle_count& delta_t, short* buf, int n,
 // sampling noise.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int RESID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
+int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 			   int interleave)
 {
   int s = 0;
@@ -912,7 +912,7 @@ int RESID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 // implementation dependent in the C++ standard.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int RESID::clock_resample(cycle_count& delta_t, short* buf, int n,
+int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
 			int interleave)
 {
   int s = 0;
@@ -993,7 +993,7 @@ int RESID::clock_resample(cycle_count& delta_t, short* buf, int n,
 // SID clocking with audio sampling - cycle based with audio resampling.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-int RESID::clock_resample_fastmem(cycle_count& delta_t, short* buf, int n,
+int SID::clock_resample_fastmem(cycle_count& delta_t, short* buf, int n,
 				int interleave)
 {
   int s = 0;

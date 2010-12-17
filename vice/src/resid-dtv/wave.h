@@ -97,7 +97,7 @@ protected:
   RESID_INLINE reg8 outputN___();
 
 friend class Voice;
-friend class RESID;
+friend class SID;
 };
 
 

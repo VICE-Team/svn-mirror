@@ -17,8 +17,8 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //  ---------------------------------------------------------------------------
 
-#ifndef __SIDDEFS_H__
-#define __SIDDEFS_H__
+#ifndef VICE__SIDDEFS_H__
+#define VICE__SIDDEFS_H__
 
 // Compilation configuration.
 #define RESID_INLINING @RESID_INLINING@
@@ -80,4 +80,4 @@ const char* resid_version_string = VERSION;
 #endif
 }
 
-#endif // not __SIDDEFS_H__
+#endif // not VICE__SIDDEFS_H__

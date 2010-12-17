@@ -20,8 +20,8 @@
 //   Daniel Kahlin <daniel@kahlin.net>
 // Copyright (C) 2007  Daniel Kahlin <daniel@kahlin.net>
 
-#ifndef VICE__SIDDEFS_H__
-#define VICE__SIDDEFS_H__
+#ifndef VICE__SIDDTVDEFS_H__
+#define VICE__SIDDTVDEFS_H__
 
 // Define bool, true, and false for C++ compilers that lack these keywords.
 #define RESID_HAVE_BOOL @RESID_HAVE_BOOL@
@@ -72,4 +72,4 @@ const char* resid_version_string = VERSION;
 
 #define HAVE_MMINTRIN_H @HAVE_MMINTRIN_H@
 
-#endif // not __SIDDEFS_H__
+#endif // not VICE__SIDDTVDEFS_H__

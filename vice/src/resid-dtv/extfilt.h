@@ -63,7 +63,7 @@ protected:
   sound_sample w0hp1;
   sound_sample w0hp2;
 
-friend class RESID;
+friend class SID;
 };
 
 

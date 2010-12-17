@@ -64,7 +64,7 @@ protected:
   int w0lp_1_s7;
   int w0hp_1_s20;
 
-friend class RESID;
+friend class SID;
 };
 
 

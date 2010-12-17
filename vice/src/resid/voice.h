@@ -49,7 +49,7 @@ protected:
   // Waveform D/A zero level.
   reg12 wave_zero;
 
-friend class RESID;
+friend class SID;
 };
 
 

@@ -45,7 +45,7 @@ protected:
   WaveformGenerator wave;
   EnvelopeGenerator envelope;
 
-friend class RESID;
+friend class SID;
 };
 
 
