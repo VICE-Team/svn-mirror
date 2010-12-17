@@ -65,6 +65,7 @@ EXTRA_DIST = \
 	sid.tgt \
 	siddefs.h \
 	siddefs-fp.h \
+	siddtvdefs.h \
 	sounddrv.tgt \
 	tape.tgt \
 	tcbm.tgt \
