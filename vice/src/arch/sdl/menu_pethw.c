@@ -301,7 +301,6 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(Crtc)
-UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(PETUserportDAC)
 
 const ui_menu_entry_t pet_hardware_menu[] = {
@@ -355,10 +354,6 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)rs232_nouser_menu },
-#endif 
-    { "Emulator ID",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_EmuID_callback,
-      NULL },
+#endif
     SDL_MENU_LIST_END
 };

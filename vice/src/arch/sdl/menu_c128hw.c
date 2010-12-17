@@ -89,7 +89,6 @@ static const ui_menu_entry_t vdc_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 
@@ -156,9 +155,5 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { "Emulator ID",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_EmuID_callback,
-      NULL },
     SDL_MENU_LIST_END
 };

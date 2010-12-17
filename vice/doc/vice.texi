@@ -3957,11 +3957,6 @@ be emulated or not.
 Boolean specifying whether the 512K RAM Expansion Unit should be
 emulated or not.
 
-@vindex EmuID
-@item EmuID
-Boolean specifying whether the emulation identification extension should
-be emulated or not.
-
 @end table
 
 
@@ -3981,12 +3976,6 @@ IEEE488 interface.
 @itemx +reu
 Enable (@code{REU=1}) or disable (@code{REU=0}) emulation of the
 512K RAM Expansion Unit.
-
-@cindex -emuid, +emuid
-@item -emuid
-@itemx +emuid
-Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) the emulation
-identification extension.
 
 @end table
 
@@ -4498,11 +4487,6 @@ identification'' option.
 @itemx RAMBlock5
 Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be enabled.
 
-@vindex EmuID
-@item EmuID
-Boolean specifying whether the emulation identification extension must
-be enabled.
-
 @end table
 
 @node VIC20 memconf options,  , VIC20 memconf resources, VIC20 memory expansions
@@ -4556,12 +4540,6 @@ xvic -memory 3,5
 
 enables memory in blocks 3 and 5, which is the usual configuration for
 16k ROM modules.
-
-@cindex -emuid, +emuid
-@item -emuid
-@itemx +emuid
-Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) the emulation
-identification extension.
 
 @end table
 
@@ -4714,10 +4692,6 @@ between the first PET 2001 and all newer versions.
 This resource enables the "blank screen on EOI" feature of the 
 oldest PET 2001.
 
-@cindex EmuID
-@item EmuID
-Enable emulator ID (at @code{$e8a0-$e8ff}, for use see C64).
-
 @cindex DiagPin
 @item DiagPin
 Set the diagnositc pin on the PET userport (see below).
@@ -4865,12 +4839,6 @@ Enable/Disable PET 2001 character generator
 @item -eoiblank, +eoiblank
 Enable/Disable EOI blanking the screen
 (@code{EoiBlank}).
-
-@cindex -emuid, +emuid
-@item -emuid
-@itemx +emuid
-Enable (@code{EmuID=1}) or disable (@code{EmuID=0}) the emulation
-identification extension (at @code{$e8a0-$e8ff}).
 
 @cindex -diagpin, +diagpin
 @item -diagpin

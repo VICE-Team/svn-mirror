@@ -61,8 +61,6 @@
 
 #include "uimenu.h"
 
-UI_MENU_DEFINE_TOGGLE(EmuID)
-
 const ui_menu_entry_t c64_hardware_menu[] = {
     { "Model settings",
       MENU_ENTRY_SUBMENU,
@@ -126,10 +124,6 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { "Emulator ID",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_EmuID_callback,
-      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -196,9 +190,5 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
-    { "Emulator ID",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_EmuID_callback,
-      NULL },
     SDL_MENU_LIST_END
 };

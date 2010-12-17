@@ -124,7 +124,6 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock1)
 UI_MENU_DEFINE_TOGGLE(RAMBlock2)
 UI_MENU_DEFINE_TOGGLE(RAMBlock3)
 UI_MENU_DEFINE_TOGGLE(RAMBlock5)
-UI_MENU_DEFINE_TOGGLE(EmuID)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 
 const ui_menu_entry_t vic20_hardware_menu[] = {
@@ -160,10 +159,6 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)midi_vic20_menu },
 #endif
-    { "Emulator ID",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_EmuID_callback,
-      NULL },
 #ifdef HAVE_MOUSE
     { "Paddle emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
