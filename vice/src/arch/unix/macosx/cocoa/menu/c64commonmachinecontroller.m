@@ -1,5 +1,5 @@
 /*
- * c64sccontroller.m - C64SC app controller
+ * c64commonmachinecontroller.m - C64 common machine controller
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -24,28 +24,19 @@
  *
  */
 
-#import "c64sccontroller.h"
-#import "c64scmachinecontroller.h"
-#import "viceapplication.h"
+#import "c64commonmachinecontroller.h"
+#include "c64model.h"
 
-@implementation C64SCController
+@implementation C64CommonMachineController
 
--(IBAction)selectModel:(id)sender
+-(void)selectModel:(int)model
 {
-    [(C64SCMachineController *)[VICEApplication theMachineController]
-        selectModel:(int)[sender tag]];
-    [self updateOptionsResources];
+    c64model_set(model);
 }
 
-- (void)updateOptionsResources
-{   
-    // set model
-    int model = [(C64SCMachineController *)[VICEApplication theMachineController]
-        getModel];
-    [self updateSubMenuCheckState:modelMenu
-                          withTag:model];
-
-    [super updateOptionsResources];
+-(int)getModel
+{
+    return c64model_get();
 }
 
 @end

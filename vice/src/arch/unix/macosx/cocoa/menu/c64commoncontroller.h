@@ -1,5 +1,5 @@
 /*
- * c64sccontroller.h - C64SC app controller
+ * c64commoncontroller.h - C64 common app controller
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -28,7 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import "c64controller.h"
 
-@interface C64SCController : C64Controller
+@interface C64CommonController : C64Controller
 {
     IBOutlet NSMenu *modelMenu;    
 }

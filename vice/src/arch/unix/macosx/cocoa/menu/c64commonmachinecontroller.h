@@ -1,5 +1,5 @@
 /*
- * c64scmachinecontroller.m - C64SC machine controller
+ * c64commonmachinecontroller.h - C64 common machine controller
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
@@ -24,19 +24,15 @@
  *
  */
 
-#import "c64scmachinecontroller.h"
-#include "c64model.h"
 
-@implementation C64SCMachineController
+#import <Cocoa/Cocoa.h>
+#import "c64machinecontroller.h"
 
--(void)selectModel:(int)model
+@interface C64CommonMachineController : C64MachineController
 {
-    c64model_set(model);
 }
 
--(int)getModel
-{
-    return c64model_get();
-}
+-(void)selectModel:(int)model;
+-(int)getModel;
 
 @end

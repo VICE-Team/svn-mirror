@@ -24,15 +24,15 @@
  *
  */
 
-#import "c64sccontroller.h"
-#import "c64scmachinecontroller.h"
+#import "c64commoncontroller.h"
+#import "c64commonmachinecontroller.h"
 #import "vicemachine.h"
 
 int c64scui_init(void)
 {
     // ensure that the C64Controller gets compiled in
-    [C64SCController class];
-    [theVICEMachine setMachineController:[[C64SCMachineController alloc] init]];
+    [C64CommonController class];
+    [theVICEMachine setMachineController:[[C64CommonMachineController alloc] init]];
     return 0;
 }
 
