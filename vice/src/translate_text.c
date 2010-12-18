@@ -3087,38 +3087,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_C64_MODE_BASIC_NAME_TR, "C64 modu BASIC ROM imajýnýn ismini belirt"},
 #endif
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_EMULATOR_ID,    N_("Enable emulator identification")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_EMULATOR_ID_DA, "Aktivér emulatoridentifikation"},
-/* de */ {IDCLS_ENABLE_EMULATOR_ID_DE, "Emulator Identifikation aktivieren"},
-/* fr */ {IDCLS_ENABLE_EMULATOR_ID_FR, "Activer l'identification de l'émulateur"},
-/* hu */ {IDCLS_ENABLE_EMULATOR_ID_HU, "Emulátor azonosító engedélyezése"},
-/* it */ {IDCLS_ENABLE_EMULATOR_ID_IT, "Attiva l'identificazione dell'emulatore"},
-/* nl */ {IDCLS_ENABLE_EMULATOR_ID_NL, "Activeer emulatoridentificatie"},
-/* pl */ {IDCLS_ENABLE_EMULATOR_ID_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_EMULATOR_ID_SV, "Aktivera emulatoridentifiering"},
-/* tr */ {IDCLS_ENABLE_EMULATOR_ID_TR, "Emülatör tespitini aktif et"},
-#endif
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_EMULATOR_ID,    N_("Disable emulator identification")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_EMULATOR_ID_DA, "Deaktivér emulatoridentifikation"},
-/* de */ {IDCLS_DISABLE_EMULATOR_ID_DE, "Emulator Identifikation deaktivieren"},
-/* fr */ {IDCLS_DISABLE_EMULATOR_ID_FR, "Désactiver l'identification de l'émulateur"},
-/* hu */ {IDCLS_DISABLE_EMULATOR_ID_HU, "Emulátor azonosító tiltása"},
-/* it */ {IDCLS_DISABLE_EMULATOR_ID_IT, "Disattiva l'identificazione dell'emulatore"},
-/* nl */ {IDCLS_DISABLE_EMULATOR_ID_NL, "Emulatoridentificatie uitschakelen"},
-/* pl */ {IDCLS_DISABLE_EMULATOR_ID_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_EMULATOR_ID_SV, "Inaktivera emulatoridentifiering"},
-/* tr */ {IDCLS_DISABLE_EMULATOR_ID_TR, "Emülatör tespitini pasifleþtir"},
-#endif
-
 /* vic20/vic20-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_OEM_JOY,    N_("Enable the OEM userport joystick adapter")},
 #ifdef HAS_TRANSLATION
