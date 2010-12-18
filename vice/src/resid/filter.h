@@ -24,7 +24,7 @@
 #include <math.h>
 
 #ifndef HAVE_SQRTF_PROTOTYPE
-extern float logf(float val);
+extern float sqrtf(float val);
 #endif
  
 #ifndef HAVE_SQRTF
@@ -387,6 +387,9 @@ protected:
   void set_w0();
   void set_Q();
 
+  RESID_INLINE
+  static int isqrt(int x);
+
   // Filter enabled.
   bool enabled;
 
@@ -465,6 +468,7 @@ protected:
 
   static model_filter_t model_filter[2];
 
+  static int sqrt_table[512];
 friend class SID;
 };
 
@@ -1440,9 +1444,8 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
   int n_snake = mf.n_snake;  // Scaled by (1/m)*2^19 (fits in 12 bits)
 
   // VCR gate voltage.
-  // FIXME: Using float sqrt for now.
-  const float sqrt1_2 = 0.70710678118654752440;
-  int Vg = Vddt - sqrt1_2*sqrtf(float(Vddt << 1)*(Vddt - Vw - vi) + float(Vw)*Vw + float(vi)*vi);
+  // Vddt - sqrt((2 * Vddt) * (Vddt - Vw - Vi) + Vw * Vw + Vi * Vi)) / sqrt(2)
+  int Vg = Vddt - (isqrt((Vddt >> 4)*((Vddt - Vw - vi) >> 4) + (Vw >> 4)*(Vw >> 5) + (vi >> 4)*(vi >> 5)) << 4);
   int Vgt = Vg - mf.Vth;     // Scaled by m*2^19
 
   // Determine the direction of the current flowing through the VCR and
@@ -1514,6 +1517,27 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
 
   // Return vo.
   return (x - vc) - mf.vo_T19;
+}
+
+RESID_INLINE int Filter::isqrt(int x)
+{
+    int xn;
+    if (x >= (1 << 29)) {
+        xn = sqrt_table[x >> 22];
+    } else if (x >= (1 << 25)) {
+        xn = sqrt_table[x >> 20] >> 1;
+    } else if (x >= (1 << 21)) {
+        xn = sqrt_table[x >> 16] >> 3;
+    } else if (x >= (1 << 15)) {
+        xn = sqrt_table[x >> 12] >> 5;
+    } else if (x >= (1 << 9)) {
+        xn = sqrt_table[x >> 8] >> 7;
+    } else {
+        return sqrt_table[x] >> 11;
+    }
+
+    /* Refine the guess with 1 iteration of Newton's method. */
+    return (xn + (x / xn)) >> 1;
 }
 
 #endif // RESID_INLINING || defined(RESID_FILTER_CC)

@@ -157,6 +157,9 @@ static model_filter_init_t model_filter_init[2] = {
 Filter::model_filter_t Filter::model_filter[2];
 
 
+int Filter::sqrt_table[512];
+
+
 // ----------------------------------------------------------------------------
 // Constructor.
 // ----------------------------------------------------------------------------
@@ -165,6 +168,10 @@ Filter::Filter()
   static bool class_init;
 
   if (!class_init) {
+    for (int i = 0; i < 512; i ++) {
+        sqrt_table[i] = (int) (sqrtf(i << 8) * 128.0f + 0.5f);
+    }
+
     for (int m = 0; m < 2; m++) {
       model_filter_init_t& fi = model_filter_init[m];
       model_filter_t& mf = model_filter[m];
