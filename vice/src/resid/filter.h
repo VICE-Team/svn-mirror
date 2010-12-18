@@ -1386,23 +1386,18 @@ int Filter::solve_gain(int n, int vi_n, int& x, model_filter_t& mf)
     if (f < 0) {
       // f(xk) < 0
       bk = xk;
-      int mid = (ak + bk) >> 1;
-      if (x < mid) {
-	// Bisection step (ala Dekker's method).
-	x = mid;
-      }
     }
     else {
       // f(xk) > 0
       ak = xk;
-      int mid = (ak + bk) >> 1;
-      if (x > mid) {
-	// Bisection step (ala Dekker's method).
-	x = mid;
-	if (unlikely(x == ak)) {
-	  // No further bisection possible.
-	  return vo - mf.vo_T19;
-	}
+    }
+
+    if (unlikely(x <= ak) || unlikely(x >= bk)) {
+      // Bisection step (ala Dekker's method).
+      x = (ak + bk) >> 1;
+      if (unlikely(x == ak)) {
+	// No further bisection possible.
+	return vo - mf.vo_T19;
       }
     }
   }
