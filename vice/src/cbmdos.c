@@ -31,13 +31,14 @@
 
 #include "cbmdos.h"
 #include "lib.h"
+#include "log.h"
 
+/* #define DEBUG_CBMDOS */
 
 typedef struct cbmdos_errortext_s {
     unsigned int nr;
     const char *text;
 } cbmdos_errortext_t;
-
 
 static const cbmdos_errortext_t cbmdos_error_messages[] =
 {
@@ -86,25 +87,27 @@ static const char *cbmdos_ft[] = {
     "DEL", "SEQ", "PRG", "USR", "REL", "CBM"
 };
 
-
 const char *cbmdos_errortext(unsigned int code)
 {
     unsigned int count = 0;
 
     while (cbmdos_error_messages[count].nr != 255
-        && cbmdos_error_messages[count].nr != code)
+        && cbmdos_error_messages[count].nr != code) {
         count++;
+    }
 
-    if (cbmdos_error_messages[count].nr != 255)
+    if (cbmdos_error_messages[count].nr != 255) {
         return cbmdos_error_messages[count].text;
+    }
 
     return "UNKNOWN ERROR NUMBER";
 }
 
 const char *cbmdos_filetype_get(unsigned int filetype)
 {
-   if (filetype > 5)
+   if (filetype > 5) {
        return NULL;
+   }
 
    return cbmdos_ft[filetype];
 }
@@ -114,10 +117,10 @@ unsigned int cbmdos_parse_wildcard_check(const char *name, unsigned int len)
     unsigned int index;
 
     for (index = 0; index < len; index++) {
-        if (name[index] == '*' || name[index] == '?')
+        if (name[index] == '*' || name[index] == '?') {
             return 1;
+        }
     }
-
     return 0;
 }
 
@@ -126,12 +129,15 @@ unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2)
     unsigned int index;
 
     for (index = 0; index < CBMDOS_SLOT_NAME_LENGTH; index++) {
-        if (name1[index] == '*')
+        if (name1[index] == '*') {
             return 1;
-        if (name1[index] != '?' && name1[index] != name2[index])
+        }
+        if ((name1[index] != '?') && (name1[index] != name2[index])) {
             return 0;
-        if (name1[index] == 0xa0)
+        }
+        if (name1[index] == 0xa0) {
             return 1;
+        }
     }
 
     return 1;
@@ -141,8 +147,9 @@ BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len)
 {
     BYTE *slot;
 
-    if (len > CBMDOS_SLOT_NAME_LENGTH)
+    if (len > CBMDOS_SLOT_NAME_LENGTH) {
         len = CBMDOS_SLOT_NAME_LENGTH;
+    }
 
     slot = lib_malloc(CBMDOS_SLOT_NAME_LENGTH);
     memset(slot, 0xa0, CBMDOS_SLOT_NAME_LENGTH);
@@ -161,37 +168,59 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     char *parsecmd, *c;
     int cmdlen;
 
+#ifdef DEBUG_CBMDOS
+        log_debug("CBMDOS parse cmd: '%s' cmdlen: %d", cmd_parse->cmd, cmd_parse->cmdlength);
+#endif
+
     cmd_parse->parsecmd = NULL;
     cmd_parse->readmode = (cmd_parse->secondary == 1)
                           ? CBMDOS_FAM_WRITE : CBMDOS_FAM_READ;
 
-    if (cmd_parse->cmd == NULL || cmd_parse->cmdlength == 0)
+    if (cmd_parse->cmd == NULL || cmd_parse->cmdlength == 0) {
         return CBMDOS_IPE_NO_NAME;
+    }
 
-    p = memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);
-
-    if (p) {
-        p++;
-    } else {      /* no colon found */
-        if (cmd_parse->cmd[0] != '$') {
-            p = cmd_parse->cmd;
-        } else {
-            /* Directory listings are special - see $da55 in the 1541 for reference*/
-            if (cmd_parse->cmdlength > 1) {
-                if (cmd_parse->cmdlength == 2 &&
-                    (cmd_parse->cmd[1] == '0' || cmd_parse->cmd[1] == '1')) {
-                    /* A single 0/1 digit is a drive number, ignore it */
-                    p = cmd_parse->cmd + cmd_parse->cmdlength; /* set to null byte */
-                } else {
-                    /* no colon: everything after $ is the pattern */
-                    p = cmd_parse->cmd + 1;
-                }
-            } else {
-                /* Just a single $, set pointer to null byte */
-                p = cmd_parse->cmd + cmd_parse->cmdlength;
+    p = cmd_parse->cmd;
+    if (*p == '$') {
+        /* Directory listings are special - see $da55 in the 1541 for reference*/
+        if (cmd_parse->cmdlength > 1) {
+            p++;
+            if ((*p == '0') || (*p == '1')) {
+                /* A single 0/1 digit is a drive number, skip it */
+                cmd_parse->drive = *p - '0';
+                p++;
             }
+            /* skip colon */
+            if (*p == ':') {
+                p++;
+            }
+            /* everything from here is the pattern */
+        } else {
+            /* Just a single $, set pointer to null byte */
+            p = cmd_parse->cmd + cmd_parse->cmdlength;
+        }
+    } else {
+        p = memchr(cmd_parse->cmd, ':', cmd_parse->cmdlength);
+        if (p) {
+            if (p == cmd_parse->cmd) {
+                /* first char is a colon, just skip it */
+            } else {
+                if ((p[-1] == '0') || (p[-1] == '1')) {
+                    /* A single 0/1 digit before the colon is a drive number */
+                    cmd_parse->drive = p[-1] - '0';
+                }
+            }
+            p++;
+            /* everything after the colon is the pattern */
+        } else {
+            /* no colon found, entire input is the pattern */
+            p = cmd_parse->cmd;
         }
     }
+
+#ifdef DEBUG_CBMDOS
+        log_debug("CBMDOS parse pattern: '%s' drive:%d", p, cmd_parse->drive);
+#endif
 
 #if 0
     if (cmd_parse->cmd[0] == '@' && p == cmd_parse->cmd)
@@ -204,12 +233,17 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     /* Temporary hack.  */
     cmd_parse->parsecmd = lib_calloc(1, cmdlen + 2);
 
+    /* append rest of command string until first comma */
     parsecmd = cmd_parse->parsecmd;
 
     while (*p != ',' && cmdlen-- > 0) {
         (cmd_parse->parselength)++;
         *(parsecmd++) = *(p++);
     }
+
+#ifdef DEBUG_CBMDOS
+        log_debug("CBMDOS parsed cmd: '%s'", cmd_parse->parsecmd);
+#endif
 
     cmd_parse->filetype = 0;
 
@@ -220,8 +254,9 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
         cmdlen--;
         p++;
 
-        if (cmdlen == 0)
+        if (cmdlen == 0) {
             return CBMDOS_IPE_INVAL;
+        }
 
         switch (*p) {
           case 'S':
@@ -241,8 +276,9 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
                    greater than 254.  The 1541/71/81 lets you create a
                    REL file of record length 0, but it locks up the CPU
                    on the drive - nice. */
-                if (cmd_parse->recordlength < 2 || cmd_parse->recordlength > 254)
+                if (cmd_parse->recordlength < 2 || cmd_parse->recordlength > 254) {
                     return CBMDOS_IPE_OVERFLOW;
+                }
                 /* skip the REL length */
                 p+=3;
                 cmdlen-=3;
@@ -260,8 +296,9 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
             break;
           default:
             if (cmd_parse->readmode != CBMDOS_FAM_READ
-                && cmd_parse->readmode != CBMDOS_FAM_WRITE)
+                && cmd_parse->readmode != CBMDOS_FAM_WRITE) {
                 return CBMDOS_IPE_INVAL;
+            }
         }
 
         c = (char *)memchr(p, ',', cmdlen);
@@ -274,16 +311,19 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     }
 
     /* Override read mode if secondary is 0 or 1.  */
-    if (cmd_parse->secondary == 0)
+    if (cmd_parse->secondary == 0) {
         cmd_parse->readmode = CBMDOS_FAM_READ;
-    if (cmd_parse->secondary == 1)
+    }
+    if (cmd_parse->secondary == 1) {
         cmd_parse->readmode = CBMDOS_FAM_WRITE;
+    }
 
     /* Set filetype according secondary address, if it was not specified
         and if we are in write mode */
-    if (cmd_parse->filetype == 0 && cmd_parse->readmode == CBMDOS_FAM_WRITE)
+    if (cmd_parse->filetype == 0 && cmd_parse->readmode == CBMDOS_FAM_WRITE) {
         cmd_parse->filetype = (cmd_parse->secondary < 2)
                               ? CBMDOS_FT_PRG : CBMDOS_FT_SEQ;
+    }
 
     return CBMDOS_IPE_OK;
 }

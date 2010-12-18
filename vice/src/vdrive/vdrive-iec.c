@@ -393,6 +393,7 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
         cmd_parse->secondary = secondary;
         /* make sure this is zero, since it isn't set below */
         cmd_parse->recordlength = 0;
+        cmd_parse->drive = -1;
 
         rc = cbmdos_command_parse(cmd_parse);
 
@@ -402,9 +403,42 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
         }
 #ifdef DEBUG_DRIVE
         log_debug("Raw file name: `%s', length: %i.", name, length);
-        log_debug("Parsed file name: `%s', reallength: %i.",
-                  cmd_parse->parsecmd, cmd_parse->parselength);
+        log_debug("Parsed file name: `%s', reallength: %i. drive: %i",
+                  cmd_parse->parsecmd, cmd_parse->parselength, cmd_parse->drive);
 #endif
+        if (cmd_parse->drive != -1) {
+            /* a drive number was specified in the filename */
+            if ((vdrive->image_format == VDRIVE_IMAGE_FORMAT_8050) ||
+                (vdrive->image_format == VDRIVE_IMAGE_FORMAT_8250) ||
+                (vdrive->image_format == VDRIVE_IMAGE_FORMAT_2040)) {
+                /* FIXME: dual disk drives not supported */
+                if (cmd_parse->drive == 0) {
+                    /* FIXME: use drive 0 */
+                } else if (cmd_parse->drive == 1) {
+                    /* FIXME: use drive 1 */
+                    /*
+                        since some software gets confused when it sees the same disk in
+                        both drives, we bail out with an error instead.
+                    */
+                    log_warning(LOG_DEFAULT, "second drive of dual disk drive is not supported");
+                    vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 18, 0);
+                    status = SERIAL_ERROR;
+                    goto out;
+                } else {
+                    /* FIXME: what exactly does the drive do if drivenumber is > 1, look
+                              up the file on both drives perhaps ?
+                    */
+                }
+            } else {
+                /* single disk drives seem to ignore the drive number, *except* if it
+                   is 1, which will result in an error. */
+                if (cmd_parse->drive == 1) {
+                    vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_READY, 18, 0);
+                    status = SERIAL_ERROR;
+                    goto out;
+                }
+            }
+        }
     }
 
     /* Limit file name to 16 chars.  */

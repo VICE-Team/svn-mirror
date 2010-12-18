@@ -93,14 +93,15 @@
 #define CBMDOS_SLOT_NAME_LENGTH 16
 
 struct cbmdos_cmd_parse_s {
-    const BYTE *cmd;
-    unsigned int cmdlength;
-    char *parsecmd;
-    unsigned int secondary;
-    unsigned int parselength;
-    unsigned int readmode;
-    unsigned int filetype;
-    unsigned int recordlength;
+    const BYTE *cmd; /* input: full dos-command string */
+    unsigned int cmdlength; /* input */
+    char *parsecmd; /* output: parsed command */
+    unsigned int secondary; /* input */
+    unsigned int parselength; /* output */
+    unsigned int readmode; /* output */
+    unsigned int filetype; /* output */
+    unsigned int recordlength; /* output */
+    unsigned int drive; /* output: drive number */
 };
 typedef struct cbmdos_cmd_parse_s cbmdos_cmd_parse_t;
 
