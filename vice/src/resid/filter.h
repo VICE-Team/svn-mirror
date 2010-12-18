@@ -1517,7 +1517,7 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
 RESID_INLINE int Filter::isqrt(int x)
 {
     int xn;
-    if (x >= (1 << 29)) {
+    if (x >= (1 << 28)) {
         xn = sqrt_table[x >> 22];
     } else if (x >= (1 << 25)) {
         xn = sqrt_table[x >> 20] >> 1;

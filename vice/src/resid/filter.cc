@@ -169,7 +169,7 @@ Filter::Filter()
 
   if (!class_init) {
     for (int i = 0; i < 512; i ++) {
-        sqrt_table[i] = (int) (sqrtf(i << 8) * 128.0f + 0.5f);
+        sqrt_table[i] = (int) (sqrtf(i << 22) + 0.5f);
     }
 
     for (int m = 0; m < 2; m++) {
