@@ -532,9 +532,9 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
   // 16 bits -> -96dB stopband attenuation.
   const double A = -20*log10(1.0/(1 << 16));
   // A fraction of the bandwidth is allocated to the transition band,
-  double dw = (1 - 2*pass_freq/sample_freq)*pi;
-  // The cutoff frequency is midway through the transition band.
-  double wc = (2*pass_freq/sample_freq + 1)*pi/2;
+  double dw = (1 - 2*pass_freq/sample_freq)*pi*2;
+  // The cutoff frequency is midway through the transition band (nyquist)
+  double wc = pi;
 
   // For calculation of beta and N see the reference for the kaiserord
   // function in the MATLAB Signal Processing Toolbox:
