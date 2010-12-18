@@ -216,6 +216,8 @@ extern BYTE cartridge_peek_mem(WORD addr);
 #define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
 #define CARTRIDGE_NAME_TFE                "The Final Ethernet"
 #define CARTRIDGE_NAME_RRNET              "RR-Net" /* see manual */
+#define CARTRIDGE_NAME_SWIFTLINK          "Swiftlink" /* http://mikenaberezny.com/hardware/peripherals/swiftlink-rs232-interface/ */
+#define CARTRIDGE_NAME_ACIA               "ACIA"
 #define CARTRIDGE_NAME_TURBO232           "Turbo232" /* also: "ACIA/SWIFTLINK" */ /*http://www.retroport.de/C64_C128_Hardware2.html */
 #define CARTRIDGE_NAME_ACTION_REPLAY      "Action Replay V5" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
