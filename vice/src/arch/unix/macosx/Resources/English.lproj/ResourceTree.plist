@@ -556,6 +556,18 @@
 				<string>KernalName,fo</string>
 			</dict>
 		</dict>
+		<key>_C64_C64SC_</key>
+		<dict>
+			<key>Model</key>
+			<dict>
+				<key>ASIC glue logic</key>
+				<string>GlueLogic,b</string>
+				<key>CIA 1 Model</key>
+				<string>CIA1Model,e,6526 (old),6526A (new),6526x (old timer B bug)</string>
+				<key>CIA 2 Model</key>
+				<string>CIA2Model,e,6526 (old),6526A (new),6526x (old timer B bug)</string>
+			</dict>
+		</dict>
 		<key>_C64_C64DTV_CBM-II_PET_VIC20_</key>
 		<dict>
 			<key>ROM</key>
@@ -576,19 +588,10 @@
 		</dict>
 		<key>_C64SC_</key>
 		<dict>
-			<key>Model</key>
-			<dict>
-				<key>ASIC glue logic</key>
-				<string>GlueLogic,b</string>
-				<key>CIA 1 Model</key>
-				<string>CIA1Model,e,6526 (old),6526A (new),6526x (old timer B bug)</string>
-				<key>CIA 2 Model</key>
-				<string>CIA2Model,e,6526 (old),6526A (new),6526x (old timer B bug)</string>
-			</dict>
 			<key>VIC II</key>
 			<dict>
 				<key>Model</key>
-				<string>VICIIModel,e,6569 (PAL),8565 (PAL),6569R1 (old PAL),6567 (NTSC),8562 (NTSC),6567R56A (old NTSC)</string>
+				<string>VICIIModel,e,6569 (PAL),8565 (PAL),6569R1 (old PAL),6567 (NTSC),8562 (NTSC),6567R56A (old NTSC),6572 (PAL-N)</string>
 			</dict>
 		</dict>
 		<key>_C64DTV_</key>
