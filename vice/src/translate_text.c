@@ -9805,45 +9805,45 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/digimax.c */
-/* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the digimax cartridge")},
+/* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DIGIMAX_DE, "Digimax Cartridge aktivieren"},
-/* fr */ {IDCLS_ENABLE_DIGIMAX_FR, "Activer la cartouche Digimax"},
-/* hu */ {IDCLS_ENABLE_DIGIMAX_HU, "Digimax cartridge engedélyezése"},
-/* it */ {IDCLS_ENABLE_DIGIMAX_IT, "Attiva la cartuccia digimax"},
-/* nl */ {IDCLS_ENABLE_DIGIMAX_NL, "Activeer de digimaxcartridge"},
+/* de */ {IDCLS_ENABLE_DIGIMAX_DE, "DigiMAX Cartridge aktivieren"},
+/* fr */ {IDCLS_ENABLE_DIGIMAX_FR, "Activer la cartouche DigiMAX"},
+/* hu */ {IDCLS_ENABLE_DIGIMAX_HU, "DigiMAX cartridge engedélyezése"},
+/* it */ {IDCLS_ENABLE_DIGIMAX_IT, "Attiva la cartuccia DigiMAX"},
+/* nl */ {IDCLS_ENABLE_DIGIMAX_NL, "Activeer de DigiMAX cartridge"},
 /* pl */ {IDCLS_ENABLE_DIGIMAX_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DIGIMAX_SV, "Aktivera Digimax-cartridge"},
-/* tr */ {IDCLS_ENABLE_DIGIMAX_TR, "Digimax kartuþunu aktif et"},
+/* sv */ {IDCLS_ENABLE_DIGIMAX_SV, "Aktivera DigiMAX-cartridge"},
+/* tr */ {IDCLS_ENABLE_DIGIMAX_TR, "DigiMAX kartuþunu aktif et"},
 #endif
 
 /* c64/cart/digimax.c */
-/* en */ {IDCLS_DISABLE_DIGIMAX,    N_("Disable the digimax cartridge")},
+/* en */ {IDCLS_DISABLE_DIGIMAX,    N_("Disable the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DIGIMAX_DE, "Digimax Cartridge deaktivieren"},
-/* fr */ {IDCLS_DISABLE_DIGIMAX_FR, "Désactiver la cartouche Digimax"},
-/* hu */ {IDCLS_DISABLE_DIGIMAX_HU, "Digimax cartridge tiltása"},
-/* it */ {IDCLS_DISABLE_DIGIMAX_IT, "Disattiva la cartuccia digimax"},
-/* nl */ {IDCLS_DISABLE_DIGIMAX_NL, "De digimaxcartridge uitschakelen"},
+/* de */ {IDCLS_DISABLE_DIGIMAX_DE, "DigiMAX Cartridge deaktivieren"},
+/* fr */ {IDCLS_DISABLE_DIGIMAX_FR, "Désactiver la cartouche DigiMAX"},
+/* hu */ {IDCLS_DISABLE_DIGIMAX_HU, "DigiMAX cartridge tiltása"},
+/* it */ {IDCLS_DISABLE_DIGIMAX_IT, "Disattiva la cartuccia DigiMAX"},
+/* nl */ {IDCLS_DISABLE_DIGIMAX_NL, "De DigiMAX cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DIGIMAX_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DIGIMAX_SV, "Inaktivera Digimax Cartridge"},
-/* tr */ {IDCLS_DISABLE_DIGIMAX_TR, "Digimax kartuþunu pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_DIGIMAX_SV, "Inaktivera DigiMAX Cartridge"},
+/* tr */ {IDCLS_DISABLE_DIGIMAX_TR, "DigiMAX kartuþunu pasifleþtir"},
 #endif
 
 /* c64/cart/digimax.c */
-/* en */ {IDCLS_DIGIMAX_BASE,    N_("Base address of the digimax cartridge")},
+/* en */ {IDCLS_DIGIMAX_BASE,    N_("Base address of the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DIGIMAX_BASE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DIGIMAX_BASE_DE, "Basis Adresse für Digimax Erweiterung"},
-/* fr */ {IDCLS_DIGIMAX_BASE_FR, "Adresse de base de la cartouche Digimax"},
-/* hu */ {IDCLS_DIGIMAX_BASE_HU, "A digimax cartridge báziscíme"},
-/* it */ {IDCLS_DIGIMAX_BASE_IT, "Indirizzo base della cartuccia digimax"},
-/* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basisadres van de digimaxcartridge"},
+/* de */ {IDCLS_DIGIMAX_BASE_DE, "Basis Adresse für DigiMAX Erweiterung"},
+/* fr */ {IDCLS_DIGIMAX_BASE_FR, "Adresse de base de la cartouche DigiMAX"},
+/* hu */ {IDCLS_DIGIMAX_BASE_HU, "A DigiMAX cartridge báziscíme"},
+/* it */ {IDCLS_DIGIMAX_BASE_IT, "Indirizzo base della cartuccia DigiMAX"},
+/* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basisadres van de DigiMAX cartridge"},
 /* pl */ {IDCLS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för Digimax-cartridge"},
-/* tr */ {IDCLS_DIGIMAX_BASE_TR, "Digimax kartuþunun taban adresi"},
+/* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för DigiMAX-cartridge"},
+/* tr */ {IDCLS_DIGIMAX_BASE_TR, "DigiMAX kartuþunun taban adresi"},
 #endif
 
 };
