@@ -8,7 +8,9 @@
 #define WS_VISIBLE           0x10000000L
 #define WS_DISABLED          0x08000000L
 #define WS_CLIPSIBLINGS      0x04000000L
+#ifndef WS_CAPTION
 #define WS_CAPTION           0x00c00000L
+#endif
 #define WS_BORDER            0x00800000L
 #define WS_VSCROLL           0x00200000L
 #define WS_HSCROLL           0x00100000L

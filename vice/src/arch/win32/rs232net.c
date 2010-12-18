@@ -34,8 +34,6 @@
  * is read and written data is discarded.
  */
 
-#define WIN32_LEAN_AND_MEAN
-
 #undef        DEBUG
 /* #define DEBUG */
 

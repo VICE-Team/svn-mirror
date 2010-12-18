@@ -144,7 +144,9 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "FullScreenEnabled", IDM_TOGGLE_FULLSCREEN },
+#ifdef HAVE_D3D9_H
     { "DX9Disable", IDM_TOGGLE_DX9DISABLE },
+#endif
     { "AlwaysOnTop", IDM_TOGGLE_ALWAYSONTOP },
     { "KeySetEnable", IDM_JOYKEYS_TOGGLE },
     { "JoyOpposite", IDM_ALLOW_JOY_OPPOSITE_TOGGLE },
