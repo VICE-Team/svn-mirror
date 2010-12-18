@@ -371,6 +371,7 @@ static void uic64_set_resources(void)
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
+    int sidengmodel;
     int new_c64model;
     int new_vicii = vicii_model;
     int new_cia1 = cia1_model;
@@ -393,10 +394,11 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                                     GetDlgItem(hwnd, IDC_C64MODEL_LIST), CB_GETCURSEL, 0, 0)];
                     if (new_c64model != c64_model) {
                         c64_model = new_c64model;
-                        c64model_set_temp(c64_model, &vicii_model, &sid_model, &glue_logic,
+                        sidengmodel = (sid_engine << 8) | sid_model;
+                        c64model_set_temp(c64_model, &vicii_model, &sidengmodel, &glue_logic,
                                           &cia1_model, &cia2_model, &new_luma);
-                        sid_engine = (sid_model >> 8);
-                        sid_model = (sid_model & 0xff);
+                        sid_engine = (sidengmodel >> 8);
+                        sid_model = (sidengmodel & 0xff);
                         uic64_update_controls(hwnd, CONTROL_UPDATE_MODELCHANGE);
                     }
                     return TRUE;
