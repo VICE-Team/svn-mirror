@@ -147,7 +147,6 @@
 
 - (IBAction)swapJoysticks:(id)sender;
 - (IBAction)toggleKeySetEnable:(id)sender;
-- (IBAction)toggleEmuID:(id)sender;
 
 - (IBAction)toggleMouseEmulation:(id)sender;
 - (IBAction)toggleLightPenEmulation:(id)sender;

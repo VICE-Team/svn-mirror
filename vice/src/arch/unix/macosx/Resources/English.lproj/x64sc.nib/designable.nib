@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="473"/>
+			<integer value="402"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1267,26 +1267,6 @@
 									<reference key="NSOnImage" ref="645750970"/>
 									<reference key="NSMixedImage" ref="550278490"/>
 								</object>
-								<object class="NSMenuItem" id="694700599">
-									<reference key="NSMenu" ref="484288457"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
-								<object class="NSMenuItem" id="700203116">
-									<reference key="NSMenu" ref="484288457"/>
-									<string key="NSTitle">Emulator Identification</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="645750970"/>
-									<reference key="NSMixedImage" ref="550278490"/>
-								</object>
 							</object>
 						</object>
 					</object>
@@ -2421,22 +2401,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">emuIDMenuItem</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="700203116"/>
-					</object>
-					<int key="connectionID">588</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleEmuID:</string>
-						<reference key="source" ref="44981142"/>
-						<reference key="destination" ref="700203116"/>
-					</object>
-					<int key="connectionID">589</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">cartridgeFreezeMenuItem</string>
 						<reference key="source" ref="44981142"/>
 						<reference key="destination" ref="242216678"/>
@@ -3471,13 +3435,11 @@
 							<reference ref="838435639"/>
 							<reference ref="380733673"/>
 							<reference ref="766022957"/>
-							<reference ref="694700599"/>
 							<reference ref="58463376"/>
 							<reference ref="550494636"/>
 							<reference ref="581805058"/>
 							<reference ref="781856874"/>
 							<reference ref="347283401"/>
-							<reference ref="700203116"/>
 							<reference ref="816355159"/>
 							<reference ref="835367572"/>
 							<reference ref="12334077"/>
@@ -3656,11 +3618,6 @@
 						<reference key="parent" ref="484288457"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">460</int>
-						<reference key="object" ref="694700599"/>
-						<reference key="parent" ref="484288457"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">461</int>
 						<reference key="object" ref="58463376"/>
 						<reference key="parent" ref="484288457"/>
@@ -3683,11 +3640,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">469</int>
 						<reference key="object" ref="347283401"/>
-						<reference key="parent" ref="484288457"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">470</int>
-						<reference key="object" ref="700203116"/>
 						<reference key="parent" ref="484288457"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -4244,8 +4196,6 @@
 					<string>458.ImportedFromIB2</string>
 					<string>459.IBPluginDependency</string>
 					<string>459.ImportedFromIB2</string>
-					<string>460.IBPluginDependency</string>
-					<string>460.ImportedFromIB2</string>
 					<string>461.IBPluginDependency</string>
 					<string>461.ImportedFromIB2</string>
 					<string>462.IBPluginDependency</string>
@@ -4256,8 +4206,6 @@
 					<string>464.ImportedFromIB2</string>
 					<string>469.IBPluginDependency</string>
 					<string>469.ImportedFromIB2</string>
-					<string>470.IBPluginDependency</string>
-					<string>470.ImportedFromIB2</string>
 					<string>471.IBPluginDependency</string>
 					<string>471.ImportedFromIB2</string>
 					<string>472.IBPluginDependency</string>
@@ -4558,7 +4506,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{492, 380}, {233, 323}}</string>
+					<string>{{492, 410}, {221, 293}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4566,10 +4514,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>{{717, 390}, {238, 313}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

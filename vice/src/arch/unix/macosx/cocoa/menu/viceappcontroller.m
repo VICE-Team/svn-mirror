@@ -406,12 +406,6 @@
     [self updateOptionsResources];
 }
 
-- (IBAction)toggleEmuID:(id)sender
-{    
-    [self setIntResource:@"EmuID" toValue:![sender state]];
-    [self updateOptionsResources];
-}
-
 // Mouse
 
 - (IBAction)toggleMouseEmulation:(id)sender
@@ -687,10 +681,6 @@
     [trueDriveEmulationMenuItem setState:[self getIntResource:@"DriveTrueEmulation"]];
     // VirtaulDevices
     [virtualDevicesMenuItem setState:[self getIntResource:@"VirtualDevices"]];
-    // EmuID
-    if(emuIDMenuItem != nil) {
-        [emuIDMenuItem setState:[self getIntResource:@"EmuID"]];
-    }
     // KeySetEnable
     [keySetEnableMenuItem setState:[self getIntResource:@"KeySetEnable"]];
 

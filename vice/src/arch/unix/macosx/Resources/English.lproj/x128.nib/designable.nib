@@ -2,30 +2,25 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1030</int>
-		<string key="IBDocument.SystemVersion">10F569</string>
-		<string key="IBDocument.InterfaceBuilderVersion">788</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.SystemVersion">10H574</string>
+		<string key="IBDocument.InterfaceBuilderVersion">804</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">788</string>
+			<string key="NS.object.0">804</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="774"/>
+			<integer value="402"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys" id="0">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="531462675">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1316,26 +1311,6 @@
 									<reference key="NSOnImage" ref="228195826"/>
 									<reference key="NSMixedImage" ref="77633858"/>
 								</object>
-								<object class="NSMenuItem" id="6022473">
-									<reference key="NSMenu" ref="538673946"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="228195826"/>
-									<reference key="NSMixedImage" ref="77633858"/>
-								</object>
-								<object class="NSMenuItem" id="658798013">
-									<reference key="NSMenu" ref="538673946"/>
-									<string key="NSTitle">Emulator Identification</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="228195826"/>
-									<reference key="NSMixedImage" ref="77633858"/>
-								</object>
 							</object>
 						</object>
 					</object>
@@ -2470,22 +2445,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">emuIDMenuItem</string>
-						<reference key="source" ref="577634827"/>
-						<reference key="destination" ref="658798013"/>
-					</object>
-					<int key="connectionID">588</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleEmuID:</string>
-						<reference key="source" ref="577634827"/>
-						<reference key="destination" ref="658798013"/>
-					</object>
-					<int key="connectionID">589</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">cartridgeFreezeMenuItem</string>
 						<reference key="source" ref="577634827"/>
 						<reference key="destination" ref="394596063"/>
@@ -2938,7 +2897,9 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
+						<object class="NSArray" key="object" id="0">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="children" ref="531462675"/>
 						<nil key="parent"/>
 					</object>
@@ -3622,14 +3583,12 @@
 							<reference ref="1044492513"/>
 							<reference ref="838396460"/>
 							<reference ref="878489902"/>
-							<reference ref="6022473"/>
 							<reference ref="44744286"/>
 							<reference ref="667791808"/>
 							<reference ref="543744468"/>
 							<reference ref="853385878"/>
 							<reference ref="934686441"/>
 							<reference ref="192842337"/>
-							<reference ref="658798013"/>
 							<reference ref="798827101"/>
 							<reference ref="18045433"/>
 							<reference ref="47834835"/>
@@ -3807,11 +3766,6 @@
 						<reference key="parent" ref="538673946"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">460</int>
-						<reference key="object" ref="6022473"/>
-						<reference key="parent" ref="538673946"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">461</int>
 						<reference key="object" ref="44744286"/>
 						<reference key="parent" ref="538673946"/>
@@ -3863,11 +3817,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">469</int>
 						<reference key="object" ref="192842337"/>
-						<reference key="parent" ref="538673946"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">470</int>
-						<reference key="object" ref="658798013"/>
 						<reference key="parent" ref="538673946"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -4443,8 +4392,6 @@
 					<string>458.ImportedFromIB2</string>
 					<string>459.IBPluginDependency</string>
 					<string>459.ImportedFromIB2</string>
-					<string>460.IBPluginDependency</string>
-					<string>460.ImportedFromIB2</string>
 					<string>461.IBPluginDependency</string>
 					<string>461.ImportedFromIB2</string>
 					<string>462.IBPluginDependency</string>
@@ -4462,8 +4409,6 @@
 					<string>468.ImportedFromIB2</string>
 					<string>469.IBPluginDependency</string>
 					<string>469.ImportedFromIB2</string>
-					<string>470.IBPluginDependency</string>
-					<string>470.ImportedFromIB2</string>
 					<string>471.IBPluginDependency</string>
 					<string>471.ImportedFromIB2</string>
 					<string>475.IBPluginDependency</string>
@@ -4657,7 +4602,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{329, 799}, {635, 20}}</string>
+					<string>{{184, 799}, {635, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4727,7 +4672,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{832, 626}, {224, 173}}</string>
+					<string>{{687, 626}, {224, 173}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4772,7 +4717,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{382, 466}, {233, 333}}</string>
+					<string>{{492, 496}, {221, 303}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4844,11 +4789,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>{{615, 646}, {123, 43}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4998,7 +4939,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{1056, 673}, {64, 6}}</string>
+					<string>{{911, 673}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
