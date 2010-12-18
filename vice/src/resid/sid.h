@@ -141,7 +141,7 @@ public:
 
     // Fixed point constants (16.16 bits).
     FIXP_SHIFT = 16,
-    FIXP_MASK = 0xffff,
+    FIXP_MASK = 0xffff
   };
 
   // Sampling variables.
