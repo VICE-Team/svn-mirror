@@ -487,10 +487,10 @@
     [self updateVideo1Resources];
 }
 
-- (IBAction)togglePALEmulation:(id)sender
+- (IBAction)toggleCRTEmulation:(id)sender
 {
     [self setIntResource:@"PALEmulation" toValue:![sender state]];
-    [self updateVideo0Resources];
+    [self updateCRTResources];
 }
 
 // ----- Settings -----
@@ -633,6 +633,7 @@
     if(video1Menu != nil) {
         [self updateVideo1Resources];
     }
+    [self updateCRTResources];
 }
 
 - (void)updateMachineResources
@@ -709,9 +710,12 @@
     
     NSString *res4 = [NSString stringWithFormat:@"%@Scale2x", name];    
     [video0Scale2xMenuItem setState:[self getIntResource:res4]];
-    
-    if(palEmulationMenuItem != nil) {
-        [palEmulationMenuItem setState:[self getIntResource:@"PALEmulation"]];
+}
+
+- (void)updateCRTResources
+{
+    if(crtEmulationMenuItem != nil) {
+        [crtEmulationMenuItem setState:[self getIntResource:@"PALEmulation"]];
     }
 }
 

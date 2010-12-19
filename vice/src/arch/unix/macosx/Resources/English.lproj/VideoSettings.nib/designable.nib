@@ -3,16 +3,16 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1030</int>
 		<string key="IBDocument.SystemVersion">10H574</string>
-		<string key="IBDocument.InterfaceBuilderVersion">804</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">804</string>
+			<string key="NS.object.0">823</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="66"/>
+			<integer value="64"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -57,7 +57,7 @@
 								<object class="NSTabViewItem" id="784550972">
 									<string key="NSIdentifier">1</string>
 									<object class="NSView" key="NSView" id="910910045">
-										<reference key="NSNextResponder" ref="912432255"/>
+										<nil key="NSNextResponder"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -320,7 +320,6 @@
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {329, 115}}</string>
-										<reference key="NSSuperview" ref="912432255"/>
 									</object>
 									<string key="NSLabel">Colors</string>
 									<reference key="NSColor" ref="546252049"/>
@@ -329,7 +328,7 @@
 								<object class="NSTabViewItem" id="735235331">
 									<string key="NSIdentifier">2</string>
 									<object class="NSView" key="NSView" id="726272775">
-										<nil key="NSNextResponder"/>
+										<reference key="NSNextResponder" ref="912432255"/>
 										<int key="NSvFlags">256</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -555,8 +554,9 @@
 											</object>
 										</object>
 										<string key="NSFrame">{{10, 33}, {329, 115}}</string>
+										<reference key="NSSuperview" ref="912432255"/>
 									</object>
-									<string key="NSLabel">PAL Emulation</string>
+									<string key="NSLabel">CRT Emulation</string>
 									<reference key="NSColor" ref="546252049"/>
 									<reference key="NSTabView" ref="912432255"/>
 								</object>
@@ -832,14 +832,14 @@
 									<reference key="NSTabView" ref="912432255"/>
 								</object>
 							</object>
-							<reference key="NSSelectedTabViewItem" ref="784550972"/>
+							<reference key="NSSelectedTabViewItem" ref="735235331"/>
 							<reference key="NSFont" ref="262679183"/>
 							<int key="NSTvFlags">0</int>
 							<bool key="NSAllowTruncatedLabels">YES</bool>
 							<bool key="NSDrawsBackground">YES</bool>
 							<object class="NSMutableArray" key="NSSubviews">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<reference ref="910910045"/>
+								<reference ref="726272775"/>
 							</object>
 						</object>
 					</object>

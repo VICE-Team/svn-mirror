@@ -89,7 +89,7 @@
     IBOutlet NSMenuItem *video0DoubleSizeMenuItem;
     IBOutlet NSMenuItem *video0DoubleScanMenuItem;
     IBOutlet NSMenuItem *video0Scale2xMenuItem;
-    IBOutlet NSMenuItem *palEmulationMenuItem;
+    IBOutlet NSMenuItem *crtEmulationMenuItem;
 
     // Video 1
     IBOutlet NSMenu     *video1Menu;
@@ -162,7 +162,7 @@
 - (IBAction)toggleVideo1DoubleScan:(id)sender;
 - (IBAction)toggleVideo1Scale2x:(id)sender;
 
-- (IBAction)togglePALEmulation:(id)sender;
+- (IBAction)toggleCRTEmulation:(id)sender;
 
 // Settings
 - (IBAction)showDriveSettings:(id)sender;
@@ -196,6 +196,7 @@
 - (void)updateMachineResources;
 - (void)updateVideo0Resources;
 - (void)updateVideo1Resources;
+- (void)updateCRTResources;
 
 - (BOOL)updateSubMenuCheckState:(NSMenu *)menu withTag:(int)tagValue;
 

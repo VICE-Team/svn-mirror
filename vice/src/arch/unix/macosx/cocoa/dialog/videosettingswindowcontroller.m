@@ -90,7 +90,7 @@ static const char *ted_palettes[] = {
     chip2Ext   = nil;
     
     hasColorTab = YES;
-    hasPALEmuTab = YES;
+    hasCRTEmuTab = YES;
     
     // determine machine setup
     switch(machine_class) {
@@ -98,6 +98,7 @@ static const char *ted_palettes[] = {
             palette2Entries = vdc_palettes;
             chip2Title = @"VDC Palette";
             chip2File  = @"VDCPaletteFile";
+            chip2Ext   = @"VDCExternalPalette";
             // fall through!
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64DTV:
@@ -118,9 +119,7 @@ static const char *ted_palettes[] = {
             palette1Entries = crtc_palettes;
             chip1Title = @"CRTC Palette";
             chip1File  = @"CRTCPaletteFile";    
-
-            hasColorTab = NO;
-            hasPALEmuTab = NO;
+            chip1Ext   = @"CRTCExternalPalette";
             break;
         case VICE_MACHINE_PLUS4:
             palette1Entries = ted_palettes;
@@ -136,7 +135,7 @@ static const char *ted_palettes[] = {
     if(!hasColorTab) {
         [[colorTab tabView] removeTabViewItem:colorTab];
     }
-    if(!hasPALEmuTab) {
+    if(!hasCRTEmuTab) {
         [[palEmuTab tabView] removeTabViewItem:palEmuTab];
     }
     
@@ -272,7 +271,7 @@ static const char *ted_palettes[] = {
     if(hasColorTab) {
         [self updateColorResources];
     }
-    if(hasPALEmuTab) {
+    if(hasCRTEmuTab) {
         [self updatePALResources];
     }
 }

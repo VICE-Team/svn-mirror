@@ -65,7 +65,7 @@
     IBOutlet NSButton      *palette2Pick;
     
     BOOL hasColorTab;
-    BOOL hasPALEmuTab;
+    BOOL hasCRTEmuTab;
     
     const char **palette1Entries;
     const char **palette2Entries;

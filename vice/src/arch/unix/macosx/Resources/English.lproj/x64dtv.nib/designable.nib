@@ -2,30 +2,25 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1030</int>
-		<string key="IBDocument.SystemVersion">10F569</string>
-		<string key="IBDocument.InterfaceBuilderVersion">788</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.SystemVersion">10H574</string>
+		<string key="IBDocument.InterfaceBuilderVersion">823</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">788</string>
+			<string key="NS.object.0">823</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="355"/>
+			<integer value="402"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<bool key="EncodedWithXMLCoder">YES</bool>
-			<object class="NSArray" key="dict.sortedKeys" id="0">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
-			<object class="NSMutableArray" key="dict.values">
-				<bool key="EncodedWithXMLCoder">YES</bool>
-			</object>
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.RootObjects" id="3985771">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1071,15 +1066,6 @@
 												<reference key="NSOnImage" ref="518202911"/>
 												<reference key="NSMixedImage" ref="296763217"/>
 											</object>
-											<object class="NSMenuItem" id="988269555">
-												<reference key="NSMenu" ref="792529650"/>
-												<string key="NSTitle">PAL Emulation</string>
-												<string key="NSKeyEquiv"/>
-												<int key="NSKeyEquivModMask">1048576</int>
-												<int key="NSMnemonicLoc">2147483647</int>
-												<reference key="NSOnImage" ref="518202911"/>
-												<reference key="NSMixedImage" ref="296763217"/>
-											</object>
 										</object>
 									</object>
 								</object>
@@ -1118,6 +1104,15 @@
 											</object>
 										</object>
 									</object>
+								</object>
+								<object class="NSMenuItem" id="972350053">
+									<reference key="NSMenu" ref="56862031"/>
+									<string key="NSTitle">CRT Emulation</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="518202911"/>
+									<reference key="NSMixedImage" ref="296763217"/>
 								</object>
 								<object class="NSMenuItem" id="296049136">
 									<reference key="NSMenu" ref="56862031"/>
@@ -2565,14 +2560,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">palEmulationMenuItem</string>
-						<reference key="source" ref="650953437"/>
-						<reference key="destination" ref="988269555"/>
-					</object>
-					<int key="connectionID">740</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">video0DoubleScanMenuItem</string>
 						<reference key="source" ref="650953437"/>
 						<reference key="destination" ref="105661969"/>
@@ -2610,14 +2597,6 @@
 						<reference key="destination" ref="132791684"/>
 					</object>
 					<int key="connectionID">745</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">togglePALEmulation:</string>
-						<reference key="source" ref="650953437"/>
-						<reference key="destination" ref="988269555"/>
-					</object>
-					<int key="connectionID">746</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -2667,13 +2646,31 @@
 					</object>
 					<int key="connectionID">756</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleCRTEmulation:</string>
+						<reference key="source" ref="650953437"/>
+						<reference key="destination" ref="972350053"/>
+					</object>
+					<int key="connectionID">759</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">crtEmulationMenuItem</string>
+						<reference key="source" ref="650953437"/>
+						<reference key="destination" ref="972350053"/>
+					</object>
+					<int key="connectionID">760</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
-						<reference key="object" ref="0"/>
+						<object class="NSArray" key="object" id="0">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
 						<reference key="children" ref="3985771"/>
 						<nil key="parent"/>
 					</object>
@@ -3556,6 +3553,7 @@
 							<reference ref="149360813"/>
 							<reference ref="671334004"/>
 							<reference ref="93998807"/>
+							<reference ref="972350053"/>
 						</object>
 						<reference key="parent" ref="448235315"/>
 					</object>
@@ -3808,7 +3806,6 @@
 							<reference ref="132791684"/>
 							<reference ref="175056827"/>
 							<reference ref="105661969"/>
-							<reference ref="988269555"/>
 							<reference ref="232707393"/>
 						</object>
 						<reference key="parent" ref="93998807"/>
@@ -3826,11 +3823,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">737</int>
 						<reference key="object" ref="105661969"/>
-						<reference key="parent" ref="792529650"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">738</int>
-						<reference key="object" ref="988269555"/>
 						<reference key="parent" ref="792529650"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3861,6 +3853,11 @@
 						<int key="objectID">755</int>
 						<reference key="object" ref="1028393590"/>
 						<reference key="parent" ref="189692714"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">757</int>
+						<reference key="object" ref="972350053"/>
+						<reference key="parent" ref="56862031"/>
 					</object>
 				</object>
 			</object>
@@ -4216,8 +4213,6 @@
 					<string>736.ImportedFromIB2</string>
 					<string>737.IBPluginDependency</string>
 					<string>737.ImportedFromIB2</string>
-					<string>738.IBPluginDependency</string>
-					<string>738.ImportedFromIB2</string>
 					<string>739.IBPluginDependency</string>
 					<string>739.ImportedFromIB2</string>
 					<string>751.IBPluginDependency</string>
@@ -4227,6 +4222,8 @@
 					<string>754.IBPluginDependency</string>
 					<string>755.IBPluginDependency</string>
 					<string>755.ImportedFromIB2</string>
+					<string>757.IBPluginDependency</string>
+					<string>757.ImportedFromIB2</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4386,7 +4383,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{361, 447}, {221, 263}}</string>
+					<string>{{487, 280}, {221, 283}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4569,9 +4566,7 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{582, 537}, {163, 103}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<boolean value="YES"/>
+					<string>{{708, 410}, {150, 83}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4587,6 +4582,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{906, 437}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 				</object>
@@ -4607,7 +4604,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">756</int>
+			<int key="maxID">760</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4978,13 +4975,13 @@
 							<string>showVideoSettings:</string>
 							<string>smartAttachImage:</string>
 							<string>swapJoysticks:</string>
+							<string>toggleCRTEmulation:</string>
 							<string>toggleConfirmOnExit:</string>
 							<string>toggleEmuID:</string>
 							<string>toggleKeySetEnable:</string>
 							<string>toggleLightPenEmulation:</string>
 							<string>toggleMachineVideoStandard:</string>
 							<string>toggleMouseEmulation:</string>
-							<string>togglePALEmulation:</string>
 							<string>togglePause:</string>
 							<string>toggleSaveResourcesOnExit:</string>
 							<string>toggleSoundPlayback:</string>
@@ -5109,13 +5106,13 @@
 							<string>showVideoSettings:</string>
 							<string>smartAttachImage:</string>
 							<string>swapJoysticks:</string>
+							<string>toggleCRTEmulation:</string>
 							<string>toggleConfirmOnExit:</string>
 							<string>toggleEmuID:</string>
 							<string>toggleKeySetEnable:</string>
 							<string>toggleLightPenEmulation:</string>
 							<string>toggleMachineVideoStandard:</string>
 							<string>toggleMouseEmulation:</string>
-							<string>togglePALEmulation:</string>
 							<string>togglePause:</string>
 							<string>toggleSaveResourcesOnExit:</string>
 							<string>toggleSoundPlayback:</string>
@@ -5291,6 +5288,10 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">toggleCRTEmulation:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">toggleConfirmOnExit:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -5312,10 +5313,6 @@
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">toggleMouseEmulation:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">togglePALEmulation:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -5385,13 +5382,13 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>confirmOnExitMenuItem</string>
+							<string>crtEmulationMenuItem</string>
 							<string>emuIDMenuItem</string>
 							<string>keySetEnableMenuItem</string>
 							<string>lightPenEmulationMenuItem</string>
 							<string>machineVideoStandardMenu</string>
 							<string>maximumSpeedMenu</string>
 							<string>mouseEmulationMenuItem</string>
-							<string>palEmulationMenuItem</string>
 							<string>refreshRateMenu</string>
 							<string>saveResourcesOnExitMenuItem</string>
 							<string>soundPlaybackMenuItem</string>
@@ -5415,9 +5412,9 @@
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
 							<string>NSMenuItem</string>
-							<string>NSMenu</string>
-							<string>NSMenu</string>
 							<string>NSMenuItem</string>
+							<string>NSMenu</string>
+							<string>NSMenu</string>
 							<string>NSMenuItem</string>
 							<string>NSMenu</string>
 							<string>NSMenuItem</string>
@@ -5442,13 +5439,13 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>confirmOnExitMenuItem</string>
+							<string>crtEmulationMenuItem</string>
 							<string>emuIDMenuItem</string>
 							<string>keySetEnableMenuItem</string>
 							<string>lightPenEmulationMenuItem</string>
 							<string>machineVideoStandardMenu</string>
 							<string>maximumSpeedMenu</string>
 							<string>mouseEmulationMenuItem</string>
-							<string>palEmulationMenuItem</string>
 							<string>refreshRateMenu</string>
 							<string>saveResourcesOnExitMenuItem</string>
 							<string>soundPlaybackMenuItem</string>
@@ -5473,6 +5470,10 @@
 								<string key="candidateClassName">NSMenuItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">crtEmulationMenuItem</string>
+								<string key="candidateClassName">NSMenuItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">emuIDMenuItem</string>
 								<string key="candidateClassName">NSMenuItem</string>
 							</object>
@@ -5494,10 +5495,6 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mouseEmulationMenuItem</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">palEmulationMenuItem</string>
 								<string key="candidateClassName">NSMenuItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
