@@ -159,13 +159,13 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MMC64_ENABLE           "&Activeer MMC64"
-  IDS_MMC64_REVISION_LABEL   "BIOS-revisie"
+  IDS_MMC64_REVISION_LABEL   "BIOS revisie"
   IDS_MMC64_FLASHJUMPER      "Activeer BIOS &Flash Jumper"
-  IDS_MMC64_BIOS_SAVE        "MMC64-BIOS Op&slaan indien gewijzigd"
-  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-bestand"
-  IDS_MMC64_IMAGE_RO         "MMC/SD-bestand alleen-lezen"
-  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-b&estand"
-  IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_BIOS_SAVE        "MMC64 BIOS Op&slaan indien gewijzigd"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS bestand"
+  IDS_MMC64_IMAGE_RO         "MMC/SD bestand alleen-lezen"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD b&estand"
+  IDS_MMC64_SDTYPE_LABEL     "Card soort"
 END
 
 

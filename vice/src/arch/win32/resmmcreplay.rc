@@ -87,7 +87,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Rescue Modus"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card Typ"
   IDS_MMCREPLAY_READ_WRITE          "lese/schreibe"
-  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
+  IDS_MMCREPLAY_WRITE_ENABLE        "MMC Replay EEPROM bei Änderung speichern"
 END
 
 
@@ -150,8 +150,8 @@ BEGIN
   IDS_MMCREPLAY_CAPTION             "MMC Replay instellingen"
   IDS_MMCREPLAY_CARDIMAGE_LABEL     "Card Bestand"
   IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM bestand"
-  IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
-  IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
+  IDS_MMCREPLAY_RESCUEMODE          "Reddingsmodus"
+  IDS_MMCREPLAY_SDTYPE_LABEL        "Card soort"
   IDS_MMCREPLAY_READ_WRITE          "lees/schrijf"
   IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
@@ -212,4 +212,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

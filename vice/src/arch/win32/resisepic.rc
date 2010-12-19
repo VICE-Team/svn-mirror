@@ -69,12 +69,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_ISEPIC  "Select file for ISEPIC"
+  IDS_SELECT_FILE_ISEPIC  "Datei für ISEPIC auswählen"
   IDS_ISEPIC_CAPTION      "ISEPIC Einstellungen"
   IDS_ISEPIC_ENABLE       "&Aktiviere ISEPIC"
   IDS_ISEPIC_SWITCH       "&ISEPIC Schalter"
-  IDS_ISEPIC_WRITE_ENABLE "&Save ISEPIC image when changed"
-  IDS_ISEPIC_FILE_LABEL   "ISEPIC file"
+  IDS_ISEPIC_WRITE_ENABLE "ISEPIC Imagedatei bei Änderung &speichern"
+  IDS_ISEPIC_FILE_LABEL   "ISEPIC Imagedatei"
 END
 
 
@@ -132,9 +132,9 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_ISEPIC  "Select file for ISEPIC"
-  IDS_ISEPIC_CAPTION      "ISEPIC settings"
-  IDS_ISEPIC_ENABLE       "&Enable ISEPIC"
-  IDS_ISEPIC_SWITCH       "&ISEPIC switch"
+  IDS_ISEPIC_CAPTION      "ISEPIC instellingen"
+  IDS_ISEPIC_ENABLE       "&Activeer ISEPIC"
+  IDS_ISEPIC_SWITCH       "Activeer &ISEPIC schakelaar"
   IDS_ISEPIC_WRITE_ENABLE "&Save ISEPIC image when changed"
   IDS_ISEPIC_FILE_LABEL   "ISEPIC file"
 END
@@ -192,4 +192,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

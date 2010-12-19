@@ -69,7 +69,7 @@ BEGIN
   IDS_SELECT_FILE_DQBB  "Datei für DQBB auswählen"
   IDS_DQBB_CAPTION      "DQBB Einstellungen"
   IDS_DQBB_ENABLE       "DQBB Aktivier&en"
-  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_WRITE_ENABLE "DQBB Imagedatei bei Änderung &speichern"
   IDS_DQBB_FILE_LABEL   "DQBB Datei"
 END
 
@@ -181,4 +181,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

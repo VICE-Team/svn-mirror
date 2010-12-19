@@ -84,7 +84,7 @@ BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostart Einstellungen"
     IDS_AUTOSTART_WARP                       "Autostart Warp"
     IDS_AUTOSTART_COLON_RUN                  "Verwende ':' mit RUN"
-    IDS_AUTOSTART_LOAD_TO_BASIC              "Lade auf Basic Start"
+    IDS_AUTOSTART_LOAD_TO_BASIC              "Lade an Basic Start"
     IDS_AUTOSTART_PRG_MODE                   "PRG Autostartmodus"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG Autostart Disk Image"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Datei für PRG Autostart auswählen"
@@ -161,13 +161,13 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostart instellingen"
     IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
-    IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
+    IDS_AUTOSTART_COLON_RUN                  "Gebruik ':' met RUN"
+    IDS_AUTOSTART_LOAD_TO_BASIC              "Laad naar BASIC start"
     IDS_AUTOSTART_PRG_MODE                   "PRG autostart modus"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk bestand"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Selecteer bestand voor PRG autostart disk"
     IDS_AUTOSTART_VIRTUAL_FS                 "Virtueel Bestandssysteem"
-    IDS_AUTOSTART_INJECT                     "Inject to RAM"
+    IDS_AUTOSTART_INJECT                     "injecteer in RAM"
     IDS_AUTOSTART_DISK                       "Disk bestand"
 END
 

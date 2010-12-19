@@ -107,10 +107,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_V364SPEECH_CAPTION     "V364 Speech Settings"
-  IDS_V364SPEECH_ENABLE      "&Enable V364 Speech"
-  IDS_V364SPEECH_FILE        "V364 Speech ROM file"
-  IDS_V364SPEECH_SELECT_FILE "Select ROM file for V364 Speech"
+  IDS_V364SPEECH_CAPTION     "V364 Spraak instellingen"
+  IDS_V364SPEECH_ENABLE      "&Activeer V364 spraak"
+  IDS_V364SPEECH_FILE        "V364 spraak ROM bestand"
+  IDS_V364SPEECH_SELECT_FILE "Selecteer bestand voor V364 spraak"
 END
 
 

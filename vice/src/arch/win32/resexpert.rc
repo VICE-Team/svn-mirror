@@ -60,15 +60,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "Slukket"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "Tændt"
 END
 
 
@@ -77,15 +77,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
-  IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
+  IDS_EXPERT_MODE_LABEL   "Modus"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "Aus"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "Ein"
 END
 
 
@@ -94,12 +94,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
   IDS_OFF                 "Off"
   IDS_PRG                 "Prg"
   IDS_ON                  "On"
@@ -114,15 +114,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "Ki"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "Be"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -134,15 +134,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "No"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "Sì"
 END
 
 
@@ -151,15 +151,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "Uit"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "Aan"
 END
 
 
@@ -171,15 +171,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "Wy³±cz"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "W³±cz"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -191,15 +191,15 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "Av"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "På"
 END
 
 
@@ -211,17 +211,18 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert cartridge"
-  IDS_EXPERT_CAPTION      "Expert cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert cartridge"
+  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_OFF                 "Kapalý"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "Açýk"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

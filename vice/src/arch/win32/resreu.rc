@@ -74,7 +74,7 @@ BEGIN
   IDS_REU_CAPTION      "REU Einstellungen"
   IDS_REU_ENABLE       "REU aktivi&eren"
   IDS_REU_SIZE         "REU Größe"
-  IDS_REU_WRITE_ENABLE "&Save REU image when changed"
+  IDS_REU_WRITE_ENABLE "REU Imagedatei bei Änderung &speichern"
   IDS_REU_FILE         "REU Datei"
   IDS_REU_SELECT_FILE  "Datei für REU auswählen"
 END
@@ -133,11 +133,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_REU_CAPTION      "REU-instellingen"
+  IDS_REU_CAPTION      "REU instellingen"
   IDS_REU_ENABLE       "&Activeer REU"
-  IDS_REU_SIZE         "REU-grootte"
+  IDS_REU_SIZE         "REU grootte"
   IDS_REU_WRITE_ENABLE "&Save REU image when changed"
-  IDS_REU_FILE         "REU-bestand"
+  IDS_REU_FILE         "REU bestand"
   IDS_REU_SELECT_FILE  "Selecteer bestand voor REU"
 END
 
@@ -194,4 +194,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

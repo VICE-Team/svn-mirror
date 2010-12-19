@@ -700,7 +700,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MEMORY                "Geheugen"
-  IDS_CBM2_SETTINGS         "CBM2-instellingen"
+  IDS_CBM2_SETTINGS         "CBM2 instellingen"
   IDS_CART_1                "Cart 1"
   IDS_CART_2                "Cart 2"
   IDS_CART_4                "Cart 4"
@@ -718,7 +718,7 @@ BEGIN
   IDS_TOGGLE_CBMII_RAM4     "Bank 15 $&4000-$5FFF RAM"
   IDS_TOGGLE_CBMII_RAM6     "Bank 15 $&6000-$7FFF RAM"
   IDS_TOGGLE_CBMII_RAMC     "Bank 15 $&C000-$CFFF RAM"
-  IDS_MI_CBM2_SETTINGS      "&CBM2-instellingen..."
+  IDS_MI_CBM2_SETTINGS      "&CBM2 instellingen..."
 END
 
 
