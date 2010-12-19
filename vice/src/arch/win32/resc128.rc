@@ -6,6 +6,7 @@
 #include "config.h"
 #include "res.h"
 #include "rescommon.h"
+#include "videoarch.h"
 
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
