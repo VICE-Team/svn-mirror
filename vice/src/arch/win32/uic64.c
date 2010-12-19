@@ -34,6 +34,7 @@
 #include "c64model.h"
 #include "cia.h"
 #include "intl.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "sid.h"
@@ -165,6 +166,23 @@ static const int ui_c64vicii_values[] = {
     -1
 };
 
+static const TCHAR *ui_c64video_standard[] = {
+    TEXT("PAL-G"),
+    TEXT("NTSC-M"),
+    TEXT("Old NTSC-M"),
+    TEXT("PAL-N"),
+    0
+};
+
+static const int ui_c64video_standard_values[] = {
+    MACHINE_SYNC_PAL,
+    MACHINE_SYNC_NTSC,
+    MACHINE_SYNC_NTSCOLD,
+    MACHINE_SYNC_PALN,
+    0
+};
+
+
 /* FIXME: duplicated from uisid.c */
 static const TCHAR *ui_c64sid_engine_model[] = {
     TEXT("6581 (FastSID)"),
@@ -236,7 +254,8 @@ static const int ui_c64sid_engine_model_values[] = {
 
 static int vicii_model, sid_model, sid_engine;
 static int glue_logic, cia1_model, cia2_model, new_luma;
-static int c64_model;
+static int c64_model, machine_video_standard;
+static int is_sc;
 
 static void uic64_update_controls(HWND hwnd, int mode)
 {
@@ -260,11 +279,21 @@ static void uic64_update_controls(HWND hwnd, int mode)
     if (mode != CONTROL_UPDATE_C64MODEL) {
         sub_hwnd = GetDlgItem(hwnd, IDC_C64VICII_LIST);
         SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
-        for (i = 0; ui_c64vicii[i] != 0; i++) {
-            _stprintf(st, TEXT("%s"), translate_text(ui_c64vicii[i]));
-            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-            if (ui_c64vicii_values[i] == vicii_model) {
-                active_value = i;
+        if (is_sc) {
+            for (i = 0; ui_c64vicii[i] != 0; i++) {
+                _stprintf(st, TEXT("%s"), translate_text(ui_c64vicii[i]));
+                SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+                if (ui_c64vicii_values[i] == vicii_model) {
+                    active_value = i;
+                }
+            }
+        } else {
+            for (i = 0; ui_c64video_standard[i] != 0; i++) {
+                _stprintf(st, TEXT("%s"), ui_c64video_standard[i]);
+                SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+                if (ui_c64video_standard_values[i] == machine_video_standard) {
+                    active_value = i;
+                }
             }
         }
         SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
@@ -303,15 +332,18 @@ static void uic64_update_controls(HWND hwnd, int mode)
         SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
         sub_hwnd = GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST);
-        SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
-        for (i = 0; ui_c64gluelogic[i] != 0; i++) {
-            _stprintf(st, TEXT("%s"), translate_text(ui_c64gluelogic[i]));
-            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-            if (ui_c64cia_values[i] == glue_logic) {
-                active_value = i;
+        EnableWindow(sub_hwnd, is_sc);
+        if (is_sc) {
+            SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
+            for (i = 0; ui_c64gluelogic[i] != 0; i++) {
+                _stprintf(st, TEXT("%s"), translate_text(ui_c64gluelogic[i]));
+                SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+                if (ui_c64cia_values[i] == glue_logic) {
+                    active_value = i;
+                }
             }
+            SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
         }
-        SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
         CheckDlgButton(hwnd, IDC_C64LUMINANCES, new_luma ? BST_CHECKED : BST_UNCHECKED);
     }
@@ -344,25 +376,37 @@ static void init_c64model_dialog(HWND hwnd)
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
-    resources_get_int("VICIIModel", &vicii_model);
     resources_get_int("SidModel", &sid_model);
     resources_get_int("SidEngine", &sid_engine);
-    resources_get_int("GlueLogic", &glue_logic);
     resources_get_int("CIA1Model", &cia1_model);
     resources_get_int("CIA2Model", &cia2_model);
     resources_get_int("VICIINewLuminances", &new_luma);
 
-    c64_model = c64model_get_temp(vicii_model, sid_model, glue_logic,
+    if (resources_get_int("VICIIModel", &vicii_model) < 0) {
+        resources_get_int("MachineVideoStandard", &machine_video_standard);
+        c64_model = c64model_get_temp(machine_video_standard, sid_model, glue_logic,
                                   cia1_model, cia2_model, new_luma);
+        is_sc = 0;
+    } else {
+        resources_get_int("GlueLogic", &glue_logic);
+        c64_model = c64model_get_temp(vicii_model, sid_model, glue_logic,
+                                  cia1_model, cia2_model, new_luma);
+        is_sc = 1;
+    }
+
 
     uic64_update_controls(hwnd, CONTROL_UPDATE_EVERYTHING);
 }
 
 static void uic64_set_resources(void)
 {
-    resources_set_int("VICIIModel", vicii_model);
+    if (is_sc) {
+        resources_set_int("VICIIModel", vicii_model);
+        resources_set_int("GlueLogic", glue_logic);
+    } else {
+        resources_set_int("MachineVideoStandard", machine_video_standard);
+    }
     sid_set_engine_model(sid_engine, sid_model);
-    resources_set_int("GlueLogic", glue_logic);
     resources_set_int("CIA1Model", cia1_model);
     resources_set_int("CIA2Model", cia2_model);
     resources_set_int("VICIINewLuminances", new_luma);
@@ -379,6 +423,16 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
     int new_sidengmod = (sid_engine << 8) | sid_model;
     int new_glue = glue_logic;
     int new_new_luma = new_luma;
+    int new_machine_video_standard;
+    int *vicii_or_video, *new_vicii_or_video;
+
+    if (is_sc) {
+        new_vicii_or_video = &new_vicii;
+        vicii_or_video = &vicii_model;
+    } else {
+        new_vicii_or_video = &new_machine_video_standard;
+        vicii_or_video = &machine_video_standard;
+    }
 
     switch (msg) {
         case WM_COMMAND:
@@ -395,16 +449,26 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                     if (new_c64model != c64_model) {
                         c64_model = new_c64model;
                         sidengmodel = (sid_engine << 8) | sid_model;
-                        c64model_set_temp(c64_model, &vicii_model, &sidengmodel, &glue_logic,
+                        if (is_sc) {
+                            c64model_set_temp(c64_model, &vicii_model, &sidengmodel, &glue_logic,
                                           &cia1_model, &cia2_model, &new_luma);
+                        } else {
+                            c64model_set_temp(c64_model, &machine_video_standard, &sidengmodel, &glue_logic,
+                                          &cia1_model, &cia2_model, &new_luma);
+                        }
                         sid_engine = (sidengmodel >> 8);
                         sid_model = (sidengmodel & 0xff);
                         uic64_update_controls(hwnd, CONTROL_UPDATE_MODELCHANGE);
                     }
                     return TRUE;
                 case IDC_C64VICII_LIST:
-                    new_vicii = ui_c64vicii_values[SendMessage(
+                    if (is_sc) {
+                        *new_vicii_or_video = ui_c64vicii_values[SendMessage(
                                     GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)];
+                    } else {
+                        *new_vicii_or_video = ui_c64video_standard_values[SendMessage(
+                                    GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)];
+                    }
                     break;
                 case IDC_C64SID_LIST:
                     new_sidengmod = ui_c64sid_engine_model_values[SendMessage(
@@ -429,13 +493,13 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                     return FALSE;
             }
 
-            if ((new_vicii != vicii_model)
+            if ((*new_vicii_or_video != *vicii_or_video)
              || (new_cia1 != cia1_model)
              || (new_cia2 != cia2_model)
              || (new_sidengmod != ((sid_engine << 8) | sid_model))
              || (new_glue != glue_logic)
              || (new_new_luma != new_luma)) {
-                vicii_model = new_vicii;
+                *vicii_or_video = *new_vicii_or_video;
                 cia1_model = new_cia1;
                 cia2_model = new_cia2;
                 sid_engine = (new_sidengmod >> 8);
@@ -443,7 +507,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                 glue_logic = new_glue;
                 new_luma = new_new_luma;
 
-                c64_model = c64model_get_temp(vicii_model, sid_model, glue_logic,
+                c64_model = c64model_get_temp(*vicii_or_video, sid_model, glue_logic,
                                           cia1_model, cia2_model, new_luma);
                 uic64_update_controls(hwnd, CONTROL_UPDATE_C64MODEL);
             }
