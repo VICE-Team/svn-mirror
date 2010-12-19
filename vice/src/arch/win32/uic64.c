@@ -423,7 +423,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
     int new_sidengmod = (sid_engine << 8) | sid_model;
     int new_glue = glue_logic;
     int new_new_luma = new_luma;
-    int new_machine_video_standard;
+    int new_machine_video_standard = machine_video_standard;
     int *vicii_or_video, *new_vicii_or_video;
 
     if (is_sc) {
