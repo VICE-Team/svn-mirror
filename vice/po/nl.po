@@ -1054,9 +1054,8 @@ msgstr "Bestand:"
 
 #: src/arch/unix/gui/uic64_256k.c:63 src/arch/unix/gui/uidigimax.c:79
 #: src/arch/unix/gui/uiplus60k.c:59
-#, fuzzy
 msgid "Base address"
-msgstr "<basisadres>"
+msgstr "Basisadres"
 
 #: src/arch/unix/gui/uic64_256k.c:66 src/arch/unix/gui/uidqbb.c:49
 #: src/arch/unix/gui/uiexpert.c:60 src/arch/unix/gui/uigeoram.c:70
@@ -1066,13 +1065,12 @@ msgstr "<basisadres>"
 #: src/arch/unix/gui/uiplus60k.c:62 src/arch/unix/gui/uiramcart.c:63
 #: src/arch/unix/gui/uireu.c:72 src/arch/unix/gui/uitpi.c:52
 #: src/arch/unix/gui/uiv364speech.c:52
-#, fuzzy
 msgid "Image name..."
-msgstr "REU bestandsnaam..."
+msgstr "Bestandsnaam..."
 
 #: src/arch/unix/gui/uic64cart.c:56 src/arch/unix/gui/vic20ui.c:251
 msgid "Attach cartridge image"
-msgstr "Koppel cartridgebestand"
+msgstr "Koppel cartridge bestand"
 
 #: src/arch/unix/gui/uic64cart.c:60
 msgid "Cannot attach cartridge"
@@ -1092,9 +1090,8 @@ msgstr "Koppel algemeen 16kB bestand..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:115
-#, fuzzy
 msgid "Attach Action Replay V5 image..."
-msgstr "Koppel Action Replay 5 bestand..."
+msgstr "Koppel Action Replay V5 bestand..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:119
@@ -1103,21 +1100,18 @@ msgstr "Koppel Atomic Power bestand..."
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:123
-#, fuzzy
 msgid "Attach EasyFlash image..."
-msgstr "Koppel Epyx fastload bestand..."
+msgstr "Koppel EasyFlash bestand..."
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:127
-#, fuzzy
 msgid "Attach Epyx FastLoad image..."
-msgstr "Koppel Epyx fastload bestand..."
+msgstr "Koppel Epyx FastLoad bestand..."
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:131
-#, fuzzy
 msgid "Attach IDE64 image..."
-msgstr "Koppel MMC64 bestand..."
+msgstr "Koppel IDE64 bestand..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:135
@@ -1136,9 +1130,8 @@ msgstr "Koppel Retro Replay bestand..."
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:147
-#, fuzzy
 msgid "Attach Super Snapshot V5 image..."
-msgstr "Koppel Super Snapshot 5 bestand..."
+msgstr "Koppel Super Snapshot V5 bestand..."
 
 #: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/amigaos/intl_text.c.po.c:721
@@ -1147,11 +1140,11 @@ msgstr "Zet cartridge als standaard"
 
 #: src/arch/unix/gui/uic64cart.c:157 src/arch/unix/gui/vic20ui.c:360
 msgid "Attach a cartridge image"
-msgstr "Koppel een cartridgebestand"
+msgstr "Koppel een cartridge bestand"
 
 #: src/arch/unix/gui/uic64cart.c:159 src/arch/amigaos/intl_text.c.po.c:424
 msgid "Detach cartridge image"
-msgstr "Ontkoppel cartridgebestand"
+msgstr "Ontkoppel cartridge bestand"
 
 #: src/arch/unix/gui/uic64cart.c:161 src/arch/amigaos/intl_text.c.po.c:743
 msgid "Cartridge freeze"
@@ -1594,27 +1587,24 @@ msgstr "Userport"
 #: src/arch/unix/gui/uiisepic.c:54 src/arch/unix/gui/uimmc64.c:83
 #: src/arch/unix/gui/uimmcreplay.c:68 src/arch/unix/gui/uiramcart.c:66
 #: src/arch/unix/gui/uiretroreplay.c:51 src/arch/unix/gui/uireu.c:75
-#, fuzzy
 msgid "Save image when changed"
-msgstr "Sla de MMC64 BIOS op als er veranderingen zijn gemaakt"
+msgstr "Sla bestand op als er veranderingen zijn gemaakt"
 
 #: src/arch/unix/gui/uidqbb.c:54 src/arch/unix/gui/uieasyflash.c:51
 #: src/arch/unix/gui/uiexpert.c:65 src/arch/unix/gui/uigeoram.c:75
 #: src/arch/unix/gui/uiisepic.c:56 src/arch/unix/gui/uimmc64.c:85
 #: src/arch/unix/gui/uimmcreplay.c:70 src/arch/unix/gui/uiramcart.c:68
 #: src/arch/unix/gui/uiretroreplay.c:53 src/arch/unix/gui/uireu.c:77
-#, fuzzy
 msgid "Save image now"
-msgstr "Sla CRT nu op"
+msgstr "Sla bestand nu op"
 
 #: src/arch/unix/gui/uidqbb.c:56 src/arch/unix/gui/uieasyflash.c:53
 #: src/arch/unix/gui/uiexpert.c:67 src/arch/unix/gui/uigeoram.c:77
 #: src/arch/unix/gui/uiisepic.c:58 src/arch/unix/gui/uimmc64.c:87
 #: src/arch/unix/gui/uimmcreplay.c:72 src/arch/unix/gui/uiramcart.c:70
 #: src/arch/unix/gui/uiretroreplay.c:55 src/arch/unix/gui/uireu.c:79
-#, fuzzy
 msgid "Save image as..."
-msgstr "Sla ISEPIC bestand op..."
+msgstr "Sla bestand op als..."
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uidqbb.c:64 src/arch/unix/gui/uidqbb.c:67
@@ -1626,7 +1616,6 @@ msgstr "DQBB bestandsnaam"
 #: src/arch/unix/gui/uiisepic.c:88 src/arch/unix/gui/uimmc64.c:135
 #: src/arch/unix/gui/uimmcreplay.c:109 src/arch/unix/gui/uiramcart.c:100
 #: src/arch/unix/gui/uiretroreplay.c:75 src/arch/unix/gui/uireu.c:109
-#, fuzzy
 msgid "Can not save cartridge"
 msgstr "Kan cartridge niet opslaan"
 
@@ -1907,9 +1896,8 @@ msgid "Load new 1551 ROM"
 msgstr "Laad nieuw 1551 ROM"
 
 #: src/arch/unix/gui/uieasyflash.c:46
-#, fuzzy
 msgid "Enable jumper"
-msgstr "Activeer RR flashjumper"
+msgstr "Activeer jumper"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:699
@@ -1930,9 +1918,8 @@ msgstr "Aan"
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uiexpert.c:75 src/arch/unix/gui/uiexpert.c:78
-#, fuzzy
 msgid "Expert Cartridge image"
-msgstr "Koppel Expert cartridgebestand..."
+msgstr "Koppel Expert Cartridge bestand"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
@@ -2056,9 +2043,8 @@ msgstr "Volschermapparaat"
 
 #: src/arch/unix/gui/uigeoram.c:67 src/arch/unix/gui/uipetreu.c:63
 #: src/arch/unix/gui/uiramcart.c:60 src/arch/unix/gui/uireu.c:69
-#, fuzzy
 msgid "Size"
-msgstr "&IO grootte"
+msgstr "Grootte"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uigeoram.c:85 src/arch/unix/gui/uigeoram.c:88
@@ -2094,14 +2080,12 @@ msgid "IDE64 sectors"
 msgstr "IDE64 sectoren"
 
 #: src/arch/unix/gui/uiide64.c:166
-#, fuzzy
 msgid "Version 3"
-msgstr "Versie 0.0"
+msgstr "Versie 3"
 
 #: src/arch/unix/gui/uiide64.c:168
-#, fuzzy
 msgid "Version 4"
-msgstr "Versie 0.0"
+msgstr "Versie 4"
 
 #: src/arch/unix/gui/uiide64.c:174 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uivdc.c:146
@@ -2109,24 +2093,20 @@ msgid "Revision"
 msgstr "Revisie"
 
 #: src/arch/unix/gui/uiide64.c:177
-#, fuzzy
 msgid "HD image 1 name..."
-msgstr "Naam van IDE64 bestand #1..."
+msgstr "Naam van HD bestand 1..."
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "HD image 2 name..."
-msgstr "Naam van IDE64 bestand #2..."
+msgstr "Naam van HD bestand 2..."
 
 #: src/arch/unix/gui/uiide64.c:183
-#, fuzzy
 msgid "HD image 3 name..."
-msgstr "Naam van IDE64 bestand #3..."
+msgstr "Naam van HD bestand 3..."
 
 #: src/arch/unix/gui/uiide64.c:186
-#, fuzzy
 msgid "HD image 4 name..."
-msgstr "Naam van IDE64 bestand #4..."
+msgstr "Naam van HD bestand 4..."
 
 #: src/arch/unix/gui/uiide64.c:190
 msgid "Autodetect image size"
@@ -2145,15 +2125,13 @@ msgid "Sectors..."
 msgstr "Sectors..."
 
 #: src/arch/unix/gui/uiisepic.c:48
-#, fuzzy
 msgid "Enable switch"
-msgstr "*Activeer ISEPIC schakelaar"
+msgstr "Activeer schakelaar"
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uiisepic.c:66 src/arch/unix/gui/uiisepic.c:69
-#, fuzzy
 msgid "ISEPIC image"
-msgstr "Sla ISEPIC bestand op..."
+msgstr "ISEPIC bestand"
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
 #: src/arch/win32/res.rc.po.c:1031
@@ -2421,9 +2399,8 @@ msgid "Type"
 msgstr "Soort"
 
 #: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
-#, fuzzy
 msgid "Driver"
-msgstr "Stuurprogramma:"
+msgstr "Stuurprogramma"
 
 #: src/arch/unix/gui/uimidi.c:90 src/arch/unix/gui/uimidi.c:106
 msgid "MIDI-In device..."
@@ -2447,9 +2424,8 @@ msgid "Auto"
 msgstr "Auto"
 
 #: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uiretroreplay.c:46
-#, fuzzy
 msgid "Enable flashjumper"
-msgstr "Activeer RR flashjumper"
+msgstr "Activeer flashjumper"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
@@ -2478,12 +2454,10 @@ msgid "MMC64 image"
 msgstr "MMC64 bestandsnaam"
 
 #: src/arch/unix/gui/uimmcreplay.c:65
-#, fuzzy
 msgid "Enable rescue mode"
-msgstr "Activeer MMC Replay reddingsmodus"
+msgstr "Activeer reddingsmodus"
 
 #: src/arch/unix/gui/uimmcreplay.c:86
-#, fuzzy
 msgid "EEPROM image name..."
 msgstr "EEPROM bestandsnaam..."
 
@@ -2931,9 +2905,8 @@ msgid "RAMCART image"
 msgstr "RAMCART bestandsnaam"
 
 #: src/arch/unix/gui/uiretroreplay.c:48
-#, fuzzy
 msgid "Enable bankjumper"
-msgstr "Activeer RR flashjumper"
+msgstr "Activeer bankjumper"
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uireu.c:87 src/arch/unix/gui/uireu.c:90
@@ -3467,9 +3440,8 @@ msgstr "Ethernetinterface"
 
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uitfe.c:52
-#, fuzzy
 msgid "RR-Net compatibility mode"
-msgstr "RR-NET compatibiliteitsmodus"
+msgstr "RR-Net compatibiliteitsmodus"
 
 #: src/arch/unix/gui/uitfe.c:54
 msgid "Interface..."
@@ -3582,11 +3554,11 @@ msgstr "Blok 5 (8K in $A000-$BFFF)"
 #: src/arch/unix/gui/vic20ui.c:255 src/arch/win32/res.rc.po.c:929
 #: src/arch/amigaos/intl_text.c.po.c:2855
 msgid "Invalid cartridge image"
-msgstr "Ongeldig cartridgebestand"
+msgstr "Ongeldig cartridge bestand"
 
 #: src/arch/unix/gui/vic20ui.c:269
 msgid "Smart-attach cartridge image..."
-msgstr "Slim-koppel cartridgebestand..."
+msgstr "Slim-koppel cartridge bestand..."
 
 #: src/arch/unix/gui/vic20ui.c:273
 msgid "Attach 4/8/16kB image at $2000..."
@@ -3634,23 +3606,20 @@ msgid "Mega-Cart NvRAM image"
 msgstr "Mega-Cart NvRAM bestandsnaam"
 
 #: src/arch/unix/gui/vic20ui.c:339 src/arch/unix/gui/vic20ui.c:345
-#, fuzzy
 msgid "Enable image write back"
-msgstr "Activeer Vic Flash Plugin terug schrijven"
+msgstr "Activeer bestand terug schrijven"
 
 #: src/arch/unix/gui/vic20ui.c:351
-#, fuzzy
 msgid "Enable NvRAM image write back"
-msgstr "Activeer Mega-Cart NvRAM terug schrijven"
+msgstr "Activeer NvRAM terug schrijven"
 
 #: src/arch/unix/gui/vic20ui.c:353
-#, fuzzy
 msgid "NvRAM image file..."
-msgstr "EEPROM bestandsnaam..."
+msgstr "NvRAM bestandsnaam..."
 
 #: src/arch/unix/gui/vic20ui.c:362
 msgid "Detach cartridge image(s)"
-msgstr "Ontkoppel cartridgebestand(en)"
+msgstr "Ontkoppel cartridge bestand(en)"
 
 #: src/arch/unix/gui/vic20ui.c:500
 msgid "VIC model"
@@ -3724,7 +3693,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:101
-#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -3742,6 +3710,7 @@ msgstr ""
 "Marco van den Heuvel - Nederlands\n"
 "Flooder - Pools\n"
 "Czirkos Zoltan, Karai Csaba - Hongaars\n"
+"Emir Akaydin (aka: Skate) - Turks\n"
 
 #: src/arch/unix/x11/gnome/about.c:116
 msgid "(c) 1998 - 2010 The VICE Team"
@@ -3778,7 +3747,7 @@ msgid ""
 "Cannot write cartridge image file\n"
 "`%s'\n"
 msgstr ""
-"Kan cartridgebestand niet schrijven\n"
+"Kan cartridge bestand niet schrijven\n"
 "`%s'\n"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:74
@@ -4197,7 +4166,7 @@ msgstr "VICE informatie"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:82
 msgid "Save cartridge image file"
-msgstr "Opslaan cartridgebestand"
+msgstr "Opslaan cartridge bestand"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:129 src/arch/unix/x11/xaw/uiedisk.c:217
 #: src/arch/unix/x11/xaw/uiscreenshot.c:168
@@ -4221,7 +4190,7 @@ msgstr "Annuleren"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:181
 msgid "Save cartridge image"
-msgstr "Opslaan cartridgebestand"
+msgstr "Opslaan cartridge bestand"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:99
 msgid "Save emptydisk file"
@@ -4844,9 +4813,8 @@ msgid "Colors"
 msgstr "Kleuren"
 
 #: src/arch/win32/res.rc.po.c:983
-#, fuzzy
 msgid "Render filter"
-msgstr "Renderer"
+msgstr "Render filter"
 
 #: src/arch/win32/res.rc.po.c:985 src/arch/amigaos/intl_text.c.po.c:6178
 msgid "Video settings"
@@ -4868,75 +4836,67 @@ msgstr "RS232 apparaat %i"
 #: src/arch/win32/res.rc.po.c:991 src/arch/amigaos/intl_text.c.po.c:3251
 #: src/translate_text.c.po.c:4376
 msgid "Attach CRT cartridge image"
-msgstr "Koppel CRT cartridgebestand aan"
+msgstr "Koppel CRT cartridge bestand aan"
 
 #: src/arch/win32/res.rc.po.c:992 src/arch/amigaos/intl_text.c.po.c:3262
 msgid "Attach raw 8KB cartridge image"
-msgstr "Koppel binair 8KB cartridgebestand"
+msgstr "Koppel binair 8KB cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:993 src/arch/amigaos/intl_text.c.po.c:3273
 msgid "Attach raw 16KB cartridge image"
-msgstr "Koppel binair 16KB cartridgebestand"
+msgstr "Koppel binair 16KB cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:994 src/arch/amigaos/intl_text.c.po.c:3284
 msgid "Attach Action Replay cartridge image"
-msgstr "Koppel Action Replay cartridgebestand"
+msgstr "Koppel Action Replay cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:995
-#, fuzzy
 msgid "Attach Action Replay MK3 cartridge image"
-msgstr "Koppel Action Replay 3 cartridgebestand"
+msgstr "Koppel Action Replay MK3 cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:996
-#, fuzzy
 msgid "Attach Action Replay MK4 cartridge image"
-msgstr "Koppel Action Replay 4 cartridgebestand"
+msgstr "Koppel Action Replay MK4 cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:997
-#, fuzzy
 msgid "Attach Stardos cartridge image"
-msgstr "Koppel StarDOS cartridgebestand"
+msgstr "Koppel Stardos cartridge gebestand"
 
 #: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:3328
 msgid "Attach Atomic Power cartridge image"
-msgstr "Koppel Atomic Power cartridgebestand"
+msgstr "Koppel Atomic Power cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:999
-#, fuzzy
 msgid "Attach Epyx FastLoad cartridge image"
-msgstr "Koppel Epyx fastload cartridgebestand"
+msgstr "Koppel Epyx FastLoad cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1000
-#, fuzzy
 msgid "Attach IEEE-488 Interface cartridge image"
-msgstr "Koppel IEEE interface cartridgebestand"
+msgstr "Koppel IEEE-488 Interface cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1001 src/arch/amigaos/intl_text.c.po.c:3361
 msgid "Attach Retro Replay cartridge image"
-msgstr "Koppel Retro Replay cartridgebestand"
+msgstr "Koppel Retro Replay cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1002
 msgid "Attach MMC Replay cartridge image"
-msgstr "Koppel MMC Replay cartridgebestand"
+msgstr "Koppel MMC Replay cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1003 src/arch/amigaos/intl_text.c.po.c:3372
 msgid "Attach IDE64 interface cartridge image"
 msgstr "Koppel IDE64 interfacebestand"
 
 #: src/arch/win32/res.rc.po.c:1004
-#, fuzzy
 msgid "Attach Super Snapshot V4 cartridge image"
-msgstr "Koppel Super Snapshot 4 cartridgebestand"
+msgstr "Koppel Super Snapshot V4 cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1005
-#, fuzzy
 msgid "Attach Super Snapshot V5 cartridge image"
-msgstr "Koppel Super Snapshot 5 cartridgebestand"
+msgstr "Koppel Super Snapshot V5 cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1006
-#, fuzzy
 msgid "Attach Structured BASIC cartridge image"
-msgstr "Koppel Structured Basic cartridgebestand"
+msgstr "Koppel Structured BASIC cartridge bestand"
 
 #: src/arch/win32/res.rc.po.c:1007
 msgid "Model"
@@ -5079,11 +5039,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1051
 msgid "CRT cartridge image files (*.crt)"
-msgstr "CRT cartridgebestanden (*.crt)"
+msgstr "CRT cartridge bestanden (*.crt)"
 
 #: src/arch/win32/res.rc.po.c:1052
 msgid "Raw cartridge image files (*.bin)"
-msgstr "Binaire cartridgebestanden (*.bin)"
+msgstr "Binaire cartridge bestanden (*.bin)"
 
 #: src/arch/win32/res.rc.po.c:1053
 msgid "VICE flip list files (*.vfl)"
@@ -5443,8 +5403,7 @@ msgid "Keep aspect ratio (0,5..2)"
 msgstr "Aspect ratio gebruiken (0,5..2)"
 
 #: src/arch/win32/res.rc.po.c:1169
-#, fuzzy
-msgid "Gamma (0..2)"
+msgid "Gamma (0..4)"
 msgstr "Gamma (0..4)"
 
 #: src/arch/win32/res.rc.po.c:1170 src/arch/amigaos/intl_text.c.po.c:6090
@@ -5466,12 +5425,11 @@ msgstr "Helderheid (0..2)"
 #: src/arch/win32/res.rc.po.c:1174
 #, fuzzy
 msgid "Scan line shade (0..1)"
-msgstr "Scanlijnschaduw"
+msgstr "Scanlijnschaduw (0..1)"
 
 #: src/arch/win32/res.rc.po.c:1175
-#, fuzzy
 msgid "Blur (0..1)"
-msgstr "PAL Wazigheid (0..1)"
+msgstr "Wazigheid (0..1)"
 
 #: src/arch/win32/res.rc.po.c:1176 src/arch/amigaos/intl_text.c.po.c:6101
 msgid "Odd lines phase (0..2)"
@@ -5482,29 +5440,24 @@ msgid "Odd lines offset (0..2)"
 msgstr "Oneven lijnen compensatie (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1178
-#, fuzzy
 msgid "VICII Palette"
-msgstr "VICII paletbestand"
+msgstr "VICII palet"
 
 #: src/arch/win32/res.rc.po.c:1179
-#, fuzzy
 msgid "VIC Palette"
-msgstr "VICII paletbestand"
+msgstr "VICII palet"
 
 #: src/arch/win32/res.rc.po.c:1180
-#, fuzzy
 msgid "CRTC Palette"
-msgstr "VDC paletbestand"
+msgstr "CRTC palet"
 
 #: src/arch/win32/res.rc.po.c:1181
-#, fuzzy
 msgid "VDC Palette"
-msgstr "VDC paletbestand"
+msgstr "VDC palet"
 
 #: src/arch/win32/res.rc.po.c:1182
-#, fuzzy
 msgid "TED Palette"
-msgstr "Extern Palet"
+msgstr "TED palet"
 
 #: src/arch/win32/res.rc.po.c:1183
 msgid "External Palette:"
@@ -5850,7 +5803,7 @@ msgstr "Datasette bedie&ning"
 #: src/arch/win32/resc64.rc.po.c:62 src/arch/win32/resplus4.rc.po.c:61
 #: src/arch/win32/resvic20.rc.po.c:61
 msgid "Attach &cartridge image..."
-msgstr "Koppel &cartridgebestand..."
+msgstr "Koppel &cartridge bestand..."
 
 #: src/arch/win32/res.rc.po.c:1294 src/arch/win32/resc128.rc.po.c:90
 #: src/arch/win32/resc64.rc.po.c:90 src/arch/win32/resc64dtv.rc.po.c:57
@@ -6036,37 +5989,32 @@ msgid "&Action Replay image..."
 msgstr "&Action Replay bestand..."
 
 #: src/arch/win32/res.rc.po.c:1339
-#, fuzzy
 msgid "&Action Replay MK3 image..."
-msgstr "&Action Replay 3 bestand..."
+msgstr "&Action Replay MK3 bestand..."
 
 #: src/arch/win32/res.rc.po.c:1340
-#, fuzzy
 msgid "&Action Replay MK4 image..."
-msgstr "&Action Replay 4 bestand..."
+msgstr "&Action Replay MK4 bestand..."
 
 #: src/arch/win32/res.rc.po.c:1341
-#, fuzzy
 msgid "&Stardos image..."
-msgstr "&StarDOS bestand..."
+msgstr "&Stardos bestand..."
 
 #: src/arch/win32/res.rc.po.c:1342
 msgid "Atomic &Power image..."
 msgstr "Atomic &Power bestand..."
 
 #: src/arch/win32/res.rc.po.c:1343
-#, fuzzy
 msgid "&Epyx FastLoad image..."
-msgstr "&Epyx fastloadbestand..."
+msgstr "&Epyx FastLoad bestand..."
 
 #: src/arch/win32/res.rc.po.c:1344
-#, fuzzy
 msgid "&IEEE-488 Interface image..."
-msgstr "&IEEE488 interfacebestand..."
+msgstr "&IEEE-488 Interface bestand..."
 
 #: src/arch/win32/res.rc.po.c:1345
 msgid "&Retro Replay image..."
-msgstr "&retro Replay bestand..."
+msgstr "&Retro Replay bestand..."
 
 #: src/arch/win32/res.rc.po.c:1346
 msgid "&MMC Replay image..."
@@ -6074,22 +6022,19 @@ msgstr "&MMC Replay bestand..."
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "IDE&64 interface image..."
-msgstr "IDE&64 interfacebestand..."
+msgstr "IDE&64 interface bestand..."
 
 #: src/arch/win32/res.rc.po.c:1348
-#, fuzzy
 msgid "Super Snapshot V&4 image..."
-msgstr "Super Snapshot &4 bestand..."
+msgstr "Super Snapshot V&4 bestand..."
 
 #: src/arch/win32/res.rc.po.c:1349
-#, fuzzy
 msgid "Super Snapshot V&5 image..."
-msgstr "Super Snapshot &5 bestand..."
+msgstr "Super Snapshot V&5 bestand..."
 
 #: src/arch/win32/res.rc.po.c:1350
-#, fuzzy
 msgid "Structured &BASIC image..."
-msgstr "Structured &Basic bestand..."
+msgstr "Structured &BASIC bestand..."
 
 #: src/arch/win32/res.rc.po.c:1351
 msgid "&Add current image"
@@ -6356,23 +6301,20 @@ msgid "&REU settings..."
 msgstr "&REU instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1423
-#, fuzzy
 msgid "&GEO-RAM settings..."
-msgstr "&GEORAM instellingen..."
+msgstr "&GEO-RAM instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1424
-#, fuzzy
 msgid "&RamCart settings..."
-msgstr "&SID cart instellingen..."
+msgstr "&RamCart instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1425
 msgid "&Double Quick Brown Box settings..."
 msgstr "&Double Quick Brown Box instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1426
-#, fuzzy
 msgid "&Expert Cartridge settings..."
-msgstr "SID cartridge instellingen"
+msgstr "&Expert Cartridge instellingen"
 
 #: src/arch/win32/res.rc.po.c:1427
 msgid "I&SEPIC settings..."
@@ -6395,9 +6337,8 @@ msgid "M&IDI settings..."
 msgstr "M&IDI instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1432
-#, fuzzy
 msgid "&DigiMAX settings..."
-msgstr "&DIGIMAX instellingen..."
+msgstr "&DigiMAX instellingen..."
 
 #: src/arch/win32/res.rc.po.c:1433
 msgid "&Lightpen settings..."
@@ -7304,19 +7245,16 @@ msgid "&CBM2 settings..."
 msgstr "&CBM2 instellingen..."
 
 #: src/arch/win32/resdigimax.rc.po.c:22
-#, fuzzy
 msgid "DigiMAX Settings"
-msgstr "Digimax instellingen"
+msgstr "DigiMAX instellingen"
 
 #: src/arch/win32/resdigimax.rc.po.c:23
-#, fuzzy
 msgid "&Enable DigiMAX"
-msgstr "&Activeer digimax"
+msgstr "&Activeer DigiMAX"
 
 #: src/arch/win32/resdigimax.rc.po.c:24
-#, fuzzy
 msgid "DigiMAX base"
-msgstr "Digimax basisadres"
+msgstr "DigiMAX basisadres"
 
 #: src/arch/win32/resdqbb.rc.po.c:12 src/arch/win32/resdqbb.rc.po.c:36
 msgid "DQBB Settings"
@@ -7331,9 +7269,8 @@ msgid "&Enable DQBB"
 msgstr "&Activeer DQBB"
 
 #: src/arch/win32/resdqbb.rc.po.c:38
-#, fuzzy
 msgid "&Save DQBB image when changed"
-msgstr "MMC64 BIOS Op&slaan indien gewijzigd"
+msgstr "DQBB bestand op&slaan indien gewijzigd"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4230
 msgid "DQBB file"
@@ -7451,64 +7388,52 @@ msgid "Save CRT &now"
 msgstr "Sla CRT &nu op"
 
 #: src/arch/win32/resexpert.rc.po.c:38
-#, fuzzy
 msgid "Select file for Expert Cartridge"
-msgstr "Activeer expertcartridge"
+msgstr "Selecteer bestand voor Expert Cartridge"
 
 #: src/arch/win32/resexpert.rc.po.c:39
-#, fuzzy
 msgid "Expert Cartridge settings"
-msgstr "SID cartridge instellingen"
+msgstr "Expert Cartridge instellingen"
 
 #: src/arch/win32/resexpert.rc.po.c:40
-#, fuzzy
 msgid "&Enable Expert Cartridge"
-msgstr "Activeer Expert Cartridge"
+msgstr "&Activeer Expert Cartridge"
 
 #: src/arch/win32/resexpert.rc.po.c:41
-#, fuzzy
 msgid "Mode"
-msgstr "Model"
+msgstr "Modus"
 
 #: src/arch/win32/resexpert.rc.po.c:42
-#, fuzzy
 msgid "&Save Expert Cartridge image when changed"
-msgstr "Koppel Expert cartridgebestand..."
+msgstr "Expert Cartridge bestand op&slaan indien gewijzigd"
 
 #: src/arch/win32/resexpert.rc.po.c:43
-#, fuzzy
 msgid "Expert Cartridge file"
-msgstr "Expert cartridge"
+msgstr "Expert Cartridge bestand"
 
 #: src/arch/win32/resgeoram.rc.po.c:38
-#, fuzzy
 msgid "Select file for GEO-RAM"
-msgstr "Selecteer bestand voor GEORAM"
+msgstr "Selecteer bestand voor GEO-RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:39
-#, fuzzy
 msgid "GEO-RAM settings"
-msgstr "GEORAM instellingen"
+msgstr "GEO-RAM instellingen"
 
 #: src/arch/win32/resgeoram.rc.po.c:40
-#, fuzzy
 msgid "&Enable GEO-RAM"
-msgstr "&Activeer GEORAM"
+msgstr "&Activeer GEO-RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:41
-#, fuzzy
 msgid "GEO-RAM size"
-msgstr "GEORAM grootte"
+msgstr "GEO-RAM grootte"
 
 #: src/arch/win32/resgeoram.rc.po.c:42
-#, fuzzy
 msgid "&Save GEO-RAM image when changed"
-msgstr "MMC64 BIOS Op&slaan indien gewijzigd"
+msgstr "GEO-RAM bestand op&slaan indien gewijzigd"
 
 #: src/arch/win32/resgeoram.rc.po.c:43
-#, fuzzy
 msgid "GEO-RAM file"
-msgstr "GEORAM bestand"
+msgstr "GEO-RAM bestand"
 
 #: src/arch/win32/reside64.rc.po.c:73 src/arch/amigaos/intl_text.c.po.c:5507
 msgid "IDE64 settings"
@@ -7564,9 +7489,8 @@ msgid "Select HD image file"
 msgstr "Selecteer HD bestand"
 
 #: src/arch/win32/resisepic.rc.po.c:36
-#, fuzzy
 msgid "Select file for ISEPIC"
-msgstr "Selecteer bestand voor REU"
+msgstr "Selecteer bestand voor ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:4263
 msgid "ISEPIC settings"
@@ -7581,14 +7505,12 @@ msgid "&ISEPIC switch"
 msgstr "Activeer &ISEPIC schakelaar"
 
 #: src/arch/win32/resisepic.rc.po.c:40
-#, fuzzy
 msgid "&Save ISEPIC image when changed"
-msgstr "MMC64 BIOS Op&slaan indien gewijzigd"
+msgstr "ISEPIC bestand op&slaan indien gewijzigd"
 
 #: src/arch/win32/resisepic.rc.po.c:41
-#, fuzzy
 msgid "ISEPIC file"
-msgstr "ISEPIC cartridge"
+msgstr "ISEPIC bestand"
 
 #: src/arch/win32/reslightpen.rc.po.c:22
 msgid "lightpen Settings"
@@ -7674,9 +7596,8 @@ msgid "read/write"
 msgstr "lees/schrijf"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:52
-#, fuzzy
 msgid "Save MMC Replay EEPROM when changed"
-msgstr "Geef de naam van het MMC Replay EEPROM bestand"
+msgstr "MMC Replay EEPROM opslaan indien gewijzigd"
 
 #: src/arch/win32/respet.rc.po.c:273 src/arch/win32/respet.rc.po.c:540
 msgid "ROM A"
@@ -7827,9 +7748,8 @@ msgid "&Graphics"
 msgstr "&Grafiek"
 
 #: src/arch/win32/respet.rc.po.c:554
-#, fuzzy
 msgid "&Business (UK)"
-msgstr "Zakelijk (UK)"
+msgstr "&Zakelijk (UK)"
 
 #: src/arch/win32/respet.rc.po.c:555
 msgid "&IO Settings"
@@ -7933,27 +7853,27 @@ msgstr "Plus4 instellingen"
 
 #: src/arch/win32/resplus4.rc.po.c:433 src/arch/amigaos/intl_text.c.po.c:5892
 msgid "Attach cartridge image for Function Low"
-msgstr "Koppel cartridgebestand voor 'Function Low'"
+msgstr "Koppel cartridge bestand voor 'Function Low'"
 
 #: src/arch/win32/resplus4.rc.po.c:434 src/arch/amigaos/intl_text.c.po.c:5903
 msgid "Attach cartridge image for Function High"
-msgstr "Koppel cartridgebestand voor 'Function High'"
+msgstr "Koppel cartridge bestand voor 'Function High'"
 
 #: src/arch/win32/resplus4.rc.po.c:435 src/arch/amigaos/intl_text.c.po.c:5914
 msgid "Attach cartridge image for Cartridge1 Low"
-msgstr "Koppel cartridgebestand voor 'Cartridge1 Low'"
+msgstr "Koppel cartridge bestand voor 'Cartridge1 Low'"
 
 #: src/arch/win32/resplus4.rc.po.c:436 src/arch/amigaos/intl_text.c.po.c:5925
 msgid "Attach cartridge image for Cartridge1 High"
-msgstr "Koppel cartridgebestand voor 'Cartridge1 High'"
+msgstr "Koppel cartridge bestand voor 'Cartridge1 High'"
 
 #: src/arch/win32/resplus4.rc.po.c:437 src/arch/amigaos/intl_text.c.po.c:5936
 msgid "Attach cartridge image for Cartridge2 Low"
-msgstr "Koppel cartridgebestand voor 'Cartridge2 Low'"
+msgstr "Koppel cartridge bestand voor 'Cartridge2 Low'"
 
 #: src/arch/win32/resplus4.rc.po.c:438 src/arch/amigaos/intl_text.c.po.c:5947
 msgid "Attach cartridge image for Cartridge2 High"
-msgstr "Koppel cartridgebestand voor 'Cartridge2 High'"
+msgstr "Koppel cartridge bestand voor 'Cartridge2 High'"
 
 #: src/arch/win32/resplus4.rc.po.c:439
 msgid "3+1 Lo"
@@ -8044,38 +7964,32 @@ msgid "Select file for PLUS60K"
 msgstr "Selecteer bestand voor PLUS60K"
 
 #: src/arch/win32/resramcart.rc.po.c:40
-#, fuzzy
 msgid "RamCart Settings"
-msgstr "&Cartridge instellingen"
+msgstr "RamCart instellingen"
 
 #: src/arch/win32/resramcart.rc.po.c:41
-#, fuzzy
 msgid "&Enable RamCart"
-msgstr "&Activeer REU"
+msgstr "&Activeer RamCart"
 
 #: src/arch/win32/resramcart.rc.po.c:42
 msgid "&Read Only"
 msgstr "Alleen &lezen"
 
 #: src/arch/win32/resramcart.rc.po.c:43
-#, fuzzy
 msgid "RamCart size"
-msgstr "Fragment grootte"
+msgstr "RamCart grootte"
 
 #: src/arch/win32/resramcart.rc.po.c:44
-#, fuzzy
 msgid "&Save to RamCart image when changed"
-msgstr "Sla de MMC64 BIOS op als er veranderingen zijn gemaakt"
+msgstr "Ramcart bestand op&slaan indien gewijzigd"
 
 #: src/arch/win32/resramcart.rc.po.c:45
-#, fuzzy
 msgid "RamCart file"
-msgstr "Romsetbestand"
+msgstr "RamCart bestand"
 
 #: src/arch/win32/resramcart.rc.po.c:46
-#, fuzzy
 msgid "Select file for RamCart"
-msgstr "Selecteer bestand voor REU"
+msgstr "Selecteer bestand voor RamCart"
 
 #: src/arch/win32/resreu.rc.po.c:38 src/arch/amigaos/intl_text.c.po.c:5067
 msgid "REU Settings"
@@ -8090,9 +8004,8 @@ msgid "REU size"
 msgstr "REU grootte"
 
 #: src/arch/win32/resreu.rc.po.c:41
-#, fuzzy
 msgid "&Save REU image when changed"
-msgstr "MMC64 BIOS Op&slaan indien gewijzigd"
+msgstr "RUE bestand op&slaan indien gewijzigd"
 
 #: src/arch/win32/resreu.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:5045
 msgid "REU file"
@@ -8329,23 +8242,23 @@ msgstr "Slimme bestandskoppeling..."
 
 #: src/arch/win32/resvic20.rc.po.c:519
 msgid "4/8/16KB image at $&2000..."
-msgstr "Koppel 4/8/16KB cartridgebestand op $&2000"
+msgstr "Koppel 4/8/16KB cartridge bestand op $&2000"
 
 #: src/arch/win32/resvic20.rc.po.c:520
 msgid "4/8/16KB image at $&4000..."
-msgstr "Koppel 4/8/16KB cartridgebestand op $&4000"
+msgstr "Koppel 4/8/16KB cartridge bestand op $&4000"
 
 #: src/arch/win32/resvic20.rc.po.c:521
 msgid "4/8/16KB image at $&6000..."
-msgstr "Koppel 4/8/16KB cartridgebestand op $&6000"
+msgstr "Koppel 4/8/16KB cartridge bestand op $&6000"
 
 #: src/arch/win32/resvic20.rc.po.c:522
 msgid "4/8KB image at $&A000..."
-msgstr "Koppel 4/8KB cartridgebestand op $&A000"
+msgstr "Koppel 4/8KB cartridge bestand op $&A000"
 
 #: src/arch/win32/resvic20.rc.po.c:523
 msgid "4KB image at $&B000..."
-msgstr "Koppel 4KB cartridgebestand op $&B000"
+msgstr "Koppel 4KB cartridge bestand op $&B000"
 
 #: src/arch/win32/resvic20.rc.po.c:524
 msgid "V&IC settings..."
@@ -8434,7 +8347,7 @@ msgstr "Reset Teller"
 
 #: src/arch/amigaos/intl_text.c.po.c:292
 msgid "Attach cartridge image..."
-msgstr "Koppel cartridgebestand..."
+msgstr "Koppel cartridge bestand..."
 
 #: src/arch/amigaos/intl_text.c.po.c:369
 msgid "4/8/16KB image at $2000..."
@@ -8995,35 +8908,35 @@ msgstr "Ja|Nee"
 
 #: src/arch/amigaos/intl_text.c.po.c:3295
 msgid "Attach Action Replay 3 cartridge image"
-msgstr "Koppel Action Replay 3 cartridgebestand"
+msgstr "Koppel Action Replay 3 cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3306
 msgid "Attach Action Replay 4 cartridge image"
-msgstr "Koppel Action Replay 4 cartridgebestand"
+msgstr "Koppel Action Replay 4 cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3317
 msgid "Attach StarDOS cartridge image"
-msgstr "Koppel StarDOS cartridgebestand"
+msgstr "Koppel StarDOS cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3339
 msgid "Attach Epyx fastload cartridge image"
-msgstr "Koppel Epyx fastload cartridgebestand"
+msgstr "Koppel Epyx fastload cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3350
 msgid "Attach IEEE interface cartridge image"
-msgstr "Koppel IEEE interface cartridgebestand"
+msgstr "Koppel IEEE interface cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3383
 msgid "Attach Super Snapshot 4 cartridge image"
-msgstr "Koppel Super Snapshot 4 cartridgebestand"
+msgstr "Koppel Super Snapshot 4 cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3394
 msgid "Attach Super Snapshot 5 cartridge image"
-msgstr "Koppel Super Snapshot 5 cartridgebestand"
+msgstr "Koppel Super Snapshot 5 cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3405
 msgid "Attach Structured Basic cartridge image"
-msgstr "Koppel Structured Basic cartridgebestand"
+msgstr "Koppel Structured Basic cartridge bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:3493
 msgid "Attach"
@@ -10761,9 +10674,8 @@ msgid "Use NTSC sync factor"
 msgstr "Gebruik NTSC synchronisatiefaktor"
 
 #: src/translate_text.c.po.c:2814
-#, fuzzy
 msgid "Use PAL-N sync factor"
-msgstr "Gebruik PAL synchronisatiefaktor"
+msgstr "Gebruik PAL-N synchronisatiefaktor"
 
 #: src/translate_text.c.po.c:2842
 msgid "Specify name of international Kernal ROM image"
@@ -10931,9 +10843,8 @@ msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
 msgstr "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526A, 2 = oud 6526x)"
 
 #: src/translate_text.c.po.c:3434
-#, fuzzy
 msgid "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
-msgstr "Zet C64 model (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)"
+msgstr "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 
 #: src/translate_text.c.po.c:3448
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
@@ -11193,59 +11104,59 @@ msgstr "Reset machine niet als een cartridge wordt gekoppeld of ontkoppeld"
 
 #: src/translate_text.c.po.c:4390
 msgid "Attach generic 8KB cartridge image"
-msgstr "Koppel generiek 8KB cartridgebestand"
+msgstr "Koppel generiek 8KB cartridge bestand"
 
 #: src/translate_text.c.po.c:4404
 msgid "Attach generic 16KB cartridge image"
-msgstr "Koppel generiek 16KB cartridgebestand"
+msgstr "Koppel generiek 16KB cartridge bestand"
 
 #: src/translate_text.c.po.c:4418
 msgid "Attach raw 16KB StarDOS cartridge image"
-msgstr "Koppel binair 16KB StarDOS cartridgebestand"
+msgstr "Koppel binair 16KB StarDOS cartridge bestand"
 
 #: src/translate_text.c.po.c:4432
 msgid "Attach raw 32KB Action Replay IV cartridge image"
-msgstr "Koppel binair 32KB Action Replay cartridgebestand"
+msgstr "Koppel binair 32KB Action Replay cartridge bestand"
 
 #: src/translate_text.c.po.c:4446
 msgid "Attach raw 16KB Action Replay III cartridge image"
-msgstr "Koppel binair 16KB Action Replay III cartridgebestand"
+msgstr "Koppel binair 16KB Action Replay III cartridge bestand"
 
 #: src/translate_text.c.po.c:4460
 msgid "Attach raw 32KB Action Replay cartridge image"
-msgstr "Koppel binair 32KB Action Replay cartridgebestand"
+msgstr "Koppel binair 32KB Action Replay cartridge bestand"
 
 #: src/translate_text.c.po.c:4474
 msgid "Attach raw 64KB Retro Replay cartridge image"
-msgstr "Koppel binair 64KB Retro Replay cartridgebestand"
+msgstr "Koppel binair 64KB Retro Replay cartridge bestand"
 
 #: src/translate_text.c.po.c:4488
 msgid "Attach raw 64KB IDE64 cartridge image"
-msgstr "Koppel binair 64KB IDE64 cartridgebestand"
+msgstr "Koppel binair 64KB IDE64 cartridge bestand"
 
 #: src/translate_text.c.po.c:4502
 msgid "Attach raw 32KB Atomic Power cartridge image"
-msgstr "Koppel binair 32KB Atomic Power cartridgebestand"
+msgstr "Koppel binair 32KB Atomic Power cartridge bestand"
 
 #: src/translate_text.c.po.c:4516
 msgid "Attach raw 8KB Epyx fastload cartridge image"
-msgstr "Koppel binair 8KB Epyx fastload cartridgebestand"
+msgstr "Koppel binair 8KB Epyx fastload cartridge bestand"
 
 #: src/translate_text.c.po.c:4530
 msgid "Attach raw 32KB Super Snapshot 4 cartridge image"
-msgstr "Koppel binair 32KB Super Snapshot 4 cartridgebestand"
+msgstr "Koppel binair 32KB Super Snapshot 4 cartridge bestand"
 
 #: src/translate_text.c.po.c:4544
 msgid "Attach raw 64KB Super Snapshot 5 cartridge image"
-msgstr "Koppel binair 64KB Super Snapshot 5 cartridgebestand"
+msgstr "Koppel binair 64KB Super Snapshot 5 cartridge bestand"
 
 #: src/translate_text.c.po.c:4558
 msgid "Attach CBM IEEE488 cartridge image"
-msgstr "Koppel CBM IEEE488 cartridgebestand"
+msgstr "Koppel CBM IEEE488 cartridge bestand"
 
 #: src/translate_text.c.po.c:4572
 msgid "Attach raw 16KB Westermann learning cartridge image"
-msgstr "Koppel binair 16KB Westermann learning cartridgebestand"
+msgstr "Koppel binair 16KB Westermann learning cartridge bestand"
 
 #: src/translate_text.c.po.c:4586
 msgid "Attach raw 256KB Prophet 64 cartridge image"
@@ -12601,7 +12512,7 @@ msgstr "Basisadres van de 256K geheugenuitbreiding"
 
 #: src/translate_text.c.po.c:9192
 msgid "Attach raw Structured Basic cartridge image"
-msgstr "Koppel binair Structured Basic cartridgebestand aan"
+msgstr "Koppel binair Structured Basic cartridge bestand aan"
 
 #: src/translate_text.c.po.c:9206
 msgid "Enable the CSORY 256K RAM expansion"
@@ -12764,16 +12675,13 @@ msgid "Disable writing to EasyFlash .crt image"
 msgstr "Schrijven naar het EasyFlash .crt bestand uitschakelen"
 
 #: src/translate_text.c.po.c:9754
-#, fuzzy
 msgid "Enable the DigiMAX cartridge"
-msgstr "Activeer de digimaxcartridge"
+msgstr "Activeer de DigiMAX cartridge"
 
 #: src/translate_text.c.po.c:9768
-#, fuzzy
 msgid "Disable the DigiMAX cartridge"
-msgstr "De digimaxcartridge uitschakelen"
+msgstr "De DigiMAX cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:9782
-#, fuzzy
 msgid "Base address of the DigiMAX cartridge"
-msgstr "Basisadres van de digimaxcartridge"
+msgstr "Basisadres van de DigiMAX cartridge"
