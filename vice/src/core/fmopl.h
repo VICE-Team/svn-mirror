@@ -118,6 +118,7 @@ extern void ym3812_shutdown(FM_OPL *chip);
 extern void ym3812_reset_chip(FM_OPL *chip);
 extern int ym3812_write(FM_OPL *chip, int a, int v);
 extern unsigned char ym3812_read(FM_OPL *chip, int a);
+extern unsigned char ym3812_peek(FM_OPL *chip, int a);
 extern int ym3812_timer_over(FM_OPL *chip, int c);
 
 /*
@@ -142,6 +143,7 @@ extern void ym3526_shutdown(FM_OPL *chip);
 extern void ym3526_reset_chip(FM_OPL *chip);
 extern int ym3526_write(FM_OPL *chip, int a, int v);
 extern unsigned char ym3526_read(FM_OPL *chip, int a);
+extern unsigned char ym3526_peek(FM_OPL *chip, int a);
 extern int ym3526_timer_over(FM_OPL *chip, int c);
 
 /*

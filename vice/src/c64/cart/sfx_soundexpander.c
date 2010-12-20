@@ -58,6 +58,7 @@ static FM_OPL *YM3812_chip = NULL;
 /* some prototypes are needed */
 static void REGPARM2 sfx_soundexpander_sound_store(WORD addr, BYTE value);
 static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr);
+static BYTE REGPARM1 sfx_soundexpander_sound_peek(WORD addr);
 static BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr);
 
 static io_source_t sfx_soundexpander_sound_device = {
@@ -68,7 +69,7 @@ static io_source_t sfx_soundexpander_sound_device = {
     0,
     sfx_soundexpander_sound_store,
     sfx_soundexpander_sound_read,
-    NULL, /* FIXME: peek */
+    sfx_soundexpander_sound_peek,
     NULL, /* FIXME: dump */
     CARTRIDGE_SFX_SOUND_EXPANDER
 };
@@ -319,6 +320,20 @@ static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr)
     if (addr == 0xdf60) {
         sfx_soundexpander_sound_device.io_source_valid = 1;
         value=sound_read((WORD)0x60, 0);
+    }
+    return value;
+}
+
+static BYTE REGPARM1 sfx_soundexpander_sound_peek(WORD addr)
+{
+    BYTE value = 0;
+
+    if (addr == 0xdf40) {
+        if (sfx_soundexpander_chip == 3812) {
+            value = ym3812_peek(YM3812_chip, value);
+        } else {
+            value = ym3526_peek(YM3526_chip, value);
+        }
     }
     return value;
 }

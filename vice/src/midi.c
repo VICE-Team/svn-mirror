@@ -373,6 +373,19 @@ BYTE REGPARM1 midi_read(WORD a)
     return midi_last_read;
 }
 
+BYTE REGPARM1 midi_peek(WORD a)
+{
+    a &= midi_interface[midi_mode].mask;
+
+    if (a == midi_interface[midi_mode].status_addr) {
+        return status;
+    } else if (a == midi_interface[midi_mode].rx_addr) {
+        return rxdata;
+    }
+
+    return 0;
+}
+
 int REGPARM1 midi_test_read(WORD a)
 {
     a &= midi_interface[midi_mode].mask;

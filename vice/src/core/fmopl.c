@@ -1559,6 +1559,12 @@ unsigned char ym3812_read(FM_OPL *chip, int a)
     return OPLRead(chip, a) | 0x06 ;
 }
 
+unsigned char ym3812_peek(FM_OPL *chip, int a)
+{
+    /* YM3812 always returns bit2 and bit1 in HIGH state */
+    return OPLRead(chip, a) | 0x06 ;
+}
+
 int ym3812_timer_over(FM_OPL *chip, int c)
 {
     return OPLTimerOver(chip, c);
@@ -1649,6 +1655,12 @@ int ym3526_write(FM_OPL *chip, int a, int v)
 }
 
 unsigned char ym3526_read(FM_OPL *chip, int a)
+{
+    /* YM3526 always returns bit2 and bit1 in HIGH state */
+    return OPLRead(chip, a) | 0x06 ;
+}
+
+unsigned char ym3526_peek(FM_OPL *chip, int a)
 {
     /* YM3526 always returns bit2 and bit1 in HIGH state */
     return OPLRead(chip, a) | 0x06 ;

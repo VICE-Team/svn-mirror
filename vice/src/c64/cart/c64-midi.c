@@ -64,6 +64,11 @@ static BYTE REGPARM1 c64midi_read(WORD address)
     return midi_read(address);
 }
 
+static BYTE REGPARM1 c64midi_peek(WORD address)
+{
+    return midi_peek(address);
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t midi_device = {
@@ -74,7 +79,7 @@ static io_source_t midi_device = {
     1, /* read is always valid */
     midi_store,
     c64midi_read,
-    NULL, /* FIXME: peek */
+    c64midi_peek,
     NULL, /* FIXME: dump */
     CARTRIDGE_MIDI_SEQUENTIAL
 };
