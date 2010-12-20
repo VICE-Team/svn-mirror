@@ -86,6 +86,11 @@ static BYTE REGPARM1 stardos_io1_read(WORD addr)
     return 0;
 } 
 
+static BYTE REGPARM1 stardos_io1_peek(WORD addr)
+{
+    return 0;
+}
+
 static BYTE REGPARM1 stardos_io2_read(WORD addr)
 {
     ++cnt_dfa1;
@@ -99,6 +104,11 @@ static BYTE REGPARM1 stardos_io2_read(WORD addr)
     return 0;
 }
 
+static BYTE REGPARM1 stardos_io2_peek(WORD addr)
+{
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stardos_io1_device = {
@@ -109,7 +119,7 @@ static io_source_t stardos_io1_device = {
     0, /* read is never valid */
     NULL,
     stardos_io1_read,
-    NULL,
+    stardos_io1_peek,
     NULL,
     CARTRIDGE_STARDOS
 };
@@ -122,7 +132,7 @@ static io_source_t stardos_io2_device = {
     0, /* read is never valid */
     NULL,
     stardos_io2_read,
-    NULL,
+    stardos_io2_peek,
     NULL,
     CARTRIDGE_STARDOS
 };

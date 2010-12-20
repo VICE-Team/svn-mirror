@@ -85,6 +85,11 @@ static BYTE REGPARM1 freezeframe_io1_read(WORD addr)
     return 0; /* invalid */
 }
 
+static BYTE REGPARM1 freezeframe_io1_peek(WORD addr)
+{
+    return 0; /* invalid */
+}
+
 static void REGPARM2 freezeframe_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 %04x %02x\n", addr, value));
@@ -97,6 +102,11 @@ static BYTE REGPARM1 freezeframe_io2_read(WORD addr)
         cartridge_config_changed(2, 2, CMODE_READ);
         DBG(("Freeze Frame disabled\n"));
     }
+    return 0; /* invalid */
+}
+
+static BYTE REGPARM1 freezeframe_io2_peek(WORD addr)
+{
     return 0; /* invalid */
 }
 
@@ -113,7 +123,7 @@ static io_source_t freezeframe_io1_device = {
     0, /* read is never valid */
     freezeframe_io1_store,
     freezeframe_io1_read,
-    NULL,
+    freezeframe_io1_peek,
     NULL,
     CARTRIDGE_FREEZE_FRAME
 };
@@ -125,7 +135,7 @@ static io_source_t freezeframe_io2_device = {
     0, /* read is never valid */
     freezeframe_io2_store,
     freezeframe_io2_read,
-    NULL,
+    freezeframe_io2_peek,
     NULL,
     CARTRIDGE_FREEZE_FRAME
 };
@@ -144,7 +154,6 @@ void freezeframe_freeze(void)
     DBG(("Freeze Frame: freeze\n"));
     cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
 }
-
 
 void freezeframe_config_init(void)
 {

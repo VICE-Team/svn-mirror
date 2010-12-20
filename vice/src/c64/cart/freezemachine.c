@@ -104,6 +104,11 @@ static BYTE REGPARM1 freezemachine_io1_read(WORD addr)
     return 0; /* invalid */
 }
 
+static BYTE REGPARM1 freezemachine_io1_peek(WORD addr)
+{
+    return 0; /* invalid */
+}
+
 static void REGPARM2 freezemachine_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 %04x %02x\n", addr, value));
@@ -120,6 +125,11 @@ static BYTE REGPARM1 freezemachine_io2_read(WORD addr)
     return 0; /* invalid */
 }
 
+static BYTE REGPARM1 freezemachine_io2_peek(WORD addr)
+{
+    return 0; /* invalid */
+}
+
 static void REGPARM2 freezemachine_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 %04x %02x\n", addr, value));
@@ -133,7 +143,7 @@ static io_source_t freezemachine_io1_device = {
     0, /* read is never valid */
     freezemachine_io1_store,
     freezemachine_io1_read,
-    NULL,
+    freezemachine_io1_peek,
     NULL,
     CARTRIDGE_FREEZE_MACHINE
 };
@@ -145,7 +155,7 @@ static io_source_t freezemachine_io2_device = {
     0, /* read is never valid */
     freezemachine_io2_store,
     freezemachine_io2_read,
-    NULL,
+    freezemachine_io2_peek,
     NULL,
     CARTRIDGE_FREEZE_MACHINE
 };
