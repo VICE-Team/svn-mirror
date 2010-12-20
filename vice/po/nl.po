@@ -5403,6 +5403,7 @@ msgid "Keep aspect ratio (0,5..2)"
 msgstr "Aspect ratio gebruiken (0,5..2)"
 
 #: src/arch/win32/res.rc.po.c:1169
+#: src/arch/amigaos/intl_text.c.po.c:6057
 msgid "Gamma (0..4)"
 msgstr "Gamma (0..4)"
 
@@ -9369,10 +9370,6 @@ msgstr "Selecteer momentopnamebestand"
 #: src/arch/amigaos/intl_text.c.po.c:6046
 msgid "Select External Palette file"
 msgstr "Selecteer extern paletbestand"
-
-#: src/arch/amigaos/intl_text.c.po.c:6057
-msgid "Gamma (0..4)"
-msgstr "Gamma (0..4)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6068
 msgid "PAL Shade (0..1)"
