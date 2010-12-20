@@ -88,6 +88,7 @@
 /* some prototypes are needed */
 static void REGPARM2 tfe_store(WORD io_address, BYTE byte);
 static BYTE REGPARM1 tfe_read(WORD io_address);
+static BYTE REGPARM1 tfe_peek(WORD io_address);
 
 static io_source_t rrnet_io1_mmc64_device = {
     CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC64 " Clockport",
@@ -97,7 +98,7 @@ static io_source_t rrnet_io1_mmc64_device = {
     0,
     tfe_store,
     tfe_read,
-    NULL, /* peek */
+    tfe_peek,
     NULL, /* dump */
     CARTRIDGE_TFE
 };
@@ -110,7 +111,7 @@ static io_source_t rrnet_io1_retroreplay_device = {
     0,
     tfe_store,
     tfe_read,
-    NULL, /* peek */
+    tfe_peek,
     NULL, /* dump */
     CARTRIDGE_TFE
 };
@@ -123,7 +124,7 @@ static io_source_t rrnet_io1_mmcreplay_device = {
     0,
     tfe_store,
     tfe_read,
-    NULL, /* peek */
+    tfe_peek,
     NULL, /* dump */
     CARTRIDGE_TFE
 };
@@ -136,7 +137,7 @@ static io_source_t rrnet_io1_device = {
     0,
     tfe_store,
     tfe_read,
-    NULL, /* peek */
+    tfe_peek,
     NULL, /* dump */
     CARTRIDGE_TFE
 };
@@ -149,7 +150,7 @@ static io_source_t tfe_io1_device = {
     0,
     tfe_store,
     tfe_read,
-    NULL, /* peek */
+    tfe_peek,
     NULL, /* dump */
     CARTRIDGE_TFE
 };
@@ -162,7 +163,7 @@ static io_source_t rrnet_io2_mmc64_device = {
     0,
     tfe_store,
     tfe_read,
-    NULL, /* peek */
+    tfe_peek,
     NULL, /* dump */
     CARTRIDGE_TFE
 };
@@ -347,6 +348,19 @@ static BYTE REGPARM1 tfe_read(WORD io_address)
     }
     tfe_current_device->io_source_valid = 1;
     return cs8900_read(io_address);
+}
+
+/* ----- peek byte with no sideeffects from I/O range in VICE ----- */
+static BYTE REGPARM1 tfe_peek(WORD io_address)
+{
+    if (tfe_as_rr_net) {
+        /* rr status register is handled by rr cartidge */
+        if (io_address < 0x02) {
+            return 0;
+        }
+        io_address ^= 0x08;
+    }
+    return cs8900_peek(io_address);
 }
 
 /* ----- write byte to I/O range of VICE ----- */

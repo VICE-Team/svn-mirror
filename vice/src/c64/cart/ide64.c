@@ -144,6 +144,7 @@ static BYTE hdd_identify[128] = {
 /* some prototypes are needed */
 static void REGPARM2 ide64_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 ide64_io1_read(WORD addr);
+static BYTE REGPARM1 ide64_io1_peek(WORD addr);
 
 static io_source_t ide64_device = {
     CARTRIDGE_NAME_IDE64,
@@ -153,7 +154,7 @@ static io_source_t ide64_device = {
     0,
     ide64_io1_store,
     ide64_io1_read,
-    NULL, /* TODO: peek */
+    ide64_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_IDE64
 };
@@ -685,6 +686,84 @@ static BYTE REGPARM1 ide64_io1_read(WORD addr)
     }
     ide64_device.io_source_valid = 0;
     return vicii_read_phi1();
+}
+
+/* FIXME: read i/o register without side effects */
+static BYTE REGPARM1 ide64_io1_peek(WORD addr)
+{
+    BYTE value = 0;
+
+    if (kill_port & 1) {
+        if ((addr & 0xff) >= 0x5f) {
+            return 0;
+        }
+    }
+
+    if ((addr & 0xff) >= 0x60) {
+        return roml_banks[(addr & 0xff) | 0x1e00 | (current_bank << 14)];
+    }
+
+    switch (addr & 0xff) {
+        case 0x20:
+            /* FIXME */
+            break;
+        case 0x21:
+            if (settings_version4) {
+                return cdrive->ide_error & 0xff;
+            }
+            break;
+        case 0x22:
+            if (settings_version4) {
+                return cdrive->ide_sector_count & 0xff;
+            }
+            break;
+        case 0x23:
+            if (settings_version4) {
+                return cdrive->ide_sector & 0xff;
+            }
+            break;
+        case 0x24:
+            if (settings_version4) {
+                return cdrive->ide_cylinder_low & 0xff;
+            }
+            break;
+        case 0x25:
+            if (settings_version4) {
+                return cdrive->ide_cylinder_high & 0xff;
+            }
+            break;
+        case 0x26:
+            if (settings_version4) {
+                return cdrive->ide_head & 0xff;
+            }
+            break;
+        case 0x27:
+        case 0x2e:
+            if (settings_version4) {
+                return cdrive->ide_status & 0xff;
+            }
+            break;
+        case 0x28:
+        case 0x29:
+        case 0x2a:
+        case 0x2b:
+        case 0x2c:
+        case 0x2d:
+        case 0x2f:
+            break;
+        case 0x30:
+            if (settings_version4) {
+                break;
+            }
+            return value; /* FIXME */
+        case 0x31:
+            return value; /* FIXME */
+        case 0x32:
+            return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
+        case 0x5f:
+            return 0;
+    }
+    return value;
 }
 
 BYTE ide64_get_killport(void)

@@ -160,8 +160,10 @@ static int mmc64_deactivate(void);
 static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value);
 static void REGPARM2 mmc64_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 mmc64_io1_read(WORD addr);
+static BYTE REGPARM1 mmc64_io1_peek(WORD addr);
 static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value);
 static BYTE REGPARM1 mmc64_io2_read(WORD addr);
+static BYTE REGPARM1 mmc64_io2_peek(WORD addr);
 
 static io_source_t mmc64_io1_clockport_device = {
     CARTRIDGE_NAME_MMC64 " CLOCKPORT ENABLE",
@@ -205,7 +207,7 @@ static io_source_t mmc64_io2_device = {
     0,
     mmc64_io2_store,
     mmc64_io2_read,
-    NULL,
+    mmc64_io2_peek,
     NULL,
     CARTRIDGE_MMC64
 };
@@ -218,7 +220,7 @@ static io_source_t mmc64_io1_device = {
     0,
     mmc64_io1_store,
     mmc64_io1_read,
-    NULL,
+    mmc64_io1_peek,
     NULL,
     CARTRIDGE_MMC64
 };
@@ -749,6 +751,61 @@ static BYTE REGPARM1 mmc64_io2_read(WORD addr)
 static BYTE REGPARM1 mmc64_io1_read(WORD addr)
 {
     return mmc64_io2_read(addr);
+}
+
+static BYTE REGPARM1 mmc64_io2_peek(WORD addr)
+{
+    BYTE value = 0;
+
+    switch (addr) {
+        case 0:
+            /* $DF10: MMC SPI transfer register */
+            return 0; /* FIXME */
+
+        case 1:
+            /* $DF11: MMC control register */
+            value = mmc64_biossel;       /* bit 0 */
+            value |= (spi_mmc_card_selected_read() << 1);  /* bit 1 */
+            value |= (spi_mmc_enable_8mhz_read() << 2);    /* bit 2 */
+            /* bit 3,4 always 0 */
+            value |= mmc64_cport << 3;
+            value |= mmc64_flashmode << 4;
+            value |= (mmc64_extrom << 5); /* bit 5 */
+            value |= (spi_mmc_trigger_mode_read() << 6);   /* bit 6 */
+            value |= mmc64_active << 7;    /* bit 7 always 0 */
+            return value;
+
+        case 2:
+            /* $DF12: MMC status register */
+            value = mmc64_flashjumper<<5;    /* bit 5 */
+            value |= (spi_mmc_busy());     /* bit 0 */
+            value |= (mmc64_extexrom << 1);    /* bit 1 */
+            value |= (mmc64_extgame) << 2;       /* bit 2 */
+            value |= (spi_mmc_card_inserted() ^ 1) << 3;   /* bit 3 */
+            value |= (spi_mmc_card_write_enabled() ^ 1) << 4;      /* bit 4 */
+
+            /* bit 6,7 not readable */
+            return value;
+
+        case 3:
+            /* $DF13 (R/W): MMC64 identification register */
+            if (!mmc64_cardsel) {
+                return 0x64;
+            } else {
+                if (mmc64_revision) {
+                    return 2;
+                } else {
+                    return 1;
+                }
+            }
+            break;
+    }
+    return 0;
+}
+
+static BYTE REGPARM1 mmc64_io1_peek(WORD addr)
+{
+    return mmc64_io2_peek(addr);
 }
 
 /* ---------------------------------------------------------------------*/

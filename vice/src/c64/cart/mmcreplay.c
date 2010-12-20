@@ -273,8 +273,10 @@ static unsigned int enable_rr_regs = 1;
 
 /* some prototypes are needed */
 static BYTE REGPARM1 mmcreplay_io1_read(WORD addr);
+static BYTE REGPARM1 mmcreplay_io1_peek(WORD addr);
 static void REGPARM2 mmcreplay_io1_store(WORD addr, BYTE value);
 static BYTE REGPARM1 mmcreplay_io2_read(WORD addr);
+static BYTE REGPARM1 mmcreplay_io2_peek(WORD addr);
 static void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t mmcreplay_io1_device = {
@@ -285,7 +287,7 @@ static io_source_t mmcreplay_io1_device = {
     0,
     mmcreplay_io1_store,
     mmcreplay_io1_read,
-    NULL, /* TODO: peek */
+    mmcreplay_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_MMC_REPLAY
 };
@@ -298,7 +300,7 @@ static io_source_t mmcreplay_io2_device = {
     0,
     mmcreplay_io2_store,
     mmcreplay_io2_read,
-    NULL, /* TODO: peek */
+    mmcreplay_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_MMC_REPLAY
 };
@@ -1350,6 +1352,53 @@ BYTE REGPARM1 mmcreplay_io1_read(WORD addr)
     return 0;
 }
 
+BYTE REGPARM1 mmcreplay_io1_peek(WORD addr)
+{
+    BYTE value = 0;
+
+    if (rr_active) {
+        switch (addr & 0xff) {
+                /* $DE00 / $DE01: RR control register read */
+            case 0:
+            case 1:
+                value = ((bank_address_13_15 & 3) << 3) | /* bit 3,4 */
+                    (enable_flash_write) |      /* bit 0 */
+                    (allow_bank << 1) |         /* bit 1 */
+                    (freeze_pressed << 2) |     /* bit 2 */
+                    (enable_ram_io1 << 6) |     /* bit 6 */
+                    ((bank_address_13_15 & 4) << 5);    /* bit 7 */
+                return value;
+
+            default:
+#ifdef HAVE_TFE
+                /* $DE02 - $DE0F: Clockport memory area (when enabled) */
+                if (mmcr_clockport_enabled) {
+                    if (tfe_cart_enabled() && tfe_as_rr_net && (addr & 0xff) < 0x10) {
+                        return 0; /* FIXME */
+                    }
+                }
+#endif
+                break;
+        }
+
+        if (enable_io1) {
+            if (enable_ram_io) {
+                return mmcr_ram[(io1_ram_bank << 13) + 0x1e00 + (addr & 0xff)];
+            }
+            return flash040core_peek(flashrom_state, (io1_ram_bank << 13) + 0x1e00 + (addr & 0xff));
+        }
+    } else {
+        /* FIXME: when RR regs are disabled, is the mapped RAM still there ? */
+        if (enable_io1) {
+            if (enable_ram_io) {
+                return mmcr_ram[(io1_ram_bank << 13) + 0x1e00 + (addr & 0xff)];
+            }
+            return flash040core_peek(flashrom_state, (io1_ram_bank << 13) + 0x1e00 + (addr & 0xff));
+        }
+    }
+    return 0;
+}
+
 void REGPARM2 mmcreplay_io1_store(WORD addr, BYTE value)
 {
     if (rr_active) {
@@ -1653,6 +1702,71 @@ BYTE REGPARM1 mmcreplay_io2_read(WORD addr)
               roml_banks[(io2_ram_bank << 13) + 0x1f00 +
                          (addr & 0xff)], io2_bank, (addr & 0x1fff)));
 #endif
+    }
+
+    return 0;
+}
+
+BYTE REGPARM1 mmcreplay_io2_peek(WORD addr)
+{
+    BYTE value = 0;
+
+    switch (addr & 0xff) {
+        case 0x10:
+            /* $DF10: MMC SPI transfer register */
+            if (enable_mmc_regs) {
+                return value; /* FIXME */
+            }
+            break;
+        case 0x11:
+            /* $DF11: MMC control register */
+            if (enable_mmc_regs) {
+                value = disable_mmc_bios;       /* bit 0 */
+                value |= (spi_mmc_card_selected_read() << 1);  /* bit 1 */
+                value |= (spi_mmc_enable_8mhz_read() << 2);    /* bit 2 */
+                /* bit 3,4 always 0 */
+                value |= (disable_rr_rom << 5); /* bit 5 */
+                value |= (spi_mmc_trigger_mode_read() << 6);   /* bit 6 */
+                /* bit 7 always 0 */
+                return value;
+            }
+            break;
+        case 0x12:
+            /* $DF12: MMC status register */
+            if (enable_mmc_regs) {
+                value = 0;
+                /* EEPROM is only accessible in MMC Replay Bios mode */
+                if (disable_mmc_bios == 0) {
+                    /* FIXME: eeprom data */   /* bit 5 */
+                }
+                value |= (spi_mmc_busy());     /* bit 0 */
+                value |= (enable_game << 1);    /* bit 1 */
+                value |= (enable_exrom ^ 1) << 2;       /* bit 2 FIXME: inverted in reg ? */
+                value |= (spi_mmc_card_inserted() ^ 1) << 3;   /* bit 3 */
+                value |= (spi_mmc_card_write_enabled() ^ 1) << 4;      /* bit 4 */
+                /* bit 6,7 not readable */
+                return value;
+            }
+            break;
+        case 0x13:
+            /* $DF13: Extended banking register */
+
+            if (enable_extended_mode) {
+                value = bank_address_16_18;     /* bit 0-2 */
+                /* bit 3,4 always 0 */
+                value |= enable_16k_mapping << 5;       /* bit 5 */
+                /* bit 7 always 0 */
+                return value;
+            }
+            break;
+    }
+
+    if (enable_io2) {
+
+        if (enable_ram_io) {
+            return mmcr_ram[(io2_ram_bank << 13) + 0x1f00 + (addr & 0xff)];
+        }
+        return flash040core_peek(flashrom_state, (io2_ram_bank << 13) + 0x1f00 + (addr & 0xff));
     }
 
     return 0;

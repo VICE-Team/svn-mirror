@@ -55,6 +55,7 @@ extern int cs8900_deactivate(void);
 extern void cs8900_shutdown(void);
 
 extern BYTE REGPARM1 cs8900_read(WORD io_address);
+extern BYTE REGPARM1 cs8900_peek(WORD io_address);
 extern void REGPARM2 cs8900_store(WORD io_address, BYTE byte);
 
 #if 0

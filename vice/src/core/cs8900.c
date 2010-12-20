@@ -1434,6 +1434,76 @@ BYTE REGPARM1 cs8900_read(WORD io_address)
     return retval;
 }
 
+/* ----- peek byte without side effects from I/O range in VICE ----- */
+BYTE REGPARM1 cs8900_peek(WORD io_address)
+{
+    BYTE retval,lo,hi;
+    WORD word_value;
+    WORD reg_base;
+
+    assert(tfe);
+    assert(tfe_packetpage);
+    assert(io_address < 0x10);
+
+    /* register base addr */
+    reg_base = io_address & ~1;
+
+    /* RX register is special as it reads from RX buffer directly */
+    if ((reg_base == TFE_ADDR_RXTXDATA) || (reg_base == TFE_ADDR_RXTXDATA2)) {
+        return 0; /* FIXME: peek rx buffer */
+    }
+
+    /* read packet page pointer */
+    if (reg_base == TFE_ADDR_PP_PTR) {
+        word_value = tfe_packetpage_ptr;
+    } else {
+        /* read a register from packet page */
+        WORD ppaddress;
+
+        /* determine read addr in packet page */
+        switch (reg_base) {
+            /* PP_DATA2 behaves like PP_DATA on real HW
+               both show the contents at the page pointer */
+            case TFE_ADDR_PP_DATA:
+            case TFE_ADDR_PP_DATA2:
+                /* mask and align address of packet pointer */
+                ppaddress = tfe_packetpage_ptr & PP_PTR_ADDR_MASK;
+                ppaddress &= ~1;
+                /* if flags match then auto incr pointer */
+                tfe_auto_incr_pp_ptr();
+                break;
+            case TFE_ADDR_INTSTQUEUE:
+                ppaddress = TFE_PP_ADDR_SE_ISQ;
+                break;
+            case TFE_ADDR_TXCMD:
+                ppaddress = TFE_PP_ADDR_TXCMD;
+                break;
+            case TFE_ADDR_TXLENGTH:
+                ppaddress = TFE_PP_ADDR_TXLENGTH;
+                break;
+            default:
+                /* invalid! */
+                assert(0);
+                break;
+        }
+
+        /* read register value */
+        word_value = tfe_read_register(ppaddress);
+    }
+
+    /* extract return value from word_value */
+    lo = LO_BYTE(word_value);
+    hi = HI_BYTE(word_value);
+    if ((io_address & 1) == 0) {
+        /* low byte on even address */
+        retval = lo;
+    } else {
+        /* high byte on odd address */
+        retval = hi;
+    }
+    return retval;
+}
+
 /* ----- write byte to I/O range of VICE ----- */
 void REGPARM2 cs8900_store(WORD io_address, BYTE byte)
 {
