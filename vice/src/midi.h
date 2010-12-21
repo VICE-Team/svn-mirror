@@ -70,6 +70,8 @@ extern BYTE REGPARM1 midi_peek(WORD a);
 extern void REGPARM2 midi_store(WORD a, BYTE b);
 /* returns 1 if address is a readable MIDI register */
 extern int REGPARM1 midi_test_read(WORD a);
+/* returns 1 if address is any MIDI register */
+extern int REGPARM1 midi_test_peek(WORD a);
 
 extern int midi_resources_init(void);
 extern void midi_resources_shutdown(void);

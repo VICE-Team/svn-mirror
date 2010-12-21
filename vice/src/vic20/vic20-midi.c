@@ -37,7 +37,7 @@
 midi_interface_t midi_interface[] = {
     /* Electronics - Maplin magazine */
     { "Maplin", 0x9c00, 0, 0, 1, 1, 0xff, 2, 0 },
-    { NULL },
+    { NULL }
 };
 
 static int set_midi_enabled(int val, void *param)

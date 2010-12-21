@@ -279,7 +279,7 @@ static BYTE REGPARM1 io3_peek(WORD addr)
 #if 0
     /* TODO */
     if (midi_enabled && (addr & 0xff00) == 0x9c00) {
-        if (midi_test_read((WORD)(addr & 0xff))) {
+        if (midi_test_peek((WORD)(addr & 0xff))) {
             return midi_peek((WORD)(addr & 0xff));
         }
     }

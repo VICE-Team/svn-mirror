@@ -377,10 +377,16 @@ BYTE REGPARM1 midi_peek(WORD a)
 {
     a &= midi_interface[midi_mode].mask;
 
+    /* If the read and write registers are mapped to
+       the same addresses, prefer the readable registers */
     if (a == midi_interface[midi_mode].status_addr) {
         return status;
     } else if (a == midi_interface[midi_mode].rx_addr) {
         return rxdata;
+    } else if (a == midi_interface[midi_mode].ctrl_addr) {
+        return ctrl;
+    } else if (a == midi_interface[midi_mode].tx_addr) {
+        return txdata;
     }
 
     return 0;
@@ -390,8 +396,17 @@ int REGPARM1 midi_test_read(WORD a)
 {
     a &= midi_interface[midi_mode].mask;
 
-    return ((a == midi_interface[midi_mode].status_addr)
-          ||(a == midi_interface[midi_mode].rx_addr));
+    return (a == midi_interface[midi_mode].status_addr)
+        || (a == midi_interface[midi_mode].rx_addr);
+}
+
+int REGPARM1 midi_test_peek(WORD a)
+{
+    a &= midi_interface[midi_mode].mask;
+
+    return midi_test_read(a)
+          || (a == midi_interface[midi_mode].ctrl_addr)
+          || (a == midi_interface[midi_mode].tx_addr);
 }
 
 static void int_midi(CLOCK offset, void *data)
