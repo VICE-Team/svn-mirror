@@ -5,6 +5,7 @@
 #include "debug.h"
 #include "config.h"
 #include "res.h"
+#include "videoarch.h"
 #include "rescommon.h"
 
 #ifndef WINDRES_CP_IGNORE
@@ -150,7 +151,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_TOGGLE_FULLSCREEN
         MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+#ifdef HAVE_D3D9_H
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
+#endif
         MENUITEM SEPARATOR
         MENUITEM "", IDM_TOGGLE_VIDEOCACHE,            CHECKED
         MENUITEM "", IDM_TOGGLE_DOUBLESIZE,            CHECKED
