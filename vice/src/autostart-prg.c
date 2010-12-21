@@ -181,7 +181,7 @@ int autostart_prg_with_disk_image(const char *file_name,
     const int secondary = 1;
     autostart_prg_t *prg;
     vdrive_t *vdrive;
-    int i;
+    unsigned int i;
     int old_tde_state;
     int file_name_size;
     BYTE lo,hi;
@@ -272,8 +272,8 @@ int autostart_prg_with_disk_image(const char *file_name,
 
 int autostart_prg_perform_injection(log_t log)
 {
-    int i;
-    WORD start,end;
+    unsigned int i;
+    WORD start, end;
 
     autostart_prg_t *prg = inject_prg;
     
@@ -293,7 +293,7 @@ int autostart_prg_perform_injection(log_t log)
     
     /* now simulate a basic load */
     mem_get_basic_text(&start, &end);
-    end = prg->start_addr + prg->size;
+    end = (WORD)(prg->start_addr + prg->size);
     mem_set_basic_text(start, end);
     
     /* clean up injected prog */
