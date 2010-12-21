@@ -338,7 +338,7 @@ static void cap_charge(void)
     if (ar_cap_disable == CAPDISABLE) {
         ar_enabled = 0;
         ar_cap_enable = 0;
-        cartridge_config_changed((BYTE) 2 | (roml_bank << CMODE_BANK_SHIFT), (BYTE) 2 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
+        cartridge_config_changed((BYTE)(2 | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(2 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
         DBG(("disabled\n"));
     }
 }
@@ -350,7 +350,7 @@ static void cap_discharge(void)
     if (ar_cap_enable == CAPENABLE) {
         roml_bank = 1;
         ar_enabled = 1;
-        cartridge_config_changed((BYTE) 0 | (roml_bank << CMODE_BANK_SHIFT), (BYTE) 0 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
+        cartridge_config_changed((BYTE)(0 | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(0 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
         DBG(("enabled\n"));
     }
     ar_cap_disable = 0;
@@ -415,7 +415,7 @@ void actionreplay2_freeze(void)
     ar_cap_enable = 0;
     ar_cap_disable = 0;
     DBG(("freeze\n"));
-    cartridge_config_changed(3 | (roml_bank << CMODE_BANK_SHIFT), 3 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
+    cartridge_config_changed((BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
     cartridge_release_freeze();
 }
 
@@ -426,7 +426,7 @@ void actionreplay2_config_init(void)
     ar_cap_enable = 0;
     ar_cap_disable = 0;
     DBG(("config init\n"));
-    cartridge_config_changed(0 | (roml_bank << CMODE_BANK_SHIFT), 0 | (roml_bank << CMODE_BANK_SHIFT), CMODE_READ);
+    cartridge_config_changed((BYTE)(0 | (roml_bank << CMODE_BANK_SHIFT)), (BYTE)(0 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 void actionreplay2_reset(void)

@@ -790,7 +790,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi2 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr(0x1000  + (screen_addr & 0xfff));
+            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000  + (screen_addr & 0xfff)));
         } else {
             vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
         }
@@ -809,14 +809,14 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi1 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr(0x1000  + (screen_addr & 0xfff));
+            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000  + (screen_addr & 0xfff)));
         } else {
             vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
         }
 
         if ((tmp & 0x3fff) >= 0x3000) {
             /* char_base = romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000; */
-            char_base = ultimax_romh_phi1_ptr(0x1000  + (tmp & 0xfff));
+            char_base = ultimax_romh_phi1_ptr((WORD)(0x1000  + (tmp & 0xfff)));
         } else {
             char_base = vicii.ram_base_phi1 + tmp;
         }

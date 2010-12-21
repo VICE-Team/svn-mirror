@@ -388,7 +388,7 @@ static int render_subframe(t6721_state *t6721, int sub_i, int voiced)
         }
 
         /* scale to 16bit */
-        output = (data * (8192.0f + 2048.0f));
+        output = (SWORD)(data * (8192.0f + 2048.0f));
 
         if (parcor_output_sample(t6721, output)) {
             return 1;
@@ -718,7 +718,7 @@ void t6721_update_output(t6721_state *t6721, SWORD *buf, int num)
     int i;
     int cycles;
 
-    cycles = ((num * up2smp) - t6721->cycles_done);
+    cycles = (int)((num * up2smp) - t6721->cycles_done);
     if (cycles > 0) {
         /* run chip for remaining cycles */
         t6721_update_ticks(t6721, cycles);

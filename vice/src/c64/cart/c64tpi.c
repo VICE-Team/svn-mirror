@@ -255,7 +255,7 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
     int exrom = ((byte & 8) ? 0 : 1); /* 1 = active */
     /* FIXME: passthrough support */
     DBG(("TPI store_pc %d:%d\n", exrom << 1, exrom << 1));
-    cartridge_config_changed(exrom << 1, exrom << 1, CMODE_READ);
+    cartridge_config_changed((BYTE)(exrom << 1), (BYTE)(exrom << 1), CMODE_READ);
 }
 
 static void undump_pc(tpi_context_t *tpi_context, BYTE byte)

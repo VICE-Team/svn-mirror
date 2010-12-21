@@ -407,7 +407,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                 if (*spr_base >= 0xc0) {
                     /* src_phi1 = (romh_banks + 0x1000 + (romh_bank << 13)
                                + ((*spr_base - 0xc0) << 6)); */
-                    src_phi1 = ultimax_romh_phi1_ptr(0x1000  + ((*spr_base - 0xc0) << 6));
+                    src_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6)));
                 }
             } else {
                 if (((vicii.vbank_phi1 + (*spr_base << 6))
@@ -421,7 +421,7 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                 if (*spr_base >= 0xc0) {
                     /* src_phi2 = (romh_banks + 0x1000 + (romh_bank << 13)
                                + ((*spr_base - 0xc0) << 6)); */
-                    src_phi2 = ultimax_romh_phi2_ptr(0x1000  + ((*spr_base - 0xc0) << 6));
+                    src_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6)));
                 }
             } else {
                 if (((vicii.vbank_phi2 + (*spr_base << 6))

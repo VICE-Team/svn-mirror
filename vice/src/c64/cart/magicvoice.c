@@ -248,7 +248,7 @@ static void write_data_nibble(BYTE nibble)
 #endif
 
     for (i = 0, mask = 1; i < 4; ++i, mask <<= 1) {
-        if (write_bit_to_fifo(nibble & mask)) {
+        if (write_bit_to_fifo((BYTE)(nibble & mask))) {
 #ifdef FIFODEBUG
             DBG(("<!"));
 #endif
@@ -471,7 +471,7 @@ static int last;
         mv_gameE000_enabled = 0;
     }
 
-    cartridge_config_changed(2, (mv_mapped_game) | ((mv_mapped_exrom) << 1), mode | CMODE_PHI2_RAM);
+    cartridge_config_changed(2, (BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode | CMODE_PHI2_RAM);
 
 #ifdef CFGDEBUG
     this = (ga_pb6 << 0) | (ga_pb5 << 1) | (ga_pc6 << 2) | (mv_exrom << 3);
@@ -586,7 +586,7 @@ static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 /* DBG(("MV: store pa %02x\n", byte)); */
     if ((byte & 0x10)) {
         /* out: PB3..PB0 go to D3..D0*/
-        write_data_nibble(last & 0x0f); /* write nibble to FIFO */
+        write_data_nibble((BYTE)(last & 0x0f)); /* write nibble to FIFO */
     }
     last = byte;
 }
@@ -606,7 +606,7 @@ static void store_pb(tpi_context_t *tpi_context, BYTE byte)
 /* DBG(("MV: store pp %02x\n", byte)); */
     t6721->wr = (byte >> 4) & 1; /* wr line */
     /* out: PB3..PB0 go to D3..D0*/
-    t6721_store(t6721, byte & 0x0f);
+    t6721_store(t6721, (BYTE)(byte & 0x0f));
 
     ga_pb5 = (byte >> 5) & 1;
     ga_pb6 = (byte >> 6) & 1;
@@ -725,13 +725,13 @@ static void REGPARM2 magicvoice_io2_store(WORD addr, BYTE data)
         case 6:
             break;
     }
-    tpicore_store(tpi_context, addr & 7, data);
+    tpicore_store(tpi_context, (WORD)(addr & 7), data);
 }
 
 static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
 {
     BYTE value = 0;
-    value = tpicore_read(tpi_context, addr & 7);
+    value = tpicore_read(tpi_context, (WORD)(addr & 7));
     switch (addr & 7) {
         case 5:
             DBGREG(("MV: @:%04x io2 r %04x %02x (IRQ Mask)\n", reg_pc, addr, value));
@@ -757,7 +757,7 @@ static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
 
 static BYTE REGPARM1 magicvoice_io2_peek(WORD addr)
 {
-    return tpicore_peek(tpi_context, addr & 7);
+    return tpicore_peek(tpi_context, (WORD)(addr & 7));
 }
 
 static int REGPARM1 magicvoice_io2_dump(void)

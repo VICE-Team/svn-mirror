@@ -553,7 +553,7 @@ void mon_get_mem_block_ex(MEMSPACE mem, int bank, WORD start, WORD end, BYTE *da
 {
     int i;
     for(i=0;i<=end;i++) {
-        data[i] = mon_get_mem_val_ex(mem, bank, start+i);
+        data[i] = mon_get_mem_val_ex(mem, bank, (WORD)(start+i));
     }
 }
 
@@ -1365,7 +1365,7 @@ void mon_display_io_regs(MON_ADDR addr)
                 if (addr > 0) {
                     if (mem_ioreg_list_base[n].dump) {
                         mon_out("\n");
-                        if (mem_ioreg_list_base[n].dump(addr_location(start)) < 0) {
+                        if (mem_ioreg_list_base[n].dump((WORD)(addr_location(start))) < 0) {
                             mon_out("No details available.\n");
                         }
                     } else {

@@ -116,7 +116,7 @@ static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
         if (value & 0x20) {
             mode |= CMODE_EXPORT_RAM;
         }
-        cartridge_config_changed((BYTE)(value & 3), (BYTE)(value & 3) | (((value >> 3) & 3) << CMODE_BANK_SHIFT), (unsigned int)(mode | CMODE_WRITE));
+        cartridge_config_changed((BYTE)(value & 3), (BYTE)((value & 3) | (((value >> 3) & 3) << CMODE_BANK_SHIFT)), (unsigned int)(mode | CMODE_WRITE));
 
         if (value & 4) {
             ar_active = 0;

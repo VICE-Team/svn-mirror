@@ -844,7 +844,7 @@ static int doodle_vicii_text_mode_render(screenshot_t *screenshot, const char *f
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        doodle_smooth_scroll_borderize_colormap(data, regs[0x20] & 0xf, (regs[0x16] & 8) ? 255 : regs[0x16] & 7, (regs[0x11]  & 8) ? 255 : regs[0x11] & 7);
+        doodle_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
     }
     return doodle_render_and_save(data);
 }
@@ -880,7 +880,7 @@ static int doodle_vicii_extended_background_mode_render(screenshot_t *screenshot
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        doodle_smooth_scroll_borderize_colormap(data, regs[0x20] & 0xf, (regs[0x16] & 8) ? 255 : regs[0x16] & 7, (regs[0x11]  & 8) ? 255 : regs[0x11] & 7);
+        doodle_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
     }
     return doodle_render_and_save(data);
 }
@@ -947,7 +947,7 @@ static int doodle_vicii_multicolor_text_mode_render(screenshot_t *screenshot, co
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        doodle_smooth_scroll_borderize_colormap(data, regs[0x20] & 0xf, (regs[0x16] & 8) ? 255 : regs[0x16] & 7, (regs[0x11]  & 8) ? 255 : regs[0x11] & 7);
+        doodle_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
     }
     if (mc_data_present) {
         switch (multicolor_handling) {
@@ -1021,7 +1021,7 @@ static int doodle_vicii_hires_bitmap_mode_render(screenshot_t *screenshot, const
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        doodle_smooth_scroll_borderize_colormap(data, regs[0x20] & 0xf, (regs[0x16] & 8) ? 255 : regs[0x16] & 7, (regs[0x11]  & 8) ? 255 : regs[0x11] & 7);
+        doodle_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
     }
     return doodle_render_and_save(data);
 }
@@ -1080,7 +1080,7 @@ static int doodle_vicii_multicolor_bitmap_mode_render(screenshot_t *screenshot, 
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        doodle_smooth_scroll_borderize_colormap(data, regs[0x20] & 0xf, (regs[0x16] & 8) ? 255 : regs[0x16] & 7, (regs[0x11]  & 8) ? 255 : regs[0x11] & 7);
+        doodle_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
     }
     switch (multicolor_handling) {
         case NATIVE_SS_MC2HR_BLACK_WHITE:
@@ -1389,9 +1389,9 @@ static int doodle_ted_text_mode_render(screenshot_t *screenshot, const char *fil
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
         if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
-            doodle_smooth_scroll_borderize_colormap(data, ted_lum_to_vicii_color(brdrcolor, brdrlum), (regs[0x07] & 8) ? 255  : regs[0x07] & 7, (regs[0x06] & 8) ? 255 : regs[0x06] & 7);
+            doodle_smooth_scroll_borderize_colormap(data, ted_lum_to_vicii_color(brdrcolor, brdrlum), (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
         } else {
-            doodle_smooth_scroll_borderize_colormap(data, ted_to_vicii_color(brdrcolor), (regs[0x07] & 8) ? 255 : regs[0x07]  & 7, (regs[0x06] & 8) ? 255 : regs[0x06] & 7);
+            doodle_smooth_scroll_borderize_colormap(data, ted_to_vicii_color(brdrcolor), (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07]  & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
         }
     }
     return doodle_render_and_save(data);
@@ -1452,9 +1452,9 @@ static int doodle_ted_extended_background_mode_render(screenshot_t *screenshot, 
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
         if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
-            doodle_smooth_scroll_borderize_colormap(data, ted_lum_to_vicii_color(brdrcolor, brdrlum), (regs[0x07] & 8) ? 255  : regs[0x07] & 7, (regs[0x06] & 8) ? 255 : regs[0x06] & 7);
+            doodle_smooth_scroll_borderize_colormap(data, ted_lum_to_vicii_color(brdrcolor, brdrlum), (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
         } else {
-            doodle_smooth_scroll_borderize_colormap(data, ted_to_vicii_color(brdrcolor), (regs[0x07] & 8) ? 255 : regs[0x07]  & 7, (regs[0x06] & 8) ? 255 : regs[0x06] & 7);
+            doodle_smooth_scroll_borderize_colormap(data, ted_to_vicii_color(brdrcolor), (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07]  & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
         }
     }
     return doodle_render_and_save(data);
@@ -1510,9 +1510,9 @@ static int doodle_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const c
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
         if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
-            doodle_smooth_scroll_borderize_colormap(data, ted_lum_to_vicii_color(brdrcolor, brdrlum), (regs[0x07] & 8) ? 255  : regs[0x07] & 7, (regs[0x06] & 8) ? 255 : regs[0x06] & 7);
+            doodle_smooth_scroll_borderize_colormap(data, ted_lum_to_vicii_color(brdrcolor, brdrlum), (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
         } else {
-            doodle_smooth_scroll_borderize_colormap(data, ted_to_vicii_color(brdrcolor), (regs[0x07] & 8) ? 255 : regs[0x07]  & 7, (regs[0x06] & 8) ? 255 : regs[0x06] & 7);
+            doodle_smooth_scroll_borderize_colormap(data, ted_to_vicii_color(brdrcolor), (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07]  & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
         }
     }
     return doodle_render_and_save(data);
@@ -1669,13 +1669,13 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename)
 
     if (ysize > 25) {
         if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
-            data = doodle_borderize_colormap(data, regs[0xf] & 7);
+            data = doodle_borderize_colormap(data, (BYTE)(regs[0xf] & 7));
             data = doodle_scale_colormap(data);
         } else {
-            data = doodle_crop_and_borderize_colormap(data, regs[0xf] & 7);
+            data = doodle_crop_and_borderize_colormap(data, (BYTE)(regs[0xf] & 7));
         }
     } else {
-        data = doodle_borderize_colormap(data, regs[0xf] & 7);
+        data = doodle_borderize_colormap(data, (BYTE)(regs[0xf] & 7));
     }
 
     if (mc_data_present) {
