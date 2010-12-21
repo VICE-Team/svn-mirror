@@ -384,7 +384,6 @@ ui_popup_translation_table_t c64ui_popup_translation_table[] = {
     { 1, IDS_MP_OPTIONS },
     { 2, IDS_MP_REFRESH_RATE },
     { 2, IDS_MP_MAXIMUM_SPEED },
-    { 2, IDS_MP_VIDEO_STANDARD },
     { 1, IDS_MP_SETTINGS },
     { 2, IDS_MP_CARTRIDGE_IO_SETTINGS },
     { 1, IDS_MP_LANGUAGE },

@@ -205,13 +205,6 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        POPUP "Vide&o standard"
-        BEGIN
-            MENUITEM "&PAL-G",      IDM_SYNC_FACTOR_PAL
-            MENUITEM "&NTSC-M",     IDM_SYNC_FACTOR_NTSC
-            MENUITEM "&Old NTSC-M", IDM_SYNC_FACTOR_NTSCOLD
-            MENUITEM "PAL-&N",      IDM_SYNC_FACTOR_PALN
-        END
         MENUITEM "", IDM_MOUSE
     END
     POPUP "S&ettings"
