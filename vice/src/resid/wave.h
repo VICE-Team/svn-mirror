@@ -152,7 +152,7 @@ void WaveformGenerator::clock()
     accumulator = accumulator_next;
 
     // Check whether the MSB is set high. This is used for synchronization.
-    msb_rising = accumulator_bits_set & 0x800000;
+    msb_rising = (accumulator_bits_set & 0x800000) ? true : false;
 
     // Shift noise register once for each time accumulator bit 19 is set high.
     // The shift is delayed 2 cycles.
@@ -177,7 +177,7 @@ void WaveformGenerator::clock(cycle_count delta_t)
     if (shift_register_reset) {
       shift_register_reset -= delta_t;
       if (unlikely(shift_register_reset <= 0)) {
-	reset_shift_register();
+        reset_shift_register();
       }
     }
 
@@ -192,7 +192,7 @@ void WaveformGenerator::clock(cycle_count delta_t)
     accumulator = accumulator_next;
 
     // Check whether the MSB is set high. This is used for synchronization.
-    msb_rising = accumulator_bits_set & 0x800000;
+    msb_rising = (accumulator_bits_set & 0x800000) ? true : false;
 
     // NB! Any pipelined shift register clocking from single cycle clocking
     // will be lost. It is not worth the trouble to flush the pipeline here.
@@ -203,23 +203,23 @@ void WaveformGenerator::clock(cycle_count delta_t)
 
     while (delta_accumulator) {
       if (likely(delta_accumulator < shift_period)) {
-	shift_period = delta_accumulator;
-	// Determine whether bit 19 is set on the last period.
-	// NB! Requires two's complement integer.
-	if (likely(shift_period <= 0x080000)) {
-	  // Check for flip from 0 to 1.
-	  if (((accumulator - shift_period) & 0x080000) || !(accumulator & 0x080000))
-	    {
-	      break;
-	    }
-	}
-	else {
-	  // Check for flip from 0 (to 1 or via 1 to 0) or from 1 via 0 to 1.
-	  if (((accumulator - shift_period) & 0x080000) && !(accumulator & 0x080000))
-	    {
-	      break;
-	    }
-	}
+        shift_period = delta_accumulator;
+        // Determine whether bit 19 is set on the last period.
+        // NB! Requires two's complement integer.
+        if (likely(shift_period <= 0x080000)) {
+          // Check for flip from 0 to 1.
+          if (((accumulator - shift_period) & 0x080000) || !(accumulator & 0x080000))
+            {
+              break;
+            }
+        }
+        else {
+          // Check for flip from 0 (to 1 or via 1 to 0) or from 1 via 0 to 1.
+          if (((accumulator - shift_period) & 0x080000) && !(accumulator & 0x080000))
+            {
+              break;
+            }
+        }
       }
 
       // Shift the noise/random register.
@@ -504,8 +504,8 @@ void WaveformGenerator::set_waveform_output(cycle_count delta_t)
       // Age floating D/A output.
       floating_output_ttl -= delta_t;
       if (unlikely(floating_output_ttl <= 0)) {
-	floating_output_ttl = 0;
-	waveform_output = 0;
+        floating_output_ttl = 0;
+        waveform_output = 0;
       }
     }
   }

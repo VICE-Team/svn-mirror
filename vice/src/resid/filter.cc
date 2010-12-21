@@ -169,7 +169,7 @@ Filter::Filter()
 
   if (!class_init) {
     for (int i = 0; i < 512; i ++) {
-        sqrt_table[i] = (int) (sqrtf(i << 22) + 0.5f);
+        sqrt_table[i] = (int)(sqrtf((float)(i << 22)) + 0.5f);
     }
 
     for (int m = 0; m < 2; m++) {
@@ -185,24 +185,24 @@ Filter::Filter()
       // Scaling and translation constants.
       double N19 = norm*((1u << 19) - 1);
       double N31 = norm*((1u << 31) - 1);
-      mf.vo_N19 = N19;  // FIXME: Remove?
-      mf.vo_T19 = N19*vmin;
+      mf.vo_N19 = (int)(N19);  // FIXME: Remove?
+      mf.vo_T19 = (int)(N19*vmin);
 
       // The "zero" output level of the voices.
       // The digital range of one voice is 20 bits, while the input range
       // of the op-amps is 19 bits. Hence the left shift by 13 instead of 14.
       double N13 = norm*(1u << 13);
-      mf.voice_scale_s14 = N13*fi.voice_voltage_range;
-      mf.voice_DC = N19*(fi.voice_DC_voltage - vmin);
+      mf.voice_scale_s14 = (int)(N13*fi.voice_voltage_range);
+      mf.voice_DC = (int)(N19*(fi.voice_DC_voltage - vmin));
 
       // Vth, Vdd - Vth
-      mf.Vth = N19*fi.Vth + 0.5;
-      mf.Vddt = N19*(fi.Vdd - fi.Vth) + 0.5;
+      mf.Vth = (int)(N19*fi.Vth + 0.5);
+      mf.Vddt = (int)(N19*(fi.Vdd - fi.Vth) + 0.5);
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
       // Fit in 12 bits.
-      mf.n_vcr = denorm*(1 << 9)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5;
-      mf.n_snake = denorm*(1 << 19)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5;
+      mf.n_vcr = (int)(denorm*(1 << 9)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
+      mf.n_snake = (int)(denorm*(1 << 19)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
       // Create lookup table mapping op-amp input voltage to op-amp output
       // voltage: vx -> vo
@@ -314,8 +314,8 @@ Filter::Filter()
 	scaled_voltage[m][1] = N19*fi.opamp_voltage[m][0];
       }
 
-      mf.vc_min = N19*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]);
-      mf.vc_max = N19*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]);
+      mf.vc_min = (int)(N19*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]));
+      mf.vc_max = (int)(N19*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
 		  PointPlotter<int>(mf.opamp), 1.0);
@@ -324,7 +324,7 @@ Filter::Filter()
       int bits = 11;
       build_dac_table(mf.f0_dac, bits, fi.dac_2R_div_R, fi.dac_term);
       for (int n = 0; n < (1 << bits); n++) {
-	mf.f0_dac[n] = N19*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5;
+	mf.f0_dac[n] = (unsigned int)(N19*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5);
       }
     }
 
@@ -435,7 +435,7 @@ void Filter::set_w0()
   // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
   // shifting 20 times (2 ^ 20 = 1048576).
   // MOS 8580 cutoff: 0 - 12.5kHz.
-  w0 = 2*pi*12500*fc/(1 << 11)*1.048576;
+  w0 = (int)(2*pi*12500*fc/(1 << 11)*1.048576);
 }
 
 // Set filter resonance.
@@ -463,7 +463,7 @@ void Filter::set_Q()
   // FIXME: Temporary code for MOS 8580.
   // The coefficient 1024 is dispensed of later by right-shifting 10 times
   // (2 ^ 10 = 1024).
-  _1024_div_Q = 1024.0/(0.707 + 1.0*res/0x0f);
+  _1024_div_Q = (int)(1024.0/(0.707 + 1.0*res/0x0f));
 }
 
 // Set input routing bits.

@@ -584,7 +584,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 	fabs(wt) >= 1e-6 ? sin(wt)/wt : 1;
       double val =
 	(1 << FIR_SHIFT)*filter_scale*f_samples_per_cycle*wc/pi*sincwt*Kaiser;
-      fir[fir_offset + j] = round(val);
+      fir[fir_offset + j] = (short)round(val);
     }
   }
 

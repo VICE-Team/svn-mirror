@@ -1298,7 +1298,7 @@ for my $mix (0..2**@i-1) {
 
   // Sum the inputs in the mixer and run the mixer output through the gain.
   if (sid_model == 0) {
-    return f.gain[vol][f.mixer[offset + (Vi >> 3)]] - (1 << 15);
+    return (short)(f.gain[vol][f.mixer[offset + (Vi >> 3)]] - (1 << 15));
   }
   else {
     // FIXME: Temporary code for MOS 8580, should use code above.
