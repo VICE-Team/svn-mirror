@@ -93,9 +93,6 @@
 /* begin: for FFMPEG: common.h */
 #define CONFIG_WIN32
 
-#undef WIN32
-#define WIN32
-
 #define int64_t_C(c)     (c ## i64)
 #define uint64_t_C(c)    (c ## ui64)
 /* end: for FFMPEG: common.h */
