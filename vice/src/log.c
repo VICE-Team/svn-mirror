@@ -133,9 +133,9 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL },
     { "-verbose", CALL_FUNCTION, 0,
       log_verbose_opt, (void*)1, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Enable verbose log output.") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_VERBOSE_LOG_OUTPUT,
+      NULL, NULL },
     { NULL }
 };
 

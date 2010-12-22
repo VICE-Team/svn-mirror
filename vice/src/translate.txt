@@ -429,6 +429,12 @@ IDCLS_DISABLE_GEORAM
 IDCLS_SPECIFY_GEORAM_NAME
 
 /* c64/cart/georam.c */
+IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE
+
+/* c64/cart/georam.c */
+IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE
+
+/* c64/cart/georam.c */
 IDCLS_P_SIZE_IN_KB
 
 /* c64/cart/georam.c */
@@ -453,6 +459,12 @@ IDCLS_DISABLE_RAMCART
 IDCLS_SPECIFY_RAMCART_NAME
 
 /* c64/cart/ramcart.c */
+IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE
+
+/* c64/cart/ramcart.c */
+IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE
+
+/* c64/cart/ramcart.c */
 IDCLS_RAMCART_SIZE
 
 /* c64/cart/dqbb.c */
@@ -464,11 +476,26 @@ IDCLS_DISABLE_DQBB
 /* c64/cart/dqbb.c */
 IDCLS_SPECIFY_DQBB_NAME
 
+/* c64/cart/dqbb.c */
+IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE
+
+/* c64/cart/dqbb.c */
+IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE
+
 /* c64/cart/isepic.c */
 IDCLS_ENABLE_ISEPIC
 
 /* c64/cart/isepic.c */
 IDCLS_DISABLE_ISEPIC
+
+/* c64/cart/isepic.c */
+IDCLS_SET_ISEPIC_FILENAME
+
+/* c64/cart/isepic.c */
+IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE
+
+/* c64/cart/isepic.c */
+IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE
 
 /* c64/cart/mmc64.c */
 IDCLS_ENABLE_MMC64
@@ -515,6 +542,12 @@ IDCLS_MMC_REPLAY_RESCUE_MODE_ENABLE
 /* c64/cart/mmcreplay.c */
 IDCLS_MMC_REPLAY_RESCUE_MODE_DISABLE
 
+/* c64/cart/mmcreplay.c */
+IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE
+
+/* c64/cart/mmcreplay.c */
+IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE
+
 /* c64/cart/retroplay.c */
 IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT
 
@@ -541,6 +574,12 @@ IDCLS_DISABLE_REU
 
 /* c64/cart/reu.c */
 IDCLS_SPECIFY_REU_NAME
+
+/* c64/cart/reu.c */
+IDCLS_ALLOW_WRITING_TO_REU_IMAGE
+
+/* c64/cart/reu.c */
+IDCLS_DO_NOT_WRITE_TO_REU_IMAGE
 
 /* c64/cart/reu.c */
 IDCLS_REU_SIZE
@@ -578,7 +617,13 @@ IDCLS_ATTACH_GENERIC_8KB_CART
 IDCLS_ATTACH_GENERIC_16KB_CART
 
 /* c64/cart/c64cart.c */
+IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART
+
+/* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_STARDOS_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART
 
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART
@@ -590,7 +635,40 @@ IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART
 IDCLS_ATTACH_RAW_ACTION_REPLAY_CART
 
 /* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_CAPTURE_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_COMAL80_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_DELA_EP256_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_DELA_EP64_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_DELA_EP7X8_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_DINAMIC_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_DQBB_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_EASY_FLASH_CART
+
+/* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_RETRO_REPLAY_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_REX_UTILITY_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_SS64_CART
 
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_IDE64_CART
@@ -602,6 +680,30 @@ IDCLS_ATTACH_RAW_ATOMIC_POWER_CART
 IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART
 
 /* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_EXOS_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_EXPERT_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_FC1_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_FC3_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_FCPLUS_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_FREEZE_FRAME_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_FP_PP_CART
+
+/* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_SS4_CART
 
 /* c64/cart/c64cart.c */
@@ -611,7 +713,43 @@ IDCLS_ATTACH_RAW_SS5_CART
 IDCLS_ATTACH_CBM_IEEE488_CART
 
 /* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_ISEPIC_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_KCS_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_MACH5_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_MAGIC_DESK_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_MMC64_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_MMC_REPLAY_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_MAGIC_VOICE_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_OCEAN_CART
+
+/* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_WESTERMANN_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_WARPSPEED_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_ZAXXON_CART
 
 /* c64/cart/c64cart.c, c64/cart/expert.c */
 IDCLS_ENABLE_EXPERT_CART
@@ -619,11 +757,38 @@ IDCLS_ENABLE_EXPERT_CART
 /* c64/cart/expert.c */
 IDCLS_DISABLE_EXPERT_CART
 
+/* c64/cart/expert.c */
+IDCLS_SET_EXPERT_FILENAME
+
+/* c64/cart/expert.c */
+IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE
+
+/* c64/cart/expert.c */
+IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE
+
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_P64_CART
 
 /* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_RAMCART_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_REU_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_REX_EP256_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_ROSS_CART
+
+/* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_GAME_KILLER_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_GEORAM_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_GAME_SYSTEM_CART
 
 /* c64/cart/c64cart.c */
 IDCLS_DISABLE_CART
@@ -651,7 +816,10 @@ IDCLS_AUTODETECT_IDE64_GEOMETRY
 IDCLS_NO_AUTODETECT_IDE64_GEOMETRY
 
 /* c64/cart/ide64.c */
-IDCLS_IDE64_VERSION4
+IDCLS_IDE64_V4
+
+/* c64/cart/ide64.c */
+IDCLS_IDE64_PRE_V4
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
 IDCLS_P_MODELNUMBER
@@ -1495,6 +1663,9 @@ IDCLS_PUT_STRING_INTO_KEYBUF
 /* log.c */
 IDCLS_SPECIFY_LOG_FILE_NAME
 
+/* log.c */
+IDCLS_ENABLE_VERBOSE_LOG_OUTPUT
+
 /* mouse.c */
 IDCLS_ENABLE_MOUSE_GRAB
 
@@ -1602,12 +1773,20 @@ IDCLS_SPECIFY_PLUS60K_NAME
 
 /* sid/sid-cmdline-options.c */
 #ifdef HAVE_RESID
-/* sid/sid-cmdline-options.c */
 IDCLS_RESID_GAIN_PERCENTAGE
 #endif   /* HAVE_RESID */
 
 /* c64/cart/c64cart.c */
 IDCLS_ATTACH_RAW_STB_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_SE5_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_SUPER_GAMES_CART
+
+/* c64/cart/c64cart.c */
+IDCLS_ATTACH_RAW_SIMONS_BASIC_CART
 
 /* c64/plus60k.c */
 IDCLS_PLUS60K_BASE
@@ -1644,6 +1823,12 @@ IDCLS_DISABLE_PETDWW
 
 /* pet/petdww.c */
 IDCLS_SPECIFY_PETDWW_NAME
+
+/* pet/pet_userport_dac.c */
+IDCLS_ENABLE_USERPORT_DAC
+
+/* pet/pet_userport_dac.c */
+IDCLS_DISABLE_USERPORT_DAC
 
 /* c64/plus256k.c */
 IDCLS_ENABLE_PLUS256K_EXPANSION

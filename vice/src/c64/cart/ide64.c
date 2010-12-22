@@ -525,14 +525,14 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL },
     { "-IDE64version4", SET_RESOURCE, 0,
       NULL, NULL, "IDE64version4", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Emulate version 4 hardware") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_IDE64_V4,
+      NULL, NULL },
     { "+IDE64version4", SET_RESOURCE, 0,
       NULL, NULL, "IDE64version4", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Emulate pre version 4 hardware") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_IDE64_PRE_V4,
+      NULL, NULL },
     { NULL }
 };
 

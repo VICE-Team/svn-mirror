@@ -437,14 +437,14 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-ramcartimagerw", SET_RESOURCE, 0,
       NULL, NULL, "RAMCARTImageWrite", (resource_value_t)1,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Allow writing to RAMCart image") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE,
+      NULL, NULL },
     { "+ramcartimagerw", SET_RESOURCE, 0,
       NULL, NULL, "RAMCARTImageWrite", (resource_value_t)0,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED,
-      NULL, T_("Do not write to RAMCart image") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE,
+      NULL, NULL },
     { NULL }
 };
 

@@ -73,14 +73,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-userportdac", SET_RESOURCE, 0,
       NULL, NULL, "PETUserportDAC", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Enable Userport DAC for sound output") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_DAC,
+      NULL, NULL },
     { "+userportdac", SET_RESOURCE, 0,
       NULL, NULL, "PETUserportDAC", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Disable Userport DAC for sound output") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_DAC,
+      NULL, NULL },
     { NULL }
 };
 
