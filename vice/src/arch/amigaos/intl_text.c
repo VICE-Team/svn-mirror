@@ -7046,6 +7046,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_AUTOSTART_PRG_MODE_SV, "Autostartläge för PRG" },
 /* tr */ { IDS_AUTOSTART_PRG_MODE_TR, "PRG otomatik baþlatma modu" },
 
+/* en */ { IDS_AUTOSTART_LOAD_TO_BASIC_START,    "Load to BASIC start" },
+/* da */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_DE, "" },  /* fuzzy */
+/* fr */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_IT, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_NL, "" },  /* fuzzy */
+/* pl */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_PL, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_SV, "" },  /* fuzzy */
+/* tr */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME,    "PRG autostart disk image" },
 /* da */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_DA, "PRG Autostart disk-image" },
 /* de */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_DE, "PRG Autostart Disk Image" },
