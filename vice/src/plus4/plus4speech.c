@@ -310,7 +310,7 @@ static void write_data_nibble(BYTE nibble)
 /*    DBG(("%x ", nibble)); */
 /*    DBG(("SPEECH: wr byte %04x\n", nibble)); */
     for (i = 0, mask = 1; i < 4; ++i, mask <<= 1) {
-        if (write_bit_to_fifo(nibble & mask) == 0) {
+        if (write_bit_to_fifo((BYTE)(nibble & mask)) == 0) {
             return;
         }
     }
@@ -436,7 +436,7 @@ void REGPARM2 speech_store(WORD addr, BYTE value)
         case 0: /* Command register */
                 /* DBG(("SPEECH: wr cmd %02x\n", value & 0x0f)); */
                 t6721->wr = (value >> 7) & 1; /* wr line */
-                t6721_store(t6721, value & 0x0f);
+                t6721_store(t6721, (BYTE)(value & 0x0f));
                 t6721_update_ticks(t6721, 1);
                 regs[0] = value;
             break;
@@ -451,8 +451,8 @@ void REGPARM2 speech_store(WORD addr, BYTE value)
                 regs[1] = value;
             break;
         case 2: /* sample data register */
-                write_data_nibble((value >> 0) & 0x0f);
-                write_data_nibble((value >> 4) & 0x0f);
+                write_data_nibble((BYTE)((value >> 0) & 0x0f));
+                write_data_nibble((BYTE)((value >> 4) & 0x0f));
                 regs[2] = value;
             break;
     }

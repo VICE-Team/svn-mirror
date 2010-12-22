@@ -55,7 +55,7 @@ inline static BYTE fetch_phi1(int addr)
 
     if (export.ultimax_phi1) {
         if ((addr & 0x3fff) >= 0x3000) {
-            return ultimax_romh_phi1_read(0x1000 + (addr & 0xfff));
+            return ultimax_romh_phi1_read((WORD)(0x1000 + (addr & 0xfff)));
         } else {
             p = vicii.ram_base_phi1 + addr;
         }
@@ -78,7 +78,7 @@ inline static BYTE fetch_phi2(int addr)
 
     if (export.ultimax_phi2) {
         if ((addr & 0x3fff) >= 0x3000) {
-            return ultimax_romh_phi2_read(0x1000 + (addr & 0xfff));
+            return ultimax_romh_phi2_read((WORD)(0x1000 + (addr & 0xfff)));
         } else {
             p = vicii.ram_base_phi2 + addr;
         }

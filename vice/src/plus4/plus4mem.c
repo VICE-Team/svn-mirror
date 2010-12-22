@@ -970,7 +970,7 @@ void mem_inject(DWORD addr, BYTE value)
     /* just call mem_store() to be safe.
        This could possibly be changed to write straight into the
        memory array.  mem_ram[addr & mask] = value; */
-    mem_store(addr & 0xffff, value);
+    mem_store((WORD)(addr & 0xffff), value);
 }
 
 /* ------------------------------------------------------------------------- */

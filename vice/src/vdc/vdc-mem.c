@@ -202,7 +202,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 3:                   /* R03  Horizontal/Vertical Sync widths */
-          if ((vdc.regs[3] & 0xF0) != (oldval & 0xF0u))
+          if ((vdc.regs[3] & 0xF0u) != (oldval & 0xF0u))
             vdc.update_geometry = 1;
 #ifdef REG_DEBUG
         log_message(vdc.log, "REG 3 Hor/Ver Sync Width:%02x", vdc.regs[3]);
@@ -243,7 +243,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 9:                   /* R09  Rasters between two display lines */
-        if ((vdc.regs[9] & 0x1f) != (oldval & 0x1fu)) {
+        if ((vdc.regs[9] & 0x1fu) != (oldval & 0x1fu)) {
             vdc.raster_ycounter_max = vdc.regs[9] & 0x1f;
             if (vdc.raster_ycounter_max < 16) {
                 vdc.bytes_per_char = 16;
@@ -333,7 +333,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         break;
 
       case 25:
-        if ((vdc.regs[25] & 0x0F) != (oldval & 0x0Fu)) {
+        if ((vdc.regs[25] & 0x0Fu) != (oldval & 0x0Fu)) {
             /* Horizontal smooth scroll */
 #ifdef ALLOW_UNALIGNED_ACCESS
             /* Smooth scroll behaviour differs between VDC versions */
@@ -353,7 +353,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
             vdc.raster.xsmooth = 0;
 #endif
         }
-        if ((vdc.regs[25] & 0x10) != (oldval & 0x10u)) {
+        if ((vdc.regs[25] & 0x10u) != (oldval & 0x10u)) {
             /* Double-Pixel Mode */
             vdc.update_geometry = 1;
         }
@@ -375,7 +375,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
         /* if ((vdc.regs[26] != oldval) && ((vdc.regs[25] & 0xC0) != 0xC0)) { 
             vdc.force_repaint = 1;
         }   */
-        if ((vdc.regs[26] & 0x0F) != (oldval & 0x0Fu)) {
+        if ((vdc.regs[26] & 0x0Fu) != (oldval & 0x0Fu)) {
             /* Background colour changes */
             /* TODO - calculate a real current horizontal raster position for this call (2nd value) */
             /* based on blacky_stardust calculations, calculating current_x_pixel should be like:

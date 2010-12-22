@@ -276,7 +276,7 @@ inline static void collision_store(const WORD addr, const BYTE value)
 inline static void color_reg_store(WORD addr, BYTE value)
 {
     vicii.regs[addr] = value;
-    vicii.last_color_reg = addr;
+    vicii.last_color_reg = (BYTE)(addr);
     vicii.last_color_value = value;
 }
 

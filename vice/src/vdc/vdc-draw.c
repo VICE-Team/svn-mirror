@@ -426,7 +426,7 @@ static void draw_std_text_cached(raster_cache_t *cache, unsigned int xs,
     }
     /* fill the last few pixels of the display with bg colour if smooth scroll != 0 - if needed */
     if (i == vdc.screen_text_cols) { 
-        for (i = vdc.xsmooth; i < (vdc.regs[22] >> 4) ; i++, p++) {
+        for (i = vdc.xsmooth; i < (unsigned)(vdc.regs[22] >> 4) ; i++, p++) {
             *p = (vdc.regs[26] & 0x0f);
         }
     }
@@ -477,7 +477,7 @@ static void draw_std_text(void)
             if (cpos == i) {
                 if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
                     /* invert current byte of the character? */
-                    if ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (vdc.regs[11] & 0x1F))) {
+                    if ((vdc.raster.ycounter >= (unsigned)(vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (unsigned)(vdc.regs[11] & 0x1F))) {
                         /* The VDC cursor reverses the char */
                         d ^= 0xFF;
                     }
@@ -498,7 +498,7 @@ static void draw_std_text(void)
             if (cpos == i) {
                 if ((vdc.frame_counter | 1) & crsrblink[(vdc.regs[10] >> 5) & 3]) {
                     /* invert current byte of the character? */
-                    if ((vdc.raster.ycounter >= (vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (vdc.regs[11] & 0x1F))) {
+                    if ((vdc.raster.ycounter >= (unsigned)(vdc.regs[10] & 0x1F)) && (vdc.raster.ycounter < (unsigned)(vdc.regs[11] & 0x1F))) {
                         /* The VDC cursor reverses the char */
                         d ^= 0xFF;
                     }
@@ -512,7 +512,7 @@ static void draw_std_text(void)
         }
     }
     /* fill the last few pixels of the display with bg colour if smooth scroll != 0 */
-    for (i = vdc.xsmooth; i < (vdc.regs[22] >> 4) ; i++, p++) {
+    for (i = vdc.xsmooth; i < (unsigned)(vdc.regs[22] >> 4) ; i++, p++) {
         *p = (vdc.regs[26] & 0x0f);
     }
 }
@@ -608,7 +608,7 @@ static void draw_std_bitmap_cached(raster_cache_t *cache, unsigned int xs,
         bg = vdc.regs[26] & 0x0F;
         fg = vdc.regs[26] >> 4;
     }
-    for (i = vdc.xsmooth, j = 0x80; i < (vdc.regs[22] >> 4) ; i++, p++, j >>= 1) {
+    for (i = vdc.xsmooth, j = 0x80; i < (unsigned)(vdc.regs[22] >> 4) ; i++, p++, j >>= 1) {
         if (d & j) {
             /* foreground */
             *p = fg;
@@ -674,7 +674,7 @@ void draw_std_bitmap(void)
         fg = vdc.regs[26] >> 4;    
         bg = vdc.regs[26] & 0x0F;            
     }
-    for (i = vdc.xsmooth, j = 0x80; i < (vdc.regs[22] >> 4) ; i++, p++, j >>= 1) {
+    for (i = vdc.xsmooth, j = 0x80; i < (unsigned)(vdc.regs[22] >> 4) ; i++, p++, j >>= 1) {
         if (d & j) {
             /* foreground */
             *p = fg;

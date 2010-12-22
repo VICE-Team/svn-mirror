@@ -2432,7 +2432,8 @@ static int unlynx_loop(FILE *f, FILE *f2, vdrive_t *vdrive, long dentries)
     long lbsize, bsize;
     char cname[20], ftype;
     BYTE val;
-    int cnt, len;
+    int cnt;
+	unsigned int len;
     char buff[256];
     cbmdos_cmd_parse_t cmd_parse;
 

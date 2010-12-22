@@ -527,7 +527,7 @@ void vicii_screenshot(screenshot_t *screenshot)
 
     if (export.ultimax_phi2) {
         if ((screen_addr & 0x3fff) >= 0x3000) {
-            screen_base_phi2 = ultimax_romh_phi2_ptr(0x1000 + (screen_addr & 0xfff));
+            screen_base_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000 + (screen_addr & 0xfff)));
         } else {
             screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
         }
@@ -542,7 +542,7 @@ void vicii_screenshot(screenshot_t *screenshot)
 
     if (export.ultimax_phi1) {
         if ((tmp & 0x3fff) >= 0x3000) {
-            char_base = ultimax_romh_phi1_ptr(0x1000 + (tmp & 0xfff));
+            char_base = ultimax_romh_phi1_ptr((WORD)(0x1000 + (tmp & 0xfff)));
         } else {
             char_base = vicii.ram_base_phi1 + tmp;
         }

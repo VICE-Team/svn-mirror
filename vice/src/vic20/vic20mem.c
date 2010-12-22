@@ -724,7 +724,7 @@ int mem_rom_trap_allowed(WORD addr)
 void mem_inject(DWORD addr, BYTE value)
 {
     /* just call mem_store(), otherwise expansions might fail */
-    mem_store(addr & 0xffff, value);
+    mem_store((WORD)(addr & 0xffff), value);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -360,7 +360,7 @@ const char *cartridge_get_file_name(int addr)
 {
     if (vic20cart_type == CARTRIDGE_VIC20_GENERIC) {
         /* special case handling for the multiple file generic type */
-        return generic_get_file_name(addr);
+        return generic_get_file_name((WORD)addr);
     }
 
     return cartfile;
