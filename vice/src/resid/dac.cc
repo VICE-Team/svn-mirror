@@ -25,7 +25,7 @@
 #ifndef INFINITY
 union MSVC_EVIL_FLOAT_HACK
 {
-   unsigned __int8 Bytes[4];
+   unsigned char Bytes[4];
    float Value;
 };
 static union MSVC_EVIL_FLOAT_HACK INFINITY_HACK = {{0x00, 0x00, 0x80, 0x7F}};
@@ -81,10 +81,10 @@ void build_dac_table(unsigned int* dac, int bits, double _2R_div_R, bool term)
     // Calculate DAC "tail" resistance by repeated parallel substitution.
     for (bit = 0; bit < set_bit; bit++) {
       if (Rn == INFINITY) {
-	Rn = R + _2R;
+        Rn = R + _2R;
       }
       else {
-	Rn = R + _2R*Rn/(_2R + Rn); // R + 2R || Rn
+        Rn = R + _2R*Rn/(_2R + Rn); // R + 2R || Rn
       }
     }
 

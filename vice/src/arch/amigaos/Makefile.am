@@ -159,6 +159,8 @@ libarch_a_SOURCES = \
 	mui/uijoystick.h \
 	mui/uijoystickll.c \
 	mui/uijoystickll.h \
+	mui/uimagicvoice.c \
+	mui/uimagicvoice.h \
 	mui/uimmc64.c \
 	mui/uimmc64.h \
 	mui/uimmcreplay.c \

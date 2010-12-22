@@ -46,6 +46,7 @@
 #include "mui/uiide64.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uimagicvoice.h"
 #include "mui/uimmc64.h"
 #include "mui/uimmcreplay.h"
 #include "mui/uimouse.h"
@@ -110,6 +111,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_REU_SETTINGS:
             ui_reu_settings_dialog(canvas);
+            break;
+        case IDM_MAGIC_VOICE_SETTINGS:
+            ui_magicvoice_settings_dialog(canvas);
             break;
         case IDM_GEORAM_SETTINGS:
             ui_georam_settings_dialog(canvas);

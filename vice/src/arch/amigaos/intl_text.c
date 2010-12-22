@@ -2029,6 +2029,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_REU_SETTINGS_SV, "REU-inställningar..." },
 /* tr */ { IDMS_REU_SETTINGS_TR, "REU ayarlarý..." },
 
+/* en */ { IDMS_MAGIC_VOICE_SETTINGS,    "Magic Voice settings..." },
+/* da */ { IDMS_MAGIC_VOICE_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_MAGIC_VOICE_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_MAGIC_VOICE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_MAGIC_VOICE_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_MAGIC_VOICE_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_MAGIC_VOICE_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_MAGIC_VOICE_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_MAGIC_VOICE_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_MAGIC_VOICE_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_GEORAM_SETTINGS,    "GEORAM settings..." },
 /* da */ { IDMS_GEORAM_SETTINGS_DA, "GEORAM-indstillinger..." },
 /* de */ { IDMS_GEORAM_SETTINGS_DE, "GEORAM Einstellungen..." },
@@ -5098,6 +5109,39 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_REU_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_REU_SETTINGS_SV, "REU-Inställningar" },
 /* tr */ { IDS_REU_SETTINGS_TR, "REU Ayarlarý" },
+
+/* en */ { IDS_MAGIC_VOICE_FILENAME,    "Magic Voice file" },
+/* da */ { IDS_MAGIC_VOICE_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_MAGIC_VOICE_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_MAGIC_VOICE_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MAGIC_VOICE_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_MAGIC_VOICE_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_MAGIC_VOICE_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MAGIC_VOICE_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_MAGIC_VOICE_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MAGIC_VOICE_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_MAGIC_VOICE_FILENAME_SELECT,    "Select file for Magic Voice" },
+/* da */ { IDS_MAGIC_VOICE_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_MAGIC_VOICE_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_MAGIC_VOICE_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MAGIC_VOICE_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_MAGIC_VOICE_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_MAGIC_VOICE_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MAGIC_VOICE_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_MAGIC_VOICE_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MAGIC_VOICE_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_MAGIC_VOICE_SETTINGS,    "Magic Voice Settings" },
+/* da */ { IDS_MAGIC_VOICE_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_MAGIC_VOICE_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDS_MAGIC_VOICE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MAGIC_VOICE_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_MAGIC_VOICE_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_MAGIC_VOICE_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MAGIC_VOICE_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_MAGIC_VOICE_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MAGIC_VOICE_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_USERPORT_RS232,    "Userport RS232" },
 /* da */ { IDS_USERPORT_RS232_DA, "Brugerport RS232" },
