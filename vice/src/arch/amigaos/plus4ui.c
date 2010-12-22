@@ -46,6 +46,7 @@
 #include "mui/uiplus4settings.h"
 #include "mui/uiromplus4settings.h"
 #include "mui/uisidcart.h"
+#include "mui/uiv364speech.h"
 #include "mui/uivideoc64plus4vic20.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
@@ -185,6 +186,9 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_SIDCART_SETTINGS:
             ui_sidcart_plus4_settings_dialog("$FD40", "$FE80", "PLUS4");
+            break;
+        case IDM_V364_SPEECH_SETTINGS:
+            ui_v364_speech_settings_dialog(canvas);
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:

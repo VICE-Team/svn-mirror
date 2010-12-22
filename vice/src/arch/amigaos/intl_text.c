@@ -2260,6 +2260,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_PETREU_SETTINGS_SV, "PET REU-inställningar..." },
 /* tr */ { IDMS_PETREU_SETTINGS_TR, "PET REU ayarlarý..." },
 
+/* en */ { IDMS_V364_SPEECH_SETTINGS,    "V364 Speech settings..." },
+/* da */ { IDMS_V364_SPEECH_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_V364_SPEECH_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_V364_SPEECH_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_V364_SPEECH_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_V364_SPEECH_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_V364_SPEECH_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_V364_SPEECH_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_V364_SPEECH_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_V364_SPEECH_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_SIDCART_SETTINGS,    "SID cart settings..." },
 /* da */ { IDMS_SIDCART_SETTINGS_DA, "SID-indstillinger..." },
 /* de */ { IDMS_SIDCART_SETTINGS_DE, "SID Modul Einstellungen..." },
@@ -4856,6 +4867,39 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_PET_REU_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_PET_REU_SETTINGS_SV, "PET REU-Inställningar" },
 /* tr */ { IDS_PET_REU_SETTINGS_TR, "PET REU Ayarlarý" },
+
+/* en */ { IDS_V364_SPEECH_FILENAME,    "V364 Speech file" },
+/* da */ { IDS_V364_SPEECH_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_V364_SPEECH_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_V364_SPEECH_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_V364_SPEECH_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_V364_SPEECH_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_V364_SPEECH_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_V364_SPEECH_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_V364_SPEECH_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_V364_SPEECH_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_V364_SPEECH_FILENAME_SELECT,    "Select file for V364 Speech" },
+/* da */ { IDS_V364_SPEECH_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_V364_SPEECH_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_V364_SPEECH_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_V364_SPEECH_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_V364_SPEECH_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_V364_SPEECH_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_V364_SPEECH_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_V364_SPEECH_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_V364_SPEECH_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_V364_SPEECH_SETTINGS,    "V364 Speech Settings" },
+/* da */ { IDS_V364_SPEECH_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_V364_SPEECH_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDS_V364_SPEECH_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_V364_SPEECH_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_V364_SPEECH_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_V364_SPEECH_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_V364_SPEECH_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_V364_SPEECH_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_V364_SPEECH_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PET_DWW_FILENAME,    "PET DWW file" },
 /* da */ { IDS_PET_DWW_FILENAME_DA, "" },  /* fuzzy */
