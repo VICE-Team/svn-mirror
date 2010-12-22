@@ -190,13 +190,7 @@ static void init_tfe_dialog(HWND hwnd)
 
     if (gray_ungray_items(hwnd)) {
         /* we have a problem: TFE is disabled. Give a message to the user */
-        MessageBox(hwnd,
-                   "TFE/RR-Net support is not available on your system,\n"
-                   "there is some important part missing. Please have a\n"
-                   "look at the VICE knowledge base support page\n"
-                   "\n      http://vicekb.trikaliotis.net/13-005\n\n"
-                   "for possible reasons and to activate networking with VICE.",
-                   "TFE/RR-Net support", MB_ICONINFORMATION | MB_OK);
+        MessageBox(hwnd, translate_text(IDS_TFE_PROBLEM), translate_text(IDS_TFE_RRNET_SUPPORT), MB_ICONINFORMATION | MB_OK);
 
         /* just quit the dialog before it is open */
         SendMessage( hwnd, WM_COMMAND, IDCANCEL, 0);
