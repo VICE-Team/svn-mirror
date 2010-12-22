@@ -51,7 +51,11 @@ static const int ui_ide64_autodetect_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_FILENAME, "IDE64Image", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image1", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image2", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image3", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image4", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IDE64version4", ui_ide64_autodetect, ui_ide64_autodetect_values },
     { NULL, MUI_TYPE_CYCLE, "IDE64AutodetectSize", ui_ide64_autodetect, ui_ide64_autodetect_values },
     { NULL, MUI_TYPE_INTEGER, "IDE64Cylinders", NULL, NULL },
     { NULL, MUI_TYPE_INTEGER, "IDE64Heads", NULL, NULL },
@@ -59,7 +63,7 @@ static ui_to_from_t ui_to_from[] = {
     UI_END /* mandatory */
 };
 
-static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
+static ULONG Browse1( struct Hook *hook, Object *obj, APTR arg )
 {
     char *fname = NULL;
 
@@ -72,34 +76,84 @@ static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
     return 0;
 }
 
+static ULONG Browse2( struct Hook *hook, Object *obj, APTR arg )
+{
+    char *fname = NULL;
+
+    fname = BrowseFile(translate_text(IDS_IDE64_FILENAME_SELECT), "#?", ide64_canvas);
+
+    if (fname != NULL) {
+        set(ui_to_from[1].object, MUIA_String_Contents, fname);
+    }
+
+    return 0;
+}
+
+static ULONG Browse3( struct Hook *hook, Object *obj, APTR arg )
+{
+    char *fname = NULL;
+
+    fname = BrowseFile(translate_text(IDS_IDE64_FILENAME_SELECT), "#?", ide64_canvas);
+
+    if (fname != NULL) {
+        set(ui_to_from[2].object, MUIA_String_Contents, fname);
+    }
+
+    return 0;
+}
+
+static ULONG Browse4( struct Hook *hook, Object *obj, APTR arg )
+{
+    char *fname = NULL;
+
+    fname = BrowseFile(translate_text(IDS_IDE64_FILENAME_SELECT), "#?", ide64_canvas);
+
+    if (fname != NULL) {
+        set(ui_to_from[3].object, MUIA_String_Contents, fname);
+    }
+
+    return 0;
+}
+
 static APTR build_gui(void)
 {
-    APTR app, ui, ok, browse_button, cancel;
+    APTR app, ui, ok, browse_button1, browse_button2, browse_button3, browse_button4, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse, NULL };
+    static const struct Hook BrowseFileHook1 = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse1, NULL };
+    static const struct Hook BrowseFileHook2 = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse2, NULL };
+    static const struct Hook BrowseFileHook3 = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse3, NULL };
+    static const struct Hook BrowseFileHook4 = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse4, NULL };
 #else
-    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse, NULL, NULL };
+    static const struct Hook BrowseFileHook1 = { { NULL, NULL }, (VOID *)Browse1, NULL, NULL };
+    static const struct Hook BrowseFileHook2 = { { NULL, NULL }, (VOID *)Browse2, NULL, NULL };
+    static const struct Hook BrowseFileHook3 = { { NULL, NULL }, (VOID *)Browse3, NULL, NULL };
+    static const struct Hook BrowseFileHook4 = { { NULL, NULL }, (VOID *)Browse4, NULL, NULL };
 #endif
 
     app = mui_get_app();
 
     ui = GroupObject,
-           FILENAME(ui_to_from[0].object, translate_text(IDS_IDE64_FILENAME), browse_button)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_AUTODETECT), ui_ide64_autodetect)
-           Child, ui_to_from[2].object = StringObject,
+           FILENAME(ui_to_from[0].object, translate_text(IDS_IDE64_FILENAME_1), browse_button1)
+           FILENAME(ui_to_from[1].object, translate_text(IDS_IDE64_FILENAME_2), browse_button2)
+           FILENAME(ui_to_from[2].object, translate_text(IDS_IDE64_FILENAME_3), browse_button3)
+           FILENAME(ui_to_from[3].object, translate_text(IDS_IDE64_FILENAME_4), browse_button4)
+
+           CYCLE(ui_to_from[4].object, translate_text(IDS_IDE64_V4), ui_ide64_autodetect)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_AUTODETECT), ui_ide64_autodetect)
+           Child, ui_to_from[6].object = StringObject,
              MUIA_Frame, MUIV_Frame_String,
              MUIA_FrameTitle, translate_text(IDS_CYLINDERS),
              MUIA_String_Accept, "0123456789",
              MUIA_String_MaxLen, 4+1,
            End,
-           Child, ui_to_from[3].object = StringObject,
+           Child, ui_to_from[7].object = StringObject,
              MUIA_Frame, MUIV_Frame_String,
              MUIA_FrameTitle, translate_text(IDS_HEADS),
              MUIA_String_Accept, "0123456789",
              MUIA_String_MaxLen, 2+1,
            End,
-           Child, ui_to_from[4].object = StringObject,
+           Child, ui_to_from[8].object = StringObject,
              MUIA_Frame, MUIV_Frame_String,
              MUIA_FrameTitle, translate_text(IDS_SECTORS),
              MUIA_String_Accept, "0123456789",
@@ -115,8 +169,17 @@ static APTR build_gui(void)
         DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_Application_ReturnID, BTN_OK);
 
-        DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_CallHook, &BrowseFileHook);
+        DoMethod(browse_button1, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook1);
+
+        DoMethod(browse_button2, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook2);
+
+        DoMethod(browse_button3, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook3);
+
+        DoMethod(browse_button4, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook4);
     }
 
     return ui;

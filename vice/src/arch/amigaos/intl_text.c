@@ -5561,16 +5561,49 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_AUTOSTART_IMAGE_SV, "Autostarta disk-/bandavbildningsfil" },
 /* tr */ { IDS_AUTOSTART_IMAGE_TR, "Disk/Teyp imajýný otomatik baþlat" },
 
-/* en */ { IDS_IDE64_FILENAME,    "HD image file" },
-/* da */ { IDS_IDE64_FILENAME_DA, "HD-image fil" },
-/* de */ { IDS_IDE64_FILENAME_DE, "HD Image Name" },
-/* fr */ { IDS_IDE64_FILENAME_FR, "" },  /* fuzzy */
-/* hu */ { IDS_IDE64_FILENAME_HU, "Merevlemez képmás fájl" },
-/* it */ { IDS_IDE64_FILENAME_IT, "File immagine dell'HD" },
-/* nl */ { IDS_IDE64_FILENAME_NL, "HD bestand" },
-/* pl */ { IDS_IDE64_FILENAME_PL, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_FILENAME_SV, "HD-avbildningsfil" },
-/* tr */ { IDS_IDE64_FILENAME_TR, "HD imaj dosyasý" },
+/* en */ { IDS_IDE64_FILENAME_1,    "HD image #1 file" },
+/* da */ { IDS_IDE64_FILENAME_1_DA, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_FILENAME_1_DE, "" },  /* fuzzy */
+/* fr */ { IDS_IDE64_FILENAME_1_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IDE64_FILENAME_1_HU, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_FILENAME_1_IT, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_FILENAME_1_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_FILENAME_1_PL, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_FILENAME_1_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_FILENAME_1_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_IDE64_FILENAME_2,    "HD image #2 file" },
+/* da */ { IDS_IDE64_FILENAME_2_DA, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_FILENAME_2_DE, "" },  /* fuzzy */
+/* fr */ { IDS_IDE64_FILENAME_2_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IDE64_FILENAME_2_HU, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_FILENAME_2_IT, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_FILENAME_2_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_FILENAME_2_PL, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_FILENAME_2_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_FILENAME_2_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_IDE64_FILENAME_3,    "HD image #3 file" },
+/* da */ { IDS_IDE64_FILENAME_3_DA, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_FILENAME_3_DE, "" },  /* fuzzy */
+/* fr */ { IDS_IDE64_FILENAME_3_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IDE64_FILENAME_3_HU, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_FILENAME_3_IT, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_FILENAME_3_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_FILENAME_3_PL, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_FILENAME_3_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_FILENAME_3_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_IDE64_FILENAME_4,    "HD image #4 file" },
+/* da */ { IDS_IDE64_FILENAME_4_DA, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_FILENAME_4_DE, "" },  /* fuzzy */
+/* fr */ { IDS_IDE64_FILENAME_4_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IDE64_FILENAME_4_HU, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_FILENAME_4_IT, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_FILENAME_4_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_FILENAME_4_PL, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_FILENAME_4_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_FILENAME_4_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_IDE64_FILENAME_SELECT,    "Select HD image file" },
 /* da */ { IDS_IDE64_FILENAME_SELECT_DA, "Angiv HD-imagefil" },
@@ -5582,6 +5615,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_IDE64_FILENAME_SELECT_PL, "" },  /* fuzzy */
 /* sv */ { IDS_IDE64_FILENAME_SELECT_SV, "Ange HD-avbildningsfil" },
 /* tr */ { IDS_IDE64_FILENAME_SELECT_TR, "HD imaj dosyasý seç" },
+
+/* en */ { IDS_IDE64_V4,    "IDE64 V4" },
+/* da */ { IDS_IDE64_V4_DA, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_V4_DE, "" },  /* fuzzy */
+/* fr */ { IDS_IDE64_V4_FR, "" },  /* fuzzy */
+/* hu */ { IDS_IDE64_V4_HU, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_V4_IT, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_V4_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_V4_PL, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_V4_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_V4_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_AUTODETECT,    "Autodetect" },
 /* da */ { IDS_AUTODETECT_DA, "Autodetektér" },
