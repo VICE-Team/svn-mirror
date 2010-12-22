@@ -5109,7 +5109,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
-/* en */ {IDCLS_ATTACH_CBM_IEEE488_CART,    N_("Attach CBM IEEE­­-488 cartridge image")},
+/* en */ {IDCLS_ATTACH_CBM_IEEE488_CART,    N_("Attach CBM IEEE-488 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_CBM_IEEE488_CART_DA, "Tilslut CBM IEEE-488-cartridge image"},
 /* de */ {IDCLS_ATTACH_CBM_IEEE488_CART_DE, "CBM IEEE-488 Erweiterungsmodul einlegen"},
