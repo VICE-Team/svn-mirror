@@ -7277,6 +7277,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_6526A_NEW_SV, "6526A (ny)" },
 /* tr */ { IDS_6526A_NEW_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_6526X_OLD_WITH_TIMER_B_BUG,    "6526x (old, with timer B bug)" },
+/* da */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_DA, "" },  /* fuzzy */
+/* de */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_DE, "" },  /* fuzzy */
+/* fr */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_FR, "" },  /* fuzzy */
+/* hu */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_HU, "" },  /* fuzzy */
+/* it */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_IT, "" },  /* fuzzy */
+/* nl */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_NL, "" },  /* fuzzy */
+/* pl */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_PL, "" },  /* fuzzy */
+/* sv */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_SV, "" },  /* fuzzy */
+/* tr */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_DISCRETE,    "Discrete" },
 /* da */ { IDS_DISCRETE_DA, "" },  /* fuzzy */
 /* de */ { IDS_DISCRETE_DE, "Diskret" },
