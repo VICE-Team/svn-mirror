@@ -2304,6 +2304,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FINAL_EXPANSION_WRITEBACK_SV, "Aktivera Final Expansion-återskrivning" },
 /* tr */ { IDMS_FINAL_EXPANSION_WRITEBACK_TR, "" },  /* fuzzy */
 
+/* en */ { IDMS_FP_WRITEBACK,    "Enable Vic Flash Plugin write-back" },
+/* da */ { IDMS_FP_WRITEBACK_DA, "" },  /* fuzzy */
+/* de */ { IDMS_FP_WRITEBACK_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_FP_WRITEBACK_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_FP_WRITEBACK_HU, "" },  /* fuzzy */
+/* it */ { IDMS_FP_WRITEBACK_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_FP_WRITEBACK_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_FP_WRITEBACK_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_FP_WRITEBACK_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_FP_WRITEBACK_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_MEGACART_WRITEBACK,    "Enable Mega-Cart NvRAM writeback" },
 /* da */ { IDMS_MEGACART_WRITEBACK_DA, "" },  /* fuzzy */
 /* de */ { IDMS_MEGACART_WRITEBACK_DE, "Mega-Cart NvRAM Rückschreiben aktivieren" },

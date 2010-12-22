@@ -55,6 +55,7 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "FinalExpansionWriteBack", IDM_FINAL_EXPANSION_WRITEBACK },
     { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
+    { "VicFlashPluginWriteBack", IDM_FP_WRITEBACK },
     { NULL, 0 }
 };
 
