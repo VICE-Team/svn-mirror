@@ -270,8 +270,13 @@ void display_yuv_image(Display* display, XvPortID port, Drawable d, GC gc, XvIma
     int dest_w = dest->w;
     int dest_h = dest->h;
 
-    /* Keep aspect ratio of src image. */
-    if (dest_w * src_h < src_w * aspect_ratio * dest_h) {
+    /* Maybe keep aspect ratio of src image. */
+    if (aspect_ratio == 0.0) {
+        /*
+         * Don't bother correcting any aspect ratio, just scale
+         * to size as given.
+         */
+    } else if (dest_w * src_h < src_w * aspect_ratio * dest_h) {
         dest_y = dest_h;
         dest_h = dest_w * src_h / (src_w * aspect_ratio);
         dest_y = (dest_y - dest_h) / 2;

@@ -125,7 +125,7 @@ static char *fourcc_s = NULL;
 static double aspect_ratio;
 static char *aspect_ratio_s = NULL;
 
-static int trueaspect;
+static int keepaspect, trueaspect;
 #endif
 
 static int set_use_xsync(int val, void *param)
@@ -153,6 +153,12 @@ static int set_fourcc(const char *val, void *param)
         fourcc = 0;
     }
     
+    return 0;
+}
+
+static int set_keepaspect(int val, void *param)
+{
+    keepaspect = val;
     return 0;
 }
 
@@ -204,6 +210,8 @@ static const resource_int_t resources_int[] = {
     { "MITSHM", 1, RES_EVENT_NO, NULL,
       &try_mitshm, set_try_mitshm, NULL },
 #ifdef HAVE_XVIDEO
+    { "KeepAspectRatio", 1, RES_EVENT_NO, NULL,
+      &keepaspect, set_keepaspect, NULL },
     { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
       &trueaspect, set_trueaspect, NULL },
 #endif
@@ -887,8 +895,10 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
         if (trueaspect) {
             local_aspect_ratio = canvas->geometry->pixel_aspect_ratio;
-        } else {
+        } else if (keepaspect) {
             local_aspect_ratio = aspect_ratio;
+        } else {
+            local_aspect_ratio = 0.0;
         }
 
         if (!doublesize && canvas->videoconfig->doublesizey) {

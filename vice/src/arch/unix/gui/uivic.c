@@ -87,9 +87,7 @@ UI_MENU_DEFINE_TOGGLE(VICHwScale)
 #endif
 
 #ifdef HAVE_HWSCALE
-#ifdef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
-#endif
 UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #endif
 
@@ -141,10 +139,8 @@ ui_menu_entry_t vic_submenu[] = {
 #ifdef HAVE_HWSCALE
     { N_("Hardware scaling"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICHwScale, NULL, NULL },
-#ifdef USE_GNOMEUI
     { N_("Keep aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
-#endif
     { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #endif
