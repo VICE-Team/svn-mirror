@@ -55,7 +55,7 @@
 
 /* Printer default devices.  */
 #define ARCHDEP_PRINTER_DEFAULT_DEV1 "print.dump"
-#define ARCHDEP_PRINTER_DEFAULT_DEV2 "PAR:"
+#define ARCHDEP_PRINTER_DEFAULT_DEV2 "PRT:"
 #define ARCHDEP_PRINTER_DEFAULT_DEV3 "PAR:"
 
 /* Video chip scaling.  */
