@@ -154,46 +154,46 @@ static UI_MENU_CALLBACK(uiprinter_formfeed_callback)
 }
 
 
-#define VICE_SDL_PRINTER_COMMON_IEC4_MENU_ITEMS         \
-    { "IEC printer #4 emulation",                       \
+#define VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS            \
+    { "Printer #4 emulation",                           \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_4_type_submenu },     \
-    { "IEC printer #4 driver",                          \
+    { "Printer #4 driver",                              \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_4_driver_submenu },   \
-    { "IEC printer #4 output type",                     \
+    { "Printer #4 output type",                         \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_4_output_submenu },   \
-    { "IEC printer #4 output device",                   \
+    { "Printer #4 output device",                       \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_4_device_submenu },   \
-    { "IEC printer #4 form feed",                       \
+    { "Printer #4 form feed",                           \
       MENU_ENTRY_OTHER,                                 \
       uiprinter_formfeed_callback,                      \
       (ui_callback_data_t)0 },
 
-#define VICE_SDL_PRINTER_COMMON_IEC5_MENU_ITEMS         \
-    { "IEC printer #5 emulation",                       \
+#define VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS            \
+    { "Printer #5 emulation",                           \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_5_type_submenu },     \
-    { "IEC printer #5 driver",                          \
+    { "Printer #5 driver",                              \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_5_driver_submenu },   \
-    { "IEC printer #5 output type",                     \
+    { "Printer #5 output type",                         \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_5_output_submenu },   \
-    { "IEC printer #5 output device",                   \
+    { "Printer #5 output device",                       \
       MENU_ENTRY_SUBMENU,                               \
       submenu_radio_callback,                           \
       (ui_callback_data_t)printer_5_device_submenu },   \
-    { "IEC printer #5 form feed",                       \
+    { "Printer #5 form feed",                           \
       MENU_ENTRY_OTHER,                                 \
       uiprinter_formfeed_callback,                      \
       (ui_callback_data_t)1 },
@@ -239,14 +239,14 @@ UI_MENU_DEFINE_STRING(PrinterTextDevice3)
       (ui_callback_data_t)"Printer device 1 file" },
 
 const ui_menu_entry_t printer_iec_menu[] = {
-    VICE_SDL_PRINTER_COMMON_IEC4_MENU_ITEMS
-    { "IEC printer #4 enable IEC device",
+    VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS
+    { "Printer #4 enable IEC device",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECDevice4_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    VICE_SDL_PRINTER_COMMON_IEC5_MENU_ITEMS
-    { "IEC printer #5 enable IEC device",
+    VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
+    { "Printer #5 enable IEC device",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_IECDevice5_callback,
       NULL },
@@ -258,9 +258,9 @@ const ui_menu_entry_t printer_iec_menu[] = {
 };
 
 const ui_menu_entry_t printer_ieee_menu[] = {
-    VICE_SDL_PRINTER_COMMON_IEC4_MENU_ITEMS
+    VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
-    VICE_SDL_PRINTER_COMMON_IEC5_MENU_ITEMS
+    VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_USERPORT_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
@@ -269,9 +269,9 @@ const ui_menu_entry_t printer_ieee_menu[] = {
 };
 
 const ui_menu_entry_t printer_iec_nouserport_menu[] = {
-    VICE_SDL_PRINTER_COMMON_IEC4_MENU_ITEMS
+    VICE_SDL_PRINTER_COMMON_4_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
-    VICE_SDL_PRINTER_COMMON_IEC5_MENU_ITEMS
+    VICE_SDL_PRINTER_COMMON_5_MENU_ITEMS
     SDL_MENU_ITEM_SEPARATOR,
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
     SDL_MENU_LIST_END
