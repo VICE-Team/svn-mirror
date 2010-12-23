@@ -103,11 +103,12 @@ static void io_source_msg_detach(WORD addr, int amount, io_source_list_t *start)
         /* DBG(("IO: check '%s'\n", current->device->name)); */
         if (current->device->io_source_valid) {
             /* found a conflict */
-            detach_list[i].det_id = current->device->detach_id;
-            detach_list[i].det_name = current->device->resource_name;
-            detach_list[i].det_devname = current->device->name;
-            detach_list[i].det_cartid = current->device->cart_id;
-            DBG(("IO: found '%s'\n", current->device->name));
+            detach_list[found].det_id = current->device->detach_id;
+            detach_list[found].det_name = current->device->resource_name;
+            detach_list[found].det_devname = current->device->name;
+            detach_list[found].det_cartid = current->device->cart_id;
+            DBG(("IO: found #%d: '%s'\n", found, current->device->name));
+
             /* first part of the message "read collision at x from" */
             if (found == 0) {
                 old_msg = lib_stralloc(translate_text(IDGS_IO_READ_COLL_AT_X_FROM));
@@ -137,9 +138,9 @@ static void io_source_msg_detach(WORD addr, int amount, io_source_list_t *start)
         ui_error(new_msg, addr);
         lib_free(new_msg);
 
-        DBG(("IO: detaching %d\n", found));
+        DBG(("IO: found %d items to detach\n", found));
         for (i = 0; i < found; i++) {
-            DBG(("IO: detach id:%d name: %s\n", detach_list[i].det_cartid, detach_list[i].det_devname));
+            DBG(("IO: detach #%d id:%d name: %s\n",i , detach_list[i].det_cartid, detach_list[i].det_devname));
             io_source_detach(&detach_list[i]);
         }
     }
