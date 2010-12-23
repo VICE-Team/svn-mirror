@@ -33,8 +33,12 @@
 #include "alarm.h"
 #include "c64.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+/* HACK: import main slot api although magic vice is a slot 0 cart, so we can handle the passthrough */
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#define CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOT0_API
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -471,7 +475,7 @@ static int last;
         mv_gameE000_enabled = 0;
     }
 
-    cartridge_config_changed(2, (BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode | CMODE_PHI2_RAM);
+    cart_config_changed_slot0(2, (BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode | CMODE_PHI2_RAM);
 
 #ifdef CFGDEBUG
     this = (ga_pb6 << 0) | (ga_pb5 << 1) | (ga_pc6 << 2) | (mv_exrom << 3);

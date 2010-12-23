@@ -32,7 +32,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -141,7 +143,7 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
             flags |= CMODE_TRIGGER_FREEZE_NMI_ONLY;
         }
         mode = ((value >> 3) & 2) | (((value >> 5) & 1) ^ 1) | ((value & 3) << CMODE_BANK_SHIFT);
-        cartridge_config_changed(mode, mode, flags);
+        cart_config_changed_slotmain(mode, mode, flags);
     }
 }
 
@@ -159,13 +161,13 @@ void final_v3_freeze(void)
     fc3_reg_enabled = 1;
 
     /* note: freeze does NOT force a specific bank like some other carts do */
-    cartridge_config_changed(2, (BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);;
+    cart_config_changed_slotmain(2, (BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);;
 }
 
 void final_v3_config_init(void)
 {
     fc3_reg_enabled = 1;
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 void final_v3_config_setup(BYTE *rawcart)
@@ -178,7 +180,7 @@ void final_v3_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

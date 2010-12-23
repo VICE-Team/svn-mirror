@@ -32,7 +32,9 @@
 
 #include "atomicpower.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -155,7 +157,7 @@ static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
             ap_active = 0;
         }
 
-        cartridge_config_changed((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)),  flags | CMODE_PHI2_RAM);
+        cart_config_changed_slotmain((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)),  flags | CMODE_PHI2_RAM);
     }
 }
 
@@ -236,14 +238,14 @@ void REGPARM2 atomicpower_romh_store(WORD addr, BYTE value)
 void atomicpower_freeze(void)
 {
     ap_active = 1;
-    cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void atomicpower_config_init(void)
 {
     ap_active = 1;
     export_ram_at_a000 = 0;
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void atomicpower_reset(void)
@@ -255,7 +257,7 @@ void atomicpower_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x8000);
     memcpy(romh_banks, rawcart, 0x8000);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

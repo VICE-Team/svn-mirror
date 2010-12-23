@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -98,7 +100,7 @@ static void delaep64_io1(BYTE value, unsigned int mode)
 
     /* D7 -> EXROM */
     config = (value & 0x80) ? 2 : 0;
-    cartridge_config_changed(config, config, mode);
+    cart_config_changed_slotmain(config, config, mode);
 
     /*
      * bank 0: 2764 (left socket)
@@ -111,7 +113,7 @@ static void delaep64_io1(BYTE value, unsigned int mode)
     } else {
         bank = bank - 3;  /* turning the banks into 0-8 */
     }
-    cartridge_romlbank_set(bank);
+    cart_romlbank_set_slotmain(bank);
     currbank = bank;
 }
 

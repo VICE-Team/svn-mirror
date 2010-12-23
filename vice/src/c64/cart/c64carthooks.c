@@ -35,10 +35,11 @@
 #include "archdep.h"
 #include "c64.h"
 #include "c64cart.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64mem.h"
-#include "c64cartmem.h"
 #include "c64io.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -1227,7 +1228,7 @@ void cart_detach_all(void)
     aciacart_detach();
 #endif
     /* "Main Slot" */
-    cart_detach_main();
+    cart_detach_slotmain();
 }
 
 /*
@@ -1485,6 +1486,12 @@ void cart_init(void)
 #endif
 }
 
+/* Initialize RAM for power-up.  */
+void cartridge_ram_init(void)
+{
+    memset(export_ram0, 0xff, C64CART_RAM_LIMIT);
+}
+
 /* called once by c64.c:machine_specific_shutdown at machine shutdown */
 void cartridge_shutdown(void)
 {
@@ -1660,7 +1667,7 @@ void cartridge_init_config(void)
             break;
         default:
             DBG(("CART: no init hook ID: %d\n", mem_cartridge_type));
-            cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ);
+            cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
             break;
     }
 
@@ -2808,7 +2815,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 return -1;
         }
 
-        cartridge_attach_from_snapshot(cart_ids[i]);
+        cart_attach_from_snapshot(cart_ids[i]);
     }
 
     /* set up config */

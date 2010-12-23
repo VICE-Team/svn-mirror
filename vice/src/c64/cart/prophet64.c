@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -61,12 +63,12 @@ static void REGPARM2 p64_io2_store(WORD addr, BYTE value)
     /* confirmation needed: register mirrored in entire io2 ? */
     if ((value >> 5) & 1) {
         /* cartridge off */
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
     } else {
         /* cartridge on */
-        cartridge_config_changed(0, 0, CMODE_READ);
+        cart_config_changed_slotmain(0, 0, CMODE_READ);
     }
-    cartridge_romlbank_set(value & 0x1f);
+    cart_romlbank_set_slotmain(value & 0x1f);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -94,15 +96,15 @@ static const c64export_resource_t export_res = {
 
 void p64_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 void p64_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, PROPHET64_CART_SIZE);
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* ---------------------------------------------------------------------*/

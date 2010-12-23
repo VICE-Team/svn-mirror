@@ -30,7 +30,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -64,8 +66,8 @@ static int currbank = 0;
 static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
 {
     /* FIXME */
-    cartridge_romhbank_set(value & 0x3f);
-    cartridge_romlbank_set(value & 0x3f);
+    cart_romhbank_set_slotmain(value & 0x3f);
+    cart_romlbank_set_slotmain(value & 0x3f);
     export.game = export.exrom = 1;
     mem_pla_config_changed();
     export.ultimax_phi1 = 0;
@@ -108,7 +110,7 @@ BYTE REGPARM1 ocean_romh_read(WORD addr)
 
 void ocean_config_init(void)
 {
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
     ocean_io1_store((WORD)0xde00, 0);
 }
 
@@ -118,7 +120,7 @@ void ocean_config_setup(BYTE *rawcart)
     memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
 
     /* Hack: using 16kB configuration, but some carts are 8kB only */
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

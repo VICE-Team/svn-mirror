@@ -32,8 +32,9 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -247,7 +248,7 @@ static int set_isepic_enabled(int val, void *param)
         c64export_remove(&export_res);
         isepic_enabled = 0;
         if (isepic_switch) {
-            cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
+            cart_config_changed_slot1(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     } else if (!isepic_enabled && val) {
         cart_power_off();
@@ -265,7 +266,7 @@ static int set_isepic_enabled(int val, void *param)
         }
         isepic_enabled = 1;
         if (isepic_switch) {
-            cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+            cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     }
     return 0;
@@ -286,13 +287,13 @@ static int set_isepic_switch(int val, void *param)
     if (isepic_switch && !val) {
         isepic_switch = 0;
         if (isepic_enabled) {
-            cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
+            cart_config_changed_slot1(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     } else if (!isepic_switch && val) {
         isepic_switch = 1;
         if (isepic_enabled) {
             cartridge_trigger_freeze();
-            cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+            cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         }
     }
     return 0;

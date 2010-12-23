@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -79,7 +81,7 @@ static BYTE REGPARM1 freezeframe_io1_read(WORD addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
-        cartridge_config_changed(2, 1, CMODE_READ);
+        cart_config_changed_slotmain(2, 1, CMODE_READ);
         DBG(("Freeze Frame: switching to 8k game mode\n"));
     }
     return 0; /* invalid */
@@ -99,7 +101,7 @@ static BYTE REGPARM1 freezeframe_io2_read(WORD addr)
 {
     DBG(("io2 r %04x\n", addr));
     if (addr == 0) {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
         DBG(("Freeze Frame disabled\n"));
     }
     return 0; /* invalid */
@@ -152,19 +154,19 @@ static const c64export_resource_t export_res = {
 void freezeframe_freeze(void)
 {
     DBG(("Freeze Frame: freeze\n"));
-    cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
 }
 
 void freezeframe_config_init(void)
 {
-    cartridge_config_changed(2, 0, CMODE_READ);
+    cart_config_changed_slotmain(2, 0, CMODE_READ);
 }
 
 void freezeframe_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, FREEZE_FRAME_CART_SIZE);
     memcpy(romh_banks, rawcart, FREEZE_FRAME_CART_SIZE);
-    cartridge_config_changed(2, 0, CMODE_READ);
+    cart_config_changed_slotmain(2, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

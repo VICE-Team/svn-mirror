@@ -30,7 +30,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -128,11 +130,11 @@ void REGPARM2 snapshot64_io2_store(WORD addr, BYTE value)
         romconfig = value & 1;
 
         if (romconfig == 0) {
-            cartridge_config_changed(2, 2, CMODE_WRITE);
-/*            cartridge_config_changed(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
+            cart_config_changed_slotmain(2, 2, CMODE_WRITE);
+/*            cart_config_changed_slotmain(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
         } else {
-            cartridge_config_changed(3, 3, CMODE_WRITE);
-/*            cartridge_config_changed(3, 3, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
+            cart_config_changed_slotmain(3, 3, CMODE_WRITE);
+/*            cart_config_changed_slotmain(3, 3, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
         }
     }
 }
@@ -171,22 +173,22 @@ void snapshot64_freeze(void)
 {
     DBG(("SNAPSHOT64: freeze\n"));
     romconfig = 1;
-    cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
-/*    cartridge_config_changed(3, 3, CMODE_READ); */
+    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+/*    cart_config_changed_slotmain(3, 3, CMODE_READ); */
 }
 
 void snapshot64_config_init(void)
 {
     DBG(("SNAPSHOT64: config_init\n"));
     romconfig = 0;
-    cartridge_config_changed(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(2, 2, CMODE_READ);
 }
 
 void snapshot64_config_setup(BYTE *rawcart)
 {
     DBG(("SNAPSHOT64: config setup\n"));
     memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x1000);
-    cartridge_config_changed(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(2, 2, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

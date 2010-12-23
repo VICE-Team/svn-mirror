@@ -35,7 +35,9 @@
 
 #include "alarm.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -74,7 +76,7 @@ static void epyxfastload_trigger_access(void)
     alarm_unset(epyxrom_alarm);
     epyxrom_alarm_time = maincpu_clk + EPYX_ROM_CYCLES;
     alarm_set(epyxrom_alarm, epyxrom_alarm_time);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 static void epyxfastload_alarm_handler(CLOCK offset, void *data)
@@ -82,7 +84,7 @@ static void epyxfastload_alarm_handler(CLOCK offset, void *data)
     /* Virtual capacitor charged, disable rom */
     alarm_unset(epyxrom_alarm);
     epyxrom_alarm_time = CLOCK_MAX;
-    cartridge_config_changed(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(2, 2, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -160,13 +162,13 @@ void epyxfastload_reset(void)
 
 void epyxfastload_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void epyxfastload_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

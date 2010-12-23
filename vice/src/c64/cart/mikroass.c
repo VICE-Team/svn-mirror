@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -100,13 +102,13 @@ static const c64export_resource_t export_res = {
 
 void mikroass_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void mikroass_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

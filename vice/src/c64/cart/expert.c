@@ -33,8 +33,9 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64export.h"
 #include "c64mem.h"
 #include "c64io.h"
@@ -263,19 +264,19 @@ static int expert_mode_changed(int mode, void *param)
     if (expert_enabled) {
         switch (mode) {
             case EXPERT_MODE_PRG:
-                cartridge_config_changed(2, EXPERT_PRG, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+                cart_config_changed_slot1(2, EXPERT_PRG, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
                 expert_register_enabled = 1;
                 expert_ramh_enabled = 0;
                 expert_ram_writeable = 1;
                 break;
             case EXPERT_MODE_ON:
-                cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+                cart_config_changed_slot1(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
                 expert_register_enabled = 0;
                 expert_ramh_enabled = 0;
                 expert_ram_writeable = 0;
                 break;
             case EXPERT_MODE_OFF:
-                cartridge_config_changed(2, EXPERT_OFF, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+                cart_config_changed_slot1(2, EXPERT_OFF, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
                 expert_register_enabled = 0;
                 expert_ramh_enabled = 0;
                 expert_ram_writeable = 0;
@@ -404,7 +405,7 @@ BYTE REGPARM1 expert_io1_read(WORD addr)
     expert_io1_device.io_source_valid = 0;
     /* DBG(("EXPERT: io1 rd %04x (%d)\n", addr, expert_ramh_enabled)); */
     if ((cartmode == EXPERT_MODE_ON) && (expert_register_enabled == 1)) {
-        cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+        cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
         expert_ramh_enabled ^= 1;
         expert_ram_writeable = 0; /* =0 ? */
         DBG(("EXPERT: ON (regs: %d ramh: %d ramwrite: %d)\n",expert_register_enabled, expert_ramh_enabled, expert_ram_writeable));
@@ -473,7 +474,7 @@ void expert_freeze(void)
     if (cartmode == EXPERT_MODE_ON) {
         DBG(("EXPERT: freeze\n"));
         /* DBG(("ram %02x %02x\n", expert_ram[0x1ffe], expert_ram[0x1fff])); */
-        cartridge_config_changed(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+        cart_config_changed_slot1(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
         expert_register_enabled = 1;
         expert_ram_writeable = 1;
         expert_ramh_enabled = 1;
@@ -485,7 +486,7 @@ void expert_ack_nmi(void)
     if (cartmode == EXPERT_MODE_ON) {
         DBG(("EXPERT:ack nmi\n"));
         /* DBG(("ram %02x %02x\n", expert_ram[0x1ffe], expert_ram[0x1fff])); */
-        cartridge_config_changed(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+        cart_config_changed_slot1(2, EXPERT_ON, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
         expert_register_enabled = 1;
         expert_ram_writeable = 1;
         expert_ramh_enabled = 1;
@@ -499,17 +500,17 @@ void expert_reset(void)
         expert_register_enabled = 1;
         expert_ram_writeable = 1;
         expert_ramh_enabled = 1;
-        cartridge_config_changed(2, 3, CMODE_READ | CMODE_PHI2_RAM);
+        cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_PHI2_RAM);
     } else if (cartmode == EXPERT_MODE_PRG) {
         expert_register_enabled = 1;
         expert_ram_writeable = 1;
         expert_ramh_enabled = 0;
-        cartridge_config_changed(2, EXPERT_PRG, CMODE_READ);
+        cart_config_changed_slot1(2, EXPERT_PRG, CMODE_READ);
     } else {
         expert_register_enabled = 0;
         expert_ram_writeable = 0;
         expert_ramh_enabled = 0;
-        cartridge_config_changed(2, EXPERT_OFF, CMODE_READ | CMODE_PHI2_RAM);
+        cart_config_changed_slot1(2, EXPERT_OFF, CMODE_READ | CMODE_PHI2_RAM);
     }
 }
 
@@ -863,7 +864,7 @@ int expert_snapshot_read_module(snapshot_t *s)
     expert_filetype = 0;
     expert_enabled = 1;
 
-    /* FIXME ugly code duplication to avoid cartridge_config_changed calls */
+    /* FIXME ugly code duplication to avoid cart_config_changed calls */
     expert_io1_list_item = c64io_register(&expert_io1_device);
 
     if (c64export_add(&export_res) < 0) {

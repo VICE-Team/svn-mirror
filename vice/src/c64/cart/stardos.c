@@ -29,7 +29,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -165,7 +167,7 @@ void stardos_config_init(void)
     cnt_de61 = 0;
     cnt_dfa1 = 0;
     roml_enable = 1;
-    cartridge_config_changed(2, 3, CMODE_READ);
+    cart_config_changed_slotmain(2, 3, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -185,7 +187,7 @@ void stardos_config_setup(BYTE *rawcart)
     memcpy(roml_banks, &rawcart[0], 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
 
-    cartridge_config_changed(2, 3, CMODE_READ);
+    cart_config_changed_slotmain(2, 3, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

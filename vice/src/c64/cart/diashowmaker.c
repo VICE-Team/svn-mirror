@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -80,7 +82,7 @@ static BYTE REGPARM1 dsm_io1_read(WORD addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
         DBG(("Diashow Maker disabled\n"));
     }
     return 0; /* invalid */
@@ -95,7 +97,7 @@ static void REGPARM2 dsm_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 w %04x %02x\n", addr, value));
     if (addr == 0) {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
         DBG(("Diashow Maker disabled\n"));
     }
 }
@@ -124,19 +126,19 @@ static const c64export_resource_t export_res = {
 void dsm_freeze(void)
 {
     DBG(("Diashow Maker: freeze\n"));
-    cartridge_config_changed(0, 0, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(0, 0, CMODE_READ | CMODE_RELEASE_FREEZE);
 }
 
 
 void dsm_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void dsm_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, DSM_CART_SIZE);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

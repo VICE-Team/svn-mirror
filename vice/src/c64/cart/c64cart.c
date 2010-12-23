@@ -34,8 +34,9 @@
 #include "archdep.h"
 #include "c64.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "cartridge.h"
 #include "cmdline.h"
@@ -140,24 +141,6 @@ CLOCK cart_freeze_alarm_time = CLOCK_MAX; /* cartridge freeze button alarm time 
 
 /* Type of the cartridge attached. ("Main Slot") */
 int mem_cartridge_type = CARTRIDGE_NONE;
-
-/* FIXME: remove this trying... stuff and do better sanity checks
-          - this function is only used from within ide64.c, this should be changed
-            so it can be removed
-*/
-static int cartres = 0;
-static int trying_cart = 0; /* FIXME: remove :) */
-int try_cartridge_init(int c)
-{
-    cartres ^= c;
-
-    if (cartres) {
-        return 0;
-    }
-
-    trying_cart = 1;
-    return cartridge_attach_image(c64cart_type, cartfile);
-}
 
 /*
     we have 3 resources for the main cart that may be changed in arbitrary order:
@@ -450,8 +433,8 @@ int cartridge_attach_image(int type, const char *filename)
     if (cart_is_slotmain(cartid)) {
         DBG(("cartridge_attach MAIN ID: %d\n", cartid));
         mem_cartridge_type = cartid;
-        cartridge_romhbank_set(0);
-        cartridge_romlbank_set(0);
+        cart_romhbank_set_slotmain(0);
+        cart_romlbank_set_slotmain(0);
     } else {
         DBG(("cartridge_attach (other) ID: %d\n", cartid));
     }
@@ -498,7 +481,7 @@ void cart_power_off(void)
     This is needed for cart_getid_slotmain to return a proper
     value for cart_freeze and such.
 */
-void cartridge_attach_from_snapshot(int type)
+void cart_attach_from_snapshot(int type)
 {
     if (cart_is_slotmain(type)) {
         c64cart_type = type;
@@ -508,7 +491,7 @@ void cartridge_attach_from_snapshot(int type)
 /*
     detach cartridge from "Main Slot"
 */
-void cart_detach_main(void)
+void cart_detach_slotmain(void)
 {
     int type = cart_getid_slotmain();
     DBG(("CART: detach main %d: type: %d id: %d\n", type, c64cart_type, crttype));
@@ -516,7 +499,7 @@ void cart_detach_main(void)
         cart_detach(type);
 
         DBG(("CART: unset cart config\n"));
-        cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
 
         cart_power_off();
 
@@ -535,6 +518,7 @@ void cart_detach_main(void)
     detach a cartridge.
     - carts that are not "main" cartridges can be disabled individually
     - if type is -1, then all carts will get detached
+    - if type is 0, then cart in main slot will get detached
 
     - carts not in "Main Slot" must make sure their detach hook does not
       fail when it is called and the cart is not actually attached.
@@ -543,21 +527,22 @@ void cartridge_detach_image(int type)
 {
     if (type == 0) {
         DBG(("CART: detach MAIN ID: %d\n", type));
-        cart_detach_main();
+        cart_detach_slotmain();
     } else if (type == -1) {
         cart_detach_all();
     } else {
         DBG(("CART: detach ID: %d\n", type));
         /* detach only given type */
         if (cart_is_slotmain(type)) {
-            cart_detach_main();
+            cart_detach_slotmain();
         } else {
             cart_detach(type);
         }
     }
 
+    /* FIXME: cart_detach should take care of it */
     DBG(("CART: unset cart config\n"));
-    cartridge_config_changed(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
 
     cart_power_off();
 }

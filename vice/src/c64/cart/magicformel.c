@@ -116,7 +116,9 @@ CB2            - enable Cartridge (?)
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -218,9 +220,9 @@ static int kernal_decoder(WORD addr)
 
 #ifndef USE_ULTIMAX_CONFIG
     if (export_game) {
-        cartridge_config_changed(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+        cart_config_changed_slotmain(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
     } else {
-        cartridge_config_changed(2, (BYTE)(2 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+        cart_config_changed_slotmain(2, (BYTE)(2 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
     }
 #endif
 
@@ -636,9 +638,9 @@ void magicformel_freeze(void)
     kernal_decoder(0xfffe);
 
 #ifdef USE_ULTIMAX_CONFIG
-    cartridge_config_changed(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 #else
-    cartridge_config_changed(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 #endif
 }
 
@@ -652,9 +654,9 @@ void magicformel_config_init(void)
     kernal_decoder(0xfffe);
 
 #ifdef USE_ULTIMAX_CONFIG
-    cartridge_config_changed(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 #else
-    cartridge_config_changed(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 #endif
 }
 

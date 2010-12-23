@@ -31,7 +31,9 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -1212,9 +1214,9 @@ static void mmcreplay_update_mapper_nolog(unsigned int wflag, int release_freeze
         wflag |= CMODE_RELEASE_FREEZE;
     }
 
-    cartridge_config_changed(active_mode_phi1, active_mode_phi2, wflag);
-    cartridge_romlbank_set(cartbankl);
-    cartridge_romhbank_set(cartbankh);
+    cart_config_changed_slotmain(active_mode_phi1, active_mode_phi2, wflag);
+    cart_romlbank_set_slotmain(cartbankl);
+    cart_romhbank_set_slotmain(cartbankh);
 
     enable_freeze_exit = 0;     /* reset, it should only trigger once */
 }

@@ -36,7 +36,9 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -327,7 +329,7 @@ static int set_ide64_config(const char *cfg, void *param)
         }
     }
     util_string_set(&ide64_configuration_string, ide64_DS1302);
-    try_cartridge_init(16);
+    /* FIXME: perhaps a reset should be triggered when config changes ? */
     return 0;
 }
 
@@ -1121,7 +1123,7 @@ aborted_command:
         default:
             return;
     }
-    cartridge_config_changed(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
 }
 
 BYTE REGPARM1 ide64_roml_read(WORD addr)
@@ -1161,7 +1163,7 @@ void REGPARM2 ide64_c000_cfff_store(WORD addr, BYTE value)
 
 void ide64_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(0, 0, CMODE_READ | CMODE_PHI2_RAM);
     current_bank = 0;
     current_cfg = 0;
     kill_port = 0;
@@ -1174,7 +1176,7 @@ void ide64_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x20000);
     memcpy(romh_banks, rawcart, 0x20000);
-    cartridge_config_changed(0, 0, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(0, 0, CMODE_READ | CMODE_PHI2_RAM);
 }
 
 void ide64_detach(void)

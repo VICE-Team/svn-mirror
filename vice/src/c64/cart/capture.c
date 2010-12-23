@@ -30,7 +30,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -187,7 +189,7 @@ void capture_freeze(void)
 {
     DBG(("CAPTURE: freeze\n"));
     if (freeze_pressed == 0) {
-        cartridge_config_changed(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+        cart_config_changed_slotmain(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
         cart_enabled = 1;
         freeze_pressed = 1;
         register_enabled = 1;
@@ -198,7 +200,7 @@ void capture_freeze(void)
 void capture_config_init(void)
 {
     DBG(("CAPTURE: config init\n"));
-    cartridge_config_changed(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(2, 2, CMODE_READ);
 }
 
 void capture_reset(void)
@@ -207,7 +209,7 @@ void capture_reset(void)
     cart_enabled = 0;
     register_enabled = 0;
     freeze_pressed = 0;
-    cartridge_config_changed(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(2, 2, CMODE_READ);
 }
 
 void capture_config_setup(BYTE *rawcart)
@@ -215,7 +217,7 @@ void capture_config_setup(BYTE *rawcart)
     DBG(("CAPTURE: config setup\n"));
     memcpy(romh_banks, rawcart, 0x2000);
     memset(export_ram0, 0, 0x2000);
-    cartridge_config_changed(2, 2, CMODE_READ);
+    cart_config_changed_slotmain(2, 2, CMODE_READ);
 }
 
 static int capture_common_attach(void)

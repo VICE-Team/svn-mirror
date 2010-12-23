@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -98,7 +100,7 @@ static BYTE REGPARM1 freezemachine_io1_read(WORD addr)
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
         roml_toggle = 1;
-        cartridge_config_changed(2, (BYTE)(1 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
+        cart_config_changed_slotmain(2, (BYTE)(1 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
         DBG(("Freeze Machine: switching to 16k game mapping\n"));
     }
     return 0; /* invalid */
@@ -118,7 +120,7 @@ static BYTE REGPARM1 freezemachine_io2_read(WORD addr)
 {
     DBG(("io2 r %04x\n", addr));
     if (addr == 0) {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
         DBG(("Freeze Machine: disabled\n"));
     }
 
@@ -184,7 +186,7 @@ void freezemachine_reset(void)
 {
     rom_A14 ^= 1; /* select other 16k ROM bank on every other reset */
     roml_toggle = 0;
-    cartridge_config_changed(2, (BYTE)(0 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain(2, (BYTE)(0 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
     DBG(("Freeze Machine: reset (%d)\n", rom_A14));
 }
 
@@ -192,12 +194,12 @@ void freezemachine_freeze(void)
 {
     DBG(("Freeze Machine: freeze\n"));
     roml_toggle = 1;
-    cartridge_config_changed(2, (BYTE)(3 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(2, (BYTE)(3 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
 }
 
 void freezemachine_config_init(void)
 {
-    cartridge_config_changed(2, (BYTE)(0 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
+    cart_config_changed_slotmain(2, (BYTE)(0 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 void freezemachine_config_setup(BYTE *rawcart)
@@ -208,7 +210,7 @@ void freezemachine_config_setup(BYTE *rawcart)
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
     memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
     memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
-    cartridge_config_changed(2, 0 | (0 << CMODE_BANK_SHIFT), CMODE_READ);
+    cart_config_changed_slotmain(2, 0 | (0 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

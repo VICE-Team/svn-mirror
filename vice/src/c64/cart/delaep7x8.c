@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -88,7 +90,7 @@ static void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
        respective EPROM, $FF switches off EXROM */
     config = (value == 0xff) ? 2 : 0;
 
-    cartridge_config_changed(config, config, CMODE_WRITE);
+    cart_config_changed_slotmain(config, config, CMODE_WRITE);
 
     bank = 0;
     test_value = (~value);
@@ -97,7 +99,7 @@ static void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
         test_value = (test_value >> 1);
     }
     if (bank != 0) {
-        cartridge_romlbank_set(bank - 1);
+        cart_romlbank_set_slotmain(bank - 1);
         currbank = bank - 1;
     }
 }
@@ -132,15 +134,15 @@ static const c64export_resource_t export_res = {
 
 void delaep7x8_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* FIXME: should copy rawcart to roml_banks ! */
 void delaep7x8_config_setup(BYTE *rawcart)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* ---------------------------------------------------------------------*/

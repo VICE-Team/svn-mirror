@@ -31,7 +31,9 @@
 
 #include "actionreplay.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -116,7 +118,7 @@ static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
         if (value & 0x20) {
             mode |= CMODE_EXPORT_RAM;
         }
-        cartridge_config_changed((BYTE)(value & 3), (BYTE)((value & 3) | (((value >> 3) & 3) << CMODE_BANK_SHIFT)), (unsigned int)(mode | CMODE_WRITE));
+        cart_config_changed_slotmain((BYTE)(value & 3), (BYTE)((value & 3) | (((value >> 3) & 3) << CMODE_BANK_SHIFT)), (unsigned int)(mode | CMODE_WRITE));
 
         if (value & 4) {
             ar_active = 0;
@@ -188,13 +190,13 @@ void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value)
 void actionreplay_freeze(void)
 {
     ar_active = 1;
-    cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void actionreplay_config_init(void)
 {
     ar_active = 1;
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void actionreplay_reset(void)
@@ -206,7 +208,7 @@ void actionreplay_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x8000);
     memcpy(romh_banks, rawcart, 0x8000);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

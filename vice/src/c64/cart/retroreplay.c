@@ -32,7 +32,9 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64mem.h"
 #include "c64io.h"
@@ -261,7 +263,7 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
                         value = 0;
                     }
                 }
-                cartridge_config_changed(0, (BYTE)((value & 3) | (rr_bank << CMODE_BANK_SHIFT)), mode);
+                cart_config_changed_slotmain(0, (BYTE)((value & 3) | (rr_bank << CMODE_BANK_SHIFT)), mode);
 
                 if (value & 4) {
                     rr_active = 0;
@@ -293,16 +295,16 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
                     } else {
                         rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
                     }
-                    cartridge_romhbank_set(rr_bank);
-                    cartridge_romlbank_set(rr_bank);
+                    cart_romhbank_set_slotmain(rr_bank);
+                    cart_romlbank_set_slotmain(rr_bank);
                     allow_bank = value & 2;
                     no_freeze = value & 4;
                     reu_mapping = 0; /* can not be set in flash mode */
                 } else {
                     if (write_once == 0) {
                         rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
-                        cartridge_romhbank_set(rr_bank);
-                        cartridge_romlbank_set(rr_bank);
+                        cart_romhbank_set_slotmain(rr_bank);
+                        cart_romlbank_set_slotmain(rr_bank);
                         allow_bank = value & 2;
                         no_freeze = value & 4;
                         reu_mapping = value & 0x40;
@@ -512,7 +514,7 @@ void retroreplay_freeze(void)
     /* freeze button is disabled in flash mode */
     if (!rr_hw_flashjumper) {
         rr_active = 1;
-        cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+        cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
         /* flash040core_reset(flashrom_state); */
     }
 }
@@ -537,9 +539,9 @@ void retroreplay_config_init(void)
     allow_bank = 0;
 
     if (rr_hw_flashjumper) {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
     } else {
-        cartridge_config_changed(0, 0, CMODE_READ);
+        cart_config_changed_slotmain(0, 0, CMODE_READ);
     }
 
     flash040core_reset(flashrom_state);
@@ -551,9 +553,9 @@ void retroreplay_reset(void)
     rr_active = 1;
 
     if (rr_hw_flashjumper) {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
     } else {
-        cartridge_config_changed(0, 0, CMODE_READ);
+        cart_config_changed_slotmain(0, 0, CMODE_READ);
     }
 
     /* on the real hardware pressing reset would NOT reset the flash statemachine,
@@ -567,9 +569,9 @@ void retroreplay_config_setup(BYTE *rawcart)
     DBG(("retroreplay_config_setup bank jumper: %d offset: %08x\n", rr_hw_bankjumper, rom_offset));
 
     if (rr_hw_flashjumper) {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slotmain(2, 2, CMODE_READ);
     } else {
-        cartridge_config_changed(0, 0, CMODE_READ);
+        cart_config_changed_slotmain(0, 0, CMODE_READ);
     }
 
     flashrom_state = lib_malloc(sizeof(flash040_context_t));

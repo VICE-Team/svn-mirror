@@ -32,8 +32,9 @@
 
 #include "archdep.h"
 #include "c64.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -255,7 +256,7 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
     int exrom = ((byte & 8) ? 0 : 1); /* 1 = active */
     /* FIXME: passthrough support */
     DBG(("TPI store_pc %d:%d\n", exrom << 1, exrom << 1));
-    cartridge_config_changed((BYTE)(exrom << 1), (BYTE)(exrom << 1), CMODE_READ);
+    cart_config_changed_slot0((BYTE)(exrom << 1), (BYTE)(exrom << 1), CMODE_READ);
 }
 
 static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
@@ -490,7 +491,7 @@ void tpi_config_setup(BYTE *rawcart)
 void tpi_config_init(void)
 {
     DBG(("TPI: tpi_config_init\n"));
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slot0(0, 0, CMODE_READ);
 }
 
 static int tpi_common_attach(void)

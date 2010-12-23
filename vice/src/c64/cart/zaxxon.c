@@ -32,7 +32,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "cartridge.h"
 #include "snapshot.h"
@@ -55,20 +57,20 @@ static const c64export_resource_t export_res = {
 
 BYTE REGPARM1 zaxxon_roml_read(WORD addr)
 {
-    cartridge_romhbank_set((addr & 0x1000) ? 1 : 0);
+    cart_romhbank_set_slotmain((addr & 0x1000) ? 1 : 0);
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
 void zaxxon_config_init(void)
 {
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 void zaxxon_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x4000);
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 static int zaxxon_common_attach(void)

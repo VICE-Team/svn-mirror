@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -60,8 +62,8 @@ static int currbank = 0;
 static void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
 {
     if (value >= 0x80 && value <= 0x83) {
-        cartridge_romhbank_set(value & 3);
-        cartridge_romlbank_set(value & 3);
+        cart_romhbank_set_slotmain(value & 3);
+        cart_romlbank_set_slotmain(value & 3);
         currbank = value & 3;
     }
 }
@@ -96,7 +98,7 @@ static const c64export_resource_t export_res = {
 
 void comal80_config_init(void)
 {
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 void comal80_config_setup(BYTE *rawcart)
@@ -109,7 +111,7 @@ void comal80_config_setup(BYTE *rawcart)
     memcpy(&romh_banks[0x4000], &rawcart[0xa000], 0x2000);
     memcpy(&roml_banks[0x6000], &rawcart[0xc000], 0x2000);
     memcpy(&romh_banks[0x6000], &rawcart[0xe000], 0x2000);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

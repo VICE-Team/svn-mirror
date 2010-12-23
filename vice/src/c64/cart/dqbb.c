@@ -31,8 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -134,16 +135,16 @@ static void dqbb_change_config(void)
 {
     if (dqbb_enabled) {
         if (dqbb_off) {
-            cartridge_config_changed(2, 2, CMODE_READ);
+            cart_config_changed_slot1(2, 2, CMODE_READ);
         } else {
             if (dqbb_a000_mapped) {
-                cartridge_config_changed(1, 1, CMODE_READ);
+                cart_config_changed_slot1(1, 1, CMODE_READ);
             } else {
-                cartridge_config_changed(0, 0, CMODE_READ);
+                cart_config_changed_slot1(0, 0, CMODE_READ);
             }
         }
     } else {
-        cartridge_config_changed(2, 2, CMODE_READ);
+        cart_config_changed_slot1(2, 2, CMODE_READ);
     }
 }
 

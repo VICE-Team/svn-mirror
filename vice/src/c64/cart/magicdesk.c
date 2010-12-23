@@ -30,7 +30,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -56,7 +58,7 @@ static int currbank = 0;
 
 static void REGPARM2 magicdesk_io1_store(WORD addr, BYTE value)
 {
-    cartridge_romlbank_set(value & 0x3f);
+    cart_romlbank_set_slotmain(value & 0x3f);
     export.game = 0;
     if (value & 0x80) {
         export.exrom = 0;
@@ -97,14 +99,14 @@ static const c64export_resource_t export_res = {
 
 void magicdesk_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
     magicdesk_io1_store((WORD)0xde00, 0);
 }
 
 void magicdesk_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000 * 64);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

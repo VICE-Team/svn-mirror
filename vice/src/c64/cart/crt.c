@@ -31,7 +31,6 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
 #include "cartridge.h"
 #include "crt.h"
 #include "resources.h"

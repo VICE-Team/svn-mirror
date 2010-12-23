@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -114,9 +116,9 @@ void REGPARM2 final_plus_io2_store(WORD addr, BYTE value)
         DBG(("io2 w %04x %02x (bit:%d, rom8000:%d, romE000:%d, enabled: %d)\n",addr,value,fcplus_bit,fcplus_roml,fcplus_romh,fcplus_enabled));
 
         if ((fcplus_roml == 0) && (fcplus_romh == 0)) {
-            cartridge_config_changed(2, 2, CMODE_WRITE);
+            cart_config_changed_slotmain(2, 2, CMODE_WRITE);
         } else {
-            cartridge_config_changed(0, 3, CMODE_WRITE | CMODE_PHI2_RAM);
+            cart_config_changed_slotmain(0, 3, CMODE_WRITE | CMODE_PHI2_RAM);
         }
     }
 }
@@ -155,7 +157,7 @@ BYTE REGPARM1 final_plus_a000_bfff_read(WORD addr)
 void final_plus_freeze(void)
 {
     DBG(("fc+ freeze\n"));
-    cartridge_config_changed(0, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(0, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
     fcplus_enabled = 1;
     fcplus_roml = 1;
     fcplus_romh = 1;
@@ -164,7 +166,7 @@ void final_plus_freeze(void)
 void final_plus_config_init(void)
 {
     DBG(("fc+ config init\n"));
-    cartridge_config_changed(0, 3, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(0, 3, CMODE_READ | CMODE_PHI2_RAM);
     fcplus_enabled = 1;
     fcplus_roml = 1;
     fcplus_romh = 1;
@@ -179,7 +181,7 @@ void final_plus_config_setup(BYTE *rawcart)
     DBG(("fc+ config setup\n"));
     memcpy(roml_banks, &rawcart[0x4000], 0x4000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(0, 3, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(0, 3, CMODE_READ | CMODE_PHI2_RAM);
 }
 
 /* ---------------------------------------------------------------------*/

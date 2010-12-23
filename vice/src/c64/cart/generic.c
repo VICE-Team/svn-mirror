@@ -29,7 +29,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64mem.h"
 #include "cartridge.h"
@@ -88,37 +90,37 @@ static c64export_resource_t export_res_ultimax = {
 
 void generic_8kb_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void generic_16kb_config_init(void)
 {
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 void generic_ultimax_config_init(void)
 {
-    cartridge_config_changed(3, 3, CMODE_READ);
+    cart_config_changed_slotmain(3, 3, CMODE_READ);
 }
 
 void generic_8kb_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void generic_16kb_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 void generic_ultimax_config_setup(BYTE *rawcart)
 {
     memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x2000);
     memcpy(&romh_banks[0x0000], &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(3, 3, CMODE_READ);
+    cart_config_changed_slotmain(3, 3, CMODE_READ);
 }
 
 int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)

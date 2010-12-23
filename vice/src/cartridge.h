@@ -91,6 +91,9 @@ extern void cartridge_setup_context(struct machine_context_s *machine_context);
 /* generic cartridge memory peek for the monitor */
 extern BYTE cartridge_peek_mem(WORD addr);
 
+/* Initialize RAM for power-up.  */
+extern void cartridge_ram_init(void);
+
 /* Carts that don't have a rom images */
 #define CARTRIDGE_DIGIMAX            -100 /* digimax.c */
 #define CARTRIDGE_DQBB               -101 /* dqbb.c */

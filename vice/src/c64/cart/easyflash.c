@@ -32,7 +32,9 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -110,12 +112,12 @@ static void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)
             /* mode register */
             easyflash_register_02 = value & 0x87; /* we only remember led, mode, exrom, game */
             mem_mode = easyflash_memconfig[(easyflash_jumper << 3) | (easyflash_register_02 & 0x07)];
-            cartridge_config_changed(mem_mode, mem_mode, CMODE_READ);
+            cart_config_changed_slotmain(mem_mode, mem_mode, CMODE_READ);
             /* TODO: change led */
             /* (value & 0x80) -> led on if true, led off if false */
     }
-    cartridge_romhbank_set(easyflash_register_00);
-    cartridge_romlbank_set(easyflash_register_00);
+    cart_romhbank_set_slotmain(easyflash_register_00);
+    cart_romlbank_set_slotmain(easyflash_register_00);
     mem_pla_config_changed();
 }
 

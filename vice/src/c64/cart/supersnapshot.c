@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -134,7 +136,7 @@ void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
             mode |= CMODE_EXPORT_RAM;   /* export_ram */
             romconfig |= (1 << 1);      /* exrom */
         }
-        cartridge_config_changed(1, romconfig, mode);
+        cart_config_changed_slotmain(1, romconfig, mode);
     }
 }
 
@@ -160,7 +162,7 @@ void REGPARM2 supersnapshot_v5_roml_store(WORD addr, BYTE value)
 
 void supersnapshot_v5_freeze(void)
 {
-    cartridge_config_changed(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
+    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_EXPORT_RAM);
 }
 
 void supersnapshot_v5_config_init(void)

@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,6 +34,9 @@
 #include "c64cart.h"
 #include "c64mem.h"
 #include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64io.h"
 #include "cartridge.h"
 #include "crt.h"
@@ -145,12 +149,12 @@ extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") 
   bit 1  0x02   - release freeze (stop asserting NMI)
   bit 0  0x01   - r/w flag
 */
-void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+static void cart_config_changed(int slot, BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
 {
 #ifdef DEBUGCART
     static int old1 = 0, old2 = 0, old3 = 0;
     if ((mode_phi1 != old1) || (mode_phi2 != old2) || (wflag != old3)) {
-        DBG(("CARTMEM: cartridge_config_changed phi1:%d phi2:%d bank: %d flags:%02x\n",mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+        DBG(("CARTMEM: cart_config_changed slot %d phi1:%d phi2:%d bank: %d flags:%02x\n", slot,mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
     }
     old1 = mode_phi1; old2 = mode_phi2; old3 = wflag;
 #endif
@@ -163,9 +167,11 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
 
     export.game = mode_phi2 & 1;
     export.exrom = ((mode_phi2 >> 1) & 1) ^ 1;
-    cartridge_romhbank_set((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
-    cartridge_romlbank_set((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
-    export_ram = (wflag >> CMODE_EXPORT_RAM_SHIFT) & 1;
+    if (slot == 2) {
+        cart_romhbank_set_slotmain((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+        cart_romlbank_set_slotmain((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+        export_ram = (wflag >> CMODE_EXPORT_RAM_SHIFT) & 1;
+    }
     mem_pla_config_changed();
     if ((wflag & CMODE_RELEASE_FREEZE) == CMODE_RELEASE_FREEZE) {
         cartridge_release_freeze();
@@ -173,8 +179,10 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
     export.ultimax_phi1 = (mode_phi1 & 1) & ((mode_phi1 >> 1) & 1);
     export.ultimax_phi2 = export.game & (export.exrom ^ 1) & ((~wflag >> CMODE_PHI2_RAM_SHIFT) & 1);
     /* TODO
-    cartridge_romhbank_phi1_set((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
-    cartridge_romlbank_phi1_set((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+    if (slot == 2) {
+        cart_romhbank_phi1_set_slotmain((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+        cart_romlbank_phi1_set_slotmain((mode_phi1 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK);
+    }
     */
     machine_update_memory_ptrs();
 
@@ -183,16 +191,33 @@ void cartridge_config_changed(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag
     }
 }
 
+void cart_config_changed_slot0(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+{
+    assert(((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK) == 0);
+    cart_config_changed(0, mode_phi1, mode_phi2, wflag);
+}
+
+void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+{
+    assert(((mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK) == 0);
+    cart_config_changed(1, mode_phi1, mode_phi2, wflag);
+}
+
+void cart_config_changed_slotmain(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag)
+{
+    cart_config_changed(2, mode_phi1, mode_phi2, wflag);
+}
+
 /*
     generic helper routines, should be used *only* by carts that are in the
     "main cartridge" category
 */
-void cartridge_romhbank_set(unsigned int bank)
+void cart_romhbank_set_slotmain(unsigned int bank)
 {
     romh_bank = (int)bank;
 }
 
-void cartridge_romlbank_set(unsigned int bank)
+void cart_romlbank_set_slotmain(unsigned int bank)
 {
     roml_bank = (int)bank;
 }

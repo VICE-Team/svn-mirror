@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -75,7 +77,7 @@ static void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
     /* D7 switches off EXROM */
     config = (value & 0x80) ? 2 : 0;
 
-    cartridge_config_changed(config, config, CMODE_WRITE);
+    cart_config_changed_slotmain(config, config, CMODE_WRITE);
 
     bank = ((0x30 - (value & 0x30)) >> 1) + (value & 7) + 1;
 
@@ -83,7 +85,7 @@ static void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
         bank = 0;
     }
 
-    cartridge_romlbank_set(bank);
+    cart_romlbank_set_slotmain(bank);
     currbank = bank;
 }
 
@@ -117,15 +119,15 @@ static const c64export_resource_t export_res = {
 
 void delaep256_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* FIXME: should copy rawcart to roml_banks ! */
 void delaep256_config_setup(BYTE *rawcart)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* ---------------------------------------------------------------------*/

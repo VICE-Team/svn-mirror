@@ -30,7 +30,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -66,7 +68,7 @@ BYTE REGPARM1 exos_romh_read(WORD addr)
 
 void exos_config_init(void)
 {
-    cartridge_config_changed(2, 3, CMODE_READ);
+    cart_config_changed_slotmain(2, 3, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -74,7 +76,7 @@ void exos_config_init(void)
 void exos_config_setup(BYTE *rawcart)
 {
     memcpy(romh_banks, &rawcart[0], 0x2000);
-    cartridge_config_changed(2, 3, CMODE_READ);
+    cart_config_changed_slotmain(2, 3, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

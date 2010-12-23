@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -80,17 +82,17 @@ static void stb_io(WORD addr)
         /* normal config: bank 0 visible */
         case 0:
         case 1:
-            cartridge_config_changed(0, 0, CMODE_READ);
+            cart_config_changed_slotmain(0, 0, CMODE_READ);
             break;
 
         /* bank 1 visible, gets copied to RAM during reset */
         case 2:
-            cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+            cart_config_changed_slotmain(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
             break;
 
         /* RAM visible, which contains bank 1 */
         case 3:
-            cartridge_config_changed(2, 2, CMODE_READ);
+            cart_config_changed_slotmain(2, 2, CMODE_READ);
             break;
     }
 }
@@ -116,7 +118,7 @@ static void REGPARM2 stb_io1_store(WORD addr, BYTE value)
 void stb_config_init(void)
 {
     /* turn on normal config: bank 0 */
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void stb_config_setup(BYTE *rawcart)
@@ -125,7 +127,7 @@ void stb_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x4000);
 
     /* turn on normal config: bank 0 */
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

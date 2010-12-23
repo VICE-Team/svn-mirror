@@ -30,7 +30,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -54,7 +56,7 @@ static int currbank = 0;
 
 static void REGPARM2 gs_io1_store(WORD addr, BYTE value)
 {
-    cartridge_romlbank_set(addr & 0x3f);
+    cart_romlbank_set_slotmain(addr & 0x3f);
     export.game = 0;
     export.exrom = 1;
     currbank = addr & 0x3f;
@@ -62,7 +64,7 @@ static void REGPARM2 gs_io1_store(WORD addr, BYTE value)
 
 static BYTE REGPARM1 gs_io1_read(WORD addr)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
     return 0;
 }
 
@@ -96,7 +98,7 @@ static const c64export_resource_t export_res = {
 
 void gs_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
     gs_io1_store((WORD)0xde00, 0);
 }
 
@@ -106,7 +108,7 @@ void gs_config_setup(BYTE *rawcart)
     memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
 
     /* Hack: using 16kB configuration, but some carts are 8kB only */
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

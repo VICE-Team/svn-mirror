@@ -28,9 +28,13 @@
 #define VICE_C64CARTSYSTEM_H
 
 /*
-    these are the functions which are only shared internally by the cartridge
-    system, meaning c64cart.c, c64cartmem.c, c64carthooks, c64export and the
-    individual cartridge implementations
+    these are the functions which are ONLY shared internally by the cartridge
+    system, meaning c64cart.c, c64cartmem.c, c64carthooks.c, c64export.c and the
+    individual cartridge implementations themselves.
+
+    - all functions should start with a cart_ prefix
+    - all functions which are related to a certain slot should get a proper
+      postfix (_slot0, _slot1, _slotmain, _slotio)
 */
 
 #include "types.h"
@@ -39,11 +43,14 @@
 extern int cart_attach_cmdline(const char *param, void *extra_param);
 
 extern void cart_trigger_nmi(void);
-extern void cart_detach_main(void);
 
-extern int cart_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
 extern void cart_unset_alarms(void);
 extern void cart_power_off(void);
+
+extern void cart_attach_from_snapshot(int type);
+
+extern void cart_detach_slotmain(void);
+extern int cart_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
 
 /* from c64carthooks.c */
 extern void cart_nmi_alarm(CLOCK offset, void *data);
@@ -69,6 +76,56 @@ extern void cart_detach_all(void);
 
 extern void cart_detach_conflicting(int type);
 
-extern void cartridge_attach_from_snapshot(int type);
+/* from c64cartmem.c */
+
+/* mode_phiN bit 0,1 control exrom/game */
+#define CMODE_8KGAME 0
+#define CMODE_16KGAME 1
+#define CMODE_RAM 2
+#define CMODE_ULTIMAX 3
+
+/* mode_phiN other bits select bank (main slot only!) */
+#define CMODE_BANK_SHIFT 2
+#define CMODE_BANK_MASK 0x3f                    /* 64 Banks, meaning 512K max */
+
+/* bits for wflag */
+#define CMODE_READ  0
+#define CMODE_WRITE 1                           /* config changes during a write access */
+#define CMODE_RELEASE_FREEZE 2                  /* cartridge releases NMI condition */
+#define CMODE_PHI2_RAM 4                        /* vic always sees RAM if set */
+#define CMODE_EXPORT_RAM 8                      /* RAM connected to expansion port */
+#define CMODE_TRIGGER_FREEZE_NMI_ONLY 16        /* Trigger NMI after config changed */
+/* shift value for the above */
+#define CMODE_RW_SHIFT  0
+#define CMODE_RELEASE_FREEZE_SHIFT 1
+#define CMODE_PHI2_RAM_SHIFT 2
+#define CMODE_EXPORT_RAM_SHIFT 3
+#define CMODE_TRIGGER_FREEZE_NMI_ONLY_SHIFT 4
+
+#ifdef CARTRIDGE_INCLUDE_SLOT0_API
+
+extern void cart_config_changed_slot0(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+
+#endif /* CARTRIDGE_INCLUDE_SLOT0_API */
+
+#ifdef CARTRIDGE_INCLUDE_SLOT1_API
+
+extern void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+
+#endif /* CARTRIDGE_INCLUDE_SLOT1_API */
+
+#ifdef CARTRIDGE_INCLUDE_SLOTMAIN_API
+
+/* these are for the "Main Slot" only */
+extern void cart_romhbank_set_slotmain(unsigned int bank);
+extern void cart_romlbank_set_slotmain(unsigned int bank);
+
+extern BYTE export_ram0[];
+extern BYTE roml_banks[], romh_banks[]; /* "Main Slot" ROML/ROMH images.  */
+extern int roml_bank, romh_bank, export_ram; /* "Main Slot" ROML/ROMH/RAM banking.  */
+
+extern void cart_config_changed_slotmain(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+
+#endif /* CARTRIDGE_INCLUDE_SLOTMAIN_API */
 
 #endif

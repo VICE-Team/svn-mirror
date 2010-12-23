@@ -34,8 +34,9 @@
 
 #include "archdep.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -266,7 +267,7 @@ void mmc64_reset(void)
         export.exrom = 1;
         mem_pla_config_changed();
 #else
-        cartridge_config_changed(0, 0, CMODE_READ);
+        cart_config_changed_slot0(0, 0, CMODE_READ);
 #endif
     }
 }
@@ -478,7 +479,7 @@ void mmc64_init_card_config(void)
         export.exrom = 1;
         mem_pla_config_changed();
 #else
-        cartridge_config_changed(0, 0, CMODE_READ);
+        cart_config_changed_slot0(0, 0, CMODE_READ);
 #endif
     }
 }
@@ -570,12 +571,12 @@ static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
 #else
                 if (mmc64_active) {
                     log_message(mmc64_log,"disabling MMC64");
-                    cartridge_config_changed(2, 2, CMODE_READ);
+                    cart_config_changed_slot0(2, 2, CMODE_READ);
                 } else {
                     if (mmc64_biossel) {
-                        cartridge_config_changed(2, 2, CMODE_READ);
+                        cart_config_changed_slot0(2, 2, CMODE_READ);
                     } else {
-                        cartridge_config_changed(2, 0, CMODE_READ);
+                        cart_config_changed_slot0(2, 0, CMODE_READ);
                     }
                 }
 #endif
@@ -621,7 +622,7 @@ static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
                 export.exrom = 1;
                 mem_pla_config_changed();   /* re-enable the MMC64 */
 #else
-                cartridge_config_changed(2, 0, CMODE_READ);
+                cart_config_changed_slot0(2, 0, CMODE_READ);
 #endif
             }
 #ifdef LOG_WRITE_DF11

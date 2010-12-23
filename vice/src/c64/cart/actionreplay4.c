@@ -31,7 +31,9 @@
 
 #include "actionreplay4.h"
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "cartridge.h"
 #include "c64io.h"
@@ -112,7 +114,7 @@ static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value)
     conf = (bank << CMODE_BANK_SHIFT) | ((exrom ^ 1) << 1) | ((game ^ 1) << 0);
 
     if (ar_active) {
-        cartridge_config_changed((BYTE)(conf & 3), conf, CMODE_WRITE);
+        cart_config_changed_slotmain((BYTE)(conf & 3), conf, CMODE_WRITE);
         if (disable) {
             ar_active = 0;
         }
@@ -159,13 +161,13 @@ BYTE REGPARM1 actionreplay4_roml_read(WORD addr)
 void actionreplay4_freeze(void)
 {
     ar_active = 1;
-    cartridge_config_changed(3, 3, CMODE_READ);
+    cart_config_changed_slotmain(3, 3, CMODE_READ);
 }
 
 void actionreplay4_config_init(void)
 {
     ar_active = 1;
-    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+    cart_config_changed_slotmain(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 void actionreplay4_reset(void)
@@ -178,7 +180,7 @@ void actionreplay4_config_setup(BYTE *rawcart)
     memcpy(roml_banks, rawcart, 0x8000);
     memcpy(romh_banks, rawcart, 0x8000);
 
-    cartridge_config_changed(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
+    cart_config_changed_slotmain(0 | (1 << CMODE_BANK_SHIFT), 0 | (1 << CMODE_BANK_SHIFT), CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

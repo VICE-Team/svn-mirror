@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -100,7 +102,7 @@
 static void REGPARM2 se5_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 wr %04x %02x\n", addr, value));
-    cartridge_romlbank_set((value & 0x80) >> 7);
+    cart_romlbank_set_slotmain((value & 0x80) >> 7);
 }
 
 static BYTE REGPARM1 se5_io2_read(WORD addr)
@@ -146,15 +148,15 @@ BYTE REGPARM1 se5_roml_read(WORD addr)
 
 void se5_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 void se5_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, SE5_CART_SIZE);
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* ---------------------------------------------------------------------*/

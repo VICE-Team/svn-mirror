@@ -709,8 +709,7 @@ void mem_initialize_memory(void)
 void mem_powerup(void)
 {
     ram_init(mem_ram, 0x10000);
-
-    memset(export_ram0, 0xff, C64CART_RAM_LIMIT); /* Clean cartridge ram too */
+    cartridge_ram_init();  /* Clean cartridge ram too */
 }
 
 /* ------------------------------------------------------------------------- */

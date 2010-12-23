@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -69,7 +71,7 @@ static BYTE REGPARM1 kcs_io1_read(WORD addr)
     /* A1 switches off roml/romh banks */
     config = (addr & 2) ? 2 : 0;
 
-    cartridge_config_changed(config, config, CMODE_READ);
+    cart_config_changed_slotmain(config, config, CMODE_READ);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
@@ -80,13 +82,13 @@ static BYTE REGPARM1 kcs_io1_peek(WORD addr)
 
 static void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
 {
-    cartridge_config_changed(1, 1, CMODE_WRITE);
+    cart_config_changed_slotmain(1, 1, CMODE_WRITE);
 }
 
 static BYTE REGPARM1 kcs_io2_read(WORD addr)
 {
     if (addr & 0x80) {
-        cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+        cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
     }
     return export_ram0[0x1f00 + (addr & 0x7f)];
 }
@@ -99,7 +101,7 @@ static BYTE REGPARM1 kcs_io2_peek(WORD addr)
 static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
 {
     if (!export.ultimax_phi2) { /* FIXME */
-        cartridge_config_changed(1, 1, CMODE_WRITE);
+        cart_config_changed_slotmain(1, 1, CMODE_WRITE);
     }
     export_ram0[0x1f00 + (addr & 0x7f)] = value;
 }
@@ -143,19 +145,19 @@ static const c64export_resource_t export_res_kcs = {
 
 void kcs_freeze(void)
 {
-    cartridge_config_changed(3, 3, CMODE_READ);
+    cart_config_changed_slotmain(3, 3, CMODE_READ);
 }
 
 void kcs_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 void kcs_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

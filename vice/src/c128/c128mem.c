@@ -775,6 +775,7 @@ void mem_initialize_memory(void)
 void mem_powerup(void)
 {
     ram_init(mem_ram, C128_RAM_SIZE);
+    cartridge_ram_init();  /* Clean cartridge ram too */
 }
 
 /* ------------------------------------------------------------------------- */

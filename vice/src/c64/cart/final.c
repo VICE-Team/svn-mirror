@@ -32,7 +32,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -107,7 +109,7 @@ static const c64export_resource_t export_res_v1 = {
 BYTE REGPARM1 final_v1_io1_read(WORD addr)
 {
     DBG(("disable %04x\n", addr));
-    cartridge_config_changed(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
@@ -119,13 +121,13 @@ BYTE REGPARM1 final_v1_io1_peek(WORD addr)
 void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
 {
     DBG(("disable %04x %02x\n", addr, value));
-    cartridge_config_changed(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE);
 }
 
 BYTE REGPARM1 final_v1_io2_read(WORD addr)
 {
     DBG(("enable %04x\n", addr));
-    cartridge_config_changed(1, 1, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(1, 1, CMODE_READ | CMODE_RELEASE_FREEZE);
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
@@ -137,7 +139,7 @@ BYTE REGPARM1 final_v1_io2_peek(WORD addr)
 void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
 {
     DBG(("enable %04x %02x\n", addr, value));
-    cartridge_config_changed(1, 1, CMODE_WRITE | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(1, 1, CMODE_WRITE | CMODE_RELEASE_FREEZE);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -157,20 +159,20 @@ BYTE REGPARM1 final_v1_romh_read(WORD addr)
 void final_v1_freeze(void)
 {
     DBG(("freeze enable\n"));
-    cartridge_config_changed(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
     cartridge_release_freeze();
 }
 
 void final_v1_config_init(void)
 {
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 void final_v1_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/

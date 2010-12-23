@@ -31,7 +31,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -106,7 +108,7 @@ static void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
             eprom_part = test_value;
         }
 
-        cartridge_romlbank_set(rexep256_eprom_roml_bank_offset[eprom_bank]+eprom_part+1);
+        cart_romlbank_set_slotmain(rexep256_eprom_roml_bank_offset[eprom_bank]+eprom_part+1);
     }
 }
 
@@ -155,15 +157,15 @@ static const c64export_resource_t export_res = {
 
 void rexep256_config_init(void)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* FIXME: should copy rawcart to roml_banks ! */
 void rexep256_config_setup(BYTE *rawcart)
 {
-    cartridge_config_changed(0, 0, CMODE_READ);
-    cartridge_romlbank_set(0);
+    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_romlbank_set_slotmain(0);
 }
 
 /* ---------------------------------------------------------------------*/

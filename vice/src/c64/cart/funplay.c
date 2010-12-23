@@ -30,7 +30,9 @@
 #include <string.h>
 
 #include "c64cart.h"
-#include "c64cartmem.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -76,8 +78,8 @@ static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
 {
     /* FIXME */
     currbank = ((value >> 3) & 7) | ((value & 1) << 3);
-    cartridge_romhbank_set(currbank);
-    cartridge_romlbank_set(currbank);
+    cart_romhbank_set_slotmain(currbank);
+    cart_romlbank_set_slotmain(currbank);
     export.game = export.exrom = 1;
     mem_pla_config_changed();
     export.ultimax_phi1 = 0;
@@ -114,7 +116,7 @@ static const c64export_resource_t export_res = {
 
 void funplay_config_init(void)
 {
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
     funplay_io1_store((WORD)0xde00, 0);
 }
 
@@ -124,7 +126,7 @@ void funplay_config_setup(BYTE *rawcart)
     memcpy(romh_banks, &rawcart[0x2000 * 16], 0x2000 * 16);
 
     /* Hack: using 16kB configuration, but some carts are 8kB only */
-    cartridge_config_changed(1, 1, CMODE_READ);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
