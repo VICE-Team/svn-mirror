@@ -1578,17 +1578,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_OLD_NTSC_M_SV, "Gammal NTSC-M" },
 /* tr */ { IDMS_OLD_NTSC_M_TR, "Eski NTSC-M" },
 
-/* en */ { IDMS_EMU_ID,    "Emulator identification" },
-/* da */ { IDMS_EMU_ID_DA, "" },  /* fuzzy */
-/* de */ { IDMS_EMU_ID_DE, "Emulator Identifikation" },
-/* fr */ { IDMS_EMU_ID_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_EMU_ID_HU, "" },  /* fuzzy */
-/* it */ { IDMS_EMU_ID_IT, "" },  /* fuzzy */
-/* nl */ { IDMS_EMU_ID_NL, "Emulator identificatie" },
-/* pl */ { IDMS_EMU_ID_PL, "" },  /* fuzzy */
-/* sv */ { IDMS_EMU_ID_SV, "Emulatoridentifiering" },
-/* tr */ { IDMS_EMU_ID_TR, "" },  /* fuzzy */
-
 /* en */ { IDMS_VIC_1112_IEEE_488,    "VIC-1112 IEEE 488 module" },
 /* da */ { IDMS_VIC_1112_IEEE_488_DA, "VIC-1112 IEEE 488-modul" },
 /* de */ { IDMS_VIC_1112_IEEE_488_DE, "VIC-1112 IEEE 488 Modul" },

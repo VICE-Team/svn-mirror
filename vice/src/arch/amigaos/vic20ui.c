@@ -52,7 +52,6 @@ static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
-    { "EmuID", IDM_TOGGLE_EMUID },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "FinalExpansionWriteBack", IDM_FINAL_EXPANSION_WRITEBACK },
     { "MegaCartNvRAMWriteBack", IDM_MEGACART_WRITEBACK },
