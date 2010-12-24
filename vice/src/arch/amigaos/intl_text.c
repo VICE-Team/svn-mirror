@@ -566,7 +566,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ACTION_REPLAY_IMAGE_SV, "Action Replay-fil..." },
 /* tr */ { IDMS_ACTION_REPLAY_IMAGE_TR, "Action Replay imajý..." },
 
-/* en */ { IDMS_ACTION_REPLAY3_IMAGE,    "Action Replay 3 image..." },
+/* en */ { IDMS_ACTION_REPLAY3_IMAGE,    "Action Replay MK3 image..." },
 /* da */ { IDMS_ACTION_REPLAY3_IMAGE_DA, "Action Replay 3-image..." },
 /* de */ { IDMS_ACTION_REPLAY3_IMAGE_DE, "Action Replay 3 Image..." },
 /* fr */ { IDMS_ACTION_REPLAY3_IMAGE_FR, "" },  /* fuzzy */
@@ -577,7 +577,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ACTION_REPLAY3_IMAGE_SV, "Action Replay 3-fil..." },
 /* tr */ { IDMS_ACTION_REPLAY3_IMAGE_TR, "Action Replay 3 imajý..." },
 
-/* en */ { IDMS_ACTION_REPLAY4_IMAGE,    "Action Replay 4 image..." },
+/* en */ { IDMS_ACTION_REPLAY4_IMAGE,    "Action Replay MK4 image..." },
 /* da */ { IDMS_ACTION_REPLAY4_IMAGE_DA, "Action Replay 4-image..." },
 /* de */ { IDMS_ACTION_REPLAY4_IMAGE_DE, "Action Replay 4 Image..." },
 /* fr */ { IDMS_ACTION_REPLAY4_IMAGE_FR, "" },  /* fuzzy */
@@ -588,7 +588,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ACTION_REPLAY4_IMAGE_SV, "Action Replay 4-fil..." },
 /* tr */ { IDMS_ACTION_REPLAY4_IMAGE_TR, "Action Replay 4 imajý..." },
 
-/* en */ { IDMS_STARDOS_IMAGE,    "StarDOS image..." },
+/* en */ { IDMS_STARDOS_IMAGE,    "Stardos image..." },
 /* da */ { IDMS_STARDOS_IMAGE_DA, "StarDOS-image..." },
 /* de */ { IDMS_STARDOS_IMAGE_DE, "StarDOS Image..." },
 /* fr */ { IDMS_STARDOS_IMAGE_FR, "" },  /* fuzzy */
@@ -610,7 +610,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ATOMIC_POWER_IMAGE_SV, "Atomic Power-fil..." },
 /* tr */ { IDMS_ATOMIC_POWER_IMAGE_TR, "Atomic Power imajý..." },
 
-/* en */ { IDMS_EPYX_FASTLOAD_IMAGE,    "Epyx fastload image..." },
+/* en */ { IDMS_EPYX_FASTLOAD_IMAGE,    "Epyx FastLoad image..." },
 /* da */ { IDMS_EPYX_FASTLOAD_IMAGE_DA, "Epyx FastLoad-image..." },
 /* de */ { IDMS_EPYX_FASTLOAD_IMAGE_DE, "Epyx Fastload Image..." },
 /* fr */ { IDMS_EPYX_FASTLOAD_IMAGE_FR, "" },  /* fuzzy */
@@ -621,7 +621,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_EPYX_FASTLOAD_IMAGE_SV, "Epyx fastload-fil..." },
 /* tr */ { IDMS_EPYX_FASTLOAD_IMAGE_TR, "Epyx fastload imajý..." },
 
-/* en */ { IDMS_IEEE488_INTERFACE_IMAGE,    "IEEE488 interface image..." },
+/* en */ { IDMS_IEEE488_INTERFACE_IMAGE,    "IEEE488 Interface image..." },
 /* da */ { IDMS_IEEE488_INTERFACE_IMAGE_DA, "IEEE488-interface image..." },
 /* de */ { IDMS_IEEE488_INTERFACE_IMAGE_DE, "IEEE 488 Schnittstellenmodul..." },
 /* fr */ { IDMS_IEEE488_INTERFACE_IMAGE_FR, "" },  /* fuzzy */
@@ -654,7 +654,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_IDE64_INTERFACE_IMAGE_SV, "IDE64-gränssnittsfil..." },
 /* tr */ { IDMS_IDE64_INTERFACE_IMAGE_TR, "IDE64 arabirim imajý..." },
 
-/* en */ { IDMS_SUPER_SNAPSHOT_4_IMAGE,    "Super Snapshot 4 image..." },
+/* en */ { IDMS_SUPER_SNAPSHOT_4_IMAGE,    "Super Snapshot V4 image..." },
 /* da */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_DA, "Super Snapshot 4-image..." },
 /* de */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_DE, "Super Snapshot 4 Image..." },
 /* fr */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_FR, "" },  /* fuzzy */
@@ -665,7 +665,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_SV, "Super Snapshot 4-fil..." },
 /* tr */ { IDMS_SUPER_SNAPSHOT_4_IMAGE_TR, "Super Snapshot 4 imajý..." },
 
-/* en */ { IDMS_SUPER_SNAPSHOT_5_IMAGE,    "Super Snapshot 5 image..." },
+/* en */ { IDMS_SUPER_SNAPSHOT_5_IMAGE,    "Super Snapshot V5 image..." },
 /* da */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_DA, "Super Snapshot 5-image..." },
 /* de */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_DE, "Super Snapshot 5 Image..." },
 /* fr */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_FR, "" },  /* fuzzy */
@@ -676,7 +676,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_SV, "Super Snapshot 5-fil..." },
 /* tr */ { IDMS_SUPER_SNAPSHOT_5_IMAGE_TR, "Super Snapshot 5 imajý..." },
 
-/* en */ { IDMS_STRUCTURED_BASIC_IMAGE,    "Structured Basic image..." },
+/* en */ { IDMS_STRUCTURED_BASIC_IMAGE,    "Structured BASIC image..." },
 /* da */ { IDMS_STRUCTURED_BASIC_IMAGE_DA, "Structured BASIC-image..." },
 /* de */ { IDMS_STRUCTURED_BASIC_IMAGE_DE, "Erweiterungsmodul Structured Basic..." },
 /* fr */ { IDMS_STRUCTURED_BASIC_IMAGE_FR, "" },  /* fuzzy */
@@ -687,7 +687,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_STRUCTURED_BASIC_IMAGE_SV, "Structure Basic-fil..." },
 /* tr */ { IDMS_STRUCTURED_BASIC_IMAGE_TR, "Structured Basic imajý..." },
 
-/* en */ { IDMS_EXPERT_CART,    "Expert cartridge" },
+/* en */ { IDMS_EXPERT_CART,    "Expert Cartridge" },
 /* da */ { IDMS_EXPERT_CART_DA, "" },  /* fuzzy */
 /* de */ { IDMS_EXPERT_CART_DE, "Expert Cartridge" },
 /* fr */ { IDMS_EXPERT_CART_FR, "" },  /* fuzzy */
@@ -1578,7 +1578,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_OLD_NTSC_M_SV, "Gammal NTSC-M" },
 /* tr */ { IDMS_OLD_NTSC_M_TR, "Eski NTSC-M" },
 
-/* en */ { IDMS_VIC_1112_IEEE_488,    "VIC-1112 IEEE 488 module" },
+/* en */ { IDMS_VIC_1112_IEEE_488,    "VIC-1112 IEEE-488 module" },
 /* da */ { IDMS_VIC_1112_IEEE_488_DA, "VIC-1112 IEEE 488-modul" },
 /* de */ { IDMS_VIC_1112_IEEE_488_DE, "VIC-1112 IEEE 488 Modul" },
 /* fr */ { IDMS_VIC_1112_IEEE_488_FR, "" },  /* fuzzy */
@@ -1600,7 +1600,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_PADDLES_SV, "Aktivera paddlar" },
 /* tr */ { IDMS_ENABLE_PADDLES_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_IEEE_488_INTERFACE,    "IEEE 488 Interface emulation" },
+/* en */ { IDMS_IEEE_488_INTERFACE,    "IEEE-488 Interface emulation" },
 /* da */ { IDMS_IEEE_488_INTERFACE_DA, "Emulering af IEEE 488-interface" },
 /* de */ { IDMS_IEEE_488_INTERFACE_DE, "IEEE 488 Schnittstellen-Emulation" },
 /* fr */ { IDMS_IEEE_488_INTERFACE_FR, "" },  /* fuzzy */
@@ -2040,7 +2040,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_MAGIC_VOICE_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_MAGIC_VOICE_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_GEORAM_SETTINGS,    "GEORAM settings..." },
+/* en */ { IDMS_GEORAM_SETTINGS,    "GEO-RAM settings..." },
 /* da */ { IDMS_GEORAM_SETTINGS_DA, "GEORAM-indstillinger..." },
 /* de */ { IDMS_GEORAM_SETTINGS_DE, "GEORAM Einstellungen..." },
 /* fr */ { IDMS_GEORAM_SETTINGS_FR, "" },  /* fuzzy */
@@ -2051,7 +2051,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_GEORAM_SETTINGS_SV, "GEORAM-inställningar..." },
 /* tr */ { IDMS_GEORAM_SETTINGS_TR, "GEORAM ayarlarý..." },
 
-/* en */ { IDMS_RAMCART_SETTINGS,    "RAMCART settings..." },
+/* en */ { IDMS_RAMCART_SETTINGS,    "RamCart settings..." },
 /* da */ { IDMS_RAMCART_SETTINGS_DA, "RAMCART-indstillinger..." },
 /* de */ { IDMS_RAMCART_SETTINGS_DE, "RAMCART Einstellungen..." },
 /* fr */ { IDMS_RAMCART_SETTINGS_FR, "" },  /* fuzzy */
@@ -2172,7 +2172,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_MMCREPLAY_SETTINGS_SV, "MMC Replay-inställningar..." },
 /* tr */ { IDMS_MMCREPLAY_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_DIGIMAX_SETTINGS,    "Digimax settings..." },
+/* en */ { IDMS_DIGIMAX_SETTINGS,    "DigiMAX settings..." },
 /* da */ { IDMS_DIGIMAX_SETTINGS_DA, "Digimaxindstillinger..." },
 /* de */ { IDMS_DIGIMAX_SETTINGS_DE, "Digimax Einstellungen..." },
 /* fr */ { IDMS_DIGIMAX_SETTINGS_FR, "" },  /* fuzzy */
@@ -2216,7 +2216,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler" },
 /* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler'ý Aktif Et" },
 
-/* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable Userport DAC" },
+/* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable userport DAC" },
 /* da */ { IDMS_ENABLE_USERPORT_DAC_DA, "" },  /* fuzzy */
 /* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "Userport DAC aktivieren" },
 /* fr */ { IDMS_ENABLE_USERPORT_DAC_FR, "" },  /* fuzzy */
@@ -3349,7 +3349,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_SV, "Anslut Action Replay-insticksmodulfil" },
 /* tr */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_TR, "Action Replay kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE,    "Attach Action Replay 3 cartridge image" },
+/* en */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE,    "Attach Action Replay MK3 cartridge image" },
 /* da */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_DA, "Tilslut Action Replay 3-image" },
 /* de */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_DE, "Action Replay 3 Erweiterungsmodul Image einlegen" },
 /* fr */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_FR, "" },  /* fuzzy */
@@ -3360,7 +3360,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_SV, "Anslut Action Replay 3-avbildningsfil" },
 /* tr */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_TR, "Action Replay 3 kartuþ imajýný yerleþtir" },
 
-/* en */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE,    "Attach Action Replay 4 cartridge image" },
+/* en */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE,    "Attach Action Replay MK4 cartridge image" },
 /* da */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_DA, "Tilslut Action Replay 4-cartridge image" },
 /* de */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_DE, "Action Replay 4 Erweiterungsmodul Image einlegen" },
 /* fr */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_FR, "" },  /* fuzzy */
@@ -3371,7 +3371,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_SV, "Anslut Action Replay 4-insticksmodulfil" },
 /* tr */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_TR, "Action Replay 4 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_STARDOS_IMAGE,    "Attach StarDOS cartridge image" },
+/* en */ { IDS_ATTACH_STARDOS_IMAGE,    "Attach Stardos cartridge image" },
 /* da */ { IDS_ATTACH_STARDOS_IMAGE_DA, "Tilslut StarDOS-cartridge image" },
 /* de */ { IDS_ATTACH_STARDOS_IMAGE_DE, "Erweiterungsmodul StarDOS Image einlegen" },
 /* fr */ { IDS_ATTACH_STARDOS_IMAGE_FR, "" },  /* fuzzy */
@@ -3393,7 +3393,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_SV, "Anslut Atomic Power-avbildningsfil" },
 /* tr */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_TR, "Atomic Power kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE,    "Attach Epyx fastload cartridge image" },
+/* en */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE,    "Attach Epyx FastLoad cartridge image" },
 /* da */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_DA, "Tilslut Epyx fastload-cartridge image" },
 /* de */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_DE, "Epyx Fastload Erweiterungsmodul Image einlegen" },
 /* fr */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_FR, "Insérer une cartouche Epyx FastLoad" },
@@ -3404,7 +3404,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_SV, "Anslut Epyx fastload-avbildningsfil" },
 /* tr */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_TR, "Epyx fastload kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_IEEE488_IMAGE,    "Attach IEEE interface cartridge image" },
+/* en */ { IDS_ATTACH_IEEE488_IMAGE,    "Attach IEEE-488 Interface cartridge image" },
 /* da */ { IDS_ATTACH_IEEE488_IMAGE_DA, "Tilslut IEEE-interface cartridge image" },
 /* de */ { IDS_ATTACH_IEEE488_IMAGE_DE, "IEEE Schnittstellen Erweiterungsmodul Image einlegen" },
 /* fr */ { IDS_ATTACH_IEEE488_IMAGE_FR, "Insérer une cartouche interface IEEE" },
@@ -3437,7 +3437,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_IDE64_IMAGE_SV, "Anslut IDE64-gränssnittsavbildningsfil" },
 /* tr */ { IDS_ATTACH_IDE64_IMAGE_TR, "IDE64 arabirimi kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_SS4_IMAGE,    "Attach Super Snapshot 4 cartridge image" },
+/* en */ { IDS_ATTACH_SS4_IMAGE,    "Attach Super Snapshot V4 cartridge image" },
 /* da */ { IDS_ATTACH_SS4_IMAGE_DA, "Tilslut Super Snapshot 4-cartridge image" },
 /* de */ { IDS_ATTACH_SS4_IMAGE_DE, "Super Snapshot 4 Erweiterungsmodul Image einlegen" },
 /* fr */ { IDS_ATTACH_SS4_IMAGE_FR, "Insérer une cartouche Super Snapshot 4" },
@@ -3448,7 +3448,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_SS4_IMAGE_SV, "Anslut Super Snapshot 4-avbildningsfil" },
 /* tr */ { IDS_ATTACH_SS4_IMAGE_TR, "Super Snapshot 4 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_SS5_IMAGE,    "Attach Super Snapshot 5 cartridge image" },
+/* en */ { IDS_ATTACH_SS5_IMAGE,    "Attach Super Snapshot V5 cartridge image" },
 /* da */ { IDS_ATTACH_SS5_IMAGE_DA, "Tilslut Super Snapshot 5-cartridge image" },
 /* de */ { IDS_ATTACH_SS5_IMAGE_DE, "Super Snapshot 5 Erweiterungsmodul Image einlegen" },
 /* fr */ { IDS_ATTACH_SS5_IMAGE_FR, "Insérer une cartouche Super Snapshot 5" },
@@ -3459,7 +3459,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_SS5_IMAGE_SV, "Anslut Super Snapshot 5-avbildningsfil" },
 /* tr */ { IDS_ATTACH_SS5_IMAGE_TR, "Super Snapshot 5 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_SB_IMAGE,    "Attach Structured Basic cartridge image" },
+/* en */ { IDS_ATTACH_SB_IMAGE,    "Attach Structured BASIC cartridge image" },
 /* da */ { IDS_ATTACH_SB_IMAGE_DA, "Tilslut Strucured Basic-cartridge image" },
 /* de */ { IDS_ATTACH_SB_IMAGE_DE, "Erweiterungsmodul Structured Basic einlegen" },
 /* fr */ { IDS_ATTACH_SB_IMAGE_FR, "" },  /* fuzzy */
@@ -4262,7 +4262,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DRIVE_SETTINGS_SV, "Diskettenhetsinställningar" },
 /* tr */ { IDS_DRIVE_SETTINGS_TR, "Sürücü ayarlarý" },
 
-/* en */ { IDS_GEORAM_SIZE,    "GEORAM size" },
+/* en */ { IDS_GEORAM_SIZE,    "GEO-RAM size" },
 /* da */ { IDS_GEORAM_SIZE_DA, "GEORAM-størrelse" },
 /* de */ { IDS_GEORAM_SIZE_DE, "GEORAM Größe" },
 /* fr */ { IDS_GEORAM_SIZE_FR, "Taille du GEORAM" },
@@ -4273,7 +4273,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GEORAM_SIZE_SV, "GEORAM-storlek" },
 /* tr */ { IDS_GEORAM_SIZE_TR, "GEORAM boyutu" },
 
-/* en */ { IDS_GEORAM_FILENAME,    "GEORAM file" },
+/* en */ { IDS_GEORAM_FILENAME,    "GEO-RAM file" },
 /* da */ { IDS_GEORAM_FILENAME_DA, "GEORAM-fil" },
 /* de */ { IDS_GEORAM_FILENAME_DE, "GEORAM Datei" },
 /* fr */ { IDS_GEORAM_FILENAME_FR, "Fichier GEORAM" },
@@ -4284,7 +4284,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GEORAM_FILENAME_SV, "GEORAM-fil" },
 /* tr */ { IDS_GEORAM_FILENAME_TR, "GEORAM dosyasý" },
 
-/* en */ { IDS_GEORAM_FILENAME_SELECT,    "Select file for GEORAM" },
+/* en */ { IDS_GEORAM_FILENAME_SELECT,    "Select file for GEO-RAM" },
 /* da */ { IDS_GEORAM_FILENAME_SELECT_DA, "Vælg fil for GEORAM" },
 /* de */ { IDS_GEORAM_FILENAME_SELECT_DE, "Datei für GEORAM auswählen" },
 /* fr */ { IDS_GEORAM_FILENAME_SELECT_FR, "Sélectionner le fichier GEORAM" },
@@ -4295,7 +4295,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GEORAM_FILENAME_SELECT_SV, "Välj fil för GEORAM" },
 /* tr */ { IDS_GEORAM_FILENAME_SELECT_TR, "GEORAM için dosya seçin" },
 
-/* en */ { IDS_GEORAM_SETTINGS,    "GEORAM settings" },
+/* en */ { IDS_GEORAM_SETTINGS,    "GEO-RAM settings" },
 /* da */ { IDS_GEORAM_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDS_GEORAM_SETTINGS_DE, "GEORAM Einstellungen" },
 /* fr */ { IDS_GEORAM_SETTINGS_FR, "" },  /* fuzzy */
@@ -5088,7 +5088,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_READ_ONLY_SV, "skrivskyddad" },
 /* tr */ { IDS_READ_ONLY_TR, "salt-okunur" },
 
-/* en */ { IDS_RAMCART_READ_WRITE,    "RAMCART Read/Write" },
+/* en */ { IDS_RAMCART_READ_WRITE,    "RamCart Read/Write" },
 /* da */ { IDS_RAMCART_READ_WRITE_DA, "RAMCART læs/skriv" },
 /* de */ { IDS_RAMCART_READ_WRITE_DE, "RAMCART Lesen/Schreiben" },
 /* fr */ { IDS_RAMCART_READ_WRITE_FR, "Lecture/Écriture RAMCART" },
@@ -5099,7 +5099,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMCART_READ_WRITE_SV, "Läsa/skriva RAMCART" },
 /* tr */ { IDS_RAMCART_READ_WRITE_TR, "RAMCART Oku/Yaz" },
 
-/* en */ { IDS_RAMCART_SIZE,    "RAMCART size" },
+/* en */ { IDS_RAMCART_SIZE,    "RamCart size" },
 /* da */ { IDS_RAMCART_SIZE_DA, "RAMCART størrelse" },
 /* de */ { IDS_RAMCART_SIZE_DE, "RAMCART Größe" },
 /* fr */ { IDS_RAMCART_SIZE_FR, "Taille du RAMCART" },
@@ -5110,7 +5110,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMCART_SIZE_SV, "Storlek på RAMCART" },
 /* tr */ { IDS_RAMCART_SIZE_TR, "RAMCART boyutu" },
 
-/* en */ { IDS_RAMCART_FILENAME,    "RAMCART file" },
+/* en */ { IDS_RAMCART_FILENAME,    "RamCart file" },
 /* da */ { IDS_RAMCART_FILENAME_DA, "RAMCART-fil" },
 /* de */ { IDS_RAMCART_FILENAME_DE, "RAMCART Datei" },
 /* fr */ { IDS_RAMCART_FILENAME_FR, "Fichier RAMCART" },
@@ -5121,7 +5121,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMCART_FILENAME_SV, "RAMCART-fil" },
 /* tr */ { IDS_RAMCART_FILENAME_TR, "RAMCART dosyasý" },
 
-/* en */ { IDS_RAMCART_FILENAME_SELECT,    "Select file for RAMCART" },
+/* en */ { IDS_RAMCART_FILENAME_SELECT,    "Select file for RamCart" },
 /* da */ { IDS_RAMCART_FILENAME_SELECT_DA, "Vælg fil for RAMCART" },
 /* de */ { IDS_RAMCART_FILENAME_SELECT_DE, "Datei für RAMCART auswählen" },
 /* fr */ { IDS_RAMCART_FILENAME_SELECT_FR, "Sélectionner fichier pour RAMCART" },
@@ -5132,7 +5132,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMCART_FILENAME_SELECT_SV, "Välj fil för RAMCART" },
 /* tr */ { IDS_RAMCART_FILENAME_SELECT_TR, "RAMCART için dosya seçin" },
 
-/* en */ { IDS_RAMCART_SETTINGS,    "RAMCART Settings" },
+/* en */ { IDS_RAMCART_SETTINGS,    "RamCart settings" },
 /* da */ { IDS_RAMCART_SETTINGS_DA, "RAMCART-indstillinger" },
 /* de */ { IDS_RAMCART_SETTINGS_DE, "RAMCART Einstellungen" },
 /* fr */ { IDS_RAMCART_SETTINGS_FR, "Paramètres RAMCART" },
@@ -5451,7 +5451,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MAGIC_VOICE_FILENAME_SELECT_SV, "" },  /* fuzzy */
 /* tr */ { IDS_MAGIC_VOICE_FILENAME_SELECT_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_MAGIC_VOICE_SETTINGS,    "Magic Voice Settings" },
+/* en */ { IDS_MAGIC_VOICE_SETTINGS,    "Magic Voice settings" },
 /* da */ { IDS_MAGIC_VOICE_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDS_MAGIC_VOICE_SETTINGS_DE, "" },  /* fuzzy */
 /* fr */ { IDS_MAGIC_VOICE_SETTINGS_FR, "" },  /* fuzzy */
@@ -5714,17 +5714,6 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_FRAGMENT_SIZE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_FRAGMENT_SIZE_SV, "Fragmentstorlek" },
 /* tr */ { IDS_FRAGMENT_SIZE_TR, "Parça boyutu" },
-
-/* en */ { IDS_OVERSAMPLE,    "Oversample" },
-/* da */ { IDS_OVERSAMPLE_DA, "Oversampling" },
-/* de */ { IDS_OVERSAMPLE_DE, "Oversample" },
-/* fr */ { IDS_OVERSAMPLE_FR, "Suréchantillonage" },
-/* hu */ { IDS_OVERSAMPLE_HU, "Túlmintavételezés" },
-/* it */ { IDS_OVERSAMPLE_IT, "Sovracampionamento" },
-/* nl */ { IDS_OVERSAMPLE_NL, "Oversample" },
-/* pl */ { IDS_OVERSAMPLE_PL, "Przesamplowanie" },
-/* sv */ { IDS_OVERSAMPLE_SV, "Översampling" },
-/* tr */ { IDS_OVERSAMPLE_TR, "Yüksek hýzda örnekleme" },
 
 /* en */ { IDS_SPEED_ADJUSTMENT,    "Speed Adjustment" },
 /* da */ { IDS_SPEED_ADJUSTMENT_DA, "Hastighedsjustering" },
@@ -7002,7 +6991,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DRIVE_ROM_SETTINGS_SV, "ROM-inställningar för diskettenhet" },
 /* tr */ { IDS_DRIVE_ROM_SETTINGS_TR, "Sürücü ROM ayarlarý" },
 
-/* en */ { IDS_DIGIMAX_ENABLED,    "Digimax Enabled" },
+/* en */ { IDS_DIGIMAX_ENABLED,    "DigiMAX Enabled" },
 /* da */ { IDS_DIGIMAX_ENABLED_DA, "Digimax aktiveret" },
 /* de */ { IDS_DIGIMAX_ENABLED_DE, "Digimax aktiviert" },
 /* fr */ { IDS_DIGIMAX_ENABLED_FR, "" },  /* fuzzy */
@@ -7013,7 +7002,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DIGIMAX_ENABLED_SV, "Digimax aktiverad" },
 /* tr */ { IDS_DIGIMAX_ENABLED_TR, "Digimax'ý Aktif Et" },
 
-/* en */ { IDS_DIGIMAX_BASE,    "Digimax base" },
+/* en */ { IDS_DIGIMAX_BASE,    "DigiMAX base" },
 /* da */ { IDS_DIGIMAX_BASE_DA, "Digimax-base" },
 /* de */ { IDS_DIGIMAX_BASE_DE, "Digimax Basis" },
 /* fr */ { IDS_DIGIMAX_BASE_FR, "Base Digimax" },
@@ -7024,7 +7013,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DIGIMAX_BASE_SV, "Digimax-bas" },
 /* tr */ { IDS_DIGIMAX_BASE_TR, "Digimax taban" },
 
-/* en */ { IDS_DIGIMAX_SETTINGS,    "Digimax Settings" },
+/* en */ { IDS_DIGIMAX_SETTINGS,    "DigiMAX settings" },
 /* da */ { IDS_DIGIMAX_SETTINGS_DA, "Digimaxindstillinger" },
 /* de */ { IDS_DIGIMAX_SETTINGS_DE, "Digimax Einstellungen" },
 /* fr */ { IDS_DIGIMAX_SETTINGS_FR, "" },  /* fuzzy */
