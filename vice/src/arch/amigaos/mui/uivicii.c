@@ -65,10 +65,10 @@ static const int ui_vicii_borders_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "VICIIBorderMode", ui_vicii_borders, ui_vicii_borders_values },
-    { NULL, MUI_TYPE_CYCLE, "VICIICheckSsColl", ui_vicii_enable, ui_vicii_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "VICIICheckSbColl", ui_vicii_enable, ui_vicii_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "VICIINewLuminances", ui_vicii_enable, ui_vicii_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "VICIIBorderMode", ui_vicii_borders, ui_vicii_borders_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIICheckSsColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIICheckSbColl", ui_vicii_enable, ui_vicii_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIINewLuminances", ui_vicii_enable, ui_vicii_enable_values, NULL },
     UI_END /* mandatory */
 };
 

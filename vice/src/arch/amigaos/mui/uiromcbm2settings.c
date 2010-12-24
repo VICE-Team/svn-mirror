@@ -37,24 +37,24 @@
 static video_canvas_t *rom_canvas;
 
 static ui_to_from_t ui_to_from_computer[] = {
-    { NULL, MUI_TYPE_FILENAME, "KernalName", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "BasicName", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "ChargenName", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart1Name", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart2Name", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart4Name", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "Cart6Name", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "KernalName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "BasicName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "ChargenName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "Cart1Name", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "Cart2Name", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "Cart4Name", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "Cart6Name", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 
 static APTR hook_object_computer[countof(ui_to_from_computer)];
 
 static ui_to_from_t ui_to_from_drive[] = {
-    { NULL, MUI_TYPE_FILENAME, "DosName2031", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "DosName2040", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "DosName3040", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "DosName4040", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "DosName1001", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName2031", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName2040", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName3040", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName4040", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DosName1001", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

@@ -51,17 +51,17 @@ static const int ui_external_palette_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, NULL, ui_external_palette_enable, ui_external_palette_enable_values },
-    { NULL, MUI_TYPE_FILENAME, NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorSaturation", NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorContrast", NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorBrightness", NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, NULL, ui_external_palette_enable, ui_external_palette_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, NULL, NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorSaturation", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorContrast", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorBrightness", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

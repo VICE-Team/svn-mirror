@@ -51,8 +51,8 @@ static const int ui_dqbb_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "DQBB", ui_dqbb_enable, ui_dqbb_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "DQBBfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DQBB", ui_dqbb_enable, ui_dqbb_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "DQBBfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

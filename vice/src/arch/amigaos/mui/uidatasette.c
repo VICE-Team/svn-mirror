@@ -95,9 +95,9 @@ static const int ui_datasette_delay_at_zero_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "DatasetteResetWithCPU", ui_datasette_reset_with_cpu, ui_datasette_reset_with_cpu_values },
-    { NULL, MUI_TYPE_CYCLE, "DatasetteSpeedTuning", ui_datasette_additional_delay, ui_datasette_additional_delay_values },
-    { NULL, MUI_TYPE_CYCLE, "DatasetteZeroGapDelay", ui_datasette_delay_at_zero, ui_datasette_delay_at_zero_values },
+    { NULL, MUI_TYPE_CYCLE, "DatasetteResetWithCPU", ui_datasette_reset_with_cpu, ui_datasette_reset_with_cpu_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DatasetteSpeedTuning", ui_datasette_additional_delay, ui_datasette_additional_delay_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DatasetteZeroGapDelay", ui_datasette_delay_at_zero, ui_datasette_delay_at_zero_values, NULL },
     UI_END /* mandatory */
 };
 

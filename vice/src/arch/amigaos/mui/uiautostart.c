@@ -67,11 +67,11 @@ static const int ui_autostart_mode_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "AutostartWarp", ui_autostart_enable, ui_autostart_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "AutostartRunWithColon", ui_autostart_enable, ui_autostart_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "AutostartPrgMode", ui_autostart_mode, ui_autostart_mode_values },
-    { NULL, MUI_TYPE_CYCLE, "AutostartBasicLoad", ui_autostart_enable, ui_autostart_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "AutostartPrgDiskImage", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "AutostartWarp", ui_autostart_enable, ui_autostart_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "AutostartRunWithColon", ui_autostart_enable, ui_autostart_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "AutostartPrgMode", ui_autostart_mode, ui_autostart_mode_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "AutostartBasicLoad", ui_autostart_enable, ui_autostart_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "AutostartPrgDiskImage", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

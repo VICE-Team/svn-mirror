@@ -93,8 +93,8 @@ static const int ui_digimax_base_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "DIGIMAX", ui_digimax_enable, ui_digimax_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "DIGIMAXbase", ui_digimax_base, ui_digimax_base_values },
+    { NULL, MUI_TYPE_CYCLE, "DIGIMAX", ui_digimax_enable, ui_digimax_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DIGIMAXbase", ui_digimax_base, ui_digimax_base_values, NULL },
     UI_END /* mandatory */
 };
 

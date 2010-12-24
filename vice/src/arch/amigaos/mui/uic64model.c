@@ -104,11 +104,11 @@ static const int ui_glue_logic_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "VICIIModel", ui_vicii_models, ui_vicii_models_values },
-    { NULL, MUI_TYPE_CYCLE, "VICIINewLuminances", ui_new_luminances_enable, ui_new_luminances_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "CIA1Model", ui_cia_models, ui_cia_models_values },
-    { NULL, MUI_TYPE_CYCLE, "CIA2Model", ui_cia_models, ui_cia_models_values },
-    { NULL, MUI_TYPE_CYCLE, "GlueLogic", ui_glue_logic, ui_glue_logic_values },
+    { NULL, MUI_TYPE_CYCLE, "VICIIModel", ui_vicii_models, ui_vicii_models_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "VICIINewLuminances", ui_new_luminances_enable, ui_new_luminances_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "CIA1Model", ui_cia_models, ui_cia_models_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "CIA2Model", ui_cia_models, ui_cia_models_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GlueLogic", ui_glue_logic, ui_glue_logic_values, NULL },
     UI_END /* mandatory */
 };
 

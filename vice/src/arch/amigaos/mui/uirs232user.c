@@ -87,9 +87,9 @@ static const int ui_rs232user_baud_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "RsUserEnable", ui_rs232user_enable, ui_rs232user_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "RsUserDev", ui_rs232user_device, ui_rs232user_device_values },
-    { NULL, MUI_TYPE_CYCLE, "RsUserBaud", ui_rs232user_baud, ui_rs232user_baud_values },
+    { NULL, MUI_TYPE_CYCLE, "RsUserEnable", ui_rs232user_enable, ui_rs232user_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "RsUserDev", ui_rs232user_device, ui_rs232user_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "RsUserBaud", ui_rs232user_baud, ui_rs232user_baud_values, NULL },
     UI_END /* mandatory */
 };
 

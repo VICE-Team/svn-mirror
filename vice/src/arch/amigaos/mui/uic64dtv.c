@@ -64,10 +64,10 @@ static const int ui_c64dtv_revision_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_FILENAME, "c64dtvromfilename", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "DtvRevision", ui_c64dtv_revision, ui_c64dtv_revision_values },
-    { NULL, MUI_TYPE_CYCLE, "c64dtvromrw", ui_c64dtv_enable, ui_c64dtv_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "HummerADC", ui_c64dtv_enable, ui_c64dtv_enable_values },
+    { NULL, MUI_TYPE_FILENAME, "c64dtvromfilename", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "DtvRevision", ui_c64dtv_revision, ui_c64dtv_revision_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "c64dtvromrw", ui_c64dtv_enable, ui_c64dtv_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "HummerADC", ui_c64dtv_enable, ui_c64dtv_enable_values, NULL },
     UI_END /* mandatory */
 };
 

@@ -75,9 +75,9 @@ static const int ui_reu_size_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "REU", ui_reu_enable, ui_reu_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "REUsize", ui_reu_size, ui_reu_size_values },
-    { NULL, MUI_TYPE_FILENAME, "REUfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "REU", ui_reu_enable, ui_reu_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "REUsize", ui_reu_size, ui_reu_size_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "REUfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

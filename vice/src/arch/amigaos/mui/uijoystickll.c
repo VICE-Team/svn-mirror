@@ -136,29 +136,29 @@ static const int ui_userport_joystick_values[] = {
 };
 
 static ui_to_from_t ui_to_from_device[] = {
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick_device, ui_joystick_device_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick_device, ui_joystick_device_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick_device, ui_joystick_device_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice4", ui_joystick_device, ui_joystick_device_values },
-    { NULL, MUI_TYPE_CYCLE, "ExtraJoy", ui_joystick_enable, ui_joystick_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_c64_joystick, ui_userport_c64_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_joystick, ui_userport_joystick_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick_device, ui_joystick_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick_device, ui_joystick_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick_device, ui_joystick_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice4", ui_joystick_device, ui_joystick_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoy", ui_joystick_enable, ui_joystick_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_c64_joystick, ui_userport_c64_joystick_values,NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_joystick, ui_userport_joystick_values, NULL },
     UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from_device_plus4[] = {
-   { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick_device, ui_joystick_device_values },
-   { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick_device, ui_joystick_device_values },
-   { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick_device, ui_joystick_device_values },
-   { NULL, MUI_TYPE_CYCLE, "SIDCartJoy", ui_joystick_enable, ui_joystick_enable_values },
+   { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick_device, ui_joystick_device_values, NULL },
+   { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick_device, ui_joystick_device_values, NULL },
+   { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick_device, ui_joystick_device_values, NULL },
+   { NULL, MUI_TYPE_CYCLE, "SIDCartJoy", ui_joystick_enable, ui_joystick_enable_values, NULL },
    UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from_fire[] = {
-    { NULL, MUI_TYPE_CYCLE, "JoyFire1", ui_joystick_fire, ui_joystick_fire_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyFire2", ui_joystick_fire, ui_joystick_fire_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyFire3", ui_joystick_fire, ui_joystick_fire_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyFire4", ui_joystick_fire, ui_joystick_fire_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyFire1", ui_joystick_fire, ui_joystick_fire_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyFire2", ui_joystick_fire, ui_joystick_fire_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyFire3", ui_joystick_fire, ui_joystick_fire_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyFire4", ui_joystick_fire, ui_joystick_fire_values, NULL },
     UI_END /* mandatory */
 };
 

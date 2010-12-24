@@ -189,15 +189,15 @@ static const int drive_idle_values[] = {
 };
 
 #define DECL(device) \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device }, \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values },      \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "IdleMethod", drive_idle_strings, drive_idle_values },                 \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM2000", NULL, NULL },                                               \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM4000", NULL, NULL },                                               \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM6000", NULL, NULL },                                               \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM8000", NULL, NULL },                                               \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL },                                               \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "ParallelCable", NULL, NULL },
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device, NULL }, \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values, NULL },      \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "IdleMethod", drive_idle_strings, drive_idle_values, NULL },                 \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM2000", NULL, NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM4000", NULL, NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM6000", NULL, NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM8000", NULL, NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL, NULL },                                               \
+    { NULL, MUI_TYPE_CHECK, "Drive" #device "ParallelCable", NULL, NULL, NULL },
 
 #define DECL_NUM (9)
 

@@ -37,7 +37,7 @@
 static video_canvas_t *video_canvas;
 
 static ui_to_from_t ui_to_from[] = {
-    {NULL, MUI_TYPE_FILENAME, "CrtcPaletteFile", NULL, NULL},
+    { NULL, MUI_TYPE_FILENAME, "CrtcPaletteFile", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

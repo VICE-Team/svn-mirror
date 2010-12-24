@@ -108,21 +108,21 @@ static const int ui_userport_joystick_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice4", ui_joystick, ui_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "ExtraJoy", ui_joystick_enable, ui_joystick_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_c64_joystick, ui_userport_c64_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_joystick_enable, ui_joystick_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice4", ui_joystick, ui_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoy", ui_joystick_enable, ui_joystick_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_userport_c64_joystick, ui_userport_c64_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExtraJoyType", ui_joystick_enable, ui_joystick_enable_values, NULL },
     UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from_plus4[] = {
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values },
-    { NULL, MUI_TYPE_CYCLE, "SidCartJoy", ui_joystick_enable, ui_joystick_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice1", ui_joystick, ui_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice2", ui_joystick, ui_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "JoyDevice3", ui_joystick, ui_joystick_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidCartJoy", ui_joystick_enable, ui_joystick_enable_values, NULL },
     UI_END /* mandatory */
 };
 

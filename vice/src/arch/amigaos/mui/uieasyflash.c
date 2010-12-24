@@ -50,8 +50,8 @@ static const int ui_easyflash_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "EasyFlashJumper", ui_easyflash_enable, ui_easyflash_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "EasyFlashWriteCRT", ui_easyflash_enable, ui_easyflash_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "EasyFlashJumper", ui_easyflash_enable, ui_easyflash_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "EasyFlashWriteCRT", ui_easyflash_enable, ui_easyflash_enable_values, NULL },
     UI_END /* mandatory */
 };
 

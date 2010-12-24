@@ -102,6 +102,20 @@ static void cycle_get_to_ui(ui_to_from_t *data)
     }
 }
 
+static void cycle_string_get_to_ui(ui_to_from_t *data)
+{
+    int n;
+    char *str1, str2;
+
+    resources_get_value(data->resource, (void *)&str1);
+    for (n = 0; data->string_choices[n] != NULL; n++) {
+        if (!strcmp(data->string_choices[n], str1)) {
+            set(data->object, MUIA_Cycle_Active, n);
+            break;
+        }
+    }
+}
+
 static void cycle_sid_get_to_ui(ui_to_from_t *data)
 {
     int n, temp = 0, val = 0;
@@ -125,6 +139,16 @@ static void cycle_get_from_ui(ui_to_from_t *data)
     get(data->object, MUIA_Cycle_Active, (APTR)&n);
     val = data->values[n];
     resources_set_value(data->resource, (resource_value_t *)val);
+}
+
+static void cycle_string_get_from_ui(ui_to_from_t *data)
+{
+    int n;
+    char *str;
+
+    get(data->object, MUIA_Cycle_Active, (APTR)&n);
+    str = data->string_choices[n];
+    resources_set_value(data->resource, (resource_value_t *)str);
 }
 
 static void cycle_sid_get_from_ui(ui_to_from_t *data)
@@ -233,6 +257,9 @@ void ui_get_from(ui_to_from_t *data)
                 case MUI_TYPE_CYCLE:
                     cycle_get_from_ui(data);
                     break;
+                case MUI_TYPE_CYCLE_STR:
+                    cycle_string_get_from_ui(data);
+                    break;
                 case MUI_TYPE_CYCLE_SID:
                     cycle_sid_get_from_ui(data);
                     break;
@@ -272,6 +299,9 @@ void ui_get_to(ui_to_from_t *data)
                     break;
                 case MUI_TYPE_CYCLE:
                     cycle_get_to_ui(data);
+                    break;
+                case MUI_TYPE_CYCLE_STR:
+                    cycle_string_get_to_ui(data);
                     break;
                 case MUI_TYPE_CYCLE_SID:
                     cycle_sid_get_to_ui(data);

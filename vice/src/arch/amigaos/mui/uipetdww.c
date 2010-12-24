@@ -51,8 +51,8 @@ static const int ui_petdww_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "PETDWW", ui_petdww_enable, ui_petdww_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "PETDWWfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "PETDWW", ui_petdww_enable, ui_petdww_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "PETDWWfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

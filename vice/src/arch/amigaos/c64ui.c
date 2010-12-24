@@ -52,6 +52,7 @@
 #include "mui/uimouse.h"
 #include "mui/uiplus256k.h"
 #include "mui/uiplus60k.h"
+#include "mui/uiprinter.h"
 #include "mui/uiramcart.h"
 #include "mui/uireu.h"
 #include "mui/uiromc64vic20settings.h"
@@ -170,6 +171,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivec64vic20_settings_dialog();
+            break;
+        case IDM_PRINTER_SETTINGS:
+            ui_printer_settings_dialog(canvas, 0, 1);
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia64128_settings_dialog();

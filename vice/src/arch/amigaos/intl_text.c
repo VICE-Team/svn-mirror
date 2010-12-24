@@ -1842,6 +1842,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_DRIVE_SETTINGS_SV, "Diskettenhetsinställningar..." },
 /* tr */ { IDMS_DRIVE_SETTINGS_TR, "Sürücü ayarlarý..." },
 
+/* en */ { IDMS_PRINTER_SETTINGS,    "Printer settings..." },
+/* da */ { IDMS_PRINTER_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PRINTER_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_PRINTER_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PRINTER_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PRINTER_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_PRINTER_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PRINTER_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_PRINTER_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PRINTER_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_DATASETTE_SETTINGS,    "Datasette settings..." },
 /* da */ { IDMS_DATASETTE_SETTINGS_DA, "Datasetteindstillinger..." },
 /* de */ { IDMS_DATASETTE_SETTINGS_DE, "Bandlaufwerk Einstellungen..." },
@@ -3734,6 +3745,28 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NONE_SV, "Ingen" },
 /* tr */ { IDS_NONE_TR, "Yok" },
 
+/* en */ { IDS_FILESYSTEM,    "Filesystem" },
+/* da */ { IDS_FILESYSTEM_DA, "" },  /* fuzzy */
+/* de */ { IDS_FILESYSTEM_DE, "" },  /* fuzzy */
+/* fr */ { IDS_FILESYSTEM_FR, "" },  /* fuzzy */
+/* hu */ { IDS_FILESYSTEM_HU, "" },  /* fuzzy */
+/* it */ { IDS_FILESYSTEM_IT, "" },  /* fuzzy */
+/* nl */ { IDS_FILESYSTEM_NL, "" },  /* fuzzy */
+/* pl */ { IDS_FILESYSTEM_PL, "" },  /* fuzzy */
+/* sv */ { IDS_FILESYSTEM_SV, "" },  /* fuzzy */
+/* tr */ { IDS_FILESYSTEM_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_RAW,    "Raw" },
+/* da */ { IDS_RAW_DA, "" },  /* fuzzy */
+/* de */ { IDS_RAW_DE, "" },  /* fuzzy */
+/* fr */ { IDS_RAW_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RAW_HU, "" },  /* fuzzy */
+/* it */ { IDS_RAW_IT, "" },  /* fuzzy */
+/* nl */ { IDS_RAW_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RAW_PL, "" },  /* fuzzy */
+/* sv */ { IDS_RAW_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RAW_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_ADC,    "ADC" },
 /* da */ { IDS_ADC_DA, "ADC" },
 /* de */ { IDS_ADC_DE, "ADC" },
@@ -5165,6 +5198,248 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_REU_SETTINGS_SV, "REU-Inställningar" },
 /* tr */ { IDS_REU_SETTINGS_TR, "REU Ayarlarý" },
 
+/* en */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT,    "Select printer dump file" },
+/* da */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_4_EMULATION,    "Printer #4 emulation" },
+/* da */ { IDS_PRINTER_4_EMULATION_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_4_EMULATION_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_4_EMULATION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_4_EMULATION_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_4_EMULATION_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_4_EMULATION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_4_EMULATION_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_4_EMULATION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_4_EMULATION_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_5_EMULATION,    "Printer #5 emulation" },
+/* da */ { IDS_PRINTER_5_EMULATION_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_5_EMULATION_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_5_EMULATION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_5_EMULATION_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_5_EMULATION_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_5_EMULATION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_5_EMULATION_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_5_EMULATION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_5_EMULATION_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_PRINTER_EMULATION,    "Userport printer emulation" },
+/* da */ { IDS_USERPORT_PRINTER_EMULATION_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_PRINTER_EMULATION_DE, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_PRINTER_EMULATION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_PRINTER_EMULATION_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_PRINTER_EMULATION_IT, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_PRINTER_EMULATION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_PRINTER_EMULATION_PL, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_PRINTER_EMULATION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_PRINTER_EMULATION_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_4_DRIVER,    "Printer #4 driver" },
+/* da */ { IDS_PRINTER_4_DRIVER_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_4_DRIVER_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_4_DRIVER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_4_DRIVER_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_4_DRIVER_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_4_DRIVER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_4_DRIVER_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_4_DRIVER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_4_DRIVER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_5_DRIVER,    "Printer #5 driver" },
+/* da */ { IDS_PRINTER_5_DRIVER_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_5_DRIVER_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_5_DRIVER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_5_DRIVER_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_5_DRIVER_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_5_DRIVER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_5_DRIVER_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_5_DRIVER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_5_DRIVER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_PRINTER_DRIVER,    "Userport printer driver" },
+/* da */ { IDS_USERPORT_PRINTER_DRIVER_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_PRINTER_DRIVER_DE, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_PRINTER_DRIVER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_PRINTER_DRIVER_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_PRINTER_DRIVER_IT, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_PRINTER_DRIVER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_PRINTER_DRIVER_PL, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_PRINTER_DRIVER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_PRINTER_DRIVER_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_4_OUTPUT_TYPE,    "Printer #4 output type" },
+/* da */ { IDS_PRINTER_4_OUTPUT_TYPE_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_4_OUTPUT_TYPE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_4_OUTPUT_TYPE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_4_OUTPUT_TYPE_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_4_OUTPUT_TYPE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_4_OUTPUT_TYPE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_4_OUTPUT_TYPE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_4_OUTPUT_TYPE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_4_OUTPUT_TYPE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_5_OUTPUT_TYPE,    "Printer #5 output type" },
+/* da */ { IDS_PRINTER_5_OUTPUT_TYPE_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_5_OUTPUT_TYPE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_5_OUTPUT_TYPE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_5_OUTPUT_TYPE_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_5_OUTPUT_TYPE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_5_OUTPUT_TYPE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_5_OUTPUT_TYPE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_5_OUTPUT_TYPE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_5_OUTPUT_TYPE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE,    "Userport printer output type" },
+/* da */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_PRINTER_OUTPUT_TYPE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_4_OUTPUT_DEVICE,    "Printer #4 output device" },
+/* da */ { IDS_PRINTER_4_OUTPUT_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_4_OUTPUT_DEVICE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_4_OUTPUT_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_4_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_4_OUTPUT_DEVICE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_4_OUTPUT_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_4_OUTPUT_DEVICE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_4_OUTPUT_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_4_OUTPUT_DEVICE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_5_OUTPUT_DEVICE,    "Printer #5 output device" },
+/* da */ { IDS_PRINTER_5_OUTPUT_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_5_OUTPUT_DEVICE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_5_OUTPUT_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_5_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_5_OUTPUT_DEVICE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_5_OUTPUT_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_5_OUTPUT_DEVICE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_5_OUTPUT_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_5_OUTPUT_DEVICE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE,    "Userport printer output device" },
+/* da */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_PRINTER_OUTPUT_DEVICE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_4_SEND_FORMFEED,    "Send formfeed to printer #4" },
+/* da */ { IDS_PRINTER_4_SEND_FORMFEED_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_4_SEND_FORMFEED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_4_SEND_FORMFEED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_4_SEND_FORMFEED_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_4_SEND_FORMFEED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_4_SEND_FORMFEED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_4_SEND_FORMFEED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_4_SEND_FORMFEED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_4_SEND_FORMFEED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_5_SEND_FORMFEED,    "Send formfeed to printer #5" },
+/* da */ { IDS_PRINTER_5_SEND_FORMFEED_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_5_SEND_FORMFEED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_5_SEND_FORMFEED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_5_SEND_FORMFEED_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_5_SEND_FORMFEED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_5_SEND_FORMFEED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_5_SEND_FORMFEED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_5_SEND_FORMFEED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_5_SEND_FORMFEED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_USERPORT_PRINTER_SEND_FORMFEED,    "Send formfeed to userport printer" },
+/* da */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_DA, "" },  /* fuzzy */
+/* de */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_HU, "" },  /* fuzzy */
+/* it */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_USERPORT_PRINTER_SEND_FORMFEED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_DEVICE_1_FILENAME,    "Printer device #1 output" },
+/* da */ { IDS_PRINTER_DEVICE_1_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_DEVICE_1_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_DEVICE_1_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_DEVICE_1_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_DEVICE_1_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_DEVICE_1_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_DEVICE_1_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_DEVICE_1_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_DEVICE_1_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_DEVICE_2_FILENAME,    "Printer device #2 output" },
+/* da */ { IDS_PRINTER_DEVICE_2_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_DEVICE_2_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_DEVICE_2_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_DEVICE_2_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_DEVICE_2_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_DEVICE_2_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_DEVICE_2_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_DEVICE_2_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_DEVICE_2_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_DEVICE_3_FILENAME,    "Printer device #3 output" },
+/* da */ { IDS_PRINTER_DEVICE_3_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_DEVICE_3_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_DEVICE_3_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_DEVICE_3_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_DEVICE_3_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_DEVICE_3_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_DEVICE_3_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_DEVICE_3_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_DEVICE_3_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_ENABLE_IEC_PRINTER_4,    "IEC emulation for printer #4" },
+/* da */ { IDS_ENABLE_IEC_PRINTER_4_DA, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_IEC_PRINTER_4_DE, "" },  /* fuzzy */
+/* fr */ { IDS_ENABLE_IEC_PRINTER_4_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ENABLE_IEC_PRINTER_4_HU, "" },  /* fuzzy */
+/* it */ { IDS_ENABLE_IEC_PRINTER_4_IT, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_IEC_PRINTER_4_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ENABLE_IEC_PRINTER_4_PL, "" },  /* fuzzy */
+/* sv */ { IDS_ENABLE_IEC_PRINTER_4_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ENABLE_IEC_PRINTER_4_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_ENABLE_IEC_PRINTER_5,    "IEC emulation for printer #5" },
+/* da */ { IDS_ENABLE_IEC_PRINTER_5_DA, "" },  /* fuzzy */
+/* de */ { IDS_ENABLE_IEC_PRINTER_5_DE, "" },  /* fuzzy */
+/* fr */ { IDS_ENABLE_IEC_PRINTER_5_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ENABLE_IEC_PRINTER_5_HU, "" },  /* fuzzy */
+/* it */ { IDS_ENABLE_IEC_PRINTER_5_IT, "" },  /* fuzzy */
+/* nl */ { IDS_ENABLE_IEC_PRINTER_5_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ENABLE_IEC_PRINTER_5_PL, "" },  /* fuzzy */
+/* sv */ { IDS_ENABLE_IEC_PRINTER_5_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ENABLE_IEC_PRINTER_5_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PRINTER_SETTINGS,    "Printer settings" },
+/* da */ { IDS_PRINTER_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_PRINTER_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PRINTER_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PRINTER_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_PRINTER_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_PRINTER_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PRINTER_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRINTER_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PRINTER_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_MAGIC_VOICE_FILENAME,    "Magic Voice file" },
 /* da */ { IDS_MAGIC_VOICE_FILENAME_DA, "" },  /* fuzzy */
 /* de */ { IDS_MAGIC_VOICE_FILENAME_DE, "" },  /* fuzzy */
@@ -6441,6 +6716,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GRAPHICS_SV, "Grafisk" },
 /* tr */ { IDS_GRAPHICS_TR, "Grafikler" },
 
+/* en */ { IDS_TEXT,    "Text" },
+/* da */ { IDS_TEXT_DA, "" },  /* fuzzy */
+/* de */ { IDS_TEXT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_TEXT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TEXT_HU, "" },  /* fuzzy */
+/* it */ { IDS_TEXT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_TEXT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TEXT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_TEXT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TEXT_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_BUSINESS_UK,    "Business (UK)" },
 /* da */ { IDS_BUSINESS_UK_DA, "Business (Storbritannien)" },
 /* de */ { IDS_BUSINESS_UK_DE, "Business (UK)" },
@@ -7277,7 +7563,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_6526A_NEW_SV, "6526A (ny)" },
 /* tr */ { IDS_6526A_NEW_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_6526X_OLD_WITH_TIMER_B_BUG,    "6526x (old, with timer B bug)" },
+/* en */ { IDS_6526X_OLD_WITH_TIMER_B_BUG,    "6526x (old with timer B bug)" },
 /* da */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_DA, "" },  /* fuzzy */
 /* de */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_DE, "" },  /* fuzzy */
 /* fr */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_FR, "" },  /* fuzzy */

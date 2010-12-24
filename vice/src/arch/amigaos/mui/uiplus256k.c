@@ -51,8 +51,8 @@ static const int ui_plus256k_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "PLUS256K", ui_plus256k_enable, ui_plus256k_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "PLUS256Kfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "PLUS256K", ui_plus256k_enable, ui_plus256k_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "PLUS256Kfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

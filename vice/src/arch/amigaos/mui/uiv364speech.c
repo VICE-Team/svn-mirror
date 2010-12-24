@@ -51,8 +51,8 @@ static const int ui_v364speech_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "SpeechEnabled", ui_v364speech_enable, ui_v364speech_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "SpeechImage", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SpeechEnabled", ui_v364speech_enable, ui_v364speech_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "SpeechImage", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

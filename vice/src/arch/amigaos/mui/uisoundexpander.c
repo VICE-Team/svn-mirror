@@ -63,8 +63,8 @@ static const int ui_soundexpander_chip_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "SFXSoundExpander", ui_soundexpander_enable, ui_soundexpander_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "SFXSoundExpanderChip", ui_soundexpander_chip, ui_soundexpander_chip_values },
+    { NULL, MUI_TYPE_CYCLE, "SFXSoundExpander", ui_soundexpander_enable, ui_soundexpander_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SFXSoundExpanderChip", ui_soundexpander_chip, ui_soundexpander_chip_values, NULL },
     UI_END /* mandatory */
 };
 

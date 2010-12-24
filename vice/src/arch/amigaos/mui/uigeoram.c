@@ -73,9 +73,9 @@ static const int ui_georam_size_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "GEORAM", ui_georam_enable, ui_georam_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "GEORAMsize", ui_georam_size, ui_georam_size_values },
-    { NULL, MUI_TYPE_FILENAME, "GEORAMfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GEORAM", ui_georam_enable, ui_georam_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GEORAMsize", ui_georam_size, ui_georam_size_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "GEORAMfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

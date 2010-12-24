@@ -201,11 +201,12 @@
 #define MUI_TYPE_RADIO     (1)
 #define MUI_TYPE_CHECK     (2)
 #define MUI_TYPE_CYCLE     (3)
-#define MUI_TYPE_CYCLE_SID (4)
-#define MUI_TYPE_INTEGER   (5)
-#define MUI_TYPE_FLOAT     (6)
-#define MUI_TYPE_TEXT      (7)
-#define MUI_TYPE_FILENAME  (8)
+#define MUI_TYPE_CYCLE_STR (4)
+#define MUI_TYPE_CYCLE_SID (5)
+#define MUI_TYPE_INTEGER   (6)
+#define MUI_TYPE_FLOAT     (7)
+#define MUI_TYPE_TEXT      (8)
+#define MUI_TYPE_FILENAME  (9)
 
 typedef struct {
     APTR object;
@@ -213,10 +214,11 @@ typedef struct {
     char *resource;
     char **strings;
     const int *values;
+    char **string_choices;
 } ui_to_from_t;
 
 #define UI_END \
-  {NULL, MUI_TYPE_NONE, NULL, NULL, NULL}
+  {NULL, MUI_TYPE_NONE, NULL, NULL, NULL, NULL}
 
 extern ui_to_from_t *ui_find_resource(ui_to_from_t *data, char *resource);
 

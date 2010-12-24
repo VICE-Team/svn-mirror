@@ -181,6 +181,8 @@ libarch_a_SOURCES = \
 	mui/uiplus4settings.h \
 	mui/uiplus60k.c \
 	mui/uiplus60k.h \
+	mui/uiprinter.c \
+	mui/uiprinter.h \
 	mui/uiram.c \
 	mui/uiram.h \
 	mui/uiramcart.c \

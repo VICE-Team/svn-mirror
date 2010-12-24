@@ -49,8 +49,8 @@ static const int ui_isepic_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "IsepicCartridgeEnabled", ui_isepic_enable, ui_isepic_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "IsepicSwitch", ui_isepic_enable, ui_isepic_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "IsepicCartridgeEnabled", ui_isepic_enable, ui_isepic_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IsepicSwitch", ui_isepic_enable, ui_isepic_enable_values, NULL },
     UI_END /* mandatory */
 };
 

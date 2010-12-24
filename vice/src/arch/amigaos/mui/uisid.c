@@ -140,13 +140,13 @@ static const int ui_sid_c128baseaddress[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 static const int ui_sid_cbm2baseaddress[] = { 0xda, -1 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE_SID, NULL, ui_sid_engine_model, ui_sid_engine_model_values },
-    { NULL, MUI_TYPE_CHECK, "SidStereo", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", (char **)ui_sid_baseaddress_name, (const int *)ui_sid_baseaddress },
-    { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, NULL, ui_sid_engine_model, ui_sid_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CHECK, "SidStereo", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", (char **)ui_sid_baseaddress_name, (const int *)ui_sid_baseaddress, NULL },
+    { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL, NULL },
 #ifdef HAVE_RESID
-    { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values },
-    { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, NULL, NULL },
 #endif
     UI_END /* mandatory */
 };

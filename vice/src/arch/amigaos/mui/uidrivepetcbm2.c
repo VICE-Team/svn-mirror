@@ -132,9 +132,9 @@ static const int drive_extend_values[] = {
     -1
 };
 
-#define DECL(device)                                                                                               \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device }, \
-    { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values },
+#define DECL(device)                                                                                                     \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device, NULL }, \
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values, NULL },
 
 #define DECL_NUM (2)
 

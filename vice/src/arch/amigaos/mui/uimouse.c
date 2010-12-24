@@ -68,8 +68,8 @@ static const int ui_mouse_port_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "Mousetype", ui_mouse_type, ui_mouse_type_values },
-    { NULL, MUI_TYPE_CYCLE, "Mouseport", ui_mouse_port, ui_mouse_port_values },
+    { NULL, MUI_TYPE_CYCLE, "Mousetype", ui_mouse_type, ui_mouse_type_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Mouseport", ui_mouse_port, ui_mouse_port_values, NULL },
     UI_END /* mandatory */
 };
 

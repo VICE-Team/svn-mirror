@@ -67,12 +67,12 @@ static const int ui_mmcreplay_card_type_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_FILENAME, "MMCRCardImage", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "MMCRCardRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "MMCREEPROMImage", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "MMCREEPROMRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "MMCRRescueMode", ui_mmcreplay_enable, ui_mmcreplay_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "MMCRSDType", ui_mmcreplay_card_type, ui_mmcreplay_card_type_values },
+    { NULL, MUI_TYPE_FILENAME, "MMCRCardImage", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMCRCardRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "MMCREEPROMImage", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMCREEPROMRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMCRRescueMode", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMCRSDType", ui_mmcreplay_card_type, ui_mmcreplay_card_type_values, NULL },
     UI_END /* mandatory */
 };
 

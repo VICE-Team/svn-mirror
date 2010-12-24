@@ -77,10 +77,10 @@ static const int ui_ramcart_size_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "RAMCART", ui_ramcart_enable, ui_ramcart_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "RAMCART_RO", ui_ramcart_read_only, ui_ramcart_read_only_values },
-    { NULL, MUI_TYPE_CYCLE, "RAMCARTsize", ui_ramcart_size, ui_ramcart_size_values },
-    { NULL, MUI_TYPE_FILENAME, "RAMCARTfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "RAMCART", ui_ramcart_enable, ui_ramcart_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "RAMCART_RO", ui_ramcart_read_only, ui_ramcart_read_only_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "RAMCARTsize", ui_ramcart_size, ui_ramcart_size_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "RAMCARTfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

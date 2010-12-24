@@ -75,12 +75,12 @@ static const int ui_c128_enable_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "MachineType", ui_c128_machine_type, ui_c128_machine_type_values },
-    { NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_c128_enable, ui_c128_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "InternalFunctionName", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_c128_enable, ui_c128_enable_values },
-    { NULL, MUI_TYPE_FILENAME, "ExternalFunctionName", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "C128FullBanks", ui_c128_enable, ui_c128_enable_values },
+    { NULL, MUI_TYPE_CYCLE, "MachineType", ui_c128_machine_type, ui_c128_machine_type_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_c128_enable, ui_c128_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "InternalFunctionName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_c128_enable, ui_c128_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "ExternalFunctionName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "C128FullBanks", ui_c128_enable, ui_c128_enable_values, NULL },
     UI_END /* mandatory */
 };
 

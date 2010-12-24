@@ -97,15 +97,15 @@ static const int ui_acia_mode_values[] = {
 };
 
 static ui_to_from_t ui_to_from64128[] = {
-    { NULL, MUI_TYPE_CYCLE, "Acia1Enable", ui_acia_enable, ui_acia_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values },
-    { NULL, MUI_TYPE_CYCLE, "Acia1Irq", ui_acia_interrupt, ui_acia_interrupt_values },
-    { NULL, MUI_TYPE_CYCLE, "Acia1Mode", ui_acia_mode, ui_acia_mode_values },
+    { NULL, MUI_TYPE_CYCLE, "Acia1Enable", ui_acia_enable, ui_acia_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Acia1Irq", ui_acia_interrupt, ui_acia_interrupt_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Acia1Mode", ui_acia_mode, ui_acia_mode_values, NULL },
     UI_END /* mandatory */
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values },
+    { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values, NULL },
     UI_END /* mandatory */
 };
 

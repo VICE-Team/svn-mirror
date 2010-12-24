@@ -137,11 +137,11 @@ static const int ui_sid_samplemethod_values[] =
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE_SID, NULL, ui_siddtv_engine_model, ui_siddtv_engine_model_values },
-    { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, NULL, ui_siddtv_engine_model, ui_siddtv_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL, NULL },
 #ifdef HAVE_RESID
-    { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values },
-    { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, NULL, NULL },
 #endif
     UI_END /* mandatory */
 };

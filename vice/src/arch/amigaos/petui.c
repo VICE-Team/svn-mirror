@@ -41,6 +41,7 @@
 #include "mui/uipetdww.h"
 #include "mui/uipetreu.h"
 #include "mui/uipetsettings.h"
+#include "mui/uiprinter.h"
 #include "mui/uirompetsettings.h"
 #include "mui/uisidcart.h"
 #include "mui/uivideocbm2pet.h"
@@ -77,6 +78,9 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivepetcbm2_settings_dialog();
+            break;
+        case IDM_PRINTER_SETTINGS:
+            ui_printer_settings_dialog(canvas, 1, 1);
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia_settings_dialog();

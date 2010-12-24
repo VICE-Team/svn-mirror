@@ -47,6 +47,7 @@
 #include "mui/uijoystickll.h"
 #include "mui/uimagicvoice.h"
 #include "mui/uimouse.h"
+#include "mui/uiprinter.h"
 #include "mui/uiramcart.h"
 #include "mui/uireu.h"
 #include "mui/uiromc128settings.h"
@@ -141,6 +142,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivec128_settings_dialog();
+            break;
+        case IDM_PRINTER_SETTINGS:
+            ui_printer_settings_dialog(canvas, 0, 1);
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia64128_settings_dialog();

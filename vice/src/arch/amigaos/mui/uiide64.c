@@ -51,15 +51,15 @@ static const int ui_ide64_autodetect_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_FILENAME, "IDE64Image1", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "IDE64Image2", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "IDE64Image3", NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "IDE64Image4", NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "IDE64version4", ui_ide64_autodetect, ui_ide64_autodetect_values },
-    { NULL, MUI_TYPE_CYCLE, "IDE64AutodetectSize", ui_ide64_autodetect, ui_ide64_autodetect_values },
-    { NULL, MUI_TYPE_INTEGER, "IDE64Cylinders", NULL, NULL },
-    { NULL, MUI_TYPE_INTEGER, "IDE64Heads", NULL, NULL },
-    { NULL, MUI_TYPE_INTEGER, "IDE64Sectors", NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image1", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image2", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image3", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "IDE64Image4", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IDE64version4", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IDE64AutodetectSize", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
+    { NULL, MUI_TYPE_INTEGER, "IDE64Cylinders", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_INTEGER, "IDE64Heads", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_INTEGER, "IDE64Sectors", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

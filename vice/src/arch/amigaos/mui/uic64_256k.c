@@ -67,9 +67,9 @@ static const int ui_c64_256k_base_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "C64_256K", ui_c64_256k_enable, ui_c64_256k_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "C64_256Kbase", ui_c64_256k_base, ui_c64_256k_base_values },
-    { NULL, MUI_TYPE_FILENAME, "C64_256Kfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "C64_256K", ui_c64_256k_enable, ui_c64_256k_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "C64_256Kbase", ui_c64_256k_base, ui_c64_256k_base_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "C64_256Kfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 

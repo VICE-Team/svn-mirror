@@ -40,6 +40,7 @@
 #include "mui/uidrivepetcbm2.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
+#include "mui/uiprinter.h"
 #include "mui/uiromcbm2settings.h"
 #include "mui/uisid.h"
 #include "mui/uivideocbm2pet.h"
@@ -72,6 +73,9 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivepetcbm2_settings_dialog();
+            break;
+        case IDM_PRINTER_SETTINGS:
+            ui_printer_settings_dialog(canvas, 1, 1);
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia_settings_dialog();

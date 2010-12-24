@@ -44,6 +44,7 @@
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
 #include "mui/uiplus4settings.h"
+#include "mui/uiprinter.h"
 #include "mui/uiromplus4settings.h"
 #include "mui/uisidcart.h"
 #include "mui/uiv364speech.h"
@@ -180,6 +181,9 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_SETTINGS:
             uidriveplus4_settings_dialog();
+            break;
+        case IDM_PRINTER_SETTINGS:
+            ui_printer_settings_dialog(canvas, 0, 1);
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia_settings_dialog();

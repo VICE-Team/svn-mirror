@@ -67,9 +67,9 @@ static const int ui_petreu_size_values[] = {
 };
 
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "PETREU", ui_petreu_enable, ui_petreu_enable_values },
-    { NULL, MUI_TYPE_CYCLE, "PETREUsize", ui_petreu_size, ui_petreu_size_values },
-    { NULL, MUI_TYPE_FILENAME, "PETREUfilename", NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "PETREU", ui_petreu_enable, ui_petreu_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "PETREUsize", ui_petreu_size, ui_petreu_size_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "PETREUfilename", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 
