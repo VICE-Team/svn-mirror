@@ -112,6 +112,9 @@ UI_MENU_DEFINE_TOGGLE(VDC64KB)
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
 UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
+#ifndef USE_GNOMEUI
+extern UI_CALLBACK(set_custom_aspect_ratio);
+#endif /* USE_GNOMEUI */
 #endif
 
 #ifdef HAVE_OPENGL_SYNC
@@ -171,6 +174,11 @@ ui_menu_entry_t vdc_submenu[] = {
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
     { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
+#ifndef USE_GNOMEUI
+    { N_("Set custom aspect ratio..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)set_custom_aspect_ratio,
+      (ui_callback_data_t)"AspectRatio", NULL },
+#endif /* USE_GNOMEUI */
 #endif
 #ifdef HAVE_OPENGL_SYNC
     { "--", UI_MENU_TYPE_SEPARATOR },

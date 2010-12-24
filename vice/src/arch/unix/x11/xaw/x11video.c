@@ -172,10 +172,10 @@ static int set_aspect_ratio(const char *val, void *param)
         aspect_ratio = strtod(val, &endptr);
         if (val == endptr) {
             aspect_ratio = 1.0;
-        } else if (aspect_ratio < 0.8) {
-            aspect_ratio = 0.8;
-        } else if (aspect_ratio > 1.2) {
-            aspect_ratio = 1.2;
+        } else if (aspect_ratio < 0.5) {
+            aspect_ratio = 0.5;
+        } else if (aspect_ratio > 2.0) {
+            aspect_ratio = 2.0;
         }
     } else {
         util_string_set(&aspect_ratio_s, "1.0");
@@ -183,6 +183,11 @@ static int set_aspect_ratio(const char *val, void *param)
     }
 
     return 0;
+}
+
+UI_CALLBACK(set_custom_aspect_ratio)
+{
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Custom aspect ratio"), _("Aspect ratio (0.5 - 2.0):"));
 }
 
 static int set_trueaspect(int val, void *param)
@@ -272,7 +277,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "AspectRatio", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<aspect ratio>"), N_("Set aspect ratio (0.8 - 1.2)") },
+      N_("<aspect ratio>"), N_("Set aspect ratio (0.5 - 2.0)") },
     { "-trueaspect", SET_RESOURCE, 0,
       NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,

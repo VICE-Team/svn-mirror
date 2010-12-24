@@ -126,7 +126,10 @@ UI_MENU_DEFINE_TOGGLE(UseXSync)
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
 UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
-#endif
+#ifndef USE_GNOMEUI
+extern UI_CALLBACK(set_custom_aspect_ratio);
+#endif /* USE_GNOMEUI */
+#endif /* HAVE_HWSCALE */
 
 ui_menu_entry_t crtc_submenu[] = {
     { N_("Double size"), UI_MENU_TYPE_TICK,
@@ -153,7 +156,12 @@ ui_menu_entry_t crtc_submenu[] = {
       (ui_callback_t)toggle_KeepAspectRatio, NULL, NULL },
     { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
-#endif
+#ifndef USE_GNOMEUI
+    { N_("Set custom aspect ratio..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)set_custom_aspect_ratio,
+      (ui_callback_data_t)"AspectRatio", NULL },
+#endif /* USE_GNOMEUI */
+#endif /* HAVE_HWSCALE */
 #ifdef HAVE_OPENGL_SYNC
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
