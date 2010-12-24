@@ -204,76 +204,77 @@ extern void cartridge_ram_init(void);
    - although generally these cartridge names should never get translated, some
      generic stuff is translated to english ("EPROM Karte" -> "EPROM Cart")
 */
-#define CARTRIDGE_NAME_DIGIMAX            "DigiMAX" /* http://starbase.globalpc.net/~ezekowitz/vanessa/hobbies/projects.html */
-#define CARTRIDGE_NAME_DQBB               "Double Quick Brown Box" /* on the cart itself its all uppercase ? */
-#define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
-#define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
-#define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
-#define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
-#define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
-#define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
-#define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
-#define CARTRIDGE_NAME_MIDI_DATEL         "Datel MIDI"
-#define CARTRIDGE_NAME_MIDI_SEQUENTIAL    "Sequential MIDI"
-#define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
-#define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
-#define CARTRIDGE_NAME_TFE                "The Final Ethernet"
-#define CARTRIDGE_NAME_RRNET              "RR-Net" /* see manual */
-#define CARTRIDGE_NAME_SWIFTLINK          "Swiftlink" /* http://mikenaberezny.com/hardware/peripherals/swiftlink-rs232-interface/ */
 #define CARTRIDGE_NAME_ACIA               "ACIA"
-#define CARTRIDGE_NAME_TURBO232           "Turbo232" /* also: "ACIA/SWIFTLINK" */ /*http://www.retroport.de/C64_C128_Hardware2.html */
 #define CARTRIDGE_NAME_ACTION_REPLAY      "Action Replay V5" /* http://rr.pokefinder.org/wiki/Action_Replay */
-#define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
-#define CARTRIDGE_NAME_FINAL_III          "The Final Cartridge III" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
-#define CARTRIDGE_NAME_SIMONS_BASIC       "Simons' BASIC" /* http://en.wikipedia.org/wiki/Simons'_BASIC */
-#define CARTRIDGE_NAME_OCEAN              "Ocean"
-#define CARTRIDGE_NAME_EXPERT             "Expert Cartridge" /* http://rr.pokefinder.org/wiki/Expert_Cartridge */
-#define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* also: "Power Play" */ /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
-#define CARTRIDGE_NAME_SUPER_GAMES        "Super Games"
+#define CARTRIDGE_NAME_ACTION_REPLAY2     "Action Replay MK2" /* http://rr.pokefinder.org/wiki/Action_Replay */
+#define CARTRIDGE_NAME_ACTION_REPLAY3     "Action Replay MK3" /* http://rr.pokefinder.org/wiki/Action_Replay */
+#define CARTRIDGE_NAME_ACTION_REPLAY4     "Action Replay MK4" /* http://rr.pokefinder.org/wiki/Action_Replay */
 #define CARTRIDGE_NAME_ATOMIC_POWER       "Atomic Power" /* also: "Nordic Power" */ /* http://rr.pokefinder.org/wiki/Nordic_Power */
-#define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */
-#define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
-#define CARTRIDGE_NAME_REX                "REX Utility"
-#define CARTRIDGE_NAME_FINAL_I            "The Final Cartridge" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
-#define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
 #define CARTRIDGE_NAME_GS                 "C64 Games System" /* http://retro.lonningdal.net/home.php?page=Computers&select=c64gs&image=c64gs4.jpg */
-#define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
-#define CARTRIDGE_NAME_DINAMIC            "Dinamic"
-#define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
-#define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* also: "Domark, Hes Australia" */
-#define CARTRIDGE_NAME_SUPER_SNAPSHOT_V5  "Super Snapshot V5" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
 #define CARTRIDGE_NAME_COMAL80            "Comal 80" /* http://www.retroport.de/C64_C128_Hardware.html */
-#define CARTRIDGE_NAME_STRUCTURED_BASIC   "Structured BASIC"
-#define CARTRIDGE_NAME_ROSS               "ROSS"
+#define CARTRIDGE_NAME_MIDI_DATEL         "Datel MIDI"
 #define CARTRIDGE_NAME_DELA_EP64          "Dela EP64"
 #define CARTRIDGE_NAME_DELA_EP7x8         "Dela EP7x8"
 #define CARTRIDGE_NAME_DELA_EP256         "Dela EP256"
-#define CARTRIDGE_NAME_REX_EP256          "REX 256k EPROM Cart" /* http://www.retroport.de/Rex.html */
-#define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikro Assembler"
-#define CARTRIDGE_NAME_FINAL_PLUS         "Final Cartridge Plus" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
-#define CARTRIDGE_NAME_ACTION_REPLAY4     "Action Replay MK4" /* http://rr.pokefinder.org/wiki/Action_Replay */
-#define CARTRIDGE_NAME_STARDOS            "Stardos" /* see manual http://rr.pokefinder.org/wiki/StarDOS */
+#define CARTRIDGE_NAME_DIASHOW_MAKER      "Diashow-Maker" /* http://www.retroport.de/Rex.html */
+#define CARTRIDGE_NAME_DIGIMAX            "DigiMAX" /* http://starbase.globalpc.net/~ezekowitz/vanessa/hobbies/projects.html */
+#define CARTRIDGE_NAME_DINAMIC            "Dinamic"
+#define CARTRIDGE_NAME_DQBB               "Double Quick Brown Box" /* on the cart itself its all uppercase ? */
 #define CARTRIDGE_NAME_EASYFLASH          "EasyFlash" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_EASYFLASH_XBANK    "EasyFlash Xbank" /* see http://skoe.de/easyflash/ */
-#define CARTRIDGE_NAME_CAPTURE            "Capture" /* see manual http://rr.pokefinder.org/wiki/Capture */
-#define CARTRIDGE_NAME_ACTION_REPLAY3     "Action Replay MK3" /* http://rr.pokefinder.org/wiki/Action_Replay */
-#define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
-#define CARTRIDGE_NAME_MMC64              "MMC64" /* see manual */
-#define CARTRIDGE_NAME_MMC_REPLAY         "MMC Replay" /* see manual */
-#define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
-#define CARTRIDGE_NAME_SUPER_SNAPSHOT     "Super Snapshot V4" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
-#define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
-#define CARTRIDGE_NAME_GAME_KILLER        "Game Killer" /* http://rr.pokefinder.org/wiki/Game_Killer */
-#define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
+#define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */
 #define CARTRIDGE_NAME_EXOS               "EXOS" /* http://rr.pokefinder.org/wiki/ExOS */
+#define CARTRIDGE_NAME_EXPERT             "Expert Cartridge" /* http://rr.pokefinder.org/wiki/Expert_Cartridge */
+#define CARTRIDGE_NAME_FINAL_I            "The Final Cartridge" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
+#define CARTRIDGE_NAME_FINAL_III          "The Final Cartridge III" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
+#define CARTRIDGE_NAME_FINAL_PLUS         "Final Cartridge Plus" /* http://rr.pokefinder.org/wiki/Final_Cartridge */
+#define CARTRIDGE_NAME_TFE                "The Final Ethernet"
 #define CARTRIDGE_NAME_FREEZE_FRAME       "Freeze Frame" /* http://rr.pokefinder.org/wiki/Freeze_Frame */
 #define CARTRIDGE_NAME_FREEZE_MACHINE     "Freeze Machine" /* http://rr.pokefinder.org/wiki/Freeze_Frame */
-#define CARTRIDGE_NAME_SNAPSHOT64         "Snapshot 64" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
-#define CARTRIDGE_NAME_SUPER_EXPLODE_V5   "Super Explode V5.0" /* http://rr.pokefinder.org/wiki/Super_Explode */
-#define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
-#define CARTRIDGE_NAME_ACTION_REPLAY2     "Action Replay MK2" /* http://rr.pokefinder.org/wiki/Action_Replay */
+#define CARTRIDGE_NAME_FUNPLAY            "Fun Play" /* also: "Power Play" */ /* http://home.nomansland.biz/~zerqent/commodore_salg/CIMG2132.JPG */
+#define CARTRIDGE_NAME_GAME_KILLER        "Game Killer" /* http://rr.pokefinder.org/wiki/Game_Killer */
+#define CARTRIDGE_NAME_GEORAM             "GEO-RAM" /* http://www.retroport.de/Rex.html */
+#define CARTRIDGE_NAME_IDE64              "IDE64" /* see http://www.ide64.org/ */
+#define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
+#define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
+#define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
 #define CARTRIDGE_NAME_MACH5              "MACH 5" /* http://rr.pokefinder.org/wiki/MACH_5 */
-#define CARTRIDGE_NAME_DIASHOW_MAKER      "Diashow-Maker" /* http://www.retroport.de/Rex.html */
+#define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* also: "Domark, Hes Australia" */
+#define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */
+#define CARTRIDGE_NAME_MAGIC_VOICE        "Magic Voice" /* all lowercase on cart ? */
+#define CARTRIDGE_NAME_MIDI_MAPLIN        "Maplin MIDI"
+#define CARTRIDGE_NAME_MIKRO_ASSEMBLER    "Mikro Assembler"
+#define CARTRIDGE_NAME_MMC64              "MMC64" /* see manual */
+#define CARTRIDGE_NAME_MMC_REPLAY         "MMC Replay" /* see manual */
+#define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
+#define CARTRIDGE_NAME_OCEAN              "Ocean"
+#define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
+#define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
+#define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
+#define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
+#define CARTRIDGE_NAME_REX_EP256          "REX 256k EPROM Cart" /* http://www.retroport.de/Rex.html */
+#define CARTRIDGE_NAME_REX                "REX Utility"
+#define CARTRIDGE_NAME_RRNET              "RR-Net" /* see manual */
+#define CARTRIDGE_NAME_MIDI_SEQUENTIAL    "Sequential MIDI"
+#define CARTRIDGE_NAME_RETRO_REPLAY       "Retro Replay" /* see manual */
+#define CARTRIDGE_NAME_ROSS               "ROSS"
+#define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
+#define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
+#define CARTRIDGE_NAME_SIMONS_BASIC       "Simons' BASIC" /* http://en.wikipedia.org/wiki/Simons'_BASIC */
+#define CARTRIDGE_NAME_SNAPSHOT64         "Snapshot 64" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_STARDOS            "Stardos" /* see manual http://rr.pokefinder.org/wiki/StarDOS */
+#define CARTRIDGE_NAME_STRUCTURED_BASIC   "Structured BASIC"
+#define CARTRIDGE_NAME_SUPER_EXPLODE_V5   "Super Explode V5.0" /* http://rr.pokefinder.org/wiki/Super_Explode */
+#define CARTRIDGE_NAME_SUPER_GAMES        "Super Games"
+#define CARTRIDGE_NAME_SUPER_SNAPSHOT     "Super Snapshot V4" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_SUPER_SNAPSHOT_V5  "Super Snapshot V5" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
+#define CARTRIDGE_NAME_SWIFTLINK          "Swiftlink" /* http://mikenaberezny.com/hardware/peripherals/swiftlink-rs232-interface/ */
+#define CARTRIDGE_NAME_TURBO232           "Turbo232" /* also: "ACIA/SWIFTLINK" */ /*http://www.retroport.de/C64_C128_Hardware2.html */
+#define CARTRIDGE_NAME_WARPSPEED          "Warp Speed" /* see manual http://rr.pokefinder.org/wiki/WarpSpeed */
+#define CARTRIDGE_NAME_WESTERMANN         "Westermann Learning"
+#define CARTRIDGE_NAME_ZAXXON             "Zaxxon"
+
 
 /*
  * VIC20 cartridge system
@@ -310,8 +311,8 @@ extern void cartridge_ram_init(void);
 #define CARTRIDGE_VIC20_16KB_6000    0x8015
 
 /* list of canonical names for the VIC20 cartridges: */
-#define CARTRIDGE_VIC20_NAME_MEGACART        "Mega-Cart" /* http://mega-cart.com/ */
 #define CARTRIDGE_VIC20_NAME_FINAL_EXPANSION "Final Expansion"
+#define CARTRIDGE_VIC20_NAME_MEGACART        "Mega-Cart" /* http://mega-cart.com/ */
 #define CARTRIDGE_VIC20_NAME_FP              "Vic Flash Plugin" /* http://www.ktverkko.fi/~msmakela/8bit/vfp/index.en.html */
 
 
