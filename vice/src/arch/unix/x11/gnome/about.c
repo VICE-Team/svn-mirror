@@ -105,11 +105,12 @@ void ui_about(gpointer data)
         "Marco van den Heuvel - Dutch\n"
         "Flooder - Polish\n"
         "Czirkos Zoltan, Karai Csaba - Hungarian\n"
-	"Emir Akaydin (aka: Skate) - Turkish\n"
+        "Emir Akaydin (aka: Skate) - Turkish\n"
+        "Mikkel Holm Olsen - Danish\n"
     );
 
     if (!about) {
-	/* GdkPixbuf *logo = gdk_pixbuf_new_from_file ("logo.png", NULL); */
+        /* GdkPixbuf *logo = gdk_pixbuf_new_from_file ("logo.png", NULL); */
         about = g_object_new(GTK_TYPE_ABOUT_DIALOG,
                              "name", "V I C E",
                              "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
