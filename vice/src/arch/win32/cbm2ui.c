@@ -466,7 +466,11 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
                                   cbm2_main_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
+            if (machine_class == VICE_MACHINE_CBM5x0) {
+                ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);
+            } else {
+                ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
+            }
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivepetcbm2_settings_dialog(hwnd);
