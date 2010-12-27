@@ -32,7 +32,7 @@
 #include "archdep.h"
 #include "alarm.h"
 #include "c64.h"
-#include "c64cart.h"
+#include "c64cart.h" /* for export_t */
 /* HACK: import main slot api although magic vice is a slot 0 cart, so we can handle the passthrough */
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #define CARTRIDGE_INCLUDE_SLOT0_API
@@ -104,6 +104,9 @@
 /* #define REGDEBUG */
 /* #define NMIDEBUG */
 
+/* FIXME: test and then remove all old code */
+/* #define USEPASSTHROUGHHACK */ /* define to use the old passthrough hack */
+
 #ifdef MVDEBUG
 #define DBG(x) printf x
 #else
@@ -122,6 +125,7 @@ static tpi_context_t *tpi_context = NULL; /* context for the TPI chip */
 #define MV_ROM_SIZE 0x4000
 static BYTE mv_rom[MV_ROM_SIZE];
 
+static int mv_extgame = 0, mv_extexrom = 0;
 static int mv_game = 1, mv_exrom = 1;
 static int mv_romA000_enabled = 1;
 static int mv_romE000_enabled = 1;
@@ -475,7 +479,7 @@ static int last;
         mv_gameE000_enabled = 0;
     }
 
-    cart_config_changed_slot0(2, (BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode | CMODE_PHI2_RAM);
+    cart_config_changed_slot0((BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), (BYTE)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode);
 
 #ifdef CFGDEBUG
     this = (ga_pb6 << 0) | (ga_pb5 << 1) | (ga_pc6 << 2) | (mv_exrom << 3);
@@ -558,22 +562,27 @@ static void reset(tpi_context_t *tpi_context)
         HIGH: FIFO is ready to accept data
 */
 
+#ifdef USEPASSTHROUGHHACK
 #define MV_GAME_NOCART  1
 #define MV_EXROM_NOCART 1
-
 #define MV_GAME_GAMECART  0
 #define MV_EXROM_GAMECART 0
+#endif
 
 static BYTE read_pa(tpi_context_t *tpi_context)
 {
     BYTE byte = 0;
-
+#ifdef USEPASSTHROUGHHACK
     if (cart_getid_slotmain() != CARTRIDGE_NONE) {
         /* passthrough */
         byte |= (MV_GAME_GAMECART << 5); /* passthrough !GAME */
     } else {
         byte |= (MV_GAME_NOCART << 5); /* passthrough !GAME */
     }
+#else
+    /* DBG(("MV: read pa extgame %d\n", mv_extgame)); */
+    byte |= ((mv_extgame ^ 1) << 5);
+#endif
 
     byte |= ((t6721->eos ^ 1) << 6); /* !EOS = End of Speech from T6721 */
     byte |= (DTRD << 7); /* DIR = Data in Ready from 40105 */
@@ -626,13 +635,18 @@ static BYTE read_pb(tpi_context_t *tpi_context)
     byte |= (1 << 5); /* ? pullup */
     byte |= (1 << 6); /* ? pullup */
 #endif
+
+#ifdef USEPASSTHROUGHHACK
     if (cart_getid_slotmain() != CARTRIDGE_NONE) {
         /* passthrough */
         byte |= (MV_EXROM_GAMECART << 7); /* passthrough !EXROM */
     } else {
         byte |= (MV_EXROM_NOCART << 7); /* passthrough !EXROM */
     }
-
+#else
+    /* DBG(("MV: read pb extexrom %d\n", mv_extexrom)); */
+    byte |= ((mv_extexrom ^ 1) << 7);
+#endif
     byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPB]) | (tpi_context->c_tpi[TPI_PB] & tpi_context->c_tpi[TPI_DDPB]);
 
     return byte;
@@ -795,49 +809,128 @@ static const c64export_resource_t export_res = {
 };
 
 /* ---------------------------------------------------------------------*/
-BYTE REGPARM1 magicvoice_roml_read(WORD addr)
+int magicvoice_ultimax_read(WORD addr, BYTE *value)
 {
-    if ((mv_game8000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
-        /* "passthrough" */
-        return roml_banks[(addr & 0x1fff)];
-    } else {
-        return ram_read(addr);
-    }
+    /* disabled, read c64 memory */
+    return CART_READ_C64MEM;
 }
 
-BYTE REGPARM1 magicvoice_a000_bfff_read(WORD addr)
+int magicvoice_roml_read(WORD addr, BYTE *value)
 {
+#if 0
+    if ((mv_game8000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
+        /* "passthrough" */
+        *value = roml_banks[(addr & 0x1fff)];
+        return 1;
+    }
+    *value = ram_read(addr);
+    return 1;
+#else
+    if (mv_game8000_enabled) {
+        /* "passthrough" */
+        return CART_READ_THROUGH;
+    }
+    /* disabled, read c64 memory */
+    return CART_READ_C64MEM;
+#endif
+}
+
+int magicvoice_a000_bfff_read(WORD addr, BYTE *value)
+{
+#if 0
     if ((mv_gameA000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
         /* "passthrough" */
         /* return mv_rom[(addr & 0x1fff)]; */
-        return romh_banks[(addr & 0x1fff)];
+        *value = romh_banks[(addr & 0x1fff)];
+        return 1;
     } else {
         if (mv_romA000_enabled) {
-            return mv_rom[(addr & 0x1fff)];
+            *value = mv_rom[(addr & 0x1fff)];
+            return 1;
         } else {
-            return mem_read_without_ultimax(addr);
+            *value = mem_read_without_ultimax(addr);
+            return 1;
         }
     }
+    return 1;
+#else
+    if (mv_gameA000_enabled) {
+        /* "passthrough" */
+        return CART_READ_THROUGH_NO_ULTIMAX;
+    } else {
+        if (mv_romA000_enabled) {
+            *value = mv_rom[(addr & 0x1fff)];
+            return CART_READ_VALID;
+        }
+    }
+    /* disabled, read c64 memory */
+    return CART_READ_C64MEM;
+#endif
 }
 
-BYTE REGPARM1 magicvoice_romh_read(WORD addr)
+int magicvoice_romh_read(WORD addr, BYTE *value)
 {
 #if 0
     if (addr == 0xfffa) {
         DBG(("MV: fetch vector %04x game: %d e000: %d\n", addr, mv_game8000_enabled, mv_romE000_enabled));
     }
 #endif
+#if 0
     if ((mv_gameE000_enabled) && (cart_getid_slotmain() != CARTRIDGE_NONE)) {
         /* "passthrough" */
         /* return mv_rom[(addr & 0x1fff) + 0x2000]; */
-        return romh_banks[(addr & 0x1fff)];
+        *value = romh_banks[(addr & 0x1fff)];
+        return CART_READ_VALID;
     } else {
         if (mv_romE000_enabled) {
-            return mv_rom[(addr & 0x1fff) + 0x2000];
+            *value = mv_rom[(addr & 0x1fff) + 0x2000];
+            return CART_READ_VALID;
         } else {
-            return mem_read_without_ultimax(addr);
+            *value = mem_read_without_ultimax(addr);
+            return CART_READ_VALID;
         }
     }
+    return CART_READ_VALID;
+#else
+    if (mv_gameE000_enabled) {
+        /* "passthrough" */
+        return CART_READ_THROUGH;
+    } else {
+        if (mv_romE000_enabled) {
+            *value = mv_rom[(addr & 0x1fff) + 0x2000];
+            return CART_READ_VALID;
+        }
+    }
+    /* disabled, read c64 memory */
+    return CART_READ_C64MEM;
+#endif
+}
+
+int magicvoice_romh_phi1_read(WORD addr, BYTE *value)
+{
+    if ((mv_gameE000_enabled) && (mv_extexrom == 0) && (mv_extgame == 1)) {
+        /* real ultimax mode for game */
+        return CART_READ_THROUGH;
+    }
+    return CART_READ_C64MEM;
+}
+
+int magicvoice_romh_phi2_read(WORD addr, BYTE *value)
+{
+    if ((mv_gameE000_enabled) && (mv_extexrom == 0) && (mv_extgame == 1)) {
+        /* real ultimax mode for game */
+        return CART_READ_THROUGH;
+    }
+    return CART_READ_C64MEM;
+}
+
+void magicvoice_passthrough_changed(struct export_s *export)
+{
+    mv_extexrom = ((export_t*)export)->exrom;
+    mv_extgame = ((export_t*)export)->game;
+    DBG(("MV passthrough changed exrom: %d game: %d\n", mv_extexrom, mv_extgame));
+
+    ga_memconfig_changed(CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -1004,9 +1097,12 @@ static void mv_ack_nmi(void)
 #endif
 
 /* called at reset */
-void magicvoice_config_init(void)
+void magicvoice_config_init(struct export_s *export)
 {
     DBG(("MV: magicvoice_config_init\n"));
+
+    mv_extexrom = ((export_t*)export)->exrom;
+    mv_extgame = ((export_t*)export)->game;
 
     if (mv_enabled) {
         mv_exrom = 1;
@@ -1091,6 +1187,8 @@ void magicvoice_init(void)
 {
     DBG(("MV: init\n"));
     tpi_context->log = log_open(tpi_context->myname);
+    mv_extgame = 0;
+    mv_extexrom = 0;
 }
 
 void magicvoice_reset(void)

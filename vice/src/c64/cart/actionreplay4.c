@@ -30,7 +30,6 @@
 #include <string.h>
 
 #include "actionreplay4.h"
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API

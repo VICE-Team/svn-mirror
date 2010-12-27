@@ -80,7 +80,7 @@ static io_source_t midi_device = {
     midi_store,
     c64midi_read,
     c64midi_peek,
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_MIDI_SEQUENTIAL
 };
 

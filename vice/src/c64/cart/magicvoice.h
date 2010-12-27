@@ -31,18 +31,24 @@
 #include "sound.h"
 
 struct machine_context_s;
+struct export_s;
 
 extern void magicvoice_reset(void);
 extern int magicvoice_cart_enabled(void);
 
-extern BYTE REGPARM1 magicvoice_a000_bfff_read(WORD addr);
-extern BYTE REGPARM1 magicvoice_roml_read(WORD addr);
-extern BYTE REGPARM1 magicvoice_romh_read(WORD addr);
+extern int magicvoice_a000_bfff_read(WORD addr, BYTE *value);
+extern int magicvoice_roml_read(WORD addr, BYTE *value);
+extern int magicvoice_romh_read(WORD addr, BYTE *value);
+extern int magicvoice_ultimax_read(WORD addr, BYTE *value);
+extern int magicvoice_romh_phi1_read(WORD addr, BYTE *value);
+extern int magicvoice_romh_phi2_read(WORD addr, BYTE *value);
+
+extern void magicvoice_passthrough_changed(struct export_s *export);
 
 extern void magicvoice_init(void);
 extern void magicvoice_shutdown(void);
 
-extern void magicvoice_config_init(void);
+extern void magicvoice_config_init(struct export_s *export);
 extern void magicvoice_config_setup(BYTE *rawcart);
 extern void magicvoice_setup_context(struct machine_context_s *machine_context);
 
@@ -61,5 +67,11 @@ extern int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
 extern void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 extern int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void magicvoice_sound_machine_close(sound_t *psid);
+
+/* TODO: snapshot support
+struct snapshot_s;
+extern int magicvoice_snapshot_read_module(struct snapshot_s *s);
+extern int magicvoice_snapshot_write_module(struct snapshot_s *s);
+*/
 
 #endif

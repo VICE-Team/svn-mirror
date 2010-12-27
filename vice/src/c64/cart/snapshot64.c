@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -94,7 +93,7 @@ static io_source_t ss64_io2_device = {
     snapshot64_io2_store,
     snapshot64_io2_read,
     NULL, /* reads have no side effect */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_SNAPSHOT64
 };
 

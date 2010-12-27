@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -48,30 +47,32 @@
     - 16kb ROM, 128 bytes RAM
 
     io1:
-    - the second last page of the first 8k bank is visible
+    - the second last page of the first 8k ROM bank is visible
     - when reading, bit 1 of the address selects mapping mode:
       0 : 8k game
       1 : cartridge disabled
-
     - when writing, 16k game mode is selected
 
     io2:
-    - cartridge RAM
-    - when reading, if bit 7 of the address is set freeze mode
-      is released and ultimax mapping selected
-
-    - when writing, 16k game mode is selected (?)
+    - cartridge RAM (128 bytes)
+    - when reading, if bit 7 of the address is set, freeze mode (nmi)
+      is released and ultimax mapping selected.
+    - when writing, and ultimax (freeze) mode is NOT active, then
+      16k game mode is selected.
     - writes go to cartridge RAM 
 */
+
+static int freeze_flag = 0;
 
 static BYTE REGPARM1 kcs_io1_read(WORD addr)
 {
     BYTE config;
 
     /* A1 switches off roml/romh banks */
-    config = (addr & 2) ? 2 : 0;
+    config = (addr & 2) ? CMODE_RAM : CMODE_8KGAME;
 
     cart_config_changed_slotmain(config, config, CMODE_READ);
+    freeze_flag = 0;
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
@@ -82,13 +83,15 @@ static BYTE REGPARM1 kcs_io1_peek(WORD addr)
 
 static void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
 {
-    cart_config_changed_slotmain(1, 1, CMODE_WRITE);
+    cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_WRITE);
+    freeze_flag = 0;
 }
 
 static BYTE REGPARM1 kcs_io2_read(WORD addr)
 {
     if (addr & 0x80) {
-        cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
+        cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ | CMODE_RELEASE_FREEZE);
+        freeze_flag = 1;
     }
     return export_ram0[0x1f00 + (addr & 0x7f)];
 }
@@ -100,8 +103,8 @@ static BYTE REGPARM1 kcs_io2_peek(WORD addr)
 
 static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
 {
-    if (!export.ultimax_phi2) { /* FIXME */
-        cart_config_changed_slotmain(1, 1, CMODE_WRITE);
+    if (freeze_flag == 0) {
+        cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_WRITE);
     }
     export_ram0[0x1f00 + (addr & 0x7f)] = value;
 }
@@ -145,19 +148,22 @@ static const c64export_resource_t export_res_kcs = {
 
 void kcs_freeze(void)
 {
-    cart_config_changed_slotmain(3, 3, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ);
+    freeze_flag = 1;
 }
 
 void kcs_config_init(void)
 {
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+    freeze_flag = 0;
 }
 
 void kcs_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
-    cart_config_changed_slotmain(0, 0, CMODE_READ);
+    cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+    freeze_flag = 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -215,7 +221,7 @@ void kcs_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTKCS"
 
 int kcs_snapshot_write_module(snapshot_t *s)
@@ -229,6 +235,7 @@ int kcs_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
+        || (SMW_B(m, (BYTE)freeze_flag) < 0)
         || (SMW_BA(m, roml_banks, 0x2000) < 0)
         || (SMW_BA(m, romh_banks, 0x2000) < 0)
         || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
@@ -256,6 +263,7 @@ int kcs_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
+        || (SMR_B_INT(m, &freeze_flag) < 0)
         || (SMR_BA(m, roml_banks, 0x2000) < 0)
         || (SMR_BA(m, romh_banks, 0x2000) < 0)
         || (SMR_BA(m, export_ram0, 0x2000) < 0)) {

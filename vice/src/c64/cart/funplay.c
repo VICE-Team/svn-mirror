@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -76,14 +75,14 @@ static int currbank = 0;
 
 static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
 {
-    /* FIXME */
     currbank = ((value >> 3) & 7) | ((value & 1) << 3);
     cart_romhbank_set_slotmain(currbank);
     cart_romlbank_set_slotmain(currbank);
-    export.game = export.exrom = 1;
-    mem_pla_config_changed();
-    export.ultimax_phi1 = 0;
-    export.ultimax_phi2 = 0;
+    cart_set_port_exrom_slotmain(1);
+    cart_set_port_game_slotmain(1);
+    cart_set_port_phi1_slotmain(0);
+    cart_set_port_phi2_slotmain(0);
+    cart_port_config_changed_slotmain();
 }
 
 static BYTE REGPARM1 funplay_io1_peek(WORD addr)

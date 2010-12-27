@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -68,15 +67,17 @@ static void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
     currbank = value & 3;
 
     if (value & 0x4) {
-        export.game = 0;
-        export.exrom = 1;
+        cart_set_port_exrom_slotmain(1);
+        cart_set_port_game_slotmain(0);
     } else {
-        export.game = export.exrom = 1;
+        cart_set_port_exrom_slotmain(1);
+        cart_set_port_game_slotmain(1);
     }
     if (value == 0xc) {
-        export.game = export.exrom = 0;
+        cart_set_port_exrom_slotmain(0);
+        cart_set_port_game_slotmain(0);
     }
-    mem_pla_config_changed();
+    cart_port_config_changed_slotmain();
 }
 
 static BYTE REGPARM1 supergames_io2_peek(WORD addr)

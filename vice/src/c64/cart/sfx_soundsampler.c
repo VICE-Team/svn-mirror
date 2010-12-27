@@ -61,8 +61,8 @@ static io_source_t sfx_soundsampler_device = {
     0,
     sfx_soundsampler_sound_store,
     NULL,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
     CARTRIDGE_SFX_SOUND_SAMPLER
 };
 
@@ -103,7 +103,7 @@ static int set_sfx_soundsampler_enabled(int val, void *param)
 
 void sfx_soundsampler_reset(void)
 {
-    /* FIXME: do nothing ? */
+    /* TODO: do nothing ? */
 }
 
 int sfx_soundsampler_enable(void)

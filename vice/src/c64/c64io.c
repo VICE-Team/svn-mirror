@@ -157,9 +157,12 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
 
     while (current) {
         if (current->device->read != NULL) {
-            if (addr >= current->device->start_address && addr <= current->device->end_address) {
+            if ((addr >= current->device->start_address) && (addr <= current->device->end_address)) {
                 retval = current->device->read((WORD)(addr & current->device->address_mask));
                 if (current->device->io_source_valid) {
+                    if (current->device->io_source_prio) {
+                        return retval;
+                    }
                     io_source_counter++;
                 }
             } else {

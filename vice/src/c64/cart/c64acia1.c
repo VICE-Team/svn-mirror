@@ -84,7 +84,7 @@ static io_source_t acia_de_device = {
     acia1_store,
     aciacart_read,
     aciacart_peek,
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_TURBO232
 };
 

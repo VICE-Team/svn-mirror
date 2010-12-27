@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -57,8 +56,9 @@ static int currbank = 0;
 static void REGPARM2 gs_io1_store(WORD addr, BYTE value)
 {
     cart_romlbank_set_slotmain(addr & 0x3f);
-    export.game = 0;
-    export.exrom = 1;
+    cart_set_port_exrom_slotmain(1);
+    cart_set_port_game_slotmain(0);
+    cart_port_config_changed_slotmain();
     currbank = addr & 0x3f;
 }
 

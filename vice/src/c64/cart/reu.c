@@ -44,7 +44,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64cart.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
@@ -266,7 +265,7 @@ static io_source_t reu_io2_device = {
     reu_io2_store,
     reu_io2_read,
     reu_io2_peek,
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_REU
 };
 

@@ -31,7 +31,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64cart.h"
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"

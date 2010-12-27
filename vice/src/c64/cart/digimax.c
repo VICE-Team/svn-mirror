@@ -83,8 +83,8 @@ static io_source_t digimax_device = {
     1, /* read is always valid */
     digimax_sound_store,
     digimax_sound_read,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
     CARTRIDGE_DIGIMAX
 };
 

@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -117,12 +116,12 @@ static void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
 static BYTE REGPARM1 rexep256_io2_read(WORD addr)
 {
     if ((addr & 0xff) == 0xc0) {
-        export.exrom = 0;
-        mem_pla_config_changed();
+        cart_set_port_exrom_slotmain(0);
+        cart_port_config_changed_slotmain();
     }
     if ((addr & 0xff) == 0xe0) {
-        export.exrom = 1;
-        mem_pla_config_changed();
+        cart_set_port_exrom_slotmain(1);
+        cart_port_config_changed_slotmain();
     }
     return 0;
 }

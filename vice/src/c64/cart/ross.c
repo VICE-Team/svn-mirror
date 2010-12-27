@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -72,8 +71,9 @@ static BYTE REGPARM1 ross_io1_peek(WORD addr)
 
 static BYTE REGPARM1 ross_io2_read(WORD addr)
 {
-    export.game = export.exrom = 0;
-    mem_pla_config_changed();
+    cart_set_port_exrom_slotmain(0);
+    cart_set_port_game_slotmain(0);
+    cart_port_config_changed_slotmain();
     return 0;
 }
 

@@ -30,7 +30,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64cart.h"
 #include "cartridge.h"
 #include "crt.h"
 #include "resources.h"

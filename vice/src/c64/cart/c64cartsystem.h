@@ -27,6 +27,11 @@
 #ifndef VICE_C64CARTSYSTEM_H
 #define VICE_C64CARTSYSTEM_H
 
+#define CART_READ_THROUGH_NO_ULTIMAX    -2
+#define CART_READ_C64MEM                -1
+#define CART_READ_THROUGH               0
+#define CART_READ_VALID                 1
+
 /*
     these are the functions which are ONLY shared internally by the cartridge
     system, meaning c64cart.c, c64cartmem.c, c64carthooks.c, c64export.c and the
@@ -51,6 +56,8 @@ extern void cart_attach_from_snapshot(int type);
 
 extern void cart_detach_slotmain(void);
 extern int cart_getid_slotmain(void); /* returns ID of cart in "Main Slot" */
+extern int cart_getid_slot0(void);
+extern int cart_getid_slot1(void);
 
 /* from c64carthooks.c */
 extern void cart_nmi_alarm(CLOCK offset, void *data);
@@ -93,7 +100,7 @@ extern void cart_detach_conflicting(int type);
 #define CMODE_WRITE 1                           /* config changes during a write access */
 #define CMODE_RELEASE_FREEZE 2                  /* cartridge releases NMI condition */
 #define CMODE_PHI2_RAM 4                        /* vic always sees RAM if set */
-#define CMODE_EXPORT_RAM 8                      /* RAM connected to expansion port */
+#define CMODE_EXPORT_RAM 8                      /* (main slot only!) RAM connected to expansion port */
 #define CMODE_TRIGGER_FREEZE_NMI_ONLY 16        /* Trigger NMI after config changed */
 /* shift value for the above */
 #define CMODE_RW_SHIFT  0
@@ -105,12 +112,18 @@ extern void cart_detach_conflicting(int type);
 #ifdef CARTRIDGE_INCLUDE_SLOT0_API
 
 extern void cart_config_changed_slot0(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+extern void cart_set_port_exrom_slot0(int n);
+extern void cart_set_port_game_slot0(int n);
+extern void cart_port_config_changed_slot0(void);
 
 #endif /* CARTRIDGE_INCLUDE_SLOT0_API */
 
 #ifdef CARTRIDGE_INCLUDE_SLOT1_API
 
 extern void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+extern void cart_set_port_exrom_slot1(int n);
+extern void cart_set_port_game_slot1(int n);
+extern void cart_port_config_changed_slot1(void);
 
 #endif /* CARTRIDGE_INCLUDE_SLOT1_API */
 
@@ -120,12 +133,21 @@ extern void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned i
 extern void cart_romhbank_set_slotmain(unsigned int bank);
 extern void cart_romlbank_set_slotmain(unsigned int bank);
 
-extern BYTE export_ram0[];
+/* FIXME: these are shared between all "main slot" carts,
+          individual cart implementations should get reworked to use local buffers */
 extern BYTE roml_banks[], romh_banks[]; /* "Main Slot" ROML/ROMH images.  */
+extern BYTE export_ram0[];
 extern int roml_bank, romh_bank, export_ram; /* "Main Slot" ROML/ROMH/RAM banking.  */
 
 extern void cart_config_changed_slotmain(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);
+extern void cart_set_port_exrom_slotmain(int n);
+extern void cart_set_port_game_slotmain(int n);
+extern void cart_set_port_phi1_slotmain(int n);
+extern void cart_set_port_phi2_slotmain(int n);
+extern void cart_port_config_changed_slotmain(void);
 
 #endif /* CARTRIDGE_INCLUDE_SLOTMAIN_API */
+
+extern void cart_passthrough_changed(void);
 
 #endif

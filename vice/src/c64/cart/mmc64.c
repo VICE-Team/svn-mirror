@@ -33,7 +33,7 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64cart.h"
+#include "c64cart.h" /* for export_t */
 #define CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT0_API
@@ -61,7 +61,8 @@
 #endif
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
-#define USEPASSTHROUGHHACK 0 /* use the old passthrough hack */
+/* FIXME: test and then remove all old code */
+#define USEPASSTHROUGHHACK 1 /* define 1 to use the passthrough hack */
 
 /* #define MMC64DEBUG */
 
@@ -137,8 +138,8 @@ static BYTE mmc64_biossel;
 
 /* Variables of the various status bits */
 static BYTE mmc64_flashjumper; /* status of the flash jumper FIXME: remove, duplicated flag */
-static BYTE mmc64_extexrom;
-static BYTE mmc64_extgame;
+static BYTE mmc64_extexrom = 0;
+static BYTE mmc64_extgame = 0;
 
 static int mmc64_revision;
 static int mmc64_sd_type = 0;
@@ -194,7 +195,7 @@ static io_source_t mmc64_io2_clockport_device = {
 
 static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device;
 
-/* FIXME: register/handle this resource properly */
+/* FIXME: register/handle the clockport resource properly */
 
 static const c64export_resource_t export_cp_res = {
     CARTRIDGE_NAME_MMC64 " Clockport", 0, 0, &mmc64_io1_clockport_device, &mmc64_io2_clockport_device, CARTRIDGE_MMC64
@@ -210,7 +211,8 @@ static io_source_t mmc64_io2_device = {
     mmc64_io2_read,
     mmc64_io2_peek,
     NULL,
-    CARTRIDGE_MMC64
+    CARTRIDGE_MMC64,
+    1 /* mask df10-df13 from passthrough */
 };
 
 static io_source_t mmc64_io1_device = {
@@ -241,6 +243,14 @@ int mmc64_cart_enabled(void)
     return mmc64_enabled;
 }
 
+int mmc64_cart_active(void)
+{
+    if (mmc64_enabled && !mmc64_active && !mmc64_biossel) {
+        return 1;
+    }
+    return 0;
+}
+
 /* Resets the card */
 void mmc64_reset(void)
 {
@@ -253,8 +263,10 @@ void mmc64_reset(void)
     mmc64_cardsel = 0;
     mmc64_biossel = 0;
 
+#if 0
     mmc64_extexrom = 0x04;
     mmc64_extgame = 0x02;
+#endif
 
     if (mmc64_clockport_enabled != 1) {
         mmc64_clockport_enabled = 1;
@@ -264,8 +276,9 @@ void mmc64_reset(void)
     }
     if (mmc64_enabled) {
 #if USEPASSTHROUGHHACK
-        export.exrom = 1;
-        mem_pla_config_changed();
+        mmc64_io2_device.io_source_prio = 1;
+        cart_set_port_exrom_slot0(1);
+        cart_port_config_changed_slot0();
 #else
         cart_config_changed_slot0(0, 0, CMODE_READ);
 #endif
@@ -332,8 +345,8 @@ static int set_mmc64_enabled(int val, void *param)
                     return -1;
                 }
                 mmc64_enabled = 1;
-                export.exrom = 1;
-                mem_pla_config_changed();
+                cart_set_port_exrom_slot0(1);
+                cart_port_config_changed_slot0();
                 mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
                 mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
                 mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
@@ -349,8 +362,8 @@ static int set_mmc64_enabled(int val, void *param)
         cart_power_off();
         c64export_remove(&export_res);
         mmc64_enabled = 0;
-        export.exrom = 0;
-        mem_pla_config_changed();
+        cart_set_port_exrom_slot0(0);
+        cart_port_config_changed_slot0();
         c64io_unregister(mmc64_clockport_list_item);
         c64io_unregister(mmc64_io1_list_item);
         c64io_unregister(mmc64_io2_list_item);
@@ -458,8 +471,10 @@ static int set_mmc64_image_filename(const char *name, void *param)
 
 /* ---------------------------------------------------------------------*/
 
-void mmc64_init_card_config(void)
+void mmc64_config_init(struct export_s *export)
 {
+    LOG(("MMC64 mmc64_config_init"));
+
     mmc64_active = 0;
     mmc64_spi_mode = 0;
     mmc64_extrom = 0;
@@ -468,22 +483,40 @@ void mmc64_init_card_config(void)
     mmc64_speed = 0;
     mmc64_cardsel = 0;
     mmc64_biossel = 0;
-
+#if 0
     /* for now external exrom and game are constantly   *
     * high until the pass-through port support is made */
-    mmc64_extexrom = 1;
-    mmc64_extgame = 1;
+    mmc64_extexrom = 0;
+    mmc64_extgame = 0;
+#endif
+    mmc64_extexrom = ((export_t*)export)->exrom;
+    mmc64_extgame = ((export_t*)export)->game;
 
     if (mmc64_enabled) {
 #if USEPASSTHROUGHHACK
-        export.exrom = 1;
-        mem_pla_config_changed();
+        mmc64_io2_device.io_source_prio = 1;
+        cart_config_changed_slot0((0 << 1) | mmc64_extgame, (0 << 1) | mmc64_extgame, CMODE_READ);
 #else
         cart_config_changed_slot0(0, 0, CMODE_READ);
 #endif
+    } else {
+        mmc64_io2_device.io_source_prio = 0;
     }
 }
 
+void mmc64_passthrough_changed(struct export_s *export)
+{
+    mmc64_extexrom = ((export_t*)export)->exrom;
+    mmc64_extgame = ((export_t*)export)->game;
+    LOG(("MMC64 passthrough changed exrom: %d game: %d (mmc64_active: %d)", mmc64_extexrom, mmc64_extgame, mmc64_active));
+    if (!mmc64_active) {
+        cart_set_port_game_slot0(mmc64_extgame);
+        cart_port_config_changed_slot0();
+    } else {
+        /* MMC64 is completely disabled */
+        cart_config_changed_slot0(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, ((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, CMODE_READ);
+    }
+}
 
 static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value)
 {
@@ -557,16 +590,19 @@ static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
 
 #if USEPASSTHROUGHHACK
                 if (mmc64_active) {
-                    export.exrom = 0;
-                    mem_pla_config_changed();
+                    /* cart_set_port_exrom_slot0(0); */
+                    log_message(mmc64_log,"disabling MMC64 (exrom:%d game:%d) mmc64_active: %d", mmc64_extexrom, mmc64_extgame, mmc64_active);
+                    cart_config_changed_slot0(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, ((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, CMODE_READ);
+                    mmc64_io2_device.io_source_prio = 0;
                 } else {
                     /* this controls the mapping of the MMC64 bios */
                     if (mmc64_biossel) {
-                        export.exrom = 0;
+                        cart_set_port_exrom_slot0(0);
                     } else {
-                        export.exrom = 1;
+                        cart_set_port_exrom_slot0(1);
                     }
-                    mem_pla_config_changed();
+                    cart_port_config_changed_slot0();
+                    mmc64_io2_device.io_source_prio = 1;
                 }
 #else
                 if (mmc64_active) {
@@ -619,8 +655,8 @@ static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
                 LOG(("MMC64: mmc64 reenabled"));
                 mmc64_active = 0;
 #if USEPASSTHROUGHHACK
-                export.exrom = 1;
-                mem_pla_config_changed();   /* re-enable the MMC64 */
+                cart_set_port_exrom_slot0(1);
+                cart_port_config_changed_slot0();   /* re-enable the MMC64 */
 #else
                 cart_config_changed_slot0(2, 0, CMODE_READ);
 #endif
@@ -652,6 +688,12 @@ static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
 static BYTE REGPARM1 mmc64_io2_read(WORD addr)
 {
     BYTE value;
+
+    if (mmc64_active) {
+        /* MMC64 is completely disabled */
+        mmc64_io2_device.io_source_valid = 0;
+        return 0;
+    }
 
     mmc64_io2_device.io_source_valid = 1;
 
@@ -713,8 +755,8 @@ static BYTE REGPARM1 mmc64_io2_read(WORD addr)
              */
             value = mmc64_flashjumper<<5;    /* bit 5 */
             value |= (spi_mmc_busy());     /* bit 0 */
-            value |= (mmc64_extexrom << 1);    /* bit 1 */
-            value |= (mmc64_extgame) << 2;       /* bit 2 */
+            value |= ((mmc64_extexrom ^ 1) << 1);    /* bit 1 */
+            value |= ((mmc64_extgame ^ 1)) << 2;       /* bit 2 */
             value |= (spi_mmc_card_inserted() ^ 1) << 3;   /* bit 3 */
             value |= (spi_mmc_card_write_enabled() ^ 1) << 4;      /* bit 4 */
 
@@ -780,8 +822,8 @@ static BYTE REGPARM1 mmc64_io2_peek(WORD addr)
             /* $DF12: MMC status register */
             value = mmc64_flashjumper<<5;    /* bit 5 */
             value |= (spi_mmc_busy());     /* bit 0 */
-            value |= (mmc64_extexrom << 1);    /* bit 1 */
-            value |= (mmc64_extgame) << 2;       /* bit 2 */
+            value |= ((mmc64_extexrom ^ 1) << 1);    /* bit 1 */
+            value |= ((mmc64_extgame) ^ 1) << 2;       /* bit 2 */
             value |= (spi_mmc_card_inserted() ^ 1) << 3;   /* bit 3 */
             value |= (spi_mmc_card_write_enabled() ^ 1) << 4;      /* bit 4 */
 
@@ -811,28 +853,20 @@ static BYTE REGPARM1 mmc64_io1_peek(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 mmc64_roml_read(WORD addr)
+int mmc64_roml_read(WORD addr, BYTE *value)
 {
+#if USEPASSTHROUGHHACK
+    if (!mmc64_active && !mmc64_biossel) {
+        *value = mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset];
+        return CART_READ_VALID;
+    }
+    return CART_READ_THROUGH;
+#else
     if (!mmc64_active && !mmc64_biossel) {
         return mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset];
     }
-
-/* FIXME: intentionally breaking this, this code should be removed and
-          ram extensions should be handled in the generic interface */
-#if 0
-    if (plus60k_enabled) {
-        return plus60k_ram_read(addr);
-    }
-
-    if (plus256k_enabled) {
-        return plus256k_ram_high_read(addr);
-    }
-
-    if (c64_256k_enabled) {
-        return c64_256k_ram_segment2_read(addr);
-    }
-#endif
     return mem_ram[addr];
+#endif
 }
 
 BYTE REGPARM1 mmc64_peek_mem(WORD addr)
@@ -855,25 +889,6 @@ void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
             return;
         }
     }
-
-/* FIXME: intentionally breaking this, this code should be removed and
-          ram extensions should be handled in the generic interface */
-#if 0
-    if (plus60k_enabled) {
-        plus60k_ram_store(addr, byte);
-        return;
-    }
-
-    if (plus256k_enabled) {
-        plus256k_ram_high_store(addr, byte);
-        return;
-    }
-
-    if (c64_256k_enabled) {
-        c64_256k_ram_segment2_store(addr, byte);
-        return;
-    }
-#endif
     mem_ram[addr] = byte;
 }
 

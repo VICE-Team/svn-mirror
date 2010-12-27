@@ -30,8 +30,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64cart.h"
+#define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
@@ -288,9 +289,8 @@ static int set_ramcart_enabled(int val, void *param)
         ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
         ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
         ramcart_enabled = 1;
-        /* FIXME */
-        export.exrom = 1;
-        mem_pla_config_changed();
+        cart_set_port_exrom_slot1(1);
+        cart_port_config_changed_slot1();
     } else if(ramcart_enabled && !val) {
         cart_power_off();
         if (ramcart_deactivate() < 0) {
@@ -302,9 +302,8 @@ static int set_ramcart_enabled(int val, void *param)
         ramcart_io2_list_item = NULL;
         c64export_remove(&export_res);
         ramcart_enabled = 0;
-        /* FIXME */
-        export.exrom = 0;
-        mem_pla_config_changed();
+        cart_set_port_exrom_slot1(0);
+        cart_port_config_changed_slot1();
     }
     return 0;
 }
@@ -463,9 +462,8 @@ const char *ramcart_get_file_name(void)
 void ramcart_init_config(void)
 {
     if (ramcart_enabled) {
-        /* FIXME */
-        export.exrom = 1;
-        mem_pla_config_changed();
+        cart_set_port_exrom_slot1(1);
+        cart_port_config_changed_slot1();
     }
 }
 
@@ -544,39 +542,10 @@ BYTE REGPARM1 ramcart_roml_read(WORD addr)
     if (ramcart_readonly == 1 && ramcart_size_kb == 128 && addr >= 0x8000 && addr <= 0x80ff) {
         return ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)];
     }
-/* FIXME: intentionally breaking this, this code should be removed and
-          ram extensions should be handled in the generic interface */
-#if 0
-    if (plus60k_enabled) {
-        return plus60k_ram_read(addr);
-    }
-    if (plus256k_enabled) {
-        return plus256k_ram_high_read(addr);
-    }
-    if (c64_256k_enabled) {
-        return c64_256k_ram_segment2_read(addr);
-    }
-#endif
     return mem_ram[addr];
 }
 
 void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
 {
-/* FIXME: intentionally breaking this, this code should be removed and
-          ram extensions should be handled in the generic interface */
-#if 0
-    if (plus60k_enabled) {
-        plus60k_ram_store(addr, byte);
-        return;
-    }
-    if (plus256k_enabled) {
-        plus256k_ram_high_store(addr, byte);
-        return;
-    }
-    if (c64_256k_enabled) {
-        c64_256k_ram_segment2_store(addr, byte);
-        return;
-    }
-#endif
     mem_ram[addr] = byte;
 }

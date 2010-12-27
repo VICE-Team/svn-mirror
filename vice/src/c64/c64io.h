@@ -58,12 +58,13 @@ typedef struct io_source_s {
     WORD start_address;
     WORD end_address;
     BYTE address_mask;
-    int  io_source_valid;
+    int  io_source_valid; /* after reading, is 1 if read was valid */
     void REGPARM2 (*store)(WORD address, BYTE data);
     BYTE REGPARM1 (*read)(WORD address);
     BYTE REGPARM1 (*peek)(WORD address); /* read without side effects (used by monitor) */
     int REGPARM1 (*dump)(void); /* print detailed state for this i/o device (used by monitor) */
     int cart_id; /* id of associated cartridge */
+    int  io_source_prio; /* 0: normal, 1: priority (no collisions) */
 } io_source_t;
 
 typedef struct io_source_list_s {

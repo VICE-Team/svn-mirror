@@ -85,7 +85,7 @@
 
     "Slot 1"
     - other ROM/RAM carts that can be enabled individually
-    - any number of "Slot 1" carts can be, in theory, active at a time
+    - only ONE of the carts in the "Slot 1" can be active at a time
 
     isepic
     expert
@@ -324,10 +324,16 @@ int cartridge_cmdline_options_init(void)
 */
 int cart_getid_slotmain(void)
 {
+#if 0
+    DBG(("CART: cart_getid_slotmain c64cart_type: %d crttype: %d\n", c64cart_type, crttype));
     if (c64cart_type == CARTRIDGE_CRT) {
         return crttype;
     }
     return c64cart_type;
+#else
+    /* DBG(("CART: cart_getid_slotmain mem_cartridge_type: %d \n", mem_cartridge_type)); */
+    return mem_cartridge_type;
+#endif
 }
 
 /* ---------------------------------------------------------------------*/

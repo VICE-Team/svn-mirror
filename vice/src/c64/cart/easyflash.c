@@ -31,7 +31,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -118,7 +117,7 @@ static void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)
     }
     cart_romhbank_set_slotmain(easyflash_register_00);
     cart_romlbank_set_slotmain(easyflash_register_00);
-    mem_pla_config_changed();
+    cart_port_config_changed_slotmain();
 }
 
 static BYTE REGPARM1 easyflash_io2_read(WORD addr)

@@ -54,19 +54,22 @@ inline static BYTE fetch_phi1(int addr)
     addr = ((addr + vicii.vbank_phi1) & vicii.vaddr_mask_phi1) | vicii.vaddr_offset_phi1;
 
     if (export.ultimax_phi1) {
-        if ((addr & 0x3fff) >= 0x3000) {
-            return ultimax_romh_phi1_read((WORD)(0x1000 + (addr & 0xfff)));
-        } else {
-            p = vicii.ram_base_phi1 + addr;
-        }
-    } else {
-        if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
-            p = mem_chargen_rom_ptr + (addr & 0xfff);
-        } else {
-            p = vicii.ram_base_phi1 + addr;
+        BYTE value;
+        if (ultimax_romh_phi1_read((WORD)(0x1000 + (addr & 0xfff)), &value)) {
+            if ((addr & 0x3fff) >= 0x3000) {
+                return value;
+            } else {
+                p = vicii.ram_base_phi1 + addr;
+                return *p;
+            }
         }
     }
 
+    if ((addr & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
+        p = mem_chargen_rom_ptr + (addr & 0xfff);
+    } else {
+        p = vicii.ram_base_phi1 + addr;
+    }
     return *p;
 }
 
@@ -77,17 +80,21 @@ inline static BYTE fetch_phi2(int addr)
     addr = ((addr + vicii.vbank_phi2) & vicii.vaddr_mask_phi2) | vicii.vaddr_offset_phi2;
 
     if (export.ultimax_phi2) {
-        if ((addr & 0x3fff) >= 0x3000) {
-            return ultimax_romh_phi2_read((WORD)(0x1000 + (addr & 0xfff)));
-        } else {
-            p = vicii.ram_base_phi2 + addr;
+        BYTE value;
+        if (ultimax_romh_phi2_read((WORD)(0x1000 + (addr & 0xfff)), &value)) {
+            if ((addr & 0x3fff) >= 0x3000) {
+                return value;
+            } else {
+                p = vicii.ram_base_phi2 + addr;
+                return *p;
+            }
         }
+    }
+
+    if ((addr & vicii.vaddr_chargen_mask_phi2) == vicii.vaddr_chargen_value_phi2) {
+        p = mem_chargen_rom_ptr + (addr & 0xfff);
     } else {
-        if ((addr & vicii.vaddr_chargen_mask_phi2) == vicii.vaddr_chargen_value_phi2) {
-            p = mem_chargen_rom_ptr + (addr & 0xfff);
-        } else {
-            p = vicii.ram_base_phi2 + addr;
-        }
+        p = vicii.ram_base_phi2 + addr;
     }
 
     return *p;

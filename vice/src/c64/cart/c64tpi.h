@@ -31,10 +31,12 @@
 #include "types.h"
 
 struct machine_context_s;
+struct export_s;
 
 extern int tpi_cart_enabled(void);
+extern int tpi_cart_active(void);
 
-extern void tpi_config_init(void);
+extern void tpi_config_init(struct export_s *export);
 extern void tpi_config_setup(BYTE *rawcart);
 extern void tpi_detach(void);
 extern int tpi_enable(void);
@@ -42,8 +44,10 @@ extern int tpi_enable(void);
 extern int tpi_resources_init(void);
 extern void tpi_resources_shutdown(void);
 
-extern BYTE REGPARM1 tpi_roml_read(WORD addr);
+extern int tpi_roml_read(WORD addr, BYTE *value);
 extern BYTE REGPARM1 tpi_peek_mem(WORD addr);
+
+extern void tpi_passthrough_changed(struct export_s *export);
 
 extern void tpi_setup_context(struct machine_context_s *machine_context);
 extern int tpi_bin_attach(const char *filename, BYTE *rawcart);

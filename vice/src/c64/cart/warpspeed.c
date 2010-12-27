@@ -30,7 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -73,7 +72,7 @@ static io_source_t warpspeed_io1_device = {
     warpspeed_io1_store,
     warpspeed_io1_read,
     NULL, /* no side effects when reading */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_WARPSPEED
 };
 
@@ -86,7 +85,7 @@ static io_source_t warpspeed_io2_device = {
     warpspeed_io2_store,
     warpspeed_io2_read,
     NULL, /* no side effects when reading */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_WARPSPEED
 };
 

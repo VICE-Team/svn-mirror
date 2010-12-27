@@ -135,8 +135,8 @@ static io_source_t retroreplay_io1_device = {
     0,
     retroreplay_io1_store,
     retroreplay_io1_read,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
     CARTRIDGE_RETRO_REPLAY
 };
 
@@ -148,8 +148,8 @@ static io_source_t retroreplay_io2_device = {
     0,
     retroreplay_io2_store,
     retroreplay_io2_read,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
     CARTRIDGE_RETRO_REPLAY
 };
 
@@ -496,6 +496,7 @@ BYTE REGPARM1 retroreplay_peek_mem(WORD addr)
     if (addr >= 0x8000 && addr <= 0x9fff) {
         return retroreplay_roml_read(addr);
     }
+    /* FIXME: export.xxx */
     if (!export.exrom && export.game) {
         if (addr >= 0xe000 && addr <= 0xffff) {
             return retroreplay_romh_read(addr);

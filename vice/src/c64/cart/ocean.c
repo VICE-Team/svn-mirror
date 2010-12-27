@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -65,14 +64,14 @@ static int currbank = 0;
 
 static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
 {
-    /* FIXME */
-    cart_romhbank_set_slotmain(value & 0x3f);
-    cart_romlbank_set_slotmain(value & 0x3f);
-    export.game = export.exrom = 1;
-    mem_pla_config_changed();
-    export.ultimax_phi1 = 0;
-    export.ultimax_phi2 = 0;
     currbank = value & 0x3f;
+    cart_romhbank_set_slotmain(currbank);
+    cart_romlbank_set_slotmain(currbank);
+    cart_set_port_exrom_slotmain(1);
+    cart_set_port_game_slotmain(1);
+    cart_set_port_phi1_slotmain(0);
+    cart_set_port_phi2_slotmain(0);
+    cart_port_config_changed_slotmain();
 }
 
 static BYTE REGPARM1 ocean_io1_peek(WORD addr)

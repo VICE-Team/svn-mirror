@@ -70,7 +70,7 @@ static io_source_t sfx_soundexpander_sound_device = {
     sfx_soundexpander_sound_store,
     sfx_soundexpander_sound_read,
     sfx_soundexpander_sound_peek,
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
@@ -82,8 +82,8 @@ static io_source_t sfx_soundexpander_piano_device = {
     0,
     NULL,
     sfx_soundexpander_piano_read,
-    NULL, /* FIXME: peek */
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
     CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
@@ -150,7 +150,7 @@ static int set_sfx_soundexpander_chip(int val, void *param)
 
 void sfx_soundexpander_reset(void)
 {
-    /* FIXME: do nothing ? */
+    /* TODO: do nothing ? */
 }
 
 int sfx_soundexpander_enable(void)

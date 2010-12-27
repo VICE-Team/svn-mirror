@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -59,14 +58,15 @@ static int currbank = 0;
 static void REGPARM2 magicdesk_io1_store(WORD addr, BYTE value)
 {
     cart_romlbank_set_slotmain(value & 0x3f);
-    export.game = 0;
+    cart_set_port_game_slotmain(0);
     if (value & 0x80) {
-        export.exrom = 0;
+        cart_set_port_exrom_slotmain(0);
     } else {
-        export.exrom = 1;  /* turn off cart ROM */
+        /* turn off cart ROM */
+        cart_set_port_exrom_slotmain(1);
     }
     currbank = value & (0x3f | 0x80);
-    mem_pla_config_changed();
+    cart_port_config_changed_slotmain();
 }
 
 static BYTE REGPARM1 magicdesk_io1_peek(WORD addr)

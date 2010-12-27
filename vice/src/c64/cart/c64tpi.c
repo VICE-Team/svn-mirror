@@ -32,6 +32,7 @@
 
 #include "archdep.h"
 #include "c64.h"
+#include "c64cart.h" /* for export_t */
 #define CARTRIDGE_INCLUDE_SLOT0_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT0_API
@@ -79,57 +80,69 @@ static BYTE *tpi_rom = NULL;
 static tpi_context_t *tpi_context;
 
 /* ---------------------------------------------------------------------*/
-static void REGPARM2 tpi_store(WORD addr, BYTE data);
-static BYTE REGPARM1 tpi_read(WORD addr);
-static BYTE REGPARM1 tpi_peek(WORD addr);
-static int REGPARM1 tpi_dump(void);
+static void REGPARM2 tpi_io2_store(WORD addr, BYTE data);
+static BYTE REGPARM1 tpi_io2_read(WORD addr);
+static BYTE REGPARM1 tpi_io2_peek(WORD addr);
+static int REGPARM1 tpi_io2_dump(void);
 
-static io_source_t tpi_device = {
+static io_source_t tpi_io2_device = {
     CARTRIDGE_NAME_IEEE488,
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0x07,
     1, /* read is always valid */
-    tpi_store,
-    tpi_read,
-    tpi_peek,
-    tpi_dump,
+    tpi_io2_store,
+    tpi_io2_read,
+    tpi_io2_peek,
+    tpi_io2_dump,
     CARTRIDGE_IEEE488
 };
 
 static io_source_list_t *tpi_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    CARTRIDGE_NAME_IEEE488, 0, 0, NULL, &tpi_device, CARTRIDGE_IEEE488
+    CARTRIDGE_NAME_IEEE488, 0, 0, NULL, &tpi_io2_device, CARTRIDGE_IEEE488
 };
 
 /* ---------------------------------------------------------------------*/
 
 static int ieee488_enabled = 0;
 
+static int tpi_extexrom = 0;
+static int tpi_extgame = 0;
+
+static int rom_enabled = 1;
+
 int tpi_cart_enabled(void)
 {
     return ieee488_enabled;
 }
 
+int tpi_cart_active(void)
+{
+    return rom_enabled && ieee488_enabled;
+}
+
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 tpi_store(WORD addr, BYTE data)
+static void REGPARM2 tpi_io2_store(WORD addr, BYTE data)
 {
+    DBG(("TPI io2 w %02x (%02x)\n", addr, data));
     tpicore_store(tpi_context, addr, data);
 }
 
-static BYTE REGPARM1 tpi_read(WORD addr)
+static BYTE REGPARM1 tpi_io2_read(WORD addr)
 {
+    DBG(("TPI io2 r %02x\n", addr));
     return tpicore_read(tpi_context, addr);
 }
 
-static BYTE REGPARM1 tpi_peek(WORD addr)
+static BYTE REGPARM1 tpi_io2_peek(WORD addr)
 {
     return tpicore_peek(tpi_context, addr);
 }
 
-static int REGPARM1 tpi_dump(void)
+static int REGPARM1 tpi_io2_dump(void)
 {
     mon_out("TPI\n");
     tpicore_dump(tpi_context);
@@ -137,21 +150,42 @@ static int REGPARM1 tpi_dump(void)
 }
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 tpi_roml_read(WORD addr)
+int tpi_roml_read(WORD addr, BYTE *value)
 {
-    return tpi_rom[addr & 0x1fff];
+    if (rom_enabled) {
+        *value = tpi_rom[addr & 0xfff];
+        return CART_READ_VALID;
+    }
+    return CART_READ_THROUGH;
 }
 
 BYTE REGPARM1 tpi_peek_mem(WORD addr)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
-        return tpi_rom[addr & 0x1fff];
+        return tpi_rom[addr & 0xfff];
     } else {
         return 0;
     }
 }
 
 /* ---------------------------------------------------------------------*/
+
+/*
+    Port A (ieee control)
+
+    Port B (ieee data)
+
+    Port C
+
+    bit 7  in  passthrough port exrom line
+    bit 6  out (unused ?)
+    bit 5  out (unused ?)
+    bit 4  out ROML enable
+    bit 3  out expansionport exrom line
+    bit 2  out (unused ?)
+    bit 1  out IEEE (U4, Pin 12)
+    bit 0  out IEEE (U4, Pin 18)
+*/
 
 static void set_int(unsigned int int_num, int value)
 {
@@ -253,10 +287,11 @@ static void undump_pb(tpi_context_t *tpi_context, BYTE byte)
 
 static void store_pc(tpi_context_t *tpi_context, BYTE byte)
 {
-    int exrom = ((byte & 8) ? 0 : 1); /* 1 = active */
-    /* FIXME: passthrough support */
-    DBG(("TPI store_pc %d:%d\n", exrom << 1, exrom << 1));
-    cart_config_changed_slot0((BYTE)(exrom << 1), (BYTE)(exrom << 1), CMODE_READ);
+    int exrom = ((byte & 0x08) ? 0 : 1); /* bit 3, 1 = active */
+    rom_enabled = ((byte & 0x10) ? 1 : 0); /* bit 4, 1 = active */
+    /* passthrough support */
+    DBG(("TPI store_pc %02x (rom enabled: %d exrom: %d game: %d)\n", byte, rom_enabled, exrom ^ 1, tpi_extgame));
+    cart_config_changed_slot0((BYTE)(exrom << 1) | tpi_extgame, (BYTE)(exrom << 1) | tpi_extgame, CMODE_READ);
 }
 
 static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
@@ -310,8 +345,12 @@ static BYTE read_pb(tpi_context_t *tpi_context)
 
 static BYTE read_pc(tpi_context_t *tpi_context)
 {
-    BYTE byte = (0xff & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
+    BYTE byte = 0xff;
 
+    if(tpi_extexrom) {
+        byte &= ~(1 << 7);
+    }
+    byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
     return byte;
 }
 
@@ -321,6 +360,8 @@ void tpi_reset(void)
 {
     DBG(("TPI: tpi_reset\n"));
     tpicore_reset(tpi_context);
+    cart_config_changed_slot0(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
+    rom_enabled = 1;
 }
 
 void tpi_init(void)
@@ -362,6 +403,16 @@ void tpi_setup_context(machine_context_t *machine_context)
     tpi_context->set_cb = set_cb;
     tpi_context->set_int = set_int;
     tpi_context->restore_int = restore_int;
+}
+
+void tpi_passthrough_changed(struct export_s *export)
+{
+    tpi_extexrom = ((export_t*)export)->exrom;
+    tpi_extgame = ((export_t*)export)->game;
+    DBG(("IEEE488 passthrough changed exrom: %d game: %d\n", tpi_extexrom, tpi_extgame));
+
+    cart_set_port_game_slot0(tpi_extgame);
+    cart_port_config_changed_slot0();
 }
 
 /* ---------------------------------------------------------------------*/
@@ -414,7 +465,7 @@ static int set_ieee488_enabled(int val, void *param)
                 return -1;
             } else {
                 DBG(("IEEE: set_enabled registered\n"));
-                tpi_list_item = c64io_register(&tpi_device);
+                tpi_list_item = c64io_register(&tpi_io2_device);
                 ieee488_enabled = 1;
             }
         }
@@ -488,10 +539,17 @@ void tpi_config_setup(BYTE *rawcart)
     memcpy(tpi_rom, rawcart, TPI_ROM_SIZE);
 }
 
-void tpi_config_init(void)
+void tpi_config_init(struct export_s *export)
 {
     DBG(("TPI: tpi_config_init\n"));
-    cart_config_changed_slot0(0, 0, CMODE_READ);
+
+    tpi_extexrom = ((export_t*)export)->exrom;
+    tpi_extgame = ((export_t*)export)->game;
+
+    cart_set_port_exrom_slot0(1);
+    cart_set_port_game_slot0(tpi_extgame);
+    cart_port_config_changed_slot0();
+    rom_enabled = 1;
 }
 
 static int tpi_common_attach(void)

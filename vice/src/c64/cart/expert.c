@@ -32,7 +32,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT1_API
@@ -374,7 +373,7 @@ static int set_expert_rw(int val, void *param)
     return 0;
 }
 
-/* FIXME */
+/* TODO: make sure setting filename works under all conditions */
 static int set_expert_filename(const char *name, void *param)
 {
     if (expert_filename != NULL && name != NULL && strcmp(name, expert_filename) == 0) {

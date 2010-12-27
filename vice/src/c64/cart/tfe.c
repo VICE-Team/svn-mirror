@@ -69,9 +69,7 @@
     - for register documentation refer to the cs8900a datasheet and/or
       the respective register documentation for mmc64, retroreplay, mmcr
 
-    FIXME:
-    - register peek/dump
-    - create better logic to handle clockports
+    FIXME: create better logic to handle clockports
 */
 
 /* #define TFE_DEBUG */
@@ -99,7 +97,7 @@ static io_source_t rrnet_io1_mmc64_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_TFE
 };
 
@@ -112,7 +110,7 @@ static io_source_t rrnet_io1_retroreplay_device = {
     tfe_store,
     tfe_read,
     tfe_peek,
-    NULL, /* dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_TFE
 };
 

@@ -30,7 +30,6 @@
 #include <string.h>
 
 #include "actionreplay.h"
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -301,7 +300,7 @@ static io_source_t actionreplay2_io1_device = {
     actionreplay2_io1_store,
     actionreplay2_io1_read,
     actionreplay2_io1_peek,
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_ACTION_REPLAY2
 };
 
@@ -314,7 +313,7 @@ static io_source_t actionreplay2_io2_device = {
     actionreplay2_io2_store,
     actionreplay2_io2_read,
     actionreplay2_io2_peek,
-    NULL, /* FIXME: dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_ACTION_REPLAY2
 };
 

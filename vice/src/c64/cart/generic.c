@@ -72,6 +72,15 @@
 #define DBG(x)
 #endif
 
+/* FIXME: these are shared between all "main slot" carts,
+          individual cart implementations should get reworked to use local buffers */
+/* Expansion port ROML/ROMH images.  */
+BYTE roml_banks[C64CART_ROM_LIMIT], romh_banks[C64CART_ROM_LIMIT];
+/* Expansion port RAM images.  */
+BYTE export_ram0[C64CART_RAM_LIMIT];
+/* Expansion port ROML/ROMH/RAM banking.  */
+int roml_bank = 0, romh_bank = 0, export_ram = 0;
+
 /* ---------------------------------------------------------------------*/
 
 static const c64export_resource_t export_res_8kb = {
@@ -123,6 +132,31 @@ void generic_ultimax_config_setup(BYTE *rawcart)
     cart_config_changed_slotmain(3, 3, CMODE_READ);
 }
 
+int generic_common_attach(int mode)
+{
+    switch (mode) {
+        case CARTRIDGE_GENERIC_8KB:
+            DBG(("generic: attach 8kb\n"));
+            if (c64export_add(&export_res_8kb) < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_GENERIC_16KB:
+            DBG(("generic: attach 16kb\n"));
+            if (c64export_add(&export_res_16kb) < 0) {
+                return -1;
+            }
+            break;
+        case CARTRIDGE_ULTIMAX:
+            DBG(("generic: attach ultimax\n"));
+            if (c64export_add(&export_res_ultimax) < 0) {
+                return -1;
+            }
+            break;
+    }
+    return 0;
+}
+
 int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -132,12 +166,7 @@ int generic_8kb_bin_attach(const char *filename, BYTE *rawcart)
         }
         memcpy(&rawcart[0x1000], rawcart, 0x1000);
     }
-
-    if (c64export_add(&export_res_8kb) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return generic_common_attach(CARTRIDGE_GENERIC_8KB);
 }
 
 int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
@@ -149,12 +178,7 @@ int generic_16kb_bin_attach(const char *filename, BYTE *rawcart)
         }
         memcpy(&rawcart[0x3000], &rawcart[0x2000], 0x1000);
     }
-
-    if (c64export_add(&export_res_16kb) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return generic_common_attach(CARTRIDGE_GENERIC_16KB);
 }
 
 int generic_ultimax_bin_attach(const char *filename, BYTE *rawcart)
@@ -169,12 +193,7 @@ int generic_ultimax_bin_attach(const char *filename, BYTE *rawcart)
         }
         memcpy(&rawcart[0x3000], &rawcart[0x2000], 0x1000);
     }
-
-    if (c64export_add(&export_res_ultimax) < 0) {
-        return -1;
-    }
-
-    return 0;
+    return generic_common_attach(CARTRIDGE_ULTIMAX);
 }
 
 /*
@@ -201,14 +220,8 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         /* try to read next CHIP header in case of 16k Ultimax cart */
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             DBG(("type %d (generic game)\n", crttype));
-            if (crttype == CARTRIDGE_GENERIC_8KB) {
-                if (c64export_add(&export_res_8kb) < 0) {
-                    return -1;
-                }
-            } else {
-                if (c64export_add(&export_res_16kb) < 0) {
-                    return -1;
-                }
+            if (generic_common_attach(crttype) < 0) {
+                return -1;
             }
             return crttype;
         } else {
@@ -221,14 +234,10 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         if (fread(rawcart + ((chipheader[0xc] << 8) & 0x3fff), chipheader[0xe] << 8, 1, fd) < 1) {
             return -1;
         }
-
-        crttype = CARTRIDGE_ULTIMAX;
-
-        if (c64export_add(&export_res_ultimax) < 0) {
+        if (generic_common_attach(CARTRIDGE_ULTIMAX) < 0) {
             return -1;
         }
-
-        return crttype;
+        return CARTRIDGE_ULTIMAX;
     }
 
     return -1;
@@ -236,16 +245,19 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
 
 void generic_8kb_detach(void)
 {
+    DBG(("generic: detach 8kb\n"));
     c64export_remove(&export_res_8kb);
 }
 
 void generic_16kb_detach(void)
 {
+    DBG(("generic: detach 16kb\n"));
     c64export_remove(&export_res_16kb);
 }
 
 void generic_ultimax_detach(void)
 {
+    DBG(("generic: detach ultimax\n"));
     c64export_remove(&export_res_ultimax);
 }
 
@@ -304,6 +316,7 @@ BYTE generic_peek_mem(WORD addr)
         return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
     }
 
+    /* FIXME: export.xxx */
     if (!export.exrom && export.game) {
         if (addr >= 0xe000 && addr <= 0xffff) {
             return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];

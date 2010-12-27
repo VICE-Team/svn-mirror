@@ -112,9 +112,11 @@ extern void cartridge_ram_init(void);
 #define CARTRIDGE_TURBO232           -117 /* c64acia1.c */
 
 /* Known cartridge types.  */
-#define CARTRIDGE_ULTIMAX              -6
-#define CARTRIDGE_GENERIC_8KB          -3
-#define CARTRIDGE_GENERIC_16KB         -2
+/* TODO: cartconv (4k and 12k binaries) */
+#define CARTRIDGE_ULTIMAX              -6 /* generic.c */
+#define CARTRIDGE_GENERIC_8KB          -3 /* generic.c */
+#define CARTRIDGE_GENERIC_16KB         -2 /* generic.c */
+
 #define CARTRIDGE_NONE                 -1
 #define CARTRIDGE_CRT                   0
 
@@ -145,27 +147,27 @@ extern void cartridge_ram_init(void);
 #define CARTRIDGE_DELA_EP64            24 /* delaep64.c */
 #define CARTRIDGE_DELA_EP7x8           25 /* delaep7x8.c */
 #define CARTRIDGE_DELA_EP256           26 /* delaep256.c */
+
+/* TODO: cartconv */
 #define CARTRIDGE_REX_EP256            27 /* rexep256.c */
+
 #define CARTRIDGE_MIKRO_ASSEMBLER      28 /* mikroass.c */
+
+/* TODO: cartconv (24k binary) */
 #define CARTRIDGE_FINAL_PLUS           29 /* finalplus.c */
+
 #define CARTRIDGE_ACTION_REPLAY4       30 /* actionreplay4.c */
 #define CARTRIDGE_STARDOS              31 /* stardos.c */
 #define CARTRIDGE_EASYFLASH            32 /* easyflash.c */
 
-/* cartconv TODO */
+/* TODO: cartconv (no cart exists?) */
 #define CARTRIDGE_EASYFLASH_XBANK      33 /* easyflash.c */
 
 #define CARTRIDGE_CAPTURE              34 /* capture.c */
 #define CARTRIDGE_ACTION_REPLAY3       35 /* actionreplay3.c */
-
-/* cartconv TODO */
 #define CARTRIDGE_RETRO_REPLAY         36 /* retroreplay.c */
-
 #define CARTRIDGE_MMC64                37 /* mmc64.c, spi-sdcard.c */
-
-/* cartconv TODO */
 #define CARTRIDGE_MMC_REPLAY           38 /* mmcreplay.c, ser-eeprom.c, spi-sdcard.c */
-
 #define CARTRIDGE_IDE64                39 /* ide64.c */
 #define CARTRIDGE_SUPER_SNAPSHOT       40 /* supersnapshot4.c */
 #define CARTRIDGE_IEEE488              41 /* c64tpi.c */
@@ -190,8 +192,8 @@ extern void cartridge_ram_init(void);
 
 #define CARTRIDGE_LAST                 52 /* cartconv: last cartridge in list */
 
-/* list of canonical names for the c64 cartridges: */
-/* note: often it is hard to determine "the" official name, let alone the way it
+/* list of canonical names for the c64 cartridges:
+   note: often it is hard to determine "the" official name, let alone the way it
    should be capitalized. because of that we go by the following rules:
    - if even the actual spelling and/or naming is unclear, then the most "common"
      variant is choosen ("Expert Cartridge" vs "The Expert")

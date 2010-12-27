@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -59,7 +58,6 @@
 
     io1:
     - banks are switched by read accesses to deXX, where XX is the bank number
-
 */
 
 static int currbank = 0;

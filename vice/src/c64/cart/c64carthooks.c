@@ -142,6 +142,11 @@
 /* from c64cart.c */
 extern int mem_cartridge_type; /* Type of the cartridge attached. ("Main Slot") */
 
+/* from c64cartmem.c */
+extern export_t export_slot1;
+extern export_t export_slotmain;
+extern export_t export_passthrough; /* slot1 and main combined, goes into slot0 passthrough or c64 export */
+
 /*
     TODO: keep in sync with cartridge.h (currently highest: CARTRIDGE_DIASHOW_MAKER)
     TODO: keep -cartXYZ options in sync with cartconv -t option
@@ -621,6 +626,37 @@ int cart_is_slotmain(int type)
     }
 }
 
+int cart_getid_slot0(void)
+{
+    if (mmc64_cart_enabled()) {
+        return CARTRIDGE_MMC64;
+    }
+    if (magicvoice_cart_enabled()) {
+        return CARTRIDGE_MAGIC_VOICE;
+    }
+    if (tpi_cart_enabled()) {
+        return CARTRIDGE_IEEE488;
+    }
+    return CARTRIDGE_NONE;
+}
+
+int cart_getid_slot1(void)
+{
+    if (isepic_cart_active()) {
+        return CARTRIDGE_ISEPIC;
+    }
+    if (expert_cart_enabled()) {
+        return CARTRIDGE_EXPERT;
+    }
+    if (ramcart_cart_enabled()) {
+        return CARTRIDGE_RAMCART;
+    }
+    if (dqbb_cart_enabled()) {
+        return CARTRIDGE_DQBB;
+    }
+    return CARTRIDGE_NONE;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -731,7 +767,7 @@ const char *cart_get_file_name(int type)
 
         /* Main Slot handled in c64cart.c:cartridge_get_file_name */
     }
-    return ""; /* FIXME ? */
+    return ""; /* FIXME: NULL or empty string? */
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1089,6 +1125,16 @@ static int slot0conflicts[]=
     0
 };
 
+/* only one of the "Slot 1" carts can be enabled at a time */
+static int slot1conflicts[]=
+{
+    CARTRIDGE_EXPERT,
+    CARTRIDGE_ISEPIC,
+    CARTRIDGE_DQBB,
+    CARTRIDGE_RAMCART,
+    0
+};
+
 void cart_detach_conflicts0(int *list, int type)
 {
     int *l = list;
@@ -1115,6 +1161,7 @@ void cart_detach_conflicting(int type)
 {
     DBG(("CART: detach conflicting for type: %d ...\n", type));
     cart_detach_conflicts0(slot0conflicts, type);
+    cart_detach_conflicts0(slot1conflicts, type);
 }
 
 /*
@@ -1122,6 +1169,7 @@ void cart_detach_conflicting(int type)
 */
 int cartridge_enable(int type)
 {
+    DBG(("CART: enable type: %d\n", type));
     switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_IEEE488:
@@ -1685,15 +1733,15 @@ void cartridge_init_config(void)
         isepic_config_init();
     }
 
+    cart_passthrough_changed();
+
     /* "Slot 0" */
     if (magicvoice_cart_enabled()) {
-        magicvoice_config_init();
-    }
-    if (mmc64_cart_enabled()) {
-        mmc64_init_card_config();
-    }
-    if (tpi_cart_enabled()) {
-        tpi_config_init();
+        magicvoice_config_init((struct export_s*)&export_passthrough);
+    } else if (mmc64_cart_enabled()) {
+        mmc64_config_init((struct export_s*)&export_passthrough);
+    } else if (tpi_cart_enabled()) {
+        tpi_config_init((struct export_s*)&export_passthrough);
     }
 
 }
@@ -2064,7 +2112,7 @@ int cartridge_crt_save(int type, const char *filename)
 #define C64CART_DUMP_MAX_CARTS  16
 
 #define C64CART_DUMP_VER_MAJOR   0
-#define C64CART_DUMP_VER_MINOR   0
+#define C64CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "C64CART"
 
 int cartridge_snapshot_write_modules(struct snapshot_s *s)
@@ -2118,6 +2166,18 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
         || SMW_B(m, export.ultimax_phi2) < 0
         || SMW_DW(m, (DWORD)cart_freeze_alarm_time) < 0
         || SMW_DW(m, (DWORD)cart_nmi_alarm_time) < 0
+        || SMW_B(m, export_slot1.game) < 0
+        || SMW_B(m, export_slot1.exrom) < 0
+        || SMW_B(m, export_slot1.ultimax_phi1) < 0
+        || SMW_B(m, export_slot1.ultimax_phi2) < 0
+        || SMW_B(m, export_slotmain.game) < 0
+        || SMW_B(m, export_slotmain.exrom) < 0
+        || SMW_B(m, export_slotmain.ultimax_phi1) < 0
+        || SMW_B(m, export_slotmain.ultimax_phi2) < 0
+        || SMW_B(m, export_passthrough.game) < 0
+        || SMW_B(m, export_passthrough.exrom) < 0
+        || SMW_B(m, export_passthrough.ultimax_phi1) < 0
+        || SMW_B(m, export_passthrough.ultimax_phi2) < 0
         /* some room for future expansion */
         || SMW_DW(m, 0) < 0
         || SMW_DW(m, 0) < 0

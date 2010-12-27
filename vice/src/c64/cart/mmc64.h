@@ -36,14 +36,19 @@
 
 #include "types.h"
 
+struct export_s;
+
+/* FIXME: remove global clockport related variables */
 extern int mmc64_clockport_enabled;
 extern int mmc64_hw_clockport;
 
 extern int mmc64_cart_enabled(void);
-extern void mmc64_init_card_config(void);
-extern BYTE REGPARM1 mmc64_roml_read(WORD addr);
+extern int mmc64_cart_active(void);
+extern void mmc64_config_init(struct export_s *export);
+extern int mmc64_roml_read(WORD addr, BYTE *byte);
 extern void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 mmc64_peek_mem(WORD addr);
+extern void mmc64_passthrough_changed(struct export_s *export);
 
 extern void mmc64_config_setup(BYTE *rawcart);
 
@@ -61,5 +66,11 @@ extern void mmc64_detach(void);
 extern void mmc64_reset(void);
 extern int mmc64_enable(void);
 extern const char *mmc64_get_file_name(void);
+
+/* TODO: snapshot support
+struct snapshot_s;
+extern int mmc64_snapshot_read_module(struct snapshot_s *s);
+extern int mmc64_snapshot_write_module(struct snapshot_s *s);
+*/
 
 #endif

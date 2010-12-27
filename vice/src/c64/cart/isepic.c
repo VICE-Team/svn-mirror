@@ -31,7 +31,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOT1_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOT1_API
@@ -137,7 +136,7 @@ static io_source_t isepic_io1_device = {
     isepic_io1_store,
     isepic_io1_read,
     isepic_io1_peek,
-    NULL, /* dump */
+    NULL, /* TODO: dump */
     CARTRIDGE_ISEPIC
 };
 
@@ -149,8 +148,8 @@ static io_source_t isepic_io2_device = {
     0,
     isepic_io2_store,
     isepic_io2_read,
-    NULL, /* peek */
-    NULL, /* dump */
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
     CARTRIDGE_ISEPIC
 };
 
@@ -186,7 +185,7 @@ int isepic_freeze_allowed(void)
 
 void isepic_freeze(void)
 {
-    /* FIXME: do nothing ? */
+    /* TODO: do nothing ? */
 }
 
 static int isepic_activate(void)
@@ -310,7 +309,7 @@ static int set_isepic_rw(int val, void *param)
     return 0;
 }
 
-/* FIXME */
+/* TODO: make sure setting filename works under all conditions */
 static int set_isepic_filename(const char *name, void *param)
 {
     if (isepic_filename != NULL && name != NULL && strcmp(name, isepic_filename) == 0) {
@@ -510,12 +509,12 @@ const char *isepic_get_file_name(void)
 
 void isepic_config_init(void)
 {
-    /* FIXME: do nothing ? */
+    /* TODO: do nothing ? */
 }
 
 void isepic_reset(void)
 {
-    /* FIXME: do nothing ? */
+    /* TODO: do nothing ? */
 }
 
 void isepic_config_setup(BYTE *rawcart)

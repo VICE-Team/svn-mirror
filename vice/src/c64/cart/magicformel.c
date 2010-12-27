@@ -115,7 +115,6 @@ CB2            - enable Cartridge (?)
 #include <stdio.h>
 #include <string.h>
 
-#include "c64cart.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -348,7 +347,7 @@ static BYTE mc6821_read(int port /* rs1 */,int reg /* rs0 */)
     return data;
 }
 
-/* FIXME */
+/* FIXME: mc6821 register peek is incomplete */
 static BYTE mc6821_peek(int port /* rs1 */,int reg /* rs0 */)
 {
     BYTE data = 0;
