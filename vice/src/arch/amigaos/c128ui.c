@@ -33,6 +33,7 @@
 #include "private.h"
 #include "c128ui.h"
 #include "c128uires.h"
+#include "translate.h"
 #include "uic64cart.h"
 #include "ui.h"
 
@@ -55,7 +56,7 @@
 #include "mui/uisid.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uivicii.h"
-#include "mui/uivideoc128.h"
+#include "mui/uivideo.h"
 
 static const ui_res_possible_values_t VDCrev[] = {
     { 0, IDM_VDC_REV_0 },
@@ -73,8 +74,6 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
@@ -137,7 +136,12 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             ui_c128_settings_dialog(canvas);
             break;
         case IDM_VIDEO_SETTINGS:
-            ui_video_c128_settings_dialog(canvas);
+            ui_video_settings_dialog(canvas,
+                                     "VICIIExternalPalette", "VICIIPaletteFile",
+                                     translate_text(IDS_VICII_EXTERNAL_PALETTE), translate_text(IDS_VICII_PALETTE_NAME),
+                                     "VDCExternalPalette", "VDCPaletteFile",
+                                     translate_text(IDS_VDC_EXTERNAL_PALETTE), translate_text(IDS_VDC_PALETTE_NAME),
+                                     "VICIIScale2x");
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivec128_settings_dialog();

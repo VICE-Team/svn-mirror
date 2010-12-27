@@ -33,6 +33,7 @@
 #include "private.h"
 #include "c64ui.h"
 #include "c64dtvuires.h"
+#include "translate.h"
 
 #include "mui/uic64dtv.h"
 #include "mui/uidrivec64vic20.h"
@@ -42,13 +43,11 @@
 #include "mui/uiromc64vic20settings.h"
 #include "mui/uisiddtv.h"
 #include "mui/uivicii.h"
-#include "mui/uivideoc64plus4vic20.h"
+#include "mui/uivideo.h"
 
 static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICIIScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "Mouse", IDM_MOUSE },
     { "ps2mouse", IDM_PS2_MOUSE },
@@ -74,7 +73,12 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             ui_c64vic20_drive_rom_settings_dialog(canvas);
             break;
         case IDM_VIDEO_SETTINGS:
-            ui_video_c64plus4vic20_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile");
+            ui_video_settings_dialog(canvas,
+                                     "VICIIExternalPalette", "VICIIPaletteFile",
+                                     translate_text(IDS_VICII_EXTERNAL_PALETTE), translate_text(IDS_VICII_PALETTE_NAME),
+                                     NULL, NULL,
+                                     NULL, NULL,
+                                     "VICIIScale2x");
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivec64vic20_settings_dialog();

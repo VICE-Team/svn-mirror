@@ -30,6 +30,7 @@
 
 #include "cartridge.h"
 #include "private.h"
+#include "translate.h"
 #include "uicart.h"
 #include "uilib.h"
 #include "vic20ui.h"
@@ -43,13 +44,11 @@
 #include "mui/uirs232user.h"
 #include "mui/uisidcart.h"
 #include "mui/uivic20mem.h"
-#include "mui/uivideoc64plus4vic20.h"
+#include "mui/uivideo.h"
 
 static const ui_menu_toggle_t vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "VICScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { "VICVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "IEEE488", IDM_IEEE488 },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
@@ -112,7 +111,12 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             ui_c64vic20_drive_rom_settings_dialog(canvas);
             break;
         case IDM_VIDEO_SETTINGS:
-            ui_video_c64plus4vic20_settings_dialog(canvas, "VICExternalPalette", "VICPaletteFile");
+            ui_video_settings_dialog(canvas,
+                                     "VICExternalPalette", "VICPaletteFile",
+                                     translate_text(IDS_VIC_EXTERNAL_PALETTE), translate_text(IDS_VIC_PALETTE_NAME),
+                                     NULL, NULL,
+                                     NULL, NULL,
+                                     "VICScale2x");
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivec64vic20_settings_dialog();

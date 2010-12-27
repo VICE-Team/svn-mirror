@@ -1336,17 +1336,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_DOUBLE_SCAN_SV, "Dubbelskanning" },
 /* tr */ { IDMS_DOUBLE_SCAN_TR, "Çift tarama" },
 
-/* en */ { IDMS_SCALE2X,    "Scale2x" },
-/* da */ { IDMS_SCALE2X_DA, "Scale2x" },
-/* de */ { IDMS_SCALE2X_DE, "Scale2x" },
-/* fr */ { IDMS_SCALE2X_FR, "Scale2x" },
-/* hu */ { IDMS_SCALE2X_HU, "Élsimítás" },
-/* it */ { IDMS_SCALE2X_IT, "Scale2x" },
-/* nl */ { IDMS_SCALE2X_NL, "Schaal2x" },
-/* pl */ { IDMS_SCALE2X_PL, "" },  /* fuzzy */
-/* sv */ { IDMS_SCALE2X_SV, "Scale2x" },
-/* tr */ { IDMS_SCALE2X_TR, "2x Geniþlet" },
-
 /* en */ { IDMS_VDC_SETTINGS,    "VDC settings" },
 /* da */ { IDMS_VDC_SETTINGS_DA, "VDC-indstillinger" },
 /* de */ { IDMS_VDC_SETTINGS_DE, "VDC Einstellungen" },
@@ -2699,17 +2688,6 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDMS_STOP_SOUND_RECORD_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_STOP_SOUND_RECORD_SV, "Stoppa ljudinspelning" },
 /* tr */ { IDMS_STOP_SOUND_RECORD_TR, "Ses kaydýný durdur" },
-
-/* en */ { IDMS_PAL_EMULATION,    "PAL Emulation" },
-/* da */ { IDMS_PAL_EMULATION_DA, "PAL-emulering" },
-/* de */ { IDMS_PAL_EMULATION_DE, "PAL Emulation" },
-/* fr */ { IDMS_PAL_EMULATION_FR, "Émulation PAL" },
-/* hu */ { IDMS_PAL_EMULATION_HU, "PAL emuláció" },
-/* it */ { IDMS_PAL_EMULATION_IT, "Emulazione PAL" },
-/* nl */ { IDMS_PAL_EMULATION_NL, "PAL emulatie" },
-/* pl */ { IDMS_PAL_EMULATION_PL, "Emulacja PAL" },
-/* sv */ { IDMS_PAL_EMULATION_SV, "PAL-emulering" },
-/* tr */ { IDMS_PAL_EMULATION_TR, "PAL Emülasyonu" },
 
 /* en */ { IDMES_SETTINGS_SAVED_SUCCESS,    "Settings saved successfully." },
 /* da */ { IDMES_SETTINGS_SAVED_SUCCESS_DA, "Indstillingerne er gemt." },
@@ -6463,6 +6441,39 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_SNAPSHOT_FILE_SV, "Välj ögonblicksbildfil" },
 /* tr */ { IDS_SELECT_SNAPSHOT_FILE_TR, "Anlýk görüntü dosyasý seçin" },
 
+/* en */ { IDS_CRT_EMULATION,    "CRT emulation" },
+/* da */ { IDS_CRT_EMULATION_DA, "" },  /* fuzzy */
+/* de */ { IDS_CRT_EMULATION_DE, "" },  /* fuzzy */
+/* fr */ { IDS_CRT_EMULATION_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CRT_EMULATION_HU, "" },  /* fuzzy */
+/* it */ { IDS_CRT_EMULATION_IT, "" },  /* fuzzy */
+/* nl */ { IDS_CRT_EMULATION_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CRT_EMULATION_PL, "" },  /* fuzzy */
+/* sv */ { IDS_CRT_EMULATION_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CRT_EMULATION_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SCALE2X,    "Scale2x" },
+/* da */ { IDS_SCALE2X_DA, "Scale2x" },
+/* de */ { IDS_SCALE2X_DE, "Scale2x" },
+/* fr */ { IDS_SCALE2X_FR, "Scale2x" },
+/* hu */ { IDS_SCALE2X_HU, "Élsimítás" },
+/* it */ { IDS_SCALE2X_IT, "Scale2x" },
+/* nl */ { IDS_SCALE2X_NL, "Schaal2x" },
+/* pl */ { IDS_SCALE2X_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SCALE2X_SV, "Scale2x" },
+/* tr */ { IDS_SCALE2X_TR, "2x Geniþlet" },
+
+/* en */ { IDS_RENDER_FILTER,    "Render filter" },
+/* da */ { IDS_RENDER_FILTER_DA, "" },  /* fuzzy */
+/* de */ { IDS_RENDER_FILTER_DE, "" },  /* fuzzy */
+/* fr */ { IDS_RENDER_FILTER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RENDER_FILTER_HU, "" },  /* fuzzy */
+/* it */ { IDS_RENDER_FILTER_IT, "" },  /* fuzzy */
+/* nl */ { IDS_RENDER_FILTER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RENDER_FILTER_PL, "" },  /* fuzzy */
+/* sv */ { IDS_RENDER_FILTER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RENDER_FILTER_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_EXTERNAL_PALETTE_SELECT,    "Select External Palette file" },
 /* da */ { IDS_EXTERNAL_PALETTE_SELECT_DA, "Brug ekstern palette-fil" },
 /* de */ { IDS_EXTERNAL_PALETTE_SELECT_DE, "Benutze externe Palette (Datei)" },
@@ -6485,82 +6496,170 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GAMMA_0_4_SV, "Gamma (0..4)" },
 /* tr */ { IDS_GAMMA_0_4_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_PAL_SHADE_0_1,    "PAL Shade (0..1)" },
-/* da */ { IDS_PAL_SHADE_0_1_DA, "Skanlinjeskygge (0..1)" },
-/* de */ { IDS_PAL_SHADE_0_1_DE, "PAL Schatten (0..1)" },
-/* fr */ { IDS_PAL_SHADE_0_1_FR, "Ombrage PAL (0..1)" },
-/* hu */ { IDS_PAL_SHADE_0_1_HU, "PAL árnyalás (0..1)" },
-/* it */ { IDS_PAL_SHADE_0_1_IT, "Ombra PAL (0..1)" },
-/* nl */ { IDS_PAL_SHADE_0_1_NL, "PAL Schaduw (0..1)" },
-/* pl */ { IDS_PAL_SHADE_0_1_PL, "" },  /* fuzzy */
-/* sv */ { IDS_PAL_SHADE_0_1_SV, "PAL-skuggning (0..1)" },
-/* tr */ { IDS_PAL_SHADE_0_1_TR, "PAL Nüansý (0..1)" },
+/* en */ { IDS_SCANLINE_SHADE_0_1,    "Scanline shade (0..1)" },
+/* da */ { IDS_SCANLINE_SHADE_0_1_DA, "" },  /* fuzzy */
+/* de */ { IDS_SCANLINE_SHADE_0_1_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SCANLINE_SHADE_0_1_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SCANLINE_SHADE_0_1_HU, "" },  /* fuzzy */
+/* it */ { IDS_SCANLINE_SHADE_0_1_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SCANLINE_SHADE_0_1_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SCANLINE_SHADE_0_1_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SCANLINE_SHADE_0_1_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SCANLINE_SHADE_0_1_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_PAL_BLUR_0_1,    "PAL Blur (0..1)" },
-/* da */ { IDS_PAL_BLUR_0_1_DA, "PAL-udtværing (0..1)" },
-/* de */ { IDS_PAL_BLUR_0_1_DE, "PAL Unschärfe (0..1)" },
-/* fr */ { IDS_PAL_BLUR_0_1_FR, "Flou PAL (0..1)" },
-/* hu */ { IDS_PAL_BLUR_0_1_HU, "PAL elmosás (0..1)" },
-/* it */ { IDS_PAL_BLUR_0_1_IT, "Sfuocatura PAL (0..1)" },
-/* nl */ { IDS_PAL_BLUR_0_1_NL, "PAL Wazigheid (0..1)" },
-/* pl */ { IDS_PAL_BLUR_0_1_PL, "" },  /* fuzzy */
-/* sv */ { IDS_PAL_BLUR_0_1_SV, "PAL-suddighet (0..1)" },
-/* tr */ { IDS_PAL_BLUR_0_1_TR, "PAL Bulanýklýðý (0..1)" },
+/* en */ { IDS_BLUR_0_1,    "Blur (0..1)" },
+/* da */ { IDS_BLUR_0_1_DA, "" },  /* fuzzy */
+/* de */ { IDS_BLUR_0_1_DE, "" },  /* fuzzy */
+/* fr */ { IDS_BLUR_0_1_FR, "" },  /* fuzzy */
+/* hu */ { IDS_BLUR_0_1_HU, "" },  /* fuzzy */
+/* it */ { IDS_BLUR_0_1_IT, "" },  /* fuzzy */
+/* nl */ { IDS_BLUR_0_1_NL, "" },  /* fuzzy */
+/* pl */ { IDS_BLUR_0_1_PL, "" },  /* fuzzy */
+/* sv */ { IDS_BLUR_0_1_SV, "" },  /* fuzzy */
+/* tr */ { IDS_BLUR_0_1_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_NEW_PAL_TINT_0_2,    "Tint (0..2)" },
-/* da */ { IDS_NEW_PAL_TINT_0_2_DA, "Farvetone (0..2)" },
-/* de */ { IDS_NEW_PAL_TINT_0_2_DE, "Farbton (0..2)" },
-/* fr */ { IDS_NEW_PAL_TINT_0_2_FR, "" },  /* fuzzy */
-/* hu */ { IDS_NEW_PAL_TINT_0_2_HU, "Szín (0..2)" },
-/* it */ { IDS_NEW_PAL_TINT_0_2_IT, "Sfumatura (0..2)" },
-/* nl */ { IDS_NEW_PAL_TINT_0_2_NL, "Tint (0..2)" },
-/* pl */ { IDS_NEW_PAL_TINT_0_2_PL, "" },  /* fuzzy */
-/* sv */ { IDS_NEW_PAL_TINT_0_2_SV, "Färgton (0..2)" },
-/* tr */ { IDS_NEW_PAL_TINT_0_2_TR, "Ton (0..2)" },
+/* en */ { IDS_TINT_0_2,    "Tint (0..2)" },
+/* da */ { IDS_TINT_0_2_DA, "Farvetone (0..2)" },
+/* de */ { IDS_TINT_0_2_DE, "Farbton (0..2)" },
+/* fr */ { IDS_TINT_0_2_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TINT_0_2_HU, "Szín (0..2)" },
+/* it */ { IDS_TINT_0_2_IT, "Sfumatura (0..2)" },
+/* nl */ { IDS_TINT_0_2_NL, "Tint (0..2)" },
+/* pl */ { IDS_TINT_0_2_PL, "" },  /* fuzzy */
+/* sv */ { IDS_TINT_0_2_SV, "Färgton (0..2)" },
+/* tr */ { IDS_TINT_0_2_TR, "Ton (0..2)" },
 
-/* en */ { IDS_NEW_PAL_PHASE_0_2,    "Odd lines phase (0..2)" },
-/* da */ { IDS_NEW_PAL_PHASE_0_2_DA, "Fase for ulige linjer (0..2)" },
-/* de */ { IDS_NEW_PAL_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)" },
-/* fr */ { IDS_NEW_PAL_PHASE_0_2_FR, "" },  /* fuzzy */
-/* hu */ { IDS_NEW_PAL_PHASE_0_2_HU, "Páratlan sorok fázisa (0..2)" },
-/* it */ { IDS_NEW_PAL_PHASE_0_2_IT, "Fase linee dispari (0..2)" },
-/* nl */ { IDS_NEW_PAL_PHASE_0_2_NL, "Oneven lijnen fase (0..2)" },
-/* pl */ { IDS_NEW_PAL_PHASE_0_2_PL, "" },  /* fuzzy */
-/* sv */ { IDS_NEW_PAL_PHASE_0_2_SV, "Fas för udda linjer (0..2)" },
-/* tr */ { IDS_NEW_PAL_PHASE_0_2_TR, "Tek satýrlar fazý (0..2)" },
+/* en */ { IDS_ODDLINE_PHASE_0_2,    "Odd lines phase (0..2)" },
+/* da */ { IDS_ODDLINE_PHASE_0_2_DA, "Fase for ulige linjer (0..2)" },
+/* de */ { IDS_ODDLINE_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)" },
+/* fr */ { IDS_ODDLINE_PHASE_0_2_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ODDLINE_PHASE_0_2_HU, "Páratlan sorok fázisa (0..2)" },
+/* it */ { IDS_ODDLINE_PHASE_0_2_IT, "Fase linee dispari (0..2)" },
+/* nl */ { IDS_ODDLINE_PHASE_0_2_NL, "Oneven lijnen fase (0..2)" },
+/* pl */ { IDS_ODDLINE_PHASE_0_2_PL, "" },  /* fuzzy */
+/* sv */ { IDS_ODDLINE_PHASE_0_2_SV, "Fas för udda linjer (0..2)" },
+/* tr */ { IDS_ODDLINE_PHASE_0_2_TR, "Tek satýrlar fazý (0..2)" },
 
-/* en */ { IDS_NEW_PAL_OFFSET_0_2,    "Odd lines offset (0..2)" },
-/* da */ { IDS_NEW_PAL_OFFSET_0_2_DA, "Offset for ulige linjer (0..2)" },
-/* de */ { IDS_NEW_PAL_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)" },
-/* fr */ { IDS_NEW_PAL_OFFSET_0_2_FR, "" },  /* fuzzy */
-/* hu */ { IDS_NEW_PAL_OFFSET_0_2_HU, "Páratlan sorok offszetje (0..2)" },
-/* it */ { IDS_NEW_PAL_OFFSET_0_2_IT, "Offset linee dispari (0..2)" },
-/* nl */ { IDS_NEW_PAL_OFFSET_0_2_NL, "Oneven lijnen compensatie (0..2)" },
-/* pl */ { IDS_NEW_PAL_OFFSET_0_2_PL, "" },  /* fuzzy */
-/* sv */ { IDS_NEW_PAL_OFFSET_0_2_SV, "Utjämning för udda linjer (0..2)" },
-/* tr */ { IDS_NEW_PAL_OFFSET_0_2_TR, "Tek satýrlar ofseti (0..2)" },
+/* en */ { IDS_ODDLINE_OFFSET_0_2,    "Odd lines offset (0..2)" },
+/* da */ { IDS_ODDLINE_OFFSET_0_2_DA, "Offset for ulige linjer (0..2)" },
+/* de */ { IDS_ODDLINE_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)" },
+/* fr */ { IDS_ODDLINE_OFFSET_0_2_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ODDLINE_OFFSET_0_2_HU, "Páratlan sorok offszetje (0..2)" },
+/* it */ { IDS_ODDLINE_OFFSET_0_2_IT, "Offset linee dispari (0..2)" },
+/* nl */ { IDS_ODDLINE_OFFSET_0_2_NL, "Oneven lijnen compensatie (0..2)" },
+/* pl */ { IDS_ODDLINE_OFFSET_0_2_PL, "" },  /* fuzzy */
+/* sv */ { IDS_ODDLINE_OFFSET_0_2_SV, "Utjämning för udda linjer (0..2)" },
+/* tr */ { IDS_ODDLINE_OFFSET_0_2_TR, "Tek satýrlar ofseti (0..2)" },
 
-/* en */ { IDS_EXTERNAL_PALETTE,    "External Palette" },
-/* da */ { IDS_EXTERNAL_PALETTE_DA, "Ekstern palette" },
-/* de */ { IDS_EXTERNAL_PALETTE_DE, "Externe Palette" },
-/* fr */ { IDS_EXTERNAL_PALETTE_FR, "Palette externe" },
-/* hu */ { IDS_EXTERNAL_PALETTE_HU, "Külsõ paletta" },
-/* it */ { IDS_EXTERNAL_PALETTE_IT, "Palette esterna" },
-/* nl */ { IDS_EXTERNAL_PALETTE_NL, "Extern Palet" },
-/* pl */ { IDS_EXTERNAL_PALETTE_PL, "" },  /* fuzzy */
-/* sv */ { IDS_EXTERNAL_PALETTE_SV, "Extern palett" },
-/* tr */ { IDS_EXTERNAL_PALETTE_TR, "Harici Palet" },
+/* en */ { IDS_VICII_EXTERNAL_PALETTE,    "External VICII palette" },
+/* da */ { IDS_VICII_EXTERNAL_PALETTE_DA, "" },  /* fuzzy */
+/* de */ { IDS_VICII_EXTERNAL_PALETTE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_VICII_EXTERNAL_PALETTE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VICII_EXTERNAL_PALETTE_HU, "" },  /* fuzzy */
+/* it */ { IDS_VICII_EXTERNAL_PALETTE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_VICII_EXTERNAL_PALETTE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VICII_EXTERNAL_PALETTE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_VICII_EXTERNAL_PALETTE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VICII_EXTERNAL_PALETTE_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_PALETTE_FILENAME,    "Palette file" },
-/* da */ { IDS_PALETTE_FILENAME_DA, "Palettefil" },
-/* de */ { IDS_PALETTE_FILENAME_DE, "Palette Dateil" },
-/* fr */ { IDS_PALETTE_FILENAME_FR, "Fichiers de palette" },
-/* hu */ { IDS_PALETTE_FILENAME_HU, "Paletta fájl" },
-/* it */ { IDS_PALETTE_FILENAME_IT, "File di palette" },
-/* nl */ { IDS_PALETTE_FILENAME_NL, "Paletbestand" },
-/* pl */ { IDS_PALETTE_FILENAME_PL, "" },  /* fuzzy */
-/* sv */ { IDS_PALETTE_FILENAME_SV, "Palettfiler" },
-/* tr */ { IDS_PALETTE_FILENAME_TR, "Palet dosyasý" },
+/* en */ { IDS_VIC_EXTERNAL_PALETTE,    "External VIC palette" },
+/* da */ { IDS_VIC_EXTERNAL_PALETTE_DA, "" },  /* fuzzy */
+/* de */ { IDS_VIC_EXTERNAL_PALETTE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_VIC_EXTERNAL_PALETTE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VIC_EXTERNAL_PALETTE_HU, "" },  /* fuzzy */
+/* it */ { IDS_VIC_EXTERNAL_PALETTE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_VIC_EXTERNAL_PALETTE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VIC_EXTERNAL_PALETTE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_VIC_EXTERNAL_PALETTE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VIC_EXTERNAL_PALETTE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TED_EXTERNAL_PALETTE,    "External TED palette" },
+/* da */ { IDS_TED_EXTERNAL_PALETTE_DA, "" },  /* fuzzy */
+/* de */ { IDS_TED_EXTERNAL_PALETTE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_TED_EXTERNAL_PALETTE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TED_EXTERNAL_PALETTE_HU, "" },  /* fuzzy */
+/* it */ { IDS_TED_EXTERNAL_PALETTE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_TED_EXTERNAL_PALETTE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TED_EXTERNAL_PALETTE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_TED_EXTERNAL_PALETTE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TED_EXTERNAL_PALETTE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_VDC_EXTERNAL_PALETTE,    "External VDC palette" },
+/* da */ { IDS_VDC_EXTERNAL_PALETTE_DA, "" },  /* fuzzy */
+/* de */ { IDS_VDC_EXTERNAL_PALETTE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_VDC_EXTERNAL_PALETTE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VDC_EXTERNAL_PALETTE_HU, "" },  /* fuzzy */
+/* it */ { IDS_VDC_EXTERNAL_PALETTE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_VDC_EXTERNAL_PALETTE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VDC_EXTERNAL_PALETTE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_VDC_EXTERNAL_PALETTE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VDC_EXTERNAL_PALETTE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CRTC_EXTERNAL_PALETTE,    "External CRTC palette" },
+/* da */ { IDS_CRTC_EXTERNAL_PALETTE_DA, "" },  /* fuzzy */
+/* de */ { IDS_CRTC_EXTERNAL_PALETTE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_CRTC_EXTERNAL_PALETTE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CRTC_EXTERNAL_PALETTE_HU, "" },  /* fuzzy */
+/* it */ { IDS_CRTC_EXTERNAL_PALETTE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_CRTC_EXTERNAL_PALETTE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CRTC_EXTERNAL_PALETTE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_CRTC_EXTERNAL_PALETTE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CRTC_EXTERNAL_PALETTE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_VICII_PALETTE_NAME,    "VICII palette file" },
+/* da */ { IDS_VICII_PALETTE_NAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_VICII_PALETTE_NAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_VICII_PALETTE_NAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VICII_PALETTE_NAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_VICII_PALETTE_NAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_VICII_PALETTE_NAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VICII_PALETTE_NAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_VICII_PALETTE_NAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VICII_PALETTE_NAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_VIC_PALETTE_NAME,    "VIC palette file" },
+/* da */ { IDS_VIC_PALETTE_NAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_VIC_PALETTE_NAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_VIC_PALETTE_NAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VIC_PALETTE_NAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_VIC_PALETTE_NAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_VIC_PALETTE_NAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VIC_PALETTE_NAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_VIC_PALETTE_NAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VIC_PALETTE_NAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TED_PALETTE_NAME,    "TED palette file" },
+/* da */ { IDS_TED_PALETTE_NAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_TED_PALETTE_NAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_TED_PALETTE_NAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TED_PALETTE_NAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_TED_PALETTE_NAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_TED_PALETTE_NAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TED_PALETTE_NAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_TED_PALETTE_NAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TED_PALETTE_NAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_VDC_PALETTE_NAME,    "VDC palette file" },
+/* da */ { IDS_VDC_PALETTE_NAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_VDC_PALETTE_NAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_VDC_PALETTE_NAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VDC_PALETTE_NAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_VDC_PALETTE_NAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_VDC_PALETTE_NAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VDC_PALETTE_NAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_VDC_PALETTE_NAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VDC_PALETTE_NAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CRTC_PALETTE_NAME,    "CRTC palette file" },
+/* da */ { IDS_CRTC_PALETTE_NAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_CRTC_PALETTE_NAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_CRTC_PALETTE_NAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CRTC_PALETTE_NAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_CRTC_PALETTE_NAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_CRTC_PALETTE_NAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CRTC_PALETTE_NAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_CRTC_PALETTE_NAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CRTC_PALETTE_NAME_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SATURATION_0_2,    "Saturation (0..2)" },
 /* da */ { IDS_SATURATION_0_2_DA, "Mætning (0..2)" },

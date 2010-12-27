@@ -33,6 +33,7 @@
 #include "private.h"
 #include "petui.h"
 #include "petuires.h"
+#include "translate.h"
 
 #include "mui/uiacia.h"
 #include "mui/uidrivepetcbm2.h"
@@ -44,7 +45,7 @@
 #include "mui/uiprinter.h"
 #include "mui/uirompetsettings.h"
 #include "mui/uisidcart.h"
-#include "mui/uivideocbm2pet.h"
+#include "mui/uivideo.h"
 
 static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -73,7 +74,12 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             ui_pet_drive_rom_settings_dialog(canvas);
             break;
         case IDM_VIDEO_SETTINGS:
-            ui_video_cbm2pet_settings_dialog(canvas);
+            ui_video_settings_dialog(canvas,
+                                     "CRTCExternalPalette", "CRTCPaletteFile",
+                                     translate_text(IDS_CRTC_EXTERNAL_PALETTE), translate_text(IDS_CRTC_PALETTE_NAME),
+                                     NULL, NULL,
+                                     NULL, NULL,
+                                     NULL);
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivepetcbm2_settings_dialog();

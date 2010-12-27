@@ -1,5 +1,5 @@
 /*
- * uivideocbm2pet.h
+ * uivideo.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,12 @@
  *
  */
 
-#ifndef VICE_UIVIDEOCBM2PET_H
-#define VICE_UIVIDEOCBM2PET_H
+#ifndef VICE_UIVIDEO_H
+#define VICE_UIVIDEO_H
 
-extern void ui_video_cbm2pet_settings_dialog(video_canvas_t *canvas);
+extern void ui_video_settings_dialog(video_canvas_t *canvas,
+                                     char *palext1_res, char *pal1file_res, char *pal1ext_name, char *pal1fname,
+                                     char *palext2_res, char *pal2file_res, char *pal2ext_name, char *pal2fname,
+                                     char *scale2_res);
 
 #endif

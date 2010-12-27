@@ -34,6 +34,7 @@
 #include "cbm2ui.h"
 #include "cbm2uires.h"
 #include "machine.h"
+#include "translate.h"
 
 #include "mui/uiacia.h"
 #include "mui/uicbm2settings.h"
@@ -43,7 +44,7 @@
 #include "mui/uiprinter.h"
 #include "mui/uiromcbm2settings.h"
 #include "mui/uisid.h"
-#include "mui/uivideocbm2pet.h"
+#include "mui/uivideo.h"
 
 static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
@@ -68,7 +69,21 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
             ui_cbm2_drive_rom_settings_dialog(canvas);
             break;
         case IDM_VIDEO_SETTINGS:
-            ui_video_cbm2pet_settings_dialog(canvas);
+            if (machine_class == VICE_MACHINE_CBM5x0) {
+                ui_video_settings_dialog(canvas,
+                                         "VICIIExternalPalette", "VICIIPaletteFile",
+                                         translate_text(IDS_VICII_EXTERNAL_PALETTE), translate_text(IDS_VICII_PALETTE_NAME),
+                                         NULL, NULL,
+                                         NULL, NULL,
+                                         "VICIIScale2x");
+            } else {
+                ui_video_settings_dialog(canvas,
+                                         "CRTCExternalPalette", "CRTCPaletteFile",
+                                         translate_text(IDS_CRTC_EXTERNAL_PALETTE), translate_text(IDS_CRTC_PALETTE_NAME),
+                                         NULL, NULL,
+                                         NULL, NULL,
+                                         NULL);
+            }
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivepetcbm2_settings_dialog();

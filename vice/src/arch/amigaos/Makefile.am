@@ -219,12 +219,8 @@ libarch_a_SOURCES = \
 	mui/uivic20mem.h \
 	mui/uivicii.c \
 	mui/uivicii.h \
-	mui/uivideoc128.c \
-	mui/uivideoc128.h \
-	mui/uivideoc64plus4vic20.c \
-	mui/uivideoc64plus4vic20.h \
-	mui/uivideocbm2pet.c \
-	mui/uivideocbm2pet.h
+	mui/uivideo.c \
+	mui/uivideo.h
 
 EXTRA_DIST = \
 	intl_text.c \

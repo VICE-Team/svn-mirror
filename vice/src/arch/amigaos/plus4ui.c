@@ -48,14 +48,12 @@
 #include "mui/uiromplus4settings.h"
 #include "mui/uisidcart.h"
 #include "mui/uiv364speech.h"
-#include "mui/uivideoc64plus4vic20.h"
+#include "mui/uivideo.h"
 
 static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "TEDScale2x", IDM_TOGGLE_SCALE2X },
-    { "PALEmulation", IDM_TOGGLE_FASTPAL },
     { NULL, 0 }
 };
 
@@ -177,7 +175,12 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             ui_plus4_drive_rom_settings_dialog(canvas);
             break;
         case IDM_VIDEO_SETTINGS:
-            ui_video_c64plus4vic20_settings_dialog(canvas, "TEDExternalPalette", "TEDPaletteFile");
+            ui_video_settings_dialog(canvas,
+                                     "TEDExternalPalette", "TEDPaletteFile",
+                                     translate_text(IDS_TED_EXTERNAL_PALETTE), translate_text(IDS_TED_PALETTE_NAME),
+                                     NULL, NULL,
+                                     NULL, NULL,
+                                     "TEDScale2x");
             break;
         case IDM_DRIVE_SETTINGS:
             uidriveplus4_settings_dialog();
