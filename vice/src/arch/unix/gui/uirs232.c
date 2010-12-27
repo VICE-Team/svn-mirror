@@ -121,9 +121,5 @@ UI_CALLBACK(set_rs232_exec_file)
 
 UI_CALLBACK(set_rs232_dump_file)
 {
-#ifdef USE_GNOMEUI
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"), UILIB_FILTER_ALL);
-#else
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"), _("Dump file:"));
-#endif
 }

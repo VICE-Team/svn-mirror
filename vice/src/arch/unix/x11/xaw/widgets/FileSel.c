@@ -24,6 +24,7 @@
  * Detailed list of changes in `../../../ChangeLog'.
  *
  * More changes, for the use case "create a new file", by Olaf Seibert.
+ * More changes, to make it a directory chooser too, by Olaf Seibert.
  *
  */
 
@@ -46,21 +47,16 @@
 #include <X11/CompositeP.h>
 #include <X11/Composite.h>
 #include <X11/cursorfont.h>
-#include <X11/Xaw/SimpleP.h>
 #include <X11/Xaw/Simple.h>
-#include <X11/Xaw/LabelP.h>
 #include <X11/Xaw/Label.h>
-#include <X11/Xaw/CommandP.h>
 #include <X11/Xaw/Command.h>
-#include <X11/Xaw/FormP.h>
 #include <X11/Xaw/Form.h>
+#include <X11/Xaw/Toggle.h>
 
 #ifndef ENABLE_TEXTFIELD		/* [EP] 11/14/96 */
-#include <X11/Xaw/AsciiTextP.h>
 #include <X11/Xaw/AsciiText.h>
 #endif
 
-#include "ScrListP.h"
 #include "ScrList.h"
 #include "FileSelP.h"
 #include "FileSel.h"
@@ -111,6 +107,7 @@ static void ChildrenCreate(XfwfFileSelectorWidget fsw);
 static void ChildrenRealize(XfwfFileSelectorWidget fsw);
 static void ChildrenRecalculate(XfwfFileSelectorWidget fsw);
 static void ChildrenUpdate(XfwfFileSelectorWidget fsw);
+static void ToggleReadOnly(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonAutostart(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonContents(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonOk(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
@@ -143,6 +140,7 @@ static void TextWidgetSetKeyboardFocusAction(Widget w, XEvent *event, String *pa
  *---------------------------------------------------------------------------*/
 
 #ifdef MINIX_SUPPORT
+/* These hand-calculated offsets are almost certainly wrong */
 static XtResource resources[] = {
     { XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension), 32, XtRString, "500" },
     { XtNheight, XtCHeight, XtRDimension, sizeof(Dimension), 34, XtRString, "250" },
@@ -179,6 +177,8 @@ static XtResource resources[] = {
     { XtNshowCancelButton, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(show_cancel_button), XtRString, "True" },
     { XtNshowContentsButton, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(show_contents_button), XtRString, "True" },
     { XtNshowAutostartButton, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(show_autostart_button), XtRString, "True" },
+    { XtNshowReadOnlyToggle, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(show_ro_toggle), XtRString, "False" },
+    { XtNreadOnly, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(read_only_selected), XtRString, "False" },
     { XtNflagLinks, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(flag_links), XtRString, "False" },
     { XtNcheckExistence, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(check_existence), XtRString, "True" },
     { XtNfileSelected, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(file_selected), XtRString, "False" },
@@ -187,6 +187,7 @@ static XtResource resources[] = {
     { XtNtitle, XtCLabel, XtRString, sizeof(String), FSFieldOffset(title), XtRString, "File Selector" },
     { XtNsortMode, XtCValue, XtRInt, sizeof(int), FSFieldOffset(sort_mode), XtRString, "2" },
     { XtNpattern, XtCFile, XtRString, sizeof(String), FSFieldOffset(pattern), XtRString, NULL },
+    { XtNSelectDirectory, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(select_directory), XtRString, "False" },
 };
 #endif
 
@@ -477,6 +478,13 @@ static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew)
             XtUnmanageChild(FSNthWidget(new, FS_I_AUTOSTART_BUTTON));
         }
     }
+    if (FSShowROToggle(current) != FSShowROToggle(new)) {
+        if (FSShowROToggle(new) == True) {
+            XtManageChild(FSNthWidget(new, FS_I_RO_TOGGLE));
+        } else {
+            XtUnmanageChild(FSNthWidget(new, FS_I_RO_TOGGLE));
+        }
+    }
     if (FSCurrentDirectory(current) != FSCurrentDirectory(new)) {
         strcpy(FSCurrentDirectory(current), FSCurrentDirectory(new));
         FSCurrentDirectory(new) = FSCurrentDirectory(current);
@@ -611,15 +619,14 @@ static void ChildrenCreate(XfwfFileSelectorWidget fsw)
 		/* Goto Button */
 
     XtSetArg(args[0], XtNlabel, "Show");
-    XtSetArg(args[1], XtNborderWidth, 1);
-    FSNthWidget(fsw, FS_I_GOTO_BUTTON) = XtCreateManagedWidget("goto_button", commandWidgetClass, (Widget)fsw, args, 1);
+    FSNthWidget(fsw, FS_I_GOTO_BUTTON) = XtCreateManagedWidget("goto_button", commandWidgetClass, (Widget)fsw, args, 2);
     XtAddCallback(FSNthWidget(fsw, FS_I_GOTO_BUTTON), XtNcallback, (XtCallbackProc)ButtonGoto, (XtPointer)fsw);
 
 		/* Select Button */
 
     XtSetArg(args[0], XtNlabel, "Select");
-    XtSetArg(args[1], XtNborderWidth, 1);
-    FSNthWidget(fsw, FS_I_SELECT_BUTTON) = XtCreateManagedWidget("select_button", commandWidgetClass, (Widget)fsw, args, 1);
+    XtSetArg(args[1], XtNborderWidth, 2);
+    FSNthWidget(fsw, FS_I_SELECT_BUTTON) = XtCreateManagedWidget("select_button", commandWidgetClass, (Widget)fsw, args, 2);
     XtAddCallback(FSNthWidget(fsw, FS_I_SELECT_BUTTON), XtNcallback, (XtCallbackProc)ButtonSelect, (XtPointer)fsw);
 
 		/* Autostart Button.  ([EP] 02/22/97) */
@@ -628,7 +635,13 @@ static void ChildrenCreate(XfwfFileSelectorWidget fsw)
     FSNthWidget(fsw, FS_I_AUTOSTART_BUTTON) = XtCreateManagedWidget("autostart_button", commandWidgetClass, (Widget)fsw, args, 1);
     XtAddCallback(FSNthWidget(fsw, FS_I_AUTOSTART_BUTTON), XtNcallback, (XtCallbackProc)ButtonAutostart, (XtPointer)fsw);
 
-	/* Contents Button */
+                /* ReadOnly Toggle Button.  ([OS] 12/2010) */
+
+    XtSetArg(args[0], XtNlabel, "Read Only");
+    FSNthWidget(fsw, FS_I_RO_TOGGLE) = XtCreateManagedWidget("read_only_toggle", toggleWidgetClass, (Widget)fsw, args, 1);
+    XtAddCallback(FSNthWidget(fsw, FS_I_RO_TOGGLE), XtNcallback, (XtCallbackProc)ToggleReadOnly, (XtPointer)fsw);
+
+                /* Contents Button */
     XtSetArg(args[0], XtNlabel, "Contents");
     FSNthWidget(fsw, FS_I_CONTENTS_BUTTON) = XtCreateManagedWidget("contents_button", commandWidgetClass, (Widget)fsw, args, 1);
     XtAddCallback(FSNthWidget(fsw, FS_I_CONTENTS_BUTTON), XtNcallback, (XtCallbackProc)ButtonContents, (XtPointer)fsw);
@@ -666,7 +679,9 @@ static void ChildrenRealize(XfwfFileSelectorWidget fsw)
         if (FSNthWidget(fsw, i) != NULL) {
             widget = FSNthWidget(fsw, i);
             XtRealizeWidget(widget);
-            if ((i == FS_I_OK_BUTTON && !FSShowOkButton(fsw)) || (i == FS_I_CANCEL_BUTTON && !FSShowCancelButton(fsw))) {
+            if ((i == FS_I_OK_BUTTON && !FSShowOkButton(fsw)) ||
+                (i == FS_I_CANCEL_BUTTON && !FSShowCancelButton(fsw)) ||
+                (i == FS_I_RO_TOGGLE && !FSShowROToggle(fsw))) {
                 XtUnmanageChild(widget);
             }
         }
@@ -697,6 +712,7 @@ static void ChildrenRecalculate(XfwfFileSelectorWidget fsw)
     BOX *coords;
     Widget widget;
     int i, w, h, empty_space, gap, orig_path_list_h, orig_file_list_h, top;
+    int boxh, boxw;
     XtWidgetGeometry parent_idea, child_idea;
 
     w = FSCorePart(fsw)->width;
@@ -716,17 +732,27 @@ static void ChildrenRecalculate(XfwfFileSelectorWidget fsw)
     /* Adjust Widths */
     /* (little fixes by [EP] Sept 5th, 1996) */
 
-    BoxW(FSNthCoords(fsw, FS_I_CUR_DIR_TEXT)) = .7 * w;
-    BoxW(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT)) = .7 * w;
-    BoxW(FSNthCoords(fsw, FS_I_GOTO_BUTTON)) = .20 * w;
-    BoxW(FSNthCoords(fsw, FS_I_SELECT_BUTTON)) = .20 * w;
+    boxw = max(2, .70 * w);
+    BoxW(FSNthCoords(fsw, FS_I_CUR_DIR_TEXT)) = boxw;
+    BoxW(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT)) = boxw;
+    boxw = max(2, .20 * w);
+    BoxW(FSNthCoords(fsw, FS_I_GOTO_BUTTON)) = boxw;
+    BoxW(FSNthCoords(fsw, FS_I_SELECT_BUTTON)) = boxw;
 
-    BoxW(FSNthCoords(fsw, FS_I_PATH_LIST)) = .45 * w;
-    BoxW(FSNthCoords(fsw, FS_I_FILE_LIST)) = .45 * w;
-    BoxW(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) = BoxW(FSNthCoords(fsw, FS_I_PATH_LIST)) * .45;
-    BoxW(FSNthCoords(fsw, FS_I_CONTENTS_BUTTON)) = BoxW(FSNthCoords(fsw, FS_I_PATH_LIST)) * .45;
-    BoxW(FSNthCoords(fsw, FS_I_OK_BUTTON)) = BoxW(FSNthCoords(fsw, FS_I_FILE_LIST)) * .45;
-    BoxW(FSNthCoords(fsw, FS_I_CANCEL_BUTTON)) = BoxW(FSNthCoords(fsw, FS_I_FILE_LIST)) * .45;
+    boxw = max(2, .45 * w);
+    BoxW(FSNthCoords(fsw, FS_I_PATH_LIST)) = boxw;
+    BoxW(FSNthCoords(fsw, FS_I_FILE_LIST)) = boxw;
+
+    boxw = BoxW(FSNthCoords(fsw, FS_I_PATH_LIST)) * .45;
+    boxw = max(2, boxw);
+    BoxW(FSNthCoords(fsw, FS_I_RO_TOGGLE)) = boxw;
+    BoxW(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) = boxw;
+    BoxW(FSNthCoords(fsw, FS_I_CONTENTS_BUTTON)) = boxw;
+
+    boxw = BoxW(FSNthCoords(fsw, FS_I_FILE_LIST)) * .45;
+    boxw = max(2, boxw);
+    BoxW(FSNthCoords(fsw, FS_I_OK_BUTTON)) = boxw;
+    BoxW(FSNthCoords(fsw, FS_I_CANCEL_BUTTON)) = boxw;
 
     /* Adjust Heights */
 
@@ -736,17 +762,22 @@ static void ChildrenRecalculate(XfwfFileSelectorWidget fsw)
     BoxH(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT)) = max(BoxH(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT)), BoxH(FSNthCoords(fsw, FS_I_SELECT_BUTTON)));
     BoxH(FSNthCoords(fsw, FS_I_SELECT_BUTTON)) = BoxH(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT));
 
-#ifndef VICE			/* [EP] 11/3/1996*/
-    empty_space = h - (BoxH(FSNthCoords(fsw, FS_I_TITLE)) + BoxH(FSNthCoords(fsw, FS_I_CUR_DIR_TEXT)) + 
-                  BoxH(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT)) + BoxH(FSNthCoords(fsw, FS_I_PATH_LIST_TITLE)) +
-                  BoxH(FSNthCoords(fsw, FS_I_OK_BUTTON)));
-#else
-    empty_space = h - (BoxH(FSNthCoords(fsw, FS_I_CUR_DIR_TEXT)) + BoxH(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT)) +
-                  BoxH(FSNthCoords(fsw, FS_I_PATH_LIST_TITLE)) + BoxH(FSNthCoords(fsw, FS_I_OK_BUTTON)));
+    empty_space = h - BoxH(FSNthCoords(fsw, FS_I_CUR_DIR_TEXT))
+                    - BoxH(FSNthCoords(fsw, FS_I_CUR_FILE_TEXT))
+                    - BoxH(FSNthCoords(fsw, FS_I_PATH_LIST_TITLE))
+                    - BoxH(FSNthCoords(fsw, FS_I_OK_BUTTON));
+#ifndef VICE                    /* [EP] 11/3/1996*/
+    empty_space -=    BoxH(FSNthCoords(fsw, FS_I_TITLE));
 #endif
+    if (FSShowROToggle(fsw)) {
+        empty_space -= BoxH(FSNthCoords(fsw, FS_I_RO_TOGGLE));
+    }
     gap = .025 * h;
-    BoxH(FSNthCoords(fsw, FS_I_PATH_LIST)) = empty_space - 8 * gap;
-    BoxH(FSNthCoords(fsw, FS_I_FILE_LIST)) = empty_space - 8 * gap;
+    gap = min(8, gap);
+    boxh = empty_space - 8 * gap;
+    boxh = max(2, boxh);
+    BoxH(FSNthCoords(fsw, FS_I_PATH_LIST)) = boxh;
+    BoxH(FSNthCoords(fsw, FS_I_FILE_LIST)) = boxh;
     orig_path_list_h = BoxH(FSNthCoords(fsw, FS_I_PATH_LIST));
     orig_file_list_h = BoxH(FSNthCoords(fsw, FS_I_FILE_LIST));
 
@@ -795,11 +826,23 @@ static void ChildrenRecalculate(XfwfFileSelectorWidget fsw)
     BoxY(FSNthCoords(fsw, FS_I_FILE_LIST)) = BoxY(FSNthCoords(fsw, FS_I_PATH_LIST));
 
     top = BoxY(FSNthCoords(fsw, FS_I_PATH_LIST)) + BoxH(FSNthCoords(fsw, FS_I_PATH_LIST));
-    empty_space = h - top;
-    BoxY(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) = top + (h - top - BoxH(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON))) / 2;
-    BoxY(FSNthCoords(fsw, FS_I_CONTENTS_BUTTON)) = top + (h - top - BoxH(FSNthCoords(fsw, FS_I_CONTENTS_BUTTON))) / 2;
-    BoxY(FSNthCoords(fsw, FS_I_OK_BUTTON)) = top + (h - top - BoxH(FSNthCoords(fsw, FS_I_OK_BUTTON))) / 2;
-    BoxY(FSNthCoords(fsw, FS_I_CANCEL_BUTTON)) = top + (h - top - BoxH(FSNthCoords(fsw, FS_I_CANCEL_BUTTON))) / 2;
+    /* assume all these boxes with text have the same height */
+    boxh = BoxH(FSNthCoords(fsw,FS_I_AUTOSTART_BUTTON));
+    empty_space = h - top - boxh;
+    if (FSShowROToggle(fsw)) {
+        empty_space -= boxh;
+        gap = empty_space / 3;
+        top += gap;
+        BoxY(FSNthCoords(fsw, FS_I_RO_TOGGLE)) = top;
+        top += boxh + gap;
+    } else {
+        gap = empty_space / 2;
+        top += gap;
+    }
+    BoxY(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) = top;
+    BoxY(FSNthCoords(fsw, FS_I_CONTENTS_BUTTON)) = top;
+    BoxY(FSNthCoords(fsw, FS_I_OK_BUTTON)) = top;
+    BoxY(FSNthCoords(fsw, FS_I_CANCEL_BUTTON)) = top;
 
     /* Horizontal Positions */
 
@@ -832,7 +875,11 @@ static void ChildrenRecalculate(XfwfFileSelectorWidget fsw)
 
     empty_space = BoxW(FSNthCoords(fsw, FS_I_PATH_LIST)) - (BoxW(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) + BoxW(FSNthCoords(fsw, FS_I_CONTENTS_BUTTON)));
     gap = empty_space / 3;
-    BoxX(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) = BoxX(FSNthCoords(fsw, FS_I_PATH_LIST)) + gap;
+    top = BoxX(FSNthCoords(fsw, FS_I_PATH_LIST));
+    if (FSShowROToggle(fsw)) {
+        BoxX(FSNthCoords(fsw, FS_I_RO_TOGGLE)) = top + gap;
+    }
+    BoxX(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) = top + gap;
     BoxX(FSNthCoords(fsw, FS_I_CONTENTS_BUTTON)) = (BoxX(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON)) + BoxW(FSNthCoords(fsw, FS_I_AUTOSTART_BUTTON))) + gap;
 
     empty_space = BoxW(FSNthCoords(fsw, FS_I_FILE_LIST)) - (BoxW(FSNthCoords(fsw, FS_I_OK_BUTTON)) + BoxW(FSNthCoords(fsw, FS_I_CANCEL_BUTTON)));
@@ -886,11 +933,16 @@ static void ChildrenUpdate(XfwfFileSelectorWidget fsw)
 
  *---------------------------------------------------------------------------*/
 
+static void ToggleReadOnly(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data)
+{
+    FSReadOnlySelected(fsw) = (Boolean)(long)call_data;
+} /* End ToggleReadOnly */
+
 /* Changed from `ButtonUp' to `ButtonAutostart' [EP] 02/22/97. */
 static void ButtonAutostart(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data)
 {
     XtCallCallbacks((Widget)fsw, XtNautostartButtonCallback, NULL);
-} /* End ButtonUp */
+} /* End ButtonAutostart */
 
 static void ButtonContents(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data)
 {
@@ -1047,6 +1099,10 @@ static void SelectFileByIndex(XfwfFileSelectorWidget fsw, int index)
     if (DirEntryIsDir(dir_entry) || DirEntryIsDirectoryLink(dir_entry)) {
         strcat(FSCurrentDirectory(fsw), DirEntryFileName(dir_entry));
         Chdir(fsw);
+        if (FSSelectDirectory(fsw)) {
+            SetSensitive(fsw, True);
+            FSFileSelected(fsw) = True;
+        }
     } else if (!DirEntryIsBrokenLink(dir_entry)) {
         strcpy(FSCurrentFile(fsw), DirEntryFileName(dir_entry));
         SetSensitive(fsw, True);
@@ -1083,16 +1139,19 @@ static void UnselectAll(XfwfFileSelectorWidget fsw, Boolean clear_cur_file_text)
     Boolean old_file_selected_flag;
 
     old_file_selected_flag = FSFileSelected(fsw);
-    if (FSCheckExistence(fsw) || clear_cur_file_text) {
-        SetSensitive(fsw, False);
+    /* If we select directories, there is always a selected one */
+    if (!FSSelectDirectory(fsw)) {
+        if (FSCheckExistence(fsw) || clear_cur_file_text) {
+            SetSensitive(fsw, False);
+        }
+        FSFileSelected(fsw) = False;
     }
-    FSFileSelected(fsw) = False;
     if (clear_cur_file_text) {
         FSCurrentFile(fsw)[0] = '\0';
         TextWidgetSetText(FSNthWidget(fsw, FS_I_CUR_FILE_TEXT), FSCurrentFile(fsw));
     }
     XfwfScrolledListUnhighlightAll(FSNthWidget(fsw, FS_I_FILE_LIST));
-    if (old_file_selected_flag) {
+    if (old_file_selected_flag != FSFileSelected(fsw)) {
         NotifySelectionChange(fsw);
     }
 } /* End UnselectAll */
@@ -1101,7 +1160,7 @@ static void NotifySelectionChange(XfwfFileSelectorWidget fsw)
 {
     XfwfFileSelectorSelectionChangeReturnStruct ret;
 
-    if (FSFileSelected(fsw) == True) {
+    if (FSFileSelected(fsw)) {
         ret.file_selected = True;
         ret.path = FSCurrentDirectory(fsw);
         ret.file = FSCurrentFile(fsw);
@@ -1204,7 +1263,7 @@ static void GotoDeepestLegalDirectory(XfwfFileSelectorWidget fsw)
              */
             ParentizeDirectory(dir);
         } else if (!*dir) {
-            getcwd(FSCurrentDirectory(fsw), MAXPATHLEN);
+            getcwd(FSCurrentDirectory(fsw), MAXPATHLEN);     /* ignore error */
             strcat(FSCurrentDirectory(fsw), "/");
             break;
         } else {
@@ -1236,11 +1295,13 @@ static void UpdateLists(XfwfFileSelectorWidget fsw)
     DirEntry *dir_entry;
     DirectoryMgr *dir_mgr;
     char temp[MAXPATHLEN + 2];
+    char *pattern;
 
     if (FSDirMgr(fsw)) {
         DirectoryMgrClose(FSDirMgr(fsw));
     }
-    dir_mgr = DirectoryMgrSimpleOpen(FSCurrentDirectory(fsw), FSSortMode(fsw), FSPattern(fsw));
+    pattern = FSSelectDirectory(fsw) ? "/" : FSPattern(fsw);
+    dir_mgr = DirectoryMgrSimpleOpen(FSCurrentDirectory(fsw), FSSortMode(fsw), pattern);
     if (dir_mgr == NULL) {
         fprintf(stderr, "UpdateLists: Can't read directory '%s'\n", FSCurrentDirectory(fsw));
         exit(1);

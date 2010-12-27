@@ -1877,15 +1877,15 @@ static const char* file_filters[] = {
 /* romset archive */ "*.vra",
 /* keymap */ "*.vkm",
 /* emulator_filter unused in X11 */ "",
-/* wav */ "wav",
-/* voc */ "voc",
-/* iff */ "iff",
-/* aiff */ "aiff",
-/* mp3 */ "mp3",
+/* wav */ "*.wav",
+/* voc */ "*.voc",
+/* iff */ "*.iff",
+/* aiff */ "*.aiff",
+/* mp3 */ "*.mp3",
 /* serial */ "ttyS*",
 /* vic20cart */ "*.prg",
 /* sid */ "*.[psPS]*",
-/* dtvrom */ ".[bB][iI][nN]",
+/* dtvrom */ "*.[bB][iI][nN]",
 /* compressed */ "*"
 };
 
@@ -1899,6 +1899,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
     Widget file_selector = NULL;
     XfwfFileSelectorStatusStruct fs_status;
     char *current_dir;
+    int is_ok = 0;
 
     /* we preserve the current directory over the invocations */
     current_dir = ioutil_current_dir();    /* might be changed elsewhere */
@@ -1912,13 +1913,17 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
        fixes the problem...  */
     file_selector = build_file_selector(_ui_top_level, &button);
 
-    if (action == UI_FC_SAVE) {
-        XtVaSetValues(file_selector, XtNcheckExistence, False, NULL);
+    /* Strangely enough, even on UI_FD_LOAD, new filenames should be allowed */
+    XtVaSetValues(file_selector, XtNcheckExistence, False, NULL);
+    if (action == UI_FC_DIRECTORY) {
+        XtVaSetValues(file_selector, XtNSelectDirectory, True, NULL);
     }
-    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart, NULL);
-    XtVaSetValues(file_selector, XtNshowContentsButton, read_contents_func ? 1 : 0,  NULL);
-
-    XtVaSetValues(file_selector, XtNpattern, file_filters[patterns[0]], NULL);
+    XtVaSetValues(file_selector, XtNshowAutostartButton, allow_autostart,
+                                 XtNshowContentsButton, read_contents_func ? 1 : 0,
+                                 XtNpattern, file_filters[patterns[0]], NULL);
+    if (attach_wp) {
+        XtVaSetValues(file_selector, XtNshowReadOnlyToggle, True, NULL);
+    }
 
     if (default_dir != NULL) {
         XfwfFileSelectorChangeDirectory((XfwfFileSelectorWidget)file_selector, default_dir);
@@ -1984,14 +1989,22 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
         if (button == UI_BUTTON_CANCEL) {
             break;
         }
-        if (button == UI_BUTTON_OK && (action == UI_FC_SAVE || fs_status.file_selected)) {
+        if ((button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) &&
+                (action != UI_FC_LOAD || fs_status.file_selected)) {
+            is_ok = 1;
             break;
         }
     } 
 
     /* `ret' gets always malloc'ed.  */
-    if (UI_BUTTON_OK && (action == UI_FC_SAVE || fs_status.file_selected)) {
+    if (is_ok) {
         ret = util_concat(fs_status.path, fs_status.file, NULL);
+        if (attach_wp != NULL) {
+            Boolean set;
+            XtVaGetValues(file_selector, XtNreadOnly, &set, NULL);
+
+            *attach_wp = set;
+        }
     } else {
         ret = lib_stralloc("");
     }
@@ -2009,7 +2022,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
     }
 
     *button_return = button;
-    if (button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) {
+    if (is_ok) {
         /* Caller has to free the filename.  */
         return ret;
     } else {
@@ -2017,6 +2030,34 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
         return NULL;
     }
 }
+
+/* prompt for a pathname, must allow to enter a non existing path */
+ui_button_t ui_change_dir(const char *title, const char *prompt, char *buf, unsigned int buflen)
+{
+    char *filename;
+    ui_button_t button;
+    static char *last_dir;
+    uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
+
+    vsync_suspend_speed_eval();
+
+    filename = ui_select_file(title, NULL, 0, last_dir, &filter, 1, &button, 0, NULL, UI_FC_DIRECTORY);
+
+    switch (button) {
+        case UI_BUTTON_OK:
+            strncpy(buf, filename, buflen);
+            lib_free(last_dir);
+            util_fname_split(filename, &last_dir, NULL);
+            break;
+        default:
+            /* Do nothing special.  */
+            break;
+    }
+    ui_update_menus();
+    lib_free(filename);
+    return button;
+}
+
 
 /* Ask for a string.  The user can confirm or cancel. */
 ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen)

@@ -157,5 +157,6 @@ extern int DirectoryMgrCompareLastAccessAscending(DirEntry **e1p, DirEntry **e2p
 extern int DirectoryMgrCompareLastAccessDescending(DirEntry **e1p, DirEntry **e2p);
 
 extern int DirectoryMgrFilterName(DirEntry *de, fwf_regex_t *fsm);
+extern int DirectoryMgrFilterDirectories(DirEntry *de, fwf_regex_t *fsm);
 
 #endif

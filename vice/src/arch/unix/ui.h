@@ -70,7 +70,8 @@ struct palette_s;
 
 typedef enum ui_filechooser_s {
     UI_FC_LOAD = 0,
-    UI_FC_SAVE
+    UI_FC_SAVE,
+    UI_FC_DIRECTORY
 } ui_filechooser_t;
 
 void ui_display_speed(float percent, float framerate, int warp_flag);

@@ -96,7 +96,7 @@ static UI_CALLBACK(browse_callback)
     char *filename;
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
-    filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, &filter, 1, &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Save emptydisk file"), NULL, False, NULL, &filter, 1, &button, 0, NULL, UI_FC_SAVE);
 
     if (button == UI_BUTTON_OK) {
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);

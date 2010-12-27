@@ -37,22 +37,23 @@
 #define FS_DIR_STRING_SIZE 512
 
 /* The following indices are used to find the appropriate widget
-   data from the arrays that the data items are stored in.		*/
+   data from the arrays that the data items are stored in                    */
 
-#define FS_I_TITLE            0	/* Title Index */
-#define FS_I_CUR_DIR_TEXT     1	/* Current Directory Label Index */
-#define FS_I_PATH_LIST_TITLE  2	/* Path From Root List Title Index */
-#define FS_I_FILE_LIST_TITLE  3	/* File List Title Index */
-#define FS_I_PATH_LIST        4	/* Path From Root List Index */
-#define FS_I_FILE_LIST        5	/* File List Index */
-#define FS_I_OK_BUTTON        6	/* OK Button Index */
-#define FS_I_CANCEL_BUTTON    7	/* Cancel Button Index */
-#define FS_I_AUTOSTART_BUTTON 8	/* Go Up Directory Button */
-#define FS_I_GOTO_BUTTON      9	/* Go To Directory Button */
-#define FS_I_CUR_FILE_TEXT    10	/* Filename Text Line */
-#define FS_I_SELECT_BUTTON    11	/* Select Filename Button */
-#define FS_I_CONTENTS_BUTTON  12      /* Directory Button */
-#define FS_NUM_CHILDREN       13	/* Count Of Above Indices */
+#define FS_I_TITLE            0 /* Title Index */
+#define FS_I_CUR_DIR_TEXT     1 /* Current Directory Label Index */
+#define FS_I_PATH_LIST_TITLE  2 /* Path From Root List Title Index */
+#define FS_I_FILE_LIST_TITLE  3 /* File List Title Index */
+#define FS_I_PATH_LIST        4 /* Path From Root List Index */
+#define FS_I_FILE_LIST        5 /* File List Index */
+#define FS_I_OK_BUTTON        6 /* OK Button Index */
+#define FS_I_CANCEL_BUTTON    7 /* Cancel Button Index */
+#define FS_I_AUTOSTART_BUTTON 8 /* Go Up Directory Button */
+#define FS_I_GOTO_BUTTON      9 /* Go To Directory Button */
+#define FS_I_CUR_FILE_TEXT    10/* Filename Text Line */
+#define FS_I_SELECT_BUTTON    11/* Select Filename Button */
+#define FS_I_CONTENTS_BUTTON  12/* Directory Button */
+#define FS_I_RO_TOGGLE        13/* Read-only toggle */
+#define FS_NUM_CHILDREN       14/* Count Of Above Indices */
 
 /*---------------------------------------------------------------------------*
 
@@ -92,11 +93,14 @@
 #define FSShowCancelButton(w)    (FSMyPart(w)->show_cancel_button)
 #define FSShowContentsButton(w)  (FSMyPart(w)->show_contents_button)
 #define FSShowAutostartButton(w) (FSMyPart(w)->show_autostart_button)
+#define FSShowROToggle(w)        (FSMyPart(w)->show_ro_toggle)
 #define FSFileSelected(w)        (FSMyPart(w)->file_selected)
 #define FSBusyCursor(w)          (FSMyPart(w)->busy_cursor)
 #define FSHandCursor(w)          (FSMyPart(w)->hand_cursor)
 #define FSFlagLinks(w)           (FSMyPart(w)->flag_links)
 #define FSCheckExistence(w)      (FSMyPart(w)->check_existence)
+#define FSSelectDirectory(w)     (FSMyPart(w)->select_directory)
+#define FSReadOnlySelected(w)    (FSMyPart(w)->read_only_selected)
 
 #define FSNthChildInfo(w, n) (&(FSChildren(w)[n]))
 
@@ -142,9 +146,12 @@ typedef struct {
     Boolean show_cancel_button;
     Boolean show_contents_button;
     Boolean show_autostart_button;
+    Boolean show_ro_toggle;
+    Boolean read_only_selected;
     Boolean file_selected;
     Boolean flag_links;
     Boolean check_existence;
+    Boolean select_directory;
     char *title;
     int sort_mode;
     char *pattern;

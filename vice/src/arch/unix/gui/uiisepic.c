@@ -38,7 +38,7 @@ UI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
 UI_MENU_DEFINE_TOGGLE(IsepicSwitch)
 UI_MENU_DEFINE_TOGGLE(IsepicImageWrite) /* FIXME */
 
-static UI_CALLBACK(isepic_set_image_name); /* FIXME */
+static UI_CALLBACK(isepic_set_image_name);
 static UI_CALLBACK(isepic_flush_cartridge);
 static UI_CALLBACK(isepic_save_cartridge);
 
@@ -62,12 +62,7 @@ ui_menu_entry_t isepic_submenu[] = {
 
 static UI_CALLBACK(isepic_set_image_name)
 {
-#ifdef USE_GNOMEUI
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("ISEPIC image"), UILIB_FILTER_ALL);
-#else
-    /* FIXME: XAW ui does not allow to enter non existing file in file browser */
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("ISEPIC image"), _("Image:"));
-#endif
 }
 
 static UI_CALLBACK(isepic_save_cartridge)

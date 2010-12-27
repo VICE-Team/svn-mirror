@@ -303,10 +303,15 @@ int DirectoryMgrSimpleFilterFunc(char *pattern, PFI *ff_ptr, fwf_regex_t *fd_ptr
 {
     char regexp[2048];
 
-    *ff_ptr = DirectoryMgrFilterName;
+    if (pattern[0] == '/') {
+        *ff_ptr = DirectoryMgrFilterDirectories;
+    } else {
+        *ff_ptr = DirectoryMgrFilterName;
+    }
     RegExpInit(fd_ptr);
-    RegExpPatternToRegExp(pattern, regexp);
+    RegExpPatternToRegExp(pattern, regexp, sizeof(regexp));
     RegExpCompile(regexp, fd_ptr);
+
     return TRUE;
 } /* End DirectoryMgrSimpleFilterFunc */
 
@@ -405,4 +410,9 @@ int DirectoryMgrCompareLastAccessDescending(DirEntry **e1p, DirEntry **e2p)
 int DirectoryMgrFilterName(DirEntry *de, fwf_regex_t *fsm)
 {
     return RegExpMatch(DirEntryFileName(de), fsm);
+} /* End DirectoryMgrFilterName */
+
+int DirectoryMgrFilterDirectories(DirEntry *de, fwf_regex_t *fsm)
+{
+    return DirEntryIsDir(de);
 } /* End DirectoryMgrFilterName */

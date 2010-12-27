@@ -393,7 +393,7 @@ static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
     vsync_suspend_speed_eval();
 
     resources_set_string("SoundRecordDeviceName", "");
-    s = ui_select_file(_("Record sound to file"), NULL, 0, NULL, &extension, 1, &button, 0, NULL, UI_FC_LOAD);
+    s = ui_select_file(_("Record sound to file"), NULL, 0, NULL, &extension, 1, &button, 0, NULL, UI_FC_SAVE);
     if (button == UI_BUTTON_OK && s != NULL) {
         util_add_extension(&s, format);
         resources_set_string("SoundRecordDeviceArg", s);

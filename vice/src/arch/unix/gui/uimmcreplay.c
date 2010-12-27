@@ -119,13 +119,7 @@ UI_CALLBACK(set_mmcreplay_card_filename)
 
 UI_CALLBACK(set_mmcreplay_eeprom_filename)
 {
-#ifdef USE_GNOMEUI
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("MMC Replay EEPROM image filename"),
                         UILIB_FILTER_ALL);
-#else
-    /* XAW ui does not allow to enter non existing file in file browser */
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("MMC Replay EEPROM image filename"),
-                        _("Image:"));
-#endif
 }
 

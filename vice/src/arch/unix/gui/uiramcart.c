@@ -74,12 +74,7 @@ ui_menu_entry_t ramcart_submenu[] = {
 
 UI_CALLBACK(set_ramcart_image_name)
 {
-#ifdef USE_GNOMEUI
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("RAMCART image"), UILIB_FILTER_ALL);
-#else
-    /* XAW ui does not allow to enter non existing file in file browser */
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("RAMCART image"), _("Image:"));
-#endif
 }
 
 static UI_CALLBACK(ramcart_save_callback)

@@ -122,7 +122,6 @@ void uilib_select_dev(const char *resource, const char *title, uilib_file_filter
 /* prompt for a filename, must allow to enter a non existing file */
 ui_button_t uilib_input_file(const char *title, const char *prompt, char *buf, unsigned int buflen)
 {
-#ifdef USE_GNOMEUI
     char *filename;
     ui_button_t button;
     static char *last_dir;
@@ -145,19 +144,12 @@ ui_button_t uilib_input_file(const char *title, const char *prompt, char *buf, u
     ui_update_menus();
     lib_free(filename);
     return button;
-#else
-    return ui_input_string(title, prompt, buf, buflen);
-#endif
 }
 
 /* prompt for a pathname, must allow to enter a non existing path */
 ui_button_t uilib_change_dir(const char *title, const char *prompt, char *buf, unsigned int buflen)
 {
-#ifdef USE_GNOMEUI
     return ui_change_dir(title, prompt, buf, buflen);
-#else
-    return ui_input_string(title, prompt, buf, buflen);
-#endif
 }
 
 /* prompt for a path (name) and write it to a resource */

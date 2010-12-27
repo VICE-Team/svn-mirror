@@ -43,6 +43,7 @@ void RegExpInit(fwf_regex_t *r)
 
 void RegExpFree(fwf_regex_t *r)
 {
+    regfree(r);
 }
 
 void RegExpCompile(const char *regexp, fwf_regex_t *r)
@@ -136,12 +137,13 @@ int RegExpMatch(const char *string, fwf_regex_t *r)
 
 /* ------------------------------------------------------------------------- */
 
-void RegExpPatternToRegExp(const char *pattern, char *reg_exp)
+void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size)
 {
     int in_bracket;
+    char *reg_exp_end = reg_exp + size - 2 - 2;
 
     in_bracket = 0;
-    while (*pattern != '\0') {
+    while (*pattern != '\0' && reg_exp < reg_exp_end) {
         if (in_bracket) {
             if (*pattern == ']') {
                 in_bracket = 0;

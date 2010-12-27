@@ -36,12 +36,7 @@ UI_MENU_DEFINE_TOGGLE(PLUS256K)
 
 UI_CALLBACK(set_plus256k_image_name)
 {
-#ifdef USE_GNOMEUI
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS256K image"), UILIB_FILTER_ALL);
-#else
-    /* FIXME: XAW ui does not allow to enter non existing file in file browser */
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("PLUS256K image"), _("Image:"));
-#endif
 }
 
 ui_menu_entry_t plus256k_submenu[] = {

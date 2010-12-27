@@ -52,9 +52,12 @@ typedef struct _XfwfFileSelectorRec *XfwfFileSelectorWidget;
 #define XtNshowCancelButton "showCancelButton"
 #define XtNshowContentsButton "showContentsButton"
 #define XtNshowAutostartButton "showAutostartButton"
+#define XtNshowReadOnlyToggle "showReadOnlyToggle"
+#define XtNreadOnly "readOnly"
 #define XtNfileSelected "fileSelected"
 #define XtNflagLinks "flagLinks"
 #define XtNcheckExistence "checkExistence"
+#define XtNSelectDirectory "selectDirectory"
 
 #define XtCPathname "Pathname"
 #define XtCFilename "Filename"

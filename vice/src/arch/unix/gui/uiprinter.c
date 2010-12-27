@@ -119,28 +119,9 @@ ui_menu_entry_t uiprinter_pr5_device_submenu[] = {
 };
 
 #if 0
-/* The file selector cannot select a non-existing file -> does not work */
 UI_CALLBACK(set_printer_dump_file)
 {
-    char *resource = (char *)UI_MENU_CB_PARAM;
-    char *filename;
-    ui_button_t button;
-    static char *last_dir;
-
-    vsync_suspend_speed_eval();
-
-    filename = ui_select_file(_("Select printer dump file"), NULL, False, last_dir, NULL, &button, False);
-    switch (button) {
-        case UI_BUTTON_OK:
-            resources_set_string(resource, filename);
-            lib_free(last_dir);
-            util_fname_split(filename, &last_dir, NULL);
-            break;
-        default:
-            /* Do nothing special.  */
-            break;
-    }
-    lib_free(filename);
+    uilib_select_file(UI_MENU_CB_PARAM, _("Select printer dump file"), UILIB_FILTER_ALL);
 }
 #endif
 
