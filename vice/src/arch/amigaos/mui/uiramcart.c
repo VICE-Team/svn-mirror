@@ -81,6 +81,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "RAMCART_RO", ui_ramcart_read_only, ui_ramcart_read_only_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "RAMCARTsize", ui_ramcart_size, ui_ramcart_size_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "RAMCARTfilename", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "RAMCARTImageWrite", ui_ramcart_enable, ui_ramcart_enable_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -114,6 +115,7 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[1].object, translate_text(IDS_RAMCART_READ_WRITE), ui_ramcart_read_only)
            CYCLE(ui_to_from[2].object, translate_text(IDS_RAMCART_SIZE), ui_ramcart_size)
            FILENAME(ui_to_from[3].object, translate_text(IDS_RAMCART_FILENAME), browse_button)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED), ui_ramcart_enable)
            OK_CANCEL_BUTTON
          End;
     if (ui != NULL) {

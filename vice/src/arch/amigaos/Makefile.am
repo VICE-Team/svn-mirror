@@ -147,6 +147,8 @@ libarch_a_SOURCES = \
 	mui/uidriveplus4.h \
 	mui/uieasyflash.c \
 	mui/uieasyflash.h \
+	mui/uiexpert.c \
+	mui/uiexpert.h \
 	mui/uifliplist.c \
 	mui/uifliplist.h \
 	mui/uigeoram.c \

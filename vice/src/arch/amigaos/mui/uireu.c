@@ -78,6 +78,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "REU", ui_reu_enable, ui_reu_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "REUsize", ui_reu_size, ui_reu_size_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "REUfilename", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "REUImageWrite", ui_reu_enable, ui_reu_enable_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -110,6 +111,7 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[0].object, "REU", ui_reu_enable)
            CYCLE(ui_to_from[1].object, translate_text(IDS_REU_SIZE), ui_reu_size)
            FILENAME(ui_to_from[2].object, translate_text(IDS_REU_FILENAME), browse_button)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_REU_IMAGE_WHEN_CHANGED), ui_reu_enable)
            OK_CANCEL_BUTTON
          End;
 

@@ -34,6 +34,8 @@
 #include "intl.h"
 #include "translate.h"
 
+static video_canvas_t *isepic_canvas;
+
 static int ui_isepic_enable_translate[] = {
     IDMS_DISABLED,
     IDS_ENABLED,
@@ -51,18 +53,41 @@ static const int ui_isepic_enable_values[] = {
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "IsepicCartridgeEnabled", ui_isepic_enable, ui_isepic_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IsepicSwitch", ui_isepic_enable, ui_isepic_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "Isepicfilename", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "IsepicImageWrite", ui_isepic_enable, ui_isepic_enable_values, NULL },
     UI_END /* mandatory */
 };
 
+static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
+{
+    char *fname = NULL;
+
+    fname = BrowseFile(translate_text(IDS_ISEPIC_FILENAME_SELECT), "#?", isepic_canvas);
+
+    if (fname != NULL) {
+        set(ui_to_from[2].object, MUIA_String_Contents, fname);
+    }
+
+    return 0;
+}
+
 static APTR build_gui(void)
 {
-    APTR app, ui, ok, cancel;
+    APTR app, ui, ok, browse_button, cancel;
+
+#ifdef AMIGA_MORPHOS
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse, NULL };
+#else
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse, NULL, NULL };
+#endif
 
     app = mui_get_app();
 
     ui = GroupObject,
            CYCLE(ui_to_from[0].object, "IsepicCartridgeEnabled", ui_isepic_enable)
            CYCLE(ui_to_from[1].object, translate_text(IDS_ISEPIC_SWITCH), ui_isepic_enable)
+           FILENAME(ui_to_from[2].object, translate_text(IDS_ISEPIC_FILENAME), browse_button)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED), ui_isepic_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -72,6 +97,9 @@ static APTR build_gui(void)
 
         DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_Application_ReturnID, BTN_OK);
+
+        DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook);
     }
 
     return ui;
@@ -81,6 +109,7 @@ void ui_isepic_settings_dialog(void)
 {
     APTR window;
 
+    isepic_canvas = canvas;
     intl_convert_mui_table(ui_isepic_enable_translate, ui_isepic_enable);
 
     window = mui_make_simple_window(build_gui(), translate_text(IDS_ISEPIC_SETTINGS));

@@ -76,6 +76,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "GEORAM", ui_georam_enable, ui_georam_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "GEORAMsize", ui_georam_size, ui_georam_size_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "GEORAMfilename", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GEORAMImageWrite", ui_georam_enable, ui_georam_enable_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -108,6 +109,7 @@ static APTR build_gui(void)
            CYCLE(ui_to_from[0].object, "GEORAM", ui_georam_enable)
            CYCLE(ui_to_from[1].object, translate_text(IDS_GEORAM_SIZE), ui_georam_size)
            FILENAME(ui_to_from[2].object, translate_text(IDS_GEORAM_FILENAME), browse_button)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED), ui_georam_enable)
            OK_CANCEL_BUTTON
          End;
 

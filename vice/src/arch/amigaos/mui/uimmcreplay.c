@@ -70,6 +70,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_FILENAME, "MMCRCardImage", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMCRCardRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "MMCREEPROMImage", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "MMCRImageWrite", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMCREEPROMRW", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMCRRescueMode", ui_mmcreplay_enable, ui_mmcreplay_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "MMCRSDType", ui_mmcreplay_card_type, ui_mmcreplay_card_type_values, NULL },
@@ -120,9 +121,10 @@ static APTR build_gui(void)
            FILENAME(ui_to_from[0].object, translate_text(IDS_CARD_FILE), browse_button_image)
            CYCLE(ui_to_from[1].object, translate_text(IDS_CARD_READ_WRITE), ui_mmcreplay_enable)
            FILENAME(ui_to_from[2].object, translate_text(IDS_EEPROM_FILE), browse_button_bios)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_EEPROM_READ_WRITE), ui_mmcreplay_enable)
-           CYCLE(ui_to_from[4].object, translate_text(IDS_RESCUE_MODE), ui_mmcreplay_enable)
-           CYCLE(ui_to_from[5].object, translate_text(IDS_SD_TYPE), ui_mmcreplay_card_type)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_WRITE_TO_EEPROM_WHEN_CHANGED), ui_mmcreplay_enable)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_EEPROM_READ_WRITE), ui_mmcreplay_enable)
+           CYCLE(ui_to_from[5].object, translate_text(IDS_RESCUE_MODE), ui_mmcreplay_enable)
+           CYCLE(ui_to_from[6].object, translate_text(IDS_SD_TYPE), ui_mmcreplay_card_type)
            OK_CANCEL_BUTTON
          End;
 

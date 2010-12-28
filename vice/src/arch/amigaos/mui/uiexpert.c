@@ -1,5 +1,5 @@
 /*
- * uidqbb.c
+ * uiexpert.c
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,30 +30,48 @@
 #endif
 #include "mui.h"
 
-#include "uidqbb.h"
+#include "uiexpert.h"
 #include "intl.h"
 #include "translate.h"
+#include "expert.h"
 
-static video_canvas_t *dqbb_canvas;
+static video_canvas_t *expert_canvas;
 
-static int ui_dqbb_enable_translate[] = {
+static int ui_expert_enable_translate[] = {
     IDMS_DISABLED,
     IDS_ENABLED,
     0
 };
 
-static char *ui_dqbb_enable[countof(ui_dqbb_enable_translate)];
+static char *ui_expert_enable[countof(ui_expert_enable_translate)];
 
-static const int ui_dqbb_enable_values[] = {
+static const int ui_expert_enable_values[] = {
     0,
     1,
     -1
 };
 
+static int ui_expert_mode_translate[] = {
+    IDS_OFF,
+    IDS_PRG,
+    IDS_ON,
+    0
+};
+
+static char *ui_expert_mode[countof(ui_expert_mode_translate)];
+
+static const int ui_expert_mode_values[] = {
+    EXPERT_MODE_OFF,
+    EXPERT_MODE_PRG,
+    EXPERT_MODE_ON,
+    -1
+};
+
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE, "DQBB", ui_dqbb_enable, ui_dqbb_enable_values, NULL },
-    { NULL, MUI_TYPE_FILENAME, "DQBBfilename", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "DQBBImageWrite", ui_dqbb_enable, ui_dqbb_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExpertCartridgeEnabled", ui_expert_enable, ui_expert_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExpertCartridgeMode", ui_expert_mode, ui_expert_mode_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "Expertfilename", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "ExpertImageWrite", ui_expert_enable, ui_expert_enable_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -61,10 +79,10 @@ static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
 {
     char *fname = NULL;
 
-    fname = BrowseFile(translate_text(IDS_DQBB_FILENAME_SELECT), "#?", dqbb_canvas);
+    fname = BrowseFile(translate_text(IDS_EXPERT_FILENAME_SELECT), "#?", expert_canvas);
 
-    if (fname!=NULL) {
-        set(ui_to_from[1].object, MUIA_String_Contents, fname);
+    if (fname != NULL) {
+        set(ui_to_from[2].object, MUIA_String_Contents, fname);
     }
 
     return 0;
@@ -83,9 +101,10 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from[0].object, "DQBB", ui_dqbb_enable)
-           FILENAME(ui_to_from[1].object, translate_text(IDS_DQBB_FILENAME), browse_button)
-           CYCLE(ui_to_from[2].object, translate_text(IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED), ui_dqbb_enable)
+           CYCLE(ui_to_from[0].object, "Expert Cartridge", ui_georam_enable)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_EXPERT_MODE), ui_expert_mode)
+           FILENAME(ui_to_from[2].object, translate_text(IDS_EXPERT_FILENAME), browse_button)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED), ui_expert_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -103,14 +122,15 @@ static APTR build_gui(void)
     return ui;
 }
 
-void ui_dqbb_settings_dialog(video_canvas_t *canvas)
+void ui_expert_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
-    dqbb_canvas = canvas;
-    intl_convert_mui_table(ui_dqbb_enable_translate, ui_dqbb_enable);
+    expert_canvas = canvas;
+    intl_convert_mui_table(ui_expert_enable_translate, ui_expert_enable);
+    intl_convert_mui_table(ui_expert_mode_translate, ui_expert_mode);
 
-    window = mui_make_simple_window(build_gui(), translate_text(IDS_DQBB_SETTINGS));
+    window = mui_make_simple_window(build_gui(), translate_text(IDS_EXPERT_SETTINGS));
 
     if (window != NULL) {
         mui_add_window(window);

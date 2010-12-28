@@ -687,17 +687,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_STRUCTURED_BASIC_IMAGE_SV, "Structure Basic-fil..." },
 /* tr */ { IDMS_STRUCTURED_BASIC_IMAGE_TR, "Structured Basic imajý..." },
 
-/* en */ { IDMS_EXPERT_CART,    "Expert Cartridge" },
-/* da */ { IDMS_EXPERT_CART_DA, "" },  /* fuzzy */
-/* de */ { IDMS_EXPERT_CART_DE, "Expert Cartridge" },
-/* fr */ { IDMS_EXPERT_CART_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_EXPERT_CART_HU, "" },  /* fuzzy */
-/* it */ { IDMS_EXPERT_CART_IT, "" },  /* fuzzy */
-/* nl */ { IDMS_EXPERT_CART_NL, "Expert cartridge" },
-/* pl */ { IDMS_EXPERT_CART_PL, "" },  /* fuzzy */
-/* sv */ { IDMS_EXPERT_CART_SV, "Expert-insticksmodul" },
-/* tr */ { IDMS_EXPERT_CART_TR, "" },  /* fuzzy */
-
 /* en */ { IDMS_ENABLE,    "Enable" },
 /* da */ { IDMS_ENABLE_DA, "Aktivér" },
 /* de */ { IDMS_ENABLE_DE, "Aktivieren" },
@@ -708,39 +697,6 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDMS_ENABLE_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_SV, "Aktivera" },
 /* tr */ { IDMS_ENABLE_TR, "Aktif Et" },
-
-/* en */ { IDMS_OFF,    "Off" },
-/* da */ { IDMS_OFF_DA, "Slukket" },
-/* de */ { IDMS_OFF_DE, "Aus" },
-/* fr */ { IDMS_OFF_FR, "Off" },
-/* hu */ { IDMS_OFF_HU, "Ki" },
-/* it */ { IDMS_OFF_IT, "No" },
-/* nl */ { IDMS_OFF_NL, "Uit" },
-/* pl */ { IDMS_OFF_PL, "Wy³±cz" },
-/* sv */ { IDMS_OFF_SV, "Av" },
-/* tr */ { IDMS_OFF_TR, "Kapalý" },
-
-/* en */ { IDMS_PRG,    "Prg" },
-/* da */ { IDMS_PRG_DA, "Prg" },
-/* de */ { IDMS_PRG_DE, "Prg" },
-/* fr */ { IDMS_PRG_FR, "Prg" },
-/* hu */ { IDMS_PRG_HU, "Prg" },
-/* it */ { IDMS_PRG_IT, "Prg" },
-/* nl */ { IDMS_PRG_NL, "Prg" },
-/* pl */ { IDMS_PRG_PL, "" },  /* fuzzy */
-/* sv */ { IDMS_PRG_SV, "Prg" },
-/* tr */ { IDMS_PRG_TR, "Prg" },
-
-/* en */ { IDMS_ON,    "On" },
-/* da */ { IDMS_ON_DA, "Tændt" },
-/* de */ { IDMS_ON_DE, "Ein" },
-/* fr */ { IDMS_ON_FR, "On" },
-/* hu */ { IDMS_ON_HU, "Be" },
-/* it */ { IDMS_ON_IT, "Sì" },
-/* nl */ { IDMS_ON_NL, "Aan" },
-/* pl */ { IDMS_ON_PL, "W³±cz" },
-/* sv */ { IDMS_ON_SV, "På" },
-/* tr */ { IDMS_ON_TR, "Açýk" },
 
 /* en */ { IDMS_SET_CART_AS_DEFAULT,    "Set cartridge as default" },
 /* da */ { IDMS_SET_CART_AS_DEFAULT_DA, "Vælg cartridge som standard" },
@@ -2072,6 +2028,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDMS_ISEPIC_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDMS_ISEPIC_SETTINGS_SV, "ISEPIC-inställningar..." },
 /* tr */ { IDMS_ISEPIC_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_EXPERT_SETTINGS,    "Expert Cartridge settings..." },
+/* da */ { IDMS_EXPERT_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_EXPERT_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_EXPERT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_EXPERT_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_EXPERT_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDMS_EXPERT_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_EXPERT_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDMS_EXPERT_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_EXPERT_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_PLUS60K_SETTINGS,    "PLUS60K settings..." },
 /* da */ { IDMS_PLUS60K_SETTINGS_DA, "PLUS60K-indstillinger..." },
@@ -4262,6 +4229,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GEORAM_FILENAME_SV, "GEORAM-fil" },
 /* tr */ { IDS_GEORAM_FILENAME_TR, "GEORAM dosyasý" },
 
+/* en */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED,    "Save GEO-RAM image when changed" },
+/* da */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_GEORAM_FILENAME_SELECT,    "Select file for GEO-RAM" },
 /* da */ { IDS_GEORAM_FILENAME_SELECT_DA, "Vælg fil for GEORAM" },
 /* de */ { IDS_GEORAM_FILENAME_SELECT_DE, "Datei für GEORAM auswählen" },
@@ -4284,6 +4262,94 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_GEORAM_SETTINGS_SV, "GEORAM-inställningar" },
 /* tr */ { IDS_GEORAM_SETTINGS_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_EXPERT_MODE,    "Expert Cartridge mode" },
+/* da */ { IDS_EXPERT_MODE_DA, "" },  /* fuzzy */
+/* de */ { IDS_EXPERT_MODE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_EXPERT_MODE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EXPERT_MODE_HU, "" },  /* fuzzy */
+/* it */ { IDS_EXPERT_MODE_IT, "" },  /* fuzzy */
+/* nl */ { IDS_EXPERT_MODE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EXPERT_MODE_PL, "" },  /* fuzzy */
+/* sv */ { IDS_EXPERT_MODE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EXPERT_MODE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_OFF,    "Off" },
+/* da */ { IDS_OFF_DA, "Slukket" },
+/* de */ { IDS_OFF_DE, "Aus" },
+/* fr */ { IDS_OFF_FR, "Off" },
+/* hu */ { IDS_OFF_HU, "Ki" },
+/* it */ { IDS_OFF_IT, "No" },
+/* nl */ { IDS_OFF_NL, "Uit" },
+/* pl */ { IDS_OFF_PL, "Wy³±cz" },
+/* sv */ { IDS_OFF_SV, "Av" },
+/* tr */ { IDS_OFF_TR, "Kapalý" },
+
+/* en */ { IDS_PRG,    "Prg" },
+/* da */ { IDS_PRG_DA, "Prg" },
+/* de */ { IDS_PRG_DE, "Prg" },
+/* fr */ { IDS_PRG_FR, "Prg" },
+/* hu */ { IDS_PRG_HU, "Prg" },
+/* it */ { IDS_PRG_IT, "Prg" },
+/* nl */ { IDS_PRG_NL, "Prg" },
+/* pl */ { IDS_PRG_PL, "" },  /* fuzzy */
+/* sv */ { IDS_PRG_SV, "Prg" },
+/* tr */ { IDS_PRG_TR, "Prg" },
+
+/* en */ { IDS_ON,    "On" },
+/* da */ { IDS_ON_DA, "Tændt" },
+/* de */ { IDS_ON_DE, "Ein" },
+/* fr */ { IDS_ON_FR, "On" },
+/* hu */ { IDS_ON_HU, "Be" },
+/* it */ { IDS_ON_IT, "Sì" },
+/* nl */ { IDS_ON_NL, "Aan" },
+/* pl */ { IDS_ON_PL, "W³±cz" },
+/* sv */ { IDS_ON_SV, "På" },
+/* tr */ { IDS_ON_TR, "Açýk" },
+
+/* en */ { IDS_EXPERT_FILENAME,    "Expert Cartridge file" },
+/* da */ { IDS_EXPERT_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_EXPERT_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_EXPERT_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EXPERT_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_EXPERT_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_EXPERT_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EXPERT_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_EXPERT_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EXPERT_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED,    "Save Expert Cartridge image when changed" },
+/* da */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_EXPERT_FILENAME_SELECT,    "Select file for Expert Cartridge" },
+/* da */ { IDS_EXPERT_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_EXPERT_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_EXPERT_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EXPERT_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_EXPERT_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_EXPERT_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EXPERT_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_EXPERT_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EXPERT_FILENAME_SELECT_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_EXPERT_SETTINGS,    "Expert Cartridge settings" },
+/* da */ { IDS_EXPERT_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_EXPERT_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDS_EXPERT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_EXPERT_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_EXPERT_SETTINGS_IT, "" },  /* fuzzy */
+/* nl */ { IDS_EXPERT_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_EXPERT_SETTINGS_PL, "" },  /* fuzzy */
+/* sv */ { IDS_EXPERT_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EXPERT_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_DQBB_FILENAME,    "DQBB file" },
 /* da */ { IDS_DQBB_FILENAME_DA, "DQBB-fil" },
 /* de */ { IDS_DQBB_FILENAME_DE, "DQBB Datei" },
@@ -4294,6 +4360,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_DQBB_FILENAME_PL, "" },  /* fuzzy */
 /* sv */ { IDS_DQBB_FILENAME_SV, "DQBB-fil" },
 /* tr */ { IDS_DQBB_FILENAME_TR, "DQBB dosyasý" },
+
+/* en */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED,    "Save DQBB image when changed" },
+/* da */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_DQBB_IMAGE_WHEN_CHANGED_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_DQBB_FILENAME_SELECT,    "Select file for DQBB" },
 /* da */ { IDS_DQBB_FILENAME_SELECT_DA, "Vælg fil for DQBB" },
@@ -4338,6 +4415,39 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_ISEPIC_SWITCH_PL, "" },  /* fuzzy */
 /* sv */ { IDS_ISEPIC_SWITCH_SV, "ISEPIC-omkopplare" },
 /* tr */ { IDS_ISEPIC_SWITCH_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_ISEPIC_FILENAME,    "ISEPIC file" },
+/* da */ { IDS_ISEPIC_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_ISEPIC_FILENAME_DE, "" },  /* fuzzy */
+/* fr */ { IDS_ISEPIC_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ISEPIC_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_ISEPIC_FILENAME_IT, "" },  /* fuzzy */
+/* nl */ { IDS_ISEPIC_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ISEPIC_FILENAME_PL, "" },  /* fuzzy */
+/* sv */ { IDS_ISEPIC_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ISEPIC_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED,    "Save ISEPIC image when changed" },
+/* da */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_ISEPIC_IMAGE_WHEN_CHANGED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_ISEPIC_FILENAME_SELECT,    "Select file for ISEPIC" },
+/* da */ { IDS_ISEPIC_FILENAME_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_ISEPIC_FILENAME_SELECT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_ISEPIC_FILENAME_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ISEPIC_FILENAME_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_ISEPIC_FILENAME_SELECT_IT, "" },  /* fuzzy */
+/* nl */ { IDS_ISEPIC_FILENAME_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_ISEPIC_FILENAME_SELECT_PL, "" },  /* fuzzy */
+/* sv */ { IDS_ISEPIC_FILENAME_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ISEPIC_FILENAME_SELECT_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_EASYFLASH_SETTINGS,    "EasyFlash settings" },
 /* da */ { IDS_EASYFLASH_SETTINGS_DA, "" },  /* fuzzy */
@@ -5099,6 +5209,17 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAMCART_FILENAME_SV, "RAMCART-fil" },
 /* tr */ { IDS_RAMCART_FILENAME_TR, "RAMCART dosyasý" },
 
+/* en */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED,    "Save RamCart image when changed" },
+/* da */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_RAMCART_IMAGE_WHEN_CHANGED_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_RAMCART_FILENAME_SELECT,    "Select file for RamCart" },
 /* da */ { IDS_RAMCART_FILENAME_SELECT_DA, "Vælg fil for RAMCART" },
 /* de */ { IDS_RAMCART_FILENAME_SELECT_DE, "Datei für RAMCART auswählen" },
@@ -5142,6 +5263,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_REU_FILENAME_PL, "" },  /* fuzzy */
 /* sv */ { IDS_REU_FILENAME_SV, "REU-fil" },
 /* tr */ { IDS_REU_FILENAME_TR, "REU dosyasý" },
+
+/* en */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED,    "Save REU image when changed" },
+/* da */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_REU_FILENAME_SELECT,    "Select file for REU" },
 /* da */ { IDS_REU_FILENAME_SELECT_DA, "Vælg fil for REU" },
@@ -6077,6 +6209,17 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_EEPROM_FILE_PL, "" },  /* fuzzy */
 /* sv */ { IDS_EEPROM_FILE_SV, "EEPROM-avbildningsfil" },
 /* tr */ { IDS_EEPROM_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED,    "Save EEPROM image when changed" },
+/* da */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_DA, "" },  /* fuzzy */
+/* de */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_HU, "" },  /* fuzzy */
+/* it */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_IT, "" },  /* fuzzy */
+/* nl */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_PL, "" },  /* fuzzy */
+/* sv */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_EEPROM_READ_WRITE,    "EEPROM read/write" },
 /* da */ { IDS_EEPROM_READ_WRITE_DA, "" },  /* fuzzy */
