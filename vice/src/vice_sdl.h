@@ -30,29 +30,33 @@
 #include "vice.h"
 
 #ifdef USE_SDL_PREFIX
-#include <SDL/SDL.h>
-#include <SDL/SDL_keysym.h>
-#ifdef INCLUDE_SDL_SYSWM_H
-#include <SDL/SDL_syswm.h>
-#endif
-#ifdef HAVE_SDLMAIN
-#include <SDL/SDL_main.h>
-#endif
-#ifdef HAVE_HWSCALE
-#include <SDL/SDL_opengl.h>
-#endif
+#  include <SDL/SDL.h>
+#  include <SDL/SDL_keysym.h>
+#  ifdef INCLUDE_SDL_SYSWM_H
+#    include <SDL/SDL_syswm.h>
+#  endif
+#  ifdef HAVE_SDLMAIN
+#    include <SDL/SDL_main.h>
+#  endif
+#  ifdef HAVE_HWSCALE
+#    include <SDL/SDL_opengl.h>
+#  endif
 #else
-#include <SDL.h>
-#include <SDL_keysym.h>
-#ifdef INCLUDE_SDL_SYSWM_H
-#include <SDL_syswm.h>
+#  include <SDL.h>
+#  include <SDL_keysym.h>
+#  ifdef INCLUDE_SDL_SYSWM_H
+#    include <SDL_syswm.h>
+#  endif
+#  ifdef HAVE_SDLMAIN
+#    include <SDL_main.h>
+#  endif
+#  ifdef HAVE_HWSCALE
+#    include <SDL_opengl.h>
+#  endif
 #endif
-#ifdef HAVE_SDLMAIN
-#include <SDL_main.h>
-#endif
-#ifdef HAVE_HWSCALE
-#include <SDL_opengl.h>
-#endif
+
+#ifdef SDL_AMIGA_INLINE
+#  include <inline/SDL.h>
 #endif
 
 #endif

@@ -59,6 +59,28 @@ static int run_from_wb = 0;
 struct Library *SocketBase;
 #endif
 
+#ifdef SDL_AMIGA_INLINE
+struct Library *SDLBase = NULL;
+
+void SDL_Quit(void)
+{
+    SDL_RealQuit();
+    CloseLibrary(SDLBase);
+}
+
+int SDL_Init(Uint32 flags)
+{
+    SDLBase = OpenLibrary("SDL.library", 0L);
+
+    if (!SDLBase) {
+        printf("Unable to open SDL.library\n");
+        exit(0);
+    }
+
+    return SDL_RealInit(flags);
+}
+#endif
+
 int archdep_network_init(void)
 {
 #ifndef AMIGA_OS4

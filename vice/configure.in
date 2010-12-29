@@ -1522,6 +1522,40 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
         AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         AC_DEFINE(CEGCC_COMPILE,,[Enable cegcc support.])
+    elif test x"$is_amiga" = "xyes"; then
+        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
+        AC_CHECK_HEADER(inline/SDL.h,[SDL_AMIGA_INLINE=yes], [SDL_AMIGA_INLINE=no],)
+        AC_CHECK_LIB(debug, kprintf, [LIBS="$LIBS -ldebug"])
+        if test x"$SDL_AMIGA_INLINE" = "xyes"; then
+            AC_DEFINE(SDL_AMIGA_INLINE,,[Enable amiga shared SDL library support.])
+            AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
+        else
+            AC_CHECK_LIB(SDL, SDL_SetVideoMode, [found_sdl_lib=yes], [found_sdl_lib=no])
+            if test x"$found_sdl_lib" = "xno"; then
+                AC_MSG_ERROR([static SDL lib missing])
+            fi
+            AC_CHECK_LIB(SDL, SDL_OpenAudio, [found_sdl_sound=yes], [found_sdl_sound=no])
+            if test x"$found_sdl_sound" = "xyes"; then
+                SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
+                AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
+            fi
+            AC_CHECK_FUNCS(SDL_NumJoysticks)
+        fi
+        AC_CHECK_HEADER(SDL/SDL.h, [found_sdl_h=yes], [found_sdl_h=no],)
+        if test x"$found_sdl_h" = "xyes"; then
+            AC_DEFINE(USE_SDL_PREFIX,,[Enable SDL prefix for header inclusion.])
+            if test x"$found_sdl_sound" = "xyes"; then
+                AC_CHECK_HEADER(SDL/SDL_audio.h, [], [AC_MSG_ERROR([SDL headers missing])],)
+            fi
+        else
+            AC_CHECK_HEADER(SDL.h, [found_sdl_h=yes], [found_sdl_h=no],)
+            if test x"$found_sdl_h" = "xno"; then
+                AC_MSG_ERROR([SDL headers missing])
+            fi
+            if test x"$found_sdl_sound" = "xyes"; then
+                AC_CHECK_HEADER(SDL_audio.h, [], [AC_MSG_ERROR([SDL headers missing])],)
+            fi
+        fi
     else
 
         dnl check for sdl-config
@@ -1534,14 +1568,13 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         dnl if no sdl-config was found we assume that there are no extra CFLAGS
         dnl and that libSDL can be found in the default lib search path
         if test x"$sdl_config" = "xno"; then
-            LIBS="-lSDL"
+            LIBS="$LIBS -lSDL"
         else
             CFLAGS="$CFLAGS `$sdl_config --cflags`"
             CXXFLAGS="$CXXFLAGS `$sdl_config --cflags`"
             LIBS="$LIBS `$sdl_config --libs`"
         fi
 
-        AC_CHECK_LIB(debug, kprintf, [EXTRA_SDL_LIBS="-ldebug"; LIBS="$LIBS -ldebug"], [EXTRA_SDL_LIBS=""])
 
         AC_CHECK_HEADERS(SDL/SDL_audio.h,[AC_CHECK_LIB(SDL, SDL_OpenAudio,
                          [SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";

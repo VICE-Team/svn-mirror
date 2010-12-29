@@ -34,6 +34,10 @@
 #include "blockdev.h"
 #include "types.h"
 
+#ifndef RW_SEEK_SET
+#define RW_SEEK_SET SEEK_SET
+#endif
+
 static SDL_RWops* device = NULL;
 
 int blockdev_open(const char *name, unsigned int *read_only)
