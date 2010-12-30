@@ -616,8 +616,8 @@ static BYTE REGPARM1 roml_read_slot1(WORD addr)
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
 BYTE REGPARM1 roml_read(WORD addr)
 {
-int res;
-BYTE value;
+    int res;
+    BYTE value;
 /*    DBG(("CARTMEM roml_read (addr %04x)\n", addr)); */
 
     /* "Slot 0" */
@@ -778,8 +778,8 @@ static BYTE REGPARM1 romh_read_slot1(WORD addr)
 
 BYTE REGPARM1 romh_read(WORD addr)
 {
-int res;
-BYTE value;
+    int res;
+    BYTE value;
     /* DBG(("ultimax r e000: %04x\n", addr)); */
 
     /* "Slot 0" */
@@ -866,8 +866,8 @@ BYTE REGPARM1 ultimax_romh_read_hirom_slot1(WORD addr)
 
 BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr)
 {
-int res;
-BYTE value;
+    int res;
+    BYTE value;
     /* DBG(("ultimax r e000: %04x\n", addr)); */
 
     /* "Slot 0" */
@@ -1098,8 +1098,8 @@ BYTE REGPARM1 ultimax_1000_7fff_read_slot1(WORD addr)
 
 BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr)
 {
-int res;
-BYTE value;
+    int res;
+    BYTE value;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1202,8 +1202,8 @@ BYTE REGPARM1 ultimax_a000_bfff_read_slot1(WORD addr)
 
 BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr)
 {
-int res;
-BYTE value;
+    int res;
+    BYTE value;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1298,8 +1298,8 @@ BYTE REGPARM1 ultimax_c000_cfff_read_slot1(WORD addr)
 
 BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr)
 {
-int res;
-BYTE value;
+    int res;
+    BYTE value;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1392,8 +1392,8 @@ static BYTE REGPARM1 ultimax_d000_dfff_read_slot1(WORD addr)
 
 BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr)
 {
-int res;
-BYTE value;
+    int res;
+    BYTE value;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1480,7 +1480,7 @@ static int ultimax_romh_phi1_read_slot1(WORD addr, BYTE *value)
 
 int ultimax_romh_phi1_read(WORD addr, BYTE *value)
 {
-int res;
+    int res;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
@@ -1519,7 +1519,7 @@ static int ultimax_romh_phi2_read_slot1(WORD addr, BYTE *value)
 
 int ultimax_romh_phi2_read(WORD addr, BYTE *value)
 {
-int res;
+    int res;
 
     /* "Slot 0" */
     res = CART_READ_THROUGH;
