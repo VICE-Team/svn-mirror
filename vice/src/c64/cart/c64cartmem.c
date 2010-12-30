@@ -966,7 +966,7 @@ void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value)
 
 /* ROML store - mapped to 8000-9fff in 8kGame, 16kGame
 
-   normally writes to ROM area would go to RAM an not generate
+   normally writes to ROM area would go to RAM and not generate
    a write select. some carts however map ram here and also
    accept writes in this mode.
 */
@@ -1562,24 +1562,18 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
 
     the majority of carts can use the generic fallback, custom functions
     must be provided by those carts where either:
+    - the cart is not in "Main Slot"
     - "fake ultimax" mapping is used
     - memory can not be read without side effects
 */
-BYTE cartridge_peek_mem(WORD addr)
+static BYTE cartridge_peek_mem_slot1(WORD addr)
 {
-/*    DBG(("CARTMEM cartridge_peek_mem (type %d addr %04x)\n", mem_cartridge_type, addr)); */
-    /* "Slot 0" */
-    /* TODO: magic voice */
-    if (mmc64_cart_active()) {
-        return mmc64_peek_mem(addr);
-    } else if (tpi_cart_active()) {
-        return tpi_peek_mem(addr);
-    }
     /* "Slot 1" */
-    /* TODO: dqbb */
-    /* TODO: expert */
-    /* TODO: isepic */
-    /* TODO: ramcard */
+    /* FIXME: dqbb */
+    /* FIXME: expert */
+    /* FIXME: isepic */
+    /* FIXME: ramcard */
+
     /* "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_RETRO_REPLAY:
@@ -1594,7 +1588,7 @@ BYTE cartridge_peek_mem(WORD addr)
     if (addr >= 0x8000 && addr <= 0x9fff) {
         return roml_read(addr);
     }
-    if (!export.exrom && export.game) {
+    if (!export_slotmain.exrom && export_slotmain.game) {
         if (addr >= 0xe000 && addr <= 0xffff) {
             return ultimax_romh_read_hirom(addr);
         }
@@ -1604,4 +1598,36 @@ BYTE cartridge_peek_mem(WORD addr)
         }
     }
     return ram_read(addr);
+}
+
+BYTE cartridge_peek_mem(WORD addr)
+{
+    BYTE value;
+    int res;
+/*    DBG(("CARTMEM cartridge_peek_mem (type %d addr %04x)\n", mem_cartridge_type, addr)); */
+    /* "Slot 0" */
+    res = CART_READ_THROUGH;
+    if (magicvoice_cart_enabled()) {
+        if ((res = magicvoice_peek_mem(addr, &value)) == CART_READ_VALID) {
+            return value;
+        }
+    } else if (mmc64_cart_enabled()) {
+        if ((res = mmc64_peek_mem(addr, &value)) == CART_READ_VALID) {
+            return value;
+        }
+    } else if (tpi_cart_enabled()) {
+        if ((res = tpi_peek_mem(addr, &value)) == CART_READ_VALID) {
+            return value;
+        }
+    }
+
+    switch (res) {
+        case CART_READ_C64MEM:
+            return ram_read(addr);
+        case CART_READ_THROUGH_NO_ULTIMAX:
+            break;
+    }
+
+    /* continue with "slot 1" */
+    return cartridge_peek_mem_slot1(addr);
 }

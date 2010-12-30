@@ -37,7 +37,6 @@
 #include "c64mem.h"
 #include "c64meminit.h"
 #include "c64memrom.h"
-#include "c64tpi.h"
 #include "capture.h"
 #include "cartridge.h"
 #include "snapshot.h"

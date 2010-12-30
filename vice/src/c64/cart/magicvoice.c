@@ -46,7 +46,6 @@
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
-#include "magicvoice.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "monitor.h"
@@ -56,6 +55,10 @@
 #include "tpi.h"
 #include "types.h"
 #include "util.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "magicvoice.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*
     Magic Voice
@@ -920,6 +923,40 @@ int magicvoice_romh_phi2_read(WORD addr, BYTE *value)
     if ((mv_gameE000_enabled) && (mv_extexrom == 0) && (mv_extgame == 1)) {
         /* real ultimax mode for game */
         return CART_READ_THROUGH;
+    }
+    return CART_READ_C64MEM;
+}
+
+int magicvoice_peek_mem(WORD addr, BYTE *value)
+{
+    if ((addr >= 0x8000) && (addr <= 0x9fff)) {
+        if (mv_game8000_enabled) {
+            /* "passthrough" */
+            return CART_READ_THROUGH;
+        }
+        /* disabled, read c64 memory */
+    } else if ((addr >= 0xa000) && (addr <= 0xbfff)) {
+        if (mv_gameA000_enabled) {
+            /* "passthrough" */
+            return CART_READ_THROUGH_NO_ULTIMAX;
+        } else {
+            if (mv_romA000_enabled) {
+                *value = mv_rom[(addr & 0x1fff)];
+                return CART_READ_VALID;
+            }
+        }
+        /* disabled, read c64 memory */
+    } else if ((addr >= 0xe000) && (addr <= 0xffff)) {
+        if (mv_gameE000_enabled) {
+            /* "passthrough" */
+            return CART_READ_THROUGH;
+        } else {
+            if (mv_romE000_enabled) {
+                *value = mv_rom[(addr & 0x1fff) + 0x2000];
+                return CART_READ_VALID;
+            }
+        }
+        /* disabled, read c64 memory */
     }
     return CART_READ_C64MEM;
 }

@@ -25,6 +25,12 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_C64TPI_H
 #define VICE_C64TPI_H
 
@@ -34,7 +40,6 @@ struct machine_context_s;
 struct export_s;
 
 extern int tpi_cart_enabled(void);
-extern int tpi_cart_active(void);
 
 extern void tpi_config_init(struct export_s *export);
 extern void tpi_config_setup(BYTE *rawcart);
@@ -45,7 +50,7 @@ extern int tpi_resources_init(void);
 extern void tpi_resources_shutdown(void);
 
 extern int tpi_roml_read(WORD addr, BYTE *value);
-extern BYTE REGPARM1 tpi_peek_mem(WORD addr);
+extern int tpi_peek_mem(WORD addr, BYTE *value);
 
 extern void tpi_passthrough_changed(struct export_s *export);
 

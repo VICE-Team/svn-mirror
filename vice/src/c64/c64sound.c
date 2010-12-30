@@ -30,15 +30,19 @@
 #include <string.h>
 
 #include "c64io.h"
-#include "digimax.h"
 #include "machine.h"
-#include "magicvoice.h"
-#include "sfx_soundexpander.h"
-#include "sfx_soundsampler.h"
 #include "sid.h"
 #include "sid-resources.h"
 #include "sound.h"
 #include "types.h"
+
+/* FIXME: make proper hooks for carts */
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "digimax.h"
+#include "magicvoice.h"
+#include "sfx_soundexpander.h"
+#include "sfx_soundsampler.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 static BYTE REGPARM1 machine_sid2_read(WORD addr)
 {

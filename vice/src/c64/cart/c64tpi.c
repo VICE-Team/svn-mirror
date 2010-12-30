@@ -39,7 +39,6 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "c64mem.h"
-#include "c64tpi.h"
 #include "cartridge.h"
 #include "drivecpu.h"
 #include "lib.h"
@@ -51,6 +50,10 @@
 #include "tpi.h"
 #include "types.h"
 #include "util.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "c64tpi.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*
     IEEE488 interface for c64 and c128
@@ -118,11 +121,6 @@ int tpi_cart_enabled(void)
     return ieee488_enabled;
 }
 
-int tpi_cart_active(void)
-{
-    return rom_enabled && ieee488_enabled;
-}
-
 /* ---------------------------------------------------------------------*/
 
 static void REGPARM2 tpi_io2_store(WORD addr, BYTE data)
@@ -159,13 +157,15 @@ int tpi_roml_read(WORD addr, BYTE *value)
     return CART_READ_THROUGH;
 }
 
-BYTE REGPARM1 tpi_peek_mem(WORD addr)
+int tpi_peek_mem(WORD addr, BYTE *value)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
-        return tpi_rom[addr & 0xfff];
-    } else {
-        return 0;
+        if (rom_enabled) {
+            *value = tpi_rom[addr & 0xfff];
+            return CART_READ_VALID;
+        }
     }
+    return CART_READ_THROUGH;
 }
 
 /* ---------------------------------------------------------------------*/

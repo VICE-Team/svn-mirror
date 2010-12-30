@@ -24,6 +24,12 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_MAGICVOICE_H
 #define VICE_MAGICVOICE_H
 
@@ -42,6 +48,7 @@ extern int magicvoice_romh_read(WORD addr, BYTE *value);
 extern int magicvoice_ultimax_read(WORD addr, BYTE *value);
 extern int magicvoice_romh_phi1_read(WORD addr, BYTE *value);
 extern int magicvoice_romh_phi2_read(WORD addr, BYTE *value);
+extern int magicvoice_peek_mem(WORD addr, BYTE *value);
 
 extern void magicvoice_passthrough_changed(struct export_s *export);
 

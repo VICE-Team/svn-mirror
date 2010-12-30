@@ -869,13 +869,15 @@ int mmc64_roml_read(WORD addr, BYTE *value)
 #endif
 }
 
-BYTE REGPARM1 mmc64_peek_mem(WORD addr)
+int mmc64_peek_mem(WORD addr, BYTE *value)
 {
     if ((addr >= 0x8000) && (addr <= 0x9fff)) {
-        return mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset];
-    } else {
-        return 0;
+        if (!mmc64_active && !mmc64_biossel) {
+            *value = mmc64_bios[(addr & 0x1fff) + mmc64_bios_offset];
+            return CART_READ_VALID;
+        }
     }
+    return CART_READ_THROUGH;
 }
 
 void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
