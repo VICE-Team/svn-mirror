@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-18 16:37-0800\n"
-"PO-Revision-Date: 2010-12-12 00:26+0100\n"
+"PO-Revision-Date: 2010-12-30 21:26+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -17,7 +17,7 @@ msgstr ""
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
-msgstr "Välj enhet för spelport 1"
+msgstr "Välj enhet för spelport 1÷"
 
 #: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:397
 msgid "Set device for joystick port 2"
@@ -1052,9 +1052,8 @@ msgstr "Avbildning:"
 
 #: src/arch/unix/gui/uic64_256k.c:63 src/arch/unix/gui/uidigimax.c:79
 #: src/arch/unix/gui/uiplus60k.c:59
-#, fuzzy
 msgid "Base address"
-msgstr "<basadress>"
+msgstr "Basadress"
 
 #: src/arch/unix/gui/uic64_256k.c:66 src/arch/unix/gui/uidqbb.c:49
 #: src/arch/unix/gui/uiexpert.c:60 src/arch/unix/gui/uigeoram.c:70
@@ -1064,9 +1063,8 @@ msgstr "<basadress>"
 #: src/arch/unix/gui/uiplus60k.c:62 src/arch/unix/gui/uiramcart.c:63
 #: src/arch/unix/gui/uireu.c:72 src/arch/unix/gui/uitpi.c:52
 #: src/arch/unix/gui/uiv364speech.c:52
-#, fuzzy
 msgid "Image name..."
-msgstr "Filnamn för minnesexpansionsavbildning..."
+msgstr "Namn på avbildning..."
 
 #: src/arch/unix/gui/uic64cart.c:56 src/arch/unix/gui/vic20ui.c:251
 msgid "Attach cartridge image"
@@ -1090,9 +1088,8 @@ msgstr "Anslut vanlig 16KB-avbildning..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:115
-#, fuzzy
 msgid "Attach Action Replay V5 image..."
-msgstr "Anslut Action Replay 5-avbildning..."
+msgstr "Anslut Action Replay V5-avbildning..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:119
@@ -1101,21 +1098,18 @@ msgstr "Anslut Atomic Power-avbildning..."
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:123
-#, fuzzy
 msgid "Attach EasyFlash image..."
-msgstr "Anslut Epyx fastload-avbildning..."
+msgstr "Anslut EasyFlash-avbildning..."
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:127
-#, fuzzy
 msgid "Attach Epyx FastLoad image..."
-msgstr "Anslut Epyx fastload-avbildning..."
+msgstr "Anslut Epyx FastLoad-avbildning..."
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:131
-#, fuzzy
 msgid "Attach IDE64 image..."
-msgstr "Anslut MMC64-avbildning..."
+msgstr "Anslut IDE64-avbildning..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:135
@@ -1134,9 +1128,8 @@ msgstr "Anslut Retro Replay-avbildning..."
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:147
-#, fuzzy
 msgid "Attach Super Snapshot V5 image..."
-msgstr "Anslut Super Snapshot 5-avbildning..."
+msgstr "Anslut Super Snapshot V5-avbildning..."
 
 #: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/amigaos/intl_text.c.po.c:721
@@ -1592,27 +1585,24 @@ msgstr "Användarport"
 #: src/arch/unix/gui/uiisepic.c:54 src/arch/unix/gui/uimmc64.c:83
 #: src/arch/unix/gui/uimmcreplay.c:68 src/arch/unix/gui/uiramcart.c:66
 #: src/arch/unix/gui/uiretroreplay.c:51 src/arch/unix/gui/uireu.c:75
-#, fuzzy
 msgid "Save image when changed"
-msgstr "Spara BIOS vid ändring"
+msgstr "Spara avbildning vid ändring"
 
 #: src/arch/unix/gui/uidqbb.c:54 src/arch/unix/gui/uieasyflash.c:51
 #: src/arch/unix/gui/uiexpert.c:65 src/arch/unix/gui/uigeoram.c:75
 #: src/arch/unix/gui/uiisepic.c:56 src/arch/unix/gui/uimmc64.c:85
 #: src/arch/unix/gui/uimmcreplay.c:70 src/arch/unix/gui/uiramcart.c:68
 #: src/arch/unix/gui/uiretroreplay.c:53 src/arch/unix/gui/uireu.c:77
-#, fuzzy
 msgid "Save image now"
-msgstr "Spara CRT nu"
+msgstr "Spara avbildning nu"
 
 #: src/arch/unix/gui/uidqbb.c:56 src/arch/unix/gui/uieasyflash.c:53
 #: src/arch/unix/gui/uiexpert.c:67 src/arch/unix/gui/uigeoram.c:77
 #: src/arch/unix/gui/uiisepic.c:58 src/arch/unix/gui/uimmc64.c:87
 #: src/arch/unix/gui/uimmcreplay.c:72 src/arch/unix/gui/uiramcart.c:70
 #: src/arch/unix/gui/uiretroreplay.c:55 src/arch/unix/gui/uireu.c:79
-#, fuzzy
 msgid "Save image as..."
-msgstr "Spara ISEPIC-avbildning..."
+msgstr "Spara avbildning som..."
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uidqbb.c:64 src/arch/unix/gui/uidqbb.c:67
@@ -1624,7 +1614,6 @@ msgstr "DQBB-avbildning"
 #: src/arch/unix/gui/uiisepic.c:88 src/arch/unix/gui/uimmc64.c:135
 #: src/arch/unix/gui/uimmcreplay.c:109 src/arch/unix/gui/uiramcart.c:100
 #: src/arch/unix/gui/uiretroreplay.c:75 src/arch/unix/gui/uireu.c:109
-#, fuzzy
 msgid "Can not save cartridge"
 msgstr "Kan inte spara insticksmodul"
 
@@ -1905,9 +1894,8 @@ msgid "Load new 1551 ROM"
 msgstr "Läs ny 1551-ROM"
 
 #: src/arch/unix/gui/uieasyflash.c:46
-#, fuzzy
 msgid "Enable jumper"
-msgstr "Aktivera RR-flashbygel"
+msgstr "Aktivera bygel"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:699
@@ -1928,9 +1916,8 @@ msgstr "På"
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uiexpert.c:75 src/arch/unix/gui/uiexpert.c:78
-#, fuzzy
 msgid "Expert Cartridge image"
-msgstr "Anslut Expert-insticksmodulavbildning..."
+msgstr "Expert-insticksmodulavbildning"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
@@ -2054,9 +2041,8 @@ msgstr "Fullskärmsenhet"
 
 #: src/arch/unix/gui/uigeoram.c:67 src/arch/unix/gui/uipetreu.c:63
 #: src/arch/unix/gui/uiramcart.c:60 src/arch/unix/gui/uireu.c:69
-#, fuzzy
 msgid "Size"
-msgstr "&I/O-utrymme"
+msgstr "Storlek"
 
 #. XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uigeoram.c:85 src/arch/unix/gui/uigeoram.c:88
@@ -2092,14 +2078,12 @@ msgid "IDE64 sectors"
 msgstr "IDE64-sektorer"
 
 #: src/arch/unix/gui/uiide64.c:166
-#, fuzzy
 msgid "Version 3"
-msgstr "Version 0.0"
+msgstr "Version 3"
 
 #: src/arch/unix/gui/uiide64.c:168
-#, fuzzy
 msgid "Version 4"
-msgstr "Version 0.0"
+msgstr "Version 4"
 
 #: src/arch/unix/gui/uiide64.c:174 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uivdc.c:146
@@ -2107,24 +2091,20 @@ msgid "Revision"
 msgstr "Utgåva"
 
 #: src/arch/unix/gui/uiide64.c:177
-#, fuzzy
 msgid "HD image 1 name..."
-msgstr "Namn på IDE64-avbildning 1..."
+msgstr "Namn på hårddiskavbildning 1..."
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "HD image 2 name..."
-msgstr "Namn på IDE64-avbildning 2..."
+msgstr "Namn på hårddiskavbildning 2..."
 
 #: src/arch/unix/gui/uiide64.c:183
-#, fuzzy
 msgid "HD image 3 name..."
-msgstr "Namn på IDE64-avbildning 3..."
+msgstr "Namn på hårddiskavbildning 3..."
 
 #: src/arch/unix/gui/uiide64.c:186
-#, fuzzy
 msgid "HD image 4 name..."
-msgstr "Namn på IDE64-avbildning 4..."
+msgstr "Namn på hårddiskavbildning 4..."
 
 #: src/arch/unix/gui/uiide64.c:190
 msgid "Autodetect image size"
@@ -2143,15 +2123,13 @@ msgid "Sectors..."
 msgstr "Sektorer..."
 
 #: src/arch/unix/gui/uiisepic.c:48
-#, fuzzy
 msgid "Enable switch"
-msgstr "Aktivera ISEPIC-omkopplare"
+msgstr "Aktivera omkopplare"
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uiisepic.c:66 src/arch/unix/gui/uiisepic.c:69
-#, fuzzy
 msgid "ISEPIC image"
-msgstr "Spara ISEPIC-avbildning..."
+msgstr "ISEPIC-avbildning"
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
 #: src/arch/win32/res.rc.po.c:1031
@@ -2419,9 +2397,8 @@ msgid "Type"
 msgstr "Typ"
 
 #: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
-#, fuzzy
 msgid "Driver"
-msgstr "Drivrutin:"
+msgstr "Drivrutin"
 
 #: src/arch/unix/gui/uimidi.c:90 src/arch/unix/gui/uimidi.c:106
 msgid "MIDI-In device..."
@@ -2445,15 +2422,13 @@ msgid "Auto"
 msgstr "Auto"
 
 #: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uiretroreplay.c:46
-#, fuzzy
 msgid "Enable flashjumper"
-msgstr "Aktivera RR-flashbygel"
+msgstr "Aktivera flashbygel"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
-#, fuzzy
 msgid "Card image name..."
-msgstr "Namn på kortavbildningsfil..."
+msgstr "Namn på kortavbildning..."
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:95 src/arch/unix/gui/uimmcreplay.c:80
@@ -2476,12 +2451,10 @@ msgid "MMC64 image"
 msgstr "Avbildning för MMC64"
 
 #: src/arch/unix/gui/uimmcreplay.c:65
-#, fuzzy
 msgid "Enable rescue mode"
-msgstr "Aktivera MMC Replay-räddningsläge"
+msgstr "Aktivera räddningsläge"
 
 #: src/arch/unix/gui/uimmcreplay.c:86
-#, fuzzy
 msgid "EEPROM image name..."
 msgstr "Namn på EEPROM-avbildning..."
 
@@ -2929,9 +2902,8 @@ msgid "RAMCART image"
 msgstr "RAMCART-avbildning"
 
 #: src/arch/unix/gui/uiretroreplay.c:48
-#, fuzzy
 msgid "Enable bankjumper"
-msgstr "Aktivera RR-flashbygel"
+msgstr "Aktivera bankbygel"
 
 #. FIXME: XAW ui does not allow to enter non existing file in file browser
 #: src/arch/unix/gui/uireu.c:87 src/arch/unix/gui/uireu.c:90
@@ -3465,9 +3437,8 @@ msgstr "Ethernetgränssnitt"
 
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uitfe.c:52
-#, fuzzy
 msgid "RR-Net compatibility mode"
-msgstr "RR-NET-kompatibilitetsläge"
+msgstr "RR-Net-kompatibilitetsläge"
 
 #: src/arch/unix/gui/uitfe.c:54
 msgid "Interface..."
@@ -3632,19 +3603,16 @@ msgid "Mega-Cart NvRAM image"
 msgstr "Mega-Cart NvRAM-avbildning"
 
 #: src/arch/unix/gui/vic20ui.c:339 src/arch/unix/gui/vic20ui.c:345
-#, fuzzy
 msgid "Enable image write back"
-msgstr "Aktivera Vic Flash-insticksmodul-återskrivning"
+msgstr "Aktivera återskrivning till avbildning"
 
 #: src/arch/unix/gui/vic20ui.c:351
-#, fuzzy
 msgid "Enable NvRAM image write back"
-msgstr "Aktivera Mega-Cart NvRAM-återskrivning"
+msgstr "Aktivera återskrivning till NvRAM-avbildning"
 
 #: src/arch/unix/gui/vic20ui.c:353
-#, fuzzy
 msgid "NvRAM image file..."
-msgstr "Namn på EEPROM-avbildning..."
+msgstr "NvRAM-avbildningsfil..."
 
 #: src/arch/unix/gui/vic20ui.c:362
 msgid "Detach cartridge image(s)"
@@ -3722,7 +3690,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
 #: src/arch/unix/x11/gnome/about.c:101
-#, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -3740,6 +3707,7 @@ msgstr ""
 "Marco van den Heuvel - nederländska\n"
 "Flooder - polska\n"
 "Czirkos Zoltan, Karai Csaba - ungerska\n"
+"Emir Akaydin (aka: Skate) - turkiska\n"
 
 #: src/arch/unix/x11/gnome/about.c:116
 msgid "(c) 1998 - 2010 The VICE Team"
@@ -4840,9 +4808,8 @@ msgid "Colors"
 msgstr "Färger"
 
 #: src/arch/win32/res.rc.po.c:983
-#, fuzzy
 msgid "Render filter"
-msgstr "Rendrerare"
+msgstr "Rendrerarfilter"
 
 #: src/arch/win32/res.rc.po.c:985 src/arch/amigaos/intl_text.c.po.c:6178
 msgid "Video settings"
@@ -4879,33 +4846,28 @@ msgid "Attach Action Replay cartridge image"
 msgstr "Anslut Action Replay-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:995
-#, fuzzy
 msgid "Attach Action Replay MK3 cartridge image"
-msgstr "Anslut Action Replay 3-avbildningsfil"
+msgstr "Anslut Action Replay MK3-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:996
-#, fuzzy
 msgid "Attach Action Replay MK4 cartridge image"
-msgstr "Anslut Action Replay 4-insticksmodulfil"
+msgstr "Anslut Action Replay MK4-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:997
-#, fuzzy
 msgid "Attach Stardos cartridge image"
-msgstr "Anslut StarDOS-insticksmodulfil"
+msgstr "Anslut Stardos-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:3328
 msgid "Attach Atomic Power cartridge image"
 msgstr "Anslut Atomic Power-avbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:999
-#, fuzzy
 msgid "Attach Epyx FastLoad cartridge image"
-msgstr "Anslut Epyx fastload-avbildningsfil"
+msgstr "Anslut Epyx FastLoad-avbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:1000
-#, fuzzy
 msgid "Attach IEEE-488 Interface cartridge image"
-msgstr "Anslut IEE-gränssnittsavbildningsfil"
+msgstr "Anslut IEEE-488-gränssnittsavbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:1001 src/arch/amigaos/intl_text.c.po.c:3361
 msgid "Attach Retro Replay cartridge image"
@@ -4920,19 +4882,16 @@ msgid "Attach IDE64 interface cartridge image"
 msgstr "Anslut IDE64-gränssnittsavbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:1004
-#, fuzzy
 msgid "Attach Super Snapshot V4 cartridge image"
-msgstr "Anslut Super Snapshot 4-avbildningsfil"
+msgstr "Anslut Super Snapshot V4-avbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:1005
-#, fuzzy
 msgid "Attach Super Snapshot V5 cartridge image"
-msgstr "Anslut Super Snapshot 5-avbildningsfil"
+msgstr "Anslut Super Snapshot V5-avbildningsfil"
 
 #: src/arch/win32/res.rc.po.c:1006
-#, fuzzy
 msgid "Attach Structured BASIC cartridge image"
-msgstr "Anslut Strucured Basic-insticksmodulfil"
+msgstr "Anslut Structured BASIC-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:1007
 msgid "Model"
@@ -5438,9 +5397,8 @@ msgid "Keep aspect ratio (0,5..2)"
 msgstr "Behåll bredd-/höjdförhållande (0,5..2)"
 
 #: src/arch/win32/res.rc.po.c:1169
-#, fuzzy
 msgid "Gamma (0..2)"
-msgstr "Gamma (0..4)"
+msgstr "Gamma (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1170 src/arch/amigaos/intl_text.c.po.c:6090
 msgid "Tint (0..2)"
@@ -5459,14 +5417,12 @@ msgid "Brightness (0..2)"
 msgstr "Ljusstyrka (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1174
-#, fuzzy
 msgid "Scan line shade (0..1)"
-msgstr "Skuggning av skannlinjer"
+msgstr "Skuggning av skannlinjer (0..1)"
 
 #: src/arch/win32/res.rc.po.c:1175
-#, fuzzy
 msgid "Blur (0..1)"
-msgstr "PAL-suddighet (0..1)"
+msgstr "Suddighet (0..1)"
 
 #: src/arch/win32/res.rc.po.c:1176 src/arch/amigaos/intl_text.c.po.c:6101
 msgid "Odd lines phase (0..2)"
@@ -5477,29 +5433,24 @@ msgid "Odd lines offset (0..2)"
 msgstr "Utjämning för udda linjer (0..2)"
 
 #: src/arch/win32/res.rc.po.c:1178
-#, fuzzy
 msgid "VICII Palette"
-msgstr "Läs in VICII-palettfil"
+msgstr "VICII-palett"
 
 #: src/arch/win32/res.rc.po.c:1179
-#, fuzzy
 msgid "VIC Palette"
-msgstr "Läs in VICII-palettfil"
+msgstr "VIC-palett"
 
 #: src/arch/win32/res.rc.po.c:1180
-#, fuzzy
 msgid "CRTC Palette"
-msgstr "Läs in VDC-palettfil"
+msgstr "CRTC-palett"
 
 #: src/arch/win32/res.rc.po.c:1181
-#, fuzzy
 msgid "VDC Palette"
-msgstr "Läs in VDC-palettfil"
+msgstr "VDC-palett"
 
 #: src/arch/win32/res.rc.po.c:1182
-#, fuzzy
 msgid "TED Palette"
-msgstr "Extern palett"
+msgstr "TED-palett"
 
 #: src/arch/win32/res.rc.po.c:1183
 msgid "External Palette:"
@@ -6031,33 +5982,28 @@ msgid "&Action Replay image..."
 msgstr "&Action Replay-fil..."
 
 #: src/arch/win32/res.rc.po.c:1339
-#, fuzzy
 msgid "&Action Replay MK3 image..."
-msgstr "&Action Replay 3-fil..."
+msgstr "&Action Replay MK3-fil..."
 
 #: src/arch/win32/res.rc.po.c:1340
-#, fuzzy
 msgid "&Action Replay MK4 image..."
-msgstr "&Action Replay 4-fil..."
+msgstr "&Action Replay MK4-fil..."
 
 #: src/arch/win32/res.rc.po.c:1341
-#, fuzzy
 msgid "&Stardos image..."
-msgstr "&StarDOS-fil..."
+msgstr "&Stardos-fil..."
 
 #: src/arch/win32/res.rc.po.c:1342
 msgid "Atomic &Power image..."
 msgstr "Atomic &Power-fil..."
 
 #: src/arch/win32/res.rc.po.c:1343
-#, fuzzy
 msgid "&Epyx FastLoad image..."
-msgstr "&Epyx fastload-fil..."
+msgstr "&Epyx FastLoad-avbildning..."
 
 #: src/arch/win32/res.rc.po.c:1344
-#, fuzzy
 msgid "&IEEE-488 Interface image..."
-msgstr "&IEEE488-gränssnittsfil..."
+msgstr "&IEEE-488-gränssnittsfil..."
 
 #: src/arch/win32/res.rc.po.c:1345
 msgid "&Retro Replay image..."
@@ -6072,19 +6018,16 @@ msgid "IDE&64 interface image..."
 msgstr "IDE&64-gränssnittsfil..."
 
 #: src/arch/win32/res.rc.po.c:1348
-#, fuzzy
 msgid "Super Snapshot V&4 image..."
-msgstr "Super Snapshot &4-fil..."
+msgstr "Super Snapshot V&4-fil..."
 
 #: src/arch/win32/res.rc.po.c:1349
-#, fuzzy
 msgid "Super Snapshot V&5 image..."
-msgstr "Super Snapshot &5-fil..."
+msgstr "Super Snapshot V&5-fil..."
 
 #: src/arch/win32/res.rc.po.c:1350
-#, fuzzy
 msgid "Structured &BASIC image..."
-msgstr "Anslut &Basicavbildning..."
+msgstr "Structured &BASIC-fil..."
 
 #: src/arch/win32/res.rc.po.c:1351
 msgid "&Add current image"
@@ -6351,23 +6294,20 @@ msgid "&REU settings..."
 msgstr "&REU-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:1423
-#, fuzzy
 msgid "&GEO-RAM settings..."
-msgstr "&GEORAM-inställningar..."
+msgstr "&GEO-RAM-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:1424
-#, fuzzy
 msgid "&RamCart settings..."
-msgstr "&SID-insticksmodulinställningar..."
+msgstr "&RamCart-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:1425
 msgid "&Double Quick Brown Box settings..."
 msgstr "Inställningar för &dubbel Quick Brown Box..."
 
 #: src/arch/win32/res.rc.po.c:1426
-#, fuzzy
 msgid "&Expert Cartridge settings..."
-msgstr "Inställningar för SID-insticksmodul"
+msgstr "&Expert Cartridge-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:1427
 msgid "I&SEPIC settings..."
@@ -6390,9 +6330,8 @@ msgid "M&IDI settings..."
 msgstr "M&IDI-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:1432
-#, fuzzy
 msgid "&DigiMAX settings..."
-msgstr "&DIGIMAX-inställningar..."
+msgstr "&DigiMAX-inställningar..."
 
 #: src/arch/win32/res.rc.po.c:1433
 msgid "&Lightpen settings..."
@@ -7299,19 +7238,16 @@ msgid "&CBM2 settings..."
 msgstr "&CBM2-inställningar..."
 
 #: src/arch/win32/resdigimax.rc.po.c:22
-#, fuzzy
 msgid "DigiMAX Settings"
-msgstr "Digimaxinställningar"
+msgstr "DigiMAX-inställningar"
 
 #: src/arch/win32/resdigimax.rc.po.c:23
-#, fuzzy
 msgid "&Enable DigiMAX"
-msgstr "&Aktivera Digimax"
+msgstr "&Aktivera DigiMAX"
 
 #: src/arch/win32/resdigimax.rc.po.c:24
-#, fuzzy
 msgid "DigiMAX base"
-msgstr "Digimax-bas"
+msgstr "DigiMAX-bas"
 
 #: src/arch/win32/resdqbb.rc.po.c:12 src/arch/win32/resdqbb.rc.po.c:36
 msgid "DQBB Settings"
@@ -7326,9 +7262,8 @@ msgid "&Enable DQBB"
 msgstr "&Aktivera DQBB"
 
 #: src/arch/win32/resdqbb.rc.po.c:38
-#, fuzzy
 msgid "&Save DQBB image when changed"
-msgstr "&Spara BIOS vid ändringar"
+msgstr "&Spara DQBB-avbildning vid ändringar"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4230
 msgid "DQBB file"
@@ -7446,64 +7381,52 @@ msgid "Save CRT &now"
 msgstr "Spara CRT &nu"
 
 #: src/arch/win32/resexpert.rc.po.c:38
-#, fuzzy
 msgid "Select file for Expert Cartridge"
-msgstr "Aktivera Expert Cartridge"
+msgstr "Välj fil för Expert Cartridge"
 
 #: src/arch/win32/resexpert.rc.po.c:39
-#, fuzzy
 msgid "Expert Cartridge settings"
-msgstr "Inställningar för SID-insticksmodul"
+msgstr "Inställningar för Expert Cartridge"
 
 #: src/arch/win32/resexpert.rc.po.c:40
-#, fuzzy
 msgid "&Enable Expert Cartridge"
-msgstr "Aktivera Expert-insticksmodul"
+msgstr "&Aktivera Expert Cartridge"
 
 #: src/arch/win32/resexpert.rc.po.c:41
-#, fuzzy
 msgid "Mode"
-msgstr "Modell"
+msgstr "Läge"
 
 #: src/arch/win32/resexpert.rc.po.c:42
-#, fuzzy
 msgid "&Save Expert Cartridge image when changed"
-msgstr "Anslut Expert-insticksmodulavbildning..."
+msgstr "&Spara Expert Cartrdige-avbildning vid ändringar"
 
 #: src/arch/win32/resexpert.rc.po.c:43
-#, fuzzy
 msgid "Expert Cartridge file"
-msgstr "Expert-insticksmodul"
+msgstr "Expert Cartridge-fil"
 
 #: src/arch/win32/resgeoram.rc.po.c:38
-#, fuzzy
 msgid "Select file for GEO-RAM"
-msgstr "Välj fil för GEORAM"
+msgstr "Välj fil för GEO-RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:39
-#, fuzzy
 msgid "GEO-RAM settings"
-msgstr "GEORAM-inställningar"
+msgstr "GEO-RAM-inställningar"
 
 #: src/arch/win32/resgeoram.rc.po.c:40
-#, fuzzy
 msgid "&Enable GEO-RAM"
-msgstr "&Aktivera GEORAM"
+msgstr "&Aktivera GEO-RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:41
-#, fuzzy
 msgid "GEO-RAM size"
-msgstr "GEORAM-storlek"
+msgstr "GEO-RAM-storlek"
 
 #: src/arch/win32/resgeoram.rc.po.c:42
-#, fuzzy
 msgid "&Save GEO-RAM image when changed"
-msgstr "&Spara BIOS vid ändringar"
+msgstr "&Spara GEO-RAM-avbildning vid ändringar"
 
 #: src/arch/win32/resgeoram.rc.po.c:43
-#, fuzzy
 msgid "GEO-RAM file"
-msgstr "GEORAM-fil"
+msgstr "GEO-RAM-fil"
 
 #: src/arch/win32/reside64.rc.po.c:73 src/arch/amigaos/intl_text.c.po.c:5507
 msgid "IDE64 settings"
@@ -7559,9 +7482,8 @@ msgid "Select HD image file"
 msgstr "Ange HD-avbildningsfil"
 
 #: src/arch/win32/resisepic.rc.po.c:36
-#, fuzzy
 msgid "Select file for ISEPIC"
-msgstr "Välj fil för REU"
+msgstr "Välj fil för ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:4263
 msgid "ISEPIC settings"
@@ -7576,14 +7498,12 @@ msgid "&ISEPIC switch"
 msgstr "&ISEPIC-omkopplare"
 
 #: src/arch/win32/resisepic.rc.po.c:40
-#, fuzzy
 msgid "&Save ISEPIC image when changed"
-msgstr "&Spara BIOS vid ändringar"
+msgstr "&Spara ISEPIC-avbildning vid ändringar"
 
 #: src/arch/win32/resisepic.rc.po.c:41
-#, fuzzy
 msgid "ISEPIC file"
-msgstr "ISEPIC-insticksmodul"
+msgstr "ISEPIC-fil"
 
 #: src/arch/win32/reslightpen.rc.po.c:22
 msgid "lightpen Settings"
@@ -7669,9 +7589,8 @@ msgid "read/write"
 msgstr "skrivbar"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:52
-#, fuzzy
 msgid "Save MMC Replay EEPROM when changed"
-msgstr "Ange filnamn för MMC Replay EEPROM-avbildning"
+msgstr "Spara MMC Replay EEPROM vid ändringar"
 
 #: src/arch/win32/respet.rc.po.c:273 src/arch/win32/respet.rc.po.c:540
 msgid "ROM A"
@@ -8038,38 +7957,32 @@ msgid "Select file for PLUS60K"
 msgstr "Ange fil för PLUS60K"
 
 #: src/arch/win32/resramcart.rc.po.c:40
-#, fuzzy
 msgid "RamCart Settings"
-msgstr "Inställningar för &insticksmoduler..."
+msgstr "RamCart-inställningar"
 
 #: src/arch/win32/resramcart.rc.po.c:41
-#, fuzzy
 msgid "&Enable RamCart"
-msgstr "&Aktivera REU"
+msgstr "&Aktivera RamCart"
 
 #: src/arch/win32/resramcart.rc.po.c:42
 msgid "&Read Only"
 msgstr "&Endast läsåtkomst"
 
 #: src/arch/win32/resramcart.rc.po.c:43
-#, fuzzy
 msgid "RamCart size"
-msgstr "Fragmentstorlek"
+msgstr "RamCart-storlek"
 
 #: src/arch/win32/resramcart.rc.po.c:44
-#, fuzzy
 msgid "&Save to RamCart image when changed"
-msgstr "Spara MMC64-BIOS vid ändring"
+msgstr "&Spara till RamCart-avbildning vid ändringar"
 
 #: src/arch/win32/resramcart.rc.po.c:45
-#, fuzzy
 msgid "RamCart file"
-msgstr "ROM-uppsättningsfil"
+msgstr "RamCart-fil"
 
 #: src/arch/win32/resramcart.rc.po.c:46
-#, fuzzy
 msgid "Select file for RamCart"
-msgstr "Välj fil för REU"
+msgstr "Välj fil för RamCart"
 
 #: src/arch/win32/resreu.rc.po.c:38 src/arch/amigaos/intl_text.c.po.c:5067
 msgid "REU Settings"
@@ -8084,9 +7997,8 @@ msgid "REU size"
 msgstr "Storlek på minnesexpansion"
 
 #: src/arch/win32/resreu.rc.po.c:41
-#, fuzzy
 msgid "&Save REU image when changed"
-msgstr "&Spara BIOS vid ändringar"
+msgstr "&Spara REU-avbildning vid ändringar"
 
 #: src/arch/win32/resreu.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:5045
 msgid "REU file"
@@ -10730,9 +10642,8 @@ msgid "Use NTSC sync factor"
 msgstr "Använd NTSC-synkfaktor"
 
 #: src/translate_text.c.po.c:2814
-#, fuzzy
 msgid "Use PAL-N sync factor"
-msgstr "Använd PAL-synkfaktor"
+msgstr "Använd PAL N-synkfaktor"
 
 #: src/translate_text.c.po.c:2842
 msgid "Specify name of international Kernal ROM image"
@@ -10902,9 +10813,8 @@ msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
 msgstr "Välj CIA 2-modell (0 = gammal 6526, 1 = ny 2526A, 2 = gammal 6526x)"
 
 #: src/translate_text.c.po.c:3434
-#, fuzzy
 msgid "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
-msgstr "Välj C64-modell (c64/c64c/c64old/c64ntsc/c64cntsc/c64oldntsc/drean)"
+msgstr "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 
 #: src/translate_text.c.po.c:3448
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
@@ -12729,16 +12639,14 @@ msgid "Disable writing to EasyFlash .crt image"
 msgstr "Inaktivera skrivning till EasyFlash-.crt-avbildning."
 
 #: src/translate_text.c.po.c:9754
-#, fuzzy
 msgid "Enable the DigiMAX cartridge"
-msgstr "Aktivera Digimax-cartridge"
+msgstr "Aktivera DigiMAX-insticksmodul"
 
 #: src/translate_text.c.po.c:9768
-#, fuzzy
 msgid "Disable the DigiMAX cartridge"
-msgstr "Inaktivera Digimax Cartridge"
+msgstr "Inaktivera DigiMAX-insticksmodul"
 
 #: src/translate_text.c.po.c:9782
-#, fuzzy
 msgid "Base address of the DigiMAX cartridge"
-msgstr "Basadress för Digimax-cartridge"
+msgstr "Basadress för DigiMAC-insticksmodulen"
+
