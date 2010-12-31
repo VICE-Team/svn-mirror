@@ -469,9 +469,23 @@ static UI_CALLBACK(event_recording_button_callback)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * Reminder to the user: you can specify additional resource strings
+ * in your $HOME/.Xresources file and on the command line with
+ * the -xrm option.
+ */
 static String fallback_resources[] = {
-    "*font:					   -*-lucida-bold-r-*-*-12-*",
-    "*Command.font:			           -*-lucida-bold-r-*-*-12-*",
+    "*international:                                 True",
+    /* If international, the fonts are taller (presumably allowing for more
+     * extensive ascenders/descenders) which makes the menus too big.
+     * So, "fix" the height here. If "international" is disabled,
+     * this one should be too.
+     */
+    "*SmeBSB.vertSpace:                              -15",
+    "*font:                                        -*-lucida-bold-r-*-*-12-*",
+    "*fontSet:                                     -*-lucida-bold-r-*-*-12-*",
+    "*Command.font:                                -*-lucida-bold-r-*-*-12-*",
+    "*Command.fontSet:                             -*-lucida-bold-r-*-*-12-*",
     "*fileSelector.width:			     380",
     "*fileSelector.height:			     300",
     "*inputDialog.inputForm.borderWidth:	     0",
@@ -500,7 +514,11 @@ static String fallback_resources[] = {
     "*confirmDialog.messageForm.message.height:      20",
     "*showText.textBox.text.width:		     480",
     "*showText.textBox.text.height:		     305",
+    /* when the next one is True, credits disappear,
+     * probably exceeding the max size of an X widget */
+    "*showText.textBox.text*international:           False",
     "*showText.textBox.text*font:       -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*showText.textBox.text*fontSet:    -*-lucidatypewriter-medium-r-*-*-12-*",
     "*okButton.label:				     Confirm",
     "*cancelButton.label:			     Cancel",
     "*closeButton.label:			     Dismiss",
@@ -529,21 +547,32 @@ static String fallback_resources[] = {
     "*TransientShell*Box.background:		     gray80",
     "*fileSelector.background:			     gray80",
     "*Command.background:			     gray90",
+    "*Toggle.background:                             gray90",
     "*Menubutton.background:		             gray80",
     "*Scrollbar.background:		             gray80",
     "*Form.background:				     gray80",
     "*Label.background:				     gray80",
     "*Canvas.background:                             black",
-    "*driveTrack1.font:                          -*-helvetica-medium-r-*-*-12-*",
-    "*driveTrack2.font:                          -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage1.font:                   -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage2.font:                   -*-helvetica-medium-r-*-*-12-*",
-    "*driveTrack3.font:                          -*-helvetica-medium-r-*-*-12-*",
-    "*driveTrack4.font:                          -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage3.font:                   -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage4.font:                   -*-helvetica-medium-r-*-*-12-*",
-    "*speedStatus.font:                         -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack1.font:                        -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack1.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack2.font:                        -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack2.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage1.font:                 -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage1.fontSet:              -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage2.font:                 -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage2.fontSet:              -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack3.font:                        -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack3.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack4.font:                        -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack4.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage3.font:                 -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage3.fontSet:              -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage4.font:                 -*-helvetica-medium-r-*-*-12-*",
+    "*driveCurrentImage4.fontSet:              -*-helvetica-medium-r-*-*-12-*",
+    "*speedStatus.font:                        -*-helvetica-medium-r-*-*-12-*",
+    "*speedStatus.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
     "*statustext.font:                         -*-helvetica-medium-r-*-*-8-*",
+    "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-8-*",
 
     NULL
 };
@@ -597,6 +626,7 @@ int ui_init(int *argc, char **argv)
         { "Close", close_action },
     };
 
+    XtSetLanguageProc(NULL, NULL, NULL);
     prepare_wm_command_data(*argc, argv);
 
     /* Create the toplevel. */
@@ -997,7 +1027,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     app_shells[num_app_shells - 1].speed_label = speed_label;
     app_shells[num_app_shells - 1].statustext_label = statustext_label;
     status_bar = speed_label;
-    
+
     for (i = 0; i < NUM_DRIVES; i++) {
         app_shells[num_app_shells - 1].drive_widgets[i].track_label = drive_track_label[i];
         app_shells[num_app_shells - 1].drive_widgets[i].driveled = drive_led[i];
@@ -1015,7 +1045,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     }
     XtUnrealizeWidget(rec_button);
     XtUnrealizeWidget(event_recording_button);
-    
+
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     XtOverrideTranslations(shell, XtParseTranslationTable("<Message>WM_PROTOCOLS: Close()"));
 
@@ -1033,7 +1063,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         ui_cached_video_canvas = c;
         xaw_lightpen_update_canvas(ui_cached_video_canvas, TRUE);
     }
-    
+
     return 0;
 }
 
@@ -1989,8 +2019,8 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
         if (button == UI_BUTTON_CANCEL) {
             break;
         }
-        if ((button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) &&
-                (action != UI_FC_LOAD || fs_status.file_selected)) {
+        if ((button == UI_BUTTON_OK || button == UI_BUTTON_AUTOSTART) /* &&
+                (action != UI_FC_LOAD || fs_status.file_selected) */) {
             is_ok = 1;
             break;
         }
@@ -2347,6 +2377,7 @@ static Widget build_show_text(Widget parent, ui_button_t * button_return, const 
                                   XtNscrollVertical, XawtextScrollWhenNeeded,
                                   XtNdisplayCaret, False,
                                   XtNstring, text,
+                                  XtNwrap, XawtextWrapWord,
                                   NULL);
     if (width > 0) {
         XtVaSetValues(tmp, XtNwidth, (Dimension)width, NULL);
