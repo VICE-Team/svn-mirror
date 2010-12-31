@@ -24,6 +24,15 @@
  *
  */
 
+#include "vice.h"
+
+#define __USE_INLINE__
+
+#ifdef AMIGA_OS4_ALT
+#define __USE_OLD_TIMEVAL__
+#include <devices/timer.h>
+#endif
+
 #include <stdio.h>
 #include "vsyncapi.h"
 #include "kbd.h"
@@ -40,8 +49,6 @@
 #include "joy.h"
 #include "intl.h"
 #include "translate.h"
-
-#define __USE_INLINE__
 
 #include <exec/types.h>
 #include <exec/nodes.h>

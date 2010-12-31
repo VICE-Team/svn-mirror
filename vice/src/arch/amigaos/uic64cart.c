@@ -135,12 +135,6 @@ static const uicart_params_t c64_ui_cartridges[] = {
 
 static void uic64cart_attach(video_canvas_t *canvas, int idm, const uicart_params_t *cartridges)
 {
-    if (idm == IDM_CART_ENABLE_EXPERT) {
-        if (cartridge_enable(CARTRIDGE_EXPERT) < 0) {
-            ui_error(translate_text(IDMES_INVALID_CART));
-        }
-        return;
-    }
     uicart_attach(canvas, idm, cartridges);
 }
 
@@ -162,7 +156,6 @@ void uic64cart_proc(video_canvas_t *canvas, int idm)
         case IDM_CART_ATTACH_SS4:
         case IDM_CART_ATTACH_SS5:
         case IDM_CART_ATTACH_STB:
-        case IDM_CART_ENABLE_EXPERT:
             uic64cart_attach(canvas, idm, c64_ui_cartridges);
             break;
         case IDM_CART_SET_DEFAULT:

@@ -33,7 +33,6 @@
 #include "uiexpert.h"
 #include "intl.h"
 #include "translate.h"
-#include "expert.h"
 
 static video_canvas_t *expert_canvas;
 
@@ -61,9 +60,9 @@ static int ui_expert_mode_translate[] = {
 static char *ui_expert_mode[countof(ui_expert_mode_translate)];
 
 static const int ui_expert_mode_values[] = {
-    EXPERT_MODE_OFF,
-    EXPERT_MODE_PRG,
-    EXPERT_MODE_ON,
+    0,
+    1,
+    2,
     -1
 };
 
@@ -101,7 +100,7 @@ static APTR build_gui(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from[0].object, "Expert Cartridge", ui_georam_enable)
+           CYCLE(ui_to_from[0].object, "Expert Cartridge", ui_expert_enable)
            CYCLE(ui_to_from[1].object, translate_text(IDS_EXPERT_MODE), ui_expert_mode)
            FILENAME(ui_to_from[2].object, translate_text(IDS_EXPERT_FILENAME), browse_button)
            CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_EXPERT_IMAGE_WHEN_CHANGED), ui_expert_enable)

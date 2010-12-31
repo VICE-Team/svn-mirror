@@ -41,6 +41,7 @@
 #include "pointer.h"
 
 #define __USE_INLINE__
+#define MUIPROG_H
 
 #undef BYTE
 #undef WORD

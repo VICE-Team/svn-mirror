@@ -45,7 +45,9 @@ extern void timer_usleep(void *timer, int us);
 
 #else
 
+#ifndef __timer_t_defined
 typedef struct timer_s timer_t;
+#endif
 
 extern timer_t *timer_init(void);
 extern void timer_gettime(timer_t *timer, struct timeval *tv);

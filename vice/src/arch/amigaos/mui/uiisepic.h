@@ -27,6 +27,6 @@
 #ifndef VICE_UIISEPIC_H
 #define VICE_UIISEPIC_H
 
-extern void ui_isepic_settings_dialog(void);
+extern void ui_isepic_settings_dialog(video_canvas_t *canvas);
 
 #endif

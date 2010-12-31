@@ -39,6 +39,10 @@
 #include <exec/memory.h>
 #include <devices/ahi.h>
 #include <devices/audio.h>
+#ifdef AMIGA_OS4_ALT
+#define __USE_OLD_TIMEVAL__
+#include <devices/timer.h>
+#endif
 #include <proto/exec.h>
 #include <proto/dos.h>
 

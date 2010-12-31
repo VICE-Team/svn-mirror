@@ -225,6 +225,8 @@ void timer_usleep(void *t, int us)
 #else
 
 #ifdef AMIGA_OS4_ALT
+#define __USE_OLD_TIMEVAL__
+#include <devices/timer.h>
 #include <exec/io.h>
 #endif
 

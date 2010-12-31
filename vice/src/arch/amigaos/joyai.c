@@ -34,6 +34,7 @@
 #include <strings.h>
 
 #define __USE_INLINE__
+#define MUIPROG_H
 
 #include <exec/memory.h>
 

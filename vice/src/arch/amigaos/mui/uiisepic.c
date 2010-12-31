@@ -105,7 +105,7 @@ static APTR build_gui(void)
     return ui;
 }
 
-void ui_isepic_settings_dialog(void)
+void ui_isepic_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
