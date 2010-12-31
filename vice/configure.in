@@ -1533,11 +1533,13 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
             AC_CHECK_LIB(SDL, SDL_SetVideoMode, [found_sdl_lib=yes], [found_sdl_lib=no])
             if test x"$found_sdl_lib" = "xno"; then
                 AC_MSG_ERROR([static SDL lib missing])
+            else
+                LIBS="$LIBS -lSDL"
             fi
             AC_CHECK_LIB(SDL, SDL_OpenAudio, [found_sdl_sound=yes], [found_sdl_sound=no])
             if test x"$found_sdl_sound" = "xyes"; then
                 SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o";
-                AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])],
+                AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
             fi
             AC_CHECK_FUNCS(SDL_NumJoysticks)
         fi
