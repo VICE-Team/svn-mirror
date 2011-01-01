@@ -388,17 +388,17 @@ static void scan_files(void)
     char *filename;
     char *fullname;
     BEntry entry;
-	
+        
     snapcounter = 0;
     lastindex = -1;
     for (i = 0; i < 10; i++) {
         files[i].valid = 0;
-    	  filename = lib_stralloc("quicksnap?.vsf");
+          filename = lib_stralloc("quicksnap?.vsf");
         filename[strlen(filename) - 5] = '0' + i;
         fullname = util_concat(archdep_boot_path(), "/", machine_name, "/", filename, NULL);
         entry.SetTo(fullname);
         if (entry.Exists()) {
-	      strcpy(files[i].name, filename);
+              strcpy(files[i].name, filename);
             files[i].valid = 1;
             if (i > lastindex) {
                 lastindex = i;
@@ -420,7 +420,7 @@ void ui_display_paused(int flag)
     /* use ui_display_speed() and warp flag to encode pause mode */ 
     if (flag) {
         ui_display_speed(0, 0, -1);
-    }	else {
+    }   else {
         ui_display_speed(0, 0, -2);
     }
 }
@@ -496,7 +496,7 @@ static void ui_paste_clipboard_text(void)
 
 /* here the stuff for queueing and dispatching ui commands */
 /*---------------------------------------------------------*/
-#define MAX_MESSAGE_QUEUE_SIZE	256
+#define MAX_MESSAGE_QUEUE_SIZE  256
 static BMessage message_queue[MAX_MESSAGE_QUEUE_SIZE];
 static int num_queued_messages;
 
@@ -744,7 +744,7 @@ void ui_dispatch_events(void)
                 break;
             case MENU_DRIVE_SETTINGS:
                 ui_drive();
-                break;	
+                break;  
             case MENU_DEVICE_SETTINGS:
                 ui_device();
                 break;
@@ -789,18 +789,18 @@ void ui_dispatch_events(void)
                 char *abouttext;
 
                 abouttext = util_concat("BeVICE Version ", VERSION, " (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n",
+                                        "(c) 1998-2011 Dag Lem\n",
+                                        "(c) 1999-2011 Andreas Matthies\n",
+                                        "(c) 1999-2011 Martin Pottendorfer\n",
+                                        "(c) 2000-2011 Spiro Trikaliotis\n",
+                                        "(c) 2005-2011 Marco van den Heuvel\n",
+                                        "(c) 2006-2011 Christian Vogelgsang\n",
+                                        "(c) 2007-2011 Fabrizio Gennari\n",
+                                        "(c) 2007-2011 Hannu Nuotio\n",
+                                        "(c) 2007-2011 Daniel Kahlin\n",
+                                        "(c) 2008-2011 Antti S. Lankila\n",
                                         "(c) 1998-2010 Andreas Boose\n",
-                                        "(c) 1998-2010 Dag Lem\n",
                                         "(c) 1998-2010 Tibor Biczo\n",
-                                        "(c) 1999-2010 Andreas Matthies\n",
-                                        "(c) 1999-2010 Martin Pottendorfer\n",
-                                        "(c) 2000-2010 Spiro Trikaliotis\n",
-                                        "(c) 2005-2010 Marco van den Heuvel\n",
-                                        "(c) 2006-2010 Christian Vogelgsang\n",
-                                        "(c) 2007-2010 Fabrizio Gennari\n",
-                                        "(c) 2007-2010 Hannu Nuotio\n",
-                                        "(c) 2007-2010 Daniel Kahlin\n",
-                                        "(c) 2008-2010 Antti S. Lankila\n",
                                         "(c) 2007-2010 M. Kiesel\n",
                                         "(c) 1999-2007 Andreas Dehmel\n",
                                         "(c) 1999-2005 Thomas Bretz\n",
@@ -973,7 +973,7 @@ TextWindow::~TextWindow() {
     delete textview;
     delete scrollview;
 }
-	
+        
 void ui_show_text(const char *caption, const char *header, const char *text)
 {
     new TextWindow(caption, header, text);
@@ -1030,7 +1030,7 @@ int ui_extend_image_dialog(void)
 {
     int ret;
     BAlert *mb;
-	
+        
     mb = new BAlert("VICE question", "Extend image to 40-track format?", "Yes", "No", NULL, B_WIDTH_AS_USUAL, B_IDEA_ALERT);
     ret = mb->Go();
 
@@ -1128,7 +1128,7 @@ static void ui_display_drive_status(int drive_num)
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     ui_drive_enabled = enable;
-    ui_drive_active_led = drive_led_color;	
+    ui_drive_active_led = drive_led_color;      
     ui_display_drive_status(0);
     ui_display_drive_status(1);
     ui_display_drive_status(2);
@@ -1186,11 +1186,11 @@ static void ui_display_image(int drivenum)
 void ui_display_drive_current_image(unsigned int drivenum, const char *image)
 {
     char *directory_name;
-	
+        
     if (drivenum >= 4) {
         return;
     }
-		
+                
     if (ui_drive_image_name[drivenum]) {
         free(ui_drive_image_name[drivenum]);
     }
@@ -1251,16 +1251,16 @@ void ui_display_tape_motor_status(int motor)
 void ui_display_tape_control_status(int control)
 {
     if (ui_tape_control != control) {
-    	ui_tape_control = control;
-    	ui_draw_tape_status();
+        ui_tape_control = control;
+        ui_draw_tape_status();
     }
 }
 
 void ui_display_tape_counter(int counter)
 {
     if (ui_tape_counter != counter) {
-    	ui_tape_counter = counter;
-    	ui_draw_tape_status();
+        ui_tape_counter = counter;
+        ui_draw_tape_status();
     }
 }
 
@@ -1303,7 +1303,7 @@ static BYTE ui_joystick_status[3] = { 255, 255, 255 };
 static void ui_display_joyport(int port_num)
 {
     int i;
-	
+        
     if (!joystickdisplay) {
         return;
     }
@@ -1316,7 +1316,7 @@ static void ui_display_joyport(int port_num)
         windowlist[i]->Unlock();
     }
 }
-		
+                
 void ui_enable_joyport(void)
 {
     int i;
