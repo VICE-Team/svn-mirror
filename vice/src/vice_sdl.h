@@ -59,4 +59,8 @@
 #  include <inline/SDL.h>
 #endif
 
+#ifdef POWERSDL_AMIGA_INLINE
+#  include <ppcinline/powersdl.h>
+#endif
+
 #endif

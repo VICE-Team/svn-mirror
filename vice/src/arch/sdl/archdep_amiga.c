@@ -61,19 +61,29 @@ struct Library *SocketBase;
 
 #ifdef SDL_AMIGA_INLINE
 struct Library *SDLBase = NULL;
+#define SDLLIBBASE SDLBase
+#define SDLLIBNAME "SDL.library"
+#endif
 
+#ifdef POWERSDL_AMIGA_INLINE
+struct Library *PowerSDLBase;
+#define SDLLIBBASE PowerSDLBase
+#define SDLLIBNAME "powersld.library"
+#endif
+
+#if defined(SDL_AMIGA_INLINE) || defined(POWERSDL_AMIGA_INLINE)
 void SDL_Quit(void)
 {
     SDL_RealQuit();
-    CloseLibrary(SDLBase);
+    CloseLibrary(SDLLIBBASE);
 }
 
 int SDL_Init(Uint32 flags)
 {
-    SDLBase = OpenLibrary("SDL.library", 0L);
+    SDLLIBBASE = OpenLibrary(SDLLIBNAME, 0L);
 
-    if (!SDLBase) {
-        printf("Unable to open SDL.library\n");
+    if (!SDLLIBBASE) {
+        printf("Unable to open %s\n", SDLLIBNAME);
         exit(0);
     }
 

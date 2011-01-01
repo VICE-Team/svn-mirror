@@ -1527,9 +1527,13 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
     elif test x"$is_amiga" = "xyes"; then
         AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         AC_CHECK_HEADER(inline/SDL.h,[SDL_AMIGA_INLINE=yes], [SDL_AMIGA_INLINE=no],)
+        AC_CHECK_HEADER(ppcinline/powersdl.h,[POWERSDL_AMIGA_INLINE=yes], [POWERSDL_AMIGA_INLINE=no],)
         AC_CHECK_LIB(debug, kprintf, [LIBS="$LIBS -ldebug"])
         if test x"$SDL_AMIGA_INLINE" = "xyes"; then
             AC_DEFINE(SDL_AMIGA_INLINE,,[Enable amiga shared SDL library support.])
+            AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
+        elif test x"$POWERSDL_AMIGA_INLINE" = "xyes"; then
+            AC_DEFINE(POWERSDL_AMIGA_INLINE,,[Enable morphos shared SDL library support.])
             AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
         else
             AC_CHECK_LIB(SDL, SDL_SetVideoMode, [found_sdl_lib=yes], [found_sdl_lib=no])
@@ -2099,7 +2103,7 @@ fi
 AC_SUBST(LIBS)
 
 dnl if usleep is not defined, compile our own version for it (usleep.o)
-if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno" -a x"$is_amiga_morphos" = "xno" -a x"$is_riscos" = "xno"; then
+if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno" -a x"$is_riscos" = "xno"; then
   AC_REPLACE_FUNCS(usleep)
 fi
 
