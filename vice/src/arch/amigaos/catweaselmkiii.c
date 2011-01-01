@@ -100,7 +100,10 @@ void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
 // Set as appropriate
 static int sid_NTSC = FALSE; // TRUE for 60Hz oscillator, FALSE for 50
 
+#if defined(pci_obtain_card) && defined(pci_release_card)
 static int CWLock = FALSE;
+#endif
+
 static struct pci_dev *dev = NULL;
 
 int catweaselmkiii_open(void)
@@ -134,12 +137,14 @@ int catweaselmkiii_open(void)
         return -1;
     }
 
-    // Lock the device, since we're a driver
+#if defined(pci_obtain_card) && defined(pci_release_card)
+    /* Lock the device, since we're a driver */
     CWLock = pci_obtain_card(dev);
     if (!CWLock) {
         log_message(LOG_DEFAULT, "Unable to lock the catweasel. Another driver may have an exclusive lock\n" );
         return -1;
     }
+#endif
 
     CWbase = dev->base_address[0];
 
@@ -218,9 +223,11 @@ int catweaselmkiii_close(void)
         write_sid(i, 0);
     }
 
+#if defined(pci_obtain_card) && defined(pci_release_card)
     if (CWLock) {
         pci_release_card(dev);
     }
+#endif
 
     if (OpenPciBase)
     CloseLibrary((struct Library*)OpenPciBase);

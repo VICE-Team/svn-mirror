@@ -97,7 +97,10 @@ void hardsid_store(WORD addr, BYTE val, int chipno)
 // Set as appropriate
 static int sid_NTSC = FALSE; // TRUE for 60Hz oscillator, FALSE for 50
 
+#if defined(pci_obtain_card) && defined(pci_release_card)
 static int HSLock = FALSE;
+#endif
+
 static struct pci_dev *dev = NULL;
 
 int hardsid_open(void)
@@ -131,12 +134,14 @@ int hardsid_open(void)
         return -1;
     }
 
+#if defined(pci_obtain_card) && defined(pci_release_card)
     // Lock the device, since we're a driver
     HSLock = pci_obtain_card(dev);
     if (!HSLock) {
         log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n" );
         return -1;
     }
+#endif
 
     HSbase = dev->base_address[0];
 
@@ -192,9 +197,11 @@ int hardsid_close(void)
         write_sid(i, 0);
     }
 
+#if defined(pci_obtain_card) && defined(pci_release_card)
     if (HSLock) {
         pci_release_card(dev);
     }
+#endif
 
     if (OpenPciBase) {
         CloseLibrary((struct Library*)OpenPciBase);

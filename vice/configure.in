@@ -285,6 +285,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   is_amigaos4=yes
   is_amigaos3=no
   is_amiga_aros=no
+  is_amiga_morphos=no
   openpci_present=no
 
   if test x"$host_os" = "xmorphos"; then
@@ -301,6 +302,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
       AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
       AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     fi
+    is_amiga_morphos=yes
     is_amigaos4=no
   fi
 
@@ -2097,7 +2099,7 @@ fi
 AC_SUBST(LIBS)
 
 dnl if usleep is not defined, compile our own version for it (usleep.o)
-if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno" -a x"$is_riscos" = "xno"; then
+if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno" -a x"$is_amiga_morphos" = "xno" -a x"$is_riscos" = "xno"; then
   AC_REPLACE_FUNCS(usleep)
 fi
 

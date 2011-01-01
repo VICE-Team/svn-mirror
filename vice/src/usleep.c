@@ -30,7 +30,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_UNISTD_H
+#if defined(HAVE_UNISTD_H) && !defined(AMIGA_MORPHOS)
 #include <unistd.h>
 #endif
 
@@ -40,6 +40,12 @@
 #include <time.h>
 #include <sys/time.h>
 #include <sys/types.h>
+
+#ifdef AMIGA_MORPHOS
+#include <proto/socket.h>
+# define select(nfds, read_fds, write_fds, except_fds, timeout) \
+         WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
+#endif
 
 #ifdef __OS2__
 #include <sys/select.h>
@@ -81,3 +87,4 @@ int usleep(unsigned long int microSeconds)
 
         return 0;
 }
+
