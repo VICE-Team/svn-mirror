@@ -94,7 +94,7 @@
 #include "videoarch.h"
 #include "vsiduiunix.h"
 #include "screenshot.h"
-#include "event.h"
+#include "vice-event.h"
 #include "uifliplist.h"
 #include "c128/c128.h"
 #include "lightpen.h"

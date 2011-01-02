@@ -35,7 +35,6 @@
 #include <string.h>
 
 #include "datasette.h"
-#include "event.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -51,6 +50,7 @@
 #include "traps.h"
 #include "types.h"
 #include "uiapi.h"
+#include "vice-event.h"
 
 /* #define DEBUG_TAPE */
 

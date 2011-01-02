@@ -54,7 +54,6 @@ extern "C" {
 #include "constants.h"
 #include "datasette.h"
 #include "drive.h"
-#include "event.h"
 #include "fliplist.h"
 #include "imagecontents.h"
 #include "info.h"
@@ -95,11 +94,12 @@ extern "C" {
 #include "uicmdline.h"
 #include "util.h"
 #include "version.h"
-#include "vsync.h"
+#include "vice-event.h"
 #include "viceapp.h"
 #include "vicewindow.h"
 #include "video.h"
 #include "videoarch.h"
+#include "vsync.h"
 }
 
 /* sometimes we may need pointers to the ViceWindows */

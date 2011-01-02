@@ -33,7 +33,6 @@
 #include "cmdline.h"
 #include "debug.h"
 #include "drive.h"
-#include "event.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -42,6 +41,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
+#include "vice-event.h"
 
 
 debug_t debug;

@@ -46,13 +46,13 @@
 #endif
 
 #include "archdep.h"
-#include "event.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "network.h"
 #include "resources.h"
 #include "util.h"
+#include "vice-event.h"
 
 #ifdef __riscos
 #include "machine.h"

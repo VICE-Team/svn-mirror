@@ -34,7 +34,6 @@
 
 #include "archdep.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "fullscreenarch.h"
 #include "interrupt.h"
 #include "ioutil.h"
@@ -53,6 +52,7 @@
 #include "uinetplay.h"
 #include "uidrive.h"
 #include "util.h"
+#include "vice-event.h"
 #include "vsync.h"
 
 static UI_CALLBACK(change_working_directory)

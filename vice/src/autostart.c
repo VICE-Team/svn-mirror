@@ -42,7 +42,6 @@
 #include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
-#include "event.h"
 #include "fileio.h"
 #include "fsdevice.h"
 #include "imagecontents.h"
@@ -66,6 +65,7 @@
 #include "util.h"
 #include "vdrive.h"
 #include "vdrive-bam.h"
+#include "vice-event.h"
 
 
 /* Kernal addresses.  Set by `autostart_init()'.  */

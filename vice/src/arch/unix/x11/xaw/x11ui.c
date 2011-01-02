@@ -96,7 +96,7 @@
 #include "video.h"
 #include "videoarch.h"
 #include "screenshot.h"
-#include "event.h"
+#include "vice-event.h"
 #include "x11ui.h"
 #include "lightpen.h"
 #include "lightpendrv.h"

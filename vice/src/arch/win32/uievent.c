@@ -30,13 +30,13 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "event.h"
 #include "intl.h"
 #include "lib.h"
 #include "res.h"
 #include "translate.h"
 #include "uievent.h"
 #include "uilib.h"
+#include "vice-event.h"
 
 void uievent_command(HWND hwnd, WPARAM wparam)
 {

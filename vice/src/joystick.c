@@ -37,19 +37,19 @@
 
 #include "archdep.h"
 #include "alarm.h"
-#include "event.h"
 #include "keyboard.h"
 #include "joy.h"
 #include "joystick.h"
 #include "kbd.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "network.h"
-#include "snapshot.h"
-#include "uiapi.h"
-#include "types.h"
-#include "log.h"
 #include "resources.h"
+#include "snapshot.h"
+#include "types.h"
+#include "uiapi.h"
+#include "vice-event.h"
 
 #define JOYSTICK_RAND() (rand() % machine_get_cycles_per_frame())
 

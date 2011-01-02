@@ -53,7 +53,7 @@
 #include "vdrive-internal.h"
 #include "fliplist.h"
 #include "network.h"
-#include "event.h"
+#include "vice-event.h"
 #include "imagecontents/diskcontents.h"
 #include "imagecontents/tapecontents.h"
 #include "imagecontents.h"

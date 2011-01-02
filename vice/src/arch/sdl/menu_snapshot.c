@@ -31,7 +31,6 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "event.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
@@ -41,6 +40,7 @@
 #include "uifilereq.h"
 #include "uimenu.h"
 #include "util.h"
+#include "vice-event.h"
 
 static int save_disks = 1;
 static int save_roms = 0;

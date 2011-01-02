@@ -40,7 +40,6 @@
 #include "crc32.h"
 #include "datasette.h"
 #include "debug.h"
-#include "event.h"
 #include "interrupt.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -57,6 +56,7 @@
 #include "uiapi.h"
 #include "util.h"
 #include "version.h"
+#include "vice-event.h"
 
 
 #define EVENT_START_SNAPSHOT "start" FSDEV_EXT_SEP_STR "vsf"

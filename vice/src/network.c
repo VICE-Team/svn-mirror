@@ -39,7 +39,6 @@
 #endif
 
 #include "archdep.h"
-#include "event.h"
 #include "interrupt.h"
 #include "lib.h"
 #include "log.h"
@@ -52,6 +51,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
+#include "vice-event.h"
 #include "vicesocket.h"
 #include "vsync.h"
 #include "vsyncapi.h"

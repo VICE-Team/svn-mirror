@@ -32,7 +32,6 @@
 
 #include "crtc.h"
 #include "drive-snapshot.h"
-#include "event.h"
 #include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -50,6 +49,7 @@
 #include "tape-snapshot.h"
 #include "types.h"
 #include "via.h"
+#include "vice-event.h"
 
 
 #define SNAP_MAJOR 0

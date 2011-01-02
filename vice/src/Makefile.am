@@ -126,7 +126,6 @@ noinst_HEADERS = \
 	dma.h \
 	dynlib.h \
 	embedded.h \
-	event.h \
 	fileio.h \
 	findpath.h \
 	fixpoint.h \
@@ -214,6 +213,7 @@ noinst_HEADERS = \
 	vic20ui.h \
 	vice.h \
 	vice_sdl.h \
+	vice-event.h \
 	vicesocket.h \
 	vicii.h \
 	video.h \

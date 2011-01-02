@@ -65,7 +65,6 @@
 #include "charset.h"
 #include "cmdline.h"
 #include "diskimage.h"
-#include "event.h"
 #include "fileio.h"
 #include "gcr.h"
 #include "info.h"
@@ -84,6 +83,7 @@
 #include "vdrive-dir.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
+#include "vice-event.h"
 #include "zipcode.h"
 
 

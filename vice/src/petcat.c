@@ -65,10 +65,10 @@
 #include "archdep.h"
 #include "charset.h"            /* ctrl1, ctrl2, cbmkeys */
 #include "cmdline.h"
-#include "event.h"
 #include "lib.h"
 #include "network.h"
 #include "types.h"
+#include "vice-event.h"
 
 /* dummy functions */
 

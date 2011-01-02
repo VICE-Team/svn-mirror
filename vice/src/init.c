@@ -36,7 +36,6 @@
 #include "diskimage.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
@@ -63,6 +62,7 @@
 #include "sysfile.h"
 #include "uiapi.h"
 #include "vdrive.h"
+#include "vice-event.h"
 
 
 static void init_resource_fail(const char *module)

@@ -37,7 +37,6 @@
 #include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -49,6 +48,7 @@
 #include "sound.h"
 #include "tape-snapshot.h"
 #include "types.h"
+#include "vice-event.h"
 #include "vicii.h"
 
 #define SNAP_MAJOR 1

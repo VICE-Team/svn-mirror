@@ -35,7 +35,6 @@
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
-#include "event.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -46,6 +45,7 @@
 #include "translate.h"
 #include "types.h"
 #include "uiapi.h"
+#include "vice-event.h"
 
 
 #define MOTOR_DELAY         32000

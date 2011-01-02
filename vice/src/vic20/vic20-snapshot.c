@@ -34,7 +34,6 @@
 #include <stdio.h>
 
 #include "drive-snapshot.h"
-#include "event.h"
 #include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -51,6 +50,7 @@
 #include "vic20-snapshot.h"
 #include "vic20.h"
 #include "vic20memsnapshot.h"
+#include "vice-event.h"
 
 
 #define SNAP_MAJOR          2

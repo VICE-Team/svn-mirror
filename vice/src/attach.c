@@ -34,7 +34,6 @@
 #include "cmdline.h"
 #include "diskimage.h"
 #include "driveimage.h"
-#include "event.h"
 #include "fsdevice.h"
 #include "fliplist.h"
 #include "lib.h"
@@ -50,6 +49,7 @@
 #include "vdrive-bam.h"
 #include "vdrive-iec.h"
 #include "vdrive.h"
+#include "vice-event.h"
 
 /* #define DEBUG_ATTACH */
 

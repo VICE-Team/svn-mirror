@@ -38,7 +38,6 @@
 
 #include "alarm.h"
 #include "archdep.h"
-#include "event.h"
 #include "joystick.h"
 #include "joy.h"
 #include "kbd.h"
@@ -53,6 +52,7 @@
 #include "sysfile.h"
 #include "types.h"
 #include "util.h"
+#include "vice-event.h"
 
 
 /* #define KEYBOARD_RAND() (rand() % machine_get_cycles_per_frame()) */

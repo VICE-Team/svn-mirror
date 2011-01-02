@@ -39,7 +39,6 @@
 #include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
-#include "event.h"
 #include "ioutil.h"
 #include "joystick.h"
 #include "keyboard.h"
@@ -50,6 +49,7 @@
 #include "snapshot.h"
 #include "sound.h"
 #include "types.h"
+#include "vice-event.h"
 #include "vicii.h"
 
 #include "c64dtvdma.h"

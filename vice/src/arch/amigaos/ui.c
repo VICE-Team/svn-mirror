@@ -40,7 +40,7 @@
 #include "joy.h"
 #include "maincpu.h"
 #include "interrupt.h"
-#include "event.h"
+#include "vice-event.h"
 #include "monitor.h"
 #include "info.h"
 #include "uilib.h"
