@@ -4,12 +4,12 @@ dnl
 dnl Process this file with autoconf to produce a configure script.
 
 dnl Use Autoconf
-AC_PREREQ([2.61])
+AC_PREREQ([2.56])
 AC_INIT([reSID], [1.0-pre1], [resid@nimrod.no])
 AC_CONFIG_SRCDIR([sid.h])
 
 dnl Use Automake
-AM_INIT_AUTOMAKE([1.10])
+AM_INIT_AUTOMAKE([1.7.1])
 
 dnl Use Libtool
 dnl LT_PREREQ([2.2.2])
