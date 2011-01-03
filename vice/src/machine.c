@@ -39,6 +39,7 @@
 #include "console.h"
 #include "diskimage.h"
 #include "drive.h"
+#include "event.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
@@ -65,7 +66,6 @@
 #include "traps.h"
 #include "types.h"
 #include "uiapi.h"
-#include "vice-event.h"
 #include "video.h"
 #include "vsync.h"
 #include "zfile.h"
@@ -187,6 +187,7 @@ int machine_init(void)
 
     fsdevice_init();
     file_system_init();
+    mem_initialize_memory();
 
     return machine_specific_init();
 }
