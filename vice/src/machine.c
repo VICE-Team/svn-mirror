@@ -39,7 +39,7 @@
 #include "console.h"
 #include "diskimage.h"
 #include "drive.h"
-#include "event.h"
+#include "vice-event.h"
 #include "fliplist.h"
 #include "fsdevice.h"
 #include "gfxoutput.h"
