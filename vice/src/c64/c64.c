@@ -295,10 +295,6 @@ int machine_specific_init(void)
         return -1;
     }
 
-    if (vsid_mode) {
-        psid_init_driver();
-    }
-
     if (!vsid_mode) {
         /* Setup trap handling.  */
         traps_init();
@@ -443,6 +439,7 @@ void machine_specific_reset(void)
     vicii_reset();
 
     if (vsid_mode) {
+        psid_init_driver();
         psid_init_tune();
         return;
     }
