@@ -428,6 +428,7 @@ void Filter::set_w0()
 {
   model_filter_t& f = model_filter[sid_model];
   Vw = f.f0_dac[fc];
+  Vw_term = (f.Vddt >> 4) * (f.Vddt >> 4) - (Vw >> 4) * (f.Vddt >> 4) + (Vw >> 4) * (Vw >> 5);
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.
   const double pi = 3.1415926535897932385;

@@ -433,7 +433,7 @@ protected:
   int v1;
 
   // Cutoff frequency DAC voltage, resonance.
-  int Vw;
+  int Vw, Vw_term;
   int _8_div_Q;
   // FIXME: Temporarily used for MOS 8580 emulation.
   int w0;
@@ -1440,7 +1440,7 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
 
   // VCR gate voltage.
   // Vddt - sqrt((2 * Vddt) * (Vddt - Vw - Vi) + Vw * Vw + Vi * Vi)) / sqrt(2)
-  int Vg = Vddt - (isqrt((Vddt >> 4)*((Vddt - Vw - vi) >> 4) + (Vw >> 4)*(Vw >> 5) + (vi >> 4)*(vi >> 5)) << 4);
+  int Vg = Vddt - (isqrt(Vw_term + (vi >> 4) * (((vi >> 1) - Vddt) >> 4)) << 4);
   int Vgt = Vg - mf.Vth;     // Scaled by m*2^19
 
   // Determine the direction of the current flowing through the VCR and
