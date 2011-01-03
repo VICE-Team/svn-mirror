@@ -511,6 +511,7 @@ void psid_init_driver(void)
     WORD addr;
     int i;
     int sync;
+    int sid2loc;
 
     if (!psid) {
         return;
@@ -532,6 +533,17 @@ void psid_init_driver(void)
                 /* Keep settings (00 = unknown, 11 = any) */
                 break;
         }
+
+        /* Stereo SID specification support from Wilfred Bos.
+         * Top byte of reserved holds the middle nybbles of
+         * the 2nd chip address, if 0x42 <= x < 0x80 and even. */
+        resources_set_int("StereoSid", 0);
+        sid2loc = 0xd000 | ((psid->reserved >> 4) & 0x0ff0);
+        if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc > 0xde00)
+                && (sid2loc & 0x10) == 0) {
+                resources_set_int("SidStereo", 1);
+                resources_set_int("SidStereoAddressStart", sid2loc);
+        }
     }
 
     /* MOS6581/MOS8580 flag. */
@@ -547,6 +559,8 @@ void psid_init_driver(void)
                 /* Keep settings (00 = unknown, 11 = any) */
                 break;
         }
+        /* FIXME: second chip model is ignored,
+         * but it is stored at (flags >> 6) & 3. */
     }
 
     /* Clear low memory to minimize the damage of PSIDs doing bad reads. */
