@@ -536,10 +536,10 @@ void psid_init_driver(void)
 
         /* Stereo SID specification support from Wilfred Bos.
          * Top byte of reserved holds the middle nybbles of
-         * the 2nd chip address, if 0x42 <= x < 0x80 and even. */
+         * the 2nd chip address. */
         resources_set_int("SidStereo", 0);
         sid2loc = 0xd000 | ((psid->reserved >> 4) & 0x0ff0);
-        if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc > 0xde00)
+        if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc >= 0xde00)
                 && (sid2loc & 0x10) == 0) {
                 resources_set_int("SidStereo", 1);
                 resources_set_int("SidStereoAddressStart", sid2loc);
