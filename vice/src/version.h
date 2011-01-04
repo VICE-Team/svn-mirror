@@ -28,11 +28,11 @@
 #define VICE__VERSION_H__
 
 #ifndef VERSION
-#define VERSION "2.2.9"
+#define VERSION "2.2.10"
 #endif
 
 #ifndef VERSION_RC_NUMBER
-#define VERSION_RC_NUMBER 2,2,9,0
+#define VERSION_RC_NUMBER 2,2,10,0
 #endif
 
 #ifndef PACKAGE
