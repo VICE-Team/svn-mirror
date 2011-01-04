@@ -19,6 +19,7 @@
  * 	totty@cs.uiuc.edu
  *
  * Small fix by Ettore Perazzoli <ettore@comm2000.it>, search for [EP].
+ * International support by Olaf Seibert <rhialto@falu.nl>
  */
 
 #include "vice.h"
@@ -63,7 +64,7 @@ static void Initialize(Widget request, Widget new);
 static void Realize(Widget gw, XtValueMask *valueMask, XSetWindowAttributes *attrs);
 static void Destroy(Widget gw);
 static void Resize(Widget gw);
-static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew);
+static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew, ArgList args, Cardinal *num_args);
 static XtGeometryResult GeometryManager(Widget w, XtWidgetGeometry *request, XtWidgetGeometry *reply);
 static XtGeometryResult PreferredGeometry(XfwfScrolledListWidget slw, XtWidgetGeometry *parent_idea, XtWidgetGeometry *our_idea);
 static void ReCalcChildren(XfwfScrolledListWidget w);
@@ -131,7 +132,7 @@ XfwfScrolledListClassRec xfwfScrolledListClassRec = {
 /* destroy               */    (XtWidgetProc)Destroy,
 /* resize                */    (XtWidgetProc)Resize,
 /* expose                */    NULL,
-/* set_values            */    (XtSetValuesFunc)SetValues,
+/* set_values            */    SetValues,
 /* set_values_hook       */    NULL,
 /* set_values_almost     */    XtInheritSetValuesAlmost,
 /* get_values_hook       */    NULL,
@@ -313,7 +314,8 @@ static void Resize(Widget gw)
  *---------------------------------------------------------------*/
 
 /* ARGSUSED */
-static Boolean SetValues(Widget wcurrent, Widget wrequest, Widget wnew)
+static Boolean SetValues(Widget wcurrent, Widget wrequest, Widget wnew,
+        ArgList args, Cardinal *num_args)
 {
     Boolean redraw,recalc;
     XfwfScrolledListWidget csl, rsl, nsl;
@@ -327,6 +329,13 @@ static Boolean SetValues(Widget wcurrent, Widget wrequest, Widget wnew)
 
     if ((MyData(csl).item_array != MyData(nsl).item_array) || (MyData(csl).item_count != MyData(nsl).item_count) || (MyData(csl).sensitive_array != MyData(nsl).sensitive_array)) {
         XfwfScrolledListSetList((Widget)csl, MyData(nsl).item_array, MyData(nsl).item_count, True, MyData(nsl).sensitive_array);
+        redraw = recalc = True;
+    }
+
+    if (MyData(csl).international != MyData(nsl).international) {
+        XtVaSetValues(MyData(nsl).list,
+                XtNinternational, MyData(nsl).international,
+                NULL);
         redraw = recalc = True;
     }
 

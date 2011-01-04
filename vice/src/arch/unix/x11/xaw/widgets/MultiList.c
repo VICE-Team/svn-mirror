@@ -27,7 +27,8 @@
  * 	totty@cs.uiuc.edu
  *
  * Small changes by Ettore Perazzoli <ettore@comm2000.it>, search for [EP].
- */ 
+ * International support by Olaf Seibert <rhialto@falu.nl>
+ */
 
 /*
  * Copyright 1989 Massachusetts Institute of Technology
@@ -74,12 +75,6 @@
  *===========================================================================*/
 
 #define SUPERCLASS &(simpleClassRec)
-
-#define FontAscent(f)   ((f)->max_bounds.ascent)
-#define FontDescent(f)  ((f)->max_bounds.descent)
-#define FontH(f)        (FontAscent(f) + FontDescent(f) + 2)
-#define FontW(f, s, w)  (XfwfTextWidth(f,s,strlen(s), MultiListTabs(w)) + 1)
-#define FontMaxCharW(f) ((f)->max_bounds.rbearing-(f)->min_bounds.lbearing+1)
 
 #ifndef abs
 #define abs(a) ((a) < 0 ? -(a) : (a))
@@ -141,6 +136,7 @@ static void Notify(XfwfMultiListWidget mlw, XEvent *event, String *params, Cardi
  *===========================================================================*/
 
 #ifdef MINIX_SUPPORT
+/* These manually calculated offsets are no doubt incomplete and incorrect. */
 static XtResource resources[] = {
     { XtNwidth, XtCWidth, XtRDimension, sizeof(Dimension), 32, XtRString, "0" },
     { XtNheight, XtCHeight, XtRDimension, sizeof(Dimension), 34, XtRString, "0" },
@@ -185,6 +181,7 @@ static XtResource resources[] = {
     { XtNlongest, XtCLongest, XtRInt, sizeof(int), MultiListFieldOffset(longest), XtRImmediate, (XtPointer)0 },
     { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), MultiListFieldOffset(nitems), XtRImmediate, 0 },
     { XtNfont, XtCFont, XtRFontStruct, sizeof(XFontStruct *), MultiListFieldOffset(font), XtRString, "XtDefaultFont" },
+    { XtNfontSet, XtCFontSet, XtRFontSet, sizeof(XFontSet), MultiListFieldOffset(fontSet), XtRString, XtDefaultFontSet },
     { XtNlist, XtCList, XtRPointer, sizeof(char **), MultiListFieldOffset(list), XtRString, NULL },
     { XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *), MultiListFieldOffset(sensitive_array), XtRString, NULL },
     { XtNcallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), MultiListFieldOffset(callback), XtRCallback, NULL },
@@ -433,8 +430,11 @@ static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfM
 
     /* Graphic Context Changes */
 
-    if ((MultiListFG(cpl) != MultiListFG(npl)) || (MultiListBG(cpl) != MultiListBG(npl)) ||
-        (MultiListHighlightFG(cpl) != MultiListHighlightFG(npl)) || (MultiListHighlightBG(cpl) != MultiListHighlightBG(npl)) ||
+    if ((MultiListFG(cpl) != MultiListFG(npl)) ||
+        (MultiListBG(cpl) != MultiListBG(npl)) ||
+        (MultiListHighlightFG(cpl) != MultiListHighlightFG(npl)) ||
+        (MultiListHighlightBG(cpl) != MultiListHighlightBG(npl)) ||
+        (MultiListFontSet(cpl) != MultiListFontSet(npl) && MultiListInternational(cpl)) ||
         (MultiListFont(cpl) != MultiListFont(npl))) {
         XtDestroyGC(MultiListEraseGC(cpl));
         XtDestroyGC(MultiListDrawGC(cpl));
@@ -479,7 +479,9 @@ static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfM
         (MultiListColumnSpace(cpl) != MultiListColumnSpace(npl)) || (MultiListRowSpace(cpl) != MultiListRowSpace(npl)) ||
         (MultiListDefaultCols(cpl) != MultiListDefaultCols(npl)) || ((MultiListForceCols(cpl) != MultiListForceCols(npl)) &&
         (MultiListNumCols(cpl) != MultiListNumCols(npl))) || (MultiListRowMajor(cpl) != MultiListRowMajor(npl)) ||
-        (MultiListFont(cpl) != MultiListFont(npl)) || (MultiListLongest(cpl) != MultiListLongest(npl))) {
+        (MultiListFont(cpl) != MultiListFont(npl)) ||
+        (MultiListFontSet(cpl) != MultiListFontSet(npl)) ||
+        (MultiListLongest(cpl) != MultiListLongest(npl))) {
         recalc = True;
         redraw = True;
     }
@@ -621,11 +623,16 @@ static void CreateNewGCs(XfwfMultiListWidget mlw)
     XGCValues values;
     unsigned int attribs;
 
-    attribs = GCForeground | GCBackground | GCFont;
     values.foreground = MultiListFG(mlw);
     values.background = MultiListBG(mlw);
-    values.font = MultiListFont(mlw)->fid;
-    MultiListDrawGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
+    if (MultiListInternational(mlw)) {
+        attribs = GCForeground | GCBackground;
+        MultiListDrawGC(mlw) = XtAllocateGC((Widget)mlw, 0, attribs, &values, GCFont, 0);
+    } else {
+        attribs = GCForeground | GCBackground | GCFont;
+        values.font = MultiListFont(mlw)->fid;
+        MultiListDrawGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
+    }
 
     values.foreground = MultiListBG(mlw);
     MultiListEraseGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
@@ -654,6 +661,44 @@ static void CreateNewGCs(XfwfMultiListWidget mlw)
 
 /*---------------------------------------------------------------------------*
 
+  Font size routines, for international support.
+
+ *---------------------------------------------------------------------------*/
+
+static int FontAscent(XfwfMultiListWidget mlw)
+{
+    if (MultiListInternational(mlw)) {
+        XFontSetExtents *ext = XExtentsOfFontSet(MultiListFontSet(mlw));
+        return abs(ext->max_ink_extent.y);
+    } else {
+        XFontStruct *f = MultiListFont(mlw);
+        return f->max_bounds.ascent;
+    }
+}
+
+static int FontH(XfwfMultiListWidget mlw)
+{
+    if (MultiListInternational(mlw)) {
+        XFontSetExtents *ext = XExtentsOfFontSet(MultiListFontSet(mlw));
+        return ext->max_ink_extent.height;
+    } else {
+        XFontStruct *f = MultiListFont(mlw);
+        return f->max_bounds.ascent + f->max_bounds.descent + 2;
+    }
+}
+
+static int FontW(XfwfMultiListWidget mlw, char *s)
+{
+    if (MultiListInternational(mlw)) {
+        /* XXX ignores tabs? */
+        return XmbTextEscapement(MultiListFontSet(mlw), s, strlen(s));
+    } else {
+        return XfwfTextWidth(MultiListFont(mlw), s, strlen(s), MultiListTabs(mlw)) + 1;
+    }
+}
+
+/*---------------------------------------------------------------------------*
+
         RecalcCoords(mlw,width_changeable,height_changeable)
 
 	This routine takes a MultiList widget <mlw> and recalculates
@@ -677,7 +722,7 @@ static void RecalcCoords(XfwfMultiListWidget mlw, Boolean width_changeable, Bool
     if (MultiListNumItems(mlw) != 0 && MultiListLongest(mlw) == 0) {
         for (i = 0; i < MultiListNumItems(mlw); i++) {
             str = MultiListItemString(MultiListNthItem(mlw, i));
-            text_width = FontW(MultiListFont(mlw), str, mlw);
+            text_width = FontW(mlw, str);
             MultiListLongest(mlw) = max(MultiListLongest(mlw), text_width);
         }
     }
@@ -702,13 +747,13 @@ static void NegotiateSizeChange(XfwfMultiListWidget mlw, Dimension width, Dimens
     int attempt_number;
     Boolean w_fixed, h_fixed;
     Dimension *w_ptr, *h_ptr;
-	
+
     XtWidgetGeometry request, reply;
 
     request.request_mode = CWWidth | CWHeight;
     request.width = width;
     request.height = height;
-    
+
     for (attempt_number = 1; attempt_number <= 3; attempt_number++) {
         switch (XtMakeGeometryRequest((Widget)mlw, &request, &reply)) {
             case XtGeometryYes:
@@ -765,7 +810,7 @@ static Boolean Layout(XfwfMultiListWidget mlw, Boolean w_changeable, Boolean h_c
      */
 
     MultiListColWidth(mlw) = MultiListLongest(mlw) + MultiListColumnSpace(mlw);
-    MultiListRowHeight(mlw) = FontH(MultiListFont(mlw)) + MultiListRowSpace(mlw);
+    MultiListRowHeight(mlw) = FontH(mlw) + MultiListRowSpace(mlw);
     if (MultiListForceCols(mlw)) {
         MultiListNumCols(mlw) = max(MultiListDefaultCols(mlw), 1);
         if (MultiListNumItems(mlw) == 0) {
@@ -926,13 +971,23 @@ static void RedrawRowColumn(XfwfMultiListWidget mlw, int row, int column)
     }
     XFillRectangle(XtDisplay(mlw), XtWindow(mlw), bg_gc, ul_x, ul_y, w, h);
     if (has_item == True) {
-        text_h = min(FontH(MultiListFont(mlw)) + (int)MultiListRowSpace(mlw), (int)MultiListRowHeight(mlw));
+        text_h = min(FontH(mlw) + (int)MultiListRowSpace(mlw), (int)MultiListRowHeight(mlw));
         str_x = ul_x + MultiListColumnSpace(mlw) / 2;
-        str_y = ul_y + FontAscent(MultiListFont(mlw)) + ((int)MultiListRowHeight(mlw) - text_h) / 2;
-        XfwfDrawString(XtDisplay(mlw),XtWindow(mlw), fg_gc, str_x, str_y, MultiListItemString(item), strlen(MultiListItemString(item)), MultiListTabs(mlw));
+        str_y = ul_y + FontAscent(mlw) + ((int)MultiListRowHeight(mlw) - text_h) / 2;
+        if (MultiListInternational(mlw)) {
+            XmbfwfDrawString(XtDisplay(mlw),XtWindow(mlw),
+                    MultiListFontSet(mlw), fg_gc, str_x, str_y,
+                    MultiListItemString(item),
+                    strlen(MultiListItemString(item)), MultiListTabs(mlw));
+        } else {
+            XfwfDrawString(XtDisplay(mlw),XtWindow(mlw),
+                    fg_gc, str_x, str_y,
+                    MultiListItemString(item),
+                    strlen(MultiListItemString(item)), MultiListTabs(mlw));
+        }
     }
 } /* End RedrawRowColumn */
-	
+
 /*===========================================================================*
 
                I T E M    L O C A T I O N    R O U T I N E S

@@ -23,6 +23,8 @@
  *
  * Small patch for X11R4 compatibility by Ettore Perazzoli
  * <ettore@comm2000.it>
+ *
+ * International support by Olaf Seibert <rhialto@falu.nl>
  */
 
 #define _TextField_
@@ -30,9 +32,12 @@
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
 #include <X11/Xatom.h>
+#include <X11/Xutil.h>
 #include <X11/Xmu/Xmu.h>
 
 #include <stdio.h>
+#include <stdint.h>
+#include <wchar.h>
 
 #include "util.h"
 
@@ -45,7 +50,9 @@ static XtResource resources[] = {
     { XtNdisplayCaret, XtCBoolean, XtRBoolean, sizeof(Boolean), offset(DisplayCursor), XtRString, "True" },
     { XtNecho, XtCBoolean, XtRBoolean, sizeof(Boolean), offset(Echo), XtRString, "True" },
     { XtNeditable, XtCBoolean, XtRBoolean, sizeof(Boolean), offset(Editable), XtRString, "True" },
+    { XtNinternational, XtCBoolean, XtRBoolean, sizeof(Boolean), offset(international), XtRString, "False" },
     { XtNfont, XtCFont, XtRFontStruct, sizeof(XFontStruct *), offset(font), XtRString, XtDefaultFont },
+    { XtNfontSet, XtCFontSet, XtRFontSet, sizeof(XFontSet), offset(fontSet), XtRString, XtDefaultFontSet },
     { XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel), offset(foreground_pixel), XtRString, XtDefaultForeground },
     { XtNinsertPosition, XtCInsertPosition, XtRInt, sizeof(int), offset(CursorPos), XtRString, "0" },
     { XtNlength, XtCLength, XtRInt, sizeof(int), offset(TextMaxLen), XtRString, "0" },
@@ -58,11 +65,14 @@ static XtResource resources[] = {
 
 #undef offset
 
+static Atom xa_compound_text, xa_text, xa_utf8_string;
+
 static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num);
 static void Destroy(TextFieldWidget w);
 static void Redisplay(Widget aw, XExposeEvent *event, Region region);
 static void Resize(Widget aw);
 static Boolean SetValues(Widget current, Widget request, Widget reply, ArgList args, Cardinal *nargs);
+/* static void GetValuesHook(Widget aw, ArgList arglist, Cardinal *argc); */
 static void Draw(TextFieldWidget w);
 static void DrawInsert(TextFieldWidget w);
 static void MassiveChangeDraw(TextFieldWidget w);
@@ -85,6 +95,8 @@ static void ExtendStart(Widget aw, XEvent *event, String *params, Cardinal *num_
 static void ExtendAdjust(Widget aw, XEvent *event, String *params, Cardinal *num_params);
 static void ExtendEnd(Widget aw, XEvent *event, String *params, Cardinal *num_params);
 static void InsertSelection(Widget aw, XEvent *event, String *params, Cardinal *num_params);
+static void ActionFocusIn(Widget aw, XEvent *event, String *params, Cardinal *num_params);
+static void ActionFocusOut(Widget aw, XEvent *event, String *params, Cardinal *num_params);
 
 static char defaultTranslations[] = 
 "<Key>Right:	forward-char()\n\
@@ -120,8 +132,8 @@ static XtActionsRec actions[] = {
     { "insert-selection", InsertSelection },
     { "enter-window", Nothing },
     { "leave-window", Nothing },
-    { "focus-in", Nothing },
-    { "focus-out", Nothing },
+    { "focus-in", ActionFocusIn },
+    { "focus-out", ActionFocusOut },
 };
 
 TextFieldClassRec textfieldClassRec = {
@@ -161,7 +173,7 @@ TextFieldClassRec textfieldClassRec = {
     /* extension              */ NULL
     },
     {
-        0				/* some stupid compilers barf on empty structures */
+        0    /* some stupid compilers barf on empty structures */
     }
 };
 
@@ -170,12 +182,99 @@ WidgetClass textfieldWidgetClass = (WidgetClass)&textfieldClassRec;
 /* Convenience macros */
 #define TopMargin(w)    (int)(w->text.Margin - 1)
 #define BottomMargin(w) (int)(w->text.Margin)
+#define abs(a)          ((a) >= 0? (a) : -(a))
+#define min(a, b)       ((a) < (b)? (a) : (b))
 
+/*
+ * Theory of operation:
+ *
+ * Communication with the user program is always via the contents
+ * of text.Text.
+ *
+ * if text.international == False:
+ *      text.Text contains ISO 8859-1 (aka Latin1) text.
+ *      text.SelectionText points to chars.
+ *
+ * if text.international == True:
+ *      text.Text contains text in the user's locale.
+ *          This may be a single byte (locale C), multibyte or variable
+ *          length (locale xx_XX.utf-8) encoding.
+ *          Xmb* functions work on this.  Since this is inconvenient to
+ *          manipulate, for most operations we use
+ *
+ *      text.IntlText contains text in wide characters (in theory, also
+ *          consistent with the user's locale, but in practice I expect
+ *          always Unicode).
+ *          Xwc* functions work on this.
+ *          Every time IntlText changes, Text is updated by making a
+ *          full copy with conversion.
+ *
+ *      text.SelectionText points to wchar_ts.
+ */
 /* Font functions */
-#define FontHeight(f)          (int)(f->max_bounds.ascent + f->max_bounds.descent)
-#define FontDescent(f)         (int)(f->max_bounds.descent)
-#define FontAscent(f)          (int)(f->max_bounds.ascent)
-#define FontTextWidth(f, c, l) (int)XTextWidth(f, c, l)
+
+static int FontAscent(TextFieldWidget tfw)
+{
+    if (tfw->text.international) {
+        XFontSetExtents *ext = XExtentsOfFontSet(tfw->text.fontSet);
+        return abs(ext->max_ink_extent.y);
+    } else {
+        XFontStruct *f = tfw->text.font;
+        return f->max_bounds.ascent;
+    }
+}
+
+static int FontDescent(TextFieldWidget tfw)
+{
+    if (tfw->text.international) {
+        XFontSetExtents *ext = XExtentsOfFontSet(tfw->text.fontSet);
+        int ascent = abs(ext->max_ink_extent.y);
+        return ext->max_ink_extent.height - ascent;
+    } else {
+        XFontStruct *f = tfw->text.font;
+        return f->max_bounds.descent;
+    }
+}
+
+static int FontHeight(TextFieldWidget tfw)
+{
+    if (tfw->text.international) {
+        XFontSetExtents *ext = XExtentsOfFontSet(tfw->text.fontSet);
+        return ext->max_ink_extent.height;
+    } else {
+        XFontStruct *f = tfw->text.font;
+        return f->max_bounds.ascent + f->max_bounds.descent + 2;
+    }
+}
+
+static int TextWidthFromPos(TextFieldWidget tfw, int pos, int len)
+{
+    if (tfw->text.international) {
+        return XwcTextEscapement(tfw->text.fontSet, tfw->text.IntlText + pos, len);
+    } else {
+        XFontStruct *f = tfw->text.font;
+        return XTextWidth(f, tfw->text.Text + pos, len);
+    }
+}
+
+static int TextWidthFromLeft(TextFieldWidget tfw, int len)
+{
+    if (tfw->text.international) {
+        return XwcTextEscapement(tfw->text.fontSet, tfw->text.IntlText, len);
+    } else {
+        XFontStruct *f = tfw->text.font;
+        return XTextWidth(f, tfw->text.Text, len);
+    }
+}
+static int TextWidth(TextFieldWidget tfw)
+{
+    if (tfw->text.international) {
+        return XwcTextEscapement(tfw->text.fontSet, tfw->text.IntlText, tfw->text.IntlTextLen);
+    } else {
+        XFontStruct *f = tfw->text.font;
+        return XTextWidth(f, tfw->text.Text, tfw->text.TextLen);
+    }
+}
 
 static void InitializeGC(TextFieldWidget w)
 {
@@ -189,12 +288,21 @@ static void InitializeGC(TextFieldWidget w)
     values.font = w->text.font->fid;
     values.background = w->core.background_pixel;
     values.foreground = w->text.foreground_pixel;
-    mask = GCLineStyle | GCLineWidth | GCFillStyle | GCForeground | GCBackground | GCFont;
-    w->text.drawGC = XtGetGC((Widget)w, mask, &values);
+    if (w->text.international) {
+        mask = GCLineStyle | GCLineWidth | GCFillStyle | GCForeground | GCBackground;
+        w->text.drawGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, 0);
+    } else {
+        mask = GCLineStyle | GCLineWidth | GCFillStyle | GCForeground | GCBackground | GCFont;
+        w->text.drawGC = XtGetGC((Widget)w, mask, &values);
+    }
 
     values.foreground = w->core.background_pixel;
     values.background = w->text.foreground_pixel;
-    w->text.highlightGC = XtGetGC((Widget)w, mask, &values);
+    if (w->text.international) {
+        w->text.highlightGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, 0);
+    } else {
+        w->text.highlightGC = XtGetGC((Widget)w, mask, &values);
+    }
 
     values.line_style = LineSolid;
     values.line_width = 0;
@@ -213,7 +321,7 @@ static void InitializeGC(TextFieldWidget w)
     w->text.dashGC = XtGetGC((Widget)w, mask, &values);
     XSetDashes(XtDisplay(w), w->text.dashGC, 0, &dots[1], (int)dots[0]);
 
-    w->text.YOffset = TopMargin(w) + FontAscent(w->text.font);
+    w->text.YOffset = TopMargin(w) + FontAscent(w);
 }
 
 static void ClipGC(TextFieldWidget w)
@@ -221,11 +329,44 @@ static void ClipGC(TextFieldWidget w)
     XRectangle clip;
 
     clip.x = 0;
-    clip.y = w->text.YOffset - FontAscent(w->text.font) + 1;
+    clip.y = w->text.YOffset - FontAscent(w) + 1;
     clip.width = w->text.ViewWidth + 1;
-    clip.height = FontHeight(w->text.font);
+    clip.height = FontHeight(w);
     XSetClipRectangles(XtDisplay((Widget)w), w->text.drawGC, w->text.Margin, 0, &clip, 1, Unsorted);
     XSetClipRectangles(XtDisplay((Widget)w), w->text.highlightGC, w->text.Margin, 0, &clip, 1, Unsorted);
+}
+
+/* From lib/X11/lcStd.c aka libX11/dist/src/xlibi18n/lcStd.c */
+typedef struct _XLCd *XLCd;
+extern int _Xmblen(char *str, int len);
+#define _Xmblen(str, bytes)        _Xmbtowc((wchar_t *) NULL, str, bytes)
+#define _Xmbtowc(wstr, str, bytes) _Xlcmbtowc((XLCd) NULL, wstr, str, bytes)
+extern int _Xlcmbtowc  (XLCd lcd, wchar_t *wstr, char *str, int bytes);
+extern int _Xlcmbstowcs(XLCd lcd, wchar_t *wstr, char *str, int bytes);
+extern int _Xlcwcstombs(XLCd lcd, char *str, wchar_t *wstr, int len);
+
+/*
+ * Return the number of characters in a nonterminated multibyte string.
+ */
+static int mb_strlen(char *s, int bytes)
+{
+    int len = 0;
+
+    while (bytes > 0) {
+        int onechar;
+
+        /* Heuristic: 1 byte can't be more than 1 char */
+        if (bytes == 1) {
+            return len + 1;
+        } else if ((onechar = _Xmblen(s, bytes)) <= 0) {
+            break;
+        }
+        s += onechar;
+        bytes -= onechar;
+        len++;
+    }
+
+    return len;
 }
 
 static void SetString(TextFieldWidget w, char *s)
@@ -240,10 +381,16 @@ static void SetString(TextFieldWidget w, char *s)
         }
         strcpy(w->text.Text, s);
         w->text.TextLen = len;
-        w->text.TextWidth = w->text.OldTextWidth = FontTextWidth(w->text.font, w->text.Text, w->text.TextLen);
         if ((w->text.TextMaxLen > 0) && (w->text.TextLen > w->text.TextMaxLen)) {
             w->text.TextMaxLen = w->text.TextLen;
         }
+        if (w->text.international) {
+             w->text.IntlText = (wchar_t *)XtRealloc((char *)w->text.IntlText,
+                                        sizeof(wchar_t) * w->text.TextAlloc);
+             /* "Len" is the number of bytes in "s" to be converted. */
+             w->text.IntlTextLen = _Xlcmbstowcs(NULL, w->text.IntlText, s, len);
+        }
+        w->text.TextWidth = w->text.OldTextWidth = TextWidth(w);
     }
     w->text.DefaultString = w->text.Text;
 }
@@ -265,6 +412,16 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
         new->text.TextAlloc = TEXTFIELD_ALLOC_SIZE;
     }
     new->text.Text = (char *)XtMalloc(new->text.TextAlloc);
+    if (new->text.international) {
+        /*
+         * Invariant assumption: the number of bytes in Text (TextAlloc)
+         * will be sufficient as the number of wide characters in IntlText,
+         * so they can share the value.
+         */
+        new->text.IntlText = (wchar_t *)XtMalloc(sizeof(wchar_t) * new->text.TextAlloc);
+    } else {
+        new->text.IntlText = NULL;
+    }
     new->text.TextLen = 0;
     new->text.SelectionText = NULL;
     new->text.TextWidth = new->text.OldTextWidth = 0;
@@ -283,7 +440,7 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
     new->text.HighlightStart = new->text.HighlightEnd = -1;
     new->text.OldHighlightStart = new->text.OldHighlightEnd = -1;
 
-    height = FontHeight(new->text.font);
+    height = FontHeight(new);
     if (new->core.height == 0) {
         new->core.height = (Dimension) height + TopMargin(new) + BottomMargin(new);
     }
@@ -307,6 +464,24 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
     InitializeGC(new);
 
     ClipGC(new);
+
+    new->text.xim = 0;
+    new->text.xic = 0;
+    new->text.selection_type = 0;
+
+    /*
+     * Assume a single program doesn't use multiple displays.
+     * Apart from that, these values are constant.
+     */
+    if (xa_compound_text == 0) {
+        xa_compound_text = XA_COMPOUND_TEXT(XtDisplay(new));
+    }
+    if (xa_text == 0) {
+        xa_text = XA_TEXT(XtDisplay(new));
+    }
+    if (xa_utf8_string == 0) {
+        xa_utf8_string = XA_UTF8_STRING(XtDisplay(new));
+    }
 }
 
 static void Destroy(TextFieldWidget w)
@@ -317,6 +492,15 @@ static void Destroy(TextFieldWidget w)
         XtFree(w->text.SelectionText);
     }
     XtFree(w->text.Text);
+    if (w->text.IntlText) {
+        XtFree((char *)w->text.IntlText);
+    }
+    if (w->text.xic) {
+        XDestroyIC(w->text.xic);
+    }
+    if (w->text.xim) {
+        XCloseIM(w->text.xim);
+    }
 }
 
 static void Redisplay(Widget aw, XExposeEvent *event, Region region)
@@ -336,7 +520,11 @@ static Boolean SetValues(Widget current, Widget request, Widget reply, ArgList a
     TextFieldWidget new = (TextFieldWidget)reply;
     Boolean redraw = False;
 
-    if ((w->text.foreground_pixel != new->text.foreground_pixel) || (w->core.background_pixel != new->core.background_pixel) || (w->text.font != new->text.font)) {
+    if ((w->text.foreground_pixel != new->text.foreground_pixel) ||
+        (w->core.background_pixel != new->core.background_pixel) ||
+        (w->text.international != new->text.international) ||
+        (w->text.fontSet != new->text.fontSet && w->text.international) ||
+        (w->text.font != new->text.font)) {
         XtReleaseGC((Widget)w, w->text.drawGC);
         XtReleaseGC((Widget)w, w->text.highlightGC);
         XtReleaseGC((Widget)w, w->text.cursorGC);
@@ -353,7 +541,11 @@ static Boolean SetValues(Widget current, Widget request, Widget reply, ArgList a
         redraw = True;
         SetString(new, new->text.DefaultString);
         new->text.HighlightStart = new->text.HighlightEnd = -1;
-        new->text.CursorPos = new->text.TextLen;
+        if (new->text.international) {
+            new->text.CursorPos = new->text.IntlTextLen;
+        } else {
+            new->text.CursorPos = new->text.TextLen;
+        }
 #ifdef DEBUG_TF
         printf("SetValues: %s\n", new->text.DefaultString);
 #endif
@@ -361,6 +553,25 @@ static Boolean SetValues(Widget current, Widget request, Widget reply, ArgList a
 
     return redraw;
 }
+
+#if 0
+static void GetValuesHook(Widget aw, ArgList arglist, Cardinal *argc)
+{
+    TextFieldWidget w = (TextFieldWidget)aw;
+    int i;
+
+    for (i = 0; i < *argc; i++) {
+        /*
+         * All values for XtGetValues() are pointers, so it is
+         * guaranteed we can dereference them.
+         */
+        //if (strcmp(XtNstring, arglist[i].name) == 0)
+        if (*(char **)arglist[i].value == w->text.DefaultString) {
+            /* FixupText2(aw); */
+        }
+    }
+}
+#endif
 
 static void Resize(Widget aw)
 {
@@ -374,7 +585,7 @@ static void Resize(Widget aw)
         w->text.ViewWidth = width;
     }
 
-    height = (((int) w->core.height - FontHeight(w->text.font)) / 2) + FontAscent(w->text.font);
+    height = (((int) w->core.height - FontHeight(w)) / 2) + FontAscent(w);
     w->text.YOffset = height;
 
     ClipGC(w);
@@ -384,17 +595,62 @@ static void Resize(Widget aw)
     }
 }
 
+static int FixupText(TextFieldWidget w)
+{
+    char *text = w->text.Text;
+    wchar_t *intltext = w->text.IntlText;
+    int textlen = w->text.TextAlloc;
+    return _Xlcwcstombs(NULL, text, intltext, textlen);
+}
+
+#if 0
+static void FixupText2(TextFieldWidget w)
+{
+    if (w->text.Text[0] == 0 && w->text.TextLen > 0) {
+        if (w->text.international) {
+            /* _X LoCale Wide Character String TO Multi-Byte String */
+            _Xlcwcstombs(NULL, w->text.Text, w->text.IntlText, w->text.TextAlloc);
+        } else {
+            int len = w->text.TextAlloc - 1;
+            char *buf = w->text.Text;
+            wchar_t *wbuf = w->text.IntlText;
+            /* Quick And Dirty Unicode -> Latin1 */
+            while (len > 0 && *wbuf) {
+                if (*wbuf < 0x0100) {
+                    *buf++ = *wbuf;
+                } else {
+                    *buf++ = '?';
+                }
+                wbuf++;
+                len--;
+            }
+            *buf++ = 0;
+            //return buf - w->w->text.Text;
+        }
+    }
+}
+#endif
+
 static void TextDelete(TextFieldWidget w, int start, int len)
 {
     int i;
 
     if (len > 0) {
-        for (i = start + len; i < w->text.TextLen; i++) {
-            w->text.Text[i - len] = w->text.Text[i];
+        if (w->text.international) {
+            for (i = start + len; i < w->text.IntlTextLen; i++) {
+                w->text.IntlText[i - len] = w->text.IntlText[i];
+            }
+            w->text.IntlTextLen -= len;
+            w->text.IntlText[w->text.IntlTextLen] = 0;
+            w->text.TextLen = FixupText(w);
+        } else {
+            for (i = start + len; i < w->text.TextLen; i++) {
+                w->text.Text[i - len] = w->text.Text[i];
+            }
+            w->text.TextLen -= len;
+            w->text.Text[w->text.TextLen] = 0;
         }
-        w->text.TextLen -= len;
-        w->text.TextWidth = FontTextWidth(w->text.font, w->text.Text, w->text.TextLen);
-        w->text.Text[w->text.TextLen] = 0;
+        w->text.TextWidth = TextWidth(w);
     }
 }
 
@@ -437,45 +693,89 @@ static Boolean TextInsert(TextFieldWidget w, char *buf, int len)
             }
             w->text.TextAlloc += i + 1;
             w->text.Text = XtRealloc(w->text.Text, w->text.TextAlloc);
+            if (w->text.international) {
+                w->text.IntlText = (wchar_t *)XtRealloc((char *)w->text.IntlText, sizeof(wchar_t) * w->text.TextAlloc);
+            }
 #ifdef DEBUG_TF
             printf("TextInsert: Alloced new space: %d bytes\n", w->text.TextAlloc);
 #endif
+            w->text.DefaultString = w->text.Text;
         }
         if (regular_copy) {
-            for (i = w->text.TextLen - 1; i >= w->text.CursorPos; i--) {
-                w->text.Text[i + len] = w->text.Text[i];
-            }
-            strncpy(&w->text.Text[w->text.CursorPos], buf, len);
             w->text.FastInsertCursorStart = w->text.CursorPos;
-            w->text.FastInsertTextLen = len;
+
+            if (w->text.international) {
+                int intllen = mb_strlen(buf, len);
+
+                for (i = w->text.IntlTextLen - 1; i >= w->text.CursorPos; i--) {
+                    w->text.IntlText[i + intllen] = w->text.IntlText[i];
+                }
+                _Xlcmbstowcs(NULL, &w->text.IntlText[w->text.CursorPos], buf, intllen);
+
+                w->text.CursorPos += intllen;
+                w->text.IntlTextLen += intllen;
+                w->text.IntlText[w->text.IntlTextLen] = 0;
+                FixupText(w);
+                w->text.FastInsertTextLen = intllen;
+            } else {
+                for (i = w->text.TextLen - 1; i >= w->text.CursorPos; i--) {
+                    w->text.Text[i + len] = w->text.Text[i];
+                }
+                strncpy(&w->text.Text[w->text.CursorPos], buf, len);
+                w->text.CursorPos += len;
+                w->text.FastInsertTextLen = len;
+            }
             w->text.TextLen += len;
-            w->text.CursorPos += len;
         } else {
             int i1;
 
-            for (i = w->text.TextLen - 1; i >= w->text.CursorPos; i--) {
-                if (i + len < w->text.TextMaxLen) {
-                    w->text.Text[i + len] = w->text.Text[i];
+            if (w->text.international) {
+                int intllen = mb_strlen(buf, len);
+                int tocopy;
+
+                for (i = w->text.IntlTextLen - 1; i >= w->text.CursorPos; i--) {
+                    if (i + len < w->text.TextMaxLen) {
+                        w->text.IntlText[i + intllen] = w->text.IntlText[i];
+                    }
+                }
+                w->text.IntlTextLen += intllen;
+                if (w->text.IntlTextLen > w->text.TextMaxLen) {
+                    w->text.IntlTextLen = w->text.TextMaxLen;
+                }
+                i1 = w->text.CursorPos;
+                tocopy = w->text.TextMaxLen - i1;
+                tocopy = min(tocopy, intllen);
+                _Xlcmbstowcs(NULL, &w->text.IntlText[i1], buf, tocopy);
+                i1 += tocopy;
+
+                w->text.IntlText[w->text.IntlTextLen] = 0;
+                w->text.TextLen = FixupText(w);
+            } else {
+                for (i = w->text.TextLen - 1; i >= w->text.CursorPos; i--) {
+                    if (i + len < w->text.TextMaxLen) {
+                        w->text.Text[i + len] = w->text.Text[i];
+                    }
+                }
+                w->text.TextLen += len;
+                if (w->text.TextLen > w->text.TextMaxLen) {
+                    w->text.TextLen = w->text.TextMaxLen;
+                }
+                i1 = w->text.CursorPos;
+                for (i = 0; i < len; i++) {
+                    if (i1 < w->text.TextMaxLen) {
+                        w->text.Text[i1] = *buf++;
+                    } else {
+                        break;
+                    }
+                    i1++;
                 }
             }
-            w->text.TextLen += len;
-            if (w->text.TextLen > w->text.TextMaxLen) {
-                w->text.TextLen = w->text.TextMaxLen;
-            }
-            i1 = w->text.CursorPos;
-            for (i = 0; i < len; i++) {
-                if (i1 < w->text.TextMaxLen) {
-                    w->text.Text[i1] = *buf++;
-                } else {
-                    break;
-                }
-                i1++;
-            }
+
             w->text.FastInsertCursorStart = w->text.CursorPos;
             w->text.FastInsertTextLen = i1 - w->text.CursorPos;
             w->text.CursorPos = i1;
         }
-        w->text.TextWidth = FontTextWidth(w->text.font, w->text.Text, w->text.TextLen);
+        w->text.TextWidth = TextWidth(w);
         w->text.Text[w->text.TextLen] = 0;
     }
     return fast_insert;
@@ -484,6 +784,8 @@ static Boolean TextInsert(TextFieldWidget w, char *buf, int len)
 static int TextPixelToPos(TextFieldWidget w, int x)
 {
     int i, tot, cur, pos;
+    int textlen = w->text.international ? w->text.IntlTextLen
+                                        : w->text.TextLen;
 
     pos = 0;
 
@@ -492,13 +794,13 @@ static int TextPixelToPos(TextFieldWidget w, int x)
     /* check if the cursor is before the 1st character */
     if (x <= 0) {
         pos = 0;
-    } else if (x > FontTextWidth(w->text.font, w->text.Text, w->text.TextLen)) {
-        pos = w->text.TextLen;
+    } else if (x > w->text.TextWidth) {
+        pos = textlen;
     } else {
         tot = 0;
         pos = -1;
-        for (i = 0; i < w->text.TextLen; i++) {
-            cur = FontTextWidth(w->text.font, &w->text.Text[i], 1);
+        for (i = 0; i < textlen; i++) {
+            cur = TextWidthFromPos(w, i, 1);
             if (x < tot + (cur / 2)) {
                 pos = i;
                 break;
@@ -506,7 +808,7 @@ static int TextPixelToPos(TextFieldWidget w, int x)
             tot += cur;
         }
         if (pos < 0) {
-            pos = w->text.TextLen;
+            pos = textlen;
         }
     }
     return pos;
@@ -551,13 +853,16 @@ static void Activate(Widget aw, XEvent *event, String *params, Cardinal *num_par
 static void ForwardChar(Widget aw, XEvent *event, String *params, Cardinal *num_params)
 {
     TextFieldWidget w = (TextFieldWidget)aw;
+    int textlen;
 
     if (!w->text.Editable) {
         return;
     }
 
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
     ClearHighlight(w);
-    if (w->text.CursorPos < w->text.TextLen) {
+    if (w->text.CursorPos < textlen) {
         w->text.CursorPos++;
         EraseCursor(w);
         if (PositionCursor(w)) {
@@ -592,6 +897,9 @@ static void InsertChar(Widget aw, XEvent *event, String *params, Cardinal *num_p
 {
     TextFieldWidget w = (TextFieldWidget)aw;
     int len;
+    KeySym keysym;
+    static XComposeStatus compose;
+    Status status;
 
 #define INSERTCHARBUFSIZ 32
     char buf[INSERTCHARBUFSIZ];
@@ -600,7 +908,27 @@ static void InsertChar(Widget aw, XEvent *event, String *params, Cardinal *num_p
         return;
     }
 
-    len = XLookupString((XKeyEvent *)event, buf, BUFSIZ, NULL, NULL);
+    if (w->text.xic) {
+        if (w->text.international) {
+            len = XmbLookupString(w->text.xic, (XKeyEvent *)event, buf, BUFSIZ, &keysym, &status);
+        } else {    /* Assume Unicode */
+            wchar_t wbuf[INSERTCHARBUFSIZ];
+            int i;
+
+            len = XwcLookupString(w->text.xic, (XKeyEvent *)event, wbuf, BUFSIZ, &keysym, &status);
+            /* Quick And Dirty Unicode -> Latin1 */
+            for (i = 0; i < len; i++) {
+                if (wbuf[i] < 0x0100) {
+                    buf[i] = wbuf[i];
+                } else {
+                    buf[i] = '?';
+                }
+            }
+        }
+    } else {
+        len = XLookupString((XKeyEvent *)event, buf, BUFSIZ, NULL, &compose);
+    }
+
     if (len > 0) {
         EraseCursor(w);
         if (TextInsert(w, buf, len)) {
@@ -616,15 +944,19 @@ static void InsertChar(Widget aw, XEvent *event, String *params, Cardinal *num_p
 static void DeleteNext(Widget aw, XEvent *event, String *params, Cardinal *num_params)
 {
     TextFieldWidget w = (TextFieldWidget)aw;
+    int textlen;
 
     if (!w->text.Editable) {
         return;
     }
 
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
+
     if (w->text.HighlightStart >= 0 && w->text.PendingDelete) {
         TextDeleteHighlighted(w);
         MassiveChangeDraw(w);
-    } else if (w->text.CursorPos < w->text.TextLen) {
+    } else if (w->text.CursorPos < textlen) {
         ClearHighlight(w);
         TextDelete(w, w->text.CursorPos, 1);
         Draw(w);
@@ -788,6 +1120,9 @@ static void ExtendAdjust(Widget aw, XEvent *event, String *params, Cardinal *num
     }
 }
 
+/*
+ * Convert selection for use by other programs, if asked.
+ */
 /* ARGSUSED */
 static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *type, XtPointer *value, unsigned long *length, int *format)
 {
@@ -795,26 +1130,71 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
     XSelectionRequestEvent *req = XtGetSelectionRequest(aw, *selection, NULL);
 
     if (*target == XA_TARGETS(XtDisplay(aw))) {
+        /* A request to know which formats we support */
         Atom *targetP;
         XPointer std_targets;
         unsigned long std_length;
+        int num_atoms;
 
         XmuConvertStandardSelection(aw, req->time, selection, target, type, &std_targets, &std_length, format);
 
-        *value = XtMalloc((unsigned)sizeof(Atom) * (std_length + 1));
+        num_atoms = std_length + 1;
+        if (w->text.international) {
+            num_atoms += 3;
+        }
+
+        *value = XtMalloc((unsigned)sizeof(Atom) * num_atoms);
         targetP = *(Atom **)value;
-        *length = std_length + 1;
+        *length = num_atoms;
+        if (w->text.international) {
+            *targetP++ = xa_utf8_string;
+            *targetP++ = xa_text;
+            *targetP++ = xa_compound_text;
+        }
         *targetP++ = XA_STRING;
         memmove((char *)targetP, (char *)std_targets, sizeof(Atom) * std_length);
         XtFree((char *)std_targets);
         *type = XA_ATOM;
         *format = sizeof(Atom) * 8;
         return True;
-    } else if (*target == XA_STRING) {
+    } else if (w->text.international &&
+                (*target == xa_utf8_string ||   /* UTF-8 */
+                 *target == xa_text ||          /* User's locale */
+                 *target == xa_compound_text || /* you don't want to know */
+                 *target == XA_STRING)) {       /* Latin-1 */
+        XTextProperty text_prop;
+        Atom tgt = *target;
+        XICCEncodingStyle style = XStdICCTextStyle; /* STRING, else COMPOUND_TEXT */
+        int success;
+
+        if (tgt == XA_STRING) {
+            style = XStringStyle;
+        } else if (tgt == xa_utf8_string) {
+            style = XUTF8StringStyle;
+        } else if (tgt == xa_text) {
+            style = XTextStyle;
+        }
+
+        success = XwcTextListToTextProperty(XtDisplay(w),
+                (wchar_t **)&w->text.SelectionText, 1, style, &text_prop);
+        if (success == Success) {
+            *length = text_prop.nitems;
+            *value = (XtPointer)(text_prop.value);
+            *type = text_prop.encoding;
+            *format = text_prop.format;
+            return True;
+        }
+        /* Intrinsics XFree()s this memory since there is no DoneProc. */
+    } else if (w->text.international == False && *target == XA_STRING) {  // Latin1
         *length = (long)w->text.SelectionLen;
-        *value = w->text.SelectionText;
+        *value = XtMalloc(*length);
+        strncpy(*value, w->text.SelectionText, w->text.SelectionLen);
         *type = XA_STRING;
         *format = 8;
+        return True;
+        /* Intrinsics XFree()s this memory since there is no DoneProc. */
+    } else if (XmuConvertStandardSelection(aw, req->time, selection, target,
+                type, (XPointer *)value, length, format)) {
         return True;
     }
     return False;
@@ -848,37 +1228,90 @@ static void ExtendEnd(Widget aw, XEvent *event, String *params, Cardinal *num_pa
         if (w->text.SelectionText) {
             XtFree(w->text.SelectionText);
         }
-        w->text.SelectionText = XtMalloc(len);
-        strncpy(w->text.SelectionText, &w->text.Text[w->text.HighlightStart], len);
+        if (w->text.international) {
+            wchar_t *ptr;
+            ptr = (wchar_t *)XtMalloc((len+1) * sizeof(wchar_t));
+            wcsncpy(ptr, &w->text.IntlText[w->text.HighlightStart], len);
+            ptr[len] = 0;
+            w->text.SelectionText = (char *)ptr;
+        } else {
+            w->text.SelectionText = XtMalloc(len+1);
+            strncpy(w->text.SelectionText, &w->text.Text[w->text.HighlightStart], len);
+            w->text.SelectionText[len] = 0;
+        }
 
         XtOwnSelection(aw, XA_PRIMARY, event->xbutton.time, ConvertSelection, LoseSelection, NULL);
-        XChangeProperty(XtDisplay(aw), DefaultRootWindow(XtDisplay(aw)), XA_CUT_BUFFER0, XA_STRING, 8, PropModeReplace, (unsigned char *)w->text.SelectionText, len);
+        if (w->text.international == False) {
+            XChangeProperty(XtDisplay(aw), DefaultRootWindow(XtDisplay(aw)), XA_CUT_BUFFER0, XA_STRING, 8, PropModeReplace, (unsigned char *)w->text.SelectionText, len);
+        }
     }
 }
 
 /* ARGSUSED */
-static void RequestSelection(Widget aw, XtPointer client, Atom * selection, Atom * type, XtPointer value, unsigned long *length, int *format)
+static void ReceiveSelection(Widget aw, XtPointer client, Atom * selection, Atom * type, XtPointer value, unsigned long *length, int *format)
 {
     TextFieldWidget w = (TextFieldWidget)aw;
 
+    if (*type == XT_CONVERT_FAIL || *length == 0) {
+        /* Try another type of conversion */
+        Atom next_type;
+        if (w->text.selection_type == xa_utf8_string) {
+            next_type = xa_text;
+        } else if (w->text.selection_type == xa_text) {
+            next_type = xa_compound_text;
+        } else if (w->text.selection_type == xa_compound_text) {
+            next_type = XA_STRING;
+        } else {    /* give up */
+            w->text.selection_type = 0;
+            return;
+        }
+        /* Try again with next type */
+        w->text.selection_type = next_type;
+        XtGetSelectionValue(aw, XA_PRIMARY, next_type, ReceiveSelection,
+                            value, w->text.selection_time);
+        return;
+    } else
     if ((value == NULL) || (*length == 0)) {
 #ifdef DEBUG_TF
-        printf("RequestSelection: no selection\n");
+        printf("ReceiveSelection: no selection\n");
 #endif
     } else {
         int savex;
 
         ClearHighlight(w);
         savex = w->text.OldCursorX;
-        w->text.CursorPos = (int)client;
+        w->text.CursorPos = (int)(intptr_t)client;
 #ifdef DEBUG_TF
-        printf("RequestSelection: inserting %s length=%d at pos: %d\n", (char *)value, (int)(*length), w->text.CursorPos);
+        printf("ReceiveSelection: format %d type %d inserting '%s' length=%d at pos: %d\n", *format, (int)*type, (char *)value, (int)(*length), w->text.CursorPos);
 #endif
-        TextInsert(w, (char *)value, (int)(*length));
+        if (w->text.international) {
+            XTextProperty text_prop;
+            char        **text_list = NULL;
+            int           status;
+            int           n_text = 0;
+
+            text_prop.value = value;
+            text_prop.encoding = *type;
+            text_prop.format = *format;
+            text_prop.nitems = *length;
+
+            status = XmbTextPropertyToTextList(XtDisplay(aw), &text_prop,
+                                                         &text_list, &n_text);
+            if (status == Success && n_text >= 1) {
+                TextInsert(w, text_list[0], strlen(text_list[0]));
+            }
+            if (text_list != NULL) {
+                XFreeStringList(text_list);
+            }
+        } else {
+            /* We only requested XA_STRING */
+            TextInsert(w, (char *)value, (int)(*length));
+        }
         w->text.OldCursorX = savex;
         Draw(w);
         TextChanged(w);
     }
+    w->text.selection_type = 0;
 }
 
 /* ARGSUSED */
@@ -886,8 +1319,10 @@ static void InsertSelection(Widget aw, XEvent *event, String *params, Cardinal *
 {
     TextFieldWidget w = (TextFieldWidget)aw;
     int pos;
+    Atom type;
 
-    if (!w->text.AllowSelection) {
+    /* Assure that no multiple paste operations will be in progress at once */
+    if (!w->text.AllowSelection || w->text.selection_type != 0) {
         return;
     }
 
@@ -895,7 +1330,40 @@ static void InsertSelection(Widget aw, XEvent *event, String *params, Cardinal *
 #ifdef DEBUG_TF
     printf("InsertSelection: event at pos: %d\n", pos);
 #endif
-    XtGetSelectionValue(aw, XA_PRIMARY, XA_STRING, RequestSelection, (XtPointer)pos, event->xbutton.time);
+    /* xterm(1) section SELECTION TARGETS explains. */
+    type = w->text.international ? xa_utf8_string : XA_STRING;
+    w->text.selection_type = type;
+    w->text.selection_time = event->xbutton.time;
+    XtGetSelectionValue(aw, XA_PRIMARY, type, ReceiveSelection,
+            (XtPointer)(intptr_t)pos, event->xbutton.time);
+}
+
+static void ActionFocusIn(Widget aw, XEvent *event, String *params, Cardinal *num_params)
+{
+    TextFieldWidget w = (TextFieldWidget)aw;
+
+    if (w->text.xim == NULL) {
+        w->text.xim = XOpenIM(XtDisplay(aw), NULL, NULL, NULL);
+        if (w->text.xim) {
+            w->text.xic = XCreateIC(w->text.xim,
+                            XNInputStyle, XIMPreeditNothing|XIMStatusNothing,
+                            XNClientWindow, XtWindow(aw),
+                            XNFocusWindow, XtWindow(aw),
+                            NULL);
+        }
+    }
+    if (w->text.xic) {
+        XSetICFocus(w->text.xic);
+    }
+}
+
+static void ActionFocusOut(Widget aw, XEvent *event, String *params, Cardinal *num_params)
+{
+    TextFieldWidget w = (TextFieldWidget)aw;
+
+    if (w->text.xic) {
+        XUnsetICFocus(w->text.xic);
+    }
 }
 
 /*
@@ -906,14 +1374,18 @@ static Boolean PositionCursor(TextFieldWidget w)
 {
     int x, start, end;
     Boolean moved;
+    int textlen;
+
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
 
     moved = False;
     if (w->text.CursorPos < 0) {
         w->text.CursorPos = 0;
-    } else if (w->text.CursorPos > w->text.TextLen) {
-        w->text.CursorPos = w->text.TextLen;
+    } else if (w->text.CursorPos > textlen) {
+        w->text.CursorPos = textlen;
     }
-    x = FontTextWidth(w->text.font, w->text.Text, w->text.CursorPos);
+    x = TextWidthFromLeft(w, w->text.CursorPos);
     start = -w->text.XOffset;
     end = start + w->text.ViewWidth;
     if (x < start) {
@@ -932,9 +1404,9 @@ static Boolean MassiveCursorAdjust(TextFieldWidget w)
     Boolean moved;
 
     moved = False;
-    end = FontTextWidth(w->text.font, w->text.Text, w->text.CursorPos);
+    end = TextWidthFromLeft(w, w->text.CursorPos);
     if (w->text.HighlightStart >= 0) {
-        start = FontTextWidth(w->text.font, w->text.Text, w->text.HighlightStart);
+        start = TextWidthFromLeft(w, w->text.HighlightStart);
     } else {
       start = end;
     }
@@ -947,7 +1419,7 @@ static Boolean MassiveCursorAdjust(TextFieldWidget w)
     } else if (start >= w->text.XOffset && end < w->text.XOffset + w->text.ViewWidth) {
         return moved;
     } else {
-        last = FontTextWidth(w->text.font, w->text.Text, w->text.TextLen);
+        last = w->text.TextWidth;
         if (start - end > w->text.ViewWidth) {
             if (last - end > w->text.ViewWidth) {
                 w->text.XOffset = w->text.ViewWidth - last;
@@ -971,12 +1443,16 @@ static void DrawText(TextFieldWidget w, int start, int end, Boolean highlight)
 {
     int x;
     GC gc;
+    int textlen;
 
     if (!w->text.Echo) {
         return;
     }
 
-    if (w->text.TextLen > 0) {
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
+
+    if (textlen > 0) {
         if (start < 0) {
             return;
         } else if (end < start) {
@@ -986,14 +1462,20 @@ static void DrawText(TextFieldWidget w, int start, int end, Boolean highlight)
             start = end;
             end = temp;
         }
-        if (end <= w->text.TextLen) {
-            x = w->text.Margin + w->text.XOffset + FontTextWidth(w->text.font, w->text.Text, start);
+        if (end <= textlen) {
             if (highlight) {
                 gc = w->text.highlightGC;
             } else {
                 gc = w->text.drawGC;
             }
-            XDrawImageString(XtDisplay(w), XtWindow(w), gc, x, w->text.YOffset, &w->text.Text[start], end - start);
+            x = w->text.Margin + w->text.XOffset + TextWidthFromLeft(w, start);
+            if (w->text.international) {
+                XwcDrawImageString(XtDisplay(w), XtWindow(w), w->text.fontSet,
+                    gc, x, w->text.YOffset, &w->text.IntlText[start], end - start);
+            } else {
+                XDrawImageString(XtDisplay(w), XtWindow(w),
+                    gc, x, w->text.YOffset, &w->text.Text[start], end - start);
+            }
         }
     }
 }
@@ -1096,7 +1578,7 @@ static void DrawTextWithCopyArea(TextFieldWidget w)
     }
 
     x = w->text.XOffset;
-    insert_width = FontTextWidth(w->text.font, &w->text.Text[w->text.FastInsertCursorStart], w->text.FastInsertTextLen);
+    insert_width = TextWidthFromPos(w, w->text.FastInsertCursorStart, w->text.FastInsertTextLen);
     if (PositionCursor(w)) {
         /*
          *  if the text is scrolled, then:
@@ -1117,7 +1599,7 @@ static void DrawTextWithCopyArea(TextFieldWidget w)
          * 1.  the text left of the cursor won't change
          * 2.  the stuff after the cursor will be moved right.
          */
-        xsrc = FontTextWidth(w->text.font, w->text.Text, w->text.FastInsertCursorStart) + x;
+        xsrc = TextWidthFromLeft(w, w->text.FastInsertCursorStart) + x;
         width = w->text.ViewWidth - xsrc;
         xdest = xsrc + insert_width;
         XCopyArea(XtDisplay(w), XtWindow(w), XtWindow(w), w->text.drawGC, w->text.Margin + xsrc, 0, (unsigned int)width, (unsigned int)w->core.height, w->text.Margin + xdest, 0);
@@ -1145,11 +1627,15 @@ static void DrawTextWithCopyArea(TextFieldWidget w)
 
 static void DrawAllText(TextFieldWidget w)
 {
+    int textlen;
+
     if (!w->text.Echo) {
         return;
     }
 
-    DrawTextRange(w, 0, w->text.TextLen);
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
+    DrawTextRange(w, 0, textlen);
     if (w->text.TextWidth < w->text.OldTextWidth) {
         XClearArea(XtDisplay(w), XtWindow(w), w->text.Margin + w->text.XOffset + w->text.TextWidth, 0, w->text.OldTextWidth - w->text.TextWidth + 1, w->core.height, False);
     }
@@ -1162,9 +1648,12 @@ static void DrawAllText(TextFieldWidget w)
 /* Draw an I-beam cursor */
 static void DrawIBeamCursor(TextFieldWidget w, int x, GC gc)
 {
-    XDrawLine(XtDisplay(w), XtWindow(w), gc, x, w->text.YOffset - FontAscent(w->text.font) - 1, x, w->text.YOffset + FontDescent(w->text.font) + 1);
-    XDrawLine(XtDisplay(w), XtWindow(w), gc, x - 2, w->text.YOffset - FontAscent(w->text.font) - 1, x + 2, w->text.YOffset - FontAscent(w->text.font) - 1);
-    XDrawLine(XtDisplay(w), XtWindow(w), gc, x - 2, w->text.YOffset + FontDescent(w->text.font) + 1, x + 2, w->text.YOffset + FontDescent(w->text.font) + 1);
+    int ascent = FontAscent(w);
+    int descent = FontDescent(w);
+
+    XDrawLine(XtDisplay(w), XtWindow(w), gc, x, w->text.YOffset - ascent - 1, x, w->text.YOffset + descent + 1);
+    XDrawLine(XtDisplay(w), XtWindow(w), gc, x - 2, w->text.YOffset - ascent - 1, x + 2, w->text.YOffset - ascent - 1);
+    XDrawLine(XtDisplay(w), XtWindow(w), gc, x - 2, w->text.YOffset + descent + 1, x + 2, w->text.YOffset + descent + 1);
 }
 
 static void DrawCursor(TextFieldWidget w)
@@ -1173,7 +1662,7 @@ static void DrawCursor(TextFieldWidget w)
     GC gc;
 
     if (w->text.DisplayCursor) {
-        x = FontTextWidth(w->text.font, w->text.Text, w->text.CursorPos);
+        x = TextWidthFromLeft(w, w->text.CursorPos);
         w->text.OldCursorPos = w->text.CursorPos;
         w->text.OldCursorX = x;
         x += w->text.Margin + w->text.XOffset;
@@ -1186,6 +1675,7 @@ static void DrawCursor(TextFieldWidget w)
 static void EraseCursor(TextFieldWidget w)
 {
     int x;
+    int textlen;
 
     if (w->text.DisplayCursor && w->text.OldCursorX >= 0) {
         x = w->text.OldCursorX + w->text.Margin + w->text.XOffset;
@@ -1194,7 +1684,9 @@ static void EraseCursor(TextFieldWidget w)
         /* Little hack to fix up the character that might have been affected by
          * erasing the old cursor.
          */
-        if (w->text.OldCursorPos < w->text.TextLen) {
+        textlen = w->text.international ? w->text.IntlTextLen
+                                        : w->text.TextLen;
+        if (w->text.OldCursorPos < textlen) {
             DrawTextRange(w, w->text.OldCursorPos, w->text.OldCursorPos + 1);
         }
     }
@@ -1269,6 +1761,11 @@ static void MassiveChangeDraw(TextFieldWidget w)
  *
  * Note that this set of functions is only a subset of the functions available
  * in the real Motif XmTextField.
+ *
+ * When international == True:
+ * positions are in terms of characters, not bytes.
+ * strings are in the user's locale, which may mean UTF-8, or
+ * another variable length encoding.
  */
 Boolean TextFieldGetEditable(Widget aw)
 {
@@ -1312,13 +1809,15 @@ char *TextFieldGetString(Widget aw)
 void TextFieldInsert(Widget aw, int pos, char *str)
 {
     TextFieldWidget w = (TextFieldWidget)aw;
-    int len;
+    int len, textlen;
 
     if (!XtIsTextField(aw)) {
         return;
     }
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
 
-    if (str && ((len = strlen(str)) > 0) && pos >= 0 && pos <= w->text.TextLen) {
+    if (str && ((len = strlen(str)) > 0) && pos >= 0 && pos <= textlen) {
         w->text.HighlightStart = w->text.HighlightEnd = pos;
         TextInsert(w, str, len);
         MassiveChangeDraw(w);
@@ -1336,9 +1835,11 @@ void TextFieldReplace(Widget aw, int first, int last, char *str)
     }
 
     if (str) {
+        int textlen = w->text.international ? w->text.IntlTextLen
+                                            : w->text.TextLen;
         len = strlen(str);
-        if (last > w->text.TextLen) {
-            last = w->text.TextLen;
+        if (last > textlen) {
+            last = textlen;
         }
         if (first <= last) {
             w->text.HighlightStart = first;
@@ -1365,12 +1866,15 @@ void TextFieldSetEditable(Widget aw, Boolean editable)
 void TextFieldSetInsertionPosition(Widget aw, int pos)
 {
     TextFieldWidget w = (TextFieldWidget)aw;
+    int textlen;
 
     if (!XtIsTextField(aw)) {
         return;
     }
 
-    if (pos >= 0 && pos <= w->text.TextLen) {
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
+    if (pos >= 0 && pos <= textlen) {
         w->text.CursorPos = pos;
         MassiveChangeDraw(w);
     }
@@ -1380,6 +1884,7 @@ void TextFieldSetInsertionPosition(Widget aw, int pos)
 void TextFieldSetSelection(Widget aw, int start, int end, Time time)
 {
     TextFieldWidget w = (TextFieldWidget)aw;
+    int textlen;
 
     if (!XtIsTextField(aw)) {
         return;
@@ -1395,8 +1900,10 @@ void TextFieldSetSelection(Widget aw, int start, int end, Time time)
     if (start < 0) {
         start = 0;
     }
-    if (end > w->text.TextLen) {
-        end = w->text.TextLen;
+    textlen = w->text.international ? w->text.IntlTextLen
+                                    : w->text.TextLen;
+    if (end > textlen) {
+        end = textlen;
     }
     w->text.HighlightStart = start;
     w->text.HighlightEnd = w->text.CursorPos = end;
@@ -1406,18 +1913,19 @@ void TextFieldSetSelection(Widget aw, int start, int end, Time time)
 void TextFieldSetString(Widget aw, char *str)
 {
     TextFieldWidget w = (TextFieldWidget)aw;
-    int len;
 
     if (!XtIsTextField(aw)) {
         return;
     }
 
     if (str) {
-        len = strlen(str);
+        int textlen = w->text.international ? w->text.IntlTextLen
+                                            : w->text.TextLen;
         w->text.HighlightStart = 0;
-        w->text.HighlightEnd = w->text.TextLen;
+        w->text.HighlightEnd = textlen;
         TextDeleteHighlighted(w);
-        TextInsert(w, str, len);
+        textlen = strlen(str);
+        TextInsert(w, str, textlen);
         MassiveChangeDraw(w);
         TextChanged(w);
     }

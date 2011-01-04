@@ -75,6 +75,7 @@
  defaultColumns        Columns             int              1                     *2
  destroyCallback       Callback            Pointer          NULL 
  font                  Font                XFontStruct*     XtDefaultFont
+ fontSet               FontSet             XFontSet         XtDefaultFontSet
  forceColumns          Columns             Boolean          False                 *2
  foreground            Foreground          Pixel            XtDefaultForeground
  height                Height              Dimension        0                     *3
@@ -208,7 +209,7 @@
 #define XtCTablist "Tablist"
 #endif
 
-	/* Class Record Constants */
+        /* Class Record Constants */
 
 extern WidgetClass xfwfMultiListWidgetClass;
 

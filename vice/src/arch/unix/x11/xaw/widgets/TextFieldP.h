@@ -47,6 +47,7 @@ typedef struct {
     long foreground_pixel;	/* data storage for resources ... */
     long cursor_pixel;
     XFontStruct *font;
+    XFontSet fontSet;
     Dimension Margin;
     int TextMaxLen;
     Boolean Echo;
@@ -54,6 +55,7 @@ typedef struct {
     Boolean DisplayCursor;
     Boolean AllowSelection;
     Boolean PendingDelete;
+    Boolean international;
     char *DefaultString;
     XtCallbackList ActivateCallback;
     XtCallbackList TextChangeCallback;
@@ -75,27 +77,34 @@ typedef struct {
     int OldHighlightStart;	/* save data */
     int OldHighlightEnd;
 
-    char *Text;			/* pointer to the text */
-    int TextAlloc;		/* number of bytes allocated for the text */
-    int TextLen;			/* current length of text */
+    char *Text;                 /* pointer to the text */
+    int TextAlloc;              /* number of bytes allocated for the text */
+    int TextLen;                /* current length of text (in characters) */
+    wchar_t *IntlText;          /* wc version of text */
+    int IntlTextLen;            /* length in wide characters */
+    int IntlTextAlloc;          /* number of bytes allocated for IntlText */
 
-    char *SelectionText;		/* pointer to text selection, when needed */
-    int SelectionLen;		/* length */
+    char *SelectionText;        /* pointer to text selection, when needed */
+    int SelectionLen;           /* length */
 
-    int FastInsertCursorStart;	/* data storage for some text optimization */
+    int FastInsertCursorStart;  /* data storage for some text optimization */
     int FastInsertTextLen;
 
-    Dimension ViewWidth;		/* visible width of widget */
-    int XOffset;			/* offset from x=0 to start of text string */
+    Dimension ViewWidth;        /* visible width of widget */
+    int XOffset;                /* offset from x=0 to start of text string */
     int OldXOffset;
-    int YOffset;			/* y pixel offset to baseline of font */
-    int TextWidth;		/* char width of text */
+    int YOffset;                /* y pixel offset to baseline of font */
+    int TextWidth;              /* char width of text */
     int OldTextWidth;
 
     XtIntervalId timer_id;	/* timer for double click test */
     int timer_x;			/* save event x pos */
     int highlight_time;		/* time delay for scrolling */
-    int multi_click_time;		/* local storage for XtGetMultiClickTime */
+    int multi_click_time;       /* local storage for XtGetMultiClickTime */
+    XIM xim;                    /* X Input Method */
+    XIC xic;                    /* X Input Context */
+    Atom selection_type;        /* Requested type for paste into text */
+    long selection_time;
 } TextFieldPart;
 
 typedef struct _TextFieldRec {

@@ -478,14 +478,14 @@ static String fallback_resources[] = {
     "*international:                                 True",
     /* If international, the fonts are taller (presumably allowing for more
      * extensive ascenders/descenders) which makes the menus too big.
-     * So, "fix" the height here. If "international" is disabled,
-     * this one should be too.
+     * So, "fix" the height here. It is a percentage to add to the height.
+     * If "international" is disabled "vertSpace" should be too.
      */
     "*SmeBSB.vertSpace:                              -15",
     "*font:                                        -*-lucida-bold-r-*-*-12-*",
-    "*fontSet:                                     -*-lucida-bold-r-*-*-12-*",
+    "*fontSet:                                     -*-lucida-bold-r-*-*-12-*,-*-*-*-*-*-*-12-*-*-*-*-*-iso10646-*",
     "*Command.font:                                -*-lucida-bold-r-*-*-12-*",
-    "*Command.fontSet:                             -*-lucida-bold-r-*-*-12-*",
+    "*Command.fontSet:                             -*-lucida-bold-r-*-*-12-*,-*-*-*-*-*-*-12-*-*-*-*-*-iso10646-*",
     "*fileSelector.width:			     380",
     "*fileSelector.height:			     300",
     "*inputDialog.inputForm.borderWidth:	     0",

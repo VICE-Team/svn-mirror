@@ -99,6 +99,7 @@ typedef struct {
     int longest;
     int nitems;
     XFontStruct *font;
+    XFontSet fontSet;
     String *list;
     Boolean *sensitive_array;
     XtCallbackList callback;
@@ -153,6 +154,8 @@ typedef struct _XfwfMultiListRec {
 #define MultiListAncesSensitive(w) (InstanceCore(w)->ancestor_sensitive)
 #define MultiListDepth(w)          (InstanceCore(w)->depth)
 
+#define MultiListInternational(w)  (InstanceSimple(w)->international)
+
 #define MultiListFG(w)             (InstanceMultiList(w)->foreground)
 #define MultiListHighlightFG(w)    (InstanceMultiList(w)->highlight_fg)
 #define MultiListHighlightBG(w)    (InstanceMultiList(w)->highlight_bg)
@@ -165,6 +168,7 @@ typedef struct _XfwfMultiListRec {
 #define MultiListLongest(w)        (InstanceMultiList(w)->longest)
 #define MultiListNumItems(w)       (InstanceMultiList(w)->nitems)
 #define MultiListFont(w)           (InstanceMultiList(w)->font)
+#define MultiListFontSet(w)        (InstanceMultiList(w)->fontSet)
 #define MultiListList(w)           (InstanceMultiList(w)->list)
 #define MultiListSensitiveArray(w) (InstanceMultiList(w)->sensitive_array)
 #define MultiListCallback(w)       (InstanceMultiList(w)->callback)

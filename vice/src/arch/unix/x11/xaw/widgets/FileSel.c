@@ -25,6 +25,7 @@
  *
  * More changes, for the use case "create a new file", by Olaf Seibert.
  * More changes, to make it a directory chooser too, by Olaf Seibert.
+ * International support by Olaf Seibert <rhialto@falu.nl>
  *
  */
 
@@ -53,14 +54,14 @@
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Toggle.h>
 
-#ifndef ENABLE_TEXTFIELD		/* [EP] 11/14/96 */
-#include <X11/Xaw/AsciiText.h>
-#endif
-
 #include "ScrList.h"
 #include "FileSelP.h"
 #include "FileSel.h"
+#ifdef ENABLE_TEXTFIELD         /* [EP] 11/14/96 */
 #include "TextField.h"
+#else
+#include <X11/Xaw/AsciiText.h>
+#endif
 
 #define NO_BUSY_GRAB
 
@@ -101,12 +102,13 @@ static void Initialize(Widget request, Widget new);
 static void Realize(Widget gw, XtValueMask *valueMask, XSetWindowAttributes *attrs);
 static void Destroy(XfwfFileSelectorWidget fsw);
 static void Resize(Widget gw);
-static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew);
+static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew, ArgList args, Cardinal *num_args);
 static XtGeometryResult GeometryManager(Widget w, XtWidgetGeometry *request, XtWidgetGeometry *reply);
 static void ChildrenCreate(XfwfFileSelectorWidget fsw);
 static void ChildrenRealize(XfwfFileSelectorWidget fsw);
 static void ChildrenRecalculate(XfwfFileSelectorWidget fsw);
 static void ChildrenUpdate(XfwfFileSelectorWidget fsw);
+static void SetSensitive(XfwfFileSelectorWidget fsw, Boolean value);
 static void ToggleReadOnly(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonAutostart(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
 static void ButtonContents(Widget w, XfwfFileSelectorWidget fsw, XtPointer call_data);
@@ -173,6 +175,7 @@ static XtResource resources[] = {
     { XtNcontentsButtonCallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), FSFieldOffset(contents_button_callbacks), XtRCallback, NULL },
     { XtNautostartButtonCallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), FSFieldOffset(autostart_button_callbacks), XtRCallback, NULL },
     { XtNselectionChangeCallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), FSFieldOffset(sel_change_callbacks), XtRCallback, NULL },
+    { XtNinternational, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(international), XtRString, "False" },
     { XtNshowOkButton, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(show_ok_button), XtRString, "True" },
     { XtNshowCancelButton, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(show_cancel_button), XtRString, "True" },
     { XtNshowContentsButton, XtCBoolean, XtRBoolean, sizeof(Boolean), FSFieldOffset(show_contents_button), XtRString, "True" },
@@ -237,7 +240,7 @@ XfwfFileSelectorClassRec xfwfFileSelectorClassRec = {
 /* destroy               */    (XtWidgetProc)Destroy,
 /* resize                */    (XtWidgetProc)Resize,
 /* expose                */    XtInheritExpose,
-/* set_values            */    (XtSetValuesFunc)SetValues,
+/* set_values            */    SetValues,
 /* set_values_hook       */    NULL,
 /* set_values_almost     */    XtInheritSetValuesAlmost,
 /* get_values_hook       */    NULL,
@@ -409,14 +412,15 @@ static void Resize(Widget gw)
 
 /*---------------------------------------------------------------------------*
 
-	SetValues(gcurrent,grequest,gnew)
+	SetValues(gcurrent,grequest,gnew,args,num_args)
 
 	This function is the external interface for setting resources.
 
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew)
+static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew,
+        ArgList args, Cardinal *num_args)
 {
     XfwfFileSelectorWidget current,new;
 
@@ -443,9 +447,7 @@ static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew)
     }
     if (FSCheckExistence(current) != FSCheckExistence(new)) {
         if (!FSCheckExistence(new)) {
-            XtSetSensitive(FSNthWidget(new, FS_I_OK_BUTTON), True);
-            XtSetSensitive(FSNthWidget(new, FS_I_CONTENTS_BUTTON), True);
-            XtSetSensitive(FSNthWidget(new,FS_I_AUTOSTART_BUTTON), True);
+            SetSensitive(new, True);
         } else {
             Chdir(new);
         }
@@ -496,6 +498,17 @@ static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew)
         new_name = FSCurrentFile(new);
         FSCurrentFile(new) = FSCurrentFile(current);
         SelectFileByName(new,new_name);
+    }
+    if (FSInternational(current) != FSInternational(new)) {
+        int i;
+
+        for (i = 0; i < FS_NUM_CHILDREN; i++) {
+            if (FSNthWidget(new, i) != NULL) {
+                XtVaSetValues(FSNthWidget(new, i),
+                                XtNinternational, FSInternational(new),
+                                NULL);
+            }
+        }
     }
     return False;
 } /* End SetValues */

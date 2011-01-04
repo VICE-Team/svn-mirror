@@ -35,6 +35,7 @@ typedef struct {
     XtCallbackList callback;
     Position slider_y;
     Dimension slider_height;
+    Boolean international;
 } XfwfScrolledListPart;
 
 typedef struct _XfwfScrolledListClassRec {

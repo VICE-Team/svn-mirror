@@ -94,6 +94,10 @@
 #define XmNactivateCallback XtNactivateCallback
 #endif
 
+#ifndef XtNinternational
+#define XtNinternational "international"
+#endif
+
 extern WidgetClass textfieldWidgetClass;
 
 typedef struct _TextFieldClassRec *TextFieldWidgetClass;

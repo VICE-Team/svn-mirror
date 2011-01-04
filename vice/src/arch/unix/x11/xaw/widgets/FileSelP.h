@@ -89,6 +89,7 @@
 #define FSContentsCallbacks(w)   (FSMyPart(w)->contents_button_callbacks)
 #define FSAutostartCallbacks(w)  (FSMyPart(w)->autostart_button_callbacks)
 #define FSSelChangeCallbacks(w)  (FSMyPart(w)->sel_change_callbacks)
+#define FSInternational(w)       (FSMyPart(w)->international)
 #define FSShowOkButton(w)        (FSMyPart(w)->show_ok_button)
 #define FSShowCancelButton(w)    (FSMyPart(w)->show_cancel_button)
 #define FSShowContentsButton(w)  (FSMyPart(w)->show_contents_button)
@@ -142,6 +143,7 @@ typedef struct {
     XtCallbackList contents_button_callbacks;
     XtCallbackList autostart_button_callbacks;
     XtCallbackList sel_change_callbacks;
+    Boolean international;
     Boolean show_ok_button;
     Boolean show_cancel_button;
     Boolean show_contents_button;
