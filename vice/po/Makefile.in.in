@@ -258,6 +258,8 @@ po_table.h: da.po de.po fr.po hu.po it.po nl.po pl.po sv.po tr.po po2table
 trans-update:
 	( if test 'x$(srcdir)' != 'x.'; then echo "make trans-update can only be done from the source tree"; exit; fi )
 	$(MAKE) update-po
+	rm -f sv_iso.po
+	iconv -f UTF-8 -t ISO-8859-1 <sv.po >sv_iso.po
 	rm -f po_table.h
 	$(MAKE) po_table.h
 	$(MAKE) gen_translate_c

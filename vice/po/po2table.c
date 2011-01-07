@@ -63,7 +63,7 @@ static file_table_t files[] = {
     { "it.po", NULL, 0, 0 },
     { "nl.po", NULL, 0, 0 },
     { "pl.po", NULL, 0, 0 },
-    { "sv.po", NULL, 0, 0 },
+    { "sv_iso.po", NULL, 0, 0 },
     { "tr.po", NULL, 0, 0 },
     { NULL, NULL, 0, 0 }
 };
