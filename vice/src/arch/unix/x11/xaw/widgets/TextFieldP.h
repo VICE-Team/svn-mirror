@@ -106,7 +106,7 @@ typedef struct {
     /* Private stuff ... */
     GC drawGC;			/* GC for drawing and copying */
     GC highlightGC;		/* GC for highlighting text */
-    GC cursorGC;			/* GC for cursor (not clipped like drawGC) */
+    GC cursorGC;		/* GC for cursor (not clipped like drawGC) */
     GC dashGC;			/* GC for cursor when we don't have focus */
     GC eraseGC;			/* GC for erasing (not clipped) */
 
@@ -125,7 +125,6 @@ typedef struct {
     int TextLen;                /* current length of text (in characters) */
     wchar_t *IntlText;          /* wc version of text */
     int IntlTextLen;            /* length in wide characters */
-    int IntlTextAlloc;          /* number of bytes allocated for IntlText */
 
     char *SelectionText;        /* pointer to text selection, when needed */
     int SelectionLen;           /* length */
