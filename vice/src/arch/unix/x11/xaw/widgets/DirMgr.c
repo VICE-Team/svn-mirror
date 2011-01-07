@@ -310,7 +310,9 @@ int DirectoryMgrSimpleFilterFunc(char *pattern, PFI *ff_ptr, fwf_regex_t *fd_ptr
     }
     RegExpInit(fd_ptr);
     RegExpPatternToRegExp(pattern, regexp, sizeof(regexp));
-    RegExpCompile(regexp, fd_ptr);
+    if (RegExpCompile(regexp, fd_ptr)) {
+        (void)RegExpCompile(".*", fd_ptr);
+    }
 
     return TRUE;
 } /* End DirectoryMgrSimpleFilterFunc */

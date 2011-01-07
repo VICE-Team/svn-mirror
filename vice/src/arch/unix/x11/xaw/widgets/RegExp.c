@@ -46,9 +46,9 @@ void RegExpFree(fwf_regex_t *r)
     regfree(r);
 }
 
-void RegExpCompile(const char *regexp, fwf_regex_t *r)
+int RegExpCompile(const char *regexp, fwf_regex_t *r)
 {
-    regcomp(r, regexp, 0);
+    return regcomp(r, regexp, 0);
 }
 
 int RegExpMatch(const char *string, fwf_regex_t *r)
@@ -69,6 +69,7 @@ int RegExpMatch(const char *string, fwf_regex_t *r)
 
 /* Forward decl required by <regexp.h>.  */
 void _RegExpError(int val);
+int had_error;
 
 #include <regexp.h>
 
@@ -86,13 +87,15 @@ void RegExpFree(fwf_regex_t *r)
     return;
 }
 
-void RegExpCompile(const char *regexp, fwf_regex_t *r)
+int RegExpCompile(const char *regexp, fwf_regex_t *r)
 {
     char **s = (char **)r;
 
     /* Mmmh...  while cannot arg 1 of `compile' be const?  Compiler barfs on
        GNU libc 2.0.6.  */
-    compile((char *)regexp, *s, *s + RE_SIZE - 1, '\0');
+    had_error = 0;
+    compile((char *)regexp, *s, *s + RE_SIZE - 1, '\0') ;
+    return had_error;
 } /* End RegExpCompile */
 
 int RegExpMatch(const char *string, fwf_regex_t *fsm_ptr)
@@ -109,7 +112,8 @@ int RegExpMatch(const char *string, fwf_regex_t *fsm_ptr)
 void _RegExpError(int val)
 {
     fprintf(stderr, "Regular Expression Error %d\n", val);
-    exit(-1);
+    /* exit(-1); */
+    had_error++;
 } /* End _RegExpError */
 
 #else
@@ -124,8 +128,9 @@ void RegExpFree(fwf_regex_t *r)
 {
 }
 
-void RegExpCompile(const char *regexp, fwf_regex_t *r)
+int RegExpCompile(const char *regexp, fwf_regex_t *r)
 {
+    return 0;
 }
 
 int RegExpMatch(const char *string, fwf_regex_t *r)
@@ -140,7 +145,7 @@ int RegExpMatch(const char *string, fwf_regex_t *r)
 void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size)
 {
     int in_bracket;
-    char *reg_exp_end = reg_exp + size - 2 - 2;
+    char *reg_exp_end = reg_exp + size - 2 - 2 - 1;
 
     in_bracket = 0;
     while (*pattern != '\0' && reg_exp < reg_exp_end) {
@@ -172,6 +177,9 @@ void RegExpPatternToRegExp(const char *pattern, char *reg_exp, int size)
             }
             ++pattern;
         }
+    }
+    if (in_bracket) {
+        *reg_exp++ = ']';
     }
     *reg_exp++ = '$';
     *reg_exp++ = '\0';
