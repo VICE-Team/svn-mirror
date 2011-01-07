@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "lib.h"
 #include "machine.h"
 #include "screenshot.h"

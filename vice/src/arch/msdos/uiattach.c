@@ -31,6 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
 #include "autostart-prg.h"

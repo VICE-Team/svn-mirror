@@ -77,7 +77,7 @@ static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
             value = MACHINE_SYNC_NTSC;
         } else if (value == MACHINE_SYNC_NTSC) {
             value = MACHINE_SYNC_NTSCOLD;
-        } else if (value == MACHINE_SYNC_NTSCOLD)
+        } else if (value == MACHINE_SYNC_NTSCOLD) {
             value = MACHINE_SYNC_PALN;
         } else {
             value = MACHINE_SYNC_PAL;
@@ -423,6 +423,11 @@ int c64ui_init(void)
                       TUI_MENU_BEH_CONTINUE);
 
     return 0;
+}
+
+int c64scui_init(void)
+{
+    return c64ui_init();
 }
 
 void c64ui_shutdown(void)

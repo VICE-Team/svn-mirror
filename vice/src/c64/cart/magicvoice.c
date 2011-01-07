@@ -946,7 +946,7 @@ int magicvoice_peek_mem(WORD addr, BYTE *value)
             }
         }
         /* disabled, read c64 memory */
-    } else if ((addr >= 0xe000) && (addr <= 0xffff)) {
+    } else if (addr >= 0xe000) {
         if (mv_gameE000_enabled) {
             /* "passthrough" */
             return CART_READ_THROUGH;

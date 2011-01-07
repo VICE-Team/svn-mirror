@@ -36,6 +36,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "archdep.h"
 #include "attach.h"
 #include "autostart.h"
 #include "datasette.h"
