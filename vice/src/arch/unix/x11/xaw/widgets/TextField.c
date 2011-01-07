@@ -66,7 +66,10 @@ static XtResource resources[] = {
 #undef offset
 
 static Atom xa_compound_text, xa_text, xa_utf8_string;
+XlcConv xlcconv_wide_to_multibyte;     /* cache converters between */
+XlcConv xlcconv_multibyte_to_wide;     /* character representations */
 
+static void ClassInitialize(void);
 static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num);
 static void Destroy(TextFieldWidget w);
 static void Redisplay(Widget aw, XExposeEvent *event, Region region);
@@ -142,7 +145,7 @@ TextFieldClassRec textfieldClassRec = {
     /* superclass             */ (WidgetClass) & widgetClassRec,
     /* class_name             */ "TextField",
     /* widget_size            */ sizeof(TextFieldRec),
-    /* class_initialize       */ NULL,
+    /* class_initialize       */ ClassInitialize,
     /* class_part_initialize  */ NULL,
     /* class_inited           */ False,
     /* initialize             */ Initialize,
@@ -281,28 +284,24 @@ static void InitializeGC(TextFieldWidget w)
     static char dots[] = { 2, 1, 1 };
     XGCValues values;
     XtGCMask mask;
+    XtGCMask dynamic_mask;
 
     values.line_style = LineSolid;
     values.line_width = 0;
     values.fill_style = FillSolid;
-    values.font = w->text.font->fid;
     values.background = w->core.background_pixel;
     values.foreground = w->text.foreground_pixel;
-    if (w->text.international) {
-        mask = GCLineStyle | GCLineWidth | GCFillStyle | GCForeground | GCBackground;
-        w->text.drawGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, 0);
-    } else {
-        mask = GCLineStyle | GCLineWidth | GCFillStyle | GCForeground | GCBackground | GCFont;
-        w->text.drawGC = XtGetGC((Widget)w, mask, &values);
+    mask = GCLineStyle | GCLineWidth | GCFillStyle | GCForeground | GCBackground;
+    dynamic_mask = GCClipXOrigin | GCClipYOrigin | GCClipMask;
+    if (!w->text.international) {
+        values.font = w->text.font->fid;
+        mask |= GCFont;
     }
+    w->text.drawGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, dynamic_mask);
 
     values.foreground = w->core.background_pixel;
     values.background = w->text.foreground_pixel;
-    if (w->text.international) {
-        w->text.highlightGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, 0);
-    } else {
-        w->text.highlightGC = XtGetGC((Widget)w, mask, &values);
-    }
+    w->text.highlightGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, dynamic_mask);
 
     values.line_style = LineSolid;
     values.line_width = 0;
@@ -318,7 +317,7 @@ static void InitializeGC(TextFieldWidget w)
     values.line_style = LineOnOffDash;
     values.background = w->core.background_pixel;
     values.foreground = w->text.foreground_pixel;
-    w->text.dashGC = XtGetGC((Widget)w, mask, &values);
+    w->text.dashGC = XtAllocateGC((Widget)w, 0, mask, &values, 0, GCDashOffset | GCDashList);
     XSetDashes(XtDisplay(w), w->text.dashGC, 0, &dots[1], (int)dots[0]);
 
     w->text.YOffset = TopMargin(w) + FontAscent(w);
@@ -336,14 +335,14 @@ static void ClipGC(TextFieldWidget w)
     XSetClipRectangles(XtDisplay((Widget)w), w->text.highlightGC, w->text.Margin, 0, &clip, 1, Unsorted);
 }
 
-/* From lib/X11/lcStd.c aka libX11/dist/src/xlibi18n/lcStd.c */
-typedef struct _XLCd *XLCd;
-extern int _Xmblen(char *str, int len);
-#define _Xmblen(str, bytes)        _Xmbtowc((wchar_t *) NULL, str, bytes)
-#define _Xmbtowc(wstr, str, bytes) _Xlcmbtowc((XLCd) NULL, wstr, str, bytes)
-extern int _Xlcmbtowc  (XLCd lcd, wchar_t *wstr, char *str, int bytes);
-extern int _Xlcmbstowcs(XLCd lcd, wchar_t *wstr, char *str, int bytes);
-extern int _Xlcwcstombs(XLCd lcd, char *str, wchar_t *wstr, int len);
+/* Should be in <X11/Xlcint.h> */
+#if 0   /* slightly more documented but slower */
+#define multibyte_to_wide(dest, src, nchars, nbytes)    _Xlcmbstowcs(NULL, dest, src, nchars)
+#define wide_to_multibyte(dest, src, nbytes, nchars)    _Xlcwcstombs(NULL, dest, src, nbytes)
+#else   /* expanded from source */
+#define multibyte_to_wide(wdest, msrc, wchars, mbytes)    do_convert(xlcconv_multibyte_to_wide, wdest, msrc, wchars, /*strlen(msrc)*/mbytes)
+#define wide_to_multibyte(mdest, wsrc, mbytes, wchars)    do_convert(xlcconv_wide_to_multibyte, mdest, wsrc, mbytes, /*wcslen(wsrc)*/wchars)
+#endif
 
 /*
  * Return the number of characters in a nonterminated multibyte string.
@@ -369,13 +368,36 @@ static int mb_strlen(char *s, int bytes)
     return len;
 }
 
+/*
+ * Similar to _Xlcmbstowcs() in xlibi18n/lcStd.c but without looking
+ * up the converters every time.
+ * Differences: Does not zero-terminate, but also does not require
+ * source to be zero-terminated.
+ */
+static int do_convert(XlcConv conv, void *dest, void *src, int destsize, int srcsize)
+{
+    XPointer from, to;
+    int from_left, to_left;
+
+    from = (XPointer)src;
+    from_left = srcsize;
+    to = (XPointer)dest;
+    to_left = destsize;
+
+    if (_XlcConvert(conv, &from, &from_left, &to, &to_left, NULL, 0) < 0) {
+        return -1;
+    }
+
+    return destsize - to_left;
+}
+
 static void SetString(TextFieldWidget w, char *s)
 {
     int len;
 
     if (s) {
         len = strlen(s);
-        if (len > w->text.TextAlloc) {
+        if (len >= w->text.TextAlloc) {
             w->text.TextAlloc += len;
             w->text.Text = XtRealloc(w->text.Text, w->text.TextAlloc);
         }
@@ -387,12 +409,36 @@ static void SetString(TextFieldWidget w, char *s)
         if (w->text.international) {
              w->text.IntlText = (wchar_t *)XtRealloc((char *)w->text.IntlText,
                                         sizeof(wchar_t) * w->text.TextAlloc);
-             /* "Len" is the number of bytes in "s" to be converted. */
-             w->text.IntlTextLen = _Xlcmbstowcs(NULL, w->text.IntlText, s, len);
+             /*
+              * "Len" 1 is the max number of characters in the destination.
+              * "Len" 2 is the number of bytes in the source.
+              */
+             w->text.IntlTextLen = multibyte_to_wide(w->text.IntlText, s, len, len);
+             w->text.IntlText[w->text.IntlTextLen] = L'\0';
         }
         w->text.TextWidth = w->text.OldTextWidth = TextWidth(w);
     }
     w->text.DefaultString = w->text.Text;
+}
+
+static void ClassInitialize(void)
+{
+    XLCd lcd = _XlcCurrentLC();
+    if (lcd) {
+        xlcconv_wide_to_multibyte = _XlcOpenConverter(lcd, XlcNWideChar, lcd, XlcNMultiByte);
+        xlcconv_multibyte_to_wide = _XlcOpenConverter(lcd, XlcNMultiByte, lcd, XlcNWideChar);
+    }
+}
+
+/* Unused... */
+static void ClassDestroy(void)
+{
+    if (xlcconv_multibyte_to_wide) {
+        _XlcCloseConverter(xlcconv_multibyte_to_wide);
+    }
+    if (xlcconv_wide_to_multibyte) {
+        _XlcCloseConverter(xlcconv_wide_to_multibyte);
+    }
 }
 
 static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
@@ -472,6 +518,7 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
     /*
      * Assume a single program doesn't use multiple displays.
      * Apart from that, these values are constant.
+     * And otherwise it could be put in ClassInitialize().
      */
     if (xa_compound_text == 0) {
         xa_compound_text = XA_COMPOUND_TEXT(XtDisplay(new));
@@ -523,7 +570,7 @@ static Boolean SetValues(Widget current, Widget request, Widget reply, ArgList a
     if ((w->text.foreground_pixel != new->text.foreground_pixel) ||
         (w->core.background_pixel != new->core.background_pixel) ||
         (w->text.international != new->text.international) ||
-        (w->text.fontSet != new->text.fontSet && w->text.international) ||
+        ((w->text.fontSet != new->text.fontSet) && w->text.international) ||
         (w->text.font != new->text.font)) {
         XtReleaseGC((Widget)w, w->text.drawGC);
         XtReleaseGC((Widget)w, w->text.highlightGC);
@@ -599,8 +646,11 @@ static int FixupText(TextFieldWidget w)
 {
     char *text = w->text.Text;
     wchar_t *intltext = w->text.IntlText;
-    int textlen = w->text.TextAlloc;
-    return _Xlcwcstombs(NULL, text, intltext, textlen);
+    int textlen = w->text.TextAlloc - 1;
+    int intltextlen = w->text.IntlTextLen;
+    textlen = wide_to_multibyte(text, intltext, textlen, intltextlen);
+    text[textlen] = '\0';
+    return textlen;
 }
 
 #if 0
@@ -609,7 +659,7 @@ static void FixupText2(TextFieldWidget w)
     if (w->text.Text[0] == 0 && w->text.TextLen > 0) {
         if (w->text.international) {
             /* _X LoCale Wide Character String TO Multi-Byte String */
-            _Xlcwcstombs(NULL, w->text.Text, w->text.IntlText, w->text.TextAlloc);
+            wide_to_multibyte(w->text.Text, w->text.IntlText, w->text.TextAlloc);
         } else {
             int len = w->text.TextAlloc - 1;
             char *buf = w->text.Text;
@@ -686,7 +736,7 @@ static Boolean TextInsert(TextFieldWidget w, char *buf, int len)
             if (w->text.TextLen + len > w->text.TextMaxLen) {
                 regular_copy = False;
             }
-        } else if (w->text.TextLen + len > w->text.TextAlloc) {
+        } else if (w->text.TextLen + len >= w->text.TextAlloc) {
             i = TEXTFIELD_ALLOC_SIZE;
             if (i < len) {
                 i = len;
@@ -710,7 +760,7 @@ static Boolean TextInsert(TextFieldWidget w, char *buf, int len)
                 for (i = w->text.IntlTextLen - 1; i >= w->text.CursorPos; i--) {
                     w->text.IntlText[i + intllen] = w->text.IntlText[i];
                 }
-                _Xlcmbstowcs(NULL, &w->text.IntlText[w->text.CursorPos], buf, intllen);
+                multibyte_to_wide(&w->text.IntlText[w->text.CursorPos], buf, intllen, len);
 
                 w->text.CursorPos += intllen;
                 w->text.IntlTextLen += intllen;
@@ -745,7 +795,7 @@ static Boolean TextInsert(TextFieldWidget w, char *buf, int len)
                 i1 = w->text.CursorPos;
                 tocopy = w->text.TextMaxLen - i1;
                 tocopy = min(tocopy, intllen);
-                _Xlcmbstowcs(NULL, &w->text.IntlText[i1], buf, tocopy);
+                multibyte_to_wide(&w->text.IntlText[i1], buf, tocopy, len);
                 i1 += tocopy;
 
                 w->text.IntlText[w->text.IntlTextLen] = 0;
@@ -897,7 +947,6 @@ static void InsertChar(Widget aw, XEvent *event, String *params, Cardinal *num_p
 {
     TextFieldWidget w = (TextFieldWidget)aw;
     int len;
-    KeySym keysym;
     static XComposeStatus compose;
     Status status;
 
@@ -907,24 +956,14 @@ static void InsertChar(Widget aw, XEvent *event, String *params, Cardinal *num_p
     if (!w->text.Editable) {
         return;
     }
-
     if (w->text.xic) {
-        if (w->text.international) {
-            len = XmbLookupString(w->text.xic, (XKeyEvent *)event, buf, BUFSIZ, &keysym, &status);
-        } else {    /* Assume Unicode */
-            wchar_t wbuf[INSERTCHARBUFSIZ];
-            int i;
-
-            len = XwcLookupString(w->text.xic, (XKeyEvent *)event, wbuf, BUFSIZ, &keysym, &status);
-            /* Quick And Dirty Unicode -> Latin1 */
-            for (i = 0; i < len; i++) {
-                if (wbuf[i] < 0x0100) {
-                    buf[i] = wbuf[i];
-                } else {
-                    buf[i] = '?';
-                }
-            }
-        }
+        /*
+         * One would think that XmbLookupString and XwcLookupString
+         * would return the same characters (modulo representation)...
+         * but no. At least in the "C" locale, dead keys and Compose
+         * only work with XmbLookupString().
+         */
+        len = XmbLookupString(w->text.xic, (XKeyEvent *)event, buf, BUFSIZ, NULL, &status);
     } else {
         len = XLookupString((XKeyEvent *)event, buf, BUFSIZ, NULL, &compose);
     }
@@ -1343,6 +1382,9 @@ static void ActionFocusIn(Widget aw, XEvent *event, String *params, Cardinal *nu
     TextFieldWidget w = (TextFieldWidget)aw;
 
     if (w->text.xim == NULL) {
+        /*
+         * Do this before the first keys are hit.
+         */
         w->text.xim = XOpenIM(XtDisplay(aw), NULL, NULL, NULL);
         if (w->text.xim) {
             w->text.xic = XCreateIC(w->text.xim,

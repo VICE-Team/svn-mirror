@@ -96,7 +96,8 @@ static XtResource resources[] =
     { XtNlist, XtCList, XtRPointer, sizeof(char **), offset(item_array), XtRPointer, NULL },
     { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), offset(item_count), XtRInt, 0 },
     { XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *), offset(sensitive_array), XtRPointer, NULL },
-    { XtNcallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), offset(callback), XtRCallback, NULL }
+    { XtNcallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), offset(callback), XtRCallback, NULL },
+    { XtNinternational, XtCBoolean, XtRBoolean, sizeof(Boolean), offset(international), XtRString, "False" },
 };
 #endif
 

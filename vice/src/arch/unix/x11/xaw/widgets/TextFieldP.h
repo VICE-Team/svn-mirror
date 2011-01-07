@@ -31,6 +31,49 @@
 
 #define TEXTFIELD_ALLOC_SIZE	256
 
+/*
+ * This should be from <XlcPublic.h> or <X11/Xlcint.h> or related headers,
+ * but strangely enough those header files are not included in typical
+ * installations.
+ * This stuff is "documented" in i18n/Framework.PS. or
+ * http://www.x.org/releases/X11R7.6/doc/libX11/specs/i18n/framework/framework.html
+ */
+typedef struct _XLCd *XLCd;
+typedef struct _XlcConvRec *XlcConv;
+extern XLCd _XlcCurrentLC (void);
+#define XlcNWideChar            "wideChar"
+#define XlcNMultiByte           "multiByte"
+extern XlcConv _XlcOpenConverter(
+    XLCd                from_lcd,
+    const char*         from_type,
+    XLCd                to_lcd,
+    const char*         to_type
+);
+
+extern void _XlcCloseConverter(
+    XlcConv             conv
+);
+
+extern int _XlcConvert(
+    XlcConv             conv,
+    XPointer*           from,
+    int*                from_left,
+    XPointer*           to,
+    int*                to_left,
+    XPointer*           args,
+    int                 num_args
+);
+
+/* From lib/X11/lcStd.c aka libX11/dist/src/xlibi18n/lcStd.c */
+extern int _Xmblen(char *str, int len);
+#define _Xmblen(str, bytes)        _Xmbtowc((wchar_t *) NULL, str, bytes)
+#define _Xmbtowc(wstr, str, bytes) _Xlcmbtowc((XLCd) NULL, wstr, str, bytes)
+extern int _Xlcmbtowc  (XLCd lcd, wchar_t *wstr, char *str, int bytes);
+extern int _Xlcmbstowcs(XLCd lcd, wchar_t *wstr, char *str, int bytes);
+extern int _Xlcwcstombs(XLCd lcd, char *str, wchar_t *wstr, int len);
+
+/* end of stuff that should have been in a distributed header file */
+
 typedef struct {
     int dummy;			/* keep compiler happy with dummy field */
 } TextFieldClassPart;

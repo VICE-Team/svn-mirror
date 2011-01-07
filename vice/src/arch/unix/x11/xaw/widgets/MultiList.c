@@ -104,14 +104,15 @@
 
  *===========================================================================*/
 
-static void Initialize(Widget request, Widget new);
+static void Initialize(Widget request, Widget new, ArgList args, Cardinal *num_args);
 static void Destroy(XfwfMultiListWidget mlw);
 static void Redisplay(XfwfMultiListWidget mlw, XEvent *event, Region rectangle_union);
 static XtGeometryResult PreferredGeometry(XfwfMultiListWidget mlw, XtWidgetGeometry *parent_idea, XtWidgetGeometry *our_idea);
 static void Resize(XfwfMultiListWidget mlw);
-static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfMultiListWidget npl);
+static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfMultiListWidget npl, ArgList args, Cardinal *num_args);
 static void DestroyOldData(XfwfMultiListWidget mlw);
 static void InitializeNewData(XfwfMultiListWidget mlw);
+static void DestroyGCs(XfwfMultiListWidget mlw);
 static void CreateNewGCs(XfwfMultiListWidget mlw);
 static void RecalcCoords(XfwfMultiListWidget mlw, Boolean width_changeable, Boolean height_changeable);
 static void NegotiateSizeChange(XfwfMultiListWidget mlw, Dimension width, Dimension height);
@@ -169,6 +170,7 @@ static XtResource resources[] = {
     { XtNheight, XtCHeight, XtRDimension, sizeof(Dimension), CoreFieldOffset(height), XtRString, "0" },
     { XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel), CoreFieldOffset(background_pixel), XtRString, "XtDefaultBackground" },
     { XtNcursor, XtCCursor, XtRCursor, sizeof(Cursor), SimpleFieldOffset(cursor), XtRString, "left_ptr" },
+    { XtNinternational, XtCBoolean, XtRBoolean, sizeof(Boolean), SimpleFieldOffset(international), XtRString, "False" },
     { XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(foreground), XtRString, "XtDefaultForeground" },
     { XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_fg), XtRString, "XtDefaultBackground" },
     { XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_bg), XtRString, "XtDefaultForeground" },
@@ -229,7 +231,7 @@ XfwfMultiListClassRec xfwfMultiListClassRec = {
         /* class_initialize      */ NULL,
         /* class_part_initialize */ NULL,
         /* class_inited          */ FALSE,
-        /* initialize            */ (XtInitProc)Initialize,
+        /* initialize            */ Initialize,
         /* initialize_hook       */ NULL,
         /* realize               */ XtInheritRealize,
         /* actions               */ actions,
@@ -280,7 +282,7 @@ WidgetClass xfwfMultiListWidgetClass = (WidgetClass)&xfwfMultiListClassRec;
  *---------------------------------------------------------------------------*/
 
 /* ARGSUSED */
-static void Initialize(Widget request, Widget new)
+static void Initialize(Widget request, Widget new, ArgList args, Cardinal *num_args)
 {
     XfwfMultiListWidget mlw;
 
@@ -294,6 +296,7 @@ static void Initialize(Widget request, Widget new)
 /* [AB] 2000-07-19 Destroy list on exit */
 static void Destroy(XfwfMultiListWidget mlw)
 {
+    DestroyGCs(mlw);
     DestroyOldData(mlw);
 } /* End Destroy */
 
@@ -421,12 +424,20 @@ static void Resize(XfwfMultiListWidget mlw)
  *---------------------------------------------------------------------------*/
 
 /*ARGSUSED*/
-static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfMultiListWidget npl)
+static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfMultiListWidget npl, ArgList args, Cardinal *num_args)
 {
     Boolean redraw,recalc;
 
     redraw = False;
     recalc = False;
+
+    /*
+     * Our base class Simple refuses to change the international
+     * resource. Override this.
+     */
+    if (MultiListInternational(cpl) != MultiListInternational(rpl)) {
+        MultiListInternational(npl) = MultiListInternational(rpl);
+    }
 
     /* Graphic Context Changes */
 
@@ -434,13 +445,10 @@ static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfM
         (MultiListBG(cpl) != MultiListBG(npl)) ||
         (MultiListHighlightFG(cpl) != MultiListHighlightFG(npl)) ||
         (MultiListHighlightBG(cpl) != MultiListHighlightBG(npl)) ||
-        (MultiListFontSet(cpl) != MultiListFontSet(npl) && MultiListInternational(cpl)) ||
+        (MultiListInternational(cpl) != MultiListInternational(npl)) ||
+        ((MultiListFontSet(cpl) != MultiListFontSet(npl)) && MultiListInternational(cpl)) ||
         (MultiListFont(cpl) != MultiListFont(npl))) {
-        XtDestroyGC(MultiListEraseGC(cpl));
-        XtDestroyGC(MultiListDrawGC(cpl));
-        XtDestroyGC(MultiListHighlightForeGC(cpl));
-        XtDestroyGC(MultiListHighlightBackGC(cpl));
-        XtDestroyGC(MultiListGrayGC(cpl));
+        DestroyGCs(cpl);
         CreateNewGCs(npl);
         redraw = True;
     }
@@ -475,11 +483,16 @@ static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfM
 
     /* Changes That Require Recalculating Coordinates */
 
-    if ((MultiListWidth(cpl) != MultiListWidth(npl)) || (MultiListHeight(cpl) != MultiListHeight(npl)) ||
-        (MultiListColumnSpace(cpl) != MultiListColumnSpace(npl)) || (MultiListRowSpace(cpl) != MultiListRowSpace(npl)) ||
-        (MultiListDefaultCols(cpl) != MultiListDefaultCols(npl)) || ((MultiListForceCols(cpl) != MultiListForceCols(npl)) &&
-        (MultiListNumCols(cpl) != MultiListNumCols(npl))) || (MultiListRowMajor(cpl) != MultiListRowMajor(npl)) ||
+    if ((MultiListWidth(cpl) != MultiListWidth(npl)) ||
+        (MultiListHeight(cpl) != MultiListHeight(npl)) ||
+        (MultiListColumnSpace(cpl) != MultiListColumnSpace(npl)) ||
+        (MultiListRowSpace(cpl) != MultiListRowSpace(npl)) ||
+        (MultiListDefaultCols(cpl) != MultiListDefaultCols(npl)) ||
+        ((MultiListForceCols(cpl) != MultiListForceCols(npl)) &&
+         (MultiListNumCols(cpl) != MultiListNumCols(npl))) ||
+        (MultiListRowMajor(cpl) != MultiListRowMajor(npl)) ||
         (MultiListFont(cpl) != MultiListFont(npl)) ||
+        (MultiListInternational(cpl) != MultiListInternational(npl)) ||
         (MultiListFontSet(cpl) != MultiListFontSet(npl)) ||
         (MultiListLongest(cpl) != MultiListLongest(npl))) {
         recalc = True;
@@ -592,7 +605,7 @@ static void InitializeNewData(XfwfMultiListWidget mlw)
                 MultiListItemSensitive(item) = False;
             }
             MultiListItemString(item) = StrCopy(string_array[i]);
-	      MultiListItemHighlighted(item) = False;
+            MultiListItemHighlighted(item) = False;
         }
     }
     if (MultiListMaxSelectable(mlw) == 0) {
@@ -606,6 +619,15 @@ static void InitializeNewData(XfwfMultiListWidget mlw)
     MultiListList(mlw) = NULL;
     MultiListSensitiveArray(mlw) = NULL;
 } /* End InitializeNewData */
+
+static void DestroyGCs(XfwfMultiListWidget mlw)
+{
+    XtReleaseGC((Widget)mlw, MultiListEraseGC(mlw));
+    XtReleaseGC((Widget)mlw, MultiListDrawGC(mlw));
+    XtReleaseGC((Widget)mlw, MultiListHighlightForeGC(mlw));
+    XtReleaseGC((Widget)mlw, MultiListHighlightBackGC(mlw));
+    XtReleaseGC((Widget)mlw, MultiListGrayGC(mlw));
+}
 
 /*---------------------------------------------------------------------------*
 
@@ -621,16 +643,16 @@ static void InitializeNewData(XfwfMultiListWidget mlw)
 static void CreateNewGCs(XfwfMultiListWidget mlw)
 {
     XGCValues values;
-    unsigned int attribs;
+    XtGCMask attribs;
 
     values.foreground = MultiListFG(mlw);
     values.background = MultiListBG(mlw);
+    attribs = GCForeground | GCBackground;
     if (MultiListInternational(mlw)) {
-        attribs = GCForeground | GCBackground;
-        MultiListDrawGC(mlw) = XtAllocateGC((Widget)mlw, 0, attribs, &values, GCFont, 0);
+        MultiListDrawGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
     } else {
-        attribs = GCForeground | GCBackground | GCFont;
         values.font = MultiListFont(mlw)->fid;
+        attribs |= GCFont;
         MultiListDrawGC(mlw) = XtGetGC((Widget)mlw, attribs, &values);
     }
 
@@ -960,7 +982,7 @@ static void RedrawRowColumn(XfwfMultiListWidget mlw, int row, int column)
                 fg_gc = MultiListGrayGC(mlw);
             }
         } else {
-            if (MultiListItemHighlighted(item))	{
+            if (MultiListItemHighlighted(item)) {
                 bg_gc = MultiListHighlightBackGC(mlw);
                 fg_gc = MultiListHighlightForeGC(mlw);
             } else {

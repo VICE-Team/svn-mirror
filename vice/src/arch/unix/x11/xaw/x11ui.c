@@ -482,6 +482,7 @@ static String fallback_resources[] = {
      * If "international" is disabled "vertSpace" should be too.
      */
     "*SmeBSB.vertSpace:                              -15",
+#define INTERNATIONAL_RESOURCES         2
     "*font:                                        -*-lucida-bold-r-*-*-12-*",
     "*fontSet:                                     -*-lucida-bold-r-*-*-12-*,-*-*-*-*-*-*-12-*-*-*-*-*-iso10646-*",
     "*Command.font:                                -*-lucida-bold-r-*-*-12-*",
@@ -625,12 +626,22 @@ int ui_init(int *argc, char **argv)
     static XtActionsRec actions[] = {
         { "Close", close_action },
     };
+    int skip_resources = 0;
 
+    /*
+     * If there is no locale, it is better to turn "international support"
+     * off, since many Xmb* and Xwc* functions then assume 7-bit ASCII...
+     */
+    char *lc = setlocale(LC_CTYPE, NULL);
+    if (lc[0] == 'C' && lc[1] == '\0') {
+        skip_resources = INTERNATIONAL_RESOURCES;
+    }
     XtSetLanguageProc(NULL, NULL, NULL);
     prepare_wm_command_data(*argc, argv);
 
     /* Create the toplevel. */
-    _ui_top_level = XtAppInitialize(&app_context, "VICE", NULL, 0, argc, argv, fallback_resources, NULL, 0);
+    _ui_top_level = XtAppInitialize(&app_context, "VICE", NULL, 0, argc, argv,
+            fallback_resources + skip_resources, NULL, 0);
     if (!_ui_top_level) {
         return -1;
     }

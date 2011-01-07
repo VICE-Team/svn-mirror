@@ -410,6 +410,19 @@ static void Resize(Widget gw)
     ChildrenUpdate(w);
 } /* End Resize */
 
+static void PassInternationalDown(XfwfFileSelectorWidget w)
+{
+    int i;
+
+    printf("FileSel: set international %d on children\n", FSInternational(w));
+    for (i = 0; i < FS_NUM_CHILDREN; i++) {
+        if (FSNthWidget(w, i) != NULL) {
+            XtVaSetValues(FSNthWidget(w, i),
+                            XtNinternational, FSInternational(w),
+                            NULL);
+        }
+    }
+}
 /*---------------------------------------------------------------------------*
 
 	SetValues(gcurrent,grequest,gnew,args,num_args)
@@ -499,16 +512,8 @@ static Boolean SetValues(Widget gcurrent, Widget grequest, Widget gnew,
         FSCurrentFile(new) = FSCurrentFile(current);
         SelectFileByName(new,new_name);
     }
-    if (FSInternational(current) != FSInternational(new)) {
-        int i;
-
-        for (i = 0; i < FS_NUM_CHILDREN; i++) {
-            if (FSNthWidget(new, i) != NULL) {
-                XtVaSetValues(FSNthWidget(new, i),
-                                XtNinternational, FSInternational(new),
-                                NULL);
-            }
-        }
+    if ((FSInternational(current) != FSInternational(new))) {
+        PassInternationalDown(new);
     }
     return False;
 } /* End SetValues */
@@ -670,6 +675,7 @@ static void ChildrenCreate(XfwfFileSelectorWidget fsw)
     XtSetArg(args[0], XtNlabel, "Cancel");
     FSNthWidget(fsw, FS_I_CANCEL_BUTTON) = XtCreateManagedWidget("cancel_button", commandWidgetClass, (Widget)fsw, args, 1);
     XtAddCallback(FSNthWidget(fsw, FS_I_CANCEL_BUTTON), XtNcallback, (XtCallbackProc)ButtonCancel, (XtPointer)fsw);
+
 } /* End ChildrenCreate */
 
 
