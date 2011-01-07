@@ -40,6 +40,7 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <unistd.h>
+#include <locale.h>
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
