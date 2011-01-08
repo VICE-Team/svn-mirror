@@ -793,7 +793,7 @@ BEGIN
     LTEXT           "", IDC_PRINTER_EMULATION,
                     15, 25, 70, 8
     COMBOBOX        IDC_PRINTER_TYPE,
-                    80, 23, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+                    80, 24, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     PUSHBUTTON      "", IDC_PRINTER_FORMFEED,
                     220, 23, 60, 15
     GROUPBOX        "", IDC_FILESYSTEM_PRINTER,
@@ -801,15 +801,15 @@ BEGIN
     LTEXT           "", IDC_PRINTER_DRVR,
                     15, 52, 70, 8
     COMBOBOX        IDC_PRINTER_DRIVER,
-                    80, 50, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+                    80, 51, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "", IDC_OUTPUT,
                     15, 72, 70, 8
     COMBOBOX        IDC_PRINTER_OUTPUT,
-                    80, 70, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+                    80, 71, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "", IDC_OUTPUT_TO_FILE,
                     15, 92, 70, 8
     COMBOBOX        IDC_PRINTER_TEXTOUT,
-                    80, 90, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+                    80, 91, 55, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     LTEXT           "", IDC_OUTPUT_FILE1_NAME,
                     15, 112, 70, 8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME,
