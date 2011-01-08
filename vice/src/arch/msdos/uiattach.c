@@ -160,19 +160,19 @@ TUI_MENU_DEFINE_RADIO(AutostartPrgMode)
 static TUI_MENU_CALLBACK(autostart_prg_mode_submenu_callback)
 {
     int value;
-    static char s[100];
+    char *s;
 
     resources_get_int("AutostartPrgMode", &value);
     switch (value) {
         default:
         case AUTOSTART_PRG_MODE_VFS:
-            return "Virtual FS";
+            s = "Virtual FS";
             break;
         case AUTOSTART_PRG_MODE_INJECT:
-            return "Inject";
+            s = "Inject";
             break;
         case AUTOSTART_PRG_MODE_DISK:
-            return "Disk Image";
+            s = "Disk Image";
             break;
     }
     return s;

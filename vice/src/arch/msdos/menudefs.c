@@ -235,14 +235,13 @@ TUI_MENU_DEFINE_RADIO(VGAMode)
 static TUI_MENU_CALLBACK(refresh_rate_submenu_callback)
 {
     int v;
+    static char s[256];
 
     resources_get_int("RefreshRate", &v);
 
     if (v == 0) {
         return "Auto";
     } else {
-        static char s[256];
-
         sprintf(s, "1/%d", v);
         return s;
     }

@@ -41,10 +41,10 @@ TUI_MENU_DEFINE_RADIO(ETHERNET_AS_RR)
 static TUI_MENU_CALLBACK(ethernet_as_rr_submenu_callback)
 {
     int value;
-    static char s[100];
+    char *s;
 
     resources_get_int("ETHERNET_AS_RR", &value);
-    sprintf(s, "%s", (value==0) ? "TFE" : "RRNET");
+    s = (value) ? "RRNET" : "TFE";
     return s;
 }
 

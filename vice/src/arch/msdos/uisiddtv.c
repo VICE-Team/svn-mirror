@@ -36,7 +36,7 @@
 
 static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
 {
-    static char s[256];
+    char *s;
     int temp;
     int value;
 
@@ -47,67 +47,67 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
     switch (value) {
 #ifdef HAVE_RESID
         case SID_RESID_DTVSID:
-            sprintf(s, "DTVSID");
+            s = "DTVSID";
             break;
 #endif
         case SID_FASTSID_6581:
-            sprintf(s, "6581 (Fast SID)");
+            s = "6581 (Fast SID)";
             break;
         case SID_FASTSID_8580:
-            sprintf(s, "8580 (Fast SID)");
+            s = "8580 (Fast SID)";
             break;
 #ifdef HAVE_RESID
         case SID_RESID_6581:
-            sprintf(s, "6581 (ReSID)");
+            s = "6581 (ReSID)";
             break;
         case SID_RESID_8580:
-            sprintf(s, "8580 (ReSID)");
+            s = "8580 (ReSID)";
             break;
         case SID_RESID_8580D:
-            sprintf(s, "8580 + digi boost (ReSID)");
+            s = "8580 + digi boost (ReSID)";
             break;
 #endif
 #ifdef HAVE_PARSID
         case SID_PARSID_PORT1:
-            sprintf(s, "ParSID in Port 1");
+            s = "ParSID in Port 1";
             break;
         case SID_PARSID_PORT2:
-            sprintf(s, "ParSID in Port 2");
+            s = "ParSID in Port 2";
             break;
         case SID_PARSID_PORT3:
-            sprintf(s, "ParSID in Port 3");
+            s = "ParSID in Port 3";
             break;
 #endif
 #ifdef HAVE_RESID_FP
         case SID_RESIDFP_6581R3_4885:
-            sprintf(s, "6581R3 4885 (ReSID-fp)");
+            s = "6581R3 4885 (ReSID-fp)";
             break;
         case SID_RESIDFP_6581R3_0486S:
-            sprintf(s, "6581R3 0486S (ReSID-fp)");
+            s = "6581R3 0486S (ReSID-fp)";
             break;
         case SID_RESIDFP_6581R3_3984:
-            sprintf(s, "6581R3 3984 (ReSID-fp)");
+            s = "6581R3 3984 (ReSID-fp)";
             break;
         case SID_RESIDFP_6581R4AR_3789:
-            sprintf(s, "6581R4AR 3789 (ReSID-fp)");
+            s = "6581R4AR 3789 (ReSID-fp)";
             break;
         case SID_RESIDFP_6581R3_4485:
-            sprintf(s, "6581R3 4485 (ReSID-fp)");
+            s = "6581R3 4485 (ReSID-fp)";
             break;
         case SID_RESIDFP_6581R4_1986S:
-            sprintf(s, "6581R4 1986S (ReSID-fp)");
+            s = "6581R4 1986S (ReSID-fp)";
             break;
         case SID_RESIDFP_8580R5_3691:
-            sprintf(s, "8580R5 3691 (ReSID-fp)");
+            s = "8580R5 3691 (ReSID-fp)";
             break;
         case SID_RESIDFP_8580R5_3691D:
-            sprintf(s, "8580R5 3691 + digi boost (ReSID-fp)");
+            s = "8580R5 3691 + digi boost (ReSID-fp)";
             break;
         case SID_RESIDFP_8580R5_1489:
-            sprintf(s, "8580R5 1489 (ReSID-fp)");
+            s = "8580R5 1489 (ReSID-fp)";
             break;
         case SID_RESIDFP_8580R5_1489D:
-            sprintf(s, "8580R5 1489 + digi boost (ReSID-fp)");
+            s = "8580R5 1489 + digi boost (ReSID-fp)";
             break;
 #endif
     }

@@ -90,10 +90,10 @@ static TUI_MENU_CALLBACK(mmc64_image_name_callback)
 static TUI_MENU_CALLBACK(mmc64_revision_submenu_callback)
 {
     int value;
-    static char s[100];
+    char *s;
 
     resources_get_int("MMC64_revision", &value);
-    sprintf(s, "%s",(value) ? "Rev B" : "Rev A");
+    s = (value) ? "Rev B" : "Rev A";
     return s;
 }
 

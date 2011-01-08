@@ -46,7 +46,7 @@ TUI_MENU_DEFINE_RADIO(SidClock)
 
 static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
 {
-    static char s[256];
+    char *s;
     int temp;
     int value;
 
@@ -56,20 +56,20 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
     value |= temp;
     switch (value) {
         case SID_FASTSID_6581:
-            sprintf(s, "6581 (Fast SID)");
+            s = "6581 (Fast SID)";
             break;
         case SID_FASTSID_8580:
-            sprintf(s, "8580 (Fast SID)");
+            s = "8580 (Fast SID)";
             break;
 #ifdef HAVE_PARSID
         case SID_PARSID_PORT1:
-            sprintf(s, "ParSID in Port 1");
+            s = "ParSID in Port 1";
             break;
         case SID_PARSID_PORT2:
-            sprintf(s, "ParSID in Port 2");
+            s = "ParSID in Port 2";
             break;
         case SID_PARSID_PORT3:
-            sprintf(s, "ParSID in Port 3");
+            s = "ParSID in Port 3";
             break;
 #endif
     }
@@ -152,11 +152,11 @@ static tui_menu_item_def_t sid_address_submenu[] = {
 
 static TUI_MENU_CALLBACK(sid_clock_submenu_callback)
 {
-    static char s[256];
+    char *s;
     int value;
 
     resources_get_int("SidClock", &value);
-    sprintf(s, (value) ? sidcart_clock : "C64");
+    s = (value) ? sidcart_clock : "C64";
 
     return s;
 }
