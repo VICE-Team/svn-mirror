@@ -54,8 +54,15 @@ inline static unsigned int sector_offset(unsigned int track,
                                          unsigned int max_sector,
                                          drive_t *drive)
 {
+    unsigned int speed;
+    if (drive->image->type == DISK_IMAGE_TYPE_D71) {
+        speed = disk_image_speed_map_1571(track-1);
+    } else {
+        speed = disk_image_speed_map_1541(track-1);
+    }
+
     return GCR_OFFSET(track)
-		+ (SECTOR_GCR_SIZE_WITH_HEADER + gaps_between_sectors[disk_image_speed_map_1541(track-1)]) * sector;
+        + (SECTOR_GCR_SIZE_WITH_HEADER + gaps_between_sectors[speed]) * sector;
 }
 
 void drive_image_init_track_size_d64(drive_t *drive)
