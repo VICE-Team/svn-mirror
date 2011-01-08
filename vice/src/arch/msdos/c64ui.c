@@ -125,6 +125,27 @@ static tui_menu_item_def_t vicii_menu_items[] = {
     { NULL }
 };
 
+static tui_menu_item_def_t viciisc_menu_items[] = {
+    { "Video _Cache:",
+      "Enable screen cache (disabled when using triple buffering)",
+      toggle_VICIIVideoCache_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_PAL Emulation:",
+      "Enable PAL emulation",
+      toggle_PALEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_RESUME, NULL, NULL },
+    { "--" },
+    { "Sprite-_Background Collisions:",
+      "Emulate sprite-background collision register",
+      toggle_VICIICheckSbColl_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Sprite-_Sprite Collisions:",
+      "Emulate sprite-sprite collision register",
+      toggle_VICIICheckSsColl_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
@@ -371,6 +392,11 @@ int c64ui_init(void)
 
     ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
     tui_menu_add(ui_ioextensions_submenu, ioextenstions_menu_items);
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        uic64model_init(ui_special_submenu);
+    }
+
     tui_menu_add_submenu(ui_special_submenu, "_I/O extensions...",
                          "Configure I/O extensions",
                          ui_ioextensions_submenu,
@@ -382,7 +408,11 @@ int c64ui_init(void)
 
     add_palette_submenu(ui_video_submenu);
 
-    tui_menu_add(ui_video_submenu, vicii_menu_items);
+    if (machine_class == VICE_MACHINE_C64SC) {
+        tui_menu_add(ui_video_submenu, viciisc_menu_items);
+    } else {
+        tui_menu_add(ui_video_submenu, vicii_menu_items);
+    }
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
