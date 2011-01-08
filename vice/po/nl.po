@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-04 12:37-0800\n"
+"POT-Creation-Date: 2011-01-08 11:18-0800\n"
 "PO-Revision-Date: 2010-12-12 13:37+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -975,7 +975,7 @@ msgid "Smart-attach a file"
 msgstr "Slim koppel een bestand"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2016
+#: src/arch/unix/x11/xaw/x11ui.c:2028
 msgid "Unknown image type"
 msgstr "Onbekend bestand type"
 
@@ -3148,7 +3148,7 @@ msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1257
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2734
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
@@ -3996,20 +3996,20 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1242
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1246
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
 msgid "Do you really want to exit?"
 msgstr "Wilt u echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1322 src/arch/unix/x11/xaw/x11ui.c:1325
+#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -4020,7 +4020,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1571
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
@@ -4045,7 +4045,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1892
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
 msgid "Extend disk image"
 msgstr "40-sporen schijfbestand"
 
@@ -4225,20 +4225,20 @@ msgstr "Opslaan huidig gekoppelde disks:"
 msgid "Save currently loaded ROMs:"
 msgstr "Opslaan huidig geladen ROMs:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:981
+#: src/arch/unix/x11/xaw/x11ui.c:993
 msgid "recording..."
 msgstr "opname..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:989
+#: src/arch/unix/x11/xaw/x11ui.c:1001
 msgid "event recording..."
 msgstr "gebeurtenis opname..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1426
+#: src/arch/unix/x11/xaw/x11ui.c:1438
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spoor %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1764 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "VICE Fout!"
 

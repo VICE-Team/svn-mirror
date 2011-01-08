@@ -153,7 +153,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Reddingsmodus"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card soort"
   IDS_MMCREPLAY_READ_WRITE          "lees/schrijf"
-  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
+  IDS_MMCREPLAY_WRITE_ENABLE        "MMC Replay EEPROM opslaan indien gewijzigd"
 END
 
 
@@ -189,7 +189,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Räddningsläge"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Korttyp"
   IDS_MMCREPLAY_READ_WRITE          "skrivbar"
-  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Spara MMC Replay EEPROM vid ändringar"
 END
 
 

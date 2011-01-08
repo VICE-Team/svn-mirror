@@ -136,7 +136,7 @@ BEGIN
   IDS_REU_CAPTION      "REU instellingen"
   IDS_REU_ENABLE       "&Activeer REU"
   IDS_REU_SIZE         "REU grootte"
-  IDS_REU_WRITE_ENABLE "&Save REU image when changed"
+  IDS_REU_WRITE_ENABLE "RUE bestand op&slaan indien gewijzigd"
   IDS_REU_FILE         "REU bestand"
   IDS_REU_SELECT_FILE  "Selecteer bestand voor REU"
 END
@@ -170,7 +170,7 @@ BEGIN
   IDS_REU_CAPTION      "REU-Inställningar"
   IDS_REU_ENABLE       "&Aktivera REU"
   IDS_REU_SIZE         "Storlek på minnesexpansion"
-  IDS_REU_WRITE_ENABLE "&Save REU image when changed"
+  IDS_REU_WRITE_ENABLE "&Spara REU-avbildning vid ändringar"
   IDS_REU_FILE         "REU-fil"
   IDS_REU_SELECT_FILE  "Välj fil för REU"
 END

@@ -127,7 +127,7 @@ BEGIN
   IDS_SELECT_FILE_DQBB  "Selecteer bestand voor DQBB"
   IDS_DQBB_CAPTION      "DQBB instellingen"
   IDS_DQBB_ENABLE       "&Activeer DQBB"
-  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_WRITE_ENABLE "DQBB bestand op&slaan indien gewijzigd"
   IDS_DQBB_FILE_LABEL   "DQBB bestand"
 END
 
@@ -159,7 +159,7 @@ BEGIN
   IDS_SELECT_FILE_DQBB  "Välj fil för DQBB"
   IDS_DQBB_CAPTION      "DQBB-inställningar"
   IDS_DQBB_ENABLE       "&Aktivera DQBB"
-  IDS_DQBB_WRITE_ENABLE "&Save DQBB image when changed"
+  IDS_DQBB_WRITE_ENABLE "&Spara DQBB-avbildning vid ändringar"
   IDS_DQBB_FILE_LABEL   "DQBB-fil"
 END
 

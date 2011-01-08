@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-04 12:37-0800\n"
+"POT-Creation-Date: 2011-01-08 11:18-0800\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1074,7 +1074,7 @@ msgid "Smart-attach a file"
 msgstr "Inteligentne wsadzanie pliku"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2016
+#: src/arch/unix/x11/xaw/x11ui.c:2028
 msgid "Unknown image type"
 msgstr "Nieznany typ obrazu"
 
@@ -3509,7 +3509,7 @@ msgid "Invalid speed value"
 msgstr "Nieprawid³owa warto¶æ prêdko¶ci"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1257
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2734
 msgid "Cannot save settings."
 msgstr "Nie mo¿na zapisaæ ustawieñ."
@@ -4456,20 +4456,20 @@ msgstr "Napêd %d: "
 msgid "Tape 000"
 msgstr "Kaseta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1242
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1246
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
 msgid "Do you really want to exit?"
 msgstr "Czy naprawdê chcesz wyj¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
 msgid "Save the current settings?"
 msgstr "Czy zapisaæ obecne ustawienia?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1322 src/arch/unix/x11/xaw/x11ui.c:1325
+#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
 msgid "(warp)"
 msgstr "(przyspieszony)"
 
@@ -4480,7 +4480,7 @@ msgstr "(przyspieszony)"
 msgid "Tape %03d"
 msgstr "Ta¶ma %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1571
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pauza)"
@@ -4506,7 +4506,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Zawarto¶æ"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1892
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
 msgid "Extend disk image"
 msgstr "Rozszerzenie obrazu dyskietki"
 
@@ -4689,22 +4689,22 @@ msgstr "Zapisz obecnie w³o¿ony dysk:"
 msgid "Save currently loaded ROMs:"
 msgstr "Zapisz obecnie za³adowany ROM"
 
-#: src/arch/unix/x11/xaw/x11ui.c:981
+#: src/arch/unix/x11/xaw/x11ui.c:993
 #, fuzzy
 msgid "recording..."
 msgstr "Rejestruj"
 
-#: src/arch/unix/x11/xaw/x11ui.c:989
+#: src/arch/unix/x11/xaw/x11ui.c:1001
 #, fuzzy
 msgid "event recording..."
 msgstr "Rejestruj"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1426
+#: src/arch/unix/x11/xaw/x11ui.c:1438
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: ¦cie¿ka %.1f "
 
-#: src/arch/unix/x11/xaw/x11ui.c:1764 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "B³±d VICE"
 

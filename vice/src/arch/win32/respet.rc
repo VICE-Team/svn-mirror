@@ -820,7 +820,7 @@ BEGIN
   IDS_TOGGLE_PET_CRTC            "CRTC chip &activeren"
   IDS_PET_KEYBOARD               "&Toetsenbord"
   IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafiek"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Zakelijk (UK)"
   IDS_PET_IO_SETTINGS            "&IO instellingen"
   IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O activ&eren (schakelt 8x96 uit)"
   IDS_PET_RAM_SETTINGS           "&RAM instellingen"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-04 12:37-0800\n"
+"POT-Creation-Date: 2011-01-08 11:18-0800\n"
 "PO-Revision-Date: 2010-12-30 21:26+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -973,7 +973,7 @@ msgid "Smart-attach a file"
 msgstr "Smartanslut en fil"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2016
+#: src/arch/unix/x11/xaw/x11ui.c:2028
 msgid "Unknown image type"
 msgstr "Okänd avbildningsfiltyp"
 
@@ -3145,7 +3145,7 @@ msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1257
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2734
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -3993,20 +3993,20 @@ msgstr "Enhet %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1242
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1246
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1322 src/arch/unix/x11/xaw/x11ui.c:1325
+#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -4017,7 +4017,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1571
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
@@ -4042,7 +4042,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1892
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
@@ -4222,20 +4222,20 @@ msgstr "Spara anslutna disketter:"
 msgid "Save currently loaded ROMs:"
 msgstr "Spara lästa ROMar:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:981
+#: src/arch/unix/x11/xaw/x11ui.c:993
 msgid "recording..."
 msgstr "spelar in..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:989
+#: src/arch/unix/x11/xaw/x11ui.c:1001
 msgid "event recording..."
 msgstr "spelar in händelser..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1426
+#: src/arch/unix/x11/xaw/x11ui.c:1438
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1764 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 

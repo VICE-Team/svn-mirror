@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-04 12:37-0800\n"
+"POT-Creation-Date: 2011-01-08 11:18-0800\n"
 "PO-Revision-Date: 2009-11-16 16:18+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -1026,7 +1026,7 @@ msgid "Smart-attach a file"
 msgstr "Selezione intelligente di un file"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2016
+#: src/arch/unix/x11/xaw/x11ui.c:2028
 msgid "Unknown image type"
 msgstr "Tipo di immagine sconosciuto"
 
@@ -3342,7 +3342,7 @@ msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1257
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2734
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -4249,20 +4249,20 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1242
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1246
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire dal programma?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
 msgid "Save the current settings?"
 msgstr "Salvare le impostazioni attuali?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1322 src/arch/unix/x11/xaw/x11ui.c:1325
+#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
 msgid "(warp)"
 msgstr "(turbo)"
 
@@ -4273,7 +4273,7 @@ msgstr "(turbo)"
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1571
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
@@ -4298,7 +4298,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Continua"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1892
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
 msgid "Extend disk image"
 msgstr "Immagine del disco estesa"
 
@@ -4480,20 +4480,20 @@ msgstr "Salva i dischi attualmente selezionati:"
 msgid "Save currently loaded ROMs:"
 msgstr "Salva le ROM attualmente caricate:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:981
+#: src/arch/unix/x11/xaw/x11ui.c:993
 msgid "recording..."
 msgstr "registrazione in corso..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:989
+#: src/arch/unix/x11/xaw/x11ui.c:1001
 msgid "event recording..."
 msgstr "registrazione eventi..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1426
+#: src/arch/unix/x11/xaw/x11ui.c:1438
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1764 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 

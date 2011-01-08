@@ -2845,9 +2845,9 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_USE_PALN_SYNC_FACTOR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_USE_PALN_SYNC_FACTOR_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_USE_PALN_SYNC_FACTOR_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_USE_PALN_SYNC_FACTOR_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_USE_PALN_SYNC_FACTOR_NL, "Gebruik PAL-N synchronisatiefaktor"},
 /* pl */ {IDCLS_USE_PALN_SYNC_FACTOR_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_USE_PALN_SYNC_FACTOR_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_USE_PALN_SYNC_FACTOR_SV, "Använd PAL N-synkfaktor"},
 /* tr */ {IDCLS_USE_PALN_SYNC_FACTOR_TR, ""},  /* fuzzy */
 #endif
 
@@ -3483,9 +3483,9 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_SET_C64_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_C64_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_C64_MODEL_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_C64_MODEL_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_C64_MODEL_NL, "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
 /* pl */ {IDCLS_SET_C64_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_C64_MODEL_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_C64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
 /* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
 #endif
 
@@ -3696,7 +3696,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE,    N_("Allow writing to GEORAM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_DE, "Schreibzugriff auf GEORAM Image erlauben"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_IT, ""},  /* fuzzy */
@@ -3710,7 +3710,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE,    N_("Do not write to GEORAM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_DE, "Kein Schreibzugriff auf GEORAM Image"},
 /* fr */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_IT, ""},  /* fuzzy */
@@ -3836,7 +3836,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_USERPORT_DAC,    N_("Enable Userport DAC for sound output")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_DAC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_DAC_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_DAC_DE, "Userport DAC Sound aktivieren"},
 /* fr */ {IDCLS_ENABLE_USERPORT_DAC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_DAC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_DAC_IT, ""},  /* fuzzy */
@@ -3850,7 +3850,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_USERPORT_DAC,    N_("Disable Userport DAC for sound output")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_DAC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_DAC_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_DAC_DE, "Userport DAC Sound deaktivieren"},
 /* fr */ {IDCLS_DISABLE_USERPORT_DAC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_DAC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_DAC_IT, ""},  /* fuzzy */
@@ -3948,7 +3948,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE,    N_("Allow writing to RAMCart image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_DE, "Schreibzugriff auf RAMCart Image erlauben"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_IT, ""},  /* fuzzy */
@@ -3962,7 +3962,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE,    N_("Do not write to RAMCart image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_DE, "Kein Schreibzugriff auf RAMCart Image"},
 /* fr */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_IT, ""},  /* fuzzy */
@@ -4032,7 +4032,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE,    N_("Allow writing to DQBB image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_DE, "Schreibzugriff auf DQBB Image erlauben"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_IT, ""},  /* fuzzy */
@@ -4046,7 +4046,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE,    N_("Do not write to DQBB image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_DE, "Kein Schreibzugriff auf DQBB Image"},
 /* fr */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_IT, ""},  /* fuzzy */
@@ -4088,7 +4088,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_ISEPIC_FILENAME,    N_("Set ISEPIC image name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_ISEPIC_FILENAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_ISEPIC_FILENAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_ISEPIC_FILENAME_DE, "ISEPIC Imagedateiname setzen"},
 /* fr */ {IDCLS_SET_ISEPIC_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_ISEPIC_FILENAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_ISEPIC_FILENAME_IT, ""},  /* fuzzy */
@@ -4102,7 +4102,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE,    N_("Allow writing to ISEPIC image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_DE, "Schreibzugriff auf ISEPIC Image erlauben"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_IT, ""},  /* fuzzy */
@@ -4116,7 +4116,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE,    N_("Do not write to ISEPIC image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_DE, "Kein Schreibzugriff auf ISEPIC Image"},
 /* fr */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_IT, ""},  /* fuzzy */
@@ -4340,7 +4340,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE,    N_("Allow writing to MMC Replay image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_DE, "Erlaube Schreibzugriff auf MMC Replay Image"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_IT, ""},  /* fuzzy */
@@ -4354,7 +4354,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE,    N_("Do not write to MMC Replay image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_DE, "Kein Schreibzugriff auf MMC Replay Image"},
 /* fr */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_IT, ""},  /* fuzzy */
@@ -4494,7 +4494,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE,    N_("Allow writing to REU image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_DE, "Schreibzugriff auf REU Image erlauben"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_IT, ""},  /* fuzzy */
@@ -4508,7 +4508,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE,    N_("Do not write to REU image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_DE, "Kein Schreibzugriff auf REU Image"},
 /* fr */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_IT, ""},  /* fuzzy */
@@ -4640,7 +4640,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ATTACH_CRT_CART_FR, "Insérer une cartouche CRT"},
 /* hu */ {IDCLS_ATTACH_CRT_CART_HU, "CRT cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_CRT_CART_IT, "Seleziona l'immagine di una cartuccia CRT"},
-/* nl */ {IDCLS_ATTACH_CRT_CART_NL, "Koppel CRT cartridgebestand aan"},
+/* nl */ {IDCLS_ATTACH_CRT_CART_NL, "Koppel CRT cartridge bestand aan"},
 /* pl */ {IDCLS_ATTACH_CRT_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_CRT_CART_SV, "Anslut CRT-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_CRT_CART_TR, "CRT kartuþ imajý yerleþtir"},
@@ -4650,11 +4650,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_GENERIC_8KB_CART,    N_("Attach generic 8KB cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_GENERIC_8KB_CART_DA, "Tilslut standard 8KB-cartridge image"},
-/* de */ {IDCLS_ATTACH_GENERIC_8KB_CART_DE, "Generisches 8K Erweiterungsmodul Image einlegen"},
+/* de */ {IDCLS_ATTACH_GENERIC_8KB_CART_DE, "Generisches 8kB Erweiterungsmodul Image einlegen"},
 /* fr */ {IDCLS_ATTACH_GENERIC_8KB_CART_FR, "Insérer une cartouche générique 8KO"},
 /* hu */ {IDCLS_ATTACH_GENERIC_8KB_CART_HU, "Általános 8KB cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_GENERIC_8KB_CART_IT, "Seleziona l'immagine di una cartuccia generica di 8KB"},
-/* nl */ {IDCLS_ATTACH_GENERIC_8KB_CART_NL, "Koppel generiek 8KB cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_GENERIC_8KB_CART_NL, "Koppel generiek 8KB cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_GENERIC_8KB_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_GENERIC_8KB_CART_SV, "Anslut vanlig 8KB-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_GENERIC_8KB_CART_TR, "8KB jenerik kartuþ imajý yerleþtir"},
@@ -4664,11 +4664,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_GENERIC_16KB_CART,    N_("Attach generic 16KB cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_GENERIC_16KB_CART_DA, "Tilslut standard 16KB-cartridge image"},
-/* de */ {IDCLS_ATTACH_GENERIC_16KB_CART_DE, "Generisches 16K Erweiterungsmodul Image einlegen"},
+/* de */ {IDCLS_ATTACH_GENERIC_16KB_CART_DE, "Generisches 16kB Erweiterungsmodul Image einlegen"},
 /* fr */ {IDCLS_ATTACH_GENERIC_16KB_CART_FR, "Insérer une cartouche générique de 16KO"},
 /* hu */ {IDCLS_ATTACH_GENERIC_16KB_CART_HU, "Általános 16KB cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_GENERIC_16KB_CART_IT, "Seleziona l'immagine di una cartuccia generica di 16KB"},
-/* nl */ {IDCLS_ATTACH_GENERIC_16KB_CART_NL, "Koppel generiek 16KB cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_GENERIC_16KB_CART_NL, "Koppel generiek 16KB cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_GENERIC_16KB_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_GENERIC_16KB_CART_SV, "Anslut vanlig 16KB-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_GENERIC_16KB_CART_TR, "16KB jenerik kartuþ imajý yerleþtir"},
@@ -4678,7 +4678,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART,    N_("Attach generic 16kB Ultimax cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_DE, "Generisches 16kB Ultimax Erweiterungsmodul Image einlegen"},
 /* fr */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_IT, ""},  /* fuzzy */
@@ -4691,36 +4691,36 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_STARDOS_CART,    N_("Attach raw 16KB Stardos cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_RAW_STARDOS_CART_DA, "Tilslut råt 16KB StarDOS-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_STARDOS_CART_DE, "16KB StarDOS Erweiterungsmodul Image einlegen"},
+/* da */ {IDCLS_ATTACH_RAW_STARDOS_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_STARDOS_CART_DE, "16kB Stardos Erweiterungsmodul Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_STARDOS_CART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ATTACH_RAW_STARDOS_CART_HU, "Nyers 16KB-os StarDOS cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_RAW_STARDOS_CART_IT, "Seleziona l'immagine di una cartuccia StarDOS di 16KB"},
-/* nl */ {IDCLS_ATTACH_RAW_STARDOS_CART_NL, "Koppel binair 16KB StarDOS cartridgebestand"},
+/* hu */ {IDCLS_ATTACH_RAW_STARDOS_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_STARDOS_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_STARDOS_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_RAW_STARDOS_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_STARDOS_CART_SV, "Anslut rå 16KB StarDOS-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_RAW_STARDOS_CART_TR, "Düz 16KB StarDOS kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_RAW_STARDOS_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_STARDOS_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART,    N_("Attach raw 32KB Action Replay MK4 cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_DA, "Tilslut råt 32KB-Action Replay IV-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_DE, "32K Action Replay Image IV einlegen"},
+/* da */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_DE, "32kB Action Replay MK4 Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_HU, "32KB-os Action Replay IV cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_IT, "Seleziona l'immagine di una cartuccia Action Replay IV di 32KB"},
-/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_NL, "Koppel binair 32KB Action Replay cartridgebestand"},
+/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_SV, "Anslut rå 32KB-Action Replay IV-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_TR, "Düz 32KB Action Replay IV kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART,    N_("Attach raw 16kB Action Replay MK2 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_DE, "16kB Action Replay MK2 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_IT, ""},  /* fuzzy */
@@ -4733,26 +4733,26 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART,    N_("Attach raw 16KB Action Replay MK3 cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DA, "Tilslut råt 16KB-Action Replay III-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DE, "16KB Action Replay Image III (raw) einlegen"},
+/* da */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_DE, "16kB Action Replay MK3 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_HU, "16KB-os Action Replay III cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_IT, "Seleziona l'immagine di una cartuccia Action Replay III di 16KB"},
-/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_NL, "Koppel binair 16KB Action Replay III cartridgebestand"},
+/* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_SV, "Anslut rå 16KB-Action Replay III-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_TR, "Düz 16KB Action Replay III kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART,    N_("Attach raw 32KB Action Replay cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_DA, "Tilslut råt 32KB-Action Replay-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_DE, "32K Action Replay Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_DE, "32kB Action Replay Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_FR, "Insérer une cartouche Action Replay 32KO"},
 /* hu */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_HU, "32KB-os Action Replay cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_IT, "Seleziona l'immagine di una cartuccia Action Replay di 32KB"},
-/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_NL, "Koppel binair 32KB Action Replay cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_NL, "Koppel binair 32KB Action Replay cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_SV, "Anslut rå 32KB-Action Replay-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY_CART_TR, "Düz 32KB Action Replay kartuþ imajý yerleþtir"},
@@ -4762,7 +4762,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_CAPTURE_CART,    N_("Attach raw 8kB Capture cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_CAPTURE_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_CAPTURE_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_CAPTURE_CART_DE, "8kB Capture Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_CAPTURE_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_CAPTURE_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_CAPTURE_CART_IT, ""},  /* fuzzy */
@@ -4776,7 +4776,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_COMAL80_CART,    N_("Attach raw 64kB Comal 80 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_COMAL80_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_COMAL80_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_COMAL80_CART_DE, "64kB Comal 80 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_COMAL80_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_COMAL80_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_COMAL80_CART_IT, ""},  /* fuzzy */
@@ -4790,7 +4790,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_DELA_EP256_CART,    N_("Attach raw Dela EP256 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_DE, "Dela EP256 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_IT, ""},  /* fuzzy */
@@ -4804,7 +4804,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_DELA_EP64_CART,    N_("Attach raw Dela EP64 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_DE, "Dela EP64 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_IT, ""},  /* fuzzy */
@@ -4818,7 +4818,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART,    N_("Attach raw Dela EP7x8 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_DE, "Dela EP7x8 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_IT, ""},  /* fuzzy */
@@ -4832,7 +4832,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_DINAMIC_CART,    N_("Attach raw 128kB Dinamic cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_DINAMIC_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_DINAMIC_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_DINAMIC_CART_DE, "128kB Dinamic Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_DINAMIC_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_DINAMIC_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_DINAMIC_CART_IT, ""},  /* fuzzy */
@@ -4846,7 +4846,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART,    N_("Attach raw 8kB Diashow-Maker cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_DE, "8kB Diashow-Maker Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_IT, ""},  /* fuzzy */
@@ -4860,7 +4860,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_DQBB_CART,    N_("Attach raw 16kB Double Quick Brown Box cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_DQBB_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_DQBB_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_DQBB_CART_DE, "16kB Double Quick Brown Box Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_DQBB_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_DQBB_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_DQBB_CART_IT, ""},  /* fuzzy */
@@ -4874,7 +4874,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART,    N_("Attach raw EasyFlash cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_DE, "Easyflash Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_IT, ""},  /* fuzzy */
@@ -4888,11 +4888,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART,    N_("Attach raw 64KB Retro Replay cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_DA, "Tilslut råt 64KB-Retro Replay-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_DE, "64K Retro Replay Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_DE, "64kB Retro Replay Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_FR, "Insérer une cartouche Retro Replay 64KO"},
 /* hu */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_HU, "64KB-os Retro Replay cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_IT, "Seleziona l'immagine di una cartuccia Retro Replay di 64KB"},
-/* nl */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_NL, "Koppel binair 64KB Retro Replay cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_NL, "Koppel binair 64KB Retro Replay cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_SV, "Anslut rå 64KB-Retro Replay-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_RAW_RETRO_REPLAY_CART_TR, "Düz 64KB Retro Replay kartuþ imajý yerleþtir"},
@@ -4902,7 +4902,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART,    N_("Attach raw 8kB REX Utility cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_DE, "8kB REX Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_IT, ""},  /* fuzzy */
@@ -4916,7 +4916,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_SS64_CART,    N_("Attach raw 4kB Snapshot 64 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SS64_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_SS64_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_SS64_CART_DE, "4kB Snapshot 64 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_SS64_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SS64_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SS64_CART_IT, ""},  /* fuzzy */
@@ -4930,11 +4930,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_IDE64_CART,    N_("Attach raw 64KB IDE64 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_IDE64_CART_DA, "Tilslut råt 64KB IDE64-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_IDE64_CART_DE, "64KB IDE64 Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_IDE64_CART_DE, "64kB IDE64 Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_IDE64_CART_FR, "Insérer une cartouche IDE64 64KO"},
 /* hu */ {IDCLS_ATTACH_RAW_IDE64_CART_HU, "64KB-os IDE64 cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_IDE64_CART_IT, "Seleziona l'immagine di una cartuccia IDE64 di 64KB"},
-/* nl */ {IDCLS_ATTACH_RAW_IDE64_CART_NL, "Koppel binair 64KB IDE64 cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_RAW_IDE64_CART_NL, "Koppel binair 64KB IDE64 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_IDE64_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_IDE64_CART_SV, "Anslut rå 64KB IDE64-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_RAW_IDE64_CART_TR, "Düz 64KB IDE64 kartuþ imajý yerleþtir"},
@@ -4944,11 +4944,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART,    N_("Attach raw 32KB Atomic Power cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_DA, "Tilslut råt 32KB Atomic Power-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_DE, "32KB Atomic Power Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_DE, "32kB Atomic Power Image einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_FR, "Insérer une cartouche Atomic Power 32KO"},
 /* hu */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_HU, "32KB-os Atomic Power cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_IT, "Seleziona l'immagine di una cartuccia Atomic Power di 32KB"},
-/* nl */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_NL, "Koppel binair 32KB Atomic Power cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_NL, "Koppel binair 32KB Atomic Power cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_SV, "Anslut rå 32KB Atomic Power-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_RAW_ATOMIC_POWER_CART_TR, "Düz 32KB Atomic Power kartuþ imajý yerleþtir"},
@@ -4957,22 +4957,22 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART,    N_("Attach raw 8KB Epyx FastLoad cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_DA, "Tilslut råt 8KB Epyx fastload-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_DE, "8KB Epyx Fastload Image einlegen"},
-/* fr */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_FR, "Insérer une cartouche Epyx FastLoad 8KO"},
-/* hu */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_HU, "8KB-os Epyx gyorstöltõ cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_IT, "Seleziona l'immagine di una cartuccia Epyx fastload di 8KB"},
-/* nl */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_NL, "Koppel binair 8KB Epyx fastload cartridgebestand"},
+/* da */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_DE, "8kB Epyx Fastload Image (raw) einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_SV, "Anslut rå 8KB Epyx fastload-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_TR, "Düz 8KB Epyx fastload kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_EXOS_CART,    N_("Attach raw 8kB EXOS cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_EXOS_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_EXOS_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_EXOS_CART_DE, "8kB EXOS Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_EXOS_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_EXOS_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_EXOS_CART_IT, ""},  /* fuzzy */
@@ -4986,7 +4986,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_EXPERT_CART,    N_("Attach raw 8kB Expert Cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_EXPERT_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_EXPERT_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_EXPERT_CART_DE, "8kB Expert Cartridge Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_EXPERT_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_EXPERT_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_EXPERT_CART_IT, ""},  /* fuzzy */
@@ -5000,7 +5000,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_FC1_CART,    N_("Attach raw 16kB Final Cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_FC1_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_FC1_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_FC1_CART_DE, "16kB Final Cartridge Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_FC1_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_FC1_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_FC1_CART_IT, ""},  /* fuzzy */
@@ -5014,7 +5014,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_FC3_CART,    N_("Attach raw 64kB Final Cartridge III image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_FC3_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_FC3_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_FC3_CART_DE, "64kB Final Cartridge Image III (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_FC3_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_FC3_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_FC3_CART_IT, ""},  /* fuzzy */
@@ -5028,7 +5028,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_FCPLUS_CART,    N_("Attach raw 32kB Final Cartridge Plus image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_FCPLUS_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_FCPLUS_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_FCPLUS_CART_DE, "32kB Final Cartridge Plus Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_FCPLUS_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_FCPLUS_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_FCPLUS_CART_IT, ""},  /* fuzzy */
@@ -5042,7 +5042,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART,    N_("Attach raw 8kB Freeze Frame image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_DE, "8kB Freeze Frame Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_IT, ""},  /* fuzzy */
@@ -5056,7 +5056,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART,    N_("Attach raw 32kB Freeze Machine image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_DE, "8kB Freeze Machine Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_IT, ""},  /* fuzzy */
@@ -5070,7 +5070,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_FP_PP_CART,    N_("Attach raw 128kB Fun Play/Power Play cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_FP_PP_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_FP_PP_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_FP_PP_CART_DE, "128kB Fun Play/Power Play Cartridge  Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_FP_PP_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_FP_PP_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_FP_PP_CART_IT, ""},  /* fuzzy */
@@ -5084,13 +5084,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_SS4_CART,    N_("Attach raw 32KB Super Snapshot V4 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SS4_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_SS4_CART_DE, "32KB Super Snapshot 4 (raw) Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_SS4_CART_DE, "32kB Super Snapshot V4 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_SS4_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SS4_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SS4_CART_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_RAW_SS4_CART_NL, "Koppel binair 32KB Super Snapshot 4 cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_RAW_SS4_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_RAW_SS4_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_SS4_CART_SV, "Anslut rå 32KB Super Snapshot 4-insticksmodulfil"},
+/* sv */ {IDCLS_ATTACH_RAW_SS4_CART_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ATTACH_RAW_SS4_CART_TR, ""},  /* fuzzy */
 #endif
 
@@ -5098,35 +5098,35 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_SS5_CART,    N_("Attach raw 64KB Super Snapshot V5 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SS5_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_SS5_CART_DE, "64KB Super Snapshot 5 (raw) Image einlegen"},
+/* de */ {IDCLS_ATTACH_RAW_SS5_CART_DE, "64kB Super Snapshot V5 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_SS5_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SS5_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SS5_CART_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_RAW_SS5_CART_NL, "Koppel binair 64KB Super Snapshot 5 cartridgebestand"},
+/* nl */ {IDCLS_ATTACH_RAW_SS5_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_RAW_SS5_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_SS5_CART_SV, "Anslut rå 64KB-Super Snapshot 5-insticksmodulfil"},
+/* sv */ {IDCLS_ATTACH_RAW_SS5_CART_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ATTACH_RAW_SS5_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_CBM_IEEE488_CART,    N_("Attach CBM IEEE-488 cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_CBM_IEEE488_CART_DA, "Tilslut CBM IEEE-488-cartridge image"},
+/* da */ {IDCLS_ATTACH_CBM_IEEE488_CART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ATTACH_CBM_IEEE488_CART_DE, "CBM IEEE-488 Erweiterungsmodul einlegen"},
-/* fr */ {IDCLS_ATTACH_CBM_IEEE488_CART_FR, "Insérer une cartouche CBM IEEE-488"},
-/* hu */ {IDCLS_ATTACH_CBM_IEEE488_CART_HU, "CBM IEEE-488 cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_CBM_IEEE488_CART_IT, "Seleziona l'immagine di una cartuccia CBM IEEE-488"},
-/* nl */ {IDCLS_ATTACH_CBM_IEEE488_CART_NL, "Koppel CBM IEEE-488 cartridgebestand"},
+/* fr */ {IDCLS_ATTACH_CBM_IEEE488_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_CBM_IEEE488_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_CBM_IEEE488_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_CBM_IEEE488_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_CBM_IEEE488_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_CBM_IEEE488_CART_SV, "Anslut CBM IEEE-488-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_CBM_IEEE488_CART_TR, "CBM IEEE-488 kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_CBM_IEEE488_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_CBM_IEEE488_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_ISEPIC_CART,    N_("Attach raw 2kB ISEPIC cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_ISEPIC_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_ISEPIC_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_ISEPIC_CART_DE, "2kB ISEPIC Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ISEPIC_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_ISEPIC_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_ISEPIC_CART_IT, ""},  /* fuzzy */
@@ -5140,7 +5140,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_KCS_CART,    N_("Attach raw 16kB KCS Power cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_KCS_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_KCS_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_KCS_CART_DE, "16kB KCS Power Cartridge Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_KCS_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_KCS_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_KCS_CART_IT, ""},  /* fuzzy */
@@ -5154,7 +5154,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_MACH5_CART,    N_("Attach raw 8kB MACH 5 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MACH5_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_MACH5_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_MACH5_CART_DE, "8kB MAC 5 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_MACH5_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_MACH5_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_MACH5_CART_IT, ""},  /* fuzzy */
@@ -5168,7 +5168,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART,    N_("Attach raw 32/64/128kB Magic Desk cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_DE, "32/64/128kB Magic Desk Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_IT, ""},  /* fuzzy */
@@ -5182,7 +5182,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART,    N_("Attach raw Magic Formel cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_DE, "Magic Formel Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_IT, ""},  /* fuzzy */
@@ -5196,7 +5196,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART,    N_("Attach raw 8kB Mikro Assembler cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_DE, "8kB Mikro Assembler Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_IT, ""},  /* fuzzy */
@@ -5210,7 +5210,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_MMC64_CART,    N_("Attach raw 8kB MMC64 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MMC64_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_MMC64_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_MMC64_CART_DE, "8kB MMC64 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_MMC64_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_MMC64_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_MMC64_CART_IT, ""},  /* fuzzy */
@@ -5224,7 +5224,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART,    N_("Attach raw 512kB MMC Replay cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_DE, "512kB MMC Replay Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_IT, ""},  /* fuzzy */
@@ -5238,7 +5238,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART,    N_("Attach raw 16kB Magic Voice cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_DE, "16kB Magic Voice Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_IT, ""},  /* fuzzy */
@@ -5252,7 +5252,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_OCEAN_CART,    N_("Attach raw Ocean cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_OCEAN_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_OCEAN_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_OCEAN_CART_DE, "Ocean Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_OCEAN_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_OCEAN_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_OCEAN_CART_IT, ""},  /* fuzzy */
@@ -5265,22 +5265,22 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_WESTERMANN_CART,    N_("Attach raw 16KB Westermann Learning cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_DA, "Tilslut råt 16KB-Westermann learning-cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_DE, "16KB Westermann learning (raw) Image einlegen"},
-/* fr */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_FR, "Insérer une cartouche Westermann Learning 16KO"},
-/* hu */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_HU, "16KB-os Westermann learning cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_IT, "Seleziona l'immagine di una cartuccia Westermann learning di 16KB"},
-/* nl */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_NL, "Koppel binair 16KB Westermann learning cartridgebestand"},
+/* da */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_DE, "16kB Westermann learning Image (raw) einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_SV, "Anslut rå 16KB-Westermann learning-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_TR, "Düz 16KB Westermann learning kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_WARPSPEED_CART,    N_("Attach raw 8kB Warp Speed cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_DE, "8kB Warp Speed Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_IT, ""},  /* fuzzy */
@@ -5294,7 +5294,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_ZAXXON_CART,    N_("Attach raw 16kB Zaxxon cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_ZAXXON_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_ZAXXON_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_ZAXXON_CART_DE, "16kB Zaxxon Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ZAXXON_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_ZAXXON_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_ZAXXON_CART_IT, ""},  /* fuzzy */
@@ -5322,7 +5322,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_RAMCART_CART,    N_("Attach raw RamCart cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_RAMCART_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_RAMCART_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_RAMCART_CART_DE, "RamCart Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_RAMCART_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_RAMCART_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_RAMCART_CART_IT, ""},  /* fuzzy */
@@ -5336,7 +5336,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_REU_CART,    N_("Attach raw REU cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_REU_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_REU_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_REU_CART_DE, "REU Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_REU_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_REU_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_REU_CART_IT, ""},  /* fuzzy */
@@ -5350,7 +5350,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_REX_EP256_CART,    N_("Attach raw REX EP256 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_REX_EP256_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_REX_EP256_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_REX_EP256_CART_DE, "REX EP256 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_REX_EP256_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_REX_EP256_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_REX_EP256_CART_IT, ""},  /* fuzzy */
@@ -5364,7 +5364,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_ROSS_CART,    N_("Attach raw 16/32kB ROSS cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_ROSS_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_ROSS_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_ROSS_CART_DE, "16/32kB ROSS Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_ROSS_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_ROSS_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_ROSS_CART_IT, ""},  /* fuzzy */
@@ -5392,7 +5392,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_GEORAM_CART,    N_("Attach raw GEO-RAM cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_GEORAM_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_GEORAM_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_GEORAM_CART_DE, "GEO-RAM Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_GEORAM_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_GEORAM_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_GEORAM_CART_IT, ""},  /* fuzzy */
@@ -5406,7 +5406,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART,    N_("Attach raw 512kB Game System cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_DE, "512kB Game System Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_IT, ""},  /* fuzzy */
@@ -5419,15 +5419,15 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c, c64/expert.c */
 /* en */ {IDCLS_ENABLE_EXPERT_CART,    N_("Enable the Expert Cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_EXPERT_CART_DA, "Aktivér Expert Cartridge"},
+/* da */ {IDCLS_ENABLE_EXPERT_CART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_EXPERT_CART_DE, "Expert Cartridge aktivieren"},
-/* fr */ {IDCLS_ENABLE_EXPERT_CART_FR, "Activer les paramètres experts de cartouches"},
-/* hu */ {IDCLS_ENABLE_EXPERT_CART_HU, "Expert cartridge engedélyezése"},
-/* it */ {IDCLS_ENABLE_EXPERT_CART_IT, "Attiva l'Expert Cartridge"},
-/* nl */ {IDCLS_ENABLE_EXPERT_CART_NL, "Activeer expertcartridge"},
+/* fr */ {IDCLS_ENABLE_EXPERT_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_EXPERT_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_EXPERT_CART_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_EXPERT_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_ENABLE_EXPERT_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_EXPERT_CART_SV, "Aktivera Expert Cartridge"},
-/* tr */ {IDCLS_ENABLE_EXPERT_CART_TR, "Expert kartuþunu aktif et"},
+/* sv */ {IDCLS_ENABLE_EXPERT_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_EXPERT_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/expert.c */
@@ -5438,9 +5438,9 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_DISABLE_EXPERT_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_EXPERT_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_EXPERT_CART_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_EXPERT_CART_NL, "Sluit expertcartridge"},
+/* nl */ {IDCLS_DISABLE_EXPERT_CART_NL, ""},  /* fuzzy */
 /* pl */ {IDCLS_DISABLE_EXPERT_CART_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_EXPERT_CART_SV, "Inaktivera Expert-insticksmodul"},
+/* sv */ {IDCLS_DISABLE_EXPERT_CART_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_EXPERT_CART_TR, ""},  /* fuzzy */
 #endif
 
@@ -5448,7 +5448,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_EXPERT_FILENAME,    N_("Set Expert Cartridge image name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_EXPERT_FILENAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_EXPERT_FILENAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_EXPERT_FILENAME_DE, "Expert Cartridge Imagedateiname setzen"},
 /* fr */ {IDCLS_SET_EXPERT_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_EXPERT_FILENAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_EXPERT_FILENAME_IT, ""},  /* fuzzy */
@@ -5462,7 +5462,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE,    N_("Allow writing to Expert Cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_DE, "Schreibzugriff auf Expert Cartridge Image erlauben"},
 /* fr */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_IT, ""},  /* fuzzy */
@@ -5476,7 +5476,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE,    N_("Do not write to Expert Cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_DE, "Kein Schreibzugriff auf Expert Cartridge Image"},
 /* fr */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_IT, ""},  /* fuzzy */
@@ -5603,7 +5603,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_IDE64_V4,    N_("Emulate version 4 hardware")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_IDE64_V4_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_IDE64_V4_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_IDE64_V4_DE, "Emulation der Version 5 Hardware"},
 /* fr */ {IDCLS_IDE64_V4_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_IDE64_V4_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_IDE64_V4_IT, ""},  /* fuzzy */
@@ -5617,7 +5617,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_IDE64_PRE_V4,    N_("Emulate pre version 4 hardware")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_IDE64_PRE_V4_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_IDE64_PRE_V4_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_IDE64_PRE_V4_DE, "Emulation der pre-Version 4 Hardware"},
 /* fr */ {IDCLS_IDE64_PRE_V4_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_IDE64_PRE_V4_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_IDE64_PRE_V4_IT, ""},  /* fuzzy */
@@ -9470,7 +9470,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT,    N_("Enable verbose log output.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_DE, "Ausführliche Diagnose aktivieren."},
 /* fr */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_IT, ""},  /* fuzzy */
@@ -10090,7 +10090,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ATTACH_RAW_STB_CART_FR, "Insérer une cartouche Raw Structured Basic"},
 /* hu */ {IDCLS_ATTACH_RAW_STB_CART_HU, "Structured Basic cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_RAW_STB_CART_IT, "Seleziona l'immagine di una cartuccia Structured Basic"},
-/* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridgebestand aan"},
+/* nl */ {IDCLS_ATTACH_RAW_STB_CART_NL, "Koppel binair Structured Basic cartridge bestand aan"},
 /* pl */ {IDCLS_ATTACH_RAW_STB_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_STB_CART_SV, "Anslut rå Strucured Basic-insticksmodulfil"},
 /* tr */ {IDCLS_ATTACH_RAW_STB_CART_TR, "Düz yapýlandýrýlmýþ Basic kartuþ imajý yerleþtir"},
@@ -10100,7 +10100,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_SE5_CART,    N_("Attach raw 16kB Super Explode V5 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SE5_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_SE5_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_SE5_CART_DE, "16kB Super Explode V5 Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_SE5_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SE5_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SE5_CART_IT, ""},  /* fuzzy */
@@ -10114,7 +10114,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART,    N_("Attach raw 64kB Super Games cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_DE, "64kB Super Games Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_IT, ""},  /* fuzzy */
@@ -10128,7 +10128,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART,    N_("Attach raw 16kB Simons Basic cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_DE, "16kB Simons Basic Image (raw) einlegen"},
 /* fr */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_IT, ""},  /* fuzzy */
@@ -10690,13 +10690,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DIGIMAX,    N_("Enable the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DIGIMAX_DE, "DigiMAX Cartridge aktivieren"},
 /* fr */ {IDCLS_ENABLE_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DIGIMAX_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DIGIMAX_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DIGIMAX_NL, "Activeer de DigiMAX cartridge"},
 /* pl */ {IDCLS_ENABLE_DIGIMAX_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DIGIMAX_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DIGIMAX_SV, "Aktivera DigiMAX-insticksmodul"},
 /* tr */ {IDCLS_ENABLE_DIGIMAX_TR, ""},  /* fuzzy */
 #endif
 
@@ -10704,13 +10704,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DIGIMAX,    N_("Disable the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DIGIMAX_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DIGIMAX_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DIGIMAX_DE, "DigiMAX Cartridge deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DIGIMAX_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DIGIMAX_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DIGIMAX_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DIGIMAX_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DIGIMAX_NL, "De DigiMAX cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DIGIMAX_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DIGIMAX_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DIGIMAX_SV, "Inaktivera DigiMAX-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_DIGIMAX_TR, ""},  /* fuzzy */
 #endif
 
@@ -10718,13 +10718,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DIGIMAX_BASE,    N_("Base address of the DigiMAX cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DIGIMAX_BASE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DIGIMAX_BASE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DIGIMAX_BASE_DE, "Basis Adresse für DigiMAX Erweiterung"},
 /* fr */ {IDCLS_DIGIMAX_BASE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DIGIMAX_BASE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DIGIMAX_BASE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DIGIMAX_BASE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basisadres van de DigiMAX cartridge"},
 /* pl */ {IDCLS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DIGIMAX_BASE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för DigiMAC-insticksmodulen"},
 /* tr */ {IDCLS_DIGIMAX_BASE_TR, ""},  /* fuzzy */
 #endif
 

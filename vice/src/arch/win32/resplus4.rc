@@ -663,12 +663,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Koppel cartridgebestand voor 'Function Low'"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Koppel cartridgebestand voor 'Function High'"
-  IDS_ATTACH_CART1_LOW            "Koppel cartridgebestand voor 'Cartridge1 Low'"
-  IDS_ATTACH_CART1_HIGH           "Koppel cartridgebestand voor 'Cartridge1 High'"
-  IDS_ATTACH_CART2_LOW            "Koppel cartridgebestand voor 'Cartridge2 Low'"
-  IDS_ATTACH_CART2_HIGH           "Koppel cartridgebestand voor 'Cartridge2 High'"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Koppel cartridge bestand voor 'Function Low'"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Koppel cartridge bestand voor 'Function High'"
+  IDS_ATTACH_CART1_LOW            "Koppel cartridge bestand voor 'Cartridge1 Low'"
+  IDS_ATTACH_CART1_HIGH           "Koppel cartridge bestand voor 'Cartridge1 High'"
+  IDS_ATTACH_CART2_LOW            "Koppel cartridge bestand voor 'Cartridge2 Low'"
+  IDS_ATTACH_CART2_HIGH           "Koppel cartridge bestand voor 'Cartridge2 High'"
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 instellingen"
