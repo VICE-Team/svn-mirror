@@ -108,6 +108,8 @@ libarch_a_SOURCES = \
 	uinetplay.h \
 	uiperipherial.c \
 	uiperipherial.h \
+	uipetdww.c \
+	uipetdww.h \
 	uipetreu.c \
 	uipetreu.h \
  	uiplus256k.c \

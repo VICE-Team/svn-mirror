@@ -40,6 +40,7 @@
 #include "tuifs.h"
 #include "tuimenu.h"
 #include "ui.h"
+#include "uipetdww.h"
 #include "uipetreu.h"
 #include "uisidcart.h"
 
@@ -491,6 +492,8 @@ int petui_init(void)
                          TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+
+    uipetdww_init(ui_ioextensions_submenu);
 
     uipetreu_init(ui_ioextensions_submenu);
 
