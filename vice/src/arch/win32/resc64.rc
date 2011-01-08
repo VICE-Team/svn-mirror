@@ -530,12 +530,12 @@ BEGIN
     LTEXT         "", IDC_C64CIA2_LABEL,
                   4, 102, 60, 8
     COMBOBOX      IDC_C64CIA2_LIST,
-                  45, 103, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                  45, 101, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     LTEXT         "", IDC_C64GLUELOGIC_LABEL,
                   4, 122, 60, 8
     COMBOBOX      IDC_C64GLUELOGIC_LIST,
-                  45, 123, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                  45, 121, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK,
                     20, 150, 50, 14, WS_TABSTOP
