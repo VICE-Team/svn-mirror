@@ -714,9 +714,9 @@ BEGIN
     AUTOCHECKBOX "", IDC_TOGGLE_VIDEO_EXTPALETTE,
                  12, 12, 70, 10, BS_AUTOCHECKBOX | WS_TABSTOP
     COMBOBOX     IDC_VIDEO_CUSTOM_NAME,
-                 12, 12+12, 120, 112, CBS_DROPDOWN | WS_VSCROLL | WS_GROUP | WS_TABSTOP
+                 12, 11, 120, 112, CBS_DROPDOWN | WS_VSCROLL | WS_GROUP | WS_TABSTOP
     PUSHBUTTON   "&Browse...", IDC_VIDEO_CUSTOM_BROWSE,
-                 12, 12+18+12, 50, 14, WS_GROUP
+                 12, 12+18, 50, 14, WS_GROUP
 END
 
 // -----------------------------------------------------------------------------
