@@ -163,5 +163,5 @@ if test x"$ZIPKIND" = "xzip"; then
   rm -f -r VICE-$AMIGAFLAVOR VICE-$AMIGAFLAVOR.info
   echo AMIGA port binary distribution archive generated as VICE-$AMIGAFLAVOR.tar.gz
 else
-  echo AMIGA port binary destribution directory generated as VICE-$AMIGAFLAVOR
+  echo AMIGA port binary distribution directory generated as VICE-$AMIGAFLAVOR
 fi
