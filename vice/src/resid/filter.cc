@@ -355,6 +355,13 @@ void Filter::enable_filter(bool enable)
 void Filter::set_chip_model(chip_model model)
 {
   sid_model = model;
+  /* We initialize the state variables again just to make sure that
+   * the earlier model didn't leave behind some foreign, unrecoverable
+   * state. Hopefully set_chip_model() only occurs simultaneously with
+   * reset(). */
+  Vhp = 0;
+  Vbp = Vbp_x = Vbp_vc = 0;
+  Vlp = Vlp_x = Vlp_vc = 0;
 }
 
 
