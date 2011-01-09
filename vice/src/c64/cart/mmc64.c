@@ -177,7 +177,8 @@ static io_source_t mmc64_io1_clockport_device = {
     NULL,
     NULL,
     NULL,
-    CARTRIDGE_MMC64
+    CARTRIDGE_MMC64,
+    0
 };
 
 static io_source_t mmc64_io2_clockport_device = {
@@ -190,7 +191,8 @@ static io_source_t mmc64_io2_clockport_device = {
     NULL,
     NULL,
     NULL,
-    CARTRIDGE_MMC64
+    CARTRIDGE_MMC64,
+    0
 };
 
 static io_source_t *mmc64_current_clockport_device = &mmc64_io1_clockport_device;
@@ -225,7 +227,8 @@ static io_source_t mmc64_io1_device = {
     mmc64_io1_read,
     mmc64_io1_peek,
     NULL,
-    CARTRIDGE_MMC64
+    CARTRIDGE_MMC64,
+    0
 };
 
 static io_source_list_t *mmc64_clockport_list_item = NULL;

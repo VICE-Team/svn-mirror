@@ -99,7 +99,7 @@
 static int isepic_enabled;
 
 /* Flag: what direction is the switch at, 0 = away, 1 = towards computer */
-int isepic_switch = 0; /* FIXME: make static */
+static int isepic_switch = 0;
 
 static int isepic_write_image = 0;
 
@@ -498,6 +498,41 @@ void REGPARM2 isepic_page_store(WORD addr, BYTE value)
     } else {
         mem_store_without_ultimax(addr, value);
     }
+}
+
+int isepic_romh_phi1_read(WORD addr, BYTE *value)
+{
+    switch (addr) {
+        case 0xfffa:
+        case 0xfffb:
+            *value = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+            return CART_READ_VALID;
+    }
+    return CART_READ_C64MEM;
+}
+
+int isepic_romh_phi2_read(WORD addr, BYTE *value)
+{
+    return isepic_romh_phi1_read(addr, value);
+}
+
+int isepic_peek_mem(WORD addr, BYTE *value)
+{
+    if (isepic_switch) {
+        if ((addr >= 0x1000) && (addr <= 0xcfff)) {
+            *value = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+            return CART_READ_VALID;
+        } else if ((addr >= 0xe000) && (addr <= 0xffff)) {
+            switch (addr) {
+                case 0xfffa:
+                case 0xfffb:
+                    *value = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+                    return CART_READ_VALID;
+            }
+        }
+        return CART_READ_C64MEM;
+    }
+    return CART_READ_THROUGH;
 }
 
 /* ---------------------------------------------------------------------*/

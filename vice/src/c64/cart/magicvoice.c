@@ -802,7 +802,8 @@ static io_source_t magicvoice_io2_device = {
     magicvoice_io2_read,
     magicvoice_io2_peek,
     magicvoice_io2_dump,
-    CARTRIDGE_MAGIC_VOICE
+    CARTRIDGE_MAGIC_VOICE,
+    0
 };
 
 static io_source_list_t *magicvoice_io2_list_item = NULL;

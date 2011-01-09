@@ -24,12 +24,17 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_ISEPIC_H
 #define VICE_ISEPIC_H
 
 #include "types.h"
 
-extern int isepic_switch; /* FIXME: remove */
 extern int isepic_cart_enabled(void);
 extern int isepic_cart_active(void);
 extern int isepic_freeze_allowed(void);
@@ -46,6 +51,9 @@ extern BYTE REGPARM1 isepic_romh_read(WORD addr);
 extern void REGPARM2 isepic_romh_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 isepic_page_read(WORD addr);
 extern void REGPARM2 isepic_page_store(WORD addr, BYTE byte);
+extern int isepic_romh_phi1_read(WORD addr, BYTE *value);
+extern int isepic_romh_phi2_read(WORD addr, BYTE *value);
+extern int isepic_peek_mem(WORD addr, BYTE *value);
 
 extern int isepic_bin_attach(const char *filename, BYTE *rawcart);
 extern int isepic_bin_save(const char *filename);
@@ -56,5 +64,11 @@ extern void isepic_detach(void);
 extern int isepic_enable(void);
 
 extern const char *isepic_get_file_name(void);
+
+/* TODO: snapshot support
+struct snapshot_s;
+extern int isepic_read_snapshot_module(struct snapshot_s *s);
+extern int isepic_write_snapshot_module(struct snapshot_s *s);
+*/
 
 #endif

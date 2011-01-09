@@ -84,6 +84,7 @@ extern void cart_detach_all(void);
 extern void cart_detach_conflicting(int type);
 
 /* from c64cartmem.c */
+extern void cart_reset_memptr(void);
 
 /* mode_phiN bit 0,1 control exrom/game */
 #define CMODE_8KGAME 0

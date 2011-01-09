@@ -404,12 +404,23 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
             if (export.ultimax_phi1) {
                 /* phi1 fetch from expansion port in ultimax mode */
+#if 0
                 if (*spr_base >= 0xc0) {
                     /* src_phi1 = (romh_banks + 0x1000 + (romh_bank << 13)
                                + ((*spr_base - 0xc0) << 6)); */
                     src_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6)));
                 }
+#endif
+                BYTE *ptr;
+                if ((ptr = ultimax_romh_phi1_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6))))) {
+                    if (*spr_base >= 0xc0) {
+                        src_phi1 = ptr;
+                    }
+                } else {
+                    goto phi1noultimax;
+                }
             } else {
+phi1noultimax:
                 if (((vicii.vbank_phi1 + (*spr_base << 6))
                     & vicii.vaddr_chargen_mask_phi1)
                     == vicii.vaddr_chargen_value_phi1)
@@ -418,12 +429,23 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
 
             if (export.ultimax_phi2) {
                 /* phi2 fetch from expansion port in ultimax mode */
+#if 0
                 if (*spr_base >= 0xc0) {
                     /* src_phi2 = (romh_banks + 0x1000 + (romh_bank << 13)
                                + ((*spr_base - 0xc0) << 6)); */
                     src_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6)));
                 }
+#endif
+                BYTE *ptr;
+                if ((ptr = ultimax_romh_phi2_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6))))) {
+                    if (*spr_base >= 0xc0) {
+                        src_phi2 = ptr;
+                    }
+                } else {
+                    goto phi2noultimax;
+                }
             } else {
+phi2noultimax:
                 if (((vicii.vbank_phi2 + (*spr_base << 6))
                     & vicii.vaddr_chargen_mask_phi2)
                     == vicii.vaddr_chargen_value_phi2)

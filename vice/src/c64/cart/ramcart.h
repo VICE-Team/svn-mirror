@@ -35,8 +35,6 @@
 
 #include "types.h"
 
-extern int ramcart_readonly;
-
 extern void ramcart_init(void);
 extern int ramcart_resources_init(void);
 extern void ramcart_resources_shutdown(void);
@@ -47,18 +45,21 @@ extern void ramcart_config_setup(BYTE *rawcart);
 extern void ramcart_reset(void);
 extern void ramcart_detach(void);
 extern int ramcart_enable(void);
+
 extern BYTE REGPARM1 ramcart_roml_read(WORD addr);
 extern void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte);
-#if 0
-/* TODO */
-struct snapshot_s;
-extern int ramcart_read_snapshot_module(struct snapshot_s *s);
-extern int ramcart_write_snapshot_module(struct snapshot_s *s);
-#endif
+extern int ramcart_peek_mem(WORD addr, BYTE *value);
+
 extern int ramcart_cart_enabled(void);
 extern const char *ramcart_get_file_name(void);
 extern int ramcart_bin_attach(const char *filename, BYTE *rawcart);
 extern int ramcart_bin_save(const char *filename);
 extern int ramcart_flush_image(void);
+
+/* TODO: snapshot support
+struct snapshot_s;
+extern int ramcart_read_snapshot_module(struct snapshot_s *s);
+extern int ramcart_write_snapshot_module(struct snapshot_s *s);
+*/
 
 #endif

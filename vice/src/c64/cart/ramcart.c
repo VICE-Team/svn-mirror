@@ -50,9 +50,6 @@
 #include "vicii-phi1.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
-#include "c64_256k.h"
-#include "plus256k.h"
-#include "plus60k.h"
 #include "ramcart.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
@@ -121,7 +118,7 @@ static int ramcart_deactivate(void);
 static int ramcart_enabled;
 
 /* Flag: Is the RAMCART readonly ?  */
-int ramcart_readonly = 0; /* FIXME: make static */
+static int ramcart_readonly = 0;
 
 /* Size of the RAMCART.  */
 static int ramcart_size = 0;
@@ -547,5 +544,17 @@ BYTE REGPARM1 ramcart_roml_read(WORD addr)
 
 void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
 {
+    /* FIXME: this can't be right */
     mem_ram[addr] = byte;
+}
+
+int ramcart_peek_mem(WORD addr, BYTE *value)
+{
+    if ((addr >= 0x8000) && (addr <= 0x9fff)) {
+        if (ramcart_readonly == 1 && ramcart_size_kb == 128 && addr >= 0x8000 && addr <= 0x80ff) {
+            *value = ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)];
+            return CART_READ_VALID;
+        }
+    }
+    return CART_READ_THROUGH;
 }

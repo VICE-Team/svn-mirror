@@ -30,19 +30,12 @@
 #include <string.h>
 
 #include "c64io.h"
+#include "cartridge.h"
 #include "machine.h"
 #include "sid.h"
 #include "sid-resources.h"
 #include "sound.h"
 #include "types.h"
-
-/* FIXME: make proper hooks for carts */
-#define CARTRIDGE_INCLUDE_PRIVATE_API
-#include "digimax.h"
-#include "magicvoice.h"
-#include "sfx_soundexpander.h"
-#include "sfx_soundsampler.h"
-#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 static BYTE REGPARM1 machine_sid2_read(WORD addr)
 {
@@ -58,13 +51,17 @@ static void REGPARM2 machine_sid2_store(WORD addr, BYTE byte)
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stereo_sid_device = {
-    "STEREO SID",
+    "Stereo SID",
     IO_DETACH_RESOURCE,
     "SidStereo",
     0xde00, 0xde1f, 0x1f,
     1, /* read is always valid */
     machine_sid2_store,
-    machine_sid2_read
+    machine_sid2_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    0,
+    0
 };
 
 static io_source_list_t *stereo_sid_list_item = NULL;
@@ -142,102 +139,51 @@ sound_t *sound_machine_open(int chipno)
     return sid_sound_machine_open(chipno);
 }
 
-/* FIXME: make hook for carts */
 int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-    digimax_sound_machine_init(psid, speed, cycles_per_sec);
-    sfx_soundexpander_sound_machine_init(psid, speed, cycles_per_sec);
-    sfx_soundsampler_sound_machine_init(psid, speed, cycles_per_sec);
-    magicvoice_sound_machine_init(psid, speed, cycles_per_sec);
-
+    cartridge_sound_machine_init(psid, speed, cycles_per_sec);
     return sid_sound_machine_init(psid, speed, cycles_per_sec);
 }
 
-/* FIXME: make hook for carts */
 void sound_machine_close(sound_t *psid)
 {
-    sfx_soundexpander_sound_machine_close(psid);
-    magicvoice_sound_machine_close(psid);
-
+    cartridge_sound_machine_close(psid);
     sid_sound_machine_close(psid);
 }
 
 /* for read/store 0x00 <= addr <= 0x1f is the sid
- *                0x20 <= addr <= 0x3f is the digimax
- *                0x40 <= addr <= 0x5f is the SFX sound sampler
- *                0x60 <= addr <= 0x7f is the SFX sound expander
- *                0x80 <= addr <= 0x9f is the Magic Voice
- *
- * future sound devices will be able to use 0x80 and up
+ *                0x20 <= addr         is used by cartridges
  */
 
-/* FIXME: make hook for carts */
 BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
-    if (addr >= 0x20 && addr <= 0x3f) {
-        return digimax_sound_machine_read(psid, (WORD)(addr - 0x20));
+    BYTE value;
+    if (cartridge_sound_machine_read(psid, addr, &value)) {
+        return value;
     }
-
-    if (addr >= 0x40 && addr <= 0x5f) {
-        return sfx_soundsampler_sound_machine_read(psid, (WORD)(addr - 0x40));
-    }
-
-    if (addr >= 0x60 && addr <= 0x7f) {
-        return sfx_soundexpander_sound_machine_read(psid, (WORD)(addr - 0x60)); /* <- typo? was 0x40 */
-    }
-
-    if (addr >= 0x80 && addr <= 0x9f) {
-        return magicvoice_sound_machine_read(psid, (WORD)(addr - 0x80));
-    }
-
     return sid_sound_machine_read(psid, addr);
 }
 
-/* FIXME: make hook for carts */
 void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
-    if (addr >= 0x20 && addr <= 0x3f) {
-        digimax_sound_machine_store(psid, (WORD)(addr - 0x20), byte);
-    }
-
-    if (addr >= 0x40 && addr <= 0x5f) {
-        sfx_soundsampler_sound_machine_store(psid, (WORD)(addr - 0x40), byte);
-    }
-
-    if (addr >= 0x60 && addr <= 0x7f) {
-        sfx_soundexpander_sound_machine_store(psid, (WORD)(addr - 0x60), byte);
-    }
-
-    if (addr >= 0x80 && addr <= 0x9f) {
-        magicvoice_sound_machine_store(psid, (WORD)(addr - 0x80), byte);
-    }
-
+    cartridge_sound_machine_store(psid, addr, byte);
     sid_sound_machine_store(psid, addr, byte);
 }
 
-/* FIXME: make hook for carts */
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    digimax_sound_reset();
-    sfx_soundexpander_sound_reset();
-    sfx_soundsampler_sound_reset();
-    magicvoice_sound_machine_reset(psid, cpu_clk);
-
+    cartridge_sound_machine_reset(psid, cpu_clk);
     sid_sound_machine_reset(psid, cpu_clk);
 }
 
-/* FIXME: make hook for carts */
 int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int temp;
 
     temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    /* tell digimax & others how many samples to generate to keep in sync with
+    /* tell cartridges how many samples to generate to keep in sync with
      * resid's unpredictable sample generation. */
-    digimax_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
-    sfx_soundexpander_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
-    sfx_soundsampler_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
-    magicvoice_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
+    cartridge_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
 
     return temp;
 }

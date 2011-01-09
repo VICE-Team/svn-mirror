@@ -24,6 +24,12 @@
  *
  */
 
+#ifndef CARTRIDGE_INCLUDE_PRIVATE_API
+#ifndef CARTRIDGE_INCLUDE_PUBLIC_API
+#error "do not include this header directly, use c64cart.h instead."
+#endif
+#endif
+
 #ifndef VICE_DQBB_H
 #define VICE_DQBB_H
 
@@ -44,10 +50,17 @@ extern BYTE REGPARM1 dqbb_roml_read(WORD addr);
 extern void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte);
 extern BYTE REGPARM1 dqbb_romh_read(WORD addr);
 extern void REGPARM2 dqbb_romh_store(WORD addr, BYTE byte);
+extern int dqbb_peek_mem(WORD addr, BYTE *value);
 
 extern const char *dqbb_get_file_name(void);
 extern int dqbb_bin_attach(const char *filename, BYTE *rawcart);
 extern int dqbb_bin_save(const char *filename);
 extern int dqbb_flush_image(void);
+
+/* TODO: snapshot support
+struct snapshot_s;
+extern int dqbb_read_snapshot_module(struct snapshot_s *s);
+extern int dqbb_write_snapshot_module(struct snapshot_s *s);
+*/
 
 #endif

@@ -787,6 +787,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
 
     if (export.ultimax_phi2 != 0) {
         /* phi2 fetch from expansion port in ultimax mode */
+#if 0
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi2 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
@@ -794,7 +795,19 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         } else {
             vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
         }
+#endif
+        BYTE *ptr;
+        if ((ptr = ultimax_romh_phi2_ptr((WORD)(0x1000  + (screen_addr & 0xfff))))) {
+            if ((screen_addr & 0x3fff) >= 0x3000) {
+                vicii.screen_base_phi2 = ptr;
+            } else {
+                vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
+            }
+        } else {
+            goto phi2noultimax;
+        }
     } else {
+phi2noultimax:
         if ((screen_addr & vicii.vaddr_chargen_mask_phi2)
             != vicii.vaddr_chargen_value_phi2) {
             vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
@@ -806,6 +819,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
 
     if (export.ultimax_phi1 != 0) {
         /* phi1 fetch from expansion port in ultimax mode */
+#if 0
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi1 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
@@ -813,7 +827,17 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         } else {
             vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
         }
-
+#endif
+        BYTE *ptr;
+        if ((ptr = ultimax_romh_phi1_ptr((WORD)(0x1000  + (screen_addr & 0xfff))))) {
+            if ((screen_addr & 0x3fff) >= 0x3000) {
+                vicii.screen_base_phi1 = ptr;
+            } else {
+                vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
+            }
+        } else {
+            goto phi1noultimax;
+        }
         if ((tmp & 0x3fff) >= 0x3000) {
             /* char_base = romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000; */
             char_base = ultimax_romh_phi1_ptr((WORD)(0x1000  + (tmp & 0xfff)));
@@ -829,6 +853,7 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         }
 
     } else {
+phi1noultimax:
         if ((screen_addr & vicii.vaddr_chargen_mask_phi1)
             != vicii.vaddr_chargen_value_phi1)
             vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;

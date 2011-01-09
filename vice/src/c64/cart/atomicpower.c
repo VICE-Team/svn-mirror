@@ -156,7 +156,7 @@ static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
             ap_active = 0;
         }
 
-        cart_config_changed_slotmain((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)),  flags | CMODE_PHI2_RAM);
+        cart_config_changed_slotmain((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)),  flags);
     }
 }
 

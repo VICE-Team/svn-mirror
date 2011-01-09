@@ -43,6 +43,9 @@ extern BYTE REGPARM1 expert_roml_read(WORD addr);
 extern void REGPARM2 expert_roml_store(WORD addr, BYTE value);
 extern void REGPARM2 expert_raml_store(WORD addr, BYTE value);
 extern BYTE REGPARM1 expert_romh_read(WORD addr);
+extern int expert_romh_phi1_read(WORD addr, BYTE *value);
+extern int expert_romh_phi2_read(WORD addr, BYTE *value);
+extern int expert_peek_mem(WORD addr, BYTE *value);
 
 extern void expert_reset(void);
 extern void expert_freeze(void);

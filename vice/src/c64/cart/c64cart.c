@@ -505,7 +505,7 @@ void cart_detach_slotmain(void)
         cart_detach(type);
 
         DBG(("CART: unset cart config\n"));
-        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
+        cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
 
         cart_power_off();
 
@@ -548,7 +548,7 @@ void cartridge_detach_image(int type)
 
     /* FIXME: cart_detach should take care of it */
     DBG(("CART: unset cart config\n"));
-    cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ | CMODE_PHI2_RAM);
+    cart_config_changed_slotmain(CMODE_RAM, CMODE_RAM, CMODE_READ);
 
     cart_power_off();
 }

@@ -178,12 +178,12 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 
         if (value & 0x83) {
             if (value & 0x01) {
-                romconfig = 0;
+                romconfig = CMODE_8KGAME;
             } else {
-                romconfig = 1;
+                romconfig = CMODE_16KGAME;
             }
         } else {
-            romconfig = 3;
+            romconfig = CMODE_ULTIMAX;
             mode |= CMODE_EXPORT_RAM;
         }
 
@@ -194,8 +194,7 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
             romconfig |= (1 << CMODE_BANK_SHIFT);
         }
         if (value & 0x08) {
-            romconfig = 2; /* disable cart */
-            mode |= CMODE_PHI2_RAM;
+            romconfig = CMODE_RAM; /* disable cart */
         }
 
 /* old code, remove this if the above seems to work ok */
@@ -215,7 +214,7 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
         }
         if ((value & 0x7f) == 9) {
             romconfig = 2; /* exrom */
-            mode |= CMODE_PHI2_RAM;
+            /* mode |= CMODE_PHI2_RAM; */
         }
 #endif
         cart_config_changed_slotmain((BYTE)(romconfig & 3), romconfig, mode);

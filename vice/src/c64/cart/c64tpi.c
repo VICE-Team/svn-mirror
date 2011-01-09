@@ -98,7 +98,8 @@ static io_source_t tpi_io2_device = {
     tpi_io2_read,
     tpi_io2_peek,
     tpi_io2_dump,
-    CARTRIDGE_IEEE488
+    CARTRIDGE_IEEE488,
+    0
 };
 
 static io_source_list_t *tpi_list_item = NULL;

@@ -89,8 +89,9 @@
 #define FREEZE_MACHINE_CART_SIZE (32*0x400)
 #define FREEZE_FRAME_MK4_CART_SIZE (16*0x400)
 
-static int rom_A14;     /* when set, bank 2 and 3 are active */
-static int roml_toggle; /* when set, bank 1 or 3 will be used for roml */
+static int rom_A14;      /* when set, bank 2 and 3 are active */
+static int roml_toggle;  /* when set, bank 1 or 3 will be used for roml */
+static int allow_toggle;
 
 /* ---------------------------------------------------------------------*/
 
@@ -183,7 +184,9 @@ BYTE REGPARM1 freezemachine_roml_read(WORD addr)
 
 void freezemachine_reset(void)
 {
-    rom_A14 ^= 1; /* select other 16k ROM bank on every other reset */
+    if (allow_toggle) {
+        rom_A14 ^= 1; /* select other 16k ROM bank on every other reset */
+    }
     roml_toggle = 0;
     cart_config_changed_slotmain(2, (BYTE)(0 | (rom_A14 << CMODE_BANK_SHIFT)), CMODE_READ);
     DBG(("Freeze Machine: reset (%d)\n", rom_A14));
@@ -203,7 +206,7 @@ void freezemachine_config_init(void)
 
 void freezemachine_config_setup(BYTE *rawcart)
 {
-    rom_A14 = 1; /* the following first reset will turn it to 0 again */
+    rom_A14 = allow_toggle; /* the following first reset will turn it to 0 again */
     roml_toggle = 0;
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
@@ -229,11 +232,12 @@ static int freezemachine_common_attach(void)
 int freezemachine_bin_attach(const char *filename, BYTE *rawcart)
 {
     DBG(("Freeze Machine: bin attach '%s'\n", filename));
+    allow_toggle = 1;
     if (util_file_load(filename, rawcart, FREEZE_MACHINE_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         if (util_file_load(filename, rawcart, FREEZE_FRAME_MK4_CART_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
             return -1;
         }
-        memcpy(&rawcart[FREEZE_FRAME_MK4_CART_SIZE], rawcart, FREEZE_FRAME_MK4_CART_SIZE);
+        allow_toggle = 0;
     }
 
     return freezemachine_common_attach();
@@ -263,6 +267,7 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
+    allow_toggle = (i == 4);
     return freezemachine_common_attach();
 }
 
@@ -278,7 +283,7 @@ void freezemachine_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTFREEZEM"
 
 int freezemachine_snapshot_write_module(snapshot_t *s)
@@ -294,6 +299,7 @@ int freezemachine_snapshot_write_module(snapshot_t *s)
     if (0
         || (SMW_B(m, (BYTE)rom_A14) < 0)
         || (SMW_B(m, (BYTE)roml_toggle) < 0)
+        || (SMW_B(m, (BYTE)allow_toggle) < 0)
         || (SMW_BA(m, roml_banks, 0x4000) < 0)
         || (SMW_BA(m, romh_banks, 0x4000) < 0)) {
         snapshot_module_close(m);
@@ -322,6 +328,7 @@ int freezemachine_snapshot_read_module(snapshot_t *s)
     if (0
         || (SMR_B_INT(m, &rom_A14) < 0)
         || (SMR_B_INT(m, &roml_toggle) < 0)
+        || (SMR_B_INT(m, &allow_toggle) < 0)
         || (SMR_BA(m, roml_banks, 0x4000) < 0)
         || (SMR_BA(m, romh_banks, 0x4000) < 0)) {
         snapshot_module_close(m);

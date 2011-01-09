@@ -38,13 +38,16 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "dqbb.h"
 #include "lib.h"
 #include "mem.h"
 #include "resources.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#include "dqbb.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /*
     "Double Quick Brown box"
@@ -426,4 +429,16 @@ void REGPARM2 dqbb_romh_store(WORD addr, BYTE byte)
         dqbb_ram[(addr & 0x1fff) + 0x2000] = byte;
     }
     mem_store_without_romlh(addr, byte);
+}
+
+int dqbb_peek_mem(WORD addr, BYTE *value)
+{
+    if ((addr >= 0x8000) && (addr <= 0x9fff)) {
+        *value = dqbb_ram[addr & 0x1fff];
+        return CART_READ_VALID;
+    } else if ((addr >= 0xa000) && (addr <= 0xbfff)) {
+        *value = dqbb_ram[(addr & 0x1fff) + 0x2000];
+        return CART_READ_VALID;
+    }
+    return CART_READ_THROUGH;
 }
