@@ -34,9 +34,9 @@
 #define _INLINE_MUIMASTER_H
 #endif
 
-#include "platform.h"
 #include "mui.h"
 #include "private.h"
+#include "platform.h"
 #include "intl.h"
 #include "translate.h"
 
