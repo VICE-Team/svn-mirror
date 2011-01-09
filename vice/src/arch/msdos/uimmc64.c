@@ -38,6 +38,7 @@ TUI_MENU_DEFINE_RADIO(MMC64_revision)
 TUI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
 TUI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
 TUI_MENU_DEFINE_TOGGLE(MMC64_RO)
+TUI_MENU_DEFINE_RADIO(MMC64_sd_type)
 
 static TUI_MENU_CALLBACK(mmc64_bios_name_callback)
 {
@@ -105,6 +106,42 @@ static tui_menu_item_def_t mmc64_revision_submenu[] = {
     { NULL }
 };
 
+static TUI_MENU_CALLBACK(mmc64_sd_type_submenu_callback)
+{
+    int value;
+    char *s;
+
+    resources_get_int("MMC64_sd_type", &value);
+    switch (value) {
+        default:
+        case 0:
+            s = "Auto";
+            break;
+        case 1:
+            s = "MMC";
+            break;
+        case 2:
+            s = "SD";
+            break;
+        case 3:
+            s = "SDHC";
+            break;
+    }
+    return s;
+}
+
+static tui_menu_item_def_t mmc64_sd_type_submenu[] = {
+    { "_Auto", NULL, radio_MMC64_sd_type_callback,
+      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "MM_C", NULL, radio_MMC64_sd_type_callback,
+      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_SD", NULL, radio_MMC64_sd_type_callback,
+      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "SD_HC", NULL, radio_MMC64_sd_type_callback,
+      (void *)3, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
 static tui_menu_item_def_t mmc64_menu_items[] = {
     { "_Enable MMC64:", "Emulate MMC64",
       toggle_MMC64_callback, NULL, 3,
@@ -125,6 +162,10 @@ static tui_menu_item_def_t mmc64_menu_items[] = {
     { "MMC64 image _read-only:", "Enable MMC64 MMC/SD image read-only",
       toggle_MMC64_RO_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "MMC64 _cart type:", "Select the cart type",
+      mmc64_sd_type_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, mmc64_sd_type_submenu,
+      "MMC64 card type" },
     { "MMC64 i_mage file:", "Select the MMC64 MMC/SD image file",
       mmc64_image_name_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },

@@ -2931,10 +2931,10 @@ elif test x"$is_dos" = "xyes"; then
   ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/msdos"
   ARCH_DIR="\$(top_builddir)/src/arch/msdos"
   ARCH_SRC_DIR="\$(top_srcdir)/src/arch/msdos"
-  if test $ac_cv_lib_pcap_pcap_open_live = yes; then
-  ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/libpcap_nodma.a"
+  if test x"$ac_cv_lib_pcap_pcap_open_live" = "xyes"; then
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/libpcap_nodma.a"
   else
-  ARCH_LIBS="$ARCH_DIR/libarch.a"
+    ARCH_LIBS="$ARCH_DIR/libarch.a"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
