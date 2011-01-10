@@ -351,16 +351,6 @@ static TUI_MENU_CALLBACK(set_keyboard_callback)
     }
 }
 
-TUI_MENU_DEFINE_TOGGLE(EmuID)
-
-static tui_menu_item_def_t ioextenstions_menu_items[] = {
-    { "_Emulator Identification:",
-      "Allow programs to identify the emulator they are running on",
-      toggle_EmuID_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
 static tui_menu_item_def_t special_menu_items[] = {
     { "Change _PET Model...",
       "Set options according to a specific PET model; THIS WILL RESET THE MACHINE",
@@ -484,7 +474,6 @@ int petui_init(void)
     tui_menu_add(ui_special_submenu, special_menu_items);
 
     ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
-    tui_menu_add(ui_ioextensions_submenu, ioextenstions_menu_items);
     tui_menu_add_submenu(ui_special_submenu, "_I/O extensions",
                          "Configure I/O extensions",
                          ui_ioextensions_submenu,
