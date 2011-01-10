@@ -110,7 +110,7 @@ static BYTE petcii_fix_dupes(BYTE c)
 {
     if ((c >= 0x60) && (c <= 0x7f)) {
         return ((c - 0x60) + 0xc0);
-    } else if ((c >= 0xe0) && (c <= 0xff)) {
+    } else if (c >= 0xe0) {
         return ((c - 0xe0) + 0xa0);
     }
     return c;
@@ -130,7 +130,7 @@ BYTE charset_p_toascii(BYTE c, int cs)
 {
     if (cs) {
         /* convert ctrl chars to "screencodes" (used by monitor) */
-        if ((c >= 0x00) && (c <= 0x1f)) {
+        if (c <= 0x1f) {
             c += 0x40;
         }
     }
@@ -142,7 +142,7 @@ BYTE charset_p_toascii(BYTE c, int cs)
         return '\n';
     } else if (c == 0x0a) {
         return '\r';
-    } else if ((c >= 0x00) && (c <= 0x1f)) {
+    } else if (c <= 0x1f) {
         /* unhandled ctrl codes */
         return ASCII_UNMAPPED;
     } else if (c == 0xa0) { /* petscii Shifted Space */
@@ -175,7 +175,7 @@ BYTE charset_p_topetcii(BYTE c)
         return 0x0d; /* petscii "return" */
     } else if (c == '\r') {
         return 0x0a;
-    } else if ((c >= 0x00) && (c <= 0x1f)) {
+    } else if (c <= 0x1f) {
         /* unhandled ctrl codes */
         return PETSCII_UNMAPPED;
     } else if (c == '`') {
