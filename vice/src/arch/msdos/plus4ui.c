@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "uisid.h"
 #include "uisidcart.h"
+#include "uiv364speech.h"
 
 static struct {
     char *name;
@@ -204,6 +205,7 @@ int plus4ui_init(void)
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
 
     uisidcart_plus4_init(ui_sound_submenu, "$FD40", "$FE80", "PLUS4");
+    uiv364speech_init(ui_sound_submenu);
 
     add_palette_submenu(ui_video_submenu);
 

@@ -47,6 +47,9 @@
 #include "uieasyflash.h"
 #include "uigeoram.h"
 #include "uilightpen.h"
+#include "uimagicvoice.h"
+#include "uimmc64.h"
+#include "uimmcreplay.h"
 #include "uiramcart.h"
 #include "uireu.h"
 #include "uisid.h"
@@ -436,6 +439,12 @@ int c128ui_init(void)
     uiramcart_init(ui_ioextensions_submenu);
 
     uidigimax_init(ui_ioextensions_submenu);
+
+    uimmc64_init(ui_ioextensions_submenu);
+
+    uimmcreplay_init(ui_ioextensions_submenu);
+
+    uimagicvoice_init(ui_ioextensions_submenu);
 
 #ifdef HAVE_TFE
     uitfe_init(ui_ioextensions_submenu);

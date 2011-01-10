@@ -50,7 +50,9 @@
 #include "uigeoram.h"
 #include "uiisepic.h"
 #include "uilightpen.h"
+#include "uimagicvoice.h"
 #include "uimmc64.h"
+#include "uimmcreplay.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
 #include "uiramcart.h"
@@ -436,7 +438,11 @@ int c64ui_init(void)
 
     uimmc64_init(ui_ioextensions_submenu);
 
+    uimmcreplay_init(ui_ioextensions_submenu);
+
     uidigimax_init(ui_ioextensions_submenu);
+
+    uimagicvoice_init(ui_ioextensions_submenu);
 
 #ifdef HAVE_TFE
     uitfe_init(ui_ioextensions_submenu);

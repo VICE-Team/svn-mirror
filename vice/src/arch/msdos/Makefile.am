@@ -101,9 +101,13 @@ libarch_a_SOURCES = \
 	uijoystick.h \
 	uilightpen.c \
 	uilightpen.h \
+	uimagicvoice.c \
+	uimagicvoice.h \
 	uimon.c \
 	uimmc64.c \
 	uimmc64.h \
+	uimmcreplay.c \
+	uimmcreplay.h \
 	uinetplay.c \
 	uinetplay.h \
 	uiperipherial.c \
@@ -138,6 +142,8 @@ libarch_a_SOURCES = \
 	uisoundexpander.h \
 	uitfe.c \
 	uitfe.h \
+	uiv364speech.c \
+	uiv364speech.h \
 	vic20ui.c \
 	video.c \
 	videoarch.h \
