@@ -29,6 +29,18 @@
 
 #include "types.h"
 
+struct pport_s {
+    /* Value written to processor port.  */
+    BYTE dir;
+    BYTE data;
+
+    /* State of processor port pins.  */
+    BYTE data_out;
+};
+typedef struct pport_s pport_t;
+
+extern pport_t pport;
+
 #define PLUS4_RAM_SIZE        0x10000
 #define PLUS4_BASIC_ROM_SIZE  0x4000
 #define PLUS4_KERNAL_ROM_SIZE 0x4000
@@ -48,10 +60,10 @@ extern int plus4_mem_init_resources(void);
 extern int plus4_mem_init_cmdline_options(void);
 
 extern void mem_config_ram_set(unsigned int config);
+extern void mem_config_rom_set(unsigned int config);
 extern BYTE *mem_get_tedmem_base(unsigned int segment);
 
 extern void mem_proc_port_trigger_flux_change(unsigned int on);
 extern void pio1_set_tape_sense(int sense);
 
 #endif
-

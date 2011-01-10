@@ -100,9 +100,7 @@ static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
 
 /* Processor port.  */
-static struct {
-    BYTE dir, data, data_out;
-} pport;
+pport_t pport;
 
 /* Current memory configuration.  */
 unsigned int mem_config;
@@ -305,7 +303,7 @@ void mem_config_ram_set(unsigned int config)
     mem_config_set((mem_config & ~0x01) | config);
 }
 
-static void mem_config_rom_set(unsigned int config)
+void mem_config_rom_set(unsigned int config)
 {
     mem_config_set((mem_config & ~0x1e) | config);
 }

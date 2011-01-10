@@ -206,10 +206,10 @@ struct ted_s {
     /* Flag: Are we initialized?  */
     int initialized;            /* = 0; */
 
-    /* VIC-II raster.  */
+    /* TED raster.  */
     raster_t raster;
 
-    /* VIC-II registers.  */
+    /* TED registers.  */
     BYTE regs[64];
 
     /* Interrupt register.  */
@@ -365,7 +365,7 @@ extern ted_t ted;
 extern void ted_update_memory_ptrs(unsigned int cycle);
 extern void ted_update_video_mode(unsigned int cycle);
 extern void ted_raster_draw_alarm_handler(CLOCK offset, void *data);
-extern void ted_resize(void);
+/* extern void ted_resize(void); */
 extern void ted_delay_clk(void);
 extern void ted_delay_oldclk(CLOCK num);
 

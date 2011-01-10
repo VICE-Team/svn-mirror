@@ -920,7 +920,7 @@ static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
         break;
       case DRIVE_TYPE_1551:
         base = drive->rom;
-        len = DRIVE_ROM1571_SIZE;
+        len = DRIVE_ROM1551_SIZE;
         break;
       case DRIVE_TYPE_1570:
         base = drive->rom;
