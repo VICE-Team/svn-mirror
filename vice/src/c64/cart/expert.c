@@ -484,7 +484,7 @@ int expert_peek_mem(WORD addr, BYTE *value)
         if ((addr >= 0x8000) && (addr <= 0x9fff)) {
             *value = expert_ram[addr & 0x1fff];
             return CART_READ_VALID;
-        } else if ((addr >= 0xe000) && (addr <= 0xffff)) {
+        } else if (addr >= 0xe000) {
             if (expert_ramh_enabled) {
                 *value = expert_ram[addr & 0x1fff];
                 return CART_READ_VALID;

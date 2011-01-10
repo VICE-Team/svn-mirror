@@ -498,7 +498,7 @@ BYTE REGPARM1 retroreplay_peek_mem(WORD addr)
     }
     /* FIXME: export.xxx */
     if (!export.exrom && export.game) {
-        if (addr >= 0xe000 && addr <= 0xffff) {
+        if (addr >= 0xe000) {
             return retroreplay_romh_read(addr);
         }
     } else {

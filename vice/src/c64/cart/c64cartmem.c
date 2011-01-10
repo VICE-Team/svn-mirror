@@ -1743,7 +1743,7 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
         if (addr >= 0x8000 && addr <= 0x9fff) {
             return roml_read_slotmain(addr);
         }
-        if (addr >= 0xe000 && addr <= 0xffff) {
+        if (addr >= 0xe000) {
             return ultimax_romh_read_hirom_slotmain(addr);
         }
     } else if (!export_slotmain.exrom && !export_slotmain.game) {

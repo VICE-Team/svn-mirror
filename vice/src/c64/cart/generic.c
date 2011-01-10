@@ -321,7 +321,7 @@ BYTE generic_peek_mem(WORD addr)
 
     /* FIXME: export.xxx */
     if (!export.exrom && export.game) {
-        if (addr >= 0xe000 && addr <= 0xffff) {
+        if (addr >= 0xe000) {
             return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
         }
     } else {

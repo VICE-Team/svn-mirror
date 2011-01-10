@@ -522,7 +522,7 @@ int isepic_peek_mem(WORD addr, BYTE *value)
         if ((addr >= 0x1000) && (addr <= 0xcfff)) {
             *value = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
             return CART_READ_VALID;
-        } else if ((addr >= 0xe000) && (addr <= 0xffff)) {
+        } else if (addr >= 0xe000) {
             switch (addr) {
                 case 0xfffa:
                 case 0xfffb:
