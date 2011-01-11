@@ -32,9 +32,21 @@
 #include "cbm2-cmdline-options.h"
 #include "cbm2mem.h"
 #include "cmdline.h"
+#include "machine.h"
+#include "resources.h"
 #include "translate.h"
 
 static const cmdline_option_t cmdline_options[] = {
+    { "-pal", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_PAL_SYNC_FACTOR,
+      NULL, NULL },
+    { "-ntsc", SET_RESOURCE, 0,
+      NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_NTSC,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
+      NULL, NULL },
     { "-model", CALL_FUNCTION, 1,
      cbm2_set_model, NULL, NULL, NULL,
      USE_PARAM_ID, USE_DESCRIPTION_ID,

@@ -42,5 +42,7 @@ extern BYTE REGPARM1 cia1_peek(WORD addr);
 
 extern void cia1_set_ieee_dir(struct cia_context_s *cia_context, int isout);
 
+extern void cia1_set_timing(struct cia_context_s *cia_context, int todticks);
+
 #endif
 

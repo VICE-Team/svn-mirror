@@ -300,11 +300,11 @@ int machine_specific_init(void)
     /* Initialize vsync and register our hook function.  */
     vsync_init(machine_vsync_hook);
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
-                                PET_PAL_CYCLES_PER_SEC);
+                                machine_timing.cycles_per_sec);
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
-    sound_init(PET_PAL_CYCLES_PER_SEC, machine_timing.cycles_per_rfsh);
+    sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  FIXME: Is this correct?  */
     /* moved to mem_load() because it's model specific... AF 30jun1998
@@ -410,7 +410,7 @@ int machine_has_restore_key(void)
 
 long machine_get_cycles_per_second(void)
 {
-    return PET_PAL_CYCLES_PER_SEC;
+    return machine_timing.cycles_per_sec;
 }
 
 long machine_get_cycles_per_frame(void)
@@ -430,13 +430,27 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 
 void machine_change_timing(int timeval)
 {
-    machine_timing.cycles_per_sec = PET_PAL_CYCLES_PER_SEC;
-    machine_timing.cycles_per_rfsh = PET_PAL_CYCLES_PER_RFSH;
-    machine_timing.rfsh_per_sec = PET_PAL_RFSH_PER_SEC;
-    machine_timing.cycles_per_line = PET_PAL_CYCLES_PER_LINE;
-    machine_timing.screen_lines = PET_PAL_SCREEN_LINES;
 
-    debug_set_machine_parameter(PET_PAL_CYCLES_PER_LINE, PET_PAL_SCREEN_LINES);
+    switch (timeval) {
+        case MACHINE_SYNC_PAL:
+            machine_timing.cycles_per_sec = PET_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = PET_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = PET_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = PET_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = PET_PAL_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSC:
+            machine_timing.cycles_per_sec = PET_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = PET_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = PET_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = PET_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = PET_NTSC_SCREEN_LINES;
+            break;
+        default:
+            log_error(pet_log, "Unknown machine timing.");
+    }
+
+    debug_set_machine_parameter(machine_timing.cycles_per_line, machine_timing.screen_lines);
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
 }
 
@@ -446,7 +460,7 @@ void machine_set_cycles_per_frame(long cpf)
     double i, f;
 
     machine_timing.cycles_per_rfsh = cpf;
-    machine_timing.rfsh_per_sec = ((double)PET_PAL_CYCLES_PER_SEC)
+    machine_timing.rfsh_per_sec = ((double)machine_timing.cycles_per_sec)
                                   / ((double)cpf);
 
     f = modf(machine_timing.rfsh_per_sec, &i) * 1000;
@@ -455,7 +469,7 @@ void machine_set_cycles_per_frame(long cpf)
                 cpf, (int)i, (int)f);
 
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
-                                PET_PAL_CYCLES_PER_SEC);
+                                machine_timing.cycles_per_sec);
 
     /* sound_set_cycles_per_rfsh(machine_timing.cycles_per_rfsh); */
 }

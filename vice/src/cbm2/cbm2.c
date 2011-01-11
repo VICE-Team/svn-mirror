@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include <math.h>   /* modf */
 #include <stdio.h>
 
 #include "alarm.h"
@@ -464,9 +465,12 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
-void machine_change_timing(int timeval)
+/* note: function splitted to prepare binary splitting */
+static void machine_change_timing_c500(int timeval)
 {
    int border_mode;
+
+    /* log_message(LOG_DEFAULT, "machine_change_timing_c500 %d", timeval); */
 
     switch (timeval) {
       default:
@@ -484,18 +488,23 @@ void machine_change_timing(int timeval)
         break;
    }
 
-    if (cbm2_isC500) {
-        machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = C500_PAL_CYCLES_PER_LINE;
-        machine_timing.screen_lines = C500_PAL_SCREEN_LINES;
-    } else {
-        machine_timing.cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = C610_PAL_CYCLES_PER_LINE;
-        machine_timing.screen_lines = C610_PAL_SCREEN_LINES;
+    switch (timeval) {
+        case MACHINE_SYNC_PAL:
+            machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C500_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C500_PAL_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSC:
+            machine_timing.cycles_per_sec = C500_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C500_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C500_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C500_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C500_NTSC_SCREEN_LINES;
+            break;
+        default:
+            log_error(LOG_DEFAULT, "Unknown machine timing.");
     }
 
     debug_set_machine_parameter(machine_timing.cycles_per_line,
@@ -504,14 +513,63 @@ void machine_change_timing(int timeval)
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
     vicii_change_timing(&machine_timing, border_mode);
+    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_rfsh);
+}
+
+static void machine_change_timing_c610(int timeval)
+{
+    /* log_message(LOG_DEFAULT, "machine_change_timing_c610 %d", timeval); */
+
+    switch (timeval) {
+        case MACHINE_SYNC_PAL:
+            machine_timing.cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C610_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C610_PAL_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSC:
+            machine_timing.cycles_per_sec = C610_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C610_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C610_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C610_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C610_NTSC_SCREEN_LINES;
+            break;
+        default:
+            log_error(LOG_DEFAULT, "Unknown machine timing.");
+    }
+
+    debug_set_machine_parameter(machine_timing.cycles_per_line,
+                                machine_timing.screen_lines);
+    drive_set_machine_parameter(machine_timing.cycles_per_sec);
+    clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
+
+    cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_rfsh);
+}
+
+void machine_change_timing(int timeval)
+{
+    if (cbm2_isC500) {
+        machine_change_timing_c500(timeval);
+    } else {
+        machine_change_timing_c610(timeval);
+        /* HACK: remove this when splitting the binary */
+        vicii_change_timing(&machine_timing, VICII_NORMAL_BORDERS);
+    }
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */
-void machine_set_cycles_per_frame(long cpf) {
+void machine_set_cycles_per_frame(long cpf)
+{
+    double i, f;
 
     machine_timing.cycles_per_rfsh = cpf;
     machine_timing.rfsh_per_sec = ((double)machine_timing.cycles_per_sec)
                                   / ((double)cpf);
+
+    f = modf(machine_timing.rfsh_per_sec, &i) * 1000;
+    log_message(cbm2_log, "cycles per frame set to %ld, refresh to %d.%03dHz",
+                cpf, (int)i, (int)f);
 
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
                                 machine_timing.cycles_per_sec);

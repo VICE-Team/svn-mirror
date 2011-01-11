@@ -115,7 +115,7 @@ static int set_cbm2_model_line(int val, void *param)
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
     if (cbm2_isC500) {
-        /* VIC-II config */
+        /* FIXME: VIC-II config */
     } else {
         crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
     }
@@ -136,6 +136,7 @@ static int set_use_vicii(int val, void *param)
     if (cbm2_isC500 < 1)
         cbm2_isC500 = use_vicii;
 
+    /* FIXME: this doesnt belong here */
     machine_class = (cbm2_isC500) ? VICE_MACHINE_CBM5x0 : VICE_MACHINE_CBM6x0;
 
     return 0;
@@ -239,7 +240,7 @@ static int set_cartC_ram(int val, void *param)
     mem_initialize_memory_bank(15);
     return 0;
 }
-
+ 
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
