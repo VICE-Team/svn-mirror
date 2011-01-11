@@ -47,6 +47,7 @@ static log_t num_logs = 0;
 
 static int log_enabled = 1; /* cv: this flag allows to temporarly disable all logging */
 static int verbose = 0;
+static int locked = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -72,6 +73,10 @@ static void log_file_open(void)
 
 static int set_log_file_name(const char *val, void *param)
 {
+    if (locked) {
+        return 0;
+    }
+
     if (util_string_set(&log_file_name, val) < 0) {
         return 0;
     }
@@ -115,6 +120,14 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
+static int log_logfile_opt(const char *param, void *extra_param)
+{
+    locked = 0;
+    set_log_file_name(param, NULL);
+    locked = 1;
+    return 0;
+}
+
 int log_resources_init(void)
 {
     return resources_register_string(resources_string);
@@ -126,8 +139,8 @@ void log_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-logfile", SET_RESOURCE, 1,
-      NULL, NULL, "LogFileName", NULL,
+    { "-logfile", CALL_FUNCTION, 1,
+      log_logfile_opt, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_LOG_FILE_NAME,
       NULL, NULL },
