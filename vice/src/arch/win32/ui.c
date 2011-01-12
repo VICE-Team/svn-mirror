@@ -394,7 +394,11 @@ int ui_init_finish(void)
 
 int ui_init_finalize(void)
 {
+    int alwaysontop;
+
     fullscreen_setup_finished();
+    resources_get_int("AlwaysOnTop", &alwaysontop);
+    ui_set_alwaysontop(alwaysontop);
     return 0;
 }
 

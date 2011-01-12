@@ -190,6 +190,8 @@ void SwitchToFullscreenMode(HWND hwnd)
 
 void SwitchToWindowedMode(HWND hwnd)
 {
+    int alwaysontop;
+
     if (!ui_setup_finished)
         return;
 
@@ -198,6 +200,8 @@ void SwitchToWindowedMode(HWND hwnd)
     } else {
         SwitchToWindowedModeDDraw(hwnd);
     }
+    resources_get_int("AlwaysOnTop", &alwaysontop);
+    ui_set_alwaysontop(alwaysontop);
 }
 
 void StartFullscreenMode(HWND hwnd)
