@@ -36,6 +36,7 @@
 #include "vic20ui.h"
 #include "vic20uires.h"
 
+#include "mui/mui.h"
 #include "mui/uidrivec64vic20.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"

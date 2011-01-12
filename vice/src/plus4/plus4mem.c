@@ -1077,12 +1077,12 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
                        when needed. doing this without checking is wrong, but we do it anyways to
                        avoid side effects
             */
-            if ((addr >= 0xfd00) && (addr <= 0xffff)) {
+            if (addr >= 0xfd00) {
                 return peek_bank_io(addr);
             }
             break;
         case 6:                   /* io */
-            if ((addr >= 0xfd00) && (addr <= 0xffff)) {
+            if (addr >= 0xfd00) {
                 return peek_bank_io(addr);
             }
             break;
@@ -1133,7 +1133,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             }
             break;
         case 6:                   /* i/o */
-            if ((addr >= 0xfd00) && (addr <= 0xffff)) {
+            if (addr >= 0xfd00) {
                 return read_bank_io(addr);
             }
             return mem_read(addr);
