@@ -29,8 +29,16 @@
 
 #ifdef HAVE_TFE 
 
+/* if we have a pcap version with either pcap_sendpacket or pcap_inject, do not use libnet anymore! */
+#if defined(HAVE_PCAP_SENDPACKET) || defined(HAVE_PCAP_INJECT)
+ #undef HAVE_LIBNET
+#endif
+
 #include "pcap.h"
+
+#ifdef HAVE_LIBNET
 #include "libnet.h"
+#endif
 
 #include <assert.h>
 #include <stdio.h>
@@ -60,14 +68,18 @@ static pcap_if_t *TfePcapAlldevs = NULL;
 
 static pcap_t *TfePcapFP = NULL;
 
+#ifdef HAVE_LIBNET
 #ifdef VICE_USE_LIBNET_1_1
 static libnet_t *TfeLibnetFP = NULL;
 #else /* VICE_USE_LIBNET_1_1 */
 static struct libnet_link_int *TfeLibnetFP = NULL;
 #endif /* VICE_USE_LIBNET_1_1 */
 
-static char TfePcapErrbuf[PCAP_ERRBUF_SIZE];
 static char TfeLibnetErrBuf[LIBNET_ERRBUF_SIZE];
+
+#endif /* HAVE_LIBNET */
+
+static char TfePcapErrbuf[PCAP_ERRBUF_SIZE];
 
 #ifdef RAWNET_DEBUG_PKTDUMP
 
@@ -170,6 +182,7 @@ static int TfePcapOpenAdapter(const char *interface_name)
         return 0;
     }
 
+#ifdef HAVE_LIBNET
     /* now, open the libnet device to be able to send afterwards */
 #ifdef VICE_USE_LIBNET_1_1
     TfeLibnetFP = libnet_init(LIBNET_LINK, (char *)interface_name, TfeLibnetErrBuf);
@@ -186,6 +199,7 @@ static int TfePcapOpenAdapter(const char *interface_name)
         }
         return 0;
     }
+#endif /* HAVE_LIBNET */
 
     return 1;
 }
@@ -322,36 +336,15 @@ static int rawnet_arch_receive_frame(TFE_PCAP_INTERNAL *pinternal)
     return ret;
 }
 
-/* int force       - FORCE: Delete waiting frames in transmit buffer */
-/* int onecoll     - ONECOLL: Terminate after just one collision */
-/* int inhibit_crc - INHIBITCRC: Do not append CRC to the transmission */
-/* int tx_pad_dis  - TXPADDIS: Disable padding to 60 Bytes */
-/* int txlength    - Frame length */
-/* BYTE *txframe   - Pointer to the frame to be transmitted */
+#ifdef HAVE_LIBNET
 
-void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+# ifdef VICE_USE_LIBNET_1_1
+
+#  define RAWNET_ARCH_TRANSMIT rawnet_arch_transmit_libnet_1_1
+
+static void rawnet_arch_transmit_libnet_1_1(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
 {
-#ifdef VICE_USE_LIBNET_1_1
-#else /* VICE_USE_LIBNET_1_1 */
-    u_char *plibnet_buffer = NULL;
-#endif /* VICE_USE_LIBNET_1_1 */
-
-#ifdef RAWNET_DEBUG_ARCH
-    log_message(rawnet_arch_log, "rawnet_arch_transmit() called, with: force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
-                force ? "TRUE" : "FALSE", 
-                onecoll ? "TRUE" : "FALSE",
-                inhibit_crc ? "TRUE" : "FALSE",
-                tx_pad_dis ? "TRUE" : "FALSE",
-                txlength);
-#endif
-
-#ifdef RAWNET_DEBUG_PKTDUMP
-    debug_output("Transmit frame: ", txframe, txlength);
-#endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
-
     /* we want to send via libnet */
-
-#ifdef VICE_USE_LIBNET_1_1
 
     do {
         libnet_pblock_t *p;
@@ -378,10 +371,17 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
         libnet_pblock_delete(TfeLibnetFP, p);
 
     } while (0);
+}
 
-#else /* VICE_USE_LIBNET_1_1 */
+# else /* VICE_USE_LIBNET_1_1 */
 
-    /* libnet 1.0 compatibility */
+#  define RAWNET_ARCH_TRANSMIT rawnet_arch_transmit_libnet_1_0
+
+static void rawnet_arch_transmit_libnet_1_0(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+{
+    u_char *plibnet_buffer = NULL;
+
+    /* we want to send via libnet 1.0 */
 
     if (libnet_init_packet(txlength, &plibnet_buffer)==-1) {
         log_message(rawnet_arch_log, "WARNING! Could not send packet!");
@@ -395,7 +395,56 @@ void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_di
         }
     }
 
-#endif /* VICE_USE_LIBNET_1_1 */
+}
+
+# endif 
+
+#else /* HAVE_LIBNET */
+
+#  define RAWNET_ARCH_TRANSMIT rawnet_arch_transmit_pcap
+
+ #if defined(HAVE_PCAP_INJECT)
+  #define PCAP_INJECT pcap_inject
+ #elif defined(HAVE_PCAP_SENDPACKET)
+  #define PCAP_INJECT pcap_sendpacket
+ #else
+  #error SHOULD NOT HAPPEN: No libnet, but neither HAVE_PCAP_SENDPACKET nor HAVE_PCAP_INJECT are defined!
+ #endif
+
+static void rawnet_arch_transmit_pcap(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+{
+    /* we want to send via pcap */
+
+    if (PCAP_INJECT(TfePcapFP, txframe, txlength) < 0) {
+        log_message(rawnet_arch_log, "WARNING! Could not send packet!");
+    }
+}
+
+#endif /* HAVE_LIBNET */
+
+/* int force       - FORCE: Delete waiting frames in transmit buffer */
+/* int onecoll     - ONECOLL: Terminate after just one collision */
+/* int inhibit_crc - INHIBITCRC: Do not append CRC to the transmission */
+/* int tx_pad_dis  - TXPADDIS: Disable padding to 60 Bytes */
+/* int txlength    - Frame length */
+/* BYTE *txframe   - Pointer to the frame to be transmitted */
+
+void rawnet_arch_transmit(int force, int onecoll, int inhibit_crc, int tx_pad_dis, int txlength, BYTE *txframe)
+{
+#ifdef RAWNET_DEBUG_ARCH
+    log_message(rawnet_arch_log, "rawnet_arch_transmit() called, with: force = %s, onecoll = %s, inhibit_crc=%s, tx_pad_dis=%s, txlength=%u",
+                force ? "TRUE" : "FALSE", 
+                onecoll ? "TRUE" : "FALSE",
+                inhibit_crc ? "TRUE" : "FALSE",
+                tx_pad_dis ? "TRUE" : "FALSE",
+                txlength);
+#endif
+
+#ifdef RAWNET_DEBUG_PKTDUMP
+    debug_output("Transmit frame: ", txframe, txlength);
+#endif /* #ifdef RAWNET_DEBUG_PKTDUMP */
+
+    RAWNET_ARCH_TRANSMIT(force, onecoll, inhibit_crc, tx_pad_dis, txlength, txframe);
 }
 
 /*

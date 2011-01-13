@@ -1478,6 +1478,17 @@ if test x"$is_dos" = "xyes" ; then
 else
   if test x"$enable_ethernet" = "xyes"; then
   dnl /usr/lib/libpcap.a
+    AC_CHECK_LIB(pcap, pcap_inject,[
+      AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+      AC_DEFINE(HAVE_PCAP_INJECT,,[A libpcap version with pcap_inject is available])
+      TFE_LIBS="-lpcap"
+    ],,$LIBS)
+    AC_CHECK_LIB(pcap, pcap_sendpacket,[
+      AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+      AC_DEFINE(HAVE_PCAP_SENDPACKET,,[A libpcap version with pcap_sendpacket is available])
+      TFE_LIBS="-lpcap"
+    ],,$LIBS)
+  dnl /usr/lib/libpcap.a
   dnl /usr/lib/libnet.a
     AC_CHECK_LIB(pcap, pcap_open_live,[
       AC_CHECK_LIB(net, libnet_init,[
