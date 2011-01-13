@@ -151,7 +151,20 @@ char *archdep_program_name(void)
 
 const char *archdep_boot_path(void)
 {
-    return "PROGDIR:";
+    if (boot_path == NULL) {
+        char cwd[1024];
+        BPTR lock;
+
+        lock = GetProgramDir();
+        if (NameFromLock(lock, cwd, 1024)) {
+            if (cwd[strlen(cwd) - 1] != ':') {
+                strcat(cwd, "/");
+            }
+            boot_path = lib_stralloc(cwd);
+        }
+    }
+
+    return boot_path;
 }
 
 char *archdep_default_sysfile_pathlist(const char *emu_id)
@@ -233,7 +246,12 @@ FILE *archdep_open_default_log_file(void)
 
         fname = util_concat(archdep_boot_path(), "vice.log", NULL);
         f = fopen(fname, MODE_WRITE_TEXT);
+
         lib_free(fname);
+
+        if (f == NULL) {
+            return stdout;
+        }
 
         return f;
     } else {

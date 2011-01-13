@@ -174,7 +174,12 @@ FILE *archdep_open_default_log_file(void)
 
         fname = util_concat(archdep_boot_path(), "vice.log", NULL);
         f = fopen(fname, MODE_WRITE_TEXT);
+
         lib_free(fname);
+
+        if (f == NULL) {
+            return stdout;
+        }
 
         return f;
     } else {
