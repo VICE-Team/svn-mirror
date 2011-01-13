@@ -31,6 +31,11 @@
 #endif
 
 #include <proto/dos.h>
+#include <proto/exec.h>
+
+#ifndef AMIGA_OS4
+#include <proto/socket.h>
+#endif
 
 #include <stdarg.h>
 #include <stdio.h>
