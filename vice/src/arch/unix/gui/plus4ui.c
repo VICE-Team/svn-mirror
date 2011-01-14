@@ -111,6 +111,12 @@ static ui_menu_entry_t sidcart_clock_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
 
+static ui_menu_entry_t digiblaster_submenu[] = {
+    { N_("Enable"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DIGIBLASTER, NULL, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t sidcart_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidCart, NULL, NULL },
@@ -190,11 +196,12 @@ ui_menu_entry_t set_ram_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t io_extensions_submenu[] = {
-    { N_("Enable digiblaster add-on"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_DIGIBLASTER, NULL, NULL },
-    { N_("SID cartridge settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Digiblaster add-on"), UI_MENU_TYPE_TICK,
+      NULL, NULL, digiblaster_submenu },
+    { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
-    { N_("V364 Speech settings"), UI_MENU_TYPE_NORMAL,
+    /* Translators: "V364 Speech" is the speech extension present in the V364 prototype */
+    { N_("V364 Speech"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, speech_submenu },
     { NULL }
 };

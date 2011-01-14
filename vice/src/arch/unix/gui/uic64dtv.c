@@ -85,9 +85,15 @@ ui_menu_entry_t c64dtv_flash_submenu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t hummeradc_submenu[] = {
+    { N_("Enable"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_HummerADC, NULL, NULL },
+    { NULL }
+};
+
 ui_menu_entry_t c64dtv_extension_submenu[] = {
-    { N_("Enable Hummer ADC"), UI_MENU_TYPE_TICK,
-      (ui_callback_t) toggle_HummerADC, NULL, NULL },
+    { N_("Hummer ADC"), UI_MENU_TYPE_TICK,
+      NULL, NULL, hummeradc_submenu },
 #ifdef HAVE_MOUSE
     { N_("PS/2 mouse on Userport"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ps2_mouse_submenu },

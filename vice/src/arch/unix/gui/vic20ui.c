@@ -507,7 +507,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_VIC20_NAME_FP, UI_MENU_TYPE_NORMAL,
       NULL, NULL, vicflash_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("SID cartridge settings"), UI_MENU_TYPE_NORMAL,
+    { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
     { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouse_vic20_submenu },
