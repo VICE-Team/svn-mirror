@@ -579,6 +579,7 @@ char *BrowseFile(char *select_text, char *pattern, video_canvas_t *canvas)
                                 ASLFR_InitialPattern, pattern,
                                 ASLFR_PositiveText, select_text,
                                 (struct TagItem *)TAG_DONE)) {
+        fname[0]=0;
         strcat(fname,request->rf_Dir);
         if (fname[strlen(fname) - 1] != (UBYTE)58) {
             strcat(fname, "/");
