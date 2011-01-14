@@ -29,14 +29,7 @@
 #define VICE_ARCHDEP_H
 
 #include "archapi.h"
-
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
+#include "vicemaxpath.h"
 
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."

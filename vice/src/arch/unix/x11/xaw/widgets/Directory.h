@@ -41,17 +41,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
-
-#ifndef MAXPATHLEN
-#define MAXPATHLEN PATH_MAX
-#endif
+#include "vicemaxpath.h"
 
 #if defined(SYSV) || defined(SVR4)
 #define getwd(path) getcwd(path, MAXPATHLEN)

@@ -214,6 +214,7 @@ noinst_HEADERS = \
 	vice.h \
 	vice_sdl.h \
 	vice-event.h \
+	vicemaxpath.h \
 	vicesocket.h \
 	vicii.h \
 	video.h \

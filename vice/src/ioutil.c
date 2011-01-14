@@ -73,6 +73,7 @@
 #include "lib.h"
 #include "types.h"
 #include "util.h"
+#include "vicemaxpath.h"
 
 /* Mostly POSIX compatibily */
 
@@ -130,14 +131,6 @@ int ioutil_errno(unsigned int check)
 
     return 0;
 }
-
-#ifndef PATH_MAX
-#  ifdef MAX_PATH
-#    define PATH_MAX MAX_PATH
-#  else
-#    define PATH_MAX 1024
-#  endif
-#endif
 
 #if !defined(VMS) && !defined(__VAX)
 #if !defined(HAVE_GETCWD) && !defined(RISCOS)
