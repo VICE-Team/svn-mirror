@@ -839,7 +839,7 @@ msgstr "SID Modul Einstellungen"
 
 #: src/arch/unix/gui/plus4ui.c:197
 msgid "V364 Speech settings"
-msgstr "V364 Stimme Einstellungen"
+msgstr "V364 Sprache Einstellungen"
 
 #: src/arch/unix/gui/plus4ui.c:214
 msgid "TED model"
@@ -1157,7 +1157,7 @@ msgstr "Hummer ADC Aktivieren"
 
 #: src/arch/unix/gui/uic64dtv.c:92
 msgid "PS/2 mouse on Userport"
-msgstr "PS/2 Userport Mausemulation aktivieren"
+msgstr "PS/2 Userport Mausemulation"
 
 #: src/arch/unix/gui/uicmdline.c:37 src/arch/amigaos/intl_text.c.po.c:3394
 #, c-format
@@ -3191,7 +3191,7 @@ msgstr "Einstellungen speichern unter..."
 
 #: src/arch/unix/gui/uisettings.c:405
 msgid "Load settings from file..."
-msgstr "Einstellungen von Datei laden..."
+msgstr "Einstellungen aus Datei laden..."
 
 #: src/arch/unix/gui/uisettings.c:407
 msgid "Restore default settings"
@@ -3569,7 +3569,7 @@ msgstr "Vic Flash Plugin Image einlegen"
 
 #: src/arch/unix/gui/vic20ui.c:315
 msgid "Add to generic cartridge"
-msgstr "Zu univesellem Erweiterungsmodul hinzufügen"
+msgstr "Zu universellem Erweiterungsmodul hinzufügen"
 
 #: src/arch/unix/gui/vic20ui.c:330
 msgid "Mega-Cart NvRAM image"
@@ -6374,7 +6374,7 @@ msgstr "Speichere Einstellungen in angegebene Datei"
 
 #: src/arch/win32/res.rc.po.c:1446 src/arch/amigaos/intl_text.c.po.c:2305
 msgid "Load settings from specified file"
-msgstr "Lade Einstellungen von Datei"
+msgstr "Lade Einstellungen aus Datei"
 
 #: src/arch/win32/res.rc.po.c:1447
 msgid "&Save current settings"
@@ -7928,7 +7928,7 @@ msgstr "P&lus4 Einstellungen..."
 
 #: src/arch/win32/resplus4.rc.po.c:457
 msgid "&V364 Speech settings..."
-msgstr "&V364 Stimme Einstellungen"
+msgstr "&V364 Sprache Einstellungen"
 
 #: src/arch/win32/resplus60k.rc.po.c:28 src/arch/amigaos/intl_text.c.po.c:5078
 msgid "PLUS60K Settings"
@@ -12549,7 +12549,7 @@ msgstr "Wiedergabe von aufgenommener Ereignisse"
 
 #: src/translate_text.c.po.c:9047
 msgid "Execute monitor commands from file"
-msgstr "Monitor Kommandos von Datei ausführen"
+msgstr "Monitor Kommandos aus Datei ausführen"
 
 #: src/translate_text.c.po.c:9061
 msgid "Set an initial breakpoint for the monitor"
