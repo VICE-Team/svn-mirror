@@ -342,7 +342,7 @@ static ui_menu_entry_t sid_submenu[] = {
     { N_("Second SID base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sid_stereo_address_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("SID filters"), UI_MENU_TYPE_NORMAL,
+    { N_("SID filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
 #ifdef HAVE_RESID
     { "--", UI_MENU_TYPE_SEPARATOR },
