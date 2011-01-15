@@ -2643,6 +2643,18 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
         || SMR_B(m, &export.ultimax_phi2) < 0
         || SMR_DW(m, &cart_freeze_alarm_time) < 0
         || SMR_DW(m, &cart_nmi_alarm_time) < 0
+        || SMR_B(m, &export_slot1.game) < 0
+        || SMR_B(m, &export_slot1.exrom) < 0
+        || SMR_B(m, &export_slot1.ultimax_phi1) < 0
+        || SMR_B(m, &export_slot1.ultimax_phi2) < 0
+        || SMR_B(m, &export_slotmain.game) < 0
+        || SMR_B(m, &export_slotmain.exrom) < 0
+        || SMR_B(m, &export_slotmain.ultimax_phi1) < 0
+        || SMR_B(m, &export_slotmain.ultimax_phi2) < 0
+        || SMR_B(m, &export_passthrough.game) < 0
+        || SMR_B(m, &export_passthrough.exrom) < 0
+        || SMR_B(m, &export_passthrough.ultimax_phi1) < 0
+        || SMR_B(m, &export_passthrough.ultimax_phi2) < 0
         /* some room for future expansion */
         || SMR_DW(m, &dummy) < 0
         || SMR_DW(m, &dummy) < 0
