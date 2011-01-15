@@ -1,20 +1,20 @@
 # Turkish Translation File for VICE
-# Copyright (C) 2008-2009
+# Copyright (C) 2008-2011
 # This file is distributed under the same license as the PACKAGE package.
-# Emir Akaydin <emir@akaydin.com>, 2008-2009.
-# 
+# Emir Akaydin <emir@akaydin.com>, 2008-2011.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.2\n"
+"Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-08 11:18-0800\n"
-"PO-Revision-Date: 2009-11-11 14:07+0100\n"
+"POT-Creation-Date: 2011-01-15 11:26+0100\n"
+"PO-Revision-Date: 2011-01-15 11:25+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-9\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
@@ -78,26 +78,23 @@ msgstr "Dördüncü RS232 aygýtýnýn Baudrate'ini belirleyin"
 #: src/arch/unix/gui/c128ui.c:193 src/arch/unix/gui/c64scui.c:340
 #: src/arch/unix/gui/c64ui.c:400 src/arch/unix/gui/cbm2ui.c:295
 #: src/arch/unix/gui/vsidui.c:204
-#, fuzzy
 msgid "Second SID"
-msgstr "*Ýkinci SID"
+msgstr "Ýkinci SID"
 
 #: src/arch/unix/gui/c128ui.c:195 src/arch/unix/gui/c64scui.c:342
 #: src/arch/unix/gui/c64ui.c:402 src/arch/unix/gui/cbm2ui.c:297
 #: src/arch/unix/gui/vsidui.c:206
-#, fuzzy
 msgid "Second SID base address"
-msgstr "*Ýkinci SID taban adresi"
+msgstr "Ýkinci SID taban adresi"
 
 #: src/arch/unix/gui/c128ui.c:198 src/arch/unix/gui/c64dtvui.c:75
 #: src/arch/unix/gui/c64scui.c:345 src/arch/unix/gui/c64ui.c:405
 #: src/arch/unix/gui/cbm2ui.c:300 src/arch/unix/gui/petui.c:126
-#: src/arch/unix/gui/plus4ui.c:120 src/arch/unix/gui/vic20ui.c:151
+#: src/arch/unix/gui/plus4ui.c:126 src/arch/unix/gui/vic20ui.c:151
 #: src/arch/unix/gui/vsidui.c:209 src/arch/win32/res.rc.po.c:1289
 #: src/arch/amigaos/intl_text.c.po.c:5683
-#, fuzzy
 msgid "SID filters"
-msgstr "SID Filtreleri"
+msgstr "SID filtreleri"
 
 #: src/arch/unix/gui/c128ui.c:202 src/arch/unix/gui/c64dtvui.c:79
 #: src/arch/unix/gui/c64scui.c:349 src/arch/unix/gui/c64ui.c:409
@@ -115,7 +112,7 @@ msgstr "reSID passband yeniden örnekleme..."
 #: src/arch/unix/gui/c64dtvui.c:153 src/arch/unix/gui/c64scui.c:187
 #: src/arch/unix/gui/c64ui.c:249 src/arch/unix/gui/cbm2ui.c:242
 #: src/arch/unix/gui/cbm2ui.c:508 src/arch/unix/gui/petui.c:124
-#: src/arch/unix/gui/plus4ui.c:118 src/arch/unix/gui/vic20ui.c:149
+#: src/arch/unix/gui/plus4ui.c:124 src/arch/unix/gui/vic20ui.c:149
 #: src/arch/unix/gui/vsidui.c:201 src/arch/win32/res.rc.po.c:1288
 #: src/arch/win32/resc64.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:6299
 msgid "SID model"
@@ -155,9 +152,8 @@ msgid "Function ROM"
 msgstr "Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:261
-#, fuzzy
 msgid "Banks 2 & 3"
-msgstr "*Banklar 2 & 3"
+msgstr "Banklar 2 & 3"
 
 #: src/arch/unix/gui/c128ui.c:265 src/arch/unix/gui/c64scui.c:369
 #: src/arch/unix/gui/c64ui.c:429
@@ -181,15 +177,13 @@ msgstr "Ethernet emülasyonu"
 
 #: src/arch/unix/gui/c128ui.c:306 src/arch/unix/gui/c64scui.c:409
 #: src/arch/unix/gui/c64ui.c:469
-#, fuzzy
 msgid "Mouse emulation"
-msgstr "*Mouse Emülasyonu"
+msgstr "Mouse emülasyonu"
 
 #: src/arch/unix/gui/c128ui.c:308 src/arch/unix/gui/c64scui.c:411
 #: src/arch/unix/gui/c64ui.c:471 src/arch/unix/gui/vic20ui.c:515
-#, fuzzy
 msgid "Lightpen emulation"
-msgstr "*Iþýklý Kalem Emülasyonu"
+msgstr "Iþýklý Kalem emülasyonu"
 
 #: src/arch/unix/gui/c128ui.c:317 src/arch/unix/gui/c64scui.c:420
 #: src/arch/unix/gui/c64ui.c:480 src/arch/unix/gui/vic20ui.c:519
@@ -227,42 +221,42 @@ msgstr "Yeni karakter ROM yükle"
 
 #: src/arch/unix/gui/c128ui.c:352 src/arch/unix/gui/c64dtvui.c:103
 #: src/arch/unix/gui/c64scui.c:449 src/arch/unix/gui/c64ui.c:509
-#: src/arch/unix/gui/plus4ui.c:147 src/arch/unix/gui/vic20ui.c:175
+#: src/arch/unix/gui/plus4ui.c:153 src/arch/unix/gui/vic20ui.c:175
 msgid "Load default ROMs"
 msgstr "Varsayýlan ROMlarý yükle"
 
 #: src/arch/unix/gui/c128ui.c:356 src/arch/unix/gui/c64dtvui.c:107
 #: src/arch/unix/gui/c64scui.c:453 src/arch/unix/gui/c64ui.c:513
 #: src/arch/unix/gui/cbm2ui.c:97 src/arch/unix/gui/petui.c:258
-#: src/arch/unix/gui/plus4ui.c:151 src/arch/unix/gui/vic20ui.c:178
+#: src/arch/unix/gui/plus4ui.c:157 src/arch/unix/gui/vic20ui.c:178
 msgid "Load new computer ROM"
 msgstr "Yeni bilgisayar ROM'u yükle"
 
 #: src/arch/unix/gui/c128ui.c:358 src/arch/unix/gui/c64dtvui.c:109
 #: src/arch/unix/gui/c64scui.c:455 src/arch/unix/gui/c64ui.c:515
 #: src/arch/unix/gui/cbm2ui.c:99 src/arch/unix/gui/petui.c:260
-#: src/arch/unix/gui/plus4ui.c:153 src/arch/unix/gui/vic20ui.c:180
+#: src/arch/unix/gui/plus4ui.c:159 src/arch/unix/gui/vic20ui.c:180
 msgid "Load new drive ROM"
 msgstr "Yeni sürücü ROM'u yükle"
 
 #: src/arch/unix/gui/c128ui.c:361 src/arch/unix/gui/c64dtvui.c:112
 #: src/arch/unix/gui/c64scui.c:458 src/arch/unix/gui/c64ui.c:518
 #: src/arch/unix/gui/cbm2ui.c:102 src/arch/unix/gui/petui.c:263
-#: src/arch/unix/gui/plus4ui.c:156 src/arch/unix/gui/vic20ui.c:183
+#: src/arch/unix/gui/plus4ui.c:162 src/arch/unix/gui/vic20ui.c:183
 msgid "ROM set type"
 msgstr "ROM set tipi"
 
 #: src/arch/unix/gui/c128ui.c:364 src/arch/unix/gui/c64dtvui.c:115
 #: src/arch/unix/gui/c64scui.c:461 src/arch/unix/gui/c64ui.c:521
 #: src/arch/unix/gui/cbm2ui.c:133 src/arch/unix/gui/petui.c:297
-#: src/arch/unix/gui/plus4ui.c:159 src/arch/unix/gui/vic20ui.c:186
+#: src/arch/unix/gui/plus4ui.c:165 src/arch/unix/gui/vic20ui.c:186
 msgid "ROM set archive"
 msgstr "ROM set arþivi"
 
 #: src/arch/unix/gui/c128ui.c:366 src/arch/unix/gui/c64dtvui.c:117
 #: src/arch/unix/gui/c64scui.c:463 src/arch/unix/gui/c64ui.c:523
 #: src/arch/unix/gui/cbm2ui.c:135 src/arch/unix/gui/petui.c:299
-#: src/arch/unix/gui/plus4ui.c:161 src/arch/unix/gui/vic20ui.c:188
+#: src/arch/unix/gui/plus4ui.c:167 src/arch/unix/gui/vic20ui.c:188
 msgid "ROM set file"
 msgstr "ROM set dosyasý"
 
@@ -297,7 +291,7 @@ msgstr "Fransýzca"
 #: src/arch/unix/gui/c64scui.c:502 src/arch/unix/gui/c64ui.c:556
 #: src/arch/unix/gui/c64ui.c:562 src/arch/unix/gui/cbm2ui.c:332
 #: src/arch/unix/gui/petui.c:377 src/arch/unix/gui/petui.c:383
-#: src/arch/unix/gui/plus4ui.c:225 src/arch/win32/resc128.rc.po.c:681
+#: src/arch/unix/gui/plus4ui.c:232 src/arch/win32/resc128.rc.po.c:681
 #: src/arch/amigaos/intl_text.c.po.c:2470
 msgid "German"
 msgstr "Almanca"
@@ -321,15 +315,13 @@ msgstr "Ýsveççe"
 #: src/arch/unix/gui/c64scui.c:150 src/arch/unix/gui/c64scui.c:162
 #: src/arch/unix/gui/c64ui.c:222 src/arch/unix/gui/c64ui.c:234
 #: src/arch/win32/resc64.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:7740
-#, fuzzy
 msgid "6526 (old)"
-msgstr "6581 (eski)"
+msgstr "6526 (eski)"
 
 #: src/arch/unix/gui/c128ui.c:433 src/arch/unix/gui/c128ui.c:442
 #: src/arch/win32/resc64.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:7751
-#, fuzzy
 msgid "6526A (new)"
-msgstr "8580 (yeni)"
+msgstr "6526A (yeni)"
 
 #: src/arch/unix/gui/c128ui.c:449 src/arch/win32/resc128.rc.po.c:646
 #: src/arch/amigaos/intl_text.c.po.c:7102
@@ -340,44 +332,39 @@ msgstr "Makine tipi"
 #: src/arch/unix/gui/c64scui.c:185 src/arch/unix/gui/c64ui.c:247
 #: src/arch/unix/gui/cbm2ui.c:240 src/arch/win32/resc64.rc.po.c:524
 #: src/arch/amigaos/intl_text.c.po.c:7795
-#, fuzzy
 msgid "VIC-II model"
-msgstr "SID modeli"
+msgstr "VIC-II modeli"
 
 #: src/arch/unix/gui/c128ui.c:455
-#, fuzzy
 msgid "VDC model"
-msgstr "SID modeli"
+msgstr "VDC modeli"
 
 #: src/arch/unix/gui/c128ui.c:459 src/arch/unix/gui/c64scui.c:189
 #: src/arch/unix/gui/c64ui.c:251 src/arch/win32/resc64.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:7806
-#, fuzzy
 msgid "CIA 1 model"
-msgstr "ACIA modu"
+msgstr "CIA 1 modeli"
 
 #: src/arch/unix/gui/c128ui.c:461 src/arch/unix/gui/c64scui.c:191
 #: src/arch/unix/gui/c64ui.c:253 src/arch/win32/resc64.rc.po.c:528
 #: src/arch/amigaos/intl_text.c.po.c:7817
-#, fuzzy
 msgid "CIA 2 model"
-msgstr "ACIA modu"
+msgstr "CIA 2 modeli"
 
 #: src/arch/unix/gui/c128ui.c:465
-#, fuzzy
 msgid "Always switch to C64 mode"
-msgstr "*Her zaman C64 moduna geç"
+msgstr "Her zaman C64 moduna geç"
 
 #: src/arch/unix/gui/c128ui.c:487 src/arch/unix/gui/c64dtvui.c:175
 #: src/arch/unix/gui/c64scui.c:509 src/arch/unix/gui/c64ui.c:569
-#: src/arch/unix/gui/plus4ui.c:238 src/arch/unix/gui/vic20ui.c:545
+#: src/arch/unix/gui/plus4ui.c:245 src/arch/unix/gui/vic20ui.c:545
 msgid "Model settings"
 msgstr "Model ayarlarý"
 
 #: src/arch/unix/gui/c128ui.c:489 src/arch/unix/gui/c64dtvui.c:177
 #: src/arch/unix/gui/c64scui.c:511 src/arch/unix/gui/c64ui.c:571
 #: src/arch/unix/gui/cbm2ui.c:347 src/arch/unix/gui/petui.c:392
-#: src/arch/unix/gui/plus4ui.c:240 src/arch/unix/gui/vic20ui.c:547
+#: src/arch/unix/gui/plus4ui.c:247 src/arch/unix/gui/vic20ui.c:547
 #: src/arch/win32/res.rc.po.c:976
 msgid "ROM settings"
 msgstr "ROM ayarlarý"
@@ -395,7 +382,7 @@ msgstr "VDC ayarlarý"
 
 #: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:515 src/arch/unix/gui/c64ui.c:575
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:338
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:5727
 msgid "SID settings"
@@ -407,7 +394,7 @@ msgstr "Bellek ve G/Ç hatlarý"
 
 #: src/arch/unix/gui/c128ui.c:499 src/arch/unix/gui/c64scui.c:519
 #: src/arch/unix/gui/c64ui.c:579 src/arch/unix/gui/cbm2ui.c:355
-#: src/arch/unix/gui/plus4ui.c:246 src/arch/unix/gui/vic20ui.c:455
+#: src/arch/unix/gui/plus4ui.c:253 src/arch/unix/gui/vic20ui.c:455
 #: src/arch/win32/res.rc.po.c:1214
 msgid "RS232 settings"
 msgstr "RS232 ayarlarý"
@@ -415,16 +402,16 @@ msgstr "RS232 ayarlarý"
 #: src/arch/unix/gui/c128ui.c:629 src/arch/unix/gui/c64dtvui.c:303
 #: src/arch/unix/gui/c64scui.c:649 src/arch/unix/gui/c64ui.c:709
 #: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
-#: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:378
+#: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:385
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:687
-#: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:6
+#: src/arch/unix/gui/vsidui.c:399 src/arch/amigaos/intl_text.c.po.c:6
 msgid "File"
 msgstr "Dosya"
 
 #: src/arch/unix/gui/c128ui.c:632 src/arch/unix/gui/c64dtvui.c:306
 #: src/arch/unix/gui/c64scui.c:652 src/arch/unix/gui/c64ui.c:712
 #: src/arch/unix/gui/cbm2ui.c:569 src/arch/unix/gui/petui.c:555
-#: src/arch/unix/gui/plus4ui.c:381 src/arch/unix/gui/vic20ui.c:690
+#: src/arch/unix/gui/plus4ui.c:388 src/arch/unix/gui/vic20ui.c:690
 #: src/arch/win32/res.rc.po.c:1301 src/arch/win32/resc128.rc.po.c:119
 #: src/arch/win32/resc64.rc.po.c:119 src/arch/win32/resc64dtv.rc.po.c:86
 #: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:92
@@ -436,7 +423,7 @@ msgstr "Düzenle"
 #: src/arch/unix/gui/c128ui.c:635 src/arch/unix/gui/c64dtvui.c:309
 #: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:715
 #: src/arch/unix/gui/cbm2ui.c:552 src/arch/unix/gui/cbm2ui.c:572
-#: src/arch/unix/gui/petui.c:558 src/arch/unix/gui/plus4ui.c:384
+#: src/arch/unix/gui/petui.c:558 src/arch/unix/gui/plus4ui.c:391
 #: src/arch/unix/gui/vic20ui.c:693 src/arch/amigaos/intl_text.c.po.c:798
 msgid "Snapshot"
 msgstr "Anlýk Görüntü"
@@ -444,7 +431,7 @@ msgstr "Anlýk Görüntü"
 #: src/arch/unix/gui/c128ui.c:637 src/arch/unix/gui/c64dtvui.c:311
 #: src/arch/unix/gui/c64scui.c:657 src/arch/unix/gui/c64ui.c:717
 #: src/arch/unix/gui/cbm2ui.c:554 src/arch/unix/gui/cbm2ui.c:574
-#: src/arch/unix/gui/petui.c:560 src/arch/unix/gui/plus4ui.c:386
+#: src/arch/unix/gui/petui.c:560 src/arch/unix/gui/plus4ui.c:393
 #: src/arch/unix/gui/vic20ui.c:695 src/arch/amigaos/intl_text.c.po.c:985
 msgid "Options"
 msgstr "Seçenekler"
@@ -452,8 +439,8 @@ msgstr "Seçenekler"
 #: src/arch/unix/gui/c128ui.c:639 src/arch/unix/gui/c64dtvui.c:313
 #: src/arch/unix/gui/c64scui.c:659 src/arch/unix/gui/c64ui.c:719
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
-#: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:388
-#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:400
+#: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:395
+#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:401
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1233
 #: src/arch/amigaos/intl_text.c.po.c:1557
 msgid "Settings"
@@ -464,21 +451,21 @@ msgstr "Ayarlar"
 #: src/arch/unix/gui/c128ui.c:643 src/arch/unix/gui/c64dtvui.c:317
 #: src/arch/unix/gui/c64scui.c:663 src/arch/unix/gui/c64ui.c:723
 #: src/arch/unix/gui/cbm2ui.c:560 src/arch/unix/gui/cbm2ui.c:580
-#: src/arch/unix/gui/petui.c:566 src/arch/unix/gui/plus4ui.c:392
+#: src/arch/unix/gui/petui.c:566 src/arch/unix/gui/plus4ui.c:399
 #: src/arch/unix/gui/vic20ui.c:701
 msgid "RJHelp"
 msgstr "RJYardým"
 
 #: src/arch/unix/gui/c64dtvui.c:90 src/arch/unix/gui/c64scui.c:436
 #: src/arch/unix/gui/c64ui.c:496 src/arch/unix/gui/cbm2ui.c:75
-#: src/arch/unix/gui/petui.c:211 src/arch/unix/gui/plus4ui.c:131
+#: src/arch/unix/gui/petui.c:211 src/arch/unix/gui/plus4ui.c:137
 #: src/arch/unix/gui/vic20ui.c:162
 msgid "Load new kernal ROM"
 msgstr "Yeni kernal ROM yükle"
 
 #: src/arch/unix/gui/c64dtvui.c:93 src/arch/unix/gui/c64scui.c:439
 #: src/arch/unix/gui/c64ui.c:499 src/arch/unix/gui/cbm2ui.c:81
-#: src/arch/unix/gui/petui.c:217 src/arch/unix/gui/plus4ui.c:134
+#: src/arch/unix/gui/petui.c:217 src/arch/unix/gui/plus4ui.c:140
 #: src/arch/unix/gui/vic20ui.c:165
 msgid "Load new BASIC ROM"
 msgstr "Yeni BASIC ROM yükle"
@@ -492,86 +479,74 @@ msgstr "Ortam dosyasý kaydet"
 
 #: src/arch/unix/gui/c64dtvui.c:149 src/arch/win32/resc64dtv.rc.po.c:437
 #: src/arch/amigaos/intl_text.c.po.c:3845
-#, fuzzy
 msgid "DTV revision"
-msgstr "DTV Revizyonu"
+msgstr "DTV revizyonu"
 
 #: src/arch/unix/gui/c64dtvui.c:183
-#, fuzzy
 msgid "Flash settings"
-msgstr "EasyFlash Ayarlarý"
+msgstr "Flash ayarlarý"
 
 #: src/arch/unix/gui/c64dtvui.c:185 src/arch/unix/gui/c64scui.c:517
 #: src/arch/unix/gui/c64ui.c:577 src/arch/unix/gui/petui.c:396
-#: src/arch/unix/gui/plus4ui.c:244 src/arch/unix/gui/vic20ui.c:551
+#: src/arch/unix/gui/plus4ui.c:251 src/arch/unix/gui/vic20ui.c:551
 msgid "I/O extensions"
 msgstr "G/Ç hatlarý"
 
 #: src/arch/unix/gui/c64scui.c:114 src/arch/unix/gui/c64ui.c:172
 #: src/arch/amigaos/intl_text.c.po.c:1601
-#, fuzzy
 msgid "C64 old PAL"
-msgstr "C64 modu Kernal"
+msgstr "C64 eski PAL"
 
 #: src/arch/unix/gui/c64scui.c:120 src/arch/unix/gui/c64ui.c:178
 #: src/arch/amigaos/intl_text.c.po.c:1634
-#, fuzzy
 msgid "C64 old NTSC"
-msgstr "Eski NTSC-M"
+msgstr "C64 eski NTSC"
 
 #: src/arch/unix/gui/c64scui.c:134 src/arch/win32/resc64.rc.po.c:537
 #: src/arch/amigaos/intl_text.c.po.c:7685
-#, fuzzy
 msgid "6569R1 (old PAL)"
-msgstr "6581 (eski)"
+msgstr "6569R1 (eski PAL)"
 
 #: src/arch/unix/gui/c64scui.c:140 src/arch/win32/resc64.rc.po.c:540
 #: src/arch/amigaos/intl_text.c.po.c:7718
-#, fuzzy
 msgid "6567R56A (old NTSC)"
-msgstr "6581 (eski)"
+msgstr "6567R56A (eski NTSC)"
 
 #: src/arch/unix/gui/c64scui.c:152 src/arch/unix/gui/c64scui.c:164
 #: src/arch/unix/gui/c64ui.c:224 src/arch/unix/gui/c64ui.c:236
-#, fuzzy
 msgid "6526 (new)"
-msgstr "8580 (yeni)"
+msgstr "6526 (yeni)"
 
 #: src/arch/unix/gui/c64scui.c:154 src/arch/unix/gui/c64scui.c:166
 #: src/arch/unix/gui/c64ui.c:226 src/arch/unix/gui/c64ui.c:238
 #: src/arch/win32/resc64.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:7762
-#, fuzzy
 msgid "6526x (old with timer B bug)"
-msgstr "6581 (eski)"
+msgstr "6526x (eski timer B hatalý)"
 
 #: src/arch/unix/gui/c64scui.c:174 src/arch/win32/resc64.rc.po.c:533
 #: src/arch/amigaos/intl_text.c.po.c:7773
-#, fuzzy
 msgid "Discrete"
 msgstr "Baðlantýyý kes"
 
 #: src/arch/unix/gui/c64scui.c:176 src/arch/win32/resc64.rc.po.c:534
 #: src/arch/amigaos/intl_text.c.po.c:7784
-#, fuzzy
 msgid "Custom IC"
-msgstr "Özel"
+msgstr "Özel IC"
 
 #: src/arch/unix/gui/c64scui.c:182 src/arch/unix/gui/c64scui.c:358
 #: src/arch/unix/gui/c64ui.c:244 src/arch/unix/gui/c64ui.c:418
 #: src/arch/win32/resc64.rc.po.c:523
-#, fuzzy
 msgid "C64 model"
-msgstr "C64 modu Kernal"
+msgstr "C64 modeli"
 
 #: src/arch/unix/gui/c64scui.c:193 src/arch/win32/resc64.rc.po.c:529
 #: src/arch/amigaos/intl_text.c.po.c:7828
 msgid "Glue logic"
-msgstr ""
+msgstr "Glue logic"
 
 #: src/arch/unix/gui/c64ui.c:208
-#, fuzzy
 msgid "Old PAL-G"
-msgstr "PAL-G"
+msgstr "Eski PAL-G"
 
 #: src/arch/unix/gui/c64ui.c:212 src/arch/unix/gui/vsidui.c:289
 #: src/arch/amigaos/intl_text.c.po.c:1491
@@ -649,34 +624,28 @@ msgid "Hardwired switches"
 msgstr "Bütünleþik anahtarlar"
 
 #: src/arch/unix/gui/cbm2ui.c:249
-#, fuzzy
 msgid "Bank 15 $0800-$0FFF RAM"
-msgstr "*Bank 15 $0800-$0FFF RAM"
+msgstr "Bank 15 $0800-$0FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:251
-#, fuzzy
 msgid "Bank 15 $1000-$1FFF RAM"
-msgstr "*Bank 15 $1000-$1FFF RAM"
+msgstr "Bank 15 $1000-$1FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:253
-#, fuzzy
 msgid "Bank 15 $2000-$3FFF RAM"
-msgstr "*Bank 15 $2000-$3FFF RAM"
+msgstr "Bank 15 $2000-$3FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:255
-#, fuzzy
 msgid "Bank 15 $4000-$5FFF RAM"
-msgstr "*Bank 15 $4000-$5FFF RAM"
+msgstr "Bank 15 $4000-$5FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:257
-#, fuzzy
 msgid "Bank 15 $6000-$7FFF RAM"
-msgstr "*Bank 15 $6000-$7FFF RAM"
+msgstr "Bank 15 $6000-$7FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:259
-#, fuzzy
 msgid "Bank 15 $C000-$CFFF RAM"
-msgstr "*Bank 15 $C000-$CFFF RAM"
+msgstr "Bank 15 $C000-$CFFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:263 src/arch/unix/gui/petui.c:329
 msgid "Keyboard type"
@@ -687,42 +656,42 @@ msgid "CBM-II model settings"
 msgstr "CBM-II model ayarlarý"
 
 #: src/arch/unix/gui/cbm2ui.c:349 src/arch/unix/gui/petui.c:394
-#, fuzzy
 msgid "CRTC settings"
-msgstr "VDC ayarlarý"
+msgstr "CRTC ayarlarý"
 
 #: src/arch/unix/gui/petui.c:121 src/arch/unix/gui/plus4ui.c:115
-#: src/arch/unix/gui/uic64_256k.c:56 src/arch/unix/gui/uidigimax.c:77
+#: src/arch/unix/gui/plus4ui.c:121 src/arch/unix/gui/uic64_256k.c:56
+#: src/arch/unix/gui/uic64dtv.c:89 src/arch/unix/gui/uidigimax.c:77
 #: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiexpert.c:50
 #: src/arch/unix/gui/uigeoram.c:65 src/arch/unix/gui/uiisepic.c:46
 #: src/arch/unix/gui/uimagicvoice.c:49 src/arch/unix/gui/uimidi.c:82
 #: src/arch/unix/gui/uimidi.c:100 src/arch/unix/gui/uimmc64.c:73
 #: src/arch/unix/gui/uipetdww.c:43 src/arch/unix/gui/uipetreu.c:56
 #: src/arch/unix/gui/uiplus256k.c:43 src/arch/unix/gui/uiplus60k.c:52
-#: src/arch/unix/gui/uiramcart.c:56 src/arch/unix/gui/uireu.c:67
-#: src/arch/unix/gui/uisoundexpander.c:48 src/arch/unix/gui/uitfe.c:49
-#: src/arch/unix/gui/uitpi.c:49 src/arch/unix/gui/uiv364speech.c:49
-#: src/arch/unix/gui/vic20ui.c:146 src/arch/amigaos/intl_text.c.po.c:666
+#: src/arch/unix/gui/uips2mouse.c:40 src/arch/unix/gui/uiramcart.c:56
+#: src/arch/unix/gui/uireu.c:67 src/arch/unix/gui/uisoundexpander.c:48
+#: src/arch/unix/gui/uitfe.c:49 src/arch/unix/gui/uitpi.c:49
+#: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:146
+#: src/arch/amigaos/intl_text.c.po.c:666
 msgid "Enable"
 msgstr "Aktif Et"
 
-#: src/arch/unix/gui/petui.c:128 src/arch/unix/gui/plus4ui.c:122
+#: src/arch/unix/gui/petui.c:128 src/arch/unix/gui/plus4ui.c:128
 #: src/arch/unix/gui/vic20ui.c:153 src/arch/win32/ressidcart.rc.po.c:82
 #: src/arch/amigaos/intl_text.c.po.c:6310
 msgid "SID address"
 msgstr "SID adresi"
 
 #. Translators: "SID clock" as in "CPU Frequency"
-#: src/arch/unix/gui/petui.c:131 src/arch/unix/gui/plus4ui.c:125
+#: src/arch/unix/gui/petui.c:131 src/arch/unix/gui/plus4ui.c:131
 #: src/arch/unix/gui/vic20ui.c:156 src/arch/win32/ressidcart.rc.po.c:83
 #: src/arch/amigaos/intl_text.c.po.c:6321
 msgid "SID clock"
 msgstr "SID saati"
 
 #: src/arch/unix/gui/petui.c:165
-#, fuzzy
 msgid "Business (DE)"
-msgstr "*Business (DE)"
+msgstr "Business (DE)"
 
 #: src/arch/unix/gui/petui.c:171 src/arch/amigaos/intl_text.c.po.c:6849
 msgid "Auto (from ROM)"
@@ -746,21 +715,20 @@ msgstr "PET RAM ve Geniþletme Birimi"
 
 #: src/arch/unix/gui/petui.c:228
 msgid "PET DWW hi-res graphics"
-msgstr ""
+msgstr "PET DWW yüksek çözünürlüklü grafikler"
 
-#: src/arch/unix/gui/petui.c:230
+#: src/arch/unix/gui/petui.c:230 src/arch/unix/gui/plus4ui.c:201
+#: src/arch/unix/gui/vic20ui.c:510
 msgid "SID cartridge"
 msgstr "SID kartuþu"
 
 #: src/arch/unix/gui/petui.c:232
-#, fuzzy
 msgid "Userport DAC"
-msgstr "*Userport"
+msgstr "Userport DAC"
 
 #: src/arch/unix/gui/petui.c:234
-#, fuzzy
 msgid "PET userport diagnostic pin"
-msgstr "*PET userport diyagnostik pini"
+msgstr "PET userport diyagnostik pini"
 
 #: src/arch/unix/gui/petui.c:240
 msgid "Basic 1"
@@ -787,24 +755,20 @@ msgid "Basic 4, 80 cols, business"
 msgstr "Basic 4, 80 kolon, iþ"
 
 #: src/arch/unix/gui/petui.c:253
-#, fuzzy
 msgid "Basic 1 Patch (if loaded)"
-msgstr "*Basic 1 Yamasý (yüklenmiþse)"
+msgstr "Basic 1 Yamasý (yüklenmiþse)"
 
 #: src/arch/unix/gui/petui.c:255
-#, fuzzy
 msgid "Basic 1 character set"
-msgstr "*Basic 1 karakter seti"
+msgstr "Basic 1 karakter seti"
 
 #: src/arch/unix/gui/petui.c:269
-#, fuzzy
 msgid "Original character set"
-msgstr "*Orjinal karakter seti"
+msgstr "Orjinal karakter seti"
 
 #: src/arch/unix/gui/petui.c:272
-#, fuzzy
 msgid "German character set"
-msgstr "*Alman karakter seti"
+msgstr "Alman karakter seti"
 
 #: src/arch/unix/gui/petui.c:276
 msgid "Load new $9*** ROM"
@@ -839,9 +803,8 @@ msgid "I/O size"
 msgstr "G/Ç boyutu"
 
 #: src/arch/unix/gui/petui.c:316
-#, fuzzy
 msgid "CRTC chip enable"
-msgstr "*CRTC çipi aktif et"
+msgstr "*CRTC çipini aktif et"
 
 #: src/arch/unix/gui/petui.c:319 src/arch/amigaos/intl_text.c.po.c:7003
 msgid "SuperPET I/O enable (disables 8x96)"
@@ -852,73 +815,63 @@ msgid "SuperPET ACIA"
 msgstr "SuperPET ACIA"
 
 #: src/arch/unix/gui/petui.c:324
-#, fuzzy
 msgid "$9*** as RAM (8296 only)"
-msgstr "*RAM olarak $9*** (yalnýzca 8296)"
+msgstr "RAM olarak $9*** (yalnýz 8296)"
 
 #: src/arch/unix/gui/petui.c:326
-#, fuzzy
 msgid "$A*** as RAM (8296 only)"
-msgstr "*RAM olarak $A*** (yalnýzca 8296)"
+msgstr "RAM olarak $A*** (yalnýz 8296)"
 
 #: src/arch/unix/gui/petui.c:390
 msgid "PET model settings"
 msgstr "PET model ayarlarý"
 
-#: src/arch/unix/gui/plus4ui.c:137
+#: src/arch/unix/gui/plus4ui.c:143
 msgid "Load new 3 plus 1 LO ROM"
 msgstr "Yeni 3 plus 1 LO ROM yükle"
 
-#: src/arch/unix/gui/plus4ui.c:140
+#: src/arch/unix/gui/plus4ui.c:146
 msgid "Load new 3 plus 1 HI ROM"
 msgstr "Yeni 3 plus 1 HI ROM yükle"
 
-#: src/arch/unix/gui/plus4ui.c:193 src/arch/win32/ressidcart.rc.po.c:86
-msgid "Enable digiblaster add-on"
-msgstr "Digiblaster eklentisini aktif et"
+#: src/arch/unix/gui/plus4ui.c:199 src/arch/amigaos/intl_text.c.po.c:6343
+msgid "Digiblaster add-on"
+msgstr "Digiblaster eklentisi"
 
-#: src/arch/unix/gui/plus4ui.c:195 src/arch/unix/gui/vic20ui.c:510
-msgid "SID cartridge settings"
-msgstr "SID kartuþ ayarlarý"
-
-#: src/arch/unix/gui/plus4ui.c:197
+#. Translators: "V364 Speech" is the speech extension present in the V364 prototype
+#: src/arch/unix/gui/plus4ui.c:204
 #, fuzzy
-msgid "V364 Speech settings"
-msgstr "PET model ayarlarý"
+msgid "V364 Speech"
+msgstr "V364 Speech'i aktif et"
 
-#: src/arch/unix/gui/plus4ui.c:214
-#, fuzzy
+#: src/arch/unix/gui/plus4ui.c:221
 msgid "TED model"
-msgstr "SID modeli"
+msgstr "TED modeli"
 
-#: src/arch/unix/gui/plus4ui.c:216 src/arch/win32/res.rc.po.c:1186
+#: src/arch/unix/gui/plus4ui.c:223 src/arch/win32/res.rc.po.c:1186
 #: src/arch/amigaos/intl_text.c.po.c:5122
 msgid "RAM settings"
 msgstr "RAM ayarlarý"
 
-#: src/arch/unix/gui/plus4ui.c:242
+#: src/arch/unix/gui/plus4ui.c:249
 msgid "TED settings"
 msgstr "TED ayarlarý"
 
 #: src/arch/unix/gui/uiacia1.c:38 src/arch/unix/gui/uirs232user.c:38
-#, fuzzy
 msgid "Serial 1"
-msgstr "*Seri 1"
+msgstr "Seri 1"
 
 #: src/arch/unix/gui/uiacia1.c:40 src/arch/unix/gui/uirs232user.c:40
-#, fuzzy
 msgid "Serial 2"
-msgstr "*Seri 2"
+msgstr "Seri 2"
 
 #: src/arch/unix/gui/uiacia1.c:42 src/arch/unix/gui/uirs232user.c:42
-#, fuzzy
 msgid "Dump to file"
-msgstr "*Dosya'ya dök"
+msgstr "Dosya'ya dök"
 
 #: src/arch/unix/gui/uiacia1.c:44 src/arch/unix/gui/uirs232user.c:44
-#, fuzzy
 msgid "Exec process"
-msgstr "*Ýþlemi yürüt"
+msgstr "Ýþlemi yürüt"
 
 #: src/arch/unix/gui/uiattach.c:79
 #, c-format
@@ -986,19 +939,16 @@ msgid "Flip list"
 msgstr "Sýralama listesi"
 
 #: src/arch/unix/gui/uiattach.c:207
-#, fuzzy
 msgid "Create a new tape image"
-msgstr "&Yeni flash rom imajý oluþtur"
+msgstr "Yeni teyp imajý oluþtur"
 
 #: src/arch/unix/gui/uiattach.c:212
-#, fuzzy
 msgid "File exists"
-msgstr "Dosya sistemi"
+msgstr "Dosya mevcut"
 
 #: src/arch/unix/gui/uiattach.c:213
-#, fuzzy
 msgid "Do you want to overwrite it?"
-msgstr "Çýkmak istediðinizden emin misiniz?"
+msgstr "Üzerine yazmak istediðinizden emin misiniz?"
 
 #: src/arch/unix/gui/uiattach.c:241
 msgid "Attach a tape image"
@@ -1009,9 +959,8 @@ msgid "Invalid Tape Image"
 msgstr "Geçersiz teyp imajý"
 
 #: src/arch/unix/gui/uiattach.c:271
-#, fuzzy
 msgid "Create a new tape image..."
-msgstr "Bir teyp imajý yerleþtirin..."
+msgstr "Yeni teyp imajý oluþtur..."
 
 #: src/arch/unix/gui/uiattach.c:274
 msgid "Attach a tape image..."
@@ -1026,7 +975,7 @@ msgid "Smart-attach a file"
 msgstr "Akýllý dosya yerleþtir"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2028
+#: src/arch/unix/x11/xaw/x11ui.c:2029
 msgid "Unknown image type"
 msgstr "Bilinmeyen imaj tipi"
 
@@ -1054,9 +1003,8 @@ msgstr "Sanal FS"
 
 #: src/arch/unix/gui/uiautostart.c:50 src/arch/win32/resautostart.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:7520
-#, fuzzy
 msgid "Inject to RAM"
-msgstr "*RAM'e enjekte et"
+msgstr "RAM'e enjekte et"
 
 #: src/arch/unix/gui/uiautostart.c:52 src/arch/win32/resautostart.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:7531
@@ -1064,9 +1012,8 @@ msgid "Disk image"
 msgstr "Disk imajý"
 
 #: src/arch/unix/gui/uiautostart.c:58 src/arch/amigaos/intl_text.c.po.c:1403
-#, fuzzy
 msgid "Handle TDE on autostart"
-msgstr "TDE otomatik baþlatmayý denetle"
+msgstr "Baþlangýçta Gerçek Sürücü Emülasyonu'nu denetle"
 
 #: src/arch/unix/gui/uiautostart.c:60 src/arch/win32/resautostart.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:7553
@@ -1075,15 +1022,13 @@ msgstr "Warp modunda otomatik baþlat"
 
 #: src/arch/unix/gui/uiautostart.c:62 src/arch/win32/resautostart.rc.po.c:42
 #: src/arch/amigaos/intl_text.c.po.c:7564
-#, fuzzy
 msgid "Use ':' with RUN"
-msgstr "Çalýþtýr ile ':' kullan"
+msgstr "ÇALIÞTIR ile ':' kullan"
 
 #: src/arch/unix/gui/uiautostart.c:64 src/arch/win32/resautostart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:7586
-#, fuzzy
 msgid "Load to BASIC start"
-msgstr "Yeni BASIC ROM yükle"
+msgstr "BASIC baþlangýcýna yükle"
 
 #: src/arch/unix/gui/uiautostart.c:66 src/arch/win32/resautostart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:7575
@@ -1091,14 +1036,12 @@ msgid "PRG autostart mode"
 msgstr "PRG otomatik baþlatma modu"
 
 #: src/arch/unix/gui/uiautostart.c:68
-#, fuzzy
 msgid "PRG autostart disk image..."
-msgstr "PRG otomatik baþlatma disk imajý"
+msgstr "PRG otomatik baþlatma disk imajý..."
 
 #: src/arch/unix/gui/uic64_256k.c:40
-#, fuzzy
 msgid "256K image"
-msgstr "256K imaj ismi"
+msgstr "256K imajý"
 
 #: src/arch/unix/gui/uic64_256k.c:58 src/arch/unix/gui/uidigimax.c:79
 #: src/arch/unix/gui/uiplus60k.c:54
@@ -1131,20 +1074,18 @@ msgid "Smart attach CRT image..."
 msgstr "Akýllý CRT imajý yerleþtir..."
 
 #: src/arch/unix/gui/uic64cart.c:107
-#, fuzzy
 msgid "Attach generic 8kB image..."
-msgstr "8KB jenerik imaj yerleþtir..."
+msgstr "8kB jenerik imaj yerleþtir..."
 
 #: src/arch/unix/gui/uic64cart.c:110
-#, fuzzy
 msgid "Attach generic 16kB image..."
-msgstr "16KB jenerik imaj yerleþtir..."
+msgstr "16kB jenerik imaj yerleþtir..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:115
 #, fuzzy
 msgid "Attach Action Replay V5 image..."
-msgstr "Action Replay imajý yerleþtir..."
+msgstr "Action Replay 5 imajý yerleþtir..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:119
@@ -1167,19 +1108,17 @@ msgstr "Epyx fastload imajý yerleþtir..."
 #: src/arch/unix/gui/uic64cart.c:131
 #, fuzzy
 msgid "Attach IDE64 image..."
-msgstr "Retro Replay imajý yerleþtir..."
+msgstr "MMC64 imajý yerleþtir..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:135
-#, fuzzy
 msgid "Attach Magic Formel image..."
-msgstr "Bir teyp imajý yerleþtirin..."
+msgstr "Magic Formel imajý yerleþtir..."
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:139
-#, fuzzy
 msgid "Attach MMC Replay image..."
-msgstr "Retro Replay imajý yerleþtir..."
+msgstr "MMC Replay imajý yerleþtir..."
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:143
@@ -1218,16 +1157,14 @@ msgid "C64DTV ROM image name..."
 msgstr "C64DTV ROM imaj ismi..."
 
 #: src/arch/unix/gui/uic64dtv.c:81
-#, fuzzy
 msgid "Enable writes to C64DTV ROM image"
-msgstr "*C64DTV ROM imajýnda yazmalarý aktif et"
+msgstr "C64DTV ROM imajýnda yazmalarý aktif et"
 
-#: src/arch/unix/gui/uic64dtv.c:89 src/arch/win32/resc64dtv.rc.po.c:438
-#: src/translate_text.c.po.c:3575
-msgid "Enable Hummer ADC"
-msgstr "Hummer ADC'yi aktif et"
+#: src/arch/unix/gui/uic64dtv.c:95 src/arch/amigaos/intl_text.c.po.c:3867
+msgid "Hummer ADC"
+msgstr "Hummer ADC"
 
-#: src/arch/unix/gui/uic64dtv.c:92
+#: src/arch/unix/gui/uic64dtv.c:98
 msgid "PS/2 mouse on Userport"
 msgstr "Userport üzerinde PS/2 mouse"
 
@@ -1347,9 +1284,8 @@ msgid "Start with reset"
 msgstr "Reset ile baþlat"
 
 #: src/arch/unix/gui/uicommands.c:470
-#, fuzzy
 msgid "Overwrite running playback"
-msgstr "*Devam eden çalmakta olanýn üzerine yaz"
+msgstr "Çalmakta olanýn üzerine yaz"
 
 #: src/arch/unix/gui/uicommands.c:476
 msgid "Load snapshot..."
@@ -1467,24 +1403,20 @@ msgstr "Emülatörden çýk"
 #: src/arch/unix/gui/uicrtc.c:56 src/arch/unix/gui/uited.c:55
 #: src/arch/unix/gui/uivdc.c:54 src/arch/unix/gui/uivic.c:55
 #: src/arch/unix/gui/uivicii.c:59
-#, fuzzy
 msgid "Internal"
-msgstr "*Uluslararasý"
+msgstr "Ýç"
 
 #: src/arch/unix/gui/uicrtc.c:59
-#, fuzzy
 msgid "Default (Green)"
-msgstr "*Varsayýlan (Yeþil)"
+msgstr "Varsayýlan (Yeþil)"
 
 #: src/arch/unix/gui/uicrtc.c:61
-#, fuzzy
 msgid "Amber"
-msgstr "*Kehribar"
+msgstr "Kehribar"
 
 #: src/arch/unix/gui/uicrtc.c:63
-#, fuzzy
 msgid "White"
-msgstr "*Beyaz"
+msgstr "Beyaz"
 
 #: src/arch/unix/gui/uicrtc.c:66 src/arch/unix/gui/uited.c:61
 #: src/arch/unix/gui/uivdc.c:62 src/arch/unix/gui/uivic.c:61
@@ -1496,15 +1428,14 @@ msgstr "Özel yükle"
 #: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:72
 #: src/arch/unix/gui/uivicii.c:102
 msgid "Unfiltered"
-msgstr ""
+msgstr "Filtresiz"
 
 #: src/arch/unix/gui/uicrtc.c:79 src/arch/unix/gui/uipalemu.c:120
 #: src/arch/unix/gui/uited.c:74 src/arch/unix/gui/uivdc.c:75
 #: src/arch/unix/gui/uivic.c:74 src/arch/unix/gui/uivicii.c:104
 #: src/arch/win32/res.rc.po.c:984 src/arch/amigaos/intl_text.c.po.c:6563
-#, fuzzy
 msgid "CRT emulation"
-msgstr "PAL Emülasyonu"
+msgstr "CRT emülasyonu"
 
 #: src/arch/unix/gui/uicrtc.c:82 src/arch/unix/gui/uited.c:76
 #: src/arch/unix/gui/uivdc.c:78 src/arch/unix/gui/uivic.c:76
@@ -1553,35 +1484,31 @@ msgstr "Renk seti"
 #: src/arch/unix/gui/uivdc.c:163 src/arch/unix/gui/uivic.c:135
 #: src/arch/unix/gui/uivicii.c:174
 msgid "Renderer"
-msgstr ""
+msgstr "Þekillendirici"
 
 #: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
 #: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
 #: src/arch/unix/gui/uivicii.c:177
-#, fuzzy
 msgid "CRT emulation settings"
-msgstr "PAL Emülasyonu Ayarlarý"
+msgstr "CRT emülasyonu ayarlarý"
 
 #: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:144
 #: src/arch/unix/gui/uivdc.c:171 src/arch/unix/gui/uivic.c:143
 #: src/arch/unix/gui/uivicii.c:190
-#, fuzzy
 msgid "Hardware scaling"
-msgstr "*Donaným destekli ölçeklendirme"
+msgstr "Donaným destekli ölçeklendirme"
 
 #: src/arch/unix/gui/uicrtc.c:155 src/arch/unix/gui/uited.c:146
 #: src/arch/unix/gui/uivdc.c:173 src/arch/unix/gui/uivic.c:145
 #: src/arch/unix/gui/uivicii.c:192
-#, fuzzy
 msgid "Keep aspect ratio"
-msgstr "En boy oraný koru (0,5..2)"
+msgstr "En boy oraný koru"
 
 #: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:148
 #: src/arch/unix/gui/uivdc.c:175 src/arch/unix/gui/uivic.c:147
 #: src/arch/unix/gui/uivicii.c:194 src/arch/win32/res.rc.po.c:1170
-#, fuzzy
 msgid "True aspect ratio"
-msgstr "<en boy oraný>"
+msgstr "Gerçek en boy oraný"
 
 #: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
 #: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
@@ -1593,9 +1520,8 @@ msgstr "En boy oraný belirle (0.8 - 1.2)"
 #: src/arch/unix/gui/uicrtc.c:167 src/arch/unix/gui/uited.c:158
 #: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:157
 #: src/arch/unix/gui/uivicii.c:204
-#, fuzzy
 msgid "OpenGL Rastersynchronization"
-msgstr "*OpenGL Raster senkronizasyonu"
+msgstr "OpenGL Raster Senkronizasyonu"
 
 #: src/arch/unix/gui/uicrtc.c:169 src/arch/unix/gui/uited.c:160
 #: src/arch/unix/gui/uivdc.c:187 src/arch/unix/gui/uivic.c:159
@@ -1606,16 +1532,14 @@ msgstr "Masaüstü yenileme hýzý..."
 #: src/arch/unix/gui/uicrtc.c:174 src/arch/unix/gui/uited.c:165
 #: src/arch/unix/gui/uivdc.c:192 src/arch/unix/gui/uivic.c:164
 #: src/arch/unix/gui/uivicii.c:211
-#, fuzzy
 msgid "Fullscreen settings"
-msgstr "*Tam ekran ayarlarý"
+msgstr "Tam ekran ayarlarý"
 
 #: src/arch/unix/gui/uicrtc.c:178 src/arch/unix/gui/uited.c:169
 #: src/arch/unix/gui/uivdc.c:196 src/arch/unix/gui/uivic.c:167
 #: src/arch/unix/gui/uivicii.c:215
-#, fuzzy
 msgid "Use XSync()"
-msgstr "*XSync() kullan"
+msgstr "XSync() kullan"
 
 #: src/arch/unix/gui/uidatasette.c:55 src/arch/unix/gui/uidatasette.c:86
 msgid "Datasette speed tuning"
@@ -1659,9 +1583,8 @@ msgid "Datassette control"
 msgstr "Teyp kontrolü"
 
 #: src/arch/unix/gui/uidigimax.c:39
-#, fuzzy
 msgid "Userport"
-msgstr "*Userport"
+msgstr "Userport"
 
 #: src/arch/unix/gui/uidqbb.c:52 src/arch/unix/gui/uieasyflash.c:49
 #: src/arch/unix/gui/uiexpert.c:63 src/arch/unix/gui/uigeoram.c:73
@@ -1688,12 +1611,11 @@ msgstr "CRT'yi hemen kaydet"
 #: src/arch/unix/gui/uiretroreplay.c:55 src/arch/unix/gui/uireu.c:79
 #, fuzzy
 msgid "Save image as..."
-msgstr "Teyp imajý yerleþtir..."
+msgstr "ISEPIC imajý kaydet..."
 
 #: src/arch/unix/gui/uidqbb.c:63
-#, fuzzy
 msgid "DQBB image"
-msgstr "DQBB imaj ismi"
+msgstr "DQBB imajý"
 
 #: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:102
@@ -1730,9 +1652,8 @@ msgid "True drive emulation"
 msgstr "Gerçek sürücü emülasyonu"
 
 #: src/arch/unix/gui/uidrive.c:188 src/arch/unix/gui/uidrivec64dtv.c:45
-#, fuzzy
 msgid "Enable true flash filesystem"
-msgstr "*Gerçek flash dosya sistemini aktif et"
+msgstr "Gerçek flash dosya sistemini aktif et"
 
 #: src/arch/unix/gui/uidrivec128.c:43 src/arch/unix/gui/uidrivec128.c:75
 #: src/arch/unix/gui/uidrivec128.c:97 src/arch/unix/gui/uidrivec128.c:119
@@ -1919,15 +1840,13 @@ msgstr "Yeni 1001 ROM'u yükle"
 #: src/arch/unix/gui/uidrivec64c128.c:87 src/arch/unix/gui/uidrivec64c128.c:97
 #: src/arch/unix/gui/uidriveplus4.c:66 src/arch/unix/gui/uidriveplus4.c:74
 #: src/arch/unix/gui/uidriveplus4.c:82 src/arch/unix/gui/uidriveplus4.c:90
-#, fuzzy
 msgid "Standard Userport"
-msgstr "*Standart Userport"
+msgstr "Standart Userport"
 
 #: src/arch/unix/gui/uidrivec64c128.c:69 src/arch/unix/gui/uidrivec64c128.c:79
 #: src/arch/unix/gui/uidrivec64c128.c:89 src/arch/unix/gui/uidrivec64c128.c:99
-#, fuzzy
 msgid "Dolphin DOS 3"
-msgstr "*Dolphin DOS 3"
+msgstr "Dolphin DOS 3"
 
 #: src/arch/unix/gui/uidrivec64c128.c:105
 #: src/arch/unix/gui/uidrivec64c128.c:118
@@ -1986,7 +1905,7 @@ msgstr "Yeni 1551 ROM'u yükle"
 #: src/arch/unix/gui/uieasyflash.c:46
 #, fuzzy
 msgid "Enable jumper"
-msgstr "*MMC64 flashjumperý aktif et"
+msgstr "RR flashjumperý aktif et"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:4263
@@ -2008,7 +1927,7 @@ msgstr "Açýk"
 #: src/arch/unix/gui/uiexpert.c:74
 #, fuzzy
 msgid "Expert Cartridge image"
-msgstr "Kartuþ imajý yerleþtir..."
+msgstr "Expert Kartuþ imajýný kaydet..."
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
@@ -2023,9 +1942,8 @@ msgid "Save"
 msgstr "Kaydet"
 
 #: src/arch/unix/gui/uifliplist.c:88
-#, fuzzy
 msgid "Flip list file"
-msgstr "Sýralama Listesi Dosyasý"
+msgstr "Sýralama listesi dosyasý"
 
 #: src/arch/unix/gui/uifliplist.c:95
 #, c-format
@@ -2084,9 +2002,8 @@ msgid "Detach #%d"
 msgstr "Çýkart #%d"
 
 #: src/arch/unix/gui/uifliplist.c:208
-#, fuzzy
 msgid "Write Protect"
-msgstr "*Yazma Korumasý"
+msgstr "Yazma Korumasý"
 
 #: src/arch/unix/gui/uifliplist.c:239
 msgid "Next: "
@@ -2121,14 +2038,12 @@ msgid "XRandR Resolutions"
 msgstr "XRandR Çözünürlükleri"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:92
-#, fuzzy
 msgid "Enable fullscreen"
-msgstr "*Tam ekraný aktif et"
+msgstr "Tam ekraný aktif et"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:95
-#, fuzzy
 msgid "Show Statusbar/Menu"
-msgstr "*Durum Çubuðu/Menü Göster"
+msgstr "Durum Çubuðu/Menü Göster"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:98
 msgid "Fullscreen device"
@@ -2141,14 +2056,12 @@ msgid "Size"
 msgstr "&GÇ Boyutu"
 
 #: src/arch/unix/gui/uigeoram.c:84
-#, fuzzy
 msgid "GEORAM image"
-msgstr "GEORAM imaj ismi"
+msgstr "GEORAM imajý"
 
 #: src/arch/unix/gui/uiide64.c:42
-#, fuzzy
 msgid "IDE64 image"
-msgstr "IDE64 imaj ismi"
+msgstr "IDE64 imajý"
 
 #: src/arch/unix/gui/uiide64.c:74
 msgid "Enter number of cylinders"
@@ -2192,52 +2105,48 @@ msgstr "Revizyon"
 #: src/arch/unix/gui/uiide64.c:177
 #, fuzzy
 msgid "HD image 1 name..."
-msgstr "IDE64 imaj ismi..."
+msgstr "IDE64 imajý 1 ismi..."
 
 #: src/arch/unix/gui/uiide64.c:180
 #, fuzzy
 msgid "HD image 2 name..."
-msgstr "IDE64 imaj ismi..."
+msgstr "IDE64 imajý 2 ismi..."
 
 #: src/arch/unix/gui/uiide64.c:183
 #, fuzzy
 msgid "HD image 3 name..."
-msgstr "IDE64 imaj ismi..."
+msgstr "IDE64 imajý 3 ismi..."
 
 #: src/arch/unix/gui/uiide64.c:186
 #, fuzzy
 msgid "HD image 4 name..."
-msgstr "IDE64 imaj ismi..."
+msgstr "IDE64 imajý 4 ismi..."
 
 #: src/arch/unix/gui/uiide64.c:190
-#, fuzzy
 msgid "Autodetect image size"
-msgstr "*Imaj boyutunu otomatik algýla"
+msgstr "Imaj boyutunu otomatik algýla"
 
 #: src/arch/unix/gui/uiide64.c:192
-#, fuzzy
 msgid "Cylinders..."
-msgstr "*Silindirler..."
+msgstr "Silindirler..."
 
 #: src/arch/unix/gui/uiide64.c:194
-#, fuzzy
 msgid "Heads..."
-msgstr "*Kafalar..."
+msgstr "Kafalar..."
 
 #: src/arch/unix/gui/uiide64.c:196
-#, fuzzy
 msgid "Sectors..."
-msgstr "*Sektörler..."
+msgstr "Sektörler..."
 
 #: src/arch/unix/gui/uiisepic.c:48
 #, fuzzy
 msgid "Enable switch"
-msgstr "*Isepic Anahtarýný Aktif Et"
+msgstr "ISEPIC anahtarýný aktif et"
 
 #: src/arch/unix/gui/uiisepic.c:65
 #, fuzzy
 msgid "ISEPIC image"
-msgstr "Teyp imajý yerleþtir..."
+msgstr "ISEPIC imajý kaydet..."
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
 #: src/arch/win32/res.rc.po.c:1033
@@ -2251,9 +2160,8 @@ msgstr "PET userport joy dönüþtürücü"
 
 #: src/arch/unix/gui/uijoystick2.c:131 src/arch/unix/gui/uijoystick2.c:145
 #: src/arch/win32/res.rc.po.c:1035
-#, fuzzy
 msgid "Hummer userport joy adapter"
-msgstr "*Hummer userport joystick dönüþtürücü"
+msgstr "Hummer userport joy dönüþtürücü"
 
 #: src/arch/unix/gui/uijoystick2.c:133 src/arch/unix/gui/uijoystick2.c:147
 #: src/arch/win32/res.rc.po.c:1036
@@ -2273,82 +2181,70 @@ msgstr "Numpad"
 #: src/arch/unix/gui/uijoystick2.c:159 src/arch/unix/gui/uijoystick2.c:211
 #: src/arch/unix/gui/uijoystick2.c:263 src/arch/unix/gui/uijoystick2.c:315
 #: src/arch/unix/gui/vic20ui.c:385
-#, fuzzy
 msgid "Keyset 1"
-msgstr "*Tuþ Seti 1"
+msgstr "Tuþ Seti 1"
 
 #: src/arch/unix/gui/uijoystick2.c:162 src/arch/unix/gui/uijoystick2.c:214
 #: src/arch/unix/gui/uijoystick2.c:266 src/arch/unix/gui/uijoystick2.c:318
 #: src/arch/unix/gui/vic20ui.c:388
-#, fuzzy
 msgid "Keyset 2"
-msgstr "*Tuþ Seti 2"
+msgstr "Tuþ Seti 2"
 
 #: src/arch/unix/gui/uijoystick2.c:166 src/arch/unix/gui/uijoystick2.c:218
 #: src/arch/unix/gui/uijoystick2.c:270 src/arch/unix/gui/uijoystick2.c:322
 #: src/arch/unix/gui/vic20ui.c:392
-#, fuzzy
 msgid "Analog Joystick 0"
-msgstr "*Analog Joystick 0"
+msgstr "Analog Joystick 0"
 
 #: src/arch/unix/gui/uijoystick2.c:169 src/arch/unix/gui/uijoystick2.c:221
 #: src/arch/unix/gui/uijoystick2.c:273 src/arch/unix/gui/uijoystick2.c:325
 #: src/arch/unix/gui/vic20ui.c:395
-#, fuzzy
 msgid "Analog Joystick 1"
-msgstr "*Analog Joystick 1"
+msgstr "Analog Joystick 1"
 
 #: src/arch/unix/gui/uijoystick2.c:172 src/arch/unix/gui/uijoystick2.c:224
 #: src/arch/unix/gui/uijoystick2.c:276 src/arch/unix/gui/uijoystick2.c:328
-#, fuzzy
 msgid "Analog Joystick 2"
-msgstr "*Analog Joystick 2"
+msgstr "Analog Joystick 2"
 
 #: src/arch/unix/gui/uijoystick2.c:175 src/arch/unix/gui/uijoystick2.c:227
 #: src/arch/unix/gui/uijoystick2.c:279 src/arch/unix/gui/uijoystick2.c:331
-#, fuzzy
 msgid "Analog Joystick 3"
-msgstr "*Analog Joystick 3"
+msgstr "Analog Joystick 3"
 
 #: src/arch/unix/gui/uijoystick2.c:178 src/arch/unix/gui/uijoystick2.c:230
 #: src/arch/unix/gui/uijoystick2.c:282 src/arch/unix/gui/uijoystick2.c:334
-#, fuzzy
 msgid "Analog Joystick 4"
-msgstr "*Analog Joystick 4"
+msgstr "Analog Joystick 4"
 
 #: src/arch/unix/gui/uijoystick2.c:181 src/arch/unix/gui/uijoystick2.c:233
 #: src/arch/unix/gui/uijoystick2.c:285 src/arch/unix/gui/uijoystick2.c:337
-#, fuzzy
 msgid "Analog Joystick 5"
-msgstr "*Analog Joystick 5"
+msgstr "Analog Joystick 5"
 
 #: src/arch/unix/gui/uijoystick2.c:185 src/arch/unix/gui/uijoystick2.c:237
 #: src/arch/unix/gui/uijoystick2.c:289 src/arch/unix/gui/uijoystick2.c:341
 #: src/arch/unix/gui/vic20ui.c:399
-#, fuzzy
 msgid "Digital Joystick 0"
-msgstr "*Dijital Joystick 0"
+msgstr "Dijital Joystick 0"
 
 #: src/arch/unix/gui/uijoystick2.c:188 src/arch/unix/gui/uijoystick2.c:240
 #: src/arch/unix/gui/uijoystick2.c:292 src/arch/unix/gui/uijoystick2.c:344
 #: src/arch/unix/gui/vic20ui.c:402
-#, fuzzy
 msgid "Digital Joystick 1"
-msgstr "*Dijital Joystick 1"
+msgstr "Dijital Joystick 1"
 
 #: src/arch/unix/gui/uijoystick2.c:193 src/arch/unix/gui/uijoystick2.c:245
 #: src/arch/unix/gui/uijoystick2.c:297 src/arch/unix/gui/uijoystick2.c:349
 #: src/arch/unix/gui/vic20ui.c:407
-#, fuzzy
 msgid "USB Joystick 0"
-msgstr "*USB Joystick 0"
+msgstr "USB Joystick 0"
 
 #: src/arch/unix/gui/uijoystick2.c:196 src/arch/unix/gui/uijoystick2.c:248
 #: src/arch/unix/gui/uijoystick2.c:300 src/arch/unix/gui/uijoystick2.c:352
 #: src/arch/unix/gui/vic20ui.c:410
-#, fuzzy
 msgid "USB Joystick 1"
-msgstr "*USB Joystick 1"
+msgstr "USB Joystick 1"
 
 #: src/arch/unix/gui/uijoystick2.c:361 src/arch/unix/gui/uijoystick2.c:392
 #: src/arch/unix/gui/uijoystick2.c:423 src/arch/unix/gui/uijoystick2.c:467
@@ -2372,23 +2268,20 @@ msgstr "Tuþ Setlerini tanýmla"
 #: src/arch/unix/gui/uijoystick2.c:433 src/arch/unix/gui/uijoystick2.c:448
 #: src/arch/unix/gui/uijoystick2.c:475 src/arch/unix/gui/uijoystick2.c:504
 #: src/arch/win32/res.rc.po.c:1404 src/arch/amigaos/intl_text.c.po.c:1370
-#, fuzzy
 msgid "Allow opposite directions"
-msgstr "*Zýt yönlere izin ver"
+msgstr "Zýt yönlere izin ver"
 
 #: src/arch/unix/gui/uijoystick2.c:373 src/arch/unix/gui/uijoystick2.c:404
 #: src/arch/unix/gui/uijoystick2.c:435 src/arch/unix/gui/uijoystick2.c:450
 #: src/arch/unix/gui/uijoystick2.c:477 src/arch/unix/gui/uijoystick2.c:506
-#, fuzzy
 msgid "Allow keyset joystick"
-msgstr "*Tuþ Seti joysticke izin ver"
+msgstr "Tuþ seti joysticke izin ver"
 
 #: src/arch/unix/gui/uijoystick2.c:375 src/arch/unix/gui/uijoystick2.c:406
 #: src/arch/unix/gui/uijoystick2.c:437 src/arch/unix/gui/uijoystick2.c:508
 #: src/arch/unix/gui/uijoystick2.c:519 src/arch/amigaos/intl_text.c.po.c:1337
-#, fuzzy
 msgid "Swap joysticks"
-msgstr "Joysticklerin Yerlerini Deðiþtir"
+msgstr "Joystickleri deðiþtir"
 
 #: src/arch/unix/gui/uijoystick2.c:378 src/arch/unix/gui/uijoystick2.c:409
 #: src/arch/unix/gui/uijoystick2.c:453 src/arch/unix/gui/uijoystick2.c:480
@@ -2405,23 +2298,20 @@ msgstr "Userport joystick dönüþtürücü tipi"
 #: src/arch/unix/gui/uijoystick2.c:382 src/arch/unix/gui/uijoystick2.c:413
 #: src/arch/unix/gui/uijoystick2.c:457 src/arch/unix/gui/uijoystick2.c:484
 #: src/arch/unix/gui/uijoystick2.c:513 src/arch/amigaos/intl_text.c.po.c:4494
-#, fuzzy
 msgid "Joystick in extra port #1"
-msgstr "Joystick ekstra port #&1'de"
+msgstr "Joystick ekstra port #1'de"
 
 #: src/arch/unix/gui/uijoystick2.c:384 src/arch/unix/gui/uijoystick2.c:415
 #: src/arch/unix/gui/uijoystick2.c:459 src/arch/unix/gui/uijoystick2.c:486
 #: src/arch/amigaos/intl_text.c.po.c:4505
-#, fuzzy
 msgid "Joystick in extra port #2"
-msgstr "Joystick ekstra port #&2'de"
+msgstr "Joystick ekstra port #2'de"
 
 #: src/arch/unix/gui/uijoystick2.c:386 src/arch/unix/gui/uijoystick2.c:417
 #: src/arch/unix/gui/uijoystick2.c:461 src/arch/unix/gui/uijoystick2.c:488
 #: src/arch/amigaos/intl_text.c.po.c:1348
-#, fuzzy
 msgid "Swap userport joysticks"
-msgstr "&Userport Joysticklerini Yer Deðiþtir"
+msgstr "Userport joysticklerini yer deðiþtir"
 
 #: src/arch/unix/gui/uijoystick2.c:511 src/arch/amigaos/intl_text.c.po.c:4516
 msgid "SIDcart joystick"
@@ -2436,14 +2326,12 @@ msgid "Joystick settings"
 msgstr "Joystick ayarlarý"
 
 #: src/arch/unix/gui/uikeyboard.c:66
-#, fuzzy
 msgid "Symbolic mapping"
-msgstr "*Sembolik haritalama"
+msgstr "Sembolik haritalama"
 
 #: src/arch/unix/gui/uikeyboard.c:68
-#, fuzzy
 msgid "Positional mapping"
-msgstr "*Konumsal haritalama (US)"
+msgstr "Konumsal haritalama"
 
 #: src/arch/unix/gui/uikeyboard.c:87
 msgid "Read Keymap File"
@@ -2466,14 +2354,12 @@ msgid "Keyboard mapping type"
 msgstr "Klavye haritalama tipi"
 
 #: src/arch/unix/gui/uikeyboard.c:187
-#, fuzzy
 msgid "Select symbolic keymap"
-msgstr "Sembolik tuþ haritasý dosyasýný belirle"
+msgstr "Sembolik tuþ haritasý seç"
 
 #: src/arch/unix/gui/uikeyboard.c:188
-#, fuzzy
 msgid "Select positional keymap"
-msgstr "Konumsal tuþ haritasý dosyasýný belirle"
+msgstr "Konumsal tuþ haritasý seç"
 
 #: src/arch/unix/gui/uikeyboard.c:190
 msgid "Dump keymap to file"
@@ -2485,26 +2371,25 @@ msgstr "Klavye ayarlarý"
 
 #: src/arch/unix/gui/uilightpen.c:40
 msgid "Pen with button Up"
-msgstr ""
+msgstr "Üst düðmeli kalem"
 
 #: src/arch/unix/gui/uilightpen.c:42
 msgid "Pen with button Left"
-msgstr ""
+msgstr "Sol düðmeli kalem"
 
 #: src/arch/unix/gui/uilightpen.c:44
 msgid "Datel Pen"
-msgstr ""
+msgstr "Datel Kalem"
 
 #: src/arch/unix/gui/uilightpen.c:46
 msgid "Magnum Light Phaser"
-msgstr ""
+msgstr "Magnum Light Phaser"
 
 #: src/arch/unix/gui/uilightpen.c:48
 msgid "Stack Light Rifle"
-msgstr ""
+msgstr "Stack Iþýn Tüfeði"
 
 #: src/arch/unix/gui/uilightpen.c:68
-#, fuzzy
 msgid "Enable Lightpen"
 msgstr "Iþýklý Kalem'i aktif et"
 
@@ -2514,19 +2399,16 @@ msgstr "Iþýklý Kalem tipi"
 
 #: src/arch/unix/gui/uimagicvoice.c:43 src/arch/win32/resmagicvoice.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:5518
-#, fuzzy
 msgid "Magic Voice file"
-msgstr "Ana aygýt"
+msgstr "Magic Voice dosyasý"
 
 #: src/arch/unix/gui/uimidi.c:49 src/arch/win32/resmidi.rc.po.c:40
-#, fuzzy
 msgid "MIDI-In device"
-msgstr "Midi-In aygýtýný belirleyin"
+msgstr "MIDI-In aygýtý"
 
 #: src/arch/unix/gui/uimidi.c:54 src/arch/win32/resmidi.rc.po.c:41
-#, fuzzy
 msgid "MIDI-Out device"
-msgstr "Midi-Out aygýtýný belirleyin"
+msgstr "MIDI-Out aygýtý"
 
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1239
 msgid "Type"
@@ -2538,24 +2420,20 @@ msgid "Driver"
 msgstr "Sürücü:"
 
 #: src/arch/unix/gui/uimidi.c:90 src/arch/unix/gui/uimidi.c:106
-#, fuzzy
 msgid "MIDI-In device..."
-msgstr "Midi-In aygýtýný belirleyin"
+msgstr "MIDI-In aygýtý..."
 
 #: src/arch/unix/gui/uimidi.c:93 src/arch/unix/gui/uimidi.c:109
-#, fuzzy
 msgid "MIDI-Out device..."
-msgstr "Midi-Out aygýtýný belirleyin"
+msgstr "MIDI-Out aygýtý..."
 
 #: src/arch/unix/gui/uimmc64.c:53
-#, fuzzy
 msgid "Rev. A"
-msgstr "*Düzeltme A"
+msgstr "Rev. A"
 
 #: src/arch/unix/gui/uimmc64.c:55
-#, fuzzy
 msgid "Rev. B"
-msgstr "*Düzeltme B"
+msgstr "Rev. B"
 
 #: src/arch/unix/gui/uimmc64.c:61 src/arch/unix/gui/uimmcreplay.c:52
 #: src/arch/unix/gui/uisettings.c:339 src/arch/amigaos/intl_text.c.po.c:1007
@@ -2565,81 +2443,71 @@ msgstr "Otomatik"
 #: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uiretroreplay.c:46
 #, fuzzy
 msgid "Enable flashjumper"
-msgstr "*MMC64 flashjumperý aktif et"
+msgstr "RR flashjumperý aktif et"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
 #, fuzzy
 msgid "Card image name..."
-msgstr "MMC64 imaj ismi..."
+msgstr "Kart imaj dosyaismi..."
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:95 src/arch/unix/gui/uimmcreplay.c:80
-#, fuzzy
 msgid "Enable writes to card image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "Kart imajýnda yazmalarý aktif et"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:98 src/arch/unix/gui/uimmcreplay.c:83
 #: src/arch/win32/resmmc64.rc.po.c:58 src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:6101
-#, fuzzy
 msgid "Card type"
-msgstr "Midi kart tipi"
+msgstr "Kart tipi"
 
 #: src/arch/unix/gui/uimmc64.c:117
 msgid "MMC64 BIOS name"
 msgstr "MMC64 BIOS ismi"
 
 #: src/arch/unix/gui/uimmc64.c:142
-#, fuzzy
 msgid "MMC64 image"
-msgstr "MMC64 imaj ismi"
+msgstr "MMC64 imajý"
 
 #: src/arch/unix/gui/uimmcreplay.c:65
 #, fuzzy
 msgid "Enable rescue mode"
-msgstr "*MMC64 flashjumperý aktif et"
+msgstr "MMC Replay kurtarma modunu aktif et"
 
 #: src/arch/unix/gui/uimmcreplay.c:86
 #, fuzzy
 msgid "EEPROM image name..."
-msgstr "GEORAM imaj ismi..."
+msgstr "EEPROM imaj dosyaismi..."
 
 #: src/arch/unix/gui/uimmcreplay.c:89
-#, fuzzy
 msgid "Enable writes to EEPROM image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "EEPROM imajýnda yazmalarý aktif et"
 
 #: src/arch/unix/gui/uimmcreplay.c:116
-#, fuzzy
 msgid "MMC Replay card image filename"
-msgstr "Log dosyasý ismini belirt"
+msgstr "MMC Replay kart imaj dosyaismi"
 
 #: src/arch/unix/gui/uimmcreplay.c:122
-#, fuzzy
 msgid "MMC Replay EEPROM image filename"
-msgstr "Log dosyasý ismini belirt"
+msgstr "MMC Replay EEPROM dosyaismi"
 
 #: src/arch/unix/gui/uimouse.c:46 src/arch/amigaos/intl_text.c.po.c:7498
-#, fuzzy
 msgid "Paddles"
-msgstr "*Paddle"
+msgstr "Paddlelar"
 
 #: src/arch/unix/gui/uimouse.c:52
-#, fuzzy
 msgid "Port 1"
-msgstr "*Port 1"
+msgstr "Port 1"
 
 #: src/arch/unix/gui/uimouse.c:54
-#, fuzzy
 msgid "Port 2"
-msgstr "*Port 2"
+msgstr "Port 2"
 
 #: src/arch/unix/gui/uimouse.c:62
-#, fuzzy
 msgid "Enable mouse"
-msgstr "*Mouse'u aktif et"
+msgstr "Mouse'u aktif et"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:7432
@@ -2653,9 +2521,8 @@ msgstr "Mouse portu"
 
 #: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:513
 #: src/arch/amigaos/intl_text.c.po.c:1513
-#, fuzzy
 msgid "Enable paddles"
-msgstr "*Paddle'ý aktif et"
+msgstr "Paddlelarý aktif et"
 
 #: src/arch/unix/gui/uinetplay.c:67
 msgid "Enter port"
@@ -2709,13 +2576,12 @@ msgstr "Baðlantýyý kes"
 
 #: src/arch/unix/gui/uipalemu.c:70 src/arch/unix/gui/uipalemu.c:123
 #: src/arch/unix/x11/gnome/uipalcontrol.c:48
-#, fuzzy
 msgid "Scanline shade"
-msgstr "Tarama Satýrý Nüansý"
+msgstr "Tarama satýrý nüansý"
 
 #: src/arch/unix/gui/uipalemu.c:70
 msgid "Scanline Shade in percent"
-msgstr "Yüzdesel Tarama Satýrý Nüansý"
+msgstr "Yüzdesel Tarama Satýrý nüansý"
 
 #: src/arch/unix/gui/uipalemu.c:77 src/arch/unix/gui/uipalemu.c:127
 #: src/arch/unix/x11/gnome/uipalcontrol.c:53
@@ -2728,23 +2594,21 @@ msgstr "Yüzdesel Ton"
 
 #: src/arch/unix/gui/uipalemu.c:84 src/arch/unix/gui/uipalemu.c:129
 #: src/arch/unix/x11/gnome/uipalcontrol.c:54
-#, fuzzy
 msgid "Odd lines phase"
-msgstr "Tek Satýr Fazý"
+msgstr "Tek satýr fazý"
 
 #: src/arch/unix/gui/uipalemu.c:84
 msgid "Phase in percent"
-msgstr "Yüzdesel Faz"
+msgstr "Yüzdesel faz"
 
 #: src/arch/unix/gui/uipalemu.c:91 src/arch/unix/gui/uipalemu.c:131
 #: src/arch/unix/x11/gnome/uipalcontrol.c:55
-#, fuzzy
 msgid "Odd lines offset"
-msgstr "Tek Satýr Ofseti"
+msgstr "Tek satýr ofseti"
 
 #: src/arch/unix/gui/uipalemu.c:91
 msgid "Offset in percent"
-msgstr "Yüzdesel Ofset"
+msgstr "Yüzdesel ofset"
 
 #: src/arch/unix/gui/uipalemu.c:99 src/arch/unix/gui/uipalemu.c:125
 #: src/arch/unix/x11/gnome/uipalcontrol.c:47
@@ -2775,22 +2639,19 @@ msgstr "Yol:"
 #: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:76
 #: src/arch/unix/gui/uiperipheral.c:92 src/arch/unix/gui/uiperipheral.c:108
 #: src/arch/unix/gui/uiprinter.c:141 src/arch/unix/gui/uiprinter.c:153
-#, fuzzy
 msgid "File system access"
-msgstr "*Dosya sistem eriþimi"
+msgstr "Dosya sistem eriþimi"
 
 #: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
 #: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
 #: src/arch/unix/gui/uiprinter.c:144 src/arch/unix/gui/uiprinter.c:156
-#, fuzzy
 msgid "Real device access"
-msgstr "*Gerçek aygýt eriþimi"
+msgstr "Gerçek aygýt eriþimi"
 
 #: src/arch/unix/gui/uiperipheral.c:67 src/arch/unix/gui/uiperipheral.c:83
 #: src/arch/unix/gui/uiperipheral.c:99 src/arch/unix/gui/uiperipheral.c:115
-#, fuzzy
 msgid "Raw device access"
-msgstr "*Düz aygýt eriþimi"
+msgstr "Düz aygýt eriþimi"
 
 #: src/arch/unix/gui/uiperipheraliec.c:65
 #: src/arch/unix/gui/uiperipheraliec.c:84
@@ -2807,9 +2668,8 @@ msgstr "Aygýt tipi"
 #: src/arch/unix/gui/uiperipheraliec.c:86
 #: src/arch/unix/gui/uiperipheraliec.c:105
 #: src/arch/unix/gui/uiperipheraliec.c:124
-#, fuzzy
 msgid "Enable IEC device"
-msgstr "*IEC aygýtýný aktif et"
+msgstr "IEC aygýtýný aktif et"
 
 #: src/arch/unix/gui/uiperipheraliec.c:69
 #: src/arch/unix/gui/uiperipheraliec.c:88
@@ -2819,9 +2679,8 @@ msgstr "*IEC aygýtýný aktif et"
 #: src/arch/unix/gui/uiperipheralieee.c:79
 #: src/arch/unix/gui/uiperipheralieee.c:96
 #: src/arch/unix/gui/uiperipheralieee.c:113
-#, fuzzy
 msgid "Read only access"
-msgstr "*Salt okunur eriþim"
+msgstr "Salt okunur eriþim"
 
 #: src/arch/unix/gui/uiperipheraliec.c:72
 #: src/arch/unix/gui/uiperipheraliec.c:91
@@ -2842,9 +2701,8 @@ msgstr "Dosya sistem dizini..."
 #: src/arch/unix/gui/uiperipheralieee.c:84
 #: src/arch/unix/gui/uiperipheralieee.c:101
 #: src/arch/unix/gui/uiperipheralieee.c:118
-#, fuzzy
 msgid "Convert P00 file names"
-msgstr "*P00 dosya isimlerini dönüþtür"
+msgstr "P00 dosya isimlerini dönüþtür"
 
 #: src/arch/unix/gui/uiperipheraliec.c:76
 #: src/arch/unix/gui/uiperipheraliec.c:95
@@ -2854,9 +2712,8 @@ msgstr "*P00 dosya isimlerini dönüþtür"
 #: src/arch/unix/gui/uiperipheralieee.c:86
 #: src/arch/unix/gui/uiperipheralieee.c:103
 #: src/arch/unix/gui/uiperipheralieee.c:120
-#, fuzzy
 msgid "Create P00 files on save"
-msgstr "*Kaydederken P00 dosyalarýný oluþtur"
+msgstr "Kaydederken P00 dosyalarýný oluþtur"
 
 #: src/arch/unix/gui/uiperipheraliec.c:78
 #: src/arch/unix/gui/uiperipheraliec.c:97
@@ -2866,9 +2723,8 @@ msgstr "*Kaydederken P00 dosyalarýný oluþtur"
 #: src/arch/unix/gui/uiperipheralieee.c:88
 #: src/arch/unix/gui/uiperipheralieee.c:105
 #: src/arch/unix/gui/uiperipheralieee.c:122
-#, fuzzy
 msgid "Hide raw CBM files"
-msgstr "*Düz CBM dosyalarýný gizle"
+msgstr "Düz CBM dosyalarýný gizle"
 
 #: src/arch/unix/gui/uiperipheraliec.c:141
 #: src/arch/unix/gui/uiperipheraliec.c:154
@@ -2904,9 +2760,8 @@ msgstr "Yazýcý ayarlarý"
 #: src/arch/unix/gui/uiperipheraliec.c:148
 #: src/arch/unix/gui/uiperipheraliec.c:161
 #: src/arch/unix/gui/uiperipheralieee.c:135
-#, fuzzy
 msgid "Enable Virtual Devices"
-msgstr "*Sanal aygýtlarý aktif et"
+msgstr "Sanal Aygýtlarý aktif et"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:173
@@ -2915,42 +2770,35 @@ msgid "Peripheral settings"
 msgstr "Çevresel ayarlar"
 
 #: src/arch/unix/gui/uipetdww.c:39
-#, fuzzy
 msgid "PETDWW image"
-msgstr "PETREU imaj ismi"
+msgstr "PETDWW imajý"
 
 #: src/arch/unix/gui/uipetreu.c:40
-#, fuzzy
 msgid "PETREU image"
-msgstr "PETREU imaj ismi"
+msgstr "PETREU imajý"
 
 #: src/arch/unix/gui/uiplus256k.c:39
-#, fuzzy
 msgid "PLUS256K image"
-msgstr "PLUS256K imaj ismi"
+msgstr "PLUS256K imajý"
 
 #: src/arch/unix/gui/uiplus60k.c:40
-#, fuzzy
 msgid "PLUS60K image"
-msgstr "PLUS60K imaj ismi"
+msgstr "PLUS60K imajý"
 
 #: src/arch/unix/gui/uiprinter.c:85 src/arch/unix/gui/uiprinter.c:100
 #: src/arch/unix/gui/uiprinter.c:112
-#, fuzzy
 msgid "Printer 1 (file dump)"
-msgstr "*Yazýcý 1 (dosya dökümü)"
+msgstr "Yazýcý 1 (dosya dökümü)"
 
 #: src/arch/unix/gui/uiprinter.c:88 src/arch/unix/gui/uiprinter.c:102
 #: src/arch/unix/gui/uiprinter.c:114
-#, fuzzy
 msgid "Printer 2 (exec)"
-msgstr "*Yazýcý 2 (yürüt)"
+msgstr "Yazýcý 2 (yürüt)"
 
 #: src/arch/unix/gui/uiprinter.c:91 src/arch/unix/gui/uiprinter.c:104
 #: src/arch/unix/gui/uiprinter.c:116
-#, fuzzy
 msgid "Printer 3 (exec)"
-msgstr "*Yazýcý 3 (yürüt)"
+msgstr "Yazýcý 3 (yürüt)"
 
 #: src/arch/unix/gui/uiprinter.c:124 src/arch/amigaos/intl_text.c.po.c:5276
 msgid "Select printer dump file"
@@ -2967,15 +2815,13 @@ msgstr "Komut:"
 #: src/arch/unix/gui/uiprinteriec.c:40
 #: src/arch/unix/gui/uiprinteriecplus4.c:39
 #: src/arch/unix/gui/uiprinterieee.c:39
-#, fuzzy
 msgid "IEC printer #4 emulation"
-msgstr "*IEC yazýcý #4 emülasyonu"
+msgstr "IEC yazýcý #4 emülasyonu"
 
 #: src/arch/unix/gui/uiprinteriec.c:42
 #: src/arch/unix/gui/uiprinteriecplus4.c:41
-#, fuzzy
 msgid "IEC printer #4 enable IEC device"
-msgstr "*IEC yazýcý #4 IEC aygýtýný aktif et"
+msgstr "IEC yazýcý #4 IEC aygýtýný aktif et"
 
 #: src/arch/unix/gui/uiprinteriec.c:44
 #: src/arch/unix/gui/uiprinteriecplus4.c:43
@@ -2998,15 +2844,13 @@ msgstr "IEC yazýcý #4 sayfa ilerletme"
 #: src/arch/unix/gui/uiprinteriec.c:52
 #: src/arch/unix/gui/uiprinteriecplus4.c:51
 #: src/arch/unix/gui/uiprinterieee.c:49
-#, fuzzy
 msgid "IEC printer #5 emulation"
-msgstr "*IEC printer #5 emülasyonu"
+msgstr "IEC printer #5 emülasyonu"
 
 #: src/arch/unix/gui/uiprinteriec.c:54
 #: src/arch/unix/gui/uiprinteriecplus4.c:53
-#, fuzzy
 msgid "IEC printer #5 enable IEC device"
-msgstr "*IEC yazýcý #5 IEC aygýtýný aktif et"
+msgstr "IEC yazýcý #5 IEC aygýtýný aktif et"
 
 #: src/arch/unix/gui/uiprinteriec.c:56
 #: src/arch/unix/gui/uiprinteriecplus4.c:55
@@ -3028,9 +2872,8 @@ msgstr "IEC yazýcý #5 sayfa ilerletme"
 
 #: src/arch/unix/gui/uiprinteriec.c:64 src/arch/unix/gui/uiprinterieee.c:59
 #: src/arch/amigaos/intl_text.c.po.c:5309
-#, fuzzy
 msgid "Userport printer emulation"
-msgstr "*Userport yazýcýsý emülasyonu"
+msgstr "Userport yazýcýsý emülasyonu"
 
 #: src/arch/unix/gui/uiprinteriec.c:66 src/arch/unix/gui/uiprinterieee.c:61
 #: src/arch/amigaos/intl_text.c.po.c:5342
@@ -3063,34 +2906,26 @@ msgstr "Metin aygýtý yazýcýsý 2..."
 msgid "Printer text device 3..."
 msgstr "Metin aygýtý yazýcýsý 3..."
 
-#: src/arch/unix/gui/uips2mouse.c:40
-#, fuzzy
-msgid "Enable PS/2 mouse"
-msgstr "*PS/2 mouseu aktif et"
-
 #: src/arch/unix/gui/uips2mouse.c:42 src/arch/amigaos/intl_text.c.po.c:1535
 msgid "Grab mouse events"
 msgstr "Mouse olaylarýný yakala"
 
 #: src/arch/unix/gui/uiramcart.c:58
-#, fuzzy
 msgid "Readonly"
-msgstr "*Salt okunur"
+msgstr "Salt okunur"
 
 #: src/arch/unix/gui/uiramcart.c:77
-#, fuzzy
 msgid "RAMCART image"
-msgstr "RAMCART imaj ismi"
+msgstr "RAMCART imajý"
 
 #: src/arch/unix/gui/uiretroreplay.c:48
 #, fuzzy
 msgid "Enable bankjumper"
-msgstr "*MMC64 flashjumperý aktif et"
+msgstr "RR flashjumperý aktif et"
 
 #: src/arch/unix/gui/uireu.c:86
-#, fuzzy
 msgid "REU image"
-msgstr "REU imaj ismi"
+msgstr "REU imajý"
 
 #: src/arch/unix/gui/uiromset.c:59
 msgid "Load ROM file"
@@ -3106,9 +2941,8 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/uiromset.c:85
-#, fuzzy
 msgid "Archive"
-msgstr "*Arþiv"
+msgstr "Arþiv"
 
 #: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
@@ -3217,19 +3051,16 @@ msgid "List current ROM set"
 msgstr "Geçerli ROM seti yükle"
 
 #: src/arch/unix/gui/uirs232.c:53 src/arch/unix/gui/uirs232.c:89
-#, fuzzy
 msgid "38400 (Swiftlink/Turbo232 only)"
-msgstr "*38400 (yalnýzca Swiftlink/Turbo232)"
+msgstr "38400 (yalnýzca Swiftlink/Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:55 src/arch/unix/gui/uirs232.c:91
-#, fuzzy
 msgid "57600 (Turbo232 only)"
-msgstr "*57600 (yalnýzca Turbo232)"
+msgstr "57600 (yalnýzca Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:57 src/arch/unix/gui/uirs232.c:93
-#, fuzzy
 msgid "115200 (Turbo232 only)"
-msgstr "*115200 (yalnýzca Turbo232)"
+msgstr "115200 (yalnýzca Turbo232)"
 
 #: src/arch/unix/gui/uirs232.c:114
 msgid "Select RS232 device file"
@@ -3244,9 +3075,8 @@ msgid "File to dump RS232 to"
 msgstr "RS232'nin döküleceði dosya"
 
 #: src/arch/unix/gui/uirs232c64c128.c:41
-#, fuzzy
 msgid "No IRQ/NMI"
-msgstr "*IRQ/NMI yok"
+msgstr "IRQ/NMI yok"
 
 #: src/arch/unix/gui/uirs232c64c128.c:53 src/arch/unix/gui/uivicii.c:87
 #: src/arch/win32/resacia.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:7388
@@ -3254,9 +3084,8 @@ msgid "Normal"
 msgstr "Normal"
 
 #: src/arch/unix/gui/uirs232c64c128.c:66
-#, fuzzy
 msgid "ACIA $DExx RS232 interface emulation"
-msgstr "*ACIA $DExx RS232 arabirim emülasyonu"
+msgstr "ACIA $DExx RS232 arabirim emülasyonu"
 
 #: src/arch/unix/gui/uirs232c64c128.c:68
 msgid "ACIA $DExx device"
@@ -3271,9 +3100,8 @@ msgid "ACIA $DExx Emulation Mode"
 msgstr "ACIA $DExx Emülasyonu Modu"
 
 #: src/arch/unix/gui/uirs232c64c128.c:75 src/arch/unix/gui/vic20ui.c:429
-#, fuzzy
 msgid "Userport RS232 emulation"
-msgstr "*Userport RS232 emülasyonu"
+msgstr "Userport RS232 emülasyonu"
 
 #: src/arch/unix/gui/uirs232c64c128.c:77 src/arch/unix/gui/vic20ui.c:431
 #: src/arch/amigaos/intl_text.c.po.c:5573
@@ -3342,7 +3170,7 @@ msgid "Invalid speed value"
 msgstr "Geçersiz hýz deðeri"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1270
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2734
 msgid "Cannot save settings."
 msgstr "Ayarlar kaydedilemedi."
@@ -3377,9 +3205,8 @@ msgid "Resource file name"
 msgstr "Kaynak dosya ismi"
 
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#, fuzzy
 msgid "Custom..."
-msgstr "*Özel..."
+msgstr "Özel..."
 
 #: src/arch/unix/gui/uisettings.c:378 src/arch/amigaos/intl_text.c.po.c:1194
 msgid "No limit"
@@ -3418,101 +3245,83 @@ msgid "Confirm on exit"
 msgstr "Çýkýþta teyit et"
 
 #: src/arch/unix/gui/uisid.c:74
-#, fuzzy
 msgid "8580 + digi boost (ReSID)"
-msgstr "*8580 + digi boost (ReSID)"
+msgstr "8580 + digi boost (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:79 src/arch/unix/gui/uisid.c:134
-#, fuzzy
 msgid "6581R3 4885 (very light)"
-msgstr "*6581R3 4885 (çok açýk)"
+msgstr "6581R3 4885 (çok açýk)"
 
 #: src/arch/unix/gui/uisid.c:81 src/arch/unix/gui/uisid.c:136
-#, fuzzy
 msgid "6581R3 0486S (light)"
-msgstr "*6581R3 0486S (açýk)"
+msgstr "6581R3 0486S (açýk)"
 
 #: src/arch/unix/gui/uisid.c:83 src/arch/unix/gui/uisid.c:138
-#, fuzzy
 msgid "6581R3 3984 (light avg)"
-msgstr "*6581R3 3984 (ortalama açýklýkta)"
+msgstr "6581R3 3984 (ortalama açýklýkta)"
 
 #: src/arch/unix/gui/uisid.c:85 src/arch/unix/gui/uisid.c:140
-#, fuzzy
 msgid "6581R4AR 3789 (avg)"
-msgstr "*6581R4AR 3789 (ortalama)"
+msgstr "6581R4AR 3789 (ortalama)"
 
 #: src/arch/unix/gui/uisid.c:87 src/arch/unix/gui/uisid.c:142
-#, fuzzy
 msgid "6581R3 4485 (dark)"
-msgstr "*6581R3 4485 (koyu)"
+msgstr "6581R3 4485 (koyu)"
 
 #: src/arch/unix/gui/uisid.c:89 src/arch/unix/gui/uisid.c:144
-#, fuzzy
 msgid "6581R4 1986S (very dark)"
-msgstr "*6581R4 1986S (çok koyu)"
+msgstr "6581R4 1986S (çok koyu)"
 
 #: src/arch/unix/gui/uisid.c:91 src/arch/unix/gui/uisid.c:146
-#, fuzzy
 msgid "8580 3691 (light)"
-msgstr "*8580 3691 (açýk)"
+msgstr "8580 3691 (açýk)"
 
 #: src/arch/unix/gui/uisid.c:93 src/arch/unix/gui/uisid.c:148
-#, fuzzy
 msgid "8580 3691 + digi boost"
-msgstr "*8580 3691 + digi boost"
+msgstr "8580 3691 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:95 src/arch/unix/gui/uisid.c:150
-#, fuzzy
 msgid "8580 1489 (dark)"
-msgstr "*8580 1489 (koyu)"
+msgstr "8580 1489 (koyu)"
 
 #: src/arch/unix/gui/uisid.c:97 src/arch/unix/gui/uisid.c:152
-#, fuzzy
 msgid "8580 1489 + digi boost"
-msgstr "*8580 1489 + digi boost"
+msgstr "8580 1489 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:111 src/arch/unix/gui/uisid.c:166
 #: src/arch/unix/gui/uisid.c:193
-#, fuzzy
 msgid "ParSID Port 1"
-msgstr "*ParSID Port 1"
+msgstr "ParSID Port 1"
 
 #: src/arch/unix/gui/uisid.c:113 src/arch/unix/gui/uisid.c:168
 #: src/arch/unix/gui/uisid.c:195
-#, fuzzy
 msgid "ParSID Port 2"
-msgstr "*ParSID Port 2"
+msgstr "ParSID Port 2"
 
 #: src/arch/unix/gui/uisid.c:115 src/arch/unix/gui/uisid.c:170
 #: src/arch/unix/gui/uisid.c:197
-#, fuzzy
 msgid "ParSID Port 3"
-msgstr "*ParSID Port 3"
+msgstr "ParSID Port 3"
 
 #: src/arch/unix/gui/uisid.c:208 src/arch/win32/ressid.rc.po.c:66
 #: src/arch/win32/ressiddtv.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:5595
-#, fuzzy
 msgid "Fast"
-msgstr "*Hýzlý"
+msgstr "Hýzlý"
 
 #: src/arch/unix/gui/uisid.c:210 src/arch/win32/ressid.rc.po.c:67
 #: src/arch/win32/ressiddtv.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:5606
-#, fuzzy
 msgid "Interpolating"
-msgstr "*Ara deðer bulma"
+msgstr "Ara deðer bulma"
 
 #: src/arch/unix/gui/uisid.c:212 src/arch/win32/ressid.rc.po.c:68
 #: src/arch/win32/ressiddtv.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:5617
-#, fuzzy
 msgid "Resampling"
-msgstr "*Yeniden örnekleme"
+msgstr "Yeniden örnekleme"
 
 #: src/arch/unix/gui/uisid.c:214 src/arch/win32/ressid.rc.po.c:69
 #: src/arch/win32/ressiddtv.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:5628
-#, fuzzy
 msgid "Fast resampling"
-msgstr "hýzlý yeniden örnekleme"
+msgstr "Hýzlý yeniden örnekleme"
 
 #: src/arch/unix/gui/uisid.c:231
 msgid ""
@@ -3536,46 +3345,38 @@ msgstr "Argüman:"
 
 #: src/arch/unix/gui/uisound.c:90 src/arch/win32/res.rc.po.c:1157
 #: src/arch/amigaos/intl_text.c.po.c:7344
-#, fuzzy
 msgid "Small"
-msgstr "*Küçük"
+msgstr "Küçük"
 
 #: src/arch/unix/gui/uisound.c:92 src/arch/win32/res.rc.po.c:1158
 #: src/arch/amigaos/intl_text.c.po.c:7355
-#, fuzzy
 msgid "Medium"
-msgstr "*Orta"
+msgstr "Orta"
 
 #: src/arch/unix/gui/uisound.c:94 src/arch/win32/res.rc.po.c:1159
 #: src/arch/amigaos/intl_text.c.po.c:7366
-#, fuzzy
 msgid "Large"
-msgstr "*Büyük"
+msgstr "Büyük"
 
 #: src/arch/unix/gui/uisound.c:100
-#, fuzzy
 msgid "Keep going"
-msgstr "*Devam et"
+msgstr "Devam et"
 
 #: src/arch/unix/gui/uisound.c:102
-#, fuzzy
 msgid "1 s suspend"
-msgstr "*1 sn askýya al"
+msgstr "1 sn askýya al"
 
 #: src/arch/unix/gui/uisound.c:104
-#, fuzzy
 msgid "2 s suspend"
-msgstr "*2 sn askýya al"
+msgstr "2 sn askýya al"
 
 #: src/arch/unix/gui/uisound.c:106
-#, fuzzy
 msgid "5 s suspend"
-msgstr "*5 sn askýya al"
+msgstr "5 sn askýya al"
 
 #: src/arch/unix/gui/uisound.c:108
-#, fuzzy
 msgid "10 s suspend"
-msgstr "*10 sn askýya al"
+msgstr "10 sn askýya al"
 
 #: src/arch/unix/gui/uisound.c:114 src/arch/win32/res.rc.po.c:1060
 #: src/arch/amigaos/intl_text.c.po.c:5738
@@ -3637,9 +3438,8 @@ msgstr "YM çip tipi"
 
 #: src/arch/unix/gui/uited.c:58 src/arch/unix/gui/uivdc.c:57
 #: src/arch/unix/gui/uivic.c:58 src/arch/unix/gui/uivicii.c:62
-#, fuzzy
 msgid "Default"
-msgstr "*Varsayýlan"
+msgstr "Varsayýlan"
 
 #. FIXME: might actually make some sense to use the file browser on *nix systems which
 #. actually DO have /dev/eth0. linux doesn't however
@@ -3652,46 +3452,42 @@ msgstr "Ethernet arabirimi"
 #: src/arch/unix/gui/uitfe.c:52
 #, fuzzy
 msgid "RR-Net compatibility mode"
-msgstr "*RR-NET uyumluluk modu"
+msgstr "RR-NET uyumluluk modu"
 
 #: src/arch/unix/gui/uitfe.c:54
 msgid "Interface..."
 msgstr "Arabirim..."
 
 #: src/arch/unix/gui/uitpi.c:43
-#, fuzzy
 msgid "IEEE 488 Interface image"
-msgstr "IEEE488 arabirim imajý..."
+msgstr "IEEE 488 Arabirimi imajý"
 
 #: src/arch/unix/gui/uiv364speech.c:43
-#, fuzzy
 msgid "Speech ROM image"
-msgstr "Teyp imajýný yerleþtir"
+msgstr "Speech ROM imajý"
 
 #: src/arch/unix/gui/uivdc.c:59
-#, fuzzy
 msgid "Composite"
-msgstr "*Kompozit"
+msgstr "Kompozit"
 
 #: src/arch/unix/gui/uivdc.c:87 src/arch/win32/resc128.rc.po.c:194
 #: src/arch/amigaos/intl_text.c.po.c:1304
 msgid "Rev 0"
-msgstr "Düzeltme 0"
+msgstr "Rev 0"
 
 #: src/arch/unix/gui/uivdc.c:89 src/arch/win32/resc128.rc.po.c:195
 #: src/arch/amigaos/intl_text.c.po.c:1315
 msgid "Rev 1"
-msgstr "Düzeltme 1"
+msgstr "Rev 1"
 
 #: src/arch/unix/gui/uivdc.c:91 src/arch/win32/resc128.rc.po.c:196
 #: src/arch/amigaos/intl_text.c.po.c:1326
 msgid "Rev 2"
-msgstr "Düzeltme 2"
+msgstr "Rev 2"
 
 #: src/arch/unix/gui/uivdc.c:145
-#, fuzzy
 msgid "64kB display memory"
-msgstr "*64KB ekran belleði"
+msgstr "64KB ekran belleði"
 
 #: src/arch/unix/gui/uivicii.c:89 src/arch/amigaos/intl_text.c.po.c:7399
 msgid "Full"
@@ -3703,23 +3499,20 @@ msgstr "Hata Ayýklama"
 
 #: src/arch/unix/gui/uivicii.c:169 src/arch/win32/resc64.rc.po.c:525
 #: src/arch/amigaos/intl_text.c.po.c:5859
-#, fuzzy
 msgid "New luminances"
-msgstr "Yeni Parlaklýklar"
+msgstr "Yeni parlaklýklar"
 
 #: src/arch/unix/gui/uivicii.c:181 src/arch/amigaos/intl_text.c.po.c:7377
 msgid "Border mode"
 msgstr "Çerçeve modu"
 
 #: src/arch/unix/gui/uivicii.c:184 src/arch/amigaos/intl_text.c.po.c:5837
-#, fuzzy
 msgid "Sprite-sprite collisions"
-msgstr "*Yartýk-yaratýk çarpýþmalarý"
+msgstr "Yartýk-yaratýk çarpýþmalarý"
 
 #: src/arch/unix/gui/uivicii.c:186 src/arch/amigaos/intl_text.c.po.c:5848
-#, fuzzy
 msgid "Sprite-background collisions"
-msgstr "*Yaratýk-arka plan çarpýþmalarý"
+msgstr "Yaratýk-arkaplan çarpýþmalarý"
 
 #: src/arch/unix/gui/vic20ui.c:194
 msgid "No expansion memory"
@@ -3750,29 +3543,24 @@ msgid "Common configurations"
 msgstr "Genel konfigürasyonlar"
 
 #: src/arch/unix/gui/vic20ui.c:227
-#, fuzzy
 msgid "Block 0 (3K at $0400-$0FFF)"
-msgstr "*Blok 0 ($0400-$0FFF arasýnda 3K)"
+msgstr "Blok 0 ($0400-$0FFF arasýnda 3K)"
 
 #: src/arch/unix/gui/vic20ui.c:229
-#, fuzzy
 msgid "Block 1 (8K at $2000-$3FFF)"
-msgstr "*Blok 1 ($2000-$3FFF arasýnda 8K)"
+msgstr "Blok 1 ($2000-$3FFF arasýnda 8K)"
 
 #: src/arch/unix/gui/vic20ui.c:231
-#, fuzzy
 msgid "Block 2 (8K at $4000-$5FFF)"
-msgstr "*Blok 2 ($4000-$5FFF arasýnda 8K)"
+msgstr "Blok 2 ($4000-$5FFF arasýnda 8K)"
 
 #: src/arch/unix/gui/vic20ui.c:233
-#, fuzzy
 msgid "Block 3 (8K at $6000-$7FFF)"
-msgstr "*Blok 3 ($6000-$7FFF arasýnda 8K)"
+msgstr "Blok 3 ($6000-$7FFF arasýnda 8K)"
 
 #: src/arch/unix/gui/vic20ui.c:235
-#, fuzzy
 msgid "Block 5 (8K at $A000-$BFFF)"
-msgstr "*Blok 5 ($A000-$BFFF arasýnda 8K)"
+msgstr "Blok 5 ($A000-$BFFF arasýnda 8K)"
 
 #: src/arch/unix/gui/vic20ui.c:255 src/arch/win32/res.rc.po.c:931
 #: src/arch/amigaos/intl_text.c.po.c:2833
@@ -3784,29 +3572,24 @@ msgid "Smart-attach cartridge image..."
 msgstr "Akýllý kartuþ imajý yerleþtir"
 
 #: src/arch/unix/gui/vic20ui.c:273
-#, fuzzy
 msgid "Attach 4/8/16kB image at $2000..."
-msgstr "$2000 adresine 4/8/16KB imaj yerleþtir..."
+msgstr "$2000 adresine 4/8/16kB imaj yerleþtir..."
 
 #: src/arch/unix/gui/vic20ui.c:276
-#, fuzzy
 msgid "Attach 4/8/16kB image at $4000..."
-msgstr "$4000 adresine 4/8/16KB imaj yerleþtir..."
+msgstr "$4000 adresine 4/8/16kB imaj yerleþtir..."
 
 #: src/arch/unix/gui/vic20ui.c:279
-#, fuzzy
 msgid "Attach 4/8/16kB image at $6000..."
-msgstr "$6000 adresine 4/8/16KB imaj yerleþtir..."
+msgstr "$6000 adresine 4/8/16kB imaj yerleþtir..."
 
 #: src/arch/unix/gui/vic20ui.c:282
-#, fuzzy
 msgid "Attach 4/8kB image at $A000..."
-msgstr "$A000 adresine 4/8KB imaj yerleþtir..."
+msgstr "$A000 adresine 4/8kB imaj yerleþtir..."
 
 #: src/arch/unix/gui/vic20ui.c:285
-#, fuzzy
 msgid "Attach 4kB image at $B000..."
-msgstr "$B000 adresine 4KB imaj yerleþtir..."
+msgstr "$B000 adresine 4kB imaj yerleþtir..."
 
 #: src/arch/unix/gui/vic20ui.c:302
 msgid "Attach generic image..."
@@ -3821,42 +3604,39 @@ msgid "Attach Final Expansion image..."
 msgstr "Final Expansion imajý yerleþtir..."
 
 #: src/arch/unix/gui/vic20ui.c:311
-#, fuzzy
 msgid "Attach Vic Flash Plugin image..."
-msgstr "DTV Flash Imajý Yerleþtir"
+msgstr "Vic Flash Plugin imajý yerleþtir..."
 
 #: src/arch/unix/gui/vic20ui.c:315
 msgid "Add to generic cartridge"
 msgstr "Jenerik kartuþa ekle"
 
 #: src/arch/unix/gui/vic20ui.c:330
-#, fuzzy
 msgid "Mega-Cart NvRAM image"
-msgstr "Mega-Cart NvRAM imaj ismi"
+msgstr "Mega-Cart NvRAM imajý"
 
 #: src/arch/unix/gui/vic20ui.c:334 src/arch/unix/gui/vic20ui.c:340
 #, fuzzy
 msgid "Enable image write back"
-msgstr "*Final Expansion geri yazma"
+msgstr "Vic Flash Plugin geri yazmayý aktif et"
 
 #: src/arch/unix/gui/vic20ui.c:346
 #, fuzzy
 msgid "Enable NvRAM image write back"
-msgstr "*Mega-Cart NvRAM geri yazma"
+msgstr "Mega-Cart NvRAM geri yazmayý aktif et"
 
 #: src/arch/unix/gui/vic20ui.c:348
 #, fuzzy
 msgid "NvRAM image file..."
-msgstr "GEORAM imaj ismi..."
+msgstr "EEPROM imaj dosyaismi..."
 
 #: src/arch/unix/gui/vic20ui.c:357
 msgid "Detach cartridge image(s)"
 msgstr "Kartuþ imaj(lar)ýný çýkart"
 
 #: src/arch/unix/gui/vic20ui.c:495
-#, fuzzy
 msgid "VIC model"
-msgstr "SID modeli"
+msgstr "VIC modeli"
 
 #: src/arch/unix/gui/vic20ui.c:497
 msgid "Memory expansions"
@@ -3883,26 +3663,24 @@ msgstr "PSID dosyasý yükle"
 msgid "Load PSID file..."
 msgstr "PSID dosyasý yükle..."
 
-#: src/arch/unix/gui/vsidui.c:335
-#, fuzzy
+#: src/arch/unix/gui/vsidui.c:336
 msgid "Override PSID settings"
-msgstr "*PSID ayarlarýný geçersiz kýl"
+msgstr "PSID ayarlarýný geçersiz kýl"
 
-#: src/arch/unix/gui/vsidui.c:339 src/arch/amigaos/intl_text.c.po.c:1458
+#: src/arch/unix/gui/vsidui.c:340 src/arch/amigaos/intl_text.c.po.c:1458
 msgid "Video standard"
 msgstr "Görüntü standardý"
 
-#: src/arch/unix/gui/vsidui.c:418
-#, fuzzy
+#: src/arch/unix/gui/vsidui.c:419
 msgid "Default Tune"
-msgstr "*Varsayýlan Parça"
+msgstr "Varsayýlan Parça"
 
-#: src/arch/unix/gui/vsidui.c:438
-#, fuzzy, c-format
+#: src/arch/unix/gui/vsidui.c:439
+#, c-format
 msgid "Tune %d"
-msgstr "*Parça %d"
+msgstr "Parça %d"
 
-#: src/arch/unix/gui/vsidui.c:465
+#: src/arch/unix/gui/vsidui.c:466
 msgid "VSID: The SID Emulator"
 msgstr "VSID: SID Emülatörü"
 
@@ -3950,9 +3728,8 @@ msgstr ""
 "Emir Akaydýn - Türkçe\n"
 
 #: src/arch/unix/x11/gnome/about.c:117
-#, fuzzy
 msgid "(c) 1998 - 2010 The VICE Team"
-msgstr "(c) 1998 - 2009 The Vice Team"
+msgstr "(c) 1998 - 2010 The VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1020
 #: src/arch/amigaos/intl_text.c.po.c:2415
@@ -4091,9 +3868,8 @@ msgid "Start Server"
 msgstr "Sunucuyu Baþlat"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:228
-#, fuzzy
 msgid "TCP port: "
-msgstr "TCP portu"
+msgstr "TCP portu: "
 
 #: src/arch/unix/x11/gnome/uinetplay.c:254
 msgid "Connect to "
@@ -4128,9 +3904,8 @@ msgid "Gamma"
 msgstr "Gama"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:98
-#, fuzzy
 msgid "CRT settings"
-msgstr "VDC ayarlarý"
+msgstr "CRT ayarlarý"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:287
 msgid "Save Media File..."
@@ -4153,14 +3928,12 @@ msgid "Video codec"
 msgstr "Görüntü kodeði"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:399
-#, fuzzy
 msgid "Audio bitrate"
-msgstr "Ses Bithýzý"
+msgstr "Ses bithýzý"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:409
-#, fuzzy
 msgid "Video bitrate"
-msgstr "Görüntü Bithýzý"
+msgstr "Görüntü bithýzý"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:455
 #: src/arch/amigaos/intl_text.c.po.c:3075
@@ -4216,9 +3989,8 @@ msgstr ""
 "IRQ: %s"
 
 #: src/arch/unix/x11/gnome/x11ui.c:725
-#, fuzzy
 msgid "CRT Controls"
-msgstr "PAL Kontrolleri"
+msgstr "CRT Kontrolleri"
 
 #: src/arch/unix/x11/gnome/x11ui.c:737
 msgid "audio/video recording"
@@ -4250,20 +4022,20 @@ msgstr "Sürücü %d: "
 msgid "Tape 000"
 msgstr "Teyp 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1255
 msgid " emulator"
 msgstr " emülatör"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1259
 msgid "Do you really want to exit?"
 msgstr "Çýkmak istediðinizden emin misiniz?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1267
 msgid "Save the current settings?"
 msgstr "Ayarlar kaydedilsin mi?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
+#: src/arch/unix/x11/xaw/x11ui.c:1335 src/arch/unix/x11/xaw/x11ui.c:1338
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -4274,7 +4046,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Teyp %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1584
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (duraklatýldý)"
@@ -4299,7 +4071,7 @@ msgstr "Monitör"
 msgid "Continue"
 msgstr "Devam"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1905
 msgid "Extend disk image"
 msgstr "Disk imajýný geniþlet"
 
@@ -4400,9 +4172,8 @@ msgid "Specify X display depth (1..32)"
 msgstr "X görüntü derinliðini belirleyin (1..32)"
 
 #: src/arch/unix/x11/xrandr.c:280
-#, fuzzy
 msgid "Desktop"
-msgstr "*Masaüstü"
+msgstr "Masaüstü"
 
 #: src/arch/unix/x11/xaw/about.c:170 src/arch/win32/res.rc.po.c:900
 msgid "VICE Information"
@@ -4480,27 +4251,27 @@ msgstr "Halihazýrda yerleþtirilmiþ diskleri kaydet:"
 msgid "Save currently loaded ROMs:"
 msgstr "Halihazýrda yerleþtirilmiþ ROMlarý kaydet:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:993
+#: src/arch/unix/x11/xaw/x11ui.c:994
 msgid "recording..."
 msgstr "kaydediliyor..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1001
+#: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "event recording..."
 msgstr "olay kaydediliyor..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1438
+#: src/arch/unix/x11/xaw/x11ui.c:1439
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Track %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1777 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "VICE Hatasý!"
 
 #: src/arch/unix/x11/xaw/x11video.c:190
 #, fuzzy
 msgid "Custom aspect ratio"
-msgstr "<en boy oraný>"
+msgstr "Gerçek en boy oraný"
 
 #: src/arch/unix/x11/xaw/x11video.c:190
 #, fuzzy
@@ -4541,14 +4312,12 @@ msgid "Set aspect ratio (0.5 - 2.0)"
 msgstr "En boy oraný belirle (0.8 - 1.2)"
 
 #: src/arch/unix/x11/xaw/x11video.c:285
-#, fuzzy
 msgid "Enable true aspect ratio"
-msgstr "<en boy oraný>"
+msgstr "Gerçek en boy oranýný aktif et"
 
 #: src/arch/unix/x11/xaw/x11video.c:290
-#, fuzzy
 msgid "Disable true aspect ratio"
-msgstr "<en boy oraný>"
+msgstr "Gerçek en boy oranýný pasifleþtir"
 
 #: src/arch/unix/x11/xaw/x11video.c:364
 #, c-format
@@ -4572,14 +4341,12 @@ msgid "Set Y Axis for HID A device"
 msgstr "HID A aygýtý için Y Ekseni tanýmla"
 
 #: src/arch/unix/macosx/joy.c:319
-#, fuzzy
 msgid "Set Buttons for HID A device"
-msgstr "HID A aygýtý için X Ekseni tanýmla"
+msgstr "HID A aygýtý için düðmeleri tanýmla"
 
 #: src/arch/unix/macosx/joy.c:324
-#, fuzzy
 msgid "Set Auto Fire Buttons for HID A device"
-msgstr "HID A aygýtý için X Ekseni tanýmla"
+msgstr "HID A aygýtý için düðmeleri tanýmla"
 
 #: src/arch/unix/macosx/joy.c:329
 msgid "Set X Axis Threshold in Percent of HID A device"
@@ -4602,14 +4369,12 @@ msgid "Set Y Axis for HID B device"
 msgstr "HID B aygýtý için Y Ekseni tanýmla"
 
 #: src/arch/unix/macosx/joy.c:354
-#, fuzzy
 msgid "Set Buttons for HID B device"
-msgstr "HID B aygýtý için X Ekseni tanýmla"
+msgstr "HID B aygýtý için düðmeleri tanýmla"
 
 #: src/arch/unix/macosx/joy.c:359
-#, fuzzy
 msgid "Set Auto Fire Buttons for HID B device"
-msgstr "HID B aygýtý için X Ekseni tanýmla"
+msgstr "HID B aygýtý için otomatik ateþ düðmelerini tanýmla"
 
 #: src/arch/unix/macosx/joy.c:364
 msgid "Set X Axis Threshold in Percent of HID B device"
@@ -4620,14 +4385,12 @@ msgid "Set Y Axis Threshold in Percent of HID B device"
 msgstr "HID B aygýtýnýn Y Ekseni Eþiðini yüzdesel olarak tanýmla"
 
 #: src/arch/unix/macosx/joy.c:374
-#, fuzzy
 msgid "Set Hat Switch for Joystick of HID A device"
-msgstr "HID A aygýtý için X Ekseni tanýmla"
+msgstr "HID A aygýtýnýn Joystick'i için Hat Switch tanýmla"
 
 #: src/arch/unix/macosx/joy.c:379
-#, fuzzy
 msgid "Set Hat Switch for Joystick of HID B device"
-msgstr "HID B aygýtý için X Ekseni tanýmla"
+msgstr "HID B aygýtýnýn Joystick'i için Hat Switch tanýmla"
 
 #: src/arch/unix/macosx/mididrv.c:118
 msgid "Name of MIDI Client"
@@ -4690,67 +4453,64 @@ msgstr "Versiyon 0.0"
 #: src/arch/win32/res.rc.po.c:181
 #, fuzzy
 msgid "Copyright (c) 1998-2011 Dag Lem"
-msgstr "Copyright (c) 1998-2009 Dag Lem"
+msgstr "Copyright (c) 1998-2010 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:182
 #, fuzzy
 msgid "Copyright (c) 1999-2011 Andreas Matthies"
-msgstr "Copyright (c) 1999-2009 Andreas Matthies"
+msgstr "Copyright (c) 1999-2010 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:183
 #, fuzzy
 msgid "Copyright (c) 1999-2011 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2009 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2010 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:184
 #, fuzzy
 msgid "Copyright (c) 2000-2011 Spiro Trikaliotis"
-msgstr "Copyright (c) 2000-2009 Spiro Trikaliotis"
+msgstr "Copyright (c) 2000-2010 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:185
 #, fuzzy
 msgid "Copyright (c) 2005-2011 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2009 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2010 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
 #, fuzzy
 msgid "Copyright (c) 2006-2011 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2009 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2010 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
 #, fuzzy
 msgid "Copyright (c) 2007-2011 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2009 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2010 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
 #, fuzzy
 msgid "Copyright (c) 2007-2011 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2009 Hannu Nuotio"
+msgstr "Copyright (c) 2007-2010 Hannu Nuotio"
 
 #: src/arch/win32/res.rc.po.c:189
 #, fuzzy
 msgid "Copyright (c) 2007-2011 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2009 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2010 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:190
 #, fuzzy
 msgid "Copyright (c) 2008-2011 Antti S. Lankila"
-msgstr "Copyright (c) 2008-2009 M. Kiesel"
+msgstr "Copyright (c) 2008-2010 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 1998-2010 Andreas Boose"
-msgstr "Copyright (c) 1998-2009 Andreas Boose"
+msgstr "Copyright (c) 1998-2010 Andreas Boose"
 
 #: src/arch/win32/res.rc.po.c:192
-#, fuzzy
 msgid "Copyright (c) 1998-2010 Tibor Biczo"
-msgstr "Copyright (c) 1998-2009 Tibor Biczo"
+msgstr "Copyright (c) 1998-2010 Tibor Biczo"
 
 #: src/arch/win32/res.rc.po.c:193
-#, fuzzy
 msgid "Copyright (c) 2007-2010 M. Kiesel"
-msgstr "Copyright (c) 2007-2009 M. Kiesel"
+msgstr "Copyright (c) 2007-2010 M. Kiesel"
 
 #: src/arch/win32/res.rc.po.c:194
 msgid "Copyright (c) 1999-2007 Andreas Dehmel"
@@ -5102,8 +4862,9 @@ msgid "Colors"
 msgstr "Renkler"
 
 #: src/arch/win32/res.rc.po.c:985 src/arch/amigaos/intl_text.c.po.c:6585
+#, fuzzy
 msgid "Render filter"
-msgstr ""
+msgstr "Þekillendirici"
 
 #: src/arch/win32/res.rc.po.c:987 src/arch/amigaos/intl_text.c.po.c:6816
 msgid "Video settings"
@@ -5173,9 +4934,8 @@ msgid "Attach Retro Replay cartridge image"
 msgstr "Retro Replay kartuþ imajý yerleþtir"
 
 #: src/arch/win32/res.rc.po.c:1004
-#, fuzzy
 msgid "Attach MMC Replay cartridge image"
-msgstr "Retro Replay kartuþ imajý yerleþtir"
+msgstr "MMC Replay kartuþ imajý yerleþtir"
 
 #: src/arch/win32/res.rc.po.c:1005 src/arch/amigaos/intl_text.c.po.c:3350
 msgid "Attach IDE64 interface cartridge image"
@@ -5657,9 +5417,8 @@ msgid "Sound Buffer &Size :"
 msgstr "&Ses Arabellek Boyutu :"
 
 #: src/arch/win32/res.rc.po.c:1156
-#, fuzzy
 msgid "Sound Fragment Size :"
-msgstr "Parça boyutu"
+msgstr "Ses Parça Boyutu :"
 
 #: src/arch/win32/res.rc.po.c:1160
 msgid "Synchronization &Method :"
@@ -5702,9 +5461,8 @@ msgid "Keep aspect ratio (0,5..2)"
 msgstr "En boy oraný koru (0,5..2)"
 
 #: src/arch/win32/res.rc.po.c:1171 src/arch/amigaos/intl_text.c.po.c:6607
-#, fuzzy
 msgid "Gamma (0..4)"
-msgstr "Gama (0..2)"
+msgstr "Gama (0..4)"
 
 #: src/arch/win32/res.rc.po.c:1172 src/arch/amigaos/intl_text.c.po.c:6640
 msgid "Tint (0..2)"
@@ -5725,7 +5483,7 @@ msgstr "Parlaklýk (0..2)"
 #: src/arch/win32/res.rc.po.c:1176
 #, fuzzy
 msgid "Scan line shade (0..1)"
-msgstr "Tarama Satýrý Nüansý"
+msgstr "Tarama satýrý nüansý"
 
 #: src/arch/win32/res.rc.po.c:1177 src/arch/amigaos/intl_text.c.po.c:6629
 #, fuzzy
@@ -6328,9 +6086,8 @@ msgid "&Retro Replay image..."
 msgstr "&Retro Replay imajý..."
 
 #: src/arch/win32/res.rc.po.c:1348
-#, fuzzy
 msgid "&MMC Replay image..."
-msgstr "Retro Replay imajý yerleþtir..."
+msgstr "&MMC Replay imajý..."
 
 #: src/arch/win32/res.rc.po.c:1349
 msgid "IDE&64 interface image..."
@@ -6524,9 +6281,8 @@ msgid "Always on Top"
 msgstr "Her zaman üstte"
 
 #: src/arch/win32/res.rc.po.c:1401
-#, fuzzy
 msgid "Disable DirectX9"
-msgstr "DirectX9 video sürücüsünü pasifleþtir"
+msgstr "DirectX9'u pasifleþtir"
 
 #: src/arch/win32/res.rc.po.c:1402
 msgid "Swap &Joysticks"
@@ -6549,9 +6305,8 @@ msgid "&Grab mouse events"
 msgstr "Mouse olaylarýný &yakala"
 
 #: src/arch/win32/res.rc.po.c:1408
-#, fuzzy
 msgid "&C64 model settings..."
-msgstr "&MMC64 ayarlarý..."
+msgstr "&C64 model ayarlarý..."
 
 #: src/arch/win32/res.rc.po.c:1409
 msgid "&Autostart settings..."
@@ -6634,26 +6389,23 @@ msgstr "&Double Quick Brown Box ayarlarý..."
 #: src/arch/win32/res.rc.po.c:1428
 #, fuzzy
 msgid "&Expert Cartridge settings..."
-msgstr "SID kartuþ ayarlarý"
+msgstr "&Kartuþ Ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1429
-#, fuzzy
 msgid "I&SEPIC settings..."
-msgstr "V&IC ayarlarý..."
+msgstr "I&SEPIC ayarlarý..."
 
 #: src/arch/win32/res.rc.po.c:1430
 msgid "&MMC64 settings..."
 msgstr "&MMC64 ayarlarý..."
 
 #: src/arch/win32/res.rc.po.c:1431
-#, fuzzy
 msgid "MM&C Replay settings..."
-msgstr "&MMC64 ayarlarý..."
+msgstr "MM&C Replay ayarlarý..."
 
 #: src/arch/win32/res.rc.po.c:1432
-#, fuzzy
 msgid "Magic V&oice settings..."
-msgstr "Görüntü ayalarý..."
+msgstr "Magic V&oice ayalarý..."
 
 #: src/arch/win32/res.rc.po.c:1433
 msgid "M&IDI settings..."
@@ -6801,9 +6553,8 @@ msgid "&Print"
 msgstr "&Yazdýr"
 
 #: src/arch/win32/res.rc.po.c:1471
-#, fuzzy
 msgid "E&xit        Alt+F4"
-msgstr "Çý&kýþ\tAlt+F4"
+msgstr "Çý&kýþ       Alt+F4"
 
 #: src/arch/win32/res.rc.po.c:1472
 msgid "&Stop Debug"
@@ -7312,30 +7063,28 @@ msgid "&256K settings..."
 msgstr "&256K ayarlarý..."
 
 #: src/arch/win32/resc64.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:7663
-#, fuzzy
 msgid "6569 (PAL)"
-msgstr "6581 (eski)"
+msgstr "6569 (PAL)"
 
 #: src/arch/win32/resc64.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:7674
 msgid "8565 (PAL)"
-msgstr ""
+msgstr "8565 (PAL)"
 
 #: src/arch/win32/resc64.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:7696
 msgid "6567 (NTSC)"
-msgstr ""
+msgstr "6567 (NTSC)"
 
 #: src/arch/win32/resc64.rc.po.c:539 src/arch/amigaos/intl_text.c.po.c:7707
 msgid "8562 (NTSC)"
-msgstr ""
+msgstr "8562 (NTSC)"
 
 #: src/arch/win32/resc64.rc.po.c:541 src/arch/amigaos/intl_text.c.po.c:7729
 msgid "6572 (PAL-N)"
-msgstr ""
+msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64.rc.po.c:542 src/arch/amigaos/intl_text.c.po.c:7839
-#, fuzzy
 msgid "C64 model settings"
-msgstr "PET model ayarlarý"
+msgstr "C64 model ayarlarý"
 
 #: src/arch/win32/resc64_256k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:3812
@@ -7383,6 +7132,10 @@ msgstr "DTV ROM imajýnda &yazmalarý aktif et"
 #: src/arch/win32/resc64dtv.rc.po.c:436 src/arch/amigaos/intl_text.c.po.c:3878
 msgid "C64DTV Settings"
 msgstr "C64DTV Ayarlarý"
+
+#: src/arch/win32/resc64dtv.rc.po.c:438 src/translate_text.c.po.c:3575
+msgid "Enable Hummer ADC"
+msgstr "Hummer ADC'yi aktif et"
 
 #: src/arch/win32/resc64dtv.rc.po.c:439
 msgid "Create DTV Flash Image"
@@ -7569,7 +7322,7 @@ msgstr "Digimax Ayarlarý"
 #: src/arch/win32/resdigimax.rc.po.c:23
 #, fuzzy
 msgid "&Enable DigiMAX"
-msgstr "Digimax'ý aktif &et"
+msgstr "Midi'yi aktif &et"
 
 #: src/arch/win32/resdigimax.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:7223
 #, fuzzy
@@ -7693,9 +7446,8 @@ msgstr "15&81"
 
 #: src/arch/win32/reseasyflash.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:4428
-#, fuzzy
 msgid "EasyFlash settings"
-msgstr "EasyFlash Ayarlarý"
+msgstr "EasyFlash ayarlarý"
 
 #: src/arch/win32/reseasyflash.rc.po.c:29
 msgid "EasyFlash &Jumper"
@@ -7712,17 +7464,17 @@ msgstr "CRT'yi heme&n kaydet"
 #: src/arch/win32/resexpert.rc.po.c:38 src/arch/amigaos/intl_text.c.po.c:4307
 #, fuzzy
 msgid "Select file for Expert Cartridge"
-msgstr "Expert kartuþunu aktif et"
+msgstr "Expert Kartuþu'nu aktif et"
 
 #: src/arch/win32/resexpert.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4318
 #, fuzzy
 msgid "Expert Cartridge settings"
-msgstr "SID kartuþ ayarlarý"
+msgstr "Kartuþ/GÇ ayarlarý"
 
 #: src/arch/win32/resexpert.rc.po.c:40
 #, fuzzy
 msgid "&Enable Expert Cartridge"
-msgstr "Expert kartuþunu aktif et"
+msgstr "Expert Kartuþu'nu aktif et"
 
 #: src/arch/win32/resexpert.rc.po.c:41
 #, fuzzy
@@ -7732,7 +7484,7 @@ msgstr "Model"
 #: src/arch/win32/resexpert.rc.po.c:42
 #, fuzzy
 msgid "&Save Expert Cartridge image when changed"
-msgstr "Kartuþ imajý yerleþtir..."
+msgstr "Expert Kartuþ imajýný kaydet..."
 
 #: src/arch/win32/resexpert.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:4285
 #, fuzzy
@@ -7747,7 +7499,7 @@ msgstr "GEORAM için dosya seçin"
 #: src/arch/win32/resgeoram.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4230
 #, fuzzy
 msgid "GEO-RAM settings"
-msgstr "GEORAM Ayarlarý"
+msgstr "GEORAM ayarlarý"
 
 #: src/arch/win32/resgeoram.rc.po.c:40
 #, fuzzy
@@ -7774,29 +7526,24 @@ msgid "IDE64 settings"
 msgstr "IDE64 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:74
-#, fuzzy
 msgid "Enable IDE64 V4"
-msgstr "SID'i aktif &et"
+msgstr "IDE64 V4'ü aktif &et"
 
 #: src/arch/win32/reside64.rc.po.c:75
-#, fuzzy
 msgid "&HD image #1 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #1 dosyasý"
 
 #: src/arch/win32/reside64.rc.po.c:76
-#, fuzzy
 msgid "&HD image #2 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #2 dosyasý"
 
 #: src/arch/win32/reside64.rc.po.c:77
-#, fuzzy
 msgid "&HD image #3 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #3 dosyasý"
 
 #: src/arch/win32/reside64.rc.po.c:78
-#, fuzzy
 msgid "&HD image #4 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #4 dosyasý"
 
 #: src/arch/win32/reside64.rc.po.c:79
 msgid "&Geometry"
@@ -7833,19 +7580,16 @@ msgid "Select file for ISEPIC"
 msgstr "REU için dosya seçin"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:4373
-#, fuzzy
 msgid "ISEPIC settings"
-msgstr "SID ayarlarý"
+msgstr "ISEPIC ayarlarý"
 
 #: src/arch/win32/resisepic.rc.po.c:38
-#, fuzzy
 msgid "&Enable ISEPIC"
-msgstr "*REU'yu aktif et"
+msgstr "ISEPIC'i aktif &et"
 
 #: src/arch/win32/resisepic.rc.po.c:39
-#, fuzzy
 msgid "&ISEPIC switch"
-msgstr "*Isepic Anahtarýný Aktif Et"
+msgstr "&ISEPIC anahtarý"
 
 #: src/arch/win32/resisepic.rc.po.c:40
 #, fuzzy
@@ -7855,7 +7599,7 @@ msgstr "BIO&S deðiþtiðinde kaydet"
 #: src/arch/win32/resisepic.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:4395
 #, fuzzy
 msgid "ISEPIC file"
-msgstr "SID kartuþu"
+msgstr "ISEPIC kartuþu"
 
 #: src/arch/win32/reslightpen.rc.po.c:22
 msgid "lightpen Settings"
@@ -7866,39 +7610,33 @@ msgid "&Enable lightpen"
 msgstr "Iþýklý Kalem'i aktif et"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:24
-#, fuzzy
 msgid "Magic Voice Settings"
-msgstr "Ana aygýt"
+msgstr "Magic Voice Ayarlarý"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:25
-#, fuzzy
 msgid "&Enable Magic Voice"
-msgstr "SID kartuþunu aktif et"
+msgstr "Magic Voice'i aktif &et"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:5529
-#, fuzzy
 msgid "Select file for Magic Voice"
-msgstr "REU için dosya seçin"
+msgstr "Magic Voice için dosya seçin"
 
 #: src/arch/win32/resmidi.rc.po.c:37
-#, fuzzy
 msgid "MIDI settings"
-msgstr "SID ayarlarý"
+msgstr "MIDI ayarlarý"
 
 #: src/arch/win32/resmidi.rc.po.c:38
-#, fuzzy
 msgid "&Enable MIDI"
-msgstr "SID'i aktif &et"
+msgstr "MIDI'yi aktif &et"
 
 #: src/arch/win32/resmidi.rc.po.c:39
-#, fuzzy
 msgid "MIDI type"
-msgstr "Mouse tipi"
+msgstr "MIDI tipi"
 
 #: src/arch/win32/resmmc64.rc.po.c:51
 msgid "&Enable MMC64"
-msgstr "MMC64'ý aktif et"
+msgstr "MMC64'ü aktif &et"
 
 #: src/arch/win32/resmmc64.rc.po.c:52 src/arch/amigaos/intl_text.c.po.c:6024
 msgid "BIOS Revision"
@@ -7926,25 +7664,21 @@ msgstr "MMC/SD &Imaj Dosyasý"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:6222
-#, fuzzy
 msgid "MMC Replay settings"
-msgstr "MMC64 emülasyonu"
+msgstr "MMC Replay ayarlarý"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:47
-#, fuzzy
 msgid "Card Image"
-msgstr "Imaj Yarat"
+msgstr "Kart Ýmajý"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:48
-#, fuzzy
 msgid "EEPROM Image"
-msgstr "GEORAM imaj ismi"
+msgstr "EEPROM Ýmajý"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:6211
-#, fuzzy
 msgid "Rescue mode"
-msgstr "*Warp modu aktif et"
+msgstr "Kurtarma modu"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:5133
@@ -7954,7 +7688,7 @@ msgstr "oku/yaz"
 #: src/arch/win32/resmmcreplay.rc.po.c:52
 #, fuzzy
 msgid "Save MMC Replay EEPROM when changed"
-msgstr "Log dosyasý ismini belirt"
+msgstr "MMC Replay EEPROM imaj dosyaismini belirt"
 
 #: src/arch/win32/respet.rc.po.c:274 src/arch/win32/respet.rc.po.c:541
 msgid "ROM A"
@@ -8133,38 +7867,32 @@ msgid "P&ET settings..."
 msgstr "P&ET ayarlarý..."
 
 #: src/arch/win32/respet.rc.po.c:562
-#, fuzzy
 msgid "PET &DWW settings..."
-msgstr "PET ayarlarý..."
+msgstr "PET &DWW ayarlarý..."
 
 #: src/arch/win32/respet.rc.po.c:563
 msgid "PET &REU settings..."
 msgstr "PET &REU ayarlarý..."
 
 #: src/arch/win32/respet.rc.po.c:564
-#, fuzzy
 msgid "Enable PET &Userport DAC"
-msgstr "RS232 userportu aktif &et"
+msgstr "PET &Userport DAC'ý aktif et"
 
 #: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5023
-#, fuzzy
 msgid "PET DWW Settings"
-msgstr "PET REU Ayarlarý"
+msgstr "PET DWW Ayarlarý"
 
 #: src/arch/win32/respetdww.rc.po.c:25
-#, fuzzy
 msgid "&Enable PET DWW"
-msgstr "*PET REU'yu aktif et"
+msgstr "PET DWW'yi aktif &et"
 
 #: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5001
-#, fuzzy
 msgid "PET DWW file"
-msgstr "PETREU imaj ismi"
+msgstr "PET DWW dosyasý"
 
 #: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:5012
-#, fuzzy
 msgid "Select file for PET DWW"
-msgstr "PET REU için dosya seçin"
+msgstr "PET DWW için dosya seçin"
 
 #: src/arch/win32/respetreu.rc.po.c:36 src/arch/amigaos/intl_text.c.po.c:4957
 msgid "PET REU Settings"
@@ -8303,9 +8031,8 @@ msgid "P&lus4 settings..."
 msgstr "P&lus4 ayarlarý..."
 
 #: src/arch/win32/resplus4.rc.po.c:457
-#, fuzzy
 msgid "&V364 Speech settings..."
-msgstr "PET model ayarlarý"
+msgstr "&V364 Speech ayarlarý..."
 
 #: src/arch/win32/resplus60k.rc.po.c:28 src/arch/amigaos/intl_text.c.po.c:5078
 msgid "PLUS60K Settings"
@@ -8457,6 +8184,10 @@ msgstr "HardSID aygýt seçimi"
 msgid "Main device"
 msgstr "Ana aygýt"
 
+#: src/arch/win32/ressidcart.rc.po.c:86
+msgid "Enable digiblaster add-on"
+msgstr "Digiblaster eklentisini aktif et"
+
 #: src/arch/win32/ressoundexpander.rc.po.c:22
 #: src/arch/amigaos/intl_text.c.po.c:7267
 msgid "SFX Sound Expander Settings"
@@ -8480,24 +8211,20 @@ msgstr "Arab&irim"
 
 #: src/arch/win32/resv364speech.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4990
-#, fuzzy
 msgid "V364 Speech Settings"
-msgstr "PET model ayarlarý"
+msgstr "V364 Speech Ayarlarý"
 
 #: src/arch/win32/resv364speech.rc.po.c:25
-#, fuzzy
 msgid "&Enable V364 Speech"
-msgstr "Digiblaster eklentisini aktif et"
+msgstr "V364 Speech'i aktif &et"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
-#, fuzzy
 msgid "V364 Speech ROM file"
-msgstr "ROM dosyasý seçin"
+msgstr "V364 Speech ROM dosyasý"
 
 #: src/arch/win32/resv364speech.rc.po.c:27
-#, fuzzy
 msgid "Select ROM file for V364 Speech"
-msgstr "256K için dosya seçin"
+msgstr "V364 Speech için ROM dosyasý seçin"
 
 #: src/arch/win32/resvic20.rc.po.c:69 src/arch/win32/resvic20.rc.po.c:518
 #: src/arch/amigaos/intl_text.c.po.c:347
@@ -8565,9 +8292,8 @@ msgid "Select Final Expansion image"
 msgstr "Final Expansion imajý seç"
 
 #: src/arch/win32/resvic20.rc.po.c:505 src/arch/amigaos/intl_text.c.po.c:6244
-#, fuzzy
 msgid "Select Vic Flash Plugin image"
-msgstr "Final Expansion imajý seç"
+msgstr "Vic Flash Plugin imajý seç"
 
 #: src/arch/win32/resvic20.rc.po.c:506
 msgid "Select cartridge image"
@@ -8610,9 +8336,8 @@ msgid "Final Expansion image..."
 msgstr "Final Expansion imajý..."
 
 #: src/arch/win32/resvic20.rc.po.c:517 src/arch/amigaos/intl_text.c.po.c:336
-#, fuzzy
 msgid "Vic Flash Plugin image..."
-msgstr "Final Expansion imajý..."
+msgstr "Vic Flash Plugin imajý..."
 
 #: src/arch/win32/resvic20.rc.po.c:519 src/arch/amigaos/intl_text.c.po.c:358
 msgid "Smart-attach image..."
@@ -8643,25 +8368,21 @@ msgid "V&IC settings..."
 msgstr "V&IC ayarlarý..."
 
 #: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:2228
-#, fuzzy
 msgid "Enable Final Expansion write-back"
-msgstr "*Final Expansion geri yazma"
+msgstr "Final Expansion geri yazmayý aktif et"
 
 #: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:2239
-#, fuzzy
 msgid "Enable Vic Flash Plugin write-back"
-msgstr "*Final Expansion geri yazma"
+msgstr "Vic Flash Plugin geri yazmayý aktif et"
 
 #: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:2250
 #: src/translate_text.c.po.c:8187
-#, fuzzy
 msgid "Enable Mega-Cart NvRAM writeback"
-msgstr "*Mega-Cart NvRAM geri yazma"
+msgstr "Mega-Cart NvRAM geri yazmayý aktif et"
 
 #: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2261
-#, fuzzy
 msgid "Select Mega-Cart non-volatile RAM file"
-msgstr "Mega-Cart dosyasýný seç"
+msgstr "Mega-Cart non-volatile RAM dosyasýný seç"
 
 #: src/arch/win32/resvicii.rc.po.c:38
 msgid "Borders"
@@ -8770,17 +8491,17 @@ msgstr "Action Replay imajý..."
 #: src/arch/amigaos/intl_text.c.po.c:545
 #, fuzzy
 msgid "Action Replay MK3 image..."
-msgstr "&Action Replay 3 imajý..."
+msgstr "Action Replay 3 imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:556
 #, fuzzy
 msgid "Action Replay MK4 image..."
-msgstr "&Action Replay 4 imajý..."
+msgstr "Action Replay 4 imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:567
 #, fuzzy
 msgid "Stardos image..."
-msgstr "&StarDOS imajý..."
+msgstr "StarDOS imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:578
 msgid "Atomic Power image..."
@@ -8789,12 +8510,12 @@ msgstr "Atomic Power imajý..."
 #: src/arch/amigaos/intl_text.c.po.c:589
 #, fuzzy
 msgid "Epyx FastLoad image..."
-msgstr "&Epyx fastload imajý..."
+msgstr "Epyx fastload imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:600
 #, fuzzy
 msgid "IEEE488 Interface image..."
-msgstr "&IEEE488 arabirimi imajý..."
+msgstr "IEEE488 arabirim imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:611
 msgid "Retro Replay image..."
@@ -8807,17 +8528,17 @@ msgstr "IDE64 arabirim imajý..."
 #: src/arch/amigaos/intl_text.c.po.c:633
 #, fuzzy
 msgid "Super Snapshot V4 image..."
-msgstr "Super Snapshot &4 imajý..."
+msgstr "Super Snapshot 4 imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:644
 #, fuzzy
 msgid "Super Snapshot V5 image..."
-msgstr "Super Snapshot &5 imajý..."
+msgstr "Super Snapshot 5 imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:655
 #, fuzzy
 msgid "Structured BASIC image..."
-msgstr "Structured &Basic imajý..."
+msgstr "Structured Basic imajý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:754
 msgid "Exit"
@@ -8966,43 +8687,36 @@ msgid "PS/2 mouse emulation"
 msgstr "PS/2 mouse emülasyonu"
 
 #: src/arch/amigaos/intl_text.c.po.c:1568
-#, fuzzy
 msgid "C64 Model settings..."
-msgstr "&MMC64 ayarlarý..."
+msgstr "C64 Model ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1579
-#, fuzzy
 msgid "C64 PAL"
-msgstr "PAL"
+msgstr "C64 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:1590
 msgid "C64C PAL"
-msgstr ""
+msgstr "C64C PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:1612
-#, fuzzy
 msgid "C64 NTSC"
-msgstr "NTSC"
+msgstr "C64 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:1623
-#, fuzzy
 msgid "C64C NTSC"
-msgstr "NTSC"
+msgstr "C64C NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:1645
-#, fuzzy
 msgid "Drean"
-msgstr "Sürücü"
+msgstr "Drean"
 
 #: src/arch/amigaos/intl_text.c.po.c:1656
-#, fuzzy
 msgid "Custom C64 model"
-msgstr "C64 modu Kernal"
+msgstr "Özel C64 modeli"
 
 #: src/arch/amigaos/intl_text.c.po.c:1667
-#, fuzzy
 msgid "Autostart settings..."
-msgstr "Otom&atik baþlatma ayarlarý..."
+msgstr "Otomatik baþlatma ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1678
 msgid "Video settings..."
@@ -9104,31 +8818,30 @@ msgstr "REU ayarlarý..."
 #: src/arch/amigaos/intl_text.c.po.c:1953
 #, fuzzy
 msgid "Magic Voice settings..."
-msgstr "Görüntü ayalarý..."
+msgstr "Magic V&oice ayalarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1964
 #, fuzzy
 msgid "GEO-RAM settings..."
-msgstr "&GEORAM ayarlarý..."
+msgstr "GEORAM ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1975
 #, fuzzy
 msgid "RamCart settings..."
-msgstr "&SID kartuþu ayarlarý..."
+msgstr "SID kartuþ ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1986
 msgid "Double Quick Brown Box settings..."
 msgstr "Double Quick Brown Box ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1997
-#, fuzzy
 msgid "ISEPIC settings..."
-msgstr "VIC ayarlarý..."
+msgstr "ISEPIC ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2008
 #, fuzzy
 msgid "Expert Cartridge settings..."
-msgstr "SID kartuþ ayarlarý"
+msgstr "Expert Kartuþ imajýný kaydet..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2019
 msgid "PLUS60K settings..."
@@ -9151,19 +8864,18 @@ msgid "MMC64 settings..."
 msgstr "MMC64 ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2096
-#, fuzzy
 msgid "MMC Replay settings..."
-msgstr "&MMC64 ayarlarý..."
+msgstr "MMC Replay ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2107
 #, fuzzy
 msgid "DigiMAX settings..."
-msgstr "&DIGIMAX ayarlarý..."
+msgstr "Digimax ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2151
 #, fuzzy
 msgid "Enable userport DAC"
-msgstr "RS232 userportu aktif &et"
+msgstr "Userport DAC'ý aktif &et"
 
 #: src/arch/amigaos/intl_text.c.po.c:2162
 msgid "Ethernet settings..."
@@ -9180,16 +8892,15 @@ msgstr "PET REU ayarlarý..."
 #: src/arch/amigaos/intl_text.c.po.c:2195
 #, fuzzy
 msgid "V364 Speech settings..."
-msgstr "PET model ayarlarý"
+msgstr "&V364 Speech ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2206
 msgid "SID cart settings..."
 msgstr "SID kartuþ ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2217
-#, fuzzy
 msgid "PET DWW settings..."
-msgstr "PET ayarlarý..."
+msgstr "PET DWW ayarlarý..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2272
 msgid "C64DTV settings..."
@@ -9375,10 +9086,6 @@ msgstr "C64DTV ROM dosyasý"
 msgid "Writes to C64DTV ROM"
 msgstr "C64DTV ROM'una yazar"
 
-#: src/arch/amigaos/intl_text.c.po.c:3867
-msgid "Hummer ADC"
-msgstr "Hummer ADC"
-
 #: src/arch/amigaos/intl_text.c.po.c:3889
 msgid "model line"
 msgstr "model hattý"
@@ -9450,37 +9157,35 @@ msgstr "Boþa vakit geçirme metodu"
 #: src/arch/amigaos/intl_text.c.po.c:4208
 #, fuzzy
 msgid "Save GEO-RAM image when changed"
-msgstr "BIO&S deðiþtiðinde kaydet"
+msgstr "BIOS deðiþtiðinde kaydet"
 
 #: src/arch/amigaos/intl_text.c.po.c:4241
 #, fuzzy
 msgid "Expert Cartridge mode"
-msgstr "Kartuþ imajý yerleþtir..."
+msgstr "Expert Kartuþu"
 
 #: src/arch/amigaos/intl_text.c.po.c:4296
 #, fuzzy
 msgid "Save Expert Cartridge image when changed"
-msgstr "Kartuþ imajý yerleþtir..."
+msgstr "Expert Kartuþ imajýný kaydet..."
 
 #: src/arch/amigaos/intl_text.c.po.c:4340
 #, fuzzy
 msgid "Save DQBB image when changed"
-msgstr "BIO&S deðiþtiðinde kaydet"
+msgstr "BIOS deðiþtiðinde kaydet"
 
 #: src/arch/amigaos/intl_text.c.po.c:4362
-#, fuzzy
 msgid "DQBB settings"
-msgstr "DQBB Ayarlarý"
+msgstr "DQBB ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:4384
-#, fuzzy
 msgid "ISEPIC switch"
-msgstr "*Isepic Anahtarýný Aktif Et"
+msgstr "ISEPIC anahtarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:4406
 #, fuzzy
 msgid "Save ISEPIC image when changed"
-msgstr "BIO&S deðiþtiðinde kaydet"
+msgstr "BIOS deðiþtiðinde kaydet"
 
 #: src/arch/amigaos/intl_text.c.po.c:4439
 msgid "Select config file"
@@ -9589,7 +9294,6 @@ msgstr ""
 "AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4814
-#, fuzzy
 msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
 "AI)"
@@ -9598,13 +9302,12 @@ msgstr ""
 "Seti B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4825
-#, fuzzy
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
 msgstr ""
-"Joystick #2 emülasyonu: (0:Yok, 1: Numpad, 2: Tuþ Seti A/AI, 3: Tuþ Seti B/"
-"AI)"
+"Ekstra joystick #2 emülasyonu: (0:Yok, 1: Numpad, 2: Tuþ Seti A/AI, 3: Tuþ "
+"Seti B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4836
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -9625,12 +9328,12 @@ msgstr "Ekstra joystick #2 emülasyonu: (0: Yok, 1: Numpad, 2-5: Amiga Joy 0-3)"
 #: src/arch/amigaos/intl_text.c.po.c:4968
 #, fuzzy
 msgid "V364 Speech file"
-msgstr "ROM dosyasý seçin"
+msgstr "V364 Speech ROM dosyasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:4979
 #, fuzzy
 msgid "Select file for V364 Speech"
-msgstr "256K için dosya seçin"
+msgstr "V364 Speech için ROM dosyasý seçin"
 
 #: src/arch/amigaos/intl_text.c.po.c:5045
 msgid "PLUS60K Base"
@@ -9643,22 +9346,22 @@ msgstr "salt-okunur"
 #: src/arch/amigaos/intl_text.c.po.c:5155
 #, fuzzy
 msgid "RamCart Read/Write"
-msgstr "oku/yaz"
+msgstr "Kart oku/yaz"
 
 #: src/arch/amigaos/intl_text.c.po.c:5188
 #, fuzzy
 msgid "Save RamCart image when changed"
-msgstr "MMC64 BIOS'unu deðiþtiðinde kaydet"
+msgstr "BIOS deðiþtiðinde kaydet"
 
 #: src/arch/amigaos/intl_text.c.po.c:5210
 #, fuzzy
 msgid "RamCart settings"
-msgstr "&Kartuþ Ayarlarý"
+msgstr "CRTC ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:5243
 #, fuzzy
 msgid "Save REU image when changed"
-msgstr "BIO&S deðiþtiðinde kaydet"
+msgstr "BIOS deðiþtiðinde kaydet"
 
 #: src/arch/amigaos/intl_text.c.po.c:5287
 #, fuzzy
@@ -9753,7 +9456,7 @@ msgstr "Aygýt #5 için IEC aygýt emülasyonunu aktif et"
 #: src/arch/amigaos/intl_text.c.po.c:5540
 #, fuzzy
 msgid "Magic Voice settings"
-msgstr "Ana aygýt"
+msgstr "Magic Voice Ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:5551
 msgid "Userport RS232"
@@ -9778,27 +9481,27 @@ msgstr "Hýz Ayarlamasý"
 #: src/arch/amigaos/intl_text.c.po.c:5903
 #, fuzzy
 msgid "HD image #1 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #1 dosyasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:5914
 #, fuzzy
 msgid "HD image #2 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #2 dosyasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:5925
 #, fuzzy
 msgid "HD image #3 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #3 dosyasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:5936
 #, fuzzy
 msgid "HD image #4 file"
-msgstr "&HD imaj dosyasý"
+msgstr "&HD imaj #4 dosyasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:5958
 #, fuzzy
 msgid "IDE64 V4"
-msgstr "SID'i aktif &et"
+msgstr "IDE64 V4'ü aktif &et"
 
 #: src/arch/amigaos/intl_text.c.po.c:5969
 msgid "Autodetect"
@@ -9833,44 +9536,37 @@ msgid "MMC64 settings"
 msgstr "MMC64 ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:6134
-#, fuzzy
 msgid "Select EEPROM file"
-msgstr "ROM dosyasý seçin"
+msgstr "EEPROM dosyasý seçin"
 
 #: src/arch/amigaos/intl_text.c.po.c:6145
-#, fuzzy
 msgid "Select card image file"
-msgstr "HD imaj dosyasý seç"
+msgstr "Kart imaj dosyasý seç"
 
 #: src/arch/amigaos/intl_text.c.po.c:6156
-#, fuzzy
 msgid "Card Image File"
-msgstr "Imaj Yarat"
+msgstr "Kart Imaj Dosyasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:6167
-#, fuzzy
 msgid "Card read/write"
-msgstr "oku/yaz"
+msgstr "Kart oku/yaz"
 
 #: src/arch/amigaos/intl_text.c.po.c:6178
-#, fuzzy
 msgid "EEPROM Image File"
-msgstr "GEORAM imaj ismi"
+msgstr "EEPROM Ýmaj Dosyasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:6189
 #, fuzzy
 msgid "Save EEPROM image when changed"
-msgstr "BIO&S deðiþtiðinde kaydet"
+msgstr "BIOS deðiþtiðinde kaydet"
 
 #: src/arch/amigaos/intl_text.c.po.c:6200
-#, fuzzy
 msgid "EEPROM read/write"
-msgstr "oku/yaz"
+msgstr "EEPROM oku/yaz"
 
 #: src/arch/amigaos/intl_text.c.po.c:6233
-#, fuzzy
 msgid "Select generic cartridge image"
-msgstr "Jenerik kartuþ dosyasýný seç"
+msgstr "Jenerik kartuþ imajý seç"
 
 #: src/arch/amigaos/intl_text.c.po.c:6277
 msgid "Select cartridge file"
@@ -9883,10 +9579,6 @@ msgstr "SID Kartuþu"
 #: src/arch/amigaos/intl_text.c.po.c:6332
 msgid "SID Cart joystick"
 msgstr "SID kartuþu joystick'i"
-
-#: src/arch/amigaos/intl_text.c.po.c:6343
-msgid "Digiblaster add-on"
-msgstr "Digiblaster eklentisi"
 
 #: src/arch/amigaos/intl_text.c.po.c:6354
 msgid "SID cart settings"
@@ -9915,7 +9607,7 @@ msgstr "Harici Palet dosyasý seçin"
 #: src/arch/amigaos/intl_text.c.po.c:6618
 #, fuzzy
 msgid "Scanline shade (0..1)"
-msgstr "Tarama Satýrý Nüansý"
+msgstr "Tarama satýrý nüansý"
 
 #: src/arch/amigaos/intl_text.c.po.c:6673
 #, fuzzy
@@ -9984,9 +9676,8 @@ msgid "2 kByte"
 msgstr "2 kByte"
 
 #: src/arch/amigaos/intl_text.c.po.c:6915
-#, fuzzy
 msgid "Text"
-msgstr "Sonraki: "
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:6937
 msgid "Set PET Model"
@@ -10445,7 +10136,7 @@ msgstr "Emüle edilen makinenin G/Ç alanýný yazdýr."
 
 #: src/translate_text.c.po.c:1033
 msgid "Print out list of attached expansion port devices."
-msgstr ""
+msgstr "Geniþletme yuvasýna takýlý aygýtlarýn listesini yazdýr."
 
 #: src/translate_text.c.po.c:1047
 msgid ""
@@ -10687,7 +10378,6 @@ msgid "[<data_type>] [<address_opt_range>]"
 msgstr "[<veri_tipi>] [<opsiyonel_adres_aralýðý>]"
 
 #: src/translate_text.c.po.c:1565
-#, fuzzy
 msgid ""
 "Display the contents of memory.  If no datatype is given, the default\n"
 "is used.  If only one address is specified, the length of data\n"
@@ -10699,7 +10389,9 @@ msgstr ""
 "Bellek içeriðini göster.  Eðer veri tipi girilmemiþse, varsayýlan\n"
 "kullanýlýr.  Yalnýzca bir adres belirtilmiþse, gösterilen verinin\n"
 "uzunluðu veri tipine baðlýdýr.  Eðer hiç adres girilmemiþse, 'nokta'\n"
-"adresi kullanýlýr."
+"adresi kullanýlýr.\n"
+"Lütfen dikkat: 'b' ve 'd'nin karmaþýk anlamlarýndan ötürü bu veri\n"
+"tipleri büyükharf olarak verilmelidir!"
 
 #: src/translate_text.c.po.c:1579
 msgid ""
@@ -11039,9 +10731,8 @@ msgid "Display the directory contents."
 msgstr "Dizin içeriðini görüntüle."
 
 #: src/translate_text.c.po.c:2293
-#, fuzzy
 msgid "List disk contents."
-msgstr "Dizin içeriðini görüntüle."
+msgstr "Disk içeriðini listele."
 
 #: src/translate_text.c.po.c:2307
 msgid "\"<filename>\" <device> [<address>]"
@@ -11175,11 +10866,11 @@ msgstr ""
 
 #: src/translate_text.c.po.c:2645
 msgid "On autostart, load to BASIC start (without ',1')"
-msgstr ""
+msgstr "Otomatik baþlatýldýðýnda, BASIC baþlangýcýna yükle (',1' olmadan)"
 
 #: src/translate_text.c.po.c:2659
 msgid "On autostart, load with ',1'"
-msgstr ""
+msgstr "Otomatik baþlatýldýðýnda, ',1' ile yükle"
 
 #: src/translate_text.c.po.c:2673
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
@@ -11222,9 +10913,8 @@ msgid "Use NTSC sync factor"
 msgstr "NTSC senkron faktörü kullan"
 
 #: src/translate_text.c.po.c:2813
-#, fuzzy
 msgid "Use PAL-N sync factor"
-msgstr "PAL senkron faktörü kullan"
+msgstr "PAL-N senkron faktörü kullan"
 
 #: src/translate_text.c.po.c:2841
 msgid "Specify name of international Kernal ROM image"
@@ -11375,25 +11065,27 @@ msgid "Use old NTSC sync factor"
 msgstr "Eski NTSC senkron faktörü kullan"
 
 #: src/translate_text.c.po.c:3377
-#, fuzzy
 msgid "<model>"
-msgstr "<mod>"
+msgstr "<model>"
 
 #: src/translate_text.c.po.c:3391
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
 msgstr ""
+"Her iki CIA modelini belirle (0 = eski 6526, 1 = yeni 6526A, 2 = eski 6526x)"
 
 #: src/translate_text.c.po.c:3405
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
-msgstr ""
+msgstr "CIA 1 modelini belirle (0 = eski 6526, 1 = yeni 6526A, 2 = eski 6526x)"
 
 #: src/translate_text.c.po.c:3419
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)"
-msgstr ""
+msgstr "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 6526A, 2 = eski 6526x)"
 
 #: src/translate_text.c.po.c:3433
+#, fuzzy
 msgid "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 msgstr ""
+"C64 modelini belirle (c64/c64c/c64eski/c64ntsc/c64cntsc/c64eskintsc/drean)"
 
 #: src/translate_text.c.po.c:3447
 msgid "Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)"
@@ -11431,12 +11123,11 @@ msgstr "Sembolik Almanca tuþ haritasý dosyasýnýn ismini belirt"
 
 #: src/translate_text.c.po.c:3561
 msgid "Set glue logic type (0 = discrete, 1 = 252535-01)"
-msgstr ""
+msgstr "Glue logic tipini ayarla (0 = baðlantýyý kes, 1 = 252535-01)"
 
 #: src/translate_text.c.po.c:3589
-#, fuzzy
 msgid "Disable Hummer ADC"
-msgstr "Hummer ADC'yi aktif et"
+msgstr "Hummer ADC'yi pasifleþtir"
 
 #: src/translate_text.c.po.c:3603
 msgid "Enable the GEORAM expansion unit"
@@ -11458,7 +11149,7 @@ msgstr "C64DTV ROM imajýna yazmayý aktif et"
 #: src/translate_text.c.po.c:3659
 #, fuzzy
 msgid "Do not write to GEORAM image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "EEPROM imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:3673
 msgid "<size in KB>"
@@ -11485,24 +11176,22 @@ msgid "Size of the PET Ram and Expansion Unit"
 msgstr "PET Ram ve Geniþletme Birimi'nin boyutu"
 
 #: src/translate_text.c.po.c:3757
-#, fuzzy
 msgid "Specify name of PET DWW image"
-msgstr "REU imajýnýn ismini belirt"
+msgstr "PET DWW imajýnýn ismini belirt"
 
 #: src/translate_text.c.po.c:3771
-#, fuzzy
 msgid "Disable the PET DWW hi-res board"
-msgstr "Isepic kartuþunu pasifleþtir"
+msgstr "PET DWW hi-res board'u pasifleþtir"
 
 #: src/translate_text.c.po.c:3785
 #, fuzzy
 msgid "Enable Userport DAC for sound output"
-msgstr "RS232 userportu aktif &et"
+msgstr "Userport DAC'ý aktif &et"
 
 #: src/translate_text.c.po.c:3799
 #, fuzzy
 msgid "Disable Userport DAC for sound output"
-msgstr "RS232 userportu aktif &et"
+msgstr "Userport DAC'ý aktif &et"
 
 #: src/translate_text.c.po.c:3813
 msgid "SID player mode"
@@ -11536,7 +11225,7 @@ msgstr "C64DTV ROM imajýna yazmayý aktif et"
 #: src/translate_text.c.po.c:3911
 #, fuzzy
 msgid "Do not write to RAMCart image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "Kart imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:3925
 msgid "Size of the RAMCART expansion"
@@ -11562,22 +11251,20 @@ msgstr "C64DTV ROM imajýna yazmayý aktif et"
 #: src/translate_text.c.po.c:3995
 #, fuzzy
 msgid "Do not write to DQBB image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "Kart imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:4009
-#, fuzzy
 msgid "Enable the ISEPIC cart"
-msgstr "*SID kartuþunu aktif et"
+msgstr "ISEPIC kartýný aktif et"
 
 #: src/translate_text.c.po.c:4023
-#, fuzzy
 msgid "Disable the ISEPIC cart"
-msgstr "Isepic kartuþunu pasifleþtir"
+msgstr "ISEPIC kartýný pasifleþtir"
 
 #: src/translate_text.c.po.c:4037
 #, fuzzy
 msgid "Set ISEPIC image name"
-msgstr "BIO&S deðiþtiðinde kaydet"
+msgstr "ISEPIC imajý kaydet..."
 
 #: src/translate_text.c.po.c:4051
 #, fuzzy
@@ -11587,7 +11274,7 @@ msgstr "C64DTV ROM imajýna yazmayý aktif et"
 #: src/translate_text.c.po.c:4065
 #, fuzzy
 msgid "Do not write to ISEPIC image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "EEPROM imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:4079
 msgid "Enable the MMC64 expansion"
@@ -11618,75 +11305,66 @@ msgid "Save the MMC64 bios when changed"
 msgstr "MMC64 BIOS'unu deðiþtiðinde kaydet"
 
 #: src/translate_text.c.po.c:4177
-#, fuzzy
 msgid "Specify MMC Replay card image filename"
-msgstr "Log dosyasý ismini belirt"
+msgstr "MMC Replay kart imaj dosyaismini belirt"
 
 #: src/translate_text.c.po.c:4191
-#, fuzzy
 msgid "Enable writes to MMC Replay card image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "MMC Replay kart imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:4205
-#, fuzzy
 msgid "Disable writes to MMC Replay card image"
-msgstr "EasyFlash .crt imajýna yazmayý pasifleþtir"
+msgstr "MMC Replay kart imajýnda yazmalarý pasifleþtir"
 
 #: src/translate_text.c.po.c:4219
-#, fuzzy
 msgid "Specify MMC Replay EEPROM image filename"
-msgstr "Log dosyasý ismini belirt"
+msgstr "MMC Replay EEPROM imaj dosyaismini belirt"
 
 #: src/translate_text.c.po.c:4233
-#, fuzzy
 msgid "Enable writes to MMC Replay EEPROM image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "MMC Replay EEPROM imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:4247
-#, fuzzy
 msgid "Disable writes to MMC Replay EEPROM image"
-msgstr "C64DTV ROM imajýna yazmayý pasifleþtir"
+msgstr "MMC Replay EEPROM imajýnda yazmalarý pasifleþtir"
 
 #: src/translate_text.c.po.c:4261
-#, fuzzy
 msgid "Enable MMC Replay rescue mode"
-msgstr "*MMC64 flashjumperý aktif et"
+msgstr "MMC Replay kurtarma modunu aktif et"
 
 #: src/translate_text.c.po.c:4275
-#, fuzzy
 msgid "Disable MMC Replay rescue mode"
-msgstr "Tam ekran modunu pasifleþtir"
+msgstr "MMC Replay kurtarma modunu pasifleþtir"
 
 #: src/translate_text.c.po.c:4289
 #, fuzzy
 msgid "Allow writing to MMC Replay image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "MMC Replay kart imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:4303
 #, fuzzy
 msgid "Do not write to MMC Replay image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "MMC Replay kart imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:4317
 msgid "Enable saving of the RR ROM at exit"
-msgstr ""
+msgstr "Çýkýþta RR ROM'un kaydedilmesini aktif et"
 
 #: src/translate_text.c.po.c:4331
 msgid "Disable saving of the RR ROM at exit"
-msgstr ""
+msgstr "Çýkýþta RR ROM'un kaydedilmesini pasifleþtir"
 
 #: src/translate_text.c.po.c:4345
 msgid "Set RR Bank Jumper"
-msgstr ""
+msgstr "RR Bank Jumper'ý tak"
 
 #: src/translate_text.c.po.c:4359 src/translate_text.c.po.c:4387
 msgid "Unset RR Bank Jumper"
-msgstr ""
+msgstr "RR Bank Jumper'ý çýkart"
 
 #: src/translate_text.c.po.c:4373
-#, fuzzy
 msgid "Set RR Flash Jumper"
-msgstr "BIOS Flash Jumper"
+msgstr "RR Flash Jumper'ý tak"
 
 #: src/translate_text.c.po.c:4401
 msgid "Enable the RAM expansion unit"
@@ -11708,7 +11386,7 @@ msgstr "C64DTV ROM imajýna yazmayý aktif et"
 #: src/translate_text.c.po.c:4457
 #, fuzzy
 msgid "Do not write to REU image"
-msgstr "DTV ROM imajýnda &yazmalarý aktif et"
+msgstr "EEPROM imajýnda yazmalarý aktif et"
 
 #: src/translate_text.c.po.c:4471
 msgid "Size of the RAM expansion unit"
@@ -11817,7 +11495,7 @@ msgstr "Düz 8KB kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:4809
 #, fuzzy
 msgid "Attach raw 16kB Double Quick Brown Box cartridge image"
-msgstr "Düz 32KB Atomic Power kartuþ imajý yerleþtir"
+msgstr "Double Quick Brown Box kartuþu"
 
 #: src/translate_text.c.po.c:4823
 #, fuzzy
@@ -11836,7 +11514,7 @@ msgstr "Düz 8KB kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:4865
 #, fuzzy
 msgid "Attach raw 4kB Snapshot 64 cartridge image"
-msgstr "Düz 32KB Super Snapshot kartuþ imajý yerleþtir"
+msgstr "Düz 32KB Super Snapshot 4 kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:4879
 msgid "Attach raw 64KB IDE64 cartridge image"
@@ -11859,7 +11537,7 @@ msgstr "Düz 8KB kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:4935
 #, fuzzy
 msgid "Attach raw 8kB Expert Cartridge image"
-msgstr "Düz 8KB kartuþ imajý yerleþtir"
+msgstr "Expert Kartuþ Ýmajý yerleþtir..."
 
 #: src/translate_text.c.po.c:4949
 #, fuzzy
@@ -11894,12 +11572,12 @@ msgstr "Düz 32KB Atomic Power kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:5033
 #, fuzzy
 msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
-msgstr "Düz 32KB Super Snapshot kartuþ imajý yerleþtir"
+msgstr "Düz 32KB Super Snapshot 4 kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5047
 #, fuzzy
 msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
-msgstr "Düz 64KB Super Snapshot kartuþ imajý yerleþtir"
+msgstr "Düz 64KB Super Snapshot 5 kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5061
 #, fuzzy
@@ -11934,7 +11612,7 @@ msgstr "Düz 8KB kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:5145
 #, fuzzy
 msgid "Attach raw 8kB Mikro Assembler cartridge image"
-msgstr "Düz 8KB kartuþ imajý yerleþtir"
+msgstr "Düz 8KB Game Killer kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5159
 #, fuzzy
@@ -11944,7 +11622,7 @@ msgstr "Düz 8KB kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:5173
 #, fuzzy
 msgid "Attach raw 512kB MMC Replay cartridge image"
-msgstr "Retro Replay kartuþ imajý yerleþtir"
+msgstr "MMC Replay kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5187
 #, fuzzy
@@ -11972,9 +11650,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Düz 16KB kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5257
-#, fuzzy
 msgid "Attach raw 256KB Prophet 64 cartridge image"
-msgstr "Düz 64KB IDE64 kartuþ imajý yerleþtir"
+msgstr "Düz 256KB Prophet 64 kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5271
 #, fuzzy
@@ -11997,9 +11674,8 @@ msgid "Attach raw 16/32kB ROSS cartridge image"
 msgstr "Düz 16KB kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5327
-#, fuzzy
 msgid "Attach raw 8KB Game Killer cartridge image"
-msgstr "Düz 8KB kartuþ imajý yerleþtir"
+msgstr "Düz 8KB Game Killer kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5341
 #, fuzzy
@@ -12009,32 +11685,32 @@ msgstr "Düz 8KB kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:5355
 #, fuzzy
 msgid "Attach raw 512kB Game System cartridge image"
-msgstr "Düz 8KB kartuþ imajý yerleþtir"
+msgstr "Düz 8KB Game Killer kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:5369
 #, fuzzy
 msgid "Enable the Expert Cartridge"
-msgstr "Expert kartuþunu aktif et"
+msgstr "Expert Kartuþu'nu aktif et"
 
 #: src/translate_text.c.po.c:5383
 #, fuzzy
 msgid "Disable the Expert Cartridge"
-msgstr "Expert kartuþunu aktif et"
+msgstr "Expert kartuþunu pasifleþtir"
 
 #: src/translate_text.c.po.c:5397
 #, fuzzy
 msgid "Set Expert Cartridge image name"
-msgstr "Kartuþ imajý yerleþtir..."
+msgstr "Expert Kartuþ imajýný kaydet..."
 
 #: src/translate_text.c.po.c:5411
 #, fuzzy
 msgid "Allow writing to Expert Cartridge image"
-msgstr "Kartuþ imajý yerleþtir..."
+msgstr "Expert Kartuþ Ýmajý yerleþtir..."
 
 #: src/translate_text.c.po.c:5425
 #, fuzzy
 msgid "Do not write to Expert Cartridge image"
-msgstr "Kartuþ imajý yerleþtir..."
+msgstr "Expert Kartuþ Ýmajý yerleþtir..."
 
 #: src/translate_text.c.po.c:5439
 msgid "Disable default cartridge"
@@ -12217,9 +11893,8 @@ msgid "<method>"
 msgstr "<metod>"
 
 #: src/translate_text.c.po.c:6085
-#, fuzzy
 msgid "<color>"
-msgstr "Renkler"
+msgstr "<renk>"
 
 #: src/translate_text.c.po.c:6099
 msgid ""
@@ -12228,21 +11903,28 @@ msgid ""
 "5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center "
 "bottom, 9:  crop right bottom)"
 msgstr ""
+"Büyük girdilerin ele alýnma yöntemini seçin, (0: küçült, 1: sol üstten kýrp, "
+"2: ortalý üstten kýrp,  3: sað üstten kýrp, 4: soldan ortalý kýrp, 5: "
+"ortadan kýrp, 6: saðdan ortalý kýrp, 7: sol alttan kýrp, 8: ortalý alttan "
+"kýrp, 9:  sað alttan kýrp)"
 
 #: src/translate_text.c.po.c:6113
 msgid ""
 "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 "
 "colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
 msgstr ""
+"Çok renkliden yüksek çözünürlüðe geçiþin ele alýnma yöntemini seçin, (0: "
+"siyah&beyaz, 1: 2 renk, 2: 4 renk, 3: gri tonlu,  4: en iyi hücre renkleri)"
 
 #: src/translate_text.c.po.c:6127
 msgid ""
 "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
 msgstr ""
+"TED lüminozitesinin ele alýnma yöntemini seçin, (0: yok say, 1: dither)"
 
 #: src/translate_text.c.po.c:6141
 msgid "Select the CRTC text color (0: white, 1: amber, 2: green)"
-msgstr ""
+msgstr "CRTC yazý rengini seçin (0: beyaz, 1: kehribar, 2: yeþil)"
 
 #: src/translate_text.c.po.c:6155
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
@@ -12517,7 +12199,7 @@ msgstr "Tek satýrlardaki renk taþýyýcýlarý için faz ofsetini ayarlayýn [750]"
 
 #: src/translate_text.c.po.c:7109
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
-msgstr ""
+msgstr "VIC-II modelini ayarla (6569/6569r1/8565/6567/8562/6567r56a)"
 
 #: src/translate_text.c.po.c:7123
 msgid "Specify name of printer driver for device #4"
@@ -12672,43 +12354,34 @@ msgid "<engine and model>"
 msgstr "<motor ve model>"
 
 #: src/translate_text.c.po.c:7657
-#, fuzzy
 msgid "0: FastSID 6581, 1: FastSID 8580"
-msgstr "SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580)"
+msgstr "0: FastSID 6581, 1: FastSID 8580"
 
 #: src/translate_text.c.po.c:7672
-#, fuzzy
 msgid "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
-msgstr ""
-"SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 256: "
-"ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
+msgstr "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
 
 #: src/translate_text.c.po.c:7686
-#, fuzzy
 msgid "260: DTVSID"
-msgstr "*DTVSID"
+msgstr "260: DTVSID"
 
 #: src/translate_text.c.po.c:7702
-#, fuzzy
 msgid "512: Catweasel"
-msgstr "*Catweasel MKIII"
+msgstr "512: Catweasel"
 
 #: src/translate_text.c.po.c:7718
-#, fuzzy
 msgid "768: HardSID"
-msgstr "*HardSID"
+msgstr "768: HardSID"
 
 #: src/translate_text.c.po.c:7734
-#, fuzzy
 msgid ""
 "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
 "port 3"
 msgstr ""
-"SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1024: Par "
-"port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de ParSID)"
+"1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de "
+"ParSID"
 
 #: src/translate_text.c.po.c:7750
-#, fuzzy
 msgid ""
 "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
 "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
@@ -12716,12 +12389,11 @@ msgid ""
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489D"
 msgstr ""
-"SID motorunu ve modelini belirt (0: FastSID 6581, 1: FastSID 8580, 1800: "
-"ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP 6581R3 "
-"3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, 1805: ReSID-"
-"FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP 8580R5 3691 + "
-"digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
-"digiboost)"
+"1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
+"6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
+"1805: ReSID-FP 6581R4 1986S, 1808: ReSID-FP 8580R5 3691, 1809: ReSID-FP "
+"8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
+"1489D"
 
 #: src/translate_text.c.po.c:7765
 msgid "Enable second SID"
@@ -12834,9 +12506,8 @@ msgid "Specify Final Expansion extension ROM name"
 msgstr "Final Expansion uzantýsý ROM ismini belirt"
 
 #: src/translate_text.c.po.c:8131
-#, fuzzy
 msgid "Specify Vic Flash Plugin extension ROM name"
-msgstr "Final Expansion uzantýsý ROM ismini belirt"
+msgstr "Vic Flash Plugin uzantýsý ROM ismini belirt"
 
 #: src/translate_text.c.po.c:8145
 msgid "Enable Final Expansion write back to ROM file"
@@ -12847,24 +12518,20 @@ msgid "Disable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM dosyasýna geri yazmayý pasifleþtir"
 
 #: src/translate_text.c.po.c:8173
-#, fuzzy
 msgid "Set Mega-Cart NvRAM filename"
-msgstr "Mega-Cart NvRAM imaj ismi"
+msgstr "Mega-Cart NvRAM dosyaismini gir"
 
 #: src/translate_text.c.po.c:8201
-#, fuzzy
 msgid "Disable Mega-Cart NvRAM writeback"
-msgstr "*Mega-Cart NvRAM geri yazma"
+msgstr "Mega-Cart NvRAM geri yazmayý pasifleþtir"
 
 #: src/translate_text.c.po.c:8215
-#, fuzzy
 msgid "Enable Vic Flash Plugin write back to ROM file"
-msgstr "Final Expansion ROM dosyasýna geri yazmayý aktif et"
+msgstr "Flash Plugin ROM dosyasýna geri yazmayý aktif et"
 
 #: src/translate_text.c.po.c:8229
-#, fuzzy
 msgid "Disable Vic Flash Plugin write back to ROM file"
-msgstr "Final Expansion ROM dosyasýna geri yazmayý pasifleþtir"
+msgstr "Flash Plugin ROM dosyasýna geri yazmayý pasifleþtir"
 
 #: src/translate_text.c.po.c:8243
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
@@ -13163,9 +12830,8 @@ msgid "Call exception handler (default)"
 msgstr "Kural dýþý iþleyiciyi çaðýr (varsayýlan)"
 
 #: src/translate_text.c.po.c:9219
-#, fuzzy
 msgid "Use vsid mode"
-msgstr "Ortak bellek kullan"
+msgstr "Vsid modu kullan"
 
 #: src/translate_text.c.po.c:9233
 msgid "Restore default (factory) settings"
@@ -13273,7 +12939,7 @@ msgstr "Ses arabellek boyutunu <deðer> milisaniye olarak ayarla"
 
 #: src/translate_text.c.po.c:9625
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
-msgstr ""
+msgstr "Ses parça boyutunu ayarla (0 = küçük, 1 = orta, 2 = büyük)"
 
 #: src/translate_text.c.po.c:9639
 msgid "Specify sound driver"
@@ -13390,12 +13056,12 @@ msgstr "Düz yapýlandýrýlmýþ Basic kartuþ imajý yerleþtir"
 #: src/translate_text.c.po.c:10045
 #, fuzzy
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
-msgstr "Düz 64KB Super Snapshot kartuþ imajý yerleþtir"
+msgstr "Düz 64KB Super Snapshot 5 kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:10059
 #, fuzzy
 msgid "Attach raw 64kB Super Games cartridge image"
-msgstr "Düz 64KB Super Snapshot kartuþ imajý yerleþtir"
+msgstr "Düz 64KB Super Snapshot 5 kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:10073
 #, fuzzy
@@ -13495,19 +13161,16 @@ msgid "Disable the digiblaster add-on"
 msgstr "Digiblaster eklentisini pasifleþtir"
 
 #: src/translate_text.c.po.c:10397
-#, fuzzy
 msgid "Enable the v364 speech add-on"
-msgstr "Digiblaster eklentisini aktif et"
+msgstr "V364 speech eklentisini aktif et"
 
 #: src/translate_text.c.po.c:10411
-#, fuzzy
 msgid "Disable the v364 speech add-on"
-msgstr "Digiblaster eklentisini pasifleþtir"
+msgstr "V364 speech eklentisini pasifleþtir"
 
 #: src/translate_text.c.po.c:10425
-#, fuzzy
 msgid "Attach Speech ROM image"
-msgstr "Teyp imajýný yerleþtir"
+msgstr "Speech ROM imajýný yerleþtir"
 
 #: src/translate_text.c.po.c:10439
 msgid "Enable SID cartridge joystick"
@@ -13580,113 +13243,254 @@ msgstr "Digimax kartuþunu pasifleþtir"
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Digimax kartuþunun taban adresi"
 
-#, fuzzy
+#~ msgid "GEORAM Expansion Unit"
+#~ msgstr "GEORAM Geniþletme Birimi"
+
+#~ msgid "RAM Expansion Cart"
+#~ msgstr "RAM Geniþletme Kartý"
+
+#~ msgid "RAM Expansion Unit"
+#~ msgstr "RAM Geniþletme Birimi"
+
+#~ msgid "Expert cartridge"
+#~ msgstr "Expert kartuþu"
+
+#~ msgid "EasyFlash cartridge"
+#~ msgstr "EasyFlash kartuþu"
+
+#~ msgid "IDE64 emulation"
+#~ msgstr "IDE64 emülasyonu"
+
+#~ msgid "MMC64 emulation"
+#~ msgstr "MMC64 emülasyonu"
+
+#~ msgid "MMC Replay emulation"
+#~ msgstr "MMC Replay emülasyonu"
+
+#~ msgid "Retro Replay cartridge"
+#~ msgstr "Retro Replay kartuþu"
+
+#~ msgid "IEEE 488 Interface"
+#~ msgstr "IEEE 488 Arabirimi"
+
+#~ msgid "Digimax Cart"
+#~ msgstr "Digimax Kartý"
+
+#~ msgid "Magic Voice"
+#~ msgstr "Magic Voice"
+
+#~ msgid "SFX Sound Expander emulation"
+#~ msgstr "SFX Sound Expander emülasyonu"
+
+#~ msgid "SFX Sound Sampler emulation"
+#~ msgstr "SFX Sound Sampler emülasyonu"
+
+#~ msgid "Emulator identification"
+#~ msgstr "Emülatör tespiti"
+
+#~ msgid "Enable SID cart"
+#~ msgstr "SID kartýný aktif et"
+
+#~ msgid "SID cartridge settings"
+#~ msgstr "SID kartuþ ayarlarý"
+
+#~ msgid "V364 Speech settings"
+#~ msgstr "V364 Speech ayarlarý"
+
 #~ msgid "Image:"
-#~ msgstr "Yeni Ýmaj"
+#~ msgstr "Ýmaj:"
+
+#~ msgid "Enable 256K"
+#~ msgstr "256K aktif et"
+
+#~ msgid "256K base"
+#~ msgstr "256K taban"
+
+#~ msgid "256K image name..."
+#~ msgstr "256K imaj ismi..."
+
+#~ msgid "Attach IDE64 interface image..."
+#~ msgstr "IDE64 arabirimi imajý yerleþtir..."
+
+#~ msgid "Attach IEEE488 interface image..."
+#~ msgstr "IEEE488 arabirimi imajý yerleþtir..."
+
+#~ msgid "Attach ISEPIC image..."
+#~ msgstr "ISEPIC imajý yerleþtir..."
+
+#~ msgid "Enable digimax"
+#~ msgstr "Digimax'i aktif et"
+
+#~ msgid "Enable DQBB"
+#~ msgstr "DQBB'yi aktif et"
+
+#~ msgid "DQBB image name..."
+#~ msgstr "DQBB imaj ismi..."
+
+#~ msgid "Jumper"
+#~ msgstr "Jumper"
+
+#~ msgid "Save CRT on detach"
+#~ msgstr "Çýkartýldýðýnda CRT'yi kaydet"
+
+#~ msgid "Enable GEORAM"
+#~ msgstr "GEORAM'i aktif et"
+
+#~ msgid "GEORAM image name..."
+#~ msgstr "GEORAM imaj ismi..."
+
+#~ msgid "Hardware version 4"
+#~ msgstr "Donaným versiyonu 4"
+
+#~ msgid "Enable ISEPIC"
+#~ msgstr "ISEPIC'i aktif et"
+
+#~ msgid "Enable Magic Voice cartridge"
+#~ msgstr "Magic Voice kartuþunu aktif et"
+
+#~ msgid "Set Magic Voice ROM image..."
+#~ msgstr "Magic Voice ROM imajýný yerleþtirin..."
+
+#~ msgid "Enable MIDI"
+#~ msgstr "MIDI'yi aktif et"
+
+#~ msgid "MIDI driver"
+#~ msgstr "MIDI sürücüsü"
+
+#~ msgid "Enable MMC64"
+#~ msgstr "MMC64'ü aktif et"
+
+#~ msgid "MMC64 Revision"
+#~ msgstr "MMC64 Revizyonu"
+
+#~ msgid "Enable MMC64 flashjumper"
+#~ msgstr "MMC64 flashjumperý aktif et"
+
+#~ msgid "Enable MMC64 BIOS save when changed"
+#~ msgstr "MMC64 BIOS deðiþtiðinde kaydeti aktif et"
+
+#~ msgid "MMC64 BIOS name..."
+#~ msgstr "MMC64 BIOS ismi..."
+
+#~ msgid "Enable MMC64 image read-only"
+#~ msgstr "MMC64 salt okunur imajý aktif et"
+
+#~ msgid "MMC64 image name..."
+#~ msgstr "MMC64 imaj ismi..."
+
+#~ msgid "Enable PET DWW"
+#~ msgstr "PET DWW'yi aktif et"
+
+#~ msgid "PET DWW image name..."
+#~ msgstr "PET DWW imaj ismi..."
+
+#~ msgid "Enable PET REU"
+#~ msgstr "PET REU'yu aktif et"
+
+#~ msgid "PET REU image name..."
+#~ msgstr "PET REU imaj ismi..."
+
+#~ msgid "Enable PLUS256K"
+#~ msgstr "PLUS256K'yý aktif et"
+
+#~ msgid "PLUS256K image name..."
+#~ msgstr "PLUS256K imaj ismi..."
+
+#~ msgid "Enable PLUS60K"
+#~ msgstr "PLUS60K'yý aktif et"
+
+#~ msgid "PLUS60K image name..."
+#~ msgstr "PLUS60K imaj ismi..."
+
+#~ msgid "Enable PS/2 mouse"
+#~ msgstr "PS/2 mouse'u aktif et"
+
+#~ msgid "Enable RAMCART"
+#~ msgstr "RAMCART'ý aktif et"
+
+#~ msgid "RAMCART size"
+#~ msgstr "RAMCART boyutu"
+
+#~ msgid "RAMCART image name..."
+#~ msgstr "RAMCART imaj ismi..."
+
+#~ msgid "Set RR bankjumper"
+#~ msgstr "RR bankjumperý ayarla"
+
+#~ msgid "Enable RR ROM save when changed"
+#~ msgstr "RR ROM deðiþtiðinde kaydeti aktif et"
+
+#~ msgid "Enable REU"
+#~ msgstr "REU'yu aktif et"
 
 #~ msgid "Dump file:"
 #~ msgstr "Döküm dosyasý:"
 
-#, fuzzy
-#~ msgid "Gamma (0..2)"
-#~ msgstr "Gama (0..2)"
+#~ msgid "Enable SFX Sound Expander"
+#~ msgstr "SFX Sound Expander'ý aktif et"
 
-#~ msgid "&Old NTSC-M"
-#~ msgstr "&Eski NTSC-M"
+#~ msgid "Enable Ethernet"
+#~ msgstr "Ethernet'i aktif et"
 
-#, fuzzy
-#~ msgid "PAL-&N"
-#~ msgstr "PAL-G"
+#~ msgid "Enable IEEE 488 Interface"
+#~ msgstr "IEEE 488 Arabirimi'ni aktif et"
 
-#~ msgid "Action Replay 3 image..."
-#~ msgstr "Action Replay 3 imajý..."
+#~ msgid "Set IEEE 488 Interface ROM image..."
+#~ msgstr "IEEE 488 Arabirimi ROM imajýný yerleþtir..."
 
-#~ msgid "Action Replay 4 image..."
-#~ msgstr "Action Replay 4 imajý..."
+#~ msgid "Set Speech ROM image..."
+#~ msgstr "Speech ROM imajýný yerleþtir..."
 
-#~ msgid "StarDOS image..."
-#~ msgstr "StarDOS imajý..."
+#~ msgid "Final Expansion write back"
+#~ msgstr "Final Expansion geri yazma"
 
-#~ msgid "Epyx fastload image..."
-#~ msgstr "Epyx fastload imajý..."
+#~ msgid "Vic Flash Plugin write back"
+#~ msgstr "Vic Flash Plugin geri yazma"
 
-#~ msgid "IEEE488 interface image..."
-#~ msgstr "IEEE488 arabirim imajý..."
+#~ msgid "Mega-Cart NvRAM write back"
+#~ msgstr "Mega-Cart NvRAM geri yazma"
 
-#~ msgid "Super Snapshot 4 image..."
-#~ msgstr "Super Snapshot 4 imajý..."
+#~ msgid "Mega-Cart NvRAM file..."
+#~ msgstr "Mega-Cart NvRAM dosyasý..."
 
-#~ msgid "Super Snapshot 5 image..."
-#~ msgstr "Super Snapshot 5 imajý..."
+#~ msgid "Cartridge options"
+#~ msgstr "Kartuþ ayarlarý"
 
-#~ msgid "Structured Basic image..."
-#~ msgstr "Structured Basic imajý..."
+#~ msgid "New PAL emulation"
+#~ msgstr "Yeni PAL emülasyonu"
 
-#, fuzzy
-#~ msgid "Expert cartridge"
-#~ msgstr "Expert Kartuþu"
+#~ msgid "Attach Action Replay III cartridge image"
+#~ msgstr "Action Replay III kartuþ imajý yerleþtir"
 
-#, fuzzy
-#~ msgid "Emulator identification"
-#~ msgstr "*Emülatör tespiti"
+#~ msgid "Phase (0..2)"
+#~ msgstr "Faz (0..2)"
 
-#~ msgid "IEEE 488 Interface emulation"
-#~ msgstr "IEEE 488 Arabirimi emülasyonu"
-
-#~ msgid "GEORAM settings..."
-#~ msgstr "GEORAM ayarlarý..."
-
-#~ msgid "RAMCART settings..."
-#~ msgstr "RAMCART ayarlarý..."
-
-#~ msgid "Digimax settings..."
-#~ msgstr "Digimax ayarlarý..."
+#~ msgid "PAL Shade (0..1)"
+#~ msgstr "PAL Nüansý (0..1)"
 
 #~ msgid "PAL Emulation"
 #~ msgstr "PAL Emülasyonu"
 
-#~ msgid "Attach Action Replay 3 cartridge image"
-#~ msgstr "Action Replay 3 kartuþ imajýný yerleþtir"
+#~ msgid "Emulator &Identification"
+#~ msgstr "Emülatör Tesp&iti"
 
-#~ msgid "Attach Action Replay 4 cartridge image"
-#~ msgstr "Action Replay 4 kartuþ imajý yerleþtir"
+#~ msgid "&RAMCART settings..."
+#~ msgstr "&RAMCART ayarlarý..."
 
-#~ msgid "Attach StarDOS cartridge image"
-#~ msgstr "StarDOS kartuþ imajý yerleþtir"
+#~ msgid "&Old NTSC-M"
+#~ msgstr "&Eski NTSC-M"
 
-#~ msgid "Attach Epyx fastload cartridge image"
-#~ msgstr "Epyx fastload kartuþ imajý yerleþtir"
+#~ msgid "PAL-&N"
+#~ msgstr "PAL-&N"
 
-#~ msgid "Attach IEEE interface cartridge image"
-#~ msgstr "IEEE arabirimi kartuþ imajý yerleþtir"
+#~ msgid "&Enable digimax"
+#~ msgstr "Digimax'ý aktif &et"
 
-#~ msgid "Attach Super Snapshot 4 cartridge image"
-#~ msgstr "Super Snapshot 4 kartuþ imajý yerleþtir"
+#~ msgid "RAMCART Settings"
+#~ msgstr "RAMCART Ayarlarý"
 
-#~ msgid "Attach Super Snapshot 5 cartridge image"
-#~ msgstr "Super Snapshot 5 kartuþ imajý yerleþtir"
-
-#~ msgid "Attach Structured Basic cartridge image"
-#~ msgstr "Structured Basic kartuþ imajý yerleþtir"
-
-#~ msgid "GEORAM size"
-#~ msgstr "GEORAM boyutu"
-
-#~ msgid "GEORAM file"
-#~ msgstr "GEORAM dosyasý"
-
-#~ msgid "Select file for GEORAM"
-#~ msgstr "GEORAM için dosya seçin"
-
-#, fuzzy
-#~ msgid "GEORAM settings"
-#~ msgstr "GEORAM Ayarlarý"
-
-#~ msgid "RAMCART Read/Write"
-#~ msgstr "RAMCART Oku/Yaz"
-
-#~ msgid "RAMCART size"
-#~ msgstr "RAMCART boyutu"
+#~ msgid "&Enable RAMCART"
+#~ msgstr "RAMCART'ý aktif &et"
 
 #~ msgid "RAMCART file"
 #~ msgstr "RAMCART dosyasý"
@@ -13694,8 +13498,14 @@ msgstr "Digimax kartuþunun taban adresi"
 #~ msgid "Select file for RAMCART"
 #~ msgstr "RAMCART için dosya seçin"
 
-#~ msgid "RAMCART Settings"
-#~ msgstr "RAMCART Ayarlarý"
+#~ msgid "IEEE 488 Interface emulation"
+#~ msgstr "IEEE 488 Arabirimi emülasyonu"
+
+#~ msgid "RAMCART settings..."
+#~ msgstr "RAMCART ayarlarý..."
+
+#~ msgid "RAMCART Read/Write"
+#~ msgstr "RAMCART Oku/Yaz"
 
 #~ msgid "Oversample"
 #~ msgstr "Yüksek hýzda örnekleme"
@@ -13703,23 +13513,755 @@ msgstr "Digimax kartuþunun taban adresi"
 #~ msgid "HD image file"
 #~ msgstr "HD imaj dosyasý"
 
-#~ msgid "PAL Shade (0..1)"
-#~ msgstr "PAL Nüansý (0..1)"
-
-#~ msgid "PAL Blur (0..1)"
-#~ msgstr "PAL Bulanýklýðý (0..1)"
-
 #~ msgid "Palette file"
 #~ msgstr "Palet dosyasý"
 
-#~ msgid "Digimax base"
-#~ msgstr "Digimax taban"
+#~ msgid "Enable emulator identification"
+#~ msgstr "Emülatör tespitini aktif et"
 
-#~ msgid "Digimax Settings"
-#~ msgstr "Digimax Ayarlarý"
+#~ msgid "Disable emulator identification"
+#~ msgstr "Emülatör tespitini pasifleþtir"
 
 #~ msgid "Attach raw 32KB Action Replay IV cartridge image"
 #~ msgstr "Düz 32KB Action Replay IV kartuþ imajý yerleþtir"
 
 #~ msgid "Enable expert cartridge"
 #~ msgstr "Expert kartuþunu aktif et"
+
+#~ msgid "*PAL-G"
+#~ msgstr "*PAL-G"
+
+#~ msgid "*NTSC-M"
+#~ msgstr "*NTSC-M"
+
+#~ msgid "*Emulate filters"
+#~ msgstr "*Filtreleri emüle et"
+
+#~ msgid "*Enable internal Function ROM"
+#~ msgstr "*Dahili Function ROM'u aktif et"
+
+#~ msgid "*Enable external Function ROM"
+#~ msgstr "*Harici Function ROM'u aktif et"
+
+#~ msgid "MIDI Emulation"
+#~ msgstr "MIDI Emülasyonu"
+
+#~ msgid "*Power Off on Cartridge Change"
+#~ msgstr "*Kartuþ Deðiþiminde Gücü Kes"
+
+#~ msgid "Load new Chargen ROM"
+#~ msgstr "Yeni Karakter Oluþturucu ROM yükle"
+
+#~ msgid "*International"
+#~ msgstr "*Uluslararasý"
+
+#~ msgid "*Finnish"
+#~ msgstr "*Fince"
+
+#~ msgid "*French"
+#~ msgstr "*Fransýzca"
+
+#~ msgid "*German"
+#~ msgstr "*Almanca"
+
+#~ msgid "*Italian"
+#~ msgstr "*Ýtalyanca"
+
+#~ msgid "*Norwegian"
+#~ msgstr "*Norveççe"
+
+#~ msgid "*Swedish"
+#~ msgstr "*Ýsveççe"
+
+#~ msgid "*6526 (old)"
+#~ msgstr "*6526 (eski)"
+
+#~ msgid "*6526A (new)"
+#~ msgstr "*6526A (yeni)"
+
+#~ msgid "Blitter Revision"
+#~ msgstr "Blitter Revizyonu"
+
+#~ msgid "*Discrete"
+#~ msgstr "*Baðlantýyý Kes"
+
+#~ msgid "*Custom IC"
+#~ msgstr "*Özel IC"
+
+#~ msgid "Load new Kernal"
+#~ msgstr "Yeni Kernal yükle"
+
+#~ msgid "Load new Chargen"
+#~ msgstr "Yeni karakter oluþturucu yükle"
+
+#~ msgid "Load new Basic"
+#~ msgstr "Yeni Basic yükle"
+
+#~ msgid "*128 kByte"
+#~ msgstr "*128 kByte"
+
+#~ msgid "*256 kByte"
+#~ msgstr "*256 kByte"
+
+#~ msgid "*1024 kByte"
+#~ msgstr "*1024 kByte"
+
+#~ msgid "*Graphics"
+#~ msgstr "*Grafikler"
+
+#~ msgid "*Business (UK)"
+#~ msgstr "*Business (UK)"
+
+#~ msgid "*4 kByte"
+#~ msgstr "*4 kByte"
+
+#~ msgid "*8 kByte"
+#~ msgstr "*8 kByte"
+
+#~ msgid "*16 kByte"
+#~ msgstr "*16 kByte"
+
+#~ msgid "*32 kByte"
+#~ msgstr "*32 kByte"
+
+#~ msgid "*96 kByte"
+#~ msgstr "*96 kByte"
+
+#~ msgid "*2 kByte"
+#~ msgstr "*2 kByte"
+
+#~ msgid "*256 Byte"
+#~ msgstr "*256 Byte"
+
+#~ msgid "*Auto (from ROM)"
+#~ msgstr "*Otomatik (ROM'dan)"
+
+#~ msgid "*40 Columns"
+#~ msgstr "*40 Sütun"
+
+#~ msgid "*80 Columns"
+#~ msgstr "*80 Sütun"
+
+#~ msgid "*SuperPET I/O enable (disables 8x96)"
+#~ msgstr "*SuperPET G/Ç aktif et (8x96'yý pasifleþtir)"
+
+#~ msgid "*16KB"
+#~ msgstr "*16KB"
+
+#~ msgid "*32KB"
+#~ msgstr "*32KB"
+
+#~ msgid "*64KB"
+#~ msgstr "*64KB"
+
+#~ msgid "*256KB (CSORY)"
+#~ msgstr "*256KB (CSORY)"
+
+#~ msgid "*256KB (HANNES)"
+#~ msgstr "*256KB (HANNES)"
+
+#~ msgid "*1024KB (HANNES)"
+#~ msgstr "*1024KB (HANNES)"
+
+#~ msgid "*4096KB (HANNES)"
+#~ msgstr "*4096KB (HANNES)"
+
+#~ msgid "*Enable digiblaster add-on"
+#~ msgstr "*Digiblaster eklentisini aktif et"
+
+#~ msgid "Fliplist"
+#~ msgstr "Sýralama listesi"
+
+#~ msgid "*VirtualFS"
+#~ msgstr "*SanalFS"
+
+#~ msgid "*Disk image"
+#~ msgstr "*Disk imajý"
+
+#~ msgid "*Handle True Drive Emulation on autostart"
+#~ msgstr "*Baþlangýçta Gerçek Sürücü Emülasyonu'nu Denetle"
+
+#~ msgid "*Autostart warp"
+#~ msgstr "*Otomatik baþlatmada warp hýzý kullan"
+
+#~ msgid "*RUN with colon"
+#~ msgstr "*Kolon ile ÇALIÞTIR"
+
+#~ msgid "Autostart PRG mode"
+#~ msgstr "PRG modunda otomatik baþlat"
+
+#~ msgid "Autostart PRG disk image..."
+#~ msgstr "PRG disk imajýný otomatik baþlat..."
+
+#~ msgid "*Enable Hummer ADC"
+#~ msgstr "*Hummer ADC'yi aktif et"
+
+#~ msgid "Load snapshot"
+#~ msgstr "Anlýk görüntü yükle"
+
+#~ msgid "*Save new snapshot"
+#~ msgstr "*Yeni anlýk görüntü kaydet"
+
+#~ msgid "*Load existing snapshot"
+#~ msgstr "*Varolan anlýk görüntüyü yükle"
+
+#~ msgid "*Start with reset"
+#~ msgstr "*Reset ile baþlat"
+
+#~ msgid "*Pause"
+#~ msgstr "*Duraklat"
+
+#~ msgid "*Scale 2x"
+#~ msgstr "*2x Geniþlet"
+
+#~ msgid "*Double size"
+#~ msgstr "*Çift boyut"
+
+#~ msgid "*Double scan"
+#~ msgstr "*Çift tarama"
+
+#~ msgid "*Video cache"
+#~ msgstr "*Görüntü önbelleði"
+
+#~ msgid "*True aspect ratio"
+#~ msgstr "*Gerçek en boy oraný"
+
+#~ msgid "*Reset Datasette on CPU Reset"
+#~ msgstr "*CPU resetlendiðinde teybi de resetle"
+
+#~ msgid "*Never extend"
+#~ msgstr "*Asla geniþletme"
+
+#~ msgid "*Ask on extend"
+#~ msgstr "*Geniþletirken sor"
+
+#~ msgid "*Extend on access"
+#~ msgstr "*Eriþildiðinde geniþlet"
+
+#~ msgid "*Enable true drive emulation"
+#~ msgstr "*Gerçek sürücü emülasyonunu aktif et"
+
+#~ msgid "*Enable true flash filesystem emulation"
+#~ msgstr "*Gerçek flash dosya sistemi emülasyonunu aktif et"
+
+#~ msgid "*None"
+#~ msgstr "*Yok"
+
+#~ msgid "*Enable Professional DOS"
+#~ msgstr "*Professional DOS'u aktif et"
+
+#~ msgid "*$2000-$3FFF RAM"
+#~ msgstr "*$2000-$3FFF RAM"
+
+#~ msgid "*$4000-$5FFF RAM"
+#~ msgstr "*$4000-$5FFF RAM"
+
+#~ msgid "*$6000-$7FFF RAM"
+#~ msgstr "*$6000-$7FFF RAM"
+
+#~ msgid "*$8000-$9FFF RAM"
+#~ msgstr "*$8000-$9FFF RAM"
+
+#~ msgid "*$A000-$BFFF RAM"
+#~ msgstr "*$A000-$BFFF RAM"
+
+#~ msgid "*No traps"
+#~ msgstr "*Trapler yok"
+
+#~ msgid "*Skip cycles"
+#~ msgstr "*Cyclelarý atla"
+
+#~ msgid "*Trap idle"
+#~ msgstr "*Trap boþa vakit geçirme"
+
+#~ msgid "*Parallel cable"
+#~ msgstr "*Paralel kablo"
+
+#~ msgid "*Prg"
+#~ msgstr "*Prg"
+
+#~ msgid "*Off"
+#~ msgstr "*Kapalý"
+
+#~ msgid "*On"
+#~ msgstr "*Açýk"
+
+#~ msgid "Load fliplist file"
+#~ msgstr "Sýralama listesi dosyasý yükle"
+
+#~ msgid "Save fliplist file"
+#~ msgstr "Sýralama listesi dosyasý kaydet"
+
+#~ msgid "*CGA userport joystick adapter"
+#~ msgstr "*CGA userport joystick dönüþtürücü"
+
+#~ msgid "*PET userport joystick adapter"
+#~ msgstr "*PET userport joystick dönüþtürücü"
+
+#~ msgid "*OEM userport joystick adapter"
+#~ msgstr "*OEM userport joystick dönüþtürücü"
+
+#~ msgid "*HIT userport joystick adapter"
+#~ msgstr "*HIT userport joystick dönüþtürücü"
+
+#~ msgid "*Numpad"
+#~ msgstr "*Numpad"
+
+#~ msgid "Joystick device in port 1"
+#~ msgstr "Joystick aygýtý 1. porta baðlý"
+
+#~ msgid "Joystick device in port 2"
+#~ msgstr "Joystick aygýtý 2. porta baðlý"
+
+#~ msgid "Swap joystick ports"
+#~ msgstr "Joystick portlarýnýn yerlerini deðiþtir"
+
+#~ msgid "*Userport Joystick Interface"
+#~ msgstr "*Userport Joystick Arabirimi"
+
+#~ msgid "*Userport Joystick Interface Type"
+#~ msgstr "*Userport Joystick Arabirim Tipi"
+
+#~ msgid "Joystick device in extra port 1"
+#~ msgstr "Joystick aygýtý 1. ekstra porta baðlý"
+
+#~ msgid "Joystick device in extra port 2"
+#~ msgstr "Joystick aygýtý 2. ekstra porta baðlý"
+
+#~ msgid "Swap userport joystick ports"
+#~ msgstr "Userport joystick portlarýnýn yerlerini deðiþtir"
+
+#~ msgid "*SIDcart Joystick"
+#~ msgstr "*SID kartuþu Joystick'i"
+
+#~ msgid "*MMC64 card type"
+#~ msgstr "*MMC64 kart tipi"
+
+#~ msgid "CRT Scanline shade"
+#~ msgstr "CRT Tarama Satýrý nüansý"
+
+#~ msgid "CRT Tint"
+#~ msgstr "CRT Tonu"
+
+#~ msgid "CRT Odd Line Phase"
+#~ msgstr "CRT Tek Satýr Fazý"
+
+#~ msgid "CRT Odd Line Offset"
+#~ msgstr "CRT Tek Satýr Ofseti"
+
+#~ msgid "CRT Blurredness"
+#~ msgstr "CRT Bulanýklýk"
+
+#~ msgid "*Activate CRT emulation"
+#~ msgstr "*CRT emülasyonunu aktif et"
+
+#~ msgid "CRT Scanline Shade"
+#~ msgstr "CRT Tarama Satýrý Nüansý"
+
+#~ msgid "CRT Odd Lines Phase"
+#~ msgstr "CRT Tek Satýr Fazý"
+
+#~ msgid "CRT Odd Lines Offset"
+#~ msgstr "CRT Tek Satýr Ofseti"
+
+#~ msgid "*Grab mouse events"
+#~ msgstr "*Mouse olaylarýný yakala"
+
+#~ msgid "*File"
+#~ msgstr "*Dosya"
+
+#~ msgid "*IRQ"
+#~ msgstr "*IRQ"
+
+#~ msgid "*NMI"
+#~ msgstr "*NMI"
+
+#~ msgid "*Normal"
+#~ msgstr "*Normal"
+
+#~ msgid "*Swiftlink"
+#~ msgstr "*Swiftlink"
+
+#~ msgid "*Turbo232"
+#~ msgstr "*Turbo232"
+
+#~ msgid "*300 baud"
+#~ msgstr "*300 baud"
+
+#~ msgid "*600 baud"
+#~ msgstr "*600 baud"
+
+#~ msgid "*1200 baud"
+#~ msgstr "*1200 baud"
+
+#~ msgid "*2400 baud"
+#~ msgstr "*2400 baud"
+
+#~ msgid "*4800 baud"
+#~ msgstr "*4800 baud"
+
+#~ msgid "*9600 baud"
+#~ msgstr "*9600 baud"
+
+#~ msgid "Maximum run speed"
+#~ msgstr "Maksimum çalýþma hýzý"
+
+#~ msgid "*Auto"
+#~ msgstr "*Otomatik"
+
+#~ msgid "*No limit"
+#~ msgstr "*Limitsiz"
+
+#~ msgid "*Enable warp mode"
+#~ msgstr "*Warp modu aktif et"
+
+#~ msgid "*Save settings on exit"
+#~ msgstr "*Çýkýþta ayarlarý kaydet"
+
+#~ msgid "*Confirm on exit"
+#~ msgstr "*Çýkýþta teyit et"
+
+#~ msgid "*6581 (FastSID)"
+#~ msgstr "*6581 (FastSID)"
+
+#~ msgid "*8580 (FastSID)"
+#~ msgstr "*8580 (FastSID)"
+
+#~ msgid "*6581 (ReSID)"
+#~ msgstr "*6581 (ReSID)"
+
+#~ msgid "*8580 (ReSID)"
+#~ msgstr "*8580 (ReSID)"
+
+#~ msgid "*Catweasel MKIII"
+#~ msgstr "*Catweasel MKIII"
+
+#~ msgid "*HardSID"
+#~ msgstr "*HardSID"
+
+#~ msgid "*DTVSID"
+#~ msgstr "*DTVSID"
+
+#~ msgid "*Fast Resampling"
+#~ msgstr "*Hýzlý yeniden örnekleme"
+
+#~ msgid "*0.35 sec"
+#~ msgstr "*0.35 sn"
+
+#~ msgid "*0.30 sec"
+#~ msgstr "*0.30 sn"
+
+#~ msgid "*0.20 sec"
+#~ msgstr "*0.20 sn"
+
+#~ msgid "*0.10 sec"
+#~ msgstr "*0.10 sn"
+
+#~ msgid "*0.075 sec"
+#~ msgstr "*0.075 sn"
+
+#~ msgid "*0.05 sec"
+#~ msgstr "*0.05 sn"
+
+#~ msgid "*0.04 sec"
+#~ msgstr "*0.04 sn"
+
+#~ msgid "*0.03 sec"
+#~ msgstr "*0.03 sn"
+
+#~ msgid "*0.025 sec"
+#~ msgstr "*0.025 sn"
+
+#~ msgid "*0.02 sec"
+#~ msgstr "*0.02 sn"
+
+#~ msgid "*Small"
+#~ msgstr "*Küçük"
+
+#~ msgid "*Medium"
+#~ msgstr "*Orta"
+
+#~ msgid "*Large"
+#~ msgstr "*Büyük"
+
+#~ msgid "*Flexible"
+#~ msgstr "*Esnek"
+
+#~ msgid "*Adjusting"
+#~ msgstr "*Düzeltme"
+
+#~ msgid "*Exact"
+#~ msgstr "*Aynen"
+
+#~ msgid "*Enable sound playback"
+#~ msgstr "*Sesi aktif et"
+
+#~ msgid "*Revison 0"
+#~ msgstr "*Revizyon 0"
+
+#~ msgid "*Revison 1"
+#~ msgstr "*Revizyon 1"
+
+#~ msgid "*Revison 2"
+#~ msgstr "*Revizyon 2"
+
+#~ msgid "*Full"
+#~ msgstr "*Tam"
+
+#~ msgid "*Debug"
+#~ msgstr "*Hata ayýklama"
+
+#~ msgid "*New Luminances"
+#~ msgstr "*Yeni Parlaklýklar"
+
+#~ msgid "*Border mode"
+#~ msgstr "*Çerçeve modu"
+
+#~ msgid "Load new Kernal ROM"
+#~ msgstr "Yeni Kernal ROM yükle"
+
+#~ msgid "Load new Basic ROM"
+#~ msgstr "Yeni Basic ROM yükle"
+
+#~ msgid "Load new Character ROM"
+#~ msgstr "Yeni Karakter ROM yükle"
+
+#~ msgid "*Reset on cartridge change"
+#~ msgstr "*Kartuþ deðiþiminde resetle"
+
+#~ msgid "Chip model"
+#~ msgstr "Çip modeli"
+
+#~ msgid "*Old NTSC-M"
+#~ msgstr "*Eski NTSC-M"
+
+#~ msgid "Invalid Port number"
+#~ msgstr "Geçersiz Port numarasý"
+
+#~ msgid "TCP-Port: "
+#~ msgstr "TCP-Port: "
+
+#~ msgid "CRT Settings"
+#~ msgstr "CRT Ayarlarý"
+
+#~ msgid "Audio Codec"
+#~ msgstr "Ses Kodeði"
+
+#~ msgid "Video Codec"
+#~ msgstr "Görüntü Kodeði"
+
+#~ msgid "Save Snapshot"
+#~ msgstr "Anlýk Görüntü Kaydet"
+
+#~ msgid "Save snapshot file"
+#~ msgstr "Anlýk görüntü dosyasý kaydet"
+
+#~ msgid "Peripheral Settings"
+#~ msgstr "Çevresel Ayarlar"
+
+#~ msgid "Drive Settings"
+#~ msgstr "Sürücü Ayarlarý"
+
+#~ msgid "HUMMER userport joy adapter"
+#~ msgstr "HUMMER userport joy dönüþtürücü"
+
+#~ msgid "RAM Settings"
+#~ msgstr "RAM Ayarlarý"
+
+#~ msgid "RS232 Settings"
+#~ msgstr "RS232 Ayarlarý"
+
+#~ msgid "TCP-Port"
+#~ msgstr "TCP-Port"
+
+#~ msgid "SID Engine/Model"
+#~ msgstr "SID Motoru/Modeli"
+
+#~ msgid "Set Recording Milestone"
+#~ msgstr "Kayýt kilometre taþý koy"
+
+#~ msgid "Return to Milestone"
+#~ msgstr "Kilometre taþýna geri dön"
+
+#~ msgid "Stop Sound Recording"
+#~ msgstr "Ses Kaydýný Durdur"
+
+#~ msgid "Allow opposite joystick directions"
+#~ msgstr "Zýt joystick yönlerine izin ver"
+
+#~ msgid "I&sepic settings..."
+#~ msgstr "I&sepic ayarlarý..."
+
+#~ msgid "Autostart Settings"
+#~ msgstr "Otomatik Baþlatma Ayarlarý"
+
+#~ msgid "Inject"
+#~ msgstr "Enjekte et"
+
+#~ msgid "Digimax base address"
+#~ msgstr "Digimax taban adresi"
+
+#~ msgid "IDE64 Settings"
+#~ msgstr "IDE64 Ayarlarý"
+
+#~ msgid "Isepic Settings"
+#~ msgstr "Isepic Ayarlarý"
+
+#~ msgid "&Enable Isepic"
+#~ msgstr "Isepic'i aktif &et"
+
+#~ msgid "&Isepic switch"
+#~ msgstr "Isepic anahtarý"
+
+#~ msgid "Midi Settings"
+#~ msgstr "Midi Ayarlarý"
+
+#~ msgid "Midi cart type"
+#~ msgstr "Midi kart tipi"
+
+#~ msgid "Midi-in device"
+#~ msgstr "Midi-in aygýtý"
+
+#~ msgid "Midi-out device"
+#~ msgstr "Midi-out aygýtý"
+
+#~ msgid "SD Type"
+#~ msgstr "SD Tipi"
+
+#~ msgid "fast"
+#~ msgstr "hýzlý"
+
+#~ msgid "interpolating"
+#~ msgstr "ara deðer bulma"
+
+#~ msgid "resampling"
+#~ msgstr "yeniden örnekleme"
+
+#~ msgid "VIC Settings"
+#~ msgstr "VIC Ayarlarý"
+
+#~ msgid "Enable Paddles"
+#~ msgstr "Paddle'ý aktif et"
+
+#~ msgid "Enable Mega-Cart non-volatile RAM write-back"
+#~ msgstr "Mega-Cart non-volatile RAM geri yazmayý etkinleþtir"
+
+#~ msgid "VIC-II Settings"
+#~ msgstr "VIC-II Ayarlarý"
+
+#~ msgid "Maximum Speed"
+#~ msgstr "Maksimum Hýz"
+
+#~ msgid "Swap Userport Joysticks"
+#~ msgstr "Userport Joysticklerinin Yerlerini Deðiþtir"
+
+#~ msgid "Emulator Identification"
+#~ msgstr "Emülatör Tespiti"
+
+#~ msgid "Isepic settings..."
+#~ msgstr "Isepic ayarlarý..."
+
+#~ msgid "Stop Sound Record"
+#~ msgstr "Ses Kaydýný Durdur..."
+
+#~ msgid "RS232 Device 1"
+#~ msgstr "RS232 Aygýt 1"
+
+#~ msgid "RS232 Device 2"
+#~ msgstr "RS232 Aygýt 2"
+
+#~ msgid "RS232 Device 3"
+#~ msgstr "RS232 Aygýt 3"
+
+#~ msgid "RS232 Device 4"
+#~ msgstr "RS232 Aygýt 4"
+
+#~ msgid "ACIA Interrupt"
+#~ msgstr "ACIA Kesmesi"
+
+#~ msgid "ACIA Mode"
+#~ msgstr "ACIA Modu"
+
+#~ msgid "C64DTV revision"
+#~ msgstr "C64DTV revizyonu"
+
+#~ msgid "GEORAM Size"
+#~ msgstr "GEORAM Boyutu"
+
+#~ msgid "Isepic Switch"
+#~ msgstr "Isepic Anahtarý"
+
+#~ msgid "Joystick in userport adapter port #1"
+#~ msgstr "Joystick userport dönüþtürücü port #1'de"
+
+#~ msgid "Joystick in userport adapter port #2"
+#~ msgstr "Joystick userport dönüþtürücü port #2'de"
+
+#~ msgid "Joystick Settings"
+#~ msgstr "Joystick Ayarlarý"
+
+#~ msgid "RAMCART Size"
+#~ msgstr "RAMCART Boyutu"
+
+#~ msgid "REU Size"
+#~ msgstr "REU Boyutu"
+
+#~ msgid "Userport RS232 Device"
+#~ msgstr "Userport RS232 Aygýtý"
+
+#~ msgid "SID Settings"
+#~ msgstr "SID Ayarlarý"
+
+#~ msgid "Sample Rate"
+#~ msgstr "Örnekleme Hýzý"
+
+#~ msgid "Buffer Size"
+#~ msgstr "Arabellek Boyutu"
+
+#~ msgid "Fragment Size"
+#~ msgstr "Parça Boyutu"
+
+#~ msgid "Sound Settings"
+#~ msgstr "Ses Ayarlarý"
+
+#~ msgid "Sprite Sprite Collisions"
+#~ msgstr "Yaratýk Yaratýk Çarpýþmalarý"
+
+#~ msgid "Sprite Background Collisions"
+#~ msgstr "Yaratýk Arka Plan Çarpýþmalarý"
+
+#~ msgid "New Luminances"
+#~ msgstr "Yeni Parlaklýklar"
+
+#~ msgid "Select Vic Flash Plugin file"
+#~ msgstr "Vic Flash Plugin dosyasýný seç"
+
+#~ msgid "Select Mega-Cart file"
+#~ msgstr "Mega-Cart dosyasýný seç"
+
+#~ msgid "Select Final Expansion file"
+#~ msgstr "Final Expansion dosyasýný seç"
+
+#~ msgid "SID engine/model"
+#~ msgstr "SID motoru/modeli"
+
+#~ msgid "Gamma (0..2)"
+#~ msgstr "Gama (0..2)"
+
+#~ msgid "Odd Lines Phase (0..2)"
+#~ msgstr "Tek Satýrlar Fazý (0..2)"
+
+#~ msgid "Odd Lines Offset (0..2)"
+#~ msgstr "Tek Satýrlar Ofseti (0..2)"
+
+#~ msgid "PLUS4 settings"
+#~ msgstr "PLUS4 ayarlarý"
+
+#~ msgid "Digimax Base"
+#~ msgstr "Digimax Taban"
+
+#~ msgid "Sound Record Settings"
+#~ msgstr "Ses Kayýt Ayarlarý"
+
+#~ msgid "Paddle"
+#~ msgstr "Paddle"
