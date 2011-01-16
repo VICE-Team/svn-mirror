@@ -509,11 +509,21 @@ static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, 
 static void end_resid_dialog(HWND hwnd)
 {
     TCHAR st[4];
+    int ival;
 
     resources_set_int("SidResidSampling", (int)SendMessage(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), CB_GETCURSEL, 0, 0));
 
     GetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st, 4);
-    resources_set_int("SidResidPassband", _ttoi(st));
+    ival = _ttoi(st);
+    if (ival < 0) {
+        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), ival, translate_text(IDS_SID_RESID_PASSBAND), 0);
+        ival = 0;
+    }
+    if (ival > 90) {
+        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), ival, translate_text(IDS_SID_RESID_PASSBAND), 90);
+        ival = 90;
+    }
+    resources_set_int("SidResidPassband", ival);
 }
 
 static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

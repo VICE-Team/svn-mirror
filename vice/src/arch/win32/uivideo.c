@@ -366,7 +366,13 @@ static void init_render_filter_dialog(HWND hwnd, Chip_Parameters *chip_type)
 
 static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int type, ival;
+    int type;
+    int ivalgamma;
+    int ivaltint;
+    int ivalsaturation;
+    int ivalcontrast;
+    int ivalbrightness;
+
     float tf;
     TCHAR s[100];
 
@@ -375,24 +381,69 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
                 GetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAMMA, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("ColorGamma", ival);
+                ivalgamma = (int)(tf * 1000.0 + 0.5);
+                if (ivalgamma < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_GAMMA), 0.0f);
+                    ivalgamma = 0;
+                }
+                if (ivalgamma > 4000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_GAMMA), 4.0f);
+                    ivalgamma = 4000;
+                }
+
                 GetDlgItemText(hwnd, IDC_VIDEO_COLORS_TINT, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("ColorTint", ival);
+                ivaltint = (int)(tf * 1000.0 + 0.5);
+                if (ivaltint < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_TINT), 0.0f);
+                    ivaltint = 0;
+                }
+                if (ivaltint > 2000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_TINT), 2.0f);
+                    ivaltint = 2000;
+                }
+
                 GetDlgItemText(hwnd, IDC_VIDEO_COLORS_SATURATION, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("ColorSaturation", ival);
+                ivalsaturation = (int)(tf * 1000.0 + 0.5);
+                if (ivalsaturation < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_SATURATION), 0.0f);
+                    ivalsaturation = 0;
+                }
+                if (ivalsaturation > 2000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_SATURATION), 2.0f);
+                    ivalsaturation = 2000;
+                }
+
                 GetDlgItemText(hwnd, IDC_VIDEO_COLORS_CONTRAST, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("ColorContrast", ival);
+                ivalcontrast = (int)(tf * 1000.0 + 0.5);
+                if (ivalcontrast < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_CONTRAST), 0.0f);
+                    ivalcontrast = 0;
+                }
+                if (ivalcontrast > 2000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_CONTRAST), 2.0f);
+                    ivalcontrast = 2000;
+                }
+
                 GetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRIGHTNESS, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("ColorBrightness", ival);
+                ivalbrightness = (int)(tf * 1000.0 + 0.5);
+                if (ivalbrightness < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_BRIGHTNESS), 0.0f);
+                    ivalbrightness = 0;
+                }
+                if (ivalbrightness > 2000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_COLORS_BRIGHTNESS), 2.0f);
+                    ivalbrightness = 2000;
+                }
+
+                resources_set_int("ColorGamma", ivalgamma);
+                resources_set_int("ColorTint", ivaltint);
+                resources_set_int("ColorSaturation", ivalsaturation);
+                resources_set_int("ColorContrast", ivalcontrast);
+                resources_set_int("ColorBrightness", ivalbrightness);
                 querynewpalette = 1;
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
@@ -418,7 +469,11 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
 
 static INT_PTR CALLBACK dialog_crt_emulation_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int type, ival;
+    int type;
+    int ivalscanlineshade;
+    int ivalblur;
+    int ivaloddlinephase;
+    int ivaloddlineoffset;
     float tf;
     TCHAR s[100];
 
@@ -427,24 +482,56 @@ static INT_PTR CALLBACK dialog_crt_emulation_proc(HWND hwnd, UINT msg, WPARAM wp
             if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
                 GetDlgItemText(hwnd, IDC_VIDEO_CRT_SCANLINE_SHADE, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("PALScanLineShade", ival);
+                ivalscanlineshade = (int)(tf * 1000.0 + 0.5);
+                if (ivalscanlineshade < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_SCANLINE_SHADE), 0.0f);
+                    ivalscanlineshade = 0;
+                }
+                if (ivalscanlineshade > 1000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_SCANLINE_SHADE), 1.0f);
+                    ivalscanlineshade = 1000;
+                }
 
                 GetDlgItemText(hwnd, IDC_VIDEO_CRT_BLUR, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("PALBlur", ival);
+                ivalblur = (int)(tf * 1000.0 + 0.5);
+                if (ivalblur < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_BLUR), 0.0f);
+                    ivalblur = 0;
+                }
+                if (ivalblur > 1000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_BLUR), 1.0f);
+                    ivalblur = 1000;
+                }
 
                 GetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_PHASE, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("PALOddLinePhase", ival);
+                ivaloddlinephase = (int)(tf * 1000.0 + 0.5);
+                if (ivaloddlinephase < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_ODDLINE_PHASE), 0.0f);
+                    ivaloddlinephase = 0;
+                }
+                if (ivaloddlinephase > 2000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_ODDLINE_PHASE), 2.0f);
+                    ivaloddlinephase = 2000;
+                }
 
                 GetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_OFFSET, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
-                ival = (int)(tf * 1000.0 + 0.5);
-                resources_set_int("PALOddLineOffset", ival);
+                ivaloddlineoffset = (int)(tf * 1000.0 + 0.5);
+                if (ivaloddlineoffset < 0) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_ODDLINE_OFFSET), 0.0f);
+                    ivaloddlineoffset = 0;
+                }
+                if (ivaloddlineoffset > 2000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_CRT_ODDLINE_OFFSET), 2.0f);
+                    ivaloddlineoffset = 2000;
+                }
 
+                resources_set_int("PALScanLineShade", ivalscanlineshade);
+                resources_set_int("PALBlur", ivalblur);
+                resources_set_int("PALOddLinePhase", ivaloddlinephase);
+                resources_set_int("PALOddLineOffset", ivaloddlineoffset);
                 querynewpalette = 1;
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;

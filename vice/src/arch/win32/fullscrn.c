@@ -719,6 +719,14 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
                 GetDlgItemText(hwnd, IDC_ASPECT_RATIO, s, 100);
                 _stscanf(s, TEXT("%f"), &tf);
                 aspect_ratio = (int)(tf * 1000.0 + 0.5);
+                if (aspect_ratio < 500) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_TOGGLE_KEEP_ASPECT_RATIO), 0.5f);
+                    aspect_ratio = 500;
+                }
+                if (aspect_ratio > 2000) {
+                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_TOGGLE_KEEP_ASPECT_RATIO), 2.0f);
+                    aspect_ratio = 2000;
+                }
                 fullscreen_dialog_end();
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
