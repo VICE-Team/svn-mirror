@@ -42,6 +42,8 @@ VICE_ARG_ENABLE_LIST(memmap,      [  --enable-memmap         enable the memmap f
 VICE_ARG_ENABLE_LIST(editline,    [  --disable-editline      disable history in Cocoa UI's console])
 VICE_ARG_ENABLE_LIST(lame,        [  --disable-lame          disable MP3 export with LAME])
 VICE_ARG_ENABLE_LIST(static-lame, [  --enable-static-lame    enable static LAME linking])
+VICE_ARG_ENABLE_LIST(rs232,       [  --disable-rs232         disable RS232 support])
+VICE_ARG_ENABLE_LIST(midi,        [  --disable-midi          disable MIDI support])
 VICE_ARG_ENABLE_LIST(embedded,    [  --enable-embedded       enable embedding of emulation data files])
 VICE_ARG_ENABLE_LIST(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
@@ -284,7 +286,9 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
   if test x"$enable_sdlui" != "xyes"; then
-      AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+      if test x"$enable_rs232" != "xno"; then
+        AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+      fi
       AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
       AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
       AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
@@ -375,9 +379,13 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
-  AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
+  if test x"$enable_midi" != "xno"; then
+    AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
+  fi
   AC_DEFINE(HAVE_TFE,,[Support for The final Ethernet.])
-  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  if test x"$enable_rs232" != "xno"; then
+    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  fi
 
   if test x"$enable_sdlui" != "xyes"; then
     AC_TRY_LINK([#include <windows.h>],
@@ -523,7 +531,9 @@ darwin*)
   fi
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
-  AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  if test x"$enable_rs232" != "xno"; then
+    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+  fi
 
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
@@ -644,8 +654,12 @@ dnl All other UN*X systems
   AC_DEFINE(HAVE_RAWDRIVE,,[Support for block device disk image access.])
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   if test x"$is_beos_x11" != "xyes"; then
-    AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
-    AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+    if test x"$enable_midi" != "xno"; then
+      AC_DEFINE(HAVE_MIDI,,[Enable support for MIDI.])
+    fi
+    if test x"$enable_rs232" != "xno"; then
+      AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
+    fi
   fi
 
   AC_CHECK_HEADER(linux/hardsid.h,
@@ -1987,50 +2001,51 @@ fi
 
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
-dnl --- check for CoreAudio ---
-AC_CHECK_HEADER(CoreAudio/CoreAudio.h,,)
-if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
-  AC_CHECK_HEADER(AudioToolbox/AudioToolbox.h,,)
-  if test x"$ac_cv_header_AudioToolbox_AudioToolbox_h" = "xyes" ; then
-    AC_MSG_CHECKING(whether we can link the CoreAudio framework)
-    old_LIBS="${LIBS}"
-    LIBS="${LIBS} -framework CoreAudio -framework AudioToolbox"
-    AC_TRY_LINK([#include <CoreAudio/CoreAudio.h>],
-                [AudioDeviceStart(0,0);],
-                [AC_MSG_RESULT(yes);
-                 SOUND_DRIVERS="$SOUND_DRIVERS soundcoreaudio.o";
-                 SOUND_LIBS="$SOUND_LIBS -framework CoreAudio -framework AudioToolbox";
-                 AC_DEFINE(USE_COREAUDIO,,[Enable CoreAudio support.])],
-                [AC_MSG_RESULT(no)])
-    LIBS=${old_LIBS}
-    
-    AC_CHECK_HEADER(AudioUnit/AudioUnit.h,,)
-    if test x"$ac_cv_header_AudioUnit_AudioUnit_h" = "xyes" ; then
-      AC_MSG_CHECKING(whether we can link the AudioUnit framework)
+  dnl --- check for CoreAudio ---
+  AC_CHECK_HEADER(CoreAudio/CoreAudio.h,,)
+  if test x"$ac_cv_header_CoreAudio_CoreAudio_h" = "xyes" ; then
+    AC_CHECK_HEADER(AudioToolbox/AudioToolbox.h,,)
+    if test x"$ac_cv_header_AudioToolbox_AudioToolbox_h" = "xyes" ; then
+      AC_MSG_CHECKING(whether we can link the CoreAudio framework)
       old_LIBS="${LIBS}"
-      LIBS="${LIBS} -framework AudioUnit"
-      AC_TRY_LINK([#include <AudioUnit/AudioUnit.h>],
-                  [AudioOutputUnitStart(NULL);],
+      LIBS="${LIBS} -framework CoreAudio -framework AudioToolbox"
+      AC_TRY_LINK([#include <CoreAudio/CoreAudio.h>],
+                  [AudioDeviceStart(0,0);],
                   [AC_MSG_RESULT(yes);
-                   SOUND_LIBS="$SOUND_LIBS -framework AudioUnit";
-                   AC_DEFINE(HAVE_AUDIO_UNIT,,[Enable AudioUnit support.])],
+                   SOUND_DRIVERS="$SOUND_DRIVERS soundcoreaudio.o";
+                   SOUND_LIBS="$SOUND_LIBS -framework CoreAudio -framework AudioToolbox";
+                   AC_DEFINE(USE_COREAUDIO,,[Enable CoreAudio support.])],
                   [AC_MSG_RESULT(no)])
       LIBS=${old_LIBS}
-    fi  
+    
+      AC_CHECK_HEADER(AudioUnit/AudioUnit.h,,)
+      if test x"$ac_cv_header_AudioUnit_AudioUnit_h" = "xyes" ; then
+        AC_MSG_CHECKING(whether we can link the AudioUnit framework)
+        old_LIBS="${LIBS}"
+        LIBS="${LIBS} -framework AudioUnit"
+        AC_TRY_LINK([#include <AudioUnit/AudioUnit.h>],
+                    [AudioOutputUnitStart(NULL);],
+                    [AC_MSG_RESULT(yes);
+                     SOUND_LIBS="$SOUND_LIBS -framework AudioUnit";
+                     AC_DEFINE(HAVE_AUDIO_UNIT,,[Enable AudioUnit support.])],
+                    [AC_MSG_RESULT(no)])
+        LIBS=${old_LIBS}
+      fi  
+    fi
   fi
-fi
 
-dnl --- check for CoreMIDI ---
-AC_MSG_CHECKING(whether we can link the CoreMIDI framework)
-old_LIBS="${LIBS}"
-LIBS="$LIBS -framework CoreMidi -framework CoreServices"
-AC_TRY_LINK([#include <CoreMIDI/MIDIServices.h>],
-            [MIDIGetNumberOfDevices()],
-            [AC_MSG_RESULT(yes);
-             AC_DEFINE(HAVE_MIDI,,[Enable MIDI emulation.])],
-            [AC_MSG_RESULT(no);
-             LIBS=${old_LIBS}])
-
+  dnl --- check for CoreMIDI ---
+  if test x"$enable_midi" != "xno"; then
+    AC_MSG_CHECKING(whether we can link the CoreMIDI framework)
+    old_LIBS="${LIBS}"
+    LIBS="$LIBS -framework CoreMidi -framework CoreServices"
+    AC_TRY_LINK([#include <CoreMIDI/MIDIServices.h>],
+                [MIDIGetNumberOfDevices()],
+                [AC_MSG_RESULT(yes);
+                 AC_DEFINE(HAVE_MIDI,,[Enable MIDI emulation.])],
+               [AC_MSG_RESULT(no);
+                 LIBS=${old_LIBS}])
+  fi
 fi
 
 AC_SUBST(SOUND_DRIVERS)
