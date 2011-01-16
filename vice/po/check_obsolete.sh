@@ -25,7 +25,7 @@ do
       ;;
     *unix*)
       ;;
-    *win32*)
+    *res*.rc*)
       ;;
     *intl_text.c)
       ;;
@@ -42,8 +42,6 @@ for i in $hfiles
 do
   case $i in
     *unix*)
-      ;;
-    *win32*)
       ;;
     *intl*.h)
       ;;
