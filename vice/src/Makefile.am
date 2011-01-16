@@ -314,8 +314,10 @@ EXTRA_DIST = \
 	bin2c.c \
 	bin2c.sh \
 	convert_owcc_libs.sh \
+	debug.h.in \
 	fixpoint.c \
 	gentranslate_h.sh \
+	gentranslate_h.sh.in \
 	gentranslatetable.sh \
 	od2c.sh \
 	palette2c.sh \

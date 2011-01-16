@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# gentranstaletable.sh - translate_table.h generator script
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
 echo "/*"
 echo " * translate_table.h - Translation table."

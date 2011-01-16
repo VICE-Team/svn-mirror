@@ -45,6 +45,7 @@ VICE_ARG_ENABLE_LIST(static-lame, [  --enable-static-lame    enable static LAME 
 VICE_ARG_ENABLE_LIST(embedded,    [  --enable-embedded       enable embedding of emulation data files])
 VICE_ARG_ENABLE_LIST(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
+VICE_ARG_ENABLE_LIST(debug,       [  --enable-debug          Enable debug source options])
 
 dnl register ReSID-fp options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
@@ -126,6 +127,15 @@ AC_CANONICAL_HOST
 if test x"$enable_memmap" = "xyes"; then
   AC_DEFINE(FEATURE_CPUMEMHISTORY,,[Use the memmap feature.])
 fi
+
+dnl check for debug build
+if test x"$enable_debug" = "xyes"; then
+  DEBUGBUILD=1
+else
+  DEBUGBUILD=0
+fi
+
+AC_SUBST(DEBUGBUILD)
 
 dnl This enables the embedded data files feature, which should
 dnl only be used for developing new ports or for ports for which
@@ -3251,8 +3261,11 @@ AC_OUTPUT([Makefile
            doc/html/Makefile
            man/Makefile
            src/Makefile
+           src/debug.h
+           src/gentranslate_h.sh
            src/arch/Makefile
            src/arch/amigaos/Makefile
+           src/arch/amigaos/genintl_h.sh
            src/arch/beos/Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile

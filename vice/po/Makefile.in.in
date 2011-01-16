@@ -49,7 +49,7 @@ GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog ChangeLog.1 Makefile.in.in POTFILES.in $(PACKAGE).pot \
 stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed intl2po.c \
 gen_amiga_intl_c.c gen_translate_c.c gen_win32_rc.c po2table.c \
-gen_win32_files.sh
+gen_win32_files.sh check_obsolete.sh
 
 POTFILES = \
 
@@ -272,6 +272,7 @@ trans-update:
 	mv ../src/arch/amigaos/temp_intl.h ../src/arch/amigaos/intl_text.c
 	$(MAKE) gen_win32_rc
 	./gen_win32_files.sh $(POTFILES)
+	( if test 'x@DEBUGBUILD@' = 'x1'; then cat >tmp_trans.txt ../src/translate.txt ../src/arch/amigaos/intl.txt; ./check_obsolete.sh $(POTFILES) <tmp_trans.txt; rm -f tmp_trans.txt; fi )
 
 POTFILES: POTFILES.in intl2po
 	( if test 'x$(srcdir)' != 'x.'; then \

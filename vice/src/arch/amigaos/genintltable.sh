@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# genintltable.sh - intl_table.h generator script for the AmigaOS ports
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
 echo "/*"
 echo " * intl_table.h - Translation table for Amiga."

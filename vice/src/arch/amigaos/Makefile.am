@@ -241,7 +241,7 @@ EXTRA_DIST = \
 	info-files/morphos/xplus4.info \
 	info-files/morphos/xvic.info \
 	fixdeps.c \
-	genintl_h.sh \
+	genintl_h.sh.in \
 	genintltable.sh \
 	intl.txt \
 	README.AMIGA \

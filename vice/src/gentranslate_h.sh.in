@@ -4,7 +4,7 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
-DEBUGBUILD=1
+DEBUGBUILD=@DEBUGBUILD@
 
 echo "/*"
 echo " * translate.h - Global internationalization routines."
@@ -59,7 +59,7 @@ echo ""
 # alot more time, so it only gets done when
 # --enable-debug is given.
 
-if test x"$DEBUGBUILD" = "x1"; then
+if test x"$DEBUGBUILD" = "xyes"; then
   count=65538
   while read data
   do

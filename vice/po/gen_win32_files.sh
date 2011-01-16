@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# gen_win32_files.sh - win32 res*.rc regeneration helper script
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
 while test x"$1" != "x"
 do

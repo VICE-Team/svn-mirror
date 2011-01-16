@@ -1,6 +1,6 @@
 /*
  * gen_win32_c - Automatic tranlation system helper tool, this program will
- *               regenerate the provide .rc file with translations in place.
+ *               regenerate the provided .rc file with translations in place.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
