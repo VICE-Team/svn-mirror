@@ -27,9 +27,9 @@ do
       ;;
     *win32*)
       ;;
-    *intl*.c)
+    *intl_text.c)
       ;;
-    *translate*.c)
+    *translate_text.c)
       ;;
     *)
       files="$files $i"
