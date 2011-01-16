@@ -1504,6 +1504,8 @@ void cart_detach(int type)
 /* called once by cartridge_init at machine init */
 void cart_init(void)
 {
+    DBG(("CART: cart_init\n"));
+
     /* "Slot 0" */
     mmc64_init();
     magicvoice_init();

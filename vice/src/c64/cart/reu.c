@@ -266,7 +266,8 @@ static io_source_t reu_io2_device = {
     reu_io2_read,
     reu_io2_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_REU
+    CARTRIDGE_REU,
+    0
 };
 
 static io_source_list_t *reu_list_item = NULL;
@@ -278,7 +279,7 @@ static const c64export_resource_t export_res_reu= {
 /* ------------------------------------------------------------------------- */
 
 /*! \brief Flag: Is the external REU enabled?  */
-static int reu_enabled;
+static int reu_enabled = 0;
 
 /*! \brief Size of the REU.  */
 static unsigned int reu_size = 0;
@@ -370,8 +371,9 @@ static int set_reu_first_unused(int val, void *param)
 */
 static int set_reu_size(int val, void *param)
 {
-    if (val == reu_size_kb)
+    if (val == reu_size_kb) {
         return 0;
+    }
 
     switch (val) {
         case 128:
@@ -403,21 +405,34 @@ static int set_reu_size(int val, void *param)
     rec_options.status_preset = REU_REG_R_STATUS_256K_CHIPS;
 
     switch (val) {
-        case 128:
-            /* special handling to mimic a 1700 as good as possible */
+        case 128: /* Commodore 1700 */
             rec_options.status_preset = 0; /* we do not have 256K chips, but only 64K chips */
             rec_options.special_wrap_around_1700 = 0x20000; /* the 1700 has a special wrap around, mimic that one */
             break;
-        case 256:
-            /* special handling to mimic a 1764 as good as possible */
+        case 256: /* Commodore 1764 */
             break;
-        case 512:
-            /* special handling to mimic a 1750 as good as possible */
+        case 512: /* Commodore 1750 */
             break;
+
+        /*
+            note: the only real REU > 512kb that existed was the CMD 1750XL, which
+                  shows the "wraparound bug" behaviour.
+                  also the 1541U implements this starting with fw2.0, and the same
+                  is appearently true for the upcoming chameleon.
+        */
+        case 1024:
+        case 2048: /* CMD 1750XL */
+        case 4096:
+        case 8192:
+        case 16384:
         default:
+#if 0
             /* for the other (fictive) REUs, assume the bank register would be fully 8 bits wide */
             rec_options.wrap_around = rec_options.special_wrap_around_1700 = 0;
             rec_options.wrap_around_mask_when_storing = 0xffffffff;
+            rec_options.reg_bank_unused = 0;
+#endif
+            rec_options.wrap_around = rec_options.special_wrap_around_1700 = 0;
             rec_options.reg_bank_unused = 0;
             break;
     }
@@ -447,6 +462,7 @@ static int set_reu_size(int val, void *param)
 */
 static int set_reu_filename(const char *name, void *param)
 {
+
     if (reu_filename != NULL && name != NULL && strcmp(name, reu_filename) == 0) {
         return 0;
     }
@@ -488,14 +504,15 @@ static const resource_string_t resources_string[] = {
 
 /*! \brief integer resources used by the REU module */
 static const resource_int_t resources_int[] = {
-    { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &reu_enabled, set_reu_enabled, NULL },
     { "REUImageWrite", 0, RES_EVENT_NO, NULL,
       &reu_write_image, set_reu_image_write, NULL },
     { "REUsize", 512, RES_EVENT_NO, NULL,
       &reu_size_kb, set_reu_size, NULL },
     { "REUfirstUnusedRegister", REU_REG_RW_UNUSED, RES_EVENT_NO, NULL,
       (int *) &rec_options.first_unused_register_address, set_reu_first_unused, NULL },
+    /* keeping "enable" resource last prevents unnecessary (re)init when loading config file */
+    { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &reu_enabled, set_reu_enabled, NULL },
     { NULL }
 };
 
@@ -642,12 +659,15 @@ static int reu_activate(void)
 
     if (!util_check_null_string(reu_filename)) {
         if (util_file_load(reu_filename, reu_ram, (size_t)reu_size, UTIL_FILE_LOAD_RAW) < 0) {
-            log_message(reu_log, "Reading REU image %s failed.", reu_filename);
-            if (util_file_save(reu_filename, reu_ram, reu_size) < 0) {
-                log_message(reu_log, "Creating REU image %s failed.", reu_filename);
-                return -1;
+            log_error(reu_log, "Reading REU image %s failed.", reu_filename);
+            /* only create a new file if no file exists, so we dont accidently overwrite any files */
+            if (!util_file_exists(reu_filename)) {
+                if (util_file_save(reu_filename, reu_ram, reu_size) < 0) {
+                    log_error(reu_log, "Creating REU image %s failed.", reu_filename);
+                    return -1;
+                }
+                log_message(reu_log, "Creating REU image %s.", reu_filename);
             }
-            log_message(reu_log, "Creating REU image %s.", reu_filename);
             return 0;
         }
         log_message(reu_log, "Reading REU image %s.", reu_filename);
@@ -665,9 +685,9 @@ static int reu_deactivate(void)
 
     if (!util_check_null_string(reu_filename)) {
         if (reu_write_image) {
-            log_message(LOG_DEFAULT, "Writing REU image %s.", reu_filename);
+            log_message(reu_log, "Writing REU image %s.", reu_filename);
             if (reu_flush_image() < 0) {
-                log_message(LOG_DEFAULT, "Writing REU image %s failed.", reu_filename);
+                log_error(reu_log, "Writing REU image %s failed.", reu_filename);
             }
         }
     }
@@ -737,7 +757,12 @@ int reu_bin_save(const char *filename)
 
 int reu_flush_image(void)
 {
-    return reu_bin_save(reu_filename);
+    if (reu_write_image) {
+        if (reu_bin_save(reu_filename) < 0) {
+            return -1;
+        }
+    }
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
