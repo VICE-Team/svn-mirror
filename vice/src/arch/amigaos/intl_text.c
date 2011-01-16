@@ -852,28 +852,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SAVE_SNAPSHOT_IMAGE_SV, "Spara ögonblicksbildfil..." },
 /* tr */ { IDMS_SAVE_SNAPSHOT_IMAGE_TR, "Anlýk görüntü imajý kaydet..." },
 
-/* en */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE,    "Load quicksnapshot image" },
-/* da */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_DA, "Hurtig-indlæs snapshot" },
-/* de */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_DE, "Snapshot Image laden" },
-/* fr */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_HU, "Gyors pillanatkép betöltése" },
-/* it */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_IT, "Carica immagine dello snapshot" },
-/* nl */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_NL, "Snellaad momentopnamebestand" },
-/* pl */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_PL, "" },  /* fuzzy */
-/* sv */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_SV, "Läs in snabbögonblicksbild" },
-/* tr */ { IDMS_LOAD_QUICKSNAPSHOT_IMAGE_TR, "Hýzlý anlýk görüntü imajý yükle" },
-
-/* en */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE,    "Save quicksnapshot image" },
-/* da */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_DA, "Hurtig-gem snapshot" },
-/* de */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_DE, "Quick-Snapshot Datei speichern" },
-/* fr */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_HU, "Gyors pillanatkép fájl mentése" },
-/* it */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_IT, "Salva immagine dello snapshot" },
-/* nl */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_NL, "Snelopslaan momentopnamebestand" },
-/* pl */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_PL, "" },  /* fuzzy */
-/* sv */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_SV, "Spara snabbögonblicksbildfil" },
-/* tr */ { IDMS_SAVE_QUICKSNAPSHOT_IMAGE_TR, "Hýzlý anlýk görüntü imajý kaydet" },
-
 /* en */ { IDMS_START_STOP_RECORDING,    "Start/Stop Recording History" },
 /* da */ { IDMS_START_STOP_RECORDING_DA, "Start/stop optagelse af historik" },
 /* de */ { IDMS_START_STOP_RECORDING_DE, "Start/Stop Aufnahme History" },
@@ -3701,17 +3679,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAW_SV, "" },  /* fuzzy */
 /* tr */ { IDS_RAW_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_ADC,    "ADC" },
-/* da */ { IDS_ADC_DA, "ADC" },
-/* de */ { IDS_ADC_DE, "ADC" },
-/* fr */ { IDS_ADC_FR, "" },  /* fuzzy */
-/* hu */ { IDS_ADC_HU, "" },  /* fuzzy */
-/* it */ { IDS_ADC_IT, "ADC" },
-/* nl */ { IDS_ADC_NL, "ADC" },
-/* pl */ { IDS_ADC_PL, "" },  /* fuzzy */
-/* sv */ { IDS_ADC_SV, "ADC" },
-/* tr */ { IDS_ADC_TR, "ADC" },
-
 /* en */ { IDS_JOYSTICK,    "Joystick" },
 /* da */ { IDS_JOYSTICK_DA, "Joystick" },
 /* de */ { IDS_JOYSTICK_DE, "Joystick" },
@@ -5660,28 +5627,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_FAST_RESAMPLING_SV, "Snabb omsampling" },
 /* tr */ { IDS_FAST_RESAMPLING_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_6581_OLD,    "6581 (old)" },
-/* da */ { IDS_6581_OLD_DA, "6581 (gammel)" },
-/* de */ { IDS_6581_OLD_DE, "6581 (alt)" },
-/* fr */ { IDS_6581_OLD_FR, "6581 (ancien)" },
-/* hu */ { IDS_6581_OLD_HU, "6581 (régi)" },
-/* it */ { IDS_6581_OLD_IT, "6581 (vecchio)" },
-/* nl */ { IDS_6581_OLD_NL, "6581 (oud)" },
-/* pl */ { IDS_6581_OLD_PL, "" },  /* fuzzy */
-/* sv */ { IDS_6581_OLD_SV, "6581 (gammal)" },
-/* tr */ { IDS_6581_OLD_TR, "6581 (eski)" },
-
-/* en */ { IDS_8580_NEW,    "8580 (new)" },
-/* da */ { IDS_8580_NEW_DA, "8580 (ny)" },
-/* de */ { IDS_8580_NEW_DE, "8580 (neu)" },
-/* fr */ { IDS_8580_NEW_FR, "8580 (nouveau)" },
-/* hu */ { IDS_8580_NEW_HU, "8580 (új)" },
-/* it */ { IDS_8580_NEW_IT, "8580 (nuovo)" },
-/* nl */ { IDS_8580_NEW_NL, "8580 (nieuw)" },
-/* pl */ { IDS_8580_NEW_PL, "" },  /* fuzzy */
-/* sv */ { IDS_8580_NEW_SV, "8580 (ny)" },
-/* tr */ { IDS_8580_NEW_TR, "8580 (yeni)" },
-
 /* en */ { IDS_SID_STEREO,    "SID Stereo" },
 /* da */ { IDS_SID_STEREO_DA, "SID-stereo" },
 /* de */ { IDS_SID_STEREO_DE, "SID Stereo" },
@@ -6353,17 +6298,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SID_CLOCK_SV, "SID-klocka" },
 /* tr */ { IDS_SID_CLOCK_TR, "SID saati" },
 
-/* en */ { IDS_SID_JOY,    "SID Cart joystick" },
-/* da */ { IDS_SID_JOY_DA, "SIDcart joystick" },
-/* de */ { IDS_SID_JOY_DE, "SIDcart Joystick" },
-/* fr */ { IDS_SID_JOY_FR, "" },  /* fuzzy */
-/* hu */ { IDS_SID_JOY_HU, "SID kártya botkormány" },
-/* it */ { IDS_SID_JOY_IT, "Joystick SID Cart" },
-/* nl */ { IDS_SID_JOY_NL, "SID cart joystick" },
-/* pl */ { IDS_SID_JOY_PL, "" },  /* fuzzy */
-/* sv */ { IDS_SID_JOY_SV, "SIDcart-styrspak" },
-/* tr */ { IDS_SID_JOY_TR, "SID kartuþu joystick'i" },
-
 /* en */ { IDS_SID_DIGIBLASTER,    "Digiblaster add-on" },
 /* da */ { IDS_SID_DIGIBLASTER_DA, "Digiblaster udviddelse" },
 /* de */ { IDS_SID_DIGIBLASTER_DE, "Digiblaster add-on" },
@@ -6847,28 +6781,6 @@ intl_translate_t intl_string_table[] = {
 /* pl */ { IDS_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
 /* sv */ { IDS_VIDEO_SETTINGS_SV, "Grafikinställningar" },
 /* tr */ { IDS_VIDEO_SETTINGS_TR, "Görüntü ayarlarý" },
-
-/* en */ { IDS_VICII_PALETTE_FILENAME,    "VICII Palette file" },
-/* da */ { IDS_VICII_PALETTE_FILENAME_DA, "Indlæs VICII-palettefil" },
-/* de */ { IDS_VICII_PALETTE_FILENAME_DE, "VICII Paletten Datei" },
-/* fr */ { IDS_VICII_PALETTE_FILENAME_FR, "Fichier de palette VICII" },
-/* hu */ { IDS_VICII_PALETTE_FILENAME_HU, "VICII paletta fájl" },
-/* it */ { IDS_VICII_PALETTE_FILENAME_IT, "File di palette VICII" },
-/* nl */ { IDS_VICII_PALETTE_FILENAME_NL, "VICII paletbestand" },
-/* pl */ { IDS_VICII_PALETTE_FILENAME_PL, "" },  /* fuzzy */
-/* sv */ { IDS_VICII_PALETTE_FILENAME_SV, "Läs in VICII-palettfil" },
-/* tr */ { IDS_VICII_PALETTE_FILENAME_TR, "VICII Palet dosyasý" },
-
-/* en */ { IDS_VDC_PALETTE_FILENAME,    "VDC Palette file" },
-/* da */ { IDS_VDC_PALETTE_FILENAME_DA, "Indlæs VDC-palettefil" },
-/* de */ { IDS_VDC_PALETTE_FILENAME_DE, "VDC Paletten Datei" },
-/* fr */ { IDS_VDC_PALETTE_FILENAME_FR, "Fichier de palette VDC" },
-/* hu */ { IDS_VDC_PALETTE_FILENAME_HU, "VDC paletta fájl" },
-/* it */ { IDS_VDC_PALETTE_FILENAME_IT, "File di palette VDC" },
-/* nl */ { IDS_VDC_PALETTE_FILENAME_NL, "VDC paletbestand" },
-/* pl */ { IDS_VDC_PALETTE_FILENAME_PL, "" },  /* fuzzy */
-/* sv */ { IDS_VDC_PALETTE_FILENAME_SV, "Läs in VDC-palettfil" },
-/* tr */ { IDS_VDC_PALETTE_FILENAME_TR, "VDC Palet dosyasý" },
 
 /* en */ { IDS_AUTO_FROM_ROM,    "Auto (from ROM)" },
 /* da */ { IDS_AUTO_FROM_ROM_DA, "Automatisk (fra ROM)" },

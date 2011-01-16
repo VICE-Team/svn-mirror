@@ -130,11 +130,6 @@ IDGS_REMOTE_HOST_DISCONNECTED
 /* network.c */
 IDGS_REMOTE_HOST_SUSPENDING
 
-#ifdef HAVE_IPV6
-/* network.c */
-IDGS_CANNOT_SWITCH_IPV4_IPV6
-#endif   /* HAVE_IPV6 */
-
 /* network.c */
 IDGS_CANNOT_CREATE_SNAPSHOT_S_SELECT
 #endif   /* HAVE_NETWORK */
@@ -280,16 +275,6 @@ IDCLS_SPECIFY_C64_MODE_KERNAL_NAME
 
 /* c128/c128-cmdline-options.c */
 IDCLS_SPECIFY_C64_MODE_BASIC_NAME
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-IDCLS_ENABLE_EMULATOR_ID
-
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
-IDCLS_DISABLE_EMULATOR_ID
 
 /* vic20/vic20-cmdline-options.c */
 IDCLS_ENABLE_OEM_JOY
@@ -440,7 +425,7 @@ IDCLS_P_SIZE_IN_KB
 /* c64/cart/georam.c */
 IDCLS_GEORAM_SIZE
 
-/* c64/psid.c */
+/* initcmdline.c */
 IDCLS_SID_PLAYER_MODE
 
 /* c64/psid.c */
@@ -1461,28 +1446,10 @@ IDCLS_USE_EXTERNAL_FILE_PALETTE
 IDCLS_SPECIFY_EXTERNAL_PALETTE_NAME
 
 /* video/video-cmdline-options.c */
-IDCLS_ENABLE_FULLSCREEN_MODE
-
-/* video/video-cmdline-options.c */
-IDCLS_DISABLE_FULLSCREEN_MODE
-
-/* video/video-cmdline-options.c */
 IDCLS_P_DEVICE
 
 /* video/video-cmdline-options.c */
 IDCLS_SELECT_FULLSCREEN_DEVICE
-
-/* video/video-cmdline-options.c */
-IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN
-
-/* video/video-cmdline-options.c */
-IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN
-
-/* video/video-cmdline-options.c */
-IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN
-
-/* video/video-cmdline-options.c */
-IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN
 
 /* video/video-cmdline-options.c */
 IDCLS_P_MODE
@@ -1620,9 +1587,6 @@ IDCLS_DONT_CALL_EXCEPTION_HANDLER
 /* initcmdline.c */
 IDCLS_CALL_EXCEPTION_HANDLER
 #endif  /* __OS2__ __BEOS__ */
-
-/* initcmdline.c */
-IDCLS_USE_VSID_MODE
 
 /* initcmdline.c */
 IDCLS_RESTORE_DEFAULT_SETTINGS
@@ -1895,15 +1859,6 @@ IDCLS_ENABLE_SFX_SS
 
 /* c64/cart/sfx_soundsampler.c */
 IDCLS_DISABLE_SFX_SS
-
-/* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_SELECT_HUMMER_USERPORT_DEVICE
-
-/* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_P_PORT
-
-/* c64dtv/c64dtv-cmdline-options.c */
-IDCLS_HUMMER_JOY_PORT
 
 /* c64dtv/c64dtvblitter.c */
 IDCLS_SPECIFY_DTV_REVISION

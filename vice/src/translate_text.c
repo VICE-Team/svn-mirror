@@ -643,22 +643,6 @@ translate_t string_table[] = {
 /* sv */ {IDGS_REMOTE_HOST_SUSPENDING_SV, "FJärrvärden pausar..."},
 /* tr */ {IDGS_REMOTE_HOST_SUSPENDING_TR, "Uzak sunucu askýda..."},
 #endif
-
-#ifdef HAVE_IPV6
-/* network.c */
-/* en */ {IDGS_CANNOT_SWITCH_IPV4_IPV6,    N_("Cannot switch IPV4/IPV6 while netplay is active.")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_DA, "Kan ikke skifte mellem IPV4/IPV6 mens netværksspil er igang."},
-/* de */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_DE, "Kann zwischen IPV4/IPV6 nicht wechseln, solange netplay aktiv ist."},
-/* fr */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_FR, "Ne peut alterner IPV4/IPV6 pendant que netplay est actif."},
-/* hu */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_HU, "Nem válthat IPV4/IPV6 között, amíg a hálózati játék aktív"},
-/* it */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_IT, "Non è possibile commutare tra IPV4 e IPV6 mentre netplay è attivo."},
-/* nl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_NL, "Kan niet schakelen tussen IPV4/IPV6 omdat netplay actief is."},
-/* pl */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_PL, ""},  /* fuzzy */
-/* sv */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_SV, "Kan inte växla mellan IPV4/IPV6 medan nätverksspel är aktivt."},
-/* tr */ {IDGS_CANNOT_SWITCH_IPV4_IPV6_TR, "Netplay aktifken IPV4/IPV6 arasý geçiþ yapýlamaz."},
-#endif
-#endif
 #endif
 
 /* gfxoutputdrv/ffmpegdrv.c */
@@ -3489,48 +3473,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
 #endif
 
-/* c64dtv/c64dtv-cmdline-options.c */
-/* en */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE,    N_("Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_DA, "Vælg enhed for Hummer brugerport (0: ingen, 1: ADC, 2: joystick)"},
-/* de */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_DE, "Hummer Userport Gerät auswählen (0: Kein, 1: ADC, 2: Joystick)"},
-/* fr */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_HU, "Hummer Userport eszköz megadása (0: nincs, 1: ADC, 2: Joystick)"},
-/* it */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_IT, "Seleziona il dispositivo sulla userport dell'Hummer (0: Nessuno, 1: ADC, 2: Joystick)"},
-/* nl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_NL, "Selecteer Hummer Userport apparaat (0: Geen, 1: ADC, 2: Joystick"},
-/* pl */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_SV, "Välj enhet för Hummeranvändarport (0: ingen, 1: ADC, 2: styrspak)"},
-/* tr */ {IDCLS_SELECT_HUMMER_USERPORT_DEVICE_TR, "Hummer Userport aygýtýný seç (0: Yok, 1: ADC, 2: Joystick)"},
-#endif
-
-/* c64dtv/c64dtv-cmdline-options.c */
-/* en */ {IDCLS_P_PORT,    N_("<port>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_PORT_DA, "<port>"},
-/* de */ {IDCLS_P_PORT_DE, "<Port>"},
-/* fr */ {IDCLS_P_PORT_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_PORT_HU, "<port>"},
-/* it */ {IDCLS_P_PORT_IT, "<porta>"},
-/* nl */ {IDCLS_P_PORT_NL, "<poort>"},
-/* pl */ {IDCLS_P_PORT_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_PORT_SV, "<port>"},
-/* tr */ {IDCLS_P_PORT_TR, "<port>"},
-#endif
-
-/* c64dtv/c64dtv-cmdline-options.c */
-/* en */ {IDCLS_HUMMER_JOY_PORT,    N_("Select which joystick port should be mapped to the userport")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_HUMMER_JOY_PORT_DA, "Vælg hvilken joystick port der skal kobles til brugerporten"},
-/* de */ {IDCLS_HUMMER_JOY_PORT_DE, "Wähle welches Joystickport dem Userport zugeordnet werden soll"},
-/* fr */ {IDCLS_HUMMER_JOY_PORT_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_HUMMER_JOY_PORT_HU, "Válassza ki a joystick portot, amely a userport-ra képzõdik le"},
-/* it */ {IDCLS_HUMMER_JOY_PORT_IT, "Seleziona quali porte joystick devono essere mappate sulla userport"},
-/* nl */ {IDCLS_HUMMER_JOY_PORT_NL, "Selecteer welke joystick poort moet worden omgeleidt naar de userport"},
-/* pl */ {IDCLS_HUMMER_JOY_PORT_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_HUMMER_JOY_PORT_SV, "Ange vilken spelport som skall kopplas till användarporten"},
-/* tr */ {IDCLS_HUMMER_JOY_PORT_TR, "Bu userporta hangi joystick portunun eþleþtirilmesi gerektiðini seçin"},
-#endif
-
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */
@@ -3860,7 +3802,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_USERPORT_DAC_TR, ""},  /* fuzzy */
 #endif
 
-/* c64/psid.c */
+/* initcmdline.c */
 /* en */ {IDCLS_SID_PLAYER_MODE,    N_("SID player mode")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SID_PLAYER_MODE_DA, "SID-afspiller tilstand"},
@@ -8547,34 +8489,6 @@ translate_t string_table[] = {
 #endif
 
 /* video/video-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_FULLSCREEN_MODE,    N_("Enable fullscreen mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_FULLSCREEN_MODE_DA, "Aktivér fuldskærmstilstand"},
-/* de */ {IDCLS_ENABLE_FULLSCREEN_MODE_DE, "Vollbild Modus aktivieren"},
-/* fr */ {IDCLS_ENABLE_FULLSCREEN_MODE_FR, "Activer le mode plein écran"},
-/* hu */ {IDCLS_ENABLE_FULLSCREEN_MODE_HU, "Teljesképernyõs mód engedélyezése"},
-/* it */ {IDCLS_ENABLE_FULLSCREEN_MODE_IT, "Visualizza a tutto schermo"},
-/* nl */ {IDCLS_ENABLE_FULLSCREEN_MODE_NL, "Activeer volschermmodus"},
-/* pl */ {IDCLS_ENABLE_FULLSCREEN_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_FULLSCREEN_MODE_SV, "Aktivera fullskärmsläge"},
-/* tr */ {IDCLS_ENABLE_FULLSCREEN_MODE_TR, "Tam ekran modunu aktif et"},
-#endif
-
-/* video/video-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_FULLSCREEN_MODE,    N_("Disable fullscreen mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_FULLSCREEN_MODE_DA, "Deaktivér fuldskærmstilstand"},
-/* de */ {IDCLS_DISABLE_FULLSCREEN_MODE_DE, "Vollbild Modus deaktivieren"},
-/* fr */ {IDCLS_DISABLE_FULLSCREEN_MODE_FR, "Désactiver le mode plein écran"},
-/* hu */ {IDCLS_DISABLE_FULLSCREEN_MODE_HU, "Teljesképernyõs mód tiltása"},
-/* it */ {IDCLS_DISABLE_FULLSCREEN_MODE_IT, "Non visualizzare a tutto schermo"},
-/* nl */ {IDCLS_DISABLE_FULLSCREEN_MODE_NL, "Volschermmodus uitschakelen"},
-/* pl */ {IDCLS_DISABLE_FULLSCREEN_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_FULLSCREEN_MODE_SV, "Inaktivera fullskärmsläge"},
-/* tr */ {IDCLS_DISABLE_FULLSCREEN_MODE_TR, "Tam ekran modunu pasifleþtir"},
-#endif
-
-/* video/video-cmdline-options.c */
 /* en */ {IDCLS_P_DEVICE,    N_("<device>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_DEVICE_DA, "<enhed>"},
@@ -8600,62 +8514,6 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SELECT_FULLSCREEN_DEVICE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_FULLSCREEN_DEVICE_SV, "Ange fullskärmsenhet"},
 /* tr */ {IDCLS_SELECT_FULLSCREEN_DEVICE_TR, "Tam ekran aygýtý seç"},
-#endif
-
-/* video/video-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN,    N_("Enable double size in fullscreen mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_DA, "Aktivér dobbelt størrelse i fuldskærms-tilstand"},
-/* de */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_DE, "Doppelte Größe im Vollbild Modus aktivieren"},
-/* fr */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_FR, "Activer \"Taille double\" en plein écran"},
-/* hu */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_HU, "Dupla méret engedélyezése teljesképernyõs módban"},
-/* it */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_IT, "Attiva la dimensione doppia nella visualizzazione a tutto schermo"},
-/* nl */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_NL, "Activeer dubbele grootte in volschermmodus"},
-/* pl */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_SV, "Aktivera dubbel storlek i fullskärmsläge"},
-/* tr */ {IDCLS_ENABLE_DOUBLE_SIZE_FULLSCREEN_TR, "Tam ekran modunda çift boyutu aktif et"},
-#endif
-
-/* video/video-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN,    N_("Disable double size in fullscreen mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DA, "Deaktivér dobbelt størrelse i fuldskærms-tilstand"},
-/* de */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_DE, "Doppelte Große im Vollbild Modus deaktivieren"},
-/* fr */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_FR, "Désactiver \"Taille double\" en plein écran"},
-/* hu */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_HU, "Dupla méret tiltása teljesképernyõs módban"},
-/* it */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_IT, "Disattiva la dimensione doppia nella visualizzazione a tutto schermo"},
-/* nl */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_NL, "Dubbele grootte in volschermmodus uitschakelen"},
-/* pl */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_SV, "Inaktivera dubbel storlek i fullskärmsläge"},
-/* tr */ {IDCLS_DISABLE_DOUBLE_SIZE_FULLSCREEN_TR, "Tam ekran modunda çift boyutu pasifleþtir"},
-#endif
-
-/* video/video-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN,    N_("Enable double scan in fullscreen mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_DA, "Aktivér dobbelt-skan i fuldskærms-tilstand"},
-/* de */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_DE, "Doppelt Scan im Vollbild Modus aktivieren"},
-/* fr */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_FR, "Activer \"Double scan\" en plein écran"},
-/* hu */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_HU, "Dupla pásztázás engedélyezése teljesképernyõs módban"},
-/* it */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_IT, "Attiva la scansione doppia nella visualizzazione a tutto schermo"},
-/* nl */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_NL, "Activeer dubbele scan in volschermmodus"},
-/* pl */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_SV, "Aktivera dubbelskanning i fullskärmsläge"},
-/* tr */ {IDCLS_ENABLE_DOUBLE_SCAN_FULLSCREEN_TR, "Tam ekran modunda çift taramayý aktif et"},
-#endif
-
-/* video/video-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN,    N_("Disable double scan in fullscreen mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DA, "Deaktivér dobbelt-skan i fuldskærms-tilstand"},
-/* de */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_DE, "Doppelt Scan im Vollbild Modus deaktivieren"},
-/* fr */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_FR, "Désactiver \"Double scan\" en plein écran"},
-/* hu */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_HU, "Dupla pásztázás tiltása teljesképernyõs módban"},
-/* it */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_IT, "Disattiva la scansione doppia nella visualizzazione a tutto schermo"},
-/* nl */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_NL, "Dubbele scan in volschermmodus uitschakelen"},
-/* pl */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_SV, "Inaktivera dubbelskanning i fullskärmsläge"},
-/* tr */ {IDCLS_DISABLE_DOUBLE_SCAN_FULLSCREEN_TR, "Tam ekran modunda çift taramayý pasifleþtir"},
 #endif
 
 /* video/video-cmdline-options.c */
@@ -9268,20 +9126,6 @@ translate_t string_table[] = {
 /* sv */ {IDCLS_CALL_EXCEPTION_HANDLER_SV, "Anropa undantagshanterare (standard)"},
 /* tr */ {IDCLS_CALL_EXCEPTION_HANDLER_TR, "Kural dýþý iþleyiciyi çaðýr (varsayýlan)"},
 #endif
-#endif
-
-/* initcmdline.c */
-/* en */ {IDCLS_USE_VSID_MODE,    N_("Use vsid mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_USE_VSID_MODE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_USE_VSID_MODE_DE, "Benutze vsid Modus"},
-/* fr */ {IDCLS_USE_VSID_MODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_USE_VSID_MODE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_USE_VSID_MODE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_USE_VSID_MODE_NL, "Gebruik vsid modus"},
-/* pl */ {IDCLS_USE_VSID_MODE_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_USE_VSID_MODE_SV, "Använder vsid-läge"},
-/* tr */ {IDCLS_USE_VSID_MODE_TR, ""},  /* fuzzy */
 #endif
 
 /* initcmdline.c */

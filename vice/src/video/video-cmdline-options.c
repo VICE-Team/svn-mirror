@@ -372,4 +372,3 @@ int video_cmdline_options_chip_init(const char *chipname,
 
     return 0;
 }
-

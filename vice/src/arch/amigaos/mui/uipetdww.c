@@ -60,7 +60,7 @@ static ULONG Browse(struct Hook *hook, Object *obj, APTR arg)
 {
     char *fname = NULL;
 
-    fname = BrowseFile(translate_text(IDS_PET_REU_FILENAME_SELECT), "#?", petdww_canvas);
+    fname = BrowseFile(translate_text(IDS_PET_DWW_FILENAME_SELECT), "#?", petdww_canvas);
 
     if (fname != NULL) {
         set(ui_to_from[1].object, MUIA_String_Contents, fname);
