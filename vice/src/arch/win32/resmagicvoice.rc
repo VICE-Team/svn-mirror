@@ -41,10 +41,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
-  IDS_MAGICVOICE_ENABLE      "&Enable Magic Voice"
-  IDS_MAGICVOICE_FILE        "Magic Voice file"
-  IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice indstillinger"
+  IDS_MAGICVOICE_ENABLE      "Aktivér Magic Voice"
+  IDS_MAGICVOICE_FILE        "Magic Voice-fil"
+  IDS_MAGICVOICE_SELECT_FILE "Vælg fil for Magic Voice"
 END
 
 
@@ -95,10 +95,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
-  IDS_MAGICVOICE_ENABLE      "&Enable Magic Voice"
-  IDS_MAGICVOICE_FILE        "Magic Voice file"
-  IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
+  IDS_MAGICVOICE_CAPTION     "Impostazioni Magic Voice"
+  IDS_MAGICVOICE_ENABLE      "&Attiva Magic Voice"
+  IDS_MAGICVOICE_FILE        "File Magic Voice"
+  IDS_MAGICVOICE_SELECT_FILE "Seleziona file per Magic Voice"
 END
 
 
@@ -152,10 +152,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
-  IDS_MAGICVOICE_ENABLE      "&Enable Magic Voice"
-  IDS_MAGICVOICE_FILE        "Magic Voice file"
-  IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice Ayarlarý"
+  IDS_MAGICVOICE_ENABLE      "Magic Voice'i aktif &et"
+  IDS_MAGICVOICE_FILE        "Magic Voice dosyasý"
+  IDS_MAGICVOICE_SELECT_FILE "Magic Voice için dosya seçin"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

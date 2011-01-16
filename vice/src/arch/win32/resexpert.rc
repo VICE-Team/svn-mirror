@@ -60,12 +60,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
-  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
-  IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_SELECT_FILE_EXPERT  "Vælg fil for Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Expert Cartridge-indstillinger"
+  IDS_EXPERT_ENABLE       "Aktivér &Expert Cartridge"
+  IDS_EXPERT_MODE_LABEL   "Tilstand"
+  IDS_EXPERT_WRITE_ENABLE "&Gem Expert Cartridge image ved ændringer"
+  IDS_EXPERT_FILE_LABEL   "Expert Cartridge-fil"
   IDS_OFF                 "Slukket"
   IDS_PRG                 "Prg"
   IDS_ON                  "Tændt"
@@ -134,12 +134,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
-  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
-  IDS_EXPERT_ENABLE       "&Enable Expert Cartridge"
-  IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "&Save Expert Cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_SELECT_FILE_EXPERT  "Seleziona file per Expert Cartridge"
+  IDS_EXPERT_CAPTION      "Impostazioni Expert Cartridge"
+  IDS_EXPERT_ENABLE       "&Attiva Expert Cartridge"
+  IDS_EXPERT_MODE_LABEL   "Modalità"
+  IDS_EXPERT_WRITE_ENABLE "&Salva immagine Expert Cartridge al cambio"
+  IDS_EXPERT_FILE_LABEL   "File Expert Cartridge"
   IDS_OFF                 "No"
   IDS_PRG                 "Prg"
   IDS_ON                  "Sì"

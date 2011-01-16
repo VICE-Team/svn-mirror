@@ -100,11 +100,11 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64-indstillinger"
-    IDS_IDE64_V4           "Enable IDE64 V4"
-    IDS_IDE64_IMAGE_1      "&HD image #1 file"
-    IDS_IDE64_IMAGE_2      "&HD image #2 file"
-    IDS_IDE64_IMAGE_3      "&HD image #3 file"
-    IDS_IDE64_IMAGE_4      "&HD image #4 file"
+    IDS_IDE64_V4           "Aktivér IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD-image fil #1"
+    IDS_IDE64_IMAGE_2      "&HD-imagefil #2"
+    IDS_IDE64_IMAGE_3      "&HD-imagefil #3"
+    IDS_IDE64_IMAGE_4      "&HD-imagefil #4"
     IDS_IDE64_GEOMETRY     "&Geometri"
     IDS_IDE64_AUTODETECT   "&Autodetektér"
     IDS_IDE64_CYLINDERS    "Cylindrer"
@@ -190,18 +190,18 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "Impostazioni IDE64"
-    IDS_IDE64_V4           "Enable IDE64 V4"
-    IDS_IDE64_IMAGE_1      "&HD image #1 file"
-    IDS_IDE64_IMAGE_2      "&HD image #2 file"
-    IDS_IDE64_IMAGE_3      "&HD image #3 file"
-    IDS_IDE64_IMAGE_4      "&HD image #4 file"
+    IDS_IDE64_V4           "Attiva IDE64 V4"
+    IDS_IDE64_IMAGE_1      "Nome immagine #1 &HD"
+    IDS_IDE64_IMAGE_2      "Nome immagine #2 &HD"
+    IDS_IDE64_IMAGE_3      "Nome immagine #3 &HD"
+    IDS_IDE64_IMAGE_4      "Nome immagine #4 &HD"
     IDS_IDE64_GEOMETRY     "&Geometria"
     IDS_IDE64_AUTODETECT   "&Rileva automaticamente"
     IDS_IDE64_CYLINDERS    "Cilindri"
     IDS_IDE64_HEADS        "Testine"
     IDS_IDE64_SECTORS      "Settori"
     IDS_IDE64_TOTAL_SIZE   "Dimensione totale: %iKB"
-    IDS_IDE64_SELECT_IMAGE "Seleziona il file immagine dell'HD"
+    IDS_IDE64_SELECT_IMAGE "Seleziona il file immagine HD"
 END
 
 
@@ -283,11 +283,11 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_CAPTION      "IDE64 ayarlarý"
-    IDS_IDE64_V4           "Enable IDE64 V4"
-    IDS_IDE64_IMAGE_1      "&HD image #1 file"
-    IDS_IDE64_IMAGE_2      "&HD image #2 file"
-    IDS_IDE64_IMAGE_3      "&HD image #3 file"
-    IDS_IDE64_IMAGE_4      "&HD image #4 file"
+    IDS_IDE64_V4           "IDE64 V4'ü aktif &et"
+    IDS_IDE64_IMAGE_1      "&HD imaj #1 dosyasý"
+    IDS_IDE64_IMAGE_2      "&HD imaj #2 dosyasý"
+    IDS_IDE64_IMAGE_3      "&HD imaj #3 dosyasý"
+    IDS_IDE64_IMAGE_4      "&HD imaj #4 dosyasý"
     IDS_IDE64_GEOMETRY     "&Geometri"
     IDS_IDE64_AUTODETECT   "Otom&atik algýla"
     IDS_IDE64_CYLINDERS    "Silindirler"

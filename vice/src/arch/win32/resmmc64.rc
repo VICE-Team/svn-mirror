@@ -79,7 +79,7 @@ BEGIN
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS-fil"
   IDS_MMC64_IMAGE_RO         "MMC/SD-image skrivebeskyttet"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD-&imagefil"
-  IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_SDTYPE_LABEL     "Korttype"
 END
 
 
@@ -144,12 +144,12 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MMC64_ENABLE           "&Attiva MMC64"
   IDS_MMC64_REVISION_LABEL   "Revisione BIOS"
-  IDS_MMC64_FLASHJUMPER      "Attiva il &Flash Jumper del BIOS"
-  IDS_MMC64_BIOS_SAVE        "&Salva il BIOS al cambio"
-  IDS_MMC64_BIOS_FILE_LABEL  "File del &BIOS"
+  IDS_MMC64_FLASHJUMPER      "Attiva &Flash Jumper del BIOS"
+  IDS_MMC64_BIOS_SAVE        "&Salva BIOS al cambio"
+  IDS_MMC64_BIOS_FILE_LABEL  "File &BIOS"
   IDS_MMC64_IMAGE_RO         "Immagine MMC/SD in sola lettura"
   IDS_MMC64_IMAGE_FILE_LABEL "File &immagine MMC/SD"
-  IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_SDTYPE_LABEL     "Tipo card"
 END
 
 
@@ -215,14 +215,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "MMC64'ý aktif et"
+  IDS_MMC64_ENABLE           "MMC64'ü aktif &et"
   IDS_MMC64_REVISION_LABEL   "BIOS Revizyonu"
   IDS_MMC64_FLASHJUMPER      "BIOS &Flash Jumper'ý aktif et"
   IDS_MMC64_BIOS_SAVE        "BIO&S deðiþtiðinde kaydet"
   IDS_MMC64_BIOS_FILE_LABEL  "&BIOS Dosyasý"
   IDS_MMC64_IMAGE_RO         "Salt Okunur MMC/SD Imajý"
   IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Imaj Dosyasý"
-  IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_SDTYPE_LABEL     "Kart tipi"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

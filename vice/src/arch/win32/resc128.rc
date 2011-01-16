@@ -989,9 +989,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Seleziona l'immagine della Function ROM interna"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona l'immagine della Function ROM esterna"
-  IDS_MACHINE_TYPE              "Tipo di macchina"
+  IDS_SELECT_INT_FUNCTION_ROM   "Seleziona immagine Function ROM interna"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona immagine Function ROM esterna"
+  IDS_MACHINE_TYPE              "Tipo macchina"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "Banchi di Ram"
   IDS_C128_SETTINGS             "Impostazioni C128"
@@ -1031,15 +1031,15 @@ BEGIN
   IDS_NORWEGIAN                 "Norvegese"
   IDS_SWEDISH                   "Svedese"
   IDS_INT_FUNCTION_ROM          "Function ROM interna"
-  IDS_ENABLE_INT_FUNCTION_ROM   "Attiva la Function ROM interna"
-  IDS_FILE_NAME                 "Nome del file"
+  IDS_ENABLE_INT_FUNCTION_ROM   "Attiva Function ROM interna"
+  IDS_FILE_NAME                 "Nome file"
   IDS_EXT_FUNCTION_ROM          "Function ROM esterna"
-  IDS_ENABLE_EXT_FUNCTION_ROM   "Attiva la Function ROM esterna"
-  IDS_C128_FULL_BANKS           "Attiva i banchi di RAM 2 e 3"
-  IDS_MP_VDC_SETTINGS           "Impostazio&ni del VDC"
+  IDS_ENABLE_EXT_FUNCTION_ROM   "Attiva Function ROM esterna"
+  IDS_C128_FULL_BANKS           "Attiva banchi RAM 2 e 3"
+  IDS_MP_VDC_SETTINGS           "Impostazio&ni VDC"
   IDS_MP_VDC_REVISION           "Revisione VDC"
   IDS_MI_TOGGLE_VDC64KB         "64KB di &memoria video"
-  IDS_MI_IEEE488                "Emulazione dell'interfaccia IEEE&488"
+  IDS_MI_IEEE488                "Emulazione interfaccia IEEE&488"
   IDS_MI_C128_SETTINGS          "Impostazioni C&128..."
 END
 

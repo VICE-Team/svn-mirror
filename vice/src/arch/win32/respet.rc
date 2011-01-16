@@ -641,9 +641,9 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAM9       "$&9*** som RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
   IDS_MI_PET_SETTINGS            "P&ET-indstillinger..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET &DWW-indstillinger..."
   IDS_MI_PETREU_SETTINGS         "PET &REU-indstillinger..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivér PET br&ugerport DAC"
 END
 
 
@@ -778,7 +778,7 @@ BEGIN
   IDS_SELECT_PET_VIDEO_AUTO      "&Auto (dalla ROM)"
   IDS_SELECT_PET_VIDEO_40        "&40 Colonne"
   IDS_SELECT_PET_VIDEO_80        "&80 Colonne"
-  IDS_PET_IO_SIZE                "Dimensione di &I/O"
+  IDS_PET_IO_SIZE                "Dimensione &I/O"
   IDS_SELECT_PET_IO256           "2&56 Byte"
   IDS_SELECT_PET_IO2K            "&2 kByte"
   IDS_TOGGLE_PET_CRTC            "&Attiva chip CRTC"
@@ -786,14 +786,14 @@ BEGIN
   IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafica"
   IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
   IDS_PET_IO_SETTINGS            "Impostazioni &IO"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Attiva I/O del SuperPET (disattiva 8x96)"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Attiva I/O SuperPET (disattiva 8x96)"
   IDS_PET_RAM_SETTINGS           "Impostazioni &RAM"
   IDS_TOGGLE_PET_8296_RAM9       "$&9*** come RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$&A*** come RAM"
   IDS_MI_PET_SETTINGS            "Impostazioni P&ET..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
+  IDS_MI_PETDWW_SETTINGS         "Impostazioni PET &DWW..."
   IDS_MI_PETREU_SETTINGS         "Impostazioni PET &REU..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su &userport PET"
 END
 
 
@@ -944,9 +944,9 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAM9       "RAM olarak $9***"
   IDS_TOGGLE_PET_8296_RAMA       "RAM olarak $&A***"
   IDS_MI_PET_SETTINGS            "P&ET ayarlarý..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET &DWW ayarlarý..."
   IDS_MI_PETREU_SETTINGS         "PET &REU ayarlarý..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET &Userport DAC'ý aktif et"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

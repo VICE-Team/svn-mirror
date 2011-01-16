@@ -60,13 +60,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION      "RamCart Settings"
-  IDS_RAMCART_ENABLE       "&Enable RamCart"
+  IDS_RAMCART_CAPTION      "RamCart-indstillinger..."
+  IDS_RAMCART_ENABLE       "&Aktivér RamCart"
   IDS_RAMCART_READONLY     "&Kun læseadgang"
-  IDS_RAMCART_SIZE         "RamCart size"
-  IDS_RAMCART_WRITE_ENABLE "&Save to RamCart image when changed"
-  IDS_RAMCART_FILE         "RamCart file"
-  IDS_RAMCART_SELECT_FILE  "Select file for RamCart"
+  IDS_RAMCART_SIZE         "RamCart-størrelse"
+  IDS_RAMCART_WRITE_ENABLE "&Gem til RamCart image ved ændringer"
+  IDS_RAMCART_FILE         "RamCart fil"
+  IDS_RAMCART_SELECT_FILE  "Vælg fil for RamCart"
 END
 
 
@@ -126,13 +126,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION      "RamCart Settings"
-  IDS_RAMCART_ENABLE       "&Enable RamCart"
+  IDS_RAMCART_CAPTION      "ImpostazioniRamCart"
+  IDS_RAMCART_ENABLE       "&Attiva RamCart"
   IDS_RAMCART_READONLY     "&Accesso in sola lettura"
-  IDS_RAMCART_SIZE         "RamCart size"
-  IDS_RAMCART_WRITE_ENABLE "&Save to RamCart image when changed"
-  IDS_RAMCART_FILE         "RamCart file"
-  IDS_RAMCART_SELECT_FILE  "Select file for RamCart"
+  IDS_RAMCART_SIZE         "Dimensione RamCart"
+  IDS_RAMCART_WRITE_ENABLE "&Salva immagine RamCart al cambio"
+  IDS_RAMCART_FILE         "File RamCart"
+  IDS_RAMCART_SELECT_FILE  "Seleziona file per RamCart"
 END
 
 

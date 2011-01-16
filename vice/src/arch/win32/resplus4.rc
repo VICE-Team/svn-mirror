@@ -520,7 +520,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Funktion lav-image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Funktion høj-image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4-indstillinger..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech indstillinger"
 END
 
 
@@ -552,7 +552,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Funktions ROM Image Datei low (3plus1)"
   IDS_MI_CART_ATTACH_FUNCHI       "Funktions ROM Image Datei high (3plus1)"
   IDS_MI_PLUS4_SETTINGS           "P&lus4 Einstellungen..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Stimme Einstellungen"
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Sprache Einstellungen"
 END
 
 
@@ -631,12 +631,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Seleziona l'immagine di una cartuccia per la Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Seleziona l'immagine di una cartuccia per la Function High"
-  IDS_ATTACH_CART1_LOW            "Seleziona l'immagine di una cartuccia per la Cartridge Low"
-  IDS_ATTACH_CART1_HIGH           "Seleziona l'immagine di una cartuccia per la Cartridge1 High"
-  IDS_ATTACH_CART2_LOW            "Seleziona l'immagine di una cartuccia per la Cartridge2 Low"
-  IDS_ATTACH_CART2_HIGH           "Seleziona l'immagine di una cartuccia per la Cartridge2 High"
+  IDS_ATTACH_FUNCTION_LOW_CART    "Seleziona immagine cartuccia per la Function Low"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Seleziona immagine cartuccia per la Function High"
+  IDS_ATTACH_CART1_LOW            "Seleziona immagine cartuccia per la Cartridge Low"
+  IDS_ATTACH_CART1_HIGH           "Seleziona immagine cartuccia per la Cartridge1 High"
+  IDS_ATTACH_CART2_LOW            "Seleziona immagine cartuccia per la Cartridge2 Low"
+  IDS_ATTACH_CART2_HIGH           "Seleziona immagine cartuccia per la Cartridge2 High"
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Impostazioni Plus4"
@@ -651,10 +651,10 @@ BEGIN
   IDS_MI_CART_ATTACH_C1HI         "Immagine C1 alta..."
   IDS_MI_CART_ATTACH_C2LO         "Immagine C2 bassa..."
   IDS_MI_CART_ATTACH_C2HI         "Immagine C2 alta..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Immagine della Function low (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Immagine della Function high (3plus1)..."
+  IDS_MI_CART_ATTACH_FUNCLO       "Immagine Function low (3plus1)..."
+  IDS_MI_CART_ATTACH_FUNCHI       "Immagine Function high (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Impostazioni P&lus4..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "Impostazioni &V364 Speech..."
 END
 
 
@@ -791,7 +791,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  imajý (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high imajý (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "P&lus4 ayarlarý..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

@@ -155,8 +155,8 @@ BEGIN
   IDS_ACIA_CAPTION   "Impostazioni ACIA"
   IDS_ACIA_ENABLE    "&Attiva ACIA"
   IDS_ACIA_DEVICE    "Dispositivo ACIA"
-  IDS_ACIA_LOCATION  "Posizione dell'ACIA"
-  IDS_ACIA_INTERRUPT "Interrupt dell'ACIA"
+  IDS_ACIA_LOCATION  "Posizione ACIA"
+  IDS_ACIA_INTERRUPT "Interrupt ACIA"
   IDS_ACIA_MODE      "Modalità ACIA"
 END
 
