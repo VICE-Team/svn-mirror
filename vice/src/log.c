@@ -277,17 +277,19 @@ static int log_helper(log_t log, unsigned int level, const char *format,
     int rc = 0;
     char *logtxt = NULL;
 
-    if (!log_enabled)
+    if (!log_enabled) {
         return 0;
+    }
 
-    if (logi == LOG_ERR
-        || (logi != LOG_DEFAULT && (logs == NULL || logs[logi] == NULL)))
+    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR) && (logs == NULL || logs[logi] == NULL)) {
         return -1;
+    }
 
-    if (logi != LOG_DEFAULT && *logs[logi] != '\0')
+    if ((logi != LOG_DEFAULT) && (logi != LOG_ERR) && (*logs[logi] != '\0')) {
         logtxt = lib_msprintf("%s: %s", logs[logi], level_strings[level]);
-    else
-        logtxt = lib_stralloc("");
+    } else {
+        logtxt = lib_msprintf("%s", level_strings[level]);
+    }
 
     if (log_file == NULL) {
         rc = log_archdep(logtxt, format, ap);
