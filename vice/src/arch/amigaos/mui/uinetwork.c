@@ -43,8 +43,13 @@
 #endif
 #include "mui.h"
 
+static ui_port_range[] = {
+    0,
+    0xffff
+};
+
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_INTEGER, "NetworkServerPort", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_INTEGER, "NetworkServerPort", NULL, ui_port_range, NULL },
     { NULL, MUI_TYPE_TEXT, "NetworkServerBindAddress", NULL, NULL, NULL },
     { NULL, MUI_TYPE_TEXT, "NetworkServerName", NULL, NULL, NULL },
     UI_END /* mandatory */

@@ -181,6 +181,16 @@ static void integer_get_from_ui(ui_to_from_t *data)
 
     get(data->object, MUIA_String_Contents, (APTR)&str);
     val = atoi(str);
+    if (data->values != NULL) {
+        if (val < data->values[0]) {
+            ui_error(translate_text(IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD), val, data->values[0], data->values[1], data->values[0]);
+            val = data->values[0];
+        }
+        if (val > data->values[1]) {
+            ui_error(translate_text(IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD), val, data->values[0], data->values[1], data->values[1]);
+            val = data->values[1];
+        }
+    }
     resources_set_value(data->resource, (resource_value_t *)val);
 }
 
@@ -237,6 +247,16 @@ static void float_get_from_ui(ui_to_from_t *data)
     get(data->object, MUIA_String_Contents, (APTR)&str);
     fval = atof(str);
     val = (int)(fval * 1000.0 + 0.5);
+    if (data->values != NULL) {
+        if (val < data->values[0]) {
+            ui_error(translate_text(IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD), fval, (float)(data->values[0] / 1000), (float)(data->values[1] / 1000), (float)(data->values[0] / 1000));
+            val = data->values[0];
+        }
+        if (val > data->values[1]) {
+            ui_error(translate_text(IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD), val, (float)(data->values[0] / 1000), (float)(data->values[1] / 1000), (float)(data->values[1] / 1000));
+            val = data->values[1];
+        }
+    }
     resources_set_value(data->resource, (resource_value_t *)val);
 }
 

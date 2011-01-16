@@ -67,16 +67,31 @@ static int ui_render_filter_without_scale2x_translate[] = {
 
 static char *ui_render_filter_without_scale2x[countof(ui_render_filter_without_scale2x_translate)];
 
+static int ui_range_0_4[] = {
+    0,
+    4000
+};
+
+static int ui_range_0_2[] = {
+    0,
+    2000
+};
+
+static int ui_range_0_1[] = {
+    0,
+    1000
+};
+
 static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorSaturation", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorContrast", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorBrightness", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, ui_range_0_4, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorSaturation", NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorContrast", NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, "ColorBrightness", NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, ui_range_0_1, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, ui_range_0_1, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, ui_range_0_2, NULL },
     { NULL, MUI_TYPE_CYCLE, NULL, ui_external_palette_enable, ui_external_palette_enable_values, NULL }, /* resource placeholder for palette 1 */
     { NULL, MUI_TYPE_FILENAME, NULL, NULL, NULL, NULL }, /* resource placeholder for palette 1 file */
     { NULL, MUI_TYPE_CYCLE, NULL, ui_external_palette_enable, ui_external_palette_enable_values, NULL }, /* resource placeholder for palette 2 */

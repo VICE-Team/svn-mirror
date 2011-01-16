@@ -50,6 +50,21 @@ static const int ui_ide64_autodetect_values[] = {
     -1
 };
 
+static int ui_cylinders_range[] = {
+    0,
+    1024
+};
+
+static int ui_heads_range[] = {
+    0,
+    16
+};
+
+static int ui_sectors_range[] = {
+    0,
+    63
+};
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_FILENAME, "IDE64Image1", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "IDE64Image2", NULL, NULL, NULL },
@@ -57,9 +72,9 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_FILENAME, "IDE64Image4", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "IDE64version4", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "IDE64AutodetectSize", ui_ide64_autodetect, ui_ide64_autodetect_values, NULL },
-    { NULL, MUI_TYPE_INTEGER, "IDE64Cylinders", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_INTEGER, "IDE64Heads", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_INTEGER, "IDE64Sectors", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_INTEGER, "IDE64Cylinders", NULL, ui_cylinders_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "IDE64Heads", NULL, ui_heads_range, NULL },
+    { NULL, MUI_TYPE_INTEGER, "IDE64Sectors", NULL, ui_sectors_range, NULL },
     UI_END /* mandatory */
 };
 

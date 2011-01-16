@@ -2634,6 +2634,28 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_STOP_SOUND_RECORD_SV, "Stoppa ljudinspelning" },
 /* tr */ { IDMS_STOP_SOUND_RECORD_TR, "Ses kaydýný durdur" },
 
+/* en */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD,    "Value %d out of range, range is from %d to %d, using %d instead" },
+/* da */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_DA, "" },  /* fuzzy */
+/* de */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_DE, "" },  /* fuzzy */
+/* fr */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_FR, "" },  /* fuzzy */
+/* hu */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_HU, "" },  /* fuzzy */
+/* it */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_IT, "" },  /* fuzzy */
+/* nl */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_NL, "" },  /* fuzzy */
+/* pl */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_PL, "" },  /* fuzzy */
+/* sv */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_SV, "" },  /* fuzzy */
+/* tr */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_TR, "" },  /* fuzzy */
+
+/* en */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD,    "Value %.3f out of range, range is from %.3f to %.3f, using %.3f instead" },
+/* da */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_DA, "" },  /* fuzzy */
+/* de */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_DE, "" },  /* fuzzy */
+/* fr */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_FR, "" },  /* fuzzy */
+/* hu */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_HU, "" },  /* fuzzy */
+/* it */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_IT, "" },  /* fuzzy */
+/* nl */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_NL, "" },  /* fuzzy */
+/* pl */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_PL, "" },  /* fuzzy */
+/* sv */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_SV, "" },  /* fuzzy */
+/* tr */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_TR, "" },  /* fuzzy */
+
 /* en */ { IDMES_SETTINGS_SAVED_SUCCESS,    "Settings saved successfully." },
 /* da */ { IDMES_SETTINGS_SAVED_SUCCESS_DA, "Indstillingerne er gemt." },
 /* de */ { IDMES_SETTINGS_SAVED_SUCCESS_DE, "Einstellungen erfolgreich gespeichert" },
