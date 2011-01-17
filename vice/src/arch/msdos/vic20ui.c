@@ -424,6 +424,15 @@ static tui_menu_item_def_t final_expansion_menu_items[] = {
     { NULL }
 };
 
+TUI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
+
+static tui_menu_item_def_t vic_flash_plugin_menu_items[] = {
+    { "_Enable write-back to cart file:", "Enable write-back to cart file",
+      toggle_VicFlashPluginWriteBack_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
 TUI_MENU_DEFINE_TOGGLE(MegaCartNvRAMWriteBack)
 
 static TUI_MENU_CALLBACK(megacart_nvram_image_file_callback)
@@ -489,9 +498,15 @@ int vic20ui_init(void)
 
     tui_menu_add(ui_final_expansion_submenu, final_expansion_menu_items);
 
-    tui_menu_add_submenu(ui_ioextensions_submenu, "_Final Expansions settings...",
+    tui_menu_add_submenu(ui_ioextensions_submenu, "_Final Expansion settings...",
                          "Final Expansion settings",
                          ui_final_expansion_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_submenu(ui_ioextensions_submenu, "_Vic Flash Plugin settings...",
+                         "Vic Flash Plugin settings",
+                         ui_vic_flash_plugin_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
