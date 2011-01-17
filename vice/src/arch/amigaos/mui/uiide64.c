@@ -51,17 +51,17 @@ static const int ui_ide64_autodetect_values[] = {
 };
 
 static int ui_cylinders_range[] = {
-    0,
+    1,
     1024
 };
 
 static int ui_heads_range[] = {
-    0,
+    1,
     16
 };
 
 static int ui_sectors_range[] = {
-    0,
+    1,
     63
 };
 
