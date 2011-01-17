@@ -475,6 +475,7 @@ int vic20ui_init(void)
 {
     tui_menu_t ui_ioextensions_submenu;
     tui_menu_t ui_final_expansion_submenu;
+    tui_menu_t ui_vic_flash_plugin_submenu;
     tui_menu_t ui_megacart_submenu;
 
     ui_create_main_menu(1, 1, 1, 1, 1);

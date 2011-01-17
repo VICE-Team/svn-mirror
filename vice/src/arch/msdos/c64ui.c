@@ -48,6 +48,7 @@
 #include "uidqbb.h"
 #include "uieasyflash.h"
 #include "uigeoram.h"
+#include "uiide64.h"
 #include "uiisepic.h"
 #include "uilightpen.h"
 #include "uimagicvoice.h"
@@ -420,6 +421,8 @@ int c64ui_init(void)
     uigeoram_init(ui_ioextensions_submenu);
 
     uiramcart_init(ui_ioextensions_submenu);
+
+    uiide64_init(ui_ioextensions_submenu);
 
     uidqbb_init(ui_ioextensions_submenu);
 

@@ -46,6 +46,7 @@
 #include "uidigimax.h"
 #include "uieasyflash.h"
 #include "uigeoram.h"
+#include "uiide64.h"
 #include "uilightpen.h"
 #include "uimagicvoice.h"
 #include "uimmc64.h"
@@ -432,6 +433,8 @@ int c128ui_init(void)
     uigeoram_init(ui_ioextensions_submenu);
 
     uiramcart_init(ui_ioextensions_submenu);
+
+    uiide64_init(ui_ioextensions_submenu);
 
     uidigimax_init(ui_ioextensions_submenu);
 

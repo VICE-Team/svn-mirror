@@ -95,6 +95,8 @@ libarch_a_SOURCES = \
 	uieasyflash.h \
 	uigeoram.c \
 	uigeoram.h \
+	uiide64.c \
+	uiide64.h \
 	uiisepic.c \
 	uiisepic.h \
 	uijoystick.c \
