@@ -74,6 +74,8 @@ static tui_menu_item_def_t printerusdriver_submenu[] = {
       (void *)"mps803", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_NL10", NULL, radio_PrinterUserportDriver_callback,
       (void *)"nl10", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_RAW", NULL, radio_PrinterUserportDriver_callback,
+      (void *)"raw", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -149,6 +151,8 @@ static tui_menu_item_def_t printer4driver_submenu[] = {
       (void *)"mps803", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_NL10", NULL, radio_Printer4Driver_callback,
       (void *)"nl10", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_RAW", NULL, radio_Printer4Driver_callback,
+      (void *)"raw", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -209,6 +213,8 @@ static tui_menu_item_def_t printer5driver_submenu[] = {
       (void *)"mps803", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_NL10", NULL, radio_Printer5Driver_callback,
       (void *)"nl10", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_RAW", NULL, radio_Printer5Driver_callback,
+      (void *)"raw", 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
