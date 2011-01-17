@@ -1,5 +1,5 @@
 /*
- * uiperipherial.c
+ * uiprinter.c
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
