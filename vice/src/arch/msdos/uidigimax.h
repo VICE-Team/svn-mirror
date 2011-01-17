@@ -1,5 +1,5 @@
 /*
- * uidigimax.h - DIGIMAX cartridge UI interface for MS-DOS.
+ * uidigimax.h - DigiMAX cartridge UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

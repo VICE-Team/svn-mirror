@@ -1,5 +1,5 @@
 /*
- * uidigimax.c - DIGIMAX cartridge UI interface for MS-DOS.
+ * uidigimax.c - DigiMAX cartridge UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -89,13 +89,13 @@ static tui_menu_item_def_t digimax_base_submenu[] = {
 };
 
 static tui_menu_item_def_t digimax_menu_items[] = {
-    { "_Enable Digimax:", "Emulate Digimax Cartridge",
+    { "_Enable DigiMAX:", "Emulate DigiMAX Cartridge",
       toggle_DIGIMAX_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Digimax _base:", "Select the base of the Digimax Cartridge",
+    { "DigiMAX _base:", "Select the base of the DigiMAX Cartridge",
       digimax_base_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, digimax_base_submenu,
-      "Digimax base" },
+      "DigiMAX base" },
     { NULL }
 };
 
@@ -103,12 +103,12 @@ void uidigimax_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_digimax_submenu;
 
-    ui_digimax_submenu = tui_menu_create("Digimax settings", 1);
+    ui_digimax_submenu = tui_menu_create("DigiMAX settings", 1);
 
     tui_menu_add(ui_digimax_submenu, digimax_menu_items);
 
-    tui_menu_add_submenu(parent_submenu, "_Digimax settings...",
-                         "Digimax settings",
+    tui_menu_add_submenu(parent_submenu, "_DigiMAX settings...",
+                         "DigiMAX settings",
                          ui_digimax_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);

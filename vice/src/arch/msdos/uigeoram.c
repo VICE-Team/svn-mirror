@@ -1,5 +1,5 @@
 /*
- * uigeoram.c - GEORAM UI interface for MS-DOS.
+ * uigeoram.c - GEO-RAM UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -33,10 +33,8 @@
 #include "tuimenu.h"
 #include "uigeoram.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(GEORAM)
 TUI_MENU_DEFINE_RADIO(GEORAMsize)
-
 
 static TUI_MENU_CALLBACK(georam_size_submenu_callback)
 {
@@ -75,7 +73,7 @@ static TUI_MENU_CALLBACK(georam_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change GEORAM image name", "New image name:", s, 255) == -1) {
+        if (tui_input_string("Change GEO-RAM image name", "New image name:", s, 255) == -1) {
             return NULL;
         }
 
@@ -92,14 +90,14 @@ static TUI_MENU_CALLBACK(georam_image_file_callback)
 }
 
 static tui_menu_item_def_t georam_menu_items[] = {
-    { "_Enable GEORAM:", "Emulate GEORAM Expansion Unit",
+    { "_Enable GEO-RAM:", "Emulate GEO-RAM Expansion Unit",
       toggle_GEORAM_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "GEORAM _size:", "Select the size of the GEORAM",
+    { "GEO-RAM _size:", "Select the size of the GEO-RAM",
       georam_size_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, georam_size_submenu,
-      "GEORAM size" },
-    { "GEORAM _image file:", "Select the GEORAM image file",
+      "GEO-RAM size" },
+    { "GEO-RAM _image file:", "Select the GEO-RAM image file",
       georam_image_file_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
@@ -109,12 +107,12 @@ void uigeoram_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_georam_submenu;
 
-    ui_georam_submenu = tui_menu_create("GEORAM settings", 1);
+    ui_georam_submenu = tui_menu_create("GEO-RAM settings", 1);
 
     tui_menu_add(ui_georam_submenu, georam_menu_items);
 
-    tui_menu_add_submenu(parent_submenu, "_GEORAM settings...",
-                         "GEORAM settings",
+    tui_menu_add_submenu(parent_submenu, "_GEO-RAM settings...",
+                         "GEO-RAM settings",
                          ui_georam_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);

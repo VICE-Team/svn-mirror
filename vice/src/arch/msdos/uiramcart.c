@@ -1,5 +1,5 @@
 /*
- * uiramcart.c - RAMCART UI interface for MS-DOS.
+ * uiramcart.c - RamCart UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -64,7 +64,7 @@ static TUI_MENU_CALLBACK(ramcart_image_file_callback)
 
         *s = '\0';
 
-        if (tui_input_string("Change RAMCART image name", "New image name:", s, 255) == -1) {
+        if (tui_input_string("Change RamCart image name", "New image name:", s, 255) == -1) {
             return NULL;
         }
 
@@ -80,17 +80,17 @@ static TUI_MENU_CALLBACK(ramcart_image_file_callback)
 }
 
 static tui_menu_item_def_t ramcart_menu_items[] = {
-    { "_Enable RAMCART:", "Emulate RAMCART Expansion",
+    { "_Enable RamCart:", "Emulate RamCart Expansion",
       toggle_RAMCART_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_Readonly:", "RAMCART Readonly",
+    { "_Readonly:", "RamCart Readonly",
       toggle_RAMCART_RO_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "RAMCART _size:", "Select the size of the RAMCART",
+    { "RamCart _size:", "Select the size of the RamCart",
       ramcart_size_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, ramcart_size_submenu,
-      "RAMCART size" },
-    { "RAMCART _image file:", "Select the RAMCART image file",
+      "RamCart size" },
+    { "RamCart _image file:", "Select the RamCart image file",
       ramcart_image_file_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
@@ -100,12 +100,12 @@ void uiramcart_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_ramcart_submenu;
 
-    ui_ramcart_submenu = tui_menu_create("RAMCART settings", 1);
+    ui_ramcart_submenu = tui_menu_create("RamCart settings", 1);
 
     tui_menu_add(ui_ramcart_submenu, ramcart_menu_items);
 
-    tui_menu_add_submenu(parent_submenu, "_RAMCART settings...",
-                         "RAMCART settings",
+    tui_menu_add_submenu(parent_submenu, "_RamCart settings...",
+                         "RamCart settings",
                          ui_ramcart_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);

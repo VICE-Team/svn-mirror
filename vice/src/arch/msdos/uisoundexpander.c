@@ -1,5 +1,5 @@
 /*
- * uisoundexpander.c - SFX sound expander cartridge UI interface for MS-DOS.
+ * uisoundexpander.c - SFX Sound Expander cartridge UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

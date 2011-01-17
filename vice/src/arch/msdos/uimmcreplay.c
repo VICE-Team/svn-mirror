@@ -1,5 +1,5 @@
 /*
- * uimc64.c - MMC64 UI interface for MS-DOS.
+ * uimmcreplay.c - MMC Replay UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

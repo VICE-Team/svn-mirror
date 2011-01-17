@@ -1,5 +1,5 @@
 /*
- * uigeoram.h - GEORAM UI interface for MS-DOS.
+ * uigeoram.h - GEO-RAM UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

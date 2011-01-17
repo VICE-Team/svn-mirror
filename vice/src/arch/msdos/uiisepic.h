@@ -1,5 +1,5 @@
 /*
- * uiisepic.h - Isepic UI interface for MS-DOS.
+ * uiisepic.h - ISEPIC UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

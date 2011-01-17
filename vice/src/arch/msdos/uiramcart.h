@@ -1,5 +1,5 @@
 /*
- * uiramcart.h - RAMCART UI interface for MS-DOS.
+ * uiramcart.h - RamCart UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
