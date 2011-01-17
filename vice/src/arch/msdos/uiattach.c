@@ -155,6 +155,7 @@ static tui_menu_item_def_t ui_flip_menu_def[] = {
 TUI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 TUI_MENU_DEFINE_TOGGLE(AutostartWarp)
 TUI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
+TUI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
 TUI_MENU_DEFINE_RADIO(AutostartPrgMode)
 
 static TUI_MENU_CALLBACK(autostart_prg_mode_submenu_callback)
@@ -222,6 +223,9 @@ static tui_menu_item_def_t ui_autostart_menu_def[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Use ':' with RUN:", "Use ':' with RUN",
       toggle_AutostartRunWithColon_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Load to BASIC start", "Load without ,1",
+      toggle_AutostartBasicLoad_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Autostart PRG mode:", "Select the mode of the autostart PRG",
       autostart_prg_mode_submenu_callback, NULL, 11,
