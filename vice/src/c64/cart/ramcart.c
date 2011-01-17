@@ -236,13 +236,16 @@ static int ramcart_activate(void)
 
     if (!util_check_null_string(ramcart_filename)) {
         if (util_file_load(ramcart_filename, ramcart_ram, (size_t)ramcart_size, UTIL_FILE_LOAD_RAW) < 0) {
-            log_message(ramcart_log, "Reading RAMCART image %s failed.", ramcart_filename);
-            if (util_file_save(ramcart_filename, ramcart_ram, ramcart_size) < 0) {
-                log_message(ramcart_log, "Creating RAMCART image %s failed.", ramcart_filename);
-                return -1;
+            log_error(ramcart_log, "Reading RAMCART image %s failed.", ramcart_filename);
+            /* only create a new file if no file exists, so we dont accidently overwrite any files */
+            if (!util_file_exists(ramcart_filename)) {
+                if (util_file_save(ramcart_filename, ramcart_ram, ramcart_size) < 0) {
+                    log_error(ramcart_log, "Creating RAMCART image %s failed.", ramcart_filename);
+                    return -1;
+                }
+                log_message(ramcart_log, "Creating RAMCART image %s.", ramcart_filename);
+                return 0;
             }
-            log_message(ramcart_log, "Creating RAMCART image %s.", ramcart_filename);
-            return 0;
         }
         log_message(ramcart_log, "Reading RAMCART image %s.", ramcart_filename);
     }
@@ -261,7 +264,7 @@ static int ramcart_deactivate(void)
         if (ramcart_write_image) {
             log_message(LOG_DEFAULT, "Writing RAMCART image %s.", ramcart_filename);
             if (ramcart_flush_image() < 0) {
-                log_message(LOG_DEFAULT, "Writing RAMCART image %s failed.", ramcart_filename);
+                log_error(LOG_DEFAULT, "Writing RAMCART image %s failed.", ramcart_filename);
             }
         }
     }
@@ -557,4 +560,93 @@ int ramcart_peek_mem(WORD addr, BYTE *value)
         }
     }
     return CART_READ_THROUGH;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTRAMCART"
+
+int ramcart_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)ramcart_enabled) < 0)
+        || (SMW_B(m, (BYTE)ramcart_readonly) < 0)
+        || (SMW_DW(m, (DWORD)ramcart_size) < 0)
+        || (SMW_B(m, (BYTE)ramcart_size_kb) < 0)
+        || (SMW_BA(m, ramcart, 2) < 0)
+        || (SMW_BA(m, ramcart_ram, ramcart_size) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int ramcart_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0
+        || (SMR_B_INT(m, &ramcart_enabled) < 0)
+        || (SMR_B_INT(m, &ramcart_readonly) < 0)
+        || (SMR_DW_INT(m, &ramcart_size) < 0)
+        || (SMR_B_INT(m, &ramcart_size_kb) < 0)
+        || (SMR_BA(m, ramcart, 2) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    ramcart_ram = lib_malloc(ramcart_size);
+
+    if (SMR_BA(m, ramcart_ram, ramcart_size) < 0) {
+        snapshot_module_close(m);
+        lib_free(ramcart_ram);
+        ramcart_ram = NULL;
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    /* ramcart_filetype = 0; */
+    ramcart_write_image = 0;
+    ramcart_enabled = 1;
+
+    /* FIXME: ugly code duplication to avoid cart_config_changed calls */
+    ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
+    ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
+
+    if (c64export_add(&export_res) < 0) {
+        lib_free(ramcart_ram);
+        ramcart_ram = NULL;
+        c64io_unregister(ramcart_io1_list_item);
+        c64io_unregister(ramcart_io2_list_item);
+        ramcart_io1_list_item = NULL;
+        ramcart_io2_list_item = NULL;
+        ramcart_enabled = 0;
+        return -1;
+    }
+
+    return 0;
 }

@@ -757,10 +757,8 @@ int reu_bin_save(const char *filename)
 
 int reu_flush_image(void)
 {
-    if (reu_write_image) {
-        if (reu_bin_save(reu_filename) < 0) {
-            return -1;
-        }
+    if (reu_bin_save(reu_filename) < 0) {
+        return -1;
     }
     return 0;
 }

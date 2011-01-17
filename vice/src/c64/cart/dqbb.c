@@ -41,6 +41,7 @@
 #include "lib.h"
 #include "mem.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "translate.h"
 #include "types.h"
 #include "util.h"
@@ -120,7 +121,7 @@ static io_source_t dqbb_io1_device = {
     CARTRIDGE_DQBB
 };
 
-static io_source_list_t *dqbb_list_item = NULL;
+static io_source_list_t *dqbb_io1_list_item = NULL;
 
 static const c64export_resource_t export_res = {
     CARTRIDGE_NAME_DQBB, 1, 1, &dqbb_io1_device, NULL, CARTRIDGE_DQBB
@@ -173,10 +174,12 @@ static int dqbb_activate(void)
 
     if (!util_check_null_string(dqbb_filename)) {
         if (util_file_load(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE, UTIL_FILE_LOAD_RAW) < 0) {
-            if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
-                return -1;
+            /* only create a new file if no file exists, so we dont accidently overwrite any files */
+            if (!util_file_exists(dqbb_filename)) {
+                if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
+                    return -1;
+                }
             }
-            return 0;
         }
     }
     return 0;
@@ -189,8 +192,10 @@ static int dqbb_deactivate(void)
     }
 
     if (!util_check_null_string(dqbb_filename)) {
-        if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
-            return -1;
+        if (dqbb_write_image) {
+            if (util_file_save(dqbb_filename, dqbb_ram, DQBB_RAM_SIZE) < 0) {
+                return -1;
+            }
         }
     }
 
@@ -209,8 +214,8 @@ static int set_dqbb_enabled(int val, void *param)
         if (dqbb_deactivate() < 0) {
             return -1;
         }
-        c64io_unregister(dqbb_list_item);
-        dqbb_list_item = NULL;
+        c64io_unregister(dqbb_io1_list_item);
+        dqbb_io1_list_item = NULL;
         dqbb_enabled = 0;
         dqbb_reset();
         dqbb_change_config();
@@ -222,7 +227,7 @@ static int set_dqbb_enabled(int val, void *param)
         if (dqbb_activate() < 0) {
             return -1;
         }
-        dqbb_list_item = c64io_register(&dqbb_io1_device);
+        dqbb_io1_list_item = c64io_register(&dqbb_io1_device);
         dqbb_enabled = 1;
         dqbb_reset();
         dqbb_change_config();
@@ -441,4 +446,86 @@ int dqbb_peek_mem(WORD addr, BYTE *value)
         return CART_READ_VALID;
     }
     return CART_READ_THROUGH;
+}
+
+/* ---------------------------------------------------------------------*/
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTDQBB"
+
+int dqbb_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)dqbb_enabled) < 0)
+        || (SMW_B(m, (BYTE)dqbb_readwrite) < 0)
+        || (SMW_B(m, (BYTE)dqbb_a000_mapped) < 0)
+        || (SMW_B(m, (BYTE)dqbb_off) < 0)
+        || (SMW_B(m, (BYTE)reg_value) < 0)
+        || (SMW_BA(m, dqbb_ram, DQBB_RAM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+}
+
+int dqbb_snapshot_read_module(snapshot_t *s)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    dqbb_ram = lib_malloc(DQBB_RAM_SIZE);
+
+    if (0
+        || (SMR_B_INT(m, &dqbb_enabled) < 0)
+        || (SMR_B_INT(m, &dqbb_readwrite) < 0)
+        || (SMR_B_INT(m, &dqbb_a000_mapped) < 0)
+        || (SMR_B_INT(m, &dqbb_off) < 0)
+        || (SMR_B_INT(m, &reg_value) < 0)
+        || (SMR_BA(m, dqbb_ram, DQBB_RAM_SIZE) < 0)) {
+        snapshot_module_close(m);
+        lib_free(dqbb_ram);
+        dqbb_ram = NULL;
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    /* dqbb_filetype = 0; */
+    dqbb_write_image = 0;
+    dqbb_enabled = 1;
+
+    /* FIXME: ugly code duplication to avoid cart_config_changed calls */
+    dqbb_io1_list_item = c64io_register(&dqbb_io1_device);
+
+    if (c64export_add(&export_res) < 0) {
+        lib_free(dqbb_ram);
+        dqbb_ram = NULL;
+        c64io_unregister(dqbb_io1_list_item);
+        dqbb_io1_list_item = NULL;
+        dqbb_enabled = 0;
+        return -1;
+    }
+
+    return 0;
 }

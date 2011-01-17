@@ -57,10 +57,8 @@ extern int dqbb_bin_attach(const char *filename, BYTE *rawcart);
 extern int dqbb_bin_save(const char *filename);
 extern int dqbb_flush_image(void);
 
-/* TODO: snapshot support
 struct snapshot_s;
-extern int dqbb_read_snapshot_module(struct snapshot_s *s);
-extern int dqbb_write_snapshot_module(struct snapshot_s *s);
-*/
+extern int dqbb_snapshot_read_module(struct snapshot_s *s);
+extern int dqbb_snapshot_write_module(struct snapshot_s *s);
 
 #endif

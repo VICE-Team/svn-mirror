@@ -56,10 +56,8 @@ extern int ramcart_bin_attach(const char *filename, BYTE *rawcart);
 extern int ramcart_bin_save(const char *filename);
 extern int ramcart_flush_image(void);
 
-/* TODO: snapshot support
 struct snapshot_s;
-extern int ramcart_read_snapshot_module(struct snapshot_s *s);
-extern int ramcart_write_snapshot_module(struct snapshot_s *s);
-*/
+extern int ramcart_snapshot_read_module(struct snapshot_s *s);
+extern int ramcart_snapshot_write_module(struct snapshot_s *s);
 
 #endif

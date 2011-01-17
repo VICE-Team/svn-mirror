@@ -2290,7 +2290,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
         switch (cart_ids[i]) {
             /* "Slot 0" */
             /* FIXME case CARTRIDGE_MMC64: */
-            /* FIXME case CARTRIDGE_MAGIC_VOICE: */
+            /* FIXME case CARTRIDGE_MAGIC_VOICE: */ /* emulation not ready yet */
             case CARTRIDGE_IEEE488:
                 if (tpi_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2298,14 +2298,26 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 break;
 
             /* "Slot 1" */
-            /* FIXME case CARTRIDGE_DQBB: */
+            case CARTRIDGE_DQBB:
+                if (dqbb_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_EXPERT:
                 if (expert_snapshot_write_module(s) < 0) {
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_ISEPIC: */
-            /* FIXME case CARTRIDGE_RAMCART: */
+            case CARTRIDGE_ISEPIC:
+                if (isepic_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_RAMCART:
+                if (ramcart_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
 
             /* "Main Slot" */
             case CARTRIDGE_ACTION_REPLAY:
@@ -2456,7 +2468,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_MMC_REPLAY: */
+            /* FIXME case CARTRIDGE_MMC_REPLAY: */ /* emulation not ready yet */
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2681,9 +2693,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
         switch (cart_ids[i]) {
             /* "Slot 0" */
             /* FIXME case CARTRIDGE_MMC64: */
-            case CARTRIDGE_MAGIC_VOICE:
-                /* no snapshot, emulation not ready yet */
-                break;
+            /* FIXME case CARTRIDGE_MAGIC_VOICE: */ /* emulation not ready yet */
             case CARTRIDGE_IEEE488:
                 if (tpi_snapshot_read_module(s) < 0) {
                     return -1;
@@ -2691,14 +2701,26 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
 
             /* "Slot 1" */
-            /* FIXME case CARTRIDGE_DQBB: */
+            case CARTRIDGE_DQBB:
+                if (dqbb_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_EXPERT:
                 if (expert_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_ISEPIC: */
-            /* FIXME case CARTRIDGE_RAMCART: */
+            case CARTRIDGE_ISEPIC:
+                if (isepic_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_RAMCART:
+                if (ramcart_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
 
             /* "Main Slot" */
             case CARTRIDGE_ACTION_REPLAY:
@@ -2849,9 +2871,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            case CARTRIDGE_MMC_REPLAY:
-                /* no snapshot, emulation not ready yet */
-                break;
+            /* FIXME CARTRIDGE_MMC_REPLAY: */ /* emulation not ready yet */
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_read_module(s) < 0) {
                     return -1;

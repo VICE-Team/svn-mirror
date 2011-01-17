@@ -65,10 +65,8 @@ extern int isepic_enable(void);
 
 extern const char *isepic_get_file_name(void);
 
-/* TODO: snapshot support
 struct snapshot_s;
-extern int isepic_read_snapshot_module(struct snapshot_s *s);
-extern int isepic_write_snapshot_module(struct snapshot_s *s);
-*/
+extern int isepic_snapshot_read_module(struct snapshot_s *s);
+extern int isepic_snapshot_write_module(struct snapshot_s *s);
 
 #endif
