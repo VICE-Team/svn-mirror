@@ -408,7 +408,7 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 /* set permissions of given file to rw, respecting current umask */
 int archdep_fix_permissions(const char *file_name)
 {
-    return 0;
+    return _chmod(file_name, 1, 0);
 }
 
 int archdep_file_is_blockdev(const char *name)
