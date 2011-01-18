@@ -948,7 +948,10 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
                    XXX fix me some day */
     }
 
-    video_canvas_render(canvas, (BYTE *)canvas->x_image->data, w, h, xs, ys, xi, yi, canvas->x_image->bytes_per_line, canvas->x_image->bits_per_pixel);
+    if ((int)xs >= 0) {
+        /* some render routines don't like negative xs */
+	video_canvas_render(canvas, (BYTE *)canvas->x_image->data, w, h, xs, ys, xi, yi, canvas->x_image->bytes_per_line, canvas->x_image->bits_per_pixel);
+    }
 
     /* This could be optimized away.  */
     display = x11ui_get_display_ptr();
