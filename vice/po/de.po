@@ -5,14 +5,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-16 14:54-0800\n"
-"PO-Revision-Date: 2011-01-08 18:30+0100\n"
+"POT-Creation-Date: 2011-01-18 20:10+0100\n"
+"PO-Revision-Date: 2011-01-18 20:16+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
@@ -380,7 +380,7 @@ msgstr "VDC Einstellungen"
 
 #: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:515 src/arch/unix/gui/c64ui.c:575
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:338
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:5694
 msgid "SID settings"
@@ -402,7 +402,7 @@ msgstr "RS232 Einstellungen"
 #: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
 #: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:385
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:687
-#: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:6
+#: src/arch/unix/gui/vsidui.c:399 src/arch/amigaos/intl_text.c.po.c:6
 msgid "File"
 msgstr "Datei"
 
@@ -438,7 +438,7 @@ msgstr "Optionen"
 #: src/arch/unix/gui/c64scui.c:659 src/arch/unix/gui/c64ui.c:719
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
 #: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:395
-#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:400
+#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:401
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1235
 #: src/arch/amigaos/intl_text.c.po.c:1535
 msgid "Settings"
@@ -838,9 +838,8 @@ msgstr "Digiblaster add-on"
 
 #. Translators: "V364 Speech" is the speech extension present in the V364 prototype
 #: src/arch/unix/gui/plus4ui.c:204
-#, fuzzy
 msgid "V364 Speech"
-msgstr "V364 Stimme Datei"
+msgstr "V364 Stimme"
 
 #: src/arch/unix/gui/plus4ui.c:221
 msgid "TED model"
@@ -973,7 +972,7 @@ msgid "Smart-attach a file"
 msgstr "Smart Datei einleigen"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2028
+#: src/arch/unix/x11/xaw/x11ui.c:2029
 msgid "Unknown image type"
 msgstr "Unbekannter Image Typ."
 
@@ -3127,7 +3126,7 @@ msgid "Invalid speed value"
 msgstr "Ungültige Geschwindigkeit"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1270
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2734
 msgid "Cannot save settings."
 msgstr "Fehler beim Speichern der Einstellungen."
@@ -3616,24 +3615,24 @@ msgstr "PSID Datei laden"
 msgid "Load PSID file..."
 msgstr "PSID Datei laden..."
 
-#: src/arch/unix/gui/vsidui.c:335
+#: src/arch/unix/gui/vsidui.c:336
 msgid "Override PSID settings"
 msgstr "PSID Einstellungen ignorieren"
 
-#: src/arch/unix/gui/vsidui.c:339 src/arch/amigaos/intl_text.c.po.c:1436
+#: src/arch/unix/gui/vsidui.c:340 src/arch/amigaos/intl_text.c.po.c:1436
 msgid "Video standard"
 msgstr "Video Standard"
 
-#: src/arch/unix/gui/vsidui.c:418
+#: src/arch/unix/gui/vsidui.c:419
 msgid "Default Tune"
 msgstr "Default Tune"
 
-#: src/arch/unix/gui/vsidui.c:438
+#: src/arch/unix/gui/vsidui.c:439
 #, c-format
 msgid "Tune %d"
 msgstr "Tune %d"
 
-#: src/arch/unix/gui/vsidui.c:465
+#: src/arch/unix/gui/vsidui.c:466
 msgid "VSID: The SID Emulator"
 msgstr "VSID: DER SID Emulator"
 
@@ -3973,20 +3972,20 @@ msgstr "Laufwerk %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1255
 msgid " emulator"
 msgstr " Emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1259
 msgid "Do you really want to exit?"
 msgstr "Wirklich beenden?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1267
 msgid "Save the current settings?"
 msgstr "Einstellungen speichern?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
+#: src/arch/unix/x11/xaw/x11ui.c:1335 src/arch/unix/x11/xaw/x11ui.c:1338
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -3997,7 +3996,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1584
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausiert)"
@@ -4022,7 +4021,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Fortsetzen"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1905
 msgid "Extend disk image"
 msgstr "Erweiterung Disk Image"
 
@@ -4202,20 +4201,20 @@ msgstr "Aktuell eingelegte Diskimages mitspeichern:"
 msgid "Save currently loaded ROMs:"
 msgstr "Aktuelle ROMs mitspeichern:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:993
+#: src/arch/unix/x11/xaw/x11ui.c:994
 msgid "recording..."
 msgstr "Aufnahme..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1001
+#: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "event recording..."
 msgstr "Event Aufnahme..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1438
+#: src/arch/unix/x11/xaw/x11ui.c:1439
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spur %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1777 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
@@ -5398,12 +5397,12 @@ msgstr "Seitenverhältnis beibehalten (0,5..2)"
 #: src/arch/win32/res.rc.po.c:1171
 #, c-format
 msgid "Value %.3f for %s is out of range, using %.3f instead"
-msgstr ""
+msgstr "Wert %.3f für %s ist unzulässig, benutze %.3f"
 
 #: src/arch/win32/res.rc.po.c:1172
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
-msgstr ""
+msgstr "Wert %d für %s ist unzulässig, benutze %d"
 
 #: src/arch/win32/res.rc.po.c:1173 src/arch/amigaos/intl_text.c.po.c:6563
 msgid "Gamma (0..4)"
@@ -8850,12 +8849,12 @@ msgstr "Tonaufnahme starten..."
 #: src/arch/amigaos/intl_text.c.po.c:2613
 #, c-format
 msgid "Value %d out of range, range is from %d to %d, using %d instead"
-msgstr ""
+msgstr "Wert %d ist unzulässig, Bereich muß zwischen %d und %d liegen, benutze %d"
 
 #: src/arch/amigaos/intl_text.c.po.c:2624
 #, c-format
 msgid "Value %.3f out of range, range is from %.3f to %.3f, using %.3f instead"
-msgstr ""
+msgstr "Wert %.3f ist unzulässig, Bereich muß zwischen %.3f und %.3f liegen, benutze %.3f"
 
 #: src/arch/amigaos/intl_text.c.po.c:2767
 msgid "The device on this port is not a gamepad"
@@ -9651,8 +9650,8 @@ msgstr "Kann Sektion in Ende Snapshotdatei nicht finden."
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr ""
-"Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und %"
-"s."
+"Fehler beim Lesen der Start Snapshot Datei. Versuch gescheitert bei %s und "
+"%s."
 
 #: src/translate_text.c.po.c:161
 msgid "Error reading start snapshot file."
