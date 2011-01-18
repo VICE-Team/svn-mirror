@@ -135,6 +135,9 @@ typedef struct {
     Dimension ViewWidth;        /* visible width of widget */
     int XOffset;                /* offset from x=0 to start of text string */
     int OldXOffset;
+    int FontAscent;
+    int FontDescent;
+    int FontHeight;
     int YOffset;                /* y pixel offset to baseline of font */
     int TextWidth;              /* char width of text */
     int OldTextWidth;

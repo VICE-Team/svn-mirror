@@ -281,10 +281,16 @@ static int TextWidth(TextFieldWidget tfw)
 
 static void InitializeGC(TextFieldWidget w)
 {
-    static char dots[] = { 2, 1, 1 };
     XGCValues values;
     XtGCMask mask;
     XtGCMask dynamic_mask;
+    Display *dpy = XtDisplay((Widget)w);
+    Window wnd = XtWindow((Widget)w);
+
+    if (!wnd) {
+        Screen *screen = XtScreen((Widget)w);
+        wnd = RootWindowOfScreen(screen);
+    }
 
     values.line_style = LineSolid;
     values.line_width = 0;
@@ -293,15 +299,18 @@ static void InitializeGC(TextFieldWidget w)
     values.foreground = w->text.foreground_pixel;
     mask = GCLineStyle | GCLineWidth | GCFillStyle | GCForeground | GCBackground;
     dynamic_mask = GCClipXOrigin | GCClipYOrigin | GCClipMask;
+    values.clip_x_origin = 0;
+    values.clip_y_origin = 0;
+    values.clip_mask = None;
     if (!w->text.international) {
         values.font = w->text.font->fid;
         mask |= GCFont;
     }
-    w->text.drawGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, dynamic_mask);
+    w->text.drawGC = XCreateGC(dpy, wnd, mask|dynamic_mask, &values);
 
     values.foreground = w->core.background_pixel;
     values.background = w->text.foreground_pixel;
-    w->text.highlightGC = XtAllocateGC((Widget)w, 0, mask, &values, GCFont, dynamic_mask);
+    w->text.highlightGC = XCreateGC(dpy, wnd, mask|dynamic_mask, &values);
 
     values.line_style = LineSolid;
     values.line_width = 0;
@@ -317,10 +326,15 @@ static void InitializeGC(TextFieldWidget w)
     values.line_style = LineOnOffDash;
     values.background = w->core.background_pixel;
     values.foreground = w->text.foreground_pixel;
-    w->text.dashGC = XtAllocateGC((Widget)w, 0, mask, &values, 0, GCDashOffset | GCDashList);
-    XSetDashes(XtDisplay(w), w->text.dashGC, 0, &dots[1], (int)dots[0]);
+    values.dash_offset = 0;
+    values.dashes = 1;  /* same as a 2-element list [1,1] to XSetDashes() */
+    mask |= GCDashOffset | GCDashList;
+    w->text.dashGC = XtGetGC((Widget)w, mask, &values);
 
-    w->text.YOffset = TopMargin(w) + FontAscent(w);
+    w->text.FontAscent = FontAscent(w);
+    w->text.FontDescent = FontDescent(w);
+    w->text.FontHeight = FontHeight(w);
+    w->text.YOffset = TopMargin(w) + w->text.FontAscent;
 }
 
 static void ClipGC(TextFieldWidget w)
@@ -328,9 +342,9 @@ static void ClipGC(TextFieldWidget w)
     XRectangle clip;
 
     clip.x = 0;
-    clip.y = w->text.YOffset - FontAscent(w) + 1;
+    clip.y = w->text.YOffset - w->text.FontAscent + 1;
     clip.width = w->text.ViewWidth + 1;
-    clip.height = FontHeight(w);
+    clip.height = w->text.FontHeight;
     XSetClipRectangles(XtDisplay((Widget)w), w->text.drawGC, w->text.Margin, 0, &clip, 1, Unsorted);
     XSetClipRectangles(XtDisplay((Widget)w), w->text.highlightGC, w->text.Margin, 0, &clip, 1, Unsorted);
 }
@@ -533,8 +547,12 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
 
 static void Destroy(TextFieldWidget w)
 {
-    XtReleaseGC((Widget) w, w->text.drawGC);
-    XtReleaseGC((Widget) w, w->text.highlightGC);
+    Display *dpy = XtDisplay((Widget)w);
+    XFreeGC(dpy, w->text.drawGC);
+    XFreeGC(dpy, w->text.highlightGC);
+    XtReleaseGC((Widget) w, w->text.cursorGC);
+    XtReleaseGC((Widget) w, w->text.eraseGC);
+    XtReleaseGC((Widget) w, w->text.dashGC);
     if (w->text.SelectionText) {
         XtFree(w->text.SelectionText);
     }
@@ -632,7 +650,7 @@ static void Resize(Widget aw)
         w->text.ViewWidth = width;
     }
 
-    height = (((int) w->core.height - FontHeight(w)) / 2) + FontAscent(w);
+    height = (((int) w->core.height - w->text.FontHeight) / 2) + w->text.FontAscent;
     w->text.YOffset = height;
 
     ClipGC(w);
@@ -1224,7 +1242,7 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
             return True;
         }
         /* Intrinsics XFree()s this memory since there is no DoneProc. */
-    } else if (w->text.international == False && *target == XA_STRING) {  // Latin1
+    } else if (w->text.international == False && *target == XA_STRING) { /* Latin-1 */
         *length = (long)w->text.SelectionLen;
         *value = XtMalloc(*length);
         strncpy(*value, w->text.SelectionText, w->text.SelectionLen);
@@ -1690,8 +1708,8 @@ static void DrawAllText(TextFieldWidget w)
 /* Draw an I-beam cursor */
 static void DrawIBeamCursor(TextFieldWidget w, int x, GC gc)
 {
-    int ascent = FontAscent(w);
-    int descent = FontDescent(w);
+    int ascent = w->text.FontAscent;
+    int descent = w->text.FontDescent;
 
     XDrawLine(XtDisplay(w), XtWindow(w), gc, x, w->text.YOffset - ascent - 1, x, w->text.YOffset + descent + 1);
     XDrawLine(XtDisplay(w), XtWindow(w), gc, x - 2, w->text.YOffset - ascent - 1, x + 2, w->text.YOffset - ascent - 1);
