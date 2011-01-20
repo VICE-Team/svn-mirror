@@ -146,6 +146,8 @@ libarch_a_SOURCES = \
 	uitfe.h \
 	uiv364speech.c \
 	uiv364speech.h \
+	uivideo.c \
+	uivideo.h \
 	vic20ui.c \
 	video.c \
 	videoarch.h \

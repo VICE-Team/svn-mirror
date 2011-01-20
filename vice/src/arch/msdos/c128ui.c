@@ -58,112 +58,7 @@
 #ifdef HAVE_TFE
 #include "uitfe.h"
 #endif
-
-
-TUI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-TUI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
-TUI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
-TUI_MENU_DEFINE_TOGGLE(PALEmulation)
-
-static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
-{
-    int value;
-
-    resources_get_int("MachineVideoStandard", &value);
-
-    if (been_activated) {
-        if (value == MACHINE_SYNC_PAL) {
-            value = MACHINE_SYNC_NTSC;
-        } else {
-            value = MACHINE_SYNC_PAL;
-        }
-        resources_set_int("MachineVideoStandard", value);
-    }
-
-    switch (value) {
-        case MACHINE_SYNC_PAL:
-            return "PAL-G";
-        case MACHINE_SYNC_NTSC:
-            return "NTSC-M";
-        default:
-            return "(Custom)";
-    }
-}
-
-static tui_menu_item_def_t vicii_menu_items[] = {
-    { "Video _Cache:",
-      "Enable screen cache (disabled when using triple buffering)",
-      toggle_VICIIVideoCache_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_PAL Emulation:",
-      "Enable PAL emulation",
-      toggle_PALEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "--" },
-    { "Sprite-_Background Collisions:",
-      "Emulate sprite-background collision register",
-      toggle_VICIICheckSbColl_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Sprite-_Sprite Collisions:",
-      "Emulate sprite-sprite collision register",
-      toggle_VICIICheckSsColl_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "V_ideo Standard:",
-      "Select machine clock ratio",
-      toggle_MachineVideoStandard_callback, NULL, 8,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
-
-TUI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
-TUI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
-TUI_MENU_DEFINE_TOGGLE(VDC64KB)
-TUI_MENU_DEFINE_RADIO(VDCRevision)
-
-static TUI_MENU_CALLBACK(vdc_revision_submenu_callback)
-{
-    int value;
-    static char s[100];
-
-    resources_get_int("VDCRevision", &value);
-    sprintf(s, "Rev %d",value);
-    return s;
-}
-
-static tui_menu_item_def_t vdc_revision_submenu[] = {
-    { "Rev _0", NULL, radio_VDCRevision_callback,
-      (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Rev _1", NULL, radio_VDCRevision_callback,
-      (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "Rev _2", NULL, radio_VDCRevision_callback,
-      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { NULL }
-};
-
-static tui_menu_item_def_t vcd_menu_items[] = {
-    { "--" },
-    { "VDC _Double size",
-      "Double the screen in vertical direction (BUG: Save settings and restart!)",
-      toggle_VDCDoubleSize_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "VDC Double _scan",
-      "Display any scanline twice",
-      toggle_VDCDoubleScan_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "VDC _64KB video memory",
-      "Emulate a VDC with 64KB video RAM",
-      toggle_VDC64KB_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "VDC _revision:", "Select the revision of the VDC",
-      vdc_revision_submenu_callback, NULL, 7,
-      TUI_MENU_BEH_CONTINUE, vdc_revision_submenu,
-      "VDC revision" },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
+#include "uivideo.h"
 
 TUI_MENU_DEFINE_TOGGLE(Mouse)
 TUI_MENU_DEFINE_TOGGLE(C128FullBanks)
@@ -235,106 +130,6 @@ static tui_menu_item_def_t ioextenstions_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
-
-/* ------------------------------------------------------------------------- */
-
-static struct {
-    const char *name;
-    const char *brief_description;
-    const char *menu_item;
-    const char *long_description;
-} palette_items[] = {
-    { "default", "Default", "_Default",
-      "Default VICE C64 palette" },
-    { "c64s", "C64S", "C64_S",
-      "Palette from the C64S emulator by Miha Peternel" },
-    { "ccs64", "CCS64", "_CCS64",
-      "Palette from the CCS64 emulator by Per Hakan Sundell" },
-    { "frodo", "Frodo", "_Frodo",
-      "Palette from the Frodo emulator by Christian Bauer" },
-    { "godot", "GoDot", "_GoDot",
-      "Palette as suggested by the authors of the GoDot C64 graphics package" },
-    { "pc64", "PC64", "_PC64",
-      "Palette from the PC64 emulator by Wolfgang Lorenz" },
-    { NULL }
-};
-
-static TUI_MENU_CALLBACK(palette_callback)
-{
-    if (been_activated) {
-        if (resources_set_string("VICIIPaletteFile", (const char *)param) < 0) {
-           tui_error("Invalid palette file");
-        }
-        ui_update_menus();
-    }
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(custom_palette_callback)
-{
-    if (been_activated) {
-        char *name;
-
-        name = tui_file_selector("Load custom palette", NULL, "*.vpl", NULL, NULL, NULL, NULL);
-
-        if (name != NULL) {
-            if (resources_set_string("VICIIPaletteFile", name) < 0) {
-                tui_error("Invalid palette file");
-            }
-            ui_update_menus();
-            lib_free(name);
-        }
-    }
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(palette_menu_callback)
-{
-    const char *s;
-    int i;
-
-    resources_get_string("VICIIPaletteFile", &s);
-    for (i = 0; palette_items[i].name != NULL; i++) {
-        if (strcmp(s, palette_items[i].name) == 0) {
-           return palette_items[i].brief_description;
-        }
-    }
-    return "Custom";
-}
-
-TUI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
-
-static void add_palette_submenu(tui_menu_t parent)
-{
-    int i;
-    tui_menu_t palette_menu = tui_menu_create("Color Set", 1);
-
-    for (i = 0; palette_items[i].name != NULL; i++) {
-        tui_menu_add_item(palette_menu, palette_items[i].menu_item,
-                          palette_items[i].long_description,
-                          palette_callback,
-                          (void *)palette_items[i].name, 0,
-                          TUI_MENU_BEH_RESUME);
-    }
-
-    tui_menu_add_item(palette_menu, "C_ustom",
-                      "Load a custom palette",
-                      custom_palette_callback,
-                      NULL, 0,
-                      TUI_MENU_BEH_RESUME);
-
-    tui_menu_add_item(parent, "Use external Palette",
-                      "Use the palette file below",
-                      toggle_VICIIExternalPalette_callback,
-                      NULL, 3,
-                      TUI_MENU_BEH_RESUME);
-
-    tui_menu_add_submenu(parent, "Color _Palette:",
-                         "Choose color palette",
-                         palette_menu,
-                         palette_menu_callback,
-                         NULL, 10);
-}
 
 /* ------------------------------------------------------------------------- */
 
@@ -419,10 +214,8 @@ int c128ui_init(void)
     uic64cart_init(NULL);
     tui_menu_add_separator(ui_video_submenu);
 
-    add_palette_submenu(ui_video_submenu);
+    uivideo_init(ui_video_submenu, VID_VICII, VID_VDC);
 
-    tui_menu_add(ui_video_submenu, vicii_menu_items);
-    tui_menu_add(ui_video_submenu, vcd_menu_items);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

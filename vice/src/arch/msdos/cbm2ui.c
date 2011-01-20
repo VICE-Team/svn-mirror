@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "cbm2ui.h"
+#include "machine.h"
 #include "menudefs.h"
 #include "lib.h"
 #include "resources.h"
@@ -39,113 +40,7 @@
 #include "tuifs.h"
 #include "ui.h"
 #include "uisid.h"
-
-
-static struct {
-    char *name;
-    char *brief_description;
-    const char *menu_item;
-    char *long_description;
-} palette_items[] = {
-    { "default", "Default (green)", "_Default",
-      "Default VICE C610 palette (Green)" },
-    { "amber", "Amber", "_Amber",
-      "Amber palette" },
-    { "white", "White", "_White",
-      "White palette" },
-    { NULL }
-};
-
-static TUI_MENU_CALLBACK(palette_callback)
-{
-    if (been_activated) {
-        if (resources_set_string("CrtcPaletteFile", (const char *)param) < 0) {
-            tui_error("Invalid palette file");
-        }
-        ui_update_menus();
-    }
-
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(custom_palette_callback)
-{
-    if (been_activated) {
-        char *name;
-
-        name = tui_file_selector("Load custom palette", NULL, "*.vpl", NULL, NULL, NULL, NULL);
-
-        if (name != NULL) {
-            if (resources_set_string("CrtcPaletteFile", name) < 0) {
-                tui_error("Invalid palette file");
-            }
-            ui_update_menus();
-            lib_free(name);
-        }
-    }
-    return NULL;
-}
-
-static TUI_MENU_CALLBACK(palette_menu_callback)
-{
-    const char *s;
-    int i;
-
-    resources_get_string("CrtcPaletteFile", &s);
-    for (i = 0; palette_items[i].name != NULL; i++) {
-        if (strcmp(s, palette_items[i].name) == 0) {
-           return palette_items[i].brief_description;
-        }
-    }
-
-    return "Custom";
-}
-
-static void add_palette_submenu(tui_menu_t parent)
-{
-    int i;
-    tui_menu_t palette_menu = tui_menu_create("Color Set", 1);
-
-    for (i = 0; palette_items[i].name != NULL; i++) {
-        tui_menu_add_item(palette_menu, palette_items[i].menu_item,
-                          palette_items[i].long_description,
-                          palette_callback,
-                          (void *)palette_items[i].name, 0,
-                          TUI_MENU_BEH_RESUME);
-    }
-
-    tui_menu_add_item(palette_menu, "C_ustom",
-                      "Load a custom palette",
-                      custom_palette_callback,
-                      NULL, 0,
-                      TUI_MENU_BEH_RESUME);
-
-    tui_menu_add_submenu(parent, "Color _Palette:",
-                         "Choose color palette",
-                         palette_menu,
-                         palette_menu_callback,
-                         NULL, 15);
-}
-
-/* ------------------------------------------------------------------------- */
-
-TUI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
-TUI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
-
-static tui_menu_item_def_t video_menu_items[] = {
-    { "Video _Cache:",
-      "Enable screen cache (disabled when using triple buffering)",
-      toggle_CrtcVideoCache_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "_Double Scan:",
-      "Display double lines when running in 80-column mode",
-      toggle_CrtcDoubleScan_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
+#include "uivideo.h"
 
 static TUI_MENU_CALLBACK(load_rom_file_callback)
 {
@@ -214,9 +109,12 @@ int cbm2ui_init(void)
     tui_menu_add_separator(ui_video_submenu);
     tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
 
-    add_palette_submenu(ui_video_submenu);
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        uivideo_init(ui_video_submenu, VID_VICII, VID_NONE);
+    } else {
+        uivideo_init(ui_video_submenu, VID_CRTC, VID_NONE);
+    }
 
-    tui_menu_add(ui_video_submenu, video_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
     return 0;

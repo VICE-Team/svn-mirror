@@ -57,20 +57,20 @@
 #define ARCHDEP_PRINTER_DEFAULT_DEV3 "LPT2:"
 
 /* Video chip scaling.  */
-#define ARCHDEP_VICII_DSIZE   0
-#define ARCHDEP_VICII_DSCAN   0
+#define ARCHDEP_VICII_DSIZE   1
+#define ARCHDEP_VICII_DSCAN   1
 #define ARCHDEP_VICII_HWSCALE 0
 #define ARCHDEP_VDC_DSIZE     1
 #define ARCHDEP_VDC_DSCAN     1
 #define ARCHDEP_VDC_HWSCALE   0
-#define ARCHDEP_VIC_DSIZE     0
-#define ARCHDEP_VIC_DSCAN     0
+#define ARCHDEP_VIC_DSIZE     1
+#define ARCHDEP_VIC_DSCAN     1
 #define ARCHDEP_VIC_HWSCALE   0
-#define ARCHDEP_CRTC_DSIZE    0
-#define ARCHDEP_CRTC_DSCAN    0
+#define ARCHDEP_CRTC_DSIZE    1
+#define ARCHDEP_CRTC_DSCAN    1
 #define ARCHDEP_CRTC_HWSCALE  0
-#define ARCHDEP_TED_DSIZE     0
-#define ARCHDEP_TED_DSCAN     0
+#define ARCHDEP_TED_DSIZE     1
+#define ARCHDEP_TED_DSCAN     1
 #define ARCHDEP_TED_HWSCALE   0
 
 /* Video chip double buffering.  */

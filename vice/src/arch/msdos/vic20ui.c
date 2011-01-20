@@ -45,54 +45,8 @@
 #include "uilightpen.h"
 #include "uisidcart.h"
 #include "util.h"
+#include "uivideo.h"
 #include "vic20ui.h"
-
-static TUI_MENU_CALLBACK(toggle_MachineVideoStandard_callback)
-{
-    int value;
-
-    resources_get_int("MachineVideoStandard", &value);
-
-    if (been_activated) {
-        if (value == MACHINE_SYNC_PAL) {
-            value = MACHINE_SYNC_NTSC;
-        } else {
-            value = MACHINE_SYNC_PAL;
-        }
-        resources_set_int("MachineVideoStandard", value);
-    }
-
-    switch (value) {
-        case MACHINE_SYNC_PAL:
-	      return "PAL-G";
-        case MACHINE_SYNC_NTSC:
-	      return "NTSC-M";
-        default:
-	      return "(Custom)";
-    }
-}
-
-TUI_MENU_DEFINE_TOGGLE(VICVideoCache)
-TUI_MENU_DEFINE_TOGGLE(PALEmulation)
-
-static tui_menu_item_def_t vic_menu_items[] = {
-    { "Video _Cache:",
-      "Enable screen cache (disabled when using triple buffering)",
-      toggle_VICVideoCache_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_PAL Emulation:",
-      "Enable PAL emulation",
-      toggle_PALEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "--" },
-    { "V_ideo Standard:",
-      "Select machine clock ratio",
-      toggle_MachineVideoStandard_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
-/* ------------------------------------------------------------------------- */
 
 static WORD cartridge_type_to_address(int type)
 {
@@ -522,7 +476,8 @@ int vic20ui_init(void)
                          TUI_MENU_BEH_CONTINUE);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
-    tui_menu_add(ui_video_submenu, vic_menu_items);
+
+    uivideo_init(ui_video_submenu, VID_VIC, VID_NONE);
 
     return 0;
 }
