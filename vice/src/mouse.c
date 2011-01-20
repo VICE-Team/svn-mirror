@@ -44,23 +44,31 @@
 
 int _mouse_enabled = 0;
 int mouse_port = 1;
-int mouse_type;
+int mouse_type = 0;
 
 /* --------------------------------------------------------- */
 /* POT input selection */
 
-/* POT input port. Defaults to 1 for xvic. */
-static BYTE input_port = 1;
+/* POT input port. Defaults to 1 for xvic.
 
+ note: this actually represents the upper two bits of CIA1 port A
+    00 - no paddle selected
+    01 - paddle port 1 selected
+    10 - paddle port 2 selected
+    11 - both paddle ports selected
+*/
+static BYTE input_port = 0;
+
+/* this is called from c64cia1.c/c128cia1.c */
 void mouse_set_input(int port)
 {
     input_port = port & 3;
 }
 
-
 /* --------------------------------------------------------- */
 /* 1351 mouse */
 
+/* FIXME: old code, remove this if the code below is proven correct */
 #if 0
 /* FIXME this is too simplistic as it doesn't take the sampling
    period into account. Using this code breaks (at least) the
@@ -75,7 +83,8 @@ static BYTE mouse_get_1351_y(void)
 {
     return (input_port == mouse_port) ? mousedrv_get_y() : 0xff;
 }
-#else
+#endif
+#if 0
 static BYTE mouse_get_1351_x(void)
 {
     return mousedrv_get_x();
@@ -86,6 +95,47 @@ static BYTE mouse_get_1351_y(void)
     return mousedrv_get_y();
 }
 #endif
+
+/*
+    note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
+
+    "The Final Cartridge 3" (and possibly others?) do not work if the mouse
+    is inserted (as in enabled) after it has started. so either enable mouse
+    emulation on the commandline, or (re)start (or reset incase of a cart)
+    after enabling it in the gui. (see testprogs/SID/paddles/fc3detect.asm)
+
+    FIXME: this is too simplistic as it doesn't take the sampling period into
+           account.
+
+    HACK: when both ports are selected, a proper combined value should be
+          returned. however, since we are currently only emulating a single
+          mouse or pair of paddles, always returning its respective value in
+          this case is ok.
+*/
+
+static BYTE mouse_get_1351_x(void)
+{
+    switch (input_port) {
+        case 3: /* both */
+            return mousedrv_get_x(); /* HACK: see above */
+        case 1: /* port1 */
+        case 2: /* port2 */
+            return (input_port == mouse_port) ? mousedrv_get_x() : 0xff;
+    }
+    return 0xff;
+}
+
+static BYTE mouse_get_1351_y(void)
+{
+    switch (input_port) {
+        case 3: /* both */
+            return mousedrv_get_y(); /* HACK: see above */
+        case 1: /* port1 */
+        case 2: /* port2 */
+            return (input_port == mouse_port) ? mousedrv_get_y() : 0xff;
+    }
+    return 0xff;
+}
 
 /* --------------------------------------------------------- */
 /* NEOS mouse */
@@ -204,13 +254,11 @@ BYTE neos_mouse_read(void)
     }
 }
 
-
 static void neosmouse_alarm_handler(CLOCK offset, void *data)
 {
     alarm_unset(neosmouse_alarm);
     neos_state = NEOS_IDLE;
 }
-
 
 /* --------------------------------------------------------- */
 /* Amiga mouse support (currently experimental) */
@@ -304,7 +352,6 @@ BYTE amiga_mouse_read(void)
     return (amiga_mouse_table[x_count & 3] << 1) | amiga_mouse_table[y_count & 3] | 0xf0;
 }
 
-
 /* --------------------------------------------------------- */
 /* Paddle support */
 
@@ -322,7 +369,6 @@ static BYTE paddle_old[] = {
     0xff, 0xff,
     0xff, 0xff
 };
-
 
 static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
 {
@@ -350,6 +396,8 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
     return new_paddle;
 }
 
+/* FIXME: old code, remove this if the code below is proven correct */
+#if 0
 static BYTE mouse_get_paddle_x(void)
 {
     int i = (input_port << 1);
@@ -370,6 +418,45 @@ static BYTE mouse_get_paddle_y(void)
     }
 
     return 0xff - paddle_val[i];
+}
+#endif
+
+/*
+    note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
+
+    FIXME: this is too simplistic as it doesn't take the sampling period into
+           account.
+
+    HACK: when both ports are selected, a proper combined value should be
+          returned. however, since we are currently only emulating a single
+          mouse or pair of paddles, always returning its respective value in
+          this case is ok.
+*/
+
+static BYTE mouse_get_paddle_x(void)
+{
+    int i = (input_port << 1);
+
+    if (input_port != 0) {
+        if (input_port & mouse_port) {
+            paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_x());
+            return 0xff - paddle_val[i];
+        }
+    }
+    return 0xff;
+}
+
+static BYTE mouse_get_paddle_y(void)
+{
+    int i = (input_port << 1) + 1;
+
+    if (input_port != 0) {
+        if (input_port & mouse_port) {
+            paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_y());
+            return 0xff - paddle_val[i];
+        }
+    }
+    return 0xff;
 }
 
 /* --------------------------------------------------------- */
@@ -420,8 +507,9 @@ static const resource_int_t resources_extra_int[] = {
 
 int mouse_resources_init(void)
 {
-    if (resources_register_int(resources_int) < 0)
+    if (resources_register_int(resources_int) < 0) {
         return -1;
+    }
 
     /* FIXME ugly kludge to remove port and type setting from xvic */
     if (machine_class != VICE_MACHINE_VIC20) {
@@ -463,8 +551,9 @@ static const cmdline_option_t cmdline_extra_option[] = {
 
 int mouse_cmdline_options_init(void)
 {
-    if (cmdline_register_options(cmdline_options) < 0)
+    if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
+    }
 
     /* FIXME ugly kludge to remove port and type setting from xvic */
     if (machine_class != VICE_MACHINE_VIC20) {
@@ -560,6 +649,8 @@ BYTE mouse_get_y(void)
             return mouse_get_paddle_y();
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
+            /* FIXME: is this correct ?! */
+            break;
         default:
             break;
     }
