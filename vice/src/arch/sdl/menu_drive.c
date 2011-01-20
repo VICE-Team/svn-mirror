@@ -714,7 +714,7 @@ DRIVE_TYPE_MENU(11)
           MENU_ENTRY_OTHER,                                   \
           set_write_p00_files_callback,                       \
           (ui_callback_data_t)x },                            \
-        { "Hide P00 files",                                   \
+        { "Hide non-P00 files",                                   \
           MENU_ENTRY_OTHER,                                   \
           set_hide_p00_files_callback,                        \
           (ui_callback_data_t)x },                            \
