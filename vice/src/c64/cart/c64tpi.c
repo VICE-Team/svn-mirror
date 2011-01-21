@@ -40,6 +40,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "cmdline.h"
 #include "drivecpu.h"
 #include "lib.h"
 #include "log.h"
@@ -48,6 +49,7 @@
 #include "monitor.h"
 #include "resources.h"
 #include "tpi.h"
+#include "translate.h"
 #include "types.h"
 #include "util.h"
 
@@ -525,6 +527,33 @@ void tpi_resources_shutdown(void)
 {
     lib_free(ieee488_filename);
     ieee488_filename = NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-ieee488", SET_RESOURCE, 0,
+      NULL, NULL, "IEEE488", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("enable IEEE488 interface") },
+    { "+ieee488", SET_RESOURCE, 0,
+      NULL, NULL, "IEEE488", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("disable IEEE488 interface") },
+    { "-ieee488image", SET_RESOURCE, 1,
+      NULL, NULL, "IEEE488Image", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_NAME, IDCLS_UNUSED,
+      NULL, T_("specify IEEE488 interface image name") },
+    { NULL }
+};
+
+int tpi_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ---------------------------------------------------------------------*/

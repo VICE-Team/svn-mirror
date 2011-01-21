@@ -235,7 +235,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-cartdep64", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_DELA_EP64, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_DELA_EP64_CART,
       NULL, NULL },
     { "-cartdep7x8", CALL_FUNCTION, 1,
@@ -296,12 +296,12 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-cartff", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_FREEZE_FRAME, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_FREEZE_FRAME_CART,
       NULL, NULL },
     { "-cartfm", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_FREEZE_MACHINE, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART,
       NULL, NULL },
     { "-cartfp", CALL_FUNCTION, 1,
@@ -441,7 +441,7 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL },
     { "-cartsimon", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_SIMONS_BASIC, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_SIMONS_BASIC_CART,
       NULL, NULL },
     { "-cartss4", CALL_FUNCTION, 1,
@@ -481,6 +481,7 @@ int cart_cmdline_options_init(void)
 {
         /* "Slot 0" */
     if (mmc64_cmdline_options_init() < 0
+        || tpi_cmdline_options_init() < 0
         /* "Slot 1" */
         || dqbb_cmdline_options_init() < 0
         || expert_cmdline_options_init() < 0
