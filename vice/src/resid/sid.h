@@ -93,9 +93,7 @@ public:
   // 16-bit output (AUDIO OUT).
   short output();
 
-  //FIXME:
-  //protected:
-public:
+ protected:
   static double I0(double x);
   RESID_INLINE int clock_fast(cycle_count& delta_t, short* buf, int n,
 			      int interleave);

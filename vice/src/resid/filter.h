@@ -417,9 +417,6 @@ protected:
   reg8 sum;
   reg8 mix;
 
-  // Voice scale and DC offset.
-  // FIXME:
- public:
   // State of filter.
   int Vhp; // highpass
   int Vbp; // bandpass
