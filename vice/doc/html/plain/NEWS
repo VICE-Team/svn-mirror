@@ -15,9 +15,14 @@ list of all the changes in the code.
 
 - Drive improvements, including weak bit emulation.
 
-- Added NTSC emulation along PAL emulation, renamed to "CRT emulation".
+- CRT Emulation (former "PAL emulation") is now available regardless of
+  video mode or -chip and works in all emulators.
+
+- Added "True aspect ratio" option
 
 - Sound buffer overflows reduced and the error replaced with a warning.
+
+- Various monitor improvements (io details, expansion port status ...)
 
 ** C64/C128 changes
 -------------------
@@ -25,16 +30,32 @@ list of all the changes in the code.
 - Cartridge emulation improvements. Many broken cartridges fixed, and the
   following ones added:
 
-  * MMC Replay
+  * Action Replay 2
+  * Action Replay 3
+  * Capture
+  * Diashow Maker
+  * EXOS
+  * Final Cartridge Plus
+  * Freeze Frame
+  * Freeze Machine
+  * Game Killer
+  * MACH 5
   * Magic Voice
-  * ...
+  * MMC Replay
+  * Prophet 64
+  * Snapshot 64
+  * Super Explode V5
+  * Super Snapshot
+
+- Added emulation of the passthrough port of MMC64, Magic Voice and IEEE488
+  cartridges.
 
 - CIA TOD 50/60 Hz toggle emulation fixed.
 
 ** C128 changes
 ---------------
 
--
+- Fixed a bug with autostarting t64 images
 
 ** VIC20 changes
 ----------------
@@ -49,6 +70,8 @@ list of all the changes in the code.
 
 ** PLUS4 changes
 ----------------
+
+- fixed crashes in NTSC mode.
 
 - Added v364 speech emulation.
 
