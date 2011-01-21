@@ -466,9 +466,9 @@ protected:
   int solve_gain(int n, int vi_t, int& x, model_filter_t& mf);
   int solve_integrate(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
 
+  static int sqrt_table[1 << 16];
   static model_filter_t model_filter[2];
 
-  static int sqrt_table[512];
 friend class SID;
 };
 
@@ -1439,8 +1439,10 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
   int n_snake = mf.n_snake;  // Scaled by (1/m)*2^19 (fits in 12 bits)
 
   // VCR gate voltage.
-  // Vddt - sqrt((2 * Vddt) * (Vddt - Vw - Vi) + Vw * Vw + Vi * Vi)) / sqrt(2)
-  int Vg = Vddt - (isqrt(Vw_term + (vi >> 4) * (((vi >> 1) - Vddt) >> 4)) << 4);
+  // Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
+  // Vth could be included in the table lookup by using different tables
+  // for the 6581 and the 8580.
+  int Vg = Vddt - sqrt_table[(Vw_term + (vi >> 4)*(((vi >> 1) - Vddt) >> 4)) >> 14];
   int Vgt = Vg - mf.Vth;     // Scaled by m*2^19
 
   // Determine the direction of the current flowing through the VCR and
@@ -1512,27 +1514,6 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
 
   // Return vo.
   return (x - vc) - mf.vo_T19;
-}
-
-RESID_INLINE int Filter::isqrt(int x)
-{
-    int xn;
-    if (x >= (1 << 28)) {
-        xn = sqrt_table[x >> 22];
-    } else if (x >= (1 << 25)) {
-        xn = sqrt_table[x >> 20] >> 1;
-    } else if (x >= (1 << 21)) {
-        xn = sqrt_table[x >> 16] >> 3;
-    } else if (x >= (1 << 15)) {
-        xn = sqrt_table[x >> 12] >> 5;
-    } else if (x >= (1 << 9)) {
-        xn = sqrt_table[x >> 8] >> 7;
-    } else {
-        return sqrt_table[x] >> 11;
-    }
-
-    /* Refine the guess with 1 iteration of Newton's method. */
-    return (xn + (x / xn)) >> 1;
 }
 
 #endif // RESID_INLINING || defined(RESID_FILTER_CC)
