@@ -435,26 +435,24 @@ static BYTE mouse_get_paddle_y(void)
 
 static BYTE mouse_get_paddle_x(void)
 {
-    int i = (input_port << 1);
-
-    if (input_port != 0) {
-        if (input_port & mouse_port) {
-            paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_x());
-            return 0xff - paddle_val[i];
-        }
+    int i = input_port & mouse_port;
+    if (i != 0) {
+        i = i << 1;
+        /* one of the ports is selected */
+        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_x());
+        return 0xff - paddle_val[i];
     }
     return 0xff;
 }
 
 static BYTE mouse_get_paddle_y(void)
 {
-    int i = (input_port << 1) + 1;
-
-    if (input_port != 0) {
-        if (input_port & mouse_port) {
-            paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_y());
-            return 0xff - paddle_val[i];
-        }
+    int i = input_port & mouse_port;
+    if (i != 0) {
+        i = (i << 1) + 1;
+        /* one of the ports is selected */
+        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_y());
+        return 0xff - paddle_val[i];
     }
     return 0xff;
 }
