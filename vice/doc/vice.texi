@@ -2243,21 +2243,6 @@ the values apply to.
 
 @table @code
 
-@vindex VideoCache
-@vindex CrtcVideoCache
-@item VideoCache, CrtcVideoCache
-Boolean specifying whether the video cache is turned on.
-
-@vindex DoubleSize
-@vindex CrtcDoubleSize
-@item DoubleSize, CrtcDoubleSize
-Boolean specifying whether double-size mode is turned on.
-
-@vindex DoubleScan
-@vindex CrtcDoubleScan
-@item DoubleScan, CrtcDoubleScan
-Boolean specifying whether double-scan mode is turned on.
-
 @vindex UseXSync
 @item UseXSync
 Boolean specifying whether @code{XSync()} is called after updating the
@@ -2286,12 +2271,6 @@ colors if other color-hungry applications are running at the same time.
 Integer specifying the depth of the host display.  The value @samp{0}
 (the default) causes the emulator to autodetect it.
 
-@vindex PaletteFile
-@vindex CrtcPaletteFile
-@item PaletteFile, CrtcPaletteFile
-String specifying the name of the palette file being used.  The
-@file{.vpl} extension is optional.
-
 @end table
 
 
@@ -2299,23 +2278,6 @@ String specifying the name of the palette file being used.  The
 @subsection Video command-line options
 
 @table @code
-
-@cindex -vcache, +vcache
-@item -vcache
-@itemx +vcache
-Enable/disable the video cache (@code{VideoCache=1}, @code{VideoCache=0}).
-
-@cindex -dsize, +dsize
-@item -dsize
-@itemx +dsize
-Enable/disable the double size mode (@code{DoubleSize=1},
-@code{DoubleSize=0}).
-
-@cindex -dscan, +dscan
-@item -dscan
-@itemx +dscan
-Enable/disable the double scan mode (@code{DoubleScan=1},
-@code{DoubleScan=0}).
 
 @cindex -xsync, +xsync
 @item -xsync
@@ -2342,11 +2304,6 @@ Enable/disable installation of a private colormap
 @cindex -displaydepth
 @item -displaydepth DEPTH
 Specify the display depth (@code{DisplayDepth}).
-
-@cindex -palette, -crtcpalette 
-@item -palette NAME
-@itemx -crtcpalette NAME
-Specify @code{NAME} as the palette file (@code{PaletteFile},@code{CrtcPaletteFile}).
 
 @end table
 
@@ -3589,7 +3546,7 @@ This section lists the settings and commands that are C64/128 specific
 and thus are not present in the other emulators.
 
 @menu
-* C64 cartridges::              Using cartridge images with the C64 emulator.
+* C64 cartridges::              Using cartridges with the C64 emulator.
 * VIC-II settings::             Settings that control the video chip.
 * SID settings::                Settings that control the audio chip.
 * C64 I/O extension settings::  Settings that enable special extensions.
@@ -3597,55 +3554,689 @@ and thus are not present in the other emulators.
 @end menu
 
 @node C64 cartridges, VIC-II settings, C64/128-specific, C64/128-specific
-@subsection Using cartridge images
 
-@dfn{Cartridge images} are like disk images, but mirror the contents of
-cartridge ROM images instead of disk images.
+@subsection Using cartridges
 
-X64 and X128 allow you to attach the following kinds of cartridges:
+The cartridge system is organized in "Slots" to allow more than one cartridge
+connected at a time, like it can be done using an expansion port expander on
+a real C64 (see below).
+
+Generally a cartridge can be enabled by attaching its respective cartridge
+image, or using the respective menu option for cartridges that do not
+require an image.
+
+X64 and X128 allow you to attach the following kinds of images:
 
 @itemize @bullet
 @item
-@file{.crt} images, as used by the CCS64 emulator by Per Håkan Sundell;
+@file{.crt} images, as used by the CCS64 emulator by Per Håkan Sundell
 @item
-generic raw dumps of 8K and 16K images;
-@item
-Action Replay images.
-@item
-Atomic Power images.
-@item
-Epyx fastload images.
-@item
-The Commodore IEEE488 interface cartridge
-(@code{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
-@item
-Retro Replay images.
-@item
-IDE64 interface cartridge.
-(@code{http://www.volny.cz/dundera/})
-@item
-Super Snapshot 4 images.
-@item
-Super Snapshot 5 images.
-@item
-Expert Cartridge images.
+raw @file{.bin} images, with or without load address
 @end itemize
 
-Each of these kinds has a specific command in the ``Attach a cartridge
-image'' submenu.  When you have successfully attached a cartridge image,
+@dfn{Cartridge images} are like disk images, but contain the contents of
+cartridge ROM and/or RAM images instead of disk images.
+
+To attach cartridges, use the ``Attach a cartridge image'' submenu. When using
+@file{.crt} images, this will work for every cartridge which is supported. For
+raw @file{.bin} images you might have to use command line options.
+
+When you have successfully attached a cartridge image,
 you should then reset the machine to make sure the cartridge initializes
-itself.  Of course, it is also possible to detach a currently attached
+itself. (Or enable the "reset on cartridge change" option).
+
+Of course, it is also possible to detach a currently attached
 cartridge image (``Detach cartridge image'').
 
 If you are using a freezer cart like an Action Replay cartridge, you can
 emulate the cartridge's freeze button with the ``Cartridge freeze''
 command.
 
-Attaching the IEEE488 cartridge automatically enables the IEEE488
-interface emulation on the @code{$DF**} I/O ports.
+The imaginary expansion port expander is organized in 4 slots, the
+cartridges are associated with them like this:
 
-Attaching the IDE64 cartridge automatically enables the IDE64
-interface emulation on the @code{$DE**} I/O ports.
+@b{"Slot 0"}
+
+All carts that have a passthrough connector go here. Once a "Slot 0"
+cartridge is enabled all further cartridges are connected to its respective
+passthrough port.
+
+Only one cartridge of this type can be active at a time.
+
+"Slot 0" carts have individual "enable" switches, enabling means enabling permanently.
+
+The following cartridges are emulated in this slot:
+
+@itemize @bullet
+@item
+IEEE-488 Interface (@code{http://www.funet.fi/pub/cbm/schematics/cartridges/c64/ieee-488/eprom.bin})
+@item
+Magic Voice
+@item
+MMC64
+@end itemize
+
+@b{"Slot 1"}
+
+Mostly RAM based cartridges which for one reason or the other might make sense
+to be enabled together with one of the "Main Slot" cartridges go here.
+
+Only one cartridge of this type can be active at a time.
+
+"Slot 1" carts have individual "enable" switches, enabling means enabling permanently
+
+The following cartridges are emulated in this slot:
+
+@itemize @bullet
+@item
+Double Quick Brown Box (DQBB)
+@item
+Expert Cartridge
+@item
+ISEPIC
+@item
+RamCart
+@end itemize
+
+@b{"Main Slot"}
+
+All other cartridges which are not pure i/o extensions go here.
+
+Only one cartridge of this type can be active at a time.
+
+Cartridges in the "Main Slot" must be explicitly set as default to enable them permanently.
+
+The following cartridges are emulated in this slot:
+
+@itemize @bullet
+@item
+generic 4K, 8K and 16K game- and ultimax cartridges
+@item
+Action Replay V5
+@item
+Action Replay MK2
+@item
+Action Replay MK3
+@item
+Action Replay MK4
+@item
+Atomic Power
+@item
+C64 Games System
+@item
+Capture
+@item
+Comal 80
+@item
+Dela EP64
+@item
+Dela EP7x8
+@item
+Dela EP256
+@item
+Diashow-Maker
+@item
+Dinamic
+@item
+EasyFlash
+@item
+Epyx FastLoad
+@item
+EXOS
+@item
+The Final Cartridge
+@item
+The Final Cartridge III
+@item
+Final Cartridge Plus
+@item
+Freeze Frame
+@item
+Freeze Machine
+@item
+Fun Play
+@item
+Game Killer
+@item
+IDE64 (@code{http://www.volny.cz/dundera/})
+@item
+KCS Power Cartridge
+@item
+MACH 5
+@item
+Magic Desk
+@item
+Magic Formel
+@item
+Mikro Assembler
+@item
+MMC Replay
+@item
+Ocean
+@item
+Prophet64
+@item
+REX 256k EPROM Cart
+@item
+REX Utility
+@item
+Retro Replay
+@item
+ROSS
+@item
+Simons' BASIC
+@item
+Snapshot 64
+@item
+Stardos
+@item
+Structured BASIC
+@item
+Super Explode V5.0
+@item
+Super Games
+@item
+Super Snapshot V4
+@item
+Super Snapshot V5
+@item
+Warp Speed
+@item
+Westermann Learning
+@item
+Zaxxon
+@end itemize
+
+@b{"I/O Slot"}
+
+All carts that are pure I/O extensions go here.
+
+Any number of "I/O Slot" Carts may be active at a time.
+
+"I/O Slot" carts have individual "enable" switches, enabling means enabling permanently.
+
+The following cartridges are emulated in this slot:
+
+@itemize @bullet
+@item
+ACIA (Swiftlink, Turbo232)
+@item
+DigiMAX
+@item
+Ethernet (The Final Ethernet, RR-Net)
+@item
+GEO-RAM
+@item
+MIDI (Passport, Datel, Maplin, Namesoft, Sequential)
+@item
+RAM Expansion Module (REU)
+@item
+SFX Sound Expander
+@item
+SFX Sound Sampler
+@end itemize
+
+@c @node TODO
+@subsubsection The Final Cartridge 3
+The Final Cartridge 3 detects wether a mouse is connected when it starts and
+disables mouse support if it doesnt detect one. So to make mouse emulation
+work you must either enable it on the command line, or reset the cartridge
+after enabling it from the user interface.
+
+@c @node TODO
+@subsection C64 cartridge settings
+
+TODO
+
+@c @node TODO
+@subsubsection C64 cartridge resources
+
+TODO
+
+@table @code
+@vindex CartridgeReset
+@item CartridgeReset
+@vindex CartridgeType
+@item CartridgeType
+@vindex CartridgeFile
+@item CartridgeFile
+@vindex DQBB
+@item DQBB
+Boolean specifying whether the Double Quick Brown Box should be emulated or not.
+@vindex DQBBfilename
+@item DQBBfilename
+@vindex DQBBImageWrite
+@item DQBBImageWrite
+@vindex ExpertCartridgeEnabled
+@item ExpertCartridgeEnabled
+Boolean specifying whether the Expert Cartridge should be emulated or not.
+@vindex Expertfilename
+@item Expertfilename
+@vindex ExpertImageWrite
+@item ExpertImageWrite
+@vindex ExpertCartridgeMode
+@item ExpertCartridgeMode
+@vindex IDE64Image1
+@item IDE64Image1
+@vindex IDE64Image2
+@item IDE64Image2
+@vindex IDE64Image3
+@item IDE64Image3
+@vindex IDE64Image4
+@item IDE64Image4
+@vindex IDE64Config
+@item IDE64Config
+@vindex IDE64Cylinders
+@item IDE64Cylinders
+@vindex IDE64Heads
+@item IDE64Heads
+@vindex IDE64Sectors
+@item IDE64Sectors
+@vindex IDE64AutodetectSize
+@item IDE64AutodetectSize
+@vindex IDE64version4
+@item IDE64version4
+@vindex IDE64RTCOffset
+@item IDE64RTCOffset
+@vindex IEEE488
+@item IEEE488
+Boolean specifying whether the IEEE488 interface should be emulated or not.
+@vindex IEEE488Image
+@item IEEE488Image
+@vindex IsepicCartridgeEnabled
+@item IsepicCartridgeEnabled
+Boolean specifying whether ISEPIC should be emulated or not.
+@vindex Isepicfilename
+@item Isepicfilename
+@vindex IsepicSwitch
+@item IsepicSwitch
+@vindex IsepicImageWrite
+@item IsepicImageWrite
+@vindex MagicVoiceCartridgeEnabled
+@item MagicVoiceCartridgeEnabled
+Boolean specifying whether the Magic Voice should be emulated or not.
+@vindex MagicVoiceImage
+@item MagicVoiceImage
+@vindex MMC64
+@item MMC64
+Boolean specifying whether the MMC64 should be emulated or not.
+@vindex MMC64BIOSfilename
+@item MMC64BIOSfilename
+@vindex MMC64_bios_write
+@item MMC64_bios_write
+@vindex MMC64_flashjumper
+@item MMC64_flashjumper
+@vindex MMC64_revision
+@item MMC64_revision
+@vindex MMC64imagefilename
+@item MMC64imagefilename
+@vindex MMC64_RO
+@item MMC64_RO
+@vindex MMC64_sd_type
+@item MMC64_sd_type
+@vindex MMCRCardImage
+@item MMCRCardImage
+@vindex MMCREEPROMImage
+@item MMCREEPROMImage
+@vindex MMCRRescueMode
+@item MMCRRescueMode
+@vindex MMCRImageWrite
+@item MMCRImageWrite
+@vindex MMCRCardRW
+@item MMCRCardRW
+@vindex MMCRSDType
+@item MMCRSDType
+@vindex MMCREEPROMRW
+@item MMCREEPROMRW
+@vindex RAMCART
+@item RAMCART
+Boolean specifying whether the RAMCart should be emulated or not.
+@vindex RAMCARTfilename
+@item RAMCARTfilename
+@vindex RAMCARTImageWrite
+@item RAMCARTImageWrite
+@vindex RAMCART_RO
+@item RAMCART_RO
+@vindex RAMCARTsize
+@item RAMCARTsize
+@vindex RRFlashJumper
+@item RRFlashJumper
+@vindex RRBankJumper
+@item RRBankJumper
+@vindex RRBiosWrite
+@item RRBiosWrite
+@end table
+
+@c @node TODO
+@subsubsection C64 cartridge command-line options
+
+@table @code
+
+@cindex +cart
+@item +cart
+Disable all cartridges (which would eventually be enabled in the config file).
+@cindex -cartreset, +cartreset
+@item -cartreset
+@itemx +cartreset
+Reset/Do not reset machine if a cartridge is attached or detached
+@cindex -cart8
+@item -cart8 <name>
+Attach generic 8KB cartridge image
+@cindex -cart16
+@item -cart16 <name>
+Attach generic 16KB cartridge image
+@cindex -cartultimax
+@item -cartultimax <name>
+Attach generic 16kB Ultimax cartridge image
+@cindex -cartcrt
+@item -cartcrt <name>
+Attach CRT cartridge image
+@cindex -cartap
+@item -cartap <name>
+Attach raw 32KB Atomic Power cartridge image
+@cindex -cartar2
+@item -cartar2 <name>
+Attach raw 16kB Action Replay MK2 cartridge image
+@cindex -cartar3
+@item -cartar3 <name>
+Attach raw 16KB Action Replay MK3 cartridge image
+@cindex -cartar4
+@item -cartar4 <name>
+Attach raw 32KB Action Replay MK4 cartridge image
+@cindex -cartar5
+@item -cartar5 <name>
+Attach raw 32KB Action Replay cartridge image
+@cindex -cartcap
+@item -cartcap <name>
+Attach raw 8kB Capture cartridge image
+@cindex -cartcomal
+@item -cartcomal <name>
+Attach raw 64kB Comal 80 cartridge image
+@cindex -cartdep256
+@item -cartdep256 <name>
+Attach raw Dela EP256 cartridge image
+@cindex -cartdep64
+@item -cartdep64 <name>
+Attach raw Dela EP64 cartridge image
+@cindex -cartdep7x8
+@item -cartdep7x8 <name>
+Attach raw Dela EP7x8 cartridge image
+@cindex -cartdin
+@item -cartdin <name>
+Attach raw 128kB Dinamic cartridge image
+@cindex -cartdsm
+@item -cartdsm <name>
+Attach raw 8kB Diashow-Maker cartridge image
+@cindex -cartdqbb
+@item -cartdqbb <name>
+Attach raw 16kB Double Quick Brown Box cartridge image
+@cindex -dqbb, +dqbb
+@item -dqbb
+@itemx +dqbb
+Enable/Disable Double Quick Brown Box
+@cindex -dqbbimage
+@item -dqbbimage <name>
+Specify Double Quick Brown Box filename
+@cindex -dqbbimagerw, +dqbbimagerw
+@item -dqbbimagerw
+@itemx +dqbbimagerw
+Allow/Disallow writing to DQBB image
+@cindex -carteasy
+@item -carteasy <name>
+Attach raw EasyFlash cartridge image
+@cindex -easyflashjumper, +easyflashjumper
+@item -easyflashjumper
+@itemx +easyflashjumper
+Enable/Disable EasyFlash jumper
+@cindex -easyflashcrtwrite, +easyflashcrtwrite
+@item -easyflashcrtwrite
+@itemx +easyflashcrtwrite
+Allow/Disallow writing to EasyFlash .crt image
+@cindex -cartepyx
+@item -cartepyx <name>
+Attach raw 8KB Epyx FastLoad cartridge image
+@cindex -cartexos
+@item -cartexos <name>
+Attach raw 8kB EXOS cartridge image
+@cindex -cartexpert
+@item -cartexpert <name>
+Attach raw 8kB Expert Cartridge image
+@cindex -expert, +expert
+@item -expert
+@itemx +expert
+Enable/Disable the Expert Cartridge
+@cindex -expertimagename
+@item -expertimagename <name>
+Set Expert Cartridge image name
+@cindex -expertimagerw, +expertimagerw
+@item -expertimagerw
+@itemx +expertimagerw
+Allow/Disallow writing to Expert Cartridge image
+@cindex -cartfc1
+@item -cartfc1 <name>
+Attach raw 16kB Final Cartridge image
+@cindex -cartfc3
+@item -cartfc3 <name>
+Attach raw 64kB Final Cartridge III image
+@cindex -cartfcplus
+@item -cartfcplus <name>
+Attach raw 32kB Final Cartridge Plus image
+@cindex -cartff
+@item -cartff <name>
+Attach raw 8kB Freeze Frame image
+@cindex -cartfm
+@item -cartfm <name>
+Attach raw 32kB Freeze Machine image
+@cindex -cartfp
+@item -cartfp <name>
+Attach raw 128kB Fun Play/Power Play cartridge image
+@cindex -cartgk
+@item -cartgk <name>
+Attach raw 8KB Game Killer cartridge image
+@cindex -cartgs
+@item -cartgs <name>
+Attach raw 512kB Game System cartridge image
+@cindex -cartide64
+@item -cartide64 <name>
+Attach raw 64KB IDE64 cartridge image
+@cindex -IDE64image1
+@item -IDE64image1 <name>
+Specify name of IDE64 image file
+@cindex -IDE64image2
+@item -IDE64image2 <name>
+Specify name of IDE64 image file
+@cindex -IDE64image3
+@item -IDE64image3 <name>
+Specify name of IDE64 image file
+@cindex -IDE64image4
+@item -IDE64image4 <name>
+Specify name of IDE64 image file
+@cindex -IDE64cyl
+@item -IDE64cyl <value>
+Set number of cylinders for the IDE64 emulation
+@cindex -IDE64hds
+@item -IDE64hds <value>
+Set number of heads for the IDE64 emulation
+@cindex -IDE64sec
+@item -IDE64sec <value>
+Set number of sectors for the IDE64 emulation
+@cindex -IDE64autosize, +IDE64autosize
+@item -IDE64autosize
+@itemx +IDE64autosize
+Autodetect/do not autodetect geometry of formatted images
+@cindex -IDE64version4, +IDE64version4
+@item -IDE64version4
+@itemx +IDE64version4
+Emulate version 4 hardware/Emulate pre version 4 hardware
+@cindex -cartieee
+@item -cartieee <name>
+Attach CBM IEEE-488 cartridge image
+@cindex -ieee488, +ieee488
+@item -ieee488
+@itemx +ieee488
+Enable (@code{IEEE488=1}) or disable (@code{IEEE488=0}) emulation of the
+IEEE488 interface.
+@cindex -isepic, +isepic
+@item -isepic
+@itemx +isepic
+Enable/Disable the ISEPIC cart
+@cindex -cartisepic
+@item -cartisepic <name>
+Attach raw 2kB ISEPIC cartridge image
+@cindex -isepicimagename
+@item -isepicimagename <name>
+Set ISEPIC image name
+@cindex -isepicimagerw, +isepicimagerw
+@item -isepicimagerw
+@itemx +isepicimagerw
+Allow/Disallow writing to ISEPIC image
+@cindex -cartkcs
+@item -cartkcs <name>
+Attach raw 16kB KCS Power cartridge image
+@cindex -cartmach5
+@item -cartmach5 <name>
+Attach raw 8kB MACH 5 cartridge image
+@cindex -cartmd
+@item -cartmd <name>
+Attach raw 32/64/128kB Magic Desk cartridge image
+@cindex -cartmf
+@item -cartmf <name>
+Attach raw Magic Formel cartridge image
+@cindex -cartmikro
+@item -cartmikro <name>
+Attach raw 8kB Mikro Assembler cartridge image
+@cindex -mmc64, +mmc64
+@item -mmc64
+@itemx +mmc64
+Enable/Disable the MMC64 expansion
+@cindex -cartmmc64
+@item -cartmmc64 <name>
+Attach raw 8kB MMC64 cartridge image
+@cindex -mmc64bios
+@item -mmc64bios <name>
+Specify name of MMC64 BIOS image
+@cindex -mmc64image
+@item -mmc64image <name>
+Specify name of MMC64 image
+@cindex -mmc64readonly
+@item -mmc64readonly
+Set the MMC64 card to read-only
+@cindex -mmc64readwrite
+@item -mmc64readwrite
+Set the MMC64 card to read/write
+@cindex -mmc64bioswrite
+@item -mmc64bioswrite
+Save the MMC64 bios when changed
+@cindex -cartmmcr
+@item -cartmmcr <name>
+Attach raw 512kB MMC Replay cartridge image
+@cindex -mmcrrescue, +mmcrrescue
+@item -mmcrrescue
+@itemx +mmcrrescue
+Enable/Disable MMC Replay rescue mode
+@cindex -mmcrimagerw, +mmcrimagerw
+@item -mmcrimagerw
+@itemx +mmcrimagerw
+Allow/Disallow writing to MMC Replay image
+@cindex -mmcrcardimage
+@item -mmcrcardimage <filename>
+Specify MMC Replay card image filename
+@cindex -mmcrcardrw, +mmcrcardrw
+@item -mmcrcardrw
+@itemx +mmcrcardrw
+Allow/Disallow writes to MMC Replay card image
+@cindex -mmcreepromimage
+@item -mmcreepromimage
+Specify MMC Replay EEPROM image filename
+@cindex -mmcreepromrw, +mmcreepromrw
+@item -mmcreepromrw
+@itemx +mmcreepromrw
+Allow/Disallow writes to MMC Replay EEPROM image
+@cindex -cartmv
+@item -cartmv <name>
+Attach raw 16kB Magic Voice cartridge image
+@cindex -cartocean
+@item -cartocean <name>
+Attach raw Ocean cartridge image
+@cindex -cartp64
+@item -cartp64 <name>
+Attach raw 256KB Prophet 64 cartridge image
+@cindex -cartramcart
+@item -cartramcart <name>
+Attach raw RamCart cartridge image
+@cindex -ramcart, +ramcart
+@item -ramcart
+@itemx +ramcart
+Enable/Disable the RAMCART expansion
+@cindex -ramcartsize
+@item -ramcartsize <size in KB>
+Size of the RAMCART expansion
+@cindex -ramcartimage
+@item -ramcartimage <name>
+Specify name of RAMCART image
+@cindex -ramcartimagerw, +ramcartimagerw
+@item -ramcartimagerw
+@itemx +ramcartimagerw
+Allow/Disallow writing to RAMCart image
+@cindex -cartrep256
+@item -cartrep256 <name>
+Attach raw REX EP256 cartridge image
+@cindex -cartross
+@item -cartross <name>
+Attach raw 16/32kB ROSS cartridge image
+@cindex -cartrr
+@item -cartrr <name>
+Attach raw 64KB Retro Replay cartridge image
+@cindex -rrbioswrite, +rrbioswrite
+@item -rrbioswrite
+@itemx +rrbioswrite
+Enable/Disable saving of the RR ROM at exit
+@cindex -rrbankjumper, +rrbankjumper
+@item -rrbankjumper
+@itemx +rrbankjumper
+Set/Unset RR Bank Jumper
+@cindex -rrflashjumper, +rrflashjumper
+@item -rrflashjumper
+@itemx +rrflashjumper
+Set/Unset RR Flash Jumper
+@cindex -cartru
+@item -cartru <name>
+Attach raw 8kB REX Utility cartridge image
+@cindex -carts64
+@item -carts64 <name>
+Attach raw 4kB Snapshot 64 cartridge image
+@cindex -cartsb
+@item -cartsb <name>
+Attach raw Structured Basic cartridge image
+@cindex -cartse5
+@item -cartse5 <name>
+Attach raw 16kB Super Explode V5 cartridge image
+@cindex -cartsg
+@item -cartsg <name>
+Attach raw 64kB Super Games cartridge image
+@cindex -cartsimon
+@item -cartsimon <name>
+Attach raw 16kB Simons Basic cartridge image
+@cindex -cartss4
+@item -cartss4 <name>
+Attach raw 32KB Super Snapshot V4 cartridge image
+@cindex -cartss5
+@item -cartss5 <name>
+Attach raw 64KB Super Snapshot V5 cartridge image
+@cindex -cartstar
+@item -cartstar <name>
+Attach raw 16KB Stardos cartridge image
+@cindex -cartwl
+@item -cartwl <name>
+Attach raw 16KB Westermann Learning cartridge image
+@cindex -cartws
+@item -cartws <name>
+Attach raw 8kB Warp Speed cartridge image
+@cindex -cartzaxxon
+@item -cartzaxxon <name>
+Attach raw 16kB Zaxxon cartridge image
+@end table
+
 
 @node VIC-II settings, SID settings, C64 cartridges, C64/128-specific
 @subsection VIC-II settings
@@ -3703,15 +4294,32 @@ C64 graphics package GoDot
 
 @table @code
 
-@vindex CheckSsColl
-@item CheckSsColl
+@vindex VICIICheckSsColl
+@item VICIICheckSsColl
 Boolean specifying whether the sprite-sprite hardware collision
 detection must be emulated.
 
-@vindex CheckSbColl
-@item CheckSbColl
+@vindex VICIICheckSbColl
+@item VICIICheckSbColl
 Boolean specifying whether the sprite-background hardware collision
 detection must be emulated.
+
+@vindex VICIIVideoCache
+@item VICIIVideoCache
+Boolean specifying whether the video cache is turned on.
+
+@vindex VICIIDoubleSize
+@item VICIIDoubleSize
+Boolean specifying whether double-size mode is turned on.
+
+@vindex VICIIDoubleScan
+@item VICIIDoubleScan
+Boolean specifying whether double-scan mode is turned on.
+
+@vindex VICIIPaletteFile
+@item VICIIPaletteFile
+String specifying the name of the palette file being used.  The
+@file{.vpl} extension is optional.
 
 @end table
 
@@ -3721,19 +4329,39 @@ detection must be emulated.
 
 @table @code
 
-@cindex -checkss, +checkss
-@item -checkss
-@itemx +checkss
-Enable (@code{CheckSsColl=1}) and disable (@code{CheckSsColl=0})
+@cindex -VICIIcheckss, +VICIIcheckss
+@item -VICIIcheckss
+@itemx +VICIIcheckss
+Enable (@code{VICIICheckSsColl=1}) and disable (@code{VICIICheckSsColl=0})
 emulation of hardware sprite-sprite collision detection, respectively.
-@cindex -checkss, +checkss
 
-@cindex -checksb, +checksb
-@item -checksb
-@itemx +checksb
-Enable (@code{CheckSbColl=1}) and disable (@code{CheckSbColl=0})
+@cindex -VICIIchecksb, +VICIIchecksb
+@item -VICIIchecksb
+@itemx +VICIIchecksb
+Enable (@code{VICIICheckSbColl=1}) and disable (@code{VICIICheckSbColl=0})
 emulation of hardware sprite-background collision detection,
 respectively.
+
+@cindex -VICIIvcache, +VICIIvcache
+@item -VICIIvcache
+@itemx +VICIIvcache
+Enable/disable the video cache (@code{VICIIVideoCache=1}, @code{VICIIVideoCache=0}).
+
+@cindex -VICIIdsize, +VICIIdsize
+@item -VICIIdsize
+@itemx +VICIIdsize
+Enable/disable the double size mode (@code{VICIIDoubleSize=1},
+@code{VICIIDoubleSize=0}).
+
+@cindex -VICIIdscan, +VICIIdscan
+@item -VICIIdscan
+@itemx +VICIIdscan
+Enable/disable the double scan mode (@code{VICIIDoubleScan=1},
+@code{VICIIDoubleScan=0}).
+
+@cindex -VICIIpalette
+@item -VICIIpalette NAME
+Specify @code{NAME} as the palette file (@code{VICIIPaletteFile}).
 
 @end table
 
@@ -3907,35 +4535,46 @@ bandwidth (@code{SidResidPassband=0-90}).
 @node C64 I/O extension settings, C64/128 system ROM settings, SID settings, C64/128-specific
 @subsection C64 I/O extension settings
 
-There are three I/O extensions available: they are located at the
-address range $DF00 @dots{} $DFFF and each of them is controlled by a
-boolean resource.  Please use these extensions only when needed, as they
-might cause compatibility problems.
+I/O extensions are (usually) cartridges which do not map into rom space,
+but use only the I/O space at address range $DE00 @dots{} $DEFF and/or
+$DF00 @dots{} $DFFF.
+
+Please use these extensions only when needed, as they might cause
+compatibility problems.
+
+The following I/O extensions are available:
 
 @itemize @bullet
 
-@cindex C64/128 emulator identification
-@item
-The ``emulator identification'' extension allows programs to
-identify the kind of emulator they are running on, according to the
-emulation detection proposal by Wolfgang Lorenz.  This basically means
-that, when some locations in the $DFxx I/O space are read, the emulator
-returns some values which identify the emulator itself, its version and
-a copyright message.  If this extension is disabled, programs will have
-virtually no way to realize they are running on an emulator.
+@cindex ACIA (Swiftlink, Turbo232)
+@item ACIA (Swiftlink, Turbo232)
+
+@cindex DigiMAX
+@item DigiMAX
+
+@cindex Ethernet (The Final Ethernet, RR-Net)
+@item Ethernet (The Final Ethernet, RR-Net)
+
+@cindex GEO-RAM
+@item GEO-RAM
+
+@cindex MIDI (Passport, Datel, Maplin, Namesoft, Sequential)
+@item MIDI (Passport, Datel, Maplin, Namesoft, Sequential)
 
 @cindex REU
-@item
-The ``512K RAM Expansion Unit'' extension emulates a standard 512K
+@item REU - 
+The ``RAM Expansion Module'' extension emulates a standard
 Commodore RAM Expansion Unit; this can be used with GEOS and other
 programs that are designed to take advantage of it.  This currently
 works only in the C64 emulator.
 
-@cindex 1351 Mouse emulation
-@item FIXME
+@cindex SFX Sound Expander
+@item SFX Sound Expander
+
+@cindex SFX Sound Sampler
+@item SFX Sound Sampler
 
 @end itemize
-
 
 @menu
 * C64 I/O extension resources::  
@@ -3945,17 +4584,64 @@ works only in the C64 emulator.
 @node C64 I/O extension resources, C64 I/O extension options, C64 I/O extension settings, C64 I/O extension settings
 @subsubsection C64 I/O extension resources
 
+TODO
+
 @table @code
 
-@vindex IEEE488
-@item IEEE488
-Boolean specifying whether the IEEE488 interface should
-be emulated or not.
+@vindex Acia1Enable
+@item Acia1Enable
+Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be emulated or not.
+
+@vindex DIGIMAX
+@item DIGIMAX
+Boolean specifying whether the DigiMAX cartridge should be emulated or not.
+@vindex DIGIMAXbase
+@item DIGIMAXbase
+
+@vindex ETHERNET_INTERFACE
+@item ETHERNET_INTERFACE
+@vindex ETHERNET_DISABLED
+@item ETHERNET_DISABLED
+@vindex ETHERNET_ACTIVE
+@item ETHERNET_ACTIVE
+@vindex ETHERNET_AS_RR
+@item ETHERNET_AS_RR
+
+@vindex GEORAM
+@item GEORAM
+Boolean specifying whether the GEO-RAM cartridge should be emulated or not.
+@vindex GEORAMfilename
+@item GEORAMfilename
+@vindex GEORAMImageWrite
+@item GEORAMImageWrite
+@vindex GEORAMsize
+@item GEORAMsize
+
+@vindex MIDIEnable
+@item MIDIEnable
+Boolean specifying whether the MIDI cartridge should be emulated or not.
+@vindex MIDIMode
+@item MIDIMode
 
 @vindex REU
 @item REU
-Boolean specifying whether the 512K RAM Expansion Unit should be
-emulated or not.
+Boolean specifying whether the RAM Expansion Module should be emulated or not.
+@vindex REUfilename
+@item REUfilename
+@vindex REUImageWrite
+@item REUImageWrite
+@vindex REUsize
+@item REUsize
+
+@vindex SFXSoundExpander
+@item SFXSoundExpander
+Boolean specifying whether the SFX Sound Expander should be emulated or not.
+@vindex SFXSoundExpanderChip
+@item SFXSoundExpanderChip
+
+@vindex SFXSoundSampler
+@item SFXSoundSampler
+Boolean specifying whether the SFX Sound Sampler should be emulated or not.
 
 @end table
 
@@ -3965,18 +4651,93 @@ emulated or not.
 
 @table @code
 
-@cindex -ieee488, +ieee488
-@item -ieee488
-@itemx +ieee488
-Enable (@code{IEEE488=1}) or disable (@code{IEEE488=0}) emulation of the
-IEEE488 interface.
-
+@cindex -acia1, +acia1
+@item -acia1
+@itemx +acia1
+Enable/Disable the $DE** ACIA RS232 interface emulation
+@cindex -myaciadev
+@item -myaciadev <0-3>
+Specify RS232 device this ACIA should work on
+@cindex -digimax, +digimax
+@item -digimax
+@itemx +digimax
+Enable/Disable the DigiMAX cartridge
+@cindex -digimaxbase
+@item -digimaxbase <base address>
+Base address of the DigiMAX cartridge
+@cindex -miditype
+@item -miditype <0-4>
+MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: Maplin)
+@cindex -midi, +midi
+@item -midi
+@itemx +midi
+Enable/Disable MIDI emulation
+@cindex -midiin
+@item -midiin <name>
+Specify MIDI-In device
+@cindex -midiout
+@item -midiout <name>
+Specify MIDI-Out device
+@cindex -mididrv
+@item -mididrv <driver>
+Specify MIDI driver (0 = OSS, 1 = ALSA)
+@cindex -georam, +georam
+@item -georam
+@itemx +georam
+Enable/Disable the GEORAM expansion unit
+@cindex -cartgeoram
+@item -cartgeoram <name>
+Attach raw GEO-RAM cartridge image
+@cindex -georamimage
+@item -georamimage <name>
+Specify name of GEORAM image
+@cindex -georamimagerw, +georamimagerw
+@item -georamimagerw
+@itemx +georamimagerw
+Allow/Disallow writing to GEORAM image
+@cindex -georamsize
+@item -georamsize <size in KB>
+Size of the GEORAM expansion unit
 @cindex -reu, +reu
 @item -reu
 @itemx +reu
 Enable (@code{REU=1}) or disable (@code{REU=0}) emulation of the
-512K RAM Expansion Unit.
-
+RAM Expansion Module.
+@cindex -cartreu
+@item -cartreu <name>
+Attach raw REU cartridge image
+@cindex -reuimage
+@item -reuimage <name>
+Specify name of REU image
+@cindex -reuimagerw, +reuimagerw
+@item -reuimagerw
+@itemx +reuimagerw
+Allow/Disallow writing to REU image
+@cindex -reusize
+@item -reusize <size in KB>
+Size of the RAM expansion unit
+@cindex -sfxse, +sfxse
+@item -sfxse
+@itemx +sfxse
+Enable/Disable the SFX soundexpander cartridge
+@cindex -sfxsetype
+@item -sfxsetype <type>
+Set YM chip type (3526 / 3812)
+@cindex -sfxss, +sfxss
+@item -sfxss
+@itemx +sfxss
+Enable/Disable the SFX Sound Sampler cartridge
+@cindex -tfe, +tfe
+@item -tfe
+@itemx +tfe
+Enable/Disable the TFE ("The Final Ethernet") unit
+@cindex -tfeif
+@item -tfeif <name>
+Set the system ethernet interface for TFE emulation
+@cindex -tferrnet, +tferrnet
+@item -tferrnet
+@itemx +tferrnet
+Enable/Disable RRNet mode of TFE emulation
 @end table
 
 @c @node RS232 settings, C64/128 system ROM settings, C64 I/O extension settings, C64/128-specific
@@ -4117,21 +4878,21 @@ C64/128 emulators at startup.  They cannot be changed from the menus.
 
 @table @code
 
-@cindex KernalName
+@vindex KernalName
 @item KernalName
 String specifying the name of the Kernal ROM (default @file{kernal}).
 
-@cindex BasicName
+@vindex BasicName
 @item BasicName
 String specifying the name of the Basic ROM (default @file{basic}).  In
 the C128 emulator, the ROM image must actually include the editor ROM too.
 
-@cindex ChargenName
+@vindex ChargenName
 @item ChargenName
 String specifying the name of the character generator ROM (default
 @file{chargen}).
 
-@cindex KernalRev
+@vindex KernalRev
 @item KernalRev
 String specifying the Kernal revision.  This resource can be used to
 control what revision of the C64 kernal is being used; it cannot be
@@ -4411,6 +5172,62 @@ One cartridge that is currently only partially supported here is
 the VIC1112 IEEE488 interface. You have to load the ROM as a cartridge,
 but you also have to enable the IEEE488 hardware by menu.
 
+@c @node TODO
+@subsection VIC settings
+
+@c @node TODO
+@subsubsection VIC resources
+
+@table @code
+
+@vindex VICVideoCache
+@item VICVideoCache
+Boolean specifying whether the video cache is turned on.
+
+@vindex VICDoubleSize
+@item VICDoubleSize
+Boolean specifying whether double-size mode is turned on.
+
+@vindex VICDoubleScan
+@item VICDoubleScan
+Boolean specifying whether double-scan mode is turned on.
+
+@vindex VICPaletteFile
+@item VICPaletteFile
+String specifying the name of the palette file being used.  The
+@file{.vpl} extension is optional.
+
+@end table
+
+@c @node TODO
+@subsubsection VIC command-line options
+
+@table @code
+
+@cindex -VICvcache, +VICvcache
+@item -VICvcache
+@itemx +VICvcache
+Enable/disable the video cache (@code{VICVideoCache=1}, @code{VICVideoCache=0}).
+
+@cindex -VICdsize, +VICdsize
+@item -VICdsize
+@itemx +VICdsize
+Enable/disable the double size mode (@code{VICDoubleSize=1},
+@code{VICDoubleSize=0}).
+
+@cindex -VICdscan, +VICdscan
+@item -VICdscan
+@itemx +VICdscan
+Enable/disable the double scan mode (@code{VICDoubleScan=1},
+@code{VICDoubleScan=0}).
+
+@cindex -VICpalette
+@item -VICpalette NAME
+Specify @code{NAME} as the palette file (@code{VICPaletteFile}).
+
+@end table
+
+
 @node VIC20 memory expansions, VIC20 system ROM settings, VIC20 cartridges, VIC20-specific
 @subsection Changing memory configuration
 
@@ -4458,12 +5275,6 @@ all RAM expansion blocks enabled;
 @item
 24K expansion (only blocks 1, 2 and 3 are enabled).
 @end itemize
-
-As with the X64 (@pxref{C64 I/O extension settings}), it is also
-possible to enable a special emulator identification mechanism that uses
-certain memory locations to let a running program query information
-about the emulator itself; this is enabled by the ``Emulator
-identification'' option.
 
 @menu
 * VIC20 memconf resources::     
@@ -4560,29 +5371,29 @@ VIC20 emulator at startup.  They cannot be changed from the menus.
 
 @table @code
 
-@cindex KernalName
+@vindex KernalName
 @item KernalName
 String specifying the name of the Kernal ROM (default @file{kernal}).
 
-@cindex BasicName
+@vindex BasicName
 @item BasicName
 String specifying the name of the Basic ROM (default @file{basic}).
 
-@cindex ChargenName
+@vindex ChargenName
 @item ChargenName
 String specifying the name of the character generator ROM (default
 @file{chargen}).
 
-@cindex CartridgeFile2000
-@cindex CartridgeFile4000
-@cindex CartridgeFile6000
-@cindex CartridgeFileA000
-@cindex CartridgeFileB000
-@item CartridgeFile2000
-@itemx CartridgeFile4000
-@itemx CartridgeFile6000
-@itemx CartridgeFileA000
-@itemx CartridgeFileB000
+@vindex GenericCartridgeFile2000
+@vindex GenericCartridgeFile4000
+@vindex GenericCartridgeFile6000
+@vindex GenericCartridgeFileA000
+@vindex GenericCartridgeFileB000
+@item GenericCartridgeFile2000
+@itemx GenericCartridgeFile4000
+@itemx GenericCartridgeFile6000
+@itemx GenericCartridgeFileA000
+@itemx GenericCartridgeFileB000
 String specifying the name of the respective cartridge ROM images.
 
 @end table
@@ -4647,81 +5458,77 @@ file, command line options or right-menu items):
 
 @table @code
 
-@cindex RamSize
+@vindex RamSize
 @item RamSize
 Size of memory in kByte. 96k denotes a 8096, 128k a 8296.
 
-@cindex IOSize
+@vindex IOSize
 @item IOSize
 Size of I/O area in Byte.  Either 2048 or 256 for 8296.
 
-@cindex Crtc
-@item Crtc
-Enables CRTC 6545 emulation (all models from 40xx and above)
-
-@cindex VideoSize
+@vindex VideoSize
 @item VideoSize
 The number of columns on the screen (40 or 80).  A 0 auto-detects this
 from the ROM.
 
-@cindex Ram9
+@vindex Ram9
 @item Ram9
 The 8296 can map RAM into the address range $9***
 
-@cindex RamA
+@vindex RamA
 @item RamA
 The 8296 can map RAM into the address range $A***
 
-@cindex SuperPET
+@vindex SuperPET
 @item SuperPET
 This resource enables the SuperPET (MicroMainFrame 9000) I/O
 and disables the 8x96 mappings.
 
-@cindex Basic1
+@vindex Basic1
 @item Basic1
 If (by checksum) a version 1 kernal is detected, then the 
 kernal ROM is patched to make the IEEE488 interface work.
 
-@cindex Basic1Chars
+@vindex Basic1Chars
 @item Basic1Chars
 Exchanges some character in the character ROM that have changed
 between the first PET 2001 and all newer versions.
 
-@cindex EoiBlank
+@vindex EoiBlank
 @item EoiBlank
 This resource enables the "blank screen on EOI" feature of the 
 oldest PET 2001.
 
-@cindex DiagPin
+@vindex DiagPin
 @item DiagPin
 Set the diagnositc pin on the PET userport (see below).
 
-@cindex ChargenName
+@vindex ChargenName
 @item ChargenName
 Specify @file{NAME} as the character generator ROM file
 
-@cindex KernalName
+@vindex KernalName
 @item KernalName
 Specify @file{NAME} as the kernal ROM file.  This file contains the
 complete BASIC, EDITOR and KERNAL ROMs and is either 16k (BASIC 1 and 2)
 or 20k (BASIC 4) in size.
 
-@cindex EditorName
+@vindex EditorName
 @item EditorName
 Specify @file{NAME} as the editor ROM file.  This file contains
 an overlay for the editor ROM at $E000-$E7FF if necessary.
 
-@cindex RomModule9Name
+@vindex RomModule9Name
 @item RomModule9Name
 Specify @file{NAME} as the $9*** Expansion ROM file.  This file contains
 an expansion ROM image of 4k.
 
-@cindex RomModuleAName
+@vindex RomModuleAName
 @item RomModuleAName
 Specify @file{NAME} as the $A*** Expansion ROM file.  This file contains
 an expansion ROM image of 4k.
 
-@cindex RomModuleBName
+@vindex RomModuleBName
 @item RomModuleBName
 Specify @file{NAME} as the $B*** Expansion ROM file.  This file contains
 an expansion ROM image of 4k.
@@ -4767,6 +5574,47 @@ It is also possible to select the PET model at startup, with the
 will emulate a PET 3032 while @samp{xpet -model 8296} will emulate a PET
 8296.
 
+@c @node TODO
+@subsection CRTC Settings
+
+@c @node TODO
+@subsubsection CRTC resources
+
+@table @code
+
+@vindex Crtc
+@item Crtc
+Enables CRTC 6545 emulation (all models from 40xx and above)
+
+@vindex CrtcVideoCache
+@item CrtcVideoCache
+Boolean specifying whether the video cache is turned on.
+
+@vindex CrtcDoubleSize
+@item CrtcDoubleSize
+Boolean specifying whether double-size mode is turned on.
+
+@vindex CrtcDoubleScan
+@item CrtcDoubleScan
+Boolean specifying whether double-scan mode is turned on.
+
+@vindex CrtcPaletteFile
+@item CrtcPaletteFile
+String specifying the name of the palette file being used.  The
+@file{.vpl} extension is optional.
+
+@end table
+
+@c @node TODO
+@subsubsection CRTC command-line options
+
+@table @code
+
+@cindex -Crtcpalette
+@itemx -Crtcpalette NAME
+Specify @code{NAME} as the palette file (@code{CrtcPaletteFile}).
+
+@end table
 
 @node PET diagnostic pin, PET commandline options, PET model, PET-specific
 @subsection The PET diagnostic pin
@@ -4810,12 +5658,15 @@ Specify @file{NAME} as the ROM image file for the respective
 cartridge areas (@code{RomModule9Name}, @code{RomModuleAName}, 
 @code{RomModuleBName}).
 
-@cindex -petramA
-@cindex -petramB
-@item -petramA, -petramB
+@cindex -petram9, +petram9
+@item -petram9, +petram9
+Switch on RAM mapping on addresses
+$9000-$9fff (@code{Ram9}).
+
+@cindex -petramA, +petramA
+@item -petramA, +petramA
 Switch on RAM mapping on addresses 
-$9000-$9fff, $a000-$afff
-(@code{Ram9}, @code{RamA}).
+$a000-$afff (@code{RamA}).
 
 @cindex -superpet
 @cindex +superpet
@@ -4845,6 +5696,14 @@ Enable/Disable EOI blanking the screen
 @itemx +diagpin
 Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the 
 diagnostic pin at the PET userport.
+
+@cindex -petreu, +petreu
+@item -petreu, +petreu
+Enable or disable the PET Memory Expansion Unit.
+
+@cindex -userportdac, +userportdac
+@item -userportdac, +userportdac
+Enable or disable the userport DAC.
 
 @end table
 
@@ -4893,34 +5752,34 @@ file, command line options or right-menu items):
 
 @table @code
 
-@cindex UseVicII
+@vindex UseVicII
 @item UseVicII
 Whether to use VIC-II for video output (value 1) or the CRTC for the
 other machines (value 0)
 
-@cindex RamSize
+@vindex RamSize
 @item RamSize
 Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
 
-@cindex Ram08
-@cindex Ram1
-@cindex Ram2
-@cindex Ram4
-@cindex Ram6
-@cindex RamC
+@vindex Ram08
+@vindex Ram1
+@vindex Ram2
+@vindex Ram4
+@vindex Ram6
+@vindex RamC
 @item Ram08, Ram1, Ram2, Ram4, Ram6, RamC
 Expanded CBM-II models could map RAM to the expansion ROM areas
 at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
 and $c000-$cfff respectively.
 
-@cindex Cart2Name
-@cindex Cart4Name
-@cindex Cart6Name
+@vindex Cart2Name
+@vindex Cart4Name
+@vindex Cart6Name
 @item Cart2Name, Cart4Name, Cart6Name
 Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file.  This file contains an 8k ROM dump.
 
-@cindex ModelLine
+@vindex ModelLine
 @item ModelLine
 The CBM-II business models have two hardcoded lines at one of the I/O ports.
 From those lines the kernal determines how it should init the 
@@ -6555,25 +7414,37 @@ An optional argument.
 @table @code
 
 @item backtrace
+@itemx bt
 Print JSR call chain (most recent call first). Stack offset
 relative to SP+1 is printed in parentheses. This is a best guess
 only.
 
 @item cpuhistory [<count>]
+@itemx chis [<count>]
 Show <count> last executed commands.
 (disabled by default; configure with --enable-memmap to enable)
 
+@item dump "<filename>"
+Write a snapshot of the machine into the file specified.
+This snapshot is compatible with a snapshot written out by the UI.
+Note: No ROM images are included into the dump.
+
 @item goto <address>
+@itemx g <address>
 Change the PC to address and continue execution.
 
-@item io
-Nothing yet.  Will display VIC/VIA/CIA/SID registers.
+@item io [<address>]
+Display i/o registers. Invoking without an address shows a dump of
+the entire io range, if an address is given then details for the
+chip at the respective (base-)address are displayed (if available).
 
 @item next [<count>]
+@itemx n [<count>]
 Advance to the next instruction.  Subroutines are treated as a single
 instruction.
 
 @item registers [<reg_name> = <number> [, <reg_name> = <number>]*]
+@itemx r [<reg_name> = <number> [, <reg_name> = <number>]*]
 Assign respective registers.  With no parameters, display register
 values.
 
@@ -6582,15 +7453,20 @@ Reset the machine or drive.
 @code{type}: 0 = soft, 1 = hard, 8-11 = drive.
 
 @item return
+@itemx ret
 Continues execution  and returns to the monitor just
 after the next RTS or RTI is executed.
 
 @item step [<count>]
+@itemx z [<count>]
 Single step through instructions.  An optional count allows stepping
 more than a single instruction at a time.
 
+@item undump "<filename>"
+Read a snapshot of the machine from the file specified.
+
 @c @item up
-@c Nothing yet.  Is this really useful?
+@c Go up a stack frame. - Nothing yet.  Is this really useful?
 
 @end table
 
@@ -6609,6 +7485,7 @@ normally the @code{ram} bank is used where the bank has holes.
 The @code{cpu} bank uses the bank currently used by the CPU.
 
 @item compare <address_range> <address>
+@itemx c <address_range> <address>
 Compare memory from the source specified by the address range to the
 destination specified by the address.  The regions may overlap.  Any
 values that miscompare are displayed using the default displaytype.
@@ -6616,12 +7493,15 @@ values that miscompare are displayed using the default displaytype.
 @item device [c:|8:|9:]
 Set the default address space to either the computer `c:' or the
 specified drive `8:' or `9:'
+
 @item fill <address_range> <data_list>
+@itemx f <address_range> <data_list>
 Fill memory in the specified address range with the data in
 <data_list>.  If the size of the address range is greater than the
 size of the data_list, the data_list is repeated.
 
 @item hunt <address_range> <data_list>
+@itemx h <address_range> <data_list>
 Hunt memory in the specified address range for the data in
 <data_list>.  If the data is found, the starting address of the match
 is displayed.  The entire range is searched for all possible matches.
@@ -6633,13 +7513,15 @@ Display memory contents as PETSCII text.
 @item ii <address_opt_range>
 Display memory contents as screen code text
 
-@item m [<data_type>] [<address_opt_range>]
+@item mem [<data_type>] [<address_opt_range>]
+@itemx m [<data_type>] [<address_opt_range>]
 Display the contents of memory.  If no datatype is given, the default
 is used.  If only one address is specified, the length of data
 displayed is based on the datatype.  If no addresses are given, the
 'dot' address is used.
 
 @item memmapshow [<mask>] [<address_opt_range>]
+@itemx mmsh [<mask>] [<address_opt_range>]
 Show the memmap. The mask can be specified to show only those
 locations with accesses of certain type(s). The mask is a number
 with the bits "ioRWXrwx", where RWX are for ROM and rwx for RAM.
@@ -6647,27 +7529,36 @@ Optionally, an address range can be specified.
 (disabled by default; configure with --enable-memmap to enable)
 
 @item memmapzap
+@itemx mmzap
 Clear the memmap.
 (disabled by default; configure with --enable-memmap to enable)
 
 @item memmapsave "<filename>" <format>
+@itemx mmsave "<filename>" <format>
 Save the memmap as a picture. @code{format}:
 0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
 (disabled by default; configure with --enable-memmap to enable)
 
-@item mc [<data_type>] [<address_opt_range>]
+@item memchar [<data_type>] [<address_opt_range>]
+@itemx mc [<data_type>] [<address_opt_range>]
 Display the contents of memory as character data.  If only one address
 is specified, only one character is displayed.  If no addresses are
 given, the ``dot'' address is used.
 
-@item ms [<data_type>] [<address_opt_range>]
+@item memsprite [<data_type>] [<address_opt_range>]
+@itemx ms [<data_type>] [<address_opt_range>]
 Display the contents of memory as sprite data.  If only one address is
 specified, only one sprite is displayed.  If no addresses are given,
 the ``dot'' address is used.
 
 @item move <address_range> <address>
+@itemx t <address_range> <address>
 Move memory from the source specified by the address range to the
 destination specified by the address.  The regions may overlap.
+
+@item screen
+@itemx sc
+Displays the contents of the screen.
 
 @item sidefx [on|off|toggle]
 Control how monitor generated reads affect memory locations that have
@@ -6692,7 +7583,8 @@ Assemble instructions to the specified address.  If only one
 instruction is specified, enter assembly mode (enter an empty line to
 exit assembly mode).
 
-@item d [<address> [<address>]]
+@item disass [<address> [<address>]]
+@itemx d [<address> [<address>]]
 Disassemble instructions.  If two addresses are specified, they are
 used as a start and end address.  If only one is specified, it is
 treated as the start address and a default number of instructions are
@@ -6726,6 +7618,7 @@ executed by the monitor.  Note that the @code{x} command is not yet
 supported as a command argument.
 
 @item condition <checknum> if <cond_expr>
+@itemx cond <checknum> if <cond_expr>
 Each time the specified checkpoint is examined, the condition is
 evaluated.  If it evalutes to true, the checkpoint is activated.
 Otherwise, it is ignores.  If registers are specified in the
@@ -6741,6 +7634,7 @@ However, you cannot specify memory contents and compare that.
 
 
 @item delete <checknum>
+@itemx del <checknum>
 Delete the specified checkpoint.
 
 @item ignore <checknum> [<count>]
@@ -6748,13 +7642,22 @@ Ignore a checkpoint after a given number of crossings.  If no count is
 given, the default value is 1.
 
 @item trace [address [address]]
+@itemx tr [address [address]]
 This command is similar to the @code{break} command except that it
 operates on tracepoints.  A tracepoint differs from a breakpoint by
 not stopping execution but simply printing the PC, giving the user an
 execution trace.  The second optional address can be used to specify
 the end of an range of addresses to be traced.
 
+@item until [<address>]
+@itemx un [<address>]
+If no address is given, the currently valid breakpoints are printed.
+If an address is given, a temporary breakpoint is set for that address
+and the breakpoint number is printed.  Control is returned to the
+emulator by this command.  The breakpoint is deleted once it is hit.
+
 @item watch [loadstore] [address [address]]
+@itemx w [loadstore] [address [address]]
 This command is similar to the previous two commands except that it
 operates on watchpoints.  A watchpoint differs from the others by
 stopping on a read and/or write to an address or range of addresses.
@@ -6776,28 +7679,32 @@ breaks on both operations.
 Change the working directory.
 
 @item device [c:|d:]
+@itemx dev [c:|d:]
 Set the default memory device to either the computer (@code{c:}) or
 the disk (@code{d:}).
 
 @item dir [<directory>]
+@itemx ls [<directory>]
 Display the directory contents.
 
 @item pwd
 Show current working directory.
 
 @item radix [H|D|O|B]
+@itemx rad [H|D|O|B]
 Set the default radix to hex, decimal, octal, or binary.  With no
 argument, the current radix is printed.
 
 @item sidefx [on|off|toggle]
+@itemx sfx [on|off|toggle]
 Control how monitor generated reads affect memory locations that have
 read side-effects.  If the argument is 'on' then reads may cause
 side-effects.  If the argument is 'off' then reads don't cause
 side-effects.  If the argument is 'toggle' then the current mode is
 switched.  No argument displays the current state.
 
-@item system <system command>
-Nothing yet.
+@c @item system <system command>
+@c Execute system command. - Nothing yet.
 
 @end table
 
@@ -6810,12 +7717,14 @@ Nothing yet.
 @item attach <filename> <device>
 Attach file to device. (device 32 = cart)
 
-@item br <track> <sector> [<address>]
+@item block_read <track> <sector> [<address>]
+@itemx br <track> <sector> [<address>]
 Read the block at the specified track and sector.  If an address is
 specified, the data is loaded into memory.  If no address is given,
 the data is displayed using the default datatype.
 
-@item bw <track> <sector> <address>
+@item block_write <track> <sector> <address>
+@itemx bw <track> <sector> <address>
 Write a block of data at @code{address} to the specified track and
 sector of disk in drive 8.
 
@@ -6827,22 +7736,29 @@ Perform a disk command on the currently attached disk image on drive
 8.  The specified disk command is sent to the drive's channel #15.
 
 @item load "<filename>" <device> [<address>]
+@itemx l "<filename>" <device> [<address>]
 Load the specified file into memory.  If no address is given, the file
 is loaded to the address specified by the first two bytes read from
 the file.  If address is given, the file is loaded to the specified
 address and the first two bytes read from the file are skipped.  If
 device is 0, the file is read from the file system.
 
+@item list [<directory>]
+List disk contents.
+
 @item bload "<filename>" <device> <address>
+@itemx bl "<filename>" <device> <address>
 Load the specified file into memory at the specified address.
 If device is 0, the file is read from the file system.
 
 @item save "<filename>" <device> <address1> <address2>
+@itemx s "<filename>" <device> <address1> <address2>
 Save the memory from address1 to address2 to the specified file.
 Write two-byte load address.
 If device is 0, the file is written to the file system.
 
 @item bsave "<filename>" <device> <address1> <address2>
+@itemx bs "<filename>" <device> <address1> <address2>
 Save the memory from address1 to address2 to the specified file.
 If device is 0, the file is written to the file system.
 
@@ -6859,10 +7775,12 @@ If device is 0, the file is written to the file system.
 @table @code
 
 @item playback "<filename>"
+@itemx pb "<filename>"
 Monitor commands from the specified file are read and executed.  This
 command stops at the end of file or when a STOP command is read.
 
 @item record "<filename>"
+@itemx rec "<filename>"
 After this command, all commands entered are written to the specified
 file until the STOP command is entered.
 
@@ -6878,6 +7796,7 @@ Stop recording commands.  See @code{record}.
 @table @code
 
 @item add_label <address> <label>
+@itemx al <address> <label>
 Map a given address to a label.  This label can be used when entering
 assembly code and is shown during disassembly.  Additionally, it can
 be used whenever an address must be specified.
@@ -6886,10 +7805,12 @@ be used whenever an address must be specified.
 order for the monitor to recognize it as a label.
 
 @item delete_label [<memspace>] <label>
+@itemx dl [<memspace>] <label>
 Remove the specified label from the label tables.  If no memory space is
 checked, all tables are checked.
 
 @item load_labels [<memspace>] "<filename>"
+@itemx ll [<memspace>] "<filename>"
 Load a file containing a mapping of labels to addresses.  If no memory
 space is specified, the default readspace is used.
 
@@ -6904,10 +7825,12 @@ used to start a comment to end of line, so unchanged Acme label files can be
 fed into Vice.
 
 @item save_labels [<memspace>] "<filename>"
+@itemx sl [<memspace>] "<filename>"
 Save labels to a file.  If no memory space is specified, all of the
 labels are saved.
 
 @item show_labels [<memspace>]
+@itemx shl [<memspace>]
 Display current label mappings.  If no memory space is specified, show
 all labels.
 
@@ -6926,23 +7849,38 @@ all labels.
 @item cartfreeze
 Use cartridge freeze.
 
+@item cpu <type>
+Specify the type of CPU currently used (6502/z80).
+
 @item exit
+@itemx x
 Leave the monitor and return to execution.
+
+@item export
+@itemx exp
+Print out list of attached expansion port devices.
 
 @item help [<command>]
 If no argument is given, prints out a list of all available commands.
 If an argument is given, prints out specific help for that command.
 
+@item keybuf "<string>"
+Put the specified string into the keyboard buffer.
+
 @item print <expression>
+@itemx p <expression>
 Evaluate the specified expression and output the result.
 
 @item resourceget "<resource>"
+@itemx resget "<resource>"
 Displays the value of the @code{resource}.
 
 @item resourceset "<resource>" "<value>"
+@itemx resset "<resource>" "<value>"
 Sets the value of the @code{resource}.
 
 @item screenshot "<filename>" [<format>]
+@itemx scrsh "<filename>" [<format>]
 Take a screenshot. @code{format}:
 default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.
 
@@ -7179,6 +8117,319 @@ files in the current directory.
 @c This would be nice!
 @c @node Examples,  , Commands, c1541
 @c @section c1541 examples
+
+@c @node TODO
+@chapter cartconv
+
+The cartconv program is a cartridge conversion utility, it can convert
+between binary and .crt images and it can 'insert' binary and/or
+.crt images into the eprom type of cartridges.
+
+@section cartconv command line options
+
+The cartconv program has the following parameters:
+
+@table @code
+@item -i "input name"
+This parameter is mandatory, it should contain the name of the binary/.crt
+file you want to convert. For the eprom type of cartridges this parameter
+can be used multiple times to insert images into the resulting file.
+@item -o "output name"
+This parameter is mandatory, it should contain the name of the binary/.crt
+file you want to convert the input file to.
+@item -t carttype
+This parameter is optional. It is only needed when converting to a .crt
+file. See below for the supported cartridge types.
+@item -n "cart name"
+This parameter is optional and is used as the cartridge name when creating
+a .crt file.
+@item -l loadaddress
+This parameter is optional and is used as the load-address when converting
+a .crt file to a .prg file, or when converting to a generic type .crt
+file.
+@item -f "input name"
+This parameter is optional, and is meant to output information about the
+named file. It can't be used in conjuction with any of the other parameters.
+@item -r
+This parameter is optional, it enables repair mode (accept broken input files)
+@end table
+
+The following cartridge types are supported:
+
+@table @code
+@item bin
+Binary .bin file (Default crt->bin)
+@item normal
+Generic 8kb/12kb/16kb .crt file (Default bin->crt)
+@item prg
+Binary C64 .prg file with load-address
+@item ulti
+Ultimax mode 4kb/8kb/16kb .crt file
+@item ap
+Atomic Power .crt file
+@item ar2
+Action Replay MK2 .crt file
+@item ar3
+Action Replay MK3 .crt file
+@item ar4
+Action Replay MK4 .crt file
+@item ar5
+Action Replay V5 .crt file
+@item cap
+Capture .crt file
+@item comal
+Comal 80 .crt file
+@item dep256
+Dela EP256 .crt file, extra files can be inserted (1)(2)
+@item dep64
+Dela EP64 .crt file, extra files can be inserted (1)
+@item dep7x8
+Dela EP7x8 .crt file, extra files can be inserted (1)(2)(3)
+@item din
+Dinamic .crt file
+@item dsm
+Diashow-Maker .crt file
+@item easy
+EasyFlash .crt file
+@item epyx
+Epyx FastLoad .crt file
+@item exos
+EXOS .crt file
+@item expert
+Expert Cartridge .crt file
+@item fc1
+The Final Cartridge .crt file
+@item fc3
+The Final Cartridge III .crt file
+@item fcp
+Final Cartridge Plus .crt file
+@item ff
+Freeze Frame .crt file
+@item fm
+Freeze Machine .crt file
+@item fp
+Fun Play .crt file
+@item gk
+Game Killer .crt file
+@item gs
+C64 Games System .crt file
+@item ide64
+IDE64 .crt file
+@item ieee
+IEEE-488 Interface .crt file
+@item kcs
+KCS Power Cartridge .crt file
+@item mach5
+MACH 5 .crt file
+@item md
+Magic Desk .crt file
+@item mf
+Magic Formel .crt file
+@item mikro
+Mikro Assembler .crt file
+@item mmc64
+MMC64 .crt file
+@item mmcr
+MMC Replay .crt file
+@item mv
+Magic Voice .crt file
+@item ocean
+Ocean .crt file
+@item p64
+Prophet64 .crt file
+@item rep256
+REX 256k EPROM Cart .crt file, extra files can be inserted (1)(2)(3)
+@item ross
+ROSS .crt file
+@item rr
+Retro Replay .crt file
+@item ru
+REX Utility .crt file
+@item s64
+Snapshot 64 .crt file
+@item sb
+Structured BASIC .crt file
+@item se5
+Super Explode V5.0 .crt file
+@item sg
+Super Games .crt file
+@item simon
+Simons' BASIC .crt file
+@item ss4
+Super Snapshot V4 .crt file
+@item ss5
+Super Snapshot V5 .crt file
+@item star
+Stardos .crt file
+@item wl
+Westermann Learning .crt file
+@item ws
+Warp Speed .crt file
+@item zaxxon
+Zaxxon .crt file
+@end table
+
+@itemize
+@item (1) insertion of 32kb eprom files supported.
+@item (2) insertion of 8kb .crt/binary files supported.
+@item (3) insertion of 16kb .crt/binary files supported.
+@end itemize
+
+@c @node TODO
+@section cartconv examples
+
+@table @code
+@item cartconv -i foo.crt -o foo.bin
+Convert a .crt file to a binary file with no load-address.
+@item cartconv -t prg -i foo.crt -o foo.prg
+Convert a .crt file to a .prg file with default load-address.
+@item cartconv -t prg -l 49152 -i foo.crt -o foo.prg
+Convert a .crt file to a .prg file with 49152 as the load-address.
+@item cartconv -t ocean -i foo.bin -o foo.crt
+Convert a binary file to an ocean type cartridge.
+@item cartconv -t dep64 -i dep64.bin -i eprom.prg -o foo.crt
+Inserting a 32kb eprom file into an dep64 type cartridge.
+@itemize
+@item step 1 : use the dep64 binary file in VICE as a generic 8kb cartridge.
+@item step 2 : generate an eprom file.
+@item step 3 : get the eprom file to the host computer.
+@item step 4 : insert the eprom file into the final dep64 .crt file:
+@end itemize
+@item cartconv -t dep256 -i dep256.bin -i somegame.crt -o foo.crt
+Insert an 8kb .crt file into a dep256 type cartridge.
+@item cartconv -t rep256 -i rep256.bin -i foo1.crt -i foo2.crt -i foo3.crt -o foo.crt
+Insert multiple 8kb .crt files into a rep256 type cartridge.
+@item cartconv -f foo.crt
+Get information about a .crt file.
+@end table
+
+@c @node TODO
+@chapter petcat
+
+The petcat program is a text conversion utility, it can convert
+between ASCII, PETSCII and tokenized BASIC.
+
+@section petcat command line options
+
+@table @code
+@item -help
+Output help text
+@item -v
+Same as above
+@item -c
+controls (interpret also control codes) (default if textmode)
+@item -nc
+no controls (suppress control codes in printout) (default if non-textmode)
+@item -ic
+interpret control codes case-insensitive
+@item -h
+write header (default if output is stdout)
+@item -nh
+no header (default if output is a file)
+@item -skip <n>
+Skip <n> bytes in the beginning of input file. Ignored on P00.
+@item -text
+Force text mode
+@item -<version>
+use keywords for <version> instead of the v7.0 ones
+@item -w<version>
+tokenize using keywords on specified Basic version.
+@item -k<version>
+list all keywords for the specified Basic version
+@item -k
+list all Basic versions available.
+@item -l
+Specify load address for program (in hex, no loading chars!).
+@item -o <name>
+Specify the output file name
+@item -f
+Force overwritten the output file. The default depends on the BASIC version.
+@end table
+
+BASIC Versions:
+@table @code
+@item 1
+PET Basic V1.0
+@item 2
+Basic v2.0
+@item superexp
+Basic v2.0 with Super Expander (VIC20)
+@item turtle
+Basic v2.0 with Turtle Basic by Craig Bruce (VIC20)
+@item mighty
+Basic v2.0 with Mighty Basic by Craig Bruce (VIC20)
+@item a
+Basic v2.0 with AtBasic (C64)
+@item simon
+Basic v2.0 with Simon's Basic extension (C64)
+@item speech
+Basic v2.0 with Speech Basic v2.7 (C64)
+@item F
+Basic v2.0 with Final Cartridge III (C64)
+@item ultra
+Basic v2.0 with Ultrabasic-64 (C64)
+@item graph
+Basic v2.0 with Graphics basic (C64)
+@item WSB
+Basic v2.0 with WS basic (C64)
+@item WSBF
+Basic v2.0 with WS basic final (C64)
+@item Pegasus
+Basic v2.0 with Pegasus basic 4.0 (C64)
+@item Xbasic
+Basic v2.0 with Xbasic (C64)
+@item Drago
+Basic v2.0 with Drago basic 2.2 (C64)
+@item REU
+Basic v2.0 with REU-basic (C64)
+@item Lightning
+Basic v2.0 with Basic Lightning (C64)
+@item magic
+Basic v2.0 with Magic Basic (C64)
+@item easy
+Basic v2.0 with Easy Basic (VIC20)
+@item blarg
+Basic v2.0 with Blarg (C64)
+@item Game
+Basic v2.0 with Game Basic (C64)
+@item BSX
+Basic v2.0 with Basex (C64)
+@item superbas
+Basic v2.0 with Super Basic (C64)
+@item exp20
+Basic 2.0 with Expanded Basic (VIC20)
+@item exp64
+Basic 2.0 with Expanded Basic (C64)
+@item sxc
+Basic 2.0 with Super Expander Chip (C64)
+@item warsaw
+Basic 2.0 with Warsaw Basic (C64)
+@item 4v
+Basic 2.0 with Basic 4.0 extensions (VIC20)
+@item 4 -w4e
+PET Basic v4.0 program (PET/C64)
+@item 5
+Basic 2.0 with Basic 5.0 extensions (VIC20)
+@item 3
+Basic v3.5 program (C16)
+@item 70
+Basic v7.0 program (C128)
+@item 71
+Basic v7.1 program (C128)
+@item 10
+Basic v10.0 program (C64DX)
+@end table
+
+@c @node TODO
+@section petcat examples
+
+@table @code
+@item petcat -2 -o outputfile.txt -- inputfile.prg
+Convert inputfile.prg to a text file in outputfile.txt, using BASIC V2 only
+@item petcat -wsimon -o outputfile.prg -- inputfile.txt
+Convert inputfile.txt to a PRG file in outputfile.prg, using Simon's BASIC
+@end table
+
 
 @node File formats, Acknowledgments, c1541, Top
 @chapter The emulator file formats
