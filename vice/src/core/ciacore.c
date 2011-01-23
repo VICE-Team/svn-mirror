@@ -189,7 +189,7 @@ static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
     if ((cia_context->model == CIA_MODEL_6526X)
      && (cia_context->rdi == rclk - 1)
      && (cia_context->irq_line != IK_NMI)) {
-        /* timer B bug */
+        /* FIXME explanation */
         return;
     }
 
