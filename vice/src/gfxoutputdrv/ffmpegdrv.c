@@ -565,6 +565,11 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
         c->pix_fmt = PIX_FMT_RGB32;
     }
 
+    /* Use XVID instead of FMP4 FOURCC for better compatibility */
+    if (c->codec_id == CODEC_ID_MPEG4) {
+        c->codec_tag = MKTAG('X','V','I','D');
+    }
+
 #ifdef HAVE_FFMPEG_SWSCALE
     /* setup scaler */
     if (c->pix_fmt != PIX_FMT_RGB24) {
