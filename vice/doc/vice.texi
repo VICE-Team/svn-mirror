@@ -3565,7 +3565,7 @@ Generally a cartridge can be enabled by attaching its respective cartridge
 image, or using the respective menu option for cartridges that do not
 require an image.
 
-X64 and X128 allow you to attach the following kinds of images:
+x64, x64sc and x128 allow you to attach the following kinds of images:
 
 @itemize @bullet
 @item
@@ -4535,7 +4535,7 @@ bandwidth (@code{SidResidPassband=0-90}).
 @node C64 I/O extension settings, C64/128 system ROM settings, SID settings, C64/128-specific
 @subsection C64 I/O extension settings
 
-I/O extensions are (usually) cartridges which do not map into rom space,
+I/O extensions are (usually) cartridges which do not map into ROM space,
 but use only the I/O space at address range $DE00 @dots{} $DEFF and/or
 $DF00 @dots{} $DFFF.
 
@@ -4743,7 +4743,7 @@ Enable/Disable RRNet mode of TFE emulation
 @c @node RS232 settings, C64/128 system ROM settings, C64 I/O extension settings, C64/128-specific
 @c @subsection RS232 settings
 @c 
-@c X64 and X128 can support RS232 in the following ways:
+@c x64, x64sc and x128 can support RS232 in the following ways:
 @c 
 @c @itemize @bullet
 @c @item
@@ -5149,7 +5149,7 @@ several types of cartridge images:
 @end itemize
 
 This can all be done via the ``Attach cartridge image@dots{}'' command in
-the left-button menu.  It is also possible to let XVIC ``guess'' the
+the left-button menu.  It is also possible to let xvic ``guess'' the
 type of cartridge using ``Smart-attach cartridge image@dots{}''.
 
 Notice that several cartridges are actually made up of two pieces (and
@@ -8123,7 +8123,7 @@ files in the current directory.
 
 The cartconv program is a cartridge conversion utility, it can convert
 between binary and .crt images and it can 'insert' binary and/or
-.crt images into the eprom type of cartridges.
+.crt images into the EPROM type of cartridges.
 
 @section cartconv command line options
 
@@ -8132,7 +8132,7 @@ The cartconv program has the following parameters:
 @table @code
 @item -i "input name"
 This parameter is mandatory, it should contain the name of the binary/.crt
-file you want to convert. For the eprom type of cartridges this parameter
+file you want to convert. For the EPROM type of cartridges this parameter
 can be used multiple times to insert images into the resulting file.
 @item -o "output name"
 This parameter is mandatory, it should contain the name of the binary/.crt
@@ -8160,11 +8160,11 @@ The following cartridge types are supported:
 @item bin
 Binary .bin file (Default crt->bin)
 @item normal
-Generic 8kb/12kb/16kb .crt file (Default bin->crt)
+Generic 8kB/12kB/16kB .crt file (Default bin->crt)
 @item prg
 Binary C64 .prg file with load-address
 @item ulti
-Ultimax mode 4kb/8kb/16kb .crt file
+Ultimax mode 4kB/8kB/16kB .crt file
 @item ap
 Atomic Power .crt file
 @item ar2
@@ -8270,9 +8270,9 @@ Zaxxon .crt file
 @end table
 
 @itemize
-@item (1) insertion of 32kb eprom files supported.
-@item (2) insertion of 8kb .crt/binary files supported.
-@item (3) insertion of 16kb .crt/binary files supported.
+@item (1) insertion of 32kB EPROM files supported.
+@item (2) insertion of 8kB .crt/binary files supported.
+@item (3) insertion of 16kB .crt/binary files supported.
 @end itemize
 
 @c @node TODO
@@ -8288,17 +8288,17 @@ Convert a .crt file to a .prg file with 49152 as the load-address.
 @item cartconv -t ocean -i foo.bin -o foo.crt
 Convert a binary file to an ocean type cartridge.
 @item cartconv -t dep64 -i dep64.bin -i eprom.prg -o foo.crt
-Inserting a 32kb eprom file into an dep64 type cartridge.
+Inserting a 32kB EPROM file into an dep64 type cartridge.
 @itemize
-@item step 1 : use the dep64 binary file in VICE as a generic 8kb cartridge.
-@item step 2 : generate an eprom file.
-@item step 3 : get the eprom file to the host computer.
-@item step 4 : insert the eprom file into the final dep64 .crt file:
+@item step 1 : use the dep64 binary file in VICE as a generic 8kB cartridge.
+@item step 2 : generate an EPROM file.
+@item step 3 : get the EPROM file to the host computer.
+@item step 4 : insert the EPROM file into the final dep64 .crt file:
 @end itemize
 @item cartconv -t dep256 -i dep256.bin -i somegame.crt -o foo.crt
-Insert an 8kb .crt file into a dep256 type cartridge.
+Insert an 8kB .crt file into a dep256 type cartridge.
 @item cartconv -t rep256 -i rep256.bin -i foo1.crt -i foo2.crt -i foo3.crt -o foo.crt
-Insert multiple 8kb .crt files into a rep256 type cartridge.
+Insert multiple 8kB .crt files into a rep256 type cartridge.
 @item cartconv -f foo.crt
 Get information about a .crt file.
 @end table
