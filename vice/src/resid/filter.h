@@ -450,14 +450,16 @@ protected:
     int vc_min;
     int vc_max;
 
-    // Op-amp transfer function.
-    int opamp[1 << 19];
+    // Reverse op-amp transfer function.
+    int opamp_rev[1 << 16];
     // Lookup tables for gain and summer op-amps in output stage / filter.
     unsigned short summer[summer_offset<5>::value];
     unsigned short gain[16][1 << 16];
     unsigned short mixer[mixer_offset<8>::value];
     // Cutoff frequency DAC output voltage table. FC is an 11 bit register.
     unsigned int f0_dac[1 << 11];
+    // Op-amp transfer function.
+    int opamp[1 << 19];
   } model_filter_t;
 
   int solve_gain(int n, int vi_t, int& x, model_filter_t& mf);
@@ -1436,7 +1438,7 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
   int n_snake = mf.n_snake;  // Scaled by (1/m)*2^19 (fits in 12 bits)
 
   // VCR gate voltage.
-  // Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
+  // Vg = Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
   // Vth could be included in the table lookup by using different tables
   // for the 6581 and the 8580.
   int Vg = Vddt - sqrt_table[(Vw_term + (vi >> 4)*(((vi >> 1) - Vddt) >> 4)) >> 14];
@@ -1507,7 +1509,7 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
   }
 
   // vx = g(vc)
-  x = mf.opamp[(vc + (1 << 19)) >> 1];
+  x = mf.opamp_rev[(vc + (1 << 19)) >> 4];
 
   // Return vo.
   return (x - vc) - mf.vo_T19;

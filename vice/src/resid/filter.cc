@@ -308,7 +308,7 @@ Filter::Filter()
       // Create lookup table mapping capacitor voltage to op-amp input voltage:
       // vc -> vx
       for (int m = 0; m < fi.opamp_voltage_size; m++) {
-	scaled_voltage[m][0] = (N19*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 19))/2;
+	scaled_voltage[m][0] = (N19*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 19))/(2*(1 << 3));
 	scaled_voltage[m][1] = N19*fi.opamp_voltage[m][0];
       }
 
@@ -316,7 +316,7 @@ Filter::Filter()
       mf.vc_max = (int)(N19*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
-		  PointPlotter<int>(mf.opamp), 1.0);
+		  PointPlotter<int>(mf.opamp_rev), 1.0);
 
       // DAC table.
       int bits = 11;
