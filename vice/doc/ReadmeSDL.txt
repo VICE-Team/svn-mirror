@@ -239,6 +239,21 @@ The settings are saved separately into 4 files:
 Remember to save the relevant settings file.
 
 
+2.7 Movie recording
+
+Movie recording options appear in Screenshot->Record movie. Disabling with
+--disable-ffmpeg, not having the FFMPEG headers during ./configure, missing or
+mismatching FFMPEG library versions (see the top of log/output) and missing
+dynlib support on the OS/platform may cause this menu to not exist.
+
+Once the recording has started, any action that leads into the UI menu getting
+activated stops the recording. Using hotkeys to f.ex swap joystick ports doesn't
+stop it, but f.ex entering the monitor (via hotkey or a breakpoint) does.
+
+The virtual keyboard (if used) and statusbar (if enabled) are visible
+in the recording.
+
+
 3. Video output
 ===============
 
@@ -289,7 +304,8 @@ make
 make install
 
 You'll need the SDL libs and headers. For free scaling, the OpenGL is
-also needed (libGL, opengl32.dll, ...)
+also needed (libGL, opengl32.dll, ...). Movie recording needs the
+FFMPEG libraries and headers.
 
 
 4.2 Building in Visual Studio

@@ -15,14 +15,18 @@ list of all the changes in the code.
 
 - Drive improvements, including weak bit emulation.
 
+- reSID rewrite.
+
 - CRT Emulation (former "PAL emulation") is now available regardless of
   video mode or -chip and works in all emulators.
 
-- Added "True aspect ratio" option
+- Added "True aspect ratio" option.
 
 - Sound buffer overflows reduced and the error replaced with a warning.
 
 - Various monitor improvements (io details, expansion port status ...)
+
+- Removed useless Emulator ID feature.
 
 ** C64/C128 changes
 -------------------
@@ -55,7 +59,7 @@ list of all the changes in the code.
 ** C128 changes
 ---------------
 
-- Fixed a bug with autostarting t64 images
+- Fixed a bug with autostarting t64 images.
 
 ** VIC20 changes
 ----------------
@@ -71,7 +75,7 @@ list of all the changes in the code.
 ** PLUS4 changes
 ----------------
 
-- fixed crashes in NTSC mode.
+- Fixed crashes in NTSC mode.
 
 - Added v364 speech emulation.
 
@@ -121,7 +125,7 @@ list of all the changes in the code.
 ** SDL UI changes
 -----------------
 
-- Added FFMPEG and printer menus.
+- Added vsid UI, FFMPEG and printer menus. The UI is complete.
 
 
 * Changes in VICE 2.2
