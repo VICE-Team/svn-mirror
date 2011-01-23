@@ -320,8 +320,8 @@ void ui_update_menus(void)
 }
 
 static ui_drive_enable_t ui_drive_enabled;
-static int ui_status_led[2];
-static double ui_status_track[2];
+static int ui_status_led[4];
+static double ui_status_track[4];
 static int *ui_drive_active_led;
 
 static void ui_draw_drive_status(int drive_bar)

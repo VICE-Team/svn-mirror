@@ -2,7 +2,7 @@
  * uidrive.c
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -28,273 +28,669 @@
 
 #include <stdio.h>
 
+#include "attach.h"
 #include "drive.h"
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "uidrive.h"
 
+/* machine masks */
+#define MM_NONE   (1 << VICE_MACHINE_NONE)
+#define MM_C64    (1 << VICE_MACHINE_C64)
+#define MM_C128   (1 << VICE_MACHINE_C128)
+#define MM_VIC20  (1 << VICE_MACHINE_VIC20)
+#define MM_PET    (1 << VICE_MACHINE_PET)
+#define MM_CBM5x0 (1 << VICE_MACHINE_CBM5x0)
+#define MM_CBM6x0 (1 << VICE_MACHINE_CBM6x0)
+#define MM_PLUS4  (1 << VICE_MACHINE_PLUS4)
+#define MM_C64DTV (1 << VICE_MACHINE_C64DTV)
+#define MM_C64SC  (1 << VICE_MACHINE_C64SC)
 
-TUI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
-TUI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
+/* special case masks */
+#define MM_C64ASC (MM_C64 | MM_C64SC)
+#define MM_C64ALL (MM_C64ASC | MM_C64DTV)
+#define MM_IEC    (MM_C64ALL | MM_C128 | MM_VIC20 | MM_PLUS4)
+#define MM_IEEE   (MM_PET | MM_CBM5x0 | MM_CBM6x0 | MM_C64ASC | MM_C128 | MM_VIC20)
+#define MM_ALL    (MM_IEC | MM_IEEE)
 
-static TUI_MENU_CALLBACK(drive_extend_image_policy_submenu_callback)
+typedef struct drive_caps_s {
+    int type;
+    char *name;
+    int machines;
+    int ram;
+    int ram2000;
+    int ram4000;
+    int ram6000;
+    int ram8000;
+    int rama000;
+    int idle;
+    int par;
+} drive_caps_t;
+
+typedef struct drive_menu_s {
+    tui_menu_t menu;
+    char *name;
+} drive_menu_t;
+
+typedef struct radio_items_s {
+    char *name;
+    int value;
+} radio_items_t;
+
+static drive_caps_t uidrives[] = {
+    { DRIVE_TYPE_NONE, "None", MM_ALL,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { ATTACH_DEVICE_FS, "Directory", MM_IEC,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+/* no real iec device support yet */
+#if 0
+    { ATTACH_DEVICE_REAL, "Real IEC device", NM_IEC,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+#endif
+    { ATTACH_DEVICE_RAW, "Raw access", MM_IEC,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_1541, "1541", MM_IEC,
+      1, 1, 1, 1, 1, 1,
+      1, 1 },
+    { DRIVE_TYPE_1541II, "1541-II", MM_IEC,
+      1, 1, 1, 1, 1, 1,
+      1, 1 },
+    { DRIVE_TYPE_1551, "1551", MM_PLUS4,
+      0, 0, 0, 0, 0, 0,
+      1, 0 },
+    { DRIVE_TYPE_1570, "1570", MM_IEC,
+      1, 0, 0, 1, 1, 0,
+      0, 1 },
+    { DRIVE_TYPE_1571, "1571", MM_IEC,
+      1, 0, 0, 1, 1, 0,
+      0, 1 },
+    { DRIVE_TYPE_1571CR, "1571CR", MM_C128,
+      1, 0, 0, 1, 1, 0,
+      0, 1 },
+    { DRIVE_TYPE_1581, "1581", MM_IEC,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_2031, "2031", MM_IEEE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_2040, "2040", MM_IEEE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_3040, "3040", MM_IEEE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_4040, "4040", MM_IEEE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_1001, "1001", MM_IEEE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_8050, "8050", MM_IEEE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { DRIVE_TYPE_8250, "8250", MM_IEEE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 },
+    { -1, NULL, MM_NONE,
+      0, 0, 0, 0, 0, 0,
+      0, 0 }
+};
+
+static int has_fs(void)
 {
-    int unit = (int)param;
-    char *rname;
-    int v;
+    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0 || machine_class == VICE_MACHINE_PET) {
+        return 0;
+    }
+    return 1;
+}
 
-    rname = lib_msprintf("Drive%dExtendImagePolicy", unit);
-    resources_get_int(rname, &v);
-    lib_free(rname);
+static int is_fs(int type)
+{
+    return ((type == 0 || type == ATTACH_DEVICE_FS || type == ATTACH_DEVICE_REAL || type == ATTACH_DEVICE_RAW) && has_fs());
+}
 
-    switch (v) {
+static int get_drive_type(int drive)
+{
+    int iecdevice = 0;
+    int fsdevice;
+    int drivetype;
+
+    if (has_fs()) {
+        resources_get_int_sprintf("IECDevice%i", &iecdevice, drive);
+        resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
+    }
+    resources_get_int_sprintf("Drive%iType", &drivetype, drive);
+    if (iecdevice) {
+        return fsdevice;
+    } else {
+        return drivetype;
+    }
+}
+
+static int check_current_drive_type(int type, int drive)
+{
+    int iecdevice = 0;
+    int fsdevice;
+    int drivetype;
+
+    if (has_fs()) {
+        resources_get_int_sprintf("IECDevice%i", &iecdevice, drive);
+        resources_get_int_sprintf("FileSystemDevice%i", &fsdevice, drive);
+    }
+    resources_get_int_sprintf("Drive%iType", &drivetype, drive);
+    if (iecdevice) {
+        if (type == fsdevice) {
+            return 1;
+        }
+    } else {
+        if (type == drivetype) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+static TUI_MENU_CALLBACK(current_type_string_callback)
+{
+    int drive = (int)param;
+    int type = get_drive_type(drive);
+    int i;
+
+    for (i = 0; uidrives[i].type != type; i++) {}
+
+    return uidrives[i].name;
+}
+
+static TUI_MENU_CALLBACK(radio_type_check_callback)
+{
+    int drive = (int)param >> 16;
+    int type = (int)param & 0xffff;
+    int value;
+    int i;
+    int support = (is_fs(type) || drive_check_type(type, drive - 8));
+
+    if (!support) {
+        return "N/A";
+    }
+
+    if (been_activated) {
+        if (is_fs(type)) {
+            resources_set_int_sprintf("IECDevice%i", 1, drive);
+            resources_set_int_sprintf("FileSystemDevice%i", type, drive);
+        } else {
+            if (has_fs()) {
+                resources_set_int_sprintf("IECDevice%i", 0, drive);
+            }
+            resources_set_int_sprintf("Drive%iType", type, drive);
+        }
+        *become_default = 1;
+        ui_update_menus();
+    } else {
+        if (check_current_drive_type(type, drive)) {
+            *become_default = 1;
+        }
+    }
+}
+
+static TUI_MENU_CALLBACK(set_directory_callback)
+{
+    char s[256];
+    int drive = (int)param;
+    const char *v;
+
+    if (!(check_current_drive_type(ATTACH_DEVICE_FS, drive))) {
+        return "N/A";
+    }
+
+    if (been_activated) {
+
+        *s = '\0';
+
+        if (tui_input_string("Change directory name", "New name:", s, 255) == -1) {
+            return NULL;
+        }
+
+        if (*s == '\0') {
+            return NULL;
+        }
+
+        resources_set_string_sprintf("FSDevice%iDir", s, drive);
+        ui_update_menus();
+    }
+
+    resources_get_string_sprintf("FSDevice%iDir", &v, drive);
+
+    return v;
+}
+
+static TUI_MENU_CALLBACK(toggle_read_p00_callback)
+{
+    int drive = (int)param;
+    int read_p00;
+
+    if (been_activated) {
+        resources_get_int_sprintf("FSDevice%iConvertP00", &read_p00, drive);
+        resources_set_int_sprintf("FSDevice%iConvertP00", !read_p00, drive);
+        ui_update_menus();
+    }
+    resources_get_int_sprintf("FSDevice%iConvertP00", &read_p00, drive);
+
+    return (read_p00) ? "On" : "Off";
+}
+
+static TUI_MENU_CALLBACK(toggle_write_p00_callback)
+{
+    int drive = (int)param;
+    int write_p00;
+
+    if (been_activated) {
+        resources_get_int_sprintf("FSDevice%iSaveP00", &write_p00, drive);
+        resources_set_int_sprintf("FSDevice%iSaveP00", !write_p00, drive);
+        ui_update_menus();
+    }
+    resources_get_int_sprintf("FSDevice%iSaveP00", &write_p00, drive);
+
+    return (write_p00) ? "On" : "Off";
+}
+
+static TUI_MENU_CALLBACK(toggle_hide_p00_callback)
+{
+    int drive = (int)param;
+    int hide_p00;
+
+    if (been_activated) {
+        resources_get_int_sprintf("FSDevice%iHideCBMFiles", &hide_p00, drive);
+        resources_set_int_sprintf("FSDevice%iHideCBMFiles", !hide_p00, drive);
+        ui_update_menus();
+    }
+    resources_get_int_sprintf("FSDevice%iHideCBMFiles", &hide_p00, drive);
+
+    return (hide_p00) ? "On" : "Off";
+}
+
+static TUI_MENU_CALLBACK(toggle_par_callback)
+{
+    int drive = (int)param;
+    int type = get_drive_type(drive);
+    int par_support = drive_check_parallel_cable(type);
+    int par;
+
+    if (!par_support || machine_class == VICE_MACHINE_VIC20) {
+        return "N/A";
+    }
+
+    if (been_activated) {
+        resources_get_int_sprintf("Drive%iParallelCable", &par, drive);
+        resources_set_int_sprintf("Drive%iParallelCable", !par, drive);
+        ui_update_menus();
+    }
+    resources_get_int_sprintf("Drive%iParallelCable", &par, drive);
+
+    return (par) ? "On" : "Off";
+}
+
+static TUI_MENU_CALLBACK(current_extend_string_callback)
+{
+    int drive = (int)param;
+    int type = get_drive_type(drive);
+    int extend_support =  drive_check_extend_policy(type);
+    int res_value;
+    char *s;
+
+    if (!extend_support) {
+        return "N/A";
+    }
+
+    resources_get_int_sprintf("Drive%iExtendImagePolicy", &res_value, drive);
+
+    switch (res_value) {
         case DRIVE_EXTEND_NEVER:
-            return "Never extend";
+        default:
+            s = "Never extend";
+            break;
         case DRIVE_EXTEND_ASK:
-            return "Ask on extend";
+            s = "Ask to extend";
+            break;
         case DRIVE_EXTEND_ACCESS:
-            return "Extend on access";
-        default:
-            return "Unknown";
+            s = "Extend on access";
+            break;
+    }
+    return s;
+}
+
+static TUI_MENU_CALLBACK(radio_extend_check_callback)
+{
+    int drive = (int)param >> 16;
+    int value = (int)param & 0xffff;
+    int type = get_drive_type(drive);
+    int extend_support =  drive_check_extend_policy(type);
+    int res_value;
+
+    if (!extend_support) {
+        return "N/A";
+    }
+
+    if (been_activated) {
+        resources_set_int_sprintf("Drive%iExtendImagePolicy", value, drive);
+        *become_default = 1;
+        ui_update_menus();
+    } else {
+        resources_get_int_sprintf("Drive%iExtendImagePolicy", &res_value, drive);
+        if (res_value == value) {
+            *become_default = 1;
+        }
     }
 }
 
-#define DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(num)                           \
-static tui_menu_item_def_t drive##num##_extend_image_policy_submenu[] = {       \
-    { "_Never extend",                                                          \
-      "Never create more than 35 tracks",                                       \
-      radio_Drive##num##ExtendImagePolicy_callback,                             \
-      (void *)DRIVE_EXTEND_NEVER, 0,                                            \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
-    { "_Ask on extend",                                                         \
-      "Ask the user before creating extra tracks",                              \
-      radio_Drive##num##ExtendImagePolicy_callback,                             \
-      (void *)DRIVE_EXTEND_ASK, 0,                                              \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
-    { "_Extend on access",                                                      \
-      "Automagically extend the disk image if extra (>35) tracks are accessed", \
-      radio_Drive##num##ExtendImagePolicy_callback,                             \
-      (void *)DRIVE_EXTEND_ACCESS, 0,                                           \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                         \
-    { NULL }                                                                    \
-};
-
-DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(8)
-DEFINE_DRIVE_EXTEND_IMAGE_POLICY_SUBMENU(9)
-
-TUI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
-TUI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
-TUI_MENU_DEFINE_RADIO(Drive8Type)
-TUI_MENU_DEFINE_RADIO(Drive9Type)
-
-static TUI_MENU_CALLBACK(drive_type_submenu_callback)
+static TUI_MENU_CALLBACK(current_expansion_string_callback)
 {
-    int value;
+    int drive = (int)param;
+    int type = get_drive_type(drive);
+    int i;
+    char *s = NULL;
 
-    if ((int)param == 8) {
-        resources_get_int("Drive8Type", &value);
-    } else {
-        resources_get_int("Drive9Type", &value);
+    for (i = 0; uidrives[i].type != type; i++) {}
+    if (!uidrives[i].ram) {
+        s = "N/A";
     }
-
-    switch (value) {
-        case 0:
-            return "None";
-        case DRIVE_TYPE_1541:
-            return "1541, 5\"1/4 SS";
-        case DRIVE_TYPE_1541II:
-            return "1541-II, 5\"1/4 SS";
-        case DRIVE_TYPE_1551:
-            return "1551, 5\"1/4 SS";
-        case DRIVE_TYPE_1571:
-            return "1571, 5\"1/4 DS";
-        case DRIVE_TYPE_1581:
-            return "1581, 3\"1/2 DS";
-        case DRIVE_TYPE_2031:
-            return "2031, 5\"1/4 SS, IEEE488";
-        case DRIVE_TYPE_3040:
-            return "3040, 5\"1/4 SD, IEEE488";
-        case DRIVE_TYPE_4040:
-            return "4040, 5\"1/4 SD, IEEE488";
-        case DRIVE_TYPE_1001:
-            return "1001, 5\"1/4 DS, IEEE488";
-        case DRIVE_TYPE_8050:
-            return "8050, 5\"1/4 SD, IEEE488";
-        case DRIVE_TYPE_8250:
-            return "8250, 5\"1/4 DD, IEEE488";
-        default:
-            return "(Unknown)";
-    }
+    return s;
 }
 
-#define DEFINE_DRIVE_MODEL_SUBMENU(num)                                    \
-static tui_menu_item_def_t drive##num##_type_submenu[] = {                 \
-    { "_None",                                                             \
-      "Disable hardware-level emulation of drive #" #num,                  \
-      radio_Drive##num##Type_callback, (void *)0, 0,                       \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_1541, 5\"1/4 SS",                                                  \
-      "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "1541-_II, 5\"1/4 SS",                                               \
-      "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,   \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541II, 0,       \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "15_51, 5\"1/4 SS",                                                  \
-      "Emulate a 1551 5\"1/4 single-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1551, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "15_71, 5\"1/4 DS",                                                  \
-      "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1571, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "15_81, 3\"1/2 DS",                                                  \
-      "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1581, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_2031, 5\"1/4 SS IEEE488",                                          \
-      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num, \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_2031, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_3040, 5\"1/4 SD IEEE488",                                          \
-      "Emulate a 3040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_3040, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_4040, 5\"1/4 SD IEEE488",                                          \
-      "Emulate a 4040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_4040, 0 ,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "1_001, 5\"1/4 DS IEEE488",                                          \
-      "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1001, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "8050, 5\"1/4 _SD IEEE488",                                          \
-      "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8050, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "8520, 5\"1/4 _DD IEEE488",                                          \
-      "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { NULL }                                                               \
-};
-
-DEFINE_DRIVE_MODEL_SUBMENU(8)
-DEFINE_DRIVE_MODEL_SUBMENU(9)
-
-TUI_MENU_DEFINE_RADIO(Drive8IdleMethod)
-TUI_MENU_DEFINE_RADIO(Drive9IdleMethod)
-
-static TUI_MENU_CALLBACK(drive_idle_method_submenu_callback)
+static TUI_MENU_CALLBACK(radio_expansion_check_callback)
 {
-    int value;
+    int drive = (int)param >> 16;
+    int value = (int)param & 0xffff;
+    int type = get_drive_type(drive);
+    int ram_support;
+    int res_value;
+    int i;
 
-    if ((int)param == 8) {
-        resources_get_int("Drive8IdleMethod", &value);
-    } else {
-        resources_get_int("Drive9IdleMethod", &value);
+    for (i = 0; uidrives[i].type != type; i++) {}
+    switch (value) {
+        default:
+        case 0x2000:
+            ram_support = uidrives[i].ram2000;
+            break;
+        case 0x4000:
+            ram_support = uidrives[i].ram4000;
+            break;
+        case 0x6000:
+            ram_support = uidrives[i].ram6000;
+            break;
+        case 0x8000:
+            ram_support = uidrives[i].ram8000;
+            break;
+        case 0xA000:
+            ram_support = uidrives[i].rama000;
+            break;
     }
 
-    switch (value) {
+    if (!ram_support) {
+        return "N/A";
+    }
+
+    if (been_activated) {
+        resources_get_int_sprintf("Drive%iRAM%X", &res_value, drive, value);
+        resources_set_int_sprintf("Drive%iRAM%X", !res_value, drive, value);
+        ui_update_menus();
+    }
+
+    resources_get_int_sprintf("Drive%iRAM%X", &res_value, drive, value);
+
+    return (res_value) ? "On" : "Off";
+}
+
+static TUI_MENU_CALLBACK(current_idle_string_callback)
+{
+    int drive = (int)param;
+    int type = get_drive_type(drive);
+    int idle_support = drive_check_idle_method(type);
+    int res_value;
+    char *s;
+
+    if (!idle_support) {
+        return "N/A";
+    }
+
+    resources_get_int_sprintf("Drive%iIdleMethod", &res_value, drive);
+
+    switch (res_value) {
+        default:
         case DRIVE_IDLE_NO_IDLE:
-            return "None";
-        case DRIVE_IDLE_TRAP_IDLE:
-            return "Trap idle";
+            s = "None";
+            break;
         case DRIVE_IDLE_SKIP_CYCLES:
-            return "Skip cycles";
-        default:
-            return "(Unknown)";
+            s = "Skip cycles";
+            break;
+        case DRIVE_IDLE_TRAP_IDLE:
+            s = "Trap idle";
+            break;
     }
+    return s;
 }
 
-#define DEFINE_DRIVE_IDLE_METHOD_SUBMENU(num)                           \
-static tui_menu_item_def_t drive##num##_idle_method_submenu[] = {       \
-    { "_None",                                                          \
-      "Always run the drive CPU as on the real thing",                  \
-      radio_Drive##num##IdleMethod_callback,                            \
-      (void *)DRIVE_IDLE_NO_IDLE, 0,                                    \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                 \
-    { "_Trap Idle",                                                     \
-      "Stop running the drive CPU when entering the idle DOS loop",     \
-      radio_Drive##num##IdleMethod_callback,                            \
-      (void *)DRIVE_IDLE_TRAP_IDLE, 0,                                  \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                 \
-    { "_Skip Cycles",                                                   \
-      "Skip drive CPU cycles when the IEC bus is not used for a while", \
-      radio_Drive##num##IdleMethod_callback,                            \
-      (void *)DRIVE_IDLE_SKIP_CYCLES, 0,                                \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                 \
-    { NULL }                                                            \
-};
+static TUI_MENU_CALLBACK(radio_idle_check_callback)
+{
+    int drive = (int)param >> 16;
+    int value = (int)param & 0xffff;
+    int type = get_drive_type(drive);
+    int idle_support = drive_check_idle_method(type);
+    int res_value;
 
-DEFINE_DRIVE_IDLE_METHOD_SUBMENU(8)
-DEFINE_DRIVE_IDLE_METHOD_SUBMENU(9)
+    if (!idle_support) {
+        return "N/A";
+    }
 
-TUI_MENU_DEFINE_TOGGLE(Drive8ParallelCable)
-TUI_MENU_DEFINE_TOGGLE(Drive9ParallelCable)
-
-static tui_menu_item_def_t drive_settings_submenu[] = {
-    { "True Drive _Emulation:",
-      "Enable hardware-level floppy drive emulation",
-      toggle_DriveTrueEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "_Handle TDE with autostart:",
-      "Enable hardware-level floppy drive emulation handling for autostart",
-      toggle_AutostartHandleTrueDriveEmulation_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "--" },
-    { "Drive #_8 model:",
-      "Specify model for drive #8",
-      drive_type_submenu_callback, (void *)8, 26,
-      TUI_MENU_BEH_CONTINUE, drive8_type_submenu,
-      "Drive 8 model" },
-    { "Drive #8 idle method:",
-      "Specify idle method for drive #8",
-      drive_idle_method_submenu_callback, (void *)8, 12,
-      TUI_MENU_BEH_CONTINUE, drive8_idle_method_submenu,
-      "Drive 8 idle method" },
-    { "Drive #8 Parallel Cable:",
-      "Enable a SpeedDOS-compatible parallel cable for drive #8",
-      toggle_Drive8ParallelCable_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Drive #8 40-Track Image Support:",
-      "Settings for dealing with 40-track disk images in drive #8",
-      drive_extend_image_policy_submenu_callback, (void *)8, 16,
-      TUI_MENU_BEH_CONTINUE, drive8_extend_image_policy_submenu, "" },
-    { "--" },
-    { "Drive #_9 model:",
-      "Specify model for drive #9",
-      drive_type_submenu_callback, (void *)9, 26,
-      TUI_MENU_BEH_CONTINUE, drive9_type_submenu,
-      "Drive 9 model" },
-    { "Drive #9 idle method:",
-      "Specify idle method for drive #9",
-      drive_idle_method_submenu_callback, (void *)9, 12,
-      TUI_MENU_BEH_CONTINUE, drive9_idle_method_submenu,
-      "Drive 9 idle method" },
-    { "Drive #9 Parallel Cable:",
-      "Enable a SpeedDOS-compatible parallel cable for drive #9",
-      toggle_Drive9ParallelCable_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Drive #9 40-Track Image Support:",
-      "Settings for dealing with 40-track disk images in drive #9",
-      drive_extend_image_policy_submenu_callback, (void *)9, 16,
-      TUI_MENU_BEH_CONTINUE, drive9_extend_image_policy_submenu, "" },
-    { NULL }
-};
+    if (been_activated) {
+        resources_set_int_sprintf("Drive%iIdleMethod", value, drive);
+        *become_default = 1;
+        ui_update_menus();
+    } else {
+        resources_get_int_sprintf("Drive%iIdleMethod", &res_value, drive);
+        if (res_value == value) {
+            *become_default = 1;
+        }
+    }
+}
 
 void uidrive_init(struct tui_menu *parent_submenu)
 {
-    tui_menu_t ui_drive_submenu;
+    drive_menu_t directory_submenu[4] = {
+        { NULL, "Drive 8 directory settings" },
+        { NULL, "Drive 9 directory settings" },
+        { NULL, "Drive 10 directory settings" },
+        { NULL, "Drive 11 directory settings" },
+    };
 
-    ui_drive_submenu = tui_menu_create("Disk Drive Settings", 1);
-    tui_menu_add(ui_drive_submenu, drive_settings_submenu);
-    tui_menu_add_submenu(parent_submenu, "Dis_k Drive Settings...",
+    drive_menu_t type_submenu[4] = {
+        { NULL, "Drive 8 type" },
+        { NULL, "Drive 9 type" },
+        { NULL, "Drive 10 type" },
+        { NULL, "Drive 11 type" }
+    };
+
+    drive_menu_t drive_submenu[4] = {
+        { NULL, "Drive 8 settings" },
+        { NULL, "Drive 9 settings" },
+        { NULL, "Drive 10 settings" },
+        { NULL, "Drive 11 settings" }
+    };
+
+    drive_menu_t extend_submenu[4] = {
+        { NULL, "Drive 8 40 track handling" },
+        { NULL, "Drive 9 40 track handling" },
+        { NULL, "Drive 10 40 track handling" },
+        { NULL, "Drive 11 40 track handling" }
+    };
+
+    drive_menu_t expansion_submenu[4] = {
+        { NULL, "Drive 8 RAM expansion" },
+        { NULL, "Drive 9 RAM expansion" },
+        { NULL, "Drive 10 RAM expansion" },
+        { NULL, "Drive 11 RAM expansion" },
+    };
+
+    drive_menu_t idle_submenu[4] = {
+        { NULL, "Drive 8 idle method" },
+        { NULL, "Drive 9 idle method" },
+        { NULL, "Drive 10 idle method" },
+        { NULL, "Drive 11 idle method" },
+    };
+
+    drive_menu_t par_submenu[4] = {
+        { NULL, "Drive 8 parallel cable" },
+        { NULL, "Drive 9 parallel cable" },
+        { NULL, "Drive 10 parallel cable" },
+        { NULL, "Drive 11 parallel cable" },
+    };
+
+    radio_items_t extend_items[] = {
+        { "Never extend", DRIVE_EXTEND_NEVER },
+        { "Ask for extend", DRIVE_EXTEND_ASK },
+        { "Extend on access", DRIVE_EXTEND_ACCESS },
+        { NULL, -1 }
+    };
+
+    radio_items_t expansion_items[] = {
+        { "RAM at $2000-$3FFF", 0x2000 },
+        { "RAM at $4000-$5FFF", 0x4000 },
+        { "RAM at $6000-$7FFF", 0x6000 },
+        { "RAM at $8000-$9FFF", 0x8000 },
+        { "RAM at $A000-$BFFF", 0xA000 },
+        { NULL, -1 }
+    };
+
+    radio_items_t idle_items[] = {
+        { "None", DRIVE_IDLE_NO_IDLE },
+        { "Skip cycles", DRIVE_IDLE_SKIP_CYCLES },
+        { "Trap idle", DRIVE_IDLE_TRAP_IDLE },
+        { NULL, -1 }
+    };
+
+    tui_menu_t ui_drive_submenu;
+    int i, j;
+
+    ui_drive_submenu = tui_menu_create("Drive settings", 1);
+    for (i = 0; i < 4; i++) {
+        type_submenu[i].menu = tui_menu_create(type_submenu[i].name, 1);
+        for (j = 0; uidrives[j].type != -1; j++) {
+            if ((1 << machine_class) & uidrives[j].machines) {
+                tui_menu_add_item(type_submenu[i].menu, uidrives[j].name,
+                                  uidrives[j].name,
+                                  radio_type_check_callback,
+                                  (void *)(((i + 8) << 16) | uidrives[j].type), 3,
+                                  TUI_MENU_BEH_CLOSE);
+            }
+        }
+
+        directory_submenu[i].menu = tui_menu_create(directory_submenu[i].name, 1);
+
+        tui_menu_add_item(directory_submenu[i].menu, "Directory",
+                          "Choose directory",
+                          set_directory_callback,
+                          (void *)(i + 8), 20,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(directory_submenu[i].menu, "Read p00 files",
+                          "Read p00 files",
+                          toggle_read_p00_callback,
+                          (void *)(i + 8), 3,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(directory_submenu[i].menu, "Write p00 files",
+                          "Write p00 files",
+                          toggle_write_p00_callback,
+                          (void *)(i + 8), 3,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(directory_submenu[i].menu, "Hide non-p00 files",
+                          "Hide non-p00 files",
+                          toggle_hide_p00_callback,
+                          (void *)(i + 8), 3,
+                          TUI_MENU_BEH_CONTINUE);
+
+        extend_submenu[i].menu = tui_menu_create(extend_submenu[i].name, 1);
+
+        for (j = 0; extend_items[j].name != NULL; j++) {
+            tui_menu_add_item(extend_submenu[i].menu, extend_items[j].name,
+                              extend_items[j].name,
+                              radio_extend_check_callback,
+                              (void *)(((i + 8) << 16) | extend_items[j].value), 20,
+                              TUI_MENU_BEH_CLOSE);
+        }
+
+        expansion_submenu[i].menu = tui_menu_create(expansion_submenu[i].name, 1);
+
+        for (j = 0; expansion_items[j].name != NULL; j++) {
+            tui_menu_add_item(expansion_submenu[i].menu, expansion_items[j].name,
+                              expansion_items[j].name,
+                              radio_expansion_check_callback,
+                              (void *)(((i + 8) << 16) | expansion_items[j].value), 20,
+                              TUI_MENU_BEH_CONTINUE);
+        }
+
+        idle_submenu[i].menu = tui_menu_create(idle_submenu[i].name, 1);
+
+        for (j = 0; idle_items[j].name != NULL; j++) {
+            tui_menu_add_item(idle_submenu[i].menu, idle_items[j].name,
+                              idle_items[j].name,
+                              radio_idle_check_callback,
+                              (void *)(((i + 8) << 16) | idle_items[j].value), 20,
+                              TUI_MENU_BEH_CLOSE);
+        }
+
+        drive_submenu[i].menu = tui_menu_create(drive_submenu[i].name, 1);
+
+        tui_menu_add_submenu(drive_submenu[i].menu, type_submenu[i].name,
+                             type_submenu[i].name,
+                             type_submenu[i].menu,
+                             current_type_string_callback,
+                             (void *)i + 8, 20);
+
+        tui_menu_add_submenu(drive_submenu[i].menu, directory_submenu[i].name,
+                             directory_submenu[i].name,
+                             directory_submenu[i].menu,
+                             NULL, 0, 0);
+
+        tui_menu_add_submenu(drive_submenu[i].menu, extend_submenu[i].name,
+                             extend_submenu[i].name,
+                             extend_submenu[i].menu,
+                             current_extend_string_callback,
+                             (void *)i + 8, 20);
+
+        tui_menu_add_submenu(drive_submenu[i].menu, expansion_submenu[i].name,
+                             expansion_submenu[i].name,
+                             expansion_submenu[i].menu,
+                             current_expansion_string_callback,
+                             (void *)i + 8, 3);
+
+        tui_menu_add_submenu(drive_submenu[i].menu, idle_submenu[i].name,
+                             idle_submenu[i].name,
+                             idle_submenu[i].menu,
+                             current_idle_string_callback,
+                             (void *)i + 8, 20);
+
+        tui_menu_add_item(drive_submenu[i].menu, "Parallel cable",
+                          "Parallel cable",
+                          toggle_par_callback,
+                          (void *)(i + 8), 3,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_submenu(ui_drive_submenu, drive_submenu[i].name,
+                             drive_submenu[i].name,
+                             drive_submenu[i].menu,
+                             NULL, NULL, 0);
+    }
+
+    tui_menu_add_submenu(parent_submenu, "Drive settings...",
                          "Drive emulation settings",
                          ui_drive_submenu,
-                         NULL, 0,
-                         TUI_MENU_BEH_CONTINUE);
+                         NULL, NULL, 0);
 }
