@@ -32,3 +32,15 @@ SUBDIRS = html
 
 AM_MAKEINFOHTMLFLAGS = 
 AM_MAKEINFOFLAGS = --no-split
+
+$(srcdir)/vice.txt:	vice.texi
+	$(MAKEINFO) -o $(srcdir)/vice.txt --no-headers vice.texi
+
+if BUILD_PDF
+$(srcdir)/vice.pdf:	vice.texi
+	$(TEXI2DVI) -q --clean --pdf -o $(srcdir)/vice.pdf vice.texi
+
+INFO_DEPS = $(srcdir)/vice.txt $(srcdir)/vice.info $(srcdir)/vice.pdf
+else
+INFO_DEPS = $(srcdir)/vice.txt $(srcdir)/vice.info
+endif

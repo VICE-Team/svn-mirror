@@ -682,6 +682,16 @@ AC_PROG_YACC
 AM_PROG_LEX
 AM_PROG_AS
 
+AC_CHECK_PROGS(texi2dvi, texi2dvi, no)
+if test x"$texi2dvi" = "xno"; then
+  AM_CONDITIONAL(BUILD_PDF, false)
+  TEXI2DVI=""
+else
+  AM_CONDITIONAL(BUILD_PDF, true)
+  TEXI2DVI="$texi2dvi"
+fi
+AC_SUBST(TEXI2DVI)
+
 dnl Extension for executable files in this system
 AC_EXEEXT
 
