@@ -17,9 +17,7 @@ doc_DATA = \
 	Win32-Cygwin-HOWTO.txt \
 	Win32-Howto.txt \
 	OpenVMS-Howto.txt \
-	cartconv.txt \
 	iec-bus.txt \
-	mon.txt \
 	openGLsync-howto.txt \
 	GP2X-Howto.txt \
 	coding-guidelines.txt
