@@ -682,15 +682,53 @@ AC_PROG_YACC
 AM_PROG_LEX
 AM_PROG_AS
 
-AC_CHECK_PROGS(texi2dvi, texi2dvi, no)
-if test x"$texi2dvi" = "xno"; then
+AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
+
+AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
+if test x"$TEXI2DVI" = "xno"; then
   AM_CONDITIONAL(BUILD_PDF, false)
-  TEXI2DVI=""
 else
   AM_CONDITIONAL(BUILD_PDF, true)
-  TEXI2DVI="$texi2dvi"
 fi
-AC_SUBST(TEXI2DVI)
+
+dnl check for texi to amigaguide program
+AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
+if test x"$MAKEGUIDE" != "xno"; then
+  AM_CONDITIONAL(BUILD_AMIGAGUIDE, true)
+else
+  if test x"$MAKEINFO" != "xno"; then
+    AC_MSG_CHECKING([if the makeinfo supports amigaguide])
+    agresult=`$MAKEINFO --help 2>&1 | grep amiga`
+    if x"$agresult" != "x"; then
+      AC_MSG_RESULT([yes])
+      MAKEGUIDE=$MAKEINFO
+      AM_CONDITIONAL(BUILD_AMIGAGUIDE, true)
+    else
+      AC_MSG_RESULT([no])
+      AM_CONDITIONAL(BUILD_AMIGAGUIDE, false)
+    fi
+  else
+    AM_CONDITIONAL(BUILD_AMIGAGUIDE, false)
+  fi
+fi
+AC_SUBST(MAKEGUIDE)
+
+dnl check for windows chm compiler
+AC_CHECK_PROGS(HHC, hhc, no)
+if test x"$HHC" = "xno"; then
+  AM_CONDITIONAL(BUILD_CHM, false)
+else
+  AM_CONDITIONAL(BUILD_CHM, true)
+fi
+
+dnl check for windows hlp compiler programs
+AC_CHECK_PROGS(MAKERTF, makertf, no)
+AC_CHECK_PROGS(HCRTF, hcrtf, no)
+if test x"$MAKERTF" = "xno" -o x"$HCRTF" = "xno"; then
+  AM_CONDITIONAL(BUILD_HLP, false)
+else
+  AM_CONDITIONAL(BUILD_HLP, true)
+fi
 
 dnl Extension for executable files in this system
 AC_EXEEXT

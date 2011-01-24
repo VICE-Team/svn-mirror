@@ -22,9 +22,21 @@ doc_DATA = \
 	GP2X-Howto.txt \
 	coding-guidelines.txt
 
+TEXI_TOOLS = \
+	texi2chm.sh \
+	texi2guide.sh \
+	t2h.pl
+
+VICE_DOX = \
+	vice.txt \
+	vice.pdf \
+	vice.chm \
+	vice.hlp \
+	vice.guide
+
 info_TEXINFOS = vice.texi
 
-EXTRA_DIST = $(doc_DATA)
+EXTRA_DIST = $(doc_DATA) $(VICE_DOX) $(TEXI_TOOLS)
 
 SUBDIRS = html
 
@@ -38,7 +50,39 @@ if BUILD_PDF
 $(srcdir)/vice.pdf:	vice.texi
 	$(TEXI2DVI) -q --clean --pdf -o $(srcdir)/vice.pdf vice.texi
 
-INFO_DEPS = $(srcdir)/vice.txt $(srcdir)/vice.info $(srcdir)/vice.pdf
+PDF_DEPS=$(srcdir)/vice.pdf
 else
-INFO_DEPS = $(srcdir)/vice.txt $(srcdir)/vice.info
+PDF_DEPS=
 endif
+
+if BUILD_AMIGAGUIDE
+$(srcdir)/vice.guide:	vice.texi
+	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(srcdir)/vice.guide
+
+GUIDE_DEPS=$(srcdir)/vice.guide
+else
+GUIDE_DEPS=
+endif
+
+if BUILD_HLP
+$(srcdir)/vice.hlp:	vice.texi
+	$(MAKERTF) --hpj=vice.hpj --output=vice.rtf vice.texi
+	$(HCRTF) -o VICE.HLP vice.hpj
+	rm -f vice.hpj vice.rtf
+	mv VICE.HLP $(srcdir)/vice.hlp
+
+HLP_DEPS=$(srcdir)/vice.hlp
+else
+HLP_DEPS=
+endif
+
+if BUILD_CHM
+$(srcdir)/vice.chm:	vice.texi
+	$(srcdir)/texi2chm.sh $(HHC) $(srcdir)/vice.chm
+
+CHM_DEPS=$(srcdir)/vice.chm
+else
+CHM_DEPS=
+endif
+
+INFO_DEPS = $(srcdir)/vice.txt $(srcdir)/vice.info $(PDF_DEPS) $(GUIDE_DEPS) $(HLP_DEPS) $(CHM_DEPS)
