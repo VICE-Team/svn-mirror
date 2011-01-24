@@ -31,6 +31,7 @@
 #include <stdlib.h>
 
 #include <png.h>
+#include <zlib.h>
 
 #include "archdep.h"
 #include "gfxoutput.h"
