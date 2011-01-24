@@ -95,7 +95,6 @@ mkdir %VICEDIR%\html\plain
 copy ..\..\..\..\doc\html\plain\* %VICEDIR%\html\plain
 copy ..\..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\..\README %VICEDIR%
-copy ..\..\..\..\doc\cartconv.txt %VICEDIR%
 copy ..\..\..\..\ReadmeSDL.txt %VICEDIR%
 echo SDL WIN64 (%WIN64TYPE%) port binary distribution directory generated as %VICEDIR%
 goto end

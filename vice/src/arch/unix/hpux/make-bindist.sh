@@ -217,13 +217,11 @@ installfile doc/html/plain/TODO vice/vice-RUN runtmp /usr/local/lib/vice/doc/TOD
 installfile doc/html/plain/Walkthrough-Howto.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/Walkthrough-Howto.txt run 0644
 installfile doc/html/amigaos.html vice/vice-RUN runtmp /usr/local/lib/vice/doc/amigaos.html run 0644
 installfile doc/html/beos.html vice/vice-RUN runtmp /usr/local/lib/vice/doc/beos.html run 0644
-installfile doc/cartconv.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/cartconv.txt run 0644
 installfile doc/html/plain/cbm_basic_tokens.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/cbm_basic_tokens.txt run 0644
 installfile doc/html/plain/drive_info.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/drive_info.txt run 0644
 installfile doc/iec-bus.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/iec-bus.txt run 0644
 installfile doc/html/index.html vice/vice-RUN runtmp /usr/local/lib/vice/doc/index.html run 0644
 installfile doc/html/macosx.html vice/vice-RUN runtmp /usr/local/lib/vice/doc/macosx.html run 0644
-installfile doc/mon.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/mon.txt run 0644
 installfile doc/html/images/new.gif vice/vice-RUN runtmp /usr/local/lib/vice/doc/images/new.gif run 0644
 installfile doc/openGLsync-howto.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/openGLsync-howto.txt run 0644
 installfile doc/html/plain/serial.txt vice/vice-RUN runtmp /usr/local/lib/vice/doc/serial.txt run 0644

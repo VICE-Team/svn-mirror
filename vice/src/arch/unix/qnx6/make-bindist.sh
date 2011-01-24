@@ -544,7 +544,6 @@ _END
                            <QPM:File>drive_info.txt</QPM:File>
                            <QPM:File>iec-bus.txt</QPM:File>
                            <QPM:File>index.html</QPM:File>
-                           <QPM:File>mon.txt</QPM:File>
                            <QPM:File>new.gif</QPM:File>
                            <QPM:File>serial.txt</QPM:File>
                            <QPM:File>vice-logo.jpg</QPM:File>

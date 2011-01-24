@@ -97,7 +97,6 @@ mkdir %VICEDIR%\html\plain
 copy ..\..\..\doc\html\plain\* %VICEDIR%\html\plain
 copy ..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\README %VICEDIR%
-copy ..\..\..\doc\cartconv.txt %VICEDIR%
 echo WIN64 (%WIN64TYPE%) port binary distribution directory generated as %VICEDIR%
 goto end
 :missingmsvc

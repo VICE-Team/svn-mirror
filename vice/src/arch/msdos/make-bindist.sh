@@ -46,7 +46,6 @@ cp -a $TOPSRCDIR/data/fonts dosvice
 cp -a $TOPSRCDIR/doc/html dosvice
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README dosvice
 cp $TOPSRCDIR/doc/Readme.dos dosvice
-cp $TOPSRCDIR/doc/cartconv.txt dosvice
 rm `find dosvice -name "Makefile*"`
 rm `find dosvice -name "amiga_*.vkm"`
 rm `find dosvice -name "os2*.vkm"`
