@@ -1166,6 +1166,33 @@ specified afterwards on the command line.
 @cindex -autostart
 @item -autostart IMAGE
 Autostart @file{IMAGE} (@pxref{Command-line autostart}).
+@cindex -autoload
+@item -autoload <name>
+Attach and autoload tape/disk image <name>
+@cindex -basicload, +basicload
+@item -basicload
+On autostart, load to BASIC start (without ',1')
+@item +basicload
+On autostart, load with ',1'
+@cindex -autostartwithcolon, +autostartwithcolon
+@item -autostartwithcolon
+On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'
+@item +autostartwithcolon
+On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'
+@cindex -autostart-handle-tde, +autostart-handle-tde
+@item -autostart-handle-tde
+@itemx +autostart-handle-tde
+Handle/Do not handle True Drive Emulation on autostart
+@cindex -autostart-warp, +autostart-warp
+@item +autostart-warp
+Enable/Disable warp mode during autostart
+@cindex -autostartprgmode
+@item -autostartprgmode
+Set autostart mode for PRG files
+@cindex -autostartprgdiskimage
+@item -autostartprgdiskimage
+Set disk image for autostart of PRG files
+
 @cindex -1
 @item -1 NAME
 Attach @file{NAME} as a tape image file.
@@ -1178,6 +1205,26 @@ Attach @file{NAME} as a tape image file.
 @cindex -11
 @itemx -11 NAME
 Attach @file{NAME} as a disk image to device 8, 9, 10 or 11.
+
+@cindex -attach8ro
+@cindex -attach9ro
+@cindex -attach10ro
+@cindex -attach11ro
+@item -attach8ro
+@itemx -attach9ro
+@itemx -attach10ro
+@itemx -attach11ro
+Attach disk image for drive #88-11 read only
+@cindex -attach8rw
+@cindex -attach9rw
+@cindex -attach10rw
+@cindex -attach11rw
+@item -attach8rw
+@itemx -attach9rw
+@itemx -attach10rw
+@itemx -attach11rw
+Attach disk image for drive #8-11 read write (if possible)
+
 @end table
 
 
@@ -2291,10 +2338,6 @@ window (@code{UseXSync=1}, @code{UseXSync=0}).
 Enable/disable usage of the MITSHM extensions (@code{MITSHM=1},
 @code{MITSHM=0}).
 
-@cindex -mitshmauto
-@item -mitshmauto
-Enable autodetection of MITSHM availability (@code{MITSHM=-1})
-
 @cindex -install, +install
 @item -install
 @itemx +install
@@ -2355,21 +2398,24 @@ String specifying the name of the keymap file for the symbolic mapping
 String specifying the name of the keymap file for the positional mapping
 (@pxref{Keyboard emulation}, all but PET and CBM-II).
 
-@vindex KeymapBusinessUKSymFile KeymapBusinessUKPosFile
+@vindex KeymapBusinessUKSymFile
+@vindex KeymapBusinessUKPosFile
 @item KeymapBusinessUKSymFile
 @itemx KeymapBusinessUKPosFile
 String specifying the name of the keymap file for the symbolic 
 and positional mapping for the UK business keyboard
 (@pxref{Keyboard emulation}, PET and CBM-II).
 
-@vindex KeymapGraphicsSymFile KeymapGraphicsPosFile
+@vindex KeymapGraphicsSymFile
+@vindex KeymapGraphicsPosFile
 @item KeymapGraphicsSymFile
 @itemx KeymapGraphicsPosFile
 String specifying the name of the keymap file for the symbolic and 
 positional mapping for the graphics keyboard
 (@pxref{Keyboard emulation}, PET only).
 
-@vindex KeymapBusinessDESymFile KeymapBusinessDEPosFile
+@vindex KeymapBusinessDESymFile
+@vindex KeymapBusinessDEPosFile
 @item KeymapBusinessDESymFile
 @itemx KeymapBusinessDEPosFile
 String specifying the name of the keymap file for the symbolic 
@@ -2398,21 +2444,21 @@ Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymFile}).
 @item -poskeymap NAME
 Specify @file{NAME} as the positional keymap file (@code{KeymapPosFile}).
 
-@cindex -buksymkeymap -bukposkeymap
+@cindex -buksymkeymap, -bukposkeymap
 @item -buksymkeymap NAME
 @itemx -bukposkeymap NAME
 Specify @file{NAME} as the symbolic/positional keymap file for the
 UK business keyboard
 (@code{KeymapBusinessUKSymFile}, @code{KeymapBusinessUKPosFile}, PET and CBM-II).
 
-@cindex -grsymkeymap -grposkeymap
+@cindex -grsymkeymap, -grposkeymap
 @item -grsymkeymap NAME
 @itemx -grposkeymap NAME
 Specify @file{NAME} as the symbolic/positional keymap file for the
 graphics keyboard
 (@code{KeymapGraphicsSymFile}, @code{KeymapGraphicsPosFile}, PET only).
 
-@cindex -bdesymkeymap -bdeposkeymap
+@cindex -bdesymkeymap, -bdeposkeymap
 @item -bdesymkeymap NAME
 @itemx -bdeposkeymap NAME
 Specify @file{NAME} as the symbolic/positional keymap file for the
@@ -2802,66 +2848,141 @@ Strings specifying the names of the ROM images for the drive emulation.
 Turns true drive emulation on (@code{DriveTrueEmulation=1}) and off
 (@code{DriveTrueEmulation=0}), respectively.
 
-@cindex -drive8type, -drive9type
+@cindex -drive8type
+@cindex -drive9type
+@cindex -drive10type
+@cindex -drive11type
 @item -drive8type TYPE
 @itemx -drive9type TYPE
-Specifies the drive types for units 8 and 9, respectively.  Possible
+@itemx -drive10type TYPE
+@itemx -drive11type TYPE
+Specifies the drive types for drives 8-11, respectively.  Possible
 values for @code{TYPE} are @code{1541}, @code{1571}, @code{1581} and
 @code{2031}.
 
-@cindex -parallel8, +parallel8, -parallel9, +parallel9
-@item -parallel8
-@itemx +parallel8
-@itemx -parallel9
-@itemx +parallel9
-Turns emulation of the SpeedDOS-compatible parallel cable for 
-disk unit 8 or 9 on
-(@code{DriveXParallelCable=1}, X=8 or 9) and off 
-(@code{DriveXParallelCable=0}), respectively.
+@c FIXME
 
-@cindex -drive8idle, -drive9idle
+@cindex -parallel8
+@cindex -parallel9
+@cindex -parallel10
+@cindex -parallel11
+@item -parallel8 <type>
+@itemx -parallel9 <type>
+@itemx -parallel10 <type>
+@itemx -parallel11 <type>
+Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS)
+
+@cindex -drive8idle
+@cindex -drive9idle
+@cindex -drive10idle
+@cindex -drive11idle
 @item -drive8idle NUM
 @itemx -drive9idle NUM
-Specifies @code{NUM} as the idling method in drives 8 and 9, respectively
-(@code{Drive8IdleMethod}, @code{Drive9IdleMethod}).
+@itemx -drive10idle NUM
+@itemx -drive11idle NUM
+Specifies @code{NUM} as the idling method for drives 8-11
+(0: no traps, 1: skip cycles, 2: trap idle), respectively
+(@code{Drive8IdleMethod}, @code{Drive9IdleMethod}),
+@code{Drive10IdleMethod}), @code{Drive11IdleMethod}).
 
-@cindex -drive8extend, -drive9extend
+@cindex -drive8extend
+@cindex -drive9extend
+@cindex -drive10extend
+@cindex -drive11extend
 @item -drive8extend NUM
 @itemx -drive9extend NUM
-Specifies @code{NUM} as the track 40 extend policy in drives 8 and 9, 
+@itemx -drive10extend NUM
+@itemx -drive11extend NUM
+Specifies @code{NUM} as the track 40 extend policy in drives 8 and 9,
 respectively
 (@code{Drive8ExtendImagePolicy}, @code{Drive9ExtendImagePolicy}).
 
-@cindex -paldrive
-@item -paldrive
-Specifies a PAL sync factor for the drive emulation
-(@code{DriveSyncFactor=-1}).
-
-@cindex -ntscdrive
-@item -ntscdrive
-Specifies an NTSC sync factor for the drive emulation
-(@code{DriveSyncFactor=-2}).
-
-@cindex -drivesync
-@item -drivesync NUM
-Specifies a generic sync factor for the drive emulation
-(@code{True1541SyncFactor}).
-
 @cindex -dos1541
+@cindex -dos1541II
+@cindex -dos1551
+@cindex -dos1570
 @cindex -dos1571
+@cindex -dos1571cr
 @cindex -dos1581
 @cindex -dos2031
+@cindex -dos2040
+@cindex -dos3040
+@cindex -dos4040
 @cindex -dos1001
-@item -dos1541
-@itemx -dos1571
-@itemx -dos1581
-@itemx -dos2031
-@itemx -dos2040
-@itemx -dos3040
-@itemx -dos4040
-@itemx -dos1001
-Specify the ROM names for the 1541, 1571, 1581, 2031, 2040, 3040, 4040 
-and 1001 emulation respectively.
+@item -dos1541 <name>
+@itemx -dos1541II <name>
+@item -dos1551 <name>
+@itemx -dos1570 <name>
+@itemx -dos1571 <name>
+@itemx -dos1571cr <name>
+@itemx -dos1581 <name>
+@itemx -dos2031 <name>
+@itemx -dos2040 <name>
+@itemx -dos3040 <name>
+@itemx -dos4040 <name>
+@itemx -dos1001 <name>
+Specify the ROM names for the 1541, 1541II, 1551, 1570, 1571, 1571cr, 1581,
+2031, 2040, 3040, 4040 and 1001 emulation respectively.
+
+@cindex -drive8ram2000, +drive8ram2000
+@cindex -drive9ram2000, +drive9ram2000
+@cindex -drive10ram2000, +drive10ram2000
+@cindex -drive11ram2000, +drive11ram2000
+@item -drive8ram2000, +drive8ram2000
+@itemx -drive9ram2000, +drive9ram2000
+@itemx -drive10ram2000, +drive10ram2000
+@itemx -drive11ram2000, +drive11ram2000
+Enable/Disable 8KB RAM expansion at $2000-$3FFF
+@cindex -drive8ram4000, +drive8ram4000
+@cindex -drive9ram4000, +drive9ram4000
+@cindex -drive10ram4000, +drive10ram4000
+@cindex -drive11ram4000, +drive11ram4000
+@item -drive8ram4000, +drive8ram4000
+@itemx -drive9ram4000, +drive9ram4000
+@itemx -drive10ram4000, +drive10ram4000
+@itemx -drive11ram4000, +drive11ram4000
+Enable/Disable 8KB RAM expansion at $4000-$5FFF
+@cindex -drive8ram6000, +drive8ram6000
+@cindex -drive9ram6000, +drive9ram6000
+@cindex -drive10ram6000, +drive10ram6000
+@cindex -drive11ram6000, +drive11ram6000
+@item -drive8ram6000, +drive8ram6000
+@itemx -drive9ram6000, +drive9ram6000
+@itemx -drive10ram6000, +drive10ram6000
+@itemx -drive11ram6000, +drive11ram6000
+Enable/Disable 8KB RAM expansion at $6000-$7FFF
+@cindex -drive8ram8000, +drive8ram8000
+@cindex -drive9ram8000, +drive9ram8000
+@cindex -drive10ram8000, +drive10ram8000
+@cindex -drive11ram8000, +drive11ram8000
+@item -drive8ram8000, +drive8ram8000
+@itemx -drive9ram8000, +drive9ram8000
+@itemx -drive10ram8000, +drive10ram8000
+@itemx -drive11ram8000, +drive11ram8000
+Enable/Disable 8KB RAM expansion at $8000-$9FFF
+@cindex -drive8rama000, +drive8rama000
+@cindex -drive9rama000, +drive9rama000
+@cindex -drive10rama000, +drive10rama000
+@cindex -drive11rama000, +drive11rama000
+@item -drive8rama000, +drive8rama000
+@itemx -drive9rama000, +drive9rama000
+@itemx -drive10rama000, +drive10rama000
+@itemx -drive11rama000, +drive11rama000
+Enable/Disable 8KB RAM expansion at $A000-$BFFF
+
+@cindex -drive8profdos, +drive8profdos
+@cindex -drive9profdos, +drive9profdos
+@cindex -drive10profdos, +drive10profdos
+@cindex -drive11profdos, +drive11profdos
+@item -drive8profdos, +drive8profdos
+@itemx -drive9profdos, +drive9profdos
+@itemx -drive10profdos, +drive10profdos
+@itemx -drive11profdos, +drive11profdos
+Enable/Disable Professional DOS
+
+@cindex -profdos1571
+@item -profdos1571 <name>
+@itemx Specify name of Professional DOS 1571 ROM image
 
 @end table
 
@@ -2996,13 +3117,23 @@ have access.
 
 @table @code
 
+@cindex -device8
+@cindex -device9
+@cindex -device10
+@cindex -device11
+@item -device8 <type>
+@itemx -device9 <type>
+@itemx -device10 <type>
+@itemx -device11 <type>
+Set device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)
+
 @cindex -fs8
-@item -fs8 PATH
 @cindex -fs9
-@itemx -fs9 PATH
 @cindex -fs10
-@itemx -fs10 PATH
 @cindex -fs11
+@item -fs8 PATH
+@itemx -fs9 PATH
+@itemx -fs10 PATH
 @itemx -fs11 PATH
 Specify the paths for the file system access on drives 8, 9, 10 and 11,
 respectively (@code{FSDevice8Dir}, @code{FSDevice9Dir},
@@ -3090,34 +3221,47 @@ device the user-port printer is using.
 
 @table @code
 
-@cindex -prdev1
-@item -prdev1 NAME
-@cindex -prdev2
-@itemx -prdev2 NAME
-@cindex -prdev3
-@itemx -prdev3 NAME
-Specify @code{NAME} as printer devices 1, 2 and 3, respectively
-(@code{PrDevice1}, @code{PrDevice2} and @code{PrDevice3}).
+@cindex -prtxtdev1
+@cindex -prtxtdev2
+@cindex -prtxtdev3
+@item -prtxtdev1 <name>
+@itemx -prtxtdev2 <name>
+@itemx -prtxtdev3 <name>
+Specify name of printer text device or dump file
+@cindex -pr4txtdev
+@cindex -pr5txtdev
+@item -pr4txtdev <0-2>
+@itemx -pr5txtdev <0-2>
+Specify printer text output device for IEC printer #4-5
 
-@cindex -printer4, +printer4
-@item -printer4
-@itemx +printer4
-Enable/disable emulation of the IEC printer (@code{Printer4=1},
-@code{Printer4=0}).
-
-@cindex -pr4dev
-@item -pr4dev DEV
-Specify device for the IEC printer (@code{Printer4Dev}).
+@cindex -pr4output
+@cindex -pr5output
+@item -pr4output <name>
+@itemx -pr5output <name>
+Specify name of output device for device #4-5
+Specify name of output device for device #5-5
+@cindex -pr4drv
+@cindex -pr5drv
+@item -pr4drv <name>
+@itemx -pr5drv <name>
+Specify name of printer driver for device #4-5
+Specify name of printer driver for device #5-5
 
 @cindex -pruser, +pruser
 @item -pruser
 @itemx +pruser
-Enable/disable emulation of the IEC printer (@code{PrUser=1},
+Enable/disable emulation of the userport printer emulation (@code{PrUser=1},
 @code{PrUser=0}).
 
-@cindex -pruserdev
-@item -pruserdev DEV
-Specify device for the IEC printer (@code{PrUserDev}).
+@cindex -prusertxtdev
+@item -prusertxtdev <0-2>
+Specify printer text output device for userport printer
+@cindex -pruseroutput
+@item -pruseroutput <name>
+Specify name of output device for the userport printer
+@cindex -pruserdrv
+@item -pruserdrv <name>
+Specify name of printer driver for the userport printer
 
 @end table
 
@@ -3325,9 +3469,9 @@ specifies a special device (like @file{/dev/ttyS0} for example,
 @code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and 
 @code{RsDevice4Baud}).
 
-@cindex -acia1dev
-@item -acia1dev
-Specify device for the ACIA (@code{Acia1Dev}).
+@cindex -myaciadev
+@item -myaciadev <0-3>
+Specify RS232 device the ACIA should work on
 
 @cindex -rsuser
 @item -rsuser BAUDRATE
@@ -3393,17 +3537,27 @@ This section lists command-line options specific to the built-in monitor.
 @subsection Monitor command-line options
 
 @table @code
-@cindex -moncommand
-@item -moncommand FILENAME
+@cindex -moncommands
+@item -moncommands FILENAME
 Execute the commands from the file @code{FILENAME} in the monitor after starting up. This
 command line switch is mainly thought to load labels and to set breakpoints.
 Not all other commands are useful to be executed in this way, some may even
 lead to strange effects.
 
+@cindex -initbreak
 @item -initbreak <address>
 Set an initial breakpoint for the monitor. Addresses with prefix "0x" are hexadecimal.
-@end table
 
+@cindex -remotemonitor, +remotemonitor
+@item -remotemonitor
+@itemx +remotemonitor
+Enable/Disable remote monitor
+
+@cindex -remotemonitoraddress
+@item -remotemonitoraddress <name>
+The local address the remote monitor should bind to
+
+@end table
 
 @c ----------------------------------------------------------------
 
@@ -3478,7 +3632,8 @@ first, in case the settings have changed.
 Boolean specifying whether the emulator should dump core when it gets a
 signal.
 
-@vindex JoyDevice1, JoyDevice2
+@vindex JoyDevice1
+@vindex JoyDevice2
 @item JoyDevice1
 @itemx JoyDevice2
 Integer specifying which joystick device the emulator should use for
@@ -3490,7 +3645,6 @@ joystick support in the OS (Linux joystick module must be
 available for example).
 
 @end table
-
 
 @node Misc options,  , Misc resources, Misc settings
 @subsection Miscellaneous command-line options
@@ -3776,22 +3930,22 @@ SFX Sound Expander
 SFX Sound Sampler
 @end itemize
 
-@c @node TODO
+@c @node FIXME
 @subsubsection The Final Cartridge 3
 The Final Cartridge 3 detects wether a mouse is connected when it starts and
 disables mouse support if it doesnt detect one. So to make mouse emulation
 work you must either enable it on the command line, or reset the cartridge
 after enabling it from the user interface.
 
-@c @node TODO
+@c @node FIXME
 @subsection C64 cartridge settings
 
-TODO
+@c FIXME
 
-@c @node TODO
+@c @node FIXME
 @subsubsection C64 cartridge resources
 
-TODO
+@c FIXME
 
 @table @code
 @vindex CartridgeReset
@@ -3907,7 +4061,7 @@ Boolean specifying whether the RAMCart should be emulated or not.
 @item RRBiosWrite
 @end table
 
-@c @node TODO
+@c @node FIXME
 @subsubsection C64 cartridge command-line options
 
 @table @code
@@ -4076,6 +4230,9 @@ Attach CBM IEEE-488 cartridge image
 @itemx +ieee488
 Enable (@code{IEEE488=1}) or disable (@code{IEEE488=0}) emulation of the
 IEEE488 interface.
+@cindex -ieee488image
+@item -ieee488image <name>
+Set IEEE488 interface image name
 @cindex -isepic, +isepic
 @item -isepic
 @itemx +isepic
@@ -4359,9 +4516,41 @@ Enable/disable the double size mode (@code{VICIIDoubleSize=1},
 Enable/disable the double scan mode (@code{VICIIDoubleScan=1},
 @code{VICIIDoubleScan=0}).
 
+@cindex -VICIIhwscale, +VICIIhwscale
+@item -VICIIhwscale
+@itemx +VICIIhwscale
+Enable/Disable hardware scaling
+@cindex -VICIIscale2x, +VICIIscale2x
+@item -VICIIscale2x
+@itemx +VICIIscale2x
+Enable/Disable Scale2x
+@cindex -VICIIintpal
+@item -VICIIintpal
+Use an internal calculated palette
+@cindex -VICIIextpal
+@item -VICIIextpal
+Use an external palette (file)
+
 @cindex -VICIIpalette
 @item -VICIIpalette NAME
 Specify @code{NAME} as the palette file (@code{VICIIPaletteFile}).
+
+@cindex -VICIIfulldevice
+@item -VICIIfulldevice <device>
+Select fullscreen device
+@cindex -VICIIXRANDRfullmode
+@item -VICIIXRANDRfullmode <mode>
+Select fullscreen mode
+@cindex -VICIIVidmodefullmode
+@item -VICIIVidmodefullmode <mode>
+Select fullscreen mode
+@cindex -VICIIborders
+@item -VICIIborders <mode>
+Set VIC-II border display mode (0: normal, 1: full, 2: debug)
+@cindex -VICIImodel
+@item -VICIImodel <model>
+Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a). This setting is
+only available in @code{x64sc}.
 
 @end table
 
@@ -4501,10 +4690,27 @@ Emulates a second SID chip for stereo sound (@code{SidStereo}).
 Specifies the start address for the second SID chip
 (@code{SidStereoAddressStart}).
 
-@cindex -sidmodel
-@item -sidmodel MODEL
-Specifies @code{MODEL} as the emulated model of the SID chip
-(@code{SidModel}).
+@cindex -sidenginemodel
+@item -sidenginemodel <engine and model>
+Specify @code{SID engine} and @code{MODEL} for the emulated SID chip (
+0: FastSID 6581,
+1: FastSID 8580,
+256: ReSID 6581,
+257: ReSID 8580,
+258: ReSID 8580 + digiboost,
+1024: ParSID in par port 1,
+1280: ParSID in par port 2,
+1536: ParSID in par port 3,
+1800: ReSID-FP 6581R3 4885,
+1801: ReSID-FP 6581R3 0486S,
+1802: ReSID-FP 6581R3 3984,
+1803: ReSID-FP 6581R4 AR 3789,
+1804: ReSID-FP 6581R3 4485,
+1805: ReSID-FP 6581R4 1986S,
+1808: ReSID-FP 8580R5 3691,
+1809: ReSID-FP 8580R5 3691 + digiboost,
+1810: ReSID-FP 8580R5 1489,
+1811: ReSID-FP 8580R5 1489D).
 
 @cindex -sidfilters, +sidfilters
 @item -sidfilters
@@ -4512,22 +4718,20 @@ Specifies @code{MODEL} as the emulated model of the SID chip
 Enable (@code{SidFilters=1}) or disable (@code{SidFilters=0}) emulation
 of the built-in SID filters.
 
-@cindex -resid, +resid
-@item -resid
-@itemx +resid
-Enable (@code{SidFilters=1}) or disable (@code{SidFilters=0}) usage of
-the reSID emulator.
-
 @cindex -residsamp
 @item -residsamp @code{METHOD}
 Specifies the sampling method; fast (@code{SidResidSampling=0}),
-interpolating (@code{SidResidSampling=1}), or resampling
-(@code{SidResidSampling=2}).
+interpolating (@code{SidResidSampling=1}), resampling
+(@code{SidResidSampling=2}), fast resampling (@code{SidResidSampling=3}).
 
 @cindex -residpass
 @item -residpass @code{PERCENTAGE}
 Specifies the resampling filter passband in percentage of the total
 bandwidth (@code{SidResidPassband=0-90}).
+
+@cindex -residgain
+@item -residgain @code{PERCENTAGE}
+Specifies reSID gain in percent (90 - 100).
 
 @end table
 
@@ -4655,9 +4859,6 @@ Boolean specifying whether the SFX Sound Sampler should be emulated or not.
 @item -acia1
 @itemx +acia1
 Enable/Disable the $DE** ACIA RS232 interface emulation
-@cindex -myaciadev
-@item -myaciadev <0-3>
-Specify RS232 device this ACIA should work on
 @cindex -digimax, +digimax
 @item -digimax
 @itemx +digimax
@@ -4940,6 +5141,60 @@ Specify Kernal revision (@code{KernalRev}).
 
 @end table
 
+@c @node FIXME
+@section C128-specific commands and settings
+
+@c @node FIXME
+@subsection VDC settings
+
+@c @node FIXME
+@subsubsection VDC command-line options
+
+@table @code
+@cindex -VDCvcache, +VDCvcache
+@item -VDCvcache
+@itemx +VDCvcache
+Enable/Disable the video cache
+@cindex -VDCdsize, +VDCdsize
+@item -VDCdsize
+@itemx +VDCdsize
+Enable/Disable double size
+@cindex -VDCdscan, +VDCdscan
+@item -VDCdscan
+@itemx +VDCdscan
+Enable/Disable double scan
+@cindex -VDChwscale, +VDChwscale
+@item -VDChwscale
+@itemx +VDChwscale
+Enable/Disable hardware scaling
+@cindex -VDCintpal
+@item -VDCintpal
+Use an internal calculated palette
+@cindex -VDCextpal
+@item -VDCextpal
+Use an external palette (file)
+@cindex -VDCpalette
+@item -VDCpalette <name>
+Specify name of file of external palette
+@cindex -VDCfulldevice
+@item -VDCfulldevice <device>
+Select fullscreen device
+@cindex -VDCXRANDRfullmode
+@item -VDCXRANDRfullmode <mode>
+Select fullscreen mode
+@cindex -VDCVidmodefullmode
+@item -VDCVidmodefullmode <mode>
+Select fullscreen mode
+@cindex -VDC16KB
+@item -VDC16KB
+Set the VDC memory size to 16KB
+@cindex -VDC64KB
+@item -VDC64KB
+Set the VDC memory size to 64KB
+@cindex -VDCRevision
+@item -VDCRevision <number>
+Set VDC revision (0..2)
+@end table
 
 @node C64DTV-specific, VIC20-specific, C64/128-specific, Machine-specific features
 @section C64DTV-specific commands and settings
@@ -5060,13 +5315,18 @@ can be used simultaneously with either Hummer ADC or userport joystick.
 
 @table @code
 
-@cindex -hummerusrdev
-@item -hummerusrdev DEVICE
-Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)
+@c cindex -hummerusrdev
+@c item -hummerusrdev DEVICE
+@c Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)
 
-@cindex -hummerusrjoyport
-@item -hummerusrjoyport PORT
-Select which joystick port should be mapped to the userport
+@c cindex -hummerusrjoyport
+@c item -hummerusrjoyport PORT
+@c Select which joystick port should be mapped to the userport
+
+@cindex -hummeradc, +hummeradc
+@item -hummeradc
+@itemx +hummeradc
+Enable/Disable Hummer ADC Aktivieren
 
 @cindex -ps2mouse, +ps2mouse
 @item -ps2mouse
@@ -5172,10 +5432,10 @@ One cartridge that is currently only partially supported here is
 the VIC1112 IEEE488 interface. You have to load the ROM as a cartridge,
 but you also have to enable the IEEE488 hardware by menu.
 
-@c @node TODO
+@c @node FIXME
 @subsection VIC settings
 
-@c @node TODO
+@c @node FIXME
 @subsubsection VIC resources
 
 @table @code
@@ -5199,7 +5459,7 @@ String specifying the name of the palette file being used.  The
 
 @end table
 
-@c @node TODO
+@c @node FIXME
 @subsubsection VIC command-line options
 
 @table @code
@@ -5221,9 +5481,34 @@ Enable/disable the double size mode (@code{VICDoubleSize=1},
 Enable/disable the double scan mode (@code{VICDoubleScan=1},
 @code{VICDoubleScan=0}).
 
+@cindex -VIChwscale, +VIChwscale
+@item -VIChwscale
+@item +VIChwscale
+Enable/Disable hardware scaling
+@cindex -VICscale2x, +VICscale2x
+@item -VICscale2x
+@item +VICscale2x
+Enable/Disable Scale2x
+
 @cindex -VICpalette
 @item -VICpalette NAME
 Specify @code{NAME} as the palette file (@code{VICPaletteFile}).
+
+@cindex -VICintpal
+@item -VICintpal
+Use an internal calculated palette
+@cindex -VICextpal
+@item -VICextpal
+Use an external palette (file)
+@cindex -VICfulldevice
+@item -VICfulldevice <device>
+Select fullscreen device
+@cindex -VICXRANDRfullmode
+@item -VICXRANDRfullmode <mode>
+Select fullscreen mode
+@cindex -VICVidmodefullmode
+@item -VICVidmodefullmode <mode>
+Select fullscreen mode
 
 @end table
 
@@ -5431,6 +5716,55 @@ Specify @file{NAME} as the cartridge image to attach.
 
 @end table
 
+@c @node FIXME
+@section PLUS 4-specific commands and settings
+
+@c @node FIXME
+@subsection TED settings
+
+@c @node FIXME
+@subsubsection TED command-line options
+
+@table @code
+@cindex -TEDvcache, +TEDvcache
+@item -TEDvcache
+@itemx +TEDvcache
+Enable/Disable the video cache
+@cindex -TEDdsize, +TEDdsize
+@item -TEDdsize
+@itemx +TEDdsize
+Enable/Disable double size
+@cindex -TEDdscan, +TEDdscan
+@item -TEDdscan
+@itemx +TEDdscan
+Enable/Disable double scan
+@cindex -TEDscale2x, +TEDscale2x
+@item -TEDscale2x
+@item +TEDscale2x
+Enable/Disable Scale2x filter
+@cindex -TEDhwscale, +TEDhwscale
+@item -TEDhwscale
+@itemx +TEDhwscale
+Enable/Disable hardware scaling
+@cindex -TEDintpal
+@item -TEDintpal
+Use an internal calculated palette
+@cindex -TEDextpal
+@item -TEDextpal
+Use an external palette (file)
+@cindex -TEDpalette
+@item -TEDpalette <name>
+Specify name of file of external palette
+@cindex -TEDfulldevice
+@item -TEDfulldevice <device>
+Select fullscreen device
+@cindex -TEDXRANDRfullmode
+@item -TEDXRANDRfullmode <mode>
+Select fullscreen mode
+@cindex -TEDVidmodefullmode
+@item -TEDVidmodefullmode <mode>
+Select fullscreen mode
+@end table
 
 @node PET-specific, CBM-II-specific, VIC20-specific, Machine-specific features
 @section PET-specific commands and settings
@@ -5574,10 +5908,10 @@ It is also possible to select the PET model at startup, with the
 will emulate a PET 3032 while @samp{xpet -model 8296} will emulate a PET
 8296.
 
-@c @node TODO
+@c @node FIXME
 @subsection CRTC Settings
 
-@c @node TODO
+@c @node FIXME
 @subsubsection CRTC resources
 
 @table @code
@@ -5605,15 +5939,48 @@ String specifying the name of the palette file being used.  The
 
 @end table
 
-@c @node TODO
+@c @node FIXME
 @subsubsection CRTC command-line options
 
 @table @code
-
+@cindex -Crtcvcache, +Crtcvcache
+@item -Crtcvcache
+@itemx +Crtcvcache
+Enable/Disable the video cache
+@cindex -Crtcdsize, +Crtcdsize
+@item -Crtcdsize
+@itemx +Crtcdsize
+Enable/Disable double size
+@cindex -Crtcdscan, +Crtcdscan
+@item -Crtcdscan
+@itemx +Crtcdscan
+Enable/Disable double scan
+@cindex -Crtcscale2x, +Crtcscale2x
+@item -Crtcscale2x
+@item +Crtcscale2x
+Enable/Disable Scale2x filter
+@cindex -Crtchwscale, +Crtchwscale
+@item -Crtchwscale
+@itemx +Crtchwscale
+Enable/Disable hardware scaling
+@cindex -Crtcintpal
+@item -Crtcintpal
+Use an internal calculated palette
+@cindex -Crtcextpal
+@item -Crtcextpal
+Use an external palette (file)
 @cindex -Crtcpalette
 @itemx -Crtcpalette NAME
 Specify @code{NAME} as the palette file (@code{CrtcPaletteFile}).
-
+@cindex -Crtcfulldevice
+@item -Crtcfulldevice <device>
+Select fullscreen device
+@cindex -CrtcXRANDRfullmode
+@item -CrtcXRANDRfullmode <mode>
+Select fullscreen mode
+@cindex -CrtcVidmodefullmode
+@item -CrtcVidmodefullmode <mode>
+Select fullscreen mode
 @end table
 
 @node PET diagnostic pin, PET commandline options, PET model, PET-specific
@@ -5668,25 +6035,21 @@ $9000-$9fff (@code{Ram9}).
 Switch on RAM mapping on addresses 
 $a000-$afff (@code{RamA}).
 
-@cindex -superpet
-@cindex +superpet
+@cindex -superpet, +superpet
 @item -superpet, +superpet
 Enable/Disable SuperPET I/O emulation (@code{SuperPET}).
 
-@cindex -basic1
-@cindex +basic1
+@cindex -basic1, +basic1
 @item -basic1, +basic1
 Enable/Disable patching the IEEE488 section of the PET2001 ROM when detected
 (@code{Basic1}).
 
-@cindex -basic1char
-@cindex +basic1char
+@cindex -basic1char, +basic1char
 @item -basic1char, +basic1char
 Enable/Disable PET 2001 character generator
 (@code{Basic1Chars}).
 
-@cindex -eoiblank
-@cindex +eoiblank
+@cindex -eoiblank, +eoiblank
 @item -eoiblank, +eoiblank
 Enable/Disable EOI blanking the screen
 (@code{EoiBlank}).
@@ -5828,7 +6191,7 @@ These are the commandline options specific for the CBM-II models.
 
 @table @code
 
-@cindex -usevicii +usevicii
+@cindex -usevicii, +usevicii
 @item -usevicii
 @itemx +usevicii
 Specify whether to use (-usevicii) or not to use (+usevicii) the VIC-II 
@@ -7561,6 +7924,7 @@ destination specified by the address.  The regions may overlap.
 Displays the contents of the screen.
 
 @item sidefx [on|off|toggle]
+@itemx sfx [on|off|toggle]
 Control how monitor generated reads affect memory locations that have
 read side-effects, like CIA interrupt registers for example.  
 If the argument is 'on' then reads may cause side-effects.  If the
@@ -7694,14 +8058,6 @@ Show current working directory.
 @itemx rad [H|D|O|B]
 Set the default radix to hex, decimal, octal, or binary.  With no
 argument, the current radix is printed.
-
-@item sidefx [on|off|toggle]
-@itemx sfx [on|off|toggle]
-Control how monitor generated reads affect memory locations that have
-read side-effects.  If the argument is 'on' then reads may cause
-side-effects.  If the argument is 'off' then reads don't cause
-side-effects.  If the argument is 'toggle' then the current mode is
-switched.  No argument displays the current state.
 
 @c @item system <system command>
 @c Execute system command. - Nothing yet.
@@ -8118,7 +8474,7 @@ files in the current directory.
 @c @node Examples,  , Commands, c1541
 @c @section c1541 examples
 
-@c @node TODO
+@c @node FIXME
 @chapter cartconv
 
 The cartconv program is a cartridge conversion utility, it can convert
@@ -8130,26 +8486,33 @@ between binary and .crt images and it can 'insert' binary and/or
 The cartconv program has the following parameters:
 
 @table @code
+@cindex -i
 @item -i "input name"
 This parameter is mandatory, it should contain the name of the binary/.crt
 file you want to convert. For the EPROM type of cartridges this parameter
 can be used multiple times to insert images into the resulting file.
+@cindex -o
 @item -o "output name"
 This parameter is mandatory, it should contain the name of the binary/.crt
 file you want to convert the input file to.
+@cindex -t
 @item -t carttype
 This parameter is optional. It is only needed when converting to a .crt
 file. See below for the supported cartridge types.
+@cindex -n
 @item -n "cart name"
 This parameter is optional and is used as the cartridge name when creating
 a .crt file.
+@cindex -l
 @item -l loadaddress
 This parameter is optional and is used as the load-address when converting
 a .crt file to a .prg file, or when converting to a generic type .crt
 file.
+@cindex -f
 @item -f "input name"
 This parameter is optional, and is meant to output information about the
 named file. It can't be used in conjuction with any of the other parameters.
+@cindex -r
 @item -r
 This parameter is optional, it enables repair mode (accept broken input files)
 @end table
@@ -8275,7 +8638,7 @@ Zaxxon .crt file
 @item (3) insertion of 16kB .crt/binary files supported.
 @end itemize
 
-@c @node TODO
+@c @node FIXME
 @section cartconv examples
 
 @table @code
@@ -8303,7 +8666,7 @@ Insert multiple 8kB .crt files into a rep256 type cartridge.
 Get information about a .crt file.
 @end table
 
-@c @node TODO
+@c @node FIXME
 @chapter petcat
 
 The petcat program is a text conversion utility, it can convert
@@ -8312,36 +8675,52 @@ between ASCII, PETSCII and tokenized BASIC.
 @section petcat command line options
 
 @table @code
+@cindex -help
 @item -help
 Output help text
+@cindex -v
 @item -v
 Same as above
+@cindex -c
 @item -c
 controls (interpret also control codes) (default if textmode)
+@cindex -nc
 @item -nc
 no controls (suppress control codes in printout) (default if non-textmode)
+@cindex -ic
 @item -ic
 interpret control codes case-insensitive
+@cindex -h
 @item -h
 write header (default if output is stdout)
+@cindex -nh
 @item -nh
 no header (default if output is a file)
+@cindex -skip <n>
 @item -skip <n>
 Skip <n> bytes in the beginning of input file. Ignored on P00.
+@cindex -text
 @item -text
 Force text mode
+@c @cindex -<version> - this one breaks the index (?!)
 @item -<version>
 use keywords for <version> instead of the v7.0 ones
+@cindex -w<version>
 @item -w<version>
 tokenize using keywords on specified Basic version.
+@cindex -k<version>
 @item -k<version>
 list all keywords for the specified Basic version
+@cindex -k
 @item -k
 list all Basic versions available.
+@cindex -l
 @item -l
 Specify load address for program (in hex, no loading chars!).
+@cindex -o <name>
 @item -o <name>
 Specify the output file name
+@cindex -f
 @item -f
 Force overwritten the output file. The default depends on the BASIC version.
 @end table
@@ -8420,7 +8799,7 @@ Basic v7.1 program (C128)
 Basic v10.0 program (C64DX)
 @end table
 
-@c @node TODO
+@c @node FIXME
 @section petcat examples
 
 @table @code
