@@ -263,6 +263,21 @@ static struct file_list *file_list_read(const char *path, const char *pattern)
 #ifdef OSTYPE_WIN98
         || (os_type == OSTYPE_WIN98)
 #endif
+#ifdef OSTYPE_WINME
+        || (os_type == OSTYPE_WINME)
+#endif
+#ifdef OSTYPE_WIN2000
+        || (os_type == OSTYPE_WIN2000)
+#endif
+#ifdef OSTYPE_WINXP
+        || (os_type == OSTYPE_WINXP)
+#endif
+#ifdef OSTYPE_WIN2003
+        || (os_type == OSTYPE_WIN2003)
+#endif
+#ifdef OSTYPE_WINVISTA
+        || (os_type == OSTYPE_WINVISTA)
+#endif
         || (os_type == OSTYPE_WINNT)) {
         return file_list_read_lfn(path, pattern);
     } else {
