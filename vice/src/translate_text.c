@@ -3761,6 +3761,20 @@ translate_t string_table[] = {
 #endif
 
 /* pet/petdww.c */
+/* en */ {IDCLS_ENABLE_PETDWW,    N_("Enable the PET DWW hi-res board")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_PETDWW_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_PETDWW_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_PETDWW_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_PETDWW_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_PETDWW_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_PETDWW_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_PETDWW_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_PETDWW_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_PETDWW_TR, ""},  /* fuzzy */
+#endif
+
+/* pet/petdww.c */
 /* en */ {IDCLS_DISABLE_PETDWW,    N_("Disable the PET DWW hi-res board")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_PETDWW_DA, "Deaktivér PET DWW højopløsningskort"},
