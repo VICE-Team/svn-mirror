@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-16 14:54-0800\n"
+"POT-Creation-Date: 2011-01-25 12:37-0800\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -1941,7 +1941,7 @@ msgstr "Párhuzamos kábel"
 #: src/arch/unix/gui/uidrivec64c128.c:112
 #: src/arch/unix/gui/uidrivec64c128.c:125
 #: src/arch/unix/gui/uidrivec64c128.c:138
-#: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:6349
+#: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:6405
 msgid "Enable Professional DOS"
 msgstr "Professional DOS engedélyezése"
 
@@ -2015,7 +2015,7 @@ msgid "Load "
 msgstr "Töltés"
 
 #: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:164
-#: src/arch/unix/x11/xaw/uiedisk.c:383
+#: src/arch/unix/x11/xaw/uiedisk.c:397
 #: src/arch/unix/x11/xaw/uiscreenshot.c:251
 #: src/arch/unix/x11/xaw/uisnapshot.c:271 src/arch/win32/res.rc.po.c:1244
 #: src/arch/amigaos/intl_text.c.po.c:2932
@@ -3380,7 +3380,7 @@ msgstr "*Egyéni..."
 msgid "No limit"
 msgstr "Nincs határ"
 
-#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:9665
+#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:9721
 msgid "Enable warp mode"
 msgstr "Hipergyors mód engedélyezése"
 
@@ -3585,7 +3585,7 @@ msgstr "Igazodó"
 msgid "Exact"
 msgstr "Pontos"
 
-#: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:9413
+#: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:9469
 msgid "Enable sound playback"
 msgstr "Hangok engedélyezése"
 
@@ -4383,7 +4383,7 @@ msgstr "Teljesképernyõs mód engedélyezése (alap Chip)"
 msgid "Disable fullscreen (default Chip)"
 msgstr "Teljesképernyõs mód tiltása (alap Chip)"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:5409
+#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:5465
 msgid "<value>"
 msgstr "<érték>"
 
@@ -4404,19 +4404,19 @@ msgstr "VICE információ"
 msgid "Save cartridge image file"
 msgstr "Cartridge képmás mentése"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:129 src/arch/unix/x11/xaw/uiedisk.c:217
+#: src/arch/unix/x11/xaw/uicartridge.c:129 src/arch/unix/x11/xaw/uiedisk.c:221
 #: src/arch/unix/x11/xaw/uiscreenshot.c:168
 #: src/arch/unix/x11/xaw/uisnapshot.c:142
 msgid "File name:"
 msgstr "Fájlnév:"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:153 src/arch/unix/x11/xaw/uiedisk.c:242
+#: src/arch/unix/x11/xaw/uicartridge.c:153 src/arch/unix/x11/xaw/uiedisk.c:246
 #: src/arch/unix/x11/xaw/uiscreenshot.c:193
 #: src/arch/unix/x11/xaw/uisnapshot.c:166
 msgid "Browse..."
 msgstr "Tallózás..."
 
-#: src/arch/unix/x11/xaw/uicartridge.c:170 src/arch/unix/x11/xaw/uiedisk.c:389
+#: src/arch/unix/x11/xaw/uicartridge.c:170 src/arch/unix/x11/xaw/uiedisk.c:403
 #: src/arch/unix/x11/xaw/uiscreenshot.c:257
 #: src/arch/unix/x11/xaw/uisnapshot.c:277 src/arch/win32/res.rc.po.c:675
 #: src/arch/win32/res.rc.po.c:1106 src/arch/win32/resmouse.rc.po.c:23
@@ -4428,23 +4428,23 @@ msgstr "Mégsem"
 msgid "Save cartridge image"
 msgstr "Cartridge képmás mentése"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:99
+#: src/arch/unix/x11/xaw/uiedisk.c:98
 msgid "Save emptydisk file"
 msgstr "Üres lemezfájl mentése"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:178
+#: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
 msgstr "Nem sikerült lemezképmást létrehozni"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:254
+#: src/arch/unix/x11/xaw/uiedisk.c:258
 msgid "Disk name:"
 msgstr "Lemez neve:"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:290
+#: src/arch/unix/x11/xaw/uiedisk.c:293
 msgid "Disk format:"
 msgstr "Lemez formátum:"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:409
+#: src/arch/unix/x11/xaw/uiedisk.c:423
 msgid "Create empty disk"
 msgstr "Üres lemez készítése"
 
@@ -4532,12 +4532,12 @@ msgstr "<képarány>"
 msgid "Set aspect ratio (0.5 - 2.0)"
 msgstr "Képarány beállítása (0.8 - 1.2)"
 
-#: src/arch/unix/x11/xaw/x11video.c:285
+#: src/arch/unix/x11/xaw/x11video.c:285 src/arch/unix/macosx/cocoa/video.m:172
 #, fuzzy
 msgid "Enable true aspect ratio"
 msgstr "<képarány>"
 
-#: src/arch/unix/x11/xaw/x11video.c:290
+#: src/arch/unix/x11/xaw/x11video.c:290 src/arch/unix/macosx/cocoa/video.m:177
 #, fuzzy
 msgid "Disable true aspect ratio"
 msgstr "<képarány>"
@@ -4632,6 +4632,27 @@ msgstr "MIDI-In port neve"
 #: src/arch/unix/macosx/mididrv.c:128
 msgid "Name of MIDI-Out Port"
 msgstr "MIDI-Out port neve"
+
+#: src/arch/unix/macosx/cocoa/mousedrv.m:74
+msgid "Set scaling factor for mouse movement along X"
+msgstr ""
+
+#: src/arch/unix/macosx/cocoa/mousedrv.m:79
+msgid "Set scaling factor for mouse movement along Y"
+msgstr ""
+
+#: src/arch/unix/macosx/cocoa/video.m:152
+msgid "Enable draw synchronization to vertical blank"
+msgstr ""
+
+#: src/arch/unix/macosx/cocoa/video.m:157
+msgid "Set number of buffers used for sync draw (0=use default)"
+msgstr ""
+
+#: src/arch/unix/macosx/cocoa/video.m:162
+#: src/arch/unix/macosx/cocoa/video.m:167
+msgid "Enable flicker fixing in sync draw"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:83 src/arch/win32/res.rc.po.c:1292
 #: src/arch/win32/resc128.rc.po.c:19 src/arch/win32/resc64.rc.po.c:19
@@ -5102,7 +5123,7 @@ msgid "RS232 device %i"
 msgstr "%i. RS232 eszköz"
 
 #: src/arch/win32/res.rc.po.c:993 src/arch/amigaos/intl_text.c.po.c:3229
-#: src/translate_text.c.po.c:4527
+#: src/translate_text.c.po.c:4583
 msgid "Attach CRT cartridge image"
 msgstr "CRT cartridge képmás csatolása"
 
@@ -8648,7 +8669,7 @@ msgid "Enable Vic Flash Plugin write-back"
 msgstr "*Final Expansion visszaírás"
 
 #: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:2228
-#: src/translate_text.c.po.c:8129
+#: src/translate_text.c.po.c:8185
 #, fuzzy
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr "*Mega-Cart NvRAM visszaírás"
@@ -11068,7 +11089,7 @@ msgstr ""
 msgid "\"<string>\""
 msgstr "\"<sztring>\""
 
-#: src/translate_text.c.po.c:2431 src/translate_text.c.po.c:9231
+#: src/translate_text.c.po.c:2431 src/translate_text.c.po.c:9287
 msgid "Put the specified string into the keyboard buffer."
 msgstr "A megadott sztring elhelyezése a billentyûzet pufferben."
 
@@ -11393,796 +11414,816 @@ msgid "Disable Hummer ADC"
 msgstr "Hummer ADC engedélyezése"
 
 #: src/translate_text.c.po.c:3545
+#, fuzzy
+msgid "Enable IEEE488 interface"
+msgstr "VIC-1112 IEEE488 interfész engedélyezése"
+
+#: src/translate_text.c.po.c:3559
+#, fuzzy
+msgid "Disable IEEE488 interface"
+msgstr "VIC-1112 IEEE488 interfész tiltása"
+
+#: src/translate_text.c.po.c:3573
+#, fuzzy
+msgid "specify IEEE488 interface image name"
+msgstr "IEEE488 interfész képmás..."
+
+#: src/translate_text.c.po.c:3587
 msgid "Enable the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit engedélyezése"
 
-#: src/translate_text.c.po.c:3559
+#: src/translate_text.c.po.c:3601
 msgid "Disable the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit tiltása"
 
-#: src/translate_text.c.po.c:3573
+#: src/translate_text.c.po.c:3615
 msgid "Specify name of GEORAM image"
 msgstr "Adja meg a GEORAM képmás nevét"
 
-#: src/translate_text.c.po.c:3587
+#: src/translate_text.c.po.c:3629
 #, fuzzy
 msgid "Allow writing to GEORAM image"
 msgstr "C64DTV ROM képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:3601
+#: src/translate_text.c.po.c:3643
 #, fuzzy
 msgid "Do not write to GEORAM image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:3615
+#: src/translate_text.c.po.c:3657
 msgid "<size in KB>"
 msgstr "<méret KB-ban>"
 
-#: src/translate_text.c.po.c:3629
+#: src/translate_text.c.po.c:3671
 msgid "Size of the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit mérete"
 
-#: src/translate_text.c.po.c:3643
+#: src/translate_text.c.po.c:3685
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit engedélyezése"
 
-#: src/translate_text.c.po.c:3657
+#: src/translate_text.c.po.c:3699
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit tiltása"
 
-#: src/translate_text.c.po.c:3671
+#: src/translate_text.c.po.c:3713
 msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Adja meg a PET RAM and Expansion Unit képmás nevét"
 
-#: src/translate_text.c.po.c:3685
+#: src/translate_text.c.po.c:3727
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit mérete"
 
-#: src/translate_text.c.po.c:3699
+#: src/translate_text.c.po.c:3741
 #, fuzzy
 msgid "Specify name of PET DWW image"
 msgstr "Adja meg a REU képmás nevét"
 
-#: src/translate_text.c.po.c:3713
+#: src/translate_text.c.po.c:3755
+#, fuzzy
+msgid "Enable the PET DWW hi-res board"
+msgstr "Isepic cartridge tiltása"
+
+#: src/translate_text.c.po.c:3769
 #, fuzzy
 msgid "Disable the PET DWW hi-res board"
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:3727
+#: src/translate_text.c.po.c:3783
 #, fuzzy
 msgid "Enable Userport DAC for sound output"
 msgstr "RS232 userport &engedélyezése"
 
-#: src/translate_text.c.po.c:3741
+#: src/translate_text.c.po.c:3797
 #, fuzzy
 msgid "Disable Userport DAC for sound output"
 msgstr "RS232 userport &engedélyezése"
 
-#: src/translate_text.c.po.c:3755
+#: src/translate_text.c.po.c:3811
 msgid "SID player mode"
 msgstr "SID lejátszó mód"
 
-#: src/translate_text.c.po.c:3769
+#: src/translate_text.c.po.c:3825
 msgid "Override PSID settings for Video standard and SID model"
 msgstr "A videó szabvány és a SID modell PSID beállításainak felülbírálása"
 
-#: src/translate_text.c.po.c:3783
+#: src/translate_text.c.po.c:3839
 msgid "Specify PSID tune <number>"
 msgstr "Adja meg a PSID hangzatok <szám>"
 
-#: src/translate_text.c.po.c:3797
+#: src/translate_text.c.po.c:3853
 msgid "Enable the RAMCART expansion"
 msgstr "RAMCART bõvítés engedélyezése"
 
-#: src/translate_text.c.po.c:3811
+#: src/translate_text.c.po.c:3867
 msgid "Disable the RAMCART expansion"
 msgstr "RAMCART bõvítés tiltása"
 
-#: src/translate_text.c.po.c:3825
+#: src/translate_text.c.po.c:3881
 msgid "Specify name of RAMCART image"
 msgstr "Adja meg a RAMCART képmás nevét"
 
-#: src/translate_text.c.po.c:3839
+#: src/translate_text.c.po.c:3895
 #, fuzzy
 msgid "Allow writing to RAMCart image"
 msgstr "C64DTV ROM képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:3853
+#: src/translate_text.c.po.c:3909
 #, fuzzy
 msgid "Do not write to RAMCart image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:3867
+#: src/translate_text.c.po.c:3923
 msgid "Size of the RAMCART expansion"
 msgstr "RAMCART bõvítés mérete"
 
-#: src/translate_text.c.po.c:3881
+#: src/translate_text.c.po.c:3937
 msgid "Enable Double Quick Brown Box"
 msgstr "Double Quick Brown Box engedélyezése"
 
-#: src/translate_text.c.po.c:3895
+#: src/translate_text.c.po.c:3951
 msgid "Disable Double Quick Brown Box"
 msgstr "Double Quick Brown Box tiltása"
 
-#: src/translate_text.c.po.c:3909
+#: src/translate_text.c.po.c:3965
 msgid "Specify Double Quick Brown Box filename"
 msgstr "Adja meg a Double Quick Brown Box fájlnevet"
 
-#: src/translate_text.c.po.c:3923
+#: src/translate_text.c.po.c:3979
 #, fuzzy
 msgid "Allow writing to DQBB image"
 msgstr "C64DTV ROM képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:3937
+#: src/translate_text.c.po.c:3993
 #, fuzzy
 msgid "Do not write to DQBB image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:3951
+#: src/translate_text.c.po.c:4007
 #, fuzzy
 msgid "Enable the ISEPIC cart"
 msgstr "SID kártya *engedélyezése"
 
-#: src/translate_text.c.po.c:3965
+#: src/translate_text.c.po.c:4021
 #, fuzzy
 msgid "Disable the ISEPIC cart"
 msgstr "Isepic cartridge tiltása"
 
-#: src/translate_text.c.po.c:3979
+#: src/translate_text.c.po.c:4035
 #, fuzzy
 msgid "Set ISEPIC image name"
 msgstr "BIOS &mentése változás után"
 
-#: src/translate_text.c.po.c:3993
+#: src/translate_text.c.po.c:4049
 #, fuzzy
 msgid "Allow writing to ISEPIC image"
 msgstr "C64DTV ROM képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:4007
+#: src/translate_text.c.po.c:4063
 #, fuzzy
 msgid "Do not write to ISEPIC image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:4021
+#: src/translate_text.c.po.c:4077
 msgid "Enable the MMC64 expansion"
 msgstr "MMC64 bõvítés engedélyezése"
 
-#: src/translate_text.c.po.c:4035
+#: src/translate_text.c.po.c:4091
 msgid "Disable the MMC64 expansion"
 msgstr "MMC64 bõvítés tiltása"
 
-#: src/translate_text.c.po.c:4049
+#: src/translate_text.c.po.c:4105
 msgid "Specify name of MMC64 BIOS image"
 msgstr "Adja meg az MMC64 BIOS képmás nevét"
 
-#: src/translate_text.c.po.c:4063
+#: src/translate_text.c.po.c:4119
 msgid "Specify name of MMC64 image"
 msgstr "Adja meg az MMC64 képmás nevét"
 
-#: src/translate_text.c.po.c:4077
+#: src/translate_text.c.po.c:4133
 msgid "Set the MMC64 card to read-only"
 msgstr "MMC64 kártya csak olvasható"
 
-#: src/translate_text.c.po.c:4091
+#: src/translate_text.c.po.c:4147
 msgid "Set the MMC64 card to read/write"
 msgstr "MMC64 kártya írható/olvasható"
 
-#: src/translate_text.c.po.c:4105
+#: src/translate_text.c.po.c:4161
 msgid "Save the MMC64 bios when changed"
 msgstr "MMC64 BIOS mentése változás után"
 
-#: src/translate_text.c.po.c:4119
+#: src/translate_text.c.po.c:4175
 #, fuzzy
 msgid "Specify MMC Replay card image filename"
 msgstr "Adja meg a naplófájl nevét"
 
-#: src/translate_text.c.po.c:4133
+#: src/translate_text.c.po.c:4189
 #, fuzzy
 msgid "Enable writes to MMC Replay card image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:4147
+#: src/translate_text.c.po.c:4203
 #, fuzzy
 msgid "Disable writes to MMC Replay card image"
 msgstr "EasyFlash .crt képmásba írás tiltása"
 
-#: src/translate_text.c.po.c:4161
+#: src/translate_text.c.po.c:4217
 #, fuzzy
 msgid "Specify MMC Replay EEPROM image filename"
 msgstr "Adja meg a naplófájl nevét"
 
-#: src/translate_text.c.po.c:4175
+#: src/translate_text.c.po.c:4231
 #, fuzzy
 msgid "Enable writes to MMC Replay EEPROM image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:4189
+#: src/translate_text.c.po.c:4245
 #, fuzzy
 msgid "Disable writes to MMC Replay EEPROM image"
 msgstr "C64DTV ROM képmásba írás tiltása"
 
-#: src/translate_text.c.po.c:4203
+#: src/translate_text.c.po.c:4259
 #, fuzzy
 msgid "Enable MMC Replay rescue mode"
 msgstr "MMC64 flashjumper engedélyezése"
 
-#: src/translate_text.c.po.c:4217
+#: src/translate_text.c.po.c:4273
 #, fuzzy
 msgid "Disable MMC Replay rescue mode"
 msgstr "Teljesképernyõs mód tiltása"
 
-#: src/translate_text.c.po.c:4231
+#: src/translate_text.c.po.c:4287
 #, fuzzy
 msgid "Allow writing to MMC Replay image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:4245
+#: src/translate_text.c.po.c:4301
 #, fuzzy
 msgid "Do not write to MMC Replay image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:4259
+#: src/translate_text.c.po.c:4315
 msgid "Enable saving of the RR ROM at exit"
 msgstr ""
 
-#: src/translate_text.c.po.c:4273
+#: src/translate_text.c.po.c:4329
 msgid "Disable saving of the RR ROM at exit"
 msgstr ""
 
-#: src/translate_text.c.po.c:4287
+#: src/translate_text.c.po.c:4343
 msgid "Set RR Bank Jumper"
 msgstr ""
 
-#: src/translate_text.c.po.c:4301 src/translate_text.c.po.c:4329
+#: src/translate_text.c.po.c:4357 src/translate_text.c.po.c:4385
 msgid "Unset RR Bank Jumper"
 msgstr ""
 
-#: src/translate_text.c.po.c:4315
+#: src/translate_text.c.po.c:4371
 #, fuzzy
 msgid "Set RR Flash Jumper"
 msgstr "BIOS Flash jumper"
 
-#: src/translate_text.c.po.c:4343
+#: src/translate_text.c.po.c:4399
 msgid "Enable the RAM expansion unit"
 msgstr "RAM Expansion Unit engedélyezése"
 
-#: src/translate_text.c.po.c:4357
+#: src/translate_text.c.po.c:4413
 msgid "Disable the RAM expansion unit"
 msgstr "RAM Expansion Unit tiltása"
 
-#: src/translate_text.c.po.c:4371
+#: src/translate_text.c.po.c:4427
 msgid "Specify name of REU image"
 msgstr "Adja meg a REU képmás nevét"
 
-#: src/translate_text.c.po.c:4385
+#: src/translate_text.c.po.c:4441
 #, fuzzy
 msgid "Allow writing to REU image"
 msgstr "C64DTV ROM képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:4399
+#: src/translate_text.c.po.c:4455
 #, fuzzy
 msgid "Do not write to REU image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:4413
+#: src/translate_text.c.po.c:4469
 msgid "Size of the RAM expansion unit"
 msgstr "RAM Expansion Unit mérete"
 
-#: src/translate_text.c.po.c:4428
+#: src/translate_text.c.po.c:4484
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"the final ethernet\") egység engedélyezése"
 
-#: src/translate_text.c.po.c:4442
+#: src/translate_text.c.po.c:4498
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"The Final Ethernet\") egység tiltása"
 
-#: src/translate_text.c.po.c:4456
+#: src/translate_text.c.po.c:4512
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Rendszer ethernet eszköz beállítása TFE emulációhoz"
 
-#: src/translate_text.c.po.c:4470
+#: src/translate_text.c.po.c:4526
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "RRNet mód engedélyezése TFE emulációhoz"
 
-#: src/translate_text.c.po.c:4484
+#: src/translate_text.c.po.c:4540
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "RRNet mód tiltása TFE emulációhoz"
 
-#: src/translate_text.c.po.c:4499
+#: src/translate_text.c.po.c:4555
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Reset a cartridge csatolásakorgy leválasztásakor"
 
-#: src/translate_text.c.po.c:4513
+#: src/translate_text.c.po.c:4569
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Nincs reset a cartridge csatolásakorgy leválasztásakor"
 
-#: src/translate_text.c.po.c:4541
+#: src/translate_text.c.po.c:4597
 msgid "Attach generic 8KB cartridge image"
 msgstr "Általános 8KB cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4555
+#: src/translate_text.c.po.c:4611
 msgid "Attach generic 16KB cartridge image"
 msgstr "Általános 16KB cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4569
+#: src/translate_text.c.po.c:4625
 #, fuzzy
 msgid "Attach generic 16kB Ultimax cartridge image"
 msgstr "Általános 16KB cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4583
+#: src/translate_text.c.po.c:4639
 #, fuzzy
 msgid "Attach raw 16KB Stardos cartridge image"
 msgstr "Nyers 16KB-os StarDOS cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4597
+#: src/translate_text.c.po.c:4653
 #, fuzzy
 msgid "Attach raw 32KB Action Replay MK4 cartridge image"
 msgstr "32KB-os Action Replay cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4611
+#: src/translate_text.c.po.c:4667
 #, fuzzy
 msgid "Attach raw 16kB Action Replay MK2 cartridge image"
 msgstr "16KB-os Action Replay III cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4625
+#: src/translate_text.c.po.c:4681
 #, fuzzy
 msgid "Attach raw 16KB Action Replay MK3 cartridge image"
 msgstr "16KB-os Action Replay III cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4639
+#: src/translate_text.c.po.c:4695
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "32KB-os Action Replay cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4653
+#: src/translate_text.c.po.c:4709
 #, fuzzy
 msgid "Attach raw 8kB Capture cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4667
+#: src/translate_text.c.po.c:4723
 #, fuzzy
 msgid "Attach raw 64kB Comal 80 cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4681
+#: src/translate_text.c.po.c:4737
 #, fuzzy
 msgid "Attach raw Dela EP256 cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4695
+#: src/translate_text.c.po.c:4751
 #, fuzzy
 msgid "Attach raw Dela EP64 cartridge image"
 msgstr "64KB-os IDE64 cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4709
+#: src/translate_text.c.po.c:4765
 #, fuzzy
 msgid "Attach raw Dela EP7x8 cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4723
+#: src/translate_text.c.po.c:4779
 #, fuzzy
 msgid "Attach raw 128kB Dinamic cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4737
+#: src/translate_text.c.po.c:4793
 #, fuzzy
 msgid "Attach raw 8kB Diashow-Maker cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4751
+#: src/translate_text.c.po.c:4807
 #, fuzzy
 msgid "Attach raw 16kB Double Quick Brown Box cartridge image"
 msgstr "32KB-os Atomic Power cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4765
+#: src/translate_text.c.po.c:4821
 #, fuzzy
 msgid "Attach raw EasyFlash cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4779
+#: src/translate_text.c.po.c:4835
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "64KB-os Retro Replay cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4793
+#: src/translate_text.c.po.c:4849
 #, fuzzy
 msgid "Attach raw 8kB REX Utility cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4807
+#: src/translate_text.c.po.c:4863
 #, fuzzy
 msgid "Attach raw 4kB Snapshot 64 cartridge image"
 msgstr "32KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4821
+#: src/translate_text.c.po.c:4877
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "64KB-os IDE64 cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4835
+#: src/translate_text.c.po.c:4891
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "32KB-os Atomic Power cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4849
+#: src/translate_text.c.po.c:4905
 #, fuzzy
 msgid "Attach raw 8KB Epyx FastLoad cartridge image"
 msgstr "8KB-os Epyx gyorstöltõ cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4863
+#: src/translate_text.c.po.c:4919
 #, fuzzy
 msgid "Attach raw 8kB EXOS cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4877
+#: src/translate_text.c.po.c:4933
 #, fuzzy
 msgid "Attach raw 8kB Expert Cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4891
+#: src/translate_text.c.po.c:4947
 #, fuzzy
 msgid "Attach raw 16kB Final Cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4905
+#: src/translate_text.c.po.c:4961
 #, fuzzy
 msgid "Attach raw 64kB Final Cartridge III image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4919
+#: src/translate_text.c.po.c:4975
 #, fuzzy
 msgid "Attach raw 32kB Final Cartridge Plus image"
 msgstr "32KB-os Action Replay cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4933
+#: src/translate_text.c.po.c:4989
 #, fuzzy
 msgid "Attach raw 8kB Freeze Frame image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4947
+#: src/translate_text.c.po.c:5003
 #, fuzzy
 msgid "Attach raw 32kB Freeze Machine image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4961
+#: src/translate_text.c.po.c:5017
 #, fuzzy
 msgid "Attach raw 128kB Fun Play/Power Play cartridge image"
 msgstr "32KB-os Atomic Power cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4975
+#: src/translate_text.c.po.c:5031
 #, fuzzy
 msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
 msgstr "32KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:4989
+#: src/translate_text.c.po.c:5045
 #, fuzzy
 msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
 msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5003
+#: src/translate_text.c.po.c:5059
 #, fuzzy
 msgid "Attach CBM IEEE-488 cartridge image"
 msgstr "CBM IEEE488 cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5017
+#: src/translate_text.c.po.c:5073
 #, fuzzy
 msgid "Attach raw 2kB ISEPIC cartridge image"
 msgstr "64KB-os IDE64 cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5031
+#: src/translate_text.c.po.c:5087
 #, fuzzy
 msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5045
+#: src/translate_text.c.po.c:5101
 #, fuzzy
 msgid "Attach raw 8kB MACH 5 cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5059
+#: src/translate_text.c.po.c:5115
 #, fuzzy
 msgid "Attach raw 32/64/128kB Magic Desk cartridge image"
 msgstr "32KB-os Atomic Power cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5073
+#: src/translate_text.c.po.c:5129
 #, fuzzy
 msgid "Attach raw Magic Formel cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5087
+#: src/translate_text.c.po.c:5143
 #, fuzzy
 msgid "Attach raw 8kB Mikro Assembler cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5101
+#: src/translate_text.c.po.c:5157
 #, fuzzy
 msgid "Attach raw 8kB MMC64 cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5115
+#: src/translate_text.c.po.c:5171
 #, fuzzy
 msgid "Attach raw 512kB MMC Replay cartridge image"
 msgstr "Retro Replay cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5129
+#: src/translate_text.c.po.c:5185
 #, fuzzy
 msgid "Attach raw 16kB Magic Voice cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5143
+#: src/translate_text.c.po.c:5199
 #, fuzzy
 msgid "Attach raw Ocean cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5157
+#: src/translate_text.c.po.c:5213
 #, fuzzy
 msgid "Attach raw 16KB Westermann Learning cartridge image"
 msgstr "16KB-os Westermann learning cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5171
+#: src/translate_text.c.po.c:5227
 #, fuzzy
 msgid "Attach raw 8kB Warp Speed cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5185
+#: src/translate_text.c.po.c:5241
 #, fuzzy
 msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5199
+#: src/translate_text.c.po.c:5255
 #, fuzzy
 msgid "Attach raw 256KB Prophet 64 cartridge image"
 msgstr "64KB-os IDE64 cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5213
+#: src/translate_text.c.po.c:5269
 #, fuzzy
 msgid "Attach raw RamCart cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5227
+#: src/translate_text.c.po.c:5283
 #, fuzzy
 msgid "Attach raw REU cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5241
+#: src/translate_text.c.po.c:5297
 #, fuzzy
 msgid "Attach raw REX EP256 cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5255
+#: src/translate_text.c.po.c:5311
 #, fuzzy
 msgid "Attach raw 16/32kB ROSS cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5269
+#: src/translate_text.c.po.c:5325
 #, fuzzy
 msgid "Attach raw 8KB Game Killer cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5283
+#: src/translate_text.c.po.c:5339
 #, fuzzy
 msgid "Attach raw GEO-RAM cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5297
+#: src/translate_text.c.po.c:5353
 #, fuzzy
 msgid "Attach raw 512kB Game System cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:5311
+#: src/translate_text.c.po.c:5367
 #, fuzzy
 msgid "Enable the Expert Cartridge"
 msgstr "Expert cartridge engedélyezése"
 
-#: src/translate_text.c.po.c:5325
+#: src/translate_text.c.po.c:5381
 #, fuzzy
 msgid "Disable the Expert Cartridge"
 msgstr "Expert cartridge engedélyezése"
 
-#: src/translate_text.c.po.c:5339
+#: src/translate_text.c.po.c:5395
 #, fuzzy
 msgid "Set Expert Cartridge image name"
 msgstr "Cartridge képmás csatolása..."
 
-#: src/translate_text.c.po.c:5353
+#: src/translate_text.c.po.c:5409
 #, fuzzy
 msgid "Allow writing to Expert Cartridge image"
 msgstr "Cartridge képmás csatolása..."
 
-#: src/translate_text.c.po.c:5367
+#: src/translate_text.c.po.c:5423
 #, fuzzy
 msgid "Do not write to Expert Cartridge image"
 msgstr "Cartridge képmás csatolása..."
 
-#: src/translate_text.c.po.c:5381
+#: src/translate_text.c.po.c:5437
 msgid "Disable default cartridge"
 msgstr "Alap cartridge tiltása"
 
-#: src/translate_text.c.po.c:5395
+#: src/translate_text.c.po.c:5451
 msgid "Specify name of IDE64 image file"
 msgstr "Adja meg az IDE64 képmás fájlnevét"
 
-#: src/translate_text.c.po.c:5423
+#: src/translate_text.c.po.c:5479
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Adja meg a sávok számát IDE64 emulációhoz"
 
-#: src/translate_text.c.po.c:5437
+#: src/translate_text.c.po.c:5493
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Adja meg a fejek számát IDE64 emulációhoz"
 
-#: src/translate_text.c.po.c:5451
+#: src/translate_text.c.po.c:5507
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Adja meg a szektorok számát IDE64 emulációhoz"
 
-#: src/translate_text.c.po.c:5465
+#: src/translate_text.c.po.c:5521
 msgid "Autodetect geometry of formatted images"
 msgstr "Formázott képmások geometriájának automatikus felismerése"
 
-#: src/translate_text.c.po.c:5479
+#: src/translate_text.c.po.c:5535
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Formázott képmások geometriáját ne ismerje fel automatikusan"
 
-#: src/translate_text.c.po.c:5493
+#: src/translate_text.c.po.c:5549
 msgid "Emulate version 4 hardware"
 msgstr ""
 
-#: src/translate_text.c.po.c:5507
+#: src/translate_text.c.po.c:5563
 msgid "Emulate pre version 4 hardware"
 msgstr ""
 
-#: src/translate_text.c.po.c:5521
+#: src/translate_text.c.po.c:5577
 msgid "<modelnumber>"
 msgstr "<modellszám>"
 
-#: src/translate_text.c.po.c:5535
+#: src/translate_text.c.po.c:5591
 msgid "Specify CBM-II model to emulate"
 msgstr "Adja meg az emulálandó CBM-II modell számát"
 
-#: src/translate_text.c.po.c:5549
+#: src/translate_text.c.po.c:5605
 msgid "Specify to use VIC-II"
 msgstr "VIC-II használata"
 
-#: src/translate_text.c.po.c:5563
+#: src/translate_text.c.po.c:5619
 msgid "Specify to use CRTC"
 msgstr "CRTC használata"
 
-#: src/translate_text.c.po.c:5577
+#: src/translate_text.c.po.c:5633
 msgid "<linenumber>"
 msgstr "<sorszám>"
 
-#: src/translate_text.c.po.c:5591
+#: src/translate_text.c.po.c:5647
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
 msgstr "Adja meg a CBM-II hardver modellt (0=6x0, 1=7x0)"
 
-#: src/translate_text.c.po.c:5605
+#: src/translate_text.c.po.c:5661
 msgid "<ramsize>"
 msgstr "<ramméret>"
 
-#: src/translate_text.c.po.c:5619
+#: src/translate_text.c.po.c:5675
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "Adja meg a RAM méretét (64/128/256/512/1024 kBájt)"
 
-#: src/translate_text.c.po.c:5633
+#: src/translate_text.c.po.c:5689
 msgid "Specify name of cartridge ROM image for $1000"
 msgstr "Adja meg a $1000 címû cartridge ROM képmás nevét"
 
-#: src/translate_text.c.po.c:5647
+#: src/translate_text.c.po.c:5703
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
 msgstr "Adja meg a $2000-$3fff címû cartridge ROM képmás nevét"
 
-#: src/translate_text.c.po.c:5661
+#: src/translate_text.c.po.c:5717
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
 msgstr "Adja meg a $4000-$5fff címû cartridge ROM képmás nevét"
 
-#: src/translate_text.c.po.c:5675
+#: src/translate_text.c.po.c:5731
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
 msgstr "Adja meg a $6000-$7fff címû cartridge ROM képmás nevét"
 
-#: src/translate_text.c.po.c:5689
+#: src/translate_text.c.po.c:5745
 msgid "Enable RAM mapping in $0800-$0FFF"
 msgstr "$0800-$0FFF RAM leképzés engedélyezése"
 
-#: src/translate_text.c.po.c:5703
+#: src/translate_text.c.po.c:5759
 msgid "Disable RAM mapping in $0800-$0FFF"
 msgstr "$0800-$0FFF RAM leképzés tiltása"
 
-#: src/translate_text.c.po.c:5717
+#: src/translate_text.c.po.c:5773
 msgid "Enable RAM mapping in $1000-$1FFF"
 msgstr "$1000-$1FFF RAM leképzés engedélyezése"
 
-#: src/translate_text.c.po.c:5731
+#: src/translate_text.c.po.c:5787
 msgid "Disable RAM mapping in $1000-$1FFF"
 msgstr "$1000-$1FFF RAM leképzés tiltása"
 
-#: src/translate_text.c.po.c:5745
+#: src/translate_text.c.po.c:5801
 msgid "Enable RAM mapping in $2000-$3FFF"
 msgstr "$2000-$3FFF RAM leképzés engedélyezése"
 
-#: src/translate_text.c.po.c:5759
+#: src/translate_text.c.po.c:5815
 msgid "Disable RAM mapping in $2000-$3FFF"
 msgstr "$2000-$3FFF RAM leképzés tiltása"
 
-#: src/translate_text.c.po.c:5773
+#: src/translate_text.c.po.c:5829
 msgid "Enable RAM mapping in $4000-$5FFF"
 msgstr "$4000-$5FFF RAM leképzés engedélyezése"
 
-#: src/translate_text.c.po.c:5787
+#: src/translate_text.c.po.c:5843
 msgid "Disable RAM mapping in $4000-$5FFF"
 msgstr "$4000-$5FFF RAM leképzés tiltása"
 
-#: src/translate_text.c.po.c:5801
+#: src/translate_text.c.po.c:5857
 msgid "Enable RAM mapping in $6000-$7FFF"
 msgstr "$6000-$7FFF RAM leképzés engedélyezése"
 
-#: src/translate_text.c.po.c:5815
+#: src/translate_text.c.po.c:5871
 msgid "Disable RAM mapping in $6000-$7FFF"
 msgstr "$6000-$7FFF RAM leképzés tiltása"
 
-#: src/translate_text.c.po.c:5829
+#: src/translate_text.c.po.c:5885
 msgid "Enable RAM mapping in $C000-$CFFF"
 msgstr "$C000-$CFFF RAM leképzés engedélyezése"
 
-#: src/translate_text.c.po.c:5843
+#: src/translate_text.c.po.c:5899
 msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "$C000-$CFFF RAM leképzés tiltása"
 
-#: src/translate_text.c.po.c:5858
+#: src/translate_text.c.po.c:5914
 msgid "Specify index of keymap file"
 msgstr "Adja meg a billentyûzet leképzés fájl típusát"
 
-#: src/translate_text.c.po.c:5872
+#: src/translate_text.c.po.c:5928
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr "Adja meg a grafikus és szimbolikus billentyûzet leképzési fájl nevét."
 
-#: src/translate_text.c.po.c:5886
+#: src/translate_text.c.po.c:5942
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr ""
 "Adja meg a grafikus és pozíció szerinti billentyûzet leképzési fájl nevét."
 
-#: src/translate_text.c.po.c:5900
+#: src/translate_text.c.po.c:5956
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
 "Adja meg az angol, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."
 
-#: src/translate_text.c.po.c:5914
+#: src/translate_text.c.po.c:5970
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr ""
 "Adja meg az angol, hivatalos, pozíció szerinti billentyûzet leképzési fájl "
 "nevét."
 
-#: src/translate_text.c.po.c:5928
+#: src/translate_text.c.po.c:5984
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
 "Adja meg a német, hivatalos, szimbolikus billentyûzet leképzési fájl nevét."
 
-#: src/translate_text.c.po.c:5942
+#: src/translate_text.c.po.c:5998
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 "Adja meg a német, hivatalos, pozíció szerinti billentyûzet leképzési fájl "
 "nevét."
 
-#: src/translate_text.c.po.c:5957
+#: src/translate_text.c.po.c:6013
 msgid "Enable hardware-level emulation of disk drives"
 msgstr "Lemezegységek hardver szintû emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:5971
+#: src/translate_text.c.po.c:6027
 msgid "Disable hardware-level emulation of disk drives"
 msgstr "Lemezegységek hardver szintû emulációjának tiltása"
 
-#: src/translate_text.c.po.c:5985
+#: src/translate_text.c.po.c:6041
 msgid "<type>"
 msgstr "<típus>"
 
-#: src/translate_text.c.po.c:5999
+#: src/translate_text.c.po.c:6055
 msgid "Set drive type (0: no drive)"
 msgstr "Adja meg a lemezegység típusát (0: nincs)"
 
-#: src/translate_text.c.po.c:6013
+#: src/translate_text.c.po.c:6069
 msgid "<method>"
 msgstr "<mód>"
 
-#: src/translate_text.c.po.c:6027
+#: src/translate_text.c.po.c:6083
 #, fuzzy
 msgid "<color>"
 msgstr "Színek"
 
-#: src/translate_text.c.po.c:6041
+#: src/translate_text.c.po.c:6097
 msgid ""
 "Select the way the oversized input should be handled, (0: scale down, 1: "
 "crop left top, 2: crop center top,  3: crop right top, 4: crop left center, "
@@ -12190,478 +12231,478 @@ msgid ""
 "bottom, 9:  crop right bottom)"
 msgstr ""
 
-#: src/translate_text.c.po.c:6055
+#: src/translate_text.c.po.c:6111
 msgid ""
 "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 "
 "colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
 msgstr ""
 
-#: src/translate_text.c.po.c:6069
+#: src/translate_text.c.po.c:6125
 msgid ""
 "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
 msgstr ""
 
-#: src/translate_text.c.po.c:6083
+#: src/translate_text.c.po.c:6139
 msgid "Select the CRTC text color (0: white, 1: amber, 2: green)"
 msgstr ""
 
-#: src/translate_text.c.po.c:6097
+#: src/translate_text.c.po.c:6153
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr ""
 "Adja meg a 40 sávra kiterjesztés terjesztés módját (0: soha, 1: kérdés, 2: "
 "hozzáféréskor)"
 
-#: src/translate_text.c.po.c:6111
+#: src/translate_text.c.po.c:6167
 msgid "Specify name of 1541 DOS ROM image"
 msgstr "Adja meg az 1541 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6125
+#: src/translate_text.c.po.c:6181
 msgid "Specify name of 1541-II DOS ROM image"
 msgstr "Adja meg az 1541-II DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6139
+#: src/translate_text.c.po.c:6195
 msgid "Specify name of 1570 DOS ROM image"
 msgstr "Adja meg az 1570 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6153
+#: src/translate_text.c.po.c:6209
 msgid "Specify name of 1571 DOS ROM image"
 msgstr "Adja meg az 1571 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6167
+#: src/translate_text.c.po.c:6223
 msgid "Specify name of 1581 DOS ROM image"
 msgstr "Adja meg az 1581 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6181
+#: src/translate_text.c.po.c:6237
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
 "Lemezegység üresjárási módja (0: folytonos emuláció, 1: ciklusok kihagyása, "
 "2: üres DOS ciklusok kihagyása)"
 
-#: src/translate_text.c.po.c:6195
+#: src/translate_text.c.po.c:6251
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
 msgstr "8KB RAM kiterjeszés engedélyezése a $2000-$3FFF címen"
 
-#: src/translate_text.c.po.c:6209
+#: src/translate_text.c.po.c:6265
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
 msgstr "8KB RAM kiterjeszés tiltása a $2000-$3FFF címen"
 
-#: src/translate_text.c.po.c:6223
+#: src/translate_text.c.po.c:6279
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
 msgstr "8KB RAM kiterjeszés engedélyezése a $4000-$5FFF címen"
 
-#: src/translate_text.c.po.c:6237
+#: src/translate_text.c.po.c:6293
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
 msgstr "8KB RAM kiterjeszés tiltása a $4000-$5FFF címen"
 
-#: src/translate_text.c.po.c:6251
+#: src/translate_text.c.po.c:6307
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
 msgstr "8KB RAM kiterjeszés engedélyezése a $6000-$7FFF címen"
 
-#: src/translate_text.c.po.c:6265
+#: src/translate_text.c.po.c:6321
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
 msgstr "8KB RAM kiterjeszés tiltása a $6000-$7FFF címen"
 
-#: src/translate_text.c.po.c:6279
+#: src/translate_text.c.po.c:6335
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
 msgstr "8KB RAM kiterjeszés engedélyezése a $8000-$9FFF címen"
 
-#: src/translate_text.c.po.c:6293
+#: src/translate_text.c.po.c:6349
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
 msgstr "8KB RAM kiterjeszés tiltása a $8000-$9FFF címen"
 
-#: src/translate_text.c.po.c:6307
+#: src/translate_text.c.po.c:6363
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM kiterjeszés engedélyezése a $A000-$BFFF címen"
 
-#: src/translate_text.c.po.c:6321
+#: src/translate_text.c.po.c:6377
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM kiterjeszés tiltása a $A000-$BFFF címen"
 
-#: src/translate_text.c.po.c:6335
+#: src/translate_text.c.po.c:6391
 msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
 msgstr ""
 "Adja meg a párhuzamos kábel típusát (0: nincs, 1: standard, 2: Dolphin DOS 3)"
 
-#: src/translate_text.c.po.c:6363
+#: src/translate_text.c.po.c:6419
 msgid "Disable Professional DOS"
 msgstr "Professional DOS tiltása"
 
-#: src/translate_text.c.po.c:6377
+#: src/translate_text.c.po.c:6433
 msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Adja meg a Professional DOS 1571 ROM képmást"
 
-#: src/translate_text.c.po.c:6391
+#: src/translate_text.c.po.c:6447
 msgid "Set parallel cable type (0: none, 1: standard)"
 msgstr "Adja meg a párhuzamos kábel típusát (0: nincs, 1: standard)"
 
-#: src/translate_text.c.po.c:6405
+#: src/translate_text.c.po.c:6461
 msgid "Specify name of 1571CR DOS ROM image"
 msgstr "Adja meg az 1571CR DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6419
+#: src/translate_text.c.po.c:6475
 msgid "Specify name of 2031 DOS ROM image"
 msgstr "Adja meg a 2031 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6433
+#: src/translate_text.c.po.c:6489
 msgid "Specify name of 2040 DOS ROM image"
 msgstr "Adja meg a 2040 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6447
+#: src/translate_text.c.po.c:6503
 msgid "Specify name of 3040 DOS ROM image"
 msgstr "Adja meg a 3040 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6461
+#: src/translate_text.c.po.c:6517
 msgid "Specify name of 4040 DOS ROM image"
 msgstr "Adja meg a 4040 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6475
+#: src/translate_text.c.po.c:6531
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
 msgstr "Adja meg az 1001/8050/8250 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6489
+#: src/translate_text.c.po.c:6545
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Adja meg az 1551 DOS ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6503
+#: src/translate_text.c.po.c:6559
 msgid "Use <name> as directory for file system device #8"
 msgstr "<név> könyvtár használata az #8-as egység fájlrendszerének"
 
-#: src/translate_text.c.po.c:6517
+#: src/translate_text.c.po.c:6573
 msgid "Use <name> as directory for file system device #9"
 msgstr "<név> könyvtár használata az #9-es egység fájlrendszerének"
 
-#: src/translate_text.c.po.c:6531
+#: src/translate_text.c.po.c:6587
 msgid "Use <name> as directory for file system device #10"
 msgstr "<név> könyvtár használata az #10-es egység fájlrendszerének"
 
-#: src/translate_text.c.po.c:6545
+#: src/translate_text.c.po.c:6601
 msgid "Use <name> as directory for file system device #11"
 msgstr "<név> könyvtár használata az #11-es egység fájlrendszerének"
 
-#: src/translate_text.c.po.c:6560
+#: src/translate_text.c.po.c:6616
 msgid "Set bitrate for audio stream in media file"
 msgstr "Adja meg az audió bitrátát a média fájlhoz"
 
-#: src/translate_text.c.po.c:6574
+#: src/translate_text.c.po.c:6630
 msgid "Set bitrate for video stream in media file"
 msgstr "Adja meg az videó bitrátát a média fájlhoz"
 
-#: src/translate_text.c.po.c:6589
+#: src/translate_text.c.po.c:6645
 msgid "Specify PET model to emulate"
 msgstr "Adja meg az emulált PET modellt"
 
-#: src/translate_text.c.po.c:6603
+#: src/translate_text.c.po.c:6659
 msgid "Specify name of Editor ROM image"
 msgstr "Adja meg a szerkesztõ ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6617
+#: src/translate_text.c.po.c:6673
 msgid "Specify 4K extension ROM name at $9***"
 msgstr "Adja meg a $9*** címû 4K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:6631
+#: src/translate_text.c.po.c:6687
 msgid "Specify 4K extension ROM name at $A***"
 msgstr "Adja meg a $A*** címû 4K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:6645
+#: src/translate_text.c.po.c:6701
 msgid "Specify 4K extension ROM name at $B***"
 msgstr "Adja meg a $B*** címû 4K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:6659
+#: src/translate_text.c.po.c:6715
 msgid "Enable PET8296 4K RAM mapping at $9***"
 msgstr "PET8296 4K RAM engedélyezése a $9*** címen"
 
-#: src/translate_text.c.po.c:6673
+#: src/translate_text.c.po.c:6729
 msgid "Disable PET8296 4K RAM mapping at $9***"
 msgstr "PET8296 4K RAM tiltása a $9*** címen"
 
-#: src/translate_text.c.po.c:6687
+#: src/translate_text.c.po.c:6743
 msgid "Enable PET8296 4K RAM mapping at $A***"
 msgstr "PET8296 4K RAM engedélyezése a $A*** címen"
 
-#: src/translate_text.c.po.c:6701
+#: src/translate_text.c.po.c:6757
 msgid "Disable PET8296 4K RAM mapping at $A***"
 msgstr "PET8296 4K RAM tiltása a $A*** címen"
 
-#: src/translate_text.c.po.c:6715
+#: src/translate_text.c.po.c:6771
 msgid "Enable SuperPET I/O"
 msgstr "SuperPET I/O engedélyezése"
 
-#: src/translate_text.c.po.c:6729
+#: src/translate_text.c.po.c:6785
 msgid "Disable SuperPET I/O"
 msgstr "SuperPET I/O tiltása"
 
-#: src/translate_text.c.po.c:6743
+#: src/translate_text.c.po.c:6799
 msgid "Enable ROM 1 Kernal patches"
 msgstr "ROM 1 Kernal foltozás engedélyezése"
 
-#: src/translate_text.c.po.c:6757
+#: src/translate_text.c.po.c:6813
 msgid "Disable ROM 1 Kernal patches"
 msgstr "ROM 1 Kernal foltozás tiltása"
 
-#: src/translate_text.c.po.c:6771
+#: src/translate_text.c.po.c:6827
 msgid "Switch upper/lower case charset"
 msgstr "Váltás nagy-/kisbetûs karakterkészletre"
 
-#: src/translate_text.c.po.c:6785
+#: src/translate_text.c.po.c:6841
 msgid "Do not switch upper/lower case charset"
 msgstr "Ne váltson a nagy-/kisbetûs karakterkészletre"
 
-#: src/translate_text.c.po.c:6799
+#: src/translate_text.c.po.c:6855
 msgid "EOI blanks screen"
 msgstr "EOI törli a képernyõt"
 
-#: src/translate_text.c.po.c:6813
+#: src/translate_text.c.po.c:6869
 msgid "EOI does not blank screen"
 msgstr "EOI nem törli a képernyõt"
 
-#: src/translate_text.c.po.c:6827
+#: src/translate_text.c.po.c:6883
 msgid "Enable userport diagnostic pin"
 msgstr "Userport diagnosztikai láb engedélyezése"
 
-#: src/translate_text.c.po.c:6841
+#: src/translate_text.c.po.c:6897
 msgid "Disable userport diagnostic pin"
 msgstr "Userport diagnosztikai láb tiltása"
 
-#: src/translate_text.c.po.c:6855
+#: src/translate_text.c.po.c:6911
 msgid "Specify name of Function low ROM image"
 msgstr "Adja meg az alsó Function ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6869
+#: src/translate_text.c.po.c:6925
 msgid "Specify name of Function high ROM image"
 msgstr "Adja meg a felsõ Function ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6883
+#: src/translate_text.c.po.c:6939
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Adja meg az alsó Cartridge 1 ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6897
+#: src/translate_text.c.po.c:6953
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Adja meg a felsõ Cartridge 1 ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6911
+#: src/translate_text.c.po.c:6967
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Adja meg az alsó Cartridge 2 ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6925
+#: src/translate_text.c.po.c:6981
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Adja meg a felsõ Cartridge 2 ROM képmás nevét"
 
-#: src/translate_text.c.po.c:6939
+#: src/translate_text.c.po.c:6995
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Adja meg a telepített RAM méretét kb-ban (16/32/64)"
 
-#: src/translate_text.c.po.c:6953
+#: src/translate_text.c.po.c:7009
 msgid "Set saturation of internal calculated palette [1000]"
 msgstr "A számolt paletta telítettsége [1000]"
 
-#: src/translate_text.c.po.c:6967
+#: src/translate_text.c.po.c:7023
 msgid "Set contrast of internal calculated palette [1100]"
 msgstr "A számolt paletta kontraszt értéke [1100]"
 
-#: src/translate_text.c.po.c:6981
+#: src/translate_text.c.po.c:7037
 msgid "Set brightness of internal calculated palette [1100]"
 msgstr "A számolt paletta fényerõssége [1100]"
 
-#: src/translate_text.c.po.c:6995
+#: src/translate_text.c.po.c:7051
 msgid "Set gamma of internal calculated palette [900]"
 msgstr "A számolt paletta gammája [900]"
 
-#: src/translate_text.c.po.c:7009
+#: src/translate_text.c.po.c:7065
 msgid "Set tint of internal calculated palette [1000]"
 msgstr "A számolt, belsõ paletta telítettsége [1000]"
 
-#: src/translate_text.c.po.c:7023
+#: src/translate_text.c.po.c:7079
 msgid "Set phase for color carrier in odd lines [1250]"
 msgstr "Szín vivõ fázisa a páratlan sorokban [1250]"
 
-#: src/translate_text.c.po.c:7037
+#: src/translate_text.c.po.c:7093
 msgid "Set phase offset for color carrier in odd lines [750]"
 msgstr "Szín vivõ fázis offszet a páratlan sorokban [750]"
 
-#: src/translate_text.c.po.c:7051
+#: src/translate_text.c.po.c:7107
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
 msgstr ""
 
-#: src/translate_text.c.po.c:7065
+#: src/translate_text.c.po.c:7121
 msgid "Specify name of printer driver for device #4"
 msgstr "Adja meg a #4-es nyomtatómeghajtó nevét"
 
-#: src/translate_text.c.po.c:7079
+#: src/translate_text.c.po.c:7135
 msgid "Specify name of printer driver for device #5"
 msgstr "Adja meg a #5-ös nyomtatómeghajtó nevét"
 
-#: src/translate_text.c.po.c:7093
+#: src/translate_text.c.po.c:7149
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Adja meg a userport nyomtatómeghajtó nevét"
 
-#: src/translate_text.c.po.c:7107
+#: src/translate_text.c.po.c:7163
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Adja meg a #4-es eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"
 
-#: src/translate_text.c.po.c:7121
+#: src/translate_text.c.po.c:7177
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Adja meg a #5-ös eszköz típusát (0:Nincs, 1: Fájlrendszer, 2: Valódi)"
 
-#: src/translate_text.c.po.c:7135
+#: src/translate_text.c.po.c:7191
 msgid "Enable the userport printer emulation"
 msgstr "Userport nyomtató emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:7149
+#: src/translate_text.c.po.c:7205
 msgid "Disable the userport printer emulation"
 msgstr "Userport nyomtató emulációjának tiltása"
 
-#: src/translate_text.c.po.c:7163
+#: src/translate_text.c.po.c:7219
 msgid "Specify name of output device for device #4"
 msgstr "Adja meg a kimeneti eszköz nevét a #4-es egységhez"
 
-#: src/translate_text.c.po.c:7177
+#: src/translate_text.c.po.c:7233
 msgid "Specify name of output device for device #5"
 msgstr "Adja meg a kimeneti eszköz nevét a #5-ös egységhez"
 
-#: src/translate_text.c.po.c:7191
+#: src/translate_text.c.po.c:7247
 msgid "Specify name of output device for the userport printer"
 msgstr "Adja meg a kimeneti eszköz nevét a userport nyomtatóhoz"
 
-#: src/translate_text.c.po.c:7205
+#: src/translate_text.c.po.c:7261
 msgid "Specify name of printer text device or dump file"
 msgstr "Adja meg a szövegnyomtató eszköz nevét, vagy a kimeneti fájlt"
 
-#: src/translate_text.c.po.c:7219
+#: src/translate_text.c.po.c:7275
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "Adja meg a szövegnyomtató eszközt a #4-es IEC nyomtatóhoz"
 
-#: src/translate_text.c.po.c:7233
+#: src/translate_text.c.po.c:7289
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "Adja meg a szövegnyomtató eszközt a #5-es IEC nyomtatóhoz"
 
-#: src/translate_text.c.po.c:7247
+#: src/translate_text.c.po.c:7303
 msgid "Specify printer text output device for userport printer"
 msgstr "Adja meg a szövegnyomtató eszközt a userport nyomtatóhoz"
 
-#: src/translate_text.c.po.c:7261
+#: src/translate_text.c.po.c:7317
 msgid "Enable the video cache"
 msgstr "Videó gyorsítótár engedélyezése"
 
-#: src/translate_text.c.po.c:7275
+#: src/translate_text.c.po.c:7331
 msgid "Disable the video cache"
 msgstr "Videó gyorsítótár tiltása"
 
-#: src/translate_text.c.po.c:7290
+#: src/translate_text.c.po.c:7346
 msgid "Specify name of first RS232 device"
 msgstr "Adja meg az elsõ RS232-es eszköz nevét"
 
-#: src/translate_text.c.po.c:7304
+#: src/translate_text.c.po.c:7360
 msgid "Specify name of second RS232 device"
 msgstr "Adja meg a második RS232-es eszköz nevét"
 
-#: src/translate_text.c.po.c:7318
+#: src/translate_text.c.po.c:7374
 msgid "Specify name of third RS232 device"
 msgstr "Adja meg a harmadik RS232-es eszköz nevét"
 
-#: src/translate_text.c.po.c:7332
+#: src/translate_text.c.po.c:7388
 msgid "Specify name of fourth RS232 device"
 msgstr "Adja meg a negyedik RS232-es eszköz nevét"
 
-#: src/translate_text.c.po.c:7347
+#: src/translate_text.c.po.c:7403
 msgid "Enable RS232 userport emulation"
 msgstr "RS232 userport emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:7361
+#: src/translate_text.c.po.c:7417
 msgid "Disable RS232 userport emulation"
 msgstr "RS232 userport emuláció tiltása"
 
-#: src/translate_text.c.po.c:7375
+#: src/translate_text.c.po.c:7431
 msgid "<baud>"
 msgstr "<bitráta>"
 
-#: src/translate_text.c.po.c:7389
+#: src/translate_text.c.po.c:7445
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Bitráta megadása az RS232 userport emulációhoz."
 
-#: src/translate_text.c.po.c:7403
+#: src/translate_text.c.po.c:7459
 msgid "Specify VICE RS232 device for userport"
 msgstr "VICE RS232-es userport eszköz megadása"
 
-#: src/translate_text.c.po.c:7417
+#: src/translate_text.c.po.c:7473
 msgid "Enable IEC device emulation for device #4"
 msgstr "IEC eszköz #4 emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:7431
+#: src/translate_text.c.po.c:7487
 msgid "Disable IEC device emulation for device #4"
 msgstr "IEC eszköz #4 emulációjának tiltása"
 
-#: src/translate_text.c.po.c:7445
+#: src/translate_text.c.po.c:7501
 msgid "Enable IEC device emulation for device #5"
 msgstr "IEC eszköz #5 emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:7459
+#: src/translate_text.c.po.c:7515
 msgid "Disable IEC device emulation for device #5"
 msgstr "IEC eszköz #5 emulációjának tiltása"
 
-#: src/translate_text.c.po.c:7473
+#: src/translate_text.c.po.c:7529
 msgid "Enable IEC device emulation for device #8"
 msgstr "IEC eszköz #8 emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:7487
+#: src/translate_text.c.po.c:7543
 msgid "Disable IEC device emulation for device #8"
 msgstr "IEC eszköz #8 emulációjának tiltása"
 
-#: src/translate_text.c.po.c:7501
+#: src/translate_text.c.po.c:7557
 msgid "Enable IEC device emulation for device #9"
 msgstr "IEC eszköz #9 emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:7515
+#: src/translate_text.c.po.c:7571
 msgid "Disable IEC device emulation for device #9"
 msgstr "IEC eszköz #9 emulációjának tiltása"
 
-#: src/translate_text.c.po.c:7529
+#: src/translate_text.c.po.c:7585
 msgid "Enable IEC device emulation for device #10"
 msgstr "IEC eszköz #10 emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:7543
+#: src/translate_text.c.po.c:7599
 msgid "Disable IEC device emulation for device #10"
 msgstr "IEC eszköz #10 emulációjának tiltása"
 
-#: src/translate_text.c.po.c:7557
+#: src/translate_text.c.po.c:7613
 msgid "Enable IEC device emulation for device #11"
 msgstr "IEC eszköz #11 emulációjának engedélyezése"
 
-#: src/translate_text.c.po.c:7571
+#: src/translate_text.c.po.c:7627
 msgid "Disable IEC device emulation for device #11"
 msgstr "IEC eszköz #11 emulációjának tiltása"
 
-#: src/translate_text.c.po.c:7585
+#: src/translate_text.c.po.c:7641
 msgid "<engine and model>"
 msgstr "<motor és modell>"
 
-#: src/translate_text.c.po.c:7599
+#: src/translate_text.c.po.c:7655
 #, fuzzy
 msgid "0: FastSID 6581, 1: FastSID 8580"
 msgstr "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580)"
 
-#: src/translate_text.c.po.c:7614
+#: src/translate_text.c.po.c:7670
 #, fuzzy
 msgid "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
 msgstr ""
 "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 256: ReSID "
 "6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost)"
 
-#: src/translate_text.c.po.c:7628
+#: src/translate_text.c.po.c:7684
 #, fuzzy
 msgid "260: DTVSID"
 msgstr "*DTVSID"
 
-#: src/translate_text.c.po.c:7644
+#: src/translate_text.c.po.c:7700
 #, fuzzy
 msgid "512: Catweasel"
 msgstr "*Catweasel MKIII"
 
-#: src/translate_text.c.po.c:7660
+#: src/translate_text.c.po.c:7716
 #, fuzzy
 msgid "768: HardSID"
 msgstr "*HardSID"
 
-#: src/translate_text.c.po.c:7676
+#: src/translate_text.c.po.c:7732
 #, fuzzy
 msgid ""
 "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
@@ -12670,7 +12711,7 @@ msgstr ""
 "SID motor és modell megadása (0: FastSID 6581, 1: FastSID 8580, 1024: ParSID "
 "in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par port 3)"
 
-#: src/translate_text.c.po.c:7692
+#: src/translate_text.c.po.c:7748
 #, fuzzy
 msgid ""
 "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
@@ -12686,35 +12727,35 @@ msgstr ""
 "digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 1489 + "
 "digiboost)"
 
-#: src/translate_text.c.po.c:7707
+#: src/translate_text.c.po.c:7763
 msgid "Enable second SID"
 msgstr "Második SID engedélyezése"
 
-#: src/translate_text.c.po.c:7721
+#: src/translate_text.c.po.c:7777
 msgid "Enable SID Cartridge"
 msgstr "SID cartridge engedélyezése"
 
-#: src/translate_text.c.po.c:7735
+#: src/translate_text.c.po.c:7791
 msgid "Disable SID Cartridge"
 msgstr "SID cartridge tiltása"
 
-#: src/translate_text.c.po.c:7749
+#: src/translate_text.c.po.c:7805
 msgid "<base address>"
 msgstr "<báziscím>"
 
-#: src/translate_text.c.po.c:7763
+#: src/translate_text.c.po.c:7819
 msgid "Specify base address for 2nd SID"
 msgstr "Adja meg a báziscímét a második SID-nek"
 
-#: src/translate_text.c.po.c:7777
+#: src/translate_text.c.po.c:7833
 msgid "Emulate SID filters"
 msgstr "SID szûrõk emulációja"
 
-#: src/translate_text.c.po.c:7791
+#: src/translate_text.c.po.c:7847
 msgid "Do not emulate SID filters"
 msgstr "Nem emulálja a SID szûrõket"
 
-#: src/translate_text.c.po.c:7806
+#: src/translate_text.c.po.c:7862
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -12722,206 +12763,206 @@ msgstr ""
 "reSID mintavételezési mód (0: gyors, 1: interpoláló, 2: újramintavételezõ, "
 "3: gyors újramintavételezõ)"
 
-#: src/translate_text.c.po.c:7820
+#: src/translate_text.c.po.c:7876
 msgid "<percent>"
 msgstr "<százalék>"
 
-#: src/translate_text.c.po.c:7834
+#: src/translate_text.c.po.c:7890
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "reSID újramintavételezési sávnak a teljes sávszélességre vonatkoztatott "
 "aránya (0 - 90)"
 
-#: src/translate_text.c.po.c:7848
+#: src/translate_text.c.po.c:7904
 msgid "reSID gain in percent (90 - 100)"
 msgstr "reSID százalékos erõsítés (90 - 100)"
 
-#: src/translate_text.c.po.c:7863
+#: src/translate_text.c.po.c:7919
 msgid "Set the VDC memory size to 16KB"
 msgstr "VDC memória méret beállítása 16KB-ra"
 
-#: src/translate_text.c.po.c:7877
+#: src/translate_text.c.po.c:7933
 msgid "Set the VDC memory size to 64KB"
 msgstr "VDC memória méret beállítása 64KB-ra"
 
-#: src/translate_text.c.po.c:7891
+#: src/translate_text.c.po.c:7947
 msgid "Set VDC revision (0..2)"
 msgstr "VDC változatszám beállítása (0-2)"
 
-#: src/translate_text.c.po.c:7905
+#: src/translate_text.c.po.c:7961
 msgid "<spec>"
 msgstr "<spec>"
 
-#: src/translate_text.c.po.c:7919
+#: src/translate_text.c.po.c:7975
 msgid "Specify memory configuration"
 msgstr "Adja meg a memória konfigurációt"
 
-#: src/translate_text.c.po.c:7933
+#: src/translate_text.c.po.c:7989
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 interfész engedélyezése"
 
-#: src/translate_text.c.po.c:7947
+#: src/translate_text.c.po.c:8003
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 interfész tiltása"
 
-#: src/translate_text.c.po.c:7961
+#: src/translate_text.c.po.c:8017
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Adja meg a $2000 címû 4/8/16K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:7975
+#: src/translate_text.c.po.c:8031
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Adja meg a $4000 címû 4/8/16K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:7989
+#: src/translate_text.c.po.c:8045
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Adja meg a $6000 címû 4/8/16K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:8003
+#: src/translate_text.c.po.c:8059
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Adja meg a $A000 címû 4/8K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:8017
+#: src/translate_text.c.po.c:8073
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Adja meg a $B000 címû 4K ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:8031
+#: src/translate_text.c.po.c:8087
 msgid "Specify generic extension ROM name"
 msgstr "Adja meg az általános ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:8045
+#: src/translate_text.c.po.c:8101
 msgid "Specify Mega-Cart extension ROM name"
 msgstr "Adja meg a Mega-Cart ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:8059
+#: src/translate_text.c.po.c:8115
 msgid "Specify Final Expansion extension ROM name"
 msgstr "Adja meg a Final Expansion ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:8073
+#: src/translate_text.c.po.c:8129
 #, fuzzy
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Adja meg a Final Expansion ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:8087
+#: src/translate_text.c.po.c:8143
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
 
-#: src/translate_text.c.po.c:8101
+#: src/translate_text.c.po.c:8157
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM fájlba visszaírás tiltása"
 
-#: src/translate_text.c.po.c:8115
+#: src/translate_text.c.po.c:8171
 #, fuzzy
 msgid "Set Mega-Cart NvRAM filename"
 msgstr "Mega-Cart NvRAM képmás neve"
 
-#: src/translate_text.c.po.c:8143
+#: src/translate_text.c.po.c:8199
 #, fuzzy
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "*Mega-Cart NvRAM visszaírás"
 
-#: src/translate_text.c.po.c:8157
+#: src/translate_text.c.po.c:8213
 #, fuzzy
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
 
-#: src/translate_text.c.po.c:8171
+#: src/translate_text.c.po.c:8227
 #, fuzzy
 msgid "Disable Vic Flash Plugin write back to ROM file"
 msgstr "Final Expansion ROM fájlba visszaírás tiltása"
 
-#: src/translate_text.c.po.c:8185
+#: src/translate_text.c.po.c:8241
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
 msgstr "VIC-II keret megjelenítési mód (0: normál, 1: teljes, 2: hibakeresés)"
 
-#: src/translate_text.c.po.c:8199
+#: src/translate_text.c.po.c:8255
 msgid "Enable sprite-background collision registers"
 msgstr "Sprite-háttér ütközési regiszterek engedélyezése"
 
-#: src/translate_text.c.po.c:8213
+#: src/translate_text.c.po.c:8269
 msgid "Disable sprite-background collision registers"
 msgstr "Sprite-háttér ütközési regiszterek tiltása"
 
-#: src/translate_text.c.po.c:8227
+#: src/translate_text.c.po.c:8283
 msgid "Enable sprite-sprite collision registers"
 msgstr "Sprite-sprite ütközési regiszterek engedélyezése"
 
-#: src/translate_text.c.po.c:8241
+#: src/translate_text.c.po.c:8297
 msgid "Disable sprite-sprite collision registers"
 msgstr "Sprite-sprite ütközési regiszterek tiltása"
 
-#: src/translate_text.c.po.c:8255
+#: src/translate_text.c.po.c:8311
 msgid "Use new luminances"
 msgstr "Az új fényerõket használja"
 
-#: src/translate_text.c.po.c:8269
+#: src/translate_text.c.po.c:8325
 msgid "Use old luminances"
 msgstr "A régi fényerõket használja"
 
-#: src/translate_text.c.po.c:8283
+#: src/translate_text.c.po.c:8339
 msgid "Enable double size"
 msgstr "Dupla méret engedélyezése"
 
-#: src/translate_text.c.po.c:8297
+#: src/translate_text.c.po.c:8353
 msgid "Disable double size"
 msgstr "Dupla méret tiltása"
 
-#: src/translate_text.c.po.c:8311
+#: src/translate_text.c.po.c:8367
 msgid "Enable double scan"
 msgstr "Dupla pásztázás engedélyezése"
 
-#: src/translate_text.c.po.c:8325
+#: src/translate_text.c.po.c:8381
 msgid "Disable double scan"
 msgstr "Dupla pásztázás tiltása"
 
-#: src/translate_text.c.po.c:8339
+#: src/translate_text.c.po.c:8395
 msgid "Enable hardware scaling"
 msgstr "Hardver átméretezés engedélyezése"
 
-#: src/translate_text.c.po.c:8353
+#: src/translate_text.c.po.c:8409
 msgid "Disable hardware scaling"
 msgstr "Hardver átméretezés tiltása"
 
-#: src/translate_text.c.po.c:8367
+#: src/translate_text.c.po.c:8423
 msgid "Enable Scale2x"
 msgstr "Élsimítás engedélyezése"
 
-#: src/translate_text.c.po.c:8381
+#: src/translate_text.c.po.c:8437
 msgid "Disable Scale2x"
 msgstr "Élsimítás tiltása"
 
-#: src/translate_text.c.po.c:8395
+#: src/translate_text.c.po.c:8451
 msgid "Use an internal calculated palette"
 msgstr "Belsõleg számított paletta használata"
 
-#: src/translate_text.c.po.c:8409
+#: src/translate_text.c.po.c:8465
 msgid "Use an external palette (file)"
 msgstr "Külsõ paletta használata (fájl)"
 
-#: src/translate_text.c.po.c:8423
+#: src/translate_text.c.po.c:8479
 msgid "Specify name of file of external palette"
 msgstr "Adja meg a külsõ paletta nevét"
 
-#: src/translate_text.c.po.c:8437
+#: src/translate_text.c.po.c:8493
 msgid "<device>"
 msgstr "<eszköz>"
 
-#: src/translate_text.c.po.c:8451
+#: src/translate_text.c.po.c:8507
 msgid "Select fullscreen device"
 msgstr "Teljesképernyõs eszköz kiválasztása"
 
-#: src/translate_text.c.po.c:8465
+#: src/translate_text.c.po.c:8521
 msgid "<mode>"
 msgstr "<mód>"
 
-#: src/translate_text.c.po.c:8479
+#: src/translate_text.c.po.c:8535
 msgid "Select fullscreen mode"
 msgstr "Teljes képernyõs mód kiválasztása"
 
-#: src/translate_text.c.po.c:8493
+#: src/translate_text.c.po.c:8549
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Adja meg az RS232-es egységet, amivel az ACIA mûködni fog"
 
-#: src/translate_text.c.po.c:8507
+#: src/translate_text.c.po.c:8563
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12929,7 +12970,7 @@ msgstr ""
 "Adja meg a #8-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3 "
 "blokk eszköz)"
 
-#: src/translate_text.c.po.c:8521
+#: src/translate_text.c.po.c:8577
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12937,7 +12978,7 @@ msgstr ""
 "Adja meg a #9-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: "
 "blokk eszköz)"
 
-#: src/translate_text.c.po.c:8535
+#: src/translate_text.c.po.c:8591
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12945,7 +12986,7 @@ msgstr ""
 "Adja meg a #10-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENVMB, 3: "
 "blokk eszköz)"
 
-#: src/translate_text.c.po.c:8549
+#: src/translate_text.c.po.c:8605
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -12953,464 +12994,464 @@ msgstr ""
 "Adja meg a #11-es egység típusát (0: Nincs, 1: fájlrendszer, 2: OPENCBM, 3: "
 "blokk eszköz)"
 
-#: src/translate_text.c.po.c:8563
+#: src/translate_text.c.po.c:8619
 msgid "Attach disk image for drive #8 read only"
 msgstr "Csak olvasható képmás csatolása a #8-as lemezegységhez"
 
-#: src/translate_text.c.po.c:8577
+#: src/translate_text.c.po.c:8633
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Írható-olvasható képmás csatolása a #8-as lemezegységhez"
 
-#: src/translate_text.c.po.c:8591
+#: src/translate_text.c.po.c:8647
 msgid "Attach disk image for drive #9 read only"
 msgstr "Csak olvasható képmás csatolása a #9-es lemezegységhez"
 
-#: src/translate_text.c.po.c:8605
+#: src/translate_text.c.po.c:8661
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Írható-olvasható képmás csatolása a #9-es lemezegységhez"
 
-#: src/translate_text.c.po.c:8619
+#: src/translate_text.c.po.c:8675
 msgid "Attach disk image for drive #10 read only"
 msgstr "Csak olvasható képmás csatolása a #10-es lemezegységhez"
 
-#: src/translate_text.c.po.c:8633
+#: src/translate_text.c.po.c:8689
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Írható-olvasható képmás csatolása a #10-es lemezegységhez"
 
-#: src/translate_text.c.po.c:8647
+#: src/translate_text.c.po.c:8703
 msgid "Attach disk image for drive #11 read only"
 msgstr "Csak olvasható képmás csatolása a #11-es lemezegységhez"
 
-#: src/translate_text.c.po.c:8661
+#: src/translate_text.c.po.c:8717
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Írható-olvasható képmás csatolása a #11-es lemezegységhez"
 
-#: src/translate_text.c.po.c:8675
+#: src/translate_text.c.po.c:8731
 msgid "Enable automatic Datasette-Reset"
 msgstr "Automatikus magnó Reset engedélyezése"
 
-#: src/translate_text.c.po.c:8689
+#: src/translate_text.c.po.c:8745
 msgid "Disable automatic Datasette-Reset"
 msgstr "Automatikus magnó Reset tiltása"
 
-#: src/translate_text.c.po.c:8703
+#: src/translate_text.c.po.c:8759
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Adja meg ciklusokban a legelsõ szalagrés hosszát"
 
-#: src/translate_text.c.po.c:8717
+#: src/translate_text.c.po.c:8773
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Adja meg ciklusokban a szalagfájlok közti üres rés hosszát"
 
-#: src/translate_text.c.po.c:8732
+#: src/translate_text.c.po.c:8788
 msgid "Trace the main CPU"
 msgstr "Fõ CPU nyomkövetése"
 
-#: src/translate_text.c.po.c:8746
+#: src/translate_text.c.po.c:8802
 msgid "Do not trace the main CPU"
 msgstr "Fõ CPU nyomkövetésének tiltása"
 
-#: src/translate_text.c.po.c:8760
+#: src/translate_text.c.po.c:8816
 msgid "Trace the drive0 CPU"
 msgstr "A 0-s lemezegység CPU-jának nyomkövetése"
 
-#: src/translate_text.c.po.c:8774
+#: src/translate_text.c.po.c:8830
 msgid "Do not trace the drive0 CPU"
 msgstr "A 0-s lemezegység CPU-ja nyomkövetésének tiltása"
 
-#: src/translate_text.c.po.c:8788
+#: src/translate_text.c.po.c:8844
 msgid "Trace the drive1 CPU"
 msgstr "Az 1-es lemezegység CPU-jának nyomkövetése"
 
-#: src/translate_text.c.po.c:8802
+#: src/translate_text.c.po.c:8858
 msgid "Do not trace the drive1 CPU"
 msgstr "Az 1-es lemezegység CPU-ja nyomkövetésének tiltása"
 
-#: src/translate_text.c.po.c:8817
+#: src/translate_text.c.po.c:8873
 msgid "Trace the drive2 CPU"
 msgstr "A 2-es lemezegység CPU-jának nyomkövetése"
 
-#: src/translate_text.c.po.c:8831
+#: src/translate_text.c.po.c:8887
 msgid "Do not trace the drive2 CPU"
 msgstr "A 2-es lemezegység CPU-ja nyomkövetésének tiltása"
 
-#: src/translate_text.c.po.c:8847
+#: src/translate_text.c.po.c:8903
 msgid "Trace the drive3 CPU"
 msgstr "A 3-as lemezegység CPU-jának nyomkövetése"
 
-#: src/translate_text.c.po.c:8861
+#: src/translate_text.c.po.c:8917
 msgid "Do not trace the drive3 CPU"
 msgstr "A 3-as lemezegység CPU-ja nyomkövetésének tiltása"
 
-#: src/translate_text.c.po.c:8876
+#: src/translate_text.c.po.c:8932
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Nyomkövetési mód (0=normál 1=kicsi 2=elõzmények)"
 
-#: src/translate_text.c.po.c:8891
+#: src/translate_text.c.po.c:8947
 msgid "Playback recorded events"
 msgstr "A felvett események visszajátszása"
 
-#: src/translate_text.c.po.c:8905
+#: src/translate_text.c.po.c:8961
 msgid "Execute monitor commands from file"
 msgstr "Monitorprogram parancsok futtatása fájlból"
 
-#: src/translate_text.c.po.c:8919
+#: src/translate_text.c.po.c:8975
 msgid "Set an initial breakpoint for the monitor"
 msgstr "Kezdeti töréspont megadása a monitorprogramnak"
 
-#: src/translate_text.c.po.c:8933
+#: src/translate_text.c.po.c:8989
 msgid "Enable remote monitor"
 msgstr "Távoli monitor engedélyezése"
 
-#: src/translate_text.c.po.c:8947
+#: src/translate_text.c.po.c:9003
 msgid "Disable remote monitor"
 msgstr "Távoli monitor tiltása"
 
-#: src/translate_text.c.po.c:8961
+#: src/translate_text.c.po.c:9017
 msgid "The local address the remote monitor should bind to"
 msgstr "A helyi cím, amelyet a monitorprogram lefoglal"
 
-#: src/translate_text.c.po.c:8975
+#: src/translate_text.c.po.c:9031
 msgid "Specify name of the flip list file image"
 msgstr "Adja meg a lemezlista fájl nevét"
 
-#: src/translate_text.c.po.c:8989
+#: src/translate_text.c.po.c:9045
 msgid "Show a list of the available options and exit normally"
 msgstr "Kilistázza a lehetséges opciókat és kilép"
 
-#: src/translate_text.c.po.c:9004
+#: src/translate_text.c.po.c:9060
 msgid "Console mode (for music playback)"
 msgstr "Konzol mód (zene lejátszáshoz)"
 
-#: src/translate_text.c.po.c:9018
+#: src/translate_text.c.po.c:9074
 msgid "Allow production of core dumps"
 msgstr "Core dump készítés engedélyezése"
 
-#: src/translate_text.c.po.c:9032
+#: src/translate_text.c.po.c:9088
 msgid "Do not produce core dumps"
 msgstr "Core dump készítés tiltása"
 
-#: src/translate_text.c.po.c:9048
+#: src/translate_text.c.po.c:9104
 msgid "Don't call exception handler"
 msgstr "Ne hívja a kivétel kezelõt"
 
-#: src/translate_text.c.po.c:9062
+#: src/translate_text.c.po.c:9118
 msgid "Call exception handler (default)"
 msgstr "Kivétel kezelõ hívása (alapértelmezés)"
 
-#: src/translate_text.c.po.c:9077
+#: src/translate_text.c.po.c:9133
 msgid "Restore default (factory) settings"
 msgstr "Alap (gyári) beállítások visszaállítása"
 
-#: src/translate_text.c.po.c:9091
+#: src/translate_text.c.po.c:9147
 msgid "<filename>"
 msgstr "<fájlnév>"
 
-#: src/translate_text.c.po.c:9105
+#: src/translate_text.c.po.c:9161
 msgid "Specify config file"
 msgstr "Adja meg a konfigurációs fájl nevét"
 
-#: src/translate_text.c.po.c:9119
+#: src/translate_text.c.po.c:9175
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "<név> lemez/szalag képmás csatolása és automatikus elindítása"
 
-#: src/translate_text.c.po.c:9133
+#: src/translate_text.c.po.c:9189
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "<név> lemez/szalag képmás csatolása és automatikus betöltése"
 
-#: src/translate_text.c.po.c:9147
+#: src/translate_text.c.po.c:9203
 msgid "Attach <name> as a tape image"
 msgstr "<név> szalag képmás csatolása"
 
-#: src/translate_text.c.po.c:9161
+#: src/translate_text.c.po.c:9217
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "<név> lemezképmás csatolása #8-as egységként"
 
-#: src/translate_text.c.po.c:9175
+#: src/translate_text.c.po.c:9231
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "<név> lemezképmás csatolása #9-es egységként"
 
-#: src/translate_text.c.po.c:9189
+#: src/translate_text.c.po.c:9245
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "<név> lemezképmás csatolása #10-es egységként"
 
-#: src/translate_text.c.po.c:9203
+#: src/translate_text.c.po.c:9259
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "<név> lemezképmás csatolása #11-es egységként"
 
-#: src/translate_text.c.po.c:9217
+#: src/translate_text.c.po.c:9273
 msgid "<string>"
 msgstr "<sztring>"
 
-#: src/translate_text.c.po.c:9245
+#: src/translate_text.c.po.c:9301
 msgid "Specify log file name"
 msgstr "Adja meg a naplófájl nevét"
 
-#: src/translate_text.c.po.c:9259
+#: src/translate_text.c.po.c:9315
 msgid "Enable verbose log output."
 msgstr ""
 
-#: src/translate_text.c.po.c:9273
+#: src/translate_text.c.po.c:9329
 msgid "Enable mouse grab"
 msgstr "Egér elkapás engedélyezése"
 
-#: src/translate_text.c.po.c:9287
+#: src/translate_text.c.po.c:9343
 msgid "Disable mouse grab"
 msgstr "Egér elkapás tiltása"
 
-#: src/translate_text.c.po.c:9301
+#: src/translate_text.c.po.c:9357
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Válassza ki a joystick portot, ahová az egér csatolva van"
 
-#: src/translate_text.c.po.c:9315
+#: src/translate_text.c.po.c:9371
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 msgstr ""
 "Válassza ki az egér típusát (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddle)"
 
-#: src/translate_text.c.po.c:9329
+#: src/translate_text.c.po.c:9385
 msgid "Enable PS/2 mouse on userport"
 msgstr "PS/2 egér engedélyezése a userporton"
 
-#: src/translate_text.c.po.c:9343
+#: src/translate_text.c.po.c:9399
 msgid "Disable PS/2 mouse on userport"
 msgstr "PS/2 egér tiltása a userporton"
 
-#: src/translate_text.c.po.c:9357
+#: src/translate_text.c.po.c:9413
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Adja meg a legelsõ RAM cím értékét bekapcsolás után"
 
-#: src/translate_text.c.po.c:9371
+#: src/translate_text.c.po.c:9427
 msgid "<num of bytes>"
 msgstr "<bájtok száma>"
 
-#: src/translate_text.c.po.c:9385
+#: src/translate_text.c.po.c:9441
 msgid "Length of memory block initialized with the same value"
 msgstr "Azonos értékkel feltöltött memória blokkoknak a hossza"
 
-#: src/translate_text.c.po.c:9399
+#: src/translate_text.c.po.c:9455
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Azonos mintával feltöltött memória blokkoknak a hossza"
 
-#: src/translate_text.c.po.c:9427
+#: src/translate_text.c.po.c:9483
 msgid "Disable sound playback"
 msgstr "Hangok tiltása"
 
-#: src/translate_text.c.po.c:9441
+#: src/translate_text.c.po.c:9497
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Hang mintavételezési ráta beállítása <érték> Hz-re"
 
-#: src/translate_text.c.po.c:9455
+#: src/translate_text.c.po.c:9511
 msgid "Set sound buffer size to <value> msec"
 msgstr "A hangpuffer méretét <érték> mp-re állítja"
 
-#: src/translate_text.c.po.c:9469
+#: src/translate_text.c.po.c:9525
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
 msgstr ""
 
-#: src/translate_text.c.po.c:9483
+#: src/translate_text.c.po.c:9539
 msgid "Specify sound driver"
 msgstr "Adja meg a hangmodul nevét"
 
-#: src/translate_text.c.po.c:9497
+#: src/translate_text.c.po.c:9553
 msgid "<args>"
 msgstr "<argumentumok>"
 
-#: src/translate_text.c.po.c:9511
+#: src/translate_text.c.po.c:9567
 msgid "Specify initialization parameters for sound driver"
 msgstr "Adja meg a hangmodul indulási paramétereit"
 
-#: src/translate_text.c.po.c:9525
+#: src/translate_text.c.po.c:9581
 msgid "Specify recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodult"
 
-#: src/translate_text.c.po.c:9539
+#: src/translate_text.c.po.c:9595
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Adja meg a felvételhez használt hangmodul indulási paramétereit"
 
-#: src/translate_text.c.po.c:9553
+#: src/translate_text.c.po.c:9609
 msgid "<sync>"
 msgstr "<sync>"
 
-#: src/translate_text.c.po.c:9567
+#: src/translate_text.c.po.c:9623
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"
 
-#: src/translate_text.c.po.c:9581
+#: src/translate_text.c.po.c:9637
 msgid "<path>"
 msgstr "<elérési út>"
 
-#: src/translate_text.c.po.c:9595
+#: src/translate_text.c.po.c:9651
 msgid "Define search path to locate system files"
 msgstr "Keresési útvonal megadása a rendszerfájlok megtalálására"
 
-#: src/translate_text.c.po.c:9609
+#: src/translate_text.c.po.c:9665
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "A lemez/szalag emulációt gyorsító mechanizmusok engedélyezése"
 
-#: src/translate_text.c.po.c:9623
+#: src/translate_text.c.po.c:9679
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "A lemez/szalag emulációt gyorsító mechanizmusok tiltása"
 
-#: src/translate_text.c.po.c:9637
+#: src/translate_text.c.po.c:9693
 msgid "Limit emulation speed to specified value"
 msgstr "Emulációs sebesség lehatárolása adott értékre"
 
-#: src/translate_text.c.po.c:9651
+#: src/translate_text.c.po.c:9707
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Frissítsen minden <érték> képkocka elteltével (0 automatikust jelent)"
 
-#: src/translate_text.c.po.c:9679
+#: src/translate_text.c.po.c:9735
 msgid "Disable warp mode"
 msgstr "Hipergyors mód tiltása"
 
-#: src/translate_text.c.po.c:9693
+#: src/translate_text.c.po.c:9749
 msgid "<iso language code>"
 msgstr "<iso nyelv kód>"
 
-#: src/translate_text.c.po.c:9707
+#: src/translate_text.c.po.c:9763
 msgid "Specify the iso code of the language"
 msgstr "Adja meg a nyelv iso kódját"
 
-#: src/translate_text.c.po.c:9721
+#: src/translate_text.c.po.c:9777
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM kiterjesztés engedélyezése"
 
-#: src/translate_text.c.po.c:9735
+#: src/translate_text.c.po.c:9791
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM kiterjesztés tiltása"
 
-#: src/translate_text.c.po.c:9749
+#: src/translate_text.c.po.c:9805
 msgid "Specify name of PLUS256K image"
 msgstr "Adja meg a PLUS256K-s képmás nevét"
 
-#: src/translate_text.c.po.c:9763
+#: src/translate_text.c.po.c:9819
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM bõvítés engedélyezése"
 
-#: src/translate_text.c.po.c:9777
+#: src/translate_text.c.po.c:9833
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM bõvítés tiltása"
 
-#: src/translate_text.c.po.c:9791
+#: src/translate_text.c.po.c:9847
 msgid "Specify name of PLUS60K image"
 msgstr "Adja meg a nevét a PLUS60K képmásnak"
 
-#: src/translate_text.c.po.c:9805
+#: src/translate_text.c.po.c:9861
 msgid "Base address of the PLUS60K expansion"
 msgstr "A PLUS60K bõvítés báziscíme"
 
-#: src/translate_text.c.po.c:9819
+#: src/translate_text.c.po.c:9875
 msgid "Enable the 256K RAM expansion"
 msgstr "256K RAM kiterjesztés engedélyezése"
 
-#: src/translate_text.c.po.c:9833
+#: src/translate_text.c.po.c:9889
 msgid "Disable the 256K RAM expansion"
 msgstr "256K RAM kiterjesztés tiltása"
 
-#: src/translate_text.c.po.c:9847
+#: src/translate_text.c.po.c:9903
 msgid "Specify name of 256K image"
 msgstr "Adja meg a 256K-s képmás nevét"
 
-#: src/translate_text.c.po.c:9861
+#: src/translate_text.c.po.c:9917
 msgid "Base address of the 256K expansion"
 msgstr "A 256K-s RAM kiterjesztés báziscíme"
 
-#: src/translate_text.c.po.c:9875
+#: src/translate_text.c.po.c:9931
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Structured Basic cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:9889
+#: src/translate_text.c.po.c:9945
 #, fuzzy
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
 msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:9903
+#: src/translate_text.c.po.c:9959
 #, fuzzy
 msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:9917
+#: src/translate_text.c.po.c:9973
 #, fuzzy
 msgid "Attach raw 16kB Simons Basic cartridge image"
 msgstr "Nyers 16KB-os cartridge képmás csatolása"
 
-#: src/translate_text.c.po.c:9931
+#: src/translate_text.c.po.c:9987
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "CSORY 256K RAM kiterjesztés engedélyezése"
 
-#: src/translate_text.c.po.c:9945
+#: src/translate_text.c.po.c:10001
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "HANNES 256K RAM kiterjesztés engedélyezése"
 
-#: src/translate_text.c.po.c:9959
+#: src/translate_text.c.po.c:10015
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "HANNES 1024K RAM kiterjesztés engedélyezése"
 
-#: src/translate_text.c.po.c:9973
+#: src/translate_text.c.po.c:10029
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "HANNES 4096K RAM kiterjesztés engedélyezése"
 
-#: src/translate_text.c.po.c:9987
+#: src/translate_text.c.po.c:10043
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "Adja meg a DTV verzióját (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:10001
+#: src/translate_text.c.po.c:10057
 msgid "Enable DTV blitter logs."
 msgstr "DTV blit naplók engedélyezése."
 
-#: src/translate_text.c.po.c:10015
+#: src/translate_text.c.po.c:10071
 msgid "Disable DTV blitter logs."
 msgstr "DTV blit naplók tiltása."
 
-#: src/translate_text.c.po.c:10029
+#: src/translate_text.c.po.c:10085
 msgid "Enable DTV DMA logs."
 msgstr "DTV DMA naplók engedélyezése."
 
-#: src/translate_text.c.po.c:10043
+#: src/translate_text.c.po.c:10099
 msgid "Disable DTV DMA logs."
 msgstr "DTV DMA naplók tiltása."
 
-#: src/translate_text.c.po.c:10057
+#: src/translate_text.c.po.c:10113
 msgid "Specify name of C64DTV ROM image"
 msgstr "Adja meg a C64DTV ROM képmás nevét"
 
-#: src/translate_text.c.po.c:10071
+#: src/translate_text.c.po.c:10127
 msgid "Enable writing to C64DTV ROM image"
 msgstr "C64DTV ROM képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:10085
+#: src/translate_text.c.po.c:10141
 msgid "Disable writing to C64DTV ROM image"
 msgstr "C64DTV ROM képmásba írás tiltása"
 
-#: src/translate_text.c.po.c:10099
+#: src/translate_text.c.po.c:10155
 msgid "Enable DTV flash chip logs."
 msgstr "DTV flash chip naplók engedélyezése."
 
-#: src/translate_text.c.po.c:10113
+#: src/translate_text.c.po.c:10169
 msgid "Disable DTV flash chip logs."
 msgstr "DTV flash chip naplók tiltása."
 
-#: src/translate_text.c.po.c:10127
+#: src/translate_text.c.po.c:10183
 msgid "Use <name> as directory for flash file system device"
 msgstr "<név> könyvtár használata a flash fájlrendszer eszközhöz"
 
-#: src/translate_text.c.po.c:10141
+#: src/translate_text.c.po.c:10197
 msgid "Enable true hardware flash file system"
 msgstr "Igazi hardver flash fájlrendszer engedélyezése"
 
-#: src/translate_text.c.po.c:10155
+#: src/translate_text.c.po.c:10211
 msgid "Disable true hardware flash file system"
 msgstr "Igazi hardver flash fájlrendszer tiltása"
 
-#: src/translate_text.c.po.c:10170
+#: src/translate_text.c.po.c:10226
 msgid "Enable MIDI emulation"
 msgstr "MIDI emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:10184
+#: src/translate_text.c.po.c:10240
 msgid "Disable MIDI emulation"
 msgstr "MIDI emuláció tiltása"
 
-#: src/translate_text.c.po.c:10198
+#: src/translate_text.c.po.c:10254
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -13418,96 +13459,96 @@ msgstr ""
 "MIDI interfész típus (0: soros, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate_text.c.po.c:10213
+#: src/translate_text.c.po.c:10269
 msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster engedélyezése"
 
-#: src/translate_text.c.po.c:10227
+#: src/translate_text.c.po.c:10283
 msgid "Disable the digiblaster add-on"
 msgstr "Digiblaster tiltása"
 
-#: src/translate_text.c.po.c:10241
+#: src/translate_text.c.po.c:10297
 #, fuzzy
 msgid "Enable the v364 speech add-on"
 msgstr "Digiblaster engedélyezése"
 
-#: src/translate_text.c.po.c:10255
+#: src/translate_text.c.po.c:10311
 #, fuzzy
 msgid "Disable the v364 speech add-on"
 msgstr "Digiblaster tiltása"
 
-#: src/translate_text.c.po.c:10269
+#: src/translate_text.c.po.c:10325
 #, fuzzy
 msgid "Attach Speech ROM image"
 msgstr "Szalag képmás csatolása"
 
-#: src/translate_text.c.po.c:10283
+#: src/translate_text.c.po.c:10339
 msgid "Enable SID cartridge joystick"
 msgstr "SID cartridge botkormány engedélyezése"
 
-#: src/translate_text.c.po.c:10297
+#: src/translate_text.c.po.c:10353
 msgid "Disable SID cartridge joystick"
 msgstr "SID cartridge botkormány tiltása"
 
-#: src/translate_text.c.po.c:10311
+#: src/translate_text.c.po.c:10367
 msgid "Enable the SFX soundexpander cartridge"
 msgstr "SFX soundexpander engedélyezése"
 
-#: src/translate_text.c.po.c:10325
+#: src/translate_text.c.po.c:10381
 msgid "Disable the SFX soundexpander cartridge"
 msgstr "SFX soundexpander tiltása"
 
-#: src/translate_text.c.po.c:10339
+#: src/translate_text.c.po.c:10395
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "YM csip típus megadása (3526 / 3812)"
 
-#: src/translate_text.c.po.c:10353
+#: src/translate_text.c.po.c:10409
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler engedélyezése"
 
-#: src/translate_text.c.po.c:10367
+#: src/translate_text.c.po.c:10423
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler tiltása"
 
-#: src/translate_text.c.po.c:10381
+#: src/translate_text.c.po.c:10437
 msgid "Enable lightpen emulation"
 msgstr "Fényceruza emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:10395
+#: src/translate_text.c.po.c:10451
 msgid "Disable lightpen emulation"
 msgstr "Fényceruza emuláció tiltása"
 
-#: src/translate_text.c.po.c:10409
+#: src/translate_text.c.po.c:10465
 msgid "Set lightpen type"
 msgstr "Fényceruza típusának megadása"
 
-#: src/translate_text.c.po.c:10423
+#: src/translate_text.c.po.c:10479
 msgid "Enable EasyFlash jumper"
 msgstr "EasyFlash Jumper engedélyezése"
 
-#: src/translate_text.c.po.c:10437
+#: src/translate_text.c.po.c:10493
 msgid "Disable EasyFlash jumper"
 msgstr "EasyFlash Jumper tiltása"
 
-#: src/translate_text.c.po.c:10451
+#: src/translate_text.c.po.c:10507
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "EasyFlash .crt képmásba írás engedélyezése"
 
-#: src/translate_text.c.po.c:10465
+#: src/translate_text.c.po.c:10521
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "EasyFlash .crt képmásba írás tiltása"
 
-#: src/translate_text.c.po.c:10479
+#: src/translate_text.c.po.c:10535
 #, fuzzy
 msgid "Enable the DigiMAX cartridge"
 msgstr "Digimax cartridge engedélyezése"
 
-#: src/translate_text.c.po.c:10493
+#: src/translate_text.c.po.c:10549
 #, fuzzy
 msgid "Disable the DigiMAX cartridge"
 msgstr "Digimax cartridge tiltása"
 
-#: src/translate_text.c.po.c:10507
+#: src/translate_text.c.po.c:10563
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
@@ -13607,9 +13648,6 @@ msgstr "A digimax cartridge báziscíme"
 
 #~ msgid "Epyx fastload image..."
 #~ msgstr "Epyx gyorstöltõ képmás..."
-
-#~ msgid "IEEE488 interface image..."
-#~ msgstr "IEEE488 interfész képmás..."
 
 #~ msgid "Super Snapshot 4 image..."
 #~ msgstr "Super Snapshot 4 képmás..."
