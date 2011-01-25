@@ -10,4 +10,6 @@ MAKEGUIDE=$1
 GUIDEFILE=$2
 TEXIFILE=$3
 
+echo generating amigaguide
 $MAKEGUIDE --error-limit 10000 --amiga -o $GUIDEFILE $TEXIFILE
+echo done

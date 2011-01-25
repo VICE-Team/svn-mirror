@@ -1,12 +1,12 @@
 @database ./vice.guide
 
-@Master vice.texi
+@Master ./vice.texi
 
 @Width 72
 
 
 This is the AmigaGuide® file ./vice.guide, produced by Makeinfo-1.55 from 
-the input file vice.texi.
+the input file ./vice.texi.
 
 START-INFO-DIR-ENTRY
 * VICE: (vice).        VICE, the Versatile Commodore Emulator.

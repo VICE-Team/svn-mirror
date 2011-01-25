@@ -67,7 +67,7 @@ endif
 if BUILD_HLP
 $(srcdir)/vice.hlp:	vice.texi
 	$(MAKERTF) --hpj=vice.hpj --output=vice.rtf $(srcdir)/vice.texi
-	$(HCRTF) -o VICE.HLP vice.hpj
+	$(HCRTF) -o VICE.HLP -xn vice.hpj
 	rm -f vice.hpj vice.rtf
 	mv VICE.HLP $(srcdir)/vice.hlp
 

@@ -13,7 +13,7 @@ TEXIFILE=$3
 rm -f -r chmtmp
 mkdir chmtmp
 cd chmtmp
-cp $TEXIFILE ./
+cp ../$TEXIFILE ./
 ../t2h.pl vice.texi
 $HHC vice.hhp
 mv vice.chm ../$CHMFILE
