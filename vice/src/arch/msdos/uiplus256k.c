@@ -34,37 +34,14 @@
 #include "uiplus256k.h"
 
 TUI_MENU_DEFINE_TOGGLE(PLUS256K)
-
-static TUI_MENU_CALLBACK(plus256k_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change PLUS256K image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("PLUS256Kfilename", s);
-    }
-
-    resources_get_string("PLUS256Kfilename", &v);
-    return v;
-}
+TUI_MENU_DEFINE_FILENAME(PLUS256Kfilename, "PLUS256K")
 
 static tui_menu_item_def_t plus256k_menu_items[] = {
     { "_Enable PLUS256K:", "Emulate PLUS256K RAM Expansion",
       toggle_PLUS256K_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "PLUS256K _image file:", "Select the PLUS256K image file",
-      plus256k_image_file_callback, NULL, 20,
+      filename_PLUS256Kfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

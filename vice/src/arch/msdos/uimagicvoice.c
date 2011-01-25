@@ -34,37 +34,14 @@
 #include "uimagicvoice.h"
 
 TUI_MENU_DEFINE_TOGGLE(MagicVoiceCartridgeEnabled)
-
-static TUI_MENU_CALLBACK(magicvoice_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change Magic Voice ROM name", "New ROM name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("MagicVoiceImage", s);
-    }
-
-    resources_get_string("MagicVoiceImage", &v);
-    return v;
-}
+TUI_MENU_DEFINE_FILENAME(MagicVoiceImage, "Magic Voice ROM")
 
 static tui_menu_item_def_t magicvoice_menu_items[] = {
     { "_Enable Magic Voice:", "Emulate Magic Voice cartridge",
       toggle_MagicVoiceCartridgeEnabled_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Magic Voice _ROM file:", "Select the Magic Voice ROM file",
-      magicvoice_image_file_callback, NULL, 20,
+      filename_MagicVoiceImage_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

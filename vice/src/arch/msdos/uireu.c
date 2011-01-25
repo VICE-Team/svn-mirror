@@ -34,7 +34,9 @@
 #include "uireu.h"
 
 TUI_MENU_DEFINE_TOGGLE(REU)
+TUI_MENU_DEFINE_TOGGLE(REUImageWrite)
 TUI_MENU_DEFINE_RADIO(REUsize)
+TUI_MENU_DEFINE_FILENAME(REUfilename, "REU")
 
 static TUI_MENU_CALLBACK(reu_size_submenu_callback)
 {
@@ -66,30 +68,6 @@ static TUI_MENU_CALLBACK(reu_size_submenu_callback)
     { NULL }
 };
 
-static TUI_MENU_CALLBACK(reu_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change REU image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("REUfilename", s);
-    }
-
-    resources_get_string("REUfilename", &v);
-    return v;
-}
-
 static tui_menu_item_def_t reu_menu_items[] = {
     { "_Enable REU:", "Emulate RAM Expansion Unit",
       toggle_REU_callback, NULL, 3,
@@ -98,8 +76,11 @@ static tui_menu_item_def_t reu_menu_items[] = {
       reu_size_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, reu_size_submenu,
       "REU size" },
+    { "_Write to REU image when changed:", "Write to REU image when the data has been changed",
+      toggle_REUImageWrite_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "REU _image file:", "Select the REU image file",
-      reu_image_file_callback, NULL, 20,
+      filename_REUfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

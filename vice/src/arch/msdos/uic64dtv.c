@@ -37,6 +37,7 @@
 TUI_MENU_DEFINE_RADIO(DtvRevision)
 TUI_MENU_DEFINE_TOGGLE(c64dtvromrw)
 TUI_MENU_DEFINE_TOGGLE(HummerADC)
+TUI_MENU_DEFINE_FILENAME(c64dtvromfilename, "C64DTV ROM")
 
 static TUI_MENU_CALLBACK(DtvRevision_submenu_callback)
 {
@@ -56,35 +57,9 @@ static tui_menu_item_def_t DtvRevision_submenu[] = {
     { NULL }
 };
 
-
-static TUI_MENU_CALLBACK(c64dtvromfilename_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change C64DTV ROM image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("c64dtvromfilename", s);
-    }
-
-    resources_get_string("c64dtvromfilename", &v);
-
-    return v;
-}
-
 static tui_menu_item_def_t c64dtv_menu_items[] = {
     { "C64DTV ROM _image file:", "Select the C64DTV ROM image file",
-      c64dtvromfilename_callback, NULL, 20,
+      filename_c64dtvromfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "C64DTV revision:", "Select the revision of the C64DTV",
       DtvRevision_submenu_callback, NULL, 11,

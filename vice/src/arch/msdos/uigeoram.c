@@ -34,7 +34,9 @@
 #include "uigeoram.h"
 
 TUI_MENU_DEFINE_TOGGLE(GEORAM)
+TUI_MENU_DEFINE_TOGGLE(GEORAMImageWrite)
 TUI_MENU_DEFINE_RADIO(GEORAMsize)
+TUI_MENU_DEFINE_FILENAME(GEORAMfilename, "GEO-RAM")
 
 static TUI_MENU_CALLBACK(georam_size_submenu_callback)
 {
@@ -64,31 +66,6 @@ static tui_menu_item_def_t georam_size_submenu[] = {
     { NULL }
 };
 
-static TUI_MENU_CALLBACK(georam_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change GEO-RAM image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("GEORAMfilename", s);
-    }
-
-    resources_get_string("GEORAMfilename", &v);
-
-    return v;
-}
-
 static tui_menu_item_def_t georam_menu_items[] = {
     { "_Enable GEO-RAM:", "Emulate GEO-RAM Expansion Unit",
       toggle_GEORAM_callback, NULL, 3,
@@ -97,8 +74,11 @@ static tui_menu_item_def_t georam_menu_items[] = {
       georam_size_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, georam_size_submenu,
       "GEO-RAM size" },
+    { "_Write to GEO-RAM image when changed:", "Write to GEO-RAM image when the data has been changed",
+      toggle_GEORAMImageWrite_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "GEO-RAM _image file:", "Select the GEO-RAM image file",
-      georam_image_file_callback, NULL, 20,
+      filename_GEORAMfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

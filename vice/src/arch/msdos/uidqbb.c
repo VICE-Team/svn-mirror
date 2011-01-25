@@ -33,40 +33,19 @@
 #include "tuimenu.h"
 #include "uidqbb.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(DQBB)
-
-static TUI_MENU_CALLBACK(dqbb_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change DQBB image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("DQBBfilename", s);
-    }
-
-    resources_get_string("DQBBfilename", &v);
-
-    return v;
-}
+TUI_MENU_DEFINE_TOGGLE(DQBBImageWrite)
+TUI_MENU_DEFINE_FILENAME(DQBBfilename, "DQBB")
 
 static tui_menu_item_def_t dqbb_menu_items[] = {
     { "_Enable DQBB:", "Emulate Double Quick Brown Box",
       toggle_DQBB_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Write to DQBB image when changed:", "Write to DQBB image when the data has been changed",
+      toggle_DQBBImageWrite_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "DQBB _image file:", "Select the DQBB image file",
-      dqbb_image_file_callback, NULL, 20,
+      filename_DQBBfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

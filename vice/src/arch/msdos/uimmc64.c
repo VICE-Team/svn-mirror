@@ -39,54 +39,8 @@ TUI_MENU_DEFINE_TOGGLE(MMC64_flashjumper)
 TUI_MENU_DEFINE_TOGGLE(MMC64_bios_write)
 TUI_MENU_DEFINE_TOGGLE(MMC64_RO)
 TUI_MENU_DEFINE_RADIO(MMC64_sd_type)
-
-static TUI_MENU_CALLBACK(mmc64_bios_name_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change MMC64 BIOS image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("MMC64BIOSfilename", s);
-    }
-
-    resources_get_string("MMC64BIOSfilename", &v);
-    return v;
-}
-
-static TUI_MENU_CALLBACK(mmc64_image_name_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change MMC64 MMC/SD image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("MMC64imagefilename", s);
-    }
-
-    resources_get_string("MMC64imagefilename", &v);
-    return v;
-}
+TUI_MENU_DEFINE_FILENAME(MMC64BIOSfilename, "MMC64 BIOS")
+TUI_MENU_DEFINE_FILENAME(MMC64imagefilename, "MMC64 MMC/SD")
 
 static TUI_MENU_CALLBACK(mmc64_revision_submenu_callback)
 {
@@ -157,7 +111,7 @@ static tui_menu_item_def_t mmc64_menu_items[] = {
       toggle_MMC64_bios_write_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "MMC64 B_IOS file:", "Select the MMC64 BIOS file",
-      mmc64_bios_name_callback, NULL, 20,
+      filename_MMC64BIOSfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "MMC64 image _read-only:", "Enable MMC64 MMC/SD image read-only",
       toggle_MMC64_RO_callback, NULL, 3,
@@ -167,7 +121,7 @@ static tui_menu_item_def_t mmc64_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, mmc64_sd_type_submenu,
       "MMC64 card type" },
     { "MMC64 i_mage file:", "Select the MMC64 MMC/SD image file",
-      mmc64_image_name_callback, NULL, 20,
+      filename_MMC64imagefilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

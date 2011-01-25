@@ -33,9 +33,10 @@
 #include "tuimenu.h"
 #include "uiisepic.h"
 
-
 TUI_MENU_DEFINE_TOGGLE(IsepicCartridgeEnabled)
 TUI_MENU_DEFINE_TOGGLE(IsepicSwitch)
+TUI_MENU_DEFINE_TOGGLE(IsepicImageWrite)
+TUI_MENU_DEFINE_FILENAME(Isepicfilename, "ISEPIC")
 
 static tui_menu_item_def_t isepic_menu_items[] = {
     { "_Enable ISEPIC:", "Emulate ISEPIC cartridge",
@@ -43,6 +44,12 @@ static tui_menu_item_def_t isepic_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Enable ISEPIC _Switch:", "ISEPIC switch on/off",
       toggle_IsepicSwitch_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Write to ISEPIC image when changed:", "Write to ISEPIC image when the data has been changed",
+      toggle_IsepicImageWrite_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "ISEPIC _image file:", "Select the ISEPIC image file",
+      filename_Isepicfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

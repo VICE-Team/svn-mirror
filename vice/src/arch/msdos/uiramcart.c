@@ -34,8 +34,10 @@
 #include "uiramcart.h"
 
 TUI_MENU_DEFINE_TOGGLE(RAMCART)
-TUI_MENU_DEFINE_RADIO(RAMCARTsize)
 TUI_MENU_DEFINE_TOGGLE(RAMCART_RO)
+TUI_MENU_DEFINE_TOGGLE(RAMCARTImageWrite)
+TUI_MENU_DEFINE_RADIO(RAMCARTsize)
+TUI_MENU_DEFINE_FILENAME(RAMCARTfilename, "RamCart")
 
 static TUI_MENU_CALLBACK(ramcart_size_submenu_callback)
 {
@@ -55,30 +57,6 @@ static tui_menu_item_def_t ramcart_size_submenu[] = {
     { NULL }
 };
 
-static TUI_MENU_CALLBACK(ramcart_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change RamCart image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("RAMCARTfilename", s);
-    }
-
-    resources_get_string("RAMCARTfilename", &v);
-    return v;
-}
-
 static tui_menu_item_def_t ramcart_menu_items[] = {
     { "_Enable RamCart:", "Emulate RamCart Expansion",
       toggle_RAMCART_callback, NULL, 3,
@@ -90,8 +68,11 @@ static tui_menu_item_def_t ramcart_menu_items[] = {
       ramcart_size_submenu_callback, NULL, 7,
       TUI_MENU_BEH_CONTINUE, ramcart_size_submenu,
       "RamCart size" },
+    { "_Write to RamCart image when changed:", "Write to RamCart image when the data has been changed",
+      toggle_RAMCARTImageWrite_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "RamCart _image file:", "Select the RamCart image file",
-      ramcart_image_file_callback, NULL, 20,
+      filename_RAMCARTfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

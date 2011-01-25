@@ -35,106 +35,10 @@
 
 TUI_MENU_DEFINE_TOGGLE(IDE64version4)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
-
-static TUI_MENU_CALLBACK(IDE64Image1_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change IDE64 HD #1 image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("IDE64Image1", s);
-    }
-
-    resources_get_string("IDE64Image1", &v);
-
-    return v;
-}
-
-static TUI_MENU_CALLBACK(IDE64Image2_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change IDE64 HD #2 image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("IDE64Image2", s);
-    }
-
-    resources_get_string("IDE64Image2", &v);
-
-    return v;
-}
-
-static TUI_MENU_CALLBACK(IDE64Image3_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change IDE64 HD #3 image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("IDE64Image3", s);
-    }
-
-    resources_get_string("IDE64Image3", &v);
-
-    return v;
-}
-
-static TUI_MENU_CALLBACK(IDE64Image4_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change IDE64 HD #4 image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("IDE64Image4", s);
-    }
-
-    resources_get_string("IDE64Image4", &v);
-
-    return v;
-}
+TUI_MENU_DEFINE_FILENAME(IDE64Image1, "IDE64 HD #1")
+TUI_MENU_DEFINE_FILENAME(IDE64Image2, "IDE64 HD #2")
+TUI_MENU_DEFINE_FILENAME(IDE64Image3, "IDE64 HD #3")
+TUI_MENU_DEFINE_FILENAME(IDE64Image4, "IDE64 HD #4")
 
 static TUI_MENU_CALLBACK(ui_set_cylinders_callback)
 {
@@ -213,16 +117,16 @@ static tui_menu_item_def_t ide64_menu_items[] = {
       toggle_IDE64version4_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "IDE64 HD #_1 image file:", "Select the IDE64 HD #1 image file",
-      IDE64Image1_callback, NULL, 20,
+      filename_IDE64Image1_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "IDE64 HD #_2 image file:", "Select the IDE64 HD #2 image file",
-      IDE64Image2_callback, NULL, 20,
+      filename_IDE64Image2_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "IDE64 HD #_3 image file:", "Select the IDE64 HD #3 image file",
-      IDE64Image3_callback, NULL, 20,
+      filename_IDE64Image3_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "IDE64 HD #_4 image file:", "Select the IDE64 HD #4 image file",
-      IDE64Image4_callback, NULL, 20,
+      filename_IDE64Image4_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Autodetect geometry:", "Autodetect the geometry",
       toggle_IDE64AutodetectSize_callback, NULL, 3,

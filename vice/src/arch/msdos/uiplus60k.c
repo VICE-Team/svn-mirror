@@ -35,6 +35,7 @@
 
 TUI_MENU_DEFINE_TOGGLE(PLUS60K)
 TUI_MENU_DEFINE_RADIO(PLUS60Kbase)
+TUI_MENU_DEFINE_FILENAME(PLUS60Kfilename, "PLUS60K")
 
 static TUI_MENU_CALLBACK(plus60k_base_submenu_callback)
 {
@@ -54,30 +55,6 @@ static tui_menu_item_def_t plus60k_base_submenu[] = {
     { NULL }
 };
 
-static TUI_MENU_CALLBACK(plus60k_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change PLUS60K image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("PLUS60Kfilename", s);
-    }
-
-    resources_get_string("PLUS60Kfilename", &v);
-    return v;
-}
-
 static tui_menu_item_def_t plus60k_menu_items[] = {
     { "_Enable PLUS60K:", "Emulate PLUS60K RAM Expansion",
       toggle_PLUS60K_callback, NULL, 3,
@@ -87,7 +64,7 @@ static tui_menu_item_def_t plus60k_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, plus60k_base_submenu,
       "PLUS60K base" },
     { "PLUS60K _image file:", "Select the PLUS60K image file",
-      plus60k_image_file_callback, NULL, 20,
+      filename_PLUS60Kfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

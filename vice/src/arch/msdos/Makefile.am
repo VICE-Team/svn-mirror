@@ -93,6 +93,8 @@ libarch_a_SOURCES = \
 	uidrive.h \
 	uieasyflash.c \
 	uieasyflash.h \
+	uiexpert.c \
+	uiexpert.h \
 	uigeoram.c \
 	uigeoram.h \
 	uiide64.c \

@@ -27,6 +27,8 @@
 #ifndef VICE_TUI_MENU_H
 #define VICE_TUI_MENU_H
 
+#include "vicemaxpath.h"
+
 #define TUI_MENU_HOT_KEY_PREFIX		'_'
 
 typedef enum tui_menu_item_behavior {
@@ -91,13 +93,49 @@ extern void tui_menu_update(tui_menu_t menu);
         return _tui_menu_toggle_helper(been_activated, #resource); \
     }
  
-# define TUI_MENU_DEFINE_RADIO(resource)                                                 \
+#define TUI_MENU_DEFINE_RADIO(resource)                                                  \
     static TUI_MENU_CALLBACK(radio_##resource##_callback)                                \
     {                                                                                    \
         return _tui_menu_radio_helper(been_activated, param, become_default, #resource); \
     }
 
+#define TUI_MENU_DEFINE_FILENAME(resource, name)                                                             \
+    static TUI_MENU_CALLBACK(filename_##resource##_callback)                                                 \
+    {                                                                                                        \
+        char filename[PATH_MAX];                                                                             \
+        const char *v;                                                                                       \
+        char *tmp;                                                                                           \
+                                                                                                             \
+        if (been_activated) {                                                                                \
+                                                                                                             \
+            *filename = '\0';                                                                                \
+                                                                                                             \
+            if (tui_input_string("Change "name" image name", "New image name:", filename, PATH_MAX) == -1) { \
+                return NULL;                                                                                 \
+            }                                                                                                \
+                                                                                                             \
+            util_remove_spaces(filename);                                                                    \
+                                                                                                             \
+            if (*filename == '\0') {                                                                         \
+                tmp = tui_file_selector("Choose "name" image", NULL, "*", NULL, NULL, NULL, NULL);           \
+                if (tmp != NULL) {                                                                           \
+                    strcpy(filename, tmp);                                                                   \
+                    lib_free(tmp);                                                                           \
+                } else {                                                                                     \
+                    return NULL;                                                                             \
+                }                                                                                            \
+            }                                                                                                \
+                                                                                                             \
+            resources_set_string(#resource, filename);                                                       \
+       }                                                                                                     \
+                                                                                                             \
+       resources_get_string(#resource, &v);                                                                  \
+                                                                                                             \
+       return v;                                                                                             \
+    }
+
 extern const char *_tui_menu_toggle_helper(int been_activated, const char *resource_name);
 extern const char *_tui_menu_radio_helper(int been_activated, void *param, int *become_default, const char *resource_name);
+extern char *_tui_menu_filename_helper(int been_activated, char *name, const char *resource_name);
 
 #endif

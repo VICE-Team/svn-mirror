@@ -38,54 +38,8 @@ TUI_MENU_DEFINE_TOGGLE(MMCRImageWrite)
 TUI_MENU_DEFINE_TOGGLE(MMCREEPROMRW)
 TUI_MENU_DEFINE_TOGGLE(MMCRRescueMode)
 TUI_MENU_DEFINE_RADIO(MMCRSDType)
-
-static TUI_MENU_CALLBACK(mmcreplay_eeprom_name_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change MMC Replay EEPROM image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("MMCREEPROMImage", s);
-    }
-
-    resources_get_string("MMCREEPROMImage", &v);
-    return v;
-}
-
-static TUI_MENU_CALLBACK(mmcreplay_image_name_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change MMC Replay MMC/SD image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("MMCRCardImage", s);
-    }
-
-    resources_get_string("MMCRCardImage", &v);
-    return v;
-}
+TUI_MENU_DEFINE_FILENAME(MMCREEPROMImage, "MMC Replay EEPROM")
+TUI_MENU_DEFINE_FILENAME(MMCRCardImage, "MMC Replay MMC/SD")
 
 static TUI_MENU_CALLBACK(mmcreplay_sd_type_submenu_callback)
 {
@@ -131,7 +85,7 @@ static tui_menu_item_def_t mmcreplay_menu_items[] = {
       toggle_MMCRImageWrite_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "MMC Replay EE_PROM file:", "Select the MMC Replay EEPROM file",
-      mmcreplay_eeprom_name_callback, NULL, 20,
+      filename_MMCREEPROMImage_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "MMC Replay rescue mode:", "Enable MMC Replay rescue mode",
       toggle_MMCRRescueMode_callback, NULL, 3,
@@ -144,7 +98,7 @@ static tui_menu_item_def_t mmcreplay_menu_items[] = {
       TUI_MENU_BEH_CONTINUE, mmcreplay_sd_type_submenu,
       "MMC Replay card type" },
     { "MMC Replay MMC/SD i_mage file:", "Select the MMC Replay MMC/SD image file",
-      mmcreplay_image_name_callback, NULL, 20,
+      filename_MMCRCardImage_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

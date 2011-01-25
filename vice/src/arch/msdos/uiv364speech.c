@@ -34,37 +34,14 @@
 #include "uiv364speech.h"
 
 TUI_MENU_DEFINE_TOGGLE(SpeechEnabled)
-
-static TUI_MENU_CALLBACK(v364speech_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change V364 speech ROM name", "New ROM name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("SpeechImage", s);
-    }
-
-    resources_get_string("SpeechImage", &v);
-    return v;
-}
+TUI_MENU_DEFINE_FILENAME(SpeechImage, "V364 speech ROM")
 
 static tui_menu_item_def_t v364speech_menu_items[] = {
     { "_Enable V364 speech:", "Emulate V364 speech",
       toggle_SpeechEnabled_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "V364 speech _ROM file:", "Select the V364 speech ROM file",
-      v364speech_image_file_callback, NULL, 20,
+      filename_SpeechImage_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

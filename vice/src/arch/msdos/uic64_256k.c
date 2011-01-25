@@ -35,6 +35,7 @@
 
 TUI_MENU_DEFINE_TOGGLE(C64_256K)
 TUI_MENU_DEFINE_RADIO(C64_256Kbase)
+TUI_MENU_DEFINE_FILENAME(C64_256Kfilename, "256K")
 
 static TUI_MENU_CALLBACK(c64_256k_base_submenu_callback)
 {
@@ -58,31 +59,6 @@ static tui_menu_item_def_t c64_256k_base_submenu[] = {
     { NULL }
 };
 
-static TUI_MENU_CALLBACK(c64_256k_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change 256K image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("C64_256Kfilename", s);
-    }
-
-    resources_get_string("C64_256Kfilename", &v);
-
-    return v;
-}
-
 static tui_menu_item_def_t c64_256k_menu_items[] = {
     { "_Enable 256K:", "Emulate 256K RAM Expansion",
       toggle_C64_256K_callback, NULL, 3,
@@ -91,7 +67,7 @@ static tui_menu_item_def_t c64_256k_menu_items[] = {
       c64_256k_base_submenu_callback, NULL, 11,
       TUI_MENU_BEH_CONTINUE, c64_256k_base_submenu, "256K base" },
     { "256K _image file:", "Select the 256K image file",
-      c64_256k_image_file_callback, NULL, 20,
+      filename_C64_256Kfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };

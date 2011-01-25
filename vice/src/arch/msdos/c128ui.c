@@ -45,6 +45,7 @@
 #include "uic64cart.h"
 #include "uidigimax.h"
 #include "uieasyflash.h"
+#include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uilightpen.h"
@@ -226,6 +227,8 @@ int c128ui_init(void)
     uigeoram_init(ui_ioextensions_submenu);
 
     uiramcart_init(ui_ioextensions_submenu);
+
+    uiexpert_init(ui_ioextensions_submenu);
 
     uiide64_init(ui_ioextensions_submenu);
 

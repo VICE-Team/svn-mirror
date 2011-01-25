@@ -47,6 +47,7 @@
 #include "uidigimax.h"
 #include "uidqbb.h"
 #include "uieasyflash.h"
+#include "uiexpert.h"
 #include "uigeoram.h"
 #include "uiide64.h"
 #include "uiisepic.h"
@@ -236,6 +237,8 @@ int c64ui_init(void)
     uidqbb_init(ui_ioextensions_submenu);
 
     uiisepic_init(ui_ioextensions_submenu);
+
+    uiexpert_init(ui_ioextensions_submenu);
 
     uiplus60k_init(ui_ioextensions_submenu);
 

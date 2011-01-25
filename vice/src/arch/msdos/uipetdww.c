@@ -34,37 +34,14 @@
 #include "uipetdww.h"
 
 TUI_MENU_DEFINE_TOGGLE(PETDWW)
-
-static TUI_MENU_CALLBACK(petdww_image_file_callback)
-{
-    char s[256];
-    const char *v;
-
-    if (been_activated) {
-
-        *s = '\0';
-
-        if (tui_input_string("Change PET DWW image name", "New image name:", s, 255) == -1) {
-            return NULL;
-        }
-
-        if (*s == '\0') {
-            return NULL;
-        }
-
-        resources_set_string("PETDWWfilename", s);
-    }
-
-    resources_get_string("PETDWWfilename", &v);
-    return v;
-}
+TUI_MENU_DEFINE_FILENAME(PETDWWfilename, "PET DWW")
 
 static tui_menu_item_def_t petdww_menu_items[] = {
     { "_Enable PET DWW:", "Emulate PET DWW",
       toggle_PETDWW_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "PET DWW _image file:", "Select the PET DWW image file",
-      petdww_image_file_callback, NULL, 20,
+      filename_PETDWWfilename_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
