@@ -207,7 +207,7 @@ BEGIN
   IDS_MMCREPLAY_RESCUEMODE          "Kurtarma modu"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Kart tipi"
   IDS_MMCREPLAY_READ_WRITE          "oku/yaz"
-  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
+  IDS_MMCREPLAY_WRITE_ENABLE        "MMC Replay EEPROM'u deðiþtiðinde kaydet"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

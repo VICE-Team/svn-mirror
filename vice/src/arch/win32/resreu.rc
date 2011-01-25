@@ -187,7 +187,7 @@ BEGIN
   IDS_REU_CAPTION      "REU Ayarlarý"
   IDS_REU_ENABLE       "REU'yý aktif &et"
   IDS_REU_SIZE         "REU boyutu"
-  IDS_REU_WRITE_ENABLE "&Save REU image when changed"
+  IDS_REU_WRITE_ENABLE "REU imajý deði&stiðinde kaydet"
   IDS_REU_FILE         "REU dosyasý"
   IDS_REU_SELECT_FILE  "REU için dosya seçin"
 END

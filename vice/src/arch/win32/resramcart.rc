@@ -195,13 +195,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION      "RamCart Settings"
-  IDS_RAMCART_ENABLE       "&Enable RamCart"
+  IDS_RAMCART_CAPTION      "RamCart Ayarlarý"
+  IDS_RAMCART_ENABLE       "RamCart'ý aktif &et"
   IDS_RAMCART_READONLY     "Salt Okunu&r"
-  IDS_RAMCART_SIZE         "RamCart size"
-  IDS_RAMCART_WRITE_ENABLE "&Save to RamCart image when changed"
-  IDS_RAMCART_FILE         "RamCart file"
-  IDS_RAMCART_SELECT_FILE  "Select file for RamCart"
+  IDS_RAMCART_SIZE         "RamCart boyutu"
+  IDS_RAMCART_WRITE_ENABLE "Deði&stiðinde RamCart imajýna kaydet"
+  IDS_RAMCART_FILE         "RamCart dosyasý"
+  IDS_RAMCART_SELECT_FILE  "RamCart için dosya seçin"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

@@ -3470,7 +3470,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_C64_MODEL_NL, "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
 /* pl */ {IDCLS_SET_C64_MODEL_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_C64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
-/* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_C64_MODEL_TR, "C64 modelini belirle (c64/c64c/c64eski, ntsc/yenintsc/eskintsc, drean)"},
 #endif
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
@@ -3600,7 +3600,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_IEEE488_INTERFACE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_IEEE488_INTERFACE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEEE488_INTERFACE_NL, "Activeer IEEE488 interface"},
 /* pl */ {IDCLS_ENABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_IEEE488_INTERFACE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_IEEE488_INTERFACE_TR, ""},  /* fuzzy */
@@ -3614,7 +3614,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_DISABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_IEEE488_INTERFACE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_IEEE488_INTERFACE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEEE488_INTERFACE_NL, "IEEE488 interface uitschakelen"},
 /* pl */ {IDCLS_DISABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_IEEE488_INTERFACE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_IEEE488_INTERFACE_TR, ""},  /* fuzzy */
@@ -3628,7 +3628,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_NL, "Geef de naam van het IEEE488 interface bestand"},
 /* pl */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_TR, ""},  /* fuzzy */
@@ -3687,7 +3687,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_NL, "Aktiveer schrijven naar GEORAM bestand"},
 /* pl */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ALLOW_WRITING_TO_GEORAM_IMAGE_TR, "GEORAM imajýna yazmayý aktif et"},
 #endif
 
 /* c64/cart/georam.c */
@@ -3701,7 +3701,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_NL, "Schrijf niet naar GEORAM bestand"},
 /* pl */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_TR, "GEORAM imajýna yazma"},
 #endif
 
 /* c64/cart/georam.c, c64/cart/ramcart.c, c64/cart/reu.c, pet/petreu.c */
@@ -3810,7 +3810,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_PETDWW_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_PETDWW_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_PETDWW_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_PETDWW_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_PETDWW_NL, "Activeer het PET DWW hi-res bord"},
 /* pl */ {IDCLS_ENABLE_PETDWW_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_PETDWW_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_PETDWW_TR, ""},  /* fuzzy */
@@ -3824,7 +3824,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_DISABLE_PETDWW_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_PETDWW_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_PETDWW_IT, "Disattiva la scheda hi-res PET DWW"},
-/* nl */ {IDCLS_DISABLE_PETDWW_NL, "De PET DWW hi-res bord uitschakelen"},
+/* nl */ {IDCLS_DISABLE_PETDWW_NL, "Het PET DWW hi-res bord uitschakelen"},
 /* pl */ {IDCLS_DISABLE_PETDWW_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_PETDWW_SV, "Inaktivera PET DWW-högupplösningskort"},
 /* tr */ {IDCLS_DISABLE_PETDWW_TR, "PET DWW hi-res board'u pasifleþtir"},
@@ -3841,7 +3841,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_USERPORT_DAC_NL, "Activeer userport DAC voor geluidsuitvoer"},
 /* pl */ {IDCLS_ENABLE_USERPORT_DAC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_DAC_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_USERPORT_DAC_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý aktif et"},
 #endif
 
 /* pet/pet_userport_dac.c */
@@ -3855,7 +3855,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_USERPORT_DAC_NL, "Userport DAC voor geluidsuitvoer uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_DAC_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_DAC_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_USERPORT_DAC_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý pasifleþtir"},
 #endif
 
 /* initcmdline.c */
@@ -3953,7 +3953,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_NL, "Aktiveer schrijven naar RAMCart bestand"},
 /* pl */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ALLOW_WRITING_TO_RAMCART_IMAGE_TR, "RAMCart imajýna yazmayý aktif et"},
 #endif
 
 /* c64/cart/ramcart.c */
@@ -3967,7 +3967,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_NL, "Schrijf niet naar RAMCart bestand"},
 /* pl */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DO_NOT_WRITE_TO_RAMCART_IMAGE_TR, "RAMCart imajýna yazma"},
 #endif
 
 /* c64/cart/ramcart.c */
@@ -4037,7 +4037,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_NL, "Aktiveer schrijven naar DQBB bestand"},
 /* pl */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ALLOW_WRITING_TO_DQBB_IMAGE_TR, "DQBB imajýna yazmayý aktif et"},
 #endif
 
 /* c64/cart/dqbb.c */
@@ -4051,7 +4051,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_NL, "Schrijf niet naar DQBB bestand"},
 /* pl */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DO_NOT_WRITE_TO_DQBB_IMAGE_TR, "DQBB imajýna yazma"},
 #endif
 
 /* c64/cart/isepic.c */
@@ -4093,7 +4093,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_ISEPIC_FILENAME_NL, "Geef de naam op van het ISEPIC cartridge bestand"},
 /* pl */ {IDCLS_SET_ISEPIC_FILENAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_ISEPIC_FILENAME_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_ISEPIC_FILENAME_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_ISEPIC_FILENAME_TR, "ISEPIC imaj ismini belirle"},
 #endif
 
 /* c64/cart/isepic.c */
@@ -4107,7 +4107,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_NL, "Aktiveer schrijven naar ISEPIC bestand"},
 /* pl */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ALLOW_WRITING_TO_ISEPIC_IMAGE_TR, "ISEPIC imajýna yazmayý aktif et"},
 #endif
 
 /* c64/cart/isepic.c */
@@ -4121,7 +4121,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_NL, "Schrijf niet naar ISEPIC bestand"},
 /* pl */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DO_NOT_WRITE_TO_ISEPIC_IMAGE_TR, "ISEPIC imajýna yazma"},
 #endif
 
 /* c64/cart/mmc64.c */
@@ -4345,7 +4345,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_NL, "Aktiveer schrijven naar MMC Replay bestand"},
 /* pl */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ALLOW_WRITING_TO_MMC_REPLAY_IMAGE_TR, "MMC Replay imajýna yazmayý aktif et"},
 #endif
 
 /* c64/cart/mmcreplay.c */
@@ -4359,7 +4359,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_NL, "Schrijf niet naar MMC Replay bestand"},
 /* pl */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DO_NOT_WRITE_TO_MMC_REPLAY_IMAGE_TR, "MMC Replay imajýna yazma"},
 #endif
 
 /* c64/cart/retroreplay.c */
@@ -4499,7 +4499,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_NL, "Aktiveer schrijven naar REU bestand"},
 /* pl */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ALLOW_WRITING_TO_REU_IMAGE_TR, "REU imajýna yazmayý aktif et"},
 #endif
 
 /* c64/cart/reu.c */
@@ -4513,7 +4513,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_NL, "Schrijf niet naar REU bestand"},
 /* pl */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DO_NOT_WRITE_TO_REU_IMAGE_TR, "REU imajýna yazma"},
 #endif
 
 /* c64/cart/reu.c */
@@ -4683,7 +4683,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_NL, "Koppel algemeen 16KB Ultimax cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_GENERIC_16KB_ULTIMAX_CART_TR, "Jenerik 16KB Ultimax kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4697,7 +4697,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_STARDOS_CART_NL, "Koppel binair 16KB Stardos cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_STARDOS_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_STARDOS_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_STARDOS_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_STARDOS_CART_TR, "Düz 16KB Stardos kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4711,7 +4711,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_NL, "Koppel binair 32KB Action Replay MK4 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY4_CART_TR, "Düz 32KB Action Replay MK4 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4725,7 +4725,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_NL, "Koppel binair 16kB Action Replay MK2 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY2_CART_TR, "Düz 16kB Action Replay MK2 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4739,7 +4739,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_NL, "Koppel binair 16KB Action Replay MK3 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ACTION_REPLAY3_CART_TR, "Düz 16KB Action Replay MK3 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4767,7 +4767,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_CAPTURE_CART_NL, "Koppel binair 8kB Capture cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_CAPTURE_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_CAPTURE_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_CAPTURE_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_CAPTURE_CART_TR, "Düz 8kB Capture kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4781,7 +4781,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_COMAL80_CART_NL, "Koppel binair 64kB Comal 80 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_COMAL80_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_COMAL80_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_COMAL80_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_COMAL80_CART_TR, "Düz 64kB Comal 80 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4795,7 +4795,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_NL, "Koppel binair Dela EP256 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_DELA_EP256_CART_TR, "Düz Dela EP256 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4809,7 +4809,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_NL, "Koppel binair Dela EO64 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_DELA_EP64_CART_TR, "Düz Dela EP64 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4823,7 +4823,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_NL, "Koppel binair Dela ep7x8 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_DELA_EP7X8_CART_TR, "Düz Dela EP7x8 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4837,7 +4837,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_DINAMIC_CART_NL, "Koppel binair 128kB Dinamic cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_DINAMIC_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_DINAMIC_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_DINAMIC_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_DINAMIC_CART_TR, "Düz 128kB Dinamic kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4851,7 +4851,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_NL, "Koppel binair 8kB Diashow-Maker cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_DIASHOW_MAKER_CART_TR, "Düz 8kB Diashow-Maker kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4865,7 +4865,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_DQBB_CART_NL, "Koppel binair 16kB Double Quick Brown Box cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_DQBB_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_DQBB_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_DQBB_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_DQBB_CART_TR, "Düz 16kB Double Quick Brown Box kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4879,7 +4879,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_NL, "Koppel binair EasyFlash cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_EASY_FLASH_CART_TR, "Düz EasyFlash kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4907,7 +4907,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_NL, "Koppel binair 8kB REX Utility cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_REX_UTILITY_CART_TR, "Düz 8kB REX Utility kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4921,7 +4921,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_SS64_CART_NL, "Koppel binair 4kB Snapshot 64 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_SS64_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SS64_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_SS64_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_SS64_CART_TR, "Düz 4kB Snapshot 64 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4963,7 +4963,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_NL, "Koppel binair 8KB Epyx FastLoad cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_EPYX_FASTLOAD_CART_TR, "Düz 8KB Epyx FastLoad kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4977,7 +4977,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_EXOS_CART_NL, "Koppel binair 8kB EXOS cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_EXOS_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_EXOS_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_EXOS_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_EXOS_CART_TR, "Düz 8kB EXOS kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -4991,7 +4991,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_EXPERT_CART_NL, "Koppel binair 8kB Expert Cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_EXPERT_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_EXPERT_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_EXPERT_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_EXPERT_CART_TR, "Düz 8kB Expert Kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5005,7 +5005,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_FC1_CART_NL, "Koppel binair 16kB Final Cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_FC1_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_FC1_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_FC1_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_FC1_CART_TR, "Düz 16kB Final kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5019,7 +5019,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_FC3_CART_NL, "Koppel binair 16kB Final Cartridge III bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_FC3_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_FC3_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_FC3_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_FC3_CART_TR, "Düz 64kB Final Cartridge III imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5033,7 +5033,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_FCPLUS_CART_NL, "Koppel binair 32kB Final Cartridge Plus bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_FCPLUS_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_FCPLUS_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_FCPLUS_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_FCPLUS_CART_TR, "Düz 32kB Final Cartridge Plus imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5047,7 +5047,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_NL, "Koppel binair 8kB Freeze Frame cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_FREEZE_FRAME_CART_TR, "Düz 8kB Freeze Frame imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5061,7 +5061,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_NL, "Koppel binair 32kB Freeze Machine cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_FREEZE_MACHINE_CART_TR, "Düz 32kB Freeze Machine imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5075,7 +5075,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_FP_PP_CART_NL, "Koppel binair 128kB Fun Play/Power Play cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_FP_PP_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_FP_PP_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_FP_PP_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_FP_PP_CART_TR, "Düz 128kB Fun Play/Power Play kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5089,7 +5089,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_SS4_CART_NL, "Koppel binair 32KB Super Snapshot V4 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_SS4_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SS4_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_SS4_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_SS4_CART_TR, "Düz 32KB Super Snapshot V4 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5103,7 +5103,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_SS5_CART_NL, "Koppel binair 64KB Super Snapshot V5 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_SS5_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SS5_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_SS5_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_SS5_CART_TR, "Düz 64KB Super Snapshot V5 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5117,7 +5117,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_CBM_IEEE488_CART_NL, "Koppel CBM IEEE-488 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_CBM_IEEE488_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_CBM_IEEE488_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_CBM_IEEE488_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_CBM_IEEE488_CART_TR, "CBM IEEE-488 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5131,7 +5131,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_ISEPIC_CART_NL, "Koppel binair 2kB ISEPIC cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ISEPIC_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ISEPIC_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_ISEPIC_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ISEPIC_CART_TR, "Düz 2kB ISEPIC kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5145,7 +5145,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_KCS_CART_NL, "Koppel binair 16kB KSC Power cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_KCS_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_KCS_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_KCS_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_KCS_CART_TR, "Düz 16kB KCS Power kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5159,7 +5159,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_MACH5_CART_NL, "Koppel binair 8kB MACH 5 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_MACH5_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_MACH5_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_MACH5_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_MACH5_CART_TR, "Düz 8kB MACH 5 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5173,7 +5173,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_NL, "Koppel binair 32/64/128kB Magic Desk cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_MAGIC_DESK_CART_TR, "Düz 32/64/128kB Magic Desk kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5187,7 +5187,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_NL, "Koppel binair Magic Formel cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_MAGIC_FORMEL_CART_TR, "Düz Magic Formel kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5201,7 +5201,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_NL, "Koppel binair 8KB Mikro Assembler cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_MIKRO_ASSEMBLER_CART_TR, "Düz 8kB Mikro Assembler kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5215,7 +5215,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_MMC64_CART_NL, "Koppel binair 8kB MMC64 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_MMC64_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_MMC64_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_MMC64_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_MMC64_CART_TR, "Düz 8kB MMC64 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5229,7 +5229,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_NL, "Koppel binair 512kB MMC Replay cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_MMC_REPLAY_CART_TR, "Düz 512kB MMC Replay kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5243,7 +5243,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_NL, "Koppel binair 16kB Magic Voice cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_MAGIC_VOICE_CART_TR, "Düz 16kB Magic Voice kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5257,7 +5257,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_OCEAN_CART_NL, "Koppel binair Ocean cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_OCEAN_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_OCEAN_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_OCEAN_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_OCEAN_CART_TR, "Düz Ocean kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5271,7 +5271,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_NL, "Koppel binair 16kB Westermann Learning cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_WESTERMANN_CART_TR, "Düz 16KB Westermann Learning kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5285,7 +5285,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_NL, "Koppel binair 8kB Warp Speed cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_WARPSPEED_CART_TR, "Düz 8kB Warp Speed kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5299,7 +5299,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_ZAXXON_CART_NL, "Koppel binair 16kB Zaxxon cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ZAXXON_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ZAXXON_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_ZAXXON_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ZAXXON_CART_TR, "Düz 16kB Zaxxon kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5327,7 +5327,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_RAMCART_CART_NL, "Koppel binair RamCart cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_RAMCART_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_RAMCART_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_RAMCART_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_RAMCART_CART_TR, "Düz RamCart kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5341,7 +5341,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_REU_CART_NL, "Koppel binair REU cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_REU_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_REU_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_REU_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_REU_CART_TR, "Düz REU kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5355,7 +5355,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_REX_EP256_CART_NL, "Koppel binair REX EP256 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_REX_EP256_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_REX_EP256_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_REX_EP256_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_REX_EP256_CART_TR, "Düz REX EP256 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5369,7 +5369,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_ROSS_CART_NL, "Koppel binair 16/32kB ROSS cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_ROSS_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_ROSS_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_ROSS_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_ROSS_CART_TR, "Düz 16/32kB ROSS kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5397,7 +5397,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_GEORAM_CART_NL, "Koppel binair GEO-RAM cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_GEORAM_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_GEORAM_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_GEORAM_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_GEORAM_CART_TR, "Düz GEO-RAM kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5411,7 +5411,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_NL, "Koppel binair 512kB Game System cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_GAME_SYSTEM_CART_TR, "Düz 512kB Game System kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c, c64/expert.c */
@@ -5425,7 +5425,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_EXPERT_CART_NL, "Activeer Expert Cartridge"},
 /* pl */ {IDCLS_ENABLE_EXPERT_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_EXPERT_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_EXPERT_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_EXPERT_CART_TR, "Expert Kartuþu'nu aktif et"},
 #endif
 
 /* c64/expert.c */
@@ -5439,7 +5439,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_EXPERT_CART_NL, "Expert Cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_EXPERT_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_EXPERT_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_EXPERT_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_EXPERT_CART_TR, "Expert Kartuþu'nu pasifleþtir"},
 #endif
 
 /* c64/expert.c */
@@ -5453,7 +5453,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SET_EXPERT_FILENAME_NL, "Zet Expert Cartridge bestandsnaam"},
 /* pl */ {IDCLS_SET_EXPERT_FILENAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_EXPERT_FILENAME_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SET_EXPERT_FILENAME_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_EXPERT_FILENAME_TR, "Expert Kartuþ imaj ismini belirle"},
 #endif
 
 /* c64/expert.c */
@@ -5467,7 +5467,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_NL, "Activeer schrijven naar Expert Cartridge bestand"},
 /* pl */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ALLOW_WRITING_TO_EXPERT_IMAGE_TR, "Expert Kartuþ imajýna yazmaya izin ver"},
 #endif
 
 /* c64/expert.c */
@@ -5481,7 +5481,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_NL, "Schrijf niet naar Expert Cartridge bestand"},
 /* pl */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DO_NOT_WRITE_TO_EXPERT_IMAGE_TR, "Expert Kartuþ imajýna yazma"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5608,7 +5608,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_IDE64_V4_NL, "Emuleer versie 4 hardware"},
 /* pl */ {IDCLS_IDE64_V4_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_IDE64_V4_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_IDE64_V4_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_IDE64_V4_TR, "Versiyon 4 donanýmýný emüle et"},
 #endif
 
 /* c64/cart/ide64.c */
@@ -5622,7 +5622,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_IDE64_PRE_V4_NL, "Emuleer hardware van voor versie 4"},
 /* pl */ {IDCLS_IDE64_PRE_V4_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_IDE64_PRE_V4_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_IDE64_PRE_V4_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_IDE64_PRE_V4_TR, "Ön versiyon 4 donanýmýný emüle et"},
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, pet/pet-cmdline-options.c */
@@ -9377,7 +9377,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_NL, "Activeer verbose log uitvoer."},
 /* pl */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_VERBOSE_LOG_OUTPUT_TR, "Verbose log çýktýsýný aktif et."},
 #endif
 
 /* mouse.c */
@@ -10007,7 +10007,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_SE5_CART_NL, "Koppel binair 16kB Super Snapshot V5 cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_SE5_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SE5_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_SE5_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_SE5_CART_TR, "Düz 16kB Super Explode V5 kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -10021,7 +10021,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_NL, "Koppel binair 64kB Super Games cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_SUPER_GAMES_CART_TR, "Düz 64kB Super Games kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -10035,7 +10035,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_NL, "Koppel binair 16kB Simons Basic cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_SIMONS_BASIC_CART_TR, "Düz 16kB Simons Basic kartuþ imajý yerleþtir"},
 #endif
 
 /* plus4/plus4memcsory256k.c */
@@ -10597,7 +10597,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_DIGIMAX_NL, "Activeer de DigiMAX cartridge"},
 /* pl */ {IDCLS_ENABLE_DIGIMAX_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DIGIMAX_SV, "Aktivera DigiMAX-insticksmodul"},
-/* tr */ {IDCLS_ENABLE_DIGIMAX_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DIGIMAX_TR, "DigiMAX kartuþunu aktif et"},
 #endif
 
 /* c64/cart/digimax.c */
@@ -10611,7 +10611,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_DIGIMAX_NL, "De DigiMAX cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DIGIMAX_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DIGIMAX_SV, "Inaktivera DigiMAX-insticksmodul"},
-/* tr */ {IDCLS_DISABLE_DIGIMAX_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DIGIMAX_TR, "DigiMAX kartuþunu pasifleþtir"},
 #endif
 
 /* c64/cart/digimax.c */
@@ -10625,7 +10625,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DIGIMAX_BASE_NL, "Basisadres van de DigiMAX cartridge"},
 /* pl */ {IDCLS_DIGIMAX_BASE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DIGIMAX_BASE_SV, "Basadress för DigiMAC-insticksmodulen"},
-/* tr */ {IDCLS_DIGIMAX_BASE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DIGIMAX_BASE_TR, "DigiMAX kartuþunun taban adresi"},
 #endif
 
 };
