@@ -71,12 +71,12 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "MouseScaleX", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<1-8>", T_("Set scaling factor for mouse movement along X") },
+      "<1-8>", N_("Set scaling factor for mouse movement along X") },
     { "-mousescaley", SET_RESOURCE, 1,
       NULL, NULL, "MouseScaleY", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      "<1-8>", T_("Set scaling factor for mouse movement along Y") },
+      "<1-8>", N_("Set scaling factor for mouse movement along Y") },
     { NULL }
 };
 

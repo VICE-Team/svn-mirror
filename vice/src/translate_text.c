@@ -3592,6 +3592,48 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_HUMMER_ADC_TR, "Hummer ADC'yi pasifleþtir"},
 #endif
 
+/* c64/cart/c64tpi.c */
+/* en */ {IDCLS_ENABLE_IEEE488_INTERFACE,    N_("Enable IEEE488 interface")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_IEEE488_INTERFACE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IEEE488_INTERFACE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEEE488_INTERFACE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_IEEE488_INTERFACE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_IEEE488_INTERFACE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_IEEE488_INTERFACE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/c64tpi.c */
+/* en */ {IDCLS_DISABLE_IEEE488_INTERFACE,    N_("Disable IEEE488 interface")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_IEEE488_INTERFACE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IEEE488_INTERFACE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEEE488_INTERFACE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_IEEE488_INTERFACE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_IEEE488_INTERFACE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_IEEE488_INTERFACE_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/c64tpi.c */
+/* en */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME,    N_("specify IEEE488 interface image name")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/georam.c */
 /* en */ {IDCLS_ENABLE_GEORAM,    N_("Enable the GEORAM expansion unit")},
 #ifdef HAS_TRANSLATION

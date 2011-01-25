@@ -404,6 +404,15 @@ IDCLS_ENABLE_HUMMER_ADC
 /* c64dtv/c64dtv-cmdline-options.c */
 IDCLS_DISABLE_HUMMER_ADC
 
+/* c64/cart/c64tpi.c */
+IDCLS_ENABLE_IEEE488_INTERFACE
+
+/* c64/cart/c64tpi.c */
+IDCLS_DISABLE_IEEE488_INTERFACE
+
+/* c64/cart/c64tpi.c */
+IDCLS_SPECIFY_IEEE488_INTERFACE_NAME
+
 /* c64/cart/georam.c */
 IDCLS_ENABLE_GEORAM
 
