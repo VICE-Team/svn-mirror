@@ -44,11 +44,11 @@ AM_MAKEINFOHTMLFLAGS =
 AM_MAKEINFOFLAGS = --no-split
 
 $(srcdir)/vice.txt:	vice.texi
-	$(MAKEINFO) -o $(srcdir)/vice.txt --no-headers vice.texi
+	$(MAKEINFO) -o $(srcdir)/vice.txt --no-headers $(srcdir)/vice.texi
 
 if BUILD_PDF
 $(srcdir)/vice.pdf:	vice.texi
-	$(TEXI2DVI) -q --clean --pdf -o $(srcdir)/vice.pdf vice.texi
+	$(TEXI2DVI) -q --clean --pdf -o $(srcdir)/vice.pdf $(srcdir)/vice.texi
 
 PDF_DEPS=$(srcdir)/vice.pdf
 else
@@ -57,7 +57,7 @@ endif
 
 if BUILD_AMIGAGUIDE
 $(srcdir)/vice.guide:	vice.texi
-	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(srcdir)/vice.guide
+	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(srcdir)/vice.guide $(srcdir)/vice.texi
 
 GUIDE_DEPS=$(srcdir)/vice.guide
 else
@@ -66,7 +66,7 @@ endif
 
 if BUILD_HLP
 $(srcdir)/vice.hlp:	vice.texi
-	$(MAKERTF) --hpj=vice.hpj --output=vice.rtf vice.texi
+	$(MAKERTF) --hpj=vice.hpj --output=vice.rtf $(srcdir)/vice.texi
 	$(HCRTF) -o VICE.HLP vice.hpj
 	rm -f vice.hpj vice.rtf
 	mv VICE.HLP $(srcdir)/vice.hlp
@@ -78,7 +78,7 @@ endif
 
 if BUILD_CHM
 $(srcdir)/vice.chm:	vice.texi
-	$(srcdir)/texi2chm.sh $(HHC) $(srcdir)/vice.chm
+	$(srcdir)/texi2chm.sh $(HHC) $(srcdir)/vice.chm $(srcdir)/vice.texi
 
 CHM_DEPS=$(srcdir)/vice.chm
 else

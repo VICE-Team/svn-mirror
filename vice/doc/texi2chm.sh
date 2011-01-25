@@ -3,16 +3,17 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# texi2chm.sh <hhc> <chm-file>
-#             $1    $2
+# texi2chm.sh <hhc> <chm-file> <texi-file>
+#             $1    $2         $3
 
 HHC=$1
 CHMFILE=$2
+TEXIFILE=$3
 
 rm -f -r chmtmp
 mkdir chmtmp
 cd chmtmp
-cp ../vice.texi ./
+cp $TEXIFILE ./
 ../t2h.pl vice.texi
 $HHC vice.hhp
 mv vice.chm ../$CHMFILE
