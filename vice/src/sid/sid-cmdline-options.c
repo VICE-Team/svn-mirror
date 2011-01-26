@@ -112,6 +112,11 @@ static const cmdline_option_t resid_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_PERCENT, IDCLS_RESID_GAIN_PERCENTAGE,
       NULL, NULL },
+    { "-residfilterbias", SET_RESOURCE, 1,
+      NULL, NULL, "SidResidFilterBias", (void *)0,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NUMBER, IDCLS_RESID_FILTER_BIAS,
+      NULL, NULL, },
     { NULL }
 };
 #endif

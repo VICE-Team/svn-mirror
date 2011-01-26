@@ -361,6 +361,7 @@ public:
   Filter();
 
   void enable_filter(bool enable);
+  void adjust_filter_bias(double dac_bias);
   void set_chip_model(chip_model model);
   void set_voice_mask(reg4 mask);
 
@@ -430,7 +431,7 @@ protected:
   int v1;
 
   // Cutoff frequency DAC voltage, resonance.
-  int Vw, Vw_term;
+  int Vw, Vw_term, Vw_bias;
   int _8_div_Q;
   // FIXME: Temporarily used for MOS 8580 emulation.
   int w0;

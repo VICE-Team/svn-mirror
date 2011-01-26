@@ -90,7 +90,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     char model_text[100];
     char method_text[100];
     double passband, gain;
-    int filters_enabled, model, sampling, passband_percentage, gain_percentage;
+    int filters_enabled, model, sampling, passband_percentage, gain_percentage, filter_bias_mV;
 
     if (resources_get_int("SidFilters", &filters_enabled) < 0) {
         return 0;
@@ -109,6 +109,10 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
     }
 
     if (resources_get_int("SidResidGain", &gain_percentage) < 0) {
+        return 0;
+    }
+    
+    if (resources_get_int("SidResidFilterBias", &filter_bias_mV) < 0) {
         return 0;
     }
 
@@ -149,6 +153,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec)
         break;
     }
     psid->sid->enable_filter(filters_enabled ? true : false);
+    psid->sid->adjust_filter_bias(filter_bias_mV / 1000.0);
     psid->sid->enable_external_filter(filters_enabled ? true : false);
 
     switch (sampling) {

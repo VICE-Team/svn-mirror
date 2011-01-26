@@ -854,6 +854,7 @@ int SID::clock_resample_fast(cycle_count& delta_t, short* buf, int n,
 void SID::set_chip_model(chip_model model) { }
 void SID::set_voice_mask(reg4 mask) { }
 void SID::enable_filter(bool enable) { }
+void SID::adjust_filter_bias(double bias) { }
 void SID::input(short sample) { }
 
 } // namespace reSID

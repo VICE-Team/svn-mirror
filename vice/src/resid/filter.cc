@@ -348,6 +348,18 @@ void Filter::enable_filter(bool enable)
 
 
 // ----------------------------------------------------------------------------
+// Adjust the DAC bias parameter of the filter.
+// This gives user variable control of the exact CF -> center frequency
+// mapping used by the filter.
+// The setting is currently only effective for 6581.
+// ----------------------------------------------------------------------------
+void Filter::adjust_filter_bias(double dac_bias)
+{
+  Vw_bias = int(dac_bias * model_filter[sid_model == MOS6581 ? 0 : 1].vo_N19);
+  set_w0();
+}
+
+// ----------------------------------------------------------------------------
 // Set chip model.
 // ----------------------------------------------------------------------------
 void Filter::set_chip_model(chip_model model)
@@ -432,7 +444,7 @@ void Filter::writeMODE_VOL(reg8 mode_vol)
 void Filter::set_w0()
 {
   model_filter_t& f = model_filter[sid_model];
-  Vw = f.f0_dac[fc];
+  Vw = Vw_bias + f.f0_dac[fc];
   Vw_term = (f.Vddt >> 4) * (f.Vddt >> 4) - (Vw >> 4) * (f.Vddt >> 4) + (Vw >> 4) * (Vw >> 5);
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.

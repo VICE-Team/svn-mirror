@@ -421,6 +421,17 @@ void SID::enable_filter(bool enable)
 
 
 // ----------------------------------------------------------------------------
+// Adjust the DAC bias parameter of the filter.
+// This gives user variable control of the exact CF -> center frequency
+// mapping used by the filter.
+// The setting is currently only effective for 6581.
+// ----------------------------------------------------------------------------
+void SID::adjust_filter_bias(double dac_bias) {
+  filter.adjust_filter_bias(dac_bias);
+}
+
+
+// ----------------------------------------------------------------------------
 // Enable external filter.
 // ----------------------------------------------------------------------------
 void SID::enable_external_filter(bool enable)

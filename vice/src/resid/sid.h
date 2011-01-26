@@ -38,6 +38,7 @@ public:
   void set_chip_model(chip_model model);
   void set_voice_mask(reg4 mask);
   void enable_filter(bool enable);
+  void adjust_filter_bias(double dac_bias);
   void enable_external_filter(bool enable);
   bool set_sampling_parameters(double clock_freq, sampling_method method,
 			       double sample_freq, double pass_freq = -1,

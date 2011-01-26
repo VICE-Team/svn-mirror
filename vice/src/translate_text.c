@@ -7955,6 +7955,20 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_PASSBAND_PERCENTAGE_TR, "reSID yeniden örnekleme passband'inin toplam bant geniþliðine yüzdesel oraný (0 - 90)"},
 #endif
 
+/* sid/sid-cmdline-options.c, vsync.c */
+/* en */ {IDCLS_RESID_FILTER_BIAS, N_("reSID filter bias setting, which can be used to adjust DAC bias in millivolts.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_RESID_FILTER_BIAS_DA, ""},
+/* de */ {IDCLS_RESID_FILTER_BIAS_DE, ""},
+/* fr */ {IDCLS_RESID_FILTER_BIAS_FR, ""},
+/* hu */ {IDCLS_RESID_FILTER_BIAS_HU, ""},
+/* it */ {IDCLS_RESID_FILTER_BIAS_IT, ""},
+/* nl */ {IDCLS_RESID_FILTER_BIAS_NL, ""},
+/* pl */ {IDCLS_RESID_FILTER_BIAS_PL, ""},
+/* sv */ {IDCLS_RESID_FILTER_BIAS_SV, ""},
+/* tr */ {IDCLS_RESID_FILTER_BIAS_TR, ""},
+#endif
+
 /* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_RESID_GAIN_PERCENTAGE,    N_("reSID gain in percent (90 - 100)")},
 #ifdef HAS_TRANSLATION

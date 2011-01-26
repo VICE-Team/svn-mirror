@@ -46,6 +46,7 @@ public:
   void input(short input);
 
   void enable_external_filter(bool enable);
+  void adjust_filter_bias(double bias);
   bool set_sampling_parameters(double clock_freq, sampling_method method,
 			       double sample_freq, double pass_freq = 20000,
 			       double filter_scale = 0.97);

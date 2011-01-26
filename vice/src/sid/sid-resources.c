@@ -52,6 +52,7 @@ static int sid_model;                 /* app_resources.sidModel */
 static int sid_resid_sampling;
 static int sid_resid_passband;
 static int sid_resid_gain;
+static int sid_resid_filter_bias;
 #endif
 int sid_stereo;
 int checking_sid_stereo;
@@ -235,6 +236,19 @@ static int set_sid_resid_gain(int i, void *param)
     return 0;
 }
 
+static int set_sid_resid_filter_bias(int i, void *param)
+{
+    if (i < -5000) {
+        i = 5000;
+    } else if (i > 5000) {
+        i = 5000;
+    }
+
+    sid_resid_filter_bias = i;
+    sid_state_changed = 1;
+    return 0;
+}
+
 #endif
 
 #ifdef HAVE_HARDSID
@@ -313,6 +327,8 @@ static const resource_int_t resid_resources_int[] = {
       &sid_resid_passband, set_sid_resid_passband, NULL },
     { "SidResidGain", 97, RES_EVENT_NO, NULL,
       &sid_resid_gain, set_sid_resid_gain, NULL },
+    { "SidResidFilterBias", 0, RES_EVENT_NO, NULL,
+      &sid_resid_filter_bias, set_sid_resid_filter_bias, NULL },
     { NULL }
 };
 #endif

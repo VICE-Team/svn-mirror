@@ -1329,6 +1329,7 @@ IDCLS_P_PERCENT
 #ifdef HAVE_RESID
 /* sid/sid-cmdline-options.c */
 IDCLS_PASSBAND_PERCENTAGE
+IDCLS_RESID_FILTER_BIAS
 #endif   /* HAVE_RESID */
 
 /* vdc/vdc-cmdline-options.c */
