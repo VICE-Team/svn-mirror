@@ -699,7 +699,7 @@ else
   if test x"$MAKEINFO" != "xno"; then
     AC_MSG_CHECKING([if the makeinfo supports amigaguide])
     agresult=`$MAKEINFO --help 2>&1 | grep amiga`
-    if x"$agresult" != "x"; then
+    if test x"$agresult" != "x"; then
       AC_MSG_RESULT([yes])
       MAKEGUIDE=$MAKEINFO
       AM_CONDITIONAL(BUILD_AMIGAGUIDE, true)
