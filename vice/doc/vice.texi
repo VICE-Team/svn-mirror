@@ -1163,6 +1163,24 @@ List all the available command-line options and their meaning.
 Set default resources (@pxref{Settings and resources}).  This will
 override all the settings specified before, but not the settings
 specified afterwards on the command line.
+@cindex -config
+@item -config <filename>
+Specify config file
+@cindex -logfile
+@item -logfile <name>
+Specify log file name
+@cindex -verbose
+@item -verbose
+Enable verbose log output.
+@cindex -keybuf
+@item -keybuf <string>
+Put the specified string into the keyboard buffer.
+@cindex -console
+@item -console
+Console mode (for music playback)
+@cindex -chdir
+@item -chdir <directory>
+Change the working directory.
 @cindex -autostart
 @item -autostart IMAGE
 Autostart @file{IMAGE} (@pxref{Command-line autostart}).
@@ -1214,7 +1232,7 @@ Attach @file{NAME} as a disk image to device 8, 9, 10 or 11.
 @itemx -attach9ro
 @itemx -attach10ro
 @itemx -attach11ro
-Attach disk image for drive #88-11 read only
+Attach disk image for drive #8-11 read only
 @cindex -attach8rw
 @cindex -attach9rw
 @cindex -attach10rw
@@ -2350,7 +2368,6 @@ Specify the display depth (@code{DisplayDepth}).
 
 @end table
 
-
 @node Keyboard settings, Sound settings, Video settings, Settings and resources
 @section Keyboard settings
 
@@ -2467,6 +2484,46 @@ German business keyboard
 
 @end table
 
+@c @node TODO
+@section Joystick settings
+
+@c @node TODO
+@subsection Joystick command-line options
+
+@table @code
+
+@cindex -joydev1
+@cindex -joydev2
+@item -joydev1 <0-8>
+@itemx -joydev2 <0-8>
+Set the device for joystick emulation of port 1 and 2, respectively
+(@code{JoyDevice1}, @code{JoyDevice2}).
+@cindex -extrajoydev1
+@cindex -extrajoydev2
+@item -extrajoydev1 <0-8>
+@itemx -extrajoydev2 <0-8>
+Set device for extra joystick port 1 and 2.
+
+@cindex -mouse, +mouse
+@item -mouse
+@itemx +mouse
+Enable/Disable mouse grab
+@cindex -mousetype
+@item -mousetype <value>
+Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)
+@cindex -mouseport
+@item -mouseport <value>
+Select the joystick port the mouse is attached to
+
+@cindex -lightpen, +lightpen
+@item -lightpen
+@itemx +lightpen
+Enable/Disable lightpen emulation
+@cindex -lightpentype
+@item -lightpentype <type>
+Set lightpen type
+
+@end table
 
 @node Sound settings, Drive settings, Keyboard settings, Settings and resources
 @section Sound settings
@@ -2650,6 +2707,10 @@ Specifies the sound playback sample rate (@code{SoundSampleRate}).
 Specifies the size of the audio buffer in milliseconds
 (@code{SoundBufferSize}).
 
+@cindex -soundfragsize
+@item -soundfragsize <value>
+Set sound fragment size (0 = small, 1 = medium, 2 = large)
+
 @cindex -sounddev
 @item -sounddev NAME
 Specifies the name of the audio device (@code{SoundDeviceName}).
@@ -2659,14 +2720,44 @@ Specifies the name of the audio device (@code{SoundDeviceName}).
 Specifies an additional parameter for the audio device
 (@code{SoundDeviceArg}).
 
+@cindex -soundrecdev
+@item -soundrecdev <name>
+Specify recording sound driver
+@cindex -soundrecarg
+@item -soundrecarg <args>
+Specify initialization parameters for recording sound driver
+
 @end table
 
+@c @node FIXME
+@section Tape settings
+
+@c FIXME
+
+@subsection Tape command-line options
+
+@table @code
+
+@cindex -dsresetwithcpu, +dsresetwithcpu
+@item -dsresetwithcpu
+@itemx +dsresetwithcpu
+Enable/Disable automatic Datasette-Reset
+
+@cindex -dszerogapdelay
+@item -dszerogapdelay <value>
+Set delay in cycles for a zero in the tap
+
+@cindex -dsspeedtuning
+@item -dsspeedtuning <value>
+Set number of cycles added to each gap in the tap
+
+@end table
 
 @node Drive settings, Peripheral settings, Sound settings, Settings and resources
 @section Drive settings
 
-These settings are used to control the hardware-level emulation of the
-drive.  When hardware-level emulation is turned on, only drives 8 and 9
+These settings are used to control the hardware-level emulation of the Disk
+drives.  When hardware-level emulation is turned on, only drives 8 and 9
 are being emulated.
 
 The following settings affect both drives:
@@ -3117,6 +3208,23 @@ have access.
 
 @table @code
 
+@cindex -iecdevice8, +iecdevice8
+@item -iecdevice8
+@itemx +iecdevice8
+Enable/Disable IEC device emulation for device #8
+@cindex -iecdevice9, +iecdevice9
+@item -iecdevice9
+@itemx +iecdevice9
+Enable/Disable IEC device emulation for device #9
+@cindex -iecdevice10, +iecdevice10
+@item -iecdevice10
+@itemx +iecdevice10
+Enable/Disable IEC device emulation for device #10
+@cindex -iecdevice11, +iecdevice11
+@item -iecdevice11
+@itemx +iecdevice11
+Enable/Disable IEC device emulation for device #11
+
 @cindex -device8
 @cindex -device9
 @cindex -device10
@@ -3220,6 +3328,21 @@ device the user-port printer is using.
 @subsubsection Printer command-line options
 
 @table @code
+
+@cindex -iecdevice4, +iecdevice4
+@item -iecdevice4
+@itemx +iecdevice4
+Enable/Disable IEC device emulation for device #4
+@cindex -iecdevice5, +iecdevice5
+@item -iecdevice5
+@itemx +iecdevice5
+Enable/Disable IEC device emulation for device #5
+
+@cindex -device4
+@cindex -device5
+@item -device4 <type>
+@itemx -device5 <type>
+Set device type for device 4-5 (0: NONE, 1: FS, 2: REAL)
 
 @cindex -prtxtdev1
 @cindex -prtxtdev2
@@ -3473,13 +3596,18 @@ specifies a special device (like @file{/dev/ttyS0} for example,
 @item -myaciadev <0-3>
 Specify RS232 device the ACIA should work on
 
-@cindex -rsuser
-@item -rsuser BAUDRATE
-Enable (BAUDRATE not 0) or disable (BAUDRATE = 0) emulation of the 
+@cindex -rsuser, +rsuser
+@item -rsuser
+@itemx +rsuser
+Enable or disable emulation of the
 userport RS232 emulation (@code{RsUser}; C64, C128 and VIC20)
 
+@cindex -rsuserbaud
+@item -rsuserbaud <baud>
+Set the baud rate of the RS232 userport emulation.
+
 @cindex -rsuserdev
-@item -rsuserdev DEV
+@item -rsuserdev <0-3>
 Specify device for the userport RS232 emulation (@code{RsUserDev}; 
 C64, C128 and VIC20).
 
@@ -3657,11 +3785,18 @@ Specify the system file search path (@code{Directory}).
 @item -htmlbrowser COMMAND
 Specify the command to run the HTML browser for the on-line help
 (@code{HTMLBrowserCommand}).
+
 @cindex -saveres, +saveres
 @item -saveres
 @itemx +saveres
 Enable/disable automatic saving of settings on exit
 (@code{SaveResourcesOnExit=1}, @code{SaveResourcesOnExit=0}).
+
+@cindex -confirmexit, +confirmexit
+@item -confirmexit
+Confirm quiting VICE
+@item +confirmexit
+Never confirm quiting VICE
 
 @cindex -core, +core
 @item -core
@@ -3669,11 +3804,6 @@ Enable/disable automatic saving of settings on exit
 Enable/disable generation of core dumps (@code{DoCoreDump=1},
 @code{DoCoreDump=0}).
 
-@cindex -joydev1, -joydev2
-@item -joydev1
-@itemx -joydev2
-Set the device for joystick emulation of port 1 and 2, respectively
-(@code{JoyDevice1}, @code{JoyDevice2}).
 @end table
 
 
@@ -4394,6 +4524,25 @@ Attach raw 8kB Warp Speed cartridge image
 Attach raw 16kB Zaxxon cartridge image
 @end table
 
+@c @node TODO
+@subsection CIA settings
+
+@c @node TODO
+@subsubsection CIA command-line options
+
+@table @code
+
+@cindex -ciamodel
+@item -ciamodel <model>
+Set both CIA models (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+@cindex -cia1model
+@item -cia1model <model>
+Set CIA 1 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+@cindex -cia2model
+@item -cia2model <model>
+Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+
+@end table
 
 @node VIC-II settings, SID settings, C64 cartridges, C64/128-specific
 @subsection VIC-II settings
@@ -5142,6 +5291,54 @@ Specify Kernal revision (@code{KernalRev}).
 @end table
 
 @c @node FIXME
+@subsection C64 settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection C64 command-line options
+
+@c FIXME
+
+@table @code
+
+@cindex -gluelogictype
+@item -gluelogictype <type>
+Set glue logic type (0 = discrete, 1 = 252535-01)
+
+@cindex -plus60k, +plus60k
+@item -plus60k
+@itemx +plus60k
+Enable/Disable the PLUS60K RAM expansion
+@cindex -plus60kimage
+@item -plus60kimage <name>
+Specify name of PLUS60K image
+@cindex -plus60kbase
+@item -plus60kbase <base address>
+Base address of the PLUS60K expansion
+
+@cindex -plus256k, +plus256k
+@item -plus256k
+@itemx +plus256k
+Enable/Disable the PLUS256K RAM expansion
+@cindex -plus256kimage
+@item -plus256kimage <name>
+Specify name of PLUS256K image
+
+@cindex -256k, +256k
+@item -256k
+@itemx +256k
+Enable/Disable the 256K RAM expansion
+@cindex -256kimage
+@item -256kimage <name>
+Specify name of 256K image
+@cindex -256kbase
+@item -256kbase <base address>
+Base address of the 256K expansion
+
+@end table
+
+@c @node FIXME
 @section C128-specific commands and settings
 
 @c @node FIXME
@@ -5194,6 +5391,108 @@ Set the VDC memory size to 64KB
 @cindex -VDCRevision
 @item -VDCRevision <number>
 Set VDC revision (0..2)
+@end table
+
+@c @node FIXME
+@subsection C128 system ROM settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection C128 system ROM command-line options
+
+@table @code
+
+@cindex -basic64
+@item -basic64 <name>
+Specify name of C64 mode BASIC ROM image
+@cindex -kernal64
+@item -kernal64 <name>
+Specify name of C64 mode Kernal ROM image
+
+@cindex -basiclo
+@item -basiclo <name>
+Specify name of BASIC ROM image (lower part)
+@cindex -basichi
+@item -basichi <name>
+Specify name of BASIC ROM image (higher part)
+
+@cindex -kernal
+@item -kernal <name>
+Specify name of international Kernal ROM image
+@cindex -kernalde
+@item -kernalde <name>
+Specify name of German Kernal ROM image
+@cindex -kernalfi
+@item -kernalfi <name>
+Specify name of Finnish Kernal ROM image
+@cindex -kernalfr
+@item -kernalfr <name>
+Specify name of French Kernal ROM image
+@cindex -kernalit
+@item -kernalit <name>
+Specify name of Italian Kernal ROM image
+@cindex -kernalno
+@item -kernalno <name>
+Specify name of Norwegian Kernal ROM image
+@cindex -kernalse
+@item -kernalse <name>
+Specify name of Swedish Kernal ROM image
+
+@cindex -chargen
+@item -chargen <name>
+Specify name of international character generator ROM image
+@cindex -chargde
+@item -chargde <name>
+Specify name of German character generator ROM image
+@cindex -chargfr
+@item -chargfr <name>
+Specify name of French character generator ROM image
+@cindex -chargse
+@item -chargse <name>
+Specify name of Swedish character generator ROM image
+
+@cindex -intfunc, +intfunc
+@item -intfunc
+@itemx +intfunc
+Enable/Disable the internal Function ROM
+@cindex -intfrom
+@item -intfrom <name>
+Specify name of internal Function ROM image
+
+@cindex -extfunc, +extfunc
+@item -extfunc
+@itemx +extfunc
+Enable/Disable the external Function ROM
+@cindex -extfrom
+@item -extfrom <name>
+Specify name of external Function ROM image
+
+@end table
+
+@c @node FIXME
+@subsection C128 settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection C128 command-line options
+
+@table @code
+
+@cindex -40col
+@item -40col
+Activate 40 column mode
+@cindex -80col
+@item -80col
+Activate 80 column mode
+
+@cindex -go64, +go64
+@item -go64
+Always switch to C64 mode on reset
+@item +go64
+Always switch to C128 mode on reset
+
 @end table
 
 @node C64DTV-specific, VIC20-specific, C64/128-specific, Machine-specific features
@@ -5326,7 +5625,7 @@ can be used simultaneously with either Hummer ADC or userport joystick.
 @cindex -hummeradc, +hummeradc
 @item -hummeradc
 @itemx +hummeradc
-Enable/Disable Hummer ADC Aktivieren
+Enable/Disable Hummer ADC
 
 @cindex -ps2mouse, +ps2mouse
 @item -ps2mouse
@@ -5431,6 +5730,69 @@ address) and attach both files separately.
 One cartridge that is currently only partially supported here is
 the VIC1112 IEEE488 interface. You have to load the ROM as a cartridge,
 but you also have to enable the IEEE488 hardware by menu.
+
+@c @node FIXME
+@subsection VIC20 cartridge settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection VIC20 cartridge command-line options
+
+@table @code
+
+@cindex -cart2
+@item -cart2 <name>
+Specify 4/8/16K extension ROM name at $2000
+@cindex -cart4
+@item -cart4 <name>
+Specify 4/8/16K extension ROM name at $4000
+@cindex -cart6
+@item -cart6 <name>
+Specify 4/8/16K extension ROM name at $6000
+@cindex -cartA
+@item -cartA <name>
+Specify 4/8K extension ROM name at $A000
+@cindex -cartB
+@item -cartB <name>
+Specify 4K extension ROM name at $B000
+@cindex -cartgeneric
+@item -cartgeneric <name>
+Specify generic extension ROM name
+
+@cindex -cartmega
+@item -cartmega <name>
+Specify Mega-Cart extension ROM name
+@cindex -mcnvramfile
+@item -mcnvramfile <name>
+Set Mega-Cart NvRAM filename
+@cindex -mcnvramwriteback, +mcnvramwriteback
+@item -mcnvramwriteback
+@itemx +mcnvramwriteback
+Enable/Disable Mega-Cart NvRAM writeback
+
+@cindex -cartfe
+@item -cartfe <name>
+Specify Final Expansion extension ROM name
+@cindex -fewriteback, +fewriteback
+@item -fewriteback
+@itemx +fewriteback
+Enable/Disable Final Expansion write back to ROM file
+
+@cindex -cartfp
+@item -cartfp <name>
+Specify Vic Flash Plugin extension ROM name
+@cindex -fpwriteback, +fpwriteback
+@item -fpwriteback
+@itemx +fpwriteback
+Enable/Disable Vic Flash Plugin write back to ROM file
+
+@cindex -ieee488, +ieee488
+@item -ieee488
+@itemx +ieee488
+Enable/Disable VIC-1112 IEEE488 interface
+
+@end table
 
 @c @node FIXME
 @subsection VIC settings
@@ -5717,7 +6079,24 @@ Specify @file{NAME} as the cartridge image to attach.
 @end table
 
 @c @node FIXME
-@section PLUS 4-specific commands and settings
+@subsection VIC20 settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection VIC20 command-line options
+
+@table @code
+
+@cindex -OEMjoy, +OEMjoy
+@item -OEMjoy
+@item +OEMjoy
+Enable/Disable the OEM userport joystick adapter
+
+@end table
+
+@c @node FIXME
+@section PLUS4-specific commands and settings
 
 @c @node FIXME
 @subsection TED settings
@@ -5764,6 +6143,94 @@ Select fullscreen mode
 @cindex -TEDVidmodefullmode
 @item -TEDVidmodefullmode <mode>
 Select fullscreen mode
+@end table
+
+@c @node FIXME
+@subsection PLUS4 I/O extension settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection PLUS4 I/O extension command-line options
+
+@table @code
+
+@cindex -digiblaster, +digiblaster
+@item -digiblaster
+@itemx +digiblaster
+Enable/Disable the digiblaster add-on
+
+@cindex -sidcartjoy, +sidcartjoy
+@item -sidcartjoy
+@item +sidcartjoy
+Enable/Disable SID cartridge joystick
+
+@cindex -speech, +speech
+@item -speech
+@itemx +speech
+Enable/Disable the v364 speech add-on
+
+@cindex -speechrom
+@item -speechrom <name>
+Attach Speech ROM image
+
+@end table
+
+@c @node FIXME
+@subsection PLUS4 system ROM settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection PLUS4 system ROM command-line options
+
+@table @code
+
+@cindex -functionlo
+@item -functionlo <name>
+Specify name of Function low ROM image
+@cindex -functionhi
+@item -functionhi <name>
+Specify name of Function high ROM image
+
+@cindex -c1lo
+@item -c1lo <name>
+Specify name of Cartridge 1 low ROM image
+@cindex -c1hi
+@item -c1hi <name>
+Specify name of Cartridge 1 high ROM image
+@cindex -c2lo
+@item -c2lo <name>
+Specify name of Cartridge 2 low ROM image
+@cindex -c2hi
+@item -c2hi <name>
+Specify name of Cartridge 2 high ROM image
+
+@end table
+
+@c @node FIXME
+@subsection PLUS4 settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection PLUS4 command-line options
+
+@table @code
+
+@cindex -h256k
+@item -h256k
+Enable the HANNES 256K RAM expansion
+@cindex -h1024k
+@item -h1024k
+Enable the HANNES 1024K RAM expansion
+@cindex -h4096k
+@item -h4096k
+Enable the HANNES 4096K RAM expansion
+@cindex -cs256k
+@item -cs256k
+Enable the CSORY 256K RAM expansion
+
 @end table
 
 @node PET-specific, CBM-II-specific, VIC20-specific, Machine-specific features
@@ -6061,12 +6528,28 @@ Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the
 diagnostic pin at the PET userport.
 
 @cindex -petreu, +petreu
-@item -petreu, +petreu
+@item -petreu
+@itemx +petreu
 Enable or disable the PET Memory Expansion Unit.
+
+@cindex -petreuimage
+@item -petreuimage <name>
+Specify name of PET Ram and Expansion Unit image
+@cindex -petreuramsize
+@item -petreuramsize <size in KB>
+Size of the PET Ram and Expansion Unit
 
 @cindex -userportdac, +userportdac
 @item -userportdac, +userportdac
 Enable or disable the userport DAC.
+
+@cindex -petdww, +petdww
+@item -petdww
+@itemx +petdww
+Enable/Disable the PET DWW hi-res board
+@cindex -petdwwimage
+@item -petdwwimage <name>
+Specify name of PET DWW image
 
 @end table
 
@@ -6210,24 +6693,54 @@ Specify @file{NAME} as the Basic ROM file (@code{BasicName}).
 Specify @file{NAME} as the character generator ROM file
 (@code{ChargenName}).
 
+@cindex -cart1
+@item -cart1 <name>
+Specify @file{NAME} as the ROM image file for the
+cartridge area $1000-$1FFF (@code{Cart1Name}).
 @cindex -cart2
+@item -cart2 <name>
+Specify @file{NAME} as the ROM image file for the
+cartridge area $2000-$3fff (@code{Cart2Name}).
 @cindex -cart4
+@item -cart4 <name>
+Specify @file{NAME} as the ROM image file for the
+cartridge area $4000-$5fff (@code{Cart4Name}).
 @cindex -cart6
-@item -cart2 NAME, -cart4 NAME, -cart6 NAME
-Specify @file{NAME} as the ROM image file for the respective 
-cartridge areas (@code{Cart2Name}, @code{Cart4Name}, @code{Cart6Name}).
+@item -cart6 <name>
+Specify @file{NAME} as the ROM image file for the
+cartridge area $6000-$7fff (@code{Cart6Name}).
 
-@cindex -ram08
-@cindex -ram1
-@cindex -ram2
-@cindex -ram4
-@cindex -ram6
-@cindex -ramC
-@item -ram08, -ram1, -ram2, -ram4, -ram6, -ramC
-Switch on RAM mapping in bank 15 on addresses 
-$0800-$0fff, $1000-$1fff, $2000-$3fff, $4000-$5fff, $6000-$7fff resp
-(@code{Ram08}, @code{Ram1}, @code{Ram2}, @code{Ram4}, @code{Ram6},
-@code{RamC}).
+@cindex -ram08, +ram08
+@item -ram08
+@itemx +ram08
+Enable/Disable RAM mapping in bank 15 on addresses  $0800-$0FFF
+resp (@code{Ram08}).
+@cindex -ram1, +ram1
+@item -ram1
+@itemx +ram1
+Enable/Disable RAM mapping in bank 15 on addresses  $1000-$1FFF
+resp (@code{Ram1}).
+@cindex -ram2, +ram2
+@item -ram2
+@itemx +ram2
+Enable/Disable RAM mapping in bank 15 on addresses  $2000-$3FFF
+resp (@code{Ram2}).
+@cindex -ram4, +ram4
+@item -ram4
+@itemx +ram4
+Enable/Disable RAM mapping in bank 15 on addresses  $4000-$5FFF
+resp (@code{Ram4}).
+@cindex -ram6, +ram6
+@item -ram6
+@itemx +ram6
+Enable/Disable RAM mapping in bank 15 on addresses  $6000-$7FFF
+resp (@code{Ram6}).
+@cindex -ramC, +ramC
+@item -ramC
+@itemx +ramC
+Enable/Disable RAM mapping in bank 15 on addresses  $C000-$CFFF
+resp (@code{RamC}).
+
 
 @cindex -modelline
 @item -modelline
@@ -6252,6 +6765,30 @@ feeling;
 @item
 @code{white.vpl} (``white''), simple white-on-black palette.
 @end itemize
+
+@c -----------------------------------------------------------------
+
+@c @node FIXME
+@section VSID-specific commands and settings
+
+@c @node FIXME
+@subsection VSID settings
+
+@c FIXME
+
+@c @node FIXME
+@subsubsection VSID command-line options
+
+@table @code
+
+@cindex -keepenv
+@item -keepenv
+Override PSID settings for Video standard and SID model
+@cindex -tune <number>
+@item -tune <number>
+Specify PSID tune <number>
+
+@end table
 
 @c -----------------------------------------------------------------
 
@@ -7666,6 +8203,20 @@ Version numbers: Major 0, Minor 0
 @tab CPU clock ticks till next 50Hz IRQ
 @end multitable
 
+@c -----------------------------------------------------------------
+@c @node FIXME
+@chapter Event history
+
+@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+
+@c @node FIXME
+@section Event history command-line options
+
+@table @code
+@cindex -playback
+@item -playback
+Playback recorded events
+@end table
 
 @c -----------------------------------------------------------------
 
