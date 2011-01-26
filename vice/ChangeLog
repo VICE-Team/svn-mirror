@@ -1,5 +1,659 @@
 ------------------------------------------------------------------------------
 
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/texi2chm.sh, doc/texi2guide.sh, doc/vice.chm,
+	doc/vice.guide, doc/vice.hlp, doc/vice.pdf: Updated some of the doc
+	generating scripts and regenerated the vice.* files.
+
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resramcart.rc, src/arch/win32/resreu.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	po/sv.po, po/tr.po: Did a 'make update-po'.
+
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/unix/macosx/cocoa/mousedrv.m,
+	src/arch/unix/macosx/cocoa/video.m, src/c64/cart/c64tpi.c,
+	src/translate.txt, src/translate_text.c: Added some previously
+	untranslated texts to the translation system.
+
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/tuimenu.h,
+	src/arch/msdos/uic64_256k.c, src/arch/msdos/uic64dtv.c,
+	src/arch/msdos/uidqbb.c, src/arch/msdos/uiexpert.c,
+	src/arch/msdos/uiexpert.h, src/arch/msdos/uigeoram.c,
+	src/arch/msdos/uiide64.c, src/arch/msdos/uiisepic.c,
+	src/arch/msdos/uimagicvoice.c, src/arch/msdos/uimmc64.c,
+	src/arch/msdos/uimmcreplay.c, src/arch/msdos/uipetdww.c,
+	src/arch/msdos/uipetreu.c, src/arch/msdos/uiplus256k.c,
+	src/arch/msdos/uiplus60k.c, src/arch/msdos/uiramcart.c,
+	src/arch/msdos/uireu.c, src/arch/msdos/uiv364speech.c: Added
+	'save when changed' elements and expert cart settings dialog to the
+	dos ui.
+
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Added IDCLS_ENABLE_PETDWW translation block.
+
+2011-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc, doc/Makefile.am, doc/texi2chm.sh, doc/texi2guide.sh: Added
+	$(srcdir) to get the proper location of vice.texi.
+
+2011-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/tuifs.c: Extended the dos lfn support to windows me,
+	2000, xp, 2003 and vista/7. (Better solution for detecting lfn is needed
+	though, because support for things like doslfn is missing)
+
+2011-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/Makefile.am, doc/t2h.pl, doc/texi2chm.sh,
+	doc/texi2guide.sh, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.pdf, doc/vice.txt: Added texi to chm/hlp/guide support and
+	added vice.txt, vice.pdf, vice.guide, vice.chm and vice.hlp to the
+	source tree (and source dist).
+
+2011-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/make-bindist.sh, src/arch/beos/make-bindist.sh,
+	src/arch/msdos/make-bindist.sh, src/arch/os2/makedist.cmd,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_win32.sh,
+	src/arch/sdl/win32-msvc/make-bindist.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/win64-msvc/make-bindist.bat,
+	src/arch/unix/hpux/make-bindist.sh, src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/win32/make-bindist.sh, src/arch/win32/make-msvc-bindist.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat,
+	src/arch/win64/make-msvc-bindist.bat: Removed cartconv.txt and
+	mon.txt from the various bindist scripts.
+
+2011-01-24  groepaz <groepaz@gmx.net>
+
+	* doc/html/plain/BUGS, doc/html/plain/TODO: added sf urls
+
+2011-01-24  groepaz <groepaz@gmx.net>
+
+	* doc/Makefile.am: remove obsolete files from doc_Data
+
+2011-01-24  groepaz <groepaz@gmx.net>
+
+	* doc/cartconv.txt, doc/mon.txt: remove obsolete cartconv.txt and
+	mon.txt
+
+2011-01-24  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: fix autostart, drive, printer, vdc, vic, vicii, crtc
+	and other options :)
+
+2011-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/pngdrv.c: Added '#include <zlib.h>' to the png
+	driver.
+
+2011-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/ui.c, src/arch/msdos/uidrive.c: Rewrote the dos drive
+	ui.
+
+2011-01-23  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Use XVID instead of default FMP4 FOURCC.
+
+2011-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/Makefile.am: Added support for building vice.txt and
+	vice.pdf from vice.texi
+
+2011-01-22  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/core/ciacore.c: Remove misleading comment
+
+2011-01-22  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/ReadmeSDL.txt, doc/html/plain/NEWS: Some SDL UI FFMPEG docs, NEWS
+	entries
+
+2011-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src, src/arch/amigaos: Added some more svn ignores.
+
+2011-01-22  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/info.c: A nod to the next level in competition
+
+2011-01-22  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/vice.texi: Lowercase emulator names for consistency, uppercase
+	(ep)rom, kb->kB
+
+2011-01-22  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Decreased size of op-amp
+	lookup table to 16 bits, for speedup on ARM
+
+2011-01-22  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: updated cartridge stuff, updated monitor chapter,
+	added petcat and cartconv chapters
+
+2011-01-22  groepaz <groepaz@gmx.net>
+
+	* src/mouse.c: unbreak paddles
+
+2011-01-21  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h, src/resid/sid.h: [reSID] Removed 'public:' used
+	for debugging
+
+2011-01-21  groepaz <groepaz@gmx.net>
+
+	* doc/html/index.html: changed links to point to the respective list on
+	sourceforge instead of the outdated BUGS and TODO documents
+
+2011-01-21  groepaz <groepaz@gmx.net>
+
+	* doc/html/plain/NEWS: added/updated some details
+
+2011-01-21  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/c64tpi.h, src/c64/cart/reu.c: fix broken commandline help
+	messages, added missing commandline options (ieee488)
+
+2011-01-21  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: [reSID] Pure table lookup for
+	sqrt. Speed is now on par with resid-fp
+
+2011-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_drive.c: Changed 'hide p00 files' to
+	'hide non-p00 files' in the sdl ui.
+
+2011-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/archdep.h,
+	src/arch/msdos/c128ui.c, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/cbm2ui.c, src/arch/msdos/petui.c,
+	src/arch/msdos/plus4ui.c, src/arch/msdos/uivideo.c,
+	src/arch/msdos/uivideo.h, src/arch/msdos/vic20ui.c: Rewrote the dos
+	video settings ui.
+
+2011-01-19  groepaz <groepaz@gmx.net>
+
+	* src/mouse.c: fixed potx/y multiplexing according to testresults
+
+2011-01-18  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/x11video.c: Fix (Work around?) case where xs
+	goes negative while resizing the main window "too small". Some calls
+	deeper, render_32_1x2_04() (from xpet, 80 columns, double size, no
+	hardware scaling), doesn't like that. The condition is apparently
+	temporary, as the window resize repositions the canvas/viewport.
+
+2011-01-18  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uiedisk.c,
+	src/arch/unix/x11/xaw/widgets/TextField.c,
+	src/arch/unix/x11/xaw/widgets/TextFieldP.h: Fix a remaining GC sharing
+	bug. Add X64 button to disk image types. Clean out some stray layout
+	stuff.
+
+2011-01-18  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uic64cart.c, src/arch/msdos/uidigimax.c,
+	src/arch/msdos/uidigimax.h, src/arch/msdos/uigeoram.c,
+	src/arch/msdos/uigeoram.h, src/arch/msdos/uiisepic.c,
+	src/arch/msdos/uiisepic.h, src/arch/msdos/uimmcreplay.c,
+	src/arch/msdos/uiramcart.c, src/arch/msdos/uiramcart.h,
+	src/arch/msdos/uisoundexpander.c: Corrected some user visible cart
+	names.
+
+2011-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiprinter.c: Fixed some text.
+
+2011-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiprinter.c: Added the 'raw' printer driver to the dos
+	ui.
+
+2011-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/archdep.c: Added fix file permission support to the
+	dos port.
+
+2011-01-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/uiide64.c,
+	src/arch/msdos/uiide64.h, src/arch/msdos/vic20ui.c: Added an ide64
+	dialog to the dos ui.
+
+2011-01-16  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/dqbb.c, src/c64/cart/dqbb.h,
+	src/c64/cart/expert.c, src/c64/cart/expert.h, src/c64/cart/isepic.c,
+	src/c64/cart/isepic.h, src/c64/cart/ramcart.c, src/c64/cart/ramcart.h,
+	src/c64/cart/reu.c: fixed accidental image overwriting, added snapshot
+	support
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uiide64.c: Corrected the ide64 cyl/heads/sectors
+	range for the amiga ui.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/vic20ui.c: Added 'vic flash plugin writeback' support
+	to the dos ui.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/tr.po: Updated by Emir.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiattach.c: Added 'load to basic start' autostart item
+	to the dos ui.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/reseasyflash.rc, src/arch/win32/resexpert.rc,
+	src/arch/win32/resgeoram.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/resmagicvoice.rc,
+	src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resramcart.rc, src/arch/win32/resreu.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/resv364speech.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	po/sv.po, po/tr.po: Did a 'make update-po'.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/mui.c, src/arch/amigaos/mui/uiide64.c,
+	src/arch/amigaos/mui/uinetwork.c, src/arch/amigaos/mui/uisid.c,
+	src/arch/amigaos/mui/uisiddtv.c, src/arch/amigaos/mui/uisound.c,
+	src/arch/amigaos/mui/uivideo.c: Added some 'range checking and enforcing'
+	to the amiga ui.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uipetdww.c, src/translate.txt,
+	src/translate_text.c, src/video/video-cmdline-options.c: Removed some
+	obsolete/unused translation items.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/res.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uisid.c,
+	src/arch/win32/uivideo.c: Added some 'range checking and enforcing' to
+	the win32 ui.
+
+2011-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/check_obsolete.sh: Refined the obsolete translations item checker
+	script a bit more.
+
+2011-01-15  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/reu.c: fix accidental
+	overwriting of image file, changed wraparound behaviour of large REUs to
+	match CMD 1750XL
+
+2011-01-15  groepaz <groepaz@gmx.net>
+
+	* src/log.c: fix LOG_ERR output
+
+2011-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/check_obsolete.sh: Refined the obsolete translations item checker
+	script a bit.
+
+2011-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added --disable-rs232 and --disable-midi to the
+	configure script.
+
+2011-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, po/Makefile.in.in, po/check_obsolete.sh,
+	po/gen_win32_files.sh, po/gen_win32_rc.c, src/Makefile.am,
+	src/arch/amigaos/Makefile.am, src/arch/amigaos/genintl_h.sh.in,
+	src/arch/amigaos/genintltable.sh, src/debug.h.in, src/gentranslate_h.sh,
+	src/gentranslate_h.sh.in, src/gentranslatetable.sh: Added a
+	--enable-debug configure option which 'activates' the #define DEBUG in
+	debug.h, also enables translation table item number generation in
+	translate.h and amigaos/intl.h, and activates the new obsolete
+	translation item search routine/script when doing a make trans-update.
+
+2011-01-15  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64carthooks.c: unbreak cart snapshots
+
+2011-01-15  Dag Lem <resid@nimrod.no>
+
+	* src/arch/unix/gui/c64scui.c: Use checkbox for "SID filters" in x64sc
+
+2011-01-15  pottendo <pottendo@aon.at>
+
+	* po/tr.po: Updated by Emir.
+
+2011-01-14  groepaz <groepaz@gmx.net>
+
+	* po/de.po: fix some typos
+
+2011-01-14  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uic64dtv.c,
+	src/arch/unix/gui/uips2mouse.c, src/arch/unix/gui/vic20ui.c: unify some
+	menus/messages
+
+2011-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: src/arch/msdos/archdep.h,
+	src/arch/unix/x11/xaw/widgets/Directory.h, src/ioutil.c,
+	src/vicemaxpath.h: Put the MAX_PATH/PATH_MAX/MAXPATHLEN defines in a
+	seperate header which can be included when a platform fails to define
+	them.
+
+2011-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/mui.c: Fixed the amiga BrowseFile function.
+
+2011-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisound.c: Fixed amiga sound dialog (previously
+	the fragment size selection box was empty).
+
+2011-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/arch/sdl/archdep_amiga.c: Changed the
+	logfile output for amiga to where if the logfile cannot be opened the
+	output will go to stdout.
+
+2011-01-13  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* configure.in, src/arch/unix/rawnetarch.c: Newer libpcap have
+	pcap_inject() (from libpcap of BSD) and/or pcap_sendpacket()
+	(from WinPcap). If either one is available, do not depend on libnet
+	anymore.
+
+2011-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_amiga.c: Included proto/exec.h in the sdl
+	archdep_amiga.c for aros OpenLibrary/CloseLibrary definitions.
+
+2011-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/vic20ui.c, src/c64/cart/mmc64.c,
+	src/plus4/plus4mem.c: Some warning fixes
+
+2011-01-12  pottendo <pottendo@aon.at>
+
+	* po/it.po: Updated by Andrea.
+
+2011-01-12  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/ui.c: Improved AlwaysOnTop
+	option so that it works at startup and outlives a switch to fullscreen
+	mode.
+
+2011-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated
+
+2011-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po: Updated by Mikkel Holm Olsen.
+
+2011-01-10  groepaz <groepaz@gmx.net>
+
+	* src/log.c: make log file name persistent if given on commandline, so
+	logging to a file does not break when loading a config file from the ui.
+
+2011-01-10  groepaz <groepaz@gmx.net>
+
+	* src/cbm2/cbm2-cmdline-options.c, src/cbm2/cbm2-resources.c,
+	src/cbm2/cbm2.c, src/cbm2/cbm2.h, src/cbm2/cbm2cia.h,
+	src/cbm2/cbm2cia1.c, src/pet/pet-cmdline-options.c, src/pet/pet.c,
+	src/pet/pet.h: fixed timing constants, added missing pal/ntsc
+	commandline switch, added cia tod fix to cbm2
+
+2011-01-10  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive-snapshot.c, src/plus4/plus4-snapshot.c,
+	src/plus4/plus4mem.c, src/plus4/plus4mem.h,
+	src/plus4/plus4memsnapshot.c, src/plus4/ted-snapshot.c,
+	src/plus4/tedtypes.h: fixed some snapshot related stuff
+
+2011-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64ui.c,
+	src/arch/msdos/petui.c, src/arch/msdos/vic20ui.c: Removed emuid from the
+	dos ui.
+
+2011-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/uimagicvoice.c, src/arch/msdos/uimagicvoice.h,
+	src/arch/msdos/uimmcreplay.c, src/arch/msdos/uimmcreplay.h,
+	src/arch/msdos/uiv364speech.c, src/arch/msdos/uiv364speech.h: Added
+	magic voice, mmc replay and v364 speech menus to the dos ui.
+
+2011-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/charset.c: Added some '(BYTE)something >= 0x00' fixes.
+
+2011-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/expert.c,
+	src/c64/cart/generic.c, src/c64/cart/isepic.c,
+	src/c64/cart/retroreplay.c: Added some '(WORD) something <= 0xffff'
+	fixes.
+
+2011-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/msdos/uimmc64.c: Added mmc64 card type
+	selection support to the dos ui.
+
+2011-01-09  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/filter.cc: Ensure that filter still works after switching
+	model mid-song.
+
+2011-01-08  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii-timing.h, src/viciisc/vicii-timing.h: fixed ntsc
+	display ranges, fixed height macros
+
+2011-01-08  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64sound.c, src/c64/cart/atomicpower.c,
+	src/c64/cart/c64cart.c, src/c64/cart/c64carthooks.c,
+	src/c64/cart/c64cartmem.c, src/c64/cart/c64cartsystem.h,
+	src/c64/cart/c64tpi.c, src/c64/cart/dqbb.c, src/c64/cart/dqbb.h,
+	src/c64/cart/expert.c, src/c64/cart/expert.h,
+	src/c64/cart/freezemachine.c, src/c64/cart/generic.c,
+	src/c64/cart/isepic.c, src/c64/cart/isepic.h, src/c64/cart/magicvoice.c,
+	src/c64/cart/mmc64.c, src/c64/cart/ramcart.c, src/c64/cart/ramcart.h,
+	src/c64/cart/supersnapshot4.c, src/cartridge.h, src/vicii/vicii-fetch.c,
+	src/vicii/vicii.c: made proper hook for sound funcs (digimax,
+	magicvoice, sfx sound sampler, sfx sound expander), fixed fake-ultimax
+	mapping for carts in vicii, added mem peek (ramcart, expert, isepic,
+	dqbb), fixed ultimax fetches (expert, isepic), removed phi2 ram hack
+	from some carts (atomic power, ss4), fixed bank init (generic), fixed
+	16k roms (freeze machine)
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/make-bindist.sh: Fixed a typo.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/mui.c: Moved the platform.h include to avoid NULL
+	not being defined on aros.
+
+2011-01-08  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/drive/driveimage.c: Applied patch for 1571 speed zone problem by
+	skoe. Fixes bug 3152829.
+
+2011-01-08  pottendo <pottendo@aon.at>
+
+	* po/it.po: Updated by Andrea.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resramcart.rc, src/arch/win32/resreu.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed the position of the palette combobox and
+	browse button for the palette dialog of the win32 ui.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed printer dialog elements alignment for the
+	win32 ui.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed render filter combobox alignment in the
+	win32 ui.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc64.rc: Fixed win32 c64 model selection ui 'creep'.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/menudefs.c, src/arch/msdos/uiattach.c,
+	src/arch/msdos/uimmc64.c, src/arch/msdos/uisid.c,
+	src/arch/msdos/uisidcart.c, src/arch/msdos/uisiddtv.c,
+	src/arch/msdos/uitfe.c: Some dos ui cleanups.
+
+2011-01-08  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/petui.c,
+	src/arch/msdos/uipetdww.c, src/arch/msdos/uipetdww.h: Added pet dww to
+	the dos ui.
+
+2011-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c64ui.c,
+	src/arch/msdos/uic64model.c, src/arch/msdos/uic64model.h: Added c64
+	model selection to the dos ui.
+
+2011-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/archdep.h, src/arch/msdos/c64ui.c,
+	src/arch/msdos/menudefs.c, src/arch/msdos/uiattach.c,
+	src/arch/msdos/uiscreenshot.c, src/arch/msdos/uisnapshot.c,
+	src/c64/cart/magicvoice.c: Some (ms)dos port fixes.
+
+2011-01-07  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Add missing #include (NetBSD is
+	stricter than Linux).
+
+2011-01-07  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/widgets/TextFieldP.h: Remove unused member
+	variable.
+
+2011-01-07  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/widgets/FileSel.c,
+	src/arch/unix/x11/xaw/widgets/MultiList.c,
+	src/arch/unix/x11/xaw/widgets/ScrList.c,
+	src/arch/unix/x11/xaw/widgets/TextField.c,
+	src/arch/unix/x11/xaw/widgets/TextFieldP.h,
+	src/arch/unix/x11/xaw/x11ui.c: Disable "international support" when in
+	the "C" locale, since it is worse than no support (it falls back to
+	7-bit US-ASCII). Found some Graphics Context and text allocation errors
+	in the mean time.
+
+2011-01-06  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/widgets/DirMgr.c,
+	src/arch/unix/x11/xaw/widgets/RegExp.c,
+	src/arch/unix/x11/xaw/widgets/RegExp.h: Fix longstanding crash when you
+	have an invalid file pattern in the xaw fileselector.
+
+2011-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po, po/Makefile.in.in, po/po2table.c: Added a conversion step
+	(sv.po (utf-8) -> sv_iso.po (iso-8859-1)) to the make trans-update
+	target.
+
+2011-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed win32 peripheral dialog input text size
+	issue.
+
+2011-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, po/da.po, po/de.po, po/fr.po, po/hu.po,
+	po/it.po, po/nl.po, po/pl.po, po/sv.po, po/tr.po,
+	src/arch/win32/vice-version.bat, src/monitor/mon_lex.c,
+	src/resid-dtv, src/version.h: Version 2.2.10.
+
+------------------------------------------------------------------------------
+
 2011-01-04  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/widgets/DrawString.c,
@@ -2642,7 +3296,7 @@
 	  related to ffmpeg settings. patch by David Roden.
 
 	* src/gfxoutputdrv/ffmpegdrv.c: always set a sample format for
-	  the audio codec, fixes ‚Äúinvalid sample format‚Äù. patch by David
+	  the audio codec, fixes ìinvalid sample formatî. patch by David
 	  Roden
 
 	* src/arch/unix/gui/uiide64.c: added menu item for
@@ -3993,7 +4647,7 @@
 2010-07-05  Hannu Nuotio <hannu.nuotio@tut.fi>
 
 	* src/vic20/cart/vic-fp.c: Fix vic-fp $9800 handling. Patch by
-	  Marko M√§kel√§.
+	  Marko M‰kel‰.
 
 2010-06-30  groepaz <groepaz@gmx.net>
 
@@ -5299,7 +5953,7 @@
 	  src/c64/c64-cmdline-options.c, src/c64/c64-resources.c,
 	  src/c64/c64.c, src/c64/c64.h, src/c64/psid.c, src/machine.h,
 	  src/translate.txt, src/vicii/vicii-timing.c: Patch for PAL-N
-	  model selection provided by Pablo Rold√°n <pdroldan@yahoo.com>
+	  model selection provided by Pablo Rold·n <pdroldan@yahoo.com>
 
 	* src/arch/win32/c64cart.dsp, src/arch/win32/resmenu.txt,
 	  src/arch/win32/resstrings.txt, src/arch/win32/vic20cart.dsp:
@@ -5320,7 +5974,7 @@
 	  src/vic20/cart/Makefile.am, src/vic20/cart/vic-fp.c,
 	  src/vic20/cart/vic-fp.h, src/vic20/cart/vic20cart.c,
 	  src/vic20/cart/vic20cartmem.c: Vic Flash Plugin cartridge
-	  emulation. Patch by Marko M√§kel√§.
+	  emulation. Patch by Marko M‰kel‰.
 
 	* src/petcat.c: Readd machine_get_name to petcat
 
@@ -12986,7 +13640,7 @@
 
 	* src/arch/unix/joy.c: Fixed empty "#elif" to "#else" as it is
 	  correctly (and needed for gcc 4.4). Fix provided by Samuli
-	  Suominen, written by Martin V√§th.
+	  Suominen, written by Martin V‰th.
 
 2009-05-10  Marco van den Heuvel <blackystardust68@yahoo.com>
 

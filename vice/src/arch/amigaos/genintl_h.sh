@@ -1,4 +1,10 @@
 #!/bin/sh
+#
+# genintl_h.sh - intl.h generator script for the AmigaOS ports
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
+
+DEBUGBUILD=0
 
 echo "/*"
 echo " * intl.h - Localization routines for Amiga."
@@ -36,11 +42,51 @@ echo ""
 echo "enum { ID_START_0=0,"
 echo ""
 
-while read data
-do
-  ok="no"
-  case ${data%%_*} in
-    ID*)
+# generating the debug version of intl.h takes
+# alot more time, so it only gets done when
+# --enable-debug is given.
+
+if test x"$DEBUGBUILD" = "x1"; then
+  count=1
+  while read data
+  do
+    ok="no"
+    case ${data%%_*} in
+      ID*)
+           echo $data", /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_DA, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_DE, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_FR, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_HU, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_IT, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_NL, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_PL, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_SV, /* "$count" */"
+           count=`expt $count + 1`
+           echo $data"_TR, /* "$count" */"
+           count=`expt $count + 1`
+           ok="yes"
+      ;;
+    esac
+    if test $ok = "no";
+    then
+      echo "$data"
+    fi
+  done
+else
+  while read data
+  do
+    ok="no"
+    case ${data%%_*} in
+      ID*)
            echo $data","
            echo $data"_DA,"
            echo $data"_DE,"
@@ -52,13 +98,14 @@ do
            echo $data"_SV,"
            echo $data"_TR,"
            ok="yes"
-    ;;
-  esac
-  if test $ok = "no";
-  then
-    echo "$data"
-  fi
-done
+      ;;
+    esac
+    if test $ok = "no";
+    then
+      echo "$data"
+    fi
+  done
+fi
 
 echo "};"
 echo "#endif"

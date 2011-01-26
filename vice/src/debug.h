@@ -29,8 +29,11 @@
 
 #include "types.h"
 
+/* You can also enable/disable this option by hand. */
+#if 0
 /* This enables debugging.  Attention: It makes things a bit slower.  */
-/*#define DEBUG*/
+#define DEBUG
+#endif
 
 #define DEBUG_NORMAL    0
 #define DEBUG_SMALL     1
