@@ -121,14 +121,12 @@ static const int ui_c64model_values[] = {
 static const int ui_c64cia[] = {
    IDS_6526_OLD,
    IDS_6526A_NEW,
-   IDS_6526X_OLD_TIMER_BUG,
    0
 };
 
 static const int ui_c64cia_values[] = {
     CIA_MODEL_6526,
     CIA_MODEL_6526A,
-    /*FIXME remove CIA_MODEL_6526X*/ 2,
     -1
 };
 

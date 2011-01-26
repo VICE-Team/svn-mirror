@@ -104,9 +104,6 @@ static char *get_cia_model(int value)
         case 1:
             retval = "6526A (new)";
             break;
-        case 2:
-            retval = "6526x (old, with timer b bug)";
-            break;
     }
     return retval;
 }

@@ -7716,17 +7716,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_6526A_NEW_SV, "6526A (ny)" },
 /* tr */ { IDS_6526A_NEW_TR, "6526A (yeni)" },
 
-/* en */ { IDS_6526X_OLD_WITH_TIMER_B_BUG,    "6526x (old with timer B bug)" },
-/* da */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_DA, "6526x (gammel med timer B fejl)" },
-/* de */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_DE, "6526x (alt mit Timer B Fehler)" },
-/* fr */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_FR, "" },  /* fuzzy */
-/* hu */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_HU, "" },  /* fuzzy */
-/* it */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_IT, "6526x (vecchio con bug al timer B)" },
-/* nl */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_NL, "6526x (oud met timer B bug)" },
-/* pl */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_PL, "" },  /* fuzzy */
-/* sv */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_SV, "6526x (gammal med timer B-fel)" },
-/* tr */ { IDS_6526X_OLD_WITH_TIMER_B_BUG_TR, "6526x (eski timer B hatalý)" },
-
 /* en */ { IDS_DISCRETE,    "Discrete" },
 /* da */ { IDS_DISCRETE_DA, "Diskret" },
 /* de */ { IDS_DISCRETE_DE, "Diskret" },
