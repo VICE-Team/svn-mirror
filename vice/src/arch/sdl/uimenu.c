@@ -604,7 +604,7 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
         i = max;
     }
 
-    segment = (float) max / (menu_draw.max_text_x - 1);
+    segment = (float)((max - min) / (menu_draw.max_text_x - 1));
 
     do {
         if (screen_dirty) {
@@ -612,9 +612,9 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
             sdl_ui_print_wrap(new_string, pos_x, &pos_y);
             pos_y++;
 
-            parts = i / segment;
+            parts = (i - min) / segment;
             for (loop = 0; loop < menu_draw.max_text_x; loop++) {
-                new_string[loop] = i ? (loop <= parts ? '*' : '.') : '.';
+                new_string[loop] = (i - min) ? (loop <= parts ? '*' : '.') : '.';
             }
             new_string[loop] = 0;
             sdl_ui_print_wrap(new_string, pos_x, &pos_y);

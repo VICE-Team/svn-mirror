@@ -248,8 +248,24 @@ static const ui_menu_entry_t sid_sampling_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_INT(SidResidPassband)
-#endif
+UI_MENU_DEFINE_SLIDER(SidResidPassband, 0, 90)
+UI_MENU_DEFINE_SLIDER(SidResidFilterBias, -500, 500)
+
+#define VICE_SDL_RESID_OPTIONS          \
+    { "reSID sampling method",          \
+      MENU_ENTRY_SUBMENU,               \
+      submenu_radio_callback,           \
+      (ui_callback_data_t)sid_sampling_menu }, \
+    { "reSID resampling passband",      \
+      MENU_ENTRY_RESOURCE_INT,          \
+      slider_SidResidPassband_callback, \
+      (ui_callback_data_t)"Enter passband in percentage of total bandwidth (lower is faster, higher is better)" }, \
+    { "reSID filter bias",              \
+      MENU_ENTRY_RESOURCE_INT,          \
+      slider_SidResidFilterBias_callback, \
+      (ui_callback_data_t)"Set filter bias in mV" },
+
+#endif /* HAVE_RESID */
 
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 UI_MENU_DEFINE_TOGGLE(SidStereo)
@@ -612,14 +628,7 @@ const ui_menu_entry_t sid_c64_menu[] = {
       toggle_SidFilters_callback,
       NULL },
 #ifdef HAVE_RESID
-    { "reSID sampling method",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)sid_sampling_menu },
-    { "reSID resampling passband",
-      MENU_ENTRY_RESOURCE_INT,
-      int_SidResidPassband_callback,
-      (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
+    VICE_SDL_RESID_OPTIONS
 #endif
     SDL_MENU_LIST_END
 };
@@ -642,14 +651,7 @@ const ui_menu_entry_t sid_c128_menu[] = {
       toggle_SidFilters_callback,
       NULL },
 #ifdef HAVE_RESID
-    { "reSID sampling method",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)sid_sampling_menu },
-    { "reSID resampling passband",
-      MENU_ENTRY_RESOURCE_INT,
-      int_SidResidPassband_callback,
-      (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
+    VICE_SDL_RESID_OPTIONS
 #endif
     SDL_MENU_LIST_END
 };
@@ -672,14 +674,7 @@ const ui_menu_entry_t sid_cbm2_menu[] = {
       toggle_SidFilters_callback,
       NULL },
 #ifdef HAVE_RESID
-    { "reSID sampling method",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)sid_sampling_menu },
-    { "reSID resampling passband",
-      MENU_ENTRY_RESOURCE_INT,
-      int_SidResidPassband_callback,
-      (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
+    VICE_SDL_RESID_OPTIONS
 #endif
     SDL_MENU_LIST_END
 };
@@ -694,14 +689,7 @@ const ui_menu_entry_t sid_dtv_menu[] = {
       toggle_SidFilters_callback,
       NULL },
 #ifdef HAVE_RESID
-    { "reSID sampling method",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)sid_sampling_menu },
-    { "reSID resampling passband",
-      MENU_ENTRY_RESOURCE_INT,
-      int_SidResidPassband_callback,
-      (ui_callback_data_t)"Enter passband in percentage of total bandwidth (0 - 90, lower is faster, higher is better)" },
+    VICE_SDL_RESID_OPTIONS
 #endif
     SDL_MENU_LIST_END
 };
