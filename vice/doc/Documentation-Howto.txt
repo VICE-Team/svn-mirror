@@ -1,0 +1,47 @@
+
+vice/doc/vice.texi is the main documentation source.
+
+vice/doc/*.txt should only contain developer- or port-specific info
+
+vice/doc/plain/*.txt should contain only technical information
+
+------------------------------------------------------------------------------
+
+how to use the checkdoc tool
+
+- a valid vicerc containing settings for all emus must be located in ~/.vice/
+
+run the tool by either typing
+
+make -f checkdoc.mak <option>
+
+or
+
+./checkdoc.mak <option>
+
+with option beeing one of either
+
+full    do all checks
+opt     check command-line options
+res     check resources
+clean   remove temp files
+
+------------------------------------------------------------------------------
+
+TODO:
+
+- fix "C64/128"
+
+- generate info.c from vice.texi
+
+- merge doc/html/plain/Walkthrough-Howto.txt
+
+------------------------------------------------------------------------------
+
+Last fully checked:
+
+"c64 using cartridges" 22/01/2011
+"c64 io extensions" 22/01/2011
+petcat 22/01/2011
+cartconv 22/01/2011
+monitor 22/01/2011
