@@ -116,6 +116,8 @@ songset	tya
 	; No PLAY => tune must set up interrupts itself (CIA 1 running)
 	lda playvec+1
 	beq ciainit
+	jsr getmap
+	sta iomap
 
 	; Get shift number for speed bit
 	cpy #32
@@ -156,8 +158,6 @@ doinit	lda #$2f
 	jsr init
 	lda playvec+1
 	beq run
-	jsr getmap
-	sta iomap
 	lda #$36
 	sta $01
 
