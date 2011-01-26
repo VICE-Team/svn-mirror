@@ -879,7 +879,7 @@ static BYTE peek_bank_io(WORD addr)
         case 0xd500:
         case 0xd600:
         case 0xd700:
-            return sid_read(addr);
+            return sid_peek(addr);
         case 0xd800:
         case 0xd900:
         case 0xda00:

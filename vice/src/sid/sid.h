@@ -88,6 +88,7 @@ struct sid_snapshot_state_s;
 extern void machine_sid2_enable(int val);
 
 extern BYTE REGPARM1 sid_read(WORD address);
+extern BYTE REGPARM1 sid_peek(WORD address);
 extern BYTE REGPARM1 sid2_read(WORD address);
 extern void REGPARM2 sid_store(WORD address, BYTE byte);
 extern void REGPARM2 sid2_store(WORD address, BYTE byte);
