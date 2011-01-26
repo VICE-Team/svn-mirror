@@ -128,7 +128,7 @@ static const int ui_c64cia[] = {
 static const int ui_c64cia_values[] = {
     CIA_MODEL_6526,
     CIA_MODEL_6526A,
-    CIA_MODEL_6526X,
+    /*FIXME remove CIA_MODEL_6526X*/ 2,
     -1
 };
 

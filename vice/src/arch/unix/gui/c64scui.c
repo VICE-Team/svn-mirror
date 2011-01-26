@@ -151,8 +151,6 @@ static ui_menu_entry_t set_cia1model_submenu[] = {
       (ui_callback_data_t)CIA_MODEL_6526, NULL },
     { N_("6526 (new)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
       (ui_callback_data_t)CIA_MODEL_6526A, NULL },
-    { N_("6526x (old with timer B bug)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
-      (ui_callback_data_t)CIA_MODEL_6526X, NULL },
     { NULL }
 };
 
@@ -163,8 +161,6 @@ static ui_menu_entry_t set_cia2model_submenu[] = {
       (ui_callback_data_t)CIA_MODEL_6526, NULL },
     { N_("6526 (new)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA2Model,
       (ui_callback_data_t)CIA_MODEL_6526A, NULL },
-    { N_("6526x (old with timer B bug)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA2Model,
-      (ui_callback_data_t)CIA_MODEL_6526X, NULL },
     { NULL }
 };
 

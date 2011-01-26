@@ -3418,7 +3418,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-cmdline-options.c */
-/* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 6526A, 2 = old 6526x)")},
+/* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, "Vælg type for begge CIA-kredse (0=gammel 6526, 1=ny 6526A, 2=gammel 6526x)"},
 /* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)"},
@@ -3432,7 +3432,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-cmdline-options.c */
-/* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)")},
+/* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CIA1_MODEL_DA, "Vælg CIA 1 type (0=gammel 6526, 1=ny 6526A, 2=gammel 6526x)"},
 /* de */ {IDCLS_SET_CIA1_MODEL_DE, "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)"},
@@ -3446,7 +3446,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-cmdline-options.c */
-/* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)")},
+/* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CIA2_MODEL_DA, "Vælg CIA 2 type (0=gammel 6526, 1=ny 6526A, 2=gammel 6526x)"},
 /* de */ {IDCLS_SET_CIA2_MODEL_DE, "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)\""},

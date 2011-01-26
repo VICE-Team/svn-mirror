@@ -125,8 +125,6 @@ static tui_menu_item_def_t cia1_model_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "6526A (new)", NULL, radio_CIA1Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6526x (old, with timer b bug)", NULL, radio_CIA1Model_callback,
-      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -144,8 +142,6 @@ static tui_menu_item_def_t cia2_model_submenu[] = {
       (void *)0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "6526A (new)", NULL, radio_CIA2Model_callback,
       (void *)1, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "6526x (old, with timer b bug)", NULL, radio_CIA2Model_callback,
-      (void *)2, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 

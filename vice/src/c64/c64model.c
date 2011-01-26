@@ -69,7 +69,6 @@ static int is_new_cia(int model)
 {
     switch (model) {
         case CIA_MODEL_6526:
-        case CIA_MODEL_6526X:
         default:
             return 0;
 

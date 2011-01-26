@@ -108,10 +108,6 @@ static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
       MENU_ENTRY_RESOURCE_TOGGLE,                           \
       radio_CIA##xyz##Model_callback,                       \
       (ui_callback_data_t)CIA_MODEL_6526 },                 \
-    { "6526x (old)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526X },                \
     { "6526A (new)",                                        \
       MENU_ENTRY_RESOURCE_TOGGLE,                           \
       radio_CIA##xyz##Model_callback,                       \

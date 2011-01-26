@@ -111,7 +111,6 @@ static int set_cia1_model(int val, void *param)
     switch (val) {
         case CIA_MODEL_6526:
         case CIA_MODEL_6526A:
-        case CIA_MODEL_6526X:
             cia1_model = val;
             break;
         default:
@@ -132,7 +131,6 @@ static int set_cia2_model(int val, void *param)
     switch (val) {
         case CIA_MODEL_6526:
         case CIA_MODEL_6526A:
-        case CIA_MODEL_6526X:
             cia2_model = val;
             break;
         default:

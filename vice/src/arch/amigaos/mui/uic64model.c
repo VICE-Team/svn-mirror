@@ -76,7 +76,6 @@ static const int ui_vicii_models_values[] = {
 static int ui_cia_models_translate[] = {
     IDS_6526_OLD,
     IDS_6526A_NEW,
-    IDS_6526X_OLD_WITH_TIMER_B_BUG,
     0
 };
 
@@ -85,7 +84,6 @@ static char *ui_cia_models[countof(ui_cia_models_translate)];
 static const int ui_cia_models_values[] = {
     0,
     1,
-    2,
     -1
 };
 

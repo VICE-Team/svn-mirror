@@ -38,7 +38,6 @@
 /* MOS 6526 models */
 #define CIA_MODEL_6526  0  /* "old" */
 #define CIA_MODEL_6526A 1  /* "new" */
-#define CIA_MODEL_6526X 2  /* "old", with timer B bug */
 
 /* MOS 6526 registers */
 #define CIA_PRA         0  /* Port A */
