@@ -325,6 +325,11 @@ int c64ui_init(void)
     return 0;
 }
 
+int c64scui_init(void)
+{
+    return c64ui_init();
+}
+
 void c64ui_shutdown(void)
 {
 }
