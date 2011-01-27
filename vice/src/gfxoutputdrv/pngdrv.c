@@ -77,9 +77,11 @@ static int pngdrv_open(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-/* pngdrv.c:79: warning: ‘jmpbuf’ is deprecated (declared at /usr/include/libpng14/png.h:1096) */
-/*  if (setjmp(screenshot->gfxoutputdrv_data->png_ptr->jmpbuf)) { */
+#if (PNG_LIBPNG_VER < 10006)
+    if (setjmp(screenshot->gfxoutputdrv_data->png_ptr->jmpbuf)) {
+#else
     if (setjmp(png_jmpbuf(screenshot->gfxoutputdrv_data->png_ptr))) {
+#endif
         png_destroy_write_struct(&(screenshot->gfxoutputdrv_data->png_ptr),
                                  &(screenshot->gfxoutputdrv_data->info_ptr));
         lib_free(sdata);
