@@ -124,6 +124,7 @@ const uint32 MENU_CART_VIC20_SMART_ATTACH         = 'M193';
 const uint32 MENU_TOGGLE_FE_WRITE_BACK            = 'M150';
 const uint32 MENU_TOGGLE_MC_NVRAM_WRITE_BACK      = 'M163';
 const uint32 MENU_MC_NVRAM_FILE                   = 'M164';
+const uint32 MENU_TOGGLE_VFP_WRITE_BACK           = 'M261';
 
 const uint32 ATTACH_C64_CART                      = 'MA01';
 const uint32 ATTACH_VIC20_CART                    = 'MA02';

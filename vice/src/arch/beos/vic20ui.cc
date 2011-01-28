@@ -74,6 +74,7 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "FinalExpansionWriteBack", MENU_TOGGLE_FE_WRITE_BACK },
     { "MegaCartNvRAMWriteBack", MENU_TOGGLE_MC_NVRAM_WRITE_BACK },
+    { "VicFlashPluginWriteBack", MENU_TOGGLE_VFP_WRITE_BACK },
     { NULL, 0 }
 };
 
@@ -103,7 +104,7 @@ void vic20_ui_attach_cartridge(void *msg, void *window)
     }
 
     ui_select_file(filepanel,VIC20_CARTRIDGE_FILE, &vic20_ui_cartridges[i]);
-}	
+}       
 
 void vic20_ui_specific(void *msg, void *window)
 {

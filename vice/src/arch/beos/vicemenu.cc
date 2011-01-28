@@ -600,6 +600,8 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(menu = new BMenu("Mega-Cart Options"));
             menu->AddItem(new BMenuItem("Write back to nvram file", new BMessage(MENU_TOGGLE_MC_NVRAM_WRITE_BACK)));
             menu->AddItem(new BMenuItem("Select nvram file", new BMessage(MENU_MC_NVRAM_FILE)));
+        uppermenu->AddItem(menu = new BMenu("Vic Flash Plugin Options"));
+            menu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_VFP_WRITE_BACK)));
     }
 
     if ((machine_class == VICE_MACHINE_VIC20 ||
