@@ -65,6 +65,7 @@ ui_menu_toggle  pet_ui_menu_toggles[] = {
     { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "PETREU", MENU_TOGGLE_PETREU },
+    { "PETDWW", MENU_TOGGLE_PETDWW },
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { "PETUserportDAC", MENU_TOGGLE_PET_USERPORT_DAC },
@@ -105,6 +106,9 @@ void pet_ui_specific(void *msg, void *window)
             break;
         case MENU_PETREU_FILE:
             ui_select_file(windowlist[0]->savepanel,PETREU_FILE, (void*)0);
+            break;
+        case MENU_PETDWW_FILE:
+            ui_select_file(windowlist[0]->savepanel,PETDWW_FILE, (void*)0);
             break;
         default:
             break;

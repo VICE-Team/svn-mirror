@@ -168,7 +168,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("Detach cartridge image", new BMessage(MENU_CART_DETACH)));
         uppermenu->AddSeparatorItem();
     }
-			
+                        
     if (!vsid_mode) {
         uppermenu->AddItem(menu = new BMenu("Snapshot"));
             menu->AddItem(new BMenuItem("Load snapshot", new BMessage(MENU_SNAPSHOT_LOAD)));
@@ -556,6 +556,9 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("1024 kB", new BMessage(MENU_PETREU_SIZE_1024)));
                 submenu->AddItem(new BMenuItem("2048 kB", new BMessage(MENU_PETREU_SIZE_2048)));
             menu->AddItem(new BMenuItem("PET REU File", new BMessage(MENU_PETREU_FILE)));
+        uppermenu->AddItem(menu = new BMenu("PET DWW Options"));
+            menu->AddItem(new BMenuItem("PET DWW emulation", new BMessage(MENU_TOGGLE_PETDWW)));
+            menu->AddItem(new BMenuItem("PET DWW File", new BMessage(MENU_PETDWW_FILE)));
         uppermenu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
     }
 
@@ -659,7 +662,7 @@ BMenuBar *menu_create(int machine_class)
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
                 submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
     }
-	
+        
     uppermenu->AddItem(new BMenuItem("Sound ...", new BMessage(MENU_SOUND_SETTINGS)));
 
     if (machine_class == VICE_MACHINE_C64 ||

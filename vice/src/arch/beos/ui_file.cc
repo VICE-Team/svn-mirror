@@ -114,7 +114,7 @@ VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
     BRect r;
     BFont font(be_fixed_font);
 
-    father = f;		
+    father = f;         
 
     r = Bounds();
     background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
@@ -130,7 +130,7 @@ VicePreview::VicePreview(BPoint origin, ViceFilePanel *f)
     contentlist->SetFont(&font);
 
     background->AddChild(new BScrollView("scroll_contents", contentlist, B_FOLLOW_LEFT | B_FOLLOW_TOP, 0, false, true));
-	
+        
     background->AddChild(new BButton(BRect(r.right + 20, 10, r.right + 80, 30), "Autostart", "Autostart", new BMessage(AUTOSTART_MESSAGE)));
 
     Minimize(true);
@@ -202,7 +202,7 @@ void ViceFilePanel::WasHidden(void)
         previewwindow->DisplayContent(NULL);
     }
 }
-	
+        
 void ViceFilePanel::SelectionChanged(void)
 {
     entry_ref ref;
@@ -308,6 +308,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == PETREU_FILE) {
         sprintf(title, "Select PET REU file");
     }
+    if (filetype == PETDWW_FILE) {
+        sprintf(title, "Select PET DWW file");
+    }
     if (filetype == MMC64_BIOS_FILE) {
         sprintf(title, "Select MMC64 BIOS file");
     }
@@ -384,7 +387,7 @@ static void save_snapshot_trap(WORD unused_addr, void *path)
     }
     delete path;
 }
-	
+        
 static void ui_sound_record_action(const char *name, const char *ext)
 {
     char *ext_name = util_add_extension_const(name, ext);
@@ -394,7 +397,7 @@ static void ui_sound_record_action(const char *name, const char *ext)
     ui_display_statustext("Sound Recording Started...", 1);
     delete ext_name;
 }
-	
+        
 void ui_select_file_action(BMessage *msg)
 {
     entry_ref ref;
@@ -402,18 +405,18 @@ void ui_select_file_action(BMessage *msg)
     BPath *path;
 
     if (msg->what == B_REFS_RECEIVED) {
-        /* an open action */		
+        /* an open action */            
         /* extract the selected filename from the message */
         if ((err = msg->FindRef("refs", 0, &ref)) != B_OK) {
             ui_error("No File selected ?!");
             return;
         }
         path = new BPath(&ref);
-	
+        
         /* now the ACTION */
         if (last_filetype[0] == DISK_FILE) {
-    		/* it's a disk-attach */
-    		if (file_system_attach_disk(last_fileparam[0], path->Path()) < 0) {
+                /* it's a disk-attach */
+                if (file_system_attach_disk(last_fileparam[0], path->Path()) < 0) {
                 ui_error("Cannot attach specified file");
             }
         } else if (last_filetype[0] == TAPE_FILE) {
@@ -458,7 +461,7 @@ void ui_select_file_action(BMessage *msg)
         } else if (last_filetype[0] == MMC64_IMAGE_FILE) {
             resources_set_string("MMC64imagefilename", path->Path());
         }
-        delete path;	
+        delete path;    
     }
 
     if (msg->what == B_SAVE_REQUESTED) {
@@ -505,6 +508,8 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("C64_256Kfilename", fullpath);
         } else if (last_filetype[1] == PETREU_FILE) {
             resources_set_string("PETREUfilename", fullpath);
+        } else if (last_filetype[1] == PETDWW_FILE) {
+            resources_set_string("PETDWWfilename", fullpath);
         } else if (last_filetype[1] == AIFF_FILE) {
             ui_sound_record_action(fullpath, "aiff");
         } else if (last_filetype[1] == IFF_FILE) {

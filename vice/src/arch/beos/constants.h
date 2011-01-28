@@ -149,6 +149,7 @@ const uint32 MENU_TOGGLE_PLUS60K                  = 'M146';
 const uint32 MENU_TOGGLE_PLUS256K                 = 'M148';
 const uint32 MENU_TOGGLE_C64_256K                 = 'M144';
 const uint32 MENU_TOGGLE_PETREU                   = 'M147';
+const uint32 MENU_TOGGLE_PETDWW                   = 'M241';
 const uint32 MENU_TOGGLE_PET_USERPORT_DAC         = 'M212';
 const uint32 MENU_TOGGLE_DIGIMAX                  = 'M149';
 const uint32 MENU_TOGGLE_MMC64                    = 'M039';
@@ -315,6 +316,8 @@ const uint32 MENU_PETREU_SIZE_1024                = 'M465';
 const uint32 MENU_PETREU_SIZE_2048                = 'M466';
 
 const uint32 MENU_PETREU_FILE                     = 'M038';
+
+const uint32 MENU_PETDWW_FILE                     = 'M242';
 
 const uint32 MENU_DIGIMAX_BASE_DD00               = 'M467';
 const uint32 MENU_DIGIMAX_BASE_DE00               = 'M468';
