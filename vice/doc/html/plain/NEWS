@@ -15,7 +15,14 @@ list of all the changes in the code.
 
 - Drive improvements, including weak bit emulation.
 
-- reSID rewrite. FIXME elaborate!
+- Major reSID overhaul:
+
+  * Emulation of all known pipeline delays for full cycle accuracy.
+  * New shift register model based on revectorized die photograps.
+  * Accurate DAC models based on revectorized die photograps.
+  * Emulation of floating waveform DAC input for waveform 0.
+  * Advanced 6581 transistor level filter model based on revectorized
+    die photograps, yielding unprecedented accuracy.
 
 - CRT Emulation (former "PAL emulation") is now available regardless of
   video mode or -chip and works in all emulators.
