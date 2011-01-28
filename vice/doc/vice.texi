@@ -65,13 +65,13 @@ Copyright @copyright{} 2000-2011 Spiro Trikaliotis
 Copyright @copyright{} 2005-2011 Marco van den Heuvel
 Copyright @copyright{} 2006-2011 Christian Vogelgsang
 Copyright @copyright{} 2007-2011 Fabrizio Gennari
-Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 2007-2011 Daniel Kahlin
 Copyright @copyright{} 2008-2011 Antti S. Lankila
 
 Copyright @copyright{} 1998-2010 Andreas Boose
 Copyright @copyright{} 1998-2010 Tibor Biczo
 Copyright @copyright{} 2007-2010 M. Kiesel
+Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
@@ -9897,15 +9897,6 @@ the TFE chip emulation. Added some Gtk+ fixes.
 port.
 
 @item
-@b{Hannu Nuotio} implemented DTV flash emulation, DTV support in the
-monitor, large parts of the DTV VIC emulation, burst mode and skip
-cycle emulation as well as many other things. Added NEOS and Amiga
-mouse, paddle and light pen support. Added new monitor commands and
-features, including memmap. Made MIDI support and OSS MIDI driver.
-Implemented most of the SDL UI. Rewrote xvic CPU/VIC-I core for
-cycle based emulation.
-
-@item
 @b{Daniel Kahlin} Worked on DTV VIC emulation, palette, DTV SID support
 in resid, better DMA/Blitter support and did lots of refactoring. Added
 new monitor commands and features. Improved the VIC emulation for xvic.
@@ -9924,9 +9915,22 @@ Former team members:
 @itemize @bullet
 
 @item
-@b{M. Kiesel} started implementing x64dtv. The C64DTV memory model
+@b{M. Kiesel}
+Copyright @copyright{} 2007-2010
+Started implementing x64dtv. The C64DTV memory model
 and early versions of the DMA and Blitter engine have been implemented
 by him. Added new monitor commands and features.
+
+@item
+@b{Hannu Nuotio}
+Copyright @copyright{} 2007-2011
+Implemented DTV flash emulation, DTV support in the
+monitor, large parts of the DTV VIC, burst mode and skip
+cycle emulation as well as many other things. Added NEOS and Amiga
+mouse, paddle and light pen support. Added new monitor commands and
+features, including memmap. Made MIDI support and OSS MIDI driver.
+Implemented most of the SDL UI. Rewrote xvic CPU/VIC-I core for
+cycle based emulation.
 
 @item
 @b{Thomas Bretz}
@@ -10340,8 +10344,6 @@ Copyright @copyright{} 2006-2011 Christian Vogelgsang
 @item
 Copyright @copyright{} 2007-2011 Fabrizio Gennari
 @item
-Copyright @copyright{} 2007-2011 Hannu Nuotio
-@item
 Copyright @copyright{} 2007-2011 Daniel Kahlin
 @item
 Copyright @copyright{} 2008-2011 Antti S. Lankila
@@ -10352,6 +10354,8 @@ Copyright @copyright{} 1998-2010 Tibor Biczo
 Copyright @copyright{} 1998-2010 Andreas Boose
 @item
 Copyright @copyright{} 2007-2010 M. Kiesel
+@item
+Copyright @copyright{} 2007-2011 Hannu Nuotio
 @item
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 @item

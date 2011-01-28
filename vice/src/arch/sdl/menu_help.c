@@ -313,11 +313,8 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 2005-2011 Marco van den Heuvel", 10);
         sdl_ui_print_center("(C) 2006-2011 Christian Vogelgsang", 11);
         sdl_ui_print_center("(C) 2007-2011 Fabrizio Gennari", 12);
-        sdl_ui_print_center("(C) 2007-2011 Hannu Nuotio", 13);
-        sdl_ui_print_center("(C) 2007-2011 Daniel Kahlin", 14);
-        sdl_ui_print_center("(C) 2008-2011 Antti S. Lankila", 15);
-        sdl_ui_print_center("(C) 1998-2010 Andreas Boose", 16);
-        sdl_ui_print_center("(C) 1998-2010 Tibor Biczo", 17);
+        sdl_ui_print_center("(C) 2007-2011 Daniel Kahlin", 13);
+        sdl_ui_print_center("(C) 2008-2011 Antti S. Lankila", 14);
         sdl_ui_refresh();
 
         while (active) {
