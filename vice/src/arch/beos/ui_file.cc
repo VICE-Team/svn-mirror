@@ -317,6 +317,12 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == MMC64_IMAGE_FILE) {
         sprintf(title, "Select MMC64 image file");
     }
+    if (filetype == MMCR_EEPROM_FILE) {
+        sprintf(title, "Select MMC Replay EEPROM file");
+    }
+    if (filetype == MMCR_IMAGE_FILE) {
+        sprintf(title, "Select MMC Replay image file");
+    }
     if (filetype == C64DTV_ROM_FILE) {
         sprintf(title, "Select C64DTV ROM file");
     }
@@ -460,6 +466,10 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("MMC64BIOSfilename", path->Path());
         } else if (last_filetype[0] == MMC64_IMAGE_FILE) {
             resources_set_string("MMC64imagefilename", path->Path());
+        } else if (last_filetype[0] == MMCR_EEPROM_FILE) {
+            resources_set_string("MMCREEPROMImage", path->Path());
+        } else if (last_filetype[0] == MMCR_IMAGE_FILE) {
+            resources_set_string("MMCRCardImage", path->Path());
         }
         delete path;    
     }

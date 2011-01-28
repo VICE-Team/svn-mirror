@@ -156,6 +156,11 @@ const uint32 MENU_TOGGLE_MMC64                    = 'M039';
 const uint32 MENU_TOGGLE_MMC64_FLASHJUMPER        = 'M057';
 const uint32 MENU_TOGGLE_MMC64_SAVE               = 'M068';
 const uint32 MENU_TOGGLE_MMC64_READ_ONLY          = 'M058';
+
+const uint32 MENU_TOGGLE_MMCR_EEPROM_READ_WRITE   = 'M247';
+const uint32 MENU_TOGGLE_MMCR_RESCUE_MODE         = 'M248';
+const uint32 MENU_TOGGLE_MMCR_READ_WRITE          = 'M249';
+
 const uint32 MENU_TOGGLE_C64DTV_WRITE_ENABLE      = 'M099';
 const uint32 MENU_TOGGLE_SIDCART                  = 'M085';
 const uint32 MENU_TOGGLE_SIDCART_FILTERS          = 'M086';
@@ -350,6 +355,14 @@ const uint32 MENU_MMC64_CARD_TYPE_SDHC            = 'M246';
 
 const uint32 MENU_MMC64_BIOS_FILE                 = 'M059';
 const uint32 MENU_MMC64_IMAGE_FILE                = 'M065';
+
+const uint32 MENU_MMCR_CARD_TYPE_AUTO             = 'M250';
+const uint32 MENU_MMCR_CARD_TYPE_MMC              = 'M251';
+const uint32 MENU_MMCR_CARD_TYPE_SD               = 'M252';
+const uint32 MENU_MMCR_CARD_TYPE_SDHC             = 'M253';
+
+const uint32 MENU_MMCR_EEPROM_FILE                = 'M254';
+const uint32 MENU_MMCR_IMAGE_FILE                 = 'M255';
 
 const uint32 MENU_C64DTV_REVISION_2               = 'M137';
 const uint32 MENU_C64DTV_REVISION_3               = 'M138';

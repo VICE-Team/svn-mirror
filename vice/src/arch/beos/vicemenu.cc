@@ -535,6 +535,18 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("SDHC", new BMessage(MENU_MMC64_CARD_TYPE_SDHC)));
                 submenu->AddItem(new BMenuItem("MMC64 Image read-only", new BMessage(MENU_TOGGLE_MMC64_READ_ONLY)));
                 submenu->AddItem(new BMenuItem("MMC64 Image File", new BMessage(MENU_MMC64_IMAGE_FILE)));
+            menu->AddItem(submenu = new BMenu("MMC Replay Options"));
+                submenu->AddItem(new BMenuItem("EEPROM read/write", new BMessage(MENU_TOGGLE_MMCR_EEPROM_READ_WRITE)));
+                submenu->AddItem(new BMenuItem("EEPROM File", new BMessage(MENU_MMCR_EEPROM_FILE)));
+                submenu->AddItem(new BMenuItem("Rescue mode", new BMessage(MENU_TOGGLE_MMCR_RESCUE_MODE)));
+                submenu->AddItem(extsubmenu = new BMenu("MMC Replay card type"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Auto", new BMessage(MENU_MMCR_CARD_TYPE_AUTO)));
+                    extsubmenu->AddItem(new BMenuItem("MMC", new BMessage(MENU_MMCR_CARD_TYPE_MMC)));
+                    extsubmenu->AddItem(new BMenuItem("SD", new BMessage(MENU_MMCR_CARD_TYPE_SD)));
+                    extsubmenu->AddItem(new BMenuItem("SDHC", new BMessage(MENU_MMCR_CARD_TYPE_SDHC)));
+                submenu->AddItem(new BMenuItem("MMC Replay Image read/write", new BMessage(MENU_TOGGLE_MMCR_READ_WRITE)));
+                submenu->AddItem(new BMenuItem("MMC Replay Image File", new BMessage(MENU_MMCR_IMAGE_FILE)));
     }
 
     if ((machine_class == VICE_MACHINE_VIC20 ||

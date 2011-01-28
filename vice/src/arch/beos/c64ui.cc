@@ -83,6 +83,9 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "MMC64_flashjumper", MENU_TOGGLE_MMC64_FLASHJUMPER },
     { "MMC64_bios_write", MENU_TOGGLE_MMC64_SAVE },
     { "MMC64_RO", MENU_TOGGLE_MMC64_READ_ONLY },
+    { "MMCREEPROMRW", MENU_TOGGLE_MMCR_EEPROM_READ_WRITE },
+    { "MMCRRescueMode", MENU_TOGGLE_MMCR_RESCUE_MODE },
+    { "MMCRCardRW", MENU_TOGGLE_MMCR_READ_WRITE },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "PALEmulation", MENU_TOGGLE_FASTPAL },
     { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
@@ -178,6 +181,14 @@ ui_res_possible_values MMC64CardType[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values MMCRCardType[] = {
+    { 0, MENU_MMCR_CARD_TYPE_AUTO },
+    { 1, MENU_MMCR_CARD_TYPE_MMC },
+    { 2, MENU_MMCR_CARD_TYPE_SD },
+    { 3, MENU_MMCR_CARD_TYPE_SDHC },
+    { -1, 0 }
+};
+
 ui_res_possible_values c64viciiBorders[] = {
     { 0, MENU_VICII_BORDERS_NORMAL },
     { 1, MENU_VICII_BORDERS_FULL },
@@ -238,6 +249,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "SFXSoundExpanderChip", SFXSoundExpanderChip },
     { "MMC64_revision", MMC64Revision },
     { "MMC64_sd_type", MMC64CardType },
+    { "MMCRSDType", MMCRCardType },
     { "VICIIBorderMode", c64viciiBorders },
     { "Mousetype", c64mousetypes },
     { "Mouseport", c64mouseports },
@@ -349,6 +361,12 @@ void c64_ui_specific(void *msg, void *window)
             break;
         case MENU_MMC64_IMAGE_FILE:
             ui_select_file(windowlist[0]->filepanel, MMC64_IMAGE_FILE, (void*)0);
+            break;
+        case MENU_MMCR_EEPROM_FILE:
+            ui_select_file(windowlist[0]->filepanel, MMCR_EEPROM_FILE, (void*)0);
+            break;
+        case MENU_MMCR_IMAGE_FILE:
+            ui_select_file(windowlist[0]->filepanel, MMCR_IMAGE_FILE, (void*)0);
             break;
         case MENU_EASYFLASH_SAVE_NOW:
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
