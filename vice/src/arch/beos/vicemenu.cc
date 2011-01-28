@@ -89,12 +89,13 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(menu = new BMenu("Autostart Settings"));
             menu->AddItem(new BMenuItem("Autostart warp", new BMessage(MENU_AUTOSTART_WARP)));
             menu->AddItem(new BMenuItem("Use ':' with run", new BMessage(MENU_USE_COLON_WITH_RUN)));
+            menu->AddItem(new BMenuItem("Load to BASIC start (,8)", new BMessage(MENU_LOAD_TO_BASIC_START)));
             menu->AddItem(submenu = new BMenu("PRG autostart mode"));
                 submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("Virtual FS", new BMessage(MENU_AUYOSTART_PRG_VIRTUAL_FS)));
-                submenu->AddItem(new BMenuItem("Inject", new BMessage(MENU_AUYOSTART_PRG_INJECT)));
-                submenu->AddItem(new BMenuItem("Disk image", new BMessage(MENU_AUYOSTART_PRG_DISK_IMAGE)));
-            menu->AddItem(new BMenuItem("Select file for PRG autostart disk", new BMessage(MENU_AUYOSTART_PRG_DISK_IMAGE_SELECT)));
+                submenu->AddItem(new BMenuItem("Virtual FS", new BMessage(MENU_AUTOSTART_PRG_VIRTUAL_FS)));
+                submenu->AddItem(new BMenuItem("Inject", new BMessage(MENU_AUTOSTART_PRG_INJECT)));
+                submenu->AddItem(new BMenuItem("Disk image", new BMessage(MENU_AUTOSTART_PRG_DISK_IMAGE)));
+            menu->AddItem(new BMenuItem("Select file for PRG autostart disk", new BMessage(MENU_AUTOSTART_PRG_DISK_IMAGE_SELECT)));
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(new BMenuItem("Autostart", new BMessage(MENU_AUTOSTART), 'A'));
         uppermenu->AddSeparatorItem();

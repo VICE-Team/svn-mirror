@@ -121,6 +121,7 @@ ui_menu_toggle  toggle_list[] = {
     { "ExtraJoy", MENU_TOGGLE_USERPORT_JOY },
     { "AutostartWarp", MENU_AUTOSTART_WARP },
     { "AutostartRunWithColon", MENU_USE_COLON_WITH_RUN },
+    { "AutostartBasicLoad", MENU_LOAD_TO_BASIC_START },
     { "JoyOpposite", MENU_ALLOW_OPPOSITE_JOY },
     { NULL, 0 }
 };
@@ -177,9 +178,9 @@ ui_res_possible_values UserportJoyType[] = {
 };
 
 ui_res_possible_values AutostartPrgMode[] = {
-    { AUTOSTART_PRG_MODE_VFS, MENU_AUYOSTART_PRG_VIRTUAL_FS },
-    { AUTOSTART_PRG_MODE_INJECT, MENU_AUYOSTART_PRG_INJECT },
-    { AUTOSTART_PRG_MODE_DISK, MENU_AUYOSTART_PRG_DISK_IMAGE },
+    { AUTOSTART_PRG_MODE_VFS, MENU_AUTOSTART_PRG_VIRTUAL_FS },
+    { AUTOSTART_PRG_MODE_INJECT, MENU_AUTOSTART_PRG_INJECT },
+    { AUTOSTART_PRG_MODE_DISK, MENU_AUTOSTART_PRG_DISK_IMAGE },
     { -1, 0 }
 };
 
@@ -576,7 +577,7 @@ void ui_dispatch_events(void)
             case MENU_RESET_HARD:
                 machine_trigger_reset(MACHINE_RESET_MODE_HARD);
                 break;
-            case MENU_AUYOSTART_PRG_DISK_IMAGE_SELECT:
+            case MENU_AUTOSTART_PRG_DISK_IMAGE_SELECT:
                 ui_select_file(filepanel, AUTOSTART_DISK_IMAGE_FILE, (void*)0);
                 break;
             case MENU_AUTOSTART:
