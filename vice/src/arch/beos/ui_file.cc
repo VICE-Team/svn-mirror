@@ -288,10 +288,10 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
         sprintf(title, "Select REU file");
     }
     if (filetype == GEORAM_FILE) {
-        sprintf(title, "Select GEORAM file");
+        sprintf(title, "Select GEO-RAM file");
     }
     if (filetype == RAMCART_FILE) {
-        sprintf(title, "Select RAMCART file");
+        sprintf(title, "Select RamCart file");
     }
     if (filetype == MAGICVOICE_FILE) {
         sprintf(title, "Select Magic Voice file");
