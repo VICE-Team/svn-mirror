@@ -72,6 +72,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "REU", MENU_TOGGLE_REU },
     { "GEORAM", MENU_TOGGLE_GEORAM },
     { "RAMCART", MENU_TOGGLE_RAMCART },
+    { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
     { "DQBB", MENU_TOGGLE_DQBB },
     { "IsepicCartridgeEnabled", MENU_TOGGLE_ISEPIC },
     { "IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH },

@@ -49,6 +49,7 @@ enum filetype_t {
     REU_FILE,
     GEORAM_FILE,
     RAMCART_FILE,
+    MAGICVOICE_FILE,
     DQBB_FILE,
     PLUS60K_FILE,
     PLUS256K_FILE,

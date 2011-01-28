@@ -293,6 +293,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == RAMCART_FILE) {
         sprintf(title, "Select RAMCART file");
     }
+    if (filetype == MAGICVOICE_FILE) {
+        sprintf(title, "Select Magic Voice file");
+    }
     if (filetype == DQBB_FILE) {
         sprintf(title, "Select DQBB file");
     }
@@ -508,6 +511,8 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("GEORAMfilename", fullpath);
         } else if (last_filetype[1] == RAMCART_FILE) {
             resources_set_string("RAMCARTfilename", fullpath);
+        } else if (last_filetype[1] == MAGICVOICE_FILE) {
+            resources_set_string("MagicVoiceImage", fullpath);
         } else if (last_filetype[1] == DQBB_FILE) {
             resources_set_string("DQBBfilename", fullpath);
         } else if (last_filetype[1] == PLUS60K_FILE) {

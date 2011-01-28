@@ -458,6 +458,9 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("64 kB", new BMessage(MENU_RAMCART_SIZE_64)));
                     extsubmenu->AddItem(new BMenuItem("128 kB", new BMessage(MENU_RAMCART_SIZE_128)));
                 submenu->AddItem(new BMenuItem("RAMCART File", new BMessage(MENU_RAMCART_FILE)));
+            menu->AddItem(submenu = new BMenu("Magic Voice Options"));
+                submenu->AddItem(new BMenuItem("Magic Voice emulation", new BMessage(MENU_TOGGLE_MAGICVOICE)));
+                submenu->AddItem(new BMenuItem("Magic Voice File", new BMessage(MENU_MAGICVOICE_FILE)));
             menu->AddItem(submenu = new BMenu("Digimax Options"));
                 submenu->AddItem(new BMenuItem("Digimax emulation", new BMessage(MENU_TOGGLE_DIGIMAX)));
                 submenu->AddItem(extsubmenu = new BMenu("Digimax base"));
