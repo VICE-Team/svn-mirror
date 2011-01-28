@@ -314,6 +314,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == PETDWW_FILE) {
         sprintf(title, "Select PET DWW file");
     }
+    if (filetype == V364SPEECH_FILE) {
+        sprintf(title, "Select V364 speech file");
+    }
     if (filetype == MMC64_BIOS_FILE) {
         sprintf(title, "Select MMC64 BIOS file");
     }
@@ -525,6 +528,8 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("PETREUfilename", fullpath);
         } else if (last_filetype[1] == PETDWW_FILE) {
             resources_set_string("PETDWWfilename", fullpath);
+        } else if (last_filetype[1] == V364SPEECH_FILE) {
+            resources_set_string("SpeechImage", fullpath);
         } else if (last_filetype[1] == AIFF_FILE) {
             ui_sound_record_action(fullpath, "aiff");
         } else if (last_filetype[1] == IFF_FILE) {

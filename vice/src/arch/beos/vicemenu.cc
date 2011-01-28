@@ -583,6 +583,12 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
     }
 
+    if (machine_class == VICE_MACHINE_PLUS4 && !vsid_mode) {
+        uppermenu->AddItem(menu = new BMenu("V364 speech Options"));
+            menu->AddItem(new BMenuItem("V364 speech emulation", new BMessage(MENU_TOGGLE_V364SPEECH)));
+            menu->AddItem(new BMenuItem("V364 speech File", new BMessage(MENU_V364SPEECH_FILE)));
+    }
+
     if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("VIC20 ...", new BMessage(MENU_VIC20_SETTINGS)));
     }

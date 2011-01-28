@@ -33,6 +33,7 @@ extern "C" {
 #include "plus4ui.h"
 #include "resources.h"
 #include "ui.h"
+#include "ui_file.h"
 }
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
@@ -43,6 +44,7 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
+    { "SpeechEnabled", MENU_TOGGLE_V364SPEECH },
     { NULL, 0 }
 };
 
@@ -73,6 +75,13 @@ ui_res_value_list plus4_ui_res_values[] = {
 
 static void plus4_ui_specific(void *msg, void *window)
 {
+    switch (((BMessage*)msg)->what) {
+        case MENU_V364SPEECH_FILE:
+            ui_select_file(windowlist[0]->savepanel,V364SPEECH_FILE, (void*)0);
+            break;
+        default:
+            break;
+    }
 }
 
 int plus4ui_init(void)
