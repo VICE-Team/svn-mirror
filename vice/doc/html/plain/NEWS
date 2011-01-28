@@ -11,11 +11,11 @@ list of all the changes in the code.
 ** General
 ----------
 
-- Added x64sc, the accurate C64 emulator.
+- Added x64sc, the accurate C64 emulator. FIXME elaborate!
 
 - Drive improvements, including weak bit emulation.
 
-- reSID rewrite.
+- reSID rewrite. FIXME elaborate!
 
 - CRT Emulation (former "PAL emulation") is now available regardless of
   video mode or -chip and works in all emulators.
@@ -56,6 +56,13 @@ list of all the changes in the code.
 
 - CIA TOD 50/60 Hz toggle emulation fixed.
 
+- Improved 1351/paddles port MUX emulation.
+
+** C64 changes
+--------------
+
+- Added Drean (PAL-N) emulation.
+
 ** C128 changes
 ---------------
 
@@ -79,15 +86,10 @@ list of all the changes in the code.
 
 - Added v364 speech emulation.
 
-** C64DTV changes
------------------
-
--
-
 ** PET changes
 --------------
 
-- Added DWW (?) emulation.
+- Added DWW emulation.
 
 - Added userport DAC emulation.
 
@@ -110,7 +112,7 @@ list of all the changes in the code.
 ** MS-Windows changes
 ---------------------
 
--
+- Implemented run time DX9 toggling.
 
 ** AmigaOS changes
 ------------------
