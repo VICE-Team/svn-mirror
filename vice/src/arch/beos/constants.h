@@ -343,6 +343,11 @@ const uint32 MENU_SFX_SE_3812                     = 'M186';
 const uint32 MENU_MMC64_REVISION_A                = 'M066';
 const uint32 MENU_MMC64_REVISION_B                = 'M067';
 
+const uint32 MENU_MMC64_CARD_TYPE_AUTO            = 'M243';
+const uint32 MENU_MMC64_CARD_TYPE_MMC             = 'M244';
+const uint32 MENU_MMC64_CARD_TYPE_SD              = 'M245';
+const uint32 MENU_MMC64_CARD_TYPE_SDHC            = 'M246';
+
 const uint32 MENU_MMC64_BIOS_FILE                 = 'M059';
 const uint32 MENU_MMC64_IMAGE_FILE                = 'M065';
 

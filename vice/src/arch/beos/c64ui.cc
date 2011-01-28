@@ -170,6 +170,14 @@ ui_res_possible_values MMC64Revision[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values MMC64CardType[] = {
+    { 0, MENU_MMC64_CARD_TYPE_AUTO },
+    { 1, MENU_MMC64_CARD_TYPE_MMC },
+    { 2, MENU_MMC64_CARD_TYPE_SD },
+    { 3, MENU_MMC64_CARD_TYPE_SDHC },
+    { -1, 0 }
+};
+
 ui_res_possible_values c64viciiBorders[] = {
     { 0, MENU_VICII_BORDERS_NORMAL },
     { 1, MENU_VICII_BORDERS_FULL },
@@ -229,6 +237,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "DIGIMAXbase", DigimaxBase },
     { "SFXSoundExpanderChip", SFXSoundExpanderChip },
     { "MMC64_revision", MMC64Revision },
+    { "MMC64_sd_type", MMC64CardType },
     { "VICIIBorderMode", c64viciiBorders },
     { "Mousetype", c64mousetypes },
     { "Mouseport", c64mouseports },
