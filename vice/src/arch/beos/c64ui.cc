@@ -46,6 +46,7 @@
 
 extern "C" {
 #include "archdep.h"
+#include "c64model.h"
 #include "cartridge.h"
 #include "constants.h"
 #include "keyboard.h"
@@ -59,6 +60,7 @@ extern "C" {
 #include "util.h"
 #include "viceapp.h"
 #include "vicewindow.h"
+#include "vicii.h"
 }
 
 extern ViceWindow *windowlist[];
@@ -88,6 +90,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
+    { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
     { NULL, 0 }
 };
 
@@ -188,6 +191,35 @@ ui_res_possible_values c64mouseports[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values viciimodels[] = {
+    { VICII_MODEL_6569, MENU_VICII_MODEL_6569_PAL },
+    { VICII_MODEL_8565, MENU_VICII_MODEL_8565_PAL },
+    { VICII_MODEL_6569R1, MENU_VICII_MODEL_6569R1_OLD_PAL },
+    { VICII_MODEL_6567, MENU_VICII_MODEL_6567_NTSC },
+    { VICII_MODEL_8562, MENU_VICII_MODEL_8562_NTSC },
+    { VICII_MODEL_6567R56A, MENU_VICII_MODEL_6567R56A_OLD_NTSC },
+    { VICII_MODEL_6572, MENU_VICII_MODEL_6572_PAL_N },
+    { -1, 0 }
+};
+
+ui_res_possible_values cia1models[] = {
+    { 0, MENU_CIA1_MODEL_6526_OLD },
+    { 1, MENU_CIA1_MODEL_6526A_NEW },
+    { -1, 0 }
+};
+
+ui_res_possible_values cia2models[] = {
+    { 0, MENU_CIA2_MODEL_6526_OLD },
+    { 1, MENU_CIA2_MODEL_6526A_NEW },
+    { -1, 0 }
+};
+
+ui_res_possible_values gluelogic[] = {
+    { 0, MENU_GLUE_LOGIC_DISCRETE },
+    { 1, MENU_GLUE_LOGIC_CUSTOM_IC },
+    { -1, 0 }
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     { "REUsize", ReuSize },
     { "GeoRAMsize", GeoRAMSize },
@@ -200,6 +232,10 @@ ui_res_value_list c64_ui_res_values[] = {
     { "VICIIBorderMode", c64viciiBorders },
     { "Mousetype", c64mousetypes },
     { "Mouseport", c64mouseports },
+    { "VICIIModel", viciimodels },
+    { "CIA1Model", cia1models },
+    { "CIA2Model", cia2models },
+    { "GlueLogic", gluelogic },
     { NULL, NULL }
 };
 
@@ -225,7 +261,7 @@ static void c64_ui_attach_cartridge(void *msg, void *window)
     int menu = ((BMessage*)msg)->what;
     ViceFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
     int i = 0;
-	
+        
     while (menu != c64_ui_cartridges[i].menu_item && c64_ui_cartridges[i].menu_item) {
         i++;
     }
@@ -236,12 +272,12 @@ static void c64_ui_attach_cartridge(void *msg, void *window)
     }
 
     ui_select_file(filepanel,C64_CARTRIDGE_FILE, &c64_ui_cartridges[i]);
-}	
+}       
 
 void c64_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-        case MENU_CART_ATTACH_CRT:    	
+        case MENU_CART_ATTACH_CRT:      
         case MENU_CART_ATTACH_8KB:
         case MENU_CART_ATTACH_16KB:
         case MENU_CART_ATTACH_AR:
@@ -309,6 +345,27 @@ void c64_ui_specific(void *msg, void *window)
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
                 ui_error("Error saving EasyFlash .crt file");
             }
+            break;
+        case MENU_C64_MODEL_C64_PAL:
+            c64model_set(C64MODEL_C64_PAL);
+            break;
+        case MENU_C64_MODEL_C64C_PAL:
+            c64model_set(C64MODEL_C64C_PAL);
+            break;
+        case MENU_C64_MODEL_C64_OLD_PAL:
+            c64model_set(C64MODEL_C64_OLD_PAL);
+            break;
+        case MENU_C64_MODEL_C64_NTSC:
+            c64model_set(C64MODEL_C64_NTSC);
+            break;
+        case MENU_C64_MODEL_C64C_NTSC:
+            c64model_set(C64MODEL_C64C_NTSC);
+            break;
+        case MENU_C64_MODEL_C64_OLD_NTSC:
+            c64model_set(C64MODEL_C64_OLD_NTSC);
+            break;
+        case MENU_C64_MODEL_DREAN:
+            c64model_set(C64MODEL_C64_PAL_N);
             break;
         default:
             break;

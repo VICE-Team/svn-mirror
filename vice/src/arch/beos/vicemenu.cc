@@ -331,6 +331,41 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("PAL-N", new BMessage(MENU_SYNC_FACTOR_PALN)));
     }
 
+    if (machine_class == VICE_MACHINE_C64SC) {
+        uppermenu->AddItem(menu = new BMenu("C64 model"));
+            menu->SetRadioMode(true);
+            menu->AddItem(new BMenuItem("C64 PAL", new BMessage(MENU_C64_MODEL_C64_PAL)));
+            menu->AddItem(new BMenuItem("C64C PAL", new BMessage(MENU_C64_MODEL_C64C_PAL)));
+            menu->AddItem(new BMenuItem("C64 old PAL", new BMessage(MENU_C64_MODEL_C64_OLD_PAL)));
+            menu->AddItem(new BMenuItem("C64 NTSC", new BMessage(MENU_C64_MODEL_C64_NTSC)));
+            menu->AddItem(new BMenuItem("C64C NTSC", new BMessage(MENU_C64_MODEL_C64C_NTSC)));
+            menu->AddItem(new BMenuItem("C64 old NTSC", new BMessage(MENU_C64_MODEL_C64_OLD_NTSC)));
+            menu->AddItem(new BMenuItem("Drean", new BMessage(MENU_C64_MODEL_DREAN)));
+            menu->AddItem(submenu = new BMenu("Custom"));
+                submenu->AddItem(extsubmenu = new BMenu("VICII model"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("6569 (PAL)", new BMessage(MENU_VICII_MODEL_6569_PAL)));
+                    extsubmenu->AddItem(new BMenuItem("8565 (PAL)", new BMessage(MENU_VICII_MODEL_8565_PAL)));
+                    extsubmenu->AddItem(new BMenuItem("6569R1 (old PAL)", new BMessage(MENU_VICII_MODEL_6569R1_OLD_PAL)));
+                    extsubmenu->AddItem(new BMenuItem("6567 (NTSC)", new BMessage(MENU_VICII_MODEL_6567_NTSC)));
+                    extsubmenu->AddItem(new BMenuItem("8562 (NTSC)", new BMessage(MENU_VICII_MODEL_8562_NTSC)));
+                    extsubmenu->AddItem(new BMenuItem("6567R56A (old NTSC)", new BMessage(MENU_VICII_MODEL_6567R56A_OLD_NTSC)));
+                    extsubmenu->AddItem(new BMenuItem("6572 (PAL-N)", new BMessage(MENU_VICII_MODEL_6572_PAL_N)));
+                submenu->AddItem(new BMenuItem("New luminances", new BMessage(MENU_VICII_NEW_LUMINANCES)));
+                submenu->AddItem(extsubmenu = new BMenu("CIA-1 model"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));
+                    extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA1_MODEL_6526A_NEW)));
+                submenu->AddItem(extsubmenu = new BMenu("CIA-2 model"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
+                    extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
+                submenu->AddItem(extsubmenu = new BMenu("Glue logic"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("discrete", new BMessage(MENU_GLUE_LOGIC_DISCRETE)));
+                    extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_GLUE_LOGIC_CUSTOM_IC)));
+    }
+
     if (machine_class == VICE_MACHINE_PET ||
         machine_class == VICE_MACHINE_PLUS4 ||
         machine_class == VICE_MACHINE_CBM5x0 ||

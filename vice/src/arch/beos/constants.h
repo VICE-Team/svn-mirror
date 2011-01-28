@@ -232,6 +232,33 @@ const uint32 MENU_SID_SETTINGS                    = 'M210';
 const uint32 MENU_SIDDTV_SETTINGS                 = 'M171';
 const uint32 MENU_RAM_SETTINGS                    = 'M211';
 
+const uint32 MENU_C64_MODEL_C64_PAL               = 'M116';
+const uint32 MENU_C64_MODEL_C64C_PAL              = 'M117';
+const uint32 MENU_C64_MODEL_C64_OLD_PAL           = 'M118';
+const uint32 MENU_C64_MODEL_C64_NTSC              = 'M119';
+const uint32 MENU_C64_MODEL_C64C_NTSC             = 'M224';
+const uint32 MENU_C64_MODEL_C64_OLD_NTSC          = 'M225';
+const uint32 MENU_C64_MODEL_DREAN                 = 'M226';
+
+const uint32 MENU_VICII_MODEL_6569_PAL            = 'M227';
+const uint32 MENU_VICII_MODEL_8565_PAL            = 'M228';
+const uint32 MENU_VICII_MODEL_6569R1_OLD_PAL      = 'M229';
+const uint32 MENU_VICII_MODEL_6567_NTSC           = 'M230';
+const uint32 MENU_VICII_MODEL_8562_NTSC           = 'M231';
+const uint32 MENU_VICII_MODEL_6567R56A_OLD_NTSC   = 'M232';
+const uint32 MENU_VICII_MODEL_6572_PAL_N          = 'M233';
+
+const uint32 MENU_VICII_NEW_LUMINANCES            = 'M234';
+
+const uint32 MENU_CIA1_MODEL_6526_OLD             = 'M235';
+const uint32 MENU_CIA1_MODEL_6526A_NEW            = 'M236';
+
+const uint32 MENU_CIA2_MODEL_6526_OLD             = 'M237';
+const uint32 MENU_CIA2_MODEL_6526A_NEW            = 'M238';
+
+const uint32 MENU_GLUE_LOGIC_DISCRETE             = 'M239';
+const uint32 MENU_GLUE_LOGIC_CUSTOM_IC            = 'M240';
+
 const uint32 MENU_SETTINGS_LOAD                   = 'M220';
 const uint32 MENU_SETTINGS_SAVE                   = 'M221';
 const uint32 MENU_SETTINGS_DEFAULT                = 'M222';
