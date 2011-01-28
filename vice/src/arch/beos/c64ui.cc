@@ -56,6 +56,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_ide64.h"
 #include "ui_vicii.h"
 #include "util.h"
 #include "viceapp.h"
@@ -95,6 +96,8 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
+    { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
+    { "IDE64AutodetectSize", MENU_TOGGLE_IDE64_AUTODETECT },
     { NULL, 0 }
 };
 
@@ -266,15 +269,15 @@ static ui_cartridge_t c64_ui_cartridges[]={
     { MENU_CART_ATTACH_8KB, CARTRIDGE_GENERIC_8KB, "Raw 8KB" },
     { MENU_CART_ATTACH_16KB, CARTRIDGE_GENERIC_16KB, "Raw 16KB" },
     { MENU_CART_ATTACH_AR, CARTRIDGE_ACTION_REPLAY, "Action Replay" },
-    { MENU_CART_ATTACH_AR3, CARTRIDGE_ACTION_REPLAY3, "Action Replay 3" },
-    { MENU_CART_ATTACH_AR4, CARTRIDGE_ACTION_REPLAY4, "Action Replay 4" },
-    { MENU_CART_ATTACH_STARDOS, CARTRIDGE_STARDOS, "StarDOS" },
+    { MENU_CART_ATTACH_AR3, CARTRIDGE_ACTION_REPLAY3, "Action Replay MK3" },
+    { MENU_CART_ATTACH_AR4, CARTRIDGE_ACTION_REPLAY4, "Action Replay MK4" },
+    { MENU_CART_ATTACH_STARDOS, CARTRIDGE_STARDOS, "Stardos" },
     { MENU_CART_ATTACH_AT, CARTRIDGE_ATOMIC_POWER, "Atomic Power" },
-    { MENU_CART_ATTACH_EPYX, CARTRIDGE_EPYX_FASTLOAD, "Epyx Fastload" },
-    { MENU_CART_ATTACH_IEEE488, CARTRIDGE_IEEE488, "IEEE488 interface" },
+    { MENU_CART_ATTACH_EPYX, CARTRIDGE_EPYX_FASTLOAD, "Epyx FastLoad" },
+    { MENU_CART_ATTACH_IEEE488, CARTRIDGE_IEEE488, "IEEE488 Interface" },
     { MENU_CART_ATTACH_IDE64, CARTRIDGE_IDE64, "IDE64 interface" },
-    { MENU_CART_ATTACH_SS4, CARTRIDGE_SUPER_SNAPSHOT, "Super Snapshot 4" },
-    { MENU_CART_ATTACH_SS5, CARTRIDGE_SUPER_SNAPSHOT_V5, "Super Snapshot 5" },
+    { MENU_CART_ATTACH_SS4, CARTRIDGE_SUPER_SNAPSHOT, "Super Snapshot V4" },
+    { MENU_CART_ATTACH_SS5, CARTRIDGE_SUPER_SNAPSHOT_V5, "Super Snapshot V5" },
     { 0, 0, NULL }
 };
 
@@ -336,6 +339,18 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
+        case MENU_IDE64_FILE1:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE1, (void*)0);
+            break;
+        case MENU_IDE64_FILE2:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE2, (void*)0);
+            break;
+        case MENU_IDE64_FILE3:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE3, (void*)0);
+            break;
+        case MENU_IDE64_FILE4:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE4, (void*)0);
+            break;
         case MENU_REU_FILE:
             ui_select_file(windowlist[0]->savepanel, REU_FILE, (void*)0);
             break;
@@ -373,6 +388,9 @@ void c64_ui_specific(void *msg, void *window)
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
                 ui_error("Error saving EasyFlash .crt file");
             }
+            break;
+        case MENU_IDE64_CUSTOM_SIZE:
+            ui_ide64();
             break;
         case MENU_C64_MODEL_C64_PAL:
             c64model_set(C64MODEL_C64_PAL);

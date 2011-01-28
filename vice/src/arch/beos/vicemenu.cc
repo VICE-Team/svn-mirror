@@ -454,6 +454,16 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("64 kB", new BMessage(MENU_RAMCART_SIZE_64)));
                     extsubmenu->AddItem(new BMenuItem("128 kB", new BMessage(MENU_RAMCART_SIZE_128)));
                 submenu->AddItem(new BMenuItem("RamCart File", new BMessage(MENU_RAMCART_FILE)));
+
+            menu->AddItem(submenu = new BMenu("IDE64 Options"));
+                submenu->AddItem(new BMenuItem("IDE64 V4 emulation", new BMessage(MENU_TOGGLE_IDE64_V4)));
+                submenu->AddItem(new BMenuItem("IDE64 HD #1 File", new BMessage(MENU_IDE64_FILE1)));
+                submenu->AddItem(new BMenuItem("IDE64 HD #2 File", new BMessage(MENU_IDE64_FILE2)));
+                submenu->AddItem(new BMenuItem("IDE64 HD #3 File", new BMessage(MENU_IDE64_FILE3)));
+                submenu->AddItem(new BMenuItem("IDE64 HD #4 File", new BMessage(MENU_IDE64_FILE4)));
+                submenu->AddItem(new BMenuItem("Autodetect IDE64 image size", new BMessage(MENU_TOGGLE_IDE64_AUTODETECT)));
+                submenu->AddItem(new BMenuItem("Custom IDE64 image size", new BMessage(MENU_IDE64_CUSTOM_SIZE)));
+
             menu->AddItem(submenu = new BMenu("Magic Voice Options"));
                 submenu->AddItem(new BMenuItem("Magic Voice emulation", new BMessage(MENU_TOGGLE_MAGICVOICE)));
                 submenu->AddItem(new BMenuItem("Magic Voice File", new BMessage(MENU_MAGICVOICE_FILE)));

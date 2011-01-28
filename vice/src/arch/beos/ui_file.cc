@@ -332,6 +332,18 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == C64DTV_ROM_FILE) {
         sprintf(title, "Select C64DTV ROM file");
     }
+    if (filetype == IDE64_FILE1) {
+        sprintf(title, "Select IDE64 HD #1 file");
+    }
+    if (filetype == IDE64_FILE2) {
+        sprintf(title, "Select IDE64 HD #2 file");
+    }
+    if (filetype == IDE64_FILE3) {
+        sprintf(title, "Select IDE64 HD #3 file");
+    }
+    if (filetype == IDE64_FILE4) {
+        sprintf(title, "Select IDE64 HD #4 file");
+    }
     if (filetype == AIFF_FILE) {
         sprintf(title, "Select AIFF Sound Recording file");
     }
@@ -530,6 +542,14 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("PETDWWfilename", fullpath);
         } else if (last_filetype[1] == V364SPEECH_FILE) {
             resources_set_string("SpeechImage", fullpath);
+        } else if (last_filetype[1] == IDE64_FILE1) {
+            resources_set_string("IDE64Image1", fullpath);
+        } else if (last_filetype[1] == IDE64_FILE2) {
+            resources_set_string("IDE64Image2", fullpath);
+        } else if (last_filetype[1] == IDE64_FILE3) {
+            resources_set_string("IDE64Image3", fullpath);
+        } else if (last_filetype[1] == IDE64_FILE4) {
+            resources_set_string("IDE64Image4", fullpath);
         } else if (last_filetype[1] == AIFF_FILE) {
             ui_sound_record_action(fullpath, "aiff");
         } else if (last_filetype[1] == IFF_FILE) {

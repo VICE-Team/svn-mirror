@@ -54,6 +54,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_ide64.h"
 #include "ui_vicii.h"
 #include "util.h"
 #include "viceapp.h"
@@ -82,6 +83,9 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
+    { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
+    { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
+    { "IDE64AutodetectSize", MENU_TOGGLE_IDE64_AUTODETECT },
     { NULL, 0 }
 };
 
@@ -186,9 +190,9 @@ ui_res_value_list c128_ui_res_values[] = {
 void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
-	  case MENU_VICII_SETTINGS:
+          case MENU_VICII_SETTINGS:
             ui_vicii();
-        	break;
+                break;
         case MENU_REU_FILE:
             ui_select_file(windowlist[0]->savepanel,REU_FILE,(void*)0);
             break;
@@ -197,6 +201,21 @@ void c128_ui_specific(void *msg, void *window)
             break;
         case MENU_RAMCART_FILE:
             ui_select_file(windowlist[0]->savepanel,RAMCART_FILE,(void*)0);
+            break;
+        case MENU_IDE64_FILE1:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE1, (void*)0);
+            break;
+        case MENU_IDE64_FILE2:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE2, (void*)0);
+            break;
+        case MENU_IDE64_FILE3:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE3, (void*)0);
+            break;
+        case MENU_IDE64_FILE4:
+            ui_select_file(windowlist[0]->savepanel, IDE64_FILE4, (void*)0);
+            break;
+        case MENU_IDE64_CUSTOM_SIZE:
+            ui_ide64();
             break;
         case MENU_EASYFLASH_SAVE_NOW:
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
