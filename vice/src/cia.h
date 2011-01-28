@@ -75,6 +75,7 @@ struct snapshot_s;
 #define CIA_IM_TOD      4       /* TOD Clock Alarm */
 #define CIA_IM_SDR      8       /* Shift Register completion */
 #define CIA_IM_FLG      16      /* Handshake */
+#define CIA_IM_TBB      0x100   /* Timer B bug flag */
 
 typedef struct cia_context_s {
     BYTE c_cia[16];
