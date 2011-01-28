@@ -384,11 +384,6 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
-        uppermenu->AddItem(new BMenuItem("Emulator ID", new BMessage(MENU_TOGGLE_EMUID)));
-    }
-
-    if ((machine_class == VICE_MACHINE_C64 ||
          machine_class == VICE_MACHINE_C64DTV ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));

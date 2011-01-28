@@ -112,7 +112,6 @@ ui_menu_toggle  toggle_list[] = {
     { "Sound", MENU_TOGGLE_SOUND },
     { "DriveTrueEmulation", MENU_TOGGLE_DRIVE_TRUE_EMULATION },
     { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
-    { "EmuID", MENU_TOGGLE_EMUID },
     { "DirectWindow", MENU_TOGGLE_DIRECTWINDOW },
     { "WarpMode", MENU_TOGGLE_WARP_MODE },
     { "VirtualDevices", MENU_TOGGLE_VIRTUAL_DEVICES },

@@ -137,7 +137,6 @@ const uint32 MENU_TOGGLE_WARP_MODE                = 'M101';
 const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION     = 'M102';
 const uint32 MENU_TOGGLE_HANDLE_TDE_AUTOSTART     = 'M169';
 const uint32 MENU_TOGGLE_VIRTUAL_DEVICES          = 'M103';
-const uint32 MENU_TOGGLE_EMUID                    = 'M104';
 const uint32 MENU_TOGGLE_DOUBLESIZE               = 'M106';
 const uint32 MENU_TOGGLE_DOUBLESCAN               = 'M107';
 const uint32 MENU_TOGGLE_VIDEOCACHE               = 'M108';
