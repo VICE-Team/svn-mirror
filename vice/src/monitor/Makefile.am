@@ -7,7 +7,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/vdrive
 
-YFLAGS = -dt
+AM_YFLAGS = -dt
 
 noinst_LIBRARIES = libmonitor.a
 
