@@ -373,6 +373,7 @@ int cartridge_type_enabled(int type)
 int cartridge_attach_image(int type, const char *filename)
 {
     BYTE *rawcart;
+    char *abs_filename;
     int carttype = CARTRIDGE_NONE;
     int cartid = CARTRIDGE_NONE;
     int oldmain = CARTRIDGE_NONE;
@@ -387,8 +388,14 @@ int cartridge_attach_image(int type, const char *filename)
         return 0;
     }
 
+    if (archdep_path_is_relative(filename)) {
+        archdep_expand_path(&abs_filename, filename);
+    } else {
+        abs_filename = lib_stralloc(filename);
+    }
+
     if (type == CARTRIDGE_CRT) {
-        carttype = crt_getid(filename);
+        carttype = crt_getid(abs_filename);
     } else {
         carttype = type;
     }
@@ -421,7 +428,7 @@ int cartridge_attach_image(int type, const char *filename)
 
     if (type == CARTRIDGE_CRT) {
         DBG(("CART: attach CRT ID: %d '%s'\n", carttype, filename));
-        cartid = crt_attach(filename, rawcart);
+        cartid = crt_attach(abs_filename, rawcart);
         if (cartid == CARTRIDGE_NONE) {
             goto exiterror;
         }
@@ -431,7 +438,7 @@ int cartridge_attach_image(int type, const char *filename)
     } else {
         DBG(("CART: attach BIN ID: %d '%s'\n", carttype, filename));
         cartid = carttype;
-        if (cart_bin_attach(carttype, filename, rawcart) < 0) {
+        if (cart_bin_attach(carttype, abs_filename, rawcart) < 0) {
             goto exiterror;
         }
     }
@@ -457,18 +464,20 @@ int cartridge_attach_image(int type, const char *filename)
         if (type == CARTRIDGE_CRT) {
             crttype = carttype;
         }
-        util_string_set(&cartfile, filename);
+        util_string_set(&cartfile, abs_filename);
     }
 
     DBG(("CART: cartridge_attach_image type: %d ID: %d done.\n", type, carttype));
     lib_free(rawcart);
-    log_message(LOG_DEFAULT, "CART: attached '%s' as ID %d.", filename, carttype);
+    log_message(LOG_DEFAULT, "CART: attached '%s' as ID %d.", abs_filename, carttype);
+    lib_free(abs_filename);
     return 0;
 
 exiterror:
     DBG(("CART: error\n"));
     lib_free(rawcart);
-    log_message(LOG_DEFAULT, "CART: could not attach '%s'.", filename);
+    log_message(LOG_DEFAULT, "CART: could not attach '%s'.", abs_filename);
+    lib_free(abs_filename);
     return -1;
 }
 
