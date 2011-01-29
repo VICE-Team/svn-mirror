@@ -51,8 +51,9 @@ VICE_ARG_ENABLE_LIST(debug,       [  --enable-debug          Enable debug source
 
 dnl register ReSID-fp options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
-VICE_ARG_ENABLE_LIST(sse,         [  --enable-sse            enable the use of SSE [default=yes]])
-VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [default=yes]])
+VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=native]]], [], [enable_arch=yes])
+VICE_ARG_ENABLE_LIST(sse,         [  --enable-sse            enable the use of SSE [[default=yes]]])
+VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 
 dnl check for invalid options
 VICE_ARG_LIST_CHECK()
@@ -230,6 +231,11 @@ dnl Disable nls for the SDL UI
 if test x"$enable_sdlui" = "xyes"; then
   enable_nls=no
 fi
+
+dnl $march may be added to the options passed to gcc.
+AS_IF([test "$enable_arch" = no], [march=""],
+      [test "$enable_arch" = yes], [march=" -march=native"],
+      [march=" -march=$enable_arch"])
 
 if test "x$CC" = "xgcc"; then
   GCC=yes
@@ -518,7 +524,7 @@ darwin*)
     if test x"$GCC" = "xyes" ; then
       warnings_cxx="-Wall -Winline"
       warnings_c="-Wstrict-prototypes $warnings_cxx"
-      optimization_c="-O2 -finline-functions"
+      optimization_c="-O3$march"
       optimization_cxx="-fno-exceptions $optimization_c"
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
         CFLAGS="-g $optimization_c $warnings_c"
@@ -610,34 +616,17 @@ dnl All other UN*X systems
 
       dnl Set appropriate optimization options (better than the default -g -O)
       dnl if using GCC.
-      dnl `-pipe' is broken on some Alpha systems, and also `-funroll-loops'
-      dnl gives troubles on both Alpha and SPARC.  That's why we use the fancy
-      dnl options on x86 only.
       dnl If the user has specified her own `CFLAGS', we do not override them.
 
-      if test "x$host_cpu" = "xi586" -o x"$host_cpu" = "xi486" -o x"$host_cpu" = "xi686" -o x"$host_cpu" = "xi386"; then
-
-        echo using x86-specific optimizing options
-
-        dnl `-DNO_REGPARM' should theoretically make it slower, but
-        dnl regparms are so broken on the current GCC/EGCS that it's
-        dnl better not to rely on them by default.
-        CFLAGS="-g -O2 -DNO_REGPARM $warnings_c"
-        CXXFLAGS="-g -fno-exceptions -O2 -DNO_REGPARM $warnings_cxx"
-
+      optimization_c="-O3$march"
+      optimization_cxx="-fno-exceptions $optimization_c"
+      dnl Use -g if available.
+      if test x"$ac_cv_prog_cc_g" = "xyes" ; then
+         CFLAGS="-g $optimization_c $warnings_c"
+         CXXFLAGS="-g $optimization_cxx $warnings_cxx"
       else
-
-        optimization_c="-O2 -finline-functions"
-        optimization_cxx="-fno-exceptions $optimization_c"
-        dnl Use -g if available.
-        if test x"$ac_cv_prog_cc_g" = "xyes" ; then
-           CFLAGS="-g $optimization_c $warnings_c"
-           CXXFLAGS="-g $optimization_cxx $warnings_cxx"
-        else
-           CFLAGS="$optimization_c $warnings_c"
-           CXXFLAGS="$optimization_cxx $warnings_cxx"
-        fi
-
+         CFLAGS="$optimization_c $warnings_c"
+         CXXFLAGS="$optimization_cxx $warnings_cxx"
       fi
 
       dnl Check whether the options are OK.

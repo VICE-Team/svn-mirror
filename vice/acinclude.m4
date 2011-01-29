@@ -340,6 +340,9 @@ for argcheck in [$]@
 do
   argvalid=yes
   case [$]argcheck in
+    --enable-arch=*)
+      argvalid=yes
+      ;;
     --enable-*)
       argvalid=no
       for i in [$]vice_arg_enable_list
