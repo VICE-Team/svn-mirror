@@ -68,18 +68,18 @@ Copyright @copyright{} 2007-2011 Fabrizio Gennari
 Copyright @copyright{} 2007-2011 Daniel Kahlin
 Copyright @copyright{} 2008-2011 Antti S. Lankila
 
+Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 1998-2010 Andreas Boose
 Copyright @copyright{} 1998-2010 Tibor Biczo
 Copyright @copyright{} 2007-2010 M. Kiesel
-Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
 
 Copyright @copyright{} 1999-2004 Thomas Bretz
 Copyright @copyright{} 1997-2001 Daniel Sladic
+Copyright @copyright{} 1996-2001 André Fachat
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
-Copyright @copyright{} 1996-1999 André Fachat
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 Copyright @copyright{} 1993-1996 Jouko Valta
 Copyright @copyright{} 1993-1994 Jarkko Sonninen
