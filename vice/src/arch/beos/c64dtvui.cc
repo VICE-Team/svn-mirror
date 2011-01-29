@@ -70,8 +70,6 @@ ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
     { "c64dtvromrw", MENU_TOGGLE_C64DTV_WRITE_ENABLE },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "ps2mouse", MENU_TOGGLE_PS2MOUSE },
-    { "PALEmulation", MENU_TOGGLE_FASTPAL },
-    { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
     { "HummerADC", MENU_HUMMER_USERPORT_ADC },
     { NULL, 0 }
 };

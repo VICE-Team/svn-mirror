@@ -71,12 +71,16 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
+    { "REUImageWrite", MENU_TOGGLE_REU_SWC },
     { "GEORAM", MENU_TOGGLE_GEORAM },
+    { "GEORAMImageWrite", MENU_TOGGLE_GEORAM_SWC },
     { "RAMCART", MENU_TOGGLE_RAMCART },
+    { "RAMCARTImageWrite", MENU_TOGGLE_RAMCART_SWC },
     { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
     { "DQBB", MENU_TOGGLE_DQBB },
     { "IsepicCartridgeEnabled", MENU_TOGGLE_ISEPIC },
     { "IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH },
+    { "IsepicImageWrite", MENU_TOGGLE_ISEPIC_SWC },
     { "PLUS60K", MENU_TOGGLE_PLUS60K },
     { "PLUS256K", MENU_TOGGLE_PLUS256K },
     { "256K", MENU_TOGGLE_C64_256K },
@@ -86,11 +90,10 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "MMC64_bios_write", MENU_TOGGLE_MMC64_SAVE },
     { "MMC64_RO", MENU_TOGGLE_MMC64_READ_ONLY },
     { "MMCREEPROMRW", MENU_TOGGLE_MMCR_EEPROM_READ_WRITE },
+    { "MMCRImageWrite", MENU_TOGGLE_MMCR_EEPROM_SWC },
     { "MMCRRescueMode", MENU_TOGGLE_MMCR_RESCUE_MODE },
     { "MMCRCardRW", MENU_TOGGLE_MMCR_READ_WRITE },
     { "Mouse", MENU_TOGGLE_MOUSE },
-    { "PALEmulation", MENU_TOGGLE_FASTPAL },
-    { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
     { "EasyFlashJumper", MENU_TOGGLE_EASYFLASH_JUMPER },
@@ -98,6 +101,8 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
     { "IDE64AutodetectSize", MENU_TOGGLE_IDE64_AUTODETECT },
+    { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
+    { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { NULL, 0 }
 };
 
@@ -243,6 +248,13 @@ ui_res_possible_values gluelogic[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values ExpertModes[] = {
+    { 0, MENU_EXPERT_MODE_OFF },
+    { 1, MENU_EXPERT_MODE_PRG },
+    { 2, MENU_EXPERT_MODE_ON },
+    { -1, 0 }
+};
+
 ui_res_value_list c64_ui_res_values[] = {
     { "REUsize", ReuSize },
     { "GeoRAMsize", GeoRAMSize },
@@ -261,6 +273,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "CIA1Model", cia1models },
     { "CIA2Model", cia2models },
     { "GlueLogic", gluelogic },
+    { "ExpertCartridgeMode", ExpertModes },
     { NULL, NULL }
 };
 
@@ -363,6 +376,9 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_DQBB_FILE:
             ui_select_file(windowlist[0]->savepanel, DQBB_FILE, (void*)0);
             break;
+        case MENU_ISEPIC_FILE:
+            ui_select_file(windowlist[0]->savepanel, ISEPIC_FILE, (void*)0);
+            break;
         case MENU_PLUS60K_FILE:
             ui_select_file(windowlist[0]->savepanel, PLUS60K_FILE, (void*)0);
             break;
@@ -383,6 +399,9 @@ void c64_ui_specific(void *msg, void *window)
             break;
         case MENU_MMCR_IMAGE_FILE:
             ui_select_file(windowlist[0]->filepanel, MMCR_IMAGE_FILE, (void*)0);
+            break;
+        case MENU_EXPERT_FILE:
+            ui_select_file(windowlist[0]->filepanel, EXPERT_FILE, (void*)0);
             break;
         case MENU_EASYFLASH_SAVE_NOW:
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {

@@ -187,11 +187,17 @@ const uint32 MENU_TOGGLE_REU                      = 'M109';
 const uint32 MENU_TOGGLE_GEORAM                   = 'M213';
 const uint32 MENU_TOGGLE_RAMCART                  = 'M145';
 const uint32 MENU_TOGGLE_DQBB                     = 'M165';
+
+const uint32 MENU_TOGGLE_DQBB_SWC                 = 'M316';
+
 const uint32 MENU_TOGGLE_MAGICVOICE               = 'M104';
 const uint32 MENU_TOGGLE_IDE64_V4                 = 'M262';
 const uint32 MENU_TOGGLE_IDE64_AUTODETECT         = 'M263';
 const uint32 MENU_TOGGLE_ISEPIC                   = 'M166';
 const uint32 MENU_TOGGLE_ISEPIC_SWITCH            = 'M167';
+
+const uint32 MENU_TOGGLE_ISEPIC_SWC               = 'M316';
+
 const uint32 MENU_TOGGLE_PLUS60K                  = 'M146';
 const uint32 MENU_TOGGLE_PLUS256K                 = 'M148';
 const uint32 MENU_TOGGLE_C64_256K                 = 'M144';
@@ -206,6 +212,7 @@ const uint32 MENU_TOGGLE_MMC64_SAVE               = 'M068';
 const uint32 MENU_TOGGLE_MMC64_READ_ONLY          = 'M058';
 
 const uint32 MENU_TOGGLE_MMCR_EEPROM_READ_WRITE   = 'M247';
+const uint32 MENU_TOGGLE_MMCR_EEPROM_SWC          = 'M313';
 const uint32 MENU_TOGGLE_MMCR_RESCUE_MODE         = 'M248';
 const uint32 MENU_TOGGLE_MMCR_READ_WRITE          = 'M249';
 
@@ -235,8 +242,10 @@ const uint32 MENU_TOGGLE_C128FULLBANKS            = 'M175';
 
 const uint32 MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT    = 'M116';
 const uint32 MENU_TOGGLE_CONFIRM_ON_EXIT          = 'M117';
-const uint32 MENU_TOGGLE_FASTPAL                  = 'M118';
-const uint32 MENU_TOGGLE_SCALE2X                  = 'M119';
+
+const uint32 MENU_RENDER_FILTER_NONE              = 'M312';
+const uint32 MENU_RENDER_FILTER_CRT_EMULATION     = 'M118';
+const uint32 MENU_RENDER_FILTER_SCALE2X           = 'M119';
 
 const uint32 MENU_REFRESH_RATE_AUTO               = 'M120';
 const uint32 MENU_REFRESH_RATE_1                  = 'M121';
@@ -260,6 +269,13 @@ const uint32 MENU_SYNC_FACTOR_PAL                 = 'M140';
 const uint32 MENU_SYNC_FACTOR_NTSC                = 'M141';
 const uint32 MENU_SYNC_FACTOR_NTSCOLD             = 'M142';
 const uint32 MENU_SYNC_FACTOR_PALN                = 'M143';
+
+const uint32 MENU_TOGGLE_EXPERT                   = 'M317';
+const uint32 MENU_EXPERT_MODE_OFF                 = 'M318';
+const uint32 MENU_EXPERT_MODE_PRG                 = 'M319';
+const uint32 MENU_EXPERT_MODE_ON                  = 'M320';
+const uint32 MENU_TOGGLE_EXPERT_SWC               = 'M321';
+const uint32 MENU_EXPERT_FILE                     = 'M322';
 
 const uint32 MENU_DRIVE_SETTINGS                  = 'M200';
 const uint32 MENU_DEVICE_SETTINGS                 = 'M201';
@@ -332,6 +348,8 @@ const uint32 MENU_REU_SIZE_4096                   = 'M405';
 const uint32 MENU_REU_SIZE_8192                   = 'M406';
 const uint32 MENU_REU_SIZE_16384                  = 'M407';
 
+const uint32 MENU_TOGGLE_REU_SWC                  = 'M314';
+
 const uint32 MENU_REU_FILE                        = 'M012';
 
 const uint32 MENU_GEORAM_SIZE_64                  = 'M450';
@@ -342,10 +360,14 @@ const uint32 MENU_GEORAM_SIZE_1024                = 'M454';
 const uint32 MENU_GEORAM_SIZE_2048                = 'M455';
 const uint32 MENU_GEORAM_SIZE_4096                = 'M456';
 
+const uint32 MENU_TOGGLE_GEORAM_SWC               = 'M314';
+
 const uint32 MENU_GEORAM_FILE                     = 'M023';
 
 const uint32 MENU_RAMCART_SIZE_64                 = 'M457';
 const uint32 MENU_RAMCART_SIZE_128                = 'M458';
+
+const uint32 MENU_TOGGLE_RAMCART_SWC              = 'M315';
 
 const uint32 MENU_RAMCART_FILE                    = 'M034'; 
 
@@ -357,6 +379,8 @@ const uint32 MENU_IDE64_FILE4                     = 'M267';
 const uint32 MENU_MAGICVOICE_FILE                 = 'M257';
 
 const uint32 MENU_DQBB_FILE                       = 'M168';
+
+const uint32 MENU_ISEPIC_FILE                     = 'M317';
 
 const uint32 MENU_PLUS60K_BASE_D040               = 'M414';
 const uint32 MENU_PLUS60K_BASE_D100               = 'M415';

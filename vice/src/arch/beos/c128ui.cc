@@ -68,16 +68,17 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "REU", MENU_TOGGLE_REU },
+    { "REUImageWrite", MENU_TOGGLE_REU_SWC },
     { "GEORAM", MENU_TOGGLE_GEORAM },
+    { "GEORAMImageWrite", MENU_TOGGLE_GEORAM_SWC },
     { "RAMCART", MENU_TOGGLE_RAMCART },
+    { "RAMCARTImageWrite", MENU_TOGGLE_RAMCART_SWC },
     { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "VDCDoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
     { "VDCDoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
     { "VDC64KB", MENU_TOGGLE_VDC64KB },
-    { "PALEmulation", MENU_TOGGLE_FASTPAL },
-    { "VICIIScale2x", MENU_TOGGLE_SCALE2X },
     { "C128FullBanks", MENU_TOGGLE_C128FULLBANKS },
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
     { "SFXSoundSampler", MENU_TOGGLE_SFX_SS },
@@ -86,6 +87,8 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
     { "IDE64AutodetectSize", MENU_TOGGLE_IDE64_AUTODETECT },
+    { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
+    { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { NULL, 0 }
 };
 
@@ -173,6 +176,13 @@ ui_res_possible_values c128mouseports[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values ExpertModes[] = {
+    { 0, MENU_EXPERT_MODE_OFF },
+    { 1, MENU_EXPERT_MODE_PRG },
+    { 2, MENU_EXPERT_MODE_ON },
+    { -1, 0 }
+};
+
 ui_res_value_list c128_ui_res_values[] = {
     { "REUsize", c128ReuSize },
     { "GeoRAMsize", c128GeoRAMSize },
@@ -183,6 +193,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "VDCRevision", c128VDCrev },
     { "Mousetype", c128mousetypes },
     { "Mouseport", c128mouseports },
+    { "ExpertCartridgeMode", ExpertModes },
     { NULL, NULL }
 };
 
@@ -216,6 +227,9 @@ void c128_ui_specific(void *msg, void *window)
             break;
         case MENU_IDE64_CUSTOM_SIZE:
             ui_ide64();
+            break;
+        case MENU_EXPERT_FILE:
+            ui_select_file(windowlist[0]->filepanel, EXPERT_FILE, (void*)0);
             break;
         case MENU_EASYFLASH_SAVE_NOW:
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {

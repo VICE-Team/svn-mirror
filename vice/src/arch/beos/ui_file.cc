@@ -299,6 +299,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     if (filetype == DQBB_FILE) {
         sprintf(title, "Select DQBB file");
     }
+    if (filetype == ISEPIC_FILE) {
+        sprintf(title, "Select ISEPIC file");
+    }
     if (filetype == PLUS60K_FILE) {
         sprintf(title, "Select +60K file");
     }
@@ -331,6 +334,9 @@ void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *filepar
     }
     if (filetype == C64DTV_ROM_FILE) {
         sprintf(title, "Select C64DTV ROM file");
+    }
+    if (filetype == EXPERT_FILE) {
+        sprintf(title, "Select Expert Cartridge file");
     }
     if (filetype == IDE64_FILE1) {
         sprintf(title, "Select IDE64 HD #1 file");
@@ -539,6 +545,8 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("MagicVoiceImage", fullpath);
         } else if (last_filetype[1] == DQBB_FILE) {
             resources_set_string("DQBBfilename", fullpath);
+        } else if (last_filetype[1] == ISEPIC_FILE) {
+            resources_set_string("Isepicfilename", fullpath);
         } else if (last_filetype[1] == PLUS60K_FILE) {
             resources_set_string("PLUS60Kfilename", fullpath);
         } else if (last_filetype[1] == PLUS256K_FILE) {
@@ -551,6 +559,8 @@ void ui_select_file_action(BMessage *msg)
             resources_set_string("PETDWWfilename", fullpath);
         } else if (last_filetype[1] == V364SPEECH_FILE) {
             resources_set_string("SpeechImage", fullpath);
+        } else if (last_filetype[1] == EXPERT_FILE) {
+            resources_set_string("Expertfilename", fullpath);
         } else if (last_filetype[1] == IDE64_FILE1) {
             resources_set_string("IDE64Image1", fullpath);
         } else if (last_filetype[1] == IDE64_FILE2) {

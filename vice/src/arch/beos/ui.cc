@@ -475,6 +475,28 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     free(fullname);
 }
 
+static char *get_scale2x_res(void)
+{
+    switch (machine_class) {
+    default:
+        return NULL;
+        break;
+    case VICE_MACHINE_C64:
+    case VICE_MACHINE_C64SC:
+    case VICE_MACHINE_C64DTV:
+    case VICE_MACHINE_C128:
+    case VICE_MACHINE_CBM5x0:
+        return "VICIIScale2x";
+        break;
+    case VICE_MACHINE_PLUS4:
+        return "TEDScale2x";
+        break;
+    case VICE_MACHINE_VIC20:
+        return "VICScale2x";
+        break;
+    }
+}
+
 static void scan_files(void)
 {
     int i;
@@ -606,6 +628,7 @@ void ui_dispatch_events(void)
     int m;
     int attachdrive;
     int key;
+    char *scale2x_res;
     ViceFilePanel *filepanel = windowlist[0]->filepanel;
 
     for (i = 0; i < num_queued_messages; i++) {
@@ -758,6 +781,25 @@ void ui_dispatch_events(void)
             case MENU_SAVEQUICK:
                 scan_files();
                 interrupt_maincpu_trigger_trap(save_quicksnapshot_trap, (void *)0);
+                break;
+            case MENU_RENDER_FILTER_NONE:
+                scale2x_res = get_scale2x_res();
+                resources_set_int("PALEmulation", 0);
+                if (scale2x_res != NULL) {
+                    resources_set_int(scale2x_res, 0);
+                }
+                break;
+            case MENU_RENDER_FILTER_CRT_EMULATION:
+                scale2x_res = get_scale2x_res();
+                resources_set_int("PALEmulation", 1);
+                if (scale2x_res != NULL) {
+                    resources_set_int(scale2x_res, 0);
+                }
+                break;
+            case MENU_RENDER_FILTER_SCALE2X:
+                scale2x_res = get_scale2x_res();
+                resources_set_int("PALEmulation", 0);
+                resources_set_int(scale2x_res, 1);
                 break;
             case MENU_NETPLAY_SERVER:
                 network_start_server();
