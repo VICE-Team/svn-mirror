@@ -40,7 +40,7 @@ extern int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_p
 extern void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr);
 extern void digiblaster_sound_reset(void);
-extern void REGPARM2 digiblaster_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 digiblaster_read(WORD addr);
+extern void digiblaster_store(WORD addr, BYTE value);
+extern BYTE digiblaster_read(WORD addr);
 
 #endif

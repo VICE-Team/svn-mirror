@@ -283,12 +283,12 @@ void ted_sound_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
-void REGPARM2 ted_sound_store(WORD addr, BYTE value)
+void ted_sound_store(WORD addr, BYTE value)
 {
     sound_store((WORD)(addr+0x20), value, 0);
 }
 
-BYTE REGPARM1 ted_sound_read(WORD addr)
+BYTE ted_sound_read(WORD addr)
 {
     BYTE value;
 

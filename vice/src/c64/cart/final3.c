@@ -78,9 +78,9 @@
 static int fc3_reg_enabled = 1;
 
 /* some prototypes are needed */
-static BYTE REGPARM1 final_v3_io1_read(WORD addr);
-static BYTE REGPARM1 final_v3_io2_read(WORD addr);
-static void REGPARM2 final_v3_io2_store(WORD addr, BYTE value);
+static BYTE final_v3_io1_read(WORD addr);
+static BYTE final_v3_io2_read(WORD addr);
+static void final_v3_io2_store(WORD addr, BYTE value);
 
 static io_source_t final3_io1_device = {
     CARTRIDGE_NAME_FINAL_III,
@@ -117,17 +117,17 @@ static const c64export_resource_t export_res_v3 = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 final_v3_io1_read(WORD addr)
+BYTE final_v3_io1_read(WORD addr)
 {
     return roml_banks[0x1e00 + (roml_bank << 13) + (addr & 0xff)];
 }
 
-BYTE REGPARM1 final_v3_io2_read(WORD addr)
+BYTE final_v3_io2_read(WORD addr)
 {
     return roml_banks[0x1f00 + (roml_bank << 13) + (addr & 0xff)];
 }
 
-void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
+void final_v3_io2_store(WORD addr, BYTE value)
 {
     unsigned int flags;
     BYTE mode;
@@ -148,7 +148,7 @@ void REGPARM2 final_v3_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 final_v3_roml_read(WORD addr)
+BYTE final_v3_roml_read(WORD addr)
 {
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }

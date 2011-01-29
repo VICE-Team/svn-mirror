@@ -85,10 +85,10 @@ static BYTE *tpi_rom = NULL;
 static tpi_context_t *tpi_context;
 
 /* ---------------------------------------------------------------------*/
-static void REGPARM2 tpi_io2_store(WORD addr, BYTE data);
-static BYTE REGPARM1 tpi_io2_read(WORD addr);
-static BYTE REGPARM1 tpi_io2_peek(WORD addr);
-static int REGPARM1 tpi_io2_dump(void);
+static void tpi_io2_store(WORD addr, BYTE data);
+static BYTE tpi_io2_read(WORD addr);
+static BYTE tpi_io2_peek(WORD addr);
+static int tpi_io2_dump(void);
 
 static io_source_t tpi_io2_device = {
     CARTRIDGE_NAME_IEEE488,
@@ -126,24 +126,24 @@ int tpi_cart_enabled(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 tpi_io2_store(WORD addr, BYTE data)
+static void tpi_io2_store(WORD addr, BYTE data)
 {
     DBG(("TPI io2 w %02x (%02x)\n", addr, data));
     tpicore_store(tpi_context, addr, data);
 }
 
-static BYTE REGPARM1 tpi_io2_read(WORD addr)
+static BYTE tpi_io2_read(WORD addr)
 {
     DBG(("TPI io2 r %02x\n", addr));
     return tpicore_read(tpi_context, addr);
 }
 
-static BYTE REGPARM1 tpi_io2_peek(WORD addr)
+static BYTE tpi_io2_peek(WORD addr)
 {
     return tpicore_peek(tpi_context, addr);
 }
 
-static int REGPARM1 tpi_io2_dump(void)
+static int tpi_io2_dump(void)
 {
     mon_out("TPI\n");
     tpicore_dump(tpi_context);

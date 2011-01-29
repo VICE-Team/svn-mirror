@@ -45,17 +45,17 @@ typedef struct drivecia1571_context_s {
 } drivecia1571_context_t;
 
 
-void REGPARM3 cia1571_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void cia1571_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
     ciacore_store(ctxptr->cia1571, addr, data);
 }
 
-BYTE REGPARM2 cia1571_read(drive_context_t *ctxptr, WORD addr)
+BYTE cia1571_read(drive_context_t *ctxptr, WORD addr)
 {
     return ciacore_read(ctxptr->cia1571, addr);
 }
 
-BYTE REGPARM2 cia1571_peek(drive_context_t *ctxptr, WORD addr)
+BYTE cia1571_peek(drive_context_t *ctxptr, WORD addr)
 {
     return ciacore_peek(ctxptr->cia1571, addr);
 }

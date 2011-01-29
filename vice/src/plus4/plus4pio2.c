@@ -31,12 +31,12 @@
 
 BYTE pio2_kbd;
 
-BYTE REGPARM1 pio2_read(WORD addr)
+BYTE pio2_read(WORD addr)
 {
     return 0;
 }
 
-void REGPARM2 pio2_store(WORD addr, BYTE value)
+void pio2_store(WORD addr, BYTE value)
 {
     pio2_kbd = value;
 }

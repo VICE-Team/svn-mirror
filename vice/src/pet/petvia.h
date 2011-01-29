@@ -34,9 +34,9 @@ struct via_context_s;
 
 extern void petvia_setup_context(struct machine_context_s *machine_context);
 extern void via_init(struct via_context_s *via_context);
-extern BYTE REGPARM1 via_read(WORD addr);
-extern BYTE REGPARM1 via_peek(WORD addr);
-extern void REGPARM2 via_store(WORD addr, BYTE value);
+extern BYTE via_read(WORD addr);
+extern BYTE via_peek(WORD addr);
+extern void via_store(WORD addr, BYTE value);
 
 #endif
 

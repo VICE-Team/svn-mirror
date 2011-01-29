@@ -54,7 +54,7 @@ static const c64export_resource_t export_res = {
     CARTRIDGE_NAME_ZAXXON, 1, 1, NULL, NULL, CARTRIDGE_ZAXXON
 };
 
-BYTE REGPARM1 zaxxon_roml_read(WORD addr)
+BYTE zaxxon_roml_read(WORD addr)
 {
     cart_romhbank_set_slotmain((addr & 0x1000) ? 1 : 0);
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];

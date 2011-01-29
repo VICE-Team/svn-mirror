@@ -90,7 +90,7 @@ void pia_set_vbank(void)
     mem_set_vbank(0);
 }
 
-static BYTE REGPARM1 c64_256k_read(WORD addr)
+static BYTE c64_256k_read(WORD addr)
 {
     BYTE retval = 0;
 
@@ -116,7 +116,7 @@ static BYTE REGPARM1 c64_256k_read(WORD addr)
   return retval;
 }
 
-static void REGPARM2 c64_256k_store(WORD addr, BYTE byte)
+static void c64_256k_store(WORD addr, BYTE byte)
 {
     BYTE old_prb;
 
@@ -395,7 +395,7 @@ void c64_256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 c64_256k_ram_segment0_store(WORD addr, BYTE value)
+void c64_256k_ram_segment0_store(WORD addr, BYTE value)
 {
     c64_256k_ram[(c64_256k_segment0 * 0x4000) + (addr & 0x3fff)] = value;
     if (addr == 0xff00) {
@@ -403,7 +403,7 @@ void REGPARM2 c64_256k_ram_segment0_store(WORD addr, BYTE value)
     }
 }
 
-void REGPARM2 c64_256k_ram_segment1_store(WORD addr, BYTE value)
+void c64_256k_ram_segment1_store(WORD addr, BYTE value)
 {
     c64_256k_ram[(c64_256k_segment1 * 0x4000) + (addr & 0x3fff)] = value;
     if (addr == 0xff00) {
@@ -411,7 +411,7 @@ void REGPARM2 c64_256k_ram_segment1_store(WORD addr, BYTE value)
     }
 }
 
-void REGPARM2 c64_256k_ram_segment2_store(WORD addr, BYTE value)
+void c64_256k_ram_segment2_store(WORD addr, BYTE value)
 {
     c64_256k_ram[(c64_256k_segment2 * 0x4000) + (addr & 0x3fff)] = value;
     if (addr == 0xff00) {
@@ -419,7 +419,7 @@ void REGPARM2 c64_256k_ram_segment2_store(WORD addr, BYTE value)
     }
 }
 
-void REGPARM2 c64_256k_ram_segment3_store(WORD addr, BYTE value)
+void c64_256k_ram_segment3_store(WORD addr, BYTE value)
 {
     c64_256k_ram[(c64_256k_segment3 * 0x4000) + (addr & 0x3fff)] = value;
     if (addr == 0xff00) {
@@ -427,22 +427,22 @@ void REGPARM2 c64_256k_ram_segment3_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 c64_256k_ram_segment0_read(WORD addr)
+BYTE c64_256k_ram_segment0_read(WORD addr)
 {
     return c64_256k_ram[(c64_256k_segment0 * 0x4000) + (addr & 0x3fff)];
 }
 
-BYTE REGPARM1 c64_256k_ram_segment1_read(WORD addr)
+BYTE c64_256k_ram_segment1_read(WORD addr)
 {
     return c64_256k_ram[(c64_256k_segment1 * 0x4000) + (addr & 0x3fff)];
 }
 
-BYTE REGPARM1 c64_256k_ram_segment2_read(WORD addr)
+BYTE c64_256k_ram_segment2_read(WORD addr)
 {
     return c64_256k_ram[(c64_256k_segment2 * 0x4000) + (addr & 0x3fff)];
 }
 
-BYTE REGPARM1 c64_256k_ram_segment3_read(WORD addr)
+BYTE c64_256k_ram_segment3_read(WORD addr)
 {
     return c64_256k_ram[(c64_256k_segment3 * 0x4000) + (addr & 0x3fff)];
 }

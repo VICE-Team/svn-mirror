@@ -123,13 +123,13 @@ static int tape_sense = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE REGPARM1 read_watch(WORD addr)
+static BYTE read_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-static void REGPARM2 store_watch(WORD addr, BYTE value)
+static void store_watch(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[mem_config][addr >> 8](addr, value);
@@ -217,7 +217,7 @@ void mem_pla_config_changed(void)
     }
 }
 
-BYTE REGPARM1 zero_read(WORD addr)
+BYTE zero_read(WORD addr)
 {
     addr &= 0xff;
 
@@ -243,7 +243,7 @@ BYTE REGPARM1 zero_read(WORD addr)
     }
 }
 
-void REGPARM2 zero_store(WORD addr, BYTE value)
+void zero_store(WORD addr, BYTE value)
 {
     addr &= 0xff;
 
@@ -328,27 +328,27 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 chargen_read(WORD addr)
+BYTE chargen_read(WORD addr)
 {
     return mem_chargen_rom[addr & 0xfff];
 }
 
-void REGPARM2 chargen_store(WORD addr, BYTE value)
+void chargen_store(WORD addr, BYTE value)
 {
     mem_chargen_rom[addr & 0xfff] = value;
 }
 
-BYTE REGPARM1 ram_read(WORD addr)
+BYTE ram_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-void REGPARM2 ram_store(WORD addr, BYTE value)
+void ram_store(WORD addr, BYTE value)
 {
     mem_ram[addr] = value;
 }
 
-void REGPARM2 ram_hi_store(WORD addr, BYTE value)
+void ram_hi_store(WORD addr, BYTE value)
 {
     mem_ram[addr] = value;
 
@@ -361,27 +361,27 @@ void REGPARM2 ram_hi_store(WORD addr, BYTE value)
 
 /* Generic memory access.  */
 
-void REGPARM2 mem_store(WORD addr, BYTE value)
+void mem_store(WORD addr, BYTE value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read(WORD addr)
+BYTE mem_read(WORD addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
-void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value)
+void mem_store_without_ultimax(WORD addr, BYTE value)
 {
     mem_write_tab[mem_config & 7][addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read_without_ultimax(WORD addr)
+BYTE mem_read_without_ultimax(WORD addr)
 {
     return mem_read_tab[mem_config & 7][addr >> 8](addr);
 }
 
-void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value)
+void mem_store_without_romlh(WORD addr, BYTE value)
 {
     mem_write_tab[0][addr >> 8](addr, value);
 }
@@ -389,12 +389,12 @@ void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 colorram_store(WORD addr, BYTE value)
+void colorram_store(WORD addr, BYTE value)
 {
     mem_color_ram[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE REGPARM1 colorram_read(WORD addr)
+BYTE colorram_read(WORD addr)
 {
     return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
@@ -739,7 +739,7 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* Banked memory access functions for the monitor.  */
 
-void REGPARM2 store_bank_io(WORD addr, BYTE byte)
+void store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
         case 0xd000:
@@ -776,7 +776,7 @@ void REGPARM2 store_bank_io(WORD addr, BYTE byte)
     return;
 }
 
-BYTE REGPARM1 read_bank_io(WORD addr)
+BYTE read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
         case 0xd000:

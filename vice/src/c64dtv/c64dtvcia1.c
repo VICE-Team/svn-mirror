@@ -51,12 +51,12 @@
 #include "c64dtv-resources.h"
 #include "hummeradc.h"
 
-void REGPARM2 cia1_store(WORD addr, BYTE data)
+void cia1_store(WORD addr, BYTE data)
 {
     ciacore_store(machine_context.cia1, addr, data);
 }
 
-BYTE REGPARM1 cia1_read(WORD addr)
+BYTE cia1_read(WORD addr)
 {
     /* disable TOD & serial */
     if (((addr&0xf)>=8)&&((addr&0xf)<=0xc)) {
@@ -66,7 +66,7 @@ BYTE REGPARM1 cia1_read(WORD addr)
     return ciacore_read(machine_context.cia1, addr);
 }
 
-BYTE REGPARM1 cia1_peek(WORD addr)
+BYTE cia1_peek(WORD addr)
 {
     return ciacore_peek(machine_context.cia1, addr);
 }

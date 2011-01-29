@@ -42,12 +42,12 @@ extern void ide64_detach(void);
 
 extern BYTE ide64_get_killport(void);
 
-extern BYTE REGPARM1 ide64_roml_read(WORD addr);
-extern BYTE REGPARM1 ide64_romh_read(WORD addr);
-extern BYTE REGPARM1 ide64_1000_7fff_read(WORD addr);
-extern void REGPARM2 ide64_1000_7fff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 ide64_a000_bfff_read(WORD addr);
-extern BYTE REGPARM1 ide64_c000_cfff_read(WORD addr);
-extern void REGPARM2 ide64_c000_cfff_store(WORD addr, BYTE value);
+extern BYTE ide64_roml_read(WORD addr);
+extern BYTE ide64_romh_read(WORD addr);
+extern BYTE ide64_1000_7fff_read(WORD addr);
+extern void ide64_1000_7fff_store(WORD addr, BYTE value);
+extern BYTE ide64_a000_bfff_read(WORD addr);
+extern BYTE ide64_c000_cfff_read(WORD addr);
+extern void ide64_c000_cfff_store(WORD addr, BYTE value);
 
 #endif

@@ -146,7 +146,7 @@ void riotcore_reset(riot_context_t *riot_context)
     riot_context->enabled = 1;
 }
 
-void REGPARM3 riotcore_store(riot_context_t *riot_context, WORD addr, BYTE byte)
+void riotcore_store(riot_context_t *riot_context, WORD addr, BYTE byte)
 {
     CLOCK rclk;
 
@@ -225,10 +225,10 @@ void REGPARM3 riotcore_store(riot_context_t *riot_context, WORD addr, BYTE byte)
     }
 }
 
-BYTE REGPARM2 riotcore_read(riot_context_t *riot_context, WORD addr)
+BYTE riotcore_read(riot_context_t *riot_context, WORD addr)
 {
 #ifdef MYRIOT_TIMER_DEBUG
-    BYTE REGPARM2 myriot_read_(riot_context_t *, WORD);
+    BYTE myriot_read_(riot_context_t *, WORD);
     BYTE retv = myriot_read_(riot_context, addr);
     addr &= 0x1f;
     if ((addr > 3 && addr < 10) || app_resources.debugFlag)
@@ -238,7 +238,7 @@ BYTE REGPARM2 riotcore_read(riot_context_t *riot_context, WORD addr)
                     *(riot_context->clk_ptr));
     return retv;
 }
-BYTE REGPARM2 myriot_read_(riot_context_t *riot_context, WORD addr)
+BYTE myriot_read_(riot_context_t *riot_context, WORD addr)
 {
 #endif
     CLOCK rclk;

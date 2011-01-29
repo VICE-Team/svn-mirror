@@ -243,17 +243,17 @@ void plus256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 plus256k_vicii_read(WORD addr)
+BYTE plus256k_vicii_read(WORD addr)
 {
     return 0xff;
 }
 
-BYTE REGPARM1 plus256k_vicii_read0(WORD addr)
+BYTE plus256k_vicii_read0(WORD addr)
 {
     return addr >> 8;
 }
 
-void REGPARM2 plus256k_vicii_store(WORD addr, BYTE value)
+void plus256k_vicii_store(WORD addr, BYTE value)
 {
     int new_bank;
 
@@ -270,16 +270,16 @@ void REGPARM2 plus256k_vicii_store(WORD addr, BYTE value)
     }
 }
 
-void REGPARM2 plus256k_vicii_store0(WORD addr, BYTE value)
+void plus256k_vicii_store0(WORD addr, BYTE value)
 {
 }
 
-void REGPARM2 plus256k_ram_low_store(WORD addr, BYTE value)
+void plus256k_ram_low_store(WORD addr, BYTE value)
 {
     plus256k_ram[(plus256k_low_bank << 16) + addr] = value;
 }
 
-void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE value)
+void plus256k_ram_high_store(WORD addr, BYTE value)
 {
     plus256k_ram[(plus256k_high_bank << 16) + addr] = value;
     if (addr == 0xff00) {
@@ -287,12 +287,12 @@ void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 plus256k_ram_low_read(WORD addr)
+BYTE plus256k_ram_low_read(WORD addr)
 {
     return plus256k_ram[(plus256k_low_bank << 16) + addr];
 }
 
-BYTE REGPARM1 plus256k_ram_high_read(WORD addr)
+BYTE plus256k_ram_high_read(WORD addr)
 {
     return plus256k_ram[(plus256k_high_bank * 0x10000) + addr];
 }

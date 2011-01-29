@@ -98,13 +98,13 @@
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 se5_io2_store(WORD addr, BYTE value)
+static void se5_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 wr %04x %02x\n", addr, value));
     cart_romlbank_set_slotmain((value & 0x80) >> 7);
 }
 
-static BYTE REGPARM1 se5_io2_read(WORD addr)
+static BYTE se5_io2_read(WORD addr)
 {
     addr |= 0xdf00;
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
@@ -133,7 +133,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 se5_roml_read(WORD addr)
+BYTE se5_roml_read(WORD addr)
 {
     if (addr < 0x9f00) {
         return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];

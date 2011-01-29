@@ -34,23 +34,23 @@
 */
 
 /* expansion port memory read/write hooks */
-extern BYTE REGPARM1 roml_read(WORD addr);
-extern void REGPARM2 roml_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 romh_read(WORD addr);
-extern BYTE REGPARM1 ultimax_romh_read_hirom(WORD addr);
-extern void REGPARM2 romh_store(WORD addr, BYTE value);
-extern void REGPARM2 roml_no_ultimax_store(WORD addr, BYTE value);
-extern void REGPARM2 raml_no_ultimax_store(WORD addr, BYTE value);
-extern void REGPARM2 romh_no_ultimax_store(WORD addr, BYTE value);
+extern BYTE roml_read(WORD addr);
+extern void roml_store(WORD addr, BYTE value);
+extern BYTE romh_read(WORD addr);
+extern BYTE ultimax_romh_read_hirom(WORD addr);
+extern void romh_store(WORD addr, BYTE value);
+extern void roml_no_ultimax_store(WORD addr, BYTE value);
+extern void raml_no_ultimax_store(WORD addr, BYTE value);
+extern void romh_no_ultimax_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 ultimax_1000_7fff_read(WORD addr);
-extern void REGPARM2 ultimax_1000_7fff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 ultimax_a000_bfff_read(WORD addr);
-extern void REGPARM2 ultimax_a000_bfff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 ultimax_c000_cfff_read(WORD addr);
-extern void REGPARM2 ultimax_c000_cfff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 ultimax_d000_dfff_read(WORD addr);
-extern void REGPARM2 ultimax_d000_dfff_store(WORD addr, BYTE value);
+extern BYTE ultimax_1000_7fff_read(WORD addr);
+extern void ultimax_1000_7fff_store(WORD addr, BYTE value);
+extern BYTE ultimax_a000_bfff_read(WORD addr);
+extern void ultimax_a000_bfff_store(WORD addr, BYTE value);
+extern BYTE ultimax_c000_cfff_read(WORD addr);
+extern void ultimax_c000_cfff_store(WORD addr, BYTE value);
+extern BYTE ultimax_d000_dfff_read(WORD addr);
+extern void ultimax_d000_dfff_store(WORD addr, BYTE value);
 
 /* VIC-II reads. the _ptr functions are for the old vic implementation (x64) */
 extern BYTE *ultimax_romh_phi1_ptr(WORD addr);

@@ -98,7 +98,7 @@ static const char STRING_EASYFLASH[] = CARTRIDGE_NAME_EASYFLASH;
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)
+static void easyflash_io1_store(WORD addr, BYTE value)
 {
     BYTE mem_mode;
 
@@ -120,24 +120,24 @@ static void REGPARM2 easyflash_io1_store(WORD addr, BYTE value)
     cart_port_config_changed_slotmain();
 }
 
-static BYTE REGPARM1 easyflash_io2_read(WORD addr)
+static BYTE easyflash_io2_read(WORD addr)
 {
     return easyflash_ram[addr & 0xff];
 }
 
-static void REGPARM2 easyflash_io2_store(WORD addr, BYTE value)
+static void easyflash_io2_store(WORD addr, BYTE value)
 {
     easyflash_ram[addr & 0xff] = value;
 }
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 easyflash_io1_peek(WORD addr)
+static BYTE easyflash_io1_peek(WORD addr)
 {
     return (addr & 2) ? easyflash_register_02 : easyflash_register_00;
 }
 
-static int REGPARM1 easyflash_io1_dump(void)
+static int easyflash_io1_dump(void)
 {
     mon_out("Mode %i, LED %s, jumper %s\n",
         easyflash_memconfig[(easyflash_jumper << 3) | (easyflash_register_02 & 0x07)],
@@ -259,22 +259,22 @@ int easyflash_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 easyflash_roml_read(WORD addr)
+BYTE easyflash_roml_read(WORD addr)
 {
     return flash040core_read(easyflash_state_low, (easyflash_register_00 * 0x2000) + (addr & 0x1fff));
 }
 
-void REGPARM2 easyflash_roml_store(WORD addr, BYTE value)
+void easyflash_roml_store(WORD addr, BYTE value)
 {
     flash040core_store(easyflash_state_low, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
-BYTE REGPARM1 easyflash_romh_read(WORD addr)
+BYTE easyflash_romh_read(WORD addr)
 {
     return flash040core_read(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff));
 }
 
-void REGPARM2 easyflash_romh_store(WORD addr, BYTE value)
+void easyflash_romh_store(WORD addr, BYTE value)
 {
     flash040core_store(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }

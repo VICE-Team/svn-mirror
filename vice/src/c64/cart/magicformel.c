@@ -132,12 +132,12 @@ CB2            - enable Cartridge (?)
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 magicformel_io1_read(WORD addr);
-static BYTE REGPARM1 magicformel_io1_peek(WORD addr);
-static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value);
-static BYTE REGPARM1 magicformel_io2_read(WORD addr);
-static BYTE REGPARM1 magicformel_io2_peek(WORD addr);
+static void magicformel_io1_store(WORD addr, BYTE value);
+static BYTE magicformel_io1_read(WORD addr);
+static BYTE magicformel_io1_peek(WORD addr);
+static void magicformel_io2_store(WORD addr, BYTE value);
+static BYTE magicformel_io2_read(WORD addr);
+static BYTE magicformel_io2_peek(WORD addr);
 
 static io_source_t magicformel_io1_device = {
     CARTRIDGE_NAME_MAGIC_FORMEL,
@@ -514,7 +514,7 @@ static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
 * 
 ****************************************************************************/
 
-static BYTE REGPARM1 magicformel_io1_read(WORD addr)
+static BYTE magicformel_io1_read(WORD addr)
 {
 #ifdef DEBUG_IO1_NO_DISABLE
     if (1) {
@@ -530,12 +530,12 @@ static BYTE REGPARM1 magicformel_io1_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 magicformel_io1_peek(WORD addr)
+static BYTE magicformel_io1_peek(WORD addr)
 {
     return export_ram0[(ram_page << 8) + (addr & 0xff)];
 }
 
-static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value)
+static void magicformel_io1_store(WORD addr, BYTE value)
 {
 #ifdef DEBUG_IO1_NO_DISABLE
     if (1) {
@@ -554,7 +554,7 @@ static void REGPARM2 magicformel_io1_store(WORD addr, BYTE value)
     d1 goes to d7
 */
 
-static BYTE REGPARM1 magicformel_io2_read(WORD addr)
+static BYTE magicformel_io2_read(WORD addr)
 {
     int data, port, reg;
 
@@ -568,7 +568,7 @@ static BYTE REGPARM1 magicformel_io2_read(WORD addr)
     return mc6821_read(port /* rs1 */, reg /* rs0 */);
 }
 
-static BYTE REGPARM1 magicformel_io2_peek(WORD addr)
+static BYTE magicformel_io2_peek(WORD addr)
 {
     int data, port, reg;
 
@@ -580,7 +580,7 @@ static BYTE REGPARM1 magicformel_io2_peek(WORD addr)
     return mc6821_peek(port /* rs1 */, reg /* rs0 */);
 }
 
-static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
+static void magicformel_io2_store(WORD addr, BYTE value)
 {
     int port;
     WORD reg;
@@ -603,7 +603,7 @@ static void REGPARM2 magicformel_io2_store(WORD addr, BYTE value)
     the "mf-windows" stuff only works if it reads RAM here, the freezer must
     however always read ROM
 */
-BYTE REGPARM1 magicformel_romh_read(WORD addr)
+BYTE magicformel_romh_read(WORD addr)
 {
     if (freeze_enabled) {
         if (kernal_decoder(addr)) {
@@ -613,7 +613,7 @@ BYTE REGPARM1 magicformel_romh_read(WORD addr)
     return mem_read_without_ultimax(addr);
 }
 
-BYTE REGPARM1 magicformel_romh_read_hirom(WORD addr)
+BYTE magicformel_romh_read_hirom(WORD addr)
 {
     if (kernal_decoder(addr)) {
         return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];

@@ -45,17 +45,17 @@ typedef struct drivetpi_context_s {
 } drivetpi_context_t;
 
 
-void REGPARM3 tpid_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void tpid_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
     tpicore_store(ctxptr->tpid, addr, data);
 }
 
-BYTE REGPARM2 tpid_read(drive_context_t *ctxptr, WORD addr)
+BYTE tpid_read(drive_context_t *ctxptr, WORD addr)
 {
     return tpicore_read(ctxptr->tpid, addr);
 }
 
-BYTE REGPARM2 tpid_peek(drive_context_t *ctxptr, WORD addr)
+BYTE tpid_peek(drive_context_t *ctxptr, WORD addr)
 {
     return tpicore_peek(ctxptr->tpid, addr);
 }

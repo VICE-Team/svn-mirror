@@ -48,17 +48,17 @@
 #include "via.h"
 
 
-void REGPARM2 via_store(WORD addr, BYTE data)
+void via_store(WORD addr, BYTE data)
 {
     viacore_store(machine_context.via, addr, data);
 }
 
-BYTE REGPARM1 via_read(WORD addr)
+BYTE via_read(WORD addr)
 {
     return viacore_read(machine_context.via, addr);
 }
 
-BYTE REGPARM1 via_peek(WORD addr)
+BYTE via_peek(WORD addr)
 {
     return viacore_peek(machine_context.via, addr);
 }

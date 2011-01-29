@@ -82,7 +82,7 @@ static BYTE rexep256_eprom_roml_bank_offset[8];
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
+static void rexep256_io2_store(WORD addr, BYTE value)
 {
     BYTE eprom_bank, test_value, eprom_part = 0;
 
@@ -113,7 +113,7 @@ static void REGPARM2 rexep256_io2_store(WORD addr, BYTE value)
 
 /* I'm unsure whether the register is write-only,
    but in this case it is assumed to be. */
-static BYTE REGPARM1 rexep256_io2_read(WORD addr)
+static BYTE rexep256_io2_read(WORD addr)
 {
     if ((addr & 0xff) == 0xc0) {
         cart_set_port_exrom_slotmain(0);
@@ -126,7 +126,7 @@ static BYTE REGPARM1 rexep256_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 rexep256_io2_peek(WORD addr)
+static BYTE rexep256_io2_peek(WORD addr)
 {
     return 0;
 }

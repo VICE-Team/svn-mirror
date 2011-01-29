@@ -326,7 +326,7 @@ static inline void c64dtv_dma_done(void)
     dma_active = 0;
 }
 
-BYTE REGPARM1 c64dtv_dma_read(WORD addr)
+BYTE c64dtv_dma_read(WORD addr)
 {
     if (addr==0x1f) {
         return dma_busy;
@@ -336,7 +336,7 @@ BYTE REGPARM1 c64dtv_dma_read(WORD addr)
     return 0x00;
 }
 
-void REGPARM2 c64dtv_dma_store(WORD addr, BYTE value)
+void c64dtv_dma_store(WORD addr, BYTE value)
 {
     /* Store first, then check whether DMA access has been
        requested, perform if necessary. */

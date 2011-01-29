@@ -57,10 +57,6 @@ typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
-#define REGPARM1
-#define REGPARM2
-#define REGPARM3
-
 #ifndef PATH_MAX
 #define PATH_MAX 256
 #endif

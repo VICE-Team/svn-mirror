@@ -57,7 +57,7 @@
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 p64_io2_store(WORD addr, BYTE value)
+static void p64_io2_store(WORD addr, BYTE value)
 {
     /* confirmation needed: register mirrored in entire io2 ? */
     if ((value >> 5) & 1) {

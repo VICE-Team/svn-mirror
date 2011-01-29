@@ -135,7 +135,7 @@ static log_t fp_log = LOG_ERR;
 /* ------------------------------------------------------------------------- */
 
 /* read 0x0400-0x0fff */
-BYTE REGPARM1 vic_fp_ram123_read(WORD addr)
+BYTE vic_fp_ram123_read(WORD addr)
 {
     if (ram123_en_flop) {
         return cart_ram[(addr & 0x1fff) + 0x2000];
@@ -145,7 +145,7 @@ BYTE REGPARM1 vic_fp_ram123_read(WORD addr)
 }
 
 /* store 0x0400-0x0fff */
-void REGPARM2 vic_fp_ram123_store(WORD addr, BYTE value)
+void vic_fp_ram123_store(WORD addr, BYTE value)
 {
     if (ram123_en_flop) {
         cart_ram[(addr & 0x1fff) + 0x2000] = value;
@@ -153,7 +153,7 @@ void REGPARM2 vic_fp_ram123_store(WORD addr, BYTE value)
 }
 
 /* read 0x2000-0x3fff */
-BYTE REGPARM1 vic_fp_blk1_read(WORD addr)
+BYTE vic_fp_blk1_read(WORD addr)
 {
     if (blk1_en_flop) {
         return cart_ram[addr];
@@ -163,7 +163,7 @@ BYTE REGPARM1 vic_fp_blk1_read(WORD addr)
 }
 
 /* store 0x2000-0x3fff */
-void REGPARM2 vic_fp_blk1_store(WORD addr, BYTE value)
+void vic_fp_blk1_store(WORD addr, BYTE value)
 {
     if (blk1_en_flop) {
         cart_ram[addr] = value;
@@ -171,19 +171,19 @@ void REGPARM2 vic_fp_blk1_store(WORD addr, BYTE value)
 }
 
 /* read 0x4000-0x7fff */
-BYTE REGPARM1 vic_fp_blk23_read(WORD addr)
+BYTE vic_fp_blk23_read(WORD addr)
 {
     return cart_ram[addr];
 }
 
 /* store 0x4000-0x7fff */
-void REGPARM2 vic_fp_blk23_store(WORD addr, BYTE value)
+void vic_fp_blk23_store(WORD addr, BYTE value)
 {
     cart_ram[addr] = value;
 }
 
 /* read 0xa000-0xbfff */
-BYTE REGPARM1 vic_fp_blk5_read(WORD addr)
+BYTE vic_fp_blk5_read(WORD addr)
 {
     if (ram5_flop) {
         return cart_ram[addr & 0x1fff];
@@ -193,7 +193,7 @@ BYTE REGPARM1 vic_fp_blk5_read(WORD addr)
 }
 
 /* store 0xa000-0xbfff */
-void REGPARM2 vic_fp_blk5_store(WORD addr, BYTE value)
+void vic_fp_blk5_store(WORD addr, BYTE value)
 {
     if (CART_CFG_BLK5_WP) {
     } else if (ram5_flop) {
@@ -204,7 +204,7 @@ void REGPARM2 vic_fp_blk5_store(WORD addr, BYTE value)
 }
 
 /* read 0x9800-0x9bff */
-BYTE REGPARM1 vic_fp_io2_read(WORD addr)
+BYTE vic_fp_io2_read(WORD addr)
 {
     BYTE value;
     if (!cfg_en_flop) {
@@ -218,7 +218,7 @@ BYTE REGPARM1 vic_fp_io2_read(WORD addr)
     return value;
 }
 
-BYTE REGPARM1 vic_fp_io2_peek(WORD addr)
+BYTE vic_fp_io2_peek(WORD addr)
 {
     BYTE value;
 
@@ -232,7 +232,7 @@ BYTE REGPARM1 vic_fp_io2_peek(WORD addr)
 }
 
 /* store 0x9800-0x9bff */
-void REGPARM2 vic_fp_io2_store(WORD addr, BYTE value)
+void vic_fp_io2_store(WORD addr, BYTE value)
 {
     if (!cfg_en_flop) {
         /* ignore */
@@ -486,7 +486,7 @@ int vic_fp_snapshot_read_module(snapshot_t *s)
 
 /* ------------------------------------------------------------------------- */
 
-static int REGPARM1 vic_fp_mon_dump(void)
+static int vic_fp_mon_dump(void)
 {
     mon_out("I/O2 %sabled\n", cfg_en_flop ? "en" : "dis");
     mon_out("BLK5 is R%cM %s\n", ram5_flop ? 'A' : 'O', CART_CFG_BLK5_WP ? "(write protected)" : "");

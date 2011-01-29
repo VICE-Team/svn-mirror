@@ -70,10 +70,6 @@ typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
-#define REGPARM1
-#define REGPARM2
-#define REGPARM3
-
 #define vice_ptr_to_int(x) ((int)(long)(x))
 #define vice_ptr_to_uint(x) ((unsigned int)(unsigned long)(x))
 #define int_to_void_ptr(x) (x)

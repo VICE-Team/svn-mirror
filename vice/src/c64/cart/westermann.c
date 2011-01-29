@@ -52,8 +52,8 @@
 */
 
 /* some prototypes are needed */
-static BYTE REGPARM1 westermann_io2_read(WORD addr);
-static BYTE REGPARM1 westermann_io2_peek(WORD addr);
+static BYTE westermann_io2_read(WORD addr);
+static BYTE westermann_io2_peek(WORD addr);
 
 static io_source_t westermann_device = {
     CARTRIDGE_NAME_WESTERMANN,
@@ -76,13 +76,13 @@ static const c64export_resource_t export_res_westermann = {
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 westermann_io2_read(WORD addr)
+static BYTE westermann_io2_read(WORD addr)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     return 0;
 }
 
-static BYTE REGPARM1 westermann_io2_peek(WORD addr)
+static BYTE westermann_io2_peek(WORD addr)
 {
     return 0;
 }

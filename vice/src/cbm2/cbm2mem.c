@@ -345,7 +345,7 @@ void cbm2mem_set_bank_ind(int val)
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 zero_store(WORD addr, BYTE value)
+void zero_store(WORD addr, BYTE value)
 {
     if (addr == 0)
         cbm2mem_set_bank_exec(value);
@@ -357,7 +357,7 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 }
 
 #define STORE_ZERO(bank)                                          \
-    static void REGPARM2 store_zero_##bank(WORD addr, BYTE value) \
+    static void store_zero_##bank(WORD addr, BYTE value) \
     {                                                             \
         addr &= 0xff;                                             \
                                                                   \
@@ -372,19 +372,19 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
 
 #define READ_ZERO(bank)                                     \
-    static BYTE REGPARM1 read_zero_##bank(WORD addr)        \
+    static BYTE read_zero_##bank(WORD addr)        \
     {                                                       \
         return mem_ram[(0x##bank << 16) | (addr & 0xff)];   \
     }
 
 #define READ_RAM(bank)                                      \
-    static BYTE REGPARM1 read_ram_##bank(WORD addr)         \
+    static BYTE read_ram_##bank(WORD addr)         \
     {                                                       \
         return mem_ram[(0x##bank << 16) | addr];            \
     }
 
 #define STORE_RAM(bank)                                         \
-    static void REGPARM2 store_ram_##bank(WORD addr, BYTE byte) \
+    static void store_ram_##bank(WORD addr, BYTE byte) \
     {                                                           \
         mem_ram[(0x##bank << 16) | addr] = byte;                \
     }
@@ -486,7 +486,7 @@ static read_func_ptr_t read_zero_tab[16] = {
 };
 
 
-void REGPARM2 store_zeroX(WORD addr, BYTE value)
+void store_zeroX(WORD addr, BYTE value)
 {
     if (addr == 0)
         cbm2mem_set_bank_exec(value);
@@ -495,27 +495,27 @@ void REGPARM2 store_zeroX(WORD addr, BYTE value)
             cbm2mem_set_bank_ind(value);
 }
 
-BYTE REGPARM1 rom_read(WORD addr)
+BYTE rom_read(WORD addr)
 {
     return mem_rom[addr];
 }
 
-BYTE REGPARM1 read_chargen(WORD addr)
+BYTE read_chargen(WORD addr)
 {
     return mem_chargen_rom[addr & 0xfff];
 }
 
-void REGPARM2 rom_store(WORD addr, BYTE value)
+void rom_store(WORD addr, BYTE value)
 {
     mem_rom[addr] = value;
 }
 
-static BYTE REGPARM1 read_unused(WORD addr)
+static BYTE read_unused(WORD addr)
 {
     return 0xff; /* (addr >> 8) & 0xff; */
 }
 
-static void REGPARM2 store_dummy(WORD addr, BYTE value)
+static void store_dummy(WORD addr, BYTE value)
 {
     return;
 }
@@ -524,25 +524,25 @@ static void REGPARM2 store_dummy(WORD addr, BYTE value)
 
 /* Functions for watchpoint memory access.  */
 
-BYTE REGPARM1 read_watch(WORD addr)
+BYTE read_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_exec][addr >> 8](addr);
 }
 
-void REGPARM2 store_watch(WORD addr, BYTE value)
+void store_watch(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_exec][addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 read_ind_watch(WORD addr)
+BYTE read_ind_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return _mem_read_tab[cbm2mem_bank_ind][addr >> 8](addr);
 }
 
-void REGPARM2 store_ind_watch(WORD addr, BYTE value)
+void store_ind_watch(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     _mem_write_tab[cbm2mem_bank_ind][addr >> 8](addr, value);
@@ -552,19 +552,19 @@ void REGPARM2 store_ind_watch(WORD addr, BYTE value)
 
 /* Generic memory access.  */
 
-void REGPARM2 mem_store(WORD addr, BYTE value)
+void mem_store(WORD addr, BYTE value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read(WORD addr)
+BYTE mem_read(WORD addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 store_io(WORD addr, BYTE value)
+void store_io(WORD addr, BYTE value)
 {
     switch (addr & 0xf800) {
       case 0xd000:
@@ -608,7 +608,7 @@ void REGPARM2 store_io(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 read_io(WORD addr)
+BYTE read_io(WORD addr)
 {
     switch (addr & 0xf800) {
       case 0xd000:
@@ -688,12 +688,12 @@ void mem_reset(void) {
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 colorram_store(WORD addr, BYTE value)
+void colorram_store(WORD addr, BYTE value)
 {
     mem_color_ram[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE REGPARM1 colorram_read(WORD addr)
+BYTE colorram_read(WORD addr)
 {
     return mem_color_ram[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }

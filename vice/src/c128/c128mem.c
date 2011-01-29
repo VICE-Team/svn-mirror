@@ -144,13 +144,13 @@ static int caps_sense = 1;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE REGPARM1 watch_read(WORD addr)
+static BYTE watch_read(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-static void REGPARM2 watch_store(WORD addr, BYTE value)
+static void watch_store(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
@@ -313,7 +313,7 @@ static void mem_toggle_caps_key(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 zero_read(WORD addr)
+BYTE zero_read(WORD addr)
 {
     addr &= 0xff;
 
@@ -327,7 +327,7 @@ BYTE REGPARM1 zero_read(WORD addr)
     return mem_page_zero[addr];
 }
 
-void REGPARM2 zero_store(WORD addr, BYTE value)
+void zero_store(WORD addr, BYTE value)
 {
     addr &= 0xff;
 
@@ -379,12 +379,12 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 one_read(WORD addr)
+BYTE one_read(WORD addr)
 {
     return mem_page_one[addr - 0x100];
 }
 
-void REGPARM2 one_store(WORD addr, BYTE value)
+void one_store(WORD addr, BYTE value)
 {
     mem_page_one[addr - 0x100] = value;
 }
@@ -393,12 +393,12 @@ void REGPARM2 one_store(WORD addr, BYTE value)
 
 /* External memory access functions.  */
 
-BYTE REGPARM1 chargen_read(WORD addr)
+BYTE chargen_read(WORD addr)
 {
     return mem_chargen_rom_ptr[addr & 0x0fff];
 }
 
-void REGPARM2 chargen_store(WORD addr, BYTE value)
+void chargen_store(WORD addr, BYTE value)
 {
     mem_chargen_rom_ptr[addr & 0x0fff] = value;
 }
@@ -407,17 +407,17 @@ void REGPARM2 chargen_store(WORD addr, BYTE value)
 
 /* Generic memory access.  */
 
-void REGPARM2 mem_store(WORD addr, BYTE value)
+void mem_store(WORD addr, BYTE value)
 {
     _mem_write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read(WORD addr)
+BYTE mem_read(WORD addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
 }
 
-void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value)
+void mem_store_without_ultimax(WORD addr, BYTE value)
 {
     store_func_ptr_t *write_tab_ptr;
 
@@ -426,7 +426,7 @@ void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value)
     write_tab_ptr[addr >> 8](addr, value);
 }
 
-BYTE REGPARM1 mem_read_without_ultimax(WORD addr)
+BYTE mem_read_without_ultimax(WORD addr)
 {
     read_func_ptr_t *read_tab_ptr;
 
@@ -435,7 +435,7 @@ BYTE REGPARM1 mem_read_without_ultimax(WORD addr)
     return read_tab_ptr[addr >> 8](addr);
 }
 
-void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value)
+void mem_store_without_romlh(WORD addr, BYTE value)
 {
     store_func_ptr_t *write_tab_ptr;
 
@@ -470,27 +470,27 @@ void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value)
 #define STORE_BOTTOM_SHARED(addr, value) ((addr) < bottom_shared_limit ? (mem_ram[(addr)] = (value)) : (ram_bank[(addr)] = (value)))
 
 /* $0200 - $3FFF: RAM (normal or shared).  */
-BYTE REGPARM1 lo_read(WORD addr)
+BYTE lo_read(WORD addr)
 {
     return READ_BOTTOM_SHARED(addr);
 }
 
-void REGPARM2 lo_store(WORD addr, BYTE value)
+void lo_store(WORD addr, BYTE value)
 {
     STORE_BOTTOM_SHARED(addr, value);
 }
 
-BYTE REGPARM1 ram_read(WORD addr)
+BYTE ram_read(WORD addr)
 {
     return ram_bank[addr];
 }
 
-void REGPARM2 ram_store(WORD addr, BYTE value)
+void ram_store(WORD addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
-void REGPARM2 ram_hi_store(WORD addr, BYTE value)
+void ram_hi_store(WORD addr, BYTE value)
 {
     if (vbank == 3) {
         vicii_mem_vbank_3fxx_store(addr, value);
@@ -504,48 +504,48 @@ void REGPARM2 ram_hi_store(WORD addr, BYTE value)
 }
 
 /* $4000 - $7FFF: RAM or low BASIC ROM.  */
-BYTE REGPARM1 basic_lo_read(WORD addr)
+BYTE basic_lo_read(WORD addr)
 {
     return c128memrom_basic_rom[addr - 0x4000];
 }
 
-void REGPARM2 basic_lo_store(WORD addr, BYTE value)
+void basic_lo_store(WORD addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
 /* $8000 - $BFFF: RAM or high BASIC ROM.  */
-BYTE REGPARM1 basic_hi_read(WORD addr)
+BYTE basic_hi_read(WORD addr)
 {
     return c128memrom_basic_rom[addr - 0x4000];
 }
 
-void REGPARM2 basic_hi_store(WORD addr, BYTE value)
+void basic_hi_store(WORD addr, BYTE value)
 {
     ram_bank[addr] = value;
 }
 
 /* $C000 - $CFFF: RAM (normal or shared) or Editor ROM.  */
-BYTE REGPARM1 editor_read(WORD addr)
+BYTE editor_read(WORD addr)
 {
     return c128memrom_basic_rom[addr - 0x4000];
 }
 
-void REGPARM2 editor_store(WORD addr, BYTE value)
+void editor_store(WORD addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
 }
 
-static BYTE REGPARM1 d5xx_read(WORD addr)
+static BYTE d5xx_read(WORD addr)
 {
     return vicii_read_phi1();
 }
 
-static void REGPARM2 d5xx_store(WORD addr, BYTE value)
+static void d5xx_store(WORD addr, BYTE value)
 {
 }
 
-BYTE REGPARM1 d7xx_read(WORD addr)
+BYTE d7xx_read(WORD addr)
 {
     if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
         return sid2_read(addr);
@@ -553,7 +553,7 @@ BYTE REGPARM1 d7xx_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 d7xx_store(WORD addr, BYTE value)
+void d7xx_store(WORD addr, BYTE value)
 {
     if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
         sid2_store(addr, value);
@@ -561,34 +561,34 @@ void REGPARM2 d7xx_store(WORD addr, BYTE value)
 }
 
 /* $E000 - $FFFF: RAM or Kernal.  */
-BYTE REGPARM1 hi_read(WORD addr)
+BYTE hi_read(WORD addr)
 {
     return c128memrom_kernal_rom[addr & 0x1fff];
 }
 
-void REGPARM2 hi_store(WORD addr, BYTE value)
+void hi_store(WORD addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
 }
 
-BYTE REGPARM1 top_shared_read(WORD addr)
+BYTE top_shared_read(WORD addr)
 {
     return READ_TOP_SHARED(addr);
 }
 
-void REGPARM2 top_shared_store(WORD addr, BYTE value)
+void top_shared_store(WORD addr, BYTE value)
 {
     STORE_TOP_SHARED(addr, value);
 }
 
 /* ------------------------------------------------------------------------- */
 
-void REGPARM2 colorram_store(WORD addr, BYTE value)
+void colorram_store(WORD addr, BYTE value)
 {
     mem_color_ram_cpu[addr & 0x3ff] = value & 0xf;
 }
 
-BYTE REGPARM1 colorram_read(WORD addr)
+BYTE colorram_read(WORD addr)
 {
     return mem_color_ram_cpu[addr & 0x3ff] | (vicii_read_phi1() & 0xf0);
 }
@@ -1212,7 +1212,7 @@ void mem_color_ram_from_snapshot(BYTE *color_ram)
 
 /* 8502 specific I/O function wrappers for 2mhz mode cycle stretching */
 
-BYTE REGPARM1 c128_vicii_read(WORD addr)
+BYTE c128_vicii_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1221,13 +1221,13 @@ BYTE REGPARM1 c128_vicii_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_vicii_store(WORD addr, BYTE value)
+void c128_vicii_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     vicii_store(addr, value);
 }
 
-BYTE REGPARM1 c128_sid_read(WORD addr)
+BYTE c128_sid_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1236,13 +1236,13 @@ BYTE REGPARM1 c128_sid_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_sid_store(WORD addr, BYTE value)
+void c128_sid_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     sid_store(addr, value);
 }
 
-BYTE REGPARM1 c128_mmu_read(WORD addr)
+BYTE c128_mmu_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1251,13 +1251,13 @@ BYTE REGPARM1 c128_mmu_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_mmu_store(WORD addr, BYTE value)
+void c128_mmu_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     mmu_store(addr, value);
 }
 
-BYTE REGPARM1 c128_d5xx_read(WORD addr)
+BYTE c128_d5xx_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1266,13 +1266,13 @@ BYTE REGPARM1 c128_d5xx_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_d5xx_store(WORD addr, BYTE value)
+void c128_d5xx_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     d5xx_store(addr, value);
 }
 
-BYTE REGPARM1 c128_vdc_read(WORD addr)
+BYTE c128_vdc_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1281,13 +1281,13 @@ BYTE REGPARM1 c128_vdc_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_vdc_store(WORD addr, BYTE value)
+void c128_vdc_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     vdc_store(addr, value);
 }
 
-BYTE REGPARM1 c128_d7xx_read(WORD addr)
+BYTE c128_d7xx_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1296,13 +1296,13 @@ BYTE REGPARM1 c128_d7xx_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_d7xx_store(WORD addr, BYTE value)
+void c128_d7xx_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     d7xx_store(addr, value);
 }
 
-BYTE REGPARM1 c128_colorram_read(WORD addr)
+BYTE c128_colorram_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1311,13 +1311,13 @@ BYTE REGPARM1 c128_colorram_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_colorram_store(WORD addr, BYTE value)
+void c128_colorram_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     colorram_store(addr, value);
 }
 
-BYTE REGPARM1 c128_cia1_read(WORD addr)
+BYTE c128_cia1_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1326,13 +1326,13 @@ BYTE REGPARM1 c128_cia1_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_cia1_store(WORD addr, BYTE value)
+void c128_cia1_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     cia1_store(addr, value);
 }
 
-BYTE REGPARM1 c128_cia2_read(WORD addr)
+BYTE c128_cia2_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1341,13 +1341,13 @@ BYTE REGPARM1 c128_cia2_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_cia2_store(WORD addr, BYTE value)
+void c128_cia2_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     cia2_store(addr, value);
 }
 
-BYTE REGPARM1 c128_c64io1_read(WORD addr)
+BYTE c128_c64io1_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1356,13 +1356,13 @@ BYTE REGPARM1 c128_c64io1_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_c64io1_store(WORD addr, BYTE value)
+void c128_c64io1_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     c64io1_store(addr, value);
 }
 
-BYTE REGPARM1 c128_c64io2_read(WORD addr)
+BYTE c128_c64io2_read(WORD addr)
 {
     BYTE temp_value;
 
@@ -1371,7 +1371,7 @@ BYTE REGPARM1 c128_c64io2_read(WORD addr)
     return temp_value;
 }
 
-void REGPARM2 c128_c64io2_store(WORD addr, BYTE value)
+void c128_c64io2_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
     c64io2_store(addr, value);

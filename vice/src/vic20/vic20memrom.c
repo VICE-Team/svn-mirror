@@ -43,22 +43,22 @@ BYTE vic20memrom_kernal_trap_rom[VIC20_KERNAL_ROM_SIZE];
 BYTE vic20memrom_chargen_rom[VIC20_CHARGEN_ROM_SIZE];
 
 
-BYTE REGPARM1 vic20memrom_kernal_read(WORD addr)
+BYTE vic20memrom_kernal_read(WORD addr)
 {
     return vic20memrom_kernal_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 vic20memrom_basic_read(WORD addr)
+BYTE vic20memrom_basic_read(WORD addr)
 {
     return vic20memrom_basic_rom[addr & 0x1fff];
 }
 
-BYTE REGPARM1 vic20memrom_chargen_read(WORD addr)
+BYTE vic20memrom_chargen_read(WORD addr)
 {
     return vic20memrom_chargen_rom[addr & 0xfff];
 }
 
-BYTE REGPARM1 vic20memrom_trap_read(WORD addr)
+BYTE vic20memrom_trap_read(WORD addr)
 {
     switch (addr & 0xf000) {
       case 0xe000:
@@ -69,7 +69,7 @@ BYTE REGPARM1 vic20memrom_trap_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 vic20memrom_trap_store(WORD addr, BYTE value)
+void vic20memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0xe000:
@@ -79,7 +79,7 @@ void REGPARM2 vic20memrom_trap_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 rom_read(WORD addr)
+BYTE rom_read(WORD addr)
 {
     switch (addr & 0xf000) {
       case 0x8000:
@@ -95,7 +95,7 @@ BYTE REGPARM1 rom_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 rom_store(WORD addr, BYTE value)
+void rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0x8000:

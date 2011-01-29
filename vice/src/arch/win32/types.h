@@ -57,16 +57,6 @@ typedef DWORD CLOCK;
 /* Maximum value of a CLOCK.  */
 #define CLOCK_MAX (~((CLOCK)0))
 
-#if defined(__GNUC__) && defined(__i386__) && !defined(NO_REGPARM)
-#define REGPARM1 __attribute__((regparm(1)))
-#define REGPARM2 __attribute__((regparm(2)))
-#define REGPARM3 __attribute__((regparm(3)))
-#else
-#define REGPARM1
-#define REGPARM2
-#define REGPARM3
-#endif
-
 #ifdef _WIN64
 #define vice_ptr_to_int(x) ((int)(long long)(x))
 #define vice_ptr_to_uint(x) ((unsigned int)(unsigned long long)(x))

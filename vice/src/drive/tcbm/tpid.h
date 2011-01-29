@@ -35,10 +35,10 @@ struct tpi_context_s;
 extern void tpid_setup_context(struct drive_context_s *ctxptr);
 
 extern void tpid_init(struct drive_context_s *ctxptr);
-extern void REGPARM3 tpid_store(struct drive_context_s *ctxptr,
+extern void tpid_store(struct drive_context_s *ctxptr,
                                 WORD addr, BYTE byte);
-extern BYTE REGPARM2 tpid_read(struct drive_context_s *ctxptr, WORD addr);
-extern BYTE REGPARM2 tpid_peek(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE tpid_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE tpid_peek(struct drive_context_s *ctxptr, WORD addr);
 
 #endif
 

@@ -111,7 +111,7 @@ void mypia_signal(int line, int edge)
 /* ------------------------------------------------------------------------- */
 /* PIA */
 
-void REGPARM2 mypia_store(WORD addr, BYTE byte)
+void mypia_store(WORD addr, BYTE byte)
 {
 
     if (mycpu_rmw_flag) {
@@ -203,7 +203,7 @@ void REGPARM2 mypia_store(WORD addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 mypia_read(WORD addr)
+BYTE mypia_read(WORD addr)
 {
     static BYTE byte = 0xff;
 
@@ -267,7 +267,7 @@ BYTE REGPARM1 mypia_read(WORD addr)
 }
 
 
-BYTE REGPARM1 mypia_peek(WORD addr)
+BYTE mypia_peek(WORD addr)
 {
     BYTE t;
 

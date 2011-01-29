@@ -122,10 +122,10 @@ static const char STRING_RETRO_REPLAY[] = CARTRIDGE_NAME_RETRO_REPLAY;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE REGPARM1 retroreplay_io1_read(WORD addr);
-static void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 retroreplay_io2_read(WORD addr);
-static void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value);
+static BYTE retroreplay_io1_read(WORD addr);
+static void retroreplay_io1_store(WORD addr, BYTE value);
+static BYTE retroreplay_io2_read(WORD addr);
+static void retroreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t retroreplay_io1_device = {
     CARTRIDGE_NAME_RETRO_REPLAY,
@@ -162,7 +162,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 retroreplay_io1_read(WORD addr)
+BYTE retroreplay_io1_read(WORD addr)
 {
     retroreplay_io1_device.io_source_valid = 0;
     
@@ -217,7 +217,7 @@ BYTE REGPARM1 retroreplay_io1_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
+void retroreplay_io1_store(WORD addr, BYTE value)
 {
     int mode = CMODE_WRITE;
 
@@ -350,7 +350,7 @@ void REGPARM2 retroreplay_io1_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 retroreplay_io2_read(WORD addr)
+BYTE retroreplay_io2_read(WORD addr)
 {
     retroreplay_io2_device.io_source_valid = 0;
 
@@ -382,7 +382,7 @@ BYTE REGPARM1 retroreplay_io2_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value)
+void retroreplay_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 w %04x %02x\n",addr,value));
 
@@ -414,7 +414,7 @@ void REGPARM2 retroreplay_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 retroreplay_roml_read(WORD addr)
+BYTE retroreplay_roml_read(WORD addr)
 {
     if (export_ram) {
         switch (roml_bank & 3) {
@@ -432,7 +432,7 @@ BYTE REGPARM1 retroreplay_roml_read(WORD addr)
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
 }
 
-void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
+void retroreplay_roml_store(WORD addr, BYTE value)
 {
 /*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
     if (export_ram) {
@@ -458,7 +458,7 @@ void REGPARM2 retroreplay_roml_store(WORD addr, BYTE value)
     }
 }
 
-int REGPARM2 retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
+int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
 {
 /*    DBG(("roml w %04x %02x ram:%d flash:%d\n", addr, value, export_ram, rr_hw_flashjumper)); */
     if (rr_hw_flashjumper) {
@@ -486,12 +486,12 @@ int REGPARM2 retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
     return 0;
 }
 
-BYTE REGPARM1 retroreplay_romh_read(WORD addr)
+BYTE retroreplay_romh_read(WORD addr)
 {
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
 }
 
-BYTE REGPARM1 retroreplay_peek_mem(WORD addr)
+BYTE retroreplay_peek_mem(WORD addr)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         return retroreplay_roml_read(addr);

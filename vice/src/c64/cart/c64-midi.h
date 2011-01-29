@@ -31,7 +31,7 @@
 #include "midi.h"
 
 /* returns 1 if interface is at $de00 (on C64) */
-extern int REGPARM1 c64_midi_base_de00(void);
+extern int c64_midi_base_de00(void);
 
 extern int c64_midi_resources_init(void);
 extern int c64_midi_cmdline_options_init(void);

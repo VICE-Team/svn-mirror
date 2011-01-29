@@ -59,12 +59,12 @@ midi_interface_t midi_interface[] = {
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 c64midi_read(WORD address)
+static BYTE c64midi_read(WORD address)
 {
     return midi_read(address);
 }
 
-static BYTE REGPARM1 c64midi_peek(WORD address)
+static BYTE c64midi_peek(WORD address)
 {
     return midi_peek(address);
 }
@@ -216,7 +216,7 @@ int c64_midi_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-int REGPARM1 c64_midi_base_de00(void)
+int c64_midi_base_de00(void)
 {
     return (midi_interface[midi_mode].base_addr == 0xde00)?1:0;
 }

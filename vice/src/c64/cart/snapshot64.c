@@ -81,8 +81,8 @@ static BYTE romconfig = 0;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE REGPARM1 snapshot64_io2_read(WORD addr);
-static void REGPARM2 snapshot64_io2_store(WORD addr, BYTE value);
+static BYTE snapshot64_io2_read(WORD addr);
+static void snapshot64_io2_store(WORD addr, BYTE value);
 
 static io_source_t ss64_io2_device = {
     CARTRIDGE_NAME_SNAPSHOT64,
@@ -105,7 +105,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 snapshot64_io2_read(WORD addr)
+BYTE snapshot64_io2_read(WORD addr)
 {
     DBG(("io2 rd %04x (%02x)\n", addr, romconfig));
 
@@ -120,7 +120,7 @@ BYTE REGPARM1 snapshot64_io2_read(WORD addr)
 
 }
 
-void REGPARM2 snapshot64_io2_store(WORD addr, BYTE value)
+void snapshot64_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 wr %04x %02x\n", addr, value));
 
@@ -140,7 +140,7 @@ void REGPARM2 snapshot64_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 snapshot64_roml_read(WORD addr)
+BYTE snapshot64_roml_read(WORD addr)
 {
 #if 1
     if (addr < 0x9000) {
@@ -153,7 +153,7 @@ BYTE REGPARM1 snapshot64_roml_read(WORD addr)
 #endif
 }
 
-BYTE REGPARM1 snapshot64_romh_read(WORD addr)
+BYTE snapshot64_romh_read(WORD addr)
 {
 #if 1
     if (addr >= 0xf000) {

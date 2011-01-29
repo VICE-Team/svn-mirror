@@ -267,7 +267,7 @@ void generic_ultimax_detach(void)
 /* ---------------------------------------------------------------------*/
 
 /* ROML read - mapped to 8000 in 8k,16k,ultimax */
-BYTE REGPARM1 generic_roml_read(WORD addr)
+BYTE generic_roml_read(WORD addr)
 {
     if (export_ram) {
         return export_ram0[addr & 0x1fff];
@@ -277,7 +277,7 @@ BYTE REGPARM1 generic_roml_read(WORD addr)
 }
 
 /* ROML store - mapped to 8000 in ultimax mode */
-void REGPARM2 generic_roml_store(WORD addr, BYTE value)
+void generic_roml_store(WORD addr, BYTE value)
 {
     if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
@@ -285,17 +285,17 @@ void REGPARM2 generic_roml_store(WORD addr, BYTE value)
 }
 
 /* ROMH read - mapped to A000 in 16k, to E000 in ultimax */
-BYTE REGPARM1 generic_romh_read(WORD addr)
+BYTE generic_romh_read(WORD addr)
 {
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
-BYTE REGPARM1 generic_romh_phi1_read(WORD addr)
+BYTE generic_romh_phi1_read(WORD addr)
 {
     return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
 }
 
-BYTE REGPARM1 generic_romh_phi2_read(WORD addr)
+BYTE generic_romh_phi2_read(WORD addr)
 {
     return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
 }

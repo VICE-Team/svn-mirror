@@ -34,12 +34,12 @@ extern BYTE vic20memrom_kernal_trap_rom[];
 extern BYTE vic20memrom_basic_rom[];
 extern BYTE vic20memrom_chargen_rom[];
 
-extern BYTE REGPARM1 vic20memrom_kernal_read(WORD addr);
-extern BYTE REGPARM1 vic20memrom_basic_read(WORD addr);
-extern BYTE REGPARM1 vic20memrom_chargen_read(WORD addr);
+extern BYTE vic20memrom_kernal_read(WORD addr);
+extern BYTE vic20memrom_basic_read(WORD addr);
+extern BYTE vic20memrom_chargen_read(WORD addr);
 
-extern BYTE REGPARM1 vic20memrom_trap_read(WORD addr);
-extern void REGPARM2 vic20memrom_trap_store(WORD addr, BYTE value);
+extern BYTE vic20memrom_trap_read(WORD addr);
+extern void vic20memrom_trap_store(WORD addr, BYTE value);
 
 #endif
 

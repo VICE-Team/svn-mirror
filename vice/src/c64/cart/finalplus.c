@@ -75,8 +75,8 @@ static int fcplus_roml;
 static int fcplus_romh;
 
 /* some prototypes are needed */
-static BYTE REGPARM1 final_plus_io2_read(WORD addr);
-static void REGPARM2 final_plus_io2_store(WORD addr, BYTE value);
+static BYTE final_plus_io2_read(WORD addr);
+static void final_plus_io2_store(WORD addr, BYTE value);
 
 static io_source_t final_plus_io2_device = {
     CARTRIDGE_NAME_FINAL_PLUS,
@@ -99,13 +99,13 @@ static const c64export_resource_t export_res_plus = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 final_plus_io2_read(WORD addr)
+BYTE final_plus_io2_read(WORD addr)
 {
     DBG(("io2 r %04x\n",addr));
     return ((fcplus_bit << 7) || (fcplus_roml << 6) || (fcplus_romh << 5) || (fcplus_enabled << 4));
 }
 
-void REGPARM2 final_plus_io2_store(WORD addr, BYTE value)
+void final_plus_io2_store(WORD addr, BYTE value)
 {
     if (fcplus_enabled == 1) {
         fcplus_bit = (value >> 7) & 1;
@@ -124,7 +124,7 @@ void REGPARM2 final_plus_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 final_plus_roml_read(WORD addr)
+BYTE final_plus_roml_read(WORD addr)
 {
     if (fcplus_roml == 1) {
         return roml_banks[(addr & 0x1fff)];
@@ -133,7 +133,7 @@ BYTE REGPARM1 final_plus_roml_read(WORD addr)
     }
 }
 
-BYTE REGPARM1 final_plus_romh_read(WORD addr)
+BYTE final_plus_romh_read(WORD addr)
 {
     if ((fcplus_enabled == 1) && (fcplus_romh == 1)) {
         return romh_banks[(addr & 0x1fff)];
@@ -142,7 +142,7 @@ BYTE REGPARM1 final_plus_romh_read(WORD addr)
     }
 }
 
-BYTE REGPARM1 final_plus_a000_bfff_read(WORD addr)
+BYTE final_plus_a000_bfff_read(WORD addr)
 {
     if ((fcplus_enabled == 1) && (fcplus_roml == 1)) {
         return roml_banks[0x2000 + (addr & 0x1fff)];

@@ -31,7 +31,7 @@
 
 extern int aciacart_cart_enabled(void);
 extern void aciacart_init(void);
-extern BYTE REGPARM1 aciacart_read(WORD a);
+extern BYTE aciacart_read(WORD a);
 extern void aciacart_reset(void);
 
 extern int aciacart_cmdline_options_init(void);

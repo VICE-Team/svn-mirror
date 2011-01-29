@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 snapshot64_roml_read(WORD addr);
-extern BYTE REGPARM1 snapshot64_romh_read(WORD addr);
+extern BYTE snapshot64_roml_read(WORD addr);
+extern BYTE snapshot64_romh_read(WORD addr);
 
 extern void snapshot64_freeze(void);
 

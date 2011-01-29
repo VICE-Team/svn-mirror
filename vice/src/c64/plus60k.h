@@ -38,18 +38,18 @@ extern void plus60k_init(void);
 extern void plus60k_reset(void);
 extern void plus60k_shutdown(void);
 
-extern void REGPARM2 plus60k_vicii_mem_vbank_store(WORD addr, BYTE value);
-extern void REGPARM2 plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value);
-extern void REGPARM2 plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value);
-extern void REGPARM2 plus60k_ram_hi_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 plus60k_vicii_read(WORD addr);
-extern BYTE REGPARM1 plus60k_vicii_read0(WORD addr);
-extern void REGPARM2 plus60k_vicii_store(WORD addr, BYTE value);
-extern void REGPARM2 plus60k_vicii_store0(WORD addr, BYTE value);
-extern BYTE REGPARM1 plus60k_ram_read(WORD addr);
-extern void REGPARM2 plus60k_ram_store(WORD addr, BYTE value);
+extern void plus60k_vicii_mem_vbank_store(WORD addr, BYTE value);
+extern void plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value);
+extern void plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value);
+extern void plus60k_ram_hi_store(WORD addr, BYTE value);
+extern BYTE plus60k_vicii_read(WORD addr);
+extern BYTE plus60k_vicii_read0(WORD addr);
+extern void plus60k_vicii_store(WORD addr, BYTE value);
+extern void plus60k_vicii_store0(WORD addr, BYTE value);
+extern BYTE plus60k_ram_read(WORD addr);
+extern void plus60k_ram_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 plus60k_vicii_read_old(WORD addr);
-extern void REGPARM2 plus60k_vicii_store_old(WORD addr, BYTE value);
+extern BYTE plus60k_vicii_read_old(WORD addr);
+extern void plus60k_vicii_store_old(WORD addr, BYTE value);
 
 #endif

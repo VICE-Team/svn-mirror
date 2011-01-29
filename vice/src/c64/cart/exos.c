@@ -60,7 +60,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 exos_romh_read(WORD addr)
+BYTE exos_romh_read(WORD addr)
 {
     return romh_banks[(addr & 0x1fff)];
 }

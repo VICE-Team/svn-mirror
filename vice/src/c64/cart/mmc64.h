@@ -46,7 +46,7 @@ extern int mmc64_cart_enabled(void);
 extern int mmc64_cart_active(void);
 extern void mmc64_config_init(struct export_s *export);
 extern int mmc64_roml_read(WORD addr, BYTE *byte);
-extern void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte);
+extern void mmc64_roml_store(WORD addr, BYTE byte);
 extern int mmc64_peek_mem(WORD addr, BYTE *value);
 extern void mmc64_passthrough_changed(struct export_s *export);
 

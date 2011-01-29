@@ -42,8 +42,8 @@ extern void c64dtvdma_init(void);
 extern void c64dtvdma_reset(void);
 extern void c64dtvdma_shutdown(void);
 
-extern BYTE REGPARM1 c64dtv_dma_read(WORD addr);
-extern void REGPARM2 c64dtv_dma_store(WORD addr, BYTE value);
+extern BYTE c64dtv_dma_read(WORD addr);
+extern void c64dtv_dma_store(WORD addr, BYTE value);
 extern void c64dtvdma_perform_dma(void);
 extern void c64dtvdma_trigger_dma(void);
 

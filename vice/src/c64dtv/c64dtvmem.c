@@ -136,13 +136,13 @@ static int mem_config;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE REGPARM1 read_watch(WORD addr)
+static BYTE read_watch(WORD addr)
 {
     monitor_watch_push_load_addr(addr, e_comp_space);
     return mem_read_tab[mem_config][addr >> 8](addr);
 }
 
-static void REGPARM2 store_watch(WORD addr, BYTE value)
+static void store_watch(WORD addr, BYTE value)
 {
     monitor_watch_push_store_addr(addr, e_comp_space);
     mem_write_tab[vbank][mem_config][addr >> 8](addr, value);
@@ -187,7 +187,7 @@ void mem_pla_config_changed(void)
     }
 }
 
-BYTE REGPARM1 zero_read(WORD addr)
+BYTE zero_read(WORD addr)
 {
     addr &= 0xff;
 
@@ -201,7 +201,7 @@ BYTE REGPARM1 zero_read(WORD addr)
     return mem_ram[addr & 0xff];
 }
 
-void REGPARM2 zero_store(WORD addr, BYTE value)
+void zero_store(WORD addr, BYTE value)
 {
     addr &= 0xff;
 
@@ -241,27 +241,27 @@ void REGPARM2 zero_store(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 chargen_read(WORD addr)
+BYTE chargen_read(WORD addr)
 {
     return mem_chargen_rom[addr & 0xfff];
 }
 
-void REGPARM2 chargen_store(WORD addr, BYTE value)
+void chargen_store(WORD addr, BYTE value)
 {
     mem_chargen_rom[addr & 0xfff] = value;
 }
 
-BYTE REGPARM1 ram_read(WORD addr)
+BYTE ram_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-void REGPARM2 ram_store(WORD addr, BYTE value)
+void ram_store(WORD addr, BYTE value)
 {
     mem_ram[addr] = value;
 }
 
-void REGPARM2 ram_hi_store(WORD addr, BYTE value)
+void ram_hi_store(WORD addr, BYTE value)
 {
     if (vbank == 3)
         vicii_mem_vbank_3fxx_store(addr, value);
@@ -447,7 +447,7 @@ int mem_rom_trap_allowed(WORD addr)
 
 /* FIXME: peek, cartridge support */
 
-void REGPARM2 store_bank_io(WORD addr, BYTE byte)
+void store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
       case 0xd000:
@@ -484,7 +484,7 @@ void REGPARM2 store_bank_io(WORD addr, BYTE byte)
     return;
 }
 
-BYTE REGPARM1 read_bank_io(WORD addr)
+BYTE read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
       case 0xd000:
@@ -615,7 +615,7 @@ static inline int access_rom(WORD addr)
 /* ------------------------------------------------------------------------- */
 /* Replacements for c64mem.c code */
 
-void REGPARM2 mem_store(WORD addr, BYTE value)
+void mem_store(WORD addr, BYTE value)
 {
 #ifdef FEATURE_CPUMEMHISTORY
     store_func_ptr_t rptr;
@@ -654,7 +654,7 @@ void REGPARM2 mem_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 mem_read(WORD addr)
+BYTE mem_read(WORD addr)
 {
 #ifdef FEATURE_CPUMEMHISTORY
     read_func_ptr_t rptr;
@@ -693,12 +693,12 @@ BYTE REGPARM1 mem_read(WORD addr)
     }
 }
 
-void REGPARM2 colorram_store(WORD addr, BYTE value)
+void colorram_store(WORD addr, BYTE value)
 {
     mem_color_ram_cpu[addr & 0x3ff] = value;
 }
 
-BYTE REGPARM1 colorram_read(WORD addr)
+BYTE colorram_read(WORD addr)
 {
     return mem_color_ram_cpu[addr & 0x3ff];
 }
@@ -821,7 +821,7 @@ log_message(c64dtvmem_log, "reset");  /* DEBUG */
 
 /* These are the $D100/$D101 memory mapper register handlers */
 
-BYTE REGPARM1 c64dtv_mapper_read(WORD addr)
+BYTE c64dtv_mapper_read(WORD addr)
 {
   if (!vicii_extended_regs())
       return vicii_read(addr);
@@ -829,7 +829,7 @@ BYTE REGPARM1 c64dtv_mapper_read(WORD addr)
   return mem_ram[addr];
 }
 
-void REGPARM2 c64dtv_mapper_store(WORD addr, BYTE value)
+void c64dtv_mapper_store(WORD addr, BYTE value)
 {
   int trapfl;
   if (!vicii_extended_regs())
@@ -865,19 +865,19 @@ void REGPARM2 c64dtv_mapper_store(WORD addr, BYTE value)
 }
 
 
-BYTE REGPARM1 c64io1_read(WORD addr)
+BYTE c64io1_read(WORD addr)
 {
     return 0x00;
 }
-void REGPARM2 c64io1_store(WORD addr, BYTE value)
+void c64io1_store(WORD addr, BYTE value)
 {
 }
 
-BYTE REGPARM1 c64io2_read(WORD addr)
+BYTE c64io2_read(WORD addr)
 {
     return 0x00;
 }
-void REGPARM2 c64io2_store(WORD addr, BYTE value)
+void c64io2_store(WORD addr, BYTE value)
 {
 }
 
@@ -886,7 +886,7 @@ void REGPARM2 c64io2_store(WORD addr, BYTE value)
 
 /* These are the $D200 palette register handlers */
 
-BYTE REGPARM1 c64dtv_palette_read(WORD addr)
+BYTE c64dtv_palette_read(WORD addr)
 {
   if (!vicii_extended_regs())
       return vicii_read(addr);
@@ -894,7 +894,7 @@ BYTE REGPARM1 c64dtv_palette_read(WORD addr)
   return vicii_palette_read(addr);
 }
 
-void REGPARM2 c64dtv_palette_store(WORD addr, BYTE value)
+void c64dtv_palette_store(WORD addr, BYTE value)
 {
   if (!vicii_extended_regs())
   {
@@ -911,7 +911,7 @@ void REGPARM2 c64dtv_palette_store(WORD addr, BYTE value)
 
 /* These are the $D300 DMA and blitter register handlers */
 
-BYTE REGPARM1 c64dtv_dmablit_read(WORD addr)
+BYTE c64dtv_dmablit_read(WORD addr)
 {
     if (!vicii_extended_regs())
         return vicii_read(addr);
@@ -926,7 +926,7 @@ BYTE REGPARM1 c64dtv_dmablit_read(WORD addr)
 }
 
 
-void REGPARM2 c64dtv_dmablit_store(WORD addr, BYTE value)
+void c64dtv_dmablit_store(WORD addr, BYTE value)
 {
     if (!vicii_extended_regs()) {
         vicii_store(addr, value);

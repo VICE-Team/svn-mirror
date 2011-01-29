@@ -247,7 +247,7 @@ static void erase_alarm_handler(CLOCK offset, void *data)
 
 /* -------------------------------------------------------------------------- */
 
-static void REGPARM3 flash040core_store_internal(flash040_context_t *flash040_context,
+static void flash040core_store_internal(flash040_context_t *flash040_context,
                                                  unsigned int addr, BYTE byte)
 {
 #ifdef FLASH_DEBUG_ENABLED
@@ -382,7 +382,7 @@ static void REGPARM3 flash040core_store_internal(flash040_context_t *flash040_co
 
 /* -------------------------------------------------------------------------- */
 
-void REGPARM3 flash040core_store(flash040_context_t *flash040_context, unsigned int addr, BYTE byte)
+void flash040core_store(flash040_context_t *flash040_context, unsigned int addr, BYTE byte)
 {
     if (maincpu_rmw_flag) {
         maincpu_clk--;
@@ -394,7 +394,7 @@ void REGPARM3 flash040core_store(flash040_context_t *flash040_context, unsigned 
 }
 
 
-BYTE REGPARM2 flash040core_read(flash040_context_t *flash040_context, unsigned int addr)
+BYTE flash040core_read(flash040_context_t *flash040_context, unsigned int addr)
 {
     BYTE value;
 #ifdef FLASH_DEBUG_ENABLED
@@ -454,7 +454,7 @@ BYTE REGPARM2 flash040core_read(flash040_context_t *flash040_context, unsigned i
     return value;
 }
 
-BYTE REGPARM2 flash040core_peek(flash040_context_t *flash040_context, unsigned int addr)
+BYTE flash040core_peek(flash040_context_t *flash040_context, unsigned int addr)
 {
     return flash040_context->flash_data[addr];
 }

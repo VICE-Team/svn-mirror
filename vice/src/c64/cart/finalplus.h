@@ -37,9 +37,9 @@ extern void final_plus_config_setup(BYTE *rawcart);
 extern int final_plus_bin_attach(const char *filename, BYTE *rawcart);
 extern int final_plus_crt_attach(FILE *fd, BYTE *rawcart);
 extern void final_plus_detach(void);
-extern BYTE REGPARM1 final_plus_roml_read(WORD addr);
-extern BYTE REGPARM1 final_plus_romh_read(WORD addr);
-extern BYTE REGPARM1 final_plus_a000_bfff_read(WORD addr);
+extern BYTE final_plus_roml_read(WORD addr);
+extern BYTE final_plus_romh_read(WORD addr);
+extern BYTE final_plus_a000_bfff_read(WORD addr);
 
 struct snapshot_s;
 

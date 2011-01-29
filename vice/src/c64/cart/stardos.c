@@ -74,7 +74,7 @@ static int roml_enable;
 /* ---------------------------------------------------------------------*/
 #define CHARGETIME      0xfe
 
-static BYTE REGPARM1 stardos_io1_read(WORD addr)
+static BYTE stardos_io1_read(WORD addr)
 {
     ++cnt_de61;
     if (cnt_de61 > CHARGETIME) {
@@ -87,12 +87,12 @@ static BYTE REGPARM1 stardos_io1_read(WORD addr)
     return 0;
 } 
 
-static BYTE REGPARM1 stardos_io1_peek(WORD addr)
+static BYTE stardos_io1_peek(WORD addr)
 {
     return 0;
 }
 
-static BYTE REGPARM1 stardos_io2_read(WORD addr)
+static BYTE stardos_io2_read(WORD addr)
 {
     ++cnt_dfa1;
     if (cnt_dfa1 > CHARGETIME) {
@@ -105,7 +105,7 @@ static BYTE REGPARM1 stardos_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 stardos_io2_peek(WORD addr)
+static BYTE stardos_io2_peek(WORD addr)
 {
     return 0;
 }
@@ -147,7 +147,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 stardos_roml_read(WORD addr)
+BYTE stardos_roml_read(WORD addr)
 {
     if (roml_enable) {
         return roml_banks[(addr & 0x1fff)];
@@ -156,7 +156,7 @@ BYTE REGPARM1 stardos_roml_read(WORD addr)
     }
 }
 
-BYTE REGPARM1 stardos_romh_read(WORD addr)
+BYTE stardos_romh_read(WORD addr)
 {
     return romh_banks[(addr & 0x1fff)];
 }

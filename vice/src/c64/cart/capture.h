@@ -31,10 +31,10 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 capture_romh_read(WORD addr);
-extern void REGPARM2 capture_romh_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 capture_1000_7fff_read(WORD addr);
-extern void REGPARM2 capture_1000_7fff_store(WORD addr, BYTE value);
+extern BYTE capture_romh_read(WORD addr);
+extern void capture_romh_store(WORD addr, BYTE value);
+extern BYTE capture_1000_7fff_read(WORD addr);
+extern void capture_1000_7fff_store(WORD addr, BYTE value);
 
 extern void capture_freeze(void);
 

@@ -62,7 +62,7 @@
 
 static int currbank = 0;
 
-static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
+static void ocean_io1_store(WORD addr, BYTE value)
 {
     currbank = value & 0x3f;
     cart_romhbank_set_slotmain(currbank);
@@ -74,7 +74,7 @@ static void REGPARM2 ocean_io1_store(WORD addr, BYTE value)
     cart_port_config_changed_slotmain();
 }
 
-static BYTE REGPARM1 ocean_io1_peek(WORD addr)
+static BYTE ocean_io1_peek(WORD addr)
 {
     return currbank;
 }
@@ -101,7 +101,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 ocean_romh_read(WORD addr)
+BYTE ocean_romh_read(WORD addr)
 {
     /* 256 kB OCEAN carts may access memory either at $8000 or $a000 */
     return roml_banks[(addr & 0x1fff) + (romh_bank << 13)];

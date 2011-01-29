@@ -121,11 +121,11 @@ static int isepic_load_image(void);
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
-static BYTE REGPARM1 isepic_io1_read(WORD addr);
-static BYTE REGPARM1 isepic_io1_peek(WORD addr);
-static void REGPARM2 isepic_io1_store(WORD addr, BYTE byte);
-static BYTE REGPARM1 isepic_io2_read(WORD addr);
-static void REGPARM2 isepic_io2_store(WORD addr, BYTE byte);
+static BYTE isepic_io1_read(WORD addr);
+static BYTE isepic_io1_peek(WORD addr);
+static void isepic_io1_store(WORD addr, BYTE byte);
+static BYTE isepic_io2_read(WORD addr);
+static void isepic_io2_store(WORD addr, BYTE byte);
 
 static io_source_t isepic_io1_device = {
     CARTRIDGE_NAME_ISEPIC,
@@ -408,7 +408,7 @@ int isepic_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 isepic_io1_read(WORD addr)
+BYTE isepic_io1_read(WORD addr)
 {
     DBG(("io1 r %04x (sw:%d)\n", addr, isepic_switch));
 
@@ -418,12 +418,12 @@ BYTE REGPARM1 isepic_io1_read(WORD addr)
     return 0;
 }
 
-BYTE REGPARM1 isepic_io1_peek(WORD addr)
+BYTE isepic_io1_peek(WORD addr)
 {
     return isepic_page;
 }
 
-void REGPARM2 isepic_io1_store(WORD addr, BYTE byte)
+void isepic_io1_store(WORD addr, BYTE byte)
 {
     DBG(("io1 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
 
@@ -432,7 +432,7 @@ void REGPARM2 isepic_io1_store(WORD addr, BYTE byte)
     }
 }
 
-BYTE REGPARM1 isepic_io2_read(WORD addr)
+BYTE isepic_io2_read(WORD addr)
 {
     BYTE retval = 0;
 
@@ -448,7 +448,7 @@ BYTE REGPARM1 isepic_io2_read(WORD addr)
     return retval;
 }
 
-void REGPARM2 isepic_io2_store(WORD addr, BYTE byte)
+void isepic_io2_store(WORD addr, BYTE byte)
 {
     DBG(("io2 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
 
@@ -459,7 +459,7 @@ void REGPARM2 isepic_io2_store(WORD addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 isepic_romh_read(WORD addr)
+BYTE isepic_romh_read(WORD addr)
 {
     switch (addr) {
         case 0xfffa:
@@ -472,7 +472,7 @@ BYTE REGPARM1 isepic_romh_read(WORD addr)
     }
 }
 
-void REGPARM2 isepic_romh_store(WORD addr, BYTE byte)
+void isepic_romh_store(WORD addr, BYTE byte)
 {
     switch (addr) {
         case 0xfffa:
@@ -485,7 +485,7 @@ void REGPARM2 isepic_romh_store(WORD addr, BYTE byte)
     }
 }
 
-BYTE REGPARM1 isepic_page_read(WORD addr)
+BYTE isepic_page_read(WORD addr)
 {
     if (isepic_switch) {
         return isepic_ram[(isepic_page * 256) + (addr & 0xff)];
@@ -494,7 +494,7 @@ BYTE REGPARM1 isepic_page_read(WORD addr)
     }
 }
 
-void REGPARM2 isepic_page_store(WORD addr, BYTE value)
+void isepic_page_store(WORD addr, BYTE value)
 {
     if (isepic_switch) {
         isepic_ram[(isepic_page * 256) + (addr & 0xff)] = value;

@@ -856,7 +856,7 @@ int myacia_snapshot_read_module(snapshot_t *p)
   \param byte
     The value to set the register to
 */
-void REGPARM2 myacia_store(WORD addr, BYTE byte)
+void myacia_store(WORD addr, BYTE byte)
 {
     int acia_register_size;
 
@@ -946,7 +946,7 @@ void REGPARM2 myacia_store(WORD addr, BYTE byte)
   \return
     The value the register has
 */
-BYTE REGPARM1 myacia_read(WORD addr)
+BYTE myacia_read(WORD addr)
 {
 #if 0 /* def DEBUG */
     static BYTE myacia_read_(WORD);

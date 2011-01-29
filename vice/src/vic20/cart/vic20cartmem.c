@@ -47,7 +47,7 @@ int mem_cart_blocks = 0;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 cartridge_read_ram123(WORD addr)
+BYTE cartridge_read_ram123(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -70,7 +70,7 @@ BYTE REGPARM1 cartridge_read_ram123(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE REGPARM1 cartridge_peek_ram123(WORD addr)
+BYTE cartridge_peek_ram123(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -87,7 +87,7 @@ BYTE REGPARM1 cartridge_peek_ram123(WORD addr)
     return 0;
 }
 
-void REGPARM2 cartridge_store_ram123(WORD addr, BYTE value)
+void cartridge_store_ram123(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -107,7 +107,7 @@ void REGPARM2 cartridge_store_ram123(WORD addr, BYTE value)
     vic20_mem_v_bus_store(addr);
 }
 
-BYTE REGPARM1 cartridge_read_blk1(WORD addr)
+BYTE cartridge_read_blk1(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -126,7 +126,7 @@ BYTE REGPARM1 cartridge_read_blk1(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE REGPARM1 cartridge_peek_blk1(WORD addr)
+BYTE cartridge_peek_blk1(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -141,7 +141,7 @@ BYTE REGPARM1 cartridge_peek_blk1(WORD addr)
     return 0;
 }
 
-void REGPARM2 cartridge_store_blk1(WORD addr, BYTE value)
+void cartridge_store_blk1(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -160,7 +160,7 @@ void REGPARM2 cartridge_store_blk1(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 cartridge_read_blk2(WORD addr)
+BYTE cartridge_read_blk2(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -179,7 +179,7 @@ BYTE REGPARM1 cartridge_read_blk2(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE REGPARM1 cartridge_peek_blk2(WORD addr)
+BYTE cartridge_peek_blk2(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -194,7 +194,7 @@ BYTE REGPARM1 cartridge_peek_blk2(WORD addr)
     return 0;
 }
 
-void REGPARM2 cartridge_store_blk2(WORD addr, BYTE value)
+void cartridge_store_blk2(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -213,7 +213,7 @@ void REGPARM2 cartridge_store_blk2(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 cartridge_read_blk3(WORD addr)
+BYTE cartridge_read_blk3(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -232,7 +232,7 @@ BYTE REGPARM1 cartridge_read_blk3(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE REGPARM1 cartridge_peek_blk3(WORD addr)
+BYTE cartridge_peek_blk3(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -247,7 +247,7 @@ BYTE REGPARM1 cartridge_peek_blk3(WORD addr)
     return 0;
 }
 
-void REGPARM2 cartridge_store_blk3(WORD addr, BYTE value)
+void cartridge_store_blk3(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -266,7 +266,7 @@ void REGPARM2 cartridge_store_blk3(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 cartridge_read_blk5(WORD addr)
+BYTE cartridge_read_blk5(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -285,7 +285,7 @@ BYTE REGPARM1 cartridge_read_blk5(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE REGPARM1 cartridge_peek_blk5(WORD addr)
+BYTE cartridge_peek_blk5(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_GENERIC:
@@ -300,7 +300,7 @@ BYTE REGPARM1 cartridge_peek_blk5(WORD addr)
     return 0;
 }
 
-void REGPARM2 cartridge_store_blk5(WORD addr, BYTE value)
+void cartridge_store_blk5(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -319,7 +319,7 @@ void REGPARM2 cartridge_store_blk5(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 cartridge_read_io2(WORD addr)
+BYTE cartridge_read_io2(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_FP:
@@ -335,7 +335,7 @@ BYTE REGPARM1 cartridge_read_io2(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE REGPARM1 cartridge_peek_io2(WORD addr)
+BYTE cartridge_peek_io2(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_FP:
@@ -348,7 +348,7 @@ BYTE REGPARM1 cartridge_peek_io2(WORD addr)
     return 0;
 }
 
-void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
+void cartridge_store_io2(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {
@@ -362,7 +362,7 @@ void REGPARM2 cartridge_store_io2(WORD addr, BYTE value)
     vic20_mem_v_bus_store(addr);
 }
 
-BYTE REGPARM1 cartridge_read_io3(WORD addr)
+BYTE cartridge_read_io3(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_MEGACART:
@@ -378,7 +378,7 @@ BYTE REGPARM1 cartridge_read_io3(WORD addr)
     return vic20_cpu_last_data;
 }
 
-BYTE REGPARM1 cartridge_peek_io3(WORD addr)
+BYTE cartridge_peek_io3(WORD addr)
 {
     switch (mem_cartridge_type) {
     case CARTRIDGE_VIC20_MEGACART:
@@ -391,7 +391,7 @@ BYTE REGPARM1 cartridge_peek_io3(WORD addr)
     return 0;
 }
 
-void REGPARM2 cartridge_store_io3(WORD addr, BYTE value)
+void cartridge_store_io3(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
     switch (mem_cartridge_type) {

@@ -33,7 +33,7 @@
 #include "types.h"
 
 extern void final_v3_freeze(void);
-extern BYTE REGPARM1 final_v3_roml_read(WORD addr);
+extern BYTE final_v3_roml_read(WORD addr);
 extern void final_v3_config_init(void);
 extern void final_v3_config_setup(BYTE *rawcart);
 extern int final_v3_bin_attach(const char *filename, BYTE *rawcart);

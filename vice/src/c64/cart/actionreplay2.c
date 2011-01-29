@@ -284,12 +284,12 @@ $F0F4 normal Reset     Y=$00 'arrow left
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE REGPARM1 actionreplay2_io1_read(WORD addr);
-static BYTE REGPARM1 actionreplay2_io1_peek(WORD addr);
-static void REGPARM2 actionreplay2_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 actionreplay2_io2_read(WORD addr);
-static BYTE REGPARM1 actionreplay2_io2_peek(WORD addr);
-static void REGPARM2 actionreplay2_io2_store(WORD addr, BYTE value);
+static BYTE actionreplay2_io1_read(WORD addr);
+static BYTE actionreplay2_io1_peek(WORD addr);
+static void actionreplay2_io1_store(WORD addr, BYTE value);
+static BYTE actionreplay2_io2_read(WORD addr);
+static BYTE actionreplay2_io2_peek(WORD addr);
+static void actionreplay2_io2_store(WORD addr, BYTE value);
 
 static io_source_t actionreplay2_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY2,
@@ -357,35 +357,35 @@ static void cap_discharge(void)
     ar_cap_disable = 0;
 }
 
-static BYTE REGPARM1 actionreplay2_io1_read(WORD addr)
+static BYTE actionreplay2_io1_read(WORD addr)
 {
     cap_discharge();
     return 0;
 }
 
-static void REGPARM2 actionreplay2_io1_store(WORD addr, BYTE value)
+static void actionreplay2_io1_store(WORD addr, BYTE value)
 {
     cap_discharge();
 }
 
-static BYTE REGPARM1 actionreplay2_io1_peek(WORD addr)
+static BYTE actionreplay2_io1_peek(WORD addr)
 {
     return 0;
 }
 
-static BYTE REGPARM1 actionreplay2_io2_read(WORD addr)
+static BYTE actionreplay2_io2_read(WORD addr)
 {
     cap_charge();
     addr |= 0xdf00;
     return roml_banks[(addr & 0x1fff) + (1 << 13)];
 }
 
-static void REGPARM2 actionreplay2_io2_store(WORD addr, BYTE value)
+static void actionreplay2_io2_store(WORD addr, BYTE value)
 {
     cap_charge();
 }
 
-static BYTE REGPARM1 actionreplay2_io2_peek(WORD addr)
+static BYTE actionreplay2_io2_peek(WORD addr)
 {
     addr |= 0xdf00;
     return roml_banks[(addr & 0x1fff) + (1 << 13)];
@@ -393,7 +393,7 @@ static BYTE REGPARM1 actionreplay2_io2_peek(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 actionreplay2_roml_read(WORD addr)
+BYTE actionreplay2_roml_read(WORD addr)
 {
     if (addr < 0x9f00) {
         return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
@@ -403,7 +403,7 @@ BYTE REGPARM1 actionreplay2_roml_read(WORD addr)
     }
 }
 
-BYTE REGPARM1 actionreplay2_romh_read(WORD addr)
+BYTE actionreplay2_romh_read(WORD addr)
 {
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }

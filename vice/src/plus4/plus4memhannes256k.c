@@ -184,12 +184,12 @@ void h256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 h256k_reg_read(WORD addr)
+BYTE h256k_reg_read(WORD addr)
 {
   return h256k_reg;
 }
 
-void REGPARM2 h256k_reg_store(WORD addr, BYTE value)
+void h256k_reg_store(WORD addr, BYTE value)
 {
   h256k_bank=value&3;
   h256k_reg=((value&0xbf)|0x40);
@@ -205,7 +205,7 @@ void REGPARM2 h256k_reg_store(WORD addr, BYTE value)
   h256k_bound=(value&0x80)>>7;
 }
 
-void REGPARM2 h256k_store(WORD addr, BYTE value)
+void h256k_store(WORD addr, BYTE value)
 {
   int real_bank;
 
@@ -227,7 +227,7 @@ void REGPARM2 h256k_store(WORD addr, BYTE value)
     h256k_ram[(real_bank*0x10000)+addr]=value;
 }
 
-BYTE REGPARM1 h256k_read(WORD addr)
+BYTE h256k_read(WORD addr)
 {
   int real_bank;
 

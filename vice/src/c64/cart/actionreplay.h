@@ -31,8 +31,8 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 actionreplay_roml_read(WORD addr);
-extern void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value);
+extern BYTE actionreplay_roml_read(WORD addr);
+extern void actionreplay_roml_store(WORD addr, BYTE value);
 
 extern void actionreplay_freeze(void);
 

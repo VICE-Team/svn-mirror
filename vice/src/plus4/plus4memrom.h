@@ -33,20 +33,20 @@ extern BYTE plus4memrom_basic_rom[];
 extern BYTE plus4memrom_kernal_rom[];
 extern BYTE plus4memrom_kernal_trap_rom[];
 
-extern BYTE REGPARM1 plus4memrom_kernal_read(WORD addr);
-extern BYTE REGPARM1 plus4memrom_basic_read(WORD addr);
-extern BYTE REGPARM1 plus4memrom_trap_read(WORD addr);
-extern void REGPARM2 plus4memrom_trap_store(WORD addr, BYTE value);
+extern BYTE plus4memrom_kernal_read(WORD addr);
+extern BYTE plus4memrom_basic_read(WORD addr);
+extern BYTE plus4memrom_trap_read(WORD addr);
+extern void plus4memrom_trap_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 plus4memrom_extromlo1_read(WORD addr);
-extern BYTE REGPARM1 plus4memrom_extromlo2_read(WORD addr);
-extern BYTE REGPARM1 plus4memrom_extromlo3_read(WORD addr);
-extern BYTE REGPARM1 plus4memrom_extromhi1_read(WORD addr);
-extern BYTE REGPARM1 plus4memrom_extromhi2_read(WORD addr);
-extern BYTE REGPARM1 plus4memrom_extromhi3_read(WORD addr);
+extern BYTE plus4memrom_extromlo1_read(WORD addr);
+extern BYTE plus4memrom_extromlo2_read(WORD addr);
+extern BYTE plus4memrom_extromlo3_read(WORD addr);
+extern BYTE plus4memrom_extromhi1_read(WORD addr);
+extern BYTE plus4memrom_extromhi2_read(WORD addr);
+extern BYTE plus4memrom_extromhi3_read(WORD addr);
 
-extern BYTE REGPARM1 plus4memrom_rom_read(WORD addr);
-extern void REGPARM2 plus4memrom_rom_store(WORD addr, BYTE value);
+extern BYTE plus4memrom_rom_read(WORD addr);
+extern void plus4memrom_rom_store(WORD addr, BYTE value);
 
 #endif
 

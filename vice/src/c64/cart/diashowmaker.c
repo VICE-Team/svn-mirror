@@ -77,7 +77,7 @@
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 dsm_io1_read(WORD addr)
+static BYTE dsm_io1_read(WORD addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
@@ -87,12 +87,12 @@ static BYTE REGPARM1 dsm_io1_read(WORD addr)
     return 0; /* invalid */
 }
 
-static BYTE REGPARM1 dsm_io1_peek(WORD addr)
+static BYTE dsm_io1_peek(WORD addr)
 {
     return 0;
 }
 
-static void REGPARM2 dsm_io1_store(WORD addr, BYTE value)
+static void dsm_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 w %04x %02x\n", addr, value));
     if (addr == 0) {

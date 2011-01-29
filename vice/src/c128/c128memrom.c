@@ -35,27 +35,27 @@ BYTE c128memrom_basic_rom[C128_BASIC_ROM_SIZE + C128_EDITOR_ROM_SIZE];
 BYTE c128memrom_kernal_rom[C128_KERNAL_ROM_SIZE];
 BYTE c128memrom_kernal_trap_rom[C128_KERNAL_ROM_SIZE];
 
-BYTE REGPARM1 c128memrom_basic_read(WORD addr)
+BYTE c128memrom_basic_read(WORD addr)
 {
     return c128memrom_basic_rom[addr - 0x4000];
 }
 
-void REGPARM2 c128memrom_basic_store(WORD addr, BYTE value)
+void c128memrom_basic_store(WORD addr, BYTE value)
 {
     c128memrom_basic_rom[addr - 0x4000] = value;
 }
 
-BYTE REGPARM1 c128memrom_kernal_read(WORD addr)
+BYTE c128memrom_kernal_read(WORD addr)
 {
     return c128memrom_kernal_rom[addr & 0x1fff];
 }
 
-void REGPARM2 c128memrom_kernal_store(WORD addr, BYTE value)
+void c128memrom_kernal_store(WORD addr, BYTE value)
 {
     c128memrom_kernal_rom[addr & 0x1fff] = value;
 }
 
-BYTE REGPARM1 c128memrom_trap_read(WORD addr)
+BYTE c128memrom_trap_read(WORD addr)
 {
     switch (addr & 0xf000) {
         case 0xe000:
@@ -66,7 +66,7 @@ BYTE REGPARM1 c128memrom_trap_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 c128memrom_trap_store(WORD addr, BYTE value)
+void c128memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
         case 0xe000:
@@ -76,7 +76,7 @@ void REGPARM2 c128memrom_trap_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 c128memrom_rom_read(WORD addr)
+BYTE c128memrom_rom_read(WORD addr)
 {
     switch (addr & 0xf000) {
         case 0x0000:
@@ -98,7 +98,7 @@ BYTE REGPARM1 c128memrom_rom_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 c128memrom_rom_store(WORD addr, BYTE value)
+void c128memrom_rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
         case 0x0000:

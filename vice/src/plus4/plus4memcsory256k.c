@@ -151,18 +151,18 @@ void cs256k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 cs256k_reg_read(WORD addr)
+BYTE cs256k_reg_read(WORD addr)
 {
   return 0xff;
 }
 
-void REGPARM2 cs256k_reg_store(WORD addr, BYTE value)
+void cs256k_reg_store(WORD addr, BYTE value)
 {
   cs256k_block=(value&0xf);
   cs256k_segment=(value&0xc0)>>6;
 }
 
-void REGPARM2 cs256k_store(WORD addr, BYTE value)
+void cs256k_store(WORD addr, BYTE value)
 {
   if (addr>=(cs256k_segment*0x4000) && addr<((cs256k_segment+1)*0x4000))
     cs256k_ram[(cs256k_block*0x4000)+(addr&0x3fff)]=value;
@@ -170,7 +170,7 @@ void REGPARM2 cs256k_store(WORD addr, BYTE value)
     mem_ram[addr]=value;
 }
 
-BYTE REGPARM1 cs256k_read(WORD addr)
+BYTE cs256k_read(WORD addr)
 {
   if (addr>=(cs256k_segment*0x4000) && addr<((cs256k_segment+1)*0x4000))
     return cs256k_ram[(cs256k_block*0x4000)+(addr&0x3fff)];

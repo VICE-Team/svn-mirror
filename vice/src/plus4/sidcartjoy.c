@@ -85,11 +85,11 @@ int sidcartjoy_cmdline_options_init(void)
    has been added, might be expanded when other devices
    get supported */
 
-void REGPARM2 sidcartjoy_store(WORD addr, BYTE value)
+void sidcartjoy_store(WORD addr, BYTE value)
 {
 }
 
-BYTE REGPARM1 sidcartjoy_read(WORD addr)
+BYTE sidcartjoy_read(WORD addr)
 {
   return ~joystick_value[3];
 }

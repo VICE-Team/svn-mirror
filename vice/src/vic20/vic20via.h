@@ -35,15 +35,15 @@ struct via_context_s;
 
 extern void vic20via1_setup_context(struct machine_context_s *machine_context);
 extern void via1_init(struct via_context_s *via_context);
-extern void REGPARM2 via1_store(WORD addr, BYTE byte);
-extern BYTE REGPARM1 via1_read(WORD addr);
-extern BYTE REGPARM1 via1_peek(WORD addr);
+extern void via1_store(WORD addr, BYTE byte);
+extern BYTE via1_read(WORD addr);
+extern BYTE via1_peek(WORD addr);
 
 extern void vic20via2_setup_context(struct machine_context_s *machine_context);
 extern void via2_init(struct via_context_s *via_context);
-extern void REGPARM2 via2_store(WORD addr, BYTE byte);
-extern BYTE REGPARM1 via2_read(WORD addr);
-extern BYTE REGPARM1 via2_peek(WORD addr);
+extern void via2_store(WORD addr, BYTE byte);
+extern BYTE via2_read(WORD addr);
+extern BYTE via2_peek(WORD addr);
 
 extern void via2_set_tape_sense(int v);
 extern void via2_check_lightpen(void);

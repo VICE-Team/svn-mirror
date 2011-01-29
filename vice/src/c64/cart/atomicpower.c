@@ -92,9 +92,9 @@ static int ap_active;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 atomicpower_io2_read(WORD addr);
-static void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value);
+static void atomicpower_io1_store(WORD addr, BYTE value);
+static BYTE atomicpower_io2_read(WORD addr);
+static void atomicpower_io2_store(WORD addr, BYTE value);
 
 static io_source_t atomicpower_io1_device = {
     CARTRIDGE_NAME_ATOMIC_POWER,
@@ -130,7 +130,7 @@ static const c64export_resource_t export_res = {
 };
 
 /* ---------------------------------------------------------------------*/
-static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
+static void atomicpower_io1_store(WORD addr, BYTE value)
 {
     int flags = CMODE_WRITE, bank, mode;
     if (ap_active) {
@@ -160,7 +160,7 @@ static void REGPARM2 atomicpower_io1_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 atomicpower_io2_read(WORD addr)
+static BYTE atomicpower_io2_read(WORD addr)
 {
     atomicpower_io2_device.io_source_valid = 0;
 
@@ -190,7 +190,7 @@ static BYTE REGPARM1 atomicpower_io2_read(WORD addr)
     return 0;
 }
 
-static void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value)
+static void atomicpower_io2_store(WORD addr, BYTE value)
 {
     if (ap_active) {
         if (export_ram || export_ram_at_a000) {
@@ -201,7 +201,7 @@ static void REGPARM2 atomicpower_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 atomicpower_roml_read(WORD addr)
+BYTE atomicpower_roml_read(WORD addr)
 {
     if (export_ram) {
         return export_ram0[addr & 0x1fff];
@@ -210,14 +210,14 @@ BYTE REGPARM1 atomicpower_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 atomicpower_roml_store(WORD addr, BYTE value)
+void atomicpower_roml_store(WORD addr, BYTE value)
 {
     if (export_ram) {
         export_ram0[addr & 0x1fff] = value;
     }
 }
 
-BYTE REGPARM1 atomicpower_romh_read(WORD addr)
+BYTE atomicpower_romh_read(WORD addr)
 {
     if (export_ram_at_a000) {
         return export_ram0[addr & 0x1fff];
@@ -225,7 +225,7 @@ BYTE REGPARM1 atomicpower_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
-void REGPARM2 atomicpower_romh_store(WORD addr, BYTE value)
+void atomicpower_romh_store(WORD addr, BYTE value)
 {
     if (export_ram_at_a000) {
         export_ram0[addr & 0x1fff] = value;

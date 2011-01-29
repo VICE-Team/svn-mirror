@@ -68,7 +68,7 @@
 
 static int cartridge_disable_flag;
 
-static void REGPARM2 gamekiller_io1_store(WORD addr, BYTE value)
+static void gamekiller_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 %04x %02x\n",addr,value));
     cartridge_disable_flag++;
@@ -78,7 +78,7 @@ static void REGPARM2 gamekiller_io1_store(WORD addr, BYTE value)
     }
 }
 
-static void REGPARM2 gamekiller_io2_store(WORD addr, BYTE value)
+static void gamekiller_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 %04x %02x\n",addr,value));
     cartridge_disable_flag++;

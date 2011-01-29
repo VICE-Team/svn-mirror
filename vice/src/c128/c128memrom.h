@@ -33,14 +33,14 @@ extern BYTE c128memrom_basic_rom[];
 extern BYTE c128memrom_kernal_rom[];
 extern BYTE c128memrom_kernal_trap_rom[];
 
-extern BYTE REGPARM1 c128memrom_basic_read(WORD addr);
-extern void REGPARM2 c128memrom_basic_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128memrom_kernal_read(WORD addr);
-extern void REGPARM2 c128memrom_kernal_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128memrom_trap_read(WORD addr);
-extern void REGPARM2 c128memrom_trap_store(WORD addr, BYTE value);
+extern BYTE c128memrom_basic_read(WORD addr);
+extern void c128memrom_basic_store(WORD addr, BYTE value);
+extern BYTE c128memrom_kernal_read(WORD addr);
+extern void c128memrom_kernal_store(WORD addr, BYTE value);
+extern BYTE c128memrom_trap_read(WORD addr);
+extern void c128memrom_trap_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 c128memrom_rom_read(WORD addr);
-extern void REGPARM2 c128memrom_rom_store(WORD addr, BYTE value);
+extern BYTE c128memrom_rom_read(WORD addr);
+extern void c128memrom_rom_store(WORD addr, BYTE value);
 
 #endif

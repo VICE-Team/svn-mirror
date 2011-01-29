@@ -33,7 +33,7 @@
 
 extern void actionreplay4_freeze(void);
 
-extern BYTE REGPARM1 actionreplay4_roml_read(WORD addr);
+extern BYTE actionreplay4_roml_read(WORD addr);
 
 extern void actionreplay4_config_init(void);
 extern void actionreplay4_reset(void);

@@ -208,7 +208,7 @@ static BYTE tiatcbm_read(WORD addr, unsigned int dnr)
 
 /*-----------------------------------------------------------------------*/
 
-BYTE REGPARM1 plus4tcbm1_read(WORD addr)
+BYTE plus4tcbm1_read(WORD addr)
 {
     if (drive_context[0]->drive->enable
         && drive_context[0]->drive->type == DRIVE_TYPE_1551) {
@@ -218,7 +218,7 @@ BYTE REGPARM1 plus4tcbm1_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 plus4tcbm1_store(WORD addr, BYTE value)
+void plus4tcbm1_store(WORD addr, BYTE value)
 {
     if (drive_context[0]->drive->enable
         && drive_context[0]->drive->type == DRIVE_TYPE_1551) {
@@ -227,7 +227,7 @@ void REGPARM2 plus4tcbm1_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 plus4tcbm2_read(WORD addr)
+BYTE plus4tcbm2_read(WORD addr)
 {
     if (drive_context[1]->drive->enable
         && drive_context[1]->drive->type == DRIVE_TYPE_1551) {
@@ -237,7 +237,7 @@ BYTE REGPARM1 plus4tcbm2_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 plus4tcbm2_store(WORD addr, BYTE value)
+void plus4tcbm2_store(WORD addr, BYTE value)
 {
     if (drive_context[1]->drive->enable
         && drive_context[1]->drive->type == DRIVE_TYPE_1551) {

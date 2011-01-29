@@ -131,10 +131,10 @@ static int georam_write_image = 0;
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 georam_io1_read(WORD addr);
-static void REGPARM2 georam_io1_store(WORD addr, BYTE byte);
-static BYTE REGPARM1 georam_io2_peek(WORD addr);
-static void REGPARM2 georam_io2_store(WORD addr, BYTE byte);
+static BYTE georam_io1_read(WORD addr);
+static void georam_io1_store(WORD addr, BYTE byte);
+static BYTE georam_io2_peek(WORD addr);
+static void georam_io2_store(WORD addr, BYTE byte);
 
 static io_source_t georam_io1_device = {
     CARTRIDGE_NAME_GEORAM,
@@ -176,7 +176,7 @@ int georam_cart_enabled(void)
     return georam_enabled;
 }
 
-static BYTE REGPARM1 georam_io1_read(WORD addr)
+static BYTE georam_io1_read(WORD addr)
 {
     BYTE retval;
 
@@ -185,12 +185,12 @@ static BYTE REGPARM1 georam_io1_read(WORD addr)
     return retval;
 }
 
-static void REGPARM2 georam_io1_store(WORD addr, BYTE byte)
+static void georam_io1_store(WORD addr, BYTE byte)
 {
     georam_ram[(georam[1] * 16384) + (georam[0] * 256) + addr] = byte;
 }
 
-static BYTE REGPARM1 georam_io2_peek(WORD addr)
+static BYTE georam_io2_peek(WORD addr)
 {
     if (addr < 2) {
         return georam[addr & 1];
@@ -198,7 +198,7 @@ static BYTE REGPARM1 georam_io2_peek(WORD addr)
     return 0;
 }
 
-static void REGPARM2 georam_io2_store(WORD addr, BYTE byte)
+static void georam_io2_store(WORD addr, BYTE byte)
 {
     if ((addr & 1) == 1) {
         while (byte > ((georam_size_kb / 16) - 1)) {

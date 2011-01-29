@@ -314,27 +314,27 @@ void plus60k_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void REGPARM2 plus60k_memory_store(WORD addr, BYTE value)
+static void plus60k_memory_store(WORD addr, BYTE value)
 {
     plus60k_ram[addr-0x1000]=value;
 }
 
-static void REGPARM2 vicii_mem_vbank_store_wrapper(WORD addr, BYTE value)
+static void vicii_mem_vbank_store_wrapper(WORD addr, BYTE value)
 {
     vicii_mem_vbank_store(addr,value);
 }
 
-static void REGPARM2 vicii_mem_vbank_39xx_store_wrapper(WORD addr, BYTE value)
+static void vicii_mem_vbank_39xx_store_wrapper(WORD addr, BYTE value)
 {
     vicii_mem_vbank_39xx_store(addr,value);
 }
 
-static void REGPARM2 vicii_mem_vbank_3fxx_store_wrapper(WORD addr, BYTE value)
+static void vicii_mem_vbank_3fxx_store_wrapper(WORD addr, BYTE value)
 {
     vicii_mem_vbank_3fxx_store(addr,value);
 }
 
-static void REGPARM2 ram_hi_store_wrapper(WORD addr, BYTE value)
+static void ram_hi_store_wrapper(WORD addr, BYTE value)
 {
     ram_hi_store(addr,value);
 }
@@ -350,32 +350,32 @@ static store_func_ptr_t plus60k_mem_write_tab[] = {
     plus60k_memory_store
 };
 
-void REGPARM2 plus60k_vicii_mem_vbank_store(WORD addr, BYTE value)
+void plus60k_vicii_mem_vbank_store(WORD addr, BYTE value)
 {
     plus60k_mem_write_tab[plus60k_reg](addr, value);
 }
 
-void REGPARM2 plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
+void plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
     plus60k_mem_write_tab[plus60k_reg+2](addr, value);
 }
 
-void REGPARM2 plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
+void plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 {
     plus60k_mem_write_tab[plus60k_reg+4](addr, value);
 }
 
-void REGPARM2 plus60k_ram_hi_store(WORD addr, BYTE value)
+void plus60k_ram_hi_store(WORD addr, BYTE value)
 {
     plus60k_mem_write_tab[plus60k_reg+6](addr, value);
 }
 
-static BYTE REGPARM1 vicii_read_wrapper(WORD addr)
+static BYTE vicii_read_wrapper(WORD addr)
 {
     return vicii_read(addr);
 }
 
-static void REGPARM2 vicii_store_wrapper(WORD addr, BYTE value)
+static void vicii_store_wrapper(WORD addr, BYTE value)
 {
     vicii_store(addr, value);
 }
@@ -394,36 +394,36 @@ static store_func_ptr_t plus60k_partial_vicii_write_tab[] = {
     plus60k_vicii_store0
 };
 
-BYTE REGPARM1 plus60k_vicii_read_old(WORD addr)
+BYTE plus60k_vicii_read_old(WORD addr)
 {
     return plus60k_partial_vicii_read_tab[(addr&0x3f)>>6](addr);
 }
 
-void REGPARM2 plus60k_vicii_store_old(WORD addr, BYTE value)
+void plus60k_vicii_store_old(WORD addr, BYTE value)
 {
     plus60k_partial_vicii_write_tab[(addr & 0x3f) >> 6](addr, value);
 }
 
-BYTE REGPARM1 plus60k_vicii_read(WORD addr)
+BYTE plus60k_vicii_read(WORD addr)
 {
     return 0xff;
 }
 
-BYTE REGPARM1 plus60k_vicii_read0(WORD addr)
+BYTE plus60k_vicii_read0(WORD addr)
 {
     return addr >> 8;
 }
 
-void REGPARM2 plus60k_vicii_store(WORD addr, BYTE value)
+void plus60k_vicii_store(WORD addr, BYTE value)
 {
     plus60k_reg = (value & 0x80) >> 7;
 }
 
-void REGPARM2 plus60k_vicii_store0(WORD addr, BYTE value)
+void plus60k_vicii_store0(WORD addr, BYTE value)
 {
 }
 
-BYTE REGPARM1 plus60k_ram_read(WORD addr)
+BYTE plus60k_ram_read(WORD addr)
 {
     if (plus60k_enabled && addr >= 0x1000 && plus60k_reg == 1) {
         return plus60k_ram[addr - 0x1000];
@@ -432,7 +432,7 @@ BYTE REGPARM1 plus60k_ram_read(WORD addr)
     }
 }
 
-void REGPARM2 plus60k_ram_store(WORD addr, BYTE value)
+void plus60k_ram_store(WORD addr, BYTE value)
 {
     if (plus60k_enabled && addr >= 0x1000 && plus60k_reg == 1) {
         plus60k_ram[addr - 0x1000] = value;

@@ -56,10 +56,10 @@ static FM_OPL *YM3812_chip = NULL;
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
-static void REGPARM2 sfx_soundexpander_sound_store(WORD addr, BYTE value);
-static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr);
-static BYTE REGPARM1 sfx_soundexpander_sound_peek(WORD addr);
-static BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr);
+static void sfx_soundexpander_sound_store(WORD addr, BYTE value);
+static BYTE sfx_soundexpander_sound_read(WORD addr);
+static BYTE sfx_soundexpander_sound_peek(WORD addr);
+static BYTE sfx_soundexpander_piano_read(WORD addr);
 
 static io_source_t sfx_soundexpander_sound_device = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
@@ -297,7 +297,7 @@ void sfx_soundexpander_sound_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 sfx_soundexpander_sound_store(WORD addr, BYTE value)
+static void sfx_soundexpander_sound_store(WORD addr, BYTE value)
 {
     if (addr == 0xdf40) {
         if (sfx_soundexpander_chip == 3812) {
@@ -311,7 +311,7 @@ static void REGPARM2 sfx_soundexpander_sound_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr)
+static BYTE sfx_soundexpander_sound_read(WORD addr)
 {
     BYTE value = 0;
 
@@ -324,7 +324,7 @@ static BYTE REGPARM1 sfx_soundexpander_sound_read(WORD addr)
     return value;
 }
 
-static BYTE REGPARM1 sfx_soundexpander_sound_peek(WORD addr)
+static BYTE sfx_soundexpander_sound_peek(WORD addr)
 {
     BYTE value = 0;
 
@@ -339,7 +339,7 @@ static BYTE REGPARM1 sfx_soundexpander_sound_peek(WORD addr)
 }
 
 /* No piano keyboard is emulated currently, so we return 0xff */
-static BYTE REGPARM1 sfx_soundexpander_piano_read(WORD addr)
+static BYTE sfx_soundexpander_piano_read(WORD addr)
 {
   sfx_soundexpander_piano_device.io_source_valid = 0;
   if ((addr & 16) == 0 && (addr & 8) == 8) {

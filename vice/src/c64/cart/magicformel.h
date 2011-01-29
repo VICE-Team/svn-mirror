@@ -31,8 +31,8 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 magicformel_romh_read(WORD addr);
-extern BYTE REGPARM1 magicformel_romh_read_hirom(WORD addr);
+extern BYTE magicformel_romh_read(WORD addr);
+extern BYTE magicformel_romh_read_hirom(WORD addr);
 
 extern void magicformel_freeze(void);
 extern void magicformel_config_init(void);

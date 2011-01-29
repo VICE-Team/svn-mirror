@@ -402,7 +402,7 @@ $FD22 : speech data register
     store: speech data
 */
 
-BYTE REGPARM1 speech_read(WORD addr)
+BYTE speech_read(WORD addr)
 {
     BYTE value = 0;
     /* DBG(("SPEECH: rd %04x\n", addr)); */
@@ -429,7 +429,7 @@ BYTE REGPARM1 speech_read(WORD addr)
     return value;
 }
 
-void REGPARM2 speech_store(WORD addr, BYTE value)
+void speech_store(WORD addr, BYTE value)
 {
     /* DBG(("SPEECH: wr %04x %02x\n", addr, value)); */
     switch (addr & 3) {
@@ -458,12 +458,12 @@ void REGPARM2 speech_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 speech_peek(WORD addr)
+BYTE speech_peek(WORD addr)
 {
     return regs[addr & 3];
 }
 
-int REGPARM1 speech_dump(void *ctx)
+int speech_dump(void *ctx)
 {
     mon_out("MOS8706:\n");
     mon_out("0 Command:     %02x\n", regs[0]);

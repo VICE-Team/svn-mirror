@@ -105,21 +105,21 @@
 int c64_256k_enabled = 0;
 int c64_256k_start = 0xdf80;
 
-void REGPARM2 c64_256k_store(WORD addr, BYTE byte)
+void c64_256k_store(WORD addr, BYTE byte)
 {
 }
 
-BYTE REGPARM1 c64_256k_read(WORD addr)
+BYTE c64_256k_read(WORD addr)
 {
     return 0xff;
 }
 
-BYTE REGPARM1 c64_256k_ram_segment2_read(WORD addr)
+BYTE c64_256k_ram_segment2_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-void REGPARM2 c64_256k_ram_segment2_store(WORD addr, BYTE byte)
+void c64_256k_ram_segment2_store(WORD addr, BYTE byte)
 {
     mem_ram[addr] = byte;
 }
@@ -133,12 +133,12 @@ void c64_256k_cia_set_vbank(int ciabank)
 
 int plus60k_enabled = 0;
 
-BYTE REGPARM1 plus60k_ram_read(WORD addr)
+BYTE plus60k_ram_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-void REGPARM2 plus60k_ram_store(WORD addr, BYTE value)
+void plus60k_ram_store(WORD addr, BYTE value)
 {
     mem_ram[addr] = value;
 }
@@ -148,12 +148,12 @@ void REGPARM2 plus60k_ram_store(WORD addr, BYTE value)
 
 int plus256k_enabled = 0;
 
-BYTE REGPARM1 plus256k_ram_high_read(WORD addr)
+BYTE plus256k_ram_high_read(WORD addr)
 {
     return mem_ram[addr];
 }
 
-void REGPARM2 plus256k_ram_high_store(WORD addr, BYTE byte)
+void plus256k_ram_high_store(WORD addr, BYTE byte)
 {
     mem_ram[addr] = byte;
 }

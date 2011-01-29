@@ -72,8 +72,8 @@ static BYTE digimax_userport_direction_B;
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 digimax_sound_store(WORD addr, BYTE value);
-static BYTE REGPARM1 digimax_sound_read(WORD addr);
+static void digimax_sound_store(WORD addr, BYTE value);
+static BYTE digimax_sound_read(WORD addr);
 
 static io_source_t digimax_device = {
     CARTRIDGE_NAME_DIGIMAX,
@@ -108,13 +108,13 @@ static int digimax_is_userport(void)
     return (digimax_address == 0xdd00);
 }
 
-static void REGPARM2 digimax_sound_store(WORD addr, BYTE value)
+static void digimax_sound_store(WORD addr, BYTE value)
 {
     digimax_sound_data[addr] = value;
     sound_store((WORD)(addr + 0x20), value, 0);
 }
 
-static BYTE REGPARM1 digimax_sound_read(WORD addr)
+static BYTE digimax_sound_read(WORD addr)
 {
     BYTE value;
 

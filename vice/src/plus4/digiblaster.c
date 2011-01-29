@@ -131,13 +131,13 @@ void digiblaster_sound_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
-void REGPARM2 digiblaster_store(WORD addr, BYTE value)
+void digiblaster_store(WORD addr, BYTE value)
 {
     digiblaster_sound_data = value;
     sound_store((WORD)(0x40), value, 0);
 }
 
-BYTE REGPARM1 digiblaster_read(WORD addr)
+BYTE digiblaster_read(WORD addr)
 {
     return sound_read((WORD)(addr + 0x40), 0);
 }

@@ -299,7 +299,7 @@ void petreu_shutdown(void)
 /* This might be over-simplifying things, returning the
    value without taking timers and interrupts into
    acount, if needed I'll fix this in the future. */
-BYTE REGPARM1 read_petreu_reg(WORD addr)
+BYTE read_petreu_reg(WORD addr)
 {
     BYTE retval;
 
@@ -308,7 +308,7 @@ BYTE REGPARM1 read_petreu_reg(WORD addr)
     return retval;
 }
 
-BYTE REGPARM1 read_petreu2_reg(WORD addr)
+BYTE read_petreu2_reg(WORD addr)
 {
     BYTE retval;
 
@@ -389,7 +389,7 @@ static BYTE get_petreu2_ram(WORD addr)
     return retval;
 }
 
-BYTE REGPARM1 read_petreu_ram(WORD addr)
+BYTE read_petreu_ram(WORD addr)
 {
   if (petreu_size_kb==128)
     return get_petreu_ram(addr);
@@ -397,7 +397,7 @@ BYTE REGPARM1 read_petreu_ram(WORD addr)
     return get_petreu2_ram(addr);
 }
 
-void REGPARM2 store_petreu_reg(WORD addr, BYTE byte)
+void store_petreu_reg(WORD addr, BYTE byte)
 {
     petreu[addr & 0xf] = byte;
     if ((petreu[PETREU_CONTROL] & 0xe) != 0xc)
@@ -408,7 +408,7 @@ void REGPARM2 store_petreu_reg(WORD addr, BYTE byte)
         petreu_bank++;
 }
 
-void REGPARM2 store_petreu2_reg(WORD addr, BYTE byte)
+void store_petreu2_reg(WORD addr, BYTE byte)
 {
     petreu2[addr & 0xf] = byte;
 }
@@ -464,7 +464,7 @@ static void put_petreu2_ram(WORD addr, BYTE byte)
     petreu_ram[(real_bank_value << 16) + (real_register_b_value << 8) + real_register_a_value] = byte;
 }
 
-void REGPARM2 store_petreu_ram(WORD addr, BYTE byte)
+void store_petreu_ram(WORD addr, BYTE byte)
 {
   if (petreu_size_kb==128)
     put_petreu_ram(addr,byte);

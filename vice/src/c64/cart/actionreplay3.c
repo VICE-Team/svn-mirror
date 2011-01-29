@@ -68,9 +68,9 @@ static int ar_reg = 0;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE REGPARM1 actionreplay3_io1_peek(WORD addr);
-static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 actionreplay3_io2_read(WORD addr);
+static BYTE actionreplay3_io1_peek(WORD addr);
+static void actionreplay3_io1_store(WORD addr, BYTE value);
+static BYTE actionreplay3_io2_read(WORD addr);
 
 static io_source_t actionreplay3_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY3,
@@ -103,7 +103,7 @@ static io_source_list_t *actionreplay3_io2_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
+static void actionreplay3_io1_store(WORD addr, BYTE value)
 {
     int exrom, bank, conf;
 
@@ -121,7 +121,7 @@ static void REGPARM2 actionreplay3_io1_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 actionreplay3_io2_read(WORD addr)
+static BYTE actionreplay3_io2_read(WORD addr)
 {
     actionreplay3_io2_device.io_source_valid = 0;
 
@@ -145,19 +145,19 @@ static BYTE REGPARM1 actionreplay3_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 actionreplay3_io1_peek(WORD addr)
+static BYTE actionreplay3_io1_peek(WORD addr)
 {
     return ar_reg;
 }
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 actionreplay3_roml_read(WORD addr)
+BYTE actionreplay3_roml_read(WORD addr)
 {
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-BYTE REGPARM1 actionreplay3_romh_read(WORD addr)
+BYTE actionreplay3_romh_read(WORD addr)
 {
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }

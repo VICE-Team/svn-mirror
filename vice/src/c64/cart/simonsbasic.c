@@ -50,18 +50,18 @@
     - writing io1 switches to 16k game config (bank 0 at $8000, bank 1 at $a000)
 */
 
-static BYTE REGPARM1 simon_io1_read(WORD addr)
+static BYTE simon_io1_read(WORD addr)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     return 0;
 }
 
-static BYTE REGPARM1 simon_io1_peek(WORD addr)
+static BYTE simon_io1_peek(WORD addr)
 {
     return 0;
 }
 
-static void REGPARM2 simon_io1_store(WORD addr, BYTE value)
+static void simon_io1_store(WORD addr, BYTE value)
 {
     cart_config_changed_slotmain(1, 1, CMODE_WRITE);
 }

@@ -45,7 +45,7 @@
 
 static BYTE sfx_soundsampler_sound_data;
 
-static void REGPARM2 sfx_soundsampler_sound_store(WORD addr, BYTE value)
+static void sfx_soundsampler_sound_store(WORD addr, BYTE value)
 {
     sfx_soundsampler_sound_data = value;
     sound_store((WORD)0x40, value, 0);

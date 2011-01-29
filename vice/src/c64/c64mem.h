@@ -51,15 +51,15 @@ extern int c64_mem_init_cmdline_options(void);
 
 extern void mem_set_vbank(int new_vbank);
 
-extern BYTE REGPARM1 ram_read(WORD addr);
-extern void REGPARM2 ram_store(WORD addr, BYTE value);
-extern void REGPARM2 ram_hi_store(WORD addr, BYTE value);
+extern BYTE ram_read(WORD addr);
+extern void ram_store(WORD addr, BYTE value);
+extern void ram_hi_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 chargen_read(WORD addr);
-extern void REGPARM2 chargen_store(WORD addr, BYTE value);
+extern BYTE chargen_read(WORD addr);
+extern void chargen_store(WORD addr, BYTE value);
 
-extern void REGPARM2 colorram_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 colorram_read(WORD addr);
+extern void colorram_store(WORD addr, BYTE value);
+extern BYTE colorram_read(WORD addr);
 
 extern void mem_pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
@@ -70,12 +70,12 @@ extern void mem_set_write_hook(int config, int page, store_func_t *f);
 extern void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);
 extern void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr);
 
-extern void REGPARM2 mem_store_without_ultimax(WORD addr, BYTE value);
-extern BYTE REGPARM1 mem_read_without_ultimax(WORD addr);
-extern void REGPARM2 mem_store_without_romlh(WORD addr, BYTE value);
+extern void mem_store_without_ultimax(WORD addr, BYTE value);
+extern BYTE mem_read_without_ultimax(WORD addr);
+extern void mem_store_without_romlh(WORD addr, BYTE value);
 
-extern void REGPARM2 store_bank_io(WORD addr, BYTE byte);
-extern BYTE REGPARM1 read_bank_io(WORD addr);
+extern void store_bank_io(WORD addr, BYTE byte);
+extern BYTE read_bank_io(WORD addr);
 
 extern void c64_mem_init(void);
 

@@ -1349,7 +1349,7 @@ static void tfe_auto_incr_pp_ptr(void)
 #define LOHI_WORD(x, y) ((WORD)(x) | (((WORD)(y)) << 8 ))
 
 /* ----- read byte from I/O range in VICE ----- */
-BYTE REGPARM1 cs8900_read(WORD io_address)
+BYTE cs8900_read(WORD io_address)
 {
     BYTE retval,lo,hi;
     WORD word_value;
@@ -1435,7 +1435,7 @@ BYTE REGPARM1 cs8900_read(WORD io_address)
 }
 
 /* ----- peek byte without side effects from I/O range in VICE ----- */
-BYTE REGPARM1 cs8900_peek(WORD io_address)
+BYTE cs8900_peek(WORD io_address)
 {
     BYTE retval,lo,hi;
     WORD word_value;
@@ -1505,7 +1505,7 @@ BYTE REGPARM1 cs8900_peek(WORD io_address)
 }
 
 /* ----- write byte to I/O range of VICE ----- */
-void REGPARM2 cs8900_store(WORD io_address, BYTE byte)
+void cs8900_store(WORD io_address, BYTE byte)
 {
     WORD reg_base;
     WORD word_value;

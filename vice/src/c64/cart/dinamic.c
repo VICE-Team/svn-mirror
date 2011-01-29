@@ -62,7 +62,7 @@
 
 static int currbank = 0;
 
-static BYTE REGPARM1 dinamic_io1_read(WORD addr)
+static BYTE dinamic_io1_read(WORD addr)
 {
     DBG(("@ $%04x io1 rd %04x (bank: %02x)\n", reg_pc, addr, addr & 0x0f));
     if ((addr & 0x0f) == addr) {
@@ -73,7 +73,7 @@ static BYTE REGPARM1 dinamic_io1_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 dinamic_io1_peek(WORD addr)
+static BYTE dinamic_io1_peek(WORD addr)
 {
     return currbank;
 }

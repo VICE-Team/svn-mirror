@@ -36,7 +36,7 @@ extern void se5_config_setup(BYTE *rawcart);
 extern int se5_bin_attach(const char *filename, BYTE *rawcart);
 extern int se5_crt_attach(FILE *fd, BYTE *rawcart);
 extern void se5_detach(void);
-extern BYTE REGPARM1 se5_roml_read(WORD addr);
+extern BYTE se5_roml_read(WORD addr);
 
 struct snapshot_s;
 

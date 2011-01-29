@@ -46,10 +46,10 @@ extern void dqbb_init_config(void);
 extern int dqbb_enable(void);
 extern void dqbb_config_setup(BYTE *rawcart);
 
-extern BYTE REGPARM1 dqbb_roml_read(WORD addr);
-extern void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte);
-extern BYTE REGPARM1 dqbb_romh_read(WORD addr);
-extern void REGPARM2 dqbb_romh_store(WORD addr, BYTE byte);
+extern BYTE dqbb_roml_read(WORD addr);
+extern void dqbb_roml_store(WORD addr, BYTE byte);
+extern BYTE dqbb_romh_read(WORD addr);
+extern void dqbb_romh_store(WORD addr, BYTE byte);
 extern int dqbb_peek_mem(WORD addr, BYTE *value);
 
 extern const char *dqbb_get_file_name(void);

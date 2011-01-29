@@ -305,7 +305,7 @@ void ciacore_reset(cia_context_t *cia_context)
 }
 
 
-static void REGPARM3 ciacore_store_internal(cia_context_t *cia_context,
+static void ciacore_store_internal(cia_context_t *cia_context,
                                             WORD addr, BYTE byte)
 {
     CLOCK rclk;
@@ -562,7 +562,7 @@ static void REGPARM3 ciacore_store_internal(cia_context_t *cia_context,
     }                           /* switch */
 }
 
-void REGPARM3 ciacore_store(cia_context_t *cia_context, WORD addr, BYTE byte)
+void ciacore_store(cia_context_t *cia_context, WORD addr, BYTE byte)
 {
     if (cia_context->pre_store != NULL)
         (cia_context->pre_store)();
@@ -579,7 +579,7 @@ void REGPARM3 ciacore_store(cia_context_t *cia_context, WORD addr, BYTE byte)
 /* ------------------------------------------------------------------------- */
 
 
-BYTE REGPARM2 ciacore_read(cia_context_t *cia_context, WORD addr)
+BYTE ciacore_read(cia_context_t *cia_context, WORD addr)
 {
 #if defined(CIA_TIMER_DEBUG)
 
@@ -776,7 +776,7 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
     return (cia_context->c_cia[addr]);
 }
 
-BYTE REGPARM2 ciacore_peek(cia_context_t *cia_context, WORD addr)
+BYTE ciacore_peek(cia_context_t *cia_context, WORD addr)
 {
     /* This code assumes that update_cia is a projector - called at
      * the same cycle again it doesn't change anything. This way

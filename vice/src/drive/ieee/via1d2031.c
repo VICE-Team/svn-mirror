@@ -55,17 +55,17 @@ typedef struct drivevia1_context_s {
 } drivevia1_context_t;
 
 
-void REGPARM3 via1d2031_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void via1d2031_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
     viacore_store(ctxptr->via1d2031, addr, data);
 }
 
-BYTE REGPARM2 via1d2031_read(drive_context_t *ctxptr, WORD addr)
+BYTE via1d2031_read(drive_context_t *ctxptr, WORD addr)
 {
     return viacore_read(ctxptr->via1d2031, addr);
 }
 
-BYTE REGPARM2 via1d2031_peek(drive_context_t *ctxptr, WORD addr)
+BYTE via1d2031_peek(drive_context_t *ctxptr, WORD addr)
 {
     return viacore_peek(ctxptr->via1d2031, addr);
 }

@@ -741,7 +741,7 @@ void t6721_update_output(t6721_state *t6721, SWORD *buf, int num)
 /*
     when the WR pin goes high, d0..d3 from data are read by ("written to") the chip
 */
-void REGPARM2 t6721_store(t6721_state *t6721, BYTE data)
+void t6721_store(t6721_state *t6721, BYTE data)
 {
 /* DBG(("write %2x\n", data)); */
     /* an actual store is performed on Lo->HI transition of WR */

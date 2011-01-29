@@ -60,7 +60,7 @@
 
 static int currbank = 0;
 
-static void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
+static void supergames_io2_store(WORD addr, BYTE value)
 {
     cart_romhbank_set_slotmain(value & 3);
     cart_romlbank_set_slotmain(value & 3);
@@ -80,7 +80,7 @@ static void REGPARM2 supergames_io2_store(WORD addr, BYTE value)
     cart_port_config_changed_slotmain();
 }
 
-static BYTE REGPARM1 supergames_io2_peek(WORD addr)
+static BYTE supergames_io2_peek(WORD addr)
 {
     return currbank;
 }

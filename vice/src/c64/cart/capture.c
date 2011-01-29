@@ -134,7 +134,7 @@ static void capture_romhflip(WORD addr)
     }
 }
 
-BYTE REGPARM1 capture_romh_read(WORD addr)
+BYTE capture_romh_read(WORD addr)
 {
     capture_reg(addr);
     capture_romhflip(addr);
@@ -147,7 +147,7 @@ BYTE REGPARM1 capture_romh_read(WORD addr)
     return mem_read_without_ultimax(addr);
 }
 
-void REGPARM2 capture_romh_store(WORD addr, BYTE value)
+void capture_romh_store(WORD addr, BYTE value)
 {
     capture_reg(addr);
     /* capture_romhflip(addr); */
@@ -159,7 +159,7 @@ void REGPARM2 capture_romh_store(WORD addr, BYTE value)
 /*
     there is Cartridge RAM at 0x6000..0x7fff
 */
-BYTE REGPARM1 capture_1000_7fff_read(WORD addr)
+BYTE capture_1000_7fff_read(WORD addr)
 {
     if (cart_enabled) {
         if (addr>=0x6000) {
@@ -170,7 +170,7 @@ BYTE REGPARM1 capture_1000_7fff_read(WORD addr)
     return mem_read_without_ultimax(addr);
 }
 
-void REGPARM2 capture_1000_7fff_store(WORD addr, BYTE value)
+void capture_1000_7fff_store(WORD addr, BYTE value)
 {
     if (cart_enabled) {
         if (addr>=0x6000) {

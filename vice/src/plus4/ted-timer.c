@@ -231,7 +231,7 @@ static BYTE ted_timer_t3_read_high(void)
 
 /*-----------------------------------------------------------------------*/
 
-void REGPARM2 ted_timer_store(WORD addr, BYTE value)
+void ted_timer_store(WORD addr, BYTE value)
 {
 #ifdef DEBUG_TIMER
     log_debug("TI STORE %02x %02x CLK %x", addr, value, maincpu_clk);
@@ -258,7 +258,7 @@ void REGPARM2 ted_timer_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 ted_timer_read(WORD addr)
+BYTE ted_timer_read(WORD addr)
 {
     switch (addr) {
       case 0:

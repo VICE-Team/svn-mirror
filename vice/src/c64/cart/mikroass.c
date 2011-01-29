@@ -52,12 +52,12 @@
 
 */
 
-static BYTE REGPARM1 mikroass_io1_read(WORD addr)
+static BYTE mikroass_io1_read(WORD addr)
 {
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-static BYTE REGPARM1 mikroass_io2_read(WORD addr)
+static BYTE mikroass_io2_read(WORD addr)
 {
     return roml_banks[0x1f00 + (addr & 0xff)];
 }

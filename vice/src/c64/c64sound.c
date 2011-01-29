@@ -37,13 +37,13 @@
 #include "sound.h"
 #include "types.h"
 
-static BYTE REGPARM1 machine_sid2_read(WORD addr)
+static BYTE machine_sid2_read(WORD addr)
 {
     return sid2_read(addr);
 }
 
 
-static void REGPARM2 machine_sid2_store(WORD addr, BYTE byte)
+static void machine_sid2_store(WORD addr, BYTE byte)
 {
     sid2_store(addr, byte);
 }

@@ -50,7 +50,7 @@
     - reading dfc0-dfff enables ROM (8k game config)
 */
 
-static BYTE REGPARM1 rex_io2_read(WORD addr)
+static BYTE rex_io2_read(WORD addr)
 {
     if ((addr & 0xff) < 0xc0) {
         /* disable cartridge rom */
@@ -62,7 +62,7 @@ static BYTE REGPARM1 rex_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 rex_io2_peek(WORD addr)
+static BYTE rex_io2_peek(WORD addr)
 {
     return 0;
 }

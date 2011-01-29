@@ -33,8 +33,8 @@
 #include "types.h"
 
 extern void final_v1_freeze(void);
-extern BYTE REGPARM1 final_v1_roml_read(WORD addr);
-extern BYTE REGPARM1 final_v1_romh_read(WORD addr);
+extern BYTE final_v1_roml_read(WORD addr);
+extern BYTE final_v1_romh_read(WORD addr);
 extern void final_v1_config_init(void);
 extern void final_v1_config_setup(BYTE *rawcart);
 extern int final_v1_bin_attach(const char *filename, BYTE *rawcart);

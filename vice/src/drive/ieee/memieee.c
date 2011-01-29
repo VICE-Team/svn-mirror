@@ -37,23 +37,23 @@
 #include "viad.h"
 
 
-static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
+static BYTE drive_read_ram(drive_context_t *drv, WORD address)
 {
     return drv->cpud->drive_ram[address & 0x7ff];
 }
 
-static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
+static void drive_store_ram(drive_context_t *drv, WORD address,
                                      BYTE value)
 {
     drv->cpud->drive_ram[address & 0x7ff] = value;
 }
 
-static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
+static BYTE drive_read_zero(drive_context_t *drv, WORD address)
 {
     return drv->cpud->drive_ram[address & 0xff];
 }
 
-static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
+static void drive_store_zero(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     drv->cpud->drive_ram[address & 0xff] = value;
@@ -61,7 +61,7 @@ static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
 
 /* SFD1001 specific memory.  */
 
-static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, WORD address)
+static BYTE drive_read_1001_io(drive_context_t *drv, WORD address)
 {
     if (address & 0x80) {
         return riot2_read(drv, address);
@@ -69,7 +69,7 @@ static BYTE REGPARM2 drive_read_1001_io(drive_context_t *drv, WORD address)
     return riot1_read(drv, address);
 }
 
-static void REGPARM3 drive_store_1001_io(drive_context_t *drv,
+static void drive_store_1001_io(drive_context_t *drv,
                                          WORD address, BYTE byte)
 {
     if (address & 0x80) {
@@ -79,26 +79,26 @@ static void REGPARM3 drive_store_1001_io(drive_context_t *drv,
     }
 }
 
-static BYTE REGPARM2 drive_read_1001zero_ram(drive_context_t *drv,
+static BYTE drive_read_1001zero_ram(drive_context_t *drv,
                                              WORD address)
 {
     return drv->cpud->drive_ram[address & 0xff];
 }
 
-static void REGPARM3 drive_store_1001zero_ram(drive_context_t *drv,
+static void drive_store_1001zero_ram(drive_context_t *drv,
                                               WORD address, BYTE byte)
 {
     drv->cpud->drive_ram[address & 0xff] = byte;
 }
 
-static BYTE REGPARM2 drive_read_1001buffer_ram(drive_context_t *drv,
+static BYTE drive_read_1001buffer_ram(drive_context_t *drv,
                                                WORD address)
 {
     return drv->cpud->drive_ram[(((address >> 2) & 0x1c00)
                                 | (address & 0x03ff)) - 0x300];
 }
 
-static void REGPARM3 drive_store_1001buffer_ram(drive_context_t *drv,
+static void drive_store_1001buffer_ram(drive_context_t *drv,
                                                 WORD address, BYTE byte)
 {
     drv->cpud->drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff))

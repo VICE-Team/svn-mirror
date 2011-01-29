@@ -49,12 +49,12 @@ typedef struct driveriot2_context_s {
 } driveriot2_context_t;
 
 
-void REGPARM3 riot2_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void riot2_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
     riotcore_store(ctxptr->riot2, addr, data);
 }
 
-BYTE REGPARM2 riot2_read(drive_context_t *ctxptr, WORD addr)
+BYTE riot2_read(drive_context_t *ctxptr, WORD addr)
 {
     return riotcore_read(ctxptr->riot2, addr);
 }

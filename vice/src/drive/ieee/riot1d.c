@@ -38,12 +38,12 @@
 #include "types.h"
 
 
-void REGPARM3 riot1_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void riot1_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
     riotcore_store(ctxptr->riot1, addr, data);
 }
 
-BYTE REGPARM2 riot1_read(drive_context_t *ctxptr, WORD addr)
+BYTE riot1_read(drive_context_t *ctxptr, WORD addr)
 {
     return riotcore_read(ctxptr->riot1, addr);
 }

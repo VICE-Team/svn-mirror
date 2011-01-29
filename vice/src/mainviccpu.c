@@ -72,7 +72,7 @@ CLOCK debug_clk;
 
 #ifdef FEATURE_CPUMEMHISTORY
 
-void REGPARM2 memmap_mem_store(unsigned int addr, unsigned int value)
+void memmap_mem_store(unsigned int addr, unsigned int value)
 {
     if (((addr >= 0x9000)&&(addr <= 0x93ff)) || ((addr >= 0x9800)&&(addr <= 0x9fff))) {
         monitor_memmap_store(addr, MEMMAP_I_O_W);
@@ -84,7 +84,7 @@ void REGPARM2 memmap_mem_store(unsigned int addr, unsigned int value)
     (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
 }
 
-BYTE REGPARM1 memmap_mem_read(unsigned int addr)
+BYTE memmap_mem_read(unsigned int addr)
 {
     if (((addr >= 0x9000)&&(addr <= 0x93ff)) || ((addr >= 0x9800)&&(addr <= 0x9fff))) {
         monitor_memmap_store(addr, MEMMAP_I_O_R);

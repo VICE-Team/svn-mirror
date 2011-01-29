@@ -42,7 +42,7 @@
 /* CRTC interface functions.
    FIXME: Several registers are not implemented.  */
 
-void REGPARM2 crtc_store(WORD addr, BYTE value)
+void crtc_store(WORD addr, BYTE value)
 {
     int current_cycle;
 
@@ -186,7 +186,7 @@ void REGPARM2 crtc_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 crtc_read(WORD addr)
+BYTE crtc_read(WORD addr)
 {
     /* Status register:
      *  bit 7: 0 = register 31 (update reg.) has been read/written by CPU
@@ -222,7 +222,7 @@ BYTE REGPARM1 crtc_read(WORD addr)
     return 0;
 }
 
-BYTE REGPARM1 crtc_peek(WORD addr)
+BYTE crtc_peek(WORD addr)
 {
     return crtc_read(addr);
 }

@@ -732,7 +732,7 @@ static void undump_pc(tpi_context_t *tpi_context, BYTE byte)
  I/O Area
 *****************************************************************************/
 
-static void REGPARM2 magicvoice_io2_store(WORD addr, BYTE data)
+static void magicvoice_io2_store(WORD addr, BYTE data)
 {
     switch (addr & 7) {
         case 5:
@@ -749,7 +749,7 @@ static void REGPARM2 magicvoice_io2_store(WORD addr, BYTE data)
     tpicore_store(tpi_context, (WORD)(addr & 7), data);
 }
 
-static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
+static BYTE magicvoice_io2_read(WORD addr)
 {
     BYTE value = 0;
     value = tpicore_read(tpi_context, (WORD)(addr & 7));
@@ -776,12 +776,12 @@ static BYTE REGPARM1 magicvoice_io2_read(WORD addr)
     return value;
 }
 
-static BYTE REGPARM1 magicvoice_io2_peek(WORD addr)
+static BYTE magicvoice_io2_peek(WORD addr)
 {
     return tpicore_peek(tpi_context, (WORD)(addr & 7));
 }
 
-static int REGPARM1 magicvoice_io2_dump(void)
+static int magicvoice_io2_dump(void)
 {
     mon_out("TPI\n");
     tpicore_dump(tpi_context);

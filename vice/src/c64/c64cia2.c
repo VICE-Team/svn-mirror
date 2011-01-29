@@ -59,7 +59,7 @@
 /* Flag for recording port A DDR changes (for c64gluelogic) */
 static int pa_ddr_change = 0;
 
-void REGPARM2 cia2_store(WORD addr, BYTE data)
+void cia2_store(WORD addr, BYTE data)
 {
     if (((addr & 0xf) == CIA_DDRA) && (machine_context.cia2->c_cia[CIA_DDRA] != data)) {
         pa_ddr_change = 1;
@@ -71,12 +71,12 @@ void REGPARM2 cia2_store(WORD addr, BYTE data)
     ciacore_store(machine_context.cia2, addr, data);
 }
 
-BYTE REGPARM1 cia2_read(WORD addr)
+BYTE cia2_read(WORD addr)
 {
     return ciacore_read(machine_context.cia2, addr);
 }
 
-BYTE REGPARM1 cia2_peek(WORD addr)
+BYTE cia2_peek(WORD addr)
 {
     return ciacore_peek(machine_context.cia2, addr);
 }

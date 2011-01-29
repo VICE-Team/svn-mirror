@@ -46,8 +46,8 @@ extern void ramcart_reset(void);
 extern void ramcart_detach(void);
 extern int ramcart_enable(void);
 
-extern BYTE REGPARM1 ramcart_roml_read(WORD addr);
-extern void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte);
+extern BYTE ramcart_roml_read(WORD addr);
+extern void ramcart_roml_store(WORD addr, BYTE byte);
 extern int ramcart_peek_mem(WORD addr, BYTE *value);
 
 extern int ramcart_cart_enabled(void);

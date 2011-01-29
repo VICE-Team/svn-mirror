@@ -290,7 +290,7 @@ static void midi_activate(void)
     }
 }
 
-void REGPARM2 midi_store(WORD a, BYTE b)
+void midi_store(WORD a, BYTE b)
 {
 #ifdef DEBUG
     log_message(midi_log, "store(%x,%02x)", a, b);
@@ -341,7 +341,7 @@ void REGPARM2 midi_store(WORD a, BYTE b)
     }
 }
 
-BYTE REGPARM1 midi_read(WORD a)
+BYTE midi_read(WORD a)
 {
 #ifdef DEBUG
     log_message(midi_log, "read(%x)", a);
@@ -373,7 +373,7 @@ BYTE REGPARM1 midi_read(WORD a)
     return midi_last_read;
 }
 
-BYTE REGPARM1 midi_peek(WORD a)
+BYTE midi_peek(WORD a)
 {
     a &= midi_interface[midi_mode].mask;
 
@@ -392,7 +392,7 @@ BYTE REGPARM1 midi_peek(WORD a)
     return 0;
 }
 
-int REGPARM1 midi_test_read(WORD a)
+int midi_test_read(WORD a)
 {
     a &= midi_interface[midi_mode].mask;
 
@@ -400,7 +400,7 @@ int REGPARM1 midi_test_read(WORD a)
         || (a == midi_interface[midi_mode].rx_addr);
 }
 
-int REGPARM1 midi_test_peek(WORD a)
+int midi_test_peek(WORD a)
 {
     a &= midi_interface[midi_mode].mask;
 

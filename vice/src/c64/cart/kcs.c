@@ -64,7 +64,7 @@
 
 static int freeze_flag = 0;
 
-static BYTE REGPARM1 kcs_io1_read(WORD addr)
+static BYTE kcs_io1_read(WORD addr)
 {
     BYTE config;
 
@@ -76,18 +76,18 @@ static BYTE REGPARM1 kcs_io1_read(WORD addr)
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-static BYTE REGPARM1 kcs_io1_peek(WORD addr)
+static BYTE kcs_io1_peek(WORD addr)
 {
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-static void REGPARM2 kcs_io1_store(WORD addr, BYTE value)
+static void kcs_io1_store(WORD addr, BYTE value)
 {
     cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_WRITE);
     freeze_flag = 0;
 }
 
-static BYTE REGPARM1 kcs_io2_read(WORD addr)
+static BYTE kcs_io2_read(WORD addr)
 {
     if (addr & 0x80) {
         cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ | CMODE_RELEASE_FREEZE);
@@ -96,12 +96,12 @@ static BYTE REGPARM1 kcs_io2_read(WORD addr)
     return export_ram0[0x1f00 + (addr & 0x7f)];
 }
 
-static BYTE REGPARM1 kcs_io2_peek(WORD addr)
+static BYTE kcs_io2_peek(WORD addr)
 {
     return export_ram0[0x1f00 + (addr & 0x7f)];
 }
 
-static void REGPARM2 kcs_io2_store(WORD addr, BYTE value)
+static void kcs_io2_store(WORD addr, BYTE value)
 {
     if (freeze_flag == 0) {
         cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_WRITE);

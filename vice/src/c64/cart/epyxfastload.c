@@ -88,19 +88,19 @@ static void epyxfastload_alarm_handler(CLOCK offset, void *data)
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 epyxfastload_io1_read(WORD addr)
+static BYTE epyxfastload_io1_read(WORD addr)
 {
     /* IO1 discharges the capacitor, but does nothing else */
     epyxfastload_trigger_access();
     return 0;
 }
 
-static BYTE REGPARM1 epyxfastload_io1_peek(WORD addr)
+static BYTE epyxfastload_io1_peek(WORD addr)
 {
     return 0;
 }
 
-static BYTE REGPARM1 epyxfastload_io2_read(WORD addr)
+static BYTE epyxfastload_io2_read(WORD addr)
 {
     /* IO2 allows access to the last 256 bytes of the rom */
     return roml_banks[0x1f00 + (addr & 0xff)];
@@ -143,7 +143,7 @@ static const c64export_resource_t export_res_epyx = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 epyxfastload_roml_read(WORD addr)
+BYTE epyxfastload_roml_read(WORD addr)
 {
     /* ROML accesses also discharge the capacitor */
     epyxfastload_trigger_access();

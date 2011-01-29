@@ -36,12 +36,12 @@
 #define CPU_LINES_PLUS60K  2
 #define CPU_LINES_PLUS256K 3
 
-extern BYTE REGPARM1 c64io1_read(WORD addr);
-extern BYTE REGPARM1 c64io1_peek(WORD addr);
-extern void REGPARM2 c64io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c64io2_read(WORD addr);
-extern BYTE REGPARM1 c64io2_peek(WORD addr);
-extern void REGPARM2 c64io2_store(WORD addr, BYTE value);
+extern BYTE c64io1_read(WORD addr);
+extern BYTE c64io1_peek(WORD addr);
+extern void c64io1_store(WORD addr, BYTE value);
+extern BYTE c64io2_read(WORD addr);
+extern BYTE c64io2_peek(WORD addr);
+extern void c64io2_store(WORD addr, BYTE value);
 
 struct mem_ioreg_list_s;
 extern void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
@@ -59,10 +59,10 @@ typedef struct io_source_s {
     WORD end_address;
     BYTE address_mask;
     int  io_source_valid; /* after reading, is 1 if read was valid */
-    void REGPARM2 (*store)(WORD address, BYTE data);
-    BYTE REGPARM1 (*read)(WORD address);
-    BYTE REGPARM1 (*peek)(WORD address); /* read without side effects (used by monitor) */
-    int REGPARM1 (*dump)(void); /* print detailed state for this i/o device (used by monitor) */
+    void (*store)(WORD address, BYTE data);
+    BYTE (*read)(WORD address);
+    BYTE (*peek)(WORD address); /* read without side effects (used by monitor) */
+    int (*dump)(void); /* print detailed state for this i/o device (used by monitor) */
     int cart_id; /* id of associated cartridge */
     int  io_source_prio; /* 0: normal, 1: priority (no collisions) */
 } io_source_t;

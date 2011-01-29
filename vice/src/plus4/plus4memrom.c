@@ -41,27 +41,27 @@ BYTE plus4memrom_kernal_rom[PLUS4_KERNAL_ROM_SIZE];
 BYTE plus4memrom_kernal_trap_rom[PLUS4_KERNAL_ROM_SIZE];
 
 
-BYTE REGPARM1 plus4memrom_kernal_read(WORD addr)
+BYTE plus4memrom_kernal_read(WORD addr)
 {
     return plus4memrom_kernal_rom[addr & 0x3fff];
 }
 
-void REGPARM2 plus4memrom_kernal_store(WORD addr, BYTE value)
+void plus4memrom_kernal_store(WORD addr, BYTE value)
 {
     plus4memrom_kernal_rom[addr & 0x3fff] = value;
 }
 
-BYTE REGPARM1 plus4memrom_basic_read(WORD addr)
+BYTE plus4memrom_basic_read(WORD addr)
 {
     return plus4memrom_basic_rom[addr & 0x3fff];
 }
 
-void REGPARM2 plus4memrom_basic_store(WORD addr, BYTE value)
+void plus4memrom_basic_store(WORD addr, BYTE value)
 {
     plus4memrom_basic_rom[addr & 0x3fff] = value;
 }
 
-BYTE REGPARM1 plus4memrom_trap_read(WORD addr)
+BYTE plus4memrom_trap_read(WORD addr)
 {
     switch (addr & 0xc000) {
       case 0xc000:
@@ -71,7 +71,7 @@ BYTE REGPARM1 plus4memrom_trap_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 plus4memrom_trap_store(WORD addr, BYTE value)
+void plus4memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xc000) {
       case 0xc000:
@@ -80,37 +80,37 @@ void REGPARM2 plus4memrom_trap_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 plus4memrom_extromlo1_read(WORD addr)
+BYTE plus4memrom_extromlo1_read(WORD addr)
 {
     return extromlo1[addr & 0x3fff];
 }
 
-BYTE REGPARM1 plus4memrom_extromlo2_read(WORD addr)
+BYTE plus4memrom_extromlo2_read(WORD addr)
 {
     return extromlo2[addr & 0x3fff];
 }
 
-BYTE REGPARM1 plus4memrom_extromlo3_read(WORD addr)
+BYTE plus4memrom_extromlo3_read(WORD addr)
 {
     return extromlo3[addr & 0x3fff];
 }
 
-BYTE REGPARM1 plus4memrom_extromhi1_read(WORD addr)
+BYTE plus4memrom_extromhi1_read(WORD addr)
 {
     return extromhi1[addr & 0x3fff];
 }
 
-BYTE REGPARM1 plus4memrom_extromhi2_read(WORD addr)
+BYTE plus4memrom_extromhi2_read(WORD addr)
 {
     return extromhi2[addr & 0x3fff];
 }
 
-BYTE REGPARM1 plus4memrom_extromhi3_read(WORD addr)
+BYTE plus4memrom_extromhi3_read(WORD addr)
 {
     return extromhi3[addr & 0x3fff];
 }
 
-BYTE REGPARM1 plus4memrom_rom_read(WORD addr)
+BYTE plus4memrom_rom_read(WORD addr)
 {
     switch (addr & 0xc000) {
       case 0x8000:
@@ -144,7 +144,7 @@ BYTE REGPARM1 plus4memrom_rom_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 plus4memrom_rom_store(WORD addr, BYTE value)
+void plus4memrom_rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xc000) {
       case 0x8000:

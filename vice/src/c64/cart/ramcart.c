@@ -133,10 +133,10 @@ static int ramcart_write_image = 0;
 
 /* ------------------------------------------------------------------------- */
 
-static BYTE REGPARM1 ramcart_io1_read(WORD addr);
-static void REGPARM2 ramcart_io1_store(WORD addr, BYTE byte);
-static BYTE REGPARM1 ramcart_io2_read(WORD addr);
-static void REGPARM2 ramcart_io2_store(WORD addr, BYTE byte);
+static BYTE ramcart_io1_read(WORD addr);
+static void ramcart_io1_store(WORD addr, BYTE byte);
+static BYTE ramcart_io2_read(WORD addr);
+static void ramcart_io2_store(WORD addr, BYTE byte);
 
 static io_source_t ramcart_io1_device = {
     CARTRIDGE_NAME_RAMCART,
@@ -177,7 +177,7 @@ int ramcart_cart_enabled(void)
     return ramcart_enabled;
 }
 
-static BYTE REGPARM1 ramcart_io1_read(WORD addr)
+static BYTE ramcart_io1_read(WORD addr)
 {
     BYTE retval;
 
@@ -191,7 +191,7 @@ static BYTE REGPARM1 ramcart_io1_read(WORD addr)
     return retval;
 }
 
-static void REGPARM2 ramcart_io1_store(WORD addr, BYTE byte)
+static void ramcart_io1_store(WORD addr, BYTE byte)
 {
     if (addr == 1 && ramcart_size_kb == 128) {
         ramcart[1] = byte & 0x81;
@@ -201,7 +201,7 @@ static void REGPARM2 ramcart_io1_store(WORD addr, BYTE byte)
     }
 }
 
-static BYTE REGPARM1 ramcart_io2_read(WORD addr)
+static BYTE ramcart_io2_read(WORD addr)
 {
     BYTE retval;
 
@@ -210,7 +210,7 @@ static BYTE REGPARM1 ramcart_io2_read(WORD addr)
     return retval;
 }
 
-static void REGPARM2 ramcart_io2_store(WORD addr, BYTE byte)
+static void ramcart_io2_store(WORD addr, BYTE byte)
 {
     ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)] = byte;
 }
@@ -537,7 +537,7 @@ int ramcart_flush_image(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 ramcart_roml_read(WORD addr)
+BYTE ramcart_roml_read(WORD addr)
 {
     if (ramcart_readonly == 1 && ramcart_size_kb == 128 && addr >= 0x8000 && addr <= 0x80ff) {
         return ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)];
@@ -545,7 +545,7 @@ BYTE REGPARM1 ramcart_roml_read(WORD addr)
     return mem_ram[addr];
 }
 
-void REGPARM2 ramcart_roml_store(WORD addr, BYTE byte)
+void ramcart_roml_store(WORD addr, BYTE byte)
 {
     /* FIXME: this can't be right */
     mem_ram[addr] = byte;

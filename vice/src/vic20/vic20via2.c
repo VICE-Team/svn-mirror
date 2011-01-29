@@ -50,17 +50,17 @@
 #endif
 
 
-void REGPARM2 via2_store(WORD addr, BYTE data)
+void via2_store(WORD addr, BYTE data)
 {
     viacore_store(machine_context.via2, addr, data);
 }
 
-BYTE REGPARM1 via2_read(WORD addr)
+BYTE via2_read(WORD addr)
 {
     return viacore_read(machine_context.via2, addr);
 }
 
-BYTE REGPARM1 via2_peek(WORD addr)
+BYTE via2_peek(WORD addr)
 {
     return viacore_peek(machine_context.via2, addr);
 }

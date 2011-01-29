@@ -33,12 +33,12 @@ extern BYTE c64memrom_basic64_rom[];
 extern BYTE c64memrom_kernal64_rom[];
 extern BYTE c64memrom_kernal64_trap_rom[];
 
-extern BYTE REGPARM1 c64memrom_kernal64_read(WORD addr);
-extern BYTE REGPARM1 c64memrom_basic64_read(WORD addr);
-extern BYTE REGPARM1 c64memrom_trap_read(WORD addr);
-extern void REGPARM2 c64memrom_trap_store(WORD addr, BYTE value);
+extern BYTE c64memrom_kernal64_read(WORD addr);
+extern BYTE c64memrom_basic64_read(WORD addr);
+extern BYTE c64memrom_trap_read(WORD addr);
+extern void c64memrom_trap_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 c64memrom_rom64_read(WORD addr);
-extern void REGPARM2 c64memrom_rom64_store(WORD addr, BYTE value);
+extern BYTE c64memrom_rom64_read(WORD addr);
+extern void c64memrom_rom64_store(WORD addr, BYTE value);
 
 #endif

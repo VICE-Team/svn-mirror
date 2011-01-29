@@ -58,7 +58,7 @@
 
 static int currbank = 0;
 
-static void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
+static void comal80_io1_store(WORD addr, BYTE value)
 {
     if (value >= 0x80 && value <= 0x83) {
         cart_romhbank_set_slotmain(value & 3);
@@ -67,7 +67,7 @@ static void REGPARM2 comal80_io1_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 comal80_io1_peek(WORD addr)
+static BYTE comal80_io1_peek(WORD addr)
 {
     return currbank;
 }

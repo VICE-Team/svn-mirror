@@ -165,7 +165,7 @@ void tpicore_reset(tpi_context_t *tpi_context)
     (tpi_context->reset)(tpi_context);
 }
 
-void REGPARM3 tpicore_store(tpi_context_t *tpi_context, WORD addr, BYTE byte)
+void tpicore_store(tpi_context_t *tpi_context, WORD addr, BYTE byte)
 {
     if (tpi_context->rmw_flag) {
         (*(tpi_context->clk_ptr))--;
@@ -251,7 +251,7 @@ void REGPARM3 tpicore_store(tpi_context_t *tpi_context, WORD addr, BYTE byte)
     tpi_context->c_tpi[addr] = byte;
 }
 
-BYTE REGPARM2 tpicore_read(tpi_context_t *tpi_context, WORD addr)
+BYTE tpicore_read(tpi_context_t *tpi_context, WORD addr)
 {
     BYTE byte = 0xff;
 
@@ -292,7 +292,7 @@ BYTE REGPARM2 tpicore_read(tpi_context_t *tpi_context, WORD addr)
 }
 
 /* FIXME: peek into register without any side effect */
-BYTE REGPARM2 tpicore_peek(tpi_context_t *tpi_context, WORD addr)
+BYTE tpicore_peek(tpi_context_t *tpi_context, WORD addr)
 {
     BYTE byte = 0xff;
     addr &= 0x07;

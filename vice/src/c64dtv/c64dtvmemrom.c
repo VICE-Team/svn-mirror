@@ -45,7 +45,7 @@ BYTE c64memrom_kernal64_rom[C64_KERNAL_ROM_SIZE];
 
 BYTE c64memrom_kernal64_trap_rom[C64_KERNAL_ROM_SIZE];
 
-BYTE REGPARM1 c64memrom_kernal64_read(WORD addr)
+BYTE c64memrom_kernal64_read(WORD addr)
 {
     int mapping = c64dtvmem_memmapper[0];
     int paddr = ((mapping & 0x1f) << 16) + addr;
@@ -55,7 +55,7 @@ BYTE REGPARM1 c64memrom_kernal64_read(WORD addr)
         return mem_ram[paddr];
 }
 
-static void REGPARM2 c64memrom_kernal64_store(WORD addr, BYTE value)
+static void c64memrom_kernal64_store(WORD addr, BYTE value)
 {
     int mapping = c64dtvmem_memmapper[0];
     int paddr = ((mapping & 0x1f) << 16) + addr;
@@ -65,7 +65,7 @@ static void REGPARM2 c64memrom_kernal64_store(WORD addr, BYTE value)
         mem_ram[paddr] = value;
 }
 
-BYTE REGPARM1 c64memrom_basic64_read(WORD addr)
+BYTE c64memrom_basic64_read(WORD addr)
 {
     int mapping = c64dtvmem_memmapper[1];
     int paddr = ((mapping & 0x1f) << 16) + addr;
@@ -75,7 +75,7 @@ BYTE REGPARM1 c64memrom_basic64_read(WORD addr)
         return mem_ram[paddr];
 }
 
-/* static void REGPARM2 c64memrom_basic64_store(WORD addr, BYTE value)
+/* static void c64memrom_basic64_store(WORD addr, BYTE value)
 {
 }
 */
@@ -83,7 +83,7 @@ BYTE REGPARM1 c64memrom_basic64_read(WORD addr)
 /* We don't use trap_rom in the DTV emulation. Traps are installed in */
 /* flash/RAM directly and temporarily removed when accessing $d10x. */
 
-BYTE REGPARM1 c64memrom_trap_read(WORD addr)
+BYTE c64memrom_trap_read(WORD addr)
 {
     switch (addr & 0xf000) {
       case 0xe000:
@@ -94,7 +94,7 @@ BYTE REGPARM1 c64memrom_trap_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 c64memrom_trap_store(WORD addr, BYTE value)
+void c64memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0xe000:
@@ -104,7 +104,7 @@ void REGPARM2 c64memrom_trap_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 c64memrom_rom64_read(WORD addr)
+BYTE c64memrom_rom64_read(WORD addr)
 {
     switch (addr & 0xf000) {
       case 0xa000:
@@ -120,7 +120,7 @@ BYTE REGPARM1 c64memrom_rom64_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 c64memrom_rom64_store(WORD addr, BYTE value)
+void c64memrom_rom64_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
       case 0xa000:

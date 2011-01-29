@@ -56,7 +56,7 @@
 #endif
 
 
-void REGPARM2 cia2_store(WORD addr, BYTE data)
+void cia2_store(WORD addr, BYTE data)
 {
     if ((addr&0x1f) == 1) {
         if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
@@ -73,7 +73,7 @@ void REGPARM2 cia2_store(WORD addr, BYTE data)
     ciacore_store(machine_context.cia2, addr, data);
 }
 
-BYTE REGPARM1 cia2_read(WORD addr)
+BYTE cia2_read(WORD addr)
 {
     BYTE retval = 0xff;
     if ((addr&0x1f) == 1) {
@@ -110,7 +110,7 @@ BYTE REGPARM1 cia2_read(WORD addr)
     return ciacore_read(machine_context.cia2, addr);
 }
 
-BYTE REGPARM1 cia2_peek(WORD addr)
+BYTE cia2_peek(WORD addr)
 {
     return ciacore_peek(machine_context.cia2, addr);
 }

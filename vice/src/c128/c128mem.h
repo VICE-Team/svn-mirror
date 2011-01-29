@@ -73,67 +73,67 @@ extern void mem_set_write_hook(int config, int page, store_func_t *f);
 extern void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);
 extern void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr);
 
-extern BYTE REGPARM1 ram_read(WORD addr);
-extern void REGPARM2 ram_store(WORD addr, BYTE value);
+extern BYTE ram_read(WORD addr);
+extern void ram_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 one_read(WORD addr);
-extern void REGPARM2 one_store(WORD addr, BYTE value);
+extern BYTE one_read(WORD addr);
+extern void one_store(WORD addr, BYTE value);
 
-extern void REGPARM2 colorram_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 colorram_read(WORD addr);
+extern void colorram_store(WORD addr, BYTE value);
+extern BYTE colorram_read(WORD addr);
 
-extern BYTE REGPARM1 d7xx_read(WORD addr);
-extern void REGPARM2 d7xx_store(WORD addr, BYTE value);
+extern BYTE d7xx_read(WORD addr);
+extern void d7xx_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 lo_read(WORD addr);
-extern void REGPARM2 lo_store(WORD addr, BYTE value);
+extern BYTE lo_read(WORD addr);
+extern void lo_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 hi_read(WORD addr);
-extern void REGPARM2 hi_store(WORD addr, BYTE value);
+extern BYTE hi_read(WORD addr);
+extern void hi_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 top_shared_read(WORD addr);
-extern void REGPARM2 top_shared_store(WORD addr, BYTE value);
+extern BYTE top_shared_read(WORD addr);
+extern void top_shared_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 editor_read(WORD addr);
-extern void REGPARM2 editor_store(WORD addr, BYTE value);
+extern BYTE editor_read(WORD addr);
+extern void editor_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 basic_read(WORD addr);
-extern void REGPARM2 basic_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 kernal_read(WORD addr);
-extern void REGPARM2 kernal_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 chargen_read(WORD addr);
-extern void REGPARM2 chargen_store(WORD addr, BYTE value);
+extern BYTE basic_read(WORD addr);
+extern void basic_store(WORD addr, BYTE value);
+extern BYTE kernal_read(WORD addr);
+extern void kernal_store(WORD addr, BYTE value);
+extern BYTE chargen_read(WORD addr);
+extern void chargen_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 basic_lo_read(WORD addr);
-extern void REGPARM2 basic_lo_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 basic_hi_read(WORD addr);
-extern void REGPARM2 basic_hi_store(WORD addr, BYTE value);
+extern BYTE basic_lo_read(WORD addr);
+extern void basic_lo_store(WORD addr, BYTE value);
+extern BYTE basic_hi_read(WORD addr);
+extern void basic_hi_store(WORD addr, BYTE value);
 
 extern BYTE *ram_bank;
 
 extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
-extern BYTE REGPARM1 c128_vicii_read(WORD addr);
-extern void REGPARM2 c128_vicii_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_sid_read(WORD addr);
-extern void REGPARM2 c128_sid_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_mmu_read(WORD addr);
-extern void REGPARM2 c128_mmu_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_d5xx_read(WORD addr);
-extern void REGPARM2 c128_d5xx_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_vdc_read(WORD addr);
-extern void REGPARM2 c128_vdc_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_d7xx_read(WORD addr);
-extern void REGPARM2 c128_d7xx_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_colorram_read(WORD addr);
-extern void REGPARM2 c128_colorram_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_cia1_read(WORD addr);
-extern void REGPARM2 c128_cia1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_cia2_read(WORD addr);
-extern void REGPARM2 c128_cia2_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_c64io1_read(WORD addr);
-extern void REGPARM2 c128_c64io1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c128_c64io2_read(WORD addr);
-extern void REGPARM2 c128_c64io2_store(WORD addr, BYTE value);
+extern BYTE c128_vicii_read(WORD addr);
+extern void c128_vicii_store(WORD addr, BYTE value);
+extern BYTE c128_sid_read(WORD addr);
+extern void c128_sid_store(WORD addr, BYTE value);
+extern BYTE c128_mmu_read(WORD addr);
+extern void c128_mmu_store(WORD addr, BYTE value);
+extern BYTE c128_d5xx_read(WORD addr);
+extern void c128_d5xx_store(WORD addr, BYTE value);
+extern BYTE c128_vdc_read(WORD addr);
+extern void c128_vdc_store(WORD addr, BYTE value);
+extern BYTE c128_d7xx_read(WORD addr);
+extern void c128_d7xx_store(WORD addr, BYTE value);
+extern BYTE c128_colorram_read(WORD addr);
+extern void c128_colorram_store(WORD addr, BYTE value);
+extern BYTE c128_cia1_read(WORD addr);
+extern void c128_cia1_store(WORD addr, BYTE value);
+extern BYTE c128_cia2_read(WORD addr);
+extern void c128_cia2_store(WORD addr, BYTE value);
+extern BYTE c128_c64io1_read(WORD addr);
+extern void c128_c64io1_store(WORD addr, BYTE value);
+extern BYTE c128_c64io2_read(WORD addr);
+extern void c128_c64io2_store(WORD addr, BYTE value);
 
 #endif

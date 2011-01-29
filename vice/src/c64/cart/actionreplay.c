@@ -67,9 +67,9 @@ static int ar_active;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 actionreplay_io2_read(WORD addr);
-static void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value);
+static void actionreplay_io1_store(WORD addr, BYTE value);
+static BYTE actionreplay_io2_read(WORD addr);
+static void actionreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t action_replay_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY,
@@ -106,7 +106,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
+static void actionreplay_io1_store(WORD addr, BYTE value)
 {
     unsigned int mode = 0;
 
@@ -125,7 +125,7 @@ static void REGPARM2 actionreplay_io1_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 actionreplay_io2_read(WORD addr)
+static BYTE actionreplay_io2_read(WORD addr)
 {
     action_replay_io2_device.io_source_valid = 0;
 
@@ -157,7 +157,7 @@ static BYTE REGPARM1 actionreplay_io2_read(WORD addr)
     return 0;
 }
 
-static void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
+static void actionreplay_io2_store(WORD addr, BYTE value)
 {
     if (ar_active) {
         if (export_ram) {
@@ -168,7 +168,7 @@ static void REGPARM2 actionreplay_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 actionreplay_roml_read(WORD addr)
+BYTE actionreplay_roml_read(WORD addr)
 {
     if (export_ram) {
         return export_ram0[addr & 0x1fff];
@@ -177,7 +177,7 @@ BYTE REGPARM1 actionreplay_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 actionreplay_roml_store(WORD addr, BYTE value)
+void actionreplay_roml_store(WORD addr, BYTE value)
 {
     if (export_ram) {
         export_ram0[addr & 0x1fff] = value;

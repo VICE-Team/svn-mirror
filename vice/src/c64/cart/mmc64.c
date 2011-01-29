@@ -159,13 +159,13 @@ static int mmc64_deactivate(void);
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value);
-static void REGPARM2 mmc64_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 mmc64_io1_read(WORD addr);
-static BYTE REGPARM1 mmc64_io1_peek(WORD addr);
-static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value);
-static BYTE REGPARM1 mmc64_io2_read(WORD addr);
-static BYTE REGPARM1 mmc64_io2_peek(WORD addr);
+static void mmc64_clockport_enable_store(WORD addr, BYTE value);
+static void mmc64_io1_store(WORD addr, BYTE value);
+static BYTE mmc64_io1_read(WORD addr);
+static BYTE mmc64_io1_peek(WORD addr);
+static void mmc64_io2_store(WORD addr, BYTE value);
+static BYTE mmc64_io2_read(WORD addr);
+static BYTE mmc64_io2_peek(WORD addr);
 
 static io_source_t mmc64_io1_clockport_device = {
     CARTRIDGE_NAME_MMC64 " CLOCKPORT ENABLE",
@@ -521,7 +521,7 @@ void mmc64_passthrough_changed(struct export_s *export)
     }
 }
 
-static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value)
+static void mmc64_clockport_enable_store(WORD addr, BYTE value)
 {
     if ((value & 1) != mmc64_clockport_enabled) {
         mmc64_clockport_enabled = value & 1;
@@ -531,7 +531,7 @@ static void REGPARM2 mmc64_clockport_enable_store(WORD addr, BYTE value)
     }
 }
 
-static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
+static void mmc64_reg_store(WORD addr, BYTE value,int active)
 {
     switch (addr) {
         case 0:
@@ -676,19 +676,19 @@ static void REGPARM2 mmc64_reg_store(WORD addr, BYTE value,int active)
   }
 }
 
-static void REGPARM2 mmc64_io1_store(WORD addr, BYTE value)
+static void mmc64_io1_store(WORD addr, BYTE value)
 {
     if (mmc64_hw_flashjumper) {
         mmc64_reg_store(addr, value, 1);
     }
 }
 
-static void REGPARM2 mmc64_io2_store(WORD addr, BYTE value)
+static void mmc64_io2_store(WORD addr, BYTE value)
 {
     mmc64_reg_store(addr, value, mmc64_active ^ 1);
 }
 
-static BYTE REGPARM1 mmc64_io2_read(WORD addr)
+static BYTE mmc64_io2_read(WORD addr)
 {
     BYTE value;
 
@@ -794,12 +794,12 @@ static BYTE REGPARM1 mmc64_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 mmc64_io1_read(WORD addr)
+static BYTE mmc64_io1_read(WORD addr)
 {
     return mmc64_io2_read(addr);
 }
 
-static BYTE REGPARM1 mmc64_io2_peek(WORD addr)
+static BYTE mmc64_io2_peek(WORD addr)
 {
     BYTE value = 0;
 
@@ -849,7 +849,7 @@ static BYTE REGPARM1 mmc64_io2_peek(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 mmc64_io1_peek(WORD addr)
+static BYTE mmc64_io1_peek(WORD addr)
 {
     return mmc64_io2_peek(addr);
 }
@@ -883,7 +883,7 @@ int mmc64_peek_mem(WORD addr, BYTE *value)
     return CART_READ_THROUGH;
 }
 
-void REGPARM2 mmc64_roml_store(WORD addr, BYTE byte)
+void mmc64_roml_store(WORD addr, BYTE byte)
 {
     /* if (addr == 0x8000) LOG(("roml w %04x %02x active: %d == 0 bios: %d == 0 flashjumper: %d == 1 flashmode: %d == 1\n", addr, byte, mmc64_active, mmc64_biossel, mmc64_flashjumper, mmc64_flashmode)); */
     if (!mmc64_active && !mmc64_biossel && mmc64_flashjumper && mmc64_flashmode) {

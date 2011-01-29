@@ -84,9 +84,9 @@
 /*    resources support functions                                            */
 
 /* some prototypes are needed */
-static void REGPARM2 tfe_store(WORD io_address, BYTE byte);
-static BYTE REGPARM1 tfe_read(WORD io_address);
-static BYTE REGPARM1 tfe_peek(WORD io_address);
+static void tfe_store(WORD io_address, BYTE byte);
+static BYTE tfe_read(WORD io_address);
+static BYTE tfe_peek(WORD io_address);
 
 static io_source_t rrnet_io1_mmc64_device = {
     CARTRIDGE_NAME_RRNET " on " CARTRIDGE_NAME_MMC64 " Clockport",
@@ -335,7 +335,7 @@ void tfe_clockport_changed(void)
 /* ------------------------------------------------------------------------- */
 
 /* ----- read byte from I/O range in VICE ----- */
-static BYTE REGPARM1 tfe_read(WORD io_address)
+static BYTE tfe_read(WORD io_address)
 {
     if (tfe_as_rr_net) {
         /* rr status register is handled by rr cartidge */
@@ -349,7 +349,7 @@ static BYTE REGPARM1 tfe_read(WORD io_address)
 }
 
 /* ----- peek byte with no sideeffects from I/O range in VICE ----- */
-static BYTE REGPARM1 tfe_peek(WORD io_address)
+static BYTE tfe_peek(WORD io_address)
 {
     if (tfe_as_rr_net) {
         /* rr status register is handled by rr cartidge */
@@ -362,7 +362,7 @@ static BYTE REGPARM1 tfe_peek(WORD io_address)
 }
 
 /* ----- write byte to I/O range of VICE ----- */
-static void REGPARM2 tfe_store(WORD io_address, BYTE byte)
+static void tfe_store(WORD io_address, BYTE byte)
 {
     if (tfe_as_rr_net) {
         /* rr control register is handled by rr cartidge */

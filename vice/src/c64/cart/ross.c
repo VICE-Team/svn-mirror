@@ -56,7 +56,7 @@
 
 static int currbank = 0;
 
-static BYTE REGPARM1 ross_io1_read(WORD addr)
+static BYTE ross_io1_read(WORD addr)
 {
     cart_romhbank_set_slotmain(1);
     cart_romlbank_set_slotmain(1);
@@ -64,12 +64,12 @@ static BYTE REGPARM1 ross_io1_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 ross_io1_peek(WORD addr)
+static BYTE ross_io1_peek(WORD addr)
 {
     return currbank;
 }
 
-static BYTE REGPARM1 ross_io2_read(WORD addr)
+static BYTE ross_io2_read(WORD addr)
 {
     cart_set_port_exrom_slotmain(0);
     cart_set_port_game_slotmain(0);
@@ -77,7 +77,7 @@ static BYTE REGPARM1 ross_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 ross_io2_peek(WORD addr)
+static BYTE ross_io2_peek(WORD addr)
 {
     return 0;
 }

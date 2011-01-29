@@ -38,17 +38,17 @@
 /* FIXME get rid of this */
 #define MMCREPLAY_EEPROM_SIZE (1024)
 
-extern BYTE REGPARM1 mmcreplay_roml_read(WORD addr);
-extern void REGPARM2 mmcreplay_roml_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 mmcreplay_romh_read(WORD addr);
-extern void REGPARM2 mmcreplay_romh_store(WORD addr, BYTE value);
+extern BYTE mmcreplay_roml_read(WORD addr);
+extern void mmcreplay_roml_store(WORD addr, BYTE value);
+extern BYTE mmcreplay_romh_read(WORD addr);
+extern void mmcreplay_romh_store(WORD addr, BYTE value);
 
-extern BYTE REGPARM1 mmcreplay_1000_7fff_read(WORD addr);
-extern void REGPARM2 mmcreplay_1000_7fff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 mmcreplay_a000_bfff_read(WORD addr);
-extern void REGPARM2 mmcreplay_a000_bfff_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 mmcreplay_c000_cfff_read(WORD addr);
-extern void REGPARM2 mmcreplay_c000_cfff_store(WORD addr, BYTE value);
+extern BYTE mmcreplay_1000_7fff_read(WORD addr);
+extern void mmcreplay_1000_7fff_store(WORD addr, BYTE value);
+extern BYTE mmcreplay_a000_bfff_read(WORD addr);
+extern void mmcreplay_a000_bfff_store(WORD addr, BYTE value);
+extern BYTE mmcreplay_c000_cfff_read(WORD addr);
+extern void mmcreplay_c000_cfff_store(WORD addr, BYTE value);
 
 extern void mmcreplay_freeze(void);
 extern int mmcreplay_freeze_allowed(void);

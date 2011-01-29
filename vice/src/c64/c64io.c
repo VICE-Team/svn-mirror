@@ -266,37 +266,37 @@ void c64io_unregister(io_source_list_t *device)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-BYTE REGPARM1 c64io1_read(WORD addr)
+BYTE c64io1_read(WORD addr)
 {
     DBGRW(("IO: io1 r %04x\n", addr));
     return io_read(&c64io1_head, addr);
 }
 
-BYTE REGPARM1 c64io1_peek(WORD addr)
+BYTE c64io1_peek(WORD addr)
 {
     DBGRW(("IO: io1 p %04x\n", addr));
     return io_peek(&c64io1_head, addr);
 }
 
-void REGPARM2 c64io1_store(WORD addr, BYTE value)
+void c64io1_store(WORD addr, BYTE value)
 {
     DBGRW(("IO: io1 w %04x %02x\n", addr, value));
     io_store(&c64io1_head, addr, value);
 }
 
-BYTE REGPARM1 c64io2_read(WORD addr)
+BYTE c64io2_read(WORD addr)
 {
     DBGRW(("IO: io2 r %04x\n", addr));
     return io_read(&c64io2_head, addr);
 }
 
-BYTE REGPARM1 c64io2_peek(WORD addr)
+BYTE c64io2_peek(WORD addr)
 {
     DBGRW(("IO: io2 p %04x\n", addr));
     return io_peek(&c64io2_head, addr);
 }
 
-void REGPARM2 c64io2_store(WORD addr, BYTE value)
+void c64io2_store(WORD addr, BYTE value)
 {
     DBGRW(("IO: io2 w %04x %02x\n", addr, value));
     io_store(&c64io2_head, addr, value);

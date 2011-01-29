@@ -56,25 +56,25 @@
 #define DBG(x)
 #endif
 
-static BYTE REGPARM1 mach5_io1_read(WORD addr)
+static BYTE mach5_io1_read(WORD addr)
 {
 /*    DBG(("io1 rd %04x\n", addr)); */
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-static void REGPARM2 mach5_io1_store(WORD addr, BYTE value)
+static void mach5_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 st %04x %02x\n", addr, value));
     cart_config_changed_slotmain(0, 0, CMODE_WRITE);
 }
 
-static BYTE REGPARM1 mach5_io2_read(WORD addr)
+static BYTE mach5_io2_read(WORD addr)
 {
 /*    DBG(("io2 rd %04x\n", addr)); */
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
-static void REGPARM2 mach5_io2_store(WORD addr, BYTE value)
+static void mach5_io2_store(WORD addr, BYTE value)
 {
     DBG(("%04x io2 st %04x %02x\n", reg_pc, addr, value));
     cart_config_changed_slotmain(2, 2, CMODE_WRITE);

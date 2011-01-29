@@ -30,8 +30,8 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr);
-extern void REGPARM2 supersnapshot_v4_roml_store(WORD addr, BYTE value);
+extern BYTE supersnapshot_v4_roml_read(WORD addr);
+extern void supersnapshot_v4_roml_store(WORD addr, BYTE value);
 
 extern void supersnapshot_v4_freeze(void);
 

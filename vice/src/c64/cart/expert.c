@@ -224,9 +224,9 @@ static int expert_load_image(void);
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 expert_io1_read(WORD addr);
-BYTE REGPARM1 expert_io1_peek(WORD addr);
-void REGPARM2 expert_io1_store(WORD addr, BYTE value);
+BYTE expert_io1_read(WORD addr);
+BYTE expert_io1_peek(WORD addr);
+void expert_io1_store(WORD addr, BYTE value);
 
 static io_source_t expert_io1_device = {
     CARTRIDGE_NAME_EXPERT,
@@ -402,7 +402,7 @@ static int set_expert_filename(const char *name, void *param)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 expert_io1_read(WORD addr)
+BYTE expert_io1_read(WORD addr)
 {
     expert_io1_device.io_source_valid = 0;
     /* DBG(("EXPERT: io1 rd %04x (%d)\n", addr, expert_ramh_enabled)); */
@@ -415,14 +415,14 @@ BYTE REGPARM1 expert_io1_read(WORD addr)
     return 0;
 }
 
-BYTE REGPARM1 expert_io1_peek(WORD addr)
+BYTE expert_io1_peek(WORD addr)
 {
     return 0;
 }
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 expert_roml_read(WORD addr)
+BYTE expert_roml_read(WORD addr)
 {
 /*    DBG(("EXPERT: set expert_roml_read: %x\n", addr)); */
     if (cartmode == EXPERT_MODE_PRG) {
@@ -434,7 +434,7 @@ BYTE REGPARM1 expert_roml_read(WORD addr)
     }
 }
 
-void REGPARM2 expert_roml_store(WORD addr, BYTE value)
+void expert_roml_store(WORD addr, BYTE value)
 {
 /*    DBG(("EXPERT: set expert_roml_store: %x\n", addr)); */
     if (expert_ram_writeable) {
@@ -451,7 +451,7 @@ void REGPARM2 expert_roml_store(WORD addr, BYTE value)
     }
 }
 
-BYTE REGPARM1 expert_romh_read(WORD addr)
+BYTE expert_romh_read(WORD addr)
 {
 /*    DBG(("EXPERT: set expert_romh_read: %x mode %d %02x %02x\n", addr, cartmode, expert_ram[0x1ffe], expert_ram[0x1fff])); */
     if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {

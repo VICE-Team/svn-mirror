@@ -21,7 +21,7 @@ the X Window System.
 %setup -q
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -DNO_REGPARM" ./configure --prefix=%{prefix} --enable-fullscreen --with-sdl
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --enable-fullscreen --with-sdl
 make
 
 %install

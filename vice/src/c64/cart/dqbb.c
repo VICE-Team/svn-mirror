@@ -105,8 +105,8 @@ static int reg_value = 0;
 static int dqbb_write_image = 0;
 
 /* ------------------------------------------------------------------------- */
-static BYTE REGPARM1 dqbb_io1_peek(WORD addr);
-static void REGPARM2 dqbb_io1_store(WORD addr, BYTE byte);
+static BYTE dqbb_io1_peek(WORD addr);
+static void dqbb_io1_store(WORD addr, BYTE byte);
 
 static io_source_t dqbb_io1_device = {
     CARTRIDGE_NAME_DQBB,
@@ -151,7 +151,7 @@ static void dqbb_change_config(void)
     }
 }
 
-static void REGPARM2 dqbb_io1_store(WORD addr, BYTE byte)
+static void dqbb_io1_store(WORD addr, BYTE byte)
 {
     dqbb_a000_mapped = (byte & 4) >> 2;
     dqbb_readwrite = (byte & 0x10) >> 4;
@@ -160,7 +160,7 @@ static void REGPARM2 dqbb_io1_store(WORD addr, BYTE byte)
     reg_value = byte;
 }
 
-static BYTE REGPARM1 dqbb_io1_peek(WORD addr)
+static BYTE dqbb_io1_peek(WORD addr)
 {
     return reg_value;
 }
@@ -410,12 +410,12 @@ int dqbb_flush_image(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 dqbb_roml_read(WORD addr)
+BYTE dqbb_roml_read(WORD addr)
 {
     return dqbb_ram[addr & 0x1fff];
 }
 
-void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte)
+void dqbb_roml_store(WORD addr, BYTE byte)
 {
     if (dqbb_readwrite) {
         dqbb_ram[addr & 0x1fff] = byte;
@@ -423,12 +423,12 @@ void REGPARM2 dqbb_roml_store(WORD addr, BYTE byte)
     mem_store_without_romlh(addr, byte);
 }
 
-BYTE REGPARM1 dqbb_romh_read(WORD addr)
+BYTE dqbb_romh_read(WORD addr)
 {
     return dqbb_ram[(addr & 0x1fff) + 0x2000];
 }
 
-void REGPARM2 dqbb_romh_store(WORD addr, BYTE byte)
+void dqbb_romh_store(WORD addr, BYTE byte)
 {
     if (dqbb_readwrite) {
         dqbb_ram[(addr & 0x1fff) + 0x2000] = byte;

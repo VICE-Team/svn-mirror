@@ -41,13 +41,13 @@ extern void c64_256k_reset(void);
 extern void c64_256k_cia_set_vbank(int ciabank);
 extern void c64_256k_shutdown(void);
 
-extern void REGPARM2 c64_256k_ram_segment0_store(WORD addr, BYTE value);
-extern void REGPARM2 c64_256k_ram_segment1_store(WORD addr, BYTE value);
-extern void REGPARM2 c64_256k_ram_segment2_store(WORD addr, BYTE value);
-extern void REGPARM2 c64_256k_ram_segment3_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 c64_256k_ram_segment0_read(WORD addr);
-extern BYTE REGPARM1 c64_256k_ram_segment1_read(WORD addr);
-extern BYTE REGPARM1 c64_256k_ram_segment2_read(WORD addr);
-extern BYTE REGPARM1 c64_256k_ram_segment3_read(WORD addr);
+extern void c64_256k_ram_segment0_store(WORD addr, BYTE value);
+extern void c64_256k_ram_segment1_store(WORD addr, BYTE value);
+extern void c64_256k_ram_segment2_store(WORD addr, BYTE value);
+extern void c64_256k_ram_segment3_store(WORD addr, BYTE value);
+extern BYTE c64_256k_ram_segment0_read(WORD addr);
+extern BYTE c64_256k_ram_segment1_read(WORD addr);
+extern BYTE c64_256k_ram_segment2_read(WORD addr);
+extern BYTE c64_256k_ram_segment3_read(WORD addr);
 
 #endif

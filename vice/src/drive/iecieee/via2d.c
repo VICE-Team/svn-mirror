@@ -77,17 +77,17 @@ static void restore_int(via_context_t *via_context, unsigned int int_num,
     interrupt_restore_irq(drive_context->cpu->int_status, int_num, value);
 }
 
-void REGPARM3 via2d_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void via2d_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
     viacore_store(ctxptr->via2, addr, data);
 }
 
-BYTE REGPARM2 via2d_read(drive_context_t *ctxptr, WORD addr)
+BYTE via2d_read(drive_context_t *ctxptr, WORD addr)
 {
     return viacore_read(ctxptr->via2, addr);
 }
 
-BYTE REGPARM2 via2d_peek(drive_context_t *ctxptr, WORD addr)
+BYTE via2d_peek(drive_context_t *ctxptr, WORD addr)
 {
     return viacore_peek(ctxptr->via2, addr);
 }

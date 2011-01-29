@@ -43,7 +43,7 @@ static BYTE pio1_data = 0xff;
 /* Tape sense line: 1 = some button pressed, 0 = no buttons pressed, or datasette not connected.  */
 static int tape_sense = 0;
 
-BYTE REGPARM1 pio1_read(WORD addr)
+BYTE pio1_read(WORD addr)
 {
     BYTE pio1_value;
 
@@ -62,7 +62,7 @@ BYTE REGPARM1 pio1_read(WORD addr)
     return pio1_value;
 }
 
-void REGPARM2 pio1_store(WORD addr, BYTE value)
+void pio1_store(WORD addr, BYTE value)
 {
     BYTE pio1_outline;
 

@@ -76,7 +76,7 @@
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 freezeframe_io1_read(WORD addr)
+static BYTE freezeframe_io1_read(WORD addr)
 {
     DBG(("io1 r %04x\n", addr));
     if (addr == 0) {
@@ -86,17 +86,17 @@ static BYTE REGPARM1 freezeframe_io1_read(WORD addr)
     return 0; /* invalid */
 }
 
-static BYTE REGPARM1 freezeframe_io1_peek(WORD addr)
+static BYTE freezeframe_io1_peek(WORD addr)
 {
     return 0; /* invalid */
 }
 
-static void REGPARM2 freezeframe_io1_store(WORD addr, BYTE value)
+static void freezeframe_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 %04x %02x\n", addr, value));
 }
 
-static BYTE REGPARM1 freezeframe_io2_read(WORD addr)
+static BYTE freezeframe_io2_read(WORD addr)
 {
     DBG(("io2 r %04x\n", addr));
     if (addr == 0) {
@@ -106,12 +106,12 @@ static BYTE REGPARM1 freezeframe_io2_read(WORD addr)
     return 0; /* invalid */
 }
 
-static BYTE REGPARM1 freezeframe_io2_peek(WORD addr)
+static BYTE freezeframe_io2_peek(WORD addr)
 {
     return 0; /* invalid */
 }
 
-static void REGPARM2 freezeframe_io2_store(WORD addr, BYTE value)
+static void freezeframe_io2_store(WORD addr, BYTE value)
 {
     DBG(("io2 %04x %02x\n", addr, value));
 }

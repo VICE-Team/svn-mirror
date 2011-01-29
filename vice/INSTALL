@@ -266,11 +266,7 @@ There is currently no documentation how to compile under RiscOS or BeOS.
     optimizations might have to be disabled.  The best way to make
     sure everything works is
 
-      CFLAGS="-mpentium -O5 -DNO_REGPARM" ./configure
-
-    `-DNO_REGPARM' may also be needed with versions of GCC that have
-    buggy implementations of regparms.  Unluckily, we have no way of
-    finding about all of them, so you might have to play a bit.
+      CFLAGS="-mpentium -O3" ./configure
 
     If you are running on a Linux system and the joystick module is
     installed properly, the configure script will auto-detect it and

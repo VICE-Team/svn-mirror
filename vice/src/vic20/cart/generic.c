@@ -106,7 +106,7 @@ int generic_rom_blocks = 0;
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM1 generic_ram123_read(WORD addr)
+BYTE generic_ram123_read(WORD addr)
 {
     if (generic_ram_blocks & VIC_CART_RAM123) {
         return cart_ram[(addr & 0x0fff) | 0x8000];
@@ -114,14 +114,14 @@ BYTE REGPARM1 generic_ram123_read(WORD addr)
     return cart_rom[(addr & 0x0fff) | 0x8000];
 }
 
-void REGPARM2 generic_ram123_store(WORD addr, BYTE value)
+void generic_ram123_store(WORD addr, BYTE value)
 {
     if (generic_ram_blocks & VIC_CART_RAM123) {
         cart_ram[(addr & 0x0fff) | 0x8000] = value;
     }
 }
 
-BYTE REGPARM1 generic_blk1_read(WORD addr)
+BYTE generic_blk1_read(WORD addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK1) {
         return cart_ram[addr];
@@ -129,14 +129,14 @@ BYTE REGPARM1 generic_blk1_read(WORD addr)
     return cart_rom[addr];
 }
 
-void REGPARM2 generic_blk1_store(WORD addr, BYTE value)
+void generic_blk1_store(WORD addr, BYTE value)
 {
     if (generic_ram_blocks & VIC_CART_BLK1) {
         cart_ram[addr] = value;
     }
 }
 
-BYTE REGPARM1 generic_blk2_read(WORD addr)
+BYTE generic_blk2_read(WORD addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK2) {
         return cart_ram[addr];
@@ -144,14 +144,14 @@ BYTE REGPARM1 generic_blk2_read(WORD addr)
     return cart_rom[addr];
 }
 
-void REGPARM2 generic_blk2_store(WORD addr, BYTE value)
+void generic_blk2_store(WORD addr, BYTE value)
 {
     if (generic_ram_blocks & VIC_CART_BLK2) {
         cart_ram[addr] = value;
     }
 }
 
-BYTE REGPARM1 generic_blk3_read(WORD addr)
+BYTE generic_blk3_read(WORD addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK3) {
         return cart_ram[addr];
@@ -159,14 +159,14 @@ BYTE REGPARM1 generic_blk3_read(WORD addr)
     return cart_rom[addr];
 }
 
-void REGPARM2 generic_blk3_store(WORD addr, BYTE value)
+void generic_blk3_store(WORD addr, BYTE value)
 {
     if (generic_ram_blocks & VIC_CART_BLK3) {
         cart_ram[addr] = value;
     }
 }
 
-BYTE REGPARM1 generic_blk5_read(WORD addr)
+BYTE generic_blk5_read(WORD addr)
 {
     if (generic_ram_blocks & VIC_CART_BLK5) {
         return cart_ram[addr & 0x1fff];
@@ -174,7 +174,7 @@ BYTE REGPARM1 generic_blk5_read(WORD addr)
     return cart_rom[addr & 0x1fff];
 }
 
-void REGPARM2 generic_blk5_store(WORD addr, BYTE value)
+void generic_blk5_store(WORD addr, BYTE value)
 {
     if (generic_ram_blocks & VIC_CART_BLK5) {
         cart_ram[addr & 0x1fff] = value;

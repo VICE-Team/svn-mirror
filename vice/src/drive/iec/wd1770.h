@@ -97,9 +97,9 @@ extern wd1770_t wd1770[];
 struct drive_context_s;
 
 extern void wd1770d_init(struct drive_context_s *drv);
-extern void REGPARM3 wd1770d_store(struct drive_context_s *drv, WORD addr,
+extern void wd1770d_store(struct drive_context_s *drv, WORD addr,
                                    BYTE byte);
-extern BYTE REGPARM2 wd1770d_read(struct drive_context_s *drv, WORD addr);
+extern BYTE wd1770d_read(struct drive_context_s *drv, WORD addr);
 extern void wd1770d_reset(struct drive_context_s *drv);
 
 extern void wd1770_handle_job_code(unsigned int dnr);

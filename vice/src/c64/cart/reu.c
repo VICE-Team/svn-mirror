@@ -252,9 +252,9 @@ static int reu_write_image = 0;
 /* ------------------------------------------------------------------------- */
 
 /* some prototypes are needed */
-static void REGPARM2 reu_io2_store(WORD addr, BYTE byte);
-static BYTE REGPARM1 reu_io2_read(WORD addr);
-static BYTE REGPARM1 reu_io2_peek(WORD addr);
+static void reu_io2_store(WORD addr, BYTE byte);
+static BYTE reu_io2_read(WORD addr);
+static BYTE reu_io2_peek(WORD addr);
 
 static io_source_t reu_io2_device = {
     CARTRIDGE_NAME_REU,
@@ -912,7 +912,7 @@ static void reu_store_without_sideeffects(WORD addr, BYTE byte)
   \return
     The value the register has
 */
-static BYTE REGPARM1 reu_io2_read(WORD addr)
+static BYTE reu_io2_read(WORD addr)
 {
     BYTE retval = 0xff;
 
@@ -944,7 +944,7 @@ static BYTE REGPARM1 reu_io2_read(WORD addr)
     return retval;
 }
 
-static BYTE REGPARM1 reu_io2_peek(WORD addr)
+static BYTE reu_io2_peek(WORD addr)
 {
     BYTE retval = 0xff;
     if (addr < rec_options.first_unused_register_address) {
@@ -962,7 +962,7 @@ static BYTE REGPARM1 reu_io2_peek(WORD addr)
   \param byte
     The value to set the register to
 */
-static void REGPARM2 reu_io2_store(WORD addr, BYTE byte)
+static void reu_io2_store(WORD addr, BYTE byte)
 {
     if (!reu_dma_active && (addr < rec_options.first_unused_register_address)) {
         reu_store_without_sideeffects(addr, byte);

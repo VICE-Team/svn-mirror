@@ -31,7 +31,7 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 exos_romh_read(WORD addr);
+extern BYTE exos_romh_read(WORD addr);
 
 extern void exos_config_init(void);
 extern void exos_reset(void);

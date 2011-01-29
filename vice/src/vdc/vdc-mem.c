@@ -105,7 +105,7 @@ static void vdc_perform_fillcopy(void)
 /* VDC interface functions. */
 
 /* Store a value in a VDC register. */
-void REGPARM2 vdc_store(WORD addr, BYTE value)
+void vdc_store(WORD addr, BYTE value)
 {
     BYTE oldval;
 
@@ -457,7 +457,7 @@ void REGPARM2 vdc_store(WORD addr, BYTE value)
 }
 
 
-BYTE REGPARM1 vdc_read(WORD addr)
+BYTE vdc_read(WORD addr)
 {
     /* bitmask to set the unused bits in returned register values */
     static const BYTE regmask[38] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
@@ -523,12 +523,12 @@ BYTE REGPARM1 vdc_read(WORD addr)
     }
 }
 
-BYTE REGPARM1 vdc_ram_read(WORD addr)
+BYTE vdc_ram_read(WORD addr)
 {
     return vdc.ram[addr & vdc.vdc_address_mask];
 }
 
-void REGPARM2 vdc_ram_store(WORD addr, BYTE value)
+void vdc_ram_store(WORD addr, BYTE value)
 {
    vdc.ram[addr & vdc.vdc_address_mask] = value; 
 }

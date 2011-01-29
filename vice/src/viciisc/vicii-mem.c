@@ -66,22 +66,22 @@ static int unused_bits_in_registers[0x40] =
 
 
 /* FIXME plus60k/256k needs these for now */
-inline static void REGPARM2 vicii_local_store_vbank(WORD addr, BYTE value)
+inline static void vicii_local_store_vbank(WORD addr, BYTE value)
 {
     vicii.ram_base_phi2[addr] = value;
 }
 
-void REGPARM2 vicii_mem_vbank_store(WORD addr, BYTE value)
+void vicii_mem_vbank_store(WORD addr, BYTE value)
 {
     vicii_local_store_vbank(addr, value);
 }
 
-void REGPARM2 vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
+void vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
     vicii_local_store_vbank(addr, value);
 }
 
-void REGPARM2 vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
+void vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 {
     vicii_local_store_vbank(addr, value);
 }
@@ -337,7 +337,7 @@ inline static void sprite_color_store(WORD addr, BYTE value)
 }
 
 /* Store a value in a VIC-II register.  */
-void REGPARM2 vicii_store(WORD addr, BYTE value)
+void vicii_store(WORD addr, BYTE value)
 {
     addr &= 0x3f;
 
@@ -563,7 +563,7 @@ inline static BYTE d01f_read(void)
 }
 
 /* Read a value from a VIC-II register.  */
-BYTE REGPARM1 vicii_read(WORD addr)
+BYTE vicii_read(WORD addr)
 {
     BYTE value;
     addr &= 0x3f;
@@ -748,7 +748,7 @@ inline static BYTE d019_peek(void)
     return vicii.irq_status | 0x70;
 }
 
-BYTE REGPARM1 vicii_peek(WORD addr)
+BYTE vicii_peek(WORD addr)
 {
     addr &= 0x3f;
 

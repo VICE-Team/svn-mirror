@@ -79,7 +79,7 @@ extern BYTE vic20_v_bus_last_data;
 extern BYTE vic20_v_bus_last_high;
 
 /* Update V-bus values after V-bus read ($0000-$1FFF, $8000-$9FFF) */
-inline static void REGPARM1 vic20_mem_v_bus_read(WORD addr)
+inline static void vic20_mem_v_bus_read(WORD addr)
 {
     vic20_v_bus_last_data = vic20_cpu_last_data;
     vic20_v_bus_last_high = mem_ram[0x9400 + (addr & 0x3ff)];
@@ -87,7 +87,7 @@ inline static void REGPARM1 vic20_mem_v_bus_read(WORD addr)
 
 /* Update V-bus values after V-bus write ($0000-$1FFF, $8000-$9FFF) */
 /* TODO: same as vic20_mem_v_bus_read? */
-inline static void REGPARM1 vic20_mem_v_bus_store(WORD addr)
+inline static void vic20_mem_v_bus_store(WORD addr)
 {
     vic20_v_bus_last_data = vic20_cpu_last_data;
 }

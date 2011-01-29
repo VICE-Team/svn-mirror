@@ -34,20 +34,20 @@
 #include "types.h"
 
 
-static BYTE REGPARM2 drive_read_ram(drive_context_t *drv, WORD address)
+static BYTE drive_read_ram(drive_context_t *drv, WORD address)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
     return drv->cpud->drive_ram[address & 0x1fff];
 }
 
-static void REGPARM3 drive_store_ram(drive_context_t *drv, WORD address,
+static void drive_store_ram(drive_context_t *drv, WORD address,
                                      BYTE value)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
     drv->cpud->drive_ram[address & 0x1fff] = value;
 }
 
-static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
+static BYTE drive_read_zero(drive_context_t *drv, WORD address)
 {
     switch (address & 0xff) {
       case 0:
@@ -59,7 +59,7 @@ static BYTE REGPARM2 drive_read_zero(drive_context_t *drv, WORD address)
     return drv->cpud->drive_ram[address & 0xff];
 }
 
-static void REGPARM3 drive_store_zero(drive_context_t *drv, WORD address,
+static void drive_store_zero(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     switch (address & 0xff) {

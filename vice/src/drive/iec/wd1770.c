@@ -117,12 +117,12 @@ void wd1770d_init(drive_context_t *drv)
                            uint_to_void_ptr(drv->mynumber));
 }
 
-void REGPARM3 wd1770d_store(drive_context_t *drv, WORD addr, BYTE byte)
+void wd1770d_store(drive_context_t *drv, WORD addr, BYTE byte)
 {
     wd1770_store((WORD)(addr & 3), byte, drv->mynumber);
 }
 
-BYTE REGPARM2 wd1770d_read(drive_context_t *drv, WORD addr)
+BYTE wd1770d_read(drive_context_t *drv, WORD addr)
 {
     return wd1770_read((WORD)(addr & 3), drv->mynumber);
 }

@@ -63,12 +63,12 @@
 #endif
 
 /* some prototypes are needed */
-static BYTE REGPARM1 final_v1_io1_read(WORD addr);
-static BYTE REGPARM1 final_v1_io1_peek(WORD addr);
-static void REGPARM2 final_v1_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 final_v1_io2_read(WORD addr);
-static BYTE REGPARM1 final_v1_io2_peek(WORD addr);
-static void REGPARM2 final_v1_io2_store(WORD addr, BYTE value);
+static BYTE final_v1_io1_read(WORD addr);
+static BYTE final_v1_io1_peek(WORD addr);
+static void final_v1_io1_store(WORD addr, BYTE value);
+static BYTE final_v1_io2_read(WORD addr);
+static BYTE final_v1_io2_peek(WORD addr);
+static void final_v1_io2_store(WORD addr, BYTE value);
 
 static io_source_t final1_io1_device = {
     CARTRIDGE_NAME_FINAL_I,
@@ -105,37 +105,37 @@ static const c64export_resource_t export_res_v1 = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 final_v1_io1_read(WORD addr)
+BYTE final_v1_io1_read(WORD addr)
 {
     DBG(("disable %04x\n", addr));
     cart_config_changed_slotmain(2, 2, CMODE_READ | CMODE_RELEASE_FREEZE);
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-BYTE REGPARM1 final_v1_io1_peek(WORD addr)
+BYTE final_v1_io1_peek(WORD addr)
 {
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-void REGPARM2 final_v1_io1_store(WORD addr, BYTE value)
+void final_v1_io1_store(WORD addr, BYTE value)
 {
     DBG(("disable %04x %02x\n", addr, value));
     cart_config_changed_slotmain(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE);
 }
 
-BYTE REGPARM1 final_v1_io2_read(WORD addr)
+BYTE final_v1_io2_read(WORD addr)
 {
     DBG(("enable %04x\n", addr));
     cart_config_changed_slotmain(1, 1, CMODE_READ | CMODE_RELEASE_FREEZE);
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
-BYTE REGPARM1 final_v1_io2_peek(WORD addr)
+BYTE final_v1_io2_peek(WORD addr)
 {
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
-void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
+void final_v1_io2_store(WORD addr, BYTE value)
 {
     DBG(("enable %04x %02x\n", addr, value));
     cart_config_changed_slotmain(1, 1, CMODE_WRITE | CMODE_RELEASE_FREEZE);
@@ -143,12 +143,12 @@ void REGPARM2 final_v1_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 final_v1_roml_read(WORD addr)
+BYTE final_v1_roml_read(WORD addr)
 {
     return roml_banks[(addr & 0x1fff)];
 }
 
-BYTE REGPARM1 final_v1_romh_read(WORD addr)
+BYTE final_v1_romh_read(WORD addr)
 {
     return romh_banks[(addr & 0x1fff)];
 }

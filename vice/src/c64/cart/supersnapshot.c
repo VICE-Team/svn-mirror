@@ -68,8 +68,8 @@ static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr);
-static void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value);
+static BYTE supersnapshot_v5_io1_read(WORD addr);
+static void supersnapshot_v5_io1_store(WORD addr, BYTE value);
 
 static io_source_t ss5_device = {
     CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,
@@ -92,7 +92,7 @@ static const c64export_resource_t export_res_v5 = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
+BYTE supersnapshot_v5_io1_read(WORD addr)
 {
     ss5_device.io_source_valid = 1;
     switch (roml_bank) {
@@ -109,7 +109,7 @@ BYTE REGPARM1 supersnapshot_v5_io1_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
+void supersnapshot_v5_io1_store(WORD addr, BYTE value)
 {
     if (((addr & 0xff) == 0) || ((addr & 0xff) == 1)) {
         int banknr, mode = CMODE_WRITE;
@@ -141,7 +141,7 @@ void REGPARM2 supersnapshot_v5_io1_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 supersnapshot_v5_roml_read(WORD addr)
+BYTE supersnapshot_v5_roml_read(WORD addr)
 {
     if (export_ram) {
         return export_ram0[(addr & 0x1fff) + (ram_bank << 13)];
@@ -150,7 +150,7 @@ BYTE REGPARM1 supersnapshot_v5_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 supersnapshot_v5_roml_store(WORD addr, BYTE value)
+void supersnapshot_v5_roml_store(WORD addr, BYTE value)
 {
     if (export_ram) {
         export_ram0[(addr & 0x1fff) + (ram_bank << 13)] = value;

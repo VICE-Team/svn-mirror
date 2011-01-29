@@ -70,8 +70,8 @@ static int acia_de_enabled = 0;
 
 #ifdef HAVE_RS232
 /* a prototype is needed */
-static BYTE REGPARM1 aciacart_read(WORD addr);
-static BYTE REGPARM1 aciacart_peek(WORD addr);
+static BYTE aciacart_read(WORD addr);
+static BYTE aciacart_peek(WORD addr);
 
 /* FIXME: indiviudal IDs should be used to reflect individual carts (unless 100% identical) */
 
@@ -167,7 +167,7 @@ void aciacart_resources_shutdown(void)
 /* ------------------------------------------------------------------------- */
 
 #ifdef HAVE_RS232
-static BYTE REGPARM1 aciacart_read(WORD addr)
+static BYTE aciacart_read(WORD addr)
 {
     acia_de_device.io_source_valid = 0;
     if (acia.mode == 2 && (addr & 7 )> 3 && (addr & 7) != 7) {
@@ -177,7 +177,7 @@ static BYTE REGPARM1 aciacart_read(WORD addr)
     return myacia_read(addr);
 }
 
-static BYTE REGPARM1 aciacart_peek(WORD addr)
+static BYTE aciacart_peek(WORD addr)
 {
     if (acia.mode == 2 && (addr & 7 )> 3 && (addr & 7) != 7) {
         return 0;

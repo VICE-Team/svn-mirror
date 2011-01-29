@@ -375,7 +375,7 @@ static inline void c64dtv_blitter_done(void)
 }
 
 
-BYTE REGPARM1 c64dtv_blitter_read(WORD addr)
+BYTE c64dtv_blitter_read(WORD addr)
 {
     if (addr==0x1f) {
         return blitter_busy;
@@ -385,7 +385,7 @@ BYTE REGPARM1 c64dtv_blitter_read(WORD addr)
     return 0x00;
 }
 
-void REGPARM2 c64dtv_blitter_store(WORD addr, BYTE value)
+void c64dtv_blitter_store(WORD addr, BYTE value)
 {
     /* Store first, then check whether DMA access has been requested,
        perform if necessary. */

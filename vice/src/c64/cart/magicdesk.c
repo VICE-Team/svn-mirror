@@ -55,7 +55,7 @@
 
 static int currbank = 0;
 
-static void REGPARM2 magicdesk_io1_store(WORD addr, BYTE value)
+static void magicdesk_io1_store(WORD addr, BYTE value)
 {
     cart_romlbank_set_slotmain(value & 0x3f);
     cart_set_port_game_slotmain(0);
@@ -69,7 +69,7 @@ static void REGPARM2 magicdesk_io1_store(WORD addr, BYTE value)
     cart_port_config_changed_slotmain();
 }
 
-static BYTE REGPARM1 magicdesk_io1_peek(WORD addr)
+static BYTE magicdesk_io1_peek(WORD addr)
 {
     return currbank;
 }

@@ -116,7 +116,7 @@ static void delaep64_io1(BYTE value, unsigned int mode)
     currbank = bank;
 }
 
-static BYTE REGPARM1 delaep64_io1_read(WORD addr)
+static BYTE delaep64_io1_read(WORD addr)
 {
     BYTE value = vicii_read_phi1();
 
@@ -125,12 +125,12 @@ static BYTE REGPARM1 delaep64_io1_read(WORD addr)
     return 0;
 }
 
-static BYTE REGPARM1 delaep64_io1_peek(WORD addr)
+static BYTE delaep64_io1_peek(WORD addr)
 {
     return currbank;
 }
 
-void REGPARM2 delaep64_io1_store(WORD addr, BYTE value)
+void delaep64_io1_store(WORD addr, BYTE value)
 {
     delaep64_io1(value, CMODE_WRITE);
 }

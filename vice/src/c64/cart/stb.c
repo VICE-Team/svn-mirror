@@ -50,9 +50,9 @@
 
 /* ---------------------------------------------------------------------*/
 
-static BYTE REGPARM1 stb_io1_read(WORD addr);
-static BYTE REGPARM1 stb_io1_peek(WORD addr);
-static void REGPARM2 stb_io1_store(WORD addr, BYTE value);
+static BYTE stb_io1_read(WORD addr);
+static BYTE stb_io1_peek(WORD addr);
+static void stb_io1_store(WORD addr, BYTE value);
 
 static io_source_t stb_device = {
     CARTRIDGE_NAME_STRUCTURED_BASIC,
@@ -96,18 +96,18 @@ static void stb_io(WORD addr)
     }
 }
 
-static BYTE REGPARM1 stb_io1_read(WORD addr)
+static BYTE stb_io1_read(WORD addr)
 {
     stb_io(addr);
     return 0;
 }
 
-static BYTE REGPARM1 stb_io1_peek(WORD addr)
+static BYTE stb_io1_peek(WORD addr)
 {
     return 0;
 }
 
-static void REGPARM2 stb_io1_store(WORD addr, BYTE value)
+static void stb_io1_store(WORD addr, BYTE value)
 {
     stb_io(addr);
 }

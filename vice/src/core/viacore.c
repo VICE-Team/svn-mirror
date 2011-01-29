@@ -329,7 +329,7 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
     }
 }
 
-void REGPARM3 viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
+void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
 {
     CLOCK rclk;
 
@@ -570,7 +570,7 @@ void REGPARM3 viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE REGPARM2 viacore_read(via_context_t *via_context, WORD addr)
+BYTE viacore_read(via_context_t *via_context, WORD addr)
 {
 #ifdef MYVIA_TIMER_DEBUG
     BYTE viacore_read_(via_context_t *via_context, WORD);
@@ -582,7 +582,7 @@ BYTE REGPARM2 viacore_read(via_context_t *via_context, WORD addr)
                     *(via_context->clk_ptr));
     return retv;
 }
-BYTE REGPARM2 viacore_read_(via_context_t *via_context, WORD addr)
+BYTE viacore_read_(via_context_t *via_context, WORD addr)
 {
 #endif
     BYTE byte = 0xff;
@@ -717,7 +717,7 @@ BYTE REGPARM2 viacore_read_(via_context_t *via_context, WORD addr)
     return via_context->via[addr];
 }
 
-BYTE REGPARM2 viacore_peek(via_context_t *via_context, WORD addr)
+BYTE viacore_peek(via_context_t *via_context, WORD addr)
 {
     CLOCK rclk = *(via_context->clk_ptr);
 

@@ -81,7 +81,7 @@
 /* ---------------------------------------------------------------------*/
 static int currbank = 0;
 
-static void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
+static void delaep7x8_io1_store(WORD addr, BYTE value)
 {
     BYTE bank, config, test_value;
 
@@ -103,7 +103,7 @@ static void REGPARM2 delaep7x8_io1_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 delaep7x8_io1_peek(WORD addr)
+static BYTE delaep7x8_io1_peek(WORD addr)
 {
     return currbank;
 }

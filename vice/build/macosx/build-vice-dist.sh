@@ -216,10 +216,6 @@ fi
 if [ "$UI_TYPE" != "cocoa" ]; then
   LDFLAGS_EXTRA="-dylib_file /System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib:/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib"
 fi
-# HACK: no regparams on clang
-if [ "$COMPILER" = "clang" ]; then
-  COMMON_CFLAGS="-DNO_REGPARM $COMMON_CFLAGS"
-fi
 
 build_vice () {
   local BUILD_ARCH="$1"

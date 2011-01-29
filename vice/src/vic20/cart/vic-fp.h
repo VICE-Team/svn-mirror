@@ -31,17 +31,17 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 vic_fp_ram123_read(WORD addr);
-extern void REGPARM2 vic_fp_ram123_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 vic_fp_blk1_read(WORD addr);
-extern void REGPARM2 vic_fp_blk1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 vic_fp_blk23_read(WORD addr);
-extern void REGPARM2 vic_fp_blk23_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 vic_fp_blk5_read(WORD addr);
-extern void REGPARM2 vic_fp_blk5_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 vic_fp_io2_read(WORD addr);
-extern BYTE REGPARM1 vic_fp_io2_peek(WORD addr);
-extern void REGPARM2 vic_fp_io2_store(WORD addr, BYTE value);
+extern BYTE vic_fp_ram123_read(WORD addr);
+extern void vic_fp_ram123_store(WORD addr, BYTE value);
+extern BYTE vic_fp_blk1_read(WORD addr);
+extern void vic_fp_blk1_store(WORD addr, BYTE value);
+extern BYTE vic_fp_blk23_read(WORD addr);
+extern void vic_fp_blk23_store(WORD addr, BYTE value);
+extern BYTE vic_fp_blk5_read(WORD addr);
+extern void vic_fp_blk5_store(WORD addr, BYTE value);
+extern BYTE vic_fp_io2_read(WORD addr);
+extern BYTE vic_fp_io2_peek(WORD addr);
+extern void vic_fp_io2_store(WORD addr, BYTE value);
 
 extern void vic_fp_init(void);
 extern void vic_fp_reset(void);

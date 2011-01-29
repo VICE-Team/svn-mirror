@@ -143,9 +143,9 @@ static BYTE hdd_identify[128] = {
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void REGPARM2 ide64_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 ide64_io1_read(WORD addr);
-static BYTE REGPARM1 ide64_io1_peek(WORD addr);
+static void ide64_io1_store(WORD addr, BYTE value);
+static BYTE ide64_io1_read(WORD addr);
+static BYTE ide64_io1_peek(WORD addr);
 
 static io_source_t ide64_device = {
     CARTRIDGE_NAME_IDE64,
@@ -562,7 +562,7 @@ static int ide_seek_sector(void)
     return fseek(cdrive->ide_disk, lba << 9, SEEK_SET);
 }
 
-static BYTE REGPARM1 ide64_io1_read(WORD addr)
+static BYTE ide64_io1_read(WORD addr)
 {
     int i;
 
@@ -690,7 +690,7 @@ static BYTE REGPARM1 ide64_io1_read(WORD addr)
 }
 
 /* FIXME: read i/o register without side effects */
-static BYTE REGPARM1 ide64_io1_peek(WORD addr)
+static BYTE ide64_io1_peek(WORD addr)
 {
     BYTE value = 0;
 
@@ -772,7 +772,7 @@ BYTE ide64_get_killport(void)
     return kill_port;
 }
 
-static void REGPARM2 ide64_io1_store(WORD addr, BYTE value)
+static void ide64_io1_store(WORD addr, BYTE value)
 {
     if (kill_port & 1) {
         if ((addr & 0xff) >= 0x5f) {
@@ -1125,37 +1125,37 @@ aborted_command:
     cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
 }
 
-BYTE REGPARM1 ide64_roml_read(WORD addr)
+BYTE ide64_roml_read(WORD addr)
 {
     return roml_banks[(addr & 0x3fff) | (roml_bank << 14)];
 }
 
-BYTE REGPARM1 ide64_romh_read(WORD addr)
+BYTE ide64_romh_read(WORD addr)
 {
     return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
 }
 
-BYTE REGPARM1 ide64_1000_7fff_read(WORD addr)
+BYTE ide64_1000_7fff_read(WORD addr)
 {
     return export_ram0[addr & 0x7fff];
 }
 
-void REGPARM2 ide64_1000_7fff_store(WORD addr, BYTE value)
+void ide64_1000_7fff_store(WORD addr, BYTE value)
 {
     export_ram0[addr & 0x7fff] = value;
 }
 
-BYTE REGPARM1 ide64_a000_bfff_read(WORD addr)
+BYTE ide64_a000_bfff_read(WORD addr)
 {
     return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
 }
 
-BYTE REGPARM1 ide64_c000_cfff_read(WORD addr)
+BYTE ide64_c000_cfff_read(WORD addr)
 {
     return export_ram0[addr & 0x7fff];
 }
 
-void REGPARM2 ide64_c000_cfff_store(WORD addr, BYTE value)
+void ide64_c000_cfff_store(WORD addr, BYTE value)
 {
     export_ram0[addr & 0x7fff] = value;
 }

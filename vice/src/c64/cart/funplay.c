@@ -73,7 +73,7 @@
 
 static int currbank = 0;
 
-static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
+static void funplay_io1_store(WORD addr, BYTE value)
 {
     currbank = ((value >> 3) & 7) | ((value & 1) << 3);
     cart_romhbank_set_slotmain(currbank);
@@ -85,7 +85,7 @@ static void REGPARM2 funplay_io1_store(WORD addr, BYTE value)
     cart_port_config_changed_slotmain();
 }
 
-static BYTE REGPARM1 funplay_io1_peek(WORD addr)
+static BYTE funplay_io1_peek(WORD addr)
 {
     return currbank;
 }

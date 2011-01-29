@@ -98,10 +98,10 @@ static BYTE ramconfig = 0xff, romconfig = 9;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static BYTE REGPARM1 supersnapshot_v4_io1_read(WORD addr);
-static void REGPARM2 supersnapshot_v4_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr);
-static void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value);
+static BYTE supersnapshot_v4_io1_read(WORD addr);
+static void supersnapshot_v4_io1_store(WORD addr, BYTE value);
+static BYTE supersnapshot_v4_io2_read(WORD addr);
+static void supersnapshot_v4_io2_store(WORD addr, BYTE value);
 
 static io_source_t ss4_io1_device = {
     CARTRIDGE_NAME_SUPER_SNAPSHOT,
@@ -139,17 +139,17 @@ static const c64export_resource_t export_res_v4 = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 supersnapshot_v4_io1_read(WORD addr)
+BYTE supersnapshot_v4_io1_read(WORD addr)
 {
     return export_ram0[0x1e00 + (addr & 0xff)];
 }
 
-void REGPARM2 supersnapshot_v4_io1_store(WORD addr, BYTE value)
+void supersnapshot_v4_io1_store(WORD addr, BYTE value)
 {
     export_ram0[0x1e00 + (addr & 0xff)] = value;
 }
 
-BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
+BYTE supersnapshot_v4_io2_read(WORD addr)
 {
     ss4_io2_device.io_source_valid = 1;
 
@@ -161,7 +161,7 @@ BYTE REGPARM1 supersnapshot_v4_io2_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (0x2000 * roml_bank)];
 }
 
-void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
+void supersnapshot_v4_io2_store(WORD addr, BYTE value)
 {
     DBG(("SS4: io2 w %04x %02x\n", addr, value));
 
@@ -240,7 +240,7 @@ void REGPARM2 supersnapshot_v4_io2_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr)
+BYTE supersnapshot_v4_roml_read(WORD addr)
 {
     if (export_ram) {
         return export_ram0[addr & 0x1fff];
@@ -249,7 +249,7 @@ BYTE REGPARM1 supersnapshot_v4_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
-void REGPARM2 supersnapshot_v4_roml_store(WORD addr, BYTE value)
+void supersnapshot_v4_roml_store(WORD addr, BYTE value)
 {
     if (export_ram) {
         export_ram0[addr & 0x1fff] = value;

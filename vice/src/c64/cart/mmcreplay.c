@@ -273,10 +273,10 @@ static unsigned int enable_rr_regs = 1;
 /********************************************************************************************************************/
 
 /* some prototypes are needed */
-static BYTE REGPARM1 mmcreplay_io1_read(WORD addr);
-static void REGPARM2 mmcreplay_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 mmcreplay_io2_read(WORD addr);
-static void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value);
+static BYTE mmcreplay_io1_read(WORD addr);
+static void mmcreplay_io1_store(WORD addr, BYTE value);
+static BYTE mmcreplay_io2_read(WORD addr);
+static void mmcreplay_io2_store(WORD addr, BYTE value);
 
 static io_source_t mmcreplay_io1_device = {
     CARTRIDGE_NAME_MMC_REPLAY,
@@ -1244,7 +1244,7 @@ int iobank_write = 0;
   IO1 - $deXX
 ********************************************************************************************************************/
 
-BYTE REGPARM1 mmcreplay_io1_read(WORD addr)
+BYTE mmcreplay_io1_read(WORD addr)
 {
     BYTE value;
 
@@ -1351,7 +1351,7 @@ BYTE REGPARM1 mmcreplay_io1_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 mmcreplay_io1_store(WORD addr, BYTE value)
+void mmcreplay_io1_store(WORD addr, BYTE value)
 {
     if (rr_active) {
         switch (addr & 0xff) {
@@ -1499,7 +1499,7 @@ void REGPARM2 mmcreplay_io1_store(WORD addr, BYTE value)
   IO1 - $dfXX
 ********************************************************************************************************************/
 
-BYTE REGPARM1 mmcreplay_io2_read(WORD addr)
+BYTE mmcreplay_io2_read(WORD addr)
 {
     BYTE value;
 
@@ -1659,7 +1659,7 @@ BYTE REGPARM1 mmcreplay_io2_read(WORD addr)
     return 0;
 }
 
-void REGPARM2 mmcreplay_io2_store(WORD addr, BYTE value)
+void mmcreplay_io2_store(WORD addr, BYTE value)
 {
     switch (addr & 0xff) {
         case 0x10:
@@ -1841,7 +1841,7 @@ int logbank_write = 0;
 /*
     $1000-$7fff in ultimax mode - this is always regular ram
 */
-BYTE REGPARM1 mmcreplay_1000_7fff_read(WORD addr)
+BYTE mmcreplay_1000_7fff_read(WORD addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -1855,7 +1855,7 @@ BYTE REGPARM1 mmcreplay_1000_7fff_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 mmcreplay_1000_7fff_store(WORD addr, BYTE value)
+void mmcreplay_1000_7fff_store(WORD addr, BYTE value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -1874,7 +1874,7 @@ void REGPARM2 mmcreplay_1000_7fff_store(WORD addr, BYTE value)
 
 /* FIXME: something with checking pport.data is wrong, the seperate check
           for the rescue mode should not be necessary */
-BYTE REGPARM1 mmcreplay_roml_read(WORD addr)
+BYTE mmcreplay_roml_read(WORD addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -1915,7 +1915,7 @@ BYTE REGPARM1 mmcreplay_roml_read(WORD addr)
 
 /* FIXME: something with checking pport.data is wrong, the seperate check
           for the rescue mode should not be necessary */
-void REGPARM2 mmcreplay_roml_store(WORD addr, BYTE value)
+void mmcreplay_roml_store(WORD addr, BYTE value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -1955,7 +1955,7 @@ void REGPARM2 mmcreplay_roml_store(WORD addr, BYTE value)
 /*
     $a000 in ultimax mode
 */
-BYTE REGPARM1 mmcreplay_a000_bfff_read(WORD addr)
+BYTE mmcreplay_a000_bfff_read(WORD addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -1979,7 +1979,7 @@ BYTE REGPARM1 mmcreplay_a000_bfff_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 mmcreplay_a000_bfff_store(WORD addr, BYTE value)
+void mmcreplay_a000_bfff_store(WORD addr, BYTE value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -2019,7 +2019,7 @@ void REGPARM2 mmcreplay_a000_bfff_store(WORD addr, BYTE value)
     $c000 in ultimax mode - this is always regular ram
 */
 
-BYTE REGPARM1 mmcreplay_c000_cfff_read(WORD addr)
+BYTE mmcreplay_c000_cfff_read(WORD addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -2033,7 +2033,7 @@ BYTE REGPARM1 mmcreplay_c000_cfff_read(WORD addr)
     return vicii_read_phi1();
 }
 
-void REGPARM2 mmcreplay_c000_cfff_store(WORD addr, BYTE value)
+void mmcreplay_c000_cfff_store(WORD addr, BYTE value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {
@@ -2050,7 +2050,7 @@ void REGPARM2 mmcreplay_c000_cfff_store(WORD addr, BYTE value)
     ROMH - $a000 ($e000 in ultimax mode)
 */
 
-BYTE REGPARM1 mmcreplay_romh_read(WORD addr)
+BYTE mmcreplay_romh_read(WORD addr)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_read != (addr & 0xe000)) {
@@ -2090,7 +2090,7 @@ BYTE REGPARM1 mmcreplay_romh_read(WORD addr)
 
 }
 
-void REGPARM2 mmcreplay_romh_store(WORD addr, BYTE value)
+void mmcreplay_romh_store(WORD addr, BYTE value)
 {
 #ifdef DEBUG_LOGBANKS
     if (logbank_write != (addr & 0xe000)) {

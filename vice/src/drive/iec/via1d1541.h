@@ -36,10 +36,10 @@ struct via_context_s;
 extern void via1d1541_setup_context(struct drive_context_s *ctxptr);
 extern void via1d1541_init(struct drive_context_s *ctxptr);
 
-extern void REGPARM3 via1d1541_store(struct drive_context_s *ctxptr, WORD addr,
+extern void via1d1541_store(struct drive_context_s *ctxptr, WORD addr,
                                      BYTE byte);
-extern BYTE REGPARM2 via1d1541_read(struct drive_context_s *ctxptr, WORD addr);
-extern BYTE REGPARM2 via1d1541_peek(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE via1d1541_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE via1d1541_peek(struct drive_context_s *ctxptr, WORD addr);
 
 #endif
 

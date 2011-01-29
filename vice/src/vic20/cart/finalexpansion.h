@@ -31,19 +31,19 @@
 
 #include "types.h"
 
-extern BYTE REGPARM1 finalexpansion_ram123_read(WORD addr);
-extern void REGPARM2 finalexpansion_ram123_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 finalexpansion_blk1_read(WORD addr);
-extern void REGPARM2 finalexpansion_blk1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 finalexpansion_blk2_read(WORD addr);
-extern void REGPARM2 finalexpansion_blk2_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 finalexpansion_blk3_read(WORD addr);
-extern void REGPARM2 finalexpansion_blk3_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 finalexpansion_blk5_read(WORD addr);
-extern void REGPARM2 finalexpansion_blk5_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 finalexpansion_io3_read(WORD addr);
-extern BYTE REGPARM1 finalexpansion_io3_peek(WORD addr);
-extern void REGPARM2 finalexpansion_io3_store(WORD addr, BYTE value);
+extern BYTE finalexpansion_ram123_read(WORD addr);
+extern void finalexpansion_ram123_store(WORD addr, BYTE value);
+extern BYTE finalexpansion_blk1_read(WORD addr);
+extern void finalexpansion_blk1_store(WORD addr, BYTE value);
+extern BYTE finalexpansion_blk2_read(WORD addr);
+extern void finalexpansion_blk2_store(WORD addr, BYTE value);
+extern BYTE finalexpansion_blk3_read(WORD addr);
+extern void finalexpansion_blk3_store(WORD addr, BYTE value);
+extern BYTE finalexpansion_blk5_read(WORD addr);
+extern void finalexpansion_blk5_store(WORD addr, BYTE value);
+extern BYTE finalexpansion_io3_read(WORD addr);
+extern BYTE finalexpansion_io3_peek(WORD addr);
+extern void finalexpansion_io3_store(WORD addr, BYTE value);
 
 extern void finalexpansion_init(void);
 extern void finalexpansion_reset(void);

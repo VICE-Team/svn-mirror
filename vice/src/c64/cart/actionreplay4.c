@@ -63,8 +63,8 @@ static int ar_active;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 actionreplay4_io2_read(WORD addr);
+static void actionreplay4_io1_store(WORD addr, BYTE value);
+static BYTE actionreplay4_io2_read(WORD addr);
 
 static io_source_t actionreplay4_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY4,
@@ -101,7 +101,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value)
+static void actionreplay4_io1_store(WORD addr, BYTE value)
 {
     BYTE exrom, bank, conf, game, disable;
 
@@ -120,7 +120,7 @@ static void REGPARM2 actionreplay4_io1_store(WORD addr, BYTE value)
     }
 }
 
-static BYTE REGPARM1 actionreplay4_io2_read(WORD addr)
+static BYTE actionreplay4_io2_read(WORD addr)
 {
     actionreplay4_io2_device.io_source_valid = 0;
 
@@ -150,7 +150,7 @@ static BYTE REGPARM1 actionreplay4_io2_read(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 actionreplay4_roml_read(WORD addr)
+BYTE actionreplay4_roml_read(WORD addr)
 {
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }

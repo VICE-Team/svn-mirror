@@ -32,9 +32,9 @@
 #include "types.h"
 
 
-typedef BYTE REGPARM1 read_func_t(WORD addr);
+typedef BYTE read_func_t(WORD addr);
 typedef read_func_t *read_func_ptr_t;
-typedef void REGPARM2 store_func_t(WORD addr, BYTE value);
+typedef void store_func_t(WORD addr, BYTE value);
 typedef store_func_t *store_func_ptr_t;
 
 extern read_func_ptr_t *_mem_read_tab_ptr;

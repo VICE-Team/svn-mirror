@@ -44,17 +44,17 @@
 /* ------------------------------------------------------------------------- */
 /* Common memory access.  */
 
-BYTE REGPARM2 drive_read_rom(drive_context_t *drv, WORD address)
+BYTE drive_read_rom(drive_context_t *drv, WORD address)
 {
     return drv->drive->rom[address & 0x7fff];
 }
 
-static BYTE REGPARM2 drive_read_free(drive_context_t *drv, WORD address)
+static BYTE drive_read_free(drive_context_t *drv, WORD address)
 {
     return address >> 8;
 }
 
-static void REGPARM3 drive_store_free(drive_context_t *drv, WORD address,
+static void drive_store_free(drive_context_t *drv, WORD address,
                                       BYTE value)
 {
     return;
@@ -63,13 +63,13 @@ static void REGPARM3 drive_store_free(drive_context_t *drv, WORD address,
 /* ------------------------------------------------------------------------- */
 /* Watchpoint memory access.  */
 
-static BYTE REGPARM2 drive_read_watch(drive_context_t *drv, WORD address)
+static BYTE drive_read_watch(drive_context_t *drv, WORD address)
 {
     monitor_watch_push_load_addr(address, drv->cpu->monspace);
     return drv->cpud->read_func_nowatch[address >> 8](drv, address);
 }
 
-static void REGPARM3 drive_store_watch(drive_context_t *drv, WORD address,
+static void drive_store_watch(drive_context_t *drv, WORD address,
                                        BYTE value)
 {
     monitor_watch_push_store_addr(address, drv->cpu->monspace);

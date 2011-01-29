@@ -69,7 +69,7 @@
 
 static int currbank = 0;
 
-static void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
+static void delaep256_io1_store(WORD addr, BYTE value)
 {
     BYTE bank, config;
 
@@ -88,7 +88,7 @@ static void REGPARM2 delaep256_io1_store(WORD addr, BYTE value)
     currbank = bank;
 }
 
-static BYTE REGPARM1 delaep256_io1_peek(WORD addr)
+static BYTE delaep256_io1_peek(WORD addr)
 {
     return currbank;
 }

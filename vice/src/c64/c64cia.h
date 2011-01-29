@@ -36,15 +36,15 @@ extern void cia1_setup_context(struct machine_context_s *machine_context);
 extern void cia2_setup_context(struct machine_context_s *machine_context);
 
 extern void cia1_init(struct cia_context_s *cia_context);
-extern void REGPARM2 cia1_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 cia1_read(WORD addr);
-extern BYTE REGPARM1 cia1_peek(WORD addr);
+extern void cia1_store(WORD addr, BYTE value);
+extern BYTE cia1_read(WORD addr);
+extern BYTE cia1_peek(WORD addr);
 extern void cia1_set_extended_keyboard_rows_mask(BYTE value);
 
 extern void cia2_init(struct cia_context_s *cia_context);
-extern void REGPARM2 cia2_store(WORD addr, BYTE value);
-extern BYTE REGPARM1 cia2_read(WORD addr);
-extern BYTE REGPARM1 cia2_peek(WORD addr);
+extern void cia2_store(WORD addr, BYTE value);
+extern BYTE cia2_read(WORD addr);
+extern BYTE cia2_peek(WORD addr);
 
 extern void cia2_set_flagx(void);
 extern void cia2_set_sdrx(BYTE received_byte);

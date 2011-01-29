@@ -278,7 +278,7 @@ void petdww_shutdown(void)
 static read_func_ptr_t save_mem_read_tab[PET_DWW_RAM_SIZE >> 8];
 static store_func_ptr_t save_mem_write_tab[PET_DWW_RAM_SIZE >> 8];
 
-static BYTE REGPARM2 dww_ram9000_read(WORD addr)
+static BYTE dww_ram9000_read(WORD addr)
 {
     WORD min9000 = (addr - 0x9000) & RAM_SIZE_MASK;
 
@@ -288,7 +288,7 @@ static BYTE REGPARM2 dww_ram9000_read(WORD addr)
     return petdww_ram[min9000];
 }
 
-static void REGPARM2 dww_ram9000_store(WORD addr, BYTE value)
+static void dww_ram9000_store(WORD addr, BYTE value)
 {
     WORD min9000 = (addr - 0x9000) & RAM_SIZE_MASK;
 
@@ -464,15 +464,15 @@ static int charrom_on;
 #define extra_charrom_off         (output_porta & 0x20)
 /* #define mem_at_ec00          (!(output_portb & 0x01)) */
 
-BYTE REGPARM1 petdwwpia_read(WORD addr);
-void REGPARM2 petdwwpia_store(WORD addr, BYTE byte);
+BYTE petdwwpia_read(WORD addr);
+void petdwwpia_store(WORD addr, BYTE byte);
 
 int petdww_mem_at_9000()
 {
     return mem_at_9000;
 }
 
-BYTE REGPARM1 read_petdww_reg(WORD addr)
+BYTE read_petdww_reg(WORD addr)
 {
     /* forward to PIA */
 #if DWW_DEBUG_REG
@@ -481,7 +481,7 @@ BYTE REGPARM1 read_petdww_reg(WORD addr)
     return petdwwpia_read(addr);
 }
 
-BYTE REGPARM1 read_petdww_ec00_ram(WORD addr)
+BYTE read_petdww_ec00_ram(WORD addr)
 {
     addr &= RAM_1K_SIZE_MASK;
     addr |= mem_bank;
@@ -490,7 +490,7 @@ BYTE REGPARM1 read_petdww_ec00_ram(WORD addr)
 }
 
 
-void REGPARM2 store_petdww_reg(WORD addr, BYTE byte)
+void store_petdww_reg(WORD addr, BYTE byte)
 {
     /* forward to PIA */
 #if DWW_DEBUG_REG
@@ -499,7 +499,7 @@ void REGPARM2 store_petdww_reg(WORD addr, BYTE byte)
     petdwwpia_store(addr, byte);
 }
 
-void REGPARM2 store_petdww_ec00_ram(WORD addr, BYTE byte)
+void store_petdww_ec00_ram(WORD addr, BYTE byte)
 {
 #if DWW_DEBUG_REG
     log_message(petdww_log, "store_petdww_ec00_ram: $%04x := $%02x", addr, byte);

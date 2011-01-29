@@ -42,17 +42,17 @@
 #include "vic20via.h"
 
 
-void REGPARM2 via1_store(WORD addr, BYTE data)
+void via1_store(WORD addr, BYTE data)
 {
     viacore_store(machine_context.via1, addr, data);
 }
 
-BYTE REGPARM1 via1_read(WORD addr)
+BYTE via1_read(WORD addr)
 {
     return viacore_read(machine_context.via1, addr);
 }
 
-BYTE REGPARM1 via1_peek(WORD addr)
+BYTE via1_peek(WORD addr)
 {
     return viacore_peek(machine_context.via1, addr);
 }

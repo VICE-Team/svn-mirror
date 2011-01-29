@@ -58,10 +58,10 @@
 */
 
 /* some prototypes are needed */
-static BYTE REGPARM1 warpspeed_io1_read(WORD addr);
-static void REGPARM2 warpspeed_io1_store(WORD addr, BYTE value);
-static BYTE REGPARM1 warpspeed_io2_read(WORD addr);
-static void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value);
+static BYTE warpspeed_io1_read(WORD addr);
+static void warpspeed_io1_store(WORD addr, BYTE value);
+static BYTE warpspeed_io2_read(WORD addr);
+static void warpspeed_io2_store(WORD addr, BYTE value);
 
 static io_source_t warpspeed_io1_device = {
     CARTRIDGE_NAME_WARPSPEED,
@@ -94,22 +94,22 @@ static io_source_list_t *warpspeed_io2_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-BYTE REGPARM1 warpspeed_io1_read(WORD addr)
+BYTE warpspeed_io1_read(WORD addr)
 {
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
 
-void REGPARM2 warpspeed_io1_store(WORD addr, BYTE value)
+void warpspeed_io1_store(WORD addr, BYTE value)
 {
     cart_config_changed_slotmain(1, 1, CMODE_WRITE);
 }
 
-BYTE REGPARM1 warpspeed_io2_read(WORD addr)
+BYTE warpspeed_io2_read(WORD addr)
 {
     return roml_banks[0x1f00 + (addr & 0xff)];
 }
 
-void REGPARM2 warpspeed_io2_store(WORD addr, BYTE value)
+void warpspeed_io2_store(WORD addr, BYTE value)
 {
     cart_config_changed_slotmain(2, 2, CMODE_WRITE);
 }

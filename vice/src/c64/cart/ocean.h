@@ -37,7 +37,7 @@ extern int ocean_bin_attach(const char *filename, BYTE *rawcart);
 extern int ocean_crt_attach(FILE *fd, BYTE *rawcart);
 extern void ocean_detach(void);
 
-extern BYTE REGPARM1 ocean_romh_read(WORD addr);
+extern BYTE ocean_romh_read(WORD addr);
 
 struct snapshot_s;
 

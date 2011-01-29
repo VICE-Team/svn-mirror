@@ -53,7 +53,7 @@
 
 static int currbank = 0;
 
-static void REGPARM2 gs_io1_store(WORD addr, BYTE value)
+static void gs_io1_store(WORD addr, BYTE value)
 {
     cart_romlbank_set_slotmain(addr & 0x3f);
     cart_set_port_exrom_slotmain(1);
@@ -62,13 +62,13 @@ static void REGPARM2 gs_io1_store(WORD addr, BYTE value)
     currbank = addr & 0x3f;
 }
 
-static BYTE REGPARM1 gs_io1_read(WORD addr)
+static BYTE gs_io1_read(WORD addr)
 {
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     return 0;
 }
 
-static BYTE REGPARM1 gs_io1_peek(WORD addr)
+static BYTE gs_io1_peek(WORD addr)
 {
     return currbank;
 }
