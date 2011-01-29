@@ -131,7 +131,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class == VICE_MACHINE_C64 && !vsid_mode) {
+    if ((machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC)&& !vsid_mode) {
         uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
             menu->AddItem(new BMenuItem("CRT", new BMessage(MENU_CART_ATTACH_CRT)));
             menu->AddItem(new BMenuItem("Generic 8KB", new BMessage(MENU_CART_ATTACH_8KB)));
@@ -257,12 +257,14 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C128 ||
          machine_class == VICE_MACHINE_VIC20) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("PAL emulation", new BMessage(MENU_TOGGLE_FASTPAL), 'P', B_CONTROL_KEY));
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C64DTV ||
          machine_class == VICE_MACHINE_C128 ||
          machine_class == VICE_MACHINE_PLUS4 ||
@@ -289,6 +291,7 @@ BMenuBar *menu_create(int machine_class)
 
     if ((machine_class == VICE_MACHINE_C128 ||
          machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C64DTV) && !vsid_mode) {
         uppermenu->AddItem(menu = new BMenu("VIC-II Border mode"));
             menu->SetRadioMode(true);
@@ -378,12 +381,14 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C64DTV ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddSeparatorItem();
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C64DTV ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
@@ -408,6 +413,7 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(menu = new BMenu("Mouse Options"));
             menu->AddItem(submenu = new BMenu("Mouse Type"));
@@ -501,7 +507,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("Save .crt file now", new BMessage(MENU_EASYFLASH_SAVE_NOW)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 && !vsid_mode) {
+    if ((machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) && !vsid_mode) {
             menu->AddItem(submenu = new BMenu("Double Quick Brown Box Options"));
                 submenu->AddItem(new BMenuItem("DQBB emulation", new BMessage(MENU_TOGGLE_DQBB)));
                 submenu->AddItem(new BMenuItem("DQBB File", new BMessage(MENU_DQBB_FILE)));
@@ -669,6 +675,7 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C64DTV ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("VIC-II ...", new BMessage(MENU_VICII_SETTINGS)));
@@ -694,6 +701,7 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if ((machine_class == VICE_MACHINE_C64 ||
+         machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
                 submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
     }
@@ -701,6 +709,7 @@ BMenuBar *menu_create(int machine_class)
     uppermenu->AddItem(new BMenuItem("Sound ...", new BMessage(MENU_SOUND_SETTINGS)));
 
     if (machine_class == VICE_MACHINE_C64 ||
+        machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM5x0 ||
         machine_class == VICE_MACHINE_CBM6x0) {
