@@ -40,13 +40,23 @@ typedef struct {
 
 typedef struct {
     int value;
-    int item_id; /* The last item_id has to be zero.  */
+    int item_id; /* The last item_id has to be zero. */
 } ui_res_possible_values;
 
 typedef struct {
     const char *name;
     ui_res_possible_values *vals;
 } ui_res_value_list;
+
+typedef struct {
+    char *string;
+    int item_id; /* The last item_id has to be zero. */
+} ui_res_possible_strings;
+
+typedef struct {
+    const char *name;
+    ui_res_possible_strings *strings;
+} ui_res_string_list;
 
 typedef struct { 
 	int menu_item; 

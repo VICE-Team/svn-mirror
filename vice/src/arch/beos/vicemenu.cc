@@ -668,6 +668,94 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("Video ...", new BMessage(MENU_VIDEO_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Device ...", new BMessage(MENU_DEVICE_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Drive ...", new BMessage(MENU_DRIVE_SETTINGS)));
+
+        uppermenu->AddItem(menu = new BMenu("Printer ..."));
+            menu->AddItem(submenu = new BMenu("Printer 4 ..."));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 4 emulation"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_PRINTER_4_EMULATION_NONE)));
+                    extsubmenu->AddItem(new BMenuItem("Filesystem", new BMessage(MENU_PRINTER_4_EMULATION_FS)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 4 driver"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("ASCII", new BMessage(MENU_PRINTER_4_DRIVER_ASCII)));
+                    extsubmenu->AddItem(new BMenuItem("MPS803", new BMessage(MENU_PRINTER_4_DRIVER_MPS803)));
+                    extsubmenu->AddItem(new BMenuItem("NL10", new BMessage(MENU_PRINTER_4_DRIVER_NL10)));
+                    extsubmenu->AddItem(new BMenuItem("Raw", new BMessage(MENU_PRINTER_4_DRIVER_RAW)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 4 output type"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Text", new BMessage(MENU_PRINTER_4_TYPE_TEXT)));
+                    extsubmenu->AddItem(new BMenuItem("Graphics", new BMessage(MENU_PRINTER_4_TYPE_GFX)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 4 output device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("1", new BMessage(MENU_PRINTER_4_DEV_1)));
+                    extsubmenu->AddItem(new BMenuItem("2", new BMessage(MENU_PRINTER_4_DEV_2)));
+                    extsubmenu->AddItem(new BMenuItem("3", new BMessage(MENU_PRINTER_4_DEV_3)));
+                submenu->AddItem(new BMenuItem("Send formfeed to printer 4", new BMessage(MENU_PRINTER_4_SEND_FF)));
+                if (machine_class == VICE_MACHINE_C64 ||
+                    machine_class == VICE_MACHINE_C64SC ||
+                    machine_class == VICE_MACHINE_C64DTV ||
+                    machine_class == VICE_MACHINE_C128 ||
+                    machine_class == VICE_MACHINE_PLUS4 ||
+                    machine_class == VICE_MACHINE_VIC20) {
+                    submenu->AddItem(new BMenuItem("Enable IEC emulation", new BMessage(MENU_PRINTER_4_IEC)));
+                }
+                
+            menu->AddItem(submenu = new BMenu("Printer 5 ..."));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 5 emulation"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("None", new BMessage(MENU_PRINTER_5_EMULATION_NONE)));
+                    extsubmenu->AddItem(new BMenuItem("Filesystem", new BMessage(MENU_PRINTER_5_EMULATION_FS)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 5 driver"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("ASCII", new BMessage(MENU_PRINTER_5_DRIVER_ASCII)));
+                    extsubmenu->AddItem(new BMenuItem("MPS803", new BMessage(MENU_PRINTER_5_DRIVER_MPS803)));
+                    extsubmenu->AddItem(new BMenuItem("NL10", new BMessage(MENU_PRINTER_5_DRIVER_NL10)));
+                    extsubmenu->AddItem(new BMenuItem("Raw", new BMessage(MENU_PRINTER_5_DRIVER_RAW)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 5 output type"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("Text", new BMessage(MENU_PRINTER_5_TYPE_TEXT)));
+                    extsubmenu->AddItem(new BMenuItem("Graphics", new BMessage(MENU_PRINTER_5_TYPE_GFX)));
+                submenu->AddItem(extsubmenu = new BMenu("Printer 5 output device"));
+                    extsubmenu->SetRadioMode(true);
+                    extsubmenu->AddItem(new BMenuItem("1", new BMessage(MENU_PRINTER_5_DEV_1)));
+                    extsubmenu->AddItem(new BMenuItem("2", new BMessage(MENU_PRINTER_5_DEV_2)));
+                    extsubmenu->AddItem(new BMenuItem("3", new BMessage(MENU_PRINTER_5_DEV_3)));
+                submenu->AddItem(new BMenuItem("Send formfeed to printer 5", new BMessage(MENU_PRINTER_5_SEND_FF)));
+                if (machine_class == VICE_MACHINE_C64 ||
+                    machine_class == VICE_MACHINE_C64SC ||
+                    machine_class == VICE_MACHINE_C64DTV ||
+                    machine_class == VICE_MACHINE_C128 ||
+                    machine_class == VICE_MACHINE_PLUS4 ||
+                    machine_class == VICE_MACHINE_VIC20) {
+                    submenu->AddItem(new BMenuItem("Enable IEC emulation", new BMessage(MENU_PRINTER_5_IEC)));
+                }
+
+            if (machine_class == VICE_MACHINE_C64 ||
+                machine_class == VICE_MACHINE_C64SC ||
+                machine_class == VICE_MACHINE_C128) {
+                menu->AddItem(submenu = new BMenu("Userport printer ..."));
+                    submenu->AddItem(new BMenuItem("Userport printer emulation", new BMessage(MENU_TOGGLE_USERPORT_PRINTER)));
+                    submenu->AddItem(extsubmenu = new BMenu("Userport printer driver"));
+                        extsubmenu->SetRadioMode(true);
+                        extsubmenu->AddItem(new BMenuItem("ASCII", new BMessage(MENU_USERPORT_PRINTER_DRIVER_ASCII)));
+                        extsubmenu->AddItem(new BMenuItem("MPS803", new BMessage(MENU_USERPORT_PRINTER_DRIVER_MPS803)));
+                        extsubmenu->AddItem(new BMenuItem("NL10", new BMessage(MENU_USERPORT_PRINTER_DRIVER_NL10)));
+                        extsubmenu->AddItem(new BMenuItem("Raw", new BMessage(MENU_USERPORT_PRINTER_DRIVER_RAW)));
+                    submenu->AddItem(extsubmenu = new BMenu("Userport printer output type"));
+                        extsubmenu->SetRadioMode(true);
+                        extsubmenu->AddItem(new BMenuItem("Text", new BMessage(MENU_USERPORT_PRINTER_TYPE_TEXT)));
+                        extsubmenu->AddItem(new BMenuItem("Graphics", new BMessage(MENU_USERPORT_PRINTER_TYPE_GFX)));
+                    submenu->AddItem(extsubmenu = new BMenu("Userport printer output device"));
+                        extsubmenu->SetRadioMode(true);
+                        extsubmenu->AddItem(new BMenuItem("1", new BMessage(MENU_USERPORT_PRINTER_DEV_1)));
+                        extsubmenu->AddItem(new BMenuItem("2", new BMessage(MENU_USERPORT_PRINTER_DEV_2)));
+                        extsubmenu->AddItem(new BMenuItem("3", new BMessage(MENU_USERPORT_PRINTER_DEV_3)));
+                    submenu->AddItem(new BMenuItem("Send formfeed to userport printer", new BMessage(MENU_USERPORT_PRINTER_SEND_FF)));
+            }
+
+            menu->AddItem(new BMenuItem("Output device 1", new BMessage(MENU_OUTPUT_DEVICE_1)));
+            menu->AddItem(new BMenuItem("Output device 2", new BMessage(MENU_OUTPUT_DEVICE_2)));
+            menu->AddItem(new BMenuItem("Output device 3", new BMessage(MENU_OUTPUT_DEVICE_3)));
     }
 
     if (machine_class != VICE_MACHINE_C64DTV && !vsid_mode) {

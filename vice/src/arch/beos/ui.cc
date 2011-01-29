@@ -122,6 +122,9 @@ ui_menu_toggle  toggle_list[] = {
     { "AutostartRunWithColon", MENU_USE_COLON_WITH_RUN },
     { "AutostartBasicLoad", MENU_LOAD_TO_BASIC_START },
     { "JoyOpposite", MENU_ALLOW_OPPOSITE_JOY },
+    { "IECDevice4", MENU_PRINTER_4_IEC },
+    { "IECDevice5", MENU_PRINTER_5_IEC },
+    { "PrinterUserport", MENU_TOGGLE_USERPORT_PRINTER },
     { NULL, 0 }
 };
 
@@ -183,6 +186,81 @@ ui_res_possible_values AutostartPrgMode[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values Printer4Emulation[] = {
+    { PRINTER_DEVICE_NONE, MENU_PRINTER_4_EMULATION_NONE },
+    { PRINTER_DEVICE_FS, MENU_PRINTER_4_EMULATION_FS },
+    { -1, 0 }
+};
+
+ui_res_possible_values Printer5Emulation[] = {
+    { PRINTER_DEVICE_NONE, MENU_PRINTER_5_EMULATION_NONE },
+    { PRINTER_DEVICE_FS, MENU_PRINTER_5_EMULATION_FS },
+    { -1, 0 }
+};
+
+ui_res_possible_strings Printer4Driver[] = {
+    { "ascii", MENU_PRINTER_4_DRIVER_ASCII },
+    { "mps803", MENU_PRINTER_4_DRIVER_MPS803 },
+    { "nl10", MENU_PRINTER_4_DRIVER_NL10 },
+    { "raw", MENU_PRINTER_4_DRIVER_RAW },
+    { NULL, 0 }
+};
+
+ui_res_possible_strings Printer5Driver[] = {
+    { "ascii", MENU_PRINTER_5_DRIVER_ASCII },
+    { "mps803", MENU_PRINTER_5_DRIVER_MPS803 },
+    { "nl10", MENU_PRINTER_5_DRIVER_NL10 },
+    { "raw", MENU_PRINTER_5_DRIVER_RAW },
+    { NULL, 0 }
+};
+
+ui_res_possible_strings UserportPrinterDriver[] = {
+    { "ascii", MENU_USERPORT_PRINTER_DRIVER_ASCII },
+    { "mps803", MENU_USERPORT_PRINTER_DRIVER_MPS803 },
+    { "nl10", MENU_USERPORT_PRINTER_DRIVER_NL10 },
+    { "raw", MENU_USERPORT_PRINTER_DRIVER_RAW },
+    { NULL, 0 }
+};
+
+ui_res_possible_strings Printer4OutputType[] = {
+    { "text", MENU_PRINTER_4_TYPE_TEXT },
+    { "graphics", MENU_PRINTER_4_TYPE_GFX },
+    { NULL, 0 }
+};
+
+ui_res_possible_strings Printer5OutputType[] = {
+    { "text", MENU_PRINTER_5_TYPE_TEXT },
+    { "graphics", MENU_PRINTER_5_TYPE_GFX },
+    { NULL, 0 }
+};
+
+ui_res_possible_strings UserportPrinterOutputType[] = {
+    { "text", MENU_USERPORT_PRINTER_TYPE_TEXT },
+    { "graphics", MENU_USERPORT_PRINTER_TYPE_GFX },
+    { NULL, 0 }
+};
+
+ui_res_possible_values Printer4OutputDevice[] = {
+    { 0, MENU_PRINTER_4_DEV_1 },
+    { 1, MENU_PRINTER_4_DEV_2 },
+    { 2, MENU_PRINTER_4_DEV_3 },
+    { -1, 0 }
+};
+
+ui_res_possible_values Printer5OutputDevice[] = {
+    { 0, MENU_PRINTER_5_DEV_1 },
+    { 1, MENU_PRINTER_5_DEV_2 },
+    { 2, MENU_PRINTER_5_DEV_3 },
+    { -1, 0 }
+};
+
+ui_res_possible_values UserportPrinterOutputDevice[] = {
+    { 0, MENU_USERPORT_PRINTER_DEV_1 },
+    { 1, MENU_USERPORT_PRINTER_DEV_2 },
+    { 2, MENU_USERPORT_PRINTER_DEV_3 },
+    { -1, 0 }
+};
+
 ui_res_value_list value_list[] = {
     { "RefreshRate", RefreshRateValues },
     { "Speed", SpeedValues },
@@ -190,6 +268,21 @@ ui_res_value_list value_list[] = {
     { "EventStartMode", RecordingOptions },
     { "ExtraJoyType", UserportJoyType },
     { "AutostartPrgMode", AutostartPrgMode },
+    { "Printer4", Printer4Emulation },
+    { "Printer5", Printer5Emulation },
+    { "Printer4TextDevice", Printer4OutputDevice },
+    { "Printer5TextDevice", Printer5OutputDevice },
+    { "PrinterUserportTextDevice", UserportPrinterOutputDevice },
+    { NULL, NULL }
+};
+
+ui_res_string_list string_list[] = {
+    { "Printer4Driver", Printer4Driver },
+    { "Printer4Driver", Printer5Driver },
+    { "PrinterUserportDriver", UserportPrinterDriver },
+    { "Printer4Output", Printer4OutputType },
+    { "Printer5Output", Printer5OutputType },
+    { "PrinterUserportOutput", UserportPrinterOutputType },
     { NULL, NULL }
 };
 
@@ -785,6 +878,24 @@ void ui_dispatch_events(void)
                 resources_set_defaults();
                 ui_update_menus();
                 break;
+            case MENU_PRINTER_4_SEND_FF:
+                printer_formfeed(0);
+                break;
+            case MENU_PRINTER_5_SEND_FF:
+                printer_formfeed(1);
+                break;
+            case MENU_USERPORT_PRINTER_SEND_FF:
+                printer_formfeed(2);
+                break;
+            case MENU_OUTPUT_DEVICE_1:
+                ui_select_file(windowlist[0]->savepanel, PRINTER_OUTPUT_FILE1, (void*)0);
+                break;
+            case MENU_OUTPUT_DEVICE_2:
+                ui_select_file(windowlist[0]->savepanel, PRINTER_OUTPUT_FILE2, (void*)0);
+                break;
+            case MENU_OUTPUT_DEVICE_3:
+                ui_select_file(windowlist[0]->savepanel, PRINTER_OUTPUT_FILE3, (void*)0);
+                break;
             case MENU_ABOUT:
                 char *abouttext;
 
@@ -886,6 +997,20 @@ void ui_dispatch_events(void)
                             }
                         }
                     }
+
+                    /* Handle STRING-Menuitems */
+                    for (m = 0; string_list[m].name != NULL; m++) {
+
+                        ui_res_possible_strings *vl = string_list[m].strings;
+
+                        for (; vl->item_id > 0; vl++) {
+                            if (vl->item_id == message_queue[i].what) {
+                                resources_set_string(string_list[m].name, (resource_value_t)vl->string);
+                                break;
+                            }
+                        }
+                    }
+
                     if (machine_specific_values) {
                         for (m = 0; machine_specific_values[m].name != NULL; m++) {
 
@@ -1042,7 +1167,7 @@ void ui_update_menus(void)
     int i;
 
     for (i = 0; i < window_count; i++) {
-        windowlist[i]->Update_Menus(toggle_list, value_list);
+        windowlist[i]->Update_Menus(toggle_list, value_list, string_list);
     }
 }
 

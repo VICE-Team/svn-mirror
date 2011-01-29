@@ -72,18 +72,19 @@ extern int window_count;
 extern ui_res_value_list *machine_specific_values;
 extern ui_menu_toggle *machine_specific_toggles;
 
-void ViceWindow::Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *value_list)
+void ViceWindow::Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *value_list, ui_res_string_list *string_list)
 {
     int i,j;
     int value;
     int result;
+    char *str;
     BMenuItem *item;
 
     /* the general toggle items */
     for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_int(toggle_list[i].name, &value);
         if (item = menubar->FindItem(toggle_list[i].item_id)) {
-        	item->SetMarked(value ? true : false);
+                item->SetMarked(value ? true : false);
         }
     }
 
@@ -105,7 +106,7 @@ void ViceWindow::Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *va
                 if (value == value_list[i].vals[j].value) {
                     /* the corresponding menu is supposed to be in RadioMode */
                     if (item = menubar->FindItem(value_list[i].vals[j].item_id)) {
-                    	item->SetMarked(true);
+                        item->SetMarked(true);
                     }
                 }
             }
@@ -122,6 +123,21 @@ void ViceWindow::Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *va
                         if (item = menubar->FindItem(machine_specific_values[i].vals[j].item_id)) {
                             item->SetMarked(true);
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    /* the general multiple-stringvalue-items */
+    for (i = 0; string_list[i].name != NULL; i++) {
+        result=resources_get_string(string_list[i].name, &str);
+        if (result==0) {
+            for (j = 0; string_list[i].strings[j].item_id != 0; j++) {
+                if (!strcasecmp(str, string_list[i].strings[j].string)) {
+                    /* the corresponding menu is supposed to be in RadioMode */
+                    if (item = menubar->FindItem(string_list[i].strings[j].item_id)) {
+                        item->SetMarked(true);
                     }
                 }
             }
