@@ -143,7 +143,10 @@ static int mach5_common_attach(void)
 int mach5_bin_attach(const char *filename, BYTE *rawcart)
 {
     if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+        if (util_file_load(filename, rawcart, 0x1000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            return -1;
+        }
+        memcpy(&rawcart[0x1000], rawcart, 0x1000);
     }
 
     return mach5_common_attach();
@@ -157,8 +160,15 @@ int mach5_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (fread(rawcart, 0x2000, 1, fd) < 1) {
-        return -1;
+    if (chipheader[6] == 0x10) {
+        if (fread(rawcart, 0x1000, 1, fd) < 1) {
+            return -1;
+        }
+        memcpy(&rawcart[0x1000], rawcart, 0x1000);
+    } else {
+        if (fread(rawcart, 0x2000, 1, fd) < 1) {
+            return -1;
+        }
     }
 
     return mach5_common_attach();

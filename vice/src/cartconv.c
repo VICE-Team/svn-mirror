@@ -168,7 +168,7 @@ static const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_SUPER_EXPLODE_V5, "se5", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_MAGIC_VOICE, "mv", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_ACTION_REPLAY2, "ar2", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_MACH5, "mach5", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_4KB | CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_MACH5, "mach5", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_DIASHOW_MAKER, "dsm", save_regular_crt},
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
@@ -647,6 +647,13 @@ static void save_regular_crt(unsigned int length, unsigned int banks, unsigned i
     }
 
     if (real_banks == 0) {
+        /* handle the case when a chip of half the regular size
+           is used on an otherwise identical hardware (eg 4k
+           chip on a 8k cart)
+        */
+        if (loadfile_size == (length / 2)) {
+            length /= 2;
+        }
         real_banks = loadfile_size / length;
     }
 
