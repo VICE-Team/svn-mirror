@@ -232,10 +232,6 @@ if test x"$enable_sdlui" = "xyes"; then
   enable_nls=no
 fi
 
-dnl $march may be added to the options passed to gcc.
-AS_IF([test "$enable_arch" = no], [march=""],
-      [test "$enable_arch" = yes], [march=" -march=native"],
-      [march=" -march=$enable_arch"])
 
 if test "x$CC" = "xgcc"; then
   GCC=yes
@@ -247,6 +243,34 @@ if test x"$CC" = "xowcc"; then
   AM_CONDITIONAL(OWCC, true)
 else
   AM_CONDITIONAL(OWCC, false)
+fi
+
+if test x"$enable_arch" = "xno"; then
+  march=""
+else
+  if test x"$enable_arch" = "xyes"; then
+    AC_MSG_CHECKING([if the compiler supports -march=native])
+    ORIG_CFLAGS=$CFLAGS
+    CFLAGS="$CFLAGS -march=native"
+    AC_TRY_COMPILE([],
+                   [int test;],
+                   [ AC_MSG_RESULT(yes)
+                     march="-march=native" ],
+                   [ AC_MSG_RESULT(no)
+                     march="" ])
+    CFLAGS=$ORIG_CFLAGS
+  else
+    AC_MSG_CHECKING([if the compiler supports -march=$enable_arch])
+    ORIG_CFLAGS=$CFLAGS
+    CFLAGS="$CFLAGS -march=$enable_arch"
+    AC_TRY_COMPILE([],
+                   [int test;],
+                   [ AC_MSG_RESULT(yes)
+                     march="-march=$enable_arch" ],
+                   [ AC_MSG_RESULT(no)
+                     march="" ])
+    CFLAGS=$ORIG_CFLAGS
+  fi
 fi
 
 dnl Setup crosscompiling.
@@ -524,7 +548,7 @@ darwin*)
     if test x"$GCC" = "xyes" ; then
       warnings_cxx="-Wall -Winline"
       warnings_c="-Wstrict-prototypes $warnings_cxx"
-      optimization_c="-O3$march"
+      optimization_c="-O3 $march"
       optimization_cxx="-fno-exceptions $optimization_c"
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
         CFLAGS="-g $optimization_c $warnings_c"
@@ -618,7 +642,7 @@ dnl All other UN*X systems
       dnl if using GCC.
       dnl If the user has specified her own `CFLAGS', we do not override them.
 
-      optimization_c="-O3$march"
+      optimization_c="-O3 $march"
       optimization_cxx="-fno-exceptions $optimization_c"
       dnl Use -g if available.
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then

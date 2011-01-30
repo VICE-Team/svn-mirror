@@ -39,10 +39,6 @@ AC_ARG_ENABLE([arch],
   [],
   [enable_arch=yes])
 
-AS_IF([test "$enable_arch" = no], [march=""],
-      [test "$enable_arch" = yes], [march=" -march=native"],
-      [march=" -march=$enable_arch"])
-
 dnl Enable branch prediction hints.
 AC_ARG_ENABLE([branch-hints],
   [AS_HELP_STRING([--enable-branch-hints],
@@ -61,9 +57,37 @@ dnl Checks for programs.
 AC_PROG_CXX
 
 dnl Set CXXFLAGS for g++.
+if test x"$enable_arch" = "xno"; then
+  march=""
+else
+  if test x"$enable_arch" = "xyes"; then
+    AC_MSG_CHECKING([if the compiler supports -march=native])
+    ORIG_CXXFLAGS=$CXXFLAGS
+    CXXFLAGS="$CXXFLAGS -march=native"
+    AC_TRY_COMPILE([],
+                   [int test;],
+                   [ AC_MSG_RESULT(yes)
+                     march="-march=native" ],
+                   [ AC_MSG_RESULT(no)
+                     march="" ])
+    CXXFLAGS=$ORIG_CXXFLAGS
+  else
+    AC_MSG_CHECKING([if the compiler supports -march=$enable_arch])
+    ORIG_CXXFLAGS=$CXXFLAGS
+    CXXFLAGS="$CXXFLAGS -march=$enable_arch"
+    AC_TRY_COMPILE([],
+                   [int test;],
+                   [ AC_MSG_RESULT(yes)
+                     march="-march=$enable_arch" ],
+                   [ AC_MSG_RESULT(no)
+                     march="" ])
+    CXXFLAGS=$ORIG_CXXFLAGS
+  fi
+fi
+
 AS_IF([test "$GXX" = yes -a "$resid_test_CXXFLAGS" != set],
   [resid_save_CXXFLAGS=$CXXFLAGS
-   CXXFLAGS="-g -Wall -O3$march -ffast-math -fno-exceptions"
+   CXXFLAGS="-g -Wall -O3 $march -ffast-math -fno-exceptions"
    AC_MSG_CHECKING([whether g++ accepts $CXXFLAGS])
    AC_COMPILE_IFELSE([int test;],
                      [AC_MSG_RESULT(yes)],
