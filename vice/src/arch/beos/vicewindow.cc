@@ -32,10 +32,7 @@
 #include <FilePanel.h>
 #include <Locker.h>
 #include <MenuItem.h>
-
-#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 #include <string.h>
-#endif
 
 #include "vicemenu.h"
 
@@ -77,7 +74,7 @@ void ViceWindow::Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *va
     int i,j;
     int value;
     int result;
-    char *str;
+    const char *str;
     BMenuItem *item;
 
     /* the general toggle items */

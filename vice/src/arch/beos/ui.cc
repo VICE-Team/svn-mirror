@@ -73,6 +73,7 @@ extern "C" {
 #include "mouse.h"
 #include "network.h"
 #include "platform.h"
+#include "printer.h"
 #include "resources.h"
 #include "sound.h"
 #include "statusbar.h"
@@ -1047,7 +1048,7 @@ void ui_dispatch_events(void)
 
                         for (; vl->item_id > 0; vl++) {
                             if (vl->item_id == message_queue[i].what) {
-                                resources_set_string(string_list[m].name, (resource_value_t)vl->string);
+                                resources_set_string(string_list[m].name, vl->string);
                                 break;
                             }
                         }

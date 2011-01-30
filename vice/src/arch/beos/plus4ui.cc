@@ -28,19 +28,40 @@
 
 #include <stdio.h>
 
+#include <Alert.h>
+#include <Application.h>
+#include <FilePanel.h>
+#include <Menu.h>
+#include <MenuBar.h>
+#include <MenuItem.h>
+#include <ScrollView.h>
+#include <TextView.h>
+#include <View.h>
+#include <Window.h>
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+#include <string.h>
+#endif
+
 extern "C" {
 #include "constants.h" 
 #include "plus4ui.h"
 #include "resources.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "viceapp.h"
+#include "vicewindow.h"
 }
+
+extern ViceWindow *windowlist[];
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { "TEDScale2x", MENU_TOGGLE_SCALE2X },
     { "SidCart", MENU_TOGGLE_SIDCART },
     { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },

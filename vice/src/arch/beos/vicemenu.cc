@@ -432,7 +432,7 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("4096 kB", new BMessage(MENU_REU_SIZE_4096)));
                     extsubmenu->AddItem(new BMenuItem("8192 kB", new BMessage(MENU_REU_SIZE_8192)));
                     extsubmenu->AddItem(new BMenuItem("16384 kB", new BMessage(MENU_REU_SIZE_16384)));
-                submenu->AddItem(new BMenuItem("Save to REU image when changed"), new BMessage(MENU_TOGGLE_REU_SWC)));
+                submenu->AddItem(new BMenuItem("Save to REU image when changed", new BMessage(MENU_TOGGLE_REU_SWC)));
                 submenu->AddItem(new BMenuItem("REU File", new BMessage(MENU_REU_FILE)));
             menu->AddItem(submenu = new BMenu("GEO-RAM Options"));
                 submenu->AddItem(new BMenuItem("GEO-RAM emulation", new BMessage(MENU_TOGGLE_GEORAM)));
@@ -445,7 +445,7 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("1024 kB", new BMessage(MENU_GEORAM_SIZE_1024)));
                     extsubmenu->AddItem(new BMenuItem("2048 kB", new BMessage(MENU_GEORAM_SIZE_2048)));
                     extsubmenu->AddItem(new BMenuItem("4096 kB", new BMessage(MENU_GEORAM_SIZE_4096)));
-                submenu->AddItem(new BMenuItem("Save to GEO-RAM image when changed"), new BMessage(MENU_TOGGLE_GEORAM_SWC)));
+                submenu->AddItem(new BMenuItem("Save to GEO-RAM image when changed", new BMessage(MENU_TOGGLE_GEORAM_SWC)));
                 submenu->AddItem(new BMenuItem("GEO-RAM File", new BMessage(MENU_GEORAM_FILE)));
             menu->AddItem(submenu = new BMenu("RamCart Options"));
                 submenu->AddItem(new BMenuItem("RamCart emulation", new BMessage(MENU_TOGGLE_RAMCART)));
@@ -453,7 +453,7 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("64 kB", new BMessage(MENU_RAMCART_SIZE_64)));
                     extsubmenu->AddItem(new BMenuItem("128 kB", new BMessage(MENU_RAMCART_SIZE_128)));
-                submenu->AddItem(new BMenuItem("Save to RamCart image when changed"), new BMessage(MENU_TOGGLE_RAMCART_SWC)));
+                submenu->AddItem(new BMenuItem("Save to RamCart image when changed", new BMessage(MENU_TOGGLE_RAMCART_SWC)));
                 submenu->AddItem(new BMenuItem("RamCart File", new BMessage(MENU_RAMCART_FILE)));
 
             menu->AddItem(submenu = new BMenu("IDE64 Options"));
@@ -505,12 +505,12 @@ BMenuBar *menu_create(int machine_class)
     if ((machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) && !vsid_mode) {
             menu->AddItem(submenu = new BMenu("Double Quick Brown Box Options"));
                 submenu->AddItem(new BMenuItem("DQBB emulation", new BMessage(MENU_TOGGLE_DQBB)));
-                submenu->AddItem(new BMenuItem("Save to DQBB image when changed"), new BMessage(MENU_TOGGLE_DQBB_SWC)));
+                submenu->AddItem(new BMenuItem("Save to DQBB image when changed", new BMessage(MENU_TOGGLE_DQBB_SWC)));
                 submenu->AddItem(new BMenuItem("DQBB File", new BMessage(MENU_DQBB_FILE)));
             menu->AddItem(submenu = new BMenu("ISEPIC Options"));
                 submenu->AddItem(new BMenuItem("ISEPIC emulation", new BMessage(MENU_TOGGLE_ISEPIC)));
                 submenu->AddItem(new BMenuItem("ISEPIC switch", new BMessage(MENU_TOGGLE_ISEPIC_SWITCH)));
-                submenu->AddItem(new BMenuItem("Save to ISEPIC image when changed"), new BMessage(MENU_TOGGLE_ISEPIC_SWC)));
+                submenu->AddItem(new BMenuItem("Save to ISEPIC image when changed", new BMessage(MENU_TOGGLE_ISEPIC_SWC)));
                 submenu->AddItem(new BMenuItem("ISEPIC File", new BMessage(MENU_ISEPIC_FILE)));
             menu->AddItem(submenu = new BMenu("Expert Cartridge Options"));
                 submenu->AddItem(new BMenuItem("Expert Cartridge emulation", new BMessage(MENU_TOGGLE_EXPERT)));
@@ -519,7 +519,7 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("Off", new BMessage(MENU_EXPERT_MODE_OFF)));
                     extsubmenu->AddItem(new BMenuItem("Prg", new BMessage(MENU_EXPERT_MODE_PRG)));
                     extsubmenu->AddItem(new BMenuItem("On", new BMessage(MENU_EXPERT_MODE_ON)));
-                submenu->AddItem(new BMenuItem("Save to Expert Cartridge image when changed"), new BMessage(MENU_TOGGLE_EXPERT_SWC)));
+                submenu->AddItem(new BMenuItem("Save to Expert Cartridge image when changed", new BMessage(MENU_TOGGLE_EXPERT_SWC)));
                 submenu->AddItem(new BMenuItem("Expert Cartridge File", new BMessage(MENU_EXPERT_FILE)));
             menu->AddItem(submenu = new BMenu("PLUS60K Options"));
                 submenu->AddItem(new BMenuItem("PLUS60K emulation", new BMessage(MENU_TOGGLE_PLUS60K)));
