@@ -485,9 +485,9 @@ static String fallback_resources[] = {
     "*SmeBSB.vertSpace:                              -15",
 #define INTERNATIONAL_RESOURCES         2
     "*font:                                        -*-lucida-bold-r-*-*-12-*",
-    "*fontSet:                                     -*-lucida-bold-r-*-*-12-*,-*-*-*-*-*-*-12-*-*-*-*-*-iso10646-*",
+    "*fontSet:                                     -*-lucida-bold-r-*-*-12-*-*-*-*-*-iso8859-1,-*-lucida-bold-r-*-*-12-*-*-*-*-*-iso10646-*",
     "*Command.font:                                -*-lucida-bold-r-*-*-12-*",
-    "*Command.fontSet:                             -*-lucida-bold-r-*-*-12-*,-*-*-*-*-*-*-12-*-*-*-*-*-iso10646-*",
+    "*Command.fontSet:                             -*-lucida-bold-r-*-*-12-*-*-*-*-*-iso8859-1,-*-lucida-bold-r-*-*-12-*-*-*-*-*-iso10646-*",
     "*fileSelector.width:			     380",
     "*fileSelector.height:			     300",
     "*inputDialog.inputForm.borderWidth:	     0",
