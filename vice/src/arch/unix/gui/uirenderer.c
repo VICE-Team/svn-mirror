@@ -89,7 +89,7 @@ void ui_select_renderer(ui_window_t w, int check, int type, char *chip)
             resources_set_int(r1, scale2x);
         }
         resources_set_int(r2, doublesize);
-
+        ui_update_menus();
     } else {
         if (renderer == type) {
             ui_menu_set_tick(w, 1);
