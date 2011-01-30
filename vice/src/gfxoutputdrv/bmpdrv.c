@@ -313,11 +313,18 @@ static FILE *bmpdrv_memmap_fd;
 static char *bmpdrv_memmap_ext_filename;
 static BYTE *bmpdrv_memmap_bmp_data;
 
+static int bmpdrv_memmap_bytes_per_row(int x_size)
+{
+    int bits_per_row = 8*x_size;  /* 8 bits per pixel */
+    return (bits_per_row/32 + (bits_per_row%32 != 0))*4;
+}
+
 static int bmpdrv_close_memmap(int x_size, int y_size)
 {
     int res = 0;
+    size_t len = bmpdrv_memmap_bytes_per_row(x_size)*y_size;
 
-    if (fwrite(bmpdrv_memmap_bmp_data, y_size * x_size, 1, bmpdrv_memmap_fd) != 1) {
+    if (fwrite(bmpdrv_memmap_bmp_data, len, 1, bmpdrv_memmap_fd) != 1) {
         res = -1;
     }
 
@@ -329,11 +336,7 @@ static int bmpdrv_close_memmap(int x_size, int y_size)
 
 static DWORD bmpdrv_memmap_bmp_size(int x_size, int y_size)
 {
-    DWORD size = 0;
-
-    size = (DWORD)((14 + 40 + 4 * 256) + (x_size * y_size));
-
-    return size;
+    return 14 + 40 + 4*256 + bmpdrv_memmap_bytes_per_row(x_size)*y_size;
 }
 
 static int bmpdrv_memmap_write_bitmap_info(int x_size, int y_size, BYTE *palette)
@@ -351,7 +354,7 @@ static int bmpdrv_memmap_write_bitmap_info(int x_size, int y_size, BYTE *palette
     binfo[12] = 1;
     binfo[13] = 0;
 
-    binfo[14] = 8;
+    binfo[14] = 8;  /* 8 bits per pixel */
     binfo[15] = 0;
 
     util_dword_to_le_buf(&binfo[16], 0); /* BI_RGB */
@@ -428,14 +431,16 @@ static int bmpdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
         return -1;
     }
 
-    bmpdrv_memmap_bmp_data = lib_malloc(x_size * y_size);
+    bmpdrv_memmap_bmp_data =
+        lib_malloc(bmpdrv_memmap_bytes_per_row(x_size)*y_size);
 
     return 0;
 }
 
 static void bmpdrv_write_memmap(int line, int x_size, int y_size, BYTE *gfx)
 {
-    memcpy(bmpdrv_memmap_bmp_data + (y_size - 1 - line) * x_size, gfx+(line*x_size), x_size);
+    int bmp_width = bmpdrv_memmap_bytes_per_row(x_size);
+    memcpy(bmpdrv_memmap_bmp_data + (y_size - 1 - line) * bmp_width, gfx+(line*x_size), x_size);
 }
 
 static int bmpdrv_memmap_save(const char *filename, int x_size, int y_size, BYTE *gfx, BYTE *palette)
