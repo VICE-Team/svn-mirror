@@ -59,30 +59,15 @@ extern gfxoutputdrv_t bmp_drv;
 static gfxoutputdrv_t bmp_drv;
 #endif
 
+static int bmpdrv_bytes_per_row(screenshot_t *screenshot)
+{
+    int bits_per_row = screenshot->gfxoutputdrv_data->bpp*screenshot->width;
+    return (bits_per_row/32 + (bits_per_row%32 != 0))*4;
+}
+
 static DWORD bmpdrv_bmp_size(screenshot_t *screenshot)
 {
-    DWORD size = 0;
-
-    switch (screenshot->gfxoutputdrv_data->bpp) {
-      case 1:
-        size = (DWORD)(BMP_HDR_OFFSET
-               + (screenshot->width / 8 * screenshot->height));
-        break;
-      case 4:
-        size = (DWORD)(BMP_HDR_OFFSET
-               + (screenshot->width / 2 * screenshot->height));
-        break;
-      case 8:
-        size = (DWORD)(BMP_HDR_OFFSET
-               + (screenshot->width * screenshot->height));
-        break;
-      case 24:
-        size = (DWORD)(BMP_HDR_OFFSET
-               + (screenshot->width * screenshot->height * 3));
-        break;
-    }
-
-    return size;
+    return BMP_HDR_OFFSET + bmpdrv_bytes_per_row(screenshot)*screenshot->height;
 }
 
 static int bmpdrv_write_file_header(screenshot_t *screenshot)
@@ -223,24 +208,8 @@ static int bmpdrv_open(screenshot_t *screenshot, const char *filename)
         sdata->data = lib_malloc(screenshot->width);
     }
 
-    switch (sdata->bpp) {
-        case 1:
-          sdata->bmp_data = lib_malloc(screenshot->height
-                                               * screenshot->width / 8);
-          break;
-        case 4:
-          sdata->bmp_data = lib_malloc(screenshot->height
-                                               * screenshot->width / 2);
-          break;
-        case 8:
-          sdata->bmp_data = lib_malloc(screenshot->height
-                                               * screenshot->width);
-          break;
-        default:
-          sdata->bmp_data = lib_malloc(screenshot->height
-                                               * screenshot->width * 3);
-          break;
-    }
+    sdata->bmp_data =
+        lib_malloc(bmpdrv_bytes_per_row(screenshot)*screenshot->height);
 
     return 0;
 }
@@ -249,6 +218,7 @@ static int bmpdrv_write(screenshot_t *screenshot)
 {
     unsigned int row;
     gfxoutputdrv_data_t *sdata;
+    int bmp_width = bmpdrv_bytes_per_row(screenshot);
 
     sdata = screenshot->gfxoutputdrv_data;
 
@@ -263,32 +233,32 @@ static int bmpdrv_write(screenshot_t *screenshot)
         {
           int i,j;
           memset(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
-                 * screenshot->width/8, 0, screenshot->width/8);
+                 * bmp_width, 0, bmp_width);
 
           for (i = 0; i < (int)screenshot->width/8; i++)
             {
               BYTE b=0;
               for (j = 0; j < 8; j++) b |= sdata->data[i*8+j] ? (1<<(7-j)) : 0;
               sdata->bmp_data[((screenshot->height - 1 - sdata->line)
-                               * screenshot->width / 8) + i] = b;
+                               * bmp_width) + i] = b;
             }
         }
         break;
       case 4:
         for (row = 0; row < screenshot->width / 2; row++) {
             sdata->bmp_data[((screenshot->height - 1 - sdata->line)
-            * screenshot->width / 2) + row]
+            * bmp_width) + row]
             = ((sdata->data[row * 2] & 0xf) << 4)
             | (sdata->data[row * 2 + 1] & 0xf);
         }
         break;
       case 8:
         memcpy(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
-               * screenshot->width, sdata->data, screenshot->width);
+               * bmp_width, sdata->data, screenshot->width);
         break;
       case 24:
         memcpy(sdata->bmp_data + (screenshot->height - 1 - sdata->line)
-               * screenshot->width * 3, sdata->data, screenshot->width * 3);
+               * bmp_width, sdata->data, screenshot->width * 3);
         break;
     }
 
@@ -300,22 +270,7 @@ static int bmpdrv_write(screenshot_t *screenshot)
 static int bmpdrv_close(screenshot_t *screenshot)
 {
     int res = -1;
-    size_t len = 0;
-
-    switch (screenshot->gfxoutputdrv_data->bpp) {
-      case 1:
-        len = screenshot->height * screenshot->width / 8;
-        break;
-      case 4:
-        len = screenshot->height * screenshot->width / 2;
-        break;
-      case 8:
-        len = screenshot->height * screenshot->width;
-        break;
-      case 24:
-        len = screenshot->height * screenshot->width * 3;
-        break;
-    }
+    size_t len = bmpdrv_bytes_per_row(screenshot)*screenshot->height;
 
     if (fwrite(screenshot->gfxoutputdrv_data->bmp_data, len, 1, screenshot->gfxoutputdrv_data->fd) == 1) {
         res = 0;
