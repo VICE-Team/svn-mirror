@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-01-31 10:46-0800\n"
-"PO-Revision-Date: 2011-01-28 22:25+0100\n"
+"PO-Revision-Date: 2011-01-31 21:23+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10076,10 +10076,10 @@ msgid ""
 "The format of the file is the one written out by the `save_labels' command;\n"
 "it consists of some `add_label' commands, written one after the other."
 msgstr ""
-"Laded eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \n"
+"Lädt eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \n"
 "Speicherbereich angegeben wurde, wird der Standard Speicherplatz\n"
-"verwendet.  Das Format der Datei wird durch das Kommande `save_lables'\n"
-"definiert.  Es besteht aus eine Reihe von `add_label' Kommandos,\n"
+"verwendet. Das Format der Datei wird durch das Kommande `save_lables'\n"
+"definiert. Es besteht aus eine Reihe von `add_label' Kommandos,\n"
 "hintereinander angeordnet."
 
 #: src/translate_text.c.po.c:1255
@@ -10392,7 +10392,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:1857
 msgid "[loadstore] [address [address]]"
-msgstr "[lade/speichere] [Adresse [Adresse]]"
+msgstr "[loadstore] [Adresse [Adresse]]"
 
 #: src/translate_text.c.po.c:1871
 msgid ""
@@ -11947,19 +11947,16 @@ msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Sättigung für intern berechneten Palette setzen [1000]"
 
 #: src/translate_text.c.po.c:7023
-#, fuzzy
 msgid "Set contrast of internal calculated palette [1000]"
-msgstr "Kontrast für intern berechneten Palette setzen [1100]"
+msgstr "Kontrast für intern berechnete Palette setzen [1000]"
 
 #: src/translate_text.c.po.c:7037
-#, fuzzy
 msgid "Set brightness of internal calculated palette [1000]"
-msgstr "Helligkeit für intern berechneten Palette setzen [1100]"
+msgstr "Helligkeit für intern berechnete Palette setzen [1000]"
 
 #: src/translate_text.c.po.c:7051
-#, fuzzy
 msgid "Set gamma of internal calculated palette [2200]"
-msgstr "Gamma für intern berechneten Palette setzen [900]"
+msgstr "Gamma für intern berechnete Palette setzen [2200]"
 
 #: src/translate_text.c.po.c:7065
 msgid "Set tint of internal calculated palette [1000]"
@@ -11975,11 +11972,11 @@ msgstr "Phasenoffset für Farbträger in ungeraden Zeilen setzen [750]"
 
 #: src/translate_text.c.po.c:7107
 msgid "Amount of horizontal blur for the CRT emulation. [500]"
-msgstr ""
+msgstr "Wert für horizontale Unschärfe für CRT Emulation. [500]"
 
 #: src/translate_text.c.po.c:7121
 msgid "Amount of scan line shading for the CRT emulation [667]"
-msgstr ""
+msgstr "Wert für Scanline Schatten für CRT Emulation [667]"
 
 #: src/translate_text.c.po.c:7135
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
