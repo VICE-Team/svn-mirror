@@ -76,14 +76,14 @@ static const cmdline_option_t cmdline_options[] =
       "<0-2000>", NULL },
     { "-crtblur", SET_RESOURCE, 1,
       NULL, NULL, "PALBlur", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-1000>", T_("Amount of horizontal blur for the CRT emulation. [500]") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_BLUR,
+      "<0-1000>", NULL },
     { "-crtscanlineshade", SET_RESOURCE, 1,
       NULL, NULL, "PALScanLineShade", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      "<0-1000>", T_("Amount of scan line shading for the CRT emulation [667]") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_SCANLINE_SHADE,
+      "<0-1000>", NULL },
     { NULL }
 };
 

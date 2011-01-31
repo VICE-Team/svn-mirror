@@ -7158,6 +7158,34 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_ODDLINES_OFFSET_TR, "Tek satýrlardaki renk taþýyýcýlarý için faz ofsetini ayarlayýn [750]"},
 #endif
 
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_SET_BLUR,    N_("Amount of horizontal blur for the CRT emulation. [500]")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_BLUR_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BLUR_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_BLUR_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_BLUR_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_BLUR_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_BLUR_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_BLUR_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_BLUR_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BLUR_TR, ""},  /* fuzzy */
+#endif
+
+/* vicii/vicii-cmdline-options.c */
+/* en */ {IDCLS_SET_SCANLINE_SHADE,    N_("Amount of scan line shading for the CRT emulation [667]")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_SCANLINE_SHADE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SCANLINE_SHADE_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SCANLINE_SHADE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_SCANLINE_SHADE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SCANLINE_SHADE_IT, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_SCANLINE_SHADE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_SCANLINE_SHADE_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SCANLINE_SHADE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_SCANLINE_SHADE_TR, ""},  /* fuzzy */
+#endif
+
 /* viciisc/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_VICII_MODEL,    N_("Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)")},
 #ifdef HAS_TRANSLATION
