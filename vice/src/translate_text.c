@@ -7075,45 +7075,45 @@ translate_t string_table[] = {
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_CONTRAST,    N_("Set contrast of internal calculated palette [1100]")},
+/* en */ {IDCLS_SET_CONTRAST,    N_("Set contrast of internal calculated palette [1000]")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_CONTRAST_DA, "Indstil kontrast for internt beregnet palette [1100]"},
-/* de */ {IDCLS_SET_CONTRAST_DE, "Kontrast für intern berechneten Palette setzen [1100]"},
-/* fr */ {IDCLS_SET_CONTRAST_FR, "Régler le contraste de la palette interne calculée [1100]"},
-/* hu */ {IDCLS_SET_CONTRAST_HU, "A számolt paletta kontraszt értéke [1100]"},
-/* it */ {IDCLS_SET_CONTRAST_IT, "Imposta il constrasto della palette calcolata internamente [1100]"},
-/* nl */ {IDCLS_SET_CONTRAST_NL, "Zet het contrast van het intern berekend kleurenpalet [1100]"},
+/* da */ {IDCLS_SET_CONTRAST_DA, "Indstil kontrast for internt beregnet palette [1000]"},
+/* de */ {IDCLS_SET_CONTRAST_DE, "Kontrast für intern berechneten Palette setzen [1000]"},
+/* fr */ {IDCLS_SET_CONTRAST_FR, "Régler le contraste de la palette interne calculée [1000]"},
+/* hu */ {IDCLS_SET_CONTRAST_HU, "A számolt paletta kontraszt értéke [1000]"},
+/* it */ {IDCLS_SET_CONTRAST_IT, "Imposta il constrasto della palette calcolata internamente [1000]"},
+/* nl */ {IDCLS_SET_CONTRAST_NL, "Zet het contrast van het intern berekend kleurenpalet [1000]"},
 /* pl */ {IDCLS_SET_CONTRAST_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_CONTRAST_SV, "Ställ in kontrast på internt beräknad palett [1100]"},
-/* tr */ {IDCLS_SET_CONTRAST_TR, "Dahili hesaplanmýþ paletin karþýtlýðýný ayarlayýn [1100]"},
+/* sv */ {IDCLS_SET_CONTRAST_SV, "Ställ in kontrast på internt beräknad palett [1000]"},
+/* tr */ {IDCLS_SET_CONTRAST_TR, "Dahili hesaplanmýþ paletin karþýtlýðýný ayarlayýn [1000]"},
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_BRIGHTNESS,    N_("Set brightness of internal calculated palette [1100]")},
+/* en */ {IDCLS_SET_BRIGHTNESS,    N_("Set brightness of internal calculated palette [1000]")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_BRIGHTNESS_DA, "Indstil lysstyrke for internt beregnet palette [1100]"},
-/* de */ {IDCLS_SET_BRIGHTNESS_DE, "Helligkeit für intern berechneten Palette setzen [1100]"},
-/* fr */ {IDCLS_SET_BRIGHTNESS_FR, "Régler la luminosité de la palette interne calculée [1100]"},
-/* hu */ {IDCLS_SET_BRIGHTNESS_HU, "A számolt paletta fényerõssége [1100]"},
-/* it */ {IDCLS_SET_BRIGHTNESS_IT, "Imposta la luminanza della palette calcolata internamente [1100]"},
-/* nl */ {IDCLS_SET_BRIGHTNESS_NL, "Zet de helderheid van het intern berekend kleurenpalet [1100]"},
+/* da */ {IDCLS_SET_BRIGHTNESS_DA, "Indstil lysstyrke for internt beregnet palette [1000]"},
+/* de */ {IDCLS_SET_BRIGHTNESS_DE, "Helligkeit für intern berechneten Palette setzen [1000]"},
+/* fr */ {IDCLS_SET_BRIGHTNESS_FR, "Régler la luminosité de la palette interne calculée [1000]"},
+/* hu */ {IDCLS_SET_BRIGHTNESS_HU, "A számolt paletta fényerõssége [1000]"},
+/* it */ {IDCLS_SET_BRIGHTNESS_IT, "Imposta la luminanza della palette calcolata internamente [1000]"},
+/* nl */ {IDCLS_SET_BRIGHTNESS_NL, "Zet de helderheid van het intern berekend kleurenpalet [1000]"},
 /* pl */ {IDCLS_SET_BRIGHTNESS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_BRIGHTNESS_SV, "Ställ in ljusstyrka på internt beräknad palett [1100]"},
-/* tr */ {IDCLS_SET_BRIGHTNESS_TR, "Dahili hesaplanmýþ paletin parlaklýðýný ayarlayýn [1100]"},
+/* sv */ {IDCLS_SET_BRIGHTNESS_SV, "Ställ in ljusstyrka på internt beräknad palett [1000]"},
+/* tr */ {IDCLS_SET_BRIGHTNESS_TR, "Dahili hesaplanmýþ paletin parlaklýðýný ayarlayýn [1000]"},
 #endif
 
 /* plus4/ted-cmdline-options.c`, vicii/vicii-cmdline-options.c */
-/* en */ {IDCLS_SET_GAMMA,    N_("Set gamma of internal calculated palette [900]")},
+/* en */ {IDCLS_SET_GAMMA,    N_("Set gamma of internal calculated palette [2200]")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_GAMMA_DA, "Indstil gamma for internt beregnet palette [900]"},
-/* de */ {IDCLS_SET_GAMMA_DE, "Gamma für intern berechneten Palette setzen [900]"},
-/* fr */ {IDCLS_SET_GAMMA_FR, "Régler le gamma de la palette interne calculée [900]"},
-/* hu */ {IDCLS_SET_GAMMA_HU, "A számolt paletta gammája [900]"},
-/* it */ {IDCLS_SET_GAMMA_IT, "Imposta la gamma della palette calcolata internamente [900]"},
-/* nl */ {IDCLS_SET_GAMMA_NL, "Zet de gamma van het intern berekend kleurenpalet [900]"},
+/* da */ {IDCLS_SET_GAMMA_DA, "Indstil gamma for internt beregnet palette [2200]"},
+/* de */ {IDCLS_SET_GAMMA_DE, "Gamma für intern berechneten Palette setzen [2200]"},
+/* fr */ {IDCLS_SET_GAMMA_FR, "Régler le gamma de la palette interne calculée [2200]"},
+/* hu */ {IDCLS_SET_GAMMA_HU, "A számolt paletta gammája [2200]"},
+/* it */ {IDCLS_SET_GAMMA_IT, "Imposta la gamma della palette calcolata internamente [2200]"},
+/* nl */ {IDCLS_SET_GAMMA_NL, "Zet de gamma van het intern berekend kleurenpalet [2200]"},
 /* pl */ {IDCLS_SET_GAMMA_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_GAMMA_SV, "Ställ in gamma på internt beräknad palett [900]"},
-/* tr */ {IDCLS_SET_GAMMA_TR, "Dahili hesaplanmýþ paletin gamasýný ayarlayýn [900]"},
+/* sv */ {IDCLS_SET_GAMMA_SV, "Ställ in gamma på internt beräknad palett [2200]"},
+/* tr */ {IDCLS_SET_GAMMA_TR, "Dahili hesaplanmýþ paletin gamasýný ayarlayýn [2200]"},
 #endif
 
 /* vicii/vicii-cmdline-options.c */
