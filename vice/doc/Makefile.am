@@ -20,7 +20,8 @@ doc_DATA = \
 	iec-bus.txt \
 	openGLsync-howto.txt \
 	GP2X-Howto.txt \
-	coding-guidelines.txt
+	coding-guidelines.txt \
+	CIA-README.txt
 
 TEXI_TOOLS = \
 	texi2chm.sh \
