@@ -95,4 +95,5 @@ libarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	make-bindist.sh \
-	ppc-ar.sh
+	ppc-ar.sh \
+	ppc-cc.sh
