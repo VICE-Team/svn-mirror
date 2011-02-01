@@ -19,12 +19,15 @@ all: help
 
 help:
 	echo -ne "check vice.texi\n\n"
-	echo -ne "usage: ./checkdoc.mak [full | opt | res | clean]\n\n"
+	echo -ne "usage: ./checkdoc.mak [full | opt | res | clean | update]\n\n"
 	echo -ne "options:\n"
 	echo -ne "full\tdo all checks\n"
 	echo -ne "opt\tcheck command-line options\n"
 	echo -ne "res\tcheck resources\n"
+	echo -ne "fixme\tshow FIXMEs\n"
+	echo -ne "nodes\tshow nodes marked FIXME\n"
 	echo -ne "clean\tremove temp files\n"
+	echo -ne "update\tgenerate documentation\n"
 
 vice.opts.tmp: $(PROGS)
 	echo "creating vice.opts.tmp"
@@ -57,7 +60,7 @@ checkdoc: checkdoc.c
 	echo "creating checkdoc"
 	gcc -o checkdoc checkdoc.c
 
-full: checkdoc vice.opts.tmp
+full: checkdoc vice.opts.tmp fixme nodes
 	./checkdoc -all vice.texi ~/.vice/vicerc vice.opts.tmp
 
 res: checkdoc vice.opts.tmp
@@ -65,6 +68,25 @@ res: checkdoc vice.opts.tmp
 
 opt: checkdoc vice.opts.tmp
 	./checkdoc -opt vice.texi ~/.vice/vicerc vice.opts.tmp
+
+update: vice.texi
+	make --silent
+
+fixme:
+	echo -ne "list of FIXMEs ("
+	echo -ne `grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -v "@node" | grep -i "fixme" | wc -l`
+	echo -ne "):\n"
+	grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -v "@node" | grep -i "fixme"
+	echo -ne "\n"
+
+todo: fixme
+
+nodes:
+	echo -ne "nodes that need fixing ("
+	echo -ne `grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -i "fixme" | grep "@node" | wc -l`
+	echo -ne "):\n"
+	grep -n "@c " vice.texi | grep -v "\-\-\-" | grep -i "fixme" | grep "@node"
+	echo -ne "\n"
 
 clean:
 	rm -f ./checkdoc

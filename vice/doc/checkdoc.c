@@ -3,10 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* #define DEBUG */
+
+#ifdef DEBUG
+#define DBG(_x) printf _x
+#else
+#define DBG(_x)
+#endif
+
 typedef struct _ITEM
 {
-    char *string;
     struct _ITEM *next;
+    char *string;
+    char *desc;
     int flags;
 } ITEM;
 
@@ -14,7 +23,7 @@ ITEM *list_findstr(ITEM *list, char *str)
 {
     ITEM *itm = list;
     while (itm) {
-//        printf(">%s|%s\n",itm->string, str);
+        /* DBG((">%s|%s\n",itm->string, str)); */
         if (itm->string) {
             if (!strcasecmp(itm->string, str)) {
                 return itm;
@@ -39,6 +48,7 @@ ITEM *list_addstr(ITEM *list, char *str)
     }
     itm = malloc(sizeof(ITEM));
     itm->flags=0;
+    itm->desc=NULL;
     itm->string = strdup(str);
     itm->next = list->next;
     list->next = itm;
@@ -132,50 +142,118 @@ int readtexi(FILE *tf)
 {
     int c,cl = 0;
     char tmp[0x100];
+    char tmp1[0x10][0x100];
+    char tmp2[0x100];
+    char tmpc[0x100];
+    char tmpmsg[0x100];
+    char *msg,*str;
     char *t;
+    int status = 0;
+    ITEM *itm;
+    int itmcnt;
+    int n;
 
+    msg = &tmpmsg[0];
+    itmcnt = 0;
     while(!feof(tf)) {
         c = fgetc(tf);
-        if (c == '@') {
+        /* printf("[%c:%02x]",c,c); */
+        if (c == '@')
+        {
             fscanf(tf, "%s ", tmp);
             cl = 0;
             if (!strcmp(tmp, "vindex")) {
-                c = getstr(tf, tmp);
-//                printf("resource '%s'\n",tmp);
-                list_addstr(&reslisttex, tmp);
+                itmcnt = 0;
+                c = getstr(tf, tmp1[itmcnt]);
+                DBG(("resource '%s'\n",tmp1[itmcnt]));
+                list_addstr(&reslisttex, tmp1[itmcnt]);
+                if (c != '\n') c = skipuntil(tf, '\n');
+                status = 0x01;
+                itmcnt++;
             } else if (!strcmp(tmp, "cindex")) {
-                c = getstr(tf, tmp);
-                if ((tmp[0] == '-') || (tmp[0] == '+')) {
-                    list_addstr(&optlisttex, tmp);
-//                    printf("option '%s' ",tmp);
+                c = getstr(tf, tmp1[itmcnt]);
+                if ((tmp1[itmcnt][0] == '-') || (tmp1[itmcnt][0] == '+')) {
+                    list_addstr(&optlisttex, tmp1[itmcnt]);
+                    DBG(("option '%s' ",tmp1[itmcnt]));
+                    itmcnt++;
                     if (c == ',') {
-                        tmp[0] = skipblank(tf);
-                        c = getstr(tf, &tmp[1]);
-                        list_addstr(&optlisttex, tmp);
-//                        printf("/ '%s' ",tmp);
+                        tmp1[itmcnt][0] = skipblank(tf);
+                        c = getstr(tf, &tmp1[itmcnt][1]);
+                        list_addstr(&optlisttex, tmp1[itmcnt]);
+                        DBG(("/ '%s' ",tmp1[itmcnt]));
+                        itmcnt++;
                     }
-//                    printf("\n");
+                    DBG(("\n"));
                 } else {
-                    list_addstr(&optlisttex2, tmp);
+                    list_addstr(&optlisttex2, tmpc);
                 }
+                if (c != '\n') c = skipuntil(tf, '\n');
+                status = 0x02;
             } else if (!strcmp(tmp, "item")) {
-                c = getstr(tf, tmp);
-                if ((tmp[0] == '-') || (tmp[0] == '+')) {
-                    list_addstr(&optlisttexitm, tmp);
+                c = getstr(tf, tmp2);
+                DBG(("item '%s'\n",tmp2));
+                if ((tmp2[0] == '-') || (tmp2[0] == '+')) {
+                    list_addstr(&optlisttexitm, tmp2);
                 } else {
-                    list_addstr(&reslisttexitm, tmp);
+                    list_addstr(&reslisttexitm, tmp2);
                 }
+                if (c != '\n') c = skipuntil(tf, '\n');
+                status |= 0x10;
             } else if (!strcmp(tmp, "itemx")) {
-                c = getstr(tf, tmp);
-                if ((tmp[0] == '-') || (tmp[0] == '+')) {
-                    list_addstr(&optlisttexitm, tmp);
+                c = getstr(tf, tmp2);
+                DBG(("itemx '%s'\n",tmp2));
+                if ((tmp2[0] == '-') || (tmp2[0] == '+')) {
+                    list_addstr(&optlisttexitm, tmp2);
                 } else {
-                    list_addstr(&reslisttexitm, tmp);
+                    list_addstr(&reslisttexitm, tmp2);
                 }
+                if (c != '\n') c = skipuntil(tf, '\n');
+                status |= 0x20;
             } else if (!strcmp(tmp, "c")) {
                 skipuntil(tf, '\n');
+                status = 0;
+            } else {
+                goto checkmsg;
+            }
+        } else {
+checkmsg:
+            if ((status & 0xf00) != 0) {
+                    /* DBG(("<%02x %02x>\n",status,c)); */
+                if (c == '\n') {
+                    /* DBG(("<MSG STOP>\n")); */
+                    *msg++ = 0;
+                    for (n=0;n<itmcnt;n++) {
+                        /* printf("%02x %s\n\t%s\n",status,tmp1[n],tmpmsg); */
+                        if ((status & 0x0f) == 1) {
+                            itm = list_findstr(&reslisttex, tmp1[n]);
+                        } else if ((status & 0x0f) == 2) {
+                            itm = list_findstr(&optlisttex, tmp1[n]);
+                        }
+                        if (itm) {
+                            if (itm->desc) {
+                                free(itm->desc);
+                            }
+                            itm->desc = strdup(tmpmsg);
+                        }
+                    }
+                    itmcnt = 0;
+                    status = 0;
+                } else {
+                    *msg++ = c;
+                }
+            } else {
+                if( ((status & 0x00f) != 0) &&
+                    ((status & 0x0f0) != 0) &&
+                    ((status & 0xf00) == 0)
+                    ) {
+                        status |= 0x100;
+                        /* DBG(("<MSG START %02x '%c'>\n",status,c)); */
+                        msg = &tmpmsg[0];
+                        *msg++ = c;
+                    }
             }
         }
+
     }
 }
 
@@ -192,7 +270,7 @@ int readvicerc(FILE *tf, char *emu, int tag)
             break;
         }
         tmp[strlen(tmp)-1]=0;
-//        printf("tag %d '%s'\n",c,tmp);
+        DBG(("tag %d '%s'\n",c,tmp));
         if (!strcmp(emu, tmp)) {
             break;
         }
@@ -205,7 +283,7 @@ int readvicerc(FILE *tf, char *emu, int tag)
         }
         tmp[0] = c;
         c = getstr(tf, &tmp[1]);
-//        printf("resource '%s'\n",tmp);
+        DBG(("resource '%s'\n",tmp));
         itm = list_addstr(&reslistrc, tmp);
         itm->flags |= tag;
         skipuntil(tf, '\n');
@@ -218,7 +296,7 @@ int readviceopt(FILE *tf, char *emu, int tag)
     char tmp[0x100];
     int c;
     ITEM *itm;
-//    printf("reading opts for '%s'\n",emu);
+    DBG(("reading opts for '%s'\n",emu));
     fseek(tf,0,SEEK_SET);
     while(!feof(tf)) {
         skipuntil(tf, '[');
@@ -227,7 +305,7 @@ int readviceopt(FILE *tf, char *emu, int tag)
             break;
         }
         tmp[strlen(tmp)-1]=0;
-//        printf("tag %d '%s'\n",c,tmp);
+        DBG(("tag %d '%s'\n",c,tmp));
         if (!strcasecmp(emu, tmp)) {
             break;
         }
@@ -238,18 +316,18 @@ int readviceopt(FILE *tf, char *emu, int tag)
         if (c == '[') {
             break;
         }
-//            printf("option '%c'\n",c);
+        DBG(("option '%c'\n",c));
 
         if ((c=='-')||(c=='+')) {
             tmp[0] = c;
             c = getstr(tf, &tmp[1]);
 
-//            printf("option '%s'\n",tmp);
+            DBG(("option '%s'\n",tmp));
             itm = list_addstr(&optlistvice, tmp);
             itm->flags |= tag;
         } else {
             c = getstr(tf, &tmp[0]);
-//            printf("not option '%s'\n",tmp);
+            DBG(("not option '%s'\n",tmp));
         }
         skipuntil(tf, '\n');
     }
@@ -260,15 +338,17 @@ void printlist(ITEM *list, char *hdr, int flags)
 {
     int i = 0,ii;
     while (list) {
-//                    printf("1'%s'\n", list->string);
         if (list->string) {
             if (flags) {
-//                  printf("2'%s'\n", list->string);
                 if (list->flags == flags) {
-                    if (i == 0) {
-                        printf("\n[%s]\n\n", hdr);i++;
+                    if ( 1
+                        && (strcmp(list->string, "-<version>") != 0)
+                        ) {
+                        if (i == 0) {
+                            printf("\n[%s]\n\n", hdr);i++;
+                        }
+                        printf("%s\n", list->string);
                     }
-                    printf("%s\n", list->string);
                 }
             } else {
                 if (1
@@ -318,15 +398,20 @@ void checkresources(void)
            "fix them first to use '@vindex' and then check again:\n\n");
 
     list1 = &reslistrc;
+    i = 0;
     while (list1) {
-//        printf("check: %s\n", list1->string);
+        DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&optlisttex2, list1->string);
             if (itm) {
                 printf("%s\n", list1->string);
+                i++;
             }
         }
         list1 = list1->next;
+    }
+    if (i == 0) {
+        printf("none - well done.\n");
     }
 
     printf("\nThe following resources do not appear in '@vindex'.\n"
@@ -337,7 +422,7 @@ void checkresources(void)
     list1 = &reslisttexitm;
     i = 0;
     while (list1) {
-//        printf("check: %s\n", list1->string);
+        DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&reslistrc, list1->string);
             if (itm) {
@@ -356,15 +441,15 @@ void checkresources(void)
 
     list1 = &reslistrc;
     while (list1) {
-//        printf("check: %s\n", list1->string);
+        DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&reslisttex, list1->string);
             if (itm) {
-//                printf("found resource: %s\n", list1->string);
+                DBG(("found resource: %s\n", list1->string));
             } else {
-//                printf("'%s'\n", list1->string);
+                DBG(("'%s'\n", list1->string));
                 itm2=list_addstr(&reslistnew, list1->string);
-//                printf("'%s'\n", itm2->string);
+                DBG(("'%s'\n", itm2->string));
                 itm2->flags=list1->flags;
             }
         }
@@ -384,22 +469,55 @@ void checkresources(void)
     printlist(&reslistnew, "CBM-II", IS_CBM2);
     printlist(&reslistnew, "PLUS4", IS_PLUS4);
 
+    printf("\nThe following resources appear to have no description:\n\n");
+
+    list1 = &reslisttex;
+    i = 0;
+    while (list1) {
+        if (list1->string) {
+            if (list1->desc == NULL) {
+                printf("%s\n", list1->string);
+                i++;
+            }
+        }
+        list1 = list1->next;
+    }
+    printf("\n");
+
+    if (i == 0) {
+        printf("none - well done.\n");
+    }
+
     printf("\nThe following resources appear in the documentation but not in vicerc, so\n"
            "they might be outdated or spelled incorrectly:\n\n");
 
     list1 = &reslisttex;
-
+    i = 0;
     while (list1) {
-//        printf("check: %s\n", list1->string);
+        DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&reslistrc, list1->string);
             if (itm) {
-//                printf("found: %s\n", list1->string);
+                DBG(("found: %s\n", list1->string));
             } else {
-                printf("%s\n", list1->string);
+                printf("%-40s", list1->string);
+                if(0
+                    || !strcmp(list1->string, "MITSHM")
+                    || !strcmp(list1->string, "UseXSync")
+                  ) {
+                    printf("(might be disabled)");
+                } else {
+                    i++;
+                }
+                printf("\n");
             }
         }
         list1 = list1->next;
+    }
+    printf("\n");
+
+    if (i == 0) {
+        printf("none - well done.\n");
     }
 }
 
@@ -416,11 +534,14 @@ void checkoptions(void)
     list1 = &optlisttexitm;
     i = 0;
     while (list1) {
-//        printf("check: %s\n", list1->string);
+        DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&optlisttex, list1->string);
             if (!itm) {
-                if (strcmp(list1->string,"--") != 0) {
+                if ( 1
+                    && (strcmp(list1->string,"--") != 0)
+                    && (strcmp(list1->string,"-<version>") != 0)
+                ) {
                     printf("%s\n", list1->string);
                     i++;
                 }
@@ -435,38 +556,67 @@ void checkoptions(void)
     list1 = &optlistvice;
     i = 0;
     while (list1) {
-//        printf("check: %s\n", list1->string);
+        DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&optlisttex, list1->string);
             if (itm) {
-//                printf("found option: %s\n", list1->string);
+                DBG(("found option: %s\n", list1->string));
             } else {
-//                printf("'%s'\n", list1->string);
-                itm2=list_addstr(&optlistnew, list1->string);
-//                printf("'%s'\n", itm2->string);
-                itm2->flags=list1->flags;
-                i++;
+                if ( 1
+                    && (strcmp(list1->string,"--") != 0)
+                    && (strcmp(list1->string,"-<version>") != 0)
+                ) {
+                    DBG(("'%s'\n", list1->string));
+                    itm2=list_addstr(&optlistnew, list1->string);
+                    DBG(("'%s'\n", itm2->string));
+                    itm2->flags=list1->flags;
+                    i++;
+                }
             }
         }
         list1 = list1->next;
     }
     printf("\n\nThe following options appear in vice but not in the documentation, so\n"
            "they might be missing in the documentation (%d):\n\n", i);
-    printlist(&optlistnew, "global", 0);
-    printlist(&optlistnew, "C64SC", IS_C64SC);
-    printlist(&optlistnew, "C64", IS_C64);
-    printlist(&optlistnew, "VSID", IS_VSID);
-    printlist(&optlistnew, "C128", IS_C128);
-    printlist(&optlistnew, "C64DTV", IS_DTV);
-    printlist(&optlistnew, "VIC20", IS_VIC20);
-    printlist(&optlistnew, "PET", IS_PET);
-    printlist(&optlistnew, "CBM-II-5x0", IS_B500);
-    printlist(&optlistnew, "CBM-II", IS_CBM2);
-    printlist(&optlistnew, "PLUS4", IS_PLUS4);
 
-    printlist(&optlistnew, "petcat", IS_PETCAT);
-    printlist(&optlistnew, "cartconv", IS_CARTCONV);
-    printlist(&optlistnew, "c1541", IS_C1541);
+    if (i == 0) {
+        printf("none - well done.\n");
+    } else {
+        printlist(&optlistnew, "global", 0);
+        printlist(&optlistnew, "C64SC", IS_C64SC);
+        printlist(&optlistnew, "C64", IS_C64);
+        printlist(&optlistnew, "VSID", IS_VSID);
+        printlist(&optlistnew, "C128", IS_C128);
+        printlist(&optlistnew, "C64DTV", IS_DTV);
+        printlist(&optlistnew, "VIC20", IS_VIC20);
+        printlist(&optlistnew, "PET", IS_PET);
+        printlist(&optlistnew, "CBM-II-5x0", IS_B500);
+        printlist(&optlistnew, "CBM-II", IS_CBM2);
+        printlist(&optlistnew, "PLUS4", IS_PLUS4);
+
+        printlist(&optlistnew, "petcat", IS_PETCAT);
+        printlist(&optlistnew, "cartconv", IS_CARTCONV);
+        printlist(&optlistnew, "c1541", IS_C1541);
+    }
+
+    printf("\nThe following options appear to have no description:\n\n");
+
+    list1 = &optlisttex;
+    i = 0;
+    while (list1) {
+        if (list1->string) {
+            if (list1->desc == NULL) {
+                printf("%s\n", list1->string);
+                i++;
+            }
+        }
+        list1 = list1->next;
+    }
+    printf("\n");
+
+    if (i == 0) {
+        printf("none - well done.\n");
+    }
 
     printf("\n\nThe following options appear in the documentation but not in vice, so\n"
            "they might be outdated or spelled incorrectly:\n\n");
@@ -474,11 +624,11 @@ void checkoptions(void)
     list1 = &optlisttex;
     i = 0;
     while (list1) {
-//        printf("check: %s\n", list1->string);
+        DBG(("check: %s\n", list1->string));
         if (list1->string) {
             itm = list_findstr(&optlistvice, list1->string);
             if (itm) {
-//                printf("found: %s\n", list1->string);
+                DBG(("found: %s\n", list1->string));
             } else {
                 printf("%-40s", list1->string);
                 if(0

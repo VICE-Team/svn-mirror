@@ -657,7 +657,7 @@ SuperPET (MicroMainFrame 9000) models, covering practically the whole series.
 The hardware is pretty much the same in each and that is why one single
 program is enough to emulate all of them.  For more detailed information
 about PET hardware please refer to the @file{PETdoc} file.
-@c FIXME: link!
+@c FIXME: add link to doc/html/plain/PETdoc.txt
 
 Both the 40 column and 80 column CRTC video chips are emulated (from the
 4032 onward), but a few of the features are not implemented yet (numbers
@@ -678,7 +678,7 @@ instead.  Also, the video controller can handle a larger address range.
 The PET 8x96 model emulations run the Commodore LOS-96 operating system
 - basically an improved BASIC 4 version with up to 32k for BASIC
 text and 32k for variables.  See @file{PETdoc} for more information.
-@c FIXME link!
+@c FIXME: add link to doc/html/plain/PETdoc.txt
 
 The SuperPET also is a PET 8032 with an expansion board.  It can map 4k
 at a time out of 64k into the @code{$9***} area.  Also it has an ACIA
@@ -706,7 +706,7 @@ To select which model to run, specify it on the
 command line with the @code{-model MODEL} option, where
 @code{MODEL} can be one of a list of PET model numbers, all
 described in @pxref{PET model}
-@c FIXME link!
+@c FIXME: add link to section
 
 
 @node CBM-II emulator features, Keyboard emulation, PET emulator features, Preface
@@ -776,7 +776,7 @@ on the PC keyboard. The PET emulator, lacking the @key{Commodore} key
 but having an @key{ESC} key, uses the left @key{Control} key as
 @key{RUN/STOP} and the @key{ESC} key as @key{ESC} of course.
 
-@c (@dots{}) FIXME: we need the detailed list here.
+@c FIXME: add a detailed list of all keys
 
 The second way (@dfn{positional mapping}) is to map every key on the
 ``real'' keyboard to the key which has the same position on the keyboard
@@ -2366,6 +2366,11 @@ Enable/disable installation of a private colormap
 @item -displaydepth DEPTH
 Specify the display depth (@code{DisplayDepth}).
 
+@cindex -fullscreen, +fullscreen
+@item -fullscreen
+@itemx +fullscreen
+Enable/disable fullscreen mode
+
 @end table
 
 @node Keyboard settings, Sound settings, Video settings, Settings and resources
@@ -2461,6 +2466,11 @@ Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymFile}).
 @item -poskeymap NAME
 Specify @file{NAME} as the positional keymap file (@code{KeymapPosFile}).
 
+@c FIXME: remove -symdekeymap option!
+@cindex -symdekeymap
+@item -symdekeymap NAME
+Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymDeFile}).
+
 @cindex -buksymkeymap, -bukposkeymap
 @item -buksymkeymap NAME
 @itemx -bukposkeymap NAME
@@ -2484,10 +2494,10 @@ German business keyboard
 
 @end table
 
-@c @node TODO
+@c @node FIXME
 @section Joystick settings
 
-@c @node TODO
+@c @node FIXME
 @subsection Joystick command-line options
 
 @table @code
@@ -2625,11 +2635,6 @@ Integer specifying the size of the audio buffer, in milliseconds.
 Integer specifying the pause interval when audio underflows (``clicks'')
 happen.  @code{0} means no pause is done.
 
-@vindex SoundOversample
-@item SoundOversample
-Integer specifying the oversampling factor, ranging from @code{0} (no
-oversampling) to @code{3} (8 times oversampling).
-
 @vindex SoundDeviceName
 @item SoundDeviceName
 String specifying the audio driver.
@@ -2732,7 +2737,8 @@ Specify initialization parameters for recording sound driver
 @c @node FIXME
 @section Tape settings
 
-@c FIXME
+These settings are used to control the hardware-level emulation of the Tape
+drive.
 
 @subsection Tape command-line options
 
@@ -2910,12 +2916,6 @@ Integers specifying the idling method for the drive CPU.  Possible values
 are @code{0} (none), @code{1} (skip cycles), @code{2} (trap idle).
 @xref{Drive settings}.
 
-@vindex DriveSyncFactor
-@item DriveSyncFactor
-Integer specifying the drive's clock sync factor (@pxref{Drive
-settings}).  Special values @code{-1} and @code{-2} mean PAL and NTSC,
-respectively.
-
 @vindex DosName1541
 @item DosName1541
 @vindex DosName1571
@@ -2951,7 +2951,7 @@ Specifies the drive types for drives 8-11, respectively.  Possible
 values for @code{TYPE} are @code{1541}, @code{1571}, @code{1581} and
 @code{2031}.
 
-@c FIXME
+@c FIXME: add all supported drives
 
 @cindex -parallel8
 @cindex -parallel9
@@ -3247,6 +3247,10 @@ Specify the paths for the file system access on drives 8, 9, 10 and 11,
 respectively (@code{FSDevice8Dir}, @code{FSDevice9Dir},
 @code{FSDevice10Dir} and @code{FSDevice11Dir}).
 
+@cindex -flipname
+@item -flipname <name>
+Specify name of the flip list file image
+
 @end table
 
 
@@ -3296,31 +3300,57 @@ output from the Commodore printer code) and then to the printer via
 
 @table @code
 
-@vindex PrDevice1
-@item PrDevice1
-@vindex PrDevice2
-@itemx PrDevice2
-@vindex PrDevice3
-@itemx PrDevice3
+@vindex PrinterTextDevice1
+@item PrinterTextDevice1
+@vindex PrinterTextDevice2
+@itemx PrinterTextDevice2
+@vindex PrinterTextDevice3
+@itemx PrinterTextDevice3
 Strings specifying the printer devices (@pxref{Printer settings}).
 
-@vindex Printer4
-@item Printer4
-Boolean specifying if the IEC printer (device 4) is being emulated.
-
-@vindex Printer4Dev
-@item Printer4Dev
-Integer (ranging from 0 to 2, for device 1-3) specifying what printer device 
+@vindex Printer4TextDevice
+@item Printer4TextDevice
+@vindex Printer5TextDevice
+@item Printer5TextDevice
+Integer (ranging from 0 to 2, for device 1-3) specifying what printer device
 (@pxref{Printer settings}) the IEC printer is using.
 
-@vindex PrUser
-@item PrUser
+@vindex Printer4
+@vindex Printer5
+@item Printer4
+@item Printer5
+Integer specifying how the IEC printer (device 4-5) is being emulated.
+(0: NONE, 1: FS, 2: REAL)
+
+@vindex Printer4Driver
+@vindex Printer5Driver
+@item Printer4Driver
+@item Printer5Driver
+String specifying the IEC printer output driver.
+
+@vindex Printer4Output
+@vindex Printer5Output
+@item Printer4Output
+@item Printer5Output
+String specifying the IEC printer output device.
+
+
+@vindex PrinterUserport
+@item PrinterUserport
 Boolean specifying if the user-port printer is being emulated.
 
-@vindex PrUserDev
-@item PrUserDev
-Integer (ranging from 0 to 2, for device 1-3) specifying what printer 
+@vindex PrinterUserportTextDevice
+@item PrinterUserportTextDevice
+Integer (ranging from 0 to 2, for device 1-3) specifying what printer
 device the user-port printer is using.
+
+@vindex PrinterUserportDriver
+@item PrinterUserportDriver
+String specifying the user-port printer output driver.
+
+@vindex PrinterUserportOutput
+@item PrinterUserportOutput
+String specifying the user-port printer output device.
 
 @end table
 
@@ -3534,11 +3564,6 @@ Strings specifying the RS232 devices (@pxref{RS232 settings}).
 Integer specifying the RS232 baudrate devices if the device file points
 to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings}).
 
-@vindex AciaDE
-@item AciaDE
-Boolean specifying whether C64 or C128 should emulate ACIA 6551 in
-I/O 1, at @code{$de**}.
-
 @vindex Acia1Dev
 @item Acia1Dev
 Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
@@ -3549,11 +3574,15 @@ Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device
 Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI 
 (C64 and C128 only)
 
-@vindex RsUser
-@item RsUser
-Integer specifying if the user-port RS232 interface is being emulated and 
-at which baudrate it should have for the emulator. 0 = off; > 0 specifies the
-baudrate (C64, C128 and VIC20).
+@vindex RsUserEnable
+@item RsUserEnable
+Boolean specifying if the user-port RS232 interface is being emulated
+(C64, C128 and VIC20).
+
+@vindex RsUserBaud
+@item RsUserBaud
+Integer specifying the baudrate of the user-port RS232 interface
+(C64, C128 and VIC20).
 
 @vindex RsUserDev
 @item RsUserDev
@@ -3684,6 +3713,53 @@ Enable/Disable remote monitor
 @cindex -remotemonitoraddress
 @item -remotemonitoraddress <name>
 The local address the remote monitor should bind to
+
+@end table
+
+@c ----------------------------------------------------------------
+
+@c @node FIXME
+@section Machine settings
+
+@c @node FIXME
+@subsection Machine command-line options
+
+@table @code
+
+@cindex -pal
+@item -pal
+Use PAL sync factor
+@cindex -ntsc
+@item -ntsc
+Use NTSC sync factor
+@cindex -ntscold
+@item -ntscold
+Use old NTSC sync factor
+@cindex -paln
+@item -paln
+Use PAL-N sync factor
+
+@end table
+
+@c ----------------------------------------------------------------
+
+@c @node FIXME
+@section Memory settings
+
+@c @node FIXME
+@subsection Memory command-line options
+
+@table @code
+
+@cindex -raminitstartvalue
+@item -raminitstartvalue <value>
+Set the value for the very first RAM address after powerup
+@cindex -raminitvalueinvert
+@item -raminitvalueinvert <num of bytes>
+Length of memory block initialized with the same value
+@cindex -raminitpatterninvert
+@item -raminitpatterninvert <num of bytes>
+Length of memory block initialized with the same pattern
 
 @end table
 
@@ -3825,6 +3901,8 @@ Enable/disable generation of core dumps (@code{DoCoreDump=1},
 
 @node C64/128-specific, C64DTV-specific, Machine-specific features, Machine-specific features
 @section C64/128-specific commands and settings
+
+@c FIXME: clean up "c64/128" vs "c64"
 
 This section lists the settings and commands that are C64/128 specific
 and thus are not present in the other emulators.
@@ -4061,6 +4139,21 @@ SFX Sound Sampler
 @end itemize
 
 @c @node FIXME
+@subsubsection IEEE-488 interface
+
+To be able to use an IEEE drive, you need to enable IEEE emulation for the
+emulator. To do this, follow the following steps:
+
+Download the IEEE 488 ROM image from the CBM archives (formerly known as FUNET)
+Attach that image with File/Attach cartridge image/IEEE488 interface image.
+
+Make sure you have a one-drive system only (that is, go to Settings/Peripheral
+Setting, uncheck "use IEC device" for all devices, go to Settings/Drive Settings
+and select "Floppy type" as "none" for all drives other than drive 8.
+
+After this, all drives can be selected in x64 and x128.
+
+@c @node FIXME
 @subsubsection The Final Cartridge 3
 The Final Cartridge 3 detects wether a mouse is connected when it starts and
 disables mouse support if it doesnt detect one. So to make mouse emulation
@@ -4070,12 +4163,10 @@ after enabling it from the user interface.
 @c @node FIXME
 @subsection C64 cartridge settings
 
-@c FIXME
-
 @c @node FIXME
 @subsubsection C64 cartridge resources
 
-@c FIXME
+@c FIXME: incomplete descriptions for resources
 
 @table @code
 @vindex CartridgeReset
@@ -4524,10 +4615,10 @@ Attach raw 8kB Warp Speed cartridge image
 Attach raw 16kB Zaxxon cartridge image
 @end table
 
-@c @node TODO
+@c @node FIXME
 @subsection CIA settings
 
-@c @node TODO
+@c @node FIXME
 @subsubsection CIA command-line options
 
 @table @code
@@ -4701,6 +4792,39 @@ Set VIC-II border display mode (0: normal, 1: full, 2: debug)
 Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a). This setting is
 only available in @code{x64sc}.
 
+@cindex -newluminance, +newluminance
+@item -newluminance
+@item +newluminance
+Enable/Disable new luminances.
+
+@cindex -saturation
+@item -saturation <0-2000>
+Set saturation of internal calculated palette [1000]
+@cindex -contrast
+@item -contrast <0-2000>
+Set contrast of internal calculated palette [1000]
+@cindex -brightness
+@item -brightness <0-2000>
+Set brightness of internal calculated palette [1000]
+@cindex -gamma
+@item -gamma <0-4000>
+Set gamma of internal calculated palette [2200]
+@cindex -tint
+@item -tint <0-2000>
+Set tint of internal calculated palette [1000]
+@cindex -oddlinesphase
+@item -oddlinesphase <0-2000>
+Set phase for color carrier in odd lines [1250]
+@cindex -oddlinesoffset
+@item -oddlinesoffset <0-2000>
+Set phase offset for color carrier in odd lines [750]
+@cindex -crtblur
+@item -crtblur <0-1000>
+Amount of horizontal blur for the CRT emulation. [500]
+@cindex -crtscanlineshade
+@item -crtscanlineshade <0-1000>
+Amount of scan line shading for the CRT emulation [667]
+
 @end table
 
 
@@ -4808,9 +4932,8 @@ Boolean specifying whether the built-in SID filters must be emulated.
 Integer specifying what model of the SID must be emulated (@code{0}:
 MOS6581, @code{1}: MOS8580).
 
-@vindex SidUseResid
-@item SidUseResid
-Boolean specifying whether the accurate reSID emulation is being used.
+@vindex SidEngine
+@item SidEngine
 
 @vindex SidResidSampling
 @item SidResidSampling
@@ -4881,6 +5004,10 @@ bandwidth (@code{SidResidPassband=0-90}).
 @cindex -residgain
 @item -residgain @code{PERCENTAGE}
 Specifies reSID gain in percent (90 - 100).
+
+@cindex -residfilterbias
+@item -residfilterbias <number>
+reSID filter bias setting, which can be used to adjust DAC bias in millivolts.
 
 @end table
 
@@ -5090,128 +5217,6 @@ Set the system ethernet interface for TFE emulation
 Enable/Disable RRNet mode of TFE emulation
 @end table
 
-@c @node RS232 settings, C64/128 system ROM settings, C64 I/O extension settings, C64/128-specific
-@c @subsection RS232 settings
-@c 
-@c x64, x64sc and x128 can support RS232 in the following ways:
-@c 
-@c @itemize @bullet
-@c @item
-@c by emulating Daniel Dallmann's 9600 baud userport-based RS232 interface;
-@c @item
-@c by emulating a 6551-based RS232 interface located at $DE00.
-@c @end itemize
-@c 
-@c Each of these emulated devices can be either:
-@c 
-@c @itemize @bullet
-@c @item
-@c connected a real UNIX serial device;
-@c @item
-@c dumped to a file;
-@c @item
-@c piped through a process.
-@c @end itemize
-@c 
-@c It is possible to define up to two UNIX serial devices, and then decide
-@c which interface should be connected to which device.  Devices are
-@c defined through the following settings:
-@c 
-@c @itemize @bullet
-@c @item
-@c ``Serial 1 device@dots{}'' and ``Serial 2 device@dots{}'' are used to specify
-@c the the pathnames of the serial devices, with the file selector;
-@c @item
-@c ``Serial 1 baudrate'' and ``Serial 2 baudrate'' specify the baudrate.
-@c @end itemize
-@c 
-@c 
-@c @menu
-@c * RS232 resources::
-@c * RS232 options::
-@c @end menu
-@c 
-@c @node RS232 resources, RS232 options, RS232 settings, RS232 settings
-@c @subsubsection RS232 resources
-@c 
-@c @table @code
-@c 
-@c @vindex RsDevice1
-@c @item RsDevice1
-@c @vindex RsDevice2
-@c @itemx RsDevice2
-@c Strings specifying the pathnames of the two available serial devices.
-@c 
-@c @vindex RsDevice1Baud
-@c @item RsDevice1Baud
-@c @vindex RsDevice2Baud
-@c @itemx RsDevice2Baud
-@c Integers specifying the baudrates.
-@c 
-@c @vindex RsDevice3
-@c @item RsDevice3
-@c String defining the name of the file used when dumping RS232 output.
-@c 
-@c @vindex RsDevice4
-@c @item RsDevice4
-@c String defining the name of the process to pipe the RS232 data through.
-@c 
-@c @vindex RsUser
-@c @item RsUser
-@c Boolean specifying whether the userport-based RS232 should be emulated.
-@c 
-@c @vindex Acia1
-@c @item Acia1
-@c Boolean specifying whether the ACIA-based RS232 should be emulated.
-@c 
-@c @vindex RsUserDev
-@c @item RsUserDev
-@c @vindex Acia1Dev
-@c @itemx Acia1Dev
-@c Integers specifying how the userport-based interface and the ACIA-based
-@c one are emulated.  The possible values are:
-@c @itemize @bullet
-@c @item
-@c @code{0}: connect to serial device number 1;
-@c @item
-@c @code{1}: connect to serial device number 2;
-@c @item
-@c @code{2}: dump to file;
-@c @item
-@c @code{3}: exec an external process.
-@c @end itemize
-@c @end table
-@c 
-@c @node RS232 options,  , RS232 resources, RS232 settings
-@c @subsubsection RS232 command-line options
-@c 
-@c @table @code
-@c 
-@c @cindex -acia1, +acia1
-@c @item -acia1
-@c @itemx +acia1
-@c Enable/disable emulation of the ACIA-based RS232 interface
-@c (@code{Acia1=1}, @code{Acia1=0}).
-@c 
-@c @cindex -acia1dev
-@c @item -acia1dev DEVICE
-@c Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
-@c (@code{Acia1Dev}).
-@c 
-@c @cindex -rsuser, +rsuser
-@c @item -rsuser
-@c @itemx +rsuser
-@c Enable/disable emulation of the userport-based RS232 interface
-@c (@code{RsUser=1}, @code{RsUser=0}).
-@c 
-@c @cindex -rsuserdev
-@c @item -rsuserdev DEVICE
-@c Specify @code{DEVICE} as the device for the ACIA-based RS232 emulation
-@c (@code{RsUserDev}).
-@c 
-@c @end table
-@c 
-
 @node C64/128 system ROM settings,  , C64 I/O extension settings, C64/128-specific
 @subsection C64/128 system ROM settings
 
@@ -5293,12 +5298,8 @@ Specify Kernal revision (@code{KernalRev}).
 @c @node FIXME
 @subsection C64 settings
 
-@c FIXME
-
 @c @node FIXME
 @subsubsection C64 command-line options
-
-@c FIXME
 
 @table @code
 
@@ -5391,12 +5392,39 @@ Set the VDC memory size to 64KB
 @cindex -VDCRevision
 @item -VDCRevision <number>
 Set VDC revision (0..2)
+
+@cindex -saturation
+@item -saturation <0-2000>
+Set saturation of internal calculated palette [1000]
+@cindex -contrast
+@item -contrast <0-2000>
+Set contrast of internal calculated palette [1000]
+@cindex -brightness
+@item -brightness <0-2000>
+Set brightness of internal calculated palette [1000]
+@cindex -gamma
+@item -gamma <0-4000>
+Set gamma of internal calculated palette [2200]
+@cindex -tint
+@item -tint <0-2000>
+Set tint of internal calculated palette [1000]
+@cindex -oddlinesphase
+@item -oddlinesphase <0-2000>
+Set phase for color carrier in odd lines [1250]
+@cindex -oddlinesoffset
+@item -oddlinesoffset <0-2000>
+Set phase offset for color carrier in odd lines [750]
+@cindex -crtblur
+@item -crtblur <0-1000>
+Amount of horizontal blur for the CRT emulation. [500]
+@cindex -crtscanlineshade
+@item -crtscanlineshade <0-1000>
+Amount of scan line shading for the CRT emulation [667]
+
 @end table
 
 @c @node FIXME
 @subsection C128 system ROM settings
-
-@c FIXME
 
 @c @node FIXME
 @subsubsection C128 system ROM command-line options
@@ -5472,8 +5500,6 @@ Specify name of external Function ROM image
 
 @c @node FIXME
 @subsection C128 settings
-
-@c FIXME
 
 @c @node FIXME
 @subsubsection C128 command-line options
@@ -5614,14 +5640,6 @@ can be used simultaneously with either Hummer ADC or userport joystick.
 
 @table @code
 
-@c cindex -hummerusrdev
-@c item -hummerusrdev DEVICE
-@c Select Hummer Userport device (0: None, 1: ADC, 2: Joystick)
-
-@c cindex -hummerusrjoyport
-@c item -hummerusrjoyport PORT
-@c Select which joystick port should be mapped to the userport
-
 @cindex -hummeradc, +hummeradc
 @item -hummeradc
 @itemx +hummeradc
@@ -5734,8 +5752,6 @@ but you also have to enable the IEEE488 hardware by menu.
 @c @node FIXME
 @subsection VIC20 cartridge settings
 
-@c FIXME
-
 @c @node FIXME
 @subsubsection VIC20 cartridge command-line options
 
@@ -5791,6 +5807,11 @@ Enable/Disable Vic Flash Plugin write back to ROM file
 @item -ieee488
 @itemx +ieee488
 Enable/Disable VIC-1112 IEEE488 interface
+
+@cindex -sidcart, +sidcart
+@item -sidcart
+@item +sidcart
+Enable/Disable SID Cartridge
 
 @end table
 
@@ -5871,6 +5892,34 @@ Select fullscreen mode
 @cindex -VICVidmodefullmode
 @item -VICVidmodefullmode <mode>
 Select fullscreen mode
+
+@cindex -saturation
+@item -saturation <0-2000>
+Set saturation of internal calculated palette [1000]
+@cindex -contrast
+@item -contrast <0-2000>
+Set contrast of internal calculated palette [1000]
+@cindex -brightness
+@item -brightness <0-2000>
+Set brightness of internal calculated palette [1000]
+@cindex -gamma
+@item -gamma <0-4000>
+Set gamma of internal calculated palette [2200]
+@cindex -tint
+@item -tint <0-2000>
+Set tint of internal calculated palette [1000]
+@cindex -oddlinesphase
+@item -oddlinesphase <0-2000>
+Set phase for color carrier in odd lines [1250]
+@cindex -oddlinesoffset
+@item -oddlinesoffset <0-2000>
+Set phase offset for color carrier in odd lines [750]
+@cindex -crtblur
+@item -crtblur <0-1000>
+Amount of horizontal blur for the CRT emulation. [500]
+@cindex -crtscanlineshade
+@item -crtscanlineshade <0-1000>
+Amount of scan line shading for the CRT emulation [667]
 
 @end table
 
@@ -6081,8 +6130,6 @@ Specify @file{NAME} as the cartridge image to attach.
 @c @node FIXME
 @subsection VIC20 settings
 
-@c FIXME
-
 @c @node FIXME
 @subsubsection VIC20 command-line options
 
@@ -6143,12 +6190,39 @@ Select fullscreen mode
 @cindex -TEDVidmodefullmode
 @item -TEDVidmodefullmode <mode>
 Select fullscreen mode
+
+@cindex -saturation
+@item -saturation <0-2000>
+Set saturation of internal calculated palette [1000]
+@cindex -contrast
+@item -contrast <0-2000>
+Set contrast of internal calculated palette [1000]
+@cindex -brightness
+@item -brightness <0-2000>
+Set brightness of internal calculated palette [1000]
+@cindex -gamma
+@item -gamma <0-4000>
+Set gamma of internal calculated palette [2200]
+@cindex -tint
+@item -tint <0-2000>
+Set tint of internal calculated palette [1000]
+@cindex -oddlinesphase
+@item -oddlinesphase <0-2000>
+Set phase for color carrier in odd lines [1250]
+@cindex -oddlinesoffset
+@item -oddlinesoffset <0-2000>
+Set phase offset for color carrier in odd lines [750]
+@cindex -crtblur
+@item -crtblur <0-1000>
+Amount of horizontal blur for the CRT emulation. [500]
+@cindex -crtscanlineshade
+@item -crtscanlineshade <0-1000>
+Amount of scan line shading for the CRT emulation [667]
+
 @end table
 
 @c @node FIXME
 @subsection PLUS4 I/O extension settings
-
-@c FIXME
 
 @c @node FIXME
 @subsubsection PLUS4 I/O extension command-line options
@@ -6159,6 +6233,11 @@ Select fullscreen mode
 @item -digiblaster
 @itemx +digiblaster
 Enable/Disable the digiblaster add-on
+
+@cindex -sidcart, +sidcart
+@item -sidcart
+@item +sidcart
+Enable/Disable SID Cartridge
 
 @cindex -sidcartjoy, +sidcartjoy
 @item -sidcartjoy
@@ -6178,8 +6257,6 @@ Attach Speech ROM image
 
 @c @node FIXME
 @subsection PLUS4 system ROM settings
-
-@c FIXME
 
 @c @node FIXME
 @subsubsection PLUS4 system ROM command-line options
@@ -6211,12 +6288,14 @@ Specify name of Cartridge 2 high ROM image
 @c @node FIXME
 @subsection PLUS4 settings
 
-@c FIXME
-
 @c @node FIXME
 @subsubsection PLUS4 command-line options
 
 @table @code
+
+@cindex -ramsize
+@item -ramsize <ramsize>
+Specify size of RAM installed in kb (16/32/64)
 
 @cindex -h256k
 @item -h256k
@@ -6448,6 +6527,35 @@ Select fullscreen mode
 @cindex -CrtcVidmodefullmode
 @item -CrtcVidmodefullmode <mode>
 Select fullscreen mode
+
+@cindex -saturation
+@item -saturation <0-2000>
+Set saturation of internal calculated palette [1000]
+@cindex -contrast
+@item -contrast <0-2000>
+Set contrast of internal calculated palette [1000]
+@cindex -brightness
+@item -brightness <0-2000>
+Set brightness of internal calculated palette [1000]
+@cindex -gamma
+@item -gamma <0-4000>
+Set gamma of internal calculated palette [2200]
+@cindex -tint
+@item -tint <0-2000>
+Set tint of internal calculated palette [1000]
+@cindex -oddlinesphase
+@item -oddlinesphase <0-2000>
+Set phase for color carrier in odd lines [1250]
+@cindex -oddlinesoffset
+@item -oddlinesoffset <0-2000>
+Set phase offset for color carrier in odd lines [750]
+@cindex -crtblur
+@item -crtblur <0-1000>
+Amount of horizontal blur for the CRT emulation. [500]
+@cindex -crtscanlineshade
+@item -crtscanlineshade <0-1000>
+Amount of scan line shading for the CRT emulation [667]
+
 @end table
 
 @node PET diagnostic pin, PET commandline options, PET model, PET-specific
@@ -6550,6 +6658,11 @@ Enable/Disable the PET DWW hi-res board
 @cindex -petdwwimage
 @item -petdwwimage <name>
 Specify name of PET DWW image
+
+@cindex -sidcart, +sidcart
+@item -sidcart
+@item +sidcart
+Enable/Disable SID Cartridge
 
 @end table
 
@@ -6674,6 +6787,10 @@ These are the commandline options specific for the CBM-II models.
 
 @table @code
 
+@cindex -ramsize
+@item -ramsize <ramsize>
+Specify size of RAM (64/128/256/512/1024 kByte)
+
 @cindex -usevicii, +usevicii
 @item -usevicii
 @itemx +usevicii
@@ -6774,13 +6891,14 @@ feeling;
 @c @node FIXME
 @subsection VSID settings
 
-@c FIXME
-
 @c @node FIXME
 @subsubsection VSID command-line options
 
 @table @code
 
+@cindex -vsid
+@item -vsid
+SID player mode (@code{x64} only).
 @cindex -keepenv
 @item -keepenv
 Override PSID settings for Video standard and SID model
@@ -8205,6 +8323,39 @@ Version numbers: Major 0, Minor 0
 
 @c -----------------------------------------------------------------
 @c @node FIXME
+@chapter Media images
+
+@c FIXME: add some info on making screenshots, wav- and avi recordings
+
+@c @node FIXME
+@section Media images command-line options
+
+@table @code
+
+@cindex -doodleoversize
+@item -doodleoversize <method>
+Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)
+@cindex -doodlemc
+@item -doodlemc <method>
+Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)
+@cindex -doodletedlum
+@item -doodletedlum <method>
+Select the way the TED luminosity should be handled, (0: ignore, 1: dither)
+@cindex -doodlecrtctextcolor
+@item -doodlecrtctextcolor <color>
+Select the CRTC text color (0: white, 1: amber, 2: green)
+
+@cindex -ffmpegaudiobitrate
+@item -ffmpegaudiobitrate <value>
+Set bitrate for audio stream in media file
+@cindex -ffmpegvideobitrate
+@item -ffmpegvideobitrate <value>
+Set bitrate for video stream in media file
+
+@end table
+
+@c -----------------------------------------------------------------
+@c @node FIXME
 @chapter Event history
 
 @c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
@@ -8279,8 +8430,9 @@ must be in the same address space.
 @item address_opt_range
 An address or an address range.
 
-@c @item label
-@c Fixme.
+@item label
+@code{label} is the name of a label. it must start with a dot (".")
+in order for the monitor to recognize it as a label.
 
 @item prompt
 The prompt has the format [x:y].  If x is -, memory reads from the
@@ -8378,9 +8530,6 @@ more than a single instruction at a time.
 
 @item undump "<filename>"
 Read a snapshot of the machine from the file specified.
-
-@c @item up
-@c Go up a stack frame. - Nothing yet.  Is this really useful?
 
 @end table
 
@@ -8610,9 +8759,6 @@ Show current working directory.
 Set the default radix to hex, decimal, octal, or binary.  With no
 argument, the current radix is printed.
 
-@c @item system <system command>
-@c Execute system command. - Nothing yet.
-
 @end table
 
 
@@ -8668,9 +8814,6 @@ If device is 0, the file is written to the file system.
 @itemx bs "<filename>" <device> <address1> <address2>
 Save the memory from address1 to address2 to the specified file.
 If device is 0, the file is written to the file system.
-
-@c @item v "<filename>" <address>
-@c Nothing yet.  Is this really needed?
 
 @end table
 
@@ -8749,9 +8892,6 @@ all labels.
 
 
 @table @code
-
-@c @item brmon
-@c Nothing yet.  Will toggle monitor entry on BRK.
 
 @item cartfreeze
 Use cartridge freeze.
@@ -9021,9 +9161,15 @@ prepend it with an exclamation mark (@code{!}).  For example,
 will execute the command @code{ls -la}, which will show you all the
 files in the current directory.
 
-@c This would be nice!
-@c @node Examples,  , Commands, c1541
-@c @section c1541 examples
+@c @node FIXME
+@section c1541 examples
+
+@c FIXME: add more c1541 examples
+
+@table @code
+@item c1541 -attach test.d64 -write test.prg testfile
+Write @code{test.prg} to @code{test.d64} as @code{testfile}.
+@end table
 
 @c @node FIXME
 @chapter cartconv
@@ -9385,6 +9531,16 @@ the C64S emulator.  It is easy to use and allows future extensions.
 * T64 tape record::             
 * T64 file record::             
 @end menu
+
+@c FIXME: add X64 disk image file structure; Used by the 1541, 2031, 3040, 4040 drives.
+@c FIXME: add D64 disk image file structure; Used by the 1541, 2031, 3040, 4040 drives.
+@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+@c FIXME: add D71 VC1571 disk image file structure
+@c FIXME: add D81 VC1581 disk image file structure
+@c FIXME: add D80 CBM8050 disk image file structure
+@c FIXME: add D82 CBM8250/1001 disk image file structure
+@c FIXME: add P00 program file structure;
+@c FIXME: add CRT c64 cartridge images file structure
 
 @node T64 file structure, T64 tape record, T64, T64
 @subsection T64 File structure

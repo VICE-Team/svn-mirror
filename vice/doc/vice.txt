@@ -1881,6 +1881,10 @@ values apply to.
 `-displaydepth DEPTH'
      Specify the display depth (`DisplayDepth').
 
+`-fullscreen'
+`+fullscreen'
+     Enable/disable fullscreen mode
+
 
 6.5 Keyboard settings
 =====================
@@ -1947,6 +1951,9 @@ and symbolic mappings).
 
 `-poskeymap NAME'
      Specify `NAME' as the positional keymap file (`KeymapPosFile').
+
+`-symdekeymap NAME'
+     Specify `NAME' as the symbolic keymap file (`KeymapSymDeFile').
 
 `-buksymkeymap NAME'
 `-bukposkeymap NAME'
@@ -2069,10 +2076,6 @@ The following menu items control sound output:
      Integer specifying the pause interval when audio underflows
      ("clicks") happen.  `0' means no pause is done.
 
-`SoundOversample'
-     Integer specifying the oversampling factor, ranging from `0' (no
-     oversampling) to `3' (8 times oversampling).
-
 `SoundDeviceName'
      String specifying the audio driver.
 
@@ -2160,6 +2163,9 @@ The following menu items control sound output:
 
 6.8 Tape settings
 =================
+
+These settings are used to control the hardware-level emulation of the
+Tape drive.
 
 6.8.1 Tape command-line options
 -------------------------------
@@ -2295,11 +2301,6 @@ and 9 are being emulated.
      Integers specifying the idling method for the drive CPU.  Possible
      values are `0' (none), `1' (skip cycles), `2' (trap idle).  *Note
      Drive settings::.
-
-`DriveSyncFactor'
-     Integer specifying the drive's clock sync factor (*note Drive
-     settings::).  Special values `-1' and `-2' mean PAL and NTSC,
-     respectively.
 
 `DosName1541'
 `DosName1571'
@@ -2520,6 +2521,9 @@ system VICE runs on.
      and 11, respectively (`FSDevice8Dir', `FSDevice9Dir',
      `FSDevice10Dir' and `FSDevice11Dir').
 
+`-flipname <name>'
+     Specify name of the flip list file image
+
 
 6.10.2 Printer settings
 -----------------------
@@ -2555,24 +2559,45 @@ code) and then to the printer via `lpr'.
 6.10.2.1 Printer resources
 ..........................
 
-`PrDevice1'
-`PrDevice2'
-`PrDevice3'
+`PrinterTextDevice1'
+`PrinterTextDevice2'
+`PrinterTextDevice3'
      Strings specifying the printer devices (*note Printer settings::).
 
-`Printer4'
-     Boolean specifying if the IEC printer (device 4) is being emulated.
+`Printer4TextDevice'
 
-`Printer4Dev'
+`Printer5TextDevice'
      Integer (ranging from 0 to 2, for device 1-3) specifying what
      printer device (*note Printer settings::) the IEC printer is using.
 
-`PrUser'
+`Printer4'
+
+`Printer5'
+     Integer specifying how the IEC printer (device 4-5) is being
+     emulated.  (0: NONE, 1: FS, 2: REAL)
+
+`Printer4Driver'
+
+`Printer5Driver'
+     String specifying the IEC printer output driver.
+
+`Printer4Output'
+
+`Printer5Output'
+     String specifying the IEC printer output device.
+
+`PrinterUserport'
      Boolean specifying if the user-port printer is being emulated.
 
-`PrUserDev'
+`PrinterUserportTextDevice'
      Integer (ranging from 0 to 2, for device 1-3) specifying what
      printer device the user-port printer is using.
+
+`PrinterUserportDriver'
+     String specifying the user-port printer output driver.
+
+`PrinterUserportOutput'
+     String specifying the user-port printer output device.
 
 
 6.10.2.2 Printer command-line options
@@ -2732,10 +2757,6 @@ actually expects).
      points to a special device (like `/dev/ttyS0'; *note RS232
      settings::).
 
-`AciaDE'
-     Boolean specifying whether C64 or C128 should emulate ACIA 6551 in
-     I/O 1, at `$de**'.
-
 `Acia1Dev'
      Integer (ranging from 0 to 3, for device 1-4) specifying what
      RS232 device (*note RS232 settings::) the ACIA is using (all
@@ -2745,10 +2766,13 @@ actually expects).
      Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 =
      NMI (C64 and C128 only)
 
-`RsUser'
-     Integer specifying if the user-port RS232 interface is being
-     emulated and at which baudrate it should have for the emulator. 0
-     = off; > 0 specifies the baudrate (C64, C128 and VIC20).
+`RsUserEnable'
+     Boolean specifying if the user-port RS232 interface is being
+     emulated (C64, C128 and VIC20).
+
+`RsUserBaud'
+     Integer specifying the baudrate of the user-port RS232 interface
+     (C64, C128 and VIC20).
 
 `RsUserDev'
      Integer (ranging from 0 to 3, for device 1-4) specifying what
@@ -2856,13 +2880,48 @@ monitor.
      The local address the remote monitor should bind to
 
 
-6.13 Miscellaneous settings
+6.13 Machine settings
+=====================
+
+6.13.1 Machine command-line options
+-----------------------------------
+
+`-pal'
+     Use PAL sync factor 
+
+`-ntsc'
+     Use NTSC sync factor 
+
+`-ntscold'
+     Use old NTSC sync factor 
+
+`-paln'
+     Use PAL-N sync factor
+
+
+6.14 Memory settings
+====================
+
+6.14.1 Memory command-line options
+----------------------------------
+
+`-raminitstartvalue <value>'
+     Set the value for the very first RAM address after powerup 
+
+`-raminitvalueinvert <num of bytes>'
+     Length of memory block initialized with the same value 
+
+`-raminitpatterninvert <num of bytes>'
+     Length of memory block initialized with the same pattern
+
+
+6.15 Miscellaneous settings
 ===========================
 
 This section lists generic resources that do not fit in the other
 categories.
 
-6.13.1 Miscellaneous resources
+6.15.1 Miscellaneous resources
 ------------------------------
 
 `Directory'
@@ -2923,7 +2982,7 @@ categories.
      example).
 
 
-6.13.2 Miscellaneous command-line options
+6.15.2 Miscellaneous command-line options
 -----------------------------------------
 
 `-directory SEARCHPATH'
@@ -3174,7 +3233,24 @@ enabling permanently.
 
    * SFX Sound Sampler
 
-7.1.1.1 The Final Cartridge 3
+7.1.1.1 IEEE-488 interface
+..........................
+
+To be able to use an IEEE drive, you need to enable IEEE emulation for
+the emulator. To do this, follow the following steps:
+
+   Download the IEEE 488 ROM image from the CBM archives (formerly
+known as FUNET) Attach that image with File/Attach cartridge
+image/IEEE488 interface image.
+
+   Make sure you have a one-drive system only (that is, go to
+Settings/Peripheral Setting, uncheck "use IEC device" for all devices,
+go to Settings/Drive Settings and select "Floppy type" as "none" for
+all drives other than drive 8.
+
+   After this, all drives can be selected in x64 and x128.
+
+7.1.1.2 The Final Cartridge 3
 .............................
 
 The Final Cartridge 3 detects wether a mouse is connected when it
@@ -3773,6 +3849,38 @@ used in both the C64 and the C128.
      Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a). This
      setting is only available in `x64sc'.
 
+`-newluminance'
+
+`+newluminance'
+     Enable/Disable new luminances.
+
+`-saturation <0-2000>'
+     Set saturation of internal calculated palette [1000] 
+
+`-contrast <0-2000>'
+     Set contrast of internal calculated palette [1000] 
+
+`-brightness <0-2000>'
+     Set brightness of internal calculated palette [1000] 
+
+`-gamma <0-4000>'
+     Set gamma of internal calculated palette [2200] 
+
+`-tint <0-2000>'
+     Set tint of internal calculated palette [1000] 
+
+`-oddlinesphase <0-2000>'
+     Set phase for color carrier in odd lines [1250] 
+
+`-oddlinesoffset <0-2000>'
+     Set phase offset for color carrier in odd lines [750] 
+
+`-crtblur <0-1000>'
+     Amount of horizontal blur for the CRT emulation. [500] 
+
+`-crtscanlineshade <0-1000>'
+     Amount of scan line shading for the CRT emulation [667]
+
 
 7.1.5 SID settings
 ------------------
@@ -3851,9 +3959,7 @@ audio chip.
      Integer specifying what model of the SID must be emulated (`0':
      MOS6581, `1': MOS8580).
 
-`SidUseResid'
-     Boolean specifying whether the accurate reSID emulation is being
-     used.
+`SidEngine'
 
 `SidResidSampling'
      Integer specifying the sampling method (`0': Fast, `1':
@@ -3901,6 +4007,10 @@ audio chip.
 
 `-residgain `PERCENTAGE''
      Specifies reSID gain in percent (90 - 100).
+
+`-residfilterbias <number>'
+     reSID filter bias setting, which can be used to adjust DAC bias in
+     millivolts.
 
 
 7.1.6 C64 I/O extension settings
@@ -4233,6 +4343,34 @@ C64/128 emulators at startup.  They cannot be changed from the menus.
 `-VDCRevision <number>'
      Set VDC revision (0..2)
 
+`-saturation <0-2000>'
+     Set saturation of internal calculated palette [1000] 
+
+`-contrast <0-2000>'
+     Set contrast of internal calculated palette [1000] 
+
+`-brightness <0-2000>'
+     Set brightness of internal calculated palette [1000] 
+
+`-gamma <0-4000>'
+     Set gamma of internal calculated palette [2200] 
+
+`-tint <0-2000>'
+     Set tint of internal calculated palette [1000] 
+
+`-oddlinesphase <0-2000>'
+     Set phase for color carrier in odd lines [1250] 
+
+`-oddlinesoffset <0-2000>'
+     Set phase offset for color carrier in odd lines [750] 
+
+`-crtblur <0-1000>'
+     Amount of horizontal blur for the CRT emulation. [500] 
+
+`-crtscanlineshade <0-1000>'
+     Amount of scan line shading for the CRT emulation [667]
+
+
 7.2.2 C128 system ROM settings
 ------------------------------
 
@@ -4553,6 +4691,11 @@ you also have to enable the IEEE488 hardware by menu.
 `+ieee488'
      Enable/Disable VIC-1112 IEEE488 interface
 
+`-sidcart'
+
+`+sidcart'
+     Enable/Disable SID Cartridge
+
 
 7.4.3 VIC settings
 ------------------
@@ -4619,6 +4762,33 @@ you also have to enable the IEEE488 hardware by menu.
 
 `-VICVidmodefullmode <mode>'
      Select fullscreen mode
+
+`-saturation <0-2000>'
+     Set saturation of internal calculated palette [1000] 
+
+`-contrast <0-2000>'
+     Set contrast of internal calculated palette [1000] 
+
+`-brightness <0-2000>'
+     Set brightness of internal calculated palette [1000] 
+
+`-gamma <0-4000>'
+     Set gamma of internal calculated palette [2200] 
+
+`-tint <0-2000>'
+     Set tint of internal calculated palette [1000] 
+
+`-oddlinesphase <0-2000>'
+     Set phase for color carrier in odd lines [1250] 
+
+`-oddlinesoffset <0-2000>'
+     Set phase offset for color carrier in odd lines [750] 
+
+`-crtblur <0-1000>'
+     Amount of horizontal blur for the CRT emulation. [500] 
+
+`-crtscanlineshade <0-1000>'
+     Amount of scan line shading for the CRT emulation [667]
 
 
 7.4.4 Changing memory configuration
@@ -4822,6 +4992,34 @@ VIC20 emulator at startup.  They cannot be changed from the menus.
 `-TEDVidmodefullmode <mode>'
      Select fullscreen mode
 
+`-saturation <0-2000>'
+     Set saturation of internal calculated palette [1000] 
+
+`-contrast <0-2000>'
+     Set contrast of internal calculated palette [1000] 
+
+`-brightness <0-2000>'
+     Set brightness of internal calculated palette [1000] 
+
+`-gamma <0-4000>'
+     Set gamma of internal calculated palette [2200] 
+
+`-tint <0-2000>'
+     Set tint of internal calculated palette [1000] 
+
+`-oddlinesphase <0-2000>'
+     Set phase for color carrier in odd lines [1250] 
+
+`-oddlinesoffset <0-2000>'
+     Set phase offset for color carrier in odd lines [750] 
+
+`-crtblur <0-1000>'
+     Amount of horizontal blur for the CRT emulation. [500] 
+
+`-crtscanlineshade <0-1000>'
+     Amount of scan line shading for the CRT emulation [667]
+
+
 7.5.2 PLUS4 I/O extension settings
 ----------------------------------
 
@@ -4831,6 +5029,11 @@ VIC20 emulator at startup.  They cannot be changed from the menus.
 `-digiblaster'
 `+digiblaster'
      Enable/Disable the digiblaster add-on
+
+`-sidcart'
+
+`+sidcart'
+     Enable/Disable SID Cartridge
 
 `-sidcartjoy'
 
@@ -4875,6 +5078,9 @@ VIC20 emulator at startup.  They cannot be changed from the menus.
 
 7.5.4.1 PLUS4 command-line options
 ..................................
+
+`-ramsize <ramsize>'
+     Specify size of RAM installed in kb (16/32/64)
 
 `-h256k'
      Enable the HANNES 256K RAM expansion 
@@ -5066,6 +5272,34 @@ emulate a PET 3032 while `xpet -model 8296' will emulate a PET 8296.
 `-CrtcVidmodefullmode <mode>'
      Select fullscreen mode
 
+`-saturation <0-2000>'
+     Set saturation of internal calculated palette [1000] 
+
+`-contrast <0-2000>'
+     Set contrast of internal calculated palette [1000] 
+
+`-brightness <0-2000>'
+     Set brightness of internal calculated palette [1000] 
+
+`-gamma <0-4000>'
+     Set gamma of internal calculated palette [2200] 
+
+`-tint <0-2000>'
+     Set tint of internal calculated palette [1000] 
+
+`-oddlinesphase <0-2000>'
+     Set phase for color carrier in odd lines [1250] 
+
+`-oddlinesoffset <0-2000>'
+     Set phase offset for color carrier in odd lines [750] 
+
+`-crtblur <0-1000>'
+     Amount of horizontal blur for the CRT emulation. [500] 
+
+`-crtscanlineshade <0-1000>'
+     Amount of scan line shading for the CRT emulation [667]
+
+
 7.6.3 The PET diagnostic pin
 ----------------------------
 
@@ -5140,6 +5374,11 @@ These are the commandline options specific for the CBM-II models.
 
 `-petdwwimage <name>'
      Specify name of PET DWW image
+
+`-sidcart'
+
+`+sidcart'
+     Enable/Disable SID Cartridge
 
 
 7.6.5 Changing screen colors
@@ -5233,6 +5472,9 @@ Notably this is the only way to start a C510 emulation, with `-model
 
 These are the commandline options specific for the CBM-II models.
 
+`-ramsize <ramsize>'
+     Specify size of RAM (64/128/256/512/1024 kByte)
+
 `-usevicii'
 `+usevicii'
      Specify whether to use (-usevicii) or not to use (+usevicii) the
@@ -5320,6 +5562,9 @@ following values:
 
 7.8.1.1 VSID command-line options
 .................................
+
+`-vsid'
+     SID player mode (`x64' only).  
 
 `-keepenv'
      Override PSID settings for Video standard and SID model 
@@ -6215,16 +6460,46 @@ in the other modules.
 Type    Name                          Description
 DWORD   IRQCLK                        CPU clock ticks till next 50Hz IRQ
 
-9 Event history
-***************
+9 Media images
+**************
 
-9.1 Event history command-line options
-======================================
+9.1 Media images command-line options
+=====================================
+
+`-doodleoversize <method>'
+     Select the way the oversized input should be handled, (0: scale
+     down, 1: crop left top, 2: crop center top,  3: crop right top, 4:
+     crop left center, 5: crop center, 6: crop right center, 7: crop
+     left bottom, 8: crop center bottom, 9:  crop right bottom) 
+
+`-doodlemc <method>'
+     Select the way the multicolor to hires should be handled, (0: b&w,
+     1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors) 
+
+`-doodletedlum <method>'
+     Select the way the TED luminosity should be handled, (0: ignore,
+     1: dither) 
+
+`-doodlecrtctextcolor <color>'
+     Select the CRTC text color (0: white, 1: amber, 2: green)
+
+`-ffmpegaudiobitrate <value>'
+     Set bitrate for audio stream in media file 
+
+`-ffmpegvideobitrate <value>'
+     Set bitrate for video stream in media file
+
+
+10 Event history
+****************
+
+10.1 Event history command-line options
+=======================================
 
 `-playback'
      Playback recorded events
 
-10 Monitor
+11 Monitor
 **********
 
 Every VICE emulator has a complete built-in monitor, which can be used
@@ -6237,7 +6512,7 @@ run the emulator from a terminal emulation program (such as `rxvt' or
    Warning: this version of the monitor is still under construction,
 and some of the features are not fully working yet.
 
-10.1 Terminology
+11.1 Terminology
 ================
 
 `address_space'
@@ -6267,6 +6542,10 @@ and some of the features are not fully working yet.
 
 `address_opt_range'
      An address or an address range.
+
+`label'
+     `label' is the name of a label. it must start with a dot (".")  in
+     order for the monitor to recognize it as a label.
 
 `prompt'
      The prompt has the format [x:y].  If x is -, memory reads from the
@@ -6307,7 +6586,7 @@ and some of the features are not fully working yet.
      An optional argument.
 
 
-10.2 Machine state commands
+11.2 Machine state commands
 ===========================
 
 `backtrace'
@@ -6363,7 +6642,7 @@ and some of the features are not fully working yet.
      Read a snapshot of the machine from the file specified.
 
 
-10.3 Memory commands
+11.3 Memory commands
 ====================
 
 `bank [<bankname>]'
@@ -6463,7 +6742,7 @@ and some of the features are not fully working yet.
      Write the specified data at `address'.
 
 
-10.4 Assembly commands
+11.4 Assembly commands
 ======================
 
 `a <address> [ <instruction> [: <instruction>]* ]'
@@ -6480,7 +6759,7 @@ and some of the features are not fully working yet.
      of instructions are disassembled from the dot address.
 
 
-10.5 Checkpoint commands
+11.5 Checkpoint commands
 ========================
 
 `break [<address> [if <cond_expr>] ]'
@@ -6552,7 +6831,7 @@ and some of the features are not fully working yet.
      breaks. If not specified, the monitor breaks on both operations.
 
 
-10.6 General commands
+11.6 General commands
 =====================
 
 `cd <directory>'
@@ -6576,7 +6855,7 @@ and some of the features are not fully working yet.
      argument, the current radix is printed.
 
 
-10.7 Disk commands
+11.7 Disk commands
 ==================
 
 `attach <filename> <device>'
@@ -6630,7 +6909,7 @@ and some of the features are not fully working yet.
      If device is 0, the file is written to the file system.
 
 
-10.8 Command file commands
+11.8 Command file commands
 ==========================
 
 `playback "<filename>"'
@@ -6648,7 +6927,7 @@ and some of the features are not fully working yet.
      Stop recording commands.  See `record'.
 
 
-10.9 Label commands
+11.9 Label commands
 ===================
 
 `add_label <address> <label>'
@@ -6692,7 +6971,7 @@ and some of the features are not fully working yet.
      show all labels.
 
 
-10.10 Miscellaneous commands
+11.10 Miscellaneous commands
 ============================
 
 `cartfreeze'
@@ -6745,7 +7024,7 @@ and some of the features are not fully working yet.
      Display the specified number in decimal, hex, octal and binary.
 
 
-11 c1541
+12 c1541
 ********
 
 VICE is provided with a complete stand-alone disk image maintenance
@@ -6778,7 +7057,7 @@ leading `-'.  As with the monitor, file name completion and command
 line editing with history are provided via GNU `readline'.  Use the
 command `quit' or press `C-d' to exit.
 
-11.1 Specifying files in c1541
+12.1 Specifying files in c1541
 ==============================
 
 When accessing CBM DOS files (i.e. files that reside on disk images),
@@ -6797,7 +7076,7 @@ respectively.
 
    will name file named `somefile' on unit 9.
 
-11.2 Using quotes and backslashes
+12.2 Using quotes and backslashes
 =================================
 
 You can use quotes (`"') in a command to embed spaces into file names.
@@ -6826,7 +7105,7 @@ example,
    will copy `some file' into the file system with name `this"file'
 (with an embedded quote).
 
-11.3 c1541 commands and options
+12.3 c1541 commands and options
 ===============================
 
 This is a list of the `c1541' commands.  They are shown in their
@@ -6919,7 +7198,7 @@ according to CBM DOS, like "i0" for example.
      `1!zipname', `2!zipname', `3!zipname' and `4!zipname'.
 
 
-11.4 Executing shell commands
+12.4 Executing shell commands
 =============================
 
 If you want to execute a shell command from withing `c1541', just
@@ -6930,14 +7209,20 @@ prepend it with an exclamation mark (`!').  For example,
    will execute the command `ls -la', which will show you all the files
 in the current directory.
 
-12 cartconv
+12.5 c1541 examples
+===================
+
+`c1541 -attach test.d64 -write test.prg testfile'
+     Write `test.prg' to `test.d64' as `testfile'.
+
+13 cartconv
 ***********
 
 The cartconv program is a cartridge conversion utility, it can convert
 between binary and .crt images and it can 'insert' binary and/or .crt
 images into the EPROM type of cartridges.
 
-12.1 cartconv command line options
+13.1 cartconv command line options
 ==================================
 
 The cartconv program has the following parameters:
@@ -7148,7 +7433,7 @@ The cartconv program has the following parameters:
 
    * (3) insertion of 16kB .crt/binary files supported.
 
-12.2 cartconv examples
+13.2 cartconv examples
 ======================
 
 `cartconv -i foo.crt -o foo.bin'
@@ -7183,13 +7468,13 @@ The cartconv program has the following parameters:
 `cartconv -f foo.crt'
      Get information about a .crt file.
 
-13 petcat
+14 petcat
 *********
 
 The petcat program is a text conversion utility, it can convert between
 ASCII, PETSCII and tokenized BASIC.
 
-13.1 petcat command line options
+14.1 petcat command line options
 ================================
 
 `-help'
@@ -7348,7 +7633,7 @@ ASCII, PETSCII and tokenized BASIC.
 `10'
      Basic v10.0 program (C64DX)
 
-13.2 petcat examples
+14.2 petcat examples
 ====================
 
 `petcat -2 -o outputfile.txt -- inputfile.prg'
@@ -7359,13 +7644,13 @@ ASCII, PETSCII and tokenized BASIC.
      Convert inputfile.txt to a PRG file in outputfile.prg, using
      Simon's BASIC
 
-14 The emulator file formats
+15 The emulator file formats
 ****************************
 
 This chapter gives a technical description of the various files
 supported by the emulators.
 
-14.1 The T64 tape image format
+15.1 The T64 tape image format
 ==============================
 
 (This section was taken from the C64S distribution.)
@@ -7373,7 +7658,7 @@ supported by the emulators.
    The `T64' File Structure was developed by Miha Peternel for use in
 the C64S emulator.  It is easy to use and allows future extensions.
 
-14.1.1 T64 File structure
+15.1.1 T64 File structure
 -------------------------
 
 Offset                 Size                   Description
@@ -7382,7 +7667,7 @@ Offset                 Size                   Description
                                               entries
 64+32*n                varies                 binary contents of the files
 
-14.1.2 Tape Record
+15.1.2 Tape Record
 ------------------
 
 Offset                 Size                   Description
@@ -7396,7 +7681,7 @@ Offset                 Size                   Description
 40                     24                     user description as
                                               displayed in tape menu
 
-14.1.3 File record
+15.1.3 File record
 ------------------
 
 Offset                 Size                   Description
@@ -7429,7 +7714,7 @@ Code                   Explanation
    * Types `3', `4' and `5' are subject to change (and are rarely
      used).
 
-14.2 The G64 GCR-encoded disk image format
+15.2 The G64 GCR-encoded disk image format
 ==========================================
 
 (This section was contributed by Peter Schepers and slightly edited by
@@ -7694,7 +7979,7 @@ actual track or speed zone data is not important, meaning they do not
 have to be in any particular order since they are all referenced by the
 offsets at the beginning of the image.
 
-15 Acknowledgments
+16 Acknowledgments
 ******************
 
 VICE derives from X64, the first Commodore 64 emulator for the X Window
@@ -7770,14 +8055,6 @@ in the development of X64 and VICE:
    * Fabrizio Gennari added some improvements to the MSDOS- and GTK
      port.
 
-   * Hannu Nuotio implemented DTV flash emulation, DTV support in the
-     monitor, large parts of the DTV VIC emulation, burst mode and skip
-     cycle emulation as well as many other things. Added NEOS and Amiga
-     mouse, paddle and light pen support. Added new monitor commands and
-     features, including memmap. Made MIDI support and OSS MIDI driver.
-     Implemented most of the SDL UI. Rewrote xvic CPU/VIC-I core for
-     cycle based emulation.
-
    * Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID support
      in resid, better DMA/Blitter support and did lots of refactoring.
      Added new monitor commands and features. Improved the VIC
@@ -7792,9 +8069,18 @@ in the development of X64 and VICE:
 
    Former team members:
 
-   * M. Kiesel started implementing x64dtv. The C64DTV memory model and
-     early versions of the DMA and Blitter engine have been implemented
-     by him. Added new monitor commands and features.
+   * M. Kiesel Copyright (C) 2007-2010 Started implementing x64dtv. The
+     C64DTV memory model and early versions of the DMA and Blitter
+     engine have been implemented by him. Added new monitor commands
+     and features.
+
+   * Hannu Nuotio Copyright (C) 2007-2011 Implemented DTV flash
+     emulation, DTV support in the monitor, large parts of the DTV VIC,
+     burst mode and skip cycle emulation as well as many other things.
+     Added NEOS and Amiga mouse, paddle and light pen support. Added
+     new monitor commands and features, including memmap. Made MIDI
+     support and OSS MIDI driver.  Implemented most of the SDL UI.
+     Rewrote xvic CPU/VIC-I core for cycle based emulation.
 
    * Thomas Bretz Copyright (C) 1999-2004 Started the OS/2 port.
 
@@ -8083,7 +8369,7 @@ in the development of X64 and VICE:
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel
 and Per Håkan Sundell for writing cool emulators to compete with.  :-)
 
-16 Copyright
+17 Copyright
 ************
 
    * Copyright (C) 1998-2011 Dag Lem
@@ -8100,8 +8386,6 @@ and Per Håkan Sundell for writing cool emulators to compete with.  :-)
 
    * Copyright (C) 2007-2011 Fabrizio Gennari
 
-   * Copyright (C) 2007-2011 Hannu Nuotio
-
    * Copyright (C) 2007-2011 Daniel Kahlin
 
    * Copyright (C) 2008-2011 Antti S. Lankila
@@ -8111,6 +8395,8 @@ and Per Håkan Sundell for writing cool emulators to compete with.  :-)
    * Copyright (C) 1998-2010 Andreas Boose
 
    * Copyright (C) 2007-2010 M. Kiesel
+
+   * Copyright (C) 2007-2011 Hannu Nuotio
 
    * Copyright (C) 1999-2007 Andreas Dehmel
 
@@ -8146,10 +8432,10 @@ General Public License for more details.
 along with this program; if not, write to the Free Software Foundation,
 Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
-17 Contact information
+18 Contact information
 **********************
 
-17.1 VICE home page
+18.1 VICE home page
 ===================
 
 You can find the latest news about VICE at the official VICE home page:
@@ -8170,7 +8456,7 @@ with a newer version.
 
      http://vicekb.trikaliotis.net/
 
-17.2 How to send feedback
+18.2 How to send feedback
 =========================
 
 Before contacting us, have a look at the VICE knowledge base at
@@ -8252,7 +8538,7 @@ all of it.
 
    Thanks!
 
-17.3 How to contribute
+18.3 How to contribute
 ======================
 
 If you want to make a major contribution, please _ask_ first.  It has
@@ -8289,7 +8575,7 @@ safer.
 But notice from experience it will take at least a full year of
 continuous work to write a well working and stable port.
 
-17.4 Interesting newsgroups
+18.4 Interesting newsgroups
 ===========================
 
 There are some Usenet newsgroups you might be interested in:
@@ -8305,7 +8591,7 @@ There are some Usenet newsgroups you might be interested in:
    * `comp.emulators.misc', discussing emulators in general.
 
 
-17.5 FAQs you should read
+18.5 FAQs you should read
 =========================
 
 We recommend reading the `comp.emulators.cbm' and `comp.sys.cbm' FAQs,
@@ -8316,25 +8602,25 @@ Concept Index
 *************
 
 +cart:                                         Siehe 7.1.2.2.
-                                                            (Zeile 3309)
+                                                            (Zeile 3385)
 -1:                                            Siehe 3.1.   (Zeile  963)
 -10:                                           Siehe 3.1.   (Zeile  968)
 -11:                                           Siehe 3.1.   (Zeile  969)
 -256k, +256k:                                  Siehe 7.1.8.1.
-                                                            (Zeile 4173)
+                                                            (Zeile 4283)
 -256kbase:                                     Siehe 7.1.8.1.
-                                                            (Zeile 4178)
+                                                            (Zeile 4288)
 -256kimage:                                    Siehe 7.1.8.1.
-                                                            (Zeile 4175)
+                                                            (Zeile 4285)
 -40col:                                        Siehe 7.2.3.1.
-                                                            (Zeile 4308)
+                                                            (Zeile 4446)
 -8:                                            Siehe 3.1.   (Zeile  964)
 -80col:                                        Siehe 7.2.3.1.
-                                                            (Zeile 4309)
+                                                            (Zeile 4447)
 -9:                                            Siehe 3.1.   (Zeile  967)
 -?:                                            Siehe 3.1.   (Zeile  905)
 -acia1, +acia1:                                Siehe 7.1.6.2.
-                                                            (Zeile 4001)
+                                                            (Zeile 4111)
 -attach10ro:                                   Siehe 3.1.   (Zeile  972)
 -attach10rw:                                   Siehe 3.1.   (Zeile  976)
 -attach11ro:                                   Siehe 3.1.   (Zeile  972)
@@ -8351,1214 +8637,1356 @@ Concept Index
 -autostartprgdiskimage:                        Siehe 3.1.   (Zeile  958)
 -autostartprgmode:                             Siehe 3.1.   (Zeile  955)
 -autostartwithcolon, +autostartwithcolon:      Siehe 3.1.   (Zeile  941)
--basic <1>:                                    Siehe 7.7.2. (Zeile 5244)
+-basic <1>:                                    Siehe 7.7.2. (Zeile 5486)
 -basic <2>:                                    Siehe 7.4.5.2.
-                                                            (Zeile 4750)
+                                                            (Zeile 4920)
 -basic:                                        Siehe 7.1.7.2.
-                                                            (Zeile 4137)
--basic1, +basic1:                              Siehe 7.6.4. (Zeile 5109)
--basic1char, +basic1char:                      Siehe 7.6.4. (Zeile 5113)
+                                                            (Zeile 4247)
+-basic1, +basic1:                              Siehe 7.6.4. (Zeile 5343)
+-basic1char, +basic1char:                      Siehe 7.6.4. (Zeile 5347)
 -basic64:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4242)
+                                                            (Zeile 4380)
 -basichi:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4249)
+                                                            (Zeile 4387)
 -basiclo:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4248)
+                                                            (Zeile 4386)
 -basicload, +basicload:                        Siehe 3.1.   (Zeile  935)
--bdesymkeymap, -bdeposkeymap:                  Siehe 6.5.2. (Zeile 1963)
--buksymkeymap, -bukposkeymap:                  Siehe 6.5.2. (Zeile 1951)
--c:                                            Siehe 13.1.  (Zeile 7199)
+-bdesymkeymap, -bdeposkeymap:                  Siehe 6.5.2. (Zeile 1970)
+-brightness <1>:                               Siehe 7.6.2.2.
+                                                            (Zeile 5279)
+-brightness <2>:                               Siehe 7.5.1.1.
+                                                            (Zeile 4999)
+-brightness <3>:                               Siehe 7.4.3.2.
+                                                            (Zeile 4770)
+-brightness <4>:                               Siehe 7.2.1.1.
+                                                            (Zeile 4350)
+-brightness:                                   Siehe 7.1.4.2.
+                                                            (Zeile 3861)
+-buksymkeymap, -bukposkeymap:                  Siehe 6.5.2. (Zeile 1958)
+-c:                                            Siehe 14.1.  (Zeile 7484)
 -c1hi:                                         Siehe 7.5.3.1.
-                                                            (Zeile 4861)
+                                                            (Zeile 5064)
 -c1lo:                                         Siehe 7.5.3.1.
-                                                            (Zeile 4860)
+                                                            (Zeile 5063)
 -c2hi:                                         Siehe 7.5.3.1.
-                                                            (Zeile 4867)
+                                                            (Zeile 5070)
 -c2lo:                                         Siehe 7.5.3.1.
-                                                            (Zeile 4864)
--c64dtvromimage:                               Siehe 7.3.1. (Zeile 4352)
--c64dtvromrw, +c64dtvromrw:                    Siehe 7.3.1. (Zeile 4355)
--cart1:                                        Siehe 7.7.2. (Zeile 5250)
+                                                            (Zeile 5067)
+-c64dtvromimage:                               Siehe 7.3.1. (Zeile 4490)
+-c64dtvromrw, +c64dtvromrw:                    Siehe 7.3.1. (Zeile 4493)
+-cart1:                                        Siehe 7.7.2. (Zeile 5492)
 -cart16:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3318)
--cart2 <1>:                                    Siehe 7.7.2. (Zeile 5252)
--cart2 <2>:                                    Siehe 7.4.5.2.
-                                                            (Zeile 4756)
--cart2:                                        Siehe 7.4.2.1.
-                                                            (Zeile 4510)
--cart4 <1>:                                    Siehe 7.7.2. (Zeile 5256)
--cart4 <2>:                                    Siehe 7.4.5.2.
-                                                            (Zeile 4756)
--cart4:                                        Siehe 7.4.2.1.
-                                                            (Zeile 4511)
--cart6 <1>:                                    Siehe 7.7.2. (Zeile 5260)
--cart6 <2>:                                    Siehe 7.4.5.2.
-                                                            (Zeile 4756)
--cart6:                                        Siehe 7.4.2.1.
-                                                            (Zeile 4514)
--cart8:                                        Siehe 7.1.2.2.
-                                                            (Zeile 3315)
--cartA <1>:                                    Siehe 7.4.5.2.
-                                                            (Zeile 4756)
--cartA:                                        Siehe 7.4.2.1.
-                                                            (Zeile 4517)
--cartap:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3327)
--cartar2:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3330)
--cartar3:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3333)
--cartar4:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3336)
--cartar5:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3339)
--cartB <1>:                                    Siehe 7.4.5.2.
-                                                            (Zeile 4756)
--cartB:                                        Siehe 7.4.2.1.
-                                                            (Zeile 4520)
--cartcap:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3342)
--cartcomal:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3345)
--cartcrt:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3324)
--cartdep256:                                   Siehe 7.1.2.2.
-                                                            (Zeile 3348)
--cartdep64:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3351)
--cartdep7x8:                                   Siehe 7.1.2.2.
-                                                            (Zeile 3354)
--cartdin:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3357)
--cartdqbb:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3363)
--cartdsm:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3360)
--carteasy:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3377)
--cartepyx:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3388)
--cartexos:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3391)
--cartexpert:                                   Siehe 7.1.2.2.
                                                             (Zeile 3394)
--cartfc1:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3408)
--cartfc3:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3411)
--cartfcplus:                                   Siehe 7.1.2.2.
-                                                            (Zeile 3414)
--cartfe:                                       Siehe 7.4.2.1.
-                                                            (Zeile 4538)
--cartff:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3417)
--cartfm:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3420)
--cartfp <1>:                                   Siehe 7.4.2.1.
-                                                            (Zeile 4545)
--cartfp:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3423)
--cartgeneric:                                  Siehe 7.4.2.1.
-                                                            (Zeile 4523)
--cartgeoram:                                   Siehe 7.1.6.2.
-                                                            (Zeile 4031)
--cartgk:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3426)
--cartgs:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3429)
--cartide64:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3432)
--cartieee:                                     Siehe 7.1.2.2.
+-cart2 <1>:                                    Siehe 7.7.2. (Zeile 5494)
+-cart2 <2>:                                    Siehe 7.4.5.2.
+                                                            (Zeile 4926)
+-cart2:                                        Siehe 7.4.2.1.
+                                                            (Zeile 4648)
+-cart4 <1>:                                    Siehe 7.7.2. (Zeile 5498)
+-cart4 <2>:                                    Siehe 7.4.5.2.
+                                                            (Zeile 4926)
+-cart4:                                        Siehe 7.4.2.1.
+                                                            (Zeile 4649)
+-cart6 <1>:                                    Siehe 7.7.2. (Zeile 5502)
+-cart6 <2>:                                    Siehe 7.4.5.2.
+                                                            (Zeile 4926)
+-cart6:                                        Siehe 7.4.2.1.
+                                                            (Zeile 4652)
+-cart8:                                        Siehe 7.1.2.2.
+                                                            (Zeile 3391)
+-cartA <1>:                                    Siehe 7.4.5.2.
+                                                            (Zeile 4926)
+-cartA:                                        Siehe 7.4.2.1.
+                                                            (Zeile 4655)
+-cartap:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3403)
+-cartar2:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3406)
+-cartar3:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3409)
+-cartar4:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3412)
+-cartar5:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3415)
+-cartB <1>:                                    Siehe 7.4.5.2.
+                                                            (Zeile 4926)
+-cartB:                                        Siehe 7.4.2.1.
+                                                            (Zeile 4658)
+-cartcap:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3418)
+-cartcomal:                                    Siehe 7.1.2.2.
+                                                            (Zeile 3421)
+-cartcrt:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3400)
+-cartdep256:                                   Siehe 7.1.2.2.
+                                                            (Zeile 3424)
+-cartdep64:                                    Siehe 7.1.2.2.
+                                                            (Zeile 3427)
+-cartdep7x8:                                   Siehe 7.1.2.2.
+                                                            (Zeile 3430)
+-cartdin:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3433)
+-cartdqbb:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3439)
+-cartdsm:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3436)
+-carteasy:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3453)
+-cartepyx:                                     Siehe 7.1.2.2.
                                                             (Zeile 3464)
--cartisepic:                                   Siehe 7.1.2.2.
-                                                            (Zeile 3479)
--cartkcs:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3489)
--cartmach5:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3492)
--cartmd:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3495)
--cartmega:                                     Siehe 7.4.2.1.
-                                                            (Zeile 4528)
--cartmf:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3498)
--cartmikro:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3501)
--cartmmc64:                                    Siehe 7.1.2.2.
+-cartexos:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3467)
+-cartexpert:                                   Siehe 7.1.2.2.
+                                                            (Zeile 3470)
+-cartfc1:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3484)
+-cartfc3:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3487)
+-cartfcplus:                                   Siehe 7.1.2.2.
+                                                            (Zeile 3490)
+-cartfe:                                       Siehe 7.4.2.1.
+                                                            (Zeile 4676)
+-cartff:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3493)
+-cartfm:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3496)
+-cartfp <1>:                                   Siehe 7.4.2.1.
+                                                            (Zeile 4683)
+-cartfp:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3499)
+-cartgeneric:                                  Siehe 7.4.2.1.
+                                                            (Zeile 4661)
+-cartgeoram:                                   Siehe 7.1.6.2.
+                                                            (Zeile 4141)
+-cartgk:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3502)
+-cartgs:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3505)
+-cartide64:                                    Siehe 7.1.2.2.
                                                             (Zeile 3508)
--cartmmcr:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3526)
--cartmv:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3551)
--cartocean:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3554)
--cartp64:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3557)
--cartramcart:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3560)
--cartrep256:                                   Siehe 7.1.2.2.
+-cartieee:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3540)
+-cartisepic:                                   Siehe 7.1.2.2.
+                                                            (Zeile 3555)
+-cartkcs:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3565)
+-cartmach5:                                    Siehe 7.1.2.2.
+                                                            (Zeile 3568)
+-cartmd:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3571)
+-cartmega:                                     Siehe 7.4.2.1.
+                                                            (Zeile 4666)
+-cartmf:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3574)
+-cartmikro:                                    Siehe 7.1.2.2.
                                                             (Zeile 3577)
+-cartmmc64:                                    Siehe 7.1.2.2.
+                                                            (Zeile 3584)
+-cartmmcr:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3602)
+-cartmv:                                       Siehe 7.1.2.2.
+                                                            (Zeile 3627)
+-cartocean:                                    Siehe 7.1.2.2.
+                                                            (Zeile 3630)
+-cartp64:                                      Siehe 7.1.2.2.
+                                                            (Zeile 3633)
+-cartramcart:                                  Siehe 7.1.2.2.
+                                                            (Zeile 3636)
+-cartrep256:                                   Siehe 7.1.2.2.
+                                                            (Zeile 3653)
 -cartreset, +cartreset:                        Siehe 7.1.2.2.
-                                                            (Zeile 3311)
+                                                            (Zeile 3387)
 -cartreu:                                      Siehe 7.1.6.2.
-                                                            (Zeile 4049)
+                                                            (Zeile 4159)
 -cartross:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3580)
+                                                            (Zeile 3656)
 -cartrr:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3583)
+                                                            (Zeile 3659)
 -cartru:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3598)
+                                                            (Zeile 3674)
 -carts64:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3601)
+                                                            (Zeile 3677)
 -cartsb:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3604)
+                                                            (Zeile 3680)
 -cartse5:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3607)
+                                                            (Zeile 3683)
 -cartsg:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3610)
+                                                            (Zeile 3686)
 -cartsimon:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3613)
+                                                            (Zeile 3689)
 -cartss4:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3616)
+                                                            (Zeile 3692)
 -cartss5:                                      Siehe 7.1.2.2.
-                                                            (Zeile 3619)
+                                                            (Zeile 3695)
 -cartstar:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3622)
+                                                            (Zeile 3698)
 -cartultimax:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3321)
+                                                            (Zeile 3397)
 -cartwl:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3625)
+                                                            (Zeile 3701)
 -cartws:                                       Siehe 7.1.2.2.
-                                                            (Zeile 3628)
+                                                            (Zeile 3704)
 -cartzaxxon:                                   Siehe 7.1.2.2.
-                                                            (Zeile 3631)
+                                                            (Zeile 3707)
 -chargde:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4276)
--chargen <1>:                                  Siehe 7.7.2. (Zeile 5247)
--chargen <2>:                                  Siehe 7.6.4. (Zeile 5093)
+                                                            (Zeile 4414)
+-chargen <1>:                                  Siehe 7.7.2. (Zeile 5489)
+-chargen <2>:                                  Siehe 7.6.4. (Zeile 5327)
 -chargen <3>:                                  Siehe 7.4.5.2.
-                                                            (Zeile 4753)
+                                                            (Zeile 4923)
 -chargen:                                      Siehe 7.1.7.2.
-                                                            (Zeile 4140)
+                                                            (Zeile 4250)
 -chargfr:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4279)
+                                                            (Zeile 4417)
 -chargse:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4282)
+                                                            (Zeile 4420)
 -chdir:                                        Siehe 3.1.   (Zeile  926)
 -cia1model:                                    Siehe 7.1.3.1.
-                                                            (Zeile 3643)
+                                                            (Zeile 3719)
 -cia2model:                                    Siehe 7.1.3.1.
-                                                            (Zeile 3646)
+                                                            (Zeile 3722)
 -ciamodel:                                     Siehe 7.1.3.1.
-                                                            (Zeile 3642)
+                                                            (Zeile 3718)
 -config:                                       Siehe 3.1.   (Zeile  911)
--confirmexit, +confirmexit:                    Siehe 6.13.2.
-                                                            (Zeile 2941)
+-confirmexit, +confirmexit:                    Siehe 6.15.2.
+                                                            (Zeile 3000)
 -console:                                      Siehe 3.1.   (Zeile  923)
--core, +core:                                  Siehe 6.13.2.
-                                                            (Zeile 2947)
+-contrast <1>:                                 Siehe 7.6.2.2.
+                                                            (Zeile 5276)
+-contrast <2>:                                 Siehe 7.5.1.1.
+                                                            (Zeile 4996)
+-contrast <3>:                                 Siehe 7.4.3.2.
+                                                            (Zeile 4767)
+-contrast <4>:                                 Siehe 7.2.1.1.
+                                                            (Zeile 4347)
+-contrast:                                     Siehe 7.1.4.2.
+                                                            (Zeile 3858)
+-core, +core:                                  Siehe 6.15.2.
+                                                            (Zeile 3006)
+-crtblur <1>:                                  Siehe 7.6.2.2.
+                                                            (Zeile 5294)
+-crtblur <2>:                                  Siehe 7.5.1.1.
+                                                            (Zeile 5014)
+-crtblur <3>:                                  Siehe 7.4.3.2.
+                                                            (Zeile 4785)
+-crtblur <4>:                                  Siehe 7.2.1.1.
+                                                            (Zeile 4365)
+-crtblur:                                      Siehe 7.1.4.2.
+                                                            (Zeile 3876)
 -Crtcdscan, +Crtcdscan:                        Siehe 7.6.2.2.
-                                                            (Zeile 5036)
+                                                            (Zeile 5242)
 -Crtcdsize, +Crtcdsize:                        Siehe 7.6.2.2.
-                                                            (Zeile 5032)
+                                                            (Zeile 5238)
 -Crtcextpal:                                   Siehe 7.6.2.2.
-                                                            (Zeile 5052)
+                                                            (Zeile 5258)
 -Crtcfulldevice:                               Siehe 7.6.2.2.
-                                                            (Zeile 5058)
+                                                            (Zeile 5264)
 -Crtchwscale, +Crtchwscale:                    Siehe 7.6.2.2.
-                                                            (Zeile 5045)
+                                                            (Zeile 5251)
 -Crtcintpal:                                   Siehe 7.6.2.2.
-                                                            (Zeile 5049)
+                                                            (Zeile 5255)
 -Crtcpalette:                                  Siehe 7.6.2.2.
-                                                            (Zeile 5055)
+                                                            (Zeile 5261)
 -Crtcscale2x, +Crtcscale2x:                    Siehe 7.6.2.2.
-                                                            (Zeile 5040)
+                                                            (Zeile 5246)
 -Crtcvcache, +Crtcvcache:                      Siehe 7.6.2.2.
-                                                            (Zeile 5030)
+                                                            (Zeile 5236)
 -CrtcVidmodefullmode:                          Siehe 7.6.2.2.
-                                                            (Zeile 5064)
+                                                            (Zeile 5270)
 -CrtcXRANDRfullmode:                           Siehe 7.6.2.2.
-                                                            (Zeile 5061)
+                                                            (Zeile 5267)
+-crtscanlineshade <1>:                         Siehe 7.6.2.2.
+                                                            (Zeile 5297)
+-crtscanlineshade <2>:                         Siehe 7.5.1.1.
+                                                            (Zeile 5017)
+-crtscanlineshade <3>:                         Siehe 7.4.3.2.
+                                                            (Zeile 4788)
+-crtscanlineshade <4>:                         Siehe 7.2.1.1.
+                                                            (Zeile 4368)
+-crtscanlineshade:                             Siehe 7.1.4.2.
+                                                            (Zeile 3879)
 -cs256k:                                       Siehe 7.5.4.1.
-                                                            (Zeile 4886)
+                                                            (Zeile 5092)
 -default:                                      Siehe 3.1.   (Zeile  906)
 -device10:                                     Siehe 6.10.1.2.
-                                                            (Zeile 2508)
+                                                            (Zeile 2509)
 -device11:                                     Siehe 6.10.1.2.
-                                                            (Zeile 2508)
+                                                            (Zeile 2509)
 -device4:                                      Siehe 6.10.2.2.
-                                                            (Zeile 2589)
+                                                            (Zeile 2614)
 -device5:                                      Siehe 6.10.2.2.
-                                                            (Zeile 2589)
+                                                            (Zeile 2614)
 -device8:                                      Siehe 6.10.1.2.
-                                                            (Zeile 2508)
+                                                            (Zeile 2509)
 -device9:                                      Siehe 6.10.1.2.
-                                                            (Zeile 2508)
--diagpin, +diagpin:                            Siehe 7.6.4. (Zeile 5119)
+                                                            (Zeile 2509)
+-diagpin, +diagpin:                            Siehe 7.6.4. (Zeile 5353)
 -digiblaster, +digiblaster:                    Siehe 7.5.2.1.
-                                                            (Zeile 4831)
+                                                            (Zeile 5029)
 -digimax, +digimax:                            Siehe 7.1.6.2.
-                                                            (Zeile 4003)
+                                                            (Zeile 4113)
 -digimaxbase:                                  Siehe 7.1.6.2.
-                                                            (Zeile 4007)
--directory:                                    Siehe 6.13.2.
-                                                            (Zeile 2929)
+                                                            (Zeile 4117)
+-directory:                                    Siehe 6.15.2.
+                                                            (Zeile 2988)
 -displaydepth:                                 Siehe 6.4.2. (Zeile 1881)
--dos1001:                                      Siehe 6.9.2. (Zeile 2349)
--dos1541:                                      Siehe 6.9.2. (Zeile 2349)
--dos1541II:                                    Siehe 6.9.2. (Zeile 2349)
--dos1551:                                      Siehe 6.9.2. (Zeile 2349)
--dos1570:                                      Siehe 6.9.2. (Zeile 2349)
--dos1571:                                      Siehe 6.9.2. (Zeile 2349)
--dos1571cr:                                    Siehe 6.9.2. (Zeile 2349)
--dos1581:                                      Siehe 6.9.2. (Zeile 2349)
--dos2031:                                      Siehe 6.9.2. (Zeile 2349)
--dos2040:                                      Siehe 6.9.2. (Zeile 2349)
--dos3040:                                      Siehe 6.9.2. (Zeile 2349)
--dos4040:                                      Siehe 6.9.2. (Zeile 2349)
+-doodlecrtctextcolor:                          Siehe 9.1.   (Zeile 6481)
+-doodlemc:                                     Siehe 9.1.   (Zeile 6473)
+-doodleoversize:                               Siehe 9.1.   (Zeile 6469)
+-doodletedlum:                                 Siehe 9.1.   (Zeile 6477)
+-dos1001:                                      Siehe 6.9.2. (Zeile 2350)
+-dos1541:                                      Siehe 6.9.2. (Zeile 2350)
+-dos1541II:                                    Siehe 6.9.2. (Zeile 2350)
+-dos1551:                                      Siehe 6.9.2. (Zeile 2350)
+-dos1570:                                      Siehe 6.9.2. (Zeile 2350)
+-dos1571:                                      Siehe 6.9.2. (Zeile 2350)
+-dos1571cr:                                    Siehe 6.9.2. (Zeile 2350)
+-dos1581:                                      Siehe 6.9.2. (Zeile 2350)
+-dos2031:                                      Siehe 6.9.2. (Zeile 2350)
+-dos2040:                                      Siehe 6.9.2. (Zeile 2350)
+-dos3040:                                      Siehe 6.9.2. (Zeile 2350)
+-dos4040:                                      Siehe 6.9.2. (Zeile 2350)
 -dqbb, +dqbb:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3366)
+                                                            (Zeile 3442)
 -dqbbimage:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3370)
+                                                            (Zeile 3446)
 -dqbbimagerw, +dqbbimagerw:                    Siehe 7.1.2.2.
-                                                            (Zeile 3373)
--drive10extend:                                Siehe 6.9.2. (Zeile 2341)
--drive10idle:                                  Siehe 6.9.2. (Zeile 2333)
--drive10profdos, +drive10profdos:              Siehe 6.9.2. (Zeile 2396)
--drive10ram2000, +drive10ram2000:              Siehe 6.9.2. (Zeile 2366)
--drive10ram4000, +drive10ram4000:              Siehe 6.9.2. (Zeile 2370)
--drive10ram6000, +drive10ram6000:              Siehe 6.9.2. (Zeile 2376)
--drive10ram8000, +drive10ram8000:              Siehe 6.9.2. (Zeile 2382)
--drive10rama000, +drive10rama000:              Siehe 6.9.2. (Zeile 2388)
--drive10type:                                  Siehe 6.9.2. (Zeile 2320)
--drive11extend:                                Siehe 6.9.2. (Zeile 2341)
--drive11idle:                                  Siehe 6.9.2. (Zeile 2333)
--drive11profdos, +drive11profdos:              Siehe 6.9.2. (Zeile 2396)
--drive11ram2000, +drive11ram2000:              Siehe 6.9.2. (Zeile 2366)
--drive11ram4000, +drive11ram4000:              Siehe 6.9.2. (Zeile 2370)
--drive11ram6000, +drive11ram6000:              Siehe 6.9.2. (Zeile 2376)
--drive11ram8000, +drive11ram8000:              Siehe 6.9.2. (Zeile 2382)
--drive11rama000, +drive11rama000:              Siehe 6.9.2. (Zeile 2388)
--drive11type:                                  Siehe 6.9.2. (Zeile 2320)
--drive8extend:                                 Siehe 6.9.2. (Zeile 2341)
--drive8idle:                                   Siehe 6.9.2. (Zeile 2333)
--drive8profdos, +drive8profdos:                Siehe 6.9.2. (Zeile 2396)
--drive8ram2000, +drive8ram2000:                Siehe 6.9.2. (Zeile 2366)
--drive8ram4000, +drive8ram4000:                Siehe 6.9.2. (Zeile 2370)
--drive8ram6000, +drive8ram6000:                Siehe 6.9.2. (Zeile 2376)
--drive8ram8000, +drive8ram8000:                Siehe 6.9.2. (Zeile 2382)
--drive8rama000, +drive8rama000:                Siehe 6.9.2. (Zeile 2388)
--drive8type:                                   Siehe 6.9.2. (Zeile 2320)
--drive9extend:                                 Siehe 6.9.2. (Zeile 2341)
--drive9idle:                                   Siehe 6.9.2. (Zeile 2333)
--drive9profdos, +drive9profdos:                Siehe 6.9.2. (Zeile 2396)
--drive9ram2000, +drive9ram2000:                Siehe 6.9.2. (Zeile 2366)
--drive9ram4000, +drive9ram4000:                Siehe 6.9.2. (Zeile 2370)
--drive9ram6000, +drive9ram6000:                Siehe 6.9.2. (Zeile 2376)
--drive9ram8000, +drive9ram8000:                Siehe 6.9.2. (Zeile 2382)
--drive9rama000, +drive9rama000:                Siehe 6.9.2. (Zeile 2388)
--drive9type:                                   Siehe 6.9.2. (Zeile 2320)
--dsresetwithcpu, +dsresetwithcpu:              Siehe 6.8.1. (Zeile 2167)
--dsspeedtuning:                                Siehe 6.8.1. (Zeile 2174)
--dszerogapdelay:                               Siehe 6.8.1. (Zeile 2171)
--dtvblitterlog, +dtvblitterlog:                Siehe 7.3.5. (Zeile 4430)
--dtvdmalog, +dtvdmalog:                        Siehe 7.3.5. (Zeile 4434)
--dtvflashlog, +dtvflashlog:                    Siehe 7.3.5. (Zeile 4438)
--dtvrev:                                       Siehe 7.3.2. (Zeile 4379)
+                                                            (Zeile 3449)
+-drive10extend:                                Siehe 6.9.2. (Zeile 2342)
+-drive10idle:                                  Siehe 6.9.2. (Zeile 2334)
+-drive10profdos, +drive10profdos:              Siehe 6.9.2. (Zeile 2397)
+-drive10ram2000, +drive10ram2000:              Siehe 6.9.2. (Zeile 2367)
+-drive10ram4000, +drive10ram4000:              Siehe 6.9.2. (Zeile 2371)
+-drive10ram6000, +drive10ram6000:              Siehe 6.9.2. (Zeile 2377)
+-drive10ram8000, +drive10ram8000:              Siehe 6.9.2. (Zeile 2383)
+-drive10rama000, +drive10rama000:              Siehe 6.9.2. (Zeile 2389)
+-drive10type:                                  Siehe 6.9.2. (Zeile 2321)
+-drive11extend:                                Siehe 6.9.2. (Zeile 2342)
+-drive11idle:                                  Siehe 6.9.2. (Zeile 2334)
+-drive11profdos, +drive11profdos:              Siehe 6.9.2. (Zeile 2397)
+-drive11ram2000, +drive11ram2000:              Siehe 6.9.2. (Zeile 2367)
+-drive11ram4000, +drive11ram4000:              Siehe 6.9.2. (Zeile 2371)
+-drive11ram6000, +drive11ram6000:              Siehe 6.9.2. (Zeile 2377)
+-drive11ram8000, +drive11ram8000:              Siehe 6.9.2. (Zeile 2383)
+-drive11rama000, +drive11rama000:              Siehe 6.9.2. (Zeile 2389)
+-drive11type:                                  Siehe 6.9.2. (Zeile 2321)
+-drive8extend:                                 Siehe 6.9.2. (Zeile 2342)
+-drive8idle:                                   Siehe 6.9.2. (Zeile 2334)
+-drive8profdos, +drive8profdos:                Siehe 6.9.2. (Zeile 2397)
+-drive8ram2000, +drive8ram2000:                Siehe 6.9.2. (Zeile 2367)
+-drive8ram4000, +drive8ram4000:                Siehe 6.9.2. (Zeile 2371)
+-drive8ram6000, +drive8ram6000:                Siehe 6.9.2. (Zeile 2377)
+-drive8ram8000, +drive8ram8000:                Siehe 6.9.2. (Zeile 2383)
+-drive8rama000, +drive8rama000:                Siehe 6.9.2. (Zeile 2389)
+-drive8type:                                   Siehe 6.9.2. (Zeile 2321)
+-drive9extend:                                 Siehe 6.9.2. (Zeile 2342)
+-drive9idle:                                   Siehe 6.9.2. (Zeile 2334)
+-drive9profdos, +drive9profdos:                Siehe 6.9.2. (Zeile 2397)
+-drive9ram2000, +drive9ram2000:                Siehe 6.9.2. (Zeile 2367)
+-drive9ram4000, +drive9ram4000:                Siehe 6.9.2. (Zeile 2371)
+-drive9ram6000, +drive9ram6000:                Siehe 6.9.2. (Zeile 2377)
+-drive9ram8000, +drive9ram8000:                Siehe 6.9.2. (Zeile 2383)
+-drive9rama000, +drive9rama000:                Siehe 6.9.2. (Zeile 2389)
+-drive9type:                                   Siehe 6.9.2. (Zeile 2321)
+-dsresetwithcpu, +dsresetwithcpu:              Siehe 6.8.1. (Zeile 2173)
+-dsspeedtuning:                                Siehe 6.8.1. (Zeile 2180)
+-dszerogapdelay:                               Siehe 6.8.1. (Zeile 2177)
+-dtvblitterlog, +dtvblitterlog:                Siehe 7.3.5. (Zeile 4568)
+-dtvdmalog, +dtvdmalog:                        Siehe 7.3.5. (Zeile 4572)
+-dtvflashlog, +dtvflashlog:                    Siehe 7.3.5. (Zeile 4576)
+-dtvrev:                                       Siehe 7.3.2. (Zeile 4517)
 -easyflashcrtwrite, +easyflashcrtwrite:        Siehe 7.1.2.2.
-                                                            (Zeile 3384)
--easyflashjumper, +easyflashjumper:            Siehe 7.1.2.2.
-                                                            (Zeile 3380)
--editor:                                       Siehe 7.6.4. (Zeile 5090)
--eoiblank, +eoiblank:                          Siehe 7.6.4. (Zeile 5116)
--expert, +expert:                              Siehe 7.1.2.2.
-                                                            (Zeile 3397)
--expertimagename:                              Siehe 7.1.2.2.
-                                                            (Zeile 3401)
--expertimagerw, +expertimagerw:                Siehe 7.1.2.2.
-                                                            (Zeile 3404)
--extfrom:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4296)
--extfunc, +extfunc:                            Siehe 7.2.2.1.
-                                                            (Zeile 4294)
--extrajoydev1:                                 Siehe 6.6.1. (Zeile 1979)
--extrajoydev2:                                 Siehe 6.6.1. (Zeile 1979)
--f:                                            Siehe 12.1.  (Zeile 6966)
--fewriteback, +fewriteback:                    Siehe 7.4.2.1.
-                                                            (Zeile 4539)
--fpwriteback, +fpwriteback:                    Siehe 7.4.2.1.
-                                                            (Zeile 4546)
--fs10:                                         Siehe 6.10.1.2.
-                                                            (Zeile 2515)
--fs11:                                         Siehe 6.10.1.2.
-                                                            (Zeile 2515)
--fs8:                                          Siehe 6.10.1.2.
-                                                            (Zeile 2515)
--fs9:                                          Siehe 6.10.1.2.
-                                                            (Zeile 2515)
--fsflash:                                      Siehe 7.3.1. (Zeile 4368)
--functionhi:                                   Siehe 7.5.3.1.
-                                                            (Zeile 4855)
--functionlo:                                   Siehe 7.5.3.1.
-                                                            (Zeile 4854)
--georam, +georam:                              Siehe 7.1.6.2.
-                                                            (Zeile 4027)
--georamimage:                                  Siehe 7.1.6.2.
-                                                            (Zeile 4034)
--georamimagerw, +georamimagerw:                Siehe 7.1.6.2.
-                                                            (Zeile 4037)
--georamsize:                                   Siehe 7.1.6.2.
-                                                            (Zeile 4041)
--gluelogictype:                                Siehe 7.1.8.1.
-                                                            (Zeile 4153)
--go64, +go64:                                  Siehe 7.2.3.1.
-                                                            (Zeile 4314)
--grsymkeymap, -grposkeymap:                    Siehe 6.5.2. (Zeile 1957)
--h:                                            Siehe 13.1.  (Zeile 7209)
--h1024k:                                       Siehe 7.5.4.1.
-                                                            (Zeile 4880)
--h256k:                                        Siehe 7.5.4.1.
-                                                            (Zeile 4879)
--h4096k:                                       Siehe 7.5.4.1.
-                                                            (Zeile 4883)
--help <1>:                                     Siehe 13.1.  (Zeile 7195)
--help:                                         Siehe 3.1.   (Zeile  904)
--htmlbrowser:                                  Siehe 6.13.2.
-                                                            (Zeile 2930)
--hummeradc, +hummeradc:                        Siehe 7.3.4. (Zeile 4414)
--i:                                            Siehe 12.1.  (Zeile 6945)
--ic:                                           Siehe 13.1.  (Zeile 7206)
--IDE64autosize, +IDE64autosize:                Siehe 7.1.2.2.
-                                                            (Zeile 3456)
--IDE64cyl:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3447)
--IDE64hds:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3450)
--IDE64image1:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3435)
--IDE64image2:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3438)
--IDE64image3:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3441)
--IDE64image4:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3444)
--IDE64sec:                                     Siehe 7.1.2.2.
-                                                            (Zeile 3453)
--IDE64version4, +IDE64version4:                Siehe 7.1.2.2.
                                                             (Zeile 3460)
+-easyflashjumper, +easyflashjumper:            Siehe 7.1.2.2.
+                                                            (Zeile 3456)
+-editor:                                       Siehe 7.6.4. (Zeile 5324)
+-eoiblank, +eoiblank:                          Siehe 7.6.4. (Zeile 5350)
+-expert, +expert:                              Siehe 7.1.2.2.
+                                                            (Zeile 3473)
+-expertimagename:                              Siehe 7.1.2.2.
+                                                            (Zeile 3477)
+-expertimagerw, +expertimagerw:                Siehe 7.1.2.2.
+                                                            (Zeile 3480)
+-extfrom:                                      Siehe 7.2.2.1.
+                                                            (Zeile 4434)
+-extfunc, +extfunc:                            Siehe 7.2.2.1.
+                                                            (Zeile 4432)
+-extrajoydev1:                                 Siehe 6.6.1. (Zeile 1986)
+-extrajoydev2:                                 Siehe 6.6.1. (Zeile 1986)
+-f:                                            Siehe 13.1.  (Zeile 7251)
+-fewriteback, +fewriteback:                    Siehe 7.4.2.1.
+                                                            (Zeile 4677)
+-ffmpegaudiobitrate:                           Siehe 9.1.   (Zeile 6486)
+-ffmpegvideobitrate:                           Siehe 9.1.   (Zeile 6487)
+-flipname:                                     Siehe 6.10.1.2.
+                                                            (Zeile 2524)
+-fpwriteback, +fpwriteback:                    Siehe 7.4.2.1.
+                                                            (Zeile 4684)
+-fs10:                                         Siehe 6.10.1.2.
+                                                            (Zeile 2516)
+-fs11:                                         Siehe 6.10.1.2.
+                                                            (Zeile 2516)
+-fs8:                                          Siehe 6.10.1.2.
+                                                            (Zeile 2516)
+-fs9:                                          Siehe 6.10.1.2.
+                                                            (Zeile 2516)
+-fsflash:                                      Siehe 7.3.1. (Zeile 4506)
+-fullscreen, +fullscreen:                      Siehe 6.4.2. (Zeile 1884)
+-functionhi:                                   Siehe 7.5.3.1.
+                                                            (Zeile 5058)
+-functionlo:                                   Siehe 7.5.3.1.
+                                                            (Zeile 5057)
+-gamma <1>:                                    Siehe 7.6.2.2.
+                                                            (Zeile 5282)
+-gamma <2>:                                    Siehe 7.5.1.1.
+                                                            (Zeile 5002)
+-gamma <3>:                                    Siehe 7.4.3.2.
+                                                            (Zeile 4773)
+-gamma <4>:                                    Siehe 7.2.1.1.
+                                                            (Zeile 4353)
+-gamma:                                        Siehe 7.1.4.2.
+                                                            (Zeile 3864)
+-georam, +georam:                              Siehe 7.1.6.2.
+                                                            (Zeile 4137)
+-georamimage:                                  Siehe 7.1.6.2.
+                                                            (Zeile 4144)
+-georamimagerw, +georamimagerw:                Siehe 7.1.6.2.
+                                                            (Zeile 4147)
+-georamsize:                                   Siehe 7.1.6.2.
+                                                            (Zeile 4151)
+-gluelogictype:                                Siehe 7.1.8.1.
+                                                            (Zeile 4263)
+-go64, +go64:                                  Siehe 7.2.3.1.
+                                                            (Zeile 4452)
+-grsymkeymap, -grposkeymap:                    Siehe 6.5.2. (Zeile 1964)
+-h:                                            Siehe 14.1.  (Zeile 7494)
+-h1024k:                                       Siehe 7.5.4.1.
+                                                            (Zeile 5086)
+-h256k:                                        Siehe 7.5.4.1.
+                                                            (Zeile 5085)
+-h4096k:                                       Siehe 7.5.4.1.
+                                                            (Zeile 5089)
+-help <1>:                                     Siehe 14.1.  (Zeile 7480)
+-help:                                         Siehe 3.1.   (Zeile  904)
+-htmlbrowser:                                  Siehe 6.15.2.
+                                                            (Zeile 2989)
+-hummeradc, +hummeradc:                        Siehe 7.3.4. (Zeile 4552)
+-i:                                            Siehe 13.1.  (Zeile 7230)
+-ic:                                           Siehe 14.1.  (Zeile 7491)
+-IDE64autosize, +IDE64autosize:                Siehe 7.1.2.2.
+                                                            (Zeile 3532)
+-IDE64cyl:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3523)
+-IDE64hds:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3526)
+-IDE64image1:                                  Siehe 7.1.2.2.
+                                                            (Zeile 3511)
+-IDE64image2:                                  Siehe 7.1.2.2.
+                                                            (Zeile 3514)
+-IDE64image3:                                  Siehe 7.1.2.2.
+                                                            (Zeile 3517)
+-IDE64image4:                                  Siehe 7.1.2.2.
+                                                            (Zeile 3520)
+-IDE64sec:                                     Siehe 7.1.2.2.
+                                                            (Zeile 3529)
+-IDE64version4, +IDE64version4:                Siehe 7.1.2.2.
+                                                            (Zeile 3536)
 -iecdevice10, +iecdevice10:                    Siehe 6.10.1.2.
-                                                            (Zeile 2498)
+                                                            (Zeile 2499)
 -iecdevice11, +iecdevice11:                    Siehe 6.10.1.2.
-                                                            (Zeile 2502)
+                                                            (Zeile 2503)
 -iecdevice4, +iecdevice4:                      Siehe 6.10.2.2.
-                                                            (Zeile 2581)
+                                                            (Zeile 2606)
 -iecdevice5, +iecdevice5:                      Siehe 6.10.2.2.
-                                                            (Zeile 2583)
+                                                            (Zeile 2608)
 -iecdevice8, +iecdevice8:                      Siehe 6.10.1.2.
-                                                            (Zeile 2492)
+                                                            (Zeile 2493)
 -iecdevice9, +iecdevice9:                      Siehe 6.10.1.2.
-                                                            (Zeile 2494)
+                                                            (Zeile 2495)
 -ieee488, +ieee488 <1>:                        Siehe 7.4.2.1.
-                                                            (Zeile 4552)
+                                                            (Zeile 4690)
 -ieee488, +ieee488:                            Siehe 7.1.2.2.
-                                                            (Zeile 3467)
+                                                            (Zeile 3543)
 -ieee488image:                                 Siehe 7.1.2.2.
-                                                            (Zeile 3472)
+                                                            (Zeile 3548)
 -initbreak:                                    Siehe 6.12.1.
-                                                            (Zeile 2847)
+                                                            (Zeile 2871)
 -install, +install:                            Siehe 6.4.2. (Zeile 1876)
 -intfrom:                                      Siehe 7.2.2.1.
-                                                            (Zeile 4289)
+                                                            (Zeile 4427)
 -intfunc, +intfunc:                            Siehe 7.2.2.1.
-                                                            (Zeile 4287)
+                                                            (Zeile 4425)
 -isepic, +isepic:                              Siehe 7.1.2.2.
-                                                            (Zeile 3475)
+                                                            (Zeile 3551)
 -isepicimagename:                              Siehe 7.1.2.2.
-                                                            (Zeile 3482)
+                                                            (Zeile 3558)
 -isepicimagerw, +isepicimagerw:                Siehe 7.1.2.2.
-                                                            (Zeile 3485)
--joydev1:                                      Siehe 6.6.1. (Zeile 1976)
--joydev2:                                      Siehe 6.6.1. (Zeile 1976)
--k:                                            Siehe 13.1.  (Zeile 7230)
--k<version>:                                   Siehe 13.1.  (Zeile 7227)
+                                                            (Zeile 3561)
+-joydev1:                                      Siehe 6.6.1. (Zeile 1983)
+-joydev2:                                      Siehe 6.6.1. (Zeile 1983)
+-k:                                            Siehe 14.1.  (Zeile 7515)
+-k<version>:                                   Siehe 14.1.  (Zeile 7512)
 -keepenv:                                      Siehe 7.8.1.1.
-                                                            (Zeile 5324)
--kernal <1>:                                   Siehe 7.7.2. (Zeile 5241)
--kernal <2>:                                   Siehe 7.6.4. (Zeile 5087)
+                                                            (Zeile 5567)
+-kernal <1>:                                   Siehe 7.7.2. (Zeile 5483)
+-kernal <2>:                                   Siehe 7.6.4. (Zeile 5321)
 -kernal <3>:                                   Siehe 7.4.5.2.
-                                                            (Zeile 4747)
+                                                            (Zeile 4917)
 -kernal:                                       Siehe 7.1.7.2.
-                                                            (Zeile 4134)
+                                                            (Zeile 4244)
 -kernal64:                                     Siehe 7.2.2.1.
-                                                            (Zeile 4243)
+                                                            (Zeile 4381)
 -kernalde:                                     Siehe 7.2.2.1.
-                                                            (Zeile 4255)
+                                                            (Zeile 4393)
 -kernalfi:                                     Siehe 7.2.2.1.
-                                                            (Zeile 4258)
+                                                            (Zeile 4396)
 -kernalfr:                                     Siehe 7.2.2.1.
-                                                            (Zeile 4261)
+                                                            (Zeile 4399)
 -kernalit:                                     Siehe 7.2.2.1.
-                                                            (Zeile 4264)
+                                                            (Zeile 4402)
 -kernalno:                                     Siehe 7.2.2.1.
-                                                            (Zeile 4267)
+                                                            (Zeile 4405)
 -kernalrev:                                    Siehe 7.1.7.2.
-                                                            (Zeile 4143)
+                                                            (Zeile 4253)
 -kernalse:                                     Siehe 7.2.2.1.
-                                                            (Zeile 4270)
+                                                            (Zeile 4408)
 -keybuf:                                       Siehe 3.1.   (Zeile  920)
--keymap:                                       Siehe 6.5.2. (Zeile 1940)
--l:                                            Siehe 12.1.  (Zeile 6961)
--lightpen, +lightpen:                          Siehe 6.6.1. (Zeile 1995)
--lightpentype:                                 Siehe 6.6.1. (Zeile 1997)
+-keymap:                                       Siehe 6.5.2. (Zeile 1944)
+-l:                                            Siehe 13.1.  (Zeile 7246)
+-lightpen, +lightpen:                          Siehe 6.6.1. (Zeile 2002)
+-lightpentype:                                 Siehe 6.6.1. (Zeile 2004)
 -logfile:                                      Siehe 3.1.   (Zeile  914)
 -mcnvramfile:                                  Siehe 7.4.2.1.
-                                                            (Zeile 4529)
+                                                            (Zeile 4667)
 -mcnvramwriteback, +mcnvramwriteback:          Siehe 7.4.2.1.
-                                                            (Zeile 4532)
+                                                            (Zeile 4670)
 -memory:                                       Siehe 7.4.4.2.
-                                                            (Zeile 4681)
+                                                            (Zeile 4851)
 -midi, +midi:                                  Siehe 7.1.6.2.
-                                                            (Zeile 4014)
+                                                            (Zeile 4124)
 -mididrv:                                      Siehe 7.1.6.2.
-                                                            (Zeile 4024)
+                                                            (Zeile 4134)
 -midiin:                                       Siehe 7.1.6.2.
-                                                            (Zeile 4018)
+                                                            (Zeile 4128)
 -midiout:                                      Siehe 7.1.6.2.
-                                                            (Zeile 4021)
+                                                            (Zeile 4131)
 -miditype:                                     Siehe 7.1.6.2.
-                                                            (Zeile 4010)
+                                                            (Zeile 4120)
 -mitshm, +mitshm <1>:                          Siehe 6.4.2. (Zeile 1871)
 -mitshm, +mitshm:                              Siehe 2.11.2.
                                                             (Zeile  810)
 -mmc64, +mmc64:                                Siehe 7.1.2.2.
-                                                            (Zeile 3504)
+                                                            (Zeile 3580)
 -mmc64bios:                                    Siehe 7.1.2.2.
-                                                            (Zeile 3511)
+                                                            (Zeile 3587)
 -mmc64bioswrite:                               Siehe 7.1.2.2.
-                                                            (Zeile 3523)
+                                                            (Zeile 3599)
 -mmc64image:                                   Siehe 7.1.2.2.
-                                                            (Zeile 3514)
+                                                            (Zeile 3590)
 -mmc64readonly:                                Siehe 7.1.2.2.
-                                                            (Zeile 3517)
+                                                            (Zeile 3593)
 -mmc64readwrite:                               Siehe 7.1.2.2.
-                                                            (Zeile 3520)
+                                                            (Zeile 3596)
 -mmcrcardimage:                                Siehe 7.1.2.2.
-                                                            (Zeile 3537)
+                                                            (Zeile 3613)
 -mmcrcardrw, +mmcrcardrw:                      Siehe 7.1.2.2.
-                                                            (Zeile 3540)
+                                                            (Zeile 3616)
 -mmcreepromimage:                              Siehe 7.1.2.2.
-                                                            (Zeile 3544)
+                                                            (Zeile 3620)
 -mmcreepromrw, +mmcreepromrw:                  Siehe 7.1.2.2.
-                                                            (Zeile 3547)
+                                                            (Zeile 3623)
 -mmcrimagerw, +mmcrimagerw:                    Siehe 7.1.2.2.
-                                                            (Zeile 3533)
+                                                            (Zeile 3609)
 -mmcrrescue, +mmcrrescue:                      Siehe 7.1.2.2.
-                                                            (Zeile 3529)
--model:                                        Siehe 7.6.4. (Zeile 5084)
--modelline:                                    Siehe 7.7.2. (Zeile 5296)
+                                                            (Zeile 3605)
+-model:                                        Siehe 7.6.4. (Zeile 5318)
+-modelline:                                    Siehe 7.7.2. (Zeile 5538)
 -moncommands:                                  Siehe 6.12.1.
-                                                            (Zeile 2841)
--mouse, +mouse:                                Siehe 6.6.1. (Zeile 1985)
--mouseport:                                    Siehe 6.6.1. (Zeile 1990)
--mousetype:                                    Siehe 6.6.1. (Zeile 1987)
+                                                            (Zeile 2865)
+-mouse, +mouse:                                Siehe 6.6.1. (Zeile 1992)
+-mouseport:                                    Siehe 6.6.1. (Zeile 1997)
+-mousetype:                                    Siehe 6.6.1. (Zeile 1994)
 -myaciadev:                                    Siehe 6.11.2.
-                                                            (Zeile 2778)
--n:                                            Siehe 12.1.  (Zeile 6957)
--nc:                                           Siehe 13.1.  (Zeile 7202)
--nh:                                           Siehe 13.1.  (Zeile 7212)
--o:                                            Siehe 12.1.  (Zeile 6949)
--o <name>:                                     Siehe 13.1.  (Zeile 7236)
+                                                            (Zeile 2802)
+-n:                                            Siehe 13.1.  (Zeile 7242)
+-nc:                                           Siehe 14.1.  (Zeile 7487)
+-newluminance, +newluminance:                  Siehe 7.1.4.2.
+                                                            (Zeile 3852)
+-nh:                                           Siehe 14.1.  (Zeile 7497)
+-ntsc:                                         Siehe 6.13.1.
+                                                            (Zeile 2890)
+-ntscold:                                      Siehe 6.13.1.
+                                                            (Zeile 2893)
+-o:                                            Siehe 13.1.  (Zeile 7234)
+-o <name>:                                     Siehe 14.1.  (Zeile 7521)
+-oddlinesoffset <1>:                           Siehe 7.6.2.2.
+                                                            (Zeile 5291)
+-oddlinesoffset <2>:                           Siehe 7.5.1.1.
+                                                            (Zeile 5011)
+-oddlinesoffset <3>:                           Siehe 7.4.3.2.
+                                                            (Zeile 4782)
+-oddlinesoffset <4>:                           Siehe 7.2.1.1.
+                                                            (Zeile 4362)
+-oddlinesoffset:                               Siehe 7.1.4.2.
+                                                            (Zeile 3873)
+-oddlinesphase <1>:                            Siehe 7.6.2.2.
+                                                            (Zeile 5288)
+-oddlinesphase <2>:                            Siehe 7.5.1.1.
+                                                            (Zeile 5008)
+-oddlinesphase <3>:                            Siehe 7.4.3.2.
+                                                            (Zeile 4779)
+-oddlinesphase <4>:                            Siehe 7.2.1.1.
+                                                            (Zeile 4359)
+-oddlinesphase:                                Siehe 7.1.4.2.
+                                                            (Zeile 3870)
 -OEMjoy, +OEMjoy:                              Siehe 7.4.6.1.
-                                                            (Zeile 4771)
--parallel10:                                   Siehe 6.9.2. (Zeile 2327)
--parallel11:                                   Siehe 6.9.2. (Zeile 2327)
--parallel8:                                    Siehe 6.9.2. (Zeile 2327)
--parallel9:                                    Siehe 6.9.2. (Zeile 2327)
--petdww, +petdww:                              Siehe 7.6.4. (Zeile 5137)
--petdwwimage:                                  Siehe 7.6.4. (Zeile 5139)
--petram9, +petram9:                            Siehe 7.6.4. (Zeile 5100)
--petramA, +petramA:                            Siehe 7.6.4. (Zeile 5103)
--petreu, +petreu:                              Siehe 7.6.4. (Zeile 5124)
--petreuimage:                                  Siehe 7.6.4. (Zeile 5128)
--petreuramsize:                                Siehe 7.6.4. (Zeile 5129)
--playback:                                     Siehe 9.1.   (Zeile 6224)
+                                                            (Zeile 4941)
+-pal:                                          Siehe 6.13.1.
+                                                            (Zeile 2889)
+-paln:                                         Siehe 6.13.1.
+                                                            (Zeile 2896)
+-parallel10:                                   Siehe 6.9.2. (Zeile 2328)
+-parallel11:                                   Siehe 6.9.2. (Zeile 2328)
+-parallel8:                                    Siehe 6.9.2. (Zeile 2328)
+-parallel9:                                    Siehe 6.9.2. (Zeile 2328)
+-petdww, +petdww:                              Siehe 7.6.4. (Zeile 5371)
+-petdwwimage:                                  Siehe 7.6.4. (Zeile 5373)
+-petram9, +petram9:                            Siehe 7.6.4. (Zeile 5334)
+-petramA, +petramA:                            Siehe 7.6.4. (Zeile 5337)
+-petreu, +petreu:                              Siehe 7.6.4. (Zeile 5358)
+-petreuimage:                                  Siehe 7.6.4. (Zeile 5362)
+-petreuramsize:                                Siehe 7.6.4. (Zeile 5363)
+-playback:                                     Siehe 10.1.  (Zeile 6499)
 -plus256k, +plus256k:                          Siehe 7.1.8.1.
-                                                            (Zeile 4166)
+                                                            (Zeile 4276)
 -plus256kimage:                                Siehe 7.1.8.1.
-                                                            (Zeile 4168)
+                                                            (Zeile 4278)
 -plus60k, +plus60k:                            Siehe 7.1.8.1.
-                                                            (Zeile 4156)
+                                                            (Zeile 4266)
 -plus60kbase:                                  Siehe 7.1.8.1.
-                                                            (Zeile 4161)
+                                                            (Zeile 4271)
 -plus60kimage:                                 Siehe 7.1.8.1.
-                                                            (Zeile 4158)
--poskeymap:                                    Siehe 6.5.2. (Zeile 1948)
+                                                            (Zeile 4268)
+-poskeymap:                                    Siehe 6.5.2. (Zeile 1952)
 -pr4drv:                                       Siehe 6.10.2.2.
-                                                            (Zeile 2605)
+                                                            (Zeile 2630)
 -pr4output:                                    Siehe 6.10.2.2.
-                                                            (Zeile 2602)
+                                                            (Zeile 2627)
 -pr4txtdev:                                    Siehe 6.10.2.2.
-                                                            (Zeile 2596)
--pr5drv:                                       Siehe 6.10.2.2.
-                                                            (Zeile 2605)
--pr5output:                                    Siehe 6.10.2.2.
-                                                            (Zeile 2602)
--pr5txtdev:                                    Siehe 6.10.2.2.
-                                                            (Zeile 2596)
--profdos1571:                                  Siehe 6.9.2. (Zeile 2402)
--prtxtdev1:                                    Siehe 6.10.2.2.
-                                                            (Zeile 2593)
--prtxtdev2:                                    Siehe 6.10.2.2.
-                                                            (Zeile 2593)
--prtxtdev3:                                    Siehe 6.10.2.2.
-                                                            (Zeile 2593)
--pruser, +pruser:                              Siehe 6.10.2.2.
-                                                            (Zeile 2612)
--pruserdrv:                                    Siehe 6.10.2.2.
                                                             (Zeile 2621)
--pruseroutput:                                 Siehe 6.10.2.2.
+-pr5drv:                                       Siehe 6.10.2.2.
+                                                            (Zeile 2630)
+-pr5output:                                    Siehe 6.10.2.2.
+                                                            (Zeile 2627)
+-pr5txtdev:                                    Siehe 6.10.2.2.
+                                                            (Zeile 2621)
+-profdos1571:                                  Siehe 6.9.2. (Zeile 2403)
+-prtxtdev1:                                    Siehe 6.10.2.2.
                                                             (Zeile 2618)
+-prtxtdev2:                                    Siehe 6.10.2.2.
+                                                            (Zeile 2618)
+-prtxtdev3:                                    Siehe 6.10.2.2.
+                                                            (Zeile 2618)
+-pruser, +pruser:                              Siehe 6.10.2.2.
+                                                            (Zeile 2637)
+-pruserdrv:                                    Siehe 6.10.2.2.
+                                                            (Zeile 2646)
+-pruseroutput:                                 Siehe 6.10.2.2.
+                                                            (Zeile 2643)
 -prusertxtdev:                                 Siehe 6.10.2.2.
-                                                            (Zeile 2617)
--ps2mouse, +ps2mouse:                          Siehe 7.3.4. (Zeile 4418)
--r:                                            Siehe 12.1.  (Zeile 6971)
--ram08, +ram08:                                Siehe 7.7.2. (Zeile 5266)
--ram1, +ram1:                                  Siehe 7.7.2. (Zeile 5269)
--ram2, +ram2:                                  Siehe 7.7.2. (Zeile 5274)
--ram4, +ram4:                                  Siehe 7.7.2. (Zeile 5279)
--ram6, +ram6:                                  Siehe 7.7.2. (Zeile 5284)
--ramC, +ramC:                                  Siehe 7.7.2. (Zeile 5289)
+                                                            (Zeile 2642)
+-ps2mouse, +ps2mouse:                          Siehe 7.3.4. (Zeile 4556)
+-r:                                            Siehe 13.1.  (Zeile 7256)
+-ram08, +ram08:                                Siehe 7.7.2. (Zeile 5508)
+-ram1, +ram1:                                  Siehe 7.7.2. (Zeile 5511)
+-ram2, +ram2:                                  Siehe 7.7.2. (Zeile 5516)
+-ram4, +ram4:                                  Siehe 7.7.2. (Zeile 5521)
+-ram6, +ram6:                                  Siehe 7.7.2. (Zeile 5526)
+-ramC, +ramC:                                  Siehe 7.7.2. (Zeile 5531)
 -ramcart, +ramcart:                            Siehe 7.1.2.2.
-                                                            (Zeile 3563)
+                                                            (Zeile 3639)
 -ramcartimage:                                 Siehe 7.1.2.2.
-                                                            (Zeile 3570)
+                                                            (Zeile 3646)
 -ramcartimagerw, +ramcartimagerw:              Siehe 7.1.2.2.
-                                                            (Zeile 3573)
+                                                            (Zeile 3649)
 -ramcartsize:                                  Siehe 7.1.2.2.
-                                                            (Zeile 3567)
+                                                            (Zeile 3643)
+-raminitpatterninvert:                         Siehe 6.14.1.
+                                                            (Zeile 2912)
+-raminitstartvalue:                            Siehe 6.14.1.
+                                                            (Zeile 2908)
+-raminitvalueinvert:                           Siehe 6.14.1.
+                                                            (Zeile 2909)
+-ramsize <1>:                                  Siehe 7.7.2. (Zeile 5475)
+-ramsize:                                      Siehe 7.5.4.1.
+                                                            (Zeile 5082)
 -refresh:                                      Siehe 6.3.2. (Zeile 1785)
 -remotemonitor, +remotemonitor:                Siehe 6.12.1.
-                                                            (Zeile 2851)
+                                                            (Zeile 2875)
 -remotemonitoraddress:                         Siehe 6.12.1.
-                                                            (Zeile 2855)
+                                                            (Zeile 2879)
+-residfilterbias:                              Siehe 7.1.5.2.
+                                                            (Zeile 4011)
 -residgain:                                    Siehe 7.1.5.2.
-                                                            (Zeile 3902)
+                                                            (Zeile 4008)
 -residpass:                                    Siehe 7.1.5.2.
-                                                            (Zeile 3898)
+                                                            (Zeile 4004)
 -residsamp:                                    Siehe 7.1.5.2.
-                                                            (Zeile 3893)
+                                                            (Zeile 3999)
 -reu, +reu:                                    Siehe 7.1.6.2.
-                                                            (Zeile 4044)
+                                                            (Zeile 4154)
 -reuimage:                                     Siehe 7.1.6.2.
-                                                            (Zeile 4052)
+                                                            (Zeile 4162)
 -reuimagerw, +reuimagerw:                      Siehe 7.1.6.2.
-                                                            (Zeile 4055)
+                                                            (Zeile 4165)
 -reusize:                                      Siehe 7.1.6.2.
-                                                            (Zeile 4059)
--rom9:                                         Siehe 7.6.4. (Zeile 5096)
--romA:                                         Siehe 7.6.4. (Zeile 5096)
--romB:                                         Siehe 7.6.4. (Zeile 5096)
+                                                            (Zeile 4169)
+-rom9:                                         Siehe 7.6.4. (Zeile 5330)
+-romA:                                         Siehe 7.6.4. (Zeile 5330)
+-romB:                                         Siehe 7.6.4. (Zeile 5330)
 -rrbankjumper, +rrbankjumper:                  Siehe 7.1.2.2.
-                                                            (Zeile 3590)
+                                                            (Zeile 3666)
 -rrbioswrite, +rrbioswrite:                    Siehe 7.1.2.2.
-                                                            (Zeile 3586)
+                                                            (Zeile 3662)
 -rrflashjumper, +rrflashjumper:                Siehe 7.1.2.2.
-                                                            (Zeile 3594)
+                                                            (Zeile 3670)
 -rsdev1:                                       Siehe 6.11.2.
-                                                            (Zeile 2762)
--rsdev1baud:                                   Siehe 6.11.2.
-                                                            (Zeile 2769)
--rsdev2:                                       Siehe 6.11.2.
-                                                            (Zeile 2763)
--rsdev2baud:                                   Siehe 6.11.2.
-                                                            (Zeile 2770)
--rsdev3:                                       Siehe 6.11.2.
-                                                            (Zeile 2764)
--rsdev3baud:                                   Siehe 6.11.2.
-                                                            (Zeile 2771)
--rsdev4:                                       Siehe 6.11.2.
-                                                            (Zeile 2765)
--rsdev4baud:                                   Siehe 6.11.2.
-                                                            (Zeile 2772)
--rsuser, +rsuser:                              Siehe 6.11.2.
-                                                            (Zeile 2781)
--rsuserbaud:                                   Siehe 6.11.2.
                                                             (Zeile 2786)
--rsuserdev:                                    Siehe 6.11.2.
+-rsdev1baud:                                   Siehe 6.11.2.
+                                                            (Zeile 2793)
+-rsdev2:                                       Siehe 6.11.2.
+                                                            (Zeile 2787)
+-rsdev2baud:                                   Siehe 6.11.2.
+                                                            (Zeile 2794)
+-rsdev3:                                       Siehe 6.11.2.
+                                                            (Zeile 2788)
+-rsdev3baud:                                   Siehe 6.11.2.
+                                                            (Zeile 2795)
+-rsdev4:                                       Siehe 6.11.2.
                                                             (Zeile 2789)
--saveres, +saveres:                            Siehe 6.13.2.
-                                                            (Zeile 2936)
+-rsdev4baud:                                   Siehe 6.11.2.
+                                                            (Zeile 2796)
+-rsuser, +rsuser:                              Siehe 6.11.2.
+                                                            (Zeile 2805)
+-rsuserbaud:                                   Siehe 6.11.2.
+                                                            (Zeile 2810)
+-rsuserdev:                                    Siehe 6.11.2.
+                                                            (Zeile 2813)
+-saturation <1>:                               Siehe 7.6.2.2.
+                                                            (Zeile 5275)
+-saturation <2>:                               Siehe 7.5.1.1.
+                                                            (Zeile 4995)
+-saturation <3>:                               Siehe 7.4.3.2.
+                                                            (Zeile 4766)
+-saturation <4>:                               Siehe 7.2.1.1.
+                                                            (Zeile 4346)
+-saturation:                                   Siehe 7.1.4.2.
+                                                            (Zeile 3857)
+-saveres, +saveres:                            Siehe 6.15.2.
+                                                            (Zeile 2995)
 -sfxse, +sfxse:                                Siehe 7.1.6.2.
-                                                            (Zeile 4062)
+                                                            (Zeile 4172)
 -sfxsetype:                                    Siehe 7.1.6.2.
-                                                            (Zeile 4066)
+                                                            (Zeile 4176)
 -sfxss, +sfxss:                                Siehe 7.1.6.2.
-                                                            (Zeile 4069)
+                                                            (Zeile 4179)
+-sidcart, +sidcart <1>:                        Siehe 7.6.4. (Zeile 5378)
+-sidcart, +sidcart <2>:                        Siehe 7.5.2.1.
+                                                            (Zeile 5033)
+-sidcart, +sidcart:                            Siehe 7.4.2.1.
+                                                            (Zeile 4694)
 -sidcartjoy, +sidcartjoy:                      Siehe 7.5.2.1.
-                                                            (Zeile 4835)
+                                                            (Zeile 5038)
 -sidenginemodel:                               Siehe 7.1.5.2.
-                                                            (Zeile 3877)
+                                                            (Zeile 3983)
 -sidfilters, +sidfilters:                      Siehe 7.1.5.2.
-                                                            (Zeile 3888)
+                                                            (Zeile 3994)
 -sidstereo:                                    Siehe 7.1.5.2.
-                                                            (Zeile 3870)
+                                                            (Zeile 3976)
 -sidstereoaddress:                             Siehe 7.1.5.2.
-                                                            (Zeile 3873)
--skip <n>:                                     Siehe 13.1.  (Zeile 7215)
--sound, +sound:                                Siehe 6.7.2. (Zeile 2129)
--soundarg:                                     Siehe 6.7.2. (Zeile 2150)
--soundbufsize:                                 Siehe 6.7.2. (Zeile 2140)
--sounddev:                                     Siehe 6.7.2. (Zeile 2147)
--soundfragsize:                                Siehe 6.7.2. (Zeile 2144)
--soundrate:                                    Siehe 6.7.2. (Zeile 2137)
--soundrecarg:                                  Siehe 6.7.2. (Zeile 2155)
--soundrecdev:                                  Siehe 6.7.2. (Zeile 2154)
--soundsync:                                    Siehe 6.7.2. (Zeile 2133)
+                                                            (Zeile 3979)
+-skip <n>:                                     Siehe 14.1.  (Zeile 7500)
+-sound, +sound:                                Siehe 6.7.2. (Zeile 2132)
+-soundarg:                                     Siehe 6.7.2. (Zeile 2153)
+-soundbufsize:                                 Siehe 6.7.2. (Zeile 2143)
+-sounddev:                                     Siehe 6.7.2. (Zeile 2150)
+-soundfragsize:                                Siehe 6.7.2. (Zeile 2147)
+-soundrate:                                    Siehe 6.7.2. (Zeile 2140)
+-soundrecarg:                                  Siehe 6.7.2. (Zeile 2158)
+-soundrecdev:                                  Siehe 6.7.2. (Zeile 2157)
+-soundsync:                                    Siehe 6.7.2. (Zeile 2136)
 -speech, +speech:                              Siehe 7.5.2.1.
-                                                            (Zeile 4840)
+                                                            (Zeile 5043)
 -speechrom:                                    Siehe 7.5.2.1.
-                                                            (Zeile 4844)
+                                                            (Zeile 5047)
 -speed:                                        Siehe 6.3.2. (Zeile 1781)
--superpet, +superpet:                          Siehe 7.6.4. (Zeile 5106)
--symkeymap:                                    Siehe 6.5.2. (Zeile 1945)
--t:                                            Siehe 12.1.  (Zeile 6953)
+-superpet, +superpet:                          Siehe 7.6.4. (Zeile 5340)
+-symdekeymap:                                  Siehe 6.5.2. (Zeile 1955)
+-symkeymap:                                    Siehe 6.5.2. (Zeile 1949)
+-t:                                            Siehe 13.1.  (Zeile 7238)
 -TEDdscan, +TEDdscan:                          Siehe 7.5.1.1.
-                                                            (Zeile 4792)
+                                                            (Zeile 4962)
 -TEDdsize, +TEDdsize:                          Siehe 7.5.1.1.
-                                                            (Zeile 4788)
+                                                            (Zeile 4958)
 -TEDextpal:                                    Siehe 7.5.1.1.
-                                                            (Zeile 4808)
+                                                            (Zeile 4978)
 -TEDfulldevice:                                Siehe 7.5.1.1.
-                                                            (Zeile 4814)
+                                                            (Zeile 4984)
 -TEDhwscale, +TEDhwscale:                      Siehe 7.5.1.1.
-                                                            (Zeile 4801)
+                                                            (Zeile 4971)
 -TEDintpal:                                    Siehe 7.5.1.1.
-                                                            (Zeile 4805)
+                                                            (Zeile 4975)
 -TEDpalette:                                   Siehe 7.5.1.1.
-                                                            (Zeile 4811)
+                                                            (Zeile 4981)
 -TEDscale2x, +TEDscale2x:                      Siehe 7.5.1.1.
-                                                            (Zeile 4796)
+                                                            (Zeile 4966)
 -TEDvcache, +TEDvcache:                        Siehe 7.5.1.1.
-                                                            (Zeile 4786)
+                                                            (Zeile 4956)
 -TEDVidmodefullmode:                           Siehe 7.5.1.1.
-                                                            (Zeile 4820)
+                                                            (Zeile 4990)
 -TEDXRANDRfullmode:                            Siehe 7.5.1.1.
-                                                            (Zeile 4817)
--text:                                         Siehe 13.1.  (Zeile 7218)
+                                                            (Zeile 4987)
+-text:                                         Siehe 14.1.  (Zeile 7503)
 -tfe, +tfe:                                    Siehe 7.1.6.2.
-                                                            (Zeile 4073)
+                                                            (Zeile 4183)
 -tfeif:                                        Siehe 7.1.6.2.
-                                                            (Zeile 4077)
+                                                            (Zeile 4187)
 -tferrnet, +tferrnet:                          Siehe 7.1.6.2.
-                                                            (Zeile 4080)
--truedrive, +truedrive:                        Siehe 6.9.2. (Zeile 2315)
--trueflashfs, +trueflashfs:                    Siehe 7.3.1. (Zeile 4364)
+                                                            (Zeile 4190)
+-tint <1>:                                     Siehe 7.6.2.2.
+                                                            (Zeile 5285)
+-tint <2>:                                     Siehe 7.5.1.1.
+                                                            (Zeile 5005)
+-tint <3>:                                     Siehe 7.4.3.2.
+                                                            (Zeile 4776)
+-tint <4>:                                     Siehe 7.2.1.1.
+                                                            (Zeile 4356)
+-tint:                                         Siehe 7.1.4.2.
+                                                            (Zeile 3867)
+-truedrive, +truedrive:                        Siehe 6.9.2. (Zeile 2316)
+-trueflashfs, +trueflashfs:                    Siehe 7.3.1. (Zeile 4502)
 -tune <number>:                                Siehe 7.8.1.1.
-                                                            (Zeile 5325)
--userportdac, +userportdac:                    Siehe 7.6.4. (Zeile 5134)
--usevicii, +usevicii:                          Siehe 7.7.2. (Zeile 5236)
--v:                                            Siehe 13.1.  (Zeile 7196)
+                                                            (Zeile 5570)
+-userportdac, +userportdac:                    Siehe 7.6.4. (Zeile 5368)
+-usevicii, +usevicii:                          Siehe 7.7.2. (Zeile 5478)
+-v:                                            Siehe 14.1.  (Zeile 7481)
 -VDC16KB:                                      Siehe 7.2.1.1.
-                                                            (Zeile 4225)
+                                                            (Zeile 4335)
 -VDC64KB:                                      Siehe 7.2.1.1.
-                                                            (Zeile 4228)
+                                                            (Zeile 4338)
 -VDCdscan, +VDCdscan:                          Siehe 7.2.1.1.
-                                                            (Zeile 4199)
+                                                            (Zeile 4309)
 -VDCdsize, +VDCdsize:                          Siehe 7.2.1.1.
-                                                            (Zeile 4195)
+                                                            (Zeile 4305)
 -VDCextpal:                                    Siehe 7.2.1.1.
-                                                            (Zeile 4210)
+                                                            (Zeile 4320)
 -VDCfulldevice:                                Siehe 7.2.1.1.
-                                                            (Zeile 4216)
+                                                            (Zeile 4326)
 -VDChwscale, +VDChwscale:                      Siehe 7.2.1.1.
-                                                            (Zeile 4203)
+                                                            (Zeile 4313)
 -VDCintpal:                                    Siehe 7.2.1.1.
-                                                            (Zeile 4207)
+                                                            (Zeile 4317)
 -VDCpalette:                                   Siehe 7.2.1.1.
-                                                            (Zeile 4213)
+                                                            (Zeile 4323)
 -VDCRevision:                                  Siehe 7.2.1.1.
-                                                            (Zeile 4231)
+                                                            (Zeile 4341)
 -VDCvcache, +VDCvcache:                        Siehe 7.2.1.1.
-                                                            (Zeile 4193)
+                                                            (Zeile 4303)
 -VDCVidmodefullmode:                           Siehe 7.2.1.1.
-                                                            (Zeile 4222)
+                                                            (Zeile 4332)
 -VDCXRANDRfullmode:                            Siehe 7.2.1.1.
-                                                            (Zeile 4219)
+                                                            (Zeile 4329)
 -verbose:                                      Siehe 3.1.   (Zeile  917)
 -VICdscan, +VICdscan:                          Siehe 7.4.3.2.
-                                                            (Zeile 4590)
+                                                            (Zeile 4733)
 -VICdsize, +VICdsize:                          Siehe 7.4.3.2.
-                                                            (Zeile 4585)
+                                                            (Zeile 4728)
 -VICextpal:                                    Siehe 7.4.3.2.
-                                                            (Zeile 4609)
+                                                            (Zeile 4752)
 -VICfulldevice:                                Siehe 7.4.3.2.
-                                                            (Zeile 4612)
+                                                            (Zeile 4755)
 -VIChwscale, +VIChwscale:                      Siehe 7.4.3.2.
-                                                            (Zeile 4595)
+                                                            (Zeile 4738)
 -VICIIborders:                                 Siehe 7.1.4.2.
-                                                            (Zeile 3767)
+                                                            (Zeile 3843)
 -VICIIchecksb, +VICIIchecksb:                  Siehe 7.1.4.2.
-                                                            (Zeile 3722)
+                                                            (Zeile 3798)
 -VICIIcheckss, +VICIIcheckss:                  Siehe 7.1.4.2.
-                                                            (Zeile 3716)
+                                                            (Zeile 3792)
 -VICIIdscan, +VICIIdscan:                      Siehe 7.1.4.2.
-                                                            (Zeile 3738)
+                                                            (Zeile 3814)
 -VICIIdsize, +VICIIdsize:                      Siehe 7.1.4.2.
-                                                            (Zeile 3733)
+                                                            (Zeile 3809)
 -VICIIextpal:                                  Siehe 7.1.4.2.
-                                                            (Zeile 3752)
+                                                            (Zeile 3828)
 -VICIIfulldevice:                              Siehe 7.1.4.2.
-                                                            (Zeile 3760)
+                                                            (Zeile 3836)
 -VICIIhwscale, +VICIIhwscale:                  Siehe 7.1.4.2.
-                                                            (Zeile 3743)
+                                                            (Zeile 3819)
 -VICIIintpal:                                  Siehe 7.1.4.2.
-                                                            (Zeile 3749)
+                                                            (Zeile 3825)
 -VICIImodel:                                   Siehe 7.1.4.2.
-                                                            (Zeile 3770)
+                                                            (Zeile 3846)
 -VICIIpalette:                                 Siehe 7.1.4.2.
-                                                            (Zeile 3757)
+                                                            (Zeile 3833)
 -VICIIscale2x, +VICIIscale2x:                  Siehe 7.1.4.2.
-                                                            (Zeile 3745)
+                                                            (Zeile 3821)
 -VICIIvcache, +VICIIvcache:                    Siehe 7.1.4.2.
-                                                            (Zeile 3728)
+                                                            (Zeile 3804)
 -VICIIVidmodefullmode:                         Siehe 7.1.4.2.
-                                                            (Zeile 3764)
+                                                            (Zeile 3840)
 -VICIIXRANDRfullmode:                          Siehe 7.1.4.2.
-                                                            (Zeile 3761)
+                                                            (Zeile 3837)
 -VICintpal:                                    Siehe 7.4.3.2.
-                                                            (Zeile 4608)
+                                                            (Zeile 4751)
 -VICpalette:                                   Siehe 7.4.3.2.
-                                                            (Zeile 4605)
+                                                            (Zeile 4748)
 -VICscale2x, +VICscale2x:                      Siehe 7.4.3.2.
-                                                            (Zeile 4598)
+                                                            (Zeile 4741)
 -VICvcache, +VICvcache:                        Siehe 7.4.3.2.
-                                                            (Zeile 4580)
+                                                            (Zeile 4723)
 -VICVidmodefullmode:                           Siehe 7.4.3.2.
-                                                            (Zeile 4618)
+                                                            (Zeile 4761)
 -VICXRANDRfullmode:                            Siehe 7.4.3.2.
-                                                            (Zeile 4615)
+                                                            (Zeile 4758)
 -virtualdev, +virtualdev:                      Siehe 6.10.3.2.
-                                                            (Zeile 2649)
--w<version>:                                   Siehe 13.1.  (Zeile 7224)
+                                                            (Zeile 2674)
+-vsid:                                         Siehe 7.8.1.1.
+                                                            (Zeile 5566)
+-w<version>:                                   Siehe 14.1.  (Zeile 7509)
 -warp, +warp:                                  Siehe 6.3.2. (Zeile 1790)
 -xsync, +xsync:                                Siehe 6.4.2. (Zeile 1866)
-ACIA (Swiftlink, Turbo232):                    Siehe 7.1.6. (Zeile 3918)
-Audio buffer size:                             Siehe 6.7.   (Zeile 2031)
+ACIA (Swiftlink, Turbo232):                    Siehe 7.1.6. (Zeile 4028)
+Audio buffer size:                             Siehe 6.7.   (Zeile 2038)
 Converting X64 files into D64:                 Siehe 2.10.  (Zeile  770)
-DigiMAX:                                       Siehe 7.1.6. (Zeile 3920)
+DigiMAX:                                       Siehe 7.1.6. (Zeile 4030)
 Double-scan mode.:                             Siehe 6.4.   (Zeile 1817)
 Double-size mode:                              Siehe 6.4.   (Zeile 1812)
-Ethernet (The Final Ethernet, RR-Net):         Siehe 7.1.6. (Zeile 3922)
-GEO-RAM:                                       Siehe 7.1.6. (Zeile 3924)
+Ethernet (The Final Ethernet, RR-Net):         Siehe 7.1.6. (Zeile 4032)
+GEO-RAM:                                       Siehe 7.1.6. (Zeile 4034)
 HP-UX and Solaris audio problems:              Siehe 2.11.1.
                                                             (Zeile  797)
 Limiting emulation speed:                      Siehe 6.3.   (Zeile 1736)
 Loosing control on low-end systems:            Siehe 6.4.   (Zeile 1822)
 MIDI (Passport, Datel, Maplin, Namesoft, Sequential):Siehe 7.1.6.
-                                                            (Zeile 3926)
+                                                            (Zeile 4036)
 MITSHM:                                        Siehe 2.11.2.
                                                             (Zeile  810)
 OSS/Linux problems:                            Siehe 2.11.1.
                                                             (Zeile  802)
-Oversampling:                                  Siehe 6.7.   (Zeile 2040)
+Oversampling:                                  Siehe 6.7.   (Zeile 2047)
 Refresh rate:                                  Siehe 6.3.   (Zeile 1743)
-reSID resampling passband:                     Siehe 7.1.5. (Zeile 3827)
-reSID samping method:                          Siehe 7.1.5. (Zeile 3806)
-REU:                                           Siehe 7.1.6. (Zeile 3928)
-Sample rate:                                   Siehe 6.7.   (Zeile 2026)
-Second SID:                                    Siehe 7.1.5. (Zeile 3783)
-Second SID base address:                       Siehe 7.1.5. (Zeile 3789)
-SFX Sound Expander:                            Siehe 7.1.6. (Zeile 3933)
-SFX Sound Sampler:                             Siehe 7.1.6. (Zeile 3935)
-SID filters:                                   Siehe 7.1.5. (Zeile 3794)
-SID models:                                    Siehe 7.1.5. (Zeile 3799)
-Sound buffer size:                             Siehe 6.7.   (Zeile 2031)
-Sound speed adjustment:                        Siehe 6.7.   (Zeile 2010)
-Sound suspend time:                            Siehe 6.7.   (Zeile 2036)
-Sound syncronization:                          Siehe 6.7.   (Zeile 2010)
-Sprite collision detection:                    Siehe 7.1.4. (Zeile 3658)
-Toggling reSID emulation:                      Siehe 7.1.5. (Zeile 3803)
-Turning sound playback on/off:                 Siehe 6.7.   (Zeile 2008)
+reSID resampling passband:                     Siehe 7.1.5. (Zeile 3935)
+reSID samping method:                          Siehe 7.1.5. (Zeile 3914)
+REU:                                           Siehe 7.1.6. (Zeile 4038)
+Sample rate:                                   Siehe 6.7.   (Zeile 2033)
+Second SID:                                    Siehe 7.1.5. (Zeile 3891)
+Second SID base address:                       Siehe 7.1.5. (Zeile 3897)
+SFX Sound Expander:                            Siehe 7.1.6. (Zeile 4043)
+SFX Sound Sampler:                             Siehe 7.1.6. (Zeile 4045)
+SID filters:                                   Siehe 7.1.5. (Zeile 3902)
+SID models:                                    Siehe 7.1.5. (Zeile 3907)
+Sound buffer size:                             Siehe 6.7.   (Zeile 2038)
+Sound speed adjustment:                        Siehe 6.7.   (Zeile 2017)
+Sound suspend time:                            Siehe 6.7.   (Zeile 2043)
+Sound syncronization:                          Siehe 6.7.   (Zeile 2017)
+Sprite collision detection:                    Siehe 7.1.4. (Zeile 3734)
+Toggling reSID emulation:                      Siehe 7.1.5. (Zeile 3911)
+Turning sound playback on/off:                 Siehe 6.7.   (Zeile 2015)
 Using XSync():                                 Siehe 6.4.   (Zeile 1822)
-VIC-II color sets:                             Siehe 7.1.4. (Zeile 3665)
+VIC-II color sets:                             Siehe 7.1.4. (Zeile 3741)
 Video cache:                                   Siehe 6.4.   (Zeile 1803)
 Warp speed mode:                               Siehe 6.3.   (Zeile 1756)
 Index of Resources
 ******************
 
 Acia1Dev:                                      Siehe 6.11.1.
-                                                            (Zeile 2739)
+                                                            (Zeile 2760)
 Acia1Enable:                                   Siehe 7.1.6.1.
-                                                            (Zeile 3943)
+                                                            (Zeile 4053)
 Acia1Irq:                                      Siehe 6.11.1.
-                                                            (Zeile 2744)
-AciaDE:                                        Siehe 6.11.1.
-                                                            (Zeile 2735)
-Basic1:                                        Siehe 7.6.1. (Zeile 4929)
-Basic1Chars:                                   Siehe 7.6.1. (Zeile 4933)
+                                                            (Zeile 2765)
+Basic1:                                        Siehe 7.6.1. (Zeile 5135)
+Basic1Chars:                                   Siehe 7.6.1. (Zeile 5139)
 BasicName <1>:                                 Siehe 7.4.5.1.
-                                                            (Zeile 4729)
+                                                            (Zeile 4899)
 BasicName:                                     Siehe 7.1.7.1.
-                                                            (Zeile 4098)
-Cart2Name:                                     Siehe 7.7.1. (Zeile 5190)
-Cart4Name:                                     Siehe 7.7.1. (Zeile 5190)
-Cart6Name:                                     Siehe 7.7.1. (Zeile 5190)
+                                                            (Zeile 4208)
+Cart2Name:                                     Siehe 7.7.1. (Zeile 5429)
+Cart4Name:                                     Siehe 7.7.1. (Zeile 5429)
+Cart6Name:                                     Siehe 7.7.1. (Zeile 5429)
 CartridgeFile:                                 Siehe 7.1.2.1.
-                                                            (Zeile 3194)
+                                                            (Zeile 3270)
 CartridgeReset:                                Siehe 7.1.2.1.
-                                                            (Zeile 3191)
+                                                            (Zeile 3267)
 CartridgeType:                                 Siehe 7.1.2.1.
-                                                            (Zeile 3192)
-ChargenName <1>:                               Siehe 7.6.1. (Zeile 4944)
+                                                            (Zeile 3268)
+ChargenName <1>:                               Siehe 7.6.1. (Zeile 5150)
 ChargenName <2>:                               Siehe 7.4.5.1.
-                                                            (Zeile 4732)
+                                                            (Zeile 4902)
 ChargenName:                                   Siehe 7.1.7.1.
-                                                            (Zeile 4103)
+                                                            (Zeile 4213)
 Crtc:                                          Siehe 7.6.2.1.
-                                                            (Zeile 5010)
+                                                            (Zeile 5216)
 CrtcDoubleScan:                                Siehe 7.6.2.1.
-                                                            (Zeile 5019)
+                                                            (Zeile 5225)
 CrtcDoubleSize:                                Siehe 7.6.2.1.
-                                                            (Zeile 5016)
+                                                            (Zeile 5222)
 CrtcPaletteFile:                               Siehe 7.6.2.1.
-                                                            (Zeile 5022)
+                                                            (Zeile 5228)
 CrtcVideoCache:                                Siehe 7.6.2.1.
-                                                            (Zeile 5013)
-DiagPin:                                       Siehe 7.6.1. (Zeile 4941)
+                                                            (Zeile 5219)
+DiagPin:                                       Siehe 7.6.1. (Zeile 5147)
 DIGIMAX:                                       Siehe 7.1.6.1.
-                                                            (Zeile 3947)
+                                                            (Zeile 4057)
 DIGIMAXbase:                                   Siehe 7.1.6.1.
-                                                            (Zeile 3949)
-Directory:                                     Siehe 6.13.1.
-                                                            (Zeile 2868)
+                                                            (Zeile 4059)
+Directory:                                     Siehe 6.15.1.
+                                                            (Zeile 2927)
 DisplayDepth:                                  Siehe 6.4.1. (Zeile 1858)
-DoCoreDump:                                    Siehe 6.13.1.
-                                                            (Zeile 2911)
-DosName1541:                                   Siehe 6.9.1. (Zeile 2304)
-DosName1571:                                   Siehe 6.9.1. (Zeile 2305)
-DosName1581:                                   Siehe 6.9.1. (Zeile 2306)
-DosName2031:                                   Siehe 6.9.1. (Zeile 2307)
+DoCoreDump:                                    Siehe 6.15.1.
+                                                            (Zeile 2970)
+DosName1541:                                   Siehe 6.9.1. (Zeile 2305)
+DosName1571:                                   Siehe 6.9.1. (Zeile 2306)
+DosName1581:                                   Siehe 6.9.1. (Zeile 2307)
+DosName2031:                                   Siehe 6.9.1. (Zeile 2308)
 DQBB:                                          Siehe 7.1.2.1.
-                                                            (Zeile 3196)
+                                                            (Zeile 3272)
 DQBBfilename:                                  Siehe 7.1.2.1.
-                                                            (Zeile 3199)
+                                                            (Zeile 3275)
 DQBBImageWrite:                                Siehe 7.1.2.1.
-                                                            (Zeile 3202)
-Drive8ExtendImagePolicy:                       Siehe 6.9.1. (Zeile 2287)
-Drive8IdleMethod:                              Siehe 6.9.1. (Zeile 2293)
-Drive8ParallelCable:                           Siehe 6.9.1. (Zeile 2282)
-Drive8Type:                                    Siehe 6.9.1. (Zeile 2277)
-Drive9ExtendImagePolicy:                       Siehe 6.9.1. (Zeile 2288)
-Drive9IdleMethod:                              Siehe 6.9.1. (Zeile 2294)
-Drive9ParallelCable:                           Siehe 6.9.1. (Zeile 2283)
-Drive9Type:                                    Siehe 6.9.1. (Zeile 2277)
-DriveSyncFactor:                               Siehe 6.9.1. (Zeile 2299)
-DriveTrueEmulation:                            Siehe 6.9.1. (Zeile 2273)
-EditorName:                                    Siehe 7.6.1. (Zeile 4952)
-EoiBlank:                                      Siehe 7.6.1. (Zeile 4937)
+                                                            (Zeile 3278)
+Drive8ExtendImagePolicy:                       Siehe 6.9.1. (Zeile 2293)
+Drive8IdleMethod:                              Siehe 6.9.1. (Zeile 2299)
+Drive8ParallelCable:                           Siehe 6.9.1. (Zeile 2288)
+Drive8Type:                                    Siehe 6.9.1. (Zeile 2283)
+Drive9ExtendImagePolicy:                       Siehe 6.9.1. (Zeile 2294)
+Drive9IdleMethod:                              Siehe 6.9.1. (Zeile 2300)
+Drive9ParallelCable:                           Siehe 6.9.1. (Zeile 2289)
+Drive9Type:                                    Siehe 6.9.1. (Zeile 2283)
+DriveTrueEmulation:                            Siehe 6.9.1. (Zeile 2279)
+EditorName:                                    Siehe 7.6.1. (Zeile 5158)
+EoiBlank:                                      Siehe 7.6.1. (Zeile 5143)
 ETHERNET_ACTIVE:                               Siehe 7.1.6.1.
-                                                            (Zeile 3956)
+                                                            (Zeile 4066)
 ETHERNET_AS_RR:                                Siehe 7.1.6.1.
-                                                            (Zeile 3958)
+                                                            (Zeile 4068)
 ETHERNET_DISABLED:                             Siehe 7.1.6.1.
-                                                            (Zeile 3954)
+                                                            (Zeile 4064)
 ETHERNET_INTERFACE:                            Siehe 7.1.6.1.
-                                                            (Zeile 3952)
+                                                            (Zeile 4062)
 ExpertCartridgeEnabled:                        Siehe 7.1.2.1.
-                                                            (Zeile 3204)
+                                                            (Zeile 3280)
 ExpertCartridgeMode:                           Siehe 7.1.2.1.
-                                                            (Zeile 3212)
+                                                            (Zeile 3288)
 Expertfilename:                                Siehe 7.1.2.1.
-                                                            (Zeile 3207)
+                                                            (Zeile 3283)
 ExpertImageWrite:                              Siehe 7.1.2.1.
-                                                            (Zeile 3210)
+                                                            (Zeile 3286)
 FSDevice10ConvertP00:                          Siehe 6.10.1.1.
-                                                            (Zeile 2461)
-FSDevice10Dir:                                 Siehe 6.10.1.1.
-                                                            (Zeile 2483)
-FSDevice10HideCBMFiles:                        Siehe 6.10.1.1.
-                                                            (Zeile 2476)
-FSDevice10SaveP00:                             Siehe 6.10.1.1.
-                                                            (Zeile 2468)
-FSDevice11ConvertP00:                          Siehe 6.10.1.1.
                                                             (Zeile 2462)
-FSDevice11Dir:                                 Siehe 6.10.1.1.
+FSDevice10Dir:                                 Siehe 6.10.1.1.
                                                             (Zeile 2484)
-FSDevice11HideCBMFiles:                        Siehe 6.10.1.1.
+FSDevice10HideCBMFiles:                        Siehe 6.10.1.1.
                                                             (Zeile 2477)
-FSDevice11SaveP00:                             Siehe 6.10.1.1.
+FSDevice10SaveP00:                             Siehe 6.10.1.1.
                                                             (Zeile 2469)
+FSDevice11ConvertP00:                          Siehe 6.10.1.1.
+                                                            (Zeile 2463)
+FSDevice11Dir:                                 Siehe 6.10.1.1.
+                                                            (Zeile 2485)
+FSDevice11HideCBMFiles:                        Siehe 6.10.1.1.
+                                                            (Zeile 2478)
+FSDevice11SaveP00:                             Siehe 6.10.1.1.
+                                                            (Zeile 2470)
 FSDevice8ConvertP00:                           Siehe 6.10.1.1.
-                                                            (Zeile 2459)
-FSDevice8Dir:                                  Siehe 6.10.1.1.
-                                                            (Zeile 2481)
-FSDevice8HideCBMFiles:                         Siehe 6.10.1.1.
-                                                            (Zeile 2474)
-FSDevice8SaveP00:                              Siehe 6.10.1.1.
-                                                            (Zeile 2466)
-FSDevice9ConvertP00:                           Siehe 6.10.1.1.
                                                             (Zeile 2460)
-FSDevice9Dir:                                  Siehe 6.10.1.1.
+FSDevice8Dir:                                  Siehe 6.10.1.1.
                                                             (Zeile 2482)
-FSDevice9HideCBMFiles:                         Siehe 6.10.1.1.
+FSDevice8HideCBMFiles:                         Siehe 6.10.1.1.
                                                             (Zeile 2475)
-FSDevice9SaveP00:                              Siehe 6.10.1.1.
+FSDevice8SaveP00:                              Siehe 6.10.1.1.
                                                             (Zeile 2467)
+FSDevice9ConvertP00:                           Siehe 6.10.1.1.
+                                                            (Zeile 2461)
+FSDevice9Dir:                                  Siehe 6.10.1.1.
+                                                            (Zeile 2483)
+FSDevice9HideCBMFiles:                         Siehe 6.10.1.1.
+                                                            (Zeile 2476)
+FSDevice9SaveP00:                              Siehe 6.10.1.1.
+                                                            (Zeile 2468)
 GenericCartridgeFile2000:                      Siehe 7.4.5.1.
-                                                            (Zeile 4736)
+                                                            (Zeile 4906)
 GenericCartridgeFile4000:                      Siehe 7.4.5.1.
-                                                            (Zeile 4736)
+                                                            (Zeile 4906)
 GenericCartridgeFile6000:                      Siehe 7.4.5.1.
-                                                            (Zeile 4736)
+                                                            (Zeile 4906)
 GenericCartridgeFileA000:                      Siehe 7.4.5.1.
-                                                            (Zeile 4736)
+                                                            (Zeile 4906)
 GenericCartridgeFileB000:                      Siehe 7.4.5.1.
-                                                            (Zeile 4736)
+                                                            (Zeile 4906)
 GEORAM:                                        Siehe 7.1.6.1.
-                                                            (Zeile 3960)
+                                                            (Zeile 4070)
 GEORAMfilename:                                Siehe 7.1.6.1.
-                                                            (Zeile 3963)
+                                                            (Zeile 4073)
 GEORAMImageWrite:                              Siehe 7.1.6.1.
-                                                            (Zeile 3966)
+                                                            (Zeile 4076)
 GEORAMsize:                                    Siehe 7.1.6.1.
-                                                            (Zeile 3968)
-HTMLBrowserCommand:                            Siehe 6.13.1.
-                                                            (Zeile 2899)
+                                                            (Zeile 4078)
+HTMLBrowserCommand:                            Siehe 6.15.1.
+                                                            (Zeile 2958)
 IDE64AutodetectSize:                           Siehe 7.1.2.1.
-                                                            (Zeile 3230)
+                                                            (Zeile 3306)
 IDE64Config:                                   Siehe 7.1.2.1.
-                                                            (Zeile 3222)
+                                                            (Zeile 3298)
 IDE64Cylinders:                                Siehe 7.1.2.1.
-                                                            (Zeile 3224)
+                                                            (Zeile 3300)
 IDE64Heads:                                    Siehe 7.1.2.1.
-                                                            (Zeile 3226)
+                                                            (Zeile 3302)
 IDE64Image1:                                   Siehe 7.1.2.1.
-                                                            (Zeile 3214)
+                                                            (Zeile 3290)
 IDE64Image2:                                   Siehe 7.1.2.1.
-                                                            (Zeile 3216)
+                                                            (Zeile 3292)
 IDE64Image3:                                   Siehe 7.1.2.1.
-                                                            (Zeile 3218)
+                                                            (Zeile 3294)
 IDE64Image4:                                   Siehe 7.1.2.1.
-                                                            (Zeile 3220)
+                                                            (Zeile 3296)
 IDE64RTCOffset:                                Siehe 7.1.2.1.
-                                                            (Zeile 3234)
+                                                            (Zeile 3310)
 IDE64Sectors:                                  Siehe 7.1.2.1.
-                                                            (Zeile 3228)
+                                                            (Zeile 3304)
 IDE64version4:                                 Siehe 7.1.2.1.
-                                                            (Zeile 3232)
+                                                            (Zeile 3308)
 IEEE488:                                       Siehe 7.1.2.1.
-                                                            (Zeile 3236)
+                                                            (Zeile 3312)
 IEEE488Image:                                  Siehe 7.1.2.1.
-                                                            (Zeile 3239)
-IOSize:                                        Siehe 7.6.1. (Zeile 4912)
+                                                            (Zeile 3315)
+IOSize:                                        Siehe 7.6.1. (Zeile 5118)
 IsepicCartridgeEnabled:                        Siehe 7.1.2.1.
-                                                            (Zeile 3242)
+                                                            (Zeile 3318)
 Isepicfilename:                                Siehe 7.1.2.1.
-                                                            (Zeile 3244)
+                                                            (Zeile 3320)
 IsepicImageWrite:                              Siehe 7.1.2.1.
-                                                            (Zeile 3249)
+                                                            (Zeile 3325)
 IsepicSwitch:                                  Siehe 7.1.2.1.
-                                                            (Zeile 3247)
-JoyDevice1:                                    Siehe 6.13.1.
-                                                            (Zeile 2915)
-JoyDevice2:                                    Siehe 6.13.1.
-                                                            (Zeile 2915)
-KernalName <1>:                                Siehe 7.6.1. (Zeile 4947)
+                                                            (Zeile 3323)
+JoyDevice1:                                    Siehe 6.15.1.
+                                                            (Zeile 2974)
+JoyDevice2:                                    Siehe 6.15.1.
+                                                            (Zeile 2974)
+KernalName <1>:                                Siehe 7.6.1. (Zeile 5153)
 KernalName <2>:                                Siehe 7.4.5.1.
-                                                            (Zeile 4726)
+                                                            (Zeile 4896)
 KernalName:                                    Siehe 7.1.7.1.
-                                                            (Zeile 4095)
+                                                            (Zeile 4205)
 KernalRev:                                     Siehe 7.1.7.1.
-                                                            (Zeile 4107)
-KeymapBusinessDEPosFile:                       Siehe 6.5.1. (Zeile 1930)
-KeymapBusinessDESymFile:                       Siehe 6.5.1. (Zeile 1930)
-KeymapBusinessUKPosFile:                       Siehe 6.5.1. (Zeile 1918)
-KeymapBusinessUKSymFile:                       Siehe 6.5.1. (Zeile 1918)
-KeymapGraphicsPosFile:                         Siehe 6.5.1. (Zeile 1924)
-KeymapGraphicsSymFile:                         Siehe 6.5.1. (Zeile 1924)
-KeymapIndex:                                   Siehe 6.5.1. (Zeile 1904)
-KeymapPosFile:                                 Siehe 6.5.1. (Zeile 1914)
-KeymapSymFile:                                 Siehe 6.5.1. (Zeile 1910)
+                                                            (Zeile 4217)
+KeymapBusinessDEPosFile:                       Siehe 6.5.1. (Zeile 1934)
+KeymapBusinessDESymFile:                       Siehe 6.5.1. (Zeile 1934)
+KeymapBusinessUKPosFile:                       Siehe 6.5.1. (Zeile 1922)
+KeymapBusinessUKSymFile:                       Siehe 6.5.1. (Zeile 1922)
+KeymapGraphicsPosFile:                         Siehe 6.5.1. (Zeile 1928)
+KeymapGraphicsSymFile:                         Siehe 6.5.1. (Zeile 1928)
+KeymapIndex:                                   Siehe 6.5.1. (Zeile 1908)
+KeymapPosFile:                                 Siehe 6.5.1. (Zeile 1918)
+KeymapSymFile:                                 Siehe 6.5.1. (Zeile 1914)
 MagicVoiceCartridgeEnabled:                    Siehe 7.1.2.1.
-                                                            (Zeile 3251)
+                                                            (Zeile 3327)
 MagicVoiceImage:                               Siehe 7.1.2.1.
-                                                            (Zeile 3254)
+                                                            (Zeile 3330)
 MIDIEnable:                                    Siehe 7.1.6.1.
-                                                            (Zeile 3970)
+                                                            (Zeile 4080)
 MIDIMode:                                      Siehe 7.1.6.1.
-                                                            (Zeile 3973)
+                                                            (Zeile 4083)
 MITSHM:                                        Siehe 6.4.1. (Zeile 1840)
 MMC64:                                         Siehe 7.1.2.1.
-                                                            (Zeile 3257)
+                                                            (Zeile 3333)
 MMC64_bios_write:                              Siehe 7.1.2.1.
-                                                            (Zeile 3262)
+                                                            (Zeile 3338)
 MMC64_flashjumper:                             Siehe 7.1.2.1.
-                                                            (Zeile 3264)
+                                                            (Zeile 3340)
 MMC64_revision:                                Siehe 7.1.2.1.
-                                                            (Zeile 3266)
+                                                            (Zeile 3342)
 MMC64_RO:                                      Siehe 7.1.2.1.
-                                                            (Zeile 3270)
+                                                            (Zeile 3346)
 MMC64_sd_type:                                 Siehe 7.1.2.1.
-                                                            (Zeile 3272)
+                                                            (Zeile 3348)
 MMC64BIOSfilename:                             Siehe 7.1.2.1.
-                                                            (Zeile 3259)
+                                                            (Zeile 3335)
 MMC64imagefilename:                            Siehe 7.1.2.1.
-                                                            (Zeile 3268)
+                                                            (Zeile 3344)
 MMCRCardImage:                                 Siehe 7.1.2.1.
-                                                            (Zeile 3274)
+                                                            (Zeile 3350)
 MMCRCardRW:                                    Siehe 7.1.2.1.
-                                                            (Zeile 3282)
+                                                            (Zeile 3358)
 MMCREEPROMImage:                               Siehe 7.1.2.1.
-                                                            (Zeile 3276)
+                                                            (Zeile 3352)
 MMCREEPROMRW:                                  Siehe 7.1.2.1.
-                                                            (Zeile 3286)
+                                                            (Zeile 3362)
 MMCRImageWrite:                                Siehe 7.1.2.1.
-                                                            (Zeile 3280)
+                                                            (Zeile 3356)
 MMCRRescueMode:                                Siehe 7.1.2.1.
-                                                            (Zeile 3278)
+                                                            (Zeile 3354)
 MMCRSDType:                                    Siehe 7.1.2.1.
-                                                            (Zeile 3284)
-ModelLine:                                     Siehe 7.7.1. (Zeile 5194)
-PrDevice1:                                     Siehe 6.10.2.1.
-                                                            (Zeile 2558)
-PrDevice2:                                     Siehe 6.10.2.1.
-                                                            (Zeile 2559)
-PrDevice3:                                     Siehe 6.10.2.1.
-                                                            (Zeile 2560)
+                                                            (Zeile 3360)
+ModelLine:                                     Siehe 7.7.1. (Zeile 5433)
 Printer4:                                      Siehe 6.10.2.1.
-                                                            (Zeile 2563)
-Printer4Dev:                                   Siehe 6.10.2.1.
-                                                            (Zeile 2566)
-PrivateColormap:                               Siehe 6.4.1. (Zeile 1852)
-PrUser:                                        Siehe 6.10.2.1.
-                                                            (Zeile 2570)
-PrUserDev:                                     Siehe 6.10.2.1.
                                                             (Zeile 2573)
-Ram08:                                         Siehe 7.7.1. (Zeile 5185)
-Ram1:                                          Siehe 7.7.1. (Zeile 5185)
-Ram2:                                          Siehe 7.7.1. (Zeile 5185)
-Ram4:                                          Siehe 7.7.1. (Zeile 5185)
-Ram6:                                          Siehe 7.7.1. (Zeile 5185)
-Ram9:                                          Siehe 7.6.1. (Zeile 4919)
-RamA:                                          Siehe 7.6.1. (Zeile 4922)
+Printer4Driver:                                Siehe 6.10.2.1.
+                                                            (Zeile 2579)
+Printer4Output:                                Siehe 6.10.2.1.
+                                                            (Zeile 2584)
+Printer4TextDevice:                            Siehe 6.10.2.1.
+                                                            (Zeile 2567)
+Printer5:                                      Siehe 6.10.2.1.
+                                                            (Zeile 2573)
+Printer5Driver:                                Siehe 6.10.2.1.
+                                                            (Zeile 2579)
+Printer5Output:                                Siehe 6.10.2.1.
+                                                            (Zeile 2584)
+Printer5TextDevice:                            Siehe 6.10.2.1.
+                                                            (Zeile 2568)
+PrinterTextDevice1:                            Siehe 6.10.2.1.
+                                                            (Zeile 2562)
+PrinterTextDevice2:                            Siehe 6.10.2.1.
+                                                            (Zeile 2563)
+PrinterTextDevice3:                            Siehe 6.10.2.1.
+                                                            (Zeile 2564)
+PrinterUserport:                               Siehe 6.10.2.1.
+                                                            (Zeile 2589)
+PrinterUserportDriver:                         Siehe 6.10.2.1.
+                                                            (Zeile 2596)
+PrinterUserportOutput:                         Siehe 6.10.2.1.
+                                                            (Zeile 2599)
+PrinterUserportTextDevice:                     Siehe 6.10.2.1.
+                                                            (Zeile 2592)
+PrivateColormap:                               Siehe 6.4.1. (Zeile 1852)
+Ram08:                                         Siehe 7.7.1. (Zeile 5424)
+Ram1:                                          Siehe 7.7.1. (Zeile 5424)
+Ram2:                                          Siehe 7.7.1. (Zeile 5424)
+Ram4:                                          Siehe 7.7.1. (Zeile 5424)
+Ram6:                                          Siehe 7.7.1. (Zeile 5424)
+Ram9:                                          Siehe 7.6.1. (Zeile 5125)
+RamA:                                          Siehe 7.6.1. (Zeile 5128)
 RAMBlock0:                                     Siehe 7.4.4.1.
-                                                            (Zeile 4669)
+                                                            (Zeile 4839)
 RAMBlock1:                                     Siehe 7.4.4.1.
-                                                            (Zeile 4670)
+                                                            (Zeile 4840)
 RAMBlock2:                                     Siehe 7.4.4.1.
-                                                            (Zeile 4671)
+                                                            (Zeile 4841)
 RAMBlock3:                                     Siehe 7.4.4.1.
-                                                            (Zeile 4672)
+                                                            (Zeile 4842)
 RAMBlock5:                                     Siehe 7.4.4.1.
-                                                            (Zeile 4673)
-RamC:                                          Siehe 7.7.1. (Zeile 5185)
+                                                            (Zeile 4843)
+RamC:                                          Siehe 7.7.1. (Zeile 5424)
 RAMCART:                                       Siehe 7.1.2.1.
-                                                            (Zeile 3288)
+                                                            (Zeile 3364)
 RAMCART_RO:                                    Siehe 7.1.2.1.
-                                                            (Zeile 3295)
+                                                            (Zeile 3371)
 RAMCARTfilename:                               Siehe 7.1.2.1.
-                                                            (Zeile 3290)
+                                                            (Zeile 3366)
 RAMCARTImageWrite:                             Siehe 7.1.2.1.
-                                                            (Zeile 3293)
+                                                            (Zeile 3369)
 RAMCARTsize:                                   Siehe 7.1.2.1.
-                                                            (Zeile 3297)
-RamSize <1>:                                   Siehe 7.7.1. (Zeile 5181)
-RamSize:                                       Siehe 7.6.1. (Zeile 4909)
+                                                            (Zeile 3373)
+RamSize <1>:                                   Siehe 7.7.1. (Zeile 5420)
+RamSize:                                       Siehe 7.6.1. (Zeile 5115)
 RefreshRate:                                   Siehe 6.3.1. (Zeile 1769)
 REU:                                           Siehe 7.1.6.1.
-                                                            (Zeile 3976)
+                                                            (Zeile 4086)
 REUfilename:                                   Siehe 7.1.6.1.
-                                                            (Zeile 3979)
+                                                            (Zeile 4089)
 REUImageWrite:                                 Siehe 7.1.6.1.
-                                                            (Zeile 3982)
+                                                            (Zeile 4092)
 REUsize:                                       Siehe 7.1.6.1.
-                                                            (Zeile 3984)
-RomModule9Name:                                Siehe 7.6.1. (Zeile 4956)
-RomModuleAName:                                Siehe 7.6.1. (Zeile 4960)
-RomModuleBName:                                Siehe 7.6.1. (Zeile 4964)
+                                                            (Zeile 4094)
+RomModule9Name:                                Siehe 7.6.1. (Zeile 5162)
+RomModuleAName:                                Siehe 7.6.1. (Zeile 5166)
+RomModuleBName:                                Siehe 7.6.1. (Zeile 5170)
 RRBankJumper:                                  Siehe 7.1.2.1.
-                                                            (Zeile 3301)
+                                                            (Zeile 3377)
 RRBiosWrite:                                   Siehe 7.1.2.1.
-                                                            (Zeile 3303)
+                                                            (Zeile 3379)
 RRFlashJumper:                                 Siehe 7.1.2.1.
-                                                            (Zeile 3299)
+                                                            (Zeile 3375)
 RsDevice1:                                     Siehe 6.11.1.
-                                                            (Zeile 2721)
+                                                            (Zeile 2746)
 RsDevice1Baud:                                 Siehe 6.11.1.
-                                                            (Zeile 2727)
+                                                            (Zeile 2752)
 RsDevice2:                                     Siehe 6.11.1.
-                                                            (Zeile 2722)
+                                                            (Zeile 2747)
 RsDevice2Baud:                                 Siehe 6.11.1.
-                                                            (Zeile 2728)
-RsDevice3:                                     Siehe 6.11.1.
-                                                            (Zeile 2723)
-RsDevice3Baud:                                 Siehe 6.11.1.
-                                                            (Zeile 2729)
-RsDevice4:                                     Siehe 6.11.1.
-                                                            (Zeile 2724)
-RsDevice4Baud:                                 Siehe 6.11.1.
-                                                            (Zeile 2730)
-RsUser:                                        Siehe 6.11.1.
-                                                            (Zeile 2748)
-RsUserDev:                                     Siehe 6.11.1.
                                                             (Zeile 2753)
-SaveResourcesOnExit:                           Siehe 6.13.1.
-                                                            (Zeile 2906)
+RsDevice3:                                     Siehe 6.11.1.
+                                                            (Zeile 2748)
+RsDevice3Baud:                                 Siehe 6.11.1.
+                                                            (Zeile 2754)
+RsDevice4:                                     Siehe 6.11.1.
+                                                            (Zeile 2749)
+RsDevice4Baud:                                 Siehe 6.11.1.
+                                                            (Zeile 2755)
+RsUserBaud:                                    Siehe 6.11.1.
+                                                            (Zeile 2773)
+RsUserDev:                                     Siehe 6.11.1.
+                                                            (Zeile 2777)
+RsUserEnable:                                  Siehe 6.11.1.
+                                                            (Zeile 2769)
+SaveResourcesOnExit:                           Siehe 6.15.1.
+                                                            (Zeile 2965)
 SFXSoundExpander:                              Siehe 7.1.6.1.
-                                                            (Zeile 3986)
+                                                            (Zeile 4096)
 SFXSoundExpanderChip:                          Siehe 7.1.6.1.
-                                                            (Zeile 3989)
+                                                            (Zeile 4099)
 SFXSoundSampler:                               Siehe 7.1.6.1.
-                                                            (Zeile 3992)
+                                                            (Zeile 4102)
+SidEngine:                                     Siehe 7.1.5.1.
+                                                            (Zeile 3962)
 SidFilters:                                    Siehe 7.1.5.1.
-                                                            (Zeile 3846)
+                                                            (Zeile 3954)
 SidModel:                                      Siehe 7.1.5.1.
-                                                            (Zeile 3850)
+                                                            (Zeile 3958)
 SidResidPassband:                              Siehe 7.1.5.1.
-                                                            (Zeile 3862)
+                                                            (Zeile 3968)
 SidResidSampling:                              Siehe 7.1.5.1.
-                                                            (Zeile 3858)
+                                                            (Zeile 3963)
 SidStereo:                                     Siehe 7.1.5.1.
-                                                            (Zeile 3840)
+                                                            (Zeile 3948)
 SidStereoAddressStart:                         Siehe 7.1.5.1.
-                                                            (Zeile 3843)
-SidUseResid:                                   Siehe 7.1.5.1.
-                                                            (Zeile 3854)
-Sound:                                         Siehe 6.7.1. (Zeile 2047)
-SoundBufferSize:                               Siehe 6.7.1. (Zeile 2065)
-SoundDeviceArg:                                Siehe 6.7.1. (Zeile 2121)
-SoundDeviceName:                               Siehe 6.7.1. (Zeile 2076)
-SoundOversample:                               Siehe 6.7.1. (Zeile 2072)
-SoundSampleRate:                               Siehe 6.7.1. (Zeile 2059)
-SoundSpeedAdjustment:                          Siehe 6.7.1. (Zeile 2050)
-SoundSuspendTime:                              Siehe 6.7.1. (Zeile 2068)
+                                                            (Zeile 3951)
+Sound:                                         Siehe 6.7.1. (Zeile 2054)
+SoundBufferSize:                               Siehe 6.7.1. (Zeile 2072)
+SoundDeviceArg:                                Siehe 6.7.1. (Zeile 2124)
+SoundDeviceName:                               Siehe 6.7.1. (Zeile 2079)
+SoundSampleRate:                               Siehe 6.7.1. (Zeile 2066)
+SoundSpeedAdjustment:                          Siehe 6.7.1. (Zeile 2057)
+SoundSuspendTime:                              Siehe 6.7.1. (Zeile 2075)
 Speed:                                         Siehe 6.3.1. (Zeile 1765)
-SuperPET:                                      Siehe 7.6.1. (Zeile 4925)
-UseVicII:                                      Siehe 7.7.1. (Zeile 5177)
+SuperPET:                                      Siehe 7.6.1. (Zeile 5131)
+UseVicII:                                      Siehe 7.7.1. (Zeile 5416)
 UseXSync:                                      Siehe 6.4.1. (Zeile 1836)
 VICDoubleScan:                                 Siehe 7.4.3.1.
-                                                            (Zeile 4569)
+                                                            (Zeile 4712)
 VICDoubleSize:                                 Siehe 7.4.3.1.
-                                                            (Zeile 4566)
+                                                            (Zeile 4709)
 VICIICheckSbColl:                              Siehe 7.1.4.1.
-                                                            (Zeile 3695)
+                                                            (Zeile 3771)
 VICIICheckSsColl:                              Siehe 7.1.4.1.
-                                                            (Zeile 3691)
+                                                            (Zeile 3767)
 VICIIDoubleScan:                               Siehe 7.1.4.1.
-                                                            (Zeile 3705)
+                                                            (Zeile 3781)
 VICIIDoubleSize:                               Siehe 7.1.4.1.
-                                                            (Zeile 3702)
+                                                            (Zeile 3778)
 VICIIPaletteFile:                              Siehe 7.1.4.1.
-                                                            (Zeile 3708)
+                                                            (Zeile 3784)
 VICIIVideoCache:                               Siehe 7.1.4.1.
-                                                            (Zeile 3699)
+                                                            (Zeile 3775)
 VICPaletteFile:                                Siehe 7.4.3.1.
-                                                            (Zeile 4572)
+                                                            (Zeile 4715)
 VICVideoCache:                                 Siehe 7.4.3.1.
-                                                            (Zeile 4563)
-VideoSize:                                     Siehe 7.6.1. (Zeile 4915)
+                                                            (Zeile 4706)
+VideoSize:                                     Siehe 7.6.1. (Zeile 5121)
 VirtualDevices:                                Siehe 6.10.3.1.
-                                                            (Zeile 2639)
+                                                            (Zeile 2664)
 WarpMode:                                      Siehe 6.3.1. (Zeile 1774)
 Table of Contents
 *****************
@@ -9639,13 +10067,18 @@ Table of Contents
     6.11.3 RS232 usage example
   6.12 Monitor settings
     6.12.1 Monitor command-line options
-  6.13 Miscellaneous settings
-    6.13.1 Miscellaneous resources
-    6.13.2 Miscellaneous command-line options
+  6.13 Machine settings
+    6.13.1 Machine command-line options
+  6.14 Memory settings
+    6.14.1 Memory command-line options
+  6.15 Miscellaneous settings
+    6.15.1 Miscellaneous resources
+    6.15.2 Miscellaneous command-line options
 7 Machine-specific features
   7.1 C64/128-specific commands and settings
     7.1.1 Using cartridges
-      7.1.1.1 The Final Cartridge 3
+      7.1.1.1 IEEE-488 interface
+      7.1.1.2 The Final Cartridge 3
     7.1.2 C64 cartridge settings
       7.1.2.1 C64 cartridge resources
       7.1.2.2 C64 cartridge command-line options
@@ -9748,44 +10181,47 @@ Table of Contents
       8.2.2.17 PET memory module
       8.2.2.18 CBM-II memory module
       8.2.2.19 C500 data module
-9 Event history
-  9.1 Event history command-line options
-10 Monitor
-  10.1 Terminology
-  10.2 Machine state commands
-  10.3 Memory commands
-  10.4 Assembly commands
-  10.5 Checkpoint commands
-  10.6 General commands
-  10.7 Disk commands
-  10.8 Command file commands
-  10.9 Label commands
-  10.10 Miscellaneous commands
-11 c1541
-  11.1 Specifying files in c1541
-  11.2 Using quotes and backslashes
-  11.3 c1541 commands and options
-  11.4 Executing shell commands
-12 cartconv
-  12.1 cartconv command line options
-  12.2 cartconv examples
-13 petcat
-  13.1 petcat command line options
-  13.2 petcat examples
-14 The emulator file formats
-  14.1 The T64 tape image format
-    14.1.1 T64 File structure
-    14.1.2 Tape Record
-    14.1.3 File record
-  14.2 The G64 GCR-encoded disk image format
-15 Acknowledgments
-16 Copyright
-17 Contact information
-  17.1 VICE home page
-  17.2 How to send feedback
-  17.3 How to contribute
-  17.4 Interesting newsgroups
-  17.5 FAQs you should read
+9 Media images
+  9.1 Media images command-line options
+10 Event history
+  10.1 Event history command-line options
+11 Monitor
+  11.1 Terminology
+  11.2 Machine state commands
+  11.3 Memory commands
+  11.4 Assembly commands
+  11.5 Checkpoint commands
+  11.6 General commands
+  11.7 Disk commands
+  11.8 Command file commands
+  11.9 Label commands
+  11.10 Miscellaneous commands
+12 c1541
+  12.1 Specifying files in c1541
+  12.2 Using quotes and backslashes
+  12.3 c1541 commands and options
+  12.4 Executing shell commands
+  12.5 c1541 examples
+13 cartconv
+  13.1 cartconv command line options
+  13.2 cartconv examples
+14 petcat
+  14.1 petcat command line options
+  14.2 petcat examples
+15 The emulator file formats
+  15.1 The T64 tape image format
+    15.1.1 T64 File structure
+    15.1.2 Tape Record
+    15.1.3 File record
+  15.2 The G64 GCR-encoded disk image format
+16 Acknowledgments
+17 Copyright
+18 Contact information
+  18.1 VICE home page
+  18.2 How to send feedback
+  18.3 How to contribute
+  18.4 Interesting newsgroups
+  18.5 FAQs you should read
 Concept Index
 Index of Resources
 

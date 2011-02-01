@@ -1,15 +1,78 @@
 
-vice/doc/vice.texi is the main documentation source.
-
-vice/doc/*.txt should only contain developer- or port-specific info
-
-vice/doc/plain/*.txt should contain only technical information
+This document contains information on how to create/edit the documentation
+that comes with VICE. Incase you were looking for the documentation itself,
+look at the generated files in the html subdirectory.
 
 ------------------------------------------------------------------------------
 
-how to use the checkdoc tool
+WARNING: this document is under construction :)
+
+Overview:
+=========
+
+* vice/doc/vice.texi is the main documentation source.
+
+* vice/doc/*.txt should only contain developer- or port-specific info
+
+* vice/doc/plain/*.txt should contain only technical information (related to
+  actual commodore computers, not vice)
+
+------------------------------------------------------------------------------
+
+updating the documentation:
+===========================
+
+to make half automatic checking easier, mark things that should be fixed right
+in vice.texi in the following form:
+
+@c FIXME: <details>
+
+chapters/sections:
+------------------
+
+when creating a new chapter or (sub)section, you may not want to immediatly
+create a proper node (and possibly menus) too. in that case add a comment
+like this directly above the new section:
+
+@c @node FIXME
+@subsection New Section
+
+command-line options:
+---------------------
+
+@table @code
+
+@cindex -something
+@item -something <value>
+Set something to <value>.
+
+@end table
+
+resources:
+----------
+
+@table @code
+
+@vindex SomeResource
+@item SomeResource
+Boolean to enable some option.
+
+@end table
+
+------------------------------------------------------------------------------
+
+how to use the checkdoc tool:
+=============================
+
+This is a little tool which tries to automatically check the documentation for
+some common errors and missing things, for example:
+ - missing and/or outdated commandline options
+ - missing and/or outdated resources
+ - incorrect usage of the index
 
 - a valid vicerc containing settings for all emus must be located in ~/.vice/
+- the tool must be run from within vice/doc and the emulator binaries must be
+  present in vice/src.
 
 run the tool by either typing
 
@@ -19,29 +82,58 @@ or
 
 ./checkdoc.mak <option>
 
-with option beeing one of either
+with option being one of either
 
 full    do all checks
 opt     check command-line options
 res     check resources
+fixme   show FIXMEs
+nodes   show nodes marked FIXME
 clean   remove temp files
+update  generate the documentation
 
 ------------------------------------------------------------------------------
 
 TODO:
+=====
 
-- fix "C64/128"
+like mentioned above, the todo list is contained in vice.texi in the form of
+comments. to show it using the checkdoc tool use "./checkdoc.mak fixme"
 
-- generate info.c from vice.texi
+at the time of last updating this file (01/02/2011), the list looked like this:
 
-- merge doc/html/plain/Walkthrough-Howto.txt
+list of FIXMEs (20):
+660:@c FIXME: add link to doc/html/plain/PETdoc.txt
+681:@c FIXME: add link to doc/html/plain/PETdoc.txt
+709:@c FIXME: add link to section
+779:@c FIXME: add a detailed list of all keys
+2469:@c FIXME: remove -symdekeymap option!
+2954:@c FIXME: add all supported drives
+3905:@c FIXME: clean up "c64/128" vs "c64"
+4169:@c FIXME: incomplete descriptions for resources
+8328:@c FIXME: add some info on making screenshots, wav- and avi recordings
+8361:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+9167:@c FIXME: add more c1541 examples
+9535:@c FIXME: add X64 disk image file structure; Used by the 1541, 2031, 3040, 4040 drives.
+9536:@c FIXME: add D64 disk image file structure; Used by the 1541, 2031, 3040, 4040 drives.
+9537:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+9538:@c FIXME: add D71 VC1571 disk image file structure
+9539:@c FIXME: add D81 VC1581 disk image file structure
+9540:@c FIXME: add D80 CBM8050 disk image file structure
+9541:@c FIXME: add D82 CBM8250/1001 disk image file structure
+9542:@c FIXME: add P00 program file structure;
+9543:@c FIXME: add CRT c64 cartridge images file structure
+
+to get a much more detailed list use "./checkdoc.mak full"
 
 ------------------------------------------------------------------------------
 
 Last fully checked:
 
-"c64 using cartridges" 22/01/2011
-"c64 io extensions" 22/01/2011
-petcat 22/01/2011
-cartconv 22/01/2011
-monitor 22/01/2011
+"c64 using cartridges" - 22/01/2011
+"c64 io extensions" - 22/01/2011
+petcat - 22/01/2011
+cartconv - 22/01/2011
+monitor - 22/01/2011
+
+all command line options complete - 31/01/2011
