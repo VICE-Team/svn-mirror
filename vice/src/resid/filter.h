@@ -28,10 +28,7 @@ extern float sqrtf(float val);
 #endif
  
 #ifndef HAVE_SQRTF
-static float sqrtf(float val)
-{
-    return (float)sqrt((double)val);
-}
+#define sqrtf(val) (float)sqrt((double)val)
 #endif
 
 namespace reSID
