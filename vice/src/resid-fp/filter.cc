@@ -30,17 +30,11 @@ extern float expf(float val);
 #endif
  
 #ifndef HAVE_LOGF
-float logf(float val)
-{
-    return (float)log((double)val);
-}
+#define logf(val) (float)log((double)val)
 #endif
 
 #ifndef HAVE_EXPF
-float expf(float val)
-{
-    return (float)exp((double)val);
-}
+#define expf(val) (float)exp((double)val)
 #endif
 
 // ----------------------------------------------------------------------------
