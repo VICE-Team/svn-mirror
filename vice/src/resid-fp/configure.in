@@ -83,17 +83,19 @@ if test "$GXX" = yes -a "$enable_no_pic" != "no" ; then
   fi
 fi
 
-CXXFLAGS="-g -Wall $OPT $MSSE $NO_EXCEPTIONS $NO_PIC"
-if test x"$MSSE" = "x-msse"; then
-  AC_MSG_CHECKING([if the xmmintrin.h include can be used])
-  AC_TRY_COMPILE([#include <xmmintrin.h>],
-                 [int test;],
-                 [ AC_MSG_RESULT(yes)
-                   ],
-                 [ AC_MSG_RESULT(no)
-                   MSSE=""
-                   ])
-  CXXFLAGS="-g -Wall $OPT $NO_EXCEPTIONS $NO_PIC"
+if test "$GXX" = yes; then
+  CXXFLAGS="-g -Wall $OPT $MSSE $NO_EXCEPTIONS $NO_PIC"
+  if test x"$MSSE" = "x-msse"; then
+    AC_MSG_CHECKING([if the xmmintrin.h include can be used])
+    AC_TRY_COMPILE([#include <xmmintrin.h>],
+                   [int test;],
+                   [ AC_MSG_RESULT(yes)
+                     ],
+                   [ AC_MSG_RESULT(no)
+                     MSSE=""
+                     ])
+    CXXFLAGS="-g -Wall $OPT $NO_EXCEPTIONS $NO_PIC"
+  fi
 fi
 
 AC_CHECK_PROG(AR, ar, ar, ar)
