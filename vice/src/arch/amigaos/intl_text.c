@@ -821,7 +821,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_SNAPSHOT,    "Snapshot" },
 /* da */ { IDMS_SNAPSHOT_DA, "Snapshot" },
 /* de */ { IDMS_SNAPSHOT_DE, "Snapshot" },
-/* fr */ { IDMS_SNAPSHOT_FR, "Sauvegardes" },
+/* fr */ { IDMS_SNAPSHOT_FR, "Instantanés" },
 /* hu */ { IDMS_SNAPSHOT_HU, "Pillanatkép" },
 /* it */ { IDMS_SNAPSHOT_IT, "Snapshot" },
 /* nl */ { IDMS_SNAPSHOT_NL, "Momentopname" },
@@ -2638,7 +2638,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_DE, "Wert %d ist unzulässig, Bereich muß zwischen %d und %d liegen, benutze %d" },
 /* fr */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_FR, "" },  /* fuzzy */
 /* hu */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_HU, "" },  /* fuzzy */
-/* it */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_IT, "" },  /* fuzzy */
+/* it */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_IT, "Valore %d fuori dai limiti, l' intervallo è da %d a %d, uso %d al suo posto" },
 /* nl */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_NL, "Waarde %d is buiten het bereik, het bereik is van %d tot %d, %d zal gebruikt worden" },
 /* pl */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_PL, "" },  /* fuzzy */
 /* sv */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_SV, "" },  /* fuzzy */
@@ -2649,7 +2649,7 @@ intl_translate_t intl_string_table[] = {
 /* de */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_DE, "Wert %.3f ist unzulässig, Bereich muß zwischen %.3f und %.3f liegen, benutze %.3f" },
 /* fr */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_FR, "" },  /* fuzzy */
 /* hu */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_HU, "" },  /* fuzzy */
-/* it */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_IT, "" },  /* fuzzy */
+/* it */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_IT, "Valore %.3f fuori dai limiti, l' intervallo è da %.3f a %.3f, uso %.3f al suo posto" },
 /* nl */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_NL, "Waarde %.3f is buiten het bereik, het bereik is van %.3f tot %.3f, %.3f zal gebruikt worden" },
 /* pl */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_PL, "" },  /* fuzzy */
 /* sv */ { IDMES_VALUE_F_OUT_OF_RANGE_USING_F_INSTEAD_SV, "" },  /* fuzzy */
@@ -7774,7 +7774,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_GLUE_LOGIC,    "Glue logic" },
 /* da */ { IDS_GLUE_LOGIC_DA, "Glue logic" },
 /* de */ { IDS_GLUE_LOGIC_DE, "Glue Logik" },
-/* fr */ { IDS_GLUE_LOGIC_FR, "" },  /* fuzzy */
+/* fr */ { IDS_GLUE_LOGIC_FR, "Glue logic" },
 /* hu */ { IDS_GLUE_LOGIC_HU, "" },  /* fuzzy */
 /* it */ { IDS_GLUE_LOGIC_IT, "Glue logic" },
 /* nl */ { IDS_GLUE_LOGIC_NL, "Glue logic" },

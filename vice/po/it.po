@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-31 21:34+0100\n"
+"POT-Creation-Date: 2011-02-01 15:47-0800\n"
 "PO-Revision-Date: 2011-02-01 16:50+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: \n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
@@ -382,7 +382,7 @@ msgstr "Impostazioni VDC"
 
 #: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:511 src/arch/unix/gui/c64ui.c:571
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:338
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:5693
 msgid "SID settings"
@@ -404,7 +404,7 @@ msgstr "Impostazioni RS232"
 #: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
 #: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:385
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:687
-#: src/arch/unix/gui/vsidui.c:399 src/arch/amigaos/intl_text.c.po.c:5
+#: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:5
 msgid "File"
 msgstr "File"
 
@@ -440,7 +440,7 @@ msgstr "Opzioni"
 #: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:715
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
 #: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:395
-#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:401
+#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:400
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1235
 #: src/arch/amigaos/intl_text.c.po.c:1534
 msgid "Settings"
@@ -968,7 +968,7 @@ msgid "Smart-attach a file"
 msgstr "Selezione intelligente di un file"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2029
+#: src/arch/unix/x11/xaw/x11ui.c:2028
 msgid "Unknown image type"
 msgstr "Tipo immagine sconosciuto"
 
@@ -3134,7 +3134,7 @@ msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1270
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2733
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -3623,24 +3623,24 @@ msgstr "Carica file PSID"
 msgid "Load PSID file..."
 msgstr "Carica file PSID..."
 
-#: src/arch/unix/gui/vsidui.c:336
+#: src/arch/unix/gui/vsidui.c:335
 msgid "Override PSID settings"
 msgstr "Sovrascrivi impostazioni PSID"
 
-#: src/arch/unix/gui/vsidui.c:340 src/arch/amigaos/intl_text.c.po.c:1435
+#: src/arch/unix/gui/vsidui.c:339 src/arch/amigaos/intl_text.c.po.c:1435
 msgid "Video standard"
 msgstr "Standard video"
 
-#: src/arch/unix/gui/vsidui.c:419
+#: src/arch/unix/gui/vsidui.c:418
 msgid "Default Tune"
 msgstr "Melodia Predefinita"
 
-#: src/arch/unix/gui/vsidui.c:439
+#: src/arch/unix/gui/vsidui.c:438
 #, c-format
 msgid "Tune %d"
 msgstr "Melodia %d"
 
-#: src/arch/unix/gui/vsidui.c:466
+#: src/arch/unix/gui/vsidui.c:465
 msgid "VSID: The SID Emulator"
 msgstr "VSID: L'emulatore del SID"
 
@@ -3982,20 +3982,20 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1255
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1259
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire dal programma?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1267
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
 msgid "Save the current settings?"
 msgstr "Salvare le impostazioni attuali?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1335 src/arch/unix/x11/xaw/x11ui.c:1338
+#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
 msgid "(warp)"
 msgstr "(turbo)"
 
@@ -4006,7 +4006,7 @@ msgstr "(turbo)"
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1584
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
@@ -4031,7 +4031,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Continua"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1905
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
 msgid "Extend disk image"
 msgstr "Immagine disco estesa"
 
@@ -4212,20 +4212,20 @@ msgstr "Salva i dischi attualmente selezionati:"
 msgid "Save currently loaded ROMs:"
 msgstr "Salva le ROM attualmente caricate:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:994
+#: src/arch/unix/x11/xaw/x11ui.c:993
 msgid "recording..."
 msgstr "registrazione in corso..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1002
+#: src/arch/unix/x11/xaw/x11ui.c:1001
 msgid "event recording..."
 msgstr "registrazione eventi..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1439
+#: src/arch/unix/x11/xaw/x11ui.c:1438
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1777 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
@@ -9233,14 +9233,14 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:4846
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulazione joystick supplementare #1: (0: Nessuna, 1: Tastierino numerico, "
-"2-5: Joy Amiga 0-3)"
+"Emulazione joystick supplementare #1: (0: Nessuna, 1: Tastierino numerico, 2-"
+"5: Joy Amiga 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4857
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, "
-"2-5: Joy Amiga 0-3)"
+"Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, 2-"
+"5: Joy Amiga 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4956
 msgid "V364 Speech file"

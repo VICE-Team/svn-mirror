@@ -1265,7 +1265,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_LOAD_LABELS_DESCRIPTION,    N_("Load a file containing a mapping of labels to addresses.  If no memory\nspace is specified, the default readspace is used.\n\nThe format of the file is the one written out by the `save_labels' command;\nit consists of some `add_label' commands, written one after the other.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DA, "Indlæs en fil som indeholder mapning fra labels til adresser.\nHvis der ikke angives hukommelsesområde, anvendes det normale læseområde.\n\nFormatet på filen er det, som skrives af \"save_labels\"-kommandoen;\ndet består af \"add_label\"-kommandoer efter hinanden."},
-/* de */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DE, "Laded eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \nSpeicherbereich angegeben wurde, wird der Standard Speicherplatz\nverwendet.  Das Format der Datei wird durch das Kommande `save_lables'\ndefiniert.  Es besteht aus eine Reihe von `add_label' Kommandos,\nhintereinander angeordnet."},
+/* de */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_DE, "Lädt eine Datei mit Zuordnung von Adressen zu Bezeichnern. Wenn kein \nSpeicherbereich angegeben wurde, wird der Standard Speicherplatz\nverwendet. Das Format der Datei wird durch das Kommande `save_lables'\ndefiniert. Es besteht aus eine Reihe von `add_label' Kommandos,\nhintereinander angeordnet."},
 /* fr */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_HU, "Címkékrõl címekre leképezéseket tartalmazó fájl betöltése.  Ha nincs memória\ntér megadva, az alap tér lesz használva.\n\nA fájl formátuma megegyezik a `save_labels' parancs által kiírtéval;\nnéhány egymás után írt `add_label' parancsból áll."},
 /* it */ {IDGS_MON_LOAD_LABELS_DESCRIPTION_IT, "Carica un file che contiente l'associazione tra le etichette e gli indirizzi.\nSe non è specificato alcuno spazio di memoria, viene usato lo spazio\ndi lettura predefinito.\n\nIl formato del file è quello dato in output dal comando `save_labels';\nè composto da alcuni comandi `add_label', scritti uno di seguito all'altro."},
@@ -1881,7 +1881,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS,    N_("[loadstore] [address [address]]")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_DA, "[loadstore] [adresse [adresse]]"},
-/* de */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_DE, "[lade/speichere] [Adresse [Adresse]]"},
+/* de */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_DE, "[loadstore] [Adresse [Adresse]]"},
 /* fr */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_HU, "[loadstore] [cím [cím]]"},
 /* it */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_IT, "[loadstore] [indirizzo [indirizzo]]"},
@@ -3420,43 +3420,43 @@ translate_t string_table[] = {
 /* c64/c64-cmdline-options.c */
 /* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, "Vælg type for begge CIA-kredse (0=gammel 6526, 1=ny 6526A, 2=gammel 6526x)"},
-/* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)"},
+/* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BOTH_CIA_MODELS_DE, "Wähle beide CIA Modelle (0 = alt 6526, 1 = neu 6526A)"},
 /* fr */ {IDCLS_SET_BOTH_CIA_MODELS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BOTH_CIA_MODELS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_BOTH_CIA_MODELS_IT, "Imposta entrambi i modelli CIA (0 = 6526 vecchio, 1 = 6526A nuovo, 2 = 6526x vecchio)"},
-/* nl */ {IDCLS_SET_BOTH_CIA_MODELS_NL, "Zet model voor beide CIAs (0 = oud 6526, 1 = nieuw 6526A, 2 = oud 6526x)"},
+/* it */ {IDCLS_SET_BOTH_CIA_MODELS_IT, "Imposta entrambi i modelli CIA (0 = 6526 vecchio, 1 = 6526A nuovo)"},
+/* nl */ {IDCLS_SET_BOTH_CIA_MODELS_NL, "Zet model voor beide CIAs (0 = oud 6526, 1 = nieuw 6526A)"},
 /* pl */ {IDCLS_SET_BOTH_CIA_MODELS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_BOTH_CIA_MODELS_SV, "Välj båda CIA-modellerna (0 = gammal 6526, 1 = ny 2526A, 2 = gammal 6526x)"},
-/* tr */ {IDCLS_SET_BOTH_CIA_MODELS_TR, "Her iki CIA modelini belirle (0 = eski 6526, 1 = yeni 6526A, 2 = eski 6526x)"},
+/* sv */ {IDCLS_SET_BOTH_CIA_MODELS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BOTH_CIA_MODELS_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/c64-cmdline-options.c */
 /* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_CIA1_MODEL_DA, "Vælg CIA 1 type (0=gammel 6526, 1=ny 6526A, 2=gammel 6526x)"},
-/* de */ {IDCLS_SET_CIA1_MODEL_DE, "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)"},
+/* da */ {IDCLS_SET_CIA1_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CIA1_MODEL_DE, "Wähle CIA 1 Modell (0 = alt 6526, 1 = neu 6526A)"},
 /* fr */ {IDCLS_SET_CIA1_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CIA1_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CIA1_MODEL_IT, "Imposta modello CIA 1 (0 = 6526 vecchio, 1 = 6526A nuovo, 2 = 6526x vecchio)"},
-/* nl */ {IDCLS_SET_CIA1_MODEL_NL, "Zet CIA 1 model (0 = oud 6526, 1 = nieuw 6526A, 2 = oud 6526x)"},
+/* it */ {IDCLS_SET_CIA1_MODEL_IT, "Imposta modello CIA 1 (0 = 6526 vecchio, 1 = 6526A nuovo)"},
+/* nl */ {IDCLS_SET_CIA1_MODEL_NL, "Zet CIA 1 model (0 = oud 6526, 1 = nieuw 6526A)"},
 /* pl */ {IDCLS_SET_CIA1_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_CIA1_MODEL_SV, "Välj CIA 1-modell (0 = gammal 6526, 1 = ny 2526A, 2 = gammal 6526x)"},
-/* tr */ {IDCLS_SET_CIA1_MODEL_TR, "CIA 1 modelini belirle (0 = eski 6526, 1 = yeni 6526A, 2 = eski 6526x)"},
+/* sv */ {IDCLS_SET_CIA1_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CIA1_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/c64-cmdline-options.c */
 /* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_CIA2_MODEL_DA, "Vælg CIA 2 type (0=gammel 6526, 1=ny 6526A, 2=gammel 6526x)"},
-/* de */ {IDCLS_SET_CIA2_MODEL_DE, "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A, 2 = alt 6526x)\""},
+/* da */ {IDCLS_SET_CIA2_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CIA2_MODEL_DE, "Wähle CIA 2 Modell (0 = alt 6526, 1 = neu 6526A)\""},
 /* fr */ {IDCLS_SET_CIA2_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_CIA2_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_CIA2_MODEL_IT, "Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 6526A nuovo, 2 = 6526x vecchio)"},
-/* nl */ {IDCLS_SET_CIA2_MODEL_NL, "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526A, 2 = oud 6526x)"},
+/* it */ {IDCLS_SET_CIA2_MODEL_IT, "Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 6526A nuovo)"},
+/* nl */ {IDCLS_SET_CIA2_MODEL_NL, "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526A)"},
 /* pl */ {IDCLS_SET_CIA2_MODEL_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_CIA2_MODEL_SV, "Välj CIA 2-modell (0 = gammal 6526, 1 = ny 2526A, 2 = gammal 6526x)"},
-/* tr */ {IDCLS_SET_CIA2_MODEL_TR, "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 6526A, 2 = eski 6526x)"},
+/* sv */ {IDCLS_SET_CIA2_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CIA2_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/c64-cmdline-options.c */
@@ -3596,10 +3596,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_IEEE488_INTERFACE,    N_("Enable IEEE488 interface")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_IEEE488_INTERFACE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_IEEE488_INTERFACE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_IEEE488_INTERFACE_DE, "IEEE488 Schnittstelle aktivieren"},
 /* fr */ {IDCLS_ENABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_IEEE488_INTERFACE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_IEEE488_INTERFACE_IT, "Attiva interfaccia IEEE488"},
 /* nl */ {IDCLS_ENABLE_IEEE488_INTERFACE_NL, "Activeer IEEE488 interface"},
 /* pl */ {IDCLS_ENABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_IEEE488_INTERFACE_SV, ""},  /* fuzzy */
@@ -3610,10 +3610,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_IEEE488_INTERFACE,    N_("Disable IEEE488 interface")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_IEEE488_INTERFACE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_IEEE488_INTERFACE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_IEEE488_INTERFACE_DE, "IEEE488 Schnittstelle deaktivieren"},
 /* fr */ {IDCLS_DISABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_IEEE488_INTERFACE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_IEEE488_INTERFACE_IT, "Disattiva interfaccia IEEE488"},
 /* nl */ {IDCLS_DISABLE_IEEE488_INTERFACE_NL, "IEEE488 interface uitschakelen"},
 /* pl */ {IDCLS_DISABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_IEEE488_INTERFACE_SV, ""},  /* fuzzy */
@@ -3624,10 +3624,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME,    N_("specify IEEE488 interface image name")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_DE, "IEEE488 Schnittstellenmodul Imagename"},
 /* fr */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_IT, "specifica il nome immagine dell'interfaccia IEEE488"},
 /* nl */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_NL, "Geef de naam van het IEEE488 interface bestand"},
 /* pl */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_IEEE488_INTERFACE_NAME_SV, ""},  /* fuzzy */
@@ -3806,10 +3806,10 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_PETDWW,    N_("Enable the PET DWW hi-res board")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_PETDWW_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_PETDWW_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_PETDWW_DE, "PET DWW hi-res Karte aktivieren"},
 /* fr */ {IDCLS_ENABLE_PETDWW_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_PETDWW_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_PETDWW_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_PETDWW_IT, "Attiva la scheda hi-res PET DWW"},
 /* nl */ {IDCLS_ENABLE_PETDWW_NL, "Activeer het PET DWW hi-res bord"},
 /* pl */ {IDCLS_ENABLE_PETDWW_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_PETDWW_SV, ""},  /* fuzzy */
@@ -7077,43 +7077,43 @@ translate_t string_table[] = {
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_CONTRAST,    N_("Set contrast of internal calculated palette [1000]")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_CONTRAST_DA, "Indstil kontrast for internt beregnet palette [1000]"},
-/* de */ {IDCLS_SET_CONTRAST_DE, "Kontrast für intern berechneten Palette setzen [1000]"},
-/* fr */ {IDCLS_SET_CONTRAST_FR, "Régler le contraste de la palette interne calculée [1000]"},
-/* hu */ {IDCLS_SET_CONTRAST_HU, "A számolt paletta kontraszt értéke [1000]"},
+/* da */ {IDCLS_SET_CONTRAST_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_CONTRAST_DE, "Kontrast für intern berechnete Palette setzen [1000]"},
+/* fr */ {IDCLS_SET_CONTRAST_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_CONTRAST_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_CONTRAST_IT, "Imposta il constrasto della palette calcolata internamente [1000]"},
 /* nl */ {IDCLS_SET_CONTRAST_NL, "Zet het contrast van het intern berekend kleurenpalet [1000]"},
 /* pl */ {IDCLS_SET_CONTRAST_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_CONTRAST_SV, "Ställ in kontrast på internt beräknad palett [1000]"},
-/* tr */ {IDCLS_SET_CONTRAST_TR, "Dahili hesaplanmýþ paletin karþýtlýðýný ayarlayýn [1000]"},
+/* sv */ {IDCLS_SET_CONTRAST_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_CONTRAST_TR, ""},  /* fuzzy */
 #endif
 
 /* plus4/ted-cmdline-options.c, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_BRIGHTNESS,    N_("Set brightness of internal calculated palette [1000]")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_BRIGHTNESS_DA, "Indstil lysstyrke for internt beregnet palette [1000]"},
-/* de */ {IDCLS_SET_BRIGHTNESS_DE, "Helligkeit für intern berechneten Palette setzen [1000]"},
-/* fr */ {IDCLS_SET_BRIGHTNESS_FR, "Régler la luminosité de la palette interne calculée [1000]"},
-/* hu */ {IDCLS_SET_BRIGHTNESS_HU, "A számolt paletta fényerõssége [1000]"},
+/* da */ {IDCLS_SET_BRIGHTNESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BRIGHTNESS_DE, "Helligkeit für intern berechnete Palette setzen [1000]"},
+/* fr */ {IDCLS_SET_BRIGHTNESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_BRIGHTNESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_BRIGHTNESS_IT, "Imposta la luminanza della palette calcolata internamente [1000]"},
 /* nl */ {IDCLS_SET_BRIGHTNESS_NL, "Zet de helderheid van het intern berekend kleurenpalet [1000]"},
 /* pl */ {IDCLS_SET_BRIGHTNESS_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_BRIGHTNESS_SV, "Ställ in ljusstyrka på internt beräknad palett [1000]"},
-/* tr */ {IDCLS_SET_BRIGHTNESS_TR, "Dahili hesaplanmýþ paletin parlaklýðýný ayarlayýn [1000]"},
+/* sv */ {IDCLS_SET_BRIGHTNESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BRIGHTNESS_TR, ""},  /* fuzzy */
 #endif
 
 /* plus4/ted-cmdline-options.c`, vicii/vicii-cmdline-options.c */
 /* en */ {IDCLS_SET_GAMMA,    N_("Set gamma of internal calculated palette [2200]")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_GAMMA_DA, "Indstil gamma for internt beregnet palette [2200]"},
-/* de */ {IDCLS_SET_GAMMA_DE, "Gamma für intern berechneten Palette setzen [2200]"},
-/* fr */ {IDCLS_SET_GAMMA_FR, "Régler le gamma de la palette interne calculée [2200]"},
-/* hu */ {IDCLS_SET_GAMMA_HU, "A számolt paletta gammája [2200]"},
+/* da */ {IDCLS_SET_GAMMA_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_GAMMA_DE, "Gamma für intern berechnete Palette setzen [2200]"},
+/* fr */ {IDCLS_SET_GAMMA_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_GAMMA_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_GAMMA_IT, "Imposta la gamma della palette calcolata internamente [2200]"},
 /* nl */ {IDCLS_SET_GAMMA_NL, "Zet de gamma van het intern berekend kleurenpalet [2200]"},
 /* pl */ {IDCLS_SET_GAMMA_PL, ""},  /* fuzzy */
-/* sv */ {IDCLS_SET_GAMMA_SV, "Ställ in gamma på internt beräknad palett [2200]"},
-/* tr */ {IDCLS_SET_GAMMA_TR, "Dahili hesaplanmýþ paletin gamasýný ayarlayýn [2200]"},
+/* sv */ {IDCLS_SET_GAMMA_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_GAMMA_TR, ""},  /* fuzzy */
 #endif
 
 /* vicii/vicii-cmdline-options.c */
@@ -7162,11 +7162,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_BLUR,    N_("Amount of horizontal blur for the CRT emulation. [500]")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BLUR_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_BLUR_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BLUR_DE, "Wert für horizontale Unschärfe für CRT Emulation. [500]"},
 /* fr */ {IDCLS_SET_BLUR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BLUR_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_BLUR_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BLUR_NL, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_BLUR_IT, "Valore della sfuocatura orizzontale per l'emulazione CRT [500]"},
+/* nl */ {IDCLS_SET_BLUR_NL, "Wazigheid hoeveelheid voor de CRT emulatie. [500]"},
 /* pl */ {IDCLS_SET_BLUR_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_BLUR_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_BLUR_TR, ""},  /* fuzzy */
@@ -7176,11 +7176,11 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_SCANLINE_SHADE,    N_("Amount of scan line shading for the CRT emulation [667]")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_SCANLINE_SHADE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_SCANLINE_SHADE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SCANLINE_SHADE_DE, "Wert für Scanline Schatten für CRT Emulation [667]"},
 /* fr */ {IDCLS_SET_SCANLINE_SHADE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_SCANLINE_SHADE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_SCANLINE_SHADE_IT, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_SCANLINE_SHADE_NL, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SCANLINE_SHADE_IT, "Valore dell'ombreggiatura della scan line per l'emulazione CRT [667]"},
+/* nl */ {IDCLS_SET_SCANLINE_SHADE_NL, "Hoeveelheid van de scan lijn schaduw voor de CRT emulatie [667]"},
 /* pl */ {IDCLS_SET_SCANLINE_SHADE_PL, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SCANLINE_SHADE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_SCANLINE_SHADE_TR, ""},  /* fuzzy */
@@ -7984,17 +7984,17 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c, vsync.c */
-/* en */ {IDCLS_RESID_FILTER_BIAS, N_("reSID filter bias setting, which can be used to adjust DAC bias in millivolts.")},
+/* en */ {IDCLS_RESID_FILTER_BIAS,    N_("reSID filter bias setting, which can be used to adjust DAC bias in millivolts.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_RESID_FILTER_BIAS_DA, ""},
-/* de */ {IDCLS_RESID_FILTER_BIAS_DE, ""},
-/* fr */ {IDCLS_RESID_FILTER_BIAS_FR, ""},
-/* hu */ {IDCLS_RESID_FILTER_BIAS_HU, ""},
-/* it */ {IDCLS_RESID_FILTER_BIAS_IT, ""},
-/* nl */ {IDCLS_RESID_FILTER_BIAS_NL, ""},
-/* pl */ {IDCLS_RESID_FILTER_BIAS_PL, ""},
-/* sv */ {IDCLS_RESID_FILTER_BIAS_SV, ""},
-/* tr */ {IDCLS_RESID_FILTER_BIAS_TR, ""},
+/* da */ {IDCLS_RESID_FILTER_BIAS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_RESID_FILTER_BIAS_DE, "reSID Filter Vorspannungseinstellung, welche für die Anpassung der DAC\nVorspannung in Millivolt benutzt werden kann"},
+/* fr */ {IDCLS_RESID_FILTER_BIAS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_RESID_FILTER_BIAS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_RESID_FILTER_BIAS_IT, "Impostazione del bias del filtro del reSID, che può essere usato per correggere il bias del DAC in millivolt."},
+/* nl */ {IDCLS_RESID_FILTER_BIAS_NL, "reSID filter bias instelling, dit kan gebruikt worden om de DAC bias in millivolts aan te passen."},
+/* pl */ {IDCLS_RESID_FILTER_BIAS_PL, ""},  /* fuzzy */
+/* sv */ {IDCLS_RESID_FILTER_BIAS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_RESID_FILTER_BIAS_TR, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c */
