@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-31 10:46-0800\n"
-"PO-Revision-Date: 2011-01-12 20:43+0100\n"
+"POT-Creation-Date: 2011-01-31 21:34+0100\n"
+"PO-Revision-Date: 2011-02-01 16:50+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
@@ -382,7 +382,7 @@ msgstr "Impostazioni VDC"
 
 #: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:511 src/arch/unix/gui/c64ui.c:571
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:338
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:5693
 msgid "SID settings"
@@ -404,7 +404,7 @@ msgstr "Impostazioni RS232"
 #: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
 #: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:385
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:687
-#: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:5
+#: src/arch/unix/gui/vsidui.c:399 src/arch/amigaos/intl_text.c.po.c:5
 msgid "File"
 msgstr "File"
 
@@ -440,7 +440,7 @@ msgstr "Opzioni"
 #: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:715
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
 #: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:395
-#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:400
+#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:401
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1235
 #: src/arch/amigaos/intl_text.c.po.c:1534
 msgid "Settings"
@@ -834,9 +834,8 @@ msgstr "Estensione digiblaster"
 
 #. Translators: "V364 Speech" is the speech extension present in the V364 prototype
 #: src/arch/unix/gui/plus4ui.c:204
-#, fuzzy
 msgid "V364 Speech"
-msgstr "File V364 Speech"
+msgstr "V364 Speech"
 
 #: src/arch/unix/gui/plus4ui.c:221
 msgid "TED model"
@@ -969,7 +968,7 @@ msgid "Smart-attach a file"
 msgstr "Selezione intelligente di un file"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2028
+#: src/arch/unix/x11/xaw/x11ui.c:2029
 msgid "Unknown image type"
 msgstr "Tipo immagine sconosciuto"
 
@@ -3135,7 +3134,7 @@ msgid "Invalid speed value"
 msgstr "Valore della velocità non valido"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1270
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2733
 msgid "Cannot save settings."
 msgstr "Non è possibile salvare le impostazioni."
@@ -3624,24 +3623,24 @@ msgstr "Carica file PSID"
 msgid "Load PSID file..."
 msgstr "Carica file PSID..."
 
-#: src/arch/unix/gui/vsidui.c:335
+#: src/arch/unix/gui/vsidui.c:336
 msgid "Override PSID settings"
 msgstr "Sovrascrivi impostazioni PSID"
 
-#: src/arch/unix/gui/vsidui.c:339 src/arch/amigaos/intl_text.c.po.c:1435
+#: src/arch/unix/gui/vsidui.c:340 src/arch/amigaos/intl_text.c.po.c:1435
 msgid "Video standard"
 msgstr "Standard video"
 
-#: src/arch/unix/gui/vsidui.c:418
+#: src/arch/unix/gui/vsidui.c:419
 msgid "Default Tune"
 msgstr "Melodia Predefinita"
 
-#: src/arch/unix/gui/vsidui.c:438
+#: src/arch/unix/gui/vsidui.c:439
 #, c-format
 msgid "Tune %d"
 msgstr "Melodia %d"
 
-#: src/arch/unix/gui/vsidui.c:465
+#: src/arch/unix/gui/vsidui.c:466
 msgid "VSID: The SID Emulator"
 msgstr "VSID: L'emulatore del SID"
 
@@ -3983,20 +3982,20 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Cassetta 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1255
 msgid " emulator"
 msgstr " emulatore"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1259
 msgid "Do you really want to exit?"
 msgstr "Vuoi veramente uscire dal programma?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1267
 msgid "Save the current settings?"
 msgstr "Salvare le impostazioni attuali?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
+#: src/arch/unix/x11/xaw/x11ui.c:1335 src/arch/unix/x11/xaw/x11ui.c:1338
 msgid "(warp)"
 msgstr "(turbo)"
 
@@ -4007,7 +4006,7 @@ msgstr "(turbo)"
 msgid "Tape %03d"
 msgstr "Cassetta %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1584
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausa)"
@@ -4032,7 +4031,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Continua"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1905
 msgid "Extend disk image"
 msgstr "Immagine disco estesa"
 
@@ -4213,20 +4212,20 @@ msgstr "Salva i dischi attualmente selezionati:"
 msgid "Save currently loaded ROMs:"
 msgstr "Salva le ROM attualmente caricate:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:993
+#: src/arch/unix/x11/xaw/x11ui.c:994
 msgid "recording..."
 msgstr "registrazione in corso..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1001
+#: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "event recording..."
 msgstr "registrazione eventi..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1438
+#: src/arch/unix/x11/xaw/x11ui.c:1439
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Traccia %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1777 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "Errore di VICE!"
 
@@ -4365,24 +4364,25 @@ msgstr "Nome della porta MIDI-Out"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:74
 msgid "Set scaling factor for mouse movement along X"
-msgstr ""
+msgstr "Imposta il fattore di scala per il movimento del mouse lungo X"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:79
 msgid "Set scaling factor for mouse movement along Y"
-msgstr ""
+msgstr "Imposta il fattore di scala per il movimento del mouse lungo Y"
 
 #: src/arch/unix/macosx/cocoa/video.m:152
 msgid "Enable draw synchronization to vertical blank"
-msgstr ""
+msgstr "Attiva la sincronizzazione al vertical blank"
 
 #: src/arch/unix/macosx/cocoa/video.m:157
 msgid "Set number of buffers used for sync draw (0=use default)"
 msgstr ""
+"Imposta il numero di buffer utilizzati per il sincronismo (0=predefinito)"
 
 #: src/arch/unix/macosx/cocoa/video.m:162
 #: src/arch/unix/macosx/cocoa/video.m:167
 msgid "Enable flicker fixing in sync draw"
-msgstr ""
+msgstr "Attiva il fix del flicker nel sincronismo"
 
 #: src/arch/win32/res.rc.po.c:83 src/arch/win32/res.rc.po.c:1292
 #: src/arch/win32/resc128.rc.po.c:19 src/arch/win32/resc64.rc.po.c:19
@@ -5431,12 +5431,12 @@ msgstr "Mantieni proporzioni video (0,5..2)"
 #: src/arch/win32/res.rc.po.c:1171
 #, c-format
 msgid "Value %.3f for %s is out of range, using %.3f instead"
-msgstr ""
+msgstr "Il valore %.3f per %s è fuori dai limiti, uso %.3f al suo posto"
 
 #: src/arch/win32/res.rc.po.c:1172
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
-msgstr ""
+msgstr "Il valore %d per %s è fuori dai limiti, uso %d al suo posto"
 
 #: src/arch/win32/res.rc.po.c:1173 src/arch/amigaos/intl_text.c.po.c:6562
 msgid "Gamma (0..4)"
@@ -8884,11 +8884,14 @@ msgstr "Avvia la registrazione audio..."
 #, c-format
 msgid "Value %d out of range, range is from %d to %d, using %d instead"
 msgstr ""
+"Valore %d fuori dai limiti, l' intervallo è da %d a %d, uso %d al suo posto"
 
 #: src/arch/amigaos/intl_text.c.po.c:2623
 #, c-format
 msgid "Value %.3f out of range, range is from %.3f to %.3f, using %.3f instead"
 msgstr ""
+"Valore %.3f fuori dai limiti, l' intervallo è da %.3f a %.3f, uso %.3f al "
+"suo posto"
 
 #: src/arch/amigaos/intl_text.c.po.c:2766
 msgid "The device on this port is not a gamepad"
@@ -9230,14 +9233,14 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:4846
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulazione joystick supplementare #1: (0: Nessuna, 1: Tastierino numerico, 2-"
-"5: Joy Amiga 0-3)"
+"Emulazione joystick supplementare #1: (0: Nessuna, 1: Tastierino numerico, "
+"2-5: Joy Amiga 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4857
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, 2-"
-"5: Joy Amiga 0-3)"
+"Emulazione joystick supplementare #2: (0: Nessuna, 1: Tastierino numerico, "
+"2-5: Joy Amiga 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4956
 msgid "V364 Speech file"
@@ -10954,23 +10957,16 @@ msgid "<model>"
 msgstr "<modello>"
 
 #: src/translate_text.c.po.c:3375
-#, fuzzy
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-msgstr ""
-"Imposta entrambi i modelli CIA (0 = 6526 vecchio, 1 = 6526A nuovo, 2 = 6526x "
-"vecchio)"
+msgstr "Imposta entrambi i modelli CIA (0 = 6526 vecchio, 1 = 6526A nuovo)"
 
 #: src/translate_text.c.po.c:3389
-#, fuzzy
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-msgstr ""
-"Imposta modello CIA 1 (0 = 6526 vecchio, 1 = 6526A nuovo, 2 = 6526x vecchio)"
+msgstr "Imposta modello CIA 1 (0 = 6526 vecchio, 1 = 6526A nuovo)"
 
 #: src/translate_text.c.po.c:3403
-#, fuzzy
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-msgstr ""
-"Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 6526A nuovo, 2 = 6526x vecchio)"
+msgstr "Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 6526A nuovo)"
 
 #: src/translate_text.c.po.c:3417
 msgid "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
@@ -11008,19 +11004,16 @@ msgid "Disable Hummer ADC"
 msgstr "Disattiva Hummer ADC"
 
 #: src/translate_text.c.po.c:3545
-#, fuzzy
 msgid "Enable IEEE488 interface"
-msgstr "Attiva interfaccia IEEE 488"
+msgstr "Attiva interfaccia IEEE488"
 
 #: src/translate_text.c.po.c:3559
-#, fuzzy
 msgid "Disable IEEE488 interface"
-msgstr "Disattiva interfaccia IEEE488 VIC-1112"
+msgstr "Disattiva interfaccia IEEE488"
 
 #: src/translate_text.c.po.c:3573
-#, fuzzy
 msgid "specify IEEE488 interface image name"
-msgstr "Immagine interfaccia IEEE 488"
+msgstr "specifica il nome immagine dell'interfaccia IEEE488"
 
 #: src/translate_text.c.po.c:3587
 msgid "Enable the GEORAM expansion unit"
@@ -11072,9 +11065,8 @@ msgid "Specify name of PET DWW image"
 msgstr "Specifica il nome immagine PET DWW"
 
 #: src/translate_text.c.po.c:3755
-#, fuzzy
 msgid "Enable the PET DWW hi-res board"
-msgstr "Disattiva la scheda hi-res PET DWW"
+msgstr "Attiva la scheda hi-res PET DWW"
 
 #: src/translate_text.c.po.c:3769
 msgid "Disable the PET DWW hi-res board"
@@ -12019,19 +12011,16 @@ msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Imposta la saturazione della palette calcolata internamente [1000]"
 
 #: src/translate_text.c.po.c:7023
-#, fuzzy
 msgid "Set contrast of internal calculated palette [1000]"
-msgstr "Imposta il constrasto della palette calcolata internamente [1100]"
+msgstr "Imposta il constrasto della palette calcolata internamente [1000]"
 
 #: src/translate_text.c.po.c:7037
-#, fuzzy
 msgid "Set brightness of internal calculated palette [1000]"
-msgstr "Imposta la luminanza della palette calcolata internamente [1100]"
+msgstr "Imposta la luminanza della palette calcolata internamente [1000]"
 
 #: src/translate_text.c.po.c:7051
-#, fuzzy
 msgid "Set gamma of internal calculated palette [2200]"
-msgstr "Imposta la gamma della palette calcolata internamente [900]"
+msgstr "Imposta la gamma della palette calcolata internamente [2200]"
 
 #: src/translate_text.c.po.c:7065
 msgid "Set tint of internal calculated palette [1000]"
@@ -12048,11 +12037,11 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7107
 msgid "Amount of horizontal blur for the CRT emulation. [500]"
-msgstr ""
+msgstr "Valore della sfuocatura orizzontale per l'emulazione CRT [500]"
 
 #: src/translate_text.c.po.c:7121
 msgid "Amount of scan line shading for the CRT emulation [667]"
-msgstr ""
+msgstr "Valore dell'ombreggiatura della scan line per l'emulazione CRT [667]"
 
 #: src/translate_text.c.po.c:7135
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
@@ -12310,6 +12299,8 @@ msgid ""
 "reSID filter bias setting, which can be used to adjust DAC bias in "
 "millivolts."
 msgstr ""
+"Impostazione del bias del filtro del reSID, che può essere usato per "
+"correggere il bias del DAC in millivolt."
 
 #: src/translate_text.c.po.c:7946
 msgid "reSID gain in percent (90 - 100)"
