@@ -443,7 +443,7 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
                     (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_LOCKED ? '<' : ' '),
                     0);
             l += 5;
-            i = l - tl;
+            i = (int)(l - tl);
 
             while (i < 31) {
                 *l++ = ' ';
@@ -483,6 +483,6 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
     *l++ = (char) 0;
     *l   = (char) 0;
 
-    return (l - origptr);
+    return (int)(l - origptr);
 }
 

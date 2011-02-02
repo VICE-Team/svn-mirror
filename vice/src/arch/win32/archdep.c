@@ -142,7 +142,7 @@ char *archdep_program_name(void)
             e = argv0 + strlen(argv0);
         }
 
-        len = e - s + 1;
+        len = (int)(e - s + 1);
         program_name = lib_malloc(len);
         memcpy(program_name, s, len - 1);
         program_name[len - 1] = 0;

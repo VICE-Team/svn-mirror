@@ -146,7 +146,7 @@ static int fsdevice_open_directory(vdrive_t *vdrive, unsigned int secondary,
     *p++ = ' ';
     *p++ = 0;
 
-    bufinfo[secondary].buflen = p - bufinfo[secondary].name;
+    bufinfo[secondary].buflen = (int)(p - bufinfo[secondary].name);
     bufinfo[secondary].bufp = bufinfo[secondary].name;
     bufinfo[secondary].mode = Directory;
     bufinfo[secondary].ioutil_dir = ioutil_dir;

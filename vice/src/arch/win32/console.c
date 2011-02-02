@@ -778,7 +778,7 @@ int console_out(console_t *log, const char *format, ...)
 
         /* output the printable parts */
         if (p - pBuffer > 0) {
-            console_out_printables_only(pcp, pBuffer, p - pBuffer);
+            console_out_printables_only(pcp, pBuffer, (int)(p - pBuffer));
         }
 
         /* now, process the exta char(s), if any */

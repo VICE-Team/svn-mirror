@@ -148,7 +148,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
             int l;
 
             s = strchr(path, ARCHDEP_FINDPATH_SEPARATOR_CHAR);
-            l = s ? (s - path) : (int)strlen(path);
+            l = s ? (int)(s - path) : (int)strlen(path);
 
             if (l + cl > maxpathlen - 5)
                 continue;

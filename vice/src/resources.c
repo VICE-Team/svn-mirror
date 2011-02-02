@@ -245,7 +245,7 @@ int resources_register_int(const resource_int_t *r)
 
         hashkey = resources_calc_hash_key(sp->name);
         dp->hash_next = hashTable[hashkey];
-        hashTable[hashkey] = (dp - resources);
+        hashTable[hashkey] = (int)(dp - resources);
 
         num_resources++, sp++, dp++;
     }
@@ -290,7 +290,7 @@ int resources_register_string(const resource_string_t *r)
 
         hashkey = resources_calc_hash_key(sp->name);
         dp->hash_next = hashTable[hashkey];
-        hashTable[hashkey] = (dp - resources);
+        hashTable[hashkey] = (int)(dp - resources);
 
         num_resources++, sp++, dp++;
     }
@@ -347,7 +347,7 @@ int resources_write_item_to_file(FILE *fp, const char *name)
     resource_ram_t *res = lookup(name);
 
     if (res != NULL) {
-        write_resource_item(fp, res - resources);
+        write_resource_item(fp, (int)(res - resources));
         return 0;
     }
     log_warning(LOG_DEFAULT, "Trying to save unknown resource '%s'", name);
@@ -360,7 +360,7 @@ char *resources_write_item_to_string(const char *name, const char *delim)
     resource_ram_t *res = lookup(name);
 
     if (res != NULL)
-        return string_resource_item(res - resources, delim);
+        return string_resource_item((int)(res - resources), delim);
 
     log_warning(LOG_DEFAULT, "Trying to save unknown resource '%s'", name);
 
@@ -947,7 +947,7 @@ int resources_read_item_from_file(FILE *f)
     if (!arg_ptr)
         return -1;
 
-    resname_len = arg_ptr - buf;
+    resname_len = (int)(arg_ptr - buf);
     arg_ptr++;
     arg_len = strlen(arg_ptr);
 

@@ -173,7 +173,7 @@ char * monitor_network_get_command_line(void)
 
             memmove(buffer, cr_end + 1, strlen(cr_end + 1) );
 
-            bufferpos -= (int) strlen(p) + (cr_end - cr_start) + 1;
+            bufferpos -= (int)(strlen(p) + (cr_end - cr_start) + 1);
             buffer[bufferpos] = 0;
             break;
         }
