@@ -124,7 +124,7 @@ static void end_autostart_dialog(HWND hwnd)
     resources_set_int("AutostartWarp", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_WARP) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartRunWithColon", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_USE_COLON_WITH_RUN) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("AutostartBasicLoad", (IsDlgButtonChecked(hwnd, IDC_AUTOSTART_LOAD_TO_BASIC) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("AutostartPrgMode", SendMessage(GetDlgItem(hwnd, IDC_AUTOSTART_PRG_MODE), CB_GETCURSEL, 0, 0));
+    resources_set_int("AutostartPrgMode", (int)SendMessage(GetDlgItem(hwnd, IDC_AUTOSTART_PRG_MODE), CB_GETCURSEL, 0, 0));
 
     GetDlgItemText(hwnd, IDC_AUTOSTART_DISK_IMAGE_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);

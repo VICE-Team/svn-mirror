@@ -161,7 +161,7 @@ static void end_expert_dialog(HWND hwnd)
 
     resources_set_int("ExpertCartridgeEnabled", (IsDlgButtonChecked(hwnd, IDC_EXPERT_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("ExpertImageWrite", (IsDlgButtonChecked(hwnd, IDC_EXPERT_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
-    resources_set_int("ExpertCartridgeMode", SendMessage(GetDlgItem(hwnd, IDC_GEORAM_SIZE), CB_GETCURSEL, 0, 0));
+    resources_set_int("ExpertCartridgeMode", (int)SendMessage(GetDlgItem(hwnd, IDC_EXPERT_MODE), CB_GETCURSEL, 0, 0));
 
     GetDlgItemText(hwnd, IDC_EXPERT_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);

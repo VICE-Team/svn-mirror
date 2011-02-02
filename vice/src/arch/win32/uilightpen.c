@@ -100,7 +100,7 @@ static void end_lightpen_dialog(HWND hwnd)
 {
     resources_set_int("Lightpen", (IsDlgButtonChecked(hwnd, IDC_LIGHTPEN_ENABLE) == BST_CHECKED ? 1 : 0 ));
 
-    resources_set_int("LightpenType", SendMessage(GetDlgItem(hwnd, IDC_LIGHTPEN_TYPE), CB_GETCURSEL, 0, 0));
+    resources_set_int("LightpenType", (int)SendMessage(GetDlgItem(hwnd, IDC_LIGHTPEN_TYPE), CB_GETCURSEL, 0, 0));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

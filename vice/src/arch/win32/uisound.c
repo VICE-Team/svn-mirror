@@ -219,7 +219,7 @@ static void end_sound_dialog(HWND hwnd)
 {
     resources_set_int("SoundSampleRate", ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
     resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
-    resources_set_int("SoundFragmentSize", SendMessage(GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE), CB_GETCURSEL, 0, 0));
+    resources_set_int("SoundFragmentSize", (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE), CB_GETCURSEL, 0, 0));
     resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }
 
