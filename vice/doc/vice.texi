@@ -3957,7 +3957,8 @@ command.
 The imaginary expansion port expander is organized in 4 slots, the
 cartridges are associated with them like this:
 
-@b{"Slot 0"}
+@c @node FIXME
+@subsubsection Slot 0
 
 All carts that have a passthrough connector go here. Once a "Slot 0"
 cartridge is enabled all further cartridges are connected to its respective
@@ -3978,7 +3979,8 @@ Magic Voice
 MMC64
 @end itemize
 
-@b{"Slot 1"}
+@c @node FIXME
+@subsubsection Slot 1
 
 Mostly RAM based cartridges which for one reason or the other might make sense
 to be enabled together with one of the "Main Slot" cartridges go here.
@@ -4000,7 +4002,8 @@ ISEPIC
 RamCart
 @end itemize
 
-@b{"Main Slot"}
+@c @node FIXME
+@subsubsection Main Slot
 
 All other cartridges which are not pure i/o extensions go here.
 
@@ -4109,7 +4112,8 @@ Westermann Learning
 Zaxxon
 @end itemize
 
-@b{"I/O Slot"}
+@c @node FIXME
+@subsubsection I/O Slot
 
 All carts that are pure I/O extensions go here.
 
@@ -4136,6 +4140,63 @@ RAM Expansion Module (REU)
 SFX Sound Expander
 @item
 SFX Sound Sampler
+@end itemize
+
+@c @node FIXME
+@subsubsection Expected behaviour
+
+When the emulator is run without arguments, all settings from the config file
+should be applied and arguments override settings from the config file.
+
+When saving the settings to the config file it is expected that on the next run
+of the emulator all settings will be in the same state as they were when saved.
+
+There is an exception to this rule: the cartridge in the "Main Slot" must be
+explicitly set as default before it gets saved to the config file.
+
+@code{+cart} should disable ALL cartridges, including eventually activated REU,
+Swithlink and all similar expansionport devices.
+
+@code{-cartXYZ} options should generally attach AND activate a cart of type XYZ.
+As a consequence, attaching carts this way which are NOT in the "Main Slot" will
+also enable the cart permanently. 
+
+@c @node FIXME
+@subsubsection Common problems
+
+If attaching a cartridge does not work as expected, this may be because of various
+reasons:
+
+@itemize
+
+@item Not seldomly the CRT type is incorrectly set in @code{.crt} files found "in the wild".
+Make sure this is not the case (if in doubt use @code{cartconv} to verify and/or fix).
+
+@item You may have unintentionally enabled more than one cartridge at once, for
+example by saving the settings with REU enabled, and then later attaching a game
+cartridge from the command-line. The cartridge system will allow certain combinations,
+but (as on the real thing) not all do (can) actually work. To make sure this is
+not the case, either detach all cartridges from the menus, or use @code{+cart}
+on the command-line.
+
+@item The cartridge image might be broken. Try one from a different source. If you
+are sure the dump is ok (for example because you dumped it yourself) then make sure
+it is in proper linear order (on some cartridges, for example "capture", address and/or
+data lines at the eprom are shuffled around so a dump made with an eprom burner can not
+be used as is).
+
+@item Last not least you might have encountered a bug in the emulation. If you
+suspect this is the case, and you can still reproduce the bug after checking the
+things above, please file a bug report including the following information:
+
+@itemize
+@item attach your vicerc and a reference to the cartridge binaries
+@item if you can, comment in the respective DEBUGXYZ macros prominently defined at the
+top of these files: src/c64/cart/c64cart.c src/c64/cart/c64cartmem.c src/c64/c64io.c
+src/c64/c64export.c and then recompile. this will add debug output that might make
+it much easier to locate certain problems.
+@end itemize
+
 @end itemize
 
 @c @node FIXME
@@ -4625,13 +4686,13 @@ Attach raw 16kB Zaxxon cartridge image
 
 @cindex -ciamodel
 @item -ciamodel <model>
-Set both CIA models (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+Set both CIA models (0 = old 6526, 1 = new 6526A)
 @cindex -cia1model
 @item -cia1model <model>
-Set CIA 1 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+Set CIA 1 model (0 = old 6526, 1 = new 6526A)
 @cindex -cia2model
 @item -cia2model <model>
-Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+Set CIA 2 model (0 = old 6526, 1 = new 6526A)
 
 @end table
 
