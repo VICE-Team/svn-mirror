@@ -1668,7 +1668,7 @@ BYTE *ultimax_romh_phi1_ptr(WORD addr)
     int res;
     /* DBG(("phi1 addr %04x\n", addr)); */
     n = addr & 0x0fff;
-    res = ultimax_romh_phi1_read(0x1000 + n, &mem_phi1[n]);
+    res = ultimax_romh_phi1_read((WORD)(0x1000 + n), &mem_phi1[n]);
     if (mem_phi1_ptr[n] != (res ? &mem_phi1[n] : NULL)) {
         mem_phi1_valid = 0;
     }
@@ -1676,7 +1676,7 @@ BYTE *ultimax_romh_phi1_ptr(WORD addr)
     if (!mem_phi1_valid) {
         n = 0;
         while (n < 0x1000) {
-            if (ultimax_romh_phi1_read(0x1000 + n, &mem_phi1[n]) == 0) {
+            if (ultimax_romh_phi1_read((WORD)(0x1000 + n), &mem_phi1[n]) == 0) {
                 mem_phi1_ptr[n] = NULL;
             } else {
                 mem_phi1_ptr[n] = &mem_phi1[n];
@@ -1695,7 +1695,7 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
     int res;
     /* DBG(("phi2 addr %04x\n", addr)); */
     n = addr & 0x0fff;
-    res = ultimax_romh_phi2_read(0x1000 + n, &mem_phi2[n]);
+    res = ultimax_romh_phi2_read((WORD)(0x1000 + n), &mem_phi2[n]);
     if (mem_phi2_ptr[n] != (res ? &mem_phi2[n] : NULL)) {
         mem_phi2_valid = 0;
     }
@@ -1703,7 +1703,7 @@ BYTE *ultimax_romh_phi2_ptr(WORD addr)
     if (!mem_phi2_valid) {
         n = 0;
         while (n < 0x1000) {
-            if (ultimax_romh_phi2_read(0x1000 + n, &mem_phi2[n]) == 0) {
+            if (ultimax_romh_phi2_read((WORD)(0x1000 + n), &mem_phi2[n]) == 0) {
                 mem_phi2_ptr[n] = NULL;
             } else {
                 mem_phi2_ptr[n] = &mem_phi2[n];

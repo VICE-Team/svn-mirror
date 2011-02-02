@@ -498,7 +498,7 @@ void mmc64_config_init(struct export_s *export)
     if (mmc64_enabled) {
 #if USEPASSTHROUGHHACK
         mmc64_io2_device.io_source_prio = 1;
-        cart_config_changed_slot0((0 << 1) | mmc64_extgame, (0 << 1) | mmc64_extgame, CMODE_READ);
+        cart_config_changed_slot0((BYTE)((0 << 1) | mmc64_extgame), (BYTE)((0 << 1) | mmc64_extgame), CMODE_READ);
 #else
         cart_config_changed_slot0(0, 0, CMODE_READ);
 #endif
@@ -517,7 +517,7 @@ void mmc64_passthrough_changed(struct export_s *export)
         cart_port_config_changed_slot0();
     } else {
         /* MMC64 is completely disabled */
-        cart_config_changed_slot0(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, ((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, CMODE_READ);
+        cart_config_changed_slot0((BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), (BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), CMODE_READ);
     }
 }
 
@@ -595,7 +595,7 @@ static void mmc64_reg_store(WORD addr, BYTE value,int active)
                 if (mmc64_active) {
                     /* cart_set_port_exrom_slot0(0); */
                     log_message(mmc64_log,"disabling MMC64 (exrom:%d game:%d) mmc64_active: %d", mmc64_extexrom, mmc64_extgame, mmc64_active);
-                    cart_config_changed_slot0(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, ((mmc64_extexrom ^ 1) << 1) | mmc64_extgame, CMODE_READ);
+                    cart_config_changed_slot0((BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), (BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), CMODE_READ);
                     mmc64_io2_device.io_source_prio = 0;
                 } else {
                     /* this controls the mapping of the MMC64 bios */

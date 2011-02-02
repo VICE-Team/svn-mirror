@@ -294,7 +294,7 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
     rom_enabled = ((byte & 0x10) ? 1 : 0); /* bit 4, 1 = active */
     /* passthrough support */
     DBG(("TPI store_pc %02x (rom enabled: %d exrom: %d game: %d)\n", byte, rom_enabled, exrom ^ 1, tpi_extgame));
-    cart_config_changed_slot0((BYTE)(exrom << 1) | tpi_extgame, (BYTE)(exrom << 1) | tpi_extgame, CMODE_READ);
+    cart_config_changed_slot0((BYTE)((exrom << 1) | tpi_extgame), (BYTE)((exrom << 1) | tpi_extgame), CMODE_READ);
 }
 
 static void undump_pc(tpi_context_t *tpi_context, BYTE byte)

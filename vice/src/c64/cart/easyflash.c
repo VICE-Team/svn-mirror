@@ -109,7 +109,7 @@ static void easyflash_io1_store(WORD addr, BYTE value)
     switch (addr & 2) {
         case 0:
             /* bank register */
-            easyflash_register_00 = value & EASYFLASH_BANK_MASK;
+            easyflash_register_00 = (BYTE)(value & EASYFLASH_BANK_MASK);
             break;
         default:
             /* mode register */
