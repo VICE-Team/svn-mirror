@@ -461,9 +461,11 @@ protected:
   } model_filter_t;
 
   int solve_gain(int n, int vi_t, int& x, model_filter_t& mf);
-  int solve_integrate(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
+  int solve_integrate_6581(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
 
-  static int sqrt_table[1 << 16];
+  // VCR - 6581 only.
+  static int vcr_Vg[1 << 16];
+  // Common parameters.
   static model_filter_t model_filter[2];
 
 friend class SID;
@@ -570,8 +572,8 @@ void Filter::clock(int voice1, int voice2, int voice3)
   // Calculate filter outputs.
   if (sid_model == 0) {
     // MOS 6581.
-    Vlp = solve_integrate(1, Vbp, Vlp_x, Vlp_vc, f);
-    Vbp = solve_integrate(1, Vhp, Vbp_x, Vbp_vc, f);
+    Vlp = solve_integrate_6581(1, Vbp, Vlp_x, Vlp_vc, f);
+    Vbp = solve_integrate_6581(1, Vhp, Vbp_x, Vbp_vc, f);
     Vhp = f.summer[offset + f.gain[_8_div_Q][Vbp >> 3] + ((Vlp + Vi) >> 3)] << 3;
   }
   else {
@@ -692,8 +694,8 @@ void Filter::clock(cycle_count delta_t, int voice1, int voice2, int voice3)
       }
 
       // Calculate filter outputs.
-      Vlp = solve_integrate(delta_t_flt, Vbp, Vlp_x, Vlp_vc, f);
-      Vbp = solve_integrate(delta_t_flt, Vhp, Vbp_x, Vbp_vc, f);
+      Vlp = solve_integrate_6581(delta_t_flt, Vbp, Vlp_x, Vlp_vc, f);
+      Vbp = solve_integrate_6581(delta_t_flt, Vhp, Vbp_x, Vbp_vc, f);
       Vhp = f.summer[offset + f.gain[_8_div_Q][Vbp >> 3] + ((Vlp + Vi) >> 3)] << 3;
 
       delta_t -= delta_t_flt;
@@ -1425,8 +1427,8 @@ Using the formula for current through a capacitor, i = C*dv/dt, we get
 
 */
 RESID_INLINE
-int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
-			    model_filter_t& mf)
+int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
+				 model_filter_t& mf)
 {
   // Translate normalized vi.
   int vi = vi_n + mf.vo_T19; // Scaled by m*2^19
@@ -1437,9 +1439,7 @@ int Filter::solve_integrate(int dt, int vi_n, int& x, int& vc,
 
   // VCR gate voltage.
   // Vg = Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
-  // Vth could be included in the table lookup by using different tables
-  // for the 6581 and the 8580.
-  int Vg = Vddt - sqrt_table[(Vw_term + (vi >> 4)*(((vi >> 1) - Vddt) >> 4)) >> 14];
+  int Vg = vcr_Vg[(Vw_term + (vi >> 4)*(((vi >> 1) - Vddt) >> 4)) >> 14];
   int Vgt = Vg - mf.Vth;     // Scaled by m*2^19
 
   // Determine the direction of the current flowing through the VCR and

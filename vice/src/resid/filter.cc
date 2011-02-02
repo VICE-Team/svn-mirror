@@ -153,7 +153,7 @@ static model_filter_init_t model_filter_init[2] = {
   }
 };
 
-int Filter::sqrt_table[1 << 16];
+int Filter::vcr_Vg[1 << 16];
 
 Filter::model_filter_t Filter::model_filter[2];
 
@@ -166,10 +166,6 @@ Filter::Filter()
   static bool class_init;
 
   if (!class_init) {
-    for (int i = 0; i < (1 << 16); i++) {
-      sqrt_table[i] = (int)(sqrtf((float)i*(1 << 22)) + 0.5f);
-    }
-
     for (int m = 0; m < 2; m++) {
       model_filter_init_t& fi = model_filter_init[m];
       model_filter_t& mf = model_filter[m];
@@ -324,6 +320,12 @@ Filter::Filter()
       for (int n = 0; n < (1 << bits); n++) {
 	mf.f0_dac[n] = (unsigned int)(N19*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5);
       }
+    }
+
+    // VCR - 6581 only.
+    int Vddt = model_filter[0].Vddt;
+    for (int i = 0; i < (1 << 16); i++) {
+      vcr_Vg[i] = Vddt - (int)(sqrtf((float)i*(1 << 22)) + 0.5f);
     }
 
     class_init = true;
