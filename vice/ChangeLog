@@ -1,5 +1,460 @@
 ------------------------------------------------------------------------------
 
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc: Fix for ppc-beos.
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/filter.cc: Changed the logf and expf replacement
+	functions to defines.
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid/filter.h: Changed the sqrtf replacement function into a
+	define.
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ppc-cc.sh: Refined to use a.out as output file and not
+	produce a.out if -c was given.
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid-fp/configure.in: Only change CXX_FLAGS when compiling
+	with g++.
+
+2011-02-01  pottendo <pottendo@aon.at>
+
+	* po/fr.po: Merge from Paul.
+
+2011-02-01  pottendo <pottendo@aon.at>
+
+	* po/it.po: Updated by Andrea.
+
+2011-02-01  groepaz <groepaz@gmx.net>
+
+	* doc/CIA-README.txt, doc/Makefile.am: added documentation of CIA
+	internals (by Andre Fachat)
+
+2011-02-01  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/checkdoc.c, doc/checkdoc.mak,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: added remaining missing
+	command line options (all done). fixed all outdated resources.
+	updated howto
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/beos/ppc-build-sdl.sh, build/beos/ppc-build.sh,
+	src/arch/beos/Makefile.am, src/arch/beos/ppc-cc.sh: Added a compiler
+	wrapper script for the ppc-beos compiler (mwccppc), because newer
+	autotools generate a configure script that doesn't use -o any more for
+	checking for standard compiler output.
+
+2011-01-31  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-01-31  groepaz <groepaz@gmx.net>
+
+	* src/vdc/vdc-cmdline-options.c: fix typo
+
+2011-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	po/sv.po, po/tr.po, src/crtc/crtc-cmdline-options.c,
+	src/plus4/ted-cmdline-options.c, src/translate.txt,
+	src/translate_text.c, src/vdc/vdc-cmdline-options.c,
+	src/vic20/vic-cmdline-options.c, src/vicii/vicii-cmdline-options.c,
+	src/viciisc/vicii-cmdline-options.c: Prepared po files for distribution
+	to the translators for the upcoming 2.3 release.
+
+2011-01-31  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-cmdline-options.c, src/plus4/ted-cmdline-options.c,
+	src/translate_text.c, src/vdc/vdc-cmdline-options.c,
+	src/vic20/vic-cmdline-options.c, src/vicii/vicii-cmdline-options.c,
+	src/viciisc/vicii-cmdline-options.c: added missing command-line options
+	for crt emulation, fixed ranges in help messages
+
+2011-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/plus4ui.cc, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc, src/arch/beos/vicewindow.cc: Fixed some beos
+	issues.
+
+2011-01-30  Dag Lem <resid@nimrod.no>
+
+	* src/arch/unix/gui/uirenderer.c: Ensure that tick is displayed for
+	'VIC-II settings/Renderer' in the Xaw port
+
+2011-01-30  Dag Lem <resid@nimrod.no>
+
+	* src/gfxoutputdrv/bmpdrv.c: Hopefully fixed BMP row padding for the
+	'memmap feature'
+
+2011-01-30  Dag Lem <resid@nimrod.no>
+
+	* src/gfxoutputdrv/bmpdrv.c: Added BMP row padding, simplified code
+
+2011-01-30  Dag Lem <resid@nimrod.no>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Fix for fontSet specification which
+	prevented startup ('Missing charsets in String to FontSet conversion')
+
+2011-01-29  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-cmdline-options.c, src/vic20/vic-cmdline-options.c:
+	added missing cmdline options for crt emulation
+
+2011-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/resid/configure.in: Added a test to the configure
+	script for testing if the compiler supports -march=...
+
+2011-01-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/mach5.c, src/cartconv.c: support 4k mach5 images
+
+2011-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/ui_video.cc, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added 'crt emulation' to the beos ui, and
+	added 'save to ... image when changed' items as well.
+
+2011-01-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/easyflash.c: some code cleanup (patch by skoe)
+
+2011-01-29  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cart.c: resolve cart image (relative) path when
+	attaching
+
+2011-01-29  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/main.c: Corrected a mistake in the team member list.
+
+2011-01-29  Dag Lem <resid@nimrod.no>
+
+	* src/core/ciacore.c, src/c64/cart/c64tpi.c, src/c64/cart/reu.c,
+	src/c64/cart/dqbb.c, src/c64/cart/dqbb.h, src/c64/cart/expert.c,
+	src/c64/cart/expert.h, src/c64/cart/isepic.c, src/c64/cart/isepic.h,
+	src/c64/cart/ramcart.c, src/c64/cart/ramcart.h, src/c64/cart/mmc64.c,
+	src/plus4/plus4mem.c, src/cbm2/cbm2cia.h, src/cbm2/cbm2cia1.c,
+	src/c64/cart/c64cartmem.c, src/c64/cart/generic.c,
+	src/c64/cart/retroreplay.c, src/c64/c64sound.c,
+	src/c64/cart/atomicpower.c, src/c64/cart/freezemachine.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/supersnapshot4.c,
+	src/c64/cart/mach5.c, src/c64/cart/easyflash.c, INSTALL,
+	build/macosx/build-vice-dist.sh, src/aciacore.c,
+	src/arch/amigaos/types.h, src/arch/beos/types.h, src/arch/msdos/types.h,
+	src/arch/os2/types.h, src/arch/riscos/types.h, src/arch/sdl/types.h,
+	src/arch/unix/types.h, src/arch/win32/types.h, src/c128/c128.c,
+	src/c128/c128cia1.c, src/c128/c128mem.c, src/c128/c128mem.h,
+	src/c128/c128memrom.c, src/c128/c128memrom.h, src/c128/c128mmu.c,
+	src/c128/c128mmu.h, src/c128/functionrom.c, src/c128/functionrom.h,
+	src/c128/z80mem.c, src/c128/z80mem.h, src/c64/c64_256k.c,
+	src/c64/c64_256k.h, src/c64/c64cia.h, src/c64/c64cia1.c,
+	src/c64/c64cia2.c, src/c64/c64io.c, src/c64/c64io.h, src/c64/c64mem.c,
+	src/c64/c64mem.h, src/c64/c64memrom.c, src/c64/c64memrom.h,
+	src/c64/c64memsc.c, src/c64/cart/actionreplay.c,
+	src/c64/cart/actionreplay.h, src/c64/cart/actionreplay2.c,
+	src/c64/cart/actionreplay2.h, src/c64/cart/actionreplay3.c,
+	src/c64/cart/actionreplay3.h, src/c64/cart/actionreplay4.c,
+	src/c64/cart/actionreplay4.h, src/c64/cart/atomicpower.h,
+	src/c64/cart/c64-midi.c, src/c64/cart/c64-midi.h, src/c64/cart/c64acia.h,
+	src/c64/cart/c64acia1.c, src/c64/cart/c64cartmem.h,
+	src/c64/cart/capture.c, src/c64/cart/capture.h, src/c64/cart/comal80.c,
+	src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	src/c64/cart/delaep7x8.c, src/c64/cart/diashowmaker.c,
+	src/c64/cart/digimax.c, src/c64/cart/dinamic.c, src/c64/cart/easyflash.h,
+	src/c64/cart/epyxfastload.c, src/c64/cart/epyxfastload.h,
+	src/c64/cart/exos.c, src/c64/cart/exos.h, src/c64/cart/final.c,
+	src/c64/cart/final.h, src/c64/cart/final3.c, src/c64/cart/final3.h,
+	src/c64/cart/finalplus.c, src/c64/cart/finalplus.h,
+	src/c64/cart/freezeframe.c, src/c64/cart/freezemachine.h,
+	src/c64/cart/funplay.c, src/c64/cart/gamekiller.c,
+	src/c64/cart/generic.h, src/c64/cart/georam.c, src/c64/cart/gs.c,
+	src/c64/cart/ide64.c, src/c64/cart/ide64.h, src/c64/cart/kcs.c,
+	src/c64/cart/magicdesk.c, src/c64/cart/magicformel.c,
+	src/c64/cart/magicformel.h, src/c64/cart/mikroass.c,
+	src/c64/cart/mmc64.h, src/c64/cart/mmcreplay.c, src/c64/cart/mmcreplay.h,
+	src/c64/cart/ocean.c, src/c64/cart/ocean.h, src/c64/cart/prophet64.c,
+	src/c64/cart/retroreplay.h, src/c64/cart/rexep256.c,
+	src/c64/cart/rexutility.c, src/c64/cart/ross.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/simonsbasic.c, src/c64/cart/snapshot64.c,
+	src/c64/cart/snapshot64.h, src/c64/cart/stardos.c,
+	src/c64/cart/stardos.h, src/c64/cart/stb.c, src/c64/cart/superexplode5.c,
+	src/c64/cart/superexplode5.h, src/c64/cart/supergames.c,
+	src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot.h,
+	src/c64/cart/supersnapshot4.h, src/c64/cart/tfe.c,
+	src/c64/cart/warpspeed.c, src/c64/cart/westermann.c,
+	src/c64/cart/zaxxon.c, src/c64/cart/zaxxon.h, src/c64/plus256k.c,
+	src/c64/plus256k.h, src/c64/plus60k.c, src/c64/plus60k.h,
+	src/c64dtv/c64dtvblitter.c, src/c64dtv/c64dtvblitter.h,
+	src/c64dtv/c64dtvcia1.c, src/c64dtv/c64dtvcia2.c, src/c64dtv/c64dtvdma.c,
+	src/c64dtv/c64dtvdma.h, src/c64dtv/c64dtvmem.c, src/c64dtv/c64dtvmem.h,
+	src/c64dtv/c64dtvmemrom.c, src/cbm2/cbm2acia.h, src/cbm2/cbm2mem.c,
+	src/cbm2/cbm2mem.h, src/cbm2/cbm2tpi.h, src/cbm2/cbm2tpi1.c,
+	src/cbm2/cbm2tpi2.c, src/cia.h, src/core/cs8900.c, src/core/cs8900.h,
+	src/core/flash040core.c, src/core/riotcore.c, src/core/t6721.c,
+	src/core/t6721.h, src/core/tpicore.c, src/core/viacore.c,
+	src/crtc/crtc-mem.c, src/crtc/crtc-mem.h, src/drive/drivemem.c,
+	src/drive/drivemem.h, src/drive/drivetypes.h,
+	src/drive/iec/c64exp/mc6821.c, src/drive/iec/c64exp/profdos.c,
+	src/drive/iec/cia1571d.c, src/drive/iec/cia1581d.c, src/drive/iec/ciad.h,
+	src/drive/iec/memiec.c, src/drive/iec/via1d1541.c,
+	src/drive/iec/via1d1541.h, src/drive/iec/wd1770.c,
+	src/drive/iec/wd1770.h, src/drive/iecieee/via2d.c,
+	src/drive/ieee/memieee.c, src/drive/ieee/riot1d.c,
+	src/drive/ieee/riot2d.c, src/drive/ieee/riotd.h,
+	src/drive/ieee/via1d2031.c, src/drive/ieee/via1d2031.h,
+	src/drive/tcbm/mem1551.c, src/drive/tcbm/tpid.c, src/drive/tcbm/tpid.h,
+	src/drive/viad.h, src/flash040.h, src/mainc64cpu.c, src/maincpu.c,
+	src/mainviccpu.c, src/mem.h, src/midi.c, src/midi.h, src/pet/petacia.h,
+	src/pet/petdww.c, src/pet/petdww.h, src/pet/petmem.c, src/pet/petpia.h,
+	src/pet/petreu.c, src/pet/petreu.h, src/pet/petvia.c, src/pet/petvia.h,
+	src/piacore.c, src/plus4/digiblaster.c, src/plus4/digiblaster.h,
+	src/plus4/plus4acia.h, src/plus4/plus4memcsory256k.c,
+	src/plus4/plus4memcsory256k.h, src/plus4/plus4memhannes256k.c,
+	src/plus4/plus4memhannes256k.h, src/plus4/plus4memrom.c,
+	src/plus4/plus4memrom.h, src/plus4/plus4pio1.c, src/plus4/plus4pio1.h,
+	src/plus4/plus4pio2.c, src/plus4/plus4pio2.h, src/plus4/plus4speech.c,
+	src/plus4/plus4speech.h, src/plus4/plus4tcbm.c, src/plus4/plus4tcbm.h,
+	src/plus4/sidcartjoy.c, src/plus4/sidcartjoy.h, src/plus4/ted-mem.c,
+	src/plus4/ted-mem.h, src/plus4/ted-sound.c, src/plus4/ted-sound.h,
+	src/plus4/ted-timer.c, src/plus4/ted-timer.h, src/riot.h, src/sid/sid.c,
+	src/sid/sid.h, src/tpi.h, src/vdc/vdc-mem.c, src/vdc/vdc-mem.h,
+	src/via.h, src/vic20/cart/finalexpansion.c,
+	src/vic20/cart/finalexpansion.h, src/vic20/cart/generic.c,
+	src/vic20/cart/generic.h, src/vic20/cart/megacart.c,
+	src/vic20/cart/megacart.h, src/vic20/cart/vic-fp.c,
+	src/vic20/cart/vic-fp.h, src/vic20/cart/vic20cartmem.c,
+	src/vic20/cart/vic20cartmem.h, src/vic20/vic-mem.c, src/vic20/vic-mem.h,
+	src/vic20/vic20ieeevia.h, src/vic20/vic20ieeevia1.c,
+	src/vic20/vic20ieeevia2.c, src/vic20/vic20mem.c, src/vic20/vic20mem.h,
+	src/vic20/vic20memrom.c, src/vic20/vic20memrom.h, src/vic20/vic20via.h,
+	src/vic20/vic20via1.c, src/vic20/vic20via2.c, src/vicii/vicii-mem.c,
+	src/vicii/vicii-mem.h, src/viciisc/vicii-mem.c, src/viciisc/vicii-mem.h,
+	vice-mint.spec.in, vice.spec.in: Removed pre-historic gcc-only
+	REGPARM cruft
+
+2011-01-29  Dag Lem <resid@nimrod.no>
+
+	* configure.in, acinclude.m4: gcc -march=native used by default in reSID
+	(all ports) and in VICE proper (Unix/Linux). Specify --disable-arch for
+	default gcc behavior, and e.g. --enable-arch=pentium3 to build a binary
+	for distribuition.
+
+2011-01-29  Dag Lem <resid@nimrod.no>
+
+	* src/monitor/Makefile.am: Replaced YFLAGS with AM_YFLAGS
+
+2011-01-29  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/vice.texi, src/info.c, src/main.c, README: Updates to reflect the
+	current member status consistently.
+
+2011-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc, src/arch/beos/ui.h,
+	src/arch/beos/vicewindow.cc, src/arch/beos/vicewindow.h: Added printer
+	support to the beos ui.
+
+2011-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/vicemenu.cc: Added VICE_MACHINE_C64SC references to the
+	beos ui so that the needed x64 menu items will also be used for x64sc.
+
+2011-01-28  Dag Lem <resid@nimrod.no>
+
+	* doc/html/plain/NEWS: Elaboration of changes in reSID
+
+2011-01-28  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/core/ciacore.c, src/cia.h: Another attempt to fix the CIA
+	interrupts.
+
+2011-01-28  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/vicemenu.cc,
+	src/arch/beos/Makefile.am, src/arch/beos/ui_ide64.cc,
+	src/arch/beos/ui_ide64.h: Added ide64 support to the beos ui.
+
+2011-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui_file.cc, src/arch/beos/vicemenu.cc: Changed user
+	visible cart strings in the beos ui.
+
+2011-01-28  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/vice.texi, src/info.c, doc/html/index.html,
+	src/arch/amigaos/mui/mui.c, src/arch/msdos/menudefs.c,
+	src/arch/beos/ui.cc, src/main.c, README, src/arch/sdl/menu_help.c,
+	src/arch/unix/x11/gnome/about.c, src/arch/unix/x11/xaw/about.c: Hop to
+	the former side of the member fence
+
+2011-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc: Removed emuid from the beos ui.
+
+2011-01-28  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* doc/html/plain/NEWS: Some updates
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vicemenu.cc: Added 'vic flash plugin write back' support
+	to the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc: Added 'load to basic start' support to the
+	beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/vicemenu.cc,
+	src/arch/beos/plus4ui.cc: Added v364 speech support to the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc: Added magic voice support to the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/ui_file.cc, src/arch/beos/ui_file.h,
+	src/arch/beos/vicemenu.cc: Added mmc replay support to the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc: Added mmc64 card type item to the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui_file.cc,
+	src/arch/beos/vicemenu.cc, src/arch/beos/petui.cc: Added pet dww support
+	to the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc: Added c64 model selection to the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h: Changed some beos ui constants
+	(were doubles previously).
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/platform_cpu_type.h: Added
+	c64scui_init() for the beos ui.
+
+2011-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/pngdrv.c: Support pre-1.0.6 libpng again.
+
+2011-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added a missing 'test' command to the configure script.
+
+2011-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/resc64.rc,
+	src/arch/amigaos/intl.txt, src/arch/win32/resstrings.txt,
+	src/arch/msdos/uic64model.c, src/arch/win32/uic64.c: Removed '6526x'
+	from the amiga, dos and win32 ui.
+
+2011-01-26  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt: WIP guidelines/howto
+
+2011-01-26  groepaz <groepaz@gmx.net>
+
+	* doc/checkdoc.c, doc/checkdoc.mak: lousy WIP tool to check vice.texi
+	for missing resources and options
+
+2011-01-26  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/psiddrv.a65, src/c64/psiddrv.h: Some tunes appear to clear
+	he I flag during their init routine. These songs could launch the
+	playing IRQ before the CPU port iomap value is set up. To handle this
+	issue, iomap is adjusted before the tune's init vector is called.
+
+2011-01-26  groepaz <groepaz@gmx.net>
+
+	* doc, doc/vice.pdf, doc/vice.txt, doc/vice.texi: lots more command
+	line options added (30 to go...)
+
+2011-01-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/sid/sid.c, src/sid/sid.h:
+	Implement basic sid_peek
+
+2011-01-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/arch/sdl/menu_sid.c, src/arch/sdl/uimenu.c: SDL UI: add reSID
+	filter bias slider, fix slider for resources with negative values
+
+2011-01-26  Antti S. Lankila <alankila@bel.fi>
+
+	* src/translate_text.c, src/resid/filter.cc, src/resid/filter.h,
+	src/resid/sid.h, src/translate.txt, src/resid/sid.cc,
+	src/resid-dtv/sid.cc, src/resid-dtv/sid.h, src/sid/resid.cc,
+	src/sid/sid-cmdline-options.c, src/sid/sid-resources.c: Support new
+	resource, SidResidFilterBias, to adjust filter curve position. The bias
+	is given in millivolts, and a maximum reasonable control range is
+	approximately -500 to 500.
+
+2011-01-26  Hannu Nuotio <hannu.nuotio@tut.fi>
+
+	* src/translate_text.c, src/core/ciacore.c, src/arch/unix/gui/c64scui.c,
+	src/arch/msdos/uic64model.c, src/cia.h, src/arch/win32/uic64.c,
+	src/arch/amigaos/mui/uic64model.c, src/arch/sdl/menu_c64model.c,
+	src/arch/unix/gui/c64ui.c, src/c64/c64-resources.c, src/c64/c64model.c,
+	src/c64/c64scmodel.c: Replace CIA model 6526 with 6526x.
+
+2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc, configure.in, doc/vice.chm, doc/vice.hlp, doc/vice.pdf, po/de.po,
+	po/tr.po, po/nl.po, po/da.po, po/fr.po, po/hu.po, po/it.po, po/pl.po,
+	po/sv.po, src/arch/amigaos/genintl_h.sh, src/debug.h,
+	src/gentranslate_h.sh, ChangeLog, src/arch/win32/vice-version.bat,
+	src/version.h: Version 2.2.11
+
 2011-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/Makefile.am, doc/texi2chm.sh, doc/texi2guide.sh, doc/vice.chm,
