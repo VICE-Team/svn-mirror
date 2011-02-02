@@ -27,15 +27,17 @@
 #ifndef VICE_BQ4830Y_H
 #define VICE_BQ4830Y_H
 
+#include <time.h>
+
 #include "types.h"
 
 typedef struct rtc_bq4830y_s {
     int clock_halt;
-    int clock_halt_latch;
+    time_t clock_halt_latch;
     int read_latch;
     int write_latch;
-    int latch;
-    int *offset;
+    time_t latch;
+    time_t *offset;
     BYTE clock_regs[8];
     BYTE clock_regs_changed[8];
     BYTE *ram;
@@ -59,7 +61,7 @@ typedef struct rtc_bq4830y_s {
 #define CLOCK_WRITE_LATCH        6
 #define CLOCK_READ_WRITE_LATCH   7
 
-extern rtc_bq4830y_t *bq4830y_init(BYTE *ram, int *offset);
+extern rtc_bq4830y_t *bq4830y_init(BYTE *ram, time_t *offset);
 extern void bq4830y_destroy(rtc_bq4830y_t *context);
 
 extern void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val);

@@ -27,15 +27,17 @@
 #ifndef VICE_DS1302_H
 #define VICE_DS1302_H
 
+#include <time.h>
+
 #include "types.h"
 
 typedef struct rtc_ds1302_s {
     int clock_halt;
-    int clock_halt_latch;
+    time_t clock_halt_latch;
     int am_pm;
     int write_protect;
-    int latch;
-    int *offset;
+    time_t latch;
+    time_t *offset;
     BYTE clock_regs[8];
     BYTE trickle_charge;
     BYTE *ram;
@@ -68,7 +70,7 @@ typedef struct rtc_ds1302_s {
 
 
 extern void ds1302_reset(rtc_ds1302_t *context);
-extern rtc_ds1302_t *ds1302_init(BYTE *data, int *offset);
+extern rtc_ds1302_t *ds1302_init(BYTE *data, time_t *offset);
 extern void ds1302_destroy(rtc_ds1302_t *context);
 
 extern void ds1302_set_lines(rtc_ds1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit);

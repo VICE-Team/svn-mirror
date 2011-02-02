@@ -99,7 +99,7 @@ void ds1302_reset(rtc_ds1302_t *context)
     context->io_byte = 0;
 }
 
-rtc_ds1302_t *ds1302_init(BYTE *data, int *offset)
+rtc_ds1302_t *ds1302_init(BYTE *data, time_t *offset)
 {
     rtc_ds1302_t *retval = lib_malloc(sizeof(rtc_ds1302_t));
 
@@ -116,7 +116,7 @@ void ds1302_destroy(rtc_ds1302_t *context)
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, int offset, int latched)
+static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, time_t offset, int latched)
 {
     BYTE retval;
 
@@ -201,7 +201,7 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
     int read = 0;
     int clock_reg = 0;
     int latched = 0;
-    int offset;
+    time_t offset;
     BYTE command = context->io_byte;
 
     /* is bit 7 set ? */

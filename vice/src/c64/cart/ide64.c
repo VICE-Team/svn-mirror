@@ -116,7 +116,8 @@ static char ide64_DS1302[65];
 
 static char *ide64_configuration_string = NULL;
 
-static int settings_autodetect_size, settings_version4, rtc_offset;
+static int settings_autodetect_size, settings_version4, rtc_offset_res;
+static time_t rtc_offset;
 
 static BYTE hdd_identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
@@ -403,9 +404,10 @@ static int set_version4(int val, void *param)
 
 static int set_rtc_offset(int val, void *param)
 {
-    rtc_offset = val;
+    rtc_offset_res = val;
+    rtc_offset = (time_t)val;
 
-    return 0;
+	return 0;
 }
 
 static const resource_string_t resources_string[] = {
@@ -440,7 +442,7 @@ static const resource_int_t resources_int[] = {
       &settings_version4, set_version4, NULL },
     { "IDE64RTCOffset", 0,
       RES_EVENT_NO, NULL,
-      (int *)&rtc_offset, set_rtc_offset, NULL },
+      (int *)&rtc_offset_res, set_rtc_offset, NULL },
     { NULL }
 };
 

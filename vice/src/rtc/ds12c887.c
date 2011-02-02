@@ -215,7 +215,7 @@ void ds12c887_reset(rtc_ds12c887_t *context)
     context->end_of_update_flag = 0;
 }
 
-rtc_ds12c887_t *ds12c887_init(BYTE *data, int *offset)
+rtc_ds12c887_t *ds12c887_init(BYTE *data, time_t *offset)
 {
     rtc_ds12c887_t *retval = lib_malloc(sizeof(rtc_ds12c887_t));
 
@@ -233,7 +233,7 @@ void ds12c887_destroy(rtc_ds12c887_t *context)
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-static BYTE ds12c887_get_clock(rtc_ds12c887_t *context, BYTE address, int latch)
+static BYTE ds12c887_get_clock(rtc_ds12c887_t *context, BYTE address, time_t latch)
 {
     BYTE retval;
     BYTE hour;
@@ -480,7 +480,7 @@ int ds12c887_update_flags(rtc_ds12c887_t *context)
 {
     BYTE current;
     BYTE alarm;
-    int latch;
+    time_t latch;
     int match = 1;
     int irq_return = 0;
 
@@ -701,7 +701,7 @@ void ds12c887_store_data(rtc_ds12c887_t *context, BYTE data)
 BYTE ds12c887_read(rtc_ds12c887_t *context)
 {
     BYTE retval;
-    int latch;
+    time_t latch;
 
     if (context->clock_halt || context->set) {
         if (!context->clock_halt) {

@@ -27,15 +27,17 @@
 #ifndef VICE_DS12C887_H
 #define VICE_DS12C887_H
 
+#include <time.h>
+
 #include "types.h"
 
 typedef struct rtc_ds12c887_s {
     int clock_halt;
-    int clock_halt_latch;
+    time_t clock_halt_latch;
     int am_pm;
     int set;
-    int set_latch;
-    int *offset;
+    time_t set_latch;
+    time_t *offset;
     int bcd;
     int alarm_flag;
     int end_of_update_flag;
@@ -64,7 +66,7 @@ typedef struct rtc_ds12c887_s {
 #define DS12C887_REG_CENTURIES       50
 
 extern void ds12c887_reset(rtc_ds12c887_t *context);
-extern rtc_ds12c887_t *ds12c887_init(BYTE *data, int *offset);
+extern rtc_ds12c887_t *ds12c887_init(BYTE *data, time_t *offset);
 extern void ds12c887_destroy(rtc_ds12c887_t *context);
 
 /* This function needs to be called at least every 1/10th of a second

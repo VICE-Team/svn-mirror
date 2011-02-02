@@ -83,7 +83,7 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-rtc_bq4830y_t *bq4830y_init(BYTE *ram, int *offset)
+rtc_bq4830y_t *bq4830y_init(BYTE *ram, time_t *offset)
 {
     rtc_bq4830y_t *retval = lib_malloc(sizeof(rtc_bq4830y_t));
     memset(retval, 0, sizeof(rtc_bq4830y_t));
@@ -362,7 +362,7 @@ BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
 {
     BYTE retval;
     int latch_state = context->read_latch | (context->write_latch << 1) | (context->clock_halt << 2);
-    int latch;
+    time_t latch;
 
     if (latch_state != LATCH_NONE) {
         if (!context->clock_halt) {
