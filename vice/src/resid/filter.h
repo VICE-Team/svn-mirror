@@ -465,6 +465,7 @@ protected:
 
   // VCR - 6581 only.
   static int vcr_Vg[1 << 16];
+  static int vcr_n_Ids[1 << 16];
   // Common parameters.
   static model_filter_t model_filter[2];
 
@@ -1425,6 +1426,40 @@ Using the formula for current through a capacitor, i = C*dv/dt, we get
   vc = n*(IRw(vi,vx) + IRs(vi,vx)) + vc0
   vc = n*(IRw(vi,g(vc)) + IRs(vi,g(vc))) + vc0
 
+A typical textbook transistor model is defined as follows:
+
+  Ids = Ids0*e^(Vov/(n*VT)      , Vov < 0              (subthreshold mode) 
+  Ids = K*W/L*(2*Vov - Vds)*Vds , Vov >= 0, Vds < Vov  (triode mode)
+  Ids = K*W/L*Vov^2             , Vov >= 0, Vds >= Vov (saturation mode)
+
+  where
+  n   = FIXME
+  VT  = thermal voltage
+  K   = FIXME
+  W/L = ratio between substrate width and length
+  Vov = Vgs - Vth
+  
+A problem with this model is that the transition from the equation for
+the subthreshold mode to the other equations (the quadratic model) is
+not continuous.
+
+Realizing that the subthreshold and saturation modes depend only on
+Vov, these modes can be blended into a continuous function suitable
+for table lookup. Further realizing that the equation for the triode
+mode can be expressed in terms of the equation for the saturation
+mode, we can avoid introducing discontinuities in the transition from
+the triode mode to the other modes.
+
+The triode mode can be reformulated by the following substitution:
+
+  Vds = Vov - (Vov - Vds) = Vov - Vov_Vds
+
+  K*W/L*(2*Vov - Vds)*Vds
+  = K*W/L*(2*Vov - (Vov - Vov_Vds)*(Vov - Vov_Vds)
+  = K*W/L*(Vov + Vov_Vds)*(Vov - Vov_Vds)
+  = K*W/L*(Vov^2 - Vov_Vds^2)
+  = Eq_sat - K*W/L*Vov_Vds^2
+
 */
 RESID_INLINE
 int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
@@ -1437,17 +1472,16 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   int n_vcr = mf.n_vcr;      // Scaled by (1/m)*2^9  (fits in 12 bits)
   int n_snake = mf.n_snake;  // Scaled by (1/m)*2^19 (fits in 12 bits)
 
-  // VCR gate voltage.
+  // VCR gate voltage.       // Scaled by m*2^19
   // Vg = Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
   int Vg = vcr_Vg[(Vw_term + (vi >> 4)*(((vi >> 1) - Vddt) >> 4)) >> 14];
-  int Vgt = Vg - mf.Vth;     // Scaled by m*2^19
 
   // Determine the direction of the current flowing through the VCR and
   // the "snake" transistor.
   if (vi < x) {
     // Negative current.
     int Vds = x - vi;
-    int Vov_vcr = Vgt - vi;
+    int Vgs = Vg - vi;
     int Vov_snake = Vddt - vi;
 
     // Start with the current through the "snake" (triode mode).
@@ -1456,26 +1490,20 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
     // Scaled by (1/m)*2^19*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-18 = m*2^19
     int n_I = n_snake*((((Vov_snake << 1) - Vds) >> 4)*(Vds >> 4) >> 12) >> 18;
 
-    if (Vov_vcr > 0) {
+    if (Vgs > 0) {
       // Add the current through the VCR.
-      if (Vds < Vov_vcr) {
-	// Vov >= 0, Vds < Vov: Triode mode (linear region).
-	// n_I += n_vcr*(2*Vov_vcr - Vds)*Vds
-	//
-	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^8 = m*2^19
-	n_I += n_vcr*((((Vov_vcr << 1) - Vds) >> 4)*(Vds >> 4) >> 12) >> 8;
-      }
-      else {
-	// Vov >= 0, Vds >= Vov: Saturation mode (pinch-off).
-	// The linear dependence of Ids on Vds is negligible, and is not
-	// modeled.
-	// n_I += n_vcr*Vov_vcr*Vov_vcr
-	//
-	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-3*2^-12*2^8 = m*2^19
-	n_I += n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 8;
+
+      // Term for subthreshold mode / saturation mode.
+      // Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-8 = m*2^19
+      n_I += vcr_n_Ids[Vgs >> 3];
+
+      int Vgdt = Vgs - Vds - mf.Vth;
+      if (Vgdt > 0) {
+	// Triode mode: Subtract term from saturation mode.
+	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-8 = m*2^19
+	n_I -= n_vcr*((Vgdt >> 4)*(Vgdt >> 4) >> 12) >> 8;
       }
     }
-    // The subthreshold leakage current is negligible, and is not modeled.
 
     // Change in capacitor charge.
     vc -= n_I*dt;
@@ -1486,17 +1514,17 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   else {
     // Positive current.
     int Vds = vi - x;
-    int Vov_vcr = Vgt - x;
+    int Vgs = Vg - x;
     int Vov_snake = Vddt - x;
 
     int n_I = n_snake*((((Vov_snake << 1) - Vds) >> 4)*(Vds >> 4) >> 12) >> 18;
 
-    if (Vov_vcr > 0) {
-      if (Vds < Vov_vcr) {
-	n_I += n_vcr*((((Vov_vcr << 1) - Vds) >> 4)*(Vds >> 4) >> 12) >> 8;
-      }
-      else {
-	n_I += n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 8;
+    if (Vgs > 0) {
+      n_I += vcr_n_Ids[Vgs >> 3];
+
+      int Vgdt = Vgs - Vds - mf.Vth;
+      if (Vgdt > 0) {
+	n_I -= n_vcr*((Vgdt >> 4)*(Vgdt >> 4) >> 12) >> 8;
       }
     }
 

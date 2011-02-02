@@ -154,6 +154,7 @@ static model_filter_init_t model_filter_init[2] = {
 };
 
 int Filter::vcr_Vg[1 << 16];
+int Filter::vcr_n_Ids[1 << 16];
 
 Filter::model_filter_t Filter::model_filter[2];
 
@@ -304,7 +305,7 @@ Filter::Filter()
       // Create lookup table mapping capacitor voltage to op-amp input voltage:
       // vc -> vx
       for (int m = 0; m < fi.opamp_voltage_size; m++) {
-	scaled_voltage[m][0] = (N19*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 19))/(2*(1 << 3));
+	scaled_voltage[m][0] = (N19*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 19))/(1 << 4);
 	scaled_voltage[m][1] = N19*fi.opamp_voltage[m][0];
       }
 
@@ -324,8 +325,24 @@ Filter::Filter()
 
     // VCR - 6581 only.
     int Vddt = model_filter[0].Vddt;
+    int Vth = model_filter[0].Vth;
+    int n_vcr = model_filter[0].n_vcr;
+
     for (int i = 0; i < (1 << 16); i++) {
       vcr_Vg[i] = Vddt - (int)(sqrtf((float)i*(1 << 22)) + 0.5f);
+    }
+
+    for (int i = 0; i < (1 << 16); i++) {
+      // FIXME: Blend between subthreshold and saturation modes.
+      int Vgs = i << 3;
+      int Vov_vcr = Vgs - Vth;
+      if (Vov_vcr < 0) {
+	vcr_n_Ids[i] = 0;
+      }
+      else {
+	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-3*2^-12*2^-8 = m*2^19
+	vcr_n_Ids[i] = n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 8;
+      }
     }
 
     class_init = true;
