@@ -216,6 +216,26 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
     byte = (val & (cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
 
+    /*
+        handle the special case when both port a and port b are programmed as output,
+        port a outputs (active) low, and port b outputs high.
+
+        in this case pressing either shift-lock or two or more keys of the same column
+        is required to drive port b low, pressing a single key is not enough (and the
+        port will read back as high). (see testprogs/CIA/ciaports)
+
+        FIXME: this is not emulated yet. the line below will drive the respective port b
+               bits high if the above mentioned condition is met, which atleast gives the
+               expected result for single key presses.
+    */
+    byte |= ((cia_context->c_cia[CIA_DDRA]) & (cia_context->c_cia[CIA_DDRB])) & (cia_context->c_cia[CIA_PRB]);
+/*
+    if(val!=0xff) {
+        printf("keyval (PA) %02x   PA %02x DDRA %02x  PB %02x DDRB %02x  res: %02x\n",
+        val, cia_context->c_cia[CIA_PRA], cia_context->c_cia[CIA_DDRA],
+        cia_context->c_cia[CIA_PRB], cia_context->c_cia[CIA_DDRB], byte);
+    }
+*/
 #ifdef HAVE_MOUSE
     if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1)) {
         byte &= neos_mouse_read();
