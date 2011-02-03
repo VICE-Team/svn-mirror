@@ -63,9 +63,11 @@ static BYTE in_buf[IN_BUF_LEN];
 
 /* ----- MIDI Vars ----- */
 static int midi_client_usage = 0;
-static MIDIClientRef midi_client = NULL;
-static MIDIEndpointRef midi_destination = NULL;
-static MIDIEndpointRef midi_source = NULL;
+static int midi_destination_usage = 0;
+static int midi_source_usage = 0;
+static MIDIClientRef midi_client;
+static MIDIEndpointRef midi_destination;
+static MIDIEndpointRef midi_source;
 
 /* ----- Resources ----- */
 
@@ -218,7 +220,7 @@ static int message_len(BYTE msg)
 
 static int create_client(void)
 {
-    if (midi_client == NULL) {
+    if (midi_client_usage == 0) {
         log_message(mididrv_log, "Opening MIDI client '%s'", midi_name);
         CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_name, kCFStringEncodingUTF8); 
         OSStatus status = MIDIClientCreate(name, NULL, NULL, &midi_client);
@@ -234,24 +236,21 @@ static int create_client(void)
 
 static void dispose_client(void)
 {
-    if (midi_client != NULL) {
-        midi_client_usage--;
-        if (midi_client_usage == 0) {
-            log_message(mididrv_log, "Closing MIDI client");
-            OSStatus status = MIDIClientDispose(midi_client);
-            if (status != noErr) {
-                log_error(mididrv_log, "Error disposing client!");
-            }
-            midi_client = NULL;
+    midi_client_usage--;
+    if (midi_client_usage == 0) {
+        log_message(mididrv_log, "Closing MIDI client");
+        OSStatus status = MIDIClientDispose(midi_client);
+        if (status != noErr) {
+            log_error(mididrv_log, "Error disposing client!");
         }
-    }    
+    }
 }
 
 static void	midi_read_proc(const MIDIPacketList *pktlist, void *refCon, void *connRefCon)
 {
     unsigned int i,j;
     
-    MIDIPacket *packet = pktlist->packet;
+    const MIDIPacket *packet = pktlist->packet;
     for (i = 0; i < pktlist->numPackets; ++i) {
         for (j = 0; j < packet->length; j++) {
             if (write_fifo(packet->data[j])) {
@@ -314,7 +313,7 @@ int mididrv_in_open(void)
         return -1;
     }
 
-    if (midi_destination == NULL) {
+    if (midi_destination_usage == 0) {
         log_message(mididrv_log, "Opening MIDI-In port '%s'", midi_in_name);
 
         CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_in_name, kCFStringEncodingUTF8); 
@@ -325,6 +324,7 @@ int mididrv_in_open(void)
             return -1;
         }
     }
+    midi_destination_usage++;
 
     /* reset FIFO */
     reset_fifo();
@@ -340,7 +340,7 @@ int mididrv_out_open(void)
         return -1;
     }
     
-    if (midi_source == NULL) {
+    if (midi_source_usage == 0) {
         log_message(mididrv_log, "Opening MIDI-Out port '%s'", midi_out_name);
 
         CFStringRef name = CFStringCreateWithCString(kCFAllocatorDefault, midi_out_name, kCFStringEncodingUTF8); 
@@ -351,6 +351,7 @@ int mididrv_out_open(void)
             return -1;
         }
     }
+    midi_source_usage ++;
 
     /* reset buffer */
     out_index = 0;
@@ -362,14 +363,14 @@ int mididrv_out_open(void)
 /* closes the MIDI-In device*/
 void mididrv_in_close(void)
 {
-    if (midi_destination != NULL) {
+    midi_destination_usage --;
+    if (midi_destination_usage == 0) {
         log_message(mididrv_log, "Closing MIDI-In port");
 
         OSStatus status = MIDIEndpointDispose(midi_destination);
         if (status != noErr) {
             log_error(mididrv_log, "Error disposing MIDI-In port!");
         }
-        midi_destination = NULL;
     }
 
     dispose_client();
@@ -378,14 +379,14 @@ void mididrv_in_close(void)
 /* closes the MIDI-Out device*/
 void mididrv_out_close(void)
 {
-    if (midi_source != NULL) {
+    midi_source_usage --;
+    if (midi_source_usage == 0) {
         log_message(mididrv_log, "Closing MIDI-Out port");
 
         OSStatus status = MIDIEndpointDispose(midi_source);
         if (status != noErr) {
             log_error(mididrv_log, "Error disposing MIDI-Out port!");
         }
-        midi_source = NULL;
     }
 
     dispose_client();
