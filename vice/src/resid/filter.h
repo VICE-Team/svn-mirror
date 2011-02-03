@@ -449,7 +449,7 @@ protected:
     int vc_max;
 
     // Reverse op-amp transfer function.
-    int opamp_rev[1 << 16];
+    unsigned short opamp_rev[1 << 16];
     // Lookup tables for gain and summer op-amps in output stage / filter.
     unsigned short summer[summer_offset<5>::value];
     unsigned short gain[16][1 << 16];
@@ -1535,7 +1535,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   }
 
   // vx = g(vc)
-  x = mf.opamp_rev[(vc + (1 << 19)) >> 4];
+  x = mf.opamp_rev[(vc + (1 << 19)) >> 4] << 3;
 
   // Return vo.
   return (x - vc) - mf.vo_T19;

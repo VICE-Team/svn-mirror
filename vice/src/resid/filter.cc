@@ -178,6 +178,7 @@ Filter::Filter()
       double norm = 1.0/denorm;
 
       // Scaling and translation constants.
+      double N16 = norm*((1u << 16) - 1);
       double N19 = norm*((1u << 19) - 1);
       double N31 = norm*((1u << 31) - 1);
       mf.vo_N19 = (int)(N19);  // FIXME: Remove?
@@ -305,15 +306,15 @@ Filter::Filter()
       // Create lookup table mapping capacitor voltage to op-amp input voltage:
       // vc -> vx
       for (int m = 0; m < fi.opamp_voltage_size; m++) {
-	scaled_voltage[m][0] = (N19*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 19))/(1 << 4);
-	scaled_voltage[m][1] = N19*fi.opamp_voltage[m][0];
+	scaled_voltage[m][0] = (N16*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 16))/2;
+	scaled_voltage[m][1] = N16*fi.opamp_voltage[m][0];
       }
 
       mf.vc_min = (int)(N19*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]));
       mf.vc_max = (int)(N19*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
-		  PointPlotter<int>(mf.opamp_rev), 1.0);
+		  PointPlotter<unsigned short>(mf.opamp_rev), 1.0);
 
       // DAC table.
       int bits = 11;
