@@ -107,46 +107,46 @@ void store_pixel_4(BYTE *trg, SDWORD y1, SDWORD u1, SDWORD v1, SDWORD y2, SDWORD
 static inline
 void store_pixel_UYVY(BYTE *trg, SDWORD y1_, SDWORD u1, SDWORD v1, SDWORD y2_, SDWORD u2, SDWORD v2)
 {
-    BYTE y1 = (y1_ >> 16) & 0xFFu;
-    BYTE y2 = (y2_ >> 16) & 0xFFu;
+    BYTE y1 = (BYTE)((y1_ >> 16) & 0xFFu);
+    BYTE y2 = (BYTE)((y2_ >> 16) & 0xFFu);
 
     u1 = (u1 + u2) >> 17;
     v1 = (v1 + v2) >> 17;
 
-    trg[0] = u1 + 128;
+    trg[0] = (BYTE)(u1 + 128);
     trg[1] = y1;
-    trg[2] = v1 + 128;
+    trg[2] = (BYTE)(v1 + 128);
     trg[3] = y2;
 }
 
 static inline
 void store_pixel_YUY2(BYTE *trg, SDWORD y1_, SDWORD u1, SDWORD v1, SDWORD y2_, SDWORD u2, SDWORD v2)
 {
-    BYTE y1 = (y1_ >> 16) & 0xFFu;
-    BYTE y2 = (y2_ >> 16) & 0xFFu;
+    BYTE y1 = (BYTE)((y1_ >> 16) & 0xFFu);
+    BYTE y2 = (BYTE)((y2_ >> 16) & 0xFFu);
 
     u1 = (u1 + u2) >> 17;
     v1 = (v1 + v2) >> 17;
 
     trg[0] = y1;
-    trg[1] = u1 + 128;
+    trg[1] = (BYTE)(u1 + 128);
     trg[2] = y2;
-    trg[3] = v1 + 128;
+    trg[3] = (BYTE)(v1 + 128);
 }
 
 static inline
 void store_pixel_YVYU(BYTE *trg, SDWORD y1_, SDWORD u1, SDWORD v1, SDWORD y2_, SDWORD u2, SDWORD v2)
 {
-    BYTE y1 = (y1_ >> 16) & 0xFFu;
-    BYTE y2 = (y2_ >> 16) & 0xFFu;
+    BYTE y1 = (BYTE)((y1_ >> 16) & 0xFFu);
+    BYTE y2 = (BYTE)((y2_ >> 16) & 0xFFu);
 
     u1 = (u1 + u2) >> 17;
     v1 = (v1 + v2) >> 17;
 
     trg[0] = y1;
-    trg[1] = v1 + 128;
+    trg[1] = (BYTE)(v1 + 128);
     trg[2] = y2;
-    trg[3] = u1 + 128;
+    trg[3] = (BYTE)(u1 + 128);
 }
 
 /* NTSC 1x1 renderers */

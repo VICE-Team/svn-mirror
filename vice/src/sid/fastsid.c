@@ -716,7 +716,7 @@ static SWORD fastsid_calculate_single_sample(sound_t *psid, int i)
         o2 = ((DWORD)(v2->filtIO) + 0x80) << (7 + 15);
     }
 
-    return ((SDWORD)((o0 + o1 + o2) >> 20) - 0x600) * psid->vol;
+    return (SWORD)(((SDWORD)((o0 + o1 + o2) >> 20) - 0x600) * psid->vol);
 }
 
 static int fastsid_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,

@@ -149,7 +149,7 @@ static void sdl_ui_display_path(const char *current_dir)
         text = lib_stralloc(current_dir);
 
         temp = strchr(current_dir + 1, FSDEV_DIR_SEP_CHR);
-        before = temp - current_dir + 1;
+        before = (int)(temp - current_dir + 1);
 
         while (temp != NULL) {
             amount++;
@@ -164,7 +164,7 @@ static void sdl_ui_display_path(const char *current_dir)
 
             temp = strchr(current_dir + 1, FSDEV_DIR_SEP_CHR);
             while (((temp - current_dir + 1) < (menu_draw->max_text_x - after - 3)) && temp != NULL) {
-                before = temp - current_dir + 1;
+                before = (int)(temp - current_dir + 1);
                 temp = strchr(temp + 1, FSDEV_DIR_SEP_CHR);
             }
         } else {

@@ -61,6 +61,7 @@
 
 #define strcasecmp(s1, s2)    _stricmp(s1, s2)
 #define HAVE_STRCASECMP       1
+#define HAVE_STRDUP           1
 
 #define snprintf              _snprintf
 
