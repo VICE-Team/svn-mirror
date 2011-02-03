@@ -110,8 +110,10 @@ EXTRA_DIST = \
 	watcom/c64.tgt \
 	watcom/c64cart.tgt \
 	watcom/c64common.tgt \
+	watcom/c64commonsc.tgt \
 	watcom/c64dtv.tgt \
 	watcom/c64dtvc64.tgt \
+	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
 	watcom/config.h \
@@ -123,6 +125,8 @@ EXTRA_DIST = \
 	watcom/fileio.tgt \
 	watcom/fsdevice.tgt \
 	watcom/gentr.tgt \
+	watcom/gentranslate32.tgt \
+	watcom/genwt.bat \
 	watcom/gfxoutputdrv.tgt \
 	watcom/iec.tgt \
 	watcom/iecbus.tgt \
@@ -174,6 +178,7 @@ EXTRA_DIST = \
 	watcom/vicii.tgt \
 	watcom/viciicommon.tgt \
 	watcom/viciidtv.tgt \
+	watcom/viciisc.tgt \
 	watcom/video.tgt \
 	watcom/vsid.tgt \
 	watcom/x128-dlg-fileio.c \
@@ -196,6 +201,8 @@ EXTRA_DIST = \
 	watcom/x64dtv-video.c \
 	watcom/x64dtv-vsyncarch.c \
 	watcom/x64dtv.tgt \
+	watcom/x64sc-main.c \
+	watcom/x64sc.tgt \
 	watcom/x64x128-sid.c \
 	watcom/x64x128-specific.tgt \
 	watcom/xall-specific.tgt \

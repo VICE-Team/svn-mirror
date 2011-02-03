@@ -86,8 +86,8 @@ o?2??Include directories:
 1
 21
 WString
-58
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive
+64
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..
 0
 22
 MVState

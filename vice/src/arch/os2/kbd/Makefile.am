@@ -9,6 +9,7 @@ libkbd_a_SOURCES = \
 	kbd-c610.c \
 	kbd-c64.c \
 	kbd-c64dtv.c \
+	kbd-c64sc.c \
 	kbd-pet.c \
 	kbd-plus4.c \
 	kbd-vic20.c \

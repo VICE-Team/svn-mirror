@@ -576,9 +576,6 @@ static action_t SaveAction[] = {
     { "Save Screenshot", SubScr, FALSE },
     { "Save Fliplist", SubFlip, TRUE },
     { "Save ROM Set", SubRomSet, FALSE },
-#if defined __X64__ || defined __X128__
-    { "Save Expert Cardridge", SubCart2, FALSE },
-#endif
     { NULL }
 };
 
@@ -606,10 +603,6 @@ static BOOL FdmDoSaveAction(HWND hwnd, char *szpath, int act, int sact)
             return fliplist_save_list(sact+8, szpath);
         case 4:
             return machine_romset_file_save(szpath);
-#if defined __X64__ || defined __X128__
-        case 5:
-            return cartridge_save_image(szpath);
-#endif
     }
     return -1;
 }

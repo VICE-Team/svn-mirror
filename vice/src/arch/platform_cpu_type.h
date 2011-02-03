@@ -493,7 +493,7 @@ static char *unknown = "Unknown x86-compatible";
     __asm mov c, ecx \
     __asm mov d, edx
 #else
-#ifdef __BEOS__
+#if defined(__BEOS__) || defined(__OS2__)
 #define cpuid(func, ax, bx, cx, dx) \
     ax=bx=cx=dx=0;
 #else
@@ -508,7 +508,7 @@ inline static int has_cpuid(void)
     int a = 0;
     int c = 0;
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__OS2__)
 /* TODO */
 #else
     __asm__ __volatile__ ("pushf;"
