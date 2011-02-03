@@ -153,8 +153,8 @@ static model_filter_init_t model_filter_init[2] = {
   }
 };
 
-int Filter::vcr_Vg[1 << 16];
-int Filter::vcr_n_Ids[1 << 16];
+unsigned short Filter::vcr_Vg[1 << 16];
+unsigned short Filter::vcr_n_Ids[1 << 16];
 
 Filter::model_filter_t Filter::model_filter[2];
 
@@ -329,7 +329,7 @@ Filter::Filter()
     int n_vcr = model_filter[0].n_vcr;
 
     for (int i = 0; i < (1 << 16); i++) {
-      vcr_Vg[i] = Vddt - (int)(sqrtf((float)i*(1 << 22)) + 0.5f);
+      vcr_Vg[i] = (Vddt - (int)(sqrtf((float)i*(1 << 22)) + 0.5f)) >> 3;
     }
 
     for (int i = 0; i < (1 << 16); i++) {
@@ -340,8 +340,8 @@ Filter::Filter()
 	vcr_n_Ids[i] = 0;
       }
       else {
-	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-3*2^-12*2^-8 = m*2^19
-	vcr_n_Ids[i] = n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 8;
+	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-11 = m*2^16
+	vcr_n_Ids[i] = n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 11;
       }
     }
 
