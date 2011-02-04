@@ -86,7 +86,7 @@ protected:
   static reg8 sustain_level[];
 
   // DAC lookup tables.
-  static reg12 model_dac[2][1 << 8];
+  static unsigned short model_dac[2][1 << 8];
 
 friend class SID;
 };

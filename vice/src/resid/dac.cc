@@ -62,7 +62,7 @@ namespace reSID
 // These DACs include the correct termination resistor, and also seem to have
 // very accurately matched R and 2R resistors (2R/R = 2.00).
 
-void build_dac_table(unsigned int* dac, int bits, double _2R_div_R, bool term)
+void build_dac_table(unsigned short* dac, int bits, double _2R_div_R, bool term)
 {
   // FIXME: No variable length arrays in ISO C++, hardcoding to max 12 bits.
   // double vbit[bits];
@@ -119,7 +119,7 @@ void build_dac_table(unsigned int* dac, int bits, double _2R_div_R, bool term)
     }
 
     // Scale maximum output to 2^bits - 1.
-    dac[i] = int(((1 << bits) - 1)*Vo + 0.5);
+    dac[i] = (unsigned short)(((1 << bits) - 1)*Vo + 0.5);
   }
 }
 

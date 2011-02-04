@@ -51,7 +51,7 @@ reg12 WaveformGenerator::model_wave[2][8][1 << 12] = {
 
 
 // DAC lookup tables.
-reg12 WaveformGenerator::model_dac[2][1 << 12] = {
+unsigned short WaveformGenerator::model_dac[2][1 << 12] = {
   {0},
   {0},
 };

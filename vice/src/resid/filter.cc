@@ -181,15 +181,16 @@ Filter::Filter()
       double N16 = norm*((1u << 16) - 1);
       double N19 = norm*((1u << 19) - 1);
       double N31 = norm*((1u << 31) - 1);
-      mf.vo_N19 = (int)(N19);  // FIXME: Remove?
+      mf.vo_N16 = (int)(N16);  // FIXME: Remove?
       mf.vo_T19 = (int)(N19*vmin);
+      mf.vo_T16 = (int)(N16*vmin);
 
       // The "zero" output level of the voices.
-      // The digital range of one voice is 20 bits, while the input range
-      // of the op-amps is 19 bits. Hence the left shift by 13 instead of 14.
-      double N13 = norm*(1u << 13);
-      mf.voice_scale_s14 = (int)(N13*fi.voice_voltage_range);
-      mf.voice_DC = (int)(N19*(fi.voice_DC_voltage - vmin));
+      // The digital range of one voice is 20 bits; create a scaling term
+      // for multiplication which fits in 11 bits.
+      double N14 = norm*(1u << 14);
+      mf.voice_scale_s14 = (int)(N14*fi.voice_voltage_range);
+      mf.voice_DC = (int)(N16*(fi.voice_DC_voltage - vmin));
 
       // Vth, Vdd - Vth
       mf.Vth = (int)(N19*fi.Vth + 0.5);
@@ -319,7 +320,7 @@ Filter::Filter()
       int bits = 11;
       build_dac_table(mf.f0_dac, bits, fi.dac_2R_div_R, fi.dac_term);
       for (int n = 0; n < (1 << bits); n++) {
-	mf.f0_dac[n] = (unsigned int)(N19*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5);
+	mf.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5);
       }
     }
 
@@ -374,7 +375,7 @@ void Filter::enable_filter(bool enable)
 // ----------------------------------------------------------------------------
 void Filter::adjust_filter_bias(double dac_bias)
 {
-  Vw_bias = int(dac_bias * model_filter[sid_model == MOS6581 ? 0 : 1].vo_N19);
+  Vw_bias = int(dac_bias*model_filter[sid_model].vo_N16);
   set_w0();
 }
 
@@ -464,7 +465,7 @@ void Filter::set_w0()
 {
   model_filter_t& f = model_filter[sid_model];
   Vw = Vw_bias + f.f0_dac[fc];
-  Vw_term = (f.Vddt >> 4) * (f.Vddt >> 4) - (Vw >> 4) * (f.Vddt >> 4) + (Vw >> 4) * (Vw >> 5);
+  Vw_term = (f.Vddt >> 4) * (f.Vddt >> 4) - (Vw >> 1) * (f.Vddt >> 4) + (Vw >> 1) * (Vw >> 2);
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.
   const double pi = 3.1415926535897932385;

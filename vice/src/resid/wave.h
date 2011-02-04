@@ -115,7 +115,7 @@ protected:
   static reg12 model_wave[2][8][1 << 12];
   reg12* wave;
   // DAC lookup tables.
-  static reg12 model_dac[2][1 << 12];
+  static unsigned short model_dac[2][1 << 12];
 
 friend class Voice;
 friend class SID;

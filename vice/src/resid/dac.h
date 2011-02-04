@@ -23,7 +23,7 @@
 namespace reSID
 {
 
-void build_dac_table(unsigned int* dac, int bits, double _2R_div_R, bool term);
+void build_dac_table(unsigned short* dac, int bits, double _2R_div_R, bool term);
 
 } // namespace reSID
 
