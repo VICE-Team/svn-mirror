@@ -196,7 +196,7 @@ Filter::Filter()
       mf.Vddt = (int)(N19*(fi.Vdd - fi.Vth) + 0.5);
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
-      // Fit in 16 bits.
+      // Fit in 16 bits (only 6 bits for n_snake).
       mf.n_vcr = (int)(denorm*(1 << 13)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
       mf.n_snake = (int)(denorm*(1 << 13)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
@@ -314,14 +314,6 @@ Filter::Filter()
       mf.vc_max = (int)(N31*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
 		  PointPlotter<unsigned short>(mf.opamp_rev), 1.0);
-
-      /* Rotate opamp_rev table because of our unsigned shifted index trick,
-       * which requires placing the midpoint of the table at index 0. */
-      for (int i = 0; i < 0x8000; i ++) {
-        int tmp = mf.opamp_rev[i];
-        mf.opamp_rev[i] = mf.opamp_rev[i + 0x8000];
-        mf.opamp_rev[i + 0x8000] = tmp;
-      }
 
       // DAC table.
       int bits = 11;

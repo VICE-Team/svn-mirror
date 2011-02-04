@@ -1536,12 +1536,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   }
 
   // vx = g(vc)
-  //
-  // The expression here is based on the idea
-  // that the top bits will be zero, thus avoiding
-  // the need to write something like
-  // (vc >> 16) + (1 << 15).
-  x = mf.opamp_rev[(unsigned int) vc >> 16] << 3;
+  x = mf.opamp_rev[(vc >> 16) + (1 << 15)] << 3;
 
   // Return vo.
   return (x - (vc >> 12)) - mf.vo_T19;
