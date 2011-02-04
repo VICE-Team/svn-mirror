@@ -562,9 +562,17 @@ void new_joystick(void)
         while (read(ajoyfd[ajoyport], &e, sizeof(struct js_event)) == sizeof(struct js_event)) {
             switch (e.type & ~JS_EVENT_INIT) {
             case JS_EVENT_BUTTON:
-                joystick_set_value_and(i, ~16); /* reset fire bit */
-                if (e.value) {
-                    joystick_set_value_or(i, 16);
+                /* Generally, only the first few buttons are "fire" on a modern
+                   joystick, the others being reserved for more esoteric things
+                   like "SELECT", "START", "PAUSE", and directional movement.
+                   The following treats only the first four buttons on a joystick
+                   as fire buttons and ignores the rest.
+                */
+                if (! (e.number & ~3)) { /* only first four buttons are fire */
+                    joystick_set_value_and(i, ~16); /* reset fire bit */
+                    if (e.value) {
+                        joystick_set_value_or(i, 16);
+                    }
                 }
                 break;
             case JS_EVENT_AXIS:
