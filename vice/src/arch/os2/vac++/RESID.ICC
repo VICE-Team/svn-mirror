@@ -16,6 +16,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     {
         option reSid = define("PACKAGE","\"resid\""), define("VERSION","\"0.16\""), define("SIZEOF_INT", "\"4\"")
         {
+            source type(cpp) "dac.cc"
             source type(cpp) "envelope.cc"
             source type(cpp) "extfilt.cc"
             source type(cpp) "filter.cc"
@@ -24,16 +25,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             source type(cpp) "version.cc"
             source type(cpp) "voice.cc"
             source type(cpp) "wave.cc"
-            source type(cpp) "wave6581_PST.cc"
-            source type(cpp) "wave6581_PS_.cc"
-            source type(cpp) "wave6581_P_T.cc"
-            source type(cpp) "wave6581__ST.cc"
-            source type(cpp) "wave8580_PST.cc"
-            source type(cpp) "wave8580_PS_.cc"
-            source type(cpp) "wave8580_P_T.cc"
-            source type(cpp) "wave8580__ST.cc"
         }
     }
 }
-
-

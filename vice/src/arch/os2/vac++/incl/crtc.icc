@@ -1,7 +1,8 @@
 source type(c)
     "crtc.c",
-    "crtc-mem.c",
+    "crtc-cmdline-options.c",
+    "crtc-color.c",
     "crtc-draw.c",
-    "crtc-snapshot.c",
+    "crtc-mem.c",
     "crtc-resources.c",
-    "crtc-cmdline-options.c"
+    "crtc-snapshot.c"

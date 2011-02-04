@@ -3,6 +3,7 @@ source type(c)
     "drv-ascii.c",
     "drv-mps803.c",
     "drv-nl10.c",
+    "drv-raw.c",
     "interface-serial.c",
     "interface-userport.c",
     "output-graphics.c",

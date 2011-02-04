@@ -23,6 +23,7 @@ source type(c)
     "plus4printer.c",
     "plus4rom.c",
     "plus4romset.c",
+    "plus4speech.c",
     "plus4tcbm.c",
     "plus4video.c",
     "sidcartjoy.c",

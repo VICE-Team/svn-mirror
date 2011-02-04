@@ -1,43 +1,10 @@
 option ProjectOptions =
    link(linkwithmultithreadlib, "yes"),
    link(pmtype, "novio"),
-   link(export, "gzopen"),
-   link(export, "gzread"),
-   link(export, "gzwrite"),
-   link(export, "gzseek"),
-   link(export, "gztell"),
-   link(export, "gzputs"),
-   link(export, "gzgets"),
-   link(export, "gzputc"),
-   link(export, "gzgetc"),
-   link(export, "gzrewind"),
-   link(export, "gzclose"),
-   link(export, "gzeof"),
-   link(export, "gzerror"),
-   link(export, "deflateInit2_"),
-   link(export, "deflateEnd"),
-   link(export, "inflateReset"),
-   link(export, "deflate"),
-   link(export, "deflateReset"),
-   link(export, "crc32"),
-   link(export, "png_create_write_struct"),
-   link(export, "png_create_info_struct"),
-   link(export, "png_write_row"),
-   link(export, "png_set_compression_level"),
-   link(export, "png_destroy_write_struct"),
-   link(export, "png_write_info"),
-   link(export, "png_init_io"),
-   link(export, "png_set_invert_alpha"),
-   link(export, "png_write_end"),
-   link(export, "info_license_text"),
-   link(export, "info_contrib_text"),
-   link(export, "info_warranty_text"),
    res_rc_options("-i ..\\fonts -x1")
 {
    target type(dll) "..\\..\\..\\..\\data\\vice2.dll"
    {
-      source "zlib.lib"
-      source "png.lib"
       source "..\\..\\..\\..\\src\\info.c"
       source "..\\fonts\\vice2.rc"
    }

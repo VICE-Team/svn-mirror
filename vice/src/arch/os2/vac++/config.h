@@ -78,11 +78,7 @@
 #define HAVE_PAL 1
 #endif
 
-/* Does the system know the png-graphics format? */
-#define HAVE_PNG 1
-
 /* see zfile.c */
-#define HAVE_ZLIB    1
 #define NAME_NEED_QM 1
 
 /* This seems to be needed to prevent the emulator from FPEs */
@@ -112,4 +108,3 @@
 #define HAVE_REGEXP_H   1   /* Define if you have the <regexp.h> header file.   */
 #define HAVE_SYS_TIME_H 1   /* Define if you have the <sys/time.h> header file. */
 #define HAVE_GETCWD     1
-

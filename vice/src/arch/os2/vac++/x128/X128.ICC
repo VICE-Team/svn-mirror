@@ -27,8 +27,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
-    incl(searchpath, "..\\..\\..\\..\\lib\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\lib\\lpng"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\parallel"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
@@ -50,8 +48,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     target type(exe) "..\\..\\..\\..\\..\\data\\x128.exe"
     {
         source type (lib)
-            "mmpm2.lib",
-            "..\\..\\..\\..\\..\\data\\vice2.lib"
+            "mmpm2.lib"
 
         source type(c)
             "rs232.c",
@@ -62,28 +59,13 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "dialogs\\dlg-color.c"
 
         source type(c)
-            "c64acia1.c",
-            "c64bus.c",
-            "c64cia2.c",
-            "c64datasette.c",
-            "c64drive.c",
-            "c64export.c",
-            "c64gluelogic.c",
-            "c64iec.c",
-            "c64io.c",
-            "c64keyboard.c",
-            "c64meminit.c",
-            "c64memrom.c",
-            "c64parallel.c",
-            "c64pla.c",
-            "c64printer.c",
-            "c64rsuser.c",
-            "c64sound.c",
             "vicii-clock-stretch.c"
 
         include "../incl/archdep.icc"
         include "../incl/c128.icc"
         include "../incl/c64cart.icc"
+        include "../incl/c64commonall.icc"
+        include "../incl/c64commonc128.icc"
         include "../incl/core.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"

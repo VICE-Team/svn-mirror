@@ -1,0 +1,16 @@
+source type(c)
+    "vicii-chip-model.c",
+    "vicii-cmdline-options.c",
+    "vicii-color.c",
+    "vicii-cycle.c",
+    "vicii-draw.c",
+    "vicii-draw-cycle.c",
+    "vicii-fetch.c",
+    "vicii-irq.c",
+    "vicii-lightpen.c",
+    "vicii-mem.c",
+    "vicii-phi1.c",
+    "vicii-resources.c",
+    "vicii-snapshot.c",
+    "vicii-timing.c",
+    "vicii.c"

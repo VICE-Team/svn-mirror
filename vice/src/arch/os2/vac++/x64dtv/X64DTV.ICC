@@ -25,8 +25,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
-    incl(searchpath, "..\\..\\..\\..\\lib\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\lib\\lpng"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\parallel"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
@@ -46,18 +44,16 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     target type(exe) "..\\..\\..\\..\\..\\data\\x64dtv.exe"
     {
         source type (lib)
-            "mmpm2.lib", // "zlib.lib", "png.lib"
-            "..\\..\\..\\..\\..\\data\\vice2.lib"/*,
-            "..\\..\\..\\..\\..\\data\\ipspy.lib"*/
+            "mmpm2.lib"
 
         source type(c)
             "ps2mouse.c",
             "mousedrv.c",
             "kbd-c64dtv.c",
-            "c64romset.c",
             "dialogs\\dlg-color.c"
 
         include "../incl/archdep.icc"
+        include "../incl/c64commonall.icc"
         include "../incl/c64commonc64dtv.icc"
         include "../incl/c64dtv.icc"
         include "../incl/core.icc"

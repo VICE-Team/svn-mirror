@@ -1,7 +1,12 @@
 source type (c)
     "ciacore.c",
     "ciatimer.c",
+    "cs8900.c",
     "flash040core.c",
+    "fmopl.c",
     "riotcore.c",
+    "ser-eeprom.c",
+    "spi-sdcard.c",
+    "t6721.c",
     "tpicore.c",
     "viacore.c"

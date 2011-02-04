@@ -1,6 +1,7 @@
 EXTRA_DIST = \
 	x64/X64.ICC \
 	x64dtv/X64DTV.ICC \
+	x64sc/X64SC.ICC \
 	x128/X128.ICC \
 	X1541.ICC \
 	cartconv.ICC \
@@ -19,14 +20,16 @@ EXTRA_DIST = \
 	VICE_INF.ICC \
 	VICE_HLP.ICC \
 	vicedll.ICC \
-	lzlib.icc \
-	lpng.icc \
 	incl/archdep.icc \
 	incl/c128.icc \
 	incl/c64.icc \
 	incl/c64cart.icc \
+	incl/c64commonall.icc \
 	incl/c64commonc64dtv.icc \
+	incl/c64commonc64sc.icc \
+	incl/c64commonc128.icc \
 	incl/c64dtv.icc \
+	incl/c64sc.icc \
 	incl/cbm2.icc \
 	incl/core.icc \
 	incl/crtc.icc \
@@ -67,6 +70,7 @@ EXTRA_DIST = \
 	incl/vic20cart.icc \
 	incl/vicii.icc \
 	incl/viciidtv.icc \
+	incl/viciisc.icc \
 	incl/video.icc \
 	incl/vsid.icc \
 	ctools/biosdump.icc \

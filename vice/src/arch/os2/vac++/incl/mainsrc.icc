@@ -37,7 +37,6 @@ source type(c)
     "rawfile.c",
     "resources.c",
     "romset.c",
-    "rtc.c",
     "screenshot.c",
     "snapshot.c",
     "sound.c",

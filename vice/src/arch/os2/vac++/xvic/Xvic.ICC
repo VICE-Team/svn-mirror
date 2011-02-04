@@ -23,8 +23,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
-    incl(searchpath, "..\\..\\..\\..\\lib\\zlib"),
-    incl(searchpath, "..\\..\\..\\..\\lib\\lpng"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\parallel"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
@@ -46,8 +44,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     target type(exe) "..\\..\\..\\..\\..\\data\\xvic.exe"
     {
         source type (lib)
-            "mmpm2.lib",
-            "..\\..\\..\\..\\..\\data\\vice2.lib"
+            "mmpm2.lib"
 
         source type(c)
             "rs232.c",
