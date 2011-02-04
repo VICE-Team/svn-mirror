@@ -196,9 +196,9 @@ Filter::Filter()
       mf.Vddt = (int)(N19*(fi.Vdd - fi.Vth) + 0.5);
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
-      // Fit in 12 bits.
-      mf.n_vcr = (int)(denorm*(1 << 9)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
-      mf.n_snake = (int)(denorm*(1 << 19)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5);
+      // Fit in 16 bits.
+      mf.n_vcr = (int)(denorm*(1 << 13)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
+      mf.n_snake = (int)(denorm*(1 << 13)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
       // Create lookup table mapping op-amp input voltage to op-amp output
       // voltage: vx -> vo
@@ -310,11 +310,18 @@ Filter::Filter()
 	scaled_voltage[m][1] = N16*fi.opamp_voltage[m][0];
       }
 
-      mf.vc_min = (int)(N19*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]));
-      mf.vc_max = (int)(N19*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
-
+      mf.vc_min = (int)(N31*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]));
+      mf.vc_max = (int)(N31*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
 		  PointPlotter<unsigned short>(mf.opamp_rev), 1.0);
+
+      /* Rotate opamp_rev table because of our unsigned shifted index trick,
+       * which requires placing the midpoint of the table at index 0. */
+      for (int i = 0; i < 0x8000; i ++) {
+        int tmp = mf.opamp_rev[i];
+        mf.opamp_rev[i] = mf.opamp_rev[i + 0x8000];
+        mf.opamp_rev[i + 0x8000] = tmp;
+      }
 
       // DAC table.
       int bits = 11;
@@ -341,8 +348,8 @@ Filter::Filter()
 	vcr_n_Ids[i] = 0;
       }
       else {
-	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-11 = m*2^16
-	vcr_n_Ids[i] = n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 11;
+	// Scaled by (1/m)*2^13*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-15 = m*2^16
+	vcr_n_Ids[i] = n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 15;
       }
     }
 

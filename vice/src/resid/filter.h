@@ -1476,55 +1476,56 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   // Vg = Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
   int Vg = vcr_Vg[(Vw_term + (vi >> 4)*(((vi >> 1) - Vddt) >> 4)) >> 14] << 3;
 
+  // Start with the current through the "snake" (triode mode).
+  // n_I = n_snake*(2*Vov_snake - Vds)*Vds
+  //
+  // Substituting for the variables for forward and reverse directions:
+  // n_I = n_snake*(2*(Vddt - vi) - (vx - vi))*(vx - vi)
+  // n_I = n_snake*(2*(Vddt - vx) - (vi - vx))*(vi - vx)
+  //
+  // Multiplying either equation by -1 makes them equal, which allows
+  // calculating the snake current with single expression, if the sign
+  // is used as the direction of the current.
+  //
+  // Scaled by (1/m)*2^13*m*2^19*m*2^19*2^-4*2^-4*2^-12 = m*2^31
+  int n_I = n_snake*((((Vddt << 1) - vi - x) >> 4)*((vi - x) >> 4) >> 12);
+
   // Determine the direction of the current flowing through the VCR and
   // the "snake" transistor.
   if (vi < x) {
     // Negative current.
-    int Vds = x - vi;
     int Vgs = Vg - vi;
-    int Vov_snake = Vddt - vi;
-
-    // Start with the current through the "snake" (triode mode).
-    // n_I = n_snake*(2*Vov_snake - Vds)*Vds
-    //
-    // Scaled by (1/m)*2^19*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-18 = m*2^19
-    int n_I = n_snake*((((Vov_snake << 1) - Vds) >> 4)*(Vds >> 4) >> 12) >> 18;
 
     if (Vgs > 0) {
       // Add the current through the VCR.
 
       // Term for subthreshold mode / saturation mode.
-      // Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-8 = m*2^19
-      n_I += vcr_n_Ids[Vgs >> 3] << 3;
+      n_I -= vcr_n_Ids[Vgs >> 3] << 15;
 
-      int Vgdt = Vgs - Vds - mf.Vth;
+      int Vgdt = Vg - x - mf.Vth;
       if (Vgdt > 0) {
 	// Triode mode: Subtract term from saturation mode.
-	// Scaled by (1/m)*2^9*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-8 = m*2^19
-	n_I -= n_vcr*((Vgdt >> 4)*(Vgdt >> 4) >> 12) >> 8;
+	// Scaled by (1/m)*2^13*m*2^19*m*2^19*2^-4*2^-4*2^-12 = m*2^31
+	n_I += n_vcr*((Vgdt >> 4)*(Vgdt >> 4) >> 12);
       }
     }
 
     // Change in capacitor charge.
-    vc -= n_I*dt;
+    vc += n_I*dt;
     if (vc < mf.vc_min) {
       vc = mf.vc_min;
     }
   }
   else {
     // Positive current.
-    int Vds = vi - x;
     int Vgs = Vg - x;
-    int Vov_snake = Vddt - x;
-
-    int n_I = n_snake*((((Vov_snake << 1) - Vds) >> 4)*(Vds >> 4) >> 12) >> 18;
 
     if (Vgs > 0) {
-      n_I += vcr_n_Ids[Vgs >> 3] << 3;
+      n_I += vcr_n_Ids[Vgs >> 3] << 15;
 
-      int Vgdt = Vgs - Vds - mf.Vth;
+      int Vgdt = Vg - vi - mf.Vth;
       if (Vgdt > 0) {
-	n_I -= n_vcr*((Vgdt >> 4)*(Vgdt >> 4) >> 12) >> 8;
+	n_I -= n_vcr*((Vgdt >> 4)*(Vgdt >> 4) >> 12);
       }
     }
 
@@ -1535,10 +1536,15 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   }
 
   // vx = g(vc)
-  x = mf.opamp_rev[(vc + (1 << 19)) >> 4] << 3;
+  //
+  // The expression here is based on the idea
+  // that the top bits will be zero, thus avoiding
+  // the need to write something like
+  // (vc >> 16) + (1 << 15).
+  x = mf.opamp_rev[(unsigned int) vc >> 16] << 3;
 
   // Return vo.
-  return (x - vc) - mf.vo_T19;
+  return (x - (vc >> 12)) - mf.vo_T19;
 }
 
 #endif // RESID_INLINING || defined(RESID_FILTER_CC)
