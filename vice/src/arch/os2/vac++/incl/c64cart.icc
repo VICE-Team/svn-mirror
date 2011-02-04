@@ -40,7 +40,7 @@ source type(c)
     "cart\\mach5.c",
     "cart\\magicdesk.c",
     "cart\\magicformel.c",
-    "cart\\magicvoic.c",
+    "cart\\magicvoice.c",
     "cart\\mikroass.c",
     "cart\\mmc64.c",
     "cart\\mmcreplay.c",

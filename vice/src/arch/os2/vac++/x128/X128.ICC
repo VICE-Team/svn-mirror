@@ -43,7 +43,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpathfirst, "yes"),
     define("__X128__", ),
-    res_rc_options("-i ..\\..\\dialogs -x1 -d __X128__")
+    res_rc_options("-i ..\\..\\dialogs -i ..\\..\\..\\..\\arch -x1 -d __X128__")
 {
     target type(exe) "..\\..\\..\\..\\..\\data\\x128.exe"
     {

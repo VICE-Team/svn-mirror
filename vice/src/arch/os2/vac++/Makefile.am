@@ -40,6 +40,7 @@ EXTRA_DIST = \
 	incl/fsdevice.icc \
 	incl/gfxoutputdrv.icc \
 	incl/iec.icc \
+	incl/iec128dcr.icc \
 	incl/iecbus.icc \
 	incl/iecc64exp.icc \
 	incl/iecieee.icc \
