@@ -193,11 +193,11 @@ Filter::Filter()
       mf.voice_DC = (int)(N16*(fi.voice_DC_voltage - vmin));
 
       // Vth, Vdd - Vth
-      mf.Vth = (int)(N19*fi.Vth + 0.5);
-      mf.Vddt = (int)(N19*(fi.Vdd - fi.Vth) + 0.5);
+      mf.Vth = (int)(N16*fi.Vth + 0.5);
+      mf.Vddt = (int)(N16*(fi.Vdd - fi.Vth) + 0.5);
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
-      // Fit in 16 bits (only 6 bits for n_snake).
+      // Fit in 16 bits / 6 bits.
       mf.n_vcr = (int)(denorm*(1 << 13)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
       mf.n_snake = (int)(denorm*(1 << 13)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
@@ -330,19 +330,19 @@ Filter::Filter()
     int n_vcr = model_filter[0].n_vcr;
 
     for (int i = 0; i < (1 << 16); i++) {
-      vcr_Vg[i] = (Vddt - (int)(sqrtf((float)i*(1 << 22)) + 0.5f)) >> 3;
+      // The table index is right-shifted 16 times in order to fit in
+      // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
+      vcr_Vg[i] = Vddt - (int)(sqrtf((float)i*(1 << 16)) + 0.5f);
     }
 
-    for (int i = 0; i < (1 << 16); i++) {
-      // FIXME: Blend between subthreshold and saturation modes.
-      int Vgs = i << 3;
+    for (int Vgs = 0; Vgs < (1 << 16); Vgs++) {
       int Vov_vcr = Vgs - Vth;
       if (Vov_vcr < 0) {
-	vcr_n_Ids[i] = 0;
+	vcr_n_Ids[Vgs] = 0;
       }
       else {
-	// Scaled by (1/m)*2^13*m*2^19*m*2^19*2^-4*2^-4*2^-12*2^-15 = m*2^16
-	vcr_n_Ids[i] = n_vcr*((Vov_vcr >> 4)*(Vov_vcr >> 4) >> 12) >> 15;
+	// Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-1*2^-1*2^-12*2^-15 = m*2^16
+	vcr_n_Ids[Vgs] = n_vcr*((Vov_vcr >> 1)*(Vov_vcr >> 1) >> 12) >> 15;
       }
     }
 
@@ -465,7 +465,7 @@ void Filter::set_w0()
 {
   model_filter_t& f = model_filter[sid_model];
   Vw = Vw_bias + f.f0_dac[fc];
-  Vw_term = (f.Vddt >> 4) * (f.Vddt >> 4) - (Vw >> 1) * (f.Vddt >> 4) + (Vw >> 1) * (Vw >> 2);
+  Vw_term = (f.Vddt >> 1)*(f.Vddt >> 1) - (Vw >> 1)*(f.Vddt >> 1) + (Vw >> 1)*(Vw >> 2);
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.
   const double pi = 3.1415926535897932385;
