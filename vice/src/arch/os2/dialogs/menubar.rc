@@ -432,7 +432,7 @@ BEGIN
             MENUITEM "~2048kB",                           IDM_PETREU2048,               MIS_TEXT
         END
         MENUITEM "PET REU Filename",                      IDM_PETREUFILE,               MIS_TEXT
-        MENUITEM "PET Userport ~DAC",                     IDM_PET_USERPORT_DACREU,      MIS_TEXT
+        MENUITEM "PET Userport ~DAC",                     IDM_PET_USERPORT_DAC,         MIS_TEXT
 #endif
 
 #if defined(__X64__) || defined(__X128__)
