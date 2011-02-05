@@ -138,6 +138,7 @@ EXTRA_DIST = \
 	watcom/imagecontents.tgt \
 	watcom/kbd.tgt \
 	watcom/mainsrc.tgt \
+	watcom/makebindist.bat \
 	watcom/monitor.tgt \
 	watcom/nonresid-sid-cmdline-options.c \
 	watcom/nonresid-sid-resources.c \
