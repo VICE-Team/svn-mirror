@@ -68,7 +68,7 @@ n????Include directories:
 17
 WString
 48
-"$(%watcom)/h;$(%watcom)/h/nt;../../win32/utils"
+"$(%watcom)/h;$(%watcom)/h/nt;..\..\win32\utils"
 0
 18
 WVList
@@ -79,8 +79,8 @@ WVList
 0
 19
 MItem
-35
-..\..\win32\watcom\gentranslate32.c
+45
+..\..\watcom-source-wrappers\gentranslate32.c
 20
 WString
 4

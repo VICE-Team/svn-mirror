@@ -73,7 +73,6 @@ EXTRA_DIST = \
 	vdrive.tgt \
 	vic20.tgt \
 	vic20cart.tgt \
-	vic20cart-generic.c \
 	vice.wpj \
 	vicii.tgt \
 	viciicommon.tgt \

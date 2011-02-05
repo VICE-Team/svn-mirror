@@ -57,3 +57,8 @@ noinst_HEADERS = \
 	platform_netbsd_version.h \
 	platform_openbsd_version.h \
 	platform_qnx6_version.h
+
+EXTRA_DIST = \
+        watcom-source-wrappers/vic20cart-generic.c \
+	watcom-source-wrappers/gentranslate32.c
+

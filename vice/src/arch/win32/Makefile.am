@@ -317,7 +317,6 @@ EXTRA_DIST = \
 	watcom/fileio.tgt \
 	watcom/fsdevice.tgt \
 	watcom/gentr.tgt \
-	watcom/gentranslate32.c \
 	watcom/gentranslate32.tgt \
 	watcom/genwinres32.c \
 	watcom/genwinres32.tgt \
@@ -373,7 +372,6 @@ EXTRA_DIST = \
 	watcom/vdc.tgt \
 	watcom/vdrive.tgt \
 	watcom/vic20.tgt \
-	watcom/vic20cart-generic.c \
 	watcom/vice.wpj \
 	watcom/vicii.tgt \
 	watcom/viciicommon.tgt \

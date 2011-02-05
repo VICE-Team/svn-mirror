@@ -172,7 +172,6 @@ EXTRA_DIST = \
 	watcom/vdc.tgt \
 	watcom/vdrive.tgt \
 	watcom/vic20.tgt \
-	watcom/vic20cart-generic.c \
 	watcom/vice.wpj \
 	watcom/vicii.tgt \
 	watcom/viciicommon.tgt \

@@ -79,8 +79,8 @@ WVList
 0
 19
 MItem
-16
-gentranslate32.c
+45
+..\..\watcom-source-wrappers\gentranslate32.c
 20
 WString
 4

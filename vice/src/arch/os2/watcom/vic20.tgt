@@ -745,8 +745,8 @@ WVList
 0
 168
 MItem
-19
-vic20cart-generic.c
+48
+..\..\watcom-source-wrappers\vic20cart-generic.c
 169
 WString
 4
