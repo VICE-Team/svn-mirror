@@ -17,8 +17,6 @@ EXTRA_DIST = \
 	PETcat.ICC \
 	RESID.ICC \
 	RESIDDTV.ICC \
-	VICE_INF.ICC \
-	VICE_HLP.ICC \
 	vicedll.ICC \
 	incl/archdep.icc \
 	incl/c128.icc \

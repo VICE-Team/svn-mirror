@@ -743,6 +743,22 @@ else
   AM_CONDITIONAL(BUILD_HLP, true)
 fi
 
+dnl check for os/2 ipf compiler programs
+AC_CHECK_PROGS(TEXI2IPF, texi2ipf, no)
+AC_CHECK_PROGS(IPFC, ipfc, no)
+if test x"$TEXI2IPF" != "xno"; then
+  if test x"$IPFC" = "xno"; then
+    AC_CHECK_PROGS(IPFC, wipfc, no)
+  fi
+  if test x"$IPFC" != "xno"; then
+    AM_CONDITIONAL(BUILD_IPF, true)
+  else
+    AM_CONDITIONAL(BUILD_IPF, false)
+  fi
+else
+  AM_CONDITIONAL(BUILD_IPF, false)
+fi
+
 dnl Extension for executable files in this system
 AC_EXEEXT
 

@@ -1,4 +1,0 @@
-option ProjectOptions = ipf_output("hlp")
-{
-   source type(ipf) "..\\doc\\vice2.ipf"
-}

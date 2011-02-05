@@ -186,8 +186,7 @@ copy ..\..\..\..\data\PRINTER\mps803.vpl %VICEDIR%\PRINTER
 copy ..\..\..\..\data\PRINTER\nl10-cbm   %VICEDIR%\PRINTER
 
 mkdir %VICEDIR%\doc
-copy "..\vac++\vice2.inf" %VICEDIR%\doc
-copy "..\doc\vice2.hlp"   %VICEDIR%
+copy  "..\..\..\..\doc\vice.inf" %VICEDIR%\doc
 
 copy ..\doc\Vice_for_OS2.txt %VICEDIR%\doc
 

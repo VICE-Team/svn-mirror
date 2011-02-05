@@ -33,7 +33,8 @@ VICE_DOX = \
 	vice.pdf \
 	vice.chm \
 	vice.hlp \
-	vice.guide
+	vice.guide \
+	vice.inf
 
 info_TEXINFOS = vice.texi
 
@@ -86,4 +87,16 @@ else
 CHM_DEPS=
 endif
 
-INFO_DEPS = $(srcdir)/vice.txt $(srcdir)/vice.info $(PDF_DEPS) $(GUIDE_DEPS) $(HLP_DEPS) $(CHM_DEPS)
+if BUILD_IPF
+$(srcdir)/vice.inf:	vice.texi
+	$(TEXI2IPF) $(srcdir)/vice.texi >temp.ipf
+	$(IPFC) -i temp.ipf
+	mv temp.inf $(srcdir)/vice.inf
+	rm -f temp.ipf
+
+IPF_DEPS=$(srcdir)/vice.inf
+else
+IPF_DEPS=
+endif
+
+INFO_DEPS = $(srcdir)/vice.txt $(srcdir)/vice.info $(PDF_DEPS) $(GUIDE_DEPS) $(HLP_DEPS) $(CHM_DEPS) $(IPF_DEPS)
