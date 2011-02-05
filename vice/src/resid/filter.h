@@ -1469,8 +1469,8 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   int vi = vi_n + mf.vo_T16; // Scaled by m*2^16
 
   int Vddt = mf.Vddt;        // Scaled by m*2^16
-  int n_vcr = mf.n_vcr;      // Scaled by (1/m)*2^13 (fits in 16 bits)
-  int n_snake = mf.n_snake;  // Scaled by (1/m)*2^13 (fits in 6 bits)
+  int n_vcr = mf.n_vcr;      // Scaled by (1/m)*2^13 (fits in 15 bits)
+  int n_snake = mf.n_snake;  // Scaled by (1/m)*2^13 (fits in 5 bits)
 
   // VCR gate voltage.       // Scaled by m*2^16
   // Vg = Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
@@ -1505,8 +1505,8 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
       int Vgdt = Vg - x - mf.Vth;
       if (Vgdt > 0) {
 	// Triode mode: Subtract term from saturation mode.
-	// Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-1*2^-1*2^-12 = m*2^31
-	n_I += n_vcr*((Vgdt >> 1)*(Vgdt >> 1) >> 12);
+	// Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-14 = m*2^31
+	n_I += n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
       }
     }
 
@@ -1525,7 +1525,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
 
       int Vgdt = Vg - vi - mf.Vth;
       if (Vgdt > 0) {
-	n_I -= n_vcr*((Vgdt >> 1)*(Vgdt >> 1) >> 12);
+	n_I -= n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
       }
     }
 

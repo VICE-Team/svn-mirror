@@ -197,7 +197,7 @@ Filter::Filter()
       mf.Vddt = (int)(N16*(fi.Vdd - fi.Vth) + 0.5);
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
-      // Fit in 16 bits / 6 bits.
+      // Fit in 15 bits / 5 bits.
       mf.n_vcr = (int)(denorm*(1 << 13)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
       mf.n_snake = (int)(denorm*(1 << 13)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
