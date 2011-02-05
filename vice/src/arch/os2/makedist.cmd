@@ -6,9 +6,10 @@ xdel Vice2\*.*  /s /l /n /d
 
 md "Vice2"
 type install.cmd > Vice2\install.cmd
-copy ..\..\..\data\x64.exe     Vice2
-copy ..\..\..\data\x64dtv.exe     Vice2
-copy ..\..\..\data\x128.exe    Vice2
+copy ..\..\..\data\x64.exe      Vice2
+copy ..\..\..\data\x64dtv.exe   Vice2
+copy ..\..\..\data\x64sc.exe    Vice2
+copy ..\..\..\data\x128.exe     Vice2
 copy ..\..\..\data\xvic.exe     Vice2
 copy ..\..\..\data\xpet.exe     Vice2
 copy ..\..\..\data\xplus4.exe   Vice2
