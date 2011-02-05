@@ -31,8 +31,12 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
 extern BYTE magicformel_romh_read(WORD addr);
 extern BYTE magicformel_romh_read_hirom(WORD addr);
+extern int magicformel_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void magicformel_freeze(void);
 extern void magicformel_config_init(void);
@@ -41,8 +45,6 @@ extern void magicformel_config_setup(BYTE *rawcart);
 extern int magicformel_bin_attach(const char *filename, BYTE *rawcart);
 extern int magicformel_crt_attach(FILE *fd, BYTE *rawcart);
 extern void magicformel_detach(void);
-
-struct snapshot_s;
 
 extern int magicformel_snapshot_write_module(struct snapshot_s *s);
 extern int magicformel_snapshot_read_module(struct snapshot_s *s);

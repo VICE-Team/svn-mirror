@@ -621,6 +621,25 @@ BYTE magicformel_romh_read_hirom(WORD addr)
     return mem_read_without_ultimax(addr);
 }
 
+int magicformel_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+{
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        if (export_ram) {
+            *value = export_ram0[addr & 0x1fff];
+            return CART_READ_VALID;
+        }
+        *value = roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+        return CART_READ_VALID;
+    }
+
+    if (addr >= 0xe000) {
+        *value = romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+        return CART_READ_VALID;
+    }
+    return CART_READ_THROUGH;
+}
+
+
 /****************************************************************************/
 
 /* ultimax, rom bank 1 */

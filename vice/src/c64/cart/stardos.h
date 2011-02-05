@@ -30,8 +30,12 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
 extern BYTE stardos_roml_read(WORD addr);
 extern BYTE stardos_romh_read(WORD addr);
+extern int stardos_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void stardos_config_init(void);
 extern void stardos_reset(void);
@@ -39,8 +43,6 @@ extern void stardos_config_setup(BYTE *rawcart);
 extern int stardos_bin_attach(const char *filename, BYTE *rawcart);
 extern int stardos_crt_attach(FILE *fd, BYTE *rawcart);
 extern void stardos_detach(void);
-
-struct snapshot_s;
 
 extern int stardos_snapshot_write_module(struct snapshot_s *s);
 extern int stardos_snapshot_read_module(struct snapshot_s *s);

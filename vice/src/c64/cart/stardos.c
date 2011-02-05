@@ -161,6 +161,21 @@ BYTE stardos_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff)];
 }
 
+int stardos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+{
+    if (roml_enable) {
+        if (addr >= 0x8000 && addr <= 0x9fff) {
+            *value = roml_banks[addr & 0x1fff];
+            return CART_READ_VALID;
+        }
+    }
+    if (addr >= 0xe000) {
+        *value = romh_banks[addr & 0x1fff];
+        return CART_READ_VALID;
+    }
+    return CART_READ_THROUGH;
+}
+
 void stardos_config_init(void)
 {
     cnt_de61 = 0;

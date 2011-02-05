@@ -31,14 +31,17 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
+extern int gamekiller_peek_mem(struct export_s *export, WORD addr, BYTE *value);
+
 extern void gamekiller_config_init(void);
 extern void gamekiller_config_setup(BYTE *rawcart);
 extern int gamekiller_bin_attach(const char *filename, BYTE *rawcart);
 extern int gamekiller_crt_attach(FILE *fd, BYTE *rawcart);
 extern void gamekiller_detach(void);
 extern void gamekiller_freeze(void);
-
-struct snapshot_s;
 
 extern int gamekiller_snapshot_write_module(struct snapshot_s *s);
 extern int gamekiller_snapshot_read_module(struct snapshot_s *s);

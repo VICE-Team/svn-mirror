@@ -31,15 +31,17 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
 extern BYTE zaxxon_roml_read(WORD addr);
+extern int zaxxon_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void zaxxon_config_init(void);
 extern void zaxxon_config_setup(BYTE *rawcart);
 extern int zaxxon_bin_attach(const char *filename, BYTE *rawcart);
 extern int zaxxon_crt_attach(FILE *fd, BYTE *rawcart);
 extern void zaxxon_detach(void);
-
-struct snapshot_s;
 
 extern int zaxxon_snapshot_write_module(struct snapshot_s *s);
 extern int zaxxon_snapshot_read_module(struct snapshot_s *s);

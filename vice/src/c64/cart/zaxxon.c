@@ -60,6 +60,19 @@ BYTE zaxxon_roml_read(WORD addr)
     return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
 }
 
+int zaxxon_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+{
+    if (addr >= 0x8000 && addr <= 0x9fff) {
+        *value = roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+        return CART_READ_VALID;
+    }
+    if (addr >= 0xa000 && addr <= 0xbfff) {
+        *value = romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+        return CART_READ_VALID;
+    }
+    return CART_READ_THROUGH;
+}
+
 void zaxxon_config_init(void)
 {
     cart_config_changed_slotmain(1, 1, CMODE_READ);

@@ -31,7 +31,11 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
 extern BYTE exos_romh_read(WORD addr);
+extern int exos_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void exos_config_init(void);
 extern void exos_reset(void);
@@ -39,8 +43,6 @@ extern void exos_config_setup(BYTE *rawcart);
 extern int exos_bin_attach(const char *filename, BYTE *rawcart);
 extern int exos_crt_attach(FILE *fd, BYTE *rawcart);
 extern void exos_detach(void);
-
-struct snapshot_s;
 
 extern int exos_snapshot_write_module(struct snapshot_s *s);
 extern int exos_snapshot_read_module(struct snapshot_s *s);

@@ -65,6 +65,15 @@ BYTE exos_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff)];
 }
 
+int exos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+{
+    if (addr >= 0xe000) {
+        *value = romh_banks[addr & 0x1fff];
+        return CART_READ_VALID;
+    }
+    return CART_READ_THROUGH;
+}
+
 void exos_config_init(void)
 {
     cart_config_changed_slotmain(2, 3, CMODE_READ);

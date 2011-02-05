@@ -31,10 +31,14 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
 extern BYTE capture_romh_read(WORD addr);
 extern void capture_romh_store(WORD addr, BYTE value);
 extern BYTE capture_1000_7fff_read(WORD addr);
 extern void capture_1000_7fff_store(WORD addr, BYTE value);
+extern int capture_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void capture_freeze(void);
 
@@ -44,8 +48,6 @@ extern void capture_config_setup(BYTE *rawcart);
 extern int capture_bin_attach(const char *filename, BYTE *rawcart);
 extern int capture_crt_attach(FILE *fd, BYTE *rawcart);
 extern void capture_detach(void);
-
-struct snapshot_s;
 
 extern int capture_snapshot_write_module(struct snapshot_s *s);
 extern int capture_snapshot_read_module(struct snapshot_s *s);

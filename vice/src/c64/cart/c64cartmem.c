@@ -1732,13 +1732,34 @@ static BYTE cartridge_peek_mem_slotmain(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_RETRO_REPLAY:
-            res = retroreplay_peek_mem((struct export_s*)&export_slotmain, addr, &value);
-            break;
         case CARTRIDGE_ULTIMAX:
         case CARTRIDGE_GENERIC_8KB:
         case CARTRIDGE_GENERIC_16KB:
             res = generic_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_CAPTURE:
+            res = capture_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_EXOS:
+            res = exos_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_FINAL_PLUS:
+            res = final_plus_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_GAME_KILLER:
+            res = gamekiller_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_MAGIC_FORMEL:
+            res = magicformel_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            res = retroreplay_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_STARDOS:
+            res = stardos_peek_mem((struct export_s*)&export_slotmain, addr, &value);
+            break;
+        case CARTRIDGE_ZAXXON:
+            res = zaxxon_peek_mem((struct export_s*)&export_slotmain, addr, &value);
             break;
         default:
             /* generic fallback */

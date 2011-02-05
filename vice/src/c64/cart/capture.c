@@ -181,6 +181,22 @@ void capture_1000_7fff_store(WORD addr, BYTE value)
     }
 }
 
+int capture_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+{
+    if (cart_enabled == 1) {
+        if (addr >= 0x6000 && addr <= 0x7fff) {
+            *value = export_ram0[addr-0x6000];
+            return CART_READ_VALID;
+        }
+        if (romh_enabled) {
+            if (addr >= 0xe000) {
+                *value = romh_banks[addr & 0x1fff];
+                return CART_READ_VALID;
+            }
+        }
+    }
+    return CART_READ_THROUGH;
+}
 /******************************************************************************/
 
 void capture_freeze(void)

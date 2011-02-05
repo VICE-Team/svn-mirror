@@ -123,13 +123,23 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+int gamekiller_peek_mem(struct export_s *export, WORD addr, BYTE *value)
+{
+    if (cartridge_disable_flag <= 1) {
+        if (addr >= 0xe000) {
+            *value = romh_banks[addr & 0x1fff];
+            return CART_READ_VALID;
+        }
+    }
+    return CART_READ_THROUGH;
+}
+
 void gamekiller_freeze(void)
 {
     DBG(("Game Killer freeze\n"));
     cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
     cartridge_disable_flag = 0;
 }
-
 
 void gamekiller_config_init(void)
 {
