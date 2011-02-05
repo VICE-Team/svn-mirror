@@ -47,7 +47,7 @@ protected:
   EnvelopeGenerator envelope;
 
   // Waveform D/A zero level.
-  reg12 wave_zero;
+  short wave_zero;
 
 friend class SID;
 };

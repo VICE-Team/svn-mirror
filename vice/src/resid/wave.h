@@ -54,7 +54,7 @@ public:
   reg8 readOSC();
 
   // 12-bit waveform output.
-  RESID_INLINE reg12 output();
+  RESID_INLINE short output();
 
 protected:
   RESID_INLINE void clock_shift_register();
@@ -89,11 +89,11 @@ protected:
 
   // Helper variables for waveform table lookup.
   reg24 ring_msb_mask;
-  reg12 no_noise;
-  reg12 noise_output;
-  reg12 no_noise_or_noise_output;
-  reg12 no_pulse;
-  reg12 pulse_output;
+  unsigned short no_noise;
+  unsigned short noise_output;
+  unsigned short no_noise_or_noise_output;
+  unsigned short no_pulse;
+  unsigned short pulse_output;
 
   // The control register right-shifted 4 bits; used for waveform table lookup.
   reg8 waveform;
@@ -112,8 +112,8 @@ protected:
   chip_model sid_model;
 
   // Sample data for waveforms, not including noise.
-  static reg12 model_wave[2][8][1 << 12];
-  reg12* wave;
+  static unsigned short model_wave[2][8][1 << 12];
+  unsigned short* wave;
   // DAC lookup tables.
   static unsigned short model_dac[2][1 << 12];
 
@@ -542,7 +542,7 @@ void WaveformGenerator::set_waveform_output(cycle_count delta_t)
 //
 
 RESID_INLINE
-reg12 WaveformGenerator::output()
+short WaveformGenerator::output()
 {
   // DAC imperfections are emulated by using waveform_output as an index
   // into a DAC lookup table. readOSC() uses waveform_output directly.

@@ -53,7 +53,7 @@ public:
   reg8 readENV();
 
   // 8-bit envelope output.
-  RESID_INLINE reg8 output();
+  RESID_INLINE short output();
 
 protected:
   RESID_INLINE void set_exponential_counter();
@@ -286,7 +286,7 @@ void EnvelopeGenerator::clock(cycle_count delta_t)
 // Read the envelope generator output.
 // ----------------------------------------------------------------------------
 RESID_INLINE
-reg8 EnvelopeGenerator::output()
+short EnvelopeGenerator::output()
 {
   // DAC imperfections are emulated by using envelope_counter as an index
   // into a DAC lookup table. readENV() uses envelope_counter directly.
