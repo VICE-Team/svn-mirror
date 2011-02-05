@@ -181,6 +181,16 @@ void capture_1000_7fff_store(WORD addr, BYTE value)
     }
 }
 
+int capture_romh_phi1_read(WORD addr, BYTE *value)
+{
+    return CART_READ_C64MEM;
+}
+
+int capture_romh_phi2_read(WORD addr, BYTE *value)
+{
+    return capture_romh_phi1_read(addr, value);
+}
+
 int capture_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 {
     if (cart_enabled == 1) {

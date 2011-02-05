@@ -51,10 +51,8 @@ extern void generic_ultimax_detach(void);
 extern BYTE generic_roml_read(WORD addr);
 extern void generic_roml_store(WORD addr, BYTE value);
 extern BYTE generic_romh_read(WORD addr);
-extern BYTE *generic_romh_phi1_ptr(WORD addr);
-extern BYTE *generic_romh_phi2_ptr(WORD addr);
-extern BYTE generic_romh_phi1_read(WORD addr);
-extern BYTE generic_romh_phi2_read(WORD addr);
+extern int generic_romh_phi1_read(WORD addr, BYTE *value);
+extern int generic_romh_phi2_read(WORD addr, BYTE *value);
 extern int generic_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern int generic_snapshot_write_module(struct snapshot_s *s, int type);

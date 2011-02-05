@@ -44,6 +44,8 @@ extern void final_plus_detach(void);
 extern BYTE final_plus_roml_read(WORD addr);
 extern BYTE final_plus_romh_read(WORD addr);
 extern BYTE final_plus_a000_bfff_read(WORD addr);
+extern int final_plus_romh_phi1_read(WORD addr, BYTE *value);
+extern int final_plus_romh_phi2_read(WORD addr, BYTE *value);
 extern int final_plus_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern int final_plus_snapshot_write_module(struct snapshot_s *s);

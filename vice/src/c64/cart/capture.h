@@ -38,6 +38,8 @@ extern BYTE capture_romh_read(WORD addr);
 extern void capture_romh_store(WORD addr, BYTE value);
 extern BYTE capture_1000_7fff_read(WORD addr);
 extern void capture_1000_7fff_store(WORD addr, BYTE value);
+extern int capture_romh_phi1_read(WORD addr, BYTE *value);
+extern int capture_romh_phi2_read(WORD addr, BYTE *value);
 extern int capture_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void capture_freeze(void);

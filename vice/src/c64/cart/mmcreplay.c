@@ -2121,6 +2121,15 @@ void mmcreplay_romh_store(WORD addr, BYTE value)
     }
 }
 
+int mmcreplay_romh_phi1_read(WORD addr, BYTE *value)
+{
+    return CART_READ_C64MEM;
+}
+
+int mmcreplay_romh_phi2_read(WORD addr, BYTE *value)
+{
+    return mmcreplay_romh_phi1_read(addr, value);
+}
 
 /*********************************************************************************************************************
 

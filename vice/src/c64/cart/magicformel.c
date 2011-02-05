@@ -621,6 +621,16 @@ BYTE magicformel_romh_read_hirom(WORD addr)
     return mem_read_without_ultimax(addr);
 }
 
+int magicformel_romh_phi1_read(WORD addr, BYTE *value)
+{
+    return CART_READ_C64MEM;
+}
+
+int magicformel_romh_phi2_read(WORD addr, BYTE *value)
+{
+    return magicformel_romh_phi1_read(addr, value);
+}
+
 int magicformel_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {

@@ -50,6 +50,9 @@ extern void mmcreplay_a000_bfff_store(WORD addr, BYTE value);
 extern BYTE mmcreplay_c000_cfff_read(WORD addr);
 extern void mmcreplay_c000_cfff_store(WORD addr, BYTE value);
 
+extern int mmcreplay_romh_phi1_read(WORD addr, BYTE *value);
+extern int mmcreplay_romh_phi2_read(WORD addr, BYTE *value);
+
 extern void mmcreplay_freeze(void);
 extern int mmcreplay_freeze_allowed(void);
 

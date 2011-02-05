@@ -151,6 +151,16 @@ BYTE final_plus_a000_bfff_read(WORD addr)
     }
 }
 
+int final_plus_romh_phi1_read(WORD addr, BYTE *value)
+{
+    return CART_READ_C64MEM;
+}
+
+int final_plus_romh_phi2_read(WORD addr, BYTE *value)
+{
+    return final_plus_romh_phi1_read(addr, value);
+}
+
 int final_plus_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 {
     if (fcplus_roml == 1) {

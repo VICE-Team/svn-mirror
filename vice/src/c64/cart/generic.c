@@ -290,24 +290,15 @@ BYTE generic_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
 }
 
-BYTE generic_romh_phi1_read(WORD addr)
+int generic_romh_phi1_read(WORD addr, BYTE *value)
 {
-    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+    *value = romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
+    return CART_READ_VALID;
 }
 
-BYTE generic_romh_phi2_read(WORD addr)
+int generic_romh_phi2_read(WORD addr, BYTE *value)
 {
-    return romh_banks[(romh_bank << 13) + (addr & 0x1fff)];
-}
-
-BYTE *generic_romh_phi1_ptr(WORD addr)
-{
-    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
-}
-
-BYTE *generic_romh_phi2_ptr(WORD addr)
-{
-    return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
+    return generic_romh_phi1_read(addr, value);
 }
 
 int generic_peek_mem(struct export_s *export, WORD addr, BYTE *value)

@@ -161,6 +161,16 @@ BYTE stardos_romh_read(WORD addr)
     return romh_banks[(addr & 0x1fff)];
 }
 
+int stardos_romh_phi1_read(WORD addr, BYTE *value)
+{
+    return CART_READ_C64MEM;
+}
+
+int stardos_romh_phi2_read(WORD addr, BYTE *value)
+{
+    return stardos_romh_phi1_read(addr, value);
+}
+
 int stardos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 {
     if (roml_enable) {

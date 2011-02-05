@@ -36,6 +36,8 @@ struct export_s;
 
 extern BYTE magicformel_romh_read(WORD addr);
 extern BYTE magicformel_romh_read_hirom(WORD addr);
+extern int magicformel_romh_phi1_read(WORD addr, BYTE *value);
+extern int magicformel_romh_phi2_read(WORD addr, BYTE *value);
 extern int magicformel_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void magicformel_freeze(void);
