@@ -1,6 +1,6 @@
 @echo off
 call ..\..\win32\vice-version.bat
-set VICEDIR=VICE2-%VICEVERSION%
+set VICEDIR=Vice2-%VICEVERSION%
 if not exist x64.exe goto missingwatcom
 if not exist x64dtv.exe goto missingwatcom
 if not exist x64sc.exe goto missingwatcom
@@ -9,7 +9,7 @@ if not exist xcbm2.exe goto missingwatcom
 if not exist xpet.exe goto missingwatcom
 if not exist xplus4.exe goto missingwatcom
 if not exist xvic.exe goto missingwatcom
-if not exist c1541.exe goto missingwatcom
+if not exist x1541.exe goto missingwatcom
 if not exist cartconv.exe goto missingwatcom
 if not exist petcat.exe goto missingwatcom
 echo generating OPENWATCOM OS/2 binary port distribution
@@ -190,7 +190,7 @@ copy  "..\..\..\..\doc\vice.inf" %VICEDIR%\doc
 
 copy ..\doc\Vice_for_OS2.txt %VICEDIR%\doc
 
-mkdir Vice2\doc\readme
+mkdir %VICEDIR%\doc\readme
 copy  ..\..\..\..\AUTHORS                %VICEDIR%\doc\readme
 copy  ..\..\..\..\doc\html\plain\BUGS    %VICEDIR%\doc\readme
 copy  ..\..\..\..\doc\html\plain\COPYING %VICEDIR%\doc\readme
