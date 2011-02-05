@@ -310,27 +310,29 @@ BYTE *generic_romh_phi2_ptr(WORD addr)
     return romh_banks + (romh_bank << 13) + (addr & 0x1fff);
 }
 
-BYTE generic_peek_mem(WORD addr)
+int generic_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
         if (export_ram) {
-            return export_ram0[addr & 0x1fff];
+            *value = export_ram0[addr & 0x1fff];
+            return CART_READ_VALID;
         }
-        return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+        *value = roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
+        return CART_READ_VALID;
     }
 
-    /* FIXME: export.xxx */
-    if (!export.exrom && export.game) {
+    if (!(((export_t*)export)->exrom) && (((export_t*)export)->game)) {
         if (addr >= 0xe000) {
-            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+            *value = romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+            return CART_READ_VALID;
         }
     } else {
         if (addr >= 0xa000 && addr <= 0xbfff) {
-            return romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+            *value = romh_banks[(addr & 0x1fff) + (romh_bank << 13)];
+            return CART_READ_VALID;
         }
     }
-
-    return ram_read(addr);
+    return CART_READ_THROUGH;
 }
 
 /* ---------------------------------------------------------------------*/

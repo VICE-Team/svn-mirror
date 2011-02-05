@@ -37,11 +37,14 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
 extern BYTE retroreplay_roml_read(WORD addr);
 extern void retroreplay_roml_store(WORD addr, BYTE value);
 extern int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value);
 extern BYTE retroreplay_romh_read(WORD addr);
-extern BYTE retroreplay_peek_mem(WORD addr);
+extern int retroreplay_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern void retroreplay_freeze(void);
 extern int retroreplay_freeze_allowed(void);
@@ -62,8 +65,6 @@ extern int rr_clockport_enabled;
 extern int retroreplay_cmdline_options_init(void);
 extern int retroreplay_resources_init(void);
 extern void retroreplay_resources_shutdown(void);
-
-struct snapshot_s;
 
 extern int retroreplay_snapshot_write_module(struct snapshot_s *s);
 extern int retroreplay_snapshot_read_module(struct snapshot_s *s);

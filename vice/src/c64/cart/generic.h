@@ -31,6 +31,9 @@
 
 #include "types.h"
 
+struct snapshot_s;
+struct export_s;
+
 extern void generic_8kb_config_init(void);
 extern void generic_16kb_config_init(void);
 extern void generic_ultimax_config_init(void);
@@ -52,9 +55,7 @@ extern BYTE *generic_romh_phi1_ptr(WORD addr);
 extern BYTE *generic_romh_phi2_ptr(WORD addr);
 extern BYTE generic_romh_phi1_read(WORD addr);
 extern BYTE generic_romh_phi2_read(WORD addr);
-extern BYTE generic_peek_mem(WORD addr);
-
-struct snapshot_s;
+extern int generic_peek_mem(struct export_s *export, WORD addr, BYTE *value);
 
 extern int generic_snapshot_write_module(struct snapshot_s *s, int type);
 extern int generic_snapshot_read_module(struct snapshot_s *s, int type);

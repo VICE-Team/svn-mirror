@@ -491,22 +491,24 @@ BYTE retroreplay_romh_read(WORD addr)
     return flash040core_read(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13));
 }
 
-BYTE retroreplay_peek_mem(WORD addr)
+int retroreplay_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 {
     if (addr >= 0x8000 && addr <= 0x9fff) {
-        return retroreplay_roml_read(addr);
+        *value = retroreplay_roml_read(addr);
+        return CART_READ_VALID;
     }
-    /* FIXME: export.xxx */
-    if (!export.exrom && export.game) {
+    if (!(((export_t*)export)->exrom) && (((export_t*)export)->game)) {
         if (addr >= 0xe000) {
-            return retroreplay_romh_read(addr);
+            *value = retroreplay_romh_read(addr);
+            return CART_READ_VALID;
         }
     } else {
         if (addr >= 0xa000 && addr <= 0xbfff) {
-            return retroreplay_romh_read(addr);
+            *value = retroreplay_romh_read(addr);
+            return CART_READ_VALID;
         }
     }
-    return ram_read(addr);
+    return CART_READ_THROUGH;
 }
 /* ---------------------------------------------------------------------*/
 
