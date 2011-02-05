@@ -1467,10 +1467,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
 {
   // Translate normalized vi.
   int vi = vi_n + mf.vo_T16; // Scaled by m*2^16
-
   int Vddt = mf.Vddt;        // Scaled by m*2^16
-  int n_vcr = mf.n_vcr;      // Scaled by (1/m)*2^13 (fits in 15 bits)
-  int n_snake = mf.n_snake;  // Scaled by (1/m)*2^13 (fits in 5 bits)
 
   // VCR gate voltage.       // Scaled by m*2^16
   // Vg = Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
@@ -1488,7 +1485,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   // is used as the direction of the current.
   //
   // Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-1*2^-1*2^-12 = m*2^31
-  int n_I = n_snake*((((Vddt << 1) - vi - x) >> 1)*((vi - x) >> 1) >> 12);
+  int n_I = mf.n_snake*((((Vddt << 1) - vi - x) >> 1)*((vi - x) >> 1) >> 12);
 
   // Determine the direction of the current flowing through the VCR and
   // the "snake" transistor.
@@ -1506,7 +1503,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
       if (Vgdt > 0) {
 	// Triode mode: Subtract term from saturation mode.
 	// Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-14 = m*2^31
-	n_I += n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
+	n_I += mf.n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
       }
     }
 
@@ -1525,7 +1522,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
 
       int Vgdt = Vg - vi - mf.Vth;
       if (Vgdt > 0) {
-	n_I -= n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
+	n_I -= mf.n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
       }
     }
 
