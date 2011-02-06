@@ -52,6 +52,14 @@ list of all the changes in the code.
 
 - Removed little used Emulator ID feature.
 
+- VIA wrap handling rewritten to fix problems with timer 2.
+
+- Added autostart option to do LOAD ,8 instead of ,8,1.
+
+- RESTORE key presses are now distributed randomly across a frame.
+
+- Improved accuracy of CIA interrupts. (6526/6526A selectable)
+
 ** C64/C128 changes
 -------------------
 
