@@ -611,7 +611,7 @@ static int tap_cbm_read_header(tap_t *tap)
   BYTE buffer[255];
 
   /* read header data */
-  ret = tap_cbm_read_block(tap, buffer, 255);
+  ret = tap_cbm_read_block(tap, buffer, tap->system == 2 ? 193 : 255);
   if ( ret<0 ) return ret;
 
   /* first byte of header must represent a valid file type (1, 3 or 4) */
