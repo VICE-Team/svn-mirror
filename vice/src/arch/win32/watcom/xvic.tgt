@@ -159,8 +159,8 @@ WVList
 0
 39
 MItem
-10
-xvicmain.c
+40
+..\..\watcom-source-wrappers\xvic-main.c
 40
 WString
 4

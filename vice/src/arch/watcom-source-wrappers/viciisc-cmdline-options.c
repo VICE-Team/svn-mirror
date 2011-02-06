@@ -1,5 +1,5 @@
 /*
- * xvicmain.c - Watcom xvic main.c wrapper.
+ * viciisc-cmdline-options.c - Watcom viciisc/vicii-cmdline-options.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "main.c"
+#include "vicii-cmdline-options.c"

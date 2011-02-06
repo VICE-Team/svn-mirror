@@ -150,8 +150,8 @@ WVList
 0
 36
 MItem
-16
-..\KBD\kbd-pet.c
+40
+..\..\watcom-source-wrappers\xpet-main.c
 37
 WString
 4
@@ -168,8 +168,8 @@ WVList
 0
 40
 MItem
-11
-xpet-main.c
+16
+..\KBD\kbd-pet.c
 41
 WString
 4

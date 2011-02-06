@@ -77,9 +77,7 @@ EXTRA_DIST = \
 	vicii.tgt \
 	viciicommon.tgt \
 	viciidtv.tgt \
-	viciinew.c \
 	viciinew.tgt \
-	viciinew-cmdline-options.c \
 	viciinew-color.c \
 	viciinew-draw.c \
 	viciinew-fetch.c \
@@ -92,13 +90,9 @@ EXTRA_DIST = \
 	video.tgt \
 	x128.tgt \
 	x64.tgt \
-	x64main.c \
 	x64dtv.tgt \
 	x64sc.tgt \
 	xcbm2.tgt \
 	xpet.tgt \
-	xpetmain.c \
 	xplus4.tgt \
-	xplus4main.c \
-	xvic.tgt \
-	xvicmain.c
+	xvic.tgt

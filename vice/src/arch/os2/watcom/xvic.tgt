@@ -150,8 +150,8 @@ WVList
 0
 36
 MItem
-18
-..\KBD\kbd-vic20.c
+40
+..\..\watcom-source-wrappers\xvic-main.c
 37
 WString
 4
@@ -168,8 +168,8 @@ WVList
 0
 40
 MItem
-11
-xvic-main.c
+18
+..\KBD\kbd-vic20.c
 41
 WString
 4

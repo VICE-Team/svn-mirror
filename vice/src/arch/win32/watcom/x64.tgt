@@ -168,8 +168,8 @@ WVList
 0
 42
 MItem
-9
-x64main.c
+39
+..\..\watcom-source-wrappers\x64-main.c
 43
 WString
 4

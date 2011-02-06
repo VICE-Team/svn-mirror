@@ -59,10 +59,16 @@ noinst_HEADERS = \
 	platform_qnx6_version.h
 
 EXTRA_DIST = \
-	watcom-source-wrappers/vic20cart-generic.c \
 	watcom-source-wrappers/gentranslate32.c \
 	watcom-source-wrappers/genwinres32.c \
+	watcom-source-wrappers/vic20cart-generic.c \
+	watcom-source-wrappers/viciisc.c \
+	watcom-source-wrappers/viciisc-cmdline-options.c \
 	watcom-source-wrappers/x128-main.c \
+	watcom-source-wrappers/x64-main.c \
 	watcom-source-wrappers/x64dtv-main.c \
 	watcom-source-wrappers/x64sc-main.c \
-	watcom-source-wrappers/xcbm2-main.c
+	watcom-source-wrappers/xcbm2-main.c \
+	watcom-source-wrappers/xpet-main.c \
+	watcom-source-wrappers/xplus4-main.c \
+	watcom-source-wrappers/xvic-main.c

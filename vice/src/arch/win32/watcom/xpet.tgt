@@ -159,8 +159,8 @@ WVList
 0
 39
 MItem
-10
-xpetmain.c
+40
+..\..\watcom-source-wrappers\xpet-main.c
 40
 WString
 4

@@ -150,8 +150,8 @@ WVList
 0
 36
 MItem
-18
-..\KBD\kbd-plus4.c
+42
+..\..\watcom-source-wrappers\xplus4-main.c
 37
 WString
 4
@@ -168,8 +168,8 @@ WVList
 0
 40
 MItem
-13
-xplus4-main.c
+18
+..\KBD\kbd-plus4.c
 41
 WString
 4

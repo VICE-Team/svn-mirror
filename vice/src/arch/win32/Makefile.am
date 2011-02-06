@@ -375,9 +375,7 @@ EXTRA_DIST = \
 	watcom/vicii.tgt \
 	watcom/viciicommon.tgt \
 	watcom/viciidtv.tgt \
-	watcom/viciinew.c \
 	watcom/viciinew.tgt \
-	watcom/viciinew-cmdline-options.c \
 	watcom/viciinew-color.c \
 	watcom/viciinew-draw.c \
 	watcom/viciinew-fetch.c \
@@ -391,16 +389,12 @@ EXTRA_DIST = \
 	watcom/watcom-ar.sh \
 	watcom/x128.tgt \
 	watcom/x64.tgt \
-	watcom/x64main.c \
 	watcom/x64dtv.tgt \
 	watcom/x64sc.tgt \
 	watcom/xcbm2.tgt \
 	watcom/xpet.tgt \
-	watcom/xpetmain.c \
 	watcom/xplus4.tgt \
-	watcom/xplus4main.c \
 	watcom/xvic.tgt \
-	watcom/xvicmain.c \
 	_vice.dsp \
 	arch.dsp \
 	base.dsp \

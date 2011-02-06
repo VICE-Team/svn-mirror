@@ -208,18 +208,15 @@ EXTRA_DIST = \
 	watcom/xcbm2-specific.tgt \
 	watcom/xcbm2.tgt \
 	watcom/xpet-dlg-fileio.c \
-	watcom/xpet-main.c \
 	watcom/xpet-maincpu.c \
 	watcom/xpet-menubar.c \
 	watcom/xpet-specific.tgt \
 	watcom/xpet.tgt \
 	watcom/xplus4-dlg-fileio.c \
-	watcom/xplus4-main.c \
 	watcom/xplus4-menubar.c \
 	watcom/xplus4-specific.tgt \
 	watcom/xplus4.tgt \
 	watcom/xvic-dlg-fileio.c \
-	watcom/xvic-main.c \
 	watcom/xvic-menubar.c \
 	watcom/xvic-specific.tgt \
 	watcom/xvic-video.c \
