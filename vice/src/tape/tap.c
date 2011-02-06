@@ -1041,20 +1041,19 @@ static int tap_find_pilot(tap_t *tap, int type)
                     pulse_length = 256;
                     i++;
                 } else if ((tap->version == 1) || (tap->version == 2)) {
-                    if (readlen > i + 3) {
+                    int still_in_buffer = readlen - (i + 1);
+                    int needed = 3 - still_in_buffer;
+                    if (needed <= 0) {
                         pulse_length = ((buffer[i + 3] << 16) | (buffer[i + 2] << 8) | buffer[i + 1]) >> 3;
                         i += 4;
                     } else {
                         /* There is not enough in the buffer
                            Read some more */
-                        memcpy(buffer, buffer + i + 1, readlen - (i + 1));
-                        needed = 3 - (readlen - (i + 1));
-                        res = (int)fread(buffer + (readlen - (i + 1)), 1, needed, tap->fd);
+                        memcpy(buffer, buffer + i + 1, still_in_buffer);
+                        res = (int)fread(buffer + still_in_buffer, 1, needed, tap->fd);
+                        i = readlen;
                         if (res == 0) continue;
-                        readlen = 3;
-                        i = 0;
-                        pulse_length = ((buffer[i + 2] << 16) | (buffer[i + 1] << 8) | buffer[i]) >> 3;
-                        i = 3;
+                        pulse_length = ((buffer[2] << 16) | (buffer[1] << 8) | buffer[0]) >> 3;
                     }
                 }
             } else {
