@@ -52,7 +52,9 @@
     - one button (freeze)
 
     io2 - df00 (r/w)
-    bit 0:  0 - cart off  1 - cart enabled
+    - any read access seems to disable the cartridge
+
+    (the snapshot64 software uses inc $df00 in a loop to switch)
 
     after reset NO menu is shown. when pressing freeze the screen goes blank, then
 
@@ -68,7 +70,7 @@
 
 */
 
-/* #define SS64DEBUG */
+#define SS64DEBUG
 
 #ifdef SS64DEBUG
 #define DBG(x) printf x
@@ -82,6 +84,7 @@ static BYTE romconfig = 0;
 
 /* some prototypes are needed */
 static BYTE snapshot64_io2_read(WORD addr);
+static BYTE snapshot64_io2_peek(WORD addr);
 static void snapshot64_io2_store(WORD addr, BYTE value);
 
 static io_source_t ss64_io2_device = {
@@ -89,10 +92,10 @@ static io_source_t ss64_io2_device = {
     IO_DETACH_CART,
     NULL,
     0xdf00, 0xdfff, 0xff,
-    0,
+    0, /* read is never valid */
     snapshot64_io2_store,
     snapshot64_io2_read,
-    NULL, /* reads have no side effect */
+    snapshot64_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_SNAPSHOT64
 };
@@ -105,65 +108,43 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+static void enable_rom(int enable, int mode)
+{
+    romconfig = enable;
+    if (enable == 0) {
+        cart_config_changed_slotmain(2, 2, mode);
+    } else {
+        cart_config_changed_slotmain(3, 3, mode);
+    }
+}
+
 BYTE snapshot64_io2_read(WORD addr)
 {
-    DBG(("io2 rd %04x (%02x)\n", addr, romconfig));
-
-    ss64_io2_device.io_source_valid = 1;
-
-    if ((addr & 0xff) == 0) {
-        return romconfig;
-    }
-
-    ss64_io2_device.io_source_valid = 0;
+/*    DBG(("io2 rd %04x (%02x)\n", addr, romconfig)); */
     return 0;
+}
 
+BYTE snapshot64_io2_peek(WORD addr)
+{
+    return romconfig;
 }
 
 void snapshot64_io2_store(WORD addr, BYTE value)
 {
-    DBG(("io2 wr %04x %02x\n", addr, value));
-
-    if ((addr & 0xff) == 0) {
-
-        romconfig = value & 1;
-
-        if (romconfig == 0) {
-            cart_config_changed_slotmain(2, 2, CMODE_WRITE);
-/*            cart_config_changed_slotmain(2, 2, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
-        } else {
-            cart_config_changed_slotmain(3, 3, CMODE_WRITE);
-/*            cart_config_changed_slotmain(3, 3, CMODE_WRITE | CMODE_RELEASE_FREEZE); */
-        }
-    }
+/*    DBG(("io2 wr %04x %02x\n", addr, value)); */
+    enable_rom(0, CMODE_WRITE);
 }
 
 /* ---------------------------------------------------------------------*/
 
 BYTE snapshot64_roml_read(WORD addr)
 {
-#if 1
-    if (addr < 0x9000) {
-        return roml_banks[addr & 0x0fff];
-    } else {
-        return mem_read_without_ultimax(addr);
-    }
-#else
     return roml_banks[addr & 0x0fff];
-#endif
 }
 
 BYTE snapshot64_romh_read(WORD addr)
 {
-#if 1
-    if (addr >= 0xf000) {
-        return roml_banks[addr & 0x0fff];
-    } else {
-        return mem_read_without_ultimax(addr);
-    }
-#else
     return roml_banks[addr & 0x0fff];
-#endif
 }
 
 /* ---------------------------------------------------------------------*/
@@ -171,23 +152,20 @@ BYTE snapshot64_romh_read(WORD addr)
 void snapshot64_freeze(void)
 {
     DBG(("SNAPSHOT64: freeze\n"));
-    romconfig = 1;
-    cart_config_changed_slotmain(3, 3, CMODE_READ | CMODE_RELEASE_FREEZE);
-/*    cart_config_changed_slotmain(3, 3, CMODE_READ); */
+    enable_rom(1, CMODE_READ | CMODE_RELEASE_FREEZE);
 }
 
 void snapshot64_config_init(void)
 {
     DBG(("SNAPSHOT64: config_init\n"));
-    romconfig = 0;
-    cart_config_changed_slotmain(2, 2, CMODE_READ);
+    enable_rom(0, CMODE_READ);
 }
 
 void snapshot64_config_setup(BYTE *rawcart)
 {
     DBG(("SNAPSHOT64: config setup\n"));
     memcpy(&roml_banks[0x0000], &rawcart[0x0000], 0x1000);
-    cart_config_changed_slotmain(2, 2, CMODE_READ);
+    enable_rom(0, CMODE_READ);
 }
 
 /* ---------------------------------------------------------------------*/
