@@ -5,6 +5,13 @@ This file lists the most important user-visible changes for each
 official release of VICE.  See `src/ChangeLog' for a more detailed
 list of all the changes in the code.
 
+* Upgrading
+===========
+
+If you run into trouble please try removing any VICE configuration files
+left from previous installs.
+(vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
+
 * Changes in VICE 2.3
 ======================
 
@@ -43,6 +50,9 @@ list of all the changes in the code.
 
 - CRT Emulation (former "PAL emulation") is now available regardless of
   video mode or -chip and works in all emulators.
+
+  NOTE: Color gamma range changed. You may need to set to 2.200 manually.
+  (ColorGamma=2200)
 
 - Added "True aspect ratio" option.
 
