@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "alarm.h"
 #define CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
@@ -35,9 +36,11 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "c64memrom.h"
+#include "c64pla.h"
 #include "c64rom.h"
 #include "cartridge.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "stardos.h"
@@ -51,16 +54,15 @@
     causes the flipflop to switch. the output of the flipflop then controls
     the GAME line, ie it switches a rom bank at $8000 on or off.
 
-    the original stardos code reads either $de61 or $dfa1 256 times in a loop,
-    the emulation somewhat replicates this behaviour (delayed charging of the
-    capacitor) by using a counter that is equivalent to the "charge" of the
-    caps- and we assume that 256 reads are needed to succesfully switch.
+    the original stardos code reads either $de61 or $dfa1 256 times in a loop
+    to succesfully switch.
 
     the second rom bank contains a kernal replacement. the necessary select
     signal comes from a clip that has to be installed inside of the c64.
 */
 
-/* #define DBGSTARDOS */
+/* #define DBGSTARDOS  */
+/* #define DBGSTARDOSC */
 
 #ifdef DBGSTARDOS
 #define DBG(x) printf x
@@ -68,46 +70,139 @@
 #define DBG(x)
 #endif
 
-static int cnt_de61, cnt_dfa1;
 static int roml_enable;
 
 /* ---------------------------------------------------------------------*/
-#define CHARGETIME      0xfe
+
+#define CHARGEMAX               5000000 /* 5.0v */
+#define LOWTHRESHOLD            1400000 /* 1.4v */
+#define CHARGEMAXIDLE           2000000 /* 2.0v */
+#define HIGHTHRESHOLD           2700000 /* 2.7v */
+#define CYCLES_CHARGE           64
+#define CYCLES_DECHARGE         64
+#define CYCLES_CHARGE_IDLE      2500000
+
+struct alarm_s *stardos_alarm;
+static CLOCK stardos_alarm_time;
+static int cap_voltage = 0;
+
+#ifdef DBGSTARDOSC
+static int dbglast = 0;
+#endif
+
+static void flipflop(void)
+{
+#ifdef DBGSTARDOS
+    int old = roml_enable;
+#endif
+    if (cap_voltage < LOWTHRESHOLD) {
+        roml_enable = 0;
+    }
+    if (cap_voltage > HIGHTHRESHOLD) {
+        roml_enable = 1;
+    }
+#ifdef DBGSTARDOS
+    if (old != roml_enable) {
+        DBG(("STARDOS: flipflop (%d)\n", roml_enable));
+    }
+#endif
+}
+
+static void cap_trigger_access(void)
+{
+    alarm_unset(stardos_alarm);
+    stardos_alarm_time = CLOCK_MAX;
+
+    if (cap_voltage < CHARGEMAXIDLE) {
+        stardos_alarm_time = maincpu_clk + 1;
+        alarm_set(stardos_alarm, stardos_alarm_time);
+    }
+#ifdef DBGSTARDOSCC
+    else if (dbglast != 4) {
+        DBG(("STARDOS: charged (idle) (%d)\n", cap_voltage));
+        dbglast = 4;
+    }
+#endif
+}
+
+static void stardos_alarm_handler(CLOCK offset, void *data)
+{
+    cap_voltage += (CHARGEMAX / CYCLES_CHARGE_IDLE);
+    if (cap_voltage > CHARGEMAXIDLE) {
+        cap_voltage = CHARGEMAXIDLE;
+    }
+#ifdef DBGSTARDOSC
+    else if (dbglast != 1) {
+        DBG(("STARDOS: charge idle (%d)\n", cap_voltage));
+        dbglast = 1;
+    }
+#endif
+    flipflop();
+    cap_trigger_access();
+}
+
+static void cap_charge(void)
+{
+    cap_voltage += (CHARGEMAX / CYCLES_CHARGE);
+    if (cap_voltage > CHARGEMAX) {
+        cap_voltage = CHARGEMAX;
+    }
+#ifdef DBGSTARDOSC
+    else if (dbglast != 2) {
+        DBG(("STARDOS: charge (%d)\n", cap_voltage));
+        dbglast = 2;
+    }
+#endif
+    flipflop();
+    cap_trigger_access();
+}
+
+static void cap_discharge(void)
+{
+    cap_voltage -= (CHARGEMAX / CYCLES_DECHARGE);
+    if (cap_voltage < 0) {
+        cap_voltage = 0;
+    }
+#ifdef DBGSTARDOSC
+    else if (dbglast != 3) {
+        DBG(("STARDOS: discharge (%d)\n", cap_voltage));
+        dbglast = 3;
+    }
+#endif
+    flipflop();
+    cap_trigger_access();
+}
 
 static BYTE stardos_io1_read(WORD addr)
 {
-    ++cnt_de61;
-    if (cnt_de61 > CHARGETIME) {
-        /* enable bank 0 at $8000 */
-        roml_enable = 1;
-        cnt_dfa1 = 0;
-        DBG(("STAROS: roml enable:%d\n",roml_enable));
-    }
-
+    cap_charge();
     return 0;
 } 
 
+static void stardos_io1_store(WORD addr, BYTE value)
+{
+    cap_charge();
+}
+
 static BYTE stardos_io1_peek(WORD addr)
 {
-    return 0;
+    return roml_enable;
 }
 
 static BYTE stardos_io2_read(WORD addr)
 {
-    ++cnt_dfa1;
-    if (cnt_dfa1 > CHARGETIME) {
-        /* disable bank 0 at $8000 */
-        roml_enable = 0;
-        cnt_de61 = 0;
-        DBG(("STAROS: roml enable:%d\n",roml_enable));
-    }
-
+    cap_discharge();
     return 0;
+}
+
+static void stardos_io2_store(WORD addr, BYTE value)
+{
+    cap_discharge();
 }
 
 static BYTE stardos_io2_peek(WORD addr)
 {
-    return 0;
+    return roml_enable;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -116,9 +211,10 @@ static io_source_t stardos_io1_device = {
     CARTRIDGE_NAME_STARDOS,
     IO_DETACH_CART,
     NULL,
-    0xde61, 0xde61, 0x01,
+/*    0xde61, 0xde61, 0x01, */
+    0xde00, 0xdeff, 0xff,
     0, /* read is never valid */
-    NULL,
+    stardos_io1_store,
     stardos_io1_read,
     stardos_io1_peek,
     NULL,
@@ -129,9 +225,10 @@ static io_source_t stardos_io2_device = {
     CARTRIDGE_NAME_STARDOS,
     IO_DETACH_CART,
     NULL,
-    0xdfa1, 0xdfa1, 0x01,
+/*    0xdfa1, 0xdfa1, 0x01, */
+    0xdf00, 0xdfff, 0xff,
     0, /* read is never valid */
-    NULL,
+    stardos_io2_store,
     stardos_io2_read,
     stardos_io2_peek,
     NULL,
@@ -150,15 +247,19 @@ static const c64export_resource_t export_res = {
 BYTE stardos_roml_read(WORD addr)
 {
     if (roml_enable) {
-        return roml_banks[(addr & 0x1fff)];
-    } else {
-        return mem_read_without_ultimax(addr);
+        if ((pport.data & 1) == 1) {
+            return roml_banks[(addr & 0x1fff)];
+        }
     }
+    return mem_read_without_ultimax(addr);
 }
 
 BYTE stardos_romh_read(WORD addr)
 {
-    return romh_banks[(addr & 0x1fff)];
+    if ((pport.data & 2) == 2) {
+        return romh_banks[(addr & 0x1fff)];
+    }
+    return mem_read_without_ultimax(addr);
 }
 
 int stardos_romh_phi1_read(WORD addr, BYTE *value)
@@ -188,9 +289,8 @@ int stardos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 
 void stardos_config_init(void)
 {
-    cnt_de61 = 0;
-    cnt_dfa1 = 0;
-    roml_enable = 1;
+    flipflop();
+    cap_trigger_access();
     cart_config_changed_slotmain(2, 3, CMODE_READ);
 }
 
@@ -201,8 +301,7 @@ void stardos_config_init(void)
 #if 0
 void stardos_reset(void)
 {
-    cnt_de61 = 0;
-    cnt_dfa1 = 0;
+    cap_voltage = 0;
 }
 #endif
 
@@ -221,6 +320,9 @@ static int stardos_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
+
+    stardos_alarm = alarm_new(maincpu_alarm_context, "StardosRomAlarm", stardos_alarm_handler, NULL);
+    stardos_alarm_time = CLOCK_MAX;
 
     stardos_io1_list_item = c64io_register(&stardos_io1_device);
     stardos_io2_list_item = c64io_register(&stardos_io2_device);
@@ -262,6 +364,7 @@ int stardos_crt_attach(FILE *fd, BYTE *rawcart)
 
 void stardos_detach(void)
 {
+    alarm_destroy(stardos_alarm);
     c64export_remove(&export_res);
     c64io_unregister(stardos_io1_list_item);
     c64io_unregister(stardos_io2_list_item);
@@ -272,7 +375,7 @@ void stardos_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   0
+#define CART_DUMP_VER_MINOR   1
 #define SNAP_MODULE_NAME  "CARTSTARDOS"
 
 int stardos_snapshot_write_module(snapshot_t *s)
@@ -286,8 +389,8 @@ int stardos_snapshot_write_module(snapshot_t *s)
     }
 
     if (0
-        || (SMW_DW(m, (DWORD)cnt_de61) < 0)
-        || (SMW_DW(m, (DWORD)cnt_dfa1) < 0)
+        || (SMW_DW(m, stardos_alarm_time) < 0)
+        || (SMW_DW(m, (DWORD)cap_voltage) < 0)
         || (SMW_B(m, (BYTE)roml_enable) < 0)
         || (SMW_BA(m, roml_banks, 0x2000) < 0)
         || (SMW_BA(m, romh_banks, 0x2000) < 0)) {
@@ -303,6 +406,7 @@ int stardos_snapshot_read_module(snapshot_t *s)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
+    CLOCK temp_clk;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL) {
@@ -315,8 +419,8 @@ int stardos_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || (SMR_DW_INT(m, &cnt_de61) < 0)
-        || (SMR_DW_INT(m, &cnt_dfa1) < 0)
+        || (SMR_DW(m, &temp_clk) < 0)
+        || (SMR_DW_INT(m, &cap_voltage) < 0)
         || (SMR_B_INT(m, &roml_enable) < 0)
         || (SMR_BA(m, roml_banks, 0x2000) < 0)
         || (SMR_BA(m, romh_banks, 0x2000) < 0)) {
@@ -326,5 +430,14 @@ int stardos_snapshot_read_module(snapshot_t *s)
 
     snapshot_module_close(m);
 
-    return stardos_common_attach();
+    if (stardos_common_attach() < 0) {
+        return -1;
+    }
+
+    if (temp_clk < CLOCK_MAX) {
+        stardos_alarm_time = temp_clk;
+        alarm_set(stardos_alarm, stardos_alarm_time);
+    }
+
+    return 0;
 }
