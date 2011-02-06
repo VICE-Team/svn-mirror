@@ -47,6 +47,8 @@
 
 #include "types.h"
 
+#include <string.h>
+
 /* Generic alpha cpu discovery */
 #if !defined(FIND_ALPHA_CPU) && (defined(__alpha__) || defined(__alpha_ev6__) || defined(__alpha_ev5__) || defined(__alpha_ev4__))
 #define FIND_ALPHA_CPU
