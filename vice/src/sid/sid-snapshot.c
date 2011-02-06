@@ -188,6 +188,17 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
         return -1;
     }
 
+    if (SMW_BA(m, sid_state.envelope_pipeline, 3) < 0
+        || SMW_BA(m, sid_state.shift_pipeline, 3) < 0
+        || SMW_DWA(m, sid_state.shift_register_reset, 3) < 0
+        || SMW_DWA(m, sid_state.floating_output_ttl, 3) < 0
+        || SMW_WA(m, sid_state.pulse_output, 3) < 0
+        || SMW_B(m, sid_state.write_pipeline) < 0
+        || SMW_B(m, sid_state.write_address) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
     snapshot_module_close(m);
     return 0;
 }
@@ -245,6 +256,14 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
 
     SMR_WA(m, sid_state.rate_counter_period, 3);
     SMR_WA(m, sid_state.exponential_counter_period, 3);
+
+    SMR_BA(m, sid_state.envelope_pipeline, 3);
+    SMR_BA(m, sid_state.shift_pipeline, 3);
+    SMR_DWA(m, sid_state.shift_register_reset, 3);
+    SMR_DWA(m, sid_state.floating_output_ttl, 3);
+    SMR_WA(m, sid_state.pulse_output, 3);
+    SMR_B(m, &(sid_state.write_pipeline));
+    SMR_B(m, &(sid_state.write_address));
 
     sid_state_write(0, &sid_state);
 

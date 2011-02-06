@@ -72,7 +72,7 @@ public:
     reg24 shift_register[3];
     cycle_count shift_register_reset[3];
     cycle_count shift_pipeline[3];
-    cycle_count pulse_output[3];
+    reg16 pulse_output[3];
     cycle_count floating_output_ttl[3];
 
     reg16 rate_counter[3];

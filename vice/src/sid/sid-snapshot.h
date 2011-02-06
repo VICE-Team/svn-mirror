@@ -44,6 +44,13 @@ struct sid_snapshot_state_s {
     BYTE envelope_counter[3];
     BYTE envelope_state[3];
     BYTE hold_zero[3];
+    BYTE envelope_pipeline[3];
+    BYTE shift_pipeline[3];
+    DWORD shift_register_reset[3];
+    DWORD floating_output_ttl[3];
+    WORD pulse_output[3];
+    BYTE write_pipeline;
+    BYTE write_address;
 };
 typedef struct sid_snapshot_state_s sid_snapshot_state_t;
 
