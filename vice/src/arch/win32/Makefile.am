@@ -376,13 +376,6 @@ EXTRA_DIST = \
 	watcom/viciicommon.tgt \
 	watcom/viciidtv.tgt \
 	watcom/viciinew.tgt \
-	watcom/viciinew-color.c \
-	watcom/viciinew-draw.c \
-	watcom/viciinew-fetch.c \
-	watcom/viciinew-irq.c \
-	watcom/viciinew-mem.c \
-	watcom/viciinew-phi1.c \
-	watcom/viciinew-resources.c \
 	watcom/viciinew-snapshot.c \
 	watcom/viciinew-timing.c \
 	watcom/video.tgt \

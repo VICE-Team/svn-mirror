@@ -1,5 +1,5 @@
 /*
- * viciinew-resources.c - Watcom viciinew/vicii-resources.c wrapper.
+ * viciisc-mem.c - Watcom viciisc/vicii-mem.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "vicii-resources.c"
+#include "vicii-mem.c"

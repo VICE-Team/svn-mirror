@@ -1,5 +1,5 @@
 /*
- * viciinew-fetch.c - Watcom viciinew/vicii-fetch.c wrapper.
+ * viciisc-draw.c - Watcom viciisc/vicii-draw.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "vicii-fetch.c"
+#include "vicii-draw.c"

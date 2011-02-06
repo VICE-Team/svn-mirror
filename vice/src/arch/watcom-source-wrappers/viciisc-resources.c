@@ -1,5 +1,5 @@
 /*
- * viciinew-draw.c - Watcom viciinew/vicii-draw.c wrapper.
+ * viciisc-resources.c - Watcom viciisc/vicii-resources.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "vicii-draw.c"
+#include "vicii-resources.c"

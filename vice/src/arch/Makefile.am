@@ -64,6 +64,13 @@ EXTRA_DIST = \
 	watcom-source-wrappers/vic20cart-generic.c \
 	watcom-source-wrappers/viciisc.c \
 	watcom-source-wrappers/viciisc-cmdline-options.c \
+	watcom-source-wrappers/viciisc-color.c \
+	watcom-source-wrappers/viciisc-draw.c \
+	watcom-source-wrappers/viciisc-fetch.c \
+	watcom-source-wrappers/viciisc-irq.c \
+	watcom-source-wrappers/viciisc-mem.c \
+	watcom-source-wrappers/viciisc-phi1.c \
+	watcom-source-wrappers/viciisc-resources.c \
 	watcom-source-wrappers/x128-main.c \
 	watcom-source-wrappers/x64-main.c \
 	watcom-source-wrappers/x64dtv-main.c \

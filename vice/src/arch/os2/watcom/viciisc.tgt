@@ -187,8 +187,8 @@ WVList
 0
 44
 MItem
-39
-..\..\sdl\win32-watcom\viciinew-color.c
+42
+..\..\sdl\win32-watcom\viciinew-snapshot.c
 45
 WString
 4
@@ -205,8 +205,8 @@ WVList
 0
 48
 MItem
-38
-..\..\sdl\win32-watcom\viciinew-draw.c
+40
+..\..\sdl\win32-watcom\viciinew-timing.c
 49
 WString
 4
@@ -223,8 +223,8 @@ WVList
 0
 52
 MItem
-39
-..\..\sdl\win32-watcom\viciinew-fetch.c
+54
+..\..\watcom-source-wrappers\viciisc-cmdline-options.c
 53
 WString
 4
@@ -241,8 +241,8 @@ WVList
 0
 56
 MItem
-37
-..\..\sdl\win32-watcom\viciinew-irq.c
+44
+..\..\watcom-source-wrappers\viciisc-color.c
 57
 WString
 4
@@ -259,8 +259,8 @@ WVList
 0
 60
 MItem
-37
-..\..\sdl\win32-watcom\viciinew-mem.c
+43
+..\..\watcom-source-wrappers\viciisc-draw.c
 61
 WString
 4
@@ -277,8 +277,8 @@ WVList
 0
 64
 MItem
-38
-..\..\sdl\win32-watcom\viciinew-phi1.c
+44
+..\..\watcom-source-wrappers\viciisc-fetch.c
 65
 WString
 4
@@ -295,8 +295,8 @@ WVList
 0
 68
 MItem
-43
-..\..\sdl\win32-watcom\viciinew-resources.c
+42
+..\..\watcom-source-wrappers\viciisc-irq.c
 69
 WString
 4
@@ -314,7 +314,7 @@ WVList
 72
 MItem
 42
-..\..\sdl\win32-watcom\viciinew-snapshot.c
+..\..\watcom-source-wrappers\viciisc-mem.c
 73
 WString
 4
@@ -331,8 +331,8 @@ WVList
 0
 76
 MItem
-40
-..\..\sdl\win32-watcom\viciinew-timing.c
+43
+..\..\watcom-source-wrappers\viciisc-phi1.c
 77
 WString
 4
@@ -349,8 +349,8 @@ WVList
 0
 80
 MItem
-54
-..\..\watcom-source-wrappers\viciisc-cmdline-options.c
+48
+..\..\watcom-source-wrappers\viciisc-resources.c
 81
 WString
 4

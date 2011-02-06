@@ -217,8 +217,8 @@ WVList
 0
 51
 MItem
-38
-..\..\watcom-source-wrappers\viciisc.c
+44
+..\..\watcom-source-wrappers\viciisc-color.c
 52
 WString
 4
@@ -235,8 +235,8 @@ WVList
 0
 55
 MItem
-16
-viciinew-color.c
+43
+..\..\watcom-source-wrappers\viciisc-draw.c
 56
 WString
 4
@@ -253,8 +253,8 @@ WVList
 0
 59
 MItem
-15
-viciinew-draw.c
+44
+..\..\watcom-source-wrappers\viciisc-fetch.c
 60
 WString
 4
@@ -271,8 +271,8 @@ WVList
 0
 63
 MItem
-16
-viciinew-fetch.c
+42
+..\..\watcom-source-wrappers\viciisc-irq.c
 64
 WString
 4
@@ -289,8 +289,8 @@ WVList
 0
 67
 MItem
-14
-viciinew-irq.c
+42
+..\..\watcom-source-wrappers\viciisc-mem.c
 68
 WString
 4
@@ -307,8 +307,8 @@ WVList
 0
 71
 MItem
-14
-viciinew-mem.c
+43
+..\..\watcom-source-wrappers\viciisc-phi1.c
 72
 WString
 4
@@ -325,8 +325,8 @@ WVList
 0
 75
 MItem
-15
-viciinew-phi1.c
+48
+..\..\watcom-source-wrappers\viciisc-resources.c
 76
 WString
 4
@@ -343,8 +343,8 @@ WVList
 0
 79
 MItem
-20
-viciinew-resources.c
+38
+..\..\watcom-source-wrappers\viciisc.c
 80
 WString
 4

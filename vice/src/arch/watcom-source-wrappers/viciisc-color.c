@@ -1,5 +1,5 @@
 /*
- * viciinew-irq.c - Watcom viciinew/vicii-irq.c wrapper.
+ * viciisc-color.c - Watcom viciisc/vicii-color.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "vicii-irq.c"
+#include "vicii-color.c"

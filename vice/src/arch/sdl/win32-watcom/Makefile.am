@@ -78,13 +78,6 @@ EXTRA_DIST = \
 	viciicommon.tgt \
 	viciidtv.tgt \
 	viciinew.tgt \
-	viciinew-color.c \
-	viciinew-draw.c \
-	viciinew-fetch.c \
-	viciinew-irq.c \
-	viciinew-mem.c \
-	viciinew-phi1.c \
-	viciinew-resources.c \
 	viciinew-snapshot.c \
 	viciinew-timing.c \
 	video.tgt \
