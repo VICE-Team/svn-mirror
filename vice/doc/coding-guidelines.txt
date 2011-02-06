@@ -47,6 +47,41 @@ To keep the code easy to follow please read the following statements:
         ...
     }
 
+- To give the code a consistent look use specifiers named with prefixes
+  like in the following examples:
+
+    struct foobar_s {
+        ...
+    };
+  
+    typedef ... foobar_t;
+
+    enum stuff_e {
+        ...
+    };
+  
+    union many_u {
+        ...
+    };
+  
+  Of course combinations may be used:
+
+    typedef struct foobar_s {
+        ...
+    } foobar_t;
+
+  Exceptions are basic type like BYTE, WORD, DWORD and code that follows a 
+  coding style of a certain architecture, e.g. UI code. 
+
+- Preprocessor macros which define constants or enumeration values should
+  be written in capital letters.
+  
+   #define FORTYTWO 42
+
+   typedef numbers_e {
+       NUM_ZERO,
+       NUM_ONE
+   } numbers_t;
 
 Common code guidelines
 ----------------------
@@ -70,7 +105,7 @@ Many different compilers are used to compile the common code parts.
 
 
 intl code guidelines
-====================
+--------------------
 
 VICE supports intl for win32, amiga and *nix platforms. Any text belonging
 that is meant for the user (command-line/UI) needs to be handled by means
