@@ -161,7 +161,6 @@ EXTRA_DIST = \
 	watcom/printerdrv.tgt \
 	watcom/raster.tgt \
 	watcom/resid-fastsid.c \
-	watcom/resid-sid.cc \
 	watcom/resid-specific.tgt \
 	watcom/resid.tgt \
 	watcom/rs232drv.tgt \

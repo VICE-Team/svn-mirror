@@ -275,8 +275,8 @@ WVList
 0
 64
 MItem
-12
-resid-sid.cc
+41
+..\..\watcom-source-wrappers\resid-sid.cc
 65
 WString
 6

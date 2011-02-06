@@ -143,8 +143,8 @@ WVList
 0
 35
 MItem
-20
-residdtv-envelope.cc
+49
+..\..\watcom-source-wrappers\residdtv-envelope.cc
 36
 WString
 6
@@ -161,8 +161,8 @@ WVList
 0
 39
 MItem
-19
-residdtv-extfilt.cc
+44
+..\..\watcom-source-wrappers\residdtv-sid.cc
 40
 WString
 6
@@ -179,8 +179,8 @@ WVList
 0
 43
 MItem
-18
-residdtv-filter.cc
+19
+residdtv-extfilt.cc
 44
 WString
 6
@@ -197,8 +197,8 @@ WVList
 0
 47
 MItem
-15
-residdtv-sid.cc
+18
+residdtv-filter.cc
 48
 WString
 6

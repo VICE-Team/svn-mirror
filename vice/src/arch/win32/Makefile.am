@@ -340,21 +340,15 @@ EXTRA_DIST = \
 	watcom/raster.tgt \
 	watcom/README.txt \
 	watcom/resid.tgt \
-	watcom/resid-sid.cc \
 	watcom/resid-dtv.tgt \
-	watcom/residdtv-envelope.cc \
 	watcom/residdtv-extfilt.cc \
 	watcom/residdtv-filter.cc \
-	watcom/residdtv-sid.cc \
 	watcom/residdtv-version.cc \
 	watcom/residdtv-voice.cc \
 	watcom/residdtv-wave.cc \
 	watcom/resid-fp.tgt \
-	watcom/residfp-envelope.cc \
-	watcom/residfp-extfilt.cc \
 	watcom/residfp-filter.cc \
 	watcom/residfp-pot.cc \
-	watcom/residfp-sid.cc \
 	watcom/residfp-version.cc \
 	watcom/residfp-voice.cc \
 	watcom/residfp-wave.cc \
@@ -376,8 +370,6 @@ EXTRA_DIST = \
 	watcom/viciicommon.tgt \
 	watcom/viciidtv.tgt \
 	watcom/viciinew.tgt \
-	watcom/viciinew-snapshot.c \
-	watcom/viciinew-timing.c \
 	watcom/video.tgt \
 	watcom/watcom-ar.sh \
 	watcom/x128.tgt \

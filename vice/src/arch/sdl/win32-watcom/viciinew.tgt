@@ -343,8 +343,8 @@ WVList
 0
 79
 MItem
-38
-..\..\watcom-source-wrappers\viciisc.c
+47
+..\..\watcom-source-wrappers\viciisc-snapshot.c
 80
 WString
 4
@@ -361,8 +361,8 @@ WVList
 0
 83
 MItem
-19
-viciinew-snapshot.c
+45
+..\..\watcom-source-wrappers\viciisc-timing.c
 84
 WString
 4
@@ -379,8 +379,8 @@ WVList
 0
 87
 MItem
-17
-viciinew-timing.c
+38
+..\..\watcom-source-wrappers\viciisc.c
 88
 WString
 4

@@ -1,5 +1,5 @@
 /*
- * resid-sid.cc - Watcom sid.cc for resid-specific.lib wrapper.
+ * viciisc-snapshot.c - Watcom viciisc/vicii-snapshot.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "sid.cc"
+#include "vicii-snapshot.c"

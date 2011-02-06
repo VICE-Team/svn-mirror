@@ -1,5 +1,5 @@
 /*
- * residfp-envelope.cc - Watcom resid-fp/envelope.cc wrapper.
+ * resid-sid.cc - Watcom resid/sid.cc for resid wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "envelope.cc"
+#include "sid.cc"

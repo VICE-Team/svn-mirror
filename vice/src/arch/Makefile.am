@@ -61,6 +61,12 @@ noinst_HEADERS = \
 EXTRA_DIST = \
 	watcom-source-wrappers/gentranslate32.c \
 	watcom-source-wrappers/genwinres32.c \
+	watcom-source-wrappers/resid-sid.cc \
+	watcom-source-wrappers/residdtv-envelope.cc \
+	watcom-source-wrappers/residdtv-sid.cc \
+	watcom-source-wrappers/residfp-envelope.cc \
+	watcom-source-wrappers/residfp-extfilt.cc \
+	watcom-source-wrappers/residfp-sid.cc \
 	watcom-source-wrappers/vic20cart-generic.c \
 	watcom-source-wrappers/viciisc.c \
 	watcom-source-wrappers/viciisc-cmdline-options.c \
@@ -71,6 +77,8 @@ EXTRA_DIST = \
 	watcom-source-wrappers/viciisc-mem.c \
 	watcom-source-wrappers/viciisc-phi1.c \
 	watcom-source-wrappers/viciisc-resources.c \
+	watcom-source-wrappers/viciisc-snapshot.c \
+	watcom-source-wrappers/viciisc-timing.c \
 	watcom-source-wrappers/x128-main.c \
 	watcom-source-wrappers/x64-main.c \
 	watcom-source-wrappers/x64dtv-main.c \

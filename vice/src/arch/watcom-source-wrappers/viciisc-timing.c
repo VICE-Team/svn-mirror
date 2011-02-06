@@ -1,5 +1,5 @@
 /*
- * resid-sid.cc - Watcom resid/sid.cc wrapper.
+ * viciisc-timing.c - Watcom viciisc/vicii-timing.c wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,4 +24,4 @@
  *
  */
 
-#include "sid.cc"
+#include "vicii-timing.c"

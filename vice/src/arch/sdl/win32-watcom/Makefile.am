@@ -42,21 +42,15 @@ EXTRA_DIST = \
 	printerdrv.tgt \
 	raster.tgt \
 	resid.tgt \
-	resid-sid.cc \
 	residdtv.tgt \
-	residdtv-envelope.cc \
 	residdtv-extfilt.cc \
 	residdtv-filter.cc \
-	residdtv-sid.cc \
 	residdtv-version.cc \
 	residdtv-voice.cc \
 	residdtv-wave.cc \
 	residfp.tgt \
-	residfp-envelope.cc \
-	residfp-extfilt.cc \
 	residfp-filter.cc \
 	residfp-pot.cc \
-	residfp-sid.cc \
 	residfp-version.cc \
 	residfp-voice.cc \
 	residfp-wave.cc \
@@ -78,8 +72,6 @@ EXTRA_DIST = \
 	viciicommon.tgt \
 	viciidtv.tgt \
 	viciinew.tgt \
-	viciinew-snapshot.c \
-	viciinew-timing.c \
 	video.tgt \
 	x128.tgt \
 	x64.tgt \
