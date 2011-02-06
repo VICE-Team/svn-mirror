@@ -11,7 +11,24 @@ list of all the changes in the code.
 ** General
 ----------
 
-- Added x64sc, the accurate C64 emulator. FIXME elaborate!
+- Added x64sc, the accurate C64 emulator:
+
+  * VIC-II emulation rewritten from scratch using results from extensive
+    testing with newly written test programs on real hardware.
+
+  * Emulation is done on a cycle by cycle basis combined with pixel exact
+    dot clock domain handling.
+
+  * Accurate handling of all possible in-line splits of VIC-II registers
+    and graphics data.
+
+  * C64 model and even individual chip revisions can be selected for very
+    detailed emulation of their differences.
+
+  * Equally accurate PAL, NTSC and PAL-N emulation.
+
+  We believe x64sc is one of the most accurate C64 emulators at the
+  moment.
 
 - Drive improvements, including weak bit emulation.
 
@@ -33,7 +50,7 @@ list of all the changes in the code.
 
 - Various monitor improvements (io details, expansion port status ...)
 
-- Removed useless Emulator ID feature.
+- Removed little used Emulator ID feature.
 
 ** C64/C128 changes
 -------------------
@@ -69,6 +86,9 @@ list of all the changes in the code.
 --------------
 
 - Added Drean (PAL-N) emulation.
+
+- Fixed bug with autostart mode Inject-to-RAM.  It now writes to RAM under
+  I/O correctly.
 
 ** C128 changes
 ---------------
