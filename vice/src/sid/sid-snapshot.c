@@ -139,7 +139,7 @@ fail:
 
 static const char snap_module_name_extended[] = "SIDEXTENDED";
 #define SNAP_MAJOR_EXTENDED 1
-#define SNAP_MINOR_EXTENDED 0
+#define SNAP_MINOR_EXTENDED 1
 
 static int sid_snapshot_write_module_extended(snapshot_t *s)
 {
