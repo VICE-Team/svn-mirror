@@ -79,8 +79,8 @@ WVList
 0
 19
 MItem
-13
-genwinres32.c
+42
+..\..\watcom-source-wrappers\genwinres32.c
 20
 WString
 4

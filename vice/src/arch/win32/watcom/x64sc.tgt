@@ -159,8 +159,8 @@ WVList
 0
 39
 MItem
-11
-x64scmain.c
+41
+..\..\watcom-source-wrappers\x64sc-main.c
 40
 WString
 4

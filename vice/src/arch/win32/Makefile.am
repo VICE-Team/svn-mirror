@@ -318,7 +318,6 @@ EXTRA_DIST = \
 	watcom/fsdevice.tgt \
 	watcom/gentr.tgt \
 	watcom/gentranslate32.tgt \
-	watcom/genwinres32.c \
 	watcom/genwinres32.tgt \
 	watcom/genwr.tgt \
 	watcom/genwt.bat \
@@ -391,15 +390,11 @@ EXTRA_DIST = \
 	watcom/video.tgt \
 	watcom/watcom-ar.sh \
 	watcom/x128.tgt \
-	watcom/x128main.c \
 	watcom/x64.tgt \
 	watcom/x64main.c \
 	watcom/x64dtv.tgt \
-	watcom/x64dtvmain.c \
-	watcom/x64scmain.c \
 	watcom/x64sc.tgt \
 	watcom/xcbm2.tgt \
-	watcom/xcbm2main.c \
 	watcom/xpet.tgt \
 	watcom/xpetmain.c \
 	watcom/xplus4.tgt \

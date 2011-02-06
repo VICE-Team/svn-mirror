@@ -177,8 +177,8 @@ WVList
 0
 43
 MItem
-12
-x64dtvmain.c
+42
+..\..\watcom-source-wrappers\x64dtv-main.c
 44
 WString
 4

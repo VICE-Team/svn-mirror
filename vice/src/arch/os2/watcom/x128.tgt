@@ -222,8 +222,8 @@ WVList
 0
 52
 MItem
-17
-..\KBD\kbd-c128.c
+40
+..\..\watcom-source-wrappers\x128-main.c
 53
 WString
 4
@@ -240,8 +240,8 @@ WVList
 0
 56
 MItem
-11
-x128-main.c
+17
+..\KBD\kbd-c128.c
 57
 WString
 4

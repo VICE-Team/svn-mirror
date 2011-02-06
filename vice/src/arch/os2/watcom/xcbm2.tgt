@@ -150,8 +150,8 @@ WVList
 0
 36
 MItem
-17
-..\KBD\kbd-c610.c
+41
+..\..\watcom-source-wrappers\xcbm2-main.c
 37
 WString
 4
@@ -168,8 +168,8 @@ WVList
 0
 40
 MItem
-15
-xcbm2-kbd-pet.c
+17
+..\KBD\kbd-c610.c
 41
 WString
 4
@@ -186,8 +186,8 @@ WVList
 0
 44
 MItem
-12
-xcbm2-main.c
+15
+xcbm2-kbd-pet.c
 45
 WString
 4

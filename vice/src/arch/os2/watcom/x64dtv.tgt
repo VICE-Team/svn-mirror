@@ -152,8 +152,8 @@ WVList
 0
 36
 MItem
-19
-..\KBD\kbd-c64dtv.c
+42
+..\..\watcom-source-wrappers\x64dtv-main.c
 37
 WString
 4
@@ -170,8 +170,8 @@ WVList
 0
 40
 MItem
-13
-x64dtv-main.c
+19
+..\KBD\kbd-c64dtv.c
 41
 WString
 4

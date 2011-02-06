@@ -133,8 +133,8 @@ WVList
 0
 32
 MItem
-18
-..\kbd\kbd-c64sc.c
+41
+..\..\watcom-source-wrappers\x64sc-main.c
 33
 WString
 4
@@ -151,8 +151,8 @@ WVList
 0
 36
 MItem
-12
-x64sc-main.c
+18
+..\kbd\kbd-c64sc.c
 37
 WString
 4

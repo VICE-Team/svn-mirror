@@ -159,8 +159,8 @@ WVList
 0
 39
 MItem
-11
-xcbm2main.c
+41
+..\..\watcom-source-wrappers\xcbm2-main.c
 40
 WString
 4

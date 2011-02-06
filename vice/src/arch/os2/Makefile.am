@@ -180,7 +180,6 @@ EXTRA_DIST = \
 	watcom/video.tgt \
 	watcom/vsid.tgt \
 	watcom/x128-dlg-fileio.c \
-	watcom/x128-main.c \
 	watcom/x128-menubar.c \
 	watcom/x128-specific.tgt \
 	watcom/x128-video.c \
@@ -193,13 +192,11 @@ EXTRA_DIST = \
 	watcom/x64.tgt \
 	watcom/x64dtv-dlg-fileio.c \
 	watcom/x64dtv-dragndrrop.c \
-	watcom/x64dtv-main.c \
 	watcom/x64dtv-menubar.c \
 	watcom/x64dtv-specific.tgt \
 	watcom/x64dtv-video.c \
 	watcom/x64dtv-vsyncarch.c \
 	watcom/x64dtv.tgt \
-	watcom/x64sc-main.c \
 	watcom/x64sc.tgt \
 	watcom/x64x128-sid.c \
 	watcom/x64x128-specific.tgt \
@@ -207,7 +204,6 @@ EXTRA_DIST = \
 	watcom/xall.tgt \
 	watcom/xcbm2-dlg-fileio.c \
 	watcom/xcbm2-kbd-pet.c \
-	watcom/xcbm2-main.c \
 	watcom/xcbm2-menubar.c \
 	watcom/xcbm2-specific.tgt \
 	watcom/xcbm2.tgt \

@@ -91,15 +91,11 @@ EXTRA_DIST = \
 	viciinew-timing.c \
 	video.tgt \
 	x128.tgt \
-	x128main.c \
 	x64.tgt \
 	x64main.c \
 	x64dtv.tgt \
-	x64dtvmain.c \
 	x64sc.tgt \
-	x64scmain.c \
 	xcbm2.tgt \
-	xcbm2main.c \
 	xpet.tgt \
 	xpetmain.c \
 	xplus4.tgt \
