@@ -468,40 +468,131 @@ void Filter::set_w0()
   Vw_term = (f.Vddt >> 1)*(f.Vddt >> 1) - (Vw >> 1)*(f.Vddt >> 1) + (Vw >> 1)*(Vw >> 2);
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.
-  const double pi = 3.1415926535897932385;
-
+  // MOS 8580 cutoff: 0 - 12.5kHz.
   // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
   // shifting 20 times (2 ^ 20 = 1048576).
-  // MOS 8580 cutoff: 0 - 12.5kHz.
-  w0 = (int)(2*pi*12500*fc/(1 << 11)*1.048576);
+  // 1.048576*2*pi*12500 = 82355
+  w0 = 82355*fc >> 11;
 }
 
-// Set filter resonance.
+/*
+Set filter resonance.
+
+In the MOS 6581, 1/Q is controlled linearly by res. From die photographs
+of the resonance "resistor" ladder it follows that 1/Q ~ ~res/8
+(assuming an ideal op-amp and ideal "resistors"). This implies that Q
+ranges from 0.533 (res = 0) to 8 (res = E). For res = F, Q is actually
+theoretically unlimited, which is quite unheard of in a filter
+circuit.
+
+To obtain Q ~ 1/sqrt(2) = 0.707 for maximally flat frequency response,
+res should be set to 4: Q = 8/~4 = 8/11 = 0.7272 (again assuming an ideal
+op-amp and ideal "resistors").
+
+Q as low as 0.707 is not achievable because of low gain op-amps; res = 0
+should yield the flattest possible frequency response at Q ~ 0.8 - 1.0
+in the op-amp's pseudo-linear range (high amplitude signals will be
+clipped). As resonance is increased, the filter must be clocked more
+often to keep it stable.
+
+In the MOS 8580, the resonance "resistor" ladder above the bp feedback
+op-amp is split in two parts; one ladder for the op-amp input and one
+ladder for the op-amp feedback.
+
+input:         feedback:
+
+               Rf
+Ri R4 RC R8    R3
+               R2
+               R1
+
+
+The "resistors" are switched in as follows by bits in register $17:
+
+feedback:
+R1: bit4&!bit5
+R2: !bit4&bit5
+R3: bit4&bit5
+Rf: always on
+
+input:
+R4: bit6&!bit7
+R8: !bit6&bit7
+RC: bit6&bit7
+Ri: !(R4|R8|RC) = !(bit6|bit7) = !bit6&!bit7
+
+
+The relative "resistor" values are approximately (using channel length):
+
+R1 = 15.3*Ri
+R2 =  7.3*Ri
+R3 =  4.7*Ri
+Rf =  1.4*Ri
+R4 =  1.4*Ri
+R8 =  2.0*Ri
+RC =  2.8*Ri
+
+
+Approximate values for 1/Q can now be found as follows (assuming an
+ideal op-amp):
+
+res  feedback  input  -gain (1/Q)
+---  --------  -----  ----------
+ 0   Rf        Ri     Rf/Ri      = 1/(Ri*(1/Rf))      = 1/0.71
+ 1   Rf|R1     Ri     (Rf|R1)/Ri = 1/(Ri*(1/Rf+1/R1)) = 1/0.78
+ 2   Rf|R2     Ri     (Rf|R2)/Ri = 1/(Ri*(1/Rf+1/R2)) = 1/0.85
+ 3   Rf|R3     Ri     (Rf|R3)/Ri = 1/(Ri*(1/Rf+1/R3)) = 1/0.92
+ 4   Rf        R4     Rf/R4      = 1/(R4*(1/Rf))      = 1/1.00
+ 5   Rf|R1     R4     (Rf|R1)/R4 = 1/(R4*(1/Rf+1/R1)) = 1/1.10
+ 6   Rf|R2     R4     (Rf|R2)/R4 = 1/(R4*(1/Rf+1/R2)) = 1/1.20
+ 7   Rf|R3     R4     (Rf|R3)/R4 = 1/(R4*(1/Rf+1/R3)) = 1/1.30
+ 8   Rf        R8     Rf/R8      = 1/(R8*(1/Rf))      = 1/1.43
+ 9   Rf|R1     R8     (Rf|R1)/R8 = 1/(R8*(1/Rf+1/R1)) = 1/1.56
+ A   Rf|R2     R8     (Rf|R2)/R8 = 1/(R8*(1/Rf+1/R2)) = 1/1.70
+ B   Rf|R3     R8     (Rf|R3)/R8 = 1/(R8*(1/Rf+1/R3)) = 1/1.86
+ C   Rf        RC     Rf/RC      = 1/(RC*(1/Rf))      = 1/2.00
+ D   Rf|R1     RC     (Rf|R1)/RC = 1/(RC*(1/Rf+1/R1)) = 1/2.18
+ E   Rf|R2     RC     (Rf|R2)/RC = 1/(RC*(1/Rf+1/R2)) = 1/2.38
+ F   Rf|R3     RC     (Rf|R3)/RC = 1/(RC*(1/Rf+1/R3)) = 1/2.60
+
+
+These data indicate that the following function for 1/Q has been
+modeled in the MOS 8580:
+
+  1/Q = 2^(1/2)*2^(-x/8) = 2^(1/2 - x/8) = 2^((4 - x)/8)
+
+*/
 void Filter::set_Q()
 {
-  // 1/Q is controlled linearly by res. From die photographs of the resonance
-  // "resistor" ladder it follows that 1/Q ~ ~res/8 (assuming an ideal op-amp
-  // and ideal "resistors"). This implies that Q ranges from 0.533 (res = 0)
-  // to 8 (res = E). For res = F, Q is actually theoretically unlimited, which
-  // is quite unheard of in a filter circuit.
-  // To obtain Q ~ 1/sqrt(2) = 0.707 for maximally flat frequency response,
-  // res should be set to 4: Q = 8/~4 = 8/11 = 0.7272 (again assuming an ideal
-  // op-amp and ideal "resistors").
-  // For the 6581, Q as low as 0.707 is not achievable because of low gain
-  // op-amps; res = 0 should yield the flattest possible frequency response at
-  // Q ~ 0.8 - 1.0 in the op-amp's pseudo-linear range (high amplitude signals
-  // will be clipped).
-  // As resonance is increased, the filter must be clocked more often to keep
-  // it stable.
-
+  // Cutoff for MOS 6581.
   // The coefficient 8 is dispensed of later by right-shifting 3 times
   // (2 ^ 3 = 8).
   _8_div_Q = ~res & 0x0f;
 
-  // FIXME: Temporary code for MOS 8580.
+  // FIXME: Temporary cutoff code for MOS 8580.
+  // 1024*1/Q = 1024*2^((4 - res)/8)
   // The coefficient 1024 is dispensed of later by right-shifting 10 times
   // (2 ^ 10 = 1024).
-  _1024_div_Q = (int)(1024.0/(0.707 + 1.0*res/0x0f));
+  static const int _1024_div_Q_table[] = {
+    1448,
+    1328,
+    1218,
+    1117,
+    1024,
+    939,
+    861,
+    790,
+    724,
+    664,
+    609,
+    558,
+    512,
+    470,
+    431,
+    395
+  };
+
+  _1024_div_Q = _1024_div_Q_table[res];
 }
 
 // Set input routing bits.
