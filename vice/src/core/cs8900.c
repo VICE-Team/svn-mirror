@@ -48,11 +48,8 @@
 #include "snapshot.h"
 #include "util.h"
 
-/*
-    FIXME:
-    - snapshot support
-    - register peek/dump
-
+/* FIXME:
+    - add register dump
     - rename all remaining tfe_ stuff to cs8900_
 */
 
@@ -1604,25 +1601,61 @@ void cs8900_store(WORD io_address, BYTE byte)
     tfe[reg_base + 1] = HI_BYTE(word_value);
 }
 
-/* ------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CS8900"
+
+/* FIXME: implement snapshot support */
+int cs8900_snapshot_write_module(snapshot_t *s)
+{
+    return -1;
 #if 0
-static char snap_module_name[] = "CS8900";
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+    snapshot_module_t *m;
 
-int cs8900_read_snapshot_module(struct snapshot_s *s)
-{
-    /* @SRT TODO: not yet implemented */
-    return -1;
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
 }
 
-int cs8900_write_snapshot_module(struct snapshot_s *s)
+int cs8900_snapshot_read_module(snapshot_t *s)
 {
-    /* @SRT TODO: not yet implemented */
     return -1;
+#if 0
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
 }
-#endif /* #if 0 */
 
 #endif /* #ifdef HAVE_TFE */

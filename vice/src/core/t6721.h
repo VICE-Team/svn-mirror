@@ -176,4 +176,8 @@ extern void t6721_update_output(t6721_state *t6721, SWORD *buf, int num);
 
 extern int t6721_dump(t6721_state *t6721);
 
+struct snapshot_s;
+extern int t6721_snapshot_read_module(struct snapshot_s *s, t6721_state *t6721);
+extern int t6721_snapshot_write_module(struct snapshot_s *s, t6721_state *t6721);
+
 #endif

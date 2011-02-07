@@ -77,4 +77,8 @@ extern int midi_resources_init(void);
 extern void midi_resources_shutdown(void);
 extern int midi_cmdline_options_init(void);
 
+struct snapshot_s;
+extern int midi_snapshot_read_module(struct snapshot_s *s);
+extern int midi_snapshot_write_module(struct snapshot_s *s);
+
 #endif

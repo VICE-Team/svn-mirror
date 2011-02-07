@@ -24,13 +24,7 @@
  *
  */
 
-/*
-    FIXME:
-    - snapshot support
-    - register peek/dump
-*/
-
-#ifdef HAVE_TFE 
+#ifdef HAVE_TFE
 #else
   #error CS8900.H should not be included if HAVE_TFE is not defined!
 #endif /* #ifdef HAVE_TFE */
@@ -40,12 +34,9 @@
 
 #include "types.h"
 
-#if 0
-/* TODO */
 struct snapshot_s;
-extern int cs8900_read_snapshot_module(struct snapshot_s *s);
-extern int cs8900_write_snapshot_module(struct snapshot_s *s);
-#endif
+extern int cs8900_snapshot_read_module(struct snapshot_s *s);
+extern int cs8900_snapshot_write_module(struct snapshot_s *s);
 
 extern int cs8900_init(void);
 extern void cs8900_reset(void);
@@ -60,7 +51,6 @@ extern void cs8900_store(WORD io_address, BYTE byte);
 
 #if 0
 /* TODO */
-extern BYTE cs8900_peek(WORD io_address);
 extern void cs8900_dump(void);
 #endif
 

@@ -29,6 +29,7 @@
 #include "ds1302.h"
 #include "lib.h"
 #include "rtc.h"
+#include "snapshot.h"
 
 #include <string.h>
 
@@ -593,4 +594,61 @@ void ds1302_set_lines(rtc_ds1302_t *context, unsigned int ce_line, unsigned int 
 BYTE ds1302_read_data_line(rtc_ds1302_t *context)
 {
     return context->output_bit;
+}
+
+/* ---------------------------------------------------------------------*/
+/*    snapshot support functions                                             */
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "DS1302"
+
+/* FIXME: implement snapshot support */
+int ds1302_snapshot_write_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
+}
+
+int ds1302_snapshot_read_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
 }

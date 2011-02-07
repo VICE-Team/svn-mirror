@@ -599,10 +599,6 @@ int tfe_snapshot_read_module(snapshot_t *s)
     }
 
     snapshot_module_close(m);
-
-    if (tfe_common_attach() < 0) {
-        return -1;
-    }
     return 0;
 #endif
 }

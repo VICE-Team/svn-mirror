@@ -33,6 +33,7 @@
 
 #include "maincpu.h"
 #include "monitor.h"
+#include "snapshot.h"
 #include "t6721.h"
 
 /*
@@ -935,4 +936,61 @@ int t6721_dump(t6721_state *t6721)
     mon_out("output sample per second:    %d\n", t6721->samples_per_sec);
     mon_out("apd: %d busy: %d eos: %d playing: %d\n", t6721->apd, t6721->busy, t6721->eos, t6721->playing);
     return 0;
+}
+
+/* ---------------------------------------------------------------------*/
+/*    snapshot support functions                                             */
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "T6721"
+
+/* FIXME: implement snapshot support */
+int t6721_snapshot_write_module(snapshot_t *s, t6721_state *t6721)
+{
+    return -1;
+#if 0
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
+}
+
+int t6721_snapshot_read_module(snapshot_t *s, t6721_state *t6721)
+{
+    return -1;
+#if 0
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
 }

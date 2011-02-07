@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "log.h"
+#include "snapshot.h"
 #include "spi-sdcard.h"
 #include "types.h"
 #include "util.h"
@@ -591,7 +592,7 @@ static void mmc_execute_cmd(void)
             if (!spi_mmc_card_inserted()) {
                 BYTE cidresp[0x10] =
                     { 0, 0, 0, 0,
-                    1+'v'-'a', 1+'i'-'a', 1+'c'-'a', 1+'e'-'a', '2', '1', /* "viceemu" */
+                    1+'v'-'a', 1+'i'-'a', 1+'c'-'a', 1+'e'-'a', '2', '3', /* "viceemu" */
                     0, 0, 0, 0, 0 };
                 mmc_card_state = MMC_CARD_READ;
                 mmc_read_firstbyte = 0;
@@ -893,4 +894,61 @@ void mmc_close_card_image(void)
         mmc_image_file = NULL;
         spi_mmc_set_card_inserted(MMC_CARD_NOTINSERTED);
     }
+}
+
+/* ---------------------------------------------------------------------*/
+/*    snapshot support functions                                             */
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "SDCARD"
+
+/* FIXME: implement snapshot support */
+int mmc_snapshot_write_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
+}
+
+int mmc_snapshot_read_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
 }

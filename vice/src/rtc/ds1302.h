@@ -68,12 +68,15 @@ typedef struct rtc_ds1302_s {
 #define DS1302_OUTPUT_SINGLE_DATA_BITS   3
 #define DS1302_OUTPUT_BURST_DATA_BITS    4
 
-
 extern void ds1302_reset(rtc_ds1302_t *context);
 extern rtc_ds1302_t *ds1302_init(BYTE *data, time_t *offset);
 extern void ds1302_destroy(rtc_ds1302_t *context);
 
 extern void ds1302_set_lines(rtc_ds1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit);
 extern BYTE ds1302_read_data_line(rtc_ds1302_t *context);
+
+struct snapshot_s;
+extern int ds1302_snapshot_read_module(struct snapshot_s *s);
+extern int ds1302_snapshot_write_module(struct snapshot_s *s);
 
 #endif

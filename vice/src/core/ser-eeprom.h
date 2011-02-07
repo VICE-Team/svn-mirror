@@ -42,4 +42,8 @@ extern void eeprom_port_write(BYTE clk, BYTE data, int ddr, int status);
 extern int  eeprom_open_image(char *name, int rw);
 extern void eeprom_close_image(int rw);
 
+struct snapshot_s;
+extern int eeprom_snapshot_read_module(struct snapshot_s *s);
+extern int eeprom_snapshot_write_module(struct snapshot_s *s);
+
 #endif

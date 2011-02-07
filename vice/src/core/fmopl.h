@@ -146,6 +146,10 @@ extern unsigned char ym3526_read(FM_OPL *chip, int a);
 extern unsigned char ym3526_peek(FM_OPL *chip, int a);
 extern int ym3526_timer_over(FM_OPL *chip, int c);
 
+struct snapshot_s;
+extern int ym3526_snapshot_read_module(struct snapshot_s *s);
+extern int ym3526_snapshot_write_module(struct snapshot_s *s);
+
 /*
  * Generate samples for one of the YM3526's
  *

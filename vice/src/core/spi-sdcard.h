@@ -49,4 +49,8 @@ extern int  mmc_open_card_image(char *name, int rw);
 extern void mmc_close_card_image(void);
 extern BYTE mmc_set_card_type(BYTE value);
 
+struct snapshot_s;
+extern int mmc_snapshot_read_module(struct snapshot_s *s);
+extern int mmc_snapshot_write_module(struct snapshot_s *s);
+
 #endif
