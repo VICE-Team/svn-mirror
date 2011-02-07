@@ -43,16 +43,10 @@ EXTRA_DIST = \
 	raster.tgt \
 	resid.tgt \
 	residdtv.tgt \
-	residdtv-extfilt.cc \
-	residdtv-filter.cc \
-	residdtv-version.cc \
 	residdtv-voice.cc \
 	residdtv-wave.cc \
 	residfp.tgt \
-	residfp-filter.cc \
 	residfp-pot.cc \
-	residfp-version.cc \
-	residfp-voice.cc \
 	residfp-wave.cc \
 	rs232drv.tgt \
 	serial.tgt \

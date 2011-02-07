@@ -215,8 +215,8 @@ WVList
 0
 51
 MItem
-43
-..\..\watcom-source-wrappers\residfp-sid.cc
+46
+..\..\watcom-source-wrappers\residfp-filter.cc
 52
 WString
 6
@@ -233,8 +233,8 @@ WVList
 0
 55
 MItem
-17
-residfp-filter.cc
+43
+..\..\watcom-source-wrappers\residfp-sid.cc
 56
 WString
 6
@@ -251,8 +251,8 @@ WVList
 0
 59
 MItem
-14
-residfp-pot.cc
+47
+..\..\watcom-source-wrappers\residfp-version.cc
 60
 WString
 6
@@ -269,8 +269,8 @@ WVList
 0
 63
 MItem
-18
-residfp-version.cc
+45
+..\..\watcom-source-wrappers\residfp-voice.cc
 64
 WString
 6
@@ -287,8 +287,8 @@ WVList
 0
 67
 MItem
-16
-residfp-voice.cc
+14
+residfp-pot.cc
 68
 WString
 6
