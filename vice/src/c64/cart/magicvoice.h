@@ -75,10 +75,8 @@ extern void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 extern int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void magicvoice_sound_machine_close(sound_t *psid);
 
-/* TODO: snapshot support
 struct snapshot_s;
 extern int magicvoice_snapshot_read_module(struct snapshot_s *s);
 extern int magicvoice_snapshot_write_module(struct snapshot_s *s);
-*/
 
 #endif

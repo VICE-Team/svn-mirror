@@ -45,4 +45,8 @@ extern void sfx_soundsampler_sound_machine_store(sound_t *psid, WORD addr, BYTE 
 extern BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr);
 extern void sfx_soundsampler_sound_reset(void);
 
+struct snapshot_s;
+extern int sfx_soundsampler_snapshot_read_module(struct snapshot_s *s);
+extern int sfx_soundsampler_snapshot_write_module(struct snapshot_s *s);
+
 #endif

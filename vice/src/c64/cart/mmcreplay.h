@@ -73,5 +73,9 @@ extern int mmcreplay_cmdline_options_init(void);
 extern int mmcreplay_cart_enabled(void);
 extern int mmcr_clockport_enabled; /* FIXME */
 
+struct snapshot_s;
+extern int mmcreplay_snapshot_read_module(struct snapshot_s *s);
+extern int mmcreplay_snapshot_write_module(struct snapshot_s *s);
+
 #endif
 

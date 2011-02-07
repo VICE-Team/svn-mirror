@@ -546,25 +546,65 @@ int tfe_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
-/* ------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTTFE"
+
+/* FIXME: implement snapshot support */
+int tfe_snapshot_write_module(snapshot_t *s)
+{
+    return -1;
 #if 0
-static char snap_module_name[] = "TFE";
-#define SNAP_MAJOR 0
-#define SNAP_MINOR 0
+    snapshot_module_t *m;
 
-int tfe_read_snapshot_module(struct snapshot_s *s)
-{
-    /* @SRT TODO: not yet implemented */
-    return -1;
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
 }
 
-int tfe_write_snapshot_module(struct snapshot_s *s)
+int tfe_snapshot_read_module(snapshot_t *s)
 {
-    /* @SRT TODO: not yet implemented */
     return -1;
+#if 0
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (tfe_common_attach() < 0) {
+        return -1;
+    }
+    return 0;
+#endif
 }
-#endif /* #if 0 */
 
 #endif /* #ifdef HAVE_TFE */

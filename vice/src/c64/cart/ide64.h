@@ -50,4 +50,8 @@ extern BYTE ide64_a000_bfff_read(WORD addr);
 extern BYTE ide64_c000_cfff_read(WORD addr);
 extern void ide64_c000_cfff_store(WORD addr, BYTE value);
 
+struct snapshot_s;
+extern int ide64_snapshot_read_module(struct snapshot_s *s);
+extern int ide64_snapshot_write_module(struct snapshot_s *s);
+
 #endif

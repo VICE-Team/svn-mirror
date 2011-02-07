@@ -38,12 +38,9 @@
 #ifndef VICE_TFE_H
 #define VICE_TFE_H
 
-#if 0
-/* TODO */
 struct snapshot_s;
-extern int tfe_read_snapshot_module(struct snapshot_s *s);
-extern int tfe_write_snapshot_module(struct snapshot_s *s);
-#endif
+extern int tfe_snapshot_read_module(struct snapshot_s *s);
+extern int tfe_snapshot_write_module(struct snapshot_s *s);
 
 extern int tfe_cart_enabled(void);
 extern int tfe_as_rr_net;

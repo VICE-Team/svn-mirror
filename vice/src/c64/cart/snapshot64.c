@@ -70,7 +70,7 @@
 
 */
 
-#define SS64DEBUG
+/* #define SS64DEBUG */
 
 #ifdef SS64DEBUG
 #define DBG(x) printf x

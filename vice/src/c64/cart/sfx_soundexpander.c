@@ -40,6 +40,7 @@
 #include "resources.h"
 #include "sfx_soundexpander.h"
 #include "sid.h"
+#include "snapshot.h"
 #include "sound.h"
 #include "uiapi.h"
 #include "translate.h"
@@ -346,4 +347,65 @@ static BYTE sfx_soundexpander_piano_read(WORD addr)
       sfx_soundexpander_piano_device.io_source_valid = 1;
   }
   return (BYTE)0xff;
+}
+
+/* ---------------------------------------------------------------------*/
+/*    snapshot support functions                                             */
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTSFXSE"
+
+/* FIXME: implement snapshot support */
+int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
+}
+
+int sfx_soundexpander_snapshot_read_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+
+    if (sfx_soundexpander_common_attach() < 0) {
+        return -1;
+    }
+    return 0;
+#endif
 }

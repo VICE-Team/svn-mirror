@@ -2194,8 +2194,6 @@ int cartridge_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr
 
 /*
     Snapshot reading and writing
-
-    FIXME: incomplete
 */
 
 #define C64CART_DUMP_MAX_CARTS  16
@@ -2290,8 +2288,16 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
             /* "Slot 0" */
-            /* FIXME case CARTRIDGE_MMC64: */
-            /* FIXME case CARTRIDGE_MAGIC_VOICE: */ /* emulation not ready yet */
+            case CARTRIDGE_MMC64:
+                if (mmc64_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_MAGIC_VOICE:
+                if (magicvoice_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_IEEE488:
                 if (tpi_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2443,7 +2449,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_IDE64: */
+            case CARTRIDGE_IDE64:
+                if (ide64_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_KCS_POWER:
                 if (kcs_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2469,7 +2479,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_MMC_REPLAY: */ /* emulation not ready yet */
+            case CARTRIDGE_MMC_REPLAY:
+                if (mmcreplay_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2567,19 +2581,37 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_MIDI_PASSPORT: */
-            /* FIXME case CARTRIDGE_MIDI_DATEL: */
-            /* FIXME case CARTRIDGE_MIDI_SEQUENTIAL: */
-            /* FIXME case CARTRIDGE_MIDI_NAMESOFT: */
-            /* FIXME case CARTRIDGE_MIDI_MAPLIN: */
+            case CARTRIDGE_MIDI_PASSPORT:
+            case CARTRIDGE_MIDI_DATEL:
+            case CARTRIDGE_MIDI_SEQUENTIAL:
+            case CARTRIDGE_MIDI_NAMESOFT:
+            case CARTRIDGE_MIDI_MAPLIN:
+                if (c64_midi_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_REU:
                 if (reu_write_snapshot_module(s) < 0) {
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_SFX_SOUND_EXPANDER: */
-            /* FIXME case CARTRIDGE_SFX_SOUND_SAMPLER: */
-            /* FIXME case CARTRIDGE_TFE: */
+            case CARTRIDGE_SFX_SOUND_EXPANDER:
+                if (sfx_soundexpander_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_SFX_SOUND_SAMPLER:
+                if (sfx_soundsampler_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#ifdef HAVE_TFE
+            case CARTRIDGE_TFE:
+                if (tfe_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#endif
 #ifdef HAVE_RS232
             case CARTRIDGE_TURBO232:
                 if (aciacart_snapshot_write_module(s) < 0) {
@@ -2693,8 +2725,16 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
     for (i = 0; i < number_of_carts; i++) {
         switch (cart_ids[i]) {
             /* "Slot 0" */
-            /* FIXME case CARTRIDGE_MMC64: */
-            /* FIXME case CARTRIDGE_MAGIC_VOICE: */ /* emulation not ready yet */
+            case CARTRIDGE_MMC64:
+                if (mmc64_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_MAGIC_VOICE:
+                if (magicvoice_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_IEEE488:
                 if (tpi_snapshot_read_module(s) < 0) {
                     return -1;
@@ -2846,7 +2886,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_IDE64: */
+            case CARTRIDGE_IDE64:
+                if (ide64_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_KCS_POWER:
                 if (kcs_snapshot_read_module(s) < 0) {
                     return -1;
@@ -2872,7 +2916,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME CARTRIDGE_MMC_REPLAY: */ /* emulation not ready yet */
+            case CARTRIDGE_MMC_REPLAY:
+                if (mmcreplay_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_read_module(s) < 0) {
                     return -1;
@@ -2970,19 +3018,37 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_MIDI_PASSPORT: */
-            /* FIXME case CARTRIDGE_MIDI_DATEL: */
-            /* FIXME case CARTRIDGE_MIDI_SEQUENTIAL: */
-            /* FIXME case CARTRIDGE_MIDI_NAMESOFT: */
-            /* FIXME case CARTRIDGE_MIDI_MAPLIN: */
+            case CARTRIDGE_MIDI_PASSPORT:
+            case CARTRIDGE_MIDI_DATEL:
+            case CARTRIDGE_MIDI_SEQUENTIAL:
+            case CARTRIDGE_MIDI_NAMESOFT:
+            case CARTRIDGE_MIDI_MAPLIN:
+                if (c64_midi_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_REU:
                 if (reu_read_snapshot_module(s) < 0) {
                     return -1;
                 }
                 break;
-            /* FIXME case CARTRIDGE_SFX_SOUND_EXPANDER: */
-            /* FIXME case CARTRIDGE_SFX_SOUND_SAMPLER: */
-            /* FIXME case CARTRIDGE_TFE: */
+            case CARTRIDGE_SFX_SOUND_EXPANDER:
+                if (sfx_soundexpander_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_SFX_SOUND_SAMPLER:
+                if (sfx_soundsampler_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#ifdef HAVE_TFE
+            case CARTRIDGE_TFE:
+                if (tfe_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+#endif
 #ifdef HAVE_RS232
             case CARTRIDGE_TURBO232:
                 if (aciacart_snapshot_read_module(s) < 0) {

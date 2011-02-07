@@ -67,10 +67,8 @@ extern void mmc64_reset(void);
 extern int mmc64_enable(void);
 extern const char *mmc64_get_file_name(void);
 
-/* TODO: snapshot support
 struct snapshot_s;
 extern int mmc64_snapshot_read_module(struct snapshot_s *s);
 extern int mmc64_snapshot_write_module(struct snapshot_s *s);
-*/
 
 #endif
