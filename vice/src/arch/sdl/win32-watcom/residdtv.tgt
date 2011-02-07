@@ -233,8 +233,8 @@ WVList
 0
 55
 MItem
-17
-residdtv-voice.cc
+46
+..\..\watcom-source-wrappers\residdtv-voice.cc
 56
 WString
 6
@@ -251,8 +251,8 @@ WVList
 0
 59
 MItem
-16
-residdtv-wave.cc
+45
+..\..\watcom-source-wrappers\residdtv-wave.cc
 60
 WString
 6

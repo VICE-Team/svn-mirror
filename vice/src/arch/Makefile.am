@@ -67,12 +67,16 @@ EXTRA_DIST = \
 	watcom-source-wrappers/residdtv-filter.cc \
 	watcom-source-wrappers/residdtv-sid.cc \
 	watcom-source-wrappers/residdtv-version.cc \
+	watcom-source-wrappers/residdtv-voice.cc \
+	watcom-source-wrappers/residdtv-wave.cc \
 	watcom-source-wrappers/residfp-envelope.cc \
 	watcom-source-wrappers/residfp-extfilt.cc \
-	warcom-source-wrappers/residfp-filter.cc \
+	watcom-source-wrappers/residfp-filter.cc \
+	watcom-source-wrappers/residfp-pot.cc \
 	watcom-source-wrappers/residfp-sid.cc \
 	watcom-source-wrappers/residfp-version.cc \
 	watcom-source-wrappers/residfp-voice.cc \
+	watcom-source-wrappers/residfp-wave.cc \
 	watcom-source-wrappers/vic20cart-generic.c \
 	watcom-source-wrappers/viciisc.c \
 	watcom-source-wrappers/viciisc-cmdline-options.c \

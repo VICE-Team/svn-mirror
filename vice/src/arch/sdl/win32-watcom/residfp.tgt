@@ -287,8 +287,8 @@ WVList
 0
 67
 MItem
-14
-residfp-pot.cc
+44
+..\..\watcom-source-wrappers\residfp-wave.cc
 68
 WString
 6
@@ -305,8 +305,8 @@ WVList
 0
 71
 MItem
-15
-residfp-wave.cc
+14
+residfp-pot.cc
 72
 WString
 6
