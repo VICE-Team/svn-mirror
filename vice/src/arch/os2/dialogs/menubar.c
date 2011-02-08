@@ -73,6 +73,11 @@
 #include "c64dtv-resources.h"
 #endif
 
+#ifdef __X64__
+#include "c64model.h"        // c64model_set(), C64MODEL_*
+#include "vicii.h"
+#endif
+
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
 
@@ -267,6 +272,8 @@ void ChangeSpeed(HWND hwnd, int idm)
 
 void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 {
+    int val;
+
     switch (idm) {
         case IDM_PLUS:
         case IDM_MINUS:
@@ -305,6 +312,71 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_LOGWIN:
             WinActivateWindow(hwndLog, 1);
             return;
+
+#if defined(__X64__)
+        case IDM_C64PAL:
+        case IDM_C64CPAL:
+        case IDM_C64OLDPAL:
+        case IDM_C64NTSC:
+        case IDM_C64CNTSC:
+        case IDM_C64OLDNTSC:
+        case IDM_DREAN:
+            c64model_set(C64MODEL_C64_PAL + idm - IDM_C64PAL);
+            return;
+        case IDM_CUSTOM_C64_MODEL:
+            resources_get_int("VICIINewLuminances", &val);
+            WinCheckMenuItem(hwnd, IDM_VICII_NEW_LUMINANCES, val);
+            return;
+        case IDM_VICII_MODEL:
+            resources_get_int("VICIIModel", &val);
+            WinCheckMenuItem(hwnd, IDM_6569_PAL,          val == VICII_MODEL_6569);
+            WinCheckMenuItem(hwnd, IDM_8565_PAL,          val == VICII_MODEL_8565);
+            WinCheckMenuItem(hwnd, IDM_6569R1_OLD_PAL,    val == VICII_MODEL_6569R1);
+            WinCheckMenuItem(hwnd, IDM_6567_NTSC,         val == VICII_MODEL_6567);
+            WinCheckMenuItem(hwnd, IDM_8562_NTSC,         val == VICII_MODEL_8562);
+            WinCheckMenuItem(hwnd, IDM_6567R56A_OLD_NTSC, val == VICII_MODEL_6567R56A);
+            WinCheckMenuItem(hwnd, IDM_6572_PAL_N,        val == VICII_MODEL_6572);
+            return;
+        case IDM_6569_PAL:
+        case IDM_8565_PAL:
+        case IDM_6569R1_OLD_PAL:
+        case IDM_6567_NTSC:
+        case IDM_8562_NTSC:
+        case IDM_6567R56A_OLD_NTSC:
+        case IDM_6572_PAL_N:
+            resources_set_int("VICIIModel", VICII_MODEL_6569 + IDM_6569_PAL - idm);
+            return;
+        case IDM_VICII_NEW_LUMINANCES:
+            toggle("VICIINewLuminances");
+            return;
+        case IDM_CIA1_MODEL:
+            resources_get_int("CIA1Model", &val);
+            WinCheckMenuItem(hwnd, IDM_CIA1_6526_OLD, val == 0);
+            WinCheckMenuItem(hwnd, IDM_CIA1_6526A_NEW, val == 1);
+            return;
+        case IDM_CIA1_6526_OLD:
+        case IDM_CIA1_6526A_NEW:
+            resources_set_int("CIA1Model", idm - IDM_CIA1_6526_OLD);
+            return;
+        case IDM_CIA2_MODEL:
+            resources_get_int("CIA2Model", &val);
+            WinCheckMenuItem(hwnd, IDM_CIA2_6526_OLD, val == 0);
+            WinCheckMenuItem(hwnd, IDM_CIA2_6526A_NEW, val == 1);
+            return;
+        case IDM_CIA2_6526_OLD:
+        case IDM_CIA2_6526A_NEW:
+            resources_set_int("CIA2Model", idm - IDM_CIA2_6526_OLD);
+            return;
+        case IDM_GLUE_LOGIC:
+            resources_get_int("GlueLogic", &val);
+            WinCheckMenuItem(hwnd, IDM_DISCRETE, val == 0);
+            WinCheckMenuItem(hwnd, IDM_CUSTOM_IC, val == 1);
+            return;
+        case IDM_DISCRETE:
+        case IDM_CUSTOM_IC:
+            resources_set_int("GlueLogic", idm - IDM_DISCRETE);
+            return;
+#endif
 
 #if defined(__X64__) || defined(__X128__)
         case IDM_CRTGEN:

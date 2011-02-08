@@ -400,6 +400,34 @@
 #define IDM_PETRAM96                 0x360
 #define IDM_PETRAM128                0x380
 
+#define IDM_C64_MODEL                0x1cd
+#define IDM_C64PAL                   0x1ce
+#define IDM_C64CPAL                  0x1cf
+#define IDM_C64OLDPAL                0x1d0
+#define IDM_C64NTSC                  0x1d1
+#define IDM_C64CNTSC                 0x1d2
+#define IDM_C64OLDNTSC               0x1d3
+#define IDM_DREAN                    0x1d4
+#define IDM_CUSTOM_C64_MODEL         0x1d5
+#define IDM_VICII_MODEL              0x1d6
+#define IDM_6569_PAL                 0x1d7
+#define IDM_8565_PAL                 0x1d8
+#define IDM_6569R1_OLD_PAL           0x1d9
+#define IDM_6567_NTSC                0x1da
+#define IDM_8562_NTSC                0x1db
+#define IDM_6567R56A_OLD_NTSC        0x1dc
+#define IDM_6572_PAL_N               0x1dd
+#define IDM_VICII_NEW_LUMINANCES     0x1de
+#define IDM_CIA1_MODEL               0x1df
+#define IDM_CIA1_6526_OLD            0x1e0
+#define IDM_CIA1_6526A_NEW           0x1e1
+#define IDM_CIA2_MODEL               0x1e2
+#define IDM_CIA2_6526_OLD            0x1e3
+#define IDM_CIA2_6526A_NEW           0x1e4
+#define IDM_GLUE_LOGIC               0x1e5
+#define IDM_DISCRETE                 0x1e6
+#define IDM_CUSTOM_IC                0x1e7
+
 #define IDM_PETMODEL                 0x270
 
 #define IDM_PET2001                  0x271

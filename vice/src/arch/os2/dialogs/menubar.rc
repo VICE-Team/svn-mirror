@@ -140,7 +140,7 @@ BEGIN
 #endif
 
         MENUITEM "~Logging Window\tAlt-L",                IDM_LOGWIN,                   MIS_TEXT
-        MENUITEM "Buildin ~Monitor\tAlt-M",               IDM_MONITOR,                  MIS_TEXT
+        MENUITEM "Builtin ~Monitor\tAlt-M",               IDM_MONITOR,                  MIS_TEXT
     END
     SUBMENU "Set~up",                                     IDM_SETUP,                    MIS_TEXT
     BEGIN
@@ -209,7 +209,7 @@ BEGIN
         END
 #endif      
 
-#if defined(__X64__) || defined(__X64DTV__) || defined(__X128__) || defined(__XVIC__)
+#if (defined(__X64__) || defined(__X64DTV__) || defined(__X128__) || defined(__XVIC__)) && !defined(__X64SC__)
         SUBMENU "~Video Frequency Standard",              IDM_VIDEOSTD,                 MIS_TEXT
         BEGIN
             MENUITEM "~PAL-G",                            IDM_PAL,                      MIS_TEXT
@@ -328,6 +328,48 @@ BEGIN
         END
         MENUITEM "I~EEE488 Interface",                    IDM_IEEE,                     MIS_TEXT
 #endif // __X128__
+
+#ifdef __X64SC__
+        SUBMENU "C64 model",                              IDM_C64_MODEL,                MIS_TEXT
+        BEGIN
+            MENUITEM "C64 PAL",                           IDM_C64PAL,                   MIS_TEXT
+            MENUITEM "C64C PAL",                          IDM_C64CPAL,                  MIS_TEXT
+            MENUITEM "C64 old PAL",                       IDM_C64OLDPAL,                MIS_TEXT
+            MENUITEM "C64 NTSC",                          IDM_C64NTSC,                  MIS_TEXT
+            MENUITEM "C64C NTSC",                         IDM_C64CNTSC,                 MIS_TEXT
+            MENUITEM "C64 old NTSC",                      IDM_C64OLDNTSC,               MIS_TEXT
+            MENUITEM "Drean",                             IDM_DREAN,                    MIS_TEXT
+            SUBMENU "Custom C64 model",                   IDM_CUSTOM_C64_MODEL,         MIS_TEXT
+            BEGIN
+                SUBMENU "VICII model",                    IDM_VICII_MODEL,              MIS_TEXT
+                BEGIN
+                    MENUITEM "6569 (PAL)",                IDM_6569_PAL,                 MIS_TEXT
+                    MENUITEM "8565 (PAL)",                IDM_8565_PAL,                 MIS_TEXT
+                    MENUITEM "6569R1 (old PAL)",          IDM_6569R1_OLD_PAL,           MIS_TEXT
+                    MENUITEM "6567 (NTSC)",               IDM_6567_NTSC,                MIS_TEXT
+                    MENUITEM "8562 (NTSC)",               IDM_8562_NTSC,                MIS_TEXT
+                    MENUITEM "6567R56A (old NTSC)",       IDM_6567R56A_OLD_NTSC,        MIS_TEXT
+                    MENUITEM "6572 (PAL-N)",              IDM_6572_PAL_N,               MIS_TEXT
+                END
+                MENUITEM "New luminances",                IDM_VICII_NEW_LUMINANCES,     MIS_TEXT
+                SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
+                BEGIN
+                    MENUITEM "6526 (old)",                IDM_CIA1_6526_OLD,            MIS_TEXT
+                    MENUITEM "6526A (new)",               IDM_CIA1_6526A_NEW,           MIS_TEXT
+                END
+                SUBMENU "CIA-2 model",                    IDM_CIA2_MODEL,               MIS_TEXT
+                BEGIN
+                    MENUITEM "6526 (old)",                IDM_CIA2_6526_OLD,            MIS_TEXT
+                    MENUITEM "6526A (new)",               IDM_CIA2_6526A_NEW,           MIS_TEXT
+                END
+                SUBMENU "Glue logic",                     IDM_GLUE_LOGIC,               MIS_TEXT
+                BEGIN
+                    MENUITEM "Discrete",                  IDM_DISCRETE,                 MIS_TEXT
+                    MENUITEM "Custom IC",                 IDM_CUSTOM_IC,                MIS_TEXT
+                END
+            END
+        END
+#endif
 
 #ifdef __XCBM__
         SUBMENU "Model",                                  IDM_MODEL,                    MIS_TEXT
