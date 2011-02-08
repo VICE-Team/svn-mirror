@@ -2581,6 +2581,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+#ifdef HAVE_MIDI
             case CARTRIDGE_MIDI_PASSPORT:
             case CARTRIDGE_MIDI_DATEL:
             case CARTRIDGE_MIDI_SEQUENTIAL:
@@ -2590,6 +2591,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+#endif
             case CARTRIDGE_REU:
                 if (reu_write_snapshot_module(s) < 0) {
                     return -1;
