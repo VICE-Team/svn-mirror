@@ -238,7 +238,6 @@
 #define IDM_MOUSE_PORT_1             0x15f
 #define IDM_MOUSE_PORT_2             0x18a
 
-#define IDM_EMUID                    0x153
 #define IDM_VCACHE                   0x154
 #define IDM_SBCOLL                   0x155
 #define IDM_SSCOLL                   0x156

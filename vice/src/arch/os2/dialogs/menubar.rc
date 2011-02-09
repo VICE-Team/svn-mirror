@@ -456,10 +456,6 @@ BEGIN
         MENUITEM "S~witch upper/lower case charset",      IDM_CHARSET,                  MIS_TEXT
 #endif
 
-#if !defined(__XPLUS4__) && !defined(__X64DTV__)
-        MENUITEM "Emulator ~Identification",              IDM_EMUID,                    MIS_TEXT
-#endif
-
 #ifdef __X128
         MENUITEM "RAM banks 2 & 3",                       IDM_C128FULLBANKS,            MIS_TEXT
 #endif

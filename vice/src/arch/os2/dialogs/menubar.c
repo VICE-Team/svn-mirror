@@ -838,12 +838,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if !defined(__XPLUS4__) && !defined(__X64DTV__)
-        case IDM_EMUID:
-            toggle("EmuID");
-            return;
-#endif
-
 #ifdef __X128__
         case IDM_C128FULLBANKS:
             toggle("C128FullBanks");
@@ -1361,10 +1355,6 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_MOUSE_PORT, 1);
 #endif
 #endif // HAVE_MOUSE
-
-#if !defined(__XPLUS4__) && !defined(__X64DTV__)
-            WinCheckRes(hwnd, IDM_EMUID, "EmuID");
-#endif
 
 #ifdef __X128__
             WinCheckRes(hwnd, IDM_C128FULLBANKS, "C128FullBanks");
