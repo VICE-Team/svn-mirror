@@ -220,7 +220,6 @@ static help_icon_t Help_ConfigSystem[] = {
     { Icon_ConfSys_PLUS60K, "\\HelpConfSysPLUS60K" },
     { Icon_ConfSys_C64_256K, "\\HelpConfSysC64_256K" },
     { Icon_ConfSys_IEEE488, "\\HelpConfSysIEEE" },
-    { Icon_ConfSys_EmuID, "\\HelpConfSysID" },
     { Icon_ConfSys_NoTraps, "\\HelpConfSysTraps" },
     { Icon_ConfSys_PollEvery, "\\HelpConfSysPlEv" },
     { Icon_ConfSys_SpeedEvery, "\\HelpConfSysSpEv" },
