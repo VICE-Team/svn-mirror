@@ -771,6 +771,7 @@ static int sound_run_sound(void)
     int nr = 0, c, i;
     int delta_t = 0;
     SWORD *bufferptr;
+    static overflow_warning_count = 0;
 
     /* XXX: implement the exact ... */
     if (!playback_enabled || (suspend_time > 0 && disabletime))
@@ -806,7 +807,15 @@ static int sound_run_sound(void)
             }
 
             if (delta_t) {
-                log_warning(sound_log, "%s", translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
+                if (overflow_warning_count < 25) {
+                    log_warning(sound_log, "%s", translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
+                    overflow_warning_count++;
+                } else {
+                    if (overflow_warning_count == 25) {
+                        log_warning(sound_log, "Buffer overflow warning repeated 25 times, will now be ignored");
+                        overflow_warning_count++;
+                    }
+                }
             }
         }
     } else {
