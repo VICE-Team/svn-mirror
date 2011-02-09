@@ -472,7 +472,7 @@ void Filter::set_w0()
   // Multiply with 1.048576 to facilitate division by 1 000 000 by right-
   // shifting 20 times (2 ^ 20 = 1048576).
   // 1.048576*2*pi*12500 = 82355
-  w0 = 82355*fc >> 11;
+  w0 = 82355*(fc + 1) >> 11;
 }
 
 /*
