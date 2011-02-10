@@ -223,6 +223,9 @@
 #define IDM_PETREU2048               0x1a0
 #define IDM_PETREUFILE               0x159
 
+#define IDM_PETDWW                   0x153
+#define IDM_PETDWWFILE               0x1e8
+
 #define IDM_PET_USERPORT_DAC         0x1cc
 
 #define IDM_TFE                      0x158

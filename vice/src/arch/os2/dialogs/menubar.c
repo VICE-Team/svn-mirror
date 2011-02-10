@@ -730,6 +730,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_set_string("PETREUfilename", ViceFileSelect(hwnd, 1));
             return;
 
+        case IDM_PETDWW:
+            toggle("PETDWW");
+            return;
+
+        case IDM_PETDWWFILE:
+            resources_set_string("PETDWWfilename", ViceFileSelect(hwnd, 1));
+            return;
+
         case IDM_PET_USERPORT_DAC:
             toggle("PETUserportDAC");
             return;
@@ -1417,10 +1425,13 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
 #ifdef __XPET__
-            resources_get_int("REU", &val);
+            resources_get_int("PETREU", &val);
             WinCheckMenuItem(hwnd, IDM_PETREU, val);
             WinEnableMenuItem(hwnd, IDM_PETREUSIZE, val);
             WinEnableMenuItem(hwnd, IDM_PETREUFILE, val);
+            resources_get_int("PETDWW", &val);
+            WinCheckMenuItem(hwnd, IDM_PETDWW, val);
+            WinEnableMenuItem(hwnd, IDM_PETDWWFILE, val);
             WinCheckRes(hwnd, IDM_CHARSET, "Basic1Chars");
             WinCheckRes(hwnd, IDM_EOI, "EoiBlank");
             WinCheckRes(hwnd, IDM_ROMPATCH, "Basic1");
