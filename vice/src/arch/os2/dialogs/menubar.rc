@@ -48,11 +48,11 @@ BEGIN
             MENUITEM "Generic ~16kB Image",               IDM_CRTGEN16KB,               MIS_TEXT
             MENUITEM "32kB Action ~Replay",               IDM_CRTACTREPL,               MIS_TEXT
             MENUITEM "32kB Atomic ~Power",                IDM_CRTATOMPOW,               MIS_TEXT
-            MENUITEM "8kB Epyx ~Fastloader",              IDM_CRTEPYX,                  MIS_TEXT
+            MENUITEM "8kB Epyx ~FastLoader",              IDM_CRTEPYX,                  MIS_TEXT
             MENUITEM "~32kB Super Snapshot",              IDM_CRTSSSHOT,                MIS_TEXT
             MENUITEM "~64kB Super Snapshot",              IDM_CRTSSSHOT5,               MIS_TEXT
-            MENUITEM "16kB ~Westermann learning",         IDM_CRTWEST,                  MIS_TEXT
-            MENUITEM "~CBM IEEE488",                      IDM_CRTIEEE,                  MIS_TEXT
+            MENUITEM "16kB ~Westermann Learning",         IDM_CRTWEST,                  MIS_TEXT
+            MENUITEM "~CBM IEEE-488 Interface",           IDM_CRTIEEE,                  MIS_TEXT
             MENUITEM "I~DE64",                            IDM_CRTIDE64,                 MIS_TEXT
         END
         MENUITEM "~Expert Cartridge",                     IDM_CRTEXPERT,                MIS_TEXT
@@ -461,17 +461,23 @@ BEGIN
 #endif
 
 #ifdef __XPET__
-        MENUITEM "PET R~EU - Memory and Extension Unit",  IDM_PETREU,                   MIS_TEXT
-        SUBMENU "PET REU Memory ~Size",                   IDM_PETREUSIZE,               MIS_TEXT
+        SUBMENU "PET REU Settings",                       IDM_PETREU_SETTINGS,          MIS_TEXT
         BEGIN
-            MENUITEM "~128kB",                            IDM_PETREU128,                MIS_TEXT
-            MENUITEM "~512kB",                            IDM_PETREU512,                MIS_TEXT
-            MENUITEM "1~024kB",                           IDM_PETREU1024,               MIS_TEXT
-            MENUITEM "~2048kB",                           IDM_PETREU2048,               MIS_TEXT
+            MENUITEM "PET R~EU ",                         IDM_PETREU,                   MIS_TEXT
+            SUBMENU "PET REU Memory ~Size",               IDM_PETREUSIZE,               MIS_TEXT
+            BEGIN
+                MENUITEM "~128kB",                        IDM_PETREU128,                MIS_TEXT
+                MENUITEM "~512kB",                        IDM_PETREU512,                MIS_TEXT
+                MENUITEM "1~024kB",                       IDM_PETREU1024,               MIS_TEXT
+                MENUITEM "~2048kB",                       IDM_PETREU2048,               MIS_TEXT
+            END
+            MENUITEM "PET REU Filename",                  IDM_PETREUFILE,               MIS_TEXT
         END
-        MENUITEM "PET REU Filename",                      IDM_PETREUFILE,               MIS_TEXT
-        MENUITEM "PET D~WW",                              IDM_PETDWW,                   MIS_TEXT
-        MENUITEM "PET DWW Filename",                      IDM_PETDWWFILE,               MIS_TEXT
+        SUBMENU "PET DWW Settings",                       IDM_PETDWW_SETTINGS,          MIS_TEXT
+        BEGIN
+            MENUITEM "PET D~WW",                          IDM_PETDWW,                   MIS_TEXT
+            MENUITEM "PET DWW Filename",                  IDM_PETDWWFILE,               MIS_TEXT
+        END
         MENUITEM "PET Userport ~DAC",                     IDM_PET_USERPORT_DAC,         MIS_TEXT
 #endif
 
@@ -479,96 +485,139 @@ BEGIN
 
 #ifdef HAVE_TFE
         MENUITEM "TFE - Cartridge",                       IDM_TFE,                      MIS_TEXT
-#endif 
+#endif
 
-        MENUITEM "R~EU - Memory Extension",               IDM_REU,                      MIS_TEXT
-        SUBMENU "REU Memory ~Size",                       IDM_REUSIZE,                  MIS_TEXT
+        SUBMENU "REU Settings",                           IDM_REU_SETTINGS,             MIS_TEXT
         BEGIN
-            MENUITEM "~128kB",                            IDM_REU128,                   MIS_TEXT
-            MENUITEM "~256kB",                            IDM_REU256,                   MIS_TEXT
-            MENUITEM "~512kB",                            IDM_REU512,                   MIS_TEXT
-            MENUITEM "102~4kB",                           IDM_REU1024,                  MIS_TEXT
-            MENUITEM "204~8kB",                           IDM_REU2048,                  MIS_TEXT
-            MENUITEM "409~6kB",                           IDM_REU4096,                  MIS_TEXT
-            MENUITEM "81~92kB",                           IDM_REU8192,                  MIS_TEXT
-            MENUITEM "16~384kB",                          IDM_REU16384,                 MIS_TEXT
+            MENUITEM "R~EU - Memory Extension",           IDM_REU,                      MIS_TEXT
+            SUBMENU "REU Memory ~Size",                   IDM_REUSIZE,                  MIS_TEXT
+            BEGIN
+                MENUITEM "~128kB",                        IDM_REU128,                   MIS_TEXT
+                MENUITEM "~256kB",                        IDM_REU256,                   MIS_TEXT
+                MENUITEM "~512kB",                        IDM_REU512,                   MIS_TEXT
+                MENUITEM "102~4kB",                       IDM_REU1024,                  MIS_TEXT
+                MENUITEM "204~8kB",                       IDM_REU2048,                  MIS_TEXT
+                MENUITEM "409~6kB",                       IDM_REU4096,                  MIS_TEXT
+                MENUITEM "81~92kB",                       IDM_REU8192,                  MIS_TEXT
+                MENUITEM "16~384kB",                      IDM_REU16384,                 MIS_TEXT
+            END
+            MENUITEM "REU Filename",                      IDM_REUFILE,                  MIS_TEXT
         END
-        MENUITEM "REU Filename",                          IDM_REUFILE,                  MIS_TEXT
-        MENUITEM "G~EORAM - Memory Extension",            IDM_GEORAM,                   MIS_TEXT
-        SUBMENU "GEORAM Memory ~Size",                    IDM_GEORAMSIZE,               MIS_TEXT
+
+        SUBMENU "GEO-RAM Settings",                       IDM_GEORAM_SETTINGS,          MIS_TEXT
         BEGIN
-            MENUITEM "~64kB",                             IDM_GEORAM64,                 MIS_TEXT
-            MENUITEM "~128kB",                            IDM_GEORAM128,                MIS_TEXT
-            MENUITEM "~256kB",                            IDM_GEORAM256,                MIS_TEXT
-            MENUITEM "~512kB",                            IDM_GEORAM512,                MIS_TEXT
-            MENUITEM "102~4kB",                           IDM_GEORAM1024,               MIS_TEXT
-            MENUITEM "204~8kB",                           IDM_GEORAM2048,               MIS_TEXT
-            MENUITEM "409~6kB",                           IDM_GEORAM4096,               MIS_TEXT
+            MENUITEM "G~EO-RAM - Memory Extension",       IDM_GEORAM,                   MIS_TEXT
+            SUBMENU "GEO-RAM Memory ~Size",               IDM_GEORAMSIZE,               MIS_TEXT
+            BEGIN
+                MENUITEM "~64kB",                         IDM_GEORAM64,                 MIS_TEXT
+                MENUITEM "~128kB",                        IDM_GEORAM128,                MIS_TEXT
+                MENUITEM "~256kB",                        IDM_GEORAM256,                MIS_TEXT
+                MENUITEM "~512kB",                        IDM_GEORAM512,                MIS_TEXT
+                MENUITEM "102~4kB",                       IDM_GEORAM1024,               MIS_TEXT
+                MENUITEM "204~8kB",                       IDM_GEORAM2048,               MIS_TEXT
+                MENUITEM "409~6kB",                       IDM_GEORAM4096,               MIS_TEXT
+            END
+            MENUITEM "GEO-RAM Filename",                   IDM_GEORAMFILE,               MIS_TEXT
         END
-        MENUITEM "GEORAM Filename",                       IDM_GEORAMFILE,               MIS_TEXT
-        MENUITEM "R~AMCART - Memory Expansion",           IDM_RAMCART,                  MIS_TEXT
-        SUBMENU "RAMCART Memory ~Size",                   IDM_RAMCARTSIZE,              MIS_TEXT
+
+        SUBMENU "RamCart Settings",                       IDM_RAMCART_SETTINGS,         MIS_TEXT
         BEGIN
-            MENUITEM "~64kB",                             IDM_RAMCART64,                MIS_TEXT
-            MENUITEM "~128kB",                            IDM_RAMCART128,               MIS_TEXT
+            MENUITEM "R~amCart - Memory Expansion",       IDM_RAMCART,                  MIS_TEXT
+            SUBMENU "RamCart Memory ~Size",               IDM_RAMCARTSIZE,              MIS_TEXT
+            BEGIN
+                MENUITEM "~64kB",                         IDM_RAMCART64,                MIS_TEXT
+                MENUITEM "~128kB",                        IDM_RAMCART128,               MIS_TEXT
+            END
+            MENUITEM "RamCart Filename",                  IDM_RAMCARTFILE,              MIS_TEXT
         END
-        MENUITEM "RAMCART Filename",                      IDM_RAMCARTFILE,              MIS_TEXT
-        MENUITEM "~DIGIMAX - Cartridge",                  IDM_DIGIMAX,                  MIS_TEXT
-        SUBMENU  "DIGIMAX ~Base",                         IDM_DIGIMAXBASE,              MIS_TEXT
+
+        SUBMENU "DigiMAX Settings",                       IDM_DIGIMAX_SETTINGS,         MIS_TEXT
         BEGIN
-            MENUITEM "Userport",                          IDM_DIGIMAXDD00,              MIS_TEXT
-            MENUITEM "$DE00",                             IDM_DIGIMAXDE00,              MIS_TEXT
-            MENUITEM "$DE20",                             IDM_DIGIMAXDE20,              MIS_TEXT
-            MENUITEM "$DE40",                             IDM_DIGIMAXDE40,              MIS_TEXT
-            MENUITEM "$DE60",                             IDM_DIGIMAXDE60,              MIS_TEXT
-            MENUITEM "$DE80",                             IDM_DIGIMAXDE80,              MIS_TEXT
-            MENUITEM "$DEA0",                             IDM_DIGIMAXDEA0,              MIS_TEXT
-            MENUITEM "$DEC0",                             IDM_DIGIMAXDEC0,              MIS_TEXT
-            MENUITEM "$DEE0",                             IDM_DIGIMAXDEE0,              MIS_TEXT
-            MENUITEM "$DF00",                             IDM_DIGIMAXDF00,              MIS_TEXT
-            MENUITEM "$DF20",                             IDM_DIGIMAXDF20,              MIS_TEXT
-            MENUITEM "$DF40",                             IDM_DIGIMAXDF40,              MIS_TEXT
-            MENUITEM "$DF60",                             IDM_DIGIMAXDF60,              MIS_TEXT
-            MENUITEM "$DF80",                             IDM_DIGIMAXDF80,              MIS_TEXT
-            MENUITEM "$DFA0",                             IDM_DIGIMAXDFA0,              MIS_TEXT
-            MENUITEM "$DFC0",                             IDM_DIGIMAXDFC0,              MIS_TEXT
-            MENUITEM "$DFE0",                             IDM_DIGIMAXDFE0,              MIS_TEXT
+            MENUITEM "~DigiMAX - Cartridge",              IDM_DIGIMAX,                  MIS_TEXT
+            SUBMENU  "DigiMAX ~Base",                     IDM_DIGIMAXBASE,              MIS_TEXT
+            BEGIN
+                MENUITEM "Userport",                      IDM_DIGIMAXDD00,              MIS_TEXT
+                MENUITEM "$DE00",                         IDM_DIGIMAXDE00,              MIS_TEXT
+                MENUITEM "$DE20",                         IDM_DIGIMAXDE20,              MIS_TEXT
+                MENUITEM "$DE40",                         IDM_DIGIMAXDE40,              MIS_TEXT
+                MENUITEM "$DE60",                         IDM_DIGIMAXDE60,              MIS_TEXT
+                MENUITEM "$DE80",                         IDM_DIGIMAXDE80,              MIS_TEXT
+                MENUITEM "$DEA0",                         IDM_DIGIMAXDEA0,              MIS_TEXT
+                MENUITEM "$DEC0",                         IDM_DIGIMAXDEC0,              MIS_TEXT
+                MENUITEM "$DEE0",                         IDM_DIGIMAXDEE0,              MIS_TEXT
+                MENUITEM "$DF00",                         IDM_DIGIMAXDF00,              MIS_TEXT
+                MENUITEM "$DF20",                         IDM_DIGIMAXDF20,              MIS_TEXT
+                MENUITEM "$DF40",                         IDM_DIGIMAXDF40,              MIS_TEXT
+                MENUITEM "$DF60",                         IDM_DIGIMAXDF60,              MIS_TEXT
+                MENUITEM "$DF80",                         IDM_DIGIMAXDF80,              MIS_TEXT
+                MENUITEM "$DFA0",                         IDM_DIGIMAXDFA0,              MIS_TEXT
+                MENUITEM "$DFC0",                         IDM_DIGIMAXDFC0,              MIS_TEXT
+                MENUITEM "$DFE0",                         IDM_DIGIMAXDFE0,              MIS_TEXT
+            END
         END
-        MENUITEM "EasyFlash Jumper",                      IDM_EASYFLASH_JUMPER,         MIS_TEXT
-        MENUITEM "Save to EasyFlash .crt file on detach", IDM_EASYFLASH_AUTOSAVE,       MIS_TEXT
-        MENUITEM "Save to EasyFlash .crt file now",       IDM_EASYFLASH_SAVE_NOW,       MIS_TEXT
-        MENUITEM "SFX Sound Expander cartridge",          IDM_SFX_SE,                   MIS_TEXT
-        SUBMENU "SFX Sound Expander YM chip type",        IDM_SFX_SE_TYPE,              MIS_TEXT
+
+        SUBMENU "EasyFlash Settings",                         IDM_EASYFLASH_SETTINGS,   MIS_TEXT
         BEGIN
-            MENUITEM "3526",                              IDM_SFX_SE_3526,              MIS_TEXT
-            MENUITEM "3812",                              IDM_SFX_SE_3812,              MIS_TEXT
+            MENUITEM "EasyFlash Jumper",                      IDM_EASYFLASH_JUMPER,     MIS_TEXT
+            MENUITEM "Save to EasyFlash .crt file on detach", IDM_EASYFLASH_AUTOSAVE,   MIS_TEXT
+            MENUITEM "Save to EasyFlash .crt file now",       IDM_EASYFLASH_SAVE_NOW,   MIS_TEXT
         END
+
+        SUBMENU "SFX Sound Expander Settings",            IDM_SFX_SE_SETTINGS,          MIS_TEXT
+        BEGIN
+            MENUITEM "SFX Sound Expander cartridge",      IDM_SFX_SE,                   MIS_TEXT
+            SUBMENU "SFX Sound Expander YM chip type",    IDM_SFX_SE_TYPE,              MIS_TEXT
+            BEGIN
+                MENUITEM "3526",                          IDM_SFX_SE_3526,              MIS_TEXT
+                MENUITEM "3812",                          IDM_SFX_SE_3812,              MIS_TEXT
+            END
+        END
+
         MENUITEM "SFX Sound Sampler cartridge",           IDM_SFX_SS,                   MIS_TEXT
 #endif // __X64__ || __X128__
 
 #ifdef __X64__
-        MENUITEM "~Double Quick Brown Box",               IDM_DQBB,                     MIS_TEXT
-        MENUITEM "DQBB Filename",                         IDM_DQBBFILE,                 MIS_TEXT
-        MENUITEM "~Isepic cartridge",                     IDM_ISEPIC,                   MIS_TEXT
-        MENUITEM "Isepic ~Switch",                        IDM_ISEPIC_SWITCH,            MIS_TEXT
-        MENUITEM "PLUS~60K - Memory Expansion",           IDM_PLUS60K,                  MIS_TEXT
-        SUBMENU "PLUS60K Base ~Address",                  IDM_PLUS60KBASE,              MIS_TEXT
+        SUBMENU "DQBB Settings",                          IDM_DQBB_SETTINGS,            MIS_TEXT
         BEGIN
-            MENUITEM "$~D040",                            IDM_PLUS60KD040,              MIS_TEXT
-            MENUITEM "$D~100",                            IDM_PLUS60KD100,              MIS_TEXT
+            MENUITEM "~Double Quick Brown Box",           IDM_DQBB,                     MIS_TEXT
+            MENUITEM "DQBB Filename",                     IDM_DQBBFILE,                 MIS_TEXT
         END
-        MENUITEM "PLUS60K Filename",                      IDM_PLUS60KFILE,              MIS_TEXT
-        MENUITEM "PLUS2~56K - Memory Expansion",          IDM_PLUS256K,                 MIS_TEXT
-        MENUITEM "PLUS256K Filename",                     IDM_PLUS256KFILE,             MIS_TEXT
-        MENUITEM "~256K - Memory Expansion",              IDM_C64_256K,                 MIS_TEXT
-        SUBMENU "256K ~Base",                             IDM_C64_256K_BASE,            MIS_TEXT
+
+        SUBMENU "ISEPIC Settings",                        IDM_ISEPIC_SETTINGS,          MIS_TEXT
         BEGIN
-            MENUITEM "$~DE00-$DE7F",                      IDM_C64_256K_BASEDE00,        MIS_TEXT
-            MENUITEM "$D~E80-$DEFF",                      IDM_C64_256K_BASEDE80,        MIS_TEXT
-            MENUITEM "$DF~00-$DF7F",                      IDM_C64_256K_BASEDF00,        MIS_TEXT
-            MENUITEM "$D~F80-$DFFF",                      IDM_C64_256K_BASEDF80,        MIS_TEXT
+            MENUITEM "~ISEPIC cartridge",                 IDM_ISEPIC,                   MIS_TEXT
+            MENUITEM "ISEPIC ~Switch",                    IDM_ISEPIC_SWITCH,            MIS_TEXT
         END
-        MENUITEM "256K Filename",                         IDM_C64_256KFILE,             MIS_TEXT
+
+        SUBMENU "PLUS60K Settings",                       IDM_PLUS60K_SETTINGS,         MIS_TEXT
+        BEGIN
+            MENUITEM "PLUS~60K - Memory Expansion",       IDM_PLUS60K,                  MIS_TEXT
+            SUBMENU "PLUS60K Base ~Address",              IDM_PLUS60KBASE,              MIS_TEXT
+            BEGIN
+                MENUITEM "$~D040",                        IDM_PLUS60KD040,              MIS_TEXT
+                MENUITEM "$D~100",                        IDM_PLUS60KD100,              MIS_TEXT
+            END
+            MENUITEM "PLUS60K Filename",                  IDM_PLUS60KFILE,              MIS_TEXT
+        END
+
+        SUBMENU "PLUS256K Settings",                      IDM_PLUS256K_SETTINGS,        MIS_TEXT
+        BEGIN
+            MENUITEM "PLUS2~56K - Memory Expansion",      IDM_PLUS256K,                 MIS_TEXT
+            MENUITEM "PLUS256K Filename",                 IDM_PLUS256KFILE,             MIS_TEXT
+        END
+
+        SUBMENU "256K Settings",                          IDM_C64_256K_SETTINGS,        MIS_TEXT
+        BEGIN
+            MENUITEM "~256K - Memory Expansion",          IDM_C64_256K,                 MIS_TEXT
+            SUBMENU "256K ~Base",                         IDM_C64_256K_BASE,            MIS_TEXT
+            BEGIN
+                MENUITEM "$~DE00-$DE7F",                  IDM_C64_256K_BASEDE00,        MIS_TEXT
+                MENUITEM "$D~E80-$DEFF",                  IDM_C64_256K_BASEDE80,        MIS_TEXT
+                MENUITEM "$DF~00-$DF7F",                  IDM_C64_256K_BASEDF00,        MIS_TEXT
+                MENUITEM "$D~F80-$DFFF",                  IDM_C64_256K_BASEDF80,        MIS_TEXT
+            END
+            MENUITEM "256K Filename",                     IDM_C64_256KFILE,             MIS_TEXT
+        END
 #endif
 
 #ifdef __XVIC__
@@ -674,9 +723,9 @@ BEGIN
         END
         SUBMENU "~Fragment Size",                         IDM_SOUNDFRAG,                MIS_TEXT
         BEGIN
-            MENUITEM "~Flexible",                         IDM_FRAGSMALL,                MIS_TEXT
-            MENUITEM "~Adjusting",                        IDM_FRAGMEDIUM,               MIS_TEXT
-            MENUITEM "~Exact",                            IDM_FRAGLARGE,                MIS_TEXT
+            MENUITEM "~Small",                            IDM_FRAGSMALL,                MIS_TEXT
+            MENUITEM "~Medium",                           IDM_FRAGMEDIUM,               MIS_TEXT
+            MENUITEM "~Large",                            IDM_FRAGLARGE,                MIS_TEXT
         END
         SUBMENU "Output ~Device",                         IDM_SOUNDDEV,                 MIS_TEXT
         BEGIN
@@ -816,3 +865,4 @@ BEGIN
     HELPSUBITEM IDM_EXIT,        IDM_EXIT
 END
 #endif
+

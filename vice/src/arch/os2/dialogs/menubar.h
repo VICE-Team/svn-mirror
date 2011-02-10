@@ -130,6 +130,7 @@
 
 #define IDM_C64DTV_HUMMER_ADC        0x1cb
 
+#define IDM_REU_SETTINGS             0x1eb
 #define IDM_REU                      0x149
 #define IDM_REUSIZE                  0x150
 #define IDM_REU128                   0x601
@@ -142,6 +143,7 @@
 #define IDM_REU16384                 0x680
 #define IDM_REUFILE                  0x14a
 
+#define IDM_GEORAM_SETTINGS          0x1ec
 #define IDM_GEORAM                   0x16b
 #define IDM_GEORAMSIZE               0x16c
 #define IDM_GEORAM64                 0x901
@@ -153,12 +155,14 @@
 #define IDM_GEORAM4096               0x940
 #define IDM_GEORAMFILE               0x14b
 
+#define IDM_RAMCART_SETTINGS         0x1ed
 #define IDM_RAMCART                  0x12e
 #define IDM_RAMCARTSIZE              0x16f
 #define IDM_RAMCART64                0x941
 #define IDM_RAMCART128               0x942
 #define IDM_RAMCARTFILE              0x14c
 
+#define IDM_DIGIMAX_SETTINGS         0x1ee
 #define IDM_DIGIMAX                  0x1a1
 #define IDM_DIGIMAXBASE              0x1a2
 #define IDM_DIGIMAXDD00              0x1a3
@@ -179,6 +183,7 @@
 #define IDM_DIGIMAXDFC0              0x95e
 #define IDM_DIGIMAXDFE0              0x95f
 
+#define IDM_SFX_SE_SETTINGS          0x1f0
 #define IDM_SFX_SE                   0x192
 #define IDM_SFX_SE_TYPE              0x1c1
 #define IDM_SFX_SE_3526              0x193
@@ -186,27 +191,33 @@
 
 #define IDM_SFX_SS                   0x112
 
+#define IDM_EASYFLASH_SETTINGS       0x1ef
 #define IDM_EASYFLASH_JUMPER         0x1c2
 #define IDM_EASYFLASH_AUTOSAVE       0x1c3
 #define IDM_EASYFLASH_SAVE_NOW       0x1c4
 
 #define IDM_OEM_JOY                  0x191
 
+#define IDM_PLUS60K_SETTINGS         0x1f3
 #define IDM_PLUS60K                  0x17c
 #define IDM_PLUS60KBASE              0x17d
 #define IDM_PLUS60KD040              0x17e
 #define IDM_PLUS60KD100              0x17f
 #define IDM_PLUS60KFILE              0x14d
 
+#define IDM_PLUS256K_SETTINGS        0x1f4
 #define IDM_PLUS256K                 0x18b
 #define IDM_PLUS256KFILE             0x14e
 
+#define IDM_DQBB_SETTINGS            0x1f1
 #define IDM_DQBB                     0x1b1
 #define IDM_DQBBFILE                 0x1b2
 
+#define IDM_ISEPIC_SETTINGS          0x1f2
 #define IDM_ISEPIC                   0x1b3
 #define IDM_ISEPIC_SWITCH            0x1b4
 
+#define IDM_C64_256K_SETTINGS        0x1f5
 #define IDM_C64_256K                 0x16d
 #define IDM_C64_256K_BASE            0x16e
 #define IDM_C64_256K_BASEDE00        0x18c
@@ -215,6 +226,7 @@
 #define IDM_C64_256K_BASEDF80        0x18f
 #define IDM_C64_256KFILE             0x14f
 
+#define IDM_PETREU_SETTINGS          0x1e9
 #define IDM_PETREU                   0x19b
 #define IDM_PETREUSIZE               0x19c
 #define IDM_PETREU128                0x19d
@@ -223,6 +235,7 @@
 #define IDM_PETREU2048               0x1a0
 #define IDM_PETREUFILE               0x159
 
+#define IDM_PETDWW_SETTINGS          0x1ea
 #define IDM_PETDWW                   0x153
 #define IDM_PETDWWFILE               0x1e8
 
