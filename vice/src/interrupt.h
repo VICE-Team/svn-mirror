@@ -193,6 +193,11 @@ inline static void interrupt_set_nmi(interrupt_cpu_status_t *cs,
             if (cs->nnmi == 0 && !(cs->global_pending_int & IK_NMI)) {
                 cs->global_pending_int = (cs->global_pending_int | IK_NMI);
 
+#ifdef DEBUG
+                if (debug.maincpu_traceflg) {
+                    log_debug("ICLK=%i  last_stolen_cycle=%d", cpu_clk, cs->last_stolen_cycles_clk);
+                }
+#endif
                 /* This makes sure that NMI delay is correctly emulated when
                    cycles are stolen from the CPU.  */
                 cs->nmi_delay_cycles = 0;
