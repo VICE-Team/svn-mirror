@@ -59,35 +59,35 @@ static unsigned int num_of_channels;
 /* ------------------------------------------------------------------------- */
 
 static int beos_init(const char *param, int *speed,
-						int *fragsize, int *fragnr, int *channels)
+                                                int *fragsize, int *fragnr, int *channels)
 {
-	gs_audio_format audio_format;
+        gs_audio_format audio_format;
 
-	fragment_size = *fragsize;
-	num_of_channels = *channels;
-	
-	audio_format.frame_rate = (float)*speed;
-	audio_format.channel_count = *channels;
-	audio_format.format = gs_audio_format::B_GS_S16;
-	audio_format.byte_order = B_MEDIA_LITTLE_ENDIAN;
-	audio_format.buffer_size = (size_t) *fragsize * *fragnr * *channels;
-	
-	game_sound = new BPushGameSound(*fragsize,
-					&audio_format, *fragnr);
-	if (game_sound->InitCheck() != B_OK) {
-		log_error(LOG_DEFAULT, "sound (beos_init): Failed to initialize Be's PushGameSound");
-		return -1;
-	}
+        fragment_size = *fragsize;
+        num_of_channels = *channels;
+        
+        audio_format.frame_rate = (float)*speed;
+        audio_format.channel_count = *channels;
+        audio_format.format = gs_audio_format::B_GS_S16;
+        audio_format.byte_order = B_MEDIA_LITTLE_ENDIAN;
+        audio_format.buffer_size = (size_t) *fragsize * *fragnr * *channels;
+        
+        game_sound = new BPushGameSound(*fragsize,
+                                        &audio_format, *fragnr);
+        if (game_sound->InitCheck() != B_OK) {
+                log_error(LOG_DEFAULT, "sound (beos_init): Failed to initialize Be's PushGameSound");
+                return -1;
+        }
 
-	if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
-			== BPushGameSound::lock_failed) {
-			log_error(LOG_DEFAULT, "sound (beos_init): LockForCyclic failed");
-			return -1;
-	}
-	memset(soundbuffer, 0, bufferlength);
-	game_sound->StartPlaying();
-	
-	write_position = game_sound->CurrentPosition();
+        if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
+                        == BPushGameSound::lock_failed) {
+                        log_error(LOG_DEFAULT, "sound (beos_init): LockForCyclic failed");
+                        return -1;
+        }
+        memset(soundbuffer, 0, bufferlength);
+        game_sound->StartPlaying();
+        
+        write_position = game_sound->CurrentPosition();
 
     return 0;
 }
@@ -96,38 +96,40 @@ extern CLOCK clk;
 
 static int beos_write(SWORD *pbuf, size_t nr)
 {
-	int i,count;
-	SWORD *p;
-	
-	count = nr / fragment_size;
-	while (game_sound->CurrentPosition()*num_of_channels == write_position);
-	for (i=0; i<count; i++) {
-		p = (SWORD*) (soundbuffer+write_position);
-		memcpy(p,pbuf,fragment_size*2);
-		write_position += fragment_size;
-		if (write_position*2 >= bufferlength)
-			write_position = 0;
-		pbuf+=fragment_size;
-	}
-	
-	return 0;
+        int i,count;
+        SWORD *p;
+        
+        count = nr / fragment_size;
+#if 0
+        while (game_sound->CurrentPosition()*num_of_channels == write_position);
+#endif
+        for (i=0; i<count; i++) {
+                p = (SWORD*) (soundbuffer+write_position);
+                memcpy(p,pbuf,fragment_size*2);
+                write_position += fragment_size;
+                if (write_position*2 >= bufferlength)
+                        write_position = 0;
+                pbuf+=fragment_size;
+        }
+        
+        return 0;
 }
 
 static int beos_bufferspace(void)
-{	
-	int ret;
-	int current = game_sound->CurrentPosition();
+{       
+        int ret;
+        int current = game_sound->CurrentPosition();
 
-	ret = current - (write_position / num_of_channels);
-	if (ret < 0)
-		ret += (bufferlength/(2*num_of_channels));
+        ret = current - (write_position / num_of_channels);
+        if (ret < 0)
+                ret += (bufferlength/(2*num_of_channels));
 
-	return ret;			
+        return ret;                     
 }
 
 static void beos_close(void)
 {
-	delete game_sound;
+        delete game_sound;
 }
 
 static int beos_suspend(void)
@@ -139,13 +141,13 @@ static int beos_suspend(void)
 
 static int beos_resume(void)
 {
-	if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
-			== BPushGameSound::lock_failed) {
-			log_error(LOG_DEFAULT, "sound (beos_resume): LockForCyclic failed");
-			return -1;
-	}
-	memset(soundbuffer, 0, bufferlength);
-	game_sound->StartPlaying();
+        if (game_sound->LockForCyclic((void **)&soundbuffer, &bufferlength) 
+                        == BPushGameSound::lock_failed) {
+                        log_error(LOG_DEFAULT, "sound (beos_resume): LockForCyclic failed");
+                        return -1;
+        }
+        memset(soundbuffer, 0, bufferlength);
+        game_sound->StartPlaying();
     return 0;
 }
 
