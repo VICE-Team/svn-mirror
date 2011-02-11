@@ -36,7 +36,6 @@
 
 #if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=91) || defined _MSC_VER || defined __WATCOMC__
 #include <windows.h>
-#include <ddraw.h>
 #include <mmsystem.h>
 #include <string.h>
 #endif
@@ -143,8 +142,8 @@ int sound_init_wmm_device(void);
  * The job of the timer callback is only to clear the buffer if enough
  * inactivity from wmm_write()
  */
-static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, UINT_PTR dwUser,
-                                       UINT_PTR dw1, UINT_PTR dw2)
+static void CALLBACK wmm_timercallback(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser,
+                                       DWORD_PTR dw1, DWORD_PTR dw2)
 {
     if (!sndinitted)
         return;
