@@ -34,7 +34,9 @@
 #undef WORD
 #undef DWORD
 
+#ifndef RC_INVOKED
 #include <ddraw.h>
+#endif
 
 /* Hack to check if d3d9.h is present */ 	 
 #if defined(MSVC_RC) && !defined(WATCOM_COMPILE)
@@ -46,7 +48,7 @@
 #endif
 #endif
 
-#ifdef HAVE_D3D9_H
+#if defined(HAVE_D3D9_H) && !defined(RC_INVOKED)
 #include <d3d9.h>
 #endif
 
