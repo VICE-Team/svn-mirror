@@ -28,6 +28,8 @@ THE SOFTWARE.
 #include <X11/Xutil.h>
 #include <X11/Xmu/Xmu.h>
 
+#include "utf8ext.h"
+
 #ifndef X_HAVE_UTF8_STRING
 
 #undef XA_UTF8_STRING
