@@ -526,6 +526,7 @@
 #define IDM_PRT4ASCII                0x703
 #define IDM_PRT4MPS803               0x704
 #define IDM_PRT4NL10                 0x705
+#define IDM_PRT4RAW                  0x1fc
 #define IDM_PRT4OUT                  0x706
 #define IDM_PRT4TXT                  0x707
 #define IDM_PRT4GFX                  0x708
@@ -536,6 +537,7 @@
 #define IDM_PRT5ASCII                0x713
 #define IDM_PRT5MPS803               0x714
 #define IDM_PRT5NL10                 0x715
+#define IDM_PRT5RAW                  0x1fd
 #define IDM_PRT5OUT                  0x716
 #define IDM_PRT5TXT                  0x717
 #define IDM_PRT5GFX                  0x718
@@ -546,6 +548,7 @@
 #define IDM_PRTUPASCII               0x723
 #define IDM_PRTUPMPS803              0x724
 #define IDM_PRTUPNL10                0x725
+#define IDM_PRTUPRAW                 0x1fe
 #define IDM_PRTUPOUT                 0x726
 #define IDM_PRTUPTXT                 0x727
 #define IDM_PRTUPGFX                 0x728

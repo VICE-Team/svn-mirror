@@ -812,6 +812,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_PRTUPNL10:
             set_printer_res("Printer%sDriver", (idm >> 4) & 0xf, (resource_value_t*)"nl10");
             return;
+        case IDM_PRT4RAW:
+        case IDM_PRT5RAW:
+        case IDM_PRTUPRAW:
+            set_printer_res("Printer%sDriver", idm - IDM_PRT4RAW, (resource_value_t*)"raw");
+            return;
         case IDM_PRT4TXT:
         case IDM_PRT5TXT:
         case IDM_PRTUPTXT:

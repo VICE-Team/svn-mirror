@@ -254,6 +254,7 @@ BEGIN
                     MENUITEM "~Ascii",                    IDM_PRT4ASCII,                MIS_TEXT
                     MENUITEM "~MPS-803",                  IDM_PRT4MPS803,               MIS_TEXT
                     MENUITEM "~NL-10",                    IDM_PRT4NL10,                 MIS_TEXT
+                    MENUITEM "~Raw",                      IDM_PRT4RAW,                  MIS_TEXT
                 END
                 SUBMENU "~Output Driver",                 IDM_PRT4OUT,                  MIS_TEXT
                 BEGIN
@@ -269,6 +270,7 @@ BEGIN
                     MENUITEM "~Ascii",                    IDM_PRT5ASCII,                MIS_TEXT
                     MENUITEM "~MPS-803",                  IDM_PRT5MPS803,               MIS_TEXT
                     MENUITEM "~NL-10",                    IDM_PRT5NL10,                 MIS_TEXT
+                    MENUITEM "~Raw",                      IDM_PRT5RAW,                  MIS_TEXT
                 END
                 SUBMENU "~Output Driver",                 IDM_PRT5OUT,                  MIS_TEXT
                 BEGIN
@@ -284,6 +286,7 @@ BEGIN
                     MENUITEM "~Ascii",                    IDM_PRTUPASCII,               MIS_TEXT
                     MENUITEM "~MPS-803",                  IDM_PRTUPMPS803,              MIS_TEXT
                     MENUITEM "~NL-10",                    IDM_PRTUPNL10,                MIS_TEXT
+                    MENUITEM "~Raw",                      IDM_PRTUPRAW,                 MIS_TEXT
                 END
                 SUBMENU "~Output Driver",                 IDM_PRTUPOUT,                 MIS_TEXT
                 BEGIN
