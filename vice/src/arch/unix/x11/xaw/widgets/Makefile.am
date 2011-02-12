@@ -34,4 +34,6 @@ libwidgets_a_SOURCES = \
 	TextField.h \
 	TextFieldP.h \
 	TextWidth.c \
-	strnchr.c
+	strnchr.c \
+	utf8ext.c \
+	utf8ext.h

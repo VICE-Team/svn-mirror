@@ -29,6 +29,7 @@
 
 #define _TextField_
 
+#include <X11/Xlib.h>
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
 #include <X11/Xatom.h>
@@ -42,6 +43,10 @@
 #include "util.h"
 
 #include "TextFieldP.h"
+
+#ifndef X_HAVE_UTF8_STRING
+#include "utf8ext.h"
+#endif
 
 #define offset(field) XtOffsetOf(TextFieldRec, text.field)
 
