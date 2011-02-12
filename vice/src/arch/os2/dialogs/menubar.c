@@ -536,6 +536,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_MAGICVOICE:
             toggle("MagicVoiceCartridgeEnabled");
             return;
+        case IDM_V364SPEECH:
+            toggle("SpeechEnabled");
+            return;
         case IDM_SFX_SE:
             toggle("SFXSoundExpander");
             return;
@@ -618,6 +621,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_MAGICVOICEFILE:
             resources_set_string("MagicVoiceImage", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_V364SPEECHFILE:
+            resources_set_string("SpeechImage", ViceFileSelect(hwnd, 1));
             return;
         case IDM_DQBBFILE:
             resources_set_string("DQBBfilename", ViceFileSelect(hwnd, 1));
@@ -1401,6 +1407,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_RAMCARTFILE, val);
             resources_get_int("MagicVoiceCartridgeEnabled", &val);
             WinCheckMenuItem(hwnd, IDM_MAGICVOICE, val);
+            resources_get_int("SpeechEnabled", &val);
+            WinCheckMenuItem(hwnd, IDM_V364SPEECH, val);
             resources_get_int("DIGIMAX", &val);
             WinCheckMenuItem(hwnd, IDM_DIGIMAX, val);
             WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);

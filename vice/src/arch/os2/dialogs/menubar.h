@@ -166,6 +166,10 @@
 #define IDM_MAGICVOICE               0x1f7
 #define IDM_MAGICVOICEFILE           0x1f8
 
+#define IDM_V364SPEECH_SETTINGS      0x1f9
+#define IDM_V364SPEECH               0x1fa
+#define IDM_V364SPEECHFILE           0x1fb
+
 #define IDM_DIGIMAX_SETTINGS         0x1ee
 #define IDM_DIGIMAX                  0x1a1
 #define IDM_DIGIMAXBASE              0x1a2

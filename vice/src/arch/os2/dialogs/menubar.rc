@@ -534,7 +534,7 @@ BEGIN
         SUBMENU "Magic Voice Settings",                   IDM_MAGICVOICE_SETTINGS,      MIS_TEXT
         BEGIN
             MENUITEM "~Magic Voice - Cartridge",          IDM_MAGICVOICE,               MIS_TEXT
-            MENUITEM "Magic Voice Filename",              IDM_MAGICVOICEFILE,           MIS_TEXT
+            MENUITEM "Magic Voice ROM Filename",          IDM_MAGICVOICEFILE,           MIS_TEXT
         END
 
         SUBMENU "DigiMAX Settings",                       IDM_DIGIMAX_SETTINGS,         MIS_TEXT
@@ -623,6 +623,14 @@ BEGIN
                 MENUITEM "$D~F80-$DFFF",                  IDM_C64_256K_BASEDF80,        MIS_TEXT
             END
             MENUITEM "256K Filename",                     IDM_C64_256KFILE,             MIS_TEXT
+        END
+#endif
+
+#ifdef __XPLUS4__
+        SUBMENU "V364 Speech Settings",                   IDM_V364SPEECH_SETTINGS,      MIS_TEXT
+        BEGIN
+            MENUITEM "~V364 Speech - ROM",                IDM_V364SPEECH,               MIS_TEXT
+            MENUITEM "V364 Speech ROM Filename",          IDM_V364SPEECHFILE,           MIS_TEXT
         END
 #endif
 
