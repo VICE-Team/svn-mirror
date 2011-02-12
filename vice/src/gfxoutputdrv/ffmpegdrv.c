@@ -109,6 +109,7 @@ static AVFrame *picture, *tmp_picture;
 static double video_pts;
 #ifdef HAVE_FFMPEG_SWSCALE
 static struct SwsContext *sws_ctx;
+static unsigned int framecounter;
 #endif
 
 /* resources */
@@ -118,6 +119,7 @@ static int audio_bitrate;
 static int video_bitrate;
 static int audio_codec;
 static int video_codec;
+static int video_halve_framerate;
 
 static int ffmpegdrv_init_file(void);
 
@@ -159,7 +161,6 @@ static int set_video_bitrate(int val, void *param)
      || (video_bitrate > VICE_FFMPEG_VIDEO_RATE_MAX)) {
         video_bitrate = VICE_FFMPEG_VIDEO_RATE_DEFAULT;
     }
-
     return 0;
 }
 
@@ -173,7 +174,16 @@ static int set_video_codec(int val, void *param)
 {
     video_codec = val;
     return 0;
+}
 
+static int set_video_halve_framerate(int val, void *param)
+{
+    if (video_halve_framerate != val && screenshot_is_recording()) {
+        ui_error("Can't change framerate while recording. Try again later.");
+        return 0;
+    }
+    video_halve_framerate = val;
+    return 0;
 }
 
 /*---------- Resources ------------------------------------------------*/
@@ -194,6 +204,8 @@ static const resource_int_t resources_int[] = {
       &audio_codec, set_audio_codec, NULL },
     { "FFMPEGVideoCodec", CODEC_ID_MPEG4, RES_EVENT_NO, NULL,
       &video_codec, set_video_codec, NULL },
+    { "FFMPEGVideoHalveFramerate", 0, RES_EVENT_NO, NULL,
+      &video_halve_framerate, set_video_halve_framerate, NULL },
     { NULL }
 };
 
@@ -556,6 +568,9 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_height = c->height = (screenshot->height + 15) & ~0xf;
     /* frames per second */
     c->time_base.den = (int)(vsync_get_refresh_frequency() + 0.5);
+    if (video_halve_framerate) {
+        c->time_base.den /= 2;
+    }
     c->time_base.num = 1;
     c->gop_size = 12; /* emit one intra frame every twelve frames at most */
     c->pix_fmt = PIX_FMT_YUV420P;
@@ -586,6 +601,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
 
     video_st = st;
     video_pts = 0;
+    framecounter = 0;
 
     if (audio_init_done)
         ffmpegdrv_init_file();
@@ -772,6 +788,12 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
 
     if (audio_st && video_pts > audio_pts) {
         /* drop this frame */
+        return 0;
+    }
+    
+    framecounter++;
+    if (video_halve_framerate && (framecounter & 1)) {
+        /* drop every second frame */
         return 0;
     }
 
