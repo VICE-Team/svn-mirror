@@ -114,6 +114,7 @@
 #define IDM_AUTOSTART_SETTINGS       0x1aa
 #define IDM_AUTOSTART_WARP           0x1ab
 #define IDM_RUN_WITH_COLON           0x1ac
+#define IDM_LOAD_TO_BASIC_START      0x1fc
 #define IDM_AUTOSTART_PRG_MODE       0x1ad
 #define IDM_AUTOSTART_PRG_VIRTUAL_FS 0x1ae
 #define IDM_AUTOSTART_PRG_INJECT     0x1af
