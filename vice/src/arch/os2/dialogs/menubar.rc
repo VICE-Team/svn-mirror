@@ -531,6 +531,12 @@ BEGIN
             MENUITEM "RamCart Filename",                  IDM_RAMCARTFILE,              MIS_TEXT
         END
 
+        SUBMENU "Magic Voice Settings",                   IDM_MAGICVOICE_SETTINGS,      MIS_TEXT
+        BEGIN
+            MENUITEM "~Magic Voice - Cartridge",          IDM_MAGICVOICE,               MIS_TEXT
+            MENUITEM "Magic Voice Filename",              IDM_MAGICVOICEFILE,           MIS_TEXT
+        END
+
         SUBMENU "DigiMAX Settings",                       IDM_DIGIMAX_SETTINGS,         MIS_TEXT
         BEGIN
             MENUITEM "~DigiMAX - Cartridge",              IDM_DIGIMAX,                  MIS_TEXT
