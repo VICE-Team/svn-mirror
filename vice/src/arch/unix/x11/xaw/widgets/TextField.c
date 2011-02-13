@@ -37,7 +37,11 @@
 #include <X11/Xmu/Xmu.h>
 
 #include <stdio.h>
+
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#endif
+
 #include <wchar.h>
 
 #include "util.h"
