@@ -2535,7 +2535,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
     fi
     AC_CHECK_HEADER(X11/extensions/Xrandr.h,,,[#include <X11/Xlib.h>])
     if test x"$ac_cv_header_X11_extensions_Xrandr_h" = "xyes" ; then
-      AC_CHECK_LIB(Xrandr, XRRGetScreenInfo,
+      AC_CHECK_LIB(Xrandr, XRRConfigCurrentRate,
                    [ X_LIBS="-lXrandr $X_LIBS";
                      LINK_X_LIBS="-lXrandr $LINK_X_LIBS";
                      FULLSCREEN_DRIVERS="$FULLSCREEN_DRIVERS xrandr.o";
