@@ -129,6 +129,8 @@ static void cia_do_update_tb(cia_context_t *cia_context, CLOCK rclk)
         {
             /* flag the timer B bug */
             cia_context->irqflags |= CIA_IM_TBB;
+        } else {
+            cia_context->irqflags &= ~CIA_IM_TBB;
         }
         cia_context->tbt = (cia_context->tbt + n) & 1;
     }
