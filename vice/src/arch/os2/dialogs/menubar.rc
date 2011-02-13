@@ -246,7 +246,7 @@ BEGIN
         END
         SUBMENU "Printer ~Emulation",                     IDM_PRINTER,                  MIS_TEXT
         BEGIN
-            SUBMENU "IEC Device #~4",                     IDM_PRINTER4,                 MIS_TEXT
+            SUBMENU "Device #~4",                         IDM_PRINTER4,                 MIS_TEXT
             BEGIN
                 MENUITEM "~Enabled",                      IDM_PRT4IEC,                  MIS_TEXT
                 SUBMENU "~Printer Driver",                IDM_PRT4DRV,                  MIS_TEXT
@@ -262,7 +262,7 @@ BEGIN
                     MENUITEM "~Graphics",                 IDM_PRT4GFX,                  MIS_TEXT
                 END
             END  
-            SUBMENU "IEC Device #~5",                     IDM_PRINTER5,                 MIS_TEXT
+            SUBMENU "Device #~5",                         IDM_PRINTER5,                 MIS_TEXT
             BEGIN
                 MENUITEM "~Enabled",                      IDM_PRT5IEC,                  MIS_TEXT
                 SUBMENU  "~Printer Driver",               IDM_PRT5DRV,                  MIS_TEXT
