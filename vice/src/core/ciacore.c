@@ -201,6 +201,14 @@ static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
     }
 
 #endif
+
+    if ((cia_context->rdi == rclk - 1)
+        && (cia_context->model == CIA_MODEL_6526A))
+    {
+        /* Interrupt delayed by 1/2 cycle if acknowledged on assert */
+        rclk++;
+    }
+
     if (!(cia_context->irqflags & cia_context->c_cia[CIA_ICR] & 0x7f)) {
         /* no interrupts */
         return;
