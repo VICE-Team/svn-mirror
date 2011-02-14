@@ -365,8 +365,12 @@ static void ClipGC(TextFieldWidget w)
 #define multibyte_to_wide(dest, src, nchars, nbytes)    _Xlcmbstowcs(NULL, dest, src, nchars)
 #define wide_to_multibyte(dest, src, nbytes, nchars)    _Xlcwcstombs(NULL, dest, src, nbytes)
 #else   /* expanded from source */
+#ifdef HAVE_WCHAR_H
 #define multibyte_to_wide(wdest, msrc, wchars, mbytes)    do_convert(xlcconv_multibyte_to_wide, wdest, msrc, wchars, /*strlen(msrc)*/mbytes)
 #define wide_to_multibyte(mdest, wsrc, mbytes, wchars)    do_convert(xlcconv_wide_to_multibyte, mdest, wsrc, mbytes, /*wcslen(wsrc)*/wchars)
+#else
+#define multibyte_to_wide(wdest, msrc, wchars, mbytes) (-1)
+#define wide_to_multibyte(mdest, wsrc, mbytes, wchars) (-1)
 #endif
 
 /*
@@ -399,6 +403,7 @@ static int mb_strlen(char *s, int bytes)
  * Differences: Does not zero-terminate, but also does not require
  * source to be zero-terminated.
  */
+#ifdef HAVE_WCHAR_H
 static int do_convert(XlcConv conv, void *dest, void *src, int destsize, int srcsize)
 {
     XPointer from, to;
@@ -415,6 +420,7 @@ static int do_convert(XlcConv conv, void *dest, void *src, int destsize, int src
 
     return destsize - to_left;
 }
+#endif
 
 static void SetString(TextFieldWidget w, char *s)
 {
@@ -448,22 +454,26 @@ static void SetString(TextFieldWidget w, char *s)
 
 static void ClassInitialize(void)
 {
+#ifdef HAVE_WCHAR_H
     XLCd lcd = _XlcCurrentLC();
     if (lcd) {
         xlcconv_wide_to_multibyte = _XlcOpenConverter(lcd, XlcNWideChar, lcd, XlcNMultiByte);
         xlcconv_multibyte_to_wide = _XlcOpenConverter(lcd, XlcNMultiByte, lcd, XlcNWideChar);
     }
+#endif
 }
 
 /* Unused... */
 static void ClassDestroy(void)
 {
+#ifdef HAVE_WCHAR_H
     if (xlcconv_multibyte_to_wide) {
         _XlcCloseConverter(xlcconv_multibyte_to_wide);
     }
     if (xlcconv_wide_to_multibyte) {
         _XlcCloseConverter(xlcconv_wide_to_multibyte);
     }
+#endif
 }
 
 static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
