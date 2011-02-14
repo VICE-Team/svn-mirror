@@ -107,9 +107,9 @@ static int video_outbuf_size;
 static int video_width, video_height;
 static AVFrame *picture, *tmp_picture;
 static double video_pts;
+static unsigned int framecounter;
 #ifdef HAVE_FFMPEG_SWSCALE
 static struct SwsContext *sws_ctx;
-static unsigned int framecounter;
 #endif
 
 /* resources */
