@@ -42,7 +42,9 @@
 #include <stdint.h>
 #endif
 
+#ifdef HAVE_WCHAR_H
 #include <wchar.h>
+#endif
 
 #include "util.h"
 
@@ -1294,13 +1296,16 @@ static void ExtendEnd(Widget aw, XEvent *event, String *params, Cardinal *num_pa
         if (w->text.SelectionText) {
             XtFree(w->text.SelectionText);
         }
+#ifdef HAVE_WCHAR_H
         if (w->text.international) {
             wchar_t *ptr;
             ptr = (wchar_t *)XtMalloc((len+1) * sizeof(wchar_t));
             wcsncpy(ptr, &w->text.IntlText[w->text.HighlightStart], len);
             ptr[len] = 0;
             w->text.SelectionText = (char *)ptr;
-        } else {
+        } else
+#endif
+        {
             w->text.SelectionText = XtMalloc(len+1);
             strncpy(w->text.SelectionText, &w->text.Text[w->text.HighlightStart], len);
             w->text.SelectionText[len] = 0;
@@ -1346,7 +1351,7 @@ static void ReceiveSelection(Widget aw, XtPointer client, Atom * selection, Atom
 
         ClearHighlight(w);
         savex = w->text.OldCursorX;
-        w->text.CursorPos = (int)(intptr_t)client;
+        w->text.CursorPos = (int)client;
 #ifdef DEBUG_TF
         printf("ReceiveSelection: format %d type %d inserting '%s' length=%d at pos: %d\n", *format, (int)*type, (char *)value, (int)(*length), w->text.CursorPos);
 #endif
@@ -1401,7 +1406,7 @@ static void InsertSelection(Widget aw, XEvent *event, String *params, Cardinal *
     w->text.selection_type = type;
     w->text.selection_time = event->xbutton.time;
     XtGetSelectionValue(aw, XA_PRIMARY, type, ReceiveSelection,
-            (XtPointer)(intptr_t)pos, event->xbutton.time);
+            (XtPointer)pos, event->xbutton.time);
 }
 
 static void ActionFocusIn(Widget aw, XEvent *event, String *params, Cardinal *num_params)
