@@ -10636,7 +10636,7 @@ You can find the latest news about VICE at the official VICE
 home page:
 
 @example
-@uref{http://www.viceteam.org/}
+@uref{http://vice-emu.sourceforge.net/}
 @end example
 
 VICE has moved its source repository to public services provided by
@@ -10721,7 +10721,7 @@ the VICE documentation (you are reading it!);
 @item
 the VICE FAQ (it is available on the Internet, and reachable from the
 VICE home page:
-@uref{http://www.viceteam.org/});
+@uref{http://vice-emu.sourceforge.net/});
 @item
 The VICE knowledge base (it is available on the Internet at
 @uref{http://vicekb.trikaliotis.net/});

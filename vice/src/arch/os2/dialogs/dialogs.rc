@@ -127,7 +127,7 @@ BEGIN
         TEXT("reSID engine", 15, 42, 180, 7)
         TEXT("Copyright (c) 1998-2011 Dag Lem", 15, 35, 180, 7)
         TEXT("Official VICE homepage:", 15, 25, 180, 7)
-        TEXT("http://www.viceteam.org/", 15, 18, 180, 7)
+        TEXT("http://vice-emu.sourceforge.net/", 15, 18, 180, 7)
     END
 END
 

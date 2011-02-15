@@ -414,7 +414,7 @@ void ui_about(void)
         "Copyright \xa9 2009-2011 Olaf Seibert",
         "",
         "Official VICE homepage:",
-        "http://www.viceteam.org/",
+        "http://vice-emu.sourceforge.net/",
         NULL};
 
     while (authors[i] != NULL) {

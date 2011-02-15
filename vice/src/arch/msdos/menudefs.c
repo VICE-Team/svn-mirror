@@ -593,7 +593,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
                                "                 Copyright (c) 2010-2011 Olaf Seibert\n"
                                "\n"
                                "                       Official VICE homepage:\n"
-                               "                       http://www.viceteam.org/\n"
+                               "                   http://vice-emu.sourceforge.net/\n"
 #ifdef UNSTABLE
                                "\n"
                                "             WARNING: this is an *unstable* test version!\n"

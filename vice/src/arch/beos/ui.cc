@@ -957,7 +957,7 @@ void ui_dispatch_events(void)
                                         "(c) 2009-2011 Errol Smith\n",
                                         "(c) 2010-2011 Olaf Seibert\n",
                                         "\nOfficial VICE homepage:\n",
-                                        "http://www.viceteam.org/",
+                                        "http://vice-emu.sourceforge.net/",
                                         NULL);
                 ui_message(abouttext);
                 free(abouttext);

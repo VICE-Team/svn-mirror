@@ -158,7 +158,7 @@ UI_CALLBACK(ui_about)
                                         "Copyright C 2009-2011 Olaf Seibert",
                                         "",
                                         _("Official VICE homepage:"),
-                                        "http://www.viceteam.org/",
+                                        "http://vice-emu.sourceforge.net/",
                                         "",
                                         NULL);
     }

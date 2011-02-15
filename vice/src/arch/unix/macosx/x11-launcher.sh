@@ -2,7 +2,7 @@
 #
 # x11-launcher.sh
 #
-# X11 Application Launcher for the VICE Project (www.viceteam.org)
+# X11 Application Launcher for the VICE Project (vice-emu.sourceforge.net)
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 # inspired by Gimp.app of Aaron Voisine <aaron@voisine.org>
 

@@ -84,7 +84,7 @@ void ui_about(gpointer data)
 #else
         "Official VICE homepage:",
 #endif
-        "http://www.viceteam.org/",
+        "http://vice-emu.sourceforge.net/",
         NULL
     };
 
