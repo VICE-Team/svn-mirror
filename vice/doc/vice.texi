@@ -67,6 +67,10 @@ Copyright @copyright{} 2006-2011 Christian Vogelgsang
 Copyright @copyright{} 2007-2011 Fabrizio Gennari
 Copyright @copyright{} 2007-2011 Daniel Kahlin
 Copyright @copyright{} 2008-2011 Antti S. Lankila
+Copyright @copyright{} 2009-2011 Groepaz
+Copyright @copyright{} 2009-2011 Ingo Korb
+Copyright @copyright{} 2009-2011 Errol Smith
+Copyright @copyright{} 2010-2011 Olaf Seibert
 
 Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 1998-2010 Andreas Boose
@@ -75,7 +79,6 @@ Copyright @copyright{} 2007-2010 M. Kiesel
 Copyright @copyright{} 1999-2007 Andreas Dehmel
 Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
-
 Copyright @copyright{} 1999-2004 Thomas Bretz
 Copyright @copyright{} 1997-2001 Daniel Sladic
 Copyright @copyright{} 1996-2001 André Fachat
@@ -10029,28 +10032,8 @@ The VICE core team:
 @c The Texinfo manual says we should not use @b though!
 
 @item
-@b{Andreas Boose} gave lots of
-information and bug reports about the VIC-II, the 6510 and the
-CIAs; moreover, he wrote several test-routines that were used
-to improve the emulation.  He also added cartridge support and
-has been the main head behind the drive and datasette emulation
-since version 0.15.  Also added several UI elements to the
-MSDOS, MS-Windows and Unix ports. He rewrote the C128 emulation
-adding Z80 mode, C64 mode and function ROM support, wrote the
-screenshot and the event system and started the plus4 emulator.
-Restructured the serial bus emulation and added realdrive and
-rawdrive support.
-
-@item
 @b{Dag Lem} implemented the reSID SID emulation
 engine and video hardware scaling.
-
-@item
-@b{Tibor Biczo} improved the MS-Windows port
-and plus4 emulation.
-
-@item
-@b{Andreas Dehmel} wrote the Acorn RISC OS port.
 
 @item
 @b{Andreas Matthies} improved the
@@ -10076,14 +10059,6 @@ REU related bugs, improved the CIA emulation, added com-port
 CIA support to the win32 port, added text copy and paste support
 to the win32 port, added support for the TFE and RR-Net (cs8900a),
 and wrote some further patches.
-
-@item
-@b{Markus Brenner} added VDC emulation to x128
-and added support for some more cartridges.
-
-@item
-@b{David Hansel} wrote the Star NL10 printer driver, implemented IEC
-devices and improved the tape emulation.
 
 @item
 @b{Marco van den Heuvel} Translated the UI to Dutch. Made the
@@ -10125,11 +10100,57 @@ Added Mega-Cart and Final Expansion V3.2 support to xvic.
 emulation code and fixed the sound core for lower latency. Rewrote DTV
 SID support (ReSID-dtv).
 
+@item
+@b{Groepaz/Hitmen} Added new more precise CRT emulation. Added support
+for the new cartridge system and new cartridges. Provided several fixes.
+
+@item
+@b{Ingo Korb} Corrected block allocation and interleave for c1541/vdrive,
+added rudimentary xplus4 tape recording support, corrected a case of
+missing Pi symbols in petcat, changed the trap opcode byte, stopped the
+high-level serial drive code from responding to addresses 16-30 and was
+forced to update this entry himself.
+
+@item
+@b{Errol Smith} improved VDC emulation.
+
+@item
+@b{Olaf Seibert} contributed some PET, including PET DWW hires, Xaw,
+lightpen, hardware scaling, and disk drive patches. Maintains the XAW ui.
+
 @end itemize
 
-Former team members:
+Former/inactive team members:
 
 @itemize @bullet
+
+@item
+@b{Andreas Boose} gave lots of
+information and bug reports about the VIC-II, the 6510 and the
+CIAs; moreover, he wrote several test-routines that were used
+to improve the emulation.  He also added cartridge support and
+has been the main head behind the drive and datasette emulation
+since version 0.15.  Also added several UI elements to the
+MSDOS, MS-Windows and Unix ports. He rewrote the C128 emulation
+adding Z80 mode, C64 mode and function ROM support, wrote the
+screenshot and the event system and started the plus4 emulator.
+Restructured the serial bus emulation and added realdrive and
+rawdrive support.
+
+@item
+@b{Tibor Biczo} improved the MS-Windows port
+and plus4 emulation.
+
+@item
+@b{Andreas Dehmel} wrote the Acorn RISC OS port.
+
+@item
+@b{Markus Brenner} added VDC emulation to x128
+and added support for some more cartridges.
+
+@item
+@b{David Hansel} wrote the Star NL10 printer driver, implemented IEC
+devices and improved the tape emulation.
 
 @item
 @b{M. Kiesel}
@@ -10262,9 +10283,6 @@ NetBSD.
 @item
 @b{Peter Andrew Felvegi aka Petschy}
 fixed a couple of bugs in the fast serial emulation.
-
-@item
-@b{Olaf Seibert} contributed some PET, and disk drive patches.
 
 @item
 @b{Daniel Fandrich} contributed some disk drive patches.
@@ -10465,17 +10483,6 @@ package.
 the win32 port.
 
 @item
-@b{Groepaz/Hitmen} Added new more precise PAL emulation. Added support
-for the Action Replay 4 and StarDos cartridges. Provided several fixes.
-
-@item
-@b{Ingo Korb} Corrected block allocation and interleave for c1541/vdrive,
-added rudimentary xplus4 tape recording support, corrected a case of
-missing Pi symbols in petcat, changed the trap opcode byte, stopped the
-high-level serial drive code from responding to addresses 16-30 and was
-forced to update this entry himself.
-
-@item
 @b{Georg Feil} Added support for toggling CB2 sound output line in
 the PET emulator.
 
@@ -10495,9 +10502,6 @@ the BeOS port.
 
 @item
 @b{Ville-Matias Heikkila} Rewrote the vic20 sound code.
-
-@item
-@b{Errol Smith} improved VDC emulation.
 
 @item
 @b{Peter Edwards} implemented the SDL UI slider control and fixed

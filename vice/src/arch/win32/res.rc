@@ -210,16 +210,16 @@ BEGIN
     LTEXT         "Copyright (c) 2005-2011 Marco van den Heuvel", IDC_STATIC,          5,  86, 180,  8
     LTEXT         "Copyright (c) 2006-2011 Christian Vogelgsang", IDC_STATIC,          5,  95, 180,  8
     LTEXT         "Copyright (c) 2007-2011 Fabrizio Gennari",     IDC_STATIC,          5, 104, 180,  8
-    LTEXT         "Copyright (c) 2007-2011 Hannu Nuotio",         IDC_STATIC,          5, 113, 180,  8
-    LTEXT         "Copyright (c) 2007-2011 Daniel Kahlin",        IDC_STATIC,          5, 122, 180,  8
-    LTEXT         "Copyright (c) 2008-2011 Antti S. Lankila",     IDC_STATIC,          5, 131, 180,  8
-    LTEXT         "Copyright (c) 1998-2010 Andreas Boose",        IDC_STATIC,          5, 140, 158,  8
-    LTEXT         "Copyright (c) 1998-2010 Tibor Biczo",          IDC_STATIC,          5, 149, 158,  8
-    LTEXT         "Copyright (c) 2007-2010 M. Kiesel",            IDC_STATIC,          5, 158, 180,  8
-    LTEXT         "Copyright (c) 1999-2007 Andreas Dehmel",       IDC_STATIC,          5, 167, 158,  8
-    LTEXT         "Copyright (c) 1999-2005 Thomas Bretz",         IDC_STATIC,          5, 176, 180,  8
-    LTEXT         "Copyright (c) 2003-2005 David Hansel",         IDC_STATIC,          5, 185, 180,  8
-    LTEXT         "Copyright (c) 2000-2004 Markus Brenner",       IDC_STATIC,          5, 194, 180,  8
+    LTEXT         "Copyright (c) 2007-2011 Daniel Kahlin",        IDC_STATIC,          5, 113, 180,  8
+    LTEXT         "Copyright (c) 2008-2011 Antti S. Lankila",     IDC_STATIC,          5, 122, 180,  8
+    LTEXT         "Copyright (c) 2009-2011 Groepaz",              IDC_STATIC,          5, 131, 158,  8
+    LTEXT         "Copyright (c) 2009-2011 Ingo Korb",            IDC_STATIC,          5, 140, 158,  8
+    LTEXT         "Copyright (c) 2009-2011 Errol Smith",          IDC_STATIC,          5, 149, 180,  8
+    LTEXT         "Copyright (c) 1999-2007 Olaf Seibert",         IDC_STATIC,          5, 158, 158,  8
+    LTEXT         " ",                                            IDC_STATIC,          5, 167, 180,  8
+    LTEXT         " ",                                            IDC_STATIC,          5, 176, 180,  8
+    LTEXT         " ",                                            IDC_STATIC,          5, 185, 180,  8
+    LTEXT         " ",                                            IDC_STATIC,          5, 194, 180,  8
     LTEXT         " ",                                            IDC_STATIC,          5, 203, 180,  8
 END
 

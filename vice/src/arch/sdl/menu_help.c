@@ -315,6 +315,10 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 2007-2011 Fabrizio Gennari", 12);
         sdl_ui_print_center("(C) 2007-2011 Daniel Kahlin", 13);
         sdl_ui_print_center("(C) 2008-2011 Antti S. Lankila", 14);
+        sdl_ui_print_center("(C) 2009-2011 Groepaz", 15);
+        sdl_ui_print_center("(C) 2009-2011 Ingo Korb", 16);
+        sdl_ui_print_center("(C) 2009-2011 Errol Smith", 17);
+        sdl_ui_print_center("(C) 2010-2011 Olaf Seibert", 18);
         sdl_ui_refresh();
 
         while (active) {
