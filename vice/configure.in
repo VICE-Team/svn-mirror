@@ -2549,6 +2549,14 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   X_LIBS="$PATH_X_LIBS $LINK_X_LIBS"
   AC_SUBST(FULLSCREEN_DRIVERS)
 
+  OLD_LIBS=$LIBS
+  LIBS="$LIBS $X_LIBS"
+  AC_CHECK_FUNCS(_XlcConvert _XlcCurrentLC _XlcOpenConverter _XlcCloseConverter,,[xlc_funcs_present=no],)
+  LIBS=$OLD_LIBS
+  if test x"$xlc_funcs_present" != "xno"; then
+    AC_DEFINE(XLC_FUNCS_PRESENT,,[Enable _Xlc_* functions.])
+  fi
+
 elif test x"$is_dos" = "xyes"; then
 
   dnl On MS-DOS, we already know what we want.

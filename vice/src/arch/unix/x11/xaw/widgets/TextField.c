@@ -27,6 +27,8 @@
  * International support by Olaf Seibert <rhialto@falu.nl>
  */
 
+#include "vice.h"
+
 #define _TextField_
 
 #include <X11/Xlib.h>
@@ -40,19 +42,22 @@
 
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
+#else
+typedef long int intptr_t;
 #endif
 
 #ifdef HAVE_WCHAR_H
 #include <wchar.h>
+#  ifdef XLC_FUNCS_PRESENT
+#    define INTERNATIONAL_SUPPORT
+#  endif
+#else
+typedef char wchar_t;
 #endif
 
 #include "util.h"
 
 #include "TextFieldP.h"
-
-#ifndef X_HAVE_UTF8_STRING
-#include "utf8ext.h"
-#endif
 
 #define offset(field) XtOffsetOf(TextFieldRec, text.field)
 
@@ -360,18 +365,19 @@ static void ClipGC(TextFieldWidget w)
     XSetClipRectangles(XtDisplay((Widget)w), w->text.highlightGC, w->text.Margin, 0, &clip, 1, Unsorted);
 }
 
+#ifdef INTERNATIONAL_SUPPORT
 /* Should be in <X11/Xlcint.h> */
-#if 0   /* slightly more documented but slower */
-#define multibyte_to_wide(dest, src, nchars, nbytes)    _Xlcmbstowcs(NULL, dest, src, nchars)
-#define wide_to_multibyte(dest, src, nbytes, nchars)    _Xlcwcstombs(NULL, dest, src, nbytes)
-#else   /* expanded from source */
-#ifdef HAVE_WCHAR_H
-#define multibyte_to_wide(wdest, msrc, wchars, mbytes)    do_convert(xlcconv_multibyte_to_wide, wdest, msrc, wchars, /*strlen(msrc)*/mbytes)
-#define wide_to_multibyte(mdest, wsrc, mbytes, wchars)    do_convert(xlcconv_wide_to_multibyte, mdest, wsrc, mbytes, /*wcslen(wsrc)*/wchars)
-#else
-#define multibyte_to_wide(wdest, msrc, wchars, mbytes) (-1)
-#define wide_to_multibyte(mdest, wsrc, mbytes, wchars) (-1)
-#endif
+# if 0  /* slightly more documented but slower */
+#  define multibyte_to_wide(dest, src, nchars, nbytes)    _Xlcmbstowcs(NULL, dest, src, nchars)
+#  define wide_to_multibyte(dest, src, nbytes, nchars)    _Xlcwcstombs(NULL, dest, src, nbytes)
+# else  /* expanded from source */
+#  define multibyte_to_wide(wdest, msrc, wchars, mbytes)    do_convert(xlcconv_multibyte_to_wide, wdest, msrc, wchars, /*strlen(msrc)*/mbytes)
+# define wide_to_multibyte(mdest, wsrc, mbytes, wchars)    do_convert(xlcconv_wide_to_multibyte, mdest, wsrc, mbytes, /*wcslen(wsrc)*/wchars)
+# endif
+#else /* no INTERNATIONAL_SUPPORT */
+# define multibyte_to_wide(wdest, msrc, wchars, mbytes) (-1)
+# define wide_to_multibyte(mdest, wsrc, mbytes, wchars) (-1)
+#endif /* INTERNATIONAL_SUPPORT */
 
 /*
  * Return the number of characters in a nonterminated multibyte string.
@@ -403,7 +409,7 @@ static int mb_strlen(char *s, int bytes)
  * Differences: Does not zero-terminate, but also does not require
  * source to be zero-terminated.
  */
-#ifdef HAVE_WCHAR_H
+#ifdef INTERNATIONAL_SUPPORT
 static int do_convert(XlcConv conv, void *dest, void *src, int destsize, int srcsize)
 {
     XPointer from, to;
@@ -437,6 +443,7 @@ static void SetString(TextFieldWidget w, char *s)
         if ((w->text.TextMaxLen > 0) && (w->text.TextLen > w->text.TextMaxLen)) {
             w->text.TextMaxLen = w->text.TextLen;
         }
+#ifdef INTERNATIONAL_SUPPORT
         if (w->text.international) {
              w->text.IntlText = (wchar_t *)XtRealloc((char *)w->text.IntlText,
                                         sizeof(wchar_t) * w->text.TextAlloc);
@@ -447,6 +454,7 @@ static void SetString(TextFieldWidget w, char *s)
              w->text.IntlTextLen = multibyte_to_wide(w->text.IntlText, s, len, len);
              w->text.IntlText[w->text.IntlTextLen] = L'\0';
         }
+#endif
         w->text.TextWidth = w->text.OldTextWidth = TextWidth(w);
     }
     w->text.DefaultString = w->text.Text;
@@ -454,7 +462,7 @@ static void SetString(TextFieldWidget w, char *s)
 
 static void ClassInitialize(void)
 {
-#ifdef HAVE_WCHAR_H
+#ifdef INTERNATIONAL_SUPPORT
     XLCd lcd = _XlcCurrentLC();
     if (lcd) {
         xlcconv_wide_to_multibyte = _XlcOpenConverter(lcd, XlcNWideChar, lcd, XlcNMultiByte);
@@ -466,7 +474,7 @@ static void ClassInitialize(void)
 /* Unused... */
 static void ClassDestroy(void)
 {
-#ifdef HAVE_WCHAR_H
+#ifdef INTERNATIONAL_SUPPORT
     if (xlcconv_multibyte_to_wide) {
         _XlcCloseConverter(xlcconv_multibyte_to_wide);
     }
@@ -562,7 +570,11 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
         xa_text = XA_TEXT(XtDisplay(new));
     }
     if (xa_utf8_string == 0) {
+#ifdef XA_UTF8_STRING
         xa_utf8_string = XA_UTF8_STRING(XtDisplay(new));
+#else
+        xa_utf8_string = -1;
+#endif
     }
 }
 
@@ -605,6 +617,10 @@ static Boolean SetValues(Widget current, Widget request, Widget reply, ArgList a
     TextFieldWidget w = (TextFieldWidget)current;
     TextFieldWidget new = (TextFieldWidget)reply;
     Boolean redraw = False;
+
+#ifndef INTERNATIONAL_SUPPORT
+    new->text.international = False;
+#endif
 
     if ((w->text.foreground_pixel != new->text.foreground_pixel) ||
         (w->core.background_pixel != new->core.background_pixel) ||
@@ -1218,14 +1234,20 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
 
         num_atoms = std_length + 1;
         if (w->text.international) {
+#if defined (XA_UTF8_STRING)
             num_atoms += 3;
+#else
+            num_atoms += 2;
+#endif
         }
 
         *value = XtMalloc((unsigned)sizeof(Atom) * num_atoms);
         targetP = *(Atom **)value;
         *length = num_atoms;
         if (w->text.international) {
+#if defined(XA_UTF8_STRING)
             *targetP++ = xa_utf8_string;
+#endif
             *targetP++ = xa_text;
             *targetP++ = xa_compound_text;
         }
@@ -1247,8 +1269,10 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
 
         if (tgt == XA_STRING) {
             style = XStringStyle;
+#if defined(XA_UTF8_STRING)
         } else if (tgt == xa_utf8_string) {
             style = XUTF8StringStyle;
+#endif
         } else if (tgt == xa_text) {
             style = XTextStyle;
         }
@@ -1306,7 +1330,7 @@ static void ExtendEnd(Widget aw, XEvent *event, String *params, Cardinal *num_pa
         if (w->text.SelectionText) {
             XtFree(w->text.SelectionText);
         }
-#ifdef HAVE_WCHAR_H
+#ifdef INTERNATIONAL_SUPPORT
         if (w->text.international) {
             wchar_t *ptr;
             ptr = (wchar_t *)XtMalloc((len+1) * sizeof(wchar_t));
@@ -1336,9 +1360,12 @@ static void ReceiveSelection(Widget aw, XtPointer client, Atom * selection, Atom
     if (*type == XT_CONVERT_FAIL || *length == 0) {
         /* Try another type of conversion */
         Atom next_type;
+#if defined (XA_UTF8_STRING)
         if (w->text.selection_type == xa_utf8_string) {
             next_type = xa_text;
-        } else if (w->text.selection_type == xa_text) {
+        } else
+#endif
+        if (w->text.selection_type == xa_text) {
             next_type = xa_compound_text;
         } else if (w->text.selection_type == xa_compound_text) {
             next_type = XA_STRING;
@@ -1361,7 +1388,7 @@ static void ReceiveSelection(Widget aw, XtPointer client, Atom * selection, Atom
 
         ClearHighlight(w);
         savex = w->text.OldCursorX;
-        w->text.CursorPos = (int)client;
+        w->text.CursorPos = (int)(intptr_t)client;
 #ifdef DEBUG_TF
         printf("ReceiveSelection: format %d type %d inserting '%s' length=%d at pos: %d\n", *format, (int)*type, (char *)value, (int)(*length), w->text.CursorPos);
 #endif
@@ -1412,11 +1439,15 @@ static void InsertSelection(Widget aw, XEvent *event, String *params, Cardinal *
     printf("InsertSelection: event at pos: %d\n", pos);
 #endif
     /* xterm(1) section SELECTION TARGETS explains. */
+#if defined (XA_UTF8_STRING)
     type = w->text.international ? xa_utf8_string : XA_STRING;
+#else
+    type = w->text.international ? xa_text : XA_STRING;
+#endif
     w->text.selection_type = type;
     w->text.selection_time = event->xbutton.time;
     XtGetSelectionValue(aw, XA_PRIMARY, type, ReceiveSelection,
-            (XtPointer)pos, event->xbutton.time);
+            (XtPointer)(intptr_t)pos, event->xbutton.time);
 }
 
 static void ActionFocusIn(Widget aw, XEvent *event, String *params, Cardinal *num_params)
