@@ -215,7 +215,7 @@ BEGIN
     LTEXT         "Copyright (c) 2009-2011 Groepaz",              IDC_STATIC,          5, 131, 158,  8
     LTEXT         "Copyright (c) 2009-2011 Ingo Korb",            IDC_STATIC,          5, 140, 158,  8
     LTEXT         "Copyright (c) 2009-2011 Errol Smith",          IDC_STATIC,          5, 149, 180,  8
-    LTEXT         "Copyright (c) 1999-2007 Olaf Seibert",         IDC_STATIC,          5, 158, 158,  8
+    LTEXT         "Copyright (c) 2010-2011 Olaf Seibert",         IDC_STATIC,          5, 158, 158,  8
     LTEXT         " ",                                            IDC_STATIC,          5, 167, 180,  8
     LTEXT         " ",                                            IDC_STATIC,          5, 176, 180,  8
     LTEXT         " ",                                            IDC_STATIC,          5, 185, 180,  8
