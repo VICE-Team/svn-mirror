@@ -392,8 +392,10 @@ static int mb_strlen(char *s, int bytes)
         /* Heuristic: 1 byte can't be more than 1 char */
         if (bytes == 1) {
             return len + 1;
+#ifdef INTERNATIONAL_SUPPORT
         } else if ((onechar = _Xmblen(s, bytes)) <= 0) {
             break;
+#endif
         }
         s += onechar;
         bytes -= onechar;
