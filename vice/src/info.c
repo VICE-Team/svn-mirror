@@ -880,7 +880,7 @@ const char info_contrib_text[] =
 "  palette, DTV SID support in resid, better DMA/Blitter support\n"
 "  and did lots of refactoring. Added new monitor commands and\n"
 "  features. Improved the VIC emulation for xvic. Made MIDI driver\n"
-"  code for win32.  Rewrote the xvic cartridge system. Added Mega-Cart\n"
+"  code for win32. Rewrote the xvic cartridge system. Added Mega-Cart\n"
 "  and Final Expansion V3.2 support to xvic. Wrote large parts of the\n"
 "  new VIC-II emulation used in x64sc, especially the dot clock domain\n"
 "  emulation. Wrote many test programs for hardware analysis.\n"
