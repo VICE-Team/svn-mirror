@@ -452,8 +452,6 @@ static void int_midi(CLOCK offset, void *data)
     alarm_active = 1;
 }
 
-#endif
-
 /* ---------------------------------------------------------------------*/
 /*    snapshot support functions                                             */
 
@@ -510,3 +508,4 @@ int midi_snapshot_read_module(snapshot_t *s)
     return 0;
 #endif
 }
+#endif
