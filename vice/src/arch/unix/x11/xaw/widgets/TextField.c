@@ -43,7 +43,9 @@
 #ifdef HAVE_STDINT_H
 #include <stdint.h>
 #else
-typedef long int intptr_t;
+#  ifndef _SYS_INT_TYPES_H
+     typedef long int intptr_t;
+#  endif
 #endif
 
 #ifdef HAVE_WCHAR_H
