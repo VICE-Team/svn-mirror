@@ -2693,8 +2693,12 @@ AC_SUBST(XCBM2_WINRES)
 
 
 dnl disable building of x64dtv for native gp2x, wiz, dingoo and riscos
-if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$is_riscos" = "xyes" -a x"$enable_sdlui" != "xyes"; then
-  AM_CONDITIONAL(SUPPORT_X64DTV, false)
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$is_riscos" = "xyes"; then
+  if test x"$enable_sdlui" != "xyes"; then
+    AM_CONDITIONAL(SUPPORT_X64DTV, false)
+  else
+    AM_CONDITIONAL(SUPPORT_X64DTV, true)
+  fi
 else
   AM_CONDITIONAL(SUPPORT_X64DTV, true)
 fi
