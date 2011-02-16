@@ -52,7 +52,9 @@ typedef long int intptr_t;
 #    define INTERNATIONAL_SUPPORT
 #  endif
 #else
-typedef char wchar_t;
+#  ifndef _WCHAR_T_DEFINED_
+     typedef char wchar_t;
+#  endif
 #endif
 
 #include "util.h"
