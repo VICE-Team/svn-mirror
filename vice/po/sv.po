@@ -1,19 +1,19 @@
 # Swedish translation file for VICE
-# Peter Krefting <peter@softwolves.pp.se>
-# Copyright 2000-2009
-#
+# Copyright 2000-2011
+# Peter Krefting <peter@softwolves.pp.se>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.2\n"
+"Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-01 16:49-0800\n"
-"PO-Revision-Date: 2010-12-30 21:26+0100\n"
+"POT-Creation-Date: 2011-02-16 20:33+0100\n"
+"PO-Revision-Date: 2011-02-16 20:41+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
@@ -32,8 +32,8 @@ msgid "Set device for extra joystick port 2"
 msgstr "Välj enhet för extra spelport 2"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
-#: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
-#: src/arch/unix/macosx/mididrv.c:128 src/translate_text.c.po.c:2811
+#: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
+#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:2811
 msgid "<name>"
 msgstr "<namn>"
 
@@ -381,7 +381,7 @@ msgstr "VDC-inställningar"
 
 #: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:511 src/arch/unix/gui/c64ui.c:571
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:338
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:5693
 msgid "SID settings"
@@ -403,7 +403,7 @@ msgstr "RS232-inställningar"
 #: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
 #: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:385
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:687
-#: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:5
+#: src/arch/unix/gui/vsidui.c:399 src/arch/amigaos/intl_text.c.po.c:5
 msgid "File"
 msgstr "Arkiv"
 
@@ -439,7 +439,7 @@ msgstr "Alternativ"
 #: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:715
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
 #: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:395
-#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:400
+#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:401
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1235
 #: src/arch/amigaos/intl_text.c.po.c:1534
 msgid "Settings"
@@ -833,9 +833,8 @@ msgstr "Digiblaster-tillägg"
 
 #. Translators: "V364 Speech" is the speech extension present in the V364 prototype
 #: src/arch/unix/gui/plus4ui.c:204
-#, fuzzy
 msgid "V364 Speech"
-msgstr "ROM-fil för V364-röst"
+msgstr "V364-röst"
 
 #: src/arch/unix/gui/plus4ui.c:221
 msgid "TED model"
@@ -968,7 +967,7 @@ msgid "Smart-attach a file"
 msgstr "Smartanslut en fil"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2028
+#: src/arch/unix/x11/xaw/x11ui.c:2029
 msgid "Unknown image type"
 msgstr "Okänd avbildningsfiltyp"
 
@@ -1052,85 +1051,85 @@ msgstr "Basadress"
 msgid "Image name..."
 msgstr "Namn på avbildning..."
 
-#: src/arch/unix/gui/uic64cart.c:56 src/arch/unix/gui/vic20ui.c:251
+#: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/vic20ui.c:251
 msgid "Attach cartridge image"
 msgstr "Anslut insticksmodulfil"
 
-#: src/arch/unix/gui/uic64cart.c:60
+#: src/arch/unix/gui/uic64cart.c:59
 msgid "Cannot attach cartridge"
 msgstr "Kan inte ansluta insticksmodul"
 
-#: src/arch/unix/gui/uic64cart.c:103
+#: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image..."
 msgstr "Smartanslut CRT-avbildning..."
 
-#: src/arch/unix/gui/uic64cart.c:107
+#: src/arch/unix/gui/uic64cart.c:106
 msgid "Attach generic 8kB image..."
 msgstr "Anslut vanlig 8KB-avbildning..."
 
-#: src/arch/unix/gui/uic64cart.c:110
+#: src/arch/unix/gui/uic64cart.c:109
 msgid "Attach generic 16kB image..."
 msgstr "Anslut vanlig 16KB-avbildning..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:115
+#: src/arch/unix/gui/uic64cart.c:114
 msgid "Attach Action Replay V5 image..."
 msgstr "Anslut Action Replay V5-avbildning..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:119
+#: src/arch/unix/gui/uic64cart.c:118
 msgid "Attach Atomic Power image..."
 msgstr "Anslut Atomic Power-avbildning..."
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:123
+#: src/arch/unix/gui/uic64cart.c:122
 msgid "Attach EasyFlash image..."
 msgstr "Anslut EasyFlash-avbildning..."
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:127
+#: src/arch/unix/gui/uic64cart.c:126
 msgid "Attach Epyx FastLoad image..."
 msgstr "Anslut Epyx FastLoad-avbildning..."
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:131
+#: src/arch/unix/gui/uic64cart.c:130
 msgid "Attach IDE64 image..."
 msgstr "Anslut IDE64-avbildning..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:135
+#: src/arch/unix/gui/uic64cart.c:134
 msgid "Attach Magic Formel image..."
 msgstr "Anslut Magic Formel-avbildning..."
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:139
+#: src/arch/unix/gui/uic64cart.c:138
 msgid "Attach MMC Replay image..."
 msgstr "Anslut MMC Replay-avbildning..."
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:143
+#: src/arch/unix/gui/uic64cart.c:142
 msgid "Attach Retro Replay image..."
 msgstr "Anslut Retro Replay-avbildning..."
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:147
+#: src/arch/unix/gui/uic64cart.c:146
 msgid "Attach Super Snapshot V5 image..."
 msgstr "Anslut Super Snapshot V5-avbildning..."
 
-#: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:318
+#: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/amigaos/intl_text.c.po.c:676
 msgid "Set cartridge as default"
 msgstr "Välj insticksmodul som förval"
 
-#: src/arch/unix/gui/uic64cart.c:157 src/arch/unix/gui/vic20ui.c:355
+#: src/arch/unix/gui/uic64cart.c:156 src/arch/unix/gui/vic20ui.c:355
 msgid "Attach a cartridge image"
 msgstr "Anslut insticksmodulfil"
 
-#: src/arch/unix/gui/uic64cart.c:159 src/arch/amigaos/intl_text.c.po.c:423
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/amigaos/intl_text.c.po.c:423
 msgid "Detach cartridge image"
 msgstr "Koppla från insticksmodulfil"
 
-#: src/arch/unix/gui/uic64cart.c:161 src/arch/amigaos/intl_text.c.po.c:698
+#: src/arch/unix/gui/uic64cart.c:160 src/arch/amigaos/intl_text.c.po.c:698
 msgid "Cartridge freeze"
 msgstr "Insticksmodulens frysfunktion"
 
@@ -1499,9 +1498,8 @@ msgstr "Äkta bredd-/höjdförhållande"
 #: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
 #: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
 #: src/arch/unix/gui/uivicii.c:197
-#, fuzzy
 msgid "Set custom aspect ratio..."
-msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
+msgstr "Eget bredd-/höjdförhållande..."
 
 #: src/arch/unix/gui/uicrtc.c:167 src/arch/unix/gui/uited.c:158
 #: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:157
@@ -3135,7 +3133,7 @@ msgid "Invalid speed value"
 msgstr "Ogiltigt hastighetsvärde"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1270
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2733
 msgid "Cannot save settings."
 msgstr "Kan inte spara inställningar."
@@ -3624,24 +3622,24 @@ msgstr "Läs PSID-fil"
 msgid "Load PSID file..."
 msgstr "Läs PSID-fil..."
 
-#: src/arch/unix/gui/vsidui.c:335
+#: src/arch/unix/gui/vsidui.c:336
 msgid "Override PSID settings"
 msgstr "Överskugga PSID-inställningar"
 
-#: src/arch/unix/gui/vsidui.c:339 src/arch/amigaos/intl_text.c.po.c:1435
+#: src/arch/unix/gui/vsidui.c:340 src/arch/amigaos/intl_text.c.po.c:1435
 msgid "Video standard"
 msgstr "TV-standard"
 
-#: src/arch/unix/gui/vsidui.c:418
+#: src/arch/unix/gui/vsidui.c:419
 msgid "Default Tune"
 msgstr "Förvald låt"
 
-#: src/arch/unix/gui/vsidui.c:438
+#: src/arch/unix/gui/vsidui.c:439
 #, c-format
 msgid "Tune %d"
 msgstr "Låt %d"
 
-#: src/arch/unix/gui/vsidui.c:465
+#: src/arch/unix/gui/vsidui.c:466
 msgid "VSID: The SID Emulator"
 msgstr "VSID: SID-emulatorn"
 
@@ -3662,12 +3660,11 @@ msgstr "Bidragslämnare till VICE-projektet"
 msgid "The VICE Team"
 msgstr "VICE-teamet"
 
-#: src/arch/unix/x11/gnome/about.c:87 src/arch/unix/x11/xaw/about.c:164
+#: src/arch/unix/x11/gnome/about.c:83 src/arch/unix/x11/xaw/about.c:160
 msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
-#: src/arch/unix/x11/gnome/about.c:101
-#, fuzzy
+#: src/arch/unix/x11/gnome/about.c:97
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -3686,22 +3683,23 @@ msgstr ""
 "Marco van den Heuvel - nederländska\n"
 "Flooder - polska\n"
 "Czirkos Zoltan, Karai Csaba - ungerska\n"
-"Emir Akaydin (aka: Skate) - turkiska\n"
+"Emir Akaydin (alias Skate) - turkiska\n"
+"Mikkel Holm Olsen - danska\n"
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:113
 msgid "(c) 1998 - 2010 The VICE Team"
 msgstr "© 1998 - 2010 Vice-gruppen"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1020
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1020
 #: src/arch/amigaos/intl_text.c.po.c:2392
 msgid "License"
 msgstr "Licens"
 
-#: src/arch/unix/x11/gnome/about.c:126
+#: src/arch/unix/x11/gnome/about.c:122
 msgid "Warranty"
 msgstr "Garanti"
 
-#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl_text.c.po.c:2381
+#: src/arch/unix/x11/gnome/about.c:124 src/arch/amigaos/intl_text.c.po.c:2381
 msgid "Contributors"
 msgstr "Bidragslämnare"
 
@@ -3983,20 +3981,20 @@ msgstr "Enhet %d: "
 msgid "Tape 000"
 msgstr "Band 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1255
 msgid " emulator"
 msgstr "-emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1259
 msgid "Do you really want to exit?"
 msgstr "Vill du verkligen avsluta?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1267
 msgid "Save the current settings?"
 msgstr "Spara nuvarande inställningar?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
+#: src/arch/unix/x11/xaw/x11ui.c:1335 src/arch/unix/x11/xaw/x11ui.c:1338
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -4007,7 +4005,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Band %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1584
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (pausad)"
@@ -4032,7 +4030,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Fortsätt"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1905
 msgid "Extend disk image"
 msgstr "Utöka diskettavbildningsfil"
 
@@ -4136,7 +4134,7 @@ msgstr "Ange färgdjup för X-display (1..32)"
 msgid "Desktop"
 msgstr "Skrivbord"
 
-#: src/arch/unix/x11/xaw/about.c:170 src/arch/win32/res.rc.po.c:900
+#: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:900
 msgid "VICE Information"
 msgstr "VICE-information"
 
@@ -4212,32 +4210,30 @@ msgstr "Spara anslutna disketter:"
 msgid "Save currently loaded ROMs:"
 msgstr "Spara lästa ROMar:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:993
+#: src/arch/unix/x11/xaw/x11ui.c:994
 msgid "recording..."
 msgstr "spelar in..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1001
+#: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "event recording..."
 msgstr "spelar in händelser..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1438
+#: src/arch/unix/x11/xaw/x11ui.c:1439
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1777 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
 #: src/arch/unix/x11/xaw/x11video.c:190
-#, fuzzy
 msgid "Custom aspect ratio"
-msgstr "Äkta bredd-/höjdförhållande"
+msgstr "Eget bredd-/höjdförhållande"
 
 #: src/arch/unix/x11/xaw/x11video.c:190
-#, fuzzy
 msgid "Aspect ratio (0.5 - 2.0):"
-msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
+msgstr "Bredd-/höjdförhållande (0,5 - 2,0):"
 
 #: src/arch/unix/x11/xaw/x11video.c:254
 msgid "Call `XSync()' after updating the emulation window"
@@ -4268,9 +4264,8 @@ msgid "<aspect ratio>"
 msgstr "<storleksförhållande>"
 
 #: src/arch/unix/x11/xaw/x11video.c:280
-#, fuzzy
 msgid "Set aspect ratio (0.5 - 2.0)"
-msgstr "Välj bredd-/höjdförhållande (0,8-1,2)"
+msgstr "Välj bredd-/höjdförhållande (0,5 - 2,0)"
 
 #: src/arch/unix/x11/xaw/x11video.c:285 src/arch/unix/macosx/cocoa/video.m:172
 msgid "Enable true aspect ratio"
@@ -4353,38 +4348,38 @@ msgstr "Vänd hatt för styrspak för HID-enhet A"
 msgid "Set Hat Switch for Joystick of HID B device"
 msgstr "Vänd hatt för styrspak för HID-enhet B"
 
-#: src/arch/unix/macosx/mididrv.c:118
+#: src/arch/unix/macosx/mididrv.c:120
 msgid "Name of MIDI Client"
 msgstr "Namn på MIDI-klient"
 
-#: src/arch/unix/macosx/mididrv.c:123
+#: src/arch/unix/macosx/mididrv.c:125
 msgid "Name of MIDI-In Port"
 msgstr "Namn på MIDI-inport"
 
-#: src/arch/unix/macosx/mididrv.c:128
+#: src/arch/unix/macosx/mididrv.c:130
 msgid "Name of MIDI-Out Port"
 msgstr "Namn på MIDI-utport"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:74
 msgid "Set scaling factor for mouse movement along X"
-msgstr ""
+msgstr "Välj skalningsfaktor för X-musförflyttning"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:79
 msgid "Set scaling factor for mouse movement along Y"
-msgstr ""
+msgstr "Välj skalningsfaktor för Y-musförflyttning"
 
 #: src/arch/unix/macosx/cocoa/video.m:152
 msgid "Enable draw synchronization to vertical blank"
-msgstr ""
+msgstr "Aktivera synkroniserad ritning mot vertikalblankning"
 
 #: src/arch/unix/macosx/cocoa/video.m:157
 msgid "Set number of buffers used for sync draw (0=use default)"
-msgstr ""
+msgstr "Välj antal buffertar för synkroniserad ritning (0=använd standard)"
 
 #: src/arch/unix/macosx/cocoa/video.m:162
 #: src/arch/unix/macosx/cocoa/video.m:167
 msgid "Enable flicker fixing in sync draw"
-msgstr ""
+msgstr "Aktivera flimmerkorrigering i synkroniserad ritning"
 
 #: src/arch/win32/res.rc.po.c:83 src/arch/win32/res.rc.po.c:1292
 #: src/arch/win32/resc128.rc.po.c:19 src/arch/win32/resc64.rc.po.c:19
@@ -4433,83 +4428,59 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:181
-#, fuzzy
 msgid "Copyright (c) 1998-2011 Dag Lem"
-msgstr "Upphovsrättsskyddad © 1998-2010 Dag Lem"
+msgstr "Upphovsrättsskyddad © 1998-2011 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1999-2011 Andreas Matthies"
-msgstr "Upphovsrättsskyddad © 1999-2010 Andreas Matthies"
+msgstr "Upphovsrättsskyddad © 1999-2011 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2011 Martin Pottendorfer"
-msgstr "Upphovsrättsskyddad © 1999-2010 Martin Pottendorfer"
+msgstr "Upphovsrättsskyddad © 1999-2011 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 2000-2011 Spiro Trikaliotis"
-msgstr "Upphovsrättsskyddad © 2000-2010 Spiro Trikaliotis"
+msgstr "Upphovsrättsskyddad © 2000-2011 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2005-2011 Marco van den Heuvel"
-msgstr "Upphovsrättsskyddad © 2005-2010 Marco van den Heuvel"
+msgstr "Upphovsrättsskyddad © 2005-2011 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2006-2011 Christian Vogelgsang"
-msgstr "Upphovsrättsskyddad © 2006-2010 Christian Vogelgsang"
+msgstr "Upphovsrättsskyddad © 2006-2011 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2007-2011 Fabrizio Gennari"
-msgstr "Upphovsrättsskyddad © 2007-2010 Fabrizio Gennari"
+msgstr "Upphovsrättsskyddad © 2007-2011 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
-msgid "Copyright (c) 2007-2011 Hannu Nuotio"
-msgstr "Upphovsrättsskyddad © 2007-2010 Hannu Nuotio"
+msgid "Copyright (c) 2007-2011 Daniel Kahlin"
+msgstr "Upphovsrättsskyddad © 2007-2011 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
-msgid "Copyright (c) 2007-2011 Daniel Kahlin"
-msgstr "Upphovsrättsskyddad © 2007-2010 Daniel Kahlin"
+msgid "Copyright (c) 2008-2011 Antti S. Lankila"
+msgstr "Upphovsrättsskyddad © 2008-2011 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
-msgid "Copyright (c) 2008-2011 Antti S. Lankila"
-msgstr "Upphovsrättsskyddad © 2008-2010 Antti S. Lankila"
+msgid "Copyright (c) 2009-2011 Groepaz"
+msgstr "Upphovsrättsskyddad © 2009-2011 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:191
-msgid "Copyright (c) 1998-2010 Andreas Boose"
-msgstr "Upphovsrättsskyddad © 1998-2010 Andreas Boose"
+msgid "Copyright (c) 2009-2011 Ingo Korb"
+msgstr "Upphovsrättsskyddad © 2009-2011 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-msgid "Copyright (c) 1998-2010 Tibor Biczo"
-msgstr "Upphovsrättsskyddad © 1998-2010 Tibor Biczo"
+msgid "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Upphovsrättsskyddad © 2009-2011 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-msgid "Copyright (c) 2007-2010 M. Kiesel"
-msgstr "Upphovsrättsskyddad © 2007-2010 M. Kiesel"
+msgid "Copyright (c) 2010-2011 Olaf Seibert"
+msgstr "Upphovsrättsskyddad © 2010-2011 Olaf Seibert"
 
-#: src/arch/win32/res.rc.po.c:194
-msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr "Upphovsrättsskyddad © 1999-2007 Andreas Dehmel"
-
-#: src/arch/win32/res.rc.po.c:195
-msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr "Upphovsrättsskyddad © 1999-2005 Thomas Bretz"
-
-#: src/arch/win32/res.rc.po.c:196
-msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr "Upphovsrättsskyddad © 2003-2005 David Hansel"
-
-#: src/arch/win32/res.rc.po.c:197
-msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr "Upphovsrättsskyddad © 2000-2004 Markus Brenner"
-
+#: src/arch/win32/res.rc.po.c:194 src/arch/win32/res.rc.po.c:195
+#: src/arch/win32/res.rc.po.c:196 src/arch/win32/res.rc.po.c:197
 #: src/arch/win32/res.rc.po.c:198
 msgid " "
 msgstr " "
@@ -4617,10 +4588,17 @@ msgid ""
 "\n"
 "for possible reasons and to activate networking with VICE."
 msgstr ""
+"Stöd för TFE/RR-Net är inte tillgängligt på ditt system,\n"
+"viktiga delar saknas. Se supportsidan i VICEs\n"
+"kunskapsdatabas\n"
+"\n"
+"      http://vicekb.trikaliotis.net/13-005\n"
+"\n"
+"för möjliga orsaker och hur du aktivera nätverk i VICE."
 
 #: src/arch/win32/res.rc.po.c:921
 msgid "TFE/RR-Net support"
-msgstr ""
+msgstr "Stöd för TFE/RR-Net"
 
 #: src/arch/win32/res.rc.po.c:922 src/arch/amigaos/intl_text.c.po.c:2788
 msgid "Cannot autostart specified file."
@@ -5435,12 +5413,12 @@ msgstr "Behåll bredd-/höjdförhållande (0,5..2)"
 #: src/arch/win32/res.rc.po.c:1171
 #, c-format
 msgid "Value %.3f for %s is out of range, using %.3f instead"
-msgstr ""
+msgstr "Värdet %.3f för %s är utanför gränserna, använder %.3f istället"
 
 #: src/arch/win32/res.rc.po.c:1172
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
-msgstr ""
+msgstr "Värdet %d för %s är utanför gränserna, använder %d istället"
 
 #: src/arch/win32/res.rc.po.c:1173 src/arch/amigaos/intl_text.c.po.c:6562
 msgid "Gamma (0..4)"
@@ -8425,33 +8403,28 @@ msgid "Action Replay image..."
 msgstr "Action Replay-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:544
-#, fuzzy
 msgid "Action Replay MK3 image..."
-msgstr "&Action Replay MK3-fil..."
+msgstr "Action Replay MK3-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:555
-#, fuzzy
 msgid "Action Replay MK4 image..."
-msgstr "&Action Replay MK4-fil..."
+msgstr "Action Replay MK4-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:566
-#, fuzzy
 msgid "Stardos image..."
-msgstr "&Stardos-fil..."
+msgstr "Stardos-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:577
 msgid "Atomic Power image..."
 msgstr "Atomic Power-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:588
-#, fuzzy
 msgid "Epyx FastLoad image..."
-msgstr "&Epyx FastLoad-avbildning..."
+msgstr "Epyx FastLoad-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:599
-#, fuzzy
 msgid "IEEE488 Interface image..."
-msgstr "&IEEE-488-gränssnittsfil..."
+msgstr "IEEE-488-gränssnittsfil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:610
 msgid "Retro Replay image..."
@@ -8462,19 +8435,16 @@ msgid "IDE64 interface image..."
 msgstr "IDE64-gränssnittsfil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:632
-#, fuzzy
 msgid "Super Snapshot V4 image..."
-msgstr "Super Snapshot V&4-fil..."
+msgstr "Super Snapshot V4-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:643
-#, fuzzy
 msgid "Super Snapshot V5 image..."
-msgstr "Super Snapshot V&5-fil..."
+msgstr "Super Snapshot V5-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:654
-#, fuzzy
 msgid "Structured BASIC image..."
-msgstr "Structured &BASIC-fil..."
+msgstr "Structured BASIC-fil..."
 
 #: src/arch/amigaos/intl_text.c.po.c:753
 msgid "Exit"
@@ -8601,14 +8571,12 @@ msgid "NTSC-M"
 msgstr "NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:1479
-#, fuzzy
 msgid "VIC-1112 IEEE-488 module"
-msgstr "VIC-1112 IEEE 488-modul"
+msgstr "VIC-1112 IEEE-488-modul"
 
 #: src/arch/amigaos/intl_text.c.po.c:1501
-#, fuzzy
 msgid "IEEE-488 Interface emulation"
-msgstr "Emulering av IEEE&488-gränssnitt"
+msgstr "Emulering av IEEE-488-gränssnitt"
 
 #: src/arch/amigaos/intl_text.c.po.c:1523
 msgid "PS/2 mouse emulation"
@@ -8675,9 +8643,8 @@ msgid "Drive settings..."
 msgstr "Diskettenhetsinställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1732
-#, fuzzy
 msgid "Printer settings..."
-msgstr "Skrivarinställningar"
+msgstr "Skrivarinställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1743
 msgid "Datasette settings..."
@@ -8744,19 +8711,16 @@ msgid "REU settings..."
 msgstr "REU-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1930
-#, fuzzy
 msgid "Magic Voice settings..."
-msgstr "MAgic V&oice-inställningar..."
+msgstr "Magic Voice-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1941
-#, fuzzy
 msgid "GEO-RAM settings..."
-msgstr "&GEO-RAM-inställningar..."
+msgstr "GEO-RAM-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1952
-#, fuzzy
 msgid "RamCart settings..."
-msgstr "&RamCart-inställningar..."
+msgstr "RamCart-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1963
 msgid "Double Quick Brown Box settings..."
@@ -8767,9 +8731,8 @@ msgid "ISEPIC settings..."
 msgstr "ISEPIC-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1985
-#, fuzzy
 msgid "Expert Cartridge settings..."
-msgstr "&Expert Cartridge-inställningar..."
+msgstr "Expert Cartridge-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:1996
 msgid "PLUS60K settings..."
@@ -8796,12 +8759,10 @@ msgid "MMC Replay settings..."
 msgstr "MMC Replay-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2084
-#, fuzzy
 msgid "DigiMAX settings..."
-msgstr "&DigiMAX-inställningar..."
+msgstr "DigiMAX-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2128
-#, fuzzy
 msgid "Enable userport DAC"
 msgstr "Aktivera D/A-omvandlare på användarporten"
 
@@ -8818,9 +8779,8 @@ msgid "PET REU settings..."
 msgstr "PET REU-inställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2172
-#, fuzzy
 msgid "V364 Speech settings..."
-msgstr "&V364-röstinställningar..."
+msgstr "V364-röstinställningar..."
 
 #: src/arch/amigaos/intl_text.c.po.c:2183
 msgid "SID cart settings..."
@@ -8906,11 +8866,15 @@ msgstr "Starta ljudinspelning..."
 #, c-format
 msgid "Value %d out of range, range is from %d to %d, using %d instead"
 msgstr ""
+"Värdet %d är utanför gränserna, giltiga värden mellan %d och %d, använder %d "
+"istället"
 
 #: src/arch/amigaos/intl_text.c.po.c:2623
 #, c-format
 msgid "Value %.3f out of range, range is from %.3f to %.3f, using %.3f instead"
 msgstr ""
+"Värdet %.3f är utanför gränserna, giltiga värden mellan %.3f och %.3f, "
+"använder %.3f istället"
 
 #: src/arch/amigaos/intl_text.c.po.c:2766
 msgid "The device on this port is not a gamepad"
@@ -8992,13 +8956,12 @@ msgid "Enabled"
 msgstr "Aktiverad"
 
 #: src/arch/amigaos/intl_text.c.po.c:3657
-#, fuzzy
 msgid "Filesystem"
 msgstr "Filsystem"
 
 #: src/arch/amigaos/intl_text.c.po.c:3668
 msgid "Raw"
-msgstr ""
+msgstr "Rått"
 
 #: src/arch/amigaos/intl_text.c.po.c:3756
 msgid "256K Enabled"
@@ -9089,24 +9052,20 @@ msgid "Idle method"
 msgstr "Pausmetod"
 
 #: src/arch/amigaos/intl_text.c.po.c:4196
-#, fuzzy
 msgid "Save GEO-RAM image when changed"
-msgstr "&Spara GEO-RAM-avbildning vid ändringar"
+msgstr "Spara GEO-RAM-avbildning vid ändringar"
 
 #: src/arch/amigaos/intl_text.c.po.c:4229
-#, fuzzy
 msgid "Expert Cartridge mode"
-msgstr "Expert-insticksmodulavbildning"
+msgstr "Expert Cartridge-läge"
 
 #: src/arch/amigaos/intl_text.c.po.c:4284
-#, fuzzy
 msgid "Save Expert Cartridge image when changed"
-msgstr "&Spara Expert Cartrdige-avbildning vid ändringar"
+msgstr "Spara Expert Cartrdige-avbildning vid ändringar"
 
 #: src/arch/amigaos/intl_text.c.po.c:4328
-#, fuzzy
 msgid "Save DQBB image when changed"
-msgstr "&Spara DQBB-avbildning vid ändringar"
+msgstr "Spara DQBB-avbildning vid ändringar"
 
 #: src/arch/amigaos/intl_text.c.po.c:4350
 msgid "DQBB settings"
@@ -9117,9 +9076,8 @@ msgid "ISEPIC switch"
 msgstr "ISEPIC-omkopplare"
 
 #: src/arch/amigaos/intl_text.c.po.c:4394
-#, fuzzy
 msgid "Save ISEPIC image when changed"
-msgstr "&Spara ISEPIC-avbildning vid ändringar"
+msgstr "Spara ISEPIC-avbildning vid ändringar"
 
 #: src/arch/amigaos/intl_text.c.po.c:4427
 msgid "Select config file"
@@ -9256,24 +9214,22 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:4846
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-"
-"3)"
+"Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak "
+"0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4857
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-"
-"3)"
+"Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak "
+"0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:4956
-#, fuzzy
 msgid "V364 Speech file"
-msgstr "ROM-fil för V364-röst"
+msgstr "Fil för V364-röst"
 
 #: src/arch/amigaos/intl_text.c.po.c:4967
-#, fuzzy
 msgid "Select file for V364 Speech"
-msgstr "Välj ROM-fil för V364-röst"
+msgstr "Välj fil för V364-röst"
 
 #: src/arch/amigaos/intl_text.c.po.c:5033
 msgid "PLUS60K Base"
@@ -9284,117 +9240,94 @@ msgid "read-only"
 msgstr "skrivskyddad"
 
 #: src/arch/amigaos/intl_text.c.po.c:5143
-#, fuzzy
 msgid "RamCart Read/Write"
-msgstr "Skrivbart kort"
+msgstr "Skrivbart RamCart"
 
 #: src/arch/amigaos/intl_text.c.po.c:5176
-#, fuzzy
 msgid "Save RamCart image when changed"
-msgstr "&Spara till RamCart-avbildning vid ändringar"
+msgstr "Spara RamCart-avbildning vid ändringar"
 
 #: src/arch/amigaos/intl_text.c.po.c:5198
-#, fuzzy
 msgid "RamCart settings"
 msgstr "RamCart-inställningar"
 
 #: src/arch/amigaos/intl_text.c.po.c:5231
-#, fuzzy
 msgid "Save REU image when changed"
-msgstr "&Spara REU-avbildning vid ändringar"
+msgstr "Spara REU-avbildning vid ändringar"
 
 #: src/arch/amigaos/intl_text.c.po.c:5275
-#, fuzzy
 msgid "Printer #4 emulation"
-msgstr "Skrivaremulering"
+msgstr "Skrivaremulering för enhet 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5286
-#, fuzzy
 msgid "Printer #5 emulation"
-msgstr "Skrivaremulering"
+msgstr "Skrivaremulering för enhet 5"
 
 #: src/arch/amigaos/intl_text.c.po.c:5308
-#, fuzzy
 msgid "Printer #4 driver"
-msgstr "Skrivardrivrutin"
+msgstr "Skrivardrivrutin för enhet 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5319
-#, fuzzy
 msgid "Printer #5 driver"
-msgstr "Skrivardrivrutin"
+msgstr "Skrivardrivrutin för enhet 5"
 
 #: src/arch/amigaos/intl_text.c.po.c:5341
-#, fuzzy
 msgid "Printer #4 output type"
-msgstr "Textutenhet för IEC-enhet 4"
+msgstr "Utdatatyp för skrivare 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5352
-#, fuzzy
 msgid "Printer #5 output type"
-msgstr "Textutenhet för IEC-enhet 5"
+msgstr "Utdatatyp för skrivare 5"
 
 #: src/arch/amigaos/intl_text.c.po.c:5363
-#, fuzzy
 msgid "Userport printer output type"
-msgstr "Textutenhet för användarportskrivare"
+msgstr "Utdatatyp för användarportskrivare"
 
 #: src/arch/amigaos/intl_text.c.po.c:5374
-#, fuzzy
 msgid "Printer #4 output device"
-msgstr "Textutenhet för IEC-enhet 4"
+msgstr "Textutenhet för skrivare 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5385
-#, fuzzy
 msgid "Printer #5 output device"
-msgstr "Textutenhet för IEC-enhet 5"
+msgstr "Textutenhet för skrivare 5"
 
 #: src/arch/amigaos/intl_text.c.po.c:5396
-#, fuzzy
 msgid "Userport printer output device"
 msgstr "Textutenhet för användarportskrivare"
 
 #: src/arch/amigaos/intl_text.c.po.c:5407
-#, fuzzy
 msgid "Send formfeed to printer #4"
-msgstr "Sänd sidmatning"
+msgstr "Sänd sidmatning till skrivare 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5418
-#, fuzzy
 msgid "Send formfeed to printer #5"
-msgstr "Sänd sidmatning"
+msgstr "Sänd sidmatning till skrivare 5"
 
 #: src/arch/amigaos/intl_text.c.po.c:5429
-#, fuzzy
 msgid "Send formfeed to userport printer"
-msgstr "Ange namn på utskriftsenhet för användarporten"
+msgstr "Sänd sidmatning till användarportskrivare"
 
 #: src/arch/amigaos/intl_text.c.po.c:5440
-#, fuzzy
 msgid "Printer device #1 output"
-msgstr "Skrivartextenhet 1..."
+msgstr "Utdata för skrivarenhet 1"
 
 #: src/arch/amigaos/intl_text.c.po.c:5451
-#, fuzzy
 msgid "Printer device #2 output"
-msgstr "Skrivartextenhet 2..."
+msgstr "Utdata för skrivarenhet 2"
 
 #: src/arch/amigaos/intl_text.c.po.c:5462
-#, fuzzy
 msgid "Printer device #3 output"
-msgstr "Skrivartextenhet 3..."
+msgstr "Utdata för skrivarenhet 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:5473
-#, fuzzy
 msgid "IEC emulation for printer #4"
-msgstr "Aktivera IEC-enhetsemulering för enhet 4"
+msgstr "IEC-emulering för skrivare 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5484
-#, fuzzy
 msgid "IEC emulation for printer #5"
-msgstr "Aktivera IEC-enhetsemulering för enhet 5"
+msgstr "IEC-emulering för skrivare 5"
 
 #: src/arch/amigaos/intl_text.c.po.c:5528
-#, fuzzy
 msgid "Magic Voice settings"
 msgstr "Magic Voice-inställningar"
 
@@ -9411,29 +9344,24 @@ msgid "Speed Adjustment"
 msgstr "Hastighetsjusering"
 
 #: src/arch/amigaos/intl_text.c.po.c:5869
-#, fuzzy
 msgid "HD image #1 file"
-msgstr "&HD-avbildningsfil 1"
+msgstr "HD-avbildningsfil 1"
 
 #: src/arch/amigaos/intl_text.c.po.c:5880
-#, fuzzy
 msgid "HD image #2 file"
-msgstr "&HD-avbildningsfil 2"
+msgstr "HD-avbildningsfil 2"
 
 #: src/arch/amigaos/intl_text.c.po.c:5891
-#, fuzzy
 msgid "HD image #3 file"
-msgstr "&HD-avbildningsfil 3"
+msgstr "HD-avbildningsfil 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:5902
-#, fuzzy
 msgid "HD image #4 file"
-msgstr "&HD-avbildningsfil 4"
+msgstr "HD-avbildningsfil 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5924
-#, fuzzy
 msgid "IDE64 V4"
-msgstr "Aktivera IDE64 V4"
+msgstr "IDE64 V4"
 
 #: src/arch/amigaos/intl_text.c.po.c:5935
 msgid "Autodetect"
@@ -9488,9 +9416,8 @@ msgid "EEPROM Image File"
 msgstr "EEPROM-avbildningsfil"
 
 #: src/arch/amigaos/intl_text.c.po.c:6155
-#, fuzzy
 msgid "Save EEPROM image when changed"
-msgstr "&Spara GEO-RAM-avbildning vid ändringar"
+msgstr "Spara EEPROM-avbildning vid ändringar"
 
 #: src/arch/amigaos/intl_text.c.po.c:6166
 msgid "EEPROM read/write"
@@ -9533,59 +9460,48 @@ msgid "Select External Palette file"
 msgstr "Använd en extern palett (fil)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6573
-#, fuzzy
 msgid "Scanline shade (0..1)"
 msgstr "Skuggning av skannlinjer (0..1)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6628
-#, fuzzy
 msgid "External VICII palette"
-msgstr "Extern palett"
+msgstr "Extern VICII-palett"
 
 #: src/arch/amigaos/intl_text.c.po.c:6639
-#, fuzzy
 msgid "External VIC palette"
-msgstr "Extern palett"
+msgstr "Extern VIC-palett"
 
 #: src/arch/amigaos/intl_text.c.po.c:6650
-#, fuzzy
 msgid "External TED palette"
-msgstr "Extern palett"
+msgstr "Extern TED-palett"
 
 #: src/arch/amigaos/intl_text.c.po.c:6661
-#, fuzzy
 msgid "External VDC palette"
-msgstr "Extern palett"
+msgstr "Extern VDC-palett"
 
 #: src/arch/amigaos/intl_text.c.po.c:6672
-#, fuzzy
 msgid "External CRTC palette"
-msgstr "Extern palett"
+msgstr "Extern CRTC-palett"
 
 #: src/arch/amigaos/intl_text.c.po.c:6683
-#, fuzzy
 msgid "VICII palette file"
-msgstr "Läs in VICII-palettfil"
+msgstr "VICII-palettfil"
 
 #: src/arch/amigaos/intl_text.c.po.c:6694
-#, fuzzy
 msgid "VIC palette file"
-msgstr "Läs in VICII-palettfil"
+msgstr "VIC-palettfil"
 
 #: src/arch/amigaos/intl_text.c.po.c:6705
-#, fuzzy
 msgid "TED palette file"
-msgstr "Läs in VDC-palettfil"
+msgstr "TED-palettfil"
 
 #: src/arch/amigaos/intl_text.c.po.c:6716
-#, fuzzy
 msgid "VDC palette file"
-msgstr "Läs in VDC-palettfil"
+msgstr "VDC-palettfil"
 
 #: src/arch/amigaos/intl_text.c.po.c:6727
-#, fuzzy
 msgid "CRTC palette file"
-msgstr "Läs in VDC-palettfil"
+msgstr "CRTC-palettfil"
 
 #: src/arch/amigaos/intl_text.c.po.c:6815
 msgid "256 Byte"
@@ -9596,9 +9512,8 @@ msgid "2 kByte"
 msgstr "2 kbyte"
 
 #: src/arch/amigaos/intl_text.c.po.c:6848
-#, fuzzy
 msgid "Text"
-msgstr "Nästa: "
+msgstr "Text"
 
 #: src/arch/amigaos/intl_text.c.po.c:6870
 msgid "Set PET Model"
@@ -9657,12 +9572,10 @@ msgid "Drive ROM settings"
 msgstr "ROM-inställningar för diskettenhet"
 
 #: src/arch/amigaos/intl_text.c.po.c:7145
-#, fuzzy
 msgid "DigiMAX Enabled"
-msgstr "Digimax aktiverad"
+msgstr "DigiMAX aktiverad"
 
 #: src/arch/amigaos/intl_text.c.po.c:7167
-#, fuzzy
 msgid "DigiMAX settings"
 msgstr "DigiMAX-inställningar"
 
@@ -10985,20 +10898,16 @@ msgid "<model>"
 msgstr "<modell>"
 
 #: src/translate_text.c.po.c:3375
-#, fuzzy
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
-msgstr ""
-"Välj båda CIA-modellerna (0 = gammal 6526, 1 = ny 2526A, 2 = gammal 6526x)"
+msgstr "Välj båda CIA-modellerna (0 = gammal 6526, 1 = ny 2526A)"
 
 #: src/translate_text.c.po.c:3389
-#, fuzzy
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
-msgstr "Välj CIA 1-modell (0 = gammal 6526, 1 = ny 2526A, 2 = gammal 6526x)"
+msgstr "Välj CIA 1-modell (0 = gammal 6526, 1 = ny 2526A)"
 
 #: src/translate_text.c.po.c:3403
-#, fuzzy
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
-msgstr "Välj CIA 2-modell (0 = gammal 6526, 1 = ny 2526A, 2 = gammal 6526x)"
+msgstr "Välj CIA 2-modell (0 = gammal 6526, 1 = ny 2526A)"
 
 #: src/translate_text.c.po.c:3417
 msgid "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
@@ -11035,19 +10944,16 @@ msgid "Disable Hummer ADC"
 msgstr "Inaktivera Hummer-A/D-omvandlare"
 
 #: src/translate_text.c.po.c:3545
-#, fuzzy
 msgid "Enable IEEE488 interface"
-msgstr "Aktivera VIC-1112-IEEE488-gränssnitt"
+msgstr "Aktivera IEEE488-gränssnitt"
 
 #: src/translate_text.c.po.c:3559
-#, fuzzy
 msgid "Disable IEEE488 interface"
-msgstr "Inaktivera VIC-1112-IEEE488-gränssnitt"
+msgstr "Inaktivera IEEE488-gränssnitt"
 
 #: src/translate_text.c.po.c:3573
-#, fuzzy
 msgid "specify IEEE488 interface image name"
-msgstr "IEEE488-gränssnittsfil..."
+msgstr "ange namn på IEEE488-gränssnittsfil"
 
 #: src/translate_text.c.po.c:3587
 msgid "Enable the GEORAM expansion unit"
@@ -11062,14 +10968,12 @@ msgid "Specify name of GEORAM image"
 msgstr "Ange namn på GEORAM-avbildning"
 
 #: src/translate_text.c.po.c:3629
-#, fuzzy
 msgid "Allow writing to GEORAM image"
-msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Tillåt skrivning till GEORAM-avbildning"
 
 #: src/translate_text.c.po.c:3643
-#, fuzzy
 msgid "Do not write to GEORAM image"
-msgstr "Aktivera skrivning till EEPROM-avbildning"
+msgstr "Skriv inte till GEORAM-avbildning"
 
 #: src/translate_text.c.po.c:3657
 msgid "<size in KB>"
@@ -11100,23 +11004,20 @@ msgid "Specify name of PET DWW image"
 msgstr "Ange namn på PET DWW-avbildning"
 
 #: src/translate_text.c.po.c:3755
-#, fuzzy
 msgid "Enable the PET DWW hi-res board"
-msgstr "Inaktivera PET DWW-högupplösningskort"
+msgstr "Aktivera PET DWW-högupplösningskort"
 
 #: src/translate_text.c.po.c:3769
 msgid "Disable the PET DWW hi-res board"
 msgstr "Inaktivera PET DWW-högupplösningskort"
 
 #: src/translate_text.c.po.c:3783
-#, fuzzy
 msgid "Enable Userport DAC for sound output"
-msgstr "Aktivera D/A-omvandlare på användarporten"
+msgstr "Aktivera D/A-omvandlare på användarporten för ljudutdata"
 
 #: src/translate_text.c.po.c:3797
-#, fuzzy
 msgid "Disable Userport DAC for sound output"
-msgstr "Aktivera D/A-omvandlare på användarporten"
+msgstr "Inaktivera D/A-omvandlare på användarporten för ljudutdata"
 
 #: src/translate_text.c.po.c:3811
 msgid "SID player mode"
@@ -11143,14 +11044,12 @@ msgid "Specify name of RAMCART image"
 msgstr "Ange namn på RAMCART-avbildning"
 
 #: src/translate_text.c.po.c:3895
-#, fuzzy
 msgid "Allow writing to RAMCart image"
-msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Tillåt skrivning till RAMCart-avbildning"
 
 #: src/translate_text.c.po.c:3909
-#, fuzzy
 msgid "Do not write to RAMCart image"
-msgstr "Aktivera skrivning till kortavbildning"
+msgstr "Skriv inte till RAMCart-avbildning"
 
 #: src/translate_text.c.po.c:3923
 msgid "Size of the RAMCART expansion"
@@ -11169,14 +11068,12 @@ msgid "Specify Double Quick Brown Box filename"
 msgstr "Ange filnamn för Double Quick Brown Box"
 
 #: src/translate_text.c.po.c:3979
-#, fuzzy
 msgid "Allow writing to DQBB image"
-msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Tillåt skrivning till DQBB-avbildning"
 
 #: src/translate_text.c.po.c:3993
-#, fuzzy
 msgid "Do not write to DQBB image"
-msgstr "Aktivera skrivning till kortavbildning"
+msgstr "Skriv inte till DQBB-avbildning"
 
 #: src/translate_text.c.po.c:4007
 msgid "Enable the ISEPIC cart"
@@ -11187,19 +11084,16 @@ msgid "Disable the ISEPIC cart"
 msgstr "Inaktivera ISEPIC-modul"
 
 #: src/translate_text.c.po.c:4035
-#, fuzzy
 msgid "Set ISEPIC image name"
-msgstr "&Spara ISEPIC-avbildning vid ändringar"
+msgstr "Namn på ISEPIC-avbildning"
 
 #: src/translate_text.c.po.c:4049
-#, fuzzy
 msgid "Allow writing to ISEPIC image"
-msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Tillåt skrivning till ISEPIC-avbildning"
 
 #: src/translate_text.c.po.c:4063
-#, fuzzy
 msgid "Do not write to ISEPIC image"
-msgstr "Aktivera skrivning till EEPROM-avbildning"
+msgstr "Skriv inte till ISEPIC-avbildning"
 
 #: src/translate_text.c.po.c:4077
 msgid "Enable the MMC64 expansion"
@@ -11262,14 +11156,12 @@ msgid "Disable MMC Replay rescue mode"
 msgstr "Inaktivera MMC Replay-räddningsläge"
 
 #: src/translate_text.c.po.c:4287
-#, fuzzy
 msgid "Allow writing to MMC Replay image"
-msgstr "Aktivera skrivning till MMC Replay-kortavbildning"
+msgstr "Tillåt skrivning till MMC Replay-avbildning"
 
 #: src/translate_text.c.po.c:4301
-#, fuzzy
 msgid "Do not write to MMC Replay image"
-msgstr "Aktivera skrivning till MMC Replay-kortavbildning"
+msgstr "Skriv inte till MMC Replay-avbildning"
 
 #: src/translate_text.c.po.c:4315
 msgid "Enable saving of the RR ROM at exit"
@@ -11304,14 +11196,12 @@ msgid "Specify name of REU image"
 msgstr "Ange namn på REU-avbildning"
 
 #: src/translate_text.c.po.c:4441
-#, fuzzy
 msgid "Allow writing to REU image"
-msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Tillåt skrivning till REU-avbildning"
 
 #: src/translate_text.c.po.c:4455
-#, fuzzy
 msgid "Do not write to REU image"
-msgstr "Aktivera skrivning till EEPROM-avbildning"
+msgstr "Skriv inte till REU-avbildning"
 
 #: src/translate_text.c.po.c:4469
 msgid "Size of the RAM expansion unit"
@@ -11354,92 +11244,76 @@ msgid "Attach generic 16KB cartridge image"
 msgstr "Anslut vanlig 16KB-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4625
-#, fuzzy
 msgid "Attach generic 16kB Ultimax cartridge image"
-msgstr "Anslut vanlig 16KB-insticksmodulfil"
+msgstr "Anslut vanlig 16KB Ultimax-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4639
-#, fuzzy
 msgid "Attach raw 16KB Stardos cartridge image"
-msgstr "Anslut rå 16KB StarDOS-insticksmodulfil"
+msgstr "Anslut rå 16KB Stardos-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4653
-#, fuzzy
 msgid "Attach raw 32KB Action Replay MK4 cartridge image"
-msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
+msgstr "Anslut rå 32KB-Action Replay MK4-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4667
-#, fuzzy
 msgid "Attach raw 16kB Action Replay MK2 cartridge image"
-msgstr "Anslut rå 16KB-Action Replay III-insticksmodulfil"
+msgstr "Anslut rå 16KB-Action Replay MK2-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4681
-#, fuzzy
 msgid "Attach raw 16KB Action Replay MK3 cartridge image"
-msgstr "Anslut rå 16KB-Action Replay III-insticksmodulfil"
+msgstr "Anslut rå 16KB-Action Replay MK3-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4695
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4709
-#, fuzzy
 msgid "Attach raw 8kB Capture cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8KB Capture-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4723
-#, fuzzy
 msgid "Attach raw 64kB Comal 80 cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 64kB Comal 80-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4737
-#, fuzzy
 msgid "Attach raw Dela EP256 cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå dela EP256-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4751
-#, fuzzy
 msgid "Attach raw Dela EP64 cartridge image"
-msgstr "Anslut rå 64KB IDE64-insticksmodulfil"
+msgstr "Anslut rå Dela EP64-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4765
-#, fuzzy
 msgid "Attach raw Dela EP7x8 cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå Dela EP7x8-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4779
-#, fuzzy
 msgid "Attach raw 128kB Dinamic cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 12kB Dinamic-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4793
-#, fuzzy
 msgid "Attach raw 8kB Diashow-Maker cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB Diashow-Maker-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4807
-#, fuzzy
 msgid "Attach raw 16kB Double Quick Brown Box cartridge image"
-msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
+msgstr "Anslut rå 16KB Double Quick Brown Box-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4821
-#, fuzzy
 msgid "Attach raw EasyFlash cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå EasyFlash-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4835
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "Anslut rå 64KB-Retro Replay-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4849
-#, fuzzy
 msgid "Attach raw 8kB REX Utility cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB REX Utility-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4863
-#, fuzzy
 msgid "Attach raw 4kB Snapshot 64 cartridge image"
-msgstr "Anslut rå 32KB Super Snapshot 4-insticksmodulfil"
+msgstr "Anslut rå 4kB Snapshot 64-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4877
 msgid "Attach raw 64KB IDE64 cartridge image"
@@ -11450,192 +11324,156 @@ msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4905
-#, fuzzy
 msgid "Attach raw 8KB Epyx FastLoad cartridge image"
-msgstr "Anslut rå 8KB Epyx fastload-insticksmodulfil"
+msgstr "Anslut rå 8KB Epyx FastLoad-insticksmodulfil"
 
 #: src/translate_text.c.po.c:4919
-#, fuzzy
 msgid "Attach raw 8kB EXOS cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB EXOS-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:4933
-#, fuzzy
 msgid "Attach raw 8kB Expert Cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB Expert Cartridge-avbilding"
 
 #: src/translate_text.c.po.c:4947
-#, fuzzy
 msgid "Attach raw 16kB Final Cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16kB Final Cartridge-avbilding"
 
 #: src/translate_text.c.po.c:4961
-#, fuzzy
 msgid "Attach raw 64kB Final Cartridge III image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 64kB Final Cartridge III-avbilding"
 
 #: src/translate_text.c.po.c:4975
-#, fuzzy
 msgid "Attach raw 32kB Final Cartridge Plus image"
-msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
+msgstr "Anslut rå 32kB Final Cartridge Plus-fil"
 
 #: src/translate_text.c.po.c:4989
-#, fuzzy
 msgid "Attach raw 8kB Freeze Frame image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB Freeze Frame-avbilding"
 
 #: src/translate_text.c.po.c:5003
-#, fuzzy
 msgid "Attach raw 32kB Freeze Machine image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 32kB Freeze Machine-avbilding"
 
 #: src/translate_text.c.po.c:5017
-#, fuzzy
 msgid "Attach raw 128kB Fun Play/Power Play cartridge image"
-msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
+msgstr "Anslut rå 128kB Fun Play/Power Play-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5031
-#, fuzzy
 msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
-msgstr "Anslut rå 32KB Super Snapshot 4-insticksmodulfil"
+msgstr "Anslut rå 32KB Super Snapshot V4-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5045
-#, fuzzy
 msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
-msgstr "Anslut rå 64KB-Super Snapshot 5-insticksmodulfil"
+msgstr "Anslut rå 64KB-Super Snapshot V5-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5059
-#, fuzzy
 msgid "Attach CBM IEEE-488 cartridge image"
-msgstr "Anslut CBM IEEE488-insticksmodulfil"
+msgstr "Anslut CBM IEEE-488-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5073
-#, fuzzy
 msgid "Attach raw 2kB ISEPIC cartridge image"
-msgstr "Anslut rå 64KB IDE64-insticksmodulfil"
+msgstr "Anslut rå 2kB ISEPIC-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5087
-#, fuzzy
 msgid "Attach raw 16kB KCS Power cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16KB KCS Power-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5101
-#, fuzzy
 msgid "Attach raw 8kB MACH 5 cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB MACH 5-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5115
-#, fuzzy
 msgid "Attach raw 32/64/128kB Magic Desk cartridge image"
-msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
+msgstr "Anslut rå 32/64/128kB Magic Desk-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5129
-#, fuzzy
 msgid "Attach raw Magic Formel cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå Magic Romel-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5143
-#, fuzzy
 msgid "Attach raw 8kB Mikro Assembler cartridge image"
-msgstr "Anslut rå 8KB Game Killer-insticksmodulavbilding"
+msgstr "Anslut rå 8kB Mikro Assembler-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5157
-#, fuzzy
 msgid "Attach raw 8kB MMC64 cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB MMC64-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5171
-#, fuzzy
 msgid "Attach raw 512kB MMC Replay cartridge image"
-msgstr "Anslut MMC Replay-avbildningsfil"
+msgstr "Anslut rå 512kB MMC Replay-avbildningsfil"
 
 #: src/translate_text.c.po.c:5185
-#, fuzzy
 msgid "Attach raw 16kB Magic Voice cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16kB Magic Voice-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5199
-#, fuzzy
 msgid "Attach raw Ocean cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå Ocean-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5213
-#, fuzzy
 msgid "Attach raw 16KB Westermann Learning cartridge image"
-msgstr "Anslut rå 16KB-Westermann learning-insticksmodulfil"
+msgstr "Anslut rå 16KB Westermann Learning-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5227
-#, fuzzy
 msgid "Attach raw 8kB Warp Speed cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8kB-Warp Speed-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5241
-#, fuzzy
 msgid "Attach raw 16kB Zaxxon cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16kB Zaxxon-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5255
 msgid "Attach raw 256KB Prophet 64 cartridge image"
 msgstr "Anslut rå 256KB Prophet 64-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5269
-#, fuzzy
 msgid "Attach raw RamCart cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå RamCart-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5283
-#, fuzzy
 msgid "Attach raw REU cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå REU-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5297
-#, fuzzy
 msgid "Attach raw REX EP256 cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå REX EP256-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5311
-#, fuzzy
 msgid "Attach raw 16/32kB ROSS cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16/32kB ROSS-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5325
 msgid "Attach raw 8KB Game Killer cartridge image"
 msgstr "Anslut rå 8KB Game Killer-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5339
-#, fuzzy
 msgid "Attach raw GEO-RAM cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå GEO-RAM-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5353
-#, fuzzy
 msgid "Attach raw 512kB Game System cartridge image"
-msgstr "Anslut rå 8KB Game Killer-insticksmodulavbilding"
+msgstr "Anslut rå 512kB Game System-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:5367
-#, fuzzy
 msgid "Enable the Expert Cartridge"
-msgstr "&Aktivera Expert Cartridge"
+msgstr "Aktivera Expert Cartridge"
 
 #: src/translate_text.c.po.c:5381
-#, fuzzy
 msgid "Disable the Expert Cartridge"
-msgstr "Inaktivera Expert-insticksmodul"
+msgstr "Inaktivera Expert Cartridge"
 
 #: src/translate_text.c.po.c:5395
-#, fuzzy
 msgid "Set Expert Cartridge image name"
-msgstr "Expert-insticksmodulavbildning"
+msgstr "Välj Expert Cartridge-modulfil"
 
 #: src/translate_text.c.po.c:5409
-#, fuzzy
 msgid "Allow writing to Expert Cartridge image"
-msgstr "Expert-insticksmodulavbildning"
+msgstr "Tillåt skrivning till Expert Cartridge-avbildning"
 
 #: src/translate_text.c.po.c:5423
-#, fuzzy
 msgid "Do not write to Expert Cartridge image"
-msgstr "Expert-insticksmodulavbildning"
+msgstr "Skriv inte till Expert Cartridge-avbildning"
 
 #: src/translate_text.c.po.c:5437
 msgid "Disable default cartridge"
@@ -11667,11 +11505,11 @@ msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 
 #: src/translate_text.c.po.c:5549
 msgid "Emulate version 4 hardware"
-msgstr ""
+msgstr "Emulera version 4-maskinvara"
 
 #: src/translate_text.c.po.c:5563
 msgid "Emulate pre version 4 hardware"
-msgstr ""
+msgstr "Emulera för-version 4-maskinvara"
 
 #: src/translate_text.c.po.c:5577
 msgid "<modelnumber>"
@@ -12108,19 +11946,16 @@ msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Ställ in mättnad på internt beräknad palett [1000]"
 
 #: src/translate_text.c.po.c:7023
-#, fuzzy
 msgid "Set contrast of internal calculated palette [1000]"
-msgstr "Ställ in kontrast på internt beräknad palett [1100]"
+msgstr "Ställ in kontrast på internt beräknad palett [1000]"
 
 #: src/translate_text.c.po.c:7037
-#, fuzzy
 msgid "Set brightness of internal calculated palette [1000]"
-msgstr "Ställ in ljusstyrka på internt beräknad palett [1100]"
+msgstr "Ställ in ljusstyrka på internt beräknad palett [1000]"
 
 #: src/translate_text.c.po.c:7051
-#, fuzzy
 msgid "Set gamma of internal calculated palette [2200]"
-msgstr "Ställ in gamma på internt beräknad palett [900]"
+msgstr "Ställ in gamma på internt beräknad palett [2200]"
 
 #: src/translate_text.c.po.c:7065
 msgid "Set tint of internal calculated palette [1000]"
@@ -12136,11 +11971,11 @@ msgstr "Välj fasutjämning för färgbärarvåg på udda rader [1250]"
 
 #: src/translate_text.c.po.c:7107
 msgid "Amount of horizontal blur for the CRT emulation. [500]"
-msgstr ""
+msgstr "Mängd horisontell oskärpa för CRT-emulering. [500]"
 
 #: src/translate_text.c.po.c:7121
 msgid "Amount of scan line shading for the CRT emulation [667]"
-msgstr ""
+msgstr "Mängd skannlinjeskuggning i CRT-emuleringen [667]"
 
 #: src/translate_text.c.po.c:7135
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
@@ -12388,6 +12223,8 @@ msgid ""
 "reSID filter bias setting, which can be used to adjust DAC bias in "
 "millivolts."
 msgstr ""
+"Bias-inställning för reSID-filter, vilket kan användas för att justera D/A-"
+"bias i millivolt."
 
 #: src/translate_text.c.po.c:7946
 msgid "reSID gain in percent (90 - 100)"
@@ -12799,7 +12636,7 @@ msgstr "Ange namn på loggfil"
 
 #: src/translate_text.c.po.c:9357
 msgid "Enable verbose log output."
-msgstr ""
+msgstr "Aktivera pratsam loggutdata."
 
 #: src/translate_text.c.po.c:9371
 msgid "Enable mouse grab"
@@ -12971,19 +12808,16 @@ msgid "Attach raw Structured Basic cartridge image"
 msgstr "Anslut rå Strucured Basic-insticksmodulfil"
 
 #: src/translate_text.c.po.c:9987
-#, fuzzy
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
-msgstr "Anslut rå 64KB-Super Snapshot 5-insticksmodulfil"
+msgstr "Anslut rå 16kB Super Explode V5-insticksmodulfil"
 
 #: src/translate_text.c.po.c:10001
-#, fuzzy
 msgid "Attach raw 64kB Super Games cartridge image"
-msgstr "Anslut rå 64KB-Super Snapshot 5-insticksmodulfil"
+msgstr "Anslut rå 64kB-Super Games-insticksmodulfil"
 
 #: src/translate_text.c.po.c:10015
-#, fuzzy
 msgid "Attach raw 16kB Simons Basic cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16kB Simons Basic-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:10029
 msgid "Enable the CSORY 256K RAM expansion"
@@ -13156,6 +12990,24 @@ msgstr "Inaktivera DigiMAX-insticksmodul"
 #: src/translate_text.c.po.c:10605
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basadress för DigiMAC-insticksmodulen"
+
+#~ msgid "Copyright (c) 1998-2010 Andreas Boose"
+#~ msgstr "Upphovsrättsskyddad © 1998-2010 Andreas Boose"
+
+#~ msgid "Copyright (c) 1998-2010 Tibor Biczo"
+#~ msgstr "Upphovsrättsskyddad © 1998-2010 Tibor Biczo"
+
+#~ msgid "Copyright (c) 1999-2007 Andreas Dehmel"
+#~ msgstr "Upphovsrättsskyddad © 1999-2007 Andreas Dehmel"
+
+#~ msgid "Copyright (c) 1999-2005 Thomas Bretz"
+#~ msgstr "Upphovsrättsskyddad © 1999-2005 Thomas Bretz"
+
+#~ msgid "Copyright (c) 2003-2005 David Hansel"
+#~ msgstr "Upphovsrättsskyddad © 2003-2005 David Hansel"
+
+#~ msgid "Copyright (c) 2000-2004 Markus Brenner"
+#~ msgstr "Upphovsrättsskyddad © 2000-2004 Markus Brenner"
 
 #~ msgid "6526x (old with timer B bug)"
 #~ msgstr "6526x (gammal med timer B-fel)"
