@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-14 20:48+0100\n"
-"PO-Revision-Date: 2011-02-15 19:31+0100\n"
+"POT-Creation-Date: 2011-02-16 20:33+0100\n"
+"PO-Revision-Date: 2011-02-16 20:46+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice-dk@symlink.dk>\n"
 "Language-Team: Danish <vice-dk@symlink.dk>\n"
 "Language: da\n"
@@ -3660,11 +3660,11 @@ msgstr "Bidragsydere til VICE-projektet"
 msgid "The VICE Team"
 msgstr "VICE-teamet"
 
-#: src/arch/unix/x11/gnome/about.c:87 src/arch/unix/x11/xaw/about.c:164
+#: src/arch/unix/x11/gnome/about.c:83 src/arch/unix/x11/xaw/about.c:160
 msgid "Official VICE homepage:"
 msgstr "Officiel VICE-hjemmeside:"
 
-#: src/arch/unix/x11/gnome/about.c:101
+#: src/arch/unix/x11/gnome/about.c:97
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -3686,20 +3686,20 @@ msgstr ""
 "Emir Akaydin (aka: Skate) - tyrkisk\n"
 "Mikkel Holm Olsen - Dansk\n"
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:113
 msgid "(c) 1998 - 2010 The VICE Team"
 msgstr "(c) 1998 - 2010 Vice-teamet"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1020
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1020
 #: src/arch/amigaos/intl_text.c.po.c:2392
 msgid "License"
 msgstr "Licens"
 
-#: src/arch/unix/x11/gnome/about.c:126
+#: src/arch/unix/x11/gnome/about.c:122
 msgid "Warranty"
 msgstr "Garanti"
 
-#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl_text.c.po.c:2381
+#: src/arch/unix/x11/gnome/about.c:124 src/arch/amigaos/intl_text.c.po.c:2381
 msgid "Contributors"
 msgstr "Bidragsydere"
 
@@ -4134,7 +4134,7 @@ msgstr "Angiv farvedybde for X-display (1..32)"
 msgid "Desktop"
 msgstr "Skrivebord"
 
-#: src/arch/unix/x11/xaw/about.c:170 src/arch/win32/res.rc.po.c:900
+#: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:900
 msgid "VICE Information"
 msgstr "VICE-information"
 
@@ -4456,45 +4456,31 @@ msgid "Copyright (c) 2007-2011 Fabrizio Gennari"
 msgstr "Copyright (c) 2007-2011 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-msgid "Copyright (c) 2007-2011 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2011 Hannu Nuotio"
-
-#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2007-2011 Daniel Kahlin"
 msgstr "Copyright (c) 2007-2011 Daniel Kahlin"
 
-#: src/arch/win32/res.rc.po.c:190
+#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2008-2011 Antti S. Lankila"
 msgstr "Copyright (c) 2008-2011 Antti S. Lankila"
 
+#: src/arch/win32/res.rc.po.c:190
+msgid "Copyright (c) 2009-2011 Groepaz"
+msgstr "Copyright (c) 2009-2011 Groepaz"
+
 #: src/arch/win32/res.rc.po.c:191
-msgid "Copyright (c) 1998-2010 Andreas Boose"
-msgstr "Copyright (c) 1998-2010 Andreas Boose"
+msgid "Copyright (c) 2009-2011 Ingo Korb"
+msgstr "Copyright (c) 2009-2011 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-msgid "Copyright (c) 1998-2010 Tibor Biczo"
-msgstr "Copyright (c) 1998-2010 Tibor Biczo"
+msgid "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Copyright (c) 2009-2011 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-msgid "Copyright (c) 2007-2010 M. Kiesel"
-msgstr "Copyright (c) 2007-2010 M. Kiesel"
+msgid "Copyright (c) 2010-2011 Olaf Seibert"
+msgstr "Copyright (c) 2010-2011 Olaf Seibert"
 
-#: src/arch/win32/res.rc.po.c:194
-msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
-
-#: src/arch/win32/res.rc.po.c:195
-msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr "Copyright (c) 1999-2005 Thomas Bretz"
-
-#: src/arch/win32/res.rc.po.c:196
-msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr "Copyright (c) 2003-2005 David Hansel"
-
-#: src/arch/win32/res.rc.po.c:197
-msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
-
+#: src/arch/win32/res.rc.po.c:194 src/arch/win32/res.rc.po.c:195
+#: src/arch/win32/res.rc.po.c:196 src/arch/win32/res.rc.po.c:197
 #: src/arch/win32/res.rc.po.c:198
 msgid " "
 msgstr " "
@@ -12986,6 +12972,24 @@ msgstr "Deaktivér DigiMAX cartridge"
 #: src/translate_text.c.po.c:10605
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Baseadresse for DigiMAX cartridge"
+
+#~ msgid "Copyright (c) 1998-2010 Andreas Boose"
+#~ msgstr "Copyright (c) 1998-2010 Andreas Boose"
+
+#~ msgid "Copyright (c) 1998-2010 Tibor Biczo"
+#~ msgstr "Copyright (c) 1998-2010 Tibor Biczo"
+
+#~ msgid "Copyright (c) 1999-2007 Andreas Dehmel"
+#~ msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
+
+#~ msgid "Copyright (c) 1999-2005 Thomas Bretz"
+#~ msgstr "Copyright (c) 1999-2005 Thomas Bretz"
+
+#~ msgid "Copyright (c) 2003-2005 David Hansel"
+#~ msgstr "Copyright (c) 2003-2005 David Hansel"
+
+#~ msgid "Copyright (c) 2000-2004 Markus Brenner"
+#~ msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #~ msgid "6526x (old with timer B bug)"
 #~ msgstr "6526x (gammel med timer B fejl)"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-03 21:39+0100\n"
-"PO-Revision-Date: 2011-02-02 00:27+0100\n"
+"POT-Creation-Date: 2011-02-16 20:33+0100\n"
+"PO-Revision-Date: 2011-02-16 20:45+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
 "Language: \n"
@@ -1052,85 +1052,85 @@ msgstr "Taban adresi"
 msgid "Image name..."
 msgstr "Ýmaj ismi..."
 
-#: src/arch/unix/gui/uic64cart.c:56 src/arch/unix/gui/vic20ui.c:251
+#: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/vic20ui.c:251
 msgid "Attach cartridge image"
 msgstr "Kartuþ imajý yerleþtir"
 
-#: src/arch/unix/gui/uic64cart.c:60
+#: src/arch/unix/gui/uic64cart.c:59
 msgid "Cannot attach cartridge"
 msgstr "Kartuþ yerleþtirilemedi"
 
-#: src/arch/unix/gui/uic64cart.c:103
+#: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image..."
 msgstr "Akýllý CRT imajý yerleþtir..."
 
-#: src/arch/unix/gui/uic64cart.c:107
+#: src/arch/unix/gui/uic64cart.c:106
 msgid "Attach generic 8kB image..."
 msgstr "8kB jenerik imaj yerleþtir..."
 
-#: src/arch/unix/gui/uic64cart.c:110
+#: src/arch/unix/gui/uic64cart.c:109
 msgid "Attach generic 16kB image..."
 msgstr "16kB jenerik imaj yerleþtir..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:115
+#: src/arch/unix/gui/uic64cart.c:114
 msgid "Attach Action Replay V5 image..."
 msgstr "Action Replay V5 imajý yerleþtir..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:119
+#: src/arch/unix/gui/uic64cart.c:118
 msgid "Attach Atomic Power image..."
 msgstr "Atomic Power imajý yerleþtir..."
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:123
+#: src/arch/unix/gui/uic64cart.c:122
 msgid "Attach EasyFlash image..."
 msgstr "EasyFlash imajý yerleþtir..."
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:127
+#: src/arch/unix/gui/uic64cart.c:126
 msgid "Attach Epyx FastLoad image..."
 msgstr "Epyx FastLoad imajý yerleþtir..."
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:131
+#: src/arch/unix/gui/uic64cart.c:130
 msgid "Attach IDE64 image..."
 msgstr "IDE64 imajý yerleþtir..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:135
+#: src/arch/unix/gui/uic64cart.c:134
 msgid "Attach Magic Formel image..."
 msgstr "Magic Formel imajý yerleþtir..."
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:139
+#: src/arch/unix/gui/uic64cart.c:138
 msgid "Attach MMC Replay image..."
 msgstr "MMC Replay imajý yerleþtir..."
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:143
+#: src/arch/unix/gui/uic64cart.c:142
 msgid "Attach Retro Replay image..."
 msgstr "Retro Replay imajý yerleþtir..."
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:147
+#: src/arch/unix/gui/uic64cart.c:146
 msgid "Attach Super Snapshot V5 image..."
 msgstr "Super Snapshot V5 imajý yerleþtir..."
 
-#: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:318
+#: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/amigaos/intl_text.c.po.c:676
 msgid "Set cartridge as default"
 msgstr "Kartuþu varsayýlan yap"
 
-#: src/arch/unix/gui/uic64cart.c:157 src/arch/unix/gui/vic20ui.c:355
+#: src/arch/unix/gui/uic64cart.c:156 src/arch/unix/gui/vic20ui.c:355
 msgid "Attach a cartridge image"
 msgstr "Bir kartuþ imajý yerleþtir"
 
-#: src/arch/unix/gui/uic64cart.c:159 src/arch/amigaos/intl_text.c.po.c:423
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/amigaos/intl_text.c.po.c:423
 msgid "Detach cartridge image"
 msgstr "Kartuþ imajýný çýkart"
 
-#: src/arch/unix/gui/uic64cart.c:161 src/arch/amigaos/intl_text.c.po.c:698
+#: src/arch/unix/gui/uic64cart.c:160 src/arch/amigaos/intl_text.c.po.c:698
 msgid "Cartridge freeze"
 msgstr "Kartuþ freeze"
 
@@ -3661,11 +3661,11 @@ msgstr "VICE projesine katkýda bulunanlar"
 msgid "The VICE Team"
 msgstr "The VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:87 src/arch/unix/x11/xaw/about.c:164
+#: src/arch/unix/x11/gnome/about.c:83 src/arch/unix/x11/xaw/about.c:160
 msgid "Official VICE homepage:"
 msgstr "Resmi VICE web sitesi:"
 
-#: src/arch/unix/x11/gnome/about.c:101
+#: src/arch/unix/x11/gnome/about.c:97
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -3687,20 +3687,20 @@ msgstr ""
 "Emir Akaydýn (aka: Skate) - Türkçe\n"
 "Mikkel Holm Olsen - Danimarkaca\n"
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:113
 msgid "(c) 1998 - 2010 The VICE Team"
 msgstr "(c) 1998 - 2010 The VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1020
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1020
 #: src/arch/amigaos/intl_text.c.po.c:2392
 msgid "License"
 msgstr "Lisans"
 
-#: src/arch/unix/x11/gnome/about.c:126
+#: src/arch/unix/x11/gnome/about.c:122
 msgid "Warranty"
 msgstr "Garanti"
 
-#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl_text.c.po.c:2381
+#: src/arch/unix/x11/gnome/about.c:124 src/arch/amigaos/intl_text.c.po.c:2381
 msgid "Contributors"
 msgstr "Katýlýmcýlar"
 
@@ -4135,7 +4135,7 @@ msgstr "X görüntü derinliðini belirleyin (1..32)"
 msgid "Desktop"
 msgstr "Masaüstü"
 
-#: src/arch/unix/x11/xaw/about.c:170 src/arch/win32/res.rc.po.c:900
+#: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:900
 msgid "VICE Information"
 msgstr "VICE Bilgisi"
 
@@ -4459,45 +4459,31 @@ msgid "Copyright (c) 2007-2011 Fabrizio Gennari"
 msgstr "Copyright (c) 2007-2011 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-msgid "Copyright (c) 2007-2011 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2011 Hannu Nuotio"
-
-#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2007-2011 Daniel Kahlin"
 msgstr "Copyright (c) 2007-2011 Daniel Kahlin"
 
-#: src/arch/win32/res.rc.po.c:190
+#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2008-2011 Antti S. Lankila"
 msgstr "Copyright (c) 2008-2011 M. Kiesel"
 
+#: src/arch/win32/res.rc.po.c:190
+msgid "Copyright (c) 2009-2011 Groepaz"
+msgstr "Copyright (c) 2009-2011 Groepaz"
+
 #: src/arch/win32/res.rc.po.c:191
-msgid "Copyright (c) 1998-2010 Andreas Boose"
-msgstr "Copyright (c) 1998-2010 Andreas Boose"
+msgid "Copyright (c) 2009-2011 Ingo Korb"
+msgstr "Copyright (c) 2009-2011 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-msgid "Copyright (c) 1998-2010 Tibor Biczo"
-msgstr "Copyright (c) 1998-2010 Tibor Biczo"
+msgid "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Copyright (c) 2009-2011 Error Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-msgid "Copyright (c) 2007-2010 M. Kiesel"
-msgstr "Copyright (c) 2007-2010 M. Kiesel"
+msgid "Copyright (c) 2010-2011 Olaf Seibert"
+msgstr "Copyright (c) 2010-2011 Olaf Seibert"
 
-#: src/arch/win32/res.rc.po.c:194
-msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
-
-#: src/arch/win32/res.rc.po.c:195
-msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr "Copyright (c) 1999-2005 Thomas Bretz"
-
-#: src/arch/win32/res.rc.po.c:196
-msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr "Copyright (c) 2003-2005 David Hansel"
-
-#: src/arch/win32/res.rc.po.c:197
-msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
-
+#: src/arch/win32/res.rc.po.c:194 src/arch/win32/res.rc.po.c:195
+#: src/arch/win32/res.rc.po.c:196 src/arch/win32/res.rc.po.c:197
 #: src/arch/win32/res.rc.po.c:198
 msgid " "
 msgstr " "
@@ -12999,6 +12985,24 @@ msgstr "DigiMAX kartuþunu pasifleþtir"
 #: src/translate_text.c.po.c:10605
 msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
+
+#~ msgid "Copyright (c) 1998-2010 Andreas Boose"
+#~ msgstr "Copyright (c) 1998-2010 Andreas Boose"
+
+#~ msgid "Copyright (c) 1998-2010 Tibor Biczo"
+#~ msgstr "Copyright (c) 1998-2010 Tibor Biczo"
+
+#~ msgid "Copyright (c) 1999-2007 Andreas Dehmel"
+#~ msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
+
+#~ msgid "Copyright (c) 1999-2005 Thomas Bretz"
+#~ msgstr "Copyright (c) 1999-2005 Thomas Bretz"
+
+#~ msgid "Copyright (c) 2003-2005 David Hansel"
+#~ msgstr "Copyright (c) 2003-2005 David Hansel"
+
+#~ msgid "Copyright (c) 2000-2004 Markus Brenner"
+#~ msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #~ msgid "6526x (old with timer B bug)"
 #~ msgstr "6526x (eski timer B hatalý)"

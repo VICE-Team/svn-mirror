@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-01 16:49-0800\n"
-"PO-Revision-Date: 2011-02-01 15:45-0800\n"
+"POT-Creation-Date: 2011-02-16 20:33+0100\n"
+"PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
@@ -33,8 +33,8 @@ msgid "Set device for extra joystick port 2"
 msgstr "Zet apparaat voor extra joystickpoort 2"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
-#: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
-#: src/arch/unix/macosx/mididrv.c:128 src/translate_text.c.po.c:2811
+#: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
+#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:2811
 msgid "<name>"
 msgstr "<naam>"
 
@@ -383,7 +383,7 @@ msgstr "VDC instellingen"
 
 #: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:511 src/arch/unix/gui/c64ui.c:571
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
+#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:338
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 #: src/arch/amigaos/intl_text.c.po.c:5693
 msgid "SID settings"
@@ -405,7 +405,7 @@ msgstr "RS232 instellingen"
 #: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
 #: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:385
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:687
-#: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:5
+#: src/arch/unix/gui/vsidui.c:399 src/arch/amigaos/intl_text.c.po.c:5
 msgid "File"
 msgstr "Bestand"
 
@@ -441,7 +441,7 @@ msgstr "Opties"
 #: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:715
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
 #: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:395
-#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:400
+#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:401
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1235
 #: src/arch/amigaos/intl_text.c.po.c:1534
 msgid "Settings"
@@ -969,7 +969,7 @@ msgid "Smart-attach a file"
 msgstr "Slim koppel een bestand"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2028
+#: src/arch/unix/x11/xaw/x11ui.c:2029
 msgid "Unknown image type"
 msgstr "Onbekend bestand type"
 
@@ -1053,85 +1053,85 @@ msgstr "Basisadres"
 msgid "Image name..."
 msgstr "Bestandsnaam..."
 
-#: src/arch/unix/gui/uic64cart.c:56 src/arch/unix/gui/vic20ui.c:251
+#: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/vic20ui.c:251
 msgid "Attach cartridge image"
 msgstr "Koppel cartridge bestand"
 
-#: src/arch/unix/gui/uic64cart.c:60
+#: src/arch/unix/gui/uic64cart.c:59
 msgid "Cannot attach cartridge"
 msgstr "Kan cartridge niet koppelen"
 
-#: src/arch/unix/gui/uic64cart.c:103
+#: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image..."
 msgstr "Slim koppel CRT bestand..."
 
-#: src/arch/unix/gui/uic64cart.c:107
+#: src/arch/unix/gui/uic64cart.c:106
 msgid "Attach generic 8kB image..."
 msgstr "Koppel algemeen 8kB bestand..."
 
-#: src/arch/unix/gui/uic64cart.c:110
+#: src/arch/unix/gui/uic64cart.c:109
 msgid "Attach generic 16kB image..."
 msgstr "Koppel algemeen 16kB bestand..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:115
+#: src/arch/unix/gui/uic64cart.c:114
 msgid "Attach Action Replay V5 image..."
 msgstr "Koppel Action Replay V5 bestand..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:119
+#: src/arch/unix/gui/uic64cart.c:118
 msgid "Attach Atomic Power image..."
 msgstr "Koppel Atomic Power bestand..."
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:123
+#: src/arch/unix/gui/uic64cart.c:122
 msgid "Attach EasyFlash image..."
 msgstr "Koppel EasyFlash bestand..."
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:127
+#: src/arch/unix/gui/uic64cart.c:126
 msgid "Attach Epyx FastLoad image..."
 msgstr "Koppel Epyx FastLoad bestand..."
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:131
+#: src/arch/unix/gui/uic64cart.c:130
 msgid "Attach IDE64 image..."
 msgstr "Koppel IDE64 bestand..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:135
+#: src/arch/unix/gui/uic64cart.c:134
 msgid "Attach Magic Formel image..."
 msgstr "Koppel Magic Formel bestand..."
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:139
+#: src/arch/unix/gui/uic64cart.c:138
 msgid "Attach MMC Replay image..."
 msgstr "Koppel MMC Replay bestand..."
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:143
+#: src/arch/unix/gui/uic64cart.c:142
 msgid "Attach Retro Replay image..."
 msgstr "Koppel Retro Replay bestand..."
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:147
+#: src/arch/unix/gui/uic64cart.c:146
 msgid "Attach Super Snapshot V5 image..."
 msgstr "Koppel Super Snapshot V5 bestand..."
 
-#: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:318
+#: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/amigaos/intl_text.c.po.c:676
 msgid "Set cartridge as default"
 msgstr "Zet cartridge als standaard"
 
-#: src/arch/unix/gui/uic64cart.c:157 src/arch/unix/gui/vic20ui.c:355
+#: src/arch/unix/gui/uic64cart.c:156 src/arch/unix/gui/vic20ui.c:355
 msgid "Attach a cartridge image"
 msgstr "Koppel een cartridge bestand"
 
-#: src/arch/unix/gui/uic64cart.c:159 src/arch/amigaos/intl_text.c.po.c:423
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/amigaos/intl_text.c.po.c:423
 msgid "Detach cartridge image"
 msgstr "Ontkoppel cartridge bestand"
 
-#: src/arch/unix/gui/uic64cart.c:161 src/arch/amigaos/intl_text.c.po.c:698
+#: src/arch/unix/gui/uic64cart.c:160 src/arch/amigaos/intl_text.c.po.c:698
 msgid "Cartridge freeze"
 msgstr "Cartridge freeze"
 
@@ -3135,7 +3135,7 @@ msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
 #: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1269
+#: src/arch/unix/x11/gnome/x11ui.c:1249 src/arch/unix/x11/xaw/x11ui.c:1270
 #: src/arch/win32/res.rc.po.c:904 src/arch/amigaos/intl_text.c.po.c:2733
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
@@ -3624,24 +3624,24 @@ msgstr "Laad PSID bestand"
 msgid "Load PSID file..."
 msgstr "Laad PSID bestand..."
 
-#: src/arch/unix/gui/vsidui.c:335
+#: src/arch/unix/gui/vsidui.c:336
 msgid "Override PSID settings"
 msgstr "Overschrijf PSID instellingen"
 
-#: src/arch/unix/gui/vsidui.c:339 src/arch/amigaos/intl_text.c.po.c:1435
+#: src/arch/unix/gui/vsidui.c:340 src/arch/amigaos/intl_text.c.po.c:1435
 msgid "Video standard"
 msgstr "Videostandaard"
 
-#: src/arch/unix/gui/vsidui.c:418
+#: src/arch/unix/gui/vsidui.c:419
 msgid "Default Tune"
 msgstr "Standaarddeuntje"
 
-#: src/arch/unix/gui/vsidui.c:438
+#: src/arch/unix/gui/vsidui.c:439
 #, c-format
 msgid "Tune %d"
 msgstr "Deuntje %d"
 
-#: src/arch/unix/gui/vsidui.c:465
+#: src/arch/unix/gui/vsidui.c:466
 msgid "VSID: The SID Emulator"
 msgstr "VSID: De SID Emulator"
 
@@ -3662,11 +3662,11 @@ msgstr "Medewerkers aan het VICE project"
 msgid "The VICE Team"
 msgstr "Het VICE team"
 
-#: src/arch/unix/x11/gnome/about.c:87 src/arch/unix/x11/xaw/about.c:164
+#: src/arch/unix/x11/gnome/about.c:83 src/arch/unix/x11/xaw/about.c:160
 msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
-#: src/arch/unix/x11/gnome/about.c:101
+#: src/arch/unix/x11/gnome/about.c:97
 msgid ""
 "Martin Pottendorfer - German\n"
 "Peter Krefting - Swedish\n"
@@ -3688,20 +3688,20 @@ msgstr ""
 "Emir Akaydin (aka: Skate) - Turkish\n"
 "Mikkel Holm Olsen - Danish\n"
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:113
 msgid "(c) 1998 - 2010 The VICE Team"
 msgstr "(c) 1998 - 2010 The VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1020
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1020
 #: src/arch/amigaos/intl_text.c.po.c:2392
 msgid "License"
 msgstr "Licentie"
 
-#: src/arch/unix/x11/gnome/about.c:126
+#: src/arch/unix/x11/gnome/about.c:122
 msgid "Warranty"
 msgstr "Garantie"
 
-#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl_text.c.po.c:2381
+#: src/arch/unix/x11/gnome/about.c:124 src/arch/amigaos/intl_text.c.po.c:2381
 msgid "Contributors"
 msgstr "Medewerkers"
 
@@ -3983,20 +3983,20 @@ msgstr "Drive %d: "
 msgid "Tape 000"
 msgstr "Tape 000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1254
+#: src/arch/unix/x11/gnome/x11ui.c:1231 src/arch/unix/x11/xaw/x11ui.c:1255
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1258
+#: src/arch/unix/x11/gnome/x11ui.c:1238 src/arch/unix/x11/xaw/x11ui.c:1259
 msgid "Do you really want to exit?"
 msgstr "Wilt u echt afsluiten?"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1266
+#: src/arch/unix/x11/gnome/x11ui.c:1246 src/arch/unix/x11/xaw/x11ui.c:1267
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1282 src/arch/unix/x11/gnome/x11ui.c:1284
-#: src/arch/unix/x11/xaw/x11ui.c:1334 src/arch/unix/x11/xaw/x11ui.c:1337
+#: src/arch/unix/x11/xaw/x11ui.c:1335 src/arch/unix/x11/xaw/x11ui.c:1338
 msgid "(warp)"
 msgstr "(warp)"
 
@@ -4007,7 +4007,7 @@ msgstr "(warp)"
 msgid "Tape %03d"
 msgstr "Tape %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1583
+#: src/arch/unix/x11/gnome/x11ui.c:1624 src/arch/unix/x11/xaw/x11ui.c:1584
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
@@ -4032,7 +4032,7 @@ msgstr "Monitor"
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1904
+#: src/arch/unix/x11/gnome/x11ui.c:2012 src/arch/unix/x11/xaw/x11ui.c:1905
 msgid "Extend disk image"
 msgstr "40-sporen schijfbestand"
 
@@ -4136,7 +4136,7 @@ msgstr "Geef een X-weergavediepte (1..32)"
 msgid "Desktop"
 msgstr "Desktop"
 
-#: src/arch/unix/x11/xaw/about.c:170 src/arch/win32/res.rc.po.c:900
+#: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:900
 msgid "VICE Information"
 msgstr "VICE informatie"
 
@@ -4212,20 +4212,20 @@ msgstr "Opslaan huidig gekoppelde disks:"
 msgid "Save currently loaded ROMs:"
 msgstr "Opslaan huidig geladen ROMs:"
 
-#: src/arch/unix/x11/xaw/x11ui.c:993
+#: src/arch/unix/x11/xaw/x11ui.c:994
 msgid "recording..."
 msgstr "opname..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1001
+#: src/arch/unix/x11/xaw/x11ui.c:1002
 msgid "event recording..."
 msgstr "gebeurtenis opname..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1438
+#: src/arch/unix/x11/xaw/x11ui.c:1439
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Spoor %.1f"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1776 src/arch/win32/res.rc.po.c:899
+#: src/arch/unix/x11/xaw/x11ui.c:1777 src/arch/win32/res.rc.po.c:899
 msgid "VICE Error!"
 msgstr "VICE Fout!"
 
@@ -4350,15 +4350,15 @@ msgstr "Zet 'Hat' schakelaar voor Joystick van HID A apparaat"
 msgid "Set Hat Switch for Joystick of HID B device"
 msgstr "Zet 'Hat' schakelaar voor joystick van HID B apparaat"
 
-#: src/arch/unix/macosx/mididrv.c:118
+#: src/arch/unix/macosx/mididrv.c:120
 msgid "Name of MIDI Client"
 msgstr "Naam van de MIDI client"
 
-#: src/arch/unix/macosx/mididrv.c:123
+#: src/arch/unix/macosx/mididrv.c:125
 msgid "Name of MIDI-In Port"
 msgstr "Naam van de MIDI-In poort"
 
-#: src/arch/unix/macosx/mididrv.c:128
+#: src/arch/unix/macosx/mididrv.c:130
 msgid "Name of MIDI-Out Port"
 msgstr "Naam van de MIDI-Out poort"
 
@@ -4460,45 +4460,31 @@ msgid "Copyright (c) 2007-2011 Fabrizio Gennari"
 msgstr "Copyright (c) 2007-2011 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-msgid "Copyright (c) 2007-2011 Hannu Nuotio"
-msgstr "Copyright (c) 2007-2011 Hannu Nuotio"
-
-#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2007-2011 Daniel Kahlin"
 msgstr "Copyright (c) 2007-2011 Daniel Kahlin"
 
-#: src/arch/win32/res.rc.po.c:190
+#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2008-2011 Antti S. Lankila"
 msgstr "Copyright (c) 2008-2011 Antti S. Lankila"
 
+#: src/arch/win32/res.rc.po.c:190
+msgid "Copyright (c) 2009-2011 Groepaz"
+msgstr "Copyright (c) 2009-2011 Groepaz"
+
 #: src/arch/win32/res.rc.po.c:191
-msgid "Copyright (c) 1998-2010 Andreas Boose"
-msgstr "Copyright (c) 1998-2010 Andreas Boose"
+msgid "Copyright (c) 2009-2011 Ingo Korb"
+msgstr "Copyright (c) 2009-2011 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-msgid "Copyright (c) 1998-2010 Tibor Biczo"
-msgstr "Copyright (c) 1998-2010 Tibor Biczo"
+msgid "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Copyright (c) 2009-2011 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-msgid "Copyright (c) 2007-2010 M. Kiesel"
-msgstr "Copyright (c) 2007-2010 M. Kiesel"
+msgid "Copyright (c) 2010-2011 Olaf Seibert"
+msgstr "Copyright (c) 2010-2011 Olaf Seibert"
 
-#: src/arch/win32/res.rc.po.c:194
-msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
-
-#: src/arch/win32/res.rc.po.c:195
-msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr "Copyright (c) 1999-2005 Thomas Bretz"
-
-#: src/arch/win32/res.rc.po.c:196
-msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr "Copyright (c) 2003-2005 David Hansel"
-
-#: src/arch/win32/res.rc.po.c:197
-msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
-
+#: src/arch/win32/res.rc.po.c:194 src/arch/win32/res.rc.po.c:195
+#: src/arch/win32/res.rc.po.c:196 src/arch/win32/res.rc.po.c:197
 #: src/arch/win32/res.rc.po.c:198
 msgid " "
 msgstr " "
@@ -13040,6 +13026,24 @@ msgstr "De DigiMAX cartridge uitschakelen"
 #: src/translate_text.c.po.c:10605
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basisadres van de DigiMAX cartridge"
+
+#~ msgid "Copyright (c) 1998-2010 Andreas Boose"
+#~ msgstr "Copyright (c) 1998-2010 Andreas Boose"
+
+#~ msgid "Copyright (c) 1998-2010 Tibor Biczo"
+#~ msgstr "Copyright (c) 1998-2010 Tibor Biczo"
+
+#~ msgid "Copyright (c) 1999-2007 Andreas Dehmel"
+#~ msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
+
+#~ msgid "Copyright (c) 1999-2005 Thomas Bretz"
+#~ msgstr "Copyright (c) 1999-2005 Thomas Bretz"
+
+#~ msgid "Copyright (c) 2003-2005 David Hansel"
+#~ msgstr "Copyright (c) 2003-2005 David Hansel"
+
+#~ msgid "Copyright (c) 2000-2004 Markus Brenner"
+#~ msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #~ msgid "6526x (old with timer B bug)"
 #~ msgstr "6526x (oud met timer B bug)"
