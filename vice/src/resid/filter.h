@@ -21,15 +21,6 @@
 #define RESID_FILTER_H
 
 #include "siddefs.h"
-#include <math.h>
-
-#ifndef HAVE_SQRTF_PROTOTYPE
-extern float sqrtf(float val);
-#endif
- 
-#ifndef HAVE_SQRTF
-#define sqrtf(val) (float)sqrt((double)val)
-#endif
 
 namespace reSID
 {
@@ -385,9 +376,6 @@ protected:
   void set_w0();
   void set_Q();
 
-  RESID_INLINE
-  static int isqrt(int x);
-
   // Filter enabled.
   bool enabled;
 
@@ -466,7 +454,7 @@ protected:
 
   // VCR - 6581 only.
   static unsigned short vcr_Vg[1 << 16];
-  static unsigned short vcr_n_Ids[1 << 16];
+  static unsigned short vcr_n_Ids_term[1 << 16];
   // Common parameters.
   static model_filter_t model_filter[2];
 
@@ -1426,39 +1414,67 @@ Using the formula for current through a capacitor, i = C*dv/dt, we get
   vc = n*(IRw(vi,vx) + IRs(vi,vx)) + vc0
   vc = n*(IRw(vi,g(vc)) + IRs(vi,g(vc))) + vc0
 
-A typical textbook transistor model is defined as follows:
+To accurately calculate the currents through Rs and Rw, we need to use
+transistor models. Rs has a gate voltage of Vdd = 12V, and can be
+assumed to always be in triode mode. For Rw, the situation is rather
+more complex, as it turns out that this transistor will operate in
+both subthreshold, triode, and saturation modes.
 
-  Ids = Ids0*e^(Vov/(n*VT)      , Vov < 0              (subthreshold mode) 
-  Ids = K*W/L*(2*Vov - Vds)*Vds , Vov >= 0, Vds < Vov  (triode mode)
-  Ids = K*W/L*Vov^2             , Vov >= 0, Vds >= Vov (saturation mode)
+A typical textbook transistor model may be defined as follows:
+
+  Ids = I0*e^(Vgst/(n*VT))       , Vgst < 0               (subthreshold mode) 
+  Ids = K*W/L*(2*Vgst - Vds)*Vds , Vgst >= 0, Vds < Vgst  (triode mode)
+  Ids = K*W/L*Vgst^2             , Vgst >= 0, Vds >= Vgst (saturation mode)
 
   where
   n   = FIXME
   VT  = thermal voltage
-  K   = FIXME
+  K   = 1/2uCox (conductance)
   W/L = ratio between substrate width and length
-  Vov = Vgs - Vth
-  
-A problem with this model is that the transition from the equation for
-the subthreshold mode to the other equations (the quadratic model) is
-not continuous.
+  Vgst = Vg - Vs - Vt (overdrive voltage)
 
-Realizing that the subthreshold and saturation modes depend only on
-Vov, these modes can be blended into a continuous function suitable
-for table lookup. Further realizing that the equation for the triode
-mode can be expressed in terms of the equation for the saturation
-mode, we can avoid introducing discontinuities in the transition from
-the triode mode to the other modes.
+Note that the equation for the triode mode can be reformulated as
+independent terms depending on Vgs and Vgd, respectively, by the
+following substitution:
 
-The triode mode can be reformulated by the following substitution:
+  Vds = Vgst - (Vgst - Vds) = Vgst - Vgdt
 
-  Vds = Vov - (Vov - Vds) = Vov - Vov_Vds
+  Ids = K*W/L*(2*Vgst - Vds)*Vds
+  = K*W/L*(2*Vgst - (Vgst - Vgdt)*(Vgst - Vgdt)
+  = K*W/L*(Vgst + Vgdt)*(Vgst - Vgdt)
+  = K*W/L*(Vgst^2 - Vgdt^2)
 
-  K*W/L*(2*Vov - Vds)*Vds
-  = K*W/L*(2*Vov - (Vov - Vov_Vds)*(Vov - Vov_Vds)
-  = K*W/L*(Vov + Vov_Vds)*(Vov - Vov_Vds)
-  = K*W/L*(Vov^2 - Vov_Vds^2)
-  = Eq_sat - K*W/L*Vov_Vds^2
+This turns out to be a general equation which covers both the triode
+and saturation modes (where the second term is 0 in saturation mode).
+The equation is also symmetrical, i.e. it can calculate negative
+currents without any change of parameters (since drain and source are
+interchangeable in the equation).
+
+FIXME: Subthreshold as function of Vgs, Vgd.
+
+The remaining problem with the textbook model is that the transition
+from subthreshold the triode/saturation is not continuous.
+
+Realizing that the subthreshold and triode/saturation modes may both
+be defined by independent (and equal) terms of Vgs and Vds,
+respectively, the corresponding terms can be blended into (equal)
+continuous functions suitable for table lookup.
+
+The EKV model (Enz, Krummenacher and Vittoz) essentially performs this
+blending using an elegant mathematical formulation:
+
+  Ids = Is*(if - ir)
+  Is = 2*u*Cox*Ut^2/k*W/L
+  if = ln^2(1 + e^((k*(Vg - Vt) - Vs)/(2*Ut))
+  ir = ln^2(1 + e^((k*(Vg - Vt) - Vd)/(2*Ut))
+
+For our purposes, the EKV model retains two important properties
+discussed above:
+
+- It consists of two independent terms, which can be represented by
+  the same lookup table.
+- It is symmetrical, i.e. it calculates current in both directions,
+  and may thus save a branch.
 
 */
 RESID_INLINE
@@ -1474,7 +1490,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   int Vg = vcr_Vg[(Vw_term + (vi >> 1)*(((vi >> 1) - Vddt) >> 1)) >> 14];
 
   // Start with the current through the "snake" (triode mode).
-  // n_I = n_snake*(2*Vov_snake - Vds)*Vds
+  // n_I = n_snake*(2*Vgst_snake - Vds)*Vds
   //
   // Substituting for the variables for forward and reverse directions:
   // n_I = n_snake*(2*(Vddt - vi) - (vx - vi))*(vx - vi)
@@ -1484,59 +1500,41 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   // calculating the snake current with single expression, if the sign
   // is used as the direction of the current.
   //
-  // Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-1*2^-1*2^-12 = m*2^31
-  int n_I = mf.n_snake*((((Vddt << 1) - vi - x) >> 1)*((vi - x) >> 1) >> 12);
+  // Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-1*2^-1*2^-13 = m*2^30
+  int n_I = mf.n_snake*((((Vddt << 1) - vi - x) >> 1)*((vi - x) >> 1) >> 13);
 
-  // Determine the direction of the current flowing through the VCR and
-  // the "snake" transistor.
-  if (vi < x) {
-    // Negative current.
-    int Vgs = Vg - vi;
-
-    if (Vgs > 0) {
-      // Add the current through the VCR.
-
-      // Term for subthreshold mode / saturation mode.
-      n_I -= vcr_n_Ids[Vgs] << 15;
-
-      int Vgdt = Vg - x - mf.Vth;
-      if (Vgdt > 0) {
-	// Triode mode: Subtract term from saturation mode.
-	// Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-14 = m*2^31
-	n_I += mf.n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
-      }
-    }
-
-    // Change in capacitor charge.
-    vc += n_I*dt;
-    if (vc < mf.vc_min) {
-      vc = mf.vc_min;
-    }
+  // Current flowing through the VCR transistor, calculated by EKV model
+  // table lookup.
+  int Vgs = Vg - x;
+  if (Vgs > 0) {
+    // Scaled by m*2^15*2^15 = m*2^30
+    n_I += vcr_n_Ids_term[Vgs] << 15;
   }
-  else {
-    // Positive current.
-    int Vgs = Vg - x;
 
-    if (Vgs > 0) {
-      n_I += vcr_n_Ids[Vgs] << 15;
-
-      int Vgdt = Vg - vi - mf.Vth;
-      if (Vgdt > 0) {
-	n_I -= mf.n_vcr*int(unsigned(Vgdt)*unsigned(Vgdt) >> 14);
-      }
-    }
-
-    vc += n_I*dt;
-    if (vc > mf.vc_max) {
-      vc = mf.vc_max;
-    }
+  int Vgd = Vg - vi;
+  if (Vgd > 0) {
+    // Scaled by m*2^15*2^15 = m*2^30
+    n_I -= vcr_n_Ids_term[Vgd] << 15;
   }
+
+  // Change in capacitor charge.
+  vc += n_I*dt;
+
+/*
+  FIXME: Check whether this check is necessary.
+  if (vc < mf.vc_min) {
+    vc = mf.vc_min;
+  }
+  else if (vc > mf.vc_max) {
+    vc = mf.vc_max;
+  }
+*/
 
   // vx = g(vc)
-  x = mf.opamp_rev[(vc >> 16) + (1 << 15)];
+  x = mf.opamp_rev[(vc >> 15) + (1 << 15)];
 
   // Return vo.
-  return (x - (vc >> 15)) - mf.vo_T16;
+  return (x - (vc >> 14)) - mf.vo_T16;
 }
 
 #endif // RESID_INLINING || defined(RESID_FILTER_CC)

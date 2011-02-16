@@ -22,6 +22,7 @@
 #include "filter.h"
 #include "dac.h"
 #include "spline.h"
+#include <math.h>
 
 namespace reSID
 {
@@ -154,7 +155,7 @@ static model_filter_init_t model_filter_init[2] = {
 };
 
 unsigned short Filter::vcr_Vg[1 << 16];
-unsigned short Filter::vcr_n_Ids[1 << 16];
+unsigned short Filter::vcr_n_Ids_term[1 << 16];
 
 Filter::model_filter_t Filter::model_filter[2];
 
@@ -326,24 +327,37 @@ Filter::Filter()
 
     // VCR - 6581 only.
     int Vddt = model_filter[0].Vddt;
-    int Vth = model_filter[0].Vth;
-    int n_vcr = model_filter[0].n_vcr;
 
     for (int i = 0; i < (1 << 16); i++) {
       // The table index is right-shifted 16 times in order to fit in
       // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
-      vcr_Vg[i] = Vddt - (int)(sqrtf((float)i*(1 << 16)) + 0.5f);
+      vcr_Vg[i] = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5f);
     }
 
-    for (int Vgs = 0; Vgs < (1 << 16); Vgs++) {
-      int Vov_vcr = Vgs - Vth;
-      if (Vov_vcr < 0) {
-	vcr_n_Ids[Vgs] = 0;
-      }
-      else {
-	// Scaled by (1/m)*2^13*m*2^16*m*2^16*2^-1*2^-1*2^-12*2^-15 = m*2^16
-	vcr_n_Ids[Vgs] = n_vcr*((Vov_vcr >> 1)*(Vov_vcr >> 1) >> 12) >> 15;
-      }
+    /*
+      EKV model:
+
+      Ids = Is*(if - ir)
+      Is = 2*u*Cox*Ut^2/k*W/L
+      if = ln^2(1 + e^((k*(Vg - Vt) - Vs)/(2*Ut))
+      ir = ln^2(1 + e^((k*(Vg - Vt) - Vd)/(2*Ut))
+    */
+    model_filter_init_t& fi = model_filter_init[0];
+    double Vt = fi.Vth;
+    double uCox = fi.K1_vcr*2;
+    double WL = fi.WL_vcr;
+    double Ut = 26.0e-3;  // Thermal voltage.
+    double k = 1.0;
+    double Is = 2*uCox*Ut*Ut/k*WL;
+    // Normalized current factor for 1 cycle at 1MHz.
+    double N16 = model_filter[0].vo_N16;
+    double N15 = N16/2;
+    double n_Is = N15*1.0e-6/fi.C*Is;
+
+    for (int Vgx = 0; Vgx < (1 << 16); Vgx++) {
+      double log_term = log(1 + exp((Vgx/N16 - k*Vt)/(2*Ut)));
+      // Scaled by m*2^15
+      vcr_n_Ids_term[Vgx] = n_Is*log_term*log_term;
     }
 
     class_init = true;

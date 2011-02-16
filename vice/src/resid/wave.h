@@ -112,8 +112,8 @@ protected:
   chip_model sid_model;
 
   // Sample data for waveforms, not including noise.
-  static unsigned short model_wave[2][8][1 << 12];
   unsigned short* wave;
+  static unsigned short model_wave[2][8][1 << 12];
   // DAC lookup tables.
   static unsigned short model_dac[2][1 << 12];
 
