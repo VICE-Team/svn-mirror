@@ -181,6 +181,7 @@ Filter::Filter()
       // Scaling and translation constants.
       double N16 = norm*((1u << 16) - 1);
       double N19 = norm*((1u << 19) - 1);
+      double N30 = norm*((1u << 30) - 1);
       double N31 = norm*((1u << 31) - 1);
       mf.vo_N16 = (int)(N16);  // FIXME: Remove?
       mf.vo_T19 = (int)(N19*vmin);
@@ -312,8 +313,8 @@ Filter::Filter()
 	scaled_voltage[m][1] = N16*fi.opamp_voltage[m][0];
       }
 
-      mf.vc_min = (int)(N31*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]));
-      mf.vc_max = (int)(N31*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
+      mf.vc_min = (int)(N30*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]));
+      mf.vc_max = (int)(N30*(fi.opamp_voltage[fi.opamp_voltage_size - 1][0] - fi.opamp_voltage[fi.opamp_voltage_size - 1][1]));
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
 		  PointPlotter<unsigned short>(mf.opamp_rev), 1.0);
 
