@@ -39,6 +39,30 @@ BEGIN
         MENUITEM "~Open...\tAlt-F3",                      IDM_FILEOPEN,                 MIS_TEXT
         MENUITEM "~Save as...\tAlt-F2",                   IDM_FILESAVE,                 MIS_TEXT
 
+#ifdef __XVIC__
+    MENUITEM SEPERATOR
+    SUBMENU "~Attach Cartridge",                          IDM_VIC20_ATTACH_CARTRIDGE,   MIS_TEXT
+    BEGIN
+        MENUITEM "Generic Image",                         IDM_VIC20_CART_GENERIC,       MIS_TEXT
+        MENUITEM "MegaCart Image",                        IDM_VIC20_CART_MEGACART,      MIS_TEXT
+        MENUITEM "Final Expansion Image",                 IDM_VIC20_CART_FINAL_EXP,     MIS_TEXT
+        MENUITEM "Vic Flash Plugin Image",                IDM_VIC20_CART_VFP,           MIS_TEXT
+        MENUITEM SEPERATOR
+        SUBMENU "Add to generic",                         IDM_VIC20_CART_ADD_GENERIC,   MIS_TEXT
+        BEGIN
+            MENUITEM "Smart Attach Image",                IDM_VIC20_CART_SMART_ATTACH,  MIS_TEXT
+            MENUITEM "4/8/16KB at $2000",                 IDM_VIC20_CART_4_8_16KB_2000, MIS_TEXT
+            MENUITEM "4/8/16KB at $4000",                 IDM_VIC20_CART_4_8_16KB_4000, MIS_TEXT
+            MENUITEM "4/8/16KB at $6000",                 IDM_VIC20_CART_4_8_16KB_6000, MIS_TEXT
+            MENUITEM "4/8KB at $A000",                    IDM_VIC20_CART_4_8KB_A000,    MIS_TEXT
+            MENUITEM "4KB at $B000",                      IDM_VIC20_CART_4KB_B000,      MIS_TEXT
+        END
+        MENUITEM "Set cart as default",                   IDM_VIC20_SET_DEFAULT_CART,   MIS_TEXT
+        MENUITEM "Reset on cart change",                  IDM_VIC20_RESET_ON_CART_CHNG, MIS_TEXT
+    END
+    MENUITEM "Detach cart",                               IDM_VIC20_DETACH_CART,        MIS_TEXT
+#endif
+
 #if defined(__X64__) || defined(__X128__)
         MENUITEM SEPARATOR
         SUBMENU "~Attach Cartridge",                      IDM_CARTRIDGE,                MIS_TEXT

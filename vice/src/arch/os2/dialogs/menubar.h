@@ -114,7 +114,7 @@
 #define IDM_AUTOSTART_SETTINGS       0x1aa
 #define IDM_AUTOSTART_WARP           0x1ab
 #define IDM_RUN_WITH_COLON           0x1ac
-#define IDM_LOAD_TO_BASIC_START      0x1fc
+#define IDM_LOAD_TO_BASIC_START      0x21a
 #define IDM_AUTOSTART_PRG_MODE       0x1ad
 #define IDM_AUTOSTART_PRG_VIRTUAL_FS 0x1ae
 #define IDM_AUTOSTART_PRG_INJECT     0x1af
@@ -510,6 +510,22 @@
 #define IDM_CRTFREEZE                0x50d
 #define IDM_CRTSAVEIMG               0x50e
 #define IDM_CARTRIDGEDET             0x50f
+
+#define IDM_VIC20_ATTACH_CARTRIDGE   0x1ff
+#define IDM_VIC20_CART_GENERIC       0x200
+#define IDM_VIC20_CART_MEGACART      0x201
+#define IDM_VIC20_CART_FINAL_EXP     0x203
+#define IDM_VIC20_CART_VFP           0x204
+#define IDM_VIC20_CART_ADD_GENERIC   0x206
+#define IDM_VIC20_CART_SMART_ATTACH  0x207
+#define IDM_VIC20_CART_4_8_16KB_2000 0x209
+#define IDM_VIC20_CART_4_8_16KB_4000 0x20a
+#define IDM_VIC20_CART_4_8_16KB_6000 0x20c
+#define IDM_VIC20_CART_4_8KB_A000    0x20d
+#define IDM_VIC20_CART_4KB_B000      0x20f
+#define IDM_VIC20_SET_DEFAULT_CART   0x210
+#define IDM_VIC20_RESET_ON_CART_CHNG 0x212
+#define IDM_VIC20_DETACH_CART        0x213
 
 #define IDM_PALCONTROL               0x510
 #define IDM_TOGGLEPAL                0x511  // used for accel key

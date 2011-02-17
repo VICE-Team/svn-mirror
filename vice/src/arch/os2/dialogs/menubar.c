@@ -311,6 +311,68 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             WinActivateWindow(hwndLog, 1);
             return;
 
+#ifdef __XVIC__
+        case IDM_VIC20_CART_GENERIC:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_GENERIC, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_MEGACART:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_MEGACART, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_FINAL_EXP:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_FINAL_EXPANSION, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_VFP:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_FP, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_SMART_ATTACH:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_DETECT, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_4_8_16KB_2000:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_16KB_2000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_4_8_16KB_4000:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_16KB_4000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_4_8_16KB_6000:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_16KB_6000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_4_8KB_A000:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_8KB_A000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_CART_4KB_B000:
+            if (cartridge_attach_image(CARTRIDGE_VIC20_4KB_B000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_VIC20_SET_DEFAULT_CART:
+            cartridge_set_default();
+            return;
+        case IDM_VIC20_RESET_ON_CART_CHNG:
+            toggle("CartridgeReset");
+            return;
+        case IDM_VIC20_DETACH_CART:
+            cartridge_detach_image(-1);
+            return;
+#endif
+
 #if defined(__X64__)
         case IDM_C64PAL:
         case IDM_C64CPAL:
@@ -1215,6 +1277,13 @@ void menu_select(HWND hwnd, USHORT item)
     int val;
 
     switch (item) {
+
+#ifdef __XVIC__
+        case IDM_VIC20_ATTACH_CARTRIDGE:
+            resources_get_int("CartridgeReset", &val);
+            WinCheckMenuItem(hwnd, IDM_VIC20_RESET_ON_CART_CHNG, val == 1);
+            return;
+#endif
 
 #if defined(__X64__)
         case IDM_CUSTOM_C64_MODEL:
