@@ -355,7 +355,9 @@ Filter::Filter()
     double N15 = N16/2;
     double n_Is = N15*1.0e-6/fi.C*Is;
 
-    for (int Vgx = 0; Vgx < (1 << 16); Vgx++) {
+    /* 1st term is used for clamping and must therefore be fixed to 0. */
+    vcr_n_Ids_term[0] = 0;
+    for (int Vgx = 1; Vgx < (1 << 16); Vgx++) {
       double log_term = log(1 + exp((Vgx/N16 - k*Vt)/(2*Ut)));
       // Scaled by m*2^15
       vcr_n_Ids_term[Vgx] = n_Is*log_term*log_term;
