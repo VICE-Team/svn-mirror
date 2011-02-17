@@ -99,11 +99,11 @@ typedef struct {
   double C;
   // Transistor parameters.
   double Vdd;
-  double Vth;      // Threshold voltage
-  double K1_vcr;   // 1/2*u*Cox
-  double WL_vcr;   // W/L for VCR
-  double K1_snake; // 1/2*u*Cox
-  double WL_snake; // W/L for "snake"
+  double Vth;        // Threshold voltage
+  double uCox_vcr;   // u*Cox
+  double WL_vcr;     // W/L for VCR
+  double uCox_snake; // u*Cox
+  double WL_snake;   // W/L for "snake"
   // DAC parameters.
   double dac_zero;
   double dac_scale;
@@ -124,9 +124,9 @@ static model_filter_init_t model_filter_init[2] = {
     // Transistor parameters.
     12.18,
     1.31,
-    10e-6,
+    20e-6,
     9.0/1,
-    10e-6,
+    20e-6,
     1.0/115,
     // DAC parameters.
     6.65,
@@ -200,8 +200,8 @@ Filter::Filter()
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
       // Fit in 15 bits / 5 bits.
-      mf.n_vcr = (int)(denorm*(1 << 13)*(fi.K1_vcr*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
-      mf.n_snake = (int)(denorm*(1 << 13)*(fi.K1_snake*fi.WL_snake*1.0e-6/fi.C) + 0.5);
+      mf.n_vcr = (int)(denorm*(1 << 13)*(fi.uCox_vcr/2*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
+      mf.n_snake = (int)(denorm*(1 << 13)*(fi.uCox_snake/2*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
       // Create lookup table mapping op-amp input voltage to op-amp output
       // voltage: vx -> vo
@@ -345,7 +345,7 @@ Filter::Filter()
     */
     model_filter_init_t& fi = model_filter_init[0];
     double Vt = fi.Vth;
-    double uCox = fi.K1_vcr*2;
+    double uCox = fi.uCox_vcr;
     double WL = fi.WL_vcr;
     double Ut = 26.0e-3;  // Thermal voltage.
     double k = 1.0;
