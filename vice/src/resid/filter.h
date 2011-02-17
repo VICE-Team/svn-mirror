@@ -1505,16 +1505,14 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
 
   // Current flowing through the VCR transistor, calculated by EKV model
   // table lookup.
-  int Vgs = Vg - x;
-  if (Vgs > 0) {
+  if (likely(Vg > x)) {
     // Scaled by m*2^15*2^15 = m*2^30
-    n_I += vcr_n_Ids_term[Vgs] << 15;
+    n_I += vcr_n_Ids_term[Vg - x] << 15;
   }
 
-  int Vgd = Vg - vi;
-  if (Vgd > 0) {
+  if (likely(Vg > vi)) {
     // Scaled by m*2^15*2^15 = m*2^30
-    n_I -= vcr_n_Ids_term[Vgd] << 15;
+    n_I -= vcr_n_Ids_term[Vg - vi] << 15;
   }
 
   // Change in capacitor charge.
