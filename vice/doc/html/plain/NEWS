@@ -162,7 +162,14 @@ left from previous installs.
 ** AmigaOS changes
 ------------------
 
--
+- Added support for arm-aros.
+
+- Made the UI more complete.
+
+** DOS changes
+--------------
+
+- Made the UI more complete.
 
 ** Mac OS X changes
 -------------------
@@ -174,6 +181,20 @@ left from previous installs.
 
 - Added vsid UI, FFMPEG and printer menus. The UI is complete.
 
+
+** BeOS changes
+---------------
+
+- Fixed sound hang.
+
+- Made the UI more complete.
+
+** OS/2 changes
+---------------
+
+- The OS/2 port is now compiled using openwatcom.
+
+- Made the UI more complete.
 
 * Changes in VICE 2.2
 ======================
