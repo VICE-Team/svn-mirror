@@ -171,6 +171,22 @@
 #define IDM_V364SPEECH               0x1fa
 #define IDM_V364SPEECHFILE           0x1fb
 
+#define IDM_MMC64_SETTINGS           0x229
+#define IDM_MMC64                    0x22a
+#define IDM_MMC64_REVISION           0x22b
+#define IDM_MMC64_REV_A              0x22c
+#define IDM_MMC64_REV_B              0x22d
+#define IDM_MMC64_FLASH_JUMPER       0x22e
+#define IDM_MMC64_BIOS_WRITE         0x23e
+#define IDM_MMC64_BIOS_FILE          0x243
+#define IDM_MMC64_SD_MMC_READONLY    0x244
+#define IDM_MMC64_SD_MMC_FILE        0x246
+#define IDM_MMC64_SD_TYPE            0x247
+#define IDM_MMC64_SD_TYPE_AUTO       0x248
+#define IDM_MMC64_SD_TYPE_MMC        0x249
+#define IDM_MMC64_SD_TYPE_SD         0x24a
+#define IDM_MMC64_SD_TYPE_SDHC       0x24b
+
 #define IDM_DIGIMAX_SETTINGS         0x1ee
 #define IDM_DIGIMAX                  0x1a1
 #define IDM_DIGIMAXBASE              0x1a2

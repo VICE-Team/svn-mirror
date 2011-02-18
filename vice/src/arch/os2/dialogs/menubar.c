@@ -730,6 +730,35 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_set_int("DIGIMAXbase", 0xde00 + ((idm & 0xf) * 0x20));
             return;
 
+        case IDM_MMC64:
+            toggle("MMC64");
+            return;
+        case IDM_MMC64_REV_A:
+        case IDM_MMC64_REV_B:
+            resources_set_int("MMC64_revision", idm - IDM_MMC64_REV_A);
+            return;
+        case IDM_MMC64_FLASH_JUMPER:
+            toggle("MMC64_flashjumper");
+            return;
+        case IDM_MMC64_BIOS_WRITE:
+            toggle("MMC64_bios_write");
+            return;
+        case IDM_MMC64_BIOS_FILE:
+            resources_set_string("MMC64BIOSfilename", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_MMC64_SD_MMC_READONLY:
+            toggle("MMC64_RO");
+            return;
+        case IDM_MMC64_SD_MMC_FILE:
+            resources_set_string("MMC64imagefilename", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_MMC64_SD_TYPE_AUTO:
+        case IDM_MMC64_SD_TYPE_MMC:
+        case IDM_MMC64_SD_TYPE_SD:
+        case IDM_MMC64_SD_TYPE_SDHC:
+            resources_set_int("MMC64_sd_type", idm - IDM_MMC64_SD_TYPE_AUTO);
+            return;
+
 #ifdef __X64__
         case IDM_PLUS60KD040:
             resources_set_int("PLUS60Kbase", 0xd040);
@@ -1330,6 +1359,24 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
 #if defined(__X64__) || defined(__X128__)
+        case IDM_MMC64_SETTINGS:
+            WinCheckRes(hwnd, IDM_MMC64, "MMC64");
+            WinCheckRes(hwnd, IDM_MMC64_FLASH_JUMPER, "MMC64_flashjumper");
+            WinCheckRes(hwnd, IDM_MMC64_BIOS_WRITE, "MMC64_bios_write");
+            WinCheckRes(hwnd, IDM_MMC64_SD_MMC_READONLY, "MMC64_RO");
+            return;
+        case IDM_MMC64_REVISION:
+            resources_get_int("MMC64_revision", &val);
+            WinCheckMenuItem(hwnd, IDM_MMC64_REV_A, val == 0);
+            WinCheckMenuItem(hwnd, IDM_MMC64_REV_B, val == 1);
+            return;
+        case IDM_MMC64_SD_TYPE:
+            resources_get_int("MMC64_sd_type", &val);
+            WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_AUTO, val == 0);
+            WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_MMC, val == 1);
+            WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_SD, val == 2);
+            WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_SDHC, val == 3);
+            return;
         case IDM_FILE:
             resources_get_int("CartridgeType", &val);
             WinEnableMenuItem(hwnd, IDM_CRTFREEZE, val == CARTRIDGE_ACTION_REPLAY ||

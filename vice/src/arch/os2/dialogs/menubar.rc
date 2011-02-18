@@ -565,6 +565,28 @@ BEGIN
             MENUITEM "Magic Voice ROM Filename",          IDM_MAGICVOICEFILE,           MIS_TEXT
         END
 
+        SUBMENU "MMC64 Settings",                         IDM_MMC64_SETTINGS,           MIS_TEXT
+        BEGIN
+            MENUITEM "MMC64 Cartridge",                   IDM_MMC64,                    MIS_TEXT
+            SUBMENU "MMC64 Revision",                     IDM_MMC64_REVISION,           MIS_TEXT
+            BEGIN
+                MENUITEM "Revision A",                    IDM_MMC64_REV_A,              MIS_TEXT
+                MENUITEM "Revision B",                    IDM_MMC64_REV_B,              MIS_TEXT
+            END
+            MENUITEM "Flash Jumper",                      IDM_MMC64_FLASH_JUMPER,       MIS_TEXT
+            MENUITEM "Write to BIOS when changed",        IDM_MMC64_BIOS_WRITE,         MIS_TEXT
+            MENUITEM "MMC64 BIOS Filename",               IDM_MMC64_BIOS_FILE,          MIS_TEXT
+            MENUITEM "MMC64 SD/MMC Image Read-only",      IDM_MMC64_SD_MMC_READONLY,    MIS_TEXT
+            MENUITEM "MMC64 SD/MMC Image Filename",       IDM_MMC64_SD_MMC_FILE,        MIS_TEXT
+            SUBMENU "MMC64 SD/MMC type",                  IDM_MMC64_SD_TYPE,            MIS_TEXT
+            BEGIN
+                MENUITEM "Auto",                          IDM_MMC64_SD_TYPE_AUTO,       MIS_TEXT
+                MENUITEM "MMC",                           IDM_MMC64_SD_TYPE_MMC,        MIS_TEXT
+                MENUITEM "SD",                            IDM_MMC64_SD_TYPE_SD,         MIS_TEXT
+                MENUITEM "SDHC",                          IDM_MMC64_SD_TYPE_SDHC,       MIS_TEXT
+            END
+        END
+
         SUBMENU "DigiMAX Settings",                       IDM_DIGIMAX_SETTINGS,         MIS_TEXT
         BEGIN
             MENUITEM "~DigiMAX - Cartridge",              IDM_DIGIMAX,                  MIS_TEXT
