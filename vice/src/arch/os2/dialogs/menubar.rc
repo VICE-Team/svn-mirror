@@ -40,14 +40,14 @@ BEGIN
         MENUITEM "~Save as...\tAlt-F2",                   IDM_FILESAVE,                 MIS_TEXT
 
 #ifdef __XVIC__
-    MENUITEM SEPERATOR
+    MENUITEM SEPARATOR
     SUBMENU "~Attach Cartridge",                          IDM_VIC20_ATTACH_CARTRIDGE,   MIS_TEXT
     BEGIN
         MENUITEM "Generic Image",                         IDM_VIC20_CART_GENERIC,       MIS_TEXT
         MENUITEM "MegaCart Image",                        IDM_VIC20_CART_MEGACART,      MIS_TEXT
         MENUITEM "Final Expansion Image",                 IDM_VIC20_CART_FINAL_EXP,     MIS_TEXT
         MENUITEM "Vic Flash Plugin Image",                IDM_VIC20_CART_VFP,           MIS_TEXT
-        MENUITEM SEPERATOR
+        MENUITEM SEPARATOR
         SUBMENU "Add to generic",                         IDM_VIC20_CART_ADD_GENERIC,   MIS_TEXT
         BEGIN
             MENUITEM "Smart Attach Image",                IDM_VIC20_CART_SMART_ATTACH,  MIS_TEXT
@@ -664,6 +664,10 @@ BEGIN
 
 #ifdef __XVIC__
         MENUITEM "OEM userport joystick",                 IDM_OEM_JOY,                  MIS_TEXT
+        MENUITEM "Final Expansion Writeback",             IDM_VIC20_FE_WRITEBACK,       MIS_TEXT
+        MENUITEM "Vic Flash Plugin Writeback",            IDM_VIC20_VFP_WRITEBACK,      MIS_TEXT
+        MENUITEM "MegaCart NvRAM Writeback",              IDM_VIC20_MC_WRITEBACK,       MIS_TEXT
+        MENUITEM "MegaCart NvRAM Filename",               IDM_VIC20_MC_FILE,            MIS_TEXT
 #endif
 
 #ifdef __X128__

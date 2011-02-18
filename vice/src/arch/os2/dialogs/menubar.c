@@ -583,6 +583,18 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_OEM_JOY:
             toggle("OEMJoy");
             return;
+        case IDM_VIC20_FE_WRITEBACK:
+            toggle("FinalExpansionWriteBack");
+            return;
+        case IDM_VIC20_VFP_WRITEBACK:
+            toggle("VicFlashPluginWriteBack");
+            return;
+        case IDM_VIC20_MC_WRITEBACK:
+            toggle("MegaCartNvRAMWriteBack");
+            return;
+        case IDM_VIC20_MC_FILE:
+            resources_set_string("MegaCartNvRAMfilename", ViceFileSelect(hwnd, 1));
+            return;
 #endif
 
 #if defined(__X64__) || defined(__X128__)
@@ -1534,6 +1546,12 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("PETUserportDAC", &val);
             WinCheckMenuItem(hwnd, IDM_PET_USERPORT_DAC, val);
 #endif // __XPET__
+
+#ifdef __XVIC__
+            WinCheckRes(hwnd, IDM_VIC20_FE_WRITEBACK, "FinalExpansionWriteBack");
+            WinCheckRes(hwnd, IDM_VIC20_VFP_WRITEBACK, "VicFlashPluginWriteBack");
+            WinCheckRes(hwnd, IDM_VIC20_MC_WRITEBACK, "MegaCartNvRAMWriteBack");
+#endif
 
             WinCheckRes(hwnd, IDM_AUTOSTART_WARP, "AutostartWarp");
             WinCheckRes(hwnd, IDM_RUN_WITH_COLON, "AutostartRunWithColon");

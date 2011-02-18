@@ -207,6 +207,11 @@
 
 #define IDM_OEM_JOY                  0x191
 
+#define IDM_VIC20_FE_WRITEBACK       0x21b
+#define IDM_VIC20_VFP_WRITEBACK      0x21c
+#define IDM_VIC20_MC_WRITEBACK       0x21d
+#define IDM_VIC20_MC_FILE            0x21e
+
 #define IDM_PLUS60K_SETTINGS         0x1f3
 #define IDM_PLUS60K                  0x17c
 #define IDM_PLUS60KBASE              0x17d
