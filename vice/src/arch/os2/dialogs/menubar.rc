@@ -587,6 +587,23 @@ BEGIN
             END
         END
 
+        SUBMENU "MMC Replay Settings",                    IDM_MMCR_SETTINGS,            MIS_TEXT
+        BEGIN
+            MENUITEM "MMC Replay Rescue Mode",            IDM_MMCR_RESCUE_MODE,         MIS_TEXT
+            MENUITEM "Write to EEPROM when changed",      IDM_MMCR_EEPROM_WRITE,        MIS_TEXT
+            MENUITEM "MMC Replay EEPROM Filename",        IDM_MMCR_EEPROM_FILE,         MIS_TEXT
+            MENUITEM "MMC Replay EEPROM read/write",      IDM_MMCR_EEPROM_READWRITE,    MIS_TEXT
+            MENUITEM "MMC Replay SD/MMC Image read/write",IDM_MMCR_SD_MMC_READWRITE,    MIS_TEXT
+            MENUITEM "MMC Replay SD/MMC Image Filename",  IDM_MMCR_SD_MMC_FILE,         MIS_TEXT
+            SUBMENU "MMC Replay SD/MMC type",             IDM_MMCR_SD_TYPE,             MIS_TEXT
+            BEGIN
+                MENUITEM "Auto",                          IDM_MMCR_SD_TYPE_AUTO,        MIS_TEXT
+                MENUITEM "MMC",                           IDM_MMCR_SD_TYPE_MMC,         MIS_TEXT
+                MENUITEM "SD",                            IDM_MMCR_SD_TYPE_SD,          MIS_TEXT
+                MENUITEM "SDHC",                          IDM_MMCR_SD_TYPE_SDHC,        MIS_TEXT
+            END
+        END
+
         SUBMENU "DigiMAX Settings",                       IDM_DIGIMAX_SETTINGS,         MIS_TEXT
         BEGIN
             MENUITEM "~DigiMAX - Cartridge",              IDM_DIGIMAX,                  MIS_TEXT

@@ -187,6 +187,19 @@
 #define IDM_MMC64_SD_TYPE_SD         0x24a
 #define IDM_MMC64_SD_TYPE_SDHC       0x24b
 
+#define IDM_MMCR_SETTINGS            0x24c
+#define IDM_MMCR_RESCUE_MODE         0x24d
+#define IDM_MMCR_EEPROM_WRITE        0x24e
+#define IDM_MMCR_EEPROM_FILE         0x24f
+#define IDM_MMCR_EEPROM_READWRITE    0x253
+#define IDM_MMCR_SD_MMC_READWRITE    0x259
+#define IDM_MMCR_SD_MMC_FILE         0x265
+#define IDM_MMCR_SD_TYPE             0x25a
+#define IDM_MMCR_SD_TYPE_AUTO        0x25b
+#define IDM_MMCR_SD_TYPE_MMC         0x25c
+#define IDM_MMCR_SD_TYPE_SD          0x25d
+#define IDM_MMCR_SD_TYPE_SDHC        0x25e
+
 #define IDM_DIGIMAX_SETTINGS         0x1ee
 #define IDM_DIGIMAX                  0x1a1
 #define IDM_DIGIMAXBASE              0x1a2
