@@ -529,6 +529,7 @@ BEGIN
                 MENUITEM "81~92kB",                       IDM_REU8192,                  MIS_TEXT
                 MENUITEM "16~384kB",                      IDM_REU16384,                 MIS_TEXT
             END
+            MENUITEM "Save to REU image when changed",    IDM_SAVE_REU,                 MIS_TEXT
             MENUITEM "REU Filename",                      IDM_REUFILE,                  MIS_TEXT
         END
 
@@ -545,7 +546,8 @@ BEGIN
                 MENUITEM "204~8kB",                       IDM_GEORAM2048,               MIS_TEXT
                 MENUITEM "409~6kB",                       IDM_GEORAM4096,               MIS_TEXT
             END
-            MENUITEM "GEO-RAM Filename",                   IDM_GEORAMFILE,               MIS_TEXT
+            MENUITEM "Save to GEO-RAM image when changed",IDM_SAVE_GEORAM,              MIS_TEXT
+            MENUITEM "GEO-RAM Filename",                  IDM_GEORAMFILE,               MIS_TEXT
         END
 
         SUBMENU "RamCart Settings",                       IDM_RAMCART_SETTINGS,         MIS_TEXT
@@ -556,6 +558,7 @@ BEGIN
                 MENUITEM "~64kB",                         IDM_RAMCART64,                MIS_TEXT
                 MENUITEM "~128kB",                        IDM_RAMCART128,               MIS_TEXT
             END
+            MENUITEM "Save to RamCart image when changed",IDM_SAVE_RAMCART,             MIS_TEXT
             MENUITEM "RamCart Filename",                  IDM_RAMCARTFILE,              MIS_TEXT
         END
 
@@ -653,6 +656,7 @@ BEGIN
         SUBMENU "DQBB Settings",                          IDM_DQBB_SETTINGS,            MIS_TEXT
         BEGIN
             MENUITEM "~Double Quick Brown Box",           IDM_DQBB,                     MIS_TEXT
+            MENUITEM "Save to DQBB image when changed",   IDM_SAVE_DQBB,                MIS_TEXT
             MENUITEM "DQBB Filename",                     IDM_DQBBFILE,                 MIS_TEXT
         END
 
@@ -660,6 +664,8 @@ BEGIN
         BEGIN
             MENUITEM "~ISEPIC cartridge",                 IDM_ISEPIC,                   MIS_TEXT
             MENUITEM "ISEPIC ~Switch",                    IDM_ISEPIC_SWITCH,            MIS_TEXT
+            MENUITEM "Save to ISEPIC image when changed", IDM_SAVE_ISEPIC,              MIS_TEXT
+            MENUITEM "ISEPIC Filename",                   IDM_ISEPICFILE,               MIS_TEXT
         END
 
         SUBMENU "PLUS60K Settings",                       IDM_PLUS60K_SETTINGS,         MIS_TEXT

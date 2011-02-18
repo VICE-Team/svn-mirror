@@ -142,6 +142,7 @@
 #define IDM_REU4096                  0x620
 #define IDM_REU8192                  0x640
 #define IDM_REU16384                 0x680
+#define IDM_SAVE_REU                 0x26a
 #define IDM_REUFILE                  0x14a
 
 #define IDM_GEORAM_SETTINGS          0x1ec
@@ -154,6 +155,7 @@
 #define IDM_GEORAM1024               0x910
 #define IDM_GEORAM2048               0x920
 #define IDM_GEORAM4096               0x940
+#define IDM_SAVE_GEORAM              0x26b
 #define IDM_GEORAMFILE               0x14b
 
 #define IDM_RAMCART_SETTINGS         0x1ed
@@ -161,6 +163,7 @@
 #define IDM_RAMCARTSIZE              0x16f
 #define IDM_RAMCART64                0x941
 #define IDM_RAMCART128               0x942
+#define IDM_SAVE_RAMCART             0x26c
 #define IDM_RAMCARTFILE              0x14c
 
 #define IDM_MAGICVOICE_SETTINGS      0x1f6
@@ -254,11 +257,14 @@
 
 #define IDM_DQBB_SETTINGS            0x1f1
 #define IDM_DQBB                     0x1b1
+#define IDM_SAVE_DQBB                0x26d
 #define IDM_DQBBFILE                 0x1b2
 
 #define IDM_ISEPIC_SETTINGS          0x1f2
 #define IDM_ISEPIC                   0x1b3
 #define IDM_ISEPIC_SWITCH            0x1b4
+#define IDM_SAVE_ISEPIC              0x26e
+#define IDM_ISEPICFILE               0x26f
 
 #define IDM_C64_256K_SETTINGS        0x1f5
 #define IDM_C64_256K                 0x16d

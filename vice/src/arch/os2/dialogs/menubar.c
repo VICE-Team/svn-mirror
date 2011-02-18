@@ -633,11 +633,17 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DQBB:
             toggle("DQBB");
             return;
+        case IDM_SAVE_DQBB:
+            toggle("DQBBImageWrite");
+            return;
         case IDM_ISEPIC:
             toggle("IsepicCartridgeEnabled");
             return;
         case IDM_ISEPIC_SWITCH:
             toggle("IsepicSwitch");
+            return;
+        case IDM_SAVE_ISEPIC:
+            toggle("IsepicImageWrite");
             return;
         case IDM_DIGIMAX:
             toggle("DIGIMAX");
@@ -671,6 +677,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_REU16384:
             resources_set_int("REUSize", (idm & 0xff) << 7);
             return;
+        case IDM_SAVE_REU:
+            toggle("REUImageWrite");
+            return;
         case IDM_REUFILE:
             resources_set_string("REUfilename", ViceFileSelect(hwnd, 1));
             return;
@@ -683,12 +692,18 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_GEORAM4096:
             resources_set_int("GEORAMSize", (idm & 0xff) << 6);
             return;
+        case IDM_SAVE_GEORAM:
+            toggle("GEORAMImageWrite");
+            return;
         case IDM_GEORAMFILE:
             resources_set_string("GEORAMfilename", ViceFileSelect(hwnd, 1));
             return;
         case IDM_RAMCART64:
         case IDM_RAMCART128:
             resources_set_int("RAMCARTSize", (idm & 0xf) << 6);
+            return;
+        case IDM_SAVE_RAMCART:
+            toggle("RAMCARTImageWrite");
             return;
         case IDM_RAMCARTFILE:
             resources_set_string("RAMCARTfilename", ViceFileSelect(hwnd, 1));
@@ -701,6 +716,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_DQBBFILE:
             resources_set_string("DQBBfilename", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_ISEPICFILE:
+            resources_set_string("Isepicfilename", ViceFileSelect(hwnd, 1));
             return;
         case IDM_SFX_SE_3526:
             resources_set_int("SFXSoundExpanderChip", 3526);
@@ -1572,14 +1590,20 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("REU", &val);
             WinCheckMenuItem(hwnd, IDM_REU, val);
             WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
+            WinEnableMenuItem(hwnd, IDM_SAVE_REU, val);
+            WinCheckRes(hwnd, IDM_SAVE_REU, "REUImageWrite");
             WinEnableMenuItem(hwnd, IDM_REUFILE, val);
             resources_get_int("GEORAM", &val);
             WinCheckMenuItem(hwnd, IDM_GEORAM, val);
             WinEnableMenuItem(hwnd, IDM_GEORAMSIZE, val);
+            WinEnableMenuItem(hwnd, IDM_SAVE_GEORAM, val);
+            WinCheckRes(hwnd, IDM_SAVE_GEORAM, "GEORAMImageWrite");
             WinEnableMenuItem(hwnd, IDM_GEORAMFILE, val);
             resources_get_int("RAMCART", &val);
             WinCheckMenuItem(hwnd, IDM_RAMCART, val);
             WinEnableMenuItem(hwnd, IDM_RAMCARTSIZE, val);
+            WinEnableMenuItem(hwnd, IDM_SAVE_RAMCART, val);
+            WinCheckRes(hwnd, IDM_SAVE_RAMCART, "RAMCARTImageWrite");
             WinEnableMenuItem(hwnd, IDM_RAMCARTFILE, val);
             resources_get_int("MagicVoiceCartridgeEnabled", &val);
             WinCheckMenuItem(hwnd, IDM_MAGICVOICE, val);
@@ -1593,11 +1617,16 @@ void menu_select(HWND hwnd, USHORT item)
 #ifdef __X64__
             resources_get_int("DQBB", &val);
             WinCheckMenuItem(hwnd, IDM_DQBB, val);
+            WinEnableMenuItem(hwnd, IDM_SAVE_DQBB, val);
+            WinCheckRes(hwnd, IDM_SAVE_DQBB, "DQBBImageWrite");
             WinEnableMenuItem(hwnd, IDM_DQBBFILE, val);
             resources_get_int("IsepicCartridgeEnabled", &val);
             WinCheckMenuItem(hwnd, IDM_ISEPIC, val);
             resources_get_int("IsepicSwitch", &val);
             WinCheckMenuItem(hwnd, IDM_ISEPIC_SWITCH, val);
+            WinEnableMenuItem(hwnd, IDM_SAVE_ISEPIC, val);
+            WinCheckRes(hwnd, IDM_SAVE_ISEPIC, "IsepicImageWrite");
+            WinEnableMenuItem(hwnd, IDM_ISEPICFILE, val);
             resources_get_int("PLUS60K", &val);
             WinCheckMenuItem(hwnd, IDM_PLUS60K, val);
             WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
