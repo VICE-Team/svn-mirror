@@ -4362,24 +4362,24 @@ msgstr "Navn på MIDI-ud port"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:74
 msgid "Set scaling factor for mouse movement along X"
-msgstr ""
+msgstr "Indstil skaleringsfaktor for musseflytning i X-retning"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:79
 msgid "Set scaling factor for mouse movement along Y"
-msgstr ""
+msgstr "Indstil skaleringsfaktor for musseflytning i Y-retning"
 
 #: src/arch/unix/macosx/cocoa/video.m:152
 msgid "Enable draw synchronization to vertical blank"
-msgstr ""
+msgstr "Tillad tegningssynkronisering med vertikal blanking"
 
 #: src/arch/unix/macosx/cocoa/video.m:157
 msgid "Set number of buffers used for sync draw (0=use default)"
-msgstr ""
+msgstr "Vælg antal buffers til synkrontegning (0=brug standard)"
 
 #: src/arch/unix/macosx/cocoa/video.m:162
 #: src/arch/unix/macosx/cocoa/video.m:167
 msgid "Enable flicker fixing in sync draw"
-msgstr ""
+msgstr "Aktivér blinkereducering i synkrontegning"
 
 #: src/arch/win32/res.rc.po.c:83 src/arch/win32/res.rc.po.c:1292
 #: src/arch/win32/resc128.rc.po.c:19 src/arch/win32/resc64.rc.po.c:19
@@ -5413,12 +5413,12 @@ msgstr "Vælg aspektforhold (0,5-2)"
 #: src/arch/win32/res.rc.po.c:1171
 #, c-format
 msgid "Value %.3f for %s is out of range, using %.3f instead"
-msgstr ""
+msgstr "Værdi %.3f for %s er udenfor det tilladte, bruger %.3f istedet"
 
 #: src/arch/win32/res.rc.po.c:1172
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
-msgstr ""
+msgstr "Værdi %d for %s er udenfor det tilladte, bruger %d istedet"
 
 #: src/arch/win32/res.rc.po.c:1173 src/arch/amigaos/intl_text.c.po.c:6562
 msgid "Gamma (0..4)"
@@ -8865,12 +8865,12 @@ msgstr "Start lydoptagelse..."
 #: src/arch/amigaos/intl_text.c.po.c:2612
 #, c-format
 msgid "Value %d out of range, range is from %d to %d, using %d instead"
-msgstr ""
+msgstr "Værdi %d ugyldig. Tilladt værdi fra %d til %d. Bruger %d istedet"
 
 #: src/arch/amigaos/intl_text.c.po.c:2623
 #, c-format
 msgid "Value %.3f out of range, range is from %.3f to %.3f, using %.3f instead"
-msgstr ""
+msgstr "Værdi %.3f ugyldig. Tilladt værdi fra %.3f til %.3f. Bruger %.3f istedet"
 
 #: src/arch/amigaos/intl_text.c.po.c:2766
 msgid "The device on this port is not a gamepad"
@@ -11959,11 +11959,11 @@ msgstr "Vælg fase-offset for farve-bærebølge på ulige scanlinjer [750]"
 
 #: src/translate_text.c.po.c:7107
 msgid "Amount of horizontal blur for the CRT emulation. [500]"
-msgstr ""
+msgstr "Mængden af horizontal udtværing for CRT emulering. [500]"
 
 #: src/translate_text.c.po.c:7121
 msgid "Amount of scan line shading for the CRT emulation [667]"
-msgstr ""
+msgstr "Mængden af scanlinjeskygge for CRT emulering [667]"
 
 #: src/translate_text.c.po.c:7135
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
@@ -12211,6 +12211,8 @@ msgid ""
 "reSID filter bias setting, which can be used to adjust DAC bias in "
 "millivolts."
 msgstr ""
+"reSID filter biasindstilling, som kan bruges til at justere DAC bias "
+"i millivolt."
 
 #: src/translate_text.c.po.c:7946
 msgid "reSID gain in percent (90 - 100)"
