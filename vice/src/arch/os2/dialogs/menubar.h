@@ -266,6 +266,15 @@
 #define IDM_SAVE_ISEPIC              0x26e
 #define IDM_ISEPICFILE               0x26f
 
+#define IDM_EXPERT_SETTINGS          0x27e
+#define IDM_EXPERT                   0x287
+#define IDM_EXPERT_MODE              0x288
+#define IDM_EXPERT_MODE_OFF          0x289
+#define IDM_EXPERT_MODE_PRG          0x28a
+#define IDM_EXPERT_MODE_ON           0x28b
+#define IDM_SAVE_EXPERT              0x28c
+#define IDM_EXPERTFILE               0x28d
+
 #define IDM_C64_256K_SETTINGS        0x1f5
 #define IDM_C64_256K                 0x16d
 #define IDM_C64_256K_BASE            0x16e
@@ -546,7 +555,6 @@
 #define IDM_CRTWEST                  0x509
 #define IDM_CRTIEEE                  0x50a
 #define IDM_CRTIDE64                 0x50b
-#define IDM_CRTEXPERT                0x50c
 #define IDM_CRTFREEZE                0x50d
 #define IDM_CRTSAVEIMG               0x50e
 #define IDM_CARTRIDGEDET             0x50f

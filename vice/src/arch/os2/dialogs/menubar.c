@@ -423,17 +423,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_CRTIDE64:
             ViceFileDialog(hwnd, 0x0b00 | (idm & 0xf), FDS_OPEN_DIALOG);
             return;
-        case IDM_CRTEXPERT:
-            {
-                int val;
-
-                resources_get_int("CartridgeType", &val);
-                if (val != CARTRIDGE_EXPERT) {
-                    cartridge_enable(CARTRIDGE_EXPERT);
-                    return;
-                }
-            }
-            // FALLTHROUGH!
         case IDM_CARTRIDGEDET:
             cartridge_detach_image(-1);
             return;
@@ -645,6 +634,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SAVE_ISEPIC:
             toggle("IsepicImageWrite");
             return;
+        case IDM_EXPERT:
+            toggle("ExpertCartridgeEnabled");
+            return;
+        case IDM_SAVE_EXPERT:
+            toggle("ExpertImageWrite");
+            return;
         case IDM_DIGIMAX:
             toggle("DIGIMAX");
             return;
@@ -719,6 +714,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_ISEPICFILE:
             resources_set_string("Isepicfilename", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_EXPERTFILE:
+            resources_set_string("Expertfilename", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_EXPERT_MODE_OFF:
+        case IDM_EXPERT_MODE_PRG:
+        case IDM_EXPERT_MODE_ON:
+            resources_set_int("ExpertCartridgeMode", idm - IDM_EXPERT_MODE_OFF);
             return;
         case IDM_SFX_SE_3526:
             resources_set_int("SFXSoundExpanderChip", 3526);
@@ -1445,7 +1448,6 @@ void menu_select(HWND hwnd, USHORT item)
                                                    val == CARTRIDGE_ATOMIC_POWER ||
                                                    val == CARTRIDGE_FINAL_I);
             WinEnableMenuItem(hwnd, IDM_CRTSAVEIMG, val == CARTRIDGE_EXPERT);
-            WinCheckMenuItem (hwnd, IDM_CRTEXPERT, val == CARTRIDGE_EXPERT);
             return;
         case IDM_CARTRIDGE:
             resources_get_int("CartridgeType", &val);
@@ -1460,7 +1462,6 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_CRTWEST, val == CARTRIDGE_WESTERMANN);
             WinCheckMenuItem(hwnd, IDM_CRTIEEE, val == CARTRIDGE_IEEE488);
             WinCheckMenuItem(hwnd, IDM_CRTIDE64, val == CARTRIDGE_IDE64);
-            WinCheckMenuItem(hwnd, IDM_CRTEXPERT, val == CARTRIDGE_EXPERT);
             return;
 #endif
 
@@ -1627,6 +1628,12 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_SAVE_ISEPIC, val);
             WinCheckRes(hwnd, IDM_SAVE_ISEPIC, "IsepicImageWrite");
             WinEnableMenuItem(hwnd, IDM_ISEPICFILE, val);
+            resources_get_int("ExpertCartridgeEnabled", &val);
+            WinCheckMenuItem(hwnd, IDM_EXPERT, val);
+            WinEnableMenuItem(hwnd, IDM_EXPERT_MODE, val);
+            WinEnableMenuItem(hwnd, IDM_SAVE_EXPERT, val);
+            WinCheckRes(hwnd, IDM_SAVE_EXPERT, "ExpertImageWrite");
+            WinEnableMenuItem(hwnd, IDM_EXPERTFILE, val);
             resources_get_int("PLUS60K", &val);
             WinCheckMenuItem(hwnd, IDM_PLUS60K, val);
             WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
@@ -1806,6 +1813,12 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 
 #ifdef __X64__
+        case IDM_EXPERT_MODE:
+            resources_get_int("ExpertCartridgeMode", &val);
+            WinCheckMenuItem(hwnd, IDM_EXPERT_MODE_OFF, val == 0);
+            WinCheckMenuItem(hwnd, IDM_EXPERT_MODE_PRG, val == 1);
+            WinCheckMenuItem(hwnd, IDM_EXPERT_MODE_ON, val == 2);
+            return;
         case IDM_PLUS60KBASE:
             resources_get_int("PLUS60Kbase", &val);
             WinCheckMenuItem(hwnd, IDM_PLUS60KD040, val == 0xd040);

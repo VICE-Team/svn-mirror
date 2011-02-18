@@ -79,7 +79,6 @@ BEGIN
             MENUITEM "~CBM IEEE-488 Interface",           IDM_CRTIEEE,                  MIS_TEXT
             MENUITEM "I~DE64",                            IDM_CRTIDE64,                 MIS_TEXT
         END
-        MENUITEM "~Expert Cartridge",                     IDM_CRTEXPERT,                MIS_TEXT
         MENUITEM "Press Free~ze Button",                  IDM_CRTFREEZE,                MIS_TEXT
         MENUITEM "Save Cartridge ~Image",                 IDM_CRTSAVEIMG,               MIS_TEXT
 #endif
@@ -666,6 +665,19 @@ BEGIN
             MENUITEM "ISEPIC ~Switch",                    IDM_ISEPIC_SWITCH,            MIS_TEXT
             MENUITEM "Save to ISEPIC image when changed", IDM_SAVE_ISEPIC,              MIS_TEXT
             MENUITEM "ISEPIC Filename",                   IDM_ISEPICFILE,               MIS_TEXT
+        END
+
+        SUBMENU "Expert Cartridge Settings",              IDM_EXPERT_SETTINGS,          MIS_TEXT
+        BEGIN
+            MENUITEM "~Expert Cartridge",                 IDM_EXPERT,                   MIS_TEXT
+            SUBMENU "Expert Cartridge Mode",              IDM_EXPERT_MODE,              MIS_TEXT
+            BEGIN
+                MENUITEM "Off",                           IDM_EXPERT_MODE_OFF,          MIS_TEXT
+                MENUITEM "Prg",                           IDM_EXPERT_MODE_PRG,          MIS_TEXT
+                MENUITEM "On",                            IDM_EXPERT_MODE_ON,           MIS_TEXT
+            END
+            MENUITEM "Save to Expert image when changed", IDM_SAVE_EXPERT,              MIS_TEXT
+            MENUITEM "Expert Cartridge Filename",         IDM_EXPERTFILE,               MIS_TEXT
         END
 
         SUBMENU "PLUS60K Settings",                       IDM_PLUS60K_SETTINGS,         MIS_TEXT
