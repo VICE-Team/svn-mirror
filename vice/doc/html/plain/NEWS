@@ -174,7 +174,28 @@ left from previous installs.
 ** Mac OS X changes
 -------------------
 
--
+- Added IO Tree to display a tree of IO registers and decode their meaning.
+  Currently only the C64 IO registers are supported, but you can extend the IO
+  Tree yourself by editing the "IOTree.plist" file. Please submit your IO Tree
+  extensions!
+
+- Added Debugger Windows for Memory, Register and Disassembly Display.
+  These windows assist the monitor mode and display the machine state.
+  A popup window in the disassembly view allows you to set and alter breakpoints.
+
+- Joysticks with sliders and hats are now supported. A single joystick can be
+  shared for HID device a and b. Some workarounds for broken USB devices added.
+
+- Added "virtual" auto-fire to Joystick settings.
+
+- Added True Pixel Aspect Ratio Display. This simulates the behavior that the
+  screen of an emulator is smaller in width if the pixels are not squares.
+
+- Fixes in x64 and x128 osx keymaps.
+
+- Correctly restore scale, position, and ordering of all emulator windows.
+
+- Added 64 Bit compiles using gcc and clang compilers.
 
 ** SDL UI changes
 -----------------
