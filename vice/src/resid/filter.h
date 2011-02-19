@@ -445,11 +445,9 @@ protected:
     unsigned short mixer[mixer_offset<8>::value];
     // Cutoff frequency DAC output voltage table. FC is an 11 bit register.
     unsigned short f0_dac[1 << 11];
-    // Op-amp transfer function.
-    int opamp[1 << 19];
   } model_filter_t;
 
-  int solve_gain(int n, int vi_t, int& x, model_filter_t& mf);
+  int solve_gain(int* opamp, int n, int vi_t, int& x, model_filter_t& mf);
   int solve_integrate_6581(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
 
   // VCR - 6581 only.
@@ -1332,7 +1330,7 @@ f = (2*b - vo)*vo - a*(2*b - vx)*vx + c
 df = 2*((b - vo)*dvo - a*(b - vx))
 */
 RESID_INLINE
-int Filter::solve_gain(int n, int vi_n, int& x, model_filter_t& mf)
+int Filter::solve_gain(int* opamp, int n, int vi_n, int& x, model_filter_t& mf)
 {
   // Translate normalized vi.
   int vi = vi_n + mf.vo_T19;
@@ -1350,7 +1348,7 @@ int Filter::solve_gain(int n, int vi_n, int& x, model_filter_t& mf)
     int xk = x;
 
     // Calculate f and df.
-    int vo_dvo = mf.opamp[x - mf.vo_T19];
+    int vo_dvo = opamp[x - mf.vo_T19];
     int vo = (vo_dvo & 0x7ffff) + mf.vo_T19;  // Scaled by m*2^19
     int dvo = vo_dvo >> 19;                   // Scaled by 2^8
 

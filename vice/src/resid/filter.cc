@@ -168,6 +168,9 @@ Filter::Filter()
   static bool class_init;
 
   if (!class_init) {
+    // Temporary table for op-amp transfer function.
+    int* opamp = new int[1 << 19];
+
     for (int m = 0; m < 2; m++) {
       model_filter_init_t& fi = model_filter_init[m];
       model_filter_t& mf = model_filter[m];
@@ -230,19 +233,19 @@ Filter::Filter()
       }
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
-		  PointPlotter<int>(mf.opamp), 1.0);
+		  PointPlotter<int>(opamp), 1.0);
 
       // Store both fn and dfn in the same table.
-      int f = mf.opamp[0];
+      int f = opamp[0];
       for (int j = 0; j < (1 << 19); j++) {
 	int fp = f;
-	f = mf.opamp[j];  // Scaled by m*2^31
+	f = opamp[j];  // Scaled by m*2^31
 	// m*2^31*dy/1 = (m*2^31*dy)/(m*2^19*dx) = 2^12*dy/dx
 	int df = f - fp;  // Scaled by 2^12
 
 	// High 13 bits (12 bits + sign bit): 2^8*dfn
 	// Low 19 bits (unsigned):            m*2^19*(fn - xmin)
-	mf.opamp[j] = ((df << (19 + 8 - 12)) & ~0x7ffff) | (f >> 12);
+	opamp[j] = ((df << (19 + 8 - 12)) & ~0x7ffff) | (f >> 12);
       }
 
       // Create lookup tables for gains / summers.
@@ -257,7 +260,7 @@ Filter::Filter()
       for (int n8 = 0; n8 < 16; n8++) {
 	int n = n8 << 4;  // Scaled by 2^7
 	for (int vi = 0; vi < (1 << 16); vi++) {
-	  mf.gain[n8][vi] = solve_gain(n, vi << 3, x, mf) >> 3;
+	  mf.gain[n8][vi] = solve_gain(opamp, n, vi << 3, x, mf) >> 3;
 	}
       }
 
@@ -277,7 +280,7 @@ Filter::Filter()
 	size = idiv << 16;
 	for (int vi = 0; vi < size; vi++) {
 	  mf.summer[offset + vi] =
-	    solve_gain(n_idiv, (vi << 3)/idiv, x, mf) >> 3;
+	    solve_gain(opamp, n_idiv, (vi << 3)/idiv, x, mf) >> 3;
 	}
 	offset += size;
       }
@@ -300,7 +303,7 @@ Filter::Filter()
 	}
 	for (int vi = 0; vi < size; vi++) {
 	  mf.mixer[offset + vi] =
-	    solve_gain(n_idiv, (vi << 3)/idiv, x, mf) >> 3;
+	    solve_gain(opamp, n_idiv, (vi << 3)/idiv, x, mf) >> 3;
 	}
 	offset += size;
 	size = (l + 1) << 16;
@@ -325,6 +328,9 @@ Filter::Filter()
 	mf.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5);
       }
     }
+
+    // Free temporary table.
+    delete[] opamp;
 
     // VCR - 6581 only.
     int Vddt = model_filter[0].Vddt;
