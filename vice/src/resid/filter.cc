@@ -139,7 +139,7 @@ static model_filter_init_t model_filter_init[2] = {
     sizeof(opamp_voltage_8580)/sizeof(*opamp_voltage_8580),
     // FIXME: Measure for the 8580.
     1.0,
-    0.5,  // FIXME: For now we pretend that the working point is 0V.
+    0.75,  // FIXME: For now we pretend that the working point is 0V.
     470e-12,
     12.18,
     1.31,
