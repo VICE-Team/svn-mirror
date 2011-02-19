@@ -30,7 +30,7 @@
 #ifndef VICE_PLATFORM_MACOSX_H
 #define VICE_PLATFORM_MACOSX_H
 
-#include "CoreServices/CoreServices.h"
+#include "AvailabilityMacros.h"
 
 /* determine compile-time OS */
 #ifdef MAC_OS_X_VERSION_10_7

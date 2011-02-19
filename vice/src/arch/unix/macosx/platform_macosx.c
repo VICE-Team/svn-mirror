@@ -30,6 +30,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#include "CoreServices/CoreServices.h"
 #include "platform_macosx.h"
 
 #define MAX_OS_CPU_STR 64
