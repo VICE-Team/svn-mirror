@@ -5,7 +5,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 dnl Use Autoconf
 AC_PREREQ([2.56])
-AC_INIT([reSID], [1.0-pre1], [resid@nimrod.no])
+AC_INIT([reSID], [1.0-pre2], [resid@nimrod.no])
 AC_CONFIG_SRCDIR([sid.h])
 
 dnl Use Automake
