@@ -338,7 +338,17 @@ Filter::Filter()
     for (int i = 0; i < (1 << 16); i++) {
       // The table index is right-shifted 16 times in order to fit in
       // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
-      vcr_Vg[i] = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5f);
+      int Vg = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5f);
+      if (Vg >= (1 << 16)) {
+	// Clamp to 16 bits.
+	// FIXME: If the DAC output voltage exceeds the max op-amp output
+	// voltage while the input voltage is at the max op-amp output
+	// voltage, Vg will not fit in 16 bits.
+	// Check whether this can happen, and if so, change the lookup table
+	// to a plain sqrt.
+	Vg = (1 << 16) - 1;
+      }
+      vcr_Vg[i] = Vg;
     }
 
     /*
