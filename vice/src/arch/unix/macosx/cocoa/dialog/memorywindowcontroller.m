@@ -207,7 +207,7 @@
             line[i] = charset_p_toascii(bytes[i],0);
         }
         
-        theValue = [NSString stringWithCString:line encoding:NSUTF8StringEncoding];
+        theValue = [NSString stringWithCString:(char *)line encoding:NSUTF8StringEncoding];
 
         // compare data and mark differences
         if(sameBank) {
@@ -225,7 +225,7 @@
             line[i] = charset_p_toascii(charset_screencode_to_petcii(bytes[i]),0);
         }
         
-        theValue = [NSString stringWithCString:line encoding:NSUTF8StringEncoding];
+        theValue = [NSString stringWithCString:(char *)line encoding:NSUTF8StringEncoding];
         
         // compare data and mark differences
         if(sameBank) {
