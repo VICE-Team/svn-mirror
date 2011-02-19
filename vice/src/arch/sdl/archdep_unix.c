@@ -644,3 +644,10 @@ static void archdep_shutdown_extra(void)
     lib_free(argv0);
     lib_free(boot_path);
 }
+
+
+/* Fetch Platform Stuff for Mac OS X */
+#ifdef MACOSX_BUNDLE
+#include "../unix/macosx/platform_macosx.c"
+#endif
+
