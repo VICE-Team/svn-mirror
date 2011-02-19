@@ -103,16 +103,7 @@
 
 /* MacOS X discovery */
 #ifdef __APPLE__
-#   define PLATFORM_OS "Mac OS X"
-#   ifdef __POWERPC__
-#       define PLATFORM_CPU "ppc"
-#   else
-#       ifdef __x86_64
-#           define PLATFORM_CPU "x86_64"
-#       else
-#           define PLATFORM_CPU "i386"
-#       endif
-#   endif
+#include "unix/macosx/platform_macosx.h"
 #endif
 
 /* AIX discovery */
@@ -459,11 +450,13 @@ inline static char *platform_get_ui(void)
 #endif
 }
 
+#ifndef PLATFORM_GET_RUNTIME_OS_DECLARED
 inline static char *platform_get_runtime_os(void)
 {
     /* dummy till implemented */
     return "not yet implemented";
 }
+#endif
 
 #ifndef PLATFORM_GET_RUNTIME_CPU_DECLARED
 inline static char *platform_get_runtime_cpu(void)
