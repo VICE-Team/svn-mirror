@@ -1,5 +1,984 @@
 ------------------------------------------------------------------------------
 
+2011-02-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, doc/vice.guide, doc/vice.chm,
+	doc/vice.pdf, doc/vice.hlp, po/fr.po, po/nl.po, po/pl.po, po/it.po,
+	po/hu.po, po/da.po, po/tr.po, po/de.po, po/sv.po: VICE version 2.3
+
+2011-02-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* doc/html/plain/NEWS: macosx: updated NEWS
+
+2011-02-19 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: VCR: Safer scaling for Vg
+	table lookup indexes
+
+2011-02-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.m: macosx:
+	fixed some warnings
+
+2011-02-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/platform_macosx.c,
+	src/arch/unix/macosx/platform_macosx.h: macosx: better compatiblity for
+	platform query
+
+2011-02-19 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: VCR: Simple is beautiful (and fast\!)
+
+2011-02-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/sdl/archdep_unix.c: macosx: fixed platform detection on SDL
+	version
+
+2011-02-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/platform_macosx.c,
+	src/arch/unix/macosx/platform_macosx.h: fixed comment
+
+2011-02-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/platform.h, src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/platform_macosx.c,
+	src/arch/unix/macosx/platform_macosx.h: macosx: added runtime OS and
+	arch detection
+
+2011-02-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/filter.cc: Whoops! 0.75 was correct all along.
+
+2011-02-19  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/filter.cc: Adjust 8580 peak-to-peak down by 1/3, to avoid
+	clipping on songs like Pot Wears Loon Pants or Drum Fool.
+
+2011-02-19 Dag Lem <resid@nimrod.no>
+
+	* src/resid/siddefs.h.in: Prefixed leftover defines with "RESID_"
+
+2011-02-19  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/info.c: Added a mention of test result contributors.
+
+2011-02-19 Dag Lem <resid@nimrod.no>
+
+	* src/resid/configure.in: reSID 1.0-pre2
+
+2011-02-19 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h: VCR: Simplification/beautification
+
+2011-02-19 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: Clamp Vg lookup table values to 16 bits
+
+2011-02-18 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Temporary op-amp
+	initializiation table (shaves 4MB data off data segment)
+
+2011-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-emulator.rc: Fixed a typo.
+
+2011-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-emulator.rc: Fixed a typo.
+
+2011-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added proper expert cartridge support
+	to the os/2 ui.
+
+2011-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added several 'save ... image when
+	changed' elements to the os/2 ui.
+
+2011-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added mmc replay support to the
+	os/2 ui.
+
+2011-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added mmc64 support to the os/2 ui.
+
+2011-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added vic20 cart writebacks to the
+	os/2 ui.
+
+2011-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po: Updated by Mikkel.
+
+2011-02-17  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* doc/html/macosx.html: updated macosx download page
+
+2011-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added vic20 cart support to the os/2 ui.
+
+2011-02-03  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/filter.cc, src/resid/filter.h: Make the 6581 Vcr element
+	calculation entirely branch-free by using a form that allows generating
+	conditional move. This seems to give a significant speed boost on ARM
+	devices.
+
+2011-02-16 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: Replace K with u*Cox/2 for clarity
+
+2011-02-16 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: Fixed scaling of (unused) vc_min/max
+
+2011-02-16 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h: VCR micro-optimization
+
+2011-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: vice.h already includes
+	config.h, including vice.h is the prefered method.
+
+2011-02-16  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/info.c: Cosmetic change.
+
+2011-02-16  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: Clean up comment.
+
+2011-02-16  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/info.c: Further updated info on x64sc contributions.
+
+2011-02-16 Dag Lem <resid@nimrod.no>
+
+	* src/resid/configure.in, src/resid/filter.cc, src/resid/filter.h,
+	src/resid/siddefs.h.in, src/resid/wave.h: Use EKV transistor model
+	for VCR
+
+2011-02-16  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/info.c: Updated info on recent contributions.
+
+2011-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Enable building of x64dtv when sdlui is enabled.
+
+2011-02-16  pottendo <pottendo@aon.at>
+
+	* po/da.po, po/it.po, po/nl.po, po/tr.po: Updated.
+
+2011-02-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/midi.c: Put the ending #endif in the proper spot.
+
+2011-02-16  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-02-16  pottendo <pottendo@aon.at>
+
+	* po/sv.po: Updated by Peter.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: Don't define intptr_t when
+	sys/int_types.h has already been included.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/qnx4/build.sh: Don't use builtin_expect for qnx4.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: Don't typedef wchar_t when
+	already defined in stddef.h
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/index.html,
+	doc/html/qnx.html, doc/html/sco.html, doc/html/solaris.html: Prepared
+	some of the source/bin download pages for the 2.3 release.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed a typo.
+
+2011-02-15  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/main.c: Corrected a syntax error.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: Last tweak for
+	international support in TextField.c
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, doc/Readme.dos, doc/vice.texi, man/vice.1,
+	src/arch/amigaos/mui/mui.c, src/arch/beos/ui.cc,
+	src/arch/msdos/menudefs.c, src/arch/msdos/ui.c,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/os2/install.cmd,
+	src/arch/sdl/make-bindist_qnx6.sh, src/arch/unix/macosx/x11-launcher.sh,
+	src/arch/unix/qnx6/make-bindist.sh, src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/xaw/about.c, src/resid/README, src/resid/THANKS,
+	vice-gtk.spec.in, vice-mint.spec.in, vice.spec.in: Updated the vice
+	homepage url.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html, doc/vice.texi, src/arch/amigaos/mui/mui.c,
+	src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/sdl/menu_help.c,
+	src/arch/unix/x11/gnome/about.c, src/arch/unix/x11/xaw/about.c,
+	src/arch/win32/res.rc, src/info.c, src/main.c: Updated the members
+	lists.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/Makefile.am,
+	src/arch/unix/x11/xaw/widgets/utf8ext.c,
+	src/arch/unix/x11/xaw/widgets/utf8ext.h: Removed (no longer needed)
+	utf8ext.* files.
+
+2011-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/x11/xaw/widgets/TextField.c: Fixes for
+	TextField.c: added configure tests for _Xlc_* functions and added
+	(modified) patch by Olaf.
+
+2011-02-15  pottendo <pottendo@aon.at>
+
+	* po/da.po: Updated by Mikkel.
+
+2011-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: More fixes for non-wchar
+	platforms.
+
+2011-02-14  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* data/C128/osx_pos.vkm, data/C128/osx_sym.vkm: macosx: fixed Y/Z for
+	US x128 keyboard
+
+2011-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/socketimpl.h: Added openserver 5 fix.
+
+2011-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* vice-mint.spec.in: Changed --with-sdl to --with-sdlsound.
+
+2011-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/x11/xaw/widgets/TextField.c: Fixed for
+	platforms without intptr_t and wchar.h, added wchar.h test to configure.
+
+2011-02-14  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Fixed declaration of framecounter.
+
+2011-02-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: changed the xrandr configure test to test for
+	XRRConfigCurrentRate, since the original test was not enough to exclude
+	older xrandr libs that didn't have the needed functions.
+
+2011-02-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uic64cart.c: Fixed the position of a variable init.
+
+2011-02-13  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/core/ciacore.c: Remove "Timer B bug" flag if normal interrupt
+	occurs.
+
+2011-02-13  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/core/ciacore.c: Fixes missing CIA/6526A interrupt delay if
+	acknowledged on cycle before.
+
+2011-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.rc: Removed IEC references from the
+	os/2 printer ui items.
+
+2011-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: Only include stdint.h when
+	configure has defined it as present.
+
+2011-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/utf8ext.c: Forgot to include utf8ext.h
+	in utf8ext.c
+
+2011-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added 'raw printer' support to the
+	os/2 ui.
+
+2011-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/Makefile.am,
+	src/arch/unix/x11/xaw/widgets/TextField.c,
+	src/arch/unix/x11/xaw/widgets/utf8ext.c,
+	src/arch/unix/x11/xaw/widgets/utf8ext.h: Some of the utf8 calls used in
+	TextField.c are only available if the X11 dev package is based on
+	XFree86 4.0.2 and higher, so I added the utf8 extension code to be used
+	in case the platform doesn't have it in its X11 dev.
+
+2011-02-11  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Added "drop every second frame" feature
+	requested by Moon. No GUI as this is already freezed for 2.3.
+
+2011-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added 'load to basic start' to the
+	os/2 ui.
+
+2011-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added v364 speech support to the
+	os/2 ui.
+
+2011-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added magic voice support to the
+	os/2 ui.
+
+2011-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/soundbeos.cc: #if 0'ed a line in the beos sound driver
+	that seems to be responsible for it 'hanging' in certain circumstances.
+
+2011-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/videoarch.h: Added some fixes for when the windows
+	resources are compiled with wrc.
+
+2011-02-11  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/sounddrv/soundwmm.c: Remove an nunnecessary include and 3 warnings
+
+2011-02-11  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/sounddrv/sounddx.c: Do not compile sounddx.c if not necessary
+
+2011-02-10  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/interrupt.h: Add debug output for NMI.
+
+2011-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc: Put
+	some I/O extensions in sub menus in the os/2 ui.
+
+2011-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added pet dww support to the os/2 ui.
+
+2011-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/riscos/uiconfig.c, src/arch/riscos/uiconfig.h,
+	src/arch/riscos/uihelp.c: Removed emuid from the riscos ui.
+
+2011-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Removed emuid from the os/2 ui.
+
+2011-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Seperated c64 model menu actions from
+	menu selections and put them in the correct places.
+
+2011-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c: Added a 25 warning msg limit for the cycle based buffer
+	overflow msg.
+
+2011-02-09 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: The 8580 cutoff frequency is never 0
+
+2011-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added c64 model selection to the
+	os/2 ui.
+
+2011-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64carthooks.c: Added the other missing #ifdef HAVE_MIDI.
+
+2011-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64carthooks.c: Added missing #ifdef HAVE_MIDI.
+
+2011-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/residdtv-voice.cc,
+	src/arch/sdl/win32-watcom/residdtv-wave.cc,
+	src/arch/sdl/win32-watcom/residdtv.tgt,
+	src/arch/sdl/win32-watcom/residfp-pot.cc,
+	src/arch/sdl/win32-watcom/residfp-wave.cc,
+	src/arch/sdl/win32-watcom/residfp.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/watcom-source-wrappers/residdtv-voice.cc,
+	src/arch/watcom-source-wrappers/residdtv-wave.cc,
+	src/arch/watcom-source-wrappers/residfp-pot.cc,
+	src/arch/watcom-source-wrappers/residfp-wave.cc,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/resid-dtv.tgt,
+	src/arch/win32/watcom/resid-fp.tgt,
+	src/arch/win32/watcom/residdtv-voice.cc,
+	src/arch/win32/watcom/residdtv-wave.cc,
+	src/arch/win32/watcom/residfp-pot.cc,
+	src/arch/win32/watcom/residfp-wave.cc, src/arch/win32/watcom/vice.wpj:
+	More ow code duplication cleanup.
+
+2011-02-07 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: Resonance function for the 8580, worked out from
+	revectorized die photographs. Removed the last remaining divisions and
+	floating point code from runtime.
+
+2011-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/residdtv-extfilt.cc,
+	src/arch/sdl/win32-watcom/residdtv-filter.cc,
+	src/arch/sdl/win32-watcom/residdtv-version.cc,
+	src/arch/sdl/win32-watcom/residdtv.tgt,
+	src/arch/sdl/win32-watcom/residfp-filter.cc,
+	src/arch/sdl/win32-watcom/residfp-version.cc,
+	src/arch/sdl/win32-watcom/residfp-voice.cc,
+	src/arch/sdl/win32-watcom/residfp.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/watcom-source-wrappers/residdtv-extfilt.cc,
+	src/arch/watcom-source-wrappers/residdtv-filter.cc,
+	src/arch/watcom-source-wrappers/residdtv-version.cc,
+	src/arch/watcom-source-wrappers/residfp-filter.cc,
+	src/arch/watcom-source-wrappers/residfp-version.cc,
+	src/arch/watcom-source-wrappers/residfp-voice.cc,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/resid-dtv.tgt,
+	src/arch/win32/watcom/resid-fp.tgt,
+	src/arch/win32/watcom/residdtv-extfilt.cc,
+	src/arch/win32/watcom/residdtv-filter.cc,
+	src/arch/win32/watcom/residdtv-version.cc,
+	src/arch/win32/watcom/residfp-filter.cc,
+	src/arch/win32/watcom/residfp-version.cc,
+	src/arch/win32/watcom/residfp-voice.cc, src/arch/win32/watcom/vice.wpj:
+	More ow code duplication cleanup.
+
+2011-02-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64-midi.c, src/c64/cart/sfx_soundexpander.c,
+	src/c64/cart/sfx_soundsampler.c, src/c64/cart/tfe.c, src/core/cs8900.c,
+	src/core/cs8900.h, src/core/fmopl.c, src/core/fmopl.h,
+	src/core/ser-eeprom.c, src/core/ser-eeprom.h, src/core/spi-sdcard.c,
+	src/core/spi-sdcard.h, src/core/t6721.c, src/core/t6721.h, src/midi.c,
+	src/midi.h, src/rtc/ds1302.c, src/rtc/ds1302.h: added/prepared some
+	more snapshot stubs
+
+2011-02-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64-midi.c, src/c64/cart/c64-midi.h,
+	src/c64/cart/c64carthooks.c, src/c64/cart/ide64.c, src/c64/cart/ide64.h,
+	src/c64/cart/magicvoice.c, src/c64/cart/magicvoice.h,
+	src/c64/cart/mmc64.c, src/c64/cart/mmc64.h, src/c64/cart/mmcreplay.c,
+	src/c64/cart/mmcreplay.h, src/c64/cart/sfx_soundexpander.c,
+	src/c64/cart/sfx_soundexpander.h, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/sfx_soundsampler.h, src/c64/cart/snapshot64.c,
+	src/c64/cart/tfe.c, src/c64/cart/tfe.h: added stubs for snapshot
+	read/write and return proper error instead of silently not work :)
+
+2011-02-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/snapshot64.c: changed rom switching (makes codebuster
+	rom work)
+
+2011-02-06  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/tape/tap.c: In C16 tapes, tap_cbm_read_block() must be called
+	with the right size of header, because C16 headers do not have an end
+	marker, so the size cannot be autodetected
+
+2011-02-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/stardos.c: fix roml mapping, emulate capacitor (more)
+	correctly
+
+2011-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/os2/Makefile.am,
+	src/arch/os2/watcom/resid-sid.cc, src/arch/os2/watcom/resid.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/viciisc.tgt,
+	src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/resid-sid.cc,
+	src/arch/sdl/win32-watcom/resid.tgt,
+	src/arch/sdl/win32-watcom/residdtv-envelope.cc,
+	src/arch/sdl/win32-watcom/residdtv-sid.cc,
+	src/arch/sdl/win32-watcom/residdtv.tgt,
+	src/arch/sdl/win32-watcom/residfp-envelope.cc,
+	src/arch/sdl/win32-watcom/residfp-extfilt.cc,
+	src/arch/sdl/win32-watcom/residfp-sid.cc,
+	src/arch/sdl/win32-watcom/residfp.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/viciinew-snapshot.c,
+	src/arch/sdl/win32-watcom/viciinew-timing.c,
+	src/arch/sdl/win32-watcom/viciinew.tgt,
+	src/arch/watcom-source-wrappers/resid-sid.cc,
+	src/arch/watcom-source-wrappers/residdtv-envelope.cc,
+	src/arch/watcom-source-wrappers/residdtv-sid.cc,
+	src/arch/watcom-source-wrappers/residfp-envelope.cc,
+	src/arch/watcom-source-wrappers/residfp-extfilt.cc,
+	src/arch/watcom-source-wrappers/residfp-sid.cc,
+	src/arch/watcom-source-wrappers/viciisc-snapshot.c,
+	src/arch/watcom-source-wrappers/viciisc-timing.c,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/resid-dtv.tgt,
+	src/arch/win32/watcom/resid-fp.tgt, src/arch/win32/watcom/resid-sid.cc,
+	src/arch/win32/watcom/resid.tgt,
+	src/arch/win32/watcom/residdtv-envelope.cc,
+	src/arch/win32/watcom/residdtv-sid.cc,
+	src/arch/win32/watcom/residfp-envelope.cc,
+	src/arch/win32/watcom/residfp-extfilt.cc,
+	src/arch/win32/watcom/residfp-sid.cc, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/viciinew-snapshot.c,
+	src/arch/win32/watcom/viciinew-timing.c,
+	src/arch/win32/watcom/viciinew.tgt: More ow code duplication cleanup.
+
+2011-02-06 Dag Lem <resid@nimrod.no>
+
+	* src/sid/sid-snapshot.c: Bumped SIDEXTENDED snapshot version to 1.1
+
+2011-02-06  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/html/plain/NEWS: Added a note about the changed ColorGamma range
+	and a general note on upgrading.
+
+2011-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/coding-guidelines.txt: Added skoe's refinement of the coding
+	guidelines document.
+
+2011-02-06  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/tape/tap.c: If a TAP file was corrupt, and there was a
+	start-of-pause marker (0 byte) followed by less than 3 bytes then EOF,
+	the function tap_find_pilot() went into an infinite loop
+
+2011-02-06  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/html/plain/NEWS: Added mentions of a few additional fixes.
+
+2011-02-06  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* doc/html/plain/NEWS: Elaborated on x64sc.  Added note about
+	autostart inject.
+
+2011-02-06  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/joy.c: macosx: enabled joystick settings in x64sc
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/viciisc.tgt, src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/viciinew-color.c,
+	src/arch/sdl/win32-watcom/viciinew-draw.c,
+	src/arch/sdl/win32-watcom/viciinew-fetch.c,
+	src/arch/sdl/win32-watcom/viciinew-irq.c,
+	src/arch/sdl/win32-watcom/viciinew-mem.c,
+	src/arch/sdl/win32-watcom/viciinew-phi1.c,
+	src/arch/sdl/win32-watcom/viciinew-resources.c,
+	src/arch/sdl/win32-watcom/viciinew.tgt,
+	src/arch/watcom-source-wrappers/viciisc-color.c,
+	src/arch/watcom-source-wrappers/viciisc-draw.c,
+	src/arch/watcom-source-wrappers/viciisc-fetch.c,
+	src/arch/watcom-source-wrappers/viciisc-irq.c,
+	src/arch/watcom-source-wrappers/viciisc-mem.c,
+	src/arch/watcom-source-wrappers/viciisc-phi1.c,
+	src/arch/watcom-source-wrappers/viciisc-resources.c,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/viciinew-color.c,
+	src/arch/win32/watcom/viciinew-draw.c,
+	src/arch/win32/watcom/viciinew-fetch.c,
+	src/arch/win32/watcom/viciinew-irq.c,
+	src/arch/win32/watcom/viciinew-mem.c,
+	src/arch/win32/watcom/viciinew-phi1.c,
+	src/arch/win32/watcom/viciinew-resources.c,
+	src/arch/win32/watcom/viciinew.tgt: More ow code duplication cleanup.
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/os2/Makefile.am,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/viciisc.tgt,
+	src/arch/os2/watcom/xpet-main.c, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4-main.c, src/arch/os2/watcom/xplus4.tgt,
+	src/arch/os2/watcom/xvic-main.c, src/arch/os2/watcom/xvic.tgt,
+	src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/viciinew-cmdline-options.c,
+	src/arch/sdl/win32-watcom/viciinew.c,
+	src/arch/sdl/win32-watcom/viciinew.tgt,
+	src/arch/sdl/win32-watcom/x64.tgt, src/arch/sdl/win32-watcom/x64main.c,
+	src/arch/sdl/win32-watcom/xpet.tgt,
+	src/arch/sdl/win32-watcom/xpetmain.c,
+	src/arch/sdl/win32-watcom/xplus4.tgt,
+	src/arch/sdl/win32-watcom/xplus4main.c,
+	src/arch/sdl/win32-watcom/xvic.tgt,
+	src/arch/sdl/win32-watcom/xvicmain.c,
+	src/arch/watcom-source-wrappers/viciisc-cmdline-options.c,
+	src/arch/watcom-source-wrappers/viciisc.c,
+	src/arch/watcom-source-wrappers/x64-main.c,
+	src/arch/watcom-source-wrappers/xpet-main.c,
+	src/arch/watcom-source-wrappers/xplus4-main.c,
+	src/arch/watcom-source-wrappers/xvic-main.c,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/viciinew-cmdline-options.c,
+	src/arch/win32/watcom/viciinew.c, src/arch/win32/watcom/viciinew.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64main.c,
+	src/arch/win32/watcom/xpet.tgt, src/arch/win32/watcom/xpetmain.c,
+	src/arch/win32/watcom/xplus4.tgt, src/arch/win32/watcom/xplus4main.c,
+	src/arch/win32/watcom/xvic.tgt, src/arch/win32/watcom/xvicmain.c: More
+	ow code duplication cleanup.
+
+2011-02-05 Dag Lem <resid@nimrod.no>
+
+	* src/arch/platform_cpu_type.h: Added missing include of string.h
+
+2011-02-05 Dag Lem <resid@nimrod.no>
+
+	* src/resid/sid.h, src/sid/resid.cc, src/sid/sid-snapshot.c,
+	src/sid/sid-snapshot.h: Added new reSID state variables to SID snapshot
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/os2/Makefile.am,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/x128-main.c,
+	src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x64dtv-main.c,
+	src/arch/os2/watcom/x64dtv.tgt, src/arch/os2/watcom/x64sc-main.c,
+	src/arch/os2/watcom/x64sc.tgt, src/arch/os2/watcom/xcbm2-main.c,
+	src/arch/os2/watcom/xcbm2.tgt, src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/sdl/win32-watcom/x128.tgt,
+	src/arch/sdl/win32-watcom/x128main.c,
+	src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64dtvmain.c,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/x64scmain.c,
+	src/arch/sdl/win32-watcom/xcbm2.tgt,
+	src/arch/sdl/win32-watcom/xcbm2main.c,
+	src/arch/watcom-source-wrappers/genwinres32.c,
+	src/arch/watcom-source-wrappers/x128-main.c,
+	src/arch/watcom-source-wrappers/x64dtv-main.c,
+	src/arch/watcom-source-wrappers/x64sc-main.c,
+	src/arch/watcom-source-wrappers/xcbm2-main.c,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/genwinres32.c,
+	src/arch/win32/watcom/genwinres32.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x128main.c,
+	src/arch/win32/watcom/x64dtv.tgt, src/arch/win32/watcom/x64dtvmain.c,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/x64scmain.c,
+	src/arch/win32/watcom/xcbm2.tgt, src/arch/win32/watcom/xcbm2main.c: More
+	ow code duplication cleanup.
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/makebindist.bat: Refined the os/2 ow bindist
+	batch file a bit.
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.rc: Fixed a typo.
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/os2/Makefile.am,
+	src/arch/os2/watcom/gentranslate32.tgt, src/arch/os2/watcom/vic20.tgt,
+	src/arch/os2/watcom/vic20cart-generic.c, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/gentranslate32.tgt,
+	src/arch/sdl/win32-watcom/vic20cart-generic.c,
+	src/arch/sdl/win32-watcom/vic20cart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/watcom-source-wrappers,
+	src/arch/watcom-source-wrappers/gentranslate32.c,
+	src/arch/watcom-source-wrappers/vic20cart-generic.c,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/gentranslate32.c,
+	src/arch/win32/watcom/gentranslate32.tgt,
+	src/arch/win32/watcom/vic20.tgt,
+	src/arch/win32/watcom/vic20cart-generic.c,
+	src/arch/win32/watcom/vice.wpj: Start of the ow wrapper file code
+	duplication cleanup.
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/install.cmd, src/arch/os2/makedist.cmd: Fixed some
+	elements of the os/2 makedist.cmd and install.cmd files.
+
+2011-02-05  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/capture.c,
+	src/c64/cart/capture.h, src/c64/cart/exos.c, src/c64/cart/exos.h,
+	src/c64/cart/finalplus.c, src/c64/cart/finalplus.h,
+	src/c64/cart/generic.c, src/c64/cart/generic.h,
+	src/c64/cart/magicformel.c, src/c64/cart/magicformel.h,
+	src/c64/cart/mmcreplay.c, src/c64/cart/mmcreplay.h,
+	src/c64/cart/stardos.c, src/c64/cart/stardos.h: added missing hooks
+	for vic-ii ultimax fetches
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/Makefile.am, doc/vice.inf, src/arch/os2/Makefile.am,
+	src/arch/os2/makedist.cmd, src/arch/os2/texi2ipf,
+	src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/VICE_HLP.ICC,
+	src/arch/os2/vac++/VICE_INF.ICC, src/arch/os2/watcom/makebindist.bat:
+	Moved os/2 vice.inf to the top doc dir (where it belongs) and added
+	support for creating the os/2 vice.inf file (even when cross-compiling).
+
+2011-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/watcom/makebindist.bat: Added
+	a bindist batch file for os/2 ow.
+
+2011-02-05  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/capture.c,
+	src/c64/cart/capture.h, src/c64/cart/exos.c, src/c64/cart/exos.h,
+	src/c64/cart/finalplus.c, src/c64/cart/finalplus.h,
+	src/c64/cart/gamekiller.c, src/c64/cart/gamekiller.h,
+	src/c64/cart/magicformel.c, src/c64/cart/magicformel.h,
+	src/c64/cart/stardos.c, src/c64/cart/stardos.h, src/c64/cart/zaxxon.c,
+	src/c64/cart/zaxxon.h: added memory peek
+
+2011-02-05 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h: VCR: Yet another micro-optimization - only load
+	constant when used in calculation of triode mode current
+
+2011-02-05 Dag Lem <resid@nimrod.no>
+
+	* src/resid/envelope.h, src/resid/voice.h, src/resid/wave.cc,
+	src/resid/wave.h: Shave 64KB off waveform arrays, and facilitate
+	16x16->32 multiplication in envelope modulation
+
+2011-02-05 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: VCR: Micro-optimization in
+	caculation of triode mode
+
+2011-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc: Added vice.GID to the svn ignore list.
+
+2011-02-04  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/generic.c,
+	src/c64/cart/generic.h, src/c64/cart/retroreplay.c,
+	src/c64/cart/retroreplay.h: remove direct export.x usage
+
+2011-02-04  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: 19 to 16 bit conversion
+	almost complete
+
+2011-02-04  Dag Lem <resid@nimrod.no>
+
+	* src/resid/dac.cc, src/resid/dac.h, src/resid/envelope.cc,
+	src/resid/envelope.h, src/resid/filter.cc, src/resid/filter.h,
+	src/resid/wave.cc, src/resid/wave.h: Start of work to store most filter
+	variables in 16 instead of 19 bits, as suggested by Antti Lankila.
+
+2011-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/x64sc.tgt: Added
+	.rc processing for x64sc to the os2 watcom project files.
+
+2011-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/c64.icc: Fixed a typo.
+
+2011-02-04  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Reverted non-portable hack,
+	which also fails to pass my secret beauty vs. benefit test :-)
+
+2011-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/siddtvdefs.h,
+	src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/X1541.ICC,
+	src/arch/os2/vac++/incl/c128.icc, src/arch/os2/vac++/incl/c64cart.icc,
+	src/arch/os2/vac++/incl/iec.icc, src/arch/os2/vac++/incl/iec128dcr.icc,
+	src/arch/os2/vac++/incl/iecc64exp.icc,
+	src/arch/os2/vac++/incl/mainsrc.icc, src/arch/os2/vac++/x128/X128.ICC:
+	More os2 vac++ fixes.
+
+2011-02-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/joy.c: do only treat the first 4 joystick buttons as
+	fire (fixes bug 3167986)
+
+2011-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/RESID.ICC,
+	src/arch/os2/vac++/config.h, src/arch/os2/vac++/incl/c64.icc,
+	src/arch/os2/vac++/incl/c64cart.icc,
+	src/arch/os2/vac++/incl/c64commonall.icc,
+	src/arch/os2/vac++/incl/c64commonc128.icc,
+	src/arch/os2/vac++/incl/c64commonc64dtv.icc,
+	src/arch/os2/vac++/incl/c64commonc64sc.icc,
+	src/arch/os2/vac++/incl/c64sc.icc, src/arch/os2/vac++/incl/core.icc,
+	src/arch/os2/vac++/incl/crtc.icc,
+	src/arch/os2/vac++/incl/gfxoutputdrv.icc,
+	src/arch/os2/vac++/incl/mainsrc.icc, src/arch/os2/vac++/incl/plus4.icc,
+	src/arch/os2/vac++/incl/printerdrv.icc,
+	src/arch/os2/vac++/incl/sounddrv.icc, src/arch/os2/vac++/incl/vdc.icc,
+	src/arch/os2/vac++/incl/viciisc.icc, src/arch/os2/vac++/incl/video.icc,
+	src/arch/os2/vac++/lpng.icc, src/arch/os2/vac++/lzlib.icc,
+	src/arch/os2/vac++/vicedll.ICC, src/arch/os2/vac++/x128/X128.ICC,
+	src/arch/os2/vac++/x64/X64.ICC, src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/x64sc, src/arch/os2/vac++/x64sc/X64SC.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC, src/arch/os2/vac++/xpet/Xpet.ICC,
+	src/arch/os2/vac++/xplus4/Xplus4.ICC, src/arch/os2/vac++/xvic/Xvic.ICC:
+	Preliminary fixes for the os2 vac++ project files.
+
+2011-02-03  Antti S. Lankila <alankila@bel.fi>
+
+	* src/resid/filter.cc, src/resid/filter.h: Unify snake current
+	calculation for both directions of current. Adjust scaling for n_vcr and
+	n_snake to 1 << 13, which avoids one shift in the hot path. Use 31 bits
+	for vc, and apply a small bit hack to convert the signed vc value to
+	unsigned array index.
+
+2011-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/dialogs/dlg-fileio.c,
+	src/arch/os2/kbd/Makefile.am, src/arch/os2/kbd/kbd-c64sc.c,
+	src/arch/os2/siddefs.h, src/arch/os2/watcom/c128c64.tgt,
+	src/arch/os2/watcom/c64.tgt, src/arch/os2/watcom/c64cart.tgt,
+	src/arch/os2/watcom/c64commonsc.tgt, src/arch/os2/watcom/c64dtv.tgt,
+	src/arch/os2/watcom/c64sc.tgt, src/arch/os2/watcom/cbm2.tgt,
+	src/arch/os2/watcom/core.tgt, src/arch/os2/watcom/crtc.tgt,
+	src/arch/os2/watcom/gentranslate32.tgt, src/arch/os2/watcom/genwt.bat,
+	src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/pet.tgt,
+	src/arch/os2/watcom/plus4.tgt, src/arch/os2/watcom/printerdrv.tgt,
+	src/arch/os2/watcom/resid.tgt, src/arch/os2/watcom/vdc.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/viciicommon.tgt,
+	src/arch/os2/watcom/viciisc.tgt, src/arch/os2/watcom/video.tgt,
+	src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/x64dtv.tgt, src/arch/os2/watcom/x64sc-main.c,
+	src/arch/os2/watcom/x64sc.tgt, src/arch/os2/watcom/xall-specific.tgt,
+	src/arch/os2/watcom/xcbm2.tgt, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4.tgt, src/arch/os2/watcom/xvic.tgt,
+	src/arch/platform_cpu_type.h, src/keyboard.c: Fixed the os/2 ow
+	project files.
+
+2011-02-03  pottendo <pottendo@aon.at>
+
+	* po/tr.po: Updated by Emir.
+
+2011-02-03  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Decreased size of op-amp
+	lookup table elements to 16 bits, for speedup on ARM
+
+2011-02-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/mididrv.c: macosx: removed warnings in midi
+	driver
+
+2011-02-02  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: VCR: 16 bit tables for Vg
+	and Ids. This should hopefully make things fit in the L2 cache on ARM
+	Cortex-A8 SoCs again
+
+2011-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c, src/arch/sdl/uifilereq.c,
+	src/arch/sdl/win64-msvc/config.h, src/sid/fastsid.c,
+	src/video/render1x1ntsc.c, src/video/render1x1pal.c: Added some more
+	64bit warning fixes.
+
+2011-02-02  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Framework for emulation of
+	VCR transistor subthreshold model
+
+2011-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiautostart.c, src/arch/win32/uiexpert.c,
+	src/arch/win32/uilightpen.c, src/arch/win32/uisound.c: Added some more
+	64bit warning fixes.
+
+2011-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c, src/rtc/bq4830y.c, src/rtc/bq4830y.h,
+	src/rtc/ds12c887.c, src/rtc/ds12c887.h, src/rtc/ds1302.c,
+	src/rtc/ds1302.h, src/rtc/rtc.c, src/rtc/rtc.h: Fixed the rtc system for
+	64bit time_t.
+
+2011-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c, src/arch/win32/console.c, src/cbmdos.c,
+	src/findpath.c, src/fsdevice/fsdevice-open.c,
+	src/monitor/monitor_network.c, src/resources.c, src/vdrive/vdrive-dir.c:
+	Added some 64bit warning fixes.
+
+2011-02-02  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: added some cart related info
+
+2011-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/easyflash.c, src/c64/cart/mmc64.c: Some warning fixes.
+
+2011-02-02  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c: if pa and pb are both output
+	and pb outputs high, do not let pa drive pb low. fixes nitro#16
+
+2011-02-02  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/info.c: Added credits for some patches since last year.
+
+2011-02-01  Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Filter micro-optimization
+
+2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	po/sv.po, po/tr.po, src/arch/win32/vice-version.bat, src/version.h:
+	Version 2.2.12
+
 2011-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,

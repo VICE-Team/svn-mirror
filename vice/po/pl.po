@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-01 16:49-0800\n"
+"POT-Creation-Date: 2011-02-19 13:22-0800\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -34,8 +34,8 @@ msgid "Set device for extra joystick port 2"
 msgstr "Ustaw joystick w porcie 2"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
-#: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
-#: src/arch/unix/macosx/mididrv.c:128 src/translate_text.c.po.c:2811
+#: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
+#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:2811
 msgid "<name>"
 msgstr ""
 
@@ -1161,95 +1161,95 @@ msgstr "*Adres bazowy drugiego SID"
 msgid "Image name..."
 msgstr "Nazwa obrazu REU..."
 
-#: src/arch/unix/gui/uic64cart.c:56 src/arch/unix/gui/vic20ui.c:251
+#: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/vic20ui.c:251
 msgid "Attach cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/arch/unix/gui/uic64cart.c:60
+#: src/arch/unix/gui/uic64cart.c:59
 #, fuzzy
 msgid "Cannot attach cartridge"
 msgstr "W³ó¿ inteligentnie obraz kartrid¿a..."
 
-#: src/arch/unix/gui/uic64cart.c:103
+#: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image..."
 msgstr "Inteligentne w³o¿enie obrazu kartrid¿a..."
 
-#: src/arch/unix/gui/uic64cart.c:107
+#: src/arch/unix/gui/uic64cart.c:106
 #, fuzzy
 msgid "Attach generic 8kB image..."
 msgstr "W³ó¿ standardowy obraz 8KB..."
 
-#: src/arch/unix/gui/uic64cart.c:110
+#: src/arch/unix/gui/uic64cart.c:109
 #, fuzzy
 msgid "Attach generic 16kB image..."
 msgstr "W³ó¿ standardowy obraz 16KB..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:115
+#: src/arch/unix/gui/uic64cart.c:114
 #, fuzzy
 msgid "Attach Action Replay V5 image..."
 msgstr "W³ó¿ obraz Action Replay..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:119
+#: src/arch/unix/gui/uic64cart.c:118
 msgid "Attach Atomic Power image..."
 msgstr "W³ó¿ obraz Atomic Power..."
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:123
+#: src/arch/unix/gui/uic64cart.c:122
 #, fuzzy
 msgid "Attach EasyFlash image..."
 msgstr "W³ó¿ obraz Epyx fastload... "
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:127
+#: src/arch/unix/gui/uic64cart.c:126
 #, fuzzy
 msgid "Attach Epyx FastLoad image..."
 msgstr "W³ó¿ obraz Epyx fastload... "
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:131
+#: src/arch/unix/gui/uic64cart.c:130
 #, fuzzy
 msgid "Attach IDE64 image..."
 msgstr "W³ó¿ obraz Retro Replay..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:135
+#: src/arch/unix/gui/uic64cart.c:134
 #, fuzzy
 msgid "Attach Magic Formel image..."
 msgstr "W³ó¿ obraz kasety..."
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:139
+#: src/arch/unix/gui/uic64cart.c:138
 #, fuzzy
 msgid "Attach MMC Replay image..."
 msgstr "W³ó¿ obraz Retro Replay..."
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:143
+#: src/arch/unix/gui/uic64cart.c:142
 msgid "Attach Retro Replay image..."
 msgstr "W³ó¿ obraz Retro Replay..."
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:147
+#: src/arch/unix/gui/uic64cart.c:146
 #, fuzzy
 msgid "Attach Super Snapshot V5 image..."
 msgstr "W³ó¿ obraz Super Snapshot 5..."
 
-#: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:318
+#: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/amigaos/intl_text.c.po.c:676
 msgid "Set cartridge as default"
 msgstr "Ustaw kartrid¿ jako domy¶lny"
 
-#: src/arch/unix/gui/uic64cart.c:157 src/arch/unix/gui/vic20ui.c:355
+#: src/arch/unix/gui/uic64cart.c:156 src/arch/unix/gui/vic20ui.c:355
 msgid "Attach a cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
 
-#: src/arch/unix/gui/uic64cart.c:159 src/arch/amigaos/intl_text.c.po.c:423
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/amigaos/intl_text.c.po.c:423
 msgid "Detach cartridge image"
 msgstr "Wjmij obraz kartrid¿a"
 
-#: src/arch/unix/gui/uic64cart.c:161 src/arch/amigaos/intl_text.c.po.c:698
+#: src/arch/unix/gui/uic64cart.c:160 src/arch/amigaos/intl_text.c.po.c:698
 msgid "Cartridge freeze"
 msgstr "Cartridge freeze"
 
@@ -4097,11 +4097,11 @@ msgstr "Wspó³pracownicy projektu VICE"
 msgid "The VICE Team"
 msgstr "Zespó³ VICE"
 
-#: src/arch/unix/x11/gnome/about.c:87 src/arch/unix/x11/xaw/about.c:164
+#: src/arch/unix/x11/gnome/about.c:83 src/arch/unix/x11/xaw/about.c:160
 msgid "Official VICE homepage:"
 msgstr "Oficjalna strona VICE:"
 
-#: src/arch/unix/x11/gnome/about.c:101
+#: src/arch/unix/x11/gnome/about.c:97
 #, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
@@ -4121,21 +4121,21 @@ msgstr ""
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:113
 #, fuzzy
 msgid "(c) 1998 - 2010 The VICE Team"
 msgstr "Zespó³ VICE"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1020
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1020
 #: src/arch/amigaos/intl_text.c.po.c:2392
 msgid "License"
 msgstr "Licencja"
 
-#: src/arch/unix/x11/gnome/about.c:126
+#: src/arch/unix/x11/gnome/about.c:122
 msgid "Warranty"
 msgstr "Gwarancja"
 
-#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl_text.c.po.c:2381
+#: src/arch/unix/x11/gnome/about.c:124 src/arch/amigaos/intl_text.c.po.c:2381
 msgid "Contributors"
 msgstr "Wspó³pracownicy"
 
@@ -4599,7 +4599,7 @@ msgstr "POdaj g³êbiê ekranu Xów (1..32)"
 msgid "Desktop"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/about.c:170 src/arch/win32/res.rc.po.c:900
+#: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:900
 msgid "VICE Information"
 msgstr "Informacje"
 
@@ -4824,15 +4824,15 @@ msgstr ""
 msgid "Set Hat Switch for Joystick of HID B device"
 msgstr ""
 
-#: src/arch/unix/macosx/mididrv.c:118
+#: src/arch/unix/macosx/mididrv.c:120
 msgid "Name of MIDI Client"
 msgstr ""
 
-#: src/arch/unix/macosx/mididrv.c:123
+#: src/arch/unix/macosx/mididrv.c:125
 msgid "Name of MIDI-In Port"
 msgstr ""
 
-#: src/arch/unix/macosx/mididrv.c:128
+#: src/arch/unix/macosx/mididrv.c:130
 msgid "Name of MIDI-Out Port"
 msgstr ""
 
@@ -4936,45 +4936,31 @@ msgid "Copyright (c) 2007-2011 Fabrizio Gennari"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:188
-msgid "Copyright (c) 2007-2011 Hannu Nuotio"
-msgstr ""
-
-#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2007-2011 Daniel Kahlin"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:190
+#: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2008-2011 Antti S. Lankila"
 msgstr ""
 
+#: src/arch/win32/res.rc.po.c:190
+msgid "Copyright (c) 2009-2011 Groepaz"
+msgstr ""
+
 #: src/arch/win32/res.rc.po.c:191
-msgid "Copyright (c) 1998-2010 Andreas Boose"
+msgid "Copyright (c) 2009-2011 Ingo Korb"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:192
-msgid "Copyright (c) 1998-2010 Tibor Biczo"
+msgid "Copyright (c) 2009-2011 Errol Smith"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:193
-msgid "Copyright (c) 2007-2010 M. Kiesel"
+msgid "Copyright (c) 2010-2011 Olaf Seibert"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:194
-msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr ""
-
-#: src/arch/win32/res.rc.po.c:195
-msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr ""
-
-#: src/arch/win32/res.rc.po.c:196
-msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr ""
-
-#: src/arch/win32/res.rc.po.c:197
-msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr ""
-
+#: src/arch/win32/res.rc.po.c:194 src/arch/win32/res.rc.po.c:195
+#: src/arch/win32/res.rc.po.c:196 src/arch/win32/res.rc.po.c:197
 #: src/arch/win32/res.rc.po.c:198
 msgid " "
 msgstr ""

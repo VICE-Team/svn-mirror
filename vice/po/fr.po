@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-01 16:49-0800\n"
+"POT-Creation-Date: 2011-02-19 13:22-0800\n"
 "PO-Revision-Date: 2011-02-01 18:41+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -38,8 +38,8 @@ msgid "Set device for extra joystick port 2"
 msgstr "Définir le périphérique pour le port joystick #2 supplémentaire"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
-#: src/arch/unix/macosx/mididrv.c:118 src/arch/unix/macosx/mididrv.c:123
-#: src/arch/unix/macosx/mididrv.c:128 src/translate_text.c.po.c:2811
+#: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
+#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:2811
 msgid "<name>"
 msgstr "<nom>"
 
@@ -1157,94 +1157,94 @@ msgstr "<adresse de base>"
 msgid "Image name..."
 msgstr "Nom du fichier image REU..."
 
-#: src/arch/unix/gui/uic64cart.c:56 src/arch/unix/gui/vic20ui.c:251
+#: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/vic20ui.c:251
 msgid "Attach cartridge image"
 msgstr "Insérer une cartouche"
 
-#: src/arch/unix/gui/uic64cart.c:60
+#: src/arch/unix/gui/uic64cart.c:59
 msgid "Cannot attach cartridge"
 msgstr "Impossible d'attacher la datassette"
 
-#: src/arch/unix/gui/uic64cart.c:103
+#: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image..."
 msgstr "Insertion intelligente d'un(e) image de cartouche"
 
-#: src/arch/unix/gui/uic64cart.c:107
+#: src/arch/unix/gui/uic64cart.c:106
 #, fuzzy
 msgid "Attach generic 8kB image..."
 msgstr "Insérer une image générique de 8Ko..."
 
-#: src/arch/unix/gui/uic64cart.c:110
+#: src/arch/unix/gui/uic64cart.c:109
 #, fuzzy
 msgid "Attach generic 16kB image..."
 msgstr "Insérer une image générique de 16Ko..."
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:115
+#: src/arch/unix/gui/uic64cart.c:114
 #, fuzzy
 msgid "Attach Action Replay V5 image..."
 msgstr "Insérer une cartouche Action Replay..."
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:119
+#: src/arch/unix/gui/uic64cart.c:118
 msgid "Attach Atomic Power image..."
 msgstr "Insérer une cartouche Atomic Power..."
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:123
+#: src/arch/unix/gui/uic64cart.c:122
 #, fuzzy
 msgid "Attach EasyFlash image..."
 msgstr "Insérer une cartouche Epyx FastLoad..."
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:127
+#: src/arch/unix/gui/uic64cart.c:126
 #, fuzzy
 msgid "Attach Epyx FastLoad image..."
 msgstr "Insérer une cartouche Epyx FastLoad..."
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:131
+#: src/arch/unix/gui/uic64cart.c:130
 #, fuzzy
 msgid "Attach IDE64 image..."
 msgstr "Insérer une cartouche Retro Replay..."
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:135
+#: src/arch/unix/gui/uic64cart.c:134
 #, fuzzy
 msgid "Attach Magic Formel image..."
 msgstr "Insérer une image datassette..."
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:139
+#: src/arch/unix/gui/uic64cart.c:138
 #, fuzzy
 msgid "Attach MMC Replay image..."
 msgstr "Insérer une cartouche Retro Replay..."
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:143
+#: src/arch/unix/gui/uic64cart.c:142
 msgid "Attach Retro Replay image..."
 msgstr "Insérer une cartouche Retro Replay..."
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:147
+#: src/arch/unix/gui/uic64cart.c:146
 #, fuzzy
 msgid "Attach Super Snapshot V5 image..."
 msgstr "Insérer une cartouche Super Snapshot 5..."
 
-#: src/arch/unix/gui/uic64cart.c:151 src/arch/unix/gui/vic20ui.c:318
+#: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/amigaos/intl_text.c.po.c:676
 msgid "Set cartridge as default"
 msgstr "Définir cette cartouche par défaut"
 
-#: src/arch/unix/gui/uic64cart.c:157 src/arch/unix/gui/vic20ui.c:355
+#: src/arch/unix/gui/uic64cart.c:156 src/arch/unix/gui/vic20ui.c:355
 msgid "Attach a cartridge image"
 msgstr "Insérer une image de cartouch"
 
-#: src/arch/unix/gui/uic64cart.c:159 src/arch/amigaos/intl_text.c.po.c:423
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/amigaos/intl_text.c.po.c:423
 msgid "Detach cartridge image"
 msgstr "Retirer une cartouche"
 
-#: src/arch/unix/gui/uic64cart.c:161 src/arch/amigaos/intl_text.c.po.c:698
+#: src/arch/unix/gui/uic64cart.c:160 src/arch/amigaos/intl_text.c.po.c:698
 msgid "Cartridge freeze"
 msgstr "Geler la cartouche"
 
@@ -4035,11 +4035,11 @@ msgstr "Contributeurs au projet VICE"
 msgid "The VICE Team"
 msgstr "L'équipe VICE"
 
-#: src/arch/unix/x11/gnome/about.c:87 src/arch/unix/x11/xaw/about.c:164
+#: src/arch/unix/x11/gnome/about.c:83 src/arch/unix/x11/xaw/about.c:160
 msgid "Official VICE homepage:"
 msgstr "La page officielle de VICE:"
 
-#: src/arch/unix/x11/gnome/about.c:101
+#: src/arch/unix/x11/gnome/about.c:97
 #, fuzzy
 msgid ""
 "Martin Pottendorfer - German\n"
@@ -4059,21 +4059,21 @@ msgstr ""
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
 
-#: src/arch/unix/x11/gnome/about.c:117
+#: src/arch/unix/x11/gnome/about.c:113
 #, fuzzy
 msgid "(c) 1998 - 2010 The VICE Team"
 msgstr "(c) 1998 – 2008 The Vice Team"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1020
+#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1020
 #: src/arch/amigaos/intl_text.c.po.c:2392
 msgid "License"
 msgstr "License"
 
-#: src/arch/unix/x11/gnome/about.c:126
+#: src/arch/unix/x11/gnome/about.c:122
 msgid "Warranty"
 msgstr "Garantie"
 
-#: src/arch/unix/x11/gnome/about.c:128 src/arch/amigaos/intl_text.c.po.c:2381
+#: src/arch/unix/x11/gnome/about.c:124 src/arch/amigaos/intl_text.c.po.c:2381
 msgid "Contributors"
 msgstr "Contributeurs"
 
@@ -4530,7 +4530,7 @@ msgstr "Sécifiez la profondeur des couleurs de votre affichage X (1..32)"
 msgid "Desktop"
 msgstr "*Bureau"
 
-#: src/arch/unix/x11/xaw/about.c:170 src/arch/win32/res.rc.po.c:900
+#: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:900
 msgid "VICE Information"
 msgstr "Information VICE"
 
@@ -4757,15 +4757,15 @@ msgstr ""
 msgid "Set Hat Switch for Joystick of HID B device"
 msgstr ""
 
-#: src/arch/unix/macosx/mididrv.c:118
+#: src/arch/unix/macosx/mididrv.c:120
 msgid "Name of MIDI Client"
 msgstr ""
 
-#: src/arch/unix/macosx/mididrv.c:123
+#: src/arch/unix/macosx/mididrv.c:125
 msgid "Name of MIDI-In Port"
 msgstr ""
 
-#: src/arch/unix/macosx/mididrv.c:128
+#: src/arch/unix/macosx/mididrv.c:130
 msgid "Name of MIDI-Out Port"
 msgstr ""
 
@@ -4875,50 +4875,36 @@ msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #: src/arch/win32/res.rc.po.c:188
 #, fuzzy
-msgid "Copyright (c) 2007-2011 Hannu Nuotio"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
-
-#: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2007-2011 Daniel Kahlin"
 msgstr "Copyright (c) 2003-2005 David Hansel"
 
-#: src/arch/win32/res.rc.po.c:190
+#: src/arch/win32/res.rc.po.c:189
 #, fuzzy
 msgid "Copyright (c) 2008-2011 Antti S. Lankila"
 msgstr "Copyright (c) 2003-2005 David Hansel"
 
+#: src/arch/win32/res.rc.po.c:190
+#, fuzzy
+msgid "Copyright (c) 2009-2011 Groepaz"
+msgstr "Copyright (c) 2000-2004 Markus Brenner"
+
 #: src/arch/win32/res.rc.po.c:191
 #, fuzzy
-msgid "Copyright (c) 1998-2010 Andreas Boose"
-msgstr "Copyright (c) 1998-2008 Andreas Boose"
+msgid "Copyright (c) 2009-2011 Ingo Korb"
+msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #: src/arch/win32/res.rc.po.c:192
 #, fuzzy
-msgid "Copyright (c) 1998-2010 Tibor Biczo"
-msgstr "Copyright (c) 1998-2008 Tibor Biczo"
+msgid "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Copyright (c) 2000-2008 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:193
 #, fuzzy
-msgid "Copyright (c) 2007-2010 M. Kiesel"
+msgid "Copyright (c) 2010-2011 Olaf Seibert"
 msgstr "Copyright (c) 2003-2005 David Hansel"
 
-#: src/arch/win32/res.rc.po.c:194
-msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
-
-#: src/arch/win32/res.rc.po.c:195
-msgid "Copyright (c) 1999-2005 Thomas Bretz"
-msgstr "Copyright (c) 1999-2005 Thomas Bretz"
-
-#: src/arch/win32/res.rc.po.c:196
-msgid "Copyright (c) 2003-2005 David Hansel"
-msgstr "Copyright (c) 2003-2005 David Hansel"
-
-#: src/arch/win32/res.rc.po.c:197
-msgid "Copyright (c) 2000-2004 Markus Brenner"
-msgstr "Copyright (c) 2000-2004 Markus Brenner"
-
+#: src/arch/win32/res.rc.po.c:194 src/arch/win32/res.rc.po.c:195
+#: src/arch/win32/res.rc.po.c:196 src/arch/win32/res.rc.po.c:197
 #: src/arch/win32/res.rc.po.c:198
 msgid " "
 msgstr " "
@@ -13942,6 +13928,26 @@ msgstr "Désactiver la cartouche Digimax"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Adresse de base de la cartouche Digimax"
+
+#, fuzzy
+#~ msgid "Copyright (c) 1998-2010 Andreas Boose"
+#~ msgstr "Copyright (c) 1998-2008 Andreas Boose"
+
+#, fuzzy
+#~ msgid "Copyright (c) 1998-2010 Tibor Biczo"
+#~ msgstr "Copyright (c) 1998-2008 Tibor Biczo"
+
+#~ msgid "Copyright (c) 1999-2007 Andreas Dehmel"
+#~ msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
+
+#~ msgid "Copyright (c) 1999-2005 Thomas Bretz"
+#~ msgstr "Copyright (c) 1999-2005 Thomas Bretz"
+
+#~ msgid "Copyright (c) 2003-2005 David Hansel"
+#~ msgstr "Copyright (c) 2003-2005 David Hansel"
+
+#~ msgid "Copyright (c) 2000-2004 Markus Brenner"
+#~ msgstr "Copyright (c) 2000-2004 Markus Brenner"
 
 #~ msgid "*PAL-G"
 #~ msgstr "*PAL-G"

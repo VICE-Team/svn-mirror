@@ -3771,7 +3771,8 @@ command.
    The imaginary expansion port expander is organized in 4 slots, the
 cartridges are associated with them like this:
 
-   "Slot 0"
+Slot 0
+......
 
    All carts that have a passthrough connector go here. Once a "Slot 0"
 cartridge is enabled all further cartridges are connected to its
@@ -3800,7 +3801,8 @@ enabling permanently.
 
    * MMC64
 
-   "Slot 1"
+Slot 1
+......
 
    Mostly RAM based cartridges which for one reason or the other might
 make sense to be enabled together with one of the "Main Slot"
@@ -3821,7 +3823,8 @@ enabling permanently
 
    * RamCart
 
-   "Main Slot"
+Main Slot
+.........
 
    All other cartridges which are not pure i/o extensions go here.
 
@@ -3928,7 +3931,8 @@ enable them permanently.
 
    * Zaxxon
 
-   "I/O Slot"
+I/O Slot
+........
 
    All carts that are pure I/O extensions go here.
 
@@ -3954,6 +3958,67 @@ enabling permanently.
    * SFX Sound Expander
 
    * SFX Sound Sampler
+
+Expected behaviour
+..................
+
+   When the emulator is run without arguments, all settings from the
+config file should be applied and arguments override settings from the
+config file.
+
+   When saving the settings to the config file it is expected that on
+the next run of the emulator all settings will be in the same state as
+they were when saved.
+
+   There is an exception to this rule: the cartridge in the "Main Slot"
+must be explicitly set as default before it gets saved to the config
+file.
+
+   `+cart' should disable ALL cartridges, including eventually
+activated REU, Swithlink and all similar expansionport devices.
+
+   `-cartXYZ' options should generally attach AND activate a cart of
+type XYZ.  As a consequence, attaching carts this way which are NOT in
+the "Main Slot" will also enable the cart permanently.
+
+Common problems
+...............
+
+   If attaching a cartridge does not work as expected, this may be
+because of various reasons:
+
+   * Not seldomly the CRT type is incorrectly set in `.crt' files found
+     "in the wild".  Make sure this is not the case (if in doubt use
+     `cartconv' to verify and/or fix).
+
+   * You may have unintentionally enabled more than one cartridge at
+     once, for example by saving the settings with REU enabled, and
+     then later attaching a game cartridge from the command-line. The
+     cartridge system will allow certain combinations, but (as on the
+     real thing) not all do (can) actually work. To make sure this is
+     not the case, either detach all cartridges from the menus, or use
+     `+cart' on the command-line.
+
+   * The cartridge image might be broken. Try one from a different
+     source. If you are sure the dump is ok (for example because you
+     dumped it yourself) then make sure it is in proper linear order
+     (on some cartridges, for example "capture", address and/or data
+     lines at the eprom are shuffled around so a dump made with an
+     eprom burner can not be used as is).
+
+   * Last not least you might have encountered a bug in the emulation.
+     If you suspect this is the case, and you can still reproduce the
+     bug after checking the things above, please file a bug report
+     including the following information:
+
+        * attach your vicerc and a reference to the cartridge binaries
+
+        * if you can, comment in the respective DEBUGXYZ macros
+          prominently defined at the top of these files:
+          src/c64/cart/c64cart.c src/c64/cart/c64cartmem.c
+          src/c64/c64io.c src/c64/c64export.c and then recompile. this
+          will add debug output that might make it much easier to
+          locate certain problems.
 
 IEEE-488 interface
 ..................
@@ -4393,13 +4458,13 @@ CIA command-line options
 ........................
 
 `-ciamodel <model>'
-     Set both CIA models (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+     Set both CIA models (0 = old 6526, 1 = new 6526A)
 
 `-cia1model <model>'
-     Set CIA 1 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+     Set CIA 1 model (0 = old 6526, 1 = new 6526A)
 
 `-cia2model <model>'
-     Set CIA 2 model (0 = old 6526, 1 = new 6526A, 2 = old 6526x)
+     Set CIA 2 model (0 = old 6526, 1 = new 6526A)
 
 
 @EndNode
@@ -9148,23 +9213,8 @@ Window System.  Here is an informal list of the people who were mostly
 involved in the development of X64 and VICE:
 
    The VICE core team:
-   * Andreas Boose gave lots of information and bug reports about the
-     VIC-II, the 6510 and the CIAs; moreover, he wrote several
-     test-routines that were used to improve the emulation.  He also
-     added cartridge support and has been the main head behind the
-     drive and datasette emulation since version 0.15.  Also added
-     several UI elements to the MSDOS, MS-Windows and Unix ports. He
-     rewrote the C128 emulation adding Z80 mode, C64 mode and function
-     ROM support, wrote the screenshot and the event system and started
-     the plus4 emulator.  Restructured the serial bus emulation and
-     added realdrive and rawdrive support.
-
    * Dag Lem implemented the reSID SID emulation engine and video
      hardware scaling.
-
-   * Tibor Biczo improved the MS-Windows port and plus4 emulation.
-
-   * Andreas Dehmel wrote the Acorn RISC OS port.
 
    * Andreas Matthies improved the datasette support, the VIC20 video
      emulation and some ui stuff in the Win32 and MSDOS port. He also
@@ -9183,12 +9233,6 @@ involved in the development of X64 and VICE:
      CIA emulation, added com-port CIA support to the win32 port, added
      text copy and paste support to the win32 port, added support for
      the TFE and RR-Net (cs8900a), and wrote some further patches.
-
-   * Markus Brenner added VDC emulation to x128 and added support for
-     some more cartridges.
-
-   * David Hansel wrote the Star NL10 printer driver, implemented IEC
-     devices and improved the tape emulation.
 
    * Marco van den Heuvel Translated the UI to Dutch. Made the
      Internationalization support for the Win32 and Amiga ports. Wrote
@@ -9227,7 +9271,45 @@ involved in the development of X64 and VICE:
      emulation code and fixed the sound core for lower latency. Rewrote
      DTV SID support (ReSID-dtv).
 
-   Former team members:
+   * Groepaz/Hitmen Added new more precise CRT emulation. Added support
+     for the new cartridge system and new cartridges. Provided several
+     fixes.
+
+   * Ingo Korb Corrected block allocation and interleave for
+     c1541/vdrive, added rudimentary xplus4 tape recording support,
+     corrected a case of missing Pi symbols in petcat, changed the trap
+     opcode byte, stopped the high-level serial drive code from
+     responding to addresses 16-30 and was forced to update this entry
+     himself.
+
+   * Errol Smith improved VDC emulation.
+
+   * Olaf Seibert contributed some PET, including PET DWW hires, Xaw,
+     lightpen, hardware scaling, and disk drive patches. Maintains the
+     XAW ui.
+
+   Former/inactive team members:
+
+   * Andreas Boose gave lots of information and bug reports about the
+     VIC-II, the 6510 and the CIAs; moreover, he wrote several
+     test-routines that were used to improve the emulation.  He also
+     added cartridge support and has been the main head behind the
+     drive and datasette emulation since version 0.15.  Also added
+     several UI elements to the MSDOS, MS-Windows and Unix ports. He
+     rewrote the C128 emulation adding Z80 mode, C64 mode and function
+     ROM support, wrote the screenshot and the event system and started
+     the plus4 emulator.  Restructured the serial bus emulation and
+     added realdrive and rawdrive support.
+
+   * Tibor Biczo improved the MS-Windows port and plus4 emulation.
+
+   * Andreas Dehmel wrote the Acorn RISC OS port.
+
+   * Markus Brenner added VDC emulation to x128 and added support for
+     some more cartridges.
+
+   * David Hansel wrote the Star NL10 printer driver, implemented IEC
+     devices and improved the tape emulation.
 
    * M. Kiesel Copyright (C) 2007-2010 Started implementing x64dtv. The
      C64DTV memory model and early versions of the DMA and Blitter
@@ -9321,8 +9403,6 @@ involved in the development of X64 and VICE:
 
    * Peter Andrew Felvegi aka Petschy fixed a couple of bugs in the
      fast serial emulation.
-
-   * Olaf Seibert contributed some PET, and disk drive patches.
 
    * Daniel Fandrich contributed some disk drive patches.
 
@@ -9463,17 +9543,6 @@ involved in the development of X64 and VICE:
    * Gunnar Ruthenberg provided some VIC-II enhancements and improved
      the win32 port.
 
-   * Groepaz/Hitmen Added new more precise PAL emulation. Added support
-     for the Action Replay 4 and StarDos cartridges. Provided several
-     fixes.
-
-   * Ingo Korb Corrected block allocation and interleave for
-     c1541/vdrive, added rudimentary xplus4 tape recording support,
-     corrected a case of missing Pi symbols in petcat, changed the trap
-     opcode byte, stopped the high-level serial drive code from
-     responding to addresses 16-30 and was forced to update this entry
-     himself.
-
    * Georg Feil Added support for toggling CB2 sound output line in the
      PET emulator.
 
@@ -9488,8 +9557,6 @@ involved in the development of X64 and VICE:
    * Mustafa 'GnoStiC' Tufan Made improvements to the gp2x port.
 
    * Ville-Matias Heikkila Rewrote the vic20 sound code.
-
-   * Errol Smith improved VDC emulation.
 
    * Peter Edwards implemented the SDL UI slider control and fixed some
      GP2X/Dingoo SDL UI issues.
@@ -9630,7 +9697,7 @@ VICE home page
    You can find the latest news about VICE at the official VICE home
 page:
 
-     http://www.viceteam.org/
+     http://vice-emu.sourceforge.net/
 
    VICE has moved its source repository to public services provided by
 SourceForge. You can find it at
@@ -9700,7 +9767,7 @@ team.
         * the VICE documentation (you are reading it!);
 
         * the VICE FAQ (it is available on the Internet, and reachable
-          from the VICE home page: http://www.viceteam.org/);
+          from the VICE home page: http://vice-emu.sourceforge.net/);
 
         * The VICE knowledge base (it is available on the Internet at
           http://vicekb.trikaliotis.net/);
