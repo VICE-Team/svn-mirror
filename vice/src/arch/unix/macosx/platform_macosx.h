@@ -5,7 +5,7 @@
  *  Christian Vogelgsang <chris@vogelgsang.org>
  *
  * Based on Code by
- *  Daniel Kahlin <daniel@kahlin.net>
+ *  http://www.cocoadev.com/index.pl?DeterminingOSVersion
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
