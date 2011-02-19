@@ -1493,7 +1493,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
 
   // VCR gate voltage.       // Scaled by m*2^16
   // Vg = Vddt - sqrt(((Vddt - Vw)^2 + Vgdt^2)/2)
-  int Vg = vcr_Vg[(Vddt_Vw_2 + (Vgdt_2 >> 1)) >> 15];
+  int Vg = vcr_Vg[(Vddt_Vw_2 + (Vgdt_2 >> 1)) >> 16];
 
   // VCR voltages for EKV model table lookup.
   int Vgs = Vg - x;
