@@ -336,9 +336,9 @@ Filter::Filter()
     int Vddt = model_filter[0].Vddt;
 
     for (int i = 0; i < (1 << 16); i++) {
-      // The table index is right-shifted 16 times in order to fit in
-      // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
-      int Vg = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5f);
+      // The table index is right-shifted 15 times in order to fit in
+      // 16 bits; the argument to sqrt is thus multiplied by (1 << 15).
+      int Vg = Vddt - (int)(sqrt((float)i*(1 << 15)) + 0.5f);
       if (Vg >= (1 << 16)) {
 	// Clamp to 16 bits.
 	// FIXME: If the DAC output voltage exceeds the max op-amp output
@@ -498,7 +498,7 @@ void Filter::set_w0()
 {
   model_filter_t& f = model_filter[sid_model];
   Vw = Vw_bias + f.f0_dac[fc];
-  Vw_term = (f.Vddt >> 1)*(f.Vddt >> 1) - (Vw >> 1)*(f.Vddt >> 1) + (Vw >> 1)*(Vw >> 2);
+  Vddt_Vw_2 = (unsigned(f.Vddt - Vw)*unsigned(f.Vddt - Vw) >> 1);
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.
   // MOS 8580 cutoff: 0 - 12.5kHz.

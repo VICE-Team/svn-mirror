@@ -416,7 +416,7 @@ protected:
   int v1;
 
   // Cutoff frequency DAC voltage, resonance.
-  int Vw, Vw_term, Vw_bias;
+  int Vw, Vddt_Vw_2, Vw_bias;
   int _8_div_Q;
   // FIXME: Temporarily used for MOS 8580 emulation.
   int w0;
@@ -1486,13 +1486,14 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   // "Snake" voltages for triode mode calculation.
   unsigned int Vgst = Vddt - x;
   unsigned int Vgdt = Vddt - vi;
+  unsigned int Vgdt_2 = Vgdt*Vgdt;
 
   // "Snake" current, scaled by (1/m)*2^13*m*2^16*m*2^16*2^-15 = m*2^30
-  int n_I_snake = mf.n_snake*(int(Vgst*Vgst - Vgdt*Vgdt) >> 15);
+  int n_I_snake = mf.n_snake*(int(Vgst*Vgst - Vgdt_2) >> 15);
 
   // VCR gate voltage.       // Scaled by m*2^16
-  // Vg = Vddt - sqrt(Vddt*(Vddt - Vw - Vi) + (Vw*Vw + Vi*Vi)/2)
-  int Vg = vcr_Vg[(Vw_term + (vi >> 1)*(((vi >> 1) - Vddt) >> 1)) >> 14];
+  // Vg = Vddt - sqrt(((Vddt - Vw)^2 + Vgdt^2)/2)
+  int Vg = vcr_Vg[(Vddt_Vw_2 + (Vgdt_2 >> 1)) >> 15];
 
   // VCR voltages for EKV model table lookup.
   int Vgs = Vg - x;
