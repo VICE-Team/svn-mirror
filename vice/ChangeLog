@@ -5,7 +5,8 @@
 	* configure.in, ChangeLog, src/version.h,
 	src/arch/win32/vice-version.bat, doc/vice.guide, doc/vice.chm,
 	doc/vice.pdf, doc/vice.hlp, po/fr.po, po/nl.po, po/pl.po, po/it.po,
-	po/hu.po, po/da.po, po/tr.po, po/de.po, po/sv.po: VICE version 2.3
+	po/hu.po, po/da.po, po/tr.po, po/de.po, po/sv.po, src/translate_text.c,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc: VICE version 2.3
 
 2011-02-19  Christian Vogelgsang <chris@vogelgsang.org>
 

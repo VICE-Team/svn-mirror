@@ -1,7 +1,7 @@
 # Polish Translation for VICE
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Mariusz M³ynek <flooder@poczta.onet.pl>, 2002.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"

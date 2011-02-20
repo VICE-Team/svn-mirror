@@ -2,7 +2,7 @@
 # Copyright (C) 2005-2010
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2010.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
