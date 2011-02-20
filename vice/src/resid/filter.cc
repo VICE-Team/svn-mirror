@@ -373,10 +373,10 @@ Filter::Filter()
 
     /* 1st term is used for clamping and must therefore be fixed to 0. */
     vcr_n_Ids_term[0] = 0;
-    for (int Vgx = 1; Vgx < (1 << 16); Vgx++) {
-      double log_term = log(1 + exp((Vgx/N16 - k*Vt)/(2*Ut)));
+    for (int kVgx = 1; kVgx < (1 << 16); kVgx++) {
+      double log_term = log(1 + exp((kVgx/N16 - k*Vt)/(2*Ut)));
       // Scaled by m*2^15
-      vcr_n_Ids_term[Vgx] = n_Is*log_term*log_term;
+      vcr_n_Ids_term[kVgx] = n_Is*log_term*log_term;
     }
 
     class_init = true;
