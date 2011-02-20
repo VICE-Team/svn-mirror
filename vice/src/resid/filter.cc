@@ -363,20 +363,20 @@ Filter::Filter()
     double Vt = fi.Vth;
     double uCox = fi.uCox_vcr;
     double WL = fi.WL_vcr;
-    double Ut = 26.0e-3;  // Thermal voltage.
-    double k = 1.0;
+    double Ut = 26.0e-3; // Thermal voltage: Ut = k*T/q = 8.61734315e-5*T ~ 26mV
+    double k = 1.0;      // Gate coupling coefficient: K = Cox/(Cox+Cdep) ~ 0.7
     double Is = 2*uCox*Ut*Ut/k*WL;
     // Normalized current factor for 1 cycle at 1MHz.
     double N16 = model_filter[0].vo_N16;
     double N15 = N16/2;
     double n_Is = N15*1.0e-6/fi.C*Is;
 
-    /* 1st term is used for clamping and must therefore be fixed to 0. */
-    vcr_n_Ids_term[0] = 0;
-    for (int kVgx = 1; kVgx < (1 << 16); kVgx++) {
-      double log_term = log(1 + exp((kVgx/N16 - k*Vt)/(2*Ut)));
+    // kVg_Vx = k*Vg - Vx
+    // I.e. if k != 1.0, Vg must be scaled accordingly.
+    for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
+      double log_term = log(1 + exp((kVg_Vx/N16 - k*Vt)/(2*Ut)));
       // Scaled by m*2^15
-      vcr_n_Ids_term[kVgx] = n_Is*log_term*log_term;
+      vcr_n_Ids_term[kVg_Vx] = n_Is*log_term*log_term;
     }
 
     class_init = true;
