@@ -177,7 +177,7 @@ Filter::Filter()
 
       // Convert op-amp voltage transfer to 16 bit values.
       double vmin = fi.opamp_voltage[0][0];
-      double vmax = fi.opamp_voltage[fi.opamp_voltage_size - 1][0];
+      double vmax = fi.Vdd - fi.Vth;
       double denorm = vmax - vmin;
       double norm = 1.0/denorm;
 
@@ -341,11 +341,11 @@ Filter::Filter()
       int Vg = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5f);
       if (Vg >= (1 << 16)) {
 	// Clamp to 16 bits.
-	// FIXME: If the DAC output voltage exceeds the max op-amp output
-	// voltage while the input voltage is at the max op-amp output
-	// voltage, Vg will not fit in 16 bits.
-	// Check whether this can happen, and if so, change the lookup table
-	// to a plain sqrt.
+	// FIXME: If the DAC output voltage reaches Vddt while the input
+	// voltage reaches the max op-amp output, it is possible that Vg
+	// will not fit in 16 bits.
+	// Check whether this can happen, and if so, consider changing
+	// the lookup table to a plain sqrt.
 	Vg = (1 << 16) - 1;
       }
       vcr_Vg[i] = Vg;

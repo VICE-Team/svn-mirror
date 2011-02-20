@@ -1304,29 +1304,26 @@ circuits, using a combination of Newton-Raphson and bisection.
 
 From Kirchoff's current law it follows that
 
-  IR1 - IR2 = 0
+  IR1f + IR2r = 0
 
-Substituting the standard Id-Vds transistor model (triode mode) for the
-currents, we get one equation for each direction of the current.
+Substituting the triode mode transistor model K*W/L*(Vgst^2 - Vgdt^2)
+for the currents, we get:
 
-Eq. 1: n*(2*(Vddt-vx)-(vi-vx))*(vi-vx) - (2*(Vddt-vo)-(vx-vo))*(vx-vo) = 0
-Eq. 2: n*(2*(Vddt-vi)-(vx-vi))*(vx-vi) - (2*(Vddt-vx)-(vo-vx))*(vo-vx) = 0
+n*((Vddt - vx)^2 - (Vddt - vi)^2) + (Vddt - vx)^2 - (Vddt - vo)^2 = 0
 
-It turns out that these equations are equal (multiply Eq. 2 by -1).
-We factorize Eq. 1 in order to reduce the number of arithmetic operations,
-and get our root function f:
+Our root function f can thus be written as:
 
-f = (2*Vddt - vo)*vo - (n + 1)*(2*Vddt - vx)*vx + n*(2*Vddt - vi)*vi = 0
+f = (n + 1)*(Vddt - vx)^2 - n*(Vddt - vi)^2 - (Vddt - vo)^2 = 0
 
 Using substitution constants
 
 a = n + 1
 b = Vddt
-c = n*(2*b - vi)*vi
+c = n*(Vddt - vi)^2
 
-we get the following equations for the root function and its derivative:
+the equations for the root function and its derivative can be written as:
 
-f = (2*b - vo)*vo - a*(2*b - vx)*vx + c
+f = a*(b - vx)^2 - c - (b - vo)^2
 df = 2*((b - vo)*dvo - a*(b - vx))
 */
 RESID_INLINE
@@ -1339,10 +1336,10 @@ int Filter::solve_gain(int* opamp, int n, int vi_n, int& x, model_filter_t& mf)
   // f is decreasing, so that f(ak) > 0 and f(bk) < 0.
   int ak = mf.vo_T19, bk = mf.vo_T19 + (1 << 19) - 1;
 
-  int a = n + (1 << 7);       // Scaled by 2^7
-  int b = mf.Vddt << 3;       // Scaled by m*2^19
-  unsigned int _2b = b << 1;  // Scaled by m*2^19, unsigned to use all bits.
-  int c = n*(((_2b - vi) >> 4)*(vi >> 3) >> 11); // Scaled by m^2*2^27.
+  int a = n + (1 << 7);              // Scaled by 2^7
+  int b = mf.Vddt << 3;              // Scaled by m*2^19
+  unsigned int b_vi = (b - vi) >> 3; // Scaled by m*2^16
+  int c = n*int(b_vi*b_vi >> 12);    // Scaled by m^2*2^27
 
   for (;;) {
     int xk = x;
@@ -1352,13 +1349,17 @@ int Filter::solve_gain(int* opamp, int n, int vi_n, int& x, model_filter_t& mf)
     int vo = (vo_dvo & 0x7ffff) + mf.vo_T19;  // Scaled by m*2^19
     int dvo = vo_dvo >> 19;                   // Scaled by 2^8
 
-    // f = (2*b - vo)*vo - a*(2*b - vx)*vx + c
+    // f = a*(b - vx)^2 - c - (b - vo)^2
     // df = 2*((b - vo)*dvo - a*(b - vx))
     //
+    int b_vx = b - x;
+    int b_vo = b - vo;
+    unsigned int b_vx_16 = b_vx >> 3;
+    unsigned int b_vo_16 = b_vo >> 3;
     // The dividend is scaled by m^2*2^27.
-    int f = int(((_2b - vo) >> 4)*(vo >> 3) >> 4) - int(a*(((_2b - x) >> 4)*(x >> 3) >> 11)) + c;
+    int f = a*int(b_vx_16*b_vx_16 >> 12) - c - int(b_vo_16*b_vo_16 >> 5);
     // The divisor is scaled by m*2^8.
-    int df = (((b - vo)*dvo >> 1) - a*(b - x)) >> 17;
+    int df = ((b_vo*dvo >> 1) - a*b_vx) >> 17;
     // The resulting quotient is thus scaled by m*2^19.
 
     // Newton-Raphson step: xk1 = xk - f(xk)/f'(xk)
