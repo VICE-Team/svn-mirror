@@ -264,7 +264,7 @@ static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
     HWND filename_hwnd;
     int xstart, xpos, size;
 
-    if (palette_dialog_1 == NULL) {
+    if (chip_type == current_chip_1) {
         palette_dialog_1 = hwnd;
     }
 
@@ -602,7 +602,6 @@ static INT_PTR CALLBACK dialog_palette_proc(HWND hwnd, UINT msg, WPARAM wparam, 
                             name = system_wcstombs_alloc(st_name);
                             lib_free(chip_type->file_name);
                             chip_type->file_name = name;
-                            system_wcstombs_free(name);
                             chip_type->external_pal = 1;
                             CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
                             lib_free(st_name);
@@ -612,12 +611,10 @@ static INT_PTR CALLBACK dialog_palette_proc(HWND hwnd, UINT msg, WPARAM wparam, 
                 case IDC_VIDEO_CUSTOM_NAME:
                     {
                         TCHAR st[100];
-                        char s[100];
 
                         GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st, 100);
-                        system_wcstombs(s, st, 100);
                         lib_free(chip_type->file_name);
-                        chip_type->file_name = s;
+                        chip_type->file_name = system_wcstombs_alloc(st);
 
                         chip_type->external_pal = 1;
                         CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_EXTPALETTE, BST_CHECKED);
