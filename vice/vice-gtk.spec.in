@@ -2,24 +2,21 @@ Name:		vice
 Version:	@VICE_VERSION@
 Release:	1%{?dist}
 Summary:	Versatile Commodore 8-bit Emulator
-
-Group:		Amusements/Games
+Vendor:		The VICE team
+Group:		Applications/Emulators
 License:	GPLv2
 URL:		http://vice-emu.sourceforge.net/
 Source0:	http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE/%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	libXpm-devel, libXaw-devel, Xaw3d-devel, gtk2-devel, ncurses-devel, ncurses-libs, gettext
-Requires:	Xaw3d, ncurses
-Prereq:         /sbin/ldconfig /sbin/install-info
+BuildRequires:	gtk2-devel gtkglext-devel mesa-libGL-devel libX11-devel libXrandr-devel ncurses-devel gettext-devel ffmpeg-devel lame-devel pulseaudio-libs-devel libpng-devel zlib-devel
+AutoReqProv:	no
+Requires:	gtk2 gtkglext-libs mesa-libGL libX11 libXrandr ncurses-libs gettext-libs ffmpeg-libs lame-libs pulseaudio-libs libpng zlib
 
 
 %description
 This is version @VICE_VERSION@ of VICE, the multi-platform C64, C128, VIC20,
-PET, PLUS4 ,CBM-II and C64DTV emulator.  This version can be compiled for
-MSDOS, Win32, RiscOS, OS/2, BeOS, QNX 4.x, QNX 6.x, AmigaOS, GP2X
-and for most Unix systems provided with the X Window System version 11, R5 or
-later.
+PET, PLUS4, CBM-II and C64DTV emulator.
 
 
 %prep
@@ -27,7 +24,19 @@ later.
 
 
 %build
-%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --enable-fullscreen
+%define __global_cflags -O3 -g -pipe -Wall -fno-exceptions -Wp,-D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4
+%if 0%{?archopt:1}
+  %define optflags %{__global_cflags} %{archopt}
+%else
+  %if %{_target_cpu} == i686
+    %define optflags %{__global_cflags} -m32 -march=pentium3 -fasynchronous-unwind-tables
+  %else
+    %if %{_target_cpu} == x86_64
+      %define optflags %{__global_cflags} -m64 -march=nocona -mtune=core2
+    %endif
+  %endif
+%endif
+%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --enable-fullscreen --without-alsa --without-oss --disable-arch
 make %{?_smp_mflags}
 
 
@@ -60,9 +69,17 @@ fi
 %{_bindir}/*
 %{_libdir}/vice/*
 %{_infodir}/vice.info.gz
+%{_infodir}/vice.txt.gz
 %{_mandir}/man1/* 
 
 
 %changelog
+* Tue Feb 22 2011 Dag Lem <resid@nimrod.no> - 2.3-1
+- Update of requirements.
+- Less conservative architecture specific optimizations:
+    rpmbuild --define "archopt <archopt>"    -> gcc -O3 <archopt>
+    rpmbuild [--target=i686-<vendor>-<os>]   -> gcc -O3 -march=pentium3
+    rpmbuild [--target=x86_64-<vendor>-<os>] -> gcc -O3 -march=prescott -mtune=core2
+
 * Tue Oct 28 2008 Ingvar Hagelund <ingvar@linpro.no> - 2.0-1
 - Wrap up a new package
