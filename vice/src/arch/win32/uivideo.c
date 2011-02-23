@@ -285,7 +285,7 @@ static void init_palette_dialog(HWND hwnd, Chip_Parameters *chip_type)
         uilib_get_element_size(hwnd, IDC_VIDEO_CUSTOM_NAME, &size);
 
         /* move and resize the palette combo element */
-        uilib_move_and_set_element_width(hwnd, IDC_VIDEO_CUSTOM_NAME, xpos + 10, size - (xstart - (xpos + 10)));
+        uilib_move_and_set_element_width(hwnd, IDC_VIDEO_CUSTOM_NAME, xpos + 10, size - ((xpos + 10) - xstart));
     }
 
     filename_hwnd = GetDlgItem(hwnd, IDC_VIDEO_CUSTOM_NAME);
@@ -562,13 +562,17 @@ static INT_PTR CALLBACK dialog_palette_proc(HWND hwnd, UINT msg, WPARAM wparam, 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
-                resources_set_int(chip_type->res_ExternalPalette_name, chip_type->external_pal);
-
+                TCHAR st[MAX_PATH];
+                GetDlgItemText(hwnd, IDC_VIDEO_CUSTOM_NAME, st, 100);
+                lib_free(chip_type->file_name);
+                chip_type->file_name = system_wcstombs_alloc(st);
                 querynewpalette = 1;
                 if (resources_set_string(chip_type->res_PaletteFile_name, chip_type->file_name) < 0) {
                     ui_error(translate_text(IDS_COULD_NOT_LOAD_PALETTE));
                     resources_set_int(chip_type->res_ExternalPalette_name, 0);
                     SetWindowLongPtr(hwnd, DWLP_MSGRESULT, TRUE);
+                    lib_free(chip_type->file_name);
+                    chip_type->file_name = NULL;
                     return TRUE;
                 }
                 lib_free(chip_type->file_name);
