@@ -3,7 +3,7 @@
 
 docdir = $(realdocdir)
 
-doc_DATA = \
+MISC_DOX = \
 	MacOSX-Build.txt \
 	MacOSX-ResourceTree.txt \
 	Minix-Howto.txt \
@@ -38,7 +38,9 @@ VICE_DOX = \
 
 info_TEXINFOS = vice.texi
 
-EXTRA_DIST = $(doc_DATA) $(VICE_DOX) $(TEXI_TOOLS)
+dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
+
+EXTRA_DIST = $(TEXI_TOOLS)
 
 SUBDIRS = html
 
