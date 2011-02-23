@@ -9,9 +9,9 @@ URL:		http://vice-emu.sourceforge.net/
 Source0:	http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE/%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	gtk2-devel gtkglext-devel mesa-libGL-devel libX11-devel libXrandr-devel ncurses-devel gettext-devel ffmpeg-devel lame-devel pulseaudio-libs-devel libpng-devel zlib-devel
+BuildRequires:	ffmpeg-devel gettext-devel gtk2-devel gtkglext-devel lame-devel libpng-devel libX11-devel libXrandr-devel mesa-libGL-devel ncurses-devel pulseaudio-libs-devel zlib-devel
 AutoReqProv:	no
-Requires:	gtk2 gtkglext-libs mesa-libGL libX11 libXrandr ncurses-libs gettext-libs ffmpeg-libs lame-libs pulseaudio-libs libpng zlib
+Requires:	ffmpeg-libs gettext-libs gtk2 gtkglext-libs lame-libs libpng libX11 libXrandr mesa-libGL ncurses-libs pulseaudio-libs zlib
 
 
 %description
@@ -24,19 +24,19 @@ PET, PLUS4, CBM-II and C64DTV emulator.
 
 
 %build
-%define __global_cflags -O3 -g -pipe -Wall -fno-exceptions -Wp,-D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4
+%define __global_cflags -O3 -ffast-math -g -pipe -Wall -fexceptions -Wp,-D_FORTIFY_SOURCE=2 -fstack-protector --param=ssp-buffer-size=4
 %if 0%{?archopt:1}
   %define optflags %{__global_cflags} %{archopt}
 %else
   %if %{_target_cpu} == i686
-    %define optflags %{__global_cflags} -m32 -march=pentium3 -fasynchronous-unwind-tables
+    %define optflags %{__global_cflags} -m32 -march=pentium-m -fasynchronous-unwind-tables
   %else
     %if %{_target_cpu} == x86_64
       %define optflags %{__global_cflags} -m64 -march=nocona -mtune=core2
     %endif
   %endif
 %endif
-%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --enable-fullscreen --without-alsa --without-oss --disable-arch
+%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --without-alsa --without-oss --disable-arch
 make %{?_smp_mflags}
 
 
@@ -78,7 +78,7 @@ fi
 - Update of requirements.
 - Less conservative architecture specific optimizations:
     rpmbuild --define "archopt <archopt>"    -> gcc -O3 <archopt>
-    rpmbuild [--target=i686-<vendor>-<os>]   -> gcc -O3 -march=pentium3
+    rpmbuild [--target=i686-<vendor>-<os>]   -> gcc -O3 -march=pentium-m
     rpmbuild [--target=x86_64-<vendor>-<os>] -> gcc -O3 -march=prescott -mtune=core2
 
 * Tue Oct 28 2008 Ingvar Hagelund <ingvar@linpro.no> - 2.0-1
