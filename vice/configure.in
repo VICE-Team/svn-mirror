@@ -1402,8 +1402,8 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
         #include <sys/types.h>
         #include <netinet/in.h>], [
         struct sockaddr_storage ss;
-        struct in6_addr int;
-        socket(AF_INET6, SOCK_STREAM, 0)
+        struct in6_addr in6;
+        socket(AF_INET6, SOCK_STREAM, 0);
         in6 = in6addr_any;
         ],
         have_ipv6=yes,
