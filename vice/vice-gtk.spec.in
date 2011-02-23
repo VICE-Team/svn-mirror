@@ -9,9 +9,9 @@ URL:		http://vice-emu.sourceforge.net/
 Source0:	http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE/%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	ffmpeg-devel gettext-devel gtk2-devel gtkglext-devel lame-devel libpng-devel libX11-devel libXrandr-devel mesa-libGL-devel ncurses-devel pulseaudio-libs-devel zlib-devel
-AutoReqProv:	no
-Requires:	ffmpeg-libs gettext-libs gtk2 gtkglext-libs lame-libs libpng libX11 libXrandr mesa-libGL ncurses-libs pulseaudio-libs zlib
+BuildRequires:	ffmpeg-devel gettext-devel giflib-devel gtk2-devel gtkglext-devel lame-devel libieee1284-devel libjpeg-devel libpcap-devel libpng-devel libX11-devel libXrandr-devel mesa-libGL-devel ncurses-devel pulseaudio-libs-devel zlib-devel
+#AutoReqProv:	no
+Requires:	ffmpeg-libs gettext-libs giflib gtk2 gtkglext-libs lame-libs libieee1284 libjpeg libpcap libpng libX11 libXrandr mesa-libGL ncurses-libs pulseaudio-libs zlib
 
 
 %description
@@ -36,7 +36,7 @@ PET, PLUS4, CBM-II and C64DTV emulator.
     %endif
   %endif
 %endif
-%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --without-alsa --without-oss --disable-arch
+%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --enable-ethernet --enable-parsid --without-alsa --without-oss --disable-arch
 make %{?_smp_mflags}
 
 
@@ -44,7 +44,7 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 # Generated Makefile ignores docdir from configure
 make install DESTDIR=%{buildroot} realdocdir=%{_docdir}/%{name}-%{version}/doc
-rm %{buildroot}%{_infodir}/dir
+rm -f %{buildroot}%{_infodir}/dir
 %{__install} -D -p -m 0644 AUTHORS ChangeLog FEEDBACK COPYING INSTALL NEWS README %{buildroot}%{_docdir}/%{name}-%{version}
 %find_lang vice
 
