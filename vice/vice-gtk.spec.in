@@ -9,9 +9,8 @@ URL:		http://vice-emu.sourceforge.net/
 Source0:	http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE/%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	ffmpeg-devel gettext-devel giflib-devel gtk2-devel gtkglext-devel lame-devel libieee1284-devel libjpeg-devel libpcap-devel libpng-devel libX11-devel libXrandr-devel mesa-libGL-devel ncurses-devel pulseaudio-libs-devel zlib-devel
-#AutoReqProv:	no
-Requires:	ffmpeg-libs gettext-libs giflib gtk2 gtkglext-libs lame-libs libieee1284 libjpeg libpcap libpng libX11 libXrandr mesa-libGL ncurses-libs pulseaudio-libs zlib
+BuildRequires:	ffmpeg-devel gettext-devel giflib-devel gtk2-devel gtkglext-devel lame-devel libieee1284-devel libjpeg-devel libpcap-devel libpng-devel libX11-devel libXrandr-devel mesa-libGL-devel pulseaudio-libs-devel zlib-devel
+Requires:	ffmpeg-libs lame-libs
 
 
 %description
