@@ -2245,14 +2245,14 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
       unset ac_cv_lib_readline_readline
       AC_CHECK_LIB(readline, readline,
                [ READLINE="" READLINE_LIBS="-lreadline -ltermcap"],
-               [], "-ltermcap",)
+               [], [-ltermcap],)
     fi
 
     if test "$ac_cv_lib_readline_readline" = "no"; then
       unset ac_cv_lib_readline_readline
       AC_CHECK_LIB(readline, readline,
                [ READLINE="" READLINE_LIBS="-lreadline -lncurses"],
-               [], "-lncurses",)
+               [], [-lncurses],)
     fi
 
     if test "$ac_cv_lib_readline_readline" = "no"; then
@@ -2260,7 +2260,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
       AC_CHECK_LIB(readline, readline,
              [ READLINE="" READLINE_LIBS="-lreadline -lcurses"],
              [ READLINE="\$(top_builddir)/src/arch/unix/readline/libreadline.a" ],
-              "-lcurses",)
+              [-lcurses],)
     fi
 
     if test "$ac_cv_lib_readline_readline" = "yes"; then
