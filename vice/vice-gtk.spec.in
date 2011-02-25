@@ -2,14 +2,14 @@ Name:		vice
 Version:	@VICE_VERSION@
 Release:	1%{?dist}
 Summary:	Versatile Commodore 8-bit Emulator
-Vendor:		The VICE team
+Vendor:		VICE Team
 Group:		Applications/Emulators
 License:	GPLv2
 URL:		http://vice-emu.sourceforge.net/
 Source0:	http://www.zimmers.net/anonftp/pub/cbm/crossplatform/emulators/VICE/%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildRequires:	ffmpeg-devel gettext-devel giflib-devel gtk2-devel gtkglext-devel lame-devel libieee1284-devel libjpeg-devel libpcap-devel libpng-devel libX11-devel libXrandr-devel mesa-libGL-devel pulseaudio-libs-devel zlib-devel
+Packager:	VICE Team
+BuildRequires:	alsa-lib-devel ffmpeg-devel gettext-devel giflib-devel gtk2-devel gtkglext-devel lame-devel libieee1284-devel libjpeg-devel libpcap-devel libpng-devel libX11-devel libXrandr-devel mesa-libGL-devel pulseaudio-libs-devel zlib-devel
 # Requires:	ffmpeg-libs lame-libs
 
 
@@ -35,7 +35,7 @@ PET, PLUS4, CBM-II and C64DTV emulator.
     %endif
   %endif
 %endif
-%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --enable-ethernet --enable-parsid --without-alsa --without-oss --disable-arch
+%configure --docdir=%{_docdir}/%{name}-%{version}/doc --enable-gnomeui --enable-ethernet --enable-parsid --without-oss --disable-arch
 make %{?_smp_mflags}
 
 
@@ -66,15 +66,17 @@ fi
 %defattr(-,root,root,-)
 %{_docdir}/%{name}-%{version}/*
 %{_bindir}/*
-%{_libdir}/vice/*
+%{_prefix}/lib/vice/*
 %{_infodir}/vice.info.gz
 %{_infodir}/vice.txt.gz
 %{_mandir}/man1/* 
+%{_datadir}/locale/*/LC_MESSAGES/vice.mo
 
 
 %changelog
-* Tue Feb 22 2011 Dag Lem <resid@nimrod.no> - 2.3-1
-- Update of requirements.
+* Fri Feb 25 2011 Dag Lem <resid@nimrod.no> - 2.3-1
+- Update of requirements and configuration.
+- Added missing files, fix for 64 bit builds.
 - Less conservative architecture specific optimizations:
     rpmbuild --define "archopt <archopt>"    -> gcc -O3 <archopt>
     rpmbuild [--target=i686-<vendor>-<os>]   -> gcc -O3 -march=pentium-m
