@@ -576,7 +576,7 @@ static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
         xa_text = XA_TEXT(XtDisplay(new));
     }
     if (xa_utf8_string == 0) {
-#ifdef XA_UTF8_STRING
+#ifdef X_HAVE_UTF8_STRING
         xa_utf8_string = XA_UTF8_STRING(XtDisplay(new));
 #else
         xa_utf8_string = -1;
@@ -1240,7 +1240,7 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
 
         num_atoms = std_length + 1;
         if (w->text.international) {
-#if defined (XA_UTF8_STRING)
+#ifdef X_HAVE_UTF8_STRING
             num_atoms += 3;
 #else
             num_atoms += 2;
@@ -1251,7 +1251,7 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
         targetP = *(Atom **)value;
         *length = num_atoms;
         if (w->text.international) {
-#if defined(XA_UTF8_STRING)
+#ifdef X_HAVE_UTF8_STRING
             *targetP++ = xa_utf8_string;
 #endif
             *targetP++ = xa_text;
@@ -1275,7 +1275,7 @@ static Boolean ConvertSelection(Widget aw, Atom *selection, Atom *target, Atom *
 
         if (tgt == XA_STRING) {
             style = XStringStyle;
-#if defined(XA_UTF8_STRING)
+#ifdef X_HAVE_UTF8_STRING
         } else if (tgt == xa_utf8_string) {
             style = XUTF8StringStyle;
 #endif
@@ -1366,7 +1366,7 @@ static void ReceiveSelection(Widget aw, XtPointer client, Atom * selection, Atom
     if (*type == XT_CONVERT_FAIL || *length == 0) {
         /* Try another type of conversion */
         Atom next_type;
-#if defined (XA_UTF8_STRING)
+#ifdef X_HAVE_UTF8_STRING
         if (w->text.selection_type == xa_utf8_string) {
             next_type = xa_text;
         } else
@@ -1445,7 +1445,7 @@ static void InsertSelection(Widget aw, XEvent *event, String *params, Cardinal *
     printf("InsertSelection: event at pos: %d\n", pos);
 #endif
     /* xterm(1) section SELECTION TARGETS explains. */
-#if defined (XA_UTF8_STRING)
+#ifdef X_HAVE_UTF8_STRING
     type = w->text.international ? xa_utf8_string : XA_STRING;
 #else
     type = w->text.international ? xa_text : XA_STRING;
