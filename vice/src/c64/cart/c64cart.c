@@ -30,6 +30,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef RAND_MAX
+#include <limits.h>
+#define RAND_MAX INT_MAX
+#endif
+
 #include "alarm.h"
 #include "archdep.h"
 #include "c64.h"
