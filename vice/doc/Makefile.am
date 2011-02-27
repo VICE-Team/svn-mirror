@@ -24,6 +24,7 @@ MISC_DOX = \
 	CIA-README.txt
 
 TEXI_TOOLS = \
+	fixdox.sh \
 	texi2chm.sh \
 	texi2guide.sh \
 	t2h.pl
