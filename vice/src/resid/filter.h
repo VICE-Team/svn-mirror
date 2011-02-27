@@ -488,8 +488,7 @@ void Filter::clock(int voice1, int voice2, int voice3)
   // Sum inputs routed into the filter.
   int Vi;
 
-  switch (sum) {
-  default:
+  switch (sum & 0xf) {
   case 0x0:
     Vi = summer_offset<0>::value;
     break;
@@ -584,8 +583,7 @@ void Filter::clock(cycle_count delta_t, int voice1, int voice2, int voice3)
   // Sum inputs routed into the filter.
   int Vi;
 
-  switch (sum) {
-  default:
+  switch (sum & 0xf) {
   case 0x0:
     Vi = summer_offset<0>::value;
     break;
@@ -731,8 +729,7 @@ for my $mix (0..2**@i-1) {
   // Sum inputs routed into the mixer.
   int Vi;
 
-  switch (mix) {
-  default:
+  switch (mix & 0x7f) {
   case 0x00:
     Vi = mixer_offset<0>::value;
     break;
