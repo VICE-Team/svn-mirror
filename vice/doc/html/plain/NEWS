@@ -12,6 +12,57 @@ If you run into trouble please try removing any VICE configuration files
 left from previous installs.
 (vice.ini / .vicerc / vice2.cfg / vice-sdl.ini depending on platform)
 
+* Changes in VICE 2.4
+======================
+
+** General
+----------
+
+** C64/C128 changes
+-------------------
+
+** C64 changes
+--------------
+
+** C128 changes
+---------------
+
+** VIC20 changes
+----------------
+
+** PLUS4 changes
+----------------
+
+** PET changes
+--------------
+
+** CBM2 changes
+---------------
+
+** Unix changes
+---------------
+
+** MS-Windows changes
+---------------------
+
+** AmigaOS changes
+------------------
+
+** DOS changes
+--------------
+
+** Mac OS X changes
+-------------------
+
+** SDL UI changes
+-----------------
+
+** BeOS changes
+---------------
+
+** OS/2 changes
+---------------
+
 * Changes in VICE 2.3
 ======================
 
