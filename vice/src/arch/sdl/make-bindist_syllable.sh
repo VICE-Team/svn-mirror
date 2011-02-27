@@ -39,9 +39,10 @@ done
 
 echo Generating Syllable SDL port binary distribution.
 rm -f -r SDLVICE-syllable-$VERSION
-mkdir SDLVICE-syllable-$VERSION/bin
+mkdir -p SDLVICE-syllable-$VERSION/bin
 mv /usr/VICE/bin/* SDLVICE-syllable-$VERSION/bin
 $STRIP SDLVICE-syllable-$VERSION/bin/*
+mkdir -p SDLVICE-syllable-$VERSION/lib
 mv /usr/VICE/lib/vice SDLVICE-syllable-$VERSION/lib
 mkdir -p SDLVICE-syllable-$VERSION/share/man/man1
 mv /usr/VICE/share/man/man1/* SDLVICE-syllable-$VERSION/share/man/man1/

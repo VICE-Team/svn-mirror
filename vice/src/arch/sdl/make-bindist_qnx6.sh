@@ -16,7 +16,7 @@ TOPSRCDIR=$7
 MAKECOMMAND=$8
 CPU=$9
 
-if test x"$X64SC" = "xyes": then
+if test x"$X64SC" = "xyes"; then
   SCFILE="x64sc"
 else
   SCFILE=""
@@ -608,6 +608,7 @@ if test x"$X64SC" = "xyes"; then
       </QPM:Launch>
 
 _END
+fi
 
 cat >>manifest.15 <<_END
       <QPM:Launch name="x128">
