@@ -173,6 +173,10 @@ static const cart_t cart_info[] = {
     {0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL}
 };
 
+#ifndef HAVE_MEMMOVE
+#define memmove(x, y, z) bcopy(y, x, z)
+#endif
+
 #ifndef HAVE_STRDUP
 char *strdup(const char *string)
 {
