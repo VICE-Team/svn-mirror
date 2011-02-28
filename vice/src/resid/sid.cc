@@ -807,26 +807,27 @@ RESID_INLINE
 int SID::clock_fast(cycle_count& delta_t, short* buf, int n,
 		    int interleave)
 {
-  int s = 0;
+  int s;
 
-  for (;;) {
+  for (s = 0; s < n; s++) {
     cycle_count next_sample_offset = sample_offset + cycles_per_sample + (1 << (FIXP_SHIFT - 1));
     cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
-    if (unlikely(delta_t_sample > delta_t)) {
+
+    if (delta_t_sample > delta_t) {
+      delta_t_sample = delta_t;
+    }
+
+    clock(delta_t_sample);
+
+    if ((delta_t -= delta_t_sample) == 0) {
+      sample_offset -= delta_t_sample << FIXP_SHIFT;
       break;
     }
-    if (unlikely(s >= n)) {
-      return s;
-    }
-    clock(delta_t_sample);
-    delta_t -= delta_t_sample;
+
     sample_offset = (next_sample_offset & FIXP_MASK) - (1 << (FIXP_SHIFT - 1));
-    buf[s++*interleave] = output();
+    buf[s*interleave] = output();
   }
 
-  clock(delta_t);
-  sample_offset -= delta_t << FIXP_SHIFT;
-  delta_t = 0;
   return s;
 }
 
@@ -844,18 +845,17 @@ RESID_INLINE
 int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 			   int interleave)
 {
-  int s = 0;
-  int i;
+  int s;
 
-  for (;;) {
+  for (s = 0; s < n; s++) {
+    int i;
     cycle_count next_sample_offset = sample_offset + cycles_per_sample;
     cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
-    if (unlikely(delta_t_sample > delta_t)) {
-      break;
+
+    if (delta_t_sample > delta_t) {
+      delta_t_sample = delta_t;
     }
-    if (unlikely(s >= n)) {
-      return s;
-    }
+
     for (i = 0; i < delta_t_sample - 1; i++) {
       clock();
     }
@@ -864,24 +864,19 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
       clock();
     }
 
-    delta_t -= delta_t_sample;
+    if ((delta_t -= delta_t_sample) == 0) {
+      sample_offset -= delta_t_sample << FIXP_SHIFT;
+      break;
+    }
+
     sample_offset = next_sample_offset & FIXP_MASK;
 
     short sample_now = output();
-    buf[s++*interleave] =
+    buf[s*interleave] =
       sample_prev + (sample_offset*(sample_now - sample_prev) >> FIXP_SHIFT);
     sample_prev = sample_now;
   }
 
-  for (i = 0; i < delta_t - 1; i++) {
-    clock();
-  }
-  if (likely(i < delta_t)) {
-    sample_prev = output();
-    clock();
-  }
-  sample_offset -= delta_t << FIXP_SHIFT;
-  delta_t = 0;
   return s;
 }
 
@@ -926,23 +921,27 @@ RESID_INLINE
 int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
 			int interleave)
 {
-  int s = 0;
+  int s;
 
-  for (;;) {
+  for (s = 0; s < n; s++) {
     cycle_count next_sample_offset = sample_offset + cycles_per_sample;
     cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
-    if (unlikely(delta_t_sample > delta_t)) {
-      break;
+
+    if (delta_t_sample > delta_t) {
+      delta_t_sample = delta_t;
     }
-    if (unlikely(s >= n)) {
-      return s;
-    }
+
     for (int i = 0; i < delta_t_sample; i++) {
       clock();
       sample[sample_index] = sample[sample_index + RINGSIZE] = output();
       ++sample_index &= RINGMASK;
     }
-    delta_t -= delta_t_sample;
+
+    if ((delta_t -= delta_t_sample) == 0) {
+      sample_offset -= delta_t_sample << FIXP_SHIFT;
+      break;
+    }
+
     sample_offset = next_sample_offset & FIXP_MASK;
 
     int fir_offset = sample_offset*fir_RES >> FIXP_SHIFT;
@@ -986,16 +985,9 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
       v = -half;
     }
 
-    buf[s++*interleave] = v;
+    buf[s*interleave] = v;
   }
 
-  for (int i = 0; i < delta_t; i++) {
-    clock();
-    sample[sample_index] = sample[sample_index + RINGSIZE] = output();
-    ++sample_index &= RINGMASK;
-  }
-  sample_offset -= delta_t << FIXP_SHIFT;
-  delta_t = 0;
   return s;
 }
 
@@ -1007,23 +999,27 @@ RESID_INLINE
 int SID::clock_resample_fastmem(cycle_count& delta_t, short* buf, int n,
 				int interleave)
 {
-  int s = 0;
+  int s;
 
-  for (;;) {
+  for (s = 0; s < n; s++) {
     cycle_count next_sample_offset = sample_offset + cycles_per_sample;
     cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
-    if (unlikely(delta_t_sample > delta_t)) {
-      break;
+
+    if (delta_t_sample > delta_t) {
+      delta_t_sample = delta_t;
     }
-    if (unlikely(s >= n)) {
-      return s;
-    }
+
     for (int i = 0; i < delta_t_sample; i++) {
       clock();
       sample[sample_index] = sample[sample_index + RINGSIZE] = output();
       ++sample_index &= RINGMASK;
     }
-    delta_t -= delta_t_sample;
+
+    if ((delta_t -= delta_t_sample) == 0) {
+      sample_offset -= delta_t_sample << FIXP_SHIFT;
+      break;
+    }
+
     sample_offset = next_sample_offset & FIXP_MASK;
 
     int fir_offset = sample_offset*fir_RES >> FIXP_SHIFT;
@@ -1047,16 +1043,9 @@ int SID::clock_resample_fastmem(cycle_count& delta_t, short* buf, int n,
       v = -half;
     }
 
-    buf[s++*interleave] = v;
+    buf[s*interleave] = v;
   }
 
-  for (int i = 0; i < delta_t; i++) {
-    clock();
-    sample[sample_index] = sample[sample_index + RINGSIZE] = output();
-    ++sample_index &= RINGMASK;
-  }
-  sample_offset -= delta_t << FIXP_SHIFT;
-  delta_t = 0;
   return s;
 }
 
