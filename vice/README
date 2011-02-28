@@ -29,6 +29,8 @@
 
    - x64, a C64 emulator;
 
+   - x64sc, a C64 emulator focused on accuracy;
+
    - x64dtv, a C64 Direct-to-TV (DTV) emulator;
 
    - x128, a C128 emulator;
