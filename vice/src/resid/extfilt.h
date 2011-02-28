@@ -148,11 +148,11 @@ short ExternalFilter::output()
   // Saturated arithmetics to guard against 16 bit sample overflow.
   const int half = 1 << 15;
   int Vo = (Vlp - Vhp) >> 11;
-  if (unlikely(Vo >= half)) {
-    return half - 1;
+  if (Vo >= half) {
+    Vo = half - 1;
   }
-  if (unlikely(Vo < -half)) {
-    return -half;
+  else if (Vo < -half) {
+    Vo = -half;
   }
   return Vo;
 }

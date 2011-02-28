@@ -978,10 +978,10 @@ int SID::clock_resample(cycle_count& delta_t, short* buf, int n,
 
     // Saturated arithmetics to guard against 16 bit sample overflow.
     const int half = 1 << 15;
-    if (unlikely(v >= half)) {
+    if (v >= half) {
       v = half - 1;
     }
-    else if (unlikely(v < -half)) {
+    else if (v < -half) {
       v = -half;
     }
 
@@ -1036,10 +1036,10 @@ int SID::clock_resample_fastmem(cycle_count& delta_t, short* buf, int n,
 
     // Saturated arithmetics to guard against 16 bit sample overflow.
     const int half = 1 << 15;
-    if (unlikely(v >= half)) {
+    if (v >= half) {
       v = half - 1;
     }
-    else if (unlikely(v < -half)) {
+    else if (v < -half) {
       v = -half;
     }
 
