@@ -633,7 +633,7 @@ void Filter::set_sum_mix()
 {
   // NB! voice3off (mode bit 7) only affects voice 3 if it is routed directly
   // to the mixer.
-  sum = filt & voice_mask;
+  sum = (enabled ? filt : 0x00) & voice_mask;
   mix =
     (enabled ? (mode & 0x70) | ((~(filt | (mode & 0x80) >> 5)) & 0x0f) : 0x0f)
     & voice_mask;

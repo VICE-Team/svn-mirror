@@ -480,11 +480,6 @@ void Filter::clock(int voice1, int voice2, int voice3)
   v2 = (voice2*f.voice_scale_s14 >> 18) + f.voice_DC;
   v3 = (voice3*f.voice_scale_s14 >> 18) + f.voice_DC;
 
-  // This is handy for testing.
-  if (unlikely(!enabled)) {
-    return;
-  }
-
   // Sum inputs routed into the filter.
   int Vi;
   int offset;
