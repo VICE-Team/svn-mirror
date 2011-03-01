@@ -148,7 +148,7 @@ public:
   cycle_count cycles_per_sample;
   cycle_count sample_offset;
   int sample_index;
-  short sample_prev;
+  short sample_prev, sample_now;
   int fir_N;
   int fir_RES;
 

@@ -527,6 +527,7 @@ bool SID::set_sampling_parameters(double clock_freq, sampling_method method,
 
   sample_offset = 0;
   sample_prev = 0;
+  sample_now = 0;
 
   // FIR initialization is only necessary for resampling.
   if (method != SAMPLE_RESAMPLE && method != SAMPLE_RESAMPLE_FASTMEM)
@@ -848,7 +849,6 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
   int s;
 
   for (s = 0; s < n; s++) {
-    int i;
     cycle_count next_sample_offset = sample_offset + cycles_per_sample;
     cycle_count delta_t_sample = next_sample_offset >> FIXP_SHIFT;
 
@@ -856,12 +856,12 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
       delta_t_sample = delta_t;
     }
 
-    for (i = 0; i < delta_t_sample - 1; i++) {
+    for (int i = delta_t_sample; i > 0; i--) {
       clock();
-    }
-    if (likely(i < delta_t_sample)) {
-      sample_prev = output();
-      clock();
+      if (unlikely(i <= 2)) {
+	sample_prev = sample_now;
+	sample_now = output();
+      }
     }
 
     if ((delta_t -= delta_t_sample) == 0) {
@@ -871,10 +871,8 @@ int SID::clock_interpolate(cycle_count& delta_t, short* buf, int n,
 
     sample_offset = next_sample_offset & FIXP_MASK;
 
-    short sample_now = output();
     buf[s*interleave] =
       sample_prev + (sample_offset*(sample_now - sample_prev) >> FIXP_SHIFT);
-    sample_prev = sample_now;
   }
 
   return s;
