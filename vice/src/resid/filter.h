@@ -353,9 +353,7 @@ public:
   void set_chip_model(chip_model model);
   void set_voice_mask(reg4 mask);
 
-  RESID_INLINE
   void clock(int voice1, int voice2, int voice3);
-  RESID_INLINE
   void clock(cycle_count delta_t, int voice1, int voice2, int voice3);
   void reset();
 

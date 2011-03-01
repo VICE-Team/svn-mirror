@@ -40,7 +40,7 @@ public:
 
   // Amplitude modulated waveform output.
   // Range [-2048*255, 2047*255].
-  RESID_INLINE int output();
+  int output();
 
 protected:
   WaveformGenerator wave;

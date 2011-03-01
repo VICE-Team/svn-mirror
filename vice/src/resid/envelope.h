@@ -43,8 +43,8 @@ public:
 
   void set_chip_model(chip_model model);
 
-  RESID_INLINE void clock();
-  RESID_INLINE void clock(cycle_count delta_t);
+  void clock();
+  void clock(cycle_count delta_t);
   void reset();
 
   void writeCONTROL_REG(reg8);
@@ -53,10 +53,10 @@ public:
   reg8 readENV();
 
   // 8-bit envelope output.
-  RESID_INLINE short output();
+  short output();
 
 protected:
-  RESID_INLINE void set_exponential_counter();
+  void set_exponential_counter();
 
   reg16 rate_counter;
   reg16 rate_period;

@@ -41,9 +41,9 @@ public:
   void set_sync_source(WaveformGenerator*);
   void set_chip_model(chip_model model);
 
-  RESID_INLINE void clock();
-  RESID_INLINE void clock(cycle_count delta_t);
-  RESID_INLINE void synchronize();
+  void clock();
+  void clock(cycle_count delta_t);
+  void synchronize();
   void reset();
 
   void writeFREQ_LO(reg8);
@@ -54,17 +54,17 @@ public:
   reg8 readOSC();
 
   // 12-bit waveform output.
-  RESID_INLINE short output();
+  short output();
 
 protected:
-  RESID_INLINE void clock_shift_register();
-  RESID_INLINE void write_shift_register();
-  RESID_INLINE void reset_shift_register();
-  RESID_INLINE void set_noise_output();
+  void clock_shift_register();
+  void write_shift_register();
+  void reset_shift_register();
+  void set_noise_output();
 
   // Calculate and set waveform output value.
-  RESID_INLINE void set_waveform_output();
-  RESID_INLINE void set_waveform_output(cycle_count delta_t);
+  void set_waveform_output();
+  void set_waveform_output(cycle_count delta_t);
 
   const WaveformGenerator* sync_source;
   WaveformGenerator* sync_dest;
