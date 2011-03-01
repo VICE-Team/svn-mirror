@@ -96,15 +96,13 @@ public:
 
  protected:
   static double I0(double x);
-  RESID_INLINE int clock_fast(cycle_count& delta_t, short* buf, int n,
-			      int interleave);
-  RESID_INLINE int clock_interpolate(cycle_count& delta_t, short* buf, int n,
-				     int interleave);
-  RESID_INLINE int clock_resample(cycle_count& delta_t, short* buf,
-				  int n, int interleave);
-  RESID_INLINE int clock_resample_fastmem(cycle_count& delta_t, short* buf,
-					  int n, int interleave);
-  RESID_INLINE void write();
+  int clock_fast(cycle_count& delta_t, short* buf, int n, int interleave);
+  int clock_interpolate(cycle_count& delta_t, short* buf, int n,
+			int interleave);
+  int clock_resample(cycle_count& delta_t, short* buf, int n, int interleave);
+  int clock_resample_fastmem(cycle_count& delta_t, short* buf, int n,
+			     int interleave);
+  void write();
 
   chip_model sid_model;
   Voice voice[3];
@@ -158,6 +156,62 @@ public:
   // FIR_RES filter tables (FIR_N*FIR_RES).
   short* fir;
 };
+
+
+// ----------------------------------------------------------------------------
+// Inline functions.
+// The following functions are defined inline because they are called every
+// time a sample is calculated.
+// ----------------------------------------------------------------------------
+
+#if RESID_INLINING || defined(RESID_SID_CC)
+
+// ----------------------------------------------------------------------------
+// SID clocking - 1 cycle.
+// ----------------------------------------------------------------------------
+RESID_INLINE
+void SID::clock()
+{
+  int i;
+
+  // Clock amplitude modulators.
+  for (i = 0; i < 3; i++) {
+    voice[i].envelope.clock();
+  }
+
+  // Clock oscillators.
+  for (i = 0; i < 3; i++) {
+    voice[i].wave.clock();
+  }
+
+  // Synchronize oscillators.
+  for (i = 0; i < 3; i++) {
+    voice[i].wave.synchronize();
+  }
+
+  // Calculate waveform output.
+  for (i = 0; i < 3; i++) {
+    voice[i].wave.set_waveform_output();
+  }
+
+  // Clock filter.
+  filter.clock(voice[0].output(), voice[1].output(), voice[2].output());
+
+  // Clock external filter.
+  extfilt.clock(filter.output());
+
+  // Pipelined writes on the MOS8580.
+  if (unlikely(write_pipeline)) {
+    write();
+  }
+
+  // Age bus value.
+  if (unlikely(!--bus_value_ttl)) {
+    bus_value = 0;
+  }
+}
+
+#endif // RESID_INLINING || defined(RESID_SID_CC)
 
 } // namespace reSID
 
