@@ -49,7 +49,9 @@ AM_MAKEINFOHTMLFLAGS =
 AM_MAKEINFOFLAGS = --no-split
 
 $(srcdir)/vice.txt:	vice.texi
-	$(MAKEINFO) -o $(srcdir)/vice.txt --no-headers $(srcdir)/vice.texi
+	$(MAKEINFO) -o vicetmp.txt --no-headers vice.texi
+	$(srcdir)/fixdox.sh txt <vicetmp.txt >$(srcdir)/vice.txt
+	rm -f vicetmp.txt
 
 if BUILD_PDF
 $(srcdir)/vice.pdf:	vice.texi
