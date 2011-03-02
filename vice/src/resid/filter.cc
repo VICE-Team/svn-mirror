@@ -187,8 +187,6 @@ Filter::Filter()
       double N30 = norm*((1u << 30) - 1);
       double N31 = norm*((1u << 31) - 1);
       mf.vo_N16 = (int)(N16);  // FIXME: Remove?
-      mf.vo_T19 = (int)(N19*vmin);
-      mf.vo_T16 = (int)(N16*vmin);
 
       // The "zero" output level of the voices.
       // The digital range of one voice is 20 bits; create a scaling term
@@ -199,7 +197,7 @@ Filter::Filter()
 
       // Vth, Vdd - Vth
       mf.Vth = (int)(N16*fi.Vth + 0.5);
-      mf.Vddt = (int)(N16*(fi.Vdd - fi.Vth) + 0.5);
+      mf.Vddt = (int)(N16*(fi.Vdd - fi.Vth - vmin) + 0.5);
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
       // Fit in 15 bits / 5 bits.
@@ -256,7 +254,7 @@ Filter::Filter()
       // it follows that gain ~ vol/8 and 1/Q ~ ~res/8 (assuming ideal
       // op-amps and ideal "resistors").
       int x;
-      x = mf.vo_T19;
+      x = 0;
       for (int n8 = 0; n8 < 16; n8++) {
 	int n = n8 << 4;  // Scaled by 2^7
 	for (int vi = 0; vi < (1 << 16); vi++) {
@@ -271,7 +269,7 @@ Filter::Filter()
       // entirely accurate, since the input for each transistor is different,
       // and transistors are not linear components. However modeling all
       // transistors separately would be extremely costly.
-      x = mf.vo_T19;
+      x = 0;
       int offset = 0;
       int size;
       for (int k = 0; k < 5; k++) {
@@ -290,7 +288,7 @@ Filter::Filter()
       //
       // All "on", transistors are modeled as one - see comments above for
       // the filter summer.
-      x = mf.vo_T19;
+      x = 0;
       offset = 0;
       size = 1;  // Only one lookup element for 0 input "resistors".
       for (int l = 0; l < 8; l++) {
@@ -313,7 +311,7 @@ Filter::Filter()
       // vc -> vx
       for (int m = 0; m < fi.opamp_voltage_size; m++) {
 	scaled_voltage[m][0] = (N16*(fi.opamp_voltage[m][0] - fi.opamp_voltage[m][1]) + (1 << 16))/2;
-	scaled_voltage[m][1] = N16*fi.opamp_voltage[m][0];
+	scaled_voltage[m][1] = N16*(fi.opamp_voltage[m][0] - vmin);
       }
 
       mf.vc_min = (int)(N30*(fi.opamp_voltage[0][0] - fi.opamp_voltage[0][1]));
@@ -325,7 +323,7 @@ Filter::Filter()
       int bits = 11;
       build_dac_table(mf.f0_dac, bits, fi.dac_2R_div_R, fi.dac_term);
       for (int n = 0; n < (1 << bits); n++) {
-	mf.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits)) + 0.5);
+	mf.f0_dac[n] = (unsigned short)(N16*(fi.dac_zero + mf.f0_dac[n]*fi.dac_scale/(1 << bits) - vmin) + 0.5);
       }
     }
 
@@ -338,17 +336,15 @@ Filter::Filter()
     for (int i = 0; i < (1 << 16); i++) {
       // The table index is right-shifted 16 times in order to fit in
       // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
-      int Vg = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5f);
-      if (Vg >= (1 << 16)) {
-	// Clamp to 16 bits.
-	// FIXME: If the DAC output voltage reaches Vddt while the input
-	// voltage reaches the max op-amp output, it is possible that Vg
-	// will not fit in 16 bits.
-	// Check whether this can happen, and if so, consider changing
-	// the lookup table to a plain sqrt.
-	Vg = (1 << 16) - 1;
-      }
-      vcr_Vg[i] = Vg;
+      //
+      // If k (kappa) is to be included so that k*Vg is returned, the
+      // returned value must be corrected for translation. Vg always
+      // takes part in a subtraction as follows:
+      //
+      //   k*(Vg - t) - (Vx - t) = k*Vg + (1 - k)*t - Vx
+      //
+      // I.e. k*Vg + (1 - k)*t must be returned.
+      vcr_Vg[i] = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5);
     }
 
     /*
@@ -497,7 +493,7 @@ void Filter::writeMODE_VOL(reg8 mode_vol)
 void Filter::set_w0()
 {
   model_filter_t& f = model_filter[sid_model];
-  Vw = Vw_bias + f.f0_dac[fc];
+  int Vw = Vw_bias + f.f0_dac[fc];
   Vddt_Vw_2 = unsigned(f.Vddt - Vw)*unsigned(f.Vddt - Vw) >> 1;
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.

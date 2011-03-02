@@ -414,7 +414,7 @@ protected:
   int v1;
 
   // Cutoff frequency DAC voltage, resonance.
-  int Vw, Vddt_Vw_2, Vw_bias;
+  int Vddt_Vw_2, Vw_bias;
   int _8_div_Q;
   // FIXME: Temporarily used for MOS 8580 emulation.
   int w0;
@@ -424,8 +424,6 @@ protected:
 
   typedef struct {
     int vo_N16;  // Fixed point scaling for 16 bit op-amp output.
-    int vo_T19;  // Fixed point scaled translation for 19 bit op-amp output.
-    int vo_T16;  // Fixed point scaled translation for 16 bit op-amp output.
     int Vth;     // Transistor threshold voltage.
     int Vddt;    // Vdd - Vth
     int n_vcr;
@@ -1317,14 +1315,16 @@ f = a*(b - vx)^2 - c - (b - vo)^2
 df = 2*((b - vo)*dvo - a*(b - vx))
 */
 RESID_INLINE
-int Filter::solve_gain(int* opamp, int n, int vi_n, int& x, model_filter_t& mf)
+int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
 {
-  // Translate normalized vi.
-  int vi = vi_n + mf.vo_T19;
+  // Note that all variables are translated and scaled in order to fit
+  // in 16 bits. It is not necessary to explicitly translate the variables here,
+  // since they are all used in subtractions which cancel out the translation:
+  // (a - t) - (b - t) = a - b
 
   // Start off with an estimate of x and a root bracket [ak, bk].
   // f is decreasing, so that f(ak) > 0 and f(bk) < 0.
-  int ak = mf.vo_T19, bk = mf.vo_T19 + (1 << 19) - 1;
+  int ak = 0, bk = (1 << 19) - 1;
 
   int a = n + (1 << 7);              // Scaled by 2^7
   int b = mf.Vddt << 3;              // Scaled by m*2^19
@@ -1335,9 +1335,9 @@ int Filter::solve_gain(int* opamp, int n, int vi_n, int& x, model_filter_t& mf)
     int xk = x;
 
     // Calculate f and df.
-    int vo_dvo = opamp[x - mf.vo_T19];
-    int vo = (vo_dvo & 0x7ffff) + mf.vo_T19;  // Scaled by m*2^19
-    int dvo = vo_dvo >> 19;                   // Scaled by 2^8
+    int vo_dvo = opamp[x];
+    int vo = vo_dvo & 0x7ffff;  // Scaled by m*2^19
+    int dvo = vo_dvo >> 19;     // Scaled by 2^8
 
     // f = a*(b - vx)^2 - c - (b - vo)^2
     // df = 2*((b - vo)*dvo - a*(b - vx))
@@ -1356,7 +1356,7 @@ int Filter::solve_gain(int* opamp, int n, int vi_n, int& x, model_filter_t& mf)
     x -= f/df;
     if (unlikely(x == xk)) {
       // No further root improvement possible.
-      return vo - mf.vo_T19;
+      return vo;
     }
 
     // Narrow down root bracket.
@@ -1374,7 +1374,7 @@ int Filter::solve_gain(int* opamp, int n, int vi_n, int& x, model_filter_t& mf)
       x = (ak + bk) >> 1;
       if (unlikely(x == ak)) {
 	// No further bisection possible.
-	return vo - mf.vo_T19;
+	return vo;
       }
     }
   }
@@ -1467,11 +1467,14 @@ discussed above:
 
 */
 RESID_INLINE
-int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
+int Filter::solve_integrate_6581(int dt, int vi, int& x, int& vc,
 				 model_filter_t& mf)
 {
-  // Translate normalized vi.
-  int vi = vi_n + mf.vo_T16; // Scaled by m*2^16
+  // Note that all variables are translated and scaled in order to fit
+  // in 16 bits. It is not necessary to explicitly translate the variables here,
+  // since they are all used in subtractions which cancel out the translation:
+  // (a - t) - (b - t) = a - b
+
   int Vddt = mf.Vddt;        // Scaled by m*2^16
 
   // "Snake" voltages for triode mode calculation.
@@ -1503,7 +1506,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   vc += (n_I_snake + n_I_vcr)*dt;
 
 /*
-  FIXME: Check whether this check is necessary.
+  FIXME: Determine whether this check is necessary.
   if (vc < mf.vc_min) {
     vc = mf.vc_min;
   }
@@ -1516,7 +1519,7 @@ int Filter::solve_integrate_6581(int dt, int vi_n, int& x, int& vc,
   x = mf.opamp_rev[(vc >> 15) + (1 << 15)];
 
   // Return vo.
-  return (x - (vc >> 14)) - mf.vo_T16;
+  return x - (vc >> 14);
 }
 
 #endif // RESID_INLINING || defined(RESID_FILTER_CC)
