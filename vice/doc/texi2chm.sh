@@ -14,6 +14,9 @@ rm -f -r chmtmp
 mkdir chmtmp
 cd chmtmp
 cp ../$TEXIFILE ./
+../fixdox.sh chm <vice.texi >vicefix.texi
+rm -f vice.texi
+mv vicefix.texi vice.texi
 ../t2h.pl vice.texi
 $HHC vice.hhp
 mv vice.chm ../$CHMFILE

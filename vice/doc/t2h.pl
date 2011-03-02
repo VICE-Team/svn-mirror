@@ -6,6 +6,8 @@
 #
 # It was written by Peter Verhas and is allowed to be used by the VICE project.
 #
+# Modified by Marco van den Heuvel for use with the vice.texi file.
+#
 
 sub getitoc {
   my $p = shift;
@@ -60,6 +62,7 @@ sub rtfizee {
   $line =~ s[\@itemize][]g;
   $line =~ s[\@end\s+itemize][]g;
   $line =~ s[\@item][]g;
+  $line =~ s[\@itemx][]g;
   $line =~ s[\@\{][\\\{]g;
   $line =~ s[\@\}][\\\}]g;
   $line =~ s[\@\$][\$]g;
@@ -142,24 +145,68 @@ sub htmlizee {
   $line =~ s[\@strong\{(.*?)\}][<I>$1</I>]g;
   $line =~ s[\@emph\{(.*?)\}][<I>$1</I>]g;
   $line =~ s[\@option\{(.*?)\}][\`<font size=\"3\"><tt>$1</tt></font>\']g;
+  $line =~ s[\@samp\{(.*?)\}][\`<SAMP>$1</SAMP>\']g;
+  $line =~ s[\@dfn\{(.*?)\}][<EM>$1</EM>]g;
+  $line =~ s[\@key\{(.*?)\}][<KBD>$1</KBD>]g;
+  $line =~ s[\@kbd\{(.*?)\}][<KBD>$1</KBD>]g;
+  $line =~ s[\@unnumberedsec(.*?)\n][<H2>$1</H2>\n]g;
+  $line =~ s[\@copyright\{\}][\&copy;]g;
   $line =~ s[\@itemize][<UL>]g;
   $line =~ s[\@end\s+itemize][</UL>]g;
+  $line =~ s[\@enumerate(.*?)\n][<OL>]g;
+  $line =~ s[\@end\s+enumerate][</OL>]g;
+  $line =~ s[\@itemx][<LI>]g;
   $line =~ s[\@item][<LI>]g;
+  $line =~ s[\@heading(.*?)\n][<P><STRONG>$1</STRONG></P>\n]g;
   $line =~ s[\@example][<FONT SIZE="3" COLOR="BLUE"><PRE>]g;
   $line =~ s[\@end\s+example][</PRE></FONT>]g;
+  $line =~ s[\@display][<PRE>]g;
+  $line =~ s[\@end\s+display][</PRE>]g;
+  $line =~ s[\@smallexample][<PRE>]g;
+  $line =~ s[\@end\s+smallexample][</PRE>]g;
+  $line =~ s[\@multitable(.*?)\n][<TABLE BORDER><TR><TD>$1</TD>]g;
+  $line =~ s[\@end\s+multitable][</TR></TABLE>]g;
+  $line =~ s[\@table][]g;
+  $line =~ s[\@tab(.*?)\n][<TD>$1</TD>]g;
+  $line =~ s[\@rowstart(.*?)\n][</TR>\n<TR><TD>$1</TD>]g;
+  $line =~ s[\@dots\{\}][...]g;
   $line =~ s[\@\{][\{]g;
   $line =~ s[\@\}][\}]g;
   $line =~ s[\@\$][\$]g;
 
+# ignored items
+  $line =~ s[\@center][]g;
+  $line =~ s[\@iftex][]g;
+  $line =~ s[\@end\s+iftex][]g;
+  $line =~ s[\@group][]g;
+  $line =~ s[\@end\s+group][]g;
+  $line =~ s[\@end\s+table][]g;
+  $line =~ s[\@vskip(.*?)\n][]g;
+  $line =~ s[\@page][]g;
+  $line =~ s[\@bullet][]g;
+  $line =~ s[\@code][]g;
+
   if( $filext eq '#' ){
     while( $line =~ m[\@xref\{(.*?)\}] ){
       my $itoc = &getitoc($1);
-      $line =~ s[\@xref\{(.*?)\}][<a href="#$itoc">$1</A>];
+      $line =~ s[\@xref\{(.*?)\}][See <a href="#$itoc">$1</A>];
       }
     }else{
     while( $line =~ m[\@xref\{(.*?)\}] ){
       my $itoc = &getitoc($1);
-      $line =~ s[\@xref\{(.*?)\}][<a href="${infile}_$itoc${filext}">$1</A>];
+      $line =~ s[\@xref\{(.*?)\}][See <a href="${infile}_$itoc${filext}">$1</A>];
+      }
+    }
+
+  if( $filext eq '#' ){
+    while( $line =~ m[\@pxref\{(.*?)\}] ){
+      my $itoc = &getitoc($1);
+      $line =~ s[\@pxref\{(.*?)\}][see <a href="#$itoc">$1</A>];
+      }
+    }else{
+    while( $line =~ m[\@pxref\{(.*?)\}] ){
+      my $itoc = &getitoc($1);
+      $line =~ s[\@pxref\{(.*?)\}][see <a href="${infile}_$itoc${filext}">$1</A>];
       }
     }
   $line =~ s[\@uref\{(.*?),(.*?)\}][<a href="$1">$2</A>]g;
@@ -287,7 +334,7 @@ print RTF <<END;
 {\\f0\\fs66 $TITLE}
 \\ql
 \\par
-{\\f0\\fs18 by $AUTHOR}
+{\\f0\\fs18 by The VICE Team}
 \\par\\par\\par\\par\\par
 \\qc
 {\\f0\\fs28 Table of Contents}
@@ -311,7 +358,7 @@ print FULL <<END;
 
 $BODYSTART
 <H1>$TITLE</H1>
-<H3>by $AUTHOR</H3>
+<H3>by The VICE Team</H3>
 <A NAME="contents"><H2>Table of Contents</H2></A>
 <UL>
 END
@@ -333,7 +380,7 @@ print F <<END;
 
 $BODYSTART
 <H1>$TITLE</H1>
-<H3>by $AUTHOR</H3>
+<H3>by The VICE Team</H3>
 <H2>Table of Contents</H2>
 <UL>
 END
@@ -389,7 +436,7 @@ print F <<END;
 
 $HBODYSTART
 <H1>$TITLE</H1>
-<H3>by $AUTHOR</H3>
+<H3>by The VICE Team</H3>
 </UL>
 $BODYEND
 </HTML>

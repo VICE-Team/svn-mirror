@@ -11,16 +11,37 @@
 
 FORMAT=$1
 
+table4chm()
+{
+  rm -f chmtmp*.txt
+  read data
+  newdata=""
+  for i in $data
+  do
+    if test x"$i" != "x@item"; then
+      newdata="$newdata $i"
+    fi
+  done
+  echo >>chmtmp.txt "@multitable $newdata"
+  read data
+  while test x"$data" != "x@end multitable"
+  do
+    echo >>chmtmp.txt "$data"
+    read data
+  done
+  sed 's/@item/@rowstart/g' <chmtmp.txt >chmtmp2.txt
+  cat chmtmp2.txt
+  rm -f chmtmp*.txt
+}
+
 fixtxt()
 {
-# remove START-INFO-DIR-ENTRY and END-INFO-DIR-ENTRY lines
   while read data
   do
     if test x"$data" != "xSTART-INFO-DIR-ENTRY" -a x"$data" != "xEND-INFO-DIR-ENTRY"; then
       echo "$data"
     else
       if test x"$data" = "xSTART-INFO-DIR-ENTRY"; then
-# fix the title
         read data
         header=""
         for i in $data
@@ -40,7 +61,25 @@ fixtxt()
 
 fixchm()
 {
-  echo not implemented yet
+  outputok=yes
+  while read data
+  do
+    if test x"${data:0:11}" = "x@multitable"; then
+      table4chm
+    fi
+
+    if test x"$data" = "x@ifinfo"; then
+      outputok=no
+    fi
+
+    if test x"$outputok" = "xyes"; then
+      echo $data
+    fi
+
+    if test x"$data" = "x@end ifinfo"; then
+      outputok=yes
+    fi
+  done
 }
 
 fixhlp()
