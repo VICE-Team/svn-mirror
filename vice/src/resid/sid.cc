@@ -94,7 +94,6 @@ void SID::reset()
 
 // ----------------------------------------------------------------------------
 // Write 16-bit sample to audio input.
-// NB! The caller is responsible for keeping the value within 16 bits.
 // Note that to mix in an external audio signal, the signal should be
 // resampled to 1MHz first to avoid sampling noise.
 // ----------------------------------------------------------------------------
@@ -102,14 +101,6 @@ void SID::input(short sample)
 {
   // The input can be used to simulate the MOS8580 "digi boost" hardware hack.
   filter.input(sample);
-}
-
-// ----------------------------------------------------------------------------
-// Read 16-bit sample from audio output.
-// ----------------------------------------------------------------------------
-short SID::output()
-{
-  return extfilt.output();
 }
 
 
