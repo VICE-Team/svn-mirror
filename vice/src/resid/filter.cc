@@ -100,9 +100,10 @@ typedef struct {
   // Transistor parameters.
   double Vdd;
   double Vth;        // Threshold voltage
-  double uCox_vcr;   // u*Cox
+  double Ut;         // Thermal voltage: Ut = k*T/q = 8.61734315e-5*T ~ 26mV
+  double k;          // Gate coupling coefficient: K = Cox/(Cox+Cdep) ~ 0.7
+  double uCox;       // u*Cox
   double WL_vcr;     // W/L for VCR
-  double uCox_snake; // u*Cox
   double WL_snake;   // W/L for "snake"
   // DAC parameters.
   double dac_zero;
@@ -124,9 +125,10 @@ static model_filter_init_t model_filter_init[2] = {
     // Transistor parameters.
     12.18,
     1.31,
+    26.0e-3,
+    1.0,
     20e-6,
     9.0/1,
-    20e-6,
     1.0/115,
     // DAC parameters.
     6.65,
@@ -143,9 +145,10 @@ static model_filter_init_t model_filter_init[2] = {
     470e-12,
     12.18,
     1.31,
+    26.0e-3,
+    0.7,
     15e-6,
     9.0/1,
-    10e-6,
     1.0/115,
     6.65,
     2.63,
@@ -201,8 +204,8 @@ Filter::Filter()
 
       // Normalized VCR and snake current factors, 1 cycle at 1MHz.
       // Fit in 15 bits / 5 bits.
-      mf.n_vcr = (int)(denorm*(1 << 13)*(fi.uCox_vcr/2*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
-      mf.n_snake = (int)(denorm*(1 << 13)*(fi.uCox_snake/2*fi.WL_snake*1.0e-6/fi.C) + 0.5);
+      mf.n_vcr = (int)(denorm*(1 << 13)*(fi.uCox/2*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
+      mf.n_snake = (int)(denorm*(1 << 13)*(fi.uCox/2*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
       // Create lookup table mapping op-amp input voltage to op-amp output
       // voltage: vx -> vo
@@ -331,20 +334,25 @@ Filter::Filter()
     delete[] opamp;
 
     // VCR - 6581 only.
-    int Vddt = model_filter[0].Vddt;
+    model_filter_init_t& fi = model_filter_init[0];
+
+    double N16 = model_filter[0].vo_N16;
+    double vmin = N16*fi.opamp_voltage[0][0];
+    double Vddt = N16*(fi.Vdd - fi.Vth);
+    double k = fi.k;
 
     for (int i = 0; i < (1 << 16); i++) {
       // The table index is right-shifted 16 times in order to fit in
       // 16 bits; the argument to sqrt is thus multiplied by (1 << 16).
       //
-      // If k (kappa) is to be included so that k*Vg is returned, the
-      // returned value must be corrected for translation. Vg always
+      // The returned value must be corrected for translation. Vg always
       // takes part in a subtraction as follows:
       //
-      //   k*(Vg - t) - (Vx - t) = k*Vg + (1 - k)*t - Vx
+      //   k*Vg - Vx = (k*Vg - t) - (Vx - t)
       //
-      // I.e. k*Vg + (1 - k)*t must be returned.
-      vcr_Vg[i] = Vddt - (int)(sqrt((float)i*(1 << 16)) + 0.5);
+      // I.e. k*Vg - t must be returned.
+      double Vg = Vddt - sqrt((double)i*(1 << 16));
+      vcr_Vg[i] = (unsigned short)(k*Vg - vmin + 0.5);
     }
 
     /*
@@ -355,22 +363,17 @@ Filter::Filter()
       if = ln^2(1 + e^((k*(Vg - Vt) - Vs)/(2*Ut))
       ir = ln^2(1 + e^((k*(Vg - Vt) - Vd)/(2*Ut))
     */
-    model_filter_init_t& fi = model_filter_init[0];
-    double Vt = fi.Vth;
-    double uCox = fi.uCox_vcr;
-    double WL = fi.WL_vcr;
-    double Ut = 26.0e-3; // Thermal voltage: Ut = k*T/q = 8.61734315e-5*T ~ 26mV
-    double k = 1.0;      // Gate coupling coefficient: K = Cox/(Cox+Cdep) ~ 0.7
-    double Is = 2*uCox*Ut*Ut/k*WL;
+    double kVt = fi.k*fi.Vth;
+    double Ut = fi.Ut;
+    double Is = 2*fi.uCox*Ut*Ut/fi.k*fi.WL_vcr;
     // Normalized current factor for 1 cycle at 1MHz.
-    double N16 = model_filter[0].vo_N16;
     double N15 = N16/2;
     double n_Is = N15*1.0e-6/fi.C*Is;
 
     // kVg_Vx = k*Vg - Vx
     // I.e. if k != 1.0, Vg must be scaled accordingly.
     for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
-      double log_term = log(1 + exp((kVg_Vx/N16 - k*Vt)/(2*Ut)));
+      double log_term = log(1 + exp((kVg_Vx/N16 - kVt)/(2*Ut)));
       // Scaled by m*2^15
       vcr_n_Ids_term[kVg_Vx] = n_Is*log_term*log_term;
     }
