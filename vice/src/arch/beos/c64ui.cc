@@ -83,7 +83,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "IsepicImageWrite", MENU_TOGGLE_ISEPIC_SWC },
     { "PLUS60K", MENU_TOGGLE_PLUS60K },
     { "PLUS256K", MENU_TOGGLE_PLUS256K },
-    { "256K", MENU_TOGGLE_C64_256K },
+    { "C64_256K", MENU_TOGGLE_C64_256K },
     { "DIGIMAX", MENU_TOGGLE_DIGIMAX },
     { "MMC64", MENU_TOGGLE_MMC64 },
     { "MMC64_flashjumper", MENU_TOGGLE_MMC64_FLASHJUMPER },
