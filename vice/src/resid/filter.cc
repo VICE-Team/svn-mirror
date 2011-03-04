@@ -146,7 +146,7 @@ static model_filter_init_t model_filter_init[2] = {
     12.18,
     1.31,
     26.0e-3,
-    0.7,
+    1.0,
     15e-6,
     9.0/1,
     1.0/115,
