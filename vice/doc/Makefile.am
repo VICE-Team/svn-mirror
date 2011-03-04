@@ -53,26 +53,30 @@ $(srcdir)/vice.txt:	vice.texi
 	$(srcdir)/fixdox.sh txt <vicetmp.txt >$(srcdir)/vice.txt
 	rm -f vicetmp.txt
 
-if BUILD_PDF
 $(srcdir)/vice.pdf:	vice.texi
+if BUILD_PDF
 	$(TEXI2DVI) -q --clean --pdf -o $(srcdir)/vice.pdf $(srcdir)/vice.texi
 
 PDF_DEPS=$(srcdir)/vice.pdf
 else
+	touch $(srcdir)/vice.pdf
+
 PDF_DEPS=
 endif
 
-if BUILD_AMIGAGUIDE
 $(srcdir)/vice.guide:	vice.texi
+if BUILD_AMIGAGUIDE
 	$(srcdir)/texi2guide.sh $(MAKEGUIDE) $(srcdir)/vice.guide $(srcdir)/vice.texi
 
 GUIDE_DEPS=$(srcdir)/vice.guide
 else
+	touch $(srcdir)/vice.guide
+
 GUIDE_DEPS=
 endif
 
-if BUILD_HLP
 $(srcdir)/vice.hlp:	vice.texi
+if BUILD_HLP
 	$(MAKERTF) --hpj=vice.hpj --output=vice.rtf $(srcdir)/vice.texi
 	$(HCRTF) -o VICE.HLP -xn vice.hpj
 	rm -f vice.hpj vice.rtf
@@ -80,20 +84,24 @@ $(srcdir)/vice.hlp:	vice.texi
 
 HLP_DEPS=$(srcdir)/vice.hlp
 else
+	touch $(srcdir)/vice.hlp
+
 HLP_DEPS=
 endif
 
-if BUILD_CHM
 $(srcdir)/vice.chm:	vice.texi
+if BUILD_CHM
 	$(srcdir)/texi2chm.sh $(HHC) $(srcdir)/vice.chm $(srcdir)/vice.texi
 
 CHM_DEPS=$(srcdir)/vice.chm
 else
+	touch $(srcdir)/vice.chm
+
 CHM_DEPS=
 endif
 
-if BUILD_IPF
 $(srcdir)/vice.inf:	vice.texi
+if BUILD_IPF
 	$(TEXI2IPF) $(srcdir)/vice.texi >temp.ipf
 	$(IPFC) -i temp.ipf
 	mv temp.inf $(srcdir)/vice.inf
@@ -101,6 +109,8 @@ $(srcdir)/vice.inf:	vice.texi
 
 IPF_DEPS=$(srcdir)/vice.inf
 else
+	touch $(srcdir)/vice.inf
+
 IPF_DEPS=
 endif
 
