@@ -157,7 +157,7 @@ static model_filter_init_t model_filter_init[2] = {
   }
 };
 
-unsigned short Filter::vcr_Vg[1 << 16];
+unsigned short Filter::vcr_kVg[1 << 16];
 unsigned short Filter::vcr_n_Ids_term[1 << 16];
 
 Filter::model_filter_t Filter::model_filter[2];
@@ -198,14 +198,13 @@ Filter::Filter()
       mf.voice_scale_s14 = (int)(N14*fi.voice_voltage_range);
       mf.voice_DC = (int)(N16*(fi.voice_DC_voltage - vmin));
 
-      // Vth, Vdd - Vth
-      mf.Vth = (int)(N16*fi.Vth + 0.5);
-      mf.Vddt = (int)(N16*(fi.Vdd - fi.Vth - vmin) + 0.5);
+      // Vdd - Vth, normalized so that translated values can be subtraced:
+      // k*Vddt - x = (k*Vddt - t) - (x - t)
+      mf.kVddt = (int)(N16*(fi.k*(fi.Vdd - fi.Vth) - vmin) + 0.5);
 
-      // Normalized VCR and snake current factors, 1 cycle at 1MHz.
-      // Fit in 15 bits / 5 bits.
-      mf.n_vcr = (int)(denorm*(1 << 13)*(fi.uCox/2*fi.WL_vcr*1.0e-6/fi.C) + 0.5);
-      mf.n_snake = (int)(denorm*(1 << 13)*(fi.uCox/2*fi.WL_snake*1.0e-6/fi.C) + 0.5);
+      // Normalized snake current factor, 1 cycle at 1MHz.
+      // Fit in 5 bits.
+      mf.n_snake = (int)(denorm*(1 << 13)*(fi.uCox/(2*fi.k)*fi.WL_snake*1.0e-6/fi.C) + 0.5);
 
       // Create lookup table mapping op-amp input voltage to op-amp output
       // voltage: vx -> vo
@@ -338,8 +337,8 @@ Filter::Filter()
 
     double N16 = model_filter[0].vo_N16;
     double vmin = N16*fi.opamp_voltage[0][0];
-    double Vddt = N16*(fi.Vdd - fi.Vth);
     double k = fi.k;
+    double kVddt = N16*(k*(fi.Vdd - fi.Vth));
 
     for (int i = 0; i < (1 << 16); i++) {
       // The table index is right-shifted 16 times in order to fit in
@@ -351,8 +350,8 @@ Filter::Filter()
       //   k*Vg - Vx = (k*Vg - t) - (Vx - t)
       //
       // I.e. k*Vg - t must be returned.
-      double Vg = Vddt - sqrt((double)i*(1 << 16));
-      vcr_Vg[i] = (unsigned short)(k*Vg - vmin + 0.5);
+      double Vg = kVddt - sqrt((double)i*(1 << 16));
+      vcr_kVg[i] = (unsigned short)(k*Vg - vmin + 0.5);
     }
 
     /*
@@ -497,7 +496,7 @@ void Filter::set_w0()
 {
   model_filter_t& f = model_filter[sid_model];
   int Vw = Vw_bias + f.f0_dac[fc];
-  Vddt_Vw_2 = unsigned(f.Vddt - Vw)*unsigned(f.Vddt - Vw) >> 1;
+  Vddt_Vw_2 = unsigned(f.kVddt - Vw)*unsigned(f.kVddt - Vw) >> 1;
 
   // FIXME: w0 is temporarily used for MOS 8580 emulation.
   // MOS 8580 cutoff: 0 - 12.5kHz.

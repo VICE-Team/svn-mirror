@@ -424,9 +424,7 @@ protected:
 
   typedef struct {
     int vo_N16;  // Fixed point scaling for 16 bit op-amp output.
-    int Vth;     // Transistor threshold voltage.
-    int Vddt;    // Vdd - Vth
-    int n_vcr;
+    int kVddt;   // K*(Vdd - Vth)
     int n_snake;
     int voice_scale_s14;
     int voice_DC;
@@ -447,7 +445,7 @@ protected:
   int solve_integrate_6581(int dt, int vi_t, int& x, int& vc, model_filter_t& mf);
 
   // VCR - 6581 only.
-  static unsigned short vcr_Vg[1 << 16];
+  static unsigned short vcr_kVg[1 << 16];
   static unsigned short vcr_n_Ids_term[1 << 16];
   // Common parameters.
   static model_filter_t model_filter[2];
@@ -1327,7 +1325,7 @@ int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
   int ak = 0, bk = (1 << 19) - 1;
 
   int a = n + (1 << 7);              // Scaled by 2^7
-  int b = mf.Vddt << 3;              // Scaled by m*2^19
+  int b = mf.kVddt << 3;             // Scaled by m*2^19
   unsigned int b_vi = (b - vi) >> 3; // Scaled by m*2^16
   int c = n*int(b_vi*b_vi >> 12);    // Scaled by m^2*2^27
 
@@ -1475,11 +1473,11 @@ int Filter::solve_integrate_6581(int dt, int vi, int& x, int& vc,
   // since they are all used in subtractions which cancel out the translation:
   // (a - t) - (b - t) = a - b
 
-  int Vddt = mf.Vddt;        // Scaled by m*2^16
+  int kVddt = mf.kVddt;      // Scaled by m*2^16
 
   // "Snake" voltages for triode mode calculation.
-  unsigned int Vgst = Vddt - x;
-  unsigned int Vgdt = Vddt - vi;
+  unsigned int Vgst = kVddt - x;
+  unsigned int Vgdt = kVddt - vi;
   unsigned int Vgdt_2 = Vgdt*Vgdt;
 
   // "Snake" current, scaled by (1/m)*2^13*m*2^16*m*2^16*2^-15 = m*2^30
@@ -1487,14 +1485,14 @@ int Filter::solve_integrate_6581(int dt, int vi, int& x, int& vc,
 
   // VCR gate voltage.       // Scaled by m*2^16
   // Vg = Vddt - sqrt(((Vddt - Vw)^2 + Vgdt^2)/2)
-  int Vg = vcr_Vg[(Vddt_Vw_2 + (Vgdt_2 >> 1)) >> 16];
+  int kVg = vcr_kVg[(Vddt_Vw_2 + (Vgdt_2 >> 1)) >> 16];
 
   // VCR voltages for EKV model table lookup.
-  int Vgs = Vg - x;
+  int Vgs = kVg - x;
   if (Vgs < 0) {
     Vgs = 0;
   }
-  int Vgd = Vg - vi;
+  int Vgd = kVg - vi;
   if (Vgd < 0) {
     Vgd = 0;
   }
