@@ -48,9 +48,11 @@ int getline(FILE *file)
     }
     line_buffer[counter] = 0;
 
-    if (!strncmp(line_buffer, "ID", 2)) {
-        line_buffer[counter - 1] = 0;
-        return FOUND_ID;
+    if (counter >= 2) {
+        if (!strncmp(line_buffer, "ID", 2)) {
+            line_buffer[counter - 1] = 0;
+            return FOUND_ID;
+        }
     }
 
     return UNKNOWN;
