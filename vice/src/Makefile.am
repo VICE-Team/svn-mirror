@@ -316,9 +316,11 @@ EXTRA_DIST = \
 	convert_owcc_libs.sh \
 	debug.h.in \
 	fixpoint.c \
+	geninfocontrib_h.sh \
 	gentranslate_h.sh \
 	gentranslate_h.sh.in \
 	gentranslatetable.sh \
+	infocontrib.sed \
 	od2c.sh \
 	palette2c.sh \
 	piacore.c \
@@ -419,14 +421,18 @@ OWCC_LIBS =
 endif
 
 if HAVE_TRANSLATION
-BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS)
+BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
 
 translate_table.h:	$(srcdir)/translate.txt
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
-BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS)
+BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
 endif
+
+infocontrib.h:	$(top_srcdir)/doc/vice.texi
+	echo "generating infocontrib.h..."
+	$(SHELL) $(srcdir)/geninfocontrib_h.sh <$(top_srcdir)/doc/vice.texi | sed -f $(srcdir)/infocontrib.sed >infocontrib.h
 
 translate.h:	$(srcdir)/translate.txt
 	echo "generating translate.h..."
