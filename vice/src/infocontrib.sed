@@ -2,7 +2,6 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
-s/@copyright{}/(C)/g
 s/@b{Dag Lem}/Dag Lem <resid@nimrod.no>/g
 s/@b{Andreas Matthies}/Andreas Matthies <andreas.matthies@gmx.net>/g
 s/@b{Martin Pottendorfer}/Martin Pottendorder <pottendo@gmx.net>/g
@@ -140,3 +139,5 @@ s/@b{Stefan Haubenthal}/Stefan Haubenthal <polluks@users.sourceforge.net>/g
 s/@b{Peter Karlsson}/Peter Karlsson/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
+s/@dots{}/..../g
+s/@copyright{}/(C)/g
