@@ -1,13 +1,13 @@
 # Italian Translation File for VICE
 # Copyright (C) 2001-2009 Free Software Foundation, Inc.
 # Andrea Musuruane <musuruan@gmail.com>, 2001-2009.
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-02-19 13:22-0800\n"
+"POT-Creation-Date: 2011-03-05 12:24-0800\n"
 "PO-Revision-Date: 2011-02-16 20:44+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"

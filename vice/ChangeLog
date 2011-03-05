@@ -1,5 +1,276 @@
 ------------------------------------------------------------------------------
 
+2011-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, src/version.h,
+	src/arch/win32/vice-version.bat, doc/vice.guide, doc/vice.chm,
+	doc/vice.pdf, doc/vice.hlp, po/fr.po, po/nl.po, po/pl.po, po/it.po,
+	po/hu.po, po/da.po, po/tr.po, po/de.po, po/sv.po: VICE version 2.3.1
+
+2011-03-05  Olaf Seibert <rhialto@falu.nl>
+
+	* po/Makefile.in.in: Revert last change.
+
+2011-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/Makefile.am,
+	src/arch/win32/utils/geninfocontrib.c: Added the start of a
+	geninfocontrib tool for msvc/ow, this is wip for right now.
+
+2011-03-05  Olaf Seibert <rhialto@falu.nl>
+
+	* po/Makefile.in.in: Better $DESTDIR support.
+
+2011-03-05  Olaf Seibert <rhialto@falu.nl>
+
+	* configure.in: Check for dlopen() without -ldl first.
+
+2011-03-05  Olaf Seibert <rhialto@falu.nl>
+
+	* src/geninfocontrib_h.sh: Avoid a bash-ism.
+
+2011-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/infocontrib.sed: Forced the line-ending style to LF.
+
+2011-03-05 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h: Added documentation for calculation of VCR gate
+	voltage
+
+2011-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am: Touch dox when the tools to generate them are not
+	present.
+
+2011-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/win32/utils/geninfocontrib.c: Changed the
+	maximum width of the members/contributions/thanx text in vice.texi to 68
+	chars and added substitution of the @dots() tag to the infocontrib.h
+	auto-generation.
+
+2011-03-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c64ui.cc: Fix C64_256K bug in the BeOS menu.
+
+2011-03-04  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/resid/filter.cc: Corrected k for 8580 (accidentally set to 0.7
+	instead of 1.0).  This broke resid on at least one configuration.
+
+2011-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: Display usage when -f/-t/-i/-o/-n/-l is given without
+	an extra parameter.
+
+2011-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/gentranslate.c: Don't do a string compare unless
+	the string length is long enough.
+
+2011-03-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src, src/Makefile.am, src/geninfocontrib_h.sh,
+	src/info.c, src/infocontrib.sed: Added autogeneration of the VICE
+	members/contributors/thanx text (infocontrib.h, previously part of
+	info.c, now included as a header) from vice.texi (shell only for now,
+	project file changes is being worked on).
+
+2011-03-03 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Include gate coupling
+	coefficient (kappa) in equations for strong inversion
+
+2011-03-02 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: Include EKV gate coupling coefficient (kappa)
+
+2011-03-02 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Optimize out explicit
+	variable translations
+
+2011-03-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/fixdox.sh, doc/t2h.pl, doc/texi2chm.sh, doc/vice.chm: Added
+	support for most of the previously unsupported texi-tags for the chm
+	format generation.
+
+2011-03-02 Dag Lem <resid@nimrod.no>
+
+	* src/resid/sid.cc, src/resid/sid.h: Explicit inlining of output()
+
+2011-03-01 Dag Lem <resid@nimrod.no>
+
+	* src/resid/envelope.h, src/resid/extfilt.h, src/resid/filter.h,
+	src/resid/voice.h, src/resid/wave.h: Cleanup of inlining
+
+2011-03-01 Dag Lem <resid@nimrod.no>
+
+	* src/resid/sid.cc, src/resid/sid.h: Inlining of clock() for speedup
+
+2011-03-01 Dag Lem <resid@nimrod.no>
+
+	* src/resid/sid.cc, src/resid/sid.h: Simplification of sampling code
+	- make inlining of the last clock() viable
+
+2011-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/fixdox.sh, doc/vice.txt: Added .txt format
+	documentation file fixing.
+
+2011-02-28 Dag Lem <resid@nimrod.no>
+
+	* src/resid/extfilt.h, src/resid/sid.cc: Ensure that gcc generates
+	branch free code for overflow handling
+
+2011-02-28 Dag Lem <resid@nimrod.no>
+
+	* src/resid/sid.cc: Simplification of sampling code
+
+2011-02-28 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Summer micro-optimization for
+	single cycle clock() - avoid a branch by including filter
+	enabled/disabled in summer mask
+
+2011-02-28  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* README: Added x64sc to the list of binaries.
+
+2011-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/fixdox.sh: Started on a script which will help in
+	the correct generation of various documentation formats without having
+	to alter the original vice.texi
+
+2011-02-27 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h: Revert premature mixer input micro-optimization
+	- requires 8580 op-amp model
+
+2011-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/TextField.c: Use X_HAVE_UTF8_STRING
+	instead since it is used to indicate the presence of the feature.
+
+2011-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Prepared the NEWS file for 2.4, so it can be
+	updated as features are added and fixes made.
+
+2011-02-27 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h: Mixer micro-optimization - avoid a branch in
+	generated code for switches
+
+2011-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Updated.
+
+2011-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Cosmetic fix.
+
+2011-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/make-bindist_syllable.sh: fixed.
+
+2011-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, README: Updated with new members.
+
+2011-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/vic20ui.c: Don't include mui/mui.h, since this
+	causes double defines on amigaos3.
+
+2011-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cart.c, src/keyboard.c: If RAND_MAX is not defined,
+	use INT_MAX instead.
+
+2011-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: If memmove is not present use bcopy.
+
+2011-02-26 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.h: Mixer micro-optimization
+
+2011-02-24 Dag Lem <resid@nimrod.no>
+
+	* vice-gtk.spec.in: Added missing files, fix for 64 bit builds
+
+2011-02-24 Dag Lem <resid@nimrod.no>
+
+	* vice-gtk.spec.in: Failed dlopens seems to be non-fatal; remove
+	requirements for ffmpeg-libs and lame-libs
+
+2011-02-23 Dag Lem <resid@nimrod.no>
+
+	* vice-gtk.spec.in: Only state libraries loaded at runtime as explicit
+	requirements
+
+2011-02-23 Dag Lem <resid@nimrod.no>
+
+	* configure.in: Small fix for readline check
+
+2011-02-23  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/uivideo.c: Next try to fix the palette ui in win32.
+
+2011-02-23 Dag Lem <resid@nimrod.no>
+
+	* vice-gtk.spec.in: Final touches for 2.3
+
+2011-02-23 Dag Lem <resid@nimrod.no>
+
+	* doc/Makefile.am: Fixed missing install of vice.* docs
+
+2011-02-23 Dag Lem <resid@nimrod.no>
+
+	* configure.in: Fix broken check for IPv6
+
+2011-02-22 Dag Lem <resid@nimrod.no>
+
+	* vice-gtk.spec.in: Specify -march=pentium-m for i686 in order to use
+	SSE2 for resampling
+
+2011-02-22  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/uivideo.c: Fixed (de-)allocation of palette file
+	string and selection of chip register.
+
+2011-02-22 Dag Lem <resid@nimrod.no>
+
+	* vice-gtk.spec.in: Updated requirements. Less conservative
+	architecture specific optimizations.
+
+2011-02-20 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h: Improved accuracy and
+	(hopefully) a small speedup for solve_gain
+
+2011-02-20 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: EKV model: Comments
+
+2011-02-20 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: EKV model: Rename Vgx to kVgx to clarify that
+	Vgx must be scaled accordingly if the value for kappa is changed from
+	1.0
+
+2011-02-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	po/pl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/translate_text.c: Proper VICE 2.3 with previously forgotten
+	translations update.
+
 2011-02-19  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, ChangeLog, src/version.h,
