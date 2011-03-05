@@ -40,18 +40,9 @@ echo "const char info_contrib_text[] ="
 checkoutput()
 {
   dooutput=yes
-  if test x"${data:0:2}" = "x@c"; then
-    dooutput=no
-  fi
-  if test x"$data" = "x@itemize @bullet"; then
-    dooutput=no
-  fi
-  if test x"$data" = "x@item"; then
-    dooutput=no
-  fi
-  if test x"$data" = "x@end itemize"; then
-    dooutput=no
-  fi
+  case "$data" in
+      @c*|"@itemize @bullet"|@item|"@end itemize") dooutput=no ;;
+  esac
 }
 
 outputok=no
