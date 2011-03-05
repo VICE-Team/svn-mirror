@@ -1165,12 +1165,20 @@ dnl check for dlopen support on unix systems
 if test x"$is_unix" = "xyes"; then
   AC_CHECK_HEADER(dlfcn.h,,)
   if test x"$ac_cv_header_dlfcn_h" = "xyes" ; then
-    AC_CHECK_LIB(dl, dlopen,
+    AC_CHECK_FUNC(dlopen,
+                 [ DYNLIB_LIBS="";
+                   AC_DEFINE(HAVE_DYNLIB_SUPPORT,,
+                             [Support for dynamic library loading.])
+                   dynlib_support=yes
+                 ])
+    if test x"$dynlib_support" != "xyes" ; then
+      AC_CHECK_LIB(dl, dlopen,
                  [ DYNLIB_LIBS="-ldl";
                    AC_DEFINE(HAVE_DYNLIB_SUPPORT,,
                              [Support for dynamic library loading.])
                    dynlib_support=yes
                  ],,)
+    fi
   fi
 elif test x"$is_win32" = "xyes" ; then
   AC_DEFINE(HAVE_DYNLIB_SUPPORT,,[Support for dynamic library loading.])
