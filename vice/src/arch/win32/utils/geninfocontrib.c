@@ -38,6 +38,8 @@
 
 static int found;
 
+/* this is still wip */
+
 static char line_buffer[512];
 
 int getline(FILE *file)
