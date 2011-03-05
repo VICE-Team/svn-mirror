@@ -1383,6 +1383,8 @@ int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
 Find output voltage in inverting integrator SID op-amp circuits, using a
 single fixpoint iteration step.
 
+A circuit diagram of a MOS 6581 integrator is shown below.
+
                  ---C---
                 |       |
   vi -----Rw-------[A>----- vo
@@ -1462,6 +1464,34 @@ discussed above:
   the same lookup table.
 - It is symmetrical, i.e. it calculates current in both directions,
   facilitating a branch-free implementation.
+
+Rw in the circuit diagram above is a VCR (voltage controlled resistor),
+as shown in the circuit diagram below.
+
+                   Vw
+                   
+                   |
+           Vdd     |
+              |---|  
+             _|_   |
+           --    --| Vg
+          |      __|__
+          |      -----  Rw
+          |      |   |
+  vi ------------     -------- vo
+
+
+In order to calculalate the current through the VCR, its gate voltage
+must be determined.
+
+Assuming triode mode and applying Kirchoff's current law, we get the
+following equation for Vg:
+
+u*Cox/2*W/L*((Vddt - Vg)^2 - (Vddt - vi)^2 + (Vddt - Vg)^2 - (Vddt - Vw)^2) = 0
+2*(Vddt - Vg)^2 - (Vddt - vi)^2 - (Vddt - Vw)^2 = 0
+(Vddt - Vg) = sqrt(((Vddt - vi)^2 + (Vddt - Vw)^2)/2)
+
+Vg = Vddt - sqrt(((Vddt - vi)^2 + (Vddt - Vw)^2)/2)
 
 */
 RESID_INLINE
