@@ -121,9 +121,9 @@ typedef struct monitor_interface_s monitor_interface_t;
 
 /* Externals */
 struct break_list_s;
-extern struct break_list_s *watchpoints_load[NUM_MEMSPACES];
-extern struct break_list_s *watchpoints_store[NUM_MEMSPACES];
-extern struct break_list_s *breakpoints[NUM_MEMSPACES];
+extern struct checkpoint_list_s *watchpoints_load[NUM_MEMSPACES];
+extern struct checkpoint_list_s *watchpoints_store[NUM_MEMSPACES];
+extern struct checkpoint_list_s *breakpoints[NUM_MEMSPACES];
 
 extern MEMSPACE caller_space;
 extern unsigned monitor_mask[NUM_MEMSPACES];
@@ -172,7 +172,7 @@ extern int mon_out(const char *format, ...);
 
 /* Prototypes */
 extern int monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
-                                               struct break_list_s *list);
+                                               struct checkpoint_list_s *list);
 
 /** Disassemble interace */
 /* Prototypes */

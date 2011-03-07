@@ -105,7 +105,7 @@ extern int cur_len, last_len;
 #define ERR_RANGE_BAD_START 2
 #define ERR_RANGE_BAD_END 3
 #define ERR_BAD_CMD 4
-#define ERR_EXPECT_BRKNUM 5
+#define ERR_EXPECT_CHECKNUM 5
 #define ERR_EXPECT_END_CMD 6
 #define ERR_MISSING_CLOSE_PAREN 7
 #define ERR_INCOMPLETE_COMPARE_OP 8
@@ -171,7 +171,7 @@ extern int cur_len, last_len;
 %type<a>  address opt_address
 %type<cond_node> cond_expr compare_operand
 %type<i> number expression d_number guess_default device_num
-%type<i> memspace memloc memaddr breakpt_num opt_mem_op
+%type<i> memspace memloc memaddr checkpt_num opt_mem_op
 %type<i> top_level value
 %type<i> asm_operand_mode assembly_instruction register
 %type<str> rest_of_line opt_rest_of_line data_list data_element filename 
@@ -393,23 +393,23 @@ checkpoint_rules: CMD_BREAK address_opt_range end_cmd
                 ;
 
 
-checkpoint_control_rules: CMD_CHECKPT_ON breakpt_num end_cmd
+checkpoint_control_rules: CMD_CHECKPT_ON checkpt_num end_cmd
                           { mon_breakpoint_switch_checkpoint(e_ON, $2); }
-                        | CMD_CHECKPT_OFF breakpt_num end_cmd
+                        | CMD_CHECKPT_OFF checkpt_num end_cmd
                           { mon_breakpoint_switch_checkpoint(e_OFF, $2); }
-                        | CMD_IGNORE breakpt_num end_cmd
+                        | CMD_IGNORE checkpt_num end_cmd
                           { mon_breakpoint_set_ignore_count($2, -1); }
-                        | CMD_IGNORE breakpt_num opt_sep expression end_cmd
+                        | CMD_IGNORE checkpt_num opt_sep expression end_cmd
                           { mon_breakpoint_set_ignore_count($2, $4); }
-                        | CMD_DELETE breakpt_num end_cmd
+                        | CMD_DELETE checkpt_num end_cmd
                           { mon_breakpoint_delete_checkpoint($2); }
                         | CMD_DELETE end_cmd
                           { mon_breakpoint_delete_checkpoint(-1); }
-                        | CMD_CONDITION breakpt_num IF cond_expr end_cmd
+                        | CMD_CONDITION checkpt_num IF cond_expr end_cmd
                           { mon_breakpoint_set_checkpoint_condition($2, $4); }
-                        | CMD_COMMAND breakpt_num opt_sep STRING end_cmd
+                        | CMD_COMMAND checkpt_num opt_sep STRING end_cmd
                           { mon_breakpoint_set_checkpoint_command($2, $4); }
-                        | CMD_COMMAND breakpt_num error end_cmd
+                        | CMD_COMMAND checkpt_num error end_cmd
                           { return ERR_EXPECT_STRING; }
                         ;
 
@@ -573,8 +573,8 @@ reg_asgn: register EQUALS number
           { (monitor_cpu_for_memspace[reg_memspace($1)]->mon_register_set_val)(reg_memspace($1), reg_regid($1), (WORD) $3); }
         ;
 
-breakpt_num: d_number { $$ = $1; }
-           | error { return ERR_EXPECT_BRKNUM; }
+checkpt_num: d_number { $$ = $1; }
+           | error { return ERR_EXPECT_CHECKNUM; }
            ;
 
 address_opt_range: address_range
@@ -811,7 +811,7 @@ void parse_and_execute_line(char *input)
          case ERR_RANGE_BAD_END:
            mon_out("Bad second address in range:\n");
            break;
-         case ERR_EXPECT_BRKNUM:
+         case ERR_EXPECT_CHECKNUM:
            mon_out("Checkpoint number expected:\n");
            break;
          case ERR_EXPECT_END_CMD:

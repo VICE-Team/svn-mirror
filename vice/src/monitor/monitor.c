@@ -151,8 +151,8 @@ static bool inside_monitor = FALSE;
 static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
-struct break_list_s *watchpoints_load[NUM_MEMSPACES];
-struct break_list_s *watchpoints_store[NUM_MEMSPACES];
+struct checkpoint_list_s *watchpoints_load[NUM_MEMSPACES];
+struct checkpoint_list_s *watchpoints_store[NUM_MEMSPACES];
 MEMSPACE caller_space;
 
 const char *_mon_space_strings[] = {
