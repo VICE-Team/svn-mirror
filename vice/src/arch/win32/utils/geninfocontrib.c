@@ -38,11 +38,13 @@
 
 static int found;
 
-/* this is still wip */
-
 static char line_buffer[512];
+static char text[65536];
 
-int getline(FILE *file)
+static char *name[256];
+static char *emailname[256];
+
+int get_line(FILE *file)
 {
     char c = 0;
     int counter = 0;
@@ -53,40 +55,151 @@ int getline(FILE *file)
             line_buffer[counter++] = c;
         }
     }
-    line_buffer[counter] = 0;
-
-    if (!strncmp(line_buffer, "ID", 2)) {
+    if (counter > 1) {
         line_buffer[counter - 1] = 0;
-        return FOUND_ID;
     }
 
-    return counter;
+    return counter - 1;
 }
 
-void generate_translate_h(char *in_filename, char *out_filename)
+static void read_sed_file(FILE *sedfile)
 {
-    FILE *infile, *outfile;
-    int found = UNKNOWN;
+    int amount = 0;
+    int counter = 0;
+    int foundend = 0;
+    int buffersize = 0;
 
-    infile = fopen(in_filename,"rb");
+    buffersize = fread(text, 1, 65536, sedfile);
+    text[buffersize] = 0;
+
+    while (foundend == 0) {
+        if (text[counter] == 0) {
+            foundend = 1;
+        } else {
+            if (text[counter] == 's' && text[counter + 1] == '/' && text[counter + 2] == '@' && text[counter + 3] == 'b') {
+                while (text[counter++] != '{') {}
+                name[amount] = text + counter;
+                while (text[counter++] != '}') {}
+                text[counter - 1] = 0;
+                counter++;
+                emailname[amount++] = text + counter;
+                while (text[counter++] != '/') {}
+                text[counter - 1] = 0;
+            }
+            while (text[counter++] != '\n') {}
+        }
+    }
+    name[amount] = NULL;
+    emailname[amount] = NULL;
+}
+
+static int checklineignore(void)
+{
+    if (!strncmp(line_buffer, "@c", 2)) {
+        return 1;
+    }
+    if (!strncmp(line_buffer, "@itemize @bullet", 16)) {
+        return 1;
+    }
+    if (!strncmp(line_buffer, "@item", 5)) {
+        return 1;
+    }
+    if (!strncmp(line_buffer, "@end itemize", 12)) {
+        return 1;
+    }
+    return 0;
+}
+
+static void replacetags(void)
+{
+    char *temp = strdup(line_buffer);
+    int countersrc = 0;
+    int counterdst = 0;
+    int i, j, len;
+
+    while (temp[countersrc] != 0) {
+        if (temp[countersrc] == '@') {
+            countersrc++;
+            if (!strncmp(temp + countersrc, "b{", 2)) {
+                countersrc += 2;
+                for (i = 0; name[i] != NULL; i++) {
+                    if (!strncmp(temp + countersrc, name[i], strlen(name[i]))) {
+                        len = strlen(emailname[i]);
+                        for (j = 0; j < len; j++) {
+                            line_buffer[counterdst++] = emailname[i][j];
+                        }
+                    }
+                }
+                while (temp[countersrc++] != '}') {}
+            } else if (!strncmp(temp + countersrc, "t{", 2)) {
+                countersrc += 2;
+                while (temp[countersrc] != '}') {
+                    line_buffer[counterdst++] = temp[countersrc++];
+                }
+                countersrc++;
+            } else if (!strncmp(temp + countersrc, "code{", 5)) {
+                countersrc += 5;
+                line_buffer[counterdst++] = '`';
+                while (temp[countersrc] != '}') {
+                    line_buffer[counterdst++] = temp[countersrc++];
+                }
+                countersrc++;
+                line_buffer[counterdst++] = '\'';
+            } else if (!strncmp(temp + countersrc, "dots{", 5)) {
+                countersrc += 6;
+                line_buffer[counterdst++] = '.';
+                line_buffer[counterdst++] = '.';
+                line_buffer[counterdst++] = '.';
+                line_buffer[counterdst++] = '.';
+            } else {
+                countersrc += 11;
+                line_buffer[counterdst++] = '(';
+                line_buffer[counterdst++] = 'C';
+                line_buffer[counterdst++] = ')';
+            }
+        } else {
+            line_buffer[counterdst++] = temp[countersrc++];
+        }
+    }
+    line_buffer[counterdst] = 0;
+    free(temp);
+}
+
+static void generate_infocontrib(char *in_filename, char *out_filename, char *sed_filename)
+{
+    int found_start = 0;
+    int found_end = 0;
+    size_t line_size;
+    FILE *infile, *outfile, *sedfile;
+
+    infile = fopen(in_filename, "rb");
     if (infile == NULL) {
         printf("cannot open %s for reading\n", in_filename);
         return;
     }
 
-    outfile = fopen(out_filename,"wb");
+    sedfile = fopen(sed_filename, "rb");
+    if (sedfile == NULL) {
+        printf("cannot open %s for reading\n", sed_filename);
+        fclose(infile);
+    }
+
+    outfile = fopen(out_filename, "wb");
     if (outfile == NULL) {
         printf("cannot open %s for writing\n", out_filename);
         fclose(infile);
+        fclose(sedfile);
         return;
     }
 
+    read_sed_file(sedfile);
+
     fprintf(outfile, "/*\n");
-    fprintf(outfile, " * translate.h - Global internationalization routines.\n");
+    fprintf(outfile, " * infocontrib.h - Text of contributors to VICE, as used in info.c\n");
     fprintf(outfile, " *\n");
-    fprintf(outfile, " * Autogenerated by gentranslate, DO NOT EDIT !!!\n");
+    fprintf(outfile, " * Autogenerated by geninfocontrib_h.sh, DO NOT EDIT !!!\n");
     fprintf(outfile, " *\n");
-    fprintf(outfile, " * Written by\n");
+    fprintf(outfile, " * Written by");
     fprintf(outfile, " *  Marco van den Heuvel <blackystardust68@yahoo.com>\n");
     fprintf(outfile, " *\n");
     fprintf(outfile, " * This file is part of VICE, the Versatile Commodore Emulator.\n");
@@ -107,54 +220,40 @@ void generate_translate_h(char *in_filename, char *out_filename)
     fprintf(outfile, " *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA\n");
     fprintf(outfile, " *  02111-1307  USA.\n");
     fprintf(outfile, " *\n");
-    fprintf(outfile, " */\n");
-    fprintf(outfile, "\n");
-    fprintf(outfile, "#ifndef VICE_TRANSLATE_H\n");
-    fprintf(outfile, "#define VICE_TRANSLATE_H\n");
-    fprintf(outfile, "\n");
-    fprintf(outfile, "#include \"translate_funcs.h\"\n");
-    fprintf(outfile, "\n");
-    fprintf(outfile, "#define USE_PARAM_STRING   0\n");
-    fprintf(outfile, "#define USE_PARAM_ID       1\n");
-    fprintf(outfile, "\n");
-    fprintf(outfile, "#define USE_DESCRIPTION_STRING   0\n");
-    fprintf(outfile, "#define USE_DESCRIPTION_ID       1\n");
-    fprintf(outfile, "\n");
-    fprintf(outfile, "#define IDGS_UNUSED IDCLS_UNUSED\n");
-    fprintf(outfile, "\n");
-    fprintf(outfile, "#define IDCLS_SPECIFY_SIDCART_ENGINE_MODEL   0xffffff /* special case translation */\n");
-    fprintf(outfile, "#define IDCLS_SPECIFY_SID_ENGINE_MODEL       0xfffffe /* special case translation */\n");
-    fprintf(outfile, "#define IDCLS_SPECIFY_SIDDTV_ENGINE_MODEL    0xfffffd /* special case translation */\n");
-    fprintf(outfile, "\n");
-    fprintf(outfile, "enum { ID_START_65536=65536,\n");
-    fprintf(outfile, "IDCLS_UNUSED,\n");
-    fprintf(outfile, "\n");
+    fprintf(outfile, " */\n\n");
+    fprintf(outfile, "#ifndef VICE_INFOCONTRIB_H\n");
+    fprintf(outfile, "#define VICE_INFOCONTRIB_H\n\n");
+    fprintf(outfile, "const char info_contrib_text[] =\n");
 
-    while (!feof(infile)) {
-        found = getline(infile);
-        if (found == FOUND_ID) {
-            fprintf(outfile, "%s,\n", line_buffer);
-            fprintf(outfile, "%s_DA,\n", line_buffer);
-            fprintf(outfile, "%s_DE,\n", line_buffer);
-            fprintf(outfile, "%s_FR,\n", line_buffer);
-            fprintf(outfile, "%s_HU,\n", line_buffer);
-            fprintf(outfile, "%s_IT,\n", line_buffer);
-            fprintf(outfile, "%s_NL,\n", line_buffer);
-            fprintf(outfile, "%s_PL,\n", line_buffer);
-            fprintf(outfile, "%s_SV,\n", line_buffer);
-            fprintf(outfile, "%s_TR,\n", line_buffer);
-        } else {
-            if (!feof(infile)) {
-                fprintf(outfile, "%s", line_buffer);
+    while (found_start == 0) {
+        line_size = get_line(infile);
+        if (line_size >= strlen("@chapter Acknowledgments")) {
+            if (!strncmp(line_buffer, "@chapter Acknowledgments", 24)) { 
+                found_start = 1;
             }
         }
     }
-    fprintf(outfile, "};\n");
-    fprintf(outfile, "#endif\n");
+
+    while (found_end == 0) {
+        line_size = get_line(infile);
+        if (line_size == 0) {
+            fprintf(outfile, "\"\\n\"\n");
+        } else {
+            if (!strncmp(line_buffer, "@node Copyright, Contacts, Acknowledgments, Top", 47)) {
+                found_end = 1;
+            } else {
+                if (checklineignore() == 0) {
+                    replacetags();
+                    fprintf(outfile, "\"  %s\\n\"\n",line_buffer);
+                }
+            }
+        }
+    }
+    fprintf(outfile, "\"\\n\";\n#endif\n");
 
     fclose(infile);
+    fclose(sedfile);
     fclose(outfile);
-    return;
 }
 
 int main(int argc, char *argv[])
@@ -164,8 +263,7 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    generate_translate_h(argv[1], argv[2]);
-    generate_translate_table_h(argv[1], argv[3]);
+    generate_infocontrib(argv[1], argv[2], argv[3]);
 
     return 0;
 }

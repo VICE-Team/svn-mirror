@@ -392,6 +392,7 @@ EXTRA_DIST = \
 	drive.dsp \
 	fileio.dsp \
 	fsdevice.dsp \
+	geninfocontrib.dsp \
 	genmsvcver.dsp \
 	gentranslate.dsp \
 	genwinres.dsp \
