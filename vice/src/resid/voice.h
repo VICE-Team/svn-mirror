@@ -42,10 +42,10 @@ public:
   // Range [-2048*255, 2047*255].
   int output();
 
-protected:
   WaveformGenerator wave;
   EnvelopeGenerator envelope;
 
+protected:
   // Waveform D/A zero level.
   short wave_zero;
 

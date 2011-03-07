@@ -56,15 +56,15 @@ public:
   // 12-bit waveform output.
   short output();
 
+  // Calculate and set waveform output value.
+  void set_waveform_output();
+  void set_waveform_output(cycle_count delta_t);
+
 protected:
   void clock_shift_register();
   void write_shift_register();
   void reset_shift_register();
   void set_noise_output();
-
-  // Calculate and set waveform output value.
-  void set_waveform_output();
-  void set_waveform_output(cycle_count delta_t);
 
   const WaveformGenerator* sync_source;
   WaveformGenerator* sync_dest;
