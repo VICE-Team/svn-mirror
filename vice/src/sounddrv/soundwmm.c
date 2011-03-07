@@ -45,6 +45,10 @@
 #include "types.h"
 #include "uiapi.h"
 
+#if !defined(_WIN64) && defined _MSC_VER && _MSC_VER < 1500 && defined WINVER && WINVER < 0x0500 && !defined(WATCOM_COMPILE)
+#define DWORD_PTR DWORD
+#endif
+
 /* ------------------------------------------------------------------------ */
 
 /* #define DEBUG_SOUND */
