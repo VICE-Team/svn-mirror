@@ -28,16 +28,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* found definitions */
-#define FOUND_TEXT     0
-#define FOUND_START    1
-#define FOUND_END      2
-#define FOUND_ITEMIZE  3
-#define FOUND_ITEM     4
-#define FOUND_BOLD     5
-
-static int found;
-
 static char line_buffer[512];
 static char text[65536];
 

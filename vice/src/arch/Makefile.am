@@ -59,6 +59,7 @@ noinst_HEADERS = \
 	platform_qnx6_version.h
 
 EXTRA_DIST = \
+	watcom-source-wrappers/geninfocontrib.c \
 	watcom-source-wrappers/gentranslate32.c \
 	watcom-source-wrappers/genwinres32.c \
 	watcom-source-wrappers/resid-sid.cc \
