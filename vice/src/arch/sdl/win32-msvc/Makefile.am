@@ -27,6 +27,7 @@ EXTRA_DIST = \
 	drive.dsp \
 	fileio.dsp \
 	fsdevice.dsp \
+	geninfocontrib.dsp \
 	gentranslate.dsp \
 	gfxoutputdrv.dsp \
 	iec.dsp \
