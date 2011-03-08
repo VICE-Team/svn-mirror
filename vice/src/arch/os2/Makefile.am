@@ -122,6 +122,8 @@ EXTRA_DIST = \
 	watcom/drive.tgt \
 	watcom/fileio.tgt \
 	watcom/fsdevice.tgt \
+	watcom/genic.tgt \
+	watcom/geninfocontrib32.tgt \
 	watcom/gentr.tgt \
 	watcom/gentranslate32.tgt \
 	watcom/genwt.bat \
