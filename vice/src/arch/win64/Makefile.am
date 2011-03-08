@@ -22,6 +22,7 @@ EXTRA_DIST = \
 	drive.vcproj \
 	fileio.vcproj \
 	fsdevice.vcproj \
+	geninfocontrib.vcproj \
 	genmsvcver.vcproj \
 	gentranslate.vcproj \
 	genwinres.vcproj \
