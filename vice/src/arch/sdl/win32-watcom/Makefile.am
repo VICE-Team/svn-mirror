@@ -21,6 +21,8 @@ EXTRA_DIST = \
 	drive.tgt \
 	fileio.tgt \
 	fsdevice.tgt \
+	genic.tgt \
+	geninfocontrib32.tgt \
 	gentr.tgt \
 	gentranslate32.tgt \
 	genwt.bat \
