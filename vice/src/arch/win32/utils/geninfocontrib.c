@@ -102,7 +102,7 @@ static int checklineignore(void)
 
 static void replacetags(void)
 {
-    char *temp = strdup(line_buffer);
+    char *temp = _strdup(line_buffer);
     int countersrc = 0;
     int counterdst = 0;
     int i, j, len;
