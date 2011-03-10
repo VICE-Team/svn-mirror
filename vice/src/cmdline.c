@@ -120,20 +120,22 @@ static cmdline_option_ram_t *lookup(const char *name, int *is_ambiguous)
     name_len = strlen(name);
 
     match = NULL;
+    *is_ambiguous = 0;
     for (i = 0; i < num_options; i++) {
         if (strncmp(options[i].name, name, name_len) == 0) {
             if (options[i].name[name_len] == '\0') {
+                /* return exact matches immediately */
                 *is_ambiguous = 0;
                 return &options[i];
             } else if (match != NULL) {
+                /* multiple non-exact matches found */
+                /* don't exit now, an exact match could be found later */
                 *is_ambiguous = 1;
-                return match;
             }
             match = &options[i];
         }
     }
 
-    *is_ambiguous = 0;
     return match;
 }
 
