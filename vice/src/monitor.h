@@ -34,8 +34,8 @@
 /** Generic interface.  **/
 #define NUM_MEMSPACES 6
 
-#define any_watchpoints(mem) \
-    (watchpoints_load[(mem)] || watchpoints_store[(mem)])
+/* fixme: absolete, use monitor_has_any_watchpoints directly */
+#define any_watchpoints(mem) monitor_has_any_watchpoints(mem)
 
 enum mon_int {
     MI_NONE = 0,
@@ -120,11 +120,6 @@ struct monitor_interface_s {
 typedef struct monitor_interface_s monitor_interface_t;
 
 /* Externals */
-struct break_list_s;
-extern struct checkpoint_list_s *watchpoints_load[NUM_MEMSPACES];
-extern struct checkpoint_list_s *watchpoints_store[NUM_MEMSPACES];
-extern struct checkpoint_list_s *breakpoints[NUM_MEMSPACES];
-
 extern MEMSPACE caller_space;
 extern unsigned monitor_mask[NUM_MEMSPACES];
 
@@ -145,6 +140,7 @@ extern void monitor_abort(void);
 extern int monitor_force_import(MEMSPACE mem);
 extern void monitor_check_icount(WORD a);
 extern void monitor_check_icount_interrupt(void);
+extern int monitor_has_any_watchpoints(MEMSPACE mem);
 extern void monitor_check_watchpoints(WORD a);
 
 extern void monitor_cpu_type_set(const char *cpu_type);
@@ -166,13 +162,9 @@ extern int mon_out(const char *format, ...);
 #endif
 
 /** Breakpoint interface.  */
-/* Defines */
-#define monitor_check_breakpoints(mem, addr) \
-    monitor_breakpoint_check_checkpoint(mem, addr, breakpoints[mem])
 
 /* Prototypes */
-extern int monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
-                                               struct checkpoint_list_s *list);
+extern int monitor_check_breakpoints(MEMSPACE mem, WORD addr);
 
 /** Disassemble interace */
 /* Prototypes */

@@ -357,29 +357,24 @@ memory_rules: CMD_MOVE address_range opt_sep address end_cmd
 
 checkpoint_rules: CMD_BREAK address_opt_range end_cmd
                   {
-                      mon_breakpoint_add_checkpoint($2[0], $2[1], FALSE, FALSE,
-                                                    FALSE, FALSE);
+                      mon_breakpoint_add_checkpoint($2[0], $2[1], TRUE, e_exec, FALSE);
                   }
                 | CMD_UNTIL address_opt_range end_cmd
                   {
-                      mon_breakpoint_add_checkpoint($2[0], $2[1], FALSE, FALSE,
-                                                    FALSE, TRUE);
+                      mon_breakpoint_add_checkpoint($2[0], $2[1], TRUE, e_exec, TRUE);
                   }
                 | CMD_BREAK address_opt_range IF cond_expr end_cmd
                   {
-                      temp = mon_breakpoint_add_checkpoint($2[0], $2[1], FALSE,
-                                                           FALSE, FALSE, FALSE);
+                      temp = mon_breakpoint_add_checkpoint($2[0], $2[1], TRUE, e_exec, FALSE);
                       mon_breakpoint_set_checkpoint_condition(temp, $4);
                   }
-                | CMD_WATCH opt_mem_op opt_sep address_opt_range end_cmd
+                | CMD_WATCH opt_mem_op address_opt_range end_cmd
                   {
-                      mon_breakpoint_add_checkpoint($4[0], $4[1], FALSE,
-                      ($2 == e_load || $2 == e_load_store),
-                      ($2 == e_store || $2 == e_load_store), FALSE);
+                      mon_breakpoint_add_checkpoint($3[0], $3[1], TRUE, $2, FALSE);
                   }
                 | CMD_TRACE address_opt_range end_cmd
                   {
-                      mon_breakpoint_add_checkpoint($2[0], $2[1], TRUE, FALSE, FALSE,
+                      mon_breakpoint_add_checkpoint($2[0], $2[1], FALSE, e_load | e_store | e_exec,
                                                     FALSE);
                   }
                 | CMD_BREAK end_cmd
@@ -558,7 +553,7 @@ device_num: expression
       ;
 
 opt_mem_op: MEM_OP { $$ = $1; }
-          | { $$ = e_load_store; }
+          | { $$ = e_load | e_store | e_exec; }
           ;
 
 register: MON_REGISTER          { $$ = new_reg(default_memspace, $1); }

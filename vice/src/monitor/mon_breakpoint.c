@@ -52,10 +52,11 @@ struct checkpoint_s {
     int ignore_count;
     cond_node_t *condition;
     char *command;
-    bool trace;
+    bool stop;
     bool enabled;
-    bool watch_load;
-    bool watch_store;
+    bool check_load;
+    bool check_store;
+    bool check_exec;
     bool temporary;
 };
 typedef struct checkpoint_s checkpoint_t;
@@ -67,7 +68,10 @@ struct checkpoint_list_s {
 typedef struct checkpoint_list_s checkpoint_list_t;
 
 static int breakpoint_count;
-checkpoint_list_t *breakpoints[NUM_MEMSPACES];
+static checkpoint_list_t *breakpoints[NUM_MEMSPACES];
+static checkpoint_list_t *watchpoints_load[NUM_MEMSPACES];
+static checkpoint_list_t *watchpoints_store[NUM_MEMSPACES];
+
 
 void mon_breakpoint_init(void)
 {
@@ -156,16 +160,16 @@ void mon_breakpoint_set_ignore_count(int cp_num, int count)
         mon_out("#%d not a valid checkpoint\n", cp_num);
     } else {
         cp->ignore_count = count;
-        mon_out("Ignoring the next %d crossings of checkpoint #%d\n",
+        mon_out("Will ignore the next %d hits of checkpoint #%d\n",
                   count, cp_num);
     }
 }
 
 static void print_checkpoint_info(checkpoint_t *cp)
 {
-    if (cp->trace) {
+    if (!cp->stop) {
         mon_out("TRACE: ");
-    } else if (cp->watch_load || cp->watch_store) {
+    } else if (cp->check_load || cp->check_store) {
         mon_out("WATCH: ");
     } else {
         if (cp->temporary)
@@ -173,17 +177,23 @@ static void print_checkpoint_info(checkpoint_t *cp)
         else
             mon_out("BREAK: ");
     }
-    mon_out("%d %s:$%04x",cp->checknum,
+    mon_out("%d  %s:$%04x",cp->checknum,
         mon_memspace_string[addr_memspace(cp->start_addr)],addr_location(cp->start_addr));
     if (mon_is_valid_addr(cp->end_addr) && (cp->start_addr != cp->end_addr))
         mon_out("-$%04x",addr_location(cp->end_addr));
 
-    if (cp->watch_load)
+    mon_out(cp->stop ? "  (Stop on" : "  (Trace");
+    if (cp->check_load)
         mon_out(" load");
-    if (cp->watch_store)
+    if (cp->check_store)
         mon_out(" store");
+    if (cp->check_exec)
+        mon_out(" exec");
 
-    mon_out("   %s\n", (cp->enabled==e_ON) ? "enabled" : "disabled");
+    mon_out(")");
+    if (cp->enabled != e_ON)
+        mon_out(" disabled");
+    mon_out("\n");
 
     if (cp->condition) {
         mon_out("\tCondition: ");
@@ -231,7 +241,7 @@ void mon_breakpoint_delete_checkpoint(int cp_num)
     } else {
         mem = addr_memspace(cp->start_addr);
 
-        if (!(cp->watch_load) && !(cp->watch_store)) {
+        if (cp->check_exec) {
             remove_checkpoint_from_list(&(breakpoints[mem]), cp);
 
             if (!any_breakpoints(mem)) {
@@ -240,9 +250,9 @@ void mon_breakpoint_delete_checkpoint(int cp_num)
                     interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
             }
         } else {
-            if (cp->watch_load)
+            if (cp->check_load)
                 remove_checkpoint_from_list(&(watchpoints_load[mem]), cp);
-            if (cp->watch_store)
+            if (cp->check_store)
                 remove_checkpoint_from_list(&(watchpoints_store[mem]), cp);
 
             if (!any_watchpoints(mem)) {
@@ -334,14 +344,42 @@ static int compare_checkpoints(checkpoint_t *bp1, checkpoint_t *bp2)
     return 0;
 }
 
-bool monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
-                                         checkpoint_list_t *list)
+/* 
+ * todo: A faster solution which still would not expose our internal lists
+ * would be a hook-function which notifies the CPU emulation about changes
+ * of this state.
+ */
+int mon_breakpoint_has_any_watchpoints(MEMSPACE mem)
+{
+    return (watchpoints_load[mem] || watchpoints_store[mem]);
+}
+
+bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr, MEMORY_OP op)
 {
     checkpoint_list_t *ptr;
     checkpoint_t *cp;
-    bool result = FALSE;
+    checkpoint_list_t *list;
+    bool must_stop = FALSE;
     MON_ADDR temp;
-    const char *type;
+    const char *op_str;
+    const char *action_str;
+
+    switch (op) {
+        case e_load:
+            list   = watchpoints_load[mem];
+            op_str = "load";
+            break;
+
+        case e_store:
+            list = watchpoints_store[mem];
+            op_str = "store";
+            break;
+
+        default: /* e_exec */
+            list = breakpoints[mem];
+            op_str = "exec";
+            break;
+    }
 
     ptr = search_checkpoint_list(list, addr);
 
@@ -349,7 +387,7 @@ bool monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
            ptr->checkpt->end_addr, addr)) {
         cp = ptr->checkpt;
         ptr = ptr->next;
-        if (cp && cp->enabled == e_ON) {
+        if (cp && cp->enabled==e_ON) {
             /* If condition test fails, skip this checkpoint */
             if (cp->condition) {
                 if (!mon_evaluate_conditional(cp->condition)) {
@@ -365,23 +403,17 @@ bool monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
 
             cp->hit_count++;
 
-            result = TRUE;
-
             temp = new_addr(mem,
                             (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC));
-            if (cp->trace) {
-                type = "Trace";
-                result = FALSE;
+            if (cp->stop) {
+                must_stop  = TRUE;
+                action_str = "Stop on";
+            } else {
+                action_str = "Trace";
             }
-            else if (cp->watch_load)
-                type = "Watch-load";
-            else if (cp->watch_store)
-                type = "Watch-store";
-            else
-                type = "Break";
 
             /*archdep_open_monitor_console(&mon_input, &mon_output);*/
-            mon_out("#%d (%s) ", cp->checknum, type);
+            mon_out("#%d (%s %s %04x) ", cp->checknum, action_str, op_str, addr);
             mon_disassemble_instr(temp);
 
             if (cp->command) {
@@ -393,7 +425,8 @@ bool monitor_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
                 mon_breakpoint_delete_checkpoint(cp->checknum);
         }
     }
-    return result;
+
+    return must_stop;
 }
 
 static void add_to_checkpoint_list(checkpoint_list_t **head, checkpoint_t *cp)
@@ -429,8 +462,8 @@ static void add_to_checkpoint_list(checkpoint_list_t **head, checkpoint_t *cp)
 
 static 
 int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
-                                  bool is_trace, bool is_load, bool is_store,
-                                  bool is_temp, bool do_print)
+                              bool stop, MEMORY_OP memory_op,
+                              bool is_temp, bool do_print)
 {
     checkpoint_t *new_cp;
     MEMSPACE mem;
@@ -442,18 +475,19 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     new_cp->checknum = breakpoint_count++;
     new_cp->start_addr = start_addr;
     new_cp->end_addr = end_addr;
-    new_cp->trace = is_trace;
+    new_cp->stop = stop;
     new_cp->enabled = e_ON;
     new_cp->hit_count = 0;
     new_cp->ignore_count = 0;
     new_cp->condition = NULL;
     new_cp->command = NULL;
-    new_cp->watch_load = is_load;
-    new_cp->watch_store = is_store;
+    new_cp->check_load  = memory_op & e_load;
+    new_cp->check_store = memory_op & e_store;
+    new_cp->check_exec  = memory_op & e_exec;
     new_cp->temporary = is_temp;
 
     mem = addr_memspace(start_addr);
-    if (!is_load && !is_store) {
+    if (new_cp->check_exec) {
         if (!any_breakpoints(mem)) {
             monitor_mask[mem] |= MI_BREAK;
             interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
@@ -468,9 +502,9 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
             interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
         }
 
-        if (is_load)
+        if (new_cp->check_load)
             add_to_checkpoint_list(&(watchpoints_load[mem]), new_cp);
-        if (is_store)
+        if (new_cp->check_store)
             add_to_checkpoint_list(&(watchpoints_store[mem]), new_cp);
     }
 
@@ -484,12 +518,10 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
 }
 
 int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
-                                  bool is_trace, bool is_load, bool is_store,
-                                  bool is_temp)
+                                  bool stop, MEMORY_OP op, bool is_temp)
 {
     return breakpoint_add_checkpoint(start_addr, end_addr,
-                                  is_trace, is_load, is_store,
-                                  is_temp, TRUE );
+                                  stop, op, is_temp, TRUE);
 }
 
 mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address)
@@ -520,7 +552,7 @@ void mon_breakpoint_set(MON_ADDR address)
     } else {
         /* there's no breakpoint, so set a new one */
         breakpoint_add_checkpoint(address, address,
-                                  FALSE, FALSE, FALSE, FALSE, FALSE );
+                                  TRUE, e_exec, FALSE, FALSE);
     }
 }
 

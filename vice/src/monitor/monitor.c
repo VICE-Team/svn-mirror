@@ -151,8 +151,6 @@ static bool inside_monitor = FALSE;
 static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
-struct checkpoint_list_s *watchpoints_load[NUM_MEMSPACES];
-struct checkpoint_list_s *watchpoints_store[NUM_MEMSPACES];
 MEMSPACE caller_space;
 
 const char *_mon_space_strings[] = {
@@ -1207,7 +1205,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 #endif
 
     if (mon_init_break != -1)
-        mon_breakpoint_add_checkpoint((WORD)mon_init_break, BAD_ADDR, FALSE, FALSE,FALSE, FALSE);
+        mon_breakpoint_add_checkpoint((WORD)mon_init_break, BAD_ADDR, TRUE, e_exec, FALSE);
 
     if (playback > 0) {
         playback_commands(playback);
@@ -1945,9 +1943,9 @@ static bool watchpoints_check_loads(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_load_array[count][mem];
-        if (monitor_breakpoint_check_checkpoint(mem, addr,
-                                                watchpoints_load[mem]))
+        if (mon_breakpoint_check_checkpoint(mem, addr, e_load)) {
             trap = TRUE;
+        }
     }
     return trap;
 }
@@ -1964,9 +1962,9 @@ static bool watchpoints_check_stores(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_store_array[count][mem];
-        if (monitor_breakpoint_check_checkpoint(mem, addr,
-            watchpoints_store[mem]))
+        if (mon_breakpoint_check_checkpoint(mem, addr, e_store)) {
             trap = TRUE;
+        }
     }
     return trap;
 }
@@ -2043,6 +2041,16 @@ void monitor_check_icount_interrupt(void)
     if (instruction_count)
         if (skip_jsrs == TRUE)
             wait_for_return_level++;
+}
+
+int monitor_has_any_watchpoints(MEMSPACE mem)
+{
+    return mon_breakpoint_has_any_watchpoints(mem);
+}
+
+int monitor_check_breakpoints(MEMSPACE mem, WORD addr)
+{
+    return mon_breakpoint_check_checkpoint(mem, addr, e_exec);
 }
 
 void monitor_check_watchpoints(WORD a)
