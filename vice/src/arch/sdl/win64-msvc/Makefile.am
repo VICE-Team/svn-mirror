@@ -16,7 +16,6 @@ EXTRA_DIST = \
 	c64sc.vcproj \
 	cartconv.vcproj \
 	cbm2.vcproj \
-	config.h \
 	core.vcproj \
 	crtc.vcproj \
 	dirent.h \
@@ -27,6 +26,10 @@ EXTRA_DIST = \
 	geninfocontrib.vcproj \
 	gentranslate.vcproj \
 	gfxoutputdrv.vcproj \
+	ide-config.h \
+	ide-siddefs.h \
+	ide-siddtvdefs.h \
+	ide-sidfpdefs.h \
 	iec.vcproj \
 	iec128dcr.vcproj \
 	iecbus.vcproj \
@@ -48,9 +51,6 @@ EXTRA_DIST = \
 	rtc.vcproj \
 	serial.vcproj \
 	sid.vcproj \
-	siddefs.h \
-	siddefs-fp.h \
-	siddtvdefs.h \
 	sounddrv.vcproj \
 	tape.vcproj \
 	tcbm.vcproj \

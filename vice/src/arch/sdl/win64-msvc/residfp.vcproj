@@ -46,7 +46,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".\"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4"
+				PreprocessorDefinitions="NDEBUG;WIN32;IDE_COMPILE;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -119,7 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4;_DEBUG"
+				PreprocessorDefinitions="NDEBUG;WIN32;IDE_COMPILE;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4;_DEBUG"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\residfp\Debug/residfp.pch"
 				AssemblerListingLocation=".\libs\residfp\Debug/"
@@ -191,7 +191,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories=".\"
-				PreprocessorDefinitions="NDEBUG;WINIA64;WIN32;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4"
+				PreprocessorDefinitions="NDEBUG;WINIA64;WIN32;IDE_COMPILE;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -264,7 +264,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\"
-				PreprocessorDefinitions="NDEBUG;WINIA64;WIN32;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4;_DEBUG"
+				PreprocessorDefinitions="NDEBUG;WINIA64;WIN32;IDE_COMPILE;_WINDOWS;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4;_DEBUG"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\residfp\Debug/residfp.pch"
 				AssemblerListingLocation=".\libs\residfp\Debug/"
@@ -318,7 +318,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -327,7 +327,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -336,7 +336,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -345,7 +345,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -358,7 +358,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -367,7 +367,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -376,7 +376,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -385,7 +385,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -398,7 +398,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -407,7 +407,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -416,7 +416,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -425,7 +425,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -442,7 +442,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -451,7 +451,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -460,7 +460,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -469,7 +469,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -486,7 +486,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -495,7 +495,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -504,7 +504,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -513,7 +513,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -530,7 +530,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -539,7 +539,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -548,7 +548,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -557,7 +557,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -574,7 +574,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -583,7 +583,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -592,7 +592,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -601,7 +601,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -622,7 +622,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -631,7 +631,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -640,7 +640,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -649,7 +649,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -662,7 +662,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -671,7 +671,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -680,7 +680,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -689,7 +689,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -706,7 +706,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -715,7 +715,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -724,7 +724,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\resid-fp\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -733,7 +733,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
