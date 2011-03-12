@@ -1304,11 +1304,17 @@ void mon_display_screen(void)
     int bank;
 
     mem_get_screen_parameter(&base, &rows, &cols, &bank);
+    /* We need something like bankname = something(e_comp_space, bank) here */
+    mon_out("Displaying %dx%d screen at $%04x:\n", cols, rows, base);
+
     for (r = 0; r < rows; r++) {
         for (c = 0; c < cols; c++) {
             BYTE data;
 
-            data = mon_get_mem_val(e_comp_space, (WORD)ADDR_LIMIT(base++));
+            /* Not sure this really neads to use mon_get_mem_val_ex()
+               Do we want monitor sidefx in a function that's *supposed*
+               to just read from screen memory? */
+            data = mon_get_mem_val_ex(e_comp_space, bank, (WORD)ADDR_LIMIT(base++));
             data = charset_p_toascii(charset_screencode_to_petcii(data), 1);
 
             mon_out("%c", data);
