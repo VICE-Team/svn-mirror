@@ -1,5 +1,476 @@
 ------------------------------------------------------------------------------
 
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_lex.c, src/version.h, src/arch/win32/vice-version.bat,
+	src/arch/Makefile.am, ChangeLog, doc/vice.chm, doc/vice.pdf,
+	doc/vice.inf, doc/vice.hlp, po/fr.po, po/nl.po, po/pl.po, po/hu.po,
+	po/it.po, po/da.po, po/tr.po, po/de.po, po/sv.po: VICE version 2.3.2
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/README.txt: Updated the os/2 ow readme file.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/arch.tgt, src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/c128.tgt, src/arch/sdl/win32-watcom/c1541.tgt,
+	src/arch/sdl/win32-watcom/c64.tgt, src/arch/sdl/win32-watcom/c64cart.tgt,
+	src/arch/sdl/win32-watcom/c64commonc128.tgt,
+	src/arch/sdl/win32-watcom/c64commonc128c64dtv.tgt,
+	src/arch/sdl/win32-watcom/c64commonc64dtv.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc.tgt,
+	src/arch/sdl/win32-watcom/c64dtv.tgt,
+	src/arch/sdl/win32-watcom/c64exp.tgt,
+	src/arch/sdl/win32-watcom/c64sc.tgt,
+	src/arch/sdl/win32-watcom/cartconv.tgt,
+	src/arch/sdl/win32-watcom/cbm2.tgt, src/arch/sdl/win32-watcom/config.h,
+	src/arch/sdl/win32-watcom/core.tgt, src/arch/sdl/win32-watcom/crtc.tgt,
+	src/arch/sdl/win32-watcom/diskimage.tgt,
+	src/arch/sdl/win32-watcom/drive.tgt,
+	src/arch/sdl/win32-watcom/fileio.tgt,
+	src/arch/sdl/win32-watcom/fsdevice.tgt,
+	src/arch/sdl/win32-watcom/genic.tgt,
+	src/arch/sdl/win32-watcom/geninfocontrib32.tgt,
+	src/arch/sdl/win32-watcom/gentr.tgt,
+	src/arch/sdl/win32-watcom/gentranslate32.tgt,
+	src/arch/sdl/win32-watcom/genwt.bat,
+	src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	src/arch/sdl/win32-watcom/ide-config.h,
+	src/arch/sdl/win32-watcom/ide-siddefs.h,
+	src/arch/sdl/win32-watcom/siddefs.h,
+	src/arch/sdl/win32-watcom/ide-siddtvdefs.h,
+	src/arch/sdl/win32-watcom/siddtvdefs.h,
+	src/arch/sdl/win32-watcom/ide-sidfpdefs.h,
+	src/arch/sdl/win32-watcom/siddefs-fp.h,
+	src/arch/sdl/win32-watcom/iec.tgt,
+	src/arch/sdl/win32-watcom/iec128dcr.tgt,
+	src/arch/sdl/win32-watcom/iecbus.tgt,
+	src/arch/sdl/win32-watcom/iecieee.tgt,
+	src/arch/sdl/win32-watcom/ieee.tgt,
+	src/arch/sdl/win32-watcom/imagecontents.tgt,
+	src/arch/sdl/win32-watcom/maincpu.tgt,
+	src/arch/sdl/win32-watcom/monitor.tgt,
+	src/arch/sdl/win32-watcom/parallel.tgt,
+	src/arch/sdl/win32-watcom/pet.tgt, src/arch/sdl/win32-watcom/petcat.tgt,
+	src/arch/sdl/win32-watcom/plus4.tgt,
+	src/arch/sdl/win32-watcom/plus4exp.tgt,
+	src/arch/sdl/win32-watcom/printerdrv.tgt,
+	src/arch/sdl/win32-watcom/raster.tgt,
+	src/arch/sdl/win32-watcom/resid.tgt,
+	src/arch/sdl/win32-watcom/residdtv.tgt,
+	src/arch/sdl/win32-watcom/residfp.tgt,
+	src/arch/sdl/win32-watcom/rs232drv.tgt,
+	src/arch/sdl/win32-watcom/serial.tgt, src/arch/sdl/win32-watcom/sid.tgt,
+	src/arch/sdl/win32-watcom/sounddrv.tgt,
+	src/arch/sdl/win32-watcom/tape.tgt, src/arch/sdl/win32-watcom/tcbm.tgt,
+	src/arch/sdl/win32-watcom/vdc.tgt, src/arch/sdl/win32-watcom/vdrive.tgt,
+	src/arch/sdl/win32-watcom/vic20.tgt,
+	src/arch/sdl/win32-watcom/vic20cart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/sdl/win32-watcom/vicii.tgt,
+	src/arch/sdl/win32-watcom/viciicommon.tgt,
+	src/arch/sdl/win32-watcom/viciidtv.tgt,
+	src/arch/sdl/win32-watcom/viciinew.tgt,
+	src/arch/sdl/win32-watcom/video.tgt, src/arch/sdl/win32-watcom/x128.tgt,
+	src/arch/sdl/win32-watcom/x64.tgt, src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt, src/arch/sdl/win32-watcom/xcbm2.tgt,
+	src/arch/sdl/win32-watcom/xpet.tgt, src/arch/sdl/win32-watcom/xplus4.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Adapted the command-line
+	configuration files to be able to co-exist with the IDE-based
+	configuration files of sdl win32 ow, without interfering with each other.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/base.tgt,
+	src/arch/win32/watcom/c128.tgt, src/arch/win32/watcom/c1541.tgt,
+	src/arch/win32/watcom/c64.tgt, src/arch/win32/watcom/c64cart.tgt,
+	src/arch/win32/watcom/c64commonc128.tgt,
+	src/arch/win32/watcom/c64commonc128c64dtv.tgt,
+	src/arch/win32/watcom/c64commonc64dtv.tgt,
+	src/arch/win32/watcom/c64commonsc.tgt, src/arch/win32/watcom/c64dtv.tgt,
+	src/arch/win32/watcom/c64exp.tgt, src/arch/win32/watcom/c64sc.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/cbm2.tgt,
+	src/arch/win32/watcom/config.h, src/arch/win32/watcom/core.tgt,
+	src/arch/win32/watcom/crtc.tgt, src/arch/win32/watcom/diskimage.tgt,
+	src/arch/win32/watcom/drive.tgt, src/arch/win32/watcom/fileio.tgt,
+	src/arch/win32/watcom/fsdevice.tgt, src/arch/win32/watcom/genic.tgt,
+	src/arch/win32/watcom/geninfocontrib32.tgt,
+	src/arch/win32/watcom/gentr.tgt,
+	src/arch/win32/watcom/gentranslate32.tgt,
+	src/arch/win32/watcom/genwinres32.tgt, src/arch/win32/watcom/genwr.tgt,
+	src/arch/win32/watcom/gfxoutputdrv.tgt,
+	src/arch/win32/watcom/ide-config.h, src/arch/win32/watcom/ide-siddefs.h,
+	src/arch/win32/watcom/siddefs.h, src/arch/win32/watcom/ide-siddtvdefs.h,
+	src/arch/win32/watcom/siddtvdefs.h,
+	src/arch/win32/watcom/ide-sidfpdefs.h,
+	src/arch/win32/watcom/siddefs-fp.h, src/arch/win32/watcom/iec.tgt,
+	src/arch/win32/watcom/iec128dcr.tgt, src/arch/win32/watcom/iecbus.tgt,
+	src/arch/win32/watcom/iecieee.tgt, src/arch/win32/watcom/ieee.tgt,
+	src/arch/win32/watcom/imagecontents.tgt,
+	src/arch/win32/watcom/maincpu.tgt, src/arch/win32/watcom/monitor.tgt,
+	src/arch/win32/watcom/parallel.tgt, src/arch/win32/watcom/pet.tgt,
+	src/arch/win32/watcom/petcat.tgt, src/arch/win32/watcom/plus4.tgt,
+	src/arch/win32/watcom/plus4exp.tgt, src/arch/win32/watcom/printerdrv.tgt,
+	src/arch/win32/watcom/raster.tgt, src/arch/win32/watcom/resid-dtv.tgt,
+	src/arch/win32/watcom/resid-fp.tgt, src/arch/win32/watcom/resid.tgt,
+	src/arch/win32/watcom/rs232drv.tgt, src/arch/win32/watcom/serial.tgt,
+	src/arch/win32/watcom/sid.tgt, src/arch/win32/watcom/sounddrv.tgt,
+	src/arch/win32/watcom/tape.tgt, src/arch/win32/watcom/tcbm.tgt,
+	src/arch/win32/watcom/vdc.tgt, src/arch/win32/watcom/vdrive.tgt,
+	src/arch/win32/watcom/vic20.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vicii.tgt, src/arch/win32/watcom/viciicommon.tgt,
+	src/arch/win32/watcom/viciidtv.tgt, src/arch/win32/watcom/viciinew.tgt,
+	src/arch/win32/watcom/video.tgt, src/arch/win32/watcom/x128.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64dtv.tgt,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/xcbm2.tgt,
+	src/arch/win32/watcom/xpet.tgt, src/arch/win32/watcom/xplus4.tgt,
+	src/arch/win32/watcom/xvic.tgt: Adapted the command-line configuration
+	files to be able to co-exist with the IDE-based configuration files of
+	win32 ow, without interfering with each other.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	src/arch/sdl/win64-msvc/arch.vcproj, src/arch/sdl/win64-msvc/base.vcproj,
+	src/arch/sdl/win64-msvc/c128.vcproj,
+	src/arch/sdl/win64-msvc/c1541.vcproj, src/arch/sdl/win64-msvc/c64.vcproj,
+	src/arch/sdl/win64-msvc/c64c128.vcproj,
+	src/arch/sdl/win64-msvc/c64c64dtv.vcproj,
+	src/arch/sdl/win64-msvc/c64cart.vcproj,
+	src/arch/sdl/win64-msvc/c64dtv.vcproj,
+	src/arch/sdl/win64-msvc/c64dtvstubs.vcproj,
+	src/arch/sdl/win64-msvc/c64exp.vcproj,
+	src/arch/sdl/win64-msvc/c64sc.vcproj,
+	src/arch/sdl/win64-msvc/cartconv.vcproj,
+	src/arch/sdl/win64-msvc/cbm2.vcproj, src/arch/sdl/win64-msvc/config.h,
+	src/arch/sdl/win64-msvc/core.vcproj, src/arch/sdl/win64-msvc/crtc.vcproj,
+	src/arch/sdl/win64-msvc/diskimage.vcproj,
+	src/arch/sdl/win64-msvc/drive.vcproj,
+	src/arch/sdl/win64-msvc/fileio.vcproj,
+	src/arch/sdl/win64-msvc/fsdevice.vcproj,
+	src/arch/sdl/win64-msvc/geninfocontrib.vcproj,
+	src/arch/sdl/win64-msvc/gentranslate.vcproj,
+	src/arch/sdl/win64-msvc/gfxoutputdrv.vcproj,
+	src/arch/sdl/win64-msvc/ide-config.h,
+	src/arch/sdl/win64-msvc/ide-siddefs.h, src/arch/sdl/win64-msvc/siddefs.h,
+	src/arch/sdl/win64-msvc/ide-siddtvdefs.h,
+	src/arch/sdl/win64-msvc/siddtvdefs.h,
+	src/arch/sdl/win64-msvc/ide-sidfpdefs.h,
+	src/arch/sdl/win64-msvc/siddefs-fp.h, src/arch/sdl/win64-msvc/iec.vcproj,
+	src/arch/sdl/win64-msvc/iec128dcr.vcproj,
+	src/arch/sdl/win64-msvc/iecbus.vcproj,
+	src/arch/sdl/win64-msvc/iecieee.vcproj,
+	src/arch/sdl/win64-msvc/ieee.vcproj,
+	src/arch/sdl/win64-msvc/imagecontents.vcproj,
+	src/arch/sdl/win64-msvc/monitor.vcproj,
+	src/arch/sdl/win64-msvc/parallel.vcproj,
+	src/arch/sdl/win64-msvc/pet.vcproj,
+	src/arch/sdl/win64-msvc/petcat.vcproj,
+	src/arch/sdl/win64-msvc/plus4.vcproj,
+	src/arch/sdl/win64-msvc/plus4exp.vcproj,
+	src/arch/sdl/win64-msvc/printerdrv.vcproj,
+	src/arch/sdl/win64-msvc/raster.vcproj,
+	src/arch/sdl/win64-msvc/resid.vcproj,
+	src/arch/sdl/win64-msvc/residdtv.vcproj,
+	src/arch/sdl/win64-msvc/residfp.vcproj,
+	src/arch/sdl/win64-msvc/rs232drv.vcproj,
+	src/arch/sdl/win64-msvc/rtc.vcproj,
+	src/arch/sdl/win64-msvc/serial.vcproj,
+	src/arch/sdl/win64-msvc/sid.vcproj,
+	src/arch/sdl/win64-msvc/sounddrv.vcproj,
+	src/arch/sdl/win64-msvc/tape.vcproj, src/arch/sdl/win64-msvc/tcbm.vcproj,
+	src/arch/sdl/win64-msvc/vdc.vcproj,
+	src/arch/sdl/win64-msvc/vdrive.vcproj,
+	src/arch/sdl/win64-msvc/vic20.vcproj,
+	src/arch/sdl/win64-msvc/vicii.vcproj,
+	src/arch/sdl/win64-msvc/viciidtv.vcproj,
+	src/arch/sdl/win64-msvc/viciinew.vcproj,
+	src/arch/sdl/win64-msvc/video.vcproj,
+	src/arch/sdl/win64-msvc/x128.vcproj, src/arch/sdl/win64-msvc/x64.vcproj,
+	src/arch/sdl/win64-msvc/x64dtv.vcproj,
+	src/arch/sdl/win64-msvc/x64sc.vcproj,
+	src/arch/sdl/win64-msvc/xcbm2.vcproj,
+	src/arch/sdl/win64-msvc/xpet.vcproj,
+	src/arch/sdl/win64-msvc/xplus4.vcproj,
+	src/arch/sdl/win64-msvc/xvic.vcproj: Adapted the command-line
+	configuration files to be able to co-exist with the IDE-based
+	configuration files of sdl win64 msvc, without interfering with each
+	other.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Makefile.am, src/arch/sdl/win32-msvc/arch.dsp,
+	src/arch/sdl/win32-msvc/base.dsp, src/arch/sdl/win32-msvc/c128.dsp,
+	src/arch/sdl/win32-msvc/c1541.dsp, src/arch/sdl/win32-msvc/c64.dsp,
+	src/arch/sdl/win32-msvc/c64c128.dsp,
+	src/arch/sdl/win32-msvc/c64c64dtv.dsp,
+	src/arch/sdl/win32-msvc/c64cart.dsp, src/arch/sdl/win32-msvc/c64dtv.dsp,
+	src/arch/sdl/win32-msvc/c64dtvstubs.dsp,
+	src/arch/sdl/win32-msvc/c64exp.dsp, src/arch/sdl/win32-msvc/c64sc.dsp,
+	src/arch/sdl/win32-msvc/cartconv.dsp, src/arch/sdl/win32-msvc/cbm2.dsp,
+	src/arch/sdl/win32-msvc/config.h, src/arch/sdl/win32-msvc/core.dsp,
+	src/arch/sdl/win32-msvc/crtc.dsp, src/arch/sdl/win32-msvc/diskimage.dsp,
+	src/arch/sdl/win32-msvc/drive.dsp, src/arch/sdl/win32-msvc/fileio.dsp,
+	src/arch/sdl/win32-msvc/fsdevice.dsp,
+	src/arch/sdl/win32-msvc/geninfocontrib.dsp,
+	src/arch/sdl/win32-msvc/gentranslate.dsp,
+	src/arch/sdl/win32-msvc/gfxoutputdrv.dsp,
+	src/arch/sdl/win32-msvc/ide-config.h,
+	src/arch/sdl/win32-msvc/ide-siddefs.h, src/arch/sdl/win32-msvc/siddefs.h,
+	src/arch/sdl/win32-msvc/ide-siddtvdefs.h,
+	src/arch/sdl/win32-msvc/siddtvdefs.h,
+	src/arch/sdl/win32-msvc/ide-sidfpdefs.h,
+	src/arch/sdl/win32-msvc/siddefs-fp.h, src/arch/sdl/win32-msvc/iec.dsp,
+	src/arch/sdl/win32-msvc/iec128dcr.dsp,
+	src/arch/sdl/win32-msvc/iecbus.dsp, src/arch/sdl/win32-msvc/iecieee.dsp,
+	src/arch/sdl/win32-msvc/ieee.dsp,
+	src/arch/sdl/win32-msvc/imagecontents.dsp,
+	src/arch/sdl/win32-msvc/monitor.dsp,
+	src/arch/sdl/win32-msvc/parallel.dsp, src/arch/sdl/win32-msvc/pet.dsp,
+	src/arch/sdl/win32-msvc/petcat.dsp, src/arch/sdl/win32-msvc/plus4.dsp,
+	src/arch/sdl/win32-msvc/plus4exp.dsp,
+	src/arch/sdl/win32-msvc/printerdrv.dsp,
+	src/arch/sdl/win32-msvc/raster.dsp, src/arch/sdl/win32-msvc/resid.dsp,
+	src/arch/sdl/win32-msvc/residdtv.dsp,
+	src/arch/sdl/win32-msvc/residfp.dsp,
+	src/arch/sdl/win32-msvc/rs232drv.dsp, src/arch/sdl/win32-msvc/rtc.dsp,
+	src/arch/sdl/win32-msvc/serial.dsp, src/arch/sdl/win32-msvc/sid.dsp,
+	src/arch/sdl/win32-msvc/sounddrv.dsp, src/arch/sdl/win32-msvc/tape.dsp,
+	src/arch/sdl/win32-msvc/tcbm.dsp, src/arch/sdl/win32-msvc/vdc.dsp,
+	src/arch/sdl/win32-msvc/vdrive.dsp, src/arch/sdl/win32-msvc/vic20.dsp,
+	src/arch/sdl/win32-msvc/vic20cart.dsp, src/arch/sdl/win32-msvc/vicii.dsp,
+	src/arch/sdl/win32-msvc/viciidtv.dsp,
+	src/arch/sdl/win32-msvc/viciisc.dsp, src/arch/sdl/win32-msvc/video.dsp,
+	src/arch/sdl/win32-msvc/x128.dsp, src/arch/sdl/win32-msvc/x64.dsp,
+	src/arch/sdl/win32-msvc/x64dtv.dsp, src/arch/sdl/win32-msvc/x64sc.dsp,
+	src/arch/sdl/win32-msvc/xcbm2.dsp, src/arch/sdl/win32-msvc/xpet.dsp,
+	src/arch/sdl/win32-msvc/xplus4.dsp, src/arch/sdl/win32-msvc/xvic.dsp:
+	Adapted the command-line configuration files to be able to co-exist with
+	the IDE-based configuration files of sdl win32 msvc, without interfering
+	with each other.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resisepic.rc, src/arch/win64/arch.vcproj,
+	src/arch/win64/base.vcproj, src/arch/win64/c128.vcproj,
+	src/arch/win64/c1541.vcproj, src/arch/win64/c64.vcproj,
+	src/arch/win64/c64c128.vcproj, src/arch/win64/c64c64dtv.vcproj,
+	src/arch/win64/c64cart.vcproj, src/arch/win64/c64dtv.vcproj,
+	src/arch/win64/c64dtvstubs.vcproj, src/arch/win64/c64exp.vcproj,
+	src/arch/win64/c64sc.vcproj, src/arch/win64/cartconv.vcproj,
+	src/arch/win64/cbm2.vcproj, src/arch/win64/core.vcproj,
+	src/arch/win64/crtc.vcproj, src/arch/win64/diskimage.vcproj,
+	src/arch/win64/drive.vcproj, src/arch/win64/fileio.vcproj,
+	src/arch/win64/fsdevice.vcproj, src/arch/win64/geninfocontrib.vcproj,
+	src/arch/win64/genmsvcver.vcproj, src/arch/win64/gentranslate.vcproj,
+	src/arch/win64/genwinres.vcproj, src/arch/win64/gfxoutputdrv.vcproj,
+	src/arch/win64/iec.vcproj, src/arch/win64/iec128dcr.vcproj,
+	src/arch/win64/iecbus.vcproj, src/arch/win64/iecieee.vcproj,
+	src/arch/win64/ieee.vcproj, src/arch/win64/imagecontents.vcproj,
+	src/arch/win64/monitor.vcproj, src/arch/win64/parallel.vcproj,
+	src/arch/win64/pet.vcproj, src/arch/win64/petcat.vcproj,
+	src/arch/win64/plus4.vcproj, src/arch/win64/plus4exp.vcproj,
+	src/arch/win64/printerdrv.vcproj, src/arch/win64/raster.vcproj,
+	src/arch/win64/resid.vcproj, src/arch/win64/residdtv.vcproj,
+	src/arch/win64/residfp.vcproj, src/arch/win64/rs232drv.vcproj,
+	src/arch/win64/rtc.vcproj, src/arch/win64/serial.vcproj,
+	src/arch/win64/sid.vcproj, src/arch/win64/sounddrv.vcproj,
+	src/arch/win64/tape.vcproj, src/arch/win64/tcbm.vcproj,
+	src/arch/win64/vdc.vcproj, src/arch/win64/vdrive.vcproj,
+	src/arch/win64/vic20.vcproj, src/arch/win64/vicii.vcproj,
+	src/arch/win64/viciidtv.vcproj, src/arch/win64/viciinew.vcproj,
+	src/arch/win64/video.vcproj, src/arch/win64/x128.vcproj,
+	src/arch/win64/x64.vcproj, src/arch/win64/x64dtv.vcproj,
+	src/arch/win64/x64sc.vcproj, src/arch/win64/xcbm2.vcproj,
+	src/arch/win64/xpet.vcproj, src/arch/win64/xplus4.vcproj,
+	src/arch/win64/xvic.vcproj: Adapted the command-line configuration files
+	to be able to co-exist with the IDE-based configuration files of win64
+	msvc, without interfering with each other.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid/filter.h, src/resid/sid.h, src/resid/envelope.h,
+	src/resid/extfilt.h, src/resid/voice.h, src/resid/wave.h, configure.in,
+	src/arch/win32/res.rc, src/arch/win32/Makefile.am,
+	src/arch/win32/arch.dsp, src/arch/win32/base.dsp,
+	src/arch/win32/c128.dsp, src/arch/win32/c1541.dsp,
+	src/arch/win32/c64.dsp, src/arch/win32/c64c128.dsp,
+	src/arch/win32/c64c64dtv.dsp, src/arch/win32/c64cart.dsp,
+	src/arch/win32/c64dtv.dsp, src/arch/win32/c64dtvstubs.dsp,
+	src/arch/win32/c64exp.dsp, src/arch/win32/c64sc.dsp,
+	src/arch/win32/cartconv.dsp, src/arch/win32/cbm2.dsp,
+	src/arch/win32/core.dsp, src/arch/win32/crtc.dsp,
+	src/arch/win32/dinput_handle.c, src/arch/win32/dinput_handle.h,
+	src/arch/win32/diskimage.dsp, src/arch/win32/drive.dsp,
+	src/arch/win32/fileio.dsp, src/arch/win32/fsdevice.dsp,
+	src/arch/win32/geninfocontrib.dsp, src/arch/win32/genmsvcver.dsp,
+	src/arch/win32/gentranslate.dsp, src/arch/win32/genwinres.dsp,
+	src/arch/win32/gfxoutputdrv.dsp, src/arch/win32/iec.dsp,
+	src/arch/win32/iec128dcr.dsp, src/arch/win32/iecbus.dsp,
+	src/arch/win32/iecieee.dsp, src/arch/win32/ieee.dsp,
+	src/arch/win32/imagecontents.dsp, src/arch/win32/monitor.dsp,
+	src/arch/win32/msvc/config.h, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/msvc/ide-siddefs.h, src/arch/win32/msvc/siddefs.h,
+	src/arch/win32/msvc/ide-siddtvdefs.h, src/arch/win32/msvc/siddtvdefs.h,
+	src/arch/win32/msvc/ide-sidfpdefs.h, src/arch/win32/msvc/siddefs-fp.h,
+	src/arch/win32/parallel.dsp, src/arch/win32/pet.dsp,
+	src/arch/win32/petcat.dsp, src/arch/win32/plus4.dsp,
+	src/arch/win32/plus4exp.dsp, src/arch/win32/printerdrv.dsp,
+	src/arch/win32/raster.dsp, src/arch/win32/resacia.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/resdrivec128.rc, src/arch/win32/resdrivec64.rc,
+	src/arch/win32/resdrivepetcbm2.rc, src/arch/win32/resdriveplus4.rc,
+	src/arch/win32/resdrivevic20.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/resid.dsp, src/arch/win32/residdtv.dsp,
+	src/arch/win32/reside64.rc, src/arch/win32/residfp.dsp,
+	src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resmouse.rc,
+	src/arch/win32/respet.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/restfe.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/arch/win32/rs232drv.dsp, src/arch/win32/rtc.dsp,
+	src/arch/win32/serial.dsp, src/arch/win32/sid.dsp,
+	src/arch/win32/sounddrv.dsp, src/arch/win32/tape.dsp,
+	src/arch/win32/tcbm.dsp, src/arch/win32/uicmdline.c,
+	src/arch/win32/vdc.dsp, src/arch/win32/vdrive.dsp,
+	src/arch/win32/vic20.dsp, src/arch/win32/vic20cart.dsp,
+	src/arch/win32/vicii.dsp, src/arch/win32/viciidtv.dsp,
+	src/arch/win32/viciisc.dsp, src/arch/win32/video.dsp,
+	src/arch/win32/x128.dsp, src/arch/win32/x64.dsp,
+	src/arch/win32/x64dtv.dsp, src/arch/win32/x64sc.dsp,
+	src/arch/win32/xcbm2.dsp, src/arch/win32/xpet.dsp,
+	src/arch/win32/xplus4.dsp, src/arch/win32/xvic.dsp,
+	src/resid/Makefile.am, src/resid/pot.h, src/resid/resid-config.h,
+	src/resid/version.cc, src/resid-dtv/Makefile.am,
+	src/resid-dtv/envelope.h, src/resid-dtv/extfilt.h,
+	src/resid-dtv/filter.h, src/resid-dtv/residdtv-config.h,
+	src/resid-dtv/sid.h, src/resid-dtv/version.cc, src/resid-dtv/voice.h,
+	src/resid-dtv/wave.h, src/resid-fp/Makefile.am, src/resid-fp/envelope.h,
+	src/resid-fp/extfilt.h, src/resid-fp/filter.h, src/resid-fp/pot.h,
+	src/resid-fp/residfp-config.h, src/resid-fp/sid.h,
+	src/resid-fp/version.cc, src/resid-fp/voice.h, src/resid-fp/wave.h,
+	src/translate.c, src/vice.h: Adapted the command-line configuration
+	files to be able to co-exist with the IDE-based configuration files of
+	win32 msvc, without interfering with each other.
+
+2011-03-11  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/monitor/monitor.c: Add an informational message to the monitor's
+	screen command, and make use of the bank from mem_get_screen_parameter().
+	(Fixes xcbm2.)
+
+2011-03-11  Thomas Giesel <skoe@directbox.com>
+
+	* src/monitor/monitor.c, src/monitor/mon_breakpoint.c,
+	src/monitor/mon_breakpoint.h, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.y, src/monitor/montypes.h, src/monitor.h: Prepared
+	checkpoint data model for a more generic implementation, moved global
+	checkpoint list data into monitor.c
+
+2011-03-10  Ingo Korb <ingo@akana.de>
+
+	* src/cmdline.c: Fix incorrect "Option '-foo' is ambigous" message for
+	unabbreviated command line options
+
+2011-03-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Changed the strdup call to
+	_strdup.
+
+2011-03-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Since ow is used for the os/2 compile (and os/2
+	documentation generation) check for wipfc first and then check for ipfc
+	if the tool is not present (old ow).
+
+2011-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/watcom/genic.tgt,
+	src/arch/os2/watcom/geninfocontrib32.tgt, src/arch/os2/watcom/genwt.bat,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/xall-specific.tgt:
+	Added generation of infocontrib.h to the os/2 ow project files.
+
+2011-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am: Added new ow project files to
+	the Makefile.am
+
+2011-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/genic.tgt,
+	src/arch/sdl/win32-watcom/geninfocontrib32.tgt,
+	src/arch/sdl/win32-watcom/gentr.tgt, src/arch/sdl/win32-watcom/genwt.bat,
+	src/arch/sdl/win32-watcom/vice.wpj: Added generation of infocontrib.h
+	to the sdl win32 ow project files.
+
+2011-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	src/arch/sdl/win64-msvc/geninfocontrib.vcproj,
+	src/arch/sdl/win64-msvc/vice.sln: Added generation of infocontrib.h to
+	the sdl win64 msvc project files.
+
+2011-03-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Makefile.am,
+	src/arch/sdl/win32-msvc/geninfocontrib.dsp,
+	src/arch/sdl/win32-msvc/vice.dsw: Added generation of infocontrib.h to
+	the sdl win32 msvc project files.
+
+2011-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/geninfocontrib.vcproj, src/arch/win64/Makefile.am,
+	src/arch/win64/vice.sln: Added generation of infocontrib.h to the win64
+	project files.
+
+2011-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/genic.tgt,
+	arch/win32/watcom/geninfocontrib32.tgt,
+	src/arch/win32/watcom/resid-fp.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/Makefile.am, src/arch/Makefile.am,
+	src/arch/watcom-source-wrappers/geninfocontrib32.c,
+	src/arch/win32/watcom/genwt.bat: Added generation of infocontrib.h to
+	the win32 ow project files.
+
+2011-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid/voice.h, src/resid/wave.h: Moved some calls over to the
+	'public' section because ow was complaining that access to protected
+	members is not allowed.
+
+2011-03-07  Thomas Giesel <skoe@directbox.com>
+
+	* src/monitor/monitor.c, src/monitor/mon_breakpoint.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.y, src/monitor.h,
+	src/monitor/mon_lex.c, src/monitor/mon_parse.h: Cleaned up inconsistent
+	naming (checkpoint = watchpoint | breakpoint | tracepoint)
+
+2011-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data, arch/win32/utils/geninfocontrib.c, src/arch/win32/Makefile.am,
+	src/arch/win32/geninfocontrib.dsp, src/arch/win32/vice.dsw: Added
+	generation of infocontrib.h to the win32 msvc project files.
+
+2011-03-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/soundwmm.c: Defined DWORD_PTR for compilers it is not
+	defined for.
+
+2011-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added a check for pdftex and disabled the building of
+	the vice.pdf file when this tool is not present.
+
 2011-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, src/version.h,
