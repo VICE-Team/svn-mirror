@@ -21,7 +21,8 @@
 #define VICE__FILTER_H__
 
 #include <math.h>
-#include "siddefs-fp.h"
+
+#include "residfp-config.h"
 
 // ----------------------------------------------------------------------------
 // The SID filter is modeled with a two-integrator-loop biquadratic filter,

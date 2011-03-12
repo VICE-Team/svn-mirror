@@ -24,8 +24,6 @@
  *
  */
 
-#include "config.h"
-
 #include "vice.h"
 
 #include <stdio.h>

@@ -20,7 +20,7 @@
 #ifndef RESID_SID_H
 #define RESID_SID_H
 
-#include "siddefs.h"
+#include "resid-config.h"
 #include "voice.h"
 #include "filter.h"
 #include "extfilt.h"

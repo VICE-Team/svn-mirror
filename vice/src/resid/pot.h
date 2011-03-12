@@ -20,7 +20,7 @@
 #ifndef RESID_POT_H
 #define RESID_POT_H
 
-#include "siddefs.h"
+#include "resid-config.h"
 
 namespace reSID
 {

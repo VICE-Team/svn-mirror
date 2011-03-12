@@ -280,14 +280,14 @@ EXTRA_DIST = \
 	evc/config.h \
 	evc/system.c \
 	evc/system.h \
-	msvc/config.h \
 	msvc/dirent.h \
+	msvc/ide-config.h \
+	msvc/ide-siddefs.h \
+	msvc/ide-siddtvdefs.h \
+	msvc/ide-sidfpdefs.h \
 	msvc/inttypes.h \
 	msvc/stdint.h \
 	msvc/system.h \
-	msvc/siddefs.h \
-	msvc/siddtvdefs.h \
-	msvc/siddefs-fp.h \
 	msvc/wpcap/bittypes.h \
 	msvc/wpcap/ip6_misc.h \
 	msvc/wpcap/pcap-stdinc.h \
@@ -308,7 +308,6 @@ EXTRA_DIST = \
 	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
-	watcom/config.h \
 	watcom/core.tgt \
 	watcom/crtc.tgt \
 	watcom/dirent.h \
@@ -324,6 +323,10 @@ EXTRA_DIST = \
 	watcom/genwr.tgt \
 	watcom/genwt.bat \
 	watcom/gfxoutputdrv.tgt \
+	watcom/ide-config.h \
+	watcom/ide-siddefs.h \
+	watcom/ide-siddtvdefs.h \
+	watcom/ide-sidfpdefs.h \
 	watcom/iec.tgt \
 	watcom/iec128dcr.tgt \
 	watcom/iecbus.tgt \
@@ -347,9 +350,6 @@ EXTRA_DIST = \
 	watcom/rs232drv.tgt \
 	watcom/serial.tgt \
 	watcom/sid.tgt \
-	watcom/siddefs.h \
-	watcom/siddefs-fp.h \
-	watcom/siddtvdefs.h \
 	watcom/sounddrv.tgt \
 	watcom/system.h \
 	watcom/tape.tgt \

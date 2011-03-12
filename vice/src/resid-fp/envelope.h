@@ -20,7 +20,7 @@
 #ifndef VICE__ENVELOPE_H__
 #define VICE__ENVELOPE_H__
 
-#include "siddefs-fp.h"
+#include "residfp-config.h"
 
 extern float env_dac[256];
 

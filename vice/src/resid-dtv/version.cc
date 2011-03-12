@@ -18,4 +18,6 @@
 //  ---------------------------------------------------------------------------
 
 #define __VERSION_CC__
-#include "siddtvdefs.h"
+
+#include "residdtv-config.h"
+

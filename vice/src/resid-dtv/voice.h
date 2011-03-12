@@ -20,7 +20,8 @@
 #ifndef VICE__VOICE_H__
 #define VICE__VOICE_H__
 
-#include "siddtvdefs.h"
+#include "residdtv-config.h"
+
 #include "wave.h"
 #include "envelope.h"
 

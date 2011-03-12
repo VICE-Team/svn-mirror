@@ -25,7 +25,8 @@
  *
  */
 
-#include "config.h"
+#include "vice.h"
+
 #include "debug.h"
 #include "version.h"
 #include "res.h"

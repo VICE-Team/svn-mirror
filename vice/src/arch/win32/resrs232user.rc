@@ -1,7 +1,8 @@
 // RS232 userport specific resources.
 //
 
-#include "config.h"
+#include "vice.h"
+
 #include "res.h"
 #include "rescommon.h"
 

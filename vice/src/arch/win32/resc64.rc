@@ -1,9 +1,9 @@
 // C64 specific resources.
 //
 
-#include "config.h"
+#include "vice.h"
+
 #include "debug.h"
-#include "config.h"
 #include "res.h"
 #include "videoarch.h"
 #include "rescommon.h"

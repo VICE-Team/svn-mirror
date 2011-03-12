@@ -27,7 +27,8 @@
 #ifndef VICE__ENVELOPE_H__
 #define VICE__ENVELOPE_H__
 
-#include "siddtvdefs.h"
+#include "residdtv-config.h"
+
 #include "bittrain.h"
 
 namespace reSID

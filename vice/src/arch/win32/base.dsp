@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\base\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\base\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\lib\zlib" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -281,10 +281,10 @@ SOURCE=..\..\translate.txt
 # PROP Ignore_Default_Tool 1
 USERDEP__TRANS="..\..\translate.txt"	
 # Begin Custom Build - Generating translate.h and translate_table.h
-InputDir=\cygwin\home\tri\cbm\vice.svn\src
+InputDir=..\..
 InputPath=..\..\translate.txt
 
-"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\translate_table.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
 
 # End Custom Build
@@ -297,7 +297,7 @@ USERDEP__TRANS="..\..\translate.txt"
 InputDir=\cygwin\home\tri\cbm\vice.svn\src
 InputPath=..\..\translate.txt
 
-"$(InputDir)\translate.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+"$(InputDir)\translate_table.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
 
 # End Custom Build

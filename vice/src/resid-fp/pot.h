@@ -20,7 +20,7 @@
 #ifndef VICE__POT_H__
 #define VICE__POT_H__
 
-#include "siddefs-fp.h"
+#include "residfp-config.h"
 
 class PotentiometerFP
 {

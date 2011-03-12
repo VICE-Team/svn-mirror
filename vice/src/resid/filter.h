@@ -20,7 +20,7 @@
 #ifndef RESID_FILTER_H
 #define RESID_FILTER_H
 
-#include "siddefs.h"
+#include "resid-config.h"
 
 namespace reSID
 {

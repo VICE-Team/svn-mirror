@@ -20,7 +20,8 @@
 #ifndef VICE__VOICE_H__
 #define VICE__VOICE_H__
 
-#include "siddefs-fp.h"
+#include "residfp-config.h"
+
 #include "wave.h"
 #include "envelope.h"
 

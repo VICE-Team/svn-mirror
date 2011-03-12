@@ -20,7 +20,7 @@
 #ifndef RESID_VOICE_H
 #define RESID_VOICE_H
 
-#include "siddefs.h"
+#include "resid-config.h"
 #include "wave.h"
 #include "envelope.h"
 

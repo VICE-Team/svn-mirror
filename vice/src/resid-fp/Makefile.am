@@ -6,7 +6,7 @@ noinst_LIBRARIES = libresidfp.a
 
 libresidfp_a_SOURCES = sid.cc voice.cc wave.cc envelope.cc filter.cc extfilt.cc pot.cc version.cc convolve.cc
 
-noinst_HEADERS = sid.h voice.h wave.h envelope.h filter.h extfilt.h pot.h
+noinst_HEADERS = sid.h voice.h wave.h envelope.h filter.h extfilt.h pot.h residfp-config.h
 
 EXTRA_DIST = $(noinst_HEADERS) README.VICE convolve-sse.cc
 

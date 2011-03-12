@@ -20,7 +20,7 @@
 #ifndef VICE__FILTER_H__
 #define VICE__FILTER_H__
 
-#include "siddtvdefs.h"
+#include "residdtv-config.h"
 
 namespace reSID
 {

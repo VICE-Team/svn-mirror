@@ -23,7 +23,9 @@
 *  02111-1307  USA.
 *
 */
-#include "config.h"
+
+#include "vice.h"
+
 #ifndef HAVE_GUIDLIB
 /* all GUIDs will be defined in this object file */
 #define INITGUID

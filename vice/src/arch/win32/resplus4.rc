@@ -1,8 +1,9 @@
 // Plus4 specific resources.
 //
 
+#include "vice.h"
+
 #include "debug.h"
-#include "config.h"
 #include "res.h"
 #include "videoarch.h"
 #include "rescommon.h"

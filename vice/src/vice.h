@@ -35,7 +35,11 @@
    actually automake barfs if the source directory was already
    configured, so this should not be an issue anymore.  */
 
-#include <config.h> /* Automagically created by the `configure' script.  */
+#ifdef IDE_COMPILE
+# include <ide-config.h> /* standard config file for IDE based compiles. */
+#else
+# include <config.h> /* Automagically created by the `configure' script.  */
+#endif
 
 /* ------------------------------------------------------------------------- */
 
