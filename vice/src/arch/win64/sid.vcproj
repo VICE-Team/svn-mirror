@@ -45,7 +45,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\resid"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\sid\Debug/sid.pch"
 				AssemblerListingLocation=".\libs\sid\Debug/"
@@ -118,7 +118,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\resid"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -191,7 +191,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\resid"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;WINIA64"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\sid\Debug/sid.pch"
 				AssemblerListingLocation=".\libs\sid\Debug/"
@@ -264,7 +264,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\resid"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;WINIA64"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -360,7 +360,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -369,7 +369,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -378,7 +378,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -387,7 +387,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -400,7 +400,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -409,7 +409,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -418,7 +418,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
@@ -427,7 +427,7 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /I &quot;..\win32&quot; /I &quot;..\..\\&quot; /I &quot;..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\sid\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
