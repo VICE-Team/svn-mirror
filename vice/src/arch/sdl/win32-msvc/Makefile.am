@@ -1,10 +1,10 @@
 EXTRA_DIST = \
 	Readme.txt \
-	config.h \
 	dirent.h \
-	siddefs.h \
-	siddefs-fp.h \
-	siddtvdefs.h \
+	ide-config.h \
+	ide-siddefs.h \
+	ide-siddtvdefs.h \
+	ide-sidfpdefs.h \
 	make-bindist.bat \
 	_vice.dsp \
 	arch.dsp \
