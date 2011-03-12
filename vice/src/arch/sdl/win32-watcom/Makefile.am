@@ -1,5 +1,8 @@
 EXTRA_DIST = \
-	config.h \
+	ide-config.h \
+	ide-siddefs.h \
+	ide-siddtvdefs.h \
+	ide-sidfpdefs.h \
 	arch.tgt \
 	base.tgt \
 	c128.tgt \
@@ -49,9 +52,6 @@ EXTRA_DIST = \
 	rs232drv.tgt \
 	serial.tgt \
 	sid.tgt \
-	siddefs.h \
-	siddefs-fp.h \
-	siddtvdefs.h \
 	sounddrv.tgt \
 	tape.tgt \
 	tcbm.tgt \

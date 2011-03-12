@@ -83,8 +83,8 @@ WString
 1
 21
 WString
-44
-PACKAGE="residfp" VERSION="0.7" SIZEOF_INT=4
+56
+PACKAGE="residfp" VERSION="0.7" SIZEOF_INT=4 IDE_COMPILE
 0
 22
 MRState
@@ -234,7 +234,7 @@ WVList
 55
 MItem
 43
-..\..\watcom-source-wrappers\residfp-sid.cc
+..\..\watcom-source-wrappers\residfp-pot.cc
 56
 WString
 6
@@ -251,8 +251,8 @@ WVList
 0
 59
 MItem
-47
-..\..\watcom-source-wrappers\residfp-version.cc
+43
+..\..\watcom-source-wrappers\residfp-sid.cc
 60
 WString
 6
@@ -269,8 +269,8 @@ WVList
 0
 63
 MItem
-45
-..\..\watcom-source-wrappers\residfp-voice.cc
+47
+..\..\watcom-source-wrappers\residfp-version.cc
 64
 WString
 6
@@ -287,8 +287,8 @@ WVList
 0
 67
 MItem
-44
-..\..\watcom-source-wrappers\residfp-wave.cc
+45
+..\..\watcom-source-wrappers\residfp-voice.cc
 68
 WString
 6
@@ -305,8 +305,8 @@ WVList
 0
 71
 MItem
-14
-residfp-pot.cc
+44
+..\..\watcom-source-wrappers\residfp-wave.cc
 72
 WString
 6

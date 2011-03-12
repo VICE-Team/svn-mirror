@@ -83,8 +83,8 @@ WString
 1
 21
 WString
-45
-PACKAGE="residdtv" VERSION="0.7" SIZEOF_INT=4
+57
+PACKAGE="residdtv" VERSION="0.7" SIZEOF_INT=4 IDE_COMPILE
 0
 22
 MRState

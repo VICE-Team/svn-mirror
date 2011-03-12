@@ -1,7 +1,7 @@
 @echo off
 copy ..\..\..\translate.txt trans.txt
 copy ..\..\..\..\doc\vice.texi vice.tex
-copy ..\..\..\infocontrib.sec ic.sed
+copy ..\..\..\infocontrib.sed ic.sed
 if Windows_NT == %OS% goto winnt
 goto use16
 :winnt
@@ -11,7 +11,7 @@ genic vice.tex ic.h ic.sed
 gentr trans.txt trans.h transtab.h
 goto after
 :use32
-geninfocontrib vice.tex ic.h ic.sed
+geninfocontrib32 vice.tex ic.h ic.sed
 gentranslate32 trans.txt trans.h transtab.h
 :after
 copy ic.h ..\..\..\infocontrib.h
