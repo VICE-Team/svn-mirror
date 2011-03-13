@@ -91,6 +91,7 @@ int vdrive_internal_close_disk_image(vdrive_t *vdrive)
           return -1;
 
         disk_image_media_destroy(image);
+        vdrive_device_shutdown(vdrive);
         lib_free(image);
         lib_free(vdrive);
     }

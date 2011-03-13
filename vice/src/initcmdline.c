@@ -60,6 +60,22 @@ static void cmdline_free_autostart_string(void)
     autostart_string = NULL;
 }
 
+static void cmdline_free_startup_images(void)
+{
+    int unit;
+
+    for (unit = 0; unit < 4; unit++) {
+        if (startup_disk_images[unit] != NULL) {
+            lib_free(startup_disk_images[unit]);
+        }
+        startup_disk_images[unit] = NULL;
+    }
+    if (startup_tape_image != NULL) {
+        lib_free(startup_tape_image);
+    }
+    startup_tape_image = NULL;
+}
+
 static int cmdline_help(const char *param, void *extra_param)
 {
     cmdline_show_help(NULL);
@@ -267,6 +283,8 @@ int initcmdline_init(void)
             return -1;
         }
     }
+
+    atexit(cmdline_free_startup_images);
 
     return 0;
 }

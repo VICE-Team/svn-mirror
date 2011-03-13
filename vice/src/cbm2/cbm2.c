@@ -68,6 +68,7 @@
 #include "resources.h"
 #include "rs232drv.h"
 #include "screenshot.h"
+#include "serial.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sid.h"
@@ -138,10 +139,20 @@ int machine_resources_init(void)
     if (traps_resources_init() < 0
         || vsync_resources_init() < 0
         || machine_video_resources_init() < 0
-        || cbm2_resources_init() < 0
-        || crtc_resources_init() < 0
-        || vicii_resources_init() < 0
-        || sound_resources_init() < 0
+        || cbm2_resources_init() < 0) {
+        return -1;
+    }
+
+    if (cbm2_isC500) {
+        if (vicii_resources_init() < 0) {
+            return -1;
+        }
+    } else {
+        if (crtc_resources_init() < 0) {
+            return -1;
+        }
+    }
+    if (sound_resources_init() < 0
         || sid_resources_init() < 0
         || drive_resources_init() < 0
         || datasette_resources_init() < 0

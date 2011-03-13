@@ -62,6 +62,16 @@ static void circular_check_init(void)
     block_list_nelems = 0;
 }
 
+static void circular_check_free(void)
+{
+    if (block_list) {
+        lib_free(block_list);
+        block_list = NULL;
+    }
+    block_list_size = 0;
+    block_list_nelems = 0;
+}
+
 static int circular_check(unsigned int track, unsigned int sector)
 {
     unsigned int i;
@@ -137,6 +147,7 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
             || circular_check(vdrive->Curr_track, vdrive->Curr_sector)) {
             /*image_contents_destroy(contents);*/
             vdrive_internal_close_disk_image(vdrive);
+            circular_check_free();
             return contents/*NULL*/;
         }
 
@@ -182,6 +193,6 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
     }
 
     vdrive_internal_close_disk_image(vdrive);
+    circular_check_free();
     return contents;
 }
-

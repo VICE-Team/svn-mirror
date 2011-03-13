@@ -38,6 +38,7 @@
 #include "fliplist.h"
 #include "lib.h"
 #include "log.h"
+#include "machine-bus.h"
 #include "machine-drive.h"
 #include "network.h"
 #include "resources.h"
@@ -256,6 +257,7 @@ void file_system_shutdown(void)
     for (i = 0; i < 4; i++) {
         vdrive_device_shutdown(file_system[i].vdrive);
         lib_free(file_system[i].vdrive);
+        machine_bus_device_detach(i + 8); /* free memory allocated by file_system_set_serial_hooks() */
     }
 }
 

@@ -763,4 +763,5 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psh.pfnCallback = NULL;
 
     PropertySheet(&psh);
+    system_mbstowcs_free((char *)psp[1].pszTitle);
 }
