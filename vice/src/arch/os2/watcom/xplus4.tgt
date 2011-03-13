@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-163
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XPLUS4__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-xplus4.res
+177
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XPLUS4__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-xplus4.res
 wrc -q -ad dlg-xplus4.res xplus4.exe
 
 6
@@ -102,8 +102,8 @@ WString
 1
 25
 WString
-10
-__XPLUS4__
+22
+__XPLUS4__ IDE_COMPILE
 0
 26
 MRState

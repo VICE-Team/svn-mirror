@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-149
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__X64__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-all.res
+163
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__X64__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-all.res
 wrc -q -ad dlg-all.res x64.exe
 6
 MItem
@@ -101,8 +101,8 @@ WString
 1
 25
 WString
-7
-__X64__
+19
+__X64__ IDE_COMPILE
 0
 26
 MRState

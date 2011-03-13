@@ -45,11 +45,11 @@ libarch_a_SOURCES = \
 
 EXTRA_DIST = \
 	vice.def \
+	ide-siddefs.h \
+	ide-siddtvdefs.h \
 	install.cmd \
 	makedist.cmd \
 	makeclean.cmd \
-	siddefs.h \
-	siddtvdefs.h \
 	unused/pm/winaddon.c \
 	unused/pm/winaddon.h \
 	unused/pm/scrollbars.c \
@@ -114,7 +114,6 @@ EXTRA_DIST = \
 	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
-	watcom/config.h \
 	watcom/core.tgt \
 	watcom/crtc.tgt \
 	watcom/dialogs.tgt \
@@ -128,6 +127,7 @@ EXTRA_DIST = \
 	watcom/gentranslate32.tgt \
 	watcom/genwt.bat \
 	watcom/gfxoutputdrv.tgt \
+	watcom/ide-config.h \
 	watcom/iec.tgt \
 	watcom/iecbus.tgt \
 	watcom/iecc64exp.tgt \

@@ -27,7 +27,7 @@
 #ifndef DIALOGS_H
 #define DIALOGS_H
 
-#include "config.h" // HAVE_*
+#include "vice.h" // HAVE_*
 
 //
 //  --------------- Resource Definitions ----------------

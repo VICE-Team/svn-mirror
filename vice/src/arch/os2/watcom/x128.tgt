@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-155
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__X128__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-x128.res
+169
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__X128__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-x128.res
 wrc -q -ad dlg-x128.res x128.exe
 
 6
@@ -102,8 +102,8 @@ WString
 1
 25
 WString
-8
-__X128__
+20
+__X128__ IDE_COMPILE
 0
 26
 MRState

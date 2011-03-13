@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-155
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XVIC__ -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-xvic.res
+169
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XVIC__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-xvic.res
 wrc -q -ad dlg-xvic.res xvic.exe
 
 6
@@ -102,8 +102,8 @@ WString
 1
 25
 WString
-8
-__XVIC__
+20
+__XVIC__ IDE_COMPILE
 0
 26
 MRState

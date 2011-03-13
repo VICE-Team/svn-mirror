@@ -83,8 +83,8 @@ WString
 1
 21
 WString
-16
-__X64__ __X128__
+28
+__X64__ __X128__ IDE_COMPILE
 0
 22
 MRState
