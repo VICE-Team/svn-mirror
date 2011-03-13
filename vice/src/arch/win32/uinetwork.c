@@ -67,9 +67,9 @@ static uilib_dialog_group network_left_group[] = {
     { IDC_CURRENT_MODE, 0 },
     { IDC_SERVER_BIND, 0 },
     { IDC_TCP_PORT, 0 },
-    { IDC_NETWORK_SERVER, 0 },
-    { IDC_NETWORK_CLIENT, 0 },
-    { IDC_NETWORK_DISCONNECT, 0 },
+    { IDC_NETWORK_SERVER, 1 },
+    { IDC_NETWORK_CLIENT, 1 },
+    { IDC_NETWORK_DISCONNECT, 1 },
     { 0, 0 }
 };
 
