@@ -1438,3 +1438,29 @@ void uilib_center_buttons(HWND hwnd, int *buttons, int resize)
         xpos += size + distance;
     }
 }
+
+int uilib_get_center_distance_group(HWND hwnd, int *group_boxes)
+{
+    int i;
+    int size = 0;
+    HWND temp_hwnd;
+    RECT element_rect;
+    RECT rect;
+    int distance;
+
+    for (i = 0; group_boxes[i] != 0; i++) {
+        temp_hwnd = GetDlgItem(hwnd, group_boxes[i]);
+        GetClientRect(temp_hwnd, &element_rect);
+        MapWindowPoints(temp_hwnd, hwnd, (POINT*)&element_rect, 2);
+        if (size < element_rect.right - element_rect.left) {
+            size = element_rect.right - element_rect.left;
+        }
+    }
+    GetWindowRect(hwnd, &rect);
+    distance = ((rect.right - rect.left) - (size * i)) / (i + 1);
+    if (distance < 10) {
+        distance = 10;
+        MoveWindow(hwnd, rect.left, rect.top, (distance * (i + 1)) + (size * i), rect.bottom - rect.top, TRUE);
+    }
+    return distance;
+}

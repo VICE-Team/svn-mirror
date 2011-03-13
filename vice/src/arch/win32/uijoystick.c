@@ -396,6 +396,32 @@ static uilib_dialog_group joystick_left_size_group[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group joystick_left_center_group[] = {
+    { IDC_JOYSTICK_IN_PORT_1, 0 },
+    { IDC_JOY_DEV1, 0 },
+    { IDC_SELECT_FIRE_BUTTON_1, 0 },
+    { IDC_JOY_FIRE1_BUTTON, 0 },
+    { IDC_AUTO_FIRE_BUTTON_SETTINGS_1, 0 },
+    { IDC_JOY_FIRE1_SPEED, 0 },
+    { IDC_JOY_FIRE1_AXIS, 0 },
+    { IDC_JOY_AUTOFIRE1_BUTTON, 0 },
+    { IDC_AUTOFIRE_SPEED_1, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group joystick_right_center_group[] = {
+    { IDC_JOYSTICK_IN_PORT_2, 0 },
+    { IDC_JOY_DEV2, 0 },
+    { IDC_SELECT_FIRE_BUTTON_2, 0 },
+    { IDC_JOY_FIRE2_BUTTON, 0 },
+    { IDC_AUTO_FIRE_BUTTON_SETTINGS_2, 0 },
+    { IDC_JOY_FIRE2_SPEED, 0 },
+    { IDC_JOY_FIRE2_AXIS, 0 },
+    { IDC_JOY_AUTOFIRE2_BUTTON, 0 },
+    { IDC_AUTOFIRE_SPEED_2, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group joystick_right_move_group[] = {
     { IDC_JOY_DEV2, 0 },
     { IDC_SELECT_FIRE_BUTTON_2, 0 },
@@ -447,6 +473,12 @@ static int center_ok_cancel_buttons[] = {
     0
 };
 
+static int group_boxes[] = {
+    IDC_JOYSTICK_IN_PORT_1,
+    IDC_JOYSTICK_IN_PORT_2,
+    0
+};
+
 static void resize_joystick_dialog_elements(HWND hwnd)
 {
     int xpos;
@@ -454,6 +486,7 @@ static void resize_joystick_dialog_elements(HWND hwnd)
     int xpos1, xpos2, xpos3;
     int distance1, distance2;
     RECT rect;
+    int i;
 
     /* adjust the size of the left group elements */
     uilib_adjust_group_width(hwnd, joystick_left_group);
@@ -551,6 +584,39 @@ static void resize_joystick_dialog_elements(HWND hwnd)
 
     /* recenter the ok/cancel buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, center_ok_cancel_buttons, 0);
+
+    /* get center distance needed */
+    distance1 = uilib_get_center_distance_group(hwnd, group_boxes);
+
+    /* get min x of joystick 1 group box */
+    uilib_get_element_min_x(hwnd, IDC_JOYSTICK_IN_PORT_1, &xpos);
+
+    /* move joystick 1 group box to the correct position */
+    uilib_move_element(hwnd, IDC_JOYSTICK_IN_PORT_1, distance1);
+
+    /* move joystick 1 group to the correct position */
+    for (i = 1; joystick_left_center_group[i].idc != 0; i++) {
+        uilib_get_element_min_x(hwnd, joystick_left_center_group[i].idc, &xpos1);
+        uilib_move_element(hwnd, joystick_left_center_group[i].idc, xpos1 - xpos + distance1);
+    }
+
+    /* get max x of joystick 1 group box */
+    uilib_get_element_max_x(hwnd, IDC_JOYSTICK_IN_PORT_1, &xpos);
+
+    /* new distance */
+    distance1 += xpos;
+
+    /* get min x of joystick 2 group box */
+    uilib_get_element_min_x(hwnd, IDC_JOYSTICK_IN_PORT_2, &xpos);
+
+    /* move joystick 2 group box to the correct position */
+    uilib_move_element(hwnd, IDC_JOYSTICK_IN_PORT_2, distance1);
+
+    /* move joystick 2 group to the correct position */
+    for (i = 1; joystick_right_center_group[i].idc != 0; i++) {
+        uilib_get_element_min_x(hwnd, joystick_right_center_group[i].idc, &xpos1);
+        uilib_move_element(hwnd, joystick_right_center_group[i].idc, xpos1 - xpos + distance1);
+    }
 }
 
 static void init_joystick_dialog(HWND hwnd)

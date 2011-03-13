@@ -115,6 +115,7 @@ extern void uilib_get_element_max_x(HWND hwnd, int idc, int *width);
 extern void uilib_get_element_min_x(HWND hwnd, int idc, int *width);
 extern void uilib_set_element_width(HWND hwnd, int idc, int xsize);
 extern void uilib_center_buttons(HWND hwnd, int *bottons, int resize);
+extern int uilib_get_center_distance_group(HWND hwnd, int *group_boxes);
 
 typedef struct {
     unsigned int idc;
