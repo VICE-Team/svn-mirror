@@ -451,7 +451,7 @@ END
 
 // dialog template for all languages
 
-IDD_SOUND_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 100
+IDD_SOUND_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 115
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -464,21 +464,21 @@ BEGIN
     COMBOBOX        IDC_SOUND_FREQ,
                     100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
     LTEXT           "", IDC_SOUND_BUFFER_SIZE,
-                    7, 38, 118, 8
+                    7, 40, 118, 8
     COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 35, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+                    100, 37, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
     LTEXT           "", IDC_SOUND_FRAGMENT_SIZE_LABEL,
-                    7, 51, 118, 8
+                    7, 55, 118, 8
     COMBOBOX        IDC_SOUND_FRAGMENT_SIZE,
-                    100, 48, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+                    100, 52, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
     LTEXT           "", IDC_SOUND_SYNCH_METHOD,
-                    7, 64, 118, 8
+                    7, 70, 118, 8
     COMBOBOX        IDC_SOUND_SYNCH,
-                    100, 61, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+                    100, 67, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
     DEFPUSHBUTTON   "", IDOK,
-                    40, 80, 50, 14, WS_TABSTOP
+                    40, 95, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL,
-                    95, 80, 50, 14, WS_TABSTOP
+                    95, 95, 50, 14, WS_TABSTOP
 END
 
 
