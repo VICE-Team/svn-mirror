@@ -133,6 +133,7 @@ static void init_network_dialog(HWND hwnd)
     int connected;
     int xpos;
     int xstart;
+    int xtemp;
     RECT rect;
 
     /* translate all dialog items */
@@ -185,11 +186,23 @@ static void init_network_dialog(HWND hwnd)
     /* move the server check group */
     uilib_move_group(hwnd, server_check_group, xpos + 10);
 
+    /* get the size of the server header element */
+    uilib_get_element_width(hwnd, IDC_SERVER, &xtemp);
+
+    /* move/center the server header element */
+    uilib_move_element(hwnd, IDC_SERVER, xpos + 10 - ((xtemp - 10) / 2));
+
     /* get the max x of the server check group */
     uilib_get_group_max_x(hwnd, server_check_group, &xpos);
 
     /* move the client check group */
     uilib_move_group(hwnd, client_check_group, xpos + 10);
+
+    /* get the size of the client header element */
+    uilib_get_element_width(hwnd, IDC_CLIENT, &xtemp);
+
+    /* move/center the client header element */
+    uilib_move_element(hwnd, IDC_CLIENT, xpos + 10 - ((xtemp - 10) / 2));
 
     /* get the max x of the client check group */
     uilib_get_group_max_x(hwnd, client_check_group, &xpos);
