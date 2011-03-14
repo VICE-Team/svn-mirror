@@ -133,6 +133,8 @@ static int vbank;
 /* Current memory configuration.  */
 static int mem_config;
 
+/* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
+static int watchpoints_active;
 
 /* ------------------------------------------------------------------------- */
 
@@ -157,6 +159,7 @@ void mem_toggle_watchpoints(int flag, void *context)
         _mem_read_tab_ptr = mem_read_tab[mem_config];
         _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
     }
+    watchpoints_active = flag;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -167,7 +170,7 @@ void mem_pla_config_changed(void)
 
     c64pla_config_changed(0, 1, 0x17);
 
-    if (any_watchpoints(e_comp_space)) {
+    if (watchpoints_active) {
         _mem_read_tab_ptr = mem_read_tab_watch;
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {

@@ -42,7 +42,6 @@
 #include "uimon.h"
 
 
-#define any_breakpoints(mem) (breakpoints[(mem)] != NULL)
 
 struct checkpoint_s {
     int checknum;
@@ -135,6 +134,31 @@ static checkpoint_t *find_checkpoint(int brknum)
     }
 
     return NULL;
+}
+
+static void update_checkpoint_state(MEMSPACE mem)
+{
+    if (watchpoints_load[mem] != NULL || watchpoints_store[mem] != NULL) {
+        monitor_mask[mem] |= MI_WATCH;
+        mon_interfaces[mem]->toggle_watchpoints_func(
+                1, mon_interfaces[mem]->context);
+    } else {
+        monitor_mask[mem] &= ~MI_WATCH;
+        mon_interfaces[mem]->toggle_watchpoints_func(
+                0, mon_interfaces[mem]->context);
+    }
+
+    if (breakpoints[mem] != NULL) {
+        monitor_mask[mem] |= MI_BREAK;
+    } else {
+        monitor_mask[mem] &= ~MI_BREAK;
+    }
+
+    if (monitor_mask[mem]) {
+        interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
+    } else {
+        interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
+    }
 }
 
 void mon_breakpoint_switch_checkpoint(int op, int cp_num)
@@ -241,29 +265,14 @@ void mon_breakpoint_delete_checkpoint(int cp_num)
     } else {
         mem = addr_memspace(cp->start_addr);
 
-        if (cp->check_exec) {
+        if (cp->check_exec)
             remove_checkpoint_from_list(&(breakpoints[mem]), cp);
+        if (cp->check_load)
+            remove_checkpoint_from_list(&(watchpoints_load[mem]), cp);
+        if (cp->check_store)
+            remove_checkpoint_from_list(&(watchpoints_store[mem]), cp);
 
-            if (!any_breakpoints(mem)) {
-                monitor_mask[mem] &= ~MI_BREAK;
-                if (!monitor_mask[mem])
-                    interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
-            }
-        } else {
-            if (cp->check_load)
-                remove_checkpoint_from_list(&(watchpoints_load[mem]), cp);
-            if (cp->check_store)
-                remove_checkpoint_from_list(&(watchpoints_store[mem]), cp);
-
-            if (!any_watchpoints(mem)) {
-                monitor_mask[mem] &= ~MI_WATCH;
-                mon_interfaces[mem]->toggle_watchpoints_func(0,
-                    mon_interfaces[mem]->context);
-
-                if (!monitor_mask[mem])
-                    interrupt_monitor_trap_off(mon_interfaces[mem]->int_status);
-            }
-        }
+        update_checkpoint_state(mem);
     }
     if (cp != NULL) {
         mon_delete_conditional(cp->condition);
@@ -344,15 +353,6 @@ static int compare_checkpoints(checkpoint_t *bp1, checkpoint_t *bp2)
     return 0;
 }
 
-/* 
- * todo: A faster solution which still would not expose our internal lists
- * would be a hook-function which notifies the CPU emulation about changes
- * of this state.
- */
-int mon_breakpoint_has_any_watchpoints(MEMSPACE mem)
-{
-    return (watchpoints_load[mem] || watchpoints_store[mem]);
-}
 
 bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr, MEMORY_OP op)
 {
@@ -487,26 +487,14 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
     new_cp->temporary = is_temp;
 
     mem = addr_memspace(start_addr);
-    if (new_cp->check_exec) {
-        if (!any_breakpoints(mem)) {
-            monitor_mask[mem] |= MI_BREAK;
-            interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
-        }
-
+    if (new_cp->check_exec)
         add_to_checkpoint_list(&(breakpoints[mem]), new_cp);
-    } else {
-        if (!any_watchpoints(mem)) {
-            monitor_mask[mem] |= MI_WATCH;
-            mon_interfaces[mem]->toggle_watchpoints_func(1,
-                mon_interfaces[mem]->context);
-            interrupt_monitor_trap_on(mon_interfaces[mem]->int_status);
-        }
+    if (new_cp->check_load)
+        add_to_checkpoint_list(&(watchpoints_load[mem]), new_cp);
+    if (new_cp->check_store)
+        add_to_checkpoint_list(&(watchpoints_store[mem]), new_cp);
 
-        if (new_cp->check_load)
-            add_to_checkpoint_list(&(watchpoints_load[mem]), new_cp);
-        if (new_cp->check_store)
-            add_to_checkpoint_list(&(watchpoints_store[mem]), new_cp);
-    }
+    update_checkpoint_state(mem);
 
     if (is_temp)
         exit_mon = 1;

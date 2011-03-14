@@ -133,6 +133,9 @@ static int tape_sense = 0;
 /* Current memory configuration.  */
 static int mem_config;
 
+/* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
+static int watchpoints_active;
+
 /* Current machine type.  */
 static unsigned int mem_machine_type;
 
@@ -165,6 +168,7 @@ void mem_toggle_watchpoints(int flag, void *context)
         _mem_read_tab_ptr = mem_read_tab[mem_config];
         _mem_write_tab_ptr = mem_write_tab[vbank][mem_config];
     }
+    watchpoints_active = flag;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -189,7 +193,7 @@ void mem_update_config(int config)
 {
     mem_config = config;
 
-    if (any_watchpoints(e_comp_space)) {
+    if (watchpoints_active) {
         _mem_read_tab_ptr = mem_read_tab_watch;
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {

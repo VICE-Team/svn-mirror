@@ -44,7 +44,6 @@ extern void mon_breakpoint_delete_checkpoint(int brknum);
 extern void mon_breakpoint_set_checkpoint_condition(int brk_num,
                                                     struct cond_node_s *cnode);
 extern void mon_breakpoint_set_checkpoint_command(int brk_num, char *cmd);
-extern int mon_breakpoint_has_any_watchpoints(MEMSPACE mem);
 extern bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr,
                                             MEMORY_OP op);
 extern int mon_breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,

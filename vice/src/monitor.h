@@ -34,9 +34,6 @@
 /** Generic interface.  **/
 #define NUM_MEMSPACES 6
 
-/* fixme: absolete, use monitor_has_any_watchpoints directly */
-#define any_watchpoints(mem) monitor_has_any_watchpoints(mem)
-
 enum mon_int {
     MI_NONE = 0,
     MI_BREAK = 1 << 0,
@@ -140,7 +137,6 @@ extern void monitor_abort(void);
 extern int monitor_force_import(MEMSPACE mem);
 extern void monitor_check_icount(WORD a);
 extern void monitor_check_icount_interrupt(void);
-extern int monitor_has_any_watchpoints(MEMSPACE mem);
 extern void monitor_check_watchpoints(WORD a);
 
 extern void monitor_cpu_type_set(const char *cpu_type);

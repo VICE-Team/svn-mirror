@@ -2049,11 +2049,6 @@ void monitor_check_icount_interrupt(void)
             wait_for_return_level++;
 }
 
-int monitor_has_any_watchpoints(MEMSPACE mem)
-{
-    return mon_breakpoint_has_any_watchpoints(mem);
-}
-
 int monitor_check_breakpoints(MEMSPACE mem, WORD addr)
 {
     return mon_breakpoint_check_checkpoint(mem, addr, e_exec);

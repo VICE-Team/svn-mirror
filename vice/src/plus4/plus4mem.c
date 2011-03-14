@@ -174,6 +174,9 @@ static BYTE old_port_write_bit = 0xff;
 /* Tape read input.  */
 static BYTE tape_read = 0xff;
 
+/* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
+static int watchpoints_active;
+
 inline static void mem_proc_port_store(void)
 {
 
@@ -278,7 +281,7 @@ static void mem_config_set(unsigned int config)
 {
     mem_config = config;
 
-    if (any_watchpoints(e_comp_space)) {
+    if (watchpoints_active) {
         _mem_read_tab_ptr = mem_read_tab_watch;
         _mem_write_tab_ptr = mem_write_tab_watch;
     } else {
@@ -332,6 +335,7 @@ void mem_toggle_watchpoints(int flag, void *context)
         _mem_read_tab_ptr = mem_read_tab[mem_config];
         _mem_write_tab_ptr = mem_write_tab[mem_config];
     }
+    watchpoints_active = flag;
 }
 
 /* ------------------------------------------------------------------------- */
