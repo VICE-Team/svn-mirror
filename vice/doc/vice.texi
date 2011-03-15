@@ -10435,6 +10435,12 @@ cartridge emulation in xvic.
 Provided parts of the widget set for implementing the Xaw GUI.
 
 @item
+@b{Jennifer Medkief}
+Checked the windows gui dialog items in various languages for things
+that look wrong and suggested changes needed to make the gui more
+user friendly.
+
+@item
 @b{Dan Miner}
 Contributed some patches to the fast disk drive emulation.
 

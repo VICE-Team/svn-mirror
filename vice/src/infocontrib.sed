@@ -137,6 +137,7 @@ s/@b{Ullrich von Bassewitz}/Ullrich von Bassewitz/g
 s/@b{Holger Busse}/Holger Busse/g
 s/@b{Stefan Haubenthal}/Stefan Haubenthal <polluks@users.sourceforge.net>/g
 s/@b{Peter Karlsson}/Peter Karlsson/g
+s/@b{Jennifer Medkief}/Jennifer Medkief <jennifermedkief@gmail.com>/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g
