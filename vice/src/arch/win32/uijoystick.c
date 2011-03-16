@@ -473,6 +473,11 @@ static int center_ok_cancel_buttons[] = {
     0
 };
 
+static int center_extra_joy_button[] = {
+    IDC_EXTRA_JOY_ADAPTER,
+    0
+};
+
 static int group_boxes[] = {
     IDC_JOYSTICK_IN_PORT_1,
     IDC_JOYSTICK_IN_PORT_2,
@@ -584,6 +589,9 @@ static void resize_joystick_dialog_elements(HWND hwnd)
 
     /* recenter the ok/cancel buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, center_ok_cancel_buttons, 0);
+
+    /* center the extra joystick adapter combobox */
+    uilib_center_buttons(hwnd, center_extra_joy_button, 0);
 
     /* get center distance needed */
     distance1 = uilib_get_center_distance_group(hwnd, group_boxes);
