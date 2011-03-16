@@ -8851,13 +8851,13 @@ msgstr "Tonaufnahme starten..."
 #, c-format
 msgid "Value %d out of range, range is from %d to %d, using %d instead"
 msgstr ""
-"Wert %d ist unzul‰ssig, Bereich muﬂ zwischen %d und %d liegen, benutze %d"
+"Wert %d ist unzul‰ssig, Bereich muss zwischen %d und %d liegen, benutze %d"
 
 #: src/arch/amigaos/intl_text.c.po.c:2623
 #, c-format
 msgid "Value %.3f out of range, range is from %.3f to %.3f, using %.3f instead"
 msgstr ""
-"Wert %.3f ist unzul‰ssig, Bereich muﬂ zwischen %.3f und %.3f liegen, benutze "
+"Wert %.3f ist unzul‰ssig, Bereich muss zwischen %.3f und %.3f liegen, benutze "
 "%.3f"
 
 #: src/arch/amigaos/intl_text.c.po.c:2766
