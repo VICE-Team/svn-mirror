@@ -10679,7 +10679,7 @@ goes to the following people:
 
 Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
-Peternel and Per Håkan Sundell and David Horrocks for writing
+Peternel, Per Håkan Sundell and David Horrocks for writing
 cool emulators to compete with.  @t{:-)}
 
 @node Copyright, Contacts, Acknowledgments, Top
