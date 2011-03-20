@@ -6,7 +6,7 @@ else
 extra_includes =
 endif
 
-SUBDIRS = win32-msvc win64-msvc win32-watcom dingoo-files syllable-files xbox
+SUBDIRS = win32-msvc win64-msvc win32-watcom winmips-msvc dingoo-files syllable-files xbox
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \

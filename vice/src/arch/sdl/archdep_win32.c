@@ -55,7 +55,7 @@
 #include <fcntl.h>
 #endif
 
-#ifdef HAVE_IO_H
+#if defined(HAVE_IO_H) && !defined(WINMIPS)
 #include <io.h>
 #endif
 
@@ -84,6 +84,34 @@
 #define STDIN_FILENO  0
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
+
+#ifndef O_BINARY
+#define O_BINARY 0x8000
+#endif
+
+#ifndef _O_BINARY
+#define _O_BINARY O_BINARY
+#endif
+
+#ifndef _O_WRONLY
+#define _O_WRONLY O_WRONLY
+#endif
+
+#ifndef _O_TRUNC
+#define _O_TRUNC O_TRUNC
+#endif
+
+#ifndef _O_CREAT
+#define _O_CREAT O_CREAT
+#endif
+
+#ifndef S_IWRITE
+#define S_IWRITE 0x200
+#endif
+
+#ifndef S_IREAD
+#define S_IREAD 0x400
+#endif
 
 static char *orig_workdir;
 static char *argv0;

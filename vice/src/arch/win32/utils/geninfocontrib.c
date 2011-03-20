@@ -213,7 +213,11 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     fprintf(outfile, " */\n\n");
     fprintf(outfile, "#ifndef VICE_INFOCONTRIB_H\n");
     fprintf(outfile, "#define VICE_INFOCONTRIB_H\n\n");
+#ifdef WINMIPS
+    fprintf(outfile, "const char *info_contrib_text[] = {\n");
+#else
     fprintf(outfile, "const char info_contrib_text[] =\n");
+#endif
 
     while (found_start == 0) {
         line_size = get_line(infile);
@@ -227,19 +231,31 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     while (found_end == 0) {
         line_size = get_line(infile);
         if (line_size == 0) {
+#ifdef WINMIPS
+            fprintf(outfile, "\"\\n\",\n");
+#else
             fprintf(outfile, "\"\\n\"\n");
+#endif
         } else {
             if (!strncmp(line_buffer, "@node Copyright, Contacts, Acknowledgments, Top", 47)) {
                 found_end = 1;
             } else {
                 if (checklineignore() == 0) {
                     replacetags();
-                    fprintf(outfile, "\"  %s\\n\"\n",line_buffer);
+#ifdef WINMIPS
+                    fprintf(outfile, "\"  %s\\n\",\n", line_buffer­);
+#else
+                    fprintf(outfile, "\"  %s\\n\"\n", line_buffer);
+#endif
                 }
             }
         }
     }
+#ifdef WINMIPS
+    fprintf(outfile, "\"\\n\",\n};\n#endif\n");
+#else
     fprintf(outfile, "\"\\n\";\n#endif\n");
+#endif
 
     fclose(infile);
     fclose(sedfile);

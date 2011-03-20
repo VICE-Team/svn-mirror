@@ -42,6 +42,22 @@
 #include "util.h"
 #include "version.h"
 
+#ifdef WINMIPS
+static char *concat_all(char **text)
+{
+    int i;
+    char *new_text;
+    char *old_text = lib_stralloc("\n");
+
+    for (i = 0; text[i] != NULL; i++) {
+        new_text = util_concat(old_text, text[i], NULL);
+        lib_free(old_text);
+        old_text = new_text;
+    }
+    return new_text;
+}
+#endif
+
 static void make_n_cols(char *text, int len, int cols)
 {
     int i = cols;
@@ -102,7 +118,6 @@ static char *convert_cmdline_to_n_cols(const char *text, int cols)
     }
     return new_text;
 }
-
 
 static char *contrib_convert(char *text, int cols)
 {
@@ -358,10 +373,19 @@ static UI_MENU_CALLBACK(contributors_callback)
 {
     menu_draw_t *menu_draw;
     char *info_contrib_text_n;
+#ifdef WINMIPS
+    char *new_text = NULL;
+#endif
 
     if (activated) {
         menu_draw = sdl_ui_get_menu_param();
+#ifdef WINMIPS
+        new_text = concat_all(info_contrib_text);
+        info_contrib_text_n = contrib_convert(new_text, menu_draw->max_text_x);
+        lib_free(new_text);
+#else
         info_contrib_text_n = contrib_convert((char *)info_contrib_text, menu_draw->max_text_x);
+#endif
         show_text((const char *)info_contrib_text_n);
         lib_free(info_contrib_text_n);
     }
@@ -371,13 +395,28 @@ static UI_MENU_CALLBACK(contributors_callback)
 static UI_MENU_CALLBACK(license_callback)
 {
     menu_draw_t *menu_draw;
+#ifdef WINMIPS
+    char *new_text = NULL;
+#endif
 
     if (activated) {
         menu_draw = sdl_ui_get_menu_param();
         if (menu_draw->max_text_x > 60) {
+#ifdef WINMIPS
+            new_text = concat_all(info_license_text);
+            show_text(new_text);
+            lib_free(new_text);
+#else
             show_text(info_license_text);
+#endif
         } else {
+#ifdef WINMIPS
+            new_text = concat_all(info_license_text40);
+            show_text(new_text);
+            lib_free(new_text);
+#else
             show_text(info_license_text40);
+#endif
         }
     }
     return NULL;

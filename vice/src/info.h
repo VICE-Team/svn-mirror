@@ -28,14 +28,25 @@
 #ifndef VICE_INFO_H
 #define VICE_INFO_H
 
+#ifdef WINMIPS
+extern const char *info_license_text[];
+extern const char *info_contrib_text[];
+#else
 extern const char info_license_text[];
 extern const char info_contrib_text[];
+#endif
+
 extern const char info_warranty_text[];
 
 #ifdef USE_SDLUI
+
+#ifdef WINMIPS
+extern const char *info_license_text40[];
+#else
 extern const char info_license_text40[];
+#endif
+
 extern const char info_warranty_text40[];
 #endif
 
 #endif
-

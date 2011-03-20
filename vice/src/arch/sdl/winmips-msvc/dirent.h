@@ -1,13 +1,11 @@
 /*
- * hardsid.c - hardsid.c wrapper for the sdl ui.
+ * dirent.h - Fake implementation of dirent stuff for Windows.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
- * This file is part of VICE, modified from the sidplay2 sources.  It is
- * a one for all driver with real timing support via real time kernel
- * extensions or through the hardware buffering.  It supports the hardsid
- * isa/pci single/quattro and also the catweasel MK3/4.
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,24 +24,18 @@
  *
  */
 
-#include "vice.h"
+#ifndef VICE_DIRENT_H
+#define VICE_DIRENT_H
 
-#ifdef HAVE_HARDSID
+typedef struct _vice_dir DIR;
 
-#ifdef WINMIPS
-#define UINT_PTR unsigned int
-#endif
+struct dirent {
+    char *d_name;
+    int d_namlen;
+};
 
-#ifdef UNIX_COMPILE
-#include "../unix/hardsid.c"
-#endif
-
-#if defined(WIN32_COMPILE) && !defined(__XBOX__)
-#include "../win32/hardsid.c"
-#endif
-
-#ifdef AMIGA_SUPPORT
-#include "../amigaos/hardsid.c"
-#endif
+extern DIR *opendir(const char *path);
+struct dirent *readdir(DIR *dir);
+extern void closedir(DIR *dir);
 
 #endif
