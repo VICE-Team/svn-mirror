@@ -9480,6 +9480,10 @@ involved in the development of X64 and VICE:
    * Robert W. McMullen Provided parts of the widget set for
      implementing the Xaw GUI.
 
+   * Jennifer Medkief Checked the windows gui dialog items in various
+     languages for things that look wrong and suggested changes needed
+     to make the gui more user friendly.
+
    * Dan Miner Contributed some patches to the fast disk drive
      emulation.
 
@@ -9643,8 +9647,9 @@ the following people:
    * David "jbevren" Wood
 
    Last but not least, a very special thank to Andreas Arens, Lutz
-Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel
-and Per Håkan Sundell for writing cool emulators to compete with.  :-)
+Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha Peternel,
+Per Håkan Sundell and David Horrocks for writing cool emulators to
+compete with.  :-)
 
 
 @EndNode

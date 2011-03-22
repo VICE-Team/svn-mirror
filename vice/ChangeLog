@@ -1,5 +1,200 @@
 ------------------------------------------------------------------------------
 
+2011-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/version.h, src/arch/sdl/winmips-msvc,
+	src/arch/win32/vice-version.bat, ChangeLog, doc/vice.guide, doc/vice.chm,
+	doc/vice.pdf, doc/vice.inf, doc/vice.hlp, po/fr.po, po/nl.po, po/pl.po,
+	po/it.po, po/hu.po, po/da.po, po/tr.po, po/de.po, po/sv.po: VICE verion
+	2.3.3
+
+2011-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/ReadmeSDL.txt, src/arch/sdl/Makefile.am,
+	src/arch/sdl/archdep_win32.c, src/arch/sdl/hardsid.c,
+	src/arch/sdl/menu_help.c, src/arch/sdl/winmips-msvc,
+	src/arch/sdl/winmips-msvc/Makefile.am,
+	src/arch/sdl/winmips-msvc/_vice.mak, src/arch/sdl/winmips-msvc/arch.mak,
+	src/arch/sdl/winmips-msvc/base.mak, src/arch/sdl/winmips-msvc/c128.mak,
+	src/arch/sdl/winmips-msvc/c1541.mak, src/arch/sdl/winmips-msvc/c64.mak,
+	src/arch/sdl/winmips-msvc/c64c128.mak,
+	src/arch/sdl/winmips-msvc/c64c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64cart.mak,
+	src/arch/sdl/winmips-msvc/c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64dtvstubs.mak,
+	src/arch/sdl/winmips-msvc/c64exp.mak,
+	src/arch/sdl/winmips-msvc/c64sc.mak,
+	src/arch/sdl/winmips-msvc/cartconv.mak,
+	src/arch/sdl/winmips-msvc/cbm2.mak, src/arch/sdl/winmips-msvc/core.mak,
+	src/arch/sdl/winmips-msvc/crtc.mak, src/arch/sdl/winmips-msvc/dirent.h,
+	src/arch/sdl/winmips-msvc/diskimage.mak,
+	src/arch/sdl/winmips-msvc/drive.mak,
+	src/arch/sdl/winmips-msvc/fileio.mak,
+	src/arch/sdl/winmips-msvc/fsdevice.mak,
+	src/arch/sdl/winmips-msvc/geninfocontrib.mak,
+	src/arch/sdl/winmips-msvc/gentranslate.mak,
+	src/arch/sdl/winmips-msvc/gfxoutputdrv.mak,
+	src/arch/sdl/winmips-msvc/ide-config.h,
+	src/arch/sdl/winmips-msvc/iec.mak,
+	src/arch/sdl/winmips-msvc/iec128dcr.mak,
+	src/arch/sdl/winmips-msvc/iecbus.mak,
+	src/arch/sdl/winmips-msvc/iecieee.mak,
+	src/arch/sdl/winmips-msvc/ieee.mak,
+	src/arch/sdl/winmips-msvc/imagecontents.mak,
+	src/arch/sdl/winmips-msvc/make-bindist.bat,
+	src/arch/sdl/winmips-msvc/monitor.mak,
+	src/arch/sdl/winmips-msvc/parallel.mak,
+	src/arch/sdl/winmips-msvc/pet.mak, src/arch/sdl/winmips-msvc/petcat.mak,
+	src/arch/sdl/winmips-msvc/plus4.mak,
+	src/arch/sdl/winmips-msvc/plus4exp.mak,
+	src/arch/sdl/winmips-msvc/printerdrv.mak,
+	src/arch/sdl/winmips-msvc/raster.mak,
+	src/arch/sdl/winmips-msvc/rs232drv.mak,
+	src/arch/sdl/winmips-msvc/rtc.mak, src/arch/sdl/winmips-msvc/serial.mak,
+	src/arch/sdl/winmips-msvc/sid.mak,
+	src/arch/sdl/winmips-msvc/sounddrv.mak,
+	src/arch/sdl/winmips-msvc/tape.mak, src/arch/sdl/winmips-msvc/tcbm.mak,
+	src/arch/sdl/winmips-msvc/vdc.mak, src/arch/sdl/winmips-msvc/vdrive.mak,
+	src/arch/sdl/winmips-msvc/vic20.mak,
+	src/arch/sdl/winmips-msvc/vic20cart.mak,
+	src/arch/sdl/winmips-msvc/vicii.mak,
+	src/arch/sdl/winmips-msvc/viciidtv.mak,
+	src/arch/sdl/winmips-msvc/viciisc.mak,
+	src/arch/sdl/winmips-msvc/video.mak, src/arch/sdl/winmips-msvc/x128.mak,
+	src/arch/sdl/winmips-msvc/x64.mak, src/arch/sdl/winmips-msvc/x64dtv.mak,
+	src/arch/sdl/winmips-msvc/x64sc.mak, src/arch/sdl/winmips-msvc/xcbm2.mak,
+	src/arch/sdl/winmips-msvc/xpet.mak, src/arch/sdl/winmips-msvc/xplus4.mak,
+	src/arch/sdl/winmips-msvc/xvic.mak,
+	src/arch/win32/utils/geninfocontrib.c, src/info.c, src/info.h: Added
+	support for mips windows to the sdl port.
+
+2011-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/geninfocontrib.dsp,
+	src/arch/win32/genmsvcver.dsp: Fixed a couple of msvc project files.
+
+2011-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Cosmetic fix.
+
+2011-03-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Put 'David Horrocks' (back) into vice.texi.
+
+2011-03-16  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* po/de.po: New German spelling
+
+2011-03-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoystick.c: Centered the extra joystick adapter
+	combobox.
+
+2011-03-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Made a text input element bigger.
+
+2011-03-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Added my daughter
+	(Jennifer Medkief) to the contributers for the work she's been doing on
+	the windows ui (checking for alignment and bugs, and making suggestions
+	for more user-friendliness).
+
+2011-03-14  Thomas Giesel <skoe@directbox.com>
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64dtv/c64dtvmem.c, src/monitor/mon_breakpoint.c,
+	src/monitor/mon_breakpoint.h, src/monitor/monitor.c, src/monitor.h,
+	src/plus4/plus4mem.c: Use callback function for watchpoint state change
+	notification. The monitor interface structure has got a callback
+	function pointer already to notify memory implementations if there are
+	any watchpoints active. This function is now used everywhere. Removed
+	old any_watchpoints macro, which used to access monitor internal data
+	directly.
+
+2011-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uijoystick.c, src/arch/win32/uilib.c,
+	src/arch/win32/uilib.h: Centered joystick groups in the joystick
+	settings dialogs of the windows ui.
+
+2011-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uinetwork.c: Centered the server/client checkbox
+	headers above the checkboxes in the windows netplay dialog.
+
+2011-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed the distance between the scroll-down
+	selection items in the windows sound dialog.
+
+2011-03-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32, src/arch/win32/uinetwork.c: Fixed the button sizes in
+	the windows netplay dialog.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/dialogs/dialogs.h,
+	src/arch/os2/ide-siddefs.h, src/arch/os2/ide-siddtvdefs.h,
+	src/arch/os2/siddefs.h, src/arch/os2/siddtvdefs.h,
+	src/arch/os2/watcom/archdep.tgt, src/arch/os2/watcom/c128.tgt,
+	src/arch/os2/watcom/c128c64.tgt, src/arch/os2/watcom/c64.tgt,
+	src/arch/os2/watcom/c64cart.tgt, src/arch/os2/watcom/c64common.tgt,
+	src/arch/os2/watcom/c64commonsc.tgt, src/arch/os2/watcom/c64dtv.tgt,
+	src/arch/os2/watcom/c64dtvc64.tgt, src/arch/os2/watcom/c64sc.tgt,
+	src/arch/os2/watcom/cartconv.tgt, src/arch/os2/watcom/cbm2.tgt,
+	src/arch/os2/watcom/config.h, src/arch/os2/watcom/core.tgt,
+	src/arch/os2/watcom/crtc.tgt, src/arch/os2/watcom/dialogs.tgt,
+	src/arch/os2/watcom/diskimage.tgt, src/arch/os2/watcom/drive.tgt,
+	src/arch/os2/watcom/fileio.tgt, src/arch/os2/watcom/fsdevice.tgt,
+	src/arch/os2/watcom/genic.tgt, src/arch/os2/watcom/geninfocontrib32.tgt,
+	src/arch/os2/watcom/gentr.tgt, src/arch/os2/watcom/gentranslate32.tgt,
+	src/arch/os2/watcom/gfxoutputdrv.tgt, src/arch/os2/watcom/ide-config.h,
+	src/arch/os2/watcom/iec.tgt, src/arch/os2/watcom/iecbus.tgt,
+	src/arch/os2/watcom/iecc64exp.tgt, src/arch/os2/watcom/iecieee.tgt,
+	src/arch/os2/watcom/iecplus4exp.tgt, src/arch/os2/watcom/ieee.tgt,
+	src/arch/os2/watcom/imagecontents.tgt, src/arch/os2/watcom/kbd.tgt,
+	src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/monitor.tgt,
+	src/arch/os2/watcom/nonresid-specific.tgt,
+	src/arch/os2/watcom/nonvic1or2-specific.tgt,
+	src/arch/os2/watcom/nonx128-specific.tgt,
+	src/arch/os2/watcom/nonx1541-specific.tgt,
+	src/arch/os2/watcom/nonx64-specific.tgt,
+	src/arch/os2/watcom/parallel.tgt, src/arch/os2/watcom/pet.tgt,
+	src/arch/os2/watcom/petcat-specific.tgt, src/arch/os2/watcom/petcat.tgt,
+	src/arch/os2/watcom/plus4.tgt, src/arch/os2/watcom/printerdrv.tgt,
+	src/arch/os2/watcom/raster.tgt, src/arch/os2/watcom/resid-specific.tgt,
+	src/arch/os2/watcom/resid.tgt, src/arch/os2/watcom/rs232drv.tgt,
+	src/arch/os2/watcom/serial.tgt, src/arch/os2/watcom/sounddrv.tgt,
+	src/arch/os2/watcom/tape.tgt, src/arch/os2/watcom/tcbm.tgt,
+	src/arch/os2/watcom/vdc.tgt, src/arch/os2/watcom/vdrive.tgt,
+	src/arch/os2/watcom/vic20.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/vicii.tgt, src/arch/os2/watcom/viciicommon.tgt,
+	src/arch/os2/watcom/viciidtv.tgt, src/arch/os2/watcom/viciisc.tgt,
+	src/arch/os2/watcom/video.tgt, src/arch/os2/watcom/vsid.tgt,
+	src/arch/os2/watcom/x128-specific.tgt, src/arch/os2/watcom/x128.tgt,
+	src/arch/os2/watcom/x1541-specific.tgt, src/arch/os2/watcom/x1541.tgt,
+	src/arch/os2/watcom/x64-specific.tgt, src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/x64dtv-specific.tgt, src/arch/os2/watcom/x64dtv.tgt,
+	src/arch/os2/watcom/x64sc.tgt, src/arch/os2/watcom/x64x128-specific.tgt,
+	src/arch/os2/watcom/xall-specific.tgt,
+	src/arch/os2/watcom/xcbm2-specific.tgt, src/arch/os2/watcom/xcbm2.tgt,
+	src/arch/os2/watcom/xpet-specific.tgt, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4-specific.tgt, src/arch/os2/watcom/xplus4.tgt,
+	src/arch/os2/watcom/xvic-specific.tgt, src/arch/os2/watcom/xvic.tgt:
+	Adapted the command-line configuration files to be able to co-exist with
+	the IDE-based configuration files of os2 ow, without interfering with
+	each other.
+
+2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uivideo.c, src/attach.c, src/cbm2/cbm2.c,
+	src/imagecontents/diskcontents-block.c, src/initcmdline.c,
+	src/vdrive/vdrive-internal.c: Plugged some memory leaks, courtesy of
+	Mike Battilana.
+
 2011-03-12  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, src/monitor/mon_parse.c, src/monitor/mon_parse.h,
