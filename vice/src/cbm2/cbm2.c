@@ -401,11 +401,8 @@ void machine_specific_shutdown(void)
     tpicore_shutdown(machine_context.tpi2);
 
     /* close the video chip(s) */
-    if (cbm2_isC500) {
-        vicii_shutdown();
-    } else {
-        crtc_shutdown();
-    }
+    vicii_shutdown();
+    crtc_shutdown();
 
     cbm2ui_shutdown();
 }
