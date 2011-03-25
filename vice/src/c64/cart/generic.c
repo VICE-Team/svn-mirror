@@ -41,6 +41,10 @@
 #include "types.h"
 #include "util.h"
 
+#ifdef DINGOO_NATIVE
+#include "lib.h"
+#endif
+
 /*
     the default cartridge works like this:
 
@@ -72,41 +76,42 @@
 #define DBG(x)
 #endif
 
-#ifndef DINGOO_NATIVE
 /* FIXME: these are shared between all "main slot" carts,
           individual cart implementations should get reworked to use local buffers */
+#ifndef DINGOO_NATIVE
 /* Expansion port ROML/ROMH images.  */
 BYTE roml_banks[C64CART_ROM_LIMIT], romh_banks[C64CART_ROM_LIMIT];
+
 /* Expansion port RAM images.  */
 BYTE export_ram0[C64CART_RAM_LIMIT];
+
 #else
 
-BYTE *roml_banks, *romh_banks, *export_ram0;
+/* Expansion port ROML/ROMH images.  */
+BYTE *roml_banks = NULL;
+BYTE *romh_banks = NULL;;
+
+/* Expansion port RAM images.  */
+BYTE *export_ram0 = NULL;
 
 int rombanks_resources_init(void)
 {
-	roml_banks = malloc(C64CART_ROM_LIMIT);
-	romh_banks = malloc(C64CART_ROM_LIMIT);
-	export_ram0 = malloc(C64CART_ROM_LIMIT);
-	if (roml_banks && romh_banks && export_ram0)
-		return 0;
-	else
-		return -1;
+    roml_banks = lib_malloc(C64CART_ROM_LIMIT);
+    romh_banks = lib_malloc(C64CART_ROM_LIMIT);
+    export_ram0 = lib_malloc(C64CART_ROM_LIMIT);
+    if (roml_banks && romh_banks && export_ram0) {
+        return 0;
+    }
+    return -1;
 }
 
 void rombanks_resources_shutdown(void)
 {
-	if (roml_banks)
-		free(roml_banks);
-	if (romh_banks)
-		free(roml_banks);
-	if (export_ram0)
-		free(roml_banks);
+    lib_free(roml_banks);
+    lib_free(romh_banks);
+    lib_free(export_ram0);
 }
-
-
 #endif
-
 
 /* Expansion port ROML/ROMH/RAM banking.  */
 int roml_bank = 0, romh_bank = 0, export_ram = 0;

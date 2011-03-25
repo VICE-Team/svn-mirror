@@ -49,6 +49,7 @@
 
 #ifdef DINGOO_NATIVE
 #include "render1x1_dingoo.h"
+#endif
 
 static void video_render_pal_main(video_render_config_t *config,
                                   BYTE *src, BYTE *trg,
@@ -56,19 +57,9 @@ static void video_render_pal_main(video_render_config_t *config,
                                   int yt, int pitchs, int pitcht, int depth,
                                   viewport_t *viewport)
 {
-	render_16_1x1_04_dingoo(&config->color_tables,
-				src, trg, width, height,
-                                xs, ys, xt, yt, pitchs, pitcht);
-}
-
+#ifdef DINGOO_NATIVE
+    render_16_1x1_04_dingoo(&config->color_tables, src, trg, width, height, xs, ys, xt, yt, pitchs, pitcht);
 #else
-
-static void video_render_pal_main(video_render_config_t *config,
-                                  BYTE *src, BYTE *trg,
-                                  int width, int height, int xs, int ys, int xt,
-                                  int yt, int pitchs, int pitcht, int depth,
-                                  viewport_t *viewport)
-{
     video_render_color_tables_t *colortab;
     int doublescan, delayloop, rendermode, scale2x, video;
 
@@ -233,9 +224,8 @@ static void video_render_pal_main(video_render_config_t *config,
         }
     }
     log_debug("video_render_pal_main unsupported rendermode (%d)\n", rendermode);
-}
-
 #endif
+}
 
 void video_render_pal_init(void)
 {

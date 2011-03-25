@@ -1,3 +1,29 @@
+/*
+ * archdep_dingoo.h
+ *
+ * Written by
+ *  peiselulli <peiselulli@t-online.de>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
 #ifndef VICE_ARCHDEP_DINGOO_H
 #define VICE_ARCHDEP_DINGOO_H
 
@@ -52,21 +78,18 @@
 /* Default sound fragment size */
 #define ARCHDEP_SOUND_FRAGMENT_SIZE 2
 
+#define is_lcd_active() ((REG_LCD_CFG & LCD_CFG_LCDPIN_MASK) >> LCD_CFG_LCDPIN_BIT)
+
 extern const char *archdep_home_path(void);
-
-int own_fprintf(FILE *stream, const char *format, ...);
-
-void set_overclock(int activate);
-
-void set_dingoo_pwd(const char *path);
-#define fprintf own_fprintf
+extern int own_fprintf(FILE *stream, const char *format, ...);
+extern void set_overclock(int activate);
+extern void set_dingoo_pwd(const char *path);
 
 /* set this path to customize the preference storage */ 
 extern const char *archdep_pref_path;
 
 extern char *make_absolute_system_path(const char *s);
 
-#define is_lcd_active() \
-	((REG_LCD_CFG & LCD_CFG_LCDPIN_MASK) >> LCD_CFG_LCDPIN_BIT)
+#define fprintf own_fprintf
 
 #endif

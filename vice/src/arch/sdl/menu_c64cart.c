@@ -619,6 +619,7 @@ static const ui_menu_entry_t georam_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_GEORAMsize_callback,
       (ui_callback_data_t)1024 },
+#ifndef DINGOO_NATIVE
     { "2048kB",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_GEORAMsize_callback,
@@ -627,6 +628,7 @@ static const ui_menu_entry_t georam_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_GEORAMsize_callback,
       (ui_callback_data_t)4096 },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("RAM image"),
     { "Image file",

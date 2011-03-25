@@ -1064,11 +1064,7 @@ int resources_load(const char *fname)
     if (resource_modified_callback != NULL)
         resources_exec_callback_chain(resource_modified_callback, NULL);
 
-#ifdef DINGOO_NATIVE
-    return 0;
-#else
     return err ? RESERR_FILE_INVALID : 0;
-#endif
 }
 
 

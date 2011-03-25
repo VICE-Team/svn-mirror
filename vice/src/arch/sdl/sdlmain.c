@@ -57,9 +57,9 @@ int main(int argc, char **argv)
     argv_local[1] = NULL;
 
     return main_program(argc_local, argv_local);
-
-#endif
+#else
     return main_program(argc, argv);
+#endif
 }
 #endif
 

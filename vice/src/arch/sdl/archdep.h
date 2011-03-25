@@ -97,5 +97,3 @@ extern int archdep_require_vkbd(void);
 #endif
 
 #endif
-
-

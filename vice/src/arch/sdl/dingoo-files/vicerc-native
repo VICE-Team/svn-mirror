@@ -1325,7 +1325,7 @@ Drive10ParallelCable=0
 Drive11ParallelCable=0
 DosName1551="dos1551"
 RomsetDosName1551=0
-DriveTrueEmulation=1+DoodleCRTCTextColor=0
+DriveTrueEmulation=1DoodleCRTCTextColor=0
 DatasetteResetWithCPU=1
 DatasetteZeroGapDelay=20000
 DatasetteSpeedTuning=1

@@ -452,184 +452,184 @@ bin2c: bin2c.c
 	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/bin2c.c -o bin2c
 
 c128basic64.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/basic64 c128basic64.h "static BYTE c128basic64_embedded[C128_BASIC64_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/basic64 c128basic64.h "static BYTE c128basic64_embedded[C128_BASIC64_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128basichi.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/basichi c128basichi.h "static BYTE c128basichi_embedded[C128_BASIC_ROM_IMAGEHI_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/basichi c128basichi.h "static BYTE c128basichi_embedded[C128_BASIC_ROM_IMAGEHI_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128basiclo.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/basiclo c128basiclo.h "static BYTE c128basiclo_embedded[C128_BASIC_ROM_IMAGELO_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/basiclo c128basiclo.h "static BYTE c128basiclo_embedded[C128_BASIC_ROM_IMAGELO_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128chargde.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargde c128chargde.h "static BYTE chargen_de[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargde c128chargde.h "static BYTE chargen_de[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128chargen.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargen c128chargen.h "static BYTE chargen_int[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargen c128chargen.h "static BYTE chargen_int[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128chargfr.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargfr c128chargfr.h "static BYTE chargen_fr[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargfr c128chargfr.h "static BYTE chargen_fr[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128chargse.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargse c128chargse.h "static BYTE chargen_se[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/chargse c128chargse.h "static BYTE chargen_se[C128_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernal.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernal c128kernal.h "static BYTE kernal_int[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernal c128kernal.h "static BYTE kernal_int[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernal64.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernal64 c128kernal64.h "static BYTE c128kernal64_embedded[C128_KERNAL64_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernal64 c128kernal64.h "static BYTE c128kernal64_embedded[C128_KERNAL64_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernalde.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalde c128kernalde.h "static BYTE kernal_de[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalde c128kernalde.h "static BYTE kernal_de[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernalfi.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalfi c128kernalfi.h "static BYTE kernal_fi[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalfi c128kernalfi.h "static BYTE kernal_fi[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernalfr.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalfr c128kernalfr.h "static BYTE kernal_fr[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalfr c128kernalfr.h "static BYTE kernal_fr[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernalit.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalit c128kernalit.h "static BYTE kernal_it[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalit c128kernalit.h "static BYTE kernal_it[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernalno.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalno c128kernalno.h "static BYTE kernal_no[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalno c128kernalno.h "static BYTE kernal_no[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128kernalse.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalse c128kernalse.h "static BYTE kernal_se[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C128/kernalse c128kernalse.h "static BYTE kernal_se[C128_KERNAL_ROM_IMAGE_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c64basic.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/basic c64basic.h "BYTE c64memrom_basic64_rom[C64_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/basic c64basic.h "BYTE c64memrom_basic64_rom[C64_BASIC_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c64kernal.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/kernal c64kernal.h "BYTE c64memrom_kernal64_rom[C64_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/kernal c64kernal.h "BYTE c64memrom_kernal64_rom[C64_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c64chargen.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/chargen c64chargen.h "BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/C64/chargen c64chargen.h "BYTE mem_chargen_rom[C64_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2basic128.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.128 cbm2basic128.h "static BYTE cbm2basic128_embedded[0x4000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.128 cbm2basic128.h "static BYTE cbm2basic128_embedded[0x4000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2basic256.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.256 cbm2basic256.h "static BYTE cbm2basic256_embedded[0x4000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.256 cbm2basic256.h "static BYTE cbm2basic256_embedded[0x4000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2basic500.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.500 cbm2basic500.h "static BYTE cbm2basic500_embedded[0x4000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/basic.500 cbm2basic500.h "static BYTE cbm2basic500_embedded[0x4000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2chargen500.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.500 cbm2chargen500.h "static BYTE cbm2chargen500_embedded[0x1000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.500 cbm2chargen500.h "static BYTE cbm2chargen500_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2chargen600.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.600 cbm2chargen600.h "static BYTE cbm2chargen600_embedded[0x1000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.600 cbm2chargen600.h "static BYTE cbm2chargen600_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2chargen700.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.700 cbm2chargen700.h "static BYTE cbm2chargen700_embedded[0x1000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/chargen.700 cbm2chargen700.h "static BYTE cbm2chargen700_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2kernal.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/kernal cbm2kernal.h "static BYTE cbm2kernal_embedded[0x2000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/kernal cbm2kernal.h "static BYTE cbm2kernal_embedded[0x2000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 cbm2kernal500.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/kernal.500 cbm2kernal500.h "static BYTE cbm2kernal500_embedded[0x2000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/kernal.500 cbm2kernal500.h "static BYTE cbm2kernal500_embedded[0x2000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drived1541II.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1541II drived1541II.h "static BYTE drive_rom1541ii_embedded[DRIVE_ROM1541II_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1541II drived1541II.h "static BYTE drive_rom1541ii_embedded[DRIVE_ROM1541II_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drived1571cr.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1571cr drived1571cr.h "static BYTE drive_rom1571cr[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1571cr drived1571cr.h "static BYTE drive_rom1571cr[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos1001.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1001 drivedos1001.h "static BYTE drive_rom1001[DRIVE_ROM1001_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1001 drivedos1001.h "static BYTE drive_rom1001[DRIVE_ROM1001_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos1541.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1541 drivedos1541.h "static BYTE drive_rom1541_embedded[DRIVE_ROM1541_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1541 drivedos1541.h "static BYTE drive_rom1541_embedded[DRIVE_ROM1541_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos1551.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1551 drivedos1551.h "static BYTE drive_rom1551[DRIVE_ROM1551_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1551 drivedos1551.h "static BYTE drive_rom1551[DRIVE_ROM1551_SIZE]" $(CROSS) $(SHELL)  $(top_srcdir)
 
 drivedos1570.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1570 drivedos1570.h "static BYTE drive_rom1570[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1570 drivedos1570.h "static BYTE drive_rom1570[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos1571.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1571 drivedos1571.h "static BYTE drive_rom1571[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1571 drivedos1571.h "static BYTE drive_rom1571[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos1581.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1581 drivedos1581.h "static BYTE drive_rom1581[DRIVE_ROM1581_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos1581 drivedos1581.h "static BYTE drive_rom1581[DRIVE_ROM1581_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos2031.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2031 drivedos2031.h "static BYTE drive_rom2031[DRIVE_ROM2031_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2031 drivedos2031.h "static BYTE drive_rom2031[DRIVE_ROM2031_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos2040.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2040 drivedos2040.h "static BYTE drive_rom2040[DRIVE_ROM2040_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos2040 drivedos2040.h "static BYTE drive_rom2040[DRIVE_ROM2040_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos3040.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos3040 drivedos3040.h "static BYTE drive_rom3040[DRIVE_ROM3040_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos3040 drivedos3040.h "static BYTE drive_rom3040[DRIVE_ROM3040_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 drivedos4040.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos4040 drivedos4040.h "static BYTE drive_rom4040[DRIVE_ROM4040_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/dos4040 drivedos4040.h "static BYTE drive_rom4040[DRIVE_ROM4040_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petbasic1.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic1 petbasic1.h "BYTE petbasic1_embedded[0x2000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic1 petbasic1.h "BYTE petbasic1_embedded[0x2000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petbasic2.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic2 petbasic2.h "BYTE petbasic2_embedded[0x2000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic2 petbasic2.h "BYTE petbasic2_embedded[0x2000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petbasic4.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic4 petbasic4.h "BYTE petbasic4_embedded[0x3000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/basic4 petbasic4.h "BYTE petbasic4_embedded[0x3000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petchargen.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/chargen petchargen.h "BYTE petchargen_embedded[0x800]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/chargen petchargen.h "BYTE petchargen_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petedit1g.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit1g petedit1g.h "BYTE petedit1g_embedded[0x800]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit1g petedit1g.h "BYTE petedit1g_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petedit2b.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit2b petedit2b.h "BYTE petedit2b_embedded[0x800]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit2b petedit2b.h "BYTE petedit2b_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petedit2g.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit2g petedit2g.h "BYTE petedit2g_embedded[0x800]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit2g petedit2g.h "BYTE petedit2g_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petedit4b40.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4b40 petedit4b40.h "BYTE petedit4b40_embedded[0x800]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4b40 petedit4b40.h "BYTE petedit4b40_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petedit4b80.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4b80 petedit4b80.h "BYTE petedit4b80_embedded[0x800]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4b80 petedit4b80.h "BYTE petedit4b80_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petedit4g40.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4g40 petedit4g40.h "BYTE petedit4g40_embedded[0x800]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/edit4g40 petedit4g40.h "BYTE petedit4g40_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petkernal1.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal1 petkernal1.h "BYTE petkernal1_embedded[0x1000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal1 petkernal1.h "BYTE petkernal1_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petkernal2.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal2 petkernal2.h "BYTE petkernal2_embedded[0x1000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal2 petkernal2.h "BYTE petkernal2_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 petkernal4.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal4 petkernal4.h "BYTE petkernal4_embedded[0x1000]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal4 petkernal4.h "BYTE petkernal4_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 plus43plus1hi.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/3plus1hi plus43plus1hi.h "BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/3plus1hi plus43plus1hi.h "BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 plus43plus1lo.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/3plus1lo plus43plus1lo.h "BYTE extromlo1[PLUS4_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/3plus1lo plus43plus1lo.h "BYTE extromlo1[PLUS4_BASIC_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 plus4basic.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/basic plus4basic.h "BYTE plus4memrom_basic_rom[PLUS4_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/basic plus4basic.h "BYTE plus4memrom_basic_rom[PLUS4_BASIC_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 plus4kernal.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/kernal plus4kernal.h "BYTE plus4memrom_kernal_rom[PLUS4_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/kernal plus4kernal.h "BYTE plus4memrom_kernal_rom[PLUS4_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 printermps803.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/mps803 printermps803.h "static BYTE charset[512][7]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/mps803 printermps803.h "static BYTE charset[512][7]" $(CROSS) $(SHELL) $(top_srcdir)
 
 printernl10cbm.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/nl10-cbm printernl10cbm.h "static BYTE  drv_nl10_rom[NL10_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PRINTER/nl10-cbm printernl10cbm.h "static BYTE  drv_nl10_rom[NL10_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 vic20basic.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/basic vic20basic.h "BYTE vic20memrom_basic_rom[VIC20_BASIC_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/basic vic20basic.h "BYTE vic20memrom_basic_rom[VIC20_BASIC_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 vic20chargen.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/chargen vic20chargen.h "BYTE vic20chargen_embedded[VIC20_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/chargen vic20chargen.h "BYTE vic20chargen_embedded[VIC20_CHARGEN_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 vic20kernal.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/kernal vic20kernal.h "BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/VIC20/kernal vic20kernal.h "BYTE vic20memrom_kernal_rom[VIC20_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)
 
 c128_vdc_comp_vpl.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/palette2c.sh <$(top_srcdir)/data/C128/vdc_comp.vpl c128_vdc_comp_vpl.h "unsigned char c128_vdc_comp_vpl[]"

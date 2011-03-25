@@ -25,6 +25,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vdrive \
+	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a
@@ -181,6 +182,8 @@ EXTRA_DIST = \
 	archdep_beos.h \
 	archdep_cegcc.c \
 	archdep_cegcc.h \
+	archdep_dingoo.c \
+	archdep_dingoo.h \
 	archdep_riscos.c \
 	archdep_riscos.h \
 	archdep_unix.c \
@@ -189,9 +192,11 @@ EXTRA_DIST = \
 	archdep_win32.h \
 	archdep_xbox.c \
 	archdep_xbox.h \
+	archdep_SDL_dingoo_video.c \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_dingoo.sh \
+	make-bindist_dingoo_native.sh \
 	make-bindist_gp2x.sh \
 	make-bindist_qnx6.sh \
 	make-bindist_riscos.sh \

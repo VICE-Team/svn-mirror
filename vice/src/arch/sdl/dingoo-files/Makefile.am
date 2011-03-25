@@ -9,6 +9,7 @@ EXTRA_DIST = \
 	xpet.dge \
 	xplus4.dge \
 	xvic.dge \
+	hotkey-native \
 	sdl-vicerc \
-	sdl-vicerc-cbm5x0
-
+	sdl-vicerc-cbm5x0 \
+	vicerc-native
