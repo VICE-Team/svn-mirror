@@ -57,6 +57,10 @@
 #include "archdep_cegcc.c"
 #endif
 
+#ifdef DINGOO_NATIVE
+#include "archdep_dingoo.c"
+#endif
+
 int archdep_init(int *argc, char **argv)
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0) {

@@ -62,6 +62,11 @@
 #define VICII_SCREEN_PALN_DEBUG_LEFTBORDERWIDTH      0x88 /* 17 cycles */
 #define VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH     0x40 /* 8 cycles */
 
+/*sideborder sizes for small displays (320x240) */
+
+#define VICII_SCREEN_TINY_LEFTBORDERWIDTH            0x08
+#define VICII_SCREEN_TINY_RIGHTBORDERWIDTH           0x08
+
 /* Y display ranges */
 /* Notes:
    - If the last displayed line setting is larger than
@@ -114,6 +119,10 @@ NTSC display ranges:
 #define VICII_PALN_FULL_LAST_DISPLAYED_LINE          0x12c  /* 300 */
 #define VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE        0x00   /* 0 */
 #define VICII_PALN_DEBUG_LAST_DISPLAYED_LINE         0x137  /* 311 */
+
+#define VICII_TINY_FIRST_DISPLAYED_LINE              (0x32-20)
+#define VICII_TINY_LAST_DISPLAYED_LINE               (0x32+220)
+
 
 #define VICII_SCREEN_PAL_NORMAL_WIDTH  (320 + VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH + VICII_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH)
 #define VICII_SCREEN_PAL_NORMAL_HEIGHT (1 + (VICII_PAL_NORMAL_LAST_DISPLAYED_LINE - VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE))

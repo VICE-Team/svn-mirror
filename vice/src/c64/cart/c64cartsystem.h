@@ -134,10 +134,17 @@ extern void cart_port_config_changed_slot1(void);
 extern void cart_romhbank_set_slotmain(unsigned int bank);
 extern void cart_romlbank_set_slotmain(unsigned int bank);
 
+#ifndef DINGOO_NATIVE
 /* FIXME: these are shared between all "main slot" carts,
           individual cart implementations should get reworked to use local buffers */
 extern BYTE roml_banks[], romh_banks[]; /* "Main Slot" ROML/ROMH images.  */
 extern BYTE export_ram0[];
+#else
+extern BYTE *roml_banks, *romh_banks, *export_ram0;
+int rombanks_resources_init(void);
+void rombanks_resources_shutdown(void);
+#endif
+
 extern int roml_bank, romh_bank, export_ram; /* "Main Slot" ROML/ROMH/RAM banking.  */
 
 extern void cart_config_changed_slotmain(BYTE mode_phi1, BYTE mode_phi2, unsigned int wflag);

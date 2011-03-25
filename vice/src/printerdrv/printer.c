@@ -29,7 +29,9 @@
 #include "driver-select.h"
 #include "drv-ascii.h"
 #include "drv-mps803.h"
+#ifndef DINGOO_NATIVE
 #include "drv-nl10.h"
+#endif
 #include "drv-raw.h"
 #include "interface-serial.h"
 #include "interface-userport.h"
@@ -47,7 +49,9 @@ int printer_resources_init(void)
         || output_select_init_resources() < 0
         || drv_ascii_init_resources() < 0
         || drv_mps803_init_resources() < 0
+#ifndef DINGOO_NATIVE
         || drv_nl10_init_resources() < 0
+#endif
         || drv_raw_init_resources() < 0
         || driver_select_init_resources() < 0
         || machine_printer_resources_init() < 0) {
@@ -82,7 +86,9 @@ void printer_init(void)
     output_select_init();
     drv_ascii_init();
     drv_mps803_init();
+#ifndef DINGOO_NATIVE
     drv_nl10_init();
+#endif
     drv_raw_init();
     driver_select_init();
     machine_printer_init();
@@ -92,14 +98,18 @@ void printer_reset(void)
 {
     output_graphics_reset();
     output_text_reset();
+#ifndef DINGOO_NATIVE
     drv_nl10_reset();
+#endif
 }
 
 void printer_shutdown(void)
 {
     output_select_shutdown();
     drv_mps803_shutdown();
+#ifndef DINGOO_NATIVE
     drv_nl10_shutdown();
+#endif
     driver_select_shutdown();
     machine_printer_shutdown();
 }

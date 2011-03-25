@@ -24,6 +24,7 @@
  *
  */
 
+#ifndef DINGOO_NATIVE
 #include "vice.h"
 
 #include <stdio.h>
@@ -2212,3 +2213,4 @@ static int drv_nl10_init_charset(void)
 
   return 0;
 }
+#endif #ifndef DINGOO_NATIVE

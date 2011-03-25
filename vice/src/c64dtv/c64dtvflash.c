@@ -53,8 +53,12 @@ static int flash_log_enabled = 0;
 /* Filenames of C64DTV RAM/ROM */
 static char *c64dtvflash_filename = NULL;
 
+#ifdef DINGOO_NATIVE
+BYTE *c64dtvflash_mem;
+#else
 /* (Flash)ROM array */
 BYTE c64dtvflash_mem[C64_ROM_SIZE];
+#endif
 
 /* (Flash)ROM state */
 enum { 
@@ -347,6 +351,11 @@ static int c64dtvflash_load_rom(void)
 
 void c64dtvflash_init(void)
 {
+#ifdef DINGOO_NATIVE
+  c64dtvflash_mem = malloc(C64_ROM_SIZE);
+  if (!c64dtvflash_mem)
+  	return;
+#endif
   if (c64dtvflash_log == LOG_ERR)
     c64dtvflash_log = log_open("C64DTVFLASH");
 
@@ -367,6 +376,9 @@ void c64dtvflash_shutdown(void)
     }
   }
   if (flash_log_enabled) log_message(c64dtvflash_log, "END shutdown");
+#ifdef DINGOO_NATIVE
+  free(c64dtvflash_mem);
+#endif
   return;
 }
 

@@ -39,7 +39,9 @@
 
 /* Types */
 
+#ifndef bool
 typedef int bool;
+#endif
 
 enum t_reg_id {
    e_A,

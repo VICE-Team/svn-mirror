@@ -158,6 +158,14 @@ bindistzip:
 	$(SHELL) @ARCH_SRC_DIR@/make-bindist_dingoo.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
 endif
 
+if DINGOO_NATIVE_COMPILE
+bindist:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_dingoo_native.sh $(STRIP) $(VICE_VERSION) nozip $(top_srcdir)
+
+bindistzip:
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_dingoo_native.sh $(STRIP) $(VICE_VERSION) zip $(top_srcdir)
+endif
+
 if UNIX_MACOSX_COMPILE
 bindist:
 	/bin/bash @ARCH_SRC_DIR@/../unix/macosx/make-bindist.sh $(top_srcdir) $(STRIP) $(VICE_VERSION) nozip $(X64SC_INCLUDED) @UNIX_MACOSX_UITYPE@

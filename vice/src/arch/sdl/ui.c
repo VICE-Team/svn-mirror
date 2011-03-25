@@ -236,6 +236,9 @@ void ui_sdl_quit(void)
             ui_error("Cannot save current settings.");
         }
     }
+#ifdef DINGOO_NATIVE
+    dingoo_reboot();
+#endif
     exit(0);
 }
 

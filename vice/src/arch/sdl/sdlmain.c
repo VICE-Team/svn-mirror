@@ -48,6 +48,17 @@ void XBoxStartup(void)
 #else
 int main(int argc, char **argv)
 {
+#ifdef DINGOO_NATIVE
+    int argc_local = 1;
+    char *argv_local[2];
+    set_dingoo_pwd(argv[0]);
+
+    argv_local[0] = "vice";
+    argv_local[1] = NULL;
+
+    return main_program(argc_local, argv_local);
+
+#endif
     return main_program(argc, argv);
 }
 #endif

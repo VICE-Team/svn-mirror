@@ -29,6 +29,7 @@ VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI su
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(gp2x,        [  --enable-gp2x           enables GP2X support])
 VICE_ARG_ENABLE_LIST(wiz,         [  --enable-wiz            enables WIZ support])
+VICE_ARG_ENABLE_LIST(dingoo,      [  --enable-dingoo         enables DINGOO support])
 VICE_ARG_ENABLE_LIST(dingux,      [  --enable-dingux         enables Dingoo Linux support])
 VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
@@ -489,6 +490,27 @@ elif test x"$host_os" = "xgp2x" -o x"$host_os" = "xlinux-gp2x" -o x"$host_vendor
     AC_DEFINE(GP2X_SDL,,[Enable SDL GP2X compilation])
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
+elif test x"$enable_dingoo" = "xyes"; then
+  dnl This is used by subsequent tests.
+  ac_cv_prog_gcc=yes
+  GCC=yes
+  is_unix=no
+  is_unix_dingoo=no
+  CFLAGS="-G0 -O3 -I$DINGOO_SDK/include -I$DINGOO_SDK/src/SDL/include -I$DINGOO_SDK/src -I$DINGOO_SDK/src/SDL/src -I../lib"
+  CFLAGS="$CFLAGS -I$MIPSTOOLS/mipsel-linux-include -I$ -msplit-addresses -mips32"
+  CFLAGS="$CFLAGS -mno-abicalls -fno-pic -finline-functions -fomit-frame-pointer"
+  CFLAGS="$CFLAGS -msoft-float -fno-exceptions -D_DEBUG -DMPU_JZ4740"
+  CFLAGS="$CFLAGS -fcommon -falign-loops -falign-jumps -falign-labels"
+  CFLAGS="$CFLAGS -fdelayed-branch -DDINGOO_NATIVE"
+  AC_DEFINE(USE_EMBEDDED,,[Use embedded data files.])
+  AM_CONDITIONAL(EMBEDDED, true)
+  AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
+  AC_DEFINE(DINGOO,,[Enable DINGOO compilation])
+  with_png="no"
+  dynlib_support="no"
+  with_resid=no
+  enable_sdlui=yes
+  enable_embedded=yes
 elif test x"$host_os" = "xwiz" -o x"$host_os" = "xlinux-wiz" -o x"$host_vendor" = "xwiz" -o x"$enable_wiz" = "xyes"; then
 
   dnl This is used by subsequent tests.
@@ -1629,6 +1651,12 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
         AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
         AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
+    elif test x"$enable_dingoo" = "xyes"; then
+        LIBS="-Wl,-z,muldefs -static -nodefaultlibs -nostdlib -T $DINGOO_SDK/lib/dingoo.xn -L$DINGOO_SDK/lib -lm -lSDL -lfgl -lsml -lc -ljz4740 -lgcc"
+        SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
+        AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
+        AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
+        AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
     elif test x"$is_unix_macosx" = "xyes"; then
         LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL"
         CFLAGS="$CFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
@@ -2713,7 +2741,7 @@ else
 fi
 
 dnl disable building of x64sc for gp2x, wiz, dingoo and disabled resid configurations
-if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" = "xno"; then
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$enable-dingoo" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" = "xno"; then
   AM_CONDITIONAL(SUPPORT_X64SC, false)
 else
   dnl also disable building of x64sc for native riscos
@@ -2743,7 +2771,42 @@ fi
 
 SDL_EXTRA_LIBS=""
 
-if test x"$is_unix" = "xyes"; then
+  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
+
+if test x"$enable_dingoo" = "xyes" ; then
+  AC_SUBST(EMBEDDED)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, true)
+  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, false)
+  AC_DEFINE(HAVE_ATEXIT,,[Dingoo has atexit])
+  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
+  AM_CONDITIONAL(UNIX_COMPILE, true)
+  AM_CONDITIONAL(WIN32_COMPILE, false)
+  AM_CONDITIONAL(MSDOS_COMPILE, false)
+  AM_CONDITIONAL(RISCOS_COMPILE, false)
+  AM_CONDITIONAL(OS2_COMPILE, false)
+  AM_CONDITIONAL(BEOS_COMPILE, false)
+  AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
+  AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
+  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
+  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
+  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
+  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
+  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
+  AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
+  AM_CONDITIONAL(SYLLABLE_COMPILE, false)
+  AM_CONDITIONAL(HAVE_TRANSLATION, false)
+  AM_CONDITIONAL(MAKE_BINDIST, true)
+  AM_CONDITIONAL(SUPPORT_X64DTV, true)
+
+elif test x"$is_unix" = "xyes"; then
 
   if test x"$enable_sdlui" != "xyes"; then
     ARCH_DIR="\$(top_builddir)/src/arch/unix"
@@ -2813,6 +2876,7 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(HAVE_TRANSLATION, false)
   openserver5compile=no
   openserver6compile=no
@@ -2972,6 +3036,7 @@ if test x"$is_unix" = "xyes"; then
   if test x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" != "xyes" -a x"$is_unix_dingux" != "xyes" -a x"$is_unix_macosx" != "xyes"; then
     AM_CONDITIONAL(MAKE_BINDIST, false)
   fi
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
 
 elif test x"$is_win32" = "xyes"; then
   if test x"$enable_sdlui" != "xyes"; then
@@ -3006,9 +3071,11 @@ elif test x"$is_win32" = "xyes"; then
 
   AM_CONDITIONAL(WIN32_COMPILE, true)
   AM_CONDITIONAL(UNIX_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
@@ -3040,6 +3107,7 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
@@ -3074,6 +3142,7 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
@@ -3104,6 +3173,7 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
@@ -3136,6 +3206,7 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
@@ -3168,6 +3239,7 @@ elif test x"$is_riscos" = "xyes"; then
   AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
   AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
   AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
+  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
   AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
   AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)

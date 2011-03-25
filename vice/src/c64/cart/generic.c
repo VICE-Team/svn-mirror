@@ -72,12 +72,42 @@
 #define DBG(x)
 #endif
 
+#ifndef DINGOO_NATIVE
 /* FIXME: these are shared between all "main slot" carts,
           individual cart implementations should get reworked to use local buffers */
 /* Expansion port ROML/ROMH images.  */
 BYTE roml_banks[C64CART_ROM_LIMIT], romh_banks[C64CART_ROM_LIMIT];
 /* Expansion port RAM images.  */
 BYTE export_ram0[C64CART_RAM_LIMIT];
+#else
+
+BYTE *roml_banks, *romh_banks, *export_ram0;
+
+int rombanks_resources_init(void)
+{
+	roml_banks = malloc(C64CART_ROM_LIMIT);
+	romh_banks = malloc(C64CART_ROM_LIMIT);
+	export_ram0 = malloc(C64CART_ROM_LIMIT);
+	if (roml_banks && romh_banks && export_ram0)
+		return 0;
+	else
+		return -1;
+}
+
+void rombanks_resources_shutdown(void)
+{
+	if (roml_banks)
+		free(roml_banks);
+	if (romh_banks)
+		free(roml_banks);
+	if (export_ram0)
+		free(roml_banks);
+}
+
+
+#endif
+
+
 /* Expansion port ROML/ROMH/RAM banking.  */
 int roml_bank = 0, romh_bank = 0, export_ram = 0;
 

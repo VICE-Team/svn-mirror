@@ -111,6 +111,20 @@ static int set_warp_mode(int val, void *param)
     return 0;
 }
 
+#ifdef DINGOO_NATIVE
+
+
+static int overclock_mode_enabled = 1;
+
+static int set_overclock_mode(int val, void *param)
+{
+    overclock_mode_enabled = val;
+    set_overclock(val);
+    return 0;
+}
+
+#endif
+
 /* Vsync-related resources. */
 static const resource_int_t resources_int[] = {
     { "Speed", 100, RES_EVENT_SAME, NULL,
@@ -120,6 +134,11 @@ static const resource_int_t resources_int[] = {
     { "WarpMode", 0, RES_EVENT_STRICT, (resource_value_t)0,
       /* FIXME: maybe RES_EVENT_NO */
       &warp_mode_enabled, set_warp_mode, NULL },
+#ifdef DINGOO_NATIVE
+    { "OverClock", 0, RES_EVENT_STRICT, (resource_value_t)1,
+      /* FIXME: maybe RES_EVENT_NO */
+      &overclock_mode_enabled, set_overclock_mode, NULL },
+#endif
     { NULL }
 };
 

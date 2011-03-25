@@ -42,7 +42,7 @@
 #define NL10_ROM_SIZE      0x8000
 
 #include "drivedos1541.h"
-#include "drived1541ii.h"
+#include "drived1541II.h"
 
 static embedded_t commonfiles[] = {
   { "mps803", 512 * 7, 512 * 7, 512 * 7, NULL },

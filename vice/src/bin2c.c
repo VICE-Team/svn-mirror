@@ -25,6 +25,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void generate_c_file(char *in_filename, char *out_filename, char *array)
 {

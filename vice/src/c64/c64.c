@@ -164,6 +164,9 @@ static machine_timing_t machine_timing;
 int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
+#ifdef DINGOO_NATIVE
+        || rombanks_resources_init() < 0
+#endif
         || vsync_resources_init() < 0
         || machine_video_resources_init() < 0
         || c64_resources_init() < 0
@@ -211,6 +214,9 @@ void machine_resources_shutdown(void)
     printer_resources_shutdown();
     drive_resources_shutdown();
     cartridge_resources_shutdown();
+#ifdef DINGOO_NATIVE
+    rombanks_resources_shutdown();
+#endif
 }
 
 /* C64-specific command-line option initialization.  */

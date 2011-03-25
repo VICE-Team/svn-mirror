@@ -41,6 +41,10 @@
 # include <config.h> /* Automagically created by the `configure' script.  */
 #endif
 
+#ifdef DINGOO_NATIVE
+/* usz */
+#define TRACE trace(__LINE__, __FILE__)
+#endif
 /* ------------------------------------------------------------------------- */
 
 /* Portability... */

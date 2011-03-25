@@ -92,4 +92,10 @@ extern int archdep_require_vkbd(void);
 #include "archdep_cegcc.h"
 #endif
 
+#ifdef DINGOO_NATIVE
+#include "archdep_dingoo.h"
 #endif
+
+#endif
+
+

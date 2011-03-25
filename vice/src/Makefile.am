@@ -354,7 +354,7 @@ EMBEDDED_H_FILES = \
 	cbm2chargen700.h \
 	cbm2kernal.h \
 	cbm2kernal500.h \
-	drived1541ii.h \
+	drived1541II.h \
 	drived1571cr.h \
 	drivedos1001.h \
 	drivedos1541.h \
@@ -529,8 +529,8 @@ cbm2kernal.h: $(EMBEDDED_DEPENDS)
 cbm2kernal500.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/CBM-II/kernal.500 cbm2kernal500.h "static BYTE cbm2kernal500_embedded[0x2000]" $(CROSS) $(SHELL)
 
-drived1541ii.h: $(EMBEDDED_DEPENDS)
-	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1541ii drived1541ii.h "static BYTE drive_rom1541ii_embedded[DRIVE_ROM1541II_SIZE]" $(CROSS) $(SHELL)
+drived1541II.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1541II drived1541II.h "static BYTE drive_rom1541ii_embedded[DRIVE_ROM1541II_SIZE]" $(CROSS) $(SHELL)
 
 drived1571cr.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/DRIVES/d1571cr drived1571cr.h "static BYTE drive_rom1571cr[DRIVE_ROM1571_SIZE]" $(CROSS) $(SHELL)
@@ -759,6 +759,16 @@ x64sc_owbin =
 x64sc_bin =
 endif
 
+if SUPPORT_CMDLINE_TOOLS
+c1541 = c1541
+petcat = petcat
+cartconv = cartconv
+else
+c1541 =
+petcat =
+cartconv =
+endif
+
 # workaround for extra exe creation
 x128ow_SOURCES = maincpu.c
 x64ow_SOURCES = maincpu.c
@@ -775,7 +785,7 @@ else
 OW_progs =
 endif
 
-bin_PROGRAMS = x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 c1541 petcat cartconv $(OW_progs)
+bin_PROGRAMS = x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 $(c1541) $(petcat) $(cartconv) $(OW_progs)
 
 EXTRA_PROGRAMS =
 

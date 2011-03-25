@@ -52,8 +52,13 @@ void ted_timing_set(machine_timing_t *machine_timing)
     switch (mode) {
       case MACHINE_SYNC_NTSC:
         ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
+#ifdef DINGOO_NATIVE
+        ted.first_displayed_line = TED_TINY_FIRST_DISPLAYED_LINE;
+        ted.last_displayed_line = TED_TINY_LAST_DISPLAYED_LINE;
+#else
         ted.first_displayed_line = TED_NTSC_FIRST_DISPLAYED_LINE;
         ted.last_displayed_line = TED_NTSC_LAST_DISPLAYED_LINE;
+#endif
         ted.row_25_start_line = TED_NTSC_25ROW_START_LINE;
         ted.row_25_stop_line = TED_NTSC_25ROW_STOP_LINE;
         ted.row_24_start_line = TED_NTSC_24ROW_START_LINE;
@@ -70,8 +75,13 @@ void ted_timing_set(machine_timing_t *machine_timing)
       case MACHINE_SYNC_PAL:
       default:
         ted.screen_height = TED_PAL_SCREEN_HEIGHT;
+#ifdef DINGOO_NATIVE
+        ted.first_displayed_line = TED_TINY_FIRST_DISPLAYED_LINE;
+        ted.last_displayed_line = TED_TINY_LAST_DISPLAYED_LINE;
+#else
         ted.first_displayed_line = TED_PAL_FIRST_DISPLAYED_LINE;
         ted.last_displayed_line = TED_PAL_LAST_DISPLAYED_LINE;
+#endif
         ted.row_25_start_line = TED_PAL_25ROW_START_LINE;
         ted.row_25_stop_line = TED_PAL_25ROW_STOP_LINE;
         ted.row_24_start_line = TED_PAL_24ROW_START_LINE;
