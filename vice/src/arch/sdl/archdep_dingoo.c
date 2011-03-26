@@ -85,8 +85,6 @@
 #define CONTROL_BUTTON_SELECT 0x00000400
 #define CONTROL_BUTTON_START 0x00000800
 
-#include "archdep_SDL_dingoo_video.c"
-
 static char _path[1024];
 static char _app_path[1024];
 static char *_program_name;
@@ -248,11 +246,6 @@ FILE *fdopen(int fd, const char *mode)
     return (FILE *)tempFile;
 }
 
-int putchar(int c)
-{
-    fputc(c, stdout);
-}
-
 void rewind(FILE *f)
 {
     fseek(f, 0, SEEK_SET);
@@ -285,11 +278,6 @@ int own_fprintf(FILE *stream, const char *format, ...)
 
 void setbuf(FILE *stream, char *buf)
 {
-}
-
-int isatty(int fd)
-{
-	return 0;
 }
 
 int archdep_require_vkbd(void)
@@ -485,31 +473,6 @@ int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
     return -1;
 }
 
-int puts(const char *s)
-{
-    return fputs(s, stdout);
-}
-
-int ungetc(int c, FILE *f)
-{
-    int pos;
-    int ret;
-
-    pos = ftell(f);
-    if (pos > 0) {
-        ret = fseek(f, pos - 1, SEEK_SET);
-    } else {
-        ret = -1;
-    }
-    return ret;
-}
-
-int unlink(const char *pathname)
-{
-    remove(pathname);
-    return 0;
-}
-
 int access(const char *pathname, int mode)
 {
     return 0;
@@ -537,145 +500,6 @@ int chdir(const char* path)
         strcat(_path, path);
     }
     return 0;
-}
-
-int rename(const char *oldpath, const char *newpath)
-{
-    FILE *f_old;
-    FILE *f_new;
-    char buffer[4096];
-    int size;
-
-    if (strcmp(oldpath, newpath) == 0) {
-        return 0;
-    }
-    f_old = fopen(oldpath, "rb");
-    if (!f_old) {
-        return -1;
-    }
-    f_new = fopen(newpath, "wb");
-    if (!f_new) {
-        fclose(f_old);
-        return -1;
-    }
-    while(!feof(f_old)) {
-        size = fread(buffer, 1, sizeof(buffer), f_old);
-        fwrite(buffer, 1, size, f_new);
-    }
-    fclose(f_old);
-    fclose(f_new);
-    return unlink(oldpath);
-}
-
-static unsigned long strtoxl(const char *nptr, const char **endptr, int ibase, int flags)
-{
-    const char *p;
-    char c;
-    unsigned long number;
-    unsigned digval;
-    unsigned long maxval;
-
-    p = nptr;
-    number = 0;
-
-    c = *p++;
-    while (isspace((int)(unsigned char)c)) {
-        c = *p++;
-    }
-
-    if (c == '-') {
-        flags |= FL_NEG;
-        c = *p++;
-    } else if (c == '+') {
-        c = *p++;
-    }
-
-    if (ibase < 0 || ibase == 1 || ibase > 36) {
-        if (endptr) {
-            *endptr = nptr;
-        }
-        return 0L;
-    } else if (ibase == 0) {
-        if (c != '0') {
-            ibase = 10;
-        } else if (*p == 'x' || *p == 'X') {
-            ibase = 16;
-        } else {
-            ibase = 8;
-        }
-    }
-
-    if (ibase == 16) {
-        if (c == '0' && (*p == 'x' || *p == 'X')) {
-            ++p;
-            c = *p++;
-        }
-    }
-
-    maxval = ULONG_MAX / ibase;
-
-    for (;;) {
-        if (isdigit((int)(unsigned char)c)) {
-            digval = c - '0';
-        } else if (isalpha((int)(unsigned char)c)) {
-            digval = toupper(c) - 'A' + 10;
-        } else {
-            break;
-        }
-
-        if (digval >= (unsigned)ibase) {
-            break;
-        }
-
-        flags |= FL_READDIGIT;
-
-        if (number < maxval || (number == maxval && (unsigned long)digval <= ULONG_MAX % ibase)) {
-            number = number * ibase + digval;
-        } else {
-            flags |= FL_OVERFLOW;
-        }
-
-        c = *p++;
-    }
-
-    --p;
-
-    if (!(flags & FL_READDIGIT)) {
-        if (endptr) {
-            p = nptr;
-        }
-        number = 0L;
-    } else if ((flags & FL_OVERFLOW) || (!(flags & FL_UNSIGNED) && (((flags & FL_NEG) && (number > -LONG_MAX)) || (!(flags & FL_NEG) && (number > LONG_MAX))))) {
-        errno = ERANGE;
-
-        if (flags & FL_UNSIGNED) {
-            number = ULONG_MAX;
-        } else if (flags & FL_NEG) {
-            number = (unsigned long)(-LONG_MAX);
-        } else {
-            number = LONG_MAX;
-        }
-    }
-
-    if (endptr != NULL) {
-        *endptr = p;
-    }
-
-    if (flags & FL_NEG) {
-        number = (unsigned long)(-(long)number);
-    }
-
-    return number;
-}
-
-long strtol(const char *nptr, char **endptr, int ibase)
-{
-    return (long)strtoxl(nptr, (const char **)endptr, ibase, 0);
-}
-
-unsigned long strtoul(const char *nptr, char **endptr, int ibase)
-{
-    return strtoxl(nptr, (const char **)endptr, ibase, FL_UNSIGNED);
 }
 
 void set_dingoo_pwd(const char *path)
