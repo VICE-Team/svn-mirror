@@ -192,7 +192,6 @@ EXTRA_DIST = \
 	archdep_win32.h \
 	archdep_xbox.c \
 	archdep_xbox.h \
-	archdep_SDL_dingoo_video.c \
 	make-bindist_amiga.sh \
 	make-bindist_beos.sh \
 	make-bindist_dingoo.sh \
