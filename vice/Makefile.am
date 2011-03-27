@@ -38,7 +38,9 @@ PO_EXTRA_DIST = po/ChangeLog \
 	po/nl.po \
 	po/pl.po \
 	po/po2tbl.sed \
-	po/sv.po
+	po/ru.po \
+	po/sv.po \
+	po/tr.po
 
 if PO_SUBDIR_USED
 

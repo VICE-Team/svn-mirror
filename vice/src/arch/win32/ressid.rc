@@ -268,6 +268,35 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_THIS_MACHINE_NO_SID "This machine may not have a SID"
+  IDS_GENERAL             "General"
+  IDS_SID_SETTINGS        "SID settings"
+  IDS_FAST                "Fast"
+  IDS_INTERPOLATING       "Interpolating"
+  IDS_RESAMPLING          "Resampling"
+  IDS_FAST_RESAMPLING     "Fast resampling"
+  IDS_SID_GENGROUP3       "SID Stereo"
+  IDS_SID_STEREO_AT       "Stereo SID at"
+  IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
+  IDS_SID_RESID_SAMPLE    "Sample method"
+  IDS_SID_RESID_PASSBAND  "Passband (0-90%)"
+  IDS_HARDSID_GROUP       "Device selection"
+  IDS_HARDSID_LEFT_LABEL  "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL "Right device"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

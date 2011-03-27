@@ -192,6 +192,28 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MMC64_ENABLE           "&Enable MMC64"
+  IDS_MMC64_REVISION_LABEL   "BIOS Revision"
+  IDS_MMC64_FLASHJUMPER      "Enable BIOS &Flash Jumper"
+  IDS_MMC64_BIOS_SAVE        "&Save BIOS when changed"
+  IDS_MMC64_BIOS_FILE_LABEL  "&BIOS File"
+  IDS_MMC64_IMAGE_RO         "MMC/SD Image read-only"
+  IDS_MMC64_IMAGE_FILE_LABEL "MMC/SD &Image File"
+  IDS_MMC64_SDTYPE_LABEL     "Card type"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

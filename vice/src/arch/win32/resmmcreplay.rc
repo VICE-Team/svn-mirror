@@ -179,6 +179,27 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MMCREPLAY_CAPTION             "MMC Replay settings"
+  IDS_MMCREPLAY_CARDIMAGE_LABEL     "Card Image"
+  IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM Image"
+  IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
+  IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
+  IDS_MMCREPLAY_READ_WRITE          "read/write"
+  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

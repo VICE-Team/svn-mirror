@@ -876,6 +876,48 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_INPUT_OUTPUT               "Input/Output"
+  IDS_PET_SETTINGS               "PET settings"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
+  IDS_PET_MEMORY                 "M&emory"
+  IDS_PET_VIDEO                  "&Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_40        "&40 Columns"
+  IDS_SELECT_PET_VIDEO_80        "&80 Columns"
+  IDS_PET_IO_SIZE                "&IO Size"
+  IDS_SELECT_PET_IO256           "2&56 Byte"
+  IDS_SELECT_PET_IO2K            "&2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip &enable"
+  IDS_PET_KEYBOARD               "&Keyboard"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphics"
+  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
+  IDS_PET_IO_SETTINGS            "&IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &enable (disables 8x96)"
+  IDS_PET_RAM_SETTINGS           "&RAM Settings"
+  IDS_TOGGLE_PET_8296_RAM9       "$&9*** as RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
+  IDS_MI_PET_SETTINGS            "P&ET settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

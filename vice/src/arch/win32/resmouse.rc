@@ -123,6 +123,22 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MOUSE_TYPE_LABEL "Mouse type"
+  IDS_MOUSE_PORT_LABEL "Mouse port"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

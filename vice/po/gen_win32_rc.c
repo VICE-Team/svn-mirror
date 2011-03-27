@@ -65,6 +65,7 @@ static rc_file_table_t files[] = {
     { "../src/arch/win32/temp_it.rc", NULL, "// ITALIAN text", "LANG_ITALIAN", "SUBLANG_NEUTRAL", NULL },
     { "../src/arch/win32/temp_nl.rc", NULL, "// DUTCH text", "LANG_DUTCH", "SUBLANG_NEUTRAL", NULL },
     { "../src/arch/win32/temp_pl.rc", NULL, "// POLISH text", "LANG_POLISH", "SUBLANG_NEUTRAL", "28592" },
+    { "../src/arch/win32/temp_ru.rc", NULL, "// RUSSIAN text", "LANG_RUSSIAN", "SUBLANG_NEUTRAL", "28595" },
     { "../src/arch/win32/temp_sv.rc", NULL, "// SWEDISH text", "LANG_SWEDISH", "SUBLANG_NEUTRAL", NULL },
     { "../src/arch/win32/temp_tr.rc", NULL, "// TURKISH text", "LANG_TURKISH", "SUBLANG_NEUTRAL", "28599" },
     { NULL, NULL, NULL, NULL, NULL, NULL }
@@ -308,13 +309,20 @@ int main(int argc, char *argv[])
                             }
                             break;
                         case 8:
+                            if (strlen(text[id].msgstr_ru) != 0) {
+                                write_converted_text(text[id].msgstr_ru, files[i].filehandle);
+                            } else {
+                                write_converted_text(text_string, files[i].filehandle);
+                            }
+                            break;
+                        case 9:
                             if (strlen(text[id].msgstr_sv) != 0) {
                                 write_converted_text(text[id].msgstr_sv, files[i].filehandle);
                             } else {
                                 write_converted_text(text_string, files[i].filehandle);
                             }
                             break;
-                        case 9:
+                        case 10:
                             if (strlen(text[id].msgstr_tr) != 0) {
                                 write_converted_text(text[id].msgstr_tr, files[i].filehandle);
                             } else {

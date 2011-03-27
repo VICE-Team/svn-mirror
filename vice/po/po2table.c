@@ -63,6 +63,7 @@ static file_table_t files[] = {
     { "it.po", NULL, 0, 0 },
     { "nl.po", NULL, 0, 0 },
     { "pl.po", NULL, 0, 0 },
+    { "ru.po", NULL, 0, 0 },
     { "sv_iso.po", NULL, 0, 0 },
     { "tr.po", NULL, 0, 0 },
     { NULL, NULL, 0, 0 }
@@ -182,6 +183,7 @@ int main(int argc, char *argv[])
     fprintf(outfile, "    char *msgstr_it;\n");
     fprintf(outfile, "    char *msgstr_nl;\n");
     fprintf(outfile, "    char *msgstr_pl;\n");
+    fprintf(outfile, "    char *msgstr_ru;\n");
     fprintf(outfile, "    char *msgstr_sv;\n");
     fprintf(outfile, "    char *msgstr_tr;\n");
     fprintf(outfile, "} lang_table_t;\n\n");

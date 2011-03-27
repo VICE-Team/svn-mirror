@@ -163,6 +163,26 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SELECT_FILE_GEORAM  "Select file for GEO-RAM"
+  IDS_GEORAM_CAPTION      "GEO-RAM settings"
+  IDS_GEORAM_ENABLE       "&Enable GEO-RAM"
+  IDS_GEORAM_SIZE_LABEL   "GEO-RAM size"
+  IDS_GEORAM_WRITE_ENABLE "&Save GEO-RAM image when changed"
+  IDS_GEORAM_FILE_LABEL   "GEO-RAM file"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

@@ -47,6 +47,7 @@ do
            echo "/* it */  "$data"_IT,"
            echo "/* nl */  "$data"_NL,"
            echo "/* pl */  "$data"_PL,"
+           echo "/* ru */  "$data"_RU,"
            echo "/* sv */  "$data"_SV,"
            echo "/* tr */  "$data"_TR},"
            echo ""

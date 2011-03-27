@@ -173,6 +173,27 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_RAMCART_CAPTION      "RamCart Settings"
+  IDS_RAMCART_ENABLE       "&Enable RamCart"
+  IDS_RAMCART_READONLY     "&Read Only"
+  IDS_RAMCART_SIZE         "RamCart size"
+  IDS_RAMCART_WRITE_ENABLE "&Save to RamCart image when changed"
+  IDS_RAMCART_FILE         "RamCart file"
+  IDS_RAMCART_SELECT_FILE  "Select file for RamCart"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

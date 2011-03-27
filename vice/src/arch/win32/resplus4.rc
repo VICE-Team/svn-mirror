@@ -729,6 +729,44 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_ATTACH_FUNCTION_LOW_CART    "Attach cartridge image for Function Low"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Attach cartridge image for Function High"
+  IDS_ATTACH_CART1_LOW            "Attach cartridge image for Cartridge1 Low"
+  IDS_ATTACH_CART1_HIGH           "Attach cartridge image for Cartridge1 High"
+  IDS_ATTACH_CART2_LOW            "Attach cartridge image for Cartridge2 Low"
+  IDS_ATTACH_CART2_HIGH           "Attach cartridge image for Cartridge2 High"
+  IDS_3_PLUS_1_LO                 "3+1 Lo"
+  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
+  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
+  IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
+  IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
+  IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
+  IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
+  IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
+  IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

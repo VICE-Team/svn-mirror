@@ -132,6 +132,24 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
+  IDS_MAGICVOICE_ENABLE      "&Enable Magic Voice"
+  IDS_MAGICVOICE_FILE        "Magic Voice file"
+  IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

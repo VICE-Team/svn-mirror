@@ -144,6 +144,25 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PLUS60K_CAPTION     "PLUS60K Settings"
+  IDS_PLUS60K_ENABLE      "&Enable PLUS60K"
+  IDS_PLUS60K_BASE        "PLUS60K base address"
+  IDS_PLUS60K_FILE        "PLUS60K file"
+  IDS_PLUS60K_SELECT_FILE "Select file for PLUS60K"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

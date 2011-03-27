@@ -185,6 +185,29 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VICII_CAPTION       "VIC-II settings"
+    IDS_VICII_BORDERSGROUP  "Borders"
+    IDS_VICII_NORMALBORDERS "&Normal"
+    IDS_VICII_FULLBORDERS   "&Full"
+    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_SPRITEGROUP   "Sprite Collisions"
+    IDS_VICII_SPRITECOLL    "Sprite-&sprite collisions"
+    IDS_VICII_BACKCOLL      "Sprite-background &collisions"
+    IDS_VICII_LUMINANCE     "New &Luminances"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

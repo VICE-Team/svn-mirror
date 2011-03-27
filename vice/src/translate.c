@@ -83,6 +83,9 @@ static char *language_table[] = {
 /* polish */
   "pl",
 
+/* russian */
+  "ru",
+
 /* swedish */
   "sv",
 
@@ -120,6 +123,9 @@ static int language_cp_table[] = {
 
 /* polish */
   28592,	/* ISO 8859-2 */
+
+/* polish */
+  28595,	/* ISO 8859-5 */
 
 /* swedish */
   28591,	/* ISO 8859-1 */

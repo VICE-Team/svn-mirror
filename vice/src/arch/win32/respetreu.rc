@@ -153,6 +153,25 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_PETREU_CAPTION     "PET REU Settings"
+    IDS_PETREU_ENABLE      "&Enable PET REU"
+    IDS_PETREU_SIZE        "PET REU size"
+    IDS_PETREU_FILE        "PET REU file"
+    IDS_PETREU_SELECT_FILE "Select file for PET REU"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

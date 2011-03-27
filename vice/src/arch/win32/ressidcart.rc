@@ -210,6 +210,26 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
+  IDS_SIDCART_CLOCK_LABEL                    "SID clock"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
+  IDS_DIGIBLASTER                            "Enable digiblaster add-on"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE

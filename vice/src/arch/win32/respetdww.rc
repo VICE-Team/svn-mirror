@@ -132,6 +132,24 @@ END
 #endif
 
 
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "PET DWW Settings"
+  IDS_PETDWW_ENABLE      "&Enable PET DWW"
+  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // SWEDISH text
 
 STRINGTABLE
