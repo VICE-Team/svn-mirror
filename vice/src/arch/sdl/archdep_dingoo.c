@@ -171,16 +171,6 @@ static int files_amount = 0;
 
 char _app_name[] = "vice";
 
-typedef enum {
-    _file_type_file,
-    _file_type_mem
-} _file_type_e;
-
-typedef struct {
-    _file_type_e type;
-    void*        data;
-} _file_t;
-
 char *getwd(char *buf)
 {
     errno = 0;
@@ -224,60 +214,6 @@ void set_overclock(int activate)
 void archdep_shutdown_extra(void)
 {
     set_overclock(0);
-}
-
-void clearerr(FILE *stream)
-{
-}
-
-int fflush(FILE *stream)
-{
-    return 1;
-}
-
-FILE *fdopen(int fd, const char *mode)
-{
-    _file_t* tempFile = lib_malloc(sizeof(_file_t));
-    if (tempFile == NULL) {
-        return NULL;
-    }
-    tempFile->type = _file_type_file;
-    tempFile->data = (void *)fd;
-    return (FILE *)tempFile;
-}
-
-void rewind(FILE *f)
-{
-    fseek(f, 0, SEEK_SET);
-}
-
-int fileno(FILE *f)
-{
-    _file_t *tempfile;
-    tempfile = (_file_t *)f;
-    return (int)(tempfile->data);
-}
-
-int vfprintf(FILE *stream, const char *format, va_list ap)
-{
-    char buf[4096];
-    int size;
-
-    size = vsnprintf(buf, sizeof(buf), format, ap);
-    return fwrite(buf, size, 1, stream);
-}
-
-int own_fprintf(FILE *stream, const char *format, ...)
-{
-    va_list list;
-
-    va_start(list, format);
-    vfprintf(stream, format, list);
-    va_end(list);
-}
-
-void setbuf(FILE *stream, char *buf)
-{
 }
 
 int archdep_require_vkbd(void)
@@ -410,11 +346,6 @@ char *archdep_tmpnam(void)
     return s;
 }
 
-int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
-{
-    return -1;
-}
-
 char *archdep_default_autostart_disk_image_file_name(void)
 {
     return util_concat("autostart-", machine_get_name(), ".d64", NULL);
@@ -423,31 +354,6 @@ char *archdep_default_autostart_disk_image_file_name(void)
 char *archdep_default_sysfile_pathlist(const char *emu_id)
 {
     return lib_stralloc(_app_path);
-}
-
-int archdep_file_is_blockdev(const char *filename)
-{
-    return 0;
-}
-
-int archdep_file_is_chardev(const char *filename)
-{
-    return 0;
-}
-
-int archdep_num_text_lines(void)
-{
-    return 40;
-}
-
-int archdep_num_text_columns(void)
-{
-    return 30;
-}
-
-int archdep_mkdir(const char *pathname, int mode)
-{
-    return -1;
 }
 
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
