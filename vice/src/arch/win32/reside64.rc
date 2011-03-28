@@ -206,6 +206,33 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_IDE64_CAPTION      "IDE64 settings"
+    IDS_IDE64_V4           "Enable IDE64 V4"
+    IDS_IDE64_IMAGE_1      "&HD image #1 file"
+    IDS_IDE64_IMAGE_2      "&HD image #2 file"
+    IDS_IDE64_IMAGE_3      "&HD image #3 file"
+    IDS_IDE64_IMAGE_4      "&HD image #4 file"
+    IDS_IDE64_GEOMETRY     "&Geometry"
+    IDS_IDE64_AUTODETECT   "&Autodetect"
+    IDS_IDE64_CYLINDERS    "Cylinders"
+    IDS_IDE64_HEADS        "Heads"
+    IDS_IDE64_SECTORS      "Sectors"
+    IDS_IDE64_TOTAL_SIZE   "Total size: %iKB"
+    IDS_IDE64_SELECT_IMAGE "Select HD image file"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

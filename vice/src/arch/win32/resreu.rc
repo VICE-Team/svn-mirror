@@ -129,6 +129,26 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_REU_CAPTION      "REU Settings"
+  IDS_REU_ENABLE       "&Enable REU"
+  IDS_REU_SIZE         "REU size"
+  IDS_REU_WRITE_ENABLE "&Save REU image when changed"
+  IDS_REU_FILE         "REU file"
+  IDS_REU_SELECT_FILE  "Select file for REU"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

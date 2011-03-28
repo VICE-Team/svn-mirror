@@ -883,6 +883,13 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
                 ui_menu_destroy(canvas);
             }
             break;
+        case IDM_LANGUAGE_KOREAN:
+            resources_get_value("Language", (void *)&curlang);
+            if (strcasecmp(curlang, "ko")) {
+                resources_set_value("Language", (resource_value_t *)"ko");
+                ui_menu_destroy(canvas);
+            }
+            break;
         case IDM_LANGUAGE_DUTCH:
             resources_get_value("Language", (void *)&curlang);
             if (strcasecmp(curlang, "nl")) {

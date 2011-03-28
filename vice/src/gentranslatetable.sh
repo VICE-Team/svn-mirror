@@ -47,6 +47,7 @@ do
            echo "/* fr */  "$data"_FR,"
            echo "/* hu */  "$data"_HU,"
            echo "/* it */  "$data"_IT,"
+           echo "/* ko */  "$data"_KO,"
            echo "/* nl */  "$data"_NL,"
            echo "/* pl */  "$data"_PL,"
            echo "/* ru */  "$data"_RU,"

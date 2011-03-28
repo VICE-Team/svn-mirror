@@ -77,6 +77,9 @@ static char *language_table[] = {
 /* italian */
   "it",
 
+/* korean */
+  "ko",
+
 /* dutch */
   "nl",
 
@@ -117,6 +120,9 @@ static int language_cp_table[] = {
 
 /* italian */
   28591,	/* ISO 8859-1 */
+
+/* italian */
+  949,	/* CP 949 */
 
 /* dutch */
   28591,	/* ISO 8859-1 */

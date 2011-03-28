@@ -107,6 +107,24 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_EASYFLASH_CAPTION  "EasyFlash settings"
+  IDS_EASYFLASH_JUMPER   "EasyFlash &Jumper"
+  IDS_EASYFLASH_AUTOSAVE "&Save CRT on detach"
+  IDS_EASYFLASH_SAVE_NOW "Save CRT &now"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

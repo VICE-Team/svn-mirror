@@ -182,6 +182,31 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_GENERAL            "General"
+  IDS_SID_SETTINGS       "SID settings"
+  IDS_FAST               "Fast"
+  IDS_INTERPOLATING      "Interpolating"
+  IDS_RESAMPLING         "Resampling"
+  IDS_FAST_RESAMPLING    "Fast resampling"
+  IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
+  IDS_SID_RESID_SAMPLE   "Sample method"
+  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_HARDSID_GROUP      "Device selection"
+  IDS_HARDSID_LEFT_LABEL "Main device"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

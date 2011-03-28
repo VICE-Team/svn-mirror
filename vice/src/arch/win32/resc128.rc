@@ -282,6 +282,7 @@ BEGIN
         MENUITEM "", IDM_LANG_FR
         MENUITEM "", IDM_LANG_HU
         MENUITEM "", IDM_LANG_IT
+        MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
         MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
@@ -1043,6 +1044,72 @@ BEGIN
   IDS_MI_IEEE488                "Emulazione interfaccia IEEE&488"
   IDS_MI_C128_SETTINGS          "Impostazioni C&128..."
 END
+
+
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SELECT_INT_FUNCTION_ROM   "Select internal function ROM image"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
+  IDS_MACHINE_TYPE              "Machine type"
+  IDS_FUNCTION_ROM              "Function ROM"
+  IDS_RAM_BANKS                 "RAM banks"
+  IDS_C128_SETTINGS             "C128 settings"
+  IDS_KERNAL_INT                "Kernal Int."
+  IDS_KERNAL_DE                 "Kernal DE"
+  IDS_KERNAL_FI                 "Kernal FI"
+  IDS_KERNAL_FR                 "Kernal FR"
+  IDS_KERNAL_IT                 "Kernal IT"
+  IDS_KERNAL_NO                 "Kernal NO"
+  IDS_KERNAL_SE                 "Kernal SE"
+  IDS_BASIC_LO                  "Basic LO"
+  IDS_BASIC_HI                  "Basic HI"
+  IDS_CHAR_INT                  "Char. Int."
+  IDS_CHAR_DE                   "Char. DE"
+  IDS_CHAR_FR                   "Char. FR"
+  IDS_CHAR_SE                   "Char. SE"
+  IDS_KERNAL_C64                "Kernal C64"
+  IDS_BASIC_C64                 "Basic C64"
+  IDS_INTERNATIONAL_KERNAL      "International Kernal"
+  IDS_GERMAN_KERNAL             "German Kernal"
+  IDS_FINNISH_KERNAL            "Finnish Kernal"
+  IDS_FRENCH_KERNAL             "French Kernal"
+  IDS_ITALIAN_KERNAL            "Italian Kernal"
+  IDS_NORWEGIAN_KERNAL          "Norwegian Kernal"
+  IDS_SWEDISH_KERNAL            "Swedish Kernal"
+  IDS_INTERNATIONAL_CHARACTER   "International Character"
+  IDS_GERMAN_CHARACTER          "German Character"
+  IDS_FRENCH_CHARACTER          "French Character"
+  IDS_SWEDISH_CHARACTER         "Swedish Character"
+  IDS_C64_MODE_KERNAL           "C64 mode Kernal"
+  IDS_C64_MODE_BASIC            "C64 mode Basic"
+  IDS_INTERNATIONAL             "International"
+  IDS_FINNISH                   "Finnish"
+  IDS_FRENCH                    "French"
+  IDS_GERMAN                    "German"
+  IDS_ITALIAN                   "Italian"
+  IDS_NORWEGIAN                 "Norwegian"
+  IDS_SWEDISH                   "Swedish"
+  IDS_INT_FUNCTION_ROM          "Internal Function ROM"
+  IDS_ENABLE_INT_FUNCTION_ROM   "Enable internal Function ROM"
+  IDS_FILE_NAME                 "File name"
+  IDS_EXT_FUNCTION_ROM          "External Function ROM"
+  IDS_ENABLE_EXT_FUNCTION_ROM   "Enable external Function ROM"
+  IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
+  IDS_MP_VDC_SETTINGS           "VDC settin&gs"
+  IDS_MP_VDC_REVISION           "VDC revision"
+  IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
+  IDS_MI_IEEE488                "IEEE&488 Interface emulation"
+  IDS_MI_C128_SETTINGS          "C&128 settings..."
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // DUTCH text

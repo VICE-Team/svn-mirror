@@ -230,6 +230,7 @@ static const struct {
     { "fr", IDM_LANG_FR },
     { "hu", IDM_LANG_HU },
     { "it", IDM_LANG_IT },
+    { "ko", IDM_LANG_KO },
     { "nl", IDM_LANG_NL },
     { "pl", IDM_LANG_PL },
     { "ru", IDM_LANG_RU },
@@ -1671,6 +1672,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_LANG_FR:
         case IDM_LANG_HU:
         case IDM_LANG_IT:
+        case IDM_LANG_KO:
         case IDM_LANG_NL:
         case IDM_LANG_PL:
         case IDM_LANG_RU:

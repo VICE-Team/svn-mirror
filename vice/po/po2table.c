@@ -61,7 +61,8 @@ static file_table_t files[] = {
     { "fr.po", NULL, 0, 0 },
     { "hu.po", NULL, 0, 0 },
     { "it.po", NULL, 0, 0 },
-    { "nl.po", NULL, 0, 0 },
+    { "ko.po", NULL, 0, 0 },
+    { "nl_iso.po", NULL, 0, 0 },
     { "pl.po", NULL, 0, 0 },
     { "ru.po", NULL, 0, 0 },
     { "sv_iso.po", NULL, 0, 0 },
@@ -181,6 +182,7 @@ int main(int argc, char *argv[])
     fprintf(outfile, "    char *msgstr_fr;\n");
     fprintf(outfile, "    char *msgstr_hu;\n");
     fprintf(outfile, "    char *msgstr_it;\n");
+    fprintf(outfile, "    char *msgstr_ko;\n");
     fprintf(outfile, "    char *msgstr_nl;\n");
     fprintf(outfile, "    char *msgstr_pl;\n");
     fprintf(outfile, "    char *msgstr_ru;\n");
@@ -245,7 +247,14 @@ int main(int argc, char *argv[])
             }
         }
     }
-    fprintf(outfile, "    { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }\n};\n");
+    fprintf(outfile, "    { ");
+    for (i = 0; files[i].filename != NULL; i++) {
+        if (i != 0) {
+            fprintf(outfile, ", ");
+        }
+        fprintf(outfile, "NULL");
+    }
+    fprintf(outfile, " }\n};\n");
     close_all();
     return 0;
 }

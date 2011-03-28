@@ -54,27 +54,29 @@ if test x"$DEBUGBUILD" = "x1"; then
     case ${data%%_*} in
       ID*)
            echo $data", /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_DA, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_DE, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_FR, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_HU, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_IT, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
+           echo $data"_KO, /* "$count" */"
+           count=`expr $count + 1`
            echo $data"_NL, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_PL, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_RU, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_SV, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            echo $data"_TR, /* "$count" */"
-           count=`expt $count + 1`
+           count=`expr $count + 1`
            ok="yes"
       ;;
     esac
@@ -95,6 +97,7 @@ else
            echo $data"_FR,"
            echo $data"_HU,"
            echo $data"_IT,"
+           echo $data"_KO,"
            echo $data"_NL,"
            echo $data"_PL,"
            echo $data"_RU,"

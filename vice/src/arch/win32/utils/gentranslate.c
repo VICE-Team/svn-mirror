@@ -134,6 +134,7 @@ void generate_translate_h(char *in_filename, char *out_filename)
             fprintf(outfile, "%s_FR,\n", line_buffer);
             fprintf(outfile, "%s_HU,\n", line_buffer);
             fprintf(outfile, "%s_IT,\n", line_buffer);
+            fprintf(outfile, "%s_KO,\n", line_buffer);
             fprintf(outfile, "%s_NL,\n", line_buffer);
             fprintf(outfile, "%s_PL,\n", line_buffer);
             fprintf(outfile, "%s_RU,\n", line_buffer);
@@ -212,6 +213,7 @@ void generate_translate_table_h(char *in_filename, char *out_filename)
             fprintf(outfile, "/* fr */  %s_FR,\n", line_buffer);
             fprintf(outfile, "/* hu */  %s_HU,\n", line_buffer);
             fprintf(outfile, "/* it */  %s_IT,\n", line_buffer);
+            fprintf(outfile, "/* ko */  %s_KO,\n", line_buffer);
             fprintf(outfile, "/* nl */  %s_NL,\n", line_buffer);
             fprintf(outfile, "/* pl */  %s_PL,\n", line_buffer);
             fprintf(outfile, "/* ru */  %s_RU,\n", line_buffer);

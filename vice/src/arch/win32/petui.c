@@ -298,6 +298,7 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_LANG_FR, IDS_MI_LANG_FR },
     { IDM_LANG_HU, IDS_MI_LANG_HU },
     { IDM_LANG_IT, IDS_MI_LANG_IT },
+    { IDM_LANG_KO, IDS_MI_LANG_KO },
     { IDM_LANG_NL, IDS_MI_LANG_NL },
     { IDM_LANG_PL, IDS_MI_LANG_PL },
     { IDM_LANG_RU, IDS_MI_LANG_RU },

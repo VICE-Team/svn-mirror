@@ -155,6 +155,30 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_AUTOSTART_CAPTION                    "Autostart settings"
+    IDS_AUTOSTART_WARP                       "Autostart warp"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
+    IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
+    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_INJECT                     "Inject to RAM"
+    IDS_AUTOSTART_DISK                       "Disk image"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

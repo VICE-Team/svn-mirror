@@ -94,6 +94,23 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_SFX_SOUNDEXPANDER_CAPTION "SFX Sound Expander Settings"
+    IDS_SFX_SOUNDEXPANDER_ENABLE  "&Enable SFX Sound Expander"
+    IDS_SFX_SOUNDEXPANDER_TYPE    "YM chip type"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

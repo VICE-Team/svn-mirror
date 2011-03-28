@@ -102,6 +102,24 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_V364SPEECH_CAPTION     "V364 Speech Settings"
+  IDS_V364SPEECH_ENABLE      "&Enable V364 Speech"
+  IDS_V364SPEECH_FILE        "V364 Speech ROM file"
+  IDS_V364SPEECH_SELECT_FILE "Select ROM file for V364 Speech"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

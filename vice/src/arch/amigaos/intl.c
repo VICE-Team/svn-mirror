@@ -65,6 +65,7 @@ static amiga_iso_t amiga_to_iso[] = {
     { "hungarian.language", "hu" },
     { "italian.language", "it" },
     { "italiano.language", "it" },
+    { "korean.language", "ko" },
     { "dutch.language", "nl" },
     { "nederlands.language", "nl" },
     { "polish.language", "pl" },
@@ -99,6 +100,9 @@ static char *language_table[] = {
 
 /* italian */
     "it",
+
+/* korean */
+    "ko",
 
 /* dutch */
     "nl",

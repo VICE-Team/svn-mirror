@@ -1,20 +1,20 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Dutch Translation File for VICE
+# Copyright (C) 2005-2010
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# Jesse Lee <interpreters.jesse@gmail.com>, 2011.
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-28 13:49-0700\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2011-02-16 20:47+0100\n"
+"Last-Translator: Jesse Lee <interpreters.jesse@gmail.com>\n"
+"Language-Team: ko <ko@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-5\n"
+"Content-Type: text/plain; charset=CP949\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: Korean\n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
@@ -416,7 +416,7 @@ msgstr ""
 #: src/arch/win32/resplus4.rc.po.c:105 src/arch/win32/resvic20.rc.po.c:115
 #: src/arch/amigaos/intl_text.c.po.c:902
 msgid "Edit"
-msgstr ""
+msgstr "편집"
 
 #: src/arch/unix/gui/c128ui.c:635 src/arch/unix/gui/c64dtvui.c:309
 #: src/arch/unix/gui/c64scui.c:651 src/arch/unix/gui/c64ui.c:711
@@ -4347,7 +4347,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:19 src/arch/win32/resplus4.rc.po.c:19
 #: src/arch/win32/resvic20.rc.po.c:19
 msgid "&File"
-msgstr ""
+msgstr "파일"
 
 #: src/arch/win32/res.rc.po.c:92 src/arch/win32/res.rc.po.c:1300
 #: src/arch/win32/resc128.rc.po.c:102 src/arch/win32/resc64.rc.po.c:102
@@ -4443,7 +4443,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:197 src/arch/win32/res.rc.po.c:198
 #: src/arch/win32/res.rc.po.c:199
 msgid " "
-msgstr ""
+msgstr " "
 
 #: src/arch/win32/res.rc.po.c:627 src/arch/win32/res.rc.po.c:1109
 msgid "&Browse..."
@@ -5787,7 +5787,7 @@ msgstr ""
 #: src/arch/win32/rescbm2.rc.po.c:123 src/arch/win32/respet.rc.po.c:123
 #: src/arch/win32/resplus4.rc.po.c:135 src/arch/win32/resvic20.rc.po.c:145
 msgid "&Options"
-msgstr ""
+msgstr "선택"
 
 #: src/arch/win32/res.rc.po.c:1308 src/arch/win32/resc128.rc.po.c:151
 #: src/arch/win32/resc64.rc.po.c:153 src/arch/win32/resc64dtv.rc.po.c:118
@@ -5819,7 +5819,7 @@ msgstr ""
 #: src/arch/win32/rescbm2.rc.po.c:177 src/arch/win32/respet.rc.po.c:177
 #: src/arch/win32/resplus4.rc.po.c:191 src/arch/win32/resvic20.rc.po.c:203
 msgid "S&ettings"
-msgstr ""
+msgstr "설정"
 
 #: src/arch/win32/res.rc.po.c:1313 src/arch/win32/resc64.rc.po.c:222
 #: src/arch/win32/resvic20.rc.po.c:219
@@ -5831,14 +5831,14 @@ msgstr ""
 #: src/arch/win32/rescbm2.rc.po.c:206 src/arch/win32/respet.rc.po.c:209
 #: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:239
 msgid "&Language"
-msgstr ""
+msgstr "언어"
 
 #: src/arch/win32/res.rc.po.c:1315 src/arch/win32/resc128.rc.po.c:285
 #: src/arch/win32/resc64.rc.po.c:273 src/arch/win32/resc64dtv.rc.po.c:216
 #: src/arch/win32/rescbm2.rc.po.c:221 src/arch/win32/respet.rc.po.c:224
 #: src/arch/win32/resplus4.rc.po.c:237 src/arch/win32/resvic20.rc.po.c:254
 msgid "&Help"
-msgstr ""
+msgstr "도움"
 
 #: src/arch/win32/res.rc.po.c:1318
 msgid "E&xit"

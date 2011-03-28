@@ -94,6 +94,23 @@ BEGIN
 END
 
 
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION "lightpen Settings"
+    IDS_LIGHTPEN_ENABLE  "&Enable lightpen"
+    IDS_LIGHTPEN_TYPE    "Lightpen type"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // DUTCH text
 
 STRINGTABLE

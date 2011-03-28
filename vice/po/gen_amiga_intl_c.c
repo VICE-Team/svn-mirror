@@ -269,6 +269,15 @@ int main(int argc, char *argv[])
             if (strlen(text[i].msgstr_it) == 0) {
                 fprintf(outfile, "  /* fuzzy */");
             }
+            fprintf(outfile, "\n/* ko */ {%s_KO, \"", id_string);
+
+            if (strlen(text[i].msgstr_ko) != 0) {
+                write_converted_text(text[i].msgstr_ko);
+            }
+            fprintf(outfile, "\" },");
+            if (strlen(text[i].msgstr_ko) == 0) {
+                fprintf(outfile, "  /* fuzzy */");
+            }
             fprintf(outfile, "\n/* nl */ {%s_NL, \"", id_string);
 
             if (strlen(text[i].msgstr_nl) != 0) {

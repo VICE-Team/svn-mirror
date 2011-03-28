@@ -251,6 +251,7 @@ BEGIN
         MENUITEM "", IDM_LANG_FR
         MENUITEM "", IDM_LANG_HU
         MENUITEM "", IDM_LANG_IT
+        MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
         MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
@@ -819,6 +820,61 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Write back NvRAM Mega-Cart"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Seleziona file non-volatile RAM Mega-Cart"
 END
+
+
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VIC_CAPTION                   "VIC settings"
+    IDS_VIC_NOEXPANSION               "&no expansion memory"
+    IDS_VIC_3KEXPANSION               "3&K (block 0)"
+    IDS_VIC_8KEXPANSION               "&8K (block 1)"
+    IDS_VIC_16KEXPANSION              "1&6K (blocks 1/2)"
+    IDS_VIC_24KEXPANSION              "2&4K (blocks 1/2/3)"
+    IDS_VIC_FULLEXPANSION             "&Full (blocks 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION           "&custom"
+    IDS_VIC_BLOCK0                    "Block &0"
+    IDS_VIC_BLOCK1                    "Block &1"
+    IDS_VIC_BLOCK2                    "Block &2"
+    IDS_VIC_BLOCK3                    "Block &3"
+    IDS_VIC_BLOCK5                    "Block &5"
+    IDS_SELECT_GENERIC                "Select Generic image"
+    IDS_SELECT_MEGACART               "Select Mega-Cart image"
+    IDS_SELECT_FINAL_EXPANSION        "Select Final Expansion image"
+    IDS_SELECT_FP                     "Select Vic Flash Plugin image"
+    IDS_SELECT_CARTRIDGE_IMAGE        "Select cartridge image"
+    IDS_ATTACH_4_8_16_CART_2000       "Attach 4/8/16KB cartridge image at $2000"
+    IDS_ATTACH_4_8_16_CART_4000       "Attach 4/8/16KB cartridge image at $4000"
+    IDS_ATTACH_4_8_16_CART_6000       "Attach 4/8/16KB cartridge image at $6000"
+    IDS_ATTACH_4_8_CART_A000          "Attach 4/8KB cartridge image at $A000"
+    IDS_ATTACH_4_CART_B000            "Attach 4KB cartridge image at $B000"
+    IDS_MI_IEEE488                    "VIC-1112 IEEE &488 module"
+    IDS_MI_PADDLES                    "Enable paddles"
+    IDS_MI_CART_VIC20_GENERIC         "Generic image..."
+    IDS_MI_CART_VIC20_MEGACART        "Mega-Cart image..."
+    IDS_MI_CART_VIC20_FINAL_EXPANSION "Final Expansion image..."
+    IDS_MI_CART_VIC20_FP              "Vic Flash Plugin image..."
+    IDS_MP_ADD_TO_GENERIC             "Add to generic..."
+    IDS_MI_CART_VIC20_SMART_ATTACH    "Smart-attach image..."
+    IDS_MI_CART_VIC20_8KB_2000        "4/8/16KB image at $&2000..."
+    IDS_MI_CART_VIC20_16KB_4000       "4/8/16KB image at $&4000..."
+    IDS_MI_CART_VIC20_8KB_6000        "4/8/16KB image at $&6000..."
+    IDS_MI_CART_VIC20_8KB_A000        "4/8KB image at $&A000..."
+    IDS_MI_CART_VIC20_4KB_B000        "4KB image at $&B000..."
+    IDS_MI_VIC_SETTINGS               "V&IC settings..."
+    IDS_MI_FINAL_EXPANSION_WRITEBACK  "Enable Final Expansion write-back"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write-back"
+    IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
+    IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // DUTCH text
