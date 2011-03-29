@@ -199,6 +199,7 @@ noinst_HEADERS = \
 	tape.h \
 	tpi.h \
 	translate_funcs.h \
+	translate_languages.h \
 	translate_text.c \
 	traps.h \
 	uiapi.h \

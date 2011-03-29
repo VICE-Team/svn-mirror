@@ -42,6 +42,7 @@
 #include "lib.h"
 #include "resources.h"
 #include "translate.h"
+#include "translate_languages.h"
 #include "util.h"
 #include "ui.h"
 
@@ -77,56 +78,12 @@ static amiga_iso_t amiga_to_iso[] = {
     { NULL, NULL }
 };
 
-/* The language table is duplicated in
-   the translate.c, make sure they match
-   when adding a new language */
-
-static char *language_table[] = {
-
-/* english */
-    "en",
-
-/* danish */
-    "da",
-
-/* german */
-    "de",
-
-/* french */
-    "fr",
-
-/* hungarian */
-    "hu",
-
-/* italian */
-    "it",
-
-/* korean */
-    "ko",
-
-/* dutch */
-    "nl",
-
-/* polish */
-    "pl",
-
-/* russian */
-    "ru",
-
-/* swedish */
-    "sv",
-
-/* turkish */
-    "tr"
-};
-
 /* --------------------------------------------------------------------- */
 
 typedef struct intl_translate_s {
     int resource_id;
     char *text;
 } intl_translate_t;
-
 
 #include "intl_text.c"
 

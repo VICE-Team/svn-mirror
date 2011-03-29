@@ -39,6 +39,7 @@
 #include "lib.h"
 #include "log.h"
 #include "resources.h"
+#include "translate_languages.h"
 #include "translate.h"
 #include "util.h"
 
@@ -52,93 +53,6 @@ typedef struct translate_s {
 #ifdef HAS_TRANSLATION
 char *current_language = NULL;
 int current_language_index = 0;
-
-/* The language table is usually duplicated in
-   the arch intl.c, make sure they match
-   when adding a new language */
-
-static char *language_table[] = {
-
-/* english */
-  "en",
-
-/* danish */
-  "da",
-
-/* german */
-  "de",
-
-/* french */
-  "fr",
-
-/* hungarian */
-  "hu",
-
-/* italian */
-  "it",
-
-/* korean */
-  "ko",
-
-/* dutch */
-  "nl",
-
-/* polish */
-  "pl",
-
-/* russian */
-  "ru",
-
-/* swedish */
-  "sv",
-
-/* turkish */
-  "tr"
-};
-
-
-/* This is the codepage table, which holds the codepage
-   used per language to encode the original text */
-
-
-static int language_cp_table[] = {
-
-/* english */
-  28591,	/* ISO 8859-1 */
-
-/* danish */
-  28591,	/* ISO 8859-1 */
-
-/* german */
-  28591,	/* ISO 8859-1 */
-
-/* french */
-  28591,	/* ISO 8859-1 */
-
-/* hungarian */
-  28592,	/* ISO 8859-2 */
-
-/* italian */
-  28591,	/* ISO 8859-1 */
-
-/* italian */
-  949,	/* CP 949 */
-
-/* dutch */
-  28591,	/* ISO 8859-1 */
-
-/* polish */
-  28592,	/* ISO 8859-2 */
-
-/* polish */
-  28595,	/* ISO 8859-5 */
-
-/* swedish */
-  28591,	/* ISO 8859-1 */
-
-/* turkish */
-  28599	/* ISO 8859-9 */
-};
 #endif
 
 /* GLOBAL STRING ID TEXT TABLE */

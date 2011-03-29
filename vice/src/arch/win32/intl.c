@@ -40,6 +40,7 @@
 #include "res.h"
 #include "resources.h"
 #include "translate.h"
+#include "translate_languages.h"
 #include "util.h"
 #include "ui.h"
 #include "winmain.h"
@@ -73,48 +74,6 @@ static windows_iso_t windows_to_iso[] = {
     { 0, NULL }
 };
 
-/* The language table is duplicated in
-   the translate.c, make sure they match
-   when adding a new language */
-
-static char *language_table[] = {
-
-/* english */
-    "en",
-
-/* danish */
-    "da",
-
-/* german */
-    "de",
-
-/* french */
-    "fr",
-
-/* hungarian */
-    "hu",
-
-/* italian */
-    "it",
-
-/* korean */
-    "ko",
-
-/* dutch */
-    "nl",
-
-/* polish */
-    "pl",
-
-/* russian */
-    "ru",
-
-/* swedish */
-    "sv",
-
-/* turkish */
-    "tr"
-};
 
 static int intl_table[][countof(language_table)] = {
 
