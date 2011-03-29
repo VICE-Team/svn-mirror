@@ -27,21 +27,19 @@
 #ifndef VICE_RENDER1X1_DINGOO_H
 #define VICE_RENDER1X1_DINGOO_H
 
-static int init_color_tab = 1;
-
-static DWORD colors[65536];
+static DWORD *colors = NULL;
 
 static void init_render_16_1x1_04(const video_render_color_tables_t *color_tab)
 {
     const DWORD *colortab = color_tab->physical_colors;
     int i, j;
 
+    colors = malloc(sizeof(DWORD) * 256*256);
     for (i = 0; i < 256; ++i) {
         for (j = 0; j < 256; ++j) {
             colors[(i << 8) + j] = ((WORD)(colortab[i]) << 16) + ((WORD)colortab[j]);
         }
     }
-    init_color_tab = 0;	
 }
 
 static void render_16_1x1_04_dingoo(const video_render_color_tables_t *color_tab, const BYTE *src, BYTE *trg,
@@ -62,7 +60,7 @@ static void render_16_1x1_04_dingoo(const video_render_color_tables_t *color_tab
     if (width & 1) {
         ++width;
     }
-    if (init_color_tab) {
+    if (!colors) {
         init_render_16_1x1_04(color_tab);
     }
     src = src + pitchs * ys + xs;

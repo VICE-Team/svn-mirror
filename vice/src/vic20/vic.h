@@ -62,7 +62,7 @@
 /* On MS-DOS, do not duplicate pixels.  Otherwise, we would always need at
    least 466 horizontal pixels to contain the whole screen.  */
 /* But this is no problem as 320*200 does not fit anyhow.  */
-#if !defined(__OS2__) && !defined(DINGUX_SDL)
+#if !defined(__OS2__) && !defined(DINGUX_SDL) && !defined(DINGOO_NATIVE)
 #define VIC_DUPLICATES_PIXELS
 #endif
 
