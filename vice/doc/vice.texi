@@ -10144,6 +10144,9 @@ Added new monitor commands and features.
 @b{Marcus Sutton}
 Made some console, dialog and joystick fixes for the BeOS port.
 
+@b{Ulrich Schulz}
+Maintains the Dingoo port(s).
+
 @end itemize
 
 Former/inactive team members:
@@ -10274,8 +10277,14 @@ Provided the Hungarian user interface translations.
 @b{Andrea Musuruane}
 Provided the Italian user interface translations.
 
+@b{Jesse Lee}
+Provided the Korean user interface translations.
+
 @b{Flooder}
 Provided parts of the Polish user interface translations.
+
+@b{Michael Litvinov}
+Provided the Russian user interface translations.
 
 @b{Peter Krefting}
 Provided the Swedish user interface translations.
