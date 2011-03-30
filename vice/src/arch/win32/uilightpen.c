@@ -69,16 +69,33 @@ static uilib_dialog_group lightpen_rightgroup[] = {
     { 0, 0 }
 };
 
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_lightpen_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
     int res_value;
     int xsize, ysize;
+    RECT rect;
 
     uilib_localize_dialog(hwnd, lightpen_dialog);
     uilib_get_group_extent(hwnd, lightpen_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, lightpen_leftgroup);
     uilib_move_group(hwnd, lightpen_rightgroup, xsize + 30);
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, lightpen_rightgroup, &xsize);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("Lightpen", &res_value);
     CheckDlgButton(hwnd, IDC_LIGHTPEN_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
