@@ -77,6 +77,19 @@ static uilib_dialog_group autostart_rightgroup2[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group autostart_rightgroup3[] = {
+    { IDC_AUTOSTART_USE_COLON_WITH_RUN, 0 },
+    { IDC_AUTOSTART_PRG_MODE, 0 },
+    { IDC_AUTOSTART_DISK_IMAGE_BROWSE, 0 },
+    { 0, 0 }
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_autostart_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
@@ -85,6 +98,7 @@ static void init_autostart_dialog(HWND hwnd)
     TCHAR *st_autostartfile;
     int xsize, ysize;
     int xsize2;
+    RECT rect;
 
     uilib_localize_dialog(hwnd, autostart_dialog);
     uilib_get_group_extent(hwnd, autostart_leftgroup1, &xsize, &ysize);
@@ -93,6 +107,16 @@ static void init_autostart_dialog(HWND hwnd)
     uilib_get_group_extent(hwnd, autostart_leftgroup2, &xsize2, &ysize);
     uilib_adjust_group_width(hwnd, autostart_leftgroup2);
     uilib_move_group(hwnd, autostart_rightgroup2, xsize2 + 30);
+
+    /* get the max x of the rightgroup3 elements */
+    uilib_get_group_max_x(hwnd, autostart_rightgroup3, &xsize);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("AutostartWarp", &res_value);
     CheckDlgButton(hwnd, IDC_AUTOSTART_WARP, res_value ? BST_CHECKED : BST_UNCHECKED);
