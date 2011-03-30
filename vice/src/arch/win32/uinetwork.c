@@ -63,7 +63,7 @@ static uilib_localize_dialog_param network_dialog_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group network_left_group[] = {
+static uilib_dialog_group network_adjust_group[] = {
     { IDC_CURRENT_MODE, 0 },
     { IDC_SERVER_BIND, 0 },
     { IDC_TCP_PORT, 0 },
@@ -73,24 +73,19 @@ static uilib_dialog_group network_left_group[] = {
     { 0, 0 }
 };
 
-static uilib_dialog_group network_bind_port_group[] = {
+static uilib_dialog_group network_left_group[] = {
+    { IDC_CURRENT_MODE, 0 },
     { IDC_SERVER_BIND, 0 },
     { IDC_TCP_PORT, 0 },
+    { IDC_NETWORK_CLIENT, 1 },
     { 0, 0 }
 };
 
-static uilib_dialog_group network_bind_port_indicator_group[] = {
-    { IDC_NETWORK_SERVER_BIND, 0 },
-    { IDC_NETWORK_PORT, 0 },
-    { 0, 0 }
-};
-
-static uilib_dialog_group network_left_filling_group[] = {
+static uilib_dialog_group network_boxes_group[] = {
     { IDC_NETWORK_MODE, 0 },
     { IDC_NETWORK_SERVER_BIND, 0 },
-    { IDC_NETWORK_SERVER, 0 },
+    { IDC_NETWORK_PORT, 0 },
     { IDC_NETWORK_SERVERNAME, 0 },
-    { IDC_NETWORK_DISCONNECT, 0 },
     { 0, 0 }
 };
 
@@ -139,35 +134,29 @@ static void init_network_dialog(HWND hwnd)
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, network_dialog_trans);
 
-    /* adjust the size of the elements in the left group */
-    uilib_adjust_group_width(hwnd, network_left_group);
+    /* adjust the size of the elements in the adjust group */
+    uilib_adjust_group_width(hwnd, network_adjust_group);
 
-    /* get the max x of the current mode element */
-    uilib_get_element_max_x(hwnd, IDC_CURRENT_MODE, &xpos);
+    /* get the max x of the left group */
+    uilib_get_group_max_x(hwnd, network_left_group, &xpos);
 
-    /* move the mode indicator element */
-    uilib_move_element(hwnd, IDC_NETWORK_MODE, xpos + 10);
-    
-    /* get the max x of bind port group */
-    uilib_get_group_max_x(hwnd, network_bind_port_group, &xpos);
+    /* move the elements of the boxes group */
+    uilib_move_group(hwnd, network_boxes_group, xpos + 10);
 
-    /* move the elements of the bind port indicator group */
-    uilib_move_group(hwnd, network_bind_port_indicator_group, xpos + 10);
+    /* get the max x of the boxes group */
+    uilib_get_group_max_x(hwnd, network_boxes_group, &xpos);
 
-    /* get the max x of the port indicator element */
-    uilib_get_element_max_x(hwnd, IDC_NETWORK_PORT, &xpos);
+    /* get the size of the start server button */
+    uilib_get_element_width(hwnd, IDC_NETWORK_SERVER, &xtemp);
 
-    /* move the start server button */
-    uilib_move_element(hwnd, IDC_NETWORK_SERVER, xpos + 10);
+    /* move/center the start server button */
+    uilib_move_element(hwnd, IDC_NETWORK_SERVER, (xpos - xtemp) / 2);
 
-    /* get the max x of the connect to element */
-    uilib_get_element_max_x(hwnd, IDC_NETWORK_CLIENT, &xpos);
+    /* get the size of the disconnect button */
+    uilib_get_element_width(hwnd, IDC_NETWORK_DISCONNECT, &xtemp);
 
-    /* move the server ip indicator */
-    uilib_move_element(hwnd, IDC_NETWORK_SERVERNAME, xpos + 10);
-
-    /* get the max x of the left filling group */
-    uilib_get_group_max_x(hwnd, network_left_filling_group, &xpos);
+    /* move/center the disconnect button */
+    uilib_move_element(hwnd, IDC_NETWORK_DISCONNECT, (xpos - xtemp) / 2);
 
     /* move and adjust the middle group */
     uilib_move_and_adjust_group_width(hwnd, network_middle_group, xpos + 20);

@@ -923,7 +923,7 @@ END
 
 // dialog template for all languages
 
-IDD_NETWORK_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 260, 110
+IDD_NETWORK_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 260, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -934,19 +934,19 @@ BEGIN
     LTEXT        "", IDC_SERVER_BIND,
                  9, 27, 50, 8
     EDITTEXT     IDC_NETWORK_SERVER_BIND,
-                 51, 26, 84, 12, WS_TABSTOP | ES_AUTOHSCROLL
+                 51, 26, 75, 12, WS_TABSTOP | ES_AUTOHSCROLL
     LTEXT        "", IDC_TCP_PORT,
                  9, 42, 30, 8
     EDITTEXT     IDC_NETWORK_PORT,
-                 51, 41, 30, 12, WS_TABSTOP
+                 51, 41, 75, 12, WS_TABSTOP
     PUSHBUTTON   "", IDC_NETWORK_SERVER,
-                 85, 40, 51, 14, WS_TABSTOP
+                 9, 60, 51, 14, WS_TABSTOP
     PUSHBUTTON   "", IDC_NETWORK_CLIENT,
-                 9, 64, 50, 14, WS_TABSTOP
+                 9, 84, 50, 14, WS_TABSTOP
     EDITTEXT     IDC_NETWORK_SERVERNAME,
-                 65, 65, 70, 12, WS_TABSTOP | ES_AUTOHSCROLL
+                 65, 85, 75, 12, WS_TABSTOP | ES_AUTOHSCROLL
     PUSHBUTTON   "", IDC_NETWORK_DISCONNECT,
-                 27, 83, 70, 14, WS_TABSTOP
+                 27, 103, 70, 14, WS_TABSTOP
     GROUPBOX     "", IDC_CONTROL,
                  140, 5, 115, 100
     LTEXT        "", IDC_SERVER,
