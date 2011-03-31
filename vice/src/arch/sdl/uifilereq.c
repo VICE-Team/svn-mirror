@@ -477,6 +477,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
     }
     /* workaound end */
     if (!current_dir) {
+    	    current_dir = (char *)malloc(maxpathlen);
 	    ioutil_getcwd(current_dir, maxpathlen);
     }
 
@@ -561,5 +562,6 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
     }
     free(slots->entries);
     free(slots);
+    free(current_dir);
     return retval;
 }
