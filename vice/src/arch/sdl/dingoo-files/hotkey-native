@@ -13,6 +13,6 @@
 
 !CLEAR
 
-8 Snapshot&Quickload snapshot.vsf
-9 Snapshot&Quicksave snapshot.vsf
+8 Snapshot&Load snapshot slot
+9 Snapshot&Save snapshot slot
 27 Virtual keyboard

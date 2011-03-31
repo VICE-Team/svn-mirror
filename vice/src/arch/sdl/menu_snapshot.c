@@ -88,6 +88,23 @@ static UI_MENU_CALLBACK(save_snapshot_callback)
     return NULL;
 }
 
+static UI_MENU_CALLBACK(save_snapshot_slot_callback)
+{
+    char *name;
+
+    if (activated) {
+        name = sdl_ui_slot_selection_dialog("Choose snapshot slot to save", SLOTREQ_MODE_SAVE_SLOT);
+        if (name != NULL) {
+            util_add_extension(&name, "vsf");
+            if (machine_write_snapshot(name, save_roms, save_disks, 0) < 0) {
+                ui_error("Cannot save snapshot image.");
+            }
+            lib_free(name);
+        }
+    }
+    return NULL;
+}
+
 static UI_MENU_CALLBACK(quickload_snapshot_callback)
 {
     if (activated) {
@@ -164,6 +181,23 @@ static UI_MENU_CALLBACK(load_snapshot_callback)
     return NULL;
 }
 
+
+static UI_MENU_CALLBACK(load_snapshot_slot_callback)
+{
+    char *name;
+
+    if (activated) {
+        name = sdl_ui_slot_selection_dialog("Choose snapshot slot to load", SLOTREQ_MODE_CHOOSE_SLOT);
+        if (name != NULL) {
+            if (machine_read_snapshot(name, 0) < 0) {
+                ui_error("Cannot read snapshot image.");
+            }
+            lib_free(name);
+        }
+    }
+    return NULL;
+}
+
 static UI_MENU_CALLBACK(set_milestone_callback)
 {
     if (activated) {
@@ -221,6 +255,16 @@ const ui_menu_entry_t snapshot_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)save_snapshot_menu },
+#ifdef DINGOO_NATIVE
+    { "Load snapshot slot",
+      MENU_ENTRY_DIALOG,
+      load_snapshot_slot_callback,
+      NULL },
+    { "Save snapshot slot",
+      MENU_ENTRY_DIALOG,
+      save_snapshot_slot_callback,
+      NULL },
+#else
     { "Quickload snapshot.vsf",
       MENU_ENTRY_DIALOG,
       quickload_snapshot_callback,
@@ -229,6 +273,7 @@ const ui_menu_entry_t snapshot_menu[] = {
       MENU_ENTRY_DIALOG,
       quicksave_snapshot_callback,
       NULL },
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     { "Start/stop recording history",
       MENU_ENTRY_OTHER,

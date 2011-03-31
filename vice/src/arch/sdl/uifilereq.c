@@ -41,6 +41,7 @@
 
 static menu_draw_t *menu_draw;
 static char *last_selected_file = NULL;
+static int last_selected_pos = 0;
 
 #define SDL_FILEREQ_META_FILE 0
 #define SDL_FILEREQ_META_PATH 1
@@ -217,6 +218,7 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
         sdl_ui_print(name, j, i + MENU_FIRST_Y + 2);
     }
 }
+
 
 /* ------------------------------------------------------------------ */
 /* External UI interface */
@@ -402,4 +404,162 @@ void sdl_ui_file_selection_dialog_shutdown(void)
 {
     lib_free(last_selected_file);
     last_selected_file = NULL;
+}
+
+
+static char* sdl_ui_get_slot_selector_entry(ui_menu_slots *slots, int offset, ui_menu_slot_mode_t mode)
+{
+    if (offset >= slots->number_of_elements) {
+        return NULL;
+    }
+    if (slots->entries[offset].used)
+    {
+    	return slots->entries[offset].slot_string;
+    }
+    else
+    {
+    	return "< empty slot >";
+    } 
+}
+
+
+static void sdl_ui_slot_selector_redraw(ui_menu_slots *slots, const char *title, const char *current_dir, int offset, int num_items, int more, ui_menu_slot_mode_t mode)
+{
+    int i, j;
+    char* title_string;
+    char* name;
+
+    title_string = lib_msprintf("%s  : ", title);
+
+    sdl_ui_clear();
+    sdl_ui_display_title(title_string);
+    lib_free(title_string);
+    sdl_ui_display_path(current_dir);
+
+    for (i = 0; i < num_items; ++i) {
+        j = MENU_FIRST_X;
+        name = sdl_ui_get_slot_selector_entry(slots, offset + i, mode);
+        sdl_ui_print(name, j, i + MENU_FIRST_Y + 2);
+    }
+}
+
+/* ------------------------------------------------------------------ */
+/* External UI interface */
+
+char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
+{
+    int total;
+    int active = 1;
+    int offset = 0;
+    int redraw = 1;
+    char *retval = NULL;
+    int cur = 0, cur_old = -1;
+    char *current_dir;
+    unsigned int maxpathlen;
+    ui_menu_slots *slots;
+    char *temp_name;
+    char *progname;
+    int i;
+
+    menu_draw = sdl_ui_get_menu_param();
+    maxpathlen = ioutil_maxpathlen();
+    
+    /* workaround to get the "home" directory of the emulator*/
+    current_dir =archdep_default_resource_file_name();
+    if (current_dir) {
+    	temp_name = strrchr(current_dir, FSDEV_DIR_SEP_CHR);
+    	if (temp_name) {
+		*temp_name = 0;
+    	} else {
+		free(current_dir);
+		current_dir = NULL;
+	}
+    }
+    /* workaound end */
+    if (!current_dir) {
+	    ioutil_getcwd(current_dir, maxpathlen);
+    }
+
+    total = menu_draw->max_text_y - (MENU_FIRST_Y + 2);
+    
+    slots = (ui_menu_slots *)malloc(sizeof(ui_menu_slots));
+    slots->entries = (ui_menu_slot_entry *)malloc(sizeof(ui_menu_slot_entry) * total);
+    
+    progname = archdep_program_name();
+    temp_name = strchr(progname, FSDEV_EXT_SEP_CHR);
+    if (temp_name) {
+    	*temp_name = 0;
+    }
+    for (i=0; i < total; ++i)
+    {
+    	unsigned int len;
+	unsigned int isdir;
+
+    	slots->entries[i].slot_name = lib_msprintf("snapshot_%s_%02d.vsf", progname, i+1);
+	slots->entries[i].slot_string = lib_msprintf(" SLOT %2d", i+1);
+	temp_name = util_concat(current_dir, FSDEV_DIR_SEP_STR, slots->entries[i].slot_name , NULL);
+	if (archdep_stat(temp_name, &len, &isdir) == 0) {
+		slots->entries[i].used = (isdir == 0);
+	} else {
+		slots->entries[i].used = 0;
+	}
+	free(temp_name);
+    }
+    free(progname);
+    slots->number_of_elements = total;
+    if (mode == SLOTREQ_MODE_CHOOSE_SLOT) {
+        cur = last_selected_pos;
+    }
+
+    while (active) {
+        if (redraw) {
+            sdl_ui_slot_selector_redraw(slots, title, current_dir, offset, total, 0, mode);
+            redraw = 0;
+        }
+        sdl_ui_display_cursor((cur + 2) , (cur_old == -1) ? -1 : (cur_old + 2));
+        sdl_ui_refresh();
+
+        switch (sdl_ui_menu_poll_input()) {
+            case MENU_ACTION_UP:
+                if (cur > 0) {
+                    cur--;
+                    redraw = 1;
+                }
+                break;
+            case MENU_ACTION_DOWN:
+                if (cur < total-1) {
+                    cur++;
+                    redraw = 1;
+                }
+                break;
+            case MENU_ACTION_SELECT:
+	    	if ((slots->entries[cur].used) || (mode == SLOTREQ_MODE_SAVE_SLOT))
+		{
+		    last_selected_pos = cur;
+	   	    retval = util_concat(current_dir, FSDEV_DIR_SEP_STR, slots->entries[cur].slot_name , NULL);
+		} else {
+		    retval = NULL;
+                }
+                active = 0;
+                break;
+
+            case MENU_ACTION_CANCEL:
+            case MENU_ACTION_EXIT:
+                retval = NULL;
+                active = 0;
+                break;
+
+            default:
+                SDL_Delay(10);
+                break;
+        }
+    }
+    for (i=0; i < total; ++i)
+    {
+    	free(slots->entries[i].slot_name);
+	free(slots->entries[i].slot_string);
+    }
+    free(slots->entries);
+    free(slots);
+    return retval;
 }

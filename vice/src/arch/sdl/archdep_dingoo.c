@@ -85,8 +85,8 @@
 #define CONTROL_BUTTON_SELECT 0x00000400
 #define CONTROL_BUTTON_START 0x00000800
 
-static char _path[1024];
-static char _app_path[1024];
+static char _path[FILENAME_MAX];
+static char _app_path[FILENAME_MAX];
 static char *_program_name;
 
 unsigned short *g_pGameDecodeBuf = 0L;
@@ -255,7 +255,7 @@ char *archdep_quote_parameter(const char *name)
 
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
-    char tmp[1024];
+    char tmp[FILENAME_MAX];
 
     if (archdep_path_is_relative(orig_name)) {
         getwd(tmp);
@@ -338,7 +338,7 @@ void archdep_startup_log_error(const char *format, ...)
 
 char *archdep_tmpnam(void)
 {
-    static char s[1024];
+    static char s[FILENAME_MAX];
 
     strcpy(s, _app_path);
     strcat(s, FSDEV_DIR_SEP_STR);
@@ -358,25 +358,18 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 int archdep_stat(const char *file_name, unsigned int *len, unsigned int *isdir)
 {
-    FILE *f;
-    DIR *d;
+    struct stat statbuf;
 
-    d = opendir(file_name);
-    if(d) {
+    if (stat(file_name, &statbuf) < 0) {
         *len = 0;
-        *isdir = 1;
-        closedir(d);
-        return 0;
-    }
-    f = fopen(file_name, "rb");
-    if (f) {
-        fseek(f, 0, FSYS_SEEK_END);
-        *len = ftell(f);
         *isdir = 0;
-        fclose(f);
-        return 0;
+        return -1;
     }
-    return -1;
+
+    *len = statbuf.st_size;
+    *isdir = S_ISDIR(statbuf.st_mode);
+
+    return 0;
 }
 
 int access(const char *pathname, int mode)
@@ -433,7 +426,7 @@ static void ioutil_count_dir_items(const char *path, int *dir_count, int *files_
 
     *dir_count = 1; /* with ".." */
     *files_count = 0;
-    char path_string[1024];
+    char path_string[FILENAME_MAX];
 
     getwd(path_string);
     strcat(path_string, FSDEV_DIR_SEP_STR "*");
@@ -460,7 +453,7 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
     int file_count = 0;
     int ret;
     char *filename;
-    char path_string[1024];
+    char path_string[FILENAME_MAX];
 
     getwd(path_string);
     strcat(path_string, FSDEV_DIR_SEP_STR "*");
