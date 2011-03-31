@@ -465,48 +465,47 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
     maxpathlen = ioutil_maxpathlen();
     
     /* workaround to get the "home" directory of the emulator*/
-    current_dir =archdep_default_resource_file_name();
+    current_dir = archdep_default_resource_file_name();
     if (current_dir) {
-    	temp_name = strrchr(current_dir, FSDEV_DIR_SEP_CHR);
-    	if (temp_name) {
-		*temp_name = 0;
-    	} else {
-		free(current_dir);
-		current_dir = NULL;
-	}
+        temp_name = strrchr(current_dir, FSDEV_DIR_SEP_CHR);
+    	   if (temp_name) {
+            *temp_name = 0;
+        } else {
+            free(current_dir);
+            current_dir = NULL;
+        }
     }
     /* workaound end */
     if (!current_dir) {
-    	    current_dir = (char *)malloc(maxpathlen);
-	    ioutil_getcwd(current_dir, maxpathlen);
+    	    current_dir = lib_malloc(maxpathlen);
+         ioutil_getcwd(current_dir, maxpathlen);
     }
 
     total = menu_draw->max_text_y - (MENU_FIRST_Y + 2);
     
-    slots = (ui_menu_slots *)malloc(sizeof(ui_menu_slots));
-    slots->entries = (ui_menu_slot_entry *)malloc(sizeof(ui_menu_slot_entry) * total);
+    slots = lib_malloc(sizeof(ui_menu_slots));
+    slots->entries = lib_malloc(sizeof(ui_menu_slot_entry) * total);
     
     progname = archdep_program_name();
     temp_name = strchr(progname, FSDEV_EXT_SEP_CHR);
     if (temp_name) {
-    	*temp_name = 0;
+        *temp_name = 0;
     }
-    for (i=0; i < total; ++i)
-    {
-    	unsigned int len;
-	unsigned int isdir;
+    for (i = 0; i < total; ++i) {
+        unsigned int len;
+        unsigned int isdir;
 
-    	slots->entries[i].slot_name = lib_msprintf("snapshot_%s_%02d.vsf", progname, i+1);
-	slots->entries[i].slot_string = lib_msprintf(" SLOT %2d", i+1);
-	temp_name = util_concat(current_dir, FSDEV_DIR_SEP_STR, slots->entries[i].slot_name , NULL);
-	if (archdep_stat(temp_name, &len, &isdir) == 0) {
-		slots->entries[i].used = (isdir == 0);
-	} else {
-		slots->entries[i].used = 0;
-	}
-	free(temp_name);
+        slots->entries[i].slot_name = lib_msprintf("snapshot_%s_%02d.vsf", progname, i + 1);
+        slots->entries[i].slot_string = lib_msprintf(" SLOT %2d", i + 1);
+        temp_name = util_concat(current_dir, FSDEV_DIR_SEP_STR, slots->entries[i].slot_name , NULL);
+        if (archdep_stat(temp_name, &len, &isdir) == 0) {
+            slots->entries[i].used = (isdir == 0);
+        } else {
+            slots->entries[i].used = 0;
+        }
+        lib_free(temp_name);
     }
-    free(progname);
+    lib_free(progname);
     slots->number_of_elements = total;
     if (mode == SLOTREQ_MODE_CHOOSE_SLOT) {
         cur = last_selected_pos;
@@ -534,34 +533,30 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
                 }
                 break;
             case MENU_ACTION_SELECT:
-	    	if ((slots->entries[cur].used) || (mode == SLOTREQ_MODE_SAVE_SLOT))
-		{
-		    last_selected_pos = cur;
-	   	    retval = util_concat(current_dir, FSDEV_DIR_SEP_STR, slots->entries[cur].slot_name , NULL);
-		} else {
-		    retval = NULL;
+                if ((slots->entries[cur].used) || (mode == SLOTREQ_MODE_SAVE_SLOT)) {
+                    last_selected_pos = cur;
+                    retval = util_concat(current_dir, FSDEV_DIR_SEP_STR, slots->entries[cur].slot_name , NULL);
+                } else {
+                    retval = NULL;
                 }
                 active = 0;
                 break;
-
             case MENU_ACTION_CANCEL:
             case MENU_ACTION_EXIT:
                 retval = NULL;
                 active = 0;
                 break;
-
             default:
                 SDL_Delay(10);
                 break;
         }
     }
-    for (i=0; i < total; ++i)
-    {
-    	free(slots->entries[i].slot_name);
-	free(slots->entries[i].slot_string);
+    for (i = 0; i < total; ++i) {
+        lib_free(slots->entries[i].slot_name);
+        lib_free(slots->entries[i].slot_string);
     }
-    free(slots->entries);
-    free(slots);
-    free(current_dir);
+    lib_free(slots->entries);
+    lib_free(slots);
+    lib_free(current_dir);
     return retval;
 }
