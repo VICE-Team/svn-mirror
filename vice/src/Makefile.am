@@ -424,7 +424,7 @@ endif
 if HAVE_TRANSLATION
 BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
 
-translate_table.h:	$(srcdir)/translate.txt
+translate_table.h:	$(srcdir)/translate.txt $(srcdir)/gentranslatetable.sh
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
@@ -435,7 +435,7 @@ infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	echo "generating infocontrib.h..."
 	$(SHELL) $(srcdir)/geninfocontrib_h.sh <$(top_srcdir)/doc/vice.texi | sed -f $(srcdir)/infocontrib.sed >infocontrib.h
 
-translate.h:	$(srcdir)/translate.txt
+translate.h:	$(srcdir)/translate.txt $(srcdir)/gentranslate_h.sh
 	echo "generating translate.h..."
 if MINIX_SUPPORT
 	cc $(srcdir)/arch/win32/utils/gentranslate.c -o gentranslate
