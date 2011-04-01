@@ -53,15 +53,16 @@ extra_keymaps = \
 	win_sym.vkm \
 	win_pos.vkm
 
-win32_shortcuts = \
+win32_files = \
+	win_hotkeys.vhk \
 	win_shortcuts.vsc
 
 if SDL_COMPILE
 c128_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_shortcuts)
+EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
 else
 c128_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
 
-EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_shortcuts)
+EXTRA_DIST = $(c128_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
 endif
