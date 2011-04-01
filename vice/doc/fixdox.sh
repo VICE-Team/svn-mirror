@@ -64,9 +64,9 @@ fixchm()
   outputok=yes
   while read data
   do
-    if test x"${data:0:11}" = "x@multitable"; then
-      table4chm
-    fi
+    case x"${data}" in
+	"x@multitable"*)  table4chm;;
+    esac
 
     if test x"$data" = "x@ifinfo"; then
       outputok=no
