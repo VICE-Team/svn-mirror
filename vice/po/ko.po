@@ -404,7 +404,7 @@ msgstr ""
 #: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:687
 #: src/arch/unix/gui/vsidui.c:398 src/arch/amigaos/intl_text.c.po.c:5
 msgid "File"
-msgstr ""
+msgstr "파일"
 
 #: src/arch/unix/gui/c128ui.c:632 src/arch/unix/gui/c64dtvui.c:306
 #: src/arch/unix/gui/c64scui.c:648 src/arch/unix/gui/c64ui.c:708
@@ -432,7 +432,7 @@ msgstr ""
 #: src/arch/unix/gui/petui.c:560 src/arch/unix/gui/plus4ui.c:393
 #: src/arch/unix/gui/vic20ui.c:695 src/arch/amigaos/intl_text.c.po.c:1136
 msgid "Options"
-msgstr ""
+msgstr "선택"
 
 #: src/arch/unix/gui/c128ui.c:639 src/arch/unix/gui/c64dtvui.c:313
 #: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:715
@@ -442,7 +442,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1236
 #: src/arch/amigaos/intl_text.c.po.c:1812
 msgid "Settings"
-msgstr ""
+msgstr "설정"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
@@ -452,7 +452,7 @@ msgstr ""
 #: src/arch/unix/gui/petui.c:566 src/arch/unix/gui/plus4ui.c:399
 #: src/arch/unix/gui/vic20ui.c:701
 msgid "RJHelp"
-msgstr ""
+msgstr "RJ도움"
 
 #: src/arch/unix/gui/c64dtvui.c:90 src/arch/unix/gui/c64scui.c:432
 #: src/arch/unix/gui/c64ui.c:492 src/arch/unix/gui/cbm2ui.c:75
@@ -8759,7 +8759,7 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:2774
 msgid "Help"
-msgstr ""
+msgstr "도움"
 
 #: src/arch/amigaos/intl_text.c.po.c:2787
 msgid "About..."
