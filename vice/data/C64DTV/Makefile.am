@@ -37,7 +37,8 @@ extra_keymaps = \
 	win_sym_us.vkm \
 	win_pos.vkm
 
-win32_shortcuts = \
+win32_files = \
+	win_hotkeys.vhk \
 	win_shortcuts.vsc
 
 sym_file = \
@@ -46,9 +47,9 @@ sym_file = \
 if SDL_COMPILE
 c64dtv_DATA = $(roms) $(romsets) $(sdl_keymaps) $(sym_file)
 
-EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_shortcuts)
+EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
 else
 c64dtv_DATA = $(roms) $(romsets) $(x11_keymaps) $(sym_file)
 
-EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_shortcuts)
+EXTRA_DIST = $(c64dtv_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
 endif

@@ -1,0 +1,13 @@
+#
+# VICE definition file for HotKeys in Win32
+#
+# This version is for xplus4.
+#
+# Syntax:
+# First column: string identifier
+# Second column: iso language identifier
+# Third column: hotkey character
+# Fourth column: which occurence of the hotkey character to use
+#                if no occurence is given the first occurence
+#                is assumed
+

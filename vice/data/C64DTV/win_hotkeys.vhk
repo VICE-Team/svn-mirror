@@ -1,7 +1,7 @@
 #
 # VICE definition file for HotKeys in Win32
 #
-# This version is for x128.
+# This version is for x64dtv.
 #
 # Syntax:
 # First column: string identifier
@@ -10,16 +10,6 @@
 # Fourth column: which occurence of the hotkey character to use
 #                if no occurence is given the first occurence
 #                is assumed
-
-# ressoundexpander.rc
-
-IDS_SFX_SOUNDEXPANDER_ENABLE	en	E	1
-IDS_SFX_SOUNDEXPANDER_ENABLE	da	A	1
-IDS_SFX_SOUNDEXPANDER_ENABLE	de	e	3
-IDS_SFX_SOUNDEXPANDER_ENABLE	hu	e	2
-IDS_SFX_SOUNDEXPANDER_ENABLE	it	A	1
-IDS_SFX_SOUNDEXPANDER_ENABLE	nl	A	1
-IDS_SFX_SOUNDEXPANDER_ENABLE	sv	A	1
 
 # resvicii.rc
 

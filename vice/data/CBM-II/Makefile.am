@@ -50,15 +50,16 @@ extra_keymaps = \
 	win_pos_uk.vkm \
 	win_sym_uk.vkm
 
-win32_shortcuts = \
+win32_files = \
+	win_hotkeys.vhk \
 	win_shortcuts.vsc
 
 if SDL_COMPILE
 cbm2_DATA = $(roms) $(romsets) $(palettes) $(sdl_keymaps)
 
-EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_shortcuts)
+EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(x11_keymaps) $(win32_files)
 else
 cbm2_DATA = $(roms) $(romsets) $(palettes) $(x11_keymaps)
 
-EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_shortcuts)
+EXTRA_DIST = $(cbm2_DATA) $(extra_keymaps) $(sdl_keymaps) $(win32_files)
 endif

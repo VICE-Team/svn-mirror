@@ -44,13 +44,13 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II settings"
     IDS_VICII_BORDERSGROUP  "Borders"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Full"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Full"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite collisions"
-    IDS_VICII_BACKCOLL      "Sprite-background &collisions"
-    IDS_VICII_LUMINANCE     "New &Luminances"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
+    IDS_VICII_BACKCOLL      "Sprite-background collisions"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 
 
@@ -61,13 +61,13 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II-indstillinger"
     IDS_VICII_BORDERSGROUP  "Rammer"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Fuld"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Fuld"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite-kollisioner"
-    IDS_VICII_BACKCOLL      "Sprite-&baggrundskollisioner"
-    IDS_VICII_LUMINANCE     "Nye &lysstyrker"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite-kollisioner"
+    IDS_VICII_BACKCOLL      "Sprite-baggrundskollisioner"
+    IDS_VICII_LUMINANCE     "Nye lysstyrker"
 END
 
 
@@ -78,13 +78,13 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II Einstellungen"
     IDS_VICII_BORDERSGROUP  "Rahmen"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Voll"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Voll"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Kollisionen"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite Kollisionen"
-    IDS_VICII_BACKCOLL      "Sprite-Hintergrund &Kollisionen"
-    IDS_VICII_LUMINANCE     "Neue He&lligkeitsemulation"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite Kollisionen"
+    IDS_VICII_BACKCOLL      "Sprite-Hintergrund Kollisionen"
+    IDS_VICII_LUMINANCE     "Neue Helligkeitsemulation"
 END
 
 
@@ -95,13 +95,13 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "Paramètres VIC-II"
     IDS_VICII_BORDERSGROUP  "Bordures"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Full"
-    IDS_VICII_DEBUGBORDERS  "&Débug"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Full"
+    IDS_VICII_DEBUGBORDERS  "Débug"
     IDS_VICII_SPRITEGROUP   "Collisions de Sprites"
     IDS_VICII_SPRITECOLL    "Collisions sprite avec sprite"
     IDS_VICII_BACKCOLL      "Collisions sprite avec arrière-plan"
-    IDS_VICII_LUMINANCE     "Nouvelles &luminescences"
+    IDS_VICII_LUMINANCE     "Nouvelles luminescences"
 END
 
 
@@ -115,13 +115,13 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II beállításai"
     IDS_VICII_BORDERSGROUP  "Keretek"
-    IDS_VICII_NORMALBORDERS "&Normál"
-    IDS_VICII_FULLBORDERS   "&Teljes"
-    IDS_VICII_DEBUGBORDERS  "&Nyomkövetés"
+    IDS_VICII_NORMALBORDERS "Normál"
+    IDS_VICII_FULLBORDERS   "Teljes"
+    IDS_VICII_DEBUGBORDERS  "Nyomkövetés"
     IDS_VICII_SPRITEGROUP   "Sprite ütközések"
-    IDS_VICII_SPRITECOLL    "&Sprite-sprite ütközések"
-    IDS_VICII_BACKCOLL      "Sprite-&háttér ütközések"
-    IDS_VICII_LUMINANCE     "Új &fényerõk"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite ütközések"
+    IDS_VICII_BACKCOLL      "Sprite-háttér ütközések"
+    IDS_VICII_LUMINANCE     "Új fényerõk"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -135,13 +135,13 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "Impostazioni VIC-II"
     IDS_VICII_BORDERSGROUP  "Bordi"
-    IDS_VICII_NORMALBORDERS "&Normale"
-    IDS_VICII_FULLBORDERS   "&Intero"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normale"
+    IDS_VICII_FULLBORDERS   "Intero"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Collisioni sprite"
-    IDS_VICII_SPRITECOLL    "Collisioni sprite-&sprite"
-    IDS_VICII_BACKCOLL      "&Collisioni sprite-sfondo"
-    IDS_VICII_LUMINANCE     "Nuove &Luminanze"
+    IDS_VICII_SPRITECOLL    "Collisioni sprite-sprite"
+    IDS_VICII_BACKCOLL      "Collisioni sprite-sfondo"
+    IDS_VICII_LUMINANCE     "Nuove Luminanze"
 END
 
 
@@ -155,13 +155,13 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II settings"
     IDS_VICII_BORDERSGROUP  "Borders"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Full"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Full"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite collisions"
-    IDS_VICII_BACKCOLL      "Sprite-background &collisions"
-    IDS_VICII_LUMINANCE     "New &Luminances"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
+    IDS_VICII_BACKCOLL      "Sprite-background collisions"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -175,13 +175,13 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II instellingen"
     IDS_VICII_BORDERSGROUP  "Borders"
-    IDS_VICII_NORMALBORDERS "&Normaal"
-    IDS_VICII_FULLBORDERS   "&Volledig"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normaal"
+    IDS_VICII_FULLBORDERS   "Volledig"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Botsingen"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite botsingen"
-    IDS_VICII_BACKCOLL      "Sprite-achtergrond &botsingen"
-    IDS_VICII_LUMINANCE     "Nieuwe k&leuren"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite botsingen"
+    IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
+    IDS_VICII_LUMINANCE     "Nieuwe kleuren"
 END
 
 
@@ -195,13 +195,13 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "Ustawienia VIC-II"
     IDS_VICII_BORDERSGROUP  "Borders"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Full"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Full"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite collisions"
-    IDS_VICII_BACKCOLL      "Sprite-background &collisions"
-    IDS_VICII_LUMINANCE     "New &Luminances"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
+    IDS_VICII_BACKCOLL      "Sprite-background collisions"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -218,13 +218,13 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II settings"
     IDS_VICII_BORDERSGROUP  "Borders"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Full"
-    IDS_VICII_DEBUGBORDERS  "&Debug"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Full"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite collisions"
-    IDS_VICII_BACKCOLL      "Sprite-background &collisions"
-    IDS_VICII_LUMINANCE     "New &Luminances"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
+    IDS_VICII_BACKCOLL      "Sprite-background collisions"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -238,13 +238,13 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II-inställningar"
     IDS_VICII_BORDERSGROUP  "Ramar"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Full"
-    IDS_VICII_DEBUGBORDERS  "&Felsök"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Full"
+    IDS_VICII_DEBUGBORDERS  "Felsök"
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
-    IDS_VICII_SPRITECOLL    "Sprite-&sprite-kollisioner"
-    IDS_VICII_BACKCOLL      "Sprite-&bakgrundkollisioner"
-    IDS_VICII_LUMINANCE     "Nya &ljusstyrkor"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite-kollisioner"
+    IDS_VICII_BACKCOLL      "Sprite-bakgrundkollisioner"
+    IDS_VICII_LUMINANCE     "Nya ljusstyrkor"
 END
 
 
@@ -258,13 +258,13 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II ayarlarý"
     IDS_VICII_BORDERSGROUP  "Çerçeveler"
-    IDS_VICII_NORMALBORDERS "&Normal"
-    IDS_VICII_FULLBORDERS   "&Tam"
-    IDS_VICII_DEBUGBORDERS  "&Hata Ayýkla"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Tam"
+    IDS_VICII_DEBUGBORDERS  "Hata Ayýkla"
     IDS_VICII_SPRITEGROUP   "Yaratýk Çarpýþmalarý"
-    IDS_VICII_SPRITECOLL    "Yaratýk-&yaratýk çarpýþmalarý"
-    IDS_VICII_BACKCOLL      "Yaratýk-arka plan ça&rpýþmalarý"
-    IDS_VICII_LUMINANCE     "Yeni Par&laklýklar"
+    IDS_VICII_SPRITECOLL    "Yaratýk-yaratýk çarpýþmalarý"
+    IDS_VICII_BACKCOLL      "Yaratýk-arka plan çarpýþmalarý"
+    IDS_VICII_LUMINANCE     "Yeni Parlaklýklar"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
