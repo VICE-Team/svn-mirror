@@ -60,6 +60,7 @@ cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README BeVICE-$VICEVERSION.$BEOSCPU
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vkm" -and ! -name "beos*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vsc"`
+rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "win_*.v*"`
 if [ -e BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html ]
 then
   rm BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html

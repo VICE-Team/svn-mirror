@@ -193,7 +193,7 @@ InputDir=.
 InputPath=.\res.txt
 
 "$(InputDir)\res.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\..\data\genwinres res.h menuid.h res.txt resdialogs.txt resmenu.txt resstrings.txt
+	..\..\..\data\genwinres res.h menuid.h stringid.h res.txt resdialogs.txt resmenu.txt resstrings.txt
 
 # End Custom Build
 
@@ -206,7 +206,7 @@ InputDir=.
 InputPath=.\res.txt
 
 "$(InputDir)\res.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	..\..\..\data\genwinres res.h menuid.h res.txt resdialogs.txt resmenu.txt resstrings.txt
+	..\..\..\data\genwinres res.h menuid.h stringid.h res.txt resdialogs.txt resmenu.txt resstrings.txt
 
 # End Custom Build
 

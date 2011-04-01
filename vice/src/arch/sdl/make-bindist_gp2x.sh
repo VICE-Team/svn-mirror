@@ -50,7 +50,7 @@ rm `find SDLVICE-gp2x-$VICEVERSION -name "amiga_*.vkm"`
 rm `find SDLVICE-gp2x-$VICEVERSION -name "beos_*.vkm"`
 rm `find SDLVICE-gp2x-$VICEVERSION -name "dos_*.vkm"`
 rm `find SDLVICE-gp2x-$VICEVERSION -name "os2*.vkm"`
-rm `find SDLVICE-gp2x-$VICEVERSION -name "win_*.vkm"`
+rm `find SDLVICE-gp2x-$VICEVERSION -name "win_*.v*"`
 rm `find SDLVICE-gp2x-$VICEVERSION -name "RO*.vkm"`
 rm `find SDLVICE-gp2x-$VICEVERSION -name "*.vsc"`
 if test x"$ZIPKIND" = "xzip"; then

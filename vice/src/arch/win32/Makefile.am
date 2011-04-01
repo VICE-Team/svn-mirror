@@ -395,11 +395,12 @@ EXTRA_DIST = \
 	fileio.dsp \
 	fsdevice.dsp \
 	geninfocontrib.dsp \
+	genmenuid.sh \
 	genmsvcver.dsp \
+	genstringid.sh \
 	gentranslate.dsp \
 	genwinres.dsp \
 	genwinres.sh \
-	genmenuid.sh \
 	gfxoutputdrv.dsp \
 	iec.dsp \
 	iec128dcr.dsp \
@@ -461,9 +462,10 @@ res.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir
 @CROSS_TRUE@	cat >resall.txt $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 @CROSS_TRUE@	. $(srcdir)/genwinres.sh <resall.txt >res.h
 @CROSS_TRUE@	. $(srcdir)/genmenuid.sh <resall.txt >menuid.h
+@CROSS_TRUE@	. $(srcdir)/genstringid.sh <resall.txt >stringid.h
 @CROSS_TRUE@	rm -f resall.txt
 @CROSS_FALSE@	(cd utils; $(MAKE))
-@CROSS_FALSE@	utils/genwinres res.h menuid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+@CROSS_FALSE@	utils/genwinres res.h menuid.h stringid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 
 resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \

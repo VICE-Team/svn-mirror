@@ -46,7 +46,7 @@ rm `find SDLVICE-dingoo-$VICEVERSION -name "amiga_*.vkm"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "beos_*.vkm"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "dos_*.vkm"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "os2*.vkm"`
-rm `find SDLVICE-dingoo-$VICEVERSION -name "win_*.vkm"`
+rm `find SDLVICE-dingoo-$VICEVERSION -name "win_*.v*"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "RO*.vkm"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "*.vsc"`
 if test x"$ZIPKIND" = "xzip"; then

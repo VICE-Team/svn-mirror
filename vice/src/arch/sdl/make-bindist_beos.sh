@@ -64,6 +64,7 @@ cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README SDLVICE-$BEOSCPU-beos-$VICEVERSION
 rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "Makefile*"`
 rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "*.vkm" -and ! -name "sdl*.vkm"`
 rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "*.vsc"`
+rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "win_*.v*"`
 if [ -e SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html ]
 then
   rm SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html

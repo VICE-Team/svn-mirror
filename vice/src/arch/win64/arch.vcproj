@@ -1361,7 +1361,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Generating res.h"
-					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
+					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\stringid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
 					AdditionalDependencies="..\win32\res.txt;..\win32\resdialogs.txt;..\win32\resmenu.txt;..\win32\resstrings.txt;"
 					Outputs="$(InputDir)..\win32\res.h"
 				/>
@@ -1372,7 +1372,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Generating res.h"
-					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
+					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\stringid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
 					AdditionalDependencies="..\win32\res.txt;..\win32\resdialogs.txt;..\win32\resmenu.txt;..\win32\resstrings.txt;"
 					Outputs="$(InputDir)..\win32\res.h"
 				/>
@@ -1383,7 +1383,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Generating res.h"
-					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
+					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\stringid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
 					AdditionalDependencies="..\win32\res.txt;..\win32\resdialogs.txt;..\win32\resmenu.txt;..\win32\resstrings.txt;"
 					Outputs="$(InputDir)..\win32\res.h"
 				/>
@@ -1394,7 +1394,7 @@
 				<Tool
 					Name="VCCustomBuildTool"
 					Description="Generating res.h"
-					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
+					CommandLine="..\..\..\data\genwinres ..\win32\res.h ..\win32\menuid.h ..\win32\stringid.h ..\win32\res.txt ..\win32\resdialogs.txt ..\win32\resmenu.txt ..\win32\resstrings.txt&#x0D;&#x0A;"
 					AdditionalDependencies="..\win32\res.txt;..\win32\resdialogs.txt;..\win32\resmenu.txt;..\win32\resstrings.txt;"
 					Outputs="$(InputDir)..\win32\res.h"
 				/>

@@ -37,8 +37,11 @@
 #include "cmdline.h"
 #include "intl.h"
 #include "lib.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
+#include "stringid.h"
+#include "sysfile.h"
 #include "translate.h"
 #include "translate_languages.h"
 #include "util.h"
@@ -73,7 +76,6 @@ static windows_iso_t windows_to_iso[] = {
     { LANG_TURKISH, "tr", 28599 },
     { 0, NULL }
 };
-
 
 static int intl_table[][countof(language_table)] = {
 
@@ -292,6 +294,231 @@ char *intl_convert_cp(char *text, int cp)
 
 /* --------------------------------------------------------------------- */
 
+static int hotkeys_loaded = 0;
+
+typedef struct windows_hotkey_s {
+    char hotkey;
+    int occurence;
+} windows_hotkey_t;
+
+static windows_hotkey_t windows_hotkeys[LAST_IDS + 16][countof(language_table)];
+
+static char line_buffer[512];
+
+#define FOUND_UNKNOWN_LINE  0
+#define FOUND_EMPTY_LINE    1
+#define FOUND_COMMENT_LINE  2
+#define FOUND_IDS_LINE      3
+
+static int gethotkeyline(FILE *file)
+{
+    char c = 0;
+    int counter = 0;
+
+    while (c != '\n' && !feof(file) && counter < 511) {
+        c = fgetc(file);
+        if (c != 0xd) {
+            line_buffer[counter++] = c;
+        }
+    }
+    line_buffer[counter] = 0;
+
+    if (line_buffer[0] == 0) {
+        return FOUND_EMPTY_LINE;
+    }
+
+    if (line_buffer[0] == '#') {
+        return FOUND_COMMENT_LINE;
+    }
+
+    if (line_buffer[0] == 'I' && line_buffer[1] == 'D' && line_buffer[2] == 'S' && line_buffer[3] == '_') {
+        return FOUND_IDS_LINE;
+    }
+
+    return FOUND_UNKNOWN_LINE;
+}
+
+static void intl_set_hotkey(void)
+{
+    int i = 0;
+    int ids, langid;
+    int occurence = 1;
+    int found_string = 0;
+    char *langpos = NULL;
+    char *hotkeypos = NULL;
+    char *occpos = NULL;
+
+    /* get to the first 'space' */
+    while (!isspace(line_buffer[i]) && line_buffer[i] != 0) {
+        i++;
+    }
+
+    /* check if end-of-line */
+    if (line_buffer[i] == 0) {
+        return;
+    }
+
+    line_buffer[i++] = 0;
+
+    /* skip spaces */
+    while (isspace(line_buffer[i])) {
+        i++;
+    }
+
+    /* check if end-of-line */
+    if (line_buffer[i] == 0) {
+        return;
+    }
+
+    langpos = line_buffer + i;
+
+    /* get the the first 'space' */
+    while (!isspace(line_buffer[i]) && line_buffer[i] != 0) {
+        i++;
+    }
+
+    /* check if end-of-line */
+    if (line_buffer[i] == 0) {
+        return;
+    }
+
+    line_buffer[i++] = 0;
+
+    /* skip spaces */
+    while (isspace(line_buffer[i])) {
+        i++;
+    }
+
+    /* check if end-of-line */
+    if (line_buffer[i] == 0) {
+        return;
+    }
+
+    hotkeypos = line_buffer + i;
+
+    /* get the the first 'space' */
+    while (!isspace(line_buffer[i]) && line_buffer[i] != 0) {
+        i++;
+    }
+
+    /* get optional occurence number */
+    if (line_buffer[i] != 0) {
+
+        line_buffer[i++] = 0;
+
+        /* skip spaces */
+        while (isspace(line_buffer[i])) {
+            i++;
+        }
+        if (line_buffer[i] != 0) {
+            occpos = line_buffer + i;
+        }
+    }
+
+    /* find the ids belonging to the IDS_* string */
+    for (i = 0; idslist[i].str != NULL && found_string == 0; i++) {
+        if (!strcmp(idslist[i].str, line_buffer)) {
+            found_string = 1;
+            ids = idslist[i].cmd;
+        }
+    }
+
+    /* check if ids not found */
+    if (found_string == 0) {
+        return;
+    }
+
+    /* find the language number belonging to the language identifier string */
+    found_string = 0;
+    for (i = 0; i < countof(language_table) && found_string == 0; i++) {
+        if (!strcmp(language_table[i], langpos)) {
+            langid = i;
+            found_string = 1;
+        }
+    }
+
+    /* check if language found */
+    if (found_string == 0) {
+        return;
+    }
+
+    /* check if the hotkey is only 1 character */
+    if (strlen(hotkeypos) != 1) {
+        return;
+    }
+
+    /* check for the optional occurence number */
+    if (occpos != NULL) {
+        occurence = atoi(occpos);
+    }
+
+    /* put entry into the hotkey table */
+    windows_hotkeys[ids][langid].hotkey = hotkeypos[0];
+    windows_hotkeys[ids][langid].occurence = occurence;
+}
+
+static int intl_load_hotkey_table(void)
+{
+    int i, j, found;
+    FILE *fhotkeys;
+    char *complete_path;
+    char *name;
+
+    /* init table */
+    for (i = 0; i < LAST_IDS; i++) {
+        for (j = 0; j < countof(language_table); j++) {
+            windows_hotkeys[i][j].hotkey = 0;
+            windows_hotkeys[i][j].occurence = 0;
+        }
+    }
+
+    name = util_concat(machine_name, "/win_hotkeys.vhk", NULL);
+    fhotkeys = fopen(name, MODE_READ_TEXT);
+    lib_free(name);
+    lib_free(complete_path);
+    if (fhotkeys == NULL) {
+        return 0;
+    }
+
+    while (!feof(fhotkeys)) {
+        found = gethotkeyline(fhotkeys);
+        if (found == FOUND_IDS_LINE) {
+            intl_set_hotkey();
+        }
+    }
+    fclose(fhotkeys);
+    return 1;
+}
+
+static char *intl_add_hotkey(char *text, int ids, int lang)
+{
+    char *ret = NULL;
+    int i = 0;
+    int j = 0;
+    int occ = 0;
+
+    if (windows_hotkeys[ids][lang].hotkey == 0 || text == NULL) {
+        return text;
+    } else {
+        ret = lib_malloc(strlen(text) + 1);
+        while (text[i] != 0) {
+            if (text[i] == windows_hotkeys[ids][lang].hotkey) {
+                occ++;
+                if (occ == windows_hotkeys[ids][lang].occurence) {
+                    ret[j++] = '&';
+                }
+            }
+            ret[j++] = text[i++];
+        }
+        ret[j] = 0;
+        lib_free(text);
+
+        return ret;
+    }
+}
+
+/* --------------------------------------------------------------------- */
+
 static char *intl_text_table[LAST_IDS + 16][countof(language_table)];
 static BYTE text_cache[(((LAST_IDS / 16) + 1) / 8) + 1];
 
@@ -299,7 +526,6 @@ static BYTE text_cache[(((LAST_IDS / 16) + 1) / 8) + 1];
 
 static void intl_text_init(void)
 {
-
     ZeroMemory(intl_text_table, sizeof(intl_text_table));
     ZeroMemory(text_cache, sizeof(text_cache));
 
@@ -314,6 +540,9 @@ static void intl_text_init(void)
 
     /* prepare the codepage 28599 (ISO 8859-9) to current codepage conversion */
     WideCharToMultiByte(CP_ACP, 0, wcp28599, 256, cp28599, 256, NULL, NULL);
+
+    /* load the hotkey table */
+    hotkeys_loaded = intl_load_hotkey_table();
 }
 
 static void intl_text_free(void)
@@ -350,7 +579,8 @@ char *intl_translate_text(int en_resource)
                     length = *p++;
                     WideCharToMultiByte(CP_ACP, 0, p, length, temp_buffer, 4096, NULL, NULL);
                     p = p + length;
-                    intl_text_table[((j - 1) << 4) + k][i] = strdup(temp_buffer);
+                    intl_text_table[((j - 1) << 4) + k][i] = lib_stralloc(temp_buffer);
+                    intl_text_table[((j - 1) << 4) + k][i] = intl_add_hotkey(intl_text_table[((j - 1) << 4) + k][i], ((j - 1) << 4) + k, i);
                 }
                 FreeResource(hGlob);
             } else {

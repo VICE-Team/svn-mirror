@@ -121,7 +121,7 @@ rm `find SDLVICE-$AMIGAFLAVOR -name "dos_*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "os2*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "osx*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "beos_*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "win_*.vkm"`
+rm `find SDLVICE-$AMIGAFLAVOR -name "win_*.v*"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "x11_*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "RO*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "amiga*.vkm"`
