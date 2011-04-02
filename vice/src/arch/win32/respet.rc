@@ -23,18 +23,18 @@
 
 IDR_MENUPET MENU DISCARDABLE
 BEGIN
-    POPUP "&File"
+    POPUP "File"
     BEGIN
         MENUITEM "", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Attach &disk image"
+        POPUP "Attach disk image"
         BEGIN
             MENUITEM "", IDM_ATTACH_8
             MENUITEM "", IDM_ATTACH_9
             MENUITEM "", IDM_ATTACH_10
             MENUITEM "", IDM_ATTACH_11
         END
-        POPUP "D&etach disk image"
+        POPUP "Detach disk image"
         BEGIN
             MENUITEM "", IDM_DETACH_8
             MENUITEM "", IDM_DETACH_9
@@ -43,7 +43,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_DETACH_ALL
         END
-        POPUP "&Flip list"
+        POPUP "Flip list"
         BEGIN
             MENUITEM "", IDM_FLIP_ADD
             MENUITEM "", IDM_FLIP_REMOVE
@@ -56,7 +56,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_ATTACH_TAPE
         MENUITEM "", IDM_DETACH_TAPE
-        POPUP "Datassette contro&l"
+        POPUP "Datassette control"
         BEGIN
             MENUITEM "", IDM_DATASETTE_CONTROL_STOP
             MENUITEM "", IDM_DATASETTE_CONTROL_START
@@ -69,7 +69,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_MONITOR
-        POPUP "&Reset"
+        POPUP "Reset"
         BEGIN
             MENUITEM "", IDM_RESET_HARD
             MENUITEM "", IDM_RESET_SOFT
@@ -80,9 +80,9 @@ BEGIN
             MENUITEM "", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-                POPUP "&Debug"
+                POPUP "Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "Mode"
             BEGIN
                 MENUITEM "", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "", IDM_DEBUG_MODE_SMALL
@@ -102,7 +102,7 @@ BEGIN
         MENUITEM "", IDM_EDIT_COPY
         MENUITEM "", IDM_EDIT_PASTE
     END
-    POPUP "Sna&pshot"
+    POPUP "Snapshot"
     BEGIN
         MENUITEM "", IDM_SNAPSHOT_LOAD
         MENUITEM "", IDM_SNAPSHOT_SAVE
@@ -127,9 +127,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "&Options"
+    POPUP "Options"
     BEGIN
-        POPUP "&Refresh rate"
+        POPUP "Refresh rate"
         BEGIN
             MENUITEM "",      IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -143,7 +143,7 @@ BEGIN
             MENUITEM "1/&9",  IDM_REFRESH_RATE_9
             MENUITEM "1/1&0", IDM_REFRESH_RATE_10
         END
-        POPUP "&Maximum Speed"
+        POPUP "Maximum Speed"
         BEGIN
             MENUITEM "&200%", IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%", IDM_MAXIMUM_SPEED_100
@@ -175,13 +175,13 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_DRIVE_TRUE_EMULATION, CHECKED
         MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
-        POPUP "Drive s&ync factor"
+        POPUP "Drive sync factor"
         BEGIN
             MENUITEM "&PAL",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC", IDM_SYNC_FACTOR_NTSC
         END
     END
-    POPUP "S&ettings"
+    POPUP "Settings"
     BEGIN
         MENUITEM "", IDM_AUTOSTART_SETTINGS
         MENUITEM "", IDM_VIDEO_SETTINGS
@@ -195,7 +195,7 @@ BEGIN
         MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_RAM_SETTINGS
         MENUITEM "", IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO Settings"
+        POPUP "Cartridge/IO Settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
             MENUITEM "", IDM_PETDWW_SETTINGS
@@ -213,7 +213,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "", IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "Language"
     BEGIN
         MENUITEM "", IDM_LANG_EN
         MENUITEM "", IDM_LANG_DA
@@ -228,7 +228,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "&Help"
+    POPUP "Help"
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
@@ -590,27 +590,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
-  IDS_PET_MEMORY                 "M&emory"
-  IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (from ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Columns"
-  IDS_SELECT_PET_VIDEO_80        "&80 Columns"
-  IDS_PET_IO_SIZE                "&IO Size"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC chip &enable"
-  IDS_PET_KEYBOARD               "&Keyboard"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphics"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "&IO Settings"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &enable (disables 8x96)"
-  IDS_PET_RAM_SETTINGS           "&RAM Settings"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** as RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
-  IDS_MI_PET_SETTINGS            "P&ET settings..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_PET_MEMORY                 "Memory"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Columns"
+  IDS_SELECT_PET_VIDEO_80        "80 Columns"
+  IDS_PET_IO_SIZE                "IO Size"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip enable"
+  IDS_PET_KEYBOARD               "Keyboard"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Graphics"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
+  IDS_PET_RAM_SETTINGS           "RAM Settings"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"
+  IDS_MI_PET_SETTINGS            "PET settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
 END
 
 
@@ -626,27 +626,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Maskinens standardindstillinger"
-  IDS_PET_MEMORY                 "Huko&mmelse"
-  IDS_PET_VIDEO                  "&Grafik"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (från ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 kolonner"
-  IDS_SELECT_PET_VIDEO_80        "&80 kolonner"
-  IDS_PET_IO_SIZE                "&I/O-størrelse"
-  IDS_SELECT_PET_IO256           "2&56 byte"
-  IDS_SELECT_PET_IO2K            "&2 kbyte"
-  IDS_TOGGLE_PET_CRTC            "&Aktivér CRTC-kreds"
-  IDS_PET_KEYBOARD               "&Tastatur"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafisk"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (Storbritannien)"
-  IDS_PET_IO_SETTINGS            "&I/O-indstillinger"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Aktivér SuperPET-I/O (deaktiverer 8x96)"
-  IDS_PET_RAM_SETTINGS           "&RAM-indstillinger"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** som RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
-  IDS_MI_PET_SETTINGS            "P&ET-indstillinger..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW-indstillinger..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU-indstillinger..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivér PET br&ugerport DAC"
+  IDS_PET_MEMORY                 "Hukommelse"
+  IDS_PET_VIDEO                  "Grafik"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (från ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 kolonner"
+  IDS_SELECT_PET_VIDEO_80        "80 kolonner"
+  IDS_PET_IO_SIZE                "I/O-størrelse"
+  IDS_SELECT_PET_IO256           "256 byte"
+  IDS_SELECT_PET_IO2K            "2 kbyte"
+  IDS_TOGGLE_PET_CRTC            "Aktivér CRTC-kreds"
+  IDS_PET_KEYBOARD               "Tastatur"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Grafisk"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (Storbritannien)"
+  IDS_PET_IO_SETTINGS            "I/O-indstillinger"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "Aktivér SuperPET-I/O (deaktiverer 8x96)"
+  IDS_PET_RAM_SETTINGS           "RAM-indstillinger"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** som RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** som RAM"
+  IDS_MI_PET_SETTINGS            "PET-indstillinger..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW-indstillinger..."
+  IDS_MI_PETREU_SETTINGS         "PET REU-indstillinger..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivér PET brugerport DAC"
 END
 
 
@@ -662,27 +662,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Modell Standardeinstellungen"
-  IDS_PET_MEMORY                 "Sp&eicher"
-  IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Automatisch (von ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Spalten"
-  IDS_SELECT_PET_VIDEO_80        "&80 Spalten"
-  IDS_PET_IO_SIZE                "&I/O Größe"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC Chip aktivi&eren"
-  IDS_PET_KEYBOARD               "&Tastatur"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafik"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "&I/O Einstellungen"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O aktivi&eren (deaktiviert 8x96)"
-  IDS_PET_RAM_SETTINGS           "&RAM Einstellungen"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** als RAM (nur 8296)"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM (nur 8296)"
-  IDS_MI_PET_SETTINGS            "P&ET Einstellungen..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW Einstellungen..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU Einstellungen..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET &Userport DAC aktivi&eren"
+  IDS_PET_MEMORY                 "Speicher"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Automatisch (von ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Spalten"
+  IDS_SELECT_PET_VIDEO_80        "80 Spalten"
+  IDS_PET_IO_SIZE                "I/O Größe"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC Chip aktivieren"
+  IDS_PET_KEYBOARD               "Tastatur"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Grafik"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "I/O Einstellungen"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O aktivieren (deaktiviert 8x96)"
+  IDS_PET_RAM_SETTINGS           "RAM Einstellungen"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** als RAM (nur 8296)"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** als RAM (nur 8296)"
+  IDS_MI_PET_SETTINGS            "PET Einstellungen..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW Einstellungen..."
+  IDS_MI_PETREU_SETTINGS         "PET REU Einstellungen..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET Userport DAC aktivieren"
 END
 
 
@@ -697,28 +697,28 @@ BEGIN
   IDS_ROM_9                      "ROM 9"
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
-  IDS_PET_MACHINE_DEFAULTS       "Valeurs par déf&aut du modèle"
-  IDS_PET_MEMORY                 "Mémoir&e"
-  IDS_PET_VIDEO                  "&Vidéo"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (depuis la ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Colonnes"
-  IDS_SELECT_PET_VIDEO_80        "&80 Colonnes"
-  IDS_PET_IO_SIZE                "Taille d'&E/S"
-  IDS_SELECT_PET_IO256           "25&6 Octets"
-  IDS_SELECT_PET_IO2K            "&2048 Octets"
-  IDS_TOGGLE_PET_CRTC            "Activ&er la puce CRTC"
+  IDS_PET_MACHINE_DEFAULTS       "Valeurs par défaut du modèle"
+  IDS_PET_MEMORY                 "Mémoire"
+  IDS_PET_VIDEO                  "Vidéo"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (depuis la ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Colonnes"
+  IDS_SELECT_PET_VIDEO_80        "80 Colonnes"
+  IDS_PET_IO_SIZE                "Taille d'E/S"
+  IDS_SELECT_PET_IO256           "256 Octets"
+  IDS_SELECT_PET_IO2K            "2048 Octets"
+  IDS_TOGGLE_PET_CRTC            "Activer la puce CRTC"
   IDS_PET_KEYBOARD               "Type de clavier"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphiques"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "Paramètres &E/S"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "Activer les E/S &SuperPET (ne fonctionne pas avec 8x96)"
-  IDS_PET_RAM_SETTINGS           "Paramètres &RAM"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Graphiques"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "Paramètres E/S"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "Activer les E/S SuperPET (ne fonctionne pas avec 8x96)"
+  IDS_PET_RAM_SETTINGS           "Paramètres RAM"
   IDS_TOGGLE_PET_8296_RAM9       "$9*** comme RAM (8296 seulement)"
   IDS_TOGGLE_PET_8296_RAMA       "*$A*** comme RAM (8296 seulement)"
-  IDS_MI_PET_SETTINGS            "Paramètres P&ET..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_MI_PET_SETTINGS            "Paramètres PET..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
 END
 
 
@@ -737,27 +737,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Modell alapértelmezései"
-  IDS_PET_MEMORY                 "M&emória"
-  IDS_PET_VIDEO                  "&Videó"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Automatikus (ROM-ból)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Oszlop"
-  IDS_SELECT_PET_VIDEO_80        "&80 Oszlop"
-  IDS_PET_IO_SIZE                "&I/O méret"
-  IDS_SELECT_PET_IO256           "2&56 Bájt"
-  IDS_SELECT_PET_IO2K            "&2 kBájt"
-  IDS_TOGGLE_PET_CRTC            "CRTC csip &engedélyezése"
-  IDS_PET_KEYBOARD               "&Billentyûzet"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafikus"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Hivatalos (UK)"
-  IDS_PET_IO_SETTINGS            "&IO beállításai"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &engedélyezése (8x96-on tiltva)"
-  IDS_PET_RAM_SETTINGS           "&RAM beállításai"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** RAM-ként"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** RAM-ként"
-  IDS_MI_PET_SETTINGS            "P&ET beállításai..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU beállításai..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_PET_MEMORY                 "Memória"
+  IDS_PET_VIDEO                  "Videó"
+  IDS_SELECT_PET_VIDEO_AUTO      "Automatikus (ROM-ból)"
+  IDS_SELECT_PET_VIDEO_40        "40 Oszlop"
+  IDS_SELECT_PET_VIDEO_80        "80 Oszlop"
+  IDS_PET_IO_SIZE                "I/O méret"
+  IDS_SELECT_PET_IO256           "256 Bájt"
+  IDS_SELECT_PET_IO2K            "2 kBájt"
+  IDS_TOGGLE_PET_CRTC            "CRTC csip engedélyezése"
+  IDS_PET_KEYBOARD               "Billentyûzet"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Grafikus"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Hivatalos (UK)"
+  IDS_PET_IO_SETTINGS            "IO beállításai"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O engedélyezése (8x96-on tiltva)"
+  IDS_PET_RAM_SETTINGS           "RAM beállításai"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** RAM-ként"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** RAM-ként"
+  IDS_MI_PET_SETTINGS            "PET beállításai..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET REU beállításai..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -776,27 +776,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Impostazioni predefinite"
-  IDS_PET_MEMORY                 "M&emoria"
-  IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (dalla ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Colonne"
-  IDS_SELECT_PET_VIDEO_80        "&80 Colonne"
-  IDS_PET_IO_SIZE                "Dimensione &I/O"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "&Attiva chip CRTC"
-  IDS_PET_KEYBOARD               "&Tastiera"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafica"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "Impostazioni &IO"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Attiva I/O SuperPET (disattiva 8x96)"
-  IDS_PET_RAM_SETTINGS           "Impostazioni &RAM"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** come RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** come RAM"
-  IDS_MI_PET_SETTINGS            "Impostazioni P&ET..."
-  IDS_MI_PETDWW_SETTINGS         "Impostazioni PET &DWW..."
-  IDS_MI_PETREU_SETTINGS         "Impostazioni PET &REU..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su &userport PET"
+  IDS_PET_MEMORY                 "Memoria"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (dalla ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Colonne"
+  IDS_SELECT_PET_VIDEO_80        "80 Colonne"
+  IDS_PET_IO_SIZE                "Dimensione I/O"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "Attiva chip CRTC"
+  IDS_PET_KEYBOARD               "Tastiera"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Grafica"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "Impostazioni IO"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "Attiva I/O SuperPET (disattiva 8x96)"
+  IDS_PET_RAM_SETTINGS           "Impostazioni RAM"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** come RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** come RAM"
+  IDS_MI_PET_SETTINGS            "Impostazioni PET..."
+  IDS_MI_PETDWW_SETTINGS         "Impostazioni PET DWW..."
+  IDS_MI_PETREU_SETTINGS         "Impostazioni PET REU..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su userport PET"
 END
 
 
@@ -815,27 +815,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
-  IDS_PET_MEMORY                 "M&emory"
-  IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (from ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Columns"
-  IDS_SELECT_PET_VIDEO_80        "&80 Columns"
-  IDS_PET_IO_SIZE                "&IO Size"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC chip &enable"
-  IDS_PET_KEYBOARD               "&Keyboard"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphics"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "&IO Settings"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &enable (disables 8x96)"
-  IDS_PET_RAM_SETTINGS           "&RAM Settings"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** as RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
-  IDS_MI_PET_SETTINGS            "P&ET settings..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_PET_MEMORY                 "Memory"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Columns"
+  IDS_SELECT_PET_VIDEO_80        "80 Columns"
+  IDS_PET_IO_SIZE                "IO Size"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip enable"
+  IDS_PET_KEYBOARD               "Keyboard"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Graphics"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
+  IDS_PET_RAM_SETTINGS           "RAM Settings"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"
+  IDS_MI_PET_SETTINGS            "PET settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -854,27 +854,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Machine standaards"
-  IDS_PET_MEMORY                 "G&eheugen"
-  IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (van ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Kolommen"
-  IDS_SELECT_PET_VIDEO_80        "&80 Kolommen"
-  IDS_PET_IO_SIZE                "&IO grootte"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC chip &activeren"
-  IDS_PET_KEYBOARD               "&Toetsenbord"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafiek"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Zakelijk (UK)"
-  IDS_PET_IO_SETTINGS            "&IO instellingen"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O activ&eren (schakelt 8x96 uit)"
-  IDS_PET_RAM_SETTINGS           "&RAM instellingen"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** als RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** als RAM"
-  IDS_MI_PET_SETTINGS            "P&ET instellingen..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW instellingen..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU instellingen..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer PET &userport DAC"
+  IDS_PET_MEMORY                 "Geheugen"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (van ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Kolommen"
+  IDS_SELECT_PET_VIDEO_80        "80 Kolommen"
+  IDS_PET_IO_SIZE                "IO grootte"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip activeren"
+  IDS_PET_KEYBOARD               "Toetsenbord"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Grafiek"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Zakelijk (UK)"
+  IDS_PET_IO_SETTINGS            "IO instellingen"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O activeren (schakelt 8x96 uit)"
+  IDS_PET_RAM_SETTINGS           "RAM instellingen"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** als RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** als RAM"
+  IDS_MI_PET_SETTINGS            "PET instellingen..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW instellingen..."
+  IDS_MI_PETREU_SETTINGS         "PET REU instellingen..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer PET userport DAC"
 END
 
 
@@ -893,27 +893,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
-  IDS_PET_MEMORY                 "M&emory"
-  IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (from ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Columns"
-  IDS_SELECT_PET_VIDEO_80        "&80 Columns"
-  IDS_PET_IO_SIZE                "&IO Size"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC chip &enable"
-  IDS_PET_KEYBOARD               "&Keyboard"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphics"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "&IO Settings"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &enable (disables 8x96)"
-  IDS_PET_RAM_SETTINGS           "&RAM Settings"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** as RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
-  IDS_MI_PET_SETTINGS            "P&ET settings..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_PET_MEMORY                 "Memory"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Columns"
+  IDS_SELECT_PET_VIDEO_80        "80 Columns"
+  IDS_PET_IO_SIZE                "IO Size"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip enable"
+  IDS_PET_KEYBOARD               "Keyboard"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Graphics"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
+  IDS_PET_RAM_SETTINGS           "RAM Settings"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"
+  IDS_MI_PET_SETTINGS            "PET settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -935,27 +935,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
-  IDS_PET_MEMORY                 "M&emory"
-  IDS_PET_VIDEO                  "&Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (from ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Columns"
-  IDS_SELECT_PET_VIDEO_80        "&80 Columns"
-  IDS_PET_IO_SIZE                "&IO Size"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC chip &enable"
-  IDS_PET_KEYBOARD               "&Keyboard"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Graphics"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "&IO Settings"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O &enable (disables 8x96)"
-  IDS_PET_RAM_SETTINGS           "&RAM Settings"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** as RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** as RAM"
-  IDS_MI_PET_SETTINGS            "P&ET settings..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET &Userport DAC"
+  IDS_PET_MEMORY                 "Memory"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 Columns"
+  IDS_SELECT_PET_VIDEO_80        "80 Columns"
+  IDS_PET_IO_SIZE                "IO Size"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC chip enable"
+  IDS_PET_KEYBOARD               "Keyboard"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Graphics"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
+  IDS_PET_RAM_SETTINGS           "RAM Settings"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"
+  IDS_MI_PET_SETTINGS            "PET settings..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -974,27 +974,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Modellens förval"
-  IDS_PET_MEMORY                 "M&inne"
-  IDS_PET_VIDEO                  "&Grafik"
-  IDS_SELECT_PET_VIDEO_AUTO      "&Auto (från ROM)"
-  IDS_SELECT_PET_VIDEO_40        "&40 kolumner"
-  IDS_SELECT_PET_VIDEO_80        "&80 kolumner"
-  IDS_PET_IO_SIZE                "&I/O-utrymme"
-  IDS_SELECT_PET_IO256           "2&56 byte"
-  IDS_SELECT_PET_IO2K            "&2 kbyte"
-  IDS_TOGGLE_PET_CRTC            "&Aktivera CRTC-krets"
-  IDS_PET_KEYBOARD               "&Tangentbord"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafisk"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (Storbritannien)"
-  IDS_PET_IO_SETTINGS            "&I/O-Inställningar"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "&Aktivera SuperPET-I/O (inaktiverar 8x96)"
-  IDS_PET_RAM_SETTINGS           "&RAM-inställningar"
-  IDS_TOGGLE_PET_8296_RAM9       "$&9*** som RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$&A*** som RAM"
-  IDS_MI_PET_SETTINGS            "P&ET-inställningar..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW-inställningar..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU-inställningar..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera PET användarport-&D/A-omvandlare"
+  IDS_PET_MEMORY                 "Minne"
+  IDS_PET_VIDEO                  "Grafik"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (från ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 kolumner"
+  IDS_SELECT_PET_VIDEO_80        "80 kolumner"
+  IDS_PET_IO_SIZE                "I/O-utrymme"
+  IDS_SELECT_PET_IO256           "256 byte"
+  IDS_SELECT_PET_IO2K            "2 kbyte"
+  IDS_TOGGLE_PET_CRTC            "Aktivera CRTC-krets"
+  IDS_PET_KEYBOARD               "Tangentbord"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Grafisk"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (Storbritannien)"
+  IDS_PET_IO_SETTINGS            "I/O-Inställningar"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "Aktivera SuperPET-I/O (inaktiverar 8x96)"
+  IDS_PET_RAM_SETTINGS           "RAM-inställningar"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** som RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** som RAM"
+  IDS_MI_PET_SETTINGS            "PET-inställningar..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW-inställningar..."
+  IDS_MI_PETREU_SETTINGS         "PET REU-inställningar..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera PET användarport-D/A-omvandlare"
 END
 
 
@@ -1013,27 +1013,27 @@ BEGIN
   IDS_ROM_A                      "ROM A"
   IDS_ROM_B                      "ROM B"
   IDS_PET_MACHINE_DEFAULTS       "Makine varsayýlan ayarlarý"
-  IDS_PET_MEMORY                 "B&ellek"
-  IDS_PET_VIDEO                  "&Görüntü"
-  IDS_SELECT_PET_VIDEO_AUTO      "Otom&atik (ROM'dan)"
-  IDS_SELECT_PET_VIDEO_40        "&40 Sütun"
-  IDS_SELECT_PET_VIDEO_80        "&80 Sütun"
-  IDS_PET_IO_SIZE                "&GÇ Boyutu"
-  IDS_SELECT_PET_IO256           "2&56 Byte"
-  IDS_SELECT_PET_IO2K            "&2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC çipini aktif &et"
-  IDS_PET_KEYBOARD               "&Klavye"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "&Grafikler"
-  IDS_SELECT_PET_KEYB_BUSINESS   "&Business (UK)"
-  IDS_PET_IO_SETTINGS            "&GÇ Ayarlarý"
+  IDS_PET_MEMORY                 "Bellek"
+  IDS_PET_VIDEO                  "Görüntü"
+  IDS_SELECT_PET_VIDEO_AUTO      "Otomatik (ROM'dan)"
+  IDS_SELECT_PET_VIDEO_40        "40 Sütun"
+  IDS_SELECT_PET_VIDEO_80        "80 Sütun"
+  IDS_PET_IO_SIZE                "GÇ Boyutu"
+  IDS_SELECT_PET_IO256           "256 Byte"
+  IDS_SELECT_PET_IO2K            "2 kByte"
+  IDS_TOGGLE_PET_CRTC            "CRTC çipini aktif et"
+  IDS_PET_KEYBOARD               "Klavye"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Grafikler"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_PET_IO_SETTINGS            "GÇ Ayarlarý"
   IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET G/Ç aktif et (8x96'yý pasifleþtir)"
-  IDS_PET_RAM_SETTINGS           "&RAM Ayarlarý"
+  IDS_PET_RAM_SETTINGS           "RAM Ayarlarý"
   IDS_TOGGLE_PET_8296_RAM9       "RAM olarak $9***"
-  IDS_TOGGLE_PET_8296_RAMA       "RAM olarak $&A***"
-  IDS_MI_PET_SETTINGS            "P&ET ayarlarý..."
-  IDS_MI_PETDWW_SETTINGS         "PET &DWW ayarlarý..."
-  IDS_MI_PETREU_SETTINGS         "PET &REU ayarlarý..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET &Userport DAC'ý aktif et"
+  IDS_TOGGLE_PET_8296_RAMA       "RAM olarak $A***"
+  IDS_MI_PET_SETTINGS            "PET ayarlarý..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW ayarlarý..."
+  IDS_MI_PETREU_SETTINGS         "PET REU ayarlarý..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET Userport DAC'ý aktif et"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

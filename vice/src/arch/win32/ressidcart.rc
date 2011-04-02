@@ -91,7 +91,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ENABLE                         "Enable SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID address"
   IDS_SIDCART_CLOCK_LABEL                    "SID clock"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
@@ -105,7 +105,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Aktivér SID"
+  IDS_SIDCART_ENABLE                         "Aktivér SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID-adresse"
   IDS_SIDCART_CLOCK_LABEL                    "SID-klok"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-enhedsvalg"
@@ -119,7 +119,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "SID Aktivier&en"
+  IDS_SIDCART_ENABLE                         "SID Aktivieren"
   IDS_SIDCART_ADDRESS_LABEL                  "SID Adresse"
   IDS_SIDCART_CLOCK_LABEL                    "SID Takt"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Geräte Auswahl"
@@ -133,7 +133,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ENABLE                         "Enable SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID address"
   IDS_SIDCART_CLOCK_LABEL                    "Horloge SID"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
@@ -150,7 +150,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "SID &engedélyezése"
+  IDS_SIDCART_ENABLE                         "SID engedélyezése"
   IDS_SIDCART_ADDRESS_LABEL                  "SID cím"
   IDS_SIDCART_CLOCK_LABEL                    "SID órajel"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID eszköz kiválasztása"
@@ -167,7 +167,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Attiva SID"
+  IDS_SIDCART_ENABLE                         "Attiva SID"
   IDS_SIDCART_ADDRESS_LABEL                  "Indirizzo SID"
   IDS_SIDCART_CLOCK_LABEL                    "Clock SID"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "Selezione dispositivo HardSID"
@@ -184,7 +184,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ENABLE                         "Enable SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID address"
   IDS_SIDCART_CLOCK_LABEL                    "SID clock"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
@@ -201,7 +201,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Activeer SID"
+  IDS_SIDCART_ENABLE                         "Activeer SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID adres"
   IDS_SIDCART_CLOCK_LABEL                    "SID klok"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID apparaatselectie"
@@ -218,7 +218,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ENABLE                         "Enable SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID address"
   IDS_SIDCART_CLOCK_LABEL                    "SID clock"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
@@ -238,7 +238,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Enable SID"
+  IDS_SIDCART_ENABLE                         "Enable SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID address"
   IDS_SIDCART_CLOCK_LABEL                    "SID clock"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
@@ -255,7 +255,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "&Aktivera SID"
+  IDS_SIDCART_ENABLE                         "Aktivera SID"
   IDS_SIDCART_ADDRESS_LABEL                  "SID-adress"
   IDS_SIDCART_CLOCK_LABEL                    "SID-klocka"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-enhetsval"
@@ -272,7 +272,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "SID'i aktif &et"
+  IDS_SIDCART_ENABLE                         "SID'i aktif et"
   IDS_SIDCART_ADDRESS_LABEL                  "SID adresi"
   IDS_SIDCART_CLOCK_LABEL                    "SID saati"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID aygýt seçimi"

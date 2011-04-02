@@ -54,6 +54,7 @@ typedef struct windows_iso_s {
     int windows_code;
     char *iso_language_code;
     int code_page;
+    int hotkey_cap;
 } windows_iso_t;
 
 /* this table holds only the currently present translation
@@ -62,19 +63,19 @@ typedef struct windows_iso_s {
    for the corresponding windows and iso codes */
 
 static windows_iso_t windows_to_iso[] = {
-    { LANG_ENGLISH, "en", 28591 },
-    { LANG_DANISH, "da", 28591 },
-    { LANG_GERMAN, "de", 28591 },
-    { LANG_FRENCH, "fr", 28591 },
-    { LANG_HUNGARIAN, "hu", 28592 },
-    { LANG_ITALIAN, "it", 28591 },
-    { LANG_KOREAN, "it", 949 },
-    { LANG_DUTCH, "nl", 28591 },
-    { LANG_POLISH, "pl", 28592 },
-    { LANG_RUSSIAN, "ru", 28595 },
-    { LANG_SWEDISH, "sv", 28591 },
-    { LANG_TURKISH, "tr", 28599 },
-    { 0, NULL }
+    { LANG_ENGLISH, "en", 28591, 1 },
+    { LANG_DANISH, "da", 28591, 1 },
+    { LANG_GERMAN, "de", 28591, 1 },
+    { LANG_FRENCH, "fr", 28591, 1 },
+    { LANG_HUNGARIAN, "hu", 28592, 1 },
+    { LANG_ITALIAN, "it", 28591, 1 },
+    { LANG_KOREAN, "it", 949, 0 },
+    { LANG_DUTCH, "nl", 28591, 1 },
+    { LANG_POLISH, "pl", 28592, 1 },
+    { LANG_RUSSIAN, "ru", 28595, 1 },
+    { LANG_SWEDISH, "sv", 28591, 1 },
+    { LANG_TURKISH, "tr", 28599, 1 },
+    { 0, NULL, 0, 0 }
 };
 
 static int intl_table[][countof(language_table)] = {
@@ -429,11 +430,16 @@ static void intl_set_hotkey(void)
     }
 
     /* find the language number belonging to the language identifier string */
-    found_string = 0;
-    for (i = 0; i < countof(language_table) && found_string == 0; i++) {
-        if (!strcmp(language_table[i], langpos)) {
-            langid = i;
-            found_string = 1;
+    if (!strcmp(langpos, "**")) {
+        found_string = 1;
+        langid = -1;
+    } else {
+        found_string = 0;
+        for (i = 0; i < countof(language_table) && found_string == 0; i++) {
+            if (!strcmp(language_table[i], langpos)) {
+                langid = i;
+                found_string = 1;
+            }
         }
     }
 
@@ -453,15 +459,25 @@ static void intl_set_hotkey(void)
     }
 
     /* put entry into the hotkey table */
-    windows_hotkeys[ids][langid].hotkey = hotkeypos[0];
-    windows_hotkeys[ids][langid].occurence = occurence;
+    if (langid == -1) {
+        for (i = 0; i < sizeof(language_table); i++) {
+            if (windows_to_iso[i].hotkey_cap) {
+                windows_hotkeys[ids][i].hotkey = hotkeypos[0];
+                windows_hotkeys[ids][i].occurence = occurence;
+            }
+        }
+    } else {
+        if (windows_to_iso[langid].hotkey_cap) {
+            windows_hotkeys[ids][langid].hotkey = hotkeypos[0];
+            windows_hotkeys[ids][langid].occurence = occurence;
+        }
+    }
 }
 
 static int intl_load_hotkey_table(void)
 {
     int i, j, found;
     FILE *fhotkeys;
-    char *complete_path;
     char *name;
 
     /* init table */
@@ -475,7 +491,6 @@ static int intl_load_hotkey_table(void)
     name = util_concat(machine_name, "/win_hotkeys.vhk", NULL);
     fhotkeys = fopen(name, MODE_READ_TEXT);
     lib_free(name);
-    lib_free(complete_path);
     if (fhotkeys == NULL) {
         return 0;
     }
@@ -497,10 +512,10 @@ static char *intl_add_hotkey(char *text, int ids, int lang)
     int j = 0;
     int occ = 0;
 
-    if (windows_hotkeys[ids][lang].hotkey == 0 || text == NULL) {
+    if (windows_hotkeys[ids][lang].hotkey == 0 || text == NULL || text[0] == 0) {
         return text;
     } else {
-        ret = lib_malloc(strlen(text) + 1);
+        ret = lib_malloc(strlen(text) + 2);
         while (text[i] != 0) {
             if (text[i] == windows_hotkeys[ids][lang].hotkey) {
                 occ++;
@@ -580,7 +595,9 @@ char *intl_translate_text(int en_resource)
                     WideCharToMultiByte(CP_ACP, 0, p, length, temp_buffer, 4096, NULL, NULL);
                     p = p + length;
                     intl_text_table[((j - 1) << 4) + k][i] = lib_stralloc(temp_buffer);
-                    intl_text_table[((j - 1) << 4) + k][i] = intl_add_hotkey(intl_text_table[((j - 1) << 4) + k][i], ((j - 1) << 4) + k, i);
+                    if (hotkeys_loaded) {
+                        intl_text_table[((j - 1) << 4) + k][i] = intl_add_hotkey(intl_text_table[((j - 1) << 4) + k][i], ((j - 1) << 4) + k, i);
+                    }
                 }
                 FreeResource(hGlob);
             } else {

@@ -23,18 +23,18 @@
 
 IDR_MENUPLUS4 MENU DISCARDABLE
 BEGIN
-    POPUP "&File"
+    POPUP "File"
     BEGIN
         MENUITEM "", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Attach &disk image"
+        POPUP "Attach disk image"
         BEGIN
             MENUITEM "", IDM_ATTACH_8
             MENUITEM "", IDM_ATTACH_9
             MENUITEM "", IDM_ATTACH_10
             MENUITEM "", IDM_ATTACH_11
         END
-        POPUP "D&etach disk image"
+        POPUP "Detach disk image"
         BEGIN
             MENUITEM "", IDM_DETACH_8
             MENUITEM "", IDM_DETACH_9
@@ -43,7 +43,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_DETACH_ALL
         END
-        POPUP "&Flip list"
+        POPUP "Flip list"
         BEGIN
             MENUITEM "", IDM_FLIP_ADD
             MENUITEM "", IDM_FLIP_REMOVE
@@ -56,7 +56,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_ATTACH_TAPE
         MENUITEM "", IDM_DETACH_TAPE
-        POPUP "Datassette contro&l"
+        POPUP "Datassette control"
         BEGIN
             MENUITEM "", IDM_DATASETTE_CONTROL_STOP
             MENUITEM "", IDM_DATASETTE_CONTROL_START
@@ -67,7 +67,7 @@ BEGIN
             MENUITEM "", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Attach &cartridge image..."
+        POPUP "Attach cartridge image..."
         BEGIN
             MENUITEM "", IDM_CART_ATTACH_C1LO
             MENUITEM "", IDM_CART_ATTACH_C1HI
@@ -81,7 +81,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_MONITOR
-        POPUP "&Reset"
+        POPUP "Reset"
         BEGIN
             MENUITEM "", IDM_RESET_HARD
             MENUITEM "", IDM_RESET_SOFT
@@ -92,9 +92,9 @@ BEGIN
             MENUITEM "", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-                POPUP "&Debug"
+                POPUP "Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "Mode"
             BEGIN
                 MENUITEM "", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "", IDM_DEBUG_MODE_SMALL
@@ -114,7 +114,7 @@ BEGIN
         MENUITEM "", IDM_EDIT_COPY
         MENUITEM "", IDM_EDIT_PASTE
     END
-    POPUP "Sna&pshot"
+    POPUP "Snapshot"
     BEGIN
         MENUITEM "", IDM_SNAPSHOT_LOAD
         MENUITEM "", IDM_SNAPSHOT_SAVE
@@ -139,9 +139,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "&Options"
+    POPUP "Options"
     BEGIN
-        POPUP "&Refresh rate"
+        POPUP "Refresh rate"
         BEGIN
             MENUITEM "",      IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -155,7 +155,7 @@ BEGIN
             MENUITEM "1/&9",  IDM_REFRESH_RATE_9
             MENUITEM "1/1&0", IDM_REFRESH_RATE_10
         END
-        POPUP "&Maximum Speed"
+        POPUP "Maximum Speed"
         BEGIN
             MENUITEM "&200%", IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%", IDM_MAXIMUM_SPEED_100
@@ -188,14 +188,14 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        POPUP "Vide&o standard"
+        POPUP "Video standard"
         BEGIN
             MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
         END
         MENUITEM SEPARATOR
     END
-    POPUP "S&ettings"
+    POPUP "Settings"
     BEGIN
         MENUITEM "", IDM_AUTOSTART_SETTINGS
         MENUITEM "", IDM_VIDEO_SETTINGS
@@ -210,7 +210,7 @@ BEGIN
         MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_RAM_SETTINGS
         MENUITEM "", IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO Settings"
+        POPUP "Cartridge/IO Settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
             MENUITEM "", IDM_SIDCART_SETTINGS
@@ -226,7 +226,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "", IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "Language"
     BEGIN
         MENUITEM "", IDM_LANG_EN
         MENUITEM "", IDM_LANG_DA
@@ -241,7 +241,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "&Help"
+    POPUP "Help"
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
@@ -477,21 +477,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
 END
 
 
@@ -509,21 +509,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lav"
   IDS_3_PLUS_1_HI                 "3+1 Høj"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4-indstillinger"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kbyte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kbyte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kbyte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56KB (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256KB (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024KB (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096KB (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kbyte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kbyte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kbyte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256KB (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256KB (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024KB (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096KB (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 lav-image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 høj-image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 lav-image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 høj-image..."
   IDS_MI_CART_ATTACH_FUNCLO       "Funktion lav-image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Funktion høj-image (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4-indstillinger..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech indstillinger"
+  IDS_MI_PLUS4_SETTINGS           "Plus4-indstillinger..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech indstillinger"
 END
 
 
@@ -541,21 +541,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 Einstellungen"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 low Image Datei..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high Image Datei..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  Image Datei..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high Image Datei..."
   IDS_MI_CART_ATTACH_FUNCLO       "Funktions ROM Image Datei low (3plus1)"
   IDS_MI_CART_ATTACH_FUNCHI       "Funktions ROM Image Datei high (3plus1)"
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 Einstellungen..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Sprache Einstellungen"
+  IDS_MI_PLUS4_SETTINGS           "Plus4 Einstellungen..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Sprache Einstellungen"
 END
 
 
@@ -573,21 +573,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Paramètres Plus4"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kOctets"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kOctets"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kOctets"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kOctets (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kOctets"
+  IDS_SELECT_PLUS4_MEM_32         "32 kOctets"
+  IDS_SELECT_PLUS4_MEM_64         "64 kOctets"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kOctets (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "Image C1 basse..."
   IDS_MI_CART_ATTACH_C1HI         "Image C1 haute..."
   IDS_MI_CART_ATTACH_C2LO         "Image C2 basse..."
   IDS_MI_CART_ATTACH_C2HI         "Image C1 haute..."
   IDS_MI_CART_ATTACH_FUNCLO       "Image Fonction basse (3+1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Image Fonction haute (3+1)..."
-  IDS_MI_PLUS4_SETTINGS           "Paramètres P&lus4"
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_PLUS4_SETTINGS           "Paramètres Plus4"
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
 END
 
 
@@ -608,21 +608,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 beállításai"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kBájt"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kBájt"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kBájt"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kBájt (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kBájt (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kBájt (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kBájt (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kBájt"
+  IDS_SELECT_PLUS4_MEM_32         "32 kBájt"
+  IDS_SELECT_PLUS4_MEM_64         "64 kBájt"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kBájt (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kBájt (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kBájt (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kBájt (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 alsó képmás..."
   IDS_MI_CART_ATTACH_C1HI         "C1 felsõ képmás..."
   IDS_MI_CART_ATTACH_C2LO         "C2 alsó képmás..."
   IDS_MI_CART_ATTACH_C2HI         "C2 felsõ képmás..."
   IDS_MI_CART_ATTACH_FUNCLO       "Function alsó képmás (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function felsõ képmás (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 beállításai..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4 beállításai..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -643,21 +643,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Impostazioni Plus4"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "Immagine C1 bassa..."
   IDS_MI_CART_ATTACH_C1HI         "Immagine C1 alta..."
   IDS_MI_CART_ATTACH_C2LO         "Immagine C2 bassa..."
   IDS_MI_CART_ATTACH_C2HI         "Immagine C2 alta..."
   IDS_MI_CART_ATTACH_FUNCLO       "Immagine Function low (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Immagine Function high (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "Impostazioni P&lus4..."
-  IDS_MI_V364SPEECH_SETTINGS      "Impostazioni &V364 Speech..."
+  IDS_MI_PLUS4_SETTINGS           "Impostazioni Plus4..."
+  IDS_MI_V364SPEECH_SETTINGS      "Impostazioni V364 Speech..."
 END
 
 
@@ -678,21 +678,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -713,20 +713,20 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 instellingen"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 low bestand..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high bestand..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low bestand..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high bestand..."
   IDS_MI_CART_ATTACH_FUNCLO       "Function low bestand (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high bestand (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 instellingen..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4 instellingen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
 END
 
@@ -748,21 +748,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -786,21 +786,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 settings..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech settings..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -821,21 +821,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lå"
   IDS_3_PLUS_1_HI                 "3+1 Hö"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4-inställningar"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kbyte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kbyte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kbyte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56KB (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256KB (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024KB (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096KB (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kbyte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kbyte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kbyte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256KB (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256KB (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024KB (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096KB (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 låg-avbildning..."
   IDS_MI_CART_ATTACH_C1HI         "C1 hög-avbildning..."
   IDS_MI_CART_ATTACH_C2LO         "C2 låg-avbildning..."
   IDS_MI_CART_ATTACH_C2HI         "C2 hög-avbildning..."
   IDS_MI_CART_ATTACH_FUNCLO       "Funktion låg-avbildning (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Funktion hög-avbildning (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4-inställningar..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364-röstinställningar..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4-inställningar..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364-röstinställningar..."
 END
 
 
@@ -856,21 +856,21 @@ BEGIN
   IDS_3_PLUS_1_LO                 "3+1 Lo"
   IDS_3_PLUS_1_HI                 "3+1 Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 ayarlarý"
-  IDS_SELECT_PLUS4_MEM_16         "&16 kByte"
-  IDS_SELECT_PLUS4_MEM_32         "&32 kByte"
-  IDS_SELECT_PLUS4_MEM_64         "&64 kByte"
-  IDS_SELECT_PLUS4_MEM_256_CSORY  "2&56 kByte (CSORY)"
-  IDS_SELECT_PLUS4_MEM_256_HANNES "&256 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1&024 kByte (HANNES)"
-  IDS_SELECT_PLUS4_MEM_4M_HANNES  "&4096 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_MI_CART_ATTACH_C1LO         "C1 low imajý..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high imajý..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low imajý..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high imajý..."
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  imajý (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high imajý (3plus1)..."
-  IDS_MI_PLUS4_SETTINGS           "P&lus4 ayarlarý..."
-  IDS_MI_V364SPEECH_SETTINGS      "&V364 Speech ayarlarý..."
+  IDS_MI_PLUS4_SETTINGS           "Plus4 ayarlarý..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
