@@ -471,7 +471,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
     	   if (temp_name) {
             *temp_name = 0;
         } else {
-            free(current_dir);
+            lib_free(current_dir);
             current_dir = NULL;
         }
     }
