@@ -8033,7 +8033,7 @@ msgstr "REU grootte"
 
 #: src/arch/win32/resreu.rc.po.c:42
 msgid "&Save REU image when changed"
-msgstr "RUE bestand op&slaan indien gewijzigd"
+msgstr "REU bestand op&slaan indien gewijzigd"
 
 #: src/arch/win32/resreu.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:6194
 msgid "REU file"
@@ -8207,7 +8207,7 @@ msgstr "Blok &3"
 
 #: src/arch/win32/resvic20.rc.po.c:504
 msgid "Block &5"
-msgstr "Bblok &5"
+msgstr "Blok &5"
 
 #: src/arch/win32/resvic20.rc.po.c:505
 msgid "Select Generic image"
@@ -9268,7 +9268,7 @@ msgstr "RamCart instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6207
 msgid "Save REU image when changed"
-msgstr "RUE bestand opslaan indien gewijzigd"
+msgstr "REU bestand opslaan indien gewijzigd"
 
 #: src/arch/amigaos/intl_text.c.po.c:6259
 msgid "Printer #4 emulation"
