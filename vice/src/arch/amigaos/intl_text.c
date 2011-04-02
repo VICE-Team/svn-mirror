@@ -26,14 +26,13 @@
 
 intl_translate_t intl_string_table[] = {
 
-
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
 /* fr */ { IDMS_FILE_FR, "Fichier" },
 /* hu */ { IDMS_FILE_HU, "Fájl" },
 /* it */ { IDMS_FILE_IT, "File" },
-/* ko */ { IDMS_FILE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_FILE_KO, "ÆÄÀÏ" },
 /* nl */ { IDMS_FILE_NL, "Bestand" },
 /* pl */ { IDMS_FILE_PL, "Plik" },
 /* ru */ { IDMS_FILE_RU, "" },  /* fuzzy */
@@ -1164,7 +1163,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_OPTIONS_FR, "Options" },
 /* hu */ { IDMS_OPTIONS_HU, "Opciók" },
 /* it */ { IDMS_OPTIONS_IT, "Opzioni" },
-/* ko */ { IDMS_OPTIONS_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_OPTIONS_KO, "¼±ÅÃ" },
 /* nl */ { IDMS_OPTIONS_NL, "Opties" },
 /* pl */ { IDMS_OPTIONS_PL, "Opcje" },
 /* ru */ { IDMS_OPTIONS_RU, "" },  /* fuzzy */
@@ -1840,7 +1839,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_SETTINGS_FR, "Paramètres" },
 /* hu */ { IDMS_SETTINGS_HU, "Beállítások" },
 /* it */ { IDMS_SETTINGS_IT, "Impostazioni" },
-/* ko */ { IDMS_SETTINGS_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_SETTINGS_KO, "¼³Á¤" },
 /* nl */ { IDMS_SETTINGS_NL, "Instellingen" },
 /* pl */ { IDMS_SETTINGS_PL, "Ustawienia" },
 /* ru */ { IDMS_SETTINGS_RU, "" },  /* fuzzy */
@@ -2802,7 +2801,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_HELP_FR, "Aide" },
 /* hu */ { IDMS_HELP_HU, "Segítség" },
 /* it */ { IDMS_HELP_IT, "Aiuto" },
-/* ko */ { IDMS_HELP_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_HELP_KO, "µµ¿ò" },
 /* nl */ { IDMS_HELP_NL, "Help" },
 /* pl */ { IDMS_HELP_PL, "Pomoc" },
 /* ru */ { IDMS_HELP_RU, "" },  /* fuzzy */
@@ -6236,7 +6235,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_HU, "" },  /* fuzzy */
 /* it */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_IT, "Salva immagine REU al cambio" },
 /* ko */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_NL, "RUE bestand opslaan indien gewijzigd" },
+/* nl */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_NL, "REU bestand opslaan indien gewijzigd" },
 /* pl */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_REU_IMAGE_WHEN_CHANGED_SV, "Spara REU-avbildning vid ändringar" },

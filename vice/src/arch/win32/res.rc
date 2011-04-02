@@ -5007,7 +5007,7 @@ BEGIN
   IDS_JOYSTICK_1                  "Joystick 1"
   IDS_JOYSTICK_2                  "Joystick 2"
   IDS_DEVICES                     "Devices"
-  IDS_SETTINGS                    "Settings"
+  IDS_SETTINGS                    "¼³Á¤"
   IDS_TOGGLE_CONSOLE_APPEND       "&Append log to existing file"
   IDS_IMAGE_CONTENTS              "Image Contents"
   IDS_NEW_IMAGE                   "New Image"

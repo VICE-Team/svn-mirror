@@ -1,11 +1,331 @@
 ------------------------------------------------------------------------------
 
+2011-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, version.h, src/translate_text.c,
+	src/arch/amigaos/intl_text.c, src/arch/win32/respetreu.rc,
+	src/arch/win32/reslightpen.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/vice-version.bat, src/arch/win32/resplus4.rc,
+	src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resv364speech.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resexpert.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/res.rc, src/arch/win32/resvicii.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/restfe.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resmagicvoice.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/reseasyflash.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/respet.rc, doc/vice.guide,
+	doc/vice.chm, doc/vice.pdf, doc/vice.inf, doc/vice.hlp, po/fr.po,
+	po/nl.po, po/ko.po, po/pl.po, po/hu.po, po/it.po, po/da.po, po/tr.po,
+	po/ru.po, po/de.po, po/sv.po: VICE version 2.3.4
+
+
+2011-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uifilereq.c: Changed a free to a lib_free (using
+	lib_malloc(), lib_free(), lib_stralloc() is prefered because of memory
+	leak tracking).
+
+2011-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/win_hotkeys.vhk, data/C64/win_hotkeys.vhk,
+	data/C64DTV/win_hotkeys.vhk, data/CBM-II/win_hotkeys.vhk,
+	data/PET/win_hotkeys.vhk, data/PLUS4/win_hotkeys.vhk,
+	data/VIC20/win_hotkeys.vhk, src/arch/win32/intl.c,
+	src/arch/win32/resdqbb.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/reslightpen.rc, src/arch/win32/resmagicvoice.rc,
+	src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/respet.rc, src/arch/win32/respetdww.rc,
+	src/arch/win32/respetreu.rc, src/arch/win32/resplus256k.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resplus60k.rc,
+	src/arch/win32/resramcart.rc, src/arch/win32/resreu.rc,
+	src/arch/win32/resrs232user.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/restfe.rc, src/arch/win32/resv364speech.rc,
+	src/arch/win32/resvic20.rc: More windows hotkey externalization updates.
+
+2011-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uieasyflash.c: Fixed wrong windows easyflash dialog
+	item.
+
+2011-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/win_hotkeys.vhk, data/C64/win_hotkeys.vhk,
+	data/C64DTV/Makefile.am, data/C64DTV/win_hotkeys.vhk,
+	data/CBM-II/Makefile.am, data/CBM-II/win_hotkeys.vhk,
+	data/PET/Makefile.am, data/PET/win_hotkeys.vhk, data/PLUS4/Makefile.am,
+	data/PLUS4/win_hotkeys.vhk, data/VIC20/Makefile.am,
+	data/VIC20/win_hotkeys.vhk, src/arch/win32/resvicii.rc: Externalized
+	hotkeys for resvicii.rc
+
+2011-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/Makefile.am, data/C128/win_hotkeys.vhk: More windows hotkey
+	externalization updates.
+
+2011-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C64/Makefile.am, data/C64/win_hotkeys.vhk, doc/vice.txt,
+	src/arch/amigaos/make-bindist.sh, vice/src/arch/beos/make-bindist.sh,
+	src/arch/msdos/make-bindist.sh, src/arch/riscos/make-bindist.sh,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_dingoo.sh, src/arch/sdl/make-bindist_gp2x.sh,
+	src/arch/sdl/make-bindist_riscos.sh, src/arch/sdl/make-bindist_win32.sh,
+	src/arch/win32, src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/genstringid.sh, src/arch/win32/intl.c,
+	src/arch/win32/ressoundexpander.rc, src/arch/win32/utils/genwinres.c,
+	src/arch/win64/arch.vcproj: Started on windows hotkey externalization.
+
+2011-04-01  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-01  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/Makefile.am, doc/fixdox.sh: Remove a bash-ism, and add a
+	$(srcdir).
+
+2011-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Added gentranslate*.sh tool dependencies.
+
+2011-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uifilereq.c: Fixed coding style, replaced malloc() with
+	lib_malloc() and free() with lib_free() (so the debug memory routines
+	can keep track of memory leaks).
+
+2011-03-31  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/uifilereq.c: dingoo snapshot slot management : removed
+	memory leak and potentiel memory access bug
+
+2011-03-31  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/archdep_dingoo.c, src/arch/sdl/dingoo-files/hotkey-native,
+	src/arch/sdl/menu_snapshot.c, src/arch/sdl/uifilereq.c,
+	src/arch/sdl/uifilereq.h: dingoo native : add slot-based snapshot
+	management, because typing filenames with the virtual keyboards is a
+	real pain
+
+2011-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uilightpen.c: Fixed windows lightpen dialog sizing.
+
+2011-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiautostart.c: Fixed windows autostart dialog sizing.
+
+2011-03-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/uinetwork.c: Fixed windows
+	netplay dialog item alignments.
+
+2011-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Added the russian translator,
+	korean translator and dingoo port maintainer to vice.texi.
+
+2011-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/amigaos/intl.c, src/arch/win32/intl.c,
+	src/translate.c, src/translate_languages.h: Put the language table in a
+	header file which gets included by the intl files, removes duplication
+	and need for synchronization.
+
+2011-03-29  Ulrich Schulz <peiselulli@t-online.de>
+
+	* doc/vice.pdf, src/video/render1x1_dingoo.h: dingoo-native : changed
+	back to static render buffer (faster)
+
+2011-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/intl2po.c: Updated and fixed.
+
+2011-03-29  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/dingoo-files/vicerc-native, src/vic20/vic.h,
+	src/video/render1x1_dingoo.h: dingoo native : disable double pixels for
+	vic20, make allocation dynamic in dingoo render engine, adjust vicerc
+	(all volumes to 50%, disable warp for vic20)
+
+2011-03-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, po, po/Makefile.in.in, po/da.po, po/de.po, po/fr.po,
+	po/gen_amiga_intl_c.c, po/gen_translate_c.c, po/gen_win32_files.sh,
+	po/gen_win32_rc.c, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/po2table.c, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/genintl_h.sh, src/arch/amigaos/genintl_h.sh.in,
+	src/arch/amigaos/genintltable.sh, src/arch/amigaos/intl.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20uires.h, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/intl.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdigimax.rc,
+	src/arch/win32/resdqbb.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/reslightpen.rc, src/arch/win32/resmagicvoice.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmmc64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/restfe.rc,
+	src/arch/win32/resv364speech.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvicii.rc, src/arch/win32/ui.c,
+	src/arch/win32/utils/gentranslate.c, src/arch/win32/vic20ui.c,
+	src/gentranslate_h.sh, src/gentranslate_h.sh.in,
+	src/gentranslatetable.sh, src/translate.c, src/translate_text.c: Added
+	korean translations support, 6 items already translated for testing
+	purposes, rest of the translations will follow at a later time.
+
+2011-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po, src/arch/win32/c128ui.c,
+	src/arch/win32/c64dtvui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/ui.c,
+	src/arch/win32/vic20ui.c: Fixed the windows russian translation support.
+
+2011-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in, po/Makefile.in.in, po/da.po, po/de.po,
+	po/fr.po, po/gen_amiga_intl_c.c, po/gen_translate_c.c,
+	po/gen_win32_files.sh, po/gen_win32_rc.c, po/hu.po, po/it.po, po/nl.po,
+	po/pl.po, po/po2table.c, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/genintl_h.sh, src/arch/amigaos/genintl_h.sh.in,
+	src/arch/amigaos/genintltable.sh, src/arch/amigaos/intl.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20uires.h, src/arch/win32/intl.c,
+	src/arch/win32/res.rc, src/arch/win32/resacia.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64_256k.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/reseasyflash.rc, src/arch/win32/resexpert.rc,
+	src/arch/win32/resgeoram.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/reslightpen.rc,
+	src/arch/win32/resmagicvoice.rc, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmmc64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/restfe.rc, src/arch/win32/resv364speech.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/arch/win32/utils/gentranslate.c, src/gentranslate_h.sh,
+	src/gentranslate_h.sh.in, src/gentranslatetable.sh, src/translate.c,
+	src/translate_text.c: Added russian translations support. (actual
+	translations will be committed at a later time)
+
+2011-03-26  Ulrich Schulz <peiselulli@t-online.de>
+
+	* doc/vice.pdf, src/arch/sdl/archdep_dingoo.c,
+	src/arch/sdl/archdep_dingoo.h: dingoo native: remove some code that
+	exists in SDK now
+
+2011-03-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am: Removed archdep_SDL_dingoo_video.c from the
+	sdl Makefile.am
+
+2011-03-26  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/archdep_SDL_dingoo_video.c, src/arch/sdl/archdep_dingoo.c:
+	dingoo native: some libc function removed, now they are in the Dingoo
+	SDk. Also the video driver is now part of the Dingoo SDK.
+
+2011-03-26  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/bin2c.sh: bin2c.sh fixed. Made trouble if the data has multiple
+	equal bytes.
+
+2011-03-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am, src/arch/sdl/Makefile.am,
+	src/arch/sdl/archdep.h, src/arch/sdl/archdep_SDL_dingoo_video.c,
+	src/arch/sdl/archdep_dingoo.c, src/arch/sdl/archdep_dingoo.h,
+	src/arch/sdl/dingoo-files/Makefile.am,
+	src/arch/sdl/dingoo-files/vicerc-native,
+	src/arch/sdl/make-bindist_dingoo_native.sh, src/arch/sdl/menu_c64cart.c,
+	src/arch/sdl/menu_speed.c, src/arch/sdl/menu_video.c,
+	src/arch/sdl/sdlmain.c, src/bin2c.sh, src/c64/c64cart.h,
+	src/c64/cart/c64cartsystem.h, src/c64/cart/generic.c,
+	src/c64dtv/c64dtvflash.c, src/ioutil.c, src/plus4/tedtypes.h,
+	src/printerdrv/drv-nl10.c, src/resources.c, src/rtc/rtc.c, src/sysfile.c,
+	src/vice.h, src/vicii/vicii-timing.c, src/vicii/vicii-timing.h,
+	src/video/Makefile.am, src/video/render1x1_dingoo.h,
+	src/video/video-render-crt.c, src/video/video-render-pal.c, src/vsync.c:
+	Cleaned up the native dingoo code changes.
+
+2011-03-25  Ulrich Schulz <peiselulli@t-online.de>
+
+	* Makefile.am, configure.in, src/Makefile.am, src/arch/sdl/archdep.c,
+	src/arch/sdl/archdep.h, src/arch/sdl/archdep_SDL_dingoo_video.c,
+	src/arch/sdl/archdep_dingoo.c, src/arch/sdl/archdep_dingoo.h,
+	src/arch/sdl/dingoo-files/hotkey-native,
+	src/arch/sdl/dingoo-files/vicerc-native,
+	src/arch/sdl/make-bindist_dingoo_native.sh, src/arch/sdl/menu_c64cart.c,
+	src/arch/sdl/menu_speed.c, src/arch/sdl/menu_video.c,
+	src/arch/sdl/sdlmain.c, src/arch/sdl/ui.c, src/bin2c.c, src/bin2c.sh,
+	src/c64/c64.c, src/c64/c64cart.h, src/c64/cart/c64cartsystem.h,
+	src/c64/cart/generic.c, src/c64dtv/c64dtvflash.c, src/embedded.c,
+	src/ioutil.c, src/monitor/montypes.h, src/plus4/ted-timing.c,
+	src/plus4/tedtypes.h, src/printerdrv/drv-nl10.c,
+	src/printerdrv/printer.c, src/resources.c, src/rtc/rtc.c, src/sysfile.c,
+	src/vice.h, src/vicii/vicii-timing.c, src/vicii/vicii-timing.h,
+	src/video/render1x1_dingoo.h, src/video/video-render-crt.c,
+	src/video/video-render-pal.c, src/vsync.c: Added dingoo native support.
+
+2011-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2.c: fix for xcbm2, since both video chip resources are
+	initialized they should also both be shutdown.
+
+2011-03-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/cbm2/cbm2.c: Reverted some segfaulty code in r23850.
+
 2011-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, src/version.h, src/arch/sdl/winmips-msvc,
 	src/arch/win32/vice-version.bat, ChangeLog, doc/vice.guide, doc/vice.chm,
 	doc/vice.pdf, doc/vice.inf, doc/vice.hlp, po/fr.po, po/nl.po, po/pl.po,
-	po/it.po, po/hu.po, po/da.po, po/tr.po, po/de.po, po/sv.po: VICE verion
+	po/it.po, po/hu.po, po/da.po, po/tr.po, po/de.po, po/sv.po: VICE version
 	2.3.3
 
 2011-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>

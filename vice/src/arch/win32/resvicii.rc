@@ -65,9 +65,9 @@ BEGIN
     IDS_VICII_FULLBORDERS   "Fuld"
     IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
-    IDS_VICII_SPRITECOLL    "Sprite-sprite-kollisioner"
-    IDS_VICII_BACKCOLL      "Sprite-baggrundskollisioner"
-    IDS_VICII_LUMINANCE     "Nye lysstyrker"
+    IDS_VICII_SPRITECOLL    "Sprite-til-sprite-kollision"
+    IDS_VICII_BACKCOLL      "Sprite-til-baggrunds-kollision"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 
 
@@ -79,12 +79,12 @@ BEGIN
     IDS_VICII_CAPTION       "VIC-II Einstellungen"
     IDS_VICII_BORDERSGROUP  "Rahmen"
     IDS_VICII_NORMALBORDERS "Normal"
-    IDS_VICII_FULLBORDERS   "Voll"
+    IDS_VICII_FULLBORDERS   "Full"
     IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Kollisionen"
     IDS_VICII_SPRITECOLL    "Sprite-sprite Kollisionen"
     IDS_VICII_BACKCOLL      "Sprite-Hintergrund Kollisionen"
-    IDS_VICII_LUMINANCE     "Neue Helligkeitsemulation"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 
 
@@ -97,10 +97,10 @@ BEGIN
     IDS_VICII_BORDERSGROUP  "Bordures"
     IDS_VICII_NORMALBORDERS "Normal"
     IDS_VICII_FULLBORDERS   "Full"
-    IDS_VICII_DEBUGBORDERS  "Débug"
+    IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Collisions de Sprites"
-    IDS_VICII_SPRITECOLL    "Collisions sprite avec sprite"
-    IDS_VICII_BACKCOLL      "Collisions sprite avec arrière-plan"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
+    IDS_VICII_BACKCOLL      "Sprite-background collisions"
     IDS_VICII_LUMINANCE     "Nouvelles luminescences"
 END
 
@@ -119,9 +119,9 @@ BEGIN
     IDS_VICII_FULLBORDERS   "Teljes"
     IDS_VICII_DEBUGBORDERS  "Nyomkövetés"
     IDS_VICII_SPRITEGROUP   "Sprite ütközések"
-    IDS_VICII_SPRITECOLL    "Sprite-sprite ütközések"
-    IDS_VICII_BACKCOLL      "Sprite-háttér ütközések"
-    IDS_VICII_LUMINANCE     "Új fényerõk"
+    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
+    IDS_VICII_BACKCOLL      "Sprite-background collisions"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -141,7 +141,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Collisioni sprite"
     IDS_VICII_SPRITECOLL    "Collisioni sprite-sprite"
     IDS_VICII_BACKCOLL      "Collisioni sprite-sfondo"
-    IDS_VICII_LUMINANCE     "Nuove Luminanze"
+    IDS_VICII_LUMINANCE     "Nuove luminanze"
 END
 
 
@@ -176,12 +176,12 @@ BEGIN
     IDS_VICII_CAPTION       "VIC-II instellingen"
     IDS_VICII_BORDERSGROUP  "Borders"
     IDS_VICII_NORMALBORDERS "Normaal"
-    IDS_VICII_FULLBORDERS   "Volledig"
+    IDS_VICII_FULLBORDERS   "&Volledig"
     IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Botsingen"
     IDS_VICII_SPRITECOLL    "Sprite-sprite botsingen"
     IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
-    IDS_VICII_LUMINANCE     "Nieuwe kleuren"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 
 
@@ -242,9 +242,9 @@ BEGIN
     IDS_VICII_FULLBORDERS   "Full"
     IDS_VICII_DEBUGBORDERS  "Felsök"
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
-    IDS_VICII_SPRITECOLL    "Sprite-sprite-kollisioner"
-    IDS_VICII_BACKCOLL      "Sprite-bakgrundkollisioner"
-    IDS_VICII_LUMINANCE     "Nya ljusstyrkor"
+    IDS_VICII_SPRITECOLL    "Sprite-till-sprite-kollision"
+    IDS_VICII_BACKCOLL      "Sprite-till-bakgrund-kollision"
+    IDS_VICII_LUMINANCE     "New Luminances"
 END
 
 
@@ -260,10 +260,10 @@ BEGIN
     IDS_VICII_BORDERSGROUP  "Çerçeveler"
     IDS_VICII_NORMALBORDERS "Normal"
     IDS_VICII_FULLBORDERS   "Tam"
-    IDS_VICII_DEBUGBORDERS  "Hata Ayýkla"
+    IDS_VICII_DEBUGBORDERS  "Hata Ayýklama"
     IDS_VICII_SPRITEGROUP   "Yaratýk Çarpýþmalarý"
-    IDS_VICII_SPRITECOLL    "Yaratýk-yaratýk çarpýþmalarý"
-    IDS_VICII_BACKCOLL      "Yaratýk-arka plan çarpýþmalarý"
+    IDS_VICII_SPRITECOLL    "Yartýk-yaratýk çarpýþmalarý"
+    IDS_VICII_BACKCOLL      "Yaratýk-arkaplan çarpýþmalarý"
     IDS_VICII_LUMINANCE     "Yeni Parlaklýklar"
 END
 #ifndef WINDRES_CP_IGNORE

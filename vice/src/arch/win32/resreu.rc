@@ -59,7 +59,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU-indstillinger"
-  IDS_REU_ENABLE       "Aktivér REU"
+  IDS_REU_ENABLE       "Enable REU"
   IDS_REU_SIZE         "REU størrelse"
   IDS_REU_WRITE_ENABLE "Gem REU image ved ændringer"
   IDS_REU_FILE         "REU-fil"
@@ -73,7 +73,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Einstellungen"
-  IDS_REU_ENABLE       "REU aktivieren"
+  IDS_REU_ENABLE       "Enable REU"
   IDS_REU_SIZE         "REU Größe"
   IDS_REU_WRITE_ENABLE "REU Imagedatei bei Änderung speichern"
   IDS_REU_FILE         "REU Datei"
@@ -87,7 +87,7 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "Paramètres REU"
-  IDS_REU_ENABLE       "Activer REU"
+  IDS_REU_ENABLE       "Enable REU"
   IDS_REU_SIZE         "Taille du REU"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "Fichier REU"
@@ -104,7 +104,7 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU beállításai"
-  IDS_REU_ENABLE       "REU engedélyezése"
+  IDS_REU_ENABLE       "Enable REU"
   IDS_REU_SIZE         "REU mérete"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "REU fájl"
@@ -155,9 +155,9 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU instellingen"
-  IDS_REU_ENABLE       "Activeer REU"
+  IDS_REU_ENABLE       "Enable REU"
   IDS_REU_SIZE         "REU grootte"
-  IDS_REU_WRITE_ENABLE "RUE bestand opslaan indien gewijzigd"
+  IDS_REU_WRITE_ENABLE "REU bestand opslaan indien gewijzigd"
   IDS_REU_FILE         "REU bestand"
   IDS_REU_SELECT_FILE  "Selecteer bestand voor REU"
 END
@@ -209,7 +209,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU-Inställningar"
-  IDS_REU_ENABLE       "Aktivera REU"
+  IDS_REU_ENABLE       "Enable REU"
   IDS_REU_SIZE         "Storlek på minnesexpansion"
   IDS_REU_WRITE_ENABLE "Spara REU-avbildning vid ändringar"
   IDS_REU_FILE         "REU-fil"
@@ -226,9 +226,9 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Ayarlarý"
-  IDS_REU_ENABLE       "REU'yý aktif et"
+  IDS_REU_ENABLE       "REU'yu aktif et"
   IDS_REU_SIZE         "REU boyutu"
-  IDS_REU_WRITE_ENABLE "REU imajý deðistiðinde kaydet"
+  IDS_REU_WRITE_ENABLE "REU imajý deðiþtiðinde kaydet"
   IDS_REU_FILE         "REU dosyasý"
   IDS_REU_SELECT_FILE  "REU için dosya seçin"
 END
