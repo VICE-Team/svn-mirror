@@ -39,6 +39,7 @@
 #include "autostart.h"
 #include "autostart-prg.h"
 #include "attach.h"
+#include "charset.h"
 #include "cmdline.h"
 #include "datasette.h"
 #include "drive.h"
@@ -1111,6 +1112,40 @@ int autostart_prg(const char *file_name, unsigned int runmode)
 }
 
 /* ------------------------------------------------------------------------- */
+
+int autostart_autodetect_opt_prgname(const char *file_prog_name, 
+                                     unsigned int alt_prg_number,
+                                     unsigned int runmode)
+{
+    char *tmp;
+
+    /* Check for image:prg -format.  */
+    tmp = strrchr(file_prog_name, ':');
+    if (tmp) {
+        char *autostart_prg_name;
+        char *autostart_file;
+
+        autostart_file = lib_stralloc(file_prog_name);
+        autostart_prg_name = strrchr(autostart_file, ':');
+        *autostart_prg_name++ = '\0';
+        /* Does the image exist?  */
+        if (util_file_exists(autostart_file)) {
+            char *name;
+
+            charset_petconvstring((BYTE *)autostart_prg_name, 0);
+            name = charset_replace_hexcodes(autostart_prg_name);
+            autostart_autodetect(autostart_file, name, 0,
+                                 runmode);
+            lib_free(name);
+        } else
+            autostart_autodetect(file_prog_name, NULL, alt_prg_number,
+                                 runmode);
+        lib_free(autostart_file);
+    } else {
+        autostart_autodetect(file_prog_name, NULL, alt_prg_number,
+                             runmode);
+    }
+}
 
 /* Autostart `file_name', trying to auto-detect its type.  */
 int autostart_autodetect(const char *file_name, const char *program_name,

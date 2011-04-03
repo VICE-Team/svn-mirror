@@ -49,6 +49,11 @@ extern int autostart_autodetect(const char *file_name,
                                 const char *program_name,
                                 unsigned int program_number,
                                 unsigned int runmode);
+                                
+extern int autostart_autodetect_opt_prgname(const char *file_prog_name, 
+                                            unsigned int alt_prg_number,
+                                            unsigned int runmode);
+                                
 extern int autostart_disk(const char *file_name, const char *program_name,
                           unsigned int program_number, unsigned int runmode);
 extern int autostart_tape(const char *file_name, const char *program_name,

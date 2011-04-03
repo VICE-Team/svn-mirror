@@ -239,3 +239,60 @@ void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
     *len = (unsigned int)linelen;
 }
 
+/* These are a helper function for the `-autostart' command-line option.  It
+   replaces all the $[0-9A-Z][0-9A-Z] patterns in `string' and returns it.  */
+char * charset_hexstring_to_byte( char * source, char * destination )
+{
+    char * next = source + 1;
+    char c;
+    BYTE value = 0;
+    int digit = 0;
+    
+    while ( *next && digit++ < 2) {
+
+        value <<= 4;
+
+        c = toupper( *next++ );
+
+        if (c >= 'A' && c <= 'F' ) {
+            value += c - 'A';
+        }
+        else if ( isdigit(c) ) {
+            value += c - '0';
+        }
+        else {
+            break;
+        }
+    }
+
+    if (digit < 2) {
+        value = *source;
+        next = source + 1;
+    }
+
+    *destination = value;
+
+    return next;
+}
+
+char *charset_replace_hexcodes(char * source)
+{
+    char * destination = lib_stralloc(source ? source : "");
+
+    if ( destination ) {
+        char * pread = destination;
+        char * pwrite = destination;
+
+        while ( *pread != 0 ) {
+            if ( *pread == '$' ) {
+                pread = charset_hexstring_to_byte( pread, pwrite++ );
+            }
+            else {
+                *pwrite ++ = *pread ++;
+            }
+        }
+        *pwrite = 0;
+    }
+
+    return destination;
+}

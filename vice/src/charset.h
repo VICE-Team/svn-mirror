@@ -44,5 +44,8 @@ extern BYTE charset_petcii_to_screencode(BYTE code,
 extern void charset_petcii_to_screencode_line(const BYTE *line, BYTE **buf,
                                               unsigned int *len);
 
+extern char * charset_hexstring_to_byte( char * source, char * destination );
+extern char *charset_replace_hexcodes(char * source);
+
 #endif
 
