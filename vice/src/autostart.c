@@ -56,6 +56,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "network.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -68,6 +69,7 @@
 #include "vdrive-bam.h"
 #include "vice-event.h"
 
+static void autostart_done(void);
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
@@ -133,6 +135,9 @@ static int autostart_wait_for_reset;
 
 /* Flag: load stage after LOADING enters ROM area */
 static int entered_rom = 0;
+
+/* Flag: trap monitor after done */
+static int trigger_monitor = 0;
 
 /* ------------------------------------------------------------------------- */
 
@@ -470,7 +475,7 @@ static void check_rom_area(void)
         if (machine_addr_in_ram(reg_pc)) {
             log_message(autostart_log, "Left ROM for $%04x", reg_pc);
             disable_warp_if_was_requested();
-            autostartmode = AUTOSTART_DONE;
+            autostart_done();
         }
     }
 }
@@ -535,8 +540,30 @@ void autostart_disable(void)
         return;
 
     autostartmode = AUTOSTART_ERROR;
+    trigger_monitor = 0;
     deallocate_program_name();
     log_error(autostart_log, "Turned off.");
+}
+
+/* Control if the monitor will be triggered after an autostart */
+void autostart_trigger_monitor(int enable)
+{
+    trigger_monitor = enable;
+}
+
+/* This is called if all steps of an autostart operation were passed successfully */
+void autostart_done(void)
+{
+    autostartmode = AUTOSTART_DONE;
+    
+    /* Enter monitor after done */
+    if(trigger_monitor) {
+        trigger_monitor = 0;
+        monitor_startup_trap();
+        log_message(autostart_log, "Done. Returning to Monitor.");
+    } else {
+        log_message(autostart_log, "Done.");
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -562,25 +589,26 @@ static void disk_eof_callback(void)
     }
 
     if (autostartmode != AUTOSTART_NONE) {
-        if (autostart_run_mode == AUTOSTART_MODE_RUN)
+        if (autostart_run_mode == AUTOSTART_MODE_RUN) {
             log_message(autostart_log, "Starting program.");
-        else
+            kbdbuf_feed(AutostartRunCommand);
+        }
+        else {
             log_message(autostart_log, "Program loaded.");
+        }
     }
+    
+    autostart_done();
 
     machine_bus_eof_callback_set(NULL);
 
     disable_warp_if_was_requested();
-    autostartmode = AUTOSTART_DONE;
 }
 
 /* This function is called by the `serialattention()' trap before
    returning.  */
 static void disk_attention_callback(void)
 {
-    if (autostart_run_mode == AUTOSTART_MODE_RUN)
-        kbdbuf_feed(AutostartRunCommand);
-
     machine_bus_attention_callback_set(NULL);
 
     /* Next step is waiting for end of loading, to turn true drive emulation
@@ -642,12 +670,12 @@ static void advance_loadingtape(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
         disable_warp_if_was_requested();
-        autostartmode = AUTOSTART_DONE;
 
         if (autostart_run_mode == AUTOSTART_MODE_RUN) {
             log_message(autostart_log, "Starting program.");
             kbdbuf_feed(AutostartRunCommand);
         }
+        autostart_done();
         break;
       case NO:
         disable_warp_if_was_requested();
@@ -705,9 +733,10 @@ static void advance_hasdisk(void)
                 autostartmode = AUTOSTART_WAITSEARCHINGFOR;
             } else {
                 /* be most compatible if warp is disabled */
-                if (autostart_run_mode == AUTOSTART_MODE_RUN)
+                if (autostart_run_mode == AUTOSTART_MODE_RUN) {
                     kbdbuf_feed(AutostartRunCommand);
-                autostartmode = AUTOSTART_DONE;
+                }
+                autostart_done();
             }
         } else {
             autostartmode = AUTOSTART_LOADINGDISK;
@@ -730,8 +759,7 @@ static void advance_hassnapshot(void)
 {
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
       case YES:
-        autostartmode = AUTOSTART_DONE;
-
+        autostart_done();
         log_message(autostart_log, "Restoring snapshot.");
         interrupt_maincpu_trigger_trap(load_snapshot_trap, 0);
         break;
@@ -791,12 +819,12 @@ static void advance_waitloadready(void)
       case YES:
         log_message(autostart_log, "Ready");
         disable_warp_if_was_requested();
-        autostartmode = AUTOSTART_DONE;
 
         if (autostart_run_mode == AUTOSTART_MODE_RUN) {
             kbdbuf_feed(AutostartRunCommand);
             log_message(autostart_log, "Running program");
         }
+        autostart_done();
         break;
       case NO:
         log_message(autostart_log, "NO Ready");
@@ -1118,6 +1146,7 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
                                      unsigned int runmode)
 {
     char *tmp;
+    int result;
 
     /* Check for image:prg -format.  */
     tmp = strrchr(file_prog_name, ':');
@@ -1134,17 +1163,19 @@ int autostart_autodetect_opt_prgname(const char *file_prog_name,
 
             charset_petconvstring((BYTE *)autostart_prg_name, 0);
             name = charset_replace_hexcodes(autostart_prg_name);
-            autostart_autodetect(autostart_file, name, 0,
-                                 runmode);
+            result = autostart_autodetect(autostart_file, name, 0,
+                                          runmode);
             lib_free(name);
-        } else
-            autostart_autodetect(file_prog_name, NULL, alt_prg_number,
-                                 runmode);
+        } else {
+            result = autostart_autodetect(file_prog_name, NULL, alt_prg_number,
+                                          runmode);
+        }
         lib_free(autostart_file);
     } else {
-        autostart_autodetect(file_prog_name, NULL, alt_prg_number,
-                             runmode);
+        result = autostart_autodetect(file_prog_name, NULL, alt_prg_number,
+                                      runmode);
     }
+    return result;
 }
 
 /* Autostart `file_name', trying to auto-detect its type.  */
@@ -1231,6 +1262,7 @@ void autostart_reset(void)
             disk_eof_callback();
         }
         autostartmode = AUTOSTART_NONE;
+        trigger_monitor = 0;
         deallocate_program_name();
         log_message(autostart_log, "Turned off.");
     }

@@ -71,5 +71,7 @@ extern int autostart_ignore_reset;
 
 extern int autostart_in_progress(void);
 
+extern void autostart_trigger_monitor(int enable);
+
 #endif
 

@@ -367,6 +367,10 @@ void mon_autostart(const char *image_name,
             file_index);
     autostart_autodetect_opt_prgname(image_name, file_index, 
                                      run ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD);
+
+    /* leave monitor but return after autostart */
+    autostart_trigger_monitor(1);
+    exit_mon = 1;
 }
 
 
