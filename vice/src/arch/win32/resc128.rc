@@ -23,18 +23,18 @@
 
 IDR_MENUC128 MENU DISCARDABLE
 BEGIN
-    POPUP "&File"
+    POPUP "File"
     BEGIN
         MENUITEM "", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Attach &disk image"
+        POPUP "Attach disk image"
         BEGIN
             MENUITEM "", IDM_ATTACH_8
             MENUITEM "", IDM_ATTACH_9
             MENUITEM "", IDM_ATTACH_10
             MENUITEM "", IDM_ATTACH_11
         END
-        POPUP "D&etach disk image"
+        POPUP "Detach disk image"
         BEGIN
             MENUITEM "", IDM_DETACH_8
             MENUITEM "", IDM_DETACH_9
@@ -43,7 +43,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_DETACH_ALL
         END
-        POPUP "&Flip list"
+        POPUP "Flip list"
         BEGIN
             MENUITEM "", IDM_FLIP_ADD
             MENUITEM "", IDM_FLIP_REMOVE
@@ -56,7 +56,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_ATTACH_TAPE
         MENUITEM "", IDM_DETACH_TAPE
-        POPUP "Datassette contro&l"
+        POPUP "Datassette control"
         BEGIN
             MENUITEM "", IDM_DATASETTE_CONTROL_STOP
             MENUITEM "", IDM_DATASETTE_CONTROL_START
@@ -67,7 +67,7 @@ BEGIN
             MENUITEM "", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Attach &cartridge image..."
+        POPUP "Attach cartridge image..."
         BEGIN
             MENUITEM "", IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
@@ -95,7 +95,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_MONITOR
-        POPUP "&Reset"
+        POPUP "Reset"
         BEGIN
             MENUITEM "", IDM_RESET_HARD
             MENUITEM "", IDM_RESET_SOFT
@@ -106,9 +106,9 @@ BEGIN
             MENUITEM "", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-        POPUP "&Debug"
+        POPUP "Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "Mode"
             BEGIN
                 MENUITEM "", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "", IDM_DEBUG_MODE_SMALL
@@ -128,7 +128,7 @@ BEGIN
         MENUITEM "", IDM_EDIT_COPY
         MENUITEM "", IDM_EDIT_PASTE
     END
-    POPUP "Sna&pshot"
+    POPUP "Snapshot"
     BEGIN
         MENUITEM "", IDM_SNAPSHOT_LOAD
         MENUITEM "", IDM_SNAPSHOT_SAVE
@@ -153,9 +153,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "&Options"
+    POPUP "Options"
     BEGIN
-        POPUP "&Refresh rate"
+        POPUP "Refresh rate"
         BEGIN
             MENUITEM "",      IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -169,7 +169,7 @@ BEGIN
             MENUITEM "1/&9",  IDM_REFRESH_RATE_9
             MENUITEM "1/1&0", IDM_REFRESH_RATE_10
         END
-        POPUP "&Maximum Speed"
+        POPUP "Maximum Speed"
         BEGIN
             MENUITEM "&200%", IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%", IDM_MAXIMUM_SPEED_100
@@ -189,7 +189,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
         MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
         MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
-        POPUP "VDC settin&gs"
+        POPUP "VDC settings"
         BEGIN
             MENUITEM "", IDM_TOGGLE_VDC_DOUBLESIZE
             MENUITEM "", IDM_TOGGLE_VDC_DOUBLESCAN
@@ -215,7 +215,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_AUTOSTART_HANDLE_TDE
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        POPUP "Vide&o standard"
+        POPUP "Video standard"
         BEGIN
             MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
@@ -224,7 +224,7 @@ BEGIN
         MENUITEM "", IDM_IEEE488
         MENUITEM "", IDM_MOUSE
     END
-    POPUP "S&ettings"
+    POPUP "Settings"
     BEGIN
         MENUITEM "", IDM_AUTOSTART_SETTINGS
         MENUITEM "", IDM_VIDEO_SETTINGS
@@ -243,7 +243,7 @@ BEGIN
         MENUITEM "", IDM_RAM_SETTINGS
         MENUITEM "", IDM_C128_SETTINGS
         MENUITEM "", IDM_RS232_SETTINGS
-        POPUP "&Cartridge Settings"
+        POPUP "Cartridge Settings"
         BEGIN
             MENUITEM "", IDM_REU_SETTINGS
             MENUITEM "", IDM_GEORAM_SETTINGS
@@ -274,7 +274,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "", IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "Language"
     BEGIN
         MENUITEM "", IDM_LANG_EN
         MENUITEM "", IDM_LANG_DA
@@ -289,7 +289,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "&Help"
+    POPUP "Help"
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
@@ -732,11 +732,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Enable external Function ROM"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
-  IDS_MP_VDC_SETTINGS           "VDC settin&gs"
+  IDS_MP_VDC_SETTINGS           "VDC settings"
   IDS_MP_VDC_REVISION           "VDC revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
-  IDS_MI_IEEE488                "IEEE&488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C&128 settings..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
+  IDS_MI_IEEE488                "IEEE488 Interface emulation"
+  IDS_MI_C128_SETTINGS          "C128 settings..."
 END
 
 
@@ -792,11 +792,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "Extern funktions-ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Aktivér extern funktions-ROM"
   IDS_C128_FULL_BANKS           "Aktivér RAM-bank 2 og 3"
-  IDS_MP_VDC_SETTINGS           "&VDC-indstillinger"
+  IDS_MP_VDC_SETTINGS           "VDC-indstillinger"
   IDS_MP_VDC_REVISION           "VDC-revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB grafikhuko&mmelse"
-  IDS_MI_IEEE488                "Emulering af IEEE&488-interface"
-  IDS_MI_C128_SETTINGS          "C&128-indstillinger..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB grafikhukommelse"
+  IDS_MI_IEEE488                "Emulering af IEEE488-interface"
+  IDS_MI_C128_SETTINGS          "C128-indstillinger..."
 END
 
 
@@ -852,11 +852,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "Externes Funktions ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Externes Funktions ROM aktivieren"
   IDS_C128_FULL_BANKS           "RAM Bänke 2 und 3 aktivieren"
-  IDS_MP_VDC_SETTINGS           "VDC Einstellun&gen"
+  IDS_MP_VDC_SETTINGS           "VDC Einstellungen"
   IDS_MP_VDC_REVISION           "VDC Revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB Bildschirm Speicher"
-  IDS_MI_IEEE488                "IEEE&488 Schnittstellen-Emulation"
-  IDS_MI_C128_SETTINGS          "C&128 Einstellungen..."
+  IDS_MI_IEEE488                "IEEE488 Schnittstellen-Emulation"
+  IDS_MI_C128_SETTINGS          "C128 Einstellungen..."
 END
 
 
@@ -912,11 +912,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "Image ROM Fonction externe"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Activer l'image ROM Fonction externe"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
-  IDS_MP_VDC_SETTINGS           "Para&mètres VDC"
+  IDS_MP_VDC_SETTINGS           "Paramètres VDC"
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "Mémoire d'affichage de 64Ko"
-  IDS_MI_IEEE488                "Interface d'émulation &IEEE488"
-  IDS_MI_C128_SETTINGS          "Paramètres C&128"
+  IDS_MI_IEEE488                "Interface d'émulation IEEE488"
+  IDS_MI_C128_SETTINGS          "Paramètres C128"
 END
 
 
@@ -977,9 +977,9 @@ BEGIN
   IDS_C128_FULL_BANKS           "2-es és 3-as RAM bankok engedélyezése"
   IDS_MP_VDC_SETTINGS           "VDC beállításai"
   IDS_MP_VDC_REVISION           "VDC változat"
-  IDS_MI_TOGGLE_VDC64KB         "64KB képernyõ &memória"
-  IDS_MI_IEEE488                "IEEE&488 interfész emuláció"
-  IDS_MI_C128_SETTINGS          "C&128 beállításai..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB képernyõ memória"
+  IDS_MI_IEEE488                "IEEE488 interfész emuláció"
+  IDS_MI_C128_SETTINGS          "C128 beállításai..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1038,11 +1038,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "Function ROM esterna"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Attiva Function ROM esterna"
   IDS_C128_FULL_BANKS           "Attiva banchi RAM 2 e 3"
-  IDS_MP_VDC_SETTINGS           "Impostazio&ni VDC"
+  IDS_MP_VDC_SETTINGS           "Impostazioni VDC"
   IDS_MP_VDC_REVISION           "Revisione VDC"
-  IDS_MI_TOGGLE_VDC64KB         "64KB di &memoria video"
-  IDS_MI_IEEE488                "Emulazione interfaccia IEEE&488"
-  IDS_MI_C128_SETTINGS          "Impostazioni C&128..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB di memoria video"
+  IDS_MI_IEEE488                "Emulazione interfaccia IEEE488"
+  IDS_MI_C128_SETTINGS          "Impostazioni C128..."
 END
 
 
@@ -1101,11 +1101,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Enable external Function ROM"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
-  IDS_MP_VDC_SETTINGS           "VDC settin&gs"
+  IDS_MP_VDC_SETTINGS           "VDC settings"
   IDS_MP_VDC_REVISION           "VDC revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
-  IDS_MI_IEEE488                "IEEE&488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C&128 settings..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
+  IDS_MI_IEEE488                "IEEE488 Interface emulation"
+  IDS_MI_C128_SETTINGS          "C128 settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1164,11 +1164,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "Externe functie ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Activeer externe functie ROM"
   IDS_C128_FULL_BANKS           "Aktiveer RAM bank 2 en 3"
-  IDS_MP_VDC_SETTINGS           "VDC instellin&gen"
+  IDS_MP_VDC_SETTINGS           "VDC instellingen"
   IDS_MP_VDC_REVISION           "VDC revisie"
-  IDS_MI_TOGGLE_VDC64KB         "64KB video&geheugen"
-  IDS_MI_IEEE488                "IEEE&488 Interface emulatie"
-  IDS_MI_C128_SETTINGS          "C&128 instellingen..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB videogeheugen"
+  IDS_MI_IEEE488                "IEEE488 Interface emulatie"
+  IDS_MI_C128_SETTINGS          "C128 instellingen..."
 END
 
 
@@ -1227,11 +1227,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Enable external Function ROM"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
-  IDS_MP_VDC_SETTINGS           "VDC settin&gs"
+  IDS_MP_VDC_SETTINGS           "VDC settings"
   IDS_MP_VDC_REVISION           "VDC revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
-  IDS_MI_IEEE488                "IEEE&488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C&128 settings..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
+  IDS_MI_IEEE488                "IEEE488 Interface emulation"
+  IDS_MI_C128_SETTINGS          "C128 settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1293,11 +1293,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "External Function ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Enable external Function ROM"
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
-  IDS_MP_VDC_SETTINGS           "VDC settin&gs"
+  IDS_MP_VDC_SETTINGS           "VDC settings"
   IDS_MP_VDC_REVISION           "VDC revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB video &memory"
-  IDS_MI_IEEE488                "IEEE&488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C&128 settings..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
+  IDS_MI_IEEE488                "IEEE488 Interface emulation"
+  IDS_MI_C128_SETTINGS          "C128 settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1356,11 +1356,11 @@ BEGIN
   IDS_EXT_FUNCTION_ROM          "Externt funktions-ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Aktivera externt funktions-ROM"
   IDS_C128_FULL_BANKS           "Aktivera RAM-bank 2 och 3"
-  IDS_MP_VDC_SETTINGS           "&VDC-inställningar"
+  IDS_MP_VDC_SETTINGS           "VDC-inställningar"
   IDS_MP_VDC_REVISION           "VDC-revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB grafik&minne"
-  IDS_MI_IEEE488                "Emulering av IEEE&488-gränssnitt"
-  IDS_MI_C128_SETTINGS          "C&128-inställningar..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB grafikminne"
+  IDS_MI_IEEE488                "Emulering av IEEE488-gränssnitt"
+  IDS_MI_C128_SETTINGS          "C128-inställningar..."
 END
 
 
@@ -1421,9 +1421,9 @@ BEGIN
   IDS_C128_FULL_BANKS           "RAM banklarý 2 ve 3'ü aktif et"
   IDS_MP_VDC_SETTINGS           "VDC ayarlarý"
   IDS_MP_VDC_REVISION           "VDC revizyonu"
-  IDS_MI_TOGGLE_VDC64KB         "64KB görüntü &belleði"
-  IDS_MI_IEEE488                "IEEE&488 Arabirimi emülasyonu"
-  IDS_MI_C128_SETTINGS          "C&128 ayarlarý..."
+  IDS_MI_TOGGLE_VDC64KB         "64KB görüntü belleði"
+  IDS_MI_IEEE488                "IEEE488 Arabirimi emülasyonu"
+  IDS_MI_C128_SETTINGS          "C128 ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

@@ -23,18 +23,18 @@
 
 IDR_MENUC64DTV MENU DISCARDABLE
 BEGIN
-    POPUP "&File"
+    POPUP "File"
     BEGIN
         MENUITEM "", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Attach &disk image"
+        POPUP "Attach disk image"
         BEGIN
             MENUITEM "", IDM_ATTACH_8
             MENUITEM "", IDM_ATTACH_9
             MENUITEM "", IDM_ATTACH_10
             MENUITEM "", IDM_ATTACH_11
         END
-        POPUP "D&etach disk image"
+        POPUP "Detach disk image"
         BEGIN
             MENUITEM "", IDM_DETACH_8
             MENUITEM "", IDM_DETACH_9
@@ -43,13 +43,13 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_DETACH_ALL
         END
-        POPUP "DTV flash &rom image"
+        POPUP "DTV flash rom image"
         BEGIN
             MENUITEM "", IDM_ATTACH_DTV_FLASH
             MENUITEM "", IDM_DETACH_DTV_FLASH
             MENUITEM "", IDM_CREATE_DTV_FLASH
         END
-        POPUP "&Flip list"
+        POPUP "Flip list"
         BEGIN
             MENUITEM "", IDM_FLIP_ADD
             MENUITEM "", IDM_FLIP_REMOVE
@@ -62,7 +62,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_MONITOR
-        POPUP "&Reset"
+        POPUP "Reset"
         BEGIN
             MENUITEM "", IDM_RESET_HARD
             MENUITEM "", IDM_RESET_SOFT
@@ -73,9 +73,9 @@ BEGIN
             MENUITEM "", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-        POPUP "&Debug"
+        POPUP "Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "Mode"
             BEGIN
                 MENUITEM "", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "", IDM_DEBUG_MODE_SMALL
@@ -95,7 +95,7 @@ BEGIN
         MENUITEM "", IDM_EDIT_COPY
         MENUITEM "", IDM_EDIT_PASTE
     END
-    POPUP "Sna&pshot"
+    POPUP "Snapshot"
     BEGIN
         MENUITEM "", IDM_SNAPSHOT_LOAD
         MENUITEM "", IDM_SNAPSHOT_SAVE
@@ -120,9 +120,9 @@ BEGIN
         MENUITEM "", IDM_SOUND_RECORD_START
         MENUITEM "", IDM_SOUND_RECORD_STOP
     END
-    POPUP "&Options"
+    POPUP "Options"
     BEGIN
-        POPUP "&Refresh rate"
+        POPUP "Refresh rate"
         BEGIN
             MENUITEM "",      IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -136,7 +136,7 @@ BEGIN
             MENUITEM "1/&9",  IDM_REFRESH_RATE_9
             MENUITEM "1/1&0", IDM_REFRESH_RATE_10
         END
-        POPUP "&Maximum Speed"
+        POPUP "Maximum Speed"
         BEGIN
             MENUITEM "&200%", IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%", IDM_MAXIMUM_SPEED_100
@@ -171,7 +171,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_FLASH_TRUE_FILESYSTEM, CHECKED
         MENUITEM "", IDM_TOGGLE_VIRTUAL_DEVICES
         MENUITEM SEPARATOR
-        POPUP "Vide&o standard"
+        POPUP "Video standard"
         BEGIN
             MENUITEM "&PAL-G",      IDM_SYNC_FACTOR_PAL
             MENUITEM "&NTSC-M",     IDM_SYNC_FACTOR_NTSC
@@ -180,7 +180,7 @@ BEGIN
         MENUITEM "", IDM_PS2MOUSE
         MENUITEM "", IDM_MOUSE
     END
-    POPUP "S&ettings"
+    POPUP "Settings"
     BEGIN
         MENUITEM "", IDM_AUTOSTART_SETTINGS
         MENUITEM "", IDM_VIDEO_SETTINGS
@@ -205,7 +205,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "", IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "Language"
     BEGIN
         MENUITEM "", IDM_LANG_EN
         MENUITEM "", IDM_LANG_DA
@@ -220,7 +220,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "&Help"
+    POPUP "Help"
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
@@ -475,8 +475,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Attach DTV Flash Image"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
@@ -484,14 +484,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
-  IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
-  IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
-  IDS_MI_DETACH_DTV_FLASH         "&Detach flash rom image"
-  IDS_MI_CREATE_DTV_FLASH         "&Create new flash rom image"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&True flash filesystem"
-  IDS_MI_PS2MOUSE                 "&PS/2 mouse emulation"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV settings..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom image"
+  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
+  IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
+  IDS_MI_CREATE_DTV_FLASH         "Create new flash rom image"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
 
@@ -503,8 +503,8 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Tilslut DTV-flashimage"
   IDS_DTV_ROM                     "DTV-ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-&imagefil"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivér &skrivning til DTV-ROM-image"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-imagefil"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivér skrivning til DTV-ROM-image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-indstillinger"
   IDS_DTV_REVISION_LABEL          "DTV-revision"
   IDS_ENABLE_HUMMER_ADC           "Aktivér Hummer ADC"
@@ -512,14 +512,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV-ROM oprettelse"
   IDS_C64DTV_ROM_COPY_C64         "Kopiér C64-ROM'mer til image"
   IDS_CREATE                      "Opret"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV-flash&rom image"
-  IDS_MI_AUTOSTART_DISK           "&Autostart disketteimage..."
-  IDS_MI_ATTACH_DTV_FLASH         "Tilslut &flash-rom-image"
-  IDS_MI_DETACH_DTV_FLASH         "Fra&kobl flash-rom-imagesfil"
-  IDS_MI_CREATE_DTV_FLASH         "&Opret nyt flash-rom-image"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "Æg&te flash-filsystem"
-  IDS_MI_PS2MOUSE                 "Emulering af &PS/2-mus"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV-indstillinger..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV-flashrom image"
+  IDS_MI_AUTOSTART_DISK           "Autostart disketteimage..."
+  IDS_MI_ATTACH_DTV_FLASH         "Tilslut flash-rom-image"
+  IDS_MI_DETACH_DTV_FLASH         "Frakobl flash-rom-imagesfil"
+  IDS_MI_CREATE_DTV_FLASH         "Opret nyt flash-rom-image"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "Ægte flash-filsystem"
+  IDS_MI_PS2MOUSE                 "Emulering af PS/2-mus"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV-indstillinger..."
   IDS_JOYSTICK                    "Joystick"
 END
 
@@ -531,8 +531,8 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "DTV Flash Image einlegen"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &Image Name"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Erlaube &Schreibzugriff auf DTV ROM Datei"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM Image Name"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Erlaube Schreibzugriff auf DTV ROM Datei"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Einstellungen"
   IDS_DTV_REVISION_LABEL          "DTV Revision"
   IDS_ENABLE_HUMMER_ADC           "Hummer ADC Aktivieren"
@@ -540,14 +540,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM Erzeugung"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROMS auf Image kopieren"
   IDS_CREATE                      "Erzeugen"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV Flash &Rom Datei"
-  IDS_MI_AUTOSTART_DISK           "&Autostart Disk Image..."
-  IDS_MI_ATTACH_DTV_FLASH         "&Flash ROM Image einlegen"
-  IDS_MI_DETACH_DTV_FLASH         "Flash ROM Image ent&fernen"
-  IDS_MI_CREATE_DTV_FLASH         "Flash ROM Datei er&zeugen"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&True flash Dateisystem"
-  IDS_MI_PS2MOUSE                 "&PS/2 Mausemulation"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV Einstellungen..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV Flash Rom Datei"
+  IDS_MI_AUTOSTART_DISK           "Autostart Disk Image..."
+  IDS_MI_ATTACH_DTV_FLASH         "Flash ROM Image einlegen"
+  IDS_MI_DETACH_DTV_FLASH         "Flash ROM Image entfernen"
+  IDS_MI_CREATE_DTV_FLASH         "Flash ROM Datei erzeugen"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash Dateisystem"
+  IDS_MI_PS2MOUSE                 "PS/2 Mausemulation"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV Einstellungen..."
   IDS_JOYSTICK                    "Joystick"
 END
 
@@ -559,8 +559,8 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Attach DTV Flash Image"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
@@ -568,14 +568,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
-  IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
-  IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
-  IDS_MI_DETACH_DTV_FLASH         "&Detach flash rom image"
-  IDS_MI_CREATE_DTV_FLASH         "&Create new flash rom image"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&True flash filesystem"
-  IDS_MI_PS2MOUSE                 "&PS/2 mouse emulation"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV settings..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom image"
+  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
+  IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
+  IDS_MI_CREATE_DTV_FLASH         "Create new flash rom image"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
 
@@ -590,8 +590,8 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "DTV Flash képmás csatolása"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &képmás fájl"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM képmásba írás &engedélyezése"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM képmás fájl"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM képmásba írás engedélyezése"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV beállításai"
   IDS_DTV_REVISION_LABEL          "DTV revision"
   IDS_ENABLE_HUMMER_ADC           "Hummer ADC engedélyezése"
@@ -599,14 +599,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM létrehozás"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROM-ok másolása a képmásba"
   IDS_CREATE                      "Létrehozás"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom képmás"
-  IDS_MI_AUTOSTART_DISK           "Lemezképmás &automatikus indítása..."
-  IDS_MI_ATTACH_DTV_FLASH         "&Flash ROM képmás csatolása"
-  IDS_MI_DETACH_DTV_FLASH         "Flash ROM képmás &leválasztása"
-  IDS_MI_CREATE_DTV_FLASH         "Új flash rom képmás &létrehozása"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&Igazi flash fájlrendszer"
-  IDS_MI_PS2MOUSE                 "&PS/2 egér emuláció"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV beállításai..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom képmás"
+  IDS_MI_AUTOSTART_DISK           "Lemezképmás automatikus indítása..."
+  IDS_MI_ATTACH_DTV_FLASH         "Flash ROM képmás csatolása"
+  IDS_MI_DETACH_DTV_FLASH         "Flash ROM képmás leválasztása"
+  IDS_MI_CREATE_DTV_FLASH         "Új flash rom képmás létrehozása"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "Igazi flash fájlrendszer"
+  IDS_MI_PS2MOUSE                 "PS/2 egér emuláció"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV beállításai..."
   IDS_JOYSTICK                    "Botkormány"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -621,8 +621,8 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Seleziona immagine Flash DTV"
   IDS_DTV_ROM                     "ROM DTV"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "File &immagine ROM DTV"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Attiva &scrittura su immagini ROM DTV"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "File immagine ROM DTV"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Attiva scrittura su immagini ROM DTV"
   IDS_C64DTV_SETTINGS_CAPTION     "Impostazioni C64DTV"
   IDS_DTV_REVISION_LABEL          "Revisione DTV"
   IDS_ENABLE_HUMMER_ADC           "Attiva Hummer ADC"
@@ -630,14 +630,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "Creazione ROM DTV"
   IDS_C64DTV_ROM_COPY_C64         "Copia ROM C64 in un'immagine"
   IDS_CREATE                      "Crea"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "Immagine flash &rom DTV"
-  IDS_MI_AUTOSTART_DISK           "&Avvia automaticamente immagine disco..."
-  IDS_MI_ATTACH_DTV_FLASH         "Seleziona immagine &flash rom"
-  IDS_MI_DETACH_DTV_FLASH         "&Rimuovi immagine flash rom"
-  IDS_MI_CREATE_DTV_FLASH         "&Crea nuova immagine flash rom"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "Attiva emulazione &hardware del filesystem flash"
-  IDS_MI_PS2MOUSE                 "Emulazione mouse &PS/2"
-  IDS_MI_C64DTV_SETTINGS          "Impostazioni &C64DTV..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "Immagine flash rom DTV"
+  IDS_MI_AUTOSTART_DISK           "Avvia automaticamente immagine disco..."
+  IDS_MI_ATTACH_DTV_FLASH         "Seleziona immagine flash rom"
+  IDS_MI_DETACH_DTV_FLASH         "Rimuovi immagine flash rom"
+  IDS_MI_CREATE_DTV_FLASH         "Crea nuova immagine flash rom"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "Attiva emulazione hardware del filesystem flash"
+  IDS_MI_PS2MOUSE                 "Emulazione mouse PS/2"
+  IDS_MI_C64DTV_SETTINGS          "Impostazioni C64DTV..."
   IDS_JOYSTICK                    "Joystick"
 END
 
@@ -652,8 +652,8 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Attach DTV Flash Image"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
@@ -661,14 +661,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
-  IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
-  IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
-  IDS_MI_DETACH_DTV_FLASH         "&Detach flash rom image"
-  IDS_MI_CREATE_DTV_FLASH         "&Create new flash rom image"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&True flash filesystem"
-  IDS_MI_PS2MOUSE                 "&PS/2 mouse emulation"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV settings..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom image"
+  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
+  IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
+  IDS_MI_CREATE_DTV_FLASH         "Create new flash rom image"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -683,8 +683,8 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Koppel DTV Flash Bestand"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &bestand"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Aktiveer &schrijven naar DTV ROM bestand"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM bestand"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Aktiveer schrijven naar DTV ROM bestand"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Instellingen"
   IDS_DTV_REVISION_LABEL          "DTV revisie"
   IDS_ENABLE_HUMMER_ADC           "Activeer Hummer ADC"
@@ -692,14 +692,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "Maak DTV Flash Bestand"
   IDS_C64DTV_ROM_COPY_C64         "Kopieer C64 ROMS naar bestand"
   IDS_CREATE                      "Maak"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom bestand"
-  IDS_MI_AUTOSTART_DISK           "&Autostart diskbestand..."
-  IDS_MI_ATTACH_DTV_FLASH         "Koppel &flash rom bestand"
-  IDS_MI_DETACH_DTV_FLASH         "&Ontkoppel flash rom bestand"
-  IDS_MI_CREATE_DTV_FLASH         "&Maak nieuw flash rom bestand"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&Hardwarematig flash bestandssysteem"
-  IDS_MI_PS2MOUSE                 "&PS/2 muis emulatie"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV instellingen..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom bestand"
+  IDS_MI_AUTOSTART_DISK           "Autostart diskbestand..."
+  IDS_MI_ATTACH_DTV_FLASH         "Koppel flash rom bestand"
+  IDS_MI_DETACH_DTV_FLASH         "Ontkoppel flash rom bestand"
+  IDS_MI_CREATE_DTV_FLASH         "Maak nieuw flash rom bestand"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "Hardwarematig flash bestandssysteem"
+  IDS_MI_PS2MOUSE                 "PS/2 muis emulatie"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV instellingen..."
   IDS_JOYSTICK                    "Joystick"
 END
 
@@ -714,8 +714,8 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Attach DTV Flash Image"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
@@ -723,14 +723,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
-  IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
-  IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
-  IDS_MI_DETACH_DTV_FLASH         "&Detach flash rom image"
-  IDS_MI_CREATE_DTV_FLASH         "&Create new flash rom image"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&True flash filesystem"
-  IDS_MI_PS2MOUSE                 "&PS/2 mouse emulation"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV settings..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom image"
+  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
+  IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
+  IDS_MI_CREATE_DTV_FLASH         "Create new flash rom image"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -748,8 +748,8 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Attach DTV Flash Image"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &image File"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable &writes to DTV ROM image"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Settings"
   IDS_DTV_REVISION_LABEL          "DTV revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
@@ -757,14 +757,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom image"
-  IDS_MI_AUTOSTART_DISK           "&Autostart disk image..."
-  IDS_MI_ATTACH_DTV_FLASH         "Attach &flash rom image"
-  IDS_MI_DETACH_DTV_FLASH         "&Detach flash rom image"
-  IDS_MI_CREATE_DTV_FLASH         "&Create new flash rom image"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&True flash filesystem"
-  IDS_MI_PS2MOUSE                 "&PS/2 mouse emulation"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV settings..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom image"
+  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
+  IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
+  IDS_MI_CREATE_DTV_FLASH         "Create new flash rom image"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -779,8 +779,8 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Anslut en DTV-flashavbildningsfil"
   IDS_DTV_ROM                     "DTV-ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-&avbildningsfil"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivera &skrivning till DTV-ROM-avbildning"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-avbildningsfil"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivera skrivning till DTV-ROM-avbildning"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-inställningar"
   IDS_DTV_REVISION_LABEL          "DTV-utgåva"
   IDS_ENABLE_HUMMER_ADC           "Aktivera Hummer-A/D-omvandlare"
@@ -788,14 +788,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "Skapa DTV-ROM"
   IDS_C64DTV_ROM_COPY_C64         "Kopiera C64-ROM:ar till avbild"
   IDS_CREATE                      "Skapa"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "Avbildningsfil för DTV-flash&rom"
-  IDS_MI_AUTOSTART_DISK           "&Autostarta diskettavbildning..."
-  IDS_MI_ATTACH_DTV_FLASH         "Anslut &flash-rom-avbildningsfil"
-  IDS_MI_DETACH_DTV_FLASH         "&Koppla från flash-rom-avbildningsfil"
-  IDS_MI_CREATE_DTV_FLASH         "*Skapa ny flash-rom-avbildningsfil"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "&Äkta flash-filsystem"
-  IDS_MI_PS2MOUSE                 "*PS/2-musemulering"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV-inställningar..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "Avbildningsfil för DTV-flashrom"
+  IDS_MI_AUTOSTART_DISK           "Autostarta diskettavbildning..."
+  IDS_MI_ATTACH_DTV_FLASH         "Anslut flash-rom-avbildningsfil"
+  IDS_MI_DETACH_DTV_FLASH         "Koppla från flash-rom-avbildningsfil"
+  IDS_MI_CREATE_DTV_FLASH         "Skapa ny flash-rom-avbildningsfil"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "Äkta flash-filsystem"
+  IDS_MI_PS2MOUSE                 "PS/2-musemulering"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV-inställningar..."
   IDS_JOYSTICK                    "Styrspak"
 END
 
@@ -810,8 +810,8 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "DTV Flash Imajý Yerleþtir"
   IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM &imaj Dosyasý"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM imajýnda &yazmalarý aktif et"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM imaj Dosyasý"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "DTV ROM imajýnda yazmalarý aktif et"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Ayarlarý"
   IDS_DTV_REVISION_LABEL          "DTV revizyonu"
   IDS_ENABLE_HUMMER_ADC           "Hummer ADC'yi aktif et"
@@ -819,14 +819,14 @@ BEGIN
   IDS_DTV_ROM_CREATION            "DTV ROM Yaratma"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROMlarýný imaja kopyala"
   IDS_CREATE                      "Yarat"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash &rom imajý"
-  IDS_MI_AUTOSTART_DISK           "Disk imajýný otom&atik baþlat..."
-  IDS_MI_ATTACH_DTV_FLASH         "&Flash rom imajý yerleþtir"
-  IDS_MI_DETACH_DTV_FLASH         "Flash rom imajýný çý&kart"
-  IDS_MI_CREATE_DTV_FLASH         "&Yeni flash rom imajý oluþtur"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "Gerçek flash dosya sis&temi"
-  IDS_MI_PS2MOUSE                 "&PS/2 mouse emülasyonu"
-  IDS_MI_C64DTV_SETTINGS          "&C64DTV ayarlarý..."
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom imajý"
+  IDS_MI_AUTOSTART_DISK           "Disk imajýný otomatik baþlat..."
+  IDS_MI_ATTACH_DTV_FLASH         "Flash rom imajý yerleþtir"
+  IDS_MI_DETACH_DTV_FLASH         "Flash rom imajýný çýkart"
+  IDS_MI_CREATE_DTV_FLASH         "Yeni flash rom imajý oluþtur"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "Gerçek flash dosya sistemi"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse emülasyonu"
+  IDS_MI_C64DTV_SETTINGS          "C64DTV ayarlarý..."
   IDS_JOYSTICK                    "Joystick"
 END
 #ifndef WINDRES_CP_IGNORE

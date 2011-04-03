@@ -11,6 +11,19 @@
 #                if no occurence is given the first occurence
 #                is assumed
 
+# resacia.rc
+
+IDS_ACIA_ENABLE		en	E	1
+IDS_ACIA_ENABLE		da	A	1
+IDS_ACIA_ENABLE		de	e	2
+IDS_ACIA_ENABLE		fr	A	1
+IDS_ACIA_ENABLE		hu	e	1
+IDS_ACIA_ENABLE		it	A	1
+IDS_ACIA_ENABLE		nl	A	1
+IDS_ACIA_ENABLE		sv	A	1
+IDS_ACIA_ENABLE		tr	e	1
+
+
 # resplus4.rc
 
 IDS_SELECT_PLUS4_MEM_16		**	1	1

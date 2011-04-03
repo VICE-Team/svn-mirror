@@ -23,18 +23,18 @@
 
 IDR_MENUC64 MENU DISCARDABLE
 BEGIN
-    POPUP "&File"
+    POPUP "File"
     BEGIN
         MENUITEM "", IDM_AUTOSTART
         MENUITEM SEPARATOR
-        POPUP "Attach &disk image"
+        POPUP "Attach disk image"
         BEGIN
             MENUITEM "", IDM_ATTACH_8
             MENUITEM "", IDM_ATTACH_9
             MENUITEM "", IDM_ATTACH_10
             MENUITEM "", IDM_ATTACH_11
         END
-        POPUP "D&etach disk image"
+        POPUP "Detach disk image"
         BEGIN
             MENUITEM "", IDM_DETACH_8
             MENUITEM "", IDM_DETACH_9
@@ -43,7 +43,7 @@ BEGIN
             MENUITEM SEPARATOR
             MENUITEM "", IDM_DETACH_ALL
         END
-        POPUP "&Flip list"
+        POPUP "Flip list"
         BEGIN
             MENUITEM "", IDM_FLIP_ADD
             MENUITEM "", IDM_FLIP_REMOVE
@@ -56,7 +56,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_ATTACH_TAPE
         MENUITEM "", IDM_DETACH_TAPE
-        POPUP "Datassette contro&l"
+        POPUP "Datassette control"
         BEGIN
             MENUITEM "", IDM_DATASETTE_CONTROL_STOP
             MENUITEM "", IDM_DATASETTE_CONTROL_START
@@ -67,7 +67,7 @@ BEGIN
             MENUITEM "", IDM_DATASETTE_RESET_COUNTER
         END
         MENUITEM SEPARATOR
-        POPUP "Attach &cartridge image..."
+        POPUP "Attach cartridge image..."
         BEGIN
             MENUITEM "", IDM_CART_ATTACH_CRT
             MENUITEM SEPARATOR
@@ -95,7 +95,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_PAUSE, CHECKED
         MENUITEM "", IDM_MONITOR
-        POPUP "&Reset"
+        POPUP "Reset"
         BEGIN
             MENUITEM "", IDM_RESET_HARD
             MENUITEM "", IDM_RESET_SOFT
@@ -106,9 +106,9 @@ BEGIN
             MENUITEM "", IDM_RESET_DRIVE11
         END
 #ifdef DEBUG
-        POPUP "&Debug"
+        POPUP "Debug"
         BEGIN
-            POPUP "M&ode"
+            POPUP "Mode"
             BEGIN
                 MENUITEM "", IDM_DEBUG_MODE_NORMAL
                 MENUITEM "", IDM_DEBUG_MODE_SMALL
@@ -128,7 +128,7 @@ BEGIN
         MENUITEM "", IDM_EDIT_COPY
         MENUITEM "", IDM_EDIT_PASTE
     END
-    POPUP "Sna&pshot"
+    POPUP "Snapshot"
     BEGIN
         MENUITEM "", IDM_SNAPSHOT_LOAD
         MENUITEM "", IDM_SNAPSHOT_SAVE
@@ -155,9 +155,9 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_NETWORK_SETTINGS
     END
-    POPUP "&Options"
+    POPUP "Options"
     BEGIN
-        POPUP "&Refresh rate"
+        POPUP "Refresh rate"
         BEGIN
             MENUITEM "",      IDM_REFRESH_RATE_AUTO
             MENUITEM "1/&1",  IDM_REFRESH_RATE_1
@@ -171,7 +171,7 @@ BEGIN
             MENUITEM "1/&9",  IDM_REFRESH_RATE_9
             MENUITEM "1/1&0", IDM_REFRESH_RATE_10
         END
-        POPUP "&Maximum Speed"
+        POPUP "Maximum Speed"
         BEGIN
             MENUITEM "&200%", IDM_MAXIMUM_SPEED_200
             MENUITEM "&100%", IDM_MAXIMUM_SPEED_100
@@ -207,7 +207,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "", IDM_MOUSE
     END
-    POPUP "S&ettings"
+    POPUP "Settings"
     BEGIN
         MENUITEM "", IDM_C64MODEL_SETTINGS
         MENUITEM "", IDM_AUTOSTART_SETTINGS
@@ -226,7 +226,7 @@ BEGIN
         MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_RAM_SETTINGS
         MENUITEM "", IDM_RS232_SETTINGS
-        POPUP "&Cartridge/IO settings"
+        POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_REU_SETTINGS
             MENUITEM "", IDM_GEORAM_SETTINGS
@@ -262,7 +262,7 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
         MENUITEM "", IDM_TOGGLE_CONFIRM_ON_EXIT
     END
-    POPUP "&Language"
+    POPUP "Language"
     BEGIN
         MENUITEM "", IDM_LANG_EN
         MENUITEM "", IDM_LANG_DA
@@ -277,7 +277,7 @@ BEGIN
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
     END
-    POPUP "&Help"
+    POPUP "Help"
     BEGIN
         MENUITEM "", IDM_HELP
         MENUITEM SEPARATOR
@@ -553,9 +553,9 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
-  IDS_MI_C64_256K_SETTINGS "&256K settings..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
+  IDS_MI_C64_256K_SETTINGS "256K settings..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -584,9 +584,9 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netværksspil (eksperimentelt)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K-indstillinger..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K-indstillinger..."
-  IDS_MI_C64_256K_SETTINGS "&256K-indstillinger..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K-indstillinger..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K-indstillinger..."
+  IDS_MI_C64_256K_SETTINGS "256K-indstillinger..."
   IDS_C64_MODEL            "C64-model"
   IDS_VICII_MODEL          "VIC-II-model"
   IDS_NEW_LUMINANCES       "Nye lysstyrker"
@@ -615,9 +615,9 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (experimentell)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K Einstellungen..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K Einstellungen..."
-  IDS_MI_C64_256K_SETTINGS "&256K Einstellungen..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K Einstellungen..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K Einstellungen..."
+  IDS_MI_C64_256K_SETTINGS "256K Einstellungen..."
   IDS_C64_MODEL            "C64 Modell"
   IDS_VICII_MODEL          "VIC-II Modell"
   IDS_NEW_LUMINANCES       "Neue Helligkeitsemulation"
@@ -646,9 +646,9 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Jeu en réseau (expérimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "Paramètres PLUS&60K..."
-  IDS_MI_PLUS256K_SETTINGS "Paramètres PLUS2&56K..."
-  IDS_MI_C64_256K_SETTINGS "Paramètres &256K..."
+  IDS_MI_PLUS60K_SETTINGS  "Paramètres PLUS60K..."
+  IDS_MI_PLUS256K_SETTINGS "Paramètres PLUS256K..."
+  IDS_MI_C64_256K_SETTINGS "Paramètres 256K..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -680,9 +680,9 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Hálózati játék (kísérleti)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K beállításai..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K beállításai..."
-  IDS_MI_C64_256K_SETTINGS "&256K beállításai..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K beállításai..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K beállításai..."
+  IDS_MI_C64_256K_SETTINGS "256K beállításai..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -714,8 +714,8 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (sperimentale)..."
-  IDS_MI_PLUS60K_SETTINGS  "Impostazioni PLUS&60K..."
-  IDS_MI_PLUS256K_SETTINGS "Impostazioni PLUS2&56K..."
+  IDS_MI_PLUS60K_SETTINGS  "Impostazioni PLUS60K..."
+  IDS_MI_PLUS256K_SETTINGS "Impostazioni PLUS256K..."
   IDS_MI_C64_256K_SETTINGS "Impostazioni 256K..."
   IDS_C64_MODEL            "Modello C64"
   IDS_VICII_MODEL          "Modello VIC-II"
@@ -748,9 +748,9 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
-  IDS_MI_C64_256K_SETTINGS "&256K settings..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
+  IDS_MI_C64_256K_SETTINGS "256K settings..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -782,9 +782,9 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (experimenteel)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K instellingen..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K instellingen..."
-  IDS_MI_C64_256K_SETTINGS "&256K instellingen..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K instellingen..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K instellingen..."
+  IDS_MI_C64_256K_SETTINGS "256K instellingen..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "Nieuwe kleuren"
@@ -816,9 +816,9 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
-  IDS_MI_C64_256K_SETTINGS "&256K settings..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
+  IDS_MI_C64_256K_SETTINGS "256K settings..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -853,9 +853,9 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K settings..."
-  IDS_MI_C64_256K_SETTINGS "&256K settings..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
+  IDS_MI_C64_256K_SETTINGS "256K settings..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -887,9 +887,9 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Nätverksspel (experimentellt)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K-inställningar..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K-inställningar..."
-  IDS_MI_C64_256K_SETTINGS "&256K-inställningar..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K-inställningar..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K-inställningar..."
+  IDS_MI_C64_256K_SETTINGS "256K-inställningar..."
   IDS_C64_MODEL            "C64-modell"
   IDS_VICII_MODEL          "VIC II-modell"
   IDS_NEW_LUMINANCES       "Nya ljusstyrkor"
@@ -921,9 +921,9 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MI_NETWORK_SETTINGS  "Netplay (deneysel)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS&60K ayarlarý..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS2&56K ayarlarý..."
-  IDS_MI_C64_256K_SETTINGS "&256K ayarlarý..."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K ayarlarý..."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K ayarlarý..."
+  IDS_MI_C64_256K_SETTINGS "256K ayarlarý..."
   IDS_C64_MODEL            "C64 modeli"
   IDS_VICII_MODEL          "VIC-II modeli"
   IDS_NEW_LUMINANCES       "Yeni parlaklýklar"
