@@ -357,6 +357,16 @@ static const mon_cmds_t mon_cmd_array[] = {
      IDGS_P_FILENAME_P_DEVICE, IDGS_MON_ATTACH_DESCRIPTION,
      NULL, NULL },
 
+   { "autostart", "",
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
+     IDGS_UNUSED, IDGS_UNUSED,
+     "<file> [file_index]", "autostart a given disk/tape image or program" },
+
+   { "autoload", "",
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
+     IDGS_UNUSED, IDGS_UNUSED,
+     "<file> [file_index]", "autoload given disk/tape image or program" },
+
    { "bload", "bl",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
      IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS, IDGS_MON_BLOAD_DESCRIPTION,

@@ -1,9 +1,9 @@
-/* A Bison parser, made by GNU Bison 2.4.2.  */
+/* A Bison parser, made by GNU Bison 2.4.3.  */
 
 /* Skeleton interface for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989-1990, 2000-2006, 2009-2010 Free Software
-   Foundation, Inc.
+      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
+   2009, 2010 Free Software Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -142,47 +142,49 @@
      CMD_COMMENT = 359,
      CMD_LIST = 360,
      CMD_EXPORT = 361,
-     CMD_LABEL_ASGN = 362,
-     L_PAREN = 363,
-     R_PAREN = 364,
-     ARG_IMMEDIATE = 365,
-     REG_A = 366,
-     REG_X = 367,
-     REG_Y = 368,
-     COMMA = 369,
-     INST_SEP = 370,
-     REG_B = 371,
-     REG_C = 372,
-     REG_D = 373,
-     REG_E = 374,
-     REG_H = 375,
-     REG_L = 376,
-     REG_AF = 377,
-     REG_BC = 378,
-     REG_DE = 379,
-     REG_HL = 380,
-     REG_IX = 381,
-     REG_IY = 382,
-     REG_SP = 383,
-     REG_IXH = 384,
-     REG_IXL = 385,
-     REG_IYH = 386,
-     REG_IYL = 387,
-     STRING = 388,
-     FILENAME = 389,
-     R_O_L = 390,
-     OPCODE = 391,
-     LABEL = 392,
-     BANKNAME = 393,
-     CPUTYPE = 394,
-     MON_REGISTER = 395,
-     COMPARE_OP = 396,
-     RADIX_TYPE = 397,
-     INPUT_SPEC = 398,
-     CMD_CHECKPT_ON = 399,
-     CMD_CHECKPT_OFF = 400,
-     TOGGLE = 401,
-     MASK = 402
+     CMD_AUTOSTART = 362,
+     CMD_AUTOLOAD = 363,
+     CMD_LABEL_ASGN = 364,
+     L_PAREN = 365,
+     R_PAREN = 366,
+     ARG_IMMEDIATE = 367,
+     REG_A = 368,
+     REG_X = 369,
+     REG_Y = 370,
+     COMMA = 371,
+     INST_SEP = 372,
+     REG_B = 373,
+     REG_C = 374,
+     REG_D = 375,
+     REG_E = 376,
+     REG_H = 377,
+     REG_L = 378,
+     REG_AF = 379,
+     REG_BC = 380,
+     REG_DE = 381,
+     REG_HL = 382,
+     REG_IX = 383,
+     REG_IY = 384,
+     REG_SP = 385,
+     REG_IXH = 386,
+     REG_IXL = 387,
+     REG_IYH = 388,
+     REG_IYL = 389,
+     STRING = 390,
+     FILENAME = 391,
+     R_O_L = 392,
+     OPCODE = 393,
+     LABEL = 394,
+     BANKNAME = 395,
+     CPUTYPE = 396,
+     MON_REGISTER = 397,
+     COMPARE_OP = 398,
+     RADIX_TYPE = 399,
+     INPUT_SPEC = 400,
+     CMD_CHECKPT_ON = 401,
+     CMD_CHECKPT_OFF = 402,
+     TOGGLE = 403,
+     MASK = 404
    };
 #endif
 /* Tokens.  */
@@ -290,47 +292,49 @@
 #define CMD_COMMENT 359
 #define CMD_LIST 360
 #define CMD_EXPORT 361
-#define CMD_LABEL_ASGN 362
-#define L_PAREN 363
-#define R_PAREN 364
-#define ARG_IMMEDIATE 365
-#define REG_A 366
-#define REG_X 367
-#define REG_Y 368
-#define COMMA 369
-#define INST_SEP 370
-#define REG_B 371
-#define REG_C 372
-#define REG_D 373
-#define REG_E 374
-#define REG_H 375
-#define REG_L 376
-#define REG_AF 377
-#define REG_BC 378
-#define REG_DE 379
-#define REG_HL 380
-#define REG_IX 381
-#define REG_IY 382
-#define REG_SP 383
-#define REG_IXH 384
-#define REG_IXL 385
-#define REG_IYH 386
-#define REG_IYL 387
-#define STRING 388
-#define FILENAME 389
-#define R_O_L 390
-#define OPCODE 391
-#define LABEL 392
-#define BANKNAME 393
-#define CPUTYPE 394
-#define MON_REGISTER 395
-#define COMPARE_OP 396
-#define RADIX_TYPE 397
-#define INPUT_SPEC 398
-#define CMD_CHECKPT_ON 399
-#define CMD_CHECKPT_OFF 400
-#define TOGGLE 401
-#define MASK 402
+#define CMD_AUTOSTART 362
+#define CMD_AUTOLOAD 363
+#define CMD_LABEL_ASGN 364
+#define L_PAREN 365
+#define R_PAREN 366
+#define ARG_IMMEDIATE 367
+#define REG_A 368
+#define REG_X 369
+#define REG_Y 370
+#define COMMA 371
+#define INST_SEP 372
+#define REG_B 373
+#define REG_C 374
+#define REG_D 375
+#define REG_E 376
+#define REG_H 377
+#define REG_L 378
+#define REG_AF 379
+#define REG_BC 380
+#define REG_DE 381
+#define REG_HL 382
+#define REG_IX 383
+#define REG_IY 384
+#define REG_SP 385
+#define REG_IXH 386
+#define REG_IXL 387
+#define REG_IYH 388
+#define REG_IYL 389
+#define STRING 390
+#define FILENAME 391
+#define R_O_L 392
+#define OPCODE 393
+#define LABEL 394
+#define BANKNAME 395
+#define CPUTYPE 396
+#define MON_REGISTER 397
+#define COMPARE_OP 398
+#define RADIX_TYPE 399
+#define INPUT_SPEC 400
+#define CMD_CHECKPT_ON 401
+#define CMD_CHECKPT_OFF 402
+#define TOGGLE 403
+#define MASK 404
 
 
 
@@ -355,7 +359,7 @@ typedef union YYSTYPE
 
 
 /* Line 1685 of yacc.c  */
-#line 359 "mon_parse.h"
+#line 363 "../../../vice-svn-trunk/src/monitor/mon_parse.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

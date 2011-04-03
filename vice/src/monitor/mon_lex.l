@@ -90,6 +90,8 @@ HDIGIT  [0-9a-f]
         a               { opt_asm = 1; BEGIN(INITIAL); return CMD_ASSEMBLE; }
         add_label|al    { BEGIN(INITIAL);       return CMD_ADD_LABEL; }
         attach          { BEGIN(FNAME);         return CMD_ATTACH; }
+        autostart       { BEGIN(FNAME);         return CMD_AUTOSTART; }
+        autoload        { BEGIN(FNAME);         return CMD_AUTOLOAD; }
         bank            { BEGIN(BNAME);         return CMD_BANK; }
         bload|bl        { BEGIN(FNAME);         return CMD_BLOAD; }
         block_read|br   { BEGIN(INITIAL);       return CMD_BLOCK_READ; }

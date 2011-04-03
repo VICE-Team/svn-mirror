@@ -156,7 +156,7 @@ extern int cur_len, last_len;
 %token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST
-%token CMD_EXPORT
+%token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
@@ -517,6 +517,14 @@ disk_rules: CMD_LOAD filename device_num opt_address end_cmd
             { mon_attach($2,$3); }
           | CMD_DETACH expression end_cmd
             { mon_detach($2); }
+          | CMD_AUTOSTART filename end_cmd
+            { mon_autostart($2,0,1); }
+          | CMD_AUTOSTART filename opt_sep number end_cmd
+            { mon_autostart($2,$4,1); }
+          | CMD_AUTOLOAD filename end_cmd
+            { mon_autostart($2,0,0); }
+          | CMD_AUTOLOAD filename opt_sep number end_cmd
+            { mon_autostart($2,$4,0); }
           ;
 
 cmd_file_rules: CMD_RECORD filename end_cmd

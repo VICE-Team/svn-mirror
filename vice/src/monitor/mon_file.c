@@ -33,6 +33,7 @@
 
 #include "archdep.h"
 #include "attach.h"
+#include "autostart.h"
 #include "cartridge.h"
 #include "machine.h"
 #include "mem.h"
@@ -356,4 +357,16 @@ void mon_detach(int device)
             break;
     }
 }
+
+void mon_autostart(const char *image_name,
+                   int file_index,
+                   int run)
+{
+    mon_out("auto%s %s #%d\n", run ? "starting" : "loading", 
+            image_name, 
+            file_index);
+    autostart_autodetect_opt_prgname(image_name, file_index, 
+                                     run ? AUTOSTART_MODE_RUN : AUTOSTART_MODE_LOAD);
+}
+
 
