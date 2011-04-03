@@ -325,6 +325,7 @@ EXTRA_DIST = \
 	od2c.sh \
 	palette2c.sh \
 	piacore.c \
+	sedinfocontrib_h.sh \
 	translate.txt
 
 if EMBEDDED
@@ -433,7 +434,7 @@ endif
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	echo "generating infocontrib.h..."
-	$(SHELL) $(srcdir)/geninfocontrib_h.sh <$(top_srcdir)/doc/vice.texi | sed -f $(srcdir)/infocontrib.sed >infocontrib.h
+	$(SHELL) $(srcdir)/geninfocontrib_h.sh <$(top_srcdir)/doc/vice.texi | $(srcdir)/sedinfocontrib_h.sh $(srcdir)/infocontrib.sed >infocontrib.h
 
 translate.h:	$(srcdir)/translate.txt $(srcdir)/gentranslate_h.sh
 	echo "generating translate.h..."
