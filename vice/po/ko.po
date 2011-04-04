@@ -48,7 +48,7 @@ msgstr ""
 
 #: src/arch/unix/mididrv.c:680
 msgid "<driver>"
-msgstr ""
+msgstr "<드라이버>"
 
 #: src/arch/unix/mididrv.c:680
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
@@ -57,7 +57,7 @@ msgstr ""
 #: src/arch/unix/rs232.c:165 src/arch/unix/rs232.c:170
 #: src/arch/unix/rs232.c:175 src/arch/unix/rs232.c:180
 msgid "<baudrate>"
-msgstr ""
+msgstr "<보드레이트>"
 
 #: src/arch/unix/rs232.c:165
 msgid "Specify baudrate of first RS232 device"
@@ -268,22 +268,22 @@ msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:398
 msgid "Screenshots..."
-msgstr ""
+msgstr "스크린샷..."
 
 #: src/arch/unix/gui/c128ui.c:408 src/arch/win32/resc128.rc.po.c:680
 #: src/arch/amigaos/intl_text.c.po.c:2852
 msgid "International"
-msgstr ""
+msgstr "국제"
 
 #: src/arch/unix/gui/c128ui.c:410 src/arch/win32/resc128.rc.po.c:681
 #: src/arch/amigaos/intl_text.c.po.c:2904
 msgid "Finnish"
-msgstr ""
+msgstr "핀란드어"
 
 #: src/arch/unix/gui/c128ui.c:412 src/arch/win32/resc128.rc.po.c:682
 #: src/arch/amigaos/intl_text.c.po.c:2917
 msgid "French"
-msgstr ""
+msgstr "프랑스어"
 
 #: src/arch/unix/gui/c128ui.c:414 src/arch/unix/gui/c64scui.c:492
 #: src/arch/unix/gui/c64scui.c:498 src/arch/unix/gui/c64ui.c:552
@@ -292,34 +292,34 @@ msgstr ""
 #: src/arch/unix/gui/plus4ui.c:232 src/arch/win32/resc128.rc.po.c:683
 #: src/arch/amigaos/intl_text.c.po.c:2891
 msgid "German"
-msgstr ""
+msgstr "독일어"
 
 #: src/arch/unix/gui/c128ui.c:416 src/arch/win32/resc128.rc.po.c:684
 #: src/arch/amigaos/intl_text.c.po.c:2943
 msgid "Italian"
-msgstr ""
+msgstr "이탈리아어"
 
 #: src/arch/unix/gui/c128ui.c:418 src/arch/win32/resc128.rc.po.c:685
 #: src/arch/amigaos/intl_text.c.po.c:2982
 msgid "Norwegian"
-msgstr ""
+msgstr "노르웨이어"
 
 #: src/arch/unix/gui/c128ui.c:420 src/arch/win32/resc128.rc.po.c:686
 #: src/arch/amigaos/intl_text.c.po.c:3021
 msgid "Swedish"
-msgstr ""
+msgstr "스웨덴어"
 
 #: src/arch/unix/gui/c128ui.c:431 src/arch/unix/gui/c128ui.c:440
 #: src/arch/unix/gui/c64scui.c:150 src/arch/unix/gui/c64scui.c:160
 #: src/arch/unix/gui/c64ui.c:222 src/arch/unix/gui/c64ui.c:232
 #: src/arch/win32/resc64.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:9093
 msgid "6526 (old)"
-msgstr ""
+msgstr "6526 (오래된)"
 
 #: src/arch/unix/gui/c128ui.c:433 src/arch/unix/gui/c128ui.c:442
 #: src/arch/win32/resc64.rc.po.c:533 src/arch/amigaos/intl_text.c.po.c:9106
 msgid "6526A (new)"
-msgstr ""
+msgstr "6526A (새로운)"
 
 #: src/arch/unix/gui/c128ui.c:449 src/arch/win32/resc128.rc.po.c:648
 #: src/arch/amigaos/intl_text.c.po.c:8339
@@ -428,7 +428,7 @@ msgstr "편집"
 #: src/arch/win32/resplus4.rc.po.c:110 src/arch/win32/resvic20.rc.po.c:120
 #: src/arch/amigaos/intl_text.c.po.c:941
 msgid "Snapshot"
-msgstr ""
+msgstr "스냅샷"
 
 #: src/arch/unix/gui/c128ui.c:637 src/arch/unix/gui/c64dtvui.c:311
 #: src/arch/unix/gui/c64scui.c:653 src/arch/unix/gui/c64ui.c:713
@@ -520,12 +520,12 @@ msgstr ""
 #: src/arch/unix/gui/c64scui.c:152 src/arch/unix/gui/c64scui.c:162
 #: src/arch/unix/gui/c64ui.c:224 src/arch/unix/gui/c64ui.c:234
 msgid "6526 (new)"
-msgstr ""
+msgstr "6526 (새로운)"
 
 #: src/arch/unix/gui/c64scui.c:170 src/arch/win32/resc64.rc.po.c:534
 #: src/arch/amigaos/intl_text.c.po.c:9119
 msgid "Discrete"
-msgstr ""
+msgstr "다른"
 
 #: src/arch/unix/gui/c64scui.c:172 src/arch/win32/resc64.rc.po.c:535
 #: src/arch/amigaos/intl_text.c.po.c:9132
@@ -603,7 +603,7 @@ msgstr ""
 #: src/arch/unix/gui/cbm2ui.c:213 src/arch/unix/gui/petui.c:161
 #: src/arch/win32/respet.rc.po.c:557 src/arch/amigaos/intl_text.c.po.c:8105
 msgid "Graphics"
-msgstr ""
+msgstr "그래픽"
 
 #: src/arch/unix/gui/cbm2ui.c:215 src/arch/unix/gui/petui.c:163
 #: src/arch/win32/respet.rc.po.c:558 src/arch/amigaos/intl_text.c.po.c:8131
@@ -673,7 +673,7 @@ msgstr ""
 #: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:146
 #: src/arch/amigaos/intl_text.c.po.c:785
 msgid "Enable"
-msgstr ""
+msgstr "작동시키다"
 
 #: src/arch/unix/gui/petui.c:128 src/arch/unix/gui/plus4ui.c:128
 #: src/arch/unix/gui/vic20ui.c:153 src/arch/win32/ressidcart.rc.po.c:83
@@ -700,12 +700,12 @@ msgstr ""
 #: src/arch/unix/gui/petui.c:173 src/arch/win32/respet.rc.po.c:550
 #: src/arch/amigaos/intl_text.c.po.c:8053
 msgid "40 Columns"
-msgstr ""
+msgstr "40칸"
 
 #: src/arch/unix/gui/petui.c:175 src/arch/win32/respet.rc.po.c:551
 #: src/arch/amigaos/intl_text.c.po.c:8066
 msgid "80 Columns"
-msgstr ""
+msgstr "80칸"
 
 #: src/arch/unix/gui/petui.c:214
 msgid "Load new editor ROM"
@@ -734,7 +734,7 @@ msgstr ""
 
 #: src/arch/unix/gui/petui.c:240
 msgid "Basic 1"
-msgstr ""
+msgstr "기본1"
 
 #: src/arch/unix/gui/petui.c:242
 msgid "Basic 2, graphics"
@@ -861,11 +861,11 @@ msgstr ""
 
 #: src/arch/unix/gui/uiacia1.c:38 src/arch/unix/gui/uirs232user.c:38
 msgid "Serial 1"
-msgstr ""
+msgstr "직렬 포트 1"
 
 #: src/arch/unix/gui/uiacia1.c:40 src/arch/unix/gui/uirs232user.c:40
 msgid "Serial 2"
-msgstr ""
+msgstr "직렬 포트 2"
 
 #: src/arch/unix/gui/uiacia1.c:42 src/arch/unix/gui/uirs232user.c:42
 msgid "Dump to file"
@@ -1000,7 +1000,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiautostart.c:44 src/arch/unix/gui/uitfe.c:45
 msgid "Name:"
-msgstr ""
+msgstr "이름:"
 
 #: src/arch/unix/gui/uiautostart.c:48 src/arch/win32/resautostart.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:8820
@@ -2396,7 +2396,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
 msgid "Driver"
-msgstr ""
+msgstr "드라이버"
 
 #: src/arch/unix/gui/uimidi.c:90 src/arch/unix/gui/uimidi.c:106
 msgid "MIDI-In device..."
@@ -5348,7 +5348,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1164
 msgid "Driver:"
-msgstr ""
+msgstr "드라이버:"
 
 #: src/arch/win32/res.rc.po.c:1165
 msgid "Bitdepth:"
@@ -5518,7 +5518,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1208
 msgid "New"
-msgstr ""
+msgstr "새로운"
 
 #: src/arch/win32/res.rc.po.c:1209
 msgid "Delete"
@@ -5594,7 +5594,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1240 src/arch/amigaos/intl_text.c.po.c:4165
 msgid "Name"
-msgstr ""
+msgstr "이름"
 
 #: src/arch/win32/res.rc.po.c:1241
 msgid "ID"
@@ -5638,7 +5638,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1256
 msgid "Basic"
-msgstr ""
+msgstr "기본"
 
 #: src/arch/win32/res.rc.po.c:1257
 msgid "Character"
@@ -6373,11 +6373,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1457
 msgid "&German"
-msgstr ""
+msgstr "독일어"
 
 #: src/arch/win32/res.rc.po.c:1458
 msgid "&French"
-msgstr ""
+msgstr "프랑스어"
 
 #: src/arch/win32/res.rc.po.c:1459
 msgid "&Hungarian"
@@ -6385,7 +6385,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1460
 msgid "&Italian"
-msgstr ""
+msgstr "이탈리아어"
 
 #: src/arch/win32/res.rc.po.c:1461
 msgid "&Korean"
@@ -6405,7 +6405,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1465
 msgid "&Swedish"
-msgstr ""
+msgstr "스웨덴어"
 
 #: src/arch/win32/res.rc.po.c:1466
 msgid "&Turkish"
