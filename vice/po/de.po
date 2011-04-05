@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-04-02 13:49-0700\n"
-"PO-Revision-Date: 2011-02-16 20:43+0100\n"
+"PO-Revision-Date: 2011-04-05 19:27+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6434,9 +6434,8 @@ msgid "&Italian"
 msgstr "&Italienisch"
 
 #: src/arch/win32/res.rc.po.c:1461
-#, fuzzy
 msgid "&Korean"
-msgstr "Drean"
+msgstr "&Koreanisch"
 
 #: src/arch/win32/res.rc.po.c:1462
 msgid "&Dutch"
@@ -6448,7 +6447,7 @@ msgstr "&Polnisch"
 
 #: src/arch/win32/res.rc.po.c:1464
 msgid "&Russian"
-msgstr ""
+msgstr "&Russisch"
 
 #: src/arch/win32/res.rc.po.c:1465
 msgid "&Swedish"
@@ -7277,9 +7276,8 @@ msgid "Select file for DQBB"
 msgstr "Datei für DQBB auswählen"
 
 #: src/arch/win32/resdqbb.rc.po.c:38
-#, fuzzy
 msgid "Enable DQBB"
-msgstr "DQBB Aktivier&en"
+msgstr "DQBB Aktivieren"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5140
 msgid "Save DQBB image when changed"
@@ -7389,19 +7387,16 @@ msgid "EasyFlash settings"
 msgstr "EasyFlash Einstellungen"
 
 #: src/arch/win32/reseasyflash.rc.po.c:30
-#, fuzzy
 msgid "EasyFlash Jumper"
-msgstr "EasyFlash &Jumper"
+msgstr "EasyFlash Jumper"
 
 #: src/arch/win32/reseasyflash.rc.po.c:31
-#, fuzzy
 msgid "Save CRT on detach"
-msgstr "CRT Imagedatei beim entfernen &speichern"
+msgstr "CRT Imagedatei beim Entfernen speichern"
 
 #: src/arch/win32/reseasyflash.rc.po.c:32
-#, fuzzy
 msgid "Save CRT now"
-msgstr "CRT Imagedatei jetzt speicher&n"
+msgstr "CRT Imagedatei jetzt speichern"
 
 #: src/arch/win32/resexpert.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5101
 msgid "Select file for Expert Cartridge"
@@ -7412,9 +7407,8 @@ msgid "Expert Cartridge settings"
 msgstr "Expert Cartridge Einstellungen"
 
 #: src/arch/win32/resexpert.rc.po.c:41
-#, fuzzy
 msgid "Enable Expert Cartridge"
-msgstr "&Expert Cartridge aktivieren"
+msgstr "Expert Cartridge aktivieren"
 
 #: src/arch/win32/resexpert.rc.po.c:42 src/arch/win32/respet.rc.po.c:78
 #: src/arch/win32/resplus4.rc.po.c:90 src/arch/win32/resvic20.rc.po.c:100
@@ -7438,9 +7432,8 @@ msgid "GEO-RAM settings"
 msgstr "GEO-RAM Einstellungen"
 
 #: src/arch/win32/resgeoram.rc.po.c:41
-#, fuzzy
 msgid "Enable GEO-RAM"
-msgstr "GEO-RAM aktivi&eren"
+msgstr "GEO-RAM aktivieren"
 
 #: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4958
 msgid "GEO-RAM size"
@@ -7479,9 +7472,8 @@ msgid "HD image #4 file"
 msgstr "HD Image #4 Datei"
 
 #: src/arch/win32/reside64.rc.po.c:80
-#, fuzzy
 msgid "Geometry"
-msgstr "&Geometrie"
+msgstr "Geometrie"
 
 #: src/arch/win32/reside64.rc.po.c:81 src/arch/amigaos/intl_text.c.po.c:7039
 msgid "Autodetect"
@@ -7517,9 +7509,8 @@ msgid "ISEPIC settings"
 msgstr "ISEPIC Einstellungen"
 
 #: src/arch/win32/resisepic.rc.po.c:39
-#, fuzzy
 msgid "Enable ISEPIC"
-msgstr "&Aktiviere ISEPIC"
+msgstr "Aktiviere ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5192
 msgid "ISEPIC switch"
@@ -7538,18 +7529,16 @@ msgid "lightpen Settings"
 msgstr "Lichtgriffel Einstellungen"
 
 #: src/arch/win32/reslightpen.rc.po.c:23
-#, fuzzy
 msgid "Enable lightpen"
-msgstr "Lichtgriffel &Emulation aktivieren"
+msgstr "Lichtgriffel Emulation aktivieren"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:24
 msgid "Magic Voice Settings"
 msgstr "Magic Voice Einstellungen"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:25
-#, fuzzy
 msgid "Enable Magic Voice"
-msgstr "&Magic Voice aktivieren"
+msgstr "Magic Voice aktivieren"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:6545
@@ -7561,27 +7550,24 @@ msgid "MIDI settings"
 msgstr "MIDI Einstellungen"
 
 #: src/arch/win32/resmidi.rc.po.c:39
-#, fuzzy
 msgid "Enable MIDI"
-msgstr "MIDI aktivier&en"
+msgstr "MIDI aktivieren"
 
 #: src/arch/win32/resmidi.rc.po.c:40
 msgid "MIDI type"
 msgstr "MIDI Typ"
 
 #: src/arch/win32/resmmc64.rc.po.c:52
-#, fuzzy
 msgid "Enable MMC64"
-msgstr "MMC64 aktivier&en"
+msgstr "MMC64 aktivieren"
 
 #: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:7104
 msgid "BIOS Revision"
 msgstr "BIOS Revision"
 
 #: src/arch/win32/resmmc64.rc.po.c:54
-#, fuzzy
 msgid "Enable BIOS Flash Jumper"
-msgstr "BIOS &Flashjumper aktivieren"
+msgstr "BIOS Flashjumper aktivieren"
 
 #: src/arch/win32/resmmc64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:7130
 msgid "Save BIOS when changed"
@@ -7628,16 +7614,14 @@ msgstr "MMC Replay EEPROM bei Änderung speichern"
 
 #: src/arch/win32/respet.rc.po.c:139 src/arch/win32/resplus4.rc.po.c:151
 #: src/arch/win32/resvic20.rc.po.c:161
-#, fuzzy
 msgid "Maximum Speed"
-msgstr "&Maximale Geschwindigkeit"
+msgstr "Maximale Geschwindigkeit"
 
 #: src/arch/win32/respet.rc.po.c:171 src/arch/amigaos/intl_text.c.po.c:1656
 msgid "Drive sync factor"
 msgstr "Laufwerkt Sync Faktor"
 
 #: src/arch/win32/respet.rc.po.c:191 src/arch/win32/resplus4.rc.po.c:206
-#, fuzzy
 msgid "Cartridge/IO Settings"
 msgstr "Erweiterungsmodul I/O Einstellungen"
 
@@ -7756,14 +7740,12 @@ msgid "Machine defaults"
 msgstr "Modell Standardeinstellungen"
 
 #: src/arch/win32/respet.rc.po.c:548
-#, fuzzy
 msgid "Video"
-msgstr "&Video"
+msgstr "Video"
 
 #: src/arch/win32/respet.rc.po.c:552
-#, fuzzy
 msgid "IO Size"
-msgstr "&I/O Größe"
+msgstr "IO Größe"
 
 #: src/arch/win32/respet.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:8079
 msgid "256 Byte"
@@ -7774,14 +7756,12 @@ msgid "2 kByte"
 msgstr "2 kByte"
 
 #: src/arch/win32/respet.rc.po.c:559
-#, fuzzy
 msgid "IO Settings"
-msgstr "&I/O Einstellungen"
+msgstr "IO Einstellungen"
 
 #: src/arch/win32/respet.rc.po.c:561
-#, fuzzy
 msgid "RAM Settings"
-msgstr "&RAM Einstellungen"
+msgstr "RAM Einstellungen"
 
 #: src/arch/win32/respet.rc.po.c:562 src/arch/amigaos/intl_text.c.po.c:8235
 msgid "$9*** as RAM"
@@ -7804,18 +7784,16 @@ msgid "PET REU settings..."
 msgstr "PET Einstellungen..."
 
 #: src/arch/win32/respet.rc.po.c:567
-#, fuzzy
 msgid "Enable PET Userport DAC"
-msgstr "PET &Userport DAC aktivi&eren"
+msgstr "PET Userport DAC aktivieren"
 
 #: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
 msgid "PET DWW Settings"
 msgstr "PET DWW Einstellungen"
 
 #: src/arch/win32/respetdww.rc.po.c:25
-#, fuzzy
 msgid "Enable PET DWW"
-msgstr "Aktivier&en der PET DWW"
+msgstr "Aktivieren der PET DWW"
 
 #: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
 msgid "PET DWW file"
@@ -7830,9 +7808,8 @@ msgid "PET REU Settings"
 msgstr "PET REU Einstellungen"
 
 #: src/arch/win32/respetreu.rc.po.c:38
-#, fuzzy
 msgid "Enable PET REU"
-msgstr "Aktivier&en der PET REU"
+msgstr "Aktivieren der PET REU"
 
 #: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5830
 msgid "PET REU size"
@@ -7852,9 +7829,8 @@ msgid "PLUS256K Settings"
 msgstr "PLUS256K Einstellungen"
 
 #: src/arch/win32/resplus256k.rc.po.c:25
-#, fuzzy
 msgid "Enable PLUS256K"
-msgstr "PLUS256K aktivier&en"
+msgstr "PLUS256K aktivieren"
 
 #: src/arch/win32/resplus256k.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:2371
@@ -7913,39 +7889,32 @@ msgid "3+1 Hi"
 msgstr "3+1 Hi"
 
 #: src/arch/win32/resplus4.rc.po.c:446
-#, fuzzy
 msgid "16 kByte"
-msgstr "&16 kByte"
+msgstr "16 kByte"
 
 #: src/arch/win32/resplus4.rc.po.c:447
-#, fuzzy
 msgid "32 kByte"
-msgstr "&32 kByte"
+msgstr "32 kByte"
 
 #: src/arch/win32/resplus4.rc.po.c:448
-#, fuzzy
 msgid "64 kByte"
-msgstr "&64 kByte"
+msgstr "64 kByte"
 
 #: src/arch/win32/resplus4.rc.po.c:449
-#, fuzzy
 msgid "256 kByte (CSORY)"
-msgstr "2&56 kByte (CSORY)"
+msgstr "256 kByte (CSORY)"
 
 #: src/arch/win32/resplus4.rc.po.c:450
-#, fuzzy
 msgid "256 kByte (HANNES)"
-msgstr "&256 kByte (HANNES)"
+msgstr "256 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:451
-#, fuzzy
 msgid "1024 kByte (HANNES)"
-msgstr "1&024 kByte (HANNES)"
+msgstr "1024 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:452
-#, fuzzy
 msgid "4096 kByte (HANNES)"
-msgstr "&4096 kByte (HANNES)"
+msgstr "4096 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:512
 msgid "C1 low  image..."
@@ -7984,9 +7953,8 @@ msgid "PLUS60K Settings"
 msgstr "PLUS60K Einstellungen"
 
 #: src/arch/win32/resplus60k.rc.po.c:29
-#, fuzzy
 msgid "Enable PLUS60K"
-msgstr "PLUS60K aktivier&en"
+msgstr "PLUS60K aktivieren"
 
 #: src/arch/win32/resplus60k.rc.po.c:30
 msgid "PLUS60K base address"
@@ -8005,23 +7973,20 @@ msgid "RamCart Settings"
 msgstr "RamCart Einstellungen"
 
 #: src/arch/win32/resramcart.rc.po.c:42
-#, fuzzy
 msgid "Enable RamCart"
-msgstr "RamCart aktivi&eren"
+msgstr "RamCart aktivieren"
 
 #: src/arch/win32/resramcart.rc.po.c:43
-#, fuzzy
 msgid "Read Only"
-msgstr "Sch&reibgschutz"
+msgstr "Schreibgschutz"
 
 #: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:6116
 msgid "RamCart size"
 msgstr "RamCart Größe"
 
 #: src/arch/win32/resramcart.rc.po.c:45
-#, fuzzy
 msgid "Save to RamCart image when changed"
-msgstr "RamCart Imagedatei bei Änderung &speichern"
+msgstr "RamCart Imagedatei bei Änderung speichern"
 
 #: src/arch/win32/resramcart.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:6129
 msgid "RamCart file"
@@ -8036,9 +8001,8 @@ msgid "REU Settings"
 msgstr "REU Einstellungen"
 
 #: src/arch/win32/resreu.rc.po.c:40
-#, fuzzy
 msgid "Enable REU"
-msgstr "REU aktivi&eren"
+msgstr "REU aktivieren"
 
 #: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:6181
 msgid "REU size"
@@ -8062,9 +8026,8 @@ msgid "RS232 Userport Settings"
 msgstr "RS232 Userport Einstellungen"
 
 #: src/arch/win32/resrs232user.rc.po.c:35
-#, fuzzy
 msgid "Enable RS232 userport"
-msgstr "RS232 Userport Emulation aktivi&eren"
+msgstr "RS232 Userport Emulation aktivieren"
 
 #: src/arch/win32/resrs232user.rc.po.c:36
 msgid "Userport device"
@@ -8117,9 +8080,8 @@ msgid "Right device"
 msgstr "Rechtes Gerät"
 
 #: src/arch/win32/ressidcart.rc.po.c:82
-#, fuzzy
 msgid "Enable SID"
-msgstr "SID Aktivier&en"
+msgstr "SID aktivieren"
 
 #: src/arch/win32/ressidcart.rc.po.c:85
 msgid "HardSID device selection"
@@ -8139,23 +8101,20 @@ msgid "SFX Sound Expander Settings"
 msgstr "SFX Sound Expander Einstellungen"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:23
-#, fuzzy
 msgid "Enable SFX Sound Expander"
-msgstr "SFX Sound Sampler aktivier&en"
+msgstr "SFX Sound Sampler aktivieren"
 
 #: src/arch/win32/restfe.rc.po.c:36
 msgid "Ethernet Settings"
 msgstr "Ethernet Einstellungen"
 
 #: src/arch/win32/restfe.rc.po.c:37
-#, fuzzy
 msgid "Ethernet"
-msgstr "&Ethernet"
+msgstr "Ethernet"
 
 #: src/arch/win32/restfe.rc.po.c:38
-#, fuzzy
 msgid "Interface"
-msgstr "Schn&ittstelle"
+msgstr "Schnittstelle"
 
 #: src/arch/win32/resv364speech.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:5908
@@ -8163,9 +8122,8 @@ msgid "V364 Speech Settings"
 msgstr "V364 Stimme Einstellungen"
 
 #: src/arch/win32/resv364speech.rc.po.c:25
-#, fuzzy
 msgid "Enable V364 Speech"
-msgstr "V364 Spracherw&eiterung aktivieren"
+msgstr "V364 Spracherweiterung aktivieren"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
 msgid "V364 Speech ROM file"
@@ -8185,44 +8143,36 @@ msgid "Cartridge/IO settings"
 msgstr "Erweiterungsmodul I/O Einstellungen"
 
 #: src/arch/win32/resvic20.rc.po.c:493
-#, fuzzy
 msgid "no expansion memory"
-msgstr "Kei&ne Speichererweiterung"
+msgstr "Keine Speichererweiterung"
 
 #: src/arch/win32/resvic20.rc.po.c:498
-#, fuzzy
 msgid "Full (blocks 0/1/2/3/5)"
-msgstr "&Alle (Blöcke 0/1/2/3/5)"
+msgstr "Alle (Blöcke 0/1/2/3/5)"
 
 #: src/arch/win32/resvic20.rc.po.c:499
-#, fuzzy
 msgid "custom"
-msgstr "Benutzerdefiniert..."
+msgstr "benutzerdefiniert"
 
 #: src/arch/win32/resvic20.rc.po.c:500
-#, fuzzy
 msgid "Block 0"
-msgstr "Block &0"
+msgstr "Block 0"
 
 #: src/arch/win32/resvic20.rc.po.c:501
-#, fuzzy
 msgid "Block 1"
-msgstr "Block &1"
+msgstr "Block 1"
 
 #: src/arch/win32/resvic20.rc.po.c:502
-#, fuzzy
 msgid "Block 2"
-msgstr "Block &2"
+msgstr "Block 2"
 
 #: src/arch/win32/resvic20.rc.po.c:503
-#, fuzzy
 msgid "Block 3"
-msgstr "Block &3"
+msgstr "Block 3"
 
 #: src/arch/win32/resvic20.rc.po.c:504
-#, fuzzy
 msgid "Block 5"
-msgstr "Block &5"
+msgstr "Block 5"
 
 #: src/arch/win32/resvic20.rc.po.c:505
 msgid "Select Generic image"
@@ -8265,9 +8215,8 @@ msgid "Attach 4KB cartridge image at $B000"
 msgstr "4KB Modul Image bei $B000 einlegen"
 
 #: src/arch/win32/resvic20.rc.po.c:515
-#, fuzzy
 msgid "VIC-1112 IEEE 488 module"
-msgstr "VIC-1112 IEEE &488 Modul"
+msgstr "VIC-1112 IEEE 488 Modul"
 
 #: src/arch/win32/resvic20.rc.po.c:517 src/arch/amigaos/intl_text.c.po.c:356
 msgid "Generic image..."
@@ -8339,9 +8288,8 @@ msgid "Sprite Collisions"
 msgstr "Sprite Kollisionen"
 
 #: src/arch/win32/resvicii.rc.po.c:46
-#, fuzzy
 msgid "New Luminances"
-msgstr "Neue He&lligkeitsemulation"
+msgstr "Neue Helligkeitsemulation"
 
 #: src/arch/amigaos/intl_text.c.po.c:18
 msgid "Autostart disk/tape image..."
@@ -8796,9 +8744,8 @@ msgid "Hungarian"
 msgstr "Ungarisch"
 
 #: src/arch/amigaos/intl_text.c.po.c:2956
-#, fuzzy
 msgid "Korean"
-msgstr "Drean"
+msgstr "Koreanisch"
 
 #: src/arch/amigaos/intl_text.c.po.c:2969
 msgid "Dutch"
@@ -8810,7 +8757,7 @@ msgstr "Polnisch"
 
 #: src/arch/amigaos/intl_text.c.po.c:3008
 msgid "Russian"
-msgstr ""
+msgstr "Russisch"
 
 #: src/arch/amigaos/intl_text.c.po.c:3034
 msgid "Turkish"
