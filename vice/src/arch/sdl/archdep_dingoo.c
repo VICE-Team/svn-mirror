@@ -79,13 +79,12 @@
 #include <dingoo/jz4740.h>
 
 #ifdef DINGOO_DEBUG
-#include "FontWhite.h"
+#include "../samples/zaxxon_hello_world/FontWhite.h"
 #endif
 
 #define CONTROL_BUTTON_SELECT 0x00000400
 #define CONTROL_BUTTON_START 0x00000800
 
-static char _path[FILENAME_MAX];
 static char _app_path[FILENAME_MAX];
 static char *_program_name;
 
@@ -129,9 +128,10 @@ int trace(int line, char* file)
     KEY_STATUS KS;
     char buffer[256];
 
+    memset(buffer, ' ', 80);
     snprintf(buffer, sizeof(buffer), "%s <%d>", file, line);
     strcpy(_buffer, buffer);
-    PutString(10, 5, buffer);
+    PutString(1, 5, buffer);
     __dcache_writeback_all();
     _lcd_set_frame();
     _kbd_get_status(&KS);
@@ -148,7 +148,7 @@ void atexitfunc(void)
     char buffer[256];
 
     if (strlen(_buffer) > 0) {
-        PutString(10, 7, _buffer);
+        PutString(0, 7, _buffer);
         __dcache_writeback_all();
         _lcd_set_frame();
         do {
@@ -170,18 +170,6 @@ static int dirs_amount = 0;
 static int files_amount = 0;
 
 char _app_name[] = "vice";
-
-char *getwd(char *buf)
-{
-    errno = 0;
-    strcpy(buf, _path);
-    return buf;
-}
-
-char *getcwd(char *buf, size_t len)
-{
-    return getwd(buf);
-}
 
 int archdep_init_extra(int *argc, char **argv)
 {
@@ -256,10 +244,16 @@ char *archdep_quote_parameter(const char *name)
 int archdep_expand_path(char **return_path, const char *orig_name)
 {
     char tmp[FILENAME_MAX];
+    int len;
 
     if (archdep_path_is_relative(orig_name)) {
-        getwd(tmp);
-        *return_path = util_concat(tmp, FSDEV_DIR_SEP_STR, orig_name, NULL);
+        getcwd(tmp, FILENAME_MAX);
+        len = strlen(tmp);
+        if (tmp[len-1] == FSDEV_DIR_SEP_CHR) {
+            *return_path = util_concat(tmp, orig_name, NULL);
+        } else {
+            *return_path = util_concat(tmp, FSDEV_DIR_SEP_STR, orig_name, NULL);
+        }
     } else {
         *return_path = lib_stralloc(orig_name);
     }
@@ -343,7 +337,7 @@ char *archdep_tmpnam(void)
     strcpy(s, _app_path);
     strcat(s, FSDEV_DIR_SEP_STR);
     strcat(s, "tmp");
-    return s;
+    return lib_stralloc(s);
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
@@ -377,37 +371,14 @@ int access(const char *pathname, int mode)
     return 0;
 }
 
-int chdir(const char* path)
-{
-    if (strcmp(path, "..") == 0) {
-        char *s;
-        s = (char *)strrchr(_path, FSDEV_DIR_SEP_CHR);
-        if (s) {
-           *s = 0;
-        } else {
-            if (_path[0] == 'b') {
-                _path[0] = 'a';
-            } else {
-                _path[0] = 'b';
-            }
-        }
-    } else {
-        if (strchr(path, ':')) {
-            return 0;
-        }
-        strcat(_path, FSDEV_DIR_SEP_STR);
-        strcat(_path, path);
-    }
-    return 0;
-}
-
 void set_dingoo_pwd(const char *path)
 {
     char *ptr;
 
+    char _path[FILENAME_MAX];
     strcpy(_path, path);
     ptr = (char *)strrchr(_path, FSDEV_DIR_SEP_CHR);
-    _program_name = ptr + 1;
+    _program_name = lib_stralloc(ptr + 1);
     ptr[0] = 0;
     strcpy(_app_path, _path);
 }
@@ -419,6 +390,18 @@ static int ioutil_compare_names(const void* a, const void* b)
     return strcmp(arg1->name, arg2->name);
 }
 
+static void create_dir_string(char *path_string)
+{
+    int path_size;
+    getcwd(path_string, FILENAME_MAX);
+    path_size = strlen(path_string);
+    if (path_string[path_size-1] == FSDEV_DIR_SEP_CHR) {
+        strcat(path_string, "*");
+    } else {
+        strcat(path_string, FSDEV_DIR_SEP_STR "*");
+    }
+}
+
 static void ioutil_count_dir_items(const char *path, int *dir_count, int *files_count)
 {
     int ret;
@@ -428,8 +411,7 @@ static void ioutil_count_dir_items(const char *path, int *dir_count, int *files_
     *files_count = 0;
     char path_string[FILENAME_MAX];
 
-    getwd(path_string);
-    strcat(path_string, FSDEV_DIR_SEP_STR "*");
+    create_dir_string(path_string);
     ret = fsys_findfirst(path_string, FSYS_FIND_DIR, &fData);
     if (ret == 0) {
         do {
@@ -455,9 +437,7 @@ static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_n
     char *filename;
     char path_string[FILENAME_MAX];
 
-    getwd(path_string);
-    strcat(path_string, FSDEV_DIR_SEP_STR "*");
-
+    create_dir_string(path_string);
     dirs[dir_count].name = lib_stralloc("..");
     ++dir_count;
 
