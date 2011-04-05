@@ -455,10 +455,10 @@ EXTRA_DIST = \
 	vice-version.bat.in \
 	c64.ico 
 
-BUILT_SOURCES = res.h
+BUILT_SOURCES = res.h menuid.h stringid.h
 
-res.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
-	echo "generating res.h..."
+res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+	echo "generating res.h, menuid.h and stringid.h ..."
 @CROSS_TRUE@	cat >resall.txt $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 @CROSS_TRUE@	. $(srcdir)/genwinres.sh <resall.txt >res.h
 @CROSS_TRUE@	. $(srcdir)/genmenuid.sh <resall.txt >menuid.h
