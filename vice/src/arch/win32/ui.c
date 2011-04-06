@@ -111,7 +111,31 @@ int window_canvas_ysize[2];
 int window_padding_x[2];
 int window_padding_y[2];
 
+typedef struct generic_trans_table_s {
+    int idm;
+    char *text;
+} generic_trans_table_t;
+
 static HACCEL ui_accelerator;
+
+static generic_trans_table_t generic_trans_table[] = {
+    { IDM_REFRESH_RATE_1, "1/&1" },
+    { IDM_REFRESH_RATE_2, "1/&2" },
+    { IDM_REFRESH_RATE_3, "1/&3" },
+    { IDM_REFRESH_RATE_4, "1/&4" },
+    { IDM_REFRESH_RATE_5, "1/&5" },
+    { IDM_REFRESH_RATE_6, "1/&6" },
+    { IDM_REFRESH_RATE_7, "1/&7" },
+    { IDM_REFRESH_RATE_8, "1/&8" },
+    { IDM_REFRESH_RATE_9, "1/&9" },
+    { IDM_REFRESH_RATE_10, "1/1&0" },
+    { IDM_MAXIMUM_SPEED_200, "&200%" },
+    { IDM_MAXIMUM_SPEED_100, "&100%" },
+    { IDM_MAXIMUM_SPEED_50, "&50%" },
+    { IDM_MAXIMUM_SPEED_20, "&20%" },
+    { IDM_MAXIMUM_SPEED_10, "1&0%" },
+    { 0, NULL}
+};
 
 /* Forward prototypes.  */
 static LRESULT CALLBACK dummywindowproc(HWND window, UINT msg, WPARAM wparam, LPARAM lparam);
@@ -276,6 +300,7 @@ ui_popup_translation_table_t monitor_trans_item_table[] = {
 };
 
 /* ------------------------------------------------------------------------ */
+
 static HWND main_hwnd;
 
 static int emu_menu;
@@ -475,15 +500,18 @@ static void ui_translate_menu_popups(HMENU menu, ui_popup_translation_table_t *t
 
 static void ui_translate_menu_items(HMENU menu, ui_menu_translation_table_t *trans_table)
 {
-    int i = 0;
+    int i;
 
     if (trans_table == NULL) {
         return;
     }
 
-    while (trans_table[i].idm != 0) {
+    for (i = 0; trans_table[i].idm != 0; i++) {
         ModifyMenu(menu, trans_table[i].idm, MF_BYCOMMAND | MF_STRING, trans_table[i].idm, translate_text(trans_table[i].ids));
-        i++;
+    }
+
+    for (i = 0; generic_trans_table[i].idm != 0; i++) {
+        ModifyMenu(menu, generic_trans_table[i].idm, MF_BYCOMMAND | MF_STRING, generic_trans_table[i].idm, generic_trans_table[i].text);
     }
 }
 
