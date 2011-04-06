@@ -1,5 +1,5 @@
-# Dutch Translation File for VICE
-# Copyright (C) 2005-2010
+# Korean Translation File for VICE
+# Copyright (C) 2011
 # This file is distributed under the same license as the PACKAGE package.
 # Jesse Lee <interpreters.jesse@gmail.com>, 2011.
 # 
@@ -5803,7 +5803,7 @@ msgstr ""
 #: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:239
 #: src/arch/amigaos/intl_text.c.po.c:3048
 msgid "Language"
-msgstr ""
+msgstr "언어"
 
 #: src/arch/win32/res.rc.po.c:1315 src/arch/win32/resc128.rc.po.c:285
 #: src/arch/win32/resc64.rc.po.c:273 src/arch/win32/resc64dtv.rc.po.c:216
@@ -6066,9 +6066,8 @@ msgid "Sound settings..."
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1420
-#, fuzzy
 msgid "ROM settings..."
-msgstr "설정"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1421 src/arch/amigaos/intl_text.c.po.c:2216
 msgid "RAM settings..."
@@ -6131,9 +6130,8 @@ msgid "Magic Voice settings..."
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1436
-#, fuzzy
 msgid "MIDI settings..."
-msgstr "설정"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2463
 msgid "DigiMAX settings..."
@@ -6482,9 +6480,8 @@ msgid "&NTSC-M"
 msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:239
-#, fuzzy
 msgid "Cartridge Settings"
-msgstr "설정"
+msgstr ""
 
 #: src/arch/win32/resc128.rc.po.c:413 src/arch/win32/resc128.rc.po.c:540
 #: src/arch/win32/resc64.rc.po.c:315 src/arch/win32/resc64.rc.po.c:411
@@ -6776,9 +6773,8 @@ msgid "256K Settings"
 msgstr ""
 
 #: src/arch/win32/resc64_256k.rc.po.c:29
-#, fuzzy
 msgid "Enable 256K"
-msgstr "작동시키다"
+msgstr ""
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 msgid "256K base address"
@@ -6976,9 +6972,8 @@ msgid "DigiMAX Settings"
 msgstr ""
 
 #: src/arch/win32/resdigimax.rc.po.c:23
-#, fuzzy
 msgid "Enable DigiMAX"
-msgstr "작동시키다"
+msgstr ""
 
 #: src/arch/win32/resdigimax.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:8483
 msgid "DigiMAX base"
@@ -7441,14 +7436,12 @@ msgid "2 kByte"
 msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:559
-#, fuzzy
 msgid "IO Settings"
-msgstr "설정"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:561
-#, fuzzy
 msgid "RAM Settings"
-msgstr "설정"
+msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:562 src/arch/amigaos/intl_text.c.po.c:8236
 msgid "$9*** as RAM"
@@ -11941,30 +11934,3 @@ msgstr ""
 #: src/translate_text.c.po.c:12113
 msgid "Base address of the DigiMAX cartridge"
 msgstr ""
-
-#~ msgid "&File"
-#~ msgstr "파일"
-
-#~ msgid "&Options"
-#~ msgstr "선택"
-
-#~ msgid "S&ettings"
-#~ msgstr "설정"
-
-#~ msgid "&Language"
-#~ msgstr "언어"
-
-#~ msgid "&Help"
-#~ msgstr "도움"
-
-#~ msgid "&German"
-#~ msgstr "독일어"
-
-#~ msgid "&French"
-#~ msgstr "프랑스어"
-
-#~ msgid "&Italian"
-#~ msgstr "이탈리아어"
-
-#~ msgid "&Swedish"
-#~ msgstr "스웨덴어"
