@@ -148,6 +148,11 @@ struct ui_popup_translation_table_s {
 };
 typedef struct ui_popup_translation_table_s ui_popup_translation_table_t;
 
+typedef struct generic_trans_table_s {
+    int idm;
+    char *text;
+} generic_trans_table_t;
+
 extern void ui_register_translation_tables(ui_menu_translation_table_t *menu_table, ui_popup_translation_table_t *popup_table);
 extern void ui_translate_monitor_menu(HMENU menu);
 

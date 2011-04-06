@@ -217,8 +217,8 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Video standard"
         BEGIN
-            MENUITEM "&PAL-G",  IDM_SYNC_FACTOR_PAL
-            MENUITEM "&NTSC-M", IDM_SYNC_FACTOR_NTSC
+            MENUITEM "", IDM_SYNC_FACTOR_PAL
+            MENUITEM "", IDM_SYNC_FACTOR_NTSC
         END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_IEEE488

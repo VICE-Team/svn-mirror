@@ -85,17 +85,37 @@ static uilib_dialog_group cbm2_right_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t generic_items[] = {
+    { IDC_SELECT_CBMII_610, "CBM 610" },
+    { IDC_SELECT_CBMII_620, "CBM 620" },
+    { IDC_SELECT_CBMII_620P, "CBM 620+" },
+    { IDC_SELECT_CBMII_710, "CBM 710" },
+    { IDC_SELECT_CBMII_720, "CBM 720" },
+    { IDC_SELECT_CBMII_720P, "CBM 720+" },
+    { IDC_SELECT_CBMII_HW0, "&7x0 (50 Hz)" },
+    { IDC_SELECT_CBMII_HW1, "6x0 &60 Hz" },
+    { IDC_SELECT_CBMII_HW2, "6x0 &50 Hz" },
+    { 0, NULL }
+};
+
 static void init_dialog(HWND hwnd)
 {
     int n, res;
     int xpos;
     int xstart;
     HWND parent_hwnd;
+    HWND element;
 
     parent_hwnd = GetParent(hwnd);
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, cbm2_dialog_trans);
+
+    /* translate all generic items */
+    for (n = 0; generic_items[n].text != NULL; n++) {
+        element = GetDlgItem(hwnd, generic_items[n].idm);
+        SetWindowText(element, generic_items[n].text);
+    }
 
     /* translate ok and cancel */
     uilib_localize_dialog(parent_hwnd, ok_cancel_trans);

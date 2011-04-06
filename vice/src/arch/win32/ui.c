@@ -111,11 +111,6 @@ int window_canvas_ysize[2];
 int window_padding_x[2];
 int window_padding_y[2];
 
-typedef struct generic_trans_table_s {
-    int idm;
-    char *text;
-} generic_trans_table_t;
-
 static HACCEL ui_accelerator;
 
 static generic_trans_table_t generic_trans_table[] = {
@@ -134,6 +129,8 @@ static generic_trans_table_t generic_trans_table[] = {
     { IDM_MAXIMUM_SPEED_50, "&50%" },
     { IDM_MAXIMUM_SPEED_20, "&20%" },
     { IDM_MAXIMUM_SPEED_10, "1&0%" },
+    { IDM_SYNC_FACTOR_PAL, "&PAL" },
+    { IDM_SYNC_FACTOR_NTSC, "&NTSC" },
     { 0, NULL}
 };
 

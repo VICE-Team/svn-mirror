@@ -216,6 +216,22 @@ static int move_buttons_group[] = {
     0
 };
 
+static generic_trans_table_t generic_items[] = {
+    { IDC_SELECT_DRIVE_TYPE_1541, "1541" },
+    { IDC_SELECT_DRIVE_TYPE_1541II, "1541-II" },
+    { IDC_SELECT_DRIVE_TYPE_1570, "1570" },
+    { IDC_SELECT_DRIVE_TYPE_1571, "1571" },
+    { IDC_SELECT_DRIVE_TYPE_1581, "1581" },
+    { IDC_SELECT_DRIVE_TYPE_2031, "2031" },
+    { IDC_SELECT_DRIVE_TYPE_2040, "2040" },
+    { IDC_SELECT_DRIVE_TYPE_3040, "3040" },
+    { IDC_SELECT_DRIVE_TYPE_4040, "4040" },
+    { IDC_SELECT_DRIVE_TYPE_1001, "1001" },
+    { IDC_SELECT_DRIVE_TYPE_8050, "8050" },
+    { IDC_SELECT_DRIVE_TYPE_8250, "8250" },
+    { 0, NULL }
+};
+
 static void init_dialog(HWND hwnd, int num)
 {
     int drive_type, drive_extend_image_policy, drive_idle_method, n;
@@ -223,6 +239,7 @@ static void init_dialog(HWND hwnd, int num)
     int xpos;
     int xstart;
     HWND parent_hwnd;
+    HWND element;
     RECT rect;
 
     parent_hwnd = GetParent(hwnd);
@@ -232,6 +249,12 @@ static void init_dialog(HWND hwnd, int num)
 
     /* translate the parent window items */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* translate the generic items */
+    for (n = 0; generic_items[n].text != NULL; n++) {
+        element = GetDlgItem(hwnd, generic_items[n].idm);
+        SetWindowText(element, generic_items[n].text);
+    }
 
     /* adjust the size of the elements in the main group */
     uilib_adjust_group_width(hwnd, drive_main_group);
