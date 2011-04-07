@@ -614,6 +614,36 @@ static uilib_dialog_group c128_drive_right_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t c128_generic_trans[] = {
+    { IDC_1541, "1541" },
+    { IDC_1541_II, "1541-II" },
+    { IDC_1570, "1570" },
+    { IDC_1571, "1571" },
+    { IDC_1571CR, "1571CR" },
+    { IDC_1581, "1581" },
+    { IDC_2031, "2031" },
+    { IDC_2040, "2040" },
+    { IDC_3040, "3040" },
+    { IDC_4040, "4040" },
+    { IDC_1001, "1001" },
+    { 0, NULL }
+};
+
+static generic_trans_table_t c128_generic_res_trans[] = {
+    { IDC_DRIVEROM_1541_RESOURCE, "1541" },
+    { IDC_DRIVEROM_1541II_RESOURCE, "1541-II" },
+    { IDC_DRIVEROM_1570_RESOURCE, "1570" },
+    { IDC_DRIVEROM_1571_RESOURCE, "1571" },
+    { IDC_DRIVEROM_1571CR_RESOURCE, "1571CR" },
+    { IDC_DRIVEROM_1581_RESOURCE, "1581" },
+    { IDC_DRIVEROM_2031_RESOURCE, "2031" },
+    { IDC_DRIVEROM_2040_RESOURCE, "2040" },
+    { IDC_DRIVEROM_3040_RESOURCE, "3040" },
+    { IDC_DRIVEROM_4040_RESOURCE, "4040" },
+    { IDC_DRIVEROM_1001_RESOURCE, "1001" },
+    { 0, NULL }
+};
+
 static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
     uic64cart_proc(wparam, hwnd);
@@ -673,10 +703,10 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_C128ROM_SETTINGS_DIALOG, IDD_C128DRIVEROM_SETTINGS_DIALOG,
                                   romset_dialog_resources, uirom_settings,
-                                  c128_main_trans, c128_drive_trans,
+                                  c128_main_trans, c128_drive_trans, c128_generic_trans,
                                   c128_main_left_group, c128_main_middle_group, c128_main_right_group,
                                   c128_drive_left_group, c128_drive_middle_group, c128_drive_right_group,
-                                  c128_main_res_trans);
+                                  c128_main_res_trans, c128_generic_res_trans);
             break;
 #ifdef HAVE_TFE
         case IDM_TFE_SETTINGS:

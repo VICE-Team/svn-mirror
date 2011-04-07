@@ -443,6 +443,24 @@ static uilib_dialog_group cbm2_drive_right_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t cbm2_generic_trans[] = {
+    { IDC_2031, "2031" },
+    { IDC_2040, "2040" },
+    { IDC_3040, "3040" },
+    { IDC_4040, "4040" },
+    { IDC_1001, "1001" },
+    { 0, NULL }
+};
+
+static generic_trans_table_t cbm2_generic_res_trans[] = {
+    { IDC_DRIVEROM_2031_RESOURCE, "2031" },
+    { IDC_DRIVEROM_2040_RESOURCE, "2040" },
+    { IDC_DRIVEROM_3040_RESOURCE, "3040" },
+    { IDC_DRIVEROM_4040_RESOURCE, "4040" },
+    { IDC_DRIVEROM_1001_RESOURCE, "1001" },
+    { 0, NULL }
+};
+
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -462,10 +480,10 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG, IDD_CBM2DRIVEROM_SETTINGS_DIALOG,
                                   romset_dialog_resources, uirom_settings,
-                                  cbm2_main_trans, cbm2_drive_trans,
+                                  cbm2_main_trans, cbm2_drive_trans, cbm2_generic_trans,
                                   cbm2_main_left_group, cbm2_main_middle_group, cbm2_main_right_group,
                                   cbm2_drive_left_group, cbm2_drive_middle_group, cbm2_drive_right_group,
-                                  cbm2_main_res_trans);
+                                  cbm2_main_res_trans, cbm2_generic_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
             if (machine_class == VICE_MACHINE_CBM5x0) {

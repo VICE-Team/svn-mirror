@@ -382,6 +382,24 @@ static uilib_dialog_group c64dtv_drive_right_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t c64dtv_generic_trans[] = {
+    { IDC_1541, "1541" },
+    { IDC_1541_II, "1541-II" },
+    { IDC_1570, "1570" },
+    { IDC_1571, "1571" },
+    { IDC_1581, "1581" },
+    { 0, NULL }
+};
+
+static generic_trans_table_t c64dtv_generic_res_trans[] = {
+    { IDC_DRIVEROM_1541_RESOURCE, "1541" },
+    { IDC_DRIVEROM_1541II_RESOURCE, "1541-II" },
+    { IDC_DRIVEROM_1570_RESOURCE, "1570" },
+    { IDC_DRIVEROM_1571_RESOURCE, "1571" },
+    { IDC_DRIVEROM_1581_RESOURCE, "1581" },
+    { 0, NULL }
+};
+
 static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -394,10 +412,10 @@ static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG, IDD_C64DRIVEROM_SETTINGS_DIALOG,
                                   romset_dialog_resources, uirom_settings,
-                                  c64dtv_main_trans, c64dtv_drive_trans,
+                                  c64dtv_main_trans, c64dtv_drive_trans, c64dtv_generic_trans,
                                   c64dtv_main_left_group, c64dtv_main_middle_group, c64dtv_main_right_group,
                                   c64dtv_drive_left_group, c64dtv_drive_middle_group, c64dtv_drive_right_group,
-                                  c64dtv_main_res_trans);
+                                  c64dtv_main_res_trans, c64dtv_generic_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);

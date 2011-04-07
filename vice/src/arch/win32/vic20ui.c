@@ -455,6 +455,34 @@ static uilib_dialog_group vic20_drive_right_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t vic20_generic_trans[] = {
+    { IDC_1541, "1541" },
+    { IDC_1541_II, "1541-II" },
+    { IDC_1570, "1570" },
+    { IDC_1571, "1571" },
+    { IDC_1581, "1581" },
+    { IDC_2031, "2031" },
+    { IDC_2040, "2040" },
+    { IDC_3040, "3040" },
+    { IDC_4040, "4040" },
+    { IDC_1001, "1001" },
+    { 0, NULL }
+};
+
+static generic_trans_table_t vic20_generic_res_trans[] = {
+    { IDC_DRIVEROM_1541_RESOURCE, "1541" },
+    { IDC_DRIVEROM_1541II_RESOURCE, "1541-II" },
+    { IDC_DRIVEROM_1570_RESOURCE, "1570" },
+    { IDC_DRIVEROM_1571_RESOURCE, "1571" },
+    { IDC_DRIVEROM_1581_RESOURCE, "1581" },
+    { IDC_DRIVEROM_2031_RESOURCE, "2031" },
+    { IDC_DRIVEROM_2040_RESOURCE, "2040" },
+    { IDC_DRIVEROM_3040_RESOURCE, "3040" },
+    { IDC_DRIVEROM_4040_RESOURCE, "4040" },
+    { IDC_DRIVEROM_1001_RESOURCE, "1001" },
+    { 0, NULL }
+};
+
 /* Probably one should simply remove the size numbers from the IDM_* stuff */
 static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
 {
@@ -510,10 +538,10 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_VIC20ROM_SETTINGS_DIALOG, IDD_VIC20DRIVEROM_SETTINGS_DIALOG,
                                   romset_dialog_resources, uirom_settings, 
-                                  vic20_main_trans, vic20_drive_trans,
+                                  vic20_main_trans, vic20_drive_trans, vic20_generic_trans,
                                   vic20_main_left_group, vic20_main_middle_group, vic20_main_right_group,
                                   vic20_drive_left_group, vic20_drive_middle_group, vic20_drive_right_group,
-                                  vic20_main_res_trans);
+                                  vic20_main_res_trans, vic20_generic_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VIC, UI_VIDEO_CHIP_NONE);

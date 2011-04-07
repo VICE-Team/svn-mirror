@@ -25,8 +25,8 @@ BEGIN
     COMBOBOX        IDC_MOUSE_PORT, 70, 23, 80, 80, CBS_DROPDOWNLIST |
                     WS_VSCROLL | WS_TABSTOP
 
-    DEFPUSHBUTTON   "OK", IDOK, 30, 50, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "Cancel", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+    DEFPUSHBUTTON   "", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------

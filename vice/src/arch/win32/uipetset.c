@@ -110,10 +110,33 @@ static uilib_dialog_group model_right_move_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t generic_items[] = {
+    { IDC_SELECT_PET_2001_8N, "PET 2001-8N" },
+    { IDC_SELECT_PET_3008, "PET 3008" },
+    { IDC_SELECT_PET_3016, "PET 3016" },
+    { IDC_SELECT_PET_3032, "PET 3032" },
+    { IDC_SELECT_PET_3032B, "PET 3032B" },
+    { IDC_SELECT_PET_4016, "PET 4016" },
+    { IDC_SELECT_PET_4032, "PET 4032" },
+    { IDC_SELECT_PET_4032B, "PET 4032B" },
+    { IDC_SELECT_PET_8032, "PET 8032" },
+    { IDC_SELECT_PET_8096, "PET 8096" },
+    { IDC_SELECT_PET_8296, "PET 8296" },
+    { IDC_SELECT_PET_SUPER, "SuperPET" },
+    { IDC_SELECT_PET_MEM4K, "4KB" },
+    { IDC_SELECT_PET_MEM8K, "8KB" },
+    { IDC_SELECT_PET_MEM16K, "16KB" },
+    { IDC_SELECT_PET_MEM32K, "32KB" },
+    { IDC_SELECT_PET_MEM96K, "96KB" },
+    { IDC_SELECT_PET_MEM128K, "128KB" },
+    { 0, NULL }
+};
+
 static void init_model_dialog(HWND hwnd)
 {
     int n, res;
     HWND parent_hwnd;
+    HWND element;
     int xpos;
     int xstart;
 
@@ -124,6 +147,12 @@ static void init_model_dialog(HWND hwnd)
 
     /* translate all dialog items of the parent */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* translate all generic items */
+    for (n = 0; generic_items[n].text != NULL; n++) {
+        element = GetDlgItem(hwnd, generic_items[n].idm);
+        SetWindowText(element, generic_items[n].text);
+    }
 
     /* adjust the size of the elements in the main group */
     uilib_adjust_group_width(hwnd, model_main_group);
@@ -233,10 +262,16 @@ static uilib_dialog_group io_right_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t generic_items2[] = {
+    { IDC_PET_CRTC, "&CRTC" },
+    { 0, NULL }
+};
+
 static void init_io_dialog(HWND hwnd)
 {
     int n, res;
     HWND parent_hwnd;
+    HWND element;
     int xpos;
     int xstart;
 
@@ -247,6 +282,12 @@ static void init_io_dialog(HWND hwnd)
 
     /* translate all dialog items of the parent */
     uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
+
+    /* translate all generic items */
+    for (n = 0; generic_items2[n].text != NULL; n++) {
+        element = GetDlgItem(hwnd, generic_items2[n].idm);
+        SetWindowText(element, generic_items2[n].text);
+    }
 
     /* adjust the size of the elements in the main group */
     uilib_adjust_group_width(hwnd, io_main_group);

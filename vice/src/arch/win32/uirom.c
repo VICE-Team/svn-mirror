@@ -53,6 +53,9 @@ static uilib_localize_dialog_param *main_trans;
 static uilib_localize_dialog_param *drive_trans;
 static uilib_localize_dialog_param *main_res_trans;
 
+static generic_trans_table_t *generic_trans;
+static generic_trans_table_t *generic_res_trans;
+
 static uilib_dialog_group *main_left_group;
 static uilib_dialog_group *main_middle_group;
 static uilib_dialog_group *main_right_group;
@@ -65,6 +68,8 @@ static void init_rom_dialog(HWND hwnd, unsigned int type)
 {
     unsigned int n = 0;
     int xpos;
+    int i;
+    HWND element;
 
     if (type == UIROM_TYPE_MAIN) {
         /* translate all dialog items */
@@ -88,6 +93,12 @@ static void init_rom_dialog(HWND hwnd, unsigned int type)
     } else if (type == UIROM_TYPE_DRIVE) {
         /* translate all dialog items */
         uilib_localize_dialog(hwnd, drive_trans);
+
+        /* translate generic items */
+        for (i = 0; generic_trans[i].text != NULL; i++) {
+            element = GetDlgItem(hwnd, generic_trans[i].idm);
+            SetWindowText(element, generic_trans[i].text);
+        }
 
         /* adjust the size of the elements in the drive left group */
         uilib_adjust_group_width(hwnd, drive_left_group);
@@ -488,6 +499,8 @@ static void init_resources_dialog(HWND hwnd, unsigned int type)
     int size;
     RECT rect;
     int idc;
+    int i;
+    HWND element;
 
     if (type == UIROM_TYPE_MAIN) {
         /* translate all dialog items */
@@ -498,6 +511,12 @@ static void init_resources_dialog(HWND hwnd, unsigned int type)
         /* translate all dialog items */
         uilib_localize_dialog(hwnd, drive_res_trans);
 
+        /* translate generic items */
+        for (i = 0; generic_res_trans[i].text != NULL; i++) {
+            element = GetDlgItem(hwnd, generic_res_trans[i].idm);
+            SetWindowText(element, generic_res_trans[i].text);
+        }
+        
         idc = IDC_DRIVE_RESOURCES;
     }
 
@@ -682,19 +701,22 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                            const uirom_settings_t *uirom_settings,
                            uilib_localize_dialog_param *uirom_main_trans,
                            uilib_localize_dialog_param *uirom_drive_trans,
+                           generic_trans_table_t *uirom_generic_trans,
                            uilib_dialog_group *uirom_main_left_group,
                            uilib_dialog_group *uirom_main_middle_group,
                            uilib_dialog_group *uirom_main_right_group,
                            uilib_dialog_group *uirom_drive_left_group,
                            uilib_dialog_group *uirom_drive_middle_group,
                            uilib_dialog_group *uirom_drive_right_group,
-                           uilib_localize_dialog_param *uirom_main_res_trans)
+                           uilib_localize_dialog_param *uirom_main_res_trans,
+                           generic_trans_table_t *uirom_generic_res_trans)
 {
     PROPSHEETPAGE psp[3];
     PROPSHEETHEADER psh;
 
     main_trans = uirom_main_trans;
     drive_trans = uirom_drive_trans;
+    generic_trans = uirom_generic_trans;
     main_left_group = uirom_main_left_group;
     main_middle_group = uirom_main_middle_group;
     main_right_group = uirom_main_right_group;
@@ -702,6 +724,7 @@ void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
     drive_middle_group = uirom_drive_middle_group;
     drive_right_group = uirom_drive_right_group;
     main_res_trans = uirom_main_res_trans;
+    generic_res_trans = uirom_generic_res_trans;
 
     settings = uirom_settings;
     romset_dialog_resources = idd_dialog_resources;

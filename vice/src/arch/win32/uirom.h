@@ -29,6 +29,8 @@
 
 #include <tchar.h>
 
+#include "ui.h"
+
 #define UIROM_TYPE_MAIN  0
 #define UIROM_TYPE_DRIVE 1
 #define UIROM_TYPE_OTHER 2
@@ -50,12 +52,14 @@ extern void uirom_settings_dialog(HWND hwnd, unsigned int idd_dialog_main,
                                   const uirom_settings_t *uirom_settings,
                                   uilib_localize_dialog_param *uirom_main_trans,
                                   uilib_localize_dialog_param *uirom_drive_trans,
+                                  generic_trans_table_t *uirom_generic_trans,
                                   uilib_dialog_group *main_left_group,
                                   uilib_dialog_group *main_middle_group,
                                   uilib_dialog_group *main_right_group,
                                   uilib_dialog_group *drive_left_group,
                                   uilib_dialog_group *drive_middle_group,
                                   uilib_dialog_group *drive_right_group,
-                                  uilib_localize_dialog_param *uirom__main_res_trans);
+                                  uilib_localize_dialog_param *uirom__main_res_trans,
+                                  generic_trans_table_t *uirom_generic_res_trans);
 
 #endif

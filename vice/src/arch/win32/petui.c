@@ -443,6 +443,24 @@ static uilib_dialog_group pet_drive_right_group[] = {
     { 0, 0 }
 };
 
+static generic_trans_table_t pet_generic_trans[] = {
+    { IDC_2031, "2031" },
+    { IDC_2040, "2040" },
+    { IDC_3040, "3040" },
+    { IDC_4040, "4040" },
+    { IDC_1001, "1001" },
+    { 0, NULL }
+};
+
+static generic_trans_table_t pet_generic_res_trans[] = {
+    { IDC_DRIVEROM_2031_RESOURCE, "2031" },
+    { IDC_DRIVEROM_2040_RESOURCE, "2040" },
+    { IDC_DRIVEROM_3040_RESOURCE, "3040" },
+    { IDC_DRIVEROM_4040_RESOURCE, "4040" },
+    { IDC_DRIVEROM_1001_RESOURCE, "1001" },
+    { 0, NULL }
+};
+
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -461,10 +479,10 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_PETROM_SETTINGS_DIALOG, IDD_PETDRIVEROM_SETTINGS_DIALOG,
                                   romset_dialog_resources, uirom_settings,
-                                  pet_main_trans, pet_drive_trans,
+                                  pet_main_trans, pet_drive_trans, pet_generic_trans,
                                   pet_main_left_group, pet_main_middle_group, pet_main_right_group,
                                   pet_drive_left_group, pet_drive_middle_group, pet_drive_right_group,
-                                  pet_main_res_trans);
+                                  pet_main_res_trans, pet_generic_res_trans);
             break;
         case IDM_VIDEO_SETTINGS:
             ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_CRTC, UI_VIDEO_CHIP_NONE);
