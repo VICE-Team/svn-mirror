@@ -198,13 +198,6 @@ ui_res_possible_values MMCRCardType[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values c64viciiBorders[] = {
-    { 0, MENU_VICII_BORDERS_NORMAL },
-    { 1, MENU_VICII_BORDERS_FULL },
-    { 2, MENU_VICII_BORDERS_DEBUG },
-    { -1, 0 }
-};
-
 ui_res_possible_values c64mousetypes[] = {
     { MOUSE_TYPE_1351, MENU_MOUSE_TYPE_1351 },
     { MOUSE_TYPE_NEOS, MENU_MOUSE_TYPE_NEOS },
@@ -266,7 +259,6 @@ ui_res_value_list c64_ui_res_values[] = {
     { "MMC64_revision", MMC64Revision },
     { "MMC64_sd_type", MMC64CardType },
     { "MMCRSDType", MMCRCardType },
-    { "VICIIBorderMode", c64viciiBorders },
     { "Mousetype", c64mousetypes },
     { "Mouseport", c64mouseports },
     { "VICIIModel", viciimodels },

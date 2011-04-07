@@ -148,13 +148,6 @@ ui_res_possible_values c128SFXSoundExpanderChip[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values c128viciiBorders[] = {
-    { 0, MENU_VICII_BORDERS_NORMAL },
-    { 1, MENU_VICII_BORDERS_FULL} ,
-    { 2, MENU_VICII_BORDERS_DEBUG },
-    { -1, 0 }
-};
-
 ui_res_possible_values c128VDCrev[] = {
     { 0, MENU_VDC_REV_0 },
     { 1, MENU_VDC_REV_1 },
@@ -189,7 +182,6 @@ ui_res_value_list c128_ui_res_values[] = {
     { "RAMCARTsize", c128RamCartSize },
     { "DIGIMAXbase", c128DigimaxBase },
     { "SFXSoundExpanderChip", c128SFXSoundExpanderChip },
-    { "VICIIBorderMode", c128viciiBorders },
     { "VDCRevision", c128VDCrev },
     { "Mousetype", c128mousetypes },
     { "Mouseport", c128mouseports },
@@ -203,7 +195,7 @@ void c128_ui_specific(void *msg, void *window)
     switch (((BMessage*)msg)->what) {
           case MENU_VICII_SETTINGS:
             ui_vicii();
-                break;
+            break;
         case MENU_REU_FILE:
             ui_select_file(windowlist[0]->savepanel,REU_FILE,(void*)0);
             break;

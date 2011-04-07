@@ -34,8 +34,22 @@ extern "C" {
 #include "resources.h"
 #include "ui.h"
 #include "ui_vicii.h"
+#include "vicii.h"
 #include "vsync.h"
 }
+
+static int ui_border_mode_count = 3;
+static int ui_border_mode[] = {
+    VICII_NORMAL_BORDERS,
+    VICII_FULL_BORDERS,
+    VICII_DEBUG_BORDERS
+};
+
+static char *ui_border_mode_text[] = {
+    "Normal",
+    "Full",
+    "Debug"
+};
 
 class ViciiWindow : public BWindow {
     public:
@@ -46,14 +60,16 @@ class ViciiWindow : public BWindow {
 
 static ViciiWindow *viciiwindow = NULL;
 
-
 ViciiWindow::ViciiWindow() 
-    : BWindow(BRect(50, 50, 210, 155), "VIC-II settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 350, 155), "VIC-II settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
-    BCheckBox *checkbox;
+    BView *background;
     BRect r;
     BBox *box;
-    BView *background;
+    BCheckBox *checkbox;
+    BRadioButton *radiobutton;
+    BMessage *msg;
+    int i;
     int res_val;
 
     r = Bounds();
@@ -63,27 +79,47 @@ ViciiWindow::ViciiWindow()
 
     /* sprite collisions */
     r = Bounds();
+    r.right = r.left + r.Width() / 2 + 10;
     r.InsetBy(10, 10);
     r.bottom -= 20;
-    box = new BBox(r);
+    box = new BBox(r, "Sprite Collision");
     box->SetLabel("Sprite Collision");
     background->AddChild(box);
 
     checkbox = new BCheckBox(BRect(10, 20, 120, 35), NULL, "Sprite-Sprite", new BMessage(MESSAGE_VICII_SSCOLL));
     resources_get_int("VICIICheckSsColl", &res_val);
     checkbox->SetValue(res_val);
-    box->AddChild(checkbox);	
+    box->AddChild(checkbox);
 
     checkbox = new BCheckBox(BRect(10, 40, 120, 55), NULL, "Sprite-Background", new BMessage(MESSAGE_VICII_SBCOLL));
     resources_get_int("VICIICheckSbColl", &res_val);
     checkbox->SetValue(res_val);
-    box->AddChild(checkbox);	
+    box->AddChild(checkbox);
 
     /* new colors */
-    checkbox = new BCheckBox(BRect(20, 80, 120, 95), NULL, "New Colors", new BMessage(MESSAGE_VICII_NEWLUMINANCE));
+    checkbox = new BCheckBox(BRect(20, 80, 120, 95), NULL, "New Luminances", new BMessage(MESSAGE_VICII_NEWLUMINANCE));
     resources_get_int("VICIINewLuminances", &res_val);
     checkbox->SetValue(res_val);
-    background->AddChild(checkbox);	
+    background->AddChild(checkbox);
+
+    /* border mode */
+    r = Bounds();
+    r.right = r.left + r.Width() / 2;
+    r.OffsetBy(r.Width(), 0);
+    r.InsetBy(10, 10);
+    box = new BBox(r, "Border Mode");
+    box->SetLabel("Border Mode");
+    background->AddChild(box);
+
+    resources_get_int("VICIIBorderMode", &res_val);
+
+    for (i = 0; i < ui_border_mode_count; i++) {
+        msg = new BMessage(MESSAGE_VICII_BORDERS);
+        msg->AddInt32("border", ui_border_mode[i]);
+        radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), ui_border_mode_text[i], ui_border_mode_text[i], msg);
+        radiobutton->SetValue(res_val == ui_border_mode[i]);
+        box->AddChild(radiobutton);
+    }
 
     Show();
 }
@@ -93,18 +129,23 @@ ViciiWindow::~ViciiWindow()
     viciiwindow = NULL;	
 }
 
-void ViciiWindow::MessageReceived(BMessage *msg) {
-    resource_value_t dummy;
+void ViciiWindow::MessageReceived(BMessage *msg)
+{
+    int32 res_value;
 
     switch (msg->what) {
         case MESSAGE_VICII_SSCOLL:
-            resources_toggle("VICIICheckSsColl", (int *)&dummy);
+            resources_toggle("VICIICheckSsColl", (int *)&res_value);
             break;
         case MESSAGE_VICII_SBCOLL:
-            resources_toggle("VICIICheckSbColl", (int *)&dummy);
+            resources_toggle("VICIICheckSbColl", (int *)&res_value);
             break;
         case MESSAGE_VICII_NEWLUMINANCE:
-            resources_toggle("VICIINewLuminances", (int *)&dummy);
+            resources_toggle("VICIINewLuminances", (int *)&res_value);
+            break;
+        case MESSAGE_VICII_BORDERS:
+            msg->FindInt32("border", &res_value);
+            resources_set_int("VICIIBorderMode", res_value);
             break;
         default:
             BWindow::MessageReceived(msg);

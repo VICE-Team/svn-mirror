@@ -80,16 +80,8 @@ ui_res_possible_values C64DTVRevision[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values c64dtvviciiBorders[] = {
-    { 0, MENU_VICII_BORDERS_NORMAL },
-    { 1, MENU_VICII_BORDERS_FULL },
-    { 2, MENU_VICII_BORDERS_DEBUG },
-    { -1, 0 }
-};
-
 ui_res_value_list c64dtv_ui_res_values[] = {
     { "DtvRevision", C64DTVRevision },
-    { "VICIIBorderMode", c64dtvviciiBorders },
     { NULL, NULL }
 };
 

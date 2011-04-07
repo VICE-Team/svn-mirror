@@ -281,17 +281,6 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if ((machine_class == VICE_MACHINE_C128 ||
-         machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C64SC ||
-         machine_class == VICE_MACHINE_C64DTV) && !vsid_mode) {
-        uppermenu->AddItem(menu = new BMenu("VIC-II Border mode"));
-            menu->SetRadioMode(true);
-            menu->AddItem(new BMenuItem("Normal", new BMessage(MENU_VICII_BORDERS_NORMAL)));
-            menu->AddItem(new BMenuItem("Full", new BMessage(MENU_VICII_BORDERS_FULL)));
-            menu->AddItem(new BMenuItem("Debug", new BMessage(MENU_VICII_BORDERS_DEBUG)));
-    }
-
     /* sound options */
     uppermenu->AddItem(new BMenuItem("Sound", new BMessage(MENU_TOGGLE_SOUND)));
     uppermenu->AddItem(menu = new BMenu("Sound Recording"));
@@ -377,12 +366,6 @@ BMenuBar *menu_create(int machine_class)
          machine_class == VICE_MACHINE_C64DTV ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddSeparatorItem();
-    }
-
-    if ((machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C64SC ||
-         machine_class == VICE_MACHINE_C64DTV ||
-         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
     }
 
@@ -773,6 +756,7 @@ BMenuBar *menu_create(int machine_class)
     if ((machine_class == VICE_MACHINE_C64 ||
          machine_class == VICE_MACHINE_C64SC ||
          machine_class == VICE_MACHINE_C64DTV ||
+         machine_class == VICE_MACHINE_CBM5x0 ||
          machine_class == VICE_MACHINE_C128) && !vsid_mode) {
         uppermenu->AddItem(new BMenuItem("VIC-II ...", new BMessage(MENU_VICII_SETTINGS)));
     }

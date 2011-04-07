@@ -34,6 +34,7 @@ extern "C" {
 #include "constants.h"
 #include "ui.h"
 #include "ui_cbm2.h"
+#include "ui_vicii.h"
 }
 
 ui_menu_toggle  cbm2_ui_menu_toggles[] = {
@@ -48,6 +49,9 @@ void cbm2_ui_specific(void *msg, void *window)
     switch (((BMessage*)msg)->what) {
         case MENU_CBM2_SETTINGS:
             ui_cbm2();
+            break;
+        case MENU_VICII_SETTINGS:
+            ui_vicii();
             break;
         default: ;
     }
