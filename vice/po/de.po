@@ -1,11 +1,11 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-06 20:14-0700\n"
+"POT-Creation-Date: 2011-04-07 18:51-0700\n"
 "PO-Revision-Date: 2011-04-05 19:27+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -4455,14 +4455,12 @@ msgid "Enable flicker fixing in sync draw"
 msgstr "Flimmerfix bei Bildschirmsynchronisation aktivieren"
 
 #: src/arch/win32/res.rc.po.c:104 src/arch/win32/res.rc.po.c:1316
-#, fuzzy
 msgid "View"
-msgstr "An&sehen"
+msgstr "Ansehen"
 
 #: src/arch/win32/res.rc.po.c:120 src/arch/win32/res.rc.po.c:1317
-#, fuzzy
 msgid "Window"
-msgstr "&Fenster"
+msgstr "Fenster"
 
 #: src/arch/win32/res.rc.po.c:176
 msgid "About VICE"
@@ -5273,43 +5271,36 @@ msgid "Speed of motor while reading"
 msgstr "Motorgeschwindigkeit beim Lesen"
 
 #: src/arch/win32/res.rc.po.c:1116
-#, fuzzy
 msgid "cycle(s) additional delay each trigger"
-msgstr "Zyklen zusätzliche Verzögerung bei je&dem Trigger"
+msgstr "Zyklen zusätzliche Verzögerung bei jedem Trigger"
 
 #: src/arch/win32/res.rc.po.c:1117
-#, fuzzy
 msgid "cycles delay at zero-values"
-msgstr "Zyklen Verzögerung bei &Zero-Werte"
+msgstr "Zyklen Verzögerung bei Zero-Werte"
 
 #: src/arch/win32/res.rc.po.c:1118
-#, fuzzy
 msgid "Use IEC Device"
-msgstr "IEC Gerät &aktivieren"
+msgstr "IEC Gerät aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1120
-#, fuzzy
 msgid "Directory"
-msgstr "&Directory"
+msgstr "Directory"
 
 #: src/arch/win32/res.rc.po.c:1127 src/arch/amigaos/intl_text.c.po.c:4152
 msgid "Attach read only"
 msgstr "Schreibgeschützt einlegen"
 
 #: src/arch/win32/res.rc.po.c:1128
-#, fuzzy
 msgid "Read P00 files"
-msgstr "P00 Datei &Laden"
+msgstr "P00 Datei Laden"
 
 #: src/arch/win32/res.rc.po.c:1129
-#, fuzzy
 msgid "Write P00 files"
-msgstr "P00 Dateien &Schreiben"
+msgstr "P00 Dateien Schreiben"
 
 #: src/arch/win32/res.rc.po.c:1130
-#, fuzzy
 msgid "Hide non-P00 files"
-msgstr "Non-P00 Dateien &ausblenden"
+msgstr "Non-P00 Dateien ausblenden"
 
 #: src/arch/win32/res.rc.po.c:1133
 msgid "Select fire button"
@@ -5320,73 +5311,60 @@ msgid "Auto fire button settings"
 msgstr "Automatische Feuerknopf Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1135
-#, fuzzy
 msgid "Autofire speed (1..32)"
-msgstr "Autofeuer Ge&schwindigkeit (1..32)"
+msgstr "Autofeuer Geschwindigkeit (1..32)"
 
 #: src/arch/win32/res.rc.po.c:1137
-#, fuzzy
 msgid "Config Keyset A"
-msgstr "Tastaturbelegung &A konfigurieren"
+msgstr "Tastaturbelegung A konfigurieren"
 
 #: src/arch/win32/res.rc.po.c:1138
-#, fuzzy
 msgid "Config Keyset B"
-msgstr "Tastaturbelegung &B konfigurieren"
+msgstr "Tastaturbelegung B konfigurieren"
 
 #: src/arch/win32/res.rc.po.c:1139
-#, fuzzy
 msgid "Calibrate Joystick(s)"
-msgstr "Joysticks &kalibrieren"
+msgstr "Joysticks kalibrieren"
 
 #: src/arch/win32/res.rc.po.c:1140
 msgid "Extra joystick settings"
 msgstr "Extra Joystick Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1143
-#, fuzzy
 msgid "South West"
 msgstr "Süd West"
 
 #: src/arch/win32/res.rc.po.c:1144
-#, fuzzy
 msgid "South"
-msgstr "&Süden"
+msgstr "Süden"
 
 #: src/arch/win32/res.rc.po.c:1145
-#, fuzzy
 msgid "South East"
 msgstr "Süd Ost"
 
 #: src/arch/win32/res.rc.po.c:1146
-#, fuzzy
 msgid "West"
-msgstr "&Westen"
+msgstr "Westen"
 
 #: src/arch/win32/res.rc.po.c:1147
-#, fuzzy
 msgid "East"
-msgstr "&Osten"
+msgstr "Osten"
 
 #: src/arch/win32/res.rc.po.c:1148
-#, fuzzy
 msgid "North West"
 msgstr "Nord West"
 
 #: src/arch/win32/res.rc.po.c:1149
-#, fuzzy
 msgid "North"
-msgstr "&Norden"
+msgstr "Norden"
 
 #: src/arch/win32/res.rc.po.c:1150
-#, fuzzy
 msgid "North East"
 msgstr "Nord Ost"
 
 #: src/arch/win32/res.rc.po.c:1151
-#, fuzzy
 msgid "Fire button"
-msgstr "&Feuerknopf"
+msgstr "Feuerknopf"
 
 #: src/arch/win32/res.rc.po.c:1152
 msgid "Configure Sound Device Settings"
@@ -5401,28 +5379,24 @@ msgid "WMM driver"
 msgstr "WMM Treiber"
 
 #: src/arch/win32/res.rc.po.c:1155
-#, fuzzy
 msgid "Sample Frequency :"
-msgstr "Sample &Frequenz"
+msgstr "Sample Frequenz :"
 
 #: src/arch/win32/res.rc.po.c:1156
-#, fuzzy
 msgid "Sound Buffer Size :"
-msgstr "Sound Puffergröße"
+msgstr "Sound Puffergröße :"
 
 #: src/arch/win32/res.rc.po.c:1157
 msgid "Sound Fragment Size :"
 msgstr "Sound Fragmentgröße :"
 
 #: src/arch/win32/res.rc.po.c:1161
-#, fuzzy
 msgid "Synchronization Method :"
-msgstr "Synchronisations&methode"
+msgstr "Synchronisationsmethode :"
 
 #: src/arch/win32/res.rc.po.c:1162
-#, fuzzy
 msgid "Save currently attached disks images"
-msgstr "Aktuell eingelegte &Diskimages speichern"
+msgstr "Aktuell eingelegte Diskimages speichern"
 
 #: src/arch/win32/res.rc.po.c:1163 src/arch/amigaos/intl_text.c.po.c:7663
 msgid "Save currently loaded ROM images"
@@ -5591,9 +5565,8 @@ msgid "Save archive"
 msgstr "Archiv speichern"
 
 #: src/arch/win32/res.rc.po.c:1206
-#, fuzzy
 msgid "Configuration"
-msgstr "&Konfigurationen"
+msgstr "Konfigurationen"
 
 #: src/arch/win32/res.rc.po.c:1207
 msgid "Apply"
@@ -5664,9 +5637,8 @@ msgid "Connect to"
 msgstr "Verbinden mit"
 
 #: src/arch/win32/res.rc.po.c:1237
-#, fuzzy
 msgid "Append log to existing file"
-msgstr "An bestehende Log Datei &anhängen"
+msgstr "An bestehende Log Datei anhängen"
 
 #: src/arch/win32/res.rc.po.c:1238 src/arch/amigaos/intl_text.c.po.c:4243
 msgid "Image Contents"
@@ -5745,14 +5717,12 @@ msgid "Drive resources saved to romset"
 msgstr "Floppy Resourcen zum ROM Satz gespeichert"
 
 #: src/arch/win32/res.rc.po.c:1262
-#, fuzzy
 msgid "Symbolic"
-msgstr "&Symbolisch"
+msgstr "Symbolisch"
 
 #: src/arch/win32/res.rc.po.c:1263
-#, fuzzy
 msgid "Positional"
-msgstr "&Positional"
+msgstr "Positional"
 
 #: src/arch/win32/res.rc.po.c:1264
 msgid "Dump keyset"
@@ -5763,44 +5733,36 @@ msgid "Dump shortcuts"
 msgstr "Aktuelle Tastenkürzel in Datei speichern"
 
 #: src/arch/win32/res.rc.po.c:1266
-#, fuzzy
 msgid "Symbolic US"
-msgstr "&Symbolisch US"
+msgstr "Symbolisch US"
 
 #: src/arch/win32/res.rc.po.c:1267
-#, fuzzy
 msgid "Symbolic DE"
-msgstr "&Symbolisch DE"
+msgstr "Symbolisch DE"
 
 #: src/arch/win32/res.rc.po.c:1268
-#, fuzzy
 msgid "Gr Sym."
-msgstr "&Gr Sym."
+msgstr "Gr Sym."
 
 #: src/arch/win32/res.rc.po.c:1269
-#, fuzzy
 msgid "Gr Pos."
-msgstr "G&r Pos."
+msgstr "Gr Pos."
 
 #: src/arch/win32/res.rc.po.c:1270
-#, fuzzy
 msgid "UK Sym."
-msgstr "&UK Sym."
+msgstr "UK Sym."
 
 #: src/arch/win32/res.rc.po.c:1271
-#, fuzzy
 msgid "UK Pos."
-msgstr "U&K Pos."
+msgstr "UK Pos."
 
 #: src/arch/win32/res.rc.po.c:1272
-#, fuzzy
 msgid "DE Sym."
-msgstr "&DE Sym."
+msgstr "DE Sym."
 
 #: src/arch/win32/res.rc.po.c:1273
-#, fuzzy
 msgid "DE Pos."
-msgstr "D&E Pos."
+msgstr "DE Pos."
 
 #: src/arch/win32/res.rc.po.c:1274 src/arch/win32/res.rc.po.c:1290
 #: src/arch/win32/rescbm2.rc.po.c:494 src/arch/win32/respet.rc.po.c:547
@@ -5825,29 +5787,24 @@ msgid "Drive expansion"
 msgstr "Laufwerk Erweiterung"
 
 #: src/arch/win32/res.rc.po.c:1285
-#, fuzzy
 msgid "$2000-$3FFF RAM"
-msgstr "$2000-$3FFF &RAM"
+msgstr "$2000-$3FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1286
-#, fuzzy
 msgid "$4000-$5FFF RAM"
-msgstr "$&4000-$5FFF RAM"
+msgstr "$4000-$5FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1287
-#, fuzzy
 msgid "$6000-$7FFF RAM"
-msgstr "$&6000-$7FFF RAM"
+msgstr "$6000-$7FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1288
-#, fuzzy
 msgid "$8000-$9FFF RAM"
-msgstr "$8000-$9FFF RA&M"
+msgstr "$8000-$9FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1289
-#, fuzzy
 msgid "$A000-$BFFF RAM"
-msgstr "$&A000-$BFFF RAM"
+msgstr "$A000-$BFFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1298 src/arch/win32/resc128.rc.po.c:63
 #: src/arch/win32/resc64.rc.po.c:63 src/arch/win32/resplus4.rc.po.c:63
@@ -5917,7 +5874,6 @@ msgid "Sound playback"
 msgstr "Sound Wiedergabe"
 
 #: src/arch/win32/res.rc.po.c:1337
-#, fuzzy
 msgid "Handle TDE for autostart"
 msgstr "TDE bei Autostart beachten"
 
@@ -5962,18 +5918,16 @@ msgid "Epyx FastLoad image..."
 msgstr "Epyx Fastload Image..."
 
 #: src/arch/win32/res.rc.po.c:1349
-#, fuzzy
 msgid "IEEE-488 Interface image..."
-msgstr "&IEEE 488 Schnittstellenmodul..."
+msgstr "IEEE 488 Schnittstellenmodul..."
 
 #: src/arch/win32/res.rc.po.c:1350 src/arch/amigaos/intl_text.c.po.c:720
 msgid "Retro Replay image..."
 msgstr "Retro Replay Image..."
 
 #: src/arch/win32/res.rc.po.c:1351
-#, fuzzy
 msgid "MMC Replay image..."
-msgstr "&MMC Replay Image..."
+msgstr "MMC Replay Image..."
 
 #: src/arch/win32/res.rc.po.c:1352 src/arch/amigaos/intl_text.c.po.c:733
 msgid "IDE64 interface image..."
@@ -6024,29 +5978,24 @@ msgid "Reset Counter"
 msgstr "Zähler zurücksetzen"
 
 #: src/arch/win32/res.rc.po.c:1377
-#, fuzzy
 msgid "History"
-msgstr "&History"
+msgstr "History"
 
 #: src/arch/win32/res.rc.po.c:1378
-#, fuzzy
 msgid "History Autoplay"
-msgstr "&History Automatische Wiedergabe"
+msgstr "History Automatische Wiedergabe"
 
 #: src/arch/win32/res.rc.po.c:1379
-#, fuzzy
 msgid "Main CPU Trace"
-msgstr "&Haupt CPU Trace"
+msgstr "Haupt CPU Trace"
 
 #: src/arch/win32/res.rc.po.c:1380
-#, fuzzy
 msgid "Drive0 CPU Trace"
-msgstr "Laufwerk&0 CPU Trace"
+msgstr "Laufwerk0 CPU Trace"
 
 #: src/arch/win32/res.rc.po.c:1381
-#, fuzzy
 msgid "Drive1 CPU Trace"
-msgstr "Laufwerk&1 CPU Trace"
+msgstr "Laufwerk1 CPU Trace"
 
 #: src/arch/win32/res.rc.po.c:1383 src/arch/amigaos/intl_text.c.po.c:954
 msgid "Load snapshot image..."
@@ -6105,14 +6054,12 @@ msgid "Disable DirectX9"
 msgstr "DirectX9 deaktivieren"
 
 #: src/arch/win32/res.rc.po.c:1405
-#, fuzzy
 msgid "Swap Joysticks"
-msgstr "&Joystick ports austauschen"
+msgstr "Joystick ports austauschen"
 
 #: src/arch/win32/res.rc.po.c:1406
-#, fuzzy
 msgid "Swap Userport joysticks"
-msgstr "&Userport Joystick ports austauschen"
+msgstr "Userport Joystick ports austauschen"
 
 #: src/arch/win32/res.rc.po.c:1408 src/arch/amigaos/intl_text.c.po.c:1578
 msgid "Enable Joy Keys"
@@ -6123,9 +6070,8 @@ msgid "Virtual device traps"
 msgstr "Virtuelle Geräte Traps"
 
 #: src/arch/win32/res.rc.po.c:1411
-#, fuzzy
 msgid "C64 model settings..."
-msgstr "&C64 Modell Einstellungen..."
+msgstr "C64 Modell Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1412 src/arch/amigaos/intl_text.c.po.c:1942
 msgid "Autostart settings..."
@@ -6144,14 +6090,12 @@ msgid "Joystick settings..."
 msgstr "Joystick Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1416
-#, fuzzy
 msgid "Userport joystick settings..."
-msgstr "&Userport Joystick Einstellungen..."
+msgstr "Userport Joystick Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1417
-#, fuzzy
 msgid "Sidcart joystick settings..."
-msgstr "&Sidcart Joystick Einstellungen..."
+msgstr "Sidcart Joystick Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1418 src/arch/amigaos/intl_text.c.po.c:2137
 msgid "Keyboard settings..."
@@ -6162,9 +6106,8 @@ msgid "Sound settings..."
 msgstr "Sound Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1420
-#, fuzzy
 msgid "ROM settings..."
-msgstr "&ROM Einstellungen..."
+msgstr "ROM Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1421 src/arch/amigaos/intl_text.c.po.c:2215
 msgid "RAM settings..."
@@ -6227,18 +6170,16 @@ msgid "Magic Voice settings..."
 msgstr "Magic Voice Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1436
-#, fuzzy
 msgid "MIDI settings..."
-msgstr "M&IDI Einstellungen..."
+msgstr "MIDI Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2462
 msgid "DigiMAX settings..."
 msgstr "DigiMAX Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1438
-#, fuzzy
 msgid "Lightpen settings..."
-msgstr "&Lichtgriffel Einstellungen..."
+msgstr "Lichtgriffel Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1439 src/arch/amigaos/intl_text.c.po.c:2423
 msgid "IDE64 settings..."
@@ -6333,104 +6274,84 @@ msgid "SID cart settings..."
 msgstr "SID Modul Einstellungen..."
 
 #: src/arch/win32/res.rc.po.c:1473
-#, fuzzy
 msgid "Open"
-msgstr "&Öffnen"
+msgstr "Öffnen"
 
 #: src/arch/win32/res.rc.po.c:1475
-#, fuzzy
 msgid "Print"
-msgstr "&Drucken"
+msgstr "Drucken"
 
 #: src/arch/win32/res.rc.po.c:1476
-#, fuzzy
 msgid "Exit        Alt+F4"
-msgstr "E&xit        Alt+F4"
+msgstr "Exit        Alt+F4"
 
 #: src/arch/win32/res.rc.po.c:1477
-#, fuzzy
 msgid "Stop Debug"
-msgstr "&Stop Debug"
+msgstr "Stop Debug"
 
 #: src/arch/win32/res.rc.po.c:1478
-#, fuzzy
 msgid "Stop Execution"
-msgstr "Stop &Ausführung"
+msgstr "Stop Ausführung"
 
 #: src/arch/win32/res.rc.po.c:1479
-#, fuzzy
 msgid "Step into"
-msgstr "Step &in"
+msgstr "Step in"
 
 #: src/arch/win32/res.rc.po.c:1480
-#, fuzzy
 msgid "Step over"
-msgstr "Step &über"
+msgstr "Step über"
 
 #: src/arch/win32/res.rc.po.c:1481
-#, fuzzy
 msgid "Step until return"
-msgstr "Step bis &return"
+msgstr "Step bis return"
 
 #: src/arch/win32/res.rc.po.c:1482
-#, fuzzy
 msgid "Go to cursor"
-msgstr "Gehe zu &cursor"
+msgstr "Gehe zu cursor"
 
 #: src/arch/win32/res.rc.po.c:1483
-#, fuzzy
 msgid "Evaluate"
-msgstr "A&uswerten"
+msgstr "Auswerten"
 
 #: src/arch/win32/res.rc.po.c:1484
-#, fuzzy
 msgid "Current instruction"
-msgstr "Aktuelle I&nstruktion"
+msgstr "Aktuelle Instruktion"
 
 #: src/arch/win32/res.rc.po.c:1485
-#, fuzzy
 msgid "Evaluation window"
-msgstr "Auswertungs&fenster"
+msgstr "Auswertungsfenster"
 
 #: src/arch/win32/res.rc.po.c:1486
-#, fuzzy
 msgid "Register window"
-msgstr "&Registerfenster"
+msgstr "Registerfenster"
 
 #: src/arch/win32/res.rc.po.c:1487
-#, fuzzy
 msgid "Memory window"
-msgstr "S&peicherfenster"
+msgstr "Speicherfenster"
 
 #: src/arch/win32/res.rc.po.c:1488
-#, fuzzy
 msgid "Disassembly window"
 msgstr "Disassemblerfenster"
 
 #: src/arch/win32/res.rc.po.c:1489
-#, fuzzy
 msgid "Console window"
-msgstr "&Konsolenfenster"
+msgstr "Konsolenfenster"
 
 #: src/arch/win32/res.rc.po.c:1493
-#, fuzzy
 msgid "Cascade"
-msgstr "&Kaskadiert"
+msgstr "Kaskadiert"
 
 #: src/arch/win32/res.rc.po.c:1494
-#, fuzzy
 msgid "Tile vertically"
-msgstr "&Vertical anordnen"
+msgstr "Vertical anordnen"
 
 #: src/arch/win32/res.rc.po.c:1495
-#, fuzzy
 msgid "Tile horizontally"
-msgstr "&Horizontal anordnen"
+msgstr "Horizontal anordnen"
 
 #: src/arch/win32/res.rc.po.c:1496
-#, fuzzy
 msgid "Arrange icons"
-msgstr "Icons &Anordnen"
+msgstr "Icons Anordnen"
 
 #: src/arch/win32/resacia.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4386
 msgid "IRQ"
@@ -6453,9 +6374,8 @@ msgid "ACIA Settings"
 msgstr "ACIA Einstellungen"
 
 #: src/arch/win32/resacia.rc.po.c:48
-#, fuzzy
 msgid "Enable ACIA"
-msgstr "ACIA Aktivier&en"
+msgstr "ACIA Aktivieren"
 
 #: src/arch/win32/resacia.rc.po.c:50
 msgid "ACIA location"
@@ -6485,9 +6405,8 @@ msgid "VDC revision"
 msgstr "VDC Revision"
 
 #: src/arch/win32/resc128.rc.po.c:239
-#, fuzzy
 msgid "Cartridge Settings"
-msgstr "&Erweiterungsmodul Einstellungen"
+msgstr "Erweiterungsmodul Einstellungen"
 
 #: src/arch/win32/resc128.rc.po.c:646
 msgid "Select internal function ROM image"
@@ -6638,9 +6557,8 @@ msgid "64KB video memory"
 msgstr "64KB Bildschirm Speicher"
 
 #: src/arch/win32/resc128.rc.po.c:696
-#, fuzzy
 msgid "IEEE488 Interface emulation"
-msgstr "IEEE&488 Schnittstellen-Emulation"
+msgstr "IEEE488 Schnittstellen-Emulation"
 
 #: src/arch/win32/resc128.rc.po.c:697 src/arch/amigaos/intl_text.c.po.c:2241
 msgid "C128 settings..."
@@ -6692,9 +6610,8 @@ msgid "256K Settings"
 msgstr "256K Einstellungen"
 
 #: src/arch/win32/resc64_256k.rc.po.c:29
-#, fuzzy
 msgid "Enable 256K"
-msgstr "256K &aktivieren"
+msgstr "256K aktivieren"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 msgid "256K base address"
@@ -6711,9 +6628,8 @@ msgid "Select file for 256K"
 msgstr "Datei für 256K auswählen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:445
-#, fuzzy
 msgid "DTV flash rom image"
-msgstr "DTV Flash &Rom Datei"
+msgstr "DTV Flash Rom Datei"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
 msgid "Attach DTV Flash Image"
@@ -6724,14 +6640,12 @@ msgid "DTV ROM"
 msgstr "DTV ROM"
 
 #: src/arch/win32/resc64dtv.rc.po.c:436
-#, fuzzy
 msgid "DTV ROM image File"
-msgstr "DTV ROM &Image Name"
+msgstr "DTV ROM Image Name"
 
 #: src/arch/win32/resc64dtv.rc.po.c:437
-#, fuzzy
 msgid "Enable writes to DTV ROM image"
-msgstr "Erlaube &Schreibzugriff auf DTV ROM Datei"
+msgstr "Erlaube Schreibzugriff auf DTV ROM Datei"
 
 #: src/arch/win32/resc64dtv.rc.po.c:438 src/arch/amigaos/intl_text.c.po.c:4594
 msgid "C64DTV Settings"
@@ -6758,29 +6672,24 @@ msgid "Create"
 msgstr "Erzeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:446
-#, fuzzy
 msgid "Autostart disk image..."
-msgstr "&Autostart Disk Image..."
+msgstr "Autostart Disk Image..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:447
-#, fuzzy
 msgid "Attach flash rom image"
-msgstr "&Flash ROM Image einlegen"
+msgstr "Flash ROM Image einlegen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:448
-#, fuzzy
 msgid "Detach flash rom image"
-msgstr "Flash ROM Image ent&fernen"
+msgstr "Flash ROM Image entfernen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:449
-#, fuzzy
 msgid "Create new flash rom image"
-msgstr "Flash ROM Datei er&zeugen"
+msgstr "Flash ROM Datei erzeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:450
-#, fuzzy
 msgid "True flash filesystem"
-msgstr "&True flash Dateisystem"
+msgstr "True flash Dateisystem"
 
 #: src/arch/win32/resc64dtv.rc.po.c:451 src/arch/amigaos/intl_text.c.po.c:1799
 msgid "PS/2 mouse emulation"
@@ -6824,34 +6733,28 @@ msgid "Machine defaults"
 msgstr "Modell Standardeinstellungen"
 
 #: src/arch/win32/rescbm2.rc.po.c:501
-#, fuzzy
 msgid "Model line"
-msgstr "&Modell Linie"
+msgstr "Modell Linie"
 
 #: src/arch/win32/rescbm2.rc.po.c:502
-#, fuzzy
 msgid "128 kByte"
-msgstr "12&8 kByte"
+msgstr "128 kByte"
 
 #: src/arch/win32/rescbm2.rc.po.c:503
-#, fuzzy
 msgid "256 kByte"
-msgstr "2&56 kByte"
+msgstr "256 kByte"
 
 #: src/arch/win32/rescbm2.rc.po.c:504
-#, fuzzy
 msgid "512 kByte"
-msgstr "512 &kByte"
+msgstr "512 kByte"
 
 #: src/arch/win32/rescbm2.rc.po.c:505
-#, fuzzy
 msgid "1024 kByte"
-msgstr "1024 kByt&e"
+msgstr "1024 kByte"
 
 #: src/arch/win32/rescbm2.rc.po.c:506
-#, fuzzy
 msgid "Ram banks"
-msgstr "&Ram Bänke"
+msgstr "Ram Bänke"
 
 #: src/arch/win32/rescbm2.rc.po.c:513 src/arch/amigaos/intl_text.c.po.c:1981
 msgid "CBM2 settings..."
@@ -6862,9 +6765,8 @@ msgid "DigiMAX Settings"
 msgstr "DigiMAX Einstellungen"
 
 #: src/arch/win32/resdigimax.rc.po.c:23
-#, fuzzy
 msgid "Enable DigiMAX"
-msgstr "DigiMAX aktivi&eren"
+msgstr "DigiMAX aktivieren"
 
 #: src/arch/win32/resdigimax.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:8482
 msgid "DigiMAX base"
@@ -11871,921 +11773,6 @@ msgstr "DigiMAX Cartridge deaktivieren"
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basis Adresse für DigiMAX Erweiterung"
 
-#~ msgid "&Browse..."
-#~ msgstr "Stö&bern..."
-
-#~ msgid "1/&1"
-#~ msgstr "1/&1"
-
-#~ msgid "1/&2"
-#~ msgstr "1/&2"
-
-#~ msgid "1/&3"
-#~ msgstr "1/&3"
-
-#~ msgid "1/&4"
-#~ msgstr "1/&4"
-
-#~ msgid "1/&5"
-#~ msgstr "1/&5"
-
-#~ msgid "1/&6"
-#~ msgstr "1/&6"
-
-#~ msgid "1/&7"
-#~ msgstr "1/&7"
-
-#~ msgid "1/&8"
-#~ msgstr "1/&8"
-
-#~ msgid "1/&9"
-#~ msgstr "1/&9"
-
-#~ msgid "1/1&0"
-#~ msgstr "1/1&0"
-
-#~ msgid "&200%"
-#~ msgstr "&200%"
-
-#~ msgid "&100%"
-#~ msgstr "&100%"
-
-#~ msgid "&50%"
-#~ msgstr "&50%"
-
-#~ msgid "&20%"
-#~ msgstr "&20%"
-
-#~ msgid "1&0%"
-#~ msgstr "1&0%"
-
-#~ msgid "&PAL-G"
-#~ msgstr "&PAL-G"
-
-#~ msgid "&NTSC-M"
-#~ msgstr "&NTSC-M"
-
-#~ msgid "1541"
-#~ msgstr "1541"
-
-#~ msgid "1541-II"
-#~ msgstr "1541-II"
-
-#~ msgid "1570"
-#~ msgstr "1570"
-
-#~ msgid "1571"
-#~ msgstr "1571"
-
-#~ msgid "1571CR"
-#~ msgstr "1571CR"
-
-#~ msgid "1581"
-#~ msgstr "1581"
-
-#~ msgid "2031"
-#~ msgstr "2031"
-
-#~ msgid "2040"
-#~ msgstr "2040"
-
-#~ msgid "3040"
-#~ msgstr "3040"
-
-#~ msgid "4040"
-#~ msgstr "4040"
-
-#~ msgid "1001"
-#~ msgstr "1001"
-
-#~ msgid "&PAL"
-#~ msgstr "&PAL"
-
-#~ msgid "&NTSC"
-#~ msgstr "&NTSC"
-
-#~ msgid "CBM 610"
-#~ msgstr "CBM 610"
-
-#~ msgid "CBM 620"
-#~ msgstr "CBM 620"
-
-#~ msgid "CBM 620+"
-#~ msgstr "CBM 620+"
-
-#~ msgid "CBM 710"
-#~ msgstr "CBM 710"
-
-#~ msgid "CBM 720"
-#~ msgstr "CBM 720"
-
-#~ msgid "CBM 720+"
-#~ msgstr "CBM 720+"
-
-#~ msgid "&7x0 (50 Hz)"
-#~ msgstr "&7x0 (50 Hz)"
-
-#~ msgid "6x0 &60 Hz"
-#~ msgstr "6x0 &60 Hz"
-
-#~ msgid "6x0 &50 Hz"
-#~ msgstr "6x0 &50 Hz"
-
-#~ msgid "1&541"
-#~ msgstr "1&541"
-
-#~ msgid "1541-&II"
-#~ msgstr "1541-&II"
-
-#~ msgid "15&71"
-#~ msgstr "15&71"
-
-#~ msgid "15&71cr"
-#~ msgstr "15&71cr"
-
-#~ msgid "&1581"
-#~ msgstr "&1581"
-
-#~ msgid "20&31"
-#~ msgstr "20&31"
-
-#~ msgid "20&40"
-#~ msgstr "20&40"
-
-#~ msgid "30&40"
-#~ msgstr "30&40"
-
-#~ msgid "40&40"
-#~ msgstr "40&40"
-
-#~ msgid "1&001"
-#~ msgstr "1&001"
-
-#~ msgid "&8050"
-#~ msgstr "&8050"
-
-#~ msgid "8&250"
-#~ msgstr "8&250"
-
-#~ msgid "15&41"
-#~ msgstr "15&41"
-
-#~ msgid "154&1-II"
-#~ msgstr "154&1-II"
-
-#~ msgid "15&51"
-#~ msgstr "15&51"
-
-#~ msgid "15&81"
-#~ msgstr "15&81"
-
-#~ msgid "PET 2001-8N"
-#~ msgstr "PET 2001-8N"
-
-#~ msgid "PET 3008"
-#~ msgstr "PET 3008"
-
-#~ msgid "PET 3016"
-#~ msgstr "PET 3016"
-
-#~ msgid "PET 3032"
-#~ msgstr "PET 3032"
-
-#~ msgid "PET 3032B"
-#~ msgstr "PET 3032B"
-
-#~ msgid "PET 4016"
-#~ msgstr "PET 4016"
-
-#~ msgid "PET 4032"
-#~ msgstr "PET 4032"
-
-#~ msgid "PET 4032B"
-#~ msgstr "PET 4032B"
-
-#~ msgid "PET 8032"
-#~ msgstr "PET 8032"
-
-#~ msgid "PET 8096"
-#~ msgstr "PET 8096"
-
-#~ msgid "PET 8296"
-#~ msgstr "PET 8296"
-
-#~ msgid "SuperPET"
-#~ msgstr "SuperPET"
-
-#~ msgid "4KB"
-#~ msgstr "4KB"
-
-#~ msgid "8KB"
-#~ msgstr "8KB"
-
-#~ msgid "16KB"
-#~ msgstr "16KB"
-
-#~ msgid "32KB"
-#~ msgstr "32KB"
-
-#~ msgid "96KB"
-#~ msgstr "96KB"
-
-#~ msgid "128KB"
-#~ msgstr "128KB"
-
-#~ msgid "&CRTC"
-#~ msgstr "&CRTC"
-
-#~ msgid "1551"
-#~ msgstr "1551"
-
-#~ msgid "&File"
-#~ msgstr "&Datei"
-
-#~ msgid "&Debug"
-#~ msgstr "&Debug"
-
-#~ msgid "&Attach"
-#~ msgstr "&Einlegen"
-
-#~ msgid "&Reset Datasette with CPU"
-#~ msgstr "Zu&rücksetzen des Bandlaufwerks bei CPU Reset"
-
-#~ msgid "Disk &image"
-#~ msgstr "Disk &Image"
-
-#~ msgid "Rea&l IEC device"
-#~ msgstr "Rea&les IEC Gerät"
-
-#~ msgid "&None"
-#~ msgstr "Kei&n"
-
-#~ msgid "&Autostart"
-#~ msgstr "&Autostart"
-
-#~ msgid "Bro&wse..."
-#~ msgstr "Stö&bern..."
-
-#~ msgid "Joystick in port #&1"
-#~ msgstr "Joystick in Port #&1"
-
-#~ msgid "Joystick in port #&2"
-#~ msgstr "Joystick in Port #&2"
-
-#~ msgid "Joystick in extra port #&1"
-#~ msgstr "Joystick in extra Port #&1"
-
-#~ msgid "Joystick in extra port #&2"
-#~ msgstr "Joystick in extra Port #&2"
-
-#~ msgid "Save currently loaded &ROM images"
-#~ msgstr "Aktuelle ROMs speichern"
-
-#~ msgid "&Memory"
-#~ msgstr "&Speicher"
-
-#~ msgid "&Drive type"
-#~ msgstr "&Geräte Typ"
-
-#~ msgid "40 &track handling"
-#~ msgstr "40 &Spur Umgang"
-
-#~ msgid "Id&le method"
-#~ msgstr "Id&le Methode"
-
-#~ msgid "&Parallel cable"
-#~ msgstr "&Parallel Kabel"
-
-#~ msgid "Drive &expansion"
-#~ msgstr "Laufwerk &Erweiterung"
-
-#~ msgid "Attach &disk image"
-#~ msgstr "&Disk Image einlegen"
-
-#~ msgid "D&etach disk image"
-#~ msgstr "Disk Image &entfernen"
-
-#~ msgid "&Flip list"
-#~ msgstr "&Flipliste"
-
-#~ msgid "Datassette contro&l"
-#~ msgstr "Bandlaufwerk Kontro&lle"
-
-#~ msgid "Attach &cartridge image..."
-#~ msgstr "Erweiterungs&modul einlegen..."
-
-#~ msgid "&Reset"
-#~ msgstr "&Reset"
-
-#~ msgid "M&ode"
-#~ msgstr "M&odus"
-
-#~ msgid "Sna&pshot"
-#~ msgstr "Sna&pshot"
-
-#~ msgid "&Options"
-#~ msgstr "&Optionen"
-
-#~ msgid "&Refresh rate"
-#~ msgstr "Wiederhol&rate"
-
-#~ msgid "&Maximum Speed"
-#~ msgstr "&Maximale Geschwindigkeit"
-
-#~ msgid "Vide&o standard"
-#~ msgstr "Vide&o Standard"
-
-#~ msgid "Drive s&ync factor"
-#~ msgstr "Laufwerkt S&ync Faktor"
-
-#~ msgid "S&ettings"
-#~ msgstr "&Einstellungen"
-
-#~ msgid "&Cartridge/IO settings"
-#~ msgstr "Erweiterungsmodul I/O Einstellungen"
-
-#~ msgid "&Language"
-#~ msgstr "Sprache"
-
-#~ msgid "&Help"
-#~ msgstr "&Hilfe"
-
-#~ msgid "E&xit"
-#~ msgstr "E&xit"
-
-#~ msgid "&About..."
-#~ msgstr "&Über VICE..."
-
-#~ msgid "&Pause"
-#~ msgstr "&Pause"
-
-#~ msgid "&Copy"
-#~ msgstr "&Kopieren"
-
-#~ msgid "&Paste"
-#~ msgstr "&Einfügen"
-
-#~ msgid "&Autostart disk/tape image..."
-#~ msgstr "&Autostart Disk/Band Image..."
-
-#~ msgid "&Hard"
-#~ msgstr "&Hart"
-
-#~ msgid "&Soft"
-#~ msgstr "&Weich"
-
-#~ msgid "Drive &8"
-#~ msgstr "Laufwerk &8"
-
-#~ msgid "Drive &9"
-#~ msgstr "Laufwerk &9"
-
-#~ msgid "Drive 1&0"
-#~ msgstr "Laufwerk 1&0"
-
-#~ msgid "Drive 1&1"
-#~ msgstr "Laufwerk 1&1"
-
-#~ msgid "Attach &tape image..."
-#~ msgstr "&Band Image einlegen..."
-
-#~ msgid "Detac&h tape image"
-#~ msgstr "Band Image entfernen"
-
-#~ msgid "&All"
-#~ msgstr "&Alle"
-
-#~ msgid "&Sound playback"
-#~ msgstr "&Sound Einschalten"
-
-#~ msgid "&Double size"
-#~ msgstr "&Doppelte Größe"
-
-#~ msgid "Dou&ble scan"
-#~ msgstr "Do&ppelt Scan"
-
-#~ msgid "&True drive emulation"
-#~ msgstr "&Präzise Floppy Emulation"
-
-#~ msgid "Video &cache"
-#~ msgstr "Video &cache"
-
-#~ msgid "&Drive settings..."
-#~ msgstr "&Floppy Einstellungen..."
-
-#~ msgid "&CRT image..."
-#~ msgstr "&CRT Image..."
-
-#~ msgid "Generic &8KB image..."
-#~ msgstr "Generische 8Kb Image..."
-
-#~ msgid "Generic &16KB image..."
-#~ msgstr "Generische 16Kb Image..."
-
-#~ msgid "&Action Replay image..."
-#~ msgstr "&Action Replay Image..."
-
-#~ msgid "&Action Replay MK3 image..."
-#~ msgstr "&Action Replay MK3 Image..."
-
-#~ msgid "&Action Replay MK4 image..."
-#~ msgstr "&Action Replay MK4 Image..."
-
-#~ msgid "&Stardos image..."
-#~ msgstr "&Stardos Image..."
-
-#~ msgid "Atomic &Power image..."
-#~ msgstr "Atomic &Power Image..."
-
-#~ msgid "&Epyx FastLoad image..."
-#~ msgstr "&Epyx Fastload Image..."
-
-#~ msgid "&Retro Replay image..."
-#~ msgstr "&Retro Replay Image..."
-
-#~ msgid "IDE&64 interface image..."
-#~ msgstr "IDE&64 Schnittstellenmodul..."
-
-#~ msgid "Super Snapshot V&4 image..."
-#~ msgstr "Super Snapshot V&4 Image..."
-
-#~ msgid "Super Snapshot V&5 image..."
-#~ msgstr "Super Snapshot V&5 Image..."
-
-#~ msgid "Structured &BASIC image..."
-#~ msgstr "Structured &Basic Image..."
-
-#~ msgid "&Add current image"
-#~ msgstr "&Aktuelles Image hinzufügen"
-
-#~ msgid "&Remove current image"
-#~ msgstr "Aktuelles Image entfe&rnen"
-
-#~ msgid "Attach &next image"
-#~ msgstr "&Nächstes Image"
-
-#~ msgid "Attach &previous image"
-#~ msgstr "&Voriges Image"
-
-#~ msgid "&Load flip list"
-#~ msgstr "Fliplist Datei &Laden"
-
-#~ msgid "&Save flip list"
-#~ msgstr "Fliplist Datei &Speichern"
-
-#~ msgid "S&top"
-#~ msgstr "S&top"
-
-#~ msgid "&Start"
-#~ msgstr "&Start"
-
-#~ msgid "&Forward"
-#~ msgstr "&Forward"
-
-#~ msgid "&Rewind"
-#~ msgstr "&Rewind"
-
-#~ msgid "Re&cord"
-#~ msgstr "Re&cord"
-
-#~ msgid "R&eset"
-#~ msgstr "R&eset"
-
-#~ msgid "Reset C&ounter"
-#~ msgstr "Z&ähler zurücksetzen"
-
-#~ msgid "Set cartridge as &default"
-#~ msgstr "Aktuelles Erweiterungsmodul als standar&d aktivieren"
-
-#~ msgid "Reset &on cart change"
-#~ msgstr "Reset bei Wechsel von Erweiterungsmodulen"
-
-#~ msgid "Detach cartridge &image"
-#~ msgstr "Erweiterungsmodul &Image entfernen"
-
-#~ msgid "Cartridge free&ze"
-#~ msgstr "Erweiterungsmodul Free&ze"
-
-#~ msgid "&Monitor"
-#~ msgstr "&Monitor"
-
-#~ msgid "&Normal"
-#~ msgstr "&Normal"
-
-#~ msgid "&Small"
-#~ msgstr "&Klein"
-
-#~ msgid "Load snapshot &image..."
-#~ msgstr "Snapshot &Image laden..."
-
-#~ msgid "Save sna&pshot image..."
-#~ msgstr "Sna&pshot Datei speichern..."
-
-#~ msgid "&Load quicksnapshot image"
-#~ msgstr "Quick-Snapshot Image &laden"
-
-#~ msgid "&Save quicksnapshot image"
-#~ msgstr "Quick-Snapshot Datei &speichern"
-
-#~ msgid "Start/Stop &Recording History"
-#~ msgstr "Sta&rt/Stop Aufnahme History"
-
-#~ msgid "Start/Stop Pl&ayback History"
-#~ msgstr "St&art/Stop Wiedergabe History"
-
-#~ msgid "&Save new snapshot"
-#~ msgstr "&Speichere neuen Snapshot"
-
-#~ msgid "&Load existing snapshot"
-#~ msgstr "&Lade existierenden Snapshot"
-
-#~ msgid "Start with &reset"
-#~ msgstr "Mit &Reset starten"
-
-#~ msgid "Overwrite &Playback"
-#~ msgstr "Laufende Aufnahme überschreiben"
-
-#~ msgid "&Auto"
-#~ msgstr "&Automatisch"
-
-#~ msgid "No &limit"
-#~ msgstr "Kein &Limit"
-
-#~ msgid "&Custom"
-#~ msgstr "&Benutzerdefiniert"
-
-#~ msgid "&Warp mode"
-#~ msgstr "&Warp modus"
-
-#~ msgid "&Virtual device traps"
-#~ msgstr "&Virtuelle Geräte Traps"
-
-#~ msgid "&Grab mouse events"
-#~ msgstr "Maus Ereignisse abfan&gen"
-
-#~ msgid "&Autostart settings..."
-#~ msgstr "&Autostart Einstellungen"
-
-#~ msgid "&Video settings..."
-#~ msgstr "&Video Einstellungen..."
-
-#~ msgid "&Peripheral settings..."
-#~ msgstr "&Peripherie Einstellungen..."
-
-#~ msgid "&Joystick settings..."
-#~ msgstr "&Joystick Einstellungen..."
-
-#~ msgid "&Keyboard settings..."
-#~ msgstr "&Tastatur Einstellungen..."
-
-#~ msgid "S&ound settings..."
-#~ msgstr "S&ound Einstellungen..."
-
-#~ msgid "RA&M settings..."
-#~ msgstr "R&AM Einstellungen..."
-
-#~ msgid "D&atasette settings..."
-#~ msgstr "B&andlaufwerk Einstellungen..."
-
-#~ msgid "Mo&use settings..."
-#~ msgstr "Ma&us Einstellungen..."
-
-#~ msgid "S&ID settings..."
-#~ msgstr "S&ID Einstellungen..."
-
-#~ msgid "RS&232 settings..."
-#~ msgstr "RS&232 Einstellungen..."
-
-#~ msgid "&REU settings..."
-#~ msgstr "&REU Einstellungen..."
-
-#~ msgid "&GEO-RAM settings..."
-#~ msgstr "&GEO-RAM Einstellungen..."
-
-#~ msgid "&RamCart settings..."
-#~ msgstr "&RamCart Einstellungen..."
-
-#~ msgid "&Double Quick Brown Box settings..."
-#~ msgstr "&Double Quick Brown Box Einstellungen..."
-
-#~ msgid "&Expert Cartridge settings..."
-#~ msgstr "&Expert Cartridge Einstellungen"
-
-#~ msgid "I&SEPIC settings..."
-#~ msgstr "I&SEPIC Einstellungen"
-
-#~ msgid "&MMC64 settings..."
-#~ msgstr "&MMC64 Einstellungen..."
-
-#~ msgid "MM&C Replay settings..."
-#~ msgstr "MM&C Replay Einstellungen..."
-
-#~ msgid "Magic V&oice settings..."
-#~ msgstr "Magic V&oice Einstellungen..."
-
-#~ msgid "&DigiMAX settings..."
-#~ msgstr "&DigiMAX Einstellungen..."
-
-#~ msgid "&IDE64 settings..."
-#~ msgstr "&IDE64 Einstellungen..."
-
-#~ msgid "&Ethernet settings..."
-#~ msgstr "&Ethernet Einstellungen..."
-
-#~ msgid "&ACIA settings..."
-#~ msgstr "&ACIA Einstellungen..."
-
-#~ msgid "RS&232 userport settings..."
-#~ msgstr "RS&232 Userport Einstellungen..."
-
-#~ msgid "&Save current settings"
-#~ msgstr "Einstellungen &speichern"
-
-#~ msgid "&Load saved settings"
-#~ msgstr "Einstellungen &Laden"
-
-#~ msgid "Set de&fault settings"
-#~ msgstr "Standard Einstellungen &wiederherstellen"
-
-#~ msgid "Save settings on e&xit"
-#~ msgstr "Einstellungen beim Beenden speichern"
-
-#~ msgid "&Confirm on exit"
-#~ msgstr "&Bestätigung beim Beenden"
-
-#~ msgid "&English"
-#~ msgstr "&Englisch"
-
-#~ msgid "D&anish"
-#~ msgstr "D&änisch"
-
-#~ msgid "&German"
-#~ msgstr "&Deutsch"
-
-#~ msgid "&French"
-#~ msgstr "&Französisch"
-
-#~ msgid "&Hungarian"
-#~ msgstr "&Ungarisch"
-
-#~ msgid "&Italian"
-#~ msgstr "&Italienisch"
-
-#~ msgid "&Korean"
-#~ msgstr "&Koreanisch"
-
-#~ msgid "&Dutch"
-#~ msgstr "&Holländisch"
-
-#~ msgid "&Polish"
-#~ msgstr "&Polnisch"
-
-#~ msgid "&Russian"
-#~ msgstr "&Russisch"
-
-#~ msgid "&Swedish"
-#~ msgstr "&Schwedisch"
-
-#~ msgid "&Turkish"
-#~ msgstr "&Türkisch"
-
-#~ msgid "Command line &options"
-#~ msgstr "Kommandozeilen &Optionen"
-
-#~ msgid "&Contributors"
-#~ msgstr "VICE Hackers"
-
-#~ msgid "&License"
-#~ msgstr "&Lizenz"
-
-#~ msgid "No &warranty"
-#~ msgstr "Keine &Garantie!"
-
-#~ msgid "&SID cart settings..."
-#~ msgstr "&SID Modul Einstellungen..."
-
-#~ msgid "&Save"
-#~ msgstr "&Speichern"
-
-#~ msgid "&Computer"
-#~ msgstr "Computer"
-
-#~ msgid "VDC settin&gs"
-#~ msgstr "VDC Einstellun&gen"
-
-#~ msgid "64KB video &memory"
-#~ msgstr "64KB Bildschirm Speicher"
-
-#~ msgid "C&128 settings..."
-#~ msgstr "C&128 Einstellungen..."
-
-#~ msgid "PLUS&60K settings..."
-#~ msgstr "PLUS&60K Einstellungen..."
-
-#~ msgid "PLUS2&56K settings..."
-#~ msgstr "PLUS2&56K Einstellungen..."
-
-#~ msgid "&256K settings..."
-#~ msgstr "&256K Einstellungen..."
-
-#~ msgid "&PS/2 mouse emulation"
-#~ msgstr "&PS/2 Mausemulation"
-
-#~ msgid "&C64DTV settings..."
-#~ msgstr "&C64DTV Einstellungen..."
-
-#~ msgid "&Cartridge/IO Settings"
-#~ msgstr "Erweiterungsmodul I/O Einstellungen"
-
-#~ msgid "Machine &defaults"
-#~ msgstr "Modell Stan&dardeinstellungen"
-
-#~ msgid "Bank 15 $&0800-$0FFF RAM"
-#~ msgstr "Bank 15 $&0800-$0FFF RAM"
-
-#~ msgid "Bank 15 $&1000-$1FFF RAM"
-#~ msgstr "Bank 15 $&1000-$1FFF RAM"
-
-#~ msgid "Bank 15 $&2000-$3FFF RAM"
-#~ msgstr "Bank 15 $&2000-$3FFF RAM"
-
-#~ msgid "Bank 15 $&4000-$5FFF RAM"
-#~ msgstr "Bank 15 $&4000-$5FFF RAM"
-
-#~ msgid "Bank 15 $&6000-$7FFF RAM"
-#~ msgstr "Bank 15 $&6000-$7FFF RAM"
-
-#~ msgid "Bank 15 $&C000-$CFFF RAM"
-#~ msgstr "Bank 15 $&C000-$CFFF RAM"
-
-#~ msgid "&CBM2 settings..."
-#~ msgstr "&CBM2 Einstellungen..."
-
-#~ msgid "&Save DQBB image when changed"
-#~ msgstr "DQBB Imagedatei bei Änderung &speichern"
-
-#~ msgid "&Save Expert Cartridge image when changed"
-#~ msgstr "Expert Cartridge Imagedatei bei Änderungen &speichern"
-
-#~ msgid "&Save GEO-RAM image when changed"
-#~ msgstr "GEO-RAM Imagedatei bei Änderung &speichern"
-
-#~ msgid "&HD image #1 file"
-#~ msgstr "&HD Image #1 Datei"
-
-#~ msgid "&HD image #2 file"
-#~ msgstr "&HD Image #2 Datei"
-
-#~ msgid "&HD image #3 file"
-#~ msgstr "&HD Image #3 Datei"
-
-#~ msgid "&HD image #4 file"
-#~ msgstr "&HD Image #4 Datei"
-
-#~ msgid "&Autodetect"
-#~ msgstr "&Automatische Erkennung"
-
-#~ msgid "&ISEPIC switch"
-#~ msgstr "&ISEPIC Schalter"
-
-#~ msgid "&Save ISEPIC image when changed"
-#~ msgstr "ISEPIC Imagedatei bei Änderung &speichern"
-
-#~ msgid "&Save BIOS when changed"
-#~ msgstr "BIOS bei Änderung &speichern"
-
-#~ msgid "&BIOS File"
-#~ msgstr "&BIOS Datei"
-
-#~ msgid "MMC/SD &Image File"
-#~ msgstr "MMC/SD &Image Name"
-
-#~ msgid "M&emory"
-#~ msgstr "Sp&eicher"
-
-#~ msgid "&Auto (from ROM)"
-#~ msgstr "&Automatisch (von ROM)"
-
-#~ msgid "&40 Columns"
-#~ msgstr "&40 Spalten"
-
-#~ msgid "&80 Columns"
-#~ msgstr "&80 Spalten"
-
-#~ msgid "2&56 Byte"
-#~ msgstr "2&56 Byte"
-
-#~ msgid "&2 kByte"
-#~ msgstr "&2 kByte"
-
-#~ msgid "CRTC chip &enable"
-#~ msgstr "CRTC Chip aktivi&eren"
-
-#~ msgid "&Keyboard"
-#~ msgstr "&Tastatur"
-
-#~ msgid "&Graphics"
-#~ msgstr "&Grafik"
-
-#~ msgid "&Business (UK)"
-#~ msgstr "&Business (UK)"
-
-#~ msgid "SuperPET I/O &enable (disables 8x96)"
-#~ msgstr "SuperPET I/O aktivi&eren (deaktiviert 8x96)"
-
-#~ msgid "$&9*** as RAM"
-#~ msgstr "$&9*** als RAM (nur 8296)"
-
-#~ msgid "$&A*** as RAM"
-#~ msgstr "$&A*** als RAM (nur 8296)"
-
-#~ msgid "P&ET settings..."
-#~ msgstr "P&ET Einstellungen..."
-
-#~ msgid "PET &DWW settings..."
-#~ msgstr "PET &DWW Einstellungen..."
-
-#~ msgid "PET &REU settings..."
-#~ msgstr "PET &REU Einstellungen..."
-
-#~ msgid "P&lus4 settings..."
-#~ msgstr "P&lus4 Einstellungen..."
-
-#~ msgid "&V364 Speech settings..."
-#~ msgstr "&V364 Sprache Einstellungen"
-
-#~ msgid "&Save REU image when changed"
-#~ msgstr "REU Imagedatei bei Änderung &speichern"
-
-#~ msgid "3&K (block 0)"
-#~ msgstr "3&K (block 0)"
-
-#~ msgid "&8K (block 1)"
-#~ msgstr "&8K (block 1)"
-
-#~ msgid "1&6K (blocks 1/2)"
-#~ msgstr "1&6K (Blöcke 1/2)"
-
-#~ msgid "2&4K (blocks 1/2/3)"
-#~ msgstr "2&4K (Blöcke 1/2/3)"
-
-#~ msgid "4/8/16KB image at $&2000..."
-#~ msgstr "4/8/16KB Modul Image bei $2000..."
-
-#~ msgid "4/8/16KB image at $&4000..."
-#~ msgstr "4/8/16KB Modul Image bei $4000..."
-
-#~ msgid "4/8/16KB image at $&6000..."
-#~ msgstr "4/8/16KB Modul Image bei $6000..."
-
-#~ msgid "4/8KB image at $&A000..."
-#~ msgstr "4/8KB Modul Image bei $A000..."
-
-#~ msgid "4KB image at $&B000..."
-#~ msgstr "4KB Modul Image bei $B000..."
-
-#~ msgid "V&IC settings..."
-#~ msgstr "V&IC Einstellungen"
-
-#~ msgid "&Full"
-#~ msgstr "&Voll"
-
-#~ msgid "Sprite-&sprite collisions"
-#~ msgstr "Sprite-&sprite Kollisionen"
-
-#~ msgid "Sprite-background &collisions"
-#~ msgstr "Sprite-Hintergrund &Kollisionen"
-
-#~ msgid "Copyright (c) 1998-2010 Andreas Boose"
-#~ msgstr "Copyright (c) 1998-2010 Andreas Boose"
-
-#~ msgid "Copyright (c) 1998-2010 Tibor Biczo"
-#~ msgstr "Copyright (c) 1998-2010 Tibor Biczo"
-
-#~ msgid "Copyright (c) 1999-2007 Andreas Dehmel"
-#~ msgstr "Copyright (c) 1999-2007 Andreas Dehmel"
-
-#~ msgid "Copyright (c) 1999-2005 Thomas Bretz"
-#~ msgstr "Copyright (c) 1999-2005 Thomas Bretz"
-
-#~ msgid "Copyright (c) 2003-2005 David Hansel"
-#~ msgstr "Copyright (c) 2003-2005 David Hansel"
-
-#~ msgid "Copyright (c) 2000-2004 Markus Brenner"
-#~ msgstr "Copyright (c) 2000-2004 Markus Brenner"
-
-#~ msgid "6526x (old with timer B bug)"
-#~ msgstr "6526x (alt mit Timer B Fehler)"
-
-#~ msgid "SID cartridge settings"
-#~ msgstr "SID Modul Einstellungen"
-
-#~ msgid "V364 Speech settings"
-#~ msgstr "V364 Sprache Einstellungen"
-
-#~ msgid "Enable PS/2 mouse"
-#~ msgstr "PS/2 Maus aktivieren"
-
 #~ msgid "ADC"
 #~ msgstr "ADC"
 
@@ -12965,12 +11952,6 @@ msgstr "Basis Adresse für DigiMAX Erweiterung"
 
 #~ msgid "Enable expert cartridge"
 #~ msgstr "Expert Cartridge aktivieren"
-
-#~ msgid "&Old NTSC-M"
-#~ msgstr "NTSC-M alt"
-
-#~ msgid "PAL-&N"
-#~ msgstr "PAL-&N"
 
 #~ msgid "Gamma (0..2)"
 #~ msgstr "Gamma (0..2)"
