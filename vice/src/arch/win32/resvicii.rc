@@ -67,7 +67,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
     IDS_VICII_SPRITECOLL    "Sprite-til-sprite-kollision"
     IDS_VICII_BACKCOLL      "Sprite-til-baggrunds-kollision"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "Nye lysstyrker"
 END
 
 
@@ -84,7 +84,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Kollisionen"
     IDS_VICII_SPRITECOLL    "Sprite-sprite Kollisionen"
     IDS_VICII_BACKCOLL      "Sprite-Hintergrund Kollisionen"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "Neue Helligkeitsemulation"
 END
 
 
@@ -97,7 +97,7 @@ BEGIN
     IDS_VICII_BORDERSGROUP  "Bordures"
     IDS_VICII_NORMALBORDERS "Normal"
     IDS_VICII_FULLBORDERS   "Full"
-    IDS_VICII_DEBUGBORDERS  "Debug"
+    IDS_VICII_DEBUGBORDERS  "Débug"
     IDS_VICII_SPRITEGROUP   "Collisions de Sprites"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
@@ -176,12 +176,12 @@ BEGIN
     IDS_VICII_CAPTION       "VIC-II instellingen"
     IDS_VICII_BORDERSGROUP  "Borders"
     IDS_VICII_NORMALBORDERS "Normaal"
-    IDS_VICII_FULLBORDERS   "&Volledig"
+    IDS_VICII_FULLBORDERS   "Volledig"
     IDS_VICII_DEBUGBORDERS  "Debug"
     IDS_VICII_SPRITEGROUP   "Sprite Botsingen"
     IDS_VICII_SPRITECOLL    "Sprite-sprite botsingen"
     IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "Nieuwe kleuren"
 END
 
 
@@ -244,7 +244,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
     IDS_VICII_SPRITECOLL    "Sprite-till-sprite-kollision"
     IDS_VICII_BACKCOLL      "Sprite-till-bakgrund-kollision"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "Nya ljusstyrkor"
 END
 
 

@@ -56,7 +56,7 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_DQBB  "Vælg fil for DQBB"
   IDS_DQBB_CAPTION      "DQBB-indstillinger"
-  IDS_DQBB_ENABLE       "Enable DQBB"
+  IDS_DQBB_ENABLE       "Aktivér DQBB"
   IDS_DQBB_WRITE_ENABLE "Gem DQBB image ved ændringer"
   IDS_DQBB_FILE_LABEL   "DQBB-fil"
 END
@@ -69,7 +69,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_DQBB  "Datei für DQBB auswählen"
   IDS_DQBB_CAPTION      "DQBB Einstellungen"
-  IDS_DQBB_ENABLE       "Enable DQBB"
+  IDS_DQBB_ENABLE       "DQBB Aktivieren"
   IDS_DQBB_WRITE_ENABLE "DQBB Imagedatei bei Änderung speichern"
   IDS_DQBB_FILE_LABEL   "DQBB Datei"
 END
@@ -146,7 +146,7 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_DQBB  "Selecteer bestand voor DQBB"
   IDS_DQBB_CAPTION      "DQBB instellingen"
-  IDS_DQBB_ENABLE       "Enable DQBB"
+  IDS_DQBB_ENABLE       "Activeer DQBB"
   IDS_DQBB_WRITE_ENABLE "DQBB bestand opslaan indien gewijzigd"
   IDS_DQBB_FILE_LABEL   "DQBB bestand"
 END
@@ -197,7 +197,7 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_DQBB  "Välj fil för DQBB"
   IDS_DQBB_CAPTION      "DQBB-inställningar"
-  IDS_DQBB_ENABLE       "Enable DQBB"
+  IDS_DQBB_ENABLE       "Aktivera DQBB"
   IDS_DQBB_WRITE_ENABLE "Spara DQBB-avbildning vid ändringar"
   IDS_DQBB_FILE_LABEL   "DQBB-fil"
 END

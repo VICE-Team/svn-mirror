@@ -132,7 +132,7 @@ BEGIN
   IDS_SWIFTLINK      "Swiftlink"
   IDS_TURBO232       "Turbo232"
   IDS_ACIA_CAPTION   "ACIA beállításai"
-  IDS_ACIA_ENABLE    "ACIA engedélyezése"
+  IDS_ACIA_ENABLE    "Enable ACIA"
   IDS_ACIA_DEVICE    "ACIA eszköz"
   IDS_ACIA_LOCATION  "ACIA hely"
   IDS_ACIA_INTERRUPT "ACIA megszakítás"

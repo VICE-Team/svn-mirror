@@ -5,7 +5,7 @@
 # Long Live To Vice and to all it's developpers and contributors!  Thanks to you all!
 # The C64 started my addiction ;)
 # -Paul
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"

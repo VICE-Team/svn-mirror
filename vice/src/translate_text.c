@@ -3254,7 +3254,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_P_NAME_FR, "<nom>"},
 /* hu */ {IDCLS_P_NAME_HU, "<név>"},
 /* it */ {IDCLS_P_NAME_IT, "<nome>"},
-/* ko */ {IDCLS_P_NAME_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_NAME_KO, "<ÀÌ¸§>"},
 /* nl */ {IDCLS_P_NAME_NL, "<naam>"},
 /* pl */ {IDCLS_P_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_NAME_RU, ""},  /* fuzzy */

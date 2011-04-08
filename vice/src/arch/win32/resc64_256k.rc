@@ -89,7 +89,7 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_C64_256K_CAPTION     "256K beállításai"
-    IDS_C64_256K_ENABLE      "256K engedélyezése"
+    IDS_C64_256K_ENABLE      "Enable 256K"
     IDS_C64_256K_BASE        "256K báziscím"
     IDS_C64_256K_FILE        "256K fájl"
     IDS_C64_256K_SELECT_FILE "Válasszon fájlt a 256K-hoz"
@@ -204,7 +204,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_C64_256K_CAPTION     "256K Ayarlarý"
-    IDS_C64_256K_ENABLE      "256K'yý aktif et"
+    IDS_C64_256K_ENABLE      "256K aktif et"
     IDS_C64_256K_BASE        "256K taban adresi"
     IDS_C64_256K_FILE        "256K dosyasý"
     IDS_C64_256K_SELECT_FILE "256K için dosya seçin"

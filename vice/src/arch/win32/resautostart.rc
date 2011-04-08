@@ -109,7 +109,7 @@ BEGIN
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
     IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
     IDS_AUTOSTART_INJECT                     "Inject to RAM"
-    IDS_AUTOSTART_DISK                       "Disk image"
+    IDS_AUTOSTART_DISK                       "Image de disque"
 END
 
 

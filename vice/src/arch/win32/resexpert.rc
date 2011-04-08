@@ -63,7 +63,7 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Vælg fil for Expert Cartridge"
   IDS_EXPERT_CAPTION      "Expert Cartridge-indstillinger"
-  IDS_EXPERT_ENABLE       "Enable Expert Cartridge"
+  IDS_EXPERT_ENABLE       "Aktivér Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Tilstand"
   IDS_EXPERT_WRITE_ENABLE "Gem Expert Cartridge image ved ændringer"
   IDS_EXPERT_FILE_LABEL   "Expert Cartridge-fil"
@@ -80,7 +80,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Export Cartridge Imagedatei auswählen"
   IDS_EXPERT_CAPTION      "Expert Cartridge Einstellungen"
-  IDS_EXPERT_ENABLE       "Enable Expert Cartridge"
+  IDS_EXPERT_ENABLE       "Expert Cartridge aktivieren"
   IDS_EXPERT_MODE_LABEL   "Modus"
   IDS_EXPERT_WRITE_ENABLE "Expert Cartridge Imagedatei bei Änderungen speichern"
   IDS_EXPERT_FILE_LABEL   "Expert Cartridge Imagedatei"
@@ -137,7 +137,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Seleziona file per Expert Cartridge"
   IDS_EXPERT_CAPTION      "Impostazioni Expert Cartridge"
-  IDS_EXPERT_ENABLE       "Enable Expert Cartridge"
+  IDS_EXPERT_ENABLE       "Attiva Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Modalità"
   IDS_EXPERT_WRITE_ENABLE "Salva immagine Expert Cartridge al cambio"
   IDS_EXPERT_FILE_LABEL   "File Expert Cartridge"
@@ -177,7 +177,7 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Selecteer bestand voor Expert Cartridge"
   IDS_EXPERT_CAPTION      "Expert Cartridge instellingen"
-  IDS_EXPERT_ENABLE       "Enable Expert Cartridge"
+  IDS_EXPERT_ENABLE       "Activeer Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Modus"
   IDS_EXPERT_WRITE_ENABLE "Expert Cartridge bestand opslaan indien gewijzigd"
   IDS_EXPERT_FILE_LABEL   "Expert Cartridge bestand"
@@ -240,7 +240,7 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Välj fil för Expert Cartridge"
   IDS_EXPERT_CAPTION      "Inställningar för Expert Cartridge"
-  IDS_EXPERT_ENABLE       "Enable Expert Cartridge"
+  IDS_EXPERT_ENABLE       "Aktivera Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "Läge"
   IDS_EXPERT_WRITE_ENABLE "Spara Expert Cartrdige-avbildning vid ändringar"
   IDS_EXPERT_FILE_LABEL   "Expert Cartridge-fil"
@@ -260,7 +260,7 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Expert Kartuþu için dosya seçin"
   IDS_EXPERT_CAPTION      "Expert Kartuþu ayarlarý"
-  IDS_EXPERT_ENABLE       "Enable Expert Cartridge"
+  IDS_EXPERT_ENABLE       "Expert Kartuþu'nu aktif et"
   IDS_EXPERT_MODE_LABEL   "Mod"
   IDS_EXPERT_WRITE_ENABLE "Expert Kartuþ imajýný deðiþtiðinde kaydet"
   IDS_EXPERT_FILE_LABEL   "Expert Kartuþu dosyasý"

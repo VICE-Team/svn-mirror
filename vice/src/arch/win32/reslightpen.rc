@@ -39,7 +39,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_LIGHTPEN_CAPTION "Lyspenindstillinger"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen"
+    IDS_LIGHTPEN_ENABLE  "Aktivér lyspen"
     IDS_LIGHTPEN_TYPE    "Lyspentype"
 END
 
@@ -50,7 +50,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_LIGHTPEN_CAPTION "Lichtgriffel Einstellungen"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen"
+    IDS_LIGHTPEN_ENABLE  "Lichtgriffel Emulation aktivieren"
     IDS_LIGHTPEN_TYPE    "Lichtgriffel Type"
 END
 
@@ -89,7 +89,7 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_LIGHTPEN_CAPTION "Impostazioni penna ottica"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen"
+    IDS_LIGHTPEN_ENABLE  "Attiva penna ottica"
     IDS_LIGHTPEN_TYPE    "Tipo di penna ottica"
 END
 
@@ -117,7 +117,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_LIGHTPEN_CAPTION "lichtpen instellingen"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen"
+    IDS_LIGHTPEN_ENABLE  "Activeer lichtpen"
     IDS_LIGHTPEN_TYPE    "Lichtpen model"
 END
 
@@ -162,7 +162,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_LIGHTPEN_CAPTION "Inställningar för ljuspenna"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen"
+    IDS_LIGHTPEN_ENABLE  "Aktivera ljuspenna"
     IDS_LIGHTPEN_TYPE    "Typ av ljuspenna"
 END
 
@@ -176,7 +176,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_LIGHTPEN_CAPTION "Iþýklý Kalem Ayarlarý"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen"
+    IDS_LIGHTPEN_ENABLE  "Iþýklý Kalem'i aktif et"
     IDS_LIGHTPEN_TYPE    "Iþýklý Kalem tipi"
 END
 #ifndef WINDRES_CP_IGNORE
