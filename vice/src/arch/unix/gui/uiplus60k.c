@@ -54,7 +54,7 @@ ui_menu_entry_t plus60k_submenu[] = {
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus60k_base_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_plus60k_image_name,
       (ui_callback_data_t)"PLUS60Kfilename", NULL },
     { NULL }

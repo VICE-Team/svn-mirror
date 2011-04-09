@@ -49,7 +49,7 @@ ui_menu_entry_t tpi_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IEEE488, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_tpi_image_name,
       (ui_callback_data_t)"IEEE488Image", NULL },
     { NULL }

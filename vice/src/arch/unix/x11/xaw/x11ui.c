@@ -807,6 +807,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     Widget canvas;
     XSetWindowAttributes attr;
     int i;
+    char *button_title;
 
     if (!vsid_mode) {
         if (uicolor_alloc_colors(c) < 0) {
@@ -985,21 +986,28 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                                    XtNlabel, "",
                                                    XtNborderWidth, 0,
                                                    NULL);
+
+        button_title = util_concat(_("recording"), "...", NULL);
         rec_button = XtVaCreateManagedWidget("recButton",
                                              commandWidgetClass, pane,
                                              XtNwidth, width / 3 - 2,
                                              XtNfromVert, statustext_label,
                                              XtNjustify, XtJustifyLeft,
-                                             XtNlabel, _("recording..."),
+                                             XtNlabel, button_title,
                                              NULL);
+        lib_free(button_title);
+
         XtAddCallback(rec_button, XtNcallback, rec_button_callback, NULL);
+
+        button_title = util_concat(_("event recording"), "...", NULL);
         event_recording_button = XtVaCreateManagedWidget("eventRecButton",
                                                          commandWidgetClass, pane,
                                                          XtNwidth, width / 3 - 2,
                                                          XtNfromVert, rec_button,
                                                          XtNjustify, XtJustifyLeft,
-                                                         XtNlabel, _("event recording..."),
+                                                         XtNlabel, button_title,
                                                          NULL);
+        lib_free(button_title);
         XtAddCallback(event_recording_button, XtNcallback, event_recording_button_callback, NULL);
     }
 

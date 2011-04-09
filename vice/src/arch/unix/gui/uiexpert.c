@@ -57,14 +57,14 @@ ui_menu_entry_t expert_submenu[] = {
     { N_("On"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExpertCartridgeMode,
       (ui_callback_data_t)EXPERT_MODE_ON, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)expert_set_image_name,
       (ui_callback_data_t)"Expertfilename", NULL },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExpertImageWrite, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)expert_flush_cartridge, NULL, NULL },
-    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)expert_save_cartridge, NULL, NULL },
     { NULL }
 };

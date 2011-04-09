@@ -247,11 +247,33 @@ static int dottest(char *text, int i)
     return 0;
 }
 
+static void checkdots(char *text)
+{
+    int i = 0;
+    int found_dots = 0;
+
+    while (text[i] != 0 && found_dots == 0) {
+        if (text[i] == '.' && text[i - 1] == '.' && text[i - 2] == '.') {
+            found_dots = 1;
+        }
+        i++;
+    }
+
+    if (found_dots == 1) {
+        while (text[i] != 0) {
+            text[i - 3] = text[i];
+            i++;
+        }
+        text[i - 3] = 0;
+    }
+}
+
 void replace_string(char *text, FILE *file)
 {
     int i, j;
 
     if (check_quote(text) == 0) {
+        checkdots(text);
         fprintf(file, "%s", text);
         if (gettext_open_mark) {
             check_gettext_end(text);

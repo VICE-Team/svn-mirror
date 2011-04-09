@@ -78,7 +78,7 @@ static ui_menu_entry_t sid_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("reSID sampling method"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_resid_sampling_submenu },
-    { N_("reSID resampling passband..."), UI_MENU_TYPE_NORMAL,
+    { N_("reSID resampling passband"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_sid_resid_passband, NULL, NULL },
 #endif
     { NULL },

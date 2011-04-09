@@ -69,14 +69,14 @@ ui_menu_entry_t reu_submenu[] = {
     { N_("Size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, reu_size_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_reu_image_name,
       (ui_callback_data_t)"REUfilename", NULL },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_REUImageWrite, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)reu_flush_callback, NULL, NULL },
-    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)reu_save_callback, NULL, NULL },
     { NULL }
 };

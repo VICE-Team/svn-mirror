@@ -69,11 +69,11 @@ ui_menu_entry_t mmcreplay_submenu[] = {
       (ui_callback_t)toggle_MMCRImageWrite, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)mmcreplay_flush_callback, NULL, NULL },
-    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)mmcreplay_save_callback, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
-    { N_("Card image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Card image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mmcreplay_card_filename,
       (ui_callback_data_t)"MMCRCardImage", NULL },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
@@ -83,7 +83,7 @@ ui_menu_entry_t mmcreplay_submenu[] = {
     { N_("Card type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmcreplay_sd_type_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("EEPROM image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("EEPROM image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mmcreplay_eeprom_filename,
       (ui_callback_data_t)"MMCREEPROMImage", NULL },
     { N_("Enable writes to EEPROM image"), UI_MENU_TYPE_TICK,

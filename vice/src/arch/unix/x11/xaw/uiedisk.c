@@ -200,6 +200,8 @@ static void build_emptydisk_dialog(void)
     static char *text_box_translations = "<Btn1Down>: select-start() focus-in()";
 #endif
 
+    char *button_title;
+
     if (emptydisk_dialog != NULL) {
         return;
     }
@@ -240,11 +242,13 @@ static void build_emptydisk_dialog(void)
 #endif
     XtOverrideTranslations(file_name_field, XtParseTranslationTable(text_box_translations));
 
+    button_title = util_concat(_("Browse"), "...", NULL);
     browse_button = XtVaCreateManagedWidget("browseButton",
                                             commandWidgetClass, file_name_form,
                                             XtNfromHoriz, file_name_field,
-                                            XtNlabel, _("Browse..."),
+                                            XtNlabel, button_title,
                                             NULL);
+    lib_free(button_title);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
     image_name_form = XtVaCreateManagedWidget("imageNameForm",

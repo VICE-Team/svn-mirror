@@ -130,7 +130,7 @@ ui_menu_entry_t sound_settings_submenu[] = {
       /* Do not change position as position 2 is hard coded. */
     { N_("Sound device name"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
-    { N_("Sound driver argument..."), UI_MENU_TYPE_NORMAL,
+    { N_("Sound driver argument"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_sound_device_arg,
       (ui_callback_data_t)"SoundDeviceArg", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },

@@ -45,6 +45,8 @@
 typedef enum {
     UI_MENU_TYPE_NORMAL = 0,
     UI_MENU_TYPE_TICK,
+    UI_MENU_TYPE_DOTS,
+    UI_MENU_TYPE_TICKDOTS,
     UI_MENU_TYPE_SEPARATOR,
     UI_MENU_TYPE_NONE
 } ui_menu_type_t;

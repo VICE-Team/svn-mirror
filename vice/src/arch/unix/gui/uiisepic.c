@@ -48,14 +48,14 @@ ui_menu_entry_t isepic_submenu[] = {
     { N_("Enable switch"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IsepicSwitch, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)isepic_set_image_name,
       (ui_callback_data_t)"Isepicfilename", NULL },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IsepicImageWrite, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)isepic_flush_cartridge, NULL, NULL },
-    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)isepic_save_cartridge, NULL, NULL },
     { NULL }
 };

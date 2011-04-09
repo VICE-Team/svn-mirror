@@ -175,7 +175,7 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #ifndef USE_GNOMEUI
-    { N_("Set custom aspect ratio..."), UI_MENU_TYPE_NORMAL,
+    { N_("Set custom aspect ratio"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_custom_aspect_ratio,
       (ui_callback_data_t)"AspectRatio", NULL },
 #endif /* USE_GNOMEUI */
@@ -184,7 +184,7 @@ ui_menu_entry_t vdc_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_openGL_sync, NULL, NULL },
-    { N_("Desktop Refreshrate..."), UI_MENU_TYPE_NORMAL,
+    { N_("Desktop Refreshrate"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)openGL_set_desktoprefresh, NULL, NULL },
 #endif
 #ifdef HAVE_FULLSCREEN

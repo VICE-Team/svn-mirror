@@ -381,14 +381,19 @@ static UI_CALLBACK(events_return_ms)
 
 static void sound_record_stop(void)
 {
+    char *retval;
+
     resources_set_string("SoundRecordDeviceName", "");
-    ui_display_statustext(_("Sound Recording stopped..."),10);
+    retval = util_concat(_("Sound Recording stopped"), "...", NULL);
+    ui_display_statustext(retval, 10);
+    lib_free(retval);
 }
 
 static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
 {
     ui_button_t button;
     char *s;
+    char *retval;
 
     vsync_suspend_speed_eval();
 
@@ -400,7 +405,9 @@ static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
         resources_set_string("SoundRecordDeviceName", format);
         resources_set_int("Sound", 1);
         lib_free(s);
-        ui_display_statustext(_("Sound Recording started..."),10);
+        retval = util_concat(_("Sound Recording started"), "...", NULL);
+        ui_display_statustext(retval, 10);
+        lib_free(retval);
     }
 }
 
@@ -453,7 +460,7 @@ static ui_menu_entry_t reset_submenu[] = {
 };
 
 ui_menu_entry_t ui_directory_commands_menu[] = {
-    { N_("Change working directory..."), UI_MENU_TYPE_NORMAL,
+    { N_("Change working directory"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)change_working_directory, NULL, NULL },
     { NULL }
 };
@@ -473,10 +480,10 @@ static ui_menu_entry_t set_event_start_mode_submenu[] = {
 };
 
 ui_menu_entry_t ui_snapshot_commands_submenu[] = {
-    { N_("Load snapshot..."), UI_MENU_TYPE_NORMAL,
+    { N_("Load snapshot"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)load_snapshot, NULL, NULL,
       KEYSYM_l, UI_HOTMOD_META },
-    { N_("Save snapshot..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save snapshot"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_snapshot, NULL, NULL,
       KEYSYM_s, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -519,16 +526,16 @@ ui_menu_entry_t ui_snapshot_commands_menu[] = {
 };
 
 ui_menu_entry_t ui_sound_record_commands_menu[] = {
-    { N_("Sound record WAV..."), UI_MENU_TYPE_NORMAL,
+    { N_("Sound record WAV"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_wav, NULL, NULL },
-    { N_("Sound record AIFF..."), UI_MENU_TYPE_NORMAL,
+    { N_("Sound record AIFF"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_aiff, NULL, NULL },
-    { N_("Sound record VOC..."), UI_MENU_TYPE_NORMAL,
+    { N_("Sound record VOC"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_voc, NULL, NULL },
-    { N_("Sound record IFF..."), UI_MENU_TYPE_NORMAL,
+    { N_("Sound record IFF"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_iff, NULL, NULL },
 #ifdef USE_LAMEMP3
-    { N_("Sound record MP3..."), UI_MENU_TYPE_NORMAL,
+    { N_("Sound record MP3"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_mp3, NULL, NULL },
 #endif
     { N_("Stop Sound record"), UI_MENU_TYPE_NORMAL,
@@ -550,7 +557,7 @@ extern ui_callback_t about;
 ui_menu_entry_t ui_help_commands_menu[] = {
     { N_("Browse manuals"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)browse_manual, NULL, NULL },
-    { N_("About VICE..."), UI_MENU_TYPE_NORMAL,
+    { N_("About VICE"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_about, NULL, NULL },
     { NULL }
 };

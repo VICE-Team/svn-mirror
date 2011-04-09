@@ -266,6 +266,7 @@ static GtkWidget *build_screenshot_dialog(void)
     int i, num_buttons;
     gfxoutputdrv_t *driver;
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
+    char *title;
 
 #ifdef HAVE_FFMPEG
     GtkWidget *l, *hbox, *tmp;
@@ -284,7 +285,9 @@ static GtkWidget *build_screenshot_dialog(void)
         return 0;
     }
 
-    d = vice_file_entry(_("Save Media File..."), NULL, NULL, &filter, 1, UI_FC_SAVE);
+    title = util_concat(_("Save Media File", "...", NULL);
+    d = vice_file_entry(title, NULL, NULL, &filter, 1, UI_FC_SAVE);
+    lib_free(title);
     if (!d) {
         return 0;
     }

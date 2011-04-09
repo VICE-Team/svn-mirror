@@ -60,11 +60,11 @@ ui_menu_entry_t printeriec_plus4_settings_menu[] = {
       (ui_callback_t)uiprinter_formfeed, (ui_callback_data_t)1, NULL,
       KEYSYM_5, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Printer text device 1..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)uiprinter_set_printer_exec_file,
+    { N_("Printer text device 1"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiprinter_set_printer_exec_file,
       (ui_callback_data_t)"PrinterTextDevice1", NULL },
-    { N_("Printer text device 2..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)uiprinter_set_printer_exec_file,
+    { N_("Printer text device 2"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiprinter_set_printer_exec_file,
       (ui_callback_data_t)"PrinterTextDevice2", NULL },
-    { N_("Printer text device 3..."), UI_MENU_TYPE_NORMAL, (ui_callback_t)uiprinter_set_printer_exec_file,
+    { N_("Printer text device 3"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiprinter_set_printer_exec_file,
       (ui_callback_data_t)"PrinterTextDevice3", NULL },
     { NULL }
 };

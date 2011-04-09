@@ -50,7 +50,7 @@ ui_menu_entry_t easyflash_submenu[] = {
       (ui_callback_t)toggle_EasyFlashWriteCRT, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)easyflash_flush_callback, NULL, NULL },
-    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)easyflash_save_callback, NULL, NULL },
     { NULL }
 };

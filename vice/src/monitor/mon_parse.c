@@ -1,9 +1,9 @@
-/* A Bison parser, made by GNU Bison 2.4.3.  */
+/* A Bison parser, made by GNU Bison 2.4.2.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
    
-      Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006,
-   2009, 2010 Free Software Foundation, Inc.
+      Copyright (C) 1984, 1989-1990, 2000-2006, 2009-2010 Free Software
+   Foundation, Inc.
    
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.3"
+#define YYBISON_VERSION "2.4.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -195,7 +195,7 @@ extern int cur_len, last_len;
 
 
 /* Line 189 of yacc.c  */
-#line 199 "../../../vice-svn-trunk/src/monitor/mon_parse.c"
+#line 199 "mon_parse.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -543,7 +543,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 547 "../../../vice-svn-trunk/src/monitor/mon_parse.c"
+#line 547 "mon_parse.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -555,7 +555,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 559 "../../../vice-svn-trunk/src/monitor/mon_parse.c"
+#line 559 "mon_parse.c"
 
 #ifdef short
 # undef short
@@ -4269,7 +4269,7 @@ yyreduce:
 
 
 /* Line 1464 of yacc.c  */
-#line 4273 "../../../vice-svn-trunk/src/monitor/mon_parse.c"
+#line 4273 "mon_parse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

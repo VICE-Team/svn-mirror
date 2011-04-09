@@ -359,7 +359,7 @@ static ui_menu_entry_t set_refresh_rate_submenu[] = {
     { "1/10", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)10, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Custom..."), UI_MENU_TYPE_TICK,
+    { N_("Custom"), UI_MENU_TYPE_TICKDOTS,
       (ui_callback_t)set_custom_refresh_rate, NULL, NULL },
     { NULL }
 };
@@ -378,7 +378,7 @@ static ui_menu_entry_t set_maximum_speed_submenu[] = {
     { N_("No limit"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)0, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Custom..."), UI_MENU_TYPE_TICK,
+    { N_("Custom"), UI_MENU_TYPE_TICKDOTS,
       (ui_callback_t)set_custom_maximum_speed, NULL, NULL },
     { NULL }
 };
@@ -400,9 +400,9 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
       (ui_callback_t)save_resources, NULL, NULL },
     { N_("Load settings"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)load_resources, NULL, NULL },
-    { N_("Save settings to file..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save settings to file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_resources_file, NULL, NULL },
-    { N_("Load settings from file..."), UI_MENU_TYPE_NORMAL,
+    { N_("Load settings from file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)load_resources_file, NULL, NULL },
     { N_("Restore default settings"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)set_default_resources, NULL, NULL },

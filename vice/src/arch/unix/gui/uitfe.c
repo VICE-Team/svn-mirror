@@ -51,7 +51,7 @@ ui_menu_entry_t tfe_submenu[] = {
     /* Translators: "RR-Net" is the name of the network addon and should not get translated */
     { N_("RR-Net compatibility mode"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ETHERNET_AS_RR, NULL, NULL },
-    { N_("Interface..."), UI_MENU_TYPE_NORMAL,
+    { N_("Interface"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_interface_name,
       (ui_callback_data_t)"ETHERNET_INTERFACE", NULL },
     { NULL }

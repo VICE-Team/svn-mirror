@@ -201,7 +201,7 @@ static ui_menu_entry_t sid_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("reSID sampling method"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_resid_sampling_submenu },
-    { N_("reSID resampling passband..."), UI_MENU_TYPE_NORMAL,
+    { N_("reSID resampling passband"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_sid_resid_passband, NULL, NULL },
 #endif
     { NULL },
@@ -243,13 +243,13 @@ UI_CALLBACK(set_function_rom_name)
 static ui_menu_entry_t functionrom_submenu[] = {
     { N_("Enable internal Function ROM"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_InternalFunctionROM, NULL, NULL },
-    { N_("Internal Function ROM name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Internal Function ROM name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"InternalFunctionName", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Enable external Function ROM"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExternalFunctionROM, NULL, NULL },
-    { N_("External Function ROM name..."), UI_MENU_TYPE_NORMAL,
+    { N_("External Function ROM name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"ExternalFunctionName", NULL },
     { NULL }
@@ -395,7 +395,7 @@ static ui_menu_entry_t screenshot_submenu[] = {
 };
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { N_("Screenshots..."), UI_MENU_TYPE_NORMAL,
+    { N_("Screenshots"), UI_MENU_TYPE_DOTS,
       NULL, NULL, screenshot_submenu },
     { NULL }
 };

@@ -634,7 +634,7 @@ static void menu_unhighlight_action(Widget w, XEvent *event, String *params, Car
 static char *make_menu_label(ui_menu_entry_t *e)
 {
     const char *key_string, *tmp = "";
-    char *retstr, *trans;
+    char *retstr, *trans, *dots = "";
 
     /* Check wether NO_TRANS prefix is there, if yes don't translate it */
     if (strncmp(e->string, NO_TRANS, strlen(NO_TRANS)) == 0) {
@@ -643,8 +643,14 @@ static char *make_menu_label(ui_menu_entry_t *e)
         trans = lib_stralloc(_(e->string));
     }
 
+    if (e->type == UI_MENU_TYPE_DOTS || e->type == UI_MENU_TYPE_TICKDOTS) {
+       dots = "...";
+    }
+
     if (e->hotkey_keysym == KEYSYM_NONE) {
-        return trans;
+        retstr = util_concat(trans, dots, NULL);
+        lib_free(trans);
+        return retstr;
     }
 
     if (e->hotkey_modifier & UI_HOTMOD_CONTROL) {
@@ -667,7 +673,7 @@ static char *make_menu_label(ui_menu_entry_t *e)
         key_string++;
     }
 
-    retstr = util_concat(trans, "    (", tmp, key_string, ")", NULL);
+    retstr = util_concat(trans, dots, "    (", tmp, key_string, ")", NULL);
 
     lib_free(trans);
 

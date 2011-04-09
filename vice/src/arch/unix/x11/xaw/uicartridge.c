@@ -56,6 +56,7 @@
 #include "uiapi.h"
 #include "uiarch.h"
 #include "uilib.h"
+#include "util.h"
 
 static Widget cartridge_dialog;
 static Widget cartridge_dialog_pane;
@@ -108,6 +109,8 @@ static UI_CALLBACK(save_callback)
 
 static void build_cartridge_dialog(void)
 {
+    char *button_title;
+
     if (cartridge_dialog != NULL) {
         return;
     }
@@ -147,11 +150,13 @@ static void build_cartridge_dialog(void)
                                               NULL);
 #endif
 
+    button_title = util_concat(_("Browse"), "...", NULL);
     browse_button = XtVaCreateManagedWidget("browseButton",
                                             commandWidgetClass, file_name_form,
                                             XtNfromHoriz, file_name_field,
-                                            XtNlabel, _("Browse..."),
+                                            XtNlabel, button_title,
                                             NULL);
+    lib_free(button_title);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
     button_box = XtVaCreateManagedWidget("buttonBox",

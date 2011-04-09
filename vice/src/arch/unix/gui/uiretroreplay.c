@@ -52,7 +52,7 @@ ui_menu_entry_t retroreplay_submenu[] = {
       (ui_callback_t)toggle_RRBiosWrite, NULL, NULL },
     { N_("Save image now"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)retroreplay_flush_callback, NULL, NULL },
-    { N_("Save image as..."), UI_MENU_TYPE_NORMAL,
+    { N_("Save image as"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)retroreplay_save_callback, NULL, NULL },
     { NULL }
 };

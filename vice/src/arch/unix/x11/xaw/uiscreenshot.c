@@ -147,6 +147,8 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
     static char *text_box_translations = "<Btn1Down>: select-start() focus-in()";
 #endif
 
+    char *button_title;
+
     if (screenshot_dialog != NULL) {
         return;
     }
@@ -187,11 +189,13 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
 #endif
     XtOverrideTranslations(file_name_field, XtParseTranslationTable(text_box_translations));
 
+    button_title = util_concat(_("Browse"), "...", NULL);
     browse_button = XtVaCreateManagedWidget("browseButton",
                                             commandWidgetClass, file_name_form,
                                             XtNfromHoriz, file_name_field,
-                                            XtNlabel, _("Browse..."),
+                                            XtNlabel, button_title,
                                             NULL);
+    lib_free(button_title);
     XtAddCallback(browse_button, XtNcallback, browse_callback, NULL);
 
     options_form = XtVaCreateManagedWidget("optionsForm",

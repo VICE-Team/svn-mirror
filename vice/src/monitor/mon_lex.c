@@ -1,5 +1,5 @@
 
-#line 3 "../../../vice-svn-trunk/src/monitor/mon_lex.c"
+#line 3 "mon_lex.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -1402,7 +1402,7 @@ YY_BUFFER_STATE my_state;
 #define YY_USER_ACTION { last_len = cur_len; cur_len += yyleng; }
 
 
-#line 1406 "../../../vice-svn-trunk/src/monitor/mon_lex.c"
+#line 1406 "mon_lex.c"
 
 #define INITIAL 0
 #define FNAME 1
@@ -1612,7 +1612,7 @@ YY_DECL
    }
 
 
-#line 1616 "../../../vice-svn-trunk/src/monitor/mon_lex.c"
+#line 1616 "mon_lex.c"
 
 	if ( !(yy_init) )
 		{
@@ -2852,7 +2852,7 @@ YY_RULE_SETUP
 #line 384 "mon_lex.l"
 ECHO;
 	YY_BREAK
-#line 2856 "../../../vice-svn-trunk/src/monitor/mon_lex.c"
+#line 2856 "mon_lex.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(FNAME):
 			case YY_STATE_EOF(CMD):

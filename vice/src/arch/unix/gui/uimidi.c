@@ -87,10 +87,10 @@ ui_menu_entry_t midi_c64_submenu[] = {
     { N_("Driver"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_driver_submenu },
 #endif
-    { N_("MIDI-In device..."), UI_MENU_TYPE_NORMAL,
+    { N_("MIDI-In device"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_midi_in_name,
       (ui_callback_data_t)"MIDIInDev", NULL },
-    { N_("MIDI-Out device..."), UI_MENU_TYPE_NORMAL,
+    { N_("MIDI-Out device"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_midi_out_name,
       (ui_callback_data_t)"MIDIOutDev", NULL },
     { NULL }
@@ -103,10 +103,10 @@ ui_menu_entry_t midi_vic20_submenu[] = {
     { N_("Driver"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, midi_driver_submenu },
 #endif
-    { N_("MIDI-In device..."), UI_MENU_TYPE_NORMAL,
+    { N_("MIDI-In device"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_midi_in_name,
       (ui_callback_data_t)"MIDIInDev", NULL },
-    { N_("MIDI-Out device..."), UI_MENU_TYPE_NORMAL,
+    { N_("MIDI-Out device"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_midi_out_name,
       (ui_callback_data_t)"MIDIOutDev", NULL },
     { NULL }

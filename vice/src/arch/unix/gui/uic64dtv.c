@@ -75,7 +75,7 @@ ui_menu_entry_t c64dtv_revision_submenu[] = {
 };
 
 ui_menu_entry_t c64dtv_flash_submenu[] = {
-    { N_("C64DTV ROM image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("C64DTV ROM image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_c64dtv_rom_name,
       (ui_callback_data_t)"c64dtvromfilename", NULL },
     { N_("Enable writes to C64DTV ROM image"), UI_MENU_TYPE_TICK,

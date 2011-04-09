@@ -65,7 +65,7 @@ ui_menu_entry_t uiautostart_settings_submenu[] = {
       (ui_callback_t)toggle_AutostartBasicLoad, NULL, NULL },
     { N_("PRG autostart mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiautostart_prg_mode_submenu },
-    { N_("PRG autostart disk image..."), UI_MENU_TYPE_NORMAL,
+    { N_("PRG autostart disk image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_autostart_image_name,
       (ui_callback_data_t)"AutostartPrgDiskImage", NULL },
     { NULL }

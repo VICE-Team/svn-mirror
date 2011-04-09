@@ -58,7 +58,7 @@ ui_menu_entry_t c64_256k_submenu[] = {
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_256k_base_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Image name..."), UI_MENU_TYPE_NORMAL,
+    { N_("Image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_c64_256k_image_name,
       (ui_callback_data_t)"C64_256Kfilename", NULL },
     { NULL }

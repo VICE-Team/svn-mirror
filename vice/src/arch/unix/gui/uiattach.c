@@ -110,16 +110,16 @@ UI_CALLBACK(attach_disk)
 }
 
 static ui_menu_entry_t attach_disk_image_submenu[] = {
-    { N_("Unit #8..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #8"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_disk, (ui_callback_data_t)8, NULL,
       KEYSYM_8, UI_HOTMOD_META },
-    { N_("Unit #9..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #9"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_disk, (ui_callback_data_t)9, NULL,
       KEYSYM_9, UI_HOTMOD_META },
-    { N_("Unit #10..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #10"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_disk, (ui_callback_data_t)10, NULL,
       KEYSYM_0, UI_HOTMOD_META },
-    { N_("Unit #11..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #11"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_disk, (ui_callback_data_t)11, NULL,
       KEYSYM_1, UI_HOTMOD_META },
     { NULL }
@@ -147,13 +147,13 @@ static UI_CALLBACK(attach_empty_disk)
 }
 
 static ui_menu_entry_t attach_empty_disk_image_submenu[] = {
-    { N_("Unit #8..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #8"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)8, NULL, },
-    { N_("Unit #9..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #9"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)9, NULL, },
-    { N_("Unit #10..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #10"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)10, NULL, },
-    { N_("Unit #11..."), UI_MENU_TYPE_NORMAL,
+    { N_("Unit #11"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_empty_disk, (ui_callback_data_t)11, NULL, },
     { NULL }
 };
@@ -268,10 +268,10 @@ static UI_CALLBACK(detach_tape)
 }
 
 ui_menu_entry_t uiattach_tape_menu[] = {
-    { N_("Create a new tape image..."), UI_MENU_TYPE_NORMAL,
+    { N_("Create a new tape image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)create_new_tape, NULL, NULL,
       0, 0},
-    { N_("Attach a tape image..."), UI_MENU_TYPE_NORMAL,
+    { N_("Attach a tape image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_tape, NULL, NULL,
       KEYSYM_t, UI_HOTMOD_META },
     { N_("Detach tape image"), UI_MENU_TYPE_NORMAL,
@@ -337,7 +337,7 @@ static UI_CALLBACK(smart_attach)
 }
 
 ui_menu_entry_t uiattach_smart_attach_menu[] = {
-    { N_("Smart-attach disk/tape..."), UI_MENU_TYPE_NORMAL,
+    { N_("Smart-attach disk/tape"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)smart_attach, NULL, NULL,
       KEYSYM_a, UI_HOTMOD_META },
     { N_("Autostart settings"), UI_MENU_TYPE_NORMAL,
