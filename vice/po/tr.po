@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-07 18:51-0700\n"
+"POT-Creation-Date: 2011-04-08 19:27-0700\n"
 "PO-Revision-Date: 2011-02-16 20:45+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -34,7 +34,7 @@ msgstr "Aygýtý 2. ekstra joystick portuna ayarla"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
-#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:3210
+#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:3211
 msgid "<name>"
 msgstr "<isim>"
 
@@ -365,13 +365,14 @@ msgstr "Model ayarlarý"
 #: src/arch/unix/gui/c64scui.c:507 src/arch/unix/gui/c64ui.c:567
 #: src/arch/unix/gui/cbm2ui.c:347 src/arch/unix/gui/petui.c:392
 #: src/arch/unix/gui/plus4ui.c:247 src/arch/unix/gui/vic20ui.c:547
-#: src/arch/win32/res.rc.po.c:977
+#: src/arch/win32/res.rc.po.c:977 src/arch/win32/res.rc.po.c:1420
 msgid "ROM settings"
 msgstr "ROM ayarlarý"
 
 #: src/arch/unix/gui/c128ui.c:491 src/arch/unix/gui/c64dtvui.c:179
 #: src/arch/unix/gui/c64scui.c:509 src/arch/unix/gui/c64ui.c:569
-#: src/arch/unix/gui/cbm2ui.c:351 src/arch/win32/resvicii.rc.po.c:38
+#: src/arch/unix/gui/cbm2ui.c:351 src/arch/win32/res.rc.po.c:1423
+#: src/arch/win32/resvicii.rc.po.c:38 src/arch/amigaos/intl_text.c.po.c:2085
 #: src/arch/amigaos/intl_text.c.po.c:6922
 msgid "VIC-II settings"
 msgstr "VIC-II ayarlarý"
@@ -384,7 +385,8 @@ msgstr "VDC ayarlarý"
 #: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:181
 #: src/arch/unix/gui/c64scui.c:511 src/arch/unix/gui/c64ui.c:571
 #: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
-#: src/arch/win32/ressid.rc.po.c:66 src/arch/win32/ressiddtv.rc.po.c:55
+#: src/arch/win32/res.rc.po.c:1425 src/arch/win32/ressid.rc.po.c:66
+#: src/arch/win32/ressiddtv.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:2176
 #: src/arch/amigaos/intl_text.c.po.c:6753
 msgid "SID settings"
 msgstr "SID ayarlarý"
@@ -396,7 +398,8 @@ msgstr "Bellek ve G/Ç hatlarý"
 #: src/arch/unix/gui/c128ui.c:499 src/arch/unix/gui/c64scui.c:515
 #: src/arch/unix/gui/c64ui.c:575 src/arch/unix/gui/cbm2ui.c:355
 #: src/arch/unix/gui/plus4ui.c:253 src/arch/unix/gui/vic20ui.c:455
-#: src/arch/win32/res.rc.po.c:1217
+#: src/arch/win32/res.rc.po.c:1217 src/arch/win32/res.rc.po.c:1426
+#: src/arch/amigaos/intl_text.c.po.c:2228
 msgid "RS232 settings"
 msgstr "RS232 ayarlarý"
 
@@ -864,6 +867,7 @@ msgid "TED model"
 msgstr "TED modeli"
 
 #: src/arch/unix/gui/plus4ui.c:223 src/arch/win32/res.rc.po.c:1189
+#: src/arch/win32/res.rc.po.c:1421 src/arch/amigaos/intl_text.c.po.c:2215
 #: src/arch/amigaos/intl_text.c.po.c:6064
 msgid "RAM settings"
 msgstr "RAM ayarlarý"
@@ -1008,7 +1012,9 @@ msgstr "Bilinmeyen imaj tipi"
 msgid "Smart-attach disk/tape..."
 msgstr "Akýllý disk/teyp yerleþtir"
 
-#: src/arch/unix/gui/uiattach.c:343 src/arch/win32/resautostart.rc.po.c:41
+#: src/arch/unix/gui/uiattach.c:343 src/arch/win32/res.rc.po.c:1412
+#: src/arch/win32/resautostart.rc.po.c:41
+#: src/arch/amigaos/intl_text.c.po.c:1942
 #: src/arch/amigaos/intl_text.c.po.c:8937
 msgid "Autostart settings"
 msgstr "Otomatik baþlatma ayarlarý"
@@ -1086,6 +1092,9 @@ msgid "Image name..."
 msgstr "Ýmaj ismi..."
 
 #: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/vic20ui.c:251
+#: src/arch/win32/res.rc.po.c:1298 src/arch/win32/resc128.rc.po.c:63
+#: src/arch/win32/resc64.rc.po.c:63 src/arch/win32/resplus4.rc.po.c:63
+#: src/arch/win32/resvic20.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:343
 msgid "Attach cartridge image"
 msgstr "Kartuþ imajý yerleþtir"
 
@@ -1239,6 +1248,7 @@ msgid "Cannot run HTML browser."
 msgstr "HTML tarayýcý çalýþtýrýlamadý."
 
 #: src/arch/unix/gui/uicommands.c:265 src/arch/win32/res.rc.po.c:980
+#: src/arch/win32/res.rc.po.c:1383 src/arch/amigaos/intl_text.c.po.c:954
 #: src/arch/amigaos/intl_text.c.po.c:7637
 msgid "Load snapshot image"
 msgstr "Anlýk görüntü imajýný yükle"
@@ -1266,8 +1276,7 @@ msgstr ""
 msgid "Select history directory"
 msgstr "Tarihçe dizinini seçin"
 
-#: src/arch/unix/gui/uicommands.c:385 src/arch/win32/res.rc.po.c:1105
-#: src/arch/amigaos/intl_text.c.po.c:8547
+#: src/arch/unix/gui/uicommands.c:385
 msgid "Sound Recording stopped..."
 msgstr "Ses Kaydý durduruldu"
 
@@ -1275,8 +1284,7 @@ msgstr "Ses Kaydý durduruldu"
 msgid "Record sound to file"
 msgstr "Sesi dosyaya kaydet"
 
-#: src/arch/unix/gui/uicommands.c:403 src/arch/win32/res.rc.po.c:1104
-#: src/arch/amigaos/intl_text.c.po.c:8560
+#: src/arch/unix/gui/uicommands.c:403
 msgid "Sound Recording started..."
 msgstr "Ses Kaydý baþladý..."
 
@@ -1364,6 +1372,7 @@ msgid "Recording start mode"
 msgstr "Kayýt baþlangýç modu"
 
 #: src/arch/unix/gui/uicommands.c:509 src/arch/unix/gui/uinetplay.c:109
+#: src/arch/win32/resc64.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:1123
 msgid "Netplay (experimental)"
 msgstr "Netplay (deneysel)"
 
@@ -1818,7 +1827,9 @@ msgstr "Sürücü #11 boþa vakit geçirme metodu"
 #: src/arch/unix/gui/uidrivec128.c:197 src/arch/unix/gui/uidrivec64.c:96
 #: src/arch/unix/gui/uidrivec64dtv.c:99 src/arch/unix/gui/uidrivepetcbm2.c:121
 #: src/arch/unix/gui/uidriveplus4.c:264 src/arch/unix/gui/uidrivevic20.c:119
-#: src/arch/win32/res.rc.po.c:1011 src/arch/amigaos/intl_text.c.po.c:4945
+#: src/arch/win32/res.rc.po.c:1011 src/arch/win32/res.rc.po.c:1339
+#: src/arch/amigaos/intl_text.c.po.c:2033
+#: src/arch/amigaos/intl_text.c.po.c:4945
 msgid "Drive settings"
 msgstr "Sürücü ayarlarý"
 
@@ -1901,7 +1912,7 @@ msgstr "Paralel kablo"
 #: src/arch/unix/gui/uidrivec64c128.c:112
 #: src/arch/unix/gui/uidrivec64c128.c:125
 #: src/arch/unix/gui/uidrivec64c128.c:138
-#: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:7316
+#: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:7317
 msgid "Enable Professional DOS"
 msgstr "Professional DOS'u aktif et"
 
@@ -2353,6 +2364,7 @@ msgstr "SID kartuþu joystick'i"
 #: src/arch/unix/gui/uijoystick2.c:537 src/arch/unix/gui/uijoystick2.c:543
 #: src/arch/unix/gui/uijoystick2.c:549 src/arch/unix/gui/uijoystick2.c:555
 #: src/arch/unix/gui/vic20ui.c:419 src/arch/win32/res.rc.po.c:1131
+#: src/arch/win32/res.rc.po.c:1415 src/arch/amigaos/intl_text.c.po.c:2098
 #: src/arch/amigaos/intl_text.c.po.c:5375
 msgid "Joystick settings"
 msgstr "Joystick ayarlarý"
@@ -2398,6 +2410,7 @@ msgid "Dump keymap to file"
 msgstr "Tuþ haritasýný dosyaya dök"
 
 #: src/arch/unix/gui/uikeyboard.c:195 src/arch/win32/res.rc.po.c:946
+#: src/arch/win32/res.rc.po.c:1418 src/arch/amigaos/intl_text.c.po.c:2137
 msgid "Keyboard settings"
 msgstr "Klavye ayarlarý"
 
@@ -2781,6 +2794,7 @@ msgstr "Aygýt #11"
 #: src/arch/unix/gui/uiperipheraliec.c:146
 #: src/arch/unix/gui/uiperipheraliec.c:159
 #: src/arch/unix/gui/uiperipheralieee.c:133
+#: src/arch/amigaos/intl_text.c.po.c:2046
 #: src/arch/amigaos/intl_text.c.po.c:6519
 msgid "Printer settings"
 msgstr "Yazýcý ayarlarý"
@@ -2794,6 +2808,7 @@ msgstr "Sanal Aygýtlarý aktif et"
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:173
 #: src/arch/unix/gui/uiperipheralieee.c:141 src/arch/win32/res.rc.po.c:964
+#: src/arch/win32/res.rc.po.c:1414 src/arch/amigaos/intl_text.c.po.c:2020
 msgid "Peripheral settings"
 msgstr "Çevresel ayarlar"
 
@@ -3246,7 +3261,7 @@ msgstr "Özel..."
 msgid "No limit"
 msgstr "Limitsiz"
 
-#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:11150
+#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:11151
 msgid "Enable warp mode"
 msgstr "Warp modu aktif et"
 
@@ -3429,7 +3444,7 @@ msgstr "Düzeltme"
 msgid "Exact"
 msgstr "Aynen"
 
-#: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:10862
+#: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:10863
 msgid "Enable sound playback"
 msgstr "Sesi aktif et"
 
@@ -3463,6 +3478,7 @@ msgid "Suspend time"
 msgstr "Zamaný askýya al"
 
 #: src/arch/unix/gui/uisound.c:152 src/arch/unix/gui/vsidui.c:327
+#: src/arch/win32/res.rc.po.c:1419 src/arch/amigaos/intl_text.c.po.c:2163
 #: src/arch/amigaos/intl_text.c.po.c:6857
 msgid "Sound settings"
 msgstr "Ses ayarlarý"
@@ -3687,6 +3703,7 @@ msgid "Paddle emulation"
 msgstr "Paddle emülasyonu"
 
 #: src/arch/unix/gui/vic20ui.c:549 src/arch/win32/resvic20.rc.po.c:492
+#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:1968
 #: src/arch/amigaos/intl_text.c.po.c:6870
 msgid "VIC settings"
 msgstr "VIC ayarlarý"
@@ -4162,7 +4179,7 @@ msgstr "Otomatik baþlat"
 msgid "Text cannot be displayed.\n"
 msgstr "Yazý gösterilemedi.\n"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:2968
+#: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:2969
 msgid "<command>"
 msgstr "<komut>"
 
@@ -4210,7 +4227,7 @@ msgstr "Tam ekraný aktif et (varsayýlan Çip)"
 msgid "Disable fullscreen (default Chip)"
 msgstr "Tam ekraný pasifleþtir (varsayýlan Çip)"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:6242
+#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:6243
 msgid "<value>"
 msgstr "<deðer>"
 
@@ -4238,8 +4255,7 @@ msgstr "Dosya ismi:"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:153 src/arch/unix/x11/xaw/uiedisk.c:246
 #: src/arch/unix/x11/xaw/uiscreenshot.c:193
-#: src/arch/unix/x11/xaw/uisnapshot.c:166 src/arch/win32/res.rc.po.c:1109
-#: src/arch/win32/res.rc.po.c:1126
+#: src/arch/unix/x11/xaw/uisnapshot.c:166
 msgid "Browse..."
 msgstr "Göz at..."
 
@@ -4690,11 +4706,14 @@ msgstr "Ayarlar baþarýyla yüklendi."
 msgid "Attach disk image"
 msgstr "Disk imajýný yerleþtir"
 
-#: src/arch/win32/res.rc.po.c:928 src/arch/amigaos/intl_text.c.po.c:6935
+#: src/arch/win32/res.rc.po.c:928 src/arch/win32/res.rc.po.c:1330
+#: src/arch/amigaos/intl_text.c.po.c:213
+#: src/arch/amigaos/intl_text.c.po.c:6935
 msgid "Attach tape image"
 msgstr "Teyp imajýný yerleþtir"
 
-#: src/arch/win32/res.rc.po.c:929 src/arch/amigaos/intl_text.c.po.c:6948
+#: src/arch/win32/res.rc.po.c:929 src/arch/win32/res.rc.po.c:1323
+#: src/arch/amigaos/intl_text.c.po.c:18 src/arch/amigaos/intl_text.c.po.c:6948
 msgid "Autostart disk/tape image"
 msgstr "Disk/Teyp imajýný otomatik baþlat"
 
@@ -4785,7 +4804,7 @@ msgstr "Seçilmiþ sürücü yok ya da desteklenmiyor"
 msgid "Cannot write screenshot file `%s'."
 msgstr "Ekran görüntüsü dosyasý `%s' yazýlamadý."
 
-#: src/arch/win32/res.rc.po.c:955
+#: src/arch/win32/res.rc.po.c:955 src/arch/win32/resc64dtv.rc.po.c:446
 msgid "Autostart disk image"
 msgstr "Disk imajýný otomatik baþlat"
 
@@ -4874,7 +4893,9 @@ msgstr "Bilgisayar"
 msgid "Drive"
 msgstr "Sürücü"
 
-#: src/arch/win32/res.rc.po.c:978 src/arch/amigaos/intl_text.c.po.c:7624
+#: src/arch/win32/res.rc.po.c:978 src/arch/win32/res.rc.po.c:1384
+#: src/arch/amigaos/intl_text.c.po.c:967
+#: src/arch/amigaos/intl_text.c.po.c:7624
 msgid "Save snapshot image"
 msgstr "Anlýk görüntü imajýný kaydet"
 
@@ -4903,7 +4924,9 @@ msgstr "Renkler"
 msgid "Render filter"
 msgstr "Ýmge oluþturma filtresi"
 
-#: src/arch/win32/res.rc.po.c:988 src/arch/amigaos/intl_text.c.po.c:8027
+#: src/arch/win32/res.rc.po.c:988 src/arch/win32/res.rc.po.c:1413
+#: src/arch/amigaos/intl_text.c.po.c:1955
+#: src/arch/amigaos/intl_text.c.po.c:8027
 msgid "Video settings"
 msgstr "Görüntü ayarlarý"
 
@@ -4921,7 +4944,7 @@ msgid "RS232 device %i"
 msgstr "RS232 aygýtý %i"
 
 #: src/arch/win32/res.rc.po.c:994 src/arch/amigaos/intl_text.c.po.c:3840
-#: src/translate_text.c.po.c:5234
+#: src/translate_text.c.po.c:5235
 msgid "Attach CRT cartridge image"
 msgstr "CRT kartuþ imajý yerleþtir"
 
@@ -5219,7 +5242,7 @@ msgstr ""
 msgid "Unknown"
 msgstr "Bilinmeyen"
 
-#: src/arch/win32/res.rc.po.c:1077 src/translate_text.c.po.c:3596
+#: src/arch/win32/res.rc.po.c:1077 src/translate_text.c.po.c:3597
 msgid "<number>"
 msgstr "<sayý>"
 
@@ -5276,6 +5299,19 @@ msgstr "Sunucu baþlatýlýrken bir hata oluþtu."
 #: src/arch/win32/res.rc.po.c:1102 src/arch/amigaos/intl_text.c.po.c:3411
 msgid "An error occured connecting the client."
 msgstr "Ýstemciye baðlanýrken bir hata oluþtu."
+
+#: src/arch/win32/res.rc.po.c:1104 src/arch/amigaos/intl_text.c.po.c:8560
+msgid "Sound Recording started"
+msgstr "Ses Kaydý baþladý"
+
+#: src/arch/win32/res.rc.po.c:1105 src/arch/amigaos/intl_text.c.po.c:8547
+msgid "Sound Recording stopped"
+msgstr "Ses Kaydý durduruldu"
+
+#: src/arch/win32/res.rc.po.c:1109 src/arch/win32/res.rc.po.c:1126
+#: src/arch/amigaos/intl_text.c.po.c:3502
+msgid "Browse"
+msgstr "Göz at"
 
 #: src/arch/win32/res.rc.po.c:1112 src/arch/amigaos/intl_text.c.po.c:8950
 msgid "Error saving EasyFlash crt file"
@@ -5825,12 +5861,6 @@ msgstr "$8000-$9FFF RAM"
 msgid "$A000-$BFFF RAM"
 msgstr "$A000-$BFFF RAM"
 
-#: src/arch/win32/res.rc.po.c:1298 src/arch/win32/resc128.rc.po.c:63
-#: src/arch/win32/resc64.rc.po.c:63 src/arch/win32/resplus4.rc.po.c:63
-#: src/arch/win32/resvic20.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:343
-msgid "Attach cartridge image..."
-msgstr "Kartuþ imajý yerleþtir..."
-
 #: src/arch/win32/res.rc.po.c:1302 src/arch/win32/resc128.rc.po.c:104
 #: src/arch/win32/resc64.rc.po.c:104 src/arch/win32/resc64dtv.rc.po.c:71
 #: src/arch/win32/rescbm2.rc.po.c:78 src/arch/win32/resexpert.rc.po.c:42
@@ -5877,16 +5907,9 @@ msgid "Exit"
 msgstr "Çýkýþ"
 
 #: src/arch/win32/res.rc.po.c:1319 src/arch/amigaos/intl_text.c.po.c:2787
-msgid "About..."
-msgstr "Hakkýnda..."
-
-#: src/arch/win32/res.rc.po.c:1323 src/arch/amigaos/intl_text.c.po.c:18
-msgid "Autostart disk/tape image..."
-msgstr "Disk/Teyp imajýný otomatik baþlat..."
-
-#: src/arch/win32/res.rc.po.c:1330 src/arch/amigaos/intl_text.c.po.c:213
-msgid "Attach tape image..."
-msgstr "Teyp imajý yerleþtir..."
+#: src/arch/amigaos/intl_text.c.po.c:4230
+msgid "About"
+msgstr "Hakkýnda"
 
 #: src/arch/win32/res.rc.po.c:1333 src/arch/amigaos/intl_text.c.po.c:1604
 msgid "Sound playback"
@@ -5896,73 +5919,69 @@ msgstr "Ses"
 msgid "Handle TDE for autostart"
 msgstr "TDE için otomatik baþlatmayý denetle"
 
-#: src/arch/win32/res.rc.po.c:1339 src/arch/amigaos/intl_text.c.po.c:2033
-msgid "Drive settings..."
-msgstr "Sürücü ayarlarý..."
-
 #: src/arch/win32/res.rc.po.c:1340 src/arch/amigaos/intl_text.c.po.c:590
-msgid "CRT image..."
-msgstr "CRT imajý..."
+msgid "CRT image"
+msgstr "CRT imajý"
 
 #: src/arch/win32/res.rc.po.c:1341 src/arch/amigaos/intl_text.c.po.c:603
-msgid "Generic 8KB image..."
-msgstr "8KB Jenerik imaj..."
+msgid "Generic 8KB image"
+msgstr "8KB Jenerik imaj"
 
 #: src/arch/win32/res.rc.po.c:1342 src/arch/amigaos/intl_text.c.po.c:616
-msgid "Generic 16KB image..."
-msgstr "16KB Jenerik imaj..."
+msgid "Generic 16KB image"
+msgstr "16KB Jenerik imaj"
 
 #: src/arch/win32/res.rc.po.c:1343 src/arch/amigaos/intl_text.c.po.c:629
-msgid "Action Replay image..."
-msgstr "Action Replay imajý..."
+msgid "Action Replay image"
+msgstr "Action Replay imajý"
 
 #: src/arch/win32/res.rc.po.c:1344 src/arch/amigaos/intl_text.c.po.c:642
-msgid "Action Replay MK3 image..."
-msgstr "Action Replay MK3 imajý..."
+msgid "Action Replay MK3 image"
+msgstr "Action Replay MK3 imajý"
 
 #: src/arch/win32/res.rc.po.c:1345 src/arch/amigaos/intl_text.c.po.c:655
-msgid "Action Replay MK4 image..."
-msgstr "Action Replay MK4 imajý..."
+msgid "Action Replay MK4 image"
+msgstr "Action Replay MK4 imajý"
 
 #: src/arch/win32/res.rc.po.c:1346 src/arch/amigaos/intl_text.c.po.c:668
-msgid "Stardos image..."
-msgstr "Stardos imajý..."
+msgid "Stardos image"
+msgstr "Stardos imajý"
 
 #: src/arch/win32/res.rc.po.c:1347 src/arch/amigaos/intl_text.c.po.c:681
-msgid "Atomic Power image..."
-msgstr "Atomic Power imajý..."
+msgid "Atomic Power image"
+msgstr "Atomic Power imajý"
 
 #: src/arch/win32/res.rc.po.c:1348 src/arch/amigaos/intl_text.c.po.c:694
-msgid "Epyx FastLoad image..."
-msgstr "Epyx FastLoad imajý..."
+msgid "Epyx FastLoad image"
+msgstr "Epyx FastLoad imajý"
 
 #: src/arch/win32/res.rc.po.c:1349
-msgid "IEEE-488 Interface image..."
-msgstr "IEEE-488 Arabirimi imajý..."
+msgid "IEEE-488 Interface image"
+msgstr "IEEE 488 Arabirimi imajý"
 
 #: src/arch/win32/res.rc.po.c:1350 src/arch/amigaos/intl_text.c.po.c:720
-msgid "Retro Replay image..."
-msgstr "Retro Replay imajý..."
+msgid "Retro Replay image"
+msgstr "Retro Replay imajý"
 
 #: src/arch/win32/res.rc.po.c:1351
-msgid "MMC Replay image..."
-msgstr "MMC Replay imajý..."
+msgid "MMC Replay image"
+msgstr "MMC Replay imajý"
 
 #: src/arch/win32/res.rc.po.c:1352 src/arch/amigaos/intl_text.c.po.c:733
-msgid "IDE64 interface image..."
-msgstr "IDE64 arabirim imajý..."
+msgid "IDE64 interface image"
+msgstr "IDE64 arabirim imajý"
 
 #: src/arch/win32/res.rc.po.c:1353 src/arch/amigaos/intl_text.c.po.c:746
-msgid "Super Snapshot V4 image..."
-msgstr "Super Snapshot V4 imajý..."
+msgid "Super Snapshot V4 image"
+msgstr "Super Snapshot V4 imajý"
 
 #: src/arch/win32/res.rc.po.c:1354 src/arch/amigaos/intl_text.c.po.c:759
-msgid "Super Snapshot V5 image..."
-msgstr "Super Snapshot V5 imajý..."
+msgid "Super Snapshot V5 image"
+msgstr "Super Snapshot V5 imajý"
 
 #: src/arch/win32/res.rc.po.c:1355 src/arch/amigaos/intl_text.c.po.c:772
-msgid "Structured BASIC image..."
-msgstr "Structured BASIC imajý..."
+msgid "Structured BASIC image"
+msgstr "Structured BASIC imajý"
 
 #: src/arch/win32/res.rc.po.c:1356 src/arch/amigaos/intl_text.c.po.c:135
 msgid "Add current image"
@@ -6016,14 +6035,6 @@ msgstr "Sürücü0 CPU Ýzleme"
 msgid "Drive1 CPU Trace"
 msgstr "Sürücü1 CPU Ýzleme"
 
-#: src/arch/win32/res.rc.po.c:1383 src/arch/amigaos/intl_text.c.po.c:954
-msgid "Load snapshot image..."
-msgstr "Anlýk görüntü imajý yükle..."
-
-#: src/arch/win32/res.rc.po.c:1384 src/arch/amigaos/intl_text.c.po.c:967
-msgid "Save snapshot image..."
-msgstr "Anlýk görüntü imajý kaydet..."
-
 #: src/arch/win32/res.rc.po.c:1385
 msgid "Load quicksnapshot image"
 msgstr "Hýzlý anlýk görüntü imajý yükle"
@@ -6049,12 +6060,12 @@ msgid "Select History files/directory"
 msgstr "Tarihçe dosyalarý/dizin seç"
 
 #: src/arch/win32/res.rc.po.c:1396 src/arch/amigaos/intl_text.c.po.c:1110
-msgid "Save/stop media file..."
-msgstr "Ortam dosyasý kaydet/durdur..."
+msgid "Save/stop media file"
+msgstr "Ortam dosyasý kaydet/durdur"
 
 #: src/arch/win32/res.rc.po.c:1397
-msgid "Record Sound..."
-msgstr "Ses Kaydet..."
+msgid "Record Sound"
+msgstr "Ses Kaydet"
 
 #: src/arch/win32/res.rc.po.c:1401 src/arch/amigaos/intl_text.c.po.c:1396
 msgid "Custom"
@@ -6088,141 +6099,114 @@ msgstr "Joy Tuþlarýný Aktif Et"
 msgid "Virtual device traps"
 msgstr "Sanal aygýt trapleri"
 
-#: src/arch/win32/res.rc.po.c:1411
-msgid "C64 model settings..."
-msgstr "C64 model ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1412 src/arch/amigaos/intl_text.c.po.c:1942
-msgid "Autostart settings..."
-msgstr "Otomatik baþlatma ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1413 src/arch/amigaos/intl_text.c.po.c:1955
-msgid "Video settings..."
-msgstr "Görüntü ayalarý..."
-
-#: src/arch/win32/res.rc.po.c:1414 src/arch/amigaos/intl_text.c.po.c:2020
-msgid "Peripheral settings..."
-msgstr "Çevresel ayarlar..."
-
-#: src/arch/win32/res.rc.po.c:1415 src/arch/amigaos/intl_text.c.po.c:2098
-msgid "Joystick settings..."
-msgstr "Joystick ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1411 src/arch/win32/resc64.rc.po.c:543
+#: src/arch/amigaos/intl_text.c.po.c:9197
+msgid "C64 model settings"
+msgstr "C64 model ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1416
-msgid "Userport joystick settings..."
-msgstr "Userport joystick ayarlarý..."
+msgid "Userport joystick settings"
+msgstr "Userport joystick ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1417
-msgid "Sidcart joystick settings..."
-msgstr "Sid kartuþu joystick ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1418 src/arch/amigaos/intl_text.c.po.c:2137
-msgid "Keyboard settings..."
-msgstr "Klavye ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1419 src/arch/amigaos/intl_text.c.po.c:2163
-msgid "Sound settings..."
-msgstr "Ses ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1420
-msgid "ROM settings..."
-msgstr "ROM ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1421 src/arch/amigaos/intl_text.c.po.c:2215
-msgid "RAM settings..."
-msgstr "RAM ayarlarý..."
+msgid "Sidcart joystick settings"
+msgstr "Sid kartuþu joystick ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:2059
-msgid "Datasette settings..."
-msgstr "Teyp ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1423 src/arch/amigaos/intl_text.c.po.c:2085
-msgid "VIC-II settings..."
-msgstr "VIC-II ayarlarý..."
+msgid "Datasette settings"
+msgstr "Teyp Ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1424 src/arch/amigaos/intl_text.c.po.c:2150
-msgid "Mouse settings..."
-msgstr "Mouse ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1425 src/arch/amigaos/intl_text.c.po.c:2176
-msgid "SID settings..."
-msgstr "SID ayarlarý..."
-
-#: src/arch/win32/res.rc.po.c:1426 src/arch/amigaos/intl_text.c.po.c:2228
-msgid "RS232 settings..."
-msgstr "RS232 ayarlarý..."
+msgid "Mouse settings"
+msgstr "Mouse Ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1427 src/arch/amigaos/intl_text.c.po.c:2267
-msgid "REU settings..."
-msgstr "REU ayarlarý..."
+msgid "REU settings"
+msgstr "REU Ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1428 src/arch/amigaos/intl_text.c.po.c:2293
-msgid "GEO-RAM settings..."
-msgstr "GEO-RAM ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1428 src/arch/win32/resgeoram.rc.po.c:40
+#: src/arch/amigaos/intl_text.c.po.c:2293
+#: src/arch/amigaos/intl_text.c.po.c:5010
+msgid "GEO-RAM settings"
+msgstr "GEO-RAM ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1429 src/arch/amigaos/intl_text.c.po.c:2306
-msgid "RamCart settings..."
-msgstr "RamCart ayarlarý..."
+#: src/arch/amigaos/intl_text.c.po.c:6168
+msgid "RamCart settings"
+msgstr "RamCart ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1430 src/arch/amigaos/intl_text.c.po.c:2319
-msgid "Double Quick Brown Box settings..."
-msgstr "Double Quick Brown Box ayarlarý..."
+msgid "Double Quick Brown Box settings"
+msgstr "Double Quick Brown Box ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1431 src/arch/amigaos/intl_text.c.po.c:2345
-msgid "Expert Cartridge settings..."
-msgstr "Expert Kartuþu ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1431 src/arch/win32/resexpert.rc.po.c:40
+#: src/arch/amigaos/intl_text.c.po.c:2345
+#: src/arch/amigaos/intl_text.c.po.c:5114
+msgid "Expert Cartridge settings"
+msgstr "Expert Kartuþu ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1432 src/arch/amigaos/intl_text.c.po.c:2332
-msgid "ISEPIC settings..."
-msgstr "ISEPIC ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1432 src/arch/win32/resisepic.rc.po.c:38
+#: src/arch/amigaos/intl_text.c.po.c:2332
+#: src/arch/amigaos/intl_text.c.po.c:5179
+msgid "ISEPIC settings"
+msgstr "ISEPIC ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl_text.c.po.c:2436
-msgid "MMC64 settings..."
-msgstr "MMC64 ayarlarý..."
+#: src/arch/amigaos/intl_text.c.po.c:7221
+msgid "MMC64 settings"
+msgstr "MMC64 ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1434 src/arch/amigaos/intl_text.c.po.c:2449
-msgid "MMC Replay settings..."
-msgstr "MMC Replay ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1434 src/arch/win32/resmmcreplay.rc.po.c:47
+#: src/arch/amigaos/intl_text.c.po.c:2449
+#: src/arch/amigaos/intl_text.c.po.c:7338
+msgid "MMC Replay settings"
+msgstr "MMC Replay ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1435 src/arch/amigaos/intl_text.c.po.c:2280
-msgid "Magic Voice settings..."
-msgstr "Magic Voice ayalarý..."
+#: src/arch/amigaos/intl_text.c.po.c:6558
+msgid "Magic Voice settings"
+msgstr "Magic Voice ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1436
-msgid "MIDI settings..."
-msgstr "MIDI ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1436 src/arch/win32/resmidi.rc.po.c:38
+msgid "MIDI settings"
+msgstr "MIDI ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2462
-msgid "DigiMAX settings..."
-msgstr "DigiMAX ayarlarý..."
+#: src/arch/amigaos/intl_text.c.po.c:8495
+msgid "DigiMAX settings"
+msgstr "DigiMAX ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1438
-msgid "Lightpen settings..."
-msgstr "Iþýklý Kalem ayarlarý..."
+msgid "Lightpen settings"
+msgstr "Iþýklý Kalem ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1439 src/arch/amigaos/intl_text.c.po.c:2423
-msgid "IDE64 settings..."
-msgstr "IDE64 ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1439 src/arch/win32/reside64.rc.po.c:74
+#: src/arch/amigaos/intl_text.c.po.c:2423
+#: src/arch/amigaos/intl_text.c.po.c:7091
+msgid "IDE64 settings"
+msgstr "IDE64 ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1441 src/arch/amigaos/intl_text.c.po.c:2527
-msgid "Ethernet settings..."
-msgstr "Ethernet ayarlarý..."
+msgid "Ethernet settings"
+msgstr "Ethernet Ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1443 src/arch/amigaos/intl_text.c.po.c:2540
-msgid "ACIA settings..."
-msgstr "ACIA ayarlarý..."
+msgid "ACIA settings"
+msgstr "ACIA Ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1444 src/arch/amigaos/intl_text.c.po.c:2670
-msgid "RS232 userport settings..."
-msgstr "RS232 userport ayarlarý..."
+msgid "RS232 userport settings"
+msgstr "RS232 userport ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1445 src/arch/amigaos/intl_text.c.po.c:2488
-msgid "EasyFlash settings..."
-msgstr "EasyFlash ayarlarý..."
+#: src/arch/win32/res.rc.po.c:1445 src/arch/win32/reseasyflash.rc.po.c:29
+#: src/arch/amigaos/intl_text.c.po.c:2488
+#: src/arch/amigaos/intl_text.c.po.c:5244
+msgid "EasyFlash settings"
+msgstr "EasyFlash ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1446 src/arch/amigaos/intl_text.c.po.c:2475
-msgid "SFX Sound Expander settings..."
-msgstr "SFX Sound Expander ayarlarý..."
+msgid "SFX Sound Expander settings"
+msgstr "SFX Sound Expander Ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1447 src/arch/amigaos/intl_text.c.po.c:2501
 msgid "Enable SFX Sound Sampler"
@@ -6289,8 +6273,9 @@ msgid "Fullscreen"
 msgstr "Tam ekran"
 
 #: src/arch/win32/res.rc.po.c:1472 src/arch/amigaos/intl_text.c.po.c:2579
-msgid "SID cart settings..."
-msgstr "SID kartuþ ayarlarý..."
+#: src/arch/amigaos/intl_text.c.po.c:7481
+msgid "SID cart settings"
+msgstr "SID kartuþu ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1473
 msgid "Open"
@@ -6439,7 +6424,9 @@ msgstr "Harici function ROM imajýný seç"
 msgid "RAM banks"
 msgstr "RAM banklarý"
 
-#: src/arch/win32/resc128.rc.po.c:651 src/arch/amigaos/intl_text.c.po.c:8417
+#: src/arch/win32/resc128.rc.po.c:651 src/arch/win32/resc128.rc.po.c:697
+#: src/arch/amigaos/intl_text.c.po.c:2241
+#: src/arch/amigaos/intl_text.c.po.c:8417
 msgid "C128 settings"
 msgstr "C128 ayarlarý"
 
@@ -6579,25 +6566,17 @@ msgstr "64KB görüntü belleði"
 msgid "IEEE488 Interface emulation"
 msgstr "IEEE488 Arabirimi emülasyonu"
 
-#: src/arch/win32/resc128.rc.po.c:697 src/arch/amigaos/intl_text.c.po.c:2241
-msgid "C128 settings..."
-msgstr "C128 ayarlarý..."
-
-#: src/arch/win32/resc64.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:1123
-msgid "Netplay (experimental)..."
-msgstr "Netplay (deneysel)..."
-
 #: src/arch/win32/resc64.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:2358
-msgid "PLUS60K settings..."
-msgstr "PLUS60K ayarlarý..."
+msgid "PLUS60K settings"
+msgstr "PLUS60K Ayarlarý"
 
 #: src/arch/win32/resc64.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:2397
-msgid "PLUS256K settings..."
-msgstr "PLUS256K ayarlarý..."
+msgid "PLUS256K settings"
+msgstr "PLUS256K Ayarlarý"
 
 #: src/arch/win32/resc64.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:2410
-msgid "256K settings..."
-msgstr "256K ayarlarý..."
+msgid "256K settings"
+msgstr "256K Ayarlarý"
 
 #: src/arch/win32/resc64.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:9002
 msgid "6569 (PAL)"
@@ -6618,10 +6597,6 @@ msgstr "8562 (NTSC)"
 #: src/arch/win32/resc64.rc.po.c:542 src/arch/amigaos/intl_text.c.po.c:9080
 msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
-
-#: src/arch/win32/resc64.rc.po.c:543 src/arch/amigaos/intl_text.c.po.c:9197
-msgid "C64 model settings"
-msgstr "C64 model ayarlarý"
 
 #: src/arch/win32/resc64_256k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:4516
@@ -6670,7 +6645,7 @@ msgstr "DTV ROM imajýnda yazmalarý aktif et"
 msgid "C64DTV Settings"
 msgstr "C64DTV Ayarlarý"
 
-#: src/arch/win32/resc64dtv.rc.po.c:440 src/translate_text.c.po.c:4016
+#: src/arch/win32/resc64dtv.rc.po.c:440 src/translate_text.c.po.c:4017
 msgid "Enable Hummer ADC"
 msgstr "Hummer ADC'yi aktif et"
 
@@ -6689,10 +6664,6 @@ msgstr "C64 ROMlarýný imaja kopyala"
 #: src/arch/win32/resc64dtv.rc.po.c:444
 msgid "Create"
 msgstr "Yarat"
-
-#: src/arch/win32/resc64dtv.rc.po.c:446
-msgid "Autostart disk image..."
-msgstr "Disk imajýný otomatik baþlat..."
 
 #: src/arch/win32/resc64dtv.rc.po.c:447
 msgid "Attach flash rom image"
@@ -6715,8 +6686,8 @@ msgid "PS/2 mouse emulation"
 msgstr "PS/2 mouse emülasyonu"
 
 #: src/arch/win32/resc64dtv.rc.po.c:452 src/arch/amigaos/intl_text.c.po.c:2657
-msgid "C64DTV settings..."
-msgstr "C64DTV ayarlarý..."
+msgid "C64DTV settings"
+msgstr "C64DTV Ayarlarý"
 
 #: src/arch/win32/resc64dtv.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:4373
 msgid "Joystick"
@@ -6727,7 +6698,8 @@ msgstr "Joystick"
 msgid "Cartridge/IO Settings"
 msgstr "Kartuþ/GÇ Ayarlarý"
 
-#: src/arch/win32/rescbm2.rc.po.c:495
+#: src/arch/win32/rescbm2.rc.po.c:495 src/arch/win32/rescbm2.rc.po.c:513
+#: src/arch/amigaos/intl_text.c.po.c:1981
 msgid "CBM2 settings"
 msgstr "CBM2 ayarlarý"
 
@@ -6775,10 +6747,6 @@ msgstr "1024 kByte"
 msgid "Ram banks"
 msgstr "Ram banklarý"
 
-#: src/arch/win32/rescbm2.rc.po.c:513 src/arch/amigaos/intl_text.c.po.c:1981
-msgid "CBM2 settings..."
-msgstr "CBM2 ayarlarý..."
-
 #: src/arch/win32/resdigimax.rc.po.c:22
 msgid "DigiMAX Settings"
 msgstr "DigiMAX Ayarlarý"
@@ -6811,11 +6779,6 @@ msgstr "DQBB imajý deðiþtiðinde kaydet"
 msgid "DQBB file"
 msgstr "DQBB dosyasý"
 
-#: src/arch/win32/reseasyflash.rc.po.c:29
-#: src/arch/amigaos/intl_text.c.po.c:5244
-msgid "EasyFlash settings"
-msgstr "EasyFlash ayarlarý"
-
 #: src/arch/win32/reseasyflash.rc.po.c:30
 msgid "EasyFlash Jumper"
 msgstr "EasyFlash Jumper"
@@ -6831,10 +6794,6 @@ msgstr "CRT'yi hemen kaydet"
 #: src/arch/win32/resexpert.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5101
 msgid "Select file for Expert Cartridge"
 msgstr "Expert Kartuþu için dosya seçin"
-
-#: src/arch/win32/resexpert.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5114
-msgid "Expert Cartridge settings"
-msgstr "Expert Kartuþu ayarlarý"
 
 #: src/arch/win32/resexpert.rc.po.c:41
 msgid "Enable Expert Cartridge"
@@ -6852,10 +6811,6 @@ msgstr "Expert Kartuþu dosyasý"
 msgid "Select file for GEO-RAM"
 msgstr "GEO-RAM için dosya seçin"
 
-#: src/arch/win32/resgeoram.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5010
-msgid "GEO-RAM settings"
-msgstr "GEO-RAM ayarlarý"
-
 #: src/arch/win32/resgeoram.rc.po.c:41
 msgid "Enable GEO-RAM"
 msgstr "GEO-RAM'i aktif et"
@@ -6871,10 +6826,6 @@ msgstr "GEO-RAM imajý deðiþtiðinde kaydet"
 #: src/arch/win32/resgeoram.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:4971
 msgid "GEO-RAM file"
 msgstr "GEO-RAM dosyasý"
-
-#: src/arch/win32/reside64.rc.po.c:74 src/arch/amigaos/intl_text.c.po.c:7091
-msgid "IDE64 settings"
-msgstr "IDE64 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:75
 msgid "Enable IDE64 V4"
@@ -6929,10 +6880,6 @@ msgstr "HD imaj dosyasý seç"
 msgid "Select file for ISEPIC"
 msgstr "ISEPIC için dosya seçin"
 
-#: src/arch/win32/resisepic.rc.po.c:38 src/arch/amigaos/intl_text.c.po.c:5179
-msgid "ISEPIC settings"
-msgstr "ISEPIC ayarlarý"
-
 #: src/arch/win32/resisepic.rc.po.c:39
 msgid "Enable ISEPIC"
 msgstr "ISEPIC'i aktif et"
@@ -6970,10 +6917,6 @@ msgstr "Magic Voice'i aktif et"
 msgid "Select file for Magic Voice"
 msgstr "Magic Voice için dosya seçin"
 
-#: src/arch/win32/resmidi.rc.po.c:38
-msgid "MIDI settings"
-msgstr "MIDI ayarlarý"
-
 #: src/arch/win32/resmidi.rc.po.c:39
 msgid "Enable MIDI"
 msgstr "MIDI'yi aktif et"
@@ -7010,11 +6953,6 @@ msgstr "Salt Okunur MMC/SD Imajý"
 msgid "MMC/SD Image File"
 msgstr "MMC/SD Imaj Dosyasý"
 
-#: src/arch/win32/resmmcreplay.rc.po.c:47
-#: src/arch/amigaos/intl_text.c.po.c:7338
-msgid "MMC Replay settings"
-msgstr "MMC Replay ayarlarý"
-
 #: src/arch/win32/resmmcreplay.rc.po.c:48
 msgid "Card Image"
 msgstr "Kart Ýmajý"
@@ -7041,7 +6979,9 @@ msgstr "MMC Replay EEPROM'u deðiþtiðinde kaydet"
 msgid "Input/Output"
 msgstr "Giriþ/Çýkýþ"
 
-#: src/arch/win32/respet.rc.po.c:541 src/arch/amigaos/intl_text.c.po.c:8261
+#: src/arch/win32/respet.rc.po.c:541 src/arch/win32/respet.rc.po.c:564
+#: src/arch/amigaos/intl_text.c.po.c:2007
+#: src/arch/amigaos/intl_text.c.po.c:8261
 msgid "PET settings"
 msgstr "PET ayarlarý"
 
@@ -7093,17 +7033,13 @@ msgstr "RAM olarak $9***"
 msgid "$A*** as RAM"
 msgstr "RAM olarak $A***"
 
-#: src/arch/win32/respet.rc.po.c:564 src/arch/amigaos/intl_text.c.po.c:2007
-msgid "PET settings..."
-msgstr "PET ayarlarý..."
-
 #: src/arch/win32/respet.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:2592
-msgid "PET DWW settings..."
-msgstr "PET DWW ayarlarý..."
+msgid "PET DWW settings"
+msgstr "PET DWW Ayarlarý"
 
 #: src/arch/win32/respet.rc.po.c:566 src/arch/amigaos/intl_text.c.po.c:2553
-msgid "PET REU settings..."
-msgstr "PET REU ayarlarý..."
+msgid "PET REU settings"
+msgstr "PET REU Ayarlarý"
 
 #: src/arch/win32/respet.rc.po.c:567
 msgid "Enable PET Userport DAC"
@@ -7165,6 +7101,7 @@ msgid "Select file for PLUS256K"
 msgstr "PLUS256K için dosya seçin"
 
 #: src/arch/win32/resplus4.rc.po.c:380 src/arch/win32/resplus4.rc.po.c:445
+#: src/arch/win32/resplus4.rc.po.c:459 src/arch/amigaos/intl_text.c.po.c:2072
 #: src/arch/amigaos/intl_text.c.po.c:8300
 msgid "Plus4 settings"
 msgstr "Plus4 ayarlarý"
@@ -7230,36 +7167,32 @@ msgid "4096 kByte (HANNES)"
 msgstr "4096 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:512
-msgid "C1 low  image..."
-msgstr "C1 low imajý..."
+msgid "C1 low  image"
+msgstr "C1 low imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:454 src/arch/amigaos/intl_text.c.po.c:525
-msgid "C1 high image..."
-msgstr "C1 high imajý..."
+msgid "C1 high image"
+msgstr "C1 high imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:455 src/arch/amigaos/intl_text.c.po.c:538
-msgid "C2 low  image..."
-msgstr "C2 low imajý..."
+msgid "C2 low  image"
+msgstr "C2 low imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:456 src/arch/amigaos/intl_text.c.po.c:551
-msgid "C2 high image..."
-msgstr "C2 high imajý..."
+msgid "C2 high image"
+msgstr "C2 high imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:457 src/arch/amigaos/intl_text.c.po.c:564
-msgid "Function low  image (3plus1)..."
-msgstr "Function low  imajý (3plus1)..."
+msgid "Function low  image (3plus1)"
+msgstr "Function low  imajý (3plus1)"
 
 #: src/arch/win32/resplus4.rc.po.c:458 src/arch/amigaos/intl_text.c.po.c:577
-msgid "Function high image (3plus1)..."
-msgstr "Function high imajý (3plus1)..."
-
-#: src/arch/win32/resplus4.rc.po.c:459 src/arch/amigaos/intl_text.c.po.c:2072
-msgid "Plus4 settings..."
-msgstr "Plus4 ayarlarý..."
+msgid "Function high image (3plus1)"
+msgstr "Function high imajý (3plus1)"
 
 #: src/arch/win32/resplus4.rc.po.c:460 src/arch/amigaos/intl_text.c.po.c:2566
-msgid "V364 Speech settings..."
-msgstr "V364 Speech ayarlarý..."
+msgid "V364 Speech settings"
+msgstr "V364 Speech ayarlarý"
 
 #: src/arch/win32/resplus60k.rc.po.c:28 src/arch/amigaos/intl_text.c.po.c:6012
 msgid "PLUS60K Settings"
@@ -7448,8 +7381,8 @@ msgstr "V364 Speech için ROM dosyasý seçin"
 
 #: src/arch/win32/resvic20.rc.po.c:70 src/arch/win32/resvic20.rc.po.c:521
 #: src/arch/amigaos/intl_text.c.po.c:408
-msgid "Add to generic..."
-msgstr "Jeneriðe ekle..."
+msgid "Add to generic"
+msgstr "Jeneriðe ekle"
 
 #: src/arch/win32/resvic20.rc.po.c:493
 msgid "no expansion memory"
@@ -7528,48 +7461,44 @@ msgid "VIC-1112 IEEE 488 module"
 msgstr "VIC-1112 IEEE 488 modülü"
 
 #: src/arch/win32/resvic20.rc.po.c:517 src/arch/amigaos/intl_text.c.po.c:356
-msgid "Generic image..."
-msgstr "Jenerik imaj..."
+msgid "Generic image"
+msgstr "Jenerik imaj"
 
 #: src/arch/win32/resvic20.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:369
-msgid "Mega-Cart image..."
-msgstr "Mega-Cart imajý..."
+msgid "Mega-Cart image"
+msgstr "Mega-Cart imajý"
 
 #: src/arch/win32/resvic20.rc.po.c:519 src/arch/amigaos/intl_text.c.po.c:382
-msgid "Final Expansion image..."
-msgstr "Final Expansion imajý..."
+msgid "Final Expansion image"
+msgstr "Final Expansion imajý"
 
 #: src/arch/win32/resvic20.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:395
-msgid "Vic Flash Plugin image..."
-msgstr "Vic Flash Plugin imajý..."
+msgid "Vic Flash Plugin image"
+msgstr "Vic Flash Plugin imajý"
 
 #: src/arch/win32/resvic20.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:421
-msgid "Smart-attach image..."
-msgstr "Smart-attach imajý..."
+msgid "Smart-attach image"
+msgstr "Smart-attach imajý"
 
 #: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:434
-msgid "4/8/16KB image at $2000..."
-msgstr "4/8/16KB imajý $2000 adresinde..."
+msgid "4/8/16KB image at $2000"
+msgstr "4/8/16KB imajý $2000 adresinde"
 
 #: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:447
-msgid "4/8/16KB image at $4000..."
-msgstr "4/8/16KB imajý $4000 adresinde..."
+msgid "4/8/16KB image at $4000"
+msgstr "4/8/16KB imajý $4000 adresinde"
 
 #: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:460
-msgid "4/8/16KB image at $6000..."
-msgstr "4/8/16KB imajý $6000 adresinde..."
+msgid "4/8/16KB image at $6000"
+msgstr "4/8/16KB imajý $6000 adresinde"
 
 #: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:473
-msgid "4/8KB image at $A000..."
-msgstr "4/8KB imajý $A000 adresinde..."
+msgid "4/8KB image at $A000"
+msgstr "4/8KB imajý $A000 adresinde"
 
 #: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:486
-msgid "4KB image at $B000..."
-msgstr "4KB imajý $B000 adresinde..."
-
-#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:1968
-msgid "VIC settings..."
-msgstr "VIC ayarlarý..."
+msgid "4KB image at $B000"
+msgstr "4KB imajý $B000 adresinde"
 
 #: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2605
 msgid "Enable Final Expansion write-back"
@@ -7580,7 +7509,7 @@ msgid "Enable Vic Flash Plugin write-back"
 msgstr "Vic Flash Plugin geri yazmayý aktif et"
 
 #: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2631
-#: src/translate_text.c.po.c:9396
+#: src/translate_text.c.po.c:9397
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr "Mega-Cart NvRAM geri yazmayý aktif et"
 
@@ -7601,8 +7530,8 @@ msgid "New Luminances"
 msgstr "Yeni Parlaklýklar"
 
 #: src/arch/amigaos/intl_text.c.po.c:707
-msgid "IEEE488 Interface image..."
-msgstr "IEEE488 Arabirim imajý..."
+msgid "IEEE488 Interface image"
+msgstr "IEEE 488 Arabirimi imajý"
 
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
@@ -7689,8 +7618,8 @@ msgid "IEEE-488 Interface emulation"
 msgstr "IEEE-488 Arabirimi emülasyonu"
 
 #: src/arch/amigaos/intl_text.c.po.c:1825
-msgid "C64 Model settings..."
-msgstr "C64 Model ayarlarý..."
+msgid "C64 Model settings"
+msgstr "C64 model ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:1838
 msgid "C64 PAL"
@@ -7720,10 +7649,6 @@ msgstr "Özel C64 modeli"
 msgid "Change PET model"
 msgstr "PET modelini deðiþtir"
 
-#: src/arch/amigaos/intl_text.c.po.c:2046
-msgid "Printer settings..."
-msgstr "Yazýcý ayarlarý..."
-
 #: src/arch/amigaos/intl_text.c.po.c:2111
 msgid "Joystick device selection"
 msgstr "Joystick aygýt seçimi"
@@ -7733,12 +7658,14 @@ msgid "Joystick fire button selection"
 msgstr "Joystick ateþ düþmesi seçimi"
 
 #: src/arch/amigaos/intl_text.c.po.c:2189
-msgid "Computer ROM settings..."
-msgstr "Bilgisayar ROM ayarlarý..."
+#: src/arch/amigaos/intl_text.c.po.c:8443
+msgid "Computer ROM settings"
+msgstr "Bilgisayar ROM ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:2202
-msgid "Drive ROM settings..."
-msgstr "Sürücü ROM ayarlarý..."
+#: src/arch/amigaos/intl_text.c.po.c:8456
+msgid "Drive ROM settings"
+msgstr "Sürücü ROM ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:2514
 msgid "Enable userport DAC"
@@ -7753,8 +7680,8 @@ msgid "Video overlay"
 msgstr "Görüntü bindirme"
 
 #: src/arch/amigaos/intl_text.c.po.c:3086
-msgid "Start Sound Record..."
-msgstr "Ses Kaydýný Baþlat..."
+msgid "Start Sound Record"
+msgstr "Ses Kaydýný Baþlat"
 
 #: src/arch/amigaos/intl_text.c.po.c:3112
 #, c-format
@@ -7793,10 +7720,6 @@ msgstr ""
 "Ýstenilen tuþ/düðmeye basýn, çubuðu hareket ettirin veya tuþ seçmemek için "
 "ESC'e basýn."
 
-#: src/arch/amigaos/intl_text.c.po.c:3502
-msgid "Browse"
-msgstr "Göz at"
-
 #: src/arch/amigaos/intl_text.c.po.c:3632
 msgid "Connected client"
 msgstr "Baðlý istemci"
@@ -7831,10 +7754,6 @@ msgstr "Evet|Hayýr"
 #: src/arch/amigaos/intl_text.c.po.c:4139
 msgid "Parent"
 msgstr "Üst Öðe"
-
-#: src/arch/amigaos/intl_text.c.po.c:4230
-msgid "About"
-msgstr "Hakkýnda"
 
 #: src/arch/amigaos/intl_text.c.po.c:4256
 msgid "Disabled"
@@ -8094,10 +8013,6 @@ msgstr "RamCart Oku/Yaz"
 msgid "Save RamCart image when changed"
 msgstr "RamCart imajý deðiþtiðinde kaydet"
 
-#: src/arch/amigaos/intl_text.c.po.c:6168
-msgid "RamCart settings"
-msgstr "RamCart ayarlarý"
-
 #: src/arch/amigaos/intl_text.c.po.c:6259
 msgid "Printer #4 emulation"
 msgstr "Yazýcý #4 emülasyonu"
@@ -8170,10 +8085,6 @@ msgstr "Yazýcý #4 için IEC emülasyonu"
 msgid "IEC emulation for printer #5"
 msgstr "Yazýcý #5 için IEC emülasyonu"
 
-#: src/arch/amigaos/intl_text.c.po.c:6558
-msgid "Magic Voice settings"
-msgstr "Magic Voice ayarlarý"
-
 #: src/arch/amigaos/intl_text.c.po.c:6571
 msgid "Userport RS232"
 msgstr "Userport RS232"
@@ -8201,10 +8112,6 @@ msgstr "BIOS dosyasý seçin"
 #: src/arch/amigaos/intl_text.c.po.c:7208
 msgid "Select MMC/SD image file"
 msgstr "MMC/SD imaj dosyasý seçin"
-
-#: src/arch/amigaos/intl_text.c.po.c:7221
-msgid "MMC64 settings"
-msgstr "MMC64 ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:7234
 msgid "Select EEPROM file"
@@ -8245,10 +8152,6 @@ msgstr "Kartuþ dosyasýný seç"
 #: src/arch/amigaos/intl_text.c.po.c:7416
 msgid "SID Cart"
 msgstr "SID Kartuþu"
-
-#: src/arch/amigaos/intl_text.c.po.c:7481
-msgid "SID cart settings"
-msgstr "SID kartuþu ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:7650
 msgid "Save currently attached disk images"
@@ -8354,21 +8257,9 @@ msgstr "RAM banklarý 2 & 3"
 msgid "Select ROM file"
 msgstr "ROM dosyasý seçin"
 
-#: src/arch/amigaos/intl_text.c.po.c:8443
-msgid "Computer ROM settings"
-msgstr "Bilgisayar ROM ayarlarý"
-
-#: src/arch/amigaos/intl_text.c.po.c:8456
-msgid "Drive ROM settings"
-msgstr "Sürücü ROM ayarlarý"
-
 #: src/arch/amigaos/intl_text.c.po.c:8469
 msgid "DigiMAX Enabled"
 msgstr "DigiMAX'ý Aktif Et"
-
-#: src/arch/amigaos/intl_text.c.po.c:8495
-msgid "DigiMAX settings"
-msgstr "DigiMAX ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:8508
 msgid "SFX Sound Expander Enabled"
@@ -8414,224 +8305,224 @@ msgstr "Çýkartýldýðýnda EasyFlash CRT dosyasýna kaydet"
 msgid "Save to EasyFlash CRT now"
 msgstr "Hemen EasyFlash CRT'ye kaydet"
 
-#: src/translate_text.c.po.c:6
+#: src/translate_text.c.po.c:7
 msgid "Cannot load snapshot file."
 msgstr "Anlýk görüntü dosyasý yüklenemedi."
 
-#: src/translate_text.c.po.c:22
+#: src/translate_text.c.po.c:23
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr ""
 "Kayýttan yürütme hatasý: %s dosyanýn %d satýrýndan farklý (hata ayýklama%06d)"
 
-#: src/translate_text.c.po.c:38
+#: src/translate_text.c.po.c:39
 msgid "Cannot create image file!"
 msgstr "Imaj dosyasý yaratýlamadý!"
 
-#: src/translate_text.c.po.c:54
+#: src/translate_text.c.po.c:55
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "%s imaj dosyasýna yazýlamadý"
 
-#: src/translate_text.c.po.c:70
+#: src/translate_text.c.po.c:71
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "%s için eþleþme ismi bulunamadý"
 
-#: src/translate_text.c.po.c:86
+#: src/translate_text.c.po.c:87
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Anlýk görüntü dosyasý %s yaratýlamadý."
 
-#: src/translate_text.c.po.c:102
+#: src/translate_text.c.po.c:103
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Anlýk görüntü dosyasý %s okuma hatasý."
 
-#: src/translate_text.c.po.c:118
+#: src/translate_text.c.po.c:119
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Son anlýk görüntü dosyasý %s yaratýlamadý."
 
-#: src/translate_text.c.po.c:134
+#: src/translate_text.c.po.c:135
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Son anlýk görüntü dosyasý %s açýlamadý."
 
-#: src/translate_text.c.po.c:150
+#: src/translate_text.c.po.c:151
 msgid "Could not find event section in end snapshot file."
 msgstr "Son anlýk görüntü dosyasýnda olay bölümü bulunamadý."
 
-#: src/translate_text.c.po.c:166
+#: src/translate_text.c.po.c:167
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Baþlangýç anlýk görüntü dosyasý okuma hatasý. %s ve %s denendi"
 
-#: src/translate_text.c.po.c:182
+#: src/translate_text.c.po.c:183
 msgid "Error reading start snapshot file."
 msgstr "Baþlangýç anlýk görüntü dosyasý okuma hatasý."
 
-#: src/translate_text.c.po.c:198
+#: src/translate_text.c.po.c:199
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Üzgünüz. Çoklu kayýt desteklenmiyor."
 
-#: src/translate_text.c.po.c:214
+#: src/translate_text.c.po.c:215
 msgid "write to sound device failed."
 msgstr "ses aygýtýna yazma baþarýsýz oldu."
 
-#: src/translate_text.c.po.c:230
+#: src/translate_text.c.po.c:231
 msgid "Cannot open SID engine"
 msgstr "SID motoru açýlamýyor"
 
-#: src/translate_text.c.po.c:246
+#: src/translate_text.c.po.c:247
 msgid "Cannot initialize SID engine"
 msgstr "SID motorunun baþlangýç ayarlarý yapýlamýyor"
 
-#: src/translate_text.c.po.c:262
+#: src/translate_text.c.po.c:263
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "`%s' aygýtý için baþlangýç ayarlarý baþarýsýz oldu."
 
-#: src/translate_text.c.po.c:278
+#: src/translate_text.c.po.c:279
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "'%s' aygýtý yok ya da desteklenmiyor."
 
-#: src/translate_text.c.po.c:294
+#: src/translate_text.c.po.c:295
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Kayýt aygýtý %s mevcut deðil!"
 
-#: src/translate_text.c.po.c:310
+#: src/translate_text.c.po.c:311
 msgid "Recording device must be different from playback device"
 msgstr "Kayýt aygýtý kayýttan yürütme aygýtý ile farklý olmak zorundadýr"
 
-#: src/translate_text.c.po.c:326
+#: src/translate_text.c.po.c:327
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Uyarý! Kayýt aygýtý %s gerçek zamanlý bir aygýt gibi görünüyor!"
 
-#: src/translate_text.c.po.c:342
+#: src/translate_text.c.po.c:343
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Kayýt aygýtý geçerli ses parametrelerini desteklemiyor"
 
-#: src/translate_text.c.po.c:358
+#: src/translate_text.c.po.c:359
 msgid "Sound buffer overflow (cycle based)"
 msgstr "Ses arabellek taþmasý (cycle bazlý)"
 
-#: src/translate_text.c.po.c:374
+#: src/translate_text.c.po.c:375
 msgid "Sound buffer overflow."
 msgstr "Ses arabellek taþmasý."
 
-#: src/translate_text.c.po.c:390
+#: src/translate_text.c.po.c:391
 msgid "cannot flush."
 msgstr "temizlenemedi."
 
-#: src/translate_text.c.po.c:406
+#: src/translate_text.c.po.c:407
 msgid "fragment problems."
 msgstr "parçalara ayýrma problemi."
 
-#: src/translate_text.c.po.c:422
+#: src/translate_text.c.po.c:423
 msgid "running too slow."
 msgstr "çok yavaþ çalýþýyor."
 
-#: src/translate_text.c.po.c:438
+#: src/translate_text.c.po.c:439
 msgid "store to sounddevice failed."
 msgstr "ses aygýtýna saklama baþarýsýz oldu."
 
-#: src/translate_text.c.po.c:454
+#: src/translate_text.c.po.c:455
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Kaynak %s, %s tarafýndan bloklandý."
 
-#: src/translate_text.c.po.c:471
+#: src/translate_text.c.po.c:472
 msgid "Testing best frame delay..."
 msgstr "En iyi frame bekleme süresi test ediliyor..."
 
-#: src/translate_text.c.po.c:487
+#: src/translate_text.c.po.c:488
 #, c-format
 msgid "Using %d frames delay."
 msgstr "%d frame bekleme süresi kullanýlýyor."
 
-#: src/translate_text.c.po.c:503
+#: src/translate_text.c.po.c:504
 msgid "Cannot load snapshot file for transfer"
 msgstr "Transfer için anlýk görüntü dosyasý yüklenemedi"
 
-#: src/translate_text.c.po.c:519
+#: src/translate_text.c.po.c:520
 msgid "Sending snapshot to client..."
 msgstr "Anlýk görüntü dosyasý istemciye gönderiliyor..."
 
-#: src/translate_text.c.po.c:535
+#: src/translate_text.c.po.c:536
 msgid "Cannot send snapshot to client"
 msgstr "Anlýk görüntü dosyasý istemciye gönderilemedi"
 
-#: src/translate_text.c.po.c:551
+#: src/translate_text.c.po.c:552
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Anlýk görüntü dosyasý %s yaratýlamadý"
 
-#: src/translate_text.c.po.c:567
+#: src/translate_text.c.po.c:568
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Anlýk görüntü dosyasý %s açýlamadý"
 
-#: src/translate_text.c.po.c:583
+#: src/translate_text.c.po.c:584
 msgid "Server is waiting for a client..."
 msgstr "Sunucu bir istemcinin baðlanmasý için bekliyor..."
 
-#: src/translate_text.c.po.c:599
+#: src/translate_text.c.po.c:600
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr "Anlýk görüntü dosyasý yaratýlamadý. Farklý bir tarihçe dizini seçin!"
 
-#: src/translate_text.c.po.c:615
+#: src/translate_text.c.po.c:616
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "%s çözülemedi"
 
-#: src/translate_text.c.po.c:631
+#: src/translate_text.c.po.c:632
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "%s baðlantýsý kurulamadý (port %d üzerinde çalýþan sunucu yok)."
 
-#: src/translate_text.c.po.c:647
+#: src/translate_text.c.po.c:648
 msgid "Receiving snapshot from server..."
 msgstr "Sunucudan anlýk görüntü alýnýyor..."
 
-#: src/translate_text.c.po.c:663
+#: src/translate_text.c.po.c:664
 msgid "Network out of sync - disconnecting."
 msgstr "Að senkronizasyonu bozuldu - baðlantý kesiliyor."
 
-#: src/translate_text.c.po.c:679
+#: src/translate_text.c.po.c:680
 msgid "Remote host disconnected."
 msgstr "Uzak sunucu baðlantýsý kesildi."
 
-#: src/translate_text.c.po.c:695
+#: src/translate_text.c.po.c:696
 msgid "Remote host suspending..."
 msgstr "Uzak sunucu askýda..."
 
-#: src/translate_text.c.po.c:712
+#: src/translate_text.c.po.c:713
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Görüntü akýþý açýlamadý"
 
-#: src/translate_text.c.po.c:728
+#: src/translate_text.c.po.c:729
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Ses akýþý açýlamadý"
 
-#: src/translate_text.c.po.c:744
+#: src/translate_text.c.po.c:745
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: %s açýlamadý"
 
-#: src/translate_text.c.po.c:760
+#: src/translate_text.c.po.c:761
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr "G/Ç okuma çakýþmasý %X'de "
 
-#: src/translate_text.c.po.c:776
+#: src/translate_text.c.po.c:777
 msgid " and "
 msgstr " ve "
 
-#: src/translate_text.c.po.c:792
+#: src/translate_text.c.po.c:793
 msgid ""
 ".\n"
 "All the named devices will be detached."
@@ -8639,39 +8530,39 @@ msgstr ""
 ".\n"
 "Tüm isimlendirilmiþ aygýtlar çýkartýlacaktýr."
 
-#: src/translate_text.c.po.c:808
+#: src/translate_text.c.po.c:809
 msgid "No filename!"
 msgstr "Dosya ismi yok!"
 
-#: src/translate_text.c.po.c:824
+#: src/translate_text.c.po.c:825
 msgid "Illegal filename!"
 msgstr "Kural dýþý dosya ismi!"
 
-#: src/translate_text.c.po.c:840
+#: src/translate_text.c.po.c:841
 #, c-format
 msgid "Error creating file %s!"
 msgstr "%s dosyasý yaratýlýrken hata oluþtu!"
 
-#: src/translate_text.c.po.c:856
+#: src/translate_text.c.po.c:857
 #, c-format
 msgid "Error writing to file %s!"
 msgstr "%s dosyasýna yazýlýrken hata oluþtu!"
 
-#: src/translate_text.c.po.c:872
+#: src/translate_text.c.po.c:873
 msgid "DTV ROM image created successfully"
 msgstr "DTV ROM imajý baþarýyla oluþturuldu"
 
-#: src/translate_text.c.po.c:888
+#: src/translate_text.c.po.c:889
 #, c-format
 msgid "Command `%s' unknown.\n"
 msgstr "`%s' komutu bilinmiyor.\n"
 
-#: src/translate_text.c.po.c:904
+#: src/translate_text.c.po.c:905
 #, c-format
 msgid "No help available for `%s'\n"
 msgstr "`%s' için mevcut bir yardým metni yok\n"
 
-#: src/translate_text.c.po.c:920
+#: src/translate_text.c.po.c:921
 #, c-format
 msgid ""
 "\n"
@@ -8680,24 +8571,24 @@ msgstr ""
 "\n"
 "Sözdizimi: %s %s\n"
 
-#: src/translate_text.c.po.c:936
+#: src/translate_text.c.po.c:937
 #, c-format
 msgid "Abbreviation: %s\n"
 msgstr "Kýsaltma: %s\n"
 
-#: src/translate_text.c.po.c:952
+#: src/translate_text.c.po.c:953
 msgid "Available commands are:"
 msgstr "Kullanýlabilir komutlar:"
 
-#: src/translate_text.c.po.c:968
+#: src/translate_text.c.po.c:969
 msgid "Machine state commands:"
 msgstr "Makine durum komutlarý:"
 
-#: src/translate_text.c.po.c:984
+#: src/translate_text.c.po.c:985
 msgid "[<memspace>] [bankname]"
 msgstr "[<bellekalaný>] [bankismi]"
 
-#: src/translate_text.c.po.c:1000
+#: src/translate_text.c.po.c:1001
 msgid ""
 "If bankname is not given, print the possible banks for the memspace.\n"
 "If bankname is given set the current bank in the memspace to the given\n"
@@ -8707,7 +8598,7 @@ msgstr ""
 "Eðer bank ismi verilmiþse, geçerli bank bellek alaný içinde verilen\n"
 "banka eþitlenir."
 
-#: src/translate_text.c.po.c:1016
+#: src/translate_text.c.po.c:1017
 msgid ""
 "Print JSR call chain (most recent call first). Stack offset\n"
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
@@ -8717,23 +8608,23 @@ msgstr ""
 "SP+1'e baðlý olarak parantez içersinde yazdýrýlýr. Bu yalnýzca en iyi\n"
 "tahmindir."
 
-#: src/translate_text.c.po.c:1032
+#: src/translate_text.c.po.c:1033
 msgid "Specify the type of CPU currently used (6502/z80)."
 msgstr "Þu anda kullanýlmakta olan CPU tipini belirleyin (6502/z80)."
 
-#: src/translate_text.c.po.c:1048
+#: src/translate_text.c.po.c:1049
 msgid "[<count>]"
 msgstr "[<adet>]"
 
-#: src/translate_text.c.po.c:1064
+#: src/translate_text.c.po.c:1065
 msgid "Show <count> last executed commands."
 msgstr "<adet> son çalýþtýrýlan komutlarý göster."
 
-#: src/translate_text.c.po.c:1080
+#: src/translate_text.c.po.c:1081
 msgid "\"<filename>\""
 msgstr "\"<dosyaismi>\""
 
-#: src/translate_text.c.po.c:1096
+#: src/translate_text.c.po.c:1097
 msgid ""
 "Write a snapshot of the machine into the file specified.\n"
 "This snapshot is compatible with a snapshot written out by the UI.\n"
@@ -8743,23 +8634,23 @@ msgstr ""
 "Bu anlýk görüntü UI dýþýndan yazdýrýlan anlýk görüntü ile uyumludur.\n"
 "Not: Hiçbir ROM imajý döküm içersinde yer almaz."
 
-#: src/translate_text.c.po.c:1112
+#: src/translate_text.c.po.c:1113
 msgid "<address>"
 msgstr "<adres>"
 
-#: src/translate_text.c.po.c:1128
+#: src/translate_text.c.po.c:1129
 msgid "Change the PC to ADDRESS and continue execution"
 msgstr "PC'yi ADDRESS'e çevirip çalýþtýrmaya devam edin"
 
-#: src/translate_text.c.po.c:1144
+#: src/translate_text.c.po.c:1145
 msgid "Print out the I/O area of the emulated machine."
 msgstr "Emüle edilen makinenin G/Ç alanýný yazdýr."
 
-#: src/translate_text.c.po.c:1160
+#: src/translate_text.c.po.c:1161
 msgid "Print out list of attached expansion port devices."
 msgstr "Geniþletme yuvasýna takýlý aygýtlarýn listesini yazdýr."
 
-#: src/translate_text.c.po.c:1176
+#: src/translate_text.c.po.c:1177
 msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
@@ -8767,11 +8658,11 @@ msgstr ""
 "Sonraki komuta ilerle.  Altrutinler tek bir komutmuþ\n"
 "gibi iþlendi."
 
-#: src/translate_text.c.po.c:1192
+#: src/translate_text.c.po.c:1193
 msgid "[<reg_name> = <number> [, <reg_name> = <number>]*]"
 msgstr "[<reg_ismi> = <sayý> [, <reg_ismi> = <sayý>]*]"
 
-#: src/translate_text.c.po.c:1208
+#: src/translate_text.c.po.c:1209
 msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
@@ -8779,15 +8670,15 @@ msgstr ""
 "Sýrayla registerlara ata.  parametreler olmadan, register deðerlerini\n"
 "görüntüle."
 
-#: src/translate_text.c.po.c:1224
+#: src/translate_text.c.po.c:1225
 msgid "[<type>]"
 msgstr "[<tip>]"
 
-#: src/translate_text.c.po.c:1240
+#: src/translate_text.c.po.c:1241
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
 msgstr "Makine ya da sürücüyü resetle. Tip: 0 = soft, 1 = hard, 8-11 = drive."
 
-#: src/translate_text.c.po.c:1256
+#: src/translate_text.c.po.c:1257
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
@@ -8795,11 +8686,11 @@ msgstr ""
 "Çalýþmaya devam eder ve sonraki RTS ya da RTI çalýþtýrýlmadan hemen önce\n"
 "monitöre geri döner."
 
-#: src/translate_text.c.po.c:1272
+#: src/translate_text.c.po.c:1273
 msgid "Displays the contents of the screen."
 msgstr "Ekran içeriðini görüntüler."
 
-#: src/translate_text.c.po.c:1288
+#: src/translate_text.c.po.c:1289
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
@@ -8807,19 +8698,19 @@ msgstr ""
 "Komutlara doðru tek-adým.  COUNT bir defada birden fazla\n"
 "komutu adýmlamaya izin verir."
 
-#: src/translate_text.c.po.c:1304
+#: src/translate_text.c.po.c:1305
 msgid "Read a snapshot of the machine from the file specified."
 msgstr "Belirtilen dosyadan makinenin anlýk görüntüsünü oku."
 
-#: src/translate_text.c.po.c:1320
+#: src/translate_text.c.po.c:1321
 msgid "Symbol table commands:"
 msgstr "Sembol tablosu komutlarý:"
 
-#: src/translate_text.c.po.c:1336
+#: src/translate_text.c.po.c:1337
 msgid "[<memspace>] <address> <label>"
 msgstr "[<bellekalaný>] <adres> <etiket>"
 
-#: src/translate_text.c.po.c:1352
+#: src/translate_text.c.po.c:1353
 msgid ""
 "<memspace> is one of: C: 8: 9: 10: 11:\n"
 "<address>  is the address which should get the label.\n"
@@ -8838,11 +8729,11 @@ msgstr ""
 "ve disassembly sýrasýnda gösterilir.  Ek olarak, ne zaman bir adres\n"
 "belirtilmesi gerekse kullanýlabilir."
 
-#: src/translate_text.c.po.c:1368
+#: src/translate_text.c.po.c:1369
 msgid "[<memspace>] <label>"
 msgstr "[<bellekalaný>] <etiket>"
 
-#: src/translate_text.c.po.c:1384
+#: src/translate_text.c.po.c:1385
 msgid ""
 "<memspace> is one of: C: 8: 9: 10: 11:\n"
 "<label>    is the name of the label; it must start with a dot (\".\").\n"
@@ -8854,11 +8745,11 @@ msgstr ""
 "\n"
 "Önceden tanýmlanmýþ bir etiketi sil."
 
-#: src/translate_text.c.po.c:1400
+#: src/translate_text.c.po.c:1401
 msgid "[<memspace>] \"<filename>\""
 msgstr "[<bellekalaný>] <dosyaismi>"
 
-#: src/translate_text.c.po.c:1416
+#: src/translate_text.c.po.c:1417
 msgid ""
 "Load a file containing a mapping of labels to addresses.  If no memory\n"
 "space is specified, the default readspace is used.\n"
@@ -8872,7 +8763,7 @@ msgstr ""
 "Dosyanýn biçimi `save_labels' komutu ile yazýlmýþ olandýr;\n"
 "bu peþ peþe yazýlmýþ `add_label' komutlarýndan ibarettir."
 
-#: src/translate_text.c.po.c:1432
+#: src/translate_text.c.po.c:1433
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
@@ -8880,11 +8771,11 @@ msgstr ""
 "Etiketleri bir dosyaya kaydet.  Eðer bellek alaný belirtilmemiþse, tüm\n"
 "etiketler kaydedilir."
 
-#: src/translate_text.c.po.c:1448
+#: src/translate_text.c.po.c:1449
 msgid "[<memspace>]"
 msgstr "[<bellekalaný>]"
 
-#: src/translate_text.c.po.c:1464
+#: src/translate_text.c.po.c:1465
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
@@ -8892,23 +8783,23 @@ msgstr ""
 "Geçerli etiket eþleþmelerini görüntüle.  Eðer bellek alaný belirtilmemiþse,\n"
 "tüm etiketleri göster."
 
-#: src/translate_text.c.po.c:1480
+#: src/translate_text.c.po.c:1481
 msgid "Assembler and memory commands:"
 msgstr "Assembler ve bellek komutlarý:"
 
-#: src/translate_text.c.po.c:1496
+#: src/translate_text.c.po.c:1497
 msgid "[<address>] <data_list>"
 msgstr "[<adres>] <veri_listesi>"
 
-#: src/translate_text.c.po.c:1512
+#: src/translate_text.c.po.c:1513
 msgid "Write the specified data at `address'."
 msgstr "`adres' bölümünde belirlenmiþ bir veri yaz."
 
-#: src/translate_text.c.po.c:1528
+#: src/translate_text.c.po.c:1529
 msgid "<address> [ <instruction> [: <instruction>]* ]"
 msgstr "<adres> [ <komut> [: <komut>]* ]"
 
-#: src/translate_text.c.po.c:1544
+#: src/translate_text.c.po.c:1545
 msgid ""
 "Assemble instructions to the specified address.  If only one\n"
 "instruction is specified, enter assembly mode (enter an empty line to\n"
@@ -8918,11 +8809,11 @@ msgstr ""
 "komut belirlenmiþse, assembly moduna gir (assembly modundan çýkmak için\n"
 "boþ bir satýr girin)."
 
-#: src/translate_text.c.po.c:1560
+#: src/translate_text.c.po.c:1561
 msgid "<address_range> <address>"
 msgstr "<adres_aralýðý> <adres>"
 
-#: src/translate_text.c.po.c:1576
+#: src/translate_text.c.po.c:1577
 msgid ""
 "Compare memory from the source specified by the address range to the\n"
 "destination specified by the address.  The regions may overlap.  Any\n"
@@ -8932,19 +8823,19 @@ msgstr ""
 "aralýkta karþýlaþtýr.  Bölgeler belki üst üste binebilir.  Uyuþmayan\n"
 "herhangi bir deðer varsayýlan görüntüleme tipine baðlý olarak görüntülenir."
 
-#: src/translate_text.c.po.c:1592
+#: src/translate_text.c.po.c:1593
 msgid "<checknum>"
 msgstr "<kontrolnumarasý>"
 
-#: src/translate_text.c.po.c:1608
+#: src/translate_text.c.po.c:1609
 msgid "Delete checkpoint `checknum'."
 msgstr "`kontrolnumarasý' kontrol noktasýný sil."
 
-#: src/translate_text.c.po.c:1624
+#: src/translate_text.c.po.c:1625
 msgid "[<address> [<address>]]"
 msgstr "[<adres> [<adres>]]"
 
-#: src/translate_text.c.po.c:1640
+#: src/translate_text.c.po.c:1641
 msgid ""
 "Disassemble instructions.  If two addresses are specified, they are\n"
 "used as a start and end address.  If only one is specified, it is\n"
@@ -8958,11 +8849,11 @@ msgstr ""
 "disassemble edilir.  Eðer hiç adres girilmediyse, varsayýlan sayýda\n"
 "komutlar nokta baþlangýç adresinden itibaren disassemble edilir."
 
-#: src/translate_text.c.po.c:1656
+#: src/translate_text.c.po.c:1657
 msgid "<address_range> <data_list>"
 msgstr "<adres_aralýðý> <veri_listesi>"
 
-#: src/translate_text.c.po.c:1672
+#: src/translate_text.c.po.c:1673
 msgid ""
 "Fill memory in the specified address range with the data in\n"
 "<data_list>.  If the size of the address range is greater than the size\n"
@@ -8972,7 +8863,7 @@ msgstr ""
 "Eðer verilen adres aralýðý veri_listesi'nden büyükse, veri_listesi'nde\n"
 "yer alan veriler tekrar ettirilir."
 
-#: src/translate_text.c.po.c:1688
+#: src/translate_text.c.po.c:1689
 msgid ""
 "Hunt memory in the specified address range for the data in\n"
 "<data_list>.  If the data is found, the starting address of the match\n"
@@ -8982,23 +8873,23 @@ msgstr ""
 "arama yap.  Eðer veri bulunursa, eþleþen adres aralýðýnýn baþlangýç\n"
 "adresi görüntülenir.  Tüm alan mümkün olan eþleþmeler için aranacaktýr."
 
-#: src/translate_text.c.po.c:1704
+#: src/translate_text.c.po.c:1705
 msgid "<address_opt_range>"
 msgstr "<opsiyonel_adres_aralýðý>"
 
-#: src/translate_text.c.po.c:1720
+#: src/translate_text.c.po.c:1721
 msgid "Display memory contents as PETSCII text."
 msgstr "Bellek içeriðini PETSCII yazý biçiminde görüntüle."
 
-#: src/translate_text.c.po.c:1736
+#: src/translate_text.c.po.c:1737
 msgid "Display memory contents as screen code text."
 msgstr "Bellek içeriðini ekran kodu yazý biçiminde görüntüle."
 
-#: src/translate_text.c.po.c:1752
+#: src/translate_text.c.po.c:1753
 msgid "[<data_type>] [<address_opt_range>]"
 msgstr "[<veri_tipi>] [<opsiyonel_adres_aralýðý>]"
 
-#: src/translate_text.c.po.c:1768
+#: src/translate_text.c.po.c:1769
 msgid ""
 "Display the contents of memory.  If no datatype is given, the default\n"
 "is used.  If only one address is specified, the length of data\n"
@@ -9014,7 +8905,7 @@ msgstr ""
 "Lütfen dikkat: 'b' ve 'd'nin karmaþýk anlamlarýndan ötürü bu veri\n"
 "tipleri büyükharf olarak verilmelidir!"
 
-#: src/translate_text.c.po.c:1784
+#: src/translate_text.c.po.c:1785
 msgid ""
 "Display the contents of memory as character data.  If only one address\n"
 "is specified, only one character is displayed.  If no addresses are\n"
@@ -9024,11 +8915,11 @@ msgstr ""
 "belirtilmiþse, yalnýzca tek karakter görüntülenir.  Eðer hiç adres\n"
 "girilmemiþse, 'nokta' adresi kullanýlýr."
 
-#: src/translate_text.c.po.c:1800
+#: src/translate_text.c.po.c:1801
 msgid "\"<filename>\" <format>"
 msgstr "\"<dosyaismi>\" <biçim>"
 
-#: src/translate_text.c.po.c:1816
+#: src/translate_text.c.po.c:1817
 msgid ""
 "Save the memmap as a picture. Format is:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
@@ -9036,11 +8927,11 @@ msgstr ""
 "Bellek haritasýný resim olarak kaydet. Biçim:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
-#: src/translate_text.c.po.c:1832
+#: src/translate_text.c.po.c:1833
 msgid "[<mask>] [<address_opt_range>]"
 msgstr "[<maske>] [<opsiyonel_adres_aralýðý>]"
 
-#: src/translate_text.c.po.c:1848
+#: src/translate_text.c.po.c:1849
 msgid ""
 "Show the memmap. The mask can be specified to show only those\n"
 "locations with accesses of certain type(s). The mask is a number\n"
@@ -9052,11 +8943,11 @@ msgstr ""
 "sayýdýr. RWX ROM'u, rwx RAM'i ifade eder. Opsiyonel olarak bir adres\n"
 "aralýðý belirtilebilir."
 
-#: src/translate_text.c.po.c:1864
+#: src/translate_text.c.po.c:1865
 msgid "Clear the memmap."
 msgstr "Bellek haritasýný temizle."
 
-#: src/translate_text.c.po.c:1880
+#: src/translate_text.c.po.c:1881
 msgid ""
 "Display the contents of memory as sprite data.  If only one address is\n"
 "specified, only one sprite is displayed.  If no addresses are given,\n"
@@ -9066,7 +8957,7 @@ msgstr ""
 "belirtilmiþse, yalnýzca tek yaratýk görüntülenir.  Eðer hiç adres\n"
 "girilmemiþse, 'nokta' adresi kullanýlýr."
 
-#: src/translate_text.c.po.c:1896
+#: src/translate_text.c.po.c:1897
 msgid ""
 "Move memory from the source specified by the address range to\n"
 "the destination specified by the address.  The regions may overlap."
@@ -9074,15 +8965,15 @@ msgstr ""
 "Belleði belirtilmiþ kaynak adres aralýðýndan belirtilmiþ hedef\n"
 "adresine taþý.  Alanlar üst üste binebilir."
 
-#: src/translate_text.c.po.c:1912
+#: src/translate_text.c.po.c:1913
 msgid "Checkpoint commands:"
 msgstr "Kontrol Noktasý komutlarý:"
 
-#: src/translate_text.c.po.c:1928
+#: src/translate_text.c.po.c:1929
 msgid "[<address> [if <cond_expr>] ]"
 msgstr "[<adres> [if <koþul_idafesi>] ]"
 
-#: src/translate_text.c.po.c:1944
+#: src/translate_text.c.po.c:1945
 msgid ""
 "If no address is given, the currently valid watchpoints are printed.\n"
 "If an address is given, a breakpoint is set for that address and the\n"
@@ -9096,11 +8987,11 @@ msgstr ""
 "koþul ifadesi de belirtilebilir.  Koþullar ile ilgili daha çok bilgi almak\n"
 "için, CONDITION komutuna bakabilirsiniz."
 
-#: src/translate_text.c.po.c:1960
+#: src/translate_text.c.po.c:1961
 msgid "<checknum> \"<command>\""
 msgstr "<kontrolnumarasý> \"<komut>\""
 
-#: src/translate_text.c.po.c:1976
+#: src/translate_text.c.po.c:1977
 msgid ""
 "Specify `command' as the command to execute when checkpoint `checknum'\n"
 "is hit.  Note that the `x' command is not yet supported as a\n"
@@ -9110,11 +9001,11 @@ msgstr ""
 "çalýþtýrýlacak komutu belirt.  Henüz `x' komutunun bir komut argümaný\n"
 "olarak desteklenmediðini not edin."
 
-#: src/translate_text.c.po.c:1992
+#: src/translate_text.c.po.c:1993
 msgid "<checknum> if <cond_expr>"
 msgstr "<kontrolnumarasý> if <koþul_idafesi>"
 
-#: src/translate_text.c.po.c:2008
+#: src/translate_text.c.po.c:2009
 msgid ""
 "Each time the specified checkpoint is examined, the condition is\n"
 "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
@@ -9139,19 +9030,19 @@ msgstr ""
 "bu bir bellek alaný ön ekiyle ifade edilir (yani, c:, 8:, 9:, 10:, 11:\n"
 "Örnekler: .A == 0, .X == .Y, 8:.X == .X\n"
 
-#: src/translate_text.c.po.c:2024
+#: src/translate_text.c.po.c:2025
 msgid "Disable checkpoint `checknum'."
 msgstr "Kontrol Noktasý `kontrolnumarasý'ný pasifleþtir."
 
-#: src/translate_text.c.po.c:2040
+#: src/translate_text.c.po.c:2041
 msgid "Enable checkpoint `checknum'."
 msgstr "Kontrol Noktasý `kontrolnumarasý'ný aktif et."
 
-#: src/translate_text.c.po.c:2056
+#: src/translate_text.c.po.c:2057
 msgid "<checknum> [<count>]"
 msgstr "<kontrolnumarasý> [<adet>]"
 
-#: src/translate_text.c.po.c:2072
+#: src/translate_text.c.po.c:2073
 msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
@@ -9160,11 +9051,11 @@ msgstr ""
 "verilmemiþse,\n"
 "varsayýlan deðer 1'dir."
 
-#: src/translate_text.c.po.c:2088
+#: src/translate_text.c.po.c:2089
 msgid "[<address>]"
 msgstr "[<adres>]"
 
-#: src/translate_text.c.po.c:2104
+#: src/translate_text.c.po.c:2105
 msgid ""
 "If no address is given, the currently valid breakpoints are printed.\n"
 "If an address is given, a temporary breakpoint is set for that address\n"
@@ -9176,11 +9067,11 @@ msgstr ""
 "iþaretlenir ve kesme noktasý sayýsý yazdýrýlýr.  Kontrol bu komutla\n"
 "emülatöre döndürülür.  Bir kere eriþildiði zaman kesme noktasý silinir."
 
-#: src/translate_text.c.po.c:2120
+#: src/translate_text.c.po.c:2121
 msgid "[loadstore] [address [address]]"
 msgstr "[yükle/depola] [adres [adres]]"
 
-#: src/translate_text.c.po.c:2136
+#: src/translate_text.c.po.c:2137
 msgid ""
 "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
 "for that address.  If two addresses are specified, set a watchpoint\n"
@@ -9196,11 +9087,11 @@ msgstr ""
 "`depola' iþlemlerinde çalýþabilir. Eðer belirtilmemiþse, her iki iþlemde de\n"
 "monitör kesilecektir."
 
-#: src/translate_text.c.po.c:2152
+#: src/translate_text.c.po.c:2153
 msgid "[address [address]]"
 msgstr "[adres [adres]]"
 
-#: src/translate_text.c.po.c:2168
+#: src/translate_text.c.po.c:2169
 msgid ""
 "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
 "for that address.  If two addresses are specified, set a tracepoint\n"
@@ -9210,11 +9101,11 @@ msgstr ""
 "o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\n"
 "o iki adres arasýnda kalan adreslere koy."
 
-#: src/translate_text.c.po.c:2184
+#: src/translate_text.c.po.c:2185
 msgid "Monitor state commands:"
 msgstr "Monitör durum komutlarý:"
 
-#: src/translate_text.c.po.c:2200
+#: src/translate_text.c.po.c:2201
 msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
@@ -9222,15 +9113,15 @@ msgstr ""
 "Varsayýlan bellek aygýtýný bilgisayar `c:' ya da (`8:', `9:') ile\n"
 "belirtilmiþ disket dürücü olarak belirle."
 
-#: src/translate_text.c.po.c:2216
+#: src/translate_text.c.po.c:2217
 msgid "Leave the monitor and return to execution."
 msgstr "Monitörü terk et ve çalýþtýrmaya geri dön."
 
-#: src/translate_text.c.po.c:2232
+#: src/translate_text.c.po.c:2233
 msgid "Exit the emulator immediately."
 msgstr "Emülasyondan derhal çýk."
 
-#: src/translate_text.c.po.c:2248
+#: src/translate_text.c.po.c:2249
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
@@ -9238,11 +9129,11 @@ msgstr ""
 "Varsayýlan sayý tabanýný 16'lý, 10'lu, 8'li ya da 2'li yap.\n"
 "Argümansýz olarak geçerli sayý tabaný yazdýrýlýr."
 
-#: src/translate_text.c.po.c:2264
+#: src/translate_text.c.po.c:2265
 msgid "[on|off|toggle]"
 msgstr "[on|off|toggle]"
 
-#: src/translate_text.c.po.c:2280
+#: src/translate_text.c.po.c:2281
 msgid ""
 "Control how monitor generated reads affect memory locations that have\n"
 "read side-effects.  If the argument is 'on' then reads may cause\n"
@@ -9257,15 +9148,15 @@ msgstr ""
 "olmayacaktýr.  Eðer argüman 'toggle' ise geçerli mod deðiþtirilecektir.\n"
 "Argüman verilmemesi o anki durumu görüntüler."
 
-#: src/translate_text.c.po.c:2296
+#: src/translate_text.c.po.c:2297
 msgid "Disk commands:"
 msgstr "Disk komutlarý:"
 
-#: src/translate_text.c.po.c:2312
+#: src/translate_text.c.po.c:2313
 msgid "<disk command>"
 msgstr "<disk komutu>"
 
-#: src/translate_text.c.po.c:2328
+#: src/translate_text.c.po.c:2329
 msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
@@ -9273,19 +9164,19 @@ msgstr ""
 "8 nolu sürücüde takýlý disk imajý üzerinde bir disk komutu çalýþtýr.\n"
 "Belirtilen disk komutu sürücünün 15 numaralý kanalýna gönderilir."
 
-#: src/translate_text.c.po.c:2344
+#: src/translate_text.c.po.c:2345
 msgid "<filename> <device>"
 msgstr "<dosyaismi> <aygýt>"
 
-#: src/translate_text.c.po.c:2360
+#: src/translate_text.c.po.c:2361
 msgid "Attach file to device. (device 32 = cart)"
 msgstr "Aygýta dosya yerleþtir. (aygýt 32 = kartuþ)"
 
-#: src/translate_text.c.po.c:2376
+#: src/translate_text.c.po.c:2377
 msgid "\"<filename>\" <device> <address>"
 msgstr "\"<dosyaismi>\" <aygýt> <adres>"
 
-#: src/translate_text.c.po.c:2392
+#: src/translate_text.c.po.c:2393
 msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
@@ -9293,11 +9184,11 @@ msgstr ""
 "Belirtilmiþ dosyayý belirtilen adresten itibaren belleðe yükle.\n"
 "Aygýt 0 ise, dosya dosya sistemi üzerinden okunur."
 
-#: src/translate_text.c.po.c:2408
+#: src/translate_text.c.po.c:2409
 msgid "<track> <sector> [<address>]"
 msgstr "<track> <sektör> [<adres>]"
 
-#: src/translate_text.c.po.c:2424
+#: src/translate_text.c.po.c:2425
 msgid ""
 "Read the block at the specified track and sector.  If an address is\n"
 "specified, the data is loaded into memory.  If no address is given, the\n"
@@ -9307,11 +9198,11 @@ msgstr ""
 "veri belleðe yüklenir.  Eðer adres belirtilmemiþse, veri varsayýlan veri\n"
 "tipi kullanýlarak görüntülenir."
 
-#: src/translate_text.c.po.c:2440
+#: src/translate_text.c.po.c:2441
 msgid "\"<filename>\" <device> <address1> <address2>"
 msgstr "\"<dosyaismi>\" <aygýt> <adres1> <adres2>"
 
-#: src/translate_text.c.po.c:2456
+#: src/translate_text.c.po.c:2457
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
@@ -9319,11 +9210,11 @@ msgstr ""
 "Adres1'den adres2'ye kadar olan belleði belirtilen dosyaya kaydet.\n"
 "Eðer aygýt 0 ise, dosya dosya sistemine yazýlýr."
 
-#: src/translate_text.c.po.c:2472
+#: src/translate_text.c.po.c:2473
 msgid "<track> <sector> <address>"
 msgstr "<track> <sektör> <adres>"
 
-#: src/translate_text.c.po.c:2488
+#: src/translate_text.c.po.c:2489
 msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
@@ -9331,35 +9222,35 @@ msgstr ""
 "Belirtilmiþ track ve sektörlerde `adres'te yer alan veri bloðunu 8\n"
 "numaralý sürücüdeki diske yaz."
 
-#: src/translate_text.c.po.c:2504
+#: src/translate_text.c.po.c:2505
 msgid "<directory>"
 msgstr "<dizin>"
 
-#: src/translate_text.c.po.c:2520
+#: src/translate_text.c.po.c:2521
 msgid "Change the working directory."
 msgstr "Çalýþma dizinini deðiþtir."
 
-#: src/translate_text.c.po.c:2536
+#: src/translate_text.c.po.c:2537
 msgid "Detach file from device. (device 32 = cart)"
 msgstr "Aygýttan dosya çýkart. (aygýt 32 = kartuþ)"
 
-#: src/translate_text.c.po.c:2552 src/translate_text.c.po.c:2568
+#: src/translate_text.c.po.c:2553 src/translate_text.c.po.c:2569
 msgid "[<directory>]"
 msgstr "[<dizin>]"
 
-#: src/translate_text.c.po.c:2584
+#: src/translate_text.c.po.c:2585
 msgid "Display the directory contents."
 msgstr "Dizin içeriðini görüntüle."
 
-#: src/translate_text.c.po.c:2600
+#: src/translate_text.c.po.c:2601
 msgid "List disk contents."
 msgstr "Disk içeriðini listele."
 
-#: src/translate_text.c.po.c:2616
+#: src/translate_text.c.po.c:2617
 msgid "\"<filename>\" <device> [<address>]"
 msgstr "\"<dosyaismi>\" <aygýt> [<adres>]"
 
-#: src/translate_text.c.po.c:2632
+#: src/translate_text.c.po.c:2633
 msgid ""
 "Load the specified file into memory at the specified address. Set BASIC\n"
 "pointers appropriately if loaded into computer memory (not all emulators).\n"
@@ -9373,11 +9264,11 @@ msgstr ""
 "dosya yükleme adresini kullan (diðer ihtimalde yoksay).\n"
 "Eðer aygýt 0 ise, dosya dosya sisteminden okunur."
 
-#: src/translate_text.c.po.c:2648
+#: src/translate_text.c.po.c:2649
 msgid "Show current working directory."
 msgstr "Geçerli çalýþma dizinini göster."
 
-#: src/translate_text.c.po.c:2664
+#: src/translate_text.c.po.c:2665
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "Write two-byte load address.\n"
@@ -9387,23 +9278,23 @@ msgstr ""
 "Ýki bytelýk yükeme adresini yaz.\n"
 "Eðer aygýt 0 ise, dosya dosya sistemine yazýlýr."
 
-#: src/translate_text.c.po.c:2680
+#: src/translate_text.c.po.c:2681
 msgid "Other commands:"
 msgstr "Diðer komutlar:"
 
-#: src/translate_text.c.po.c:2696
+#: src/translate_text.c.po.c:2697
 msgid "Display the specified number in decimal, hex, octal and binary."
 msgstr "Belirtilen sayýyý 10'lu, 16'lý, 8'li ya da 2'li olarak görüntüle."
 
-#: src/translate_text.c.po.c:2712
+#: src/translate_text.c.po.c:2713
 msgid "Use cartridge freeze."
 msgstr "Kartuþ freeze kullan"
 
-#: src/translate_text.c.po.c:2728
+#: src/translate_text.c.po.c:2729
 msgid "[<command>]"
 msgstr "[<komut>]"
 
-#: src/translate_text.c.po.c:2744
+#: src/translate_text.c.po.c:2745
 msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
@@ -9411,15 +9302,15 @@ msgstr ""
 "Eðer hiç argüman verilmemiþse, tüm mevcut komutlarýn listesi yazdýrýlýr\n"
 "Eðer bir argüman verilmiþse, o komuta özel yardým bilgisi yazdýrýlýr."
 
-#: src/translate_text.c.po.c:2760
+#: src/translate_text.c.po.c:2761
 msgid "\"<string>\""
 msgstr "\"<yazý>\""
 
-#: src/translate_text.c.po.c:2776 src/translate_text.c.po.c:10654
+#: src/translate_text.c.po.c:2777 src/translate_text.c.po.c:10655
 msgid "Put the specified string into the keyboard buffer."
 msgstr "Klavye arabelleðine belirtilen yazýyý koy."
 
-#: src/translate_text.c.po.c:2792
+#: src/translate_text.c.po.c:2793
 msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
@@ -9427,15 +9318,15 @@ msgstr ""
 "Belirtilen dosyadaki monitör komutlarý okundu ve çalýþtýrýldý.  Bu\n"
 "komut dosya sonunda ya da STOP komutu okunduðunda sonlanýr."
 
-#: src/translate_text.c.po.c:2808
+#: src/translate_text.c.po.c:2809
 msgid "<expression>"
 msgstr "<ifade>"
 
-#: src/translate_text.c.po.c:2824
+#: src/translate_text.c.po.c:2825
 msgid "Evaluate the specified expression and output the result."
 msgstr "Belirtilen ifadeyi deðerlendir ve sonucun çýktýsýný ver."
 
-#: src/translate_text.c.po.c:2840
+#: src/translate_text.c.po.c:2841
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
@@ -9443,31 +9334,31 @@ msgstr ""
 "Bu komuttan sonra, tüm girilen komutlar ve STOP komutunu görene dek\n"
 "belirtilen dosyaya yazýlacaktýr."
 
-#: src/translate_text.c.po.c:2856
+#: src/translate_text.c.po.c:2857
 msgid "\"<resource>\""
 msgstr "\"<kaynak>\""
 
-#: src/translate_text.c.po.c:2872
+#: src/translate_text.c.po.c:2873
 msgid "Displays the value of the resource."
 msgstr "Kaynaðýn deðerini görüntüler."
 
-#: src/translate_text.c.po.c:2888
+#: src/translate_text.c.po.c:2889
 msgid "\"<resource>\" \"<value>\""
 msgstr "\"<kaynak>\" \"<deðer>\""
 
-#: src/translate_text.c.po.c:2904
+#: src/translate_text.c.po.c:2905
 msgid "Sets the value of the resource."
 msgstr "Kaynaðýn deðerini belirler."
 
-#: src/translate_text.c.po.c:2920
+#: src/translate_text.c.po.c:2921
 msgid "Stop recording commands.  See `record'."
 msgstr "Kayýt komutlarýný durdur.  `record'a bak."
 
-#: src/translate_text.c.po.c:2936
+#: src/translate_text.c.po.c:2937
 msgid "\"<filename>\" [<format>]"
 msgstr "\"<dosyaismi>\" [<biçim>]"
 
-#: src/translate_text.c.po.c:2952
+#: src/translate_text.c.po.c:2953
 msgid ""
 "Take a screenshot. Format is:\n"
 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
@@ -9475,7 +9366,7 @@ msgstr ""
 "Ekran görüntüsü al. Biçim:\n"
 "varsayýlan = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
-#: src/translate_text.c.po.c:2984
+#: src/translate_text.c.po.c:2985
 msgid ""
 "Control the datasette. Valid commands:\n"
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
@@ -9485,973 +9376,973 @@ msgstr ""
 "0 = durdur, 1 = baþlat, 2 = ileri, 3 = geri, 4 = kayýt,\n"
 "5 = reset, 6 = reset sayacý."
 
-#: src/translate_text.c.po.c:3002
+#: src/translate_text.c.po.c:3003
 msgid "On autostart, load to BASIC start (without ',1')"
 msgstr "Otomatik baþlatýldýðýnda, BASIC baþlangýcýna yükle (',1' olmadan)"
 
-#: src/translate_text.c.po.c:3018
+#: src/translate_text.c.po.c:3019
 msgid "On autostart, load with ',1'"
 msgstr "Otomatik baþlatýldýðýnda, ',1' ile yükle"
 
-#: src/translate_text.c.po.c:3034
+#: src/translate_text.c.po.c:3035
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
 msgstr "Otomatik baþlatýldýðýnda, 'RUN' komutunu ':' ile kullan, yani, 'RUN:'"
 
-#: src/translate_text.c.po.c:3050
+#: src/translate_text.c.po.c:3051
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
 msgstr "Otomatik baþlatýldýðýnda, 'RUN' komutunu ':' ile kullanma, yani, 'RUN'"
 
-#: src/translate_text.c.po.c:3066
+#: src/translate_text.c.po.c:3067
 msgid "Handle True Drive Emulation on autostart"
 msgstr "Otomatik baþlatmada Gerçek Sürücü Emülasyonu'nu denetle"
 
-#: src/translate_text.c.po.c:3082
+#: src/translate_text.c.po.c:3083
 msgid "Do not handle True Drive Emulation on autostart"
 msgstr "Baþlangýçta Gerçek Sürücü Emülasyonu'nu Denetleme"
 
-#: src/translate_text.c.po.c:3098
+#: src/translate_text.c.po.c:3099
 msgid "Enable warp mode during autostart"
 msgstr "Otomatik baþlatma esnasýnda warp modu aktif et"
 
-#: src/translate_text.c.po.c:3114
+#: src/translate_text.c.po.c:3115
 msgid "Disable warp mode during autostart"
 msgstr "Otomatik baþlatma esnasýnda warp modu pasifleþtir"
 
-#: src/translate_text.c.po.c:3130
+#: src/translate_text.c.po.c:3131
 msgid "Set autostart mode for PRG files"
 msgstr "PRG dosyalarý için otomatik baþlatma ayarla"
 
-#: src/translate_text.c.po.c:3146
+#: src/translate_text.c.po.c:3147
 msgid "Set disk image for autostart of PRG files"
 msgstr "PRG dosyalarýnýn otomatik baþlatýlmasý için disk imajý ayarla"
 
-#: src/translate_text.c.po.c:3162
+#: src/translate_text.c.po.c:3163
 msgid "Use PAL sync factor"
 msgstr "PAL senkron faktörü kullan"
 
-#: src/translate_text.c.po.c:3178
+#: src/translate_text.c.po.c:3179
 msgid "Use NTSC sync factor"
 msgstr "NTSC senkron faktörü kullan"
 
-#: src/translate_text.c.po.c:3194
+#: src/translate_text.c.po.c:3195
 msgid "Use PAL-N sync factor"
 msgstr "PAL-N senkron faktörü kullan"
 
-#: src/translate_text.c.po.c:3226
+#: src/translate_text.c.po.c:3227
 msgid "Specify name of international Kernal ROM image"
 msgstr "Uluslararasý Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3242
+#: src/translate_text.c.po.c:3243
 msgid "Specify name of German Kernal ROM image"
 msgstr "Alman Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3258
+#: src/translate_text.c.po.c:3259
 msgid "Specify name of Finnish Kernal ROM image"
 msgstr "Finlandiya Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3274
+#: src/translate_text.c.po.c:3275
 msgid "Specify name of French Kernal ROM image"
 msgstr "Fransýz Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3290
+#: src/translate_text.c.po.c:3291
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Ýtalyan Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3306
+#: src/translate_text.c.po.c:3307
 msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Norveç Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3322
+#: src/translate_text.c.po.c:3323
 msgid "Specify name of Swedish Kernal ROM image"
 msgstr "Ýsveç Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3338
+#: src/translate_text.c.po.c:3339
 msgid "Specify name of BASIC ROM image (lower part)"
 msgstr "BASIC ROM imajýnýn (alt kýsým) ismini belirt"
 
-#: src/translate_text.c.po.c:3354
+#: src/translate_text.c.po.c:3355
 msgid "Specify name of BASIC ROM image (higher part)"
 msgstr "BASIC ROM imajýnýn (üst kýsým) ismini belirt"
 
-#: src/translate_text.c.po.c:3370
+#: src/translate_text.c.po.c:3371
 msgid "Specify name of international character generator ROM image"
 msgstr "Uluslararasý Karakter Oluþturucu ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3386
+#: src/translate_text.c.po.c:3387
 msgid "Specify name of German character generator ROM image"
 msgstr "Alman Karakter Oluþturucu ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3402
+#: src/translate_text.c.po.c:3403
 msgid "Specify name of French character generator ROM image"
 msgstr "Finlandiya Karakter Oluþturucu ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3418
+#: src/translate_text.c.po.c:3419
 msgid "Specify name of Swedish character generator ROM image"
 msgstr "Ýsveç Karakter Oluþturucu ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3434
+#: src/translate_text.c.po.c:3435
 msgid "Specify name of C64 mode Kernal ROM image"
 msgstr "C64 modu Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3450
+#: src/translate_text.c.po.c:3451
 msgid "Specify name of C64 mode BASIC ROM image"
 msgstr "C64 modu BASIC ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3466
+#: src/translate_text.c.po.c:3467
 msgid "Enable the OEM userport joystick adapter"
 msgstr "OEM userport joystick dönüþtürücüyü aktif et"
 
-#: src/translate_text.c.po.c:3482
+#: src/translate_text.c.po.c:3483
 msgid "Disable the OEM userport joystick adapter"
 msgstr "OEM userport joystick dönüþtürücüyü pasifleþtir"
 
-#: src/translate_text.c.po.c:3498
+#: src/translate_text.c.po.c:3499
 msgid "Enable the IEEE488 interface emulation"
 msgstr "IEEE488 arabirim emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:3514
+#: src/translate_text.c.po.c:3515
 msgid "Disable the IEEE488 interface emulation"
 msgstr "IEEE488 arabirim emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:3530
+#: src/translate_text.c.po.c:3531
 msgid "<revision>"
 msgstr "<revizyon>"
 
-#: src/translate_text.c.po.c:3546
+#: src/translate_text.c.po.c:3547
 msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Kernal ROM'u belirtilmiþ <revizyon>'a yama"
 
-#: src/translate_text.c.po.c:3563
+#: src/translate_text.c.po.c:3564
 msgid "Enable the $DE** ACIA RS232 interface emulation"
 msgstr "$DE** ACIA RS232 arabirim emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:3579
+#: src/translate_text.c.po.c:3580
 msgid "Disable the $DE** ACIA RS232 interface emulation"
 msgstr "$DE** ACIA RS232 arabirim emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:3613
+#: src/translate_text.c.po.c:3614
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr "Tuþ haritasý dosyasýnýn indeksini belirt (0=sembol, 1=konumsal)"
 
-#: src/translate_text.c.po.c:3629
+#: src/translate_text.c.po.c:3630
 msgid "Specify name of symbolic keymap file"
 msgstr "Sembolik tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3645
+#: src/translate_text.c.po.c:3646
 msgid "Specify name of positional keymap file"
 msgstr "Konumsal tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3662
+#: src/translate_text.c.po.c:3663
 msgid "Activate 40 column mode"
 msgstr "40 sütun modunu aktif et"
 
-#: src/translate_text.c.po.c:3678
+#: src/translate_text.c.po.c:3679
 msgid "Activate 80 column mode"
 msgstr "80 sütun modunu aktif et"
 
-#: src/translate_text.c.po.c:3694
+#: src/translate_text.c.po.c:3695
 msgid "Always switch to C64 mode on reset"
 msgstr "Resetlendiðinde her zaman C64 moduna geç"
 
-#: src/translate_text.c.po.c:3710
+#: src/translate_text.c.po.c:3711
 msgid "Always switch to C128 mode on reset"
 msgstr "Resetlendiðinde her zaman C128 moduna geç"
 
-#: src/translate_text.c.po.c:3726
+#: src/translate_text.c.po.c:3727
 msgid "Specify name of internal Function ROM image"
 msgstr "Dahili Function ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3742
+#: src/translate_text.c.po.c:3743
 msgid "Specify name of external Function ROM image"
 msgstr "Harici Function ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3758
+#: src/translate_text.c.po.c:3759
 msgid "Enable the internal Function ROM"
 msgstr "Dahili Function ROM'u aktif et"
 
-#: src/translate_text.c.po.c:3774
+#: src/translate_text.c.po.c:3775
 msgid "Disable the internal Function ROM"
 msgstr "Dahili Function ROM'u pasifleþtir"
 
-#: src/translate_text.c.po.c:3790
+#: src/translate_text.c.po.c:3791
 msgid "Enable the external Function ROM"
 msgstr "Harici Function ROM'u aktif et"
 
-#: src/translate_text.c.po.c:3806
+#: src/translate_text.c.po.c:3807
 msgid "Disable the external Function ROM"
 msgstr "Harici Function ROM'u pasifleþtir"
 
-#: src/translate_text.c.po.c:3822
+#: src/translate_text.c.po.c:3823
 msgid "Use old NTSC sync factor"
 msgstr "Eski NTSC senkron faktörü kullan"
 
-#: src/translate_text.c.po.c:3838
+#: src/translate_text.c.po.c:3839
 msgid "<model>"
 msgstr "<model>"
 
-#: src/translate_text.c.po.c:3854
+#: src/translate_text.c.po.c:3855
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
 msgstr "Her iki CIA modelini belirle (0 = eski 6526, 1 = yeni 6526A)"
 
-#: src/translate_text.c.po.c:3870
+#: src/translate_text.c.po.c:3871
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
 msgstr "CIA 1 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"
 
-#: src/translate_text.c.po.c:3886
+#: src/translate_text.c.po.c:3887
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
 msgstr "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"
 
-#: src/translate_text.c.po.c:3902
+#: src/translate_text.c.po.c:3903
 msgid "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 msgstr "C64 modelini belirle (c64/c64c/c64eski, ntsc/yenintsc/eskintsc, drean)"
 
-#: src/translate_text.c.po.c:3918
+#: src/translate_text.c.po.c:3919
 msgid "Specify name of Kernal ROM image"
 msgstr "Kernal ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3934
+#: src/translate_text.c.po.c:3935
 msgid "Specify name of BASIC ROM image"
 msgstr "BASIC ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3950
+#: src/translate_text.c.po.c:3951
 msgid "Specify name of character generator ROM image"
 msgstr "Karakter Oluþturucu ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:3967
+#: src/translate_text.c.po.c:3968
 msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 msgstr ""
 "Tuþ haritasý dosyasýnýn indeksini belirt (0=sembol, 1=sembol Almanca, "
 "2=konumsal)"
 
-#: src/translate_text.c.po.c:3983
+#: src/translate_text.c.po.c:3984
 msgid "Specify name of symbolic German keymap file"
 msgstr "Sembolik Almanca tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:4000
+#: src/translate_text.c.po.c:4001
 msgid "Set glue logic type (0 = discrete, 1 = 252535-01)"
 msgstr "Glue logic tipini ayarla (0 = baðlantýyý kes, 1 = 252535-01)"
 
-#: src/translate_text.c.po.c:4032
+#: src/translate_text.c.po.c:4033
 msgid "Disable Hummer ADC"
 msgstr "Hummer ADC'yi pasifleþtir"
 
-#: src/translate_text.c.po.c:4048
+#: src/translate_text.c.po.c:4049
 msgid "Enable IEEE488 interface"
 msgstr "IEEE488 arabirimini aktif et"
 
-#: src/translate_text.c.po.c:4064
+#: src/translate_text.c.po.c:4065
 msgid "Disable IEEE488 interface"
 msgstr "IEEE488 arabirimini pasifleþtir"
 
-#: src/translate_text.c.po.c:4080
+#: src/translate_text.c.po.c:4081
 msgid "specify IEEE488 interface image name"
 msgstr "IEEE488 arabirimi imaj ismini belirleyin"
 
-#: src/translate_text.c.po.c:4096
+#: src/translate_text.c.po.c:4097
 msgid "Enable the GEORAM expansion unit"
 msgstr "GEORAM geniþletme birimini aktif et"
 
-#: src/translate_text.c.po.c:4112
+#: src/translate_text.c.po.c:4113
 msgid "Disable the GEORAM expansion unit"
 msgstr "GEORAM geniþletme birimini pasifleþtir"
 
-#: src/translate_text.c.po.c:4128
+#: src/translate_text.c.po.c:4129
 msgid "Specify name of GEORAM image"
 msgstr "GEORAM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:4144
+#: src/translate_text.c.po.c:4145
 msgid "Allow writing to GEORAM image"
 msgstr "GEORAM imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:4160
+#: src/translate_text.c.po.c:4161
 msgid "Do not write to GEORAM image"
 msgstr "GEORAM imajýna yazma"
 
-#: src/translate_text.c.po.c:4176
+#: src/translate_text.c.po.c:4177
 msgid "<size in KB>"
 msgstr "<KB cinsinden boyut>"
 
-#: src/translate_text.c.po.c:4192
+#: src/translate_text.c.po.c:4193
 msgid "Size of the GEORAM expansion unit"
 msgstr "GEORAM geniþletme biriminin boyutu"
 
-#: src/translate_text.c.po.c:4208
+#: src/translate_text.c.po.c:4209
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "PET Ram ve Geniþletme Birimi'ni aktif et"
 
-#: src/translate_text.c.po.c:4224
+#: src/translate_text.c.po.c:4225
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "PET Ram ve Geniþletme Birimi'ni pasifleþtir"
 
-#: src/translate_text.c.po.c:4240
+#: src/translate_text.c.po.c:4241
 msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "PET Ram ve Geniþletme Birimi'nin ismini belirt"
 
-#: src/translate_text.c.po.c:4256
+#: src/translate_text.c.po.c:4257
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "PET Ram ve Geniþletme Birimi'nin boyutu"
 
-#: src/translate_text.c.po.c:4272
+#: src/translate_text.c.po.c:4273
 msgid "Specify name of PET DWW image"
 msgstr "PET DWW imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:4288
+#: src/translate_text.c.po.c:4289
 msgid "Enable the PET DWW hi-res board"
 msgstr "PET DWW hi-res boardunu aktif et"
 
-#: src/translate_text.c.po.c:4304
+#: src/translate_text.c.po.c:4305
 msgid "Disable the PET DWW hi-res board"
 msgstr "PET DWW hi-res boardu pasifleþtir"
 
-#: src/translate_text.c.po.c:4320
+#: src/translate_text.c.po.c:4321
 msgid "Enable Userport DAC for sound output"
 msgstr "Ses çýkýþý için Userport DAC'ý aktif et"
 
-#: src/translate_text.c.po.c:4336
+#: src/translate_text.c.po.c:4337
 msgid "Disable Userport DAC for sound output"
 msgstr "Ses çýkýþý için Userport DAC'ý pasifleþtir"
 
-#: src/translate_text.c.po.c:4352
+#: src/translate_text.c.po.c:4353
 msgid "SID player mode"
 msgstr "SID çalar modu"
 
-#: src/translate_text.c.po.c:4368
+#: src/translate_text.c.po.c:4369
 msgid "Override PSID settings for Video standard and SID model"
 msgstr "Video standardý ve SID modeli için PSID ayarlarýný geçersiz kýl"
 
-#: src/translate_text.c.po.c:4384
+#: src/translate_text.c.po.c:4385
 msgid "Specify PSID tune <number>"
 msgstr "PSID parça <numara>'sýný belirt"
 
-#: src/translate_text.c.po.c:4400
+#: src/translate_text.c.po.c:4401
 msgid "Enable the RAMCART expansion"
 msgstr "RAMCART geniþlemesini aktif et"
 
-#: src/translate_text.c.po.c:4416
+#: src/translate_text.c.po.c:4417
 msgid "Disable the RAMCART expansion"
 msgstr "RAMCART geniþlemesini pasifleþtir"
 
-#: src/translate_text.c.po.c:4432
+#: src/translate_text.c.po.c:4433
 msgid "Specify name of RAMCART image"
 msgstr "RAMCART imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:4448
+#: src/translate_text.c.po.c:4449
 msgid "Allow writing to RAMCart image"
 msgstr "RAMCart imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:4464
+#: src/translate_text.c.po.c:4465
 msgid "Do not write to RAMCart image"
 msgstr "RAMCart imajýna yazma"
 
-#: src/translate_text.c.po.c:4480
+#: src/translate_text.c.po.c:4481
 msgid "Size of the RAMCART expansion"
 msgstr "RAMCART geniþlemesinin boyutu"
 
-#: src/translate_text.c.po.c:4496
+#: src/translate_text.c.po.c:4497
 msgid "Enable Double Quick Brown Box"
 msgstr "Double Quick Brown Box'ý aktif et"
 
-#: src/translate_text.c.po.c:4512
+#: src/translate_text.c.po.c:4513
 msgid "Disable Double Quick Brown Box"
 msgstr "Double Quick Brown Box'ý pasifleþtir"
 
-#: src/translate_text.c.po.c:4528
+#: src/translate_text.c.po.c:4529
 msgid "Specify Double Quick Brown Box filename"
 msgstr "Double Quick Brown Box dosya ismi belirt"
 
-#: src/translate_text.c.po.c:4544
+#: src/translate_text.c.po.c:4545
 msgid "Allow writing to DQBB image"
 msgstr "DQBB imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:4560
+#: src/translate_text.c.po.c:4561
 msgid "Do not write to DQBB image"
 msgstr "DQBB imajýna yazma"
 
-#: src/translate_text.c.po.c:4576
+#: src/translate_text.c.po.c:4577
 msgid "Enable the ISEPIC cart"
 msgstr "ISEPIC kartýný aktif et"
 
-#: src/translate_text.c.po.c:4592
+#: src/translate_text.c.po.c:4593
 msgid "Disable the ISEPIC cart"
 msgstr "ISEPIC kartýný pasifleþtir"
 
-#: src/translate_text.c.po.c:4608
+#: src/translate_text.c.po.c:4609
 msgid "Set ISEPIC image name"
 msgstr "ISEPIC imaj ismini belirle"
 
-#: src/translate_text.c.po.c:4624
+#: src/translate_text.c.po.c:4625
 msgid "Allow writing to ISEPIC image"
 msgstr "ISEPIC imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:4640
+#: src/translate_text.c.po.c:4641
 msgid "Do not write to ISEPIC image"
 msgstr "ISEPIC imajýna yazma"
 
-#: src/translate_text.c.po.c:4656
+#: src/translate_text.c.po.c:4657
 msgid "Enable the MMC64 expansion"
 msgstr "MMC64 geniþlemesini aktif et"
 
-#: src/translate_text.c.po.c:4672
+#: src/translate_text.c.po.c:4673
 msgid "Disable the MMC64 expansion"
 msgstr "MMC64 geniþlemesini pasifleþtir"
 
-#: src/translate_text.c.po.c:4688
+#: src/translate_text.c.po.c:4689
 msgid "Specify name of MMC64 BIOS image"
 msgstr "MMC64 BIOS imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:4704
+#: src/translate_text.c.po.c:4705
 msgid "Specify name of MMC64 image"
 msgstr "MMC64 imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:4720
+#: src/translate_text.c.po.c:4721
 msgid "Set the MMC64 card to read-only"
 msgstr "MMC64 kartýný salt okunura çevir"
 
-#: src/translate_text.c.po.c:4736
+#: src/translate_text.c.po.c:4737
 msgid "Set the MMC64 card to read/write"
 msgstr "MMC64 kartýný okunur/yazýlýra çevir"
 
-#: src/translate_text.c.po.c:4752
+#: src/translate_text.c.po.c:4753
 msgid "Save the MMC64 bios when changed"
 msgstr "MMC64 BIOS'unu deðiþtiðinde kaydet"
 
-#: src/translate_text.c.po.c:4768
+#: src/translate_text.c.po.c:4769
 msgid "Specify MMC Replay card image filename"
 msgstr "MMC Replay kart imaj dosyaismini belirt"
 
-#: src/translate_text.c.po.c:4784
+#: src/translate_text.c.po.c:4785
 msgid "Enable writes to MMC Replay card image"
 msgstr "MMC Replay kart imajýnda yazmalarý aktif et"
 
-#: src/translate_text.c.po.c:4800
+#: src/translate_text.c.po.c:4801
 msgid "Disable writes to MMC Replay card image"
 msgstr "MMC Replay kart imajýnda yazmalarý pasifleþtir"
 
-#: src/translate_text.c.po.c:4816
+#: src/translate_text.c.po.c:4817
 msgid "Specify MMC Replay EEPROM image filename"
 msgstr "MMC Replay EEPROM imaj dosyaismini belirt"
 
-#: src/translate_text.c.po.c:4832
+#: src/translate_text.c.po.c:4833
 msgid "Enable writes to MMC Replay EEPROM image"
 msgstr "MMC Replay EEPROM imajýnda yazmalarý aktif et"
 
-#: src/translate_text.c.po.c:4848
+#: src/translate_text.c.po.c:4849
 msgid "Disable writes to MMC Replay EEPROM image"
 msgstr "MMC Replay EEPROM imajýnda yazmalarý pasifleþtir"
 
-#: src/translate_text.c.po.c:4864
+#: src/translate_text.c.po.c:4865
 msgid "Enable MMC Replay rescue mode"
 msgstr "MMC Replay kurtarma modunu aktif et"
 
-#: src/translate_text.c.po.c:4880
+#: src/translate_text.c.po.c:4881
 msgid "Disable MMC Replay rescue mode"
 msgstr "MMC Replay kurtarma modunu pasifleþtir"
 
-#: src/translate_text.c.po.c:4896
+#: src/translate_text.c.po.c:4897
 msgid "Allow writing to MMC Replay image"
 msgstr "MMC Replay imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:4912
+#: src/translate_text.c.po.c:4913
 msgid "Do not write to MMC Replay image"
 msgstr "MMC Replay imajýna yazma"
 
-#: src/translate_text.c.po.c:4928
+#: src/translate_text.c.po.c:4929
 msgid "Enable saving of the RR ROM at exit"
 msgstr "Çýkýþta RR ROM'un kaydedilmesini aktif et"
 
-#: src/translate_text.c.po.c:4944
+#: src/translate_text.c.po.c:4945
 msgid "Disable saving of the RR ROM at exit"
 msgstr "Çýkýþta RR ROM'un kaydedilmesini pasifleþtir"
 
-#: src/translate_text.c.po.c:4960
+#: src/translate_text.c.po.c:4961
 msgid "Set RR Bank Jumper"
 msgstr "RR Bank Jumper'ý tak"
 
-#: src/translate_text.c.po.c:4976 src/translate_text.c.po.c:5008
+#: src/translate_text.c.po.c:4977 src/translate_text.c.po.c:5009
 msgid "Unset RR Bank Jumper"
 msgstr "RR Bank Jumper'ý çýkart"
 
-#: src/translate_text.c.po.c:4992
+#: src/translate_text.c.po.c:4993
 msgid "Set RR Flash Jumper"
 msgstr "RR Flash Jumper'ý tak"
 
-#: src/translate_text.c.po.c:5024
+#: src/translate_text.c.po.c:5025
 msgid "Enable the RAM expansion unit"
 msgstr "RAM geniþletme birimini aktif et"
 
-#: src/translate_text.c.po.c:5040
+#: src/translate_text.c.po.c:5041
 msgid "Disable the RAM expansion unit"
 msgstr "RAM geniþletme birimini pasifleþtir"
 
-#: src/translate_text.c.po.c:5056
+#: src/translate_text.c.po.c:5057
 msgid "Specify name of REU image"
 msgstr "REU imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:5072
+#: src/translate_text.c.po.c:5073
 msgid "Allow writing to REU image"
 msgstr "REU imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:5088
+#: src/translate_text.c.po.c:5089
 msgid "Do not write to REU image"
 msgstr "REU imajýna yazma"
 
-#: src/translate_text.c.po.c:5104
+#: src/translate_text.c.po.c:5105
 msgid "Size of the RAM expansion unit"
 msgstr "RAM geniþletme biriminin boyutu"
 
-#: src/translate_text.c.po.c:5121
+#: src/translate_text.c.po.c:5122
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"The Final Ethernet\") birimini aktif et"
 
-#: src/translate_text.c.po.c:5137
+#: src/translate_text.c.po.c:5138
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "TFE (\"The Final Ethernet\") birimini pasifleþtir"
 
-#: src/translate_text.c.po.c:5153
+#: src/translate_text.c.po.c:5154
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Sistem ethernet arabirimini TFE emülasyonu için ayarla"
 
-#: src/translate_text.c.po.c:5169
+#: src/translate_text.c.po.c:5170
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "TFE emülasyonunun RRNet modunu aktif et"
 
-#: src/translate_text.c.po.c:5185
+#: src/translate_text.c.po.c:5186
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "TFE emülasyonunun RRNet modunu pasifleþtir"
 
-#: src/translate_text.c.po.c:5202
+#: src/translate_text.c.po.c:5203
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Bir kartuþ takýlýr ya da çýkartýlýrsa makineyi resetle"
 
-#: src/translate_text.c.po.c:5218
+#: src/translate_text.c.po.c:5219
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Bir kartuþ takýlýr ya da çýkartýlýrsa makineyi resetleme"
 
-#: src/translate_text.c.po.c:5250
+#: src/translate_text.c.po.c:5251
 msgid "Attach generic 8KB cartridge image"
 msgstr "8KB jenerik kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5266
+#: src/translate_text.c.po.c:5267
 msgid "Attach generic 16KB cartridge image"
 msgstr "16KB jenerik kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5282
+#: src/translate_text.c.po.c:5283
 msgid "Attach generic 16kB Ultimax cartridge image"
 msgstr "Jenerik 16KB Ultimax kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5298
+#: src/translate_text.c.po.c:5299
 msgid "Attach raw 16KB Stardos cartridge image"
 msgstr "Düz 16KB Stardos kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5314
+#: src/translate_text.c.po.c:5315
 msgid "Attach raw 32KB Action Replay MK4 cartridge image"
 msgstr "Düz 32KB Action Replay MK4 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5330
+#: src/translate_text.c.po.c:5331
 msgid "Attach raw 16kB Action Replay MK2 cartridge image"
 msgstr "Düz 16kB Action Replay MK2 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5346
+#: src/translate_text.c.po.c:5347
 msgid "Attach raw 16KB Action Replay MK3 cartridge image"
 msgstr "Düz 16KB Action Replay MK3 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5362
+#: src/translate_text.c.po.c:5363
 msgid "Attach raw 32KB Action Replay cartridge image"
 msgstr "Düz 32KB Action Replay kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5378
+#: src/translate_text.c.po.c:5379
 msgid "Attach raw 8kB Capture cartridge image"
 msgstr "Düz 8kB Capture kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5394
+#: src/translate_text.c.po.c:5395
 msgid "Attach raw 64kB Comal 80 cartridge image"
 msgstr "Düz 64kB Comal 80 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5410
+#: src/translate_text.c.po.c:5411
 msgid "Attach raw Dela EP256 cartridge image"
 msgstr "Düz Dela EP256 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5426
+#: src/translate_text.c.po.c:5427
 msgid "Attach raw Dela EP64 cartridge image"
 msgstr "Düz Dela EP64 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5442
+#: src/translate_text.c.po.c:5443
 msgid "Attach raw Dela EP7x8 cartridge image"
 msgstr "Düz Dela EP7x8 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5458
+#: src/translate_text.c.po.c:5459
 msgid "Attach raw 128kB Dinamic cartridge image"
 msgstr "Düz 128kB Dinamic kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5474
+#: src/translate_text.c.po.c:5475
 msgid "Attach raw 8kB Diashow-Maker cartridge image"
 msgstr "Düz 8kB Diashow-Maker kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5490
+#: src/translate_text.c.po.c:5491
 msgid "Attach raw 16kB Double Quick Brown Box cartridge image"
 msgstr "Düz 16kB Double Quick Brown Box kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5506
+#: src/translate_text.c.po.c:5507
 msgid "Attach raw EasyFlash cartridge image"
 msgstr "Düz EasyFlash kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5522
+#: src/translate_text.c.po.c:5523
 msgid "Attach raw 64KB Retro Replay cartridge image"
 msgstr "Düz 64KB Retro Replay kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5538
+#: src/translate_text.c.po.c:5539
 msgid "Attach raw 8kB REX Utility cartridge image"
 msgstr "Düz 8kB REX Utility kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5554
+#: src/translate_text.c.po.c:5555
 msgid "Attach raw 4kB Snapshot 64 cartridge image"
 msgstr "Düz 4kB Snapshot 64 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5570
+#: src/translate_text.c.po.c:5571
 msgid "Attach raw 64KB IDE64 cartridge image"
 msgstr "Düz 64KB IDE64 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5586
+#: src/translate_text.c.po.c:5587
 msgid "Attach raw 32KB Atomic Power cartridge image"
 msgstr "Düz 32KB Atomic Power kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5602
+#: src/translate_text.c.po.c:5603
 msgid "Attach raw 8KB Epyx FastLoad cartridge image"
 msgstr "Düz 8KB Epyx FastLoad kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5618
+#: src/translate_text.c.po.c:5619
 msgid "Attach raw 8kB EXOS cartridge image"
 msgstr "Düz 8kB EXOS kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5634
+#: src/translate_text.c.po.c:5635
 msgid "Attach raw 8kB Expert Cartridge image"
 msgstr "Düz 8kB Expert Kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5650
+#: src/translate_text.c.po.c:5651
 msgid "Attach raw 16kB Final Cartridge image"
 msgstr "Düz 16kB Final kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5666
+#: src/translate_text.c.po.c:5667
 msgid "Attach raw 64kB Final Cartridge III image"
 msgstr "Düz 64kB Final Cartridge III imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5682
+#: src/translate_text.c.po.c:5683
 msgid "Attach raw 32kB Final Cartridge Plus image"
 msgstr "Düz 32kB Final Cartridge Plus imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5698
+#: src/translate_text.c.po.c:5699
 msgid "Attach raw 8kB Freeze Frame image"
 msgstr "Düz 8kB Freeze Frame imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5714
+#: src/translate_text.c.po.c:5715
 msgid "Attach raw 32kB Freeze Machine image"
 msgstr "Düz 32kB Freeze Machine imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5730
+#: src/translate_text.c.po.c:5731
 msgid "Attach raw 128kB Fun Play/Power Play cartridge image"
 msgstr "Düz 128kB Fun Play/Power Play kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5746
+#: src/translate_text.c.po.c:5747
 msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
 msgstr "Düz 32KB Super Snapshot V4 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5762
+#: src/translate_text.c.po.c:5763
 msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
 msgstr "Düz 64KB Super Snapshot V5 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5778
+#: src/translate_text.c.po.c:5779
 msgid "Attach CBM IEEE-488 cartridge image"
 msgstr "CBM IEEE-488 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5794
+#: src/translate_text.c.po.c:5795
 msgid "Attach raw 2kB ISEPIC cartridge image"
 msgstr "Düz 2kB ISEPIC kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5810
+#: src/translate_text.c.po.c:5811
 msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr "Düz 16kB KCS Power kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5826
+#: src/translate_text.c.po.c:5827
 msgid "Attach raw 8kB MACH 5 cartridge image"
 msgstr "Düz 8kB MACH 5 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5842
+#: src/translate_text.c.po.c:5843
 msgid "Attach raw 32/64/128kB Magic Desk cartridge image"
 msgstr "Düz 32/64/128kB Magic Desk kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5858
+#: src/translate_text.c.po.c:5859
 msgid "Attach raw Magic Formel cartridge image"
 msgstr "Düz Magic Formel kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5874
+#: src/translate_text.c.po.c:5875
 msgid "Attach raw 8kB Mikro Assembler cartridge image"
 msgstr "Düz 8kB Mikro Assembler kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5890
+#: src/translate_text.c.po.c:5891
 msgid "Attach raw 8kB MMC64 cartridge image"
 msgstr "Düz 8kB MMC64 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5906
+#: src/translate_text.c.po.c:5907
 msgid "Attach raw 512kB MMC Replay cartridge image"
 msgstr "Düz 512kB MMC Replay kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5922
+#: src/translate_text.c.po.c:5923
 msgid "Attach raw 16kB Magic Voice cartridge image"
 msgstr "Düz 16kB Magic Voice kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5938
+#: src/translate_text.c.po.c:5939
 msgid "Attach raw Ocean cartridge image"
 msgstr "Düz Ocean kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5954
+#: src/translate_text.c.po.c:5955
 msgid "Attach raw 16KB Westermann Learning cartridge image"
 msgstr "Düz 16KB Westermann Learning kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5970
+#: src/translate_text.c.po.c:5971
 msgid "Attach raw 8kB Warp Speed cartridge image"
 msgstr "Düz 8kB Warp Speed kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:5986
+#: src/translate_text.c.po.c:5987
 msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Düz 16kB Zaxxon kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6002
+#: src/translate_text.c.po.c:6003
 msgid "Attach raw 256KB Prophet 64 cartridge image"
 msgstr "Düz 256KB Prophet 64 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6018
+#: src/translate_text.c.po.c:6019
 msgid "Attach raw RamCart cartridge image"
 msgstr "Düz RamCart kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6034
+#: src/translate_text.c.po.c:6035
 msgid "Attach raw REU cartridge image"
 msgstr "Düz REU kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6050
+#: src/translate_text.c.po.c:6051
 msgid "Attach raw REX EP256 cartridge image"
 msgstr "Düz REX EP256 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6066
+#: src/translate_text.c.po.c:6067
 msgid "Attach raw 16/32kB ROSS cartridge image"
 msgstr "Düz 16/32kB ROSS kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6082
+#: src/translate_text.c.po.c:6083
 msgid "Attach raw 8KB Game Killer cartridge image"
 msgstr "Düz 8KB Game Killer kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6098
+#: src/translate_text.c.po.c:6099
 msgid "Attach raw GEO-RAM cartridge image"
 msgstr "Düz GEO-RAM kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6114
+#: src/translate_text.c.po.c:6115
 msgid "Attach raw 512kB Game System cartridge image"
 msgstr "Düz 512kB Game System kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:6130
+#: src/translate_text.c.po.c:6131
 msgid "Enable the Expert Cartridge"
 msgstr "Expert Kartuþu'nu aktif et"
 
-#: src/translate_text.c.po.c:6146
+#: src/translate_text.c.po.c:6147
 msgid "Disable the Expert Cartridge"
 msgstr "Expert Kartuþu'nu pasifleþtir"
 
-#: src/translate_text.c.po.c:6162
+#: src/translate_text.c.po.c:6163
 msgid "Set Expert Cartridge image name"
 msgstr "Expert Kartuþ imaj ismini belirle"
 
-#: src/translate_text.c.po.c:6178
+#: src/translate_text.c.po.c:6179
 msgid "Allow writing to Expert Cartridge image"
 msgstr "Expert Kartuþ imajýna yazmaya izin ver"
 
-#: src/translate_text.c.po.c:6194
+#: src/translate_text.c.po.c:6195
 msgid "Do not write to Expert Cartridge image"
 msgstr "Expert Kartuþ imajýna yazma"
 
-#: src/translate_text.c.po.c:6210
+#: src/translate_text.c.po.c:6211
 msgid "Disable default cartridge"
 msgstr "Varsayýlan kartuþu pasifleþtir"
 
-#: src/translate_text.c.po.c:6226
+#: src/translate_text.c.po.c:6227
 msgid "Specify name of IDE64 image file"
 msgstr "IDE64 imaj dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:6258
+#: src/translate_text.c.po.c:6259
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "IDE64 emülasyonu için silindir adedini girin"
 
-#: src/translate_text.c.po.c:6274
+#: src/translate_text.c.po.c:6275
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "IDE64 emülasyonu için kafa adedini girin"
 
-#: src/translate_text.c.po.c:6290
+#: src/translate_text.c.po.c:6291
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "IDE64 emülasyonu için sektör adedini girin"
 
-#: src/translate_text.c.po.c:6306
+#: src/translate_text.c.po.c:6307
 msgid "Autodetect geometry of formatted images"
 msgstr "Formatlanmýþ imajlarýn yapýlarýný otomatik algýla"
 
-#: src/translate_text.c.po.c:6322
+#: src/translate_text.c.po.c:6323
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Formatlanmýþ imajlarýn yapýlarýný otomatik algýlama"
 
-#: src/translate_text.c.po.c:6338
+#: src/translate_text.c.po.c:6339
 msgid "Emulate version 4 hardware"
 msgstr "Versiyon 4 donanýmýný emüle et"
 
-#: src/translate_text.c.po.c:6354
+#: src/translate_text.c.po.c:6355
 msgid "Emulate pre version 4 hardware"
 msgstr "Ön versiyon 4 donanýmýný emüle et"
 
-#: src/translate_text.c.po.c:6370
+#: src/translate_text.c.po.c:6371
 msgid "<modelnumber>"
 msgstr "<modelnumarasý>"
 
-#: src/translate_text.c.po.c:6386
+#: src/translate_text.c.po.c:6387
 msgid "Specify CBM-II model to emulate"
 msgstr "Emüle edilecek CBM-II modelini belirt"
 
-#: src/translate_text.c.po.c:6402
+#: src/translate_text.c.po.c:6403
 msgid "Specify to use VIC-II"
 msgstr "VIC-II kullanýmý için seçin"
 
-#: src/translate_text.c.po.c:6418
+#: src/translate_text.c.po.c:6419
 msgid "Specify to use CRTC"
 msgstr "CRTC kullanýmý için seçin"
 
-#: src/translate_text.c.po.c:6434
+#: src/translate_text.c.po.c:6435
 msgid "<linenumber>"
 msgstr "<satýrnumarasý>"
 
-#: src/translate_text.c.po.c:6450
+#: src/translate_text.c.po.c:6451
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
 msgstr "CBM-II modeli donanýmýný belirt (0=6x0, 1=7x0)"
 
-#: src/translate_text.c.po.c:6466
+#: src/translate_text.c.po.c:6467
 msgid "<ramsize>"
 msgstr "<ramboyutu>"
 
-#: src/translate_text.c.po.c:6482
+#: src/translate_text.c.po.c:6483
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "RAM boyutunu belirt (64/128/256/512/1024 kByte)"
 
-#: src/translate_text.c.po.c:6498
+#: src/translate_text.c.po.c:6499
 msgid "Specify name of cartridge ROM image for $1000"
 msgstr "$1000 adresi için kartuþ ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:6514
+#: src/translate_text.c.po.c:6515
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
 msgstr "$2000-$3fff adres aralýðý için kartuþ ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:6530
+#: src/translate_text.c.po.c:6531
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
 msgstr "$4000-$5fff adres aralýðý için kartuþ ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:6546
+#: src/translate_text.c.po.c:6547
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
 msgstr "$6000-$7fff adres aralýðý için kartuþ ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:6562
+#: src/translate_text.c.po.c:6563
 msgid "Enable RAM mapping in $0800-$0FFF"
 msgstr "$0800-$0FFF aralýðýnda RAM eþleþtirmeyi aktif et"
 
-#: src/translate_text.c.po.c:6578
+#: src/translate_text.c.po.c:6579
 msgid "Disable RAM mapping in $0800-$0FFF"
 msgstr "$0800-$0FFF aralýðýnda RAM eþleþtirmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:6594
+#: src/translate_text.c.po.c:6595
 msgid "Enable RAM mapping in $1000-$1FFF"
 msgstr "$1000-$1FFF aralýðýnda RAM eþleþtirmeyi aktif et"
 
-#: src/translate_text.c.po.c:6610
+#: src/translate_text.c.po.c:6611
 msgid "Disable RAM mapping in $1000-$1FFF"
 msgstr "$1000-$1FFF aralýðýnda RAM eþleþtirmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:6626
+#: src/translate_text.c.po.c:6627
 msgid "Enable RAM mapping in $2000-$3FFF"
 msgstr "$2000-$3FFF aralýðýnda RAM eþleþtirmeyi aktif et"
 
-#: src/translate_text.c.po.c:6642
+#: src/translate_text.c.po.c:6643
 msgid "Disable RAM mapping in $2000-$3FFF"
 msgstr "$2000-$3FFF aralýðýnda RAM eþleþtirmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:6658
+#: src/translate_text.c.po.c:6659
 msgid "Enable RAM mapping in $4000-$5FFF"
 msgstr "$4000-$5FFF aralýðýnda RAM eþleþtirmeyi aktif et"
 
-#: src/translate_text.c.po.c:6674
+#: src/translate_text.c.po.c:6675
 msgid "Disable RAM mapping in $4000-$5FFF"
 msgstr "$4000-$5FFF aralýðýnda RAM eþleþtirmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:6690
+#: src/translate_text.c.po.c:6691
 msgid "Enable RAM mapping in $6000-$7FFF"
 msgstr "$6000-$7FFF aralýðýnda RAM eþleþtirmeyi aktif et"
 
-#: src/translate_text.c.po.c:6706
+#: src/translate_text.c.po.c:6707
 msgid "Disable RAM mapping in $6000-$7FFF"
 msgstr "$6000-$7FFF aralýðýnda RAM eþleþtirmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:6722
+#: src/translate_text.c.po.c:6723
 msgid "Enable RAM mapping in $C000-$CFFF"
 msgstr "$C000-$CFFF aralýðýnda RAM eþleþtirmeyi aktif et"
 
-#: src/translate_text.c.po.c:6738
+#: src/translate_text.c.po.c:6739
 msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "$C000-$CFFF aralýðýnda RAM eþleþtirmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:6755
+#: src/translate_text.c.po.c:6756
 msgid "Specify index of keymap file"
 msgstr "Tuþ haritasý dosyasýnýn indeksini belirt"
 
-#: src/translate_text.c.po.c:6771
+#: src/translate_text.c.po.c:6772
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr "Grafik klavyesi sembolik tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:6787
+#: src/translate_text.c.po.c:6788
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr "Grafik klavyesi konumsal tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:6803
+#: src/translate_text.c.po.c:6804
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr "UK business klavyesi sembolik tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:6819
+#: src/translate_text.c.po.c:6820
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr "UK business klavyesi konumsal tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:6835
+#: src/translate_text.c.po.c:6836
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr "Alman business klavyesi sembolik tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:6851
+#: src/translate_text.c.po.c:6852
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr "Alman business klavyesi konumsal tuþ haritasý dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:6868
+#: src/translate_text.c.po.c:6869
 msgid "Enable hardware-level emulation of disk drives"
 msgstr "Disk sürücülerinin donaným seviyesinde emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:6884
+#: src/translate_text.c.po.c:6885
 msgid "Disable hardware-level emulation of disk drives"
 msgstr "Disk sürücülerinin donaným seviyesinde emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:6900
+#: src/translate_text.c.po.c:6901
 msgid "<type>"
 msgstr "<tip>"
 
-#: src/translate_text.c.po.c:6916
+#: src/translate_text.c.po.c:6917
 msgid "Set drive type (0: no drive)"
 msgstr "Sürücü tipini ayarlayýn (0: sürücü yok)"
 
-#: src/translate_text.c.po.c:6932
+#: src/translate_text.c.po.c:6933
 msgid "<method>"
 msgstr "<metod>"
 
-#: src/translate_text.c.po.c:6948
+#: src/translate_text.c.po.c:6949
 msgid "<color>"
 msgstr "<renk>"
 
-#: src/translate_text.c.po.c:6964
+#: src/translate_text.c.po.c:6965
 msgid ""
 "Select the way the oversized input should be handled, (0: scale down, 1: "
 "crop left top, 2: crop center top,  3: crop right top, 4: crop left center, "
@@ -10463,7 +10354,7 @@ msgstr ""
 "ortadan kýrp, 6: saðdan ortalý kýrp, 7: sol alttan kýrp, 8: ortalý alttan "
 "kýrp, 9:  sað alttan kýrp)"
 
-#: src/translate_text.c.po.c:6980
+#: src/translate_text.c.po.c:6981
 msgid ""
 "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 "
 "colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
@@ -10471,472 +10362,472 @@ msgstr ""
 "Çok renkliden yüksek çözünürlüðe geçiþin ele alýnma yöntemini seçin, (0: "
 "siyah&beyaz, 1: 2 renk, 2: 4 renk, 3: gri tonlu,  4: en iyi hücre renkleri)"
 
-#: src/translate_text.c.po.c:6996
+#: src/translate_text.c.po.c:6997
 msgid ""
 "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
 msgstr ""
 "TED lüminozitesinin ele alýnma yöntemini seçin, (0: yok say, 1: dither)"
 
-#: src/translate_text.c.po.c:7012
+#: src/translate_text.c.po.c:7013
 msgid "Select the CRTC text color (0: white, 1: amber, 2: green)"
 msgstr "CRTC yazý rengini seçin (0: beyaz, 1: kehribar, 2: yeþil)"
 
-#: src/translate_text.c.po.c:7028
+#: src/translate_text.c.po.c:7029
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr ""
 "Sürücü 40 track büyüme kuralýný ayarla (0: asla, 1: sor, 2: eriþildiðinde)"
 
-#: src/translate_text.c.po.c:7044
+#: src/translate_text.c.po.c:7045
 msgid "Specify name of 1541 DOS ROM image"
 msgstr "1541 DOS ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7060
+#: src/translate_text.c.po.c:7061
 msgid "Specify name of 1541-II DOS ROM image"
 msgstr "1541-II DOS ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7076
+#: src/translate_text.c.po.c:7077
 msgid "Specify name of 1570 DOS ROM image"
 msgstr "1570 DOS ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7092
+#: src/translate_text.c.po.c:7093
 msgid "Specify name of 1571 DOS ROM image"
 msgstr "1571 DOS ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7108
+#: src/translate_text.c.po.c:7109
 msgid "Specify name of 1581 DOS ROM image"
 msgstr "1581 DOS ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7124
+#: src/translate_text.c.po.c:7125
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
 "Sürücü boþa vakit geçirme metodunu ayarlayýn (0: trap yok, 1: cyclelarý "
 "atla, 2: trap boþa vakit geçirme)"
 
-#: src/translate_text.c.po.c:7140
+#: src/translate_text.c.po.c:7141
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
 msgstr "$2000-$3FFF arasýnda 8KB RAM geniþletmeyi aktif et"
 
-#: src/translate_text.c.po.c:7156
+#: src/translate_text.c.po.c:7157
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
 msgstr "$2000-$3FFF arasýnda 8KB RAM geniþletmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:7172
+#: src/translate_text.c.po.c:7173
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
 msgstr "$4000-$5FFF arasýnda 8KB RAM geniþletmeyi aktif et"
 
-#: src/translate_text.c.po.c:7188
+#: src/translate_text.c.po.c:7189
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
 msgstr "$4000-$5FFF arasýnda 8KB RAM geniþletmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:7204
+#: src/translate_text.c.po.c:7205
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
 msgstr "$6000-$7FFF arasýnda 8KB RAM geniþletmeyi aktif et"
 
-#: src/translate_text.c.po.c:7220
+#: src/translate_text.c.po.c:7221
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
 msgstr "$6000-$7FFF arasýnda 8KB RAM geniþletmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:7236
+#: src/translate_text.c.po.c:7237
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
 msgstr "$8000-$9FFF arasýnda 8KB RAM geniþletmeyi aktif et"
 
-#: src/translate_text.c.po.c:7252
+#: src/translate_text.c.po.c:7253
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
 msgstr "$8000-$9FFF arasýnda 8KB RAM geniþletmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:7268
+#: src/translate_text.c.po.c:7269
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
 msgstr "$A000-$BFFF arasýnda 8KB RAM geniþletmeyi aktif et"
 
-#: src/translate_text.c.po.c:7284
+#: src/translate_text.c.po.c:7285
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "$A000-$BFFF arasýnda 8KB RAM geniþletmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:7300
+#: src/translate_text.c.po.c:7301
 msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
 msgstr "Paralel kablo tipini ayarla (0: yok, 1: standart, 2: Dolphin DOS 3)"
 
-#: src/translate_text.c.po.c:7332
+#: src/translate_text.c.po.c:7333
 msgid "Disable Professional DOS"
 msgstr "Professional DOS'u pasifleþtir"
 
-#: src/translate_text.c.po.c:7348
+#: src/translate_text.c.po.c:7349
 msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Professional DOS 1571 ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7364
+#: src/translate_text.c.po.c:7365
 msgid "Set parallel cable type (0: none, 1: standard)"
 msgstr "Paralel kablo tipini ayarlayýn (0: yok, 1: standart)"
 
-#: src/translate_text.c.po.c:7380
+#: src/translate_text.c.po.c:7381
 msgid "Specify name of 1571CR DOS ROM image"
 msgstr "1571CR DOS ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7396
+#: src/translate_text.c.po.c:7397
 msgid "Specify name of 2031 DOS ROM image"
 msgstr "2031 DOS ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7412
+#: src/translate_text.c.po.c:7413
 msgid "Specify name of 2040 DOS ROM image"
 msgstr "2040 DOS ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7428
+#: src/translate_text.c.po.c:7429
 msgid "Specify name of 3040 DOS ROM image"
 msgstr "3040 DOS ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7444
+#: src/translate_text.c.po.c:7445
 msgid "Specify name of 4040 DOS ROM image"
 msgstr "4040 DOS ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7460
+#: src/translate_text.c.po.c:7461
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
 msgstr "1001/8050/8250 DOS ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7476
+#: src/translate_text.c.po.c:7477
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "1551 DOS ROM imaj ismini belirt"
 
-#: src/translate_text.c.po.c:7492
+#: src/translate_text.c.po.c:7493
 msgid "Use <name> as directory for file system device #8"
 msgstr "<isim>'i aygýt #8'in dosya sistemi dizini olarak kullan"
 
-#: src/translate_text.c.po.c:7508
+#: src/translate_text.c.po.c:7509
 msgid "Use <name> as directory for file system device #9"
 msgstr "<isim>'i aygýt #9'un dosya sistemi dizini olarak kullan"
 
-#: src/translate_text.c.po.c:7524
+#: src/translate_text.c.po.c:7525
 msgid "Use <name> as directory for file system device #10"
 msgstr "<isim>'i aygýt #10'un dosya sistemi dizini olarak kullan"
 
-#: src/translate_text.c.po.c:7540
+#: src/translate_text.c.po.c:7541
 msgid "Use <name> as directory for file system device #11"
 msgstr "<isim>'i aygýt #11'in dosya sistemi dizini olarak kullan"
 
-#: src/translate_text.c.po.c:7557
+#: src/translate_text.c.po.c:7558
 msgid "Set bitrate for audio stream in media file"
 msgstr "Ses akýþý için ortam dosyasýndaki bithýzý'ný ayarla"
 
-#: src/translate_text.c.po.c:7573
+#: src/translate_text.c.po.c:7574
 msgid "Set bitrate for video stream in media file"
 msgstr "Görüntü akýþý için ortam dosyasýndaki bithýzý'ný ayarla"
 
-#: src/translate_text.c.po.c:7590
+#: src/translate_text.c.po.c:7591
 msgid "Specify PET model to emulate"
 msgstr "Emüle edilecek PET modelini belirt"
 
-#: src/translate_text.c.po.c:7606
+#: src/translate_text.c.po.c:7607
 msgid "Specify name of Editor ROM image"
 msgstr "Editor ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7622
+#: src/translate_text.c.po.c:7623
 msgid "Specify 4K extension ROM name at $9***"
 msgstr "$9*** adresindeki 4K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:7638
+#: src/translate_text.c.po.c:7639
 msgid "Specify 4K extension ROM name at $A***"
 msgstr "$A*** adresindeki 4K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:7654
+#: src/translate_text.c.po.c:7655
 msgid "Specify 4K extension ROM name at $B***"
 msgstr "$B*** adresindeki 4K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:7670
+#: src/translate_text.c.po.c:7671
 msgid "Enable PET8296 4K RAM mapping at $9***"
 msgstr "$9*** adresindeki PET8296 4K RAM eþleþtirmesini aktif et"
 
-#: src/translate_text.c.po.c:7686
+#: src/translate_text.c.po.c:7687
 msgid "Disable PET8296 4K RAM mapping at $9***"
 msgstr "$9*** adresindeki PET8296 4K RAM eþleþtirmesini pasifleþtir"
 
-#: src/translate_text.c.po.c:7702
+#: src/translate_text.c.po.c:7703
 msgid "Enable PET8296 4K RAM mapping at $A***"
 msgstr "$A*** adresindeki PET8296 4K RAM eþleþtirmesini aktif et"
 
-#: src/translate_text.c.po.c:7718
+#: src/translate_text.c.po.c:7719
 msgid "Disable PET8296 4K RAM mapping at $A***"
 msgstr "$A*** adresindeki PET8296 4K RAM eþleþtirmesini pasifleþtir"
 
-#: src/translate_text.c.po.c:7734
+#: src/translate_text.c.po.c:7735
 msgid "Enable SuperPET I/O"
 msgstr "SuperPET G/Ç'ý aktif et"
 
-#: src/translate_text.c.po.c:7750
+#: src/translate_text.c.po.c:7751
 msgid "Disable SuperPET I/O"
 msgstr "SuperPET G/Ç'ý pasifleþtir"
 
-#: src/translate_text.c.po.c:7766
+#: src/translate_text.c.po.c:7767
 msgid "Enable ROM 1 Kernal patches"
 msgstr "ROM 1 Kernal yamalarýný aktif et"
 
-#: src/translate_text.c.po.c:7782
+#: src/translate_text.c.po.c:7783
 msgid "Disable ROM 1 Kernal patches"
 msgstr "ROM 1 Kernal yamalarýný pasifleþtir"
 
-#: src/translate_text.c.po.c:7798
+#: src/translate_text.c.po.c:7799
 msgid "Switch upper/lower case charset"
 msgstr "Büyük/küçük harf karakter seti deðiþtir"
 
-#: src/translate_text.c.po.c:7814
+#: src/translate_text.c.po.c:7815
 msgid "Do not switch upper/lower case charset"
 msgstr "Büyük/küçük harf karakter seti deðiþtirme"
 
-#: src/translate_text.c.po.c:7830
+#: src/translate_text.c.po.c:7831
 msgid "EOI blanks screen"
 msgstr "EOI ekraný boþaltýr"
 
-#: src/translate_text.c.po.c:7846
+#: src/translate_text.c.po.c:7847
 msgid "EOI does not blank screen"
 msgstr "EOI ekraný boþaltmaz"
 
-#: src/translate_text.c.po.c:7862
+#: src/translate_text.c.po.c:7863
 msgid "Enable userport diagnostic pin"
 msgstr "Userport diyagnostik pinini aktif et"
 
-#: src/translate_text.c.po.c:7878
+#: src/translate_text.c.po.c:7879
 msgid "Disable userport diagnostic pin"
 msgstr "Userport diyagnostik pinini pasifleþtir"
 
-#: src/translate_text.c.po.c:7894
+#: src/translate_text.c.po.c:7895
 msgid "Specify name of Function low ROM image"
 msgstr "Function low ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7910
+#: src/translate_text.c.po.c:7911
 msgid "Specify name of Function high ROM image"
 msgstr "Function high ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7926
+#: src/translate_text.c.po.c:7927
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Cartridge 1 low ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7942
+#: src/translate_text.c.po.c:7943
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Cartridge 1 high ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7958
+#: src/translate_text.c.po.c:7959
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Cartridge 2 low ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7974
+#: src/translate_text.c.po.c:7975
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Cartridge 2 high ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:7990
+#: src/translate_text.c.po.c:7991
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Kurulmuþ olan RAM boyutunu kb cinsinden belirt (16/32/64)"
 
-#: src/translate_text.c.po.c:8006
+#: src/translate_text.c.po.c:8007
 msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Dahili hesaplanmýþ paletin doygunluðunu ayarlayýn [1000]"
 
-#: src/translate_text.c.po.c:8022
+#: src/translate_text.c.po.c:8023
 msgid "Set contrast of internal calculated palette [1000]"
 msgstr "Dahili hesaplanmýþ paletin karþýtlýðýný ayarlayýn [1000]"
 
-#: src/translate_text.c.po.c:8038
+#: src/translate_text.c.po.c:8039
 msgid "Set brightness of internal calculated palette [1000]"
 msgstr "Dahili hesaplanmýþ paletin parlaklýðýný ayarlayýn [1000]"
 
-#: src/translate_text.c.po.c:8054
+#: src/translate_text.c.po.c:8055
 msgid "Set gamma of internal calculated palette [2200]"
 msgstr "Dahili hesaplanmýþ paletin gamasýný ayarlayýn [2200]"
 
-#: src/translate_text.c.po.c:8070
+#: src/translate_text.c.po.c:8071
 msgid "Set tint of internal calculated palette [1000]"
 msgstr "Dahili hesaplanmýþ paletin tonunu ayarlayýn [1000]"
 
-#: src/translate_text.c.po.c:8086
+#: src/translate_text.c.po.c:8087
 msgid "Set phase for color carrier in odd lines [1250]"
 msgstr "Tek satýrlardaki renk taþýyýcýlarý için fazý ayarlayýn [1250]"
 
-#: src/translate_text.c.po.c:8102
+#: src/translate_text.c.po.c:8103
 msgid "Set phase offset for color carrier in odd lines [750]"
 msgstr "Tek satýrlardaki renk taþýyýcýlarý için faz ofsetini ayarlayýn [750]"
 
-#: src/translate_text.c.po.c:8118
+#: src/translate_text.c.po.c:8119
 msgid "Amount of horizontal blur for the CRT emulation. [500]"
 msgstr "CRT emülasyonu için yatay bulanýklýk miktarý. [500]"
 
-#: src/translate_text.c.po.c:8134
+#: src/translate_text.c.po.c:8135
 msgid "Amount of scan line shading for the CRT emulation [667]"
 msgstr "CRT emülasyonu için tarama satýrý nüans miktarý [667]"
 
-#: src/translate_text.c.po.c:8150
+#: src/translate_text.c.po.c:8151
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
 msgstr "VIC-II modelini ayarla (6569/6569r1/8565/6567/8562/6567r56a)"
 
-#: src/translate_text.c.po.c:8166
+#: src/translate_text.c.po.c:8167
 msgid "Specify name of printer driver for device #4"
 msgstr "Aygýt #4 için yazýcý sürücüsü ismini belirt"
 
-#: src/translate_text.c.po.c:8182
+#: src/translate_text.c.po.c:8183
 msgid "Specify name of printer driver for device #5"
 msgstr "Aygýt #5 için yazýcý sürücüsü ismini belirt"
 
-#: src/translate_text.c.po.c:8198
+#: src/translate_text.c.po.c:8199
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Userport yazýcýsý için yazýcý sürücüsü ismini belirt"
 
-#: src/translate_text.c.po.c:8214
+#: src/translate_text.c.po.c:8215
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Aygýt #4 için aygýt tipini ayarlayýn (0: YOK, 1: FS, 2: GERÇEK)"
 
-#: src/translate_text.c.po.c:8230
+#: src/translate_text.c.po.c:8231
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Aygýt #5 için aygýt tipini ayarlayýn (0: YOK, 1: FS, 2: GERÇEK)"
 
-#: src/translate_text.c.po.c:8246
+#: src/translate_text.c.po.c:8247
 msgid "Enable the userport printer emulation"
 msgstr "Userport yazýcý emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8262
+#: src/translate_text.c.po.c:8263
 msgid "Disable the userport printer emulation"
 msgstr "Userport yazýcý emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8278
+#: src/translate_text.c.po.c:8279
 msgid "Specify name of output device for device #4"
 msgstr "Aygýt #4 için çýkýþ aygýtý ismini belirt"
 
-#: src/translate_text.c.po.c:8294
+#: src/translate_text.c.po.c:8295
 msgid "Specify name of output device for device #5"
 msgstr "Aygýt #5 için çýkýþ aygýtý ismini belirt"
 
-#: src/translate_text.c.po.c:8310
+#: src/translate_text.c.po.c:8311
 msgid "Specify name of output device for the userport printer"
 msgstr "Userport yazýcýsý için çýkýþ aygýtý ismini belirt"
 
-#: src/translate_text.c.po.c:8326
+#: src/translate_text.c.po.c:8327
 msgid "Specify name of printer text device or dump file"
 msgstr "Metin aygýtý yazýcýsý ya da döküm dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:8342
+#: src/translate_text.c.po.c:8343
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "IEC yazýcýsý #4 için metin çýktý aygýtý yazýcýsý belirt"
 
-#: src/translate_text.c.po.c:8358
+#: src/translate_text.c.po.c:8359
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "IEC yazýcýsý #5 için metin çýktý aygýtý yazýcýsý belirt"
 
-#: src/translate_text.c.po.c:8374
+#: src/translate_text.c.po.c:8375
 msgid "Specify printer text output device for userport printer"
 msgstr "Userport yazýcýsý için metin çýktý aygýtý yazýcýsý belirt"
 
-#: src/translate_text.c.po.c:8390
+#: src/translate_text.c.po.c:8391
 msgid "Enable the video cache"
 msgstr "Görüntü önbelleðini aktif et"
 
-#: src/translate_text.c.po.c:8406
+#: src/translate_text.c.po.c:8407
 msgid "Disable the video cache"
 msgstr "Görüntü önbelleðini pasifleþtir"
 
-#: src/translate_text.c.po.c:8423
+#: src/translate_text.c.po.c:8424
 msgid "Specify name of first RS232 device"
 msgstr "Ýlk RS232 aygýtýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:8439
+#: src/translate_text.c.po.c:8440
 msgid "Specify name of second RS232 device"
 msgstr "Ýkinci RS232 aygýtýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:8455
+#: src/translate_text.c.po.c:8456
 msgid "Specify name of third RS232 device"
 msgstr "Üçüncü RS232 aygýtýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:8471
+#: src/translate_text.c.po.c:8472
 msgid "Specify name of fourth RS232 device"
 msgstr "Dördüncü RS232 aygýtýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:8488
+#: src/translate_text.c.po.c:8489
 msgid "Enable RS232 userport emulation"
 msgstr "RS232 userport emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8504
+#: src/translate_text.c.po.c:8505
 msgid "Disable RS232 userport emulation"
 msgstr "RS232 userport emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8520
+#: src/translate_text.c.po.c:8521
 msgid "<baud>"
 msgstr "<baud>"
 
-#: src/translate_text.c.po.c:8536
+#: src/translate_text.c.po.c:8537
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "RS232 userport emülasyonunun baud rate'ini ayarla."
 
-#: src/translate_text.c.po.c:8552
+#: src/translate_text.c.po.c:8553
 msgid "Specify VICE RS232 device for userport"
 msgstr "Userport için VICE RS232 aygýtýný belirt"
 
-#: src/translate_text.c.po.c:8568
+#: src/translate_text.c.po.c:8569
 msgid "Enable IEC device emulation for device #4"
 msgstr "Aygýt #4 için IEC aygýt emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8584
+#: src/translate_text.c.po.c:8585
 msgid "Disable IEC device emulation for device #4"
 msgstr "Aygýt #4 için IEC aygýt emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8600
+#: src/translate_text.c.po.c:8601
 msgid "Enable IEC device emulation for device #5"
 msgstr "Aygýt #5 için IEC aygýt emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8616
+#: src/translate_text.c.po.c:8617
 msgid "Disable IEC device emulation for device #5"
 msgstr "Aygýt #5 için IEC aygýt emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8632
+#: src/translate_text.c.po.c:8633
 msgid "Enable IEC device emulation for device #8"
 msgstr "Aygýt #8 için IEC aygýt emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8648
+#: src/translate_text.c.po.c:8649
 msgid "Disable IEC device emulation for device #8"
 msgstr "Aygýt #8 için IEC aygýt emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8664
+#: src/translate_text.c.po.c:8665
 msgid "Enable IEC device emulation for device #9"
 msgstr "Aygýt #9 için IEC aygýt emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8680
+#: src/translate_text.c.po.c:8681
 msgid "Disable IEC device emulation for device #9"
 msgstr "Aygýt #9 için IEC aygýt emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8696
+#: src/translate_text.c.po.c:8697
 msgid "Enable IEC device emulation for device #10"
 msgstr "Aygýt #10 için IEC aygýt emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8712
+#: src/translate_text.c.po.c:8713
 msgid "Disable IEC device emulation for device #10"
 msgstr "Aygýt #10 için IEC aygýt emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8728
+#: src/translate_text.c.po.c:8729
 msgid "Enable IEC device emulation for device #11"
 msgstr "Aygýt #11 için IEC aygýt emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:8744
+#: src/translate_text.c.po.c:8745
 msgid "Disable IEC device emulation for device #11"
 msgstr "Aygýt #11 için IEC aygýt emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8760
+#: src/translate_text.c.po.c:8761
 msgid "<engine and model>"
 msgstr "<motor ve model>"
 
-#: src/translate_text.c.po.c:8776
+#: src/translate_text.c.po.c:8777
 msgid "0: FastSID 6581, 1: FastSID 8580"
 msgstr "0: FastSID 6581, 1: FastSID 8580"
 
-#: src/translate_text.c.po.c:8793
+#: src/translate_text.c.po.c:8794
 msgid "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
 msgstr "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
 
-#: src/translate_text.c.po.c:8809
+#: src/translate_text.c.po.c:8810
 msgid "260: DTVSID"
 msgstr "260: DTVSID"
 
-#: src/translate_text.c.po.c:8827
+#: src/translate_text.c.po.c:8828
 msgid "512: Catweasel"
 msgstr "512: Catweasel"
 
-#: src/translate_text.c.po.c:8845
+#: src/translate_text.c.po.c:8846
 msgid "768: HardSID"
 msgstr "768: HardSID"
 
-#: src/translate_text.c.po.c:8863
+#: src/translate_text.c.po.c:8864
 msgid ""
 "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
 "port 3"
@@ -10944,7 +10835,7 @@ msgstr ""
 "1024: Par port 1'de ParSID, 1280: Par port 2'de ParSID, 1536: Par port 3'de "
 "ParSID"
 
-#: src/translate_text.c.po.c:8881
+#: src/translate_text.c.po.c:8882
 msgid ""
 "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
 "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
@@ -10958,35 +10849,35 @@ msgstr ""
 "8580R5 3691 + digiboost, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP 8580R5 "
 "1489D"
 
-#: src/translate_text.c.po.c:8898
+#: src/translate_text.c.po.c:8899
 msgid "Enable second SID"
 msgstr "Ýkinci SID'i aktif et"
 
-#: src/translate_text.c.po.c:8914
+#: src/translate_text.c.po.c:8915
 msgid "Enable SID Cartridge"
 msgstr "SID kartuþunu aktif et"
 
-#: src/translate_text.c.po.c:8930
+#: src/translate_text.c.po.c:8931
 msgid "Disable SID Cartridge"
 msgstr "SID kartuþunu pasifleþtir"
 
-#: src/translate_text.c.po.c:8946
+#: src/translate_text.c.po.c:8947
 msgid "<base address>"
 msgstr "<taban adresi>"
 
-#: src/translate_text.c.po.c:8962
+#: src/translate_text.c.po.c:8963
 msgid "Specify base address for 2nd SID"
 msgstr "2nci SID için taban adresini belirt"
 
-#: src/translate_text.c.po.c:8978
+#: src/translate_text.c.po.c:8979
 msgid "Emulate SID filters"
 msgstr "SID filtrelerini emüle et"
 
-#: src/translate_text.c.po.c:8994
+#: src/translate_text.c.po.c:8995
 msgid "Do not emulate SID filters"
 msgstr "SID filtrelerini emüle etme"
 
-#: src/translate_text.c.po.c:9011
+#: src/translate_text.c.po.c:9012
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -10994,17 +10885,17 @@ msgstr ""
 "reSID örnekleme metodu (0: hýzlý, 1: ara deðer bulma, 2: yeniden örnekleme, "
 "3: hýzlý yeniden örnekleme)"
 
-#: src/translate_text.c.po.c:9027
+#: src/translate_text.c.po.c:9028
 msgid "<percent>"
 msgstr "<yüzde>"
 
-#: src/translate_text.c.po.c:9043
+#: src/translate_text.c.po.c:9044
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
 "reSID yeniden örnekleme passband'inin toplam bant geniþliðine yüzdesel oraný "
 "(0 - 90)"
 
-#: src/translate_text.c.po.c:9059
+#: src/translate_text.c.po.c:9060
 msgid ""
 "reSID filter bias setting, which can be used to adjust DAC bias in "
 "millivolts."
@@ -11012,193 +10903,193 @@ msgstr ""
 "Millivolt cinsinden DAC meyilini ayarlamak için kullanýlabilen reSID "
 "filtresi meyil ayarý."
 
-#: src/translate_text.c.po.c:9075
+#: src/translate_text.c.po.c:9076
 msgid "reSID gain in percent (90 - 100)"
 msgstr "reSID gain yüzdesi (90 - 100)"
 
-#: src/translate_text.c.po.c:9092
+#: src/translate_text.c.po.c:9093
 msgid "Set the VDC memory size to 16KB"
 msgstr "VDC bellek boyutunu 16KB'a ayarla"
 
-#: src/translate_text.c.po.c:9108
+#: src/translate_text.c.po.c:9109
 msgid "Set the VDC memory size to 64KB"
 msgstr "VDC bellek boyutunu 64KB'a ayarla"
 
-#: src/translate_text.c.po.c:9124
+#: src/translate_text.c.po.c:9125
 msgid "Set VDC revision (0..2)"
 msgstr "VDC revizyonunu ayarla (0..2)"
 
-#: src/translate_text.c.po.c:9140
+#: src/translate_text.c.po.c:9141
 msgid "<spec>"
 msgstr "<þart>"
 
-#: src/translate_text.c.po.c:9156
+#: src/translate_text.c.po.c:9157
 msgid "Specify memory configuration"
 msgstr "Bellek konfigürasyonunu ayarlayýn"
 
-#: src/translate_text.c.po.c:9172
+#: src/translate_text.c.po.c:9173
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 arabirimini aktif et"
 
-#: src/translate_text.c.po.c:9188
+#: src/translate_text.c.po.c:9189
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "VIC-1112 IEEE488 arabirimini pasifleþtir"
 
-#: src/translate_text.c.po.c:9204
+#: src/translate_text.c.po.c:9205
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "$2000 adresindeki 4/8/16K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9220
+#: src/translate_text.c.po.c:9221
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "$4000 adresindeki 4/8/16K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9236
+#: src/translate_text.c.po.c:9237
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "$6000 adresindeki 4/8/16K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9252
+#: src/translate_text.c.po.c:9253
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "$A000 adresindeki 4/8K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9268
+#: src/translate_text.c.po.c:9269
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "$B000 adresindeki 4K uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9284
+#: src/translate_text.c.po.c:9285
 msgid "Specify generic extension ROM name"
 msgstr "Jenerik uzantý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9300
+#: src/translate_text.c.po.c:9301
 msgid "Specify Mega-Cart extension ROM name"
 msgstr "Mega-Cart uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9316
+#: src/translate_text.c.po.c:9317
 msgid "Specify Final Expansion extension ROM name"
 msgstr "Final Expansion uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9332
+#: src/translate_text.c.po.c:9333
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Vic Flash Plugin uzantýsý ROM ismini belirt"
 
-#: src/translate_text.c.po.c:9348
+#: src/translate_text.c.po.c:9349
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM dosyasýna geri yazmayý aktif et"
 
-#: src/translate_text.c.po.c:9364
+#: src/translate_text.c.po.c:9365
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM dosyasýna geri yazmayý pasifleþtir"
 
-#: src/translate_text.c.po.c:9380
+#: src/translate_text.c.po.c:9381
 msgid "Set Mega-Cart NvRAM filename"
 msgstr "Mega-Cart NvRAM dosyaismini gir"
 
-#: src/translate_text.c.po.c:9412
+#: src/translate_text.c.po.c:9413
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "Mega-Cart NvRAM geri yazmayý pasifleþtir"
 
-#: src/translate_text.c.po.c:9428
+#: src/translate_text.c.po.c:9429
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Flash Plugin ROM dosyasýna geri yazmayý aktif et"
 
-#: src/translate_text.c.po.c:9444
+#: src/translate_text.c.po.c:9445
 msgid "Disable Vic Flash Plugin write back to ROM file"
 msgstr "Flash Plugin ROM dosyasýna geri yazmayý pasifleþtir"
 
-#: src/translate_text.c.po.c:9460
+#: src/translate_text.c.po.c:9461
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
 msgstr ""
 "VIC-II çerçeve gösterim modunu ayarlayýn (0: normal, 1: tam, 2: hata "
 "ayýklama)"
 
-#: src/translate_text.c.po.c:9476
+#: src/translate_text.c.po.c:9477
 msgid "Enable sprite-background collision registers"
 msgstr "Yaratýk-arka plan çarpýþma registerlarýný aktif et"
 
-#: src/translate_text.c.po.c:9492
+#: src/translate_text.c.po.c:9493
 msgid "Disable sprite-background collision registers"
 msgstr "Yaratýk-arka plan çarpýþma registerlarýný pasifleþtir"
 
-#: src/translate_text.c.po.c:9508
+#: src/translate_text.c.po.c:9509
 msgid "Enable sprite-sprite collision registers"
 msgstr "Yaratýk-yaratýk çarpýþma registerlarýný aktif et"
 
-#: src/translate_text.c.po.c:9524
+#: src/translate_text.c.po.c:9525
 msgid "Disable sprite-sprite collision registers"
 msgstr "Yaratýk-yaratýk çarpýþma registerlarýný pasifleþtir"
 
-#: src/translate_text.c.po.c:9540
+#: src/translate_text.c.po.c:9541
 msgid "Use new luminances"
 msgstr "Yeni parlaklýklarý kullan"
 
-#: src/translate_text.c.po.c:9556
+#: src/translate_text.c.po.c:9557
 msgid "Use old luminances"
 msgstr "Eski parlaklýklarý kullan"
 
-#: src/translate_text.c.po.c:9572
+#: src/translate_text.c.po.c:9573
 msgid "Enable double size"
 msgstr "Çift boyutu aktif et"
 
-#: src/translate_text.c.po.c:9588
+#: src/translate_text.c.po.c:9589
 msgid "Disable double size"
 msgstr "Çift boyutu pasifleþtir"
 
-#: src/translate_text.c.po.c:9604
+#: src/translate_text.c.po.c:9605
 msgid "Enable double scan"
 msgstr "Çift taramayý aktif et"
 
-#: src/translate_text.c.po.c:9620
+#: src/translate_text.c.po.c:9621
 msgid "Disable double scan"
 msgstr "Çift taramayý pasifleþtir"
 
-#: src/translate_text.c.po.c:9636
+#: src/translate_text.c.po.c:9637
 msgid "Enable hardware scaling"
 msgstr "Donaným destekli ölçeklendirmeyi aktif et"
 
-#: src/translate_text.c.po.c:9652
+#: src/translate_text.c.po.c:9653
 msgid "Disable hardware scaling"
 msgstr "Donaným destekli ölçeklendirmeyi pasifleþtir"
 
-#: src/translate_text.c.po.c:9668
+#: src/translate_text.c.po.c:9669
 msgid "Enable Scale2x"
 msgstr "2x Geniþlet'i aktif et"
 
-#: src/translate_text.c.po.c:9684
+#: src/translate_text.c.po.c:9685
 msgid "Disable Scale2x"
 msgstr "2x Geniþlet'i pasifleþtir"
 
-#: src/translate_text.c.po.c:9700
+#: src/translate_text.c.po.c:9701
 msgid "Use an internal calculated palette"
 msgstr "Dahili hesaplanmýþ bir palet kullan"
 
-#: src/translate_text.c.po.c:9716
+#: src/translate_text.c.po.c:9717
 msgid "Use an external palette (file)"
 msgstr "Harici bir palet (dosyadan) kullan"
 
-#: src/translate_text.c.po.c:9732
+#: src/translate_text.c.po.c:9733
 msgid "Specify name of file of external palette"
 msgstr "Harici palet dosyasýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:9748
+#: src/translate_text.c.po.c:9749
 msgid "<device>"
 msgstr "<aygýt>"
 
-#: src/translate_text.c.po.c:9764
+#: src/translate_text.c.po.c:9765
 msgid "Select fullscreen device"
 msgstr "Tam ekran aygýtý seç"
 
-#: src/translate_text.c.po.c:9780
+#: src/translate_text.c.po.c:9781
 msgid "<mode>"
 msgstr "<mod>"
 
-#: src/translate_text.c.po.c:9796
+#: src/translate_text.c.po.c:9797
 msgid "Select fullscreen mode"
 msgstr "Tam ekran modu seç"
 
-#: src/translate_text.c.po.c:9812
+#: src/translate_text.c.po.c:9813
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Bu ACIA'in çalýþmasý gereken RS232 aygýtýný belirt"
 
-#: src/translate_text.c.po.c:9828
+#: src/translate_text.c.po.c:9829
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11206,7 +11097,7 @@ msgstr ""
 "Aygýt #8 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
 "BLOK AYIGTI)"
 
-#: src/translate_text.c.po.c:9844
+#: src/translate_text.c.po.c:9845
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11214,7 +11105,7 @@ msgstr ""
 "Aygýt #9 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
 "BLOK AYIGTI)"
 
-#: src/translate_text.c.po.c:9860
+#: src/translate_text.c.po.c:9861
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11222,7 +11113,7 @@ msgstr ""
 "Aygýt #10 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
 "BLOK AYIGTI)"
 
-#: src/translate_text.c.po.c:9876
+#: src/translate_text.c.po.c:9877
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -11230,461 +11121,461 @@ msgstr ""
 "Aygýt #11 için aygýt tipini belirt (0: YOK, 1: DOSYASÝSTEMÝ, 2: OPENCBM, 3: "
 "BLOK AYIGTI)"
 
-#: src/translate_text.c.po.c:9892
+#: src/translate_text.c.po.c:9893
 msgid "Attach disk image for drive #8 read only"
 msgstr "Sürücü #8 için disk imajýný salt okunur olarak yerleþtir"
 
-#: src/translate_text.c.po.c:9908
+#: src/translate_text.c.po.c:9909
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Sürücü #8 için disk imajýný okunur/yazýlýr olarak yerleþtir (mümkünse)"
 
-#: src/translate_text.c.po.c:9924
+#: src/translate_text.c.po.c:9925
 msgid "Attach disk image for drive #9 read only"
 msgstr "Sürücü #9 için disk imajýný salt okunur olarak yerleþtir"
 
-#: src/translate_text.c.po.c:9940
+#: src/translate_text.c.po.c:9941
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Sürücü #9 için disk imajýný okunur/yazýlýr olarak yerleþtir (mümkünse)"
 
-#: src/translate_text.c.po.c:9956
+#: src/translate_text.c.po.c:9957
 msgid "Attach disk image for drive #10 read only"
 msgstr "Sürücü #10 için disk imajýný salt okunur olarak yerleþtir"
 
-#: src/translate_text.c.po.c:9972
+#: src/translate_text.c.po.c:9973
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr ""
 "Sürücü #10 için disk imajýný okunur/yazýlýr olarak yerleþtir (mümkünse)"
 
-#: src/translate_text.c.po.c:9988
+#: src/translate_text.c.po.c:9989
 msgid "Attach disk image for drive #11 read only"
 msgstr "Sürücü #11 için disk imajýný salt okunur olarak yerleþtir"
 
-#: src/translate_text.c.po.c:10004
+#: src/translate_text.c.po.c:10005
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr ""
 "Sürücü #11 için disk imajýný okunur/yazýlýr olarak yerleþtir (mümkünse)"
 
-#: src/translate_text.c.po.c:10020
+#: src/translate_text.c.po.c:10021
 msgid "Enable automatic Datasette-Reset"
 msgstr "Otomatik Teyp-Reset'i aktif et"
 
-#: src/translate_text.c.po.c:10036
+#: src/translate_text.c.po.c:10037
 msgid "Disable automatic Datasette-Reset"
 msgstr "Otomatik Teyp-Reset'i pasifleþtir"
 
-#: src/translate_text.c.po.c:10052
+#: src/translate_text.c.po.c:10053
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Baðlantý anýnda cycle tipinden bekleme süresini ayarla"
 
-#: src/translate_text.c.po.c:10068
+#: src/translate_text.c.po.c:10069
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Baðlantý anýnda her boþluk için eklenecek cycle sayýsýný ayarla"
 
-#: src/translate_text.c.po.c:10085
+#: src/translate_text.c.po.c:10086
 msgid "Trace the main CPU"
 msgstr "Ana CPU'yu izle"
 
-#: src/translate_text.c.po.c:10101
+#: src/translate_text.c.po.c:10102
 msgid "Do not trace the main CPU"
 msgstr "Ana CPU'yu izleme"
 
-#: src/translate_text.c.po.c:10117
+#: src/translate_text.c.po.c:10118
 msgid "Trace the drive0 CPU"
 msgstr "Sürücü0 CPU'sunu izle"
 
-#: src/translate_text.c.po.c:10133
+#: src/translate_text.c.po.c:10134
 msgid "Do not trace the drive0 CPU"
 msgstr "Sürücü0 CPU'sunu izleme"
 
-#: src/translate_text.c.po.c:10149
+#: src/translate_text.c.po.c:10150
 msgid "Trace the drive1 CPU"
 msgstr "Sürücü1 CPU'sunu izle"
 
-#: src/translate_text.c.po.c:10165
+#: src/translate_text.c.po.c:10166
 msgid "Do not trace the drive1 CPU"
 msgstr "Sürücü1 CPU'sunu izleme"
 
-#: src/translate_text.c.po.c:10182
+#: src/translate_text.c.po.c:10183
 msgid "Trace the drive2 CPU"
 msgstr "Sürücü2 CPU'sunu izle"
 
-#: src/translate_text.c.po.c:10198
+#: src/translate_text.c.po.c:10199
 msgid "Do not trace the drive2 CPU"
 msgstr "Sürücü2 CPU'sunu izleme"
 
-#: src/translate_text.c.po.c:10216
+#: src/translate_text.c.po.c:10217
 msgid "Trace the drive3 CPU"
 msgstr "Sürücü3 CPU'sunu izle"
 
-#: src/translate_text.c.po.c:10232
+#: src/translate_text.c.po.c:10233
 msgid "Do not trace the drive3 CPU"
 msgstr "Sürücü3 CPU'sunu izleme"
 
-#: src/translate_text.c.po.c:10249
+#: src/translate_text.c.po.c:10250
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Ýzleme modu (0=normal 1=küçük 2=tarihçe)"
 
-#: src/translate_text.c.po.c:10266
+#: src/translate_text.c.po.c:10267
 msgid "Playback recorded events"
 msgstr "Kayýttan yürütme kaydedilmiþ olaylarý"
 
-#: src/translate_text.c.po.c:10282
+#: src/translate_text.c.po.c:10283
 msgid "Execute monitor commands from file"
 msgstr "Dosyadan monitör komutlarý çalýþtýr"
 
-#: src/translate_text.c.po.c:10298
+#: src/translate_text.c.po.c:10299
 msgid "Set an initial breakpoint for the monitor"
 msgstr "Monitör için dahili bir kesme noktasý ayarla"
 
-#: src/translate_text.c.po.c:10314
+#: src/translate_text.c.po.c:10315
 msgid "Enable remote monitor"
 msgstr "Uzak monitörü aktif et"
 
-#: src/translate_text.c.po.c:10330
+#: src/translate_text.c.po.c:10331
 msgid "Disable remote monitor"
 msgstr "Uzak monitörü pasifleþtir"
 
-#: src/translate_text.c.po.c:10346
+#: src/translate_text.c.po.c:10347
 msgid "The local address the remote monitor should bind to"
 msgstr "Uzak monitörün baðlanmasý gereken lokal adres"
 
-#: src/translate_text.c.po.c:10362
+#: src/translate_text.c.po.c:10363
 msgid "Specify name of the flip list file image"
 msgstr "Sýralama listesi dosya imajý ismi belirt"
 
-#: src/translate_text.c.po.c:10378
+#: src/translate_text.c.po.c:10379
 msgid "Show a list of the available options and exit normally"
 msgstr "Mevcut seçeneklerin listesini göster ve normal çýk"
 
-#: src/translate_text.c.po.c:10395
+#: src/translate_text.c.po.c:10396
 msgid "Console mode (for music playback)"
 msgstr "Konsol modu (müzik çalmak için)"
 
-#: src/translate_text.c.po.c:10411
+#: src/translate_text.c.po.c:10412
 msgid "Allow production of core dumps"
 msgstr "Bellek durumunun kayýtlarýnýn üretilmesine izin ver"
 
-#: src/translate_text.c.po.c:10427
+#: src/translate_text.c.po.c:10428
 msgid "Do not produce core dumps"
 msgstr "Bellek durumunun kayýtlarýný üretme"
 
-#: src/translate_text.c.po.c:10445
+#: src/translate_text.c.po.c:10446
 msgid "Don't call exception handler"
 msgstr "Kural dýþý iþleyiciyi çaðýrma"
 
-#: src/translate_text.c.po.c:10461
+#: src/translate_text.c.po.c:10462
 msgid "Call exception handler (default)"
 msgstr "Kural dýþý iþleyiciyi çaðýr (varsayýlan)"
 
-#: src/translate_text.c.po.c:10478
+#: src/translate_text.c.po.c:10479
 msgid "Restore default (factory) settings"
 msgstr "Varsayýlan ayarlara (fabrika ayarlarý) geri dön"
 
-#: src/translate_text.c.po.c:10494
+#: src/translate_text.c.po.c:10495
 msgid "<filename>"
 msgstr "<dosyaismi>"
 
-#: src/translate_text.c.po.c:10510
+#: src/translate_text.c.po.c:10511
 msgid "Specify config file"
 msgstr "Konfigürasyon dosyasýný belirt"
 
-#: src/translate_text.c.po.c:10526
+#: src/translate_text.c.po.c:10527
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Teyp/Disk imajý <isim> yerleþtir ve otomatik baþlat"
 
-#: src/translate_text.c.po.c:10542
+#: src/translate_text.c.po.c:10543
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Teyp/Disk imajý <isim> yerleþtir ve otomatik yükle"
 
-#: src/translate_text.c.po.c:10558
+#: src/translate_text.c.po.c:10559
 msgid "Attach <name> as a tape image"
 msgstr "Teyp imajý olarak <isim> yerleþtir"
 
-#: src/translate_text.c.po.c:10574
+#: src/translate_text.c.po.c:10575
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Sürücü #8 disk imajý olarak <isim> yerleþtir"
 
-#: src/translate_text.c.po.c:10590
+#: src/translate_text.c.po.c:10591
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Sürücü #9 disk imajý olarak <isim> yerleþtir"
 
-#: src/translate_text.c.po.c:10606
+#: src/translate_text.c.po.c:10607
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Sürücü #10 disk imajý olarak <isim> yerleþtir"
 
-#: src/translate_text.c.po.c:10622
+#: src/translate_text.c.po.c:10623
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Sürücü #11 disk imajý olarak <isim> yerleþtir"
 
-#: src/translate_text.c.po.c:10638
+#: src/translate_text.c.po.c:10639
 msgid "<string>"
 msgstr "<yazý>"
 
-#: src/translate_text.c.po.c:10670
+#: src/translate_text.c.po.c:10671
 msgid "Specify log file name"
 msgstr "Log dosyasý ismini belirt"
 
-#: src/translate_text.c.po.c:10686
+#: src/translate_text.c.po.c:10687
 msgid "Enable verbose log output."
 msgstr "Verbose log çýktýsýný aktif et."
 
-#: src/translate_text.c.po.c:10702
+#: src/translate_text.c.po.c:10703
 msgid "Enable mouse grab"
 msgstr "Mouse yakalamayý aktif et"
 
-#: src/translate_text.c.po.c:10718
+#: src/translate_text.c.po.c:10719
 msgid "Disable mouse grab"
 msgstr "Mouse yakalamayý pasifleþtir"
 
-#: src/translate_text.c.po.c:10734
+#: src/translate_text.c.po.c:10735
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Mouse'un baðlý olduðu joystick portunu seçin"
 
-#: src/translate_text.c.po.c:10750
+#: src/translate_text.c.po.c:10751
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 msgstr "Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddle)"
 
-#: src/translate_text.c.po.c:10766
+#: src/translate_text.c.po.c:10767
 msgid "Enable PS/2 mouse on userport"
 msgstr "Userport üzerinde PS/2 mouse'u aktif et"
 
-#: src/translate_text.c.po.c:10782
+#: src/translate_text.c.po.c:10783
 msgid "Disable PS/2 mouse on userport"
 msgstr "Userport üzerinde PS/2 mouse'u pasifleþtir"
 
-#: src/translate_text.c.po.c:10798
+#: src/translate_text.c.po.c:10799
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Güç verildiðinde baþlangýçtaki RAM adreslerine atanacak deðeri belirle"
 
-#: src/translate_text.c.po.c:10814
+#: src/translate_text.c.po.c:10815
 msgid "<num of bytes>"
 msgstr "<byte sayýsý>"
 
-#: src/translate_text.c.po.c:10830
+#: src/translate_text.c.po.c:10831
 msgid "Length of memory block initialized with the same value"
 msgstr "Ayný deðerle balangýç ayarlarý yapýlan bellek bloðu uzunluðu"
 
-#: src/translate_text.c.po.c:10846
+#: src/translate_text.c.po.c:10847
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Ayný desenle balangýç ayarlarý yapýlan bellek bloðu uzunluðu"
 
-#: src/translate_text.c.po.c:10878
+#: src/translate_text.c.po.c:10879
 msgid "Disable sound playback"
 msgstr "Sesi pasifleþtir"
 
-#: src/translate_text.c.po.c:10894
+#: src/translate_text.c.po.c:10895
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Ses örnekleme hýzýný <deðer> Hz olarak ayarla"
 
-#: src/translate_text.c.po.c:10910
+#: src/translate_text.c.po.c:10911
 msgid "Set sound buffer size to <value> msec"
 msgstr "Ses arabellek boyutunu <deðer> milisaniye olarak ayarla"
 
-#: src/translate_text.c.po.c:10926
+#: src/translate_text.c.po.c:10927
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
 msgstr "Ses parça boyutunu ayarla (0 = küçük, 1 = orta, 2 = büyük)"
 
-#: src/translate_text.c.po.c:10942
+#: src/translate_text.c.po.c:10943
 msgid "Specify sound driver"
 msgstr "Ses sürücüsü belirt"
 
-#: src/translate_text.c.po.c:10958
+#: src/translate_text.c.po.c:10959
 msgid "<args>"
 msgstr "<argümanlar>"
 
-#: src/translate_text.c.po.c:10974
+#: src/translate_text.c.po.c:10975
 msgid "Specify initialization parameters for sound driver"
 msgstr "Ses sürücüsü için baþlangýç parametrelerini belirt"
 
-#: src/translate_text.c.po.c:10990
+#: src/translate_text.c.po.c:10991
 msgid "Specify recording sound driver"
 msgstr "Ses kayýt sürücüsünü belirt"
 
-#: src/translate_text.c.po.c:11006
+#: src/translate_text.c.po.c:11007
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Ses kayýt sürücüsü için baþlangýç parametrelerini belirt"
 
-#: src/translate_text.c.po.c:11022
+#: src/translate_text.c.po.c:11023
 msgid "<sync>"
 msgstr "<senkron>"
 
-#: src/translate_text.c.po.c:11038
+#: src/translate_text.c.po.c:11039
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Ses hýzý ayarlamasýný yapýn (0: esnek, 1: düzeltme, 2: aynen)"
 
-#: src/translate_text.c.po.c:11054
+#: src/translate_text.c.po.c:11055
 msgid "<path>"
 msgstr "<yol>"
 
-#: src/translate_text.c.po.c:11070
+#: src/translate_text.c.po.c:11071
 msgid "Define search path to locate system files"
 msgstr "Sistem dosyalarýnýn konumunu belirlemek için arama yolu tanýmlayýn"
 
-#: src/translate_text.c.po.c:11086
+#: src/translate_text.c.po.c:11087
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Hýzlý disk/teyp emülasyonu için genel mekanizmayý aktif et"
 
-#: src/translate_text.c.po.c:11102
+#: src/translate_text.c.po.c:11103
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Hýzlý disk/teyp emülasyonu için genel mekanizmayý pasifleþtir"
 
-#: src/translate_text.c.po.c:11118
+#: src/translate_text.c.po.c:11119
 msgid "Limit emulation speed to specified value"
 msgstr "Emülasyon hýzýný belirtilmiþ deðer ile limitle"
 
-#: src/translate_text.c.po.c:11134
+#: src/translate_text.c.po.c:11135
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Her <deðer> framede bir güncelle (otomatik için `0')"
 
-#: src/translate_text.c.po.c:11166
+#: src/translate_text.c.po.c:11167
 msgid "Disable warp mode"
 msgstr "Warp modu pasifleþtir"
 
-#: src/translate_text.c.po.c:11182
+#: src/translate_text.c.po.c:11183
 msgid "<iso language code>"
 msgstr "<iso dil kodu>"
 
-#: src/translate_text.c.po.c:11198
+#: src/translate_text.c.po.c:11199
 msgid "Specify the iso code of the language"
 msgstr "Dil için iso kodu belirt"
 
-#: src/translate_text.c.po.c:11214
+#: src/translate_text.c.po.c:11215
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM geniþletmesini aktif et"
 
-#: src/translate_text.c.po.c:11230
+#: src/translate_text.c.po.c:11231
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM geniþletmesini pasifleþtir"
 
-#: src/translate_text.c.po.c:11246
+#: src/translate_text.c.po.c:11247
 msgid "Specify name of PLUS256K image"
 msgstr "PLUS256K imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:11262
+#: src/translate_text.c.po.c:11263
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM geniþletmesini aktif et"
 
-#: src/translate_text.c.po.c:11278
+#: src/translate_text.c.po.c:11279
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "PLUS60K RAM geniþletmesini pasifleþtir"
 
-#: src/translate_text.c.po.c:11294
+#: src/translate_text.c.po.c:11295
 msgid "Specify name of PLUS60K image"
 msgstr "PLUS60K imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:11310
+#: src/translate_text.c.po.c:11311
 msgid "Base address of the PLUS60K expansion"
 msgstr "PLUS60K geniþletmesinin taban adresi"
 
-#: src/translate_text.c.po.c:11326
+#: src/translate_text.c.po.c:11327
 msgid "Enable the 256K RAM expansion"
 msgstr "256K RAM geniþletmesini aktif et"
 
-#: src/translate_text.c.po.c:11342
+#: src/translate_text.c.po.c:11343
 msgid "Disable the 256K RAM expansion"
 msgstr "256K RAM geniþletmesini pasifleþtir"
 
-#: src/translate_text.c.po.c:11358
+#: src/translate_text.c.po.c:11359
 msgid "Specify name of 256K image"
 msgstr "256K imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:11374
+#: src/translate_text.c.po.c:11375
 msgid "Base address of the 256K expansion"
 msgstr "256K geniþletmesinin taban adresi"
 
-#: src/translate_text.c.po.c:11390
+#: src/translate_text.c.po.c:11391
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Düz yapýlandýrýlmýþ Basic kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:11406
+#: src/translate_text.c.po.c:11407
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
 msgstr "Düz 16kB Super Explode V5 kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:11422
+#: src/translate_text.c.po.c:11423
 msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "Düz 64kB Super Games kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:11438
+#: src/translate_text.c.po.c:11439
 msgid "Attach raw 16kB Simons Basic cartridge image"
 msgstr "Düz 16kB Simons Basic kartuþ imajý yerleþtir"
 
-#: src/translate_text.c.po.c:11454
+#: src/translate_text.c.po.c:11455
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "CSORY 256K RAM geniþletmesini aktif et"
 
-#: src/translate_text.c.po.c:11470
+#: src/translate_text.c.po.c:11471
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "HANNES 256K RAM geniþletmesini aktif et"
 
-#: src/translate_text.c.po.c:11486
+#: src/translate_text.c.po.c:11487
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "HANNES 1024K RAM geniþletmesini aktif et"
 
-#: src/translate_text.c.po.c:11502
+#: src/translate_text.c.po.c:11503
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "HANNES 4096K RAM geniþletmesini aktif et"
 
-#: src/translate_text.c.po.c:11518
+#: src/translate_text.c.po.c:11519
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "DTV Revizyonunu belirt (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:11534
+#: src/translate_text.c.po.c:11535
 msgid "Enable DTV blitter logs."
 msgstr "DTV blitter loglarýný aktif et"
 
-#: src/translate_text.c.po.c:11550
+#: src/translate_text.c.po.c:11551
 msgid "Disable DTV blitter logs."
 msgstr "DTV blitter loglarýný pasifleþtir"
 
-#: src/translate_text.c.po.c:11566
+#: src/translate_text.c.po.c:11567
 msgid "Enable DTV DMA logs."
 msgstr "DTV DMA loglarýný aktif et"
 
-#: src/translate_text.c.po.c:11582
+#: src/translate_text.c.po.c:11583
 msgid "Disable DTV DMA logs."
 msgstr "DTV DMA loglarýný pasifleþtir"
 
-#: src/translate_text.c.po.c:11598
+#: src/translate_text.c.po.c:11599
 msgid "Specify name of C64DTV ROM image"
 msgstr "C64DTV ROM imajýnýn ismini belirt"
 
-#: src/translate_text.c.po.c:11614
+#: src/translate_text.c.po.c:11615
 msgid "Enable writing to C64DTV ROM image"
 msgstr "C64DTV ROM imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:11630
+#: src/translate_text.c.po.c:11631
 msgid "Disable writing to C64DTV ROM image"
 msgstr "C64DTV ROM imajýna yazmayý pasifleþtir"
 
-#: src/translate_text.c.po.c:11646
+#: src/translate_text.c.po.c:11647
 msgid "Enable DTV flash chip logs."
 msgstr "DTV flash çip loglarýný aktif et."
 
-#: src/translate_text.c.po.c:11662
+#: src/translate_text.c.po.c:11663
 msgid "Disable DTV flash chip logs."
 msgstr "DTV flash çip loglarýný pasifleþtir."
 
-#: src/translate_text.c.po.c:11678
+#: src/translate_text.c.po.c:11679
 msgid "Use <name> as directory for flash file system device"
 msgstr "Flash dosya sistem aygýtý için <isim>'i dizin olarak kullan"
 
-#: src/translate_text.c.po.c:11694
+#: src/translate_text.c.po.c:11695
 msgid "Enable true hardware flash file system"
 msgstr "Gerçek donaným flash dosya sistemini aktif et"
 
-#: src/translate_text.c.po.c:11710
+#: src/translate_text.c.po.c:11711
 msgid "Disable true hardware flash file system"
 msgstr "Gerçek donaným flash dosya sistemini pasifleþtir"
 
-#: src/translate_text.c.po.c:11727
+#: src/translate_text.c.po.c:11728
 msgid "Enable MIDI emulation"
 msgstr "MIDI emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:11743
+#: src/translate_text.c.po.c:11744
 msgid "Disable MIDI emulation"
 msgstr "MIDI emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:11759
+#: src/translate_text.c.po.c:11760
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -11692,93 +11583,264 @@ msgstr ""
 "MIDI arabirim tipi (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate_text.c.po.c:11776
+#: src/translate_text.c.po.c:11777
 msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster eklentisini aktif et"
 
-#: src/translate_text.c.po.c:11792
+#: src/translate_text.c.po.c:11793
 msgid "Disable the digiblaster add-on"
 msgstr "Digiblaster eklentisini pasifleþtir"
 
-#: src/translate_text.c.po.c:11808
+#: src/translate_text.c.po.c:11809
 msgid "Enable the v364 speech add-on"
 msgstr "V364 speech eklentisini aktif et"
 
-#: src/translate_text.c.po.c:11824
+#: src/translate_text.c.po.c:11825
 msgid "Disable the v364 speech add-on"
 msgstr "V364 speech eklentisini pasifleþtir"
 
-#: src/translate_text.c.po.c:11840
+#: src/translate_text.c.po.c:11841
 msgid "Attach Speech ROM image"
 msgstr "Speech ROM imajýný yerleþtir"
 
-#: src/translate_text.c.po.c:11856
+#: src/translate_text.c.po.c:11857
 msgid "Enable SID cartridge joystick"
 msgstr "SID kartuþu joystick'ini aktif et"
 
-#: src/translate_text.c.po.c:11872
+#: src/translate_text.c.po.c:11873
 msgid "Disable SID cartridge joystick"
 msgstr "SID kartuþu joystick'ini pasifleþtir"
 
-#: src/translate_text.c.po.c:11888
+#: src/translate_text.c.po.c:11889
 msgid "Enable the SFX soundexpander cartridge"
 msgstr "SFX soundexpander kartuþunu aktif et"
 
-#: src/translate_text.c.po.c:11904
+#: src/translate_text.c.po.c:11905
 msgid "Disable the SFX soundexpander cartridge"
 msgstr "SFX soundexpander kartuþunu pasifleþtir"
 
-#: src/translate_text.c.po.c:11920
+#: src/translate_text.c.po.c:11921
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "YM çip tipini ayarla (3526 / 3812)"
 
-#: src/translate_text.c.po.c:11936
+#: src/translate_text.c.po.c:11937
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler kartuþunu aktif et"
 
-#: src/translate_text.c.po.c:11952
+#: src/translate_text.c.po.c:11953
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler kartuþunu pasifleþtir"
 
-#: src/translate_text.c.po.c:11968
+#: src/translate_text.c.po.c:11969
 msgid "Enable lightpen emulation"
 msgstr "Iþýklý Kalem emülasyonunu aktif et"
 
-#: src/translate_text.c.po.c:11984
+#: src/translate_text.c.po.c:11985
 msgid "Disable lightpen emulation"
 msgstr "Iþýklý Kalem emülasyonunu pasifleþtir"
 
-#: src/translate_text.c.po.c:12000
+#: src/translate_text.c.po.c:12001
 msgid "Set lightpen type"
 msgstr "Iþýklý Kalem tipini ayarla"
 
-#: src/translate_text.c.po.c:12016
+#: src/translate_text.c.po.c:12017
 msgid "Enable EasyFlash jumper"
 msgstr "EasyFlash jumper'ý aktif et"
 
-#: src/translate_text.c.po.c:12032
+#: src/translate_text.c.po.c:12033
 msgid "Disable EasyFlash jumper"
 msgstr "EasyFlash jumper'ý pasifleþtir"
 
-#: src/translate_text.c.po.c:12048
+#: src/translate_text.c.po.c:12049
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "EasyFlash .crt imajýna yazmayý aktif et"
 
-#: src/translate_text.c.po.c:12064
+#: src/translate_text.c.po.c:12065
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "EasyFlash .crt imajýna yazmayý pasifleþtir"
 
-#: src/translate_text.c.po.c:12080
+#: src/translate_text.c.po.c:12081
 msgid "Enable the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunu aktif et"
 
-#: src/translate_text.c.po.c:12096
+#: src/translate_text.c.po.c:12097
 msgid "Disable the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunu pasifleþtir"
 
-#: src/translate_text.c.po.c:12112
+#: src/translate_text.c.po.c:12113
 msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
+
+#~ msgid "Attach cartridge image..."
+#~ msgstr "Kartuþ imajý yerleþtir..."
+
+#~ msgid "About..."
+#~ msgstr "Hakkýnda..."
+
+#~ msgid "Autostart disk/tape image..."
+#~ msgstr "Disk/Teyp imajýný otomatik baþlat..."
+
+#~ msgid "Attach tape image..."
+#~ msgstr "Teyp imajý yerleþtir..."
+
+#~ msgid "Drive settings..."
+#~ msgstr "Sürücü ayarlarý..."
+
+#~ msgid "IEEE-488 Interface image..."
+#~ msgstr "IEEE-488 Arabirimi imajý..."
+
+#~ msgid "Load snapshot image..."
+#~ msgstr "Anlýk görüntü imajý yükle..."
+
+#~ msgid "Save snapshot image..."
+#~ msgstr "Anlýk görüntü imajý kaydet..."
+
+#~ msgid "C64 model settings..."
+#~ msgstr "C64 model ayarlarý..."
+
+#~ msgid "Autostart settings..."
+#~ msgstr "Otomatik baþlatma ayarlarý..."
+
+#~ msgid "Video settings..."
+#~ msgstr "Görüntü ayalarý..."
+
+#~ msgid "Peripheral settings..."
+#~ msgstr "Çevresel ayarlar..."
+
+#~ msgid "Joystick settings..."
+#~ msgstr "Joystick ayarlarý..."
+
+#~ msgid "Keyboard settings..."
+#~ msgstr "Klavye ayarlarý..."
+
+#~ msgid "Sound settings..."
+#~ msgstr "Ses ayarlarý..."
+
+#~ msgid "ROM settings..."
+#~ msgstr "ROM ayarlarý..."
+
+#~ msgid "RAM settings..."
+#~ msgstr "RAM ayarlarý..."
+
+#~ msgid "Datasette settings..."
+#~ msgstr "Teyp ayarlarý..."
+
+#~ msgid "VIC-II settings..."
+#~ msgstr "VIC-II ayarlarý..."
+
+#~ msgid "Mouse settings..."
+#~ msgstr "Mouse ayarlarý..."
+
+#~ msgid "SID settings..."
+#~ msgstr "SID ayarlarý..."
+
+#~ msgid "RS232 settings..."
+#~ msgstr "RS232 ayarlarý..."
+
+#~ msgid "REU settings..."
+#~ msgstr "REU ayarlarý..."
+
+#~ msgid "GEO-RAM settings..."
+#~ msgstr "GEO-RAM ayarlarý..."
+
+#~ msgid "RamCart settings..."
+#~ msgstr "RamCart ayarlarý..."
+
+#~ msgid "Expert Cartridge settings..."
+#~ msgstr "Expert Kartuþu ayarlarý..."
+
+#~ msgid "ISEPIC settings..."
+#~ msgstr "ISEPIC ayarlarý..."
+
+#~ msgid "MMC64 settings..."
+#~ msgstr "MMC64 ayarlarý..."
+
+#~ msgid "MMC Replay settings..."
+#~ msgstr "MMC Replay ayarlarý..."
+
+#~ msgid "Magic Voice settings..."
+#~ msgstr "Magic Voice ayalarý..."
+
+#~ msgid "MIDI settings..."
+#~ msgstr "MIDI ayarlarý..."
+
+#~ msgid "DigiMAX settings..."
+#~ msgstr "DigiMAX ayarlarý..."
+
+#~ msgid "IDE64 settings..."
+#~ msgstr "IDE64 ayarlarý..."
+
+#~ msgid "Ethernet settings..."
+#~ msgstr "Ethernet ayarlarý..."
+
+#~ msgid "ACIA settings..."
+#~ msgstr "ACIA ayarlarý..."
+
+#~ msgid "EasyFlash settings..."
+#~ msgstr "EasyFlash ayarlarý..."
+
+#~ msgid "SFX Sound Expander settings..."
+#~ msgstr "SFX Sound Expander ayarlarý..."
+
+#~ msgid "SID cart settings..."
+#~ msgstr "SID kartuþ ayarlarý..."
+
+#~ msgid "C128 settings..."
+#~ msgstr "C128 ayarlarý..."
+
+#~ msgid "Netplay (experimental)..."
+#~ msgstr "Netplay (deneysel)..."
+
+#~ msgid "PLUS60K settings..."
+#~ msgstr "PLUS60K ayarlarý..."
+
+#~ msgid "PLUS256K settings..."
+#~ msgstr "PLUS256K ayarlarý..."
+
+#~ msgid "256K settings..."
+#~ msgstr "256K ayarlarý..."
+
+#~ msgid "Autostart disk image..."
+#~ msgstr "Disk imajýný otomatik baþlat..."
+
+#~ msgid "C64DTV settings..."
+#~ msgstr "C64DTV ayarlarý..."
+
+#~ msgid "CBM2 settings..."
+#~ msgstr "CBM2 ayarlarý..."
+
+#~ msgid "PET settings..."
+#~ msgstr "PET ayarlarý..."
+
+#~ msgid "PET DWW settings..."
+#~ msgstr "PET DWW ayarlarý..."
+
+#~ msgid "PET REU settings..."
+#~ msgstr "PET REU ayarlarý..."
+
+#~ msgid "Plus4 settings..."
+#~ msgstr "Plus4 ayarlarý..."
+
+#~ msgid "V364 Speech settings..."
+#~ msgstr "V364 Speech ayarlarý..."
+
+#~ msgid "VIC settings..."
+#~ msgstr "VIC ayarlarý..."
+
+#~ msgid "IEEE488 Interface image..."
+#~ msgstr "IEEE488 Arabirim imajý..."
+
+#~ msgid "C64 Model settings..."
+#~ msgstr "C64 Model ayarlarý..."
+
+#~ msgid "Printer settings..."
+#~ msgstr "Yazýcý ayarlarý..."
+
+#~ msgid "Computer ROM settings..."
+#~ msgstr "Bilgisayar ROM ayarlarý..."
+
+#~ msgid "Drive ROM settings..."
+#~ msgstr "Sürücü ROM ayarlarý..."
 
 #~ msgid "ADC"
 #~ msgstr "ADC"
@@ -11882,9 +11944,6 @@ msgstr "DigiMAX kartuþunun taban adresi"
 
 #~ msgid "SID cartridge settings"
 #~ msgstr "SID kartuþ ayarlarý"
-
-#~ msgid "V364 Speech settings"
-#~ msgstr "V364 Speech ayarlarý"
 
 #~ msgid "Image:"
 #~ msgstr "Ýmaj:"

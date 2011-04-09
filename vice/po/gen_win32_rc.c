@@ -152,9 +152,28 @@ static void close_all(void)
     }
 }
 
-static void write_converted_text(char *text1, FILE *outfile)
+static int dottest(char *text)
 {
-    char *text2 = malloc(strlen(text1) * 2);
+    int i = 0;
+
+    while (text[i] != 0) {
+        i++;
+    }
+
+    if (i < 4) {
+        return 0;
+    }
+
+    if (text[i - 1] == '.' && text[i - 2] == '.' && text[i - 3] == '.') {
+        text[i - 3] = 0;
+        return 1;
+    }
+    return 0;
+}
+
+static void write_converted_text(char *text1, FILE *outfile, char *extra_text)
+{
+    char *text2 = malloc(strlen(text1) * 3);
     int i;
     int counter = 0;
 
@@ -174,6 +193,11 @@ static void write_converted_text(char *text1, FILE *outfile)
             text2[counter++] = text1[i];
         }
     }
+    if (extra_text != NULL) {
+        for (i = 0; extra_text[i] != 0; i++) {
+            text2[counter++] = extra_text[i];
+        }
+    }
     text2[counter] = 0;
     fwrite(text2, 1, strlen(text2), outfile);
     free(text2);
@@ -183,9 +207,12 @@ int main(int argc, char *argv[])
 {
     int found = UNKNOWN;
     int i = 0;
+    int dots;
     int id;
     int failed = 0;
     char *text_string;
+    char *extra_string;
+    char *text_string_orig;
 
     if (argc != 2) {
         return 1;
@@ -250,10 +277,24 @@ int main(int argc, char *argv[])
                 }
                 line_buffer[i] = 0;
                 fprintf(files[0].filehandle, "%s\"", line_buffer);
-                write_converted_text(text_string, files[0].filehandle);
+                write_converted_text(text_string, files[0].filehandle, NULL);
                 fprintf(files[0].filehandle, "\"\n");
+
+                text_string_orig = strdup(text_string);
+
+                dots = dottest(text_string);
+                if (dots) {
+                    extra_string = "...";
+                } else {
+                    extra_string = NULL;
+                }
+
                 for (id = 0; text[id].msgid != NULL; id++) {
                     if (!strcmp(text[id].msgid, text_string)) {
+                        break;
+                    }
+                    if (!strcmp(text[id].msgid, text_string_orig)) {
+                        extra_string = NULL;
                         break;
                     }
                 }
@@ -262,84 +303,85 @@ int main(int argc, char *argv[])
                     switch (i) {
                         case 1:
                             if (strlen(text[id].msgstr_da) != 0) {
-                                write_converted_text(text[id].msgstr_da, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_da, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 2:
                             if (strlen(text[id].msgstr_de) != 0) {
-                                write_converted_text(text[id].msgstr_de, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_de, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 3:
                             if (strlen(text[id].msgstr_fr) != 0) {
-                                write_converted_text(text[id].msgstr_fr, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_fr, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 4:
                             if (strlen(text[id].msgstr_hu) != 0) {
-                                write_converted_text(text[id].msgstr_hu, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_hu, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 5:
                             if (strlen(text[id].msgstr_it) != 0) {
-                                write_converted_text(text[id].msgstr_it, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_it, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 6:
                             if (strlen(text[id].msgstr_ko) != 0) {
-                                write_converted_text(text[id].msgstr_ko, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_ko, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 7:
                             if (strlen(text[id].msgstr_nl) != 0) {
-                                write_converted_text(text[id].msgstr_nl, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_nl, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 8:
                             if (strlen(text[id].msgstr_pl) != 0) {
-                                write_converted_text(text[id].msgstr_pl, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_pl, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 9:
                             if (strlen(text[id].msgstr_ru) != 0) {
-                                write_converted_text(text[id].msgstr_ru, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_ru, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 10:
                             if (strlen(text[id].msgstr_sv) != 0) {
-                                write_converted_text(text[id].msgstr_sv, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_sv, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                         case 11:
                             if (strlen(text[id].msgstr_tr) != 0) {
-                                write_converted_text(text[id].msgstr_tr, files[i].filehandle);
+                                write_converted_text(text[id].msgstr_tr, files[i].filehandle, extra_string);
                             } else {
-                                write_converted_text(text_string, files[i].filehandle);
+                                write_converted_text(text_string, files[i].filehandle, extra_string);
                             }
                             break;
                     }
                     fprintf(files[i].filehandle, "\"\n");
                 }
+                free(text_string_orig);
             }
             found = genrc_getline(infile);
         }

@@ -230,6 +230,23 @@ int language_id(char *text)
     return 0;
 }
 
+static int dottest(char *text, int i)
+{
+    if (text[i] == 0) {
+        return 0;
+    }
+    if (text[i + 1] == 0) {
+        return 0;
+    }
+    if (text[i + 2] == 0) {
+        return 0;
+    }
+    if (text[i] == '.' && text[i + 1] == '.' && text[i + 2] == '.') {
+        return 1;
+    }
+    return 0;
+}
+
 void replace_string(char *text, FILE *file)
 {
     int i, j;
@@ -249,7 +266,11 @@ void replace_string(char *text, FILE *file)
         fputc(text[i], file);
 
         for (j = i + 1; !(text[j] == '"' && (text[j - 1] != '\\' || (text[j - 1] == '\\' && text[j - 2] == '\\'))); j++) {
-            fputc(text[j], file);
+            if (!dottest(text, j)) {
+                fputc(text[j], file);
+            } else {
+                j += 2;
+            }
         }
         fputc('"', file);
         fputc(')', file);

@@ -123,9 +123,28 @@ static void close_all(void)
     }
 }
 
-static void write_converted_text(char *text1)
+static int dottest(char *text)
 {
-    char *text2 = malloc(strlen(text1) * 2);
+    int i = 0;
+
+    while (text[i] != 0) {
+        i++;
+    }
+
+    if (i < 4) {
+        return 0;
+    }
+
+    if (text[i - 1] == '.' && text[i - 2] == '.' && text[i - 3] == '.') {
+        text[i - 3] = 0;
+        return 1;
+    }
+    return 0;
+}
+
+static void write_converted_text(char *text1, char *extra_text)
+{
+    char *text2 = malloc(strlen(text1) * 3);
     int i;
     int counter = 0;
 
@@ -143,6 +162,11 @@ static void write_converted_text(char *text1)
             text2[counter++] = text1[i];
         }
     }
+    if (extra_text != NULL) {
+        for (i = 0; extra_text[i] != 0; i++) {
+            text2[counter++] = extra_text[i];
+        }
+    }
     text2[counter] = 0;
     fwrite(text2, 1, strlen(text2), outfile);
     free(text2);
@@ -152,10 +176,13 @@ int main(int argc, char *argv[])
 {
     int found = UNKNOWN;
     int i;
+    int dots;
     int id_start;
     int text_start;
     char *id_string;
     char *text_string;
+    char *extra_string;
+    char *text_string_orig;
 
     infile = fopen("../src/translate_text.c", "rb");
     if (infile == NULL) {
@@ -228,15 +255,29 @@ int main(int argc, char *argv[])
             id_string = strdup(line_buffer + id_start);
             text_string = strdup(line_buffer + text_start);
             fprintf(outfile, "/* en */ {%s,    N_(\"", line_buffer + id_start);
-            write_converted_text(text_string);
+            write_converted_text(text_string, NULL);
+
+            text_string_orig = strdup(text_string);
+
+            dots = dottest(text_string);
+            if (dots) {
+                extra_string = "...";
+            } else {
+                extra_string = NULL;
+            }
+
             fprintf(outfile, "\")},\n#ifdef HAS_TRANSLATION\n/* da */ {%s_DA, \"", id_string);
             for (i = 0; text[i].msgid != NULL; i++) {
                 if (!strcmp(text[i].msgid, text_string)) {
                     break;
                 }
+                if (!strcmp(text[i].msgid, text_string_orig)) {
+                    extra_string = NULL;
+                    break;
+                }
             }
             if (strlen(text[i].msgstr_da) != 0) {
-                write_converted_text(text[i].msgstr_da);
+                write_converted_text(text[i].msgstr_da, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_da) == 0) {
@@ -245,7 +286,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* de */ {%s_DE, \"", id_string);
 
             if (strlen(text[i].msgstr_de) != 0) {
-                write_converted_text(text[i].msgstr_de);
+                write_converted_text(text[i].msgstr_de, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_de) == 0) {
@@ -254,7 +295,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* fr */ {%s_FR, \"", id_string);
 
             if (strlen(text[i].msgstr_fr) != 0) {
-                write_converted_text(text[i].msgstr_fr);
+                write_converted_text(text[i].msgstr_fr, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_fr) == 0) {
@@ -263,7 +304,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* hu */ {%s_HU, \"", id_string);
 
             if (strlen(text[i].msgstr_hu) != 0) {
-                write_converted_text(text[i].msgstr_hu);
+                write_converted_text(text[i].msgstr_hu, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_hu) == 0) {
@@ -272,7 +313,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* it */ {%s_IT, \"", id_string);
 
             if (strlen(text[i].msgstr_it) != 0) {
-                write_converted_text(text[i].msgstr_it);
+                write_converted_text(text[i].msgstr_it, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_it) == 0) {
@@ -281,7 +322,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* ko */ {%s_KO, \"", id_string);
 
             if (strlen(text[i].msgstr_ko) != 0) {
-                write_converted_text(text[i].msgstr_ko);
+                write_converted_text(text[i].msgstr_ko, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_ko) == 0) {
@@ -290,7 +331,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* nl */ {%s_NL, \"", id_string);
 
             if (strlen(text[i].msgstr_nl) != 0) {
-                write_converted_text(text[i].msgstr_nl);
+                write_converted_text(text[i].msgstr_nl, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_nl) == 0) {
@@ -299,7 +340,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* pl */ {%s_PL, \"", id_string);
 
             if (strlen(text[i].msgstr_pl) != 0) {
-                write_converted_text(text[i].msgstr_pl);
+                write_converted_text(text[i].msgstr_pl, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_pl) == 0) {
@@ -308,7 +349,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* ru */ {%s_RU, \"", id_string);
 
             if (strlen(text[i].msgstr_ru) != 0) {
-                write_converted_text(text[i].msgstr_ru);
+                write_converted_text(text[i].msgstr_ru, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_ru) == 0) {
@@ -317,7 +358,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* sv */ {%s_SV, \"", id_string);
 
             if (strlen(text[i].msgstr_sv) != 0) {
-                write_converted_text(text[i].msgstr_sv);
+                write_converted_text(text[i].msgstr_sv, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_sv) == 0) {
@@ -326,7 +367,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* tr */ {%s_TR, \"", id_string);
 
             if (strlen(text[i].msgstr_tr) != 0) {
-                write_converted_text(text[i].msgstr_tr);
+                write_converted_text(text[i].msgstr_tr, extra_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_tr) == 0) {
@@ -349,6 +390,7 @@ int main(int argc, char *argv[])
             }
             free(id_string);
             free(text_string);
+            free(text_string_orig);
         }
     }
     fprintf(outfile, "};\n");

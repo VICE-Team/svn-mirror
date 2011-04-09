@@ -513,7 +513,7 @@ BEGIN
   IDS_C64DTV_ROM_COPY_C64         "Kopiér C64-ROM'mer til image"
   IDS_CREATE                      "Opret"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV-flashrom image"
-  IDS_MI_AUTOSTART_DISK           "Autostart disketteimage..."
+  IDS_MI_AUTOSTART_DISK           "Autostart disk-image..."
   IDS_MI_ATTACH_DTV_FLASH         "Tilslut flash-rom-image"
   IDS_MI_DETACH_DTV_FLASH         "Frakobl flash-rom-imagesfil"
   IDS_MI_CREATE_DTV_FLASH         "Opret nyt flash-rom-image"
@@ -569,7 +569,7 @@ BEGIN
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom image"
-  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_AUTOSTART_DISK           "Démarrer automatiquement une image de disque..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create new flash rom image"
@@ -600,13 +600,13 @@ BEGIN
   IDS_C64DTV_ROM_COPY_C64         "C64 ROM-ok másolása a képmásba"
   IDS_CREATE                      "Létrehozás"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom image"
-  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_AUTOSTART_DISK           "Lemezképmás automatikus indítása..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create new flash rom image"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 egér emuláció"
-  IDS_MI_C64DTV_SETTINGS          "C64DTV beállításai..."
+  IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Botkormány"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -693,13 +693,13 @@ BEGIN
   IDS_C64DTV_ROM_COPY_C64         "Kopieer C64 ROMS naar bestand"
   IDS_CREATE                      "Maak"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV flash rom bestand"
-  IDS_MI_AUTOSTART_DISK           "Autostart diskbestand..."
+  IDS_MI_AUTOSTART_DISK           "Autostart schijfbestand..."
   IDS_MI_ATTACH_DTV_FLASH         "Koppel flash rom bestand"
   IDS_MI_DETACH_DTV_FLASH         "Ontkoppel flash rom bestand"
   IDS_MI_CREATE_DTV_FLASH         "Maak nieuw flash rom bestand"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Hardwarematig flash bestandssysteem"
   IDS_MI_PS2MOUSE                 "PS/2 muis emulatie"
-  IDS_MI_C64DTV_SETTINGS          "C64DTV instellingen..."
+  IDS_MI_C64DTV_SETTINGS          "C64DTV Instellingen..."
   IDS_JOYSTICK                    "Joystick"
 END
 
@@ -826,7 +826,7 @@ BEGIN
   IDS_MI_CREATE_DTV_FLASH         "Yeni flash rom imajý oluþtur"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Gerçek flash dosya sistemi"
   IDS_MI_PS2MOUSE                 "PS/2 mouse emülasyonu"
-  IDS_MI_C64DTV_SETTINGS          "C64DTV ayarlarý..."
+  IDS_MI_C64DTV_SETTINGS          "C64DTV Ayarlarý..."
   IDS_JOYSTICK                    "Joystick"
 END
 #ifndef WINDRES_CP_IGNORE

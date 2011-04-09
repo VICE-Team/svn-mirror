@@ -681,7 +681,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$A*** als RAM"
   IDS_MI_PET_SETTINGS            "PET Einstellungen..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW Einstellungen..."
-  IDS_MI_PETREU_SETTINGS         "PET Einstellungen..."
+  IDS_MI_PETREU_SETTINGS         "PET REU Einstellungen..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "PET Userport DAC aktivieren"
 END
 
@@ -756,7 +756,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$A*** RAM-ként"
   IDS_MI_PET_SETTINGS            "PET beállításai..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET REU beállításai..."
+  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -795,7 +795,7 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAMA       "$A*** come RAM"
   IDS_MI_PET_SETTINGS            "Impostazioni PET..."
   IDS_MI_PETDWW_SETTINGS         "Impostazioni PET DWW..."
-  IDS_MI_PETREU_SETTINGS         "Impostazioni PET..."
+  IDS_MI_PETREU_SETTINGS         "Impostazioni PET REU..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su userport PET"
 END
 
@@ -992,8 +992,8 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAM9       "$9*** som RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$A*** som RAM"
   IDS_MI_PET_SETTINGS            "PET-inställningar..."
-  IDS_MI_PETDWW_SETTINGS         "PET DWW-inställningar..."
-  IDS_MI_PETREU_SETTINGS         "PET REU-inställningar..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW-Inställningar..."
+  IDS_MI_PETREU_SETTINGS         "PET REU-Inställningar..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera PET användarport-D/A-omvandlare"
 END
 
@@ -1031,8 +1031,8 @@ BEGIN
   IDS_TOGGLE_PET_8296_RAM9       "RAM olarak $9***"
   IDS_TOGGLE_PET_8296_RAMA       "RAM olarak $A***"
   IDS_MI_PET_SETTINGS            "PET ayarlarý..."
-  IDS_MI_PETDWW_SETTINGS         "PET DWW ayarlarý..."
-  IDS_MI_PETREU_SETTINGS         "PET REU ayarlarý..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW Ayarlarý..."
+  IDS_MI_PETREU_SETTINGS         "PET REU Ayarlarý..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "PET Userport DAC'ý aktif et"
 END
 #ifndef WINDRES_CP_IGNORE
