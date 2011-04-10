@@ -285,7 +285,7 @@ static GtkWidget *build_screenshot_dialog(void)
         return 0;
     }
 
-    title = util_concat(_("Save Media File", "...", NULL);
+    title = util_concat(_("Save Media File"), "...", NULL);
     d = vice_file_entry(title, NULL, NULL, &filter, 1, UI_FC_SAVE);
     lib_free(title);
     if (!d) {
