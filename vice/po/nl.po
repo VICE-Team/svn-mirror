@@ -2,12 +2,12 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-09 08:14-0700\n"
+"POT-Creation-Date: 2011-04-10 11:48-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -3739,40 +3739,44 @@ msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:97
 msgid ""
-"Martin Pottendorfer - German\n"
-"Peter Krefting - Swedish\n"
-"Andrea Musuruane - Italian\n"
-"Paul Dube - French\n"
-"Marco van den Heuvel - Dutch\n"
-"Flooder - Polish\n"
-"Czirkos Zoltan, Karai Csaba - Hungarian\n"
-"Emir Akaydin (aka: Skate) - Turkish\n"
 "Mikkel Holm Olsen - Danish\n"
+"Martin Pottendorfer - German\n"
+"Paul Dube - French\n"
+"Czirkos Zoltan, Karai Csaba - Hungarian\n"
+"Andrea Musuruane - Italian\n"
+"Jesse Lee - Korean\n"
+"Marco van den Heuvel - Dutch\n"
+"Mihail Litvinov - Russian\n"
+"Flooder - Polish\n"
+"Peter Krefting - Swedish\n"
+"Emir Akaydin (aka: Skate) - Turkish\n"
 msgstr ""
-"Martin Pottendorfer - German\n"
-"Peter Krefting - Swedish\n"
-"Andrea Musuruane - Italian\n"
-"Paul Dube - French\n"
-"Marco van den Heuvel - Dutch\n"
-"Flooder - Polish\n"
-"Czirkos Zoltan, Karai Csaba - Hungarian\n"
-"Emir Akaydin (aka: Skate) - Turkish\n"
-"Mikkel Holm Olsen - Danish\n"
+"Mikkel Holm Olsen - Deens\n"
+"Martin Pottendorfer - Duits\n"
+"Paul Dube - Frans\n"
+"Czirkos Zoltan, Karai Csaba - Hongaars\n"
+"Andrea Musuruane - Italiaans\n"
+"Jesse Lee - Koreaans\n"
+"Marco van den Heuvel - Nederlands\n"
+"Mihail Litvinov - Russisch\n"
+"Flooder - Pools\n"
+"Peter Krefting - Zweeds\n"
+"Emir Akaydin (aka: Skate) - Turks\n"
 
-#: src/arch/unix/x11/gnome/about.c:113
-msgid "(c) 1998 - 2010 The VICE Team"
-msgstr "(c) 1998 - 2010 The VICE Team"
+#: src/arch/unix/x11/gnome/about.c:115
+msgid "(c) 1998 - 2011 The VICE Team"
+msgstr "(c) 1998 - 2011 The VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1021
+#: src/arch/unix/x11/gnome/about.c:122 src/arch/win32/res.rc.po.c:1021
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:2826
 msgid "License"
 msgstr "Licentie"
 
-#: src/arch/unix/x11/gnome/about.c:122
+#: src/arch/unix/x11/gnome/about.c:124
 msgid "Warranty"
 msgstr "Garantie"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1468
+#: src/arch/unix/x11/gnome/about.c:126 src/arch/win32/res.rc.po.c:1468
 #: src/arch/amigaos/intl_text.c.po.c:2813
 msgid "Contributors"
 msgstr "Medewerkers"
@@ -5685,7 +5689,7 @@ msgstr "Geluidsopname instellingen"
 
 #: src/arch/win32/res.rc.po.c:1253 src/arch/amigaos/intl_text.c.po.c:8586
 msgid "Sound Record Format"
-msgstr "Geluidsopname Formaat..."
+msgstr "Geluidsopname Formaat"
 
 #: src/arch/win32/res.rc.po.c:1254 src/arch/amigaos/intl_text.c.po.c:8599
 msgid "Sound Record File"
