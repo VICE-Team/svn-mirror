@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-04-12 11:44-0700\n"
-"PO-Revision-Date: 2011-04-05 19:27+0200\n"
+"PO-Revision-Date: 2011-04-12 22:47+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3724,7 +3724,6 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:97
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3747,6 +3746,8 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - Ungarisch\n"
 "Emir Akaydin (aka: Skate) - Türkisch\n"
 "Mikkel Holm Olsen - Dänisch\n"
+"Jesse Lee - Koreanisch\n"
+"Mihail Litvinov - Russisch\n"
 
 #: src/arch/unix/x11/gnome/about.c:115
 msgid "(c) 1998 - 2011 The VICE Team"
