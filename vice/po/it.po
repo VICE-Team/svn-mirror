@@ -1,13 +1,13 @@
 # Italian Translation File for VICE
 # Copyright (C) 2001-2009 Free Software Foundation, Inc.
 # Andrea Musuruane <musuruan@gmail.com>, 2001-2009.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-09 08:14-0700\n"
+"POT-Creation-Date: 2011-04-12 08:38-0700\n"
 "PO-Revision-Date: 2011-02-16 20:44+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
@@ -3737,16 +3737,19 @@ msgid "Official VICE homepage:"
 msgstr "Homepage ufficiale di VICE:"
 
 #: src/arch/unix/x11/gnome/about.c:97
+#, fuzzy
 msgid ""
+"Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
-"Peter Krefting - Swedish\n"
-"Andrea Musuruane - Italian\n"
 "Paul Dube - French\n"
+"Czirkos Zoltan, Karai Csaba - Hungarian\n"
+"Andrea Musuruane - Italian\n"
+"Jesse Lee - Korean\n"
 "Marco van den Heuvel - Dutch\n"
 "Flooder - Polish\n"
-"Czirkos Zoltan, Karai Csaba - Hungarian\n"
+"Mihail Litvinov - Russian\n"
+"Peter Krefting - Swedish\n"
 "Emir Akaydin (aka: Skate) - Turkish\n"
-"Mikkel Holm Olsen - Danish\n"
 msgstr ""
 "Martin Pottendorfer - Tedesco\n"
 "Peter Krefting - Svedese\n"
@@ -3758,20 +3761,20 @@ msgstr ""
 "Emir Akaydin (aka: Skate) - Turco\n"
 "Mikkel Holm Olsen - Danese\n"
 
-#: src/arch/unix/x11/gnome/about.c:113
-msgid "(c) 1998 - 2010 The VICE Team"
-msgstr "(c) 1998 - 2010 The VICE Team"
+#: src/arch/unix/x11/gnome/about.c:115
+msgid "(c) 1998 - 2011 The VICE Team"
+msgstr "(c) 1998 - 2011 The VICE Team"
 
-#: src/arch/unix/x11/gnome/about.c:120 src/arch/win32/res.rc.po.c:1021
+#: src/arch/unix/x11/gnome/about.c:122 src/arch/win32/res.rc.po.c:1021
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:2826
 msgid "License"
 msgstr "Licenza"
 
-#: src/arch/unix/x11/gnome/about.c:122
+#: src/arch/unix/x11/gnome/about.c:124
 msgid "Warranty"
 msgstr "Garanzia"
 
-#: src/arch/unix/x11/gnome/about.c:124 src/arch/win32/res.rc.po.c:1468
+#: src/arch/unix/x11/gnome/about.c:126 src/arch/win32/res.rc.po.c:1468
 #: src/arch/amigaos/intl_text.c.po.c:2813
 msgid "Contributors"
 msgstr "Collaboratori"

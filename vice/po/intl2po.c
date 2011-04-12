@@ -230,50 +230,28 @@ int language_id(char *text)
     return 0;
 }
 
-static int dottest(char *text, int i)
-{
-    if (text[i] == 0) {
-        return 0;
-    }
-    if (text[i + 1] == 0) {
-        return 0;
-    }
-    if (text[i + 2] == 0) {
-        return 0;
-    }
-    if (text[i] == '.' && text[i + 1] == '.' && text[i + 2] == '.') {
-        return 1;
-    }
-    return 0;
-}
-
-static void checkdots(char *text)
+static void remove_trailing_3_dots(char *text)
 {
     int i = 0;
-    int found_dots = 0;
+    char *sub = NULL;
 
-    while (text[i] != 0 && found_dots == 0) {
-        if (text[i] == '.' && text[i - 1] == '.' && text[i - 2] == '.') {
-            found_dots = 1;
-        }
+    sub = strstr(text, "...\"");
+    while (sub[i + 3] != 0) {
+        sub[i] = sub[i + 3];
         i++;
     }
-
-    if (found_dots == 1) {
-        while (text[i] != 0) {
-            text[i - 3] = text[i];
-            i++;
-        }
-        text[i - 3] = 0;
-    }
+    sub[i] = 0;
 }
 
 void replace_string(char *text, FILE *file)
 {
     int i, j;
 
+    if (strstr(text, "...\"") != NULL) {
+        remove_trailing_3_dots(text);
+    }
+
     if (check_quote(text) == 0) {
-        checkdots(text);
         fprintf(file, "%s", text);
         if (gettext_open_mark) {
             check_gettext_end(text);
@@ -288,11 +266,7 @@ void replace_string(char *text, FILE *file)
         fputc(text[i], file);
 
         for (j = i + 1; !(text[j] == '"' && (text[j - 1] != '\\' || (text[j - 1] == '\\' && text[j - 2] == '\\'))); j++) {
-            if (!dottest(text, j)) {
-                fputc(text[j], file);
-            } else {
-                j += 2;
-            }
+            fputc(text[j], file);
         }
         fputc('"', file);
         fputc(')', file);

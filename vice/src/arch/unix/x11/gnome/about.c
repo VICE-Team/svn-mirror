@@ -94,15 +94,17 @@ void ui_about(gpointer data)
     };
 
     const gchar *transl = _(
+        "Mikkel Holm Olsen - Danish\n"
         "Martin Pottendorfer - German\n"
-        "Peter Krefting - Swedish\n"
-        "Andrea Musuruane - Italian\n"
         "Paul Dube - French\n"
+        "Czirkos Zoltan, Karai Csaba - Hungarian\n"
+        "Andrea Musuruane - Italian\n"
+        "Jesse Lee - Korean\n"
         "Marco van den Heuvel - Dutch\n"
         "Flooder - Polish\n"
-        "Czirkos Zoltan, Karai Csaba - Hungarian\n"
+        "Mihail Litvinov - Russian\n"
+        "Peter Krefting - Swedish\n"
         "Emir Akaydin (aka: Skate) - Turkish\n"
-        "Mikkel Holm Olsen - Danish\n"
     );
 
     if (!about) {
@@ -110,7 +112,7 @@ void ui_about(gpointer data)
         about = g_object_new(GTK_TYPE_ABOUT_DIALOG,
                              "name", "V I C E",
                              "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
-                             "copyright", _("(c) 1998 - 2010 The VICE Team"),
+                             "copyright", _("(c) 1998 - 2011 The VICE Team"),
                              "comments", "Versatile Commodore Emulator",
                              "authors", authors, 
                              "documenters", docs, 
