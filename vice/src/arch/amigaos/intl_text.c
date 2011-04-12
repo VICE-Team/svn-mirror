@@ -7804,12 +7804,12 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_GAMMA_0_4,    "Gamma (0..4)" },
 /* da */ { IDS_GAMMA_0_4_DA, "Gamma (0..4)" },
 /* de */ { IDS_GAMMA_0_4_DE, "Gamma (0..4)" },
-/* fr */ { IDS_GAMMA_0_4_FR, "" },  /* fuzzy */
-/* hu */ { IDS_GAMMA_0_4_HU, "" },  /* fuzzy */
+/* fr */ { IDS_GAMMA_0_4_FR, "Intensité (0..4)" },
+/* hu */ { IDS_GAMMA_0_4_HU, "Gamma (0..4)" },
 /* it */ { IDS_GAMMA_0_4_IT, "Gamma (0..4)" },
 /* ko */ { IDS_GAMMA_0_4_KO, "" },  /* fuzzy */
 /* nl */ { IDS_GAMMA_0_4_NL, "Gamma (0..4)" },
-/* pl */ { IDS_GAMMA_0_4_PL, "" },  /* fuzzy */
+/* pl */ { IDS_GAMMA_0_4_PL, "Gamma (0..4)" },
 /* ru */ { IDS_GAMMA_0_4_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GAMMA_0_4_SV, "Gamma (0..4)" },
 /* tr */ { IDS_GAMMA_0_4_TR, "Gama (0..4)" },
@@ -7857,27 +7857,27 @@ intl_translate_t intl_string_table[] = {
 /* da */ { IDS_ODDLINE_PHASE_0_2_DA, "Fase for ulige linjer (0..2)" },
 /* de */ { IDS_ODDLINE_PHASE_0_2_DE, "Ungerade Zeilenphase (0..2)" },
 /* fr */ { IDS_ODDLINE_PHASE_0_2_FR, "" },  /* fuzzy */
-/* hu */ { IDS_ODDLINE_PHASE_0_2_HU, "Páratlan sorok fázisa (0..2)" },
+/* hu */ { IDS_ODDLINE_PHASE_0_2_HU, "" },  /* fuzzy */
 /* it */ { IDS_ODDLINE_PHASE_0_2_IT, "Fase linee dispari (0..2)" },
 /* ko */ { IDS_ODDLINE_PHASE_0_2_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ODDLINE_PHASE_0_2_NL, "Oneven lijnen fase (0..2)" },
 /* pl */ { IDS_ODDLINE_PHASE_0_2_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ODDLINE_PHASE_0_2_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ODDLINE_PHASE_0_2_SV, "Fas för udda linjer (0..2)" },
-/* tr */ { IDS_ODDLINE_PHASE_0_2_TR, "Tek satýrlar fazý (0..2)" },
+/* tr */ { IDS_ODDLINE_PHASE_0_2_TR, "Tek satýr fazý (0..2)" },
 
 /* en */ { IDS_ODDLINE_OFFSET_0_2,    "Odd lines offset (0..2)" },
 /* da */ { IDS_ODDLINE_OFFSET_0_2_DA, "Offset for ulige linjer (0..2)" },
 /* de */ { IDS_ODDLINE_OFFSET_0_2_DE, "Ungerader Zeilenoffset (0..2)" },
 /* fr */ { IDS_ODDLINE_OFFSET_0_2_FR, "" },  /* fuzzy */
-/* hu */ { IDS_ODDLINE_OFFSET_0_2_HU, "Páratlan sorok offszetje (0..2)" },
+/* hu */ { IDS_ODDLINE_OFFSET_0_2_HU, "" },  /* fuzzy */
 /* it */ { IDS_ODDLINE_OFFSET_0_2_IT, "Offset linee dispari (0..2)" },
 /* ko */ { IDS_ODDLINE_OFFSET_0_2_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ODDLINE_OFFSET_0_2_NL, "Oneven lijnen compensatie (0..2)" },
 /* pl */ { IDS_ODDLINE_OFFSET_0_2_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ODDLINE_OFFSET_0_2_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ODDLINE_OFFSET_0_2_SV, "Utjämning för udda linjer (0..2)" },
-/* tr */ { IDS_ODDLINE_OFFSET_0_2_TR, "Tek satýrlar ofseti (0..2)" },
+/* tr */ { IDS_ODDLINE_OFFSET_0_2_TR, "Tek satýr ofseti (0..2)" },
 
 /* en */ { IDS_VICII_EXTERNAL_PALETTE,    "External VICII palette" },
 /* da */ { IDS_VICII_EXTERNAL_PALETTE_DA, "Ekstern VICII palette" },
@@ -8010,14 +8010,14 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_CRTC_PALETTE_NAME_TR, "CRTC palet dosyasý" },
 
 /* en */ { IDS_SATURATION_0_2,    "Saturation (0..2)" },
-/* da */ { IDS_SATURATION_0_2_DA, "Mætning (0..2)" },
+/* da */ { IDS_SATURATION_0_2_DA, "Mættethed (0..2)" },
 /* de */ { IDS_SATURATION_0_2_DE, "Sättigung (0..2)" },
 /* fr */ { IDS_SATURATION_0_2_FR, "Saturation (0..2)" },
 /* hu */ { IDS_SATURATION_0_2_HU, "Telítettség (0..2)" },
 /* it */ { IDS_SATURATION_0_2_IT, "Saturazione (0..2)" },
 /* ko */ { IDS_SATURATION_0_2_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SATURATION_0_2_NL, "Verzadiging (0..2)" },
-/* pl */ { IDS_SATURATION_0_2_PL, "" },  /* fuzzy */
+/* pl */ { IDS_SATURATION_0_2_PL, "Nasycenie (0..2)" },
 /* ru */ { IDS_SATURATION_0_2_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SATURATION_0_2_SV, "Mättnad (0..2)" },
 /* tr */ { IDS_SATURATION_0_2_TR, "Doygunluk (0..2)" },
@@ -8030,7 +8030,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_CONTRAST_0_2_IT, "Contrasto (0..2)" },
 /* ko */ { IDS_CONTRAST_0_2_KO, "" },  /* fuzzy */
 /* nl */ { IDS_CONTRAST_0_2_NL, "Contrast (0..2)" },
-/* pl */ { IDS_CONTRAST_0_2_PL, "" },  /* fuzzy */
+/* pl */ { IDS_CONTRAST_0_2_PL, "Kontrast (0..2)" },
 /* ru */ { IDS_CONTRAST_0_2_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CONTRAST_0_2_SV, "Kontrast (0..2)" },
 /* tr */ { IDS_CONTRAST_0_2_TR, "Karþýtlýk (0..2)" },
@@ -8043,7 +8043,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_BRIGHTNESS_0_2_IT, "Luminosità (0..2)" },
 /* ko */ { IDS_BRIGHTNESS_0_2_KO, "" },  /* fuzzy */
 /* nl */ { IDS_BRIGHTNESS_0_2_NL, "Helderheid (0..2)" },
-/* pl */ { IDS_BRIGHTNESS_0_2_PL, "" },  /* fuzzy */
+/* pl */ { IDS_BRIGHTNESS_0_2_PL, "Jaskrawo¶æ (0..2)" },
 /* ru */ { IDS_BRIGHTNESS_0_2_RU, "" },  /* fuzzy */
 /* sv */ { IDS_BRIGHTNESS_0_2_SV, "Ljusstyrka (0..2)" },
 /* tr */ { IDS_BRIGHTNESS_0_2_TR, "Parlaklýk (0..2)" },

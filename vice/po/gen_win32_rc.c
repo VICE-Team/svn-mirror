@@ -180,13 +180,16 @@ static char *trailtest(char *text)
         return ":";
     }
 
-#if 0
-    sub = strstr(text, " \0");
+    sub = strstr(text, "..");
     if (sub != NULL) {
+        while (sub[0] != '(') {
+            sub--;
+        }
+        sub--;
+        
         sub[0] = 0;
-        return " ";
+        return sub + 1;
     }
-#endif
 
     return NULL;
 }
@@ -214,6 +217,9 @@ static void write_converted_text(char *text1, FILE *outfile, char *extra_text)
         }
     }
     if (extra_text != NULL) {
+        if (extra_text[0] = '(') {
+            text2[counter++] = ' ';
+        }
         for (i = 0; extra_text[i] != 0; i++) {
             text2[counter++] = extra_text[i];
         }

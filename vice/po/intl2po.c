@@ -282,20 +282,29 @@ static void remove_trailing_colon(char *text)
     sub[i] = 0;
 }
 
-#if 0
-static void remove_trailing_space(char *text)
+static void remove_trailing_range(char *text)
 {
     int i = 0;
+    int j = 0;
     char *sub = NULL;
 
-    sub = strstr(text, " \"");
-    while (sub[i + 1] != 0) {
-        sub[i] = sub[i + 1];
+    sub = strstr(text, "..");
+
+    while (sub[0] != '(') {
+        sub--;
+    }
+    sub--;
+
+    while (sub[i] != ')') {
         i++;
     }
-    sub[i] = 0;
+    i++;
+
+    while (sub[i] != 0) {
+        sub[j++] = sub[i++];
+    }
+    sub[j] = 0;
 }
-#endif
 
 void replace_string(char *text, FILE *file)
 {
@@ -317,11 +326,9 @@ void replace_string(char *text, FILE *file)
         remove_trailing_colon(text);
     }
 
-#if 0
-    if (strstr(text, " \"") != NULL) {
-        remove_trailing_space(text);
+    if (strstr(text, "..") != NULL) {
+        remove_trailing_range(text);
     }
-#endif
 
     if (check_quote(text) == 0) {
         fprintf(file, "%s", text);

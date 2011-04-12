@@ -783,33 +783,33 @@ translate_t string_table[] = {
 /* c64/c64io.c */
 /* en */ {IDGS_IO_READ_COLL_AT_X_FROM,    N_("I/O read collision at %X from ")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_IO_READ_COLL_AT_X_FROM_DA, ""},  /* fuzzy */
-/* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, ""},  /* fuzzy */
+/* da */ {IDGS_IO_READ_COLL_AT_X_FROM_DA, "I/O-læsekollision ved %X fra "},
+/* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, "I/O Lese Kollision bei %X von "},
 /* fr */ {IDGS_IO_READ_COLL_AT_X_FROM_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_IO_READ_COLL_AT_X_FROM_HU, ""},  /* fuzzy */
-/* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, ""},  /* fuzzy */
+/* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, "Collisione di I/O in lettura a %X da "},
 /* ko */ {IDGS_IO_READ_COLL_AT_X_FROM_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, "I/O lees botsing op %X van "},
 /* pl */ {IDGS_IO_READ_COLL_AT_X_FROM_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_IO_READ_COLL_AT_X_FROM_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_IO_READ_COLL_AT_X_FROM_TR, ""},  /* fuzzy */
+/* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, "I/O-läskollision vid %X från "},
+/* tr */ {IDGS_IO_READ_COLL_AT_X_FROM_TR, "G/Ç okuma çakýþmasý %X'de "},
 #endif
 
 /* c64/c64io.c */
 /* en */ {IDGS_AND,    N_(" and ")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_AND_DA, ""},  /* fuzzy */
-/* de */ {IDGS_AND_DE, ""},  /* fuzzy */
+/* da */ {IDGS_AND_DA, " og "},
+/* de */ {IDGS_AND_DE, " und "},
 /* fr */ {IDGS_AND_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_AND_HU, ""},  /* fuzzy */
-/* it */ {IDGS_AND_IT, ""},  /* fuzzy */
+/* it */ {IDGS_AND_IT, " e "},
 /* ko */ {IDGS_AND_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_AND_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_AND_NL, " en "},
 /* pl */ {IDGS_AND_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_AND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_AND_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_AND_TR, ""},  /* fuzzy */
+/* sv */ {IDGS_AND_SV, " och "},
+/* tr */ {IDGS_AND_TR, " ve "},
 #endif
 
 /* c64/c64io.c */
@@ -9179,9 +9179,9 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_VDC_REVISION,    N_("Set VDC revision (0..2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_VDC_REVISION_DA, "Angiv VDC-revision (0..2)"},
-/* de */ {IDCLS_SET_VDC_REVISION_DE, "VDC Revision (0..2) setzen"},
-/* fr */ {IDCLS_SET_VDC_REVISION_FR, "Régler la révision VDC (0..2)"},
-/* hu */ {IDCLS_SET_VDC_REVISION_HU, "VDC változatszám beállítása (0-2)"},
+/* de */ {IDCLS_SET_VDC_REVISION_DE, "VDC Revision setzen (0..2)"},
+/* fr */ {IDCLS_SET_VDC_REVISION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_VDC_REVISION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_VDC_REVISION_IT, "Imposta la revisione del VDC (0..2)"},
 /* ko */ {IDCLS_SET_VDC_REVISION_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_VDC_REVISION_NL, "Zet de VDC revisie (0..2)"},

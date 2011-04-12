@@ -583,10 +583,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netværksspil (eksperimentelt)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K-indstillinger..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K-indstillinger..."
-  IDS_MI_C64_256K_SETTINGS "256K-indstillinger..."
+  IDS_MI_NETWORK_SETTINGS  "Netværksspil (eksperimentelt) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K-indstillinger (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K-indstillinger (.."
+  IDS_MI_C64_256K_SETTINGS "256K-indstillinger (.."
   IDS_C64_MODEL            "C64-model"
   IDS_VICII_MODEL          "VIC-II-model"
   IDS_NEW_LUMINANCES       "Nye lysstyrker"
@@ -614,10 +614,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (experimentell)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K Einstellungen..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K Einstellungen..."
-  IDS_MI_C64_256K_SETTINGS "256K Einstellungen..."
+  IDS_MI_NETWORK_SETTINGS  "Netplay (experimentell) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K Einstellungen (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K Einstellungen (.."
+  IDS_MI_C64_256K_SETTINGS "256K Einstellungen (.."
   IDS_C64_MODEL            "C64 Modell"
   IDS_VICII_MODEL          "VIC-II Modell"
   IDS_NEW_LUMINANCES       "Neue Helligkeitsemulation"
@@ -645,10 +645,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Jeu en réseau (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
-  IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_NETWORK_SETTINGS  "Jeu en réseau (experimental) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings (.."
+  IDS_MI_C64_256K_SETTINGS "256K settings (.."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -679,10 +679,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Hálózati játék (kísérleti)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
-  IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_NETWORK_SETTINGS  "Hálózati játék (kísérleti) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings (.."
+  IDS_MI_C64_256K_SETTINGS "256K settings (.."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -713,10 +713,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (sperimentale)..."
-  IDS_MI_PLUS60K_SETTINGS  "Impostazioni PLUS256K..."
-  IDS_MI_PLUS256K_SETTINGS "Impostazioni PLUS256K..."
-  IDS_MI_C64_256K_SETTINGS "Impostazioni 256K..."
+  IDS_MI_NETWORK_SETTINGS  "Netplay (sperimentale) (.."
+  IDS_MI_PLUS60K_SETTINGS  "Impostazioni PLUS256K (.."
+  IDS_MI_PLUS256K_SETTINGS "Impostazioni PLUS256K (.."
+  IDS_MI_C64_256K_SETTINGS "Impostazioni 256K (.."
   IDS_C64_MODEL            "Modello C64"
   IDS_VICII_MODEL          "Modello VIC-II"
   IDS_NEW_LUMINANCES       "Nuove luminanze"
@@ -747,10 +747,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
-  IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_NETWORK_SETTINGS  "Netplay (experimental) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings (.."
+  IDS_MI_C64_256K_SETTINGS "256K settings (.."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -781,10 +781,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (experimenteel)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K instellingen..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K instellingen..."
-  IDS_MI_C64_256K_SETTINGS "256K instellingen..."
+  IDS_MI_NETWORK_SETTINGS  "Netplay (experimenteel) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K instellingen (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K instellingen (.."
+  IDS_MI_C64_256K_SETTINGS "256K instellingen (.."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "Nieuwe kleuren"
@@ -815,10 +815,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
-  IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_NETWORK_SETTINGS  "Netplay (experimental) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings (.."
+  IDS_MI_C64_256K_SETTINGS "256K settings (.."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -852,10 +852,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
-  IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_NETWORK_SETTINGS  "Netplay (experimental) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings (.."
+  IDS_MI_C64_256K_SETTINGS "256K settings (.."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -886,10 +886,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Nätverksspel (experimentellt)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K-inställningar..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K-inställningar..."
-  IDS_MI_C64_256K_SETTINGS "256K-inställningar..."
+  IDS_MI_NETWORK_SETTINGS  "Nätverksspel (experimentellt) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K-inställningar (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K-inställningar (.."
+  IDS_MI_C64_256K_SETTINGS "256K-inställningar (.."
   IDS_C64_MODEL            "C64-modell"
   IDS_VICII_MODEL          "VIC II-modell"
   IDS_NEW_LUMINANCES       "Nya ljusstyrkor"
@@ -920,10 +920,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (deneysel)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K Ayarlarý..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K Ayarlarý..."
-  IDS_MI_C64_256K_SETTINGS "256K Ayarlarý..."
+  IDS_MI_NETWORK_SETTINGS  "Netplay (deneysel) (.."
+  IDS_MI_PLUS60K_SETTINGS  "PLUS60K Ayarlarý (.."
+  IDS_MI_PLUS256K_SETTINGS "PLUS256K Ayarlarý (.."
+  IDS_MI_C64_256K_SETTINGS "256K Ayarlarý (.."
   IDS_C64_MODEL            "C64 modeli"
   IDS_VICII_MODEL          "VIC-II modeli"
   IDS_NEW_LUMINANCES       "Yeni parlaklýklar"

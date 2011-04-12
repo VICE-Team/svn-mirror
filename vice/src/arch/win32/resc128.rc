@@ -796,7 +796,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC-revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikhukommelse"
   IDS_MI_IEEE488                "Emulering af IEEE488-interface"
-  IDS_MI_C128_SETTINGS          "C128-indstillinger..."
+  IDS_MI_C128_SETTINGS          "C128-indstillinger (.."
 END
 
 
@@ -856,7 +856,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC Revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB Bildschirm Speicher"
   IDS_MI_IEEE488                "IEEE488 Schnittstellen-Emulation"
-  IDS_MI_C128_SETTINGS          "C128 Einstellungen..."
+  IDS_MI_C128_SETTINGS          "C128 Einstellungen (.."
 END
 
 
@@ -916,7 +916,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
   IDS_MI_IEEE488                "Interface d'émulation IEEE488"
-  IDS_MI_C128_SETTINGS          "Paramètres C128..."
+  IDS_MI_C128_SETTINGS          "Paramètres C128 (.."
 END
 
 
@@ -979,7 +979,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC változat"
   IDS_MI_TOGGLE_VDC64KB         "64KB képernyõ memória"
   IDS_MI_IEEE488                "IEEE488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C128 beállításai..."
+  IDS_MI_C128_SETTINGS          "C128 beállításai (.."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1042,7 +1042,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "Revisione VDC"
   IDS_MI_TOGGLE_VDC64KB         "Memoria video di 64KB"
   IDS_MI_IEEE488                "Emulazione interfaccia IEEE488"
-  IDS_MI_C128_SETTINGS          "Impostazioni C128..."
+  IDS_MI_C128_SETTINGS          "Impostazioni C128 (.."
 END
 
 
@@ -1105,7 +1105,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
   IDS_MI_IEEE488                "IEEE488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C128 settings..."
+  IDS_MI_C128_SETTINGS          "C128 settings (.."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1168,7 +1168,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC revisie"
   IDS_MI_TOGGLE_VDC64KB         "64KB videogeheugen"
   IDS_MI_IEEE488                "IEEE488 Interface emulatie"
-  IDS_MI_C128_SETTINGS          "C128 instellingen..."
+  IDS_MI_C128_SETTINGS          "C128 instellingen (.."
 END
 
 
@@ -1231,7 +1231,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
   IDS_MI_IEEE488                "IEEE488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C128 settings..."
+  IDS_MI_C128_SETTINGS          "C128 settings (.."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1297,7 +1297,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
   IDS_MI_IEEE488                "IEEE488 Interface emulation"
-  IDS_MI_C128_SETTINGS          "C128 settings..."
+  IDS_MI_C128_SETTINGS          "C128 settings (.."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1360,7 +1360,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC-revision"
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikminne"
   IDS_MI_IEEE488                "Emulering av IEEE488-gränssnitt"
-  IDS_MI_C128_SETTINGS          "C128-inställningar..."
+  IDS_MI_C128_SETTINGS          "C128-inställningar (.."
 END
 
 
@@ -1423,7 +1423,7 @@ BEGIN
   IDS_MP_VDC_REVISION           "VDC revizyonu"
   IDS_MI_TOGGLE_VDC64KB         "64KB görüntü belleði"
   IDS_MI_IEEE488                "IEEE488 Arabirimi emülasyonu"
-  IDS_MI_C128_SETTINGS          "C128 ayarlarý..."
+  IDS_MI_C128_SETTINGS          "C128 ayarlarý (.."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
