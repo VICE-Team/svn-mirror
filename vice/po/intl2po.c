@@ -243,6 +243,60 @@ static void remove_trailing_3_dots(char *text)
     sub[i] = 0;
 }
 
+static void remove_trailing_space_colon(char *text)
+{
+    int i = 0;
+    char *sub = NULL;
+
+    sub = strstr(text, " :\"");
+    while (sub[i + 2] != 0) {
+        sub[i] = sub[i + 2];
+        i++;
+    }
+    sub[i] = 0;
+}
+
+static void remove_trailing_colon_space(char *text)
+{
+    int i = 0;
+    char *sub = NULL;
+
+    sub = strstr(text, ": \"");
+    while (sub[i + 2] != 0) {
+        sub[i] = sub[i + 2];
+        i++;
+    }
+    sub[i] = 0;
+}
+
+static void remove_trailing_colon(char *text)
+{
+    int i = 0;
+    char *sub = NULL;
+
+    sub = strstr(text, ":\"");
+    while (sub[i + 1] != 0) {
+        sub[i] = sub[i + 1];
+        i++;
+    }
+    sub[i] = 0;
+}
+
+#if 0
+static void remove_trailing_space(char *text)
+{
+    int i = 0;
+    char *sub = NULL;
+
+    sub = strstr(text, " \"");
+    while (sub[i + 1] != 0) {
+        sub[i] = sub[i + 1];
+        i++;
+    }
+    sub[i] = 0;
+}
+#endif
+
 void replace_string(char *text, FILE *file)
 {
     int i, j;
@@ -250,6 +304,24 @@ void replace_string(char *text, FILE *file)
     if (strstr(text, "...\"") != NULL) {
         remove_trailing_3_dots(text);
     }
+
+    if (strstr(text, " :\"") != NULL) {
+        remove_trailing_space_colon(text);
+    }
+
+    if (strstr(text, ": \"") != NULL) {
+        remove_trailing_colon_space(text);
+    }
+
+    if (strstr(text, ":\"") != NULL) {
+        remove_trailing_colon(text);
+    }
+
+#if 0
+    if (strstr(text, " \"") != NULL) {
+        remove_trailing_space(text);
+    }
+#endif
 
     if (check_quote(text) == 0) {
         fprintf(file, "%s", text);

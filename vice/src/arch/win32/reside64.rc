@@ -225,7 +225,7 @@ BEGIN
     IDS_IDE64_CYLINDERS    "Cylinders"
     IDS_IDE64_HEADS        "Heads"
     IDS_IDE64_SECTORS      "Sectors"
-    IDS_IDE64_TOTAL_SIZE   "Total size: %iKB"
+    IDS_IDE64_TOTAL_SIZE   "Total size"
     IDS_IDE64_SELECT_IMAGE "Select HD image file"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -273,7 +273,7 @@ BEGIN
     IDS_IDE64_CYLINDERS    "Cylinders"
     IDS_IDE64_HEADS        "Heads"
     IDS_IDE64_SECTORS      "Sectors"
-    IDS_IDE64_TOTAL_SIZE   "Total size: %iKB"
+    IDS_IDE64_TOTAL_SIZE   "Total size"
     IDS_IDE64_SELECT_IMAGE "Select HD image file"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -300,7 +300,7 @@ BEGIN
     IDS_IDE64_CYLINDERS    "Cylinders"
     IDS_IDE64_HEADS        "Heads"
     IDS_IDE64_SECTORS      "Sectors"
-    IDS_IDE64_TOTAL_SIZE   "Total size: %iKB"
+    IDS_IDE64_TOTAL_SIZE   "Total size"
     IDS_IDE64_SELECT_IMAGE "Select HD image file"
 END
 #ifndef WINDRES_CP_IGNORE

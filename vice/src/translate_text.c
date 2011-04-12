@@ -496,8 +496,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_TESTING_BEST_FRAME_DELAY_DA, "Tester bedste billed-forsinkelse..."},
 /* de */ {IDGS_TESTING_BEST_FRAME_DELAY_DE, "Teste optimale Framerate..."},
-/* fr */ {IDGS_TESTING_BEST_FRAME_DELAY_FR, "Recherche du meilleur délai d'image..."},
-/* hu */ {IDGS_TESTING_BEST_FRAME_DELAY_HU, "Legjobb képkocka késleltetés tesztelése..."},
+/* fr */ {IDGS_TESTING_BEST_FRAME_DELAY_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_TESTING_BEST_FRAME_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDGS_TESTING_BEST_FRAME_DELAY_IT, "Rileva il miglior ritardo tra frame..."},
 /* ko */ {IDGS_TESTING_BEST_FRAME_DELAY_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_TESTING_BEST_FRAME_DELAY_NL, "Beste framevertraging aan het testen..."},
@@ -544,8 +544,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DA, "Sender snapshot til klient..."},
 /* de */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE, "Sende Snapshot zu Client..."},
-/* fr */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR, "Envoi de l'instantané au client..."},
-/* hu */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_HU, "Pillanatkép küldése a kliensnek..."},
+/* fr */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT, "Invio snapshot al client in corso..."},
 /* ko */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_NL, "Momentopname wordt naar de andere computer verstuurd..."},
@@ -608,8 +608,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DA, "Server venter på en klient..."},
 /* de */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE, "Server wartet auf Client..."},
-/* fr */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR, "Le serveur attend la connexion d'un client..."},
-/* hu */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_HU, "A kiszolgáló kliensre vár..."},
+/* fr */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, "Il server è in attesa di un client..."},
 /* ko */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_NL, "De server wacht op de andere computer..."},
@@ -672,8 +672,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DA, "Modtager snapshot fra server..."},
 /* de */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DE, "Empfange Snapshot von Server..."},
-/* fr */ {IDGS_RECEIVING_SNAPSHOT_SERVER_FR, "Réception de l'instantané du serveur..."},
-/* hu */ {IDGS_RECEIVING_SNAPSHOT_SERVER_HU, "Pillanatkép fogadása a szerverrõl..."},
+/* fr */ {IDGS_RECEIVING_SNAPSHOT_SERVER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RECEIVING_SNAPSHOT_SERVER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_RECEIVING_SNAPSHOT_SERVER_IT, "Ricezione dello snapshot dal server in corso..."},
 /* ko */ {IDGS_RECEIVING_SNAPSHOT_SERVER_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_RECEIVING_SNAPSHOT_SERVER_NL, "Momentopname van de server wordt ontvangen..."},
@@ -720,8 +720,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_REMOTE_HOST_SUSPENDING_DA, "Fjernmaskine pauser..."},
 /* de */ {IDGS_REMOTE_HOST_SUSPENDING_DE, "Entfernter Rechner angehaltedn..."},
-/* fr */ {IDGS_REMOTE_HOST_SUSPENDING_FR, "L'hôte distant à suspendu..."},
-/* hu */ {IDGS_REMOTE_HOST_SUSPENDING_HU, "A távoli számítógép felfüggesztést kért..."},
+/* fr */ {IDGS_REMOTE_HOST_SUSPENDING_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_REMOTE_HOST_SUSPENDING_HU, ""},  /* fuzzy */
 /* it */ {IDGS_REMOTE_HOST_SUSPENDING_IT, "Sospesione host remoto in corso..."},
 /* ko */ {IDGS_REMOTE_HOST_SUSPENDING_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_REMOTE_HOST_SUSPENDING_NL, "Andere computer halt de netplay..."},
@@ -783,33 +783,33 @@ translate_t string_table[] = {
 /* c64/c64io.c */
 /* en */ {IDGS_IO_READ_COLL_AT_X_FROM,    N_("I/O read collision at %X from ")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_IO_READ_COLL_AT_X_FROM_DA, "I/O-læsekollision ved %X fra "},
-/* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, "I/O Lese Kollision bei %X von "},
-/* fr */ {IDGS_IO_READ_COLL_AT_X_FROM_FR, "Collision lors de la lecture E/S at %X à partir de "},
-/* hu */ {IDGS_IO_READ_COLL_AT_X_FROM_HU, "I/O olvasás ütközés %X-nél, hely: "},
-/* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, "Collisione di I/O in lettura a %X da "},
+/* da */ {IDGS_IO_READ_COLL_AT_X_FROM_DA, ""},  /* fuzzy */
+/* de */ {IDGS_IO_READ_COLL_AT_X_FROM_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_IO_READ_COLL_AT_X_FROM_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_IO_READ_COLL_AT_X_FROM_HU, ""},  /* fuzzy */
+/* it */ {IDGS_IO_READ_COLL_AT_X_FROM_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_IO_READ_COLL_AT_X_FROM_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, "I/O lees botsing op %X van "},
+/* nl */ {IDGS_IO_READ_COLL_AT_X_FROM_NL, ""},  /* fuzzy */
 /* pl */ {IDGS_IO_READ_COLL_AT_X_FROM_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_IO_READ_COLL_AT_X_FROM_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, "I/O-läskollision vid %X från "},
-/* tr */ {IDGS_IO_READ_COLL_AT_X_FROM_TR, "G/Ç okuma çakýþmasý %X'de "},
+/* sv */ {IDGS_IO_READ_COLL_AT_X_FROM_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_IO_READ_COLL_AT_X_FROM_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/c64io.c */
 /* en */ {IDGS_AND,    N_(" and ")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_AND_DA, " og "},
-/* de */ {IDGS_AND_DE, " und "},
-/* fr */ {IDGS_AND_FR, " et "},
-/* hu */ {IDGS_AND_HU, " és "},
-/* it */ {IDGS_AND_IT, " e "},
+/* da */ {IDGS_AND_DA, ""},  /* fuzzy */
+/* de */ {IDGS_AND_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_AND_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_AND_HU, ""},  /* fuzzy */
+/* it */ {IDGS_AND_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_AND_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_AND_NL, " en "},
+/* nl */ {IDGS_AND_NL, ""},  /* fuzzy */
 /* pl */ {IDGS_AND_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_AND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_AND_SV, " och "},
-/* tr */ {IDGS_AND_TR, " ve "},
+/* sv */ {IDGS_AND_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_AND_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/c64io.c */
@@ -978,7 +978,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_AVAILABLE_COMMANDS_ARE_DA, "Tilgængelige kommandoer:"},
 /* de */ {IDGS_AVAILABLE_COMMANDS_ARE_DE, "Zulässige Kommandos sind:"},
 /* fr */ {IDGS_AVAILABLE_COMMANDS_ARE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_AVAILABLE_COMMANDS_ARE_HU, "Lehetséges parancsok:"},
+/* hu */ {IDGS_AVAILABLE_COMMANDS_ARE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_AVAILABLE_COMMANDS_ARE_IT, "I comandi disponibili sono:"},
 /* ko */ {IDGS_AVAILABLE_COMMANDS_ARE_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_AVAILABLE_COMMANDS_ARE_NL, "Beschikbare commandos zijn:"},
@@ -994,10 +994,10 @@ translate_t string_table[] = {
 /* da */ {IDGS_MACHINE_STATE_COMMANDS_DA, "Kommandoer for maskinstatus:"},
 /* de */ {IDGS_MACHINE_STATE_COMMANDS_DE, "Maschinen Zustandskommandos:"},
 /* fr */ {IDGS_MACHINE_STATE_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MACHINE_STATE_COMMANDS_HU, "Gép állapot parancsok:"},
+/* hu */ {IDGS_MACHINE_STATE_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MACHINE_STATE_COMMANDS_IT, "Comandi di stato del computer:"},
 /* ko */ {IDGS_MACHINE_STATE_COMMANDS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MACHINE_STATE_COMMANDS_NL, "Machine status commandos"},
+/* nl */ {IDGS_MACHINE_STATE_COMMANDS_NL, "Machine status commandos:"},
 /* pl */ {IDGS_MACHINE_STATE_COMMANDS_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MACHINE_STATE_COMMANDS_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MACHINE_STATE_COMMANDS_SV, "Kommandon för maskinstatus:"},
@@ -1346,7 +1346,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_SYMBOL_TABLE_COMMANDS_DA, "Symboltabel-kommandoer:"},
 /* de */ {IDGS_SYMBOL_TABLE_COMMANDS_DE, "Symbol Tabellen Kommandos:"},
 /* fr */ {IDGS_SYMBOL_TABLE_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_SYMBOL_TABLE_COMMANDS_HU, "Szimbólum táblázat parancsok:"},
+/* hu */ {IDGS_SYMBOL_TABLE_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SYMBOL_TABLE_COMMANDS_IT, "Comandi tabella dei simboli:"},
 /* ko */ {IDGS_SYMBOL_TABLE_COMMANDS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_SYMBOL_TABLE_COMMANDS_NL, "Symbool tabel commandos:"},
@@ -1506,7 +1506,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_DA, "Assembler- og hukommelseskommandoer:"},
 /* de */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_DE, "Assembler und Speicher Kommandos:"},
 /* fr */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_HU, "Assembler és memória parancsok:"},
+/* hu */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_IT, "Comandi assembler e memoria:"},
 /* ko */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_NL, "Assembler en geheugen commandos:"},
@@ -1936,9 +1936,9 @@ translate_t string_table[] = {
 /* en */ {IDGS_CHECKPOINT_COMMANDS,    N_("Checkpoint commands:")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CHECKPOINT_COMMANDS_DA, "Checkpoint-kommandoer:"},
-/* de */ {IDGS_CHECKPOINT_COMMANDS_DE, "Checkpoint Kommandos"},
+/* de */ {IDGS_CHECKPOINT_COMMANDS_DE, "Checkpoint Kommandos:"},
 /* fr */ {IDGS_CHECKPOINT_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_CHECKPOINT_COMMANDS_HU, "Ellenõrzési pont parancsok:"},
+/* hu */ {IDGS_CHECKPOINT_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CHECKPOINT_COMMANDS_IT, "Comandi punti di controllo:"},
 /* ko */ {IDGS_CHECKPOINT_COMMANDS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_CHECKPOINT_COMMANDS_NL, "Checkpunt commandos:"},
@@ -2210,7 +2210,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_MONITOR_STATE_COMMANDS_DA, "Monitorstatuskommandoer:"},
 /* de */ {IDGS_MONITOR_STATE_COMMANDS_DE, "Monitor Zustand Kommandos:"},
 /* fr */ {IDGS_MONITOR_STATE_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MONITOR_STATE_COMMANDS_HU, "Monitor állapot parancsok:"},
+/* hu */ {IDGS_MONITOR_STATE_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MONITOR_STATE_COMMANDS_IT, "Comandi stato monitor:"},
 /* ko */ {IDGS_MONITOR_STATE_COMMANDS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MONITOR_STATE_COMMANDS_NL, "Monitor status commandos:"},
@@ -2322,7 +2322,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_DISK_COMMANDS_DA, "Diskettekommandoer:"},
 /* de */ {IDGS_DISK_COMMANDS_DE, "Disk Kommandos:"},
 /* fr */ {IDGS_DISK_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_DISK_COMMANDS_HU, "Lemez parancsok:"},
+/* hu */ {IDGS_DISK_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DISK_COMMANDS_IT, "Comandi disco:"},
 /* ko */ {IDGS_DISK_COMMANDS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_DISK_COMMANDS_NL, "Disk commandos:"},
@@ -2706,7 +2706,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_OTHER_COMMANDS_DA, "Andre kommandoer:"},
 /* de */ {IDGS_OTHER_COMMANDS_DE, "Andere Kommandos:"},
 /* fr */ {IDGS_OTHER_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_OTHER_COMMANDS_HU, "Egyéb parancsok:"},
+/* hu */ {IDGS_OTHER_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_OTHER_COMMANDS_IT, "Altri comandi:"},
 /* ko */ {IDGS_OTHER_COMMANDS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_OTHER_COMMANDS_NL, "Andere commandos:"},

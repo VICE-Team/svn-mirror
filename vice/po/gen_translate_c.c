@@ -123,23 +123,43 @@ static void close_all(void)
     }
 }
 
-static int dottest(char *text)
+static char *trailtest(char *text)
 {
-    int i = 0;
+    char *sub = NULL;
 
-    while (text[i] != 0) {
-        i++;
+    sub = strstr(text, "...\0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return "...";
     }
 
-    if (i < 4) {
-        return 0;
+    sub = strstr(text, " :\0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return " :";
     }
 
-    if (text[i - 1] == '.' && text[i - 2] == '.' && text[i - 3] == '.') {
-        text[i - 3] = 0;
-        return 1;
+    sub = strstr(text, ": \0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return ": ";
     }
-    return 0;
+
+    sub = strstr(text, ":\0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return ":";
+    }
+
+#if 0
+    sub = strstr(text, " \0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return " ";
+    }
+#endif
+
+    return NULL;
 }
 
 static void write_converted_text(char *text1, char *extra_text)
@@ -176,7 +196,6 @@ int main(int argc, char *argv[])
 {
     int found = UNKNOWN;
     int i;
-    int dots;
     int id_start;
     int text_start;
     char *id_string;
@@ -259,12 +278,7 @@ int main(int argc, char *argv[])
 
             text_string_orig = strdup(text_string);
 
-            dots = dottest(text_string);
-            if (dots) {
-                extra_string = "...";
-            } else {
-                extra_string = NULL;
-            }
+            extra_string = trailtest(text_string);
 
             fprintf(outfile, "\")},\n#ifdef HAS_TRANSLATION\n/* da */ {%s_DA, \"", id_string);
             for (i = 0; text[i].msgid != NULL; i++) {

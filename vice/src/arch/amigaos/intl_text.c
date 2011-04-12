@@ -8572,20 +8572,20 @@ intl_translate_t intl_string_table[] = {
 /* da */ { IDS_SOUND_RECORDING_STOPPED_DA, "Lydoptagelse stoppet..." },
 /* de */ { IDS_SOUND_RECORDING_STOPPED_DE, "Tonaufnahme gestoppt..." },
 /* fr */ { IDS_SOUND_RECORDING_STOPPED_FR, "" },  /* fuzzy */
-/* hu */ { IDS_SOUND_RECORDING_STOPPED_HU, "Hangfelvétel leállítva..." },
+/* hu */ { IDS_SOUND_RECORDING_STOPPED_HU, "" },  /* fuzzy */
 /* it */ { IDS_SOUND_RECORDING_STOPPED_IT, "Registrazione audio interrotta..." },
 /* ko */ { IDS_SOUND_RECORDING_STOPPED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SOUND_RECORDING_STOPPED_NL, "Geluidsopname gestopt..." },
 /* pl */ { IDS_SOUND_RECORDING_STOPPED_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SOUND_RECORDING_STOPPED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SOUND_RECORDING_STOPPED_SV, "Ljudinspelning stoppad..." },
-/* tr */ { IDS_SOUND_RECORDING_STOPPED_TR, "Ses Kaydý durduruldu" },
+/* tr */ { IDS_SOUND_RECORDING_STOPPED_TR, "Ses Kaydý durduruldu..." },
 
 /* en */ { IDS_SOUND_RECORDING_STARTED,    "Sound Recording started..." },
 /* da */ { IDS_SOUND_RECORDING_STARTED_DA, "Lydoptagelse startet..." },
-/* de */ { IDS_SOUND_RECORDING_STARTED_DE, "Tonaufnahme gestartet" },
+/* de */ { IDS_SOUND_RECORDING_STARTED_DE, "Tonaufnahme gestartet..." },
 /* fr */ { IDS_SOUND_RECORDING_STARTED_FR, "" },  /* fuzzy */
-/* hu */ { IDS_SOUND_RECORDING_STARTED_HU, "Hangfelvétel elindítva..." },
+/* hu */ { IDS_SOUND_RECORDING_STARTED_HU, "" },  /* fuzzy */
 /* it */ { IDS_SOUND_RECORDING_STARTED_IT, "Registrazione audio avviata..." },
 /* ko */ { IDS_SOUND_RECORDING_STARTED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SOUND_RECORDING_STARTED_NL, "Geluidsopname gestart..." },
@@ -8614,7 +8614,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_SOUND_RECORD_FORMAT_HU, "Hangfelvétel formátuma" },
 /* it */ { IDS_SOUND_RECORD_FORMAT_IT, "Formato registrazione audio" },
 /* ko */ { IDS_SOUND_RECORD_FORMAT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SOUND_RECORD_FORMAT_NL, "Geluidsopname Formaat..." },
+/* nl */ { IDS_SOUND_RECORD_FORMAT_NL, "Geluidsopname Formaat" },
 /* pl */ { IDS_SOUND_RECORD_FORMAT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SOUND_RECORD_FORMAT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SOUND_RECORD_FORMAT_SV, "Format för ljudinspelning" },

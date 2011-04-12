@@ -61,7 +61,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION      "RamCart-indstillinger..."
+  IDS_RAMCART_CAPTION      "RamCart-indstillinger"
   IDS_RAMCART_ENABLE       "Aktivér RamCart"
   IDS_RAMCART_READONLY     "Kun læseadgang"
   IDS_RAMCART_SIZE         "RamCart-størrelse"

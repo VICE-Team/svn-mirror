@@ -102,7 +102,7 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostart settings"
     IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
+    IDS_AUTOSTART_COLON_RUN                  "Use '"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
     IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
@@ -123,7 +123,7 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostart beállításai"
     IDS_AUTOSTART_WARP                       "Automatikus indítás hipergyors"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
+    IDS_AUTOSTART_COLON_RUN                  "Use '"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
     IDS_AUTOSTART_PRG_MODE                   "PRG automatikus indítás mód"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG automatikus indítás képmás"
@@ -165,7 +165,7 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostart settings"
     IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
+    IDS_AUTOSTART_COLON_RUN                  "Use '"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
     IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
@@ -207,7 +207,7 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostart settings"
     IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
+    IDS_AUTOSTART_COLON_RUN                  "Use '"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
     IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
@@ -231,7 +231,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Autostart settings"
     IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
+    IDS_AUTOSTART_COLON_RUN                  "Use '"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
     IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"

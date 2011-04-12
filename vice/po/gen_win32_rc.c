@@ -152,23 +152,43 @@ static void close_all(void)
     }
 }
 
-static int dottest(char *text)
+static char *trailtest(char *text)
 {
-    int i = 0;
+    char *sub = NULL;
 
-    while (text[i] != 0) {
-        i++;
+    sub = strstr(text, "...\0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return "...";
     }
 
-    if (i < 4) {
-        return 0;
+    sub = strstr(text, " :\0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return " :";
     }
 
-    if (text[i - 1] == '.' && text[i - 2] == '.' && text[i - 3] == '.') {
-        text[i - 3] = 0;
-        return 1;
+    sub = strstr(text, ": \0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return ": ";
     }
-    return 0;
+
+    sub = strstr(text, ":\0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return ":";
+    }
+
+#if 0
+    sub = strstr(text, " \0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return " ";
+    }
+#endif
+
+    return NULL;
 }
 
 static void write_converted_text(char *text1, FILE *outfile, char *extra_text)
@@ -282,12 +302,7 @@ int main(int argc, char *argv[])
 
                 text_string_orig = strdup(text_string);
 
-                dots = dottest(text_string);
-                if (dots) {
-                    extra_string = "...";
-                } else {
-                    extra_string = NULL;
-                }
+                extra_string = trailtest(text_string);
 
                 for (id = 0; text[id].msgid != NULL; id++) {
                     if (!strcmp(text[id].msgid, text_string)) {
