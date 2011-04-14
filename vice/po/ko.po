@@ -2035,19 +2035,19 @@ msgstr ""
 #: src/arch/unix/x11/gnome/x11ui.c:799 src/arch/unix/x11/gnome/x11ui.c:801
 #: src/arch/unix/x11/gnome/x11ui.c:810 src/arch/unix/x11/gnome/x11ui.c:1424
 msgid "<empty>"
-msgstr ""
+msgstr "<빈>"
 
 #: src/arch/unix/gui/uifliplist.c:254
 msgid "Previous: "
-msgstr ""
+msgstr "이전: "
 
 #: src/arch/unix/gui/uifliplist.c:269
 msgid "Add: "
-msgstr ""
+msgstr "더하다: "
 
 #: src/arch/unix/gui/uifliplist.c:284
 msgid "Remove: "
-msgstr ""
+msgstr "제거 하다: "
 
 #. Translators: 'VidMode' must remain in the beginning          of the translation e.g. German: "VidMode Aufloesungen"
 #: src/arch/unix/gui/uifullscreen-menu.h:37
@@ -2074,7 +2074,7 @@ msgstr ""
 #: src/arch/unix/gui/uigeoram.c:67 src/arch/unix/gui/uipetreu.c:58
 #: src/arch/unix/gui/uiramcart.c:60 src/arch/unix/gui/uireu.c:69
 msgid "Size"
-msgstr ""
+msgstr "크기"
 
 #: src/arch/unix/gui/uigeoram.c:84
 msgid "GEORAM image"
@@ -2110,16 +2110,16 @@ msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:166
 msgid "Version 3"
-msgstr ""
+msgstr "버전3"
 
 #: src/arch/unix/gui/uiide64.c:168
 msgid "Version 4"
-msgstr ""
+msgstr "버전4"
 
 #: src/arch/unix/gui/uiide64.c:174 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uivdc.c:147
 msgid "Revision"
-msgstr ""
+msgstr "수정"
 
 #: src/arch/unix/gui/uiide64.c:177
 msgid "HD image 1 name"
@@ -2144,17 +2144,17 @@ msgstr ""
 #: src/arch/unix/gui/uiide64.c:192 src/arch/win32/reside64.rc.po.c:82
 #: src/arch/amigaos/intl_text.c.po.c:7052
 msgid "Cylinders"
-msgstr ""
+msgstr "실린더"
 
 #: src/arch/unix/gui/uiide64.c:194 src/arch/win32/reside64.rc.po.c:83
 #: src/arch/amigaos/intl_text.c.po.c:7065
 msgid "Heads"
-msgstr ""
+msgstr "헤드"
 
 #: src/arch/unix/gui/uiide64.c:196 src/arch/win32/reside64.rc.po.c:84
 #: src/arch/amigaos/intl_text.c.po.c:7078
 msgid "Sectors"
-msgstr ""
+msgstr "섹터"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2192,19 +2192,19 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:260 src/arch/unix/gui/uijoystick2.c:312
 #: src/arch/unix/gui/vic20ui.c:382 src/arch/amigaos/intl_text.c.po.c:5388
 msgid "Numpad"
-msgstr ""
+msgstr "너패드"
 
 #: src/arch/unix/gui/uijoystick2.c:159 src/arch/unix/gui/uijoystick2.c:211
 #: src/arch/unix/gui/uijoystick2.c:263 src/arch/unix/gui/uijoystick2.c:315
 #: src/arch/unix/gui/vic20ui.c:385
 msgid "Keyset 1"
-msgstr ""
+msgstr "키셋1"
 
 #: src/arch/unix/gui/uijoystick2.c:162 src/arch/unix/gui/uijoystick2.c:214
 #: src/arch/unix/gui/uijoystick2.c:266 src/arch/unix/gui/uijoystick2.c:318
 #: src/arch/unix/gui/vic20ui.c:388
 msgid "Keyset 2"
-msgstr ""
+msgstr "키셋2"
 
 #: src/arch/unix/gui/uijoystick2.c:166 src/arch/unix/gui/uijoystick2.c:218
 #: src/arch/unix/gui/uijoystick2.c:270 src/arch/unix/gui/uijoystick2.c:322
@@ -2434,7 +2434,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1242
 msgid "Type"
-msgstr ""
+msgstr "종류"
 
 #: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
 #: src/arch/win32/res.rc.po.c:1164
@@ -2443,17 +2443,17 @@ msgstr "드라이버"
 
 #: src/arch/unix/gui/uimmc64.c:53
 msgid "Rev. A"
-msgstr ""
+msgstr "수정A"
 
 #: src/arch/unix/gui/uimmc64.c:55
 msgid "Rev. B"
-msgstr ""
+msgstr "수정B"
 
 #: src/arch/unix/gui/uimmc64.c:61 src/arch/unix/gui/uimmcreplay.c:52
 #: src/arch/unix/gui/uisettings.c:339 src/arch/win32/res.rc.po.c:1399
 #: src/arch/amigaos/intl_text.c.po.c:1162
 msgid "Auto"
-msgstr ""
+msgstr "자동"
 
 #: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uiretroreplay.c:46
 msgid "Enable flashjumper"
@@ -2506,15 +2506,15 @@ msgstr ""
 
 #: src/arch/unix/gui/uimouse.c:46 src/arch/amigaos/intl_text.c.po.c:8807
 msgid "Paddles"
-msgstr ""
+msgstr "패들"
 
 #: src/arch/unix/gui/uimouse.c:52
 msgid "Port 1"
-msgstr ""
+msgstr "포트1"
 
 #: src/arch/unix/gui/uimouse.c:54
 msgid "Port 2"
-msgstr ""
+msgstr "포트2"
 
 #: src/arch/unix/gui/uimouse.c:62
 msgid "Enable mouse"
@@ -2557,7 +2557,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uinetplay.c:91
 msgid "Hostname:"
-msgstr ""
+msgstr "호스트 명:"
 
 #: src/arch/unix/gui/uinetplay.c:97
 msgid "Error connecting to server."
@@ -2583,7 +2583,7 @@ msgstr ""
 #: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:311
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
-msgstr ""
+msgstr "연결을 끊다"
 
 #: src/arch/unix/gui/uipalemu.c:70 src/arch/unix/gui/uipalemu.c:123
 #: src/arch/unix/x11/gnome/uipalcontrol.c:48
@@ -2599,7 +2599,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:1175
 #: src/arch/amigaos/intl_text.c.po.c:7819
 msgid "Tint"
-msgstr ""
+msgstr "틴트"
 
 #: src/arch/unix/gui/uipalemu.c:77
 msgid "Tint in percent"
@@ -2628,7 +2628,7 @@ msgstr ""
 #: src/arch/unix/gui/uipalemu.c:99 src/arch/unix/gui/uipalemu.c:125
 #: src/arch/unix/x11/gnome/uipalcontrol.c:47
 msgid "Blurredness"
-msgstr ""
+msgstr "흐릿함"
 
 #: src/arch/unix/gui/uipalemu.c:99
 msgid "Blurredness in percent"
@@ -8464,7 +8464,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:1224
 msgid "[<type>]"
-msgstr ""
+msgstr "[<종류>]"
 
 #: src/translate_text.c.po.c:1240
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
@@ -9161,7 +9161,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:3530
 msgid "<revision>"
-msgstr ""
+msgstr "<수정>"
 
 #: src/translate_text.c.po.c:3546
 msgid "Patch the Kernal ROM to the specified <revision>"
@@ -9981,7 +9981,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:6900
 msgid "<type>"
-msgstr ""
+msgstr "<종류>"
 
 #: src/translate_text.c.po.c:6916
 msgid "Set drive type (0: no drive)"
