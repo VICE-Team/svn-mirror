@@ -42,7 +42,9 @@ typedef struct cmdline_option_s {
     /* Behavior of this command-line option.  */
     cmdline_option_type_t type;
 
-    /* Flag: Does this option need an argument?  */
+    /* Flag: Does this option need an argument?
+       This option also indicates if the brackets need to be added
+       to the text. */
     int need_arg;
 
     /* Function to call if type is `CALL_FUNCTION'.  */

@@ -662,22 +662,22 @@ void mididrv_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-midiin", SET_RESOURCE, 1,
+    { "-midiin", SET_RESOURCE, -1,
       NULL, NULL, "MIDIInDev", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<name>"), N_("Specify MIDI-In device") },
-    { "-midiout", SET_RESOURCE, 1,
+      N_("name"), N_("Specify MIDI-In device") },
+    { "-midiout", SET_RESOURCE, -1,
       NULL, NULL, "MIDIOutDev", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<name>"), N_("Specify MIDI-Out device") },
+      N_("name"), N_("Specify MIDI-Out device") },
 #ifdef USE_ALSA
-    { "-mididrv", SET_RESOURCE, 1,
+    { "-mididrv", SET_RESOURCE, -1,
       NULL, NULL, "MIDIDriver", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<driver>"), N_("Specify MIDI driver (0 = OSS, 1 = ALSA)") },
+      N_("driver"), N_("Specify MIDI driver (0 = OSS, 1 = ALSA)") },
 #endif
     { NULL }
 };

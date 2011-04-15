@@ -158,26 +158,26 @@ void rs232_resources_shutdown(void)
 }
 
 static const cmdline_option_t cmdline_options[] = {
-    { "-rsdev1baud", SET_RESOURCE, 1,
+    { "-rsdev1baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice1Baud", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<baudrate>"), N_("Specify baudrate of first RS232 device") },
-    { "-rsdev2baud", SET_RESOURCE, 1,
+      N_("baudrate"), N_("Specify baudrate of first RS232 device") },
+    { "-rsdev2baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice2Baud", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<baudrate>"), N_("Specify baudrate of second RS232 device") },
-    { "-rsdev3baud", SET_RESOURCE, 1,
+      N_("baudrate"), N_("Specify baudrate of second RS232 device") },
+    { "-rsdev3baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice3Baud", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<baudrate>"), N_("Specify baudrate of third RS232 device") },
-    { "-rsdev4baud", SET_RESOURCE, 1,
+      N_("baudrate"), N_("Specify baudrate of third RS232 device") },
+    { "-rsdev4baud", SET_RESOURCE, -1,
       NULL, NULL, "RsDevice4Baud", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<baudrate>"), N_("Specify baudrate of 4th RS232 device") },
+      N_("baudrate"), N_("Specify baudrate of 4th RS232 device") },
     { NULL }
 };
 

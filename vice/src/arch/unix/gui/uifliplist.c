@@ -236,7 +236,11 @@ void uifliplist_update_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(fliplist_get_next(drive + 8), &dir, &image);
-        t1 = util_concat(_("Next: "), image ? image : _("<empty>"), NULL);
+        if (image) {
+            t1 = util_concat(_("Next: "), image, NULL);
+        } else {
+            t1 = util_concat(_("Next: "), "<", _("empty"), ">", NULL);
+        }
         flipmenu[drive][i].string = t1;
         flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;
@@ -251,7 +255,11 @@ void uifliplist_update_menus(int from_unit, int to_unit)
 
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         util_fname_split(fliplist_get_prev(drive + 8), &dir, &image);
-        t2 = util_concat(_("Previous: "), image ? image : _("<empty>"), NULL);
+        if (image) {
+            t2 = util_concat(_("Previous: "), image, NULL);
+        } else {
+            t2 = util_concat(_("Previous: "), "<", _("empty"), ">", NULL);
+        }
         flipmenu[drive][i].string = t2;
         flipmenu[drive][i].type = UI_MENU_TYPE_NORMAL;
         flipmenu[drive][i].callback = (ui_callback_t)attach_from_fliplist;

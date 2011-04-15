@@ -200,6 +200,7 @@ static void netplay_disconnect(GtkWidget *w, gpointer data)
 static GtkWidget *build_netplay_dialog(void)
 {
     GtkWidget *d, *f, *b, *hb, *rb, *l, *entry, *h;
+    char *unknown = util_concat("<", _("unknown"), ">", NULL);
 
     d = gtk_dialog_new_with_buttons(_("Netplay Settings"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 
@@ -212,7 +213,9 @@ static GtkWidget *build_netplay_dialog(void)
     l = gtk_label_new(_("Current mode: "));
     gtk_container_add(GTK_CONTAINER(hb), l);
     gtk_widget_show(l);
-    current_mode = gtk_label_new(_("<unknown>"));
+    current_mode = gtk_label_new(unknown);
+    lib_free(unknown);
+
     gtk_container_add(GTK_CONTAINER(hb), current_mode);
     gtk_widget_show(current_mode);
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);

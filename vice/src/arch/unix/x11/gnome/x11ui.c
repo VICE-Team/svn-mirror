@@ -684,6 +684,7 @@ ui_create_status_bar(GtkWidget *pane)
     GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp, *pal_ctrl_checkbox, *status_bar;
     int i;
     app_shell_type *as;
+    char *empty = util_concat("<", _("empty"), ">", NULL);
 
     status_bar = gtk_hbox_new(FALSE, 0);
 
@@ -796,9 +797,9 @@ ui_create_status_bar(GtkWidget *pane)
 
 #if 0
         drive_tooltips[i] = gtk_tooltips_new();
-        gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]), as->drive_status[i].box->parent->parent, _("<empty>"), NULL);
+        gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]), as->drive_status[i].box->parent->parent, empty, NULL);
 #else
-        gtk_widget_set_tooltip_text(GTK_WIDGET(as->drive_status[i].box->parent->parent), _("<empty>"));
+        gtk_widget_set_tooltip_text(GTK_WIDGET(as->drive_status[i].box->parent->parent), empty);
 #endif
 
         /* Label */
@@ -807,11 +808,13 @@ ui_create_status_bar(GtkWidget *pane)
         gtk_widget_show((GtkWidget *)as->drive_status[i].label);
 
 #if 0
-        as->drive_status[i].image = (void *)gtk_label_new(_("<empty>"));
+        as->drive_status[i].image = (void *)gtk_label_new(empty);
         gtk_container_add(GTK_CONTAINER(event_box), as->drive_status[i].image);
         gtk_widget_show(as->drive_status[i].image);
 #endif
 	
+        lib_free(empty);
+
         /* Track Label */
         as->drive_status[i].track_label = gtk_label_new("");
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), as->drive_status[i].track_label, FALSE, FALSE, 0);
@@ -1421,7 +1424,7 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
 
     if (strcmp(name, "") == 0) {
         lib_free(name);
-        name = lib_stralloc(_("<empty>"));
+        name = util_concat("<", _("empty"), ">", NULL);
     }
 
     for (i = 0; i < num_app_shells; i++) {
