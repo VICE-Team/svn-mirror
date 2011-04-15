@@ -909,6 +909,22 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
+/* en */ {IDGS_TYPE,    N_("type")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_TYPE_DA, "type"},
+/* de */ {IDGS_TYPE_DE, "Typ"},
+/* fr */ {IDGS_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_TYPE_IT, "tipo"},
+/* ko */ {IDGS_TYPE_KO, "Á¾·ù"},
+/* nl */ {IDGS_TYPE_NL, "soort"},
+/* pl */ {IDGS_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_TYPE_SV, "typ"},
+/* tr */ {IDGS_TYPE_TR, "tip"},
+#endif
+
+/* monitor/mon_command.c */
 /* en */ {IDGS_COMMAND_S_UNKNOWN,    N_("Command `%s' unknown.\n")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_COMMAND_S_UNKNOWN_DA, "Ukendt kommando \"%s\".\n"},
@@ -1005,19 +1021,35 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_MEMSPACE_R_BANKNAME,    N_("[<memspace>] [bankname]")},
+/* en */ {IDGS_MEMSPACE,    N_("memspace")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_MEMSPACE_R_BANKNAME_DA, "[<hukommelsesområde>] [banknavn]"},
-/* de */ {IDGS_RP_MEMSPACE_R_BANKNAME_DE, "[<Speicherbereich>] [Speicherbank]"},
-/* fr */ {IDGS_RP_MEMSPACE_R_BANKNAME_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_MEMSPACE_R_BANKNAME_HU, "[<memória tér>] [lap név]"},
-/* it */ {IDGS_RP_MEMSPACE_R_BANKNAME_IT, "[<spazio di memoria>] [nome banco]"},
-/* ko */ {IDGS_RP_MEMSPACE_R_BANKNAME_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_MEMSPACE_R_BANKNAME_NL, "[<geheugenruimte>] [banknaam]"},
-/* pl */ {IDGS_RP_MEMSPACE_R_BANKNAME_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_MEMSPACE_R_BANKNAME_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_MEMSPACE_R_BANKNAME_SV, "[<minnesområde>] [banknamn]"},
-/* tr */ {IDGS_RP_MEMSPACE_R_BANKNAME_TR, "[<bellekalaný>] [bankismi]"},
+/* da */ {IDGS_MEMSPACE_DA, "huk.område"},
+/* de */ {IDGS_MEMSPACE_DE, "Speicherbereich"},
+/* fr */ {IDGS_MEMSPACE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MEMSPACE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MEMSPACE_IT, "spazio di memoria"},
+/* ko */ {IDGS_MEMSPACE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MEMSPACE_NL, "geheugenruimte"},
+/* pl */ {IDGS_MEMSPACE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MEMSPACE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MEMSPACE_SV, "minnesområde"},
+/* tr */ {IDGS_MEMSPACE_TR, "bellekalaný"},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_BANKNAME,    N_("bankname")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_BANKNAME_DA, "banknavn"},
+/* de */ {IDGS_BANKNAME_DE, "Speicherbank"},
+/* fr */ {IDGS_BANKNAME_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_BANKNAME_HU, ""},  /* fuzzy */
+/* it */ {IDGS_BANKNAME_IT, "nome banco"},
+/* ko */ {IDGS_BANKNAME_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_BANKNAME_NL, "bank naam"},
+/* pl */ {IDGS_BANKNAME_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_BANKNAME_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_BANKNAME_SV, "banknamn"},
+/* tr */ {IDGS_BANKNAME_TR, "bankismi"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1069,19 +1101,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_COUNT,    N_("[<count>]")},
+/* en */ {IDGS_COUNT,    N_("count")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_COUNT_DA, "[<antal>]"},
-/* de */ {IDGS_RP_COUNT_DE, "[<Zähler>]"},
-/* fr */ {IDGS_RP_COUNT_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_COUNT_HU, "[<darab>]"},
-/* it */ {IDGS_RP_COUNT_IT, "[<contatore>]"},
-/* ko */ {IDGS_RP_COUNT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_COUNT_NL, "[<hoeveelheid>]"},
-/* pl */ {IDGS_RP_COUNT_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_COUNT_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_COUNT_SV, "[<antal>]"},
-/* tr */ {IDGS_RP_COUNT_TR, "[<adet>]"},
+/* da */ {IDGS_COUNT_DA, "antal"},
+/* de */ {IDGS_COUNT_DE, "Zähler"},
+/* fr */ {IDGS_COUNT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_COUNT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_COUNT_IT, "contatore"},
+/* ko */ {IDGS_COUNT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_COUNT_NL, "hoeveelheid"},
+/* pl */ {IDGS_COUNT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_COUNT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_COUNT_SV, "antal"},
+/* tr */ {IDGS_COUNT_TR, "adet"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1101,19 +1133,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_FILENAME,    N_("\"<filename>\"")},
+/* en */ {IDGS_FILENAME,    N_("filename")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_FILENAME_DA, "\"<filnavn>\""},
-/* de */ {IDGS_QP_FILENAME_DE, "\"<Dateiname>\""},
-/* fr */ {IDGS_QP_FILENAME_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_FILENAME_HU, "\"<fájlnév>\""},
-/* it */ {IDGS_QP_FILENAME_IT, "\"<nome del file>\""},
-/* ko */ {IDGS_QP_FILENAME_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_FILENAME_NL, "\"<bestandsnaam>\""},
-/* pl */ {IDGS_QP_FILENAME_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_FILENAME_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_FILENAME_SV, "\"<filnamn>\""},
-/* tr */ {IDGS_QP_FILENAME_TR, "\"<dosyaismi>\""},
+/* da */ {IDGS_FILENAME_DA, "filnavn"},
+/* de */ {IDGS_FILENAME_DE, "Dateiname"},
+/* fr */ {IDGS_FILENAME_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_FILENAME_HU, ""},  /* fuzzy */
+/* it */ {IDGS_FILENAME_IT, "nome file"},
+/* ko */ {IDGS_FILENAME_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_FILENAME_NL, "bestandsnaam"},
+/* pl */ {IDGS_FILENAME_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_FILENAME_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_FILENAME_SV, "filnamn"},
+/* tr */ {IDGS_FILENAME_TR, "dosyaismi"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1133,19 +1165,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_ADDRESS,    N_("<address>")},
+/* en */ {IDGS_ADDRESS,    N_("address")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_ADDRESS_DA, "<adresse>"},
-/* de */ {IDGS_P_ADDRESS_DE, "<Adresse>"},
-/* fr */ {IDGS_P_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_ADDRESS_HU, "<cím>"},
-/* it */ {IDGS_P_ADDRESS_IT, "<indirizzo>"},
-/* ko */ {IDGS_P_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_ADDRESS_NL, "<adres>"},
-/* pl */ {IDGS_P_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_ADDRESS_SV, "<adress>"},
-/* tr */ {IDGS_P_ADDRESS_TR, "<adres>"},
+/* da */ {IDGS_ADDRESS_DA, "adresse"},
+/* de */ {IDGS_ADDRESS_DE, "Adresse"},
+/* fr */ {IDGS_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ADDRESS_IT, "indirizzo"},
+/* ko */ {IDGS_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ADDRESS_NL, "adres"},
+/* pl */ {IDGS_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ADDRESS_SV, "adress"},
+/* tr */ {IDGS_ADDRESS_TR, "adres"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1213,19 +1245,35 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_REG_NAME_P_NUMBER,    N_("[<reg_name> = <number> [, <reg_name> = <number>]*]")},
+/* en */ {IDGS_REG_NAME,    N_("reg_name")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_REG_NAME_P_NUMBER_DA, "[<regnavn> = <tal> [, <regnavn> = <tal>]*]"},
-/* de */ {IDGS_RP_REG_NAME_P_NUMBER_DE, "[<Register Name> = <Zahl> [, <Register Name> = <Zahl>]*]"},
-/* fr */ {IDGS_RP_REG_NAME_P_NUMBER_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_REG_NAME_P_NUMBER_HU, "[<reg_név> = <szám> [, <reg_név> = <szám>]*]"},
-/* it */ {IDGS_RP_REG_NAME_P_NUMBER_IT, "[<nome registro> = <numero> [, <nome registro> = <numero>]*]"},
-/* ko */ {IDGS_RP_REG_NAME_P_NUMBER_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_REG_NAME_P_NUMBER_NL, "[<Register_naam> = <nummer> [, <register_naam> = <nummer>]*]"},
-/* pl */ {IDGS_RP_REG_NAME_P_NUMBER_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_REG_NAME_P_NUMBER_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_REG_NAME_P_NUMBER_SV, "[<regnamn> = <tal> [, <regnamn> = <tal>]*]"},
-/* tr */ {IDGS_RP_REG_NAME_P_NUMBER_TR, "[<reg_ismi> = <sayý> [, <reg_ismi> = <sayý>]*]"},
+/* da */ {IDGS_REG_NAME_DA, "regnavn"},
+/* de */ {IDGS_REG_NAME_DE, "Register Name"},
+/* fr */ {IDGS_REG_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_REG_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDGS_REG_NAME_IT, "nome registro"},
+/* ko */ {IDGS_REG_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_REG_NAME_NL, "register naam"},
+/* pl */ {IDGS_REG_NAME_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_REG_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_REG_NAME_SV, "regnamn"},
+/* tr */ {IDGS_REG_NAME_TR, "reg_ismi"},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_NUMBER,    N_("number")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_NUMBER_DA, "nummer"},
+/* de */ {IDGS_NUMBER_DE, "Nummer"},
+/* fr */ {IDGS_NUMBER_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_NUMBER_HU, ""},  /* fuzzy */
+/* it */ {IDGS_NUMBER_IT, "numero"},
+/* ko */ {IDGS_NUMBER_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_NUMBER_NL, "nummer"},
+/* pl */ {IDGS_NUMBER_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_NUMBER_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_NUMBER_SV, "nummer"},
+/* tr */ {IDGS_NUMBER_TR, "sayý"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1242,22 +1290,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_REGISTERS_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_REGISTERS_DESCRIPTION_SV, "Tilldela respektive register. Utan parametrar visas innehållet\ni registren."},
 /* tr */ {IDGS_MON_REGISTERS_DESCRIPTION_TR, "Sýrayla registerlara ata.  parametreler olmadan, register deðerlerini\ngörüntüle."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_RP_TYPE,    N_("[<type>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_TYPE_DA, "[<type>]"},
-/* de */ {IDGS_RP_TYPE_DE, "[<Typ>]"},
-/* fr */ {IDGS_RP_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_TYPE_HU, "[<típus>]"},
-/* it */ {IDGS_RP_TYPE_IT, "[<typo>]"},
-/* ko */ {IDGS_RP_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_TYPE_NL, "[<soort>]"},
-/* pl */ {IDGS_RP_TYPE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_TYPE_SV, "[<typ>]"},
-/* tr */ {IDGS_RP_TYPE_TR, "[<tip>]"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1357,19 +1389,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL,    N_("[<memspace>] <address> <label>")},
+/* en */ {IDGS_LABEL,    N_("label")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_DA, "[<huk.område>] <adresse> <etiket>"},
-/* de */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_DE, "[<Speicherbereich>] <Adresse> <Bezeichner>"},
-/* fr */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_HU, "[<memória tér>] <cím> <címke>"},
-/* it */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_IT, "[<spazio di memoria>] <indirizzo> <etichetta>"},
-/* ko */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_NL, "[<geheugenruimte>] <adres> <label>"},
-/* pl */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_SV, "[<minnesområde>] <adress> <etikett>"},
-/* tr */ {IDGS_RP_MEMSPACE_P_ADDRESS_P_LABEL_TR, "[<bellekalaný>] <adres> <etiket>"},
+/* da */ {IDGS_LABEL_DA, "etiket"},
+/* de */ {IDGS_LABEL_DE, "Bezeichner"},
+/* fr */ {IDGS_LABEL_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_LABEL_HU, ""},  /* fuzzy */
+/* it */ {IDGS_LABEL_IT, "etichetta"},
+/* ko */ {IDGS_LABEL_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_LABEL_NL, "label"},
+/* pl */ {IDGS_LABEL_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_LABEL_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_LABEL_SV, "etikett"},
+/* tr */ {IDGS_LABEL_TR, "etiket"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1389,22 +1421,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_MEMSPACE_P_LABEL,    N_("[<memspace>] <label>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_MEMSPACE_P_LABEL_DA, "[<huk.område>] <etiket>"},
-/* de */ {IDGS_RP_MEMSPACE_P_LABEL_DE, "[<Speicherbereich>] <Bezeichner>"},
-/* fr */ {IDGS_RP_MEMSPACE_P_LABEL_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_MEMSPACE_P_LABEL_HU, "[<memória tartomány>] <címke>"},
-/* it */ {IDGS_RP_MEMSPACE_P_LABEL_IT, "[<spazio di memoria>] <etichetta>"},
-/* ko */ {IDGS_RP_MEMSPACE_P_LABEL_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_MEMSPACE_P_LABEL_NL, "[<geheugenruimte>] <label>"},
-/* pl */ {IDGS_RP_MEMSPACE_P_LABEL_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_MEMSPACE_P_LABEL_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_MEMSPACE_P_LABEL_SV, "[<minnesområde>] <etikett>"},
-/* tr */ {IDGS_RP_MEMSPACE_P_LABEL_TR, "[<bellekalaný>] <etiket>"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_DELETE_LABEL_DESCRIPTION,    N_("<memspace> is one of: C: 8: 9: 10: 11:\n<label>    is the name of the label; it must start with a dot (\".\").\n\nDelete a previously defined label.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_DA, "<huk.område>   er en af C: 8: 9: 10: eller 11:\n<etiket>       er navnet på etiketten; skal starte med punktum (\".\").\n\nFjern en tidligere oprettet etiket."},
@@ -1418,22 +1434,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_SV, "<minnesområde> är en av: C: 8: 9: 10: 11:\n<etikett>      är namnet på etiketten; måste starta med punkt (\".\").\n\nTa bort en tidigare angiven etikett."},
 /* tr */ {IDGS_MON_DELETE_LABEL_DESCRIPTION_TR, "<bellekalaný> bunlardan biridir: C: 8: 9: 10: 11:\n<etiket>      etiketin ismidir; nokta karakteriyle baþlamalýdýr (\".\").\n\nÖnceden tanýmlanmýþ bir etiketi sil."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_RP_MEMSPACE_QP_FILENAME,    N_("[<memspace>] \"<filename>\"")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_MEMSPACE_QP_FILENAME_DA, "[<huk.område>] \"<filnavn>\""},
-/* de */ {IDGS_RP_MEMSPACE_QP_FILENAME_DE, "[<Speicherbereich>] \"<Dateiname>\""},
-/* fr */ {IDGS_RP_MEMSPACE_QP_FILENAME_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_MEMSPACE_QP_FILENAME_HU, "[<memória tartomány>] \"<fájlnév>\""},
-/* it */ {IDGS_RP_MEMSPACE_QP_FILENAME_IT, "[<spazio di memoria>] \"<nome file>\""},
-/* ko */ {IDGS_RP_MEMSPACE_QP_FILENAME_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_MEMSPACE_QP_FILENAME_NL, "[<geheugenruimte>] \"<bestandsnaam>\""},
-/* pl */ {IDGS_RP_MEMSPACE_QP_FILENAME_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_MEMSPACE_QP_FILENAME_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_MEMSPACE_QP_FILENAME_SV, "[<minnesområde>] \"<filnamn>\""},
-/* tr */ {IDGS_RP_MEMSPACE_QP_FILENAME_TR, "[<bellekalaný>] <dosyaismi>"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1469,22 +1469,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_MEMSPACE,    N_("[<memspace>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_MEMSPACE_DA, "[<huk.område>]"},
-/* de */ {IDGS_RP_MEMSPACE_DE, "[<Speicherbereich>]"},
-/* fr */ {IDGS_RP_MEMSPACE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_MEMSPACE_HU, "[<memória tartomány>]"},
-/* it */ {IDGS_RP_MEMSPACE_IT, "[<spazio di memoria>]"},
-/* ko */ {IDGS_RP_MEMSPACE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_MEMSPACE_NL, "[<geheugenruimte>]"},
-/* pl */ {IDGS_RP_MEMSPACE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_MEMSPACE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_MEMSPACE_SV, "[<minnesområde>]"},
-/* tr */ {IDGS_RP_MEMSPACE_TR, "[<bellekalaný>]"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_SHOW_LABELS_DESCRIPTION,    N_("Display current label mappings.  If no memory space is specified, show\nall labels.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_DA, "Vis aktuelle etiketter. Hvis der ikke angives et hukommelsesområde vises\nalle etiketter."},
@@ -1517,19 +1501,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_ADDRESS_P_DATA_LIST,    N_("[<address>] <data_list>")},
+/* en */ {IDGS_DATA_LIST,    N_("data_list")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_ADDRESS_P_DATA_LIST_DA, "[<adresse>] <dataliste>"},
-/* de */ {IDGS_RP_ADDRESS_P_DATA_LIST_DE, "[<Adresse>] <Datenliste>"},
-/* fr */ {IDGS_RP_ADDRESS_P_DATA_LIST_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_ADDRESS_P_DATA_LIST_HU, "[<cím>] <adat_lista>"},
-/* it */ {IDGS_RP_ADDRESS_P_DATA_LIST_IT, "[<indirizzo>] <lista di dati>"},
-/* ko */ {IDGS_RP_ADDRESS_P_DATA_LIST_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_ADDRESS_P_DATA_LIST_NL, "[<adres>] <data_lijst>"},
-/* pl */ {IDGS_RP_ADDRESS_P_DATA_LIST_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_ADDRESS_P_DATA_LIST_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_ADDRESS_P_DATA_LIST_SV, "[<adress>] <datalista>"},
-/* tr */ {IDGS_RP_ADDRESS_P_DATA_LIST_TR, "[<adres>] <veri_listesi>"},
+/* da */ {IDGS_DATA_LIST_DA, "dataliste"},
+/* de */ {IDGS_DATA_LIST_DE, "Datenliste"},
+/* fr */ {IDGS_DATA_LIST_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DATA_LIST_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DATA_LIST_IT, "lista di dati"},
+/* ko */ {IDGS_DATA_LIST_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_DATA_LIST_NL, "data_lijst"},
+/* pl */ {IDGS_DATA_LIST_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_DATA_LIST_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_DATA_LIST_SV, "datalista"},
+/* tr */ {IDGS_DATA_LIST_TR, "veri_listesi"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1549,19 +1533,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_ADDRESS_RP_INSTRUCTION,    N_("<address> [ <instruction> [: <instruction>]* ]")},
+/* en */ {IDGS_INSTRUCTION,    N_("instruction")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_ADDRESS_RP_INSTRUCTION_DA, "<adresse> [ <instruktion> [: <instruktion>]* ]"},
-/* de */ {IDGS_P_ADDRESS_RP_INSTRUCTION_DE, "<Adresse> [ <Instruktion> [: <Instruktion>]* ]"},
-/* fr */ {IDGS_P_ADDRESS_RP_INSTRUCTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_ADDRESS_RP_INSTRUCTION_HU, "<cím> [ <utasítás> [: <utasítás>]* ]"},
-/* it */ {IDGS_P_ADDRESS_RP_INSTRUCTION_IT, "<indirizzo> [ <istruzione> [: <istruzione>]* ]"},
-/* ko */ {IDGS_P_ADDRESS_RP_INSTRUCTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_ADDRESS_RP_INSTRUCTION_NL, "<adres> [ <instructie> [: <instructie>]* ]"},
-/* pl */ {IDGS_P_ADDRESS_RP_INSTRUCTION_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_ADDRESS_RP_INSTRUCTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_ADDRESS_RP_INSTRUCTION_SV, "<adress> [ <instruktion> [: <instruktion>]* ]"},
-/* tr */ {IDGS_P_ADDRESS_RP_INSTRUCTION_TR, "<adres> [ <komut> [: <komut>]* ]"},
+/* da */ {IDGS_INSTRUCTION_DA, "instruktion"},
+/* de */ {IDGS_INSTRUCTION_DE, "Instruktion"},
+/* fr */ {IDGS_INSTRUCTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_INSTRUCTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_INSTRUCTION_IT, "istruzione"},
+/* ko */ {IDGS_INSTRUCTION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_INSTRUCTION_NL, "instructie"},
+/* pl */ {IDGS_INSTRUCTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_INSTRUCTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_INSTRUCTION_SV, "instruktion"},
+/* tr */ {IDGS_INSTRUCTION_TR, "komut"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1581,19 +1565,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS,    N_("<address_range> <address>")},
+/* en */ {IDGS_ADDRESS_RANGE,    N_("address_range")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_DA, "<adresseområde> <adresse>"},
-/* de */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_DE, "<Adressbereich> <Adresse>"},
-/* fr */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_HU, "<címtartomány> <cím>"},
-/* it */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_IT, "<intervallo indirizzi> <indirizzo>"},
-/* ko */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_NL, "<adres_bereik> <adres>"},
-/* pl */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_SV, "<adressområde> <adress>"},
-/* tr */ {IDGS_P_ADDRESS_RANGE_P_ADDRESS_TR, "<adres_aralýðý> <adres>"},
+/* da */ {IDGS_ADDRESS_RANGE_DA, "adresseområde"},
+/* de */ {IDGS_ADDRESS_RANGE_DE, "Adressbereich"},
+/* fr */ {IDGS_ADDRESS_RANGE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ADDRESS_RANGE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ADDRESS_RANGE_IT, "intervallo indirizzi"},
+/* ko */ {IDGS_ADDRESS_RANGE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ADDRESS_RANGE_NL, "adres_bereik"},
+/* pl */ {IDGS_ADDRESS_RANGE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ADDRESS_RANGE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ADDRESS_RANGE_SV, "adressområde"},
+/* tr */ {IDGS_ADDRESS_RANGE_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
@@ -1613,19 +1597,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_CHECKNUM,    N_("<checknum>")},
+/* en */ {IDGS_CHECKNUM,    N_("checknum")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_CHECKNUM_DA, "<checknum>"},
-/* de */ {IDGS_P_CHECKNUM_DE, "<Checknummer>"},
-/* fr */ {IDGS_P_CHECKNUM_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_CHECKNUM_HU, "<ell_pont_szám>"},
-/* it */ {IDGS_P_CHECKNUM_IT, "<checknum>"},
-/* ko */ {IDGS_P_CHECKNUM_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_CHECKNUM_NL, "<checknum>"},
-/* pl */ {IDGS_P_CHECKNUM_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_CHECKNUM_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_CHECKNUM_SV, "<kontrollnr>"},
-/* tr */ {IDGS_P_CHECKNUM_TR, "<kontrolnumarasý>"},
+/* da */ {IDGS_CHECKNUM_DA, "checknum"},
+/* de */ {IDGS_CHECKNUM_DE, "Checknummer"},
+/* fr */ {IDGS_CHECKNUM_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_CHECKNUM_HU, ""},  /* fuzzy */
+/* it */ {IDGS_CHECKNUM_IT, "checknum"},
+/* ko */ {IDGS_CHECKNUM_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_CHECKNUM_NL, "checknum"},
+/* pl */ {IDGS_CHECKNUM_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_CHECKNUM_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_CHECKNUM_SV, "kontrollnr"},
+/* tr */ {IDGS_CHECKNUM_TR, "kontrolnumarasý"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1645,22 +1629,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_ADDRESS_RP_ADDRESS,    N_("[<address> [<address>]]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_ADDRESS_RP_ADDRESS_DA, "[<adresse> [<adresse>]]"},
-/* de */ {IDGS_RP_ADDRESS_RP_ADDRESS_DE, "[<Adresse> [<Adresse>]]"},
-/* fr */ {IDGS_RP_ADDRESS_RP_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_ADDRESS_RP_ADDRESS_HU, "[<cím> [<cím>]]"},
-/* it */ {IDGS_RP_ADDRESS_RP_ADDRESS_IT, "[<indirizzo> [<indirizzo>]]"},
-/* ko */ {IDGS_RP_ADDRESS_RP_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_ADDRESS_RP_ADDRESS_NL, "[<adres> [<adres>]]"},
-/* pl */ {IDGS_RP_ADDRESS_RP_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_ADDRESS_RP_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_ADDRESS_RP_ADDRESS_SV, "[<adress> [<adress>]]"},
-/* tr */ {IDGS_RP_ADDRESS_RP_ADDRESS_TR, "[<adres> [<adres>]]"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_DISASS_DESCRIPTION,    N_("Disassemble instructions.  If two addresses are specified, they are\nused as a start and end address.  If only one is specified, it is\ntreated as the start address and a default number of instructions are\ndisassembled.  If no addresses are specified, a default number of\ninstructions are disassembled from the dot address.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DISASS_DESCRIPTION_DA, "Disassemblér instruktioner. Hvis der angives to adresser anvendes disse\nsom start- og slutadresse. Angives kun en adresse bruges denne som startadresse\nog et standard antal instruktioner disassembleres. Hvis ingen adresse\nangives disassembleres et standard antal instruktioner fra den aktuelle\nadresse."},
@@ -1674,22 +1642,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_DISASS_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_DISASS_DESCRIPTION_SV, "Disassemblera instruktioner. Om två adresser anges används de som\nstart- och slutadress. Om endast en anges används den som startadress\noch ett standardantal instruktioner disassembleras. Om ingen adress\nanges disassembleras ett standardantal instruktioner från punktadressen."},
 /* tr */ {IDGS_MON_DISASS_DESCRIPTION_TR, "Komutlarý disassemble et.  Eðer iki adres girildiyse, bunlar baþlangýç\nve bitiþ adresleri olarak kullanýlýr.  Eðer tek adres girildiyse, bu\nadres baþlangýç adresi olarak kabul edilir ve varsayýlan sayýda komutlar\ndisassemble edilir.  Eðer hiç adres girilmediyse, varsayýlan sayýda\nkomutlar nokta baþlangýç adresinden itibaren disassemble edilir."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST,    N_("<address_range> <data_list>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_DA, "<adresseområde> <dataliste>"},
-/* de */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_DE, "<Adressbereich> <Datenliste>"},
-/* fr */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_HU, "<cím_tartomány> <adat_lista>"},
-/* it */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_IT, "<intervallo di indirizzi> <lista di dati>"},
-/* ko */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_NL, "<adres_reeks> <data_lijst>"},
-/* pl */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_SV, "<adressområde> <datalista>"},
-/* tr */ {IDGS_P_ADDRESS_RANGE_P_DATA_LIST_TR, "<adres_aralýðý> <veri_listesi>"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1725,19 +1677,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_ADDRESS_OPT_RANGE,    N_("<address_opt_range>")},
+/* en */ {IDGS_ADDRESS_OPT_RANGE,    N_("address_opt_range")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_ADDRESS_OPT_RANGE_DA, "<adresse_evt_område>"},
-/* de */ {IDGS_P_ADDRESS_OPT_RANGE_DE, "<Optionaler Adressbereich>"},
-/* fr */ {IDGS_P_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_ADDRESS_OPT_RANGE_HU, "<címtartomány>"},
-/* it */ {IDGS_P_ADDRESS_OPT_RANGE_IT, "<intervallo di indirizzi opzionale>"},
-/* ko */ {IDGS_P_ADDRESS_OPT_RANGE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_ADDRESS_OPT_RANGE_NL, "<optionele_adres_reeks>"},
-/* pl */ {IDGS_P_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_ADDRESS_OPT_RANGE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_ADDRESS_OPT_RANGE_SV, "<adress_ev_område>"},
-/* tr */ {IDGS_P_ADDRESS_OPT_RANGE_TR, "<opsiyonel_adres_aralýðý>"},
+/* da */ {IDGS_ADDRESS_OPT_RANGE_DA, "adresse_evt_område"},
+/* de */ {IDGS_ADDRESS_OPT_RANGE_DE, "Optionaler Adressbereich"},
+/* fr */ {IDGS_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ADDRESS_OPT_RANGE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ADDRESS_OPT_RANGE_IT, "intervallo di indirizzi opzionale"},
+/* ko */ {IDGS_ADDRESS_OPT_RANGE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ADDRESS_OPT_RANGE_NL, "optionele_adres_bereik"},
+/* pl */ {IDGS_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ADDRESS_OPT_RANGE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ADDRESS_OPT_RANGE_SV, "adress_ev_område"},
+/* tr */ {IDGS_ADDRESS_OPT_RANGE_TR, "opsiyonel_adres_aralýðý"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1773,19 +1725,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE,    N_("[<data_type>] [<address_opt_range>]")},
+/* en */ {IDGS_DATA_TYPE,    N_("data_type")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_DA, "[<datatype>] [<adresse_evt_område>]"},
-/* de */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_DE, "[<Datentyp>] [<Optionaler Adressbereich>]"},
-/* fr */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_HU, "[<adat_típus>] [<címtartomány>]"},
-/* it */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_IT, "[<dati>] [<intervallo di indirizzi opzionale>]"},
-/* ko */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_NL, "[<data_soort>] [<optionele_adres_reeks>]"},
-/* pl */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_SV, "[<datatyp>] [<adress_ev_område>]"},
-/* tr */ {IDGS_RP_DATA_TYPE_RP_ADDRESS_OPT_RANGE_TR, "[<veri_tipi>] [<opsiyonel_adres_aralýðý>]"},
+/* da */ {IDGS_DATA_TYPE_DA, "datatype"},
+/* de */ {IDGS_DATA_TYPE_DE, "Datentyp"},
+/* fr */ {IDGS_DATA_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DATA_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DATA_TYPE_IT, "dati"},
+/* ko */ {IDGS_DATA_TYPE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_DATA_TYPE_NL, "data_soort"},
+/* pl */ {IDGS_DATA_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_DATA_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_DATA_TYPE_SV, "datatyp"},
+/* tr */ {IDGS_DATA_TYPE_TR, "veri_tipi"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1821,19 +1773,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_FILENAME_P_FORMAT,    N_("\"<filename>\" <format>")},
+/* en */ {IDGS_FORMAT,    N_("format")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_FILENAME_P_FORMAT_DA, "\"<filnavn>\" <format>"},
-/* de */ {IDGS_QP_FILENAME_P_FORMAT_DE, "\"<Dateiname>\" <Format>"},
-/* fr */ {IDGS_QP_FILENAME_P_FORMAT_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_FILENAME_P_FORMAT_HU, "\"<fájlnév>\" <formátum>"},
-/* it */ {IDGS_QP_FILENAME_P_FORMAT_IT, "\"<nome del file>\" <formato>"},
-/* ko */ {IDGS_QP_FILENAME_P_FORMAT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_FILENAME_P_FORMAT_NL, "\"<betandsnaam>\" <formaat>"},
-/* pl */ {IDGS_QP_FILENAME_P_FORMAT_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_FILENAME_P_FORMAT_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_FILENAME_P_FORMAT_SV, "\"<filnamn>\" <format>"},
-/* tr */ {IDGS_QP_FILENAME_P_FORMAT_TR, "\"<dosyaismi>\" <biçim>"},
+/* da */ {IDGS_FORMAT_DA, "format"},
+/* de */ {IDGS_FORMAT_DE, "Format"},
+/* fr */ {IDGS_FORMAT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_FORMAT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_FORMAT_IT, "formato"},
+/* ko */ {IDGS_FORMAT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_FORMAT_NL, "formaat"},
+/* pl */ {IDGS_FORMAT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_FORMAT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_FORMAT_SV, "format"},
+/* tr */ {IDGS_FORMAT_TR, "biçim"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1853,19 +1805,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE,    N_("[<mask>] [<address_opt_range>]")},
+/* en */ {IDGS_MASK,    N_("mask")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_DA, "[<maske>] [<adresse_evt_område>]"},
-/* de */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_DE, "[<Maske>] [<Optionaler Adressbereich>]"},
-/* fr */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_HU, "[<maszk>] [<címtartomány>]"},
-/* it */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_IT, "[<maschera>] [<intervallo di indirizzi opzionale>]"},
-/* ko */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_NL, "[<masker>] [<optionele_adres_reeks>]"},
-/* pl */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_SV, "[<mask>] [<adress_ev_område>]"},
-/* tr */ {IDGS_RP_MASK_RP_ADDRESS_OPT_RANGE_TR, "[<maske>] [<opsiyonel_adres_aralýðý>]"},
+/* da */ {IDGS_MASK_DA, "maske"},
+/* de */ {IDGS_MASK_DE, "Maske"},
+/* fr */ {IDGS_MASK_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MASK_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MASK_IT, "maschera"},
+/* ko */ {IDGS_MASK_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MASK_NL, "masker"},
+/* pl */ {IDGS_MASK_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MASK_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MASK_SV, "mask"},
+/* tr */ {IDGS_MASK_TR, "maske"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1949,19 +1901,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_ADDRESS_RP_COND_EXPR,    N_("[<address> [if <cond_expr>] ]")},
+/* en */ {IDGS_COND_EXPR,    N_("cond_expr")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_ADDRESS_RP_COND_EXPR_DA, "[<adresse> [if <betingelse>] ]"},
-/* de */ {IDGS_RP_ADDRESS_RP_COND_EXPR_DE, "[<Adresse> [if <bedingter Ausdruck>] ]"},
-/* fr */ {IDGS_RP_ADDRESS_RP_COND_EXPR_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_ADDRESS_RP_COND_EXPR_HU, "[<cím> [if <felt_kif>] ]"},
-/* it */ {IDGS_RP_ADDRESS_RP_COND_EXPR_IT, "[<indirizzo> [if <espressione condizione>] ]"},
-/* ko */ {IDGS_RP_ADDRESS_RP_COND_EXPR_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_ADDRESS_RP_COND_EXPR_NL, "[<adres> [ald <cond_expr>] ]"},
-/* pl */ {IDGS_RP_ADDRESS_RP_COND_EXPR_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_ADDRESS_RP_COND_EXPR_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_ADDRESS_RP_COND_EXPR_SV, "[<adress> [om <villkorsuttryck>] ]"},
-/* tr */ {IDGS_RP_ADDRESS_RP_COND_EXPR_TR, "[<adres> [if <koþul_idafesi>] ]"},
+/* da */ {IDGS_COND_EXPR_DA, "betingelse"},
+/* de */ {IDGS_COND_EXPR_DE, "bedingter Ausdruck"},
+/* fr */ {IDGS_COND_EXPR_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_COND_EXPR_HU, ""},  /* fuzzy */
+/* it */ {IDGS_COND_EXPR_IT, "espressione condizione"},
+/* ko */ {IDGS_COND_EXPR_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_COND_EXPR_NL, "cond_expr"},
+/* pl */ {IDGS_COND_EXPR_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_COND_EXPR_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_COND_EXPR_SV, "villkorsuttryck"},
+/* tr */ {IDGS_COND_EXPR_TR, "koþul_idafesi"},
 #endif
 
 /* monitor/mon_command.c */
@@ -1981,19 +1933,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_CHECKNUM_QP_COMMAND,    N_("<checknum> \"<command>\"")},
+/* en */ {IDGS_COMMAND,    N_("command")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_CHECKNUM_QP_COMMAND_DA, "<checknum> \"<kommando>\""},
-/* de */ {IDGS_P_CHECKNUM_QP_COMMAND_DE, "<Checknum> \"<Kommando>\""},
-/* fr */ {IDGS_P_CHECKNUM_QP_COMMAND_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_CHECKNUM_QP_COMMAND_HU, "<ell_pont_szám> \"<parancs>\""},
-/* it */ {IDGS_P_CHECKNUM_QP_COMMAND_IT, "<checknum> \"<comando>\""},
-/* ko */ {IDGS_P_CHECKNUM_QP_COMMAND_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_CHECKNUM_QP_COMMAND_NL, "<checknum> \"<commando>\""},
-/* pl */ {IDGS_P_CHECKNUM_QP_COMMAND_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_CHECKNUM_QP_COMMAND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_CHECKNUM_QP_COMMAND_SV, "<kontrollnr> \"<kommando>\""},
-/* tr */ {IDGS_P_CHECKNUM_QP_COMMAND_TR, "<kontrolnumarasý> \"<komut>\""},
+/* da */ {IDGS_COMMAND_DA, "kommando"},
+/* de */ {IDGS_COMMAND_DE, "Kommando"},
+/* fr */ {IDGS_COMMAND_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_COMMAND_HU, ""},  /* fuzzy */
+/* it */ {IDGS_COMMAND_IT, "commando"},
+/* ko */ {IDGS_COMMAND_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_COMMAND_NL, "commando"},
+/* pl */ {IDGS_COMMAND_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_COMMAND_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_COMMAND_SV, "kommando"},
+/* tr */ {IDGS_COMMAND_TR, "komut"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2010,22 +1962,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_COMMAND_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_COMMAND_DESCRIPTION_SV, "Ange \"kommando\" som kommando att exekvera när vid träff på\nkontrollpunkten·\"kontrollnr\". Observera att kommandot \"x\" ännu\ninte stöds som kommandoparameter."},
 /* tr */ {IDGS_MON_COMMAND_DESCRIPTION_TR, "Kontrol noktasý `kontrolnumarasý'na ulaþýldýðýnda `komut' olarak\nçalýþtýrýlacak komutu belirt.  Henüz `x' komutunun bir komut argümaný\nolarak desteklenmediðini not edin."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR,    N_("<checknum> if <cond_expr>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_DA, "<checknum> if <betingelse>"},
-/* de */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_DE, "<Checknum> if <bedingter Ausdruck>"},
-/* fr */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_HU, "<ell_pont_szám> if <kifejezés>"},
-/* it */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_IT, "<checknum> if <espressione condizione>"},
-/* ko */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_NL, "<checknum> als <cond_expr>"},
-/* pl */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_SV, "<kontrollnum> if <villkorsuttryck>"},
-/* tr */ {IDGS_P_CHECKNUM_IF_P_COND_EXPR_TR, "<kontrolnumarasý> if <koþul_idafesi>"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2077,22 +2013,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_CHECKNUM_RP_COUNT,    N_("<checknum> [<count>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_CHECKNUM_RP_COUNT_DA, "<checknum> [<antal>]"},
-/* de */ {IDGS_P_CHECKNUM_RP_COUNT_DE, "<Checknum> [<Zähler>]"},
-/* fr */ {IDGS_P_CHECKNUM_RP_COUNT_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_CHECKNUM_RP_COUNT_HU, "<ell_pont_szám> [<darab>]"},
-/* it */ {IDGS_P_CHECKNUM_RP_COUNT_IT, "<checknum> [<contatore>]"},
-/* ko */ {IDGS_P_CHECKNUM_RP_COUNT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_CHECKNUM_RP_COUNT_NL, "<checknum> [<aantal>]"},
-/* pl */ {IDGS_P_CHECKNUM_RP_COUNT_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_CHECKNUM_RP_COUNT_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_CHECKNUM_RP_COUNT_SV, "<kontrollnum> [<antal>]"},
-/* tr */ {IDGS_P_CHECKNUM_RP_COUNT_TR, "<kontrolnumarasý> [<adet>]"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_IGNORE_DESCRIPTION,    N_("Ignore a checkpoint a given number of crossings.  If no count is given,\nthe default value is 1.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_IGNORE_DESCRIPTION_DA, "Ignorér et checkpoint det angivne antal gange. Hvis antal ikke angives\nbruges standardværdien 1."},
@@ -2106,22 +2026,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_IGNORE_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_IGNORE_DESCRIPTION_SV, "Ignorera en kontrollpunkt det givna antalet gånger. Om inget antal ges\när standardvärdet 1."},
 /* tr */ {IDGS_MON_IGNORE_DESCRIPTION_TR, "Bir kontrol noktasýný verilen adette geçiþ için yoksay.  Eðer adet verilmemiþse,\nvarsayýlan deðer 1'dir."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_RP_ADDRESS,    N_("[<address>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_ADDRESS_DA, "[<adresse>]"},
-/* de */ {IDGS_RP_ADDRESS_DE, "[<Adresse>]"},
-/* fr */ {IDGS_RP_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_ADDRESS_HU, "[<cím>]"},
-/* it */ {IDGS_RP_ADDRESS_IT, "[<indirizzo>]"},
-/* ko */ {IDGS_RP_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_ADDRESS_NL, "[<adres>]"},
-/* pl */ {IDGS_RP_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_ADDRESS_SV, "[<adress>]"},
-/* tr */ {IDGS_RP_ADDRESS_TR, "[<adres>]"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2141,19 +2045,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS,    N_("[loadstore] [address [address]]")},
+/* en */ {IDGS_LOADSTORE,    N_("loadstore")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_DA, "[loadstore] [adresse [adresse]]"},
-/* de */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_DE, "[loadstore] [Adresse [Adresse]]"},
-/* fr */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_HU, "[loadstore] [cím [cím]]"},
-/* it */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_IT, "[loadstore] [indirizzo [indirizzo]]"},
-/* ko */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_NL, "[laad/opslaan] [adres [adres]]"},
-/* pl */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_SV, "[loadstore] [adress [adress]]"},
-/* tr */ {IDGS_R_LOADSTORE_R_ADDRESS_R_ADDRESS_TR, "[yükle/depola] [adres [adres]]"},
+/* da */ {IDGS_LOADSTORE_DA, "loadstore"},
+/* de */ {IDGS_LOADSTORE_DE, "loadstore"},
+/* fr */ {IDGS_LOADSTORE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_LOADSTORE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_LOADSTORE_IT, "loadstore"},
+/* ko */ {IDGS_LOADSTORE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_LOADSTORE_NL, "laad/opslaan"},
+/* pl */ {IDGS_LOADSTORE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_LOADSTORE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_LOADSTORE_SV, "loadstore"},
+/* tr */ {IDGS_LOADSTORE_TR, "yükle/depola"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2170,22 +2074,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_WATCH_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_WATCH_DESCRIPTION_SV, "Sätt en övervakningspunkt. Om du anger en ensam adress sätts en\növervakningspunkt för adressen. Om två adresser anges sätts en\növervakningspunkt för minnesområdet mellan adresserna.\n\"loadstore\" är antingen \"load\" eller \"store\" och anger vilken\noperation emulatorn skall stoppa för. Om den inte anges stoppar\nemulatorn på bägge operationerna."},
 /* tr */ {IDGS_MON_WATCH_DESCRIPTION_TR, "Bir izleme noktasý koy.  Eðer tek bir adres belirtilmiþse, izleme\nnoktasýný o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\no iki adres arasýnda kalan adreslere koy.\n`yükle/depola' monitörün kesildiði operatöre baðlý olarak `yükle' ya da\n`depola' iþlemlerinde çalýþabilir. Eðer belirtilmemiþse, her iki iþlemde de\nmonitör kesilecektir."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_R_ADDRESS_R_ADDRESS,    N_("[address [address]]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_R_ADDRESS_R_ADDRESS_DA, "[adresse [adresse]]"},
-/* de */ {IDGS_R_ADDRESS_R_ADDRESS_DE, "[Adresse [Adresse]]"},
-/* fr */ {IDGS_R_ADDRESS_R_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_R_ADDRESS_R_ADDRESS_HU, "[cím [cím]]"},
-/* it */ {IDGS_R_ADDRESS_R_ADDRESS_IT, "[indirizzo [indirizzo]]"},
-/* ko */ {IDGS_R_ADDRESS_R_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_R_ADDRESS_R_ADDRESS_NL, "[adres [adres]]"},
-/* pl */ {IDGS_R_ADDRESS_R_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_R_ADDRESS_R_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_R_ADDRESS_R_ADDRESS_SV, "[adress [adress]]"},
-/* tr */ {IDGS_R_ADDRESS_R_ADDRESS_TR, "[adres [adres]]"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2285,22 +2173,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_R_ON_R_OFF_R_TOGGLE,    N_("[on|off|toggle]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_R_ON_R_OFF_R_TOGGLE_DA, "[on|off|toggle]"},
-/* de */ {IDGS_R_ON_R_OFF_R_TOGGLE_DE, "[on|off|toggle]"},
-/* fr */ {IDGS_R_ON_R_OFF_R_TOGGLE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_R_ON_R_OFF_R_TOGGLE_HU, "[on|off|toggle]"},
-/* it */ {IDGS_R_ON_R_OFF_R_TOGGLE_IT, "[on|off|toggle]"},
-/* ko */ {IDGS_R_ON_R_OFF_R_TOGGLE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_R_ON_R_OFF_R_TOGGLE_NL, "[on|off|toggle]"},
-/* pl */ {IDGS_R_ON_R_OFF_R_TOGGLE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_R_ON_R_OFF_R_TOGGLE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_R_ON_R_OFF_R_TOGGLE_SV, "[on|off|toggle]"},
-/* tr */ {IDGS_R_ON_R_OFF_R_TOGGLE_TR, "[on|off|toggle]"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_SIDEFX_DESCRIPTION,    N_("Control how monitor generated reads affect memory locations that have\nread side-effects.  If the argument is 'on' then reads may cause\nside-effects.  If the argument is 'off' then reads don't cause\nside-effects.  If the argument is 'toggle' then the current mode is\nswitched.  No argument displays the current state.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SIDEFX_DESCRIPTION_DA, "Bestemmer hvordan læsninger i monitoren påvirker hukommelsesområder,\nder har sedeeffekter ved læsning. Hvis argumentet er \"on\" kan læsninger\nforesage sideeffekter. Hvis argumentet er \"off\" vil læsninger ikke\nforesage sideeffekter. Hvis argumentet er \"toggle\" skiftes\nden nuværende tilstand. Hvis der ikke angives noget argument vises\nden nuværende tilstand."},
@@ -2333,19 +2205,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_DISK_COMMAND,    N_("<disk command>")},
+/* en */ {IDGS_DISK_COMMAND,    N_("disk command")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_DISK_COMMAND_DA, "<diskkommando>"},
-/* de */ {IDGS_P_DISK_COMMAND_DE, "<Disk Kommando>"},
-/* fr */ {IDGS_P_DISK_COMMAND_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_DISK_COMMAND_HU, "<lemez parancs>"},
-/* it */ {IDGS_P_DISK_COMMAND_IT, "<comando disco>"},
-/* ko */ {IDGS_P_DISK_COMMAND_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_DISK_COMMAND_NL, "<disk commando>"},
-/* pl */ {IDGS_P_DISK_COMMAND_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_DISK_COMMAND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_DISK_COMMAND_SV, "<diskkommando>"},
-/* tr */ {IDGS_P_DISK_COMMAND_TR, "<disk komutu>"},
+/* da */ {IDGS_DISK_COMMAND_DA, "diskkommando"},
+/* de */ {IDGS_DISK_COMMAND_DE, "Disk Kommando"},
+/* fr */ {IDGS_DISK_COMMAND_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DISK_COMMAND_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DISK_COMMAND_IT, "comando disco"},
+/* ko */ {IDGS_DISK_COMMAND_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_DISK_COMMAND_NL, "disk commando"},
+/* pl */ {IDGS_DISK_COMMAND_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_DISK_COMMAND_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_DISK_COMMAND_SV, "diskkommando"},
+/* tr */ {IDGS_DISK_COMMAND_TR, "disk komutu"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2365,19 +2237,67 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_FILENAME_P_DEVICE,    N_("<filename> <device>")},
+/* en */ {IDGS_DEVICE,    N_("device")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_FILENAME_P_DEVICE_DA, "<filnavn> <enhed>"},
-/* de */ {IDGS_P_FILENAME_P_DEVICE_DE, "<Dateiname> <Gerät>"},
-/* fr */ {IDGS_P_FILENAME_P_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_FILENAME_P_DEVICE_HU, "<fájlnév> <eszköz>"},
-/* it */ {IDGS_P_FILENAME_P_DEVICE_IT, "<nome del file> <periferica>"},
-/* ko */ {IDGS_P_FILENAME_P_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_FILENAME_P_DEVICE_NL, "<bestandsnaam> <apparaat>"},
-/* pl */ {IDGS_P_FILENAME_P_DEVICE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_FILENAME_P_DEVICE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_FILENAME_P_DEVICE_SV, "<filnamn> <enhet>"},
-/* tr */ {IDGS_P_FILENAME_P_DEVICE_TR, "<dosyaismi> <aygýt>"},
+/* da */ {IDGS_DEVICE_DA, "enhed"},
+/* de */ {IDGS_DEVICE_DE, "Gerät"},
+/* fr */ {IDGS_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DEVICE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DEVICE_IT, "dispositivo"},
+/* ko */ {IDGS_DEVICE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_DEVICE_NL, "apparaat"},
+/* pl */ {IDGS_DEVICE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_DEVICE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_DEVICE_SV, "enhet"},
+/* tr */ {IDGS_DEVICE_TR, "aygýt"},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_FILE_INDEX,    N_("file_index")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_FILE_INDEX_DA, ""},  /* fuzzy */
+/* de */ {IDGS_FILE_INDEX_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_FILE_INDEX_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_FILE_INDEX_HU, ""},  /* fuzzy */
+/* it */ {IDGS_FILE_INDEX_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_FILE_INDEX_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_FILE_INDEX_NL, "bestandsindex"},
+/* pl */ {IDGS_FILE_INDEX_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_FILE_INDEX_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_FILE_INDEX_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_FILE_INDEX_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_AUTOSTART_DESCRIPTION,    N_("autostart a given disk/tape image or program")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_AUTOSTART_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_AUTOSTART_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_AUTOSTART_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_AUTOSTART_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_AUTOSTART_DESCRIPTION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MON_AUTOSTART_DESCRIPTION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_AUTOSTART_DESCRIPTION_NL, "autostart een opgegeven disk-/tapebestand of programma"},
+/* pl */ {IDGS_MON_AUTOSTART_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_AUTOSTART_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_AUTOSTART_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_AUTOSTART_DESCRIPTION_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_AUTOLOAD_DESCRIPTION,    N_("autoload given disk/tape image or program")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_AUTOLOAD_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_AUTOLOAD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_AUTOLOAD_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_AUTOLOAD_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_AUTOLOAD_DESCRIPTION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MON_AUTOLOAD_DESCRIPTION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_AUTOLOAD_DESCRIPTION_NL, "autolaad een opgegeven disk-/tapebestand of programma"},
+/* pl */ {IDGS_MON_AUTOLOAD_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_AUTOLOAD_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_AUTOLOAD_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_AUTOLOAD_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
@@ -2397,22 +2317,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS,    N_("\"<filename>\" <device> <address>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_DA, "\"<filnamn>\" <enhed> <adresse>"},
-/* de */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_DE, "\"<Dateiname>\" <Gerät> <Adresse>"},
-/* fr */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_HU, "\"<fájlnév>\" <eszköz> <cím>"},
-/* it */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_IT, "\"<nome del file>\" <periferica> <indirizzo>"},
-/* ko */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_NL, "\"<bestandsnaam>\" <aparraat> <adres>"},
-/* pl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_SV, "\"<filnamn>\" <enhet> <adress>"},
-/* tr */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS_TR, "\"<dosyaismi>\" <aygýt> <adres>"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_BLOAD_DESCRIPTION,    N_("Load the specified file into memory at the specified address.\nIf device is 0, the file is read from the file system.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BLOAD_DESCRIPTION_DA, "Indlæs den angivne fil til hukommelsen på den angivne adresse.\nHvis enhed er 0 læses fra filsystemet."},
@@ -2429,19 +2333,35 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS,    N_("<track> <sector> [<address>]")},
+/* en */ {IDGS_TRACK,    N_("track")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_DA, "<spor> <sektor> [<adresse>]"},
-/* de */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_DE, "<Spur> <Sektor> [<Adresse>]"},
-/* fr */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_HU, "<sáv> <szektor> [<cím>]"},
-/* it */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_IT, "<traccia> <settore> [<indirizzo>]"},
-/* ko */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_NL, "<spoor> <sector> [<adres>]"},
-/* pl */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_SV, "<spår> <sektor> [<adress>]"},
-/* tr */ {IDGS_P_TRACK_P_SECTOR_RP_ADDRESS_TR, "<track> <sektör> [<adres>]"},
+/* da */ {IDGS_TRACK_DA, "spor"},
+/* de */ {IDGS_TRACK_DE, "Spur"},
+/* fr */ {IDGS_TRACK_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_TRACK_HU, ""},  /* fuzzy */
+/* it */ {IDGS_TRACK_IT, "traccia"},
+/* ko */ {IDGS_TRACK_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_TRACK_NL, "spoor"},
+/* pl */ {IDGS_TRACK_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_TRACK_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_TRACK_SV, "spår"},
+/* tr */ {IDGS_TRACK_TR, "track"},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_SECTOR,    N_("sector")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_SECTOR_DA, "sektor"},
+/* de */ {IDGS_SECTOR_DE, "Sektor"},
+/* fr */ {IDGS_SECTOR_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_SECTOR_HU, ""},  /* fuzzy */
+/* it */ {IDGS_SECTOR_IT, "settore"},
+/* ko */ {IDGS_SECTOR_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_SECTOR_NL, "sector"},
+/* pl */ {IDGS_SECTOR_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_SECTOR_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_SECTOR_SV, "sektor"},
+/* tr */ {IDGS_SECTOR_TR, "sektör"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2461,22 +2381,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2,    N_("\"<filename>\" <device> <address1> <address2>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_DA, "\"<filnavn>\" <enhed> <adresse1> <adresse2>"},
-/* de */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_DE, "\"<Dateiname>\" <Gerät> <Adresse1> <Adresse2>"},
-/* fr */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_HU, "\"<fájlnév>\" <eszköz> <cím1> <cím2>"},
-/* it */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_IT, "\"<nome del file>\" <periferica> <indirizzo1> <indirizzo2>"},
-/* ko */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_NL, "\"<bestandsnaam>\" <aparraat> <adres1> <adres2>"},
-/* pl */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_SV, "\"<filnamn>\" <enhet> <adress1> <adress2>"},
-/* tr */ {IDGS_QP_FILENAME_P_DEVICE_P_ADDRESS1_P_ADDRESS2_TR, "\"<dosyaismi>\" <aygýt> <adres1> <adres2>"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_BSAVE_DESCRIPTION,    N_("Save the memory from address1 to address2 to the specified file.\nIf device is 0, the file is written to the file system.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BSAVE_DESCRIPTION_DA, "Gem hukommelsen fra adresse1 til adresse2 til den angivne fil.\nHvis enhed er 0 skrives til filsystemet."},
@@ -2493,22 +2397,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS,    N_("<track> <sector> <address>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_DA, "<spor> <sektor> <adresse>"},
-/* de */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_DE, "<Spur> <Sektor> <Adress>"},
-/* fr */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_HU, "<sáv> <szektor> <cím>"},
-/* it */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_IT, "<traccia> <settore> <indirizzo>"},
-/* ko */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_NL, "<spoor> <sector> <adres>"},
-/* pl */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_SV, "<spår> <sektor> <adress>"},
-/* tr */ {IDGS_P_TRACK_P_SECTOR_P_ADDRESS_TR, "<track> <sektör> <adres>"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION,    N_("Write a block of data at `address' on the specified track and sector\nof disk in drive 8.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_DA, "Skriv datablok på \"adresse\" til det angivne spor og sektor\npå disken i drev 8."},
@@ -2522,6 +2410,22 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_SV, "Skriv ett datablock på \"adress\" till det angivna spåret och sektorn\npå disken i enhet 8."},
 /* tr */ {IDGS_MON_BLOCK_WRITE_DESCRIPTION_TR, "Belirtilmiþ track ve sektörlerde `adres'te yer alan veri bloðunu 8\nnumaralý sürücüdeki diske yaz."},
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_DIRECTORY,    N_("directory")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_DIRECTORY_DA, "katalog"},
+/* de */ {IDGS_DIRECTORY_DE, "Verzeichnis"},
+/* fr */ {IDGS_DIRECTORY_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_DIRECTORY_HU, ""},  /* fuzzy */
+/* it */ {IDGS_DIRECTORY_IT, "directory"},
+/* ko */ {IDGS_DIRECTORY_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_DIRECTORY_NL, "directory"},
+/* pl */ {IDGS_DIRECTORY_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_DIRECTORY_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_DIRECTORY_SV, "katalog"},
+/* tr */ {IDGS_DIRECTORY_TR, "dizin"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2573,38 +2477,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_DIRECTORY,    N_("[<directory>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_DIRECTORY_DA, "[<katalog>]"},
-/* de */ {IDGS_RP_DIRECTORY_DE, "[<Verzeichnis>]"},
-/* fr */ {IDGS_RP_DIRECTORY_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_DIRECTORY_HU, "[<könyvtár>]"},
-/* it */ {IDGS_RP_DIRECTORY_IT, "[<directory>]"},
-/* ko */ {IDGS_RP_DIRECTORY_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_DIRECTORY_NL, "[<directory>]"},
-/* pl */ {IDGS_RP_DIRECTORY_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_DIRECTORY_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_DIRECTORY_SV, "[<katalog>]"},
-/* tr */ {IDGS_RP_DIRECTORY_TR, "[<dizin>]"},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_RP_DEVICE,    N_("[<directory>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_DEVICE_DA, "[<katalog>]"},
-/* de */ {IDGS_RP_DEVICE_DE, "[<Verzeichnis>]"},
-/* fr */ {IDGS_RP_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_DEVICE_HU, "[<könyvtár>]"},
-/* it */ {IDGS_RP_DEVICE_IT, "[<directory>]"},
-/* ko */ {IDGS_RP_DEVICE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_DEVICE_NL, "[<directory>]"},
-/* pl */ {IDGS_RP_DEVICE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_DEVICE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_DEVICE_SV, "[<katalog>]"},
-/* tr */ {IDGS_RP_DEVICE_TR, "[<dizin>]"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_DIR_DESCRIPTION,    N_("Display the directory contents.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_DIR_DESCRIPTION_DA, "Vis katalogets indhold."},
@@ -2634,22 +2506,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_LIST_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_LIST_DESCRIPTION_SV, "Visa diskens innehåll"},
 /* tr */ {IDGS_MON_LIST_DESCRIPTION_TR, "Disk içeriðini listele."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS,    N_("\"<filename>\" <device> [<address>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_DA, "\"<filnavn>\" <enhed> [<adresse>]"},
-/* de */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_DE, "\"<Dateiname>\" <Gerät> [<Adresse>]"},
-/* fr */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_HU, "\"<fájlnév>\" <eszköz> [<cím>]"},
-/* it */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_IT, "\"<nome del file>\" <periferica> [<indirizzo>]"},
-/* ko */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_NL, "\"<bestandsnaam>\" <apparaat> [<adres>]"},
-/* pl */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_SV, "\"<filnamn>\" <enhet> [<adress>]"},
-/* tr */ {IDGS_QP_FILENAME_P_DEVICE_RP_ADDRESS_TR, "\"<dosyaismi>\" <aygýt> [<adres>]"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2749,22 +2605,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_RP_COMMAND,    N_("[<command>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_RP_COMMAND_DA, "[<kommando>]"},
-/* de */ {IDGS_RP_COMMAND_DE, "[<Kommando>]"},
-/* fr */ {IDGS_RP_COMMAND_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RP_COMMAND_HU, "[<parancs>]"},
-/* it */ {IDGS_RP_COMMAND_IT, "[<commando>]"},
-/* ko */ {IDGS_RP_COMMAND_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_RP_COMMAND_NL, "[<commando>]"},
-/* pl */ {IDGS_RP_COMMAND_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_RP_COMMAND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_RP_COMMAND_SV, "[<kommando>]"},
-/* tr */ {IDGS_RP_COMMAND_TR, "[<komut>]"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_HELP_DESCRIPTION,    N_("If no argument is given, prints out a list of all available commands\nIf an argument is given, prints out specific help for that command.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_HELP_DESCRIPTION_DA, "Hvis der ikke angives et argument vises en liste over mulige kommandoer.\nAngives et argument vises hjælp for denne kommando."},
@@ -2781,19 +2621,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_STRING,    N_("\"<string>\"")},
+/* en */ {IDGS_STRING,    N_("string")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_STRING_DA, "\"<streng>\""},
-/* de */ {IDGS_QP_STRING_DE, "\"<Zeichenkette>\""},
-/* fr */ {IDGS_QP_STRING_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_STRING_HU, "\"<sztring>\""},
-/* it */ {IDGS_QP_STRING_IT, "\"<stringa>\""},
-/* ko */ {IDGS_QP_STRING_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_STRING_NL, "\"<string>\""},
-/* pl */ {IDGS_QP_STRING_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_STRING_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_STRING_SV, "\"<sträng>\""},
-/* tr */ {IDGS_QP_STRING_TR, "\"<yazý>\""},
+/* da */ {IDGS_STRING_DA, "streng"},
+/* de */ {IDGS_STRING_DE, "String"},
+/* fr */ {IDGS_STRING_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_STRING_HU, ""},  /* fuzzy */
+/* it */ {IDGS_STRING_IT, "stringa"},
+/* ko */ {IDGS_STRING_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_STRING_NL, "string"},
+/* pl */ {IDGS_STRING_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_STRING_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_STRING_SV, "sträng"},
+/* tr */ {IDGS_STRING_TR, "yazý"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2829,19 +2669,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_EXPRESSION,    N_("<expression>")},
+/* en */ {IDGS_EXPRESSION,    N_("expression")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_EXPRESSION_DA, "<udtryk>"},
-/* de */ {IDGS_P_EXPRESSION_DE, "<Bedingung>"},
-/* fr */ {IDGS_P_EXPRESSION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_EXPRESSION_HU, "<kifejezés>"},
-/* it */ {IDGS_P_EXPRESSION_IT, "<espressione>"},
-/* ko */ {IDGS_P_EXPRESSION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_EXPRESSION_NL, "<expressie>"},
-/* pl */ {IDGS_P_EXPRESSION_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_EXPRESSION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_EXPRESSION_SV, "<uttryck>"},
-/* tr */ {IDGS_P_EXPRESSION_TR, "<ifade>"},
+/* da */ {IDGS_EXPRESSION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_EXPRESSION_DE, "Ausdruck"},
+/* fr */ {IDGS_EXPRESSION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_EXPRESSION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_EXPRESSION_IT, "espressione"},
+/* ko */ {IDGS_EXPRESSION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_EXPRESSION_NL, "expressie"},
+/* pl */ {IDGS_EXPRESSION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_EXPRESSION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_EXPRESSION_SV, "uttryck"},
+/* tr */ {IDGS_EXPRESSION_TR, "ifade"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2877,19 +2717,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_RESOURCE,    N_("\"<resource>\"")},
+/* en */ {IDGS_RESOURCE,    N_("resource")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_RESOURCE_DA, "\"<resource>\""},
-/* de */ {IDGS_QP_RESOURCE_DE, "\"<Ressource>\""},
-/* fr */ {IDGS_QP_RESOURCE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_RESOURCE_HU, "\"<erõforrás>\""},
-/* it */ {IDGS_QP_RESOURCE_IT, "\"<risorsa>\""},
-/* ko */ {IDGS_QP_RESOURCE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_RESOURCE_NL, "\"<resource>\""},
-/* pl */ {IDGS_QP_RESOURCE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_RESOURCE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_RESOURCE_SV, "\"<resurs>\""},
-/* tr */ {IDGS_QP_RESOURCE_TR, "\"<kaynak>\""},
+/* da */ {IDGS_RESOURCE_DA, "resource"},
+/* de */ {IDGS_RESOURCE_DE, "Ressource"},
+/* fr */ {IDGS_RESOURCE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_RESOURCE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_RESOURCE_IT, "risorsa"},
+/* ko */ {IDGS_RESOURCE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_RESOURCE_NL, "bron"},
+/* pl */ {IDGS_RESOURCE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_RESOURCE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_RESOURCE_SV, "resurs"},
+/* tr */ {IDGS_RESOURCE_TR, "kaynak"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2909,19 +2749,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_RESOURCE_QP_VALUE,    N_("\"<resource>\" \"<value>\"")},
+/* en */ {IDGS_VALUE,    N_("value")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_RESOURCE_QP_VALUE_DA, "\"<resource>\" \"<værdi>\""},
-/* de */ {IDGS_QP_RESOURCE_QP_VALUE_DE, "\"<Ressource>\" \"<Wert>\""},
-/* fr */ {IDGS_QP_RESOURCE_QP_VALUE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_RESOURCE_QP_VALUE_HU, "\"<erõforrás>\" \"<érték>\""},
-/* it */ {IDGS_QP_RESOURCE_QP_VALUE_IT, "\"<risorsa>\" \"<valore>\""},
-/* ko */ {IDGS_QP_RESOURCE_QP_VALUE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_RESOURCE_QP_VALUE_NL, "\"<resource>\" \"<waarde>\""},
-/* pl */ {IDGS_QP_RESOURCE_QP_VALUE_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_RESOURCE_QP_VALUE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_RESOURCE_QP_VALUE_SV, "\"<resurs>\" \"<värde>\""},
-/* tr */ {IDGS_QP_RESOURCE_QP_VALUE_TR, "\"<kaynak>\" \"<deðer>\""},
+/* da */ {IDGS_VALUE_DA, "værdi"},
+/* de */ {IDGS_VALUE_DE, "Wert"},
+/* fr */ {IDGS_VALUE_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_VALUE_HU, ""},  /* fuzzy */
+/* it */ {IDGS_VALUE_IT, "valore"},
+/* ko */ {IDGS_VALUE_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_VALUE_NL, "waarde"},
+/* pl */ {IDGS_VALUE_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_VALUE_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_VALUE_SV, "värde"},
+/* tr */ {IDGS_VALUE_TR, "deðer"},
 #endif
 
 /* monitor/mon_command.c */
@@ -2957,22 +2797,6 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_QP_FILENAME_RP_FORMAT,    N_("\"<filename>\" [<format>]")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_QP_FILENAME_RP_FORMAT_DA, "\"<filnavn>\" [<format>]"},
-/* de */ {IDGS_QP_FILENAME_RP_FORMAT_DE, "\"<Dateiname>\" [<Format>]"},
-/* fr */ {IDGS_QP_FILENAME_RP_FORMAT_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_QP_FILENAME_RP_FORMAT_HU, "\"<fájlnév>\" [<formátum>]"},
-/* it */ {IDGS_QP_FILENAME_RP_FORMAT_IT, "\"<nome del file>\" [<formato>]"},
-/* ko */ {IDGS_QP_FILENAME_RP_FORMAT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_QP_FILENAME_RP_FORMAT_NL, "\"<bestandsnaam>\" [<formaat>]"},
-/* pl */ {IDGS_QP_FILENAME_RP_FORMAT_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_QP_FILENAME_RP_FORMAT_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_QP_FILENAME_RP_FORMAT_SV, "\"<filnamn>\" [<format>]"},
-/* tr */ {IDGS_QP_FILENAME_RP_FORMAT_TR, "\"<dosyaismi>\" [<biçim>]"},
-#endif
-
-/* monitor/mon_command.c */
 /* en */ {IDGS_MON_SCREENSHOT_DESCRIPTION,    N_("Take a screenshot. Format is:\ndefault = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SCREENSHOT_DESCRIPTION_DA, "Gem et screenshot. Format er:\nstandard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
@@ -2986,22 +2810,6 @@ translate_t string_table[] = {
 /* ru */ {IDGS_MON_SCREENSHOT_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_SCREENSHOT_DESCRIPTION_SV, "Ta en skärmbild. Format är:\nstandard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
 /* tr */ {IDGS_MON_SCREENSHOT_DESCRIPTION_TR, "Ekran görüntüsü al. Biçim:\nvarsayýlan = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."},
-#endif
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_P_COMMAND,    N_("<command>")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_COMMAND_DA, "<kommando>"},
-/* de */ {IDGS_P_COMMAND_DE, "<Kommando>"},
-/* fr */ {IDGS_P_COMMAND_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_COMMAND_HU, "<parancs>"},
-/* it */ {IDGS_P_COMMAND_IT, "<commando>"},
-/* ko */ {IDGS_P_COMMAND_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_COMMAND_NL, "<commando>"},
-/* pl */ {IDGS_P_COMMAND_PL, ""},  /* fuzzy */
-/* ru */ {IDGS_P_COMMAND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_COMMAND_SV, "<kommando>"},
-/* tr */ {IDGS_P_COMMAND_TR, "<komut>"},
 #endif
 
 /* monitor/mon_command.c */
@@ -3574,7 +3382,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_P_REVISION_FR, "<revision>"},
 /* hu */ {IDCLS_P_REVISION_HU, "<változat>"},
 /* it */ {IDCLS_P_REVISION_IT, "<revisione>"},
-/* ko */ {IDCLS_P_REVISION_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_REVISION_KO, "<¼öÁ¤>"},
 /* nl */ {IDCLS_P_REVISION_NL, "<revisie>"},
 /* pl */ {IDCLS_P_REVISION_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_REVISION_RU, ""},  /* fuzzy */
@@ -6957,7 +6765,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_P_TYPE_FR, "<type>"},
 /* hu */ {IDCLS_P_TYPE_HU, "<típus>"},
 /* it */ {IDCLS_P_TYPE_IT, "<tipo>"},
-/* ko */ {IDCLS_P_TYPE_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_TYPE_KO, "<Á¾·ù>"},
 /* nl */ {IDCLS_P_TYPE_NL, "<soort>"},
 /* pl */ {IDCLS_P_TYPE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_TYPE_RU, ""},  /* fuzzy */
