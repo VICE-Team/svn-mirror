@@ -2434,7 +2434,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_P_DIRECTORY_DA, "<katalog>"},
 /* de */ {IDGS_P_DIRECTORY_DE, "<Verzeichnis>"},
 /* fr */ {IDGS_P_DIRECTORY_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_P_DIRECTORY_HU, "<könyvtár>"},
+/* hu */ {IDGS_P_DIRECTORY_HU, ""},  /* fuzzy */
 /* it */ {IDGS_P_DIRECTORY_IT, "<directory>"},
 /* ko */ {IDGS_P_DIRECTORY_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_P_DIRECTORY_NL, "<directory>"},
@@ -3379,8 +3379,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_REVISION_DA, "<revision>"},
 /* de */ {IDCLS_P_REVISION_DE, "<Revision>"},
-/* fr */ {IDCLS_P_REVISION_FR, "<revision>"},
-/* hu */ {IDCLS_P_REVISION_HU, "<változat>"},
+/* fr */ {IDCLS_P_REVISION_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_REVISION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_REVISION_IT, "<revisione>"},
 /* ko */ {IDCLS_P_REVISION_KO, "<¼öÁ¤>"},
 /* nl */ {IDCLS_P_REVISION_NL, "<revisie>"},
@@ -3448,8 +3448,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NUMBER_DA, "<nummer>"},
 /* de */ {IDCLS_P_NUMBER_DE, "<Nummer>"},
-/* fr */ {IDCLS_P_NUMBER_FR, "<numero>"},
-/* hu */ {IDCLS_P_NUMBER_HU, "<szám>"},
+/* fr */ {IDCLS_P_NUMBER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_NUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_NUMBER_IT, "<numero>"},
 /* ko */ {IDCLS_P_NUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_NUMBER_NL, "<nummer>"},
@@ -4036,8 +4036,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SIZE_IN_KB_DA, "<størrelse i KB>"},
 /* de */ {IDCLS_P_SIZE_IN_KB_DE, "<Größe in KB>"},
-/* fr */ {IDCLS_P_SIZE_IN_KB_FR, "<taille en KO>"},
-/* hu */ {IDCLS_P_SIZE_IN_KB_HU, "<méret KB-ban>"},
+/* fr */ {IDCLS_P_SIZE_IN_KB_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SIZE_IN_KB_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SIZE_IN_KB_IT, "<dimensione in KB>"},
 /* ko */ {IDCLS_P_SIZE_IN_KB_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_SIZE_IN_KB_NL, "<grootte in KB>"},
@@ -6231,8 +6231,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_MODELNUMBER_DA, "<modelnummer>"},
 /* de */ {IDCLS_P_MODELNUMBER_DE, "<Modell Nummer>"},
-/* fr */ {IDCLS_P_MODELNUMBER_FR, "<numerodemodele>"},
-/* hu */ {IDCLS_P_MODELNUMBER_HU, "<modellszám>"},
+/* fr */ {IDCLS_P_MODELNUMBER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_MODELNUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_MODELNUMBER_IT, "<numero di modello>"},
 /* ko */ {IDCLS_P_MODELNUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_MODELNUMBER_NL, "<modelnummer>"},
@@ -6295,8 +6295,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_LINENUMBER_DA, "<linjenummer>"},
 /* de */ {IDCLS_P_LINENUMBER_DE, "<Zeilennummer>"},
-/* fr */ {IDCLS_P_LINENUMBER_FR, "<numérodeligne>"},
-/* hu */ {IDCLS_P_LINENUMBER_HU, "<sorszám>"},
+/* fr */ {IDCLS_P_LINENUMBER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_LINENUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_LINENUMBER_IT, "<numero di linea>"},
 /* ko */ {IDCLS_P_LINENUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_LINENUMBER_NL, "<lijnnummer>"},
@@ -6327,8 +6327,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_RAMSIZE_DA, "<ramstørrelse>"},
 /* de */ {IDCLS_P_RAMSIZE_DE, "<RAM Größe>"},
-/* fr */ {IDCLS_P_RAMSIZE_FR, "<tailleram>"},
-/* hu */ {IDCLS_P_RAMSIZE_HU, "<ramméret>"},
+/* fr */ {IDCLS_P_RAMSIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_RAMSIZE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_RAMSIZE_IT, "<dimensione della ram>"},
 /* ko */ {IDCLS_P_RAMSIZE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_RAMSIZE_NL, "<geheugengrootte>"},
@@ -6762,8 +6762,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_TYPE_DA, "<type>"},
 /* de */ {IDCLS_P_TYPE_DE, "<Typ>"},
-/* fr */ {IDCLS_P_TYPE_FR, "<type>"},
-/* hu */ {IDCLS_P_TYPE_HU, "<típus>"},
+/* fr */ {IDCLS_P_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_TYPE_IT, "<tipo>"},
 /* ko */ {IDCLS_P_TYPE_KO, "<Á¾·ù>"},
 /* nl */ {IDCLS_P_TYPE_NL, "<soort>"},
@@ -6796,8 +6796,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_METHOD_DA, "<metode>"},
 /* de */ {IDCLS_P_METHOD_DE, "<Methode>"},
-/* fr */ {IDCLS_P_METHOD_FR, "<methode>"},
-/* hu */ {IDCLS_P_METHOD_HU, "<mód>"},
+/* fr */ {IDCLS_P_METHOD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_METHOD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_METHOD_IT, "<metodo>"},
 /* ko */ {IDCLS_P_METHOD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_METHOD_NL, "<methode>"},
@@ -8384,8 +8384,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_BAUD_DA, "<baud>"},
 /* de */ {IDCLS_P_BAUD_DE, "<Baud>"},
-/* fr */ {IDCLS_P_BAUD_FR, "<baud>"},
-/* hu */ {IDCLS_P_BAUD_HU, "<bitráta>"},
+/* fr */ {IDCLS_P_BAUD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_BAUD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_BAUD_IT, "<baud>"},
 /* ko */ {IDCLS_P_BAUD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_BAUD_NL, "<baud>"},
@@ -8625,7 +8625,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_ENGINE_MODEL_DA, "<motor og model>"},
 /* de */ {IDCLS_P_ENGINE_MODEL_DE, "<Engine und Modell>"},
 /* fr */ {IDCLS_P_ENGINE_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_ENGINE_MODEL_HU, "<motor és modell>"},
+/* hu */ {IDCLS_P_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ENGINE_MODEL_IT, "<motore e modello>"},
 /* ko */ {IDCLS_P_ENGINE_MODEL_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ENGINE_MODEL_NL, "<kern en model>"},
@@ -8810,8 +8810,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_BASE_ADDRESS_DA, "<baseadresse>"},
 /* de */ {IDCLS_P_BASE_ADDRESS_DE, "<Basis Adresse>"},
-/* fr */ {IDCLS_P_BASE_ADDRESS_FR, "<adresse de base>"},
-/* hu */ {IDCLS_P_BASE_ADDRESS_HU, "<báziscím>"},
+/* fr */ {IDCLS_P_BASE_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_BASE_ADDRESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_BASE_ADDRESS_IT, "<indirizzo base>"},
 /* ko */ {IDCLS_P_BASE_ADDRESS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_BASE_ADDRESS_NL, "<basisadres>"},
@@ -8891,8 +8891,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_PERCENT_DA, "<procent>"},
 /* de */ {IDCLS_P_PERCENT_DE, "<prozent>"},
-/* fr */ {IDCLS_P_PERCENT_FR, "<pourcent>"},
-/* hu */ {IDCLS_P_PERCENT_HU, "<százalék>"},
+/* fr */ {IDCLS_P_PERCENT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_PERCENT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_PERCENT_IT, "<percento>"},
 /* ko */ {IDCLS_P_PERCENT_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_PERCENT_NL, "<procent>"},
@@ -9004,8 +9004,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SPEC_DA, "<spec>"},
 /* de */ {IDCLS_P_SPEC_DE, "<Spec>"},
-/* fr */ {IDCLS_P_SPEC_FR, "<spec>"},
-/* hu */ {IDCLS_P_SPEC_HU, "<spec>"},
+/* fr */ {IDCLS_P_SPEC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SPEC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SPEC_IT, "<spec>"},
 /* ko */ {IDCLS_P_SPEC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_SPEC_NL, "<spec>"},
@@ -9612,8 +9612,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_DEVICE_DA, "<enhed>"},
 /* de */ {IDCLS_P_DEVICE_DE, "<Gerät>"},
-/* fr */ {IDCLS_P_DEVICE_FR, "<périphérique>"},
-/* hu */ {IDCLS_P_DEVICE_HU, "<eszköz>"},
+/* fr */ {IDCLS_P_DEVICE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_DEVICE_IT, "<dispositivo>"},
 /* ko */ {IDCLS_P_DEVICE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_DEVICE_NL, "<apparaat>"},
@@ -9644,8 +9644,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_MODE_DA, "<tilstand>"},
 /* de */ {IDCLS_P_MODE_DE, "<Modus>"},
-/* fr */ {IDCLS_P_MODE_FR, "<mode>"},
-/* hu */ {IDCLS_P_MODE_HU, "<mód>"},
+/* fr */ {IDCLS_P_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_MODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_MODE_IT, "<modalità>"},
 /* ko */ {IDCLS_P_MODE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_MODE_NL, "<modus>"},
@@ -10359,7 +10359,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_FILE_DA, "<filnavn>"},
 /* de */ {IDCLS_P_FILE_DE, "<Dateiname>"},
 /* fr */ {IDCLS_P_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_FILE_HU, "<fájlnév>"},
+/* hu */ {IDCLS_P_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_FILE_IT, "<nome file>"},
 /* ko */ {IDCLS_P_FILE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_FILE_NL, "<bestandsnaam>"},
@@ -10502,8 +10502,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_STRING_DA, "<streng>"},
 /* de */ {IDCLS_P_STRING_DE, "<String>"},
-/* fr */ {IDCLS_P_STRING_FR, "<chaine>"},
-/* hu */ {IDCLS_P_STRING_HU, "<sztring>"},
+/* fr */ {IDCLS_P_STRING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_STRING_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_STRING_IT, "<stringa>"},
 /* ko */ {IDCLS_P_STRING_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_STRING_NL, "<string>"},
@@ -10678,8 +10678,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NUM_OF_BYTES_DA, "<antal bytes>"},
 /* de */ {IDCLS_P_NUM_OF_BYTES_DE, "<Anzahl an Bytes>"},
-/* fr */ {IDCLS_P_NUM_OF_BYTES_FR, "<nombre d'octets>"},
-/* hu */ {IDCLS_P_NUM_OF_BYTES_HU, "<bájtok száma>"},
+/* fr */ {IDCLS_P_NUM_OF_BYTES_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_NUM_OF_BYTES_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_NUM_OF_BYTES_IT, "<numero di byte>"},
 /* ko */ {IDCLS_P_NUM_OF_BYTES_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_NUM_OF_BYTES_NL, "<aantal bytes>"},
@@ -10822,8 +10822,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ARGS_DA, "<argumenter>"},
 /* de */ {IDCLS_P_ARGS_DE, "<Argumente>"},
-/* fr */ {IDCLS_P_ARGS_FR, "<args>"},
-/* hu */ {IDCLS_P_ARGS_HU, "<argumentumok>"},
+/* fr */ {IDCLS_P_ARGS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ARGS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ARGS_IT, "<argomenti>"},
 /* ko */ {IDCLS_P_ARGS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ARGS_NL, "<parameters>"},
@@ -10886,8 +10886,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SYNC_DA, "<sync>"},
 /* de */ {IDCLS_P_SYNC_DE, "<Sync>"},
-/* fr */ {IDCLS_P_SYNC_FR, "<sync>"},
-/* hu */ {IDCLS_P_SYNC_HU, "<sync>"},
+/* fr */ {IDCLS_P_SYNC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SYNC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SYNC_IT, "<sync>"},
 /* ko */ {IDCLS_P_SYNC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_SYNC_NL, "<sync>"},
@@ -10918,8 +10918,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_PATH_DA, "<sti>"},
 /* de */ {IDCLS_P_PATH_DE, "<Pfad>"},
-/* fr */ {IDCLS_P_PATH_FR, "<chemin>"},
-/* hu */ {IDCLS_P_PATH_HU, "<elérési út>"},
+/* fr */ {IDCLS_P_PATH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_PATH_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_PATH_IT, "<percorso>"},
 /* ko */ {IDCLS_P_PATH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_PATH_NL, "<pad>"},
@@ -11046,8 +11046,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ISO_LANGUAGE_CODE_DA, "<iso-sprogkode>"},
 /* de */ {IDCLS_P_ISO_LANGUAGE_CODE_DE, "<iso Sprachcode>"},
-/* fr */ {IDCLS_P_ISO_LANGUAGE_CODE_FR, "<iso language code>"},
-/* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, "<iso nyelv kód>"},
+/* fr */ {IDCLS_P_ISO_LANGUAGE_CODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, "<codice iso lingua>"},
 /* ko */ {IDCLS_P_ISO_LANGUAGE_CODE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ISO_LANGUAGE_CODE_NL, "<iso taalcode>"},

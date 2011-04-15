@@ -125,6 +125,8 @@ static void close_all(void)
 
 static char *trailtest(char *text)
 {
+    int i = 1;
+    int j = 0;
     char *sub = NULL;
 
     sub = strstr(text, "...\0");
@@ -162,15 +164,37 @@ static char *trailtest(char *text)
         return sub + 1;
     }
 
+    if (text[0] == '<' && strstr(text, ">\0") != NULL) {
+        while (text[i] != '>') {
+            text[j++] = text[i++];
+        }
+        text[j] = 0;
+        return ">";
+    }
+
     return NULL;
 }
 
-static void write_converted_text(char *text1, char *extra_text)
+static char *prefix_test(char *text)
+{
+    if (text[0] == '<' && strstr(text, ">\0") != NULL) {
+        return "<";
+    }
+
+    return NULL;
+}
+
+static void write_converted_text(char *text1, char *prefix_text, char *trail_text)
 {
     char *text2 = malloc(strlen(text1) * 3);
     int i;
     int counter = 0;
 
+    if (prefix_text != NULL) {
+        for (i = 0; prefix_text[i] != 0; i++) {
+            text2[counter++] = prefix_text[i];
+        }
+    }
     for (i = 0; text1[i] != 0; i++) {
         if (text1[i] == '"') {
             text2[counter++] = '\\';
@@ -185,12 +209,12 @@ static void write_converted_text(char *text1, char *extra_text)
             text2[counter++] = text1[i];
         }
     }
-    if (extra_text != NULL) {
-        if (extra_text[0] == '(') {
+    if (trail_text != NULL) {
+        if (trail_text[0] == '(') {
             text2[counter++] = ' ';
         }
-        for (i = 0; extra_text[i] != 0; i++) {
-            text2[counter++] = extra_text[i];
+        for (i = 0; trail_text[i] != 0; i++) {
+            text2[counter++] = trail_text[i];
         }
     }
     text2[counter] = 0;
@@ -206,7 +230,8 @@ int main(int argc, char *argv[])
     int text_start;
     char *id_string;
     char *text_string;
-    char *extra_string;
+    char *trail_string;
+    char *prefix_string;
     char *text_string_orig;
 
     infile = fopen("../src/translate_text.c", "rb");
@@ -280,11 +305,12 @@ int main(int argc, char *argv[])
             id_string = strdup(line_buffer + id_start);
             text_string = strdup(line_buffer + text_start);
             fprintf(outfile, "/* en */ {%s,    N_(\"", line_buffer + id_start);
-            write_converted_text(text_string, NULL);
+            write_converted_text(text_string, NULL, NULL);
 
             text_string_orig = strdup(text_string);
 
-            extra_string = trailtest(text_string);
+            prefix_string = prefix_test(text_string);
+            trail_string = trailtest(text_string);
 
             fprintf(outfile, "\")},\n#ifdef HAS_TRANSLATION\n/* da */ {%s_DA, \"", id_string);
             for (i = 0; text[i].msgid != NULL; i++) {
@@ -292,12 +318,13 @@ int main(int argc, char *argv[])
                     break;
                 }
                 if (!strcmp(text[i].msgid, text_string_orig)) {
-                    extra_string = NULL;
+                    prefix_string = NULL;
+                    trail_string = NULL;
                     break;
                 }
             }
             if (strlen(text[i].msgstr_da) != 0) {
-                write_converted_text(text[i].msgstr_da, extra_string);
+                write_converted_text(text[i].msgstr_da, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_da) == 0) {
@@ -306,7 +333,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* de */ {%s_DE, \"", id_string);
 
             if (strlen(text[i].msgstr_de) != 0) {
-                write_converted_text(text[i].msgstr_de, extra_string);
+                write_converted_text(text[i].msgstr_de, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_de) == 0) {
@@ -315,7 +342,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* fr */ {%s_FR, \"", id_string);
 
             if (strlen(text[i].msgstr_fr) != 0) {
-                write_converted_text(text[i].msgstr_fr, extra_string);
+                write_converted_text(text[i].msgstr_fr, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_fr) == 0) {
@@ -324,7 +351,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* hu */ {%s_HU, \"", id_string);
 
             if (strlen(text[i].msgstr_hu) != 0) {
-                write_converted_text(text[i].msgstr_hu, extra_string);
+                write_converted_text(text[i].msgstr_hu, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_hu) == 0) {
@@ -333,7 +360,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* it */ {%s_IT, \"", id_string);
 
             if (strlen(text[i].msgstr_it) != 0) {
-                write_converted_text(text[i].msgstr_it, extra_string);
+                write_converted_text(text[i].msgstr_it, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_it) == 0) {
@@ -342,7 +369,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* ko */ {%s_KO, \"", id_string);
 
             if (strlen(text[i].msgstr_ko) != 0) {
-                write_converted_text(text[i].msgstr_ko, extra_string);
+                write_converted_text(text[i].msgstr_ko, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_ko) == 0) {
@@ -351,7 +378,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* nl */ {%s_NL, \"", id_string);
 
             if (strlen(text[i].msgstr_nl) != 0) {
-                write_converted_text(text[i].msgstr_nl, extra_string);
+                write_converted_text(text[i].msgstr_nl, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_nl) == 0) {
@@ -360,7 +387,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* pl */ {%s_PL, \"", id_string);
 
             if (strlen(text[i].msgstr_pl) != 0) {
-                write_converted_text(text[i].msgstr_pl, extra_string);
+                write_converted_text(text[i].msgstr_pl, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_pl) == 0) {
@@ -369,7 +396,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* ru */ {%s_RU, \"", id_string);
 
             if (strlen(text[i].msgstr_ru) != 0) {
-                write_converted_text(text[i].msgstr_ru, extra_string);
+                write_converted_text(text[i].msgstr_ru, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_ru) == 0) {
@@ -378,7 +405,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* sv */ {%s_SV, \"", id_string);
 
             if (strlen(text[i].msgstr_sv) != 0) {
-                write_converted_text(text[i].msgstr_sv, extra_string);
+                write_converted_text(text[i].msgstr_sv, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_sv) == 0) {
@@ -387,7 +414,7 @@ int main(int argc, char *argv[])
             fprintf(outfile, "\n/* tr */ {%s_TR, \"", id_string);
 
             if (strlen(text[i].msgstr_tr) != 0) {
-                write_converted_text(text[i].msgstr_tr, extra_string);
+                write_converted_text(text[i].msgstr_tr, prefix_string, trail_string);
             }
             fprintf(outfile, "\"},");
             if (strlen(text[i].msgstr_tr) == 0) {

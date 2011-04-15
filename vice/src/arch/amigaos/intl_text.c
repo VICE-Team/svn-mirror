@@ -1189,7 +1189,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_AUTO_FR, "Automatique" },
 /* hu */ { IDMS_AUTO_HU, "Automatikus" },
 /* it */ { IDMS_AUTO_IT, "Auto" },
-/* ko */ { IDMS_AUTO_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_AUTO_KO, "ÀÚµ¿" },
 /* nl */ { IDMS_AUTO_NL, "Auto" },
 /* pl */ { IDMS_AUTO_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_AUTO_RU, "" },  /* fuzzy */
@@ -3607,7 +3607,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_DISCONNECT_FR, "Se déconnecter du serveur" },
 /* hu */ { IDS_DISCONNECT_HU, "Szétkapcsolódás" },
 /* it */ { IDS_DISCONNECT_IT, "Disconnetti" },
-/* ko */ { IDS_DISCONNECT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_DISCONNECT_KO, "¿¬°áÀ» ²÷´Ù" },
 /* nl */ { IDS_DISCONNECT_NL, "Verbreek verbinding" },
 /* pl */ { IDS_DISCONNECT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DISCONNECT_RU, "" },  /* fuzzy */
@@ -5415,7 +5415,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_KEYPAD_FR, "" },  /* fuzzy */
 /* hu */ { IDS_KEYPAD_HU, "Numerikus billentyûk" },
 /* it */ { IDS_KEYPAD_IT, "Tastierino numerico" },
-/* ko */ { IDS_KEYPAD_KO, "" },  /* fuzzy */
+/* ko */ { IDS_KEYPAD_KO, "³ÊÆÐµå" },
 /* nl */ { IDS_KEYPAD_NL, "Numpad" },
 /* pl */ { IDS_KEYPAD_PL, "" },  /* fuzzy */
 /* ru */ { IDS_KEYPAD_RU, "" },  /* fuzzy */
@@ -7079,7 +7079,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CYLINDERS_FR, "Cylindres" },
 /* hu */ { IDS_CYLINDERS_HU, "Sávok" },
 /* it */ { IDS_CYLINDERS_IT, "Cilindri" },
-/* ko */ { IDS_CYLINDERS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CYLINDERS_KO, "½Ç¸°´õ" },
 /* nl */ { IDS_CYLINDERS_NL, "Cylinders" },
 /* pl */ { IDS_CYLINDERS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_CYLINDERS_RU, "" },  /* fuzzy */
@@ -7092,7 +7092,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_HEADS_FR, "Têtes" },
 /* hu */ { IDS_HEADS_HU, "Fejek" },
 /* it */ { IDS_HEADS_IT, "Testine" },
-/* ko */ { IDS_HEADS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_HEADS_KO, "Çìµå" },
 /* nl */ { IDS_HEADS_NL, "Koppen" },
 /* pl */ { IDS_HEADS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_HEADS_RU, "" },  /* fuzzy */
@@ -7105,7 +7105,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SECTORS_FR, "Secteurs" },
 /* hu */ { IDS_SECTORS_HU, "Szektorok" },
 /* it */ { IDS_SECTORS_IT, "Settori" },
-/* ko */ { IDS_SECTORS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SECTORS_KO, "¼½ÅÍ" },
 /* nl */ { IDS_SECTORS_NL, "Sectors" },
 /* pl */ { IDS_SECTORS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SECTORS_RU, "" },  /* fuzzy */
@@ -7846,7 +7846,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_TINT_0_2_FR, "" },  /* fuzzy */
 /* hu */ { IDS_TINT_0_2_HU, "Szín (0..2)" },
 /* it */ { IDS_TINT_0_2_IT, "Sfumatura (0..2)" },
-/* ko */ { IDS_TINT_0_2_KO, "" },  /* fuzzy */
+/* ko */ { IDS_TINT_0_2_KO, "Æ¾Æ® (0..2)" },
 /* nl */ { IDS_TINT_0_2_NL, "Tint (0..2)" },
 /* pl */ { IDS_TINT_0_2_PL, "" },  /* fuzzy */
 /* ru */ { IDS_TINT_0_2_RU, "" },  /* fuzzy */
@@ -8834,7 +8834,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_MOUSE_PADDLES_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MOUSE_PADDLES_HU, "" },  /* fuzzy */
 /* it */ { IDS_MOUSE_PADDLES_IT, "Paddle" },
-/* ko */ { IDS_MOUSE_PADDLES_KO, "" },  /* fuzzy */
+/* ko */ { IDS_MOUSE_PADDLES_KO, "ÆÐµé" },
 /* nl */ { IDS_MOUSE_PADDLES_NL, "Paddles" },
 /* pl */ { IDS_MOUSE_PADDLES_PL, "" },  /* fuzzy */
 /* ru */ { IDS_MOUSE_PADDLES_RU, "" },  /* fuzzy */

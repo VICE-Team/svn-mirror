@@ -306,6 +306,24 @@ static void remove_trailing_range(char *text)
     sub[j] = 0;
 }
 
+void remove_brackets(char *text)
+{
+    char *sub;
+    int i = 2;
+    int j = 1;
+
+    sub = strstr(text, "\"<");
+
+    while(sub[i] != '>') {
+        sub[j++] = sub[i++];
+    }
+    i++;
+    while (sub[i] != 0) {
+        sub[j++] = sub[i++];
+    }
+    sub[j] = 0;
+}
+
 void replace_string(char *text, FILE *file)
 {
     int i, j;
@@ -328,6 +346,10 @@ void replace_string(char *text, FILE *file)
 
     if (strstr(text, "..") != NULL) {
         remove_trailing_range(text);
+    }
+
+    if (strstr(text, "\"<") != NULL && strstr(text, ">\"") != NULL) {
+        remove_brackets(text);
     }
 
     if (check_quote(text) == 0) {

@@ -222,9 +222,9 @@ BEGIN
     IDS_IDE64_IMAGE_4      "HD image #4 file"
     IDS_IDE64_GEOMETRY     "Geometry"
     IDS_IDE64_AUTODETECT   "Autodetect"
-    IDS_IDE64_CYLINDERS    "Cylinders"
-    IDS_IDE64_HEADS        "Heads"
-    IDS_IDE64_SECTORS      "Sectors"
+    IDS_IDE64_CYLINDERS    "실린더"
+    IDS_IDE64_HEADS        "헤드"
+    IDS_IDE64_SECTORS      "섹터"
     IDS_IDE64_TOTAL_SIZE   "Total size"
     IDS_IDE64_SELECT_IMAGE "Select HD image file"
 END
