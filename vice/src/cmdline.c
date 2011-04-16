@@ -254,7 +254,7 @@ char *cmdline_options_string(void)
         add_to_options3 = lib_msprintf("\n\t%s\n", cmdline_options_get_description(i));
         if (options[i].need_arg && cmdline_options_get_param(i) != NULL) {
             if (options[i].need_arg == -1) {
-                add_to_options2 = lib_msprintf(" <%s>", cmdline_options_get_para,(i));
+                add_to_options2 = lib_msprintf(" <%s>", cmdline_options_get_param(i));
             } else {
                 add_to_options2 = lib_msprintf(" %s", cmdline_options_get_param(i));
             }
