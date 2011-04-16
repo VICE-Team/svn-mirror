@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-04-15 16:19-0700\n"
-"PO-Revision-Date: 2011-04-12 22:47+0200\n"
+"PO-Revision-Date: 2011-04-16 13:10+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9016,19 +9016,16 @@ msgid "device"
 msgstr "Gerät"
 
 #: src/translate_text.c.po.c:2232
-#, fuzzy
 msgid "file_index"
-msgstr "<Dateiname>"
+msgstr "Datei_Index"
 
 #: src/translate_text.c.po.c:2248
-#, fuzzy
 msgid "autostart a given disk/tape image or program"
-msgstr "Autostart von Disk/Band Image"
+msgstr "Autostart ein Disk/Band Image oder Programm"
 
 #: src/translate_text.c.po.c:2264
-#, fuzzy
 msgid "autoload given disk/tape image or program"
-msgstr "Autostart von Disk/Band Image"
+msgstr "Autoload ein Disk/Band Image oder Programm"
 
 #: src/translate_text.c.po.c:2280
 msgid "Attach file to device. (device 32 = cart)"
