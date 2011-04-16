@@ -270,19 +270,19 @@ static ui_menu_entry_t add_to_generic_cart_submenu[] = {
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_DETECT, NULL,
       KEYSYM_c, UI_HOTMOD_META },
-    { N_("Attach 4/8/16kB image at $2000"), UI_MENU_TYPE_DOTS,
+    { N_("Attach 4/8/16KB cartridge image at $2000"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_16KB_2000, NULL },
-    { N_("Attach 4/8/16kB image at $4000"), UI_MENU_TYPE_DOTS,
+    { N_("Attach 4/8/16KB cartridge image at $4000"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_16KB_4000, NULL },
-    { N_("Attach 4/8/16kB image at $6000"), UI_MENU_TYPE_DOTS,
+    { N_("Attach 4/8/16KB cartridge image at $6000"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_16KB_6000, NULL },
-    { N_("Attach 4/8kB image at $A000"), UI_MENU_TYPE_DOTS,
+    { N_("Attach 4/8KB cartridge image at $A000"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_8KB_A000, NULL },
-    { N_("Attach 4kB image at $B000"), UI_MENU_TYPE_DOTS,
+    { N_("Attach 4KB cartridge image at $B000"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge,
       (ui_callback_data_t)CARTRIDGE_VIC20_4KB_B000, NULL },
     { NULL }
@@ -352,7 +352,7 @@ static ui_menu_entry_t megacart_submenu[] = {
 };
 
 static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
-    { N_("Attach a cartridge image"), UI_MENU_TYPE_NORMAL,
+    { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_cartridge_image_submenu },
     { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_cartridge, NULL, NULL },

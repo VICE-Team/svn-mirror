@@ -156,18 +156,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FLIP_LIST_SV, "Vallista" },
 /* tr */ { IDMS_FLIP_LIST_TR, "Sýralama listesi" },
 
-/* en */ { IDMS_ADD_CURRENT_IMAGE,    "Add current image" },
-/* da */ { IDMS_ADD_CURRENT_IMAGE_DA, "Tilføj aktuelt image" },
-/* de */ { IDMS_ADD_CURRENT_IMAGE_DE, "Aktuelles Image hinzufügen" },
-/* fr */ { IDMS_ADD_CURRENT_IMAGE_FR, "Ajouter l'image de disque courante" },
-/* hu */ { IDMS_ADD_CURRENT_IMAGE_HU, "Az aktuális képmás hozzáadása" },
-/* it */ { IDMS_ADD_CURRENT_IMAGE_IT, "Aggiungi immagine attuale" },
+/* en */ { IDMS_ADD_CURRENT_IMAGE,    "Add current image (Unit 8)" },
+/* da */ { IDMS_ADD_CURRENT_IMAGE_DA, "Tilføj nuværende image (Enhed 8)" },
+/* de */ { IDMS_ADD_CURRENT_IMAGE_DE, "Aktuelles Image hinzufügen (Gerät 8)" },
+/* fr */ { IDMS_ADD_CURRENT_IMAGE_FR, "Ajouter l'image de disque courante (#8) au groupement" },
+/* hu */ { IDMS_ADD_CURRENT_IMAGE_HU, "Az aktuális képmás hozzáadása (8-as egység)" },
+/* it */ { IDMS_ADD_CURRENT_IMAGE_IT, "Aggiungi immagine attuale (Unità 8)" },
 /* ko */ { IDMS_ADD_CURRENT_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ADD_CURRENT_IMAGE_NL, "Voeg huidig bestand toe" },
-/* pl */ { IDMS_ADD_CURRENT_IMAGE_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_ADD_CURRENT_IMAGE_NL, "Voeg huidig bestand toe (Drive 8)" },
+/* pl */ { IDMS_ADD_CURRENT_IMAGE_PL, "Dodaj aktualny obraz (jednostka 8)" },
 /* ru */ { IDMS_ADD_CURRENT_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ADD_CURRENT_IMAGE_SV, "Lägg till aktuell avbildning" },
-/* tr */ { IDMS_ADD_CURRENT_IMAGE_TR, "Geçerli imajý ekle" },
+/* sv */ { IDMS_ADD_CURRENT_IMAGE_SV, "Lägg till aktuell avbildning (enhet 8)" },
+/* tr */ { IDMS_ADD_CURRENT_IMAGE_TR, "Geçerli imajý ekle (Birim 8)" },
 
 /* en */ { IDMS_REMOVE_CURRENT_IMAGE,    "Remove current image" },
 /* da */ { IDMS_REMOVE_CURRENT_IMAGE_DA, "Fjern aktuelt image" },
@@ -182,31 +182,31 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_REMOVE_CURRENT_IMAGE_SV, "Ta bort aktuell avbildning" },
 /* tr */ { IDMS_REMOVE_CURRENT_IMAGE_TR, "Geçerli imajý çýkart" },
 
-/* en */ { IDMS_ATTACH_NEXT_IMAGE,    "Attach next image" },
-/* da */ { IDMS_ATTACH_NEXT_IMAGE_DA, "Tilslut næste image" },
-/* de */ { IDMS_ATTACH_NEXT_IMAGE_DE, "Nächstes Image" },
-/* fr */ { IDMS_ATTACH_NEXT_IMAGE_FR, "Insérer la prochaine image" },
-/* hu */ { IDMS_ATTACH_NEXT_IMAGE_HU, "Következõ képmás csatolása" },
-/* it */ { IDMS_ATTACH_NEXT_IMAGE_IT, "Seleziona immagine successiva" },
+/* en */ { IDMS_ATTACH_NEXT_IMAGE,    "Attach next image (Unit 8)" },
+/* da */ { IDMS_ATTACH_NEXT_IMAGE_DA, "Tilslut næste image (Enhed 8)" },
+/* de */ { IDMS_ATTACH_NEXT_IMAGE_DE, "Nächstes Image (Gerät 8)" },
+/* fr */ { IDMS_ATTACH_NEXT_IMAGE_FR, "Insérer le prochain disque du groupement dans le lecteur #8" },
+/* hu */ { IDMS_ATTACH_NEXT_IMAGE_HU, "Következõ képmás csatolása (8-as egység)" },
+/* it */ { IDMS_ATTACH_NEXT_IMAGE_IT, "Seleziona immagine successiva (Unità 8)" },
 /* ko */ { IDMS_ATTACH_NEXT_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ATTACH_NEXT_IMAGE_NL, "Koppel volgend bestand" },
-/* pl */ { IDMS_ATTACH_NEXT_IMAGE_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_ATTACH_NEXT_IMAGE_NL, "Koppel volgend bestand (Drive 8)" },
+/* pl */ { IDMS_ATTACH_NEXT_IMAGE_PL, "W³ó¿ nastêpny obraz (jednostka 8)" },
 /* ru */ { IDMS_ATTACH_NEXT_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ATTACH_NEXT_IMAGE_SV, "Anslut nästa avbildning" },
-/* tr */ { IDMS_ATTACH_NEXT_IMAGE_TR, "Sonraki imajý yerleþtir" },
+/* sv */ { IDMS_ATTACH_NEXT_IMAGE_SV, "Anslut nästa avbildning (enhet 8)" },
+/* tr */ { IDMS_ATTACH_NEXT_IMAGE_TR, "Sonraki imajý yerleþtir (Birim 8)" },
 
-/* en */ { IDMS_ATTACH_PREVIOUS_IMAGE,    "Attach previous image" },
-/* da */ { IDMS_ATTACH_PREVIOUS_IMAGE_DA, "Tilslut forrige image" },
-/* de */ { IDMS_ATTACH_PREVIOUS_IMAGE_DE, "Voriges Image" },
-/* fr */ { IDMS_ATTACH_PREVIOUS_IMAGE_FR, "Insérer l'image précédente" },
-/* hu */ { IDMS_ATTACH_PREVIOUS_IMAGE_HU, "Elõzõ képmás csatolása" },
-/* it */ { IDMS_ATTACH_PREVIOUS_IMAGE_IT, "Seleziona immagine precedente" },
+/* en */ { IDMS_ATTACH_PREVIOUS_IMAGE,    "Attach previous image (Unit 8)" },
+/* da */ { IDMS_ATTACH_PREVIOUS_IMAGE_DA, "Tilslut forrige image (Enhed 8)" },
+/* de */ { IDMS_ATTACH_PREVIOUS_IMAGE_DE, "Voriges Image (Gerät 8)" },
+/* fr */ { IDMS_ATTACH_PREVIOUS_IMAGE_FR, "Insérer le disque précédent du groupement dans le lecteur #8" },
+/* hu */ { IDMS_ATTACH_PREVIOUS_IMAGE_HU, "Elõzõ képmás csatolása (8-as egység)" },
+/* it */ { IDMS_ATTACH_PREVIOUS_IMAGE_IT, "Seleziona immagine precedente (Unità 8)" },
 /* ko */ { IDMS_ATTACH_PREVIOUS_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ATTACH_PREVIOUS_IMAGE_NL, "Koppel vorig bestand" },
-/* pl */ { IDMS_ATTACH_PREVIOUS_IMAGE_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_ATTACH_PREVIOUS_IMAGE_NL, "Koppel vorig bestand (Drive 8)" },
+/* pl */ { IDMS_ATTACH_PREVIOUS_IMAGE_PL, "W³ó¿ poprzedni obraz (jednostka 8)" },
 /* ru */ { IDMS_ATTACH_PREVIOUS_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ATTACH_PREVIOUS_IMAGE_SV, "Anslut föregående avbildning" },
-/* tr */ { IDMS_ATTACH_PREVIOUS_IMAGE_TR, "Önceki imajý yerleþtir" },
+/* sv */ { IDMS_ATTACH_PREVIOUS_IMAGE_SV, "Anslut föregående avbildning (enhet 8)" },
+/* tr */ { IDMS_ATTACH_PREVIOUS_IMAGE_TR, "Önceki imajý yerleþtir (Birim 8)" },
 
 /* en */ { IDMS_LOAD_FLIP_LIST,    "Load flip list" },
 /* da */ { IDMS_LOAD_FLIP_LIST_DA, "Indlæs bladreliste" },
@@ -429,18 +429,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FP_IMAGE_SV, "Vic Flash insticksmodul-fil..." },
 /* tr */ { IDMS_FP_IMAGE_TR, "Vic Flash Plugin imajý..." },
 
-/* en */ { IDMS_ADD_TO_GENERIC,    "Add to generic..." },
-/* da */ { IDMS_ADD_TO_GENERIC_DA, "Tilføj til standard..." },
-/* de */ { IDMS_ADD_TO_GENERIC_DE, "Zu Universal Image hinzufügen..." },
+/* en */ { IDMS_ADD_TO_GENERIC,    "Add to generic cartridge..." },
+/* da */ { IDMS_ADD_TO_GENERIC_DA, "Tilføj til standardcartridge..." },
+/* de */ { IDMS_ADD_TO_GENERIC_DE, "Zu universellem Erweiterungsmodul hinzufügen..." },
 /* fr */ { IDMS_ADD_TO_GENERIC_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_ADD_TO_GENERIC_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ADD_TO_GENERIC_IT, "Aggiungi a generica..." },
+/* hu */ { IDMS_ADD_TO_GENERIC_HU, "Hozzáadás általános cartridge-hoz..." },
+/* it */ { IDMS_ADD_TO_GENERIC_IT, "Aggiungi a cartuccia generica..." },
 /* ko */ { IDMS_ADD_TO_GENERIC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ADD_TO_GENERIC_NL, "Voeg toe aan algemeen..." },
+/* nl */ { IDMS_ADD_TO_GENERIC_NL, "Voeg toe aan algemeen cartridge..." },
 /* pl */ { IDMS_ADD_TO_GENERIC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ADD_TO_GENERIC_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ADD_TO_GENERIC_SV, "Lägg till generisk..." },
-/* tr */ { IDMS_ADD_TO_GENERIC_TR, "Jeneriðe ekle..." },
+/* sv */ { IDMS_ADD_TO_GENERIC_SV, "Lägg till generisk insticksmodul..." },
+/* tr */ { IDMS_ADD_TO_GENERIC_TR, "Jenerik kartuþa ekle..." },
 
 /* en */ { IDMS_SMART_ATTACH_IMAGE,    "Smart-attach image..." },
 /* da */ { IDMS_SMART_ATTACH_IMAGE_DA, "Smart-tilslut image..." },
@@ -2808,18 +2808,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_HELP_SV, "Hjälp" },
 /* tr */ { IDMS_HELP_TR, "Yardým" },
 
-/* en */ { IDMS_ABOUT,    "About..." },
-/* da */ { IDMS_ABOUT_DA, "Om..." },
-/* de */ { IDMS_ABOUT_DE, "Über..." },
-/* fr */ { IDMS_ABOUT_FR, "À Propos..." },
-/* hu */ { IDMS_ABOUT_HU, "Névjegy..." },
-/* it */ { IDMS_ABOUT_IT, "Informazioni..." },
+/* en */ { IDMS_ABOUT,    "About VICE..." },
+/* da */ { IDMS_ABOUT_DA, "Om VICE..." },
+/* de */ { IDMS_ABOUT_DE, "Über VICE..." },
+/* fr */ { IDMS_ABOUT_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ABOUT_HU, "A VICE névjegye..." },
+/* it */ { IDMS_ABOUT_IT, "Informazioni su VICE..." },
 /* ko */ { IDMS_ABOUT_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_ABOUT_NL, "Over VICE..." },
 /* pl */ { IDMS_ABOUT_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ABOUT_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ABOUT_SV, "Om..." },
-/* tr */ { IDMS_ABOUT_TR, "Hakkýnda..." },
+/* sv */ { IDMS_ABOUT_SV, "Om VICE..." },
+/* tr */ { IDMS_ABOUT_TR, "VICE Hakkýnda..." },
 
 /* en */ { IDMS_COMMAND_LINE_OPTIONS,    "Command line options" },
 /* da */ { IDMS_COMMAND_LINE_OPTIONS_DA, "Kommandolinjeparametre" },
@@ -3900,83 +3900,83 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_RAW_16KB_IMAGE_SV, "Anslut rå 16KB-insticksmodulavbilding" },
 /* tr */ { IDS_ATTACH_RAW_16KB_IMAGE_TR, "Düz 16KB kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_ACTION_REPLAY_IMAGE,    "Attach Action Replay cartridge image" },
-/* da */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_DA, "Tilslut Action Replay-cartridge image" },
-/* de */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_DE, "Action Replay Erweiterungsmodul Image einlegen" },
-/* fr */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_FR, "Insérer une cartouche Action Replay" },
-/* hu */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_HU, "Action Replay cartridge képmás csatolása" },
-/* it */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_IT, "Seleziona immagine cartuccia Action Replay" },
+/* en */ { IDS_ATTACH_ACTION_REPLAY_IMAGE,    "Attach raw 32KB Action Replay cartridge image" },
+/* da */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_DA, "Tilslut råt 32KB Action Replay cartridge image" },
+/* de */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_DE, "32kB Action Replay Image (raw) einlegen" },
+/* fr */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_FR, "Insérer une cartouche Action Replay 32KO" },
+/* hu */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_HU, "32KB-os Action Replay cartridge képmás csatolása" },
+/* it */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_IT, "Seleziona immagine cartuccia Action Replay di 32KB" },
 /* ko */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_NL, "Koppel Action Replay cartridge bestand" },
+/* nl */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_NL, "Koppel binair 32KB Action Replay cartridge bestand" },
 /* pl */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_SV, "Anslut Action Replay-insticksmodulfil" },
-/* tr */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_TR, "Action Replay kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_SV, "Anslut rå 32KB-Action Replay-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_ACTION_REPLAY_IMAGE_TR, "Düz 32KB Action Replay kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE,    "Attach Action Replay MK3 cartridge image" },
-/* da */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_DA, "Tilslut Action Replay 3-cartridge image" },
-/* de */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_DE, "Action Replay MK3 Erweiterungsmodul Image einlegen" },
+/* en */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE,    "Attach raw 16KB Action Replay MK3 cartridge image" },
+/* da */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_DA, "Tilslut råt 16KB Action Replay MK3 cartridge image" },
+/* de */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_DE, "16kB Action Replay MK3 Image (raw) einlegen" },
 /* fr */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_IT, "Seleziona immagine cartuccia Action Replay MK3" },
+/* it */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_IT, "Seleziona immagine cartuccia Action Replay MK3 di 16KB" },
 /* ko */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_NL, "Koppel Action Replay MK3 cartridge bestand" },
+/* nl */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_NL, "Koppel binair 16KB Action Replay MK3 cartridge bestand" },
 /* pl */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_SV, "Anslut Action Replay MK3-insticksmodulfil" },
-/* tr */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_TR, "Action Replay MK3 kartuþ imajýný yerleþtir" },
+/* sv */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_SV, "Anslut rå 16KB-Action Replay MK3-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_ACTION_REPLAY3_IMAGE_TR, "Düz 16KB Action Replay MK3 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE,    "Attach Action Replay MK4 cartridge image" },
-/* da */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_DA, "Tilslut Action Replay 4-cartridge image" },
-/* de */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_DE, "Action Replay MK4 Erweiterungsmodul Image einlegen" },
+/* en */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE,    "Attach raw 32KB Action Replay MK4 cartridge image" },
+/* da */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_DA, "Tilslut råt 32KB Action Replay MK4 cartridge image" },
+/* de */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_DE, "32kB Action Replay MK4 Image einlegen" },
 /* fr */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_IT, "Seleziona immagine cartuccia Action Replay MK4" },
+/* it */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_IT, "Seleziona immagine cartuccia Action Replay MK4 di 326KB" },
 /* ko */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_NL, "Koppel Action Replay MK4 cartridge bestand" },
+/* nl */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_NL, "Koppel binair 32KB Action Replay MK4 cartridge bestand" },
 /* pl */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_SV, "Anslut Action Replay MK4-insticksmodulfil" },
-/* tr */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_TR, "Action Replay MK4 kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_SV, "Anslut rå 32KB-Action Replay MK4-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_ACTION_REPLAY4_IMAGE_TR, "Düz 32KB Action Replay MK4 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_STARDOS_IMAGE,    "Attach Stardos cartridge image" },
-/* da */ { IDS_ATTACH_STARDOS_IMAGE_DA, "Tilslut StarDOS-cartridge image" },
-/* de */ { IDS_ATTACH_STARDOS_IMAGE_DE, "Erweiterungsmodul StarDOS Image einlegen" },
+/* en */ { IDS_ATTACH_STARDOS_IMAGE,    "Attach raw 16KB Stardos cartridge image" },
+/* da */ { IDS_ATTACH_STARDOS_IMAGE_DA, "Tilslut råt 16KB StarDOS cartridge image" },
+/* de */ { IDS_ATTACH_STARDOS_IMAGE_DE, "16kB Stardos Erweiterungsmodul Image (raw) einlegen" },
 /* fr */ { IDS_ATTACH_STARDOS_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ATTACH_STARDOS_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_STARDOS_IMAGE_IT, "Seleziona immagine cartuccia Stardos" },
+/* it */ { IDS_ATTACH_STARDOS_IMAGE_IT, "Seleziona immagine cartuccia Stardos di 16KB" },
 /* ko */ { IDS_ATTACH_STARDOS_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_STARDOS_IMAGE_NL, "Koppel Stardos cartridge gebestand" },
+/* nl */ { IDS_ATTACH_STARDOS_IMAGE_NL, "Koppel binair 16KB Stardos cartridge bestand" },
 /* pl */ { IDS_ATTACH_STARDOS_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_STARDOS_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_STARDOS_IMAGE_SV, "Anslut Stardos-insticksmodulfil" },
-/* tr */ { IDS_ATTACH_STARDOS_IMAGE_TR, "Stardos kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_STARDOS_IMAGE_SV, "Anslut rå 16KB Stardos-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_STARDOS_IMAGE_TR, "Düz 16KB Stardos kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_ATOMIC_POWER_IMAGE,    "Attach Atomic Power cartridge image" },
-/* da */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_DA, "Tilslut Atomic Power-cartridge image" },
-/* de */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_DE, "Atomic Power Erweiterungsmodul Image einlegen" },
-/* fr */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_FR, "Insérer une cartouche Atomic Power" },
-/* hu */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_HU, "Atomic Power cartridge képmás csatolása" },
-/* it */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_IT, "Seleziona immagine cartuccia Atomic Power" },
+/* en */ { IDS_ATTACH_ATOMIC_POWER_IMAGE,    "Attach raw 32KB Atomic Power cartridge image" },
+/* da */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_DA, "Tilslut råt 32KB Atomic Power-cartridge image" },
+/* de */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_DE, "32kB Atomic Power Image einlegen" },
+/* fr */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_FR, "Insérer une cartouche Atomic Power 32KO" },
+/* hu */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_HU, "32KB-os Atomic Power cartridge képmás csatolása" },
+/* it */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_IT, "Seleziona immagine cartuccia Atomic Power di 32KB" },
 /* ko */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_NL, "Koppel Atomic Power cartridge bestand" },
+/* nl */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_NL, "Koppel binair 32KB Atomic Power cartridge bestand" },
 /* pl */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_SV, "Anslut Atomic Power-avbildningsfil" },
-/* tr */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_TR, "Atomic Power kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_SV, "Anslut rå 32KB Atomic Power-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_ATOMIC_POWER_IMAGE_TR, "Düz 32KB Atomic Power kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE,    "Attach Epyx FastLoad cartridge image" },
-/* da */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_DA, "Tilslut Epyx FastLoad-cartridge image" },
-/* de */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_DE, "Epyx Fastload Erweiterungsmodul Image einlegen" },
+/* en */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE,    "Attach raw 8KB Epyx FastLoad cartridge image" },
+/* da */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_DA, "Tilslut råt 8KB Epyx FastLoad cartridge image" },
+/* de */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_DE, "8kB Epyx Fastload Image (raw) einlegen" },
 /* fr */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_IT, "Seleziona immagine cartuccia Epyx FastLoad" },
+/* it */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_IT, "Seleziona immagine cartuccia Epyx FastLoad di 8KB" },
 /* ko */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_NL, "Koppel Epyx FastLoad cartridge bestand" },
+/* nl */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_NL, "Koppel binair 8KB Epyx FastLoad cartridge bestand" },
 /* pl */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_SV, "Anslut Epyx FastLoad-avbildningsfil" },
-/* tr */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_TR, "Epyx FastLoad kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_SV, "Anslut rå 8KB Epyx FastLoad-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_EPYX_FASTLOAD_IMAGE_TR, "Düz 8KB Epyx FastLoad kartuþ imajý yerleþtir" },
 
 /* en */ { IDS_ATTACH_IEEE488_IMAGE,    "Attach IEEE-488 Interface cartridge image" },
 /* da */ { IDS_ATTACH_IEEE488_IMAGE_DA, "Tilslut IEEE-488 interface cartridge image" },
@@ -3991,57 +3991,57 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_IEEE488_IMAGE_SV, "Anslut IEEE-488-gränssnittsavbildningsfil" },
 /* tr */ { IDS_ATTACH_IEEE488_IMAGE_TR, "IEEE-488 Arabirimi kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_RETRO_REPLAY_IMAGE,    "Attach Retro Replay cartridge image" },
-/* da */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_DA, "Tilslut Retro Replay-cartridge image" },
-/* de */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_DE, "Retro Replay Erweiterungsmodul Image einlegen" },
-/* fr */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_FR, "Insérer une cartouche Retro Replay" },
-/* hu */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_HU, "Retro Replay cartridge képmás csatolása" },
-/* it */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_IT, "Seleziona immagine cartuccia Retro Replay" },
+/* en */ { IDS_ATTACH_RETRO_REPLAY_IMAGE,    "Attach raw 64KB Retro Replay cartridge image" },
+/* da */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_DA, "Tilslut råt 64KB-Retro Replay-cartridge image" },
+/* de */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_DE, "64kB Retro Replay Image einlegen" },
+/* fr */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_FR, "Insérer une cartouche Retro Replay 64KO" },
+/* hu */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_HU, "64KB-os Retro Replay cartridge képmás csatolása" },
+/* it */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_IT, "Seleziona immagine cartuccia Retro Replay di 64KB" },
 /* ko */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_NL, "Koppel Retro Replay cartridge bestand" },
+/* nl */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_NL, "Koppel binair 64KB Retro Replay cartridge bestand" },
 /* pl */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_SV, "Anslut Retro Replay-avbildningsfil" },
-/* tr */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_TR, "Retro Replay kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_SV, "Anslut rå 64KB-Retro Replay-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_RETRO_REPLAY_IMAGE_TR, "Düz 64KB Retro Replay kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_IDE64_IMAGE,    "Attach IDE64 interface cartridge image" },
-/* da */ { IDS_ATTACH_IDE64_IMAGE_DA, "Tilslut IDE64-interface cartridge image" },
-/* de */ { IDS_ATTACH_IDE64_IMAGE_DE, "IDE64 Schnittstellen Erweiterungsmodul Image einlegen" },
-/* fr */ { IDS_ATTACH_IDE64_IMAGE_FR, "Insérer une cartouche interface IDE64" },
-/* hu */ { IDS_ATTACH_IDE64_IMAGE_HU, "IDE64 interfész képmás csatolása" },
-/* it */ { IDS_ATTACH_IDE64_IMAGE_IT, "Seleziona immagine cartuccia di interfaccia IDE64" },
+/* en */ { IDS_ATTACH_IDE64_IMAGE,    "Attach raw 64KB IDE64 cartridge image" },
+/* da */ { IDS_ATTACH_IDE64_IMAGE_DA, "Tilslut råt 64KB IDE64-cartridge image" },
+/* de */ { IDS_ATTACH_IDE64_IMAGE_DE, "64kB IDE64 Image einlegen" },
+/* fr */ { IDS_ATTACH_IDE64_IMAGE_FR, "Insérer une cartouche IDE64 64KO" },
+/* hu */ { IDS_ATTACH_IDE64_IMAGE_HU, "64KB-os IDE64 cartridge képmás csatolása" },
+/* it */ { IDS_ATTACH_IDE64_IMAGE_IT, "Seleziona immagine cartuccia IDE64 di 64KB" },
 /* ko */ { IDS_ATTACH_IDE64_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_IDE64_IMAGE_NL, "Koppel IDE64 interfacebestand" },
+/* nl */ { IDS_ATTACH_IDE64_IMAGE_NL, "Koppel binair 64KB IDE64 cartridge bestand" },
 /* pl */ { IDS_ATTACH_IDE64_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_IDE64_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_IDE64_IMAGE_SV, "Anslut IDE64-gränssnittsavbildningsfil" },
-/* tr */ { IDS_ATTACH_IDE64_IMAGE_TR, "IDE64 arabirimi kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_IDE64_IMAGE_SV, "Anslut rå 64KB IDE64-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_IDE64_IMAGE_TR, "Düz 64KB IDE64 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_SS4_IMAGE,    "Attach Super Snapshot V4 cartridge image" },
-/* da */ { IDS_ATTACH_SS4_IMAGE_DA, "Tilslut Super Snapshot 4-cartridge image" },
-/* de */ { IDS_ATTACH_SS4_IMAGE_DE, "Super Snapshot V4 Erweiterungsmodul Image einlegen" },
+/* en */ { IDS_ATTACH_SS4_IMAGE,    "Attach raw 32KB Super Snapshot V4 cartridge image" },
+/* da */ { IDS_ATTACH_SS4_IMAGE_DA, "Tilslut råt 32KB Super Snapshot V4 cartridge image" },
+/* de */ { IDS_ATTACH_SS4_IMAGE_DE, "32kB Super Snapshot V4 Image (raw) einlegen" },
 /* fr */ { IDS_ATTACH_SS4_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ATTACH_SS4_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_SS4_IMAGE_IT, "Seleziona immagine cartuccia Super Snapshot V4" },
+/* it */ { IDS_ATTACH_SS4_IMAGE_IT, "Seleziona immagine cartuccia Super Snapshot V4 di 32KB" },
 /* ko */ { IDS_ATTACH_SS4_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_SS4_IMAGE_NL, "Koppel Super Snapshot V4 cartridge bestand" },
+/* nl */ { IDS_ATTACH_SS4_IMAGE_NL, "Koppel binair 32KB Super Snapshot V4 cartridge bestand" },
 /* pl */ { IDS_ATTACH_SS4_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_SS4_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_SS4_IMAGE_SV, "Anslut Super Snapshot V4-avbildningsfil" },
-/* tr */ { IDS_ATTACH_SS4_IMAGE_TR, "Super Snapshot V4 kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_SS4_IMAGE_SV, "Anslut rå 32KB Super Snapshot V4-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_SS4_IMAGE_TR, "Düz 32KB Super Snapshot V4 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_SS5_IMAGE,    "Attach Super Snapshot V5 cartridge image" },
-/* da */ { IDS_ATTACH_SS5_IMAGE_DA, "Tilslut Super Snapshot 5-cartridge image" },
-/* de */ { IDS_ATTACH_SS5_IMAGE_DE, "Super Snapshot V5 Erweiterungsmodul Image einlegen" },
+/* en */ { IDS_ATTACH_SS5_IMAGE,    "Attach raw 64KB Super Snapshot V5 cartridge image" },
+/* da */ { IDS_ATTACH_SS5_IMAGE_DA, "Tilslut råt 64KB Super Snapshot V5 cartridge image" },
+/* de */ { IDS_ATTACH_SS5_IMAGE_DE, "64kB Super Snapshot V5 Image (raw) einlegen" },
 /* fr */ { IDS_ATTACH_SS5_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ATTACH_SS5_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_SS5_IMAGE_IT, "Seleziona immagine cartuccia Super Snapshot V5" },
+/* it */ { IDS_ATTACH_SS5_IMAGE_IT, "Seleziona immagine cartuccia Super Snapshot V5 di 64KB" },
 /* ko */ { IDS_ATTACH_SS5_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_SS5_IMAGE_NL, "Koppel Super Snapshot V5 cartridge bestand" },
+/* nl */ { IDS_ATTACH_SS5_IMAGE_NL, "Koppel binair 64KB Super Snapshot V5 cartridge bestand" },
 /* pl */ { IDS_ATTACH_SS5_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_SS5_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_SS5_IMAGE_SV, "Anslut Super Snapshot V5-avbildningsfil" },
-/* tr */ { IDS_ATTACH_SS5_IMAGE_TR, "Super Snapshot V5 kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_SS5_IMAGE_SV, "Anslut rå 64KB-Super Snapshot V5-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_SS5_IMAGE_TR, "Düz 64KB Super Snapshot V5 kartuþ imajý yerleþtir" },
 
 /* en */ { IDS_ATTACH_SB_IMAGE,    "Attach Structured BASIC cartridge image" },
 /* da */ { IDS_ATTACH_SB_IMAGE_DA, "Tilslut Strucured BASIC-cartridge image" },
@@ -4251,18 +4251,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_OVERWRITE_EXISTING_IMAGE_SV, "Skriva över existerande avbildning?" },
 /* tr */ { IDS_OVERWRITE_EXISTING_IMAGE_TR, "Varolan imajýn üzerine yazýlsýn mý?" },
 
-/* en */ { IDS_ABOUT,    "About" },
-/* da */ { IDS_ABOUT_DA, "Om" },
-/* de */ { IDS_ABOUT_DE, "Über" },
-/* fr */ { IDS_ABOUT_FR, "À Propos" },
-/* hu */ { IDS_ABOUT_HU, "Névjegy" },
-/* it */ { IDS_ABOUT_IT, "Informazioni" },
+/* en */ { IDS_ABOUT,    "About VICE" },
+/* da */ { IDS_ABOUT_DA, "Om VICE" },
+/* de */ { IDS_ABOUT_DE, "Über VICE" },
+/* fr */ { IDS_ABOUT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ABOUT_HU, "A VICE névjegye" },
+/* it */ { IDS_ABOUT_IT, "Informazioni su VICE" },
 /* ko */ { IDS_ABOUT_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ABOUT_NL, "Over VICE" },
 /* pl */ { IDS_ABOUT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ABOUT_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ABOUT_SV, "Om" },
-/* tr */ { IDS_ABOUT_TR, "Hakkýnda" },
+/* sv */ { IDS_ABOUT_SV, "Om VICE" },
+/* tr */ { IDS_ABOUT_TR, "VICE Hakkýnda" },
 
 /* en */ { IDS_IMAGE_CONTENTS,    "Image Contents" },
 /* da */ { IDS_IMAGE_CONTENTS_DA, "Indhold i image" },
@@ -4472,11 +4472,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ACIA_MODE_SV, "ACIA-läge" },
 /* tr */ { IDS_ACIA_MODE_TR, "ACIA modu" },
 
-/* en */ { IDS_ACIA_SETTINGS,    "ACIA Settings" },
+/* en */ { IDS_ACIA_SETTINGS,    "ACIA settings" },
 /* da */ { IDS_ACIA_SETTINGS_DA, "ACIA-indstillinger" },
 /* de */ { IDS_ACIA_SETTINGS_DE, "ACIA Einstellungen" },
-/* fr */ { IDS_ACIA_SETTINGS_FR, "Paramètres ACIA" },
-/* hu */ { IDS_ACIA_SETTINGS_HU, "ACIA beállításai" },
+/* fr */ { IDS_ACIA_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ACIA_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_ACIA_SETTINGS_IT, "Impostazioni ACIA" },
 /* ko */ { IDS_ACIA_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ACIA_SETTINGS_NL, "ACIA instellingen" },
@@ -4498,18 +4498,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_256K_ENABLED_SV, "256K aktiverat" },
 /* tr */ { IDS_256K_ENABLED_TR, "256K Aktif" },
 
-/* en */ { IDS_256K_BASE,    "256K Base" },
-/* da */ { IDS_256K_BASE_DA, "256K-base" },
-/* de */ { IDS_256K_BASE_DE, "256K Basis" },
-/* fr */ { IDS_256K_BASE_FR, "" },  /* fuzzy */
+/* en */ { IDS_256K_BASE,    "256K base address" },
+/* da */ { IDS_256K_BASE_DA, "256K-baseadresse" },
+/* de */ { IDS_256K_BASE_DE, "256K Basis Adresse" },
+/* fr */ { IDS_256K_BASE_FR, "Adresse de base 256K" },
 /* hu */ { IDS_256K_BASE_HU, "256K báziscím" },
-/* it */ { IDS_256K_BASE_IT, "Indirizzo base 256K" },
+/* it */ { IDS_256K_BASE_IT, "indirizzo base 256K" },
 /* ko */ { IDS_256K_BASE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_256K_BASE_NL, "256K basis" },
+/* nl */ { IDS_256K_BASE_NL, "256K basisadres" },
 /* pl */ { IDS_256K_BASE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_256K_BASE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_256K_BASE_SV, "256K-bas" },
-/* tr */ { IDS_256K_BASE_TR, "256K Taban" },
+/* sv */ { IDS_256K_BASE_SV, "256K-basadress" },
+/* tr */ { IDS_256K_BASE_TR, "256K taban adresi" },
 
 /* en */ { IDS_256K_FILENAME,    "256K file" },
 /* da */ { IDS_256K_FILENAME_DA, "256K-fil" },
@@ -4537,11 +4537,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_256K_FILENAME_SELECT_SV, "Ange fil för 256K" },
 /* tr */ { IDS_256K_FILENAME_SELECT_TR, "256K için dosya seçin" },
 
-/* en */ { IDS_256K_SETTINGS,    "256K Settings" },
+/* en */ { IDS_256K_SETTINGS,    "256K settings" },
 /* da */ { IDS_256K_SETTINGS_DA, "256K-indstillinger" },
 /* de */ { IDS_256K_SETTINGS_DE, "256K Einstellungen" },
-/* fr */ { IDS_256K_SETTINGS_FR, "Paramètres 256K" },
-/* hu */ { IDS_256K_SETTINGS_HU, "256K beállításai" },
+/* fr */ { IDS_256K_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_256K_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_256K_SETTINGS_IT, "Impostazioni 256K" },
 /* ko */ { IDS_256K_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_256K_SETTINGS_NL, "256K instellingen" },

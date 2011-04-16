@@ -5106,35 +5106,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
-/* en */ {IDCLS_ATTACH_GENERIC_8KB_CART,    N_("Attach generic 8KB cartridge image")},
+/* en */ {IDCLS_ATTACH_GENERIC_8KB_CART,    N_("Attach raw 8KB cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_GENERIC_8KB_CART_DA, "Tilslut standard 8KB cartridge image"},
-/* de */ {IDCLS_ATTACH_GENERIC_8KB_CART_DE, "Generisches 8kB Erweiterungsmodul Image einlegen"},
-/* fr */ {IDCLS_ATTACH_GENERIC_8KB_CART_FR, "Insérer une cartouche générique 8KO"},
-/* hu */ {IDCLS_ATTACH_GENERIC_8KB_CART_HU, "Általános 8KB cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_GENERIC_8KB_CART_IT, "Seleziona immagine cartuccia generica di 8KB"},
+/* da */ {IDCLS_ATTACH_GENERIC_8KB_CART_DA, "Tilslut råt 8KB-cartridge image"},
+/* de */ {IDCLS_ATTACH_GENERIC_8KB_CART_DE, "8KB Erweiterungsmodul (raw) Image einlegen"},
+/* fr */ {IDCLS_ATTACH_GENERIC_8KB_CART_FR, "Insérer une cartouche 8KO"},
+/* hu */ {IDCLS_ATTACH_GENERIC_8KB_CART_HU, "Nyers 8KB-os cartridge képmás csatolása"},
+/* it */ {IDCLS_ATTACH_GENERIC_8KB_CART_IT, "Seleziona immagine cartuccia di 8KB"},
 /* ko */ {IDCLS_ATTACH_GENERIC_8KB_CART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_GENERIC_8KB_CART_NL, "Koppel generiek 8KB cartridge bestand"},
+/* nl */ {IDCLS_ATTACH_GENERIC_8KB_CART_NL, "Koppel binair 8KB cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_GENERIC_8KB_CART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ATTACH_GENERIC_8KB_CART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_GENERIC_8KB_CART_SV, "Anslut vanlig 8KB-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_GENERIC_8KB_CART_TR, "8KB jenerik kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_GENERIC_8KB_CART_SV, "Anslut rå 8KB-insticksmodulavbilding"},
+/* tr */ {IDCLS_ATTACH_GENERIC_8KB_CART_TR, "Düz 8KB kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
-/* en */ {IDCLS_ATTACH_GENERIC_16KB_CART,    N_("Attach generic 16KB cartridge image")},
+/* en */ {IDCLS_ATTACH_GENERIC_16KB_CART,    N_("Attach raw 16KB cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_GENERIC_16KB_CART_DA, "Tilslut standard 16KB cartridge image"},
-/* de */ {IDCLS_ATTACH_GENERIC_16KB_CART_DE, "Generisches 16kB Erweiterungsmodul Image einlegen"},
-/* fr */ {IDCLS_ATTACH_GENERIC_16KB_CART_FR, "Insérer une cartouche générique de 16KO"},
-/* hu */ {IDCLS_ATTACH_GENERIC_16KB_CART_HU, "Általános 16KB cartridge képmás csatolása"},
-/* it */ {IDCLS_ATTACH_GENERIC_16KB_CART_IT, "Seleziona immagine cartuccia generica di 16KB"},
+/* da */ {IDCLS_ATTACH_GENERIC_16KB_CART_DA, "Tilslut råt 16KB-cartridge image"},
+/* de */ {IDCLS_ATTACH_GENERIC_16KB_CART_DE, "16KB Erweiterungsmodul (raw) Image einlegen"},
+/* fr */ {IDCLS_ATTACH_GENERIC_16KB_CART_FR, "Insérer une cartouche 16KO"},
+/* hu */ {IDCLS_ATTACH_GENERIC_16KB_CART_HU, "Nyers 16KB-os cartridge képmás csatolása"},
+/* it */ {IDCLS_ATTACH_GENERIC_16KB_CART_IT, "Seleziona immagine cartuccia di 16KB"},
 /* ko */ {IDCLS_ATTACH_GENERIC_16KB_CART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_GENERIC_16KB_CART_NL, "Koppel generiek 16KB cartridge bestand"},
+/* nl */ {IDCLS_ATTACH_GENERIC_16KB_CART_NL, "Koppel binair 16KB cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_GENERIC_16KB_CART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ATTACH_GENERIC_16KB_CART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_GENERIC_16KB_CART_SV, "Anslut vanlig 16KB-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_GENERIC_16KB_CART_TR, "16KB jenerik kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_GENERIC_16KB_CART_SV, "Anslut rå 16KB-insticksmodulavbilding"},
+/* tr */ {IDCLS_ATTACH_GENERIC_16KB_CART_TR, "Düz 16KB kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */

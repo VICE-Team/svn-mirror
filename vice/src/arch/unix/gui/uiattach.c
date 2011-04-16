@@ -182,7 +182,7 @@ static ui_menu_entry_t detach_disk_image_submenu[] = {
 };
 
 ui_menu_entry_t uiattach_disk_menu[] = {
-    { N_("Attach a disk image"), UI_MENU_TYPE_NORMAL,
+    { N_("Attach disk image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_disk_image_submenu },
     { N_("Create and attach an empty disk"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_empty_disk_image_submenu },
@@ -238,7 +238,7 @@ static UI_CALLBACK(attach_tape)
 
     vsync_suspend_speed_eval();
 
-    filename = ui_select_file(_("Attach a tape image"), tapecontents_read, 1, attach_tape_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Attach tape image"), tapecontents_read, 1, attach_tape_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
 
     switch (button) {
         case UI_BUTTON_OK:
@@ -271,7 +271,7 @@ ui_menu_entry_t uiattach_tape_menu[] = {
     { N_("Create a new tape image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)create_new_tape, NULL, NULL,
       0, 0},
-    { N_("Attach a tape image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach tape image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_tape, NULL, NULL,
       KEYSYM_t, UI_HOTMOD_META },
     { N_("Detach tape image"), UI_MENU_TYPE_NORMAL,

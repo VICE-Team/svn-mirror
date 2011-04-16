@@ -187,7 +187,10 @@ static int set_aspect_ratio(const char *val, void *param)
 
 UI_CALLBACK(set_custom_aspect_ratio)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Custom aspect ratio"), _("Aspect ratio (0.5 - 2.0):"));
+    char *ratio_text = util_concat(_("Aspect ratio"), " (0.5 - 2.0):", NULL);
+
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Custom aspect ratio"), ratio_text);
+    lib_free(ratio_text);
 }
 
 static int set_trueaspect(int val, void *param)
@@ -277,7 +280,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "AspectRatio", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("aspect ratio"), N_("Set aspect ratio (0.5 - 2.0)") },
+      N_("Aspect ratio"), N_("Set aspect ratio (0.5 - 2.0)") },
     { "-trueaspect", SET_RESOURCE, 0,
       NULL, NULL, "TrueAspectRatio", (resource_value_t)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,

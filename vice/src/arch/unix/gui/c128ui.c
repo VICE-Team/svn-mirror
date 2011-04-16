@@ -462,7 +462,7 @@ ui_menu_entry_t c128_model_submenu[] = {
       NULL, NULL, set_cia2model_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Always switch to C64 mode"), UI_MENU_TYPE_TICK,
+    { N_("Always switch to C64 mode on reset"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Go64Mode, NULL, NULL },
     { NULL }
 };

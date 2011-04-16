@@ -63,13 +63,13 @@ UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 UI_MENU_DEFINE_TOGGLE(RsUserEnable)
 
 ui_menu_entry_t uirs232c64c128_submenu[] = {
-    { N_("ACIA $DExx RS232 interface emulation"), UI_MENU_TYPE_TICK,
+    { N_("ACIA RS232 interface emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Acia1Enable, NULL, NULL },
-    { N_("ACIA $DExx device"), UI_MENU_TYPE_NORMAL,
+    { N_("ACIA device"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiacia1_device_submenu },
-    { N_("ACIA $DExx Interrupt"), UI_MENU_TYPE_NORMAL,
+    { N_("ACIA interrupt"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiacia1_irq_submenu },
-    { N_("ACIA $DExx Emulation Mode"), UI_MENU_TYPE_NORMAL,
+    { N_("ACIA emulation mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiacia1_mode_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Userport RS232 emulation"), UI_MENU_TYPE_TICK,

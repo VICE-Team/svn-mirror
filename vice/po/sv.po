@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-15 16:19-0700\n"
+"POT-Creation-Date: 2011-04-16 13:49-0700\n"
 "PO-Revision-Date: 2011-02-16 20:41+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -33,7 +33,7 @@ msgstr "Välj enhet för extra spelport 2"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
-#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:3018
+#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:3019
 msgid "name"
 msgstr "namn"
 
@@ -350,9 +350,9 @@ msgstr "CIA 1-modell"
 msgid "CIA 2 model"
 msgstr "CIA 2-modell"
 
-#: src/arch/unix/gui/c128ui.c:465
-msgid "Always switch to C64 mode"
-msgstr "Växla alltid till C64-läge"
+#: src/arch/unix/gui/c128ui.c:465 src/translate_text.c.po.c:3503
+msgid "Always switch to C64 mode on reset"
+msgstr "Växla alltid till C64-läge vid återställning"
 
 #: src/arch/unix/gui/c128ui.c:487 src/arch/unix/gui/c64dtvui.c:175
 #: src/arch/unix/gui/c64scui.c:505 src/arch/unix/gui/c64ui.c:565
@@ -929,9 +929,14 @@ msgstr "Enhet 11"
 msgid "All"
 msgstr "Alla"
 
-#: src/arch/unix/gui/uiattach.c:185
-msgid "Attach a disk image"
-msgstr "Anslut en diskettavbildningsfil"
+#: src/arch/unix/gui/uiattach.c:185 src/arch/win32/res.rc.po.c:927
+#: src/arch/win32/res.rc.po.c:1294 src/arch/win32/resc128.rc.po.c:23
+#: src/arch/win32/resc64.rc.po.c:23 src/arch/win32/resc64dtv.rc.po.c:23
+#: src/arch/win32/rescbm2.rc.po.c:23 src/arch/win32/respet.rc.po.c:23
+#: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:23
+#: src/arch/amigaos/intl_text.c.po.c:31
+msgid "Attach disk image"
+msgstr "Anslut diskettavbildningsfil"
 
 #: src/arch/unix/gui/uiattach.c:187
 msgid "Create and attach an empty disk"
@@ -966,7 +971,10 @@ msgid "Do you want to overwrite it?"
 msgstr "Vill du skriva över den?"
 
 #: src/arch/unix/gui/uiattach.c:241 src/arch/unix/gui/uiattach.c:274
-msgid "Attach a tape image"
+#: src/arch/win32/res.rc.po.c:928 src/arch/win32/res.rc.po.c:1330
+#: src/arch/amigaos/intl_text.c.po.c:213
+#: src/arch/amigaos/intl_text.c.po.c:6935
+msgid "Attach tape image"
 msgstr "Anslut bandavbildningsfil"
 
 #: src/arch/unix/gui/uiattach.c:246 src/arch/unix/gui/uiattach.c:253
@@ -1051,9 +1059,10 @@ msgstr "Autostartläge för PRG"
 msgid "PRG autostart disk image"
 msgstr "Autostartdiskavbildning för PRG"
 
-#: src/arch/unix/gui/uic64_256k.c:40
-msgid "256K image"
-msgstr "256K-avbildning"
+#: src/arch/unix/gui/uic64_256k.c:40 src/arch/win32/resc64_256k.rc.po.c:31
+#: src/arch/amigaos/intl_text.c.po.c:4490
+msgid "256K file"
+msgstr "256K-fil"
 
 #: src/arch/unix/gui/uic64_256k.c:58 src/arch/unix/gui/uidigimax.c:79
 #: src/arch/unix/gui/uiplus60k.c:54
@@ -1071,7 +1080,8 @@ msgstr "Basadress"
 msgid "Image name"
 msgstr "Namn på avbildning"
 
-#: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/vic20ui.c:251
+#: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/uic64cart.c:156
+#: src/arch/unix/gui/vic20ui.c:251 src/arch/unix/gui/vic20ui.c:355
 #: src/arch/win32/res.rc.po.c:1298 src/arch/win32/resc128.rc.po.c:63
 #: src/arch/win32/resc64.rc.po.c:63 src/arch/win32/resplus4.rc.po.c:63
 #: src/arch/win32/resvic20.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:343
@@ -1086,13 +1096,15 @@ msgstr "Kan inte ansluta insticksmodul"
 msgid "Smart attach CRT image"
 msgstr "Smartanslut CRT-avbildning"
 
-#: src/arch/unix/gui/uic64cart.c:106
-msgid "Attach generic 8kB image"
-msgstr "Anslut vanlig 8KB-avbildning"
+#: src/arch/unix/gui/uic64cart.c:106 src/arch/win32/res.rc.po.c:995
+#: src/arch/amigaos/intl_text.c.po.c:3853 src/translate_text.c.po.c:5059
+msgid "Attach raw 8KB cartridge image"
+msgstr "Anslut rå 8KB-insticksmodulavbilding"
 
-#: src/arch/unix/gui/uic64cart.c:109
-msgid "Attach generic 16kB image"
-msgstr "Anslut vanlig 16KB-avbildning"
+#: src/arch/unix/gui/uic64cart.c:109 src/arch/win32/res.rc.po.c:996
+#: src/arch/amigaos/intl_text.c.po.c:3866 src/translate_text.c.po.c:5075
+msgid "Attach raw 16KB cartridge image"
+msgstr "Anslut rå 16KB-insticksmodulavbilding"
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:114
@@ -1100,9 +1112,10 @@ msgid "Attach Action Replay V5 image"
 msgstr "Anslut Action Replay V5-avbildning"
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:118
-msgid "Attach Atomic Power image"
-msgstr "Anslut Atomic Power-avbildning"
+#: src/arch/unix/gui/uic64cart.c:118 src/arch/win32/res.rc.po.c:1001
+#: src/arch/amigaos/intl_text.c.po.c:3931 src/translate_text.c.po.c:5395
+msgid "Attach raw 32KB Atomic Power cartridge image"
+msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:122
@@ -1110,14 +1123,16 @@ msgid "Attach EasyFlash image"
 msgstr "Anslut EasyFlash-avbildning"
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:126
-msgid "Attach Epyx FastLoad image"
-msgstr "Anslut Epyx FastLoad-avbildning"
+#: src/arch/unix/gui/uic64cart.c:126 src/arch/win32/res.rc.po.c:1002
+#: src/arch/amigaos/intl_text.c.po.c:3944 src/translate_text.c.po.c:5411
+msgid "Attach raw 8KB Epyx FastLoad cartridge image"
+msgstr "Anslut rå 8KB Epyx FastLoad-insticksmodulfil"
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:130
-msgid "Attach IDE64 image"
-msgstr "Anslut IDE64-avbildning"
+#: src/arch/unix/gui/uic64cart.c:130 src/arch/win32/res.rc.po.c:1006
+#: src/arch/amigaos/intl_text.c.po.c:3983 src/translate_text.c.po.c:5379
+msgid "Attach raw 64KB IDE64 cartridge image"
+msgstr "Anslut rå 64KB IDE64-insticksmodulfil"
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:134
@@ -1125,28 +1140,27 @@ msgid "Attach Magic Formel image"
 msgstr "Anslut Magic Formel-avbildning"
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:138
-msgid "Attach MMC Replay image"
-msgstr "Anslut MMC Replay-avbildning"
+#: src/arch/unix/gui/uic64cart.c:138 src/arch/win32/res.rc.po.c:1005
+#: src/translate_text.c.po.c:5715
+msgid "Attach raw 512kB MMC Replay cartridge image"
+msgstr "Anslut rå 512kB MMC Replay-avbildningsfil"
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:142
-msgid "Attach Retro Replay image"
-msgstr "Anslut Retro Replay-avbildning"
+#: src/arch/unix/gui/uic64cart.c:142 src/arch/win32/res.rc.po.c:1004
+#: src/arch/amigaos/intl_text.c.po.c:3970 src/translate_text.c.po.c:5331
+msgid "Attach raw 64KB Retro Replay cartridge image"
+msgstr "Anslut rå 64KB-Retro Replay-insticksmodulfil"
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
-#: src/arch/unix/gui/uic64cart.c:146
-msgid "Attach Super Snapshot V5 image"
-msgstr "Anslut Super Snapshot V5-avbildning"
+#: src/arch/unix/gui/uic64cart.c:146 src/arch/win32/res.rc.po.c:1008
+#: src/arch/amigaos/intl_text.c.po.c:4009 src/translate_text.c.po.c:5571
+msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
+msgstr "Anslut rå 64KB-Super Snapshot V5-insticksmodulfil"
 
 #: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/win32/res.rc.po.c:1369 src/arch/amigaos/intl_text.c.po.c:798
 msgid "Set cartridge as default"
 msgstr "Välj insticksmodul som förval"
-
-#: src/arch/unix/gui/uic64cart.c:156 src/arch/unix/gui/vic20ui.c:355
-msgid "Attach a cartridge image"
-msgstr "Anslut insticksmodulfil"
 
 #: src/arch/unix/gui/uic64cart.c:158 src/arch/win32/res.rc.po.c:1371
 #: src/arch/amigaos/intl_text.c.po.c:499
@@ -1398,6 +1412,8 @@ msgid "Browse manuals"
 msgstr "Läs manualer"
 
 #: src/arch/unix/gui/uicommands.c:560 src/arch/win32/res.rc.po.c:176
+#: src/arch/win32/res.rc.po.c:1319 src/arch/amigaos/intl_text.c.po.c:2787
+#: src/arch/amigaos/intl_text.c.po.c:4230
 msgid "About VICE"
 msgstr "Om VICE"
 
@@ -1892,7 +1908,7 @@ msgstr "Parallellkabel"
 #: src/arch/unix/gui/uidrivec64c128.c:112
 #: src/arch/unix/gui/uidrivec64c128.c:125
 #: src/arch/unix/gui/uidrivec64c128.c:138
-#: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:7124
+#: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:7125
 msgid "Enable Professional DOS"
 msgstr "Aktivera Professional DOS"
 
@@ -1995,7 +2011,8 @@ msgstr "Skrev \"%s\"."
 msgid "Error writing `%s'."
 msgstr "Fel vid skrivning av \"%s\"."
 
-#: src/arch/unix/gui/uifliplist.c:115
+#: src/arch/unix/gui/uifliplist.c:115 src/arch/win32/res.rc.po.c:1356
+#: src/arch/amigaos/intl_text.c.po.c:135
 msgid "Add current image (Unit 8)"
 msgstr "Lägg till aktuell avbildning (enhet 8)"
 
@@ -2003,11 +2020,13 @@ msgstr "Lägg till aktuell avbildning (enhet 8)"
 msgid "Remove current image (Unit 8)"
 msgstr "Ta bort aktuell avbildning (enhet 8)"
 
-#: src/arch/unix/gui/uifliplist.c:121
+#: src/arch/unix/gui/uifliplist.c:121 src/arch/win32/res.rc.po.c:1358
+#: src/arch/amigaos/intl_text.c.po.c:161
 msgid "Attach next image (Unit 8)"
 msgstr "Anslut nästa avbildning (enhet 8)"
 
-#: src/arch/unix/gui/uifliplist.c:124
+#: src/arch/unix/gui/uifliplist.c:124 src/arch/win32/res.rc.po.c:1359
+#: src/arch/amigaos/intl_text.c.po.c:174
 msgid "Attach previous image (Unit 8)"
 msgstr "Anslut föregående avbildning (enhet 8)"
 
@@ -3109,19 +3128,24 @@ msgid "Normal"
 msgstr "Normal"
 
 #: src/arch/unix/gui/uirs232c64c128.c:66
-msgid "ACIA $DExx RS232 interface emulation"
+#, fuzzy
+msgid "ACIA RS232 interface emulation"
 msgstr "ACIA $DExx RS232-gränssnittsemulering"
 
 #: src/arch/unix/gui/uirs232c64c128.c:68
-msgid "ACIA $DExx device"
-msgstr "ACIA $DExx-enhet"
+#: src/arch/unix/gui/uirs232petplus4cbm2.c:38
+#: src/arch/win32/resacia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:4412
+msgid "ACIA device"
+msgstr "ACIA-enhet"
 
-#: src/arch/unix/gui/uirs232c64c128.c:70
-msgid "ACIA $DExx Interrupt"
-msgstr "ACIA $DExx-avbrott"
+#: src/arch/unix/gui/uirs232c64c128.c:70 src/arch/win32/resacia.rc.po.c:51
+#: src/arch/amigaos/intl_text.c.po.c:4425
+msgid "ACIA interrupt"
+msgstr "ACIA-avbrott"
 
 #: src/arch/unix/gui/uirs232c64c128.c:72
-msgid "ACIA $DExx Emulation Mode"
+#, fuzzy
+msgid "ACIA emulation mode"
 msgstr "ACIA $DExx-emuleringsläge"
 
 #: src/arch/unix/gui/uirs232c64c128.c:75 src/arch/unix/gui/vic20ui.c:429
@@ -3162,11 +3186,6 @@ msgstr "Filnamn för datadump"
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:54 src/arch/unix/gui/vic20ui.c:449
 msgid "Program name to exec"
 msgstr "Program att starta"
-
-#: src/arch/unix/gui/uirs232petplus4cbm2.c:38
-#: src/arch/win32/resacia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:4412
-msgid "ACIA device"
-msgstr "ACIA-enhet"
 
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:46 src/arch/unix/gui/vic20ui.c:441
 msgid "Serial 2 device"
@@ -3243,7 +3262,7 @@ msgstr "Egen"
 msgid "No limit"
 msgstr "Ingen gräns"
 
-#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:10958
+#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:10959
 msgid "Enable warp mode"
 msgstr "Aktivera warpläge"
 
@@ -3426,7 +3445,7 @@ msgstr "Anpassande"
 msgid "Exact"
 msgstr "Exakt"
 
-#: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:10670
+#: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:10671
 msgid "Enable sound playback"
 msgstr "Aktivera ljudåtergivning"
 
@@ -3514,8 +3533,9 @@ msgstr "Utgåva 1"
 msgid "Rev 2"
 msgstr "Utgåva 2"
 
-#: src/arch/unix/gui/uivdc.c:145
-msgid "64kB display memory"
+#: src/arch/unix/gui/uivdc.c:145 src/arch/win32/resc128.rc.po.c:695
+#: src/arch/amigaos/intl_text.c.po.c:1487
+msgid "64KB video memory"
 msgstr "64KB grafikminne"
 
 #: src/arch/unix/gui/uivicii.c:89 src/arch/win32/resvicii.rc.po.c:41
@@ -3608,25 +3628,30 @@ msgstr "Ogiltig insticksmodulfil"
 msgid "Smart-attach cartridge image"
 msgstr "Smartanslut insticksmodulfil"
 
-#: src/arch/unix/gui/vic20ui.c:273
-msgid "Attach 4/8/16kB image at $2000"
-msgstr "Anslut 4/8/16kB-fil vid $2000"
+#: src/arch/unix/gui/vic20ui.c:273 src/arch/win32/resvic20.rc.po.c:510
+#: src/arch/amigaos/intl_text.c.po.c:4048
+msgid "Attach 4/8/16KB cartridge image at $2000"
+msgstr "Anslut 4/8/16KB-modulfil vid $2000"
 
-#: src/arch/unix/gui/vic20ui.c:276
-msgid "Attach 4/8/16kB image at $4000"
-msgstr "Anslut 4/8/16kB-fil vid $4000"
+#: src/arch/unix/gui/vic20ui.c:276 src/arch/win32/resvic20.rc.po.c:511
+#: src/arch/amigaos/intl_text.c.po.c:4061
+msgid "Attach 4/8/16KB cartridge image at $4000"
+msgstr "Anslut 4/8/16KB-modulfil vid $4000"
 
-#: src/arch/unix/gui/vic20ui.c:279
-msgid "Attach 4/8/16kB image at $6000"
-msgstr "Anslut 4/8/16kB-fil vid $6000"
+#: src/arch/unix/gui/vic20ui.c:279 src/arch/win32/resvic20.rc.po.c:512
+#: src/arch/amigaos/intl_text.c.po.c:4074
+msgid "Attach 4/8/16KB cartridge image at $6000"
+msgstr "Anslut 4/8/16KB-modulfil vid $6000"
 
-#: src/arch/unix/gui/vic20ui.c:282
-msgid "Attach 4/8kB image at $A000"
-msgstr "Anslut 4/8kB-fil vid $A000"
+#: src/arch/unix/gui/vic20ui.c:282 src/arch/win32/resvic20.rc.po.c:513
+#: src/arch/amigaos/intl_text.c.po.c:4087
+msgid "Attach 4/8KB cartridge image at $A000"
+msgstr "Anslut 4/8KB-modulfil vid $A000"
 
-#: src/arch/unix/gui/vic20ui.c:285
-msgid "Attach 4kB image at $B000"
-msgstr "Anslut 4kB-fil vid $B000"
+#: src/arch/unix/gui/vic20ui.c:285 src/arch/win32/resvic20.rc.po.c:514
+#: src/arch/amigaos/intl_text.c.po.c:4100
+msgid "Attach 4KB cartridge image at $B000"
+msgstr "Anslut 4KB-modulfil vid $B000"
 
 #: src/arch/unix/gui/vic20ui.c:302
 msgid "Attach generic image"
@@ -3644,7 +3669,8 @@ msgstr "Anslut Final Expansion-savbildning"
 msgid "Attach Vic Flash Plugin image"
 msgstr "Anslut Vic Flash insticksmodulsavbildning"
 
-#: src/arch/unix/gui/vic20ui.c:315
+#: src/arch/unix/gui/vic20ui.c:315 src/arch/win32/resvic20.rc.po.c:70
+#: src/arch/win32/resvic20.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:408
 msgid "Add to generic cartridge"
 msgstr "Lägg till generisk insticksmodul"
 
@@ -4154,7 +4180,7 @@ msgstr "Starta automatiskt"
 msgid "Text cannot be displayed.\n"
 msgstr "Texten kan inte visas.\n"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:1912
+#: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:1913
 msgid "command"
 msgstr "kommando"
 
@@ -4202,8 +4228,8 @@ msgstr "Aktivera fullskärmsläge (standardkrets)"
 msgid "Disable fullscreen (default Chip)"
 msgstr "Inaktivera fullskärmsläge (standardkrets)"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2728
-#: src/translate_text.c.po.c:6050
+#: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2729
+#: src/translate_text.c.po.c:6051
 msgid "value"
 msgstr "värde"
 
@@ -4304,60 +4330,57 @@ msgstr "%d: Spår %.1f"
 msgid "VICE Error!"
 msgstr "VICE-fel!"
 
-#: src/arch/unix/x11/xaw/x11video.c:190
+#: src/arch/unix/x11/xaw/x11video.c:190 src/arch/unix/x11/xaw/x11video.c:283
+#, fuzzy
+msgid "Aspect ratio"
+msgstr "storleksförhållande"
+
+#: src/arch/unix/x11/xaw/x11video.c:192
 msgid "Custom aspect ratio"
 msgstr "Eget bredd-/höjdförhållande"
 
-#: src/arch/unix/x11/xaw/x11video.c:190
-msgid "Aspect ratio (0.5 - 2.0):"
-msgstr "Bredd-/höjdförhållande (0,5 - 2,0):"
-
-#: src/arch/unix/x11/xaw/x11video.c:254
+#: src/arch/unix/x11/xaw/x11video.c:257
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Anropa \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:259
+#: src/arch/unix/x11/xaw/x11video.c:262
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Anropa ej \"XSync()\" efter uppdatering av emuleringsfönstret"
 
-#: src/arch/unix/x11/xaw/x11video.c:264
+#: src/arch/unix/x11/xaw/x11video.c:267
 msgid "Use shared memory"
 msgstr "Använder delat minne"
 
-#: src/arch/unix/x11/xaw/x11video.c:269
+#: src/arch/unix/x11/xaw/x11video.c:272
 msgid "Never use shared memory (slower)"
 msgstr "Använd aldrig delat minne (långsammare)"
 
-#: src/arch/unix/x11/xaw/x11video.c:275
+#: src/arch/unix/x11/xaw/x11video.c:278
 msgid "fourcc"
 msgstr "fourcc"
 
-#: src/arch/unix/x11/xaw/x11video.c:275
+#: src/arch/unix/x11/xaw/x11video.c:278
 msgid "Request YUV FOURCC format"
 msgstr "Be om YUV FOURCC-format"
 
-#: src/arch/unix/x11/xaw/x11video.c:280
-msgid "aspect ratio"
-msgstr "storleksförhållande"
-
-#: src/arch/unix/x11/xaw/x11video.c:280
+#: src/arch/unix/x11/xaw/x11video.c:283
 msgid "Set aspect ratio (0.5 - 2.0)"
 msgstr "Välj bredd-/höjdförhållande (0,5 - 2,0)"
 
-#: src/arch/unix/x11/xaw/x11video.c:285 src/arch/unix/macosx/cocoa/video.m:172
+#: src/arch/unix/x11/xaw/x11video.c:288 src/arch/unix/macosx/cocoa/video.m:172
 msgid "Enable true aspect ratio"
 msgstr "Aktivera äkta storleksförhållande"
 
-#: src/arch/unix/x11/xaw/x11video.c:290 src/arch/unix/macosx/cocoa/video.m:177
+#: src/arch/unix/x11/xaw/x11video.c:293 src/arch/unix/macosx/cocoa/video.m:177
 msgid "Disable true aspect ratio"
 msgstr "Inaktivera äkta storleksförhållande"
 
-#: src/arch/unix/x11/xaw/x11video.c:364
+#: src/arch/unix/x11/xaw/x11video.c:367
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-utökningar version %d.%d hittades."
 
-#: src/arch/unix/x11/xaw/x11video.c:627
+#: src/arch/unix/x11/xaw/x11video.c:630
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering färdig.\n"
 
@@ -4665,20 +4688,6 @@ msgstr "Anslöt band %s"
 msgid "Settings loaded successfully."
 msgstr "Inställningarna har lästs in."
 
-#: src/arch/win32/res.rc.po.c:927 src/arch/win32/res.rc.po.c:1294
-#: src/arch/win32/resc128.rc.po.c:23 src/arch/win32/resc64.rc.po.c:23
-#: src/arch/win32/resc64dtv.rc.po.c:23 src/arch/win32/rescbm2.rc.po.c:23
-#: src/arch/win32/respet.rc.po.c:23 src/arch/win32/resplus4.rc.po.c:23
-#: src/arch/win32/resvic20.rc.po.c:23 src/arch/amigaos/intl_text.c.po.c:31
-msgid "Attach disk image"
-msgstr "Anslut diskettavbildningsfil"
-
-#: src/arch/win32/res.rc.po.c:928 src/arch/win32/res.rc.po.c:1330
-#: src/arch/amigaos/intl_text.c.po.c:213
-#: src/arch/amigaos/intl_text.c.po.c:6935
-msgid "Attach tape image"
-msgstr "Anslut bandavbildningsfil"
-
 #: src/arch/win32/res.rc.po.c:929 src/arch/win32/res.rc.po.c:1323
 #: src/arch/amigaos/intl_text.c.po.c:18 src/arch/amigaos/intl_text.c.po.c:6948
 msgid "Autostart disk/tape image"
@@ -4911,65 +4920,38 @@ msgid "RS232 device %i"
 msgstr "RS232-enhet %i"
 
 #: src/arch/win32/res.rc.po.c:994 src/arch/amigaos/intl_text.c.po.c:3840
-#: src/translate_text.c.po.c:5042
+#: src/translate_text.c.po.c:5043
 msgid "Attach CRT cartridge image"
 msgstr "Anslut CRT-insticksmodulfil"
 
-#: src/arch/win32/res.rc.po.c:995 src/arch/amigaos/intl_text.c.po.c:3853
-msgid "Attach raw 8KB cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
-
-#: src/arch/win32/res.rc.po.c:996 src/arch/amigaos/intl_text.c.po.c:3866
-msgid "Attach raw 16KB cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
-
 #: src/arch/win32/res.rc.po.c:997 src/arch/amigaos/intl_text.c.po.c:3879
-msgid "Attach Action Replay cartridge image"
-msgstr "Anslut Action Replay-insticksmodulfil"
+#: src/translate_text.c.po.c:5171
+msgid "Attach raw 32KB Action Replay cartridge image"
+msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:3892
-msgid "Attach Action Replay MK3 cartridge image"
-msgstr "Anslut Action Replay MK3-insticksmodulfil"
+#: src/translate_text.c.po.c:5155
+msgid "Attach raw 16KB Action Replay MK3 cartridge image"
+msgstr "Anslut rå 16KB-Action Replay MK3-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:999 src/arch/amigaos/intl_text.c.po.c:3905
-msgid "Attach Action Replay MK4 cartridge image"
-msgstr "Anslut Action Replay MK4-insticksmodulfil"
+#: src/translate_text.c.po.c:5123
+msgid "Attach raw 32KB Action Replay MK4 cartridge image"
+msgstr "Anslut rå 32KB-Action Replay MK4-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:1000 src/arch/amigaos/intl_text.c.po.c:3918
-msgid "Attach Stardos cartridge image"
-msgstr "Anslut Stardos-insticksmodulfil"
-
-#: src/arch/win32/res.rc.po.c:1001 src/arch/amigaos/intl_text.c.po.c:3931
-msgid "Attach Atomic Power cartridge image"
-msgstr "Anslut Atomic Power-avbildningsfil"
-
-#: src/arch/win32/res.rc.po.c:1002 src/arch/amigaos/intl_text.c.po.c:3944
-msgid "Attach Epyx FastLoad cartridge image"
-msgstr "Anslut Epyx FastLoad-avbildningsfil"
+#: src/translate_text.c.po.c:5107
+msgid "Attach raw 16KB Stardos cartridge image"
+msgstr "Anslut rå 16KB Stardos-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:1003 src/arch/amigaos/intl_text.c.po.c:3957
 msgid "Attach IEEE-488 Interface cartridge image"
 msgstr "Anslut IEEE-488-gränssnittsavbildningsfil"
 
-#: src/arch/win32/res.rc.po.c:1004 src/arch/amigaos/intl_text.c.po.c:3970
-msgid "Attach Retro Replay cartridge image"
-msgstr "Anslut Retro Replay-avbildningsfil"
-
-#: src/arch/win32/res.rc.po.c:1005
-msgid "Attach MMC Replay cartridge image"
-msgstr "Anslut MMC Replay-avbildningsfil"
-
-#: src/arch/win32/res.rc.po.c:1006 src/arch/amigaos/intl_text.c.po.c:3983
-msgid "Attach IDE64 interface cartridge image"
-msgstr "Anslut IDE64-gränssnittsavbildningsfil"
-
 #: src/arch/win32/res.rc.po.c:1007 src/arch/amigaos/intl_text.c.po.c:3996
-msgid "Attach Super Snapshot V4 cartridge image"
-msgstr "Anslut Super Snapshot V4-avbildningsfil"
-
-#: src/arch/win32/res.rc.po.c:1008 src/arch/amigaos/intl_text.c.po.c:4009
-msgid "Attach Super Snapshot V5 cartridge image"
-msgstr "Anslut Super Snapshot V5-avbildningsfil"
+#: src/translate_text.c.po.c:5555
+msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
+msgstr "Anslut rå 32KB Super Snapshot V4-insticksmodulfil"
 
 #: src/arch/win32/res.rc.po.c:1009 src/arch/amigaos/intl_text.c.po.c:4022
 msgid "Attach Structured BASIC cartridge image"
@@ -5209,8 +5191,8 @@ msgstr ""
 msgid "Unknown"
 msgstr "Okänd"
 
-#: src/arch/win32/res.rc.po.c:1077 src/translate_text.c.po.c:1240
-#: src/translate_text.c.po.c:3404
+#: src/arch/win32/res.rc.po.c:1077 src/translate_text.c.po.c:1241
+#: src/translate_text.c.po.c:3405
 msgid "number"
 msgstr "nummer"
 
@@ -5825,11 +5807,6 @@ msgstr "Hjälp"
 msgid "Exit"
 msgstr "Avsluta"
 
-#: src/arch/win32/res.rc.po.c:1319 src/arch/amigaos/intl_text.c.po.c:2787
-#: src/arch/amigaos/intl_text.c.po.c:4230
-msgid "About"
-msgstr "Om"
-
 #: src/arch/win32/res.rc.po.c:1333 src/arch/amigaos/intl_text.c.po.c:1604
 msgid "Sound playback"
 msgstr "Aktivera ljudåtergivning"
@@ -5902,21 +5879,9 @@ msgstr "Super Snapshot V5-fil"
 msgid "Structured BASIC image"
 msgstr "Structured BASIC-fil"
 
-#: src/arch/win32/res.rc.po.c:1356 src/arch/amigaos/intl_text.c.po.c:135
-msgid "Add current image"
-msgstr "Lägg till aktuell avbildning"
-
 #: src/arch/win32/res.rc.po.c:1357 src/arch/amigaos/intl_text.c.po.c:148
 msgid "Remove current image"
 msgstr "Ta bort aktuell avbildning"
-
-#: src/arch/win32/res.rc.po.c:1358 src/arch/amigaos/intl_text.c.po.c:161
-msgid "Attach next image"
-msgstr "Anslut nästa avbildning"
-
-#: src/arch/win32/res.rc.po.c:1359 src/arch/amigaos/intl_text.c.po.c:174
-msgid "Attach previous image"
-msgstr "Anslut föregående avbildning"
 
 #: src/arch/win32/res.rc.po.c:1360 src/arch/amigaos/intl_text.c.po.c:187
 msgid "Load flip list"
@@ -6105,7 +6070,9 @@ msgstr "IDE64-inställningar"
 msgid "Ethernet settings"
 msgstr "Ethernetinställningar"
 
-#: src/arch/win32/res.rc.po.c:1443 src/arch/amigaos/intl_text.c.po.c:2540
+#: src/arch/win32/res.rc.po.c:1443 src/arch/win32/resacia.rc.po.c:47
+#: src/arch/amigaos/intl_text.c.po.c:2540
+#: src/arch/amigaos/intl_text.c.po.c:4451
 msgid "ACIA settings"
 msgstr "ACIA-inställningar"
 
@@ -6288,10 +6255,6 @@ msgstr "Swiftlink"
 msgid "Turbo232"
 msgstr "Turbo232"
 
-#: src/arch/win32/resacia.rc.po.c:47 src/arch/amigaos/intl_text.c.po.c:4451
-msgid "ACIA Settings"
-msgstr "ACIA-inställningar"
-
 #: src/arch/win32/resacia.rc.po.c:48
 msgid "Enable ACIA"
 msgstr "Aktivera ACIA"
@@ -6299,10 +6262,6 @@ msgstr "Aktivera ACIA"
 #: src/arch/win32/resacia.rc.po.c:50
 msgid "ACIA location"
 msgstr "Placering av ACIA"
-
-#: src/arch/win32/resacia.rc.po.c:51 src/arch/amigaos/intl_text.c.po.c:4425
-msgid "ACIA interrupt"
-msgstr "ACIA-avbrott"
 
 #: src/arch/win32/resacia.rc.po.c:52 src/arch/amigaos/intl_text.c.po.c:4438
 msgid "ACIA mode"
@@ -6468,10 +6427,6 @@ msgstr "Externt funktions-ROM"
 msgid "Enable RAM banks 2 and 3"
 msgstr "Aktivera RAM-bank 2 och 3"
 
-#: src/arch/win32/resc128.rc.po.c:695 src/arch/amigaos/intl_text.c.po.c:1487
-msgid "64KB video memory"
-msgstr "64KB grafikminne"
-
 #: src/arch/win32/resc128.rc.po.c:696
 msgid "IEEE488 Interface emulation"
 msgstr "Emulering av IEEE488-gränssnitt"
@@ -6484,7 +6439,9 @@ msgstr "PLUS60K-inställningar"
 msgid "PLUS256K settings"
 msgstr "PLUS256K-inställningar"
 
-#: src/arch/win32/resc64.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:2410
+#: src/arch/win32/resc64.rc.po.c:524 src/arch/win32/resc64_256k.rc.po.c:28
+#: src/arch/amigaos/intl_text.c.po.c:2410
+#: src/arch/amigaos/intl_text.c.po.c:4516
 msgid "256K settings"
 msgstr "256K-inställningar"
 
@@ -6508,23 +6465,14 @@ msgstr "8562 (NTSC)"
 msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
-#: src/arch/win32/resc64_256k.rc.po.c:28
-#: src/arch/amigaos/intl_text.c.po.c:4516
-msgid "256K Settings"
-msgstr "256K-inställningar"
-
 #: src/arch/win32/resc64_256k.rc.po.c:29
 msgid "Enable 256K"
 msgstr "Aktivera 256K"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
+#: src/arch/amigaos/intl_text.c.po.c:4477
 msgid "256K base address"
 msgstr "256K-basadress"
-
-#: src/arch/win32/resc64_256k.rc.po.c:31
-#: src/arch/amigaos/intl_text.c.po.c:4490
-msgid "256K file"
-msgstr "256K-fil"
 
 #: src/arch/win32/resc64_256k.rc.po.c:32
 #: src/arch/amigaos/intl_text.c.po.c:4503
@@ -6555,7 +6503,7 @@ msgstr "Aktivera skrivning till DTV-ROM-avbildning"
 msgid "C64DTV Settings"
 msgstr "C64DTV-inställningar"
 
-#: src/arch/win32/resc64dtv.rc.po.c:440 src/translate_text.c.po.c:3824
+#: src/arch/win32/resc64dtv.rc.po.c:440 src/translate_text.c.po.c:3825
 msgid "Enable Hummer ADC"
 msgstr "Aktivera Hummer-A/D-omvandlare"
 
@@ -7269,11 +7217,6 @@ msgstr "ROM-fil för V364-röst"
 msgid "Select ROM file for V364 Speech"
 msgstr "Välj ROM-fil för V364-röst"
 
-#: src/arch/win32/resvic20.rc.po.c:70 src/arch/win32/resvic20.rc.po.c:521
-#: src/arch/amigaos/intl_text.c.po.c:408
-msgid "Add to generic"
-msgstr "Lägg till generisk"
-
 #: src/arch/win32/resvic20.rc.po.c:493
 msgid "no expansion memory"
 msgstr "ingen minnesutökning"
@@ -7325,26 +7268,6 @@ msgstr "Välj avbildning för Vic Flash-insticksmodul"
 #: src/arch/win32/resvic20.rc.po.c:509
 msgid "Select cartridge image"
 msgstr "Välj insticksmodulfil"
-
-#: src/arch/win32/resvic20.rc.po.c:510 src/arch/amigaos/intl_text.c.po.c:4048
-msgid "Attach 4/8/16KB cartridge image at $2000"
-msgstr "Anslut 4/8/16KB-modulfil vid $2000"
-
-#: src/arch/win32/resvic20.rc.po.c:511 src/arch/amigaos/intl_text.c.po.c:4061
-msgid "Attach 4/8/16KB cartridge image at $4000"
-msgstr "Anslut 4/8/16KB-modulfil vid $4000"
-
-#: src/arch/win32/resvic20.rc.po.c:512 src/arch/amigaos/intl_text.c.po.c:4074
-msgid "Attach 4/8/16KB cartridge image at $6000"
-msgstr "Anslut 4/8/16KB-modulfil vid $6000"
-
-#: src/arch/win32/resvic20.rc.po.c:513 src/arch/amigaos/intl_text.c.po.c:4087
-msgid "Attach 4/8KB cartridge image at $A000"
-msgstr "Anslut 4/8KB-modulfil vid $A000"
-
-#: src/arch/win32/resvic20.rc.po.c:514 src/arch/amigaos/intl_text.c.po.c:4100
-msgid "Attach 4KB cartridge image at $B000"
-msgstr "Anslut 4KB-modulfil vid $B000"
 
 #: src/arch/win32/resvic20.rc.po.c:515
 msgid "VIC-1112 IEEE 488 module"
@@ -7399,7 +7322,7 @@ msgid "Enable Vic Flash Plugin write-back"
 msgstr "Aktivera Vic Flash-insticksmodul-återskrivning"
 
 #: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2631
-#: src/translate_text.c.po.c:9204
+#: src/translate_text.c.po.c:9205
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr "Aktivera Mega-Cart NvRAM-återskrivning"
 
@@ -7665,10 +7588,6 @@ msgstr "Rått"
 #: src/arch/amigaos/intl_text.c.po.c:4464
 msgid "256K Enabled"
 msgstr "256K aktiverat"
-
-#: src/arch/amigaos/intl_text.c.po.c:4477
-msgid "256K Base"
-msgstr "256K-bas"
 
 #: src/arch/amigaos/intl_text.c.po.c:4529
 msgid "Select file for C64DTV ROM"
@@ -8198,223 +8117,223 @@ msgstr "Spara till EasyFlash-CRT-fil vid frånkoppling"
 msgid "Save to EasyFlash CRT now"
 msgstr "Spara till EasyFlash-CRT nu"
 
-#: src/translate_text.c.po.c:6
+#: src/translate_text.c.po.c:7
 msgid "Cannot load snapshot file."
 msgstr "Kan inte läsa in ögonblicksbildfil."
 
-#: src/translate_text.c.po.c:22
+#: src/translate_text.c.po.c:23
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
 msgstr "Återspelningsfel: %s inte lika som rad %d i filen debug%06d"
 
-#: src/translate_text.c.po.c:38
+#: src/translate_text.c.po.c:39
 msgid "Cannot create image file!"
 msgstr "Kan inte skapa avbildningsfil!"
 
-#: src/translate_text.c.po.c:54
+#: src/translate_text.c.po.c:55
 #, c-format
 msgid "Cannot write image file %s"
 msgstr "Kan inte skriva avbildningsfil %s"
 
-#: src/translate_text.c.po.c:70
+#: src/translate_text.c.po.c:71
 #, c-format
 msgid "Cannot find mapped name for %s"
 msgstr "Kan inte kopplat namn för %s"
 
-#: src/translate_text.c.po.c:86
+#: src/translate_text.c.po.c:87
 #, c-format
 msgid "Could not create start snapshot file %s."
 msgstr "Kunde inte skapa startögonblicksbildfilen %s."
 
-#: src/translate_text.c.po.c:102
+#: src/translate_text.c.po.c:103
 #, c-format
 msgid "Error reading end snapshot file %s."
 msgstr "Fel vid läsning av slutögonblicksbildfilen %s."
 
-#: src/translate_text.c.po.c:118
+#: src/translate_text.c.po.c:119
 #, c-format
 msgid "Could not create end snapshot file %s."
 msgstr "Kunde inte skapa slutögonblicksbildfilen %s."
 
-#: src/translate_text.c.po.c:134
+#: src/translate_text.c.po.c:135
 #, c-format
 msgid "Could not open end snapshot file %s."
 msgstr "Kunde inte öppna slutögonblicksbildfilen %s."
 
-#: src/translate_text.c.po.c:150
+#: src/translate_text.c.po.c:151
 msgid "Could not find event section in end snapshot file."
 msgstr "Kunde inte hinna händelsedelen i slutögonblicksbilden."
 
-#: src/translate_text.c.po.c:166
+#: src/translate_text.c.po.c:167
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
 msgstr "Fel vid läsning av startögonblicksbildfil. Försökte med %s och %s"
 
-#: src/translate_text.c.po.c:182
+#: src/translate_text.c.po.c:183
 msgid "Error reading start snapshot file."
 msgstr "Fel vid läsning av startögonblicksbildfil."
 
-#: src/translate_text.c.po.c:198
+#: src/translate_text.c.po.c:199
 msgid "Sorry. Multiple recording is not supported."
 msgstr "Endast en inspelning kan göras åt gången."
 
-#: src/translate_text.c.po.c:214
+#: src/translate_text.c.po.c:215
 msgid "write to sound device failed."
 msgstr "misslyckades att skriva till ljudenhet."
 
-#: src/translate_text.c.po.c:230
+#: src/translate_text.c.po.c:231
 msgid "Cannot open SID engine"
 msgstr "Kan inte öppna SID-motor"
 
-#: src/translate_text.c.po.c:246
+#: src/translate_text.c.po.c:247
 msgid "Cannot initialize SID engine"
 msgstr "Kan inte initiera SID-motor"
 
-#: src/translate_text.c.po.c:262
+#: src/translate_text.c.po.c:263
 #, c-format
 msgid "initialization failed for device `%s'."
 msgstr "initiering misslyckades för enhet \"%s\"."
 
-#: src/translate_text.c.po.c:278
+#: src/translate_text.c.po.c:279
 #, c-format
 msgid "device '%s' not found or not supported."
 msgstr "enheten \"%s\" hittades eller stöds ej."
 
-#: src/translate_text.c.po.c:294
+#: src/translate_text.c.po.c:295
 #, c-format
 msgid "Recording device %s doesn't exist!"
 msgstr "Inspelningsenhet %s finns inte!"
 
-#: src/translate_text.c.po.c:310
+#: src/translate_text.c.po.c:311
 msgid "Recording device must be different from playback device"
 msgstr "Inspelningsenhet och återspelningsenhet kan inte vara samma"
 
-#: src/translate_text.c.po.c:326
+#: src/translate_text.c.po.c:327
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr "Varning! Inspelningsenheten %s verkar vara en realtidsenhet!"
 
-#: src/translate_text.c.po.c:342
+#: src/translate_text.c.po.c:343
 msgid "The recording device doesn't support current sound parameters"
 msgstr "Inspelningsenheten stöder inte aktuella ljudinställningar"
 
-#: src/translate_text.c.po.c:358
+#: src/translate_text.c.po.c:359
 msgid "Sound buffer overflow (cycle based)"
 msgstr "För mycket data i ljudbufferten (cykelbaserad)"
 
-#: src/translate_text.c.po.c:374
+#: src/translate_text.c.po.c:375
 msgid "Sound buffer overflow."
 msgstr "För mycket data i ljudbufferten."
 
-#: src/translate_text.c.po.c:390
+#: src/translate_text.c.po.c:391
 msgid "cannot flush."
 msgstr "kan inte tömma."
 
-#: src/translate_text.c.po.c:406
+#: src/translate_text.c.po.c:407
 msgid "fragment problems."
 msgstr "fragmentprogram."
 
-#: src/translate_text.c.po.c:422
+#: src/translate_text.c.po.c:423
 msgid "running too slow."
 msgstr "går för långsamt."
 
-#: src/translate_text.c.po.c:438
+#: src/translate_text.c.po.c:439
 msgid "store to sounddevice failed."
 msgstr "misslyckades spara i ljudenheten."
 
-#: src/translate_text.c.po.c:454
+#: src/translate_text.c.po.c:455
 #, c-format
 msgid "Resource %s blocked by %s."
 msgstr "Resursen %s blockeras av %s."
 
-#: src/translate_text.c.po.c:471
+#: src/translate_text.c.po.c:472
 msgid "Testing best frame delay"
 msgstr "Testar bästa ramfördröjning"
 
-#: src/translate_text.c.po.c:487
+#: src/translate_text.c.po.c:488
 #, c-format
 msgid "Using %d frames delay."
 msgstr "Använder %d ramars fördröjning."
 
-#: src/translate_text.c.po.c:503
+#: src/translate_text.c.po.c:504
 msgid "Cannot load snapshot file for transfer"
 msgstr "Kan inte läsa in ögonblicksbildfil för överföring."
 
-#: src/translate_text.c.po.c:519
+#: src/translate_text.c.po.c:520
 msgid "Sending snapshot to client"
 msgstr "Sänder ögonblicksbild till klient"
 
-#: src/translate_text.c.po.c:535
+#: src/translate_text.c.po.c:536
 msgid "Cannot send snapshot to client"
 msgstr "Kan inte sända ögonblicksbild till klient"
 
-#: src/translate_text.c.po.c:551
+#: src/translate_text.c.po.c:552
 #, c-format
 msgid "Cannot create snapshot file %s"
 msgstr "Kan inte skapa ögonblicksbildfil %s"
 
-#: src/translate_text.c.po.c:567
+#: src/translate_text.c.po.c:568
 #, c-format
 msgid "Cannot open snapshot file %s"
 msgstr "Kan inte öppna ögonblicksbildfil %s"
 
-#: src/translate_text.c.po.c:583
+#: src/translate_text.c.po.c:584
 msgid "Server is waiting for a client"
 msgstr "Servern väntar på en klient"
 
-#: src/translate_text.c.po.c:599
+#: src/translate_text.c.po.c:600
 msgid "Cannot create snapshot file. Select different history directory!"
 msgstr "Kan inte skapa ögonblicksbildfil. Välj en annan historikkatalog!"
 
-#: src/translate_text.c.po.c:615
+#: src/translate_text.c.po.c:616
 #, c-format
 msgid "Cannot resolve %s"
 msgstr "Kan inte slå upp %s"
 
-#: src/translate_text.c.po.c:631
+#: src/translate_text.c.po.c:632
 #, c-format
 msgid "Cannot connect to %s (no server running on port %d)."
 msgstr "Kan inte ansluta till %s (ingen server igång på port %d)."
 
-#: src/translate_text.c.po.c:647
+#: src/translate_text.c.po.c:648
 msgid "Receiving snapshot from server"
 msgstr "Tar emot ögoblicksbild från server"
 
-#: src/translate_text.c.po.c:663
+#: src/translate_text.c.po.c:664
 msgid "Network out of sync - disconnecting."
 msgstr "Nätverket ur synk - kopplar från."
 
-#: src/translate_text.c.po.c:679
+#: src/translate_text.c.po.c:680
 msgid "Remote host disconnected."
 msgstr "Frånkopplad från fjärrvärd."
 
-#: src/translate_text.c.po.c:695
+#: src/translate_text.c.po.c:696
 msgid "Remote host suspending"
 msgstr "FJärrvärden pausar"
 
-#: src/translate_text.c.po.c:712
+#: src/translate_text.c.po.c:713
 msgid "ffmpegdrv: Cannot open video stream"
 msgstr "ffmpegdrv: Kan inte öppna videoström"
 
-#: src/translate_text.c.po.c:728
+#: src/translate_text.c.po.c:729
 msgid "ffmpegdrv: Cannot open audio stream"
 msgstr "ffmpegdrv: Kan inte öppna ljudström"
 
-#: src/translate_text.c.po.c:744
+#: src/translate_text.c.po.c:745
 #, c-format
 msgid "ffmpegdrv: Cannot open %s"
 msgstr "ffmpegdrv: Kan inte öppna %s"
 
-#: src/translate_text.c.po.c:760
+#: src/translate_text.c.po.c:761
 #, c-format
 msgid "I/O read collision at %X from "
 msgstr "I/O-läskollision vid %X från "
 
-#: src/translate_text.c.po.c:776
+#: src/translate_text.c.po.c:777
 msgid " and "
 msgstr " och "
 
-#: src/translate_text.c.po.c:792
+#: src/translate_text.c.po.c:793
 msgid ""
 ".\n"
 "All the named devices will be detached."
@@ -8422,43 +8341,43 @@ msgstr ""
 ".\n"
 "Alla namngivna enheter kommer kopplas från."
 
-#: src/translate_text.c.po.c:808
+#: src/translate_text.c.po.c:809
 msgid "No filename!"
 msgstr "Filnamn saknas!"
 
-#: src/translate_text.c.po.c:824
+#: src/translate_text.c.po.c:825
 msgid "Illegal filename!"
 msgstr "Ogiltigt filnamn!"
 
-#: src/translate_text.c.po.c:840
+#: src/translate_text.c.po.c:841
 #, c-format
 msgid "Error creating file %s!"
 msgstr "Fel när filen \"%s\" skulle skapas!"
 
-#: src/translate_text.c.po.c:856
+#: src/translate_text.c.po.c:857
 #, c-format
 msgid "Error writing to file %s!"
 msgstr "Fel vid skrivning till filen %s!"
 
-#: src/translate_text.c.po.c:872
+#: src/translate_text.c.po.c:873
 msgid "DTV ROM image created successfully"
 msgstr "DTV-ROM-avbildning skapades framgångsrikt"
 
-#: src/translate_text.c.po.c:888 src/translate_text.c.po.c:6708
+#: src/translate_text.c.po.c:889 src/translate_text.c.po.c:6709
 msgid "type"
 msgstr "typ"
 
-#: src/translate_text.c.po.c:904
+#: src/translate_text.c.po.c:905
 #, c-format
 msgid "Command `%s' unknown.\n"
 msgstr "Kommandot \"%s\" är okänt.\n"
 
-#: src/translate_text.c.po.c:920
+#: src/translate_text.c.po.c:921
 #, c-format
 msgid "No help available for `%s'\n"
 msgstr "Hjälp saknas för \"%s\"\n"
 
-#: src/translate_text.c.po.c:936
+#: src/translate_text.c.po.c:937
 #, c-format
 msgid ""
 "\n"
@@ -8467,28 +8386,28 @@ msgstr ""
 "\n"
 "Syntax: %s %s\n"
 
-#: src/translate_text.c.po.c:952
+#: src/translate_text.c.po.c:953
 #, c-format
 msgid "Abbreviation: %s\n"
 msgstr "Förkortning: %s\n"
 
-#: src/translate_text.c.po.c:968
+#: src/translate_text.c.po.c:969
 msgid "Available commands are"
 msgstr "Tillgängliga kommandon"
 
-#: src/translate_text.c.po.c:984
+#: src/translate_text.c.po.c:985
 msgid "Machine state commands"
 msgstr "Kommandon för maskinstatus"
 
-#: src/translate_text.c.po.c:1000
+#: src/translate_text.c.po.c:1001
 msgid "memspace"
 msgstr "minnesområde"
 
-#: src/translate_text.c.po.c:1016
+#: src/translate_text.c.po.c:1017
 msgid "bankname"
 msgstr "banknamn"
 
-#: src/translate_text.c.po.c:1032
+#: src/translate_text.c.po.c:1033
 msgid ""
 "If bankname is not given, print the possible banks for the memspace.\n"
 "If bankname is given set the current bank in the memspace to the given\n"
@@ -8498,7 +8417,7 @@ msgstr ""
 "Om banknamn anges, sätt aktuell bank i minnesområdet till den givna\n"
 "banken."
 
-#: src/translate_text.c.po.c:1048
+#: src/translate_text.c.po.c:1049
 msgid ""
 "Print JSR call chain (most recent call first). Stack offset\n"
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
@@ -8508,23 +8427,23 @@ msgstr ""
 "relativt till SP+1 visas inom parantes. Detta är bara en\n"
 "gissning."
 
-#: src/translate_text.c.po.c:1064
+#: src/translate_text.c.po.c:1065
 msgid "Specify the type of CPU currently used (6502/z80)."
 msgstr "Ange typ av CPU som används för närvarande (6502/z80)."
 
-#: src/translate_text.c.po.c:1080
+#: src/translate_text.c.po.c:1081
 msgid "count"
 msgstr "antal"
 
-#: src/translate_text.c.po.c:1096
+#: src/translate_text.c.po.c:1097
 msgid "Show <count> last executed commands."
 msgstr "Visa <antal> senast exekverade kommandon."
 
-#: src/translate_text.c.po.c:1112 src/translate_text.c.po.c:10302
+#: src/translate_text.c.po.c:1113 src/translate_text.c.po.c:10303
 msgid "filename"
 msgstr "filnamn"
 
-#: src/translate_text.c.po.c:1128
+#: src/translate_text.c.po.c:1129
 msgid ""
 "Write a snapshot of the machine into the file specified.\n"
 "This snapshot is compatible with a snapshot written out by the UI.\n"
@@ -8534,23 +8453,23 @@ msgstr ""
 "Ögonblicksbilden är kompatibel med de som skapas från menyn.\n"
 "Observera: ROM-avbildningar inkluderas inte i bilden."
 
-#: src/translate_text.c.po.c:1144
+#: src/translate_text.c.po.c:1145
 msgid "address"
 msgstr "adress"
 
-#: src/translate_text.c.po.c:1160
+#: src/translate_text.c.po.c:1161
 msgid "Change the PC to ADDRESS and continue execution"
 msgstr "Ändra PC till ADRESS och fortsätt exekveringen"
 
-#: src/translate_text.c.po.c:1176
+#: src/translate_text.c.po.c:1177
 msgid "Print out the I/O area of the emulated machine."
 msgstr "Skriv I/O-området för den emulerade maskinen."
 
-#: src/translate_text.c.po.c:1192
+#: src/translate_text.c.po.c:1193
 msgid "Print out list of attached expansion port devices."
 msgstr "Skriv ut lista över anslutna expansionsportsenheter."
 
-#: src/translate_text.c.po.c:1208
+#: src/translate_text.c.po.c:1209
 msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
@@ -8558,11 +8477,11 @@ msgstr ""
 "Gå till nästa instruktion. Underrutiner hanteras som en\n"
 "enda instruktion."
 
-#: src/translate_text.c.po.c:1224
+#: src/translate_text.c.po.c:1225
 msgid "reg_name"
 msgstr "regnamn"
 
-#: src/translate_text.c.po.c:1256
+#: src/translate_text.c.po.c:1257
 msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
@@ -8570,13 +8489,13 @@ msgstr ""
 "Tilldela respektive register. Utan parametrar visas innehållet\n"
 "i registren."
 
-#: src/translate_text.c.po.c:1272
+#: src/translate_text.c.po.c:1273
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
 msgstr ""
 "Återställ maskinen eller diskettstationen. Typ: 0 = mjuk, 1 = hård,\n"
 "8-11 = diskettstation."
 
-#: src/translate_text.c.po.c:1288
+#: src/translate_text.c.po.c:1289
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
@@ -8584,11 +8503,11 @@ msgstr ""
 "Fortsätt exekveringen och återgå till monitorn precis innan nästa\n"
 "RTS eller RTI exekveras."
 
-#: src/translate_text.c.po.c:1304
+#: src/translate_text.c.po.c:1305
 msgid "Displays the contents of the screen."
 msgstr "Visar skärmens innehåll."
 
-#: src/translate_text.c.po.c:1320
+#: src/translate_text.c.po.c:1321
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
@@ -8596,19 +8515,19 @@ msgstr ""
 "Stega genom instruktioner. ANTAL gör det möjligt att stega\n"
 "genom mer än en enkel instruktion i varje steg."
 
-#: src/translate_text.c.po.c:1336
+#: src/translate_text.c.po.c:1337
 msgid "Read a snapshot of the machine from the file specified."
 msgstr "Läs en ögonblicksbild för maskinen från den angivna filen."
 
-#: src/translate_text.c.po.c:1352
+#: src/translate_text.c.po.c:1353
 msgid "Symbol table commands"
 msgstr "Kommandon för symboltabell"
 
-#: src/translate_text.c.po.c:1368
+#: src/translate_text.c.po.c:1369
 msgid "label"
 msgstr "etikett"
 
-#: src/translate_text.c.po.c:1384
+#: src/translate_text.c.po.c:1385
 msgid ""
 "<memspace> is one of: C: 8: 9: 10: 11:\n"
 "<address>  is the address which should get the label.\n"
@@ -8626,7 +8545,7 @@ msgstr ""
 "matas in och visas vid disassemblering. I tillägg kan den användas\n"
 "närhelst en adress måste anges."
 
-#: src/translate_text.c.po.c:1400
+#: src/translate_text.c.po.c:1401
 msgid ""
 "<memspace> is one of: C: 8: 9: 10: 11:\n"
 "<label>    is the name of the label; it must start with a dot (\".\").\n"
@@ -8638,7 +8557,7 @@ msgstr ""
 "\n"
 "Ta bort en tidigare angiven etikett."
 
-#: src/translate_text.c.po.c:1416
+#: src/translate_text.c.po.c:1417
 msgid ""
 "Load a file containing a mapping of labels to addresses.  If no memory\n"
 "space is specified, the default readspace is used.\n"
@@ -8652,7 +8571,7 @@ msgstr ""
 "Formatet på filen är samma som skrivs av \"save_labels\"-kommandot;\n"
 "det består av några \"add_label\"-kommandon efter varandra."
 
-#: src/translate_text.c.po.c:1432
+#: src/translate_text.c.po.c:1433
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
@@ -8660,7 +8579,7 @@ msgstr ""
 "Spara etiketter till en fil. Om inget minnesområde anges sparas alla\n"
 "etiketterna."
 
-#: src/translate_text.c.po.c:1448
+#: src/translate_text.c.po.c:1449
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
@@ -8668,23 +8587,23 @@ msgstr ""
 "Visar aktuella etiketter. Om inget minnesområde anges visas alla\n"
 "etiketter."
 
-#: src/translate_text.c.po.c:1464
+#: src/translate_text.c.po.c:1465
 msgid "Assembler and memory commands"
 msgstr "Assembler- och minneskommandon"
 
-#: src/translate_text.c.po.c:1480
+#: src/translate_text.c.po.c:1481
 msgid "data_list"
 msgstr "datalista"
 
-#: src/translate_text.c.po.c:1496
+#: src/translate_text.c.po.c:1497
 msgid "Write the specified data at `address'."
 msgstr "Skriv angiven data på \"adress\"."
 
-#: src/translate_text.c.po.c:1512
+#: src/translate_text.c.po.c:1513
 msgid "instruction"
 msgstr "instruktion"
 
-#: src/translate_text.c.po.c:1528
+#: src/translate_text.c.po.c:1529
 msgid ""
 "Assemble instructions to the specified address.  If only one\n"
 "instruction is specified, enter assembly mode (enter an empty line to\n"
@@ -8694,11 +8613,11 @@ msgstr ""
 "instruktion angavs, aktivera assemblerläge (mata in en tom rad\n"
 "för att avsluta assemblerläget)."
 
-#: src/translate_text.c.po.c:1544
+#: src/translate_text.c.po.c:1545
 msgid "address_range"
 msgstr "adressområde"
 
-#: src/translate_text.c.po.c:1560
+#: src/translate_text.c.po.c:1561
 msgid ""
 "Compare memory from the source specified by the address range to the\n"
 "destination specified by the address.  The regions may overlap.  Any\n"
@@ -8708,15 +8627,15 @@ msgstr ""
 "som anges av adressen. Områdena kan vara överlappande. Alla värden\n"
 "som skiljer sig vid jämförelsen visas med standardvisningssättet."
 
-#: src/translate_text.c.po.c:1576
+#: src/translate_text.c.po.c:1577
 msgid "checknum"
 msgstr "kontrollnr"
 
-#: src/translate_text.c.po.c:1592
+#: src/translate_text.c.po.c:1593
 msgid "Delete checkpoint `checknum'."
 msgstr "Ta bort kontrollpunkt \"kontrollnr\"."
 
-#: src/translate_text.c.po.c:1608
+#: src/translate_text.c.po.c:1609
 msgid ""
 "Disassemble instructions.  If two addresses are specified, they are\n"
 "used as a start and end address.  If only one is specified, it is\n"
@@ -8729,7 +8648,7 @@ msgstr ""
 "och ett standardantal instruktioner disassembleras. Om ingen adress\n"
 "anges disassembleras ett standardantal instruktioner från punktadressen."
 
-#: src/translate_text.c.po.c:1624
+#: src/translate_text.c.po.c:1625
 msgid ""
 "Fill memory in the specified address range with the data in\n"
 "<data_list>.  If the size of the address range is greater than the size\n"
@@ -8739,7 +8658,7 @@ msgstr ""
 "Om storleken på adressområdet är större än storleken på datalistan\n"
 "repeteras innehållet i datalistan."
 
-#: src/translate_text.c.po.c:1640
+#: src/translate_text.c.po.c:1641
 msgid ""
 "Hunt memory in the specified address range for the data in\n"
 "<data_list>.  If the data is found, the starting address of the match\n"
@@ -8749,23 +8668,23 @@ msgstr ""
 "Om data påträffas visas startadressen för träffen. Hela\n"
 "området genomsöks för att hitta alla möjliga träffar."
 
-#: src/translate_text.c.po.c:1656
+#: src/translate_text.c.po.c:1657
 msgid "address_opt_range"
 msgstr "adress_ev_område"
 
-#: src/translate_text.c.po.c:1672
+#: src/translate_text.c.po.c:1673
 msgid "Display memory contents as PETSCII text."
 msgstr "Visa minnesinnehåll som PETSCII-text."
 
-#: src/translate_text.c.po.c:1688
+#: src/translate_text.c.po.c:1689
 msgid "Display memory contents as screen code text."
 msgstr "Visa minnesinnehåll som skärmkodstext."
 
-#: src/translate_text.c.po.c:1704
+#: src/translate_text.c.po.c:1705
 msgid "data_type"
 msgstr "datatyp"
 
-#: src/translate_text.c.po.c:1720
+#: src/translate_text.c.po.c:1721
 msgid ""
 "Display the contents of memory.  If no datatype is given, the default\n"
 "is used.  If only one address is specified, the length of data\n"
@@ -8780,7 +8699,7 @@ msgstr ""
 "Observera: på grund av tvetydig betydelse av \"b\" och \"d\" måste dessa\n"
 "datatyper anges med stora bokstäver!"
 
-#: src/translate_text.c.po.c:1736
+#: src/translate_text.c.po.c:1737
 msgid ""
 "Display the contents of memory as character data.  If only one address\n"
 "is specified, only one character is displayed.  If no addresses are\n"
@@ -8790,11 +8709,11 @@ msgstr ""
 "anges, visas endast ett tecken. Om ingen adress anges används\n"
 "\"punkt\"-adressen."
 
-#: src/translate_text.c.po.c:1752
+#: src/translate_text.c.po.c:1753
 msgid "format"
 msgstr "format"
 
-#: src/translate_text.c.po.c:1768
+#: src/translate_text.c.po.c:1769
 msgid ""
 "Save the memmap as a picture. Format is:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
@@ -8802,11 +8721,11 @@ msgstr ""
 "Sparar minneskartan som en bild. Format:\n"
 "0 = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
-#: src/translate_text.c.po.c:1784
+#: src/translate_text.c.po.c:1785
 msgid "mask"
 msgstr "mask"
 
-#: src/translate_text.c.po.c:1800
+#: src/translate_text.c.po.c:1801
 msgid ""
 "Show the memmap. The mask can be specified to show only those\n"
 "locations with accesses of certain type(s). The mask is a number\n"
@@ -8818,11 +8737,11 @@ msgstr ""
 "med bitarna \"ioRWXrwx\", där RWX är för ROM och rwx är för\n"
 "RAM. Ett minnesområde kan eventuellt anges."
 
-#: src/translate_text.c.po.c:1816
+#: src/translate_text.c.po.c:1817
 msgid "Clear the memmap."
 msgstr "Töm minneskartan."
 
-#: src/translate_text.c.po.c:1832
+#: src/translate_text.c.po.c:1833
 msgid ""
 "Display the contents of memory as sprite data.  If only one address is\n"
 "specified, only one sprite is displayed.  If no addresses are given,\n"
@@ -8832,7 +8751,7 @@ msgstr ""
 "anges, visas endast en sprite. Om ingen adress anges används\n"
 "\"punkt\"-adressen."
 
-#: src/translate_text.c.po.c:1848
+#: src/translate_text.c.po.c:1849
 msgid ""
 "Move memory from the source specified by the address range to\n"
 "the destination specified by the address.  The regions may overlap."
@@ -8841,15 +8760,15 @@ msgstr ""
 "till destinationen som anges av adressen. Regionerna kan vara\n"
 "överlappande."
 
-#: src/translate_text.c.po.c:1864
+#: src/translate_text.c.po.c:1865
 msgid "Checkpoint commands"
 msgstr "Kommandon för brytpunkter"
 
-#: src/translate_text.c.po.c:1880
+#: src/translate_text.c.po.c:1881
 msgid "cond_expr"
 msgstr "villkorsuttryck"
 
-#: src/translate_text.c.po.c:1896
+#: src/translate_text.c.po.c:1897
 msgid ""
 "If no address is given, the currently valid watchpoints are printed.\n"
 "If an address is given, a breakpoint is set for that address and the\n"
@@ -8862,7 +8781,7 @@ msgstr ""
 "nummer visas. Ett villkorsuttryck kan också anges för brytpunkten.\n"
 "För mer information om villkor, se kommandot CONDITION."
 
-#: src/translate_text.c.po.c:1928
+#: src/translate_text.c.po.c:1929
 msgid ""
 "Specify `command' as the command to execute when checkpoint `checknum'\n"
 "is hit.  Note that the `x' command is not yet supported as a\n"
@@ -8872,7 +8791,7 @@ msgstr ""
 "kontrollpunkten·\"kontrollnr\". Observera att kommandot \"x\" ännu\n"
 "inte stöds som kommandoparameter."
 
-#: src/translate_text.c.po.c:1944
+#: src/translate_text.c.po.c:1945
 msgid ""
 "Each time the specified checkpoint is examined, the condition is\n"
 "evaluated.  If it evalutes to true, the checkpoint is activated.\n"
@@ -8896,15 +8815,15 @@ msgstr ""
 "anges som ett minnesområdesprefix (dvs., c:, 8:, 9:, 10:, 11:)\n"
 "Exempel: .A == 0, .X == .Y, 8:.X == .X\n"
 
-#: src/translate_text.c.po.c:1960
+#: src/translate_text.c.po.c:1961
 msgid "Disable checkpoint `checknum'."
 msgstr "Inaktivera kontrollpunkt \"kontrollnr\"."
 
-#: src/translate_text.c.po.c:1976
+#: src/translate_text.c.po.c:1977
 msgid "Enable checkpoint `checknum'."
 msgstr "Aktivera kontrollpunkt \"kontrollnr\"."
 
-#: src/translate_text.c.po.c:1992
+#: src/translate_text.c.po.c:1993
 msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
@@ -8912,7 +8831,7 @@ msgstr ""
 "Ignorera en kontrollpunkt det givna antalet gånger. Om inget antal ges\n"
 "är standardvärdet 1."
 
-#: src/translate_text.c.po.c:2008
+#: src/translate_text.c.po.c:2009
 msgid ""
 "If no address is given, the currently valid breakpoints are printed.\n"
 "If an address is given, a temporary breakpoint is set for that address\n"
@@ -8925,11 +8844,11 @@ msgstr ""
 "återlämnas till emulatorn för det här kommandot. Brytpunkten\n"
 "tas bort när den har nåtts."
 
-#: src/translate_text.c.po.c:2024
+#: src/translate_text.c.po.c:2025
 msgid "loadstore"
 msgstr "loadstore"
 
-#: src/translate_text.c.po.c:2040
+#: src/translate_text.c.po.c:2041
 msgid ""
 "Set a watchpoint.  If a single address is specified, set a watchpoint\n"
 "for that address.  If two addresses are specified, set a watchpoint\n"
@@ -8945,7 +8864,7 @@ msgstr ""
 "operation emulatorn skall stoppa för. Om den inte anges stoppar\n"
 "emulatorn på bägge operationerna."
 
-#: src/translate_text.c.po.c:2056
+#: src/translate_text.c.po.c:2057
 msgid ""
 "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
 "for that address.  If two addresses are specified, set a tracepoint\n"
@@ -8955,11 +8874,11 @@ msgstr ""
 "spårningspunkt för adressen. Om två adresser anges sätts en\n"
 "spårningspunkt för minnesområdet mellan adresserna."
 
-#: src/translate_text.c.po.c:2072
+#: src/translate_text.c.po.c:2073
 msgid "Monitor state commands"
 msgstr "Kommandon för monitorstatus"
 
-#: src/translate_text.c.po.c:2088
+#: src/translate_text.c.po.c:2089
 msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
@@ -8967,15 +8886,15 @@ msgstr ""
 "Sätt förvald minnesenhet antingen till datorn \"c:\" eller\n"
 "den angivna diskettenheten (\"8:\", \"9:\")."
 
-#: src/translate_text.c.po.c:2104
+#: src/translate_text.c.po.c:2105
 msgid "Leave the monitor and return to execution."
 msgstr "Lämna monitorn och återgå till programkörningen."
 
-#: src/translate_text.c.po.c:2120
+#: src/translate_text.c.po.c:2121
 msgid "Exit the emulator immediately."
 msgstr "Avsluta emulatorn omedelbart."
 
-#: src/translate_text.c.po.c:2136
+#: src/translate_text.c.po.c:2137
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
@@ -8983,7 +8902,7 @@ msgstr ""
 "Sätt standardradix till hex, decimal, oktal eller binär. Om du\n"
 "inte ger något argument visas nuvarande radix."
 
-#: src/translate_text.c.po.c:2152
+#: src/translate_text.c.po.c:2153
 msgid ""
 "Control how monitor generated reads affect memory locations that have\n"
 "read side-effects.  If the argument is 'on' then reads may cause\n"
@@ -8998,15 +8917,15 @@ msgstr ""
 "det nuvarande läget. Om du inte anger några argument visas\n"
 "nuvarande läge."
 
-#: src/translate_text.c.po.c:2168
+#: src/translate_text.c.po.c:2169
 msgid "Disk commands"
 msgstr "Diskettkommandon"
 
-#: src/translate_text.c.po.c:2184
+#: src/translate_text.c.po.c:2185
 msgid "disk command"
 msgstr "diskkommando"
 
-#: src/translate_text.c.po.c:2200
+#: src/translate_text.c.po.c:2201
 msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
@@ -9014,30 +8933,30 @@ msgstr ""
 "Utför ett diskkommando på den diskettavbildning som är ansluten till\n"
 "enhet 8. Diskkommandot sänds på diskettenhetens kanal nummer 15."
 
-#: src/translate_text.c.po.c:2216 src/translate_text.c.po.c:9556
+#: src/translate_text.c.po.c:2217 src/translate_text.c.po.c:9557
 msgid "device"
 msgstr "enhet"
 
-#: src/translate_text.c.po.c:2232
+#: src/translate_text.c.po.c:2233
 #, fuzzy
 msgid "file_index"
 msgstr "<filnamn>"
 
-#: src/translate_text.c.po.c:2248
+#: src/translate_text.c.po.c:2249
 #, fuzzy
 msgid "autostart a given disk/tape image or program"
 msgstr "Autostarta disk-/bandavbildningsfil"
 
-#: src/translate_text.c.po.c:2264
+#: src/translate_text.c.po.c:2265
 #, fuzzy
 msgid "autoload given disk/tape image or program"
 msgstr "Autostarta disk-/bandavbildningsfil"
 
-#: src/translate_text.c.po.c:2280
+#: src/translate_text.c.po.c:2281
 msgid "Attach file to device. (device 32 = cart)"
 msgstr "Anslut en fil till en enhet. (enhet 32 = insticksmodul)"
 
-#: src/translate_text.c.po.c:2296
+#: src/translate_text.c.po.c:2297
 msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
@@ -9045,15 +8964,15 @@ msgstr ""
 "Läs den angivna filen till minnet på den angivna adressen.\n"
 "Om enheten är 0 läses filen från filsystemet."
 
-#: src/translate_text.c.po.c:2312
+#: src/translate_text.c.po.c:2313
 msgid "track"
 msgstr "spår"
 
-#: src/translate_text.c.po.c:2328
+#: src/translate_text.c.po.c:2329
 msgid "sector"
 msgstr "sektor"
 
-#: src/translate_text.c.po.c:2344
+#: src/translate_text.c.po.c:2345
 msgid ""
 "Read the block at the specified track and sector.  If an address is\n"
 "specified, the data is loaded into memory.  If no address is given, the\n"
@@ -9063,7 +8982,7 @@ msgstr ""
 "adress läses data till minnet. Om du inte anger någon adress visas\n"
 "innehållet enligt standarddatatypen."
 
-#: src/translate_text.c.po.c:2360
+#: src/translate_text.c.po.c:2361
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
@@ -9071,7 +8990,7 @@ msgstr ""
 "Spara minnet från adress1 till adress2 till den angivna filen.\n"
 "Om enheten är 0 skrivs filen till filsystemet."
 
-#: src/translate_text.c.po.c:2376
+#: src/translate_text.c.po.c:2377
 msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
@@ -9079,27 +8998,27 @@ msgstr ""
 "Skriv ett datablock på \"adress\" till det angivna spåret och sektorn\n"
 "på disken i enhet 8."
 
-#: src/translate_text.c.po.c:2392 src/translate_text.c.po.c:2408
+#: src/translate_text.c.po.c:2393 src/translate_text.c.po.c:2409
 msgid "directory"
 msgstr "katalog"
 
-#: src/translate_text.c.po.c:2424
+#: src/translate_text.c.po.c:2425
 msgid "Change the working directory."
 msgstr "Byt arbetskatalog."
 
-#: src/translate_text.c.po.c:2440
+#: src/translate_text.c.po.c:2441
 msgid "Detach file from device. (device 32 = cart)"
 msgstr "Koppla från filen från enheten. (enhet 32 = insticksmodul)"
 
-#: src/translate_text.c.po.c:2456
+#: src/translate_text.c.po.c:2457
 msgid "Display the directory contents."
 msgstr "Visa katalogens innehåll."
 
-#: src/translate_text.c.po.c:2472
+#: src/translate_text.c.po.c:2473
 msgid "List disk contents."
 msgstr "Visa diskens innehåll"
 
-#: src/translate_text.c.po.c:2488
+#: src/translate_text.c.po.c:2489
 msgid ""
 "Load the specified file into memory at the specified address. Set BASIC\n"
 "pointers appropriately if loaded into computer memory (not all emulators).\n"
@@ -9113,11 +9032,11 @@ msgstr ""
 "(ignoreras annars).\n"
 "Om enheten är 0 läses filen från filsystemet."
 
-#: src/translate_text.c.po.c:2504
+#: src/translate_text.c.po.c:2505
 msgid "Show current working directory."
 msgstr "Visa aktuell arbetskatalog."
 
-#: src/translate_text.c.po.c:2520
+#: src/translate_text.c.po.c:2521
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "Write two-byte load address.\n"
@@ -9127,19 +9046,19 @@ msgstr ""
 "Skriv tvåbytes inläsningsadress.\n"
 "Om enheten är 0 skrivs filen till filsystemet."
 
-#: src/translate_text.c.po.c:2536
+#: src/translate_text.c.po.c:2537
 msgid "Other commands"
 msgstr "Andra kommandon"
 
-#: src/translate_text.c.po.c:2552
+#: src/translate_text.c.po.c:2553
 msgid "Display the specified number in decimal, hex, octal and binary."
 msgstr "Visa det angivna talet decimalt, hexadecimalt, oktalt och binärt."
 
-#: src/translate_text.c.po.c:2568
+#: src/translate_text.c.po.c:2569
 msgid "Use cartridge freeze."
 msgstr "Använd insticksmodulens frysfunktion."
 
-#: src/translate_text.c.po.c:2584
+#: src/translate_text.c.po.c:2585
 msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
@@ -9147,15 +9066,15 @@ msgstr ""
 "Om du inte anger några argument visas alla tillgängliga kommandon.\n"
 "Om du anger ett argument visas hjälp för det specifika kommandot."
 
-#: src/translate_text.c.po.c:2600 src/translate_text.c.po.c:10446
+#: src/translate_text.c.po.c:2601 src/translate_text.c.po.c:10447
 msgid "string"
 msgstr "sträng"
 
-#: src/translate_text.c.po.c:2616 src/translate_text.c.po.c:10462
+#: src/translate_text.c.po.c:2617 src/translate_text.c.po.c:10463
 msgid "Put the specified string into the keyboard buffer."
 msgstr "Lägg den angivna strängen i tangentbordsbufferten."
 
-#: src/translate_text.c.po.c:2632
+#: src/translate_text.c.po.c:2633
 msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
@@ -9163,15 +9082,15 @@ msgstr ""
 "Monitorkommandon läses in och körs från den angivna filen. Kommandot\n"
 "stoppar vid filslut eller när ett STOP-kommando läses."
 
-#: src/translate_text.c.po.c:2648
+#: src/translate_text.c.po.c:2649
 msgid "expression"
 msgstr "uttryck"
 
-#: src/translate_text.c.po.c:2664
+#: src/translate_text.c.po.c:2665
 msgid "Evaluate the specified expression and output the result."
 msgstr "Utvärdera det angivna uttrycket och visa resultatet."
 
-#: src/translate_text.c.po.c:2680
+#: src/translate_text.c.po.c:2681
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
@@ -9179,23 +9098,23 @@ msgstr ""
 "Efter detta kommando kommer alla kommandon som anges att skrivas till\n"
 "den angivna filen tills ett STOP-kommando anges."
 
-#: src/translate_text.c.po.c:2696
+#: src/translate_text.c.po.c:2697
 msgid "resource"
 msgstr "resurs"
 
-#: src/translate_text.c.po.c:2712
+#: src/translate_text.c.po.c:2713
 msgid "Displays the value of the resource."
 msgstr "Visar värdet för resursen."
 
-#: src/translate_text.c.po.c:2744
+#: src/translate_text.c.po.c:2745
 msgid "Sets the value of the resource."
 msgstr "Ställer in ett värde för resursen."
 
-#: src/translate_text.c.po.c:2760
+#: src/translate_text.c.po.c:2761
 msgid "Stop recording commands.  See `record'."
 msgstr "Sluta spela in kommandon. Se \"record\"."
 
-#: src/translate_text.c.po.c:2776
+#: src/translate_text.c.po.c:2777
 msgid ""
 "Take a screenshot. Format is:\n"
 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
@@ -9203,7 +9122,7 @@ msgstr ""
 "Ta en skärmbild. Format är:\n"
 "standard = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
-#: src/translate_text.c.po.c:2792
+#: src/translate_text.c.po.c:2793
 msgid ""
 "Control the datasette. Valid commands:\n"
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
@@ -9213,982 +9132,926 @@ msgstr ""
 "0 = stoppa, 1 = starta, 2 = spola framåt, 3 = spola bakåt,\n"
 "4 = spela in, 5 = återställ, 6 = nollställ räknare."
 
-#: src/translate_text.c.po.c:2810
+#: src/translate_text.c.po.c:2811
 msgid "On autostart, load to BASIC start (without ',1')"
 msgstr "Vid autostart, hämta till BASIC-start (utan \",1\")"
 
-#: src/translate_text.c.po.c:2826
+#: src/translate_text.c.po.c:2827
 msgid "On autostart, load with ',1'"
 msgstr "Vid autostart, hämta med \",1\""
 
-#: src/translate_text.c.po.c:2842
+#: src/translate_text.c.po.c:2843
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
 msgstr "Vid autostart, använd \"RUN\"-kommando med kolon, dvs. \"RUN:\""
 
-#: src/translate_text.c.po.c:2858
+#: src/translate_text.c.po.c:2859
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
 msgstr "Vid autostart, använd inte \"RUN\"-kommando med kolon, dvs. \"RUN\""
 
-#: src/translate_text.c.po.c:2874
+#: src/translate_text.c.po.c:2875
 msgid "Handle True Drive Emulation on autostart"
 msgstr "Hantera äkta diskettenhetsemulering vid autostart"
 
-#: src/translate_text.c.po.c:2890
+#: src/translate_text.c.po.c:2891
 msgid "Do not handle True Drive Emulation on autostart"
 msgstr "Hantera inte äkta diskettenhetsemulering vid autostart"
 
-#: src/translate_text.c.po.c:2906
+#: src/translate_text.c.po.c:2907
 msgid "Enable warp mode during autostart"
 msgstr "Aktivera warpläge för autostart"
 
-#: src/translate_text.c.po.c:2922
+#: src/translate_text.c.po.c:2923
 msgid "Disable warp mode during autostart"
 msgstr "Inaktivera warpläge för autostart"
 
-#: src/translate_text.c.po.c:2938
+#: src/translate_text.c.po.c:2939
 msgid "Set autostart mode for PRG files"
 msgstr "Välj autostartläge för PRG-filer"
 
-#: src/translate_text.c.po.c:2954
+#: src/translate_text.c.po.c:2955
 msgid "Set disk image for autostart of PRG files"
 msgstr "Ange diskavbildning för autostart av PRG-filer"
 
-#: src/translate_text.c.po.c:2970
+#: src/translate_text.c.po.c:2971
 msgid "Use PAL sync factor"
 msgstr "Använd PAL-synkfaktor"
 
-#: src/translate_text.c.po.c:2986
+#: src/translate_text.c.po.c:2987
 msgid "Use NTSC sync factor"
 msgstr "Använd NTSC-synkfaktor"
 
-#: src/translate_text.c.po.c:3002
+#: src/translate_text.c.po.c:3003
 msgid "Use PAL-N sync factor"
 msgstr "Använd PAL N-synkfaktor"
 
-#: src/translate_text.c.po.c:3034
+#: src/translate_text.c.po.c:3035
 msgid "Specify name of international Kernal ROM image"
 msgstr "Ange namn på internationell kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3050
+#: src/translate_text.c.po.c:3051
 msgid "Specify name of German Kernal ROM image"
 msgstr "Ange namn på tysk kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3066
+#: src/translate_text.c.po.c:3067
 msgid "Specify name of Finnish Kernal ROM image"
 msgstr "Ange namn på finsk kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3082
+#: src/translate_text.c.po.c:3083
 msgid "Specify name of French Kernal ROM image"
 msgstr "Ange namn på fransk kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3098
+#: src/translate_text.c.po.c:3099
 msgid "Specify name of Italian Kernal ROM image"
 msgstr "Ange namn på italiensk kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3114
+#: src/translate_text.c.po.c:3115
 msgid "Specify name of Norwegian Kernal ROM image"
 msgstr "Ange namn på norsk kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3130
+#: src/translate_text.c.po.c:3131
 msgid "Specify name of Swedish Kernal ROM image"
 msgstr "Ange namn på svensk kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3146
+#: src/translate_text.c.po.c:3147
 msgid "Specify name of BASIC ROM image (lower part)"
 msgstr "Ange namn på BASIC ROM-avbildning (nedre delen)"
 
-#: src/translate_text.c.po.c:3162
+#: src/translate_text.c.po.c:3163
 msgid "Specify name of BASIC ROM image (higher part)"
 msgstr "Ange namn på BASIC ROM-avbildning (övre delen)"
 
-#: src/translate_text.c.po.c:3178
+#: src/translate_text.c.po.c:3179
 msgid "Specify name of international character generator ROM image"
 msgstr "Ange namn på internationell teckengenerator-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3194
+#: src/translate_text.c.po.c:3195
 msgid "Specify name of German character generator ROM image"
 msgstr "Ange namn på tysk teckengenerator-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3210
+#: src/translate_text.c.po.c:3211
 msgid "Specify name of French character generator ROM image"
 msgstr "Ange namn på fransk teckengenerator-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3226
+#: src/translate_text.c.po.c:3227
 msgid "Specify name of Swedish character generator ROM image"
 msgstr "Ange namn på svensk teckengenerator-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3242
+#: src/translate_text.c.po.c:3243
 msgid "Specify name of C64 mode Kernal ROM image"
 msgstr "Ange namn på C64-kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3258
+#: src/translate_text.c.po.c:3259
 msgid "Specify name of C64 mode BASIC ROM image"
 msgstr "Ange namn på C64-BASIC-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3274
+#: src/translate_text.c.po.c:3275
 msgid "Enable the OEM userport joystick adapter"
 msgstr "Aktivera OEM-användarportspelportsadapter"
 
-#: src/translate_text.c.po.c:3290
+#: src/translate_text.c.po.c:3291
 msgid "Disable the OEM userport joystick adapter"
 msgstr "Inaktivera OEM-användarportspelportsadapter"
 
-#: src/translate_text.c.po.c:3306
+#: src/translate_text.c.po.c:3307
 msgid "Enable the IEEE488 interface emulation"
 msgstr "Aktivera emulering av IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:3322
+#: src/translate_text.c.po.c:3323
 msgid "Disable the IEEE488 interface emulation"
 msgstr "Inaktivera emulering av IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:3338
+#: src/translate_text.c.po.c:3339
 msgid "revision"
 msgstr "utgåva"
 
-#: src/translate_text.c.po.c:3354
+#: src/translate_text.c.po.c:3355
 msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Patcha kernal-ROM till angiven <utgåva>"
 
-#: src/translate_text.c.po.c:3371
+#: src/translate_text.c.po.c:3372
 msgid "Enable the $DE** ACIA RS232 interface emulation"
 msgstr "Aktivera $DE** ACIA RS232-gränssnittsemulering"
 
-#: src/translate_text.c.po.c:3387
+#: src/translate_text.c.po.c:3388
 msgid "Disable the $DE** ACIA RS232 interface emulation"
 msgstr "Inaktivera $DE** ACIA-RS232-gränssnittsemulering"
 
-#: src/translate_text.c.po.c:3421
+#: src/translate_text.c.po.c:3422
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
 msgstr ""
 "Ange index för för tangentbordsinställningsfil (0=symbolisk, "
 "1=positionsriktig)"
 
-#: src/translate_text.c.po.c:3437
+#: src/translate_text.c.po.c:3438
 msgid "Specify name of symbolic keymap file"
 msgstr "Ange fil för symbolisk tangentbordsemulering"
 
-#: src/translate_text.c.po.c:3453
+#: src/translate_text.c.po.c:3454
 msgid "Specify name of positional keymap file"
 msgstr "Ange fil för positionsriktig tangentbordsemulering"
 
-#: src/translate_text.c.po.c:3470
+#: src/translate_text.c.po.c:3471
 msgid "Activate 40 column mode"
 msgstr "Aktivera 40-kolumnersläge"
 
-#: src/translate_text.c.po.c:3486
+#: src/translate_text.c.po.c:3487
 msgid "Activate 80 column mode"
 msgstr "Aktivera 80-kolumnersläge"
 
-#: src/translate_text.c.po.c:3502
-msgid "Always switch to C64 mode on reset"
-msgstr "Växla alltid till C64-läge vid återställning"
-
-#: src/translate_text.c.po.c:3518
+#: src/translate_text.c.po.c:3519
 msgid "Always switch to C128 mode on reset"
 msgstr "Växla alltid till C128-läge vid återställning"
 
-#: src/translate_text.c.po.c:3534
+#: src/translate_text.c.po.c:3535
 msgid "Specify name of internal Function ROM image"
 msgstr "Ange namn på intern funktions-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3550
+#: src/translate_text.c.po.c:3551
 msgid "Specify name of external Function ROM image"
 msgstr "Ange namn på extern funktions-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3566
+#: src/translate_text.c.po.c:3567
 msgid "Enable the internal Function ROM"
 msgstr "Aktivera internt funktions-ROM"
 
-#: src/translate_text.c.po.c:3582
+#: src/translate_text.c.po.c:3583
 msgid "Disable the internal Function ROM"
 msgstr "Inaktivera internt funktions-ROM"
 
-#: src/translate_text.c.po.c:3598
+#: src/translate_text.c.po.c:3599
 msgid "Enable the external Function ROM"
 msgstr "Aktivera externt funktions-ROM"
 
-#: src/translate_text.c.po.c:3614
+#: src/translate_text.c.po.c:3615
 msgid "Disable the external Function ROM"
 msgstr "Inaktivera externt funktions-ROM"
 
-#: src/translate_text.c.po.c:3630
+#: src/translate_text.c.po.c:3631
 msgid "Use old NTSC sync factor"
 msgstr "Använd gammal NTSC-synkfaktor"
 
-#: src/translate_text.c.po.c:3646
+#: src/translate_text.c.po.c:3647
 msgid "model"
 msgstr "modell"
 
-#: src/translate_text.c.po.c:3662
+#: src/translate_text.c.po.c:3663
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
 msgstr "Välj båda CIA-modellerna (0 = gammal 6526, 1 = ny 2526A)"
 
-#: src/translate_text.c.po.c:3678
+#: src/translate_text.c.po.c:3679
 msgid "Set CIA 1 model (0 = old 6526, 1 = new 6526A)"
 msgstr "Välj CIA 1-modell (0 = gammal 6526, 1 = ny 2526A)"
 
-#: src/translate_text.c.po.c:3694
+#: src/translate_text.c.po.c:3695
 msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
 msgstr "Välj CIA 2-modell (0 = gammal 6526, 1 = ny 2526A)"
 
-#: src/translate_text.c.po.c:3710
+#: src/translate_text.c.po.c:3711
 msgid "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 msgstr "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 
-#: src/translate_text.c.po.c:3726
+#: src/translate_text.c.po.c:3727
 msgid "Specify name of Kernal ROM image"
 msgstr "Ange namn på kernal-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3742
+#: src/translate_text.c.po.c:3743
 msgid "Specify name of BASIC ROM image"
 msgstr "Ange namn på BASIC-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3758
+#: src/translate_text.c.po.c:3759
 msgid "Specify name of character generator ROM image"
 msgstr "Ange namn på teckengenerator-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3775
+#: src/translate_text.c.po.c:3776
 msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
 msgstr ""
 "Ange index för för tangentbordsinställningsfil (0=symbolisk, 1=symbolisk "
 "tysk, 2=positionsriktig)"
 
-#: src/translate_text.c.po.c:3791
+#: src/translate_text.c.po.c:3792
 msgid "Specify name of symbolic German keymap file"
 msgstr "Ange fil för tysk symbolisk tangentbordsemulering"
 
-#: src/translate_text.c.po.c:3808
+#: src/translate_text.c.po.c:3809
 msgid "Set glue logic type (0 = discrete, 1 = 252535-01)"
 msgstr "Välj typ av klisterlogik (0 = diskret, 1 = 252535-01)"
 
-#: src/translate_text.c.po.c:3840
+#: src/translate_text.c.po.c:3841
 msgid "Disable Hummer ADC"
 msgstr "Inaktivera Hummer-A/D-omvandlare"
 
-#: src/translate_text.c.po.c:3856
+#: src/translate_text.c.po.c:3857
 msgid "Enable IEEE488 interface"
 msgstr "Aktivera IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:3872
+#: src/translate_text.c.po.c:3873
 msgid "Disable IEEE488 interface"
 msgstr "Inaktivera IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:3888
+#: src/translate_text.c.po.c:3889
 msgid "specify IEEE488 interface image name"
 msgstr "ange namn på IEEE488-gränssnittsfil"
 
-#: src/translate_text.c.po.c:3904
+#: src/translate_text.c.po.c:3905
 msgid "Enable the GEORAM expansion unit"
 msgstr "Aktivera GEORAM-expansionsenhet"
 
-#: src/translate_text.c.po.c:3920
+#: src/translate_text.c.po.c:3921
 msgid "Disable the GEORAM expansion unit"
 msgstr "Inaktivera GEORAM-expansionsenhet"
 
-#: src/translate_text.c.po.c:3936
+#: src/translate_text.c.po.c:3937
 msgid "Specify name of GEORAM image"
 msgstr "Ange namn på GEORAM-avbildning"
 
-#: src/translate_text.c.po.c:3952
+#: src/translate_text.c.po.c:3953
 msgid "Allow writing to GEORAM image"
 msgstr "Tillåt skrivning till GEORAM-avbildning"
 
-#: src/translate_text.c.po.c:3968
+#: src/translate_text.c.po.c:3969
 msgid "Do not write to GEORAM image"
 msgstr "Skriv inte till GEORAM-avbildning"
 
-#: src/translate_text.c.po.c:3984
+#: src/translate_text.c.po.c:3985
 msgid "size in KB"
 msgstr "storlek i KB"
 
-#: src/translate_text.c.po.c:4000
+#: src/translate_text.c.po.c:4001
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/translate_text.c.po.c:4016
+#: src/translate_text.c.po.c:4017
 msgid "Enable the PET Ram and Expansion Unit"
 msgstr "Aktivera PET Ram- och -expansionsenhet"
 
-#: src/translate_text.c.po.c:4032
+#: src/translate_text.c.po.c:4033
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "Inaktivera PET Ram- och -expansionsenhet"
 
-#: src/translate_text.c.po.c:4048
+#: src/translate_text.c.po.c:4049
 msgid "Specify name of PET Ram and Expansion Unit image"
 msgstr "Ange namn på PET Ram- och -expansionsenhet"
 
-#: src/translate_text.c.po.c:4064
+#: src/translate_text.c.po.c:4065
 msgid "Size of the PET Ram and Expansion Unit"
 msgstr "Storlek på PET Ram- och -expansionsenhet"
 
-#: src/translate_text.c.po.c:4080
+#: src/translate_text.c.po.c:4081
 msgid "Specify name of PET DWW image"
 msgstr "Ange namn på PET DWW-avbildning"
 
-#: src/translate_text.c.po.c:4096
+#: src/translate_text.c.po.c:4097
 msgid "Enable the PET DWW hi-res board"
 msgstr "Aktivera PET DWW-högupplösningskort"
 
-#: src/translate_text.c.po.c:4112
+#: src/translate_text.c.po.c:4113
 msgid "Disable the PET DWW hi-res board"
 msgstr "Inaktivera PET DWW-högupplösningskort"
 
-#: src/translate_text.c.po.c:4128
+#: src/translate_text.c.po.c:4129
 msgid "Enable Userport DAC for sound output"
 msgstr "Aktivera D/A-omvandlare på användarporten för ljudutdata"
 
-#: src/translate_text.c.po.c:4144
+#: src/translate_text.c.po.c:4145
 msgid "Disable Userport DAC for sound output"
 msgstr "Inaktivera D/A-omvandlare på användarporten för ljudutdata"
 
-#: src/translate_text.c.po.c:4160
+#: src/translate_text.c.po.c:4161
 msgid "SID player mode"
 msgstr "SID-spelarläge"
 
-#: src/translate_text.c.po.c:4176
+#: src/translate_text.c.po.c:4177
 msgid "Override PSID settings for Video standard and SID model"
 msgstr "Ersätt PSID-inställningar för videostandard och SID-modell"
 
-#: src/translate_text.c.po.c:4192
+#: src/translate_text.c.po.c:4193
 msgid "Specify PSID tune <number>"
 msgstr "Ange PSID-låt <nummer>"
 
-#: src/translate_text.c.po.c:4208
+#: src/translate_text.c.po.c:4209
 msgid "Enable the RAMCART expansion"
 msgstr "Aktivera RAMCART-expansion"
 
-#: src/translate_text.c.po.c:4224
+#: src/translate_text.c.po.c:4225
 msgid "Disable the RAMCART expansion"
 msgstr "Inaktivera RAMCART-expansion"
 
-#: src/translate_text.c.po.c:4240
+#: src/translate_text.c.po.c:4241
 msgid "Specify name of RAMCART image"
 msgstr "Ange namn på RAMCART-avbildning"
 
-#: src/translate_text.c.po.c:4256
+#: src/translate_text.c.po.c:4257
 msgid "Allow writing to RAMCart image"
 msgstr "Tillåt skrivning till RAMCart-avbildning"
 
-#: src/translate_text.c.po.c:4272
+#: src/translate_text.c.po.c:4273
 msgid "Do not write to RAMCart image"
 msgstr "Skriv inte till RAMCart-avbildning"
 
-#: src/translate_text.c.po.c:4288
+#: src/translate_text.c.po.c:4289
 msgid "Size of the RAMCART expansion"
 msgstr "Storlek på RAMCART-expansion"
 
-#: src/translate_text.c.po.c:4304
+#: src/translate_text.c.po.c:4305
 msgid "Enable Double Quick Brown Box"
 msgstr "Aktivera Double Quick Brown Box"
 
-#: src/translate_text.c.po.c:4320
+#: src/translate_text.c.po.c:4321
 msgid "Disable Double Quick Brown Box"
 msgstr "Inaktivera Double Quick Brown Box"
 
-#: src/translate_text.c.po.c:4336
+#: src/translate_text.c.po.c:4337
 msgid "Specify Double Quick Brown Box filename"
 msgstr "Ange filnamn för Double Quick Brown Box"
 
-#: src/translate_text.c.po.c:4352
+#: src/translate_text.c.po.c:4353
 msgid "Allow writing to DQBB image"
 msgstr "Tillåt skrivning till DQBB-avbildning"
 
-#: src/translate_text.c.po.c:4368
+#: src/translate_text.c.po.c:4369
 msgid "Do not write to DQBB image"
 msgstr "Skriv inte till DQBB-avbildning"
 
-#: src/translate_text.c.po.c:4384
+#: src/translate_text.c.po.c:4385
 msgid "Enable the ISEPIC cart"
 msgstr "Aktivera ISEPIC-modul"
 
-#: src/translate_text.c.po.c:4400
+#: src/translate_text.c.po.c:4401
 msgid "Disable the ISEPIC cart"
 msgstr "Inaktivera ISEPIC-modul"
 
-#: src/translate_text.c.po.c:4416
+#: src/translate_text.c.po.c:4417
 msgid "Set ISEPIC image name"
 msgstr "Namn på ISEPIC-avbildning"
 
-#: src/translate_text.c.po.c:4432
+#: src/translate_text.c.po.c:4433
 msgid "Allow writing to ISEPIC image"
 msgstr "Tillåt skrivning till ISEPIC-avbildning"
 
-#: src/translate_text.c.po.c:4448
+#: src/translate_text.c.po.c:4449
 msgid "Do not write to ISEPIC image"
 msgstr "Skriv inte till ISEPIC-avbildning"
 
-#: src/translate_text.c.po.c:4464
+#: src/translate_text.c.po.c:4465
 msgid "Enable the MMC64 expansion"
 msgstr "Aktivera MMC64-expansion"
 
-#: src/translate_text.c.po.c:4480
+#: src/translate_text.c.po.c:4481
 msgid "Disable the MMC64 expansion"
 msgstr "Inaktivera MMC64-expansion"
 
-#: src/translate_text.c.po.c:4496
+#: src/translate_text.c.po.c:4497
 msgid "Specify name of MMC64 BIOS image"
 msgstr "Ange namn på MMC64-BIOS-avbildning"
 
-#: src/translate_text.c.po.c:4512
+#: src/translate_text.c.po.c:4513
 msgid "Specify name of MMC64 image"
 msgstr "Ange namn på MMC64-avbildning"
 
-#: src/translate_text.c.po.c:4528
+#: src/translate_text.c.po.c:4529
 msgid "Set the MMC64 card to read-only"
 msgstr "Skrivskydda MMC64-kort"
 
-#: src/translate_text.c.po.c:4544
+#: src/translate_text.c.po.c:4545
 msgid "Set the MMC64 card to read/write"
 msgstr "Tillåt skrivning på MMC64-kort"
 
-#: src/translate_text.c.po.c:4560
+#: src/translate_text.c.po.c:4561
 msgid "Save the MMC64 bios when changed"
 msgstr "Spara MMC64-BIOS vid ändring"
 
-#: src/translate_text.c.po.c:4576
+#: src/translate_text.c.po.c:4577
 msgid "Specify MMC Replay card image filename"
 msgstr "Ange namn på avbildningsfil för MMC Replay-kort"
 
-#: src/translate_text.c.po.c:4592
+#: src/translate_text.c.po.c:4593
 msgid "Enable writes to MMC Replay card image"
 msgstr "Aktivera skrivning till MMC Replay-kortavbildning"
 
-#: src/translate_text.c.po.c:4608
+#: src/translate_text.c.po.c:4609
 msgid "Disable writes to MMC Replay card image"
 msgstr "Inaktivera skrivning till MMC Replay-kortavbildning"
 
-#: src/translate_text.c.po.c:4624
+#: src/translate_text.c.po.c:4625
 msgid "Specify MMC Replay EEPROM image filename"
 msgstr "Ange filnamn för MMC Replay EEPROM-avbildning"
 
-#: src/translate_text.c.po.c:4640
+#: src/translate_text.c.po.c:4641
 msgid "Enable writes to MMC Replay EEPROM image"
 msgstr "Aktivera skrivning till MMC Replay EEPROM-avbildning"
 
-#: src/translate_text.c.po.c:4656
+#: src/translate_text.c.po.c:4657
 msgid "Disable writes to MMC Replay EEPROM image"
 msgstr "Inaktivera skrivning till MMC Replay EEPROM-avbildning"
 
-#: src/translate_text.c.po.c:4672
+#: src/translate_text.c.po.c:4673
 msgid "Enable MMC Replay rescue mode"
 msgstr "Aktivera MMC Replay-räddningsläge"
 
-#: src/translate_text.c.po.c:4688
+#: src/translate_text.c.po.c:4689
 msgid "Disable MMC Replay rescue mode"
 msgstr "Inaktivera MMC Replay-räddningsläge"
 
-#: src/translate_text.c.po.c:4704
+#: src/translate_text.c.po.c:4705
 msgid "Allow writing to MMC Replay image"
 msgstr "Tillåt skrivning till MMC Replay-avbildning"
 
-#: src/translate_text.c.po.c:4720
+#: src/translate_text.c.po.c:4721
 msgid "Do not write to MMC Replay image"
 msgstr "Skriv inte till MMC Replay-avbildning"
 
-#: src/translate_text.c.po.c:4736
+#: src/translate_text.c.po.c:4737
 msgid "Enable saving of the RR ROM at exit"
 msgstr "Aktivera sparande av RR-ROM vid avslutning"
 
-#: src/translate_text.c.po.c:4752
+#: src/translate_text.c.po.c:4753
 msgid "Disable saving of the RR ROM at exit"
 msgstr "Inaktivera sparande av RR-ROM vid avslutning"
 
-#: src/translate_text.c.po.c:4768
+#: src/translate_text.c.po.c:4769
 msgid "Set RR Bank Jumper"
 msgstr "Aktivera RR-bankbygel"
 
-#: src/translate_text.c.po.c:4784 src/translate_text.c.po.c:4816
+#: src/translate_text.c.po.c:4785 src/translate_text.c.po.c:4817
 msgid "Unset RR Bank Jumper"
 msgstr "Inaktivera RR-bankbygel"
 
-#: src/translate_text.c.po.c:4800
+#: src/translate_text.c.po.c:4801
 msgid "Set RR Flash Jumper"
 msgstr "Sätt RR-flashbygel"
 
-#: src/translate_text.c.po.c:4832
+#: src/translate_text.c.po.c:4833
 msgid "Enable the RAM expansion unit"
 msgstr "Aktivera RAM-expansionsenhet"
 
-#: src/translate_text.c.po.c:4848
+#: src/translate_text.c.po.c:4849
 msgid "Disable the RAM expansion unit"
 msgstr "Inaktivera RAM-expansionsenhet"
 
-#: src/translate_text.c.po.c:4864
+#: src/translate_text.c.po.c:4865
 msgid "Specify name of REU image"
 msgstr "Ange namn på REU-avbildning"
 
-#: src/translate_text.c.po.c:4880
+#: src/translate_text.c.po.c:4881
 msgid "Allow writing to REU image"
 msgstr "Tillåt skrivning till REU-avbildning"
 
-#: src/translate_text.c.po.c:4896
+#: src/translate_text.c.po.c:4897
 msgid "Do not write to REU image"
 msgstr "Skriv inte till REU-avbildning"
 
-#: src/translate_text.c.po.c:4912
+#: src/translate_text.c.po.c:4913
 msgid "Size of the RAM expansion unit"
 msgstr "Storlek på RAM-expansionsenhet"
 
-#: src/translate_text.c.po.c:4929
+#: src/translate_text.c.po.c:4930
 msgid "Enable the TFE (\"The Final Ethernet\") unit"
 msgstr "Aktivera TFE-enhet (\"The Final Ethernet\")"
 
-#: src/translate_text.c.po.c:4945
+#: src/translate_text.c.po.c:4946
 msgid "Disable the TFE (\"The Final Ethernet\") unit"
 msgstr "Inaktivera TFE-enhet (\"The Final Ethernet\")"
 
-#: src/translate_text.c.po.c:4961
+#: src/translate_text.c.po.c:4962
 msgid "Set the system ethernet interface for TFE emulation"
 msgstr "Ställ in systemets ethernetgränssnitt för TFE-emulering"
 
-#: src/translate_text.c.po.c:4977
+#: src/translate_text.c.po.c:4978
 msgid "Enable RRNet mode of TFE emulation"
 msgstr "Aktivera RRNet-läge på TFE-emulering"
 
-#: src/translate_text.c.po.c:4993
+#: src/translate_text.c.po.c:4994
 msgid "Disable RRNet mode of TFE emulation"
 msgstr "Inaktivera RRNet-läge på TFE-emulering"
 
-#: src/translate_text.c.po.c:5010
+#: src/translate_text.c.po.c:5011
 msgid "Reset machine if a cartridge is attached or detached"
 msgstr "Nollställ maskinen om en insticksmodul kopplas till eller från"
 
-#: src/translate_text.c.po.c:5026
+#: src/translate_text.c.po.c:5027
 msgid "Do not reset machine if a cartridge is attached or detached"
 msgstr "Nollställ inte maskinen om en insticksmodul kopplas till eller från"
 
-#: src/translate_text.c.po.c:5058
-msgid "Attach generic 8KB cartridge image"
-msgstr "Anslut vanlig 8KB-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5074
-msgid "Attach generic 16KB cartridge image"
-msgstr "Anslut vanlig 16KB-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5090
+#: src/translate_text.c.po.c:5091
 msgid "Attach generic 16kB Ultimax cartridge image"
 msgstr "Anslut vanlig 16KB Ultimax-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5106
-msgid "Attach raw 16KB Stardos cartridge image"
-msgstr "Anslut rå 16KB Stardos-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5122
-msgid "Attach raw 32KB Action Replay MK4 cartridge image"
-msgstr "Anslut rå 32KB-Action Replay MK4-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5138
+#: src/translate_text.c.po.c:5139
 msgid "Attach raw 16kB Action Replay MK2 cartridge image"
 msgstr "Anslut rå 16KB-Action Replay MK2-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5154
-msgid "Attach raw 16KB Action Replay MK3 cartridge image"
-msgstr "Anslut rå 16KB-Action Replay MK3-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5170
-msgid "Attach raw 32KB Action Replay cartridge image"
-msgstr "Anslut rå 32KB-Action Replay-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5186
+#: src/translate_text.c.po.c:5187
 msgid "Attach raw 8kB Capture cartridge image"
 msgstr "Anslut rå 8KB Capture-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5202
+#: src/translate_text.c.po.c:5203
 msgid "Attach raw 64kB Comal 80 cartridge image"
 msgstr "Anslut rå 64kB Comal 80-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5218
+#: src/translate_text.c.po.c:5219
 msgid "Attach raw Dela EP256 cartridge image"
 msgstr "Anslut rå dela EP256-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5234
+#: src/translate_text.c.po.c:5235
 msgid "Attach raw Dela EP64 cartridge image"
 msgstr "Anslut rå Dela EP64-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5250
+#: src/translate_text.c.po.c:5251
 msgid "Attach raw Dela EP7x8 cartridge image"
 msgstr "Anslut rå Dela EP7x8-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5266
+#: src/translate_text.c.po.c:5267
 msgid "Attach raw 128kB Dinamic cartridge image"
 msgstr "Anslut rå 12kB Dinamic-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5282
+#: src/translate_text.c.po.c:5283
 msgid "Attach raw 8kB Diashow-Maker cartridge image"
 msgstr "Anslut rå 8kB Diashow-Maker-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5298
+#: src/translate_text.c.po.c:5299
 msgid "Attach raw 16kB Double Quick Brown Box cartridge image"
 msgstr "Anslut rå 16KB Double Quick Brown Box-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5314
+#: src/translate_text.c.po.c:5315
 msgid "Attach raw EasyFlash cartridge image"
 msgstr "Anslut rå EasyFlash-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5330
-msgid "Attach raw 64KB Retro Replay cartridge image"
-msgstr "Anslut rå 64KB-Retro Replay-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5346
+#: src/translate_text.c.po.c:5347
 msgid "Attach raw 8kB REX Utility cartridge image"
 msgstr "Anslut rå 8kB REX Utility-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5362
+#: src/translate_text.c.po.c:5363
 msgid "Attach raw 4kB Snapshot 64 cartridge image"
 msgstr "Anslut rå 4kB Snapshot 64-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5378
-msgid "Attach raw 64KB IDE64 cartridge image"
-msgstr "Anslut rå 64KB IDE64-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5394
-msgid "Attach raw 32KB Atomic Power cartridge image"
-msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5410
-msgid "Attach raw 8KB Epyx FastLoad cartridge image"
-msgstr "Anslut rå 8KB Epyx FastLoad-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5426
+#: src/translate_text.c.po.c:5427
 msgid "Attach raw 8kB EXOS cartridge image"
 msgstr "Anslut rå 8kB EXOS-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5442
+#: src/translate_text.c.po.c:5443
 msgid "Attach raw 8kB Expert Cartridge image"
 msgstr "Anslut rå 8kB Expert Cartridge-avbilding"
 
-#: src/translate_text.c.po.c:5458
+#: src/translate_text.c.po.c:5459
 msgid "Attach raw 16kB Final Cartridge image"
 msgstr "Anslut rå 16kB Final Cartridge-avbilding"
 
-#: src/translate_text.c.po.c:5474
+#: src/translate_text.c.po.c:5475
 msgid "Attach raw 64kB Final Cartridge III image"
 msgstr "Anslut rå 64kB Final Cartridge III-avbilding"
 
-#: src/translate_text.c.po.c:5490
+#: src/translate_text.c.po.c:5491
 msgid "Attach raw 32kB Final Cartridge Plus image"
 msgstr "Anslut rå 32kB Final Cartridge Plus-fil"
 
-#: src/translate_text.c.po.c:5506
+#: src/translate_text.c.po.c:5507
 msgid "Attach raw 8kB Freeze Frame image"
 msgstr "Anslut rå 8kB Freeze Frame-avbilding"
 
-#: src/translate_text.c.po.c:5522
+#: src/translate_text.c.po.c:5523
 msgid "Attach raw 32kB Freeze Machine image"
 msgstr "Anslut rå 32kB Freeze Machine-avbilding"
 
-#: src/translate_text.c.po.c:5538
+#: src/translate_text.c.po.c:5539
 msgid "Attach raw 128kB Fun Play/Power Play cartridge image"
 msgstr "Anslut rå 128kB Fun Play/Power Play-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5554
-msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
-msgstr "Anslut rå 32KB Super Snapshot V4-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5570
-msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
-msgstr "Anslut rå 64KB-Super Snapshot V5-insticksmodulfil"
-
-#: src/translate_text.c.po.c:5586
+#: src/translate_text.c.po.c:5587
 msgid "Attach CBM IEEE-488 cartridge image"
 msgstr "Anslut CBM IEEE-488-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5602
+#: src/translate_text.c.po.c:5603
 msgid "Attach raw 2kB ISEPIC cartridge image"
 msgstr "Anslut rå 2kB ISEPIC-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5618
+#: src/translate_text.c.po.c:5619
 msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr "Anslut rå 16KB KCS Power-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5634
+#: src/translate_text.c.po.c:5635
 msgid "Attach raw 8kB MACH 5 cartridge image"
 msgstr "Anslut rå 8kB MACH 5-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5650
+#: src/translate_text.c.po.c:5651
 msgid "Attach raw 32/64/128kB Magic Desk cartridge image"
 msgstr "Anslut rå 32/64/128kB Magic Desk-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5666
+#: src/translate_text.c.po.c:5667
 msgid "Attach raw Magic Formel cartridge image"
 msgstr "Anslut rå Magic Romel-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5682
+#: src/translate_text.c.po.c:5683
 msgid "Attach raw 8kB Mikro Assembler cartridge image"
 msgstr "Anslut rå 8kB Mikro Assembler-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5698
+#: src/translate_text.c.po.c:5699
 msgid "Attach raw 8kB MMC64 cartridge image"
 msgstr "Anslut rå 8kB MMC64-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5714
-msgid "Attach raw 512kB MMC Replay cartridge image"
-msgstr "Anslut rå 512kB MMC Replay-avbildningsfil"
-
-#: src/translate_text.c.po.c:5730
+#: src/translate_text.c.po.c:5731
 msgid "Attach raw 16kB Magic Voice cartridge image"
 msgstr "Anslut rå 16kB Magic Voice-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5746
+#: src/translate_text.c.po.c:5747
 msgid "Attach raw Ocean cartridge image"
 msgstr "Anslut rå Ocean-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5762
+#: src/translate_text.c.po.c:5763
 msgid "Attach raw 16KB Westermann Learning cartridge image"
 msgstr "Anslut rå 16KB Westermann Learning-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5778
+#: src/translate_text.c.po.c:5779
 msgid "Attach raw 8kB Warp Speed cartridge image"
 msgstr "Anslut rå 8kB-Warp Speed-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5794
+#: src/translate_text.c.po.c:5795
 msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Anslut rå 16kB Zaxxon-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5810
+#: src/translate_text.c.po.c:5811
 msgid "Attach raw 256KB Prophet 64 cartridge image"
 msgstr "Anslut rå 256KB Prophet 64-insticksmodulfil"
 
-#: src/translate_text.c.po.c:5826
+#: src/translate_text.c.po.c:5827
 msgid "Attach raw RamCart cartridge image"
 msgstr "Anslut rå RamCart-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5842
+#: src/translate_text.c.po.c:5843
 msgid "Attach raw REU cartridge image"
 msgstr "Anslut rå REU-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5858
+#: src/translate_text.c.po.c:5859
 msgid "Attach raw REX EP256 cartridge image"
 msgstr "Anslut rå REX EP256-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5874
+#: src/translate_text.c.po.c:5875
 msgid "Attach raw 16/32kB ROSS cartridge image"
 msgstr "Anslut rå 16/32kB ROSS-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5890
+#: src/translate_text.c.po.c:5891
 msgid "Attach raw 8KB Game Killer cartridge image"
 msgstr "Anslut rå 8KB Game Killer-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5906
+#: src/translate_text.c.po.c:5907
 msgid "Attach raw GEO-RAM cartridge image"
 msgstr "Anslut rå GEO-RAM-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5922
+#: src/translate_text.c.po.c:5923
 msgid "Attach raw 512kB Game System cartridge image"
 msgstr "Anslut rå 512kB Game System-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:5938
+#: src/translate_text.c.po.c:5939
 msgid "Enable the Expert Cartridge"
 msgstr "Aktivera Expert Cartridge"
 
-#: src/translate_text.c.po.c:5954
+#: src/translate_text.c.po.c:5955
 msgid "Disable the Expert Cartridge"
 msgstr "Inaktivera Expert Cartridge"
 
-#: src/translate_text.c.po.c:5970
+#: src/translate_text.c.po.c:5971
 msgid "Set Expert Cartridge image name"
 msgstr "Välj Expert Cartridge-modulfil"
 
-#: src/translate_text.c.po.c:5986
+#: src/translate_text.c.po.c:5987
 msgid "Allow writing to Expert Cartridge image"
 msgstr "Tillåt skrivning till Expert Cartridge-avbildning"
 
-#: src/translate_text.c.po.c:6002
+#: src/translate_text.c.po.c:6003
 msgid "Do not write to Expert Cartridge image"
 msgstr "Skriv inte till Expert Cartridge-avbildning"
 
-#: src/translate_text.c.po.c:6018
+#: src/translate_text.c.po.c:6019
 msgid "Disable default cartridge"
 msgstr "Inaktivera standardinsticksmodul"
 
-#: src/translate_text.c.po.c:6034
+#: src/translate_text.c.po.c:6035
 msgid "Specify name of IDE64 image file"
 msgstr "Ange namn på IDE64-insticksmodulfil"
 
-#: src/translate_text.c.po.c:6066
+#: src/translate_text.c.po.c:6067
 msgid "Set number of cylinders for the IDE64 emulation"
 msgstr "Välj antal cylindrar för IDE64-emuleringen"
 
-#: src/translate_text.c.po.c:6082
+#: src/translate_text.c.po.c:6083
 msgid "Set number of heads for the IDE64 emulation"
 msgstr "Ange antal huvuden för IDE64-emuleringen"
 
-#: src/translate_text.c.po.c:6098
+#: src/translate_text.c.po.c:6099
 msgid "Set number of sectors for the IDE64 emulation"
 msgstr "Ange antal sektorer för IDE64-emuleringen"
 
-#: src/translate_text.c.po.c:6114
+#: src/translate_text.c.po.c:6115
 msgid "Autodetect geometry of formatted images"
 msgstr "Autodetektera geometri från formaterad avbildningsfil"
 
-#: src/translate_text.c.po.c:6130
+#: src/translate_text.c.po.c:6131
 msgid "Do not autodetect geometry of formatted images"
 msgstr "Autodetektera inte geometri från formaterad avbildningsfil"
 
-#: src/translate_text.c.po.c:6146
+#: src/translate_text.c.po.c:6147
 msgid "Emulate version 4 hardware"
 msgstr "Emulera version 4-maskinvara"
 
-#: src/translate_text.c.po.c:6162
+#: src/translate_text.c.po.c:6163
 msgid "Emulate pre version 4 hardware"
 msgstr "Emulera för-version 4-maskinvara"
 
-#: src/translate_text.c.po.c:6178
+#: src/translate_text.c.po.c:6179
 msgid "modelnumber"
 msgstr "modellnummer"
 
-#: src/translate_text.c.po.c:6194
+#: src/translate_text.c.po.c:6195
 msgid "Specify CBM-II model to emulate"
 msgstr "Ange CBM-II-modell att emulera"
 
-#: src/translate_text.c.po.c:6210
+#: src/translate_text.c.po.c:6211
 msgid "Specify to use VIC-II"
 msgstr "Ange för att använda VIC-II"
 
-#: src/translate_text.c.po.c:6226
+#: src/translate_text.c.po.c:6227
 msgid "Specify to use CRTC"
 msgstr "Ange för att använda CRTC"
 
-#: src/translate_text.c.po.c:6242
+#: src/translate_text.c.po.c:6243
 msgid "linenumber"
 msgstr "linjenummer"
 
-#: src/translate_text.c.po.c:6258
+#: src/translate_text.c.po.c:6259
 msgid "Specify CBM-II model hardware (0=6x0, 1=7x0)"
 msgstr "Ange maskinvara för CBM-II-modell (0=6x0, 1=7x0)"
 
-#: src/translate_text.c.po.c:6274
+#: src/translate_text.c.po.c:6275
 msgid "ramsize"
 msgstr "ramstorlek"
 
-#: src/translate_text.c.po.c:6290
+#: src/translate_text.c.po.c:6291
 msgid "Specify size of RAM (64/128/256/512/1024 kByte)"
 msgstr "Ange storlek på RAM (64/128/256/512/1024 kByte)"
 
-#: src/translate_text.c.po.c:6306
+#: src/translate_text.c.po.c:6307
 msgid "Specify name of cartridge ROM image for $1000"
 msgstr "Ange namn på insticksmodul-ROM-avbildning för $1000"
 
-#: src/translate_text.c.po.c:6322
+#: src/translate_text.c.po.c:6323
 msgid "Specify name of cartridge ROM image for $2000-$3fff"
 msgstr "Ange namn på insticksmodul-ROM-avbildning för $2000-3fff"
 
-#: src/translate_text.c.po.c:6338
+#: src/translate_text.c.po.c:6339
 msgid "Specify name of cartridge ROM image for $4000-$5fff"
 msgstr "Ange namn på insticksmodul-ROM-avbildning för $4000-$5fff"
 
-#: src/translate_text.c.po.c:6354
+#: src/translate_text.c.po.c:6355
 msgid "Specify name of cartridge ROM image for $6000-$7fff"
 msgstr "Ange namn på insticksmodul-ROM-avbildning för $6000-$7fff"
 
-#: src/translate_text.c.po.c:6370
+#: src/translate_text.c.po.c:6371
 msgid "Enable RAM mapping in $0800-$0FFF"
 msgstr "Aktivera RAM-mappning på $0800-$0FFF"
 
-#: src/translate_text.c.po.c:6386
+#: src/translate_text.c.po.c:6387
 msgid "Disable RAM mapping in $0800-$0FFF"
 msgstr "Inaktivera RAM-mappning på $0800-$0FFF"
 
-#: src/translate_text.c.po.c:6402
+#: src/translate_text.c.po.c:6403
 msgid "Enable RAM mapping in $1000-$1FFF"
 msgstr "Aktivera RAM-mappning på $1000-$1FFF"
 
-#: src/translate_text.c.po.c:6418
+#: src/translate_text.c.po.c:6419
 msgid "Disable RAM mapping in $1000-$1FFF"
 msgstr "Inaktivera RAM-mappning på $1000-$1FFF"
 
-#: src/translate_text.c.po.c:6434
+#: src/translate_text.c.po.c:6435
 msgid "Enable RAM mapping in $2000-$3FFF"
 msgstr "Aktivera RAM-mappning på $2000-$3FFF"
 
-#: src/translate_text.c.po.c:6450
+#: src/translate_text.c.po.c:6451
 msgid "Disable RAM mapping in $2000-$3FFF"
 msgstr "Inaktivera RAM-mappning på $2000-$3FFF"
 
-#: src/translate_text.c.po.c:6466
+#: src/translate_text.c.po.c:6467
 msgid "Enable RAM mapping in $4000-$5FFF"
 msgstr "Aktivera RAM-mappning på $4000-$5FFF"
 
-#: src/translate_text.c.po.c:6482
+#: src/translate_text.c.po.c:6483
 msgid "Disable RAM mapping in $4000-$5FFF"
 msgstr "Inaktivera RAM-mappning på $4000-$5FFF"
 
-#: src/translate_text.c.po.c:6498
+#: src/translate_text.c.po.c:6499
 msgid "Enable RAM mapping in $6000-$7FFF"
 msgstr "Aktivera RAM-mappning på $6000-$7FFF"
 
-#: src/translate_text.c.po.c:6514
+#: src/translate_text.c.po.c:6515
 msgid "Disable RAM mapping in $6000-$7FFF"
 msgstr "Inaktivera RAM-mappning på $6000-$7FFF"
 
-#: src/translate_text.c.po.c:6530
+#: src/translate_text.c.po.c:6531
 msgid "Enable RAM mapping in $C000-$CFFF"
 msgstr "Aktivera RAM-mappning på $C000-$CFFF"
 
-#: src/translate_text.c.po.c:6546
+#: src/translate_text.c.po.c:6547
 msgid "Disable RAM mapping in $C000-$CFFF"
 msgstr "Inaktivera RAM-mappning på $C000-$CFFF"
 
-#: src/translate_text.c.po.c:6563
+#: src/translate_text.c.po.c:6564
 msgid "Specify index of keymap file"
 msgstr "Ange index o tangentbordsfil"
 
-#: src/translate_text.c.po.c:6579
+#: src/translate_text.c.po.c:6580
 msgid "Specify name of graphics keyboard symbolic keymap file"
 msgstr ""
 "Ange fil för symbolisk tangentbordsemulering för \"graphics\"-tangentbord"
 
-#: src/translate_text.c.po.c:6595
+#: src/translate_text.c.po.c:6596
 msgid "Specify name of graphics keyboard positional keymap file"
 msgstr ""
 "Ange fil för positionsriktig tangentbordsemulering för \"graphics\"-"
 "tangentbord"
 
-#: src/translate_text.c.po.c:6611
+#: src/translate_text.c.po.c:6612
 msgid "Specify name of UK business keyboard symbolic keymap file"
 msgstr ""
 "Ange fil för symbolisk tangentbordsemulering för brittiskt \"business\"-"
 "tangentbord"
 
-#: src/translate_text.c.po.c:6627
+#: src/translate_text.c.po.c:6628
 msgid "Specify name of UK business keyboard positional keymap file"
 msgstr ""
 "Ange fil för positionsriktig tangentbordsemulering för brittiskt \"business"
 "\"-tangentbord"
 
-#: src/translate_text.c.po.c:6643
+#: src/translate_text.c.po.c:6644
 msgid "Specify name of German business keyboard symbolic keymap file"
 msgstr ""
 "Ange fil för symbolisk tangentbordsemulering för tyskt \"business\"-"
 "tangentbord"
 
-#: src/translate_text.c.po.c:6659
+#: src/translate_text.c.po.c:6660
 msgid "Specify name of German business keyboard positional keymap file"
 msgstr ""
 "Ange fil för positionsriktig tangentbordsemulering för tyskt \"business\"-"
 "tangentbord"
 
-#: src/translate_text.c.po.c:6676
+#: src/translate_text.c.po.c:6677
 msgid "Enable hardware-level emulation of disk drives"
 msgstr "Aktivera emulering av diskettstationer på maskinvarunivå"
 
-#: src/translate_text.c.po.c:6692
+#: src/translate_text.c.po.c:6693
 msgid "Disable hardware-level emulation of disk drives"
 msgstr "Inaktivera emulering av diskettstationer på maskinvarunivå"
 
-#: src/translate_text.c.po.c:6724
+#: src/translate_text.c.po.c:6725
 msgid "Set drive type (0: no drive)"
 msgstr "Ange enhetstyp (0: ingen enhet)"
 
-#: src/translate_text.c.po.c:6740
+#: src/translate_text.c.po.c:6741
 msgid "method"
 msgstr "metod"
 
-#: src/translate_text.c.po.c:6756
+#: src/translate_text.c.po.c:6757
 msgid "color"
 msgstr "färg"
 
-#: src/translate_text.c.po.c:6772
+#: src/translate_text.c.po.c:6773
 msgid ""
 "Select the way the oversized input should be handled, (0: scale down, 1: "
 "crop left top, 2: crop center top,  3: crop right top, 4: crop left center, "
@@ -10200,7 +10063,7 @@ msgstr ""
 "visa mitten, 6: visa högra mitten, 7: visa nedre vänstra, 8: visa nedre "
 "mitten, 9: visa nedre högre)"
 
-#: src/translate_text.c.po.c:6788
+#: src/translate_text.c.po.c:6789
 msgid ""
 "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 "
 "colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
@@ -10208,477 +10071,477 @@ msgstr ""
 "Välj hur flerfärgs-till-högupplöst skall hanteras, (0: svartvit, 1: 2 "
 "färger, 2: fyra färger, 3: gråskala, 4: bästa cellfärger)"
 
-#: src/translate_text.c.po.c:6804
+#: src/translate_text.c.po.c:6805
 msgid ""
 "Select the way the TED luminosity should be handled, (0: ignore, 1: dither)"
 msgstr "Välj hur TED-luminositet skall hanteras, (0: ignorera, 1: färgutjämna)"
 
-#: src/translate_text.c.po.c:6820
+#: src/translate_text.c.po.c:6821
 msgid "Select the CRTC text color (0: white, 1: amber, 2: green)"
 msgstr "Välj CRTC-textfärg (0: vit, 1: gul, 2: grön)"
 
-#: src/translate_text.c.po.c:6836
+#: src/translate_text.c.po.c:6837
 msgid "Set drive 40 track extension policy (0: never, 1: ask, 2: on access)"
 msgstr "Ange regel för 40-spårsutökning (0: aldrig, 1: fråga, 2: vid åtkomst)"
 
-#: src/translate_text.c.po.c:6852
+#: src/translate_text.c.po.c:6853
 msgid "Specify name of 1541 DOS ROM image"
 msgstr "Ange namn på 1541-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:6868
+#: src/translate_text.c.po.c:6869
 msgid "Specify name of 1541-II DOS ROM image"
 msgstr "Ange namn på 1541-II-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:6884
+#: src/translate_text.c.po.c:6885
 msgid "Specify name of 1570 DOS ROM image"
 msgstr "Ange namn på 1570-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:6900
+#: src/translate_text.c.po.c:6901
 msgid "Specify name of 1571 DOS ROM image"
 msgstr "Ange namn på 1571-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:6916
+#: src/translate_text.c.po.c:6917
 msgid "Specify name of 1581 DOS ROM image"
 msgstr "Ange namn på 1581-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:6932
+#: src/translate_text.c.po.c:6933
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
 "Ställ in väntemetod för diskettstation (0: fånta inge, 1: hoppa cykler, 2: "
 "fånga väntan)"
 
-#: src/translate_text.c.po.c:6948
+#: src/translate_text.c.po.c:6949
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
 msgstr "Aktivera 8KB RAM-expansion på $2000-$3FFF"
 
-#: src/translate_text.c.po.c:6964
+#: src/translate_text.c.po.c:6965
 msgid "Disable 8KB RAM expansion at $2000-$3FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $2000-$3FFF"
 
-#: src/translate_text.c.po.c:6980
+#: src/translate_text.c.po.c:6981
 msgid "Enable 8KB RAM expansion at $4000-$5FFF"
 msgstr "Aktivera 8KB RAM-expansion på $4000-$5FFF"
 
-#: src/translate_text.c.po.c:6996
+#: src/translate_text.c.po.c:6997
 msgid "Disable 8KB RAM expansion at $4000-$5FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $4000-$5FFF"
 
-#: src/translate_text.c.po.c:7012
+#: src/translate_text.c.po.c:7013
 msgid "Enable 8KB RAM expansion at $6000-$7FFF"
 msgstr "Aktivera 8KB RAM-expansion på $6000-$7FFF"
 
-#: src/translate_text.c.po.c:7028
+#: src/translate_text.c.po.c:7029
 msgid "Disable 8KB RAM expansion at $6000-$7FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $6000-$7FFF"
 
-#: src/translate_text.c.po.c:7044
+#: src/translate_text.c.po.c:7045
 msgid "Enable 8KB RAM expansion at $8000-$9FFF"
 msgstr "Aktivera 8KB RAM-expansion på $8000-$9FFF"
 
-#: src/translate_text.c.po.c:7060
+#: src/translate_text.c.po.c:7061
 msgid "Disable 8KB RAM expansion at $8000-$9FFF"
 msgstr "Inaktivera 8KB RAM-expansion på $8000-$9FFF"
 
-#: src/translate_text.c.po.c:7076
+#: src/translate_text.c.po.c:7077
 msgid "Enable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Aktivera 8KB RAM-expansion på $A000-$BFFF"
 
-#: src/translate_text.c.po.c:7092
+#: src/translate_text.c.po.c:7093
 msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Inaktivera 8KB RAM-expansion på $A000-$BFFF"
 
-#: src/translate_text.c.po.c:7108
+#: src/translate_text.c.po.c:7109
 msgid "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3)"
 msgstr "Välj typ av parallellkabel (0: ingen, 1: standard, 2: Dolphin DOS 3)"
 
-#: src/translate_text.c.po.c:7140
+#: src/translate_text.c.po.c:7141
 msgid "Disable Professional DOS"
 msgstr "Inaktivera Professional DOS"
 
-#: src/translate_text.c.po.c:7156
+#: src/translate_text.c.po.c:7157
 msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Ange namn på Professional DOS 1571-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7172
+#: src/translate_text.c.po.c:7173
 msgid "Set parallel cable type (0: none, 1: standard)"
 msgstr "Välj typ av parallellkabel (0: ingen, 1: standard)"
 
-#: src/translate_text.c.po.c:7188
+#: src/translate_text.c.po.c:7189
 msgid "Specify name of 1571CR DOS ROM image"
 msgstr "Ange namn på 1571CR-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7204
+#: src/translate_text.c.po.c:7205
 msgid "Specify name of 2031 DOS ROM image"
 msgstr "Ange namn på 2031-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7220
+#: src/translate_text.c.po.c:7221
 msgid "Specify name of 2040 DOS ROM image"
 msgstr "Ange namn på 2040-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7236
+#: src/translate_text.c.po.c:7237
 msgid "Specify name of 3040 DOS ROM image"
 msgstr "Ange namn på 3040-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7252
+#: src/translate_text.c.po.c:7253
 msgid "Specify name of 4040 DOS ROM image"
 msgstr "Ange namn på 4040-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7268
+#: src/translate_text.c.po.c:7269
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
 msgstr "Ange namn på 1001/8050/8250-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7284
+#: src/translate_text.c.po.c:7285
 msgid "Specify name of 1551 DOS ROM image"
 msgstr "Ange namn på 1551-DOS-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7300
+#: src/translate_text.c.po.c:7301
 msgid "Use <name> as directory for file system device #8"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 8"
 
-#: src/translate_text.c.po.c:7316
+#: src/translate_text.c.po.c:7317
 msgid "Use <name> as directory for file system device #9"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 9"
 
-#: src/translate_text.c.po.c:7332
+#: src/translate_text.c.po.c:7333
 msgid "Use <name> as directory for file system device #10"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 10"
 
-#: src/translate_text.c.po.c:7348
+#: src/translate_text.c.po.c:7349
 msgid "Use <name> as directory for file system device #11"
 msgstr "Ange <namn> som katalog för filsystemsbaserad enhet 11"
 
-#: src/translate_text.c.po.c:7365
+#: src/translate_text.c.po.c:7366
 msgid "Set bitrate for audio stream in media file"
 msgstr "Ange bithastighet för ljudström i mediafil"
 
-#: src/translate_text.c.po.c:7381
+#: src/translate_text.c.po.c:7382
 msgid "Set bitrate for video stream in media file"
 msgstr "Ange bithastighet för videoström i mediafil"
 
-#: src/translate_text.c.po.c:7398
+#: src/translate_text.c.po.c:7399
 msgid "Specify PET model to emulate"
 msgstr "Ange PET-modell att emulera"
 
-#: src/translate_text.c.po.c:7414
+#: src/translate_text.c.po.c:7415
 msgid "Specify name of Editor ROM image"
 msgstr "Ange namn på Editor-ROM-avbildning"
 
-#: src/translate_text.c.po.c:7430
+#: src/translate_text.c.po.c:7431
 msgid "Specify 4K extension ROM name at $9***"
 msgstr "Ange namn på 4K-utöknings-ROM på $9***"
 
-#: src/translate_text.c.po.c:7446
+#: src/translate_text.c.po.c:7447
 msgid "Specify 4K extension ROM name at $A***"
 msgstr "Ange namn på 4K-utöknings-ROM på $A***"
 
-#: src/translate_text.c.po.c:7462
+#: src/translate_text.c.po.c:7463
 msgid "Specify 4K extension ROM name at $B***"
 msgstr "Ange namn på 4K-utöknings-ROM på $B***"
 
-#: src/translate_text.c.po.c:7478
+#: src/translate_text.c.po.c:7479
 msgid "Enable PET8296 4K RAM mapping at $9***"
 msgstr "Aktivera PET8296 4K-RAM-mappning på $9***"
 
-#: src/translate_text.c.po.c:7494
+#: src/translate_text.c.po.c:7495
 msgid "Disable PET8296 4K RAM mapping at $9***"
 msgstr "Inaktivera PET8296 4K-RAM-mappning på $9***"
 
-#: src/translate_text.c.po.c:7510
+#: src/translate_text.c.po.c:7511
 msgid "Enable PET8296 4K RAM mapping at $A***"
 msgstr "Aktivera PET8296 4K-RAM-mappning på $A***"
 
-#: src/translate_text.c.po.c:7526
+#: src/translate_text.c.po.c:7527
 msgid "Disable PET8296 4K RAM mapping at $A***"
 msgstr "Inaktivera PET8296 4K-RAM-mappning på $A***"
 
-#: src/translate_text.c.po.c:7542
+#: src/translate_text.c.po.c:7543
 msgid "Enable SuperPET I/O"
 msgstr "Aktivera SuperPET-I/O"
 
-#: src/translate_text.c.po.c:7558
+#: src/translate_text.c.po.c:7559
 msgid "Disable SuperPET I/O"
 msgstr "Inaktivera SuperPET-I/O"
 
-#: src/translate_text.c.po.c:7574
+#: src/translate_text.c.po.c:7575
 msgid "Enable ROM 1 Kernal patches"
 msgstr "Aktivera ROM 1-Kernalpatchar"
 
-#: src/translate_text.c.po.c:7590
+#: src/translate_text.c.po.c:7591
 msgid "Disable ROM 1 Kernal patches"
 msgstr "Inaktivera ROM 1-Kernalpatchar"
 
-#: src/translate_text.c.po.c:7606
+#: src/translate_text.c.po.c:7607
 msgid "Switch upper/lower case charset"
 msgstr "Växla små/stora bokstäver i teckengeneratorn"
 
-#: src/translate_text.c.po.c:7622
+#: src/translate_text.c.po.c:7623
 msgid "Do not switch upper/lower case charset"
 msgstr "Växla inte små/stora bokstäver i teckengeneratorn"
 
-#: src/translate_text.c.po.c:7638
+#: src/translate_text.c.po.c:7639
 msgid "EOI blanks screen"
 msgstr "EOI tömmer skärmen"
 
-#: src/translate_text.c.po.c:7654
+#: src/translate_text.c.po.c:7655
 msgid "EOI does not blank screen"
 msgstr "EOI tömmer inte skärmen"
 
-#: src/translate_text.c.po.c:7670
+#: src/translate_text.c.po.c:7671
 msgid "Enable userport diagnostic pin"
 msgstr "Aktivera diagnostik på användarporten"
 
-#: src/translate_text.c.po.c:7686
+#: src/translate_text.c.po.c:7687
 msgid "Disable userport diagnostic pin"
 msgstr "Inaktivera diagnostik på användarporten"
 
-#: src/translate_text.c.po.c:7702
+#: src/translate_text.c.po.c:7703
 msgid "Specify name of Function low ROM image"
 msgstr "Ange namn på ROM-avbildning för lågt funktions-ROM"
 
-#: src/translate_text.c.po.c:7718
+#: src/translate_text.c.po.c:7719
 msgid "Specify name of Function high ROM image"
 msgstr "Ange namn på ROM-avbildning för högt funktions-ROM"
 
-#: src/translate_text.c.po.c:7734
+#: src/translate_text.c.po.c:7735
 msgid "Specify name of Cartridge 1 low ROM image"
 msgstr "Ange namn på ROM-avbildning för lågt insticksmodul 1-ROM"
 
-#: src/translate_text.c.po.c:7750
+#: src/translate_text.c.po.c:7751
 msgid "Specify name of Cartridge 1 high ROM image"
 msgstr "Ange namn på ROM-avbildning för högt insticksmodul 1-ROM"
 
-#: src/translate_text.c.po.c:7766
+#: src/translate_text.c.po.c:7767
 msgid "Specify name of Cartridge 2 low ROM image"
 msgstr "Ange namn på ROM-avbildning för lågt insticksmodul 2-ROM"
 
-#: src/translate_text.c.po.c:7782
+#: src/translate_text.c.po.c:7783
 msgid "Specify name of Cartridge 2 high ROM image"
 msgstr "Ange namn på ROM-avbildning för högt insticksmodul 2-ROM"
 
-#: src/translate_text.c.po.c:7798
+#: src/translate_text.c.po.c:7799
 msgid "Specify size of RAM installed in kb (16/32/64)"
 msgstr "Ange storlek på installerat RAM i kb (16/32/64)"
 
-#: src/translate_text.c.po.c:7814
+#: src/translate_text.c.po.c:7815
 msgid "Set saturation of internal calculated palette [1000]"
 msgstr "Ställ in mättnad på internt beräknad palett [1000]"
 
-#: src/translate_text.c.po.c:7830
+#: src/translate_text.c.po.c:7831
 msgid "Set contrast of internal calculated palette [1000]"
 msgstr "Ställ in kontrast på internt beräknad palett [1000]"
 
-#: src/translate_text.c.po.c:7846
+#: src/translate_text.c.po.c:7847
 msgid "Set brightness of internal calculated palette [1000]"
 msgstr "Ställ in ljusstyrka på internt beräknad palett [1000]"
 
-#: src/translate_text.c.po.c:7862
+#: src/translate_text.c.po.c:7863
 msgid "Set gamma of internal calculated palette [2200]"
 msgstr "Ställ in gamma på internt beräknad palett [2200]"
 
-#: src/translate_text.c.po.c:7878
+#: src/translate_text.c.po.c:7879
 msgid "Set tint of internal calculated palette [1000]"
 msgstr "Ställ in ton på internt beräknad palett [1000]"
 
-#: src/translate_text.c.po.c:7894
+#: src/translate_text.c.po.c:7895
 msgid "Set phase for color carrier in odd lines [1250]"
 msgstr "Välj fas för färgbärarvåg på udda rader [1250]"
 
-#: src/translate_text.c.po.c:7910
+#: src/translate_text.c.po.c:7911
 msgid "Set phase offset for color carrier in odd lines [750]"
 msgstr "Välj fasutjämning för färgbärarvåg på udda rader [1250]"
 
-#: src/translate_text.c.po.c:7926
+#: src/translate_text.c.po.c:7927
 msgid "Amount of horizontal blur for the CRT emulation. [500]"
 msgstr "Mängd horisontell oskärpa för CRT-emulering. [500]"
 
-#: src/translate_text.c.po.c:7942
+#: src/translate_text.c.po.c:7943
 msgid "Amount of scan line shading for the CRT emulation [667]"
 msgstr "Mängd skannlinjeskuggning i CRT-emuleringen [667]"
 
-#: src/translate_text.c.po.c:7958
+#: src/translate_text.c.po.c:7959
 msgid "Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a)"
 msgstr "Välj VIC-II-modell (6569/6569r1/8565/6567/8562/6567r56a)"
 
-#: src/translate_text.c.po.c:7974
+#: src/translate_text.c.po.c:7975
 msgid "Specify name of printer driver for device #4"
 msgstr "Ange namn på skrivardrivrutin för enhet 4"
 
-#: src/translate_text.c.po.c:7990
+#: src/translate_text.c.po.c:7991
 msgid "Specify name of printer driver for device #5"
 msgstr "Ange namn på skrivardrivrutin för enhet 5"
 
-#: src/translate_text.c.po.c:8006
+#: src/translate_text.c.po.c:8007
 msgid "Specify name of printer driver for the userport printer"
 msgstr "Ange namn på skrivardrivrutin för användarporten"
 
-#: src/translate_text.c.po.c:8022
+#: src/translate_text.c.po.c:8023
 msgid "Set device type for device #4 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Ange enhetstyp för enhet 4 (0: INGEN, 1: FS, 2: ÄKTA)"
 
-#: src/translate_text.c.po.c:8038
+#: src/translate_text.c.po.c:8039
 msgid "Set device type for device #5 (0: NONE, 1: FS, 2: REAL)"
 msgstr "Ange enhetstyp för enhet 5 (0: INGEN, 1: FS, 2: ÄKTA)"
 
-#: src/translate_text.c.po.c:8054
+#: src/translate_text.c.po.c:8055
 msgid "Enable the userport printer emulation"
 msgstr "Aktivera emulering av skrivare på användarporten"
 
-#: src/translate_text.c.po.c:8070
+#: src/translate_text.c.po.c:8071
 msgid "Disable the userport printer emulation"
 msgstr "Inaktivera emulering av skrivare på användarporten"
 
-#: src/translate_text.c.po.c:8086
+#: src/translate_text.c.po.c:8087
 msgid "Specify name of output device for device #4"
 msgstr "Ange namn på utskriftsenhet för enhet 4"
 
-#: src/translate_text.c.po.c:8102
+#: src/translate_text.c.po.c:8103
 msgid "Specify name of output device for device #5"
 msgstr "Ange namn på utskriftsenhet för enhet 5"
 
-#: src/translate_text.c.po.c:8118
+#: src/translate_text.c.po.c:8119
 msgid "Specify name of output device for the userport printer"
 msgstr "Ange namn på utskriftsenhet för användarporten"
 
-#: src/translate_text.c.po.c:8134
+#: src/translate_text.c.po.c:8135
 msgid "Specify name of printer text device or dump file"
 msgstr "Ange namn på textenhet för utskrift eller dumpfil"
 
-#: src/translate_text.c.po.c:8150
+#: src/translate_text.c.po.c:8151
 msgid "Specify printer text output device for IEC printer #4"
 msgstr "Ange skrivartextutenhet för IEC-skrivare 4"
 
-#: src/translate_text.c.po.c:8166
+#: src/translate_text.c.po.c:8167
 msgid "Specify printer text output device for IEC printer #5"
 msgstr "Ange skrivartextutenhet för IEC-skrivare 5"
 
-#: src/translate_text.c.po.c:8182
+#: src/translate_text.c.po.c:8183
 msgid "Specify printer text output device for userport printer"
 msgstr "Ange skrivartextutenhet för användarportsskrivare"
 
-#: src/translate_text.c.po.c:8198
+#: src/translate_text.c.po.c:8199
 msgid "Enable the video cache"
 msgstr "Aktivera videocache"
 
-#: src/translate_text.c.po.c:8214
+#: src/translate_text.c.po.c:8215
 msgid "Disable the video cache"
 msgstr "Inaktivera videocache"
 
-#: src/translate_text.c.po.c:8231
+#: src/translate_text.c.po.c:8232
 msgid "Specify name of first RS232 device"
 msgstr "Ange namn på första RS232-enheten"
 
-#: src/translate_text.c.po.c:8247
+#: src/translate_text.c.po.c:8248
 msgid "Specify name of second RS232 device"
 msgstr "Ange namn på andra RS232-enheten"
 
-#: src/translate_text.c.po.c:8263
+#: src/translate_text.c.po.c:8264
 msgid "Specify name of third RS232 device"
 msgstr "Ange namn på tredje RS232-enheten"
 
-#: src/translate_text.c.po.c:8279
+#: src/translate_text.c.po.c:8280
 msgid "Specify name of fourth RS232 device"
 msgstr "Ange namn på fjärde RS232-enheten"
 
-#: src/translate_text.c.po.c:8296
+#: src/translate_text.c.po.c:8297
 msgid "Enable RS232 userport emulation"
 msgstr "Aktivera RS232-emulering på användarporten"
 
-#: src/translate_text.c.po.c:8312
+#: src/translate_text.c.po.c:8313
 msgid "Disable RS232 userport emulation"
 msgstr "Inaktivera RS232-emulering på användarporten"
 
-#: src/translate_text.c.po.c:8328
+#: src/translate_text.c.po.c:8329
 msgid "baud"
 msgstr "baud"
 
-#: src/translate_text.c.po.c:8344
+#: src/translate_text.c.po.c:8345
 msgid "Set the baud rate of the RS232 userport emulation."
 msgstr "Ange baudhastighet för RS232-emuleringen på användarporten."
 
-#: src/translate_text.c.po.c:8360
+#: src/translate_text.c.po.c:8361
 msgid "Specify VICE RS232 device for userport"
 msgstr "Ange VICE RS232-enhet för användarporten"
 
-#: src/translate_text.c.po.c:8376
+#: src/translate_text.c.po.c:8377
 msgid "Enable IEC device emulation for device #4"
 msgstr "Aktivera IEC-enhetsemulering för enhet 4"
 
-#: src/translate_text.c.po.c:8392
+#: src/translate_text.c.po.c:8393
 msgid "Disable IEC device emulation for device #4"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 4"
 
-#: src/translate_text.c.po.c:8408
+#: src/translate_text.c.po.c:8409
 msgid "Enable IEC device emulation for device #5"
 msgstr "Aktivera IEC-enhetsemulering för enhet 5"
 
-#: src/translate_text.c.po.c:8424
+#: src/translate_text.c.po.c:8425
 msgid "Disable IEC device emulation for device #5"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 5"
 
-#: src/translate_text.c.po.c:8440
+#: src/translate_text.c.po.c:8441
 msgid "Enable IEC device emulation for device #8"
 msgstr "Aktivera IEC-enhetsemulering för enhet 8"
 
-#: src/translate_text.c.po.c:8456
+#: src/translate_text.c.po.c:8457
 msgid "Disable IEC device emulation for device #8"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 8"
 
-#: src/translate_text.c.po.c:8472
+#: src/translate_text.c.po.c:8473
 msgid "Enable IEC device emulation for device #9"
 msgstr "Aktivera IEC-enhetsemulering för enhet 9"
 
-#: src/translate_text.c.po.c:8488
+#: src/translate_text.c.po.c:8489
 msgid "Disable IEC device emulation for device #9"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 9"
 
-#: src/translate_text.c.po.c:8504
+#: src/translate_text.c.po.c:8505
 msgid "Enable IEC device emulation for device #10"
 msgstr "Aktivera IEC-enhetsemulering för enhet 10"
 
-#: src/translate_text.c.po.c:8520
+#: src/translate_text.c.po.c:8521
 msgid "Disable IEC device emulation for device #10"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 10"
 
-#: src/translate_text.c.po.c:8536
+#: src/translate_text.c.po.c:8537
 msgid "Enable IEC device emulation for device #11"
 msgstr "Aktivera IEC-enhetsemulering för enhet 11"
 
-#: src/translate_text.c.po.c:8552
+#: src/translate_text.c.po.c:8553
 msgid "Disable IEC device emulation for device #11"
 msgstr "Inaktivera IEC-enhetsemulering för enhet 11"
 
-#: src/translate_text.c.po.c:8568
+#: src/translate_text.c.po.c:8569
 msgid "engine and model"
 msgstr "motor och modell"
 
-#: src/translate_text.c.po.c:8584
+#: src/translate_text.c.po.c:8585
 msgid "0: FastSID 6581, 1: FastSID 8580"
 msgstr "0: FastSID 6581, 1: FastSID 8580"
 
-#: src/translate_text.c.po.c:8601
+#: src/translate_text.c.po.c:8602
 msgid "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiboost"
 msgstr "256: ReSID 6581, 257: ReSID 8580, 258: ReSID 8580 + digiförstärkning"
 
-#: src/translate_text.c.po.c:8617
+#: src/translate_text.c.po.c:8618
 msgid "260: DTVSID"
 msgstr "260: DTVSID"
 
-#: src/translate_text.c.po.c:8635
+#: src/translate_text.c.po.c:8636
 msgid "512: Catweasel"
 msgstr "512: Catweasel"
 
-#: src/translate_text.c.po.c:8653
+#: src/translate_text.c.po.c:8654
 msgid "768: HardSID"
 msgstr "768: HardSID"
 
-#: src/translate_text.c.po.c:8671
+#: src/translate_text.c.po.c:8672
 msgid ""
 "1024: ParSID in par port 1, 1280: ParSID in par port 2, 1536: ParSID in par "
 "port 3"
 msgstr ""
 "1024: ParSID i parport 1, 1280: ParSID i parport 2, 1536: ParSID i parport 3"
 
-#: src/translate_text.c.po.c:8689
+#: src/translate_text.c.po.c:8690
 msgid ""
 "1800: ReSID-FP 6581R3 4885, 1801: ReSID-FP 6581R3 0486S, 1802: ReSID-FP "
 "6581R3 3984, 1803: ReSID-FP 6581R4 AR 3789, 1804: ReSID-FP 6581R3 4485, "
@@ -10692,35 +10555,35 @@ msgstr ""
 "8580R5 3691 + digiförstärkning, 1810: ReSID-FP 8580R5 1489, 1811: ReSID-FP "
 "8580R5 1489 + digiförstärkning"
 
-#: src/translate_text.c.po.c:8706
+#: src/translate_text.c.po.c:8707
 msgid "Enable second SID"
 msgstr "Aktivera andra SID"
 
-#: src/translate_text.c.po.c:8722
+#: src/translate_text.c.po.c:8723
 msgid "Enable SID Cartridge"
 msgstr "Aktivera SID-instickskort"
 
-#: src/translate_text.c.po.c:8738
+#: src/translate_text.c.po.c:8739
 msgid "Disable SID Cartridge"
 msgstr "Inaktivera SID-instickskort"
 
-#: src/translate_text.c.po.c:8754
+#: src/translate_text.c.po.c:8755
 msgid "base address"
 msgstr "basadress"
 
-#: src/translate_text.c.po.c:8770
+#: src/translate_text.c.po.c:8771
 msgid "Specify base address for 2nd SID"
 msgstr "Ange basadress för andra SID"
 
-#: src/translate_text.c.po.c:8786
+#: src/translate_text.c.po.c:8787
 msgid "Emulate SID filters"
 msgstr "Emulera SID-filter"
 
-#: src/translate_text.c.po.c:8802
+#: src/translate_text.c.po.c:8803
 msgid "Do not emulate SID filters"
 msgstr "Emulera inte SID-filter"
 
-#: src/translate_text.c.po.c:8819
+#: src/translate_text.c.po.c:8820
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
@@ -10728,15 +10591,15 @@ msgstr ""
 "reSID-samplingsmetod (0: snabb, 1: interpolerande, 2: omsampling, 3: snabb "
 "omsampling)"
 
-#: src/translate_text.c.po.c:8835
+#: src/translate_text.c.po.c:8836
 msgid "percent"
 msgstr "procent"
 
-#: src/translate_text.c.po.c:8851
+#: src/translate_text.c.po.c:8852
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr "Passband för reSID-resampling i procent av total bandbredd (0 - 90)"
 
-#: src/translate_text.c.po.c:8867
+#: src/translate_text.c.po.c:8868
 msgid ""
 "reSID filter bias setting, which can be used to adjust DAC bias in "
 "millivolts."
@@ -10744,187 +10607,187 @@ msgstr ""
 "Bias-inställning för reSID-filter, vilket kan användas för att justera D/A-"
 "bias i millivolt."
 
-#: src/translate_text.c.po.c:8883
+#: src/translate_text.c.po.c:8884
 msgid "reSID gain in percent (90 - 100)"
 msgstr "Gain för reSID i procent (90 - 100)"
 
-#: src/translate_text.c.po.c:8900
+#: src/translate_text.c.po.c:8901
 msgid "Set the VDC memory size to 16KB"
 msgstr "Sätt VDC-minnesstorlek till 16KB"
 
-#: src/translate_text.c.po.c:8916
+#: src/translate_text.c.po.c:8917
 msgid "Set the VDC memory size to 64KB"
 msgstr "Sätt VDC-minnesstorlek till 64KB"
 
-#: src/translate_text.c.po.c:8932
+#: src/translate_text.c.po.c:8933
 msgid "Set VDC revision"
 msgstr "Ange VDC-revision"
 
-#: src/translate_text.c.po.c:8948
+#: src/translate_text.c.po.c:8949
 msgid "spec"
 msgstr "spec"
 
-#: src/translate_text.c.po.c:8964
+#: src/translate_text.c.po.c:8965
 msgid "Specify memory configuration"
 msgstr "Ange minneskonfiguration"
 
-#: src/translate_text.c.po.c:8980
+#: src/translate_text.c.po.c:8981
 msgid "Enable VIC-1112 IEEE488 interface"
 msgstr "Aktivera VIC-1112-IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:8996
+#: src/translate_text.c.po.c:8997
 msgid "Disable VIC-1112 IEEE488 interface"
 msgstr "Inaktivera VIC-1112-IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:9012
+#: src/translate_text.c.po.c:9013
 msgid "Specify 4/8/16K extension ROM name at $2000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $2000"
 
-#: src/translate_text.c.po.c:9028
+#: src/translate_text.c.po.c:9029
 msgid "Specify 4/8/16K extension ROM name at $4000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $4000"
 
-#: src/translate_text.c.po.c:9044
+#: src/translate_text.c.po.c:9045
 msgid "Specify 4/8/16K extension ROM name at $6000"
 msgstr "Ange namn för 4/8/16K-utöknings-ROM på $6000"
 
-#: src/translate_text.c.po.c:9060
+#: src/translate_text.c.po.c:9061
 msgid "Specify 4/8K extension ROM name at $A000"
 msgstr "Ange namn för 4/8K-utöknings-ROM på $A000"
 
-#: src/translate_text.c.po.c:9076
+#: src/translate_text.c.po.c:9077
 msgid "Specify 4K extension ROM name at $B000"
 msgstr "Ange namn för 4K-utöknings-ROM på $B000"
 
-#: src/translate_text.c.po.c:9092
+#: src/translate_text.c.po.c:9093
 msgid "Specify generic extension ROM name"
 msgstr "Ange namn på generiskt utöknings-ROM"
 
-#: src/translate_text.c.po.c:9108
+#: src/translate_text.c.po.c:9109
 msgid "Specify Mega-Cart extension ROM name"
 msgstr "Ange namn på Mega-Cart-utöknings-ROM"
 
-#: src/translate_text.c.po.c:9124
+#: src/translate_text.c.po.c:9125
 msgid "Specify Final Expansion extension ROM name"
 msgstr "Ange namn på Final Expansion utöknings-ROM"
 
-#: src/translate_text.c.po.c:9140
+#: src/translate_text.c.po.c:9141
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Ange namn på Vic Flash-insticksmodulutöknings-ROM"
 
-#: src/translate_text.c.po.c:9156
+#: src/translate_text.c.po.c:9157
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Aktivera återskrivning till ROM-fil för Final Expansion"
 
-#: src/translate_text.c.po.c:9172
+#: src/translate_text.c.po.c:9173
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Inaktivera återskrivning till ROM-fil för Final Expansion"
 
-#: src/translate_text.c.po.c:9188
+#: src/translate_text.c.po.c:9189
 msgid "Set Mega-Cart NvRAM filename"
 msgstr "Välj  Mega-Cart NvRAM-filnamn"
 
-#: src/translate_text.c.po.c:9220
+#: src/translate_text.c.po.c:9221
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "Inaktivera Mega-Cart NvRAM-återskrivning"
 
-#: src/translate_text.c.po.c:9236
+#: src/translate_text.c.po.c:9237
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
 
-#: src/translate_text.c.po.c:9252
+#: src/translate_text.c.po.c:9253
 msgid "Disable Vic Flash Plugin write back to ROM file"
 msgstr "Inaktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
 
-#: src/translate_text.c.po.c:9268
+#: src/translate_text.c.po.c:9269
 msgid "Set VIC-II border display mode (0: normal, 1: full, 2: debug)"
 msgstr "Välj VIC II-ramvisningsläge (0: normal, 1: full, 2: felsökning)"
 
-#: src/translate_text.c.po.c:9284
+#: src/translate_text.c.po.c:9285
 msgid "Enable sprite-background collision registers"
 msgstr "Aktivera sprite-till-bakgrund-kollisionsregister"
 
-#: src/translate_text.c.po.c:9300
+#: src/translate_text.c.po.c:9301
 msgid "Disable sprite-background collision registers"
 msgstr "Inaktivera sprite-till-bakgrund-kollisionsregister"
 
-#: src/translate_text.c.po.c:9316
+#: src/translate_text.c.po.c:9317
 msgid "Enable sprite-sprite collision registers"
 msgstr "Aktivera sprite-till-sprite-kollisionsregister"
 
-#: src/translate_text.c.po.c:9332
+#: src/translate_text.c.po.c:9333
 msgid "Disable sprite-sprite collision registers"
 msgstr "Inaktivera sprite-till-sprite-kollisionsregister"
 
-#: src/translate_text.c.po.c:9348
+#: src/translate_text.c.po.c:9349
 msgid "Use new luminances"
 msgstr "Använd nya ljusstyrkor"
 
-#: src/translate_text.c.po.c:9364
+#: src/translate_text.c.po.c:9365
 msgid "Use old luminances"
 msgstr "Använd gamla ljusstyrkor"
 
-#: src/translate_text.c.po.c:9380
+#: src/translate_text.c.po.c:9381
 msgid "Enable double size"
 msgstr "Aktivera dubbel storlek"
 
-#: src/translate_text.c.po.c:9396
+#: src/translate_text.c.po.c:9397
 msgid "Disable double size"
 msgstr "Inaktivera dubbel storlek"
 
-#: src/translate_text.c.po.c:9412
+#: src/translate_text.c.po.c:9413
 msgid "Enable double scan"
 msgstr "Aktivera dubbelskanning"
 
-#: src/translate_text.c.po.c:9428
+#: src/translate_text.c.po.c:9429
 msgid "Disable double scan"
 msgstr "Inaktivera dubbelskanning"
 
-#: src/translate_text.c.po.c:9444
+#: src/translate_text.c.po.c:9445
 msgid "Enable hardware scaling"
 msgstr "Aktivera maskinvaruskalning"
 
-#: src/translate_text.c.po.c:9460
+#: src/translate_text.c.po.c:9461
 msgid "Disable hardware scaling"
 msgstr "Inaktivera maskinvaruskalning"
 
-#: src/translate_text.c.po.c:9476
+#: src/translate_text.c.po.c:9477
 msgid "Enable Scale2x"
 msgstr "Aktivera Scale2x"
 
-#: src/translate_text.c.po.c:9492
+#: src/translate_text.c.po.c:9493
 msgid "Disable Scale2x"
 msgstr "Inaktivera Scale2x"
 
-#: src/translate_text.c.po.c:9508
+#: src/translate_text.c.po.c:9509
 msgid "Use an internal calculated palette"
 msgstr "Använd en internt beräknad palett"
 
-#: src/translate_text.c.po.c:9524
+#: src/translate_text.c.po.c:9525
 msgid "Use an external palette (file)"
 msgstr "Använd en extern palett (fil)"
 
-#: src/translate_text.c.po.c:9540
+#: src/translate_text.c.po.c:9541
 msgid "Specify name of file of external palette"
 msgstr "Ange namn på fil för extern palett"
 
-#: src/translate_text.c.po.c:9572
+#: src/translate_text.c.po.c:9573
 msgid "Select fullscreen device"
 msgstr "Ange fullskärmsenhet"
 
-#: src/translate_text.c.po.c:9588
+#: src/translate_text.c.po.c:9589
 msgid "mode"
 msgstr "läge"
 
-#: src/translate_text.c.po.c:9604
+#: src/translate_text.c.po.c:9605
 msgid "Select fullscreen mode"
 msgstr "Aktivera fullskärmsläge"
 
-#: src/translate_text.c.po.c:9620
+#: src/translate_text.c.po.c:9621
 msgid "Specify RS232 device this ACIA should work on"
 msgstr "Ange RS232-enhet denna ACIA skall arbeta på"
 
-#: src/translate_text.c.po.c:9636
+#: src/translate_text.c.po.c:9637
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -10932,7 +10795,7 @@ msgstr ""
 "Ställ in enhetstyp för enhet 8 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:9652
+#: src/translate_text.c.po.c:9653
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -10940,7 +10803,7 @@ msgstr ""
 "Ställ in enhetstyp för enhet 9 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:9668
+#: src/translate_text.c.po.c:9669
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -10948,7 +10811,7 @@ msgstr ""
 "Ställ in enhetstyp för enhet 10 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:9684
+#: src/translate_text.c.po.c:9685
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
@@ -10956,452 +10819,452 @@ msgstr ""
 "Ställ in enhetstyp för enhet 11 (0: INGEN, 1: FILSYSTEM, 2: OPENCBM, 3: "
 "BLOCKENHET)"
 
-#: src/translate_text.c.po.c:9700
+#: src/translate_text.c.po.c:9701
 msgid "Attach disk image for drive #8 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 8 med skrivskydd"
 
-#: src/translate_text.c.po.c:9716
+#: src/translate_text.c.po.c:9717
 msgid "Attach disk image for drive #8 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 8 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:9732
+#: src/translate_text.c.po.c:9733
 msgid "Attach disk image for drive #9 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 9 med skrivskydd"
 
-#: src/translate_text.c.po.c:9748
+#: src/translate_text.c.po.c:9749
 msgid "Attach disk image for drive #9 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 9 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:9764
+#: src/translate_text.c.po.c:9765
 msgid "Attach disk image for drive #10 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 10 med skrivskydd"
 
-#: src/translate_text.c.po.c:9780
+#: src/translate_text.c.po.c:9781
 msgid "Attach disk image for drive #10 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 10 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:9796
+#: src/translate_text.c.po.c:9797
 msgid "Attach disk image for drive #11 read only"
 msgstr "Anslut diskettavbildningsfil för enhet 11 med skrivskydd"
 
-#: src/translate_text.c.po.c:9812
+#: src/translate_text.c.po.c:9813
 msgid "Attach disk image for drive #11 read write (if possible)"
 msgstr "Anslut diskettavbildningsfil för enhet 11 skrivbar (om möjligt)"
 
-#: src/translate_text.c.po.c:9828
+#: src/translate_text.c.po.c:9829
 msgid "Enable automatic Datasette-Reset"
 msgstr "Aktivera automatisk Datasetteåterställning"
 
-#: src/translate_text.c.po.c:9844
+#: src/translate_text.c.po.c:9845
 msgid "Disable automatic Datasette-Reset"
 msgstr "Inaktivera automatisk Datasetteåterställning"
 
-#: src/translate_text.c.po.c:9860
+#: src/translate_text.c.po.c:9861
 msgid "Set delay in cycles for a zero in the tap"
 msgstr "Ange väntecykler för nolla i tap-filen"
 
-#: src/translate_text.c.po.c:9876
+#: src/translate_text.c.po.c:9877
 msgid "Set number of cycles added to each gap in the tap"
 msgstr "Ange cykler som läggs till varje gap i tap-filen"
 
-#: src/translate_text.c.po.c:9893
+#: src/translate_text.c.po.c:9894
 msgid "Trace the main CPU"
 msgstr "Spåra huvudprocessorn"
 
-#: src/translate_text.c.po.c:9909
+#: src/translate_text.c.po.c:9910
 msgid "Do not trace the main CPU"
 msgstr "Spåra inte huvudprocessorn"
 
-#: src/translate_text.c.po.c:9925
+#: src/translate_text.c.po.c:9926
 msgid "Trace the drive0 CPU"
 msgstr "Spåra processor i diskettstation 0"
 
-#: src/translate_text.c.po.c:9941
+#: src/translate_text.c.po.c:9942
 msgid "Do not trace the drive0 CPU"
 msgstr "Spåra inte processor i diskettstation 0"
 
-#: src/translate_text.c.po.c:9957
+#: src/translate_text.c.po.c:9958
 msgid "Trace the drive1 CPU"
 msgstr "Spåra processor i diskettstation 1"
 
-#: src/translate_text.c.po.c:9973
+#: src/translate_text.c.po.c:9974
 msgid "Do not trace the drive1 CPU"
 msgstr "Spåra inte processor i diskettstation 1"
 
-#: src/translate_text.c.po.c:9990
+#: src/translate_text.c.po.c:9991
 msgid "Trace the drive2 CPU"
 msgstr "Spåra processor i diskettstation 2"
 
-#: src/translate_text.c.po.c:10006
+#: src/translate_text.c.po.c:10007
 msgid "Do not trace the drive2 CPU"
 msgstr "Spåra inte processor i diskettstation 2"
 
-#: src/translate_text.c.po.c:10024
+#: src/translate_text.c.po.c:10025
 msgid "Trace the drive3 CPU"
 msgstr "Spåra processor i diskettstation 3"
 
-#: src/translate_text.c.po.c:10040
+#: src/translate_text.c.po.c:10041
 msgid "Do not trace the drive3 CPU"
 msgstr "Spåra inte processor i diskettstation 3"
 
-#: src/translate_text.c.po.c:10057
+#: src/translate_text.c.po.c:10058
 msgid "Trace mode (0=normal 1=small 2=history)"
 msgstr "Spårningsläge (0=normal 1=liten 2=historik)"
 
-#: src/translate_text.c.po.c:10074
+#: src/translate_text.c.po.c:10075
 msgid "Playback recorded events"
 msgstr "Spela upp inspelade händelser"
 
-#: src/translate_text.c.po.c:10090
+#: src/translate_text.c.po.c:10091
 msgid "Execute monitor commands from file"
 msgstr "Exekvera monitorkommandon från fil"
 
-#: src/translate_text.c.po.c:10106
+#: src/translate_text.c.po.c:10107
 msgid "Set an initial breakpoint for the monitor"
 msgstr "Sätt en ursprunglig brytpunkt för monitorn"
 
-#: src/translate_text.c.po.c:10122
+#: src/translate_text.c.po.c:10123
 msgid "Enable remote monitor"
 msgstr "Aktivera fjärrmonitor"
 
-#: src/translate_text.c.po.c:10138
+#: src/translate_text.c.po.c:10139
 msgid "Disable remote monitor"
 msgstr "Inaktivera fjärrmonitor"
 
-#: src/translate_text.c.po.c:10154
+#: src/translate_text.c.po.c:10155
 msgid "The local address the remote monitor should bind to"
 msgstr "Lokal adress för fjärrmonitor att ansluta till"
 
-#: src/translate_text.c.po.c:10170
+#: src/translate_text.c.po.c:10171
 msgid "Specify name of the flip list file image"
 msgstr "Ange namn på vallistefilavbildningen"
 
-#: src/translate_text.c.po.c:10186
+#: src/translate_text.c.po.c:10187
 msgid "Show a list of the available options and exit normally"
 msgstr "Visa lista över tillgängliga flaggor och avsluta normalt"
 
-#: src/translate_text.c.po.c:10203
+#: src/translate_text.c.po.c:10204
 msgid "Console mode (for music playback)"
 msgstr "Konsolläge (för musikspelning)"
 
-#: src/translate_text.c.po.c:10219
+#: src/translate_text.c.po.c:10220
 msgid "Allow production of core dumps"
 msgstr "Tillåt skapa minnesutskrift"
 
-#: src/translate_text.c.po.c:10235
+#: src/translate_text.c.po.c:10236
 msgid "Do not produce core dumps"
 msgstr "Skapa inte minnesutskrift"
 
-#: src/translate_text.c.po.c:10253
+#: src/translate_text.c.po.c:10254
 msgid "Don't call exception handler"
 msgstr "Anropa inte undantagshanterare"
 
-#: src/translate_text.c.po.c:10269
+#: src/translate_text.c.po.c:10270
 msgid "Call exception handler (default)"
 msgstr "Anropa undantagshanterare (standard)"
 
-#: src/translate_text.c.po.c:10286
+#: src/translate_text.c.po.c:10287
 msgid "Restore default (factory) settings"
 msgstr "Återställ förvalda inställningar"
 
-#: src/translate_text.c.po.c:10318
+#: src/translate_text.c.po.c:10319
 msgid "Specify config file"
 msgstr "Ange inställningsfil"
 
-#: src/translate_text.c.po.c:10334
+#: src/translate_text.c.po.c:10335
 msgid "Attach and autostart tape/disk image <name>"
 msgstr "Anslut och starta band-/diskettavbildning <namn>"
 
-#: src/translate_text.c.po.c:10350
+#: src/translate_text.c.po.c:10351
 msgid "Attach and autoload tape/disk image <name>"
 msgstr "Anslut och läs in band-/diskettavbildning <namn>"
 
-#: src/translate_text.c.po.c:10366
+#: src/translate_text.c.po.c:10367
 msgid "Attach <name> as a tape image"
 msgstr "Anslut <namn> som bandavbildning"
 
-#: src/translate_text.c.po.c:10382
+#: src/translate_text.c.po.c:10383
 msgid "Attach <name> as a disk image in drive #8"
 msgstr "Anslut <namn> som diskettavbildning i enhet 8"
 
-#: src/translate_text.c.po.c:10398
+#: src/translate_text.c.po.c:10399
 msgid "Attach <name> as a disk image in drive #9"
 msgstr "Anslut <namn> som diskettavbildning i enhet 9"
 
-#: src/translate_text.c.po.c:10414
+#: src/translate_text.c.po.c:10415
 msgid "Attach <name> as a disk image in drive #10"
 msgstr "Anslut <namn> som diskettavbildning i enhet 10"
 
-#: src/translate_text.c.po.c:10430
+#: src/translate_text.c.po.c:10431
 msgid "Attach <name> as a disk image in drive #11"
 msgstr "Anslut <namn> som diskettavbildning i enhet 11"
 
-#: src/translate_text.c.po.c:10478
+#: src/translate_text.c.po.c:10479
 msgid "Specify log file name"
 msgstr "Ange namn på loggfil"
 
-#: src/translate_text.c.po.c:10494
+#: src/translate_text.c.po.c:10495
 msgid "Enable verbose log output."
 msgstr "Aktivera pratsam loggutdata."
 
-#: src/translate_text.c.po.c:10510
+#: src/translate_text.c.po.c:10511
 msgid "Enable mouse grab"
 msgstr "Aktivera fångande av mus"
 
-#: src/translate_text.c.po.c:10526
+#: src/translate_text.c.po.c:10527
 msgid "Disable mouse grab"
 msgstr "Inaktivera fångande av mus"
 
-#: src/translate_text.c.po.c:10542
+#: src/translate_text.c.po.c:10543
 msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
-#: src/translate_text.c.po.c:10558
+#: src/translate_text.c.po.c:10559
 msgid "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
 msgstr "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar)"
 
-#: src/translate_text.c.po.c:10574
+#: src/translate_text.c.po.c:10575
 msgid "Enable PS/2 mouse on userport"
 msgstr "Aktivera PS/2-mus på användarport"
 
-#: src/translate_text.c.po.c:10590
+#: src/translate_text.c.po.c:10591
 msgid "Disable PS/2 mouse on userport"
 msgstr "Inaktivera PS/2-mus på användarport"
 
-#: src/translate_text.c.po.c:10606
+#: src/translate_text.c.po.c:10607
 msgid "Set the value for the very first RAM address after powerup"
 msgstr "Ange värdet på den allra första RAM-adressen efter strömpåslag"
 
-#: src/translate_text.c.po.c:10622
+#: src/translate_text.c.po.c:10623
 msgid "num of bytes"
 msgstr "antal byte"
 
-#: src/translate_text.c.po.c:10638
+#: src/translate_text.c.po.c:10639
 msgid "Length of memory block initialized with the same value"
 msgstr "Längd på minnesblock som initierats med samma värde"
 
-#: src/translate_text.c.po.c:10654
+#: src/translate_text.c.po.c:10655
 msgid "Length of memory block initialized with the same pattern"
 msgstr "Längd på minnesblock som initierats med samma mönster"
 
-#: src/translate_text.c.po.c:10686
+#: src/translate_text.c.po.c:10687
 msgid "Disable sound playback"
 msgstr "Inaktivera ljudåtergivning"
 
-#: src/translate_text.c.po.c:10702
+#: src/translate_text.c.po.c:10703
 msgid "Set sound sample rate to <value> Hz"
 msgstr "Sätt ljudsamplingshastighet till <värde> Hz"
 
-#: src/translate_text.c.po.c:10718
+#: src/translate_text.c.po.c:10719
 msgid "Set sound buffer size to <value> msec"
 msgstr "Sätt ljudbuffertstorlek till <värde> ms"
 
-#: src/translate_text.c.po.c:10734
+#: src/translate_text.c.po.c:10735
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
 msgstr "Välj storlek för ljudfragment (0 = liten, 1= medium, 2 = stor)"
 
-#: src/translate_text.c.po.c:10750
+#: src/translate_text.c.po.c:10751
 msgid "Specify sound driver"
 msgstr "Ange ljuddrivrutin"
 
-#: src/translate_text.c.po.c:10766
+#: src/translate_text.c.po.c:10767
 msgid "args"
 msgstr "flaggor"
 
-#: src/translate_text.c.po.c:10782
+#: src/translate_text.c.po.c:10783
 msgid "Specify initialization parameters for sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin"
 
-#: src/translate_text.c.po.c:10798
+#: src/translate_text.c.po.c:10799
 msgid "Specify recording sound driver"
 msgstr "Ange ljuddrivrutin för inspelning"
 
-#: src/translate_text.c.po.c:10814
+#: src/translate_text.c.po.c:10815
 msgid "Specify initialization parameters for recording sound driver"
 msgstr "Ange initieringsflaggor för ljuddrivrutin för inspelning"
 
-#: src/translate_text.c.po.c:10830
+#: src/translate_text.c.po.c:10831
 msgid "sync"
 msgstr "synk"
 
-#: src/translate_text.c.po.c:10846
+#: src/translate_text.c.po.c:10847
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
 
-#: src/translate_text.c.po.c:10862
+#: src/translate_text.c.po.c:10863
 msgid "path"
 msgstr "sökväg"
 
-#: src/translate_text.c.po.c:10878
+#: src/translate_text.c.po.c:10879
 msgid "Define search path to locate system files"
 msgstr "Ange sökväg för att hitta systemfiler"
 
-#: src/translate_text.c.po.c:10894
+#: src/translate_text.c.po.c:10895
 msgid "Enable general mechanisms for fast disk/tape emulation"
 msgstr "Aktivera generella mekanismer för snabb disk-/bandemulering"
 
-#: src/translate_text.c.po.c:10910
+#: src/translate_text.c.po.c:10911
 msgid "Disable general mechanisms for fast disk/tape emulation"
 msgstr "Inaktivera generella mekanismer för snabb disk-/bandemulering"
 
-#: src/translate_text.c.po.c:10926
+#: src/translate_text.c.po.c:10927
 msgid "Limit emulation speed to specified value"
 msgstr "Begränsa emuleringshastighet till angivet värde"
 
-#: src/translate_text.c.po.c:10942
+#: src/translate_text.c.po.c:10943
 msgid "Update every <value> frames (`0' for automatic)"
 msgstr "Uppdatera varje <värde> ramar (\"0\" för automatiskt)"
 
-#: src/translate_text.c.po.c:10974
+#: src/translate_text.c.po.c:10975
 msgid "Disable warp mode"
 msgstr "Inaktivera warpläge"
 
-#: src/translate_text.c.po.c:10990
+#: src/translate_text.c.po.c:10991
 msgid "iso language code"
 msgstr "iso-språkkod"
 
-#: src/translate_text.c.po.c:11006
+#: src/translate_text.c.po.c:11007
 msgid "Specify the iso code of the language"
 msgstr "Ange ISO-koden för språket"
 
-#: src/translate_text.c.po.c:11022
+#: src/translate_text.c.po.c:11023
 msgid "Enable the PLUS256K RAM expansion"
 msgstr "Aktivera PLUS256K RAM-expansion"
 
-#: src/translate_text.c.po.c:11038
+#: src/translate_text.c.po.c:11039
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera PLUS256K RAM-expansion"
 
-#: src/translate_text.c.po.c:11054
+#: src/translate_text.c.po.c:11055
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på PLUS256K-avbildning"
 
-#: src/translate_text.c.po.c:11070
+#: src/translate_text.c.po.c:11071
 msgid "Enable the PLUS60K RAM expansion"
 msgstr "Aktivera PLUS60K RAM-expansionen"
 
-#: src/translate_text.c.po.c:11086
+#: src/translate_text.c.po.c:11087
 msgid "Disable the PLUS60K RAM expansion"
 msgstr "Inaktivera PLUS60K RAM-expansion"
 
-#: src/translate_text.c.po.c:11102
+#: src/translate_text.c.po.c:11103
 msgid "Specify name of PLUS60K image"
 msgstr "Ange namn på plUS60K-avbildning"
 
-#: src/translate_text.c.po.c:11118
+#: src/translate_text.c.po.c:11119
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basadress för PLUS60K-expansion"
 
-#: src/translate_text.c.po.c:11134
+#: src/translate_text.c.po.c:11135
 msgid "Enable the 256K RAM expansion"
 msgstr "Aktivera 256K RAM-expansion"
 
-#: src/translate_text.c.po.c:11150
+#: src/translate_text.c.po.c:11151
 msgid "Disable the 256K RAM expansion"
 msgstr "Inaktivera 256K RAM-expansion"
 
-#: src/translate_text.c.po.c:11166
+#: src/translate_text.c.po.c:11167
 msgid "Specify name of 256K image"
 msgstr "Ange namn på 256K-avbildning"
 
-#: src/translate_text.c.po.c:11182
+#: src/translate_text.c.po.c:11183
 msgid "Base address of the 256K expansion"
 msgstr "Basadress för 256K-expansionen"
 
-#: src/translate_text.c.po.c:11198
+#: src/translate_text.c.po.c:11199
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Anslut rå Strucured Basic-insticksmodulfil"
 
-#: src/translate_text.c.po.c:11214
+#: src/translate_text.c.po.c:11215
 msgid "Attach raw 16kB Super Explode V5 cartridge image"
 msgstr "Anslut rå 16kB Super Explode V5-insticksmodulfil"
 
-#: src/translate_text.c.po.c:11230
+#: src/translate_text.c.po.c:11231
 msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "Anslut rå 64kB-Super Games-insticksmodulfil"
 
-#: src/translate_text.c.po.c:11246
+#: src/translate_text.c.po.c:11247
 msgid "Attach raw 16kB Simons Basic cartridge image"
 msgstr "Anslut rå 16kB Simons Basic-insticksmodulavbilding"
 
-#: src/translate_text.c.po.c:11262
+#: src/translate_text.c.po.c:11263
 msgid "Enable the CSORY 256K RAM expansion"
 msgstr "Aktivera CSORY 256K RAM-expansion"
 
-#: src/translate_text.c.po.c:11278
+#: src/translate_text.c.po.c:11279
 msgid "Enable the HANNES 256K RAM expansion"
 msgstr "Aktivera HANNES 256K RAM-expansion"
 
-#: src/translate_text.c.po.c:11294
+#: src/translate_text.c.po.c:11295
 msgid "Enable the HANNES 1024K RAM expansion"
 msgstr "Aktivera HANNES 1024K RAM-expansion"
 
-#: src/translate_text.c.po.c:11310
+#: src/translate_text.c.po.c:11311
 msgid "Enable the HANNES 4096K RAM expansion"
 msgstr "Aktivera HANNES 4096K RAM-expansion"
 
-#: src/translate_text.c.po.c:11326
+#: src/translate_text.c.po.c:11327
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
 msgstr "Ange DTV-revision (2: DTV2, 3: DTV3)"
 
-#: src/translate_text.c.po.c:11342
+#: src/translate_text.c.po.c:11343
 msgid "Enable DTV blitter logs."
 msgstr "Aktivera DTV-blitterloggar."
 
-#: src/translate_text.c.po.c:11358
+#: src/translate_text.c.po.c:11359
 msgid "Disable DTV blitter logs."
 msgstr "Inaktivera DTV-blitterloggar."
 
-#: src/translate_text.c.po.c:11374
+#: src/translate_text.c.po.c:11375
 msgid "Enable DTV DMA logs."
 msgstr "Aktivera DTV DMA-loggning."
 
-#: src/translate_text.c.po.c:11390
+#: src/translate_text.c.po.c:11391
 msgid "Disable DTV DMA logs."
 msgstr "Inaktivera DTV DMA-loggning."
 
-#: src/translate_text.c.po.c:11406
+#: src/translate_text.c.po.c:11407
 msgid "Specify name of C64DTV ROM image"
 msgstr "Ange namn på C64DTV-ROM-avbildning"
 
-#: src/translate_text.c.po.c:11422
+#: src/translate_text.c.po.c:11423
 msgid "Enable writing to C64DTV ROM image"
 msgstr "Aktivera skrivning till C64DTV-ROM-avbildning."
 
-#: src/translate_text.c.po.c:11438
+#: src/translate_text.c.po.c:11439
 msgid "Disable writing to C64DTV ROM image"
 msgstr "Inaktivera skrivning till C64DTV-ROM-avbildning."
 
-#: src/translate_text.c.po.c:11454
+#: src/translate_text.c.po.c:11455
 msgid "Enable DTV flash chip logs."
 msgstr "Aktivera loggar för DTV-flashkrets."
 
-#: src/translate_text.c.po.c:11470
+#: src/translate_text.c.po.c:11471
 msgid "Disable DTV flash chip logs."
 msgstr "Inaktivera loggar för DTV-flashkrets."
 
-#: src/translate_text.c.po.c:11486
+#: src/translate_text.c.po.c:11487
 msgid "Use <name> as directory for flash file system device"
 msgstr "Ange <namn> som katalog för filsystemsbaserad flashenhet"
 
-#: src/translate_text.c.po.c:11502
+#: src/translate_text.c.po.c:11503
 msgid "Enable true hardware flash file system"
 msgstr "Aktivera äkta maskinvaru-flashfilsystem"
 
-#: src/translate_text.c.po.c:11518
+#: src/translate_text.c.po.c:11519
 msgid "Disable true hardware flash file system"
 msgstr "Inaktivera maskinvaruemelring för flashfilsystem"
 
-#: src/translate_text.c.po.c:11535
+#: src/translate_text.c.po.c:11536
 msgid "Enable MIDI emulation"
 msgstr "Aktivera MIDI-emulering"
 
-#: src/translate_text.c.po.c:11551
+#: src/translate_text.c.po.c:11552
 msgid "Disable MIDI emulation"
 msgstr "Inaktivera MIDI-emulering"
 
-#: src/translate_text.c.po.c:11567
+#: src/translate_text.c.po.c:11568
 msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
@@ -11409,93 +11272,222 @@ msgstr ""
 "Typ av MIDI-gränssnitt (0: sekventiell, 1: Passport, 2: DATEL, 3: Namesoft, "
 "4: Maplin)"
 
-#: src/translate_text.c.po.c:11584
+#: src/translate_text.c.po.c:11585
 msgid "Enable the digiblaster add-on"
 msgstr "Aktivera digiblaster-tillägg"
 
-#: src/translate_text.c.po.c:11600
+#: src/translate_text.c.po.c:11601
 msgid "Disable the digiblaster add-on"
 msgstr "Inaktivera digiblaster-tillägg"
 
-#: src/translate_text.c.po.c:11616
+#: src/translate_text.c.po.c:11617
 msgid "Enable the v364 speech add-on"
 msgstr "Aktivera v364-rösttillägg"
 
-#: src/translate_text.c.po.c:11632
+#: src/translate_text.c.po.c:11633
 msgid "Disable the v364 speech add-on"
 msgstr "Inaktivera v364-rösttillägg"
 
-#: src/translate_text.c.po.c:11648
+#: src/translate_text.c.po.c:11649
 msgid "Attach Speech ROM image"
 msgstr "Anslut röst-ROM-avbildning"
 
-#: src/translate_text.c.po.c:11664
+#: src/translate_text.c.po.c:11665
 msgid "Enable SID cartridge joystick"
 msgstr "Aktivera SID-insticksmodul-styrspak"
 
-#: src/translate_text.c.po.c:11680
+#: src/translate_text.c.po.c:11681
 msgid "Disable SID cartridge joystick"
 msgstr "Inaktivera SID-insticksmodul-styrspak"
 
-#: src/translate_text.c.po.c:11696
+#: src/translate_text.c.po.c:11697
 msgid "Enable the SFX soundexpander cartridge"
 msgstr "Aktivera SFX soundexpander-insticksmodul"
 
-#: src/translate_text.c.po.c:11712
+#: src/translate_text.c.po.c:11713
 msgid "Disable the SFX soundexpander cartridge"
 msgstr "Inaktivera SFX soundexpander-insticksmodul"
 
-#: src/translate_text.c.po.c:11728
+#: src/translate_text.c.po.c:11729
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "Välj YM-kretstyp (3526 / 3812)"
 
-#: src/translate_text.c.po.c:11744
+#: src/translate_text.c.po.c:11745
 msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Aktivera SFX Sound Sampler-insticksmodul"
 
-#: src/translate_text.c.po.c:11760
+#: src/translate_text.c.po.c:11761
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "Inaktivera SFX Sound Sampler-insticksmodul"
 
-#: src/translate_text.c.po.c:11776
+#: src/translate_text.c.po.c:11777
 msgid "Enable lightpen emulation"
 msgstr "Aktivera emulering av ljuspenna"
 
-#: src/translate_text.c.po.c:11792
+#: src/translate_text.c.po.c:11793
 msgid "Disable lightpen emulation"
 msgstr "Inaktivera emulering ljuspenna"
 
-#: src/translate_text.c.po.c:11808
+#: src/translate_text.c.po.c:11809
 msgid "Set lightpen type"
 msgstr "Välj typ av ljuspenna"
 
-#: src/translate_text.c.po.c:11824
+#: src/translate_text.c.po.c:11825
 msgid "Enable EasyFlash jumper"
 msgstr "Aktivera EasyFlash-bygel"
 
-#: src/translate_text.c.po.c:11840
+#: src/translate_text.c.po.c:11841
 msgid "Disable EasyFlash jumper"
 msgstr "Inaktivera EasyFlash-bygel"
 
-#: src/translate_text.c.po.c:11856
+#: src/translate_text.c.po.c:11857
 msgid "Enable writing to EasyFlash .crt image"
 msgstr "Aktivera skrivning till EasyFlash-.crt-avbildning."
 
-#: src/translate_text.c.po.c:11872
+#: src/translate_text.c.po.c:11873
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Inaktivera skrivning till EasyFlash-.crt-avbildning."
 
-#: src/translate_text.c.po.c:11888
+#: src/translate_text.c.po.c:11889
 msgid "Enable the DigiMAX cartridge"
 msgstr "Aktivera DigiMAX-insticksmodul"
 
-#: src/translate_text.c.po.c:11904
+#: src/translate_text.c.po.c:11905
 msgid "Disable the DigiMAX cartridge"
 msgstr "Inaktivera DigiMAX-insticksmodul"
 
-#: src/translate_text.c.po.c:11920
+#: src/translate_text.c.po.c:11921
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basadress för DigiMAC-insticksmodulen"
+
+#~ msgid "Attach generic 8kB image"
+#~ msgstr "Anslut vanlig 8KB-avbildning"
+
+#~ msgid "Attach Epyx FastLoad image"
+#~ msgstr "Anslut Epyx FastLoad-avbildning"
+
+#~ msgid "Attach Retro Replay image"
+#~ msgstr "Anslut Retro Replay-avbildning"
+
+#~ msgid "Attach Super Snapshot V5 image"
+#~ msgstr "Anslut Super Snapshot V5-avbildning"
+
+#~ msgid "Attach Epyx FastLoad cartridge image"
+#~ msgstr "Anslut Epyx FastLoad-avbildningsfil"
+
+#~ msgid "Attach Retro Replay cartridge image"
+#~ msgstr "Anslut Retro Replay-avbildningsfil"
+
+#~ msgid "Attach Super Snapshot V5 cartridge image"
+#~ msgstr "Anslut Super Snapshot V5-avbildningsfil"
+
+#~ msgid "Attach generic 8KB cartridge image"
+#~ msgstr "Anslut vanlig 8KB-insticksmodulfil"
+
+#~ msgid "Always switch to C64 mode"
+#~ msgstr "Växla alltid till C64-läge"
+
+#~ msgid "Attach a disk image"
+#~ msgstr "Anslut en diskettavbildningsfil"
+
+#~ msgid "Attach a tape image"
+#~ msgstr "Anslut bandavbildningsfil"
+
+#~ msgid "256K image"
+#~ msgstr "256K-avbildning"
+
+#~ msgid "Attach generic 16kB image"
+#~ msgstr "Anslut vanlig 16KB-avbildning"
+
+#~ msgid "Attach Atomic Power image"
+#~ msgstr "Anslut Atomic Power-avbildning"
+
+#~ msgid "Attach IDE64 image"
+#~ msgstr "Anslut IDE64-avbildning"
+
+#~ msgid "Attach MMC Replay image"
+#~ msgstr "Anslut MMC Replay-avbildning"
+
+#~ msgid "Attach a cartridge image"
+#~ msgstr "Anslut insticksmodulfil"
+
+#~ msgid "ACIA $DExx device"
+#~ msgstr "ACIA $DExx-enhet"
+
+#~ msgid "ACIA $DExx Interrupt"
+#~ msgstr "ACIA $DExx-avbrott"
+
+#~ msgid "64kB display memory"
+#~ msgstr "64KB grafikminne"
+
+#~ msgid "Attach 4/8/16kB image at $2000"
+#~ msgstr "Anslut 4/8/16kB-fil vid $2000"
+
+#~ msgid "Attach 4/8/16kB image at $4000"
+#~ msgstr "Anslut 4/8/16kB-fil vid $4000"
+
+#~ msgid "Attach 4/8/16kB image at $6000"
+#~ msgstr "Anslut 4/8/16kB-fil vid $6000"
+
+#~ msgid "Attach 4/8kB image at $A000"
+#~ msgstr "Anslut 4/8kB-fil vid $A000"
+
+#~ msgid "Attach 4kB image at $B000"
+#~ msgstr "Anslut 4kB-fil vid $B000"
+
+#~ msgid "Aspect ratio (0.5 - 2.0):"
+#~ msgstr "Bredd-/höjdförhållande (0,5 - 2,0):"
+
+#~ msgid "Attach Action Replay cartridge image"
+#~ msgstr "Anslut Action Replay-insticksmodulfil"
+
+#~ msgid "Attach Action Replay MK3 cartridge image"
+#~ msgstr "Anslut Action Replay MK3-insticksmodulfil"
+
+#~ msgid "Attach Action Replay MK4 cartridge image"
+#~ msgstr "Anslut Action Replay MK4-insticksmodulfil"
+
+#~ msgid "Attach Stardos cartridge image"
+#~ msgstr "Anslut Stardos-insticksmodulfil"
+
+#~ msgid "Attach Atomic Power cartridge image"
+#~ msgstr "Anslut Atomic Power-avbildningsfil"
+
+#~ msgid "Attach MMC Replay cartridge image"
+#~ msgstr "Anslut MMC Replay-avbildningsfil"
+
+#~ msgid "Attach IDE64 interface cartridge image"
+#~ msgstr "Anslut IDE64-gränssnittsavbildningsfil"
+
+#~ msgid "Attach Super Snapshot V4 cartridge image"
+#~ msgstr "Anslut Super Snapshot V4-avbildningsfil"
+
+#~ msgid "About"
+#~ msgstr "Om"
+
+#~ msgid "Add current image"
+#~ msgstr "Lägg till aktuell avbildning"
+
+#~ msgid "Attach next image"
+#~ msgstr "Anslut nästa avbildning"
+
+#~ msgid "Attach previous image"
+#~ msgstr "Anslut föregående avbildning"
+
+#~ msgid "ACIA Settings"
+#~ msgstr "ACIA-inställningar"
+
+#~ msgid "256K Settings"
+#~ msgstr "256K-inställningar"
+
+#~ msgid "Add to generic"
+#~ msgstr "Lägg till generisk"
+
+#~ msgid "256K Base"
+#~ msgstr "256K-bas"
+
+#~ msgid "Attach generic 16KB cartridge image"
+#~ msgstr "Anslut vanlig 16KB-insticksmodulfil"
 
 #~ msgid "<name>"
 #~ msgstr "<namn>"

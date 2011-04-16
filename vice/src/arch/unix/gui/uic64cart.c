@@ -103,10 +103,10 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_CRT, NULL, KEYSYM_c, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Attach generic 8kB image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 8KB cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_8KB, NULL },
-    { N_("Attach generic 16kB image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 16KB cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_GENERIC_16KB, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -115,7 +115,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ACTION_REPLAY, NULL },
     /* Translators: "Atomic Power" is the name of the cartridge and should not get translated. */
-    { N_("Attach Atomic Power image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 32KB Atomic Power cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
     /* Translators: "EasyFlash" is the name of the cartridge and should not get translated. */
@@ -123,11 +123,11 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EASYFLASH, NULL },
     /* Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated. */
-    { N_("Attach Epyx FastLoad image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 8KB Epyx FastLoad cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EPYX_FASTLOAD, NULL },
     /* Translators: "IDE64" is the name of the cartridge and should not get translated. */
-    { N_("Attach IDE64 image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 64KB IDE64 cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IDE64, NULL },
     /* Translators: "Magic Formel" is the name of the cartridge and should not get translated. */
@@ -135,15 +135,15 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MAGIC_FORMEL, NULL },
     /* Translators: "MMC Replay" is the name of the cartridge and should not get translated. */
-    { N_("Attach MMC Replay image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 512kB MMC Replay cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MMC_REPLAY, NULL },
     /* Translators: "Retro Replay" is the name of the cartridge and should not get translated. */
-    { N_("Attach Retro Replay image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 64KB Retro Replay cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_RETRO_REPLAY, NULL },
     /* Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated. */
-    { N_("Attach Super Snapshot V5 image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw 64KB Super Snapshot V5 cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_SUPER_SNAPSHOT_V5, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -153,7 +153,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
 };
 
 ui_menu_entry_t ui_c64cart_commands_menu[] = {
-    { N_("Attach a cartridge image"), UI_MENU_TYPE_NORMAL,
+    { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_cartridge_image_submenu },
     { N_("Detach cartridge image"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_cartridge, NULL, NULL },

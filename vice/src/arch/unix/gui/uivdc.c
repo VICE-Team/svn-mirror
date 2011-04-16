@@ -142,7 +142,7 @@ static UI_CALLBACK(openGL_set_desktoprefresh)
 #endif
 
 ui_menu_entry_t set_vdcmodel_submenu[] = {
-    { N_("64kB display memory"), UI_MENU_TYPE_TICK,
+    { N_("64KB video memory"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDC64KB, NULL, NULL },
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_vdc_revison_submenu },
