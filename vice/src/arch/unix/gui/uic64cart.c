@@ -119,7 +119,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_ATOMIC_POWER, NULL },
     /* Translators: "EasyFlash" is the name of the cartridge and should not get translated. */
-    { N_("Attach EasyFlash image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw EasyFlash cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_EASYFLASH, NULL },
     /* Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated. */
@@ -131,7 +131,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_IDE64, NULL },
     /* Translators: "Magic Formel" is the name of the cartridge and should not get translated. */
-    { N_("Attach Magic Formel image"), UI_MENU_TYPE_DOTS,
+    { N_("Attach raw Magic Formel cartridge image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)attach_cartridge, (ui_callback_data_t)
       CARTRIDGE_MAGIC_FORMEL, NULL },
     /* Translators: "MMC Replay" is the name of the cartridge and should not get translated. */

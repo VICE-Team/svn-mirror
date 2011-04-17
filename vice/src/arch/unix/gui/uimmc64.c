@@ -88,7 +88,7 @@ ui_menu_entry_t mmc64_submenu[] = {
       (ui_callback_t)mmc64_save_callback, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
-    { N_("Card image name"), UI_MENU_TYPE_DOTS,
+    { N_("Card image file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mmc64_image_name,
       (ui_callback_data_t)"MMC64imagefilename", NULL },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */

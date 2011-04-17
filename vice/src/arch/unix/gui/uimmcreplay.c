@@ -73,7 +73,7 @@ ui_menu_entry_t mmcreplay_submenu[] = {
       (ui_callback_t)mmcreplay_save_callback, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */
-    { N_("Card image name"), UI_MENU_TYPE_DOTS,
+    { N_("Card image file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mmcreplay_card_filename,
       (ui_callback_data_t)"MMCRCardImage", NULL },
     /* Translators: this means card as in SD/MMC card, not a cartridge! */

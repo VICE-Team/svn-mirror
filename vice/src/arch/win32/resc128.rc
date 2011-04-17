@@ -243,7 +243,7 @@ BEGIN
         MENUITEM "", IDM_RAM_SETTINGS
         MENUITEM "", IDM_C128_SETTINGS
         MENUITEM "", IDM_RS232_SETTINGS
-        POPUP "Cartridge Settings"
+        POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_REU_SETTINGS
             MENUITEM "", IDM_GEORAM_SETTINGS

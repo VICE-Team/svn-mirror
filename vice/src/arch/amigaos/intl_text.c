@@ -1846,7 +1846,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SETTINGS_SV, "Inställningar" },
 /* tr */ { IDMS_SETTINGS_TR, "Ayarlar" },
 
-/* en */ { IDMS_C64_MODEL_SETTINGS,    "C64 Model settings..." },
+/* en */ { IDMS_C64_MODEL_SETTINGS,    "C64 model settings..." },
 /* da */ { IDMS_C64_MODEL_SETTINGS_DA, "C64-model indstillinger..." },
 /* de */ { IDMS_C64_MODEL_SETTINGS_DE, "C64 Modell Einstellungen..." },
 /* fr */ { IDMS_C64_MODEL_SETTINGS_FR, "" },  /* fuzzy */
@@ -3406,7 +3406,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMES_INVALID_CART_IMAGE_SV, "Ogiltig insticksmodulfil" },
 /* tr */ { IDMES_INVALID_CART_IMAGE_TR, "Geçersiz kartuþ imajý" },
 
-/* en */ { IDMES_CANNOT_CREATE_IMAGE,    "Cannot create image" },
+/* en */ { IDMES_CANNOT_CREATE_IMAGE,    "Cannot create image file!" },
 /* da */ { IDMES_CANNOT_CREATE_IMAGE_DA, "Kunne ikke oprette image" },
 /* de */ { IDMES_CANNOT_CREATE_IMAGE_DE, "Kann Image Datei nicht erzeugen" },
 /* fr */ { IDMES_CANNOT_CREATE_IMAGE_FR, "Impossible de créer l'image" },
@@ -4043,7 +4043,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ATTACH_SS5_IMAGE_SV, "Anslut rå 64KB-Super Snapshot V5-insticksmodulfil" },
 /* tr */ { IDS_ATTACH_SS5_IMAGE_TR, "Düz 64KB Super Snapshot V5 kartuþ imajý yerleþtir" },
 
-/* en */ { IDS_ATTACH_SB_IMAGE,    "Attach Structured BASIC cartridge image" },
+/* en */ { IDS_ATTACH_SB_IMAGE,    "Attach raw Structured Basic cartridge image" },
 /* da */ { IDS_ATTACH_SB_IMAGE_DA, "Tilslut Strucured BASIC-cartridge image" },
 /* de */ { IDS_ATTACH_SB_IMAGE_DE, "Erweiterungsmodul Structured Basic einlegen" },
 /* fr */ { IDS_ATTACH_SB_IMAGE_FR, "" },  /* fuzzy */
@@ -4615,7 +4615,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_C64DTV_HUMMER_ADC_SV, "Hummer A/D-omvandlare" },
 /* tr */ { IDS_C64DTV_HUMMER_ADC_TR, "Hummer ADC" },
 
-/* en */ { IDS_C64DTV_SETTINGS,    "C64DTV Settings" },
+/* en */ { IDS_C64DTV_SETTINGS,    "C64DTV settings" },
 /* da */ { IDS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger" },
 /* de */ { IDS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen" },
 /* fr */ { IDS_C64DTV_SETTINGS_FR, "" },  /* fuzzy */
@@ -4758,7 +4758,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_RAM_BLOCK_C000_CFFF_SV, "RAM-block $C000-$CFFF" },
 /* tr */ { IDS_RAM_BLOCK_C000_CFFF_TR, "RAM Blok $C000-$CFFF" },
 
-/* en */ { IDS_CBM2_SETTINGS,    "CBM2 Settings" },
+/* en */ { IDS_CBM2_SETTINGS,    "CBM2 settings" },
 /* da */ { IDS_CBM2_SETTINGS_DA, "CBM2-indstillinger" },
 /* de */ { IDS_CBM2_SETTINGS_DE, "CBM2 Einstellungen" },
 /* fr */ { IDS_CBM2_SETTINGS_FR, "" },  /* fuzzy */
@@ -7060,7 +7060,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_V4_SV, "IDE64 V4" },
 /* tr */ { IDS_IDE64_V4_TR, "IDE64 V4" },
 
-/* en */ { IDS_AUTODETECT,    "Autodetect" },
+/* en */ { IDS_AUTODETECT,    "Autodetect image size" },
 /* da */ { IDS_AUTODETECT_DA, "Autodetektér" },
 /* de */ { IDS_AUTODETECT_DE, "Automatische Erkennung" },
 /* fr */ { IDS_AUTODETECT_FR, "Autodétection" },
@@ -7281,7 +7281,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_CARD_IMAGE_FILE_SV, "Ange kortavbildningsfil" },
 /* tr */ { IDS_SELECT_CARD_IMAGE_FILE_TR, "Kart imaj dosyasý seç" },
 
-/* en */ { IDS_CARD_FILE,    "Card Image File" },
+/* en */ { IDS_CARD_FILE,    "Card image file" },
 /* da */ { IDS_CARD_FILE_DA, "Kortimagefil" },
 /* de */ { IDS_CARD_FILE_DE, "Card Image Datei" },
 /* fr */ { IDS_CARD_FILE_FR, "" },  /* fuzzy */

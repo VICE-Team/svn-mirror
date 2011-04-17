@@ -460,7 +460,7 @@ static ui_menu_entry_t reset_submenu[] = {
 };
 
 ui_menu_entry_t ui_directory_commands_menu[] = {
-    { N_("Change working directory"), UI_MENU_TYPE_DOTS,
+    { N_("Change current working directory"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)change_working_directory, NULL, NULL },
     { NULL }
 };

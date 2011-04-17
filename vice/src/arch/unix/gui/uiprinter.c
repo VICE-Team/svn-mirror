@@ -127,7 +127,10 @@ UI_CALLBACK(set_printer_dump_file)
 
 UI_CALLBACK(uiprinter_set_printer_exec_file)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for printing (preceed with '|')"), _("Command:"));
+    char *command_text = util_concat(_("Command"), ":", NULL);
+
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for printing (preceed with '|')"), command_text);
+    lib_free(command_text);
 }
 
 /* ------------------------------------------------------------------------- */

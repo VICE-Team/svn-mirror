@@ -210,7 +210,7 @@ BEGIN
         MENUITEM "", IDM_ROM_SETTINGS
         MENUITEM "", IDM_RAM_SETTINGS
         MENUITEM "", IDM_RS232_SETTINGS
-        POPUP "Cartridge/IO Settings"
+        POPUP "Cartridge/IO settings"
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
             MENUITEM "", IDM_SIDCART_SETTINGS

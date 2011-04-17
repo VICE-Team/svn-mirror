@@ -39,7 +39,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "HTMLBrowserCommand", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("command"), N_("Specify an HTML browser for the on-line help") },
+      N_("Command"), N_("Specify an HTML browser for the on-line help") },
     { "-install", SET_RESOURCE, 0,
       NULL, NULL, "PrivateColormap", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,

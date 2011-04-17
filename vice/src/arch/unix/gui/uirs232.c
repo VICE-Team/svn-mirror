@@ -35,6 +35,7 @@
 #include "resources.h"
 #include "uilib.h"
 #include "uimenu.h"
+#include "util.h"
 #include "vsync.h"
 
 UI_MENU_DEFINE_RADIO(RsDevice1Baud)
@@ -116,7 +117,10 @@ UI_CALLBACK(set_rs232_device_file)
 
 UI_CALLBACK(set_rs232_exec_file)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for RS232 (preceed with '|')"), _("Command:"));
+    char *command_text = util_concat(_("Command"), ":", NULL);
+
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Command to execute for RS232 (preceed with '|')"), command_text);
+    lib_free(command_text);
 }
 
 UI_CALLBACK(set_rs232_dump_file)

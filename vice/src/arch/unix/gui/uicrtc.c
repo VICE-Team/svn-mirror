@@ -139,7 +139,7 @@ ui_menu_entry_t crtc_submenu[] = {
     { N_("Video cache"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcVideoCache, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Color set"), UI_MENU_TYPE_NORMAL,
+    { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, crtc_palette_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Renderer"), UI_MENU_TYPE_NORMAL,

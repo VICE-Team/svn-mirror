@@ -96,7 +96,7 @@ static UI_CALLBACK(PAL_control_cb)
             resources_get_int(resource, &current);
             current /= 10;
             sprintf(buf, "%d", current);
-            button = ui_input_string(_("Blurredness"), _("Blurredness in percent"), buf, 50);
+            button = ui_input_string(_("Blur"), _("Blur in percent"), buf, 50);
             break;
     }
 
@@ -122,7 +122,7 @@ ui_menu_entry_t PALMode_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Scanline shade"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 0, NULL },
-    { N_("Blurredness"), UI_MENU_TYPE_NORMAL,
+    { N_("Blur"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 1, NULL },
     { N_("Tint"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, (ui_callback_data_t) 2, NULL },

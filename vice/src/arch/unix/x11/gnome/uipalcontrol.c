@@ -44,7 +44,7 @@ typedef struct pal_res_s {
 } pal_res_t;
 
 static pal_res_t ctrls[] = {
-    { N_("Blurredness"), "PALBlur", 4, NULL, NULL },
+    { N_("Blur"), "PALBlur", 4, NULL, NULL },
     { N_("Scanline shade"), "PALScanLineShade", 4, NULL, NULL  },
     { N_("Saturation"), "ColorSaturation", 2, NULL, NULL  },
     { N_("Contrast"), "ColorContrast", 2, NULL, NULL  },

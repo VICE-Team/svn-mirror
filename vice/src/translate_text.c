@@ -1933,19 +1933,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_COMMAND,    N_("command")},
+/* en */ {IDGS_COMMAND,    N_("Command")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_COMMAND_DA, "kommando"},
-/* de */ {IDGS_COMMAND_DE, "Kommando"},
+/* da */ {IDGS_COMMAND_DA, ""},  /* fuzzy */
+/* de */ {IDGS_COMMAND_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_COMMAND_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_COMMAND_HU, ""},  /* fuzzy */
-/* it */ {IDGS_COMMAND_IT, "commando"},
+/* it */ {IDGS_COMMAND_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_COMMAND_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_COMMAND_NL, "commando"},
+/* nl */ {IDGS_COMMAND_NL, "Commando"},
 /* pl */ {IDGS_COMMAND_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_COMMAND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_COMMAND_SV, "kommando"},
-/* tr */ {IDGS_COMMAND_TR, "komut"},
+/* sv */ {IDGS_COMMAND_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_COMMAND_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
@@ -2256,7 +2256,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_FILE_INDEX,    N_("file_index")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_FILE_INDEX_DA, ""},  /* fuzzy */
-/* de */ {IDGS_FILE_INDEX_DE, ""},  /* fuzzy */
+/* de */ {IDGS_FILE_INDEX_DE, "Datei_Index"},
 /* fr */ {IDGS_FILE_INDEX_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_FILE_INDEX_HU, ""},  /* fuzzy */
 /* it */ {IDGS_FILE_INDEX_IT, ""},  /* fuzzy */
@@ -2272,7 +2272,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_AUTOSTART_DESCRIPTION,    N_("autostart a given disk/tape image or program")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_AUTOSTART_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_AUTOSTART_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_AUTOSTART_DESCRIPTION_DE, "Autostart ein Disk/Band Image oder Programm"},
 /* fr */ {IDGS_MON_AUTOSTART_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_AUTOSTART_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_AUTOSTART_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2288,7 +2288,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_AUTOLOAD_DESCRIPTION,    N_("autoload given disk/tape image or program")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_AUTOLOAD_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_AUTOLOAD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_AUTOLOAD_DESCRIPTION_DE, "Autoload ein Disk/Band Image oder Programm"},
 /* fr */ {IDGS_MON_AUTOLOAD_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_AUTOLOAD_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_AUTOLOAD_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2445,19 +2445,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_CD_DESCRIPTION,    N_("Change the working directory.")},
+/* en */ {IDGS_MON_CD_DESCRIPTION,    N_("Change current working directory.")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_MON_CD_DESCRIPTION_DA, "Skift arbejdskatalog."},
-/* de */ {IDGS_MON_CD_DESCRIPTION_DE, "Arbeitsverzeichnis ändern."},
+/* da */ {IDGS_MON_CD_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_CD_DESCRIPTION_DE, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_CD_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_CD_DESCRIPTION_HU, "Munkakönyvtár megváltoztatása."},
-/* it */ {IDGS_MON_CD_DESCRIPTION_IT, "Cambia la directory di lavoro."},
+/* hu */ {IDGS_MON_CD_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_CD_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_CD_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_CD_DESCRIPTION_NL, "Verander de werkdirectory."},
+/* nl */ {IDGS_MON_CD_DESCRIPTION_NL, "Verander de huidige werk directory"},
 /* pl */ {IDGS_MON_CD_DESCRIPTION_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MON_CD_DESCRIPTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_CD_DESCRIPTION_SV, "Byt arbetskatalog."},
-/* tr */ {IDGS_MON_CD_DESCRIPTION_TR, "Çalýþma dizinini deðiþtir."},
+/* sv */ {IDGS_MON_CD_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_CD_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
 /* monitor/mon_command.c */
@@ -3059,8 +3059,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NAME_DA, "<navn>"},
 /* de */ {IDCLS_P_NAME_DE, "<Name>"},
-/* fr */ {IDCLS_P_NAME_FR, "<nom>"},
-/* hu */ {IDCLS_P_NAME_HU, "<név>"},
+/* fr */ {IDCLS_P_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_NAME_IT, "<nome>"},
 /* ko */ {IDCLS_P_NAME_KO, "<ÀÌ¸§>"},
 /* nl */ {IDCLS_P_NAME_NL, "<naam>"},
@@ -5634,19 +5634,19 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
-/* en */ {IDCLS_ATTACH_CBM_IEEE488_CART,    N_("Attach CBM IEEE-488 cartridge image")},
+/* en */ {IDCLS_ATTACH_CBM_IEEE488_CART,    N_("Attach IEEE-488 Interface cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_CBM_IEEE488_CART_DA, "Tilslut CBM IEEE-488 cartridge image"},
-/* de */ {IDCLS_ATTACH_CBM_IEEE488_CART_DE, "CBM IEEE-488 Erweiterungsmodul einlegen"},
+/* da */ {IDCLS_ATTACH_CBM_IEEE488_CART_DA, "Tilslut IEEE-488 interface cartridge image"},
+/* de */ {IDCLS_ATTACH_CBM_IEEE488_CART_DE, "IEEE Schnittstellen Erweiterungsmodul Image einlegen"},
 /* fr */ {IDCLS_ATTACH_CBM_IEEE488_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_CBM_IEEE488_CART_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ATTACH_CBM_IEEE488_CART_IT, "Seleziona immagine cartuccia CBM IEE-488"},
+/* it */ {IDCLS_ATTACH_CBM_IEEE488_CART_IT, "Seleziona immagine cartuccia interfaccia IEEE"},
 /* ko */ {IDCLS_ATTACH_CBM_IEEE488_CART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_CBM_IEEE488_CART_NL, "Koppel CBM IEEE-488 cartridge bestand"},
+/* nl */ {IDCLS_ATTACH_CBM_IEEE488_CART_NL, "Koppel IEEE-488 Interface cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_CBM_IEEE488_CART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ATTACH_CBM_IEEE488_CART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_CBM_IEEE488_CART_SV, "Anslut CBM IEEE-488-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_CBM_IEEE488_CART_TR, "CBM IEEE-488 kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_CBM_IEEE488_CART_SV, "Anslut IEEE-488-gränssnittsavbildningsfil"},
+/* tr */ {IDCLS_ATTACH_CBM_IEEE488_CART_TR, "IEEE-488 Arabirimi kartuþ imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -6103,8 +6103,8 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_VALUE_DA, "<værdi>"},
 /* de */ {IDCLS_P_VALUE_DE, "<Wert>"},
-/* fr */ {IDCLS_P_VALUE_FR, "<valeur>"},
-/* hu */ {IDCLS_P_VALUE_HU, "<érték>"},
+/* fr */ {IDCLS_P_VALUE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_VALUE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_VALUE_IT, "<valore>"},
 /* ko */ {IDCLS_P_VALUE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_VALUE_NL, "<waarde>"},
@@ -6163,19 +6163,19 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ide64.c */
-/* en */ {IDCLS_AUTODETECT_IDE64_GEOMETRY,    N_("Autodetect geometry of formatted images")},
+/* en */ {IDCLS_AUTODETECT_IDE64_GEOMETRY,    N_("Autodetect image size")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DA, "Autodetektér geometri fra formatterede images"},
-/* de */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DE, "Geometrie von formatierten Image Dateien automatisch erkennen"},
-/* fr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_FR, "Détecter automatiquement la géométrie des images formattées"},
-/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, "Formázott képmások geometriájának automatikus felismerése"},
-/* it */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_IT, "Rileva automaticamente la geometria delle immagini formattate"},
+/* da */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DA, "Autodetektér størrelse på image"},
+/* de */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_DE, "Image Größe automatisch erkennen"},
+/* fr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_IT, "Rileva automaticamente immagine"},
 /* ko */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_NL, "Automatisch de grootte van de geformateerde bestanden detecteren"},
+/* nl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_NL, "Automatisch detecteren bestandsgrootte"},
 /* pl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_SV, "Autodetektera geometri från formaterad avbildningsfil"},
-/* tr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_TR, "Formatlanmýþ imajlarýn yapýlarýný otomatik algýla"},
+/* sv */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_SV, "Autodetektera storlek på avbildning"},
+/* tr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_TR, "Imaj boyutunu otomatik algýla"},
 #endif
 
 /* c64/cart/ide64.c */
@@ -8806,19 +8806,19 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c */
-/* en */ {IDCLS_P_BASE_ADDRESS,    N_("<base address>")},
+/* en */ {IDCLS_P_BASE_ADDRESS,    N_("<Base address>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_BASE_ADDRESS_DA, "<baseadresse>"},
+/* da */ {IDCLS_P_BASE_ADDRESS_DA, "<Baseadresse>"},
 /* de */ {IDCLS_P_BASE_ADDRESS_DE, "<Basis Adresse>"},
 /* fr */ {IDCLS_P_BASE_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_BASE_ADDRESS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_BASE_ADDRESS_IT, "<indirizzo base>"},
+/* it */ {IDCLS_P_BASE_ADDRESS_IT, "<Indirizzo base>"},
 /* ko */ {IDCLS_P_BASE_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_BASE_ADDRESS_NL, "<basisadres>"},
+/* nl */ {IDCLS_P_BASE_ADDRESS_NL, "<Basisadres>"},
 /* pl */ {IDCLS_P_BASE_ADDRESS_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_BASE_ADDRESS_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_BASE_ADDRESS_SV, "<basadress>"},
-/* tr */ {IDCLS_P_BASE_ADDRESS_TR, "<taban adresi>"},
+/* sv */ {IDCLS_P_BASE_ADDRESS_SV, "<Basadress>"},
+/* tr */ {IDCLS_P_BASE_ADDRESS_TR, "<Taban adresi>"},
 #endif
 
 /* sid/sid-cmdline-options.c */

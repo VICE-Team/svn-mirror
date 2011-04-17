@@ -168,7 +168,7 @@ ui_menu_entry_t vicii_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("New luminances"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
-    { N_("Color set"), UI_MENU_TYPE_NORMAL,
+    { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Renderer"), UI_MENU_TYPE_NORMAL,

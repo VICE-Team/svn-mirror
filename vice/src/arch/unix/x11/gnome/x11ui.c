@@ -2568,7 +2568,7 @@ static GtkWidget *build_file_selector(const char *title, GtkWidget **attach_writ
     /* Write protect checkbox */
     if (attach_write_protect) {
         /* write-protect checkbox */
-        wp_checkbox = gtk_check_button_new_with_label(_("Attach write protected"));
+        wp_checkbox = gtk_check_button_new_with_label(_("Attach read only"));
         gtk_box_pack_start(GTK_BOX(extra), wp_checkbox, FALSE, FALSE, 5);
         gtk_widget_show(wp_checkbox);
         *attach_write_protect = wp_checkbox;
