@@ -3407,17 +3407,17 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDMES_INVALID_CART_IMAGE_TR, "Geçersiz kartuþ imajý" },
 
 /* en */ { IDMES_CANNOT_CREATE_IMAGE,    "Cannot create image file!" },
-/* da */ { IDMES_CANNOT_CREATE_IMAGE_DA, "Kunne ikke oprette image" },
-/* de */ { IDMES_CANNOT_CREATE_IMAGE_DE, "Kann Image Datei nicht erzeugen" },
-/* fr */ { IDMES_CANNOT_CREATE_IMAGE_FR, "Impossible de créer l'image" },
-/* hu */ { IDMES_CANNOT_CREATE_IMAGE_HU, "Nem sikerült a képmást létrehozni" },
-/* it */ { IDMES_CANNOT_CREATE_IMAGE_IT, "Non è possibile creare l'immagine" },
+/* da */ { IDMES_CANNOT_CREATE_IMAGE_DA, "Kunne ikke oprette image-fil!" },
+/* de */ { IDMES_CANNOT_CREATE_IMAGE_DE, "Kann Imagedatei nicht erzeugen!" },
+/* fr */ { IDMES_CANNOT_CREATE_IMAGE_FR, "Impossible de créer le fichier image!" },
+/* hu */ { IDMES_CANNOT_CREATE_IMAGE_HU, "Nem sikerült a képmás fájlt létrehozni!" },
+/* it */ { IDMES_CANNOT_CREATE_IMAGE_IT, "Non è possibile creare il file immagine!" },
 /* ko */ { IDMES_CANNOT_CREATE_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMES_CANNOT_CREATE_IMAGE_NL, "Kan bestand niet maken" },
+/* nl */ { IDMES_CANNOT_CREATE_IMAGE_NL, "Kan bestand niet maken!" },
 /* pl */ { IDMES_CANNOT_CREATE_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDMES_CANNOT_CREATE_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMES_CANNOT_CREATE_IMAGE_SV, "Kan inte skapa avbildningsfil" },
-/* tr */ { IDMES_CANNOT_CREATE_IMAGE_TR, "Imaj yaratýlamadý" },
+/* sv */ { IDMES_CANNOT_CREATE_IMAGE_SV, "Kan inte skapa avbildningsfil!" },
+/* tr */ { IDMES_CANNOT_CREATE_IMAGE_TR, "Imaj dosyasý yaratýlamadý!" },
 
 /* en */ { IDMES_ERROR_STARTING_SERVER,    "An error occured starting the server." },
 /* da */ { IDMES_ERROR_STARTING_SERVER_DA, "Fejl under start af serveren." },
@@ -4044,17 +4044,17 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_ATTACH_SS5_IMAGE_TR, "Düz 64KB Super Snapshot V5 kartuþ imajý yerleþtir" },
 
 /* en */ { IDS_ATTACH_SB_IMAGE,    "Attach raw Structured Basic cartridge image" },
-/* da */ { IDS_ATTACH_SB_IMAGE_DA, "Tilslut Strucured BASIC-cartridge image" },
-/* de */ { IDS_ATTACH_SB_IMAGE_DE, "Erweiterungsmodul Structured Basic einlegen" },
-/* fr */ { IDS_ATTACH_SB_IMAGE_FR, "" },  /* fuzzy */
-/* hu */ { IDS_ATTACH_SB_IMAGE_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_SB_IMAGE_IT, "Seleziona immagine cartuccia Structured BASIC" },
+/* da */ { IDS_ATTACH_SB_IMAGE_DA, "Tilslut rå Strucured BASIC-cartridge image" },
+/* de */ { IDS_ATTACH_SB_IMAGE_DE, "Erweiterungsmodul Structured Basic (raw) Image einlegen" },
+/* fr */ { IDS_ATTACH_SB_IMAGE_FR, "Insérer une cartouche Raw Structured Basic" },
+/* hu */ { IDS_ATTACH_SB_IMAGE_HU, "Structured Basic cartridge képmás csatolása" },
+/* it */ { IDS_ATTACH_SB_IMAGE_IT, "Seleziona immagine cartuccia Structured Basic" },
 /* ko */ { IDS_ATTACH_SB_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_SB_IMAGE_NL, "Koppel Structured BASIC cartridge bestand" },
+/* nl */ { IDS_ATTACH_SB_IMAGE_NL, "Koppel binair Structured Basic cartridge bestand aan" },
 /* pl */ { IDS_ATTACH_SB_IMAGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ATTACH_SB_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_SB_IMAGE_SV, "Anslut Structured BASIC-insticksmodulfil" },
-/* tr */ { IDS_ATTACH_SB_IMAGE_TR, "Structured BASIC kartuþ imajý yerleþtir" },
+/* sv */ { IDS_ATTACH_SB_IMAGE_SV, "Anslut rå Strucured Basic-insticksmodulfil" },
+/* tr */ { IDS_ATTACH_SB_IMAGE_TR, "Düz yapýlandýrýlmýþ Basic kartuþ imajý yerleþtir" },
 
 /* en */ { IDS_AVAILABLE_CMDLINE_OPTIONS,    "\nAvailable command-line options:\n\n" },
 /* da */ { IDS_AVAILABLE_CMDLINE_OPTIONS_DA, "\nMulige kommandolinjeparametre:\n\n" },
@@ -4619,7 +4619,7 @@ intl_translate_t intl_string_table[] = {
 /* da */ { IDS_C64DTV_SETTINGS_DA, "C64DTV-indstillinger" },
 /* de */ { IDS_C64DTV_SETTINGS_DE, "C64DTV Einstellungen" },
 /* fr */ { IDS_C64DTV_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_C64DTV_SETTINGS_HU, "C64DTV beállításai" },
+/* hu */ { IDS_C64DTV_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_C64DTV_SETTINGS_IT, "Impostazioni C64DTV" },
 /* ko */ { IDS_C64DTV_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_C64DTV_SETTINGS_NL, "C64DTV Instellingen" },
@@ -4761,15 +4761,15 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_CBM2_SETTINGS,    "CBM2 settings" },
 /* da */ { IDS_CBM2_SETTINGS_DA, "CBM2-indstillinger" },
 /* de */ { IDS_CBM2_SETTINGS_DE, "CBM2 Einstellungen" },
-/* fr */ { IDS_CBM2_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_CBM2_SETTINGS_HU, "CBM2 Beállításai" },
+/* fr */ { IDS_CBM2_SETTINGS_FR, "Paramètres CBM2" },
+/* hu */ { IDS_CBM2_SETTINGS_HU, "CBM2 beállításai" },
 /* it */ { IDS_CBM2_SETTINGS_IT, "Impostazioni CBM2" },
 /* ko */ { IDS_CBM2_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_CBM2_SETTINGS_NL, "CBM2 instellingen" },
 /* pl */ { IDS_CBM2_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_CBM2_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CBM2_SETTINGS_SV, "CBM2-inställningar" },
-/* tr */ { IDS_CBM2_SETTINGS_TR, "CBM2 Ayarlarý" },
+/* tr */ { IDS_CBM2_SETTINGS_TR, "CBM2 ayarlarý" },
 
 /* en */ { IDS_RESET_DATASETTE_WITH_CPU,    "Reset Datasette with CPU" },
 /* da */ { IDS_RESET_DATASETTE_WITH_CPU_DA, "Reset Datasette ved CPU-reset" },
@@ -7061,17 +7061,17 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_IDE64_V4_TR, "IDE64 V4" },
 
 /* en */ { IDS_AUTODETECT,    "Autodetect image size" },
-/* da */ { IDS_AUTODETECT_DA, "Autodetektér" },
-/* de */ { IDS_AUTODETECT_DE, "Automatische Erkennung" },
-/* fr */ { IDS_AUTODETECT_FR, "Autodétection" },
-/* hu */ { IDS_AUTODETECT_HU, "Automatikus érzékelés" },
-/* it */ { IDS_AUTODETECT_IT, "Rileva automaticamente" },
+/* da */ { IDS_AUTODETECT_DA, "Autodetektér størrelse på image" },
+/* de */ { IDS_AUTODETECT_DE, "Image Größe automatisch erkennen" },
+/* fr */ { IDS_AUTODETECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTODETECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTODETECT_IT, "Rileva automaticamente immagine" },
 /* ko */ { IDS_AUTODETECT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_AUTODETECT_NL, "Autodetectie" },
+/* nl */ { IDS_AUTODETECT_NL, "Automatisch detecteren bestandsgrootte" },
 /* pl */ { IDS_AUTODETECT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_AUTODETECT_RU, "" },  /* fuzzy */
-/* sv */ { IDS_AUTODETECT_SV, "Autodetektera" },
-/* tr */ { IDS_AUTODETECT_TR, "Otomatik algýla" },
+/* sv */ { IDS_AUTODETECT_SV, "Autodetektera storlek på avbildning" },
+/* tr */ { IDS_AUTODETECT_TR, "Imaj boyutunu otomatik algýla" },
 
 /* en */ { IDS_CYLINDERS,    "Cylinders" },
 /* da */ { IDS_CYLINDERS_DA, "Cylindrer" },
@@ -7282,17 +7282,17 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_SELECT_CARD_IMAGE_FILE_TR, "Kart imaj dosyasý seç" },
 
 /* en */ { IDS_CARD_FILE,    "Card image file" },
-/* da */ { IDS_CARD_FILE_DA, "Kortimagefil" },
-/* de */ { IDS_CARD_FILE_DE, "Card Image Datei" },
+/* da */ { IDS_CARD_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_CARD_FILE_DE, "" },  /* fuzzy */
 /* fr */ { IDS_CARD_FILE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CARD_FILE_HU, "" },  /* fuzzy */
-/* it */ { IDS_CARD_FILE_IT, "File immagine card" },
+/* it */ { IDS_CARD_FILE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_CARD_FILE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_CARD_FILE_NL, "Card bestand" },
 /* pl */ { IDS_CARD_FILE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_CARD_FILE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_CARD_FILE_SV, "Kortavbildningsfil" },
-/* tr */ { IDS_CARD_FILE_TR, "Kart Imaj Dosyasý" },
+/* sv */ { IDS_CARD_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CARD_FILE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_CARD_READ_WRITE,    "Card read/write" },
 /* da */ { IDS_CARD_READ_WRITE_DA, "Kort læs/skriv" },
