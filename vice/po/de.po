@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-04-18 07:57-0700\n"
-"PO-Revision-Date: 2011-04-16 13:10+0200\n"
+"PO-Revision-Date: 2011-04-18 21:14+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2482,7 +2482,6 @@ msgstr "Flashjumper aktivieren"
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
 #: src/arch/win32/resmmcreplay.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:7260
-#, fuzzy
 msgid "Card image file"
 msgstr "Card Image Datei"
 
@@ -2654,7 +2653,6 @@ msgid "Blur"
 msgstr "Unschärfe"
 
 #: src/arch/unix/gui/uipalemu.c:99
-#, fuzzy
 msgid "Blur in percent"
 msgstr "Unschärfe in Prozent"
 
@@ -2845,9 +2843,8 @@ msgstr "Drucker Ausgabedatei definieren"
 
 #: src/arch/unix/gui/uiprinter.c:130 src/arch/unix/gui/uirs232.c:120
 #: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:1912
-#, fuzzy
 msgid "Command"
-msgstr "Kommando:"
+msgstr "Kommando"
 
 #: src/arch/unix/gui/uiprinter.c:132
 msgid "Command to execute for printing (preceed with '|')"
@@ -3120,9 +3117,8 @@ msgid "Normal"
 msgstr "Normal"
 
 #: src/arch/unix/gui/uirs232c64c128.c:66
-#, fuzzy
 msgid "ACIA RS232 interface emulation"
-msgstr "ACIA $DExx RS232 Schnittstellen-Emulation"
+msgstr "ACIA RS232 Schnittstellen-Emulation"
 
 #: src/arch/unix/gui/uirs232c64c128.c:68
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:38
@@ -3136,9 +3132,8 @@ msgid "ACIA interrupt"
 msgstr "ACIA Interrupt"
 
 #: src/arch/unix/gui/uirs232c64c128.c:72
-#, fuzzy
 msgid "ACIA emulation mode"
-msgstr "ACIA $DExx Emulations Modus"
+msgstr "ACIA Emulations Modus"
 
 #: src/arch/unix/gui/uirs232c64c128.c:75 src/arch/unix/gui/vic20ui.c:429
 msgid "Userport RS232 emulation"
@@ -4320,7 +4315,6 @@ msgid "VICE Error!"
 msgstr "VICE Fehler!"
 
 #: src/arch/unix/x11/xaw/x11video.c:190 src/arch/unix/x11/xaw/x11video.c:283
-#, fuzzy
 msgid "Aspect ratio"
 msgstr "Seitenverhältnis"
 
@@ -8933,7 +8927,6 @@ msgid "directory"
 msgstr "Verzeichnis"
 
 #: src/translate_text.c.po.c:2424
-#, fuzzy
 msgid "Change current working directory."
 msgstr "Arbeitsverzeichnis ändern."
 
