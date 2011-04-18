@@ -1,5 +1,378 @@
 ------------------------------------------------------------------------------
 
+2011-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/version.h, src/arch/win32/vice-version.bat,
+	doc/vice.chm, doc/vice.pdf, doc/vice.hlp, po/fr.po, po/ko.po, po/nl.po,
+	po/pl.po, po/it.po, po/hu.po, po/da.po, po/tr.po, po/ru.po, po/de.po,
+	po/sv.po, ChangeLog: VICE version 2.3.5
+
+2011-04-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc: More
+	translation message syncing.
+
+2011-04-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/uic64cart.c, src/arch/unix/gui/uic64dtv.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uimmc64.c, src/arch/unix/gui/uimmcreplay.c,
+	src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uiprinter.c,
+	src/arch/unix/gui/uirs232.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c, src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/ui-cmdline-options.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/translate_text.c: More translation message syncing.
+
+2011-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uiattach.c,
+	src/arch/unix/gui/uic64_256k.c, src/arch/unix/gui/uic64cart.c,
+	src/arch/unix/gui/uirs232c64c128.c, src/arch/unix/gui/uivdc.c,
+	src/arch/unix/gui/vic20ui.c, src/arch/unix/x11/xaw/x11video.c,
+	src/arch/win32/res.rc, src/arch/win32/resacia.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Started on translation message syncing.
+
+2011-04-16  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-04-16 Dag Lem <resid@nimrod.no>
+
+	* src/cmdline.c: Corrected compilation breaking typo in r23937
+
+2011-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/unix/gui/uifliplist.c,
+	src/arch/unix/macosx/mididrv.c, src/arch/unix/mididrv.c,
+	src/arch/unix/rs232.c, src/arch/unix/x11/gnome/uinetplay.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/ui-cmdline-options.c,
+	src/arch/unix/x11/xaw/x11video.c, src/cmdline.c, src/cmdline.h: Finished
+	parameter bracket cleanup for translations.
+
+2011-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/gen_amiga_intl_c.c,
+	po/gen_translate_c.c, po/gen_win32_rc.c, po/hu.po, po/intl2po.c,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Start of parameter bracket cleanup for
+	translations.
+
+2011-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/monitor/mon_command.c,
+	src/translate.txt, src/translate_text.c: Monitor parameter translations
+	bracket removal, will reduce amount of translations and makes future
+	translation syncing easier.
+
+2011-04-13  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/gen_amiga_intl_c.c,
+	po/gen_translate_c.c, po/gen_win32_rc.c, po/hu.po, po/intl2po.c,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Trailing 'range'
+	elimination, will cut down on translations and make translations
+	message syncing easier.
+
+2011-04-12  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/gen_amiga_intl_c.c,
+	po/gen_translate_c.c, po/gen_win32_rc.c, po/hu.po, po/intl2po.c,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resramcart.rc, src/translate_text.c: More trailing
+	'stuff' for translations cleanup, this will make it easier for
+	translation message syncing.
+
+2011-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/intl2po.c, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/unix/x11/gnome/about.c: Updated the intl2po.c code a bit and
+	updated some translations.
+
+2011-04-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-04-10  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: Fix a compilation error
+
+2011-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.hlp, doc/vice.pdf, po/da.po, po/de.po, po/fr.po,
+	po/hu.po, po/intl2po.c, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po,
+	po/sv.po, po/tr.po, src/arch/unix/gp2x/uimenu.h,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/uiattach.c,
+	src/arch/unix/gui/uiautostart.c, src/arch/unix/gui/uic64_256k.c,
+	src/arch/unix/gui/uic64cart.c, src/arch/unix/gui/uic64dtv.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uidqbb.c, src/arch/unix/gui/uieasyflash.c,
+	src/arch/unix/gui/uiexpert.c, src/arch/unix/gui/uigeoram.c,
+	src/arch/unix/gui/uiide64.c, src/arch/unix/gui/uiisepic.c,
+	src/arch/unix/gui/uimagicvoice.c, src/arch/unix/gui/uimidi.c,
+	src/arch/unix/gui/uimmc64.c, src/arch/unix/gui/uimmcreplay.c,
+	src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheralieee.c, src/arch/unix/gui/uipetdww.c,
+	src/arch/unix/gui/uipetreu.c, src/arch/unix/gui/uiplus256k.c,
+	src/arch/unix/gui/uiplus60k.c, src/arch/unix/gui/uiprinteriec.c,
+	src/arch/unix/gui/uiprinteriecplus4.c, src/arch/unix/gui/uiprinterieee.c,
+	src/arch/unix/gui/uiramcart.c, src/arch/unix/gui/uiretroreplay.c,
+	src/arch/unix/gui/uireu.c, src/arch/unix/gui/uirs232c64c128.c,
+	src/arch/unix/gui/uirs232petplus4cbm2.c, src/arch/unix/gui/uisettings.c,
+	src/arch/unix/gui/uisound.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uitfe.c, src/arch/unix/gui/uitpi.c,
+	src/arch/unix/gui/uiv364speech.c, src/arch/unix/gui/uivdc.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c,
+	src/arch/unix/x11/gnome/uimenu.c,
+	src/arch/unix/x11/gnome/uiscreenshot.c, src/arch/unix/x11/x11menu.h,
+	src/arch/unix/x11/xaw/uicartridge.c, src/arch/unix/x11/xaw/uiedisk.c,
+	src/arch/unix/x11/xaw/uimenu.c, src/arch/unix/x11/xaw/uiscreenshot.c,
+	src/arch/unix/x11/xaw/uisnapshot.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/monitor/mon_lex.c, src/monitor/mon_parse.c, src/monitor/mon_parse.h:
+	Added support for automatic removal of trailing "..." when generating
+	the po files and automatic re-adding of trailing "..." when using
+	translations for unix (cuts down on the amount of translations).
+
+2011-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/gen_amiga_intl_c.c,
+	po/gen_translate_c.c, po/gen_win32_rc.c, po/hu.po, po/intl2po.c,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resvic20.rc: Added support
+	for automatic removal of trailing "..." when generating the po files and
+	automatic re-adding of trailing "..." when re-generating
+	translate_text.c, amigaos/intl_text.c and the windows res*.rc files
+	(cuts down on the amount of translations).
+
+2011-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/fr.po, po/hu.po, po/it.po, po/nl.po, po/pl.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/reseasyflash.rc, src/arch/win32/resexpert.rc,
+	src/arch/win32/resgeoram.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/reslightpen.rc,
+	src/arch/win32/resmagicvoice.rc, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmmc64.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressidcart.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/restfe.rc, src/arch/win32/resv364speech.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/translate_text.c: Did a make trans-update to push through the
+	windows hotkey prefix removal into the windows resource files.
+
+2011-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po,
+	po/sv.po, po/tr.po: updated.
+
+2011-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/de.po: Updated.
+
+2011-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po: Updated.
+
+2011-04-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po: Did a make update-po to push
+	through the windows hotkey prefix elimination.
+
+2011-04-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/ui_vicii.cc, src/arch/beos/ui_vicii.h,
+	src/arch/beos/vicemenu.cc: Moved BeOS VIC-II border mode setting from
+	the menu to VIC-II settings dialog, (and made the dialog available on
+	CBM5x0.)
+
+2011-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resmouse.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/uipetset.c,
+	src/arch/win32/uirom.c, src/arch/win32/uirom.h, src/arch/win32/vic20ui.c:
+	More windows hotkey prefix eliminations.
+
+2011-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc128.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdrivec128.rc,
+	src/arch/win32/resdrivec64.rc, src/arch/win32/resdrivepetcbm2.rc,
+	src/arch/win32/resdriveplus4.rc, src/arch/win32/resdrivevic20.rc,
+	src/arch/win32/ui.c, src/arch/win32/ui.h, src/arch/win32/uicbm2set.c,
+	src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	src/arch/win32/uidrivepetcbm2.c, src/arch/win32/uidriveplus4.c,
+	src/arch/win32/uidrivevic20.c: More windows hotkey prefix eliminations.
+
+2011-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resacia.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/ui.c: More windows hotkey
+	prefix eliminations.
+
+2011-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-04-06  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Some updates.
+
+2011-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/win_hotkeys.vhk, data/C64/win_hotkeys.vhk,
+	data/C64DTV/win_hotkeys.vhk, data/CBM-II/win_hotkeys.vhk,
+	data/PET/win_hotkeys.vhk, data/PLUS4/win_hotkeys.vhk,
+	data/VIC20/win_hotkeys.vhk, po/da.po, po/de.po, po/fr.po,po/hu.po,
+	po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/win32/res.rc: Finished the windows hotkey externalization and
+	did a make po-update.
+
+2011-04-05  pottendo <pottendo@aon.at>
+
+	* src/sedinfocontrib_h.sh: Check whether `/usr/bin/uname' is valid. E.g.
+	Ubuntu has /bin/uname.
+
+2011-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Added menuid.h and string.h as targets for
+	the res.h target, this way all three files will be (re)generated if any
+	of them is missing.
+
+2011-04-05  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-04-05  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/archdep_dingoo.c: dingoo native : removed own directory
+	management, fixed up some issues with path handling
+
+2011-04-04  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/base.dsp, src/arch/sdl/win32-msvc/c1541.dsp,
+	src/arch/sdl/win32-msvc/cartconv.dsp, src/arch/sdl/win32-msvc/petcat.dsp,
+	src/arch/sdl/win64-msvc/base.vcproj,
+	src/arch/sdl/win64-msvc/c1541.vcproj,
+	src/arch/sdl/win64-msvc/cartconv.vcproj,
+	src/arch/sdl/win64-msvc/petcat.vcproj,
+	src/arch/sdl/winmips-msvc/base.mak, src/arch/sdl/winmips-msvc/c1541.mak,
+	src/arch/sdl/winmips-msvc/cartconv.mak,
+	src/arch/sdl/winmips-msvc/petcat.mak, src/arch/win32/base.dsp,
+	src/arch/win32/c1541.dsp, src/arch/win32/cartconv.dsp,
+	src/arch/win32/petcat.dsp, src/arch/win32/rtc.dsp,
+	src/arch/win64/base.vcproj, src/arch/win64/c1541.vcproj,
+	src/arch/win64/cartconv.vcproj, src/arch/win64/petcat.vcproj: Removed
+	lib/zlib include path from the various msvc project files.
+
+2011-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C128/win_hotkeys.vhk, data/C64/win_hotkeys.vhk,
+	data/C64DTV/win_hotkeys.vhk, data/CBM-II/win_hotkeys.vhk,
+	data/PET/win_hotkeys.vhk, data/PLUS4/win_hotkeys.vhk,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdigimax.rc: More windows
+	hotkey externalization updates.
+
+2011-04-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/autostart.c, src/autostart.h, src/monitor/mon_file.c: Improved
+	new autostart/autorun monitor commands by exiting the monitor,
+	performing the autostart and then returning to monitor.
+
+2011-04-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/monitor/mon_command.c, src/monitor/mon_file.c,
+	src/monitor/mon_file.h, src/monitor/mon_lex.c, src/monitor/mon_lex.l,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y: Added new monitor commands "autostart
+	<file> [prog_index]" and "autoload <file> [prog_index]" to make auto
+	starting available in (net) monitor
+
+2011-04-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/autostart.c, src/autostart.h, src/charset.c, src/charset.h,
+	src/initcmdline.c: Refactored autostart loading with attached prog name
+	(img_name:prg_name) into own autostart function
+
+2011-04-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/Makefile.am, src/geninfocontrib_h.sh, src/sedinfocontrib_h.sh:
+	fixed some issues with geninfocontrib
+
+2011-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/genwt.bat: Added support for stringid.h to the
+	win32 ow project files.
+
 2011-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, version.h, src/translate_text.c,
