@@ -2666,7 +2666,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiperipheral.c:51
 msgid "Path:"
-msgstr ""
+msgstr "길:"
 
 #: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:76
 #: src/arch/unix/gui/uiperipheral.c:92 src/arch/unix/gui/uiperipheral.c:108
@@ -2762,25 +2762,25 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheraliec.c:154
 #: src/arch/unix/gui/uiperipheralieee.c:128
 msgid "Device #8"
-msgstr ""
+msgstr "디바이스#8"
 
 #: src/arch/unix/gui/uiperipheraliec.c:142
 #: src/arch/unix/gui/uiperipheraliec.c:155
 #: src/arch/unix/gui/uiperipheralieee.c:129
 msgid "Device #9"
-msgstr ""
+msgstr "디바이스#9"
 
 #: src/arch/unix/gui/uiperipheraliec.c:143
 #: src/arch/unix/gui/uiperipheraliec.c:156
 #: src/arch/unix/gui/uiperipheralieee.c:130
 msgid "Device #10"
-msgstr ""
+msgstr "디바이스#10"
 
 #: src/arch/unix/gui/uiperipheraliec.c:144
 #: src/arch/unix/gui/uiperipheraliec.c:157
 #: src/arch/unix/gui/uiperipheralieee.c:131
 msgid "Device #11"
-msgstr ""
+msgstr "디바이스#11"
 
 #: src/arch/unix/gui/uiperipheraliec.c:146
 #: src/arch/unix/gui/uiperipheraliec.c:159
@@ -2841,7 +2841,7 @@ msgstr ""
 #: src/arch/unix/gui/uiprinter.c:130 src/arch/unix/gui/uirs232.c:120
 #: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:1912
 msgid "Command"
-msgstr ""
+msgstr "명령"
 
 #: src/arch/unix/gui/uiprinter.c:132
 msgid "Command to execute for printing (preceed with '|')"
@@ -2948,7 +2948,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiramcart.c:58
 msgid "Readonly"
-msgstr ""
+msgstr "읽기 전용"
 
 #: src/arch/unix/gui/uiramcart.c:77
 msgid "RAMCART image"
@@ -2975,7 +2975,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiromset.c:85
 msgid "Archive"
-msgstr ""
+msgstr "파일보관"
 
 #: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
@@ -3111,7 +3111,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1375 src/arch/win32/resacia.rc.po.c:44
 #: src/arch/win32/resvicii.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:8677
 msgid "Normal"
-msgstr ""
+msgstr "보통"
 
 #: src/arch/unix/gui/uirs232c64c128.c:66
 msgid "ACIA RS232 interface emulation"
@@ -3235,7 +3235,7 @@ msgstr ""
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
 #: src/arch/win32/res.rc.po.c:1401 src/arch/amigaos/intl_text.c.po.c:1396
 msgid "Custom"
-msgstr ""
+msgstr "커스텀"
 
 #: src/arch/unix/gui/uisettings.c:378 src/arch/win32/res.rc.po.c:1400
 #: src/arch/amigaos/intl_text.c.po.c:1383
@@ -3282,31 +3282,31 @@ msgstr ""
 
 #: src/arch/unix/gui/uisid.c:79 src/arch/unix/gui/uisid.c:134
 msgid "6581R3 4885 (very light)"
-msgstr ""
+msgstr "6581R3 4885 (아주 밝은)"
 
 #: src/arch/unix/gui/uisid.c:81 src/arch/unix/gui/uisid.c:136
 msgid "6581R3 0486S (light)"
-msgstr ""
+msgstr "6581R3 0486S (밝은)"
 
 #: src/arch/unix/gui/uisid.c:83 src/arch/unix/gui/uisid.c:138
 msgid "6581R3 3984 (light avg)"
-msgstr ""
+msgstr "6581R3 3984 (조금 평범)"
 
 #: src/arch/unix/gui/uisid.c:85 src/arch/unix/gui/uisid.c:140
 msgid "6581R4AR 3789 (avg)"
-msgstr ""
+msgstr "6581R4AR 3789 (평범)"
 
 #: src/arch/unix/gui/uisid.c:87 src/arch/unix/gui/uisid.c:142
 msgid "6581R3 4485 (dark)"
-msgstr ""
+msgstr "6581R3 4485 (어두운)"
 
 #: src/arch/unix/gui/uisid.c:89 src/arch/unix/gui/uisid.c:144
 msgid "6581R4 1986S (very dark)"
-msgstr ""
+msgstr "6581R4 1986S (아주 어두운)"
 
 #: src/arch/unix/gui/uisid.c:91 src/arch/unix/gui/uisid.c:146
 msgid "8580 3691 (light)"
-msgstr ""
+msgstr "8580 3691 (밝은)"
 
 #: src/arch/unix/gui/uisid.c:93 src/arch/unix/gui/uisid.c:148
 msgid "8580 3691 + digi boost"
@@ -3314,7 +3314,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uisid.c:95 src/arch/unix/gui/uisid.c:150
 msgid "8580 1489 (dark)"
-msgstr ""
+msgstr "8580 1489 (어두운)"
 
 #: src/arch/unix/gui/uisid.c:97 src/arch/unix/gui/uisid.c:152
 msgid "8580 1489 + digi boost"
@@ -3338,17 +3338,17 @@ msgstr ""
 #: src/arch/unix/gui/uisid.c:208 src/arch/win32/ressid.rc.po.c:67
 #: src/arch/win32/ressiddtv.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:6623
 msgid "Fast"
-msgstr ""
+msgstr "빠른"
 
 #: src/arch/unix/gui/uisid.c:210 src/arch/win32/ressid.rc.po.c:68
 #: src/arch/win32/ressiddtv.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:6636
 msgid "Interpolating"
-msgstr ""
+msgstr "보간하다"
 
 #: src/arch/unix/gui/uisid.c:212 src/arch/win32/ressid.rc.po.c:69
 #: src/arch/win32/ressiddtv.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:6649
 msgid "Resampling"
-msgstr ""
+msgstr "리샘플링"
 
 #: src/arch/unix/gui/uisid.c:214 src/arch/win32/ressid.rc.po.c:70
 #: src/arch/win32/ressiddtv.rc.po.c:59 src/arch/amigaos/intl_text.c.po.c:6662
@@ -3371,22 +3371,22 @@ msgstr ""
 
 #: src/arch/unix/gui/uisound.c:48
 msgid "Argument:"
-msgstr ""
+msgstr "argument:"
 
 #: src/arch/unix/gui/uisound.c:90 src/arch/win32/res.rc.po.c:1158
 #: src/arch/win32/res.rc.po.c:1376 src/arch/amigaos/intl_text.c.po.c:8625
 msgid "Small"
-msgstr ""
+msgstr "작다"
 
 #: src/arch/unix/gui/uisound.c:92 src/arch/win32/res.rc.po.c:1159
 #: src/arch/amigaos/intl_text.c.po.c:8638
 msgid "Medium"
-msgstr ""
+msgstr "중간"
 
 #: src/arch/unix/gui/uisound.c:94 src/arch/win32/res.rc.po.c:1160
 #: src/arch/amigaos/intl_text.c.po.c:8651
 msgid "Large"
-msgstr ""
+msgstr "큰"
 
 #: src/arch/unix/gui/uisound.c:100
 msgid "Keep going"
@@ -7138,7 +7138,7 @@ msgstr ""
 
 #: src/arch/win32/resvic20.rc.po.c:499
 msgid "custom"
-msgstr ""
+msgstr "커스텀"
 
 #: src/arch/win32/resvic20.rc.po.c:505
 msgid "Select Generic image"
@@ -10724,7 +10724,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:10862
 msgid "path"
-msgstr ""
+msgstr "길"
 
 #: src/translate_text.c.po.c:10878
 msgid "Define search path to locate system files"
@@ -10983,23 +10983,3 @@ msgstr ""
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr ""
-
-#~ msgid "Blurredness"
-#~ msgstr "흐릿함"
-
-#~ msgid "<name>"
-#~ msgstr "<이름>"
-
-#, fuzzy
-#~ msgid "<type"
-#~ msgstr "<종류>"
-
-#, fuzzy
-#~ msgid "<filename"
-#~ msgstr "<이름>"
-
-#~ msgid "[<type>]"
-#~ msgstr "[<종류>]"
-
-#~ msgid "Driver:"
-#~ msgstr "드라이버:"
