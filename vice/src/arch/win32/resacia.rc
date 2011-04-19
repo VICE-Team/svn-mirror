@@ -172,7 +172,7 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_IRQ            "IRQ"
   IDS_NMI            "NMI"
-  IDS_NORMAL         "Normal"
+  IDS_NORMAL         "∫∏≈Î"
   IDS_SWIFTLINK      "Swiftlink"
   IDS_TURBO232       "Turbo232"
   IDS_ACIA_CAPTION   "ACIA settings"

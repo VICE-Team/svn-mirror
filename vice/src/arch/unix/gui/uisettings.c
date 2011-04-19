@@ -409,7 +409,7 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Save settings on exit"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SaveResourcesOnExit, NULL, NULL },
-    { N_("Confirm on exit"), UI_MENU_TYPE_TICK,
+    { N_("Confirm quiting VICE"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ConfirmOnExit, NULL, NULL },
     { NULL }
 };

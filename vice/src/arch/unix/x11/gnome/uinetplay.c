@@ -146,12 +146,12 @@ static void netplay_update_status(void)
         case NETWORK_SERVER_CONNECTED:
             gtk_widget_set_sensitive(GTK_WIDGET(dcb), TRUE);
             gtk_widget_set_sensitive(GTK_WIDGET(ctrls), FALSE);
-            text = _("Connected Server");
+            text = _("Connected server");
             break;
         case NETWORK_CLIENT:
             gtk_widget_set_sensitive(GTK_WIDGET(dcb), TRUE);
             gtk_widget_set_sensitive(GTK_WIDGET(ctrls), FALSE);
-            text = _("Connected Client");
+            text = _("Connected client");
             break;
         default:
             break;
@@ -201,6 +201,7 @@ static GtkWidget *build_netplay_dialog(void)
 {
     GtkWidget *d, *f, *b, *hb, *rb, *l, *entry, *h;
     char *unknown = util_concat("<", _("unknown"), ">", NULL);
+    char *connect_to = util_concat(_("Connect to"), " ", NULL);
 
     d = gtk_dialog_new_with_buttons(_("Netplay Settings"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 
@@ -254,11 +255,12 @@ static GtkWidget *build_netplay_dialog(void)
     gtk_widget_show(hb);
 
     hb = gtk_hbox_new(FALSE, 0);
-    rb = gtk_button_new_with_label(_("Connect to "));
+    rb = gtk_button_new_with_label(connect_to);
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_connect), rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
+    lib_free(connect_to);
 
     /* entry IP */
     np_server = entry = gtk_entry_new();

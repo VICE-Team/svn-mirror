@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-18 07:57-0700\n"
+"POT-Creation-Date: 2011-04-19 14:19-0700\n"
 "PO-Revision-Date: 2011-02-16 20:45+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -2608,7 +2608,7 @@ msgstr "Baðlanýlacak sunucu"
 msgid "Connect to server"
 msgstr "Sunucuya baðlan"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:314
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:316
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Baðlantýyý kes"
@@ -3297,10 +3297,14 @@ msgstr "Varsayýlan ayarlarý geri yükle"
 msgid "Save settings on exit"
 msgstr "Çýkýþta ayarlarý kaydet"
 
-#: src/arch/unix/gui/uisettings.c:412 src/arch/win32/res.rc.po.c:1454
+#: src/arch/unix/gui/uisettings.c:412
+#: src/arch/unix/x11/ui-cmdline-options.c:67
+#: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:55
+#: src/arch/win32/res.rc.po.c:1084 src/arch/win32/res.rc.po.c:1454
 #: src/arch/amigaos/intl_text.c.po.c:2761
-msgid "Confirm on exit"
-msgstr "Çýkýþta teyit et"
+#: src/arch/amigaos/intl_text.c.po.c:5804
+msgid "Confirm quiting VICE"
+msgstr "VICE'dan çýkarken teyit et"
 
 #: src/arch/unix/gui/uisid.c:74
 msgid "8580 + digi boost (ReSID)"
@@ -3842,9 +3846,10 @@ msgstr ""
 msgid "Successfully wrote `%s'\n"
 msgstr "`%s' baþarýyla yazýldý\n"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:66
-msgid "Create disk"
-msgstr "Disk yarat"
+#: src/arch/unix/x11/gnome/uiedisk.c:66 src/arch/unix/x11/gnome/uiedisk.c:143
+#: src/arch/unix/x11/xaw/uiedisk.c:427
+msgid "Create empty disk"
+msgstr "Boþ disk yarat"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:69
 msgid "Disk options"
@@ -3853,10 +3858,6 @@ msgstr "Disk seçenekleri"
 #: src/arch/unix/x11/gnome/uiedisk.c:74
 msgid "Diskname: "
 msgstr "Disk ismi: "
-
-#: src/arch/unix/x11/gnome/uiedisk.c:143
-msgid "Create empty Diskimage"
-msgstr "Boþ Disk imajý yarat"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:182
 #, c-format
@@ -3905,13 +3906,15 @@ msgstr "Boþa vakit geçirme"
 msgid "Server listening"
 msgstr "Sunucu dinleniyor"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:149
-msgid "Connected Server"
-msgstr "Sunucu Baðlandý"
+#: src/arch/unix/x11/gnome/uinetplay.c:149 src/arch/win32/res.rc.po.c:1098
+#: src/arch/amigaos/intl_text.c.po.c:3619
+msgid "Connected server"
+msgstr "Sunucuya baðlanýldý"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:154 src/arch/win32/res.rc.po.c:1099
-msgid "Connected Client"
-msgstr "Ýstemci Baðlandý"
+#: src/arch/amigaos/intl_text.c.po.c:3632
+msgid "Connected client"
+msgstr "Baðlý istemci"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:176
 msgid "Couldn't start netplay server."
@@ -3925,38 +3928,39 @@ msgstr "Ýstemciye baðlanýlamadý."
 msgid "unknown"
 msgstr "bilinmeyen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:205
-#: src/arch/unix/x11/gnome/uinetplay.c:207 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:204 src/arch/win32/res.rc.po.c:1227
+#: src/arch/amigaos/intl_text.c.po.c:3567
+msgid "Connect to"
+msgstr "Baðlanýlan"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:206
+#: src/arch/unix/x11/gnome/uinetplay.c:208 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Netplay Ayarlarý"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:213
+#: src/arch/unix/x11/gnome/uinetplay.c:214
 msgid "Current mode: "
 msgstr "Geçerli mod: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:225
+#: src/arch/unix/x11/gnome/uinetplay.c:226
 #: src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start Server"
 msgstr "Sunucuyu Baþlat"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:231
+#: src/arch/unix/x11/gnome/uinetplay.c:232
 msgid "TCP port: "
 msgstr "TCP portu: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:257
-msgid "Connect to "
-msgstr "Baðlanýlan "
-
-#: src/arch/unix/x11/gnome/uinetplay.c:280 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:282 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Kontrol"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:285 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:287 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Sunucu"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:288 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:290 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Ýstemci"
 
@@ -4212,12 +4216,6 @@ msgstr "Çýkýþta ayarlarý (kaynaklarý) kaydet"
 msgid "Never confirm quiting VICE"
 msgstr "VICE'dan çýkarken asla teyit etme"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:67
-#: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:55
-#: src/arch/win32/res.rc.po.c:1084 src/arch/amigaos/intl_text.c.po.c:5804
-msgid "Confirm quiting VICE"
-msgstr "VICE'dan çýkarken teyit et"
-
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
 #: src/arch/win32/res.rc.po.c:1083 src/arch/amigaos/intl_text.c.po.c:5791
@@ -4292,10 +4290,6 @@ msgstr "Disk ismi:"
 #: src/arch/unix/x11/xaw/uiedisk.c:297
 msgid "Disk format:"
 msgstr "Disk biçimi:"
-
-#: src/arch/unix/x11/xaw/uiedisk.c:427
-msgid "Create empty disk"
-msgstr "Boþ disk yarat"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
 msgid "Save screenshot file"
@@ -5149,11 +5143,11 @@ msgstr ""
 msgid " kB"
 msgstr " kB"
 
-#: src/arch/win32/res.rc.po.c:1068
+#: src/arch/win32/res.rc.po.c:1068 src/arch/win32/res.rc.po.c:1137
 msgid "Configure Keyset A"
 msgstr "Tuþ Seti A'yý Konfigüre Et"
 
-#: src/arch/win32/res.rc.po.c:1069
+#: src/arch/win32/res.rc.po.c:1069 src/arch/win32/res.rc.po.c:1138
 msgid "Configure Keyset B"
 msgstr "Tuþ Seti B'yi Konfigüre Et"
 
@@ -5244,10 +5238,6 @@ msgstr "Beklenmeyen hata oluþtu. %d sinyali alýndý (%s)."
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Beklenmeyen hata oluþtu. %d sinyali alýndý."
 
-#: src/arch/win32/res.rc.po.c:1098 src/arch/amigaos/intl_text.c.po.c:3619
-msgid "Connected server"
-msgstr "Sunucuya baðlanýldý"
-
 #: src/arch/win32/res.rc.po.c:1101 src/arch/amigaos/intl_text.c.po.c:3398
 msgid "An error occured starting the server."
 msgstr "Sunucu baþlatýlýrken bir hata oluþtu."
@@ -5307,14 +5297,6 @@ msgstr "Otomatik ateþ düðmesi ayarlarý"
 #: src/arch/win32/res.rc.po.c:1135
 msgid "Autofire speed"
 msgstr "Otomatik ateþ hýzý"
-
-#: src/arch/win32/res.rc.po.c:1137
-msgid "Config Keyset A"
-msgstr "Tuþ Seti A'yý konfigüre et"
-
-#: src/arch/win32/res.rc.po.c:1138
-msgid "Config Keyset B"
-msgstr "Tuþ Seti B'yý konfigüre et"
 
 #: src/arch/win32/res.rc.po.c:1139
 msgid "Calibrate Joystick(s)"
@@ -5585,10 +5567,6 @@ msgstr "Geçerli mod"
 #: src/arch/win32/res.rc.po.c:1224 src/arch/amigaos/intl_text.c.po.c:3554
 msgid "Server Bind"
 msgstr "Sunucu Baðlantýsý"
-
-#: src/arch/win32/res.rc.po.c:1227 src/arch/amigaos/intl_text.c.po.c:3567
-msgid "Connect to"
-msgstr "Baðlanýlan"
 
 #: src/arch/win32/res.rc.po.c:1237
 msgid "Append log to existing file"
@@ -7487,10 +7465,6 @@ msgid "Press desired key/button, move stick or press ESC for no key."
 msgstr ""
 "Ýstenilen tuþ/düðmeye basýn, çubuðu hareket ettirin veya tuþ seçmemek için "
 "ESC'e basýn."
-
-#: src/arch/amigaos/intl_text.c.po.c:3632
-msgid "Connected client"
-msgstr "Baðlý istemci"
 
 #: src/arch/amigaos/intl_text.c.po.c:3684
 msgid "Choose screenshot format"
@@ -11267,6 +11241,30 @@ msgstr "DigiMAX kartuþunu pasifleþtir"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
+
+#~ msgid "Confirm on exit"
+#~ msgstr "Çýkýþta teyit et"
+
+#~ msgid "Create disk"
+#~ msgstr "Disk yarat"
+
+#~ msgid "Create empty Diskimage"
+#~ msgstr "Boþ Disk imajý yarat"
+
+#~ msgid "Connected Server"
+#~ msgstr "Sunucu Baðlandý"
+
+#~ msgid "Connected Client"
+#~ msgstr "Ýstemci Baðlandý"
+
+#~ msgid "Connect to "
+#~ msgstr "Baðlanýlan "
+
+#~ msgid "Config Keyset A"
+#~ msgstr "Tuþ Seti A'yý konfigüre et"
+
+#~ msgid "Config Keyset B"
+#~ msgstr "Tuþ Seti B'yý konfigüre et"
 
 #~ msgid "Color set"
 #~ msgstr "Renk seti"

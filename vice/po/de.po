@@ -1,11 +1,11 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-18 07:57-0700\n"
+"POT-Creation-Date: 2011-04-19 14:19-0700\n"
 "PO-Revision-Date: 2011-04-18 21:14+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -2601,7 +2601,7 @@ msgstr "Server zu welchem verbunden werden soll"
 msgid "Connect to server"
 msgstr "Verbinde mit Server"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:314
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:316
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Verbindung Trennen"
@@ -3278,10 +3278,14 @@ msgstr "Standard Einstellungen wiederherstellen"
 msgid "Save settings on exit"
 msgstr "Einstellungen beim Beenden speichern"
 
-#: src/arch/unix/gui/uisettings.c:412 src/arch/win32/res.rc.po.c:1454
+#: src/arch/unix/gui/uisettings.c:412
+#: src/arch/unix/x11/ui-cmdline-options.c:67
+#: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:55
+#: src/arch/win32/res.rc.po.c:1084 src/arch/win32/res.rc.po.c:1454
 #: src/arch/amigaos/intl_text.c.po.c:2761
-msgid "Confirm on exit"
-msgstr "Bestätigung beim Beenden"
+#: src/arch/amigaos/intl_text.c.po.c:5804
+msgid "Confirm quiting VICE"
+msgstr "Bestätige beenden von VICE"
 
 #: src/arch/unix/gui/uisid.c:74
 msgid "8580 + digi boost (ReSID)"
@@ -3822,9 +3826,10 @@ msgstr "Kann Erweiterunsmodule Imagedatei `%s' nicht speichern.\n"
 msgid "Successfully wrote `%s'\n"
 msgstr "`%s' erfolgreich gespeichert\n"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:66
-msgid "Create disk"
-msgstr "Disk erzeugen"
+#: src/arch/unix/x11/gnome/uiedisk.c:66 src/arch/unix/x11/gnome/uiedisk.c:143
+#: src/arch/unix/x11/xaw/uiedisk.c:427
+msgid "Create empty disk"
+msgstr "Leeres Disk Image erzeugen"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:69
 msgid "Disk options"
@@ -3833,10 +3838,6 @@ msgstr "Disk Optionen"
 #: src/arch/unix/x11/gnome/uiedisk.c:74
 msgid "Diskname: "
 msgstr "Diskname: "
-
-#: src/arch/unix/x11/gnome/uiedisk.c:143
-msgid "Create empty Diskimage"
-msgstr "Leeres Disk Image erzeugen"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:182
 #, c-format
@@ -3885,12 +3886,14 @@ msgstr "Idle"
 msgid "Server listening"
 msgstr "Server wartet auf Verbindung"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:149
-msgid "Connected Server"
-msgstr "Verbunden, Server"
+#: src/arch/unix/x11/gnome/uinetplay.c:149 src/arch/win32/res.rc.po.c:1098
+#: src/arch/amigaos/intl_text.c.po.c:3619
+msgid "Connected server"
+msgstr "Server verbunden"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:154 src/arch/win32/res.rc.po.c:1099
-msgid "Connected Client"
+#: src/arch/amigaos/intl_text.c.po.c:3632
+msgid "Connected client"
 msgstr "Verbunden, Client"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:176
@@ -3905,38 +3908,39 @@ msgstr "Konnte Client nicht verbinden."
 msgid "unknown"
 msgstr "Unbekannt"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:205
-#: src/arch/unix/x11/gnome/uinetplay.c:207 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:204 src/arch/win32/res.rc.po.c:1227
+#: src/arch/amigaos/intl_text.c.po.c:3567
+msgid "Connect to"
+msgstr "Verbinden mit"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:206
+#: src/arch/unix/x11/gnome/uinetplay.c:208 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Netplay Einstellungen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:213
+#: src/arch/unix/x11/gnome/uinetplay.c:214
 msgid "Current mode: "
 msgstr "Status: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:225
+#: src/arch/unix/x11/gnome/uinetplay.c:226
 #: src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start Server"
 msgstr "Server Starten"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:231
+#: src/arch/unix/x11/gnome/uinetplay.c:232
 msgid "TCP port: "
 msgstr "TCP Port: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:257
-msgid "Connect to "
-msgstr "Verbinden mit "
-
-#: src/arch/unix/x11/gnome/uinetplay.c:280 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:282 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Kontrolle"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:285 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:287 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:288 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:290 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Client"
 
@@ -4192,12 +4196,6 @@ msgstr "Einstellungen (Ressourcen) beim Beenden speichern"
 msgid "Never confirm quiting VICE"
 msgstr "Keine Bestätigung beim Beenden von VICE"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:67
-#: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:55
-#: src/arch/win32/res.rc.po.c:1084 src/arch/amigaos/intl_text.c.po.c:5804
-msgid "Confirm quiting VICE"
-msgstr "Bestätige beenden von VICE"
-
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
 #: src/arch/win32/res.rc.po.c:1083 src/arch/amigaos/intl_text.c.po.c:5791
@@ -4272,10 +4270,6 @@ msgstr "Diskname:"
 #: src/arch/unix/x11/xaw/uiedisk.c:297
 msgid "Disk format:"
 msgstr "Disk Format:"
-
-#: src/arch/unix/x11/xaw/uiedisk.c:427
-msgid "Create empty disk"
-msgstr "Leeres Disk Image erzeugen"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
 msgid "Save screenshot file"
@@ -5125,11 +5119,11 @@ msgstr ""
 msgid " kB"
 msgstr " kB"
 
-#: src/arch/win32/res.rc.po.c:1068
+#: src/arch/win32/res.rc.po.c:1068 src/arch/win32/res.rc.po.c:1137
 msgid "Configure Keyset A"
 msgstr "Konfiguriere Tastaturbelegung A"
 
-#: src/arch/win32/res.rc.po.c:1069
+#: src/arch/win32/res.rc.po.c:1069 src/arch/win32/res.rc.po.c:1138
 msgid "Configure Keyset B"
 msgstr "Konfiguriere Tastaturbelegung B"
 
@@ -5220,10 +5214,6 @@ msgstr "Ein unerwarteter Fehler ist aufgetreten. Signal %d (%s) empfangen."
 msgid "An unexpected error occured. Received signal %d."
 msgstr "Ein unerwarteter Fehler ist aufgetreten. Signal %d empfangen."
 
-#: src/arch/win32/res.rc.po.c:1098 src/arch/amigaos/intl_text.c.po.c:3619
-msgid "Connected server"
-msgstr "Server verbunden"
-
 #: src/arch/win32/res.rc.po.c:1101 src/arch/amigaos/intl_text.c.po.c:3398
 msgid "An error occured starting the server."
 msgstr "Fehler beim Starten des Netplay Servers."
@@ -5283,14 +5273,6 @@ msgstr "Automatische Feuerknopf Einstellungen"
 #: src/arch/win32/res.rc.po.c:1135
 msgid "Autofire speed"
 msgstr "Autofeuer Geschwindigkeit"
-
-#: src/arch/win32/res.rc.po.c:1137
-msgid "Config Keyset A"
-msgstr "Tastaturbelegung A konfigurieren"
-
-#: src/arch/win32/res.rc.po.c:1138
-msgid "Config Keyset B"
-msgstr "Tastaturbelegung B konfigurieren"
 
 #: src/arch/win32/res.rc.po.c:1139
 msgid "Calibrate Joystick(s)"
@@ -5561,10 +5543,6 @@ msgstr "Aktueller Modus"
 #: src/arch/win32/res.rc.po.c:1224 src/arch/amigaos/intl_text.c.po.c:3554
 msgid "Server Bind"
 msgstr "Server Bind"
-
-#: src/arch/win32/res.rc.po.c:1227 src/arch/amigaos/intl_text.c.po.c:3567
-msgid "Connect to"
-msgstr "Verbinden mit"
 
 #: src/arch/win32/res.rc.po.c:1237
 msgid "Append log to existing file"
@@ -7463,10 +7441,6 @@ msgid "Press desired key/button, move stick or press ESC for no key."
 msgstr ""
 "Gewünschte Taste/Knopf drücken, Knüppel bewegen oder ESC für keine Taste "
 "drücken."
-
-#: src/arch/amigaos/intl_text.c.po.c:3632
-msgid "Connected client"
-msgstr "Verbunden, Client"
 
 #: src/arch/amigaos/intl_text.c.po.c:3684
 msgid "Choose screenshot format"
@@ -11250,6 +11224,30 @@ msgstr "DigiMAX Cartridge deaktivieren"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basis Adresse für DigiMAX Erweiterung"
+
+#~ msgid "Confirm on exit"
+#~ msgstr "Bestätigung beim Beenden"
+
+#~ msgid "Create disk"
+#~ msgstr "Disk erzeugen"
+
+#~ msgid "Create empty Diskimage"
+#~ msgstr "Leeres Disk Image erzeugen"
+
+#~ msgid "Connected Server"
+#~ msgstr "Verbunden, Server"
+
+#~ msgid "Connected Client"
+#~ msgstr "Verbunden, Client"
+
+#~ msgid "Connect to "
+#~ msgstr "Verbinden mit "
+
+#~ msgid "Config Keyset A"
+#~ msgstr "Tastaturbelegung A konfigurieren"
+
+#~ msgid "Config Keyset B"
+#~ msgstr "Tastaturbelegung B konfigurieren"
 
 #~ msgid "Color set"
 #~ msgstr "Farbpalette..."

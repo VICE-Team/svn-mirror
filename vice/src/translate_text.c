@@ -1936,11 +1936,11 @@ translate_t string_table[] = {
 /* en */ {IDGS_COMMAND,    N_("Command")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_COMMAND_DA, ""},  /* fuzzy */
-/* de */ {IDGS_COMMAND_DE, ""},  /* fuzzy */
+/* de */ {IDGS_COMMAND_DE, "Kommando"},
 /* fr */ {IDGS_COMMAND_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_COMMAND_HU, ""},  /* fuzzy */
 /* it */ {IDGS_COMMAND_IT, ""},  /* fuzzy */
-/* ko */ {IDGS_COMMAND_KO, ""},  /* fuzzy */
+/* ko */ {IDGS_COMMAND_KO, "¸í·É"},
 /* nl */ {IDGS_COMMAND_NL, "Commando"},
 /* pl */ {IDGS_COMMAND_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_COMMAND_RU, ""},  /* fuzzy */
@@ -2448,7 +2448,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_CD_DESCRIPTION,    N_("Change current working directory.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_CD_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_CD_DESCRIPTION_DE, ""},  /* fuzzy */
+/* de */ {IDGS_MON_CD_DESCRIPTION_DE, "Arbeitsverzeichnis ändern."},
 /* fr */ {IDGS_MON_CD_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CD_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_CD_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -10921,7 +10921,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_P_PATH_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_PATH_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_PATH_IT, "<percorso>"},
-/* ko */ {IDCLS_P_PATH_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_PATH_KO, "<±æ>"},
 /* nl */ {IDCLS_P_PATH_NL, "<pad>"},
 /* pl */ {IDCLS_P_PATH_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_PATH_RU, ""},  /* fuzzy */

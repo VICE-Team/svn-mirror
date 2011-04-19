@@ -1423,7 +1423,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_CUSTOM_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_CUSTOM_HU, "Egyéni" },
 /* it */ { IDMS_CUSTOM_IT, "Personalizzato" },
-/* ko */ { IDMS_CUSTOM_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_CUSTOM_KO, "Ä¿½ºÅÒ" },
 /* nl */ { IDMS_CUSTOM_NL, "Aangepast" },
 /* pl */ { IDMS_CUSTOM_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_CUSTOM_RU, "" },  /* fuzzy */
@@ -2782,18 +2782,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SAVE_SETTING_ON_EXIT_SV, "Spara inställningar vid avslut" },
 /* tr */ { IDMS_SAVE_SETTING_ON_EXIT_TR, "Çýkýþta ayarlarý kaydet" },
 
-/* en */ { IDMS_CONFIRM_ON_EXIT,    "Confirm on exit" },
+/* en */ { IDMS_CONFIRM_ON_EXIT,    "Confirm quiting VICE" },
 /* da */ { IDMS_CONFIRM_ON_EXIT_DA, "Bekræft programafslutning" },
-/* de */ { IDMS_CONFIRM_ON_EXIT_DE, "Bestätigung beim Beenden" },
-/* fr */ { IDMS_CONFIRM_ON_EXIT_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_CONFIRM_ON_EXIT_HU, "Megerõsítés kilépéskor" },
-/* it */ { IDMS_CONFIRM_ON_EXIT_IT, "Conferma all'uscita" },
+/* de */ { IDMS_CONFIRM_ON_EXIT_DE, "Bestätige beenden von VICE" },
+/* fr */ { IDMS_CONFIRM_ON_EXIT_FR, "Demander une confirmation avant de quitter VICE" },
+/* hu */ { IDMS_CONFIRM_ON_EXIT_HU, "Megerõsítés kilépés elõtt" },
+/* it */ { IDMS_CONFIRM_ON_EXIT_IT, "Conferma l'uscita da VICE" },
 /* ko */ { IDMS_CONFIRM_ON_EXIT_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CONFIRM_ON_EXIT_NL, "Bevestigen bij afsluiten" },
+/* nl */ { IDMS_CONFIRM_ON_EXIT_NL, "Bevestigen van het aflsuiten van VICE" },
 /* pl */ { IDMS_CONFIRM_ON_EXIT_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_CONFIRM_ON_EXIT_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_CONFIRM_ON_EXIT_SV, "Bekräfta avslutning" },
-/* tr */ { IDMS_CONFIRM_ON_EXIT_TR, "Çýkýþta teyit et" },
+/* sv */ { IDMS_CONFIRM_ON_EXIT_SV, "Bekräfta för att avsluta VICE" },
+/* tr */ { IDMS_CONFIRM_ON_EXIT_TR, "VICE'dan çýkarken teyit et" },
 
 /* en */ { IDMS_HELP,    "Help" },
 /* da */ { IDMS_HELP_DA, "Hjælp" },
@@ -6650,7 +6650,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_FAST_FR, "" },  /* fuzzy */
 /* hu */ { IDS_FAST_HU, "" },  /* fuzzy */
 /* it */ { IDS_FAST_IT, "Veloce" },
-/* ko */ { IDS_FAST_KO, "" },  /* fuzzy */
+/* ko */ { IDS_FAST_KO, "ºü¸¥" },
 /* nl */ { IDS_FAST_NL, "Snel" },
 /* pl */ { IDS_FAST_PL, "" },  /* fuzzy */
 /* ru */ { IDS_FAST_RU, "" },  /* fuzzy */
@@ -6663,7 +6663,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_INTERPOLATING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_INTERPOLATING_HU, "" },  /* fuzzy */
 /* it */ { IDS_INTERPOLATING_IT, "Interpolazione" },
-/* ko */ { IDS_INTERPOLATING_KO, "" },  /* fuzzy */
+/* ko */ { IDS_INTERPOLATING_KO, "º¸°£ÇÏ´Ù" },
 /* nl */ { IDS_INTERPOLATING_NL, "Interpoleren" },
 /* pl */ { IDS_INTERPOLATING_PL, "" },  /* fuzzy */
 /* ru */ { IDS_INTERPOLATING_RU, "" },  /* fuzzy */
@@ -6676,7 +6676,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_RESAMPLING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RESAMPLING_HU, "" },  /* fuzzy */
 /* it */ { IDS_RESAMPLING_IT, "Ricampionamento" },
-/* ko */ { IDS_RESAMPLING_KO, "" },  /* fuzzy */
+/* ko */ { IDS_RESAMPLING_KO, "¸®»ùÇÃ¸µ" },
 /* nl */ { IDS_RESAMPLING_NL, "Resampling" },
 /* pl */ { IDS_RESAMPLING_PL, "" },  /* fuzzy */
 /* ru */ { IDS_RESAMPLING_RU, "" },  /* fuzzy */
@@ -7283,7 +7283,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CARD_FILE,    "Card image file" },
 /* da */ { IDS_CARD_FILE_DA, "" },  /* fuzzy */
-/* de */ { IDS_CARD_FILE_DE, "" },  /* fuzzy */
+/* de */ { IDS_CARD_FILE_DE, "Card Image Datei" },
 /* fr */ { IDS_CARD_FILE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CARD_FILE_HU, "" },  /* fuzzy */
 /* it */ { IDS_CARD_FILE_IT, "" },  /* fuzzy */
@@ -8652,7 +8652,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SMALL_FR, "Petit" },
 /* hu */ { IDS_SMALL_HU, "Kicsi" },
 /* it */ { IDS_SMALL_IT, "Piccolo" },
-/* ko */ { IDS_SMALL_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SMALL_KO, "ÀÛ´Ù" },
 /* nl */ { IDS_SMALL_NL, "Klein" },
 /* pl */ { IDS_SMALL_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SMALL_RU, "" },  /* fuzzy */
@@ -8665,7 +8665,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_MEDIUM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MEDIUM_HU, "Közepes" },
 /* it */ { IDS_MEDIUM_IT, "Medio" },
-/* ko */ { IDS_MEDIUM_KO, "" },  /* fuzzy */
+/* ko */ { IDS_MEDIUM_KO, "Áß°£" },
 /* nl */ { IDS_MEDIUM_NL, "Middelmatig" },
 /* pl */ { IDS_MEDIUM_PL, "" },  /* fuzzy */
 /* ru */ { IDS_MEDIUM_RU, "" },  /* fuzzy */
@@ -8678,7 +8678,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_LARGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_LARGE_HU, "Nagy" },
 /* it */ { IDS_LARGE_IT, "Grande" },
-/* ko */ { IDS_LARGE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_LARGE_KO, "Å«" },
 /* nl */ { IDS_LARGE_NL, "Groot" },
 /* pl */ { IDS_LARGE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_LARGE_RU, "" },  /* fuzzy */
@@ -8704,7 +8704,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_NORMAL_FR, "Normal" },
 /* hu */ { IDMS_NORMAL_HU, "Normál" },
 /* it */ { IDMS_NORMAL_IT, "Normale" },
-/* ko */ { IDMS_NORMAL_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_NORMAL_KO, "º¸Åë" },
 /* nl */ { IDMS_NORMAL_NL, "Normaal" },
 /* pl */ { IDMS_NORMAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_NORMAL_RU, "" },  /* fuzzy */

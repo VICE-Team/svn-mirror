@@ -63,7 +63,7 @@ static GtkWidget *build_empty_disk_dialog(void)
     int i;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_DISK, UILIB_FILTER_ALL };
 
-    d = vice_file_entry(_("Create disk"), NULL, NULL, filter, sizeof(filter) / sizeof(*filter), UI_FC_SAVE);
+    d = vice_file_entry(_("Create empty disk"), NULL, NULL, filter, sizeof(filter) / sizeof(*filter), UI_FC_SAVE);
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);
 
     frame = gtk_frame_new(_("Disk options"));
@@ -140,7 +140,7 @@ int ui_empty_disk_dialog(char *name)
         g_signal_connect(G_OBJECT(edisk_dialog), "destroy", G_CALLBACK(gtk_widget_destroyed), &edisk_dialog);
     }
 
-    ui_popup(edisk_dialog, _("Create empty Diskimage"), FALSE);
+    ui_popup(edisk_dialog, _("Create empty disk"), FALSE);
     res = gtk_dialog_run(GTK_DIALOG(edisk_dialog));
     ui_popdown(edisk_dialog);
 
