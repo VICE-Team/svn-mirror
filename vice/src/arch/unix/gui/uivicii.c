@@ -124,12 +124,14 @@ UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 
 static UI_CALLBACK(openGL_set_desktoprefresh)
 {
+    char *refresh_rate = util_concat(_("Enter refresh rate"), " (Hz): ", NULL);
+
     if (!CHECK_MENUS) {
         float f;
         char *buf = lib_calloc(sizeof(char), 10);
 
         sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
-        ui_input_string(_("Refreshrate: "), _("Enter Refreshrate (Hz): "), buf, 10);
+        ui_input_string(_("Refreshrate: "), refresh_rate, buf, 10);
         f = (float) strtol(buf, NULL, 10);
         openGL_set_canvas_refreshrate(f);
         lib_free(buf);

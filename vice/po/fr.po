@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-20 07:59-0700\n"
+"POT-Creation-Date: 2011-04-20 15:16-0700\n"
 "PO-Revision-Date: 2011-02-01 18:41+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -156,10 +156,10 @@ msgstr "Nom de l'image ROM Fonction interne..."
 msgid "Enable the external Function ROM"
 msgstr "Activer l'image ROM des fonctions externes"
 
-#: src/arch/unix/gui/c128ui.c:252
+#: src/arch/unix/gui/c128ui.c:252 src/arch/amigaos/intl_text.c.po.c:8391
 #, fuzzy
-msgid "External Function ROM name"
-msgstr "Nom de l'image ROM Fonction externe..."
+msgid "External Function ROM file"
+msgstr "Image ROM Fonction externe"
 
 #: src/arch/unix/gui/c128ui.c:259 src/arch/win32/resc128.rc.po.c:649
 msgid "Function ROM"
@@ -1277,7 +1277,8 @@ msgstr "Geler la cartouche"
 msgid "C64DTV ROM file"
 msgstr "Charger image ROM:"
 
-#: src/arch/unix/gui/uic64dtv.c:81
+#: src/arch/unix/gui/uic64dtv.c:81 src/arch/win32/resc64dtv.rc.po.c:437
+#: src/translate_text.c.po.c:11422
 #, fuzzy
 msgid "Enable writes to C64DTV ROM image"
 msgstr "Spécifier le nom de l'image BASIC ROM"
@@ -1422,7 +1423,7 @@ msgstr "Chargement du fichier de sauvegarde"
 
 #: src/arch/unix/gui/uicommands.c:486 src/arch/unix/x11/gnome/uisnapshot.c:46
 #: src/arch/unix/x11/xaw/uisnapshot.c:85
-#: src/arch/unix/x11/xaw/uisnapshot.c:294
+#: src/arch/unix/x11/xaw/uisnapshot.c:296
 msgid "Save snapshot"
 msgstr "Sauvegarder"
 
@@ -1597,115 +1598,114 @@ msgstr "Émulation PAL"
 msgid "Scale2x"
 msgstr "Scale2x"
 
-#: src/arch/unix/gui/uicrtc.c:108 src/arch/unix/gui/uited.c:111
-#: src/arch/unix/gui/uivdc.c:130 src/arch/unix/gui/uivic.c:106
-#: src/arch/unix/gui/uivicii.c:132
+#: src/arch/unix/gui/uicrtc.c:103 src/arch/unix/gui/uisettings.c:120
+#: src/arch/unix/gui/uited.c:106 src/arch/unix/gui/uivdc.c:125
+#: src/arch/unix/gui/uivic.c:102 src/arch/unix/gui/uivicii.c:127
+msgid "Enter refresh rate"
+msgstr "Entrer le taux de rafraîchissement"
+
+#: src/arch/unix/gui/uicrtc.c:110 src/arch/unix/gui/uited.c:113
+#: src/arch/unix/gui/uivdc.c:132 src/arch/unix/gui/uivic.c:108
+#: src/arch/unix/gui/uivicii.c:134
 #, fuzzy
 msgid "Refreshrate: "
 msgstr "Taux de rafraîchissement:"
 
-#: src/arch/unix/gui/uicrtc.c:108 src/arch/unix/gui/uited.c:111
-#: src/arch/unix/gui/uivdc.c:130 src/arch/unix/gui/uivic.c:106
-#: src/arch/unix/gui/uivicii.c:132
-#, fuzzy
-msgid "Enter Refreshrate (Hz): "
-msgstr "Entrer le taux de rafraîchissement"
-
-#: src/arch/unix/gui/uicrtc.c:135 src/arch/unix/gui/uited.c:126
-#: src/arch/unix/gui/uivdc.c:153 src/arch/unix/gui/uivic.c:125
-#: src/arch/unix/gui/uivicii.c:162 src/arch/win32/res.rc.po.c:1334
+#: src/arch/unix/gui/uicrtc.c:138 src/arch/unix/gui/uited.c:129
+#: src/arch/unix/gui/uivdc.c:156 src/arch/unix/gui/uivic.c:128
+#: src/arch/unix/gui/uivicii.c:164 src/arch/win32/res.rc.po.c:1334
 #: src/arch/amigaos/intl_text.c.po.c:1448
 #, fuzzy
 msgid "Double size"
 msgstr "*Double pixels"
 
-#: src/arch/unix/gui/uicrtc.c:137 src/arch/unix/gui/uited.c:128
-#: src/arch/unix/gui/uivdc.c:155 src/arch/unix/gui/uivic.c:127
-#: src/arch/unix/gui/uivicii.c:164 src/arch/win32/res.rc.po.c:1335
+#: src/arch/unix/gui/uicrtc.c:140 src/arch/unix/gui/uited.c:131
+#: src/arch/unix/gui/uivdc.c:158 src/arch/unix/gui/uivic.c:130
+#: src/arch/unix/gui/uivicii.c:166 src/arch/win32/res.rc.po.c:1335
 #: src/arch/amigaos/intl_text.c.po.c:1461
 #, fuzzy
 msgid "Double scan"
 msgstr "*Doubler les lignes"
 
-#: src/arch/unix/gui/uicrtc.c:139 src/arch/unix/gui/uited.c:130
-#: src/arch/unix/gui/uivdc.c:157 src/arch/unix/gui/uivic.c:129
-#: src/arch/unix/gui/uivicii.c:166 src/arch/win32/res.rc.po.c:1338
+#: src/arch/unix/gui/uicrtc.c:142 src/arch/unix/gui/uited.c:133
+#: src/arch/unix/gui/uivdc.c:160 src/arch/unix/gui/uivic.c:132
+#: src/arch/unix/gui/uivicii.c:168 src/arch/win32/res.rc.po.c:1338
 #: src/arch/amigaos/intl_text.c.po.c:1435
 #, fuzzy
 msgid "Video cache"
 msgstr "*Cache vidéo"
 
-#: src/arch/unix/gui/uicrtc.c:142 src/arch/unix/gui/uited.c:133
-#: src/arch/unix/gui/uivdc.c:160 src/arch/unix/gui/uivic.c:132
-#: src/arch/unix/gui/uivicii.c:171 src/arch/win32/res.rc.po.c:984
+#: src/arch/unix/gui/uicrtc.c:145 src/arch/unix/gui/uited.c:136
+#: src/arch/unix/gui/uivdc.c:163 src/arch/unix/gui/uivic.c:135
+#: src/arch/unix/gui/uivicii.c:173 src/arch/win32/res.rc.po.c:984
 msgid "Colors"
 msgstr "Couleurs"
 
-#: src/arch/unix/gui/uicrtc.c:145 src/arch/unix/gui/uited.c:136
-#: src/arch/unix/gui/uivdc.c:163 src/arch/unix/gui/uivic.c:135
-#: src/arch/unix/gui/uivicii.c:174
+#: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
+#: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
+#: src/arch/unix/gui/uivicii.c:176
 msgid "Renderer"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
-#: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
-#: src/arch/unix/gui/uivicii.c:177 src/arch/unix/x11/gnome/uipalcontrol.c:98
+#: src/arch/unix/gui/uicrtc.c:151 src/arch/unix/gui/uited.c:142
+#: src/arch/unix/gui/uivdc.c:169 src/arch/unix/gui/uivic.c:141
+#: src/arch/unix/gui/uivicii.c:179 src/arch/unix/x11/gnome/uipalcontrol.c:98
 #, fuzzy
 msgid "CRT emulation settings"
 msgstr "Paramètres d'émulation PAL"
 
-#: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:144
-#: src/arch/unix/gui/uivdc.c:171 src/arch/unix/gui/uivic.c:143
-#: src/arch/unix/gui/uivicii.c:190
+#: src/arch/unix/gui/uicrtc.c:156 src/arch/unix/gui/uited.c:147
+#: src/arch/unix/gui/uivdc.c:174 src/arch/unix/gui/uivic.c:146
+#: src/arch/unix/gui/uivicii.c:192
 #, fuzzy
 msgid "Hardware scaling"
 msgstr "*'scaling' matériel"
 
-#: src/arch/unix/gui/uicrtc.c:155 src/arch/unix/gui/uited.c:146
-#: src/arch/unix/gui/uivdc.c:173 src/arch/unix/gui/uivic.c:145
-#: src/arch/unix/gui/uivicii.c:192 src/arch/win32/res.rc.po.c:1170
+#: src/arch/unix/gui/uicrtc.c:158 src/arch/unix/gui/uited.c:149
+#: src/arch/unix/gui/uivdc.c:176 src/arch/unix/gui/uivic.c:148
+#: src/arch/unix/gui/uivicii.c:194 src/arch/win32/res.rc.po.c:1170
 #, fuzzy
 msgid "Keep aspect ratio"
 msgstr "Définir le ratio d'aspect (0.8 - 1.2)"
 
-#: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:148
-#: src/arch/unix/gui/uivdc.c:175 src/arch/unix/gui/uivic.c:147
-#: src/arch/unix/gui/uivicii.c:194 src/arch/win32/res.rc.po.c:1171
+#: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
+#: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
+#: src/arch/unix/gui/uivicii.c:196 src/arch/win32/res.rc.po.c:1171
 #, fuzzy
 msgid "True aspect ratio"
 msgstr "<spec>"
 
-#: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
-#: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
-#: src/arch/unix/gui/uivicii.c:197
+#: src/arch/unix/gui/uicrtc.c:163 src/arch/unix/gui/uited.c:154
+#: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:153
+#: src/arch/unix/gui/uivicii.c:199
 #, fuzzy
 msgid "Set custom aspect ratio"
 msgstr "Définir le ratio d'aspect (0.8 - 1.2)"
 
-#: src/arch/unix/gui/uicrtc.c:167 src/arch/unix/gui/uited.c:158
-#: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:157
-#: src/arch/unix/gui/uivicii.c:204
+#: src/arch/unix/gui/uicrtc.c:170 src/arch/unix/gui/uited.c:161
+#: src/arch/unix/gui/uivdc.c:188 src/arch/unix/gui/uivic.c:160
+#: src/arch/unix/gui/uivicii.c:206
 #, fuzzy
 msgid "OpenGL Rastersynchronization"
 msgstr "Synchronisation du son"
 
-#: src/arch/unix/gui/uicrtc.c:169 src/arch/unix/gui/uited.c:160
-#: src/arch/unix/gui/uivdc.c:187 src/arch/unix/gui/uivic.c:159
-#: src/arch/unix/gui/uivicii.c:206
+#: src/arch/unix/gui/uicrtc.c:172 src/arch/unix/gui/uited.c:163
+#: src/arch/unix/gui/uivdc.c:190 src/arch/unix/gui/uivic.c:162
+#: src/arch/unix/gui/uivicii.c:208
 #, fuzzy
 msgid "Desktop Refreshrate"
 msgstr "Taux de rafraîchissement"
 
-#: src/arch/unix/gui/uicrtc.c:174 src/arch/unix/gui/uited.c:165
-#: src/arch/unix/gui/uivdc.c:192 src/arch/unix/gui/uivic.c:164
-#: src/arch/unix/gui/uivicii.c:211
+#: src/arch/unix/gui/uicrtc.c:177 src/arch/unix/gui/uited.c:168
+#: src/arch/unix/gui/uivdc.c:195 src/arch/unix/gui/uivic.c:167
+#: src/arch/unix/gui/uivicii.c:213
 #, fuzzy
 msgid "Fullscreen settings"
 msgstr "Périphérique plein écran"
 
-#: src/arch/unix/gui/uicrtc.c:178 src/arch/unix/gui/uited.c:169
-#: src/arch/unix/gui/uivdc.c:196 src/arch/unix/gui/uivic.c:167
-#: src/arch/unix/gui/uivicii.c:215
+#: src/arch/unix/gui/uicrtc.c:181 src/arch/unix/gui/uited.c:172
+#: src/arch/unix/gui/uivdc.c:199 src/arch/unix/gui/uivic.c:170
+#: src/arch/unix/gui/uivicii.c:217
 #, fuzzy
 msgid "Use XSync()"
 msgstr "*Utiliser XSync()"
@@ -2114,31 +2114,32 @@ msgstr "*Activer le flashjumper MMC64"
 msgid "Prg"
 msgstr "Prg"
 
-#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:217
-#: src/arch/unix/x11/xaw/uisnapshot.c:253 src/arch/win32/resexpert.rc.po.c:45
+#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:219
+#: src/arch/unix/x11/xaw/uisnapshot.c:255 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:5036
 msgid "Off"
 msgstr "Off"
 
-#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:228
-#: src/arch/unix/x11/xaw/uisnapshot.c:264 src/arch/win32/resexpert.rc.po.c:47
+#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:230
+#: src/arch/unix/x11/xaw/uisnapshot.c:266 src/arch/win32/resexpert.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:5062
 msgid "On"
 msgstr "On"
 
-#: src/arch/unix/gui/uiexpert.c:74
+#: src/arch/unix/gui/uiexpert.c:74 src/arch/win32/resexpert.rc.po.c:44
+#: src/arch/amigaos/intl_text.c.po.c:5075
 #, fuzzy
-msgid "Expert Cartridge image"
-msgstr "Insérer une cartouche"
+msgid "Expert Cartridge file"
+msgstr "Activer les paramètres des cartouches experts..."
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
 msgstr "Charger "
 
-#: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:169
-#: src/arch/unix/x11/xaw/uiedisk.c:401
-#: src/arch/unix/x11/xaw/uiscreenshot.c:255
-#: src/arch/unix/x11/xaw/uisnapshot.c:275 src/arch/win32/res.rc.po.c:1245
+#: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:171
+#: src/arch/unix/x11/xaw/uiedisk.c:403
+#: src/arch/unix/x11/xaw/uiscreenshot.c:257
+#: src/arch/unix/x11/xaw/uisnapshot.c:277 src/arch/win32/res.rc.po.c:1245
 #: src/arch/win32/res.rc.po.c:1474 src/arch/amigaos/intl_text.c.po.c:3489
 msgid "Save"
 msgstr "Enregistrer"
@@ -2266,10 +2267,11 @@ msgstr "Périphérique plein écran"
 msgid "Size"
 msgstr "Taille d'&E/S"
 
-#: src/arch/unix/gui/uigeoram.c:84
+#: src/arch/unix/gui/uigeoram.c:84 src/arch/win32/resgeoram.rc.po.c:44
+#: src/arch/amigaos/intl_text.c.po.c:4971
 #, fuzzy
-msgid "GEORAM image"
-msgstr "Nom d'image GEORAM"
+msgid "GEO-RAM file"
+msgstr "Fichier GEORAM"
 
 #: src/arch/unix/gui/uiide64.c:42
 #, fuzzy
@@ -2314,7 +2316,7 @@ msgid "Version 4"
 msgstr "Version 0.0"
 
 #: src/arch/unix/gui/uiide64.c:174 src/arch/unix/gui/uimmc64.c:77
-#: src/arch/unix/gui/uivdc.c:147
+#: src/arch/unix/gui/uivdc.c:150
 msgid "Revision"
 msgstr "Révision"
 
@@ -2729,9 +2731,9 @@ msgstr "*Activer le mode Turbo"
 msgid "EEPROM image file"
 msgstr "Nom d'image GEORAM"
 
-#: src/arch/unix/gui/uimmcreplay.c:89
+#: src/arch/unix/gui/uimmcreplay.c:89 src/translate_text.c.po.c:4640
 #, fuzzy
-msgid "Enable writes to EEPROM image"
+msgid "Enable writes to MMC Replay EEPROM image"
 msgstr "Spécifier le nom de l'image BASIC ROM"
 
 #: src/arch/unix/gui/uimmcreplay.c:116
@@ -3460,10 +3462,6 @@ msgstr "Nom du programme à exécuter..."
 msgid "Serial 2 device"
 msgstr "Port série #2..."
 
-#: src/arch/unix/gui/uisettings.c:120
-msgid "Enter refresh rate"
-msgstr "Entrer le taux de rafraîchissement"
-
 #: src/arch/unix/gui/uisettings.c:121 src/arch/unix/gui/uisettings.c:389
 #: src/arch/win32/res.rc.po.c:1308 src/arch/win32/resc128.rc.po.c:151
 #: src/arch/win32/resc64.rc.po.c:153 src/arch/win32/resc64dtv.rc.po.c:118
@@ -3848,7 +3846,7 @@ msgstr "*Révison 1"
 msgid "Rev 2"
 msgstr "*Révison 2"
 
-#: src/arch/unix/gui/uivdc.c:145 src/arch/win32/resc128.rc.po.c:695
+#: src/arch/unix/gui/uivdc.c:148 src/arch/win32/resc128.rc.po.c:695
 #: src/arch/amigaos/intl_text.c.po.c:1487
 #, fuzzy
 msgid "64KB video memory"
@@ -3869,25 +3867,25 @@ msgstr "&Fichier"
 msgid "Debug"
 msgstr "Débug"
 
-#: src/arch/unix/gui/uivicii.c:169 src/arch/win32/resc64.rc.po.c:527
+#: src/arch/unix/gui/uivicii.c:171 src/arch/win32/resc64.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:6909
 #, fuzzy
 msgid "New luminances"
 msgstr "Nouvelles luminescences"
 
-#: src/arch/unix/gui/uivicii.c:181 src/arch/win32/resvicii.rc.po.c:39
+#: src/arch/unix/gui/uivicii.c:183 src/arch/win32/resvicii.rc.po.c:39
 #: src/arch/amigaos/intl_text.c.po.c:8664
 #, fuzzy
 msgid "Border mode"
 msgstr "Fichier image ROM courant"
 
-#: src/arch/unix/gui/uivicii.c:184 src/arch/win32/resvicii.rc.po.c:44
+#: src/arch/unix/gui/uivicii.c:186 src/arch/win32/resvicii.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:6883
 #, fuzzy
 msgid "Sprite-sprite collisions"
 msgstr "*Collisions sprite-sprite"
 
-#: src/arch/unix/gui/uivicii.c:186 src/arch/win32/resvicii.rc.po.c:45
+#: src/arch/unix/gui/uivicii.c:188 src/arch/win32/resvicii.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:6896
 #, fuzzy
 msgid "Sprite-background collisions"
@@ -4171,7 +4169,7 @@ msgid "Successfully wrote `%s'\n"
 msgstr "Écriture réussie de `%s'\n"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:66 src/arch/unix/x11/gnome/uiedisk.c:143
-#: src/arch/unix/x11/xaw/uiedisk.c:427
+#: src/arch/unix/x11/xaw/uiedisk.c:429
 msgid "Create empty disk"
 msgstr "Créer un disque vide"
 
@@ -4179,7 +4177,7 @@ msgstr "Créer un disque vide"
 msgid "Disk options"
 msgstr "Options de disque"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:262
+#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:264
 msgid "Disk name:"
 msgstr "Nom du disque:"
 
@@ -4330,6 +4328,7 @@ msgid "Image Format"
 msgstr "Format de l'image"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:362 src/arch/win32/res.rc.po.c:1248
+#: src/translate_text.c.po.c:1752
 msgid "Format"
 msgstr "Format"
 
@@ -4589,27 +4588,27 @@ msgstr "Information VICE"
 msgid "Save cartridge image file"
 msgstr "Sauvegarder l'image de la cartouche"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:132 src/arch/unix/x11/xaw/uiedisk.c:223
-#: src/arch/unix/x11/xaw/uiscreenshot.c:170
-#: src/arch/unix/x11/xaw/uisnapshot.c:144
-msgid "File name:"
-msgstr "Nom de fichier:"
+#: src/arch/unix/x11/xaw/uicartridge.c:113 src/arch/unix/x11/xaw/uiedisk.c:204
+#: src/arch/unix/x11/xaw/uiscreenshot.c:151
+#: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:689
+msgid "File name"
+msgstr "Nom de fichier"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:153 src/arch/unix/x11/xaw/uiedisk.c:245
-#: src/arch/unix/x11/xaw/uiscreenshot.c:192
-#: src/arch/unix/x11/xaw/uisnapshot.c:165 src/arch/win32/res.rc.po.c:1109
+#: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
+#: src/arch/unix/x11/xaw/uiscreenshot.c:194
+#: src/arch/unix/x11/xaw/uisnapshot.c:167 src/arch/win32/res.rc.po.c:1109
 #: src/arch/win32/res.rc.po.c:1126 src/arch/amigaos/intl_text.c.po.c:3502
 msgid "Browse"
 msgstr "Parcourir"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:175 src/arch/unix/x11/xaw/uiedisk.c:407
-#: src/arch/unix/x11/xaw/uiscreenshot.c:261
-#: src/arch/unix/x11/xaw/uisnapshot.c:281 src/arch/win32/res.rc.po.c:676
+#: src/arch/unix/x11/xaw/uicartridge.c:177 src/arch/unix/x11/xaw/uiedisk.c:409
+#: src/arch/unix/x11/xaw/uiscreenshot.c:263
+#: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:676
 #: src/arch/win32/res.rc.po.c:1107 src/arch/amigaos/intl_text.c.po.c:3671
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/arch/unix/x11/xaw/uicartridge.c:186
+#: src/arch/unix/x11/xaw/uicartridge.c:188
 msgid "Save cartridge image"
 msgstr "Sauvegarder une image de cartouche"
 
@@ -4621,7 +4620,7 @@ msgstr "Sauvegarder un fichier disque vide"
 msgid "Couldn't create disk image"
 msgstr "Impossible de créer l'image disque"
 
-#: src/arch/unix/x11/xaw/uiedisk.c:297
+#: src/arch/unix/x11/xaw/uiedisk.c:299
 msgid "Disk format:"
 msgstr "Format du disque:"
 
@@ -4629,23 +4628,23 @@ msgstr "Format du disque:"
 msgid "Save screenshot file"
 msgstr "Enregistrer une capture d'écran"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:215
+#: src/arch/unix/x11/xaw/uiscreenshot.c:217
 msgid "Image format:"
 msgstr "Format d'image:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:275
+#: src/arch/unix/x11/xaw/uiscreenshot.c:277
 msgid "Screen Snapshot"
 msgstr "Capture d'écran"
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:183
+#: src/arch/unix/x11/xaw/uisnapshot.c:185
 msgid "Snapshot options:"
 msgstr "Options de sauvegarde"
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:206
+#: src/arch/unix/x11/xaw/uisnapshot.c:208
 msgid "Save currently attached disks:"
 msgstr "Sauvegarder les disque insérés:"
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:242
+#: src/arch/unix/x11/xaw/uisnapshot.c:244
 msgid "Save currently loaded ROMs:"
 msgstr "Enregistrer les ROMS présentement chargés:"
 
@@ -6485,7 +6484,8 @@ msgstr "Paramètres des lecteurs..."
 msgid "IDE64 settings"
 msgstr "Paramètres IDE64"
 
-#: src/arch/win32/res.rc.po.c:1441 src/arch/amigaos/intl_text.c.po.c:2527
+#: src/arch/win32/res.rc.po.c:1441 src/arch/win32/restfe.rc.po.c:36
+#: src/arch/amigaos/intl_text.c.po.c:2527
 #, fuzzy
 msgid "Ethernet settings"
 msgstr "Paramètres Ethernet"
@@ -6849,10 +6849,6 @@ msgstr "Basic mode C64"
 msgid "Internal Function ROM"
 msgstr "Image ROM Fonction interne"
 
-#: src/arch/win32/resc128.rc.po.c:689
-msgid "File name"
-msgstr "Nom de fichier"
-
 #: src/arch/win32/resc128.rc.po.c:690 src/arch/amigaos/intl_text.c.po.c:8378
 msgid "External Function ROM"
 msgstr "Image ROM Fonction externe"
@@ -6931,11 +6927,6 @@ msgstr "Insérer une image de disque"
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "DTV ROM"
 msgstr ""
-
-#: src/arch/win32/resc64dtv.rc.po.c:437
-#, fuzzy
-msgid "Enable writes to DTV ROM image"
-msgstr "Spécifier le nom de l'image BASIC ROM"
 
 #: src/arch/win32/resc64dtv.rc.po.c:438 src/arch/win32/resc64dtv.rc.po.c:452
 #: src/arch/amigaos/intl_text.c.po.c:2657
@@ -7093,11 +7084,6 @@ msgstr "Activer les paramètres experts de cartouches"
 msgid "Save Expert Cartridge image when changed"
 msgstr "Insérer une cartouche"
 
-#: src/arch/win32/resexpert.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:5075
-#, fuzzy
-msgid "Expert Cartridge file"
-msgstr "Activer les paramètres des cartouches experts..."
-
 #: src/arch/win32/resgeoram.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4997
 #, fuzzy
 msgid "Select file for GEO-RAM"
@@ -7117,11 +7103,6 @@ msgstr "Taille du GEORAM"
 #, fuzzy
 msgid "Save GEO-RAM image when changed"
 msgstr "Enregistrer le BIOS lorsque modifié"
-
-#: src/arch/win32/resgeoram.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:4971
-#, fuzzy
-msgid "GEO-RAM file"
-msgstr "Fichier GEORAM"
 
 #: src/arch/win32/reside64.rc.po.c:75
 #, fuzzy
@@ -7677,10 +7658,6 @@ msgstr "*Émulation de la souris 1351"
 #, fuzzy
 msgid "Enable the SFX Sound Expander cartridge"
 msgstr "Activer les paramètres experts de cartouches"
-
-#: src/arch/win32/restfe.rc.po.c:36
-msgid "Ethernet Settings"
-msgstr "Paramètres Ethernet"
 
 #: src/arch/win32/restfe.rc.po.c:37
 msgid "Ethernet"
@@ -8588,11 +8565,6 @@ msgstr "Sélectionner l'image ROM Fonction externe"
 msgid "Internal Function ROM file"
 msgstr "Image ROM Fonction interne"
 
-#: src/arch/amigaos/intl_text.c.po.c:8391
-#, fuzzy
-msgid "External Function ROM file"
-msgstr "Image ROM Fonction externe"
-
 #: src/arch/amigaos/intl_text.c.po.c:8404
 msgid "RAM banks 2 & 3"
 msgstr ""
@@ -9200,11 +9172,6 @@ msgid ""
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
 msgstr ""
-
-#: src/translate_text.c.po.c:1752
-#, fuzzy
-msgid "format"
-msgstr "Format"
 
 #: src/translate_text.c.po.c:1768
 msgid ""
@@ -9973,11 +9940,6 @@ msgstr "Spécifier le nom de l'image BASIC ROM"
 #, fuzzy
 msgid "Specify MMC Replay EEPROM image filename"
 msgstr "Spécifier le nom du fichier log"
-
-#: src/translate_text.c.po.c:4640
-#, fuzzy
-msgid "Enable writes to MMC Replay EEPROM image"
-msgstr "Spécifier le nom de l'image BASIC ROM"
 
 #: src/translate_text.c.po.c:4656
 #, fuzzy
@@ -11668,13 +11630,10 @@ msgstr "Taille normale"
 msgid "Specify name of C64DTV ROM image"
 msgstr "Spécifier le nom de l'image BASIC ROM"
 
-#: src/translate_text.c.po.c:11422
-msgid "Enable writing to C64DTV ROM image"
-msgstr ""
-
 #: src/translate_text.c.po.c:11438
-msgid "Disable writing to C64DTV ROM image"
-msgstr ""
+#, fuzzy
+msgid "Disable writes to C64DTV ROM image"
+msgstr "Spécifier le nom de l'image BASIC ROM"
 
 #: src/translate_text.c.po.c:11454
 msgid "Enable DTV flash chip logs."
@@ -11771,6 +11730,40 @@ msgstr "Désactiver la cartouche Digimax"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Adresse de base de la cartouche Digimax"
+
+#, fuzzy
+#~ msgid "External Function ROM name"
+#~ msgstr "Nom de l'image ROM Fonction externe..."
+
+#, fuzzy
+#~ msgid "GEORAM image"
+#~ msgstr "Nom d'image GEORAM"
+
+#~ msgid "File name:"
+#~ msgstr "Nom de fichier:"
+
+#, fuzzy
+#~ msgid "format"
+#~ msgstr "Format"
+
+#, fuzzy
+#~ msgid "Enter Refreshrate (Hz): "
+#~ msgstr "Entrer le taux de rafraîchissement"
+
+#, fuzzy
+#~ msgid "Expert Cartridge image"
+#~ msgstr "Insérer une cartouche"
+
+#, fuzzy
+#~ msgid "Enable writes to EEPROM image"
+#~ msgstr "Spécifier le nom de l'image BASIC ROM"
+
+#, fuzzy
+#~ msgid "Enable writes to DTV ROM image"
+#~ msgstr "Spécifier le nom de l'image BASIC ROM"
+
+#~ msgid "Ethernet Settings"
+#~ msgstr "Paramètres Ethernet"
 
 #, fuzzy
 #~ msgid "Enable true flash filesystem"

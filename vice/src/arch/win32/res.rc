@@ -4832,9 +4832,9 @@ BEGIN
   IDS_ROMSET_ARCHIVES_FILTER      "VICE romset archives (*.vra)"
   IDS_KEYMAP_FILES_FILTER         "VICE keymap files (*.vkm)"
   IDS_PRGP00_FILES_FILTER         "Commodore emulator files (*.prg;*.p00)"
-  IDS_FLEXIBLE                    "Flexible"
-  IDS_ADJUSTING                   "Adjusting"
-  IDS_EXACT                       "Exact"
+  IDS_FLEXIBLE                    "유연한"
+  IDS_ADJUSTING                   "적응"
+  IDS_EXACT                       "정확한"
   IDS_SOUND_DRIVER_DIRECTX        "Sound driver"
   IDS_SOUND_DRIVER_WMM            "Sound driver"
   IDS_MEDIA_FILES_FILTER          "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
@@ -5071,7 +5071,7 @@ BEGIN
   IDS_MP_DATASETTE_CONTROL        "Datassette control"
   IDS_MP_ATTACH_CARTRIDGE_IMAGE   "Attach cartridge image..."
   IDS_MP_RESET                    "Reset"
-  IDS_MP_DEBUG                    "Debug"
+  IDS_MP_DEBUG                    "디벅"
 #ifdef DEBUG
   IDS_MP_MODE                     "Mode"
 #endif

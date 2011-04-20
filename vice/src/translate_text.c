@@ -1773,19 +1773,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_FORMAT,    N_("format")},
+/* en */ {IDGS_FORMAT,    N_("Format")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_FORMAT_DA, "format"},
+/* da */ {IDGS_FORMAT_DA, "Format"},
 /* de */ {IDGS_FORMAT_DE, "Format"},
-/* fr */ {IDGS_FORMAT_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_FORMAT_HU, ""},  /* fuzzy */
-/* it */ {IDGS_FORMAT_IT, "formato"},
+/* fr */ {IDGS_FORMAT_FR, "Format"},
+/* hu */ {IDGS_FORMAT_HU, "Formátum"},
+/* it */ {IDGS_FORMAT_IT, "Formato"},
 /* ko */ {IDGS_FORMAT_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_FORMAT_NL, "formaat"},
+/* nl */ {IDGS_FORMAT_NL, "Formaat"},
 /* pl */ {IDGS_FORMAT_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_FORMAT_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_FORMAT_SV, "format"},
-/* tr */ {IDGS_FORMAT_TR, "biçim"},
+/* sv */ {IDGS_FORMAT_SV, "Format"},
+/* tr */ {IDGS_FORMAT_TR, "Biçim"},
 #endif
 
 /* monitor/mon_command.c */
@@ -11474,35 +11474,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_ENABLE_C64DTVROM_RW,    N_("Enable writing to C64DTV ROM image")},
+/* en */ {IDCLS_ENABLE_C64DTVROM_RW,    N_("Enable writes to C64DTV ROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_C64DTVROM_RW_DA, "Tillad skrivning til C64DTV-ROM-image."},
-/* de */ {IDCLS_ENABLE_C64DTVROM_RW_DE, "Schreibzugriff auf C64DTV ROM Image erlauben"},
+/* da */ {IDCLS_ENABLE_C64DTVROM_RW_DA, "Tillad skrivning til DTV-ROM-image"},
+/* de */ {IDCLS_ENABLE_C64DTVROM_RW_DE, "Erlaube Schreibzugriff auf DTV ROM Datei"},
 /* fr */ {IDCLS_ENABLE_C64DTVROM_RW_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_C64DTVROM_RW_HU, "C64DTV ROM képmásba írás engedélyezése"},
-/* it */ {IDCLS_ENABLE_C64DTVROM_RW_IT, "Attiva scrittura sull'immagine ROM C64DTV"},
+/* hu */ {IDCLS_ENABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_C64DTVROM_RW_IT, "Attiva scrittura su immagini ROM C64DTV"},
 /* ko */ {IDCLS_ENABLE_C64DTVROM_RW_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_C64DTVROM_RW_NL, "Aktiveer schrijven naar C64DTV ROM bestand"},
+/* nl */ {IDCLS_ENABLE_C64DTVROM_RW_NL, "Aktiveer schrijven naar DTV ROM bestand"},
 /* pl */ {IDCLS_ENABLE_C64DTVROM_RW_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_C64DTVROM_RW_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_C64DTVROM_RW_SV, "Aktivera skrivning till C64DTV-ROM-avbildning."},
-/* tr */ {IDCLS_ENABLE_C64DTVROM_RW_TR, "C64DTV ROM imajýna yazmayý aktif et"},
+/* sv */ {IDCLS_ENABLE_C64DTVROM_RW_SV, "Aktivera skrivning till C64DTV-ROM-avbildning"},
+/* tr */ {IDCLS_ENABLE_C64DTVROM_RW_TR, "C64DTV ROM imajýnda yazmalarý aktif et"},
 #endif
 
 /* c64dtv/c64dtvflash.c */
-/* en */ {IDCLS_DISABLE_C64DTVROM_RW,    N_("Disable writing to C64DTV ROM image")},
+/* en */ {IDCLS_DISABLE_C64DTVROM_RW,    N_("Disable writes to C64DTV ROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_C64DTVROM_RW_DA, "Forbyd skrivning til C64DTV-ROM-image."},
-/* de */ {IDCLS_DISABLE_C64DTVROM_RW_DE, "Schreibzugriff auf C64DTV ROM Image verhindern"},
+/* da */ {IDCLS_DISABLE_C64DTVROM_RW_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_C64DTVROM_RW_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_C64DTVROM_RW_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_C64DTVROM_RW_HU, "C64DTV ROM képmásba írás tiltása"},
-/* it */ {IDCLS_DISABLE_C64DTVROM_RW_IT, "Disattiva scrittura sull'immagine ROM C64DTV"},
+/* hu */ {IDCLS_DISABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_C64DTVROM_RW_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_C64DTVROM_RW_NL, "Schrijven naar C64DTV ROM bestand uitschakelen"},
 /* pl */ {IDCLS_DISABLE_C64DTVROM_RW_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_C64DTVROM_RW_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, "Inaktivera skrivning till C64DTV-ROM-avbildning."},
-/* tr */ {IDCLS_DISABLE_C64DTVROM_RW_TR, "C64DTV ROM imajýna yazmayý pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_C64DTVROM_RW_TR, ""},  /* fuzzy */
 #endif
 
 /* c64dtv/c64dtvflash.c */

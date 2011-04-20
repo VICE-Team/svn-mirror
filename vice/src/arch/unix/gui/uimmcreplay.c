@@ -86,7 +86,7 @@ ui_menu_entry_t mmcreplay_submenu[] = {
     { N_("EEPROM image file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mmcreplay_eeprom_filename,
       (ui_callback_data_t)"MMCREEPROMImage", NULL },
-    { N_("Enable writes to EEPROM image"), UI_MENU_TYPE_TICK,
+    { N_("Enable writes to MMC Replay EEPROM image"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MMCREEPROMRW, NULL, NULL },
     { NULL }
 };

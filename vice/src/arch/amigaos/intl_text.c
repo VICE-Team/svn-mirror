@@ -1540,7 +1540,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_VDC_REV_0_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VDC_REV_0_HU, "0-ás változat" },
 /* it */ { IDMS_VDC_REV_0_IT, "Rev 0" },
-/* ko */ { IDMS_VDC_REV_0_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_VDC_REV_0_KO, "¼öÁ¤ 0" },
 /* nl */ { IDMS_VDC_REV_0_NL, "Revisie 0" },
 /* pl */ { IDMS_VDC_REV_0_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VDC_REV_0_RU, "" },  /* fuzzy */
@@ -1553,7 +1553,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_VDC_REV_1_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VDC_REV_1_HU, "1-es változat" },
 /* it */ { IDMS_VDC_REV_1_IT, "Rev 1" },
-/* ko */ { IDMS_VDC_REV_1_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_VDC_REV_1_KO, "¼öÁ¤ 1" },
 /* nl */ { IDMS_VDC_REV_1_NL, "Revisie 1" },
 /* pl */ { IDMS_VDC_REV_1_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VDC_REV_1_RU, "" },  /* fuzzy */
@@ -1566,7 +1566,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_VDC_REV_2_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VDC_REV_2_HU, "2-es változat" },
 /* it */ { IDMS_VDC_REV_2_IT, "Rev 2" },
-/* ko */ { IDMS_VDC_REV_2_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_VDC_REV_2_KO, "¼öÁ¤ 2" },
 /* nl */ { IDMS_VDC_REV_2_NL, "Revisie 2" },
 /* pl */ { IDMS_VDC_REV_2_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VDC_REV_2_RU, "" },  /* fuzzy */
@@ -6793,7 +6793,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_FLEXIBLE_FR, "Flexible" },
 /* hu */ { IDS_FLEXIBLE_HU, "Rugalmas" },
 /* it */ { IDS_FLEXIBLE_IT, "Flessibile" },
-/* ko */ { IDS_FLEXIBLE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_FLEXIBLE_KO, "À¯¿¬ÇÑ" },
 /* nl */ { IDS_FLEXIBLE_NL, "Flexibel" },
 /* pl */ { IDS_FLEXIBLE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_FLEXIBLE_RU, "" },  /* fuzzy */
@@ -6806,7 +6806,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_ADJUSTING_FR, "Ajusté" },
 /* hu */ { IDS_ADJUSTING_HU, "Igazodó" },
 /* it */ { IDS_ADJUSTING_IT, "Adattabile" },
-/* ko */ { IDS_ADJUSTING_KO, "" },  /* fuzzy */
+/* ko */ { IDS_ADJUSTING_KO, "ÀûÀÀ" },
 /* nl */ { IDS_ADJUSTING_NL, "Aanpassend" },
 /* pl */ { IDS_ADJUSTING_PL, "" },  /* fuzzy */
 /* ru */ { IDS_ADJUSTING_RU, "" },  /* fuzzy */
@@ -6819,7 +6819,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_EXACT_FR, "Exact" },
 /* hu */ { IDS_EXACT_HU, "Pontos" },
 /* it */ { IDS_EXACT_IT, "Esatta" },
-/* ko */ { IDS_EXACT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_EXACT_KO, "Á¤È®ÇÑ" },
 /* nl */ { IDS_EXACT_NL, "Exact" },
 /* pl */ { IDS_EXACT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_EXACT_RU, "" },  /* fuzzy */
@@ -8717,7 +8717,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_FULL_FR, "" },  /* fuzzy */
 /* hu */ { IDS_FULL_HU, "Teljes" },
 /* it */ { IDS_FULL_IT, "Intero" },
-/* ko */ { IDS_FULL_KO, "" },  /* fuzzy */
+/* ko */ { IDS_FULL_KO, "°¡µæ" },
 /* nl */ { IDS_FULL_NL, "Volledig" },
 /* pl */ { IDS_FULL_PL, "" },  /* fuzzy */
 /* ru */ { IDS_FULL_RU, "" },  /* fuzzy */
@@ -8730,7 +8730,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_DEBUG_FR, "Débug" },
 /* hu */ { IDS_DEBUG_HU, "Nyomkövetés" },
 /* it */ { IDS_DEBUG_IT, "Debug" },
-/* ko */ { IDS_DEBUG_KO, "" },  /* fuzzy */
+/* ko */ { IDS_DEBUG_KO, "µð¹÷" },
 /* nl */ { IDS_DEBUG_NL, "Debug" },
 /* pl */ { IDS_DEBUG_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DEBUG_RU, "" },  /* fuzzy */

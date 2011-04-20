@@ -249,7 +249,7 @@ static ui_menu_entry_t functionrom_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Enable the external Function ROM"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_ExternalFunctionROM, NULL, NULL },
-    { N_("External Function ROM name"), UI_MENU_TYPE_DOTS,
+    { N_("External Function ROM file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"ExternalFunctionName", NULL },
     { NULL }

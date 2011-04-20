@@ -122,6 +122,7 @@ static UI_CALLBACK(save_callback)
 static void build_snapshot_dialog(void)
 {
     char *button_title;
+    char *filename = util_concat(_("File name"), ":", NULL);
 
     if (snapshot_dialog != NULL) {
         return;
@@ -141,9 +142,10 @@ static void build_snapshot_dialog(void)
     file_name_label = XtVaCreateManagedWidget("fileNameLabel",
                                               labelWidgetClass, file_name_form,
                                               XtNjustify, XtJustifyLeft,
-                                              XtNlabel, _("File name:"),
+                                              XtNlabel, filename,
                                               XtNborderWidth, 0,
                                               NULL);
+    lib_free(filename);
 
 #ifndef ENABLE_TEXTFIELD
     file_name_field = XtVaCreateManagedWidget("fileNameField",

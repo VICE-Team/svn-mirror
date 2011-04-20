@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-20 07:59-0700\n"
+"POT-Creation-Date: 2011-04-20 15:16-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -144,8 +144,8 @@ msgstr ""
 msgid "Enable the external Function ROM"
 msgstr ""
 
-#: src/arch/unix/gui/c128ui.c:252
-msgid "External Function ROM name"
+#: src/arch/unix/gui/c128ui.c:252 src/arch/amigaos/intl_text.c.po.c:8391
+msgid "External Function ROM file"
 msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:259 src/arch/win32/resc128.rc.po.c:649
@@ -1179,7 +1179,8 @@ msgstr ""
 msgid "C64DTV ROM file"
 msgstr ""
 
-#: src/arch/unix/gui/uic64dtv.c:81
+#: src/arch/unix/gui/uic64dtv.c:81 src/arch/win32/resc64dtv.rc.po.c:437
+#: src/translate_text.c.po.c:11422
 msgid "Enable writes to C64DTV ROM image"
 msgstr ""
 
@@ -1311,7 +1312,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:486 src/arch/unix/x11/gnome/uisnapshot.c:46
 #: src/arch/unix/x11/xaw/uisnapshot.c:85
-#: src/arch/unix/x11/xaw/uisnapshot.c:294
+#: src/arch/unix/x11/xaw/uisnapshot.c:296
 msgid "Save snapshot"
 msgstr ""
 
@@ -1473,102 +1474,102 @@ msgstr ""
 msgid "Scale2x"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:108 src/arch/unix/gui/uited.c:111
-#: src/arch/unix/gui/uivdc.c:130 src/arch/unix/gui/uivic.c:106
-#: src/arch/unix/gui/uivicii.c:132
+#: src/arch/unix/gui/uicrtc.c:103 src/arch/unix/gui/uisettings.c:120
+#: src/arch/unix/gui/uited.c:106 src/arch/unix/gui/uivdc.c:125
+#: src/arch/unix/gui/uivic.c:102 src/arch/unix/gui/uivicii.c:127
+msgid "Enter refresh rate"
+msgstr ""
+
+#: src/arch/unix/gui/uicrtc.c:110 src/arch/unix/gui/uited.c:113
+#: src/arch/unix/gui/uivdc.c:132 src/arch/unix/gui/uivic.c:108
+#: src/arch/unix/gui/uivicii.c:134
 msgid "Refreshrate: "
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:108 src/arch/unix/gui/uited.c:111
-#: src/arch/unix/gui/uivdc.c:130 src/arch/unix/gui/uivic.c:106
-#: src/arch/unix/gui/uivicii.c:132
-msgid "Enter Refreshrate (Hz): "
-msgstr ""
-
-#: src/arch/unix/gui/uicrtc.c:135 src/arch/unix/gui/uited.c:126
-#: src/arch/unix/gui/uivdc.c:153 src/arch/unix/gui/uivic.c:125
-#: src/arch/unix/gui/uivicii.c:162 src/arch/win32/res.rc.po.c:1334
+#: src/arch/unix/gui/uicrtc.c:138 src/arch/unix/gui/uited.c:129
+#: src/arch/unix/gui/uivdc.c:156 src/arch/unix/gui/uivic.c:128
+#: src/arch/unix/gui/uivicii.c:164 src/arch/win32/res.rc.po.c:1334
 #: src/arch/amigaos/intl_text.c.po.c:1448
 msgid "Double size"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:137 src/arch/unix/gui/uited.c:128
-#: src/arch/unix/gui/uivdc.c:155 src/arch/unix/gui/uivic.c:127
-#: src/arch/unix/gui/uivicii.c:164 src/arch/win32/res.rc.po.c:1335
+#: src/arch/unix/gui/uicrtc.c:140 src/arch/unix/gui/uited.c:131
+#: src/arch/unix/gui/uivdc.c:158 src/arch/unix/gui/uivic.c:130
+#: src/arch/unix/gui/uivicii.c:166 src/arch/win32/res.rc.po.c:1335
 #: src/arch/amigaos/intl_text.c.po.c:1461
 msgid "Double scan"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:139 src/arch/unix/gui/uited.c:130
-#: src/arch/unix/gui/uivdc.c:157 src/arch/unix/gui/uivic.c:129
-#: src/arch/unix/gui/uivicii.c:166 src/arch/win32/res.rc.po.c:1338
+#: src/arch/unix/gui/uicrtc.c:142 src/arch/unix/gui/uited.c:133
+#: src/arch/unix/gui/uivdc.c:160 src/arch/unix/gui/uivic.c:132
+#: src/arch/unix/gui/uivicii.c:168 src/arch/win32/res.rc.po.c:1338
 #: src/arch/amigaos/intl_text.c.po.c:1435
 msgid "Video cache"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:142 src/arch/unix/gui/uited.c:133
-#: src/arch/unix/gui/uivdc.c:160 src/arch/unix/gui/uivic.c:132
-#: src/arch/unix/gui/uivicii.c:171 src/arch/win32/res.rc.po.c:984
-msgid "Colors"
-msgstr ""
-
 #: src/arch/unix/gui/uicrtc.c:145 src/arch/unix/gui/uited.c:136
 #: src/arch/unix/gui/uivdc.c:163 src/arch/unix/gui/uivic.c:135
-#: src/arch/unix/gui/uivicii.c:174
-msgid "Renderer"
+#: src/arch/unix/gui/uivicii.c:173 src/arch/win32/res.rc.po.c:984
+msgid "Colors"
 msgstr ""
 
 #: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
 #: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
-#: src/arch/unix/gui/uivicii.c:177 src/arch/unix/x11/gnome/uipalcontrol.c:98
+#: src/arch/unix/gui/uivicii.c:176
+msgid "Renderer"
+msgstr ""
+
+#: src/arch/unix/gui/uicrtc.c:151 src/arch/unix/gui/uited.c:142
+#: src/arch/unix/gui/uivdc.c:169 src/arch/unix/gui/uivic.c:141
+#: src/arch/unix/gui/uivicii.c:179 src/arch/unix/x11/gnome/uipalcontrol.c:98
 msgid "CRT emulation settings"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:144
-#: src/arch/unix/gui/uivdc.c:171 src/arch/unix/gui/uivic.c:143
-#: src/arch/unix/gui/uivicii.c:190
+#: src/arch/unix/gui/uicrtc.c:156 src/arch/unix/gui/uited.c:147
+#: src/arch/unix/gui/uivdc.c:174 src/arch/unix/gui/uivic.c:146
+#: src/arch/unix/gui/uivicii.c:192
 msgid "Hardware scaling"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:155 src/arch/unix/gui/uited.c:146
-#: src/arch/unix/gui/uivdc.c:173 src/arch/unix/gui/uivic.c:145
-#: src/arch/unix/gui/uivicii.c:192 src/arch/win32/res.rc.po.c:1170
+#: src/arch/unix/gui/uicrtc.c:158 src/arch/unix/gui/uited.c:149
+#: src/arch/unix/gui/uivdc.c:176 src/arch/unix/gui/uivic.c:148
+#: src/arch/unix/gui/uivicii.c:194 src/arch/win32/res.rc.po.c:1170
 msgid "Keep aspect ratio"
-msgstr ""
-
-#: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:148
-#: src/arch/unix/gui/uivdc.c:175 src/arch/unix/gui/uivic.c:147
-#: src/arch/unix/gui/uivicii.c:194 src/arch/win32/res.rc.po.c:1171
-msgid "True aspect ratio"
 msgstr ""
 
 #: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
 #: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
-#: src/arch/unix/gui/uivicii.c:197
+#: src/arch/unix/gui/uivicii.c:196 src/arch/win32/res.rc.po.c:1171
+msgid "True aspect ratio"
+msgstr ""
+
+#: src/arch/unix/gui/uicrtc.c:163 src/arch/unix/gui/uited.c:154
+#: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:153
+#: src/arch/unix/gui/uivicii.c:199
 msgid "Set custom aspect ratio"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:167 src/arch/unix/gui/uited.c:158
-#: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:157
-#: src/arch/unix/gui/uivicii.c:204
+#: src/arch/unix/gui/uicrtc.c:170 src/arch/unix/gui/uited.c:161
+#: src/arch/unix/gui/uivdc.c:188 src/arch/unix/gui/uivic.c:160
+#: src/arch/unix/gui/uivicii.c:206
 msgid "OpenGL Rastersynchronization"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:169 src/arch/unix/gui/uited.c:160
-#: src/arch/unix/gui/uivdc.c:187 src/arch/unix/gui/uivic.c:159
-#: src/arch/unix/gui/uivicii.c:206
+#: src/arch/unix/gui/uicrtc.c:172 src/arch/unix/gui/uited.c:163
+#: src/arch/unix/gui/uivdc.c:190 src/arch/unix/gui/uivic.c:162
+#: src/arch/unix/gui/uivicii.c:208
 msgid "Desktop Refreshrate"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:174 src/arch/unix/gui/uited.c:165
-#: src/arch/unix/gui/uivdc.c:192 src/arch/unix/gui/uivic.c:164
-#: src/arch/unix/gui/uivicii.c:211
+#: src/arch/unix/gui/uicrtc.c:177 src/arch/unix/gui/uited.c:168
+#: src/arch/unix/gui/uivdc.c:195 src/arch/unix/gui/uivic.c:167
+#: src/arch/unix/gui/uivicii.c:213
 msgid "Fullscreen settings"
 msgstr ""
 
-#: src/arch/unix/gui/uicrtc.c:178 src/arch/unix/gui/uited.c:169
-#: src/arch/unix/gui/uivdc.c:196 src/arch/unix/gui/uivic.c:167
-#: src/arch/unix/gui/uivicii.c:215
+#: src/arch/unix/gui/uicrtc.c:181 src/arch/unix/gui/uited.c:172
+#: src/arch/unix/gui/uivdc.c:199 src/arch/unix/gui/uivic.c:170
+#: src/arch/unix/gui/uivicii.c:217
 msgid "Use XSync()"
 msgstr ""
 
@@ -1954,30 +1955,31 @@ msgstr ""
 msgid "Prg"
 msgstr ""
 
-#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:217
-#: src/arch/unix/x11/xaw/uisnapshot.c:253 src/arch/win32/resexpert.rc.po.c:45
+#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:219
+#: src/arch/unix/x11/xaw/uisnapshot.c:255 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:5036
 msgid "Off"
 msgstr ""
 
-#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:228
-#: src/arch/unix/x11/xaw/uisnapshot.c:264 src/arch/win32/resexpert.rc.po.c:47
+#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:230
+#: src/arch/unix/x11/xaw/uisnapshot.c:266 src/arch/win32/resexpert.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:5062
 msgid "On"
 msgstr ""
 
-#: src/arch/unix/gui/uiexpert.c:74
-msgid "Expert Cartridge image"
+#: src/arch/unix/gui/uiexpert.c:74 src/arch/win32/resexpert.rc.po.c:44
+#: src/arch/amigaos/intl_text.c.po.c:5075
+msgid "Expert Cartridge file"
 msgstr ""
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
 msgstr ""
 
-#: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:169
-#: src/arch/unix/x11/xaw/uiedisk.c:401
-#: src/arch/unix/x11/xaw/uiscreenshot.c:255
-#: src/arch/unix/x11/xaw/uisnapshot.c:275 src/arch/win32/res.rc.po.c:1245
+#: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:171
+#: src/arch/unix/x11/xaw/uiedisk.c:403
+#: src/arch/unix/x11/xaw/uiscreenshot.c:257
+#: src/arch/unix/x11/xaw/uisnapshot.c:277 src/arch/win32/res.rc.po.c:1245
 #: src/arch/win32/res.rc.po.c:1474 src/arch/amigaos/intl_text.c.po.c:3489
 msgid "Save"
 msgstr ""
@@ -2098,8 +2100,9 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: src/arch/unix/gui/uigeoram.c:84
-msgid "GEORAM image"
+#: src/arch/unix/gui/uigeoram.c:84 src/arch/win32/resgeoram.rc.po.c:44
+#: src/arch/amigaos/intl_text.c.po.c:4971
+msgid "GEO-RAM file"
 msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:42
@@ -2142,7 +2145,7 @@ msgid "Version 4"
 msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:174 src/arch/unix/gui/uimmc64.c:77
-#: src/arch/unix/gui/uivdc.c:147
+#: src/arch/unix/gui/uivdc.c:150
 msgid "Revision"
 msgstr ""
 
@@ -2502,8 +2505,8 @@ msgstr ""
 msgid "EEPROM image file"
 msgstr ""
 
-#: src/arch/unix/gui/uimmcreplay.c:89
-msgid "Enable writes to EEPROM image"
+#: src/arch/unix/gui/uimmcreplay.c:89 src/translate_text.c.po.c:4640
+msgid "Enable writes to MMC Replay EEPROM image"
 msgstr ""
 
 #: src/arch/unix/gui/uimmcreplay.c:116
@@ -3167,10 +3170,6 @@ msgstr ""
 msgid "Serial 2 device"
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:120
-msgid "Enter refresh rate"
-msgstr ""
-
 #: src/arch/unix/gui/uisettings.c:121 src/arch/unix/gui/uisettings.c:389
 #: src/arch/win32/res.rc.po.c:1308 src/arch/win32/resc128.rc.po.c:151
 #: src/arch/win32/resc64.rc.po.c:153 src/arch/win32/resc64dtv.rc.po.c:118
@@ -3508,7 +3507,7 @@ msgstr ""
 msgid "Rev 2"
 msgstr ""
 
-#: src/arch/unix/gui/uivdc.c:145 src/arch/win32/resc128.rc.po.c:695
+#: src/arch/unix/gui/uivdc.c:148 src/arch/win32/resc128.rc.po.c:695
 #: src/arch/amigaos/intl_text.c.po.c:1487
 msgid "64KB video memory"
 msgstr ""
@@ -3527,22 +3526,22 @@ msgstr ""
 msgid "Debug"
 msgstr ""
 
-#: src/arch/unix/gui/uivicii.c:169 src/arch/win32/resc64.rc.po.c:527
+#: src/arch/unix/gui/uivicii.c:171 src/arch/win32/resc64.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:6909
 msgid "New luminances"
 msgstr ""
 
-#: src/arch/unix/gui/uivicii.c:181 src/arch/win32/resvicii.rc.po.c:39
+#: src/arch/unix/gui/uivicii.c:183 src/arch/win32/resvicii.rc.po.c:39
 #: src/arch/amigaos/intl_text.c.po.c:8664
 msgid "Border mode"
 msgstr ""
 
-#: src/arch/unix/gui/uivicii.c:184 src/arch/win32/resvicii.rc.po.c:44
+#: src/arch/unix/gui/uivicii.c:186 src/arch/win32/resvicii.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:6883
 msgid "Sprite-sprite collisions"
 msgstr ""
 
-#: src/arch/unix/gui/uivicii.c:186 src/arch/win32/resvicii.rc.po.c:45
+#: src/arch/unix/gui/uivicii.c:188 src/arch/win32/resvicii.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:6896
 msgid "Sprite-background collisions"
 msgstr ""
@@ -3796,7 +3795,7 @@ msgid "Successfully wrote `%s'\n"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uiedisk.c:66 src/arch/unix/x11/gnome/uiedisk.c:143
-#: src/arch/unix/x11/xaw/uiedisk.c:427
+#: src/arch/unix/x11/xaw/uiedisk.c:429
 msgid "Create empty disk"
 msgstr ""
 
@@ -3804,7 +3803,7 @@ msgstr ""
 msgid "Disk options"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:262
+#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:264
 msgid "Disk name:"
 msgstr ""
 
@@ -3943,6 +3942,7 @@ msgid "Image Format"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:362 src/arch/win32/res.rc.po.c:1248
+#: src/translate_text.c.po.c:1752
 msgid "Format"
 msgstr ""
 
@@ -4186,27 +4186,27 @@ msgstr ""
 msgid "Save cartridge image file"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:132 src/arch/unix/x11/xaw/uiedisk.c:223
-#: src/arch/unix/x11/xaw/uiscreenshot.c:170
-#: src/arch/unix/x11/xaw/uisnapshot.c:144
-msgid "File name:"
+#: src/arch/unix/x11/xaw/uicartridge.c:113 src/arch/unix/x11/xaw/uiedisk.c:204
+#: src/arch/unix/x11/xaw/uiscreenshot.c:151
+#: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:689
+msgid "File name"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:153 src/arch/unix/x11/xaw/uiedisk.c:245
-#: src/arch/unix/x11/xaw/uiscreenshot.c:192
-#: src/arch/unix/x11/xaw/uisnapshot.c:165 src/arch/win32/res.rc.po.c:1109
+#: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
+#: src/arch/unix/x11/xaw/uiscreenshot.c:194
+#: src/arch/unix/x11/xaw/uisnapshot.c:167 src/arch/win32/res.rc.po.c:1109
 #: src/arch/win32/res.rc.po.c:1126 src/arch/amigaos/intl_text.c.po.c:3502
 msgid "Browse"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:175 src/arch/unix/x11/xaw/uiedisk.c:407
-#: src/arch/unix/x11/xaw/uiscreenshot.c:261
-#: src/arch/unix/x11/xaw/uisnapshot.c:281 src/arch/win32/res.rc.po.c:676
+#: src/arch/unix/x11/xaw/uicartridge.c:177 src/arch/unix/x11/xaw/uiedisk.c:409
+#: src/arch/unix/x11/xaw/uiscreenshot.c:263
+#: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:676
 #: src/arch/win32/res.rc.po.c:1107 src/arch/amigaos/intl_text.c.po.c:3671
 msgid "Cancel"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uicartridge.c:186
+#: src/arch/unix/x11/xaw/uicartridge.c:188
 msgid "Save cartridge image"
 msgstr ""
 
@@ -4218,7 +4218,7 @@ msgstr ""
 msgid "Couldn't create disk image"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiedisk.c:297
+#: src/arch/unix/x11/xaw/uiedisk.c:299
 msgid "Disk format:"
 msgstr ""
 
@@ -4226,23 +4226,23 @@ msgstr ""
 msgid "Save screenshot file"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:215
+#: src/arch/unix/x11/xaw/uiscreenshot.c:217
 msgid "Image format:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:275
+#: src/arch/unix/x11/xaw/uiscreenshot.c:277
 msgid "Screen Snapshot"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:183
+#: src/arch/unix/x11/xaw/uisnapshot.c:185
 msgid "Snapshot options:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:206
+#: src/arch/unix/x11/xaw/uisnapshot.c:208
 msgid "Save currently attached disks:"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:242
+#: src/arch/unix/x11/xaw/uisnapshot.c:244
 msgid "Save currently loaded ROMs:"
 msgstr ""
 
@@ -5941,7 +5941,8 @@ msgstr ""
 msgid "IDE64 settings"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1441 src/arch/amigaos/intl_text.c.po.c:2527
+#: src/arch/win32/res.rc.po.c:1441 src/arch/win32/restfe.rc.po.c:36
+#: src/arch/amigaos/intl_text.c.po.c:2527
 msgid "Ethernet settings"
 msgstr ""
 
@@ -6287,10 +6288,6 @@ msgstr ""
 msgid "Internal Function ROM"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:689
-msgid "File name"
-msgstr ""
-
 #: src/arch/win32/resc128.rc.po.c:690 src/arch/amigaos/intl_text.c.po.c:8378
 msgid "External Function ROM"
 msgstr ""
@@ -6362,10 +6359,6 @@ msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "DTV ROM"
-msgstr ""
-
-#: src/arch/win32/resc64dtv.rc.po.c:437
-msgid "Enable writes to DTV ROM image"
 msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:438 src/arch/win32/resc64dtv.rc.po.c:452
@@ -6505,10 +6498,6 @@ msgstr ""
 msgid "Save Expert Cartridge image when changed"
 msgstr ""
 
-#: src/arch/win32/resexpert.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:5075
-msgid "Expert Cartridge file"
-msgstr ""
-
 #: src/arch/win32/resgeoram.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4997
 msgid "Select file for GEO-RAM"
 msgstr ""
@@ -6523,10 +6512,6 @@ msgstr ""
 
 #: src/arch/win32/resgeoram.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:4984
 msgid "Save GEO-RAM image when changed"
-msgstr ""
-
-#: src/arch/win32/resgeoram.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:4971
-msgid "GEO-RAM file"
 msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:75
@@ -7023,10 +7008,6 @@ msgstr ""
 
 #: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
 msgid "Enable the SFX Sound Expander cartridge"
-msgstr ""
-
-#: src/arch/win32/restfe.rc.po.c:36
-msgid "Ethernet Settings"
 msgstr ""
 
 #: src/arch/win32/restfe.rc.po.c:37
@@ -7808,10 +7789,6 @@ msgstr ""
 msgid "Internal Function ROM file"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:8391
-msgid "External Function ROM file"
-msgstr ""
-
 #: src/arch/amigaos/intl_text.c.po.c:8404
 msgid "RAM banks 2 & 3"
 msgstr ""
@@ -8383,10 +8360,6 @@ msgid ""
 "Display the contents of memory as character data.  If only one address\n"
 "is specified, only one character is displayed.  If no addresses are\n"
 "given, the ``dot'' address is used."
-msgstr ""
-
-#: src/translate_text.c.po.c:1752
-msgid "format"
 msgstr ""
 
 #: src/translate_text.c.po.c:1768
@@ -9102,10 +9075,6 @@ msgstr ""
 
 #: src/translate_text.c.po.c:4624
 msgid "Specify MMC Replay EEPROM image filename"
-msgstr ""
-
-#: src/translate_text.c.po.c:4640
-msgid "Enable writes to MMC Replay EEPROM image"
 msgstr ""
 
 #: src/translate_text.c.po.c:4656
@@ -10654,12 +10623,8 @@ msgstr ""
 msgid "Specify name of C64DTV ROM image"
 msgstr ""
 
-#: src/translate_text.c.po.c:11422
-msgid "Enable writing to C64DTV ROM image"
-msgstr ""
-
 #: src/translate_text.c.po.c:11438
-msgid "Disable writing to C64DTV ROM image"
+msgid "Disable writes to C64DTV ROM image"
 msgstr ""
 
 #: src/translate_text.c.po.c:11454

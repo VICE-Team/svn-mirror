@@ -71,7 +71,7 @@ ui_menu_entry_t expert_submenu[] = {
 
 static UI_CALLBACK(expert_set_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Expert Cartridge image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("Expert Cartridge file"), UILIB_FILTER_ALL);
 }
 
 static UI_CALLBACK(expert_flush_cartridge)

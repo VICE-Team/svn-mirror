@@ -81,7 +81,7 @@ ui_menu_entry_t georam_submenu[] = {
 
 UI_CALLBACK(set_georam_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("GEORAM image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("GEO-RAM file"), UILIB_FILTER_ALL);
 }
 
 static UI_CALLBACK(georam_save_callback)

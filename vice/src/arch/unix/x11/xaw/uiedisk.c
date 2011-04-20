@@ -201,6 +201,7 @@ static void build_emptydisk_dialog(void)
 #endif
 
     char *button_title;
+    char *filename = util_concat(_("File name"), ":", NULL);
 
     if (emptydisk_dialog != NULL) {
         return;
@@ -220,9 +221,10 @@ static void build_emptydisk_dialog(void)
     file_name_label = XtVaCreateManagedWidget("fileNameLabel",
                                               labelWidgetClass, file_name_form,
                                               XtNjustify, XtJustifyLeft,
-                                              XtNlabel, _("File name:"),
+                                              XtNlabel, filename,
                                               XtNborderWidth, 0,
                                               NULL);
+    lib_free(filename);
 
 #ifndef ENABLE_TEXTFIELD
     file_name_field = XtVaCreateManagedWidget("fileNameField",

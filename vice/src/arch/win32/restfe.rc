@@ -41,7 +41,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION   "Ethernet Settings"
+    IDS_TFE_CAPTION   "Ethernet settings"
     IDS_TFE_ETHERNET  "Ethernet"
     IDS_TFE_INTERFACE "Interface"
 END
@@ -74,7 +74,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION   "ParamËtres Ethernet"
+    IDS_TFE_CAPTION   "Ethernet settings"
     IDS_TFE_ETHERNET  "Ethernet"
     IDS_TFE_INTERFACE "Interface"
 END
@@ -88,7 +88,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION   "Ethernet be·llÌt·sai"
+    IDS_TFE_CAPTION   "Ethernet settings"
     IDS_TFE_ETHERNET  "Ethernet"
     IDS_TFE_INTERFACE "Interface"
 END
@@ -116,9 +116,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION   "Ethernet Settings"
+    IDS_TFE_CAPTION   "Ethernet settings"
     IDS_TFE_ETHERNET  "Ethernet"
-    IDS_TFE_INTERFACE "Interface"
+    IDS_TFE_INTERFACE "¿Œ≈Õ∆‰¿ÃΩ∫"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -144,7 +144,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION   "Ethernet Settings"
+    IDS_TFE_CAPTION   "Ethernet settings"
     IDS_TFE_ETHERNET  "Ethernet"
     IDS_TFE_INTERFACE "Interface"
 END
@@ -161,7 +161,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION   "Ethernet Settings"
+    IDS_TFE_CAPTION   "Ethernet settings"
     IDS_TFE_ETHERNET  "Ethernet"
     IDS_TFE_INTERFACE "Interface"
 END
