@@ -3391,34 +3391,34 @@ msgstr ""
 
 #: src/arch/unix/gui/uisound.c:102
 msgid "1 s suspend"
-msgstr ""
+msgstr "1초 지연"
 
 #: src/arch/unix/gui/uisound.c:104
 msgid "2 s suspend"
-msgstr ""
+msgstr "2초 지연"
 
 #: src/arch/unix/gui/uisound.c:106
 msgid "5 s suspend"
-msgstr ""
+msgstr "5초 지연"
 
 #: src/arch/unix/gui/uisound.c:108
 msgid "10 s suspend"
-msgstr ""
+msgstr "10초 지연"
 
 #: src/arch/unix/gui/uisound.c:114 src/arch/win32/res.rc.po.c:1061
 #: src/arch/amigaos/intl_text.c.po.c:6766
 msgid "Flexible"
-msgstr ""
+msgstr "유연한"
 
 #: src/arch/unix/gui/uisound.c:117 src/arch/win32/res.rc.po.c:1062
 #: src/arch/amigaos/intl_text.c.po.c:6779
 msgid "Adjusting"
-msgstr ""
+msgstr "적응"
 
 #: src/arch/unix/gui/uisound.c:120 src/arch/win32/res.rc.po.c:1063
 #: src/arch/amigaos/intl_text.c.po.c:6792
 msgid "Exact"
-msgstr ""
+msgstr "정확한"
 
 #: src/arch/unix/gui/uisound.c:127 src/translate_text.c.po.c:10670
 msgid "Enable sound playback"
@@ -3463,7 +3463,7 @@ msgstr ""
 #: src/arch/unix/gui/uited.c:58 src/arch/unix/gui/uivdc.c:57
 #: src/arch/unix/gui/uivic.c:58 src/arch/unix/gui/uivicii.c:62
 msgid "Default"
-msgstr ""
+msgstr "디폴트"
 
 #. FIXME: might actually make some sense to use the file browser on *nix systems which
 #. actually DO have /dev/eth0. linux doesn't however
@@ -3479,7 +3479,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uitfe.c:54 src/arch/win32/restfe.rc.po.c:38
 msgid "Interface"
-msgstr ""
+msgstr "인터페이스"
 
 #: src/arch/unix/gui/uitpi.c:43
 msgid "IEEE 488 Interface image"
@@ -3491,22 +3491,22 @@ msgstr ""
 
 #: src/arch/unix/gui/uivdc.c:59
 msgid "Composite"
-msgstr ""
+msgstr "컴포지트"
 
 #: src/arch/unix/gui/uivdc.c:87 src/arch/win32/resc128.rc.po.c:194
 #: src/arch/amigaos/intl_text.c.po.c:1513
 msgid "Rev 0"
-msgstr ""
+msgstr "수정 0"
 
 #: src/arch/unix/gui/uivdc.c:89 src/arch/win32/resc128.rc.po.c:195
 #: src/arch/amigaos/intl_text.c.po.c:1526
 msgid "Rev 1"
-msgstr ""
+msgstr "수정 1"
 
 #: src/arch/unix/gui/uivdc.c:91 src/arch/win32/resc128.rc.po.c:196
 #: src/arch/amigaos/intl_text.c.po.c:1539
 msgid "Rev 2"
-msgstr ""
+msgstr "수정 2"
 
 #: src/arch/unix/gui/uivdc.c:145 src/arch/win32/resc128.rc.po.c:695
 #: src/arch/amigaos/intl_text.c.po.c:1487
@@ -3516,7 +3516,7 @@ msgstr ""
 #: src/arch/unix/gui/uivicii.c:89 src/arch/win32/resvicii.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:8690
 msgid "Full"
-msgstr ""
+msgstr "가득"
 
 #: src/arch/unix/gui/uivicii.c:91 src/arch/win32/res.rc.po.c:92
 #: src/arch/win32/res.rc.po.c:1300 src/arch/win32/resc128.rc.po.c:102
@@ -3525,7 +3525,7 @@ msgstr ""
 #: src/arch/win32/resplus4.rc.po.c:88 src/arch/win32/resvic20.rc.po.c:98
 #: src/arch/win32/resvicii.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:8703
 msgid "Debug"
-msgstr ""
+msgstr "디벅"
 
 #: src/arch/unix/gui/uivicii.c:169 src/arch/win32/resc64.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:6909
