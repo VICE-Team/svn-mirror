@@ -185,7 +185,7 @@ ui_menu_entry_t ui_drive_options_submenu[] = {
 };
 
 ui_menu_entry_t ui_flash_options_submenu[] = {
-    { N_("Enable true flash filesystem"), UI_MENU_TYPE_TICK,
+    { N_("Enable true hardware flash file system"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },
     { NULL }
 };

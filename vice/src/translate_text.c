@@ -2413,35 +2413,35 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_DIRECTORY,    N_("directory")},
+/* en */ {IDGS_DIRECTORY,    N_("Directory")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_DIRECTORY_DA, "katalog"},
-/* de */ {IDGS_DIRECTORY_DE, "Verzeichnis"},
-/* fr */ {IDGS_DIRECTORY_FR, ""},  /* fuzzy */
+/* da */ {IDGS_DIRECTORY_DA, "Katalog"},
+/* de */ {IDGS_DIRECTORY_DE, "Directory"},
+/* fr */ {IDGS_DIRECTORY_FR, "Répertoire"},
 /* hu */ {IDGS_DIRECTORY_HU, ""},  /* fuzzy */
-/* it */ {IDGS_DIRECTORY_IT, "directory"},
+/* it */ {IDGS_DIRECTORY_IT, "Directory"},
 /* ko */ {IDGS_DIRECTORY_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_DIRECTORY_NL, "directory"},
+/* nl */ {IDGS_DIRECTORY_NL, "Directory"},
 /* pl */ {IDGS_DIRECTORY_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_DIRECTORY_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_DIRECTORY_SV, "katalog"},
-/* tr */ {IDGS_DIRECTORY_TR, "dizin"},
+/* sv */ {IDGS_DIRECTORY_SV, "Katalog"},
+/* tr */ {IDGS_DIRECTORY_TR, "Dizin"},
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_P_DIRECTORY,    N_("<directory>")},
+/* en */ {IDGS_P_DIRECTORY,    N_("<Directory>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_P_DIRECTORY_DA, "<katalog>"},
-/* de */ {IDGS_P_DIRECTORY_DE, "<Verzeichnis>"},
-/* fr */ {IDGS_P_DIRECTORY_FR, ""},  /* fuzzy */
+/* da */ {IDGS_P_DIRECTORY_DA, "<Katalog>"},
+/* de */ {IDGS_P_DIRECTORY_DE, "<Directory>"},
+/* fr */ {IDGS_P_DIRECTORY_FR, "<Répertoire>"},
 /* hu */ {IDGS_P_DIRECTORY_HU, ""},  /* fuzzy */
-/* it */ {IDGS_P_DIRECTORY_IT, "<directory>"},
+/* it */ {IDGS_P_DIRECTORY_IT, "<Directory>"},
 /* ko */ {IDGS_P_DIRECTORY_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_P_DIRECTORY_NL, "<directory>"},
+/* nl */ {IDGS_P_DIRECTORY_NL, "<Directory>"},
 /* pl */ {IDGS_P_DIRECTORY_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_P_DIRECTORY_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_P_DIRECTORY_SV, "<katalog>"},
-/* tr */ {IDGS_P_DIRECTORY_TR, "<dizin>"},
+/* sv */ {IDGS_P_DIRECTORY_SV, "<Katalog>"},
+/* tr */ {IDGS_P_DIRECTORY_TR, "<Dizin>"},
 #endif
 
 /* monitor/mon_command.c */
@@ -3408,35 +3408,35 @@ translate_t string_table[] = {
 
 #ifdef HAVE_RS232
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,    N_("Enable the $DE** ACIA RS232 interface emulation")},
+/* en */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,    N_("Enable the ACIA RS232 interface emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DA, "Aktivér $DE** ACIA RS232-interface emulering"},
-/* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"},
-/* fr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_FR, "Activer l'émulation de l'interface $DE** ACIA RS232"},
-/* hu */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_HU, "$DE** ACIA RS232 interfész emuláció engedélyezése"},
-/* it */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_IT, "Attiva emulazione interfaccia RS232 su ACIA a $DE**"},
+/* da */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_NL, "Activeer de $DE** ACIA RS232 interface emulatie"},
+/* nl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_NL, "Activeer de ACIA RS232 interface emulatie"},
 /* pl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_SV, "Aktivera $DE** ACIA RS232-gränssnittsemulering"},
-/* tr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_TR, "$DE** ACIA RS232 arabirim emülasyonunu aktif et"},
+/* sv */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,    N_("Disable the $DE** ACIA RS232 interface emulation")},
+/* en */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,    N_("Disable the ACIA RS232 interface emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, "Deaktivér $DE** ACIA-RS232-interface emulering"},
-/* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA $DExx RS232 Schnittstellen-Emulation deaktivieren"},
-/* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, "Désactiver l'émulation de l'interface $DE** ACIA RS232"},
-/* hu */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_HU, "$DE** ACIA RS232 interfész emuláció tiltása"},
-/* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, "Disattiva emulazione interfaccia RS232 su ACIA a $DE**"},
+/* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De $DE** ACIA RS232 interface emulatie aflsuiten"},
+/* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De ACIA RS232 interface emulatie aflsuiten"},
 /* pl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, "Inaktivera $DE** ACIA-RS232-gränssnittsemulering"},
-/* tr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_TR, "$DE** ACIA RS232 arabirim emülasyonunu pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_TR, ""},  /* fuzzy */
 #endif
 #endif
 
@@ -3904,35 +3904,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64tpi.c */
-/* en */ {IDCLS_ENABLE_IEEE488_INTERFACE,    N_("Enable IEEE488 interface")},
+/* en */ {IDCLS_ENABLE_IEEE488_INTERFACE,    N_("Enable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_IEEE488_INTERFACE_DA, "Aktivér IEEE488-interface"},
-/* de */ {IDCLS_ENABLE_IEEE488_INTERFACE_DE, "IEEE488 Schnittstelle aktivieren"},
-/* fr */ {IDCLS_ENABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_IEEE488_INTERFACE_IT, "Attiva interfaccia IEEE488"},
+/* da */ {IDCLS_ENABLE_IEEE488_INTERFACE_DA, "Aktivér emulering af IEEE488-interface"},
+/* de */ {IDCLS_ENABLE_IEEE488_INTERFACE_DE, "IEEE488 Schnittstellen-Emulation aktivieren"},
+/* fr */ {IDCLS_ENABLE_IEEE488_INTERFACE_FR, "Activer l'interface d'émulation IEEE488"},
+/* hu */ {IDCLS_ENABLE_IEEE488_INTERFACE_HU, "IEEE488 interfész emuláció engedélyezése"},
+/* it */ {IDCLS_ENABLE_IEEE488_INTERFACE_IT, "Attiva emulazione interfaccia IEEE488"},
 /* ko */ {IDCLS_ENABLE_IEEE488_INTERFACE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_IEEE488_INTERFACE_NL, "Activeer IEEE488 interface"},
+/* nl */ {IDCLS_ENABLE_IEEE488_INTERFACE_NL, "Activeer de IEEE488 interface emulatie"},
 /* pl */ {IDCLS_ENABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_IEEE488_INTERFACE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_IEEE488_INTERFACE_SV, "Aktivera IEEE488-gränssnitt"},
-/* tr */ {IDCLS_ENABLE_IEEE488_INTERFACE_TR, "IEEE488 arabirimini aktif et"},
+/* sv */ {IDCLS_ENABLE_IEEE488_INTERFACE_SV, "Aktivera emulering av IEEE488-gränssnitt"},
+/* tr */ {IDCLS_ENABLE_IEEE488_INTERFACE_TR, "IEEE488 arabirim emülasyonunu aktif et"},
 #endif
 
 /* c64/cart/c64tpi.c */
-/* en */ {IDCLS_DISABLE_IEEE488_INTERFACE,    N_("Disable IEEE488 interface")},
+/* en */ {IDCLS_DISABLE_IEEE488_INTERFACE,    N_("Disable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_IEEE488_INTERFACE_DA, "Deaktivér IEEE488-interface"},
-/* de */ {IDCLS_DISABLE_IEEE488_INTERFACE_DE, "IEEE488 Schnittstelle deaktivieren"},
-/* fr */ {IDCLS_DISABLE_IEEE488_INTERFACE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_IEEE488_INTERFACE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_IEEE488_INTERFACE_IT, "Disattiva interfaccia IEEE488"},
+/* da */ {IDCLS_DISABLE_IEEE488_INTERFACE_DA, "Deaktivér emulering af IEEE488-interface"},
+/* de */ {IDCLS_DISABLE_IEEE488_INTERFACE_DE, "IEEE488 Schnittstellen-Emulation deaktivieren"},
+/* fr */ {IDCLS_DISABLE_IEEE488_INTERFACE_FR, "Désactiver l'interface d'émulation IEEE488"},
+/* hu */ {IDCLS_DISABLE_IEEE488_INTERFACE_HU, "IEEE488 interfész emuláció tiltása"},
+/* it */ {IDCLS_DISABLE_IEEE488_INTERFACE_IT, "Disattiva emulazione interfaccia IEEE488"},
 /* ko */ {IDCLS_DISABLE_IEEE488_INTERFACE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_IEEE488_INTERFACE_NL, "IEEE488 interface uitschakelen"},
+/* nl */ {IDCLS_DISABLE_IEEE488_INTERFACE_NL, "De IEEE488 interface emulatie uitschakelen"},
 /* pl */ {IDCLS_DISABLE_IEEE488_INTERFACE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_IEEE488_INTERFACE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_IEEE488_INTERFACE_SV, "Inaktivera IEEE488-gränssnitt"},
-/* tr */ {IDCLS_DISABLE_IEEE488_INTERFACE_TR, "IEEE488 arabirimini pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_IEEE488_INTERFACE_SV, "Inaktivera emulering av IEEE488-gränssnitt"},
+/* tr */ {IDCLS_DISABLE_IEEE488_INTERFACE_TR, "IEEE488 arabirim emülasyonunu pasifleþtir"},
 #endif
 
 /* c64/cart/c64tpi.c */
@@ -3952,35 +3952,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/georam.c */
-/* en */ {IDCLS_ENABLE_GEORAM,    N_("Enable the GEORAM expansion unit")},
+/* en */ {IDCLS_ENABLE_GEORAM,    N_("Enable the GEO-RAM expansion unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_GEORAM_DA, "Aktivér GEORAM-udviddelsesenhed"},
-/* de */ {IDCLS_ENABLE_GEORAM_DE, "GEORAM Erweiterung aktivieren"},
-/* fr */ {IDCLS_ENABLE_GEORAM_FR, "Activer l'unité d'expansion GEORAM"},
-/* hu */ {IDCLS_ENABLE_GEORAM_HU, "GEORAM Expansion Unit engedélyezése"},
-/* it */ {IDCLS_ENABLE_GEORAM_IT, "Attiva l'espansione GEORAM"},
+/* da */ {IDCLS_ENABLE_GEORAM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_GEORAM_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_GEORAM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_GEORAM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_GEORAM_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_GEORAM_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_GEORAM_NL, "Activeer de GEORAM uitbreidingseenheid"},
+/* nl */ {IDCLS_ENABLE_GEORAM_NL, "Activeer de GEO-RAM uitbreidingseenheid"},
 /* pl */ {IDCLS_ENABLE_GEORAM_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_GEORAM_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_GEORAM_SV, "Aktivera GEORAM-expansionsenhet"},
-/* tr */ {IDCLS_ENABLE_GEORAM_TR, "GEORAM geniþletme birimini aktif et"},
+/* sv */ {IDCLS_ENABLE_GEORAM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_GEORAM_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/georam.c */
-/* en */ {IDCLS_DISABLE_GEORAM,    N_("Disable the GEORAM expansion unit")},
+/* en */ {IDCLS_DISABLE_GEORAM,    N_("Disable the GEO-RAM expansion unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_GEORAM_DA, "Deaktivér GEORAM-udviddelsesenhed"},
-/* de */ {IDCLS_DISABLE_GEORAM_DE, "GEORAM Erweiterung deaktivieren"},
-/* fr */ {IDCLS_DISABLE_GEORAM_FR, "Désactiver l'unité d'expansion GEORAM"},
-/* hu */ {IDCLS_DISABLE_GEORAM_HU, "GEORAM Expansion Unit tiltása"},
-/* it */ {IDCLS_DISABLE_GEORAM_IT, "Disattiva l'espansione GEORAM"},
+/* da */ {IDCLS_DISABLE_GEORAM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_GEORAM_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_GEORAM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_GEORAM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_GEORAM_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_GEORAM_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_GEORAM_NL, "De GEORAM uitbreidingseenheid uitschakelen"},
+/* nl */ {IDCLS_DISABLE_GEORAM_NL, "De GEO-RAM uitbreidingseenheid uitschakelen"},
 /* pl */ {IDCLS_DISABLE_GEORAM_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_GEORAM_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_GEORAM_SV, "Inaktivera GEORAM-expansionsenhet"},
-/* tr */ {IDCLS_DISABLE_GEORAM_TR, "GEORAM geniþletme birimini pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_GEORAM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_GEORAM_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/georam.c */
@@ -4256,35 +4256,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/ramcart.c */
-/* en */ {IDCLS_ENABLE_RAMCART,    N_("Enable the RAMCART expansion")},
+/* en */ {IDCLS_ENABLE_RAMCART,    N_("Enable the RamCart expansion")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_RAMCART_DA, "Aktivér RAMCART-udviddelse"},
-/* de */ {IDCLS_ENABLE_RAMCART_DE, "RAMCART Erweiterung aktivieren"},
-/* fr */ {IDCLS_ENABLE_RAMCART_FR, "Activer l'expansion RAMCART"},
-/* hu */ {IDCLS_ENABLE_RAMCART_HU, "RAMCART bõvítés engedélyezése"},
-/* it */ {IDCLS_ENABLE_RAMCART_IT, "Attiva l'espansione RAMCART"},
+/* da */ {IDCLS_ENABLE_RAMCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_RAMCART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_RAMCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_RAMCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_RAMCART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_RAMCART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_RAMCART_NL, "Activeer de RAMCART uitbreiding"},
+/* nl */ {IDCLS_ENABLE_RAMCART_NL, "Activeer de RamCart uitbreiding"},
 /* pl */ {IDCLS_ENABLE_RAMCART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_RAMCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_RAMCART_SV, "Aktivera RAMCART-expansion"},
-/* tr */ {IDCLS_ENABLE_RAMCART_TR, "RAMCART geniþlemesini aktif et"},
+/* sv */ {IDCLS_ENABLE_RAMCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_RAMCART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ramcart.c */
-/* en */ {IDCLS_DISABLE_RAMCART,    N_("Disable the RAMCART expansion")},
+/* en */ {IDCLS_DISABLE_RAMCART,    N_("Disable the RamCart expansion")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_RAMCART_DA, "Deaktivér RAMCART-udviddelse"},
-/* de */ {IDCLS_DISABLE_RAMCART_DE, "RAMCART Erweiterung deaktivieren"},
-/* fr */ {IDCLS_DISABLE_RAMCART_FR, "Désactiver l'expansion RAMCART"},
-/* hu */ {IDCLS_DISABLE_RAMCART_HU, "RAMCART bõvítés tiltása"},
-/* it */ {IDCLS_DISABLE_RAMCART_IT, "Disattiva l'espansione RAMCART"},
+/* da */ {IDCLS_DISABLE_RAMCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_RAMCART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_RAMCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_RAMCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_RAMCART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_RAMCART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_RAMCART_NL, "De RAMCART uitbreiding uitschakelen"},
+/* nl */ {IDCLS_DISABLE_RAMCART_NL, "De RamCart uitbreiding uitschakelen"},
 /* pl */ {IDCLS_DISABLE_RAMCART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_RAMCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_RAMCART_SV, "Inaktivera RAMCART-expansion"},
-/* tr */ {IDCLS_DISABLE_RAMCART_TR, "RAMCART geniþlemesini pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_RAMCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_RAMCART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ramcart.c */
@@ -4432,35 +4432,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/isepic.c */
-/* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the ISEPIC cart")},
+/* en */ {IDCLS_ENABLE_ISEPIC,    N_("Enable the ISEPIC cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_ISEPIC_DA, "Aktivér ISEPIC-cartridge"},
-/* de */ {IDCLS_ENABLE_ISEPIC_DE, "ISEPIC Modul aktivieren"},
+/* da */ {IDCLS_ENABLE_ISEPIC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_ISEPIC_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_ISEPIC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_ISEPIC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_ISEPIC_IT, "Attiva la cartuccia ISEPIC"},
+/* it */ {IDCLS_ENABLE_ISEPIC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_ISEPIC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_ISEPIC_NL, "*Activeer de ISEPIC cart"},
+/* nl */ {IDCLS_ENABLE_ISEPIC_NL, "*Activeer de ISEPIC cartridge"},
 /* pl */ {IDCLS_ENABLE_ISEPIC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_ISEPIC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_ISEPIC_SV, "Aktivera ISEPIC-modul"},
-/* tr */ {IDCLS_ENABLE_ISEPIC_TR, "ISEPIC kartýný aktif et"},
+/* sv */ {IDCLS_ENABLE_ISEPIC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_ISEPIC_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/isepic.c */
-/* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the ISEPIC cart")},
+/* en */ {IDCLS_DISABLE_ISEPIC,    N_("Disable the ISEPIC cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_ISEPIC_DA, "Deaktivér ISEPIC-cartridge"},
-/* de */ {IDCLS_DISABLE_ISEPIC_DE, "ISEPIC Modul deaktivieren"},
+/* da */ {IDCLS_DISABLE_ISEPIC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_ISEPIC_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_ISEPIC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_ISEPIC_IT, "Disattiva la cartuccia ISEPIC"},
+/* it */ {IDCLS_DISABLE_ISEPIC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_ISEPIC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De ISEPIC cart uitschakelen"},
+/* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De ISEPIC cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_ISEPIC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_ISEPIC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_ISEPIC_SV, "Inaktivera ISEPIC-modul"},
-/* tr */ {IDCLS_DISABLE_ISEPIC_TR, "ISEPIC kartýný pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_ISEPIC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_ISEPIC_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/isepic.c */
@@ -4880,35 +4880,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/reu.c */
-/* en */ {IDCLS_ENABLE_REU,    N_("Enable the RAM expansion unit")},
+/* en */ {IDCLS_ENABLE_REU,    N_("Enable the RAM Expansion Unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_REU_DA, "Aktivér RAM-udviddelsesenhed"},
-/* de */ {IDCLS_ENABLE_REU_DE, "RAM Speichererweiterung aktivieren"},
-/* fr */ {IDCLS_ENABLE_REU_FR, "Activer l'unité d'expansion RAM"},
-/* hu */ {IDCLS_ENABLE_REU_HU, "RAM Expansion Unit engedélyezése"},
-/* it */ {IDCLS_ENABLE_REU_IT, "Attiva l'espansione di RAM"},
+/* da */ {IDCLS_ENABLE_REU_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_REU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_REU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_REU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_REU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_REU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_REU_NL, "Activeer de RAM uitbreidingseenheid (REU)"},
 /* pl */ {IDCLS_ENABLE_REU_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_REU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_REU_SV, "Aktivera RAM-expansionsenhet"},
-/* tr */ {IDCLS_ENABLE_REU_TR, "RAM geniþletme birimini aktif et"},
+/* sv */ {IDCLS_ENABLE_REU_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_REU_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/reu.c */
-/* en */ {IDCLS_DISABLE_REU,    N_("Disable the RAM expansion unit")},
+/* en */ {IDCLS_DISABLE_REU,    N_("Disable the RAM Expansion Unit")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_REU_DA, "Deaktivér RAM-udviddelsesenhed"},
-/* de */ {IDCLS_DISABLE_REU_DE, "RAM Speichererweiterung deaktivieren"},
-/* fr */ {IDCLS_DISABLE_REU_FR, "Désactiver l'unité d'expansion RAM"},
-/* hu */ {IDCLS_DISABLE_REU_HU, "RAM Expansion Unit tiltása"},
-/* it */ {IDCLS_DISABLE_REU_IT, "Disattiva l'espansione di RAM"},
+/* da */ {IDCLS_DISABLE_REU_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_REU_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_REU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_REU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_REU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_REU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_REU_NL, "De RAM uitbreidingseenheid (REU) uitschakelen"},
 /* pl */ {IDCLS_DISABLE_REU_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_REU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_REU_SV, "Inaktivera RAM-expansionsenhet"},
-/* tr */ {IDCLS_DISABLE_REU_TR, "RAM geniþletme birimini pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_REU_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_REU_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/reu.c */
@@ -8774,35 +8774,35 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_SIDCART,    N_("Enable SID Cartridge")},
+/* en */ {IDCLS_ENABLE_SIDCART,    N_("Enable the SID cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_SIDCART_DA, "Aktivér SID-cartridge"},
-/* de */ {IDCLS_ENABLE_SIDCART_DE, "SID Modul aktivieren"},
-/* fr */ {IDCLS_ENABLE_SIDCART_FR, "Activer la cartouche SID"},
-/* hu */ {IDCLS_ENABLE_SIDCART_HU, "SID cartridge engedélyezése"},
-/* it */ {IDCLS_ENABLE_SIDCART_IT, "Attiva cartuccia SID"},
+/* da */ {IDCLS_ENABLE_SIDCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SIDCART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SIDCART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SIDCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SIDCART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_SIDCART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SIDCART_NL, "Activeer SID Cartridge"},
+/* nl */ {IDCLS_ENABLE_SIDCART_NL, "*Activeer de SID cartridge"},
 /* pl */ {IDCLS_ENABLE_SIDCART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_SIDCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SIDCART_SV, "Aktivera SID-instickskort"},
-/* tr */ {IDCLS_ENABLE_SIDCART_TR, "SID kartuþunu aktif et"},
+/* sv */ {IDCLS_ENABLE_SIDCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SIDCART_TR, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_SIDCART,    N_("Disable SID Cartridge")},
+/* en */ {IDCLS_DISABLE_SIDCART,    N_("Disable the SID cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SIDCART_DA, "Deaktivér SID-cartridge"},
-/* de */ {IDCLS_DISABLE_SIDCART_DE, "SID Modul deaktivieren"},
+/* da */ {IDCLS_DISABLE_SIDCART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SIDCART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_SIDCART_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_SIDCART_HU, "SID cartridge tiltása"},
-/* it */ {IDCLS_DISABLE_SIDCART_IT, "Disattiva cartuccia SID"},
+/* hu */ {IDCLS_DISABLE_SIDCART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SIDCART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_SIDCART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SIDCART_NL, "SID Cartridge uitschakelen"},
+/* nl */ {IDCLS_DISABLE_SIDCART_NL, "De SID cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SIDCART_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_SIDCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SIDCART_SV, "Inaktivera SID-instickskort"},
-/* tr */ {IDCLS_DISABLE_SIDCART_TR, "SID kartuþunu pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_SIDCART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SIDCART_TR, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c, c64/plus60k, c64/c64_256k.c */
@@ -11748,35 +11748,35 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/sfx_soundexpander.c */
-/* en */ {IDCLS_ENABLE_SFX_SE,    N_("Enable the SFX soundexpander cartridge")},
+/* en */ {IDCLS_ENABLE_SFX_SE,    N_("Enable the SFX Sound Expander cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_SFX_SE_DA, "Aktivér SFX soundexpander cartridge"},
-/* de */ {IDCLS_ENABLE_SFX_SE_DE, "SFX Soundexpander Modul aktivieren"},
+/* da */ {IDCLS_ENABLE_SFX_SE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SFX_SE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_SFX_SE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_SFX_SE_HU, "SFX soundexpander engedélyezése"},
-/* it */ {IDCLS_ENABLE_SFX_SE_IT, "Attiva cartuccia SFX soundexpander"},
+/* hu */ {IDCLS_ENABLE_SFX_SE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SFX_SE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_SFX_SE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SFX_SE_NL, "Activeer de SFX soundexpander cartridge"},
+/* nl */ {IDCLS_ENABLE_SFX_SE_NL, "Activeer de SFX Sound Expander cartridge"},
 /* pl */ {IDCLS_ENABLE_SFX_SE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_SFX_SE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SFX_SE_SV, "Aktivera SFX soundexpander-insticksmodul"},
-/* tr */ {IDCLS_ENABLE_SFX_SE_TR, "SFX soundexpander kartuþunu aktif et"},
+/* sv */ {IDCLS_ENABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SFX_SE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/sfx_soundexpander.c */
-/* en */ {IDCLS_DISABLE_SFX_SE,    N_("Disable the SFX soundexpander cartridge")},
+/* en */ {IDCLS_DISABLE_SFX_SE,    N_("Disable the SFX Sound Expander cartridge")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SFX_SE_DA, "Deaktivér SFX soundexpander cartridge"},
-/* de */ {IDCLS_DISABLE_SFX_SE_DE, "SFX Soundexpander Modul deaktivieren"},
+/* da */ {IDCLS_DISABLE_SFX_SE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SFX_SE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_SFX_SE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_SFX_SE_HU, "SFX soundexpander tiltása"},
-/* it */ {IDCLS_DISABLE_SFX_SE_IT, "Disattiva cartuccia SFX soundexpander"},
+/* hu */ {IDCLS_DISABLE_SFX_SE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SFX_SE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_SFX_SE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SFX_SE_NL, "De SFX soundexpander cartridge uitschakelen"},
+/* nl */ {IDCLS_DISABLE_SFX_SE_NL, "De SFX Sound Expander cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SFX_SE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_SFX_SE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SFX_SE_SV, "Inaktivera SFX soundexpander-insticksmodul"},
-/* tr */ {IDCLS_DISABLE_SFX_SE_TR, "SFX soundexpander kartuþunu pasifleþtir"},
+/* sv */ {IDCLS_DISABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SFX_SE_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/sfx_soundexpander.c */

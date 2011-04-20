@@ -57,7 +57,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Enable MMC64"
+  IDS_MMC64_ENABLE           "Enable the MMC64 expansion"
   IDS_MMC64_REVISION_LABEL   "BIOS Revision"
   IDS_MMC64_FLASHJUMPER      "Enable BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Save BIOS when changed"
@@ -73,7 +73,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Aktivér MMC64"
+  IDS_MMC64_ENABLE           "Aktivér MMC64-udviddelse"
   IDS_MMC64_REVISION_LABEL   "BIOS-revision"
   IDS_MMC64_FLASHJUMPER      "Aktivér BIOS-flashjumper"
   IDS_MMC64_BIOS_SAVE        "Gem BIOS ved ændringer"
@@ -89,7 +89,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "MMC64 aktivieren"
+  IDS_MMC64_ENABLE           "MMC64 Erweiterung aktivieren"
   IDS_MMC64_REVISION_LABEL   "BIOS Revision"
   IDS_MMC64_FLASHJUMPER      "BIOS Flashjumper aktivieren"
   IDS_MMC64_BIOS_SAVE        "BIOS bei Änderung speichern"
@@ -105,7 +105,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Enable MMC64"
+  IDS_MMC64_ENABLE           "Activer l'expansion MMC64"
   IDS_MMC64_REVISION_LABEL   "BIOS Revision"
   IDS_MMC64_FLASHJUMPER      "Activer le BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Enregistrer le BIOS lorsque modifié"
@@ -124,7 +124,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Enable MMC64"
+  IDS_MMC64_ENABLE           "MMC64 bõvítés engedélyezése"
   IDS_MMC64_REVISION_LABEL   "BIOS változat"
   IDS_MMC64_FLASHJUMPER      "Enable BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "BIOS mentése változás után"
@@ -143,7 +143,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Attiva MMC64"
+  IDS_MMC64_ENABLE           "Attiva l'espansione MMC64"
   IDS_MMC64_REVISION_LABEL   "Revisione BIOS"
   IDS_MMC64_FLASHJUMPER      "Attiva Flash Jumper del BIOS"
   IDS_MMC64_BIOS_SAVE        "Salva BIOS al cambio"
@@ -162,7 +162,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Enable MMC64"
+  IDS_MMC64_ENABLE           "Enable the MMC64 expansion"
   IDS_MMC64_REVISION_LABEL   "BIOS Revision"
   IDS_MMC64_FLASHJUMPER      "Enable BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Save BIOS when changed"
@@ -181,7 +181,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Activeer MMC64"
+  IDS_MMC64_ENABLE           "Activeer de MMC64 uitbreiding"
   IDS_MMC64_REVISION_LABEL   "BIOS revisie"
   IDS_MMC64_FLASHJUMPER      "Activeer BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Sla de MMC64 BIOS op als er veranderingen zijn gemaakt"
@@ -200,7 +200,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Enable MMC64"
+  IDS_MMC64_ENABLE           "Enable the MMC64 expansion"
   IDS_MMC64_REVISION_LABEL   "BIOS Revision"
   IDS_MMC64_FLASHJUMPER      "Enable BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Save BIOS when changed"
@@ -222,7 +222,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Enable MMC64"
+  IDS_MMC64_ENABLE           "Enable the MMC64 expansion"
   IDS_MMC64_REVISION_LABEL   "BIOS Revision"
   IDS_MMC64_FLASHJUMPER      "Enable BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Save BIOS when changed"
@@ -241,7 +241,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "Aktivera MMC64"
+  IDS_MMC64_ENABLE           "Aktivera MMC64-expansion"
   IDS_MMC64_REVISION_LABEL   "BIOS-utgåva"
   IDS_MMC64_FLASHJUMPER      "Aktivera BIOS-flashbygel"
   IDS_MMC64_BIOS_SAVE        "Spara BIOS vid ändring"
@@ -260,7 +260,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MMC64_ENABLE           "MMC64'ü aktif et"
+  IDS_MMC64_ENABLE           "MMC64 geniþlemesini aktif et"
   IDS_MMC64_REVISION_LABEL   "BIOS Revizyonu"
   IDS_MMC64_FLASHJUMPER      "BIOS Flash Jumper'ý aktif et"
   IDS_MMC64_BIOS_SAVE        "BIOS deðiþtiðinde kaydet"

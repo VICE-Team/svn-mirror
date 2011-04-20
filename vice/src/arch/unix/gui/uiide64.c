@@ -72,7 +72,7 @@ static UI_CALLBACK(set_cylinders)
         sprintf(input_string, "%d", cylinders);
 
         msg_string = lib_stralloc(_("Enter number of cylinders"));
-        button = ui_input_string(_("IDE64 cylinders"), msg_string, input_string, 32);
+        button = ui_input_string(_("Cylinders"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
@@ -111,7 +111,7 @@ static UI_CALLBACK(set_heads)
         sprintf(input_string, "%d", heads);
 
         msg_string = lib_stralloc(_("Enter number of heads"));
-        button = ui_input_string(_("IDE64 heads"), msg_string, input_string, 32);
+        button = ui_input_string(_("Heads"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
@@ -150,7 +150,7 @@ static UI_CALLBACK(set_sectors)
         sprintf(input_string, "%d", sectors);
 
         msg_string = lib_stralloc(_("Enter number of sectors"));
-        button = ui_input_string(_("IDE64 sectors"), msg_string, input_string, 32);
+        button = ui_input_string(_("Sectors"), msg_string, input_string, 32);
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);

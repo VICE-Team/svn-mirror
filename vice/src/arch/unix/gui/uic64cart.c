@@ -155,7 +155,7 @@ static ui_menu_entry_t attach_cartridge_image_submenu[] = {
 ui_menu_entry_t ui_c64cart_commands_menu[] = {
     { N_("Attach cartridge image"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, attach_cartridge_image_submenu },
-    { N_("Detach cartridge image"), UI_MENU_TYPE_NORMAL,
+    { N_("Detach cartridge image(s)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)detach_cartridge, NULL, NULL },
     { N_("Cartridge freeze"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)freeze_cartridge, NULL, NULL, KEYSYM_z, UI_HOTMOD_META },

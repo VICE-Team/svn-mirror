@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-19 14:19-0700\n"
+"POT-Creation-Date: 2011-04-20 07:59-0700\n"
 "PO-Revision-Date: 2011-02-16 20:41+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -45,9 +45,10 @@ msgstr "Ange enhet för MIDI-in"
 msgid "Specify MIDI-Out device"
 msgstr "Ange enhet för MIDI-ut"
 
-#: src/arch/unix/mididrv.c:680
-msgid "driver"
-msgstr "drivrutin"
+#: src/arch/unix/mididrv.c:680 src/arch/unix/gui/uimidi.c:87
+#: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1164
+msgid "Driver"
+msgstr "Drivrutin"
 
 #: src/arch/unix/mididrv.c:680
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
@@ -131,7 +132,8 @@ msgstr ""
 "\"%s\""
 
 #: src/arch/unix/gui/c128ui.c:244 src/arch/win32/resc128.rc.po.c:688
-msgid "Enable internal Function ROM"
+#: src/translate_text.c.po.c:3566
+msgid "Enable the internal Function ROM"
 msgstr "Aktivera internt funktions-ROM"
 
 #: src/arch/unix/gui/c128ui.c:246
@@ -139,7 +141,8 @@ msgid "Internal Function ROM name"
 msgstr "Namn på internt funktions-ROM"
 
 #: src/arch/unix/gui/c128ui.c:250 src/arch/win32/resc128.rc.po.c:691
-msgid "Enable external Function ROM"
+#: src/translate_text.c.po.c:3598
+msgid "Enable the external Function ROM"
 msgstr "Aktivera externt funktions-ROM"
 
 #: src/arch/unix/gui/c128ui.c:252
@@ -1162,10 +1165,10 @@ msgstr "Anslut rå 64KB-Super Snapshot V5-insticksmodulfil"
 msgid "Set cartridge as default"
 msgstr "Välj insticksmodul som förval"
 
-#: src/arch/unix/gui/uic64cart.c:158 src/arch/win32/res.rc.po.c:1371
-#: src/arch/amigaos/intl_text.c.po.c:499
-msgid "Detach cartridge image"
-msgstr "Koppla från insticksmodulfil"
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:357
+#: src/arch/win32/res.rc.po.c:1371 src/arch/amigaos/intl_text.c.po.c:499
+msgid "Detach cartridge image(s)"
+msgstr "Koppla från insticksmodulfil(er)"
 
 #: src/arch/unix/gui/uic64cart.c:160 src/arch/win32/res.rc.po.c:1372
 #: src/arch/amigaos/intl_text.c.po.c:824
@@ -1525,7 +1528,7 @@ msgstr "Rendrerare"
 
 #: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
 #: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
-#: src/arch/unix/gui/uivicii.c:177
+#: src/arch/unix/gui/uivicii.c:177 src/arch/unix/x11/gnome/uipalcontrol.c:98
 msgid "CRT emulation settings"
 msgstr "Inställningar för CRT-emulering"
 
@@ -1582,6 +1585,7 @@ msgid "Datasette speed tuning"
 msgstr "Finjustering av Datasettehastighet"
 
 #: src/arch/unix/gui/uidatasette.c:58 src/arch/unix/gui/uidatasette.c:84
+#: src/arch/win32/res.rc.po.c:1117 src/arch/amigaos/intl_text.c.po.c:4776
 msgid "Datasette zero gap delay"
 msgstr "Datasette nollgapsfördröjning"
 
@@ -1655,9 +1659,10 @@ msgstr "Spara avbildning nu"
 msgid "Save image as"
 msgstr "Spara avbildning som"
 
-#: src/arch/unix/gui/uidqbb.c:63
-msgid "DQBB image"
-msgstr "DQBB-avbildning"
+#: src/arch/unix/gui/uidqbb.c:63 src/arch/win32/resdqbb.rc.po.c:40
+#: src/arch/amigaos/intl_text.c.po.c:5127
+msgid "DQBB file"
+msgstr "DQBB-fil"
 
 #: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:102
@@ -1694,8 +1699,9 @@ msgid "True drive emulation"
 msgstr "Äkta diskettenhetsemulering"
 
 #: src/arch/unix/gui/uidrive.c:188 src/arch/unix/gui/uidrivec64dtv.c:45
-msgid "Enable true flash filesystem"
-msgstr "Aktivera äkta flash-filsystem"
+#: src/translate_text.c.po.c:11502
+msgid "Enable true hardware flash file system"
+msgstr "Aktivera äkta maskinvaru-flashfilsystem"
 
 #: src/arch/unix/gui/uidrivec128.c:43 src/arch/unix/gui/uidrivec128.c:75
 #: src/arch/unix/gui/uidrivec128.c:97 src/arch/unix/gui/uidrivec128.c:119
@@ -2083,6 +2089,7 @@ msgid "XRandR Resolutions"
 msgstr "XRandR-upplösningar"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:92
+#: src/arch/unix/x11/ui-cmdline-options.c:79
 msgid "Enable fullscreen"
 msgstr "Aktivera fullskärm"
 
@@ -2111,25 +2118,28 @@ msgstr "IDE64-avbildning"
 msgid "Enter number of cylinders"
 msgstr "Ange antal cylindrar"
 
-#: src/arch/unix/gui/uiide64.c:75
-msgid "IDE64 cylinders"
-msgstr "IDE64-cylindra"
+#: src/arch/unix/gui/uiide64.c:75 src/arch/unix/gui/uiide64.c:192
+#: src/arch/win32/reside64.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:7052
+msgid "Cylinders"
+msgstr "Cylindrar"
 
 #: src/arch/unix/gui/uiide64.c:113
 msgid "Enter number of heads"
 msgstr "Ange antal huvuden"
 
-#: src/arch/unix/gui/uiide64.c:114
-msgid "IDE64 heads"
-msgstr "IDE64-huvuden"
+#: src/arch/unix/gui/uiide64.c:114 src/arch/unix/gui/uiide64.c:194
+#: src/arch/win32/reside64.rc.po.c:83 src/arch/amigaos/intl_text.c.po.c:7065
+msgid "Heads"
+msgstr "Huvuden"
 
 #: src/arch/unix/gui/uiide64.c:152
 msgid "Enter number of sectors"
 msgstr "Ange antal sektorer"
 
-#: src/arch/unix/gui/uiide64.c:153
-msgid "IDE64 sectors"
-msgstr "IDE64-sektorer"
+#: src/arch/unix/gui/uiide64.c:153 src/arch/unix/gui/uiide64.c:196
+#: src/arch/win32/reside64.rc.po.c:84 src/arch/amigaos/intl_text.c.po.c:7078
+msgid "Sectors"
+msgstr "Sektorer"
 
 #: src/arch/unix/gui/uiide64.c:166
 msgid "Version 3"
@@ -2164,21 +2174,6 @@ msgstr "Namn på hårddiskavbildning 4"
 #: src/arch/amigaos/intl_text.c.po.c:7039 src/translate_text.c.po.c:6114
 msgid "Autodetect image size"
 msgstr "Autodetektera storlek på avbildning"
-
-#: src/arch/unix/gui/uiide64.c:192 src/arch/win32/reside64.rc.po.c:82
-#: src/arch/amigaos/intl_text.c.po.c:7052
-msgid "Cylinders"
-msgstr "Cylindrar"
-
-#: src/arch/unix/gui/uiide64.c:194 src/arch/win32/reside64.rc.po.c:83
-#: src/arch/amigaos/intl_text.c.po.c:7065
-msgid "Heads"
-msgstr "Huvuden"
-
-#: src/arch/unix/gui/uiide64.c:196 src/arch/win32/reside64.rc.po.c:84
-#: src/arch/amigaos/intl_text.c.po.c:7078
-msgid "Sectors"
-msgstr "Sektorer"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2433,9 +2428,10 @@ msgstr "Magnum Light Phaser"
 msgid "Stack Light Rifle"
 msgstr "Stack Light Rifle"
 
-#: src/arch/unix/gui/uilightpen.c:68
-msgid "Enable Lightpen"
-msgstr "Aktivera ljuspenna"
+#: src/arch/unix/gui/uilightpen.c:68 src/arch/win32/reslightpen.rc.po.c:23
+#: src/translate_text.c.po.c:11776
+msgid "Enable lightpen emulation"
+msgstr "Aktivera emulering av ljuspenna"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:24
 msgid "Lightpen type"
@@ -2459,11 +2455,6 @@ msgstr "Enhet för MIDI-ut"
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1242
 msgid "Type"
 msgstr "Typ"
-
-#: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
-#: src/arch/win32/res.rc.po.c:1164
-msgid "Driver"
-msgstr "Drivrutin"
 
 #: src/arch/unix/gui/uimmc64.c:53
 msgid "Rev. A"
@@ -2515,9 +2506,11 @@ msgstr "Avbildning för MMC64"
 msgid "Enable rescue mode"
 msgstr "Aktivera räddningsläge"
 
-#: src/arch/unix/gui/uimmcreplay.c:86
-msgid "EEPROM image name"
-msgstr "Namn på EEPROM-avbildning"
+#: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
+#: src/arch/amigaos/intl_text.c.po.c:7286
+#, fuzzy
+msgid "EEPROM image file"
+msgstr "EEPROM-avbildningsfil"
 
 #: src/arch/unix/gui/uimmcreplay.c:89
 msgid "Enable writes to EEPROM image"
@@ -2543,9 +2536,9 @@ msgstr "Port 1"
 msgid "Port 2"
 msgstr "Port 2"
 
-#: src/arch/unix/gui/uimouse.c:62
-msgid "Enable mouse"
-msgstr "Aktivera mus"
+#: src/arch/unix/gui/uimouse.c:62 src/translate_text.c.po.c:10510
+msgid "Enable mouse grab"
+msgstr "Aktivera fångande av mus"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:31
 #: src/arch/amigaos/intl_text.c.po.c:8729
@@ -2607,7 +2600,7 @@ msgstr "Server att ansluta till"
 msgid "Connect to server"
 msgstr "Anslut till server"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:316
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:318
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Koppla från"
@@ -3258,7 +3251,8 @@ msgid "Resource file name"
 msgstr "Resursfilnamn"
 
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#: src/arch/win32/res.rc.po.c:1401 src/arch/amigaos/intl_text.c.po.c:1396
+#: src/arch/win32/res.rc.po.c:1401 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/amigaos/intl_text.c.po.c:1396
 msgid "Custom"
 msgstr "Egen"
 
@@ -3700,10 +3694,6 @@ msgstr "Aktivera återskrivning till NvRAM-avbildning"
 msgid "NvRAM image file"
 msgstr "NvRAM-avbildningsfil"
 
-#: src/arch/unix/gui/vic20ui.c:357
-msgid "Detach cartridge image(s)"
-msgstr "Koppla från insticksmodulfil(er)"
-
 #: src/arch/unix/gui/vic20ui.c:495
 msgid "VIC model"
 msgstr "VIC-modell"
@@ -3854,9 +3844,9 @@ msgstr "Skapa tom diskett"
 msgid "Disk options"
 msgstr "Alternativ för diskett"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:74
-msgid "Diskname: "
-msgstr "Diskettnamn: "
+#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:262
+msgid "Disk name:"
+msgstr "Diskettnamn:"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:182
 #, c-format
@@ -3932,34 +3922,35 @@ msgstr "okänd"
 msgid "Connect to"
 msgstr "Anslut till"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:206
-#: src/arch/unix/x11/gnome/uinetplay.c:208 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1223
+#: src/arch/amigaos/intl_text.c.po.c:3515
+msgid "Current mode"
+msgstr "Nuvarande läge"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:207
+#: src/arch/unix/x11/gnome/uinetplay.c:209 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Inställningar för nätverksspel"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:214
-msgid "Current mode: "
-msgstr "Nuvarande läge: "
-
-#: src/arch/unix/x11/gnome/uinetplay.c:226
+#: src/arch/unix/x11/gnome/uinetplay.c:228
 #: src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start Server"
 msgstr "Starta server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:232
+#: src/arch/unix/x11/gnome/uinetplay.c:234
 msgid "TCP port: "
 msgstr "TCP-port: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:282 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Styrning"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:287 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:289 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:290 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:292 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Klient"
 
@@ -3982,10 +3973,6 @@ msgstr "Ljusstyrka"
 #: src/arch/amigaos/intl_text.c.po.c:7780
 msgid "Gamma"
 msgstr "Gamma"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:98
-msgid "CRT settings"
-msgstr "CRT-inställningar"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:288
 msgid "Save Media File"
@@ -4221,13 +4208,10 @@ msgstr "Bekräfta inte för att avsluta VICE"
 msgid "Never save settings (resources) on exit"
 msgstr "Spara aldrig inställningar (resurser) vid avslut"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:79
-msgid "Enable fullscreen (default Chip)"
-msgstr "Aktivera fullskärmsläge (standardkrets)"
-
 #: src/arch/unix/x11/ui-cmdline-options.c:84
-msgid "Disable fullscreen (default Chip)"
-msgstr "Inaktivera fullskärmsläge (standardkrets)"
+#, fuzzy
+msgid "Disable fullscreen"
+msgstr "Inaktivera fullskärmsläge"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2728
 #: src/translate_text.c.po.c:6050
@@ -4281,10 +4265,6 @@ msgstr "Spara tom diskettfil"
 #: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
 msgstr "Kunde inte skapa diskettavbildningsfil"
-
-#: src/arch/unix/x11/xaw/uiedisk.c:262
-msgid "Disk name:"
-msgstr "Diskettnamn:"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:297
 msgid "Disk format:"
@@ -5027,13 +5007,13 @@ msgstr "Tryck tangent för avtryckare"
 msgid "No userport joy adapter"
 msgstr "Ingen användarportsspakadapter"
 
-#: src/arch/win32/res.rc.po.c:1039
-msgid "Disable SIDcart joy"
-msgstr "Inaktivera SIDcart-spak"
+#: src/arch/win32/res.rc.po.c:1039 src/translate_text.c.po.c:11680
+msgid "Disable SID cartridge joystick"
+msgstr "Inaktivera SID-insticksmodul-styrspak"
 
-#: src/arch/win32/res.rc.po.c:1040
-msgid "Enable SIDcart joy"
-msgstr "Aktivera SIDcart-spak"
+#: src/arch/win32/res.rc.po.c:1040 src/translate_text.c.po.c:11664
+msgid "Enable SID cartridge joystick"
+msgstr "Aktivera SID-insticksmodul-styrspak"
 
 #: src/arch/win32/res.rc.po.c:1041
 msgid "Numpad + RCtrl"
@@ -5220,7 +5200,7 @@ msgstr "Använd bara första CPU:n på SMP-system"
 msgid "Start VICE in fullscreen mode"
 msgstr "Starta VICE i fullskärmsläge"
 
-#: src/arch/win32/res.rc.po.c:1089
+#: src/arch/win32/res.rc.po.c:1089 src/arch/win32/res.rc.po.c:1404
 msgid "Disable DirectX9 video driver"
 msgstr "Inaktivera DirectX9-grafikdrivrutin"
 
@@ -5246,8 +5226,10 @@ msgstr "Fel vid anslutning til klienten."
 msgid "Error saving EasyFlash crt file"
 msgstr "Fel vid skrivning av EasyFlash-crt-fil."
 
-#: src/arch/win32/res.rc.po.c:1113 src/arch/amigaos/intl_text.c.po.c:4789
-msgid "Datasette Settings"
+#: src/arch/win32/res.rc.po.c:1113 src/arch/win32/res.rc.po.c:1422
+#: src/arch/amigaos/intl_text.c.po.c:2059
+#: src/arch/amigaos/intl_text.c.po.c:4789
+msgid "Datasette settings"
 msgstr "Datasetteinställningar"
 
 #: src/arch/win32/res.rc.po.c:1115
@@ -5258,15 +5240,12 @@ msgstr "Motorhastighet vid läsning"
 msgid "cycle(s) additional delay each trigger"
 msgstr "cykler ytterligare fördröjning per puls"
 
-#: src/arch/win32/res.rc.po.c:1117
-msgid "cycles delay at zero-values"
-msgstr "cykler fördröjning vid nollvärden"
-
 #: src/arch/win32/res.rc.po.c:1118
 msgid "Use IEC Device"
 msgstr "Använd IEC-enhet"
 
-#: src/arch/win32/res.rc.po.c:1120
+#: src/arch/win32/res.rc.po.c:1120 src/translate_text.c.po.c:2392
+#: src/translate_text.c.po.c:2408
 msgid "Directory"
 msgstr "Katalog"
 
@@ -5555,10 +5534,6 @@ msgstr "RS232-enhet 3"
 #: src/arch/win32/res.rc.po.c:1221 src/arch/amigaos/intl_text.c.po.c:4321
 msgid "RS232 device 4"
 msgstr "RS232-enhet 4"
-
-#: src/arch/win32/res.rc.po.c:1223 src/arch/amigaos/intl_text.c.po.c:3515
-msgid "Current mode"
-msgstr "Nuvarande läge"
 
 #: src/arch/win32/res.rc.po.c:1224 src/arch/amigaos/intl_text.c.po.c:3554
 msgid "Server Bind"
@@ -5933,10 +5908,6 @@ msgstr "Warpläge"
 msgid "Always on Top"
 msgstr "Alltid överst"
 
-#: src/arch/win32/res.rc.po.c:1404
-msgid "Disable DirectX9"
-msgstr "Inaktivera DirectX9"
-
 #: src/arch/win32/res.rc.po.c:1405
 msgid "Swap Joysticks"
 msgstr "Växla spelportarna"
@@ -5967,10 +5938,6 @@ msgstr "Inställningar för användarportsstyrspak"
 msgid "Sidcart joystick settings"
 msgstr "Inställningar för Sidcart-styrspak"
 
-#: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:2059
-msgid "Datasette settings"
-msgstr "Datasetteinställningar"
-
 #: src/arch/win32/res.rc.po.c:1424 src/arch/amigaos/intl_text.c.po.c:2150
 msgid "Mouse settings"
 msgstr "Musinställningar"
@@ -5990,7 +5957,9 @@ msgstr "GEO-RAM-inställningar"
 msgid "RamCart settings"
 msgstr "RamCart-inställningar"
 
-#: src/arch/win32/res.rc.po.c:1430 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/win32/res.rc.po.c:1430 src/arch/win32/resdqbb.rc.po.c:13
+#: src/arch/win32/resdqbb.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/amigaos/intl_text.c.po.c:5166
 msgid "Double Quick Brown Box settings"
 msgstr "Inställninga för dubbel Quick Brown Box"
 
@@ -6026,7 +5995,8 @@ msgstr "Magic Voice-inställningar"
 msgid "MIDI settings"
 msgstr "MIDI-inställningar"
 
-#: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2462
+#: src/arch/win32/res.rc.po.c:1437 src/arch/win32/resdigimax.rc.po.c:22
+#: src/arch/amigaos/intl_text.c.po.c:2462
 #: src/arch/amigaos/intl_text.c.po.c:8495
 msgid "DigiMAX settings"
 msgstr "DigiMAX-inställningar"
@@ -6066,8 +6036,9 @@ msgid "SFX Sound Expander settings"
 msgstr "Inställningar för SFX Sound Expander"
 
 #: src/arch/win32/res.rc.po.c:1447 src/arch/amigaos/intl_text.c.po.c:2501
-msgid "Enable SFX Sound Sampler"
-msgstr "Aktivera SFX Sound Sampler"
+#: src/translate_text.c.po.c:11744
+msgid "Enable the SFX Sound Sampler cartridge"
+msgstr "Aktivera SFX Sound Sampler-insticksmodul"
 
 #: src/arch/win32/res.rc.po.c:1448 src/arch/amigaos/intl_text.c.po.c:2683
 msgid "Save current settings to specified file"
@@ -6230,9 +6201,10 @@ msgstr "Swiftlink"
 msgid "Turbo232"
 msgstr "Turbo232"
 
-#: src/arch/win32/resacia.rc.po.c:48
-msgid "Enable ACIA"
-msgstr "Aktivera ACIA"
+#: src/arch/win32/resacia.rc.po.c:48 src/translate_text.c.po.c:3371
+#, fuzzy
+msgid "Enable the ACIA RS232 interface emulation"
+msgstr "Aktivera $DE** ACIA RS232-gränssnittsemulering"
 
 #: src/arch/win32/resacia.rc.po.c:50
 msgid "ACIA location"
@@ -6436,9 +6408,9 @@ msgstr "8562 (NTSC)"
 msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
-#: src/arch/win32/resc64_256k.rc.po.c:29
-msgid "Enable 256K"
-msgstr "Aktivera 256K"
+#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:11134
+msgid "Enable the 256K RAM expansion"
+msgstr "Aktivera 256K RAM-expansion"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:4477
@@ -6450,9 +6422,10 @@ msgstr "256K-basadress"
 msgid "Select file for 256K"
 msgstr "Ange fil för 256K"
 
-#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:445
-msgid "DTV flash rom image"
-msgstr "Avbildningsfil för DTV-flashrom"
+#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:436
+#: src/arch/win32/resc64dtv.rc.po.c:445
+msgid "DTV ROM image File"
+msgstr "DTV ROM-avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
 msgid "Attach DTV Flash Image"
@@ -6461,10 +6434,6 @@ msgstr "Anslut en DTV-flashavbildningsfil"
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "DTV ROM"
 msgstr "DTV-ROM"
-
-#: src/arch/win32/resc64dtv.rc.po.c:436
-msgid "DTV ROM image File"
-msgstr "DTV ROM-avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:437
 msgid "Enable writes to DTV ROM image"
@@ -6480,7 +6449,7 @@ msgstr "C64DTV-inställningar"
 msgid "Enable Hummer ADC"
 msgstr "Aktivera Hummer-A/D-omvandlare"
 
-#: src/arch/win32/resc64dtv.rc.po.c:441
+#: src/arch/win32/resc64dtv.rc.po.c:441 src/arch/win32/resc64dtv.rc.po.c:449
 msgid "Create DTV Flash Image"
 msgstr "Skapa DTV-flashavbildning"
 
@@ -6503,10 +6472,6 @@ msgstr "Anslut flash-rom-avbildningsfil"
 #: src/arch/win32/resc64dtv.rc.po.c:448
 msgid "Detach flash rom image"
 msgstr "Koppla från flash-rom-avbildningsfil"
-
-#: src/arch/win32/resc64dtv.rc.po.c:449
-msgid "Create new flash rom image"
-msgstr "Skapa ny flash-rom-avbildningsfil"
 
 #: src/arch/win32/resc64dtv.rc.po.c:450
 msgid "True flash filesystem"
@@ -6566,40 +6531,29 @@ msgstr "1024 kByte"
 msgid "Ram banks"
 msgstr "Ram-bankar"
 
-#: src/arch/win32/resdigimax.rc.po.c:22
-msgid "DigiMAX Settings"
-msgstr "DigiMAX-inställningar"
-
-#: src/arch/win32/resdigimax.rc.po.c:23
-msgid "Enable DigiMAX"
-msgstr "Aktivera DigiMAX"
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:11888
+msgid "Enable the DigiMAX cartridge"
+msgstr "Aktivera DigiMAX-insticksmodul"
 
 #: src/arch/win32/resdigimax.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:8482
 msgid "DigiMAX base"
 msgstr "DigiMAX-bas"
 
-#: src/arch/win32/resdqbb.rc.po.c:13 src/arch/win32/resdqbb.rc.po.c:37
-msgid "DQBB Settings"
-msgstr "DQBB-inställningar"
-
 #: src/arch/win32/resdqbb.rc.po.c:36 src/arch/amigaos/intl_text.c.po.c:5153
 msgid "Select file for DQBB"
 msgstr "Välj fil för DQBB"
 
-#: src/arch/win32/resdqbb.rc.po.c:38
-msgid "Enable DQBB"
-msgstr "Aktivera DQBB"
+#: src/arch/win32/resdqbb.rc.po.c:38 src/translate_text.c.po.c:4304
+msgid "Enable Double Quick Brown Box"
+msgstr "Aktivera Double Quick Brown Box"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5140
 msgid "Save DQBB image when changed"
 msgstr "Spara DQBB-avbildning vid ändringar"
 
-#: src/arch/win32/resdqbb.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5127
-msgid "DQBB file"
-msgstr "DQBB-fil"
-
 #: src/arch/win32/reseasyflash.rc.po.c:30
-msgid "EasyFlash Jumper"
+#: src/arch/amigaos/intl_text.c.po.c:8963
+msgid "EasyFlash jumper"
 msgstr "EasyFlash-bygel"
 
 #: src/arch/win32/reseasyflash.rc.po.c:31
@@ -6614,8 +6568,8 @@ msgstr "Spara CRT nu"
 msgid "Select file for Expert Cartridge"
 msgstr "Välj fil för Expert Cartridge"
 
-#: src/arch/win32/resexpert.rc.po.c:41
-msgid "Enable Expert Cartridge"
+#: src/arch/win32/resexpert.rc.po.c:41 src/translate_text.c.po.c:5938
+msgid "Enable the Expert Cartridge"
 msgstr "Aktivera Expert Cartridge"
 
 #: src/arch/win32/resexpert.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:5088
@@ -6630,9 +6584,10 @@ msgstr "Expert Cartridge-fil"
 msgid "Select file for GEO-RAM"
 msgstr "Välj fil för GEO-RAM"
 
-#: src/arch/win32/resgeoram.rc.po.c:41
-msgid "Enable GEO-RAM"
-msgstr "Aktivera GEO-RAM"
+#: src/arch/win32/resgeoram.rc.po.c:41 src/translate_text.c.po.c:3904
+#, fuzzy
+msgid "Enable the GEO-RAM expansion unit"
+msgstr "Aktivera GEORAM-expansionsenhet"
 
 #: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4958
 msgid "GEO-RAM size"
@@ -6683,9 +6638,10 @@ msgstr "Ange HD-avbildningsfil"
 msgid "Select file for ISEPIC"
 msgstr "Välj fil för ISEPIC"
 
-#: src/arch/win32/resisepic.rc.po.c:39
-msgid "Enable ISEPIC"
-msgstr "Aktivera ISEPIC"
+#: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:4384
+#, fuzzy
+msgid "Enable the ISEPIC cartridge"
+msgstr "Aktivera ISEPIC-modul"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5192
 msgid "ISEPIC switch"
@@ -6703,10 +6659,6 @@ msgstr "ISEPIC-fil"
 msgid "lightpen Settings"
 msgstr "Inställningar för ljuspenna"
 
-#: src/arch/win32/reslightpen.rc.po.c:23
-msgid "Enable lightpen"
-msgstr "Aktivera ljuspenna"
-
 #: src/arch/win32/resmagicvoice.rc.po.c:24
 msgid "Magic Voice Settings"
 msgstr "Magic Voice-inställningar"
@@ -6720,17 +6672,17 @@ msgstr "Aktivera Magic Voice"
 msgid "Select file for Magic Voice"
 msgstr "Välj fil för Magic Voice"
 
-#: src/arch/win32/resmidi.rc.po.c:39
-msgid "Enable MIDI"
-msgstr "Aktivera MIDI"
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:11535
+msgid "Enable MIDI emulation"
+msgstr "Aktivera MIDI-emulering"
 
 #: src/arch/win32/resmidi.rc.po.c:40
 msgid "MIDI type"
 msgstr "MIDI-typ"
 
-#: src/arch/win32/resmmc64.rc.po.c:52
-msgid "Enable MMC64"
-msgstr "Aktivera MMC64"
+#: src/arch/win32/resmmc64.rc.po.c:52 src/translate_text.c.po.c:4464
+msgid "Enable the MMC64 expansion"
+msgstr "Aktivera MMC64-expansion"
 
 #: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:7104
 msgid "BIOS Revision"
@@ -6755,10 +6707,6 @@ msgstr "MMC/SD-avbildning skrivskyddad"
 #: src/arch/win32/resmmc64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:7182
 msgid "MMC/SD Image File"
 msgstr "MMC/SD-avbildningsfil"
-
-#: src/arch/win32/resmmcreplay.rc.po.c:49
-msgid "EEPROM Image"
-msgstr "EEPROM-avbildning"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:7325
@@ -6840,17 +6788,18 @@ msgstr "PET DWW-Inställningar"
 msgid "PET REU settings"
 msgstr "PET REU-Inställningar"
 
-#: src/arch/win32/respet.rc.po.c:567
-msgid "Enable PET Userport DAC"
-msgstr "Aktivera PET användarport-D/A-omvandlare"
+#: src/arch/win32/respet.rc.po.c:567 src/arch/amigaos/intl_text.c.po.c:2514
+#: src/translate_text.c.po.c:4128
+msgid "Enable Userport DAC for sound output"
+msgstr "Aktivera D/A-omvandlare på användarporten för ljudutdata"
 
 #: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
 msgid "PET DWW Settings"
 msgstr "PET DWW-Inställningar"
 
-#: src/arch/win32/respetdww.rc.po.c:25
-msgid "Enable PET DWW"
-msgstr "Aktivera PET DWW"
+#: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
+msgid "Enable the PET DWW hi-res board"
+msgstr "Aktivera PET DWW-högupplösningskort"
 
 #: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
 msgid "PET DWW file"
@@ -6864,9 +6813,9 @@ msgstr "Välj fil för PET DWW"
 msgid "PET REU Settings"
 msgstr "PET REU-Inställningar"
 
-#: src/arch/win32/respetreu.rc.po.c:38
-msgid "Enable PET REU"
-msgstr "Aktivera PET REU"
+#: src/arch/win32/respetreu.rc.po.c:38 src/translate_text.c.po.c:4016
+msgid "Enable the PET Ram and Expansion Unit"
+msgstr "Aktivera PET Ram- och -expansionsenhet"
 
 #: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5830
 msgid "PET REU size"
@@ -6885,9 +6834,9 @@ msgstr "Välj fil för PET REU"
 msgid "PLUS256K Settings"
 msgstr "PLUS256K-inställningar"
 
-#: src/arch/win32/resplus256k.rc.po.c:25
-msgid "Enable PLUS256K"
-msgstr "Aktivera PLUS256K"
+#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:11022
+msgid "Enable the PLUS256K RAM expansion"
+msgstr "Aktivera PLUS256K RAM-expansion"
 
 #: src/arch/win32/resplus256k.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:2371
@@ -6997,9 +6946,9 @@ msgstr "V364-röstinställningar"
 msgid "PLUS60K Settings"
 msgstr "PLUS60K-inställningar"
 
-#: src/arch/win32/resplus60k.rc.po.c:29
-msgid "Enable PLUS60K"
-msgstr "Aktivera PLUS60K"
+#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:11070
+msgid "Enable the PLUS60K RAM expansion"
+msgstr "Aktivera PLUS60K RAM-expansionen"
 
 #: src/arch/win32/resplus60k.rc.po.c:30
 msgid "PLUS60K base address"
@@ -7017,9 +6966,10 @@ msgstr "Ange fil för PLUS60K"
 msgid "RamCart Settings"
 msgstr "RamCart-inställningar"
 
-#: src/arch/win32/resramcart.rc.po.c:42
-msgid "Enable RamCart"
-msgstr "Aktivera RamCart"
+#: src/arch/win32/resramcart.rc.po.c:42 src/translate_text.c.po.c:4208
+#, fuzzy
+msgid "Enable the RamCart expansion"
+msgstr "Aktivera RAMCART-expansion"
 
 #: src/arch/win32/resramcart.rc.po.c:43
 msgid "Read Only"
@@ -7045,9 +6995,10 @@ msgstr "Välj fil för RamCart"
 msgid "REU Settings"
 msgstr "REU-Inställningar"
 
-#: src/arch/win32/resreu.rc.po.c:40
-msgid "Enable REU"
-msgstr "Aktivera REU"
+#: src/arch/win32/resreu.rc.po.c:40 src/translate_text.c.po.c:4832
+#, fuzzy
+msgid "Enable the RAM Expansion Unit"
+msgstr "Aktivera RAM-expansionsenhet"
 
 #: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:6181
 msgid "REU size"
@@ -7070,9 +7021,9 @@ msgstr "Välj fil för REU"
 msgid "RS232 Userport Settings"
 msgstr "RS232-användarportinställningar"
 
-#: src/arch/win32/resrs232user.rc.po.c:35
-msgid "Enable RS232 userport"
-msgstr "Aktivera RS232-användarport"
+#: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:8296
+msgid "Enable RS232 userport emulation"
+msgstr "Aktivera RS232-emulering på användarporten"
 
 #: src/arch/win32/resrs232user.rc.po.c:36
 msgid "Userport device"
@@ -7124,9 +7075,10 @@ msgstr "Vänster/huvudenhet"
 msgid "Right device"
 msgstr "Höger enhet"
 
-#: src/arch/win32/ressidcart.rc.po.c:82
-msgid "Enable SID"
-msgstr "Aktivera SID"
+#: src/arch/win32/ressidcart.rc.po.c:82 src/translate_text.c.po.c:8722
+#, fuzzy
+msgid "Enable the SID cartridge"
+msgstr "Aktivera ISEPIC-modul"
 
 #: src/arch/win32/ressidcart.rc.po.c:85
 msgid "HardSID device selection"
@@ -7136,8 +7088,8 @@ msgstr "HardSID-enhetsval"
 msgid "Main device"
 msgstr "Huvudenhet"
 
-#: src/arch/win32/ressidcart.rc.po.c:87
-msgid "Enable digiblaster add-on"
+#: src/arch/win32/ressidcart.rc.po.c:87 src/translate_text.c.po.c:11584
+msgid "Enable the digiblaster add-on"
 msgstr "Aktivera digiblaster-tillägg"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:22
@@ -7145,9 +7097,10 @@ msgstr "Aktivera digiblaster-tillägg"
 msgid "SFX Sound Expander Settings"
 msgstr "Inställningar för SFX Sound Expander"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:23
-msgid "Enable SFX Sound Expander"
-msgstr "Aktivera SFX Sound Expander"
+#: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
+#, fuzzy
+msgid "Enable the SFX Sound Expander cartridge"
+msgstr "Aktivera SFX soundexpander-insticksmodul"
 
 #: src/arch/win32/restfe.rc.po.c:36
 msgid "Ethernet Settings"
@@ -7162,9 +7115,9 @@ msgstr "Ethernet"
 msgid "V364 Speech Settings"
 msgstr "V364-röstinställningar"
 
-#: src/arch/win32/resv364speech.rc.po.c:25
-msgid "Enable V364 Speech"
-msgstr "Aktivera V364-röst"
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:11616
+msgid "Enable the v364 speech add-on"
+msgstr "Aktivera v364-rösttillägg"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
 msgid "V364 Speech ROM file"
@@ -7181,10 +7134,6 @@ msgstr "ingen minnesutökning"
 #: src/arch/win32/resvic20.rc.po.c:498
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "Alla (block 0/1/2/3/5)"
-
-#: src/arch/win32/resvic20.rc.po.c:499
-msgid "custom"
-msgstr "egen"
 
 #: src/arch/win32/resvic20.rc.po.c:505
 msgid "Select Generic image"
@@ -7251,12 +7200,14 @@ msgid "4KB image at $B000"
 msgstr "4KB-fil vid $B000"
 
 #: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2605
-msgid "Enable Final Expansion write-back"
-msgstr "Aktivera Final Expansion-återskrivning"
+#: src/translate_text.c.po.c:9156
+msgid "Enable Final Expansion write back to ROM file"
+msgstr "Aktivera återskrivning till ROM-fil för Final Expansion"
 
 #: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:2618
-msgid "Enable Vic Flash Plugin write-back"
-msgstr "Aktivera Vic Flash-insticksmodul-återskrivning"
+#: src/translate_text.c.po.c:9236
+msgid "Enable Vic Flash Plugin write back to ROM file"
+msgstr "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
 
 #: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2631
 #: src/translate_text.c.po.c:9204
@@ -7408,10 +7359,6 @@ msgstr "ROM-inställningar för dator"
 #: src/arch/amigaos/intl_text.c.po.c:8456
 msgid "Drive ROM settings"
 msgstr "ROM-inställningar för diskettenhet"
-
-#: src/arch/amigaos/intl_text.c.po.c:2514
-msgid "Enable userport DAC"
-msgstr "Aktivera D/A-omvandlare på användarporten"
 
 #: src/arch/amigaos/intl_text.c.po.c:3060
 msgid "Fullscreen Statusbar"
@@ -7566,17 +7513,9 @@ msgstr "RAM-block $C000-$CFFF"
 msgid "Additional Delay"
 msgstr "Ytterligare fördröjning"
 
-#: src/arch/amigaos/intl_text.c.po.c:4776
-msgid "Delay at Zero Values"
-msgstr "Fördröjni vid nollvärden"
-
 #: src/arch/amigaos/intl_text.c.po.c:5023
 msgid "Expert Cartridge mode"
 msgstr "Expert Cartridge-läge"
-
-#: src/arch/amigaos/intl_text.c.po.c:5166
-msgid "DQBB settings"
-msgstr "DQBB-inställningar"
 
 #: src/arch/amigaos/intl_text.c.po.c:5257
 msgid "Select config file"
@@ -7858,10 +7797,6 @@ msgstr "Ange kortavbildningsfil"
 msgid "Card read/write"
 msgstr "Skrivbart kort"
 
-#: src/arch/amigaos/intl_text.c.po.c:7286
-msgid "EEPROM Image File"
-msgstr "EEPROM-avbildningsfil"
-
 #: src/arch/amigaos/intl_text.c.po.c:7299
 msgid "Save EEPROM image when changed"
 msgstr "Spara EEPROM-avbildning vid ändringar"
@@ -8017,10 +7952,6 @@ msgstr "NEOS-mus"
 #: src/arch/amigaos/intl_text.c.po.c:8794
 msgid "Amiga mouse"
 msgstr "Amigamus"
-
-#: src/arch/amigaos/intl_text.c.po.c:8963
-msgid "EasyFlash jumper"
-msgstr "EasyFlash-bygel"
 
 #: src/arch/amigaos/intl_text.c.po.c:8976
 msgid "Save to EasyFlash CRT file on detach"
@@ -8907,10 +8838,6 @@ msgstr ""
 "Skriv ett datablock på \"adress\" till det angivna spåret och sektorn\n"
 "på disken i enhet 8."
 
-#: src/translate_text.c.po.c:2392 src/translate_text.c.po.c:2408
-msgid "directory"
-msgstr "katalog"
-
 #: src/translate_text.c.po.c:2424
 #, fuzzy
 msgid "Change current working directory."
@@ -9162,11 +9089,11 @@ msgstr "Aktivera OEM-användarportspelportsadapter"
 msgid "Disable the OEM userport joystick adapter"
 msgstr "Inaktivera OEM-användarportspelportsadapter"
 
-#: src/translate_text.c.po.c:3306
+#: src/translate_text.c.po.c:3306 src/translate_text.c.po.c:3856
 msgid "Enable the IEEE488 interface emulation"
 msgstr "Aktivera emulering av IEEE488-gränssnitt"
 
-#: src/translate_text.c.po.c:3322
+#: src/translate_text.c.po.c:3322 src/translate_text.c.po.c:3872
 msgid "Disable the IEEE488 interface emulation"
 msgstr "Inaktivera emulering av IEEE488-gränssnitt"
 
@@ -9178,12 +9105,9 @@ msgstr "utgåva"
 msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Patcha kernal-ROM till angiven <utgåva>"
 
-#: src/translate_text.c.po.c:3371
-msgid "Enable the $DE** ACIA RS232 interface emulation"
-msgstr "Aktivera $DE** ACIA RS232-gränssnittsemulering"
-
 #: src/translate_text.c.po.c:3387
-msgid "Disable the $DE** ACIA RS232 interface emulation"
+#, fuzzy
+msgid "Disable the ACIA RS232 interface emulation"
 msgstr "Inaktivera $DE** ACIA-RS232-gränssnittsemulering"
 
 #: src/translate_text.c.po.c:3421
@@ -9220,17 +9144,9 @@ msgstr "Ange namn på intern funktions-ROM-avbildning"
 msgid "Specify name of external Function ROM image"
 msgstr "Ange namn på extern funktions-ROM-avbildning"
 
-#: src/translate_text.c.po.c:3566
-msgid "Enable the internal Function ROM"
-msgstr "Aktivera internt funktions-ROM"
-
 #: src/translate_text.c.po.c:3582
 msgid "Disable the internal Function ROM"
 msgstr "Inaktivera internt funktions-ROM"
-
-#: src/translate_text.c.po.c:3598
-msgid "Enable the external Function ROM"
-msgstr "Aktivera externt funktions-ROM"
 
 #: src/translate_text.c.po.c:3614
 msgid "Disable the external Function ROM"
@@ -9290,24 +9206,13 @@ msgstr "Välj typ av klisterlogik (0 = diskret, 1 = 252535-01)"
 msgid "Disable Hummer ADC"
 msgstr "Inaktivera Hummer-A/D-omvandlare"
 
-#: src/translate_text.c.po.c:3856
-msgid "Enable IEEE488 interface"
-msgstr "Aktivera IEEE488-gränssnitt"
-
-#: src/translate_text.c.po.c:3872
-msgid "Disable IEEE488 interface"
-msgstr "Inaktivera IEEE488-gränssnitt"
-
 #: src/translate_text.c.po.c:3888
 msgid "specify IEEE488 interface image name"
 msgstr "ange namn på IEEE488-gränssnittsfil"
 
-#: src/translate_text.c.po.c:3904
-msgid "Enable the GEORAM expansion unit"
-msgstr "Aktivera GEORAM-expansionsenhet"
-
 #: src/translate_text.c.po.c:3920
-msgid "Disable the GEORAM expansion unit"
+#, fuzzy
+msgid "Disable the GEO-RAM expansion unit"
 msgstr "Inaktivera GEORAM-expansionsenhet"
 
 #: src/translate_text.c.po.c:3936
@@ -9330,10 +9235,6 @@ msgstr "storlek i KB"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Storlek på GEORAM-expansionsenhet"
 
-#: src/translate_text.c.po.c:4016
-msgid "Enable the PET Ram and Expansion Unit"
-msgstr "Aktivera PET Ram- och -expansionsenhet"
-
 #: src/translate_text.c.po.c:4032
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "Inaktivera PET Ram- och -expansionsenhet"
@@ -9350,17 +9251,9 @@ msgstr "Storlek på PET Ram- och -expansionsenhet"
 msgid "Specify name of PET DWW image"
 msgstr "Ange namn på PET DWW-avbildning"
 
-#: src/translate_text.c.po.c:4096
-msgid "Enable the PET DWW hi-res board"
-msgstr "Aktivera PET DWW-högupplösningskort"
-
 #: src/translate_text.c.po.c:4112
 msgid "Disable the PET DWW hi-res board"
 msgstr "Inaktivera PET DWW-högupplösningskort"
-
-#: src/translate_text.c.po.c:4128
-msgid "Enable Userport DAC for sound output"
-msgstr "Aktivera D/A-omvandlare på användarporten för ljudutdata"
 
 #: src/translate_text.c.po.c:4144
 msgid "Disable Userport DAC for sound output"
@@ -9378,12 +9271,9 @@ msgstr "Ersätt PSID-inställningar för videostandard och SID-modell"
 msgid "Specify PSID tune <number>"
 msgstr "Ange PSID-låt <nummer>"
 
-#: src/translate_text.c.po.c:4208
-msgid "Enable the RAMCART expansion"
-msgstr "Aktivera RAMCART-expansion"
-
 #: src/translate_text.c.po.c:4224
-msgid "Disable the RAMCART expansion"
+#, fuzzy
+msgid "Disable the RamCart expansion"
 msgstr "Inaktivera RAMCART-expansion"
 
 #: src/translate_text.c.po.c:4240
@@ -9402,10 +9292,6 @@ msgstr "Skriv inte till RAMCart-avbildning"
 msgid "Size of the RAMCART expansion"
 msgstr "Storlek på RAMCART-expansion"
 
-#: src/translate_text.c.po.c:4304
-msgid "Enable Double Quick Brown Box"
-msgstr "Aktivera Double Quick Brown Box"
-
 #: src/translate_text.c.po.c:4320
 msgid "Disable Double Quick Brown Box"
 msgstr "Inaktivera Double Quick Brown Box"
@@ -9422,12 +9308,9 @@ msgstr "Tillåt skrivning till DQBB-avbildning"
 msgid "Do not write to DQBB image"
 msgstr "Skriv inte till DQBB-avbildning"
 
-#: src/translate_text.c.po.c:4384
-msgid "Enable the ISEPIC cart"
-msgstr "Aktivera ISEPIC-modul"
-
 #: src/translate_text.c.po.c:4400
-msgid "Disable the ISEPIC cart"
+#, fuzzy
+msgid "Disable the ISEPIC cartridge"
 msgstr "Inaktivera ISEPIC-modul"
 
 #: src/translate_text.c.po.c:4416
@@ -9441,10 +9324,6 @@ msgstr "Tillåt skrivning till ISEPIC-avbildning"
 #: src/translate_text.c.po.c:4448
 msgid "Do not write to ISEPIC image"
 msgstr "Skriv inte till ISEPIC-avbildning"
-
-#: src/translate_text.c.po.c:4464
-msgid "Enable the MMC64 expansion"
-msgstr "Aktivera MMC64-expansion"
 
 #: src/translate_text.c.po.c:4480
 msgid "Disable the MMC64 expansion"
@@ -9530,12 +9409,9 @@ msgstr "Inaktivera RR-bankbygel"
 msgid "Set RR Flash Jumper"
 msgstr "Sätt RR-flashbygel"
 
-#: src/translate_text.c.po.c:4832
-msgid "Enable the RAM expansion unit"
-msgstr "Aktivera RAM-expansionsenhet"
-
 #: src/translate_text.c.po.c:4848
-msgid "Disable the RAM expansion unit"
+#, fuzzy
+msgid "Disable the RAM Expansion Unit"
 msgstr "Inaktivera RAM-expansionsenhet"
 
 #: src/translate_text.c.po.c:4864
@@ -9737,10 +9613,6 @@ msgstr "Anslut rå GEO-RAM-insticksmodulavbilding"
 #: src/translate_text.c.po.c:5922
 msgid "Attach raw 512kB Game System cartridge image"
 msgstr "Anslut rå 512kB Game System-insticksmodulavbilding"
-
-#: src/translate_text.c.po.c:5938
-msgid "Enable the Expert Cartridge"
-msgstr "Aktivera Expert Cartridge"
 
 #: src/translate_text.c.po.c:5954
 msgid "Disable the Expert Cartridge"
@@ -10336,10 +10208,6 @@ msgstr "Ange namn på tredje RS232-enheten"
 msgid "Specify name of fourth RS232 device"
 msgstr "Ange namn på fjärde RS232-enheten"
 
-#: src/translate_text.c.po.c:8296
-msgid "Enable RS232 userport emulation"
-msgstr "Aktivera RS232-emulering på användarporten"
-
 #: src/translate_text.c.po.c:8312
 msgid "Disable RS232 userport emulation"
 msgstr "Inaktivera RS232-emulering på användarporten"
@@ -10453,13 +10321,10 @@ msgstr ""
 msgid "Enable second SID"
 msgstr "Aktivera andra SID"
 
-#: src/translate_text.c.po.c:8722
-msgid "Enable SID Cartridge"
-msgstr "Aktivera SID-instickskort"
-
 #: src/translate_text.c.po.c:8738
-msgid "Disable SID Cartridge"
-msgstr "Inaktivera SID-instickskort"
+#, fuzzy
+msgid "Disable the SID cartridge"
+msgstr "Inaktivera ISEPIC-modul"
 
 #: src/translate_text.c.po.c:8770
 msgid "Specify base address for 2nd SID"
@@ -10565,10 +10430,6 @@ msgstr "Ange namn på Final Expansion utöknings-ROM"
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Ange namn på Vic Flash-insticksmodulutöknings-ROM"
 
-#: src/translate_text.c.po.c:9156
-msgid "Enable Final Expansion write back to ROM file"
-msgstr "Aktivera återskrivning till ROM-fil för Final Expansion"
-
 #: src/translate_text.c.po.c:9172
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Inaktivera återskrivning till ROM-fil för Final Expansion"
@@ -10580,10 +10441,6 @@ msgstr "Välj  Mega-Cart NvRAM-filnamn"
 #: src/translate_text.c.po.c:9220
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "Inaktivera Mega-Cart NvRAM-återskrivning"
-
-#: src/translate_text.c.po.c:9236
-msgid "Enable Vic Flash Plugin write back to ROM file"
-msgstr "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
 
 #: src/translate_text.c.po.c:9252
 msgid "Disable Vic Flash Plugin write back to ROM file"
@@ -10897,10 +10754,6 @@ msgstr "Ange namn på loggfil"
 msgid "Enable verbose log output."
 msgstr "Aktivera pratsam loggutdata."
 
-#: src/translate_text.c.po.c:10510
-msgid "Enable mouse grab"
-msgstr "Aktivera fångande av mus"
-
 #: src/translate_text.c.po.c:10526
 msgid "Disable mouse grab"
 msgstr "Inaktivera fångande av mus"
@@ -11018,10 +10871,6 @@ msgstr "iso-språkkod"
 msgid "Specify the iso code of the language"
 msgstr "Ange ISO-koden för språket"
 
-#: src/translate_text.c.po.c:11022
-msgid "Enable the PLUS256K RAM expansion"
-msgstr "Aktivera PLUS256K RAM-expansion"
-
 #: src/translate_text.c.po.c:11038
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "Inaktivera PLUS256K RAM-expansion"
@@ -11029,10 +10878,6 @@ msgstr "Inaktivera PLUS256K RAM-expansion"
 #: src/translate_text.c.po.c:11054
 msgid "Specify name of PLUS256K image"
 msgstr "Ange namn på PLUS256K-avbildning"
-
-#: src/translate_text.c.po.c:11070
-msgid "Enable the PLUS60K RAM expansion"
-msgstr "Aktivera PLUS60K RAM-expansionen"
 
 #: src/translate_text.c.po.c:11086
 msgid "Disable the PLUS60K RAM expansion"
@@ -11045,10 +10890,6 @@ msgstr "Ange namn på plUS60K-avbildning"
 #: src/translate_text.c.po.c:11118
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basadress för PLUS60K-expansion"
-
-#: src/translate_text.c.po.c:11134
-msgid "Enable the 256K RAM expansion"
-msgstr "Aktivera 256K RAM-expansion"
 
 #: src/translate_text.c.po.c:11150
 msgid "Disable the 256K RAM expansion"
@@ -11134,17 +10975,9 @@ msgstr "Inaktivera loggar för DTV-flashkrets."
 msgid "Use <name> as directory for flash file system device"
 msgstr "Ange <namn> som katalog för filsystemsbaserad flashenhet"
 
-#: src/translate_text.c.po.c:11502
-msgid "Enable true hardware flash file system"
-msgstr "Aktivera äkta maskinvaru-flashfilsystem"
-
 #: src/translate_text.c.po.c:11518
 msgid "Disable true hardware flash file system"
 msgstr "Inaktivera maskinvaruemelring för flashfilsystem"
-
-#: src/translate_text.c.po.c:11535
-msgid "Enable MIDI emulation"
-msgstr "Aktivera MIDI-emulering"
 
 #: src/translate_text.c.po.c:11551
 msgid "Disable MIDI emulation"
@@ -11158,17 +10991,9 @@ msgstr ""
 "Typ av MIDI-gränssnitt (0: sekventiell, 1: Passport, 2: DATEL, 3: Namesoft, "
 "4: Maplin)"
 
-#: src/translate_text.c.po.c:11584
-msgid "Enable the digiblaster add-on"
-msgstr "Aktivera digiblaster-tillägg"
-
 #: src/translate_text.c.po.c:11600
 msgid "Disable the digiblaster add-on"
 msgstr "Inaktivera digiblaster-tillägg"
-
-#: src/translate_text.c.po.c:11616
-msgid "Enable the v364 speech add-on"
-msgstr "Aktivera v364-rösttillägg"
 
 #: src/translate_text.c.po.c:11632
 msgid "Disable the v364 speech add-on"
@@ -11178,37 +11003,18 @@ msgstr "Inaktivera v364-rösttillägg"
 msgid "Attach Speech ROM image"
 msgstr "Anslut röst-ROM-avbildning"
 
-#: src/translate_text.c.po.c:11664
-msgid "Enable SID cartridge joystick"
-msgstr "Aktivera SID-insticksmodul-styrspak"
-
-#: src/translate_text.c.po.c:11680
-msgid "Disable SID cartridge joystick"
-msgstr "Inaktivera SID-insticksmodul-styrspak"
-
-#: src/translate_text.c.po.c:11696
-msgid "Enable the SFX soundexpander cartridge"
-msgstr "Aktivera SFX soundexpander-insticksmodul"
-
 #: src/translate_text.c.po.c:11712
-msgid "Disable the SFX soundexpander cartridge"
+#, fuzzy
+msgid "Disable the SFX Sound Expander cartridge"
 msgstr "Inaktivera SFX soundexpander-insticksmodul"
 
 #: src/translate_text.c.po.c:11728
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "Välj YM-kretstyp (3526 / 3812)"
 
-#: src/translate_text.c.po.c:11744
-msgid "Enable the SFX Sound Sampler cartridge"
-msgstr "Aktivera SFX Sound Sampler-insticksmodul"
-
 #: src/translate_text.c.po.c:11760
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "Inaktivera SFX Sound Sampler-insticksmodul"
-
-#: src/translate_text.c.po.c:11776
-msgid "Enable lightpen emulation"
-msgstr "Aktivera emulering av ljuspenna"
 
 #: src/translate_text.c.po.c:11792
 msgid "Disable lightpen emulation"
@@ -11234,10 +11040,6 @@ msgstr "Aktivera skrivning till EasyFlash-.crt-avbildning."
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Inaktivera skrivning till EasyFlash-.crt-avbildning."
 
-#: src/translate_text.c.po.c:11888
-msgid "Enable the DigiMAX cartridge"
-msgstr "Aktivera DigiMAX-insticksmodul"
-
 #: src/translate_text.c.po.c:11904
 msgid "Disable the DigiMAX cartridge"
 msgstr "Inaktivera DigiMAX-insticksmodul"
@@ -11245,6 +11047,192 @@ msgstr "Inaktivera DigiMAX-insticksmodul"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basadress för DigiMAC-insticksmodulen"
+
+#~ msgid "Enable true flash filesystem"
+#~ msgstr "Aktivera äkta flash-filsystem"
+
+#~ msgid "Enable SIDcart joy"
+#~ msgstr "Aktivera SIDcart-spak"
+
+#~ msgid "Enable SFX Sound Sampler"
+#~ msgstr "Aktivera SFX Sound Sampler"
+
+#~ msgid "Enable RamCart"
+#~ msgstr "Aktivera RamCart"
+
+#~ msgid "Enable REU"
+#~ msgstr "Aktivera REU"
+
+#~ msgid "Enable RS232 userport"
+#~ msgstr "Aktivera RS232-användarport"
+
+#~ msgid "Enable SID"
+#~ msgstr "Aktivera SID"
+
+#~ msgid "Enable SFX Sound Expander"
+#~ msgstr "Aktivera SFX Sound Expander"
+
+#~ msgid "Enable V364 Speech"
+#~ msgstr "Aktivera V364-röst"
+
+#~ msgid "Enable Vic Flash Plugin write-back"
+#~ msgstr "Aktivera Vic Flash-insticksmodul-återskrivning"
+
+#~ msgid "Enable SID Cartridge"
+#~ msgstr "Aktivera SID-instickskort"
+
+#~ msgid "Disable SID Cartridge"
+#~ msgstr "Inaktivera SID-instickskort"
+
+#~ msgid "Enable Lightpen"
+#~ msgstr "Aktivera ljuspenna"
+
+#~ msgid "Enable mouse"
+#~ msgstr "Aktivera mus"
+
+#~ msgid "Enable ISEPIC"
+#~ msgstr "Aktivera ISEPIC"
+
+#~ msgid "Enable lightpen"
+#~ msgstr "Aktivera ljuspenna"
+
+#~ msgid "Enable MIDI"
+#~ msgstr "Aktivera MIDI"
+
+#~ msgid "Enable MMC64"
+#~ msgstr "Aktivera MMC64"
+
+#~ msgid "Enable PET Userport DAC"
+#~ msgstr "Aktivera PET användarport-D/A-omvandlare"
+
+#~ msgid "Enable PET DWW"
+#~ msgstr "Aktivera PET DWW"
+
+#~ msgid "Enable PET REU"
+#~ msgstr "Aktivera PET REU"
+
+#~ msgid "Enable PLUS256K"
+#~ msgstr "Aktivera PLUS256K"
+
+#~ msgid "Enable PLUS60K"
+#~ msgstr "Aktivera PLUS60K"
+
+#~ msgid "Enable userport DAC"
+#~ msgstr "Aktivera D/A-omvandlare på användarporten"
+
+#~ msgid "Enable internal Function ROM"
+#~ msgstr "Aktivera internt funktions-ROM"
+
+#~ msgid "Enable external Function ROM"
+#~ msgstr "Aktivera externt funktions-ROM"
+
+#~ msgid "Enable fullscreen (default Chip)"
+#~ msgstr "Aktivera fullskärmsläge (standardkrets)"
+
+#~ msgid "Disable fullscreen (default Chip)"
+#~ msgstr "Inaktivera fullskärmsläge (standardkrets)"
+
+#~ msgid "Enable DigiMAX"
+#~ msgstr "Aktivera DigiMAX"
+
+#~ msgid "Enable DQBB"
+#~ msgstr "Aktivera DQBB"
+
+#~ msgid "Enable Expert Cartridge"
+#~ msgstr "Aktivera Expert Cartridge"
+
+#~ msgid "Enable GEO-RAM"
+#~ msgstr "Aktivera GEO-RAM"
+
+#~ msgid "Enable Final Expansion write-back"
+#~ msgstr "Aktivera Final Expansion-återskrivning"
+
+#~ msgid "driver"
+#~ msgstr "drivrutin"
+
+#~ msgid "DQBB image"
+#~ msgstr "DQBB-avbildning"
+
+#~ msgid "EEPROM image name"
+#~ msgstr "Namn på EEPROM-avbildning"
+
+#~ msgid "Enable ACIA"
+#~ msgstr "Aktivera ACIA"
+
+#~ msgid "Enable 256K"
+#~ msgstr "Aktivera 256K"
+
+#~ msgid "DTV flash rom image"
+#~ msgstr "Avbildningsfil för DTV-flashrom"
+
+#~ msgid "EasyFlash Jumper"
+#~ msgstr "EasyFlash-bygel"
+
+#~ msgid "EEPROM Image"
+#~ msgstr "EEPROM-avbildning"
+
+#~ msgid "Enable digiblaster add-on"
+#~ msgstr "Aktivera digiblaster-tillägg"
+
+#~ msgid "Diskname: "
+#~ msgstr "Diskettnamn: "
+
+#~ msgid "Disable SIDcart joy"
+#~ msgstr "Inaktivera SIDcart-spak"
+
+#~ msgid "Disable DirectX9"
+#~ msgstr "Inaktivera DirectX9"
+
+#~ msgid "DigiMAX Settings"
+#~ msgstr "DigiMAX-inställningar"
+
+#~ msgid "DQBB Settings"
+#~ msgstr "DQBB-inställningar"
+
+#~ msgid "DQBB settings"
+#~ msgstr "DQBB-inställningar"
+
+#~ msgid "directory"
+#~ msgstr "katalog"
+
+#~ msgid "Enable IEEE488 interface"
+#~ msgstr "Aktivera IEEE488-gränssnitt"
+
+#~ msgid "Disable IEEE488 interface"
+#~ msgstr "Inaktivera IEEE488-gränssnitt"
+
+#~ msgid "Detach cartridge image"
+#~ msgstr "Koppla från insticksmodulfil"
+
+#~ msgid "IDE64 cylinders"
+#~ msgstr "IDE64-cylindra"
+
+#~ msgid "IDE64 heads"
+#~ msgstr "IDE64-huvuden"
+
+#~ msgid "IDE64 sectors"
+#~ msgstr "IDE64-sektorer"
+
+#~ msgid "Current mode: "
+#~ msgstr "Nuvarande läge: "
+
+#~ msgid "CRT settings"
+#~ msgstr "CRT-inställningar"
+
+#~ msgid "Datasette Settings"
+#~ msgstr "Datasetteinställningar"
+
+#~ msgid "cycles delay at zero-values"
+#~ msgstr "cykler fördröjning vid nollvärden"
+
+#~ msgid "Create new flash rom image"
+#~ msgstr "Skapa ny flash-rom-avbildningsfil"
+
+#~ msgid "custom"
+#~ msgstr "egen"
+
+#~ msgid "Delay at Zero Values"
+#~ msgstr "Fördröjni vid nollvärden"
 
 #~ msgid "Confirm on exit"
 #~ msgstr "Bekräfta avslutning"
@@ -11989,9 +11977,6 @@ msgstr "Basadress för DigiMAC-insticksmodulen"
 
 #~ msgid "Enable fullscreen mode"
 #~ msgstr "Aktivera fullskärmsläge"
-
-#~ msgid "Disable fullscreen mode"
-#~ msgstr "Inaktivera fullskärmsläge"
 
 #~ msgid "Enable double size in fullscreen mode"
 #~ msgstr "Aktivera dubbel storlek i fullskärmsläge"

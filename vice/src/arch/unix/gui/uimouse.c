@@ -59,7 +59,7 @@ static ui_menu_entry_t mouseport_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(Mouse)
 
 ui_menu_entry_t mouse_submenu[] = {
-    { N_("Enable mouse"), UI_MENU_TYPE_TICK,
+    { N_("Enable mouse grab"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Mouse, NULL, NULL, KEYSYM_m, UI_HOTMOD_META },
     { N_("Mouse type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mousetype_submenu },

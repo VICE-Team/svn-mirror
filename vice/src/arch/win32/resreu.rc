@@ -45,7 +45,7 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Settings"
-  IDS_REU_ENABLE       "Enable REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU size"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "REU file"
@@ -59,7 +59,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU-indstillinger"
-  IDS_REU_ENABLE       "Aktivér REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU størrelse"
   IDS_REU_WRITE_ENABLE "Gem REU image ved ændringer"
   IDS_REU_FILE         "REU-fil"
@@ -73,7 +73,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Einstellungen"
-  IDS_REU_ENABLE       "REU aktivieren"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU Größe"
   IDS_REU_WRITE_ENABLE "REU Imagedatei bei Änderung speichern"
   IDS_REU_FILE         "REU Datei"
@@ -87,7 +87,7 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "Paramètres REU"
-  IDS_REU_ENABLE       "Activer REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "Taille du REU"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "Fichier REU"
@@ -104,7 +104,7 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU beállításai"
-  IDS_REU_ENABLE       "Enable REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU mérete"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "REU fájl"
@@ -121,7 +121,7 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "Impostazioni REU"
-  IDS_REU_ENABLE       "Attiva REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "Dimensione REU"
   IDS_REU_WRITE_ENABLE "Salva immagine REU al cambio"
   IDS_REU_FILE         "File del REU"
@@ -138,7 +138,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Settings"
-  IDS_REU_ENABLE       "Enable REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU size"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "REU file"
@@ -155,7 +155,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU instellingen"
-  IDS_REU_ENABLE       "Activeer REU"
+  IDS_REU_ENABLE       "Activeer de RAM uitbreidingseenheid (REU)"
   IDS_REU_SIZE         "REU grootte"
   IDS_REU_WRITE_ENABLE "REU bestand opslaan indien gewijzigd"
   IDS_REU_FILE         "REU bestand"
@@ -172,7 +172,7 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Settings"
-  IDS_REU_ENABLE       "Enable REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "Rozmiar REU"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "REU file"
@@ -192,7 +192,7 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Settings"
-  IDS_REU_ENABLE       "Enable REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU size"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
   IDS_REU_FILE         "REU file"
@@ -209,7 +209,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU-Inställningar"
-  IDS_REU_ENABLE       "Aktivera REU"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "Storlek på minnesexpansion"
   IDS_REU_WRITE_ENABLE "Spara REU-avbildning vid ändringar"
   IDS_REU_FILE         "REU-fil"
@@ -226,7 +226,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Ayarlarý"
-  IDS_REU_ENABLE       "REU'yu aktif et"
+  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU boyutu"
   IDS_REU_WRITE_ENABLE "REU imajý deðiþtiðinde kaydet"
   IDS_REU_FILE         "REU dosyasý"

@@ -71,7 +71,7 @@ static GtkWidget *build_empty_disk_dialog(void)
 
     /* Diskname */
     hbox = gtk_hbox_new(0, FALSE);
-    tmp = gtk_label_new(_("Diskname: "));
+    tmp = gtk_label_new(_("Disk name:"));
     gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
     gtk_widget_show(tmp);
 

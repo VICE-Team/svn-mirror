@@ -1,14 +1,14 @@
 # translation of hu.po to Hungarian
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the VICE package.
-#
+# 
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 # Karai Csaba <cskarai@freemail.hu>, 2006, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-19 14:19-0700\n"
+"POT-Creation-Date: 2011-04-20 07:59-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -48,10 +48,11 @@ msgstr "Adja meg a MIDI-In eszközöt"
 msgid "Specify MIDI-Out device"
 msgstr "Adja meg a MIDI-Out eszközöt"
 
-#: src/arch/unix/mididrv.c:680
+#: src/arch/unix/mididrv.c:680 src/arch/unix/gui/uimidi.c:87
+#: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1164
 #, fuzzy
-msgid "driver"
-msgstr "<meghajtó>"
+msgid "Driver"
+msgstr "Meghajtó:"
 
 #: src/arch/unix/mididrv.c:680
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
@@ -140,7 +141,8 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:244 src/arch/win32/resc128.rc.po.c:688
-msgid "Enable internal Function ROM"
+#: src/translate_text.c.po.c:3566
+msgid "Enable the internal Function ROM"
 msgstr "Belsõ Function ROM engedélyezése"
 
 #: src/arch/unix/gui/c128ui.c:246
@@ -149,7 +151,8 @@ msgid "Internal Function ROM name"
 msgstr "Belsõ Funtcion ROM neve..."
 
 #: src/arch/unix/gui/c128ui.c:250 src/arch/win32/resc128.rc.po.c:691
-msgid "Enable external Function ROM"
+#: src/translate_text.c.po.c:3598
+msgid "Enable the external Function ROM"
 msgstr "Külsõ Function ROM engedélyezése"
 
 #: src/arch/unix/gui/c128ui.c:252
@@ -1234,10 +1237,10 @@ msgstr "64KB-os Super Snapshot cartridge képmás csatolása"
 msgid "Set cartridge as default"
 msgstr "Cartridge alapértelmezetté tétele"
 
-#: src/arch/unix/gui/uic64cart.c:158 src/arch/win32/res.rc.po.c:1371
-#: src/arch/amigaos/intl_text.c.po.c:499
-msgid "Detach cartridge image"
-msgstr "Cartridge képmás leválasztása"
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:357
+#: src/arch/win32/res.rc.po.c:1371 src/arch/amigaos/intl_text.c.po.c:499
+msgid "Detach cartridge image(s)"
+msgstr "Cartridge képmás(ok) leválasztása"
 
 #: src/arch/unix/gui/uic64cart.c:160 src/arch/win32/res.rc.po.c:1372
 #: src/arch/amigaos/intl_text.c.po.c:824
@@ -1612,7 +1615,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
 #: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
-#: src/arch/unix/gui/uivicii.c:177
+#: src/arch/unix/gui/uivicii.c:177 src/arch/unix/x11/gnome/uipalcontrol.c:98
 #, fuzzy
 msgid "CRT emulation settings"
 msgstr "PAL Emuláció beállításai"
@@ -1678,6 +1681,7 @@ msgid "Datasette speed tuning"
 msgstr "Magnó sebesség hangolása"
 
 #: src/arch/unix/gui/uidatasette.c:58 src/arch/unix/gui/uidatasette.c:84
+#: src/arch/win32/res.rc.po.c:1117 src/arch/amigaos/intl_text.c.po.c:4776
 msgid "Datasette zero gap delay"
 msgstr "Magnó üres rés késleltetés"
 
@@ -1755,10 +1759,10 @@ msgstr "Cartridge mentése most"
 msgid "Save image as"
 msgstr "Szalag képmás csatolása..."
 
-#: src/arch/unix/gui/uidqbb.c:63
-#, fuzzy
-msgid "DQBB image"
-msgstr "DQBB képmás név"
+#: src/arch/unix/gui/uidqbb.c:63 src/arch/win32/resdqbb.rc.po.c:40
+#: src/arch/amigaos/intl_text.c.po.c:5127
+msgid "DQBB file"
+msgstr "DQBB fájl"
 
 #: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:102
@@ -1796,9 +1800,9 @@ msgid "True drive emulation"
 msgstr "Valós lemezegység emuláció"
 
 #: src/arch/unix/gui/uidrive.c:188 src/arch/unix/gui/uidrivec64dtv.c:45
-#, fuzzy
-msgid "Enable true flash filesystem"
-msgstr "*Valós flash lemezegység engedélyezése"
+#: src/translate_text.c.po.c:11502
+msgid "Enable true hardware flash file system"
+msgstr "Igazi hardver flash fájlrendszer engedélyezése"
 
 #: src/arch/unix/gui/uidrivec128.c:43 src/arch/unix/gui/uidrivec128.c:75
 #: src/arch/unix/gui/uidrivec128.c:97 src/arch/unix/gui/uidrivec128.c:119
@@ -2193,6 +2197,7 @@ msgid "XRandR Resolutions"
 msgstr "XRandR felbontások"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:92
+#: src/arch/unix/x11/ui-cmdline-options.c:79
 #, fuzzy
 msgid "Enable fullscreen"
 msgstr "*Teljes képernyõ engedélyezése"
@@ -2226,25 +2231,28 @@ msgstr "IDE64 képmás név"
 msgid "Enter number of cylinders"
 msgstr "Adja meg a cilinderek számát"
 
-#: src/arch/unix/gui/uiide64.c:75
-msgid "IDE64 cylinders"
-msgstr "IDE64 cilinderek"
+#: src/arch/unix/gui/uiide64.c:75 src/arch/unix/gui/uiide64.c:192
+#: src/arch/win32/reside64.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:7052
+msgid "Cylinders"
+msgstr "Sávok"
 
 #: src/arch/unix/gui/uiide64.c:113
 msgid "Enter number of heads"
 msgstr "Adja meg a fejek számát"
 
-#: src/arch/unix/gui/uiide64.c:114
-msgid "IDE64 heads"
-msgstr "IDE64 fejek"
+#: src/arch/unix/gui/uiide64.c:114 src/arch/unix/gui/uiide64.c:194
+#: src/arch/win32/reside64.rc.po.c:83 src/arch/amigaos/intl_text.c.po.c:7065
+msgid "Heads"
+msgstr "Fejek"
 
 #: src/arch/unix/gui/uiide64.c:152
 msgid "Enter number of sectors"
 msgstr "Adja meg a szektorok számát"
 
-#: src/arch/unix/gui/uiide64.c:153
-msgid "IDE64 sectors"
-msgstr "IDE64 szektorok"
+#: src/arch/unix/gui/uiide64.c:153 src/arch/unix/gui/uiide64.c:196
+#: src/arch/win32/reside64.rc.po.c:84 src/arch/amigaos/intl_text.c.po.c:7078
+msgid "Sectors"
+msgstr "Szektorok"
 
 #: src/arch/unix/gui/uiide64.c:166
 #, fuzzy
@@ -2286,21 +2294,6 @@ msgstr "IDE64 képmás név..."
 #, fuzzy
 msgid "Autodetect image size"
 msgstr "*Képmás méretének automatikus detektálása"
-
-#: src/arch/unix/gui/uiide64.c:192 src/arch/win32/reside64.rc.po.c:82
-#: src/arch/amigaos/intl_text.c.po.c:7052
-msgid "Cylinders"
-msgstr "Sávok"
-
-#: src/arch/unix/gui/uiide64.c:194 src/arch/win32/reside64.rc.po.c:83
-#: src/arch/amigaos/intl_text.c.po.c:7065
-msgid "Heads"
-msgstr "Fejek"
-
-#: src/arch/unix/gui/uiide64.c:196 src/arch/win32/reside64.rc.po.c:84
-#: src/arch/amigaos/intl_text.c.po.c:7078
-msgid "Sectors"
-msgstr "Szektorok"
 
 #: src/arch/unix/gui/uiisepic.c:48
 #, fuzzy
@@ -2580,10 +2573,10 @@ msgstr ""
 msgid "Stack Light Rifle"
 msgstr ""
 
-#: src/arch/unix/gui/uilightpen.c:68
-#, fuzzy
-msgid "Enable Lightpen"
-msgstr "&Fényceruza engedélyezése"
+#: src/arch/unix/gui/uilightpen.c:68 src/arch/win32/reslightpen.rc.po.c:23
+#: src/translate_text.c.po.c:11776
+msgid "Enable lightpen emulation"
+msgstr "Fényceruza emuláció engedélyezése"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:24
 msgid "Lightpen type"
@@ -2610,12 +2603,6 @@ msgstr "Adja meg a MIDI-Out eszközöt"
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1242
 msgid "Type"
 msgstr "Típus"
-
-#: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
-#: src/arch/win32/res.rc.po.c:1164
-#, fuzzy
-msgid "Driver"
-msgstr "Meghajtó:"
 
 #: src/arch/unix/gui/uimmc64.c:53
 #, fuzzy
@@ -2674,10 +2661,11 @@ msgstr "MMC64 képmás név"
 msgid "Enable rescue mode"
 msgstr "MMC64 flashjumper engedélyezése"
 
-#: src/arch/unix/gui/uimmcreplay.c:86
+#: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
+#: src/arch/amigaos/intl_text.c.po.c:7286
 #, fuzzy
-msgid "EEPROM image name"
-msgstr "GEORAM képmás neve..."
+msgid "EEPROM image file"
+msgstr "GEORAM képmás neve"
 
 #: src/arch/unix/gui/uimmcreplay.c:89
 #, fuzzy
@@ -2709,10 +2697,9 @@ msgstr "*1-es port"
 msgid "Port 2"
 msgstr "*2-es port"
 
-#: src/arch/unix/gui/uimouse.c:62
-#, fuzzy
-msgid "Enable mouse"
-msgstr "*Egér engedélyezése"
+#: src/arch/unix/gui/uimouse.c:62 src/translate_text.c.po.c:10510
+msgid "Enable mouse grab"
+msgstr "Egér elkapás engedélyezése"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:31
 #: src/arch/amigaos/intl_text.c.po.c:8729
@@ -2775,7 +2762,7 @@ msgstr "Kiszolgáló kapcsolódási címe"
 msgid "Connect to server"
 msgstr "Kapcsolódás a kiszolgálóhoz"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:316
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:318
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Szétkapcsolódás"
@@ -3469,7 +3456,8 @@ msgid "Resource file name"
 msgstr "Erõforrás fájl neve"
 
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#: src/arch/win32/res.rc.po.c:1401 src/arch/amigaos/intl_text.c.po.c:1396
+#: src/arch/win32/res.rc.po.c:1401 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/amigaos/intl_text.c.po.c:1396
 msgid "Custom"
 msgstr "Egyéni"
 
@@ -3960,10 +3948,6 @@ msgstr "*Mega-Cart NvRAM visszaírás"
 msgid "NvRAM image file"
 msgstr "GEORAM képmás neve..."
 
-#: src/arch/unix/gui/vic20ui.c:357
-msgid "Detach cartridge image(s)"
-msgstr "Cartridge képmás(ok) leválasztása"
-
 #: src/arch/unix/gui/vic20ui.c:495
 #, fuzzy
 msgid "VIC model"
@@ -4116,9 +4100,9 @@ msgstr "Üres lemez készítése"
 msgid "Disk options"
 msgstr "Lemez paraméterek"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:74
-msgid "Diskname: "
-msgstr "Lemeznév: "
+#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:262
+msgid "Disk name:"
+msgstr "Lemez neve:"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:182
 #, c-format
@@ -4195,35 +4179,36 @@ msgstr "<ismeretlen>"
 msgid "Connect to"
 msgstr "Kapcsolódás ehhez:"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:206
-#: src/arch/unix/x11/gnome/uinetplay.c:208 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1223
+#: src/arch/amigaos/intl_text.c.po.c:3515
+msgid "Current mode"
+msgstr "Jelenlegi mód"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:207
+#: src/arch/unix/x11/gnome/uinetplay.c:209 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Hálózati játék beállításai"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:214
-msgid "Current mode: "
-msgstr "Jelenlegi mód: "
-
-#: src/arch/unix/x11/gnome/uinetplay.c:226
+#: src/arch/unix/x11/gnome/uinetplay.c:228
 #: src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start Server"
 msgstr "Kiszolgáló indítása"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:232
+#: src/arch/unix/x11/gnome/uinetplay.c:234
 #, fuzzy
 msgid "TCP port: "
 msgstr "TCP port"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:282 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Vezérlõ"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:287 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:289 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Kiszolgáló"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:290 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:292 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Kliens"
 
@@ -4246,11 +4231,6 @@ msgstr "Fényesség"
 #: src/arch/amigaos/intl_text.c.po.c:7780
 msgid "Gamma"
 msgstr "Gamma"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:98
-#, fuzzy
-msgid "CRT settings"
-msgstr "VDC beállításai"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:288
 #, fuzzy
@@ -4490,13 +4470,10 @@ msgstr "Sosem kér megerõsítést kilépés elõtt"
 msgid "Never save settings (resources) on exit"
 msgstr "Sose mentse a beállításokat (erõforrásokat) kilépéskor"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:79
-msgid "Enable fullscreen (default Chip)"
-msgstr "Teljesképernyõs mód engedélyezése (alap Chip)"
-
 #: src/arch/unix/x11/ui-cmdline-options.c:84
-msgid "Disable fullscreen (default Chip)"
-msgstr "Teljesképernyõs mód tiltása (alap Chip)"
+#, fuzzy
+msgid "Disable fullscreen"
+msgstr "Teljesképernyõs mód tiltása"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2728
 #: src/translate_text.c.po.c:6050
@@ -4552,10 +4529,6 @@ msgstr "Üres lemezfájl mentése"
 #: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
 msgstr "Nem sikerült lemezképmást létrehozni"
-
-#: src/arch/unix/x11/xaw/uiedisk.c:262
-msgid "Disk name:"
-msgstr "Lemez neve:"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:297
 msgid "Disk format:"
@@ -5310,13 +5283,13 @@ msgstr "Nyomjon egy billentyût a tûzgombhoz"
 msgid "No userport joy adapter"
 msgstr "Nincs userport botkormány adapter"
 
-#: src/arch/win32/res.rc.po.c:1039
-msgid "Disable SIDcart joy"
-msgstr "SIDcart botkormány tiltása"
+#: src/arch/win32/res.rc.po.c:1039 src/translate_text.c.po.c:11680
+msgid "Disable SID cartridge joystick"
+msgstr "SID cartridge botkormány tiltása"
 
-#: src/arch/win32/res.rc.po.c:1040
-msgid "Enable SIDcart joy"
-msgstr "SIDcart botkormány engedélyezése"
+#: src/arch/win32/res.rc.po.c:1040 src/translate_text.c.po.c:11664
+msgid "Enable SID cartridge joystick"
+msgstr "SID cartridge botkormány engedélyezése"
 
 #: src/arch/win32/res.rc.po.c:1041
 msgid "Numpad + RCtrl"
@@ -5506,7 +5479,7 @@ msgstr "SMP rendszereken csak az elsõ CPU használata"
 msgid "Start VICE in fullscreen mode"
 msgstr "A VICE indítása teljes képernyõs módban"
 
-#: src/arch/win32/res.rc.po.c:1089
+#: src/arch/win32/res.rc.po.c:1089 src/arch/win32/res.rc.po.c:1404
 msgid "Disable DirectX9 video driver"
 msgstr "DirectX9 videó meghajtó tiltása"
 
@@ -5532,8 +5505,11 @@ msgstr "Hiba történt a kapcsolódáskor."
 msgid "Error saving EasyFlash crt file"
 msgstr "Hiba az EasyFlash crt fájl mentése közben"
 
-#: src/arch/win32/res.rc.po.c:1113 src/arch/amigaos/intl_text.c.po.c:4789
-msgid "Datasette Settings"
+#: src/arch/win32/res.rc.po.c:1113 src/arch/win32/res.rc.po.c:1422
+#: src/arch/amigaos/intl_text.c.po.c:2059
+#: src/arch/amigaos/intl_text.c.po.c:4789
+#, fuzzy
+msgid "Datasette settings"
 msgstr "Magnó beállításai"
 
 #: src/arch/win32/res.rc.po.c:1115
@@ -5545,17 +5521,13 @@ msgstr "Motor sebessége olvasás közben"
 msgid "cycle(s) additional delay each trigger"
 msgstr "ciklus többlet szünet minden jelzésnél"
 
-#: src/arch/win32/res.rc.po.c:1117
-#, fuzzy
-msgid "cycles delay at zero-values"
-msgstr "ciklus szünet &nulla értékeknél"
-
 #: src/arch/win32/res.rc.po.c:1118
 #, fuzzy
 msgid "Use IEC Device"
 msgstr "&IEC eszköz &használata"
 
-#: src/arch/win32/res.rc.po.c:1120
+#: src/arch/win32/res.rc.po.c:1120 src/translate_text.c.po.c:2392
+#: src/translate_text.c.po.c:2408
 #, fuzzy
 msgid "Directory"
 msgstr "Kö&nyvtár"
@@ -5875,10 +5847,6 @@ msgstr "RS232 3-as eszköz"
 #: src/arch/win32/res.rc.po.c:1221 src/arch/amigaos/intl_text.c.po.c:4321
 msgid "RS232 device 4"
 msgstr "RS232 4-es eszköz"
-
-#: src/arch/win32/res.rc.po.c:1223 src/arch/amigaos/intl_text.c.po.c:3515
-msgid "Current mode"
-msgstr "Jelenlegi mód"
 
 #: src/arch/win32/res.rc.po.c:1224 src/arch/amigaos/intl_text.c.po.c:3554
 msgid "Server Bind"
@@ -6295,11 +6263,6 @@ msgstr "Hipergyors mód"
 msgid "Always on Top"
 msgstr "Mindig felül"
 
-#: src/arch/win32/res.rc.po.c:1404
-#, fuzzy
-msgid "Disable DirectX9"
-msgstr "DirectX9 videó meghajtó tiltása"
-
 #: src/arch/win32/res.rc.po.c:1405
 #, fuzzy
 msgid "Swap Joysticks"
@@ -6335,11 +6298,6 @@ msgstr "&Userport botkormány beállításai..."
 msgid "Sidcart joystick settings"
 msgstr "&Sidcart botkormány beállításai..."
 
-#: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:2059
-#, fuzzy
-msgid "Datasette settings"
-msgstr "Magnó beállításai"
-
 #: src/arch/win32/res.rc.po.c:1424 src/arch/amigaos/intl_text.c.po.c:2150
 #, fuzzy
 msgid "Mouse settings"
@@ -6363,7 +6321,9 @@ msgstr "GEORAM beállításai"
 msgid "RamCart settings"
 msgstr "&Cartridge beállításai"
 
-#: src/arch/win32/res.rc.po.c:1430 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/win32/res.rc.po.c:1430 src/arch/win32/resdqbb.rc.po.c:13
+#: src/arch/win32/resdqbb.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/amigaos/intl_text.c.po.c:5166
 #, fuzzy
 msgid "Double Quick Brown Box settings"
 msgstr "Double Quick Brown Box beállítások..."
@@ -6405,7 +6365,8 @@ msgstr "Fõ eszköz"
 msgid "MIDI settings"
 msgstr "SID beállításai"
 
-#: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2462
+#: src/arch/win32/res.rc.po.c:1437 src/arch/win32/resdigimax.rc.po.c:22
+#: src/arch/amigaos/intl_text.c.po.c:2462
 #: src/arch/amigaos/intl_text.c.po.c:8495
 #, fuzzy
 msgid "DigiMAX settings"
@@ -6452,7 +6413,8 @@ msgid "SFX Sound Expander settings"
 msgstr "SFX Sounder Expander beállítások"
 
 #: src/arch/win32/res.rc.po.c:1447 src/arch/amigaos/intl_text.c.po.c:2501
-msgid "Enable SFX Sound Sampler"
+#: src/translate_text.c.po.c:11744
+msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler engedélyezése"
 
 #: src/arch/win32/res.rc.po.c:1448 src/arch/amigaos/intl_text.c.po.c:2683
@@ -6637,10 +6599,10 @@ msgstr "Swiftlink"
 msgid "Turbo232"
 msgstr "Turbo232"
 
-#: src/arch/win32/resacia.rc.po.c:48
+#: src/arch/win32/resacia.rc.po.c:48 src/translate_text.c.po.c:3371
 #, fuzzy
-msgid "Enable ACIA"
-msgstr "ACIA &engedélyezése"
+msgid "Enable the ACIA RS232 interface emulation"
+msgstr "$DE** ACIA RS232 interfész emuláció engedélyezése"
 
 #: src/arch/win32/resacia.rc.po.c:50
 msgid "ACIA location"
@@ -6849,10 +6811,9 @@ msgstr ""
 msgid "6572 (PAL-N)"
 msgstr ""
 
-#: src/arch/win32/resc64_256k.rc.po.c:29
-#, fuzzy
-msgid "Enable 256K"
-msgstr "256K &engedélyezése"
+#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:11134
+msgid "Enable the 256K RAM expansion"
+msgstr "256K RAM kiterjesztés engedélyezése"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:4477
@@ -6864,10 +6825,11 @@ msgstr "256K báziscím"
 msgid "Select file for 256K"
 msgstr "Válasszon fájlt a 256K-hoz"
 
-#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:445
+#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:436
+#: src/arch/win32/resc64dtv.rc.po.c:445
 #, fuzzy
-msgid "DTV flash rom image"
-msgstr "DTV flash &rom képmás"
+msgid "DTV ROM image File"
+msgstr "DTV ROM &képmás fájl"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
 msgid "Attach DTV Flash Image"
@@ -6876,11 +6838,6 @@ msgstr "DTV Flash képmás csatolása"
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "DTV ROM"
 msgstr "DTV ROM"
-
-#: src/arch/win32/resc64dtv.rc.po.c:436
-#, fuzzy
-msgid "DTV ROM image File"
-msgstr "DTV ROM &képmás fájl"
 
 #: src/arch/win32/resc64dtv.rc.po.c:437
 #, fuzzy
@@ -6898,7 +6855,7 @@ msgstr "C64DTV beállításai"
 msgid "Enable Hummer ADC"
 msgstr "Hummer ADC engedélyezése"
 
-#: src/arch/win32/resc64dtv.rc.po.c:441
+#: src/arch/win32/resc64dtv.rc.po.c:441 src/arch/win32/resc64dtv.rc.po.c:449
 msgid "Create DTV Flash Image"
 msgstr "DTV Flash képmás létrehozása"
 
@@ -6923,11 +6880,6 @@ msgstr "&Flash ROM képmás csatolása"
 #, fuzzy
 msgid "Detach flash rom image"
 msgstr "Flash ROM képmás &leválasztása"
-
-#: src/arch/win32/resc64dtv.rc.po.c:449
-#, fuzzy
-msgid "Create new flash rom image"
-msgstr "Új flash rom képmás &létrehozása"
 
 #: src/arch/win32/resc64dtv.rc.po.c:450
 #, fuzzy
@@ -6994,47 +6946,33 @@ msgstr "1024 kBáj&t"
 msgid "Ram banks"
 msgstr "&Ram bankok"
 
-#: src/arch/win32/resdigimax.rc.po.c:22
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:11888
 #, fuzzy
-msgid "DigiMAX Settings"
-msgstr "Digimax beállításai"
-
-#: src/arch/win32/resdigimax.rc.po.c:23
-#, fuzzy
-msgid "Enable DigiMAX"
-msgstr "Digimax &engedélyezése"
+msgid "Enable the DigiMAX cartridge"
+msgstr "Digimax cartridge engedélyezése"
 
 #: src/arch/win32/resdigimax.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:8482
 #, fuzzy
 msgid "DigiMAX base"
 msgstr "Digimax báziscím"
 
-#: src/arch/win32/resdqbb.rc.po.c:13 src/arch/win32/resdqbb.rc.po.c:37
-msgid "DQBB Settings"
-msgstr "DQBB beállításai"
-
 #: src/arch/win32/resdqbb.rc.po.c:36 src/arch/amigaos/intl_text.c.po.c:5153
 msgid "Select file for DQBB"
 msgstr "Válasszon fájlt a DQBB-hez"
 
-#: src/arch/win32/resdqbb.rc.po.c:38
-#, fuzzy
-msgid "Enable DQBB"
-msgstr "DQBB &engedélyezése"
+#: src/arch/win32/resdqbb.rc.po.c:38 src/translate_text.c.po.c:4304
+msgid "Enable Double Quick Brown Box"
+msgstr "Double Quick Brown Box engedélyezése"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5140
 #, fuzzy
 msgid "Save DQBB image when changed"
 msgstr "BIOS &mentése változás után"
 
-#: src/arch/win32/resdqbb.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5127
-msgid "DQBB file"
-msgstr "DQBB fájl"
-
 #: src/arch/win32/reseasyflash.rc.po.c:30
-#, fuzzy
-msgid "EasyFlash Jumper"
-msgstr "EasyFlash &jumper"
+#: src/arch/amigaos/intl_text.c.po.c:8963
+msgid "EasyFlash jumper"
+msgstr "EasyFlash jumper"
 
 #: src/arch/win32/reseasyflash.rc.po.c:31
 #, fuzzy
@@ -7051,9 +6989,9 @@ msgstr "CRT mentése &most"
 msgid "Select file for Expert Cartridge"
 msgstr "Expert cartridge engedélyezése"
 
-#: src/arch/win32/resexpert.rc.po.c:41
+#: src/arch/win32/resexpert.rc.po.c:41 src/translate_text.c.po.c:5938
 #, fuzzy
-msgid "Enable Expert Cartridge"
+msgid "Enable the Expert Cartridge"
 msgstr "Expert cartridge engedélyezése"
 
 #: src/arch/win32/resexpert.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:5088
@@ -7071,10 +7009,10 @@ msgstr "Expert cartridge"
 msgid "Select file for GEO-RAM"
 msgstr "Válasszon fájlt a GEORAM-hoz"
 
-#: src/arch/win32/resgeoram.rc.po.c:41
+#: src/arch/win32/resgeoram.rc.po.c:41 src/translate_text.c.po.c:3904
 #, fuzzy
-msgid "Enable GEO-RAM"
-msgstr "GEORAM &engedélyezése"
+msgid "Enable the GEO-RAM expansion unit"
+msgstr "GEORAM Expansion Unit engedélyezése"
 
 #: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4958
 #, fuzzy
@@ -7135,10 +7073,10 @@ msgstr "Válassza ki a merevlemez képmás fájlt"
 msgid "Select file for ISEPIC"
 msgstr "Válasszon fájlt a REU-hoz"
 
-#: src/arch/win32/resisepic.rc.po.c:39
+#: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:4384
 #, fuzzy
-msgid "Enable ISEPIC"
-msgstr "*REU engedélyezése"
+msgid "Enable the ISEPIC cartridge"
+msgstr "SID kártya *engedélyezése"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5192
 #, fuzzy
@@ -7159,11 +7097,6 @@ msgstr "SID cartridge"
 msgid "lightpen Settings"
 msgstr "fényceruza beállításai..."
 
-#: src/arch/win32/reslightpen.rc.po.c:23
-#, fuzzy
-msgid "Enable lightpen"
-msgstr "&Fényceruza engedélyezése"
-
 #: src/arch/win32/resmagicvoice.rc.po.c:24
 #, fuzzy
 msgid "Magic Voice Settings"
@@ -7180,20 +7113,18 @@ msgstr "SID cartridge engedélyezése"
 msgid "Select file for Magic Voice"
 msgstr "Válasszon fájlt a REU-hoz"
 
-#: src/arch/win32/resmidi.rc.po.c:39
-#, fuzzy
-msgid "Enable MIDI"
-msgstr "SID &engedélyezése"
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:11535
+msgid "Enable MIDI emulation"
+msgstr "MIDI emuláció engedélyezése"
 
 #: src/arch/win32/resmidi.rc.po.c:40
 #, fuzzy
 msgid "MIDI type"
 msgstr "Egér típusa"
 
-#: src/arch/win32/resmmc64.rc.po.c:52
-#, fuzzy
-msgid "Enable MMC64"
-msgstr "MMC64 &engedélyezése"
+#: src/arch/win32/resmmc64.rc.po.c:52 src/translate_text.c.po.c:4464
+msgid "Enable the MMC64 expansion"
+msgstr "MMC64 bõvítés engedélyezése"
 
 #: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:7104
 msgid "BIOS Revision"
@@ -7219,11 +7150,6 @@ msgstr "MMC/SD képmás csak olvasható"
 #: src/arch/win32/resmmc64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:7182
 msgid "MMC/SD Image File"
 msgstr "MMC/SD képmás fájl"
-
-#: src/arch/win32/resmmcreplay.rc.po.c:49
-#, fuzzy
-msgid "EEPROM Image"
-msgstr "GEORAM képmás neve"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:7325
@@ -7313,9 +7239,10 @@ msgstr "PET REU beállításai"
 msgid "PET REU settings"
 msgstr "PET REU beállításai"
 
-#: src/arch/win32/respet.rc.po.c:567
+#: src/arch/win32/respet.rc.po.c:567 src/arch/amigaos/intl_text.c.po.c:2514
+#: src/translate_text.c.po.c:4128
 #, fuzzy
-msgid "Enable PET Userport DAC"
+msgid "Enable Userport DAC for sound output"
 msgstr "RS232 userport &engedélyezése"
 
 #: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
@@ -7323,10 +7250,10 @@ msgstr "RS232 userport &engedélyezése"
 msgid "PET DWW Settings"
 msgstr "PET REU beállításai"
 
-#: src/arch/win32/respetdww.rc.po.c:25
+#: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
 #, fuzzy
-msgid "Enable PET DWW"
-msgstr "*PET REU engedélyezése"
+msgid "Enable the PET DWW hi-res board"
+msgstr "Isepic cartridge tiltása"
 
 #: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
 #, fuzzy
@@ -7342,10 +7269,9 @@ msgstr "Válasszon fájlt a PET REU-hoz"
 msgid "PET REU Settings"
 msgstr "PET REU beállításai"
 
-#: src/arch/win32/respetreu.rc.po.c:38
-#, fuzzy
-msgid "Enable PET REU"
-msgstr "PET REU &engedélyezése"
+#: src/arch/win32/respetreu.rc.po.c:38 src/translate_text.c.po.c:4016
+msgid "Enable the PET Ram and Expansion Unit"
+msgstr "PET RAM and Expansion Unit engedélyezése"
 
 #: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5830
 msgid "PET REU size"
@@ -7364,10 +7290,9 @@ msgstr "Válasszon fájlt a PET REU-hoz"
 msgid "PLUS256K Settings"
 msgstr "PLUS256K beállításai"
 
-#: src/arch/win32/resplus256k.rc.po.c:25
-#, fuzzy
-msgid "Enable PLUS256K"
-msgstr "PLUS256K &engedélyezése"
+#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:11022
+msgid "Enable the PLUS256K RAM expansion"
+msgstr "PLUS256K RAM kiterjesztés engedélyezése"
 
 #: src/arch/win32/resplus256k.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:2371
@@ -7491,10 +7416,9 @@ msgstr "PET modell beállításai"
 msgid "PLUS60K Settings"
 msgstr "PLUS60K beállításai"
 
-#: src/arch/win32/resplus60k.rc.po.c:29
-#, fuzzy
-msgid "Enable PLUS60K"
-msgstr "PLUS60K &engedélyezése"
+#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:11070
+msgid "Enable the PLUS60K RAM expansion"
+msgstr "PLUS60K RAM bõvítés engedélyezése"
 
 #: src/arch/win32/resplus60k.rc.po.c:30
 msgid "PLUS60K base address"
@@ -7513,10 +7437,10 @@ msgstr "Válasszon fájlt a PLUS60K-hoz"
 msgid "RamCart Settings"
 msgstr "&Cartridge beállításai"
 
-#: src/arch/win32/resramcart.rc.po.c:42
+#: src/arch/win32/resramcart.rc.po.c:42 src/translate_text.c.po.c:4208
 #, fuzzy
-msgid "Enable RamCart"
-msgstr "REU &engedélyezése"
+msgid "Enable the RamCart expansion"
+msgstr "RAMCART bõvítés engedélyezése"
 
 #: src/arch/win32/resramcart.rc.po.c:43
 #, fuzzy
@@ -7547,10 +7471,10 @@ msgstr "Válasszon fájlt a REU-hoz"
 msgid "REU Settings"
 msgstr "REU beállításai"
 
-#: src/arch/win32/resreu.rc.po.c:40
+#: src/arch/win32/resreu.rc.po.c:40 src/translate_text.c.po.c:4832
 #, fuzzy
-msgid "Enable REU"
-msgstr "REU &engedélyezése"
+msgid "Enable the RAM Expansion Unit"
+msgstr "RAM Expansion Unit engedélyezése"
 
 #: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:6181
 msgid "REU size"
@@ -7574,10 +7498,9 @@ msgstr "Válasszon fájlt a REU-hoz"
 msgid "RS232 Userport Settings"
 msgstr "RS232 Userport beállításai"
 
-#: src/arch/win32/resrs232user.rc.po.c:35
-#, fuzzy
-msgid "Enable RS232 userport"
-msgstr "RS232 userport &engedélyezése"
+#: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:8296
+msgid "Enable RS232 userport emulation"
+msgstr "RS232 userport emuláció engedélyezése"
 
 #: src/arch/win32/resrs232user.rc.po.c:36
 msgid "Userport device"
@@ -7629,10 +7552,10 @@ msgstr "Bal oldali/fõ eszköz"
 msgid "Right device"
 msgstr "Jobb oldali eszköz"
 
-#: src/arch/win32/ressidcart.rc.po.c:82
+#: src/arch/win32/ressidcart.rc.po.c:82 src/translate_text.c.po.c:8722
 #, fuzzy
-msgid "Enable SID"
-msgstr "SID &engedélyezése"
+msgid "Enable the SID cartridge"
+msgstr "SID kártya *engedélyezése"
 
 #: src/arch/win32/ressidcart.rc.po.c:85
 msgid "HardSID device selection"
@@ -7642,8 +7565,8 @@ msgstr "HardSID eszköz kiválasztása"
 msgid "Main device"
 msgstr "Fõ eszköz"
 
-#: src/arch/win32/ressidcart.rc.po.c:87
-msgid "Enable digiblaster add-on"
+#: src/arch/win32/ressidcart.rc.po.c:87 src/translate_text.c.po.c:11584
+msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster engedélyezése"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:22
@@ -7651,10 +7574,10 @@ msgstr "Digiblaster engedélyezése"
 msgid "SFX Sound Expander Settings"
 msgstr "SFX Sounder Expander beállítások"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:23
+#: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
 #, fuzzy
-msgid "Enable SFX Sound Expander"
-msgstr "SFX Sound Expander &engedélyezése"
+msgid "Enable the SFX Sound Expander cartridge"
+msgstr "SFX soundexpander engedélyezése"
 
 #: src/arch/win32/restfe.rc.po.c:36
 msgid "Ethernet Settings"
@@ -7671,9 +7594,9 @@ msgstr "&Ethernet"
 msgid "V364 Speech Settings"
 msgstr "PET modell beállításai"
 
-#: src/arch/win32/resv364speech.rc.po.c:25
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:11616
 #, fuzzy
-msgid "Enable V364 Speech"
+msgid "Enable the v364 speech add-on"
 msgstr "Digiblaster engedélyezése"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
@@ -7695,11 +7618,6 @@ msgstr "&nincs memória bõvítés"
 #, fuzzy
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "&Mindegyik (blokk 0/1/2/3/5)"
-
-#: src/arch/win32/resvic20.rc.po.c:499
-#, fuzzy
-msgid "custom"
-msgstr "&egyéni"
 
 #: src/arch/win32/resvic20.rc.po.c:505
 msgid "Select Generic image"
@@ -7778,13 +7696,15 @@ msgid "4KB image at $B000"
 msgstr "4KB képmás $B000 címen..."
 
 #: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2605
-msgid "Enable Final Expansion write-back"
-msgstr "Final Expansion visszaírás engedélyezése"
+#: src/translate_text.c.po.c:9156
+msgid "Enable Final Expansion write back to ROM file"
+msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
 
 #: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:2618
+#: src/translate_text.c.po.c:9236
 #, fuzzy
-msgid "Enable Vic Flash Plugin write-back"
-msgstr "*Final Expansion visszaírás"
+msgid "Enable Vic Flash Plugin write back to ROM file"
+msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
 
 #: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2631
 #: src/translate_text.c.po.c:9204
@@ -7945,11 +7865,6 @@ msgstr "Számítógép ROM beállításai"
 msgid "Drive ROM settings"
 msgstr "Lemezegység ROM beállításai"
 
-#: src/arch/amigaos/intl_text.c.po.c:2514
-#, fuzzy
-msgid "Enable userport DAC"
-msgstr "RS232 userport &engedélyezése"
-
 #: src/arch/amigaos/intl_text.c.po.c:3060
 msgid "Fullscreen Statusbar"
 msgstr "Állapotsor teljes képernyõnél"
@@ -8101,19 +8016,10 @@ msgstr "Memória blokk $C000-$CFFF"
 msgid "Additional Delay"
 msgstr "Többlet szünet"
 
-#: src/arch/amigaos/intl_text.c.po.c:4776
-msgid "Delay at Zero Values"
-msgstr "Szünet nulla értékeknél"
-
 #: src/arch/amigaos/intl_text.c.po.c:5023
 #, fuzzy
 msgid "Expert Cartridge mode"
 msgstr "Cartridge képmás csatolása..."
-
-#: src/arch/amigaos/intl_text.c.po.c:5166
-#, fuzzy
-msgid "DQBB settings"
-msgstr "DQBB beállításai"
 
 #: src/arch/amigaos/intl_text.c.po.c:5257
 msgid "Select config file"
@@ -8425,11 +8331,6 @@ msgstr "Válassza ki a merevlemez képmás fájlt"
 msgid "Card read/write"
 msgstr "írható/olvasható"
 
-#: src/arch/amigaos/intl_text.c.po.c:7286
-#, fuzzy
-msgid "EEPROM Image File"
-msgstr "GEORAM képmás neve"
-
 #: src/arch/amigaos/intl_text.c.po.c:7299
 #, fuzzy
 msgid "Save EEPROM image when changed"
@@ -8600,10 +8501,6 @@ msgstr "NEOS egér"
 #: src/arch/amigaos/intl_text.c.po.c:8794
 msgid "Amiga mouse"
 msgstr "Amiga egér"
-
-#: src/arch/amigaos/intl_text.c.po.c:8963
-msgid "EasyFlash jumper"
-msgstr "EasyFlash jumper"
 
 #: src/arch/amigaos/intl_text.c.po.c:8976
 msgid "Save to EasyFlash CRT file on detach"
@@ -9517,11 +9414,6 @@ msgstr ""
 "Egy adat blokk írása `cím' helyrõl a megadott sávba és szektorba\n"
 "a 8-as meghajtón."
 
-#: src/translate_text.c.po.c:2392 src/translate_text.c.po.c:2408
-#, fuzzy
-msgid "directory"
-msgstr "<könyvtár>"
-
 #: src/translate_text.c.po.c:2424
 #, fuzzy
 msgid "Change current working directory."
@@ -9780,11 +9672,11 @@ msgstr "OEM userport botkormány adapter engedélyezése"
 msgid "Disable the OEM userport joystick adapter"
 msgstr "OEM userport botkormány adapter tiltása"
 
-#: src/translate_text.c.po.c:3306
+#: src/translate_text.c.po.c:3306 src/translate_text.c.po.c:3856
 msgid "Enable the IEEE488 interface emulation"
 msgstr "IEEE488 interfész emuláció engedélyezése"
 
-#: src/translate_text.c.po.c:3322
+#: src/translate_text.c.po.c:3322 src/translate_text.c.po.c:3872
 msgid "Disable the IEEE488 interface emulation"
 msgstr "IEEE488 interfész emuláció tiltása"
 
@@ -9797,12 +9689,9 @@ msgstr "<változat>"
 msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "A Kernal ROM átírása adott <változatra>"
 
-#: src/translate_text.c.po.c:3371
-msgid "Enable the $DE** ACIA RS232 interface emulation"
-msgstr "$DE** ACIA RS232 interfész emuláció engedélyezése"
-
 #: src/translate_text.c.po.c:3387
-msgid "Disable the $DE** ACIA RS232 interface emulation"
+#, fuzzy
+msgid "Disable the ACIA RS232 interface emulation"
 msgstr "$DE** ACIA RS232 interfész emuláció tiltása"
 
 #: src/translate_text.c.po.c:3421
@@ -9838,17 +9727,9 @@ msgstr "Adja meg a belsõ Function ROM képmás nevét"
 msgid "Specify name of external Function ROM image"
 msgstr "Adja meg a külsõ Function ROM képmás nevét"
 
-#: src/translate_text.c.po.c:3566
-msgid "Enable the internal Function ROM"
-msgstr "Belsõ Function ROM engedélyezése"
-
 #: src/translate_text.c.po.c:3582
 msgid "Disable the internal Function ROM"
 msgstr "Belsõ Function ROM tiltása"
-
-#: src/translate_text.c.po.c:3598
-msgid "Enable the external Function ROM"
-msgstr "Külsõ Function ROM engedélyezése"
 
 #: src/translate_text.c.po.c:3614
 msgid "Disable the external Function ROM"
@@ -9910,27 +9791,14 @@ msgstr ""
 msgid "Disable Hummer ADC"
 msgstr "Hummer ADC engedélyezése"
 
-#: src/translate_text.c.po.c:3856
-#, fuzzy
-msgid "Enable IEEE488 interface"
-msgstr "VIC-1112 IEEE488 interfész engedélyezése"
-
-#: src/translate_text.c.po.c:3872
-#, fuzzy
-msgid "Disable IEEE488 interface"
-msgstr "VIC-1112 IEEE488 interfész tiltása"
-
 #: src/translate_text.c.po.c:3888
 #, fuzzy
 msgid "specify IEEE488 interface image name"
 msgstr "IEEE488 interfész képmás..."
 
-#: src/translate_text.c.po.c:3904
-msgid "Enable the GEORAM expansion unit"
-msgstr "GEORAM Expansion Unit engedélyezése"
-
 #: src/translate_text.c.po.c:3920
-msgid "Disable the GEORAM expansion unit"
+#, fuzzy
+msgid "Disable the GEO-RAM expansion unit"
 msgstr "GEORAM Expansion Unit tiltása"
 
 #: src/translate_text.c.po.c:3936
@@ -9956,10 +9824,6 @@ msgstr "<méret KB-ban>"
 msgid "Size of the GEORAM expansion unit"
 msgstr "GEORAM Expansion Unit mérete"
 
-#: src/translate_text.c.po.c:4016
-msgid "Enable the PET Ram and Expansion Unit"
-msgstr "PET RAM and Expansion Unit engedélyezése"
-
 #: src/translate_text.c.po.c:4032
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "PET RAM and Expansion Unit tiltása"
@@ -9977,20 +9841,10 @@ msgstr "PET RAM and Expansion Unit mérete"
 msgid "Specify name of PET DWW image"
 msgstr "Adja meg a REU képmás nevét"
 
-#: src/translate_text.c.po.c:4096
-#, fuzzy
-msgid "Enable the PET DWW hi-res board"
-msgstr "Isepic cartridge tiltása"
-
 #: src/translate_text.c.po.c:4112
 #, fuzzy
 msgid "Disable the PET DWW hi-res board"
 msgstr "Isepic cartridge tiltása"
-
-#: src/translate_text.c.po.c:4128
-#, fuzzy
-msgid "Enable Userport DAC for sound output"
-msgstr "RS232 userport &engedélyezése"
 
 #: src/translate_text.c.po.c:4144
 #, fuzzy
@@ -10009,12 +9863,9 @@ msgstr "A videó szabvány és a SID modell PSID beállításainak felülbírálása"
 msgid "Specify PSID tune <number>"
 msgstr "Adja meg a PSID hangzatok <szám>"
 
-#: src/translate_text.c.po.c:4208
-msgid "Enable the RAMCART expansion"
-msgstr "RAMCART bõvítés engedélyezése"
-
 #: src/translate_text.c.po.c:4224
-msgid "Disable the RAMCART expansion"
+#, fuzzy
+msgid "Disable the RamCart expansion"
 msgstr "RAMCART bõvítés tiltása"
 
 #: src/translate_text.c.po.c:4240
@@ -10035,10 +9886,6 @@ msgstr "DTV ROM képmásba írás &engedélyezése"
 msgid "Size of the RAMCART expansion"
 msgstr "RAMCART bõvítés mérete"
 
-#: src/translate_text.c.po.c:4304
-msgid "Enable Double Quick Brown Box"
-msgstr "Double Quick Brown Box engedélyezése"
-
 #: src/translate_text.c.po.c:4320
 msgid "Disable Double Quick Brown Box"
 msgstr "Double Quick Brown Box tiltása"
@@ -10057,14 +9904,9 @@ msgstr "C64DTV ROM képmásba írás engedélyezése"
 msgid "Do not write to DQBB image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
 
-#: src/translate_text.c.po.c:4384
-#, fuzzy
-msgid "Enable the ISEPIC cart"
-msgstr "SID kártya *engedélyezése"
-
 #: src/translate_text.c.po.c:4400
 #, fuzzy
-msgid "Disable the ISEPIC cart"
+msgid "Disable the ISEPIC cartridge"
 msgstr "Isepic cartridge tiltása"
 
 #: src/translate_text.c.po.c:4416
@@ -10081,10 +9923,6 @@ msgstr "C64DTV ROM képmásba írás engedélyezése"
 #, fuzzy
 msgid "Do not write to ISEPIC image"
 msgstr "DTV ROM képmásba írás &engedélyezése"
-
-#: src/translate_text.c.po.c:4464
-msgid "Enable the MMC64 expansion"
-msgstr "MMC64 bõvítés engedélyezése"
 
 #: src/translate_text.c.po.c:4480
 msgid "Disable the MMC64 expansion"
@@ -10181,12 +10019,9 @@ msgstr ""
 msgid "Set RR Flash Jumper"
 msgstr "BIOS Flash jumper"
 
-#: src/translate_text.c.po.c:4832
-msgid "Enable the RAM expansion unit"
-msgstr "RAM Expansion Unit engedélyezése"
-
 #: src/translate_text.c.po.c:4848
-msgid "Disable the RAM expansion unit"
+#, fuzzy
+msgid "Disable the RAM Expansion Unit"
 msgstr "RAM Expansion Unit tiltása"
 
 #: src/translate_text.c.po.c:4864
@@ -10429,11 +10264,6 @@ msgstr "Nyers 8KB-os cartridge képmás csatolása"
 #, fuzzy
 msgid "Attach raw 512kB Game System cartridge image"
 msgstr "Nyers 8KB-os cartridge képmás csatolása"
-
-#: src/translate_text.c.po.c:5938
-#, fuzzy
-msgid "Enable the Expert Cartridge"
-msgstr "Expert cartridge engedélyezése"
 
 #: src/translate_text.c.po.c:5954
 #, fuzzy
@@ -11034,10 +10864,6 @@ msgstr "Adja meg a harmadik RS232-es eszköz nevét"
 msgid "Specify name of fourth RS232 device"
 msgstr "Adja meg a negyedik RS232-es eszköz nevét"
 
-#: src/translate_text.c.po.c:8296
-msgid "Enable RS232 userport emulation"
-msgstr "RS232 userport emuláció engedélyezése"
-
 #: src/translate_text.c.po.c:8312
 msgid "Disable RS232 userport emulation"
 msgstr "RS232 userport emuláció tiltása"
@@ -11164,13 +10990,10 @@ msgstr ""
 msgid "Enable second SID"
 msgstr "Második SID engedélyezése"
 
-#: src/translate_text.c.po.c:8722
-msgid "Enable SID Cartridge"
-msgstr "SID cartridge engedélyezése"
-
 #: src/translate_text.c.po.c:8738
-msgid "Disable SID Cartridge"
-msgstr "SID cartridge tiltása"
+#, fuzzy
+msgid "Disable the SID cartridge"
+msgstr "Isepic cartridge tiltása"
 
 #: src/translate_text.c.po.c:8770
 msgid "Specify base address for 2nd SID"
@@ -11280,10 +11103,6 @@ msgstr "Adja meg a Final Expansion ROM kiterjesztés nevét"
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Adja meg a Final Expansion ROM kiterjesztés nevét"
 
-#: src/translate_text.c.po.c:9156
-msgid "Enable Final Expansion write back to ROM file"
-msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
-
 #: src/translate_text.c.po.c:9172
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM fájlba visszaírás tiltása"
@@ -11297,11 +11116,6 @@ msgstr "Mega-Cart NvRAM képmás neve"
 #, fuzzy
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "*Mega-Cart NvRAM visszaírás"
-
-#: src/translate_text.c.po.c:9236
-#, fuzzy
-msgid "Enable Vic Flash Plugin write back to ROM file"
-msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
 
 #: src/translate_text.c.po.c:9252
 #, fuzzy
@@ -11617,10 +11431,6 @@ msgstr "Adja meg a naplófájl nevét"
 msgid "Enable verbose log output."
 msgstr ""
 
-#: src/translate_text.c.po.c:10510
-msgid "Enable mouse grab"
-msgstr "Egér elkapás engedélyezése"
-
 #: src/translate_text.c.po.c:10526
 msgid "Disable mouse grab"
 msgstr "Egér elkapás tiltása"
@@ -11744,10 +11554,6 @@ msgstr "<iso nyelv kód>"
 msgid "Specify the iso code of the language"
 msgstr "Adja meg a nyelv iso kódját"
 
-#: src/translate_text.c.po.c:11022
-msgid "Enable the PLUS256K RAM expansion"
-msgstr "PLUS256K RAM kiterjesztés engedélyezése"
-
 #: src/translate_text.c.po.c:11038
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM kiterjesztés tiltása"
@@ -11755,10 +11561,6 @@ msgstr "PLUS256K RAM kiterjesztés tiltása"
 #: src/translate_text.c.po.c:11054
 msgid "Specify name of PLUS256K image"
 msgstr "Adja meg a PLUS256K-s képmás nevét"
-
-#: src/translate_text.c.po.c:11070
-msgid "Enable the PLUS60K RAM expansion"
-msgstr "PLUS60K RAM bõvítés engedélyezése"
 
 #: src/translate_text.c.po.c:11086
 msgid "Disable the PLUS60K RAM expansion"
@@ -11771,10 +11573,6 @@ msgstr "Adja meg a nevét a PLUS60K képmásnak"
 #: src/translate_text.c.po.c:11118
 msgid "Base address of the PLUS60K expansion"
 msgstr "A PLUS60K bõvítés báziscíme"
-
-#: src/translate_text.c.po.c:11134
-msgid "Enable the 256K RAM expansion"
-msgstr "256K RAM kiterjesztés engedélyezése"
 
 #: src/translate_text.c.po.c:11150
 msgid "Disable the 256K RAM expansion"
@@ -11863,17 +11661,9 @@ msgstr "DTV flash chip naplók tiltása."
 msgid "Use <name> as directory for flash file system device"
 msgstr "<név> könyvtár használata a flash fájlrendszer eszközhöz"
 
-#: src/translate_text.c.po.c:11502
-msgid "Enable true hardware flash file system"
-msgstr "Igazi hardver flash fájlrendszer engedélyezése"
-
 #: src/translate_text.c.po.c:11518
 msgid "Disable true hardware flash file system"
 msgstr "Igazi hardver flash fájlrendszer tiltása"
-
-#: src/translate_text.c.po.c:11535
-msgid "Enable MIDI emulation"
-msgstr "MIDI emuláció engedélyezése"
 
 #: src/translate_text.c.po.c:11551
 msgid "Disable MIDI emulation"
@@ -11887,18 +11677,9 @@ msgstr ""
 "MIDI interfész típus (0: soros, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate_text.c.po.c:11584
-msgid "Enable the digiblaster add-on"
-msgstr "Digiblaster engedélyezése"
-
 #: src/translate_text.c.po.c:11600
 msgid "Disable the digiblaster add-on"
 msgstr "Digiblaster tiltása"
-
-#: src/translate_text.c.po.c:11616
-#, fuzzy
-msgid "Enable the v364 speech add-on"
-msgstr "Digiblaster engedélyezése"
 
 #: src/translate_text.c.po.c:11632
 #, fuzzy
@@ -11910,37 +11691,18 @@ msgstr "Digiblaster tiltása"
 msgid "Attach Speech ROM image"
 msgstr "Szalag képmás csatolása"
 
-#: src/translate_text.c.po.c:11664
-msgid "Enable SID cartridge joystick"
-msgstr "SID cartridge botkormány engedélyezése"
-
-#: src/translate_text.c.po.c:11680
-msgid "Disable SID cartridge joystick"
-msgstr "SID cartridge botkormány tiltása"
-
-#: src/translate_text.c.po.c:11696
-msgid "Enable the SFX soundexpander cartridge"
-msgstr "SFX soundexpander engedélyezése"
-
 #: src/translate_text.c.po.c:11712
-msgid "Disable the SFX soundexpander cartridge"
+#, fuzzy
+msgid "Disable the SFX Sound Expander cartridge"
 msgstr "SFX soundexpander tiltása"
 
 #: src/translate_text.c.po.c:11728
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "YM csip típus megadása (3526 / 3812)"
 
-#: src/translate_text.c.po.c:11744
-msgid "Enable the SFX Sound Sampler cartridge"
-msgstr "SFX Sound Sampler engedélyezése"
-
 #: src/translate_text.c.po.c:11760
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler tiltása"
-
-#: src/translate_text.c.po.c:11776
-msgid "Enable lightpen emulation"
-msgstr "Fényceruza emuláció engedélyezése"
 
 #: src/translate_text.c.po.c:11792
 msgid "Disable lightpen emulation"
@@ -11966,11 +11728,6 @@ msgstr "EasyFlash .crt képmásba írás engedélyezése"
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "EasyFlash .crt képmásba írás tiltása"
 
-#: src/translate_text.c.po.c:11888
-#, fuzzy
-msgid "Enable the DigiMAX cartridge"
-msgstr "Digimax cartridge engedélyezése"
-
 #: src/translate_text.c.po.c:11904
 #, fuzzy
 msgid "Disable the DigiMAX cartridge"
@@ -11980,6 +11737,234 @@ msgstr "Digimax cartridge tiltása"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
+
+#, fuzzy
+#~ msgid "Enable true flash filesystem"
+#~ msgstr "*Valós flash lemezegység engedélyezése"
+
+#~ msgid "Enable SIDcart joy"
+#~ msgstr "SIDcart botkormány engedélyezése"
+
+#~ msgid "Enable SFX Sound Sampler"
+#~ msgstr "SFX Sound Sampler engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable RamCart"
+#~ msgstr "REU &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable REU"
+#~ msgstr "REU &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable RS232 userport"
+#~ msgstr "RS232 userport &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable SID"
+#~ msgstr "SID &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable SFX Sound Expander"
+#~ msgstr "SFX Sound Expander &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable V364 Speech"
+#~ msgstr "Digiblaster engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable Vic Flash Plugin write-back"
+#~ msgstr "*Final Expansion visszaírás"
+
+#~ msgid "Enable SID Cartridge"
+#~ msgstr "SID cartridge engedélyezése"
+
+#~ msgid "Disable SID Cartridge"
+#~ msgstr "SID cartridge tiltása"
+
+#, fuzzy
+#~ msgid "Enable Lightpen"
+#~ msgstr "&Fényceruza engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable mouse"
+#~ msgstr "*Egér engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable ISEPIC"
+#~ msgstr "*REU engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable lightpen"
+#~ msgstr "&Fényceruza engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable MIDI"
+#~ msgstr "SID &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable MMC64"
+#~ msgstr "MMC64 &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable PET Userport DAC"
+#~ msgstr "RS232 userport &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable PET DWW"
+#~ msgstr "*PET REU engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable PET REU"
+#~ msgstr "PET REU &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable PLUS256K"
+#~ msgstr "PLUS256K &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable PLUS60K"
+#~ msgstr "PLUS60K &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable userport DAC"
+#~ msgstr "RS232 userport &engedélyezése"
+
+#~ msgid "Enable internal Function ROM"
+#~ msgstr "Belsõ Function ROM engedélyezése"
+
+#~ msgid "Enable external Function ROM"
+#~ msgstr "Külsõ Function ROM engedélyezése"
+
+#~ msgid "Enable fullscreen (default Chip)"
+#~ msgstr "Teljesképernyõs mód engedélyezése (alap Chip)"
+
+#~ msgid "Disable fullscreen (default Chip)"
+#~ msgstr "Teljesképernyõs mód tiltása (alap Chip)"
+
+#, fuzzy
+#~ msgid "Enable DigiMAX"
+#~ msgstr "Digimax &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable DQBB"
+#~ msgstr "DQBB &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable Expert Cartridge"
+#~ msgstr "Expert cartridge engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable GEO-RAM"
+#~ msgstr "GEORAM &engedélyezése"
+
+#~ msgid "Enable Final Expansion write-back"
+#~ msgstr "Final Expansion visszaírás engedélyezése"
+
+#, fuzzy
+#~ msgid "driver"
+#~ msgstr "<meghajtó>"
+
+#, fuzzy
+#~ msgid "DQBB image"
+#~ msgstr "DQBB képmás név"
+
+#, fuzzy
+#~ msgid "EEPROM image name"
+#~ msgstr "GEORAM képmás neve..."
+
+#, fuzzy
+#~ msgid "Enable ACIA"
+#~ msgstr "ACIA &engedélyezése"
+
+#, fuzzy
+#~ msgid "Enable 256K"
+#~ msgstr "256K &engedélyezése"
+
+#, fuzzy
+#~ msgid "DTV flash rom image"
+#~ msgstr "DTV flash &rom képmás"
+
+#, fuzzy
+#~ msgid "EasyFlash Jumper"
+#~ msgstr "EasyFlash &jumper"
+
+#, fuzzy
+#~ msgid "EEPROM Image"
+#~ msgstr "GEORAM képmás neve"
+
+#~ msgid "Enable digiblaster add-on"
+#~ msgstr "Digiblaster engedélyezése"
+
+#~ msgid "Diskname: "
+#~ msgstr "Lemeznév: "
+
+#~ msgid "Disable SIDcart joy"
+#~ msgstr "SIDcart botkormány tiltása"
+
+#, fuzzy
+#~ msgid "Disable DirectX9"
+#~ msgstr "DirectX9 videó meghajtó tiltása"
+
+#, fuzzy
+#~ msgid "DigiMAX Settings"
+#~ msgstr "Digimax beállításai"
+
+#~ msgid "DQBB Settings"
+#~ msgstr "DQBB beállításai"
+
+#, fuzzy
+#~ msgid "DQBB settings"
+#~ msgstr "DQBB beállításai"
+
+#, fuzzy
+#~ msgid "directory"
+#~ msgstr "<könyvtár>"
+
+#, fuzzy
+#~ msgid "Enable IEEE488 interface"
+#~ msgstr "VIC-1112 IEEE488 interfész engedélyezése"
+
+#, fuzzy
+#~ msgid "Disable IEEE488 interface"
+#~ msgstr "VIC-1112 IEEE488 interfész tiltása"
+
+#~ msgid "Detach cartridge image"
+#~ msgstr "Cartridge képmás leválasztása"
+
+#~ msgid "IDE64 cylinders"
+#~ msgstr "IDE64 cilinderek"
+
+#~ msgid "IDE64 heads"
+#~ msgstr "IDE64 fejek"
+
+#~ msgid "IDE64 sectors"
+#~ msgstr "IDE64 szektorok"
+
+#~ msgid "Current mode: "
+#~ msgstr "Jelenlegi mód: "
+
+#, fuzzy
+#~ msgid "CRT settings"
+#~ msgstr "VDC beállításai"
+
+#~ msgid "Datasette Settings"
+#~ msgstr "Magnó beállításai"
+
+#, fuzzy
+#~ msgid "cycles delay at zero-values"
+#~ msgstr "ciklus szünet &nulla értékeknél"
+
+#, fuzzy
+#~ msgid "Create new flash rom image"
+#~ msgstr "Új flash rom képmás &létrehozása"
+
+#, fuzzy
+#~ msgid "custom"
+#~ msgstr "&egyéni"
+
+#~ msgid "Delay at Zero Values"
+#~ msgstr "Szünet nulla értékeknél"
 
 #~ msgid "Confirm on exit"
 #~ msgstr "Megerõsítés kilépéskor"
@@ -13492,9 +13477,6 @@ msgstr "A digimax cartridge báziscíme"
 
 #~ msgid "Enable fullscreen mode"
 #~ msgstr "Teljesképernyõs mód engedélyezése"
-
-#~ msgid "Disable fullscreen mode"
-#~ msgstr "Teljesképernyõs mód tiltása"
 
 #~ msgid "Enable double size in fullscreen mode"
 #~ msgstr "Dupla méret engedélyezése teljesképernyõs módban"

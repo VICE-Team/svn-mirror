@@ -43,7 +43,7 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU Settings"
-    IDS_PETREU_ENABLE      "Enable PET REU"
+    IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
     IDS_PETREU_SELECT_FILE "Select file for PET REU"
@@ -69,7 +69,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU Einstellungen"
-    IDS_PETREU_ENABLE      "Aktivieren der PET REU"
+    IDS_PETREU_ENABLE      "PET RAM Speicher und Erweiterungsmodul aktivieren"
     IDS_PETREU_SIZE        "PET REU Größe"
     IDS_PETREU_FILE        "PET REU Datei"
     IDS_PETREU_SELECT_FILE "Datei für PET REU auswählen"
@@ -82,7 +82,7 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU Settings"
-    IDS_PETREU_ENABLE      "Enable PET REU"
+    IDS_PETREU_ENABLE      "Activer l'expansion d'unité et de RAM du PET"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
     IDS_PETREU_SELECT_FILE "Select file for PET REU"
@@ -98,7 +98,7 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU beállításai"
-    IDS_PETREU_ENABLE      "Enable PET REU"
+    IDS_PETREU_ENABLE      "PET RAM and Expansion Unit engedélyezése"
     IDS_PETREU_SIZE        "PET REU mérete"
     IDS_PETREU_FILE        "PET REU fájl"
     IDS_PETREU_SELECT_FILE "Válasszon fájlt a PET REU-hoz"
@@ -114,7 +114,7 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "Impostazioni PET REU"
-    IDS_PETREU_ENABLE      "Attiva PET REU"
+    IDS_PETREU_ENABLE      "Attiva la RAM e l'unità di espansione del PET"
     IDS_PETREU_SIZE        "Dimensione PET REU"
     IDS_PETREU_FILE        "File PET REU"
     IDS_PETREU_SELECT_FILE "Seleziona il file per il PET REU"
@@ -130,7 +130,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU Settings"
-    IDS_PETREU_ENABLE      "Enable PET REU"
+    IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
     IDS_PETREU_SELECT_FILE "Select file for PET REU"
@@ -146,7 +146,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU instellingen"
-    IDS_PETREU_ENABLE      "Activeer PET REU"
+    IDS_PETREU_ENABLE      "Activeer de PET RAM en uitbreidingseenheid"
     IDS_PETREU_SIZE        "PET REU grootte"
     IDS_PETREU_FILE        "PET REU bestand"
     IDS_PETREU_SELECT_FILE "Selecteer bestand voor PET REU"
@@ -162,7 +162,7 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU Settings"
-    IDS_PETREU_ENABLE      "Enable PET REU"
+    IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
     IDS_PETREU_SELECT_FILE "Select file for PET REU"
@@ -181,7 +181,7 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU Settings"
-    IDS_PETREU_ENABLE      "Enable PET REU"
+    IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
     IDS_PETREU_SELECT_FILE "Select file for PET REU"
@@ -197,7 +197,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU-Inställningar"
-    IDS_PETREU_ENABLE      "Aktivera PET REU"
+    IDS_PETREU_ENABLE      "Aktivera PET Ram- och -expansionsenhet"
     IDS_PETREU_SIZE        "Storlek på PET REU"
     IDS_PETREU_FILE        "PET REU-fil"
     IDS_PETREU_SELECT_FILE "Välj fil för PET REU"
@@ -213,7 +213,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_PETREU_CAPTION     "PET REU Ayarlarý"
-    IDS_PETREU_ENABLE      "PET REU'yu aktif et"
+    IDS_PETREU_ENABLE      "PET Ram ve Geniþletme Birimi'ni aktif et"
     IDS_PETREU_SIZE        "PET REU boyutu"
     IDS_PETREU_FILE        "PET REU dosyasý"
     IDS_PETREU_SELECT_FILE "PET REU için dosya seçin"

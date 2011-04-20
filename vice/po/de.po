@@ -1,11 +1,11 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-19 14:19-0700\n"
+"POT-Creation-Date: 2011-04-20 07:59-0700\n"
 "PO-Revision-Date: 2011-04-18 21:14+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -44,8 +44,9 @@ msgstr "MIDI-In Gerät spezifieren"
 msgid "Specify MIDI-Out device"
 msgstr "MIDI-Out Gerät spezifieren"
 
-#: src/arch/unix/mididrv.c:680
-msgid "driver"
+#: src/arch/unix/mididrv.c:680 src/arch/unix/gui/uimidi.c:87
+#: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1164
+msgid "Driver"
 msgstr "Treiber"
 
 #: src/arch/unix/mididrv.c:680
@@ -130,7 +131,8 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:244 src/arch/win32/resc128.rc.po.c:688
-msgid "Enable internal Function ROM"
+#: src/translate_text.c.po.c:3566
+msgid "Enable the internal Function ROM"
 msgstr "Internes Funktions ROM aktivieren"
 
 #: src/arch/unix/gui/c128ui.c:246
@@ -138,7 +140,8 @@ msgid "Internal Function ROM name"
 msgstr "Name des internen Function Roms"
 
 #: src/arch/unix/gui/c128ui.c:250 src/arch/win32/resc128.rc.po.c:691
-msgid "Enable external Function ROM"
+#: src/translate_text.c.po.c:3598
+msgid "Enable the external Function ROM"
 msgstr "Externes Funktions ROM aktivieren"
 
 #: src/arch/unix/gui/c128ui.c:252
@@ -1161,10 +1164,10 @@ msgstr "64kB Super Snapshot V5 Image (raw) einlegen"
 msgid "Set cartridge as default"
 msgstr "Aktuelles Erweiterungsmodul als standard aktivieren"
 
-#: src/arch/unix/gui/uic64cart.c:158 src/arch/win32/res.rc.po.c:1371
-#: src/arch/amigaos/intl_text.c.po.c:499
-msgid "Detach cartridge image"
-msgstr "Erweiterungsmodul Image entfernen"
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:357
+#: src/arch/win32/res.rc.po.c:1371 src/arch/amigaos/intl_text.c.po.c:499
+msgid "Detach cartridge image(s)"
+msgstr "Erweiterungsmodul Image(s) entfernen"
 
 #: src/arch/unix/gui/uic64cart.c:160 src/arch/win32/res.rc.po.c:1372
 #: src/arch/amigaos/intl_text.c.po.c:824
@@ -1520,7 +1523,7 @@ msgstr "Renderer"
 
 #: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
 #: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
-#: src/arch/unix/gui/uivicii.c:177
+#: src/arch/unix/gui/uivicii.c:177 src/arch/unix/x11/gnome/uipalcontrol.c:98
 msgid "CRT emulation settings"
 msgstr "CRT Emulator Einstellungen"
 
@@ -1577,6 +1580,7 @@ msgid "Datasette speed tuning"
 msgstr "Bandlaufwerk Geschwindigkeitskontrolle"
 
 #: src/arch/unix/gui/uidatasette.c:58 src/arch/unix/gui/uidatasette.c:84
+#: src/arch/win32/res.rc.po.c:1117 src/arch/amigaos/intl_text.c.po.c:4776
 msgid "Datasette zero gap delay"
 msgstr "Bandlaufwerk Zero Gap Verzögerung"
 
@@ -1650,9 +1654,10 @@ msgstr "Imagedatei jetzt speichern"
 msgid "Save image as"
 msgstr "Imagedatei speichern"
 
-#: src/arch/unix/gui/uidqbb.c:63
-msgid "DQBB image"
-msgstr "DQBB Image"
+#: src/arch/unix/gui/uidqbb.c:63 src/arch/win32/resdqbb.rc.po.c:40
+#: src/arch/amigaos/intl_text.c.po.c:5127
+msgid "DQBB file"
+msgstr "DQBB Datei"
 
 #: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:102
@@ -1689,8 +1694,9 @@ msgid "True drive emulation"
 msgstr "Präzise Floppy Emulation"
 
 #: src/arch/unix/gui/uidrive.c:188 src/arch/unix/gui/uidrivec64dtv.c:45
-msgid "Enable true flash filesystem"
-msgstr "Präzise Flash Dateisystem Emulation"
+#: src/translate_text.c.po.c:11502
+msgid "Enable true hardware flash file system"
+msgstr "Präzises Hardware Flashdateisystem aktivieren"
 
 #: src/arch/unix/gui/uidrivec128.c:43 src/arch/unix/gui/uidrivec128.c:75
 #: src/arch/unix/gui/uidrivec128.c:97 src/arch/unix/gui/uidrivec128.c:119
@@ -2078,6 +2084,7 @@ msgid "XRandR Resolutions"
 msgstr "XRandR Auflösungen"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:92
+#: src/arch/unix/x11/ui-cmdline-options.c:79
 msgid "Enable fullscreen"
 msgstr "Vollbild Modus aktivieren"
 
@@ -2106,25 +2113,28 @@ msgstr "IDE64 Image"
 msgid "Enter number of cylinders"
 msgstr "Anzahl der Zylinder eingeben"
 
-#: src/arch/unix/gui/uiide64.c:75
-msgid "IDE64 cylinders"
-msgstr "IDE64 Zylinder"
+#: src/arch/unix/gui/uiide64.c:75 src/arch/unix/gui/uiide64.c:192
+#: src/arch/win32/reside64.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:7052
+msgid "Cylinders"
+msgstr "Zylinder"
 
 #: src/arch/unix/gui/uiide64.c:113
 msgid "Enter number of heads"
 msgstr "Anzahl der Köpfe eingeben"
 
-#: src/arch/unix/gui/uiide64.c:114
-msgid "IDE64 heads"
-msgstr "IDE64 Köpfe"
+#: src/arch/unix/gui/uiide64.c:114 src/arch/unix/gui/uiide64.c:194
+#: src/arch/win32/reside64.rc.po.c:83 src/arch/amigaos/intl_text.c.po.c:7065
+msgid "Heads"
+msgstr "Köpfe"
 
 #: src/arch/unix/gui/uiide64.c:152
 msgid "Enter number of sectors"
 msgstr "Anzahl der Sektoren eingeben"
 
-#: src/arch/unix/gui/uiide64.c:153
-msgid "IDE64 sectors"
-msgstr "IDE64 Sektoren"
+#: src/arch/unix/gui/uiide64.c:153 src/arch/unix/gui/uiide64.c:196
+#: src/arch/win32/reside64.rc.po.c:84 src/arch/amigaos/intl_text.c.po.c:7078
+msgid "Sectors"
+msgstr "Sektoren"
 
 #: src/arch/unix/gui/uiide64.c:166
 msgid "Version 3"
@@ -2159,21 +2169,6 @@ msgstr "HD Image 4 Name"
 #: src/arch/amigaos/intl_text.c.po.c:7039 src/translate_text.c.po.c:6114
 msgid "Autodetect image size"
 msgstr "Image Größe automatisch erkennen"
-
-#: src/arch/unix/gui/uiide64.c:192 src/arch/win32/reside64.rc.po.c:82
-#: src/arch/amigaos/intl_text.c.po.c:7052
-msgid "Cylinders"
-msgstr "Zylinder"
-
-#: src/arch/unix/gui/uiide64.c:194 src/arch/win32/reside64.rc.po.c:83
-#: src/arch/amigaos/intl_text.c.po.c:7065
-msgid "Heads"
-msgstr "Köpfe"
-
-#: src/arch/unix/gui/uiide64.c:196 src/arch/win32/reside64.rc.po.c:84
-#: src/arch/amigaos/intl_text.c.po.c:7078
-msgid "Sectors"
-msgstr "Sektoren"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2428,9 +2423,10 @@ msgstr "Magnum Light Phaser"
 msgid "Stack Light Rifle"
 msgstr "Stack Light Rifle"
 
-#: src/arch/unix/gui/uilightpen.c:68
-msgid "Enable Lightpen"
-msgstr "Lichtgriffel aktivieren"
+#: src/arch/unix/gui/uilightpen.c:68 src/arch/win32/reslightpen.rc.po.c:23
+#: src/translate_text.c.po.c:11776
+msgid "Enable lightpen emulation"
+msgstr "Lichtgriffel Emulation aktivieren"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:24
 msgid "Lightpen type"
@@ -2454,11 +2450,6 @@ msgstr "MIDI-Out Gerät"
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1242
 msgid "Type"
 msgstr "Typ"
-
-#: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
-#: src/arch/win32/res.rc.po.c:1164
-msgid "Driver"
-msgstr "Treiber"
 
 #: src/arch/unix/gui/uimmc64.c:53
 msgid "Rev. A"
@@ -2509,9 +2500,11 @@ msgstr "MMC64 Image"
 msgid "Enable rescue mode"
 msgstr "Rescue Modus aktivieren"
 
-#: src/arch/unix/gui/uimmcreplay.c:86
-msgid "EEPROM image name"
-msgstr "EEPROM Imagedateiname"
+#: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
+#: src/arch/amigaos/intl_text.c.po.c:7286
+#, fuzzy
+msgid "EEPROM image file"
+msgstr "EEPROM Image Datei"
 
 #: src/arch/unix/gui/uimmcreplay.c:89
 msgid "Enable writes to EEPROM image"
@@ -2537,8 +2530,8 @@ msgstr "Port 1"
 msgid "Port 2"
 msgstr "Port 2"
 
-#: src/arch/unix/gui/uimouse.c:62
-msgid "Enable mouse"
+#: src/arch/unix/gui/uimouse.c:62 src/translate_text.c.po.c:10510
+msgid "Enable mouse grab"
 msgstr "Maus aktivieren"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:31
@@ -2601,7 +2594,7 @@ msgstr "Server zu welchem verbunden werden soll"
 msgid "Connect to server"
 msgstr "Verbinde mit Server"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:316
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:318
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Verbindung Trennen"
@@ -3240,7 +3233,8 @@ msgid "Resource file name"
 msgstr "Dateiname für Einstellungen"
 
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#: src/arch/win32/res.rc.po.c:1401 src/arch/amigaos/intl_text.c.po.c:1396
+#: src/arch/win32/res.rc.po.c:1401 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/amigaos/intl_text.c.po.c:1396
 msgid "Custom"
 msgstr "Benutzerdefiniert"
 
@@ -3682,10 +3676,6 @@ msgstr "NvRAM Rückschreiben aktivieren"
 msgid "NvRAM image file"
 msgstr "NvRAM Imagedateiname"
 
-#: src/arch/unix/gui/vic20ui.c:357
-msgid "Detach cartridge image(s)"
-msgstr "Erweiterungsmodul Image(s) entfernen"
-
 #: src/arch/unix/gui/vic20ui.c:495
 msgid "VIC model"
 msgstr "VIC Modell"
@@ -3835,9 +3825,9 @@ msgstr "Leeres Disk Image erzeugen"
 msgid "Disk options"
 msgstr "Disk Optionen"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:74
-msgid "Diskname: "
-msgstr "Diskname: "
+#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:262
+msgid "Disk name:"
+msgstr "Diskname:"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:182
 #, c-format
@@ -3913,34 +3903,35 @@ msgstr "Unbekannt"
 msgid "Connect to"
 msgstr "Verbinden mit"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:206
-#: src/arch/unix/x11/gnome/uinetplay.c:208 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1223
+#: src/arch/amigaos/intl_text.c.po.c:3515
+msgid "Current mode"
+msgstr "Aktueller Modus"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:207
+#: src/arch/unix/x11/gnome/uinetplay.c:209 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Netplay Einstellungen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:214
-msgid "Current mode: "
-msgstr "Status: "
-
-#: src/arch/unix/x11/gnome/uinetplay.c:226
+#: src/arch/unix/x11/gnome/uinetplay.c:228
 #: src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start Server"
 msgstr "Server Starten"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:232
+#: src/arch/unix/x11/gnome/uinetplay.c:234
 msgid "TCP port: "
 msgstr "TCP Port: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:282 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Kontrolle"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:287 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:289 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Server"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:290 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:292 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Client"
 
@@ -3963,10 +3954,6 @@ msgstr "Helligkeit"
 #: src/arch/amigaos/intl_text.c.po.c:7780
 msgid "Gamma"
 msgstr "Gamma"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:98
-msgid "CRT settings"
-msgstr "CRT Einstellungen"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:288
 msgid "Save Media File"
@@ -4202,13 +4189,10 @@ msgstr "Keine Bestätigung beim Beenden von VICE"
 msgid "Never save settings (resources) on exit"
 msgstr "Einstellungen beim Beenden nie speichern"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:79
-msgid "Enable fullscreen (default Chip)"
-msgstr "Vollbild Modus aktivieren (Default Chip)"
-
 #: src/arch/unix/x11/ui-cmdline-options.c:84
-msgid "Disable fullscreen (default Chip)"
-msgstr "Vollbild Modus deaktivieren (Default Chip)"
+#, fuzzy
+msgid "Disable fullscreen"
+msgstr "Vollbild Modus deaktivieren"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2728
 #: src/translate_text.c.po.c:6050
@@ -4262,10 +4246,6 @@ msgstr "Leeres Disk Image erzeugen"
 #: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
 msgstr "Kann Disk Image nicht erzeugen."
-
-#: src/arch/unix/x11/xaw/uiedisk.c:262
-msgid "Disk name:"
-msgstr "Diskname:"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:297
 msgid "Disk format:"
@@ -5006,13 +4986,13 @@ msgstr "Drücke Taste für Feuer"
 msgid "No userport joy adapter"
 msgstr "Kein Userport Joystick Adapter"
 
-#: src/arch/win32/res.rc.po.c:1039
-msgid "Disable SIDcart joy"
-msgstr "SIDcart Joystick deaktivieren"
+#: src/arch/win32/res.rc.po.c:1039 src/translate_text.c.po.c:11680
+msgid "Disable SID cartridge joystick"
+msgstr "SIDcart Modul deaktivieren"
 
-#: src/arch/win32/res.rc.po.c:1040
-msgid "Enable SIDcart joy"
-msgstr "SIDcart Joystick aktivieren"
+#: src/arch/win32/res.rc.po.c:1040 src/translate_text.c.po.c:11664
+msgid "Enable SID cartridge joystick"
+msgstr "SIDcart Modul aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1041
 msgid "Numpad + RCtrl"
@@ -5200,7 +5180,7 @@ msgstr "Nur erste SMP SPU nutzen"
 msgid "Start VICE in fullscreen mode"
 msgstr "Aktiviere VICE Vollbild Modus"
 
-#: src/arch/win32/res.rc.po.c:1089
+#: src/arch/win32/res.rc.po.c:1089 src/arch/win32/res.rc.po.c:1404
 msgid "Disable DirectX9 video driver"
 msgstr "DirectX9 Video Treiber deaktivieren"
 
@@ -5226,8 +5206,10 @@ msgstr "Fehler beim Verbindungsaufbau zum Client"
 msgid "Error saving EasyFlash crt file"
 msgstr "Fehler beim Speichern der EasyFlash CRT Datei"
 
-#: src/arch/win32/res.rc.po.c:1113 src/arch/amigaos/intl_text.c.po.c:4789
-msgid "Datasette Settings"
+#: src/arch/win32/res.rc.po.c:1113 src/arch/win32/res.rc.po.c:1422
+#: src/arch/amigaos/intl_text.c.po.c:2059
+#: src/arch/amigaos/intl_text.c.po.c:4789
+msgid "Datasette settings"
 msgstr "Datasette Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1115
@@ -5238,15 +5220,12 @@ msgstr "Motorgeschwindigkeit beim Lesen"
 msgid "cycle(s) additional delay each trigger"
 msgstr "Zyklen zusätzliche Verzögerung bei jedem Trigger"
 
-#: src/arch/win32/res.rc.po.c:1117
-msgid "cycles delay at zero-values"
-msgstr "Zyklen Verzögerung bei Zero-Werte"
-
 #: src/arch/win32/res.rc.po.c:1118
 msgid "Use IEC Device"
 msgstr "IEC Gerät aktivieren"
 
-#: src/arch/win32/res.rc.po.c:1120
+#: src/arch/win32/res.rc.po.c:1120 src/translate_text.c.po.c:2392
+#: src/translate_text.c.po.c:2408
 msgid "Directory"
 msgstr "Directory"
 
@@ -5535,10 +5514,6 @@ msgstr "RS232 Gerät 3"
 #: src/arch/win32/res.rc.po.c:1221 src/arch/amigaos/intl_text.c.po.c:4321
 msgid "RS232 device 4"
 msgstr "RS232 Gerät 4"
-
-#: src/arch/win32/res.rc.po.c:1223 src/arch/amigaos/intl_text.c.po.c:3515
-msgid "Current mode"
-msgstr "Aktueller Modus"
 
 #: src/arch/win32/res.rc.po.c:1224 src/arch/amigaos/intl_text.c.po.c:3554
 msgid "Server Bind"
@@ -5913,10 +5888,6 @@ msgstr "Warp modus"
 msgid "Always on Top"
 msgstr "Immer im Vordergrund"
 
-#: src/arch/win32/res.rc.po.c:1404
-msgid "Disable DirectX9"
-msgstr "DirectX9 deaktivieren"
-
 #: src/arch/win32/res.rc.po.c:1405
 msgid "Swap Joysticks"
 msgstr "Joystick ports austauschen"
@@ -5947,10 +5918,6 @@ msgstr "Userport Joystick Einstellungen"
 msgid "Sidcart joystick settings"
 msgstr "Sidcart Joystick Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:2059
-msgid "Datasette settings"
-msgstr "Datasette Einstellungen"
-
 #: src/arch/win32/res.rc.po.c:1424 src/arch/amigaos/intl_text.c.po.c:2150
 msgid "Mouse settings"
 msgstr "Maus Einstellungen"
@@ -5970,7 +5937,9 @@ msgstr "GEO-RAM Einstellungen"
 msgid "RamCart settings"
 msgstr "RamCart Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:1430 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/win32/res.rc.po.c:1430 src/arch/win32/resdqbb.rc.po.c:13
+#: src/arch/win32/resdqbb.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/amigaos/intl_text.c.po.c:5166
 msgid "Double Quick Brown Box settings"
 msgstr "Double Quick Brown Box Einstellungen"
 
@@ -6006,7 +5975,8 @@ msgstr "Magic Voice Einstellungen"
 msgid "MIDI settings"
 msgstr "MIDI Einstellungen"
 
-#: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2462
+#: src/arch/win32/res.rc.po.c:1437 src/arch/win32/resdigimax.rc.po.c:22
+#: src/arch/amigaos/intl_text.c.po.c:2462
 #: src/arch/amigaos/intl_text.c.po.c:8495
 msgid "DigiMAX settings"
 msgstr "DigiMAX Einstellungen"
@@ -6046,8 +6016,9 @@ msgid "SFX Sound Expander settings"
 msgstr "SFX Sound Expander Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1447 src/arch/amigaos/intl_text.c.po.c:2501
-msgid "Enable SFX Sound Sampler"
-msgstr "SFX Sound Sampler aktivieren"
+#: src/translate_text.c.po.c:11744
+msgid "Enable the SFX Sound Sampler cartridge"
+msgstr "SFX Sound Sampler Modul aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1448 src/arch/amigaos/intl_text.c.po.c:2683
 msgid "Save current settings to specified file"
@@ -6210,9 +6181,10 @@ msgstr "Swiftlink"
 msgid "Turbo232"
 msgstr "Turbo232"
 
-#: src/arch/win32/resacia.rc.po.c:48
-msgid "Enable ACIA"
-msgstr "ACIA Aktivieren"
+#: src/arch/win32/resacia.rc.po.c:48 src/translate_text.c.po.c:3371
+#, fuzzy
+msgid "Enable the ACIA RS232 interface emulation"
+msgstr "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"
 
 #: src/arch/win32/resacia.rc.po.c:50
 msgid "ACIA location"
@@ -6416,9 +6388,9 @@ msgstr "8562 (NTSC)"
 msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
-#: src/arch/win32/resc64_256k.rc.po.c:29
-msgid "Enable 256K"
-msgstr "256K aktivieren"
+#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:11134
+msgid "Enable the 256K RAM expansion"
+msgstr "256K RAM Erweiterung aktivieren"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:4477
@@ -6430,9 +6402,10 @@ msgstr "256K Basis Adresse"
 msgid "Select file for 256K"
 msgstr "Datei für 256K auswählen"
 
-#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:445
-msgid "DTV flash rom image"
-msgstr "DTV Flash Rom Datei"
+#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:436
+#: src/arch/win32/resc64dtv.rc.po.c:445
+msgid "DTV ROM image File"
+msgstr "DTV ROM Image Name"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
 msgid "Attach DTV Flash Image"
@@ -6441,10 +6414,6 @@ msgstr "DTV Flash Image einlegen"
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "DTV ROM"
 msgstr "DTV ROM"
-
-#: src/arch/win32/resc64dtv.rc.po.c:436
-msgid "DTV ROM image File"
-msgstr "DTV ROM Image Name"
 
 #: src/arch/win32/resc64dtv.rc.po.c:437
 msgid "Enable writes to DTV ROM image"
@@ -6460,7 +6429,7 @@ msgstr "C64DTV Einstellungen"
 msgid "Enable Hummer ADC"
 msgstr "Hummer ADC Aktivieren"
 
-#: src/arch/win32/resc64dtv.rc.po.c:441
+#: src/arch/win32/resc64dtv.rc.po.c:441 src/arch/win32/resc64dtv.rc.po.c:449
 msgid "Create DTV Flash Image"
 msgstr "DTV Image Datei erzeugen"
 
@@ -6483,10 +6452,6 @@ msgstr "Flash ROM Image einlegen"
 #: src/arch/win32/resc64dtv.rc.po.c:448
 msgid "Detach flash rom image"
 msgstr "Flash ROM Image entfernen"
-
-#: src/arch/win32/resc64dtv.rc.po.c:449
-msgid "Create new flash rom image"
-msgstr "Flash ROM Datei erzeugen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:450
 msgid "True flash filesystem"
@@ -6546,40 +6511,29 @@ msgstr "1024 kByte"
 msgid "Ram banks"
 msgstr "Ram Bänke"
 
-#: src/arch/win32/resdigimax.rc.po.c:22
-msgid "DigiMAX Settings"
-msgstr "DigiMAX Einstellungen"
-
-#: src/arch/win32/resdigimax.rc.po.c:23
-msgid "Enable DigiMAX"
-msgstr "DigiMAX aktivieren"
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:11888
+msgid "Enable the DigiMAX cartridge"
+msgstr "DigiMAX Cartridge aktivieren"
 
 #: src/arch/win32/resdigimax.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:8482
 msgid "DigiMAX base"
 msgstr "DigiMAX Basis"
 
-#: src/arch/win32/resdqbb.rc.po.c:13 src/arch/win32/resdqbb.rc.po.c:37
-msgid "DQBB Settings"
-msgstr "DQBB Einstellungen"
-
 #: src/arch/win32/resdqbb.rc.po.c:36 src/arch/amigaos/intl_text.c.po.c:5153
 msgid "Select file for DQBB"
 msgstr "Datei für DQBB auswählen"
 
-#: src/arch/win32/resdqbb.rc.po.c:38
-msgid "Enable DQBB"
-msgstr "DQBB Aktivieren"
+#: src/arch/win32/resdqbb.rc.po.c:38 src/translate_text.c.po.c:4304
+msgid "Enable Double Quick Brown Box"
+msgstr "Double Quick Brown Box aktivieren"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5140
 msgid "Save DQBB image when changed"
 msgstr "DQBB Imagedatei bei Änderung speichern"
 
-#: src/arch/win32/resdqbb.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5127
-msgid "DQBB file"
-msgstr "DQBB Datei"
-
 #: src/arch/win32/reseasyflash.rc.po.c:30
-msgid "EasyFlash Jumper"
+#: src/arch/amigaos/intl_text.c.po.c:8963
+msgid "EasyFlash jumper"
 msgstr "EasyFlash Jumper"
 
 #: src/arch/win32/reseasyflash.rc.po.c:31
@@ -6594,8 +6548,8 @@ msgstr "CRT Imagedatei jetzt speichern"
 msgid "Select file for Expert Cartridge"
 msgstr "Export Cartridge Imagedatei auswählen"
 
-#: src/arch/win32/resexpert.rc.po.c:41
-msgid "Enable Expert Cartridge"
+#: src/arch/win32/resexpert.rc.po.c:41 src/translate_text.c.po.c:5938
+msgid "Enable the Expert Cartridge"
 msgstr "Expert Cartridge aktivieren"
 
 #: src/arch/win32/resexpert.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:5088
@@ -6610,9 +6564,10 @@ msgstr "Expert Cartridge Imagedatei"
 msgid "Select file for GEO-RAM"
 msgstr "Datei für GEO-RAM auswählen"
 
-#: src/arch/win32/resgeoram.rc.po.c:41
-msgid "Enable GEO-RAM"
-msgstr "GEO-RAM aktivieren"
+#: src/arch/win32/resgeoram.rc.po.c:41 src/translate_text.c.po.c:3904
+#, fuzzy
+msgid "Enable the GEO-RAM expansion unit"
+msgstr "GEORAM Erweiterung aktivieren"
 
 #: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4958
 msgid "GEO-RAM size"
@@ -6663,9 +6618,10 @@ msgstr "HD Image Datei auswählen"
 msgid "Select file for ISEPIC"
 msgstr "Datei für ISEPIC auswählen"
 
-#: src/arch/win32/resisepic.rc.po.c:39
-msgid "Enable ISEPIC"
-msgstr "Aktiviere ISEPIC"
+#: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:4384
+#, fuzzy
+msgid "Enable the ISEPIC cartridge"
+msgstr "ISEPIC Modul aktivieren"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5192
 msgid "ISEPIC switch"
@@ -6683,10 +6639,6 @@ msgstr "ISEPIC Imagedatei"
 msgid "lightpen Settings"
 msgstr "Lichtgriffel Einstellungen"
 
-#: src/arch/win32/reslightpen.rc.po.c:23
-msgid "Enable lightpen"
-msgstr "Lichtgriffel Emulation aktivieren"
-
 #: src/arch/win32/resmagicvoice.rc.po.c:24
 msgid "Magic Voice Settings"
 msgstr "Magic Voice Einstellungen"
@@ -6700,17 +6652,17 @@ msgstr "Magic Voice aktivieren"
 msgid "Select file for Magic Voice"
 msgstr "Datei für Magic Voice auswählen"
 
-#: src/arch/win32/resmidi.rc.po.c:39
-msgid "Enable MIDI"
-msgstr "MIDI aktivieren"
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:11535
+msgid "Enable MIDI emulation"
+msgstr "MIDI Emulation aktivieren"
 
 #: src/arch/win32/resmidi.rc.po.c:40
 msgid "MIDI type"
 msgstr "MIDI Typ"
 
-#: src/arch/win32/resmmc64.rc.po.c:52
-msgid "Enable MMC64"
-msgstr "MMC64 aktivieren"
+#: src/arch/win32/resmmc64.rc.po.c:52 src/translate_text.c.po.c:4464
+msgid "Enable the MMC64 expansion"
+msgstr "MMC64 Erweiterung aktivieren"
 
 #: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:7104
 msgid "BIOS Revision"
@@ -6735,10 +6687,6 @@ msgstr "MMC/SD Image Schreibschutz"
 #: src/arch/win32/resmmc64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:7182
 msgid "MMC/SD Image File"
 msgstr "MMC/SD Image Name"
-
-#: src/arch/win32/resmmcreplay.rc.po.c:49
-msgid "EEPROM Image"
-msgstr "EEPROM Image"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:7325
@@ -6820,17 +6768,18 @@ msgstr "PET DWW Einstellungen"
 msgid "PET REU settings"
 msgstr "PET REU Einstellungen"
 
-#: src/arch/win32/respet.rc.po.c:567
-msgid "Enable PET Userport DAC"
-msgstr "PET Userport DAC aktivieren"
+#: src/arch/win32/respet.rc.po.c:567 src/arch/amigaos/intl_text.c.po.c:2514
+#: src/translate_text.c.po.c:4128
+msgid "Enable Userport DAC for sound output"
+msgstr "Userport DAC Sound aktivieren"
 
 #: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
 msgid "PET DWW Settings"
 msgstr "PET DWW Einstellungen"
 
-#: src/arch/win32/respetdww.rc.po.c:25
-msgid "Enable PET DWW"
-msgstr "Aktivieren der PET DWW"
+#: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
+msgid "Enable the PET DWW hi-res board"
+msgstr "PET DWW hi-res Karte aktivieren"
 
 #: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
 msgid "PET DWW file"
@@ -6844,9 +6793,9 @@ msgstr "Datei für PET DWW auswählen"
 msgid "PET REU Settings"
 msgstr "PET REU Einstellungen"
 
-#: src/arch/win32/respetreu.rc.po.c:38
-msgid "Enable PET REU"
-msgstr "Aktivieren der PET REU"
+#: src/arch/win32/respetreu.rc.po.c:38 src/translate_text.c.po.c:4016
+msgid "Enable the PET Ram and Expansion Unit"
+msgstr "PET RAM Speicher und Erweiterungsmodul aktivieren"
 
 #: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5830
 msgid "PET REU size"
@@ -6865,9 +6814,9 @@ msgstr "Datei für PET REU auswählen"
 msgid "PLUS256K Settings"
 msgstr "PLUS256K Einstellungen"
 
-#: src/arch/win32/resplus256k.rc.po.c:25
-msgid "Enable PLUS256K"
-msgstr "PLUS256K aktivieren"
+#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:11022
+msgid "Enable the PLUS256K RAM expansion"
+msgstr "PLUS256K RAM Erweiterung aktivieren"
 
 #: src/arch/win32/resplus256k.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:2371
@@ -6977,9 +6926,9 @@ msgstr "V364 Stimme Einstellungen"
 msgid "PLUS60K Settings"
 msgstr "PLUS60K Einstellungen"
 
-#: src/arch/win32/resplus60k.rc.po.c:29
-msgid "Enable PLUS60K"
-msgstr "PLUS60K aktivieren"
+#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:11070
+msgid "Enable the PLUS60K RAM expansion"
+msgstr "PLUS60K RAM Erweiterung aktivieren"
 
 #: src/arch/win32/resplus60k.rc.po.c:30
 msgid "PLUS60K base address"
@@ -6997,9 +6946,10 @@ msgstr "Datei für PLUS60K auswählen"
 msgid "RamCart Settings"
 msgstr "RamCart Einstellungen"
 
-#: src/arch/win32/resramcart.rc.po.c:42
-msgid "Enable RamCart"
-msgstr "RamCart aktivieren"
+#: src/arch/win32/resramcart.rc.po.c:42 src/translate_text.c.po.c:4208
+#, fuzzy
+msgid "Enable the RamCart expansion"
+msgstr "RAMCART Erweiterung aktivieren"
 
 #: src/arch/win32/resramcart.rc.po.c:43
 msgid "Read Only"
@@ -7025,9 +6975,10 @@ msgstr "Datei für RamCart auswählen"
 msgid "REU Settings"
 msgstr "REU Einstellungen"
 
-#: src/arch/win32/resreu.rc.po.c:40
-msgid "Enable REU"
-msgstr "REU aktivieren"
+#: src/arch/win32/resreu.rc.po.c:40 src/translate_text.c.po.c:4832
+#, fuzzy
+msgid "Enable the RAM Expansion Unit"
+msgstr "RAM Speichererweiterung aktivieren"
 
 #: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:6181
 msgid "REU size"
@@ -7050,8 +7001,8 @@ msgstr "Datei für REU auswählen"
 msgid "RS232 Userport Settings"
 msgstr "RS232 Userport Einstellungen"
 
-#: src/arch/win32/resrs232user.rc.po.c:35
-msgid "Enable RS232 userport"
+#: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:8296
+msgid "Enable RS232 userport emulation"
 msgstr "RS232 Userport Emulation aktivieren"
 
 #: src/arch/win32/resrs232user.rc.po.c:36
@@ -7104,9 +7055,10 @@ msgstr "Links/Haupt Gerät"
 msgid "Right device"
 msgstr "Rechtes Gerät"
 
-#: src/arch/win32/ressidcart.rc.po.c:82
-msgid "Enable SID"
-msgstr "SID aktivieren"
+#: src/arch/win32/ressidcart.rc.po.c:82 src/translate_text.c.po.c:8722
+#, fuzzy
+msgid "Enable the SID cartridge"
+msgstr "ISEPIC Modul aktivieren"
 
 #: src/arch/win32/ressidcart.rc.po.c:85
 msgid "HardSID device selection"
@@ -7116,8 +7068,8 @@ msgstr "HardSID Geräte Auswahl"
 msgid "Main device"
 msgstr "Haupt Gerät"
 
-#: src/arch/win32/ressidcart.rc.po.c:87
-msgid "Enable digiblaster add-on"
+#: src/arch/win32/ressidcart.rc.po.c:87 src/translate_text.c.po.c:11584
+msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster add-on aktivieren"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:22
@@ -7125,9 +7077,10 @@ msgstr "Digiblaster add-on aktivieren"
 msgid "SFX Sound Expander Settings"
 msgstr "SFX Sound Expander Einstellungen"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:23
-msgid "Enable SFX Sound Expander"
-msgstr "SFX Sound Sampler aktivieren"
+#: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
+#, fuzzy
+msgid "Enable the SFX Sound Expander cartridge"
+msgstr "SFX Soundexpander Modul aktivieren"
 
 #: src/arch/win32/restfe.rc.po.c:36
 msgid "Ethernet Settings"
@@ -7142,9 +7095,9 @@ msgstr "Ethernet"
 msgid "V364 Speech Settings"
 msgstr "V364 Stimme Einstellungen"
 
-#: src/arch/win32/resv364speech.rc.po.c:25
-msgid "Enable V364 Speech"
-msgstr "V364 Spracherweiterung aktivieren"
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:11616
+msgid "Enable the v364 speech add-on"
+msgstr "v364 Spracherweiterung aktivieren"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
 msgid "V364 Speech ROM file"
@@ -7161,10 +7114,6 @@ msgstr "Keine Speichererweiterung"
 #: src/arch/win32/resvic20.rc.po.c:498
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "Alle (Blöcke 0/1/2/3/5)"
-
-#: src/arch/win32/resvic20.rc.po.c:499
-msgid "custom"
-msgstr "benutzerdefiniert"
 
 #: src/arch/win32/resvic20.rc.po.c:505
 msgid "Select Generic image"
@@ -7231,12 +7180,14 @@ msgid "4KB image at $B000"
 msgstr "4KB Image bei $B000"
 
 #: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2605
-msgid "Enable Final Expansion write-back"
-msgstr "Final Expansion rückschreiben aktivieren"
+#: src/translate_text.c.po.c:9156
+msgid "Enable Final Expansion write back to ROM file"
+msgstr "Final Expansion ROM Schreibzugriff aktivieren"
 
 #: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:2618
-msgid "Enable Vic Flash Plugin write-back"
-msgstr "Vic Flash Plugin Rückschreiben aktivieren"
+#: src/translate_text.c.po.c:9236
+msgid "Enable Vic Flash Plugin write back to ROM file"
+msgstr "Vic Flash Plugin Rückschreiben auf ROM Datei aktivieren"
 
 #: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2631
 #: src/translate_text.c.po.c:9204
@@ -7388,10 +7339,6 @@ msgstr "Computer ROM Einstellungen"
 #: src/arch/amigaos/intl_text.c.po.c:8456
 msgid "Drive ROM settings"
 msgstr "Floppy ROM Einstellungen"
-
-#: src/arch/amigaos/intl_text.c.po.c:2514
-msgid "Enable userport DAC"
-msgstr "Userport DAC aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:3060
 msgid "Fullscreen Statusbar"
@@ -7545,17 +7492,9 @@ msgstr "RAM Block $C000-$CFFF"
 msgid "Additional Delay"
 msgstr "Zusätzliche Verzögerung"
 
-#: src/arch/amigaos/intl_text.c.po.c:4776
-msgid "Delay at Zero Values"
-msgstr "Zyklen Verzögerung bei Zero-Werte"
-
 #: src/arch/amigaos/intl_text.c.po.c:5023
 msgid "Expert Cartridge mode"
 msgstr "Expert Cartridge Modus"
-
-#: src/arch/amigaos/intl_text.c.po.c:5166
-msgid "DQBB settings"
-msgstr "DQBB Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:5257
 msgid "Select config file"
@@ -7832,10 +7771,6 @@ msgstr "Card Image Datei auswählen"
 msgid "Card read/write"
 msgstr "Card lese/schreibe"
 
-#: src/arch/amigaos/intl_text.c.po.c:7286
-msgid "EEPROM Image File"
-msgstr "EEPROM Image Datei"
-
 #: src/arch/amigaos/intl_text.c.po.c:7299
 msgid "Save EEPROM image when changed"
 msgstr "GEO-RAM Imagedatei bei Änderung speichern"
@@ -7991,10 +7926,6 @@ msgstr "NEOS Maus"
 #: src/arch/amigaos/intl_text.c.po.c:8794
 msgid "Amiga mouse"
 msgstr "Amiga Maus"
-
-#: src/arch/amigaos/intl_text.c.po.c:8963
-msgid "EasyFlash jumper"
-msgstr "EasyFlash Jumper"
 
 #: src/arch/amigaos/intl_text.c.po.c:8976
 msgid "Save to EasyFlash CRT file on detach"
@@ -8896,10 +8827,6 @@ msgstr ""
 "Schreibe einen Datenblock von `Adresse' auf die angegebene Spure und Sektor\n"
 "in die Imagedatei von Laufwerk 8."
 
-#: src/translate_text.c.po.c:2392 src/translate_text.c.po.c:2408
-msgid "directory"
-msgstr "Verzeichnis"
-
 #: src/translate_text.c.po.c:2424
 msgid "Change current working directory."
 msgstr "Arbeitsverzeichnis ändern."
@@ -9152,11 +9079,11 @@ msgstr "OEM Userport Joystick Adapter aktivieren"
 msgid "Disable the OEM userport joystick adapter"
 msgstr "OEM Userport Joystick Adapter deaktivieren"
 
-#: src/translate_text.c.po.c:3306
+#: src/translate_text.c.po.c:3306 src/translate_text.c.po.c:3856
 msgid "Enable the IEEE488 interface emulation"
 msgstr "IEEE488 Schnittstellen-Emulation aktivieren"
 
-#: src/translate_text.c.po.c:3322
+#: src/translate_text.c.po.c:3322 src/translate_text.c.po.c:3872
 msgid "Disable the IEEE488 interface emulation"
 msgstr "IEEE488 Schnittstellen-Emulation deaktivieren"
 
@@ -9168,12 +9095,9 @@ msgstr "Revision"
 msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Kernal ROM auf spezifizierte <Revision> verändern"
 
-#: src/translate_text.c.po.c:3371
-msgid "Enable the $DE** ACIA RS232 interface emulation"
-msgstr "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"
-
 #: src/translate_text.c.po.c:3387
-msgid "Disable the $DE** ACIA RS232 interface emulation"
+#, fuzzy
+msgid "Disable the ACIA RS232 interface emulation"
 msgstr "ACIA $DExx RS232 Schnittstellen-Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:3421
@@ -9208,17 +9132,9 @@ msgstr "Name der internen Funktions ROM Datei definieren"
 msgid "Specify name of external Function ROM image"
 msgstr "Name der externen Funktions ROM Datei definieren"
 
-#: src/translate_text.c.po.c:3566
-msgid "Enable the internal Function ROM"
-msgstr "Internes Funktions ROM aktivieren"
-
 #: src/translate_text.c.po.c:3582
 msgid "Disable the internal Function ROM"
 msgstr "Internes Funktions ROM deaktivieren"
-
-#: src/translate_text.c.po.c:3598
-msgid "Enable the external Function ROM"
-msgstr "Externes Funktions ROM aktivieren"
 
 #: src/translate_text.c.po.c:3614
 msgid "Disable the external Function ROM"
@@ -9276,24 +9192,13 @@ msgstr "Setze Glue-Lokig Typ (0 = diskret, 1 = 252535-01)"
 msgid "Disable Hummer ADC"
 msgstr "Hummer ADC deaktivieren"
 
-#: src/translate_text.c.po.c:3856
-msgid "Enable IEEE488 interface"
-msgstr "IEEE488 Schnittstelle aktivieren"
-
-#: src/translate_text.c.po.c:3872
-msgid "Disable IEEE488 interface"
-msgstr "IEEE488 Schnittstelle deaktivieren"
-
 #: src/translate_text.c.po.c:3888
 msgid "specify IEEE488 interface image name"
 msgstr "IEEE488 Schnittstellenmodul Imagename"
 
-#: src/translate_text.c.po.c:3904
-msgid "Enable the GEORAM expansion unit"
-msgstr "GEORAM Erweiterung aktivieren"
-
 #: src/translate_text.c.po.c:3920
-msgid "Disable the GEORAM expansion unit"
+#, fuzzy
+msgid "Disable the GEO-RAM expansion unit"
 msgstr "GEORAM Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:3936
@@ -9316,10 +9221,6 @@ msgstr "Größe in KB"
 msgid "Size of the GEORAM expansion unit"
 msgstr "Größe der GEORAM Erweiterung"
 
-#: src/translate_text.c.po.c:4016
-msgid "Enable the PET Ram and Expansion Unit"
-msgstr "PET RAM Speicher und Erweiterungsmodul aktivieren"
-
 #: src/translate_text.c.po.c:4032
 msgid "Disable the PET Ram and Expansion Unit"
 msgstr "PET RAM Speicher und Erweiterungsmodul dektivieren"
@@ -9336,17 +9237,9 @@ msgstr "Größe des PET RAM Speicher und Erweiterungsmodul"
 msgid "Specify name of PET DWW image"
 msgstr "Namen für PET DWW Image Datei definieren"
 
-#: src/translate_text.c.po.c:4096
-msgid "Enable the PET DWW hi-res board"
-msgstr "PET DWW hi-res Karte aktivieren"
-
 #: src/translate_text.c.po.c:4112
 msgid "Disable the PET DWW hi-res board"
 msgstr "PET DWW Hi-Res Karte deaktivieren"
-
-#: src/translate_text.c.po.c:4128
-msgid "Enable Userport DAC for sound output"
-msgstr "Userport DAC Sound aktivieren"
 
 #: src/translate_text.c.po.c:4144
 msgid "Disable Userport DAC for sound output"
@@ -9364,12 +9257,9 @@ msgstr "PSID Einstellung für Video Standard und SID Modell verändern"
 msgid "Specify PSID tune <number>"
 msgstr "PSID Stück <Nummer> definieren"
 
-#: src/translate_text.c.po.c:4208
-msgid "Enable the RAMCART expansion"
-msgstr "RAMCART Erweiterung aktivieren"
-
 #: src/translate_text.c.po.c:4224
-msgid "Disable the RAMCART expansion"
+#, fuzzy
+msgid "Disable the RamCart expansion"
 msgstr "RAMCART Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:4240
@@ -9388,10 +9278,6 @@ msgstr "Kein Schreibzugriff auf RAMCart Image"
 msgid "Size of the RAMCART expansion"
 msgstr "Größe der RAMCART Erweiterung"
 
-#: src/translate_text.c.po.c:4304
-msgid "Enable Double Quick Brown Box"
-msgstr "Double Quick Brown Box aktivieren"
-
 #: src/translate_text.c.po.c:4320
 msgid "Disable Double Quick Brown Box"
 msgstr "Double Quick Brown Box Modul deaktivieren"
@@ -9408,12 +9294,9 @@ msgstr "Schreibzugriff auf DQBB Image erlauben"
 msgid "Do not write to DQBB image"
 msgstr "Kein Schreibzugriff auf DQBB Image"
 
-#: src/translate_text.c.po.c:4384
-msgid "Enable the ISEPIC cart"
-msgstr "ISEPIC Modul aktivieren"
-
 #: src/translate_text.c.po.c:4400
-msgid "Disable the ISEPIC cart"
+#, fuzzy
+msgid "Disable the ISEPIC cartridge"
 msgstr "ISEPIC Modul deaktivieren"
 
 #: src/translate_text.c.po.c:4416
@@ -9427,10 +9310,6 @@ msgstr "Schreibzugriff auf ISEPIC Image erlauben"
 #: src/translate_text.c.po.c:4448
 msgid "Do not write to ISEPIC image"
 msgstr "Kein Schreibzugriff auf ISEPIC Image"
-
-#: src/translate_text.c.po.c:4464
-msgid "Enable the MMC64 expansion"
-msgstr "MMC64 Erweiterung aktivieren"
 
 #: src/translate_text.c.po.c:4480
 msgid "Disable the MMC64 expansion"
@@ -9516,12 +9395,9 @@ msgstr "Deaktiviere RR Bank Jumper"
 msgid "Set RR Flash Jumper"
 msgstr "Aktviere RR Flash Jumper"
 
-#: src/translate_text.c.po.c:4832
-msgid "Enable the RAM expansion unit"
-msgstr "RAM Speichererweiterung aktivieren"
-
 #: src/translate_text.c.po.c:4848
-msgid "Disable the RAM expansion unit"
+#, fuzzy
+msgid "Disable the RAM Expansion Unit"
 msgstr "RAM Speichererweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:4864
@@ -9726,10 +9602,6 @@ msgstr "GEO-RAM Image (raw) einlegen"
 #: src/translate_text.c.po.c:5922
 msgid "Attach raw 512kB Game System cartridge image"
 msgstr "512kB Game System Image (raw) einlegen"
-
-#: src/translate_text.c.po.c:5938
-msgid "Enable the Expert Cartridge"
-msgstr "Expert Cartridge aktivieren"
 
 #: src/translate_text.c.po.c:5954
 msgid "Disable the Expert Cartridge"
@@ -10314,10 +10186,6 @@ msgstr "Name für drittes RS232 Gerät definieren"
 msgid "Specify name of fourth RS232 device"
 msgstr "Name für viertes RS232 Gerät definieren"
 
-#: src/translate_text.c.po.c:8296
-msgid "Enable RS232 userport emulation"
-msgstr "RS232 Userport Emulation aktivieren"
-
 #: src/translate_text.c.po.c:8312
 msgid "Disable RS232 userport emulation"
 msgstr "RS232 Userport Emulation deaktivieren"
@@ -10432,13 +10300,10 @@ msgstr ""
 msgid "Enable second SID"
 msgstr "Zweiten SID aktivieren"
 
-#: src/translate_text.c.po.c:8722
-msgid "Enable SID Cartridge"
-msgstr "SID Modul aktivieren"
-
 #: src/translate_text.c.po.c:8738
-msgid "Disable SID Cartridge"
-msgstr "SID Modul deaktivieren"
+#, fuzzy
+msgid "Disable the SID cartridge"
+msgstr "ISEPIC Modul deaktivieren"
 
 #: src/translate_text.c.po.c:8770
 msgid "Specify base address for 2nd SID"
@@ -10546,10 +10411,6 @@ msgstr "Name für Final Expansion Erweiterungs ROM definieren"
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "Name für Vic Flash Plugin Erweiterungs ROM definieren"
 
-#: src/translate_text.c.po.c:9156
-msgid "Enable Final Expansion write back to ROM file"
-msgstr "Final Expansion ROM Schreibzugriff aktivieren"
-
 #: src/translate_text.c.po.c:9172
 msgid "Disable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM Schreibzugriff deaktivieren"
@@ -10561,10 +10422,6 @@ msgstr "Mega-Cart NvRAM Imagename definieren"
 #: src/translate_text.c.po.c:9220
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "Mega-Cart NvRAM Rückschreiben deaktivieren"
-
-#: src/translate_text.c.po.c:9236
-msgid "Enable Vic Flash Plugin write back to ROM file"
-msgstr "Vic Flash Plugin Rückschreiben auf ROM Datei aktivieren"
 
 #: src/translate_text.c.po.c:9252
 msgid "Disable Vic Flash Plugin write back to ROM file"
@@ -10876,10 +10733,6 @@ msgstr "Logdateiname definieren"
 msgid "Enable verbose log output."
 msgstr "Ausführliche Diagnose aktivieren."
 
-#: src/translate_text.c.po.c:10510
-msgid "Enable mouse grab"
-msgstr "Maus aktivieren"
-
 #: src/translate_text.c.po.c:10526
 msgid "Disable mouse grab"
 msgstr "Maus deaktivieren"
@@ -10997,10 +10850,6 @@ msgstr "iso Sprachcode"
 msgid "Specify the iso code of the language"
 msgstr "Iso Sprachcode spezifizieren"
 
-#: src/translate_text.c.po.c:11022
-msgid "Enable the PLUS256K RAM expansion"
-msgstr "PLUS256K RAM Erweiterung aktivieren"
-
 #: src/translate_text.c.po.c:11038
 msgid "Disable the PLUS256K RAM expansion"
 msgstr "PLUS256K RAM Erweiterung deaktivieren"
@@ -11008,10 +10857,6 @@ msgstr "PLUS256K RAM Erweiterung deaktivieren"
 #: src/translate_text.c.po.c:11054
 msgid "Specify name of PLUS256K image"
 msgstr "Name der PLUS256K Image Datei definieren"
-
-#: src/translate_text.c.po.c:11070
-msgid "Enable the PLUS60K RAM expansion"
-msgstr "PLUS60K RAM Erweiterung aktivieren"
 
 #: src/translate_text.c.po.c:11086
 msgid "Disable the PLUS60K RAM expansion"
@@ -11024,10 +10869,6 @@ msgstr "Name der PLUS60K Image Datei definieren"
 #: src/translate_text.c.po.c:11118
 msgid "Base address of the PLUS60K expansion"
 msgstr "Basis Adresse für PLUS60K Erweiterung"
-
-#: src/translate_text.c.po.c:11134
-msgid "Enable the 256K RAM expansion"
-msgstr "256K RAM Erweiterung aktivieren"
 
 #: src/translate_text.c.po.c:11150
 msgid "Disable the 256K RAM expansion"
@@ -11113,17 +10954,9 @@ msgstr "DTV Flashchip Log deaktivieren."
 msgid "Use <name> as directory for flash file system device"
 msgstr "Benutze <Name> für Verzeichnis Gerät Flash Dateisystem"
 
-#: src/translate_text.c.po.c:11502
-msgid "Enable true hardware flash file system"
-msgstr "Präzises Hardware Flashdateisystem aktivieren"
-
 #: src/translate_text.c.po.c:11518
 msgid "Disable true hardware flash file system"
 msgstr "Präzises Hardware Flashdateisystem deaktivieren"
-
-#: src/translate_text.c.po.c:11535
-msgid "Enable MIDI emulation"
-msgstr "MIDI Emulation aktivieren"
 
 #: src/translate_text.c.po.c:11551
 msgid "Disable MIDI emulation"
@@ -11137,17 +10970,9 @@ msgstr ""
 "MIDI Interface Typ (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 
-#: src/translate_text.c.po.c:11584
-msgid "Enable the digiblaster add-on"
-msgstr "Digiblaster add-on aktivieren"
-
 #: src/translate_text.c.po.c:11600
 msgid "Disable the digiblaster add-on"
 msgstr "Digiblaster add-on deaktivieren"
-
-#: src/translate_text.c.po.c:11616
-msgid "Enable the v364 speech add-on"
-msgstr "v364 Spracherweiterung aktivieren"
 
 #: src/translate_text.c.po.c:11632
 msgid "Disable the v364 speech add-on"
@@ -11157,37 +10982,18 @@ msgstr "v364 Spracherweiterung deaktivieren"
 msgid "Attach Speech ROM image"
 msgstr "Spracherweiterung ROM Imagedatei einlegen"
 
-#: src/translate_text.c.po.c:11664
-msgid "Enable SID cartridge joystick"
-msgstr "SIDcart Modul aktivieren"
-
-#: src/translate_text.c.po.c:11680
-msgid "Disable SID cartridge joystick"
-msgstr "SIDcart Modul deaktivieren"
-
-#: src/translate_text.c.po.c:11696
-msgid "Enable the SFX soundexpander cartridge"
-msgstr "SFX Soundexpander Modul aktivieren"
-
 #: src/translate_text.c.po.c:11712
-msgid "Disable the SFX soundexpander cartridge"
+#, fuzzy
+msgid "Disable the SFX Sound Expander cartridge"
 msgstr "SFX Soundexpander Modul deaktivieren"
 
 #: src/translate_text.c.po.c:11728
 msgid "Set YM chip type (3526 / 3812)"
 msgstr "YM Chip Typ (3526 / 3812) bestimmen"
 
-#: src/translate_text.c.po.c:11744
-msgid "Enable the SFX Sound Sampler cartridge"
-msgstr "SFX Sound Sampler Modul aktivieren"
-
 #: src/translate_text.c.po.c:11760
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler Modul  deaktivieren"
-
-#: src/translate_text.c.po.c:11776
-msgid "Enable lightpen emulation"
-msgstr "Lichtgriffel Emulation aktivieren"
 
 #: src/translate_text.c.po.c:11792
 msgid "Disable lightpen emulation"
@@ -11213,10 +11019,6 @@ msgstr "Schreibzugriff auf EasyFlash CRT Image erlauben"
 msgid "Disable writing to EasyFlash .crt image"
 msgstr "Schreibzugriff auf EasyFlash ROM Image verhindern"
 
-#: src/translate_text.c.po.c:11888
-msgid "Enable the DigiMAX cartridge"
-msgstr "DigiMAX Cartridge aktivieren"
-
 #: src/translate_text.c.po.c:11904
 msgid "Disable the DigiMAX cartridge"
 msgstr "DigiMAX Cartridge deaktivieren"
@@ -11224,6 +11026,192 @@ msgstr "DigiMAX Cartridge deaktivieren"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basis Adresse für DigiMAX Erweiterung"
+
+#~ msgid "Enable true flash filesystem"
+#~ msgstr "Präzise Flash Dateisystem Emulation"
+
+#~ msgid "Enable SIDcart joy"
+#~ msgstr "SIDcart Joystick aktivieren"
+
+#~ msgid "Enable SFX Sound Sampler"
+#~ msgstr "SFX Sound Sampler aktivieren"
+
+#~ msgid "Enable RamCart"
+#~ msgstr "RamCart aktivieren"
+
+#~ msgid "Enable REU"
+#~ msgstr "REU aktivieren"
+
+#~ msgid "Enable RS232 userport"
+#~ msgstr "RS232 Userport Emulation aktivieren"
+
+#~ msgid "Enable SID"
+#~ msgstr "SID aktivieren"
+
+#~ msgid "Enable SFX Sound Expander"
+#~ msgstr "SFX Sound Sampler aktivieren"
+
+#~ msgid "Enable V364 Speech"
+#~ msgstr "V364 Spracherweiterung aktivieren"
+
+#~ msgid "Enable Vic Flash Plugin write-back"
+#~ msgstr "Vic Flash Plugin Rückschreiben aktivieren"
+
+#~ msgid "Enable SID Cartridge"
+#~ msgstr "SID Modul aktivieren"
+
+#~ msgid "Disable SID Cartridge"
+#~ msgstr "SID Modul deaktivieren"
+
+#~ msgid "Enable Lightpen"
+#~ msgstr "Lichtgriffel aktivieren"
+
+#~ msgid "Enable mouse"
+#~ msgstr "Maus aktivieren"
+
+#~ msgid "Enable ISEPIC"
+#~ msgstr "Aktiviere ISEPIC"
+
+#~ msgid "Enable lightpen"
+#~ msgstr "Lichtgriffel Emulation aktivieren"
+
+#~ msgid "Enable MIDI"
+#~ msgstr "MIDI aktivieren"
+
+#~ msgid "Enable MMC64"
+#~ msgstr "MMC64 aktivieren"
+
+#~ msgid "Enable PET Userport DAC"
+#~ msgstr "PET Userport DAC aktivieren"
+
+#~ msgid "Enable PET DWW"
+#~ msgstr "Aktivieren der PET DWW"
+
+#~ msgid "Enable PET REU"
+#~ msgstr "Aktivieren der PET REU"
+
+#~ msgid "Enable PLUS256K"
+#~ msgstr "PLUS256K aktivieren"
+
+#~ msgid "Enable PLUS60K"
+#~ msgstr "PLUS60K aktivieren"
+
+#~ msgid "Enable userport DAC"
+#~ msgstr "Userport DAC aktivieren"
+
+#~ msgid "Enable internal Function ROM"
+#~ msgstr "Internes Funktions ROM aktivieren"
+
+#~ msgid "Enable external Function ROM"
+#~ msgstr "Externes Funktions ROM aktivieren"
+
+#~ msgid "Enable fullscreen (default Chip)"
+#~ msgstr "Vollbild Modus aktivieren (Default Chip)"
+
+#~ msgid "Disable fullscreen (default Chip)"
+#~ msgstr "Vollbild Modus deaktivieren (Default Chip)"
+
+#~ msgid "Enable DigiMAX"
+#~ msgstr "DigiMAX aktivieren"
+
+#~ msgid "Enable DQBB"
+#~ msgstr "DQBB Aktivieren"
+
+#~ msgid "Enable Expert Cartridge"
+#~ msgstr "Expert Cartridge aktivieren"
+
+#~ msgid "Enable GEO-RAM"
+#~ msgstr "GEO-RAM aktivieren"
+
+#~ msgid "Enable Final Expansion write-back"
+#~ msgstr "Final Expansion rückschreiben aktivieren"
+
+#~ msgid "driver"
+#~ msgstr "Treiber"
+
+#~ msgid "DQBB image"
+#~ msgstr "DQBB Image"
+
+#~ msgid "EEPROM image name"
+#~ msgstr "EEPROM Imagedateiname"
+
+#~ msgid "Enable ACIA"
+#~ msgstr "ACIA Aktivieren"
+
+#~ msgid "Enable 256K"
+#~ msgstr "256K aktivieren"
+
+#~ msgid "DTV flash rom image"
+#~ msgstr "DTV Flash Rom Datei"
+
+#~ msgid "EasyFlash Jumper"
+#~ msgstr "EasyFlash Jumper"
+
+#~ msgid "EEPROM Image"
+#~ msgstr "EEPROM Image"
+
+#~ msgid "Enable digiblaster add-on"
+#~ msgstr "Digiblaster add-on aktivieren"
+
+#~ msgid "Diskname: "
+#~ msgstr "Diskname: "
+
+#~ msgid "Disable SIDcart joy"
+#~ msgstr "SIDcart Joystick deaktivieren"
+
+#~ msgid "Disable DirectX9"
+#~ msgstr "DirectX9 deaktivieren"
+
+#~ msgid "DigiMAX Settings"
+#~ msgstr "DigiMAX Einstellungen"
+
+#~ msgid "DQBB Settings"
+#~ msgstr "DQBB Einstellungen"
+
+#~ msgid "DQBB settings"
+#~ msgstr "DQBB Einstellungen"
+
+#~ msgid "directory"
+#~ msgstr "Verzeichnis"
+
+#~ msgid "Enable IEEE488 interface"
+#~ msgstr "IEEE488 Schnittstelle aktivieren"
+
+#~ msgid "Disable IEEE488 interface"
+#~ msgstr "IEEE488 Schnittstelle deaktivieren"
+
+#~ msgid "Detach cartridge image"
+#~ msgstr "Erweiterungsmodul Image entfernen"
+
+#~ msgid "IDE64 cylinders"
+#~ msgstr "IDE64 Zylinder"
+
+#~ msgid "IDE64 heads"
+#~ msgstr "IDE64 Köpfe"
+
+#~ msgid "IDE64 sectors"
+#~ msgstr "IDE64 Sektoren"
+
+#~ msgid "Current mode: "
+#~ msgstr "Status: "
+
+#~ msgid "CRT settings"
+#~ msgstr "CRT Einstellungen"
+
+#~ msgid "Datasette Settings"
+#~ msgstr "Datasette Einstellungen"
+
+#~ msgid "cycles delay at zero-values"
+#~ msgstr "Zyklen Verzögerung bei Zero-Werte"
+
+#~ msgid "Create new flash rom image"
+#~ msgstr "Flash ROM Datei erzeugen"
+
+#~ msgid "custom"
+#~ msgstr "benutzerdefiniert"
+
+#~ msgid "Delay at Zero Values"
+#~ msgstr "Zyklen Verzögerung bei Zero-Werte"
 
 #~ msgid "Confirm on exit"
 #~ msgstr "Bestätigung beim Beenden"
@@ -11960,9 +11948,6 @@ msgstr "Basis Adresse für DigiMAX Erweiterung"
 
 #~ msgid "Enable fullscreen mode"
 #~ msgstr "Vollbild Modus aktivieren"
-
-#~ msgid "Disable fullscreen mode"
-#~ msgstr "Vollbild Modus deaktivieren"
 
 #~ msgid "Enable double size in fullscreen mode"
 #~ msgstr "Doppelte Größe im Vollbild Modus aktivieren"

@@ -677,7 +677,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "MIDIDriver", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("driver"), N_("Specify MIDI driver (0 = OSS, 1 = ALSA)") },
+      N_("Driver"), N_("Specify MIDI driver (0 = OSS, 1 = ALSA)") },
 #endif
     { NULL }
 };

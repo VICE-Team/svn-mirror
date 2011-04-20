@@ -95,7 +95,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     int v;
 
     cached_canvas = canvas;
-    f = gtk_frame_new(_("CRT settings"));
+    f = gtk_frame_new(_("CRT emulation settings"));
 
     b = gtk_vbox_new(FALSE, 5);
 

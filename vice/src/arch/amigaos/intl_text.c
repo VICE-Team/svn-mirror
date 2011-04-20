@@ -520,18 +520,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_4KB_AT_B000_SV, "4KB-fil vid $B000..." },
 /* tr */ { IDMS_4KB_AT_B000_TR, "4KB imajý $B000 adresinde..." },
 
-/* en */ { IDMS_DETACH_CART_IMAGE,    "Detach cartridge image" },
+/* en */ { IDMS_DETACH_CART_IMAGE,    "Detach cartridge image(s)" },
 /* da */ { IDMS_DETACH_CART_IMAGE_DA, "Frakobl cartridge-image" },
-/* de */ { IDMS_DETACH_CART_IMAGE_DE, "Erweiterungsmodul Image entfernen" },
+/* de */ { IDMS_DETACH_CART_IMAGE_DE, "Erweiterungsmodul Image(s) entfernen" },
 /* fr */ { IDMS_DETACH_CART_IMAGE_FR, "Retirer une cartouche" },
-/* hu */ { IDMS_DETACH_CART_IMAGE_HU, "Cartridge képmás leválasztása" },
-/* it */ { IDMS_DETACH_CART_IMAGE_IT, "Rimuovi immagine cartuccia" },
+/* hu */ { IDMS_DETACH_CART_IMAGE_HU, "Cartridge képmás(ok) leválasztása" },
+/* it */ { IDMS_DETACH_CART_IMAGE_IT, "Rimuovi le immagini delle cartucce" },
 /* ko */ { IDMS_DETACH_CART_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_DETACH_CART_IMAGE_NL, "Ontkoppel cartridge bestand" },
-/* pl */ { IDMS_DETACH_CART_IMAGE_PL, "Wjmij obraz kartrid¿a" },
+/* nl */ { IDMS_DETACH_CART_IMAGE_NL, "Ontkoppel cartridge bestand(en)" },
+/* pl */ { IDMS_DETACH_CART_IMAGE_PL, "Wysuñ obraz(y) kartrid¿a" },
 /* ru */ { IDMS_DETACH_CART_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_DETACH_CART_IMAGE_SV, "Koppla från insticksmodulfil" },
-/* tr */ { IDMS_DETACH_CART_IMAGE_TR, "Kartuþ imajýný çýkart" },
+/* sv */ { IDMS_DETACH_CART_IMAGE_SV, "Koppla från insticksmodulfil(er)" },
+/* tr */ { IDMS_DETACH_CART_IMAGE_TR, "Kartuþ imaj(lar)ýný çýkart" },
 
 /* en */ { IDMS_C1_LOW_IMAGE,    "C1 low  image..." },
 /* da */ { IDMS_C1_LOW_IMAGE_DA, "C1 lav-image..." },
@@ -2522,31 +2522,31 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_EASYFLASH_SETTINGS_SV, "EasyFlash-inställningar..." },
 /* tr */ { IDMS_EASYFLASH_SETTINGS_TR, "EasyFlash ayarlarý..." },
 
-/* en */ { IDMS_ENABLE_SFX_SS,    "Enable SFX Sound Sampler" },
-/* da */ { IDMS_ENABLE_SFX_SS_DA, "Aktivér SFX Sound Sampler" },
-/* de */ { IDMS_ENABLE_SFX_SS_DE, "SFX Sound Sampler aktivieren" },
+/* en */ { IDMS_ENABLE_SFX_SS,    "Enable the SFX Sound Sampler cartridge" },
+/* da */ { IDMS_ENABLE_SFX_SS_DA, "Aktivér SFX Sound Sampler cartridge" },
+/* de */ { IDMS_ENABLE_SFX_SS_DE, "SFX Sound Sampler Modul aktivieren" },
 /* fr */ { IDMS_ENABLE_SFX_SS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_SFX_SS_HU, "SFX Sound Sampler engedélyezése" },
-/* it */ { IDMS_ENABLE_SFX_SS_IT, "Attiva SFX Sound Sampler" },
+/* it */ { IDMS_ENABLE_SFX_SS_IT, "Attiva cartuccia SFX Sound Sampler" },
 /* ko */ { IDMS_ENABLE_SFX_SS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_SFX_SS_NL, "Activeer SFX Sound Sampler" },
+/* nl */ { IDMS_ENABLE_SFX_SS_NL, "Activeer de SFX Sound Sampler cartridge" },
 /* pl */ { IDMS_ENABLE_SFX_SS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_SFX_SS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler" },
-/* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler'ý Aktif Et" },
+/* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler-insticksmodul" },
+/* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu aktif et" },
 
-/* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable userport DAC" },
-/* da */ { IDMS_ENABLE_USERPORT_DAC_DA, "Aktivér brugerport DAC" },
-/* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "Userport DAC aktivieren" },
+/* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable Userport DAC for sound output" },
+/* da */ { IDMS_ENABLE_USERPORT_DAC_DA, "Aktivér brugerport DAC for lydoutput" },
+/* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "Userport DAC Sound aktivieren" },
 /* fr */ { IDMS_ENABLE_USERPORT_DAC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_ENABLE_USERPORT_DAC_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_USERPORT_DAC_IT, "Attiva DAC su userport" },
+/* it */ { IDMS_ENABLE_USERPORT_DAC_IT, "Attiva DAC su userport per la riproduzione audio" },
 /* ko */ { IDMS_ENABLE_USERPORT_DAC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_DAC_NL, "Activeer userport DAC" },
+/* nl */ { IDMS_ENABLE_USERPORT_DAC_NL, "Activeer userport DAC voor geluidsuitvoer" },
 /* pl */ { IDMS_ENABLE_USERPORT_DAC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ENABLE_USERPORT_DAC_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ENABLE_USERPORT_DAC_SV, "Aktivera D/A-omvandlare på användarporten" },
-/* tr */ { IDMS_ENABLE_USERPORT_DAC_TR, "Userport DAC'ý aktif et" },
+/* sv */ { IDMS_ENABLE_USERPORT_DAC_SV, "Aktivera D/A-omvandlare på användarporten för ljudutdata" },
+/* tr */ { IDMS_ENABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý aktif et" },
 
 /* en */ { IDMS_ETHERNET_SETTINGS,    "Ethernet settings..." },
 /* da */ { IDMS_ETHERNET_SETTINGS_DA, "Ethernetindstillinger..." },
@@ -2626,31 +2626,31 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_PETDWW_SETTINGS_SV, "PET DWW-Inställningar..." },
 /* tr */ { IDMS_PETDWW_SETTINGS_TR, "PET DWW Ayarlarý..." },
 
-/* en */ { IDMS_FINAL_EXPANSION_WRITEBACK,    "Enable Final Expansion write-back" },
-/* da */ { IDMS_FINAL_EXPANSION_WRITEBACK_DA, "Aktivér Final Expansion tilbageskrivning" },
-/* de */ { IDMS_FINAL_EXPANSION_WRITEBACK_DE, "Final Expansion rückschreiben aktivieren" },
+/* en */ { IDMS_FINAL_EXPANSION_WRITEBACK,    "Enable Final Expansion write back to ROM file" },
+/* da */ { IDMS_FINAL_EXPANSION_WRITEBACK_DA, "Aktivér Final Expansion tilbageskrivning til ROM-fil" },
+/* de */ { IDMS_FINAL_EXPANSION_WRITEBACK_DE, "Final Expansion ROM Schreibzugriff aktivieren" },
 /* fr */ { IDMS_FINAL_EXPANSION_WRITEBACK_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_FINAL_EXPANSION_WRITEBACK_HU, "Final Expansion visszaírás engedélyezése" },
-/* it */ { IDMS_FINAL_EXPANSION_WRITEBACK_IT, "Attiva write back su Final Expansion" },
+/* hu */ { IDMS_FINAL_EXPANSION_WRITEBACK_HU, "Final Expansion ROM fájlba visszaírás engedélyezése" },
+/* it */ { IDMS_FINAL_EXPANSION_WRITEBACK_IT, "Attiva write back per Final Expansion su file ROM" },
 /* ko */ { IDMS_FINAL_EXPANSION_WRITEBACK_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_FINAL_EXPANSION_WRITEBACK_NL, "Activeer terug schrijven van Final Expansion" },
+/* nl */ { IDMS_FINAL_EXPANSION_WRITEBACK_NL, "Activeer terug schrijven naar ROM bestand voor Final Expansion" },
 /* pl */ { IDMS_FINAL_EXPANSION_WRITEBACK_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_FINAL_EXPANSION_WRITEBACK_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_FINAL_EXPANSION_WRITEBACK_SV, "Aktivera Final Expansion-återskrivning" },
-/* tr */ { IDMS_FINAL_EXPANSION_WRITEBACK_TR, "Final Expansion geri yazmayý aktif et" },
+/* sv */ { IDMS_FINAL_EXPANSION_WRITEBACK_SV, "Aktivera återskrivning till ROM-fil för Final Expansion" },
+/* tr */ { IDMS_FINAL_EXPANSION_WRITEBACK_TR, "Final Expansion ROM dosyasýna geri yazmayý aktif et" },
 
-/* en */ { IDMS_FP_WRITEBACK,    "Enable Vic Flash Plugin write-back" },
-/* da */ { IDMS_FP_WRITEBACK_DA, "Aktivér Vic Flash Plugin tilbageskrivning" },
-/* de */ { IDMS_FP_WRITEBACK_DE, "Vic Flash Plugin Rückschreiben aktivieren" },
+/* en */ { IDMS_FP_WRITEBACK,    "Enable Vic Flash Plugin write back to ROM file" },
+/* da */ { IDMS_FP_WRITEBACK_DA, "Aktivér Vic Flash Plugin tilbageskrivning til ROM-fil" },
+/* de */ { IDMS_FP_WRITEBACK_DE, "Vic Flash Plugin Rückschreiben auf ROM Datei aktivieren" },
 /* fr */ { IDMS_FP_WRITEBACK_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_FP_WRITEBACK_HU, "" },  /* fuzzy */
-/* it */ { IDMS_FP_WRITEBACK_IT, "Write back Vic Flash Plugin" },
+/* it */ { IDMS_FP_WRITEBACK_IT, "Attiva write back per Vic Flash Plugin su file ROM" },
 /* ko */ { IDMS_FP_WRITEBACK_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_FP_WRITEBACK_NL, "Activeer Vic Flash Plugin terug schrijven" },
+/* nl */ { IDMS_FP_WRITEBACK_NL, "Activeer terug schrijven naar ROM bestand voor Vic Flash Plugin" },
 /* pl */ { IDMS_FP_WRITEBACK_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_FP_WRITEBACK_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_FP_WRITEBACK_SV, "Aktivera Vic Flash-insticksmodul-återskrivning" },
-/* tr */ { IDMS_FP_WRITEBACK_TR, "Vic Flash Plugin geri yazmayý aktif et" },
+/* sv */ { IDMS_FP_WRITEBACK_SV, "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul" },
+/* tr */ { IDMS_FP_WRITEBACK_TR, "Flash Plugin ROM dosyasýna geri yazmayý aktif et" },
 
 /* en */ { IDMS_MEGACART_WRITEBACK,    "Enable Mega-Cart NvRAM writeback" },
 /* da */ { IDMS_MEGACART_WRITEBACK_DA, "Aktivér Mega-Cart NvRAM tilbageskrivning" },
@@ -4797,24 +4797,24 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_ADDITIONAL_DELAY_SV, "Ytterligare fördröjning" },
 /* tr */ { IDS_ADDITIONAL_DELAY_TR, "Ekstra Bekletme" },
 
-/* en */ { IDS_DELAY_AT_ZERO_VALUES,    "Delay at Zero Values" },
-/* da */ { IDS_DELAY_AT_ZERO_VALUES_DA, "Forsinkelse ved nulværdier" },
-/* de */ { IDS_DELAY_AT_ZERO_VALUES_DE, "Zyklen Verzögerung bei Zero-Werte" },
-/* fr */ { IDS_DELAY_AT_ZERO_VALUES_FR, "cycles délai aux valeurs-zéro" },
-/* hu */ { IDS_DELAY_AT_ZERO_VALUES_HU, "Szünet nulla értékeknél" },
-/* it */ { IDS_DELAY_AT_ZERO_VALUES_IT, "Ritardo ai valori di zero" },
+/* en */ { IDS_DELAY_AT_ZERO_VALUES,    "Datasette zero gap delay" },
+/* da */ { IDS_DELAY_AT_ZERO_VALUES_DA, "Datasette nulgabs-forsinkelse" },
+/* de */ { IDS_DELAY_AT_ZERO_VALUES_DE, "Bandlaufwerk Zero Gap Verzögerung" },
+/* fr */ { IDS_DELAY_AT_ZERO_VALUES_FR, "Délai du datassette lors de la lecture des groupes de zéros" },
+/* hu */ { IDS_DELAY_AT_ZERO_VALUES_HU, "Magnó üres rés késleltetés" },
+/* it */ { IDS_DELAY_AT_ZERO_VALUES_IT, "Ritardo del gap di zero del registratore" },
 /* ko */ { IDS_DELAY_AT_ZERO_VALUES_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DELAY_AT_ZERO_VALUES_NL, "Nul-waarden cycli vertraging" },
-/* pl */ { IDS_DELAY_AT_ZERO_VALUES_PL, "" },  /* fuzzy */
+/* nl */ { IDS_DELAY_AT_ZERO_VALUES_NL, "Datasette zero gap vertraging" },
+/* pl */ { IDS_DELAY_AT_ZERO_VALUES_PL, "Datasette zero gap delay" },
 /* ru */ { IDS_DELAY_AT_ZERO_VALUES_RU, "" },  /* fuzzy */
-/* sv */ { IDS_DELAY_AT_ZERO_VALUES_SV, "Fördröjni vid nollvärden" },
-/* tr */ { IDS_DELAY_AT_ZERO_VALUES_TR, "Zýfýr Deðerlerinde Bekletme" },
+/* sv */ { IDS_DELAY_AT_ZERO_VALUES_SV, "Datasette nollgapsfördröjning" },
+/* tr */ { IDS_DELAY_AT_ZERO_VALUES_TR, "Teyp sýfýr ara beklemesi" },
 
-/* en */ { IDS_DATASETTE_SETTINGS,    "Datasette Settings" },
+/* en */ { IDS_DATASETTE_SETTINGS,    "Datasette settings" },
 /* da */ { IDS_DATASETTE_SETTINGS_DA, "Datasetteindstillinger" },
 /* de */ { IDS_DATASETTE_SETTINGS_DE, "Datasette Einstellungen" },
-/* fr */ { IDS_DATASETTE_SETTINGS_FR, "Réglages datassette" },
-/* hu */ { IDS_DATASETTE_SETTINGS_HU, "Magnó beállításai" },
+/* fr */ { IDS_DATASETTE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DATASETTE_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_DATASETTE_SETTINGS_IT, "Impostazioni registratore" },
 /* ko */ { IDS_DATASETTE_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_DATASETTE_SETTINGS_NL, "Datasette instellingen" },
@@ -5187,18 +5187,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_DQBB_FILENAME_SELECT_SV, "Välj fil för DQBB" },
 /* tr */ { IDS_DQBB_FILENAME_SELECT_TR, "DQBB için dosya seç" },
 
-/* en */ { IDS_DQBB_SETTINGS,    "DQBB settings" },
-/* da */ { IDS_DQBB_SETTINGS_DA, "DQBB-indstillinger" },
-/* de */ { IDS_DQBB_SETTINGS_DE, "DQBB Einstellungen" },
+/* en */ { IDS_DQBB_SETTINGS,    "Double Quick Brown Box settings" },
+/* da */ { IDS_DQBB_SETTINGS_DA, "Double Quick Brown Box indstillinger" },
+/* de */ { IDS_DQBB_SETTINGS_DE, "Double Quick Brown Box Einstellungen" },
 /* fr */ { IDS_DQBB_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DQBB_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_DQBB_SETTINGS_IT, "Impostazioni DQBB" },
+/* it */ { IDS_DQBB_SETTINGS_IT, "Impostazioni Double Quick Brown Box" },
 /* ko */ { IDS_DQBB_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DQBB_SETTINGS_NL, "DQBB instellingen" },
+/* nl */ { IDS_DQBB_SETTINGS_NL, "Double Quick Brown Box instellingen" },
 /* pl */ { IDS_DQBB_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DQBB_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_DQBB_SETTINGS_SV, "DQBB-inställningar" },
-/* tr */ { IDS_DQBB_SETTINGS_TR, "DQBB ayarlarý" },
+/* sv */ { IDS_DQBB_SETTINGS_SV, "Inställninga för dubbel Quick Brown Box" },
+/* tr */ { IDS_DQBB_SETTINGS_TR, "Double Quick Brown Box ayarlarý" },
 
 /* en */ { IDS_ISEPIC_SETTINGS,    "ISEPIC settings" },
 /* da */ { IDS_ISEPIC_SETTINGS_DA, "ISEPIC-indstillinger" },
@@ -7307,18 +7307,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_CARD_READ_WRITE_SV, "Skrivbart kort" },
 /* tr */ { IDS_CARD_READ_WRITE_TR, "Kart oku/yaz" },
 
-/* en */ { IDS_EEPROM_FILE,    "EEPROM Image File" },
-/* da */ { IDS_EEPROM_FILE_DA, "EEPROM image-fil" },
-/* de */ { IDS_EEPROM_FILE_DE, "EEPROM Image Datei" },
+/* en */ { IDS_EEPROM_FILE,    "EEPROM image file" },
+/* da */ { IDS_EEPROM_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDS_EEPROM_FILE_DE, "" },  /* fuzzy */
 /* fr */ { IDS_EEPROM_FILE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_EEPROM_FILE_HU, "" },  /* fuzzy */
-/* it */ { IDS_EEPROM_FILE_IT, "File immagine EEPROM" },
+/* it */ { IDS_EEPROM_FILE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_EEPROM_FILE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_EEPROM_FILE_NL, "EEPROM bestand" },
 /* pl */ { IDS_EEPROM_FILE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_EEPROM_FILE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_EEPROM_FILE_SV, "EEPROM-avbildningsfil" },
-/* tr */ { IDS_EEPROM_FILE_TR, "EEPROM Ýmaj Dosyasý" },
+/* sv */ { IDS_EEPROM_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_EEPROM_FILE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED,    "Save EEPROM image when changed" },
 /* da */ { IDS_WRITE_TO_EEPROM_WHEN_CHANGED_DA, "Gem EEPROM image ved ændringer" },

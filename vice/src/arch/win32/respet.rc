@@ -610,7 +610,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET settings..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
 END
 
 
@@ -646,7 +646,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET-indstillinger..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW-indstillinger..."
   IDS_MI_PETREU_SETTINGS         "PET REU-indstillinger..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivér PET brugerport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivér brugerport DAC for lydoutput"
 END
 
 
@@ -682,7 +682,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET Einstellungen..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW Einstellungen..."
   IDS_MI_PETREU_SETTINGS         "PET REU Einstellungen..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET Userport DAC aktivieren"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Userport DAC Sound aktivieren"
 END
 
 
@@ -718,7 +718,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "Paramètres PET..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
 END
 
 
@@ -757,7 +757,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET beállításai..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -796,7 +796,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "Impostazioni PET..."
   IDS_MI_PETDWW_SETTINGS         "Impostazioni PET DWW..."
   IDS_MI_PETREU_SETTINGS         "Impostazioni PET REU..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su userport PET"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Attiva DAC su userport per la riproduzione audio"
 END
 
 
@@ -835,7 +835,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET settings..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -874,7 +874,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET instellingen..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW instellingen..."
   IDS_MI_PETREU_SETTINGS         "PET REU instellingen..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer PET userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer userport DAC voor geluidsuitvoer"
 END
 
 
@@ -913,7 +913,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET settings..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -955,7 +955,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET settings..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
   IDS_MI_PETREU_SETTINGS         "PET REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable PET Userport DAC"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -994,7 +994,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET-inställningar..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW-Inställningar..."
   IDS_MI_PETREU_SETTINGS         "PET REU-Inställningar..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera PET användarport-D/A-omvandlare"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Aktivera D/A-omvandlare på användarporten för ljudutdata"
 END
 
 
@@ -1033,7 +1033,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET ayarlarý..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW Ayarlarý..."
   IDS_MI_PETREU_SETTINGS         "PET REU Ayarlarý..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "PET Userport DAC'ý aktif et"
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Ses çýkýþý için Userport DAC'ý aktif et"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

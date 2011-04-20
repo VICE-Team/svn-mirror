@@ -1,12 +1,12 @@
 # Polish Translation for VICE
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Mariusz M³ynek <flooder@poczta.onet.pl>, 2002.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-19 14:19-0700\n"
+"POT-Creation-Date: 2011-04-20 07:59-0700\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -48,9 +48,10 @@ msgstr ""
 msgid "Specify MIDI-Out device"
 msgstr ""
 
-#: src/arch/unix/mididrv.c:680
+#: src/arch/unix/mididrv.c:680 src/arch/unix/gui/uimidi.c:87
+#: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1164
 #, fuzzy
-msgid "driver"
+msgid "Driver"
 msgstr "Napêd %d: "
 
 #: src/arch/unix/mididrv.c:680
@@ -142,8 +143,9 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:244 src/arch/win32/resc128.rc.po.c:688
+#: src/translate_text.c.po.c:3566
 #, fuzzy
-msgid "Enable internal Function ROM"
+msgid "Enable the internal Function ROM"
 msgstr "*W³±cz wewnêtrzn± funkcjê ROM"
 
 #: src/arch/unix/gui/c128ui.c:246
@@ -152,8 +154,9 @@ msgid "Internal Function ROM name"
 msgstr "Nazwa wewnêtrznej funkci ROM..."
 
 #: src/arch/unix/gui/c128ui.c:250 src/arch/win32/resc128.rc.po.c:691
+#: src/translate_text.c.po.c:3598
 #, fuzzy
-msgid "Enable external Function ROM"
+msgid "Enable the external Function ROM"
 msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
 
 #: src/arch/unix/gui/c128ui.c:252
@@ -1291,10 +1294,10 @@ msgstr "W³ó¿ obraz Super Snapshot 4..."
 msgid "Set cartridge as default"
 msgstr "Ustaw kartrid¿ jako domy¶lny"
 
-#: src/arch/unix/gui/uic64cart.c:158 src/arch/win32/res.rc.po.c:1371
-#: src/arch/amigaos/intl_text.c.po.c:499
-msgid "Detach cartridge image"
-msgstr "Wjmij obraz kartrid¿a"
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:357
+#: src/arch/win32/res.rc.po.c:1371 src/arch/amigaos/intl_text.c.po.c:499
+msgid "Detach cartridge image(s)"
+msgstr "Wysuñ obraz(y) kartrid¿a"
 
 #: src/arch/unix/gui/uic64cart.c:160 src/arch/win32/res.rc.po.c:1372
 #: src/arch/amigaos/intl_text.c.po.c:824
@@ -1687,7 +1690,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
 #: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
-#: src/arch/unix/gui/uivicii.c:177
+#: src/arch/unix/gui/uivicii.c:177 src/arch/unix/x11/gnome/uipalcontrol.c:98
 #, fuzzy
 msgid "CRT emulation settings"
 msgstr "Ustawienia emualcji PET"
@@ -1753,6 +1756,7 @@ msgid "Datasette speed tuning"
 msgstr "Regulacja prêdko¶ci Datasette"
 
 #: src/arch/unix/gui/uidatasette.c:58 src/arch/unix/gui/uidatasette.c:84
+#: src/arch/win32/res.rc.po.c:1117 src/arch/amigaos/intl_text.c.po.c:4776
 msgid "Datasette zero gap delay"
 msgstr "Datasette zero gap delay"
 
@@ -1831,10 +1835,12 @@ msgstr "Zapisz obraz kartrid¿a"
 msgid "Save image as"
 msgstr "W³ó¿ obraz kasety..."
 
-#: src/arch/unix/gui/uidqbb.c:63
+# src/arch/unix/uisettings.c:456 src/arch/unix/uisettings.c:470 
+#: src/arch/unix/gui/uidqbb.c:63 src/arch/win32/resdqbb.rc.po.c:40
+#: src/arch/amigaos/intl_text.c.po.c:5127
 #, fuzzy
-msgid "DQBB image"
-msgstr "Nazwa obrazu IDE64"
+msgid "DQBB file"
+msgstr "*Zrzuæ do pliku"
 
 #: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:102
@@ -1876,9 +1882,9 @@ msgid "True drive emulation"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 #: src/arch/unix/gui/uidrive.c:188 src/arch/unix/gui/uidrivec64dtv.c:45
-#, fuzzy
-msgid "Enable true flash filesystem"
-msgstr "*W³±cz rzeczywist± emulacjê napêdu"
+#: src/translate_text.c.po.c:11502
+msgid "Enable true hardware flash file system"
+msgstr ""
 
 #: src/arch/unix/gui/uidrivec128.c:43 src/arch/unix/gui/uidrivec128.c:75
 #: src/arch/unix/gui/uidrivec128.c:97 src/arch/unix/gui/uidrivec128.c:119
@@ -2303,6 +2309,7 @@ msgid "XRandR Resolutions"
 msgstr "Rozdzielczo¶æ DGA1"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:92
+#: src/arch/unix/x11/ui-cmdline-options.c:79
 #, fuzzy
 msgid "Enable fullscreen"
 msgstr "*W³±cz pe³ny ekran"
@@ -2335,25 +2342,30 @@ msgstr "Nazwa obrazu IDE64"
 msgid "Enter number of cylinders"
 msgstr ""
 
-#: src/arch/unix/gui/uiide64.c:75
-msgid "IDE64 cylinders"
+#: src/arch/unix/gui/uiide64.c:75 src/arch/unix/gui/uiide64.c:192
+#: src/arch/win32/reside64.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:7052
+msgid "Cylinders"
 msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:113
 msgid "Enter number of heads"
 msgstr ""
 
-#: src/arch/unix/gui/uiide64.c:114
-msgid "IDE64 heads"
-msgstr ""
+#: src/arch/unix/gui/uiide64.c:114 src/arch/unix/gui/uiide64.c:194
+#: src/arch/win32/reside64.rc.po.c:83 src/arch/amigaos/intl_text.c.po.c:7065
+#, fuzzy
+msgid "Heads"
+msgstr "Twardy"
 
 #: src/arch/unix/gui/uiide64.c:152
 msgid "Enter number of sectors"
 msgstr ""
 
-#: src/arch/unix/gui/uiide64.c:153
-msgid "IDE64 sectors"
-msgstr ""
+#: src/arch/unix/gui/uiide64.c:153 src/arch/unix/gui/uiide64.c:196
+#: src/arch/win32/reside64.rc.po.c:84 src/arch/amigaos/intl_text.c.po.c:7078
+#, fuzzy
+msgid "Sectors"
+msgstr "Rejestruj"
 
 #: src/arch/unix/gui/uiide64.c:166
 msgid "Version 3"
@@ -2393,23 +2405,6 @@ msgstr "Nazwa obrazu IDE64..."
 #, fuzzy
 msgid "Autodetect image size"
 msgstr "Autostart"
-
-#: src/arch/unix/gui/uiide64.c:192 src/arch/win32/reside64.rc.po.c:82
-#: src/arch/amigaos/intl_text.c.po.c:7052
-msgid "Cylinders"
-msgstr ""
-
-#: src/arch/unix/gui/uiide64.c:194 src/arch/win32/reside64.rc.po.c:83
-#: src/arch/amigaos/intl_text.c.po.c:7065
-#, fuzzy
-msgid "Heads"
-msgstr "Twardy"
-
-#: src/arch/unix/gui/uiide64.c:196 src/arch/win32/reside64.rc.po.c:84
-#: src/arch/amigaos/intl_text.c.po.c:7078
-#, fuzzy
-msgid "Sectors"
-msgstr "Rejestruj"
 
 #: src/arch/unix/gui/uiisepic.c:48
 #, fuzzy
@@ -2703,9 +2698,10 @@ msgstr ""
 msgid "Stack Light Rifle"
 msgstr ""
 
-#: src/arch/unix/gui/uilightpen.c:68
+#: src/arch/unix/gui/uilightpen.c:68 src/arch/win32/reslightpen.rc.po.c:23
+#: src/translate_text.c.po.c:11776
 #, fuzzy
-msgid "Enable Lightpen"
+msgid "Enable lightpen emulation"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:24
@@ -2735,12 +2731,6 @@ msgstr "Urz±dzenie #8"
 #, fuzzy
 msgid "Type"
 msgstr "<pusty>"
-
-#: src/arch/unix/gui/uimidi.c:87 src/arch/unix/gui/uimidi.c:103
-#: src/arch/win32/res.rc.po.c:1164
-#, fuzzy
-msgid "Driver"
-msgstr "Napêd %d: "
 
 #: src/arch/unix/gui/uimmc64.c:53
 #, fuzzy
@@ -2800,10 +2790,11 @@ msgstr "Nazwa obrazu IDE64"
 msgid "Enable rescue mode"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/unix/gui/uimmcreplay.c:86
+#: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
+#: src/arch/amigaos/intl_text.c.po.c:7286
 #, fuzzy
-msgid "EEPROM image name"
-msgstr "Nazwa obrazu GEORAM..."
+msgid "EEPROM image file"
+msgstr "Nazwa obrazu GEORAM"
 
 #: src/arch/unix/gui/uimmcreplay.c:89
 #, fuzzy
@@ -2835,9 +2826,9 @@ msgstr "Joystick w porcie 1"
 msgid "Port 2"
 msgstr "Joystick w porcie 2"
 
-#: src/arch/unix/gui/uimouse.c:62
+#: src/arch/unix/gui/uimouse.c:62 src/translate_text.c.po.c:10510
 #, fuzzy
-msgid "Enable mouse"
+msgid "Enable mouse grab"
 msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:31
@@ -2907,7 +2898,7 @@ msgstr ""
 msgid "Connect to server"
 msgstr ""
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:316
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:318
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr ""
@@ -3644,7 +3635,8 @@ msgid "Resource file name"
 msgstr "Nazwa pliku:"
 
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#: src/arch/win32/res.rc.po.c:1401 src/arch/amigaos/intl_text.c.po.c:1396
+#: src/arch/win32/res.rc.po.c:1401 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/amigaos/intl_text.c.po.c:1396
 #, fuzzy
 msgid "Custom"
 msgstr "*W³asne..."
@@ -4153,10 +4145,6 @@ msgstr "Nazwa obrazu RAMCART..."
 msgid "NvRAM image file"
 msgstr "Nazwa obrazu GEORAM..."
 
-#: src/arch/unix/gui/vic20ui.c:357
-msgid "Detach cartridge image(s)"
-msgstr "Wysuñ obraz(y) kartrid¿a"
-
 #: src/arch/unix/gui/vic20ui.c:495
 #, fuzzy
 msgid "VIC model"
@@ -4309,9 +4297,9 @@ msgstr "Stwórz pust± dyskietkê"
 msgid "Disk options"
 msgstr "Opcje dyskietki"
 
-#: src/arch/unix/x11/gnome/uiedisk.c:74
-msgid "Diskname: "
-msgstr "Nazwa dysku:"
+#: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:262
+msgid "Disk name:"
+msgstr "Nazwa dysku"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:182
 #, c-format
@@ -4396,39 +4384,40 @@ msgstr ""
 msgid "Connect to"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:206
-#: src/arch/unix/x11/gnome/uinetplay.c:208 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1223
+#: src/arch/amigaos/intl_text.c.po.c:3515
+#, fuzzy
+msgid "Current mode"
+msgstr "Ustawienia ROM"
+
+#: src/arch/unix/x11/gnome/uinetplay.c:207
+#: src/arch/unix/x11/gnome/uinetplay.c:209 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 #, fuzzy
 msgid "Netplay Settings"
 msgstr "Ustawienia zewnêtrzne"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:214
-#, fuzzy
-msgid "Current mode: "
-msgstr "Ustawienia ROM"
-
-#: src/arch/unix/x11/gnome/uinetplay.c:226
+#: src/arch/unix/x11/gnome/uinetplay.c:228
 #: src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start Server"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/uinetplay.c:232
+#: src/arch/unix/x11/gnome/uinetplay.c:234
 #, fuzzy
 msgid "TCP port: "
 msgstr "Z³a nazwa pliku"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:282 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:1229
 #, fuzzy
 msgid "Control"
 msgstr "Kontrola PAL"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:287 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:289 src/arch/win32/res.rc.po.c:1230
 #, fuzzy
 msgid "Server"
 msgstr "Napêd %d: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:290 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:292 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr ""
 
@@ -4451,11 +4440,6 @@ msgstr "Jaskrawo¶æ"
 #: src/arch/amigaos/intl_text.c.po.c:7780
 msgid "Gamma"
 msgstr "Gamma"
-
-#: src/arch/unix/x11/gnome/uipalcontrol.c:98
-#, fuzzy
-msgid "CRT settings"
-msgstr "Ustawienia VDC"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:288
 #, fuzzy
@@ -4703,14 +4687,9 @@ msgstr ""
 msgid "Never save settings (resources) on exit"
 msgstr "Nigdy nie zapisuj ustawieñ (zasobów) przy wyj¶ciu"
 
-#: src/arch/unix/x11/ui-cmdline-options.c:79
-#, fuzzy
-msgid "Enable fullscreen (default Chip)"
-msgstr "W³±cz pe³ny ekran"
-
 #: src/arch/unix/x11/ui-cmdline-options.c:84
 #, fuzzy
-msgid "Disable fullscreen (default Chip)"
+msgid "Disable fullscreen"
 msgstr "Wy³±cz pe³ny ekran"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2728
@@ -4767,10 +4746,6 @@ msgstr "Zapisz plik jako pust± dyskietkê"
 #: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
 msgstr "Nie mo¿na stworzyæ dysku"
-
-#: src/arch/unix/x11/xaw/uiedisk.c:262
-msgid "Disk name:"
-msgstr "Nazwa dysku"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:297
 msgid "Disk format:"
@@ -5599,14 +5574,14 @@ msgstr ""
 msgid "No userport joy adapter"
 msgstr "*Pin diagnostyczny userportu PET"
 
-#: src/arch/win32/res.rc.po.c:1039
+#: src/arch/win32/res.rc.po.c:1039 src/translate_text.c.po.c:11680
 #, fuzzy
-msgid "Disable SIDcart joy"
+msgid "Disable SID cartridge joystick"
 msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
-#: src/arch/win32/res.rc.po.c:1040
+#: src/arch/win32/res.rc.po.c:1040 src/translate_text.c.po.c:11664
 #, fuzzy
-msgid "Enable SIDcart joy"
+msgid "Enable SID cartridge joystick"
 msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/arch/win32/res.rc.po.c:1041
@@ -5809,7 +5784,7 @@ msgstr ""
 msgid "Start VICE in fullscreen mode"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/win32/res.rc.po.c:1089
+#: src/arch/win32/res.rc.po.c:1089 src/arch/win32/res.rc.po.c:1404
 #, fuzzy
 msgid "Disable DirectX9 video driver"
 msgstr "Sterownik drukarki #4 - IEC"
@@ -5838,9 +5813,11 @@ msgstr "Nie mo¿na alokowaæ cache'u koloru"
 msgid "Error saving EasyFlash crt file"
 msgstr "B³±d czytania urz±dzenia cyfrowego joysticka."
 
-#: src/arch/win32/res.rc.po.c:1113 src/arch/amigaos/intl_text.c.po.c:4789
+#: src/arch/win32/res.rc.po.c:1113 src/arch/win32/res.rc.po.c:1422
+#: src/arch/amigaos/intl_text.c.po.c:2059
+#: src/arch/amigaos/intl_text.c.po.c:4789
 #, fuzzy
-msgid "Datasette Settings"
+msgid "Datasette settings"
 msgstr "Regulacja prêdko¶ci Datasette"
 
 #: src/arch/win32/res.rc.po.c:1115
@@ -5851,16 +5828,13 @@ msgstr ""
 msgid "cycle(s) additional delay each trigger"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1117
-msgid "cycles delay at zero-values"
-msgstr ""
-
 #: src/arch/win32/res.rc.po.c:1118
 #, fuzzy
 msgid "Use IEC Device"
 msgstr "*Napêd #9 - w³±cz kabel równoleg³y "
 
-#: src/arch/win32/res.rc.po.c:1120
+#: src/arch/win32/res.rc.po.c:1120 src/translate_text.c.po.c:2392
+#: src/translate_text.c.po.c:2408
 #, fuzzy
 msgid "Directory"
 msgstr "Katalog nie znaleziony"
@@ -6212,11 +6186,6 @@ msgstr "Urz±dzenie portu RS232"
 #, fuzzy
 msgid "RS232 device 4"
 msgstr "Urz±dzenie portu RS232"
-
-#: src/arch/win32/res.rc.po.c:1223 src/arch/amigaos/intl_text.c.po.c:3515
-#, fuzzy
-msgid "Current mode"
-msgstr "Ustawienia ROM"
 
 #: src/arch/win32/res.rc.po.c:1224 src/arch/amigaos/intl_text.c.po.c:3554
 #, fuzzy
@@ -6666,11 +6635,6 @@ msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 msgid "Always on Top"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1404
-#, fuzzy
-msgid "Disable DirectX9"
-msgstr "Sterownik drukarki #4 - IEC"
-
 #: src/arch/win32/res.rc.po.c:1405
 #, fuzzy
 msgid "Swap Joysticks"
@@ -6708,11 +6672,6 @@ msgstr "Ustawienia joystcka"
 msgid "Sidcart joystick settings"
 msgstr "Ustawienia joystcka"
 
-#: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:2059
-#, fuzzy
-msgid "Datasette settings"
-msgstr "Regulacja prêdko¶ci Datasette"
-
 #: src/arch/win32/res.rc.po.c:1424 src/arch/amigaos/intl_text.c.po.c:2150
 #, fuzzy
 msgid "Mouse settings"
@@ -6736,7 +6695,9 @@ msgstr "Ustawienia RAM"
 msgid "RamCart settings"
 msgstr "Ustawienia crtc"
 
-#: src/arch/win32/res.rc.po.c:1430 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/win32/res.rc.po.c:1430 src/arch/win32/resdqbb.rc.po.c:13
+#: src/arch/win32/resdqbb.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:2319
+#: src/arch/amigaos/intl_text.c.po.c:5166
 #, fuzzy
 msgid "Double Quick Brown Box settings"
 msgstr "Ustawienia joystcka"
@@ -6779,7 +6740,8 @@ msgstr "Urz±dzenie #8"
 msgid "MIDI settings"
 msgstr "Ustawienia uk³adu SID"
 
-#: src/arch/win32/res.rc.po.c:1437 src/arch/amigaos/intl_text.c.po.c:2462
+#: src/arch/win32/res.rc.po.c:1437 src/arch/win32/resdigimax.rc.po.c:22
+#: src/arch/amigaos/intl_text.c.po.c:2462
 #: src/arch/amigaos/intl_text.c.po.c:8495
 #, fuzzy
 msgid "DigiMAX settings"
@@ -6827,9 +6789,10 @@ msgid "SFX Sound Expander settings"
 msgstr "*Emulacja myszki 1351"
 
 #: src/arch/win32/res.rc.po.c:1447 src/arch/amigaos/intl_text.c.po.c:2501
+#: src/translate_text.c.po.c:11744
 #, fuzzy
-msgid "Enable SFX Sound Sampler"
-msgstr "*W³±cz d¼wiêk"
+msgid "Enable the SFX Sound Sampler cartridge"
+msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/win32/res.rc.po.c:1448 src/arch/amigaos/intl_text.c.po.c:2683
 #, fuzzy
@@ -7016,10 +6979,11 @@ msgstr ""
 msgid "Turbo232"
 msgstr ""
 
-#: src/arch/win32/resacia.rc.po.c:48
+# src/arch/unix/uisettings.c:607 
+#: src/arch/win32/resacia.rc.po.c:48 src/translate_text.c.po.c:3371
 #, fuzzy
-msgid "Enable ACIA"
-msgstr "*W³±cz RAMCART"
+msgid "Enable the ACIA RS232 interface emulation"
+msgstr "*Interfejs emulacji ACIA $DExx RS232"
 
 #: src/arch/win32/resacia.rc.po.c:50
 #, fuzzy
@@ -7260,10 +7224,10 @@ msgstr ""
 msgid "6572 (PAL-N)"
 msgstr ""
 
-#: src/arch/win32/resc64_256k.rc.po.c:29
+#: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:11134
 #, fuzzy
-msgid "Enable 256K"
-msgstr "*W³±cz"
+msgid "Enable the 256K RAM expansion"
+msgstr "Jednostka rozszerzenia RAM"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:4477
@@ -7277,10 +7241,11 @@ msgstr "*Adres bazowy drugiego SID"
 msgid "Select file for 256K"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:445
+#: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:436
+#: src/arch/win32/resc64dtv.rc.po.c:445
 #, fuzzy
-msgid "DTV flash rom image"
-msgstr "Wyjmij obraz dyskietki"
+msgid "DTV ROM image File"
+msgstr "Nazwa obrazu IDE64"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
 #, fuzzy
@@ -7290,11 +7255,6 @@ msgstr "W³ó¿ obraz dyskietki"
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "DTV ROM"
 msgstr ""
-
-#: src/arch/win32/resc64dtv.rc.po.c:436
-#, fuzzy
-msgid "DTV ROM image File"
-msgstr "Nazwa obrazu IDE64"
 
 #: src/arch/win32/resc64dtv.rc.po.c:437
 #, fuzzy
@@ -7313,7 +7273,7 @@ msgstr "Ustawienia uk³adu SID"
 msgid "Enable Hummer ADC"
 msgstr "*W³±cz RAMCART"
 
-#: src/arch/win32/resc64dtv.rc.po.c:441
+#: src/arch/win32/resc64dtv.rc.po.c:441 src/arch/win32/resc64dtv.rc.po.c:449
 #, fuzzy
 msgid "Create DTV Flash Image"
 msgstr "B³±d XCreateImage"
@@ -7340,11 +7300,6 @@ msgstr "W³ó¿ obraz dyskietki"
 #, fuzzy
 msgid "Detach flash rom image"
 msgstr "Wyjmij obraz dyskietki"
-
-#: src/arch/win32/resc64dtv.rc.po.c:449
-#, fuzzy
-msgid "Create new flash rom image"
-msgstr "*Stwórz plik P00 kiedy bêdzie zapis"
 
 #: src/arch/win32/resc64dtv.rc.po.c:450
 #, fuzzy
@@ -7413,50 +7368,34 @@ msgstr "*128 kBajty"
 msgid "Ram banks"
 msgstr ""
 
-#: src/arch/win32/resdigimax.rc.po.c:22
+#: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:11888
 #, fuzzy
-msgid "DigiMAX Settings"
-msgstr "Ustawienia napêdu"
-
-#: src/arch/win32/resdigimax.rc.po.c:23
-#, fuzzy
-msgid "Enable DigiMAX"
-msgstr "*W³±cz"
+msgid "Enable the DigiMAX cartridge"
+msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/win32/resdigimax.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:8482
 msgid "DigiMAX base"
 msgstr ""
-
-#: src/arch/win32/resdqbb.rc.po.c:13 src/arch/win32/resdqbb.rc.po.c:37
-#, fuzzy
-msgid "DQBB Settings"
-msgstr "Ustawienia uk³adu SID"
 
 #: src/arch/win32/resdqbb.rc.po.c:36 src/arch/amigaos/intl_text.c.po.c:5153
 #, fuzzy
 msgid "Select file for DQBB"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/win32/resdqbb.rc.po.c:38
+#: src/arch/win32/resdqbb.rc.po.c:38 src/translate_text.c.po.c:4304
 #, fuzzy
-msgid "Enable DQBB"
-msgstr "*W³±cz RAMCART"
+msgid "Enable Double Quick Brown Box"
+msgstr "Ustawienia joystcka"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5140
 #, fuzzy
 msgid "Save DQBB image when changed"
 msgstr "W³ó¿ obraz kasety..."
 
-# src/arch/unix/uisettings.c:456 src/arch/unix/uisettings.c:470 
-#: src/arch/win32/resdqbb.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5127
-#, fuzzy
-msgid "DQBB file"
-msgstr "*Zrzuæ do pliku"
-
 #: src/arch/win32/reseasyflash.rc.po.c:30
-#, fuzzy
-msgid "EasyFlash Jumper"
-msgstr "Regulacja prêdko¶ci Datasette"
+#: src/arch/amigaos/intl_text.c.po.c:8963
+msgid "EasyFlash jumper"
+msgstr ""
 
 #: src/arch/win32/reseasyflash.rc.po.c:31
 #, fuzzy
@@ -7473,9 +7412,9 @@ msgstr "Zapisz obraz kartrid¿a"
 msgid "Select file for Expert Cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
-#: src/arch/win32/resexpert.rc.po.c:41
+#: src/arch/win32/resexpert.rc.po.c:41 src/translate_text.c.po.c:5938
 #, fuzzy
-msgid "Enable Expert Cartridge"
+msgid "Enable the Expert Cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/win32/resexpert.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:5088
@@ -7493,10 +7432,10 @@ msgstr "W³±cz Expert Cartridge..."
 msgid "Select file for GEO-RAM"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/win32/resgeoram.rc.po.c:41
+#: src/arch/win32/resgeoram.rc.po.c:41 src/translate_text.c.po.c:3904
 #, fuzzy
-msgid "Enable GEO-RAM"
-msgstr "*W³±cz GEORAM"
+msgid "Enable the GEO-RAM expansion unit"
+msgstr "Jednostka rozszerzenia RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4958
 #, fuzzy
@@ -7559,10 +7498,10 @@ msgstr "Wybierz plik urz±dzenia RS232"
 msgid "Select file for ISEPIC"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/win32/resisepic.rc.po.c:39
+#: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:4384
 #, fuzzy
-msgid "Enable ISEPIC"
-msgstr "*W³±cz REU"
+msgid "Enable the ISEPIC cartridge"
+msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5192
 #, fuzzy
@@ -7584,11 +7523,6 @@ msgstr "Zapisz kartrid¿"
 msgid "lightpen Settings"
 msgstr "Ustawienia napêdu"
 
-#: src/arch/win32/reslightpen.rc.po.c:23
-#, fuzzy
-msgid "Enable lightpen"
-msgstr "*W³±cz rzeczywist± emulacjê napêdu"
-
 #: src/arch/win32/resmagicvoice.rc.po.c:24
 #, fuzzy
 msgid "Magic Voice Settings"
@@ -7605,20 +7539,20 @@ msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 msgid "Select file for Magic Voice"
 msgstr "W³±cz pe³ny ekran"
 
-#: src/arch/win32/resmidi.rc.po.c:39
+#: src/arch/win32/resmidi.rc.po.c:39 src/translate_text.c.po.c:11535
 #, fuzzy
-msgid "Enable MIDI"
-msgstr "*W³±cz RAMCART"
+msgid "Enable MIDI emulation"
+msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 #: src/arch/win32/resmidi.rc.po.c:40
 #, fuzzy
 msgid "MIDI type"
 msgstr "Plik ustawieñ ROM:"
 
-#: src/arch/win32/resmmc64.rc.po.c:52
+#: src/arch/win32/resmmc64.rc.po.c:52 src/translate_text.c.po.c:4464
 #, fuzzy
-msgid "Enable MMC64"
-msgstr "*W³±cz"
+msgid "Enable the MMC64 expansion"
+msgstr "*W³±cz RAMCART"
 
 #: src/arch/win32/resmmc64.rc.po.c:53 src/arch/amigaos/intl_text.c.po.c:7104
 #, fuzzy
@@ -7647,11 +7581,6 @@ msgstr ""
 #, fuzzy
 msgid "MMC/SD Image File"
 msgstr "Nazwa obrazu IDE64"
-
-#: src/arch/win32/resmmcreplay.rc.po.c:49
-#, fuzzy
-msgid "EEPROM Image"
-msgstr "Nazwa obrazu GEORAM"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:7325
@@ -7750,9 +7679,10 @@ msgstr "Ustawienia"
 msgid "PET REU settings"
 msgstr "Ustawienia"
 
-#: src/arch/win32/respet.rc.po.c:567
+#: src/arch/win32/respet.rc.po.c:567 src/arch/amigaos/intl_text.c.po.c:2514
+#: src/translate_text.c.po.c:4128
 #, fuzzy
-msgid "Enable PET Userport DAC"
+msgid "Enable Userport DAC for sound output"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 #: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
@@ -7760,10 +7690,10 @@ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 msgid "PET DWW Settings"
 msgstr "Ustawienia"
 
-#: src/arch/win32/respetdww.rc.po.c:25
+#: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
 #, fuzzy
-msgid "Enable PET DWW"
-msgstr "*W³±cz REU"
+msgid "Enable the PET DWW hi-res board"
+msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
 #, fuzzy
@@ -7780,10 +7710,10 @@ msgstr "W³±cz pe³ny ekran"
 msgid "PET REU Settings"
 msgstr "Ustawienia"
 
-#: src/arch/win32/respetreu.rc.po.c:38
+#: src/arch/win32/respetreu.rc.po.c:38 src/translate_text.c.po.c:4016
 #, fuzzy
-msgid "Enable PET REU"
-msgstr "*W³±cz REU"
+msgid "Enable the PET Ram and Expansion Unit"
+msgstr "Jednostka rozszerzenia RAM"
 
 #: src/arch/win32/respetreu.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:5830
 #, fuzzy
@@ -7806,10 +7736,10 @@ msgstr "W³±cz pe³ny ekran"
 msgid "PLUS256K Settings"
 msgstr "Ustawienia"
 
-#: src/arch/win32/resplus256k.rc.po.c:25
+#: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:11022
 #, fuzzy
-msgid "Enable PLUS256K"
-msgstr "*W³±cz"
+msgid "Enable the PLUS256K RAM expansion"
+msgstr "Jednostka rozszerzenia RAM"
 
 #: src/arch/win32/resplus256k.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:2371
@@ -7943,10 +7873,10 @@ msgstr "Ustawienia modelu PET"
 msgid "PLUS60K Settings"
 msgstr "Ustawienia"
 
-#: src/arch/win32/resplus60k.rc.po.c:29
+#: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:11070
 #, fuzzy
-msgid "Enable PLUS60K"
-msgstr "*W³±cz"
+msgid "Enable the PLUS60K RAM expansion"
+msgstr "Jednostka rozszerzenia RAM"
 
 #: src/arch/win32/resplus60k.rc.po.c:30
 #, fuzzy
@@ -7968,10 +7898,10 @@ msgstr "W³±cz pe³ny ekran"
 msgid "RamCart Settings"
 msgstr "Ustawienia crtc"
 
-#: src/arch/win32/resramcart.rc.po.c:42
+#: src/arch/win32/resramcart.rc.po.c:42 src/translate_text.c.po.c:4208
 #, fuzzy
-msgid "Enable RamCart"
-msgstr "*W³±cz REU"
+msgid "Enable the RamCart expansion"
+msgstr "*W³±cz RAMCART"
 
 #: src/arch/win32/resramcart.rc.po.c:43
 #, fuzzy
@@ -8003,10 +7933,10 @@ msgstr "W³±cz pe³ny ekran"
 msgid "REU Settings"
 msgstr "Ustawienia"
 
-#: src/arch/win32/resreu.rc.po.c:40
+#: src/arch/win32/resreu.rc.po.c:40 src/translate_text.c.po.c:4832
 #, fuzzy
-msgid "Enable REU"
-msgstr "*W³±cz REU"
+msgid "Enable the RAM Expansion Unit"
+msgstr "Jednostka rozszerzenia RAM"
 
 #: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:6181
 msgid "REU size"
@@ -8033,9 +7963,9 @@ msgstr "W³±cz pe³ny ekran"
 msgid "RS232 Userport Settings"
 msgstr "Ustawienia RS232"
 
-#: src/arch/win32/resrs232user.rc.po.c:35
+#: src/arch/win32/resrs232user.rc.po.c:35 src/translate_text.c.po.c:8296
 #, fuzzy
-msgid "Enable RS232 userport"
+msgid "Enable RS232 userport emulation"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 # src/arch/unix/uisettings.c:622 src/arch/unix/vic20ui.c:323 
@@ -8098,10 +8028,10 @@ msgstr ""
 msgid "Right device"
 msgstr "Urz±dzenia ACIA"
 
-#: src/arch/win32/ressidcart.rc.po.c:82
+#: src/arch/win32/ressidcart.rc.po.c:82 src/translate_text.c.po.c:8722
 #, fuzzy
-msgid "Enable SID"
-msgstr "*W³±cz RAMCART"
+msgid "Enable the SID cartridge"
+msgstr "W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/arch/win32/ressidcart.rc.po.c:85
 #, fuzzy
@@ -8113,10 +8043,10 @@ msgstr "Ustawienia napêdu"
 msgid "Main device"
 msgstr "Urz±dzenie #8"
 
-#: src/arch/win32/ressidcart.rc.po.c:87
+#: src/arch/win32/ressidcart.rc.po.c:87 src/translate_text.c.po.c:11584
 #, fuzzy
-msgid "Enable digiblaster add-on"
-msgstr "W³±cz pe³ny ekran"
+msgid "Enable the digiblaster add-on"
+msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/win32/ressoundexpander.rc.po.c:22
 #: src/arch/amigaos/intl_text.c.po.c:8534
@@ -8124,10 +8054,10 @@ msgstr "W³±cz pe³ny ekran"
 msgid "SFX Sound Expander Settings"
 msgstr "*Emulacja myszki 1351"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:23
+#: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
 #, fuzzy
-msgid "Enable SFX Sound Expander"
-msgstr "*W³±cz d¼wiêk"
+msgid "Enable the SFX Sound Expander cartridge"
+msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/win32/restfe.rc.po.c:36
 #, fuzzy
@@ -8145,9 +8075,9 @@ msgstr "*W³±cz REU"
 msgid "V364 Speech Settings"
 msgstr "Ustawienia modelu PET"
 
-#: src/arch/win32/resv364speech.rc.po.c:25
+#: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:11616
 #, fuzzy
-msgid "Enable V364 Speech"
+msgid "Enable the v364 speech add-on"
 msgstr "W³±cz Expert Cartridge..."
 
 #: src/arch/win32/resv364speech.rc.po.c:26
@@ -8169,11 +8099,6 @@ msgstr "Bez rozszerzenia pamiêci"
 #, fuzzy
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "Wszystkie (bloki 0/1/2/3/4/5)"
-
-#: src/arch/win32/resvic20.rc.po.c:499
-#, fuzzy
-msgid "custom"
-msgstr "Za³aduj w³asny"
 
 # src/arch/unix/uisettings.c:529 
 #: src/arch/win32/resvic20.rc.po.c:505
@@ -8257,13 +8182,15 @@ msgid "4KB image at $B000"
 msgstr "Wsuñ 4KB obraz w $B000..."
 
 #: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2605
+#: src/translate_text.c.po.c:9156
 #, fuzzy
-msgid "Enable Final Expansion write-back"
+msgid "Enable Final Expansion write back to ROM file"
 msgstr "Zapisz plik"
 
 #: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:2618
+#: src/translate_text.c.po.c:9236
 #, fuzzy
-msgid "Enable Vic Flash Plugin write-back"
+msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Zapisz plik"
 
 #: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2631
@@ -8438,11 +8365,6 @@ msgstr "Ustawienia ROM"
 msgid "Drive ROM settings"
 msgstr "Ustawienia napêdu"
 
-#: src/arch/amigaos/intl_text.c.po.c:2514
-#, fuzzy
-msgid "Enable userport DAC"
-msgstr "*W³±cz rzeczywist± emulacjê napêdu"
-
 #: src/arch/amigaos/intl_text.c.po.c:3060
 #, fuzzy
 msgid "Fullscreen Statusbar"
@@ -8611,19 +8533,10 @@ msgstr "*Bank 15 $C000-$CFFF RAM "
 msgid "Additional Delay"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:4776
-msgid "Delay at Zero Values"
-msgstr ""
-
 #: src/arch/amigaos/intl_text.c.po.c:5023
 #, fuzzy
 msgid "Expert Cartridge mode"
 msgstr "W³ó¿ obraz kartrid¿a"
-
-#: src/arch/amigaos/intl_text.c.po.c:5166
-#, fuzzy
-msgid "DQBB settings"
-msgstr "Ustawienia uk³adu SID"
 
 # src/arch/unix/uisettings.c:529 
 #: src/arch/amigaos/intl_text.c.po.c:5257
@@ -8942,11 +8855,6 @@ msgstr "Wybierz plik urz±dzenia RS232"
 msgid "Card read/write"
 msgstr "Prze³±czniki sprzêtowe"
 
-#: src/arch/amigaos/intl_text.c.po.c:7286
-#, fuzzy
-msgid "EEPROM Image File"
-msgstr "Nazwa obrazu GEORAM"
-
 #: src/arch/amigaos/intl_text.c.po.c:7299
 #, fuzzy
 msgid "Save EEPROM image when changed"
@@ -9137,10 +9045,6 @@ msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
 
 #: src/arch/amigaos/intl_text.c.po.c:8794
 msgid "Amiga mouse"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:8963
-msgid "EasyFlash jumper"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8976
@@ -9953,11 +9857,6 @@ msgid ""
 "of disk in drive 8."
 msgstr ""
 
-#: src/translate_text.c.po.c:2392 src/translate_text.c.po.c:2408
-#, fuzzy
-msgid "directory"
-msgstr "Katalog nie znaleziony"
-
 #: src/translate_text.c.po.c:2424
 #, fuzzy
 msgid "Change current working directory."
@@ -10209,12 +10108,12 @@ msgstr "*Pin diagnostyczny userportu PET"
 msgid "Disable the OEM userport joystick adapter"
 msgstr "*Pin diagnostyczny userportu PET"
 
-#: src/translate_text.c.po.c:3306
+#: src/translate_text.c.po.c:3306 src/translate_text.c.po.c:3856
 #, fuzzy
 msgid "Enable the IEEE488 interface emulation"
 msgstr "*Emulacja interfejsu IEEE488"
 
-#: src/translate_text.c.po.c:3322
+#: src/translate_text.c.po.c:3322 src/translate_text.c.po.c:3872
 #, fuzzy
 msgid "Disable the IEEE488 interface emulation"
 msgstr "*Emulacja interfejsu IEEE488"
@@ -10229,15 +10128,9 @@ msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr ""
 
 # src/arch/unix/uisettings.c:607 
-#: src/translate_text.c.po.c:3371
-#, fuzzy
-msgid "Enable the $DE** ACIA RS232 interface emulation"
-msgstr "*Interfejs emulacji ACIA $DExx RS232"
-
-# src/arch/unix/uisettings.c:607 
 #: src/translate_text.c.po.c:3387
 #, fuzzy
-msgid "Disable the $DE** ACIA RS232 interface emulation"
+msgid "Disable the ACIA RS232 interface emulation"
 msgstr "*Interfejs emulacji ACIA $DExx RS232"
 
 #: src/translate_text.c.po.c:3421
@@ -10276,20 +10169,10 @@ msgstr "*W³±cz wewnêtrzn± funkcjê ROM"
 msgid "Specify name of external Function ROM image"
 msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
 
-#: src/translate_text.c.po.c:3566
-#, fuzzy
-msgid "Enable the internal Function ROM"
-msgstr "*W³±cz wewnêtrzn± funkcjê ROM"
-
 #: src/translate_text.c.po.c:3582
 #, fuzzy
 msgid "Disable the internal Function ROM"
 msgstr "*W³±cz wewnêtrzn± funkcjê ROM"
-
-#: src/translate_text.c.po.c:3598
-#, fuzzy
-msgid "Enable the external Function ROM"
-msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
 
 #: src/translate_text.c.po.c:3614
 #, fuzzy
@@ -10353,29 +10236,14 @@ msgstr ""
 msgid "Disable Hummer ADC"
 msgstr "*W³±cz RAMCART"
 
-#: src/translate_text.c.po.c:3856
-#, fuzzy
-msgid "Enable IEEE488 interface"
-msgstr "*Emulacja interfejsu IEEE488"
-
-#: src/translate_text.c.po.c:3872
-#, fuzzy
-msgid "Disable IEEE488 interface"
-msgstr "*Emulacja interfejsu IEEE488"
-
 #: src/translate_text.c.po.c:3888
 #, fuzzy
 msgid "specify IEEE488 interface image name"
 msgstr "W³ó¿ obraz interfejsu IEEE488..."
 
-#: src/translate_text.c.po.c:3904
-#, fuzzy
-msgid "Enable the GEORAM expansion unit"
-msgstr "Jednostka rozszerzenia RAM"
-
 #: src/translate_text.c.po.c:3920
 #, fuzzy
-msgid "Disable the GEORAM expansion unit"
+msgid "Disable the GEO-RAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
 #: src/translate_text.c.po.c:3936
@@ -10402,11 +10270,6 @@ msgstr ""
 msgid "Size of the GEORAM expansion unit"
 msgstr "Jednostka rozszerzenia RAM"
 
-#: src/translate_text.c.po.c:4016
-#, fuzzy
-msgid "Enable the PET Ram and Expansion Unit"
-msgstr "Jednostka rozszerzenia RAM"
-
 #: src/translate_text.c.po.c:4032
 #, fuzzy
 msgid "Disable the PET Ram and Expansion Unit"
@@ -10427,20 +10290,10 @@ msgstr "Jednostka rozszerzenia RAM"
 msgid "Specify name of PET DWW image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/translate_text.c.po.c:4096
-#, fuzzy
-msgid "Enable the PET DWW hi-res board"
-msgstr "W³±cz Expert Cartridge..."
-
 #: src/translate_text.c.po.c:4112
 #, fuzzy
 msgid "Disable the PET DWW hi-res board"
 msgstr "W³±cz Expert Cartridge..."
-
-#: src/translate_text.c.po.c:4128
-#, fuzzy
-msgid "Enable Userport DAC for sound output"
-msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 #: src/translate_text.c.po.c:4144
 #, fuzzy
@@ -10459,14 +10312,9 @@ msgstr ""
 msgid "Specify PSID tune <number>"
 msgstr ""
 
-#: src/translate_text.c.po.c:4208
-#, fuzzy
-msgid "Enable the RAMCART expansion"
-msgstr "*W³±cz RAMCART"
-
 #: src/translate_text.c.po.c:4224
 #, fuzzy
-msgid "Disable the RAMCART expansion"
+msgid "Disable the RamCart expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
 
 #: src/translate_text.c.po.c:4240
@@ -10489,11 +10337,6 @@ msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 msgid "Size of the RAMCART expansion"
 msgstr "Rozszerzenie RAM napêdu #9"
 
-#: src/translate_text.c.po.c:4304
-#, fuzzy
-msgid "Enable Double Quick Brown Box"
-msgstr "Ustawienia joystcka"
-
 #: src/translate_text.c.po.c:4320
 #, fuzzy
 msgid "Disable Double Quick Brown Box"
@@ -10513,14 +10356,9 @@ msgstr ""
 msgid "Do not write to DQBB image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 
-#: src/translate_text.c.po.c:4384
-#, fuzzy
-msgid "Enable the ISEPIC cart"
-msgstr "W³±cz tryb przy¶pieszony (Turbo)"
-
 #: src/translate_text.c.po.c:4400
 #, fuzzy
-msgid "Disable the ISEPIC cart"
+msgid "Disable the ISEPIC cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
 #: src/translate_text.c.po.c:4416
@@ -10537,11 +10375,6 @@ msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 #, fuzzy
 msgid "Do not write to ISEPIC image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
-
-#: src/translate_text.c.po.c:4464
-#, fuzzy
-msgid "Enable the MMC64 expansion"
-msgstr "*W³±cz RAMCART"
 
 #: src/translate_text.c.po.c:4480
 #, fuzzy
@@ -10641,14 +10474,9 @@ msgstr ""
 msgid "Set RR Flash Jumper"
 msgstr "Regulacja prêdko¶ci Datasette"
 
-#: src/translate_text.c.po.c:4832
-#, fuzzy
-msgid "Enable the RAM expansion unit"
-msgstr "Jednostka rozszerzenia RAM"
-
 #: src/translate_text.c.po.c:4848
 #, fuzzy
-msgid "Disable the RAM expansion unit"
+msgid "Disable the RAM Expansion Unit"
 msgstr "Rozszerzenie RAM napêdu #9"
 
 #: src/translate_text.c.po.c:4864
@@ -10896,11 +10724,6 @@ msgstr "W³ó¿ obraz kartrid¿a"
 #, fuzzy
 msgid "Attach raw 512kB Game System cartridge image"
 msgstr "W³ó¿ obraz kartrid¿a"
-
-#: src/translate_text.c.po.c:5938
-#, fuzzy
-msgid "Enable the Expert Cartridge"
-msgstr "W³±cz Expert Cartridge..."
 
 #: src/translate_text.c.po.c:5954
 #, fuzzy
@@ -11522,11 +11345,6 @@ msgstr "Okre¶l szybko¶æ transmisji 3 urz±dzenia RS232"
 msgid "Specify name of fourth RS232 device"
 msgstr "Okre¶l szybko¶æ transmisji urz±dzenia "
 
-#: src/translate_text.c.po.c:8296
-#, fuzzy
-msgid "Enable RS232 userport emulation"
-msgstr "*W³±cz rzeczywist± emulacjê napêdu"
-
 # src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 
 #: src/translate_text.c.po.c:8312
 #, fuzzy
@@ -11651,15 +11469,10 @@ msgstr ""
 msgid "Enable second SID"
 msgstr "*Drugi SID"
 
-#: src/translate_text.c.po.c:8722
-#, fuzzy
-msgid "Enable SID Cartridge"
-msgstr "W³±cz tryb przy¶pieszony (Turbo)"
-
 #: src/translate_text.c.po.c:8738
 #, fuzzy
-msgid "Disable SID Cartridge"
-msgstr "W³±cz tryb przy¶pieszony (Turbo)"
+msgid "Disable the SID cartridge"
+msgstr "W³±cz Expert Cartridge..."
 
 #: src/translate_text.c.po.c:8770
 msgid "Specify base address for 2nd SID"
@@ -11775,11 +11588,6 @@ msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
 msgid "Specify Vic Flash Plugin extension ROM name"
 msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
 
-#: src/translate_text.c.po.c:9156
-#, fuzzy
-msgid "Enable Final Expansion write back to ROM file"
-msgstr "Zapisz plik"
-
 #: src/translate_text.c.po.c:9172
 #, fuzzy
 msgid "Disable Final Expansion write back to ROM file"
@@ -11794,11 +11602,6 @@ msgstr "Nazwa obrazu RAMCART..."
 #, fuzzy
 msgid "Disable Mega-Cart NvRAM writeback"
 msgstr "Nazwa obrazu RAMCART..."
-
-#: src/translate_text.c.po.c:9236
-#, fuzzy
-msgid "Enable Vic Flash Plugin write back to ROM file"
-msgstr "Zapisz plik"
 
 #: src/translate_text.c.po.c:9252
 #, fuzzy
@@ -12140,11 +11943,6 @@ msgstr ""
 msgid "Enable verbose log output."
 msgstr ""
 
-#: src/translate_text.c.po.c:10510
-#, fuzzy
-msgid "Enable mouse grab"
-msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
-
 #: src/translate_text.c.po.c:10526
 #, fuzzy
 msgid "Disable mouse grab"
@@ -12267,11 +12065,6 @@ msgstr ""
 msgid "Specify the iso code of the language"
 msgstr ""
 
-#: src/translate_text.c.po.c:11022
-#, fuzzy
-msgid "Enable the PLUS256K RAM expansion"
-msgstr "Jednostka rozszerzenia RAM"
-
 #: src/translate_text.c.po.c:11038
 #, fuzzy
 msgid "Disable the PLUS256K RAM expansion"
@@ -12281,11 +12074,6 @@ msgstr "Rozszerzenie RAM napêdu #8 "
 #, fuzzy
 msgid "Specify name of PLUS256K image"
 msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
-
-#: src/translate_text.c.po.c:11070
-#, fuzzy
-msgid "Enable the PLUS60K RAM expansion"
-msgstr "Jednostka rozszerzenia RAM"
 
 #: src/translate_text.c.po.c:11086
 #, fuzzy
@@ -12301,11 +12089,6 @@ msgstr "Okre¶l nazwê pliku symbolicznej mapy klawiatury"
 #, fuzzy
 msgid "Base address of the PLUS60K expansion"
 msgstr "Rozszerzenie RAM napêdu #8 "
-
-#: src/translate_text.c.po.c:11134
-#, fuzzy
-msgid "Enable the 256K RAM expansion"
-msgstr "Jednostka rozszerzenia RAM"
 
 #: src/translate_text.c.po.c:11150
 #, fuzzy
@@ -12404,19 +12187,10 @@ msgstr ""
 msgid "Use <name> as directory for flash file system device"
 msgstr ""
 
-#: src/translate_text.c.po.c:11502
-msgid "Enable true hardware flash file system"
-msgstr ""
-
 #: src/translate_text.c.po.c:11518
 #, fuzzy
 msgid "Disable true hardware flash file system"
 msgstr "U¿yj rozszerzenia XVideo(skalowanie sprzêtowe)"
-
-#: src/translate_text.c.po.c:11535
-#, fuzzy
-msgid "Enable MIDI emulation"
-msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 # src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 
 #: src/translate_text.c.po.c:11551
@@ -12430,19 +12204,9 @@ msgid ""
 "Maplin)"
 msgstr ""
 
-#: src/translate_text.c.po.c:11584
-#, fuzzy
-msgid "Enable the digiblaster add-on"
-msgstr "W³±cz Expert Cartridge..."
-
 #: src/translate_text.c.po.c:11600
 #, fuzzy
 msgid "Disable the digiblaster add-on"
-msgstr "W³±cz Expert Cartridge..."
-
-#: src/translate_text.c.po.c:11616
-#, fuzzy
-msgid "Enable the v364 speech add-on"
 msgstr "W³±cz Expert Cartridge..."
 
 #: src/translate_text.c.po.c:11632
@@ -12455,44 +12219,19 @@ msgstr "W³±cz Expert Cartridge..."
 msgid "Attach Speech ROM image"
 msgstr "W³ó¿ obraz kasety"
 
-#: src/translate_text.c.po.c:11664
-#, fuzzy
-msgid "Enable SID cartridge joystick"
-msgstr "W³±cz tryb przy¶pieszony (Turbo)"
-
-#: src/translate_text.c.po.c:11680
-#, fuzzy
-msgid "Disable SID cartridge joystick"
-msgstr "W³±cz tryb przy¶pieszony (Turbo)"
-
-#: src/translate_text.c.po.c:11696
-#, fuzzy
-msgid "Enable the SFX soundexpander cartridge"
-msgstr "W³±cz Expert Cartridge..."
-
 #: src/translate_text.c.po.c:11712
 #, fuzzy
-msgid "Disable the SFX soundexpander cartridge"
+msgid "Disable the SFX Sound Expander cartridge"
 msgstr "W³±cz Expert Cartridge..."
 
 #: src/translate_text.c.po.c:11728
 msgid "Set YM chip type (3526 / 3812)"
 msgstr ""
 
-#: src/translate_text.c.po.c:11744
-#, fuzzy
-msgid "Enable the SFX Sound Sampler cartridge"
-msgstr "W³±cz Expert Cartridge..."
-
 #: src/translate_text.c.po.c:11760
 #, fuzzy
 msgid "Disable the SFX Sound Sampler cartridge"
 msgstr "W³±cz Expert Cartridge..."
-
-#: src/translate_text.c.po.c:11776
-#, fuzzy
-msgid "Enable lightpen emulation"
-msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
 # src/arch/unix/uisettings.c:614 src/arch/unix/vic20ui.c:317 
 #: src/translate_text.c.po.c:11792
@@ -12520,11 +12259,6 @@ msgstr ""
 msgid "Disable writing to EasyFlash .crt image"
 msgstr ""
 
-#: src/translate_text.c.po.c:11888
-#, fuzzy
-msgid "Enable the DigiMAX cartridge"
-msgstr "W³±cz Expert Cartridge..."
-
 #: src/translate_text.c.po.c:11904
 #, fuzzy
 msgid "Disable the DigiMAX cartridge"
@@ -12534,6 +12268,232 @@ msgstr "W³±cz Expert Cartridge..."
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
+
+#, fuzzy
+#~ msgid "Enable true flash filesystem"
+#~ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
+
+#, fuzzy
+#~ msgid "Enable SIDcart joy"
+#~ msgstr "W³±cz tryb przy¶pieszony (Turbo)"
+
+#, fuzzy
+#~ msgid "Enable SFX Sound Sampler"
+#~ msgstr "*W³±cz d¼wiêk"
+
+#, fuzzy
+#~ msgid "Enable RamCart"
+#~ msgstr "*W³±cz REU"
+
+#, fuzzy
+#~ msgid "Enable REU"
+#~ msgstr "*W³±cz REU"
+
+#, fuzzy
+#~ msgid "Enable RS232 userport"
+#~ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
+
+#, fuzzy
+#~ msgid "Enable SID"
+#~ msgstr "*W³±cz RAMCART"
+
+#, fuzzy
+#~ msgid "Enable SFX Sound Expander"
+#~ msgstr "*W³±cz d¼wiêk"
+
+#, fuzzy
+#~ msgid "Enable V364 Speech"
+#~ msgstr "W³±cz Expert Cartridge..."
+
+#, fuzzy
+#~ msgid "Enable Vic Flash Plugin write-back"
+#~ msgstr "Zapisz plik"
+
+#, fuzzy
+#~ msgid "Enable SID Cartridge"
+#~ msgstr "W³±cz tryb przy¶pieszony (Turbo)"
+
+#, fuzzy
+#~ msgid "Disable SID Cartridge"
+#~ msgstr "W³±cz tryb przy¶pieszony (Turbo)"
+
+#, fuzzy
+#~ msgid "Enable Lightpen"
+#~ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
+
+#, fuzzy
+#~ msgid "Enable mouse"
+#~ msgstr "*W³±cz tryb przy¶pieszony (Turbo)"
+
+#, fuzzy
+#~ msgid "Enable ISEPIC"
+#~ msgstr "*W³±cz REU"
+
+#, fuzzy
+#~ msgid "Enable lightpen"
+#~ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
+
+#, fuzzy
+#~ msgid "Enable MIDI"
+#~ msgstr "*W³±cz RAMCART"
+
+#, fuzzy
+#~ msgid "Enable MMC64"
+#~ msgstr "*W³±cz"
+
+#, fuzzy
+#~ msgid "Enable PET Userport DAC"
+#~ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
+
+#, fuzzy
+#~ msgid "Enable PET DWW"
+#~ msgstr "*W³±cz REU"
+
+#, fuzzy
+#~ msgid "Enable PET REU"
+#~ msgstr "*W³±cz REU"
+
+#, fuzzy
+#~ msgid "Enable PLUS256K"
+#~ msgstr "*W³±cz"
+
+#, fuzzy
+#~ msgid "Enable PLUS60K"
+#~ msgstr "*W³±cz"
+
+#, fuzzy
+#~ msgid "Enable userport DAC"
+#~ msgstr "*W³±cz rzeczywist± emulacjê napêdu"
+
+#, fuzzy
+#~ msgid "Enable internal Function ROM"
+#~ msgstr "*W³±cz wewnêtrzn± funkcjê ROM"
+
+#, fuzzy
+#~ msgid "Enable external Function ROM"
+#~ msgstr "*W³±cz zewnêtrzn± funkcjê ROM"
+
+#, fuzzy
+#~ msgid "Enable fullscreen (default Chip)"
+#~ msgstr "W³±cz pe³ny ekran"
+
+#, fuzzy
+#~ msgid "Disable fullscreen (default Chip)"
+#~ msgstr "Wy³±cz pe³ny ekran"
+
+#, fuzzy
+#~ msgid "Enable DigiMAX"
+#~ msgstr "*W³±cz"
+
+#, fuzzy
+#~ msgid "Enable DQBB"
+#~ msgstr "*W³±cz RAMCART"
+
+#, fuzzy
+#~ msgid "Enable Expert Cartridge"
+#~ msgstr "W³±cz Expert Cartridge..."
+
+#, fuzzy
+#~ msgid "Enable GEO-RAM"
+#~ msgstr "*W³±cz GEORAM"
+
+#, fuzzy
+#~ msgid "Enable Final Expansion write-back"
+#~ msgstr "Zapisz plik"
+
+#, fuzzy
+#~ msgid "driver"
+#~ msgstr "Napêd %d: "
+
+#, fuzzy
+#~ msgid "DQBB image"
+#~ msgstr "Nazwa obrazu IDE64"
+
+#, fuzzy
+#~ msgid "EEPROM image name"
+#~ msgstr "Nazwa obrazu GEORAM..."
+
+#, fuzzy
+#~ msgid "Enable ACIA"
+#~ msgstr "*W³±cz RAMCART"
+
+#, fuzzy
+#~ msgid "Enable 256K"
+#~ msgstr "*W³±cz"
+
+#, fuzzy
+#~ msgid "DTV flash rom image"
+#~ msgstr "Wyjmij obraz dyskietki"
+
+#, fuzzy
+#~ msgid "EasyFlash Jumper"
+#~ msgstr "Regulacja prêdko¶ci Datasette"
+
+#, fuzzy
+#~ msgid "EEPROM Image"
+#~ msgstr "Nazwa obrazu GEORAM"
+
+#, fuzzy
+#~ msgid "Enable digiblaster add-on"
+#~ msgstr "W³±cz pe³ny ekran"
+
+#~ msgid "Diskname: "
+#~ msgstr "Nazwa dysku:"
+
+#, fuzzy
+#~ msgid "Disable SIDcart joy"
+#~ msgstr "W³±cz tryb przy¶pieszony (Turbo)"
+
+#, fuzzy
+#~ msgid "Disable DirectX9"
+#~ msgstr "Sterownik drukarki #4 - IEC"
+
+#, fuzzy
+#~ msgid "DigiMAX Settings"
+#~ msgstr "Ustawienia napêdu"
+
+#, fuzzy
+#~ msgid "DQBB Settings"
+#~ msgstr "Ustawienia uk³adu SID"
+
+#, fuzzy
+#~ msgid "DQBB settings"
+#~ msgstr "Ustawienia uk³adu SID"
+
+#, fuzzy
+#~ msgid "directory"
+#~ msgstr "Katalog nie znaleziony"
+
+#, fuzzy
+#~ msgid "Enable IEEE488 interface"
+#~ msgstr "*Emulacja interfejsu IEEE488"
+
+#, fuzzy
+#~ msgid "Disable IEEE488 interface"
+#~ msgstr "*Emulacja interfejsu IEEE488"
+
+#~ msgid "Detach cartridge image"
+#~ msgstr "Wjmij obraz kartrid¿a"
+
+#, fuzzy
+#~ msgid "Current mode: "
+#~ msgstr "Ustawienia ROM"
+
+#, fuzzy
+#~ msgid "CRT settings"
+#~ msgstr "Ustawienia VDC"
+
+#, fuzzy
+#~ msgid "Datasette Settings"
+#~ msgstr "Regulacja prêdko¶ci Datasette"
+
+#, fuzzy
+#~ msgid "Create new flash rom image"
+#~ msgstr "*Stwórz plik P00 kiedy bêdzie zapis"
+
+#, fuzzy
+#~ msgid "custom"
+#~ msgstr "Za³aduj w³asny"
 
 #, fuzzy
 #~ msgid "Confirm on exit"
@@ -14173,10 +14133,6 @@ msgstr "Rozszerzenie RAM napêdu #8 "
 #, fuzzy
 #~ msgid "Enable fullscreen mode"
 #~ msgstr "W³±cz pe³ny ekran"
-
-#, fuzzy
-#~ msgid "Disable fullscreen mode"
-#~ msgstr "Wy³±cz pe³ny ekran"
 
 #, fuzzy
 #~ msgid "Enable double size in fullscreen mode"

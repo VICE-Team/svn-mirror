@@ -83,7 +83,7 @@ ui_menu_entry_t mmcreplay_submenu[] = {
     { N_("Card type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mmcreplay_sd_type_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("EEPROM image name"), UI_MENU_TYPE_DOTS,
+    { N_("EEPROM image file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_mmcreplay_eeprom_filename,
       (ui_callback_data_t)"MMCREEPROMImage", NULL },
     { N_("Enable writes to EEPROM image"), UI_MENU_TYPE_TICK,
