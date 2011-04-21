@@ -37,7 +37,7 @@ UI_MENU_DEFINE_RADIO(PETREUsize)
 
 UI_CALLBACK(set_petreu_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PETREU image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PET REU file"), UILIB_FILTER_ALL);
 }
 
 static ui_menu_entry_t petreu_size_submenu[] = {

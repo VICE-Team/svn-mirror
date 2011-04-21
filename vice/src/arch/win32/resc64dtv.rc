@@ -490,7 +490,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -518,7 +518,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Frakobl flash-rom-imagesfil"
   IDS_MI_CREATE_DTV_FLASH         "Opret DTV-flashimage"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Ægte flash-filsystem"
-  IDS_MI_PS2MOUSE                 "Emulering af PS/2-mus"
+  IDS_MI_PS2MOUSE                 "PS/2-mus på brugerporten"
   IDS_MI_C64DTV_SETTINGS          "C64DTV-indstillinger..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -546,7 +546,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Flash ROM Image entfernen"
   IDS_MI_CREATE_DTV_FLASH         "DTV Image Datei erzeugen"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash Dateisystem"
-  IDS_MI_PS2MOUSE                 "PS/2 Mausemulation"
+  IDS_MI_PS2MOUSE                 "PS/2 Userport Mausemulation"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Einstellungen..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -574,7 +574,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -605,7 +605,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "DTV Flash képmás létrehozása"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 egér emuláció"
+  IDS_MI_PS2MOUSE                 "PS/2 egér a userporton"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Botkormány"
 END
@@ -636,7 +636,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Rimuovi immagine flash rom"
   IDS_MI_CREATE_DTV_FLASH         "Crea immagine memoria flash DTV"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Attiva emulazione hardware del filesystem flash"
-  IDS_MI_PS2MOUSE                 "Emulazione mouse PS/2"
+  IDS_MI_PS2MOUSE                 "Mouse PS/2 su userport"
   IDS_MI_C64DTV_SETTINGS          "Impostazioni C64DTV..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -667,7 +667,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -698,7 +698,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Ontkoppel flash rom bestand"
   IDS_MI_CREATE_DTV_FLASH         "Maak DTV Flash Bestand"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Hardwarematig flash bestandssysteem"
-  IDS_MI_PS2MOUSE                 "PS/2 muis emulatie"
+  IDS_MI_PS2MOUSE                 "Aktiveer emulatie van een PS/2 muis op de userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Instellingen..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -729,7 +729,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -763,7 +763,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse emulation"
+  IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "Joystick"
 END
@@ -794,7 +794,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Koppla från flash-rom-avbildningsfil"
   IDS_MI_CREATE_DTV_FLASH         "Skapa DTV-flashavbildning"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Äkta flash-filsystem"
-  IDS_MI_PS2MOUSE                 "PS/2-musemulering"
+  IDS_MI_PS2MOUSE                 "PS/2-mus på användarport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV-inställningar..."
   IDS_JOYSTICK                    "Styrspak"
 END
@@ -825,7 +825,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Flash rom imajýný çýkart"
   IDS_MI_CREATE_DTV_FLASH         "DTV Flash Imajý Oluþtur"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "Gerçek flash dosya sistemi"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse emülasyonu"
+  IDS_MI_PS2MOUSE                 "Userport üzerinde PS/2 mouse"
   IDS_MI_C64DTV_SETTINGS          "C64DTV Ayarlarý..."
   IDS_JOYSTICK                    "Joystick"
 END

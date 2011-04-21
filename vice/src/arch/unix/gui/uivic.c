@@ -101,16 +101,18 @@ UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 
 static UI_CALLBACK(openGL_set_desktoprefresh)
 {
-    char *refresh_rate = util_concat(_("Enter refresh rate"), " (Hz): ", NULL);
+    char *enter_refresh_rate = util_concat(_("Enter refresh rate"), " (Hz): ", NULL);
+    char *refresh_rate = util_concat(_("Refresh rate"), ": ", NULL);
 
     if (!CHECK_MENUS) {
         float f;
         char *buf = lib_calloc(sizeof(char), 10);
         sprintf(buf, "%.0f", openGL_get_canvas_refreshrate());
-        ui_input_string(_("Refreshrate: "), refresh_rate, buf, 10);
+        ui_input_string(refresh_rate, enter_refresh_rate, buf, 10);
         f = (float) strtol(buf, NULL, 10);
         openGL_set_canvas_refreshrate(f);
         lib_free(buf);
+        lib_free(enter_refresh_rate);
         lib_free(refresh_rate);
     } else {
         if (openGL_available(0) && openGL_sync_enabled()) {
@@ -137,7 +139,7 @@ ui_menu_entry_t vic_submenu[] = {
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Renderer"), UI_MENU_TYPE_NORMAL,
+    { N_("Render filter"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
     { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,

@@ -39,7 +39,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 Userport Settings"
+  IDS_RS232USER_CAPTION "RS232 userport settings"
   IDS_RS232USER_ENABLE  "Enable RS232 userport emulation"
   IDS_RS232USER_DEVICE  "Userport device"
   IDS_RS232USER_BAUD    "Userport baud rate"
@@ -75,7 +75,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "Paramètres RS232 Userport"
+  IDS_RS232USER_CAPTION "RS232 userport settings"
   IDS_RS232USER_ENABLE  "Activer l'émulation de périphérique RS232 userport"
   IDS_RS232USER_DEVICE  "Périphérique Userport"
   IDS_RS232USER_BAUD    "Vitesse du Userport"
@@ -90,7 +90,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 Userport beállításai"
+  IDS_RS232USER_CAPTION "RS232 userport settings"
   IDS_RS232USER_ENABLE  "RS232 userport emuláció engedélyezése"
   IDS_RS232USER_DEVICE  "Userport eszköz"
   IDS_RS232USER_BAUD    "Userport átviteli ráta"
@@ -120,7 +120,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 Userport Settings"
+  IDS_RS232USER_CAPTION "RS232 userport settings"
   IDS_RS232USER_ENABLE  "Enable RS232 userport emulation"
   IDS_RS232USER_DEVICE  "Userport device"
   IDS_RS232USER_BAUD    "Userport baud rate"
@@ -135,7 +135,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 Userport instellingen"
+  IDS_RS232USER_CAPTION "RS232 userport instellingen"
   IDS_RS232USER_ENABLE  "Activeer RS232 userportemulatie"
   IDS_RS232USER_DEVICE  "Userport apparaat"
   IDS_RS232USER_BAUD    "Userport baudrate"
@@ -150,7 +150,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 Userport Settings"
+  IDS_RS232USER_CAPTION "RS232 userport settings"
   IDS_RS232USER_ENABLE  "Enable RS232 userport emulation"
   IDS_RS232USER_DEVICE  "Userport device"
   IDS_RS232USER_BAUD    "Userport baud rate"
@@ -168,7 +168,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 Userport Settings"
+  IDS_RS232USER_CAPTION "RS232 userport settings"
   IDS_RS232USER_ENABLE  "Enable RS232 userport emulation"
   IDS_RS232USER_DEVICE  "Userport device"
   IDS_RS232USER_BAUD    "Userport baud rate"
@@ -198,7 +198,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 Userport Ayarlarý"
+  IDS_RS232USER_CAPTION "RS232 userport ayarlarý"
   IDS_RS232USER_ENABLE  "RS232 userport emülasyonunu aktif et"
   IDS_RS232USER_DEVICE  "Userport aygýtý"
   IDS_RS232USER_BAUD    "Userport baud rate"

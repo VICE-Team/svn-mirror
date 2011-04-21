@@ -36,7 +36,7 @@ UI_MENU_DEFINE_TOGGLE(PLUS256K)
 
 UI_CALLBACK(set_plus256k_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS256K image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS256K file"), UILIB_FILTER_ALL);
 }
 
 ui_menu_entry_t plus256k_submenu[] = {

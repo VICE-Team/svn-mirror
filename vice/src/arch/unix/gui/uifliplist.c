@@ -205,7 +205,7 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         i++;
         /* Write protext UI controll */
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
-        flipmenu[drive][i].string = _("Write Protect");
+        flipmenu[drive][i].string = _("Read-only");
         flipmenu[drive][i].type = UI_MENU_TYPE_TICK;
         if (drive == 0) {
             flipmenu[drive][i].callback = G_CALLBACK(toggle_AttachDevice8Readonly);

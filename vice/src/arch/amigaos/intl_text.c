@@ -169,18 +169,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ADD_CURRENT_IMAGE_SV, "Lägg till aktuell avbildning (enhet 8)" },
 /* tr */ { IDMS_ADD_CURRENT_IMAGE_TR, "Geçerli imajý ekle (Birim 8)" },
 
-/* en */ { IDMS_REMOVE_CURRENT_IMAGE,    "Remove current image" },
-/* da */ { IDMS_REMOVE_CURRENT_IMAGE_DA, "Fjern aktuelt image" },
-/* de */ { IDMS_REMOVE_CURRENT_IMAGE_DE, "Aktuelles Image entfernen" },
-/* fr */ { IDMS_REMOVE_CURRENT_IMAGE_FR, "Retirer l'image de disque courante" },
-/* hu */ { IDMS_REMOVE_CURRENT_IMAGE_HU, "Az aktuális képmás eltávolítása" },
-/* it */ { IDMS_REMOVE_CURRENT_IMAGE_IT, "Rimuovi immagine attuale" },
+/* en */ { IDMS_REMOVE_CURRENT_IMAGE,    "Remove current image (Unit 8)" },
+/* da */ { IDMS_REMOVE_CURRENT_IMAGE_DA, "Fjern nuværende image (Enhed 8)" },
+/* de */ { IDMS_REMOVE_CURRENT_IMAGE_DE, "Aktuelles Image entfernen (Gerät 8)" },
+/* fr */ { IDMS_REMOVE_CURRENT_IMAGE_FR, "Retirer l'image de disque courante (#8) au groupement" },
+/* hu */ { IDMS_REMOVE_CURRENT_IMAGE_HU, "Az aktuális képmás eltávolítása (8-as egység)" },
+/* it */ { IDMS_REMOVE_CURRENT_IMAGE_IT, "Rimuovi immagine attuale (Unità 8)" },
 /* ko */ { IDMS_REMOVE_CURRENT_IMAGE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_REMOVE_CURRENT_IMAGE_NL, "Verwijder huidig bestand" },
-/* pl */ { IDMS_REMOVE_CURRENT_IMAGE_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_REMOVE_CURRENT_IMAGE_NL, "Verwijder huidig bestand (Drive 8)" },
+/* pl */ { IDMS_REMOVE_CURRENT_IMAGE_PL, "Usuñ aktualny obraz (jednostka 8)" },
 /* ru */ { IDMS_REMOVE_CURRENT_IMAGE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_REMOVE_CURRENT_IMAGE_SV, "Ta bort aktuell avbildning" },
-/* tr */ { IDMS_REMOVE_CURRENT_IMAGE_TR, "Geçerli imajý çýkart" },
+/* sv */ { IDMS_REMOVE_CURRENT_IMAGE_SV, "Ta bort aktuell avbildning (enhet 8)" },
+/* tr */ { IDMS_REMOVE_CURRENT_IMAGE_TR, "Geçerli imajý kaldýr (Birim 8)" },
 
 /* en */ { IDMS_ATTACH_NEXT_IMAGE,    "Attach next image (Unit 8)" },
 /* da */ { IDMS_ATTACH_NEXT_IMAGE_DA, "Tilslut næste image (Enhed 8)" },
@@ -1820,18 +1820,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_GRAB_MOUSE_SV, "Fånga mushändelser" },
 /* tr */ { IDMS_GRAB_MOUSE_TR, "Mouse olaylarýný yakala" },
 
-/* en */ { IDMS_PS2_MOUSE,    "PS/2 mouse emulation" },
-/* da */ { IDMS_PS2_MOUSE_DA, "Emulering af PS/2-mus" },
-/* de */ { IDMS_PS2_MOUSE_DE, "PS/2 Mausemulation" },
+/* en */ { IDMS_PS2_MOUSE,    "PS/2 mouse on Userport" },
+/* da */ { IDMS_PS2_MOUSE_DA, "PS/2-mus på brugerporten" },
+/* de */ { IDMS_PS2_MOUSE_DE, "PS/2 Userport Mausemulation" },
 /* fr */ { IDMS_PS2_MOUSE_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_PS2_MOUSE_HU, "PS/2 egér emuláció" },
-/* it */ { IDMS_PS2_MOUSE_IT, "Emulazione mouse PS/2" },
+/* hu */ { IDMS_PS2_MOUSE_HU, "PS/2 egér a userporton" },
+/* it */ { IDMS_PS2_MOUSE_IT, "Mouse PS/2 su userport" },
 /* ko */ { IDMS_PS2_MOUSE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PS2_MOUSE_NL, "PS/2 muis emulatie" },
+/* nl */ { IDMS_PS2_MOUSE_NL, "Aktiveer emulatie van een PS/2 muis op de userport" },
 /* pl */ { IDMS_PS2_MOUSE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_PS2_MOUSE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_PS2_MOUSE_SV, "PS/2-musemulering" },
-/* tr */ { IDMS_PS2_MOUSE_TR, "PS/2 mouse emülasyonu" },
+/* sv */ { IDMS_PS2_MOUSE_SV, "PS/2-mus på användarport" },
+/* tr */ { IDMS_PS2_MOUSE_TR, "Userport üzerinde PS/2 mouse" },
 
 /* en */ { IDMS_SETTINGS,    "Settings" },
 /* da */ { IDMS_SETTINGS_DA, "Indstillinger" },
@@ -4641,18 +4641,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MODEL_LINE_SV, "Modelltyp" },
 /* tr */ { IDS_MODEL_LINE_TR, "Model hattý" },
 
-/* en */ { IDS_RAM_SIZE,    "RAM Size" },
-/* da */ { IDS_RAM_SIZE_DA, "RAM-størrelse" },
-/* de */ { IDS_RAM_SIZE_DE, "RAM Größe" },
+/* en */ { IDS_RAM_SIZE,    "RAM size" },
+/* da */ { IDS_RAM_SIZE_DA, "" },  /* fuzzy */
+/* de */ { IDS_RAM_SIZE_DE, "" },  /* fuzzy */
 /* fr */ { IDS_RAM_SIZE_FR, "" },  /* fuzzy */
-/* hu */ { IDS_RAM_SIZE_HU, "RAM mérete" },
-/* it */ { IDS_RAM_SIZE_IT, "Dimensione RAM" },
+/* hu */ { IDS_RAM_SIZE_HU, "" },  /* fuzzy */
+/* it */ { IDS_RAM_SIZE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_RAM_SIZE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_RAM_SIZE_NL, "RAM grootte" },
 /* pl */ { IDS_RAM_SIZE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_RAM_SIZE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_RAM_SIZE_SV, "RAM-storlek" },
-/* tr */ { IDS_RAM_SIZE_TR, "RAM Boyutu" },
+/* sv */ { IDS_RAM_SIZE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RAM_SIZE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_RAM_BLOCK_0400_0FFF,    "RAM Block $0400-$0FFF" },
 /* da */ { IDS_RAM_BLOCK_0400_0FFF_DA, "RAM-blok $0400-$0FFF" },
@@ -5890,11 +5890,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PET_REU_FILENAME_SELECT_SV, "Välj fil för PET REU" },
 /* tr */ { IDS_PET_REU_FILENAME_SELECT_TR, "PET REU için dosya seçin" },
 
-/* en */ { IDS_PET_REU_SETTINGS,    "PET REU Settings" },
+/* en */ { IDS_PET_REU_SETTINGS,    "PET REU settings" },
 /* da */ { IDS_PET_REU_SETTINGS_DA, "PET REU-indstillinger" },
 /* de */ { IDS_PET_REU_SETTINGS_DE, "PET REU Einstellungen" },
 /* fr */ { IDS_PET_REU_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_PET_REU_SETTINGS_HU, "PET REU beállításai" },
+/* hu */ { IDS_PET_REU_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_PET_REU_SETTINGS_IT, "Impostazioni PET REU" },
 /* ko */ { IDS_PET_REU_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PET_REU_SETTINGS_NL, "PET REU instellingen" },
@@ -5981,11 +5981,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PET_DWW_SETTINGS_SV, "PET DWW-Inställningar" },
 /* tr */ { IDS_PET_DWW_SETTINGS_TR, "PET DWW Ayarlarý" },
 
-/* en */ { IDS_PLUS256K_SETTINGS,    "PLUS256K Settings" },
+/* en */ { IDS_PLUS256K_SETTINGS,    "PLUS256K settings" },
 /* da */ { IDS_PLUS256K_SETTINGS_DA, "PLUS256K-indstillinger" },
 /* de */ { IDS_PLUS256K_SETTINGS_DE, "PLUS256K Einstellungen" },
-/* fr */ { IDS_PLUS256K_SETTINGS_FR, "Paramètres 256K" },
-/* hu */ { IDS_PLUS256K_SETTINGS_HU, "PLUS256K beállításai" },
+/* fr */ { IDS_PLUS256K_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PLUS256K_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_PLUS256K_SETTINGS_IT, "Impostazioni PLUS256K" },
 /* ko */ { IDS_PLUS256K_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PLUS256K_SETTINGS_NL, "PLUS256K instellingen" },
@@ -5994,18 +5994,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PLUS256K_SETTINGS_SV, "PLUS256K-inställningar" },
 /* tr */ { IDS_PLUS256K_SETTINGS_TR, "PLUS256K Ayarlarý" },
 
-/* en */ { IDS_PLUS60K_BASE,    "PLUS60K Base" },
-/* da */ { IDS_PLUS60K_BASE_DA, "Baseadresse for PLUS60K" },
+/* en */ { IDS_PLUS60K_BASE,    "PLUS60K base address" },
+/* da */ { IDS_PLUS60K_BASE_DA, "Basadress för PLUS60K" },
 /* de */ { IDS_PLUS60K_BASE_DE, "PLUS60K Basis Adresse" },
-/* fr */ { IDS_PLUS60K_BASE_FR, "Base PLUS60K" },
+/* fr */ { IDS_PLUS60K_BASE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PLUS60K_BASE_HU, "PLUS60K báziscíme" },
-/* it */ { IDS_PLUS60K_BASE_IT, "Indirizzo base PLUS60K" },
+/* it */ { IDS_PLUS60K_BASE_IT, "indirizzo base PLUS60K" },
 /* ko */ { IDS_PLUS60K_BASE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PLUS60K_BASE_NL, "PLUS60K basisadres" },
 /* pl */ { IDS_PLUS60K_BASE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_PLUS60K_BASE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PLUS60K_BASE_SV, "Basadress för PLUS60K" },
-/* tr */ { IDS_PLUS60K_BASE_TR, "PLUS60K Taban" },
+/* tr */ { IDS_PLUS60K_BASE_TR, "PLUS60K taban adresi" },
 
 /* en */ { IDS_PLUS60K_FILENAME,    "PLUS60K file" },
 /* da */ { IDS_PLUS60K_FILENAME_DA, "PLUS60K-fil" },
@@ -6033,11 +6033,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PLUS60K_FILENAME_SELECT_SV, "Ange fil för PLUS60K" },
 /* tr */ { IDS_PLUS60K_FILENAME_SELECT_TR, "PLUS60K için dosya seçin" },
 
-/* en */ { IDS_PLUS60K_SETTINGS,    "PLUS60K Settings" },
+/* en */ { IDS_PLUS60K_SETTINGS,    "PLUS60K settings" },
 /* da */ { IDS_PLUS60K_SETTINGS_DA, "PLUS60K-indstillinger" },
 /* de */ { IDS_PLUS60K_SETTINGS_DE, "PLUS60K Einstellungen" },
-/* fr */ { IDS_PLUS60K_SETTINGS_FR, "Paramètres PLUS60K" },
-/* hu */ { IDS_PLUS60K_SETTINGS_HU, "PLUS60K beállításai" },
+/* fr */ { IDS_PLUS60K_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PLUS60K_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_PLUS60K_SETTINGS_IT, "Impostazioni PLUS256K" },
 /* ko */ { IDS_PLUS60K_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PLUS60K_SETTINGS_NL, "PLUS60K instellingen" },
@@ -6111,18 +6111,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_READ_WRITE_SV, "skrivbar" },
 /* tr */ { IDS_READ_WRITE_TR, "oku/yaz" },
 
-/* en */ { IDS_READ_ONLY,    "read-only" },
-/* da */ { IDS_READ_ONLY_DA, "skrivebeskyttet" },
-/* de */ { IDS_READ_ONLY_DE, "Schreibgschutz" },
-/* fr */ { IDS_READ_ONLY_FR, "lecture seule" },
-/* hu */ { IDS_READ_ONLY_HU, "csak olvasható" },
-/* it */ { IDS_READ_ONLY_IT, "a sola lettura" },
+/* en */ { IDS_READ_ONLY,    "Read-only" },
+/* da */ { IDS_READ_ONLY_DA, "" },  /* fuzzy */
+/* de */ { IDS_READ_ONLY_DE, "" },  /* fuzzy */
+/* fr */ { IDS_READ_ONLY_FR, "" },  /* fuzzy */
+/* hu */ { IDS_READ_ONLY_HU, "" },  /* fuzzy */
+/* it */ { IDS_READ_ONLY_IT, "" },  /* fuzzy */
 /* ko */ { IDS_READ_ONLY_KO, "" },  /* fuzzy */
-/* nl */ { IDS_READ_ONLY_NL, "Alleen lezen" },
+/* nl */ { IDS_READ_ONLY_NL, "Alleen-lezen" },
 /* pl */ { IDS_READ_ONLY_PL, "" },  /* fuzzy */
 /* ru */ { IDS_READ_ONLY_RU, "" },  /* fuzzy */
-/* sv */ { IDS_READ_ONLY_SV, "skrivskyddad" },
-/* tr */ { IDS_READ_ONLY_TR, "salt-okunur" },
+/* sv */ { IDS_READ_ONLY_SV, "" },  /* fuzzy */
+/* tr */ { IDS_READ_ONLY_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_RAMCART_READ_WRITE,    "RamCart Read/Write" },
 /* da */ { IDS_RAMCART_READ_WRITE_DA, "RamCart læs/skriv" },
@@ -6254,11 +6254,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_REU_FILENAME_SELECT_SV, "Välj fil för REU" },
 /* tr */ { IDS_REU_FILENAME_SELECT_TR, "REU için dosya seçin" },
 
-/* en */ { IDS_REU_SETTINGS,    "REU Settings" },
+/* en */ { IDS_REU_SETTINGS,    "REU settings" },
 /* da */ { IDS_REU_SETTINGS_DA, "REU-indstillinger" },
 /* de */ { IDS_REU_SETTINGS_DE, "REU Einstellungen" },
-/* fr */ { IDS_REU_SETTINGS_FR, "Paramètres REU" },
-/* hu */ { IDS_REU_SETTINGS_HU, "REU beállításai" },
+/* fr */ { IDS_REU_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_REU_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_REU_SETTINGS_IT, "Impostazioni REU" },
 /* ko */ { IDS_REU_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_REU_SETTINGS_NL, "REU instellingen" },
@@ -6631,18 +6631,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_USERPORT_BAUD_RATE_SV, "Användarportens RS232-baudhastighet" },
 /* tr */ { IDS_USERPORT_BAUD_RATE_TR, "Userport RS232 baud rate" },
 
-/* en */ { IDS_RS232_USERPORT_SETTINGS,    "RS232 Userport Settings" },
+/* en */ { IDS_RS232_USERPORT_SETTINGS,    "RS232 userport settings" },
 /* da */ { IDS_RS232_USERPORT_SETTINGS_DA, "RS232-brugerportindstillinger" },
 /* de */ { IDS_RS232_USERPORT_SETTINGS_DE, "RS232 Userport Einstellungen" },
-/* fr */ { IDS_RS232_USERPORT_SETTINGS_FR, "Paramètres RS232 Userport" },
-/* hu */ { IDS_RS232_USERPORT_SETTINGS_HU, "RS232 Userport beállításai" },
+/* fr */ { IDS_RS232_USERPORT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RS232_USERPORT_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_RS232_USERPORT_SETTINGS_IT, "Impostazioni RS232 su userport" },
 /* ko */ { IDS_RS232_USERPORT_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_RS232_USERPORT_SETTINGS_NL, "RS232 Userport instellingen" },
+/* nl */ { IDS_RS232_USERPORT_SETTINGS_NL, "RS232 userport instellingen" },
 /* pl */ { IDS_RS232_USERPORT_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_RS232_USERPORT_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_RS232_USERPORT_SETTINGS_SV, "RS232-användarportinställningar" },
-/* tr */ { IDS_RS232_USERPORT_SETTINGS_TR, "RS232 Userport Ayarlarý" },
+/* tr */ { IDS_RS232_USERPORT_SETTINGS_TR, "RS232 userport ayarlarý" },
 
 /* en */ { IDS_FAST,    "Fast" },
 /* da */ { IDS_FAST_DA, "Hurtig" },

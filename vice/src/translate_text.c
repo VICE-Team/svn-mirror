@@ -3375,19 +3375,19 @@ translate_t string_table[] = {
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
-/* en */ {IDCLS_P_REVISION,    N_("<revision>")},
+/* en */ {IDCLS_P_REVISION,    N_("<Revision>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_REVISION_DA, "<revision>"},
+/* da */ {IDCLS_P_REVISION_DA, "<Udgave>"},
 /* de */ {IDCLS_P_REVISION_DE, "<Revision>"},
-/* fr */ {IDCLS_P_REVISION_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_REVISION_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_REVISION_IT, "<revisione>"},
+/* fr */ {IDCLS_P_REVISION_FR, "<Révision>"},
+/* hu */ {IDCLS_P_REVISION_HU, "<Változatszám>"},
+/* it */ {IDCLS_P_REVISION_IT, "<Revisione>"},
 /* ko */ {IDCLS_P_REVISION_KO, "<¼öÁ¤>"},
-/* nl */ {IDCLS_P_REVISION_NL, "<revisie>"},
-/* pl */ {IDCLS_P_REVISION_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_REVISION_NL, "<Revisie>"},
+/* pl */ {IDCLS_P_REVISION_PL, "<Revision>"},
 /* ru */ {IDCLS_P_REVISION_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_REVISION_SV, "<utgåva>"},
-/* tr */ {IDCLS_P_REVISION_TR, "<revizyon>"},
+/* sv */ {IDCLS_P_REVISION_SV, "<Utgåva>"},
+/* tr */ {IDCLS_P_REVISION_TR, "<Revizyon>"},
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
@@ -6323,19 +6323,19 @@ translate_t string_table[] = {
 #endif
 
 /* cbm2/cbm2-cmdline-options.c, plus4/plus4-cmdline-options.c */
-/* en */ {IDCLS_P_RAMSIZE,    N_("<ramsize>")},
+/* en */ {IDCLS_P_RAMSIZE,    N_("<RAM size>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_RAMSIZE_DA, "<ramstørrelse>"},
-/* de */ {IDCLS_P_RAMSIZE_DE, "<RAM Größe>"},
+/* da */ {IDCLS_P_RAMSIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_RAMSIZE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_RAMSIZE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_RAMSIZE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_RAMSIZE_IT, "<dimensione della ram>"},
+/* it */ {IDCLS_P_RAMSIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_RAMSIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_RAMSIZE_NL, "<geheugengrootte>"},
+/* nl */ {IDCLS_P_RAMSIZE_NL, "<RAM grootte>"},
 /* pl */ {IDCLS_P_RAMSIZE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_RAMSIZE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_RAMSIZE_SV, "<ramstorlek>"},
-/* tr */ {IDCLS_P_RAMSIZE_TR, "<ramboyutu>"},
+/* sv */ {IDCLS_P_RAMSIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_RAMSIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* cbm2/cbm2-cmdline-options.c */
@@ -10338,19 +10338,19 @@ translate_t string_table[] = {
 #endif
 
 /* initcmdline.c */
-/* en */ {IDCLS_RESTORE_DEFAULT_SETTINGS,    N_("Restore default (factory) settings")},
+/* en */ {IDCLS_RESTORE_DEFAULT_SETTINGS,    N_("Restore default settings")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_RESTORE_DEFAULT_SETTINGS_DA, "Gendan standardindstillinger"},
 /* de */ {IDCLS_RESTORE_DEFAULT_SETTINGS_DE, "Standard Einstellungen wiederherstellen"},
-/* fr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_FR, "Rétablir les paramètres par défaut (usine)"},
-/* hu */ {IDCLS_RESTORE_DEFAULT_SETTINGS_HU, "Alap (gyári) beállítások visszaállítása"},
-/* it */ {IDCLS_RESTORE_DEFAULT_SETTINGS_IT, "Ripristina le impostazioni predefinite"},
+/* fr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_FR, "Rétablir les paramètres par défaut"},
+/* hu */ {IDCLS_RESTORE_DEFAULT_SETTINGS_HU, "Alapértelmezés visszaállítása"},
+/* it */ {IDCLS_RESTORE_DEFAULT_SETTINGS_IT, "Ripristina impostazioni predefinite"},
 /* ko */ {IDCLS_RESTORE_DEFAULT_SETTINGS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_NL, "Herstel standaard instellingen"},
-/* pl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_RESTORE_DEFAULT_SETTINGS_PL, "Przywróæ domy¶lne ustawienia"},
 /* ru */ {IDCLS_RESTORE_DEFAULT_SETTINGS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_RESTORE_DEFAULT_SETTINGS_SV, "Återställ förvalda inställningar"},
-/* tr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_TR, "Varsayýlan ayarlara (fabrika ayarlarý) geri dön"},
+/* tr */ {IDCLS_RESTORE_DEFAULT_SETTINGS_TR, "Varsayýlan ayarlarý geri yükle"},
 #endif
 
 /* initcmdline.c, c64/cart/mmcreplay.c */

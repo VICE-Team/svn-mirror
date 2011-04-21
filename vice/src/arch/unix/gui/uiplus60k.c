@@ -37,7 +37,7 @@ UI_MENU_DEFINE_RADIO(PLUS60Kbase)
 
 UI_CALLBACK(set_plus60k_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS60K image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("PLUS60K file"), UILIB_FILTER_ALL);
 }
 
 static ui_menu_entry_t plus60k_base_submenu[] = {

@@ -55,7 +55,7 @@ static ui_menu_entry_t ramcart_size_submenu[] = {
 ui_menu_entry_t ramcart_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RAMCART, NULL, NULL },
-    { N_("Readonly"), UI_MENU_TYPE_TICK,
+    { N_("Read-only"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RAMCART_RO, NULL, NULL },
     { N_("Size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ramcart_size_submenu },
@@ -74,7 +74,7 @@ ui_menu_entry_t ramcart_submenu[] = {
 
 UI_CALLBACK(set_ramcart_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("RAMCART image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("RamCart file"), UILIB_FILTER_ALL);
 }
 
 static UI_CALLBACK(ramcart_save_callback)

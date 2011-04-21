@@ -42,7 +42,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU Settings"
+    IDS_PETREU_CAPTION     "PET REU settings"
     IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
@@ -81,7 +81,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU Settings"
+    IDS_PETREU_CAPTION     "PET REU settings"
     IDS_PETREU_ENABLE      "Activer l'expansion d'unité et de RAM du PET"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
@@ -97,7 +97,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU beállításai"
+    IDS_PETREU_CAPTION     "PET REU settings"
     IDS_PETREU_ENABLE      "PET RAM and Expansion Unit engedélyezése"
     IDS_PETREU_SIZE        "PET REU mérete"
     IDS_PETREU_FILE        "PET REU fájl"
@@ -129,7 +129,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU Settings"
+    IDS_PETREU_CAPTION     "PET REU settings"
     IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
@@ -161,7 +161,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU Settings"
+    IDS_PETREU_CAPTION     "PET REU settings"
     IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"
@@ -180,7 +180,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU Settings"
+    IDS_PETREU_CAPTION     "PET REU settings"
     IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
     IDS_PETREU_SIZE        "PET REU size"
     IDS_PETREU_FILE        "PET REU file"

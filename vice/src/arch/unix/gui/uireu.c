@@ -83,7 +83,7 @@ ui_menu_entry_t reu_submenu[] = {
 
 UI_CALLBACK(set_reu_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("REU image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("REU file"), UILIB_FILTER_ALL);
 }
 
 static UI_CALLBACK(reu_save_callback)
