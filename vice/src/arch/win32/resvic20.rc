@@ -528,7 +528,7 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC settings"
-    IDS_VIC_NOEXPANSION               "no expansion memory"
+    IDS_VIC_NOEXPANSION               "No expansion memory"
     IDS_VIC_3KEXPANSION               "3K (block 0)"
     IDS_VIC_8KEXPANSION               "8K (block 1)"
     IDS_VIC_16KEXPANSION              "16K (blocks 1/2)"
@@ -577,7 +577,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC-indstillinger"
-    IDS_VIC_NOEXPANSION               "ingen hukommelsesudviddelse"
+    IDS_VIC_NOEXPANSION               "Ingen hukommelsesudviddelse"
     IDS_VIC_3KEXPANSION               "3K (block 0)"
     IDS_VIC_8KEXPANSION               "8K (block 1)"
     IDS_VIC_16KEXPANSION              "16K (block 1/2)"
@@ -727,7 +727,7 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC beállításai"
-    IDS_VIC_NOEXPANSION               "no expansion memory"
+    IDS_VIC_NOEXPANSION               "Nincs memória bõvítés"
     IDS_VIC_3KEXPANSION               "3K (blokk 0)"
     IDS_VIC_8KEXPANSION               "8K (blokk 1)"
     IDS_VIC_16KEXPANSION              "16K (blokk 1/2)"
@@ -779,7 +779,7 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "Impostazioni VIC"
-    IDS_VIC_NOEXPANSION               "nessuna espansione di memoria"
+    IDS_VIC_NOEXPANSION               "Nessuna espansione di memoria"
     IDS_VIC_3KEXPANSION               "3K (blocco 0)"
     IDS_VIC_8KEXPANSION               "8K (blocco 1)"
     IDS_VIC_16KEXPANSION              "16K (blocchi 1/2)"
@@ -831,7 +831,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC settings"
-    IDS_VIC_NOEXPANSION               "no expansion memory"
+    IDS_VIC_NOEXPANSION               "No expansion memory"
     IDS_VIC_3KEXPANSION               "3K (block 0)"
     IDS_VIC_8KEXPANSION               "8K (block 1)"
     IDS_VIC_16KEXPANSION              "16K (blocks 1/2)"
@@ -883,7 +883,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC instellingen"
-    IDS_VIC_NOEXPANSION               "geen geheugenuitbreiding"
+    IDS_VIC_NOEXPANSION               "Geen geheugenuitbreiding"
     IDS_VIC_3KEXPANSION               "3K (blok 0)"
     IDS_VIC_8KEXPANSION               "8K (blok 1)"
     IDS_VIC_16KEXPANSION              "16K (blokken 1/2)"
@@ -935,7 +935,7 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "Ustawienia VIC"
-    IDS_VIC_NOEXPANSION               "no expansion memory"
+    IDS_VIC_NOEXPANSION               "Bez rozszerzenia pamiêci"
     IDS_VIC_3KEXPANSION               "3K (blok 0)"
     IDS_VIC_8KEXPANSION               "8K (blok 1)"
     IDS_VIC_16KEXPANSION              "16K (blok 1/2)"
@@ -990,7 +990,7 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC settings"
-    IDS_VIC_NOEXPANSION               "no expansion memory"
+    IDS_VIC_NOEXPANSION               "No expansion memory"
     IDS_VIC_3KEXPANSION               "3K (block 0)"
     IDS_VIC_8KEXPANSION               "8K (block 1)"
     IDS_VIC_16KEXPANSION              "16K (blocks 1/2)"
@@ -1042,7 +1042,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC-inställningar"
-    IDS_VIC_NOEXPANSION               "ingen minnesutökning"
+    IDS_VIC_NOEXPANSION               "Ingen minnesutökning"
     IDS_VIC_3KEXPANSION               "3K (block 0)"
     IDS_VIC_8KEXPANSION               "8K (block 1)"
     IDS_VIC_16KEXPANSION              "16K (block 1/2)"
@@ -1094,7 +1094,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION                   "VIC ayarlarý"
-    IDS_VIC_NOEXPANSION               "geniþletilmiþ bellek yok"
+    IDS_VIC_NOEXPANSION               "Geniþletiþmiþ bellek yok"
     IDS_VIC_3KEXPANSION               "3K (blok 0)"
     IDS_VIC_8KEXPANSION               "8K (blok 1)"
     IDS_VIC_16KEXPANSION              "16K (bloklar 1/2)"

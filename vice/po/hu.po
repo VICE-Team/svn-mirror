@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-21 07:35-0700\n"
+"POT-Creation-Date: 2011-04-21 08:48-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -1812,8 +1812,8 @@ msgstr "Igazi hardver flash fájlrendszer engedélyezése"
 #: src/arch/unix/gui/uidriveplus4.c:172 src/arch/unix/gui/uidriveplus4.c:190
 #: src/arch/unix/gui/uijoystick2.c:153 src/arch/unix/gui/uijoystick2.c:205
 #: src/arch/unix/gui/uijoystick2.c:257 src/arch/unix/gui/uijoystick2.c:309
-#: src/arch/unix/gui/uiperipheral.c:58 src/arch/unix/gui/uiperipheral.c:74
-#: src/arch/unix/gui/uiperipheral.c:90 src/arch/unix/gui/uiperipheral.c:106
+#: src/arch/unix/gui/uiperipheral.c:61 src/arch/unix/gui/uiperipheral.c:77
+#: src/arch/unix/gui/uiperipheral.c:93 src/arch/unix/gui/uiperipheral.c:109
 #: src/arch/unix/gui/uiprinter.c:142 src/arch/unix/gui/uiprinter.c:154
 #: src/arch/unix/gui/vic20ui.c:379 src/arch/win32/res.rc.po.c:1108
 #: src/arch/win32/res.rc.po.c:1124 src/arch/amigaos/intl_text.c.po.c:4334
@@ -2830,26 +2830,27 @@ msgstr ""
 "Nem sikerült a palettát betölteni:\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiperipheral.c:51
-msgid "Path:"
+#: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10862
+#, fuzzy
+msgid "Path"
 msgstr "Elérési út:"
 
-#: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:76
-#: src/arch/unix/gui/uiperipheral.c:92 src/arch/unix/gui/uiperipheral.c:108
+#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
+#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
 #: src/arch/unix/gui/uiprinter.c:144 src/arch/unix/gui/uiprinter.c:156
 #, fuzzy
 msgid "File system access"
 msgstr "*Fájlrendszer hozzáférés"
 
-#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
-#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
+#: src/arch/unix/gui/uiperipheral.c:66 src/arch/unix/gui/uiperipheral.c:82
+#: src/arch/unix/gui/uiperipheral.c:98 src/arch/unix/gui/uiperipheral.c:114
 #: src/arch/unix/gui/uiprinter.c:147 src/arch/unix/gui/uiprinter.c:159
 #, fuzzy
 msgid "Real device access"
 msgstr "*Hozzáférés valódi eszközhöz"
 
-#: src/arch/unix/gui/uiperipheral.c:67 src/arch/unix/gui/uiperipheral.c:83
-#: src/arch/unix/gui/uiperipheral.c:99 src/arch/unix/gui/uiperipheral.c:115
+#: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
+#: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
 #, fuzzy
 msgid "Raw device access"
 msgstr "*RAW eszköz hozzáférés"
@@ -2979,9 +2980,10 @@ msgstr "*Virtuális eszközök engedélyezése"
 msgid "Peripheral settings"
 msgstr "Perifériák beállításai"
 
-#: src/arch/unix/gui/uipetdww.c:39
+#: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
+#: src/arch/amigaos/intl_text.c.po.c:5921
 #, fuzzy
-msgid "PETDWW image"
+msgid "PET DWW file"
 msgstr "PET REU képmás neve"
 
 #: src/arch/unix/gui/uipetreu.c:40
@@ -3788,7 +3790,7 @@ msgid "Debug"
 msgstr "Nyomkövetés"
 
 #: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:527
-#: src/arch/amigaos/intl_text.c.po.c:6909
+#: src/arch/win32/resvicii.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:6909
 #, fuzzy
 msgid "New luminances"
 msgstr "Új fényerõk"
@@ -3810,7 +3812,7 @@ msgstr "*Sprite-sprite ütközések"
 msgid "Sprite-background collisions"
 msgstr "*Sprite-háttér ütközések"
 
-#: src/arch/unix/gui/vic20ui.c:194
+#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:493
 msgid "No expansion memory"
 msgstr "Nincs memória bõvítés"
 
@@ -4002,7 +4004,8 @@ msgid "VICE is FREE software!"
 msgstr "A VICE egy szabad szoftver!"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:67
-#: src/arch/win32/res.rc.po.c:1022
+#: src/arch/win32/res.rc.po.c:1022 src/arch/win32/res.rc.po.c:1470
+#: src/arch/amigaos/intl_text.c.po.c:2839
 msgid "No warranty!"
 msgstr "Nincs garancia!"
 
@@ -6420,10 +6423,6 @@ msgstr ""
 msgid "Turkish"
 msgstr "Török"
 
-#: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:2839
-msgid "No warranty"
-msgstr "Nincs garancia!"
-
 #: src/arch/win32/res.rc.po.c:1471 src/arch/amigaos/intl_text.c.po.c:1422
 msgid "Fullscreen"
 msgstr "Teljes képernyõ"
@@ -7151,7 +7150,9 @@ msgstr "$9*** RAM-ként"
 msgid "$A*** as RAM"
 msgstr "$A*** RAM-ként"
 
-#: src/arch/win32/respet.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/win32/respet.rc.po.c:565 src/arch/win32/respetdww.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/amigaos/intl_text.c.po.c:5947
 #, fuzzy
 msgid "PET DWW settings"
 msgstr "PET REU beállításai"
@@ -7167,20 +7168,10 @@ msgstr "PET REU beállításai"
 msgid "Enable Userport DAC for sound output"
 msgstr "RS232 userport &engedélyezése"
 
-#: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
-#, fuzzy
-msgid "PET DWW Settings"
-msgstr "PET REU beállításai"
-
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
 #, fuzzy
 msgid "Enable the PET DWW hi-res board"
 msgstr "Isepic cartridge tiltása"
-
-#: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
-#, fuzzy
-msgid "PET DWW file"
-msgstr "PET REU képmás neve"
 
 #: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:5934
 #, fuzzy
@@ -7459,7 +7450,8 @@ msgstr "Mintavételezés módja"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:6727
-msgid "Passband (0-90%)"
+#, fuzzy
+msgid "Passband"
 msgstr "Áteresztõság (0-90%)"
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
@@ -7526,11 +7518,6 @@ msgstr "Válasszon ROM fájlt"
 #, fuzzy
 msgid "Select ROM file for V364 Speech"
 msgstr "Válasszon fájlt a 256K-hoz"
-
-#: src/arch/win32/resvic20.rc.po.c:493
-#, fuzzy
-msgid "no expansion memory"
-msgstr "&nincs memória bõvítés"
 
 #: src/arch/win32/resvic20.rc.po.c:498
 #, fuzzy
@@ -7637,11 +7624,6 @@ msgstr "Válassza ki az NvRAM képfájlt"
 #: src/arch/win32/resvicii.rc.po.c:43
 msgid "Sprite Collisions"
 msgstr "Sprite ütközések"
-
-#: src/arch/win32/resvicii.rc.po.c:46
-#, fuzzy
-msgid "New Luminances"
-msgstr "Új &fényerõk"
 
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
@@ -11384,11 +11366,6 @@ msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Adja meg a zene sebesség igazítását (0: rugalmas. 1: igazodó, 2: pontos)"
 
-#: src/translate_text.c.po.c:10862
-#, fuzzy
-msgid "path"
-msgstr "<elérési út>"
-
 #: src/translate_text.c.po.c:10878
 msgid "Define search path to locate system files"
 msgstr "Keresési útvonal megadása a rendszerfájlok megtalálására"
@@ -11602,6 +11579,29 @@ msgstr "Digimax cartridge tiltása"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
+
+#, fuzzy
+#~ msgid "PETDWW image"
+#~ msgstr "PET REU képmás neve"
+
+#~ msgid "No warranty"
+#~ msgstr "Nincs garancia!"
+
+#, fuzzy
+#~ msgid "PET DWW Settings"
+#~ msgstr "PET REU beállításai"
+
+#, fuzzy
+#~ msgid "no expansion memory"
+#~ msgstr "&nincs memória bõvítés"
+
+#, fuzzy
+#~ msgid "New Luminances"
+#~ msgstr "Új &fényerõk"
+
+#, fuzzy
+#~ msgid "path"
+#~ msgstr "<elérési út>"
 
 #, fuzzy
 #~ msgid "name"

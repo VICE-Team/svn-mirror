@@ -75,7 +75,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Fast resampling"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE   "Sample method"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Device selection"
   IDS_HARDSID_LEFT_LABEL "Main device"
 END
@@ -94,7 +94,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Hurtig omsampling"
   IDS_SID_RESID_GROUP    "reSID-/reSID-fp-indstillinger"
   IDS_SID_RESID_SAMPLE   "Samplingmetode"
-  IDS_SID_RESID_PASSBAND "Pasbånd (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Enhedsvalg"
   IDS_HARDSID_LEFT_LABEL "Hovedenhed"
 END
@@ -113,7 +113,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Schnelles Resampling"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp Optionen"
   IDS_SID_RESID_SAMPLE   "Sample Methode"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Geräte Auswahl"
   IDS_HARDSID_LEFT_LABEL "Haupt Gerät"
 END
@@ -132,7 +132,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Fast resampling"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE   "Méthode d'échantillonnage"
-  IDS_SID_RESID_PASSBAND "Bande passante (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Sélection des périphériques"
   IDS_HARDSID_LEFT_LABEL "Main device"
 END
@@ -154,7 +154,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Fast resampling"
   IDS_SID_RESID_GROUP    "reSID/reSIP-fp opciók"
   IDS_SID_RESID_SAMPLE   "Mintavételezés módja"
-  IDS_SID_RESID_PASSBAND "Áteresztõság (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Eszközök kiválasztása"
   IDS_HARDSID_LEFT_LABEL "Fõ eszköz"
 END
@@ -176,7 +176,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Ricampionamento veloce"
   IDS_SID_RESID_GROUP    "Opzioni reSID/reSID-fp"
   IDS_SID_RESID_SAMPLE   "Metodo di campionamento"
-  IDS_SID_RESID_PASSBAND "Passabanda (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Selezione dispositivo"
   IDS_HARDSID_LEFT_LABEL "Dispositivo principale"
 END
@@ -198,7 +198,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Fast resampling"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE   "Sample method"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Device selection"
   IDS_HARDSID_LEFT_LABEL "Main device"
 END
@@ -220,7 +220,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Snelle resampling"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp opties"
   IDS_SID_RESID_SAMPLE   "Sample methode"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Apparaatselectie"
   IDS_HARDSID_LEFT_LABEL "Hoofdapparaat"
 END
@@ -242,7 +242,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Fast resampling"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE   "Sample method"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Device selection"
   IDS_HARDSID_LEFT_LABEL "Main device"
 END
@@ -267,7 +267,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Fast resampling"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE   "Sample method"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Device selection"
   IDS_HARDSID_LEFT_LABEL "Main device"
 END
@@ -289,7 +289,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Snabb omsampling"
   IDS_SID_RESID_GROUP    "reSID-/reSID-fp-inställningar"
   IDS_SID_RESID_SAMPLE   "Samplingsmetod"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Välj enhet"
   IDS_HARDSID_LEFT_LABEL "Huvudenhet"
 END
@@ -311,7 +311,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Hýzlý yeniden örnekleme"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp seçenekleri"
   IDS_SID_RESID_SAMPLE   "Örnekleme metodu"
-  IDS_SID_RESID_PASSBAND "Passband (0-90%)"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
   IDS_HARDSID_GROUP      "Aygýt seçimi"
   IDS_HARDSID_LEFT_LABEL "Ana aygýt"
 END

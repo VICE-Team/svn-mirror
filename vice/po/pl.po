@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-21 07:35-0700\n"
+"POT-Creation-Date: 2011-04-21 08:48-0700\n"
 "PO-Revision-Date: 2007-07-26 11:55+0200\n"
 "Last-Translator: Mariusz M³ynek <flooder@gower.pl>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -1898,8 +1898,8 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:172 src/arch/unix/gui/uidriveplus4.c:190
 #: src/arch/unix/gui/uijoystick2.c:153 src/arch/unix/gui/uijoystick2.c:205
 #: src/arch/unix/gui/uijoystick2.c:257 src/arch/unix/gui/uijoystick2.c:309
-#: src/arch/unix/gui/uiperipheral.c:58 src/arch/unix/gui/uiperipheral.c:74
-#: src/arch/unix/gui/uiperipheral.c:90 src/arch/unix/gui/uiperipheral.c:106
+#: src/arch/unix/gui/uiperipheral.c:61 src/arch/unix/gui/uiperipheral.c:77
+#: src/arch/unix/gui/uiperipheral.c:93 src/arch/unix/gui/uiperipheral.c:109
 #: src/arch/unix/gui/uiprinter.c:142 src/arch/unix/gui/uiprinter.c:154
 #: src/arch/unix/gui/vic20ui.c:379 src/arch/win32/res.rc.po.c:1108
 #: src/arch/win32/res.rc.po.c:1124 src/arch/amigaos/intl_text.c.po.c:4334
@@ -2976,26 +2976,27 @@ msgstr ""
 "Nie mo¿na za³adowaæ pliku palety\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiperipheral.c:51
-msgid "Path:"
+#: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10862
+#, fuzzy
+msgid "Path"
 msgstr "¦cie¿ka:"
 
-#: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:76
-#: src/arch/unix/gui/uiperipheral.c:92 src/arch/unix/gui/uiperipheral.c:108
+#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
+#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
 #: src/arch/unix/gui/uiprinter.c:144 src/arch/unix/gui/uiprinter.c:156
 #, fuzzy
 msgid "File system access"
 msgstr "*Dostêp systemu plików"
 
-#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
-#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
+#: src/arch/unix/gui/uiperipheral.c:66 src/arch/unix/gui/uiperipheral.c:82
+#: src/arch/unix/gui/uiperipheral.c:98 src/arch/unix/gui/uiperipheral.c:114
 #: src/arch/unix/gui/uiprinter.c:147 src/arch/unix/gui/uiprinter.c:159
 #, fuzzy
 msgid "Real device access"
 msgstr "*Prawdziwy dostêp urz¹dzenia"
 
-#: src/arch/unix/gui/uiperipheral.c:67 src/arch/unix/gui/uiperipheral.c:83
-#: src/arch/unix/gui/uiperipheral.c:99 src/arch/unix/gui/uiperipheral.c:115
+#: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
+#: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
 #, fuzzy
 msgid "Raw device access"
 msgstr "*Surowy dostêp urz¹dzenia"
@@ -3125,9 +3126,10 @@ msgstr "*W³±cz wirtualne urz±dzenia"
 msgid "Peripheral settings"
 msgstr "Ustawienia zewnêtrzne"
 
-#: src/arch/unix/gui/uipetdww.c:39
+#: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
+#: src/arch/amigaos/intl_text.c.po.c:5921
 #, fuzzy
-msgid "PETDWW image"
+msgid "PET DWW file"
 msgstr "Nazwa obrazu REU"
 
 #: src/arch/unix/gui/uipetreu.c:40
@@ -3984,7 +3986,7 @@ msgid "Debug"
 msgstr ""
 
 #: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:527
-#: src/arch/amigaos/intl_text.c.po.c:6909
+#: src/arch/win32/resvicii.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:6909
 #, fuzzy
 msgid "New luminances"
 msgstr "*Nowa jaskrawo¶æ"
@@ -4007,7 +4009,7 @@ msgstr "*Kolizje duszków"
 msgid "Sprite-background collisions"
 msgstr "*Kolizje duszków z t³em"
 
-#: src/arch/unix/gui/vic20ui.c:194
+#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:493
 msgid "No expansion memory"
 msgstr "Bez rozszerzenia pamiêci"
 
@@ -4206,7 +4208,8 @@ msgid "VICE is FREE software!"
 msgstr "VICE jest wolnym oprogramowaniem!"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:67
-#: src/arch/win32/res.rc.po.c:1022
+#: src/arch/win32/res.rc.po.c:1022 src/arch/win32/res.rc.po.c:1470
+#: src/arch/amigaos/intl_text.c.po.c:2839
 msgid "No warranty!"
 msgstr "Bez gwarancji!"
 
@@ -6805,11 +6808,6 @@ msgstr ""
 msgid "Turkish"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:2839
-#, fuzzy
-msgid "No warranty"
-msgstr "Bez gwarancji!"
-
 #: src/arch/win32/res.rc.po.c:1471 src/arch/amigaos/intl_text.c.po.c:1422
 #, fuzzy
 msgid "Fullscreen"
@@ -7590,7 +7588,9 @@ msgstr "*$9*** jako RAM (tylko 8296)"
 msgid "$A*** as RAM"
 msgstr "*$A*** jako RAM (tylko 8296)"
 
-#: src/arch/win32/respet.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/win32/respet.rc.po.c:565 src/arch/win32/respetdww.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/amigaos/intl_text.c.po.c:5947
 #, fuzzy
 msgid "PET DWW settings"
 msgstr "Ustawienia"
@@ -7606,20 +7606,10 @@ msgstr "Ustawienia"
 msgid "Enable Userport DAC for sound output"
 msgstr "*W³±cz rzeczywist± emulacjê napêdu"
 
-#: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
-#, fuzzy
-msgid "PET DWW Settings"
-msgstr "Ustawienia"
-
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
 #, fuzzy
 msgid "Enable the PET DWW hi-res board"
 msgstr "W³±cz Expert Cartridge..."
-
-#: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
-#, fuzzy
-msgid "PET DWW file"
-msgstr "Nazwa obrazu REU"
 
 #: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:5934
 #, fuzzy
@@ -7932,7 +7922,7 @@ msgstr "Metoda samplowania reSID"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:6727
-msgid "Passband (0-90%)"
+msgid "Passband"
 msgstr ""
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
@@ -8005,11 +7995,6 @@ msgstr "Ustaw plik mapowania na podstawie symboli"
 #, fuzzy
 msgid "Select ROM file for V364 Speech"
 msgstr "W³±cz pe³ny ekran"
-
-#: src/arch/win32/resvic20.rc.po.c:493
-#, fuzzy
-msgid "no expansion memory"
-msgstr "Bez rozszerzenia pamiêci"
 
 #: src/arch/win32/resvic20.rc.po.c:498
 #, fuzzy
@@ -8125,11 +8110,6 @@ msgstr "Wybierz plik urz±dzenia RS232"
 #, fuzzy
 msgid "Sprite Collisions"
 msgstr "*Kolizje duszków"
-
-#: src/arch/win32/resvicii.rc.po.c:46
-#, fuzzy
-msgid "New Luminances"
-msgstr "*Nowa jaskrawo¶æ"
 
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
@@ -11889,11 +11869,6 @@ msgstr ""
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 
-#: src/translate_text.c.po.c:10862
-#, fuzzy
-msgid "path"
-msgstr "<pusty>"
-
 #: src/translate_text.c.po.c:10878
 msgid "Define search path to locate system files"
 msgstr ""
@@ -12126,6 +12101,30 @@ msgstr "W³±cz Expert Cartridge..."
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Rozszerzenie RAM napêdu #8 "
+
+#, fuzzy
+#~ msgid "PETDWW image"
+#~ msgstr "Nazwa obrazu REU"
+
+#, fuzzy
+#~ msgid "No warranty"
+#~ msgstr "Bez gwarancji!"
+
+#, fuzzy
+#~ msgid "PET DWW Settings"
+#~ msgstr "Ustawienia"
+
+#, fuzzy
+#~ msgid "no expansion memory"
+#~ msgstr "Bez rozszerzenia pamiêci"
+
+#, fuzzy
+#~ msgid "New Luminances"
+#~ msgstr "*Nowa jaskrawo¶æ"
+
+#, fuzzy
+#~ msgid "path"
+#~ msgstr "<pusty>"
 
 #, fuzzy
 #~ msgid "name"

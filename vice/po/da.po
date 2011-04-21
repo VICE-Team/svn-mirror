@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-21 07:35-0700\n"
+"POT-Creation-Date: 2011-04-21 08:48-0700\n"
 "PO-Revision-Date: 2011-02-16 20:46+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice-dk@symlink.dk>\n"
 "Language-Team: Danish <vice-dk@symlink.dk>\n"
@@ -1716,8 +1716,8 @@ msgstr "Aktivér ægte hardwareemulering af flashfilsystem"
 #: src/arch/unix/gui/uidriveplus4.c:172 src/arch/unix/gui/uidriveplus4.c:190
 #: src/arch/unix/gui/uijoystick2.c:153 src/arch/unix/gui/uijoystick2.c:205
 #: src/arch/unix/gui/uijoystick2.c:257 src/arch/unix/gui/uijoystick2.c:309
-#: src/arch/unix/gui/uiperipheral.c:58 src/arch/unix/gui/uiperipheral.c:74
-#: src/arch/unix/gui/uiperipheral.c:90 src/arch/unix/gui/uiperipheral.c:106
+#: src/arch/unix/gui/uiperipheral.c:61 src/arch/unix/gui/uiperipheral.c:77
+#: src/arch/unix/gui/uiperipheral.c:93 src/arch/unix/gui/uiperipheral.c:109
 #: src/arch/unix/gui/uiprinter.c:142 src/arch/unix/gui/uiprinter.c:154
 #: src/arch/unix/gui/vic20ui.c:379 src/arch/win32/res.rc.po.c:1108
 #: src/arch/win32/res.rc.po.c:1124 src/arch/amigaos/intl_text.c.po.c:4334
@@ -2671,24 +2671,25 @@ msgstr ""
 "Kunne ikke læse palettefil\n"
 "\"%s\""
 
-#: src/arch/unix/gui/uiperipheral.c:51
-msgid "Path:"
+#: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10862
+#, fuzzy
+msgid "Path"
 msgstr "Sti:"
 
-#: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:76
-#: src/arch/unix/gui/uiperipheral.c:92 src/arch/unix/gui/uiperipheral.c:108
+#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
+#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
 #: src/arch/unix/gui/uiprinter.c:144 src/arch/unix/gui/uiprinter.c:156
 msgid "File system access"
 msgstr "Filsystemstilgang"
 
-#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
-#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
+#: src/arch/unix/gui/uiperipheral.c:66 src/arch/unix/gui/uiperipheral.c:82
+#: src/arch/unix/gui/uiperipheral.c:98 src/arch/unix/gui/uiperipheral.c:114
 #: src/arch/unix/gui/uiprinter.c:147 src/arch/unix/gui/uiprinter.c:159
 msgid "Real device access"
 msgstr "Tilgang til ægte enheder"
 
-#: src/arch/unix/gui/uiperipheral.c:67 src/arch/unix/gui/uiperipheral.c:83
-#: src/arch/unix/gui/uiperipheral.c:99 src/arch/unix/gui/uiperipheral.c:115
+#: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
+#: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
 msgid "Raw device access"
 msgstr "Tilgang til rå enhed"
 
@@ -2810,9 +2811,10 @@ msgstr "Aktivér virtuelle enheder"
 msgid "Peripheral settings"
 msgstr "Eksterne enhedsindstillinger"
 
-#: src/arch/unix/gui/uipetdww.c:39
-msgid "PETDWW image"
-msgstr "PETDWW-image"
+#: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
+#: src/arch/amigaos/intl_text.c.po.c:5921
+msgid "PET DWW file"
+msgstr "PET DWW fil"
 
 #: src/arch/unix/gui/uipetreu.c:40
 msgid "PETREU image"
@@ -3558,7 +3560,7 @@ msgid "Debug"
 msgstr "Debug"
 
 #: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:527
-#: src/arch/amigaos/intl_text.c.po.c:6909
+#: src/arch/win32/resvicii.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:6909
 msgid "New luminances"
 msgstr "Nye lysstyrker"
 
@@ -3577,7 +3579,7 @@ msgstr "Sprite-til-sprite-kollision"
 msgid "Sprite-background collisions"
 msgstr "Sprite-til-baggrunds-kollision"
 
-#: src/arch/unix/gui/vic20ui.c:194
+#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:493
 msgid "No expansion memory"
 msgstr "Ingen hukommelsesudviddelse"
 
@@ -3752,7 +3754,8 @@ msgid "VICE is FREE software!"
 msgstr "VICE er fri software!"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:67
-#: src/arch/win32/res.rc.po.c:1022
+#: src/arch/win32/res.rc.po.c:1022 src/arch/win32/res.rc.po.c:1470
+#: src/arch/amigaos/intl_text.c.po.c:2839
 msgid "No warranty!"
 msgstr "Ingen garanti!"
 
@@ -6053,10 +6056,6 @@ msgstr ""
 msgid "Turkish"
 msgstr "Tyrkisk"
 
-#: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:2839
-msgid "No warranty"
-msgstr "Ingen garanti"
-
 #: src/arch/win32/res.rc.po.c:1471 src/arch/amigaos/intl_text.c.po.c:1422
 msgid "Fullscreen"
 msgstr "Fuldskærm"
@@ -6717,7 +6716,9 @@ msgstr "$9*** som RAM"
 msgid "$A*** as RAM"
 msgstr "$A*** som RAM"
 
-#: src/arch/win32/respet.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/win32/respet.rc.po.c:565 src/arch/win32/respetdww.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/amigaos/intl_text.c.po.c:5947
 msgid "PET DWW settings"
 msgstr "PET DWW-indstillinger"
 
@@ -6730,17 +6731,9 @@ msgstr "PET REU-indstillinger"
 msgid "Enable Userport DAC for sound output"
 msgstr "Aktivér brugerport DAC for lydoutput"
 
-#: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
-msgid "PET DWW Settings"
-msgstr "PET DWW-indstillinger"
-
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
 msgid "Enable the PET DWW hi-res board"
 msgstr "Aktivér PET DWW højopløsningskort"
-
-#: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
-msgid "PET DWW file"
-msgstr "PET DWW fil"
 
 #: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:5934
 msgid "Select file for PET DWW"
@@ -6997,7 +6990,8 @@ msgstr "Samplingmetode"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:6727
-msgid "Passband (0-90%)"
+#, fuzzy
+msgid "Passband"
 msgstr "Pasbånd (0-90%)"
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
@@ -7059,10 +7053,6 @@ msgstr "V364 Speech ROM-fil"
 #: src/arch/win32/resv364speech.rc.po.c:27
 msgid "Select ROM file for V364 Speech"
 msgstr "Vælg ROM-fil for V364 Speech"
-
-#: src/arch/win32/resvic20.rc.po.c:493
-msgid "no expansion memory"
-msgstr "ingen hukommelsesudviddelse"
 
 #: src/arch/win32/resvic20.rc.po.c:498
 msgid "Full (blocks 0/1/2/3/5)"
@@ -7154,10 +7144,6 @@ msgstr "Vælg Mega-Cart NVRAM-fil"
 #: src/arch/win32/resvicii.rc.po.c:43
 msgid "Sprite Collisions"
 msgstr "Spritekollisioner"
-
-#: src/arch/win32/resvicii.rc.po.c:46
-msgid "New Luminances"
-msgstr "Nye lysstyrker"
 
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
@@ -10710,10 +10696,6 @@ msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr ""
 "Indstil lydjusteringshastighed (0: fleksibel, 1: justerende, 2: nøjagtig)"
 
-#: src/translate_text.c.po.c:10862
-msgid "path"
-msgstr "sti"
-
 #: src/translate_text.c.po.c:10878
 msgid "Define search path to locate system files"
 msgstr "Angiv sti til systemfiler"
@@ -10919,6 +10901,24 @@ msgstr "Deaktivér DigiMAX cartridge"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Baseadresse for DigiMAX cartridge"
+
+#~ msgid "PETDWW image"
+#~ msgstr "PETDWW-image"
+
+#~ msgid "No warranty"
+#~ msgstr "Ingen garanti"
+
+#~ msgid "PET DWW Settings"
+#~ msgstr "PET DWW-indstillinger"
+
+#~ msgid "no expansion memory"
+#~ msgstr "ingen hukommelsesudviddelse"
+
+#~ msgid "New Luminances"
+#~ msgstr "Nye lysstyrker"
+
+#~ msgid "path"
+#~ msgstr "sti"
 
 #~ msgid "name"
 #~ msgstr "navn"

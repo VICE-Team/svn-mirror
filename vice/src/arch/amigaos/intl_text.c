@@ -2860,18 +2860,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_LICENSE_SV, "Licens" },
 /* tr */ { IDMS_LICENSE_TR, "Lisans" },
 
-/* en */ { IDMS_NO_WARRANTY,    "No warranty" },
-/* da */ { IDMS_NO_WARRANTY_DA, "Ingen garanti" },
-/* de */ { IDMS_NO_WARRANTY_DE, "Keine Garantie" },
-/* fr */ { IDMS_NO_WARRANTY_FR, "" },  /* fuzzy */
+/* en */ { IDMS_NO_WARRANTY,    "No warranty!" },
+/* da */ { IDMS_NO_WARRANTY_DA, "Ingen garanti!" },
+/* de */ { IDMS_NO_WARRANTY_DE, "Keine Garantie!" },
+/* fr */ { IDMS_NO_WARRANTY_FR, "Aucune garantie!" },
 /* hu */ { IDMS_NO_WARRANTY_HU, "Nincs garancia!" },
-/* it */ { IDMS_NO_WARRANTY_IT, "Nessuna garanzia" },
+/* it */ { IDMS_NO_WARRANTY_IT, "Nessuna garanzia!" },
 /* ko */ { IDMS_NO_WARRANTY_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_NO_WARRANTY_NL, "Geen garantie!" },
-/* pl */ { IDMS_NO_WARRANTY_PL, "" },  /* fuzzy */
+/* pl */ { IDMS_NO_WARRANTY_PL, "Bez gwarancji!" },
 /* ru */ { IDMS_NO_WARRANTY_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_NO_WARRANTY_SV, "Ingen garanti" },
-/* tr */ { IDMS_NO_WARRANTY_TR, "Garanti verilmez" },
+/* sv */ { IDMS_NO_WARRANTY_SV, "Ingen garanti!" },
+/* tr */ { IDMS_NO_WARRANTY_TR, "Garanti verilmez!" },
 
 /* en */ { IDMS_LANGUAGE_INTERNATIONAL,    "International" },
 /* da */ { IDMS_LANGUAGE_INTERNATIONAL_DA, "International" },
@@ -5968,7 +5968,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PET_DWW_FILENAME_SELECT_SV, "Välj fil för PET DWW" },
 /* tr */ { IDS_PET_DWW_FILENAME_SELECT_TR, "PET DWW için dosya seçin" },
 
-/* en */ { IDS_PET_DWW_SETTINGS,    "PET DWW Settings" },
+/* en */ { IDS_PET_DWW_SETTINGS,    "PET DWW settings" },
 /* da */ { IDS_PET_DWW_SETTINGS_DA, "PET DWW-indstillinger" },
 /* de */ { IDS_PET_DWW_SETTINGS_DE, "PET DWW Einstellungen" },
 /* fr */ { IDS_PET_DWW_SETTINGS_FR, "" },  /* fuzzy */
@@ -6748,18 +6748,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SAMPLE_METHOD_SV, "Samplingsmetod" },
 /* tr */ { IDS_SAMPLE_METHOD_TR, "Örnekleme metodu" },
 
-/* en */ { IDS_PASSBAND_0_90,    "Passband (0-90%)" },
-/* da */ { IDS_PASSBAND_0_90_DA, "Pasbånd (0-90%)" },
-/* de */ { IDS_PASSBAND_0_90_DE, "Passband (0-90%)" },
-/* fr */ { IDS_PASSBAND_0_90_FR, "Bande passante (0-90%)" },
-/* hu */ { IDS_PASSBAND_0_90_HU, "Áteresztõság (0-90%)" },
-/* it */ { IDS_PASSBAND_0_90_IT, "Passabanda (0-90%)" },
+/* en */ { IDS_PASSBAND_0_90,    "Passband (0..90%)" },
+/* da */ { IDS_PASSBAND_0_90_DA, "" },  /* fuzzy */
+/* de */ { IDS_PASSBAND_0_90_DE, "" },  /* fuzzy */
+/* fr */ { IDS_PASSBAND_0_90_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PASSBAND_0_90_HU, "" },  /* fuzzy */
+/* it */ { IDS_PASSBAND_0_90_IT, "" },  /* fuzzy */
 /* ko */ { IDS_PASSBAND_0_90_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PASSBAND_0_90_NL, "Passband (0-90%)" },
+/* nl */ { IDS_PASSBAND_0_90_NL, "Passband (0..90%)" },
 /* pl */ { IDS_PASSBAND_0_90_PL, "" },  /* fuzzy */
 /* ru */ { IDS_PASSBAND_0_90_RU, "" },  /* fuzzy */
-/* sv */ { IDS_PASSBAND_0_90_SV, "Passband (0-90%)" },
-/* tr */ { IDS_PASSBAND_0_90_TR, "Passband (0-90%)" },
+/* sv */ { IDS_PASSBAND_0_90_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PASSBAND_0_90_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_NOT_IMPLEMENTED_YET,    "Not implemented yet!" },
 /* da */ { IDS_NOT_IMPLEMENTED_YET_DA, "Ikke implementeret endnu!" },

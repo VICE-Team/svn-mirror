@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-21 07:35-0700\n"
+"POT-Creation-Date: 2011-04-21 08:48-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1718,8 +1718,8 @@ msgstr "Activeer hardwarmatige flash bestandssysteem"
 #: src/arch/unix/gui/uidriveplus4.c:172 src/arch/unix/gui/uidriveplus4.c:190
 #: src/arch/unix/gui/uijoystick2.c:153 src/arch/unix/gui/uijoystick2.c:205
 #: src/arch/unix/gui/uijoystick2.c:257 src/arch/unix/gui/uijoystick2.c:309
-#: src/arch/unix/gui/uiperipheral.c:58 src/arch/unix/gui/uiperipheral.c:74
-#: src/arch/unix/gui/uiperipheral.c:90 src/arch/unix/gui/uiperipheral.c:106
+#: src/arch/unix/gui/uiperipheral.c:61 src/arch/unix/gui/uiperipheral.c:77
+#: src/arch/unix/gui/uiperipheral.c:93 src/arch/unix/gui/uiperipheral.c:109
 #: src/arch/unix/gui/uiprinter.c:142 src/arch/unix/gui/uiprinter.c:154
 #: src/arch/unix/gui/vic20ui.c:379 src/arch/win32/res.rc.po.c:1108
 #: src/arch/win32/res.rc.po.c:1124 src/arch/amigaos/intl_text.c.po.c:4334
@@ -2670,24 +2670,24 @@ msgstr ""
 "Kon kleurenbestand niet laden\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiperipheral.c:51
-msgid "Path:"
-msgstr "Pad:"
+#: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10862
+msgid "Path"
+msgstr "Pad"
 
-#: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:76
-#: src/arch/unix/gui/uiperipheral.c:92 src/arch/unix/gui/uiperipheral.c:108
+#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
+#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
 #: src/arch/unix/gui/uiprinter.c:144 src/arch/unix/gui/uiprinter.c:156
 msgid "File system access"
 msgstr "Bestandssysteemtoegang"
 
-#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
-#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
+#: src/arch/unix/gui/uiperipheral.c:66 src/arch/unix/gui/uiperipheral.c:82
+#: src/arch/unix/gui/uiperipheral.c:98 src/arch/unix/gui/uiperipheral.c:114
 #: src/arch/unix/gui/uiprinter.c:147 src/arch/unix/gui/uiprinter.c:159
 msgid "Real device access"
 msgstr "Werkelijk apparaat toegang"
 
-#: src/arch/unix/gui/uiperipheral.c:67 src/arch/unix/gui/uiperipheral.c:83
-#: src/arch/unix/gui/uiperipheral.c:99 src/arch/unix/gui/uiperipheral.c:115
+#: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
+#: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
 msgid "Raw device access"
 msgstr "Raw apparaat toegang"
 
@@ -2809,9 +2809,10 @@ msgstr "Activeer virtuele apparaten"
 msgid "Peripheral settings"
 msgstr "Randapparaten instellingen"
 
-#: src/arch/unix/gui/uipetdww.c:39
-msgid "PETDWW image"
-msgstr "PETDWW bestand"
+#: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
+#: src/arch/amigaos/intl_text.c.po.c:5921
+msgid "PET DWW file"
+msgstr "PET DWW bestand"
 
 #: src/arch/unix/gui/uipetreu.c:40
 msgid "PETREU image"
@@ -3554,7 +3555,7 @@ msgid "Debug"
 msgstr "Debug"
 
 #: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:527
-#: src/arch/amigaos/intl_text.c.po.c:6909
+#: src/arch/win32/resvicii.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:6909
 msgid "New luminances"
 msgstr "Nieuwe kleuren"
 
@@ -3573,7 +3574,7 @@ msgstr "Sprite-sprite botsingen"
 msgid "Sprite-background collisions"
 msgstr "Sprite-achtergrond botsingen"
 
-#: src/arch/unix/gui/vic20ui.c:194
+#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:493
 msgid "No expansion memory"
 msgstr "Geen geheugenuitbreiding"
 
@@ -3748,7 +3749,8 @@ msgid "VICE is FREE software!"
 msgstr "VICE is VRIJE software!"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:67
-#: src/arch/win32/res.rc.po.c:1022
+#: src/arch/win32/res.rc.po.c:1022 src/arch/win32/res.rc.po.c:1470
+#: src/arch/amigaos/intl_text.c.po.c:2839
 msgid "No warranty!"
 msgstr "Geen garantie!"
 
@@ -6053,10 +6055,6 @@ msgstr "Russies"
 msgid "Turkish"
 msgstr "Turks"
 
-#: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:2839
-msgid "No warranty"
-msgstr "Geen garantie!"
-
 #: src/arch/win32/res.rc.po.c:1471 src/arch/amigaos/intl_text.c.po.c:1422
 msgid "Fullscreen"
 msgstr "Volscherm"
@@ -6714,7 +6712,9 @@ msgstr "$9*** als RAM"
 msgid "$A*** as RAM"
 msgstr "$A*** als RAM"
 
-#: src/arch/win32/respet.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/win32/respet.rc.po.c:565 src/arch/win32/respetdww.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/amigaos/intl_text.c.po.c:5947
 msgid "PET DWW settings"
 msgstr "PET DWW instellingen"
 
@@ -6727,17 +6727,9 @@ msgstr "PET REU instellingen"
 msgid "Enable Userport DAC for sound output"
 msgstr "Activeer userport DAC voor geluidsuitvoer"
 
-#: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
-msgid "PET DWW Settings"
-msgstr "PET DWW instellingen"
-
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
 msgid "Enable the PET DWW hi-res board"
 msgstr "Activeer het PET DWW hi-res bord"
-
-#: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
-msgid "PET DWW file"
-msgstr "PET DWW bestand"
 
 #: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:5934
 msgid "Select file for PET DWW"
@@ -6992,8 +6984,8 @@ msgstr "Sample methode"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:6727
-msgid "Passband (0-90%)"
-msgstr "Passband (0-90%)"
+msgid "Passband"
+msgstr "Passband"
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
 msgid "Device selection"
@@ -7052,10 +7044,6 @@ msgstr "V364 spraak ROM bestand"
 #: src/arch/win32/resv364speech.rc.po.c:27
 msgid "Select ROM file for V364 Speech"
 msgstr "Selecteer bestand voor V364 spraak"
-
-#: src/arch/win32/resvic20.rc.po.c:493
-msgid "no expansion memory"
-msgstr "geen geheugenuitbreiding"
 
 #: src/arch/win32/resvic20.rc.po.c:498
 msgid "Full (blocks 0/1/2/3/5)"
@@ -7147,10 +7135,6 @@ msgstr "Selecteer Mega-Cart non-volatile RAM bestand"
 #: src/arch/win32/resvicii.rc.po.c:43
 msgid "Sprite Collisions"
 msgstr "Sprite Botsingen"
-
-#: src/arch/win32/resvicii.rc.po.c:46
-msgid "New Luminances"
-msgstr "Nieuwe kleuren"
 
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
@@ -10736,10 +10720,6 @@ msgstr "sync"
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Zet geluidssnelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"
 
-#: src/translate_text.c.po.c:10862
-msgid "path"
-msgstr "pad"
-
 #: src/translate_text.c.po.c:10878
 msgid "Define search path to locate system files"
 msgstr "Geef het zoek pad waar de systeem bestanden te vinden zijn"
@@ -10943,6 +10923,24 @@ msgstr "De DigiMAX cartridge uitschakelen"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basisadres van de DigiMAX cartridge"
+
+#~ msgid "PETDWW image"
+#~ msgstr "PETDWW bestand"
+
+#~ msgid "No warranty"
+#~ msgstr "Geen garantie!"
+
+#~ msgid "PET DWW Settings"
+#~ msgstr "PET DWW instellingen"
+
+#~ msgid "no expansion memory"
+#~ msgstr "geen geheugenuitbreiding"
+
+#~ msgid "New Luminances"
+#~ msgstr "Nieuwe kleuren"
+
+#~ msgid "path"
+#~ msgstr "pad"
 
 #~ msgid "name"
 #~ msgstr "naam"

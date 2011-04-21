@@ -10914,19 +10914,19 @@ translate_t string_table[] = {
 #endif
 
 /* sysfile.c */
-/* en */ {IDCLS_P_PATH,    N_("<path>")},
+/* en */ {IDCLS_P_PATH,    N_("<Path>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_PATH_DA, "<sti>"},
-/* de */ {IDCLS_P_PATH_DE, "<Pfad>"},
+/* da */ {IDCLS_P_PATH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_PATH_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_P_PATH_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_PATH_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_PATH_IT, "<percorso>"},
-/* ko */ {IDCLS_P_PATH_KO, "<±æ>"},
-/* nl */ {IDCLS_P_PATH_NL, "<pad>"},
+/* it */ {IDCLS_P_PATH_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_PATH_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_PATH_NL, "<Pad>"},
 /* pl */ {IDCLS_P_PATH_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_PATH_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_PATH_SV, "<sökväg>"},
-/* tr */ {IDCLS_P_PATH_TR, "<yol>"},
+/* sv */ {IDCLS_P_PATH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_PATH_TR, ""},  /* fuzzy */
 #endif
 
 /* sysfile.c */

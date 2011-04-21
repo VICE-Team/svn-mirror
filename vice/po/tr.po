@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-21 07:35-0700\n"
+"POT-Creation-Date: 2011-04-21 08:48-0700\n"
 "PO-Revision-Date: 2011-02-16 20:45+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -1717,8 +1717,8 @@ msgstr "Gerçek donaným flash dosya sistemini aktif et"
 #: src/arch/unix/gui/uidriveplus4.c:172 src/arch/unix/gui/uidriveplus4.c:190
 #: src/arch/unix/gui/uijoystick2.c:153 src/arch/unix/gui/uijoystick2.c:205
 #: src/arch/unix/gui/uijoystick2.c:257 src/arch/unix/gui/uijoystick2.c:309
-#: src/arch/unix/gui/uiperipheral.c:58 src/arch/unix/gui/uiperipheral.c:74
-#: src/arch/unix/gui/uiperipheral.c:90 src/arch/unix/gui/uiperipheral.c:106
+#: src/arch/unix/gui/uiperipheral.c:61 src/arch/unix/gui/uiperipheral.c:77
+#: src/arch/unix/gui/uiperipheral.c:93 src/arch/unix/gui/uiperipheral.c:109
 #: src/arch/unix/gui/uiprinter.c:142 src/arch/unix/gui/uiprinter.c:154
 #: src/arch/unix/gui/vic20ui.c:379 src/arch/win32/res.rc.po.c:1108
 #: src/arch/win32/res.rc.po.c:1124 src/arch/amigaos/intl_text.c.po.c:4334
@@ -2672,24 +2672,25 @@ msgstr ""
 "Palet dosyasý yüklenemedi\n"
 "'%s'"
 
-#: src/arch/unix/gui/uiperipheral.c:51
-msgid "Path:"
+#: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10862
+#, fuzzy
+msgid "Path"
 msgstr "Yol:"
 
-#: src/arch/unix/gui/uiperipheral.c:60 src/arch/unix/gui/uiperipheral.c:76
-#: src/arch/unix/gui/uiperipheral.c:92 src/arch/unix/gui/uiperipheral.c:108
+#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
+#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
 #: src/arch/unix/gui/uiprinter.c:144 src/arch/unix/gui/uiprinter.c:156
 msgid "File system access"
 msgstr "Dosya sistem eriþimi"
 
-#: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
-#: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
+#: src/arch/unix/gui/uiperipheral.c:66 src/arch/unix/gui/uiperipheral.c:82
+#: src/arch/unix/gui/uiperipheral.c:98 src/arch/unix/gui/uiperipheral.c:114
 #: src/arch/unix/gui/uiprinter.c:147 src/arch/unix/gui/uiprinter.c:159
 msgid "Real device access"
 msgstr "Gerçek aygýt eriþimi"
 
-#: src/arch/unix/gui/uiperipheral.c:67 src/arch/unix/gui/uiperipheral.c:83
-#: src/arch/unix/gui/uiperipheral.c:99 src/arch/unix/gui/uiperipheral.c:115
+#: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
+#: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
 msgid "Raw device access"
 msgstr "Düz aygýt eriþimi"
 
@@ -2811,9 +2812,10 @@ msgstr "Sanal Aygýtlarý aktif et"
 msgid "Peripheral settings"
 msgstr "Çevresel ayarlar"
 
-#: src/arch/unix/gui/uipetdww.c:39
-msgid "PETDWW image"
-msgstr "PETDWW imajý"
+#: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
+#: src/arch/amigaos/intl_text.c.po.c:5921
+msgid "PET DWW file"
+msgstr "PET DWW dosyasý"
 
 #: src/arch/unix/gui/uipetreu.c:40
 msgid "PETREU image"
@@ -3559,7 +3561,7 @@ msgid "Debug"
 msgstr "Hata Ayýklama"
 
 #: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:527
-#: src/arch/amigaos/intl_text.c.po.c:6909
+#: src/arch/win32/resvicii.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:6909
 msgid "New luminances"
 msgstr "Yeni parlaklýklar"
 
@@ -3578,7 +3580,7 @@ msgstr "Yartýk-yaratýk çarpýþmalarý"
 msgid "Sprite-background collisions"
 msgstr "Yaratýk-arkaplan çarpýþmalarý"
 
-#: src/arch/unix/gui/vic20ui.c:194
+#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:493
 msgid "No expansion memory"
 msgstr "Geniþletiþmiþ bellek yok"
 
@@ -3753,7 +3755,8 @@ msgid "VICE is FREE software!"
 msgstr "VICE ücretsiz bir yazýlýmdýr!"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:67
-#: src/arch/win32/res.rc.po.c:1022
+#: src/arch/win32/res.rc.po.c:1022 src/arch/win32/res.rc.po.c:1470
+#: src/arch/amigaos/intl_text.c.po.c:2839
 msgid "No warranty!"
 msgstr "Garanti verilmez!"
 
@@ -6057,10 +6060,6 @@ msgstr ""
 msgid "Turkish"
 msgstr "Türkçe"
 
-#: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:2839
-msgid "No warranty"
-msgstr "Garanti verilmez"
-
 #: src/arch/win32/res.rc.po.c:1471 src/arch/amigaos/intl_text.c.po.c:1422
 msgid "Fullscreen"
 msgstr "Tam ekran"
@@ -6721,7 +6720,9 @@ msgstr "RAM olarak $9***"
 msgid "$A*** as RAM"
 msgstr "RAM olarak $A***"
 
-#: src/arch/win32/respet.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/win32/respet.rc.po.c:565 src/arch/win32/respetdww.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2592
+#: src/arch/amigaos/intl_text.c.po.c:5947
 msgid "PET DWW settings"
 msgstr "PET DWW Ayarlarý"
 
@@ -6734,17 +6735,9 @@ msgstr "PET REU Ayarlarý"
 msgid "Enable Userport DAC for sound output"
 msgstr "Ses çýkýþý için Userport DAC'ý aktif et"
 
-#: src/arch/win32/respetdww.rc.po.c:24 src/arch/amigaos/intl_text.c.po.c:5947
-msgid "PET DWW Settings"
-msgstr "PET DWW Ayarlarý"
-
 #: src/arch/win32/respetdww.rc.po.c:25 src/translate_text.c.po.c:4096
 msgid "Enable the PET DWW hi-res board"
 msgstr "PET DWW hi-res boardunu aktif et"
-
-#: src/arch/win32/respetdww.rc.po.c:26 src/arch/amigaos/intl_text.c.po.c:5921
-msgid "PET DWW file"
-msgstr "PET DWW dosyasý"
 
 #: src/arch/win32/respetdww.rc.po.c:27 src/arch/amigaos/intl_text.c.po.c:5934
 msgid "Select file for PET DWW"
@@ -7001,7 +6994,8 @@ msgstr "Örnekleme metodu"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:6727
-msgid "Passband (0-90%)"
+#, fuzzy
+msgid "Passband"
 msgstr "Passband (0-90%)"
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
@@ -7063,10 +7057,6 @@ msgstr "V364 Speech ROM dosyasý"
 #: src/arch/win32/resv364speech.rc.po.c:27
 msgid "Select ROM file for V364 Speech"
 msgstr "V364 Speech için ROM dosyasý seçin"
-
-#: src/arch/win32/resvic20.rc.po.c:493
-msgid "no expansion memory"
-msgstr "geniþletilmiþ bellek yok"
 
 #: src/arch/win32/resvic20.rc.po.c:498
 msgid "Full (blocks 0/1/2/3/5)"
@@ -7158,10 +7148,6 @@ msgstr "Mega-Cart non-volatile RAM dosyasýný seç"
 #: src/arch/win32/resvicii.rc.po.c:43
 msgid "Sprite Collisions"
 msgstr "Yaratýk Çarpýþmalarý"
-
-#: src/arch/win32/resvicii.rc.po.c:46
-msgid "New Luminances"
-msgstr "Yeni Parlaklýklar"
 
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
@@ -10720,10 +10706,6 @@ msgstr "senkron"
 msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Ses hýzý ayarlamasýný yapýn (0: esnek, 1: düzeltme, 2: aynen)"
 
-#: src/translate_text.c.po.c:10862
-msgid "path"
-msgstr "yol"
-
 #: src/translate_text.c.po.c:10878
 msgid "Define search path to locate system files"
 msgstr "Sistem dosyalarýnýn konumunu belirlemek için arama yolu tanýmlayýn"
@@ -10929,6 +10911,24 @@ msgstr "DigiMAX kartuþunu pasifleþtir"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
+
+#~ msgid "PETDWW image"
+#~ msgstr "PETDWW imajý"
+
+#~ msgid "No warranty"
+#~ msgstr "Garanti verilmez"
+
+#~ msgid "PET DWW Settings"
+#~ msgstr "PET DWW Ayarlarý"
+
+#~ msgid "no expansion memory"
+#~ msgstr "geniþletilmiþ bellek yok"
+
+#~ msgid "New Luminances"
+#~ msgstr "Yeni Parlaklýklar"
+
+#~ msgid "path"
+#~ msgstr "yol"
 
 #~ msgid "name"
 #~ msgstr "isim"

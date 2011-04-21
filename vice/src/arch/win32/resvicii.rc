@@ -50,7 +50,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "New luminances"
 END
 
 
@@ -101,7 +101,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Collisions de Sprites"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "Nouvelles luminescences"
+    IDS_VICII_LUMINANCE     "New luminances"
 END
 
 
@@ -121,7 +121,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite ütközések"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "New luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -161,7 +161,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "New luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -201,7 +201,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "New luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -224,7 +224,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New Luminances"
+    IDS_VICII_LUMINANCE     "New luminances"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -264,7 +264,7 @@ BEGIN
     IDS_VICII_SPRITEGROUP   "Yaratýk Çarpýþmalarý"
     IDS_VICII_SPRITECOLL    "Yartýk-yaratýk çarpýþmalarý"
     IDS_VICII_BACKCOLL      "Yaratýk-arkaplan çarpýþmalarý"
-    IDS_VICII_LUMINANCE     "Yeni Parlaklýklar"
+    IDS_VICII_LUMINANCE     "Yeni parlaklýklar"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

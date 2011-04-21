@@ -33,6 +33,7 @@
 #include "uilib.h"
 #include "uimenu.h"
 #include "uiprinter.h"
+#include "util.h"
 
 UI_MENU_DEFINE_RADIO(FileSystemDevice8)
 UI_MENU_DEFINE_RADIO(FileSystemDevice9)
@@ -44,14 +45,16 @@ UI_CALLBACK(uiperipheral_set_fsdevice_directory)
     int unit = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char *resname;
     char *title;
+    char *path = util_concat(_("Path"), ":", NULL);
 
     resname = lib_msprintf("FSDevice%dDir", unit);
     title = lib_msprintf("Attach file system directory to device #%d", unit);
 
-    uilib_select_dir(resname, title, _("Path:"));
+    uilib_select_dir(resname, title, path);
 
     lib_free(resname);
     lib_free(title);
+    lib_free(path);
 }
 
 ui_menu_entry_t uiperipheral_set_device8_type_submenu[] = {
