@@ -29,9 +29,11 @@
 #include <stdio.h>
 
 #include "autostart-prg.h"
+#include "lib.h"
 #include "uiautostart.h"
 #include "uilib.h"
 #include "uimenu.h"
+#include "util.h"
 
 UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 UI_MENU_DEFINE_TOGGLE(AutostartWarp)
@@ -41,7 +43,10 @@ UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 
 UI_CALLBACK(set_autostart_image_name)
 {
-    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Disk image for PRG autostart"), _("Name:"));
+    char *name = util_concat(_("Name"), ":", NULL);
+
+    uilib_select_string((char *)UI_MENU_CB_PARAM, _("Disk image for PRG autostart"), name);
+    lib_free(name);
 }
 
 static ui_menu_entry_t uiautostart_prg_mode_submenu[] = {
@@ -55,7 +60,7 @@ static ui_menu_entry_t uiautostart_prg_mode_submenu[] = {
 };
 
 ui_menu_entry_t uiautostart_settings_submenu[] = {
-    { N_("Handle TDE on autostart"), UI_MENU_TYPE_TICK,
+    { N_("Handle True Drive Emulation on autostart"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL },
     { N_("Autostart warp"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartWarp, NULL, NULL },

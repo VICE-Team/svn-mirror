@@ -208,31 +208,31 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ATTACH_PREVIOUS_IMAGE_SV, "Anslut föregående avbildning (enhet 8)" },
 /* tr */ { IDMS_ATTACH_PREVIOUS_IMAGE_TR, "Önceki imajý yerleþtir (Birim 8)" },
 
-/* en */ { IDMS_LOAD_FLIP_LIST,    "Load flip list" },
-/* da */ { IDMS_LOAD_FLIP_LIST_DA, "Indlæs bladreliste" },
-/* de */ { IDMS_LOAD_FLIP_LIST_DE, "Fliplist Datei Laden" },
-/* fr */ { IDMS_LOAD_FLIP_LIST_FR, "Charger un groupement de disques" },
+/* en */ { IDMS_LOAD_FLIP_LIST,    "Load flip list file" },
+/* da */ { IDMS_LOAD_FLIP_LIST_DA, "Indlæs bladrelistefil" },
+/* de */ { IDMS_LOAD_FLIP_LIST_DE, "Fliplist Datei laden" },
+/* fr */ { IDMS_LOAD_FLIP_LIST_FR, "Charger un fichier de groupement de disques" },
 /* hu */ { IDMS_LOAD_FLIP_LIST_HU, "Lemezlista betöltése" },
-/* it */ { IDMS_LOAD_FLIP_LIST_IT, "Carica flip list" },
+/* it */ { IDMS_LOAD_FLIP_LIST_IT, "Carica file fliplist" },
 /* ko */ { IDMS_LOAD_FLIP_LIST_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_LOAD_FLIP_LIST_NL, "Laad fliplijst" },
+/* nl */ { IDMS_LOAD_FLIP_LIST_NL, "Laad fliplijstbestand" },
 /* pl */ { IDMS_LOAD_FLIP_LIST_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_LOAD_FLIP_LIST_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_LOAD_FLIP_LIST_SV, "Läs in vallistefil" },
-/* tr */ { IDMS_LOAD_FLIP_LIST_TR, "Sýralama listesi yükle" },
+/* sv */ { IDMS_LOAD_FLIP_LIST_SV, "Läs vallistefil" },
+/* tr */ { IDMS_LOAD_FLIP_LIST_TR, "Sýralama listesi dosyasýný yükle" },
 
-/* en */ { IDMS_SAVE_FLIP_LIST,    "Save flip list" },
-/* da */ { IDMS_SAVE_FLIP_LIST_DA, "Gem bladreliste" },
-/* de */ { IDMS_SAVE_FLIP_LIST_DE, "Fliplist Datei Speichern" },
-/* fr */ { IDMS_SAVE_FLIP_LIST_FR, "Enregistrer le groupement de disques" },
-/* hu */ { IDMS_SAVE_FLIP_LIST_HU, "Lemezlista mentése" },
-/* it */ { IDMS_SAVE_FLIP_LIST_IT, "Salva fliplist" },
+/* en */ { IDMS_SAVE_FLIP_LIST,    "Save flip list file" },
+/* da */ { IDMS_SAVE_FLIP_LIST_DA, "Gem bladrelistefil" },
+/* de */ { IDMS_SAVE_FLIP_LIST_DE, "Fliplist Datei speichern" },
+/* fr */ { IDMS_SAVE_FLIP_LIST_FR, "Enregistrer le fichier de groupement de disques actuel" },
+/* hu */ { IDMS_SAVE_FLIP_LIST_HU, "Lemezlista mentése fájlba" },
+/* it */ { IDMS_SAVE_FLIP_LIST_IT, "Salva file fliplist" },
 /* ko */ { IDMS_SAVE_FLIP_LIST_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_SAVE_FLIP_LIST_NL, "Opslaan fliplijst" },
+/* nl */ { IDMS_SAVE_FLIP_LIST_NL, "Fliplijstbestand opslaan" },
 /* pl */ { IDMS_SAVE_FLIP_LIST_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_SAVE_FLIP_LIST_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_SAVE_FLIP_LIST_SV, "Spara vallistefil" },
-/* tr */ { IDMS_SAVE_FLIP_LIST_TR, "Sýralama listesi kaydet" },
+/* tr */ { IDMS_SAVE_FLIP_LIST_TR, "Sýralama listesi dosyasýný kaydet" },
 
 /* en */ { IDMS_ATTACH_TAPE_IMAGE,    "Attach tape image..." },
 /* da */ { IDMS_ATTACH_TAPE_IMAGE_DA, "Tilslut bånd-image..." },
@@ -1651,18 +1651,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_TRUE_DRIVE_EMU_SV, "Äkta diskettenhetsemulering" },
 /* tr */ { IDMS_TRUE_DRIVE_EMU_TR, "Gerçek sürücü emülasyonu" },
 
-/* en */ { IDMS_AUTOSTART_HANDLE_TDE,    "Handle TDE on autostart" },
-/* da */ { IDMS_AUTOSTART_HANDLE_TDE_DA, "Brug TDE ved autostart" },
-/* de */ { IDMS_AUTOSTART_HANDLE_TDE_DE, "TDE bei Autostart beachten" },
+/* en */ { IDMS_AUTOSTART_HANDLE_TDE,    "Handle True Drive Emulation on autostart" },
+/* da */ { IDMS_AUTOSTART_HANDLE_TDE_DA, "Anvend ægte drev-emulering ved autostart" },
+/* de */ { IDMS_AUTOSTART_HANDLE_TDE_DE, "Präzise Floppy Emulation bei Autostart beachten" },
 /* fr */ { IDMS_AUTOSTART_HANDLE_TDE_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_AUTOSTART_HANDLE_TDE_HU, "" },  /* fuzzy */
+/* hu */ { IDMS_AUTOSTART_HANDLE_TDE_HU, "Valós lemezegység emuláció kezelése autostartnál" },
 /* it */ { IDMS_AUTOSTART_HANDLE_TDE_IT, "Emulazione hardware dei drive all'avvio automatico" },
 /* ko */ { IDMS_AUTOSTART_HANDLE_TDE_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_AUTOSTART_HANDLE_TDE_NL, "Manipuleer hardwarematige drive emulatie bij autostarten" },
 /* pl */ { IDMS_AUTOSTART_HANDLE_TDE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_AUTOSTART_HANDLE_TDE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_AUTOSTART_HANDLE_TDE_SV, "Hantera TDE för autostart" },
-/* tr */ { IDMS_AUTOSTART_HANDLE_TDE_TR, "Baþlangýçta Gerçek Sürücü Emülasyonu'nu denetle" },
+/* sv */ { IDMS_AUTOSTART_HANDLE_TDE_SV, "Hantera äkta diskettenhetsemulering vid autostart" },
+/* tr */ { IDMS_AUTOSTART_HANDLE_TDE_TR, "Otomatik baþlatmada Gerçek Sürücü Emülasyonu'nu denetle" },
 
 /* en */ { IDMS_VIRTUAL_DEVICE_TRAPS,    "Virtual device traps" },
 /* da */ { IDMS_VIRTUAL_DEVICE_TRAPS_DA, "Virtuelle enheds-traps" },
@@ -1794,18 +1794,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_PADDLES_SV, "Aktivera paddlar" },
 /* tr */ { IDMS_ENABLE_PADDLES_TR, "Paddlelarý aktif et" },
 
-/* en */ { IDMS_IEEE_488_INTERFACE,    "IEEE-488 Interface emulation" },
-/* da */ { IDMS_IEEE_488_INTERFACE_DA, "Emulering af IEEE-488-interface" },
-/* de */ { IDMS_IEEE_488_INTERFACE_DE, "IEEE-488 Schnittstellen-Emulation" },
+/* en */ { IDMS_IEEE_488_INTERFACE,    "IEEE488 Interface emulation" },
+/* da */ { IDMS_IEEE_488_INTERFACE_DA, "Emulering af IEEE488-interface" },
+/* de */ { IDMS_IEEE_488_INTERFACE_DE, "IEEE488 Schnittstellen-Emulation" },
 /* fr */ { IDMS_IEEE_488_INTERFACE_FR, "Interface d'émulation IEEE488" },
 /* hu */ { IDMS_IEEE_488_INTERFACE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_IEEE_488_INTERFACE_IT, "Emulazione interfaccia IEEE-488" },
+/* it */ { IDMS_IEEE_488_INTERFACE_IT, "Emulazione interfaccia IEEE488" },
 /* ko */ { IDMS_IEEE_488_INTERFACE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_IEEE_488_INTERFACE_NL, "IEEE-488 Interface emulatie" },
+/* nl */ { IDMS_IEEE_488_INTERFACE_NL, "IEEE488 Interface emulatie" },
 /* pl */ { IDMS_IEEE_488_INTERFACE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_IEEE_488_INTERFACE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_IEEE_488_INTERFACE_SV, "Emulering av IEEE-488-gränssnitt" },
-/* tr */ { IDMS_IEEE_488_INTERFACE_TR, "IEEE-488 Arabirimi emülasyonu" },
+/* sv */ { IDMS_IEEE_488_INTERFACE_SV, "Emulering av IEEE488-gränssnitt" },
+/* tr */ { IDMS_IEEE_488_INTERFACE_TR, "IEEE488 Arabirimi emülasyonu" },
 
 /* en */ { IDMS_GRAB_MOUSE,    "Grab mouse events" },
 /* da */ { IDMS_GRAB_MOUSE_DA, "Fang mussehændelser" },
@@ -3367,18 +3367,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMES_CANNOT_ATTACH_FILE_SV, "Kan inte ansluta filen" },
 /* tr */ { IDMES_CANNOT_ATTACH_FILE_TR, "Belirtilen dosya yerleþtirilemedi" },
 
-/* en */ { IDMES_INVALID_CART,    "Invalid cartridge" },
-/* da */ { IDMES_INVALID_CART_DA, "Ugyldigt cartridge" },
-/* de */ { IDMES_INVALID_CART_DE, "Ungültiges Erweiterungsmodul" },
-/* fr */ { IDMES_INVALID_CART_FR, "Cartouche invalide" },
-/* hu */ { IDMES_INVALID_CART_HU, "Érvénytelen cartridge" },
-/* it */ { IDMES_INVALID_CART_IT, "Cartuccia non valida" },
+/* en */ { IDMES_INVALID_CART,    "Invalid cartridge image" },
+/* da */ { IDMES_INVALID_CART_DA, "Ugyldigt cartridge-image" },
+/* de */ { IDMES_INVALID_CART_DE, "Ungültiges Erweiterungsmodul Image" },
+/* fr */ { IDMES_INVALID_CART_FR, "Image de cartouche invalide" },
+/* hu */ { IDMES_INVALID_CART_HU, "Érvénytelen cartridge képmás" },
+/* it */ { IDMES_INVALID_CART_IT, "Immagine cartuccia non valida" },
 /* ko */ { IDMES_INVALID_CART_KO, "" },  /* fuzzy */
-/* nl */ { IDMES_INVALID_CART_NL, "Ongeldige cartridge" },
-/* pl */ { IDMES_INVALID_CART_PL, "Nieprawid³owy kartrid¿" },
+/* nl */ { IDMES_INVALID_CART_NL, "Ongeldig cartridge bestand" },
+/* pl */ { IDMES_INVALID_CART_PL, "Nieprawid³owy obraz kartrid¿a" },
 /* ru */ { IDMES_INVALID_CART_RU, "" },  /* fuzzy */
-/* sv */ { IDMES_INVALID_CART_SV, "Ogiltig insticksmodul" },
-/* tr */ { IDMES_INVALID_CART_TR, "Geçersiz kartuþ" },
+/* sv */ { IDMES_INVALID_CART_SV, "Ogiltig insticksmodulfil" },
+/* tr */ { IDMES_INVALID_CART_TR, "Geçersiz kartuþ imajý" },
 
 /* en */ { IDMES_BAD_CART_CONFIG_IN_UI,    "Bad cartridge config in UI!" },
 /* da */ { IDMES_BAD_CART_CONFIG_IN_UI_DA, "Ugyldig cartridgekonfiguration i brugergrænseflade!" },
@@ -4628,18 +4628,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_C64DTV_SETTINGS_SV, "C64DTV-inställningar" },
 /* tr */ { IDS_C64DTV_SETTINGS_TR, "C64DTV Ayarlarý" },
 
-/* en */ { IDS_MODEL_LINE,    "model line" },
-/* da */ { IDS_MODEL_LINE_DA, "modeltype" },
+/* en */ { IDS_MODEL_LINE,    "Model line" },
+/* da */ { IDS_MODEL_LINE_DA, "Modelltyp" },
 /* de */ { IDS_MODEL_LINE_DE, "Modell Linie" },
 /* fr */ { IDS_MODEL_LINE_FR, "Ligne du modèle" },
-/* hu */ { IDS_MODEL_LINE_HU, "modell sor" },
-/* it */ { IDS_MODEL_LINE_IT, "impostazioni del modello" },
+/* hu */ { IDS_MODEL_LINE_HU, "" },  /* fuzzy */
+/* it */ { IDS_MODEL_LINE_IT, "Linea" },
 /* ko */ { IDS_MODEL_LINE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MODEL_LINE_NL, "modellijn" },
+/* nl */ { IDS_MODEL_LINE_NL, "Model lijn" },
 /* pl */ { IDS_MODEL_LINE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_MODEL_LINE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_MODEL_LINE_SV, "modelltyp" },
-/* tr */ { IDS_MODEL_LINE_TR, "model hattý" },
+/* sv */ { IDS_MODEL_LINE_SV, "Modelltyp" },
+/* tr */ { IDS_MODEL_LINE_TR, "Model hattý" },
 
 /* en */ { IDS_RAM_SIZE,    "RAM Size" },
 /* da */ { IDS_RAM_SIZE_DA, "RAM-størrelse" },
@@ -8763,11 +8763,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MOUSE_TYPE_SV, "Mustyp" },
 /* tr */ { IDS_MOUSE_TYPE_TR, "Mouse tipi" },
 
-/* en */ { IDS_MOUSE_SETTINGS,    "Mouse Settings" },
+/* en */ { IDS_MOUSE_SETTINGS,    "Mouse settings" },
 /* da */ { IDS_MOUSE_SETTINGS_DA, "Musseindstillinger" },
 /* de */ { IDS_MOUSE_SETTINGS_DE, "Maus Einstellungen" },
-/* fr */ { IDS_MOUSE_SETTINGS_FR, "Paramètres de souris" },
-/* hu */ { IDS_MOUSE_SETTINGS_HU, "Egér beállítások" },
+/* fr */ { IDS_MOUSE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MOUSE_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_MOUSE_SETTINGS_IT, "Impostazioni mouse" },
 /* ko */ { IDS_MOUSE_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_MOUSE_SETTINGS_NL, "Muis instellingen" },

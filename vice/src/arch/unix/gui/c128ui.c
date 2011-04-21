@@ -243,7 +243,7 @@ UI_CALLBACK(set_function_rom_name)
 static ui_menu_entry_t functionrom_submenu[] = {
     { N_("Enable the internal Function ROM"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_InternalFunctionROM, NULL, NULL },
-    { N_("Internal Function ROM name"), UI_MENU_TYPE_DOTS,
+    { N_("Internal Function ROM file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"InternalFunctionName", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },

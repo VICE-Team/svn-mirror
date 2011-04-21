@@ -480,10 +480,10 @@ static ui_menu_entry_t set_event_start_mode_submenu[] = {
 };
 
 ui_menu_entry_t ui_snapshot_commands_submenu[] = {
-    { N_("Load snapshot"), UI_MENU_TYPE_DOTS,
+    { N_("Load snapshot image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)load_snapshot, NULL, NULL,
       KEYSYM_l, UI_HOTMOD_META },
-    { N_("Save snapshot"), UI_MENU_TYPE_DOTS,
+    { N_("Save snapshot image"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_snapshot, NULL, NULL,
       KEYSYM_s, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },

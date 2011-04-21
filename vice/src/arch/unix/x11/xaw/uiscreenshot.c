@@ -149,6 +149,7 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
 
     char *button_title;
     char *filename = util_concat(_("File name"), ":", NULL);
+    char *image_format = util_concat(_("Image Format"), ":", NULL);
 
     if (screenshot_dialog != NULL) {
         return;
@@ -214,8 +215,9 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
                                            XtNleft, XawChainLeft,
                                            XtNright, XawChainRight,
                                            XtNheight, 20,
-                                           XtNlabel, _("Image format:"),
+                                           XtNlabel, image_format,
                                            NULL);
+    lib_free(image_format);
 
     num_buttons = gfxoutput_num_drivers();
     driver_buttons = lib_malloc(sizeof(Widget) * num_buttons);

@@ -82,6 +82,7 @@
 #include "videoarch.h"
 #include "viewport.h"
 #include "x11ui.h"
+
 #ifdef HAVE_XVIDEO
 #include "renderxv.h"
 #endif

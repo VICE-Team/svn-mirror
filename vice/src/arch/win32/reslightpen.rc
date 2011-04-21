@@ -27,7 +27,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
+    IDS_LIGHTPEN_CAPTION "Lightpen settings"
     IDS_LIGHTPEN_ENABLE  "Enable lightpen emulation"
     IDS_LIGHTPEN_TYPE    "Lightpen type"
 END
@@ -60,7 +60,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
+    IDS_LIGHTPEN_CAPTION "Lightpen settings"
     IDS_LIGHTPEN_ENABLE  "Enable lightpen emulation"
     IDS_LIGHTPEN_TYPE    "Lightpen type"
 END
@@ -74,7 +74,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "fényceruza beállításai..."
+    IDS_LIGHTPEN_CAPTION "Lightpen settings"
     IDS_LIGHTPEN_ENABLE  "Fényceruza emuláció engedélyezése"
     IDS_LIGHTPEN_TYPE    "Fényceruza típusa"
 END
@@ -102,7 +102,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
+    IDS_LIGHTPEN_CAPTION "Lightpen settings"
     IDS_LIGHTPEN_ENABLE  "Enable lightpen emulation"
     IDS_LIGHTPEN_TYPE    "Lightpen type"
 END
@@ -116,7 +116,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lichtpen instellingen"
+    IDS_LIGHTPEN_CAPTION "Lichtpen instellingen"
     IDS_LIGHTPEN_ENABLE  "Activeer de lichtpen emulatie"
     IDS_LIGHTPEN_TYPE    "Lichtpen model"
 END
@@ -130,7 +130,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
+    IDS_LIGHTPEN_CAPTION "Lightpen settings"
     IDS_LIGHTPEN_ENABLE  "Enable lightpen emulation"
     IDS_LIGHTPEN_TYPE    "Lightpen type"
 END
@@ -147,7 +147,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "lightpen Settings"
+    IDS_LIGHTPEN_CAPTION "Lightpen settings"
     IDS_LIGHTPEN_ENABLE  "Enable lightpen emulation"
     IDS_LIGHTPEN_TYPE    "Lightpen type"
 END
@@ -175,7 +175,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "Iþýklý Kalem Ayarlarý"
+    IDS_LIGHTPEN_CAPTION "Iþýklý Kalem ayarlarý"
     IDS_LIGHTPEN_ENABLE  "Iþýklý Kalem emülasyonunu aktif et"
     IDS_LIGHTPEN_TYPE    "Iþýklý Kalem tipi"
 END

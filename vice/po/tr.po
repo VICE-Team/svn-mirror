@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-20 15:16-0700\n"
+"POT-Creation-Date: 2011-04-21 07:35-0700\n"
 "PO-Revision-Date: 2011-02-16 20:45+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -33,10 +33,12 @@ msgid "Set device for extra joystick port 2"
 msgstr "Aygýtý 2. ekstra joystick portuna ayarla"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
+#: src/arch/unix/gui/uiautostart.c:46 src/arch/unix/gui/uitfe.c:44
 #: src/arch/unix/macosx/mididrv.c:120 src/arch/unix/macosx/mididrv.c:125
-#: src/arch/unix/macosx/mididrv.c:130 src/translate_text.c.po.c:3018
-msgid "name"
-msgstr "isim"
+#: src/arch/unix/macosx/mididrv.c:130 src/arch/win32/res.rc.po.c:1240
+#: src/arch/amigaos/intl_text.c.po.c:4165 src/translate_text.c.po.c:3018
+msgid "Name"
+msgstr "Ýsim"
 
 #: src/arch/unix/mididrv.c:669 src/arch/win32/res.rc.po.c:1110
 msgid "Specify MIDI-In device"
@@ -137,9 +139,9 @@ msgstr ""
 msgid "Enable the internal Function ROM"
 msgstr "Dahili Function ROM'u aktif et"
 
-#: src/arch/unix/gui/c128ui.c:246
-msgid "Internal Function ROM name"
-msgstr "Dahili Function ROM ismi"
+#: src/arch/unix/gui/c128ui.c:246 src/arch/amigaos/intl_text.c.po.c:8365
+msgid "Internal Function ROM file"
+msgstr "Dahili Function ROM dosyasý"
 
 #: src/arch/unix/gui/c128ui.c:250 src/arch/win32/resc128.rc.po.c:691
 #: src/translate_text.c.po.c:3598
@@ -461,7 +463,7 @@ msgstr "Seçenekler"
 #: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
 #: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:395
 #: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:400
-#: src/arch/unix/x11/gnome/uinetplay.c:66 src/arch/win32/res.rc.po.c:1236
+#: src/arch/unix/x11/gnome/uinetplay.c:68 src/arch/win32/res.rc.po.c:1236
 #: src/arch/win32/res.rc.po.c:1312 src/arch/win32/resc128.rc.po.c:220
 #: src/arch/win32/resc64.rc.po.c:203 src/arch/win32/resc64dtv.rc.po.c:176
 #: src/arch/win32/rescbm2.rc.po.c:177 src/arch/win32/respet.rc.po.c:177
@@ -688,7 +690,7 @@ msgstr "CRTC ayarlarý"
 #: src/arch/unix/gui/uiplus256k.c:43 src/arch/unix/gui/uiplus60k.c:52
 #: src/arch/unix/gui/uips2mouse.c:40 src/arch/unix/gui/uiramcart.c:56
 #: src/arch/unix/gui/uireu.c:67 src/arch/unix/gui/uisoundexpander.c:48
-#: src/arch/unix/gui/uitfe.c:49 src/arch/unix/gui/uitpi.c:49
+#: src/arch/unix/gui/uitfe.c:54 src/arch/unix/gui/uitpi.c:49
 #: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:146
 #: src/arch/amigaos/intl_text.c.po.c:785
 msgid "Enable"
@@ -1010,55 +1012,52 @@ msgstr "Akýllý disk/teyp yerleþtir"
 msgid "Autostart settings"
 msgstr "Otomatik baþlatma ayarlarý"
 
-#: src/arch/unix/gui/uiautostart.c:44
+#: src/arch/unix/gui/uiautostart.c:48
 msgid "Disk image for PRG autostart"
 msgstr "PRG otomatik baþlatma için disk imajý"
 
-#: src/arch/unix/gui/uiautostart.c:44 src/arch/unix/gui/uitfe.c:45
-msgid "Name:"
-msgstr "Ýsim:"
-
-#: src/arch/unix/gui/uiautostart.c:48 src/arch/win32/resautostart.rc.po.c:48
+#: src/arch/unix/gui/uiautostart.c:53 src/arch/win32/resautostart.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:8820
 msgid "Virtual FS"
 msgstr "Sanal FS"
 
-#: src/arch/unix/gui/uiautostart.c:50 src/arch/win32/resautostart.rc.po.c:49
+#: src/arch/unix/gui/uiautostart.c:55 src/arch/win32/resautostart.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:8833
 msgid "Inject to RAM"
 msgstr "RAM'e enjekte et"
 
-#: src/arch/unix/gui/uiautostart.c:52 src/arch/win32/res.rc.po.c:1119
+#: src/arch/unix/gui/uiautostart.c:57 src/arch/win32/res.rc.po.c:1119
 #: src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:8846
 msgid "Disk image"
 msgstr "Disk imajý"
 
-#: src/arch/unix/gui/uiautostart.c:58 src/arch/amigaos/intl_text.c.po.c:1630
-msgid "Handle TDE on autostart"
-msgstr "Baþlangýçta Gerçek Sürücü Emülasyonu'nu denetle"
+#: src/arch/unix/gui/uiautostart.c:63 src/arch/win32/res.rc.po.c:1337
+#: src/arch/amigaos/intl_text.c.po.c:1630 src/translate_text.c.po.c:2874
+msgid "Handle True Drive Emulation on autostart"
+msgstr "Otomatik baþlatmada Gerçek Sürücü Emülasyonu'nu denetle"
 
-#: src/arch/unix/gui/uiautostart.c:60 src/arch/win32/resautostart.rc.po.c:42
+#: src/arch/unix/gui/uiautostart.c:65 src/arch/win32/resautostart.rc.po.c:42
 #: src/arch/amigaos/intl_text.c.po.c:8872
 msgid "Autostart warp"
 msgstr "Warp modunda otomatik baþlat"
 
-#: src/arch/unix/gui/uiautostart.c:62 src/arch/win32/resautostart.rc.po.c:43
+#: src/arch/unix/gui/uiautostart.c:67 src/arch/win32/resautostart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:8885
 msgid "Use ':' with RUN"
 msgstr "ÇALIÞTIR ile ':' kullan"
 
-#: src/arch/unix/gui/uiautostart.c:64 src/arch/win32/resautostart.rc.po.c:44
+#: src/arch/unix/gui/uiautostart.c:69 src/arch/win32/resautostart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:8911
 msgid "Load to BASIC start"
 msgstr "BASIC baþlangýcýna yükle"
 
-#: src/arch/unix/gui/uiautostart.c:66 src/arch/win32/resautostart.rc.po.c:45
+#: src/arch/unix/gui/uiautostart.c:71 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:8898
 msgid "PRG autostart mode"
 msgstr "PRG otomatik baþlatma modu"
 
-#: src/arch/unix/gui/uiautostart.c:68 src/arch/win32/resautostart.rc.po.c:46
+#: src/arch/unix/gui/uiautostart.c:73 src/arch/win32/resautostart.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:8924
 msgid "PRG autostart disk image"
 msgstr "PRG otomatik baþlatma disk imajý"
@@ -1243,8 +1242,9 @@ msgstr "Tarayýcý komutu çok uzun."
 msgid "Cannot run HTML browser."
 msgstr "HTML tarayýcý çalýþtýrýlamadý."
 
-#: src/arch/unix/gui/uicommands.c:265 src/arch/win32/res.rc.po.c:980
-#: src/arch/win32/res.rc.po.c:1383 src/arch/amigaos/intl_text.c.po.c:954
+#: src/arch/unix/gui/uicommands.c:265 src/arch/unix/gui/uicommands.c:483
+#: src/arch/win32/res.rc.po.c:980 src/arch/win32/res.rc.po.c:1383
+#: src/arch/amigaos/intl_text.c.po.c:954
 #: src/arch/amigaos/intl_text.c.po.c:7637
 msgid "Load snapshot image"
 msgstr "Anlýk görüntü imajýný yükle"
@@ -1315,15 +1315,11 @@ msgstr "Reset ile baþlat"
 msgid "Overwrite running playback"
 msgstr "Çalmakta olanýn üzerine yaz"
 
-#: src/arch/unix/gui/uicommands.c:483
-msgid "Load snapshot"
-msgstr "Anlýk görüntü yükle"
-
-#: src/arch/unix/gui/uicommands.c:486 src/arch/unix/x11/gnome/uisnapshot.c:46
-#: src/arch/unix/x11/xaw/uisnapshot.c:85
-#: src/arch/unix/x11/xaw/uisnapshot.c:296
-msgid "Save snapshot"
-msgstr "Anlýk görüntü kaydet"
+#: src/arch/unix/gui/uicommands.c:486 src/arch/win32/res.rc.po.c:978
+#: src/arch/win32/res.rc.po.c:1384 src/arch/amigaos/intl_text.c.po.c:967
+#: src/arch/amigaos/intl_text.c.po.c:7624
+msgid "Save snapshot image"
+msgstr "Anlýk görüntü imajýný kaydet"
 
 #: src/arch/unix/gui/uicommands.c:490
 msgid "Quickload snapshot"
@@ -1439,146 +1435,146 @@ msgstr "Duraklat"
 msgid "Exit emulator"
 msgstr "Emülatörden çýk"
 
-#: src/arch/unix/gui/uicrtc.c:56 src/arch/unix/gui/uited.c:55
-#: src/arch/unix/gui/uivdc.c:54 src/arch/unix/gui/uivic.c:55
-#: src/arch/unix/gui/uivicii.c:59
+#: src/arch/unix/gui/uicrtc.c:58 src/arch/unix/gui/uited.c:57
+#: src/arch/unix/gui/uivdc.c:56 src/arch/unix/gui/uivic.c:57
+#: src/arch/unix/gui/uivicii.c:60
 msgid "Internal"
 msgstr "Ýç"
 
-#: src/arch/unix/gui/uicrtc.c:59
+#: src/arch/unix/gui/uicrtc.c:61
 msgid "Default (Green)"
 msgstr "Varsayýlan (Yeþil)"
 
-#: src/arch/unix/gui/uicrtc.c:61
+#: src/arch/unix/gui/uicrtc.c:63
 msgid "Amber"
 msgstr "Kehribar"
 
-#: src/arch/unix/gui/uicrtc.c:63
+#: src/arch/unix/gui/uicrtc.c:65
 msgid "White"
 msgstr "Beyaz"
 
-#: src/arch/unix/gui/uicrtc.c:66 src/arch/unix/gui/uited.c:61
-#: src/arch/unix/gui/uivdc.c:62 src/arch/unix/gui/uivic.c:61
-#: src/arch/unix/gui/uivicii.c:79
+#: src/arch/unix/gui/uicrtc.c:68 src/arch/unix/gui/uited.c:63
+#: src/arch/unix/gui/uivdc.c:64 src/arch/unix/gui/uivic.c:63
+#: src/arch/unix/gui/uivicii.c:80
 msgid "Load custom"
 msgstr "Özel yükle"
 
-#: src/arch/unix/gui/uicrtc.c:77 src/arch/unix/gui/uited.c:72
-#: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:72
-#: src/arch/unix/gui/uivicii.c:102
+#: src/arch/unix/gui/uicrtc.c:79 src/arch/unix/gui/uited.c:74
+#: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:74
+#: src/arch/unix/gui/uivicii.c:103
 msgid "Unfiltered"
 msgstr "Filtresiz"
 
-#: src/arch/unix/gui/uicrtc.c:79 src/arch/unix/gui/uipalemu.c:120
-#: src/arch/unix/gui/uited.c:74 src/arch/unix/gui/uivdc.c:75
-#: src/arch/unix/gui/uivic.c:74 src/arch/unix/gui/uivicii.c:104
+#: src/arch/unix/gui/uicrtc.c:81 src/arch/unix/gui/uipalemu.c:120
+#: src/arch/unix/gui/uited.c:76 src/arch/unix/gui/uivdc.c:77
+#: src/arch/unix/gui/uivic.c:76 src/arch/unix/gui/uivicii.c:105
 #: src/arch/win32/res.rc.po.c:985 src/arch/amigaos/intl_text.c.po.c:7728
 msgid "CRT emulation"
 msgstr "CRT emülasyonu"
 
-#: src/arch/unix/gui/uicrtc.c:82 src/arch/unix/gui/uited.c:76
-#: src/arch/unix/gui/uivdc.c:78 src/arch/unix/gui/uivic.c:76
-#: src/arch/unix/gui/uivicii.c:106 src/arch/win32/res.rc.po.c:987
+#: src/arch/unix/gui/uicrtc.c:84 src/arch/unix/gui/uited.c:78
+#: src/arch/unix/gui/uivdc.c:80 src/arch/unix/gui/uivic.c:78
+#: src/arch/unix/gui/uivicii.c:107 src/arch/win32/res.rc.po.c:987
 #: src/arch/amigaos/intl_text.c.po.c:7741
 msgid "Scale2x"
 msgstr "2x Geniþlet"
 
-#: src/arch/unix/gui/uicrtc.c:103 src/arch/unix/gui/uisettings.c:120
-#: src/arch/unix/gui/uited.c:106 src/arch/unix/gui/uivdc.c:125
-#: src/arch/unix/gui/uivic.c:102 src/arch/unix/gui/uivicii.c:127
+#: src/arch/unix/gui/uicrtc.c:105 src/arch/unix/gui/uisettings.c:120
+#: src/arch/unix/gui/uited.c:108 src/arch/unix/gui/uivdc.c:127
+#: src/arch/unix/gui/uivic.c:104 src/arch/unix/gui/uivicii.c:128
 msgid "Enter refresh rate"
 msgstr "Yenileme hýzýný girin"
 
-#: src/arch/unix/gui/uicrtc.c:110 src/arch/unix/gui/uited.c:113
-#: src/arch/unix/gui/uivdc.c:132 src/arch/unix/gui/uivic.c:108
-#: src/arch/unix/gui/uivicii.c:134
+#: src/arch/unix/gui/uicrtc.c:112 src/arch/unix/gui/uited.c:115
+#: src/arch/unix/gui/uivdc.c:134 src/arch/unix/gui/uivic.c:110
+#: src/arch/unix/gui/uivicii.c:135
 msgid "Refreshrate: "
 msgstr "Yenileme hýzý: "
 
-#: src/arch/unix/gui/uicrtc.c:138 src/arch/unix/gui/uited.c:129
-#: src/arch/unix/gui/uivdc.c:156 src/arch/unix/gui/uivic.c:128
-#: src/arch/unix/gui/uivicii.c:164 src/arch/win32/res.rc.po.c:1334
+#: src/arch/unix/gui/uicrtc.c:140 src/arch/unix/gui/uited.c:131
+#: src/arch/unix/gui/uivdc.c:158 src/arch/unix/gui/uivic.c:130
+#: src/arch/unix/gui/uivicii.c:165 src/arch/win32/res.rc.po.c:1334
 #: src/arch/amigaos/intl_text.c.po.c:1448
 msgid "Double size"
 msgstr "Çift boyut"
 
-#: src/arch/unix/gui/uicrtc.c:140 src/arch/unix/gui/uited.c:131
-#: src/arch/unix/gui/uivdc.c:158 src/arch/unix/gui/uivic.c:130
-#: src/arch/unix/gui/uivicii.c:166 src/arch/win32/res.rc.po.c:1335
+#: src/arch/unix/gui/uicrtc.c:142 src/arch/unix/gui/uited.c:133
+#: src/arch/unix/gui/uivdc.c:160 src/arch/unix/gui/uivic.c:132
+#: src/arch/unix/gui/uivicii.c:167 src/arch/win32/res.rc.po.c:1335
 #: src/arch/amigaos/intl_text.c.po.c:1461
 msgid "Double scan"
 msgstr "Çift tarama"
 
-#: src/arch/unix/gui/uicrtc.c:142 src/arch/unix/gui/uited.c:133
-#: src/arch/unix/gui/uivdc.c:160 src/arch/unix/gui/uivic.c:132
-#: src/arch/unix/gui/uivicii.c:168 src/arch/win32/res.rc.po.c:1338
+#: src/arch/unix/gui/uicrtc.c:144 src/arch/unix/gui/uited.c:135
+#: src/arch/unix/gui/uivdc.c:162 src/arch/unix/gui/uivic.c:134
+#: src/arch/unix/gui/uivicii.c:169 src/arch/win32/res.rc.po.c:1338
 #: src/arch/amigaos/intl_text.c.po.c:1435
 msgid "Video cache"
 msgstr "Görüntü önbelleði"
 
-#: src/arch/unix/gui/uicrtc.c:145 src/arch/unix/gui/uited.c:136
-#: src/arch/unix/gui/uivdc.c:163 src/arch/unix/gui/uivic.c:135
-#: src/arch/unix/gui/uivicii.c:173 src/arch/win32/res.rc.po.c:984
+#: src/arch/unix/gui/uicrtc.c:147 src/arch/unix/gui/uited.c:138
+#: src/arch/unix/gui/uivdc.c:165 src/arch/unix/gui/uivic.c:137
+#: src/arch/unix/gui/uivicii.c:174 src/arch/win32/res.rc.po.c:984
 msgid "Colors"
 msgstr "Renkler"
 
-#: src/arch/unix/gui/uicrtc.c:148 src/arch/unix/gui/uited.c:139
-#: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:138
-#: src/arch/unix/gui/uivicii.c:176
+#: src/arch/unix/gui/uicrtc.c:150 src/arch/unix/gui/uited.c:141
+#: src/arch/unix/gui/uivdc.c:168 src/arch/unix/gui/uivic.c:140
+#: src/arch/unix/gui/uivicii.c:177
 msgid "Renderer"
 msgstr "Þekillendirici"
 
-#: src/arch/unix/gui/uicrtc.c:151 src/arch/unix/gui/uited.c:142
-#: src/arch/unix/gui/uivdc.c:169 src/arch/unix/gui/uivic.c:141
-#: src/arch/unix/gui/uivicii.c:179 src/arch/unix/x11/gnome/uipalcontrol.c:98
+#: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:144
+#: src/arch/unix/gui/uivdc.c:171 src/arch/unix/gui/uivic.c:143
+#: src/arch/unix/gui/uivicii.c:180 src/arch/unix/x11/gnome/uipalcontrol.c:98
 msgid "CRT emulation settings"
 msgstr "CRT emülasyonu ayarlarý"
 
-#: src/arch/unix/gui/uicrtc.c:156 src/arch/unix/gui/uited.c:147
-#: src/arch/unix/gui/uivdc.c:174 src/arch/unix/gui/uivic.c:146
-#: src/arch/unix/gui/uivicii.c:192
+#: src/arch/unix/gui/uicrtc.c:158 src/arch/unix/gui/uited.c:149
+#: src/arch/unix/gui/uivdc.c:176 src/arch/unix/gui/uivic.c:148
+#: src/arch/unix/gui/uivicii.c:193
 msgid "Hardware scaling"
 msgstr "Donaným destekli ölçeklendirme"
 
-#: src/arch/unix/gui/uicrtc.c:158 src/arch/unix/gui/uited.c:149
-#: src/arch/unix/gui/uivdc.c:176 src/arch/unix/gui/uivic.c:148
-#: src/arch/unix/gui/uivicii.c:194 src/arch/win32/res.rc.po.c:1170
+#: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
+#: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
+#: src/arch/unix/gui/uivicii.c:195 src/arch/win32/res.rc.po.c:1170
 msgid "Keep aspect ratio"
 msgstr "En boy oraný koru"
 
-#: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
-#: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
-#: src/arch/unix/gui/uivicii.c:196 src/arch/win32/res.rc.po.c:1171
+#: src/arch/unix/gui/uicrtc.c:162 src/arch/unix/gui/uited.c:153
+#: src/arch/unix/gui/uivdc.c:180 src/arch/unix/gui/uivic.c:152
+#: src/arch/unix/gui/uivicii.c:197 src/arch/win32/res.rc.po.c:1171
 msgid "True aspect ratio"
 msgstr "Gerçek en boy oraný"
 
-#: src/arch/unix/gui/uicrtc.c:163 src/arch/unix/gui/uited.c:154
-#: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:153
-#: src/arch/unix/gui/uivicii.c:199
+#: src/arch/unix/gui/uicrtc.c:165 src/arch/unix/gui/uited.c:156
+#: src/arch/unix/gui/uivdc.c:183 src/arch/unix/gui/uivic.c:155
+#: src/arch/unix/gui/uivicii.c:200
 msgid "Set custom aspect ratio"
 msgstr "Özel en boy oraný ayarla"
 
-#: src/arch/unix/gui/uicrtc.c:170 src/arch/unix/gui/uited.c:161
-#: src/arch/unix/gui/uivdc.c:188 src/arch/unix/gui/uivic.c:160
-#: src/arch/unix/gui/uivicii.c:206
+#: src/arch/unix/gui/uicrtc.c:172 src/arch/unix/gui/uited.c:163
+#: src/arch/unix/gui/uivdc.c:190 src/arch/unix/gui/uivic.c:162
+#: src/arch/unix/gui/uivicii.c:207
 msgid "OpenGL Rastersynchronization"
 msgstr "OpenGL Raster Senkronizasyonu"
 
-#: src/arch/unix/gui/uicrtc.c:172 src/arch/unix/gui/uited.c:163
-#: src/arch/unix/gui/uivdc.c:190 src/arch/unix/gui/uivic.c:162
-#: src/arch/unix/gui/uivicii.c:208
+#: src/arch/unix/gui/uicrtc.c:174 src/arch/unix/gui/uited.c:165
+#: src/arch/unix/gui/uivdc.c:192 src/arch/unix/gui/uivic.c:164
+#: src/arch/unix/gui/uivicii.c:209
 msgid "Desktop Refreshrate"
 msgstr "Masaüstü yenileme hýzý"
 
-#: src/arch/unix/gui/uicrtc.c:177 src/arch/unix/gui/uited.c:168
-#: src/arch/unix/gui/uivdc.c:195 src/arch/unix/gui/uivic.c:167
-#: src/arch/unix/gui/uivicii.c:213
+#: src/arch/unix/gui/uicrtc.c:179 src/arch/unix/gui/uited.c:170
+#: src/arch/unix/gui/uivdc.c:197 src/arch/unix/gui/uivic.c:169
+#: src/arch/unix/gui/uivicii.c:214
 msgid "Fullscreen settings"
 msgstr "Tam ekran ayarlarý"
 
-#: src/arch/unix/gui/uicrtc.c:181 src/arch/unix/gui/uited.c:172
-#: src/arch/unix/gui/uivdc.c:199 src/arch/unix/gui/uivic.c:170
-#: src/arch/unix/gui/uivicii.c:217
+#: src/arch/unix/gui/uicrtc.c:183 src/arch/unix/gui/uited.c:174
+#: src/arch/unix/gui/uivdc.c:201 src/arch/unix/gui/uivic.c:172
+#: src/arch/unix/gui/uivicii.c:218
 msgid "Use XSync()"
 msgstr "XSync() kullan"
 
@@ -1987,7 +1983,7 @@ msgstr "Yükle "
 
 #: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:171
 #: src/arch/unix/x11/xaw/uiedisk.c:403
-#: src/arch/unix/x11/xaw/uiscreenshot.c:257
+#: src/arch/unix/x11/xaw/uiscreenshot.c:259
 #: src/arch/unix/x11/xaw/uisnapshot.c:277 src/arch/win32/res.rc.po.c:1245
 #: src/arch/win32/res.rc.po.c:1474 src/arch/amigaos/intl_text.c.po.c:3489
 msgid "Save"
@@ -2037,11 +2033,13 @@ msgid "Attach previous image (Unit 8)"
 msgstr "Önceki imajý yerleþtir (Birim 8)"
 
 #: src/arch/unix/gui/uifliplist.c:127 src/arch/win32/res.rc.po.c:936
+#: src/arch/win32/res.rc.po.c:1360 src/arch/amigaos/intl_text.c.po.c:187
 #: src/arch/amigaos/intl_text.c.po.c:7494
 msgid "Load flip list file"
 msgstr "Sýralama listesi dosyasýný yükle"
 
 #: src/arch/unix/gui/uifliplist.c:129 src/arch/win32/res.rc.po.c:938
+#: src/arch/win32/res.rc.po.c:1361 src/arch/amigaos/intl_text.c.po.c:200
 #: src/arch/amigaos/intl_text.c.po.c:7520
 msgid "Save flip list file"
 msgstr "Sýralama listesi dosyasýný kaydet"
@@ -2114,9 +2112,10 @@ msgstr "Boyut"
 msgid "GEO-RAM file"
 msgstr "GEO-RAM dosyasý"
 
-#: src/arch/unix/gui/uiide64.c:42
-msgid "IDE64 image"
-msgstr "IDE64 imajý"
+#: src/arch/unix/gui/uiide64.c:42 src/arch/win32/res.rc.po.c:1352
+#: src/arch/amigaos/intl_text.c.po.c:733
+msgid "IDE64 interface image"
+msgstr "IDE64 arabirim imajý"
 
 #: src/arch/unix/gui/uiide64.c:74
 msgid "Enter number of cylinders"
@@ -2154,7 +2153,7 @@ msgid "Version 4"
 msgstr "Versiyon 4"
 
 #: src/arch/unix/gui/uiide64.c:174 src/arch/unix/gui/uimmc64.c:77
-#: src/arch/unix/gui/uivdc.c:150
+#: src/arch/unix/gui/uivdc.c:152
 msgid "Revision"
 msgstr "Revizyon"
 
@@ -2219,15 +2218,15 @@ msgstr "Numpad"
 
 #: src/arch/unix/gui/uijoystick2.c:159 src/arch/unix/gui/uijoystick2.c:211
 #: src/arch/unix/gui/uijoystick2.c:263 src/arch/unix/gui/uijoystick2.c:315
-#: src/arch/unix/gui/vic20ui.c:385
-msgid "Keyset 1"
-msgstr "Tuþ Seti 1"
+#: src/arch/unix/gui/vic20ui.c:385 src/arch/win32/res.rc.po.c:1042
+msgid "Keyset A"
+msgstr "Tuþ Seti A"
 
 #: src/arch/unix/gui/uijoystick2.c:162 src/arch/unix/gui/uijoystick2.c:214
 #: src/arch/unix/gui/uijoystick2.c:266 src/arch/unix/gui/uijoystick2.c:318
-#: src/arch/unix/gui/vic20ui.c:388
-msgid "Keyset 2"
-msgstr "Tuþ Seti 2"
+#: src/arch/unix/gui/vic20ui.c:388 src/arch/win32/res.rc.po.c:1043
+msgid "Keyset B"
+msgstr "Tuþ Seti B"
 
 #: src/arch/unix/gui/uijoystick2.c:166 src/arch/unix/gui/uijoystick2.c:218
 #: src/arch/unix/gui/uijoystick2.c:270 src/arch/unix/gui/uijoystick2.c:322
@@ -2604,7 +2603,7 @@ msgstr "Baðlanýlacak sunucu"
 msgid "Connect to server"
 msgstr "Sunucuya baðlan"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:318
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:320
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Baðlantýyý kes"
@@ -2763,9 +2762,9 @@ msgstr "Kaydederken P00 dosyalarýný oluþtur"
 #: src/arch/unix/gui/uiperipheralieee.c:71
 #: src/arch/unix/gui/uiperipheralieee.c:88
 #: src/arch/unix/gui/uiperipheralieee.c:105
-#: src/arch/unix/gui/uiperipheralieee.c:122
-msgid "Hide raw CBM files"
-msgstr "Düz CBM dosyalarýný gizle"
+#: src/arch/unix/gui/uiperipheralieee.c:122 src/arch/win32/res.rc.po.c:1130
+msgid "Hide non-P00 files"
+msgstr "P00 harici dosyalarý gizle"
 
 #: src/arch/unix/gui/uiperipheraliec.c:141
 #: src/arch/unix/gui/uiperipheraliec.c:154
@@ -3123,7 +3122,7 @@ msgstr "RS232'nin döküleceði dosya"
 msgid "No IRQ/NMI"
 msgstr "IRQ/NMI yok"
 
-#: src/arch/unix/gui/uirs232c64c128.c:53 src/arch/unix/gui/uivicii.c:87
+#: src/arch/unix/gui/uirs232c64c128.c:53 src/arch/unix/gui/uivicii.c:88
 #: src/arch/win32/res.rc.po.c:1375 src/arch/win32/resacia.rc.po.c:44
 #: src/arch/win32/resvicii.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:8677
 msgid "Normal"
@@ -3207,6 +3206,10 @@ msgid "Enter speed"
 msgstr "Hýzý girin"
 
 #: src/arch/unix/gui/uisettings.c:195 src/arch/unix/gui/uisettings.c:391
+#: src/arch/win32/res.rc.po.c:1309 src/arch/win32/resc128.rc.po.c:165
+#: src/arch/win32/resc64.rc.po.c:167 src/arch/win32/resc64dtv.rc.po.c:132
+#: src/arch/win32/rescbm2.rc.po.c:139 src/arch/win32/respet.rc.po.c:139
+#: src/arch/win32/resplus4.rc.po.c:151 src/arch/win32/resvic20.rc.po.c:161
 #: src/arch/amigaos/intl_text.c.po.c:1305
 msgid "Maximum speed"
 msgstr "Maksimum hýz"
@@ -3488,65 +3491,65 @@ msgstr "Ses ayarlarý"
 msgid "YM chip type"
 msgstr "YM çip tipi"
 
-#: src/arch/unix/gui/uited.c:58 src/arch/unix/gui/uivdc.c:57
-#: src/arch/unix/gui/uivic.c:58 src/arch/unix/gui/uivicii.c:62
+#: src/arch/unix/gui/uited.c:60 src/arch/unix/gui/uivdc.c:59
+#: src/arch/unix/gui/uivic.c:60 src/arch/unix/gui/uivicii.c:63
 msgid "Default"
 msgstr "Varsayýlan"
 
 #. FIXME: might actually make some sense to use the file browser on *nix systems which
 #. actually DO have /dev/eth0. linux doesn't however
 #. uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), UILIB_FILTER_ETH);
-#: src/arch/unix/gui/uitfe.c:45
+#: src/arch/unix/gui/uitfe.c:49
 msgid "Ethernet interface"
 msgstr "Ethernet arabirimi"
 
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
-#: src/arch/unix/gui/uitfe.c:52
+#: src/arch/unix/gui/uitfe.c:57
 msgid "RR-Net compatibility mode"
 msgstr "RR-Net uyumluluk modu"
 
-#: src/arch/unix/gui/uitfe.c:54 src/arch/win32/restfe.rc.po.c:38
+#: src/arch/unix/gui/uitfe.c:59 src/arch/win32/restfe.rc.po.c:38
 msgid "Interface"
 msgstr "Arabirim"
 
-#: src/arch/unix/gui/uitpi.c:43
-msgid "IEEE 488 Interface image"
+#: src/arch/unix/gui/uitpi.c:43 src/arch/amigaos/intl_text.c.po.c:707
+msgid "IEEE488 Interface image"
 msgstr "IEEE 488 Arabirimi imajý"
 
 #: src/arch/unix/gui/uiv364speech.c:43
 msgid "Speech ROM image"
 msgstr "Speech ROM imajý"
 
-#: src/arch/unix/gui/uivdc.c:59
+#: src/arch/unix/gui/uivdc.c:61
 msgid "Composite"
 msgstr "Kompozit"
 
-#: src/arch/unix/gui/uivdc.c:87 src/arch/win32/resc128.rc.po.c:194
+#: src/arch/unix/gui/uivdc.c:89 src/arch/win32/resc128.rc.po.c:194
 #: src/arch/amigaos/intl_text.c.po.c:1513
 msgid "Rev 0"
 msgstr "Rev 0"
 
-#: src/arch/unix/gui/uivdc.c:89 src/arch/win32/resc128.rc.po.c:195
+#: src/arch/unix/gui/uivdc.c:91 src/arch/win32/resc128.rc.po.c:195
 #: src/arch/amigaos/intl_text.c.po.c:1526
 msgid "Rev 1"
 msgstr "Rev 1"
 
-#: src/arch/unix/gui/uivdc.c:91 src/arch/win32/resc128.rc.po.c:196
+#: src/arch/unix/gui/uivdc.c:93 src/arch/win32/resc128.rc.po.c:196
 #: src/arch/amigaos/intl_text.c.po.c:1539
 msgid "Rev 2"
 msgstr "Rev 2"
 
-#: src/arch/unix/gui/uivdc.c:148 src/arch/win32/resc128.rc.po.c:695
+#: src/arch/unix/gui/uivdc.c:150 src/arch/win32/resc128.rc.po.c:695
 #: src/arch/amigaos/intl_text.c.po.c:1487
 msgid "64KB video memory"
 msgstr "64KB görüntü belleði"
 
-#: src/arch/unix/gui/uivicii.c:89 src/arch/win32/resvicii.rc.po.c:41
+#: src/arch/unix/gui/uivicii.c:90 src/arch/win32/resvicii.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:8690
 msgid "Full"
 msgstr "Tam"
 
-#: src/arch/unix/gui/uivicii.c:91 src/arch/win32/res.rc.po.c:92
+#: src/arch/unix/gui/uivicii.c:92 src/arch/win32/res.rc.po.c:92
 #: src/arch/win32/res.rc.po.c:1300 src/arch/win32/resc128.rc.po.c:102
 #: src/arch/win32/resc64.rc.po.c:102 src/arch/win32/resc64dtv.rc.po.c:69
 #: src/arch/win32/rescbm2.rc.po.c:76 src/arch/win32/respet.rc.po.c:76
@@ -3555,22 +3558,22 @@ msgstr "Tam"
 msgid "Debug"
 msgstr "Hata Ayýklama"
 
-#: src/arch/unix/gui/uivicii.c:171 src/arch/win32/resc64.rc.po.c:527
+#: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:527
 #: src/arch/amigaos/intl_text.c.po.c:6909
 msgid "New luminances"
 msgstr "Yeni parlaklýklar"
 
-#: src/arch/unix/gui/uivicii.c:183 src/arch/win32/resvicii.rc.po.c:39
+#: src/arch/unix/gui/uivicii.c:184 src/arch/win32/resvicii.rc.po.c:39
 #: src/arch/amigaos/intl_text.c.po.c:8664
 msgid "Border mode"
 msgstr "Çerçeve modu"
 
-#: src/arch/unix/gui/uivicii.c:186 src/arch/win32/resvicii.rc.po.c:44
+#: src/arch/unix/gui/uivicii.c:187 src/arch/win32/resvicii.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:6883
 msgid "Sprite-sprite collisions"
 msgstr "Yartýk-yaratýk çarpýþmalarý"
 
-#: src/arch/unix/gui/uivicii.c:188 src/arch/win32/resvicii.rc.po.c:45
+#: src/arch/unix/gui/uivicii.c:189 src/arch/win32/resvicii.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:6896
 msgid "Sprite-background collisions"
 msgstr "Yaratýk-arkaplan çarpýþmalarý"
@@ -3623,7 +3626,8 @@ msgstr "Blok 3 ($6000-$7FFF arasýnda 8K)"
 msgid "Block 5 (8K at $A000-$BFFF)"
 msgstr "Blok 5 ($A000-$BFFF arasýnda 8K)"
 
-#: src/arch/unix/gui/vic20ui.c:255 src/arch/win32/res.rc.po.c:932
+#: src/arch/unix/gui/vic20ui.c:255 src/arch/win32/res.rc.po.c:930
+#: src/arch/win32/res.rc.po.c:932 src/arch/amigaos/intl_text.c.po.c:3346
 #: src/arch/amigaos/intl_text.c.po.c:3372
 msgid "Invalid cartridge image"
 msgstr "Geçersiz kartuþ imajý"
@@ -3863,94 +3867,94 @@ msgstr "Kopyala"
 msgid "Paste"
 msgstr "Yapýþtýr"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:54 src/arch/win32/res.rc.po.c:1232
+#: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:1232
 #: src/arch/win32/respet.rc.po.c:556 src/arch/amigaos/intl_text.c.po.c:8196
 msgid "Keyboard"
 msgstr "Klavye"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:57 src/arch/win32/res.rc.po.c:1233
+#: src/arch/unix/x11/gnome/uinetplay.c:59 src/arch/win32/res.rc.po.c:1233
 msgid "Joystick 1"
 msgstr "Joystick 1"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:60 src/arch/win32/res.rc.po.c:1234
+#: src/arch/unix/x11/gnome/uinetplay.c:62 src/arch/win32/res.rc.po.c:1234
 msgid "Joystick 2"
 msgstr "Joystick 2"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:63 src/arch/win32/res.rc.po.c:1235
+#: src/arch/unix/x11/gnome/uinetplay.c:65 src/arch/win32/res.rc.po.c:1235
 msgid "Devices"
 msgstr "Aygýtlar"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:119 src/arch/win32/res.rc.po.c:1100
+#: src/arch/unix/x11/gnome/uinetplay.c:121 src/arch/win32/res.rc.po.c:1100
 #: src/arch/amigaos/intl_text.c.po.c:3424
 msgid "Invalid port number"
 msgstr "Geçersiz port numarasý"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:139 src/arch/win32/res.rc.po.c:1096
+#: src/arch/unix/x11/gnome/uinetplay.c:141 src/arch/win32/res.rc.po.c:1096
 #: src/arch/amigaos/intl_text.c.po.c:3593
 msgid "Idle"
 msgstr "Boþa vakit geçirme"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:144 src/arch/win32/res.rc.po.c:1097
+#: src/arch/unix/x11/gnome/uinetplay.c:146 src/arch/win32/res.rc.po.c:1097
 #: src/arch/amigaos/intl_text.c.po.c:3606
 msgid "Server listening"
 msgstr "Sunucu dinleniyor"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:149 src/arch/win32/res.rc.po.c:1098
+#: src/arch/unix/x11/gnome/uinetplay.c:151 src/arch/win32/res.rc.po.c:1098
 #: src/arch/amigaos/intl_text.c.po.c:3619
 msgid "Connected server"
 msgstr "Sunucuya baðlanýldý"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:154 src/arch/win32/res.rc.po.c:1099
+#: src/arch/unix/x11/gnome/uinetplay.c:156 src/arch/win32/res.rc.po.c:1099
 #: src/arch/amigaos/intl_text.c.po.c:3632
 msgid "Connected client"
 msgstr "Baðlý istemci"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:176
+#: src/arch/unix/x11/gnome/uinetplay.c:178
 msgid "Couldn't start netplay server."
 msgstr "Netplay sunucusu baþlatýlamadý."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:186
+#: src/arch/unix/x11/gnome/uinetplay.c:188
 msgid "Couldn't connect client."
 msgstr "Ýstemciye baðlanýlamadý."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:203
+#: src/arch/unix/x11/gnome/uinetplay.c:205
 msgid "unknown"
 msgstr "bilinmeyen"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:204 src/arch/win32/res.rc.po.c:1227
+#: src/arch/unix/x11/gnome/uinetplay.c:206 src/arch/win32/res.rc.po.c:1227
 #: src/arch/amigaos/intl_text.c.po.c:3567
 msgid "Connect to"
 msgstr "Baðlanýlan"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1223
+#: src/arch/unix/x11/gnome/uinetplay.c:207 src/arch/win32/res.rc.po.c:1223
 #: src/arch/amigaos/intl_text.c.po.c:3515
 msgid "Current mode"
 msgstr "Geçerli mod"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:207
-#: src/arch/unix/x11/gnome/uinetplay.c:209 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:209
+#: src/arch/unix/x11/gnome/uinetplay.c:211 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Netplay Ayarlarý"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:228
+#: src/arch/unix/x11/gnome/uinetplay.c:230
 #: src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start Server"
 msgstr "Sunucuyu Baþlat"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:234
+#: src/arch/unix/x11/gnome/uinetplay.c:236
 msgid "TCP port: "
 msgstr "TCP portu: "
 
-#: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:286 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Kontrol"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:289 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:291 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Sunucu"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:292 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:294 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Ýstemci"
 
@@ -3979,6 +3983,7 @@ msgid "Save Media File"
 msgstr "Ortam Dosyasý Kaydet"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:296
+#: src/arch/unix/x11/xaw/uiscreenshot.c:152
 msgid "Image Format"
 msgstr "Imaj Biçimi"
 
@@ -4017,6 +4022,12 @@ msgstr "Ekran görüntüsü `%s', `%s' sürücüsüyle yazýlamadý."
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "`%s' baþarýyla yazýldý"
+
+#: src/arch/unix/x11/gnome/uisnapshot.c:46
+#: src/arch/unix/x11/xaw/uisnapshot.c:85
+#: src/arch/unix/x11/xaw/uisnapshot.c:296
+msgid "Save snapshot"
+msgstr "Anlýk görüntü kaydet"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:51
 msgid "Snapshot options"
@@ -4242,14 +4253,14 @@ msgid "File name"
 msgstr "Dosya ismi"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
-#: src/arch/unix/x11/xaw/uiscreenshot.c:194
+#: src/arch/unix/x11/xaw/uiscreenshot.c:195
 #: src/arch/unix/x11/xaw/uisnapshot.c:167 src/arch/win32/res.rc.po.c:1109
 #: src/arch/win32/res.rc.po.c:1126 src/arch/amigaos/intl_text.c.po.c:3502
 msgid "Browse"
 msgstr "Göz at"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:177 src/arch/unix/x11/xaw/uiedisk.c:409
-#: src/arch/unix/x11/xaw/uiscreenshot.c:263
+#: src/arch/unix/x11/xaw/uiscreenshot.c:265
 #: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:676
 #: src/arch/win32/res.rc.po.c:1107 src/arch/amigaos/intl_text.c.po.c:3671
 msgid "Cancel"
@@ -4275,11 +4286,7 @@ msgstr "Disk biçimi:"
 msgid "Save screenshot file"
 msgstr "Ekran görüntüsü dosyasý kaydet"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:217
-msgid "Image format:"
-msgstr "Imaj biçimi:"
-
-#: src/arch/unix/x11/xaw/uiscreenshot.c:277
+#: src/arch/unix/x11/xaw/uiscreenshot.c:279
 msgid "Screen Snapshot"
 msgstr "Ekran Anlýk Görüntüsü"
 
@@ -4308,57 +4315,57 @@ msgstr "%d: Track %.1f"
 msgid "VICE Error!"
 msgstr "VICE Hatasý!"
 
-#: src/arch/unix/x11/xaw/x11video.c:190 src/arch/unix/x11/xaw/x11video.c:283
+#: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:284
 #, fuzzy
 msgid "Aspect ratio"
 msgstr "en boy oraný"
 
-#: src/arch/unix/x11/xaw/x11video.c:192
+#: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Custom aspect ratio"
 msgstr "Özel en boy oraný"
 
-#: src/arch/unix/x11/xaw/x11video.c:257
+#: src/arch/unix/x11/xaw/x11video.c:258
 msgid "Call `XSync()' after updating the emulation window"
 msgstr "Emülasyon penceresini güncelledikten sonra `XSync()'i çaðýr"
 
-#: src/arch/unix/x11/xaw/x11video.c:262
+#: src/arch/unix/x11/xaw/x11video.c:263
 msgid "Do not call `XSync()' after updating the emulation window"
 msgstr "Emülasyon penceresini güncelledikten sonra `XSync()'i çaðýrma"
 
-#: src/arch/unix/x11/xaw/x11video.c:267
+#: src/arch/unix/x11/xaw/x11video.c:268
 msgid "Use shared memory"
 msgstr "Ortak bellek kullan"
 
-#: src/arch/unix/x11/xaw/x11video.c:272
+#: src/arch/unix/x11/xaw/x11video.c:273
 msgid "Never use shared memory (slower)"
 msgstr "Asla ortak bellek kullanma (daha yavaþ)"
 
-#: src/arch/unix/x11/xaw/x11video.c:278
+#: src/arch/unix/x11/xaw/x11video.c:279
 msgid "fourcc"
 msgstr "fourcc"
 
-#: src/arch/unix/x11/xaw/x11video.c:278
+#: src/arch/unix/x11/xaw/x11video.c:279
 msgid "Request YUV FOURCC format"
 msgstr "YUV FOURCC biçimi talep et"
 
-#: src/arch/unix/x11/xaw/x11video.c:283
+#: src/arch/unix/x11/xaw/x11video.c:284
 msgid "Set aspect ratio (0.5 - 2.0)"
 msgstr "En boy oraný belirle (0.5 - 2.0)"
 
-#: src/arch/unix/x11/xaw/x11video.c:288 src/arch/unix/macosx/cocoa/video.m:172
+#: src/arch/unix/x11/xaw/x11video.c:289 src/arch/unix/macosx/cocoa/video.m:172
 msgid "Enable true aspect ratio"
 msgstr "Gerçek en boy oranýný aktif et"
 
-#: src/arch/unix/x11/xaw/x11video.c:293 src/arch/unix/macosx/cocoa/video.m:177
+#: src/arch/unix/x11/xaw/x11video.c:294 src/arch/unix/macosx/cocoa/video.m:177
 msgid "Disable true aspect ratio"
 msgstr "Gerçek en boy oranýný pasifleþtir"
 
-#: src/arch/unix/x11/xaw/x11video.c:367
+#: src/arch/unix/x11/xaw/x11video.c:368
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM uzantýlarý versiyon %d.%d saptandý."
 
-#: src/arch/unix/x11/xaw/x11video.c:630
+#: src/arch/unix/x11/xaw/x11video.c:631
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM baþlangýç ayarlarý baþarýlý.\n"
 
@@ -4673,10 +4680,6 @@ msgstr "Ayarlar baþarýyla yüklendi."
 msgid "Autostart disk/tape image"
 msgstr "Disk/Teyp imajýný otomatik baþlat"
 
-#: src/arch/win32/res.rc.po.c:930 src/arch/amigaos/intl_text.c.po.c:3346
-msgid "Invalid cartridge"
-msgstr "Geçersiz kartuþ"
-
 #: src/arch/win32/res.rc.po.c:931 src/arch/amigaos/intl_text.c.po.c:3359
 msgid "Bad cartridge config in UI!"
 msgstr "UI'de kötü kartuþ konfigürasyonu!"
@@ -4850,12 +4853,6 @@ msgstr "Bilgisayar"
 msgid "Drive"
 msgstr "Sürücü"
 
-#: src/arch/win32/res.rc.po.c:978 src/arch/win32/res.rc.po.c:1384
-#: src/arch/amigaos/intl_text.c.po.c:967
-#: src/arch/amigaos/intl_text.c.po.c:7624
-msgid "Save snapshot image"
-msgstr "Anlýk görüntü imajýný kaydet"
-
 #: src/arch/win32/res.rc.po.c:979 src/arch/amigaos/intl_text.c.po.c:7676
 #, c-format
 msgid "Cannot write snapshot file `%s'."
@@ -4936,7 +4933,7 @@ msgstr "Düz 32KB Super Snapshot V4 kartuþ imajý yerleþtir"
 msgid "Attach raw Structured Basic cartridge image"
 msgstr "Düz yapýlandýrýlmýþ Basic kartuþ imajý yerleþtir"
 
-#: src/arch/win32/res.rc.po.c:1010
+#: src/arch/win32/res.rc.po.c:1010 src/translate_text.c.po.c:3646
 msgid "Model"
 msgstr "Model"
 
@@ -5021,14 +5018,6 @@ msgstr "SID kartuþu joystick'ini aktif et"
 #: src/arch/win32/res.rc.po.c:1041
 msgid "Numpad + RCtrl"
 msgstr "Numpad + Sað Ctrl"
-
-#: src/arch/win32/res.rc.po.c:1042
-msgid "Keyset A"
-msgstr "Tuþ Seti A"
-
-#: src/arch/win32/res.rc.po.c:1043
-msgid "Keyset B"
-msgstr "Tuþ Seti B"
 
 #: src/arch/win32/res.rc.po.c:1044
 msgid "All buttons used as fire"
@@ -5260,10 +5249,6 @@ msgstr "P00 dosyalarýný oku"
 #: src/arch/win32/res.rc.po.c:1129
 msgid "Write P00 files"
 msgstr "P00 dosyalarýný yaz"
-
-#: src/arch/win32/res.rc.po.c:1130
-msgid "Hide non-P00 files"
-msgstr "P00 harici dosyalarý gizle"
 
 #: src/arch/win32/res.rc.po.c:1133
 msgid "Select fire button"
@@ -5555,10 +5540,6 @@ msgstr "Imaj Ýçeriði"
 msgid "New Image"
 msgstr "Yeni Ýmaj"
 
-#: src/arch/win32/res.rc.po.c:1240 src/arch/amigaos/intl_text.c.po.c:4165
-msgid "Name"
-msgstr "Ýsim"
-
 #: src/arch/win32/res.rc.po.c:1241
 msgid "ID"
 msgstr "ID"
@@ -5717,16 +5698,9 @@ msgstr "$A000-$BFFF RAM"
 #: src/arch/win32/resc64.rc.po.c:104 src/arch/win32/resc64dtv.rc.po.c:71
 #: src/arch/win32/rescbm2.rc.po.c:78 src/arch/win32/resexpert.rc.po.c:42
 #: src/arch/win32/respet.rc.po.c:78 src/arch/win32/resplus4.rc.po.c:90
-#: src/arch/win32/resvic20.rc.po.c:100
+#: src/arch/win32/resvic20.rc.po.c:100 src/translate_text.c.po.c:9588
 msgid "Mode"
 msgstr "Mod"
-
-#: src/arch/win32/res.rc.po.c:1309 src/arch/win32/resc128.rc.po.c:165
-#: src/arch/win32/resc64.rc.po.c:167 src/arch/win32/resc64dtv.rc.po.c:132
-#: src/arch/win32/rescbm2.rc.po.c:139 src/arch/win32/respet.rc.po.c:139
-#: src/arch/win32/resplus4.rc.po.c:151 src/arch/win32/resvic20.rc.po.c:161
-msgid "Maximum Speed"
-msgstr "Maksimum Hýz"
 
 #: src/arch/win32/res.rc.po.c:1311 src/arch/win32/rescbm2.rc.po.c:171
 #: src/arch/win32/respet.rc.po.c:171 src/arch/amigaos/intl_text.c.po.c:1656
@@ -5763,10 +5737,6 @@ msgstr "Çýkýþ"
 #: src/arch/win32/res.rc.po.c:1333 src/arch/amigaos/intl_text.c.po.c:1604
 msgid "Sound playback"
 msgstr "Ses"
-
-#: src/arch/win32/res.rc.po.c:1337
-msgid "Handle TDE for autostart"
-msgstr "TDE için otomatik baþlatmayý denetle"
 
 #: src/arch/win32/res.rc.po.c:1340 src/arch/amigaos/intl_text.c.po.c:590
 msgid "CRT image"
@@ -5816,10 +5786,6 @@ msgstr "Retro Replay imajý"
 msgid "MMC Replay image"
 msgstr "MMC Replay imajý"
 
-#: src/arch/win32/res.rc.po.c:1352 src/arch/amigaos/intl_text.c.po.c:733
-msgid "IDE64 interface image"
-msgstr "IDE64 arabirim imajý"
-
 #: src/arch/win32/res.rc.po.c:1353 src/arch/amigaos/intl_text.c.po.c:746
 msgid "Super Snapshot V4 image"
 msgstr "Super Snapshot V4 imajý"
@@ -5835,14 +5801,6 @@ msgstr "Structured BASIC imajý"
 #: src/arch/win32/res.rc.po.c:1357 src/arch/amigaos/intl_text.c.po.c:148
 msgid "Remove current image"
 msgstr "Geçerli imajý çýkart"
-
-#: src/arch/win32/res.rc.po.c:1360 src/arch/amigaos/intl_text.c.po.c:187
-msgid "Load flip list"
-msgstr "Sýralama listesi yükle"
-
-#: src/arch/win32/res.rc.po.c:1361 src/arch/amigaos/intl_text.c.po.c:200
-msgid "Save flip list"
-msgstr "Sýralama listesi kaydet"
 
 #: src/arch/win32/res.rc.po.c:1363 src/arch/amigaos/intl_text.c.po.c:265
 msgid "Start"
@@ -5943,6 +5901,7 @@ msgid "Sidcart joystick settings"
 msgstr "Sid kartuþu joystick ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1424 src/arch/amigaos/intl_text.c.po.c:2150
+#: src/arch/amigaos/intl_text.c.po.c:8742
 msgid "Mouse settings"
 msgstr "Mouse Ayarlarý"
 
@@ -5990,7 +5949,8 @@ msgstr "MMC64 ayarlarý"
 msgid "MMC Replay settings"
 msgstr "MMC Replay ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1435 src/arch/amigaos/intl_text.c.po.c:2280
+#: src/arch/win32/res.rc.po.c:1435 src/arch/win32/resmagicvoice.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2280
 #: src/arch/amigaos/intl_text.c.po.c:6558
 msgid "Magic Voice settings"
 msgstr "Magic Voice ayarlarý"
@@ -6005,7 +5965,7 @@ msgstr "MIDI ayarlarý"
 msgid "DigiMAX settings"
 msgstr "DigiMAX ayarlarý"
 
-#: src/arch/win32/res.rc.po.c:1438
+#: src/arch/win32/res.rc.po.c:1438 src/arch/win32/reslightpen.rc.po.c:22
 msgid "Lightpen settings"
 msgstr "Iþýklý Kalem ayarlarý"
 
@@ -6371,7 +6331,7 @@ msgstr "Harici Function ROM"
 msgid "Enable RAM banks 2 and 3"
 msgstr "RAM banklarý 2 ve 3'ü aktif et"
 
-#: src/arch/win32/resc128.rc.po.c:696
+#: src/arch/win32/resc128.rc.po.c:696 src/arch/amigaos/intl_text.c.po.c:1773
 msgid "IEEE488 Interface emulation"
 msgstr "IEEE488 Arabirimi emülasyonu"
 
@@ -6504,7 +6464,7 @@ msgstr "Kartuþ 6"
 msgid "Machine defaults"
 msgstr "Makine varsayýlan ayarlarý"
 
-#: src/arch/win32/rescbm2.rc.po.c:501
+#: src/arch/win32/rescbm2.rc.po.c:501 src/arch/amigaos/intl_text.c.po.c:4607
 msgid "Model line"
 msgstr "Model hattý"
 
@@ -6643,14 +6603,6 @@ msgstr "ISEPIC imajý deðiþtiðinde kaydet"
 #: src/arch/win32/resisepic.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:5205
 msgid "ISEPIC file"
 msgstr "ISEPIC dosyasý"
-
-#: src/arch/win32/reslightpen.rc.po.c:22
-msgid "lightpen Settings"
-msgstr "Iþýklý Kalem Ayarlarý"
-
-#: src/arch/win32/resmagicvoice.rc.po.c:24
-msgid "Magic Voice Settings"
-msgstr "Magic Voice Ayarlarý"
 
 #: src/arch/win32/resmagicvoice.rc.po.c:25
 msgid "Enable Magic Voice"
@@ -7211,10 +7163,6 @@ msgstr "Yaratýk Çarpýþmalarý"
 msgid "New Luminances"
 msgstr "Yeni Parlaklýklar"
 
-#: src/arch/amigaos/intl_text.c.po.c:707
-msgid "IEEE488 Interface image"
-msgstr "IEEE 488 Arabirimi imajý"
-
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
 msgstr "1/1"
@@ -7294,10 +7242,6 @@ msgstr "NTSC-M"
 #: src/arch/amigaos/intl_text.c.po.c:1747
 msgid "VIC-1112 IEEE-488 module"
 msgstr "VIC-1112 IEEE-488 modülü"
-
-#: src/arch/amigaos/intl_text.c.po.c:1773
-msgid "IEEE-488 Interface emulation"
-msgstr "IEEE-488 Arabirimi emülasyonu"
 
 #: src/arch/amigaos/intl_text.c.po.c:1838
 msgid "C64 PAL"
@@ -7452,10 +7396,6 @@ msgstr "C64DTV ROM'u için dosya seçin"
 #: src/arch/amigaos/intl_text.c.po.c:4568
 msgid "Writes to C64DTV ROM"
 msgstr "C64DTV ROM'una yazar"
-
-#: src/arch/amigaos/intl_text.c.po.c:4607
-msgid "model line"
-msgstr "model hattý"
 
 #: src/arch/amigaos/intl_text.c.po.c:4620
 msgid "RAM Size"
@@ -7879,10 +7819,6 @@ msgstr "Dahili Function ROM dosyasý seçin"
 msgid "Select External Function ROM file"
 msgstr "Harici Function ROM dosyasý seçin"
 
-#: src/arch/amigaos/intl_text.c.po.c:8365
-msgid "Internal Function ROM file"
-msgstr "Dahili Function ROM dosyasý"
-
 #: src/arch/amigaos/intl_text.c.po.c:8404
 msgid "RAM banks 2 & 3"
 msgstr "RAM banklarý 2 & 3"
@@ -7910,10 +7846,6 @@ msgstr "Ses Kayýt Dosyasý Seçin"
 #: src/arch/amigaos/intl_text.c.po.c:8716
 msgid "Volume (0-100%)"
 msgstr "Ses Düzeyi (0-100%)"
-
-#: src/arch/amigaos/intl_text.c.po.c:8742
-msgid "Mouse Settings"
-msgstr "Mouse Ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:8768
 msgid "1351 mouse"
@@ -8959,10 +8891,6 @@ msgstr "Otomatik baþlatýldýðýnda, 'RUN' komutunu ':' ile kullan, yani, 'RUN:'"
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
 msgstr "Otomatik baþlatýldýðýnda, 'RUN' komutunu ':' ile kullanma, yani, 'RUN'"
 
-#: src/translate_text.c.po.c:2874
-msgid "Handle True Drive Emulation on autostart"
-msgstr "Otomatik baþlatmada Gerçek Sürücü Emülasyonu'nu denetle"
-
 #: src/translate_text.c.po.c:2890
 msgid "Do not handle True Drive Emulation on autostart"
 msgstr "Baþlangýçta Gerçek Sürücü Emülasyonu'nu Denetleme"
@@ -9127,10 +9055,6 @@ msgstr "Harici Function ROM'u pasifleþtir"
 #: src/translate_text.c.po.c:3630
 msgid "Use old NTSC sync factor"
 msgstr "Eski NTSC senkron faktörü kullan"
-
-#: src/translate_text.c.po.c:3646
-msgid "model"
-msgstr "model"
 
 #: src/translate_text.c.po.c:3662
 msgid "Set both CIA models (0 = old 6526, 1 = new 6526A)"
@@ -10486,10 +10410,6 @@ msgstr "Harici palet dosyasýnýn ismini belirt"
 msgid "Select fullscreen device"
 msgstr "Tam ekran aygýtý seç"
 
-#: src/translate_text.c.po.c:9588
-msgid "mode"
-msgstr "mod"
-
 #: src/translate_text.c.po.c:9604
 msgid "Select fullscreen mode"
 msgstr "Tam ekran modu seç"
@@ -11009,6 +10929,75 @@ msgstr "DigiMAX kartuþunu pasifleþtir"
 #: src/translate_text.c.po.c:11920
 msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
+
+#~ msgid "name"
+#~ msgstr "isim"
+
+#~ msgid "Name:"
+#~ msgstr "Ýsim:"
+
+#~ msgid "Load snapshot"
+#~ msgstr "Anlýk görüntü yükle"
+
+#~ msgid "Maximum Speed"
+#~ msgstr "Maksimum Hýz"
+
+#~ msgid "Magic Voice Settings"
+#~ msgstr "Magic Voice Ayarlarý"
+
+#~ msgid "model line"
+#~ msgstr "model hattý"
+
+#~ msgid "Mouse Settings"
+#~ msgstr "Mouse Ayarlarý"
+
+#~ msgid "model"
+#~ msgstr "model"
+
+#~ msgid "mode"
+#~ msgstr "mod"
+
+#~ msgid "Keyset 1"
+#~ msgstr "Tuþ Seti 1"
+
+#~ msgid "Keyset 2"
+#~ msgstr "Tuþ Seti 2"
+
+#~ msgid "Invalid cartridge"
+#~ msgstr "Geçersiz kartuþ"
+
+#~ msgid "Load flip list"
+#~ msgstr "Sýralama listesi yükle"
+
+#~ msgid "Save flip list"
+#~ msgstr "Sýralama listesi kaydet"
+
+#~ msgid "lightpen Settings"
+#~ msgstr "Iþýklý Kalem Ayarlarý"
+
+#~ msgid "Internal Function ROM name"
+#~ msgstr "Dahili Function ROM ismi"
+
+#~ msgid "Handle TDE on autostart"
+#~ msgstr "Baþlangýçta Gerçek Sürücü Emülasyonu'nu denetle"
+
+#~ msgid "IDE64 image"
+#~ msgstr "IDE64 imajý"
+
+#~ msgid "Hide raw CBM files"
+#~ msgstr "Düz CBM dosyalarýný gizle"
+
+#~ msgid "IEEE 488 Interface image"
+#~ msgstr "IEEE 488 Arabirimi imajý"
+
+#~ msgid "Image format:"
+#~ msgstr "Imaj biçimi:"
+
+#~ msgid "Handle TDE for autostart"
+#~ msgstr "TDE için otomatik baþlatmayý denetle"
+
+#~ msgid "IEEE-488 Interface emulation"
+#~ msgstr "IEEE-488 Arabirimi emülasyonu"
 
 #~ msgid "External Function ROM name"
 #~ msgstr "Harici Function ROM ismi"

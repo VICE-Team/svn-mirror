@@ -165,7 +165,7 @@ BEGIN
             MENUITEM "", IDM_REFRESH_RATE_9
             MENUITEM "", IDM_REFRESH_RATE_10
         END
-        POPUP "Maximum Speed"
+        POPUP "Maximum speed"
         BEGIN
             MENUITEM "", IDM_MAXIMUM_SPEED_200
             MENUITEM "", IDM_MAXIMUM_SPEED_100

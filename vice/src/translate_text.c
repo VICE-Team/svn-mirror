@@ -3055,19 +3055,19 @@ translate_t string_table[] = {
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
    c64/c64_256k.c, pet/petreu.c, c64/plus256k.c */
-/* en */ {IDCLS_P_NAME,    N_("<name>")},
+/* en */ {IDCLS_P_NAME,    N_("<Name>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_NAME_DA, "<navn>"},
+/* da */ {IDCLS_P_NAME_DA, "<Navn>"},
 /* de */ {IDCLS_P_NAME_DE, "<Name>"},
-/* fr */ {IDCLS_P_NAME_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_NAME_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_NAME_IT, "<nome>"},
+/* fr */ {IDCLS_P_NAME_FR, "<Nom>"},
+/* hu */ {IDCLS_P_NAME_HU, "<Név>"},
+/* it */ {IDCLS_P_NAME_IT, "<Nome>"},
 /* ko */ {IDCLS_P_NAME_KO, "<ÀÌ¸§>"},
-/* nl */ {IDCLS_P_NAME_NL, "<naam>"},
+/* nl */ {IDCLS_P_NAME_NL, "<Naam>"},
 /* pl */ {IDCLS_P_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_NAME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_NAME_SV, "<namn>"},
-/* tr */ {IDCLS_P_NAME_TR, "<isim>"},
+/* sv */ {IDCLS_P_NAME_SV, "<Namn>"},
+/* tr */ {IDCLS_P_NAME_TR, "<Ýsim>"},
 #endif
 
 /* c128/c128-cmdline-options.c */
@@ -3689,19 +3689,19 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c */
-/* en */ {IDCLS_P_MODEL,    N_("<model>")},
+/* en */ {IDCLS_P_MODEL,    N_("<Model>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_MODEL_DA, "<model>"},
+/* da */ {IDCLS_P_MODEL_DA, "<Model>"},
 /* de */ {IDCLS_P_MODEL_DE, "<Modell>"},
-/* fr */ {IDCLS_P_MODEL_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_MODEL_IT, "<modello>"},
+/* fr */ {IDCLS_P_MODEL_FR, "<Modèle>"},
+/* hu */ {IDCLS_P_MODEL_HU, "<Modell>"},
+/* it */ {IDCLS_P_MODEL_IT, "<Modello>"},
 /* ko */ {IDCLS_P_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_MODEL_NL, "<model>"},
+/* nl */ {IDCLS_P_MODEL_NL, "<Model>"},
 /* pl */ {IDCLS_P_MODEL_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_MODEL_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_MODEL_SV, "<modell>"},
-/* tr */ {IDCLS_P_MODEL_TR, "<model>"},
+/* sv */ {IDCLS_P_MODEL_SV, "<Modell>"},
+/* tr */ {IDCLS_P_MODEL_TR, "<Model>"},
 #endif
 
 /* c64/c64-cmdline-options.c */
@@ -9640,19 +9640,19 @@ translate_t string_table[] = {
 #endif
 
 /* video/video-cmdline-options.c */
-/* en */ {IDCLS_P_MODE,    N_("<mode>")},
+/* en */ {IDCLS_P_MODE,    N_("<Mode>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_MODE_DA, "<tilstand>"},
+/* da */ {IDCLS_P_MODE_DA, "<Tilstand>"},
 /* de */ {IDCLS_P_MODE_DE, "<Modus>"},
 /* fr */ {IDCLS_P_MODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_MODE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_MODE_IT, "<modalità>"},
+/* it */ {IDCLS_P_MODE_IT, "<Modalità>"},
 /* ko */ {IDCLS_P_MODE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_MODE_NL, "<modus>"},
+/* nl */ {IDCLS_P_MODE_NL, "<Modus>"},
 /* pl */ {IDCLS_P_MODE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_MODE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_MODE_SV, "<läge>"},
-/* tr */ {IDCLS_P_MODE_TR, "<mod>"},
+/* sv */ {IDCLS_P_MODE_SV, "<Läge>"},
+/* tr */ {IDCLS_P_MODE_TR, "<Mod>"},
 #endif
 
 /* video/video-cmdline-options.c */

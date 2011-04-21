@@ -29,7 +29,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
   IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
   IDS_MAGICVOICE_FILE        "Magic Voice file"
   IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
@@ -65,7 +65,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
   IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
   IDS_MAGICVOICE_FILE        "Magic Voice file"
   IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
@@ -80,7 +80,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
   IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
   IDS_MAGICVOICE_FILE        "Magic Voice file"
   IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
@@ -110,7 +110,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
   IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
   IDS_MAGICVOICE_FILE        "Magic Voice file"
   IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
@@ -140,7 +140,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
   IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
   IDS_MAGICVOICE_FILE        "Magic Voice file"
   IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
@@ -158,7 +158,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Settings"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
   IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
   IDS_MAGICVOICE_FILE        "Magic Voice file"
   IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
@@ -188,7 +188,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice Ayarlarý"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice ayarlarý"
   IDS_MAGICVOICE_ENABLE      "Magic Voice'i aktif et"
   IDS_MAGICVOICE_FILE        "Magic Voice dosyasý"
   IDS_MAGICVOICE_SELECT_FILE "Magic Voice için dosya seçin"

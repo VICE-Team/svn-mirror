@@ -68,7 +68,7 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
       NULL, NULL },
     { N_("Create P00 files on save"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8SaveP00,
       NULL, NULL },
-    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8HideCBMFiles,
+    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice8HideCBMFiles,
       NULL, NULL },
     { NULL }
 };
@@ -85,7 +85,7 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
       NULL, NULL },
     { N_("Create P00 files on save"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9SaveP00,
       NULL, NULL },
-    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9HideCBMFiles,
+    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_FSDevice9HideCBMFiles,
       NULL, NULL },
     { NULL }
 };
@@ -102,7 +102,7 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
       (ui_callback_t)toggle_FSDevice10ConvertP00, NULL, NULL },
     { N_("Create P00 files on save"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice10SaveP00, NULL, NULL },
-    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK,
+    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice10HideCBMFiles, NULL, NULL },
     { NULL }
 };
@@ -119,7 +119,7 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
       (ui_callback_t)toggle_FSDevice11ConvertP00, NULL, NULL },
     { N_("Create P00 files on save"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice11SaveP00, NULL, NULL },
-    { N_("Hide raw CBM files"), UI_MENU_TYPE_TICK,
+    { N_("Hide non-P00 files"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FSDevice11HideCBMFiles, NULL, NULL },
     { NULL }
 };

@@ -32,6 +32,7 @@
 
 #include "c64ui.h"
 #include "fullscreenarch.h"
+#include "lib.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "uipalette.h"
@@ -39,12 +40,12 @@
 #include "uivicii.h"
 #include "uipalemu.h"
 #include "uirenderer.h"
+#include "util.h"
 #include "vicii.h"
 
 #ifdef HAVE_OPENGL_SYNC
 #include <stdlib.h>		/* strtol() */
 #include "openGL_sync.h"
-#include "lib.h"
 #endif
 
 #include "uifullscreen-menu.h"

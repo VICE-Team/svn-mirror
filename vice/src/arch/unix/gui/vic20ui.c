@@ -382,10 +382,10 @@ static ui_menu_entry_t set_joystick_device_1_submenu[] = {
     { N_("Numpad"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_joystick_device,
       (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
-    { N_("Keyset 1"), UI_MENU_TYPE_TICK,
+    { N_("Keyset A"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_joystick_device,
       (ui_callback_data_t)JOYDEV_KEYSET1, NULL },
-    { N_("Keyset 2"), UI_MENU_TYPE_TICK,
+    { N_("Keyset B"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_joystick_device,
       (ui_callback_data_t)JOYDEV_KEYSET2, NULL },
 #ifdef HAS_JOYSTICK

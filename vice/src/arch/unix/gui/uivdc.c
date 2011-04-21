@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "fullscreenarch.h"
+#include "lib.h"
 #include "resources.h"
 #include "uiapi.h"
 #include "uimenu.h"
@@ -37,10 +38,11 @@
 #include "uirenderer.h"
 #include "uivdc.h"
 #include "uifullscreen-menu.h"
+#include "util.h"
+
 #ifdef HAVE_OPENGL_SYNC
 #include <stdlib.h>             /* strtol() */
 #include "openGL_sync.h"
-#include "lib.h"
 #endif
 
 UI_FULLSCREEN(VDC, KEYSYM_f)

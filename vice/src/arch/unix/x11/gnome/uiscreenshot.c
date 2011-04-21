@@ -29,18 +29,18 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "log.h"
 #include "gfxoutput.h"
 #include "lib.h"
-#include "screenshot.h"
+#include "log.h"
 #include "resources.h"
+#include "screenshot.h"
 #include "ui.h"
-#include "uiarch.h"
 #include "uiapi.h"
+#include "uiarch.h"
+#include "uifileentry.h"
 #include "uilib.h"
 #include "uiscreenshot.h"
 #include "util.h"
-#include "uifileentry.h"
 
 #ifdef HAVE_FFMPEG
 #include "gfxoutputdrv/ffmpegdrv.h"

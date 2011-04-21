@@ -29,14 +29,16 @@
 #include <string.h>
 
 #ifdef HAVE_NETWORK
-#include "ui.h"
-#include "uiarch.h"
-#include "uiapi.h"
+
+#include "lib.h"
+#include "log.h"
 #include "network.h"
 #include "resources.h"
-#include "util.h"
-#include "log.h"
+#include "ui.h"
+#include "uiapi.h"
+#include "uiarch.h"
 #include "uinetplay.h"
+#include "util.h"
 
 static GtkWidget *netplay_dialog, *current_mode, *dcb, *ctrls, *np_server, *np_server_bind, *np_port;
 static log_t np_log = LOG_ERR;

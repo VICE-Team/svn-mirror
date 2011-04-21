@@ -40,7 +40,7 @@
 
 UI_CALLBACK(set_tpi_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("IEEE 488 Interface image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("IEEE488 Interface image"), UILIB_FILTER_ALL);
 }
 
 UI_MENU_DEFINE_TOGGLE(IEEE488)

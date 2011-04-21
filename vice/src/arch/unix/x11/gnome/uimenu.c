@@ -38,9 +38,10 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
-#include "x11menu.h"
 #include "uiapi.h"
 #include "uimenu.h"
+#include "util.h"
+#include "x11menu.h"
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
