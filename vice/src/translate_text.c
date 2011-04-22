@@ -909,19 +909,19 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_TYPE,    N_("type")},
+/* en */ {IDGS_TYPE,    N_("Type")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDGS_TYPE_DA, "type"},
+/* da */ {IDGS_TYPE_DA, "Type"},
 /* de */ {IDGS_TYPE_DE, "Typ"},
-/* fr */ {IDGS_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDGS_TYPE_IT, "tipo"},
+/* fr */ {IDGS_TYPE_FR, "type"},
+/* hu */ {IDGS_TYPE_HU, "Típus"},
+/* it */ {IDGS_TYPE_IT, "Tipo"},
 /* ko */ {IDGS_TYPE_KO, "Á¾·ù"},
-/* nl */ {IDGS_TYPE_NL, "soort"},
+/* nl */ {IDGS_TYPE_NL, "Soort"},
 /* pl */ {IDGS_TYPE_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_TYPE_SV, "typ"},
-/* tr */ {IDGS_TYPE_TR, "tip"},
+/* sv */ {IDGS_TYPE_SV, "Typ"},
+/* tr */ {IDGS_TYPE_TR, "Tip"},
 #endif
 
 /* monitor/mon_command.c */
@@ -6758,19 +6758,19 @@ translate_t string_table[] = {
 
 /* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
    attach.c, drive/iec/iec-cmdline-options.c, c64/c64gluelogic.c */
-/* en */ {IDCLS_P_TYPE,    N_("<type>")},
+/* en */ {IDCLS_P_TYPE,    N_("<Type>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_TYPE_DA, "<type>"},
+/* da */ {IDCLS_P_TYPE_DA, "<Type>"},
 /* de */ {IDCLS_P_TYPE_DE, "<Typ>"},
-/* fr */ {IDCLS_P_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_TYPE_IT, "<tipo>"},
+/* fr */ {IDCLS_P_TYPE_FR, "<type>"},
+/* hu */ {IDCLS_P_TYPE_HU, "<Típus>"},
+/* it */ {IDCLS_P_TYPE_IT, "<Tipo>"},
 /* ko */ {IDCLS_P_TYPE_KO, "<Á¾·ù>"},
-/* nl */ {IDCLS_P_TYPE_NL, "<soort>"},
+/* nl */ {IDCLS_P_TYPE_NL, "<Soort>"},
 /* pl */ {IDCLS_P_TYPE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_TYPE_SV, "<typ>"},
-/* tr */ {IDCLS_P_TYPE_TR, "<tip>"},
+/* sv */ {IDCLS_P_TYPE_SV, "<Typ>"},
+/* tr */ {IDCLS_P_TYPE_TR, "<Tip>"},
 #endif
 
 /* drive/drive-cmdline-options.c */

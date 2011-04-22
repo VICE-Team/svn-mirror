@@ -202,9 +202,10 @@ static void netplay_disconnect(GtkWidget *w, gpointer data)
 static GtkWidget *build_netplay_dialog(void)
 {
     GtkWidget *d, *f, *b, *hb, *rb, *l, *entry, *h;
-    char *unknown = util_concat("<", _("unknown"), ">", NULL);
+    char *unknown = util_concat("<", _("Unknown"), ">", NULL);
     char *connect_to = util_concat(_("Connect to"), " ", NULL);
     char *current_mode_text = util_concat(_("Current mode"), ": ", NULL);
+    char *tcp_port = util_concat(_("TCP port"), ": ", NULL);
 
     d = gtk_dialog_new_with_buttons(_("Netplay Settings"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL);
 
@@ -227,15 +228,16 @@ static GtkWidget *build_netplay_dialog(void)
     gtk_widget_show(hb);
 
     hb = gtk_hbox_new(FALSE, 0);
-    rb = gtk_button_new_with_label(_("Start Server"));
+    rb = gtk_button_new_with_label(_("Start server"));
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_start_server), rb);
     GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 
-    l = gtk_label_new(_("TCP port: "));
+    l = gtk_label_new(tcp_port);
     gtk_container_add(GTK_CONTAINER(hb), l);
     gtk_widget_show(l);
+    lib_free(tcp_port);
 
     /* entry IP server bind address */
     np_server_bind = entry = gtk_entry_new();

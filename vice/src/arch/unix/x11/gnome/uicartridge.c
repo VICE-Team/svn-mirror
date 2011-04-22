@@ -71,7 +71,7 @@ void ui_cartridge_save_dialog(int type)
     if (cartridge_save_image (type, name) < 0) {
         ui_error(_("Cannot write cartridge image file\n`%s'\n"), name);
     } else {
-	ui_message(_("Successfully wrote `%s'\n"), name);
+	ui_message(_("Successfully wrote `%s'"), name);
     }
     lib_free(name);
 }

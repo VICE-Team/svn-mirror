@@ -82,7 +82,7 @@ static UI_CALLBACK(browse_callback)
     char *filename;
     uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
 
-    filename = ui_select_file(_("Save snapshot"), NULL, False, NULL, &filter, 1, &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Save snapshot image"), NULL, False, NULL, &filter, 1, &button, 0, NULL, UI_FC_LOAD);
 
     if (button == UI_BUTTON_OK) {
         XtVaSetValues(file_name_field, XtNstring, filename, NULL);
@@ -125,6 +125,7 @@ static void build_snapshot_dialog(void)
     char *filename = util_concat(_("File name"), ":", NULL);
     char *save_images = util_concat(_("Save currently attached disk images"), ":", NULL);
     char *save_roms = util_concat(_("Save currently loaded ROM images"), ":", NULL);
+    char *snapshot_options = util_concat(_("Snapshot options"), ":", NULL);
 
     if (snapshot_dialog != NULL) {
         return;
@@ -184,9 +185,10 @@ static void build_snapshot_dialog(void)
                                             labelWidgetClass, options_form,
                                             XtNborderWidth, 0,
                                             XtNjustify, XtJustifyLeft,
-                                            XtNlabel, _("Snapshot options:"),
+                                            XtNlabel, snapshot_options,
                                             XtNleft, XawChainLeft,
                                             NULL);
+    lib_free(snapshot_options);
 
     options_filling_box_left = XtVaCreateManagedWidget("fillingBoxLeft",
                                                        boxWidgetClass, options_form,
@@ -297,5 +299,5 @@ static void build_snapshot_dialog(void)
 void ui_snapshot_dialog(void)
 {
     build_snapshot_dialog();
-    ui_popup(snapshot_dialog, _("Save snapshot"), True);
+    ui_popup(snapshot_dialog, _("Save snapshot image"), True);
 }

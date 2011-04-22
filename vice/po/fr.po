@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-21 15:06-0700\n"
+"POT-Creation-Date: 2011-04-22 13:54-0700\n"
 "PO-Revision-Date: 2011-02-01 18:41+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -797,7 +797,7 @@ msgid "PET DWW hi-res graphics"
 msgstr "Graphiques haute-rés PET DWW"
 
 #: src/arch/unix/gui/petui.c:230 src/arch/unix/gui/plus4ui.c:201
-#: src/arch/unix/gui/vic20ui.c:510
+#: src/arch/unix/gui/vic20ui.c:510 src/arch/amigaos/intl_text.c.po.c:7416
 #, fuzzy
 msgid "SID cartridge"
 msgstr "Cartouche SID"
@@ -1421,7 +1421,9 @@ msgstr "Réinitialiser au démarrage"
 msgid "Overwrite running playback"
 msgstr "*Écraser le 'playback' actuel"
 
-#: src/arch/unix/gui/uicommands.c:486 src/arch/win32/res.rc.po.c:978
+#: src/arch/unix/gui/uicommands.c:486 src/arch/unix/x11/gnome/uisnapshot.c:46
+#: src/arch/unix/x11/xaw/uisnapshot.c:85
+#: src/arch/unix/x11/xaw/uisnapshot.c:302 src/arch/win32/res.rc.po.c:978
 #: src/arch/win32/res.rc.po.c:1384 src/arch/amigaos/intl_text.c.po.c:967
 #: src/arch/amigaos/intl_text.c.po.c:7624
 msgid "Save snapshot image"
@@ -2120,14 +2122,14 @@ msgstr "*Activer le flashjumper MMC64"
 msgid "Prg"
 msgstr "Prg"
 
-#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:222
-#: src/arch/unix/x11/xaw/uisnapshot.c:259 src/arch/win32/resexpert.rc.po.c:45
+#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:224
+#: src/arch/unix/x11/xaw/uisnapshot.c:261 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:5036
 msgid "Off"
 msgstr "Off"
 
-#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:233
-#: src/arch/unix/x11/xaw/uisnapshot.c:270 src/arch/win32/resexpert.rc.po.c:47
+#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:235
+#: src/arch/unix/x11/xaw/uisnapshot.c:272 src/arch/win32/resexpert.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:5062
 msgid "On"
 msgstr "On"
@@ -2145,7 +2147,7 @@ msgstr "Charger "
 #: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:171
 #: src/arch/unix/x11/xaw/uiedisk.c:403
 #: src/arch/unix/x11/xaw/uiscreenshot.c:259
-#: src/arch/unix/x11/xaw/uisnapshot.c:281 src/arch/win32/res.rc.po.c:1245
+#: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:1245
 #: src/arch/win32/res.rc.po.c:1474 src/arch/amigaos/intl_text.c.po.c:3489
 msgid "Save"
 msgstr "Enregistrer"
@@ -2165,10 +2167,11 @@ msgstr "Lecture de `%s' réussie."
 msgid "Error reading `%s'."
 msgstr "Erreur lors de la lecture de `%s'."
 
-#: src/arch/unix/gui/uifliplist.c:101
+#: src/arch/unix/gui/uifliplist.c:101 src/arch/unix/x11/gnome/uicartridge.c:74
+#: src/arch/unix/x11/gnome/uiscreenshot.c:522
 #, c-format
-msgid "Successfully wrote `%s'."
-msgstr "Écriture de `%s' réussie."
+msgid "Successfully wrote `%s'"
+msgstr "Écriture réussie de `%s'"
 
 #: src/arch/unix/gui/uifliplist.c:103
 #, c-format
@@ -2520,7 +2523,8 @@ msgstr "*Joystick analogue 0"
 
 #: src/arch/unix/gui/uijoystick2.c:375 src/arch/unix/gui/uijoystick2.c:406
 #: src/arch/unix/gui/uijoystick2.c:437 src/arch/unix/gui/uijoystick2.c:508
-#: src/arch/unix/gui/uijoystick2.c:519 src/arch/amigaos/intl_text.c.po.c:1552
+#: src/arch/unix/gui/uijoystick2.c:519 src/arch/win32/res.rc.po.c:1405
+#: src/arch/amigaos/intl_text.c.po.c:1552
 #, fuzzy
 msgid "Swap joysticks"
 msgstr "Échanger les joysticks de ports"
@@ -2556,7 +2560,7 @@ msgstr "Joystick dans le port #2"
 
 #: src/arch/unix/gui/uijoystick2.c:386 src/arch/unix/gui/uijoystick2.c:417
 #: src/arch/unix/gui/uijoystick2.c:461 src/arch/unix/gui/uijoystick2.c:488
-#: src/arch/amigaos/intl_text.c.po.c:1565
+#: src/arch/win32/res.rc.po.c:1406 src/arch/amigaos/intl_text.c.po.c:1565
 #, fuzzy
 msgid "Swap userport joysticks"
 msgstr "*Pin de diagnostique userport PET"
@@ -2674,6 +2678,7 @@ msgid "MIDI-Out device"
 msgstr "Spécifier le pilote de son"
 
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1242
+#: src/translate_text.c.po.c:888 src/translate_text.c.po.c:6708
 msgid "Type"
 msgstr "type"
 
@@ -2818,12 +2823,13 @@ msgstr "Nom d’hôte :"
 msgid "Error connecting to server."
 msgstr "Erreur de connection au serveur."
 
-#: src/arch/unix/gui/uinetplay.c:112 src/arch/win32/res.rc.po.c:1225
-#: src/arch/amigaos/intl_text.c.po.c:3528
+#: src/arch/unix/gui/uinetplay.c:112 src/arch/unix/x11/gnome/uinetplay.c:208
+#: src/arch/win32/res.rc.po.c:1225 src/arch/amigaos/intl_text.c.po.c:3528
 msgid "TCP port"
 msgstr "Port TCP"
 
-#: src/arch/unix/gui/uinetplay.c:114 src/arch/win32/res.rc.po.c:1226
+#: src/arch/unix/gui/uinetplay.c:114 src/arch/unix/x11/gnome/uinetplay.c:231
+#: src/arch/win32/res.rc.po.c:1226 src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start server"
 msgstr "Démarrer le serveur"
 
@@ -2835,13 +2841,13 @@ msgstr "Se connecter a..."
 msgid "Connect to server"
 msgstr "Se connecter au serveur"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:320
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:322
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Se déconnecter du serveur"
 
 #: src/arch/unix/gui/uipalemu.c:70 src/arch/unix/gui/uipalemu.c:123
-#: src/arch/unix/x11/gnome/uipalcontrol.c:48
+#: src/arch/unix/x11/gnome/uipalcontrol.c:48 src/arch/win32/res.rc.po.c:1179
 #: src/arch/amigaos/intl_text.c.po.c:7793
 #, fuzzy
 msgid "Scanline shade"
@@ -4165,12 +4171,6 @@ msgstr ""
 "Impossible d'écrire le fichier image de la cartouche\n"
 "`%s'\n"
 
-#: src/arch/unix/x11/gnome/uicartridge.c:74
-#: src/arch/unix/x11/gnome/uisnapshot.c:107
-#, c-format
-msgid "Successfully wrote `%s'\n"
-msgstr "Écriture réussie de `%s'\n"
-
 #: src/arch/unix/x11/gnome/uiedisk.c:66 src/arch/unix/x11/gnome/uiedisk.c:143
 #: src/arch/unix/x11/xaw/uiedisk.c:429
 msgid "Create empty disk"
@@ -4257,10 +4257,10 @@ msgstr "Ne peut démarrer le serveur de jeu en réseau."
 msgid "Couldn't connect client."
 msgstr "Impossible de connecter le client"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:205
+#: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1076
 #, fuzzy
-msgid "unknown"
-msgstr "<inconnu>"
+msgid "Unknown"
+msgstr "Inconnu"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:206 src/arch/win32/res.rc.po.c:1227
 #: src/arch/amigaos/intl_text.c.po.c:3567
@@ -4273,31 +4273,21 @@ msgstr "Se connecter à"
 msgid "Current mode"
 msgstr "Fichier image ROM courant"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:209
-#: src/arch/unix/x11/gnome/uinetplay.c:211 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:210
+#: src/arch/unix/x11/gnome/uinetplay.c:212 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Paramètres de jeu en réseau"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:230
-#: src/arch/amigaos/intl_text.c.po.c:3541
-msgid "Start Server"
-msgstr "Démarrer le serveur"
-
-#: src/arch/unix/x11/gnome/uinetplay.c:236
-#, fuzzy
-msgid "TCP port: "
-msgstr "Port TCP"
-
-#: src/arch/unix/x11/gnome/uinetplay.c:286 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:288 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Control"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:291 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:293 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Serveur"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:294 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:296 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Client"
 
@@ -4362,18 +4352,8 @@ msgstr "Enregistrer une capture d'écran"
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Impossible d'écrire la capture écran de `%s' avec le pilote `%s'."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:522
-#, c-format
-msgid "Successfully wrote `%s'"
-msgstr "Écriture réussie de `%s'"
-
-#: src/arch/unix/x11/gnome/uisnapshot.c:46
-#: src/arch/unix/x11/xaw/uisnapshot.c:85
-#: src/arch/unix/x11/xaw/uisnapshot.c:300
-msgid "Save snapshot"
-msgstr "Sauvegarder"
-
 #: src/arch/unix/x11/gnome/uisnapshot.c:51
+#: src/arch/unix/x11/xaw/uisnapshot.c:128
 msgid "Snapshot options"
 msgstr "Options de sauvegarde"
 
@@ -4389,6 +4369,11 @@ msgstr "Sauvegarder les &disques présentement insérés"
 #: src/arch/amigaos/intl_text.c.po.c:7663
 msgid "Save currently loaded ROM images"
 msgstr "Sauvegarder les images ROM présentement chargés"
+
+#: src/arch/unix/x11/gnome/uisnapshot.c:107
+#, c-format
+msgid "Successfully wrote `%s'\n"
+msgstr "Écriture réussie de `%s'\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:44
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:43
@@ -4478,9 +4463,10 @@ msgstr "%s (en pause)"
 msgid "VICE Message"
 msgstr "Message VICE"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1946 src/arch/amigaos/intl_text.c.po.c:3281
-msgid "VICE Error"
-msgstr "Erreur VICE"
+#: src/arch/unix/x11/gnome/x11ui.c:1946 src/arch/unix/x11/xaw/x11ui.c:1784
+#: src/arch/win32/res.rc.po.c:900 src/arch/amigaos/intl_text.c.po.c:3281
+msgid "VICE Error!"
+msgstr "Erreur VICE!"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Hard Reset"
@@ -4598,14 +4584,14 @@ msgstr "Nom de fichier"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
 #: src/arch/unix/x11/xaw/uiscreenshot.c:195
-#: src/arch/unix/x11/xaw/uisnapshot.c:169 src/arch/win32/res.rc.po.c:1109
+#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:1109
 #: src/arch/win32/res.rc.po.c:1126 src/arch/amigaos/intl_text.c.po.c:3502
 msgid "Browse"
 msgstr "Parcourir"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:177 src/arch/unix/x11/xaw/uiedisk.c:409
 #: src/arch/unix/x11/xaw/uiscreenshot.c:265
-#: src/arch/unix/x11/xaw/uisnapshot.c:287 src/arch/win32/res.rc.po.c:676
+#: src/arch/unix/x11/xaw/uisnapshot.c:289 src/arch/win32/res.rc.po.c:676
 #: src/arch/win32/res.rc.po.c:1107 src/arch/amigaos/intl_text.c.po.c:3671
 msgid "Cancel"
 msgstr "Annuler"
@@ -4626,10 +4612,6 @@ msgstr "Format du disque:"
 msgid "Screen Snapshot"
 msgstr "Capture d'écran"
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:187
-msgid "Snapshot options:"
-msgstr "Options de sauvegarde"
-
 #: src/arch/unix/x11/xaw/x11ui.c:990
 #, fuzzy
 msgid "recording"
@@ -4639,10 +4621,6 @@ msgstr "enregistrement d'événements"
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Piste %.1f"
-
-#: src/arch/unix/x11/xaw/x11ui.c:1784 src/arch/win32/res.rc.po.c:900
-msgid "VICE Error!"
-msgstr "Erreur VICE!"
 
 #: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:284
 #, fuzzy
@@ -4901,8 +4879,8 @@ msgstr "Copyright (c) 2003-2005 David Hansel"
 msgid " "
 msgstr " "
 
-#: src/arch/win32/res.rc.po.c:902
-msgid "VICE question"
+#: src/arch/win32/res.rc.po.c:902 src/arch/amigaos/intl_text.c.po.c:3736
+msgid "VICE Question"
 msgstr "Question VICE"
 
 #: src/arch/win32/res.rc.po.c:903
@@ -5509,11 +5487,6 @@ msgstr ""
 "Lecture\n"
 "%02d:%02d (%02d:%02d)"
 
-#: src/arch/win32/res.rc.po.c:1076
-#, fuzzy
-msgid "Unknown"
-msgstr "Inconnu"
-
 #: src/arch/win32/res.rc.po.c:1077 src/translate_text.c.po.c:1240
 #: src/translate_text.c.po.c:3404
 #, fuzzy
@@ -5724,11 +5697,6 @@ msgstr ""
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
 msgstr ""
-
-#: src/arch/win32/res.rc.po.c:1179
-#, fuzzy
-msgid "Scan line shade"
-msgstr "Ombrage des scanlines"
 
 #: src/arch/win32/res.rc.po.c:1183
 #, fuzzy
@@ -6257,16 +6225,6 @@ msgstr "Mode turbo "
 msgid "Always on Top"
 msgstr "Toujours au dessus"
 
-#: src/arch/win32/res.rc.po.c:1405
-#, fuzzy
-msgid "Swap Joysticks"
-msgstr "Échanger les joysticks de ports"
-
-#: src/arch/win32/res.rc.po.c:1406
-#, fuzzy
-msgid "Swap Userport joysticks"
-msgstr "*Pin de diagnostique userport PET"
-
 #: src/arch/win32/res.rc.po.c:1408 src/arch/amigaos/intl_text.c.po.c:1578
 #, fuzzy
 msgid "Enable Joy Keys"
@@ -6410,7 +6368,9 @@ msgstr "Paramètres RS232 userport..."
 msgid "EasyFlash settings"
 msgstr "Réglages datassette"
 
-#: src/arch/win32/res.rc.po.c:1446 src/arch/amigaos/intl_text.c.po.c:2475
+#: src/arch/win32/res.rc.po.c:1446 src/arch/win32/ressoundexpander.rc.po.c:22
+#: src/arch/amigaos/intl_text.c.po.c:2475
+#: src/arch/amigaos/intl_text.c.po.c:8534
 #, fuzzy
 msgid "SFX Sound Expander settings"
 msgstr "*Émulation de la souris 1351"
@@ -6611,12 +6571,14 @@ msgstr "Sélectionner fichier pour REU"
 msgid "VDC revision"
 msgstr "Révision"
 
-#: src/arch/win32/resc128.rc.po.c:646
-msgid "Select internal function ROM image"
+#: src/arch/win32/resc128.rc.po.c:646 src/arch/amigaos/intl_text.c.po.c:8313
+#, fuzzy
+msgid "Select Internal Function ROM file"
 msgstr "Sélectionner l'image ROM Fonction interne"
 
-#: src/arch/win32/resc128.rc.po.c:647
-msgid "Select external function ROM image"
+#: src/arch/win32/resc128.rc.po.c:647 src/arch/amigaos/intl_text.c.po.c:8326
+#, fuzzy
+msgid "Select External Function ROM file"
 msgstr "Sélectionner l'image ROM Fonction externe"
 
 #: src/arch/win32/resc128.rc.po.c:650 src/arch/win32/rescbm2.rc.po.c:506
@@ -7333,7 +7295,9 @@ msgid "Function high image (3plus1)"
 msgstr "Image Fonction haute (3+1)..."
 
 # ########### =========================== -------------------------------> Kaddict
-#: src/arch/win32/resplus4.rc.po.c:460 src/arch/amigaos/intl_text.c.po.c:2566
+#: src/arch/win32/resplus4.rc.po.c:460 src/arch/win32/resv364speech.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2566
+#: src/arch/amigaos/intl_text.c.po.c:5908
 #, fuzzy
 msgid "V364 Speech settings"
 msgstr "Paramètres du modèle PET"
@@ -7469,12 +7433,6 @@ msgstr "Périphérique gauche/principal"
 msgid "Enable the digiblaster add-on"
 msgstr "Activer la cartouche Digimax"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:22
-#: src/arch/amigaos/intl_text.c.po.c:8534
-#, fuzzy
-msgid "SFX Sound Expander Settings"
-msgstr "*Émulation de la souris 1351"
-
 #: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
 #, fuzzy
 msgid "Enable the SFX Sound Expander cartridge"
@@ -7484,18 +7442,13 @@ msgstr "Activer les paramètres experts de cartouches"
 msgid "Ethernet"
 msgstr "Ethernet"
 
-#: src/arch/win32/resv364speech.rc.po.c:24
-#: src/arch/amigaos/intl_text.c.po.c:5908
-#, fuzzy
-msgid "V364 Speech Settings"
-msgstr "Paramètres du modèle PET"
-
 #: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:11616
 #, fuzzy
 msgid "Enable the v364 speech add-on"
 msgstr "Activer la cartouche Digimax"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
+#: src/arch/amigaos/intl_text.c.po.c:5882
 #, fuzzy
 msgid "V364 Speech ROM file"
 msgstr "Sélectionner le fichier de mappage clavier"
@@ -7509,10 +7462,10 @@ msgstr "Sélectionner fichier pour REU"
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "Tous (blocks 0/1/2/3/5)"
 
-#: src/arch/win32/resvic20.rc.po.c:505
+#: src/arch/win32/resvic20.rc.po.c:505 src/arch/amigaos/intl_text.c.po.c:7351
 #, fuzzy
-msgid "Select Generic image"
-msgstr "Sélectionnez le fichier image du D.D."
+msgid "Select generic cartridge image"
+msgstr "Sauvegarder une image de cartouche"
 
 #: src/arch/win32/resvic20.rc.po.c:506 src/arch/amigaos/intl_text.c.po.c:7377
 #, fuzzy
@@ -7529,13 +7482,13 @@ msgstr "Sélectionner l'image ROM Fonction interne"
 msgid "Select Vic Flash Plugin image"
 msgstr "Sélectionner l'image ROM Fonction interne"
 
-#: src/arch/win32/resvic20.rc.po.c:509
+#: src/arch/win32/resvic20.rc.po.c:509 src/arch/amigaos/intl_text.c.po.c:7403
 #, fuzzy
-msgid "Select cartridge image"
+msgid "Select cartridge file"
 msgstr "Sauvegarder une image de cartouche"
 
-#: src/arch/win32/resvic20.rc.po.c:515
-msgid "VIC-1112 IEEE 488 module"
+#: src/arch/win32/resvic20.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:1747
+msgid "VIC-1112 IEEE-488 module"
 msgstr "Module VIC-1112 IEEE 488"
 
 #: src/arch/win32/resvic20.rc.po.c:517 src/arch/amigaos/intl_text.c.po.c:356
@@ -7692,10 +7645,6 @@ msgstr "PAL-G"
 msgid "NTSC-M"
 msgstr "*NTSC-M"
 
-#: src/arch/amigaos/intl_text.c.po.c:1747
-msgid "VIC-1112 IEEE-488 module"
-msgstr "Module VIC-1112 IEEE 488"
-
 #: src/arch/amigaos/intl_text.c.po.c:1838
 msgid "C64 PAL"
 msgstr ""
@@ -7817,10 +7766,6 @@ msgstr "Périphérique détaché %d"
 #, c-format
 msgid "Attached %s to device#%d"
 msgstr "%s attaché au périphérique #%d"
-
-#: src/arch/amigaos/intl_text.c.po.c:3736
-msgid "VICE Question"
-msgstr "Question VICE"
 
 #: src/arch/amigaos/intl_text.c.po.c:3762
 msgid "Yes|No"
@@ -8072,11 +8017,6 @@ msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
 "Émulation joystick #2: (0: Aucune, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
-#: src/arch/amigaos/intl_text.c.po.c:5882
-#, fuzzy
-msgid "V364 Speech file"
-msgstr "Sélectionner le fichier de mappage clavier"
-
 #: src/arch/amigaos/intl_text.c.po.c:5895
 #, fuzzy
 msgid "Select file for V364 Speech"
@@ -8237,20 +8177,6 @@ msgstr "Enregistrer le BIOS lorsque modifié"
 msgid "EEPROM read/write"
 msgstr "lecture/écriture"
 
-#: src/arch/amigaos/intl_text.c.po.c:7351
-#, fuzzy
-msgid "Select generic cartridge image"
-msgstr "Sauvegarder une image de cartouche"
-
-#: src/arch/amigaos/intl_text.c.po.c:7403
-#, fuzzy
-msgid "Select cartridge file"
-msgstr "Sauvegarder une image de cartouche"
-
-#: src/arch/amigaos/intl_text.c.po.c:7416
-msgid "SID Cart"
-msgstr "SID Cart"
-
 #: src/arch/amigaos/intl_text.c.po.c:7702
 msgid "snapshot file"
 msgstr "Fichier de sauvegarde"
@@ -8336,16 +8262,6 @@ msgstr "Fichier image ROM courant"
 #, fuzzy
 msgid "PET Model"
 msgstr "Modèle"
-
-#: src/arch/amigaos/intl_text.c.po.c:8313
-#, fuzzy
-msgid "Select Internal Function ROM file"
-msgstr "Sélectionner l'image ROM Fonction interne"
-
-#: src/arch/amigaos/intl_text.c.po.c:8326
-#, fuzzy
-msgid "Select External Function ROM file"
-msgstr "Sélectionner l'image ROM Fonction externe"
 
 #: src/arch/amigaos/intl_text.c.po.c:8404
 msgid "RAM banks 2 & 3"
@@ -8655,11 +8571,6 @@ msgstr "Erreur lors du passage au mode plein écran%s"
 #, fuzzy
 msgid "DTV ROM image created successfully"
 msgstr "Sauvegarde des paramètres effectuée correctement."
-
-#: src/translate_text.c.po.c:888 src/translate_text.c.po.c:6708
-#, fuzzy
-msgid "type"
-msgstr "<type>"
 
 #: src/translate_text.c.po.c:904
 #, c-format
@@ -11474,6 +11385,84 @@ msgstr "Désactiver la cartouche Digimax"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Adresse de base de la cartouche Digimax"
+
+#, fuzzy
+#~ msgid "TCP Port"
+#~ msgstr "Port TCP"
+
+#~ msgid "Successfully wrote `%s'."
+#~ msgstr "Écriture de `%s' réussie."
+
+#, fuzzy
+#~ msgid "unknown"
+#~ msgstr "<inconnu>"
+
+#~ msgid "Start Server"
+#~ msgstr "Démarrer le serveur"
+
+#, fuzzy
+#~ msgid "TCP port: "
+#~ msgstr "Port TCP"
+
+#~ msgid "Save snapshot"
+#~ msgstr "Sauvegarder"
+
+#~ msgid "VICE Error"
+#~ msgstr "Erreur VICE"
+
+#~ msgid "Snapshot options:"
+#~ msgstr "Options de sauvegarde"
+
+#~ msgid "VICE question"
+#~ msgstr "Question VICE"
+
+#, fuzzy
+#~ msgid "Scan line shade"
+#~ msgstr "Ombrage des scanlines"
+
+#, fuzzy
+#~ msgid "Swap Joysticks"
+#~ msgstr "Échanger les joysticks de ports"
+
+#, fuzzy
+#~ msgid "Swap Userport joysticks"
+#~ msgstr "*Pin de diagnostique userport PET"
+
+#~ msgid "Select internal function ROM image"
+#~ msgstr "Sélectionner l'image ROM Fonction interne"
+
+#~ msgid "Select external function ROM image"
+#~ msgstr "Sélectionner l'image ROM Fonction externe"
+
+#, fuzzy
+#~ msgid "SFX Sound Expander Settings"
+#~ msgstr "*Émulation de la souris 1351"
+
+#, fuzzy
+#~ msgid "V364 Speech Settings"
+#~ msgstr "Paramètres du modèle PET"
+
+#, fuzzy
+#~ msgid "Select Generic image"
+#~ msgstr "Sélectionnez le fichier image du D.D."
+
+#, fuzzy
+#~ msgid "Select cartridge image"
+#~ msgstr "Sauvegarder une image de cartouche"
+
+#~ msgid "VIC-1112 IEEE 488 module"
+#~ msgstr "Module VIC-1112 IEEE 488"
+
+#, fuzzy
+#~ msgid "V364 Speech file"
+#~ msgstr "Sélectionner le fichier de mappage clavier"
+
+#~ msgid "SID Cart"
+#~ msgstr "SID Cart"
+
+#, fuzzy
+#~ msgid "type"
+#~ msgstr "<type>"
 
 #~ msgid "Save Cartridge"
 #~ msgstr "Sauvegarde de la cartouche"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-21 15:06-0700\n"
+"POT-Creation-Date: 2011-04-22 13:54-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -780,7 +780,7 @@ msgid "PET DWW hi-res graphics"
 msgstr ""
 
 #: src/arch/unix/gui/petui.c:230 src/arch/unix/gui/plus4ui.c:201
-#: src/arch/unix/gui/vic20ui.c:510
+#: src/arch/unix/gui/vic20ui.c:510 src/arch/amigaos/intl_text.c.po.c:7416
 msgid "SID cartridge"
 msgstr "SID cartridge"
 
@@ -1391,7 +1391,9 @@ msgstr "Indulás RESET-tel"
 msgid "Overwrite running playback"
 msgstr "*A futó visszajátszás felülírása"
 
-#: src/arch/unix/gui/uicommands.c:486 src/arch/win32/res.rc.po.c:978
+#: src/arch/unix/gui/uicommands.c:486 src/arch/unix/x11/gnome/uisnapshot.c:46
+#: src/arch/unix/x11/xaw/uisnapshot.c:85
+#: src/arch/unix/x11/xaw/uisnapshot.c:302 src/arch/win32/res.rc.po.c:978
 #: src/arch/win32/res.rc.po.c:1384 src/arch/amigaos/intl_text.c.po.c:967
 #: src/arch/amigaos/intl_text.c.po.c:7624
 msgid "Save snapshot image"
@@ -2070,14 +2072,14 @@ msgstr "MMC64 flashjumper engedélyezése"
 msgid "Prg"
 msgstr "Prg"
 
-#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:222
-#: src/arch/unix/x11/xaw/uisnapshot.c:259 src/arch/win32/resexpert.rc.po.c:45
+#: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:224
+#: src/arch/unix/x11/xaw/uisnapshot.c:261 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:5036
 msgid "Off"
 msgstr "Ki"
 
-#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:233
-#: src/arch/unix/x11/xaw/uisnapshot.c:270 src/arch/win32/resexpert.rc.po.c:47
+#: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:235
+#: src/arch/unix/x11/xaw/uisnapshot.c:272 src/arch/win32/resexpert.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:5062
 msgid "On"
 msgstr "Be"
@@ -2095,7 +2097,7 @@ msgstr "Töltés"
 #: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:171
 #: src/arch/unix/x11/xaw/uiedisk.c:403
 #: src/arch/unix/x11/xaw/uiscreenshot.c:259
-#: src/arch/unix/x11/xaw/uisnapshot.c:281 src/arch/win32/res.rc.po.c:1245
+#: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:1245
 #: src/arch/win32/res.rc.po.c:1474 src/arch/amigaos/intl_text.c.po.c:3489
 msgid "Save"
 msgstr "Mentés"
@@ -2115,10 +2117,11 @@ msgstr "`%s' sikeresen beolvasva."
 msgid "Error reading `%s'."
 msgstr "Hiba `%s' olvasása közben."
 
-#: src/arch/unix/gui/uifliplist.c:101
+#: src/arch/unix/gui/uifliplist.c:101 src/arch/unix/x11/gnome/uicartridge.c:74
+#: src/arch/unix/x11/gnome/uiscreenshot.c:522
 #, c-format
-msgid "Successfully wrote `%s'."
-msgstr "`%s' sikeresen kiírva."
+msgid "Successfully wrote `%s'"
+msgstr "`%s' sikeresen kiírva"
 
 #: src/arch/unix/gui/uifliplist.c:103
 #, c-format
@@ -2461,7 +2464,8 @@ msgstr "*Gombkészlet botkormány engedélyezése"
 
 #: src/arch/unix/gui/uijoystick2.c:375 src/arch/unix/gui/uijoystick2.c:406
 #: src/arch/unix/gui/uijoystick2.c:437 src/arch/unix/gui/uijoystick2.c:508
-#: src/arch/unix/gui/uijoystick2.c:519 src/arch/amigaos/intl_text.c.po.c:1552
+#: src/arch/unix/gui/uijoystick2.c:519 src/arch/win32/res.rc.po.c:1405
+#: src/arch/amigaos/intl_text.c.po.c:1552
 #, fuzzy
 msgid "Swap joysticks"
 msgstr "Botkormányok felcserélése"
@@ -2495,7 +2499,7 @@ msgstr "Botkormány a &2-es extra porton"
 
 #: src/arch/unix/gui/uijoystick2.c:386 src/arch/unix/gui/uijoystick2.c:417
 #: src/arch/unix/gui/uijoystick2.c:461 src/arch/unix/gui/uijoystick2.c:488
-#: src/arch/amigaos/intl_text.c.po.c:1565
+#: src/arch/win32/res.rc.po.c:1406 src/arch/amigaos/intl_text.c.po.c:1565
 #, fuzzy
 msgid "Swap userport joysticks"
 msgstr "&Userport botkormányok felcserélése"
@@ -2610,6 +2614,7 @@ msgid "MIDI-Out device"
 msgstr "Adja meg a MIDI-Out eszközöt"
 
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1242
+#: src/translate_text.c.po.c:888 src/translate_text.c.po.c:6708
 msgid "Type"
 msgstr "Típus"
 
@@ -2754,12 +2759,13 @@ msgstr "A gazdagép neve:"
 msgid "Error connecting to server."
 msgstr "Hiba történt a kapcsolódáskor."
 
-#: src/arch/unix/gui/uinetplay.c:112 src/arch/win32/res.rc.po.c:1225
-#: src/arch/amigaos/intl_text.c.po.c:3528
+#: src/arch/unix/gui/uinetplay.c:112 src/arch/unix/x11/gnome/uinetplay.c:208
+#: src/arch/win32/res.rc.po.c:1225 src/arch/amigaos/intl_text.c.po.c:3528
 msgid "TCP port"
 msgstr "TCP port"
 
-#: src/arch/unix/gui/uinetplay.c:114 src/arch/win32/res.rc.po.c:1226
+#: src/arch/unix/gui/uinetplay.c:114 src/arch/unix/x11/gnome/uinetplay.c:231
+#: src/arch/win32/res.rc.po.c:1226 src/arch/amigaos/intl_text.c.po.c:3541
 msgid "Start server"
 msgstr "Kiszolgáló elindítása"
 
@@ -2771,13 +2777,13 @@ msgstr "Kiszolgáló kapcsolódási címe"
 msgid "Connect to server"
 msgstr "Kapcsolódás a kiszolgálóhoz"
 
-#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:320
+#: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:322
 #: src/arch/win32/res.rc.po.c:1228 src/arch/amigaos/intl_text.c.po.c:3580
 msgid "Disconnect"
 msgstr "Szétkapcsolódás"
 
 #: src/arch/unix/gui/uipalemu.c:70 src/arch/unix/gui/uipalemu.c:123
-#: src/arch/unix/x11/gnome/uipalcontrol.c:48
+#: src/arch/unix/x11/gnome/uipalcontrol.c:48 src/arch/win32/res.rc.po.c:1179
 #: src/arch/amigaos/intl_text.c.po.c:7793
 #, fuzzy
 msgid "Scanline shade"
@@ -4084,12 +4090,6 @@ msgstr ""
 "Nem sikerült a cartridge képmásba írni\n"
 "`%s'\n"
 
-#: src/arch/unix/x11/gnome/uicartridge.c:74
-#: src/arch/unix/x11/gnome/uisnapshot.c:107
-#, c-format
-msgid "Successfully wrote `%s'\n"
-msgstr "`%s' sikeresen kiírva\n"
-
 #: src/arch/unix/x11/gnome/uiedisk.c:66 src/arch/unix/x11/gnome/uiedisk.c:143
 #: src/arch/unix/x11/xaw/uiedisk.c:429
 msgid "Create empty disk"
@@ -4168,10 +4168,9 @@ msgstr "Nem sikerült elindítani a hálózati kiszolgálót."
 msgid "Couldn't connect client."
 msgstr "Nem sikerült kapcsolódni."
 
-#: src/arch/unix/x11/gnome/uinetplay.c:205
-#, fuzzy
-msgid "unknown"
-msgstr "<ismeretlen>"
+#: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1076
+msgid "Unknown"
+msgstr "Ismeretlen"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:206 src/arch/win32/res.rc.po.c:1227
 #: src/arch/amigaos/intl_text.c.po.c:3567
@@ -4183,31 +4182,21 @@ msgstr "Kapcsolódás ehhez:"
 msgid "Current mode"
 msgstr "Jelenlegi mód"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:209
-#: src/arch/unix/x11/gnome/uinetplay.c:211 src/arch/win32/res.rc.po.c:1222
+#: src/arch/unix/x11/gnome/uinetplay.c:210
+#: src/arch/unix/x11/gnome/uinetplay.c:212 src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:3645
 msgid "Netplay Settings"
 msgstr "Hálózati játék beállításai"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:230
-#: src/arch/amigaos/intl_text.c.po.c:3541
-msgid "Start Server"
-msgstr "Kiszolgáló indítása"
-
-#: src/arch/unix/x11/gnome/uinetplay.c:236
-#, fuzzy
-msgid "TCP port: "
-msgstr "TCP port"
-
-#: src/arch/unix/x11/gnome/uinetplay.c:286 src/arch/win32/res.rc.po.c:1229
+#: src/arch/unix/x11/gnome/uinetplay.c:288 src/arch/win32/res.rc.po.c:1229
 msgid "Control"
 msgstr "Vezérlõ"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:291 src/arch/win32/res.rc.po.c:1230
+#: src/arch/unix/x11/gnome/uinetplay.c:293 src/arch/win32/res.rc.po.c:1230
 msgid "Server"
 msgstr "Kiszolgáló"
 
-#: src/arch/unix/x11/gnome/uinetplay.c:294 src/arch/win32/res.rc.po.c:1231
+#: src/arch/unix/x11/gnome/uinetplay.c:296 src/arch/win32/res.rc.po.c:1231
 msgid "Client"
 msgstr "Kliens"
 
@@ -4270,18 +4259,8 @@ msgstr "Fénykép fájl mentése"
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "Nem sikerült a `%s' pillanatképet elkészíteni `%s' formátumban."
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:522
-#, c-format
-msgid "Successfully wrote `%s'"
-msgstr "`%s' sikeresen kiírva"
-
-#: src/arch/unix/x11/gnome/uisnapshot.c:46
-#: src/arch/unix/x11/xaw/uisnapshot.c:85
-#: src/arch/unix/x11/xaw/uisnapshot.c:300
-msgid "Save snapshot"
-msgstr "Pillanatkép mentése"
-
 #: src/arch/unix/x11/gnome/uisnapshot.c:51
+#: src/arch/unix/x11/xaw/uisnapshot.c:128
 msgid "Snapshot options"
 msgstr "Pillanatkép opciók"
 
@@ -4296,6 +4275,11 @@ msgstr "A jelenleg csatolt lemezek mentése"
 #: src/arch/amigaos/intl_text.c.po.c:7663
 msgid "Save currently loaded ROM images"
 msgstr "A jelenleg betöltött ROM-ok mentése"
+
+#: src/arch/unix/x11/gnome/uisnapshot.c:107
+#, c-format
+msgid "Successfully wrote `%s'\n"
+msgstr "`%s' sikeresen kiírva\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:44
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:43
@@ -4385,9 +4369,10 @@ msgstr "%s (szünet)"
 msgid "VICE Message"
 msgstr "VICE üzenet"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1946 src/arch/amigaos/intl_text.c.po.c:3281
-msgid "VICE Error"
-msgstr "VICE hiba"
+#: src/arch/unix/x11/gnome/x11ui.c:1946 src/arch/unix/x11/xaw/x11ui.c:1784
+#: src/arch/win32/res.rc.po.c:900 src/arch/amigaos/intl_text.c.po.c:3281
+msgid "VICE Error!"
+msgstr "VICE hiba!"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Hard Reset"
@@ -4504,14 +4489,14 @@ msgstr "Fájlnév"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
 #: src/arch/unix/x11/xaw/uiscreenshot.c:195
-#: src/arch/unix/x11/xaw/uisnapshot.c:169 src/arch/win32/res.rc.po.c:1109
+#: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:1109
 #: src/arch/win32/res.rc.po.c:1126 src/arch/amigaos/intl_text.c.po.c:3502
 msgid "Browse"
 msgstr "Tallóz"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:177 src/arch/unix/x11/xaw/uiedisk.c:409
 #: src/arch/unix/x11/xaw/uiscreenshot.c:265
-#: src/arch/unix/x11/xaw/uisnapshot.c:287 src/arch/win32/res.rc.po.c:676
+#: src/arch/unix/x11/xaw/uisnapshot.c:289 src/arch/win32/res.rc.po.c:676
 #: src/arch/win32/res.rc.po.c:1107 src/arch/amigaos/intl_text.c.po.c:3671
 msgid "Cancel"
 msgstr "Mégsem"
@@ -4532,10 +4517,6 @@ msgstr "Lemez formátum:"
 msgid "Screen Snapshot"
 msgstr "Képernyõ fénykép"
 
-#: src/arch/unix/x11/xaw/uisnapshot.c:187
-msgid "Snapshot options:"
-msgstr "Pillanatkép opciók:"
-
 #: src/arch/unix/x11/xaw/x11ui.c:990
 #, fuzzy
 msgid "recording"
@@ -4545,10 +4526,6 @@ msgstr "felvétel..."
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: Sáv %.1f"
-
-#: src/arch/unix/x11/xaw/x11ui.c:1784 src/arch/win32/res.rc.po.c:900
-msgid "VICE Error!"
-msgstr "VICE hiba!"
 
 #: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:284
 #, fuzzy
@@ -4797,8 +4774,8 @@ msgstr ""
 msgid " "
 msgstr " "
 
-#: src/arch/win32/res.rc.po.c:902
-msgid "VICE question"
+#: src/arch/win32/res.rc.po.c:902 src/arch/amigaos/intl_text.c.po.c:3736
+msgid "VICE Question"
 msgstr "VICE kérdés"
 
 #: src/arch/win32/res.rc.po.c:903
@@ -5393,10 +5370,6 @@ msgstr ""
 "Visszajátszás\n"
 "%02d:%02d (%02d:%02d)"
 
-#: src/arch/win32/res.rc.po.c:1076
-msgid "Unknown"
-msgstr "Ismeretlen"
-
 #: src/arch/win32/res.rc.po.c:1077 src/translate_text.c.po.c:1240
 #: src/translate_text.c.po.c:3404
 #, fuzzy
@@ -5615,11 +5588,6 @@ msgstr ""
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
 msgstr ""
-
-#: src/arch/win32/res.rc.po.c:1179
-#, fuzzy
-msgid "Scan line shade"
-msgstr "Pászta árnyalás"
 
 #: src/arch/win32/res.rc.po.c:1183
 #, fuzzy
@@ -6152,16 +6120,6 @@ msgstr "Hipergyors mód"
 msgid "Always on Top"
 msgstr "Mindig felül"
 
-#: src/arch/win32/res.rc.po.c:1405
-#, fuzzy
-msgid "Swap Joysticks"
-msgstr "Botkormányok &felcserélése"
-
-#: src/arch/win32/res.rc.po.c:1406
-#, fuzzy
-msgid "Swap Userport joysticks"
-msgstr "&Userport botkormányok felcserélése"
-
 #: src/arch/win32/res.rc.po.c:1408 src/arch/amigaos/intl_text.c.po.c:1578
 msgid "Enable Joy Keys"
 msgstr "Botkormány gombok engedélyezése"
@@ -6303,7 +6261,9 @@ msgstr "RS232 userport beállításai..."
 msgid "EasyFlash settings"
 msgstr "EasyFlash beállításai"
 
-#: src/arch/win32/res.rc.po.c:1446 src/arch/amigaos/intl_text.c.po.c:2475
+#: src/arch/win32/res.rc.po.c:1446 src/arch/win32/ressoundexpander.rc.po.c:22
+#: src/arch/amigaos/intl_text.c.po.c:2475
+#: src/arch/amigaos/intl_text.c.po.c:8534
 #, fuzzy
 msgid "SFX Sound Expander settings"
 msgstr "SFX Sounder Expander beállítások"
@@ -6514,12 +6474,12 @@ msgstr "Válasszon lemezfájlt a PRG automatikus indításhoz"
 msgid "VDC revision"
 msgstr "VDC változat"
 
-#: src/arch/win32/resc128.rc.po.c:646
-msgid "Select internal function ROM image"
+#: src/arch/win32/resc128.rc.po.c:646 src/arch/amigaos/intl_text.c.po.c:8313
+msgid "Select Internal Function ROM file"
 msgstr "Adja meg a belsõ Function ROM képmás nevét"
 
-#: src/arch/win32/resc128.rc.po.c:647
-msgid "Select external function ROM image"
+#: src/arch/win32/resc128.rc.po.c:647 src/arch/amigaos/intl_text.c.po.c:8326
+msgid "Select External Function ROM file"
 msgstr "Adja meg a külsõ Function ROM képmás nevét"
 
 #: src/arch/win32/resc128.rc.po.c:650 src/arch/win32/rescbm2.rc.po.c:506
@@ -7237,7 +7197,9 @@ msgstr "Function alsó képmás (3plus1)..."
 msgid "Function high image (3plus1)"
 msgstr "Function felsõ képmás (3plus1)..."
 
-#: src/arch/win32/resplus4.rc.po.c:460 src/arch/amigaos/intl_text.c.po.c:2566
+#: src/arch/win32/resplus4.rc.po.c:460 src/arch/win32/resv364speech.rc.po.c:24
+#: src/arch/amigaos/intl_text.c.po.c:2566
+#: src/arch/amigaos/intl_text.c.po.c:5908
 #, fuzzy
 msgid "V364 Speech settings"
 msgstr "PET modell beállításai"
@@ -7368,11 +7330,6 @@ msgstr "Fõ eszköz"
 msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster engedélyezése"
 
-#: src/arch/win32/ressoundexpander.rc.po.c:22
-#: src/arch/amigaos/intl_text.c.po.c:8534
-msgid "SFX Sound Expander Settings"
-msgstr "SFX Sounder Expander beállítások"
-
 #: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
 #, fuzzy
 msgid "Enable the SFX Sound Expander cartridge"
@@ -7383,18 +7340,13 @@ msgstr "SFX soundexpander engedélyezése"
 msgid "Ethernet"
 msgstr "&Ethernet"
 
-#: src/arch/win32/resv364speech.rc.po.c:24
-#: src/arch/amigaos/intl_text.c.po.c:5908
-#, fuzzy
-msgid "V364 Speech Settings"
-msgstr "PET modell beállításai"
-
 #: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:11616
 #, fuzzy
 msgid "Enable the v364 speech add-on"
 msgstr "Digiblaster engedélyezése"
 
 #: src/arch/win32/resv364speech.rc.po.c:26
+#: src/arch/amigaos/intl_text.c.po.c:5882
 #, fuzzy
 msgid "V364 Speech ROM file"
 msgstr "Válasszon ROM fájlt"
@@ -7409,9 +7361,10 @@ msgstr "Válasszon fájlt a 256K-hoz"
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "&Mindegyik (blokk 0/1/2/3/5)"
 
-#: src/arch/win32/resvic20.rc.po.c:505
-msgid "Select Generic image"
-msgstr "Válassza ki az általános képmást"
+#: src/arch/win32/resvic20.rc.po.c:505 src/arch/amigaos/intl_text.c.po.c:7351
+#, fuzzy
+msgid "Select generic cartridge image"
+msgstr "Általános cartridge fájl kiválasztása"
 
 #: src/arch/win32/resvic20.rc.po.c:506 src/arch/amigaos/intl_text.c.po.c:7377
 msgid "Select Mega-Cart image"
@@ -7426,14 +7379,14 @@ msgstr "Válassza ki a Final Expansion képmást"
 msgid "Select Vic Flash Plugin image"
 msgstr "Válassza ki a Final Expansion képmást"
 
-#: src/arch/win32/resvic20.rc.po.c:509
-msgid "Select cartridge image"
-msgstr "Válassza ki a cartridge képmást"
+#: src/arch/win32/resvic20.rc.po.c:509 src/arch/amigaos/intl_text.c.po.c:7403
+msgid "Select cartridge file"
+msgstr "Cartridge fájl kiválasztása"
 
-#: src/arch/win32/resvic20.rc.po.c:515
+#: src/arch/win32/resvic20.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:1747
 #, fuzzy
-msgid "VIC-1112 IEEE 488 module"
-msgstr "VIC-1112 IEEE &488 modul"
+msgid "VIC-1112 IEEE-488 module"
+msgstr "VIC-1112 IEEE 488 modul"
 
 #: src/arch/win32/resvic20.rc.po.c:517 src/arch/amigaos/intl_text.c.po.c:356
 #, fuzzy
@@ -7586,11 +7539,6 @@ msgstr ""
 msgid "NTSC-M"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:1747
-#, fuzzy
-msgid "VIC-1112 IEEE-488 module"
-msgstr "VIC-1112 IEEE 488 modul"
-
 #: src/arch/amigaos/intl_text.c.po.c:1838
 msgid "C64 PAL"
 msgstr ""
@@ -7705,10 +7653,6 @@ msgstr "%d eszköz leválasztva"
 #, c-format
 msgid "Attached %s to device#%d"
 msgstr "%s csatolva #%d eszközhöz"
-
-#: src/arch/amigaos/intl_text.c.po.c:3736
-msgid "VICE Question"
-msgstr "VICE kérdés"
 
 #: src/arch/amigaos/intl_text.c.po.c:3762
 msgid "Yes|No"
@@ -7941,11 +7885,6 @@ msgstr ""
 "#2-es extra botkormány emuláció (0: Nincs, 1: numerikus, 2-5: Amiga "
 "botkormány 0-3)"
 
-#: src/arch/amigaos/intl_text.c.po.c:5882
-#, fuzzy
-msgid "V364 Speech file"
-msgstr "Válasszon ROM fájlt"
-
 #: src/arch/amigaos/intl_text.c.po.c:5895
 #, fuzzy
 msgid "Select file for V364 Speech"
@@ -8105,19 +8044,6 @@ msgstr "BIOS &mentése változás után"
 msgid "EEPROM read/write"
 msgstr "írható/olvasható"
 
-#: src/arch/amigaos/intl_text.c.po.c:7351
-#, fuzzy
-msgid "Select generic cartridge image"
-msgstr "Általános cartridge fájl kiválasztása"
-
-#: src/arch/amigaos/intl_text.c.po.c:7403
-msgid "Select cartridge file"
-msgstr "Cartridge fájl kiválasztása"
-
-#: src/arch/amigaos/intl_text.c.po.c:7416
-msgid "SID Cart"
-msgstr "SID kártya"
-
 #: src/arch/amigaos/intl_text.c.po.c:7702
 msgid "snapshot file"
 msgstr "pillanatkép fájl"
@@ -8200,14 +8126,6 @@ msgstr "Jelenlegi modell"
 #: src/arch/amigaos/intl_text.c.po.c:8287
 msgid "PET Model"
 msgstr "PET modell"
-
-#: src/arch/amigaos/intl_text.c.po.c:8313
-msgid "Select Internal Function ROM file"
-msgstr "Adja meg a belsõ Function ROM képmás nevét"
-
-#: src/arch/amigaos/intl_text.c.po.c:8326
-msgid "Select External Function ROM file"
-msgstr "Adja meg a külsõ Function ROM képmás nevét"
 
 #: src/arch/amigaos/intl_text.c.po.c:8404
 msgid "RAM banks 2 & 3"
@@ -8507,11 +8425,6 @@ msgstr "Hiba %s fájlba írás közben!"
 #: src/translate_text.c.po.c:872
 msgid "DTV ROM image created successfully"
 msgstr "DTV ROM képmás sikeresen létrehozva"
-
-#: src/translate_text.c.po.c:888 src/translate_text.c.po.c:6708
-#, fuzzy
-msgid "type"
-msgstr "<típus>"
 
 #: src/translate_text.c.po.c:904
 #, c-format
@@ -11439,6 +11352,82 @@ msgstr "Digimax cartridge tiltása"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
+
+#, fuzzy
+#~ msgid "TCP Port"
+#~ msgstr "TCP port"
+
+#~ msgid "Successfully wrote `%s'."
+#~ msgstr "`%s' sikeresen kiírva."
+
+#, fuzzy
+#~ msgid "unknown"
+#~ msgstr "<ismeretlen>"
+
+#~ msgid "Start Server"
+#~ msgstr "Kiszolgáló indítása"
+
+#, fuzzy
+#~ msgid "TCP port: "
+#~ msgstr "TCP port"
+
+#~ msgid "Save snapshot"
+#~ msgstr "Pillanatkép mentése"
+
+#~ msgid "VICE Error"
+#~ msgstr "VICE hiba"
+
+#~ msgid "Snapshot options:"
+#~ msgstr "Pillanatkép opciók:"
+
+#~ msgid "VICE question"
+#~ msgstr "VICE kérdés"
+
+#, fuzzy
+#~ msgid "Scan line shade"
+#~ msgstr "Pászta árnyalás"
+
+#, fuzzy
+#~ msgid "Swap Joysticks"
+#~ msgstr "Botkormányok &felcserélése"
+
+#, fuzzy
+#~ msgid "Swap Userport joysticks"
+#~ msgstr "&Userport botkormányok felcserélése"
+
+#~ msgid "Select internal function ROM image"
+#~ msgstr "Adja meg a belsõ Function ROM képmás nevét"
+
+#~ msgid "Select external function ROM image"
+#~ msgstr "Adja meg a külsõ Function ROM képmás nevét"
+
+#~ msgid "SFX Sound Expander Settings"
+#~ msgstr "SFX Sounder Expander beállítások"
+
+#, fuzzy
+#~ msgid "V364 Speech Settings"
+#~ msgstr "PET modell beállításai"
+
+#~ msgid "Select Generic image"
+#~ msgstr "Válassza ki az általános képmást"
+
+#~ msgid "Select cartridge image"
+#~ msgstr "Válassza ki a cartridge képmást"
+
+#, fuzzy
+#~ msgid "VIC-1112 IEEE 488 module"
+#~ msgstr "VIC-1112 IEEE &488 modul"
+
+#, fuzzy
+#~ msgid "V364 Speech file"
+#~ msgstr "Válasszon ROM fájlt"
+
+#~ msgid "SID Cart"
+#~ msgstr "SID kártya"
+
+#, fuzzy
+#~ msgid "type"
+#~ msgstr "<típus>"
 
 #~ msgid "Save Cartridge"
 #~ msgstr "Cartridge mentése"

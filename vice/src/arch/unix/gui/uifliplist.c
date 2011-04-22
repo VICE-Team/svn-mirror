@@ -98,7 +98,7 @@ static UI_CALLBACK(load_save_fliplist)
                 }
             } else {
                 if (fliplist_save_list((unsigned int)-1, filename) == 0) {
-                    ui_message(_("Successfully wrote `%s'."), filename);
+                    ui_message(_("Successfully wrote `%s'"), filename);
                 } else {
                     ui_error(_("Error writing `%s'."), filename);
                 }

@@ -685,8 +685,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Select internal function ROM image"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
+  IDS_SELECT_INT_FUNCTION_ROM   "Select Internal Function ROM file"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Select External Function ROM file"
   IDS_MACHINE_TYPE              "Machine type"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "RAM banks"
@@ -746,7 +746,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_INT_FUNCTION_ROM   "Vælg image for intern funktions-ROM"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Vælg image for extern funktions-ROM"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Vælg image for ekstern funktions-ROM"
   IDS_MACHINE_TYPE              "Maskintype"
   IDS_FUNCTION_ROM              "Funktions-ROM"
   IDS_RAM_BANKS                 "RAM-banke"
@@ -865,8 +865,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Sélectionner l'image ROM Fonction interne"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Sélectionner l'image ROM Fonction externe"
+  IDS_SELECT_INT_FUNCTION_ROM   "Select Internal Function ROM file"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Select External Function ROM file"
   IDS_MACHINE_TYPE              "Type de machine"
   IDS_FUNCTION_ROM              "ROM Fonction"
   IDS_RAM_BANKS                 "Banques de RAM"
@@ -991,8 +991,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Seleziona immagine Function ROM interna"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona immagine Function ROM esterna"
+  IDS_SELECT_INT_FUNCTION_ROM   "Seleziona file function ROM interna"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Seleziona file function ROM esterna"
   IDS_MACHINE_TYPE              "Tipo macchina"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "Banchi di Ram"
@@ -1054,8 +1054,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Select internal function ROM image"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
+  IDS_SELECT_INT_FUNCTION_ROM   "Select Internal Function ROM file"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Select External Function ROM file"
   IDS_MACHINE_TYPE              "Machine type"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "RAM banks"
@@ -1180,8 +1180,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Select internal function ROM image"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
+  IDS_SELECT_INT_FUNCTION_ROM   "Select Internal Function ROM file"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Select External Function ROM file"
   IDS_MACHINE_TYPE              "Typ maszyny"
   IDS_FUNCTION_ROM              "Funkcja ROM"
   IDS_RAM_BANKS                 "RAM banks"
@@ -1246,8 +1246,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Select internal function ROM image"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Select external function ROM image"
+  IDS_SELECT_INT_FUNCTION_ROM   "Select Internal Function ROM file"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Select External Function ROM file"
   IDS_MACHINE_TYPE              "Machine type"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "RAM banks"
@@ -1372,8 +1372,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_INT_FUNCTION_ROM   "Dahili function ROM imajýný seç"
-  IDS_SELECT_EXT_FUNCTION_ROM   "Harici function ROM imajýný seç"
+  IDS_SELECT_INT_FUNCTION_ROM   "Dahili Function ROM dosyasý seçin"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Harici Function ROM dosyasý seçin"
   IDS_MACHINE_TYPE              "Makine tipi"
   IDS_FUNCTION_ROM              "Function ROM"
   IDS_RAM_BANKS                 "RAM banklarý"

@@ -1943,7 +1943,7 @@ void ui_error(const char *format, ...)
 
     va_start(ap, format);
     vsprintf(str, format, ap);
-    ui_message2(GTK_MESSAGE_ERROR, str, _("VICE Error"));
+    ui_message2(GTK_MESSAGE_ERROR, str, _("VICE Error!"));
 }
 
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window)

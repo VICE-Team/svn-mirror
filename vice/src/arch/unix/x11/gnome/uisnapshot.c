@@ -43,7 +43,7 @@ static GtkWidget *build_snapshot_dialog(void)
     GtkWidget *d, *box, *tmp;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SNAPSHOT, UILIB_FILTER_ALL };
 
-    d = vice_file_entry(_("Save snapshot"), NULL, NULL, filter, sizeof(filter) / sizeof(*filter), UI_FC_SAVE);
+    d = vice_file_entry(_("Save snapshot image"), NULL, NULL, filter, sizeof(filter) / sizeof(*filter), UI_FC_SAVE);
     box = gtk_hbox_new(0, FALSE);
 
     gtk_dialog_set_default_response(GTK_DIALOG(d), GTK_RESPONSE_ACCEPT);

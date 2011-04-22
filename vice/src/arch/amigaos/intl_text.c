@@ -3302,18 +3302,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMES_CANNOT_LOAD_SETTINGS_SV, "Kan inte läsa inställningar." },
 /* tr */ { IDMES_CANNOT_LOAD_SETTINGS_TR, "Ayarlar yüklenemedi." },
 
-/* en */ { IDMES_VICE_ERROR,    "VICE Error" },
-/* da */ { IDMES_VICE_ERROR_DA, "VICE-fejl" },
-/* de */ { IDMES_VICE_ERROR_DE, "VICE Fehler" },
-/* fr */ { IDMES_VICE_ERROR_FR, "Erreur VICE" },
-/* hu */ { IDMES_VICE_ERROR_HU, "VICE hiba" },
-/* it */ { IDMES_VICE_ERROR_IT, "Errore di VICE" },
+/* en */ { IDMES_VICE_ERROR,    "VICE Error!" },
+/* da */ { IDMES_VICE_ERROR_DA, "VICE-fejl!" },
+/* de */ { IDMES_VICE_ERROR_DE, "VICE Fehler!" },
+/* fr */ { IDMES_VICE_ERROR_FR, "Erreur VICE!" },
+/* hu */ { IDMES_VICE_ERROR_HU, "VICE hiba!" },
+/* it */ { IDMES_VICE_ERROR_IT, "Errore di VICE!" },
 /* ko */ { IDMES_VICE_ERROR_KO, "" },  /* fuzzy */
-/* nl */ { IDMES_VICE_ERROR_NL, "Vice fout" },
+/* nl */ { IDMES_VICE_ERROR_NL, "VICE Fout!" },
 /* pl */ { IDMES_VICE_ERROR_PL, "B³±d VICE" },
 /* ru */ { IDMES_VICE_ERROR_RU, "" },  /* fuzzy */
-/* sv */ { IDMES_VICE_ERROR_SV, "VICE-fel" },
-/* tr */ { IDMES_VICE_ERROR_TR, "VICE Hatasý" },
+/* sv */ { IDMES_VICE_ERROR_SV, "VICE-fel!" },
+/* tr */ { IDMES_VICE_ERROR_TR, "VICE Hatasý!" },
 
 /* en */ { IDMES_DEVICE_NOT_GAMEPAD,    "The device on this port is not a gamepad" },
 /* da */ { IDMES_DEVICE_NOT_GAMEPAD_DA, "Enheden på denne port er ikke en joypad" },
@@ -3562,18 +3562,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_TCP_PORT_SV, "TCP-port" },
 /* tr */ { IDS_TCP_PORT_TR, "TCP portu" },
 
-/* en */ { IDS_START_SERVER,    "Start Server" },
+/* en */ { IDS_START_SERVER,    "Start server" },
 /* da */ { IDS_START_SERVER_DA, "Start server" },
-/* de */ { IDS_START_SERVER_DE, "Server Starten" },
+/* de */ { IDS_START_SERVER_DE, "Server starten" },
 /* fr */ { IDS_START_SERVER_FR, "Démarrer le serveur" },
-/* hu */ { IDS_START_SERVER_HU, "Kiszolgáló indítása" },
+/* hu */ { IDS_START_SERVER_HU, "Kiszolgáló elindítása" },
 /* it */ { IDS_START_SERVER_IT, "Avvia server" },
 /* ko */ { IDS_START_SERVER_KO, "" },  /* fuzzy */
 /* nl */ { IDS_START_SERVER_NL, "Start server" },
 /* pl */ { IDS_START_SERVER_PL, "" },  /* fuzzy */
 /* ru */ { IDS_START_SERVER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_START_SERVER_SV, "Starta server" },
-/* tr */ { IDS_START_SERVER_TR, "Sunucuyu Baþlat" },
+/* tr */ { IDS_START_SERVER_TR, "Sunucuyu baþlat" },
 
 /* en */ { IDS_SERVER_BIND,    "Server Bind" },
 /* da */ { IDS_SERVER_BIND_DA, "Server" },
@@ -5903,18 +5903,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_PET_REU_SETTINGS_SV, "PET REU-Inställningar" },
 /* tr */ { IDS_PET_REU_SETTINGS_TR, "PET REU Ayarlarý" },
 
-/* en */ { IDS_V364_SPEECH_FILENAME,    "V364 Speech file" },
-/* da */ { IDS_V364_SPEECH_FILENAME_DA, "V364 Speech fil" },
-/* de */ { IDS_V364_SPEECH_FILENAME_DE, "V364 Stimme Datei" },
+/* en */ { IDS_V364_SPEECH_FILENAME,    "V364 Speech ROM file" },
+/* da */ { IDS_V364_SPEECH_FILENAME_DA, "V364 Speech ROM-fil" },
+/* de */ { IDS_V364_SPEECH_FILENAME_DE, "V364 Stimme ROM Datei" },
 /* fr */ { IDS_V364_SPEECH_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_V364_SPEECH_FILENAME_HU, "" },  /* fuzzy */
-/* it */ { IDS_V364_SPEECH_FILENAME_IT, "File V364 Speech" },
+/* it */ { IDS_V364_SPEECH_FILENAME_IT, "File ROM V364 Speech" },
 /* ko */ { IDS_V364_SPEECH_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_V364_SPEECH_FILENAME_NL, "V364 Spraak bestand" },
+/* nl */ { IDS_V364_SPEECH_FILENAME_NL, "V364 spraak ROM bestand" },
 /* pl */ { IDS_V364_SPEECH_FILENAME_PL, "" },  /* fuzzy */
 /* ru */ { IDS_V364_SPEECH_FILENAME_RU, "" },  /* fuzzy */
-/* sv */ { IDS_V364_SPEECH_FILENAME_SV, "Fil för V364-röst" },
-/* tr */ { IDS_V364_SPEECH_FILENAME_TR, "V364 Speech dosyasý" },
+/* sv */ { IDS_V364_SPEECH_FILENAME_SV, "ROM-fil för V364-röst" },
+/* tr */ { IDS_V364_SPEECH_FILENAME_TR, "V364 Speech ROM dosyasý" },
 
 /* en */ { IDS_V364_SPEECH_FILENAME_SELECT,    "Select file for V364 Speech" },
 /* da */ { IDS_V364_SPEECH_FILENAME_SELECT_DA, "Angiv fil for V364 Speech" },
@@ -5929,18 +5929,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_V364_SPEECH_FILENAME_SELECT_SV, "Välj fil för V364-röst" },
 /* tr */ { IDS_V364_SPEECH_FILENAME_SELECT_TR, "V364 Speech için dosya seçin" },
 
-/* en */ { IDS_V364_SPEECH_SETTINGS,    "V364 Speech Settings" },
-/* da */ { IDS_V364_SPEECH_SETTINGS_DA, "V364 Speech indstillinger" },
+/* en */ { IDS_V364_SPEECH_SETTINGS,    "V364 Speech settings" },
+/* da */ { IDS_V364_SPEECH_SETTINGS_DA, "V364 tale-indstillinger" },
 /* de */ { IDS_V364_SPEECH_SETTINGS_DE, "V364 Stimme Einstellungen" },
 /* fr */ { IDS_V364_SPEECH_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_V364_SPEECH_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_V364_SPEECH_SETTINGS_IT, "Impostazioni V364" },
+/* it */ { IDS_V364_SPEECH_SETTINGS_IT, "Impostazioni V364 Speech" },
 /* ko */ { IDS_V364_SPEECH_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_V364_SPEECH_SETTINGS_NL, "V364 Spraak instellingen" },
 /* pl */ { IDS_V364_SPEECH_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_V364_SPEECH_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_V364_SPEECH_SETTINGS_SV, "V364-röstinställningar" },
-/* tr */ { IDS_V364_SPEECH_SETTINGS_TR, "V364 Speech Ayarlarý" },
+/* tr */ { IDS_V364_SPEECH_SETTINGS_TR, "V364 Speech ayarlarý" },
 
 /* en */ { IDS_PET_DWW_FILENAME,    "PET DWW file" },
 /* da */ { IDS_PET_DWW_FILENAME_DA, "PET DWW fil" },
@@ -7437,18 +7437,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SELECT_CARTRIDGE_IMAGE_SV, "Välj insticksmodulfil" },
 /* tr */ { IDS_SELECT_CARTRIDGE_IMAGE_TR, "Kartuþ dosyasýný seç" },
 
-/* en */ { IDS_SID_CART,    "SID Cart" },
+/* en */ { IDS_SID_CART,    "SID cartridge" },
 /* da */ { IDS_SID_CART_DA, "SID-cartridge" },
 /* de */ { IDS_SID_CART_DE, "SID Modul" },
-/* fr */ { IDS_SID_CART_FR, "SID Cart" },
-/* hu */ { IDS_SID_CART_HU, "SID kártya" },
+/* fr */ { IDS_SID_CART_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SID_CART_HU, "SID cartridge" },
 /* it */ { IDS_SID_CART_IT, "Cartuccia SID" },
 /* ko */ { IDS_SID_CART_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SID_CART_NL, "SID cart" },
+/* nl */ { IDS_SID_CART_NL, "SID cartridge" },
 /* pl */ { IDS_SID_CART_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SID_CART_RU, "" },  /* fuzzy */
-/* sv */ { IDS_SID_CART_SV, "SID-modul" },
-/* tr */ { IDS_SID_CART_TR, "SID Kartuþu" },
+/* sv */ { IDS_SID_CART_SV, "SID-insticksmodul" },
+/* tr */ { IDS_SID_CART_TR, "SID kartuþu" },
 
 /* en */ { IDS_SID_ENGINE_MODEL,    "SID model" },
 /* da */ { IDS_SID_ENGINE_MODEL_DA, "SID-model" },
@@ -8555,11 +8555,11 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SFX_SE_CHIP_SV, "SFX Sound Expander-krets" },
 /* tr */ { IDS_SFX_SE_CHIP_TR, "SFX Sound Expander Çipi" },
 
-/* en */ { IDS_SFX_SE_SETTINGS,    "SFX Sound Expander Settings" },
+/* en */ { IDS_SFX_SE_SETTINGS,    "SFX Sound Expander settings" },
 /* da */ { IDS_SFX_SE_SETTINGS_DA, "SFX Sound Expander-indstillinger" },
 /* de */ { IDS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen" },
 /* fr */ { IDS_SFX_SE_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_SFX_SE_SETTINGS_HU, "SFX Sounder Expander beállítások" },
+/* hu */ { IDS_SFX_SE_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_SFX_SE_SETTINGS_IT, "Impostazioni SFX Sound Expander" },
 /* ko */ { IDS_SFX_SE_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SFX_SE_SETTINGS_NL, "SFX Sound Expander instellingen" },
