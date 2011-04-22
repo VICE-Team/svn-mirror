@@ -3679,18 +3679,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_NETPLAY_SETTINGS_SV, "Inställningar för nätverksspel" },
 /* tr */ { IDS_NETPLAY_SETTINGS_TR, "Netplay Ayarlarý" },
 
-/* en */ { IDS_SAVE_SCREENSHOT,    "Save Screenshot" },
+/* en */ { IDS_SAVE_SCREENSHOT,    "Save screenshot file" },
 /* da */ { IDS_SAVE_SCREENSHOT_DA, "Gem screenshot" },
 /* de */ { IDS_SAVE_SCREENSHOT_DE, "Screenshot speichern" },
 /* fr */ { IDS_SAVE_SCREENSHOT_FR, "Enregistrer une capture d'écran" },
-/* hu */ { IDS_SAVE_SCREENSHOT_HU, "Fénykép mentése" },
-/* it */ { IDS_SAVE_SCREENSHOT_IT, "Salva schermata" },
+/* hu */ { IDS_SAVE_SCREENSHOT_HU, "Fénykép fájl mentése" },
+/* it */ { IDS_SAVE_SCREENSHOT_IT, "Salva schermata su file" },
 /* ko */ { IDS_SAVE_SCREENSHOT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAVE_SCREENSHOT_NL, "Schermafdruk opslaan" },
-/* pl */ { IDS_SAVE_SCREENSHOT_PL, "Zapisz zrzut ekranu" },
+/* nl */ { IDS_SAVE_SCREENSHOT_NL, "Opslaan schermafdrukbestand" },
+/* pl */ { IDS_SAVE_SCREENSHOT_PL, "Zapisz plik" },
 /* ru */ { IDS_SAVE_SCREENSHOT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SAVE_SCREENSHOT_SV, "Spara skärmdump" },
-/* tr */ { IDS_SAVE_SCREENSHOT_TR, "Ekran Görüntüsü Kaydet" },
+/* tr */ { IDS_SAVE_SCREENSHOT_TR, "Ekran görüntüsü dosyasý kaydet" },
 
 /* en */ { IDS_CANCEL,    "Cancel" },
 /* da */ { IDS_CANCEL_DA, "Annullér" },
@@ -5799,31 +5799,31 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SET_INPUT_EXTRA_JOYLL_2_SV, "Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-3)" },
 /* tr */ { IDS_SET_INPUT_EXTRA_JOYLL_2_TR, "Ekstra joystick #2 emülasyonu: (0: Yok, 1: Numpad, 2-5: Amiga Joy 0-3)" },
 
-/* en */ { IDS_SAVE_SETTINGS_ON_EXIT,    "Save settings (resources) on exit" },
+/* en */ { IDS_SAVE_SETTINGS_ON_EXIT,    "Save settings on exit" },
 /* da */ { IDS_SAVE_SETTINGS_ON_EXIT_DA, "Gem indstillinger når programmet afsluttes" },
-/* de */ { IDS_SAVE_SETTINGS_ON_EXIT_DE, "Einstellungen (Ressourcen) beim Beenden speichern" },
-/* fr */ { IDS_SAVE_SETTINGS_ON_EXIT_FR, "Sauvegarder les paramètres à la sortie" },
-/* hu */ { IDS_SAVE_SETTINGS_ON_EXIT_HU, "Beállítások (erõforrások) mentése kilépéskor" },
-/* it */ { IDS_SAVE_SETTINGS_ON_EXIT_IT, "Salva impostazioni (risorse) in uscita" },
+/* de */ { IDS_SAVE_SETTINGS_ON_EXIT_DE, "Einstellungen beim Beenden speichern" },
+/* fr */ { IDS_SAVE_SETTINGS_ON_EXIT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SAVE_SETTINGS_ON_EXIT_HU, "Beállítások mentése kilépéskor" },
+/* it */ { IDS_SAVE_SETTINGS_ON_EXIT_IT, "Salva impostazioni in uscita" },
 /* ko */ { IDS_SAVE_SETTINGS_ON_EXIT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SAVE_SETTINGS_ON_EXIT_NL, "Instellingen (resources) opslaan bij afsluiten" },
-/* pl */ { IDS_SAVE_SETTINGS_ON_EXIT_PL, "Zapisz ustawienia (zasoby) przy wyj¶ciu" },
+/* nl */ { IDS_SAVE_SETTINGS_ON_EXIT_NL, "Sla instellingen op bij afsluiten" },
+/* pl */ { IDS_SAVE_SETTINGS_ON_EXIT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_SAVE_SETTINGS_ON_EXIT_RU, "" },  /* fuzzy */
-/* sv */ { IDS_SAVE_SETTINGS_ON_EXIT_SV, "Spara inställningar (resurser) vid avslut" },
-/* tr */ { IDS_SAVE_SETTINGS_ON_EXIT_TR, "Çýkýþta ayarlarý (kaynaklarý) kaydet" },
+/* sv */ { IDS_SAVE_SETTINGS_ON_EXIT_SV, "Spara inställningar vid avslut" },
+/* tr */ { IDS_SAVE_SETTINGS_ON_EXIT_TR, "Çýkýþta ayarlarý kaydet" },
 
-/* en */ { IDS_NEVER_SAVE_SETTINGS_EXIT,    "Never save settings (resources) on exit" },
-/* da */ { IDS_NEVER_SAVE_SETTINGS_EXIT_DA, "Gem aldrig indstillinger når programmet afsluttes" },
-/* de */ { IDS_NEVER_SAVE_SETTINGS_EXIT_DE, "Einstellungen beim Beenden nie speichern" },
-/* fr */ { IDS_NEVER_SAVE_SETTINGS_EXIT_FR, "Ne jamais enregistrer les paramètres à la sortie" },
-/* hu */ { IDS_NEVER_SAVE_SETTINGS_EXIT_HU, "Sose mentse a beállításokat (erõforrásokat) kilépéskor" },
-/* it */ { IDS_NEVER_SAVE_SETTINGS_EXIT_IT, "Non salvare mai le impostazioni in uscita" },
+/* en */ { IDS_NEVER_SAVE_SETTINGS_EXIT,    "Never save settings on exit" },
+/* da */ { IDS_NEVER_SAVE_SETTINGS_EXIT_DA, "" },  /* fuzzy */
+/* de */ { IDS_NEVER_SAVE_SETTINGS_EXIT_DE, "" },  /* fuzzy */
+/* fr */ { IDS_NEVER_SAVE_SETTINGS_EXIT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_NEVER_SAVE_SETTINGS_EXIT_HU, "" },  /* fuzzy */
+/* it */ { IDS_NEVER_SAVE_SETTINGS_EXIT_IT, "" },  /* fuzzy */
 /* ko */ { IDS_NEVER_SAVE_SETTINGS_EXIT_KO, "" },  /* fuzzy */
-/* nl */ { IDS_NEVER_SAVE_SETTINGS_EXIT_NL, "Instellingen (resources) niet opslaan bij afsluiten" },
-/* pl */ { IDS_NEVER_SAVE_SETTINGS_EXIT_PL, "Nigdy nie zapisuj ustawieñ (zasobów) przy wyj¶ciu" },
+/* nl */ { IDS_NEVER_SAVE_SETTINGS_EXIT_NL, "Instellingen nooit opslaan bij afsluiten" },
+/* pl */ { IDS_NEVER_SAVE_SETTINGS_EXIT_PL, "" },  /* fuzzy */
 /* ru */ { IDS_NEVER_SAVE_SETTINGS_EXIT_RU, "" },  /* fuzzy */
-/* sv */ { IDS_NEVER_SAVE_SETTINGS_EXIT_SV, "Spara aldrig inställningar (resurser) vid avslut" },
-/* tr */ { IDS_NEVER_SAVE_SETTINGS_EXIT_TR, "Çýkýþta asla ayarlarý (kaynaklarý) kaydetme" },
+/* sv */ { IDS_NEVER_SAVE_SETTINGS_EXIT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_NEVER_SAVE_SETTINGS_EXIT_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_CONFIRM_QUITING_VICE,    "Confirm quiting VICE" },
 /* da */ { IDS_CONFIRM_QUITING_VICE_DA, "Bekræft programafslutning" },

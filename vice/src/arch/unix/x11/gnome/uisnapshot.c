@@ -51,11 +51,11 @@ static GtkWidget *build_snapshot_dialog(void)
     tmp = gtk_frame_new(_("Snapshot options"));
     box = gtk_vbox_new(0, FALSE);
 
-    attach_disk = gtk_check_button_new_with_label(_("Save currently attached disks"));
+    attach_disk = gtk_check_button_new_with_label(_("Save currently attached disk images"));
     gtk_box_pack_start(GTK_BOX(box), attach_disk, FALSE, FALSE, 0);
     gtk_widget_show(attach_disk);
 
-    attach_rom = gtk_check_button_new_with_label(_("Save currently attached ROMs"));
+    attach_rom = gtk_check_button_new_with_label(_("Save currently loaded ROM images"));
     gtk_box_pack_start(GTK_BOX(box), attach_rom, FALSE, FALSE, 0);
     gtk_widget_show(attach_rom);
 

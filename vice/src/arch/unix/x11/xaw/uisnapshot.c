@@ -123,6 +123,8 @@ static void build_snapshot_dialog(void)
 {
     char *button_title;
     char *filename = util_concat(_("File name"), ":", NULL);
+    char *save_images = util_concat(_("Save currently attached disk images"), ":", NULL);
+    char *save_roms = util_concat(_("Save currently loaded ROM images"), ":", NULL);
 
     if (snapshot_dialog != NULL) {
         return;
@@ -205,8 +207,9 @@ static void build_snapshot_dialog(void)
                                               XtNleft, XawChainLeft,
                                               XtNright, XawChainRight,
                                               XtNheight, 20,
-                                              XtNlabel, _("Save currently attached disks:"),
+                                              XtNlabel, save_images,
                                               NULL);
+    lib_free(save_images);
 
     save_disk_off_button = XtVaCreateManagedWidget("saveDiskOffButton",
                                                    toggleWidgetClass, options_form,
@@ -241,8 +244,9 @@ static void build_snapshot_dialog(void)
                                               XtNheight, 20,
                                               XtNleft, XawChainLeft,
                                               XtNright, XawChainRight,
-                                              XtNlabel, _("Save currently loaded ROMs:"),
+                                              XtNlabel, save_roms,
                                               NULL);
+    lib_free(save_roms);
 
     save_roms_off_button = XtVaCreateManagedWidget("saveRomsOffButton",
                                                    toggleWidgetClass, options_form,

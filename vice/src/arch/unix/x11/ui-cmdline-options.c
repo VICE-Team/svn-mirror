@@ -54,7 +54,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "SaveResourcesOnExit", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Save settings (resources) on exit") },
+      NULL, N_("Save settings on exit") },
     { "+confirmexit", SET_RESOURCE, 0,
       NULL, NULL, "ConfirmOnExit", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -69,7 +69,7 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "SaveResourcesOnExit", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, N_("Never save settings (resources) on exit") },
+      NULL, N_("Never save settings on exit") },
 #if defined (USE_XF86_EXTENSIONS) && \
     (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     { "-fullscreen", SET_RESOURCE, 0,

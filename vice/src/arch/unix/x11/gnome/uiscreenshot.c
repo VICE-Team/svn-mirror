@@ -285,7 +285,7 @@ static GtkWidget *build_screenshot_dialog(void)
         return 0;
     }
 
-    title = util_concat(_("Save Media File"), "...", NULL);
+    title = util_concat(_("Save media file"), "...", NULL);
     d = vice_file_entry(title, NULL, NULL, &filter, 1, UI_FC_SAVE);
     lib_free(title);
     if (!d) {
@@ -455,7 +455,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
         }
     }
 
-    ui_popup(screenshot_dialog, _("Save Screenshot"), FALSE);
+    ui_popup(screenshot_dialog, _("Save screenshot file"), FALSE);
     res = gtk_dialog_run(GTK_DIALOG(screenshot_dialog));
     ui_popdown(screenshot_dialog);
 

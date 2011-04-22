@@ -50,11 +50,11 @@ void ui_cartridge_save_dialog(int type)
         gtk_widget_show(cartridge_dialog);
     } else {
         uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;
-        cartridge_dialog = vice_file_entry(_("Save Cartridge"), NULL, NULL, &filter, 1, UI_FC_SAVE);
+        cartridge_dialog = vice_file_entry(_("Save cartridge image"), NULL, NULL, &filter, 1, UI_FC_SAVE);
         g_signal_connect(G_OBJECT(cartridge_dialog), "destroy", G_CALLBACK(gtk_widget_destroyed), &cartridge_dialog);
     }
 
-    ui_popup(cartridge_dialog, _("Save Cartridge"), FALSE);
+    ui_popup(cartridge_dialog, _("Save cartridge image"), FALSE);
     res = gtk_dialog_run(GTK_DIALOG(cartridge_dialog));
     ui_popdown(cartridge_dialog);
     
