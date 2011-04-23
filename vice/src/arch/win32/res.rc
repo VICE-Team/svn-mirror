@@ -353,7 +353,7 @@ BEGIN
     LTEXT         "", IDC_AUTOFIRE_SPEED_1,
                   12, 74, 70, 8
     EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 72, 18, 16, WS_TABSTOP | 0x2000L
+                  87, 71, 18, 16, WS_TABSTOP | 0x2000L
     COMBOBOX      IDC_JOY_FIRE1_AXIS,
                   12, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
@@ -371,7 +371,7 @@ BEGIN
     LTEXT         "", IDC_AUTOFIRE_SPEED_2,
                   122, 74, 70, 8
     EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 72, 18, 16, WS_TABSTOP | 0x2000L
+                  197, 71, 18, 16, WS_TABSTOP | 0x2000L
     COMBOBOX      IDC_JOY_FIRE2_AXIS,
                   122, 87, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
@@ -411,7 +411,7 @@ BEGIN
     LTEXT         "", IDC_AUTOFIRE_SPEED_1,
                   12, 94, 70, 8
     EDITTEXT      IDC_JOY_FIRE1_SPEED,
-                  87, 92, 18, 16, WS_TABSTOP | 0x2000L
+                  87, 91, 18, 16, WS_TABSTOP | 0x2000L
     COMBOBOX      IDC_JOY_FIRE1_AXIS,
                   12, 107, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE1_BUTTON,
@@ -429,7 +429,7 @@ BEGIN
     LTEXT         "", IDC_AUTOFIRE_SPEED_2,
                   122, 94, 70, 8
     EDITTEXT      IDC_JOY_FIRE2_SPEED,
-                  197, 92, 18, 16, WS_TABSTOP | 0x2000L
+                  197, 91, 18, 16, WS_TABSTOP | 0x2000L
     COMBOBOX      IDC_JOY_FIRE2_AXIS,
                   122, 107, 93, 60, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     COMBOBOX      IDC_JOY_AUTOFIRE2_BUTTON,
