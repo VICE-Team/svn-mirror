@@ -138,6 +138,11 @@ static uilib_localize_dialog_param diskdevice_normal_dialog[] = {
     { 0, 0, 0 }
 };
 
+static uilib_dialog_group diskdevice_read_only[] = {
+    { IDC_TOGGLE_ATTACH_READONLY, 1 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group diskdevice_left_group[] = {
     { IDC_SELECTDISK, 1 },
     { IDC_SELECTDIR, 1 },
@@ -184,6 +189,9 @@ static void init_dialog(HWND hwnd, unsigned int num)
 
         /* adjust the size of the elements in the diskdevice_left_group */
         uilib_adjust_group_width(hwnd, diskdevice_left_group);
+
+        /* adjust the size of the 'read-only' element */
+        uilib_adjust_group_width(hwnd, diskdevice_read_only);
 
         /* get the min x of the read only element */
         uilib_get_element_min_x(hwnd, IDC_TOGGLE_ATTACH_READONLY, &xpos3);
