@@ -844,15 +844,15 @@ BEGIN
     LTEXT           "", IDC_OUTPUT_FILE1_NAME,
                     15, 112, 70, 8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE1_NAME,
-                    80, 110, 190, 18, WS_TABSTOP
+                    80, 110, 100, 18, WS_TABSTOP
     LTEXT           "", IDC_OUTPUT_FILE2_NAME,
                     15, 132, 70, 8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE2_NAME,
-                    80, 130, 190, 18, WS_TABSTOP
+                    80, 130, 100, 18, WS_TABSTOP
     LTEXT           "", IDC_OUTPUT_FILE3_NAME,
                     15, 152, 70, 8
     EDITTEXT        IDC_PRINTER_OUTPUT_FILE3_NAME,
-                    80, 150, 190, 18, WS_TABSTOP
+                    80, 150, 100, 18, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
