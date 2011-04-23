@@ -761,7 +761,7 @@ BEGIN
     LTEXT        "", IDC_VIDEO_RENDER_FILTER_LABEL,
                  9, 12, 120, 8
     COMBOBOX     IDC_VIDEO_RENDER_FILTER,
-                 9, 11, 150, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+                 9, 11, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
