@@ -87,7 +87,9 @@ static void enable_controls(HWND hwnd)
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDIR), FALSE);
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTNONE), FALSE);
 #ifdef HAVE_OPENCBM
-        EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL), FALSE);
+        if (opencbmlib_is_available()) {
+            EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL), FALSE);
+        }
 #endif
     } else {
         EnableWindow(GetDlgItem(hwnd, IDC_SELECTDISK), TRUE);
@@ -96,20 +98,34 @@ static void enable_controls(HWND hwnd)
 #ifdef HAVE_OPENCBM
         if (opencbmlib_is_available()) {
             EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL), TRUE);
-        } else {
-            EnableWindow(GetDlgItem(hwnd, IDC_SELECTREAL), FALSE);
         }
 #endif
     }
 }
 
-static uilib_localize_dialog_param diskdevice_dialog[] = {
+static uilib_localize_dialog_param diskdevice_opencbm_dialog[] = {
     { IDC_TOGGLE_USEIECDEVICE, IDS_TOGGLE_USEIECDEVICE, 0 },
     { IDC_SELECTDISK, IDS_SELECTDISK, 0 },
     { IDC_SELECTDIR, IDS_SELECTDIR, 0 },
 #ifdef HAVE_OPENCBM
     { IDC_SELECTREAL, IDS_SELECTREAL, 0 },
 #endif
+    { IDC_SELECTNONE, IDS_SELECTNONE, 0 },
+    { IDC_BROWSEDISK, IDS_BROWSE, 0 },
+    { IDC_AUTOSTART, IDS_AUTOSTART, 0 },
+    { IDC_TOGGLE_ATTACH_READONLY, IDS_TOGGLE_ATTACH_READONLY, 0 },
+    { IDC_BROWSEDIR, IDS_BROWSEDIR, 0 },
+    { IDC_DISKDEVICE_OPTIONS, IDS_MP_OPTIONS, 0 },
+    { IDC_TOGGLE_READP00, IDS_TOGGLE_READP00, 0 },
+    { IDC_TOGGLE_WRITEP00, IDS_TOGGLE_WRITEP00, 0 },
+    { IDC_TOGGLE_HIDENONP00, IDS_TOGGLE_HIDENONP00, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param diskdevice_normal_dialog[] = {
+    { IDC_TOGGLE_USEIECDEVICE, IDS_TOGGLE_USEIECDEVICE, 0 },
+    { IDC_SELECTDISK, IDS_SELECTDISK, 0 },
+    { IDC_SELECTDIR, IDS_SELECTDIR, 0 },
     { IDC_SELECTNONE, IDS_SELECTNONE, 0 },
     { IDC_BROWSEDISK, IDS_BROWSE, 0 },
     { IDC_AUTOSTART, IDS_AUTOSTART, 0 },
@@ -160,6 +176,7 @@ static void init_dialog(HWND hwnd, unsigned int num)
     int xpos, xpos1, xpos2, xpos3;
     int distance1, distance2;
     RECT rect;
+    uilib_localize_dialog_param *diskdevice_dialog = (opencbmlib_is_available()) ? diskdevice_opencbm_dialog : diskdevice_normal_dialog;
 
     if (num >= 8 && num <= 11) {
         /* translate all dialog items */
@@ -205,11 +222,15 @@ static void init_dialog(HWND hwnd, unsigned int num)
         uilib_move_element(hwnd, IDC_TOGGLE_ATTACH_READONLY, xpos + distance2);
 
 #ifdef HAVE_OPENCBM
-        /* adjust the size of the real iec element */
-        uilib_adjust_element_width(hwnd, IDC_SELECTREAL);
+        if (opencbmlib_is_available()) {
+            /* adjust the size of the real iec element */
+            uilib_adjust_element_width(hwnd, IDC_SELECTREAL);
 
-        /* get the max x of the real iec element */
-        uilib_get_element_max_x(hwnd, IDC_SELECTREAL, &xpos1);
+            /* get the max x of the real iec element */
+            uilib_get_element_max_x(hwnd, IDC_SELECTREAL, &xpos1);
+        } else {
+            xpos1 = 0;
+        }
 #else
         xpos1 = 0;
 #endif
@@ -304,7 +325,11 @@ static void init_dialog(HWND hwnd, unsigned int num)
         }
 
 #ifdef HAVE_OPENCBM
-        CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTREAL, n);
+        if (opencbmlib_is_available()) {
+            CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTREAL, n);
+        } else {
+            CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
+        }
 #else
         CheckRadioButton(hwnd, IDC_SELECTDISK, IDC_SELECTDIR, n);
 #endif
@@ -349,8 +374,10 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
         devtype = ATTACH_DEVICE_FS;
     }
 #ifdef HAVE_OPENCBM
-    if (IsDlgButtonChecked(hwnd, IDC_SELECTREAL) == BST_CHECKED) {
-        devtype = ATTACH_DEVICE_REAL;
+    if (opencbmlib_is_available()) {
+        if (IsDlgButtonChecked(hwnd, IDC_SELECTREAL) == BST_CHECKED) {
+            devtype = ATTACH_DEVICE_REAL;
+        }
     }
 #endif
     resources_set_int_sprintf("FileSystemDevice%d", devtype, num);
@@ -488,12 +515,18 @@ static int have_printer_userport = -1;
 
 static char *printertextdevice[3] = { NULL, NULL, NULL };
 
-static const int ui_printer[] = {
+static const int ui_printer_opencbm[] = {
     IDS_NONE,
     IDS_FILE_SYSTEM,
 #ifdef HAVE_OPENCBM
     IDS_REAL_IEC_DEVICE,
 #endif
+    0
+};
+
+static const int ui_printer_normal[] = {
+    IDS_NONE,
+    IDS_FILE_SYSTEM,
     0
 };
 
@@ -621,6 +654,7 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     int xmax;
     int xpos;
     int size;
+    const int *ui_printer = (opencbmlib_is_available()) ? ui_printer_opencbm : ui_printer_normal;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, printer_dialog_trans);
@@ -891,10 +925,18 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[no_of_printers + i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[no_of_printers + i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-        psp[no_of_printers + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        if (opencbmlib_is_available()) {
+            psp[no_of_printers + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
+        } else {
+            psp[no_of_printers + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        }
         psp[no_of_printers + i].pszIcon = NULL;
 #else
-        psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        if (opencbmlib_is_available()) {
+            psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
+        } else {
+            psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
+        }
         psp[no_of_printers + i].u2.pszIcon = NULL;
 #endif
         psp[no_of_printers + i].lParam = 0;
