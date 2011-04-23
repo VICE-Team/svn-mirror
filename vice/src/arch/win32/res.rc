@@ -638,6 +638,36 @@ BEGIN
                  9, 77, 100, 8, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX "", IDC_TOGGLE_VIDEO_DX_PRIMARY,
                  9, 89, 120, 8, BS_AUTOCHECKBOX | WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_FULLSCREEN_SETTINGS_DX9_DIALOG DIALOG DISCARDABLE  0, 0, 180,124
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT        "", IDC_FULLSCREEN_DRIVER,
+                 9, 2, 120, 8
+    COMBOBOX     IDC_FULLSCREEN_DEVICE,
+                 9, 13, 150, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT        "", IDC_FULLSCREEN_DRIVER_BITDEPTH,
+                 9, 32, 100, 8
+    COMBOBOX     IDC_FULLSCREEN_BITDEPTH,
+                 99, 28, 60, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT        "", IDC_FULLSCREEN_DRIVER_RESOLUTION,
+                 9, 47, 100, 8
+    COMBOBOX     IDC_FULLSCREEN_RESOLUTION,
+                 99, 43, 60, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT        "", IDC_FULLSCREEN_DRIVER_REFRESHRATE,
+                 9, 62, 100, 8
+    COMBOBOX     IDC_FULLSCREEN_REFRESHRATE,
+                 99, 58, 60, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_TOGGLE_VIDEO_VBLANK_SYNC,
+                 9, 77, 100, 8, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX "", IDC_TOGGLE_VIDEO_DX_PRIMARY,
+                 9, 89, 120, 8, BS_AUTOCHECKBOX | WS_TABSTOP
     AUTOCHECKBOX "", IDC_TOGGLE_KEEP_ASPECT_RATIO,
                  9, 101, 115, 8, BS_AUTOCHECKBOX | WS_TABSTOP
     EDITTEXT     IDC_ASPECT_RATIO,
@@ -3423,7 +3453,7 @@ BEGIN
   IDS_MI_MON_OPEN                 "Ouvrir"
   IDS_MI_MON_SAVE                 "Enregistrer"
   IDS_MI_MON_PRINT                "Imprimer"
-  IDS_MI_MON_EXIT                 "Quitter	Alt+F4"
+  IDS_MI_MON_EXIT                 "Quitter      Alt+F4"
   IDS_MI_MON_STOP_DEBUG           "Arrêter débug"
   IDS_MI_MON_STOP_EXEC            "Arrêter l'exécution"
   IDS_MI_MON_STEP_INTO            "Step into"

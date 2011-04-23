@@ -520,7 +520,7 @@ static void get_resolutionlist(int device, int bitdepth)
 
 static int vblank_sync;
 
-static uilib_localize_dialog_param fullscreen_dialog_trans[] = {
+static uilib_localize_dialog_param fullscreen_dialog_dx9_trans[] = {
     {IDC_FULLSCREEN_DRIVER, IDS_FULLSCREEN_DRIVER, 0},
     {IDC_FULLSCREEN_DRIVER_BITDEPTH, IDS_FULLSCREEN_DRVR_BITDEPTH, 0},
     {IDC_FULLSCREEN_DRIVER_RESOLUTION, IDS_FULLSCREEN_DRVR_RESOLUTION, 0},
@@ -532,7 +532,17 @@ static uilib_localize_dialog_param fullscreen_dialog_trans[] = {
     {0, 0, 0}
 };
 
-static uilib_dialog_group fullscreen_left_group[] = {
+static uilib_localize_dialog_param fullscreen_dialog_ddraw_trans[] = {
+    {IDC_FULLSCREEN_DRIVER, IDS_FULLSCREEN_DRIVER, 0},
+    {IDC_FULLSCREEN_DRIVER_BITDEPTH, IDS_FULLSCREEN_DRVR_BITDEPTH, 0},
+    {IDC_FULLSCREEN_DRIVER_RESOLUTION, IDS_FULLSCREEN_DRVR_RESOLUTION, 0},
+    {IDC_FULLSCREEN_DRIVER_REFRESHRATE, IDS_FULLSCREEN_DRVR_REFRESHRATE, 0},
+    {IDC_TOGGLE_VIDEO_VBLANK_SYNC, IDS_TOGGLE_VIDEO_VBLANK_SYNC, 0},
+    {IDC_TOGGLE_VIDEO_DX_PRIMARY, IDS_TOGGLE_VIDEO_DX_PRIMARY, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group fullscreen_left_dx9_group[] = {
     {IDC_FULLSCREEN_DRIVER_BITDEPTH,  0},
     {IDC_FULLSCREEN_DRIVER_RESOLUTION, 0},
     {IDC_FULLSCREEN_DRIVER_REFRESHRATE, 0},
@@ -541,12 +551,26 @@ static uilib_dialog_group fullscreen_left_group[] = {
     {0, 0}
 };
 
-static uilib_dialog_group fullscreen_right_group[] = {
+static uilib_dialog_group fullscreen_left_ddraw_group[] = {
+    {IDC_FULLSCREEN_DRIVER_BITDEPTH,  0},
+    {IDC_FULLSCREEN_DRIVER_RESOLUTION, 0},
+    {IDC_FULLSCREEN_DRIVER_REFRESHRATE, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group fullscreen_right_dx9_group[] = {
     {IDC_FULLSCREEN_BITDEPTH,  0},
     {IDC_FULLSCREEN_RESOLUTION, 0},
     {IDC_FULLSCREEN_REFRESHRATE, 0},
     {IDC_ASPECT_RATIO, 0},
     {IDC_GEOMETRY_ASPECT_RATIO, 0},
+    {0, 0}
+};
+
+static uilib_dialog_group fullscreen_right_ddraw_group[] = {
+    {IDC_FULLSCREEN_BITDEPTH,  0},
+    {IDC_FULLSCREEN_RESOLUTION, 0},
+    {IDC_FULLSCREEN_REFRESHRATE, 0},
     {0, 0}
 };
 
@@ -578,6 +602,9 @@ static void init_fullscreen_dialog(HWND hwnd)
     double fval;
     TCHAR newval[64];
     video_canvas_t *canvas;
+    uilib_localize_dialog_param *fullscreen_dialog_trans = (video_dx9_enabled()) ? fullscreen_dialog_dx9_trans : fullscreen_dialog_ddraw_trans;
+    uilib_dialog_group *fullscreen_left_group = (video_dx9_enabled()) ? fullscreen_left_dx9_group : fullscreen_left_ddraw_group;
+    uilib_dialog_group *fullscreen_right_group = (video_dx9_enabled()) ? fullscreen_right_dx9_group : fullscreen_right_ddraw_group;
 
     canvas = video_canvas_for_hwnd(GetParent(GetParent(hwnd)));
     fullscreen_getmodes();
@@ -660,17 +687,19 @@ static void init_fullscreen_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC, vblank_sync ? BST_CHECKED : BST_UNCHECKED);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_DX_PRIMARY, dx_primary ? BST_CHECKED : BST_UNCHECKED);
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_KEEP_ASPECT_RATIO), video_dx9_enabled());
-    CheckDlgButton(hwnd, IDC_TOGGLE_KEEP_ASPECT_RATIO, keep_aspect_ratio ? BST_CHECKED : BST_UNCHECKED);
-    CheckDlgButton(hwnd, IDC_TOGGLE_TRUE_ASPECT_RATIO, true_aspect_ratio ? BST_CHECKED : BST_UNCHECKED);
-    enable_aspect_ratio(hwnd);
+    if (video_dx9_enabled()) {
+        CheckDlgButton(hwnd, IDC_TOGGLE_KEEP_ASPECT_RATIO, keep_aspect_ratio ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hwnd, IDC_TOGGLE_TRUE_ASPECT_RATIO, true_aspect_ratio ? BST_CHECKED : BST_UNCHECKED);
+        enable_aspect_ratio(hwnd);
 
-    fval = ((double)aspect_ratio) / 1000.0;
-    _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_ASPECT_RATIO, newval);
+        fval = ((double)aspect_ratio) / 1000.0;
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
+        SetDlgItemText(hwnd, IDC_ASPECT_RATIO, newval);
 
-    fval = canvas->geometry->pixel_aspect_ratio;
-    _stprintf(newval, TEXT("%.3f"), (float)fval);
-    SetDlgItemText(hwnd, IDC_GEOMETRY_ASPECT_RATIO, newval);
+        fval = canvas->geometry->pixel_aspect_ratio;
+        _stprintf(newval, TEXT("%.3f"), (float)fval);
+        SetDlgItemText(hwnd, IDC_GEOMETRY_ASPECT_RATIO, newval);
+    }
 }
 
 static void fullscreen_dialog_end(void)
@@ -682,9 +711,11 @@ static void fullscreen_dialog_end(void)
     resources_set_int("FullScreenRefreshRate", fullscreen_refreshrate);
     resources_set_int("VBLANKSync", vblank_sync);
     resources_set_int("DXPrimarySurfaceRendering", dx_primary);
-    resources_set_int("TrueAspectRatio", true_aspect_ratio);
-    resources_set_int("KeepAspectRatio", keep_aspect_ratio);
-    resources_set_int("AspectRatio", aspect_ratio);
+    if (video_dx9_enabled()) {
+        resources_set_int("TrueAspectRatio", true_aspect_ratio);
+        resources_set_int("KeepAspectRatio", keep_aspect_ratio);
+        resources_set_int("AspectRatio", aspect_ratio);
+    }
     fullscrn_invalidate_refreshrate();
 }
 
@@ -697,9 +728,11 @@ static void fullscreen_dialog_init(HWND hwnd)
     resources_get_int("FullscreenRefreshRate", &fullscreen_refreshrate);
     resources_get_int("VBLANKSync", &vblank_sync);
     resources_get_int("DXPrimarySurfaceRendering", &dx_primary);
-    resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
-    resources_get_int("TrueAspectRatio", &true_aspect_ratio);
-    resources_get_int("AspectRatio", &aspect_ratio);
+    if (video_dx9_enabled()) {
+        resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+        resources_get_int("TrueAspectRatio", &true_aspect_ratio);
+        resources_get_int("AspectRatio", &aspect_ratio);
+    }
     init_fullscreen_dialog(hwnd);
 }
 
@@ -716,16 +749,18 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
-                GetDlgItemText(hwnd, IDC_ASPECT_RATIO, s, 100);
-                _stscanf(s, TEXT("%f"), &tf);
-                aspect_ratio = (int)(tf * 1000.0 + 0.5);
-                if (aspect_ratio < 500) {
-                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_TOGGLE_KEEP_ASPECT_RATIO), 0.5f);
-                    aspect_ratio = 500;
-                }
-                if (aspect_ratio > 2000) {
-                    ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_TOGGLE_KEEP_ASPECT_RATIO), 2.0f);
-                    aspect_ratio = 2000;
+                if (video_dx9_enabled()) {
+                    GetDlgItemText(hwnd, IDC_ASPECT_RATIO, s, 100);
+                    _stscanf(s, TEXT("%f"), &tf);
+                    aspect_ratio = (int)(tf * 1000.0 + 0.5);
+                    if (aspect_ratio < 500) {
+                        ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_TOGGLE_KEEP_ASPECT_RATIO), 0.5f);
+                        aspect_ratio = 500;
+                    }
+                    if (aspect_ratio > 2000) {
+                        ui_error(translate_text(IDS_VAL_F_FOR_S_OUT_RANGE_USE_F), tf, translate_text(IDS_TOGGLE_KEEP_ASPECT_RATIO), 2.0f);
+                        aspect_ratio = 2000;
+                    }
                 }
                 fullscreen_dialog_end();
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
