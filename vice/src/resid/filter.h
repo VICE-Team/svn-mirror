@@ -428,6 +428,8 @@ protected:
     int n_snake;
     int voice_scale_s14;
     int voice_DC;
+    int ak;
+    int bk;
     int vc_min;
     int vc_max;
 
@@ -1295,22 +1297,27 @@ From Kirchoff's current law it follows that
 Substituting the triode mode transistor model K*W/L*(Vgst^2 - Vgdt^2)
 for the currents, we get:
 
-n*((Vddt - vx)^2 - (Vddt - vi)^2) + (Vddt - vx)^2 - (Vddt - vo)^2 = 0
+  n*((Vddt - vx)^2 - (Vddt - vi)^2) + (Vddt - vx)^2 - (Vddt - vo)^2 = 0
 
 Our root function f can thus be written as:
 
-f = (n + 1)*(Vddt - vx)^2 - n*(Vddt - vi)^2 - (Vddt - vo)^2 = 0
+  f = (n + 1)*(Vddt - vx)^2 - n*(Vddt - vi)^2 - (Vddt - vo)^2 = 0
+
+We are using the mapping function x = vo - vx -> vx. We thus substitute
+for vo = vx + x and get:
+
+  f = (n + 1)*(Vddt - vx)^2 - n*(Vddt - vi)^2 - (Vddt - (vx + x))^2 = 0
 
 Using substitution constants
 
-a = n + 1
-b = Vddt
-c = n*(Vddt - vi)^2
+  a = n + 1
+  b = Vddt
+  c = n*(Vddt - vi)^2
 
 the equations for the root function and its derivative can be written as:
 
-f = a*(b - vx)^2 - c - (b - vo)^2
-df = 2*((b - vo)*dvo - a*(b - vx))
+  f = a*(b - vx)^2 - c - (b - (vx + x))^2
+  df = 2*((b - (vx + x))*(dvx + 1) - a*(b - vx)*dvx)
 */
 RESID_INLINE
 int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
@@ -1321,34 +1328,42 @@ int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
   // (a - t) - (b - t) = a - b
 
   // Start off with an estimate of x and a root bracket [ak, bk].
-  // f is decreasing, so that f(ak) > 0 and f(bk) < 0.
-  int ak = 0, bk = (1 << 19) - 1;
+  // f is increasing, so that f(ak) < 0 and f(bk) > 0.
+  int ak = mf.ak, bk = mf.bk;
 
   int a = n + (1 << 7);              // Scaled by 2^7
-  int b = mf.kVddt << 3;             // Scaled by m*2^19
-  unsigned int b_vi = (b - vi) >> 3; // Scaled by m*2^16
-  int c = n*int(b_vi*b_vi >> 12);    // Scaled by m^2*2^27
+  int b = mf.kVddt;                  // Scaled by m*2^16
+  int b_vi = b - vi;                 // Scaled by m*2^16
+  if (b_vi < 0) b_vi = 0;
+  int c = n*int(unsigned(b_vi)*unsigned(b_vi) >> 12);    // Scaled by m^2*2^27
 
   for (;;) {
     int xk = x;
 
     // Calculate f and df.
-    int vo_dvo = opamp[x];
-    int vo = vo_dvo & 0x7ffff;  // Scaled by m*2^19
-    int dvo = vo_dvo >> 19;     // Scaled by 2^8
+    int vx_dvx = opamp[x];
+    int vx = vx_dvx & 0xffff;  // Scaled by m*2^16
+    int dvx = vx_dvx >> 16;    // Scaled by 2^11
 
     // f = a*(b - vx)^2 - c - (b - vo)^2
-    // df = 2*((b - vo)*dvo - a*(b - vx))
+    // df = 2*((b - vo)*(dvx + 1) - a*(b - vx)*dvx)
     //
-    int b_vx = b - x;
+    int vo = vx + (x << 1) - (1 << 16);
+    if (vo >= (1 << 16)) {
+      vo = (1 << 16) - 1;
+    }
+    else if (vo < 0) {
+      vo = 0;
+    }
+    int b_vx = b - vx;
+    if (b_vx < 0) b_vx = 0;
     int b_vo = b - vo;
-    unsigned int b_vx_16 = b_vx >> 3;
-    unsigned int b_vo_16 = b_vo >> 3;
+    if (b_vo < 0) b_vo = 0;
     // The dividend is scaled by m^2*2^27.
-    int f = a*int(b_vx_16*b_vx_16 >> 12) - c - int(b_vo_16*b_vo_16 >> 5);
-    // The divisor is scaled by m*2^8.
-    int df = ((b_vo*dvo >> 1) - a*b_vx) >> 17;
-    // The resulting quotient is thus scaled by m*2^19.
+    int f = a*int(unsigned(b_vx)*unsigned(b_vx) >> 12) - c - int(unsigned(b_vo)*unsigned(b_vo) >> 5);
+    // The divisor is scaled by m*2^11.
+    int df = (b_vo*(dvx + (1 << 11)) - a*(b_vx*dvx >> 7)) >> 15;
+    // The resulting quotient is thus scaled by m*2^16.
 
     // Newton-Raphson step: xk1 = xk - f(xk)/f'(xk)
     x -= f/df;
@@ -1360,11 +1375,11 @@ int Filter::solve_gain(int* opamp, int n, int vi, int& x, model_filter_t& mf)
     // Narrow down root bracket.
     if (f < 0) {
       // f(xk) < 0
-      bk = xk;
+      ak = xk;
     }
     else {
       // f(xk) > 0
-      ak = xk;
+      bk = xk;
     }
 
     if (unlikely(x <= ak) || unlikely(x >= bk)) {
@@ -1393,15 +1408,17 @@ A circuit diagram of a MOS 6581 integrator is shown below.
 
 From Kirchoff's current law it follows that
 
-  IRw + IRs - IC = 0
+  IRw + IRs + ICr = 0
 
 Using the formula for current through a capacitor, i = C*dv/dt, we get
 
-  IRw + IRs - C*(vc - vc0)/dt = 0
-  dt/C*(IRw + IRs) - vc + vc0 = 0
+  IRw + IRs + C*(vc - vc0)/dt = 0
+  dt/C*(IRw + IRs) + vc - vc0 = 0
+  vc = vc0 - n*(IRw(vi,vx) + IRs(vi,vx))
 
-  vc = n*(IRw(vi,vx) + IRs(vi,vx)) + vc0
-  vc = n*(IRw(vi,g(vc)) + IRs(vi,g(vc))) + vc0
+which may be rewritten as the following iterative fixpoint function:
+
+  vc = vc0 - n*(IRw(vi,g(vc)) + IRs(vi,g(vc)))
 
 To accurately calculate the currents through Rs and Rw, we need to use
 transistor models. Rs has a gate voltage of Vdd = 12V, and can be
@@ -1409,18 +1426,19 @@ assumed to always be in triode mode. For Rw, the situation is rather
 more complex, as it turns out that this transistor will operate in
 both subthreshold, triode, and saturation modes.
 
-A typical textbook transistor model may be defined as follows:
+The Shichman-Hodges transistor model routinely used in textbooks may
+be written as follows:
 
-  Ids = I0*e^(Vgst/(n*VT))       , Vgst < 0               (subthreshold mode) 
-  Ids = K*W/L*(2*Vgst - Vds)*Vds , Vgst >= 0, Vds < Vgst  (triode mode)
-  Ids = K*W/L*Vgst^2             , Vgst >= 0, Vds >= Vgst (saturation mode)
+  Ids = 0                          , Vgst < 0               (subthreshold mode) 
+  Ids = K/2*W/L*(2*Vgst - Vds)*Vds , Vgst >= 0, Vds < Vgst  (triode mode)
+  Ids = K/2*W/L*Vgst^2             , Vgst >= 0, Vds >= Vgst (saturation mode)
 
   where
-  n   = FIXME
-  VT  = thermal voltage
-  K   = 1/2uCox (conductance)
+  K   = u*Cox (conductance)
   W/L = ratio between substrate width and length
   Vgst = Vg - Vs - Vt (overdrive voltage)
+
+This transistor model is also called the quadratic model.
 
 Note that the equation for the triode mode can be reformulated as
 independent terms depending on Vgs and Vgd, respectively, by the
@@ -1436,10 +1454,11 @@ following substitution:
 This turns out to be a general equation which covers both the triode
 and saturation modes (where the second term is 0 in saturation mode).
 The equation is also symmetrical, i.e. it can calculate negative
-currents without any change of parameters (since drain and source are
-interchangeable in the equation).
+currents without any change of parameters (since the terms for drain
+and source are identical except for the sign).
 
 FIXME: Subthreshold as function of Vgs, Vgd.
+  Ids = I0*e^(Vgst/(n*VT))       , Vgst < 0               (subthreshold mode) 
 
 The remaining problem with the textbook model is that the transition
 from subthreshold the triode/saturation is not continuous.
@@ -1495,7 +1514,7 @@ Vg = Vddt - sqrt(((Vddt - vi)^2 + (Vddt - Vw)^2)/2)
 
 */
 RESID_INLINE
-int Filter::solve_integrate_6581(int dt, int vi, int& x, int& vc,
+int Filter::solve_integrate_6581(int dt, int vi, int& vx, int& vc,
 				 model_filter_t& mf)
 {
   // Note that all variables are translated and scaled in order to fit
@@ -1506,7 +1525,7 @@ int Filter::solve_integrate_6581(int dt, int vi, int& x, int& vc,
   int kVddt = mf.kVddt;      // Scaled by m*2^16
 
   // "Snake" voltages for triode mode calculation.
-  unsigned int Vgst = kVddt - x;
+  unsigned int Vgst = kVddt - vx;
   unsigned int Vgdt = kVddt - vi;
   unsigned int Vgdt_2 = Vgdt*Vgdt;
 
@@ -1518,23 +1537,19 @@ int Filter::solve_integrate_6581(int dt, int vi, int& x, int& vc,
   int kVg = vcr_kVg[(Vddt_Vw_2 + (Vgdt_2 >> 1)) >> 16];
 
   // VCR voltages for EKV model table lookup.
-  int Vgs = kVg - x;
-  if (Vgs < 0) {
-    Vgs = 0;
-  }
+  int Vgs = kVg - vx;
+  if (Vgs < 0) Vgs = 0;
   int Vgd = kVg - vi;
-  if (Vgd < 0) {
-    Vgd = 0;
-  }
+  if (Vgd < 0) Vgd = 0;
 
   // VCR current, scaled by m*2^15*2^15 = m*2^30
   int n_I_vcr = (vcr_n_Ids_term[Vgs] - vcr_n_Ids_term[Vgd]) << 15;
 
   // Change in capacitor charge.
-  vc += (n_I_snake + n_I_vcr)*dt;
+  vc -= (n_I_snake + n_I_vcr)*dt;
 
 /*
-  FIXME: Determine whether this check is necessary.
+  // FIXME: Determine whether this check is necessary.
   if (vc < mf.vc_min) {
     vc = mf.vc_min;
   }
@@ -1544,10 +1559,10 @@ int Filter::solve_integrate_6581(int dt, int vi, int& x, int& vc,
 */
 
   // vx = g(vc)
-  x = mf.opamp_rev[(vc >> 15) + (1 << 15)];
+  vx = mf.opamp_rev[(vc >> 15) + (1 << 15)];
 
   // Return vo.
-  return x - (vc >> 14);
+  return vx + (vc >> 14);
 }
 
 #endif // RESID_INLINING || defined(RESID_FILTER_CC)

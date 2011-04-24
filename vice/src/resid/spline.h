@@ -267,7 +267,7 @@ class PointPlotter
       y = 0;
     }
 
-    f[int(x + 0.5)] = F(y + 0.5);
+    f[int(x)] = F(y + 0.5);
   }
 };
 
