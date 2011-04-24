@@ -12,7 +12,7 @@
 
 // template of dialog for all languages
 
-IDD_SIDCART_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 175
+IDD_SIDCART_HARDSID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 175
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -49,7 +49,38 @@ END
 
 // template of dialog for all languages
 
-IDD_SIDCARTPLUS4_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 199
+IDD_SIDCART_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 175
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_SIDCART_ENABLE,
+                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_ENGINE_MODEL_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_SIDCART_ENGINE_MODEL,
+                    70, 22, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_SIDCART_FILTERS,
+                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_ADDRESS_LABEL,
+                    9, 70, 53, 8
+    COMBOBOX        IDC_SIDCART_ADDRESS,
+                    70, 68, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_CLOCK_LABEL,
+                    9, 86, 53, 8
+    COMBOBOX        IDC_SIDCART_CLOCK,
+                    70, 84, 150, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 150, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 150, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------------------
+
+// template of dialog for all languages
+
+IDD_SIDCARTPLUS4_HARDSID_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 199
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -75,6 +106,39 @@ BEGIN
                     9, 122, 58, 8
     COMBOBOX        IDC_SIDCART_HARDSID_MAIN_DEVICE,
                     70, 120, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_DIGIBLASTER,
+                    7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 174, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 174, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// template of dialog for all languages
+
+IDD_SIDCARTPLUS4_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 199
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_SIDCART_ENABLE,
+                    7, 7, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_ENGINE_MODEL_LABEL,
+                    9, 24, 53, 8
+    COMBOBOX        IDC_SIDCART_ENGINE_MODEL,
+                    70, 22, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_SIDCART_FILTERS,
+                    7, 55, 75, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_ADDRESS_LABEL,
+                    9, 70, 53, 8
+    COMBOBOX        IDC_SIDCART_ADDRESS,
+                    70, 68, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "", IDC_SIDCART_CLOCK_LABEL,
+                    9, 86, 53, 8
+    COMBOBOX        IDC_SIDCART_CLOCK,
+                    70, 84, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_DIGIBLASTER,
                     7, 137, 105, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 

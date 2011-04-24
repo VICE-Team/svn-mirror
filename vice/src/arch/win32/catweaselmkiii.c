@@ -59,6 +59,8 @@ static HANDLE sidhandle[MAXCARDS] = {
     INVALID_HANDLE_VALUE,
 };
 
+static int cwmkiii_is_open = 0;
+
 /* buffer containing current register state of SIDs */
 BYTE sidbuf[MAXCARDS * 0x20];
 
@@ -139,6 +141,7 @@ int catweaselmkiii_open(void)
             atexit((voidfunc_t)catweaselmkiii_close);
         }
 
+        cwmkiii_is_open = 1;
         return 0;
     }
 
@@ -158,6 +161,8 @@ int catweaselmkiii_close(void)
             sidhandle[i] = INVALID_HANDLE_VALUE;
         }
     }
+
+    cwmkiii_is_open = 0;
 
     log_message(LOG_DEFAULT, "Closed CatWeasel MK3 PCI SID");
     return 0;
@@ -226,4 +231,24 @@ void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
     setfreq(ntsc);
 }
 
+int catweaselmkiii_available(void)
+{
+    int i;
+
+    if (cwmkiii_is_open) {
+        for (i = 0; i < MAXCARDS; i++) {
+            if (sidhandle[i] != INVALID_HANDLE_VALUE) {
+                return 1;
+            }
+        }
+        return 0;
+    } else {
+        i = catweaselmkiii_open();
+        if (cwmkiii_is_open) {
+            catweaselmkiii_close();
+            return 1;
+        }
+    }
+    return 0;
+}
 #endif

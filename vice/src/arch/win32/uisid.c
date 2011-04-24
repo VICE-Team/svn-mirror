@@ -32,6 +32,7 @@
 #include <windows.h>
 #include <prsht.h>
 
+#include "catweaselmkiii.h"
 #include "hardsid.h"
 #include "intl.h"
 #include "machine.h"
@@ -205,6 +206,27 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
     }
 }
 
+static int model_valid(int ui_id)
+{
+#ifdef HAVE_CATWEASELMKIII
+    if (ui_sid_engine_model_values[ui_id] == SID_CATWEASELMKIII) {
+        if (!catweaselmkiii_available()) {
+            return 0;
+        }
+    }
+#endif
+
+#ifdef HAVE_HARDSID
+    if (ui_sid_engine_model_values[ui_id] == SID_HARDSID) {
+        if (!hardsid_available()) {
+            return 0;
+        }
+    }
+#endif
+
+    return 1;
+}
+
 static void init_general_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
@@ -238,7 +260,9 @@ static void init_general_sid_dialog(HWND hwnd)
     res_value |= temp_value;
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL);
     for (res_value_loop = 0; ui_sid_engine_model[res_value_loop]; res_value_loop++) {
-        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model[res_value_loop]);
+        if (model_valid(res_value_loop)) {
+            SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model[res_value_loop]);
+        }
     }
 
     active_value = 0;
@@ -623,33 +647,40 @@ void ui_sid_settings_dialog(HWND hwnd)
     psp[1].lParam = 0;
     psp[1].pfnCallback = NULL;
 
-    psp[2].dwSize = sizeof(PROPSHEETPAGE);
-    psp[2].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
-    psp[2].hInstance = winmain_instance;
+    if (hardsid_available()) {
+        psp[2].dwSize = sizeof(PROPSHEETPAGE);
+        psp[2].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
+        psp[2].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
-    psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
-    psp[2].pszIcon = NULL;
+        psp[2].pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
+        psp[2].pszIcon = NULL;
 #else
-    psp[2].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
-    psp[2].u2.pszIcon = NULL;
+        psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(translate_res(IDD_SID_HARDSID_SETTINGS_DIALOG));
+        psp[2].u2.pszIcon = NULL;
 #endif
-    psp[2].lParam = 0;
-    psp[2].pfnCallback = NULL;
+        psp[2].lParam = 0;
+        psp[2].pfnCallback = NULL;
+    }
 
     psp[0].pfnDlgProc = general_dialog_proc;
     psp[0].pszTitle = translate_text(IDS_GENERAL);
     psp[1].pfnDlgProc = resid_dialog_proc;
     psp[1].pszTitle = TEXT("ReSID/ReSID-fp");
-    psp[2].pfnDlgProc = hardsid_dialog_proc;
-    psp[2].pszTitle = TEXT("HardSID");
+    if (hardsid_available()) {
+        psp[2].pfnDlgProc = hardsid_dialog_proc;
+        psp[2].pszTitle = TEXT("HardSID");
+    }
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
     psh.pszCaption = translate_text(IDS_SID_SETTINGS);
-    psh.nPages = 3;
+    if (hardsid_available()) {
+        psh.nPages = 3;
+    } else {
+        psh.nPages = 2;
+    }
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;
     psh.nStartPage = 0;

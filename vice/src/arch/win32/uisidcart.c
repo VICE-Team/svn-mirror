@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "catweaselmkiii.h"
 #include "hardsid.h"
 #include "machine.h"
 #include "res.h"
@@ -107,7 +108,20 @@ static void enable_sidcart_controls(HWND hwnd)
     enable_sidcart_hardsid_controls(hwnd);
 }
 
-static uilib_localize_dialog_param sidcart_dialog_trans[] = {
+static uilib_localize_dialog_param sidcart_hardsid_dialog_trans[] = {
+    { IDC_SIDCART_ENABLE, IDS_SIDCART_ENABLE, 0 },
+    { IDC_SIDCART_ENGINE_MODEL_LABEL, IDS_SID_GENGROUP1, 0 },
+    { IDC_SIDCART_FILTERS, IDS_SID_FILTERS, 0 },
+    { IDC_SIDCART_ADDRESS_LABEL, IDS_SIDCART_ADDRESS_LABEL, 0 },
+    { IDC_SIDCART_CLOCK_LABEL, IDS_SIDCART_CLOCK_LABEL, 0 },
+    { IDC_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL, 0 },
+    { IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param sidcart_normal_dialog_trans[] = {
     { IDC_SIDCART_ENABLE, IDS_SIDCART_ENABLE, 0 },
     { IDC_SIDCART_ENGINE_MODEL_LABEL, IDS_SID_GENGROUP1, 0 },
     { IDC_SIDCART_FILTERS, IDS_SID_FILTERS, 0 },
@@ -125,7 +139,7 @@ static uilib_localize_dialog_param sidcart_plus4_dialog_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group sidcart_main_group[] = {
+static uilib_dialog_group sidcart_hardsid_main_group[] = {
     { IDC_SIDCART_ENABLE, 1 },
     { IDC_SIDCART_ENGINE_MODEL_LABEL, 0 },
     { IDC_SIDCART_FILTERS, 1 },
@@ -136,12 +150,21 @@ static uilib_dialog_group sidcart_main_group[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group sidcart_normal_main_group[] = {
+    { IDC_SIDCART_ENABLE, 1 },
+    { IDC_SIDCART_ENGINE_MODEL_LABEL, 0 },
+    { IDC_SIDCART_FILTERS, 1 },
+    { IDC_SIDCART_ADDRESS_LABEL, 0 },
+    { IDC_SIDCART_CLOCK_LABEL, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group sidcart_plus4_main_group[] = {
     { IDC_SIDCART_HARDSID_MAIN_DEVICE_LABEL, 0 },
     { 0, 0 }
 };
 
-static uilib_dialog_group sidcart_left_group[] = {
+static uilib_dialog_group sidcart_hardsid_left_group[] = {
     { IDC_SIDCART_ENGINE_MODEL_LABEL, 0 },
     { IDC_SIDCART_ADDRESS_LABEL, 0 },
     { IDC_SIDCART_CLOCK_LABEL, 0 },
@@ -149,7 +172,14 @@ static uilib_dialog_group sidcart_left_group[] = {
     { 0, 0 }
 };
 
-static uilib_dialog_group sidcart_right_group[] = {
+static uilib_dialog_group sidcart_normal_left_group[] = {
+    { IDC_SIDCART_ENGINE_MODEL_LABEL, 0 },
+    { IDC_SIDCART_ADDRESS_LABEL, 0 },
+    { IDC_SIDCART_CLOCK_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group sidcart_hardsid_right_group[] = {
     { IDC_SIDCART_ENGINE_MODEL, 0 },
     { IDC_SIDCART_ADDRESS, 0 },
     { IDC_SIDCART_CLOCK, 0 },
@@ -157,7 +187,14 @@ static uilib_dialog_group sidcart_right_group[] = {
     { 0, 0 }
 };
 
-static uilib_dialog_group sidcart_window_group[] = {
+static uilib_dialog_group sidcart_normal_right_group[] = {
+    { IDC_SIDCART_ENGINE_MODEL, 0 },
+    { IDC_SIDCART_ADDRESS, 0 },
+    { IDC_SIDCART_CLOCK, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group sidcart_hardsid_window_group[] = {
     { IDC_SIDCART_ENABLE, 0 },
     { IDC_SIDCART_ENGINE_MODEL, 0 },
     { IDC_SIDCART_FILTERS, 0 },
@@ -167,13 +204,31 @@ static uilib_dialog_group sidcart_window_group[] = {
     { 0, 0 }
 };
 
-static uilib_dialog_group sidcart_plus4_window_group[] = {
+static uilib_dialog_group sidcart_normal_window_group[] = {
+    { IDC_SIDCART_ENABLE, 0 },
+    { IDC_SIDCART_ENGINE_MODEL, 0 },
+    { IDC_SIDCART_FILTERS, 0 },
+    { IDC_SIDCART_ADDRESS, 0 },
+    { IDC_SIDCART_CLOCK, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group sidcart_plus4_hardsid_window_group[] = {
     { IDC_SIDCART_ENABLE, 0 },
     { IDC_SIDCART_ENGINE_MODEL, 0 },
     { IDC_SIDCART_FILTERS, 0 },
     { IDC_SIDCART_ADDRESS, 0 },
     { IDC_SIDCART_CLOCK, 0 },
     { IDC_SIDCART_HARDSID_MAIN_DEVICE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group sidcart_plus4_normal_window_group[] = {
+    { IDC_SIDCART_ENABLE, 0 },
+    { IDC_SIDCART_ENGINE_MODEL, 0 },
+    { IDC_SIDCART_FILTERS, 0 },
+    { IDC_SIDCART_ADDRESS, 0 },
+    { IDC_SIDCART_CLOCK, 0 },
     { 0, 0 }
 };
 
@@ -182,6 +237,27 @@ static int move_buttons_group[] = {
     IDCANCEL,
     0
 };
+
+static int model_valid(int ui_id)
+{
+#ifdef HAVE_CATWEASELMKIII
+    if (ui_sid_engine_model_values[ui_id] == SID_CATWEASELMKIII) {
+        if (!catweaselmkiii_available()) {
+            return 0;
+        }
+    }
+#endif
+
+#ifdef HAVE_HARDSID
+    if (ui_sid_engine_model_values[ui_id] == SID_HARDSID) {
+        if (!hardsid_available()) {
+            return 0;
+        }
+    }
+#endif
+
+    return 1;
+}
 
 static void init_sidcart_dialog(HWND hwnd)
 {
@@ -193,6 +269,12 @@ static void init_sidcart_dialog(HWND hwnd)
     unsigned int available, device;
     int xpos;
     RECT rect;
+    uilib_localize_dialog_param *sidcart_dialog_trans = (hardsid_available()) ? sidcart_hardsid_dialog_trans : sidcart_normal_dialog_trans;
+    uilib_dialog_group *sidcart_main_group = (hardsid_available()) ? sidcart_hardsid_main_group : sidcart_normal_main_group;
+    uilib_dialog_group *sidcart_left_group = (hardsid_available()) ? sidcart_hardsid_left_group : sidcart_normal_left_group;
+    uilib_dialog_group *sidcart_right_group = (hardsid_available()) ? sidcart_hardsid_right_group : sidcart_normal_right_group;
+    uilib_dialog_group *sidcart_window_group = (hardsid_available()) ? sidcart_hardsid_window_group : sidcart_normal_window_group;
+    uilib_dialog_group *sidcart_plus4_window_group = (hardsid_available()) ? sidcart_plus4_hardsid_window_group : sidcart_plus4_normal_window_group;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, sidcart_dialog_trans);
@@ -206,8 +288,10 @@ static void init_sidcart_dialog(HWND hwnd)
     uilib_adjust_group_width(hwnd, sidcart_main_group);
   
     if (machine_class == VICE_MACHINE_PLUS4) {
-        /* adjust the size of the elements in the plus4 main group */
-        uilib_adjust_group_width(hwnd, sidcart_plus4_main_group);
+        if (hardsid_available()) {
+            /* adjust the size of the elements in the plus4 main group */
+            uilib_adjust_group_width(hwnd, sidcart_plus4_main_group);
+        }
     }
 
     /* get the max x of the left group */
@@ -257,7 +341,9 @@ static void init_sidcart_dialog(HWND hwnd)
     res_value |= temp_value;
     temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_ENGINE_MODEL);
     for (res_value_loop = 0; ui_sid_engine_model[res_value_loop]; res_value_loop++) {
-        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model[res_value_loop]);
+        if (model_valid(res_value_loop)) {
+            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model[res_value_loop]);
+        }
     }
 
     active_value = 0;
@@ -292,18 +378,20 @@ static void init_sidcart_dialog(HWND hwnd)
     available = hardsid_available();
     device = 0;
 
-    resources_get_int("SidHardSIDMain", &res_value);
-    temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE);
+    if (available) {
+        resources_get_int("SidHardSIDMain", &res_value);
+        temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE);
 
-    while (available > 0) {
-        TCHAR item[10];
+        while (available > 0) {
+            TCHAR item[10];
 
-        _stprintf(item, TEXT("%d"), device++);
-        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)item);
-        available--;
+            _stprintf(item, TEXT("%d"), device++);
+            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)item);
+            available--;
+        }
+
+        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     }
-
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     enable_sidcart_controls(hwnd);
 }
@@ -320,7 +408,9 @@ static void end_sidcart_dialog(HWND hwnd)
     resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd, IDC_SIDCART_FILTERS) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("SidAddress",(int)SendMessage(GetDlgItem(hwnd, IDC_SIDCART_ADDRESS), CB_GETCURSEL, 0, 0));
     resources_set_int("SidClock", (int)SendMessage(GetDlgItem(hwnd, IDC_SIDCART_CLOCK), CB_GETCURSEL, 0, 0));
-    resources_set_int("SidHardSIDMain", (int)SendMessage(GetDlgItem(hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE), CB_GETCURSEL, 0, 0));
+    if (hardsid_available()) {
+        resources_set_int("SidHardSIDMain", (int)SendMessage(GetDlgItem(hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE), CB_GETCURSEL, 0, 0));
+    }
 
     if (machine_class == VICE_MACHINE_PLUS4) {
         resources_set_int("DIGIBLASTER", (IsDlgButtonChecked(hwnd, IDC_DIGIBLASTER) == BST_CHECKED ? 1 : 0 ));
@@ -361,8 +451,16 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 void ui_sidcart_settings_dialog(HWND hwnd)
 {
     if (machine_class == VICE_MACHINE_PLUS4) {
-        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SIDCARTPLUS4_SETTINGS_DIALOG, hwnd, dialog_proc);
+        if (hardsid_available()) {
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SIDCARTPLUS4_HARDSID_SETTINGS_DIALOG, hwnd, dialog_proc);
+        } else {
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SIDCARTPLUS4_SETTINGS_DIALOG, hwnd, dialog_proc);
+        }
     } else {
-        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SIDCART_SETTINGS_DIALOG, hwnd, dialog_proc);
+        if (hardsid_available()) {
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SIDCART_HARDSID_SETTINGS_DIALOG, hwnd, dialog_proc);
+        } else {
+            DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_SIDCART_SETTINGS_DIALOG, hwnd, dialog_proc);
+        }
     }
 }
