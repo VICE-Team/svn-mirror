@@ -228,9 +228,14 @@ int mididrv_in_open(void)
         mididrv_in_close();
     }
 
-    ret = midiInOpen(&handle_in, midi_in_dev, (DWORD)midi_callback, 0, CALLBACK_FUNCTION);
-    if (ret != MMSYSERR_NOERROR) {
-        log_error(mididrv_log, "Cannot open MIDI-In device #%d!", midi_in_dev);
+    if (midi_in_dev != -1) {
+        ret = midiInOpen(&handle_in, midi_in_dev, (DWORD)midi_callback, 0, CALLBACK_FUNCTION);
+        if (ret != MMSYSERR_NOERROR) {
+            log_error(mididrv_log, "Cannot open MIDI-In device #%d!", midi_in_dev);
+            handle_in = 0;
+            return -1;
+        }
+    } else {
         handle_in = 0;
         return -1;
     }
@@ -254,9 +259,14 @@ int mididrv_out_open(void)
         mididrv_out_close();
     }
 
-    ret = midiOutOpen(&handle_out, midi_out_dev, 0, 0, CALLBACK_NULL);
-    if (ret != MMSYSERR_NOERROR) {
-        log_error(mididrv_log, "Cannot open MIDI-Out device #%d!", midi_out_dev);
+    if (midi_out_dev != -1) {
+        ret = midiOutOpen(&handle_out, midi_out_dev, 0, 0, CALLBACK_NULL);
+        if (ret != MMSYSERR_NOERROR) {
+            log_error(mididrv_log, "Cannot open MIDI-Out device #%d!", midi_out_dev);
+            handle_out = 0;
+            return -1;
+        }
+    } else {
         handle_out = 0;
         return -1;
     }

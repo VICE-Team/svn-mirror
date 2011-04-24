@@ -43,17 +43,13 @@
 
 static void enable_midi_controls(HWND hwnd)
 {
-    int num_in, num_out;
     int is_enabled;
-
-    num_in = midiInGetNumDevs();
-    num_out = midiOutGetNumDevs();
 
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_MIDI_ENABLE) == BST_CHECKED) ? 1 : 0;
 
-    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_TYPE), is_enabled && (num_in != 0 || num_out != 0));
-    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE), is_enabled && (num_in != 0));
-    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE), is_enabled && (num_out != 0));
+    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_TYPE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE), is_enabled);
 }
 
 static uilib_localize_dialog_param midi_dialog_trans[] = {
@@ -141,6 +137,7 @@ static void init_midi_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
     num = midiInGetNumDevs();
     if (num != 0) {
         for (i = 0; i < num; i++) {
@@ -152,10 +149,13 @@ static void init_midi_dialog(HWND hwnd)
             }
         }
         resources_get_int("MIDIInDev", &number);
-        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)number, 0);
+        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)(number + 1), 0);
+    } else {
+        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)0, 0);
     }
 
     temp_hwnd = GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
     num = midiOutGetNumDevs();
     if (num != 0) {
         for (i = 0; i < num; i++) {
@@ -167,7 +167,9 @@ static void init_midi_dialog(HWND hwnd)
             }
         }
         resources_get_int("MIDIOutDev", &number);
-        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)number, 0);
+        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)(number + 1), 0);
+    } else {
+        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)0, 0);
     }
 
     enable_midi_controls(hwnd);
@@ -177,8 +179,8 @@ static void end_midi_dialog(HWND hwnd)
 {
     resources_set_int("MIDIEnable", (IsDlgButtonChecked(hwnd, IDC_MIDI_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("MIDIMode",(int)SendMessage(GetDlgItem(hwnd, IDC_MIDI_TYPE), CB_GETCURSEL, 0, 0));
-    resources_set_int("MIDIInDev",(int)SendMessage(GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE), CB_GETCURSEL, 0, 0));
-    resources_set_int("MIDIOutDev",(int)SendMessage(GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE), CB_GETCURSEL, 0, 0));
+    resources_set_int("MIDIInDev",(int)(SendMessage(GetDlgItem(hwnd, IDC_MIDI_IN_DEVICE), CB_GETCURSEL, 0, 0) - 1));
+    resources_set_int("MIDIOutDev",(int)(SendMessage(GetDlgItem(hwnd, IDC_MIDI_OUT_DEVICE), CB_GETCURSEL, 0, 0) - 1));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
