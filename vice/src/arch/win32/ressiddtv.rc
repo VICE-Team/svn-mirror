@@ -260,7 +260,7 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_GENERAL            "General"
-  IDS_SID_SETTINGS       "SID settings"
+  IDS_SID_SETTINGS       "Настройки SID"
   IDS_FAST               "Fast"
   IDS_INTERPOLATING      "Interpolating"
   IDS_RESAMPLING         "Resampling"

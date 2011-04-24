@@ -800,7 +800,7 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
   IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
-  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
+  IDS_MI_V364SPEECH_SETTINGS      "Параметры речи V364..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

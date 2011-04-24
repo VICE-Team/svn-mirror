@@ -949,7 +949,7 @@ BEGIN
   IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
   IDS_PET_IO_SETTINGS            "IO Settings"
   IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
-  IDS_PET_RAM_SETTINGS           "RAM settings"
+  IDS_PET_RAM_SETTINGS           "Настройки RAM"
   IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"
   IDS_MI_PET_SETTINGS            "PET settings..."

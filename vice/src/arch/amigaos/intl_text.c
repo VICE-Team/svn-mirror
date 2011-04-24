@@ -35,7 +35,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_FILE_KO, "∆ƒ¿œ" },
 /* nl */ { IDMS_FILE_NL, "Bestand" },
 /* pl */ { IDMS_FILE_PL, "Plik" },
-/* ru */ { IDMS_FILE_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_FILE_RU, "ƒ–Ÿ€" },
 /* sv */ { IDMS_FILE_SV, "Arkiv" },
 /* tr */ { IDMS_FILE_TR, "Dosya" },
 
@@ -932,7 +932,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_EDIT_KO, "∆Ì¡˝" },
 /* nl */ { IDMS_EDIT_NL, "Bewerken" },
 /* pl */ { IDMS_EDIT_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_EDIT_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_EDIT_RU, "ø‡–“⁄–" },
 /* sv */ { IDMS_EDIT_SV, "Redigera" },
 /* tr */ { IDMS_EDIT_TR, "D¸zenle" },
 
@@ -971,7 +971,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_SNAPSHOT_KO, "Ω∫≥¿º¶" },
 /* nl */ { IDMS_SNAPSHOT_NL, "Momentopname" },
 /* pl */ { IDMS_SNAPSHOT_PL, "Migawka" },
-/* ru */ { IDMS_SNAPSHOT_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_SNAPSHOT_RU, "¡›ÌﬂËﬁ‚" },
 /* sv */ { IDMS_SNAPSHOT_SV, "÷gonblicksbild" },
 /* tr */ { IDMS_SNAPSHOT_TR, "Anl˝k Gˆr¸nt¸" },
 
@@ -1166,7 +1166,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_OPTIONS_KO, "º±≈√" },
 /* nl */ { IDMS_OPTIONS_NL, "Opties" },
 /* pl */ { IDMS_OPTIONS_PL, "Opcje" },
-/* ru */ { IDMS_OPTIONS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_OPTIONS_RU, "æﬂÊÿÿ" },
 /* sv */ { IDMS_OPTIONS_SV, "Alternativ" },
 /* tr */ { IDMS_OPTIONS_TR, "SeÁenekler" },
 
@@ -1504,7 +1504,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_VDC_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_VDC_SETTINGS_NL, "VDC instellingen" },
 /* pl */ { IDMS_VDC_SETTINGS_PL, "Ustawienia VDC" },
-/* ru */ { IDMS_VDC_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_VDC_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ VDC" },
 /* sv */ { IDMS_VDC_SETTINGS_SV, "VDC-inst‰llningar" },
 /* tr */ { IDMS_VDC_SETTINGS_TR, "VDC ayarlar˝" },
 
@@ -1842,7 +1842,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_SETTINGS_KO, "º≥¡§" },
 /* nl */ { IDMS_SETTINGS_NL, "Instellingen" },
 /* pl */ { IDMS_SETTINGS_PL, "Ustawienia" },
-/* ru */ { IDMS_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ" },
 /* sv */ { IDMS_SETTINGS_SV, "Inst‰llningar" },
 /* tr */ { IDMS_SETTINGS_TR, "Ayarlar" },
 
@@ -2115,7 +2115,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_VICII_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_VICII_SETTINGS_NL, "VIC-II instellingen..." },
 /* pl */ { IDMS_VICII_SETTINGS_PL, "Ustawienia VIC-II..." },
-/* ru */ { IDMS_VICII_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_VICII_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ VIC-II..." },
 /* sv */ { IDMS_VICII_SETTINGS_SV, "VIC-II-inst‰llningar..." },
 /* tr */ { IDMS_VICII_SETTINGS_TR, "VIC-II ayarlar˝..." },
 
@@ -2206,7 +2206,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_SID_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_SID_SETTINGS_NL, "SID instellingen..." },
 /* pl */ { IDMS_SID_SETTINGS_PL, "Ustawienia uk≥adu SID..." },
-/* ru */ { IDMS_SID_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_SID_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ SID..." },
 /* sv */ { IDMS_SID_SETTINGS_SV, "SID-inst‰llningar..." },
 /* tr */ { IDMS_SID_SETTINGS_TR, "SID ayarlar˝..." },
 
@@ -2245,7 +2245,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_RAM_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_RAM_SETTINGS_NL, "RAM instellingen..." },
 /* pl */ { IDMS_RAM_SETTINGS_PL, "Ustawienia RAM..." },
-/* ru */ { IDMS_RAM_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_RAM_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ RAM..." },
 /* sv */ { IDMS_RAM_SETTINGS_SV, "RAM-inst‰llningar..." },
 /* tr */ { IDMS_RAM_SETTINGS_TR, "RAM ayarlar˝..." },
 
@@ -2258,7 +2258,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_RS232_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_RS232_SETTINGS_NL, "RS232 instellingen..." },
 /* pl */ { IDMS_RS232_SETTINGS_PL, "Ustawienia RS232..." },
-/* ru */ { IDMS_RS232_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_RS232_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ RS232..." },
 /* sv */ { IDMS_RS232_SETTINGS_SV, "RS232-inst‰llningar..." },
 /* tr */ { IDMS_RS232_SETTINGS_TR, "RS232 ayarlar˝..." },
 
@@ -2596,7 +2596,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_V364_SPEECH_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_V364_SPEECH_SETTINGS_NL, "V364 Spraak instellingen..." },
 /* pl */ { IDMS_V364_SPEECH_SETTINGS_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_V364_SPEECH_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_V364_SPEECH_SETTINGS_RU, "ø–‡–‹’‚‡Î ‡’Áÿ V364..." },
 /* sv */ { IDMS_V364_SPEECH_SETTINGS_SV, "V364-rˆstinst‰llningar..." },
 /* tr */ { IDMS_V364_SPEECH_SETTINGS_TR, "V364 Speech ayarlar˝..." },
 
@@ -5938,7 +5938,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_V364_SPEECH_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_V364_SPEECH_SETTINGS_NL, "V364 Spraak instellingen" },
 /* pl */ { IDS_V364_SPEECH_SETTINGS_PL, "" },  /* fuzzy */
-/* ru */ { IDS_V364_SPEECH_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDS_V364_SPEECH_SETTINGS_RU, "ø–‡–‹’‚‡Î ‡’Áÿ V364" },
 /* sv */ { IDS_V364_SPEECH_SETTINGS_SV, "V364-rˆstinst‰llningar" },
 /* tr */ { IDS_V364_SPEECH_SETTINGS_TR, "V364 Speech ayarlar˝" },
 
@@ -6094,7 +6094,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_RAM_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_RAM_SETTINGS_NL, "RAM instellingen" },
 /* pl */ { IDS_RAM_SETTINGS_PL, "Ustawienia RAM" },
-/* ru */ { IDS_RAM_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDS_RAM_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ RAM" },
 /* sv */ { IDS_RAM_SETTINGS_SV, "RAM-inst‰llningar" },
 /* tr */ { IDS_RAM_SETTINGS_TR, "RAM ayarlar˝" },
 
@@ -6783,7 +6783,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_SID_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SID_SETTINGS_NL, "SID instellingen" },
 /* pl */ { IDS_SID_SETTINGS_PL, "Ustawienia uk≥adu SID" },
-/* ru */ { IDS_SID_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDS_SID_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ SID" },
 /* sv */ { IDS_SID_SETTINGS_SV, "SID-inst‰llningar" },
 /* tr */ { IDS_SID_SETTINGS_TR, "SID ayarlar˝" },
 
@@ -6952,7 +6952,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_VICII_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_VICII_SETTINGS_NL, "VIC-II instellingen" },
 /* pl */ { IDS_VICII_SETTINGS_PL, "Ustawienia VIC-II" },
-/* ru */ { IDS_VICII_SETTINGS_RU, "" },  /* fuzzy */
+/* ru */ { IDS_VICII_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ VIC-II" },
 /* sv */ { IDS_VICII_SETTINGS_SV, "VIC-II-inst‰llningar" },
 /* tr */ { IDS_VICII_SETTINGS_TR, "VIC-II ayarlar˝" },
 
@@ -7446,7 +7446,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_SID_CART_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SID_CART_NL, "SID cartridge" },
 /* pl */ { IDS_SID_CART_PL, "" },  /* fuzzy */
-/* ru */ { IDS_SID_CART_RU, "" },  /* fuzzy */
+/* ru */ { IDS_SID_CART_RU, "∫–‡‚‡ÿ‘÷ SID" },
 /* sv */ { IDS_SID_CART_SV, "SID-insticksmodul" },
 /* tr */ { IDS_SID_CART_TR, "SID kartu˛u" },
 
@@ -7459,7 +7459,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_SID_ENGINE_MODEL_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SID_ENGINE_MODEL_NL, "SID model" },
 /* pl */ { IDS_SID_ENGINE_MODEL_PL, "" },  /* fuzzy */
-/* ru */ { IDS_SID_ENGINE_MODEL_RU, "" },  /* fuzzy */
+/* ru */ { IDS_SID_ENGINE_MODEL_RU, "‹ﬁ‘’€Ï ◊“„⁄ﬁ”’›’‡–‚ﬁ‡– SID" },
 /* sv */ { IDS_SID_ENGINE_MODEL_SV, "SID-modell" },
 /* tr */ { IDS_SID_ENGINE_MODEL_TR, "SID modeli" },
 
@@ -7472,7 +7472,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_SID_ADDRESS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SID_ADDRESS_NL, "SID adres" },
 /* pl */ { IDS_SID_ADDRESS_PL, "" },  /* fuzzy */
-/* ru */ { IDS_SID_ADDRESS_RU, "" },  /* fuzzy */
+/* ru */ { IDS_SID_ADDRESS_RU, "∞‘‡’· SID" },
 /* sv */ { IDS_SID_ADDRESS_SV, "SID-adress" },
 /* tr */ { IDS_SID_ADDRESS_TR, "SID adresi" },
 
@@ -7485,7 +7485,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_SID_CLOCK_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SID_CLOCK_NL, "SID klok" },
 /* pl */ { IDS_SID_CLOCK_PL, "" },  /* fuzzy */
-/* ru */ { IDS_SID_CLOCK_RU, "" },  /* fuzzy */
+/* ru */ { IDS_SID_CLOCK_RU, "SID “‡’‹Ô" },
 /* sv */ { IDS_SID_CLOCK_SV, "SID-klocka" },
 /* tr */ { IDS_SID_CLOCK_TR, "SID saati" },
 
@@ -8200,7 +8200,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_VIDEO_SIZE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_VIDEO_SIZE_NL, "Videogrootte" },
 /* pl */ { IDS_VIDEO_SIZE_PL, "Rozmiar video" },
-/* ru */ { IDS_VIDEO_SIZE_RU, "" },  /* fuzzy */
+/* ru */ { IDS_VIDEO_SIZE_RU, "¿–◊‹’‡ “ÿ‘’ﬁ" },
 /* sv */ { IDS_VIDEO_SIZE_SV, "Sk‰rmbredd" },
 /* tr */ { IDS_VIDEO_SIZE_TR, "Gˆr¸nt¸ boyutu" },
 
@@ -8213,7 +8213,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_IO_SIZE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_IO_SIZE_NL, "I/O grootte" },
 /* pl */ { IDS_IO_SIZE_PL, "Rozmiar I/O" },
-/* ru */ { IDS_IO_SIZE_RU, "" },  /* fuzzy */
+/* ru */ { IDS_IO_SIZE_RU, "¿–◊‹’‡ I/O" },
 /* sv */ { IDS_IO_SIZE_SV, "I/O-utrymme" },
 /* tr */ { IDS_IO_SIZE_TR, "G/« boyutu" },
 
@@ -8369,7 +8369,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_MACHINE_TYPE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_MACHINE_TYPE_NL, "Machinesoort" },
 /* pl */ { IDS_MACHINE_TYPE_PL, "Typ maszyny" },
-/* ru */ { IDS_MACHINE_TYPE_RU, "" },  /* fuzzy */
+/* ru */ { IDS_MACHINE_TYPE_RU, "¬ÿﬂ ⁄ﬁ‹ﬂÏÓ‚’‡–" },
 /* sv */ { IDS_MACHINE_TYPE_SV, "Maskintyp" },
 /* tr */ { IDS_MACHINE_TYPE_TR, "Makine tipi" },
 
@@ -9175,7 +9175,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_VICII_MODEL_KO, "" },  /* fuzzy */
 /* nl */ { IDS_VICII_MODEL_NL, "VIC-II model" },
 /* pl */ { IDS_VICII_MODEL_PL, "" },  /* fuzzy */
-/* ru */ { IDS_VICII_MODEL_RU, "" },  /* fuzzy */
+/* ru */ { IDS_VICII_MODEL_RU, "ºﬁ‘’€Ï VIC-II" },
 /* sv */ { IDS_VICII_MODEL_SV, "VIC II-modell" },
 /* tr */ { IDS_VICII_MODEL_TR, "VIC-II modeli" },
 
@@ -9188,7 +9188,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_CIA1_MODEL_KO, "" },  /* fuzzy */
 /* nl */ { IDS_CIA1_MODEL_NL, "CIA 1 model" },
 /* pl */ { IDS_CIA1_MODEL_PL, "" },  /* fuzzy */
-/* ru */ { IDS_CIA1_MODEL_RU, "" },  /* fuzzy */
+/* ru */ { IDS_CIA1_MODEL_RU, "ºﬁ‘’€Ï CIA 1" },
 /* sv */ { IDS_CIA1_MODEL_SV, "CIA 1-modell" },
 /* tr */ { IDS_CIA1_MODEL_TR, "CIA 1 modeli" },
 
@@ -9201,7 +9201,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDS_CIA2_MODEL_KO, "" },  /* fuzzy */
 /* nl */ { IDS_CIA2_MODEL_NL, "CIA 2 model" },
 /* pl */ { IDS_CIA2_MODEL_PL, "" },  /* fuzzy */
-/* ru */ { IDS_CIA2_MODEL_RU, "" },  /* fuzzy */
+/* ru */ { IDS_CIA2_MODEL_RU, "ºﬁ‘’€Ï CIA 2" },
 /* sv */ { IDS_CIA2_MODEL_SV, "CIA 2-modell" },
 /* tr */ { IDS_CIA2_MODEL_TR, "CIA 2 modeli" },
 

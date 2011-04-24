@@ -303,8 +303,8 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
-  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
-  IDS_SIDCART_CLOCK_LABEL                    "SID clock"
+  IDS_SIDCART_ADDRESS_LABEL                  "Адрес SID"
+  IDS_SIDCART_CLOCK_LABEL                    "SID время"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
   IDS_DIGIBLASTER                            "Enable the digiblaster add-on"

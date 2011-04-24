@@ -307,7 +307,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_THIS_MACHINE_NO_SID "This machine may not have a SID"
   IDS_GENERAL             "General"
-  IDS_SID_SETTINGS        "SID settings"
+  IDS_SID_SETTINGS        "Настройки SID"
   IDS_FAST                "Fast"
   IDS_INTERPOLATING       "Interpolating"
   IDS_RESAMPLING          "Resampling"
