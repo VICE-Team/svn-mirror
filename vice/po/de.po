@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-04-24 12:17-0700\n"
-"PO-Revision-Date: 2011-04-18 21:14+0200\n"
+"PO-Revision-Date: 2011-04-25 18:39+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2066,7 +2066,6 @@ msgstr "Entfernen #%d"
 
 #: src/arch/unix/gui/uifliplist.c:208 src/arch/unix/gui/uiramcart.c:58
 #: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:6090
-#, fuzzy
 msgid "Read-only"
 msgstr "Schreibgeschützt"
 
@@ -2524,7 +2523,6 @@ msgstr "Rescue Modus aktivieren"
 
 #: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:7286
-#, fuzzy
 msgid "EEPROM image file"
 msgstr "EEPROM Image Datei"
 
@@ -2684,9 +2682,8 @@ msgid ""
 msgstr "Kann Paletten Datei `%s' nicht laden."
 
 #: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10862
-#, fuzzy
 msgid "Path"
-msgstr "Pfad:"
+msgstr "Pfad"
 
 #: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
 #: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
@@ -4188,12 +4185,10 @@ msgstr "Keine Bestätigung beim Beenden von VICE"
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
 #: src/arch/win32/res.rc.po.c:1144 src/arch/amigaos/intl_text.c.po.c:5791
-#, fuzzy
 msgid "Never save settings on exit"
-msgstr "Einstellungen beim Beenden speichern"
+msgstr "Einstellungen beim Beenden nie speichern"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:84
-#, fuzzy
 msgid "Disable fullscreen"
 msgstr "Vollbild Modus deaktivieren"
 
@@ -6061,9 +6056,8 @@ msgid "Turbo232"
 msgstr "Turbo232"
 
 #: src/arch/win32/resacia.rc.po.c:48 src/translate_text.c.po.c:3371
-#, fuzzy
 msgid "Enable the ACIA RS232 interface emulation"
-msgstr "ACIA $DExx RS232 Schnittstellen-Emulation aktivieren"
+msgstr "ACIA RS232 Schnittstellen-Emulation aktivieren"
 
 #: src/arch/win32/resacia.rc.po.c:50
 msgid "ACIA location"
@@ -6428,9 +6422,8 @@ msgid "Select file for GEO-RAM"
 msgstr "Datei für GEO-RAM auswählen"
 
 #: src/arch/win32/resgeoram.rc.po.c:41 src/translate_text.c.po.c:3904
-#, fuzzy
 msgid "Enable the GEO-RAM expansion unit"
-msgstr "GEORAM Erweiterung aktivieren"
+msgstr "GEO-RAM Erweiterung aktivieren"
 
 #: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4958
 msgid "GEO-RAM size"
@@ -6478,7 +6471,6 @@ msgid "Select file for ISEPIC"
 msgstr "Datei für ISEPIC auswählen"
 
 #: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:4384
-#, fuzzy
 msgid "Enable the ISEPIC cartridge"
 msgstr "ISEPIC Modul aktivieren"
 
@@ -6762,9 +6754,8 @@ msgid "Select file for PLUS60K"
 msgstr "Datei für PLUS60K auswählen"
 
 #: src/arch/win32/resramcart.rc.po.c:42 src/translate_text.c.po.c:4208
-#, fuzzy
 msgid "Enable the RamCart expansion"
-msgstr "RAMCART Erweiterung aktivieren"
+msgstr "RamCart Erweiterung aktivieren"
 
 #: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:6116
 msgid "RamCart size"
@@ -6783,7 +6774,6 @@ msgid "REU Settings"
 msgstr "REU Einstellungen"
 
 #: src/arch/win32/resreu.rc.po.c:40 src/translate_text.c.po.c:4832
-#, fuzzy
 msgid "Enable the RAM Expansion Unit"
 msgstr "RAM Speichererweiterung aktivieren"
 
@@ -6838,9 +6828,8 @@ msgstr "Sample Methode"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:6727
-#, fuzzy
 msgid "Passband"
-msgstr "Passband (0-90%)"
+msgstr "Passband"
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
 msgid "Device selection"
@@ -6855,9 +6844,8 @@ msgid "Right device"
 msgstr "Rechtes Gerät"
 
 #: src/arch/win32/ressidcart.rc.po.c:138 src/translate_text.c.po.c:8722
-#, fuzzy
 msgid "Enable the SID cartridge"
-msgstr "ISEPIC Modul aktivieren"
+msgstr "SID Modul aktivieren"
 
 #: src/arch/win32/ressidcart.rc.po.c:141
 msgid "HardSID device selection"
@@ -6872,7 +6860,6 @@ msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster add-on aktivieren"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:11696
-#, fuzzy
 msgid "Enable the SFX Sound Expander cartridge"
 msgstr "SFX Soundexpander Modul aktivieren"
 
@@ -7211,7 +7198,6 @@ msgid "Writes to C64DTV ROM"
 msgstr "Schreibzugriff auf C64DTV ROM"
 
 #: src/arch/amigaos/intl_text.c.po.c:4620 src/translate_text.c.po.c:6274
-#, fuzzy
 msgid "RAM size"
 msgstr "RAM Größe"
 
@@ -8791,9 +8777,8 @@ msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Kernal ROM auf spezifizierte <Revision> verändern"
 
 #: src/translate_text.c.po.c:3387
-#, fuzzy
 msgid "Disable the ACIA RS232 interface emulation"
-msgstr "ACIA $DExx RS232 Schnittstellen-Emulation deaktivieren"
+msgstr "ACIA RS232 Schnittstellen-Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:3421
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -8888,9 +8873,8 @@ msgid "specify IEEE488 interface image name"
 msgstr "IEEE488 Schnittstellenmodul Imagename"
 
 #: src/translate_text.c.po.c:3920
-#, fuzzy
 msgid "Disable the GEO-RAM expansion unit"
-msgstr "GEORAM Erweiterung deaktivieren"
+msgstr "GEO-RAM Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:3936
 msgid "Specify name of GEORAM image"
@@ -8949,9 +8933,8 @@ msgid "Specify PSID tune <number>"
 msgstr "PSID Stück <Nummer> definieren"
 
 #: src/translate_text.c.po.c:4224
-#, fuzzy
 msgid "Disable the RamCart expansion"
-msgstr "RAMCART Erweiterung deaktivieren"
+msgstr "RamCart Erweiterung deaktivieren"
 
 #: src/translate_text.c.po.c:4240
 msgid "Specify name of RAMCART image"
@@ -8986,7 +8969,6 @@ msgid "Do not write to DQBB image"
 msgstr "Kein Schreibzugriff auf DQBB Image"
 
 #: src/translate_text.c.po.c:4400
-#, fuzzy
 msgid "Disable the ISEPIC cartridge"
 msgstr "ISEPIC Modul deaktivieren"
 
@@ -9083,7 +9065,6 @@ msgid "Set RR Flash Jumper"
 msgstr "Aktviere RR Flash Jumper"
 
 #: src/translate_text.c.po.c:4848
-#, fuzzy
 msgid "Disable the RAM Expansion Unit"
 msgstr "RAM Speichererweiterung deaktivieren"
 
@@ -9984,9 +9965,8 @@ msgid "Enable second SID"
 msgstr "Zweiten SID aktivieren"
 
 #: src/translate_text.c.po.c:8738
-#, fuzzy
 msgid "Disable the SID cartridge"
-msgstr "ISEPIC Modul deaktivieren"
+msgstr "SID Modul deaktivieren"
 
 #: src/translate_text.c.po.c:8770
 msgid "Specify base address for 2nd SID"
@@ -10606,7 +10586,6 @@ msgid "Specify name of C64DTV ROM image"
 msgstr "Name von C64DTV ROM Datei definieren"
 
 #: src/translate_text.c.po.c:11438
-#, fuzzy
 msgid "Disable writes to C64DTV ROM image"
 msgstr "Schreibzugriff auf C64DTV ROM Image verhindern"
 
@@ -10651,7 +10630,6 @@ msgid "Attach Speech ROM image"
 msgstr "Spracherweiterung ROM Imagedatei einlegen"
 
 #: src/translate_text.c.po.c:11712
-#, fuzzy
 msgid "Disable the SFX Sound Expander cartridge"
 msgstr "SFX Soundexpander Modul deaktivieren"
 
