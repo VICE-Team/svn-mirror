@@ -57,6 +57,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_ide64.h"
+#include "ui_sid.h"
 #include "ui_vicii.h"
 #include "util.h"
 #include "viceapp.h"
@@ -304,6 +305,8 @@ static void c64_ui_attach_cartridge(void *msg, void *window)
     ui_select_file(filepanel,C64_CARTRIDGE_FILE, &c64_ui_cartridges[i]);
 }       
 
+static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
+
 void c64_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
@@ -343,6 +346,9 @@ void c64_ui_specific(void *msg, void *window)
             }
         case MENU_VICII_SETTINGS:
             ui_vicii();
+            break;
+        case MENU_SID_SETTINGS:
+            ui_sid(c64sidaddressbase);
             break;
         case MENU_IDE64_FILE1:
             ui_select_file(windowlist[0]->savepanel, IDE64_FILE1, (void*)0);

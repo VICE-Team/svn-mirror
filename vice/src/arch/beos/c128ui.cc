@@ -55,6 +55,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_ide64.h"
+#include "ui_sid.h"
 #include "ui_vicii.h"
 #include "util.h"
 #include "viceapp.h"
@@ -189,12 +190,16 @@ ui_res_value_list c128_ui_res_values[] = {
     { NULL, NULL }
 };
 
+static int c128sidaddressbase[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 
 void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
           case MENU_VICII_SETTINGS:
             ui_vicii();
+            break;
+        case MENU_SID_SETTINGS:
+            ui_sid(c128sidaddressbase);
             break;
         case MENU_REU_FILE:
             ui_select_file(windowlist[0]->savepanel,REU_FILE,(void*)0);

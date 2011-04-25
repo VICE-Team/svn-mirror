@@ -35,6 +35,6 @@ const uint32 MESSAGE_SID_FILTERS       = 'MSD5';
 const uint32 MESSAGE_SID_RESIDSAMPLING = 'MSD6';
 const uint32 MESSAGE_SID_RESIDPASSBAND = 'MSD7';
 
-extern void ui_sid(void);
+extern void ui_sid(int *stereoaddressbase);
 
 #endif

@@ -87,10 +87,7 @@ extern "C" {
 #include "ui_joystick.h"
 #include "ui_netplay.h"
 #include "ui_ram.h"
-#include "ui_sid.h"
-#include "ui_siddtv.h"
 #include "ui_sound.h"
-#include "ui_vicii.h"
 #include "ui_video.h"
 #include "uicmdline.h"
 #include "util.h"
@@ -895,12 +892,6 @@ void ui_dispatch_events(void)
                 break;
             case MENU_VIDEO_SETTINGS:
                 ui_video();
-                break;
-            case MENU_SID_SETTINGS:
-                ui_sid();
-                break;
-            case MENU_SIDDTV_SETTINGS:
-                ui_siddtv();
                 break;
             case MENU_RAM_SETTINGS:
                 ui_ram();

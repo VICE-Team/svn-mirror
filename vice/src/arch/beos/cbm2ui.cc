@@ -34,6 +34,7 @@ extern "C" {
 #include "constants.h"
 #include "ui.h"
 #include "ui_cbm2.h"
+#include "ui_sid.h"
 #include "ui_vicii.h"
 }
 
@@ -44,6 +45,8 @@ ui_menu_toggle  cbm2_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+static int cbm2sidaddressbase[] = { 0xda, -1 };
+
 void cbm2_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
@@ -52,6 +55,9 @@ void cbm2_ui_specific(void *msg, void *window)
             break;
         case MENU_VICII_SETTINGS:
             ui_vicii();
+            break;
+        case MENU_SID_SETTINGS:
+            ui_sid(cbm2sidaddressbase);
             break;
         default: ;
     }

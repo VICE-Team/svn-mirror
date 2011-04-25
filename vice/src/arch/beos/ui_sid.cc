@@ -101,9 +101,7 @@ static int sidmodelengine_values[] = {
     -1
 };
 
-static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
-static int c128sidaddressbase[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
-static int cbm2sidaddressbase[] = { 0xda, -1 };
+static int *sidaddressbase;
 
 class SidWindow : public BWindow {
         BListView *addresslistview;
@@ -124,27 +122,11 @@ void CreateAndGetAddressList(BListView *addresslistview, int mode)
     char st[12];
     int res_value;
     int adr, ladr, hi, index = -1;
-    int *hadr;
+    int *hadr = sidaddressbase;
     int cursel = addresslistview->CurrentSelection();
     BListItem *item;
 
     resources_get_int("SidStereoAddressStart", &res_value);
-
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-            hadr = c64sidaddressbase;
-            break;
-        case VICE_MACHINE_C128:
-            hadr = c128sidaddressbase;
-            break;
-        case VICE_MACHINE_CBM5x0:
-        case VICE_MACHINE_CBM6x0:
-            hadr = cbm2sidaddressbase;
-            break;
-        default:
-            ui_error("CreateAddressList: This machine doesn't have a SID");
-            return;
-    }
 
     for (hi = 0; hadr[hi] >= 0; hi++) {
         for (ladr = (hi == 0 ? 0x20 : 0x0); ladr < 0x100; ladr += 0x20) {
@@ -304,13 +286,15 @@ void SidWindow::MessageReceived(BMessage *msg)
     }
 }
 
-void ui_sid() {
+void ui_sid(int *stereoaddressbase) {
     thread_id sidthread;
     status_t exit_value;
 
     if (sidwindow != NULL) {
         return;
     }
+
+    sidaddressbase = stereoaddressbase;
 
     sidwindow = new SidWindow;
 

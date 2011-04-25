@@ -55,6 +55,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_siddtv.h"
 #include "ui_vicii.h"
 #include "util.h"
 #include "viceapp.h"
@@ -90,6 +91,9 @@ void c64dtv_ui_specific(void *msg, void *window)
     switch (((BMessage*)msg)->what) {
         case MENU_VICII_SETTINGS:
             ui_vicii();
+            break;
+        case MENU_SIDDTV_SETTINGS:
+            ui_siddtv();
             break;
         case MENU_C64DTV_ROM_FILE:
             ui_select_file(windowlist[0]->savepanel,C64DTV_ROM_FILE,(void*)0);
