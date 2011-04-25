@@ -2063,9 +2063,8 @@ msgstr ""
 
 #: src/arch/unix/gui/uifliplist.c:208 src/arch/unix/gui/uiramcart.c:58
 #: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:6090
-#, fuzzy
 msgid "Read-only"
-msgstr "읽기 전용"
+msgstr ""
 
 #: src/arch/unix/gui/uifliplist.c:240 src/arch/unix/gui/uifliplist.c:242
 msgid "Next: "
@@ -2680,9 +2679,8 @@ msgid ""
 msgstr ""
 
 #: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10862
-#, fuzzy
 msgid "Path"
-msgstr "길:"
+msgstr "길"
 
 #: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
 #: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
@@ -3567,23 +3565,23 @@ msgstr ""
 
 #: src/arch/unix/gui/vic20ui.c:198 src/arch/win32/resvic20.rc.po.c:494
 msgid "3K (block 0)"
-msgstr ""
+msgstr "3k (block 0)"
 
 #: src/arch/unix/gui/vic20ui.c:201 src/arch/win32/resvic20.rc.po.c:495
 msgid "8K (block 1)"
-msgstr ""
+msgstr "8k (block 1)"
 
 #: src/arch/unix/gui/vic20ui.c:204 src/arch/win32/resvic20.rc.po.c:496
 msgid "16K (blocks 1/2)"
-msgstr ""
+msgstr "16k (block 1/2)"
 
 #: src/arch/unix/gui/vic20ui.c:207 src/arch/win32/resvic20.rc.po.c:497
 msgid "24K (blocks 1/2/3)"
-msgstr ""
+msgstr "24k (block 1/2/3)"
 
 #: src/arch/unix/gui/vic20ui.c:211
-msgid "All (blocks 0/1/2/3/5)"
-msgstr ""
+msgid "All (block 0/1/2/3/5)"
+msgstr "모두 (block 0/1/2/3/5)"
 
 #: src/arch/unix/gui/vic20ui.c:224
 msgid "Common configurations"
@@ -3591,23 +3589,23 @@ msgstr ""
 
 #: src/arch/unix/gui/vic20ui.c:227 src/arch/win32/resvic20.rc.po.c:500
 msgid "Block 0 (3K at $0400-$0FFF)"
-msgstr ""
+msgstr "block 0 (3k $0400-$0FFF 으로)"
 
 #: src/arch/unix/gui/vic20ui.c:229 src/arch/win32/resvic20.rc.po.c:501
 msgid "Block 1 (8K at $2000-$3FFF)"
-msgstr ""
+msgstr "block 1 (8k $2000-$3FFF 으로)"
 
 #: src/arch/unix/gui/vic20ui.c:231 src/arch/win32/resvic20.rc.po.c:502
 msgid "Block 2 (8K at $4000-$5FFF)"
-msgstr ""
+msgstr "block 2 (8k $4000-$5FFF 으로)"
 
 #: src/arch/unix/gui/vic20ui.c:233 src/arch/win32/resvic20.rc.po.c:503
 msgid "Block 3 (8K at $6000-$7FFF)"
-msgstr ""
+msgstr "block 3 (8k $6000-$7FFF 으로)"
 
 #: src/arch/unix/gui/vic20ui.c:235 src/arch/win32/resvic20.rc.po.c:504
 msgid "Block 5 (8K at $A000-$BFFF)"
-msgstr ""
+msgstr "block 5 (8k $A000-$BFFF 으로)"
 
 #: src/arch/unix/gui/vic20ui.c:255 src/arch/win32/res.rc.po.c:991
 #: src/arch/win32/res.rc.po.c:993 src/arch/amigaos/intl_text.c.po.c:3346
@@ -3701,7 +3699,7 @@ msgstr ""
 
 #: src/arch/unix/gui/vsidui.c:229
 msgid "Tunes"
-msgstr ""
+msgstr "음"
 
 #: src/arch/unix/gui/vsidui.c:240 src/arch/unix/gui/vsidui.c:273
 msgid "Load PSID file"
@@ -3725,7 +3723,7 @@ msgstr ""
 #: src/arch/unix/gui/vsidui.c:438
 #, c-format
 msgid "Tune %d"
-msgstr ""
+msgstr "음%d"
 
 #: src/arch/unix/gui/vsidui.c:465
 msgid "VSID: The SID Emulator"
@@ -3775,16 +3773,16 @@ msgstr ""
 #: src/arch/unix/x11/gnome/about.c:122 src/arch/win32/res.rc.po.c:1082
 #: src/arch/win32/res.rc.po.c:1530 src/arch/amigaos/intl_text.c.po.c:2826
 msgid "License"
-msgstr ""
+msgstr "면허"
 
 #: src/arch/unix/x11/gnome/about.c:124
 msgid "Warranty"
-msgstr ""
+msgstr "워런티"
 
 #: src/arch/unix/x11/gnome/about.c:126 src/arch/win32/res.rc.po.c:1529
 #: src/arch/amigaos/intl_text.c.po.c:2813
 msgid "Contributors"
-msgstr ""
+msgstr "공헌자"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:53
 #: src/arch/unix/x11/gnome/uicartridge.c:57
@@ -3818,7 +3816,7 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/uiedisk.c:74 src/arch/unix/x11/xaw/uiedisk.c:264
 msgid "Disk name:"
-msgstr ""
+msgstr "디스크 이름:"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:182
 #, c-format
@@ -3828,29 +3826,29 @@ msgstr ""
 #: src/arch/unix/x11/gnome/uiedit.c:77 src/arch/win32/res.rc.po.c:1382
 #: src/arch/amigaos/intl_text.c.po.c:915
 msgid "Copy"
-msgstr ""
+msgstr "복사"
 
 #: src/arch/unix/x11/gnome/uiedit.c:78 src/arch/win32/res.rc.po.c:1383
 #: src/arch/amigaos/intl_text.c.po.c:928
 msgid "Paste"
-msgstr ""
+msgstr "붙여넣기"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:1293
 #: src/arch/win32/respet.rc.po.c:556 src/arch/amigaos/intl_text.c.po.c:8196
 msgid "Keyboard"
-msgstr ""
+msgstr "키보드"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:59 src/arch/win32/res.rc.po.c:1294
 msgid "Joystick 1"
-msgstr ""
+msgstr "조이스틱 1"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:62 src/arch/win32/res.rc.po.c:1295
 msgid "Joystick 2"
-msgstr ""
+msgstr "조이스틱 2"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:65 src/arch/win32/res.rc.po.c:1296
 msgid "Devices"
-msgstr ""
+msgstr "디바이스"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:121 src/arch/win32/res.rc.po.c:1161
 #: src/arch/amigaos/intl_text.c.po.c:3424
@@ -3860,7 +3858,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/uinetplay.c:141 src/arch/win32/res.rc.po.c:1157
 #: src/arch/amigaos/intl_text.c.po.c:3593
 msgid "Idle"
-msgstr ""
+msgstr "가동하지않는"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:146 src/arch/win32/res.rc.po.c:1158
 #: src/arch/amigaos/intl_text.c.po.c:3606
@@ -3887,7 +3885,7 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1137
 msgid "Unknown"
-msgstr ""
+msgstr "알수없음"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:206 src/arch/win32/res.rc.po.c:1288
 #: src/arch/amigaos/intl_text.c.po.c:3567
@@ -3907,7 +3905,7 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/uinetplay.c:288 src/arch/win32/res.rc.po.c:1290
 msgid "Control"
-msgstr ""
+msgstr "컨드롤"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:293 src/arch/win32/res.rc.po.c:1291
 msgid "Server"
