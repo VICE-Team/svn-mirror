@@ -240,6 +240,7 @@ int easyflash_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
+
 void easyflash_resources_shutdown(void)
 {
 }
@@ -430,12 +431,15 @@ void easyflash_detach(void)
 
 int easyflash_flush_image(void)
 {
-    if (easyflash_filetype == CARTRIDGE_FILETYPE_BIN) {
-        return easyflash_bin_save(easyflash_filename);
-    } else if (easyflash_filetype == CARTRIDGE_FILETYPE_CRT) {
-        return easyflash_crt_save(easyflash_filename);
+    if (easyflash_filename != NULL) {
+        if (easyflash_filetype == CARTRIDGE_FILETYPE_BIN) {
+            return easyflash_bin_save(easyflash_filename);
+        } else if (easyflash_filetype == CARTRIDGE_FILETYPE_CRT) {
+            return easyflash_crt_save(easyflash_filename);
+        }
+        return -1;
     }
-    return -1;
+    return -2;
 }
 
 int easyflash_bin_save(const char *filename)

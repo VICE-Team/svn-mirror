@@ -104,13 +104,18 @@ static void end_easyflash_dialog(HWND hwnd)
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
+    int result;
 
     switch (msg) {
         case WM_COMMAND:
             command = LOWORD(wparam);
             switch (command) {
                 case IDC_EASYFLASH_SAVE_NOW:
-                    if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
+                    result = cartridge_flush_image(CARTRIDGE_EASYFLASH);
+                    if (result == -2) {
+                        ui_error(translate_text(IDS_NO_EASYFLASH_CART_INSERTED));
+                    }
+                    if (result == -1) {
                         ui_error(translate_text(IDS_ERROR_SAVING_EASYFLASH_CRT));
                     }
                     break;

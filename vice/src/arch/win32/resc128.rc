@@ -618,7 +618,7 @@ BEGIN
     LTEXT        "", IDC_FILE_NAME_1,
                  11, 33, 50, 8
     EDITTEXT     IDC_C128_FUNCTIONROM_INTERNAL_NAME,
-                 50, 30, 115, 12, WS_TABSTOP
+                 50, 30, 115, 15, WS_TABSTOP
     PUSHBUTTON   "", IDC_C128_FUNCTIONROM_INTERNAL_BROWSE,
                  175, 30, 50, 14, 0
     GROUPBOX     "", IDC_EXTERNAL_FUNCTION_ROM,
@@ -628,7 +628,7 @@ BEGIN
     LTEXT        "", IDC_FILE_NAME_2,
                  11, 83, 50, 8
     EDITTEXT     IDC_C128_FUNCTIONROM_EXTERNAL_NAME,
-                 50, 80, 115, 12, WS_TABSTOP
+                 50, 80, 115, 15, WS_TABSTOP
     PUSHBUTTON   "", IDC_C128_FUNCTIONROM_EXTERNAL_BROWSE,
                  175, 80, 50, 14, 0
 END
