@@ -3909,31 +3909,31 @@ msgstr "컨드롤"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:293 src/arch/win32/res.rc.po.c:1291
 msgid "Server"
-msgstr ""
+msgstr "서버"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:296 src/arch/win32/res.rc.po.c:1292
 msgid "Client"
-msgstr ""
+msgstr "클라이언트"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:49 src/arch/win32/res.rc.po.c:1237
 #: src/arch/amigaos/intl_text.c.po.c:7988
 msgid "Saturation"
-msgstr ""
+msgstr "포화도"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:50 src/arch/win32/res.rc.po.c:1238
 #: src/arch/amigaos/intl_text.c.po.c:8001
 msgid "Contrast"
-msgstr ""
+msgstr "명암"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:51 src/arch/win32/res.rc.po.c:1239
 #: src/arch/amigaos/intl_text.c.po.c:8014
 msgid "Brightness"
-msgstr ""
+msgstr "밝기"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:52 src/arch/win32/res.rc.po.c:1235
 #: src/arch/amigaos/intl_text.c.po.c:7780
 msgid "Gamma"
-msgstr ""
+msgstr "감마"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:296
 #: src/arch/unix/x11/xaw/uiscreenshot.c:152
@@ -3943,7 +3943,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/uiscreenshot.c:362 src/arch/win32/res.rc.po.c:1309
 #: src/translate_text.c.po.c:1752
 msgid "Format"
-msgstr ""
+msgstr "구성 방식"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:376 src/arch/win32/res.rc.po.c:1310
 msgid "Audio codec"
@@ -4039,11 +4039,11 @@ msgstr ""
 #. Tape Label
 #: src/arch/unix/x11/gnome/x11ui.c:870
 msgid "Tape 000"
-msgstr ""
+msgstr "테이프000"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1234 src/arch/unix/x11/xaw/x11ui.c:1262
 msgid " emulator"
-msgstr ""
+msgstr " 에뮬래이터"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1241 src/arch/unix/x11/xaw/x11ui.c:1266
 msgid "Do you really want to exit?"
@@ -4056,7 +4056,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/x11ui.c:1285 src/arch/unix/x11/gnome/x11ui.c:1287
 #: src/arch/unix/x11/xaw/x11ui.c:1342 src/arch/unix/x11/xaw/x11ui.c:1345
 msgid "(warp)"
-msgstr ""
+msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
@@ -4068,7 +4068,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/x11ui.c:1627 src/arch/unix/x11/xaw/x11ui.c:1591
 #, c-format
 msgid "%s (paused)"
-msgstr ""
+msgstr "%s (멈춤)"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1935 src/arch/amigaos/intl_text.c.po.c:3177
 msgid "VICE Message"
@@ -4086,11 +4086,11 @@ msgstr ""
 #: src/arch/unix/x11/gnome/x11ui.c:1973 src/arch/win32/res.rc.po.c:1434
 #: src/arch/amigaos/intl_text.c.po.c:850
 msgid "Monitor"
-msgstr ""
+msgstr "모니터"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1973
 msgid "Continue"
-msgstr ""
+msgstr "계속"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2015 src/arch/unix/x11/xaw/x11ui.c:1912
 msgid "Extend disk image"
@@ -4116,7 +4116,7 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:2540
 msgid "Contents"
-msgstr ""
+msgstr "목차"
 
 #. write-protect checkbox
 #: src/arch/unix/x11/gnome/x11ui.c:2571 src/arch/win32/res.rc.po.c:1188
@@ -4131,7 +4131,7 @@ msgstr ""
 
 #: src/arch/unix/x11/gnome/x11ui.c:2587 src/arch/win32/res.rc.po.c:1186
 msgid "Autostart"
-msgstr ""
+msgstr "자동시작"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2603
 msgid "Text cannot be displayed.\n"
@@ -4168,7 +4168,7 @@ msgstr ""
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2728
 #: src/translate_text.c.po.c:6050
 msgid "value"
-msgstr ""
+msgstr "가치"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
 msgid "Specify X display depth (1..32)"
@@ -4176,7 +4176,7 @@ msgstr ""
 
 #: src/arch/unix/x11/xrandr.c:280
 msgid "Desktop"
-msgstr ""
+msgstr "데스크탑"
 
 #: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:962
 msgid "VICE Information"
@@ -4193,14 +4193,14 @@ msgstr ""
 #: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:1170
 #: src/arch/win32/res.rc.po.c:1187 src/arch/amigaos/intl_text.c.po.c:3502
 msgid "Browse"
-msgstr ""
+msgstr "브라우스"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:177 src/arch/unix/x11/xaw/uiedisk.c:409
 #: src/arch/unix/x11/xaw/uiscreenshot.c:265
 #: src/arch/unix/x11/xaw/uisnapshot.c:289 src/arch/win32/res.rc.po.c:737
 #: src/arch/win32/res.rc.po.c:1168 src/arch/amigaos/intl_text.c.po.c:3671
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:98
 msgid "Save emptydisk file"
@@ -4220,12 +4220,12 @@ msgstr ""
 
 #: src/arch/unix/x11/xaw/x11ui.c:990
 msgid "recording"
-msgstr ""
+msgstr "녹화중"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1446
 #, c-format
 msgid "%d: Track %.1f"
-msgstr ""
+msgstr "%d: 트랙 %.1f"
 
 #: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:284
 msgid "Aspect ratio"
@@ -4253,7 +4253,7 @@ msgstr ""
 
 #: src/arch/unix/x11/xaw/x11video.c:279
 msgid "fourcc"
-msgstr ""
+msgstr "4글자 코드"
 
 #: src/arch/unix/x11/xaw/x11video.c:279
 msgid "Request YUV FOURCC format"
@@ -4379,7 +4379,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:104 src/arch/win32/res.rc.po.c:1377
 msgid "View"
-msgstr ""
+msgstr "보기"
 
 #: src/arch/win32/res.rc.po.c:120 src/arch/win32/res.rc.po.c:1378
 msgid "Window"
@@ -5026,7 +5026,7 @@ msgstr ""
 msgid ""
 "Recording\n"
 "%02d:%02d"
-msgstr ""
+msgstr "녹화중\n%02d:%02d"
 
 #: src/arch/win32/res.rc.po.c:1136
 #, c-format
