@@ -1520,7 +1520,7 @@ msgstr ""
 #: src/arch/unix/gui/uivdc.c:167 src/arch/unix/gui/uivic.c:139
 #: src/arch/unix/gui/uivicii.c:177 src/arch/win32/res.rc.po.c:1045
 msgid "Colors"
-msgstr ""
+msgstr "섹상"
 
 #: src/arch/unix/gui/uicrtc.c:152 src/arch/unix/gui/uited.c:143
 #: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:142
@@ -2228,13 +2228,13 @@ msgstr "너패드"
 #: src/arch/unix/gui/uijoystick2.c:263 src/arch/unix/gui/uijoystick2.c:315
 #: src/arch/unix/gui/vic20ui.c:385 src/arch/win32/res.rc.po.c:1103
 msgid "Keyset A"
-msgstr ""
+msgstr "키셋A"
 
 #: src/arch/unix/gui/uijoystick2.c:162 src/arch/unix/gui/uijoystick2.c:214
 #: src/arch/unix/gui/uijoystick2.c:266 src/arch/unix/gui/uijoystick2.c:318
 #: src/arch/unix/gui/vic20ui.c:388 src/arch/win32/res.rc.po.c:1104
 msgid "Keyset B"
-msgstr ""
+msgstr "키셋A"
 
 #: src/arch/unix/gui/uijoystick2.c:166 src/arch/unix/gui/uijoystick2.c:218
 #: src/arch/unix/gui/uijoystick2.c:270 src/arch/unix/gui/uijoystick2.c:322
@@ -4063,7 +4063,7 @@ msgstr "(warp)"
 #: src/arch/unix/x11/gnome/x11ui.c:1578
 #, c-format
 msgid "Tape %03d"
-msgstr ""
+msgstr "테이프 %03d"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1627 src/arch/unix/x11/xaw/x11ui.c:1591
 #, c-format
@@ -4383,16 +4383,16 @@ msgstr "보기"
 
 #: src/arch/win32/res.rc.po.c:120 src/arch/win32/res.rc.po.c:1378
 msgid "Window"
-msgstr ""
+msgstr "윈도우"
 
 #: src/arch/win32/res.rc.po.c:178 src/arch/win32/res.rc.po.c:735
 #: src/arch/win32/res.rc.po.c:1167 src/arch/amigaos/intl_text.c.po.c:3190
 msgid "OK"
-msgstr ""
+msgstr "ok"
 
 #: src/arch/win32/res.rc.po.c:179
 msgid "VICE"
-msgstr ""
+msgstr "VICE"
 
 #: src/arch/win32/res.rc.po.c:180
 msgid "Versatile Commodore Emulator"
@@ -4400,7 +4400,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:181
 msgid "Version 0.0"
-msgstr ""
+msgstr "버젼 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
 msgid "Copyright (c) 1998-2011 Dag Lem"
@@ -4530,11 +4530,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:979
 msgid "frame #"
-msgstr ""
+msgstr "프레임 #"
 
 #: src/arch/win32/res.rc.po.c:980
 msgid "resumed"
-msgstr ""
+msgstr "돌아가다"
 
 #: src/arch/win32/res.rc.po.c:981 src/arch/amigaos/intl_text.c.po.c:3827
 msgid ""
@@ -4623,11 +4623,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1006
 msgid "Mapping"
-msgstr ""
+msgstr "지도제작"
 
 #: src/arch/win32/res.rc.po.c:1008 src/arch/amigaos/intl_text.c.po.c:4126
 msgid "Attach"
-msgstr ""
+msgstr "붙이다"
 
 #: src/arch/win32/res.rc.po.c:1009
 msgid "Please enter a filename."
@@ -4674,31 +4674,31 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1019
 msgid "Printer 4"
-msgstr ""
+msgstr "프린터4"
 
 #: src/arch/win32/res.rc.po.c:1020
 msgid "Printer 5"
-msgstr ""
+msgstr "프린터5"
 
 #: src/arch/win32/res.rc.po.c:1021 src/arch/win32/res.rc.po.c:1387
 #: src/arch/win32/res.rc.po.c:1552 src/arch/amigaos/intl_text.c.po.c:44
 msgid "Drive 8"
-msgstr ""
+msgstr "드라이브8"
 
 #: src/arch/win32/res.rc.po.c:1022 src/arch/win32/res.rc.po.c:1388
 #: src/arch/win32/res.rc.po.c:1553 src/arch/amigaos/intl_text.c.po.c:57
 msgid "Drive 9"
-msgstr ""
+msgstr "드라이브9"
 
 #: src/arch/win32/res.rc.po.c:1023 src/arch/win32/res.rc.po.c:1389
 #: src/arch/amigaos/intl_text.c.po.c:70
 msgid "Drive 10"
-msgstr ""
+msgstr "드라이브10"
 
 #: src/arch/win32/res.rc.po.c:1024 src/arch/win32/res.rc.po.c:1390
 #: src/arch/amigaos/intl_text.c.po.c:83
 msgid "Drive 11"
-msgstr ""
+msgstr "드라이브11"
 
 #: src/arch/win32/res.rc.po.c:1026
 msgid "Can't write snapshot file."
@@ -4739,15 +4739,15 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1035
 msgid "Romset"
-msgstr ""
+msgstr "롬셋"
 
 #: src/arch/win32/res.rc.po.c:1036 src/arch/win32/res.rc.po.c:1551
 msgid "Computer"
-msgstr ""
+msgstr "컴퓨터"
 
 #: src/arch/win32/res.rc.po.c:1037
 msgid "Drive"
-msgstr ""
+msgstr "드라이브"
 
 #: src/arch/win32/res.rc.po.c:1040 src/arch/amigaos/intl_text.c.po.c:7676
 #, c-format
@@ -4827,7 +4827,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1071 src/translate_text.c.po.c:3646
 msgid "Model"
-msgstr ""
+msgstr "모델"
 
 #: src/arch/win32/res.rc.po.c:1073 src/arch/amigaos/intl_text.c.po.c:3801
 msgid "Select start snapshot for event history"
@@ -4845,7 +4845,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1078
 #, c-format
 msgid "Version %s (%s)"
-msgstr ""
+msgstr "버젼 %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1080 src/arch/amigaos/intl_text.c.po.c:3203
 msgid "VICE contributors"
@@ -4997,7 +4997,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1128
 msgid " kB"
-msgstr ""
+msgstr " kb"
 
 #: src/arch/win32/res.rc.po.c:1129 src/arch/win32/res.rc.po.c:1198
 msgid "Configure Keyset A"
@@ -5014,12 +5014,12 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1133
 msgid "Tape"
-msgstr ""
+msgstr "테이프"
 
 #: src/arch/win32/res.rc.po.c:1134 src/arch/win32/resc64dtv.rc.po.c:453
 #: src/arch/amigaos/intl_text.c.po.c:4373
 msgid "Joystick"
-msgstr ""
+msgstr "조이스틱"
 
 #: src/arch/win32/res.rc.po.c:1135
 #, c-format
@@ -5038,7 +5038,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1138 src/translate_text.c.po.c:1240
 #: src/translate_text.c.po.c:3404
 msgid "number"
-msgstr ""
+msgstr "숫자"
 
 #: src/arch/win32/res.rc.po.c:1139
 msgid "Set input device for joystick #1"
