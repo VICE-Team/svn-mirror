@@ -248,7 +248,9 @@ Filter::Filter()
 
       // Clamp x to 16 bits (rounding may cause overflow).
       if (scaled_voltage[fi.opamp_voltage_size - 1][0] >= (1 << 16)) {
-	scaled_voltage[fi.opamp_voltage_size - 1][0] = (1 << 16) - 1;
+	// The last point is repeated.
+	scaled_voltage[fi.opamp_voltage_size - 1][0] =
+	  scaled_voltage[fi.opamp_voltage_size - 2][0] = (1 << 16) - 1;
       }
 
       interpolate(scaled_voltage, scaled_voltage + fi.opamp_voltage_size - 1,
