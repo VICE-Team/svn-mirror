@@ -118,6 +118,8 @@ extern int cartridge_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
 #define CARTRIDGE_MIDI_MAPLIN        -112 /* c64-midi.c */
 #define CARTRIDGE_TFE                -116 /* tfe.c */
 #define CARTRIDGE_TURBO232           -117 /* c64acia1.c */
+#define CARTRIDGE_SWIFTLINK          -118 /* c64acia1.c */
+#define CARTRIDGE_ACIA               -119 /* c64acia1.c */
 
 /* Known cartridge types.  */
 /* TODO: cartconv (4k and 12k binaries) */

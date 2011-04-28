@@ -443,12 +443,16 @@ static void set_acia_ticks(void)
 */
 static int acia_set_mode(int new_mode, void *param)
 {
-    if (new_mode < ACIA_MODE_LOWEST || new_mode > ACIA_MODE_HIGHEST)
+    if (new_mode < ACIA_MODE_LOWEST || new_mode > ACIA_MODE_HIGHEST) {
         return -1;
+    }
+
+    if (myacia_set_mode(new_mode) == 0 && new_mode != ACIA_MODE_LOWEST) {
+        return -1;
+    }
 
     acia.mode = new_mode;
     set_acia_ticks();
-
     return 0;
 }
 

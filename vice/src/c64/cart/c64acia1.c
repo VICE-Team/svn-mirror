@@ -49,6 +49,10 @@
 #define myacia_reset acia1_reset
 #define myacia_store acia1_store
 
+extern int acia1_set_mode(int mode);
+
+#define myacia_set_mode(x) acia1_set_mode(x)
+
 #include "maincpu.h"
 #include "cartridge.h"
 #include "c64export.h"
@@ -62,8 +66,8 @@
 #include "aciacore.c"
 
 #ifdef HAVE_RS232
-/* Flag: Do we enable the $DE** ACIA RS232 interface emulation?  */
-static int acia_de_enabled = 0;
+/* Flag: Do we enable the ACIA RS232 interface emulation?  */
+static int acia_enabled = 0;
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -73,10 +77,8 @@ static int acia_de_enabled = 0;
 static BYTE aciacart_read(WORD addr);
 static BYTE aciacart_peek(WORD addr);
 
-/* FIXME: indiviudal IDs should be used to reflect individual carts (unless 100% identical) */
-
-static io_source_t acia_de_device = {
-    CARTRIDGE_NAME_TURBO232,
+static io_source_t acia_device = {
+    CARTRIDGE_NAME_ACIA,
     IO_DETACH_RESOURCE,
     "Acia1Enable",
     0xde00, 0xde07, 0x07,
@@ -85,13 +87,13 @@ static io_source_t acia_de_device = {
     aciacart_read,
     aciacart_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_TURBO232
+    CARTRIDGE_ACIA
 };
 
-static io_source_list_t *acia_de_list_item = NULL;
+static io_source_list_t *acia_list_item = NULL;
 
 static const c64export_resource_t export_res = {
-    CARTRIDGE_NAME_TURBO232, 0, 0, &acia_de_device, NULL, CARTRIDGE_TURBO232
+    CARTRIDGE_NAME_TURBO232, 0, 0, &acia_device, NULL, CARTRIDGE_TURBO232
 };
 #endif
 
@@ -99,7 +101,7 @@ static const c64export_resource_t export_res = {
 
 int aciacart_cart_enabled(void) {
 #ifdef HAVE_RS232
-    return acia_de_enabled;
+    return acia_enabled;
 #else
     return 0;
 #endif 
@@ -111,29 +113,66 @@ static int acia1_enable(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    acia_de_list_item = c64io_register(&acia_de_device);
+    acia_list_item = c64io_register(&acia_device);
     return 0;
 }
 
 static void acia1_disable(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(acia_de_list_item);
-    acia_de_list_item = NULL;
+    c64io_unregister(acia_list_item);
+    acia_list_item = NULL;
 }
 
-static int set_acia_de_enabled(int val, void *param)
+static int set_acia_enabled(int val, void *param)
 {
-    if ((val) && (!acia_de_enabled)) {
+    if ((val) && (!acia_enabled)) {
         if (acia1_enable() < 0) {
             return -1;
         }
-        acia_de_enabled = 1;
-    } else if ((!val) && (acia_de_enabled)) {
+        acia_enabled = 1;
+    } else if ((!val) && (acia_enabled)) {
         acia1_disable();
-        acia_de_enabled = 0;
+        acia_enabled = 0;
     }
     return 0;
+}
+
+static void set_io_source_mode(int mode)
+{
+    switch (mode) {
+        default:
+        case ACIA_MODE_NORMAL:
+            acia_device.name = CARTRIDGE_NAME_ACIA;
+            acia_device.end_address = 0xde03;
+            acia_device.address_mask = 0x03;
+            acia_device.cart_id = CARTRIDGE_TURBO232;
+            break;
+        case ACIA_MODE_SWIFTLINK:
+            acia_device.name = CARTRIDGE_NAME_SWIFTLINK;
+            acia_device.end_address = 0xde03;
+            acia_device.address_mask = 0x03;
+            acia_device.cart_id = CARTRIDGE_SWIFTLINK;
+            break;
+        case ACIA_MODE_TURBO232:
+            acia_device.name = CARTRIDGE_NAME_TURBO232;
+            acia_device.end_address = 0xde07;
+            acia_device.address_mask = 0x07;
+            acia_device.cart_id = CARTRIDGE_TURBO232;
+            break;
+    }
+}
+
+int acia1_set_mode(int mode)
+{
+    if (acia_enabled) {
+        set_acia_enabled(0, NULL);
+        set_io_source_mode(mode);
+        set_acia_enabled(1, NULL);
+    } else {
+        set_io_source_mode(mode);
+    }
+    return 1;
 }
 #endif
 
@@ -142,7 +181,7 @@ static int set_acia_de_enabled(int val, void *param)
 #ifdef HAVE_RS232
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &acia_de_enabled, set_acia_de_enabled, NULL },
+      &acia_enabled, set_acia_enabled, NULL },
     { NULL }
 };
 #endif
@@ -161,7 +200,6 @@ int aciacart_resources_init(void)
 
 void aciacart_resources_shutdown(void)
 {
-
 }
 
 /* ------------------------------------------------------------------------- */
@@ -169,17 +207,17 @@ void aciacart_resources_shutdown(void)
 #ifdef HAVE_RS232
 static BYTE aciacart_read(WORD addr)
 {
-    acia_de_device.io_source_valid = 0;
-    if (acia.mode == 2 && (addr & 7 )> 3 && (addr & 7) != 7) {
+    acia_device.io_source_valid = 0;
+    if (acia.mode == ACIA_MODE_TURBO232 && (addr & 7 ) > 3 && (addr & 7) != 7) {
         return 0;
     }
-    acia_de_device.io_source_valid = 1;
+    acia_device.io_source_valid = 1;
     return myacia_read(addr);
 }
 
 static BYTE aciacart_peek(WORD addr)
 {
-    if (acia.mode == 2 && (addr & 7 )> 3 && (addr & 7) != 7) {
+    if (acia.mode == ACIA_MODE_TURBO232 && (addr & 7 ) > 3 && (addr & 7) != 7) {
         return 0;
     }
     return acia1_peek(addr);
@@ -190,6 +228,7 @@ void aciacart_reset(void)
 {
     acia1_reset();
 }
+
 void aciacart_init(void)
 {
     acia1_init();
@@ -203,14 +242,14 @@ int aciacart_cmdline_options_init(void)
 void aciacart_detach(void)
 {
 #ifdef HAVE_RS232
-    set_acia_de_enabled(0, NULL);
+    set_acia_enabled(0, NULL);
 #endif
 }
 
 int aciacart_enable(void)
 {
 #ifdef HAVE_RS232
-    return set_acia_de_enabled(1, NULL);
+    return set_acia_enabled(1, NULL);
 #else
     return 0;
 #endif
@@ -231,13 +270,13 @@ int aciacart_snapshot_read_module(struct snapshot_s *p)
 {
 #ifdef HAVE_RS232
     if (acia1_snapshot_read_module(p) < 0) {
-        acia_de_enabled = 0;
+        acia_enabled = 0;
         return -1;
     }
     /* FIXME: Why do we need to do so???  */
     if (acia1_enable() == 0) {
         aciacart_reset();          /* Clear interrupts.  */
-        acia_de_enabled = 1;
+        acia_enabled = 1;
     }
 #endif
     return 0;

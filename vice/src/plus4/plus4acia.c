@@ -51,6 +51,9 @@
 #define myacia_reset acia_reset
 #define myacia_store acia_store
 
+/* no set mode */
+#define myacia_set_mode(x) 0
+
 #include "maincpu.h"
 
 #define mycpu_alarm_context maincpu_alarm_context
