@@ -253,12 +253,6 @@ const ui_menu_entry_t rs232_noacia_menu[] = {
 };
 
 const ui_menu_entry_t rs232_nouser_menu[] = {
-/*
-    { "ACIA RS232 interface emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_Acia1Enable_callback,
-      NULL },
-*/
     { "ACIA host device",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
@@ -267,10 +261,6 @@ const ui_menu_entry_t rs232_nouser_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)acia1irq_menu },
-    { "ACIA emulation mode",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)acia1mode_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Host settings"),
     { "Device 1",
