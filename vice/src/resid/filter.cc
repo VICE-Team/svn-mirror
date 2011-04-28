@@ -165,8 +165,8 @@ static model_filter_init_t model_filter_init[2] = {
     0,
     0,
     0,
-    0,
-    false
+    2.00,
+    true
   }
 };
 
