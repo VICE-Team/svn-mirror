@@ -813,8 +813,6 @@ ui_create_status_bar(GtkWidget *pane)
         gtk_widget_show(as->drive_status[i].image);
 #endif
 	
-        lib_free(empty);
-
         /* Track Label */
         as->drive_status[i].track_label = gtk_label_new("");
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), as->drive_status[i].track_label, FALSE, FALSE, 0);
@@ -848,6 +846,9 @@ ui_create_status_bar(GtkWidget *pane)
         g_signal_connect(G_OBJECT(as->drive_status[i].event_box), "button-press-event", G_CALLBACK(fliplist_popup_cb), (gpointer)(int_to_void_ptr(i)));
         gtk_widget_show(as->drive_status[i].event_box);
     }
+
+    lib_free(empty);
+
     gtk_widget_show(drive_box);
     gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
 
