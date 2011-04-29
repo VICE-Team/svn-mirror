@@ -45,7 +45,7 @@ FilterFP::FilterFP()
       model(MOS6581FP),
       clock_frequency(1000000),
       attenuation(0.5f), distortion_nonlinearity(3.3e6f),
-    type3_baseresistance(129501), type3_offset(284015710), type3_steepness(1.0065), type3_minimumfetresistance(18741),
+    type3_baseresistance(129501), type3_offset(284015710.f), type3_steepness(1.0065f), type3_minimumfetresistance(18741),
       type4_k(20), type4_b(6.55f),
       nonlinearity(0.96f)
 {
