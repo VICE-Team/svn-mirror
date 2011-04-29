@@ -53,6 +53,7 @@ static void ciat_login(const char *format,...) {
         vprintf(format, ap);
         printf(" {\n");
     }
+    va_end(ap);
     logtab += 2;
 }
 
@@ -64,6 +65,7 @@ static void ciat_logout(const char *format,...) {
         vprintf(format, ap);
         printf("\n");
     }
+    va_end(ap);
     if (logtab > 1)
         logtab -= 2;
     if (ciat_logfl) {
@@ -79,6 +81,7 @@ static void ciat_log(const char *format,...) {
         vprintf(format, ap);
         printf("\n");
     }
+    va_end(ap);
 }
 
 static void ciat_print_state(const ciat_t *state)

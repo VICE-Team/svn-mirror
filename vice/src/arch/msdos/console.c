@@ -95,6 +95,7 @@ int console_out(console_t *log, const char *format, ...)
 
     va_start(ap, format);
     vfprintf(mon_output, format, ap);
+    va_end(ap);
 
     return 0;
 }

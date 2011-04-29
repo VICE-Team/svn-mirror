@@ -757,6 +757,7 @@ int console_out(console_t *log, const char *format, ...)
 
     va_start(ap, format);
     buffer = lib_mvsprintf(format, ap);
+    va_end(ap);
     pBuffer = buffer;
 
     FileOut(pcp, pBuffer);

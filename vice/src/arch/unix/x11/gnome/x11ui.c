@@ -1932,6 +1932,7 @@ void ui_message(const char *format, ...)
 
     va_start(ap, format);
     vsprintf(str, format, ap);
+    va_end(ap);
     ui_message2(GTK_MESSAGE_INFO, str, _("VICE Message"));
 }
 
@@ -1943,6 +1944,7 @@ void ui_error(const char *format, ...)
 
     va_start(ap, format);
     vsprintf(str, format, ap);
+    va_end(ap);
     ui_message2(GTK_MESSAGE_ERROR, str, _("VICE Error!"));
 }
 
@@ -1962,10 +1964,10 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     static GtkWidget *jam_dialog, *message;
     gint res;
 
-    va_start(ap, format);
-
     if (console_mode) {
+        va_start(ap, format);
         vfprintf(stderr, format, ap);
+        va_end(ap);
         exit(0);
     }
 
@@ -1973,7 +1975,9 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     jam_dialog = gtk_dialog_new_with_buttons("", NULL, GTK_DIALOG_DESTROY_WITH_PARENT, _("Reset"), 0, _("Hard Reset"), 1, _("Monitor"), 2, _("Continue"), 3, NULL);
     g_signal_connect(G_OBJECT(jam_dialog), "destroy", G_CALLBACK(gtk_widget_destroyed), &jam_dialog);
 
+    va_start(ap, format);
     vsprintf(str, format, ap);
+    va_end(ap);
     message = gtk_label_new(str);
     gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->vbox), message, TRUE, TRUE, 0);
     gtk_widget_show(message);

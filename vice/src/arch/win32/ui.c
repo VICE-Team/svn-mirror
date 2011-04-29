@@ -996,6 +996,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
     va_list ap;
     va_start(ap, format);
     txt = lib_mvsprintf(format, ap);
+    va_end(ap);
     txt2 = lib_msprintf(translate_text(IDS_START_MONITOR), txt);
     st = system_mbstowcs_alloc(txt2);
     ret = ui_messagebox(st, translate_text(IDS_VICE_CPU_JAM), MB_YESNOCANCEL);

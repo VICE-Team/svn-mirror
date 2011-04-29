@@ -267,6 +267,7 @@ void ui_error(const char *format,...)
 
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
+    va_end(ap);
     tui_error(tmp);
 
     disable_text();
@@ -283,6 +284,7 @@ void ui_message(const char *format,...)
 
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
+    va_end(ap);
     tui_message(tmp);
 
     disable_text();
@@ -299,6 +301,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
+    va_end(ap);
     tui_error(tmp);
 
     disable_text();

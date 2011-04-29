@@ -231,6 +231,7 @@ void archdep_startup_log_error(const char *format, ...)
 
     va_start(ap, format);
     vfprintf(stderr, format, ap);
+    va_end(ap);
 }
 
 char *archdep_filename_parameter(const char *name)

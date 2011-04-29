@@ -88,8 +88,8 @@ unsigned int machine_jam(const char *format, ...)
         return JAM_NONE;
 
     va_start(ap, format);
-
     str = lib_mvsprintf(format, ap);
+    va_end(ap);
     ret = ui_jam_dialog(str);
     lib_free(str);
 

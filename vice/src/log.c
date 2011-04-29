@@ -311,45 +311,63 @@ static int log_helper(log_t log, unsigned int level, const char *format,
 int log_message(log_t log, const char *format, ...)
 {
     va_list ap;
+    int rc;
 
     va_start(ap, format);
-    return log_helper(log, 0, format, ap);
+    rc = log_helper(log, 0, format, ap);
+    va_end(ap);
+
+    return rc;
 }
 
 int log_warning(log_t log, const char *format, ...)
 {
     va_list ap;
+    int rc;
 
     va_start(ap, format);
-    return log_helper(log, 1, format, ap);
+    rc = log_helper(log, 1, format, ap);
+    va_end(ap);
+
+    return rc;
 }
 
 int log_error(log_t log, const char *format, ...)
 {
     va_list ap;
+    int rc;
 
     va_start(ap, format);
-    return log_helper(log, 2, format, ap);
+    rc = log_helper(log, 2, format, ap);
+    va_end(ap);
+
+    return rc;
 }
 
 int log_debug(const char *format, ...)
 {
     va_list ap;
+    int rc;
 
     va_start(ap, format);
-    return log_helper(LOG_DEFAULT, 0, format, ap);
+    rc = log_helper(LOG_DEFAULT, 0, format, ap);
+    va_end(ap);
+
+    return rc;
 }
 
 int log_verbose(const char *format, ...)
 {
     va_list ap;
+    int rc = 0;
 
+    va_start(ap, format);
     if (verbose) {
-        va_start(ap, format);
-        return log_helper(LOG_DEFAULT, 0, format, ap);
-    } else {
-        return 0;
+        rc = log_helper(LOG_DEFAULT, 0, format, ap);
     }
+    va_end(ap);
+
+    return rc;
 }
 
 void log_enable(int on)

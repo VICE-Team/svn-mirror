@@ -114,6 +114,8 @@ int console_out(console_t *log, const char *format, ...)
             }
         }
     }
+    va_end(ap);
+
     return status;
 }
 

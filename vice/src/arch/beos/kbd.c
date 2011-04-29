@@ -101,6 +101,7 @@ int kbd_init(int num, ...)
         keyconvmaps[i].virtual_shift_row = shift_row;
         keyconvmaps[i].virtual_shift_column = shift_column;
     }
+    va_end(p);
     keyconv_base = &keyconvmaps[keymap_index >> 1];
 
     return 0;

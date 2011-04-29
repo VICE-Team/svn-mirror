@@ -4632,8 +4632,8 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     vsync_suspend_speed_eval();
 
     va_start(ap, format);
-
     vsprintf(str, format, ap);
+    va_end(ap);
 
     /* Display a simple errorbox in single tasking (especially full screen mode) */
     if (SingleTasking != 0) {
@@ -4735,8 +4735,8 @@ void ui_error(const char *format, ...)
     vsync_suspend_speed_eval();
 
     va_start(ap, format);
-
     vsprintf(str, format, ap);
+    va_end(ap);
 
     err.errnum = 0;
     strncpy(err.errmess, str, 256);
@@ -4756,8 +4756,8 @@ void ui_message(const char *format, ...)
     vsync_suspend_speed_eval();
 
     va_start(ap, format);
-
     vsprintf(str, format, ap);
+    va_end(ap);
 
     err.errnum = 0;
     strncpy(err.errmess, str, 256);

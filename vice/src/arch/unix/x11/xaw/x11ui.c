@@ -1780,6 +1780,7 @@ void ui_error(const char *format,...)
 
     va_start(ap, format);
     str = lib_mvsprintf(format, ap);
+    va_end(ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
     ui_popup(XtParent(error_dialog), _("VICE Error!"), False);
     button = UI_BUTTON_NONE;
@@ -1803,6 +1804,7 @@ void ui_message(const char *format,...)
 
     va_start(ap, format);
     str = lib_mvsprintf(format, ap);
+    va_end(ap);
     error_dialog = build_error_dialog(_ui_top_level, &button, str);
     ui_popup(XtParent(error_dialog), "VICE", False);
     button = UI_BUTTON_NONE;
@@ -1825,10 +1827,10 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     static Widget jam_dialog, shell, tmp, mform, bbox;
     static ui_button_t button;
 
-    va_start(ap, format);
-
     if (console_mode) {
+        va_start(ap, format);
         vfprintf(stderr, format, ap);
+        va_end(ap);
         exit(0);
     }
 
@@ -1840,7 +1842,9 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
                                     formWidgetClass, jam_dialog,
                                     NULL);
 
+    va_start(ap, format);
     str = lib_mvsprintf(format, ap);
+    va_end(ap);
     tmp = XtVaCreateManagedWidget("label",
                                   labelWidgetClass, mform,
                                   XtNresize, False,

@@ -763,6 +763,7 @@ Widget ui_menu_create(const char *menu_name, ...)
     while ((list = va_arg(ap, ui_menu_entry_t *)) != NULL) {
         ui_add_items_to_shell(w, 1, list);
     }
+    va_end(ap);
 
     return w;
 }

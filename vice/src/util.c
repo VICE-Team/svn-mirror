@@ -70,6 +70,7 @@ char *util_concat(const char *s, ...)
         tot_len += arg_len[i];
     }
     num_args = i;
+    va_end(ap);
 
     newp = lib_malloc(tot_len + 1);
 
@@ -83,7 +84,6 @@ char *util_concat(const char *s, ...)
         ptr += arg_len[i];
     }
     *ptr = '\0';
-
     va_end(ap);
 
 #ifdef AMIGA_SUPPORT

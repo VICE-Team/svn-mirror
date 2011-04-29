@@ -174,6 +174,7 @@ void tui_error(const char *format,...)
 
     va_start(ap, format);
     str = lib_mvsprintf(format, ap);
+    va_end(ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
         str_length = tui_num_cols() - 10;
@@ -204,6 +205,7 @@ void tui_message(const char *format,...)
 
     va_start(ap, format);
     str = lib_mvsprintf(format, ap);
+    va_end(ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
         str_length = tui_num_cols() - 10;
@@ -235,6 +237,7 @@ int tui_ask_confirmation(const char *format, ...)
 
     va_start(ap, format);
     str = lib_mvsprintf(format, ap);
+    va_end(ap);
     str_length = strlen(str);
     if (str_length > tui_num_cols() - 10) {
         str_length = tui_num_cols() - 10;

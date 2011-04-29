@@ -119,6 +119,7 @@ int mon_out(const char *format, ...)
 
     va_start(ap, format);
     buffer = lib_mvsprintf(format, ap);
+    va_end(ap);
 
 #ifdef HAVE_NETWORK
     if (monitor_is_remote()) {

@@ -346,6 +346,7 @@ void ui_error(const char *format,...)
 
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
+    va_end(ap);
     txt = util_concat(" Error in emulation thread:\n ", tmp, NULL);
     lib_free(tmp);
 
@@ -362,6 +363,7 @@ void ui_message(const char *format,...)
 
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
+    va_end(ap);
     txt = util_concat(" Message from emulation thread:\n ", tmp, NULL);
     lib_free(tmp);
 
@@ -397,6 +399,7 @@ ui_jam_action_t ui_jam_dialog(const char *format,...)
 
     va_start(ap, format);
     tmp = lib_mvsprintf(format, ap);
+    va_end(ap);
     txt = util_concat("    Chipset reported:\n ", tmp, NULL);
     lib_free(tmp);
 

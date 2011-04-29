@@ -471,6 +471,7 @@ void archdep_startup_log_error(const char *format, ...)
 
     va_start(ap, format);
     txt = lib_mvsprintf(format, ap);
+    va_end(ap);
 
 #if !defined(__X1541__) && !defined(__PETCAT__)
     WinMessageBox(HWND_DESKTOP, HWND_DESKTOP, txt, "VICE/2 Startup Error", 0, MB_OK);
