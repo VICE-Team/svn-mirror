@@ -443,6 +443,7 @@ void machine_resources_shutdown(void)
     drive_resources_shutdown();
     cartridge_resources_shutdown();
     functionrom_resources_shutdown();
+    c64io_shutdown();
 }
 
 /* C128-specific command-line option initialization.  */

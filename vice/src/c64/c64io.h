@@ -106,6 +106,7 @@ typedef struct io_source_detach_s {
 
 extern io_source_list_t *c64io_register(io_source_t *device);
 extern void c64io_unregister(io_source_list_t *device);
+extern void c64io_shutdown(void);
 
 extern void c64io_vicii_init(void);
 extern void c64io_vicii_deinit(void);

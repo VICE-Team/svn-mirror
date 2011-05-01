@@ -299,6 +299,71 @@ void c64io_unregister(io_source_list_t *device)
     lib_free(device);
 }
 
+void c64io_shutdown(void)
+{
+    io_source_list_t *current;
+
+    current = c64io_d000_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d000_head.next;
+    }
+
+    current = c64io_d100_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d100_head.next;
+    }
+
+    current = c64io_d200_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d200_head.next;
+    }
+
+    current = c64io_d300_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d300_head.next;
+    }
+
+    current = c64io_d400_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d400_head.next;
+    }
+
+    current = c64io_d500_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d500_head.next;
+    }
+
+    current = c64io_d600_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d600_head.next;
+    }
+
+    current = c64io_d700_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_d700_head.next;
+    }
+
+    current = c64io_de00_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_de00_head.next;
+    }
+
+    current = c64io_df00_head.next;
+    while (current) {
+        c64io_unregister(current);
+        current = c64io_df00_head.next;
+    }
+}
+
 /* ---------------------------------------------------------------------------------------------------------- */
 
 BYTE c64io_d000_read(WORD addr)

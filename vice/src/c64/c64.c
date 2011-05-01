@@ -382,6 +382,7 @@ void machine_resources_shutdown(void)
 #ifdef DINGOO_NATIVE
     rombanks_resources_shutdown();
 #endif
+    c64io_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
