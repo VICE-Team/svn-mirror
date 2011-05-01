@@ -82,7 +82,8 @@ static io_source_t p64_device = {
     NULL,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_P64
+    CARTRIDGE_P64,
+    0
 };
 
 static io_source_list_t *p64_list_item = NULL;

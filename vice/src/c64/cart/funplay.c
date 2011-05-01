@@ -102,7 +102,8 @@ static io_source_t funplay_device = {
     NULL,
     funplay_io1_peek,
     NULL, /* dump */
-    CARTRIDGE_FUNPLAY
+    CARTRIDGE_FUNPLAY,
+    0
 };
 
 static io_source_list_t *funplay_list_item = NULL;

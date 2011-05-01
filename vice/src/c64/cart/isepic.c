@@ -137,7 +137,8 @@ static io_source_t isepic_io1_device = {
     isepic_io1_read,
     isepic_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_ISEPIC
+    CARTRIDGE_ISEPIC,
+    0
 };
 
 static io_source_t isepic_io2_device = {
@@ -150,7 +151,8 @@ static io_source_t isepic_io2_device = {
     isepic_io2_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_ISEPIC
+    CARTRIDGE_ISEPIC,
+    0
 };
 
 static const c64export_resource_t export_res = {

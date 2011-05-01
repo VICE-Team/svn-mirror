@@ -162,7 +162,8 @@ static io_source_t easyflash_io1_device = {
     NULL,
     easyflash_io1_peek,
     easyflash_io1_dump,
-    CARTRIDGE_EASYFLASH
+    CARTRIDGE_EASYFLASH,
+    0
 };
 
 static io_source_t easyflash_io2_device = {
@@ -175,7 +176,8 @@ static io_source_t easyflash_io2_device = {
     easyflash_io2_read,
     easyflash_io2_read, /* same implementation */
     NULL, /* nothing to dump */
-    CARTRIDGE_EASYFLASH
+    CARTRIDGE_EASYFLASH,
+    0
 };
 
 static io_source_list_t *easyflash_io1_list_item = NULL;

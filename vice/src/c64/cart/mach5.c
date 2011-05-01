@@ -92,7 +92,8 @@ static io_source_t mach5_io1_device = {
     mach5_io1_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_MACH5
+    CARTRIDGE_MACH5,
+    0
 };
 
 static io_source_t mach5_io2_device = {
@@ -105,7 +106,8 @@ static io_source_t mach5_io2_device = {
     mach5_io2_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_MACH5
+    CARTRIDGE_MACH5,
+    0
 };
 
 static io_source_list_t *mach5_io1_list_item = NULL;

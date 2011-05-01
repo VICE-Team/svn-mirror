@@ -122,7 +122,8 @@ static io_source_t se5_io2_device = {
     se5_io2_read,
     NULL,
     NULL,
-    CARTRIDGE_SUPER_EXPLODE_V5
+    CARTRIDGE_SUPER_EXPLODE_V5,
+    0
 };
 
 static io_source_list_t *se5_io2_list_item = NULL;

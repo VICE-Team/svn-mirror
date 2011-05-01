@@ -85,7 +85,8 @@ static io_source_t gs_device = {
     gs_io1_read,
     gs_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_GS
+    CARTRIDGE_GS,
+    0
 };
 
 static io_source_list_t *gs_list_item = NULL;

@@ -118,7 +118,8 @@ static io_source_t dqbb_io1_device = {
     NULL,
     dqbb_io1_peek,
     NULL, /* dump */
-    CARTRIDGE_DQBB
+    CARTRIDGE_DQBB,
+    0
 };
 
 static io_source_list_t *dqbb_io1_list_item = NULL;

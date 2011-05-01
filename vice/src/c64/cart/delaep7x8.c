@@ -120,7 +120,8 @@ static io_source_t delaep7x8_device = {
     NULL,
     delaep7x8_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_DELA_EP7x8
+    CARTRIDGE_DELA_EP7x8,
+    0
 };
 
 static io_source_list_t *delaep7x8_list_item = NULL;

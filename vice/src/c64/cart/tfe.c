@@ -98,7 +98,8 @@ static io_source_t rrnet_io1_mmc64_device = {
     tfe_read,
     tfe_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_TFE
+    CARTRIDGE_TFE,
+    0
 };
 
 static io_source_t rrnet_io1_retroreplay_device = {
@@ -111,7 +112,8 @@ static io_source_t rrnet_io1_retroreplay_device = {
     tfe_read,
     tfe_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_TFE
+    CARTRIDGE_TFE,
+    0
 };
 
 static io_source_t rrnet_io1_mmcreplay_device = {
@@ -124,7 +126,8 @@ static io_source_t rrnet_io1_mmcreplay_device = {
     tfe_read,
     tfe_peek,
     NULL, /* dump */
-    CARTRIDGE_TFE
+    CARTRIDGE_TFE,
+    0
 };
 
 static io_source_t rrnet_io1_device = {
@@ -137,7 +140,8 @@ static io_source_t rrnet_io1_device = {
     tfe_read,
     tfe_peek,
     NULL, /* dump */
-    CARTRIDGE_TFE
+    CARTRIDGE_TFE,
+    0
 };
 
 static io_source_t tfe_io1_device = {
@@ -150,7 +154,8 @@ static io_source_t tfe_io1_device = {
     tfe_read,
     tfe_peek,
     NULL, /* dump */
-    CARTRIDGE_TFE
+    CARTRIDGE_TFE,
+    0
 };
 
 static io_source_t rrnet_io2_mmc64_device = {
@@ -163,7 +168,8 @@ static io_source_t rrnet_io2_mmc64_device = {
     tfe_read,
     tfe_peek,
     NULL, /* dump */
-    CARTRIDGE_TFE
+    CARTRIDGE_TFE,
+    0
 };
 
 static c64export_resource_t export_res = {

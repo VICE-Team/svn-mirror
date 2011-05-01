@@ -79,7 +79,8 @@ static io_source_t rex_device = {
     rex_io2_read,
     rex_io2_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_REX
+    CARTRIDGE_REX,
+    0
 };
 
 static io_source_list_t *rex_list_item = NULL;

@@ -64,7 +64,8 @@ static io_source_t sfx_soundsampler_device = {
     NULL,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_SFX_SOUND_SAMPLER
+    CARTRIDGE_SFX_SOUND_SAMPLER,
+    0
 };
 
 static io_source_list_t *sfx_soundsampler_list_item = NULL;

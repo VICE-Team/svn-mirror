@@ -82,7 +82,8 @@ static io_source_t midi_device = {
     c64midi_read,
     c64midi_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_MIDI_SEQUENTIAL
+    CARTRIDGE_MIDI_SEQUENTIAL,
+    0
 };
 
 static c64export_resource_t export_res = {

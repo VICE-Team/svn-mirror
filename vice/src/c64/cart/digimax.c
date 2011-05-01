@@ -85,7 +85,8 @@ static io_source_t digimax_device = {
     digimax_sound_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_DIGIMAX
+    CARTRIDGE_DIGIMAX,
+    0
 };
 
 static io_source_list_t * digimax_list_item = NULL;

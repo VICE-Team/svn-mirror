@@ -81,7 +81,8 @@ static io_source_t action_replay_io1_device = {
     NULL,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_ACTION_REPLAY
+    CARTRIDGE_ACTION_REPLAY,
+    0
 };
 
 static io_source_t action_replay_io2_device = {
@@ -94,7 +95,8 @@ static io_source_t action_replay_io2_device = {
     actionreplay_io2_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_ACTION_REPLAY
+    CARTRIDGE_ACTION_REPLAY,
+    0
 };
 
 static io_source_list_t *action_replay_io1_list_item = NULL;

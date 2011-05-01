@@ -238,7 +238,8 @@ static io_source_t expert_io1_device = {
     expert_io1_read,
     expert_io1_peek,
     NULL, /* dump */
-    CARTRIDGE_EXPERT
+    CARTRIDGE_EXPERT,
+    0
 };
 
 static const c64export_resource_t export_res = {

@@ -161,7 +161,11 @@ static io_source_t c64_256k_device = {
     0xdf80, 0xdfff, 0x7f,
     1, /* read is always valid */
     c64_256k_store,
-    c64_256k_read
+    c64_256k_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    0, /* dummy for now */
+    0
 };
 
 static io_source_list_t *c64_256k_list_item = NULL;

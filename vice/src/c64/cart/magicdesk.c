@@ -86,7 +86,8 @@ static io_source_t magicdesk_device = {
     NULL,
     magicdesk_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_MAGIC_DESK
+    CARTRIDGE_MAGIC_DESK,
+    0
 };
 
 static io_source_list_t *magicdesk_list_item = NULL;

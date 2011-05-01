@@ -113,7 +113,8 @@ static io_source_t ss4_io1_device = {
     supersnapshot_v4_io1_read,
     NULL,
     NULL,
-    CARTRIDGE_SUPER_SNAPSHOT
+    CARTRIDGE_SUPER_SNAPSHOT,
+    0
 };
 
 static io_source_t ss4_io2_device = {
@@ -126,7 +127,8 @@ static io_source_t ss4_io2_device = {
     supersnapshot_v4_io2_read,
     NULL,
     NULL,
-    CARTRIDGE_SUPER_SNAPSHOT
+    CARTRIDGE_SUPER_SNAPSHOT,
+    0
 };
 
 static io_source_list_t *ss4_io1_list_item = NULL;

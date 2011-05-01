@@ -90,7 +90,8 @@ static io_source_t ocean_device = {
     NULL,
     ocean_io1_peek,
     NULL, /* dump */
-    CARTRIDGE_OCEAN
+    CARTRIDGE_OCEAN,
+    0
 };
 
 static io_source_list_t *ocean_list_item = NULL;

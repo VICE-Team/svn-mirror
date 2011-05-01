@@ -78,7 +78,8 @@ static io_source_t simon_device = {
     simon_io1_read,
     simon_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_SIMONS_BASIC
+    CARTRIDGE_SIMONS_BASIC,
+    0
 };
 
 static io_source_list_t *simon_list_item = NULL;

@@ -73,7 +73,8 @@ static io_source_t warpspeed_io1_device = {
     warpspeed_io1_read,
     NULL, /* no side effects when reading */
     NULL, /* TODO: dump */
-    CARTRIDGE_WARPSPEED
+    CARTRIDGE_WARPSPEED,
+    0
 };
 
 static io_source_t warpspeed_io2_device = {
@@ -86,7 +87,8 @@ static io_source_t warpspeed_io2_device = {
     warpspeed_io2_read,
     NULL, /* no side effects when reading */
     NULL, /* TODO: dump */
-    CARTRIDGE_WARPSPEED
+    CARTRIDGE_WARPSPEED,
+    0
 };
 
 static io_source_list_t *warpspeed_io1_list_item = NULL;

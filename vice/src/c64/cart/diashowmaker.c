@@ -111,7 +111,8 @@ static io_source_t dsm_io1_device = {
     dsm_io1_read,
     dsm_io1_peek,
     NULL,
-    CARTRIDGE_DIASHOW_MAKER
+    CARTRIDGE_DIASHOW_MAKER,
+    0
 };
 
 static io_source_list_t *dsm_io1_list_item = NULL;

@@ -149,7 +149,8 @@ static io_source_t magicformel_io1_device = {
     magicformel_io1_read,
     magicformel_io1_peek,
     NULL, /* dump */
-    CARTRIDGE_MAGIC_FORMEL
+    CARTRIDGE_MAGIC_FORMEL,
+    0
 };
 
 static io_source_t magicformel_io2_device = {
@@ -162,7 +163,8 @@ static io_source_t magicformel_io2_device = {
     magicformel_io2_read,
     magicformel_io2_peek,
     NULL, /* dump */
-    CARTRIDGE_MAGIC_FORMEL
+    CARTRIDGE_MAGIC_FORMEL,
+    0
 };
 
 static io_source_list_t *magicformel_io1_list_item = NULL;

@@ -148,7 +148,8 @@ static io_source_t ramcart_io1_device = {
     ramcart_io1_read,
     NULL, /* peek */
     NULL, /* dump */
-    CARTRIDGE_RAMCART
+    CARTRIDGE_RAMCART,
+    0
 };
 
 static io_source_t ramcart_io2_device = {
@@ -161,7 +162,8 @@ static io_source_t ramcart_io2_device = {
     ramcart_io2_read,
     NULL, /* peek */
     NULL, /* dump */
-    CARTRIDGE_RAMCART
+    CARTRIDGE_RAMCART,
+    0
 };
 
 static io_source_list_t *ramcart_io1_list_item = NULL;

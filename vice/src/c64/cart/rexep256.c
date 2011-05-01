@@ -143,7 +143,8 @@ static io_source_t rexep256_device = {
     rexep256_io2_read,
     rexep256_io2_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_REX_EP256
+    CARTRIDGE_REX_EP256,
+    0
 };
 
 static io_source_list_t *rexep256_list_item = NULL;

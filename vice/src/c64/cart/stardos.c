@@ -218,7 +218,8 @@ static io_source_t stardos_io1_device = {
     stardos_io1_read,
     stardos_io1_peek,
     NULL,
-    CARTRIDGE_STARDOS
+    CARTRIDGE_STARDOS,
+    0
 };
 
 static io_source_t stardos_io2_device = {
@@ -232,7 +233,8 @@ static io_source_t stardos_io2_device = {
     stardos_io2_read,
     stardos_io2_peek,
     NULL,
-    CARTRIDGE_STARDOS
+    CARTRIDGE_STARDOS,
+    0
 };
 
 static io_source_list_t *stardos_io1_list_item = NULL;

@@ -105,7 +105,8 @@ static io_source_t delaep256_device = {
     NULL,
     delaep256_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_DELA_EP256
+    CARTRIDGE_DELA_EP256,
+    0
 };
 
 static io_source_list_t *delaep256_list_item = NULL;

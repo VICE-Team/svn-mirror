@@ -94,7 +94,8 @@ static io_source_t ross_io1_device = {
     ross_io1_read,
     ross_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_ROSS
+    CARTRIDGE_ROSS,
+    0
 };
 
 static io_source_t ross_io2_device = {
@@ -107,7 +108,8 @@ static io_source_t ross_io2_device = {
     ross_io2_read,
     ross_io2_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_ROSS
+    CARTRIDGE_ROSS,
+    0
 };
 
 static io_source_list_t *ross_io1_list_item = NULL;

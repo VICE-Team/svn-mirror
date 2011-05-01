@@ -87,7 +87,8 @@ static io_source_t acia_device = {
     aciacart_read,
     aciacart_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_ACIA
+    CARTRIDGE_ACIA,
+    0
 };
 
 static io_source_list_t *acia_list_item = NULL;

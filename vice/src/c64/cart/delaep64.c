@@ -147,7 +147,8 @@ static io_source_t delaep64_device = {
     delaep64_io1_read,
     delaep64_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_DELA_EP64
+    CARTRIDGE_DELA_EP64,
+    0
 };
 
 static io_source_list_t *delaep64_list_item = NULL;

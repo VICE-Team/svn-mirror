@@ -97,7 +97,8 @@ static io_source_t ss64_io2_device = {
     snapshot64_io2_read,
     snapshot64_io2_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_SNAPSHOT64
+    CARTRIDGE_SNAPSHOT64,
+    0
 };
 
 static io_source_list_t *ss64_io2_list_item = NULL;

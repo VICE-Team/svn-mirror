@@ -147,8 +147,10 @@ static io_source_t freezemachine_io1_device = {
     freezemachine_io1_read,
     freezemachine_io1_peek,
     NULL,
-    CARTRIDGE_FREEZE_MACHINE
+    CARTRIDGE_FREEZE_MACHINE,
+    0
 };
+
 static io_source_t freezemachine_io2_device = {
     CARTRIDGE_NAME_FREEZE_MACHINE,
     IO_DETACH_CART,
@@ -159,7 +161,8 @@ static io_source_t freezemachine_io2_device = {
     freezemachine_io2_read,
     freezemachine_io2_peek,
     NULL,
-    CARTRIDGE_FREEZE_MACHINE
+    CARTRIDGE_FREEZE_MACHINE,
+    0
 };
 
 static io_source_list_t *freezemachine_io1_list_item = NULL;

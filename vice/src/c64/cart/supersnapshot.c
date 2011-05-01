@@ -81,7 +81,8 @@ static io_source_t ss5_device = {
     supersnapshot_v5_io1_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_SUPER_SNAPSHOT_V5
+    CARTRIDGE_SUPER_SNAPSHOT_V5,
+    0
 };
 
 static io_source_list_t *ss5_list_item = NULL;

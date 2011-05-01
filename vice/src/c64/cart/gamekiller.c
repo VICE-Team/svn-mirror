@@ -98,7 +98,8 @@ static io_source_t gamekiller_io1_device = {
     NULL,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_GAME_KILLER
+    CARTRIDGE_GAME_KILLER,
+    0
 };
 
 static io_source_t gamekiller_io2_device = {
@@ -111,7 +112,8 @@ static io_source_t gamekiller_io2_device = {
     NULL,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_GAME_KILLER
+    CARTRIDGE_GAME_KILLER,
+    0
 };
 
 static io_source_list_t *gamekiller_io1_list_item = NULL;

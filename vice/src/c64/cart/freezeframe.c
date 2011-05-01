@@ -126,8 +126,10 @@ static io_source_t freezeframe_io1_device = {
     freezeframe_io1_read,
     freezeframe_io1_peek,
     NULL,
-    CARTRIDGE_FREEZE_FRAME
+    CARTRIDGE_FREEZE_FRAME,
+    0
 };
+
 static io_source_t freezeframe_io2_device = {
     CARTRIDGE_NAME_FREEZE_FRAME,
     IO_DETACH_CART,
@@ -138,7 +140,8 @@ static io_source_t freezeframe_io2_device = {
     freezeframe_io2_read,
     freezeframe_io2_peek,
     NULL,
-    CARTRIDGE_FREEZE_FRAME
+    CARTRIDGE_FREEZE_FRAME,
+    0
 };
 
 static io_source_list_t *freezeframe_io1_list_item = NULL;

@@ -88,7 +88,8 @@ static io_source_t final_plus_io2_device = {
     final_plus_io2_read,
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
-    CARTRIDGE_FINAL_PLUS
+    CARTRIDGE_FINAL_PLUS,
+    0
 };
 
 static io_source_list_t *final_plus_io2_list_item = NULL;

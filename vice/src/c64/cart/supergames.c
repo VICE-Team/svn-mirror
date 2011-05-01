@@ -97,7 +97,8 @@ static io_source_t supergames_device = {
     NULL,
     supergames_io2_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_SUPER_GAMES
+    CARTRIDGE_SUPER_GAMES,
+    0
 };
 
 static io_source_list_t *supergames_list_item = NULL;

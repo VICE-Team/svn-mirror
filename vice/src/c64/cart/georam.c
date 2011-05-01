@@ -146,7 +146,8 @@ static io_source_t georam_io1_device = {
     georam_io1_read,
     NULL, /* peek */
     NULL, /* dump */
-    CARTRIDGE_GEORAM
+    CARTRIDGE_GEORAM,
+    0
 };
 
 static io_source_t georam_io2_device = {
@@ -159,7 +160,8 @@ static io_source_t georam_io2_device = {
     NULL,
     georam_io2_peek,
     NULL, /* dump */
-    CARTRIDGE_GEORAM
+    CARTRIDGE_GEORAM,
+    0
 };
 
 static io_source_list_t *georam_io1_list_item = NULL;

@@ -90,7 +90,8 @@ static io_source_t dinamic_io1_device = {
     dinamic_io1_read,
     dinamic_io1_peek,
     NULL, /* dump */
-    CARTRIDGE_DINAMIC
+    CARTRIDGE_DINAMIC,
+    0
 };
 
 static io_source_list_t *dinamic_io1_list_item = NULL;

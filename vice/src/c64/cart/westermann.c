@@ -65,7 +65,8 @@ static io_source_t westermann_device = {
     westermann_io2_read,
     westermann_io2_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_WESTERMANN
+    CARTRIDGE_WESTERMANN,
+    0
 };
 
 static io_source_list_t *westermann_list_item = NULL;

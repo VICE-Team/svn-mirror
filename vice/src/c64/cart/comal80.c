@@ -84,7 +84,8 @@ static io_source_t comal80_device = {
     NULL,
     comal80_io1_peek,
     NULL, /* TODO: dump */
-    CARTRIDGE_COMAL80
+    CARTRIDGE_COMAL80,
+    0
 };
 
 static io_source_list_t *comal80_list_item = NULL;
