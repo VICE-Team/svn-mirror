@@ -46,7 +46,7 @@
  * - Various state bits
  */
 
-/* The DS1302 has the following clock registers:
+/* The DS12C887 has the following clock registers:
  *
  * register 0  : BCD mode:    bit  7   RAM bit
  *               BCD mode:    bits 6-4 10 seconds
