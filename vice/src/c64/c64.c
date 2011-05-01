@@ -89,6 +89,7 @@
 #include "traps.h"
 #include "types.h"
 #include "vicii.h"
+#include "vicii-mem.h"
 #include "video.h"
 #include "vsidui.h"
 #include "vsync.h"
@@ -156,6 +157,170 @@ static const tape_init_t tapeinit = {
 
 static log_t c64_log = LOG_ERR;
 static machine_timing_t machine_timing;
+
+/* ------------------------------------------------------------------------ */
+
+static io_source_t vicii_d000_device = {
+    "VIC-II",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd000, 0xd0ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d100_device = {
+    "VIC-II $D100-$D1FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd100, 0xd1ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d200_device = {
+    "VIC-II $D200-$D2FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd200, 0xd2ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d300_device = {
+    "VIC-II $D300-$D3FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd300, 0xd3ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t sid_d400_device = {
+    "SID",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd400, 0xd4ff, 0x1f,
+    1, /* read is always valid */
+    sid_store,
+    sid_read,
+    sid_peek,
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t sid_d500_device = {
+    "SID $D500-$D5FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd500, 0xd5ff, 0x1f,
+    1, /* read is always valid */
+    sid_store,
+    sid_read,
+    sid_peek,
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t sid_d600_device = {
+    "SID $D600-$D6FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd600, 0xd6ff, 0x1f,
+    1, /* read is always valid */
+    sid_store,
+    sid_read,
+    sid_peek,
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t sid_d700_device = {
+    "SID $D700-$D7FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd700, 0xd7ff, 0x1f,
+    1, /* read is always valid */
+    sid_store,
+    sid_read,
+    sid_peek,
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_list_t *vicii_d000_list_item = NULL;
+static io_source_list_t *vicii_d100_list_item = NULL;
+static io_source_list_t *vicii_d200_list_item = NULL;
+static io_source_list_t *vicii_d300_list_item = NULL;
+static io_source_list_t *sid_d400_list_item = NULL;
+static io_source_list_t *sid_d500_list_item = NULL;
+static io_source_list_t *sid_d600_list_item = NULL;
+static io_source_list_t *sid_d700_list_item = NULL;
+
+void c64io_vicii_init(void)
+{
+    vicii_d000_list_item = c64io_register(&vicii_d000_device);
+    vicii_d100_list_item = c64io_register(&vicii_d100_device);
+    vicii_d200_list_item = c64io_register(&vicii_d200_device);
+    vicii_d300_list_item = c64io_register(&vicii_d300_device);
+}
+
+void c64io_vicii_deinit(void)
+{
+    if (vicii_d000_list_item != NULL) {
+        c64io_unregister(vicii_d000_list_item);
+        vicii_d000_list_item = NULL;
+    }
+
+    if (vicii_d100_list_item != NULL) {
+        c64io_unregister(vicii_d100_list_item);
+        vicii_d100_list_item = NULL;
+    }
+
+    if (vicii_d200_list_item != NULL) {
+        c64io_unregister(vicii_d200_list_item);
+        vicii_d200_list_item = NULL;
+    }
+
+    if (vicii_d300_list_item != NULL) {
+        c64io_unregister(vicii_d300_list_item);
+        vicii_d300_list_item = NULL;
+    }
+}
+
+/* C64-specific I/O initialization. */
+static void c64io_init(void)
+{
+    c64io_vicii_init();
+    sid_d400_list_item = c64io_register(&sid_d400_device);
+    sid_d500_list_item = c64io_register(&sid_d500_device);
+    sid_d600_list_item = c64io_register(&sid_d600_device);
+    sid_d700_list_item = c64io_register(&sid_d700_device);
+}
 
 /* ------------------------------------------------------------------------ */
 
@@ -366,6 +531,9 @@ int machine_specific_init(void)
 
     /* Initialize keyboard buffer.  */
     kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
+
+    /* Initialize the C64-specific I/O */
+    c64io_init();
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {

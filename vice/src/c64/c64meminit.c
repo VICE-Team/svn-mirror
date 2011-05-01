@@ -145,14 +145,22 @@ void c64meminit(unsigned int base)
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
     for (j = 0; j < 32; j++) {
         if (c64meminit_io_config[j] == 1) {
-            for (i = 0xd0; i <= 0xd3; i++) {
-                mem_read_tab_set(base + j, i, vicii_read);
-                mem_set_write_hook(base + j, i, vicii_store);
-            }
-            for (i = 0xd4; i <= 0xd7; i++) {
-                mem_read_tab_set(base + j, i, sid_read);
-                mem_set_write_hook(base + j, i, sid_store);
-            }
+            mem_read_tab_set(base + j, 0xd0, c64io_d000_read);
+            mem_set_write_hook(base + j, 0xd0, c64io_d000_store);
+            mem_read_tab_set(base + j, 0xd1, c64io_d100_read);
+            mem_set_write_hook(base + j, 0xd1, c64io_d100_store);
+            mem_read_tab_set(base + j, 0xd2, c64io_d200_read);
+            mem_set_write_hook(base + j, 0xd2, c64io_d200_store);
+            mem_read_tab_set(base + j, 0xd3, c64io_d300_read);
+            mem_set_write_hook(base + j, 0xd3, c64io_d300_store);
+            mem_read_tab_set(base + j, 0xd4, c64io_d400_read);
+            mem_set_write_hook(base + j, 0xd4, c64io_d400_store);
+            mem_read_tab_set(base + j, 0xd5, c64io_d500_read);
+            mem_set_write_hook(base + j, 0xd5, c64io_d500_store);
+            mem_read_tab_set(base + j, 0xd6, c64io_d600_read);
+            mem_set_write_hook(base + j, 0xd6, c64io_d600_store);
+            mem_read_tab_set(base + j, 0xd7, c64io_d700_read);
+            mem_set_write_hook(base + j, 0xd7, c64io_d700_store);
             for (i = 0xd8; i <= 0xdb; i++) {
                 mem_read_tab_set(base + j, i, colorram_read);
                 mem_set_write_hook(base + j, i, colorram_store);
@@ -163,10 +171,10 @@ void c64meminit(unsigned int base)
             mem_read_tab_set(base + j, 0xdd, cia2_read);
             mem_set_write_hook(base + j, 0xdd, cia2_store);
 
-            mem_read_tab_set(base + j, 0xde, c64io1_read);
-            mem_set_write_hook(base + j, 0xde, c64io1_store);
-            mem_read_tab_set(base + j, 0xdf, c64io2_read);
-            mem_set_write_hook(base + j, 0xdf, c64io2_store);
+            mem_read_tab_set(base + j, 0xde, c64io_de00_read);
+            mem_set_write_hook(base + j, 0xde, c64io_de00_store);
+            mem_read_tab_set(base + j, 0xdf, c64io_df00_read);
+            mem_set_write_hook(base + j, 0xdf, c64io_df00_store);
 
             for (i = 0xd0; i <= 0xdf; i++) {
                 mem_read_base_set(base + j, i, NULL);

@@ -113,27 +113,33 @@ extern BYTE *ram_bank;
 
 extern BYTE mem_chargen_rom[C128_CHARGEN_ROM_SIZE];
 
-extern BYTE c128_vicii_read(WORD addr);
-extern void c128_vicii_store(WORD addr, BYTE value);
-extern BYTE c128_sid_read(WORD addr);
-extern void c128_sid_store(WORD addr, BYTE value);
-extern BYTE c128_mmu_read(WORD addr);
-extern void c128_mmu_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_d000_read(WORD addr);
+extern void c128_c64io_d000_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_d100_read(WORD addr);
+extern void c128_c64io_d100_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_d200_read(WORD addr);
+extern void c128_c64io_d200_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_d300_read(WORD addr);
+extern void c128_c64io_d300_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_d400_read(WORD addr);
+extern void c128_c64io_d400_store(WORD addr, BYTE value);
 extern BYTE c128_d5xx_read(WORD addr);
 extern void c128_d5xx_store(WORD addr, BYTE value);
+extern BYTE c128_mmu_read(WORD addr);
+extern void c128_mmu_store(WORD addr, BYTE value);
 extern BYTE c128_vdc_read(WORD addr);
 extern void c128_vdc_store(WORD addr, BYTE value);
-extern BYTE c128_d7xx_read(WORD addr);
-extern void c128_d7xx_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_d700_read(WORD addr);
+extern void c128_c64io_d700_store(WORD addr, BYTE value);
 extern BYTE c128_colorram_read(WORD addr);
 extern void c128_colorram_store(WORD addr, BYTE value);
 extern BYTE c128_cia1_read(WORD addr);
 extern void c128_cia1_store(WORD addr, BYTE value);
 extern BYTE c128_cia2_read(WORD addr);
 extern void c128_cia2_store(WORD addr, BYTE value);
-extern BYTE c128_c64io1_read(WORD addr);
-extern void c128_c64io1_store(WORD addr, BYTE value);
-extern BYTE c128_c64io2_read(WORD addr);
-extern void c128_c64io2_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_de00_read(WORD addr);
+extern void c128_c64io_de00_store(WORD addr, BYTE value);
+extern BYTE c128_c64io_df00_read(WORD addr);
+extern void c128_c64io_df00_store(WORD addr, BYTE value);
 
 #endif

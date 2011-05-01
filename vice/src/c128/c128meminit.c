@@ -1033,19 +1033,23 @@ void c128meminit(void)
     }
 
     for (j = 64; j < 128; j++) {
-        for (i = 0xd0; i <= 0xd3; i++) {
-            mem_read_tab_set(j, i, c128_vicii_read);
-            mem_set_write_hook(j, i, c128_vicii_store);
-        }
+        mem_read_tab_set(j, 0xd0, c128_c64io_d000_read);
+        mem_set_write_hook(j, 0xd0, c128_c64io_d000_store);
+        mem_read_tab_set(j, 0xd1, c128_c64io_d100_read);
+        mem_set_write_hook(j, 0xd1, c128_c64io_d100_store);
+        mem_read_tab_set(j, 0xd2, c128_c64io_d200_read);
+        mem_set_write_hook(j, 0xd2, c128_c64io_d200_store);
+        mem_read_tab_set(j, 0xd3, c128_c64io_d300_read);
+        mem_set_write_hook(j, 0xd3, c128_c64io_d300_store);
 
-        mem_read_tab_set(j, 0xd4, c128_sid_read);
-        mem_set_write_hook(j, 0xd4, c128_sid_store);
+        mem_read_tab_set(j, 0xd4, c128_c64io_d400_read);
+        mem_set_write_hook(j, 0xd4, c128_c64io_d400_store);
         mem_read_tab_set(j, 0xd5, c128_mmu_read);
         mem_set_write_hook(j, 0xd5, c128_mmu_store);
         mem_read_tab_set(j, 0xd6, c128_vdc_read);
         mem_set_write_hook(j, 0xd6, c128_vdc_store);
-        mem_read_tab_set(j, 0xd7, c128_d7xx_read);
-        mem_set_write_hook(j, 0xd7, c128_d7xx_store);
+        mem_read_tab_set(j, 0xd7, c128_c64io_d700_read);
+        mem_set_write_hook(j, 0xd7, c128_c64io_d700_store);
 
         mem_read_tab_set(j, 0xd8, c128_colorram_read);
         mem_read_tab_set(j, 0xd9, c128_colorram_read);
@@ -1061,10 +1065,10 @@ void c128meminit(void)
         mem_read_tab_set(j, 0xdd, c128_cia2_read);
         mem_set_write_hook(j, 0xdd, c128_cia2_store);
 
-        mem_read_tab_set(j, 0xde, c128_c64io1_read);
-        mem_set_write_hook(j, 0xde, c128_c64io1_store);
-        mem_read_tab_set(j, 0xdf, c128_c64io2_read);
-        mem_set_write_hook(j, 0xdf, c128_c64io2_store);
+        mem_read_tab_set(j, 0xde, c128_c64io_de00_read);
+        mem_set_write_hook(j, 0xde, c128_c64io_de00_store);
+        mem_read_tab_set(j, 0xdf, c128_c64io_df00_read);
+        mem_set_write_hook(j, 0xdf, c128_c64io_df00_store);
     }
 
     for (j = 0; j < 128; j += 64) {

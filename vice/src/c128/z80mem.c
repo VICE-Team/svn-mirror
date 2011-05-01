@@ -331,25 +331,26 @@ void z80mem_initialize(void)
         io_read_tab[i] = read_unconnected_io;
         io_write_tab[i] = store_unconnected_io;
     }
-    io_read_tab[0xd0] = vicii_read;
-    io_write_tab[0xd0] = vicii_store;
-    io_read_tab[0xd1] = vicii_read;
-    io_write_tab[0xd1] = vicii_store;
-    io_read_tab[0xd2] = vicii_read;
-    io_write_tab[0xd2] = vicii_store;
-    io_read_tab[0xd3] = vicii_read;
-    io_write_tab[0xd3] = vicii_store;
+    io_read_tab[0xd0] = c64io_d000_read;
+    io_write_tab[0xd0] = c64io_d000_store;
+    io_read_tab[0xd1] = c64io_d100_read;
+    io_write_tab[0xd1] = c64io_d100_store;
+    io_read_tab[0xd2] = c64io_d200_read;
+    io_write_tab[0xd2] = c64io_d200_store;
+    io_read_tab[0xd3] = c64io_d300_read;
+    io_write_tab[0xd3] = c64io_d300_store;
 
-    io_read_tab[0xd4] = sid_read;
-    io_write_tab[0xd4] = sid_store;
+    io_read_tab[0xd4] = c64io_d400_read;
+    io_write_tab[0xd4] = c64io_d400_store;
 
     io_read_tab[0xd5] = mmu_read;
     io_write_tab[0xd5] = mmu_store;
 
     io_read_tab[0xd6] = vdc_read;
     io_write_tab[0xd6] = vdc_store;
-    io_read_tab[0xd7] = d7xx_read;
-    io_write_tab[0xd7] = d7xx_store;
+
+    io_read_tab[0xd7] = c64io_d700_read;
+    io_write_tab[0xd7] = c64io_d700_store;
 
     io_read_tab[0xd8] = colorram_read;
     io_write_tab[0xd8] = colorram_store;
@@ -365,10 +366,10 @@ void z80mem_initialize(void)
     io_read_tab[0xdd] = cia2_read;
     io_write_tab[0xdd] = cia2_store;
 
-    io_read_tab[0xde] = c64io1_read;
-    io_write_tab[0xde] = c64io1_store;
-    io_read_tab[0xdf] = c64io2_read;
-    io_write_tab[0xdf] = c64io2_store;
+    io_read_tab[0xde] = c64io_de00_read;
+    io_write_tab[0xde] = c64io_de00_store;
+    io_read_tab[0xdf] = c64io_df00_read;
+    io_write_tab[0xdf] = c64io_df00_store;
 }
 
 #ifdef _MSC_VER

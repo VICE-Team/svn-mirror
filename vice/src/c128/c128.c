@@ -88,8 +88,10 @@
 #include "traps.h"
 #include "types.h"
 #include "vicii.h"
+#include "vicii-mem.h"
 #include "video.h"
 #include "vdc.h"
+#include "vdc-mem.h"
 #include "vsync.h"
 #include "z80.h"
 #include "z80mem.h"
@@ -274,6 +276,123 @@ void machine_tape_init_c128(void)
 
 static log_t c128_log = LOG_ERR;
 static machine_timing_t machine_timing;
+
+/* ------------------------------------------------------------------------ */
+
+/* C128-specific I/O initialization. */
+
+static io_source_t vicii_d000_device = {
+    "VIC-IIe",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd000, 0xd0ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d100_device = {
+    "VIC-IIe $D100-$D1FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd100, 0xd1ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d200_device = {
+    "VIC-IIe $D200-$D2FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd100, 0xd1ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d300_device = {
+    "VIC-IIe $D300-$D3FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd100, 0xd1ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t sid_d400_device = {
+    "SID",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd400, 0xd4ff, 0x1f,
+    1, /* read is always valid */
+    sid_store,
+    sid_read,
+    sid_peek,
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_list_t *vicii_d000_list_item = NULL;
+static io_source_list_t *vicii_d100_list_item = NULL;
+static io_source_list_t *vicii_d200_list_item = NULL;
+static io_source_list_t *vicii_d300_list_item = NULL;
+static io_source_list_t *sid_d400_list_item = NULL;
+
+void c64io_vicii_init(void)
+{
+    vicii_d000_list_item = c64io_register(&vicii_d000_device);
+    vicii_d100_list_item = c64io_register(&vicii_d100_device);
+    vicii_d200_list_item = c64io_register(&vicii_d200_device);
+    vicii_d300_list_item = c64io_register(&vicii_d300_device);
+}
+
+void c64io_vicii_deinit(void)
+{
+    if (vicii_d000_list_item != NULL) {
+        c64io_unregister(vicii_d000_list_item);
+        vicii_d000_list_item = NULL;
+    }
+
+    if (vicii_d100_list_item != NULL) {
+        c64io_unregister(vicii_d100_list_item);
+        vicii_d100_list_item = NULL;
+    }
+
+    if (vicii_d200_list_item != NULL) {
+        c64io_unregister(vicii_d200_list_item);
+        vicii_d200_list_item = NULL;
+    }
+
+    if (vicii_d300_list_item != NULL) {
+        c64io_unregister(vicii_d300_list_item);
+        vicii_d300_list_item = NULL;
+    }
+}
+
+static void c128io_init(void)
+{
+    c64io_vicii_init();
+    sid_d400_list_item = c64io_register(&sid_d400_device);
+}
 
 /* ------------------------------------------------------------------------ */
 
@@ -465,6 +584,9 @@ int machine_specific_init(void)
 
     /* Initialize keyboard buffer.  */
     kbdbuf_init(842, 208, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
+
+    /* Initialize the C128-specific I/O */
+    c128io_init();
 
     /* Initialize the C128-specific part of the UI.  */
     c128ui_init();

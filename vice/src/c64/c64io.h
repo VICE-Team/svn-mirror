@@ -36,12 +36,36 @@
 #define CPU_LINES_PLUS60K  2
 #define CPU_LINES_PLUS256K 3
 
-extern BYTE c64io1_read(WORD addr);
-extern BYTE c64io1_peek(WORD addr);
-extern void c64io1_store(WORD addr, BYTE value);
-extern BYTE c64io2_read(WORD addr);
-extern BYTE c64io2_peek(WORD addr);
-extern void c64io2_store(WORD addr, BYTE value);
+extern BYTE c64io_d000_read(WORD addr);
+extern BYTE c64io_d000_peek(WORD addr);
+extern void c64io_d000_store(WORD addr, BYTE value);
+extern BYTE c64io_d100_read(WORD addr);
+extern BYTE c64io_d100_peek(WORD addr);
+extern void c64io_d100_store(WORD addr, BYTE value);
+extern BYTE c64io_d200_read(WORD addr);
+extern BYTE c64io_d200_peek(WORD addr);
+extern void c64io_d200_store(WORD addr, BYTE value);
+extern BYTE c64io_d300_read(WORD addr);
+extern BYTE c64io_d300_peek(WORD addr);
+extern void c64io_d300_store(WORD addr, BYTE value);
+extern BYTE c64io_d400_read(WORD addr);
+extern BYTE c64io_d400_peek(WORD addr);
+extern void c64io_d400_store(WORD addr, BYTE value);
+extern BYTE c64io_d500_read(WORD addr);
+extern BYTE c64io_d500_peek(WORD addr);
+extern void c64io_d500_store(WORD addr, BYTE value);
+extern BYTE c64io_d600_read(WORD addr);
+extern BYTE c64io_d600_peek(WORD addr);
+extern void c64io_d600_store(WORD addr, BYTE value);
+extern BYTE c64io_d700_read(WORD addr);
+extern BYTE c64io_d700_peek(WORD addr);
+extern void c64io_d700_store(WORD addr, BYTE value);
+extern BYTE c64io_de00_read(WORD addr);
+extern BYTE c64io_de00_peek(WORD addr);
+extern void c64io_de00_store(WORD addr, BYTE value);
+extern BYTE c64io_df00_read(WORD addr);
+extern BYTE c64io_df00_peek(WORD addr);
+extern void c64io_df00_store(WORD addr, BYTE value);
 
 struct mem_ioreg_list_s;
 extern void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
@@ -82,5 +106,8 @@ typedef struct io_source_detach_s {
 
 extern io_source_list_t *c64io_register(io_source_t *device);
 extern void c64io_unregister(io_source_list_t *device);
+
+extern void c64io_vicii_init(void);
+extern void c64io_vicii_deinit(void);
 
 #endif

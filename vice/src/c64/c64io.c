@@ -58,8 +58,16 @@
 #define DBGRW(x)
 #endif
 
-static io_source_list_t c64io1_head = { NULL, NULL, NULL };
-static io_source_list_t c64io2_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d000_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d100_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d200_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d300_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d400_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d500_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d600_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_d700_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_de00_head = { NULL, NULL, NULL };
+static io_source_list_t c64io_df00_head = { NULL, NULL, NULL };
 
 static void io_source_detach(io_source_detach_t *source)
 {
@@ -230,10 +238,37 @@ io_source_list_t *c64io_register(io_source_t *device)
     assert(device != NULL);
     DBG(("IO: register id:%d name:%s\n", device->cart_id, device->name));
 
-    if ((device->start_address & 0xff00) == 0xde00) {
-        current = &c64io1_head;
-    } else {
-        current = &c64io2_head;
+    switch (device->start_address & 0xff00) {
+        case 0xd000:
+            current = &c64io_d000_head;
+            break;
+        case 0xd100:
+            current = &c64io_d100_head;
+            break;
+        case 0xd200:
+            current = &c64io_d200_head;
+            break;
+        case 0xd300:
+            current = &c64io_d300_head;
+            break;
+        case 0xd400:
+            current = &c64io_d400_head;
+            break;
+        case 0xd500:
+            current = &c64io_d500_head;
+            break;
+        case 0xd600:
+            current = &c64io_d600_head;
+            break;
+        case 0xd700:
+            current = &c64io_d700_head;
+            break;
+        case 0xde00:
+            current = &c64io_de00_head;
+            break;
+        case 0xdf00:
+            current = &c64io_df00_head;
+            break;
     }
 
     while (current->next != NULL) {
@@ -266,40 +301,184 @@ void c64io_unregister(io_source_list_t *device)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-BYTE c64io1_read(WORD addr)
+BYTE c64io_d000_read(WORD addr)
 {
-    DBGRW(("IO: io1 r %04x\n", addr));
-    return io_read(&c64io1_head, addr);
+    DBGRW(("IO: io-d000 r %04x\n", addr));
+    return io_read(&c64io_d000_head, addr);
 }
 
-BYTE c64io1_peek(WORD addr)
+BYTE c64io_d000_peek(WORD addr)
 {
-    DBGRW(("IO: io1 p %04x\n", addr));
-    return io_peek(&c64io1_head, addr);
+    DBGRW(("IO: io-d000 p %04x\n", addr));
+    return io_peek(&c64io_d000_head, addr);
 }
 
-void c64io1_store(WORD addr, BYTE value)
+void c64io_d000_store(WORD addr, BYTE value)
 {
-    DBGRW(("IO: io1 w %04x %02x\n", addr, value));
-    io_store(&c64io1_head, addr, value);
+    DBGRW(("IO: io-d000 w %04x %02x\n", addr, value));
+    io_store(&c64io_d000_head, addr, value);
 }
 
-BYTE c64io2_read(WORD addr)
+BYTE c64io_d100_read(WORD addr)
 {
-    DBGRW(("IO: io2 r %04x\n", addr));
-    return io_read(&c64io2_head, addr);
+    DBGRW(("IO: io-d100 r %04x\n", addr));
+    return io_read(&c64io_d100_head, addr);
 }
 
-BYTE c64io2_peek(WORD addr)
+BYTE c64io_d100_peek(WORD addr)
 {
-    DBGRW(("IO: io2 p %04x\n", addr));
-    return io_peek(&c64io2_head, addr);
+    DBGRW(("IO: io-d100 p %04x\n", addr));
+    return io_peek(&c64io_d100_head, addr);
 }
 
-void c64io2_store(WORD addr, BYTE value)
+void c64io_d100_store(WORD addr, BYTE value)
 {
-    DBGRW(("IO: io2 w %04x %02x\n", addr, value));
-    io_store(&c64io2_head, addr, value);
+    DBGRW(("IO: io-d100 w %04x %02x\n", addr, value));
+    io_store(&c64io_d100_head, addr, value);
+}
+
+BYTE c64io_d200_read(WORD addr)
+{
+    DBGRW(("IO: io-d200 r %04x\n", addr));
+    return io_read(&c64io_d200_head, addr);
+}
+
+BYTE c64io_d200_peek(WORD addr)
+{
+    DBGRW(("IO: io-d200 p %04x\n", addr));
+    return io_peek(&c64io_d200_head, addr);
+}
+
+void c64io_d200_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-d200 w %04x %02x\n", addr, value));
+    io_store(&c64io_d200_head, addr, value);
+}
+
+BYTE c64io_d300_read(WORD addr)
+{
+    DBGRW(("IO: io-d300 r %04x\n", addr));
+    return io_read(&c64io_d300_head, addr);
+}
+
+BYTE c64io_d300_peek(WORD addr)
+{
+    DBGRW(("IO: io-d300 p %04x\n", addr));
+    return io_peek(&c64io_d300_head, addr);
+}
+
+void c64io_d300_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-d300 w %04x %02x\n", addr, value));
+    io_store(&c64io_d300_head, addr, value);
+}
+
+BYTE c64io_d400_read(WORD addr)
+{
+    DBGRW(("IO: io-d400 r %04x\n", addr));
+    return io_read(&c64io_d400_head, addr);
+}
+
+BYTE c64io_d400_peek(WORD addr)
+{
+    DBGRW(("IO: io-d400 p %04x\n", addr));
+    return io_peek(&c64io_d400_head, addr);
+}
+
+void c64io_d400_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-d400 w %04x %02x\n", addr, value));
+    io_store(&c64io_d400_head, addr, value);
+}
+
+BYTE c64io_d500_read(WORD addr)
+{
+    DBGRW(("IO: io-d500 r %04x\n", addr));
+    return io_read(&c64io_d500_head, addr);
+}
+
+BYTE c64io_d500_peek(WORD addr)
+{
+    DBGRW(("IO: io-d500 p %04x\n", addr));
+    return io_peek(&c64io_d500_head, addr);
+}
+
+void c64io_d500_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-d500 w %04x %02x\n", addr, value));
+    io_store(&c64io_d500_head, addr, value);
+}
+
+BYTE c64io_d600_read(WORD addr)
+{
+    DBGRW(("IO: io-d600 r %04x\n", addr));
+    return io_read(&c64io_d600_head, addr);
+}
+
+BYTE c64io_d600_peek(WORD addr)
+{
+    DBGRW(("IO: io-d600 p %04x\n", addr));
+    return io_peek(&c64io_d600_head, addr);
+}
+
+void c64io_d600_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-d600 w %04x %02x\n", addr, value));
+    io_store(&c64io_d600_head, addr, value);
+}
+
+BYTE c64io_d700_read(WORD addr)
+{
+    DBGRW(("IO: io-d700 r %04x\n", addr));
+    return io_read(&c64io_d700_head, addr);
+}
+
+BYTE c64io_d700_peek(WORD addr)
+{
+    DBGRW(("IO: io-d700 p %04x\n", addr));
+    return io_peek(&c64io_d700_head, addr);
+}
+
+void c64io_d700_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-d700 w %04x %02x\n", addr, value));
+    io_store(&c64io_d700_head, addr, value);
+}
+
+BYTE c64io_de00_read(WORD addr)
+{
+    DBGRW(("IO: io-de00 r %04x\n", addr));
+    return io_read(&c64io_de00_head, addr);
+}
+
+BYTE c64io_de00_peek(WORD addr)
+{
+    DBGRW(("IO: io-de00 p %04x\n", addr));
+    return io_peek(&c64io_de00_head, addr);
+}
+
+void c64io_de00_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-de00 w %04x %02x\n", addr, value));
+    io_store(&c64io_de00_head, addr, value);
+}
+
+BYTE c64io_df00_read(WORD addr)
+{
+    DBGRW(("IO: io-df00 r %04x\n", addr));
+    return io_read(&c64io_df00_head, addr);
+}
+
+BYTE c64io_df00_peek(WORD addr)
+{
+    DBGRW(("IO: io-df00 p %04x\n", addr));
+    return io_peek(&c64io_df00_head, addr);
+}
+
+void c64io_df00_store(WORD addr, BYTE value)
+{
+    DBGRW(("IO: io-df00 w %04x %02x\n", addr, value));
+    io_store(&c64io_df00_head, addr, value);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
@@ -309,8 +488,8 @@ static int decodemask(BYTE mask)
     int len = 255;
 
     while (((mask & 0x80) == 0) && (len > 0)) {
-        mask<<=1;
-        len>>=1;
+        mask <<= 1;
+        len >>= 1;
     }
 
     return len;
@@ -319,14 +498,72 @@ static int decodemask(BYTE mask)
 /* add all registered i/o devices to the list for the monitor */
 void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
-    io_source_list_t *current = c64io1_head.next;
+    io_source_list_t *current;
+
+    current = c64io_d000_head.next;
 
     while (current) {
         mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
         current = current->next;
     }
 
-    current = c64io2_head.next;
+    current = c64io_d100_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_d200_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_d300_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_d400_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_d500_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_d600_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_d700_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_de00_head.next;
+
+    while (current) {
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
+        current = current->next;
+    }
+
+    current = c64io_df00_head.next;
 
     while (current) {
         mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);

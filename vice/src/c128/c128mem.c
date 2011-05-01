@@ -703,22 +703,22 @@ void mem_initialize_memory(void)
     /* Setup C128 specific I/O at $D000-$DFFF.  */
     for (j = 0; j < 32; j++) {
         if (c64meminit_io_config[j]) {
-            mem_read_tab[128 + j][0xd0] = c128_vicii_read;
-            mem_set_write_hook(128 + j, 0xd0, c128_vicii_store);
-            mem_read_tab[128 + j][0xd1] = c128_vicii_read;
-            mem_set_write_hook(128 + j, 0xd1, c128_vicii_store);
-            mem_read_tab[128 + j][0xd2] = c128_vicii_read;
-            mem_set_write_hook(128 + j, 0xd2, c128_vicii_store);
-            mem_read_tab[128 + j][0xd3] = c128_vicii_read;
-            mem_set_write_hook(128 + j, 0xd3, c128_vicii_store);
-            mem_read_tab[128 + j][0xd4] = c128_sid_read;
-            mem_set_write_hook(128 + j, 0xd4, c128_sid_store);
+            mem_read_tab[128 + j][0xd0] = c128_c64io_d000_read;
+            mem_set_write_hook(128 + j, 0xd0, c128_c64io_d000_store);
+            mem_read_tab[128 + j][0xd1] = c128_c64io_d100_read;
+            mem_set_write_hook(128 + j, 0xd1, c128_c64io_d100_store);
+            mem_read_tab[128 + j][0xd2] = c128_c64io_d200_read;
+            mem_set_write_hook(128 + j, 0xd2, c128_c64io_d200_store);
+            mem_read_tab[128 + j][0xd3] = c128_c64io_d300_read;
+            mem_set_write_hook(128 + j, 0xd3, c128_c64io_d300_store);
+            mem_read_tab[128 + j][0xd4] = c128_c64io_d400_read;
+            mem_set_write_hook(128 + j, 0xd4, c128_c64io_d400_store);
             mem_read_tab[128 + j][0xd5] = c128_d5xx_read;
             mem_set_write_hook(128 + j, 0xd5, c128_d5xx_store);
             mem_read_tab[128 + j][0xd6] = c128_vdc_read;
             mem_set_write_hook(128 + j, 0xd6, c128_vdc_store);
-            mem_read_tab[128 + j][0xd7] = c128_d7xx_read;
-            mem_set_write_hook(128 + j, 0xd7, c128_d7xx_store);
+            mem_read_tab[128 + j][0xd7] = c128_c64io_d700_read;
+            mem_set_write_hook(128 + j, 0xd7, c128_c64io_d700_store);
             mem_read_tab[128 + j][0xd8] = c128_colorram_read;
             mem_set_write_hook(128 + j, 0xd8, c128_colorram_store);
             mem_read_tab[128 + j][0xd9] = c128_colorram_read;
@@ -731,10 +731,10 @@ void mem_initialize_memory(void)
             mem_set_write_hook(128 + j, 0xdc, c128_cia1_store);
             mem_read_tab[128 + j][0xdd] = c128_cia2_read;
             mem_set_write_hook(128 + j, 0xdd, c128_cia2_store);
-            mem_read_tab[128 + j][0xde] = c128_c64io1_read;
-            mem_set_write_hook(128 + j, 0xde, c128_c64io1_store);
-            mem_read_tab[128 + j][0xdf] = c128_c64io2_read;
-            mem_set_write_hook(128 + j, 0xdf, c128_c64io2_store);
+            mem_read_tab[128 + j][0xde] = c128_c64io_de00_read;
+            mem_set_write_hook(128 + j, 0xde, c128_c64io_de00_store);
+            mem_read_tab[128 + j][0xdf] = c128_c64io_df00_read;
+            mem_set_write_hook(128 + j, 0xdf, c128_c64io_df00_store);
         }
     }
 
@@ -857,13 +857,19 @@ void store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
         case 0xd000:
+            c64io_d000_store(addr, byte);
+            break;
         case 0xd100:
+            c64io_d100_store(addr, byte);
+            break;
         case 0xd200:
+            c64io_d200_store(addr, byte);
+            break;
         case 0xd300:
-            vicii_store(addr, byte);
+            c64io_d300_store(addr, byte);
             break;
         case 0xd400:
-            sid_store(addr, byte);
+            c64io_d400_store(addr, byte);
             break;
         case 0xd500:
             mmu_store(addr, byte);
@@ -872,7 +878,7 @@ void store_bank_io(WORD addr, BYTE byte)
             vdc_store(addr, byte);
             break;
         case 0xd700:
-            d7xx_store(addr, byte);
+            c64io_d700_store(addr, byte);
             break;
         case 0xd800:
         case 0xd900:
@@ -887,10 +893,10 @@ void store_bank_io(WORD addr, BYTE byte)
             cia2_store(addr, byte);
             break;
         case 0xde00:
-            c64io1_store(addr, byte);
+            c64io_de00_store(addr, byte);
             break;
         case 0xdf00:
-            c64io2_store(addr, byte);
+            c64io_df00_store(addr, byte);
             break;
     }
     return;
@@ -900,18 +906,21 @@ BYTE read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
         case 0xd000:
+            return c64io_d000_read(addr);
         case 0xd100:
+            return c64io_d100_read(addr);
         case 0xd200:
+            return c64io_d200_read(addr);
         case 0xd300:
-            return vicii_read(addr);
+            return c64io_d300_read(addr);
         case 0xd400:
-            return sid_read(addr);
+            return c64io_d400_read(addr);
         case 0xd500:
             return mmu_read(addr);
         case 0xd600:
             return vdc_read(addr);
         case 0xd700:
-            return d7xx_read(addr);
+            return c64io_d700_read(addr);
         case 0xd800:
         case 0xd900:
         case 0xda00:
@@ -922,9 +931,9 @@ BYTE read_bank_io(WORD addr)
         case 0xdd00:
             return cia2_read(addr);
         case 0xde00:
-            return c64io1_read(addr);
+            return c64io_de00_read(addr);
         case 0xdf00:
-            return c64io2_read(addr);
+            return c64io_df00_read(addr);
     }
     return 0xff;
 }
@@ -933,18 +942,21 @@ static BYTE peek_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
         case 0xd000:
+            return c64io_d000_peek(addr);
         case 0xd100:
+            return c64io_d100_peek(addr);
         case 0xd200:
+            return c64io_d200_peek(addr);
         case 0xd300:
-            return vicii_peek(addr);
+            return c64io_d300_peek(addr);
         case 0xd400:
-            return sid_read(addr); /* FIXME */
+            return c64io_d400_peek(addr);
         case 0xd500:
             return mmu_read(addr);
         case 0xd600:
-            return vdc_read(addr); /* FIXME */
+            return vdc_read(addr);
         case 0xd700:
-            return d7xx_read(addr); /* FIXME */
+            return c64io_d700_peek(addr);
         case 0xd800:
         case 0xd900:
         case 0xda00:
@@ -955,9 +967,9 @@ static BYTE peek_bank_io(WORD addr)
         case 0xdd00:
             return cia2_peek(addr);
         case 0xde00:
-            return c64io1_read(addr);  /* FIXME */
+            return c64io_de00_peek(addr);
         case 0xdf00:
-            return c64io2_read(addr);  /* FIXME */
+            return c64io_df00_peek(addr);
     }
     return 0xff;
 }
@@ -1151,15 +1163,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 
 static int mem_dump_io(WORD addr)
 {
-    if ((addr >= 0xd000) && (addr <= 0xd03f)) {
-        return vicii_dump();
-    } else if ((addr >= 0xd400) && (addr <= 0xd43f)) {
-        /* return sidcore_dump(machine_context.sid); */ /* FIXME */
-    } else if ((addr >= 0xd500) && (addr <= 0xd50b)) {
-        /* return mmu_dump(machine_context.mmu); */ /* FIXME */
-    } else if ((addr >= 0xd600) && (addr <= 0xd602)) {
-        /* return vdc_dump(machine_context.vdc); */ /* FIXME */
-    } else if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
+    if ((addr >= 0xdc00) && (addr <= 0xdc3f)) {
         return ciacore_dump(machine_context.cia1);
     } else if ((addr >= 0xdd00) && (addr <= 0xdd3f)) {
         return ciacore_dump(machine_context.cia2);
@@ -1171,10 +1175,6 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    mon_ioreg_add_list(&mem_ioreg_list, "VIC-IIe", 0xd000, 0xd030, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "SID", 0xd400, 0xd41f, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "MMU", 0xd500, 0xd50b, mem_dump_io);
-    mon_ioreg_add_list(&mem_ioreg_list, "VDC", 0xd600, 0xd601, mem_dump_io);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA1", 0xdc00, 0xdc0f, mem_dump_io);
     mon_ioreg_add_list(&mem_ioreg_list, "CIA2", 0xdd00, 0xdd0f, mem_dump_io);
 
@@ -1216,34 +1216,79 @@ void mem_color_ram_from_snapshot(BYTE *color_ram)
 
 /* 8502 specific I/O function wrappers for 2mhz mode cycle stretching */
 
-BYTE c128_vicii_read(WORD addr)
+BYTE c128_c64io_d000_read(WORD addr)
 {
     BYTE temp_value;
 
-    temp_value = vicii_read(addr);
+    temp_value = c64io_d000_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_vicii_store(WORD addr, BYTE value)
+void c128_c64io_d000_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
-    vicii_store(addr, value);
+    c64io_d000_store(addr, value);
 }
 
-BYTE c128_sid_read(WORD addr)
+BYTE c128_c64io_d100_read(WORD addr)
 {
     BYTE temp_value;
 
-    temp_value = sid_read(addr);
+    temp_value = c64io_d100_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_sid_store(WORD addr, BYTE value)
+void c128_c64io_d100_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
-    sid_store(addr, value);
+    c64io_d100_store(addr, value);
+}
+
+BYTE c128_c64io_d200_read(WORD addr)
+{
+    BYTE temp_value;
+
+    temp_value = c64io_d200_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
+}
+
+void c128_c64io_d200_store(WORD addr, BYTE value)
+{
+    vicii_clock_write_stretch();
+    c64io_d200_store(addr, value);
+}
+
+BYTE c128_c64io_d300_read(WORD addr)
+{
+    BYTE temp_value;
+
+    temp_value = c64io_d300_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
+}
+
+void c128_c64io_d300_store(WORD addr, BYTE value)
+{
+    vicii_clock_write_stretch();
+    c64io_d300_store(addr, value);
+}
+
+BYTE c128_c64io_d400_read(WORD addr)
+{
+    BYTE temp_value;
+
+    temp_value = c64io_d400_read(addr);
+    vicii_clock_read_stretch();
+    return temp_value;
+}
+
+void c128_c64io_d400_store(WORD addr, BYTE value)
+{
+    vicii_clock_write_stretch();
+    c64io_d400_store(addr, value);
 }
 
 BYTE c128_mmu_read(WORD addr)
@@ -1291,19 +1336,19 @@ void c128_vdc_store(WORD addr, BYTE value)
     vdc_store(addr, value);
 }
 
-BYTE c128_d7xx_read(WORD addr)
+BYTE c128_c64io_d700_read(WORD addr)
 {
     BYTE temp_value;
 
-    temp_value = d7xx_read(addr);
+    temp_value = c64io_d700_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_d7xx_store(WORD addr, BYTE value)
+void c128_c64io_d700_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
-    d7xx_store(addr, value);
+    c64io_d700_store(addr, value);
 }
 
 BYTE c128_colorram_read(WORD addr)
@@ -1351,32 +1396,32 @@ void c128_cia2_store(WORD addr, BYTE value)
     cia2_store(addr, value);
 }
 
-BYTE c128_c64io1_read(WORD addr)
+BYTE c128_c64io_de00_read(WORD addr)
 {
     BYTE temp_value;
 
-    temp_value = c64io1_read(addr);
+    temp_value = c64io_de00_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io1_store(WORD addr, BYTE value)
+void c128_c64io_de00_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
-    c64io1_store(addr, value);
+    c64io_de00_store(addr, value);
 }
 
-BYTE c128_c64io2_read(WORD addr)
+BYTE c128_c64io_df00_read(WORD addr)
 {
     BYTE temp_value;
 
-    temp_value = c64io2_read(addr);
+    temp_value = c64io_df00_read(addr);
     vicii_clock_read_stretch();
     return temp_value;
 }
 
-void c128_c64io2_store(WORD addr, BYTE value)
+void c128_c64io_df00_store(WORD addr, BYTE value)
 {
     vicii_clock_write_stretch();
-    c64io2_store(addr, value);
+    c64io_df00_store(addr, value);
 }
