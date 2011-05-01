@@ -120,6 +120,9 @@ extern int cartridge_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
 #define CARTRIDGE_TURBO232           -117 /* c64acia1.c */
 #define CARTRIDGE_SWIFTLINK          -118 /* c64acia1.c */
 #define CARTRIDGE_ACIA               -119 /* c64acia1.c */
+#define CARTRIDGE_PLUS60K            -120 /* plus60k.c */
+#define CARTRIDGE_PLUS256K           -121 /* plus256k.c */
+
 
 /* Known cartridge types.  */
 /* TODO: cartconv (4k and 12k binaries) */

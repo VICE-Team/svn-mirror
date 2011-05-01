@@ -97,6 +97,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
+#include "vicii.h"
 #include "vicii-mem.h"
 
 /* PLUS60K registers */
@@ -115,6 +116,67 @@ int plus60k_base = 0xd100;
 static char *plus60k_filename = NULL;
 
 static BYTE *plus60k_ram;
+
+static io_source_t vicii_d000_device = {
+    "VIC-II",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd000, 0xd03f, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d000_full_device = {
+    "VIC-II",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd000, 0xd0ff, 0x3f,
+    1, /* read is always valid */
+    vicii_store,
+    vicii_read,
+    vicii_peek,
+    vicii_dump,
+    0, /* dummy (not a cartridge) */
+    1, /* priority, device and mirrors never involved in collisions */
+};
+
+static io_source_t vicii_d040_device = {
+    "+60K",
+    IO_DETACH_RESOURCE,
+    "PLUS60K",
+    0xd040, 0xd0ff, 1,
+    1, /* read is always valid */
+    plus60k_vicii_store,
+    plus60k_ff_read,
+    NULL, /* TODO */
+    NULL, /* TODO */
+    CARTRIDGE_PLUS60K,
+    0
+};
+
+static io_source_t vicii_d100_device = {
+    "+60K",
+    IO_DETACH_RESOURCE,
+    "PLUS60K",
+    0xd100, 0xd1ff, 1,
+    1, /* read is always valid */
+    plus60k_vicii_store,
+    plus60k_ff_read,
+    NULL, /* TODO */
+    NULL, /* TODO */
+    CARTRIDGE_PLUS60K,
+    0
+};
+
+static io_source_list_t *vicii_d000_list_item = NULL;
+static io_source_list_t *vicii_d000_full_list_item = NULL;
+static io_source_list_t *vicii_d040_list_item = NULL;
+static io_source_list_t *vicii_d100_list_item = NULL;
 
 static int set_plus60k_enabled(int val, void *param)
 {
@@ -280,13 +342,22 @@ static int plus60k_activate(void)
                 return -1;
             }
             log_message(plus60k_log, "Creating PLUS60K image %s.", plus60k_filename);
-            return 0;
+        } else {
+            log_message(plus60k_log, "Reading PLUS60K image %s.", plus60k_filename);
         }
-        log_message(plus60k_log, "Reading PLUS60K image %s.", plus60k_filename);
     }
 
     plus60k_reset();
     set_cpu_lines_lock(CPU_LINES_PLUS60K, "PLUS60K");
+
+    c64io_vicii_deinit();
+    if (plus60k_base == 0xd100) {
+        vicii_d000_full_list_item = c64io_register(&vicii_d000_full_device);
+        vicii_d100_list_item = c64io_register(&vicii_d100_device);
+    } else {
+        vicii_d000_list_item = c64io_register(&vicii_d000_device);
+        vicii_d040_list_item = c64io_register(&vicii_d040_device);
+    }
     return 0;
 }
 
@@ -302,6 +373,28 @@ static int plus60k_deactivate(void)
     lib_free(plus60k_ram);
     plus60k_ram = NULL;
     remove_cpu_lines_lock();
+
+    if (vicii_d000_list_item != NULL) {
+        c64io_unregister(vicii_d000_list_item);
+        vicii_d000_list_item = NULL;
+    }
+
+    if (vicii_d000_full_list_item != NULL) {
+        c64io_unregister(vicii_d000_full_list_item);
+        vicii_d000_full_list_item = NULL;
+    }
+
+    if (vicii_d040_list_item != NULL) {
+        c64io_unregister(vicii_d040_list_item);
+        vicii_d040_list_item = NULL;
+    }
+
+    if (vicii_d100_list_item != NULL) {
+        c64io_unregister(vicii_d100_list_item);
+        vicii_d100_list_item = NULL;
+    }
+    c64io_vicii_init();
+
     return 0;
 }
 
@@ -357,70 +450,27 @@ void plus60k_vicii_mem_vbank_store(WORD addr, BYTE value)
 
 void plus60k_vicii_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
-    plus60k_mem_write_tab[plus60k_reg+2](addr, value);
+    plus60k_mem_write_tab[plus60k_reg + 2](addr, value);
 }
 
 void plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 {
-    plus60k_mem_write_tab[plus60k_reg+4](addr, value);
+    plus60k_mem_write_tab[plus60k_reg + 4](addr, value);
 }
 
 void plus60k_ram_hi_store(WORD addr, BYTE value)
 {
-    plus60k_mem_write_tab[plus60k_reg+6](addr, value);
+    plus60k_mem_write_tab[plus60k_reg + 6](addr, value);
 }
 
-static BYTE vicii_read_wrapper(WORD addr)
-{
-    return vicii_read(addr);
-}
-
-static void vicii_store_wrapper(WORD addr, BYTE value)
-{
-    vicii_store(addr, value);
-}
-
-static read_func_ptr_t plus60k_partial_vicii_read_tab[] = {
-    vicii_read_wrapper,
-    plus60k_vicii_read,
-    plus60k_vicii_read0,
-    plus60k_vicii_read0
-};
-
-static store_func_ptr_t plus60k_partial_vicii_write_tab[] = {
-    vicii_store_wrapper,
-    plus60k_vicii_store,
-    plus60k_vicii_store0,
-    plus60k_vicii_store0
-};
-
-BYTE plus60k_vicii_read_old(WORD addr)
-{
-    return plus60k_partial_vicii_read_tab[(addr&0x3f)>>6](addr);
-}
-
-void plus60k_vicii_store_old(WORD addr, BYTE value)
-{
-    plus60k_partial_vicii_write_tab[(addr & 0x3f) >> 6](addr, value);
-}
-
-BYTE plus60k_vicii_read(WORD addr)
+BYTE plus60k_ff_read(WORD addr)
 {
     return 0xff;
-}
-
-BYTE plus60k_vicii_read0(WORD addr)
-{
-    return addr >> 8;
 }
 
 void plus60k_vicii_store(WORD addr, BYTE value)
 {
     plus60k_reg = (value & 0x80) >> 7;
-}
-
-void plus60k_vicii_store0(WORD addr, BYTE value)
-{
 }
 
 BYTE plus60k_ram_read(WORD addr)

@@ -546,36 +546,12 @@ static void plus60k_init_config(void)
                     if (mem_write_tab[k][i][j] == ram_hi_store) {
                         mem_write_tab[k][i][j] = plus60k_ram_hi_store;
                     }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd0 && plus60k_base == 0xd040) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store_old;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd100) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1 && plus60k_base == 0xd040) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store0;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j > 0xd1) {
-                        mem_write_tab[k][i][j] = plus60k_vicii_store0;
-                    }
                     if (mem_write_tab[k][i][j] == ram_store) {
                         mem_write_tab[k][i][j] = plus60k_ram_store;
                     }
                     if (mem_write_tab[k][i][j] == raml_no_ultimax_store) {
                         mem_write_tab[k][i][j] = plus60k_ram_store; /* possibly breaks mmc64 and expert */
                     }
-                }
-                if (mem_read_tab[i][j] == vicii_read && j == 0xd0 && plus60k_base == 0xd040) {
-                    mem_read_tab[i][j] = plus60k_vicii_read_old;
-                }
-                if (mem_read_tab[i][j] == vicii_read && j == 0xd1 && plus60k_base == 0xd100) {
-                    mem_read_tab[i][j] = plus60k_vicii_read;
-                }
-                if (mem_read_tab[i][j] == vicii_read && j == 0xd1 && plus60k_base == 0xd040) {
-                    mem_read_tab[i][j] = plus60k_vicii_read0;
-                }
-                if (mem_read_tab[i][j] == vicii_read && j > 0xd1) {
-                    mem_read_tab[i][j] = plus60k_vicii_read0;
                 }
                 if (mem_read_tab[i][j] == ram_read) {
                     mem_read_tab[i][j] = plus60k_ram_read;
