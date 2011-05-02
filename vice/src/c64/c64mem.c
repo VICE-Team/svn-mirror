@@ -498,12 +498,6 @@ void plus256k_init_config(void)
                             mem_write_tab[k][i][j] = plus256k_ram_high_store;
                         }
                     }
-                    if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1) {
-                        mem_write_tab[k][i][j] = plus256k_vicii_store;
-                    }
-                    if (mem_write_tab[k][i][j] == vicii_store && j > 0xd1) {
-                        mem_write_tab[k][i][j] = plus256k_vicii_store0;
-                    }
                 }
                 if (mem_read_tab[i][j] == ram_read) {
                     if (j < 0x10) {
@@ -511,12 +505,6 @@ void plus256k_init_config(void)
                     } else {
                         mem_read_tab[i][j] = plus256k_ram_high_read;
                     }
-                }
-                if (mem_read_tab[i][j] == vicii_read && j == 0xd1) {
-                    mem_read_tab[i][j] = plus256k_vicii_read;
-                }
-                if (mem_read_tab[i][j] == vicii_read && j > 0xd1) {
-                    mem_read_tab[i][j] = plus256k_vicii_read0;
                 }
             }
         }

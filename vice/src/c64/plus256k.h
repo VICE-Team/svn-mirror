@@ -38,10 +38,9 @@ extern void plus256k_init(void);
 extern void plus256k_reset(void);
 extern void plus256k_shutdown(void);
 
-extern BYTE plus256k_vicii_read(WORD addr);
-extern BYTE plus256k_vicii_read0(WORD addr);
+extern BYTE plus256k_ff_read(WORD addr);
 extern void plus256k_vicii_store(WORD addr, BYTE value);
-extern void plus256k_vicii_store0(WORD addr, BYTE value);
+
 extern void plus256k_ram_low_store(WORD addr, BYTE value);
 extern void plus256k_ram_high_store(WORD addr, BYTE value);
 extern BYTE plus256k_ram_low_read(WORD addr);
