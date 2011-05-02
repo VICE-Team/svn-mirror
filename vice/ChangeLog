@@ -1,5 +1,366 @@
 ------------------------------------------------------------------------------
 
+2011-05-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, doc/vice.chm, doc/vice.pdf,
+	doc/vice.hlp, po/fr.po, po/ko.po, po/nl.po, po/pl.po, po/it.po, po/hu.po,
+	po/da.po, po/tr.po, po/ru.po, po/de.po, po/sv.po: VICE version 2.3.6
+
+2011-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_command.c: Fixed a crash in the monitor when
+	displaying the help of a command without parameters.
+
+2011-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/plus256k.c,
+	src/c64/plus256k.h: Adapted the plus256k code to use the c64io system.
+
+2011-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/c64_256k.c,
+	src/c64/cart/actionreplay.c, src/c64/cart/actionreplay2.c,
+	src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay4.c,
+	src/c64/cart/atomicpower.c, src/c64/cart/c64-midi.c,
+	src/c64/cart/c64acia1.c, src/c64/cart/comal80.c,
+	src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	src/c64/cart/delaep7x8.c, src/c64/cart/diashowmaker.c,
+	src/c64/cart/digimax.c, src/c64/cart/dinamic.c, src/c64/cart/dqbb.c,
+	src/c64/cart/easyflash.c, src/c64/cart/epyxfastload.c,
+	src/c64/cart/expert.c, src/c64/cart/final.c, src/c64/cart/final3.c,
+	src/c64/cart/finalplus.c, src/c64/cart/freezeframe.c,
+	src/c64/cart/freezemachine.c, src/c64/cart/funplay.c,
+	src/c64/cart/gamekiller.c, src/c64/cart/georam.c, src/c64/cart/gs.c,
+	src/c64/cart/ide64.c, src/c64/cart/isepic.c, src/c64/cart/kcs.c,
+	src/c64/cart/mach5.c, src/c64/cart/magicdesk.c,
+	src/c64/cart/magicformel.c, src/c64/cart/mikroass.c,
+	src/c64/cart/mmcreplay.c, src/c64/cart/ocean.c, src/c64/cart/prophet64.c,
+	src/c64/cart/ramcart.c, src/c64/cart/retroreplay.c,
+	src/c64/cart/rexep256.c, src/c64/cart/rexutility.c, src/c64/cart/ross.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/simonsbasic.c, src/c64/cart/snapshot64.c,
+	src/c64/cart/stardos.c, src/c64/cart/stb.c, src/c64/cart/superexplode5.c,
+	src/c64/cart/supergames.c, src/c64/cart/supersnapshot.c,
+	src/c64/cart/supersnapshot4.c, src/c64/cart/tfe.c,
+	src/c64/cart/warpspeed.c, src/c64/cart/westermann.c, src/c64/plus60k.c:
+	Completed 'io_source_t' structure data.
+
+2011-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/plus60k.c,
+	src/c64/plus60k.h, src/cartridge.h: Adapted the plus60k code to use the
+	c64io system.
+
+2011-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64sound.c: Made all stereo sid base addresses use the c64io
+	system.
+
+2011-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/c64io.c, src/c64/c64io.h:
+	Fixed a c64io memory leak, allocations will be freed upon shutdown now.
+
+2011-05-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c128/c128mem.c, src/c128/c128mem.h,
+	src/c128/c128meminit.c, src/c128/z80mem.c, src/c64/c64.c,
+	src/c64/c64io.c, src/c64/c64io.h, src/c64/c64mem.c, src/c64/c64meminit.c,
+	src/c64/c64memsc.c: Extended the I/O collision/conflict detection to
+	handle $D000-$D7FF.
+
+2011-05-01  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/rtc/ds12c887.c: typo
+
+2011-04-29  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* src/resid-fp/filter.cc: Remove two warnings about converting integer
+	to float and about converting double to float.
+
+2011-04-29 Dag Lem <resid@nimrod.no>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Fix crash caused by r23937
+
+2011-04-29 Dag Lem <resid@nimrod.no>
+
+	* src/arch/beos/console.c, src/arch/beos/kbd.c, src/arch/msdos/archdep.c,
+	src/arch/msdos/console.c, src/arch/msdos/tui.c,
+	src/arch/msdos/tui_backend.c, src/arch/msdos/ui.c,
+	src/arch/os2/archdep.c, src/arch/os2/ui.c, src/arch/riscos/archdep.c,
+	src/arch/riscos/console.c, src/arch/riscos/ui.c,
+	src/arch/sdl/archdep_riscos.c, src/arch/sdl/archdep_unix.c,
+	src/arch/unix/archdep.c, src/arch/unix/console.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xaw/uimenu.c,
+	src/arch/unix/x11/xaw/x11ui.c, src/arch/win32/console.c,
+	src/arch/win32/ui.c, src/core/ciatimer.c, src/log.c, src/machine.c,
+	src/monitor/mon_util.c, src/resources.c, src/util.c: stdarg cleanup
+
+2011-04-28 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: Bounds checking for op-amp array
+
+2011-04-28 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc: Avoid division by zero in unused DAC table
+
+2011-04-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_rs232.c: Fixed acia mode selection in the sdl
+	rs232 menu for machines that don't have an acia mode.
+
+2011-04-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c, src/c64/cart/c64acia1.c, src/cartridge.h,
+	src/cbm2/cbm2acia1.c, src/pet/petacia1.c, src/plus4/plus4acia.c: Fixed
+	some acia issues (made mode selection c64/c128 only, and made the io
+	source structure reflect the correct cart type).
+
+2011-04-27  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-26  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-25  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uieasyflash.c, src/c64/cart/easyflash.c: Fixed some more
+	windows gui issues.
+
+2011-04-25  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-04-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc, src/arch/beos/ui.cc,
+	src/arch/beos/ui_sid.cc, src/arch/beos/ui_sid.h: Made BeVICE SID
+	settings code machine-specific, reducing executable size.
+
+2011-04-24 Dag Lem <resid@nimrod.no>
+
+	* src/resid/filter.cc, src/resid/filter.h, src/resid/spline.h:
+	Re-measured MOS 6581 op-amp transfer function. Measured MOS 8580 op-amp
+	transfer function (not used yet). Reformulation of solve_gain() to
+	handle high gain 8580 op-amps. Initialization speedup.
+
+2011-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/ressid.rc,
+	src/arch/win32/ressidcart.rc, src/arch/win32/ressiddtv.rc,
+	src/arch/win32/resv364speech.rc, src/arch/win32/resvicii.rc: Did a
+	'make trans-update' to push some of the russian translations into the
+	windows and amiga files.
+
+2011-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/mididrv.c, src/arch/win32/uimidi.c,
+	src/c64/cart/c64-midi.c: Added selection of 'none' (no device) for
+	midi-in and midi-out in the windows midi dialog.
+
+2011-04-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/catweaselmkiii.c, src/arch/win32/resdialogs.txt,
+	src/arch/win32/ressidcart.rc, src/arch/win32/uisid.c,
+	src/arch/win32/uisidcart.c, src/arch/win32/uisiddtv.c,
+	src/catweaselmkiii.h: Fixed the windows sid, siddtv and sidcart dialogs
+	(catweasel and hardsid only show up when available).
+
+2011-04-24  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2011-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed windows joystick dialogs (speed input
+	element alignment).
+
+2011-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/uiperipheral.c: Fixed windows
+	peripheral dialog size.
+
+2011-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/uiperipheral.c: Fixed windows peripheral settings dialog,
+	real IEC device only shows up if opencbm support is available (dll has
+	been loaded).
+
+2011-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed the size of the windows peripheral
+	settings dialog output device elements.
+
+2011-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed the windows render filter element size.
+
+2011-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/res.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/uivideo.c: Fixed the
+	windows fullscreen dialog, aspect ratio elements won't show up if dx9
+	is not available or disabled.
+
+2011-04-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/uifliplist.c, src/arch/unix/x11/gnome/uicartridge.c,
+	src/arch/unix/x11/gnome/uinetplay.c,
+	src/arch/unix/x11/gnome/uisnapshot.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/x11/xaw/uisnapshot.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/resv364speech.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: More translation message syncing.
+
+2011-04-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/macosx/cocoa/ui-cmdline-options.c,
+	src/arch/unix/x11/gnome/uicartridge.c,
+	src/arch/unix/x11/gnome/uiscreenshot.c,
+	src/arch/unix/x11/gnome/uisnapshot.c,
+	src/arch/unix/x11/ui-cmdline-options.c,
+	src/arch/unix/x11/xaw/uicartridge.c, src/arch/unix/x11/xaw/uisnapshot.c,
+	src/arch/win32/res.rc: More translation message syncing.
+
+2011-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uifliplist.c,
+	src/arch/unix/gui/uipetreu.c, src/arch/unix/gui/uiplus256k.c,
+	src/arch/unix/gui/uiplus60k.c, src/arch/unix/gui/uiramcart.c,
+	src/arch/unix/gui/uireu.c, src/arch/unix/gui/uiromset.c,
+	src/arch/unix/gui/uited.c, src/arch/unix/gui/uivdc.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	src/arch/win32/res.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetreu.rc, src/arch/win32/resplus256k.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resrs232user.rc, src/translate_text.c: More translation
+	message syncing.
+
+2011-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/uiperipheral.c, src/arch/unix/gui/uipetdww.c,
+	src/arch/win32/res.rc, src/arch/win32/respetdww.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressiddtv.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/translate_text.c: More translation message syncing.
+
+2011-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uiautostart.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uiide64.c, src/arch/unix/gui/uijoystick2.c,
+	src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheralieee.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uitfe.c, src/arch/unix/gui/uitpi.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/macosx/mididrv.c, src/arch/unix/mididrv.c,
+	src/arch/unix/x11/gnome/uimenu.c, src/arch/unix/x11/gnome/uinetplay.c,
+	src/arch/unix/x11/gnome/uiscreenshot.c,
+	src/arch/unix/x11/xaw/uiscreenshot.c, src/arch/unix/x11/xaw/x11video.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/reslightpen.rc,
+	src/arch/win32/resmagicvoice.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: More translation message syncing.
+
+2011-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uiexpert.c, src/arch/unix/gui/uigeoram.c,
+	src/arch/unix/gui/uimmcreplay.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c, src/arch/unix/x11/xaw/uicartridge.c,
+	src/arch/unix/x11/xaw/uiedisk.c, src/arch/unix/x11/xaw/uiscreenshot.c,
+	src/arch/unix/x11/xaw/uisnapshot.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/restfe.rc,
+	src/arch/win32/resvicii.rc, src/translate_text.c: More translation
+	message syncing.
+
+2011-04-20  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/uic64cart.c,
+	src/arch/unix/gui/uidqbb.c, src/arch/unix/gui/uidrive.c,
+	src/arch/unix/gui/uidrivec64dtv.c, src/arch/unix/gui/uiide64.c,
+	src/arch/unix/gui/uilightpen.c, src/arch/unix/gui/uimmcreplay.c,
+	src/arch/unix/gui/uimouse.c, src/arch/unix/mididrv.c,
+	src/arch/unix/x11/gnome/uiedisk.c, src/arch/unix/x11/gnome/uinetplay.c,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/ui-cmdline-options.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/reseasyflash.rc, src/arch/win32/resexpert.rc,
+	src/arch/win32/resgeoram.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/reslightpen.rc, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmmc64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/respet.rc, src/arch/win32/respetdww.rc,
+	src/arch/win32/respetreu.rc, src/arch/win32/resplus256k.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressidcart.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/resv364speech.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: More translation message syncing.
+
+2011-04-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/pl.po, po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/uisettings.c, src/arch/unix/x11/gnome/uiedisk.c,
+	src/arch/unix/x11/gnome/uinetplay.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressiddtv.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/translate_text.c: More translation message syncing.
+
+2011-04-19  Ulrich Schulz <peiselulli@t-online.de>
+
+	* rtc/rtc.c: dingoo native : special ifdef removed (now implemented in
+	SDK)
+
+2011-04-19  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-04-18  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
 2011-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, src/version.h, src/arch/win32/vice-version.bat,
