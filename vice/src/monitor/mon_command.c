@@ -777,7 +777,11 @@ void mon_command_print_help(const char *cmd)
                         break;
                 }
             } else {
-                parameters = lib_stralloc(_(c->param_names));
+                if (c->param_names == NULL) {
+                    parameters = NULL;
+                } else {
+                    parameters = lib_stralloc(_(c->param_names));
+                }
             }
 
             mon_out(translate_text(IDGS_SYNTAX_S_S),
