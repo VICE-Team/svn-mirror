@@ -1493,7 +1493,7 @@ msgstr ""
 #: src/arch/win32/resplus4.rc.po.c:137 src/arch/win32/resvic20.rc.po.c:147
 #: src/arch/amigaos/intl_text.c.po.c:1149
 msgid "Refresh rate"
-msgstr ""
+msgstr "재생률"
 
 #: src/arch/unix/gui/uicrtc.c:142 src/arch/unix/gui/uited.c:133
 #: src/arch/unix/gui/uivdc.c:160 src/arch/unix/gui/uivic.c:132
@@ -2661,7 +2661,7 @@ msgstr ""
 #: src/arch/unix/x11/gnome/uipalcontrol.c:47 src/arch/win32/res.rc.po.c:1242
 #: src/arch/amigaos/intl_text.c.po.c:7806
 msgid "Blur"
-msgstr ""
+msgstr "흐릿함"
 
 #: src/arch/unix/gui/uipalemu.c:99
 msgid "Blur in percent"
@@ -5122,7 +5122,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1182 src/translate_text.c.po.c:2392
 #: src/translate_text.c.po.c:2408
 msgid "Directory"
-msgstr ""
+msgstr "디렉토리"
 
 #: src/arch/win32/res.rc.po.c:1190
 msgid "Read P00 files"
@@ -5154,35 +5154,35 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1205
 msgid "South West"
-msgstr ""
+msgstr "남서"
 
 #: src/arch/win32/res.rc.po.c:1206
 msgid "South"
-msgstr ""
+msgstr "남"
 
 #: src/arch/win32/res.rc.po.c:1207
 msgid "South East"
-msgstr ""
+msgstr "남동"
 
 #: src/arch/win32/res.rc.po.c:1208
 msgid "West"
-msgstr ""
+msgstr "서"
 
 #: src/arch/win32/res.rc.po.c:1209
 msgid "East"
-msgstr ""
+msgstr "동"
 
 #: src/arch/win32/res.rc.po.c:1210
 msgid "North West"
-msgstr ""
+msgstr "북서"
 
 #: src/arch/win32/res.rc.po.c:1211
 msgid "North"
-msgstr ""
+msgstr "북"
 
 #: src/arch/win32/res.rc.po.c:1212
 msgid "North East"
-msgstr ""
+msgstr "북동"
 
 #: src/arch/win32/res.rc.po.c:1213
 msgid "Fire button"
@@ -5214,11 +5214,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1227
 msgid "Bitdepth"
-msgstr ""
+msgstr "비트심도"
 
 #: src/arch/win32/res.rc.po.c:1228
 msgid "Resolution"
-msgstr ""
+msgstr "해상도"
 
 #: src/arch/win32/res.rc.po.c:1230
 msgid "VBLANK synchronization"
@@ -5296,7 +5296,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1260
 msgid "Output"
-msgstr ""
+msgstr "출력"
 
 #: src/arch/win32/res.rc.po.c:1261
 msgid "Output to file #"
@@ -5328,11 +5328,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1268
 msgid "Configuration"
-msgstr ""
+msgstr "배열"
 
 #: src/arch/win32/res.rc.po.c:1269
 msgid "Apply"
-msgstr ""
+msgstr "적용"
 
 #: src/arch/win32/res.rc.po.c:1270
 msgid "New"
@@ -5340,7 +5340,7 @@ msgstr "새로운"
 
 #: src/arch/win32/res.rc.po.c:1271
 msgid "Delete"
-msgstr ""
+msgstr "삭제"
 
 #: src/arch/win32/res.rc.po.c:1272
 msgid "Romset file"
@@ -5404,7 +5404,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1303
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/arch/win32/res.rc.po.c:1305 src/arch/amigaos/intl_text.c.po.c:4178
 msgid "Create Image"
@@ -5424,7 +5424,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1312
 msgid "bitrate"
-msgstr ""
+msgstr "비트 심도"
 
 #: src/arch/win32/res.rc.po.c:1314 src/arch/amigaos/intl_text.c.po.c:8612
 msgid "Sound record settings"
@@ -5440,7 +5440,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1317
 msgid "Kernal"
-msgstr ""
+msgstr "커날"
 
 #: src/arch/win32/res.rc.po.c:1318
 msgid "Basic"
@@ -5468,11 +5468,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1324
 msgid "Symbolic"
-msgstr ""
+msgstr "상징"
 
 #: src/arch/win32/res.rc.po.c:1325
 msgid "Positional"
-msgstr ""
+msgstr "위치상의"
 
 #: src/arch/win32/res.rc.po.c:1326
 msgid "Dump keyset"
@@ -5518,7 +5518,7 @@ msgstr ""
 #: src/arch/win32/rescbm2.rc.po.c:494 src/arch/win32/respet.rc.po.c:547
 #: src/arch/amigaos/intl_text.c.po.c:8157
 msgid "Memory"
-msgstr ""
+msgstr "메모리"
 
 #: src/arch/win32/res.rc.po.c:1337 src/arch/amigaos/intl_text.c.po.c:4880
 msgid "Drive type"
@@ -5562,7 +5562,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:78 src/arch/win32/resplus4.rc.po.c:90
 #: src/arch/win32/resvic20.rc.po.c:100 src/translate_text.c.po.c:9588
 msgid "Mode"
-msgstr ""
+msgstr "모드"
 
 #: src/arch/win32/res.rc.po.c:1373 src/arch/win32/rescbm2.rc.po.c:171
 #: src/arch/win32/respet.rc.po.c:171 src/arch/amigaos/intl_text.c.po.c:1656
