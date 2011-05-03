@@ -1,5 +1,5 @@
 /*
- * sfx_soundexpander.c - SFX soundexpnader cartridge emulation.
+ * sfx_soundexpander.c - SFX soundexpander cartridge emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
