@@ -39,6 +39,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "georam.h"
 #include "snapshot.h"
@@ -135,6 +136,7 @@ static BYTE georam_io1_read(WORD addr);
 static void georam_io1_store(WORD addr, BYTE byte);
 static BYTE georam_io2_peek(WORD addr);
 static void georam_io2_store(WORD addr, BYTE byte);
+static int georam_dump(void);
 
 static io_source_t georam_io1_device = {
     CARTRIDGE_NAME_GEORAM,
@@ -144,8 +146,8 @@ static io_source_t georam_io1_device = {
     1, /* read is always valid */
     georam_io1_store,
     georam_io1_read,
-    NULL, /* peek */
-    NULL, /* dump */
+    georam_io1_read,
+    georam_dump,
     CARTRIDGE_GEORAM,
     0
 };
@@ -159,7 +161,7 @@ static io_source_t georam_io2_device = {
     georam_io2_store,
     NULL,
     georam_io2_peek,
-    NULL, /* dump */
+    georam_dump,
     CARTRIDGE_GEORAM,
     0
 };
@@ -214,6 +216,12 @@ static void georam_io2_store(WORD addr, BYTE byte)
         }
         georam[0] = byte;
     }
+}
+
+static int georam_dump(void)
+{
+    mon_out("Size: %d Kb, Bank: %d, Window: %d\n", georam_size_kb, georam[1], georam[0]);
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
