@@ -204,7 +204,6 @@ void sfx_soundsampler_sound_reset(void)
 #define CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "CARTSFXSS"
 
-/* FIXME: implement snapshot support */
 int sfx_soundsampler_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
