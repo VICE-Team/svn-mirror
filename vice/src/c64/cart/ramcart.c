@@ -42,6 +42,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
@@ -133,10 +134,12 @@ static int ramcart_write_image = 0;
 
 /* ------------------------------------------------------------------------- */
 
+static BYTE ramcart_io1_peek(WORD addr);
 static BYTE ramcart_io1_read(WORD addr);
 static void ramcart_io1_store(WORD addr, BYTE byte);
 static BYTE ramcart_io2_read(WORD addr);
 static void ramcart_io2_store(WORD addr, BYTE byte);
+static int ramcart_dump(void);
 
 static io_source_t ramcart_io1_device = {
     CARTRIDGE_NAME_RAMCART,
@@ -146,8 +149,8 @@ static io_source_t ramcart_io1_device = {
     1, /* read is always valid */
     ramcart_io1_store,
     ramcart_io1_read,
-    NULL, /* peek */
-    NULL, /* dump */
+    ramcart_io1_peek,
+    ramcart_dump,
     CARTRIDGE_RAMCART,
     0
 };
@@ -160,8 +163,8 @@ static io_source_t ramcart_io2_device = {
     1, /* read is always valid */
     ramcart_io2_store,
     ramcart_io2_read,
-    NULL, /* peek */
-    NULL, /* dump */
+    ramcart_io2_read,
+    ramcart_dump,
     CARTRIDGE_RAMCART,
     0
 };
@@ -174,9 +177,15 @@ static const c64export_resource_t export_res = {
 };
 
 /* ------------------------------------------------------------------------- */
+
 int ramcart_cart_enabled(void)
 {
     return ramcart_enabled;
+}
+
+static BYTE ramcart_io1_peek(WORD addr)
+{
+    return ramcart[addr];
 }
 
 static BYTE ramcart_io1_read(WORD addr)
@@ -215,6 +224,26 @@ static BYTE ramcart_io2_read(WORD addr)
 static void ramcart_io2_store(WORD addr, BYTE byte)
 {
     ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256) + (addr & 0xff)] = byte;
+}
+
+static int ramcart_dump(void)
+{
+    int bank = 0;
+    int mirrored = 0;
+
+    if (ramcart_size_kb == 128) {
+        bank = (ramcart[1] & 1) << 8;
+        if ((ramcart[1] & 0x80) && ramcart_readonly) {
+            mirrored = 1;
+        }
+    }
+    bank += ramcart[0];
+
+    mon_out("RAM size: %s, bank: %d, status: %s\n",
+            (ramcart_size_kb == 128) ? "128Kb" : "64Kb",
+            bank,
+            (ramcart_readonly) ? ((mirrored) ? "read-only and mirrored at $8000-$80FF" : "read-only") : "read/write");
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
