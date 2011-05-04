@@ -42,6 +42,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "reu.h"
 #include "translate.h"
@@ -232,10 +233,8 @@ void mmu_set_config64(int config)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE mmu_read(WORD addr)
+BYTE mmu_peek(WORD addr)
 {
-    vicii_handle_pending_alarms_external(0);
-
     addr &= 0xff;
 
 #ifdef MMU_DEBUG
@@ -252,12 +251,21 @@ BYTE mmu_read(WORD addr)
 
             /* 0x80 = 40/80 key released.  */
             return (mmu[5] & 0x0f) | (mmu_column4080_key ? 0x80 : 0) | ((export.game ^ 1) << 4) | ((exrom ^ 1) << 5);
+        } else if (addr == 11) {
+            return (c128_full_banks) ? 4 : 2;
         } else {
             return mmu[addr];
         }
     } else {
         return 0xff;
     }
+}
+
+BYTE mmu_read(WORD addr)
+{
+    vicii_handle_pending_alarms_external(0);
+
+    return mmu_peek(addr);
 }
 
 void mmu_store(WORD address, BYTE value)
@@ -365,6 +373,69 @@ void mmu_ffxx_store(WORD addr, BYTE value)
     }
 }
 
+int mmu_dump(void)
+{
+    mon_out("CR: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+            (mmu[0] & 0xc0) >> 6,
+            (mmu[0] & 2) ? "BASIC ROM low" : "RAM",
+            (mmu[0] & 8) ? ((mmu[0] & 4) ? "RAM" : "External Function ROM") : ((mmu[0] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
+            (mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[0] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
+            (mmu[0] & 1) ? "I/O" : ((mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[0] & 0x10) ? "Internal Function ROM" : "Kernal ROM")),
+            (mmu[0] & 0x20) ? ((mmu[0] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[0] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+
+    mon_out("PCRA: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+            (mmu[1] & 0xc0) >> 6,
+            (mmu[1] & 2) ? "BASIC ROM low" : "RAM",
+            (mmu[1] & 8) ? ((mmu[1] & 4) ? "RAM" : "External Function ROM") : ((mmu[1] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
+            (mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[1] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
+            (mmu[1] & 1) ? "I/O" : ((mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[1] & 0x10) ? "Internal Function ROM" : "Kernal ROM")),
+            (mmu[1] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[1] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+
+    mon_out("PCRB: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+            (mmu[2] & 0xc0) >> 6,
+            (mmu[2] & 2) ? "BASIC ROM low" : "RAM",
+            (mmu[2] & 8) ? ((mmu[2] & 4) ? "RAM" : "External Function ROM") : ((mmu[2] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
+            (mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[2] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
+            (mmu[2] & 1) ? "I/O" : ((mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[2] & 0x10) ? "Internal Function ROM" : "Kernal ROM")),
+            (mmu[2] & 0x20) ? ((mmu[2] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[2] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+
+    mon_out("PCRC: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+            (mmu[3] & 0xc0) >> 6,
+            (mmu[3] & 2) ? "BASIC ROM low" : "RAM",
+            (mmu[3] & 8) ? ((mmu[3] & 4) ? "RAM" : "External Function ROM") : ((mmu[3] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
+            (mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[3] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
+            (mmu[3] & 1) ? "I/O" : ((mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[3] & 0x10) ? "Internal Function ROM" : "Kernal ROM")),
+            (mmu[3] & 0x20) ? ((mmu[3] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[3] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+
+    mon_out("PCRD: bank: %d, $4000-$7FFF: %s, $8000-$BFFF: %s, $C000-$CFFF: %s, $D000-$DFFF: %s, $E000-$FFFF: %s\n",
+            (mmu[4] & 0xc0) >> 6,
+            (mmu[4] & 2) ? "BASIC ROM low" : "RAM",
+            (mmu[4] & 8) ? ((mmu[4] & 4) ? "RAM" : "External Function ROM") : ((mmu[4] & 4) ? "Internal Function ROM" : "BASIC ROM high"),
+            (mmu[4] & 0x20) ? ((mmu[1] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[4] & 0x10) ? "Internal Function ROM" : "Kernal ROM"),
+            (mmu[4] & 1) ? "I/O" : ((mmu[4] & 0x20) ? ((mmu[4] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[4] & 0x10) ? "Internal Function ROM" : "Kernal ROM")),
+            (mmu[4] & 0x20) ? ((mmu[4] & 0x10) ? "RAM" : "External Function ROM") : ((mmu[4] & 0x10) ? "Internal Function ROM" : "Kernal ROM"));
+
+    mon_out("MCR: 40/80 key: %s, Operating mode: %s, EXROM line: %d, GAME line: %d, fast serial: %s, current CPU: %s\n",
+            (mmu[5] & 0x80) ? "up" : "down",
+            (mmu[5] & 0x40) ? "C64 mode" : "C128 mode",
+            (mmu[5] & 0x20) >> 5,
+            (mmu[5] & 0x10) >> 4,
+            (mmu[5] & 8) ? "serial out" : "serial in",
+            (mmu[5]) ? "8502" : "Z80");
+
+    mon_out("CRC: VIC-II RAM bank: %d, Shared RAM location: %s, Shared RAM size: %s\n",
+            (mmu[6] & 0xc0) >> 6,
+            (mmu[6] & 8) ? ((mmu[6] & 4) ? "bottom and top" : "top") : ((mmu[6] & 4) ? "bottom" : "none"),
+            (mmu[6] & 2) ? ((mmu[6] & 1) ? "16Kb" : "8Kb") : ((mmu[6] & 1) ? "4Kb" : "1Kb"));
+
+    mon_out("Page 0 pointer: $%04X\n", (mmu[8] << 16) | (mmu[7] << 8));
+    mon_out("Page 1 pointer: $%04X\n", (mmu[10] << 16) | (mmu[9] << 8));
+
+    mon_out("MMU version: %d\n", mmu[11] & 0xf);
+    mon_out("Amount of 64Kb blocks present: %d\n", (c128_full_banks) ? 4 : 2);
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 void mmu_init(void)
@@ -374,7 +445,6 @@ void mmu_init(void)
     set_column4080_key(mmu_column4080_key, NULL);
 
     mmu[5] = 0;
-    mmu[11] = C128_RAM_SIZE >> 12; /* # of 64k banks */
 }
 
 void mmu_reset(void)
