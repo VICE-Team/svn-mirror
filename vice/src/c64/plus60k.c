@@ -89,6 +89,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "plus256k.h"
 #include "plus60k.h"
@@ -116,6 +117,27 @@ int plus60k_base = 0xd100;
 static char *plus60k_filename = NULL;
 
 static BYTE *plus60k_ram;
+
+static int plus60k_dump(void)
+{
+    mon_out("$1000-$FFFF bank: %d\n", plus60k_reg);
+    return 0;
+}
+
+static BYTE plus60k_ff_read(WORD addr)
+{
+    return 0xff;
+}
+
+static BYTE plus60k_peek(WORD addr)
+{
+    return plus60k_reg << 7;
+}
+
+static void plus60k_vicii_store(WORD addr, BYTE value)
+{
+    plus60k_reg = (value & 0x80) >> 7;
+}
 
 static io_source_t vicii_d000_device = {
     "VIC-II",
@@ -153,8 +175,8 @@ static io_source_t vicii_d040_device = {
     1, /* read is always valid */
     plus60k_vicii_store,
     plus60k_ff_read,
-    NULL, /* TODO */
-    NULL, /* TODO */
+    plus60k_peek,
+    plus60k_dump,
     CARTRIDGE_PLUS60K,
     0
 };
@@ -167,8 +189,8 @@ static io_source_t vicii_d100_device = {
     1, /* read is always valid */
     plus60k_vicii_store,
     plus60k_ff_read,
-    NULL, /* TODO */
-    NULL, /* TODO */
+    plus60k_peek,
+    plus60k_dump,
     CARTRIDGE_PLUS60K,
     0
 };
@@ -461,16 +483,6 @@ void plus60k_vicii_mem_vbank_3fxx_store(WORD addr, BYTE value)
 void plus60k_ram_hi_store(WORD addr, BYTE value)
 {
     plus60k_mem_write_tab[plus60k_reg + 6](addr, value);
-}
-
-BYTE plus60k_ff_read(WORD addr)
-{
-    return 0xff;
-}
-
-void plus60k_vicii_store(WORD addr, BYTE value)
-{
-    plus60k_reg = (value & 0x80) >> 7;
 }
 
 BYTE plus60k_ram_read(WORD addr)
