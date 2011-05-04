@@ -1184,6 +1184,6 @@ static void int_acia_rx(CLOCK offset, void *data)
 
 int acia_dump(void *acia_context)
 {
-    /* FIXME: dump details using mod_out(), return 0 on success */
+    /* FIXME: dump details using mon_out(), return 0 on success */
     return -1;
 }
