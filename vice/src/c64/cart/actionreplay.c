@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -67,9 +68,12 @@ static int ar_active;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
+static BYTE actionreplay_io1_peek(WORD addr);
 static void actionreplay_io1_store(WORD addr, BYTE value);
 static BYTE actionreplay_io2_read(WORD addr);
+static BYTE actionreplay_io2_peek(WORD addr);
 static void actionreplay_io2_store(WORD addr, BYTE value);
+static int actionreplay_dump(void);
 
 static io_source_t action_replay_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY,
@@ -79,8 +83,8 @@ static io_source_t action_replay_io1_device = {
     0,
     actionreplay_io1_store,
     NULL,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    actionreplay_io1_peek,
+    actionreplay_dump,
     CARTRIDGE_ACTION_REPLAY,
     0
 };
@@ -93,8 +97,8 @@ static io_source_t action_replay_io2_device = {
     0,
     actionreplay_io2_store,
     actionreplay_io2_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    actionreplay_io2_peek,
+    actionreplay_dump,
     CARTRIDGE_ACTION_REPLAY,
     0
 };
@@ -108,11 +112,14 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+static BYTE regvalue;
+
 static void actionreplay_io1_store(WORD addr, BYTE value)
 {
     unsigned int mode = 0;
 
     if (ar_active) {
+        regvalue = value;
         if (value & 0x40) {
             mode |= CMODE_RELEASE_FREEZE;
         }
@@ -125,6 +132,11 @@ static void actionreplay_io1_store(WORD addr, BYTE value)
             ar_active = 0;
         }
     }
+}
+
+static BYTE actionreplay_io1_peek(WORD addr)
+{
+    return regvalue;
 }
 
 static BYTE actionreplay_io2_read(WORD addr)
@@ -159,6 +171,32 @@ static BYTE actionreplay_io2_read(WORD addr)
     return 0;
 }
 
+static BYTE actionreplay_io2_peek(WORD addr)
+{
+    if (!ar_active) {
+        return 0;
+    }
+
+    if (export_ram) {
+        return export_ram0[0x1f00 + (addr & 0xff)];
+    }
+
+    addr |= 0xdf00;
+
+    switch (roml_bank) {
+        case 0:
+            return roml_banks[addr & 0x1fff];
+        case 1:
+            return roml_banks[(addr & 0x1fff) + 0x2000];
+        case 2:
+            return roml_banks[(addr & 0x1fff) + 0x4000];
+        case 3:
+            return roml_banks[(addr & 0x1fff) + 0x6000];
+    }
+
+    return 0;
+}
+
 static void actionreplay_io2_store(WORD addr, BYTE value)
 {
     if (ar_active) {
@@ -167,6 +205,18 @@ static void actionreplay_io2_store(WORD addr, BYTE value)
         }
     }
 }
+
+static int actionreplay_dump(void)
+{
+    mon_out("$8000-$9FFF/$DF00-$DFFF: %s, ROM bank: %d, EXROM line: %s, GAME line: %s, cart state: %s\n",
+            (regvalue & 0x20) ? "RAM" : "ROM",
+            (regvalue & 0x18) >> 3,
+            (regvalue & 2) ? "high" : "low",
+            (regvalue & 1) ? "low" : "high",
+            (regvalue & 4) ? "disabled" : "enabled");
+    return 0;
+}
+
 
 /* ---------------------------------------------------------------------*/
 
