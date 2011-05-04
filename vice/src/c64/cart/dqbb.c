@@ -40,6 +40,7 @@
 #include "cmdline.h"
 #include "lib.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
@@ -105,8 +106,10 @@ static int reg_value = 0;
 static int dqbb_write_image = 0;
 
 /* ------------------------------------------------------------------------- */
+
 static BYTE dqbb_io1_peek(WORD addr);
 static void dqbb_io1_store(WORD addr, BYTE byte);
+static int dqbb_dump(void);
 
 static io_source_t dqbb_io1_device = {
     CARTRIDGE_NAME_DQBB,
@@ -117,7 +120,7 @@ static io_source_t dqbb_io1_device = {
     dqbb_io1_store,
     NULL,
     dqbb_io1_peek,
-    NULL, /* dump */
+    dqbb_dump,
     CARTRIDGE_DQBB,
     0
 };
@@ -164,6 +167,14 @@ static void dqbb_io1_store(WORD addr, BYTE byte)
 static BYTE dqbb_io1_peek(WORD addr)
 {
     return reg_value;
+}
+
+static int dqbb_dump(void)
+{
+    mon_out("$A000-$BFFF RAM: %s, cart status: %s\n",
+            (reg_value & 4) ? "mapped in" : "not mapped in",
+            (reg_value & 0x80) ? ((reg_value & 0x10) ? "read/write" : "read-only") : "disabled");
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
