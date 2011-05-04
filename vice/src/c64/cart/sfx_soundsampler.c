@@ -207,30 +207,24 @@ void sfx_soundsampler_sound_reset(void)
 /* FIXME: implement snapshot support */
 int sfx_soundsampler_snapshot_write_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
 
-    if (0) {
+    if (0 || (SMW_B(m, (BYTE)sfx_soundsampler_sound_data) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
     return 0;
-#endif
 }
 
 int sfx_soundsampler_snapshot_read_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     BYTE vmajor, vminor;
     snapshot_module_t *m;
 
@@ -244,12 +238,16 @@ int sfx_soundsampler_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (0 || (SMR_B(m, &sfx_soundsampler_sound_data) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
 
+    if (!sfx_soundsampler_enabled) {
+        set_sfx_soundsampler_enabled(1, NULL);
+    }
+    sound_store((WORD)0x40, sfx_soundsampler_sound_data, 0);
+    
     snapshot_module_close(m);
     return 0;
-#endif
 }
