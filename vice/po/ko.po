@@ -1411,7 +1411,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1381 src/arch/amigaos/intl_text.c.po.c:2787
 #: src/arch/amigaos/intl_text.c.po.c:4230
 msgid "About VICE"
-msgstr ""
+msgstr "도움 VICE"
 
 #: src/arch/unix/gui/uicommands.c:566 src/arch/unix/gui/uidatasette.c:99
 #: src/arch/unix/x11/gnome/uipalcontrol.c:134
@@ -5448,7 +5448,7 @@ msgstr "기본"
 
 #: src/arch/win32/res.rc.po.c:1319
 msgid "Character"
-msgstr ""
+msgstr "케릭터"
 
 #: src/arch/win32/res.rc.po.c:1320
 msgid "Computer resources"
@@ -5594,7 +5594,7 @@ msgstr "도움"
 
 #: src/arch/win32/res.rc.po.c:1380 src/arch/amigaos/intl_text.c.po.c:889
 msgid "Exit"
-msgstr ""
+msgstr "나가기"
 
 #: src/arch/win32/res.rc.po.c:1395 src/arch/amigaos/intl_text.c.po.c:1604
 msgid "Sound playback"
@@ -5670,7 +5670,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1439
 msgid "History"
-msgstr ""
+msgstr "히스토리"
 
 #: src/arch/win32/res.rc.po.c:1440
 msgid "History Autoplay"
@@ -5879,39 +5879,39 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1517 src/arch/amigaos/intl_text.c.po.c:2865
 msgid "English"
-msgstr ""
+msgstr "영어"
 
 #: src/arch/win32/res.rc.po.c:1518 src/arch/amigaos/intl_text.c.po.c:2878
 msgid "Danish"
-msgstr ""
+msgstr "덴마크어"
 
 #: src/arch/win32/res.rc.po.c:1521 src/arch/amigaos/intl_text.c.po.c:2930
 msgid "Hungarian"
-msgstr ""
+msgstr "헝가리어"
 
 #: src/arch/win32/res.rc.po.c:1523 src/arch/amigaos/intl_text.c.po.c:2956
 msgid "Korean"
-msgstr ""
+msgstr "한국어"
 
 #: src/arch/win32/res.rc.po.c:1524 src/arch/amigaos/intl_text.c.po.c:2969
 msgid "Dutch"
-msgstr ""
+msgstr "네덜란드어"
 
 #: src/arch/win32/res.rc.po.c:1525 src/arch/amigaos/intl_text.c.po.c:2995
 msgid "Polish"
-msgstr ""
+msgstr "폴란드어"
 
 #: src/arch/win32/res.rc.po.c:1526 src/arch/amigaos/intl_text.c.po.c:3008
 msgid "Russian"
-msgstr ""
+msgstr "러시아어"
 
 #: src/arch/win32/res.rc.po.c:1528 src/arch/amigaos/intl_text.c.po.c:3034
 msgid "Turkish"
-msgstr ""
+msgstr "터키어"
 
 #: src/arch/win32/res.rc.po.c:1533 src/arch/amigaos/intl_text.c.po.c:1422
 msgid "Fullscreen"
-msgstr ""
+msgstr "전체화면"
 
 #: src/arch/win32/res.rc.po.c:1534 src/arch/amigaos/intl_text.c.po.c:2579
 #: src/arch/amigaos/intl_text.c.po.c:7481
@@ -5920,15 +5920,15 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1535
 msgid "Open"
-msgstr ""
+msgstr "열기"
 
 #: src/arch/win32/res.rc.po.c:1537
 msgid "Print"
-msgstr ""
+msgstr "인쇄"
 
 #: src/arch/win32/res.rc.po.c:1538
 msgid "Exit        Alt+F4"
-msgstr ""
+msgstr "나가기	Alt+F4"
 
 #: src/arch/win32/res.rc.po.c:1539
 msgid "Stop Debug"
@@ -5956,7 +5956,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1545
 msgid "Evaluate"
-msgstr ""
+msgstr "평가"
 
 #: src/arch/win32/res.rc.po.c:1546
 msgid "Current instruction"
@@ -5984,7 +5984,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1555
 msgid "Cascade"
-msgstr ""
+msgstr "케스케이드"
 
 #: src/arch/win32/res.rc.po.c:1556
 msgid "Tile vertically"
@@ -6000,19 +6000,19 @@ msgstr ""
 
 #: src/arch/win32/resacia.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4386
 msgid "IRQ"
-msgstr ""
+msgstr "IRQ"
 
 #: src/arch/win32/resacia.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:4399
 msgid "NMI"
-msgstr ""
+msgstr "NMI"
 
 #: src/arch/win32/resacia.rc.po.c:45
 msgid "Swiftlink"
-msgstr ""
+msgstr "스위프트링크"
 
 #: src/arch/win32/resacia.rc.po.c:46
 msgid "Turbo232"
-msgstr ""
+msgstr "터보232"
 
 #: src/arch/win32/resacia.rc.po.c:48 src/translate_text.c.po.c:3371
 msgid "Enable the ACIA RS232 interface emulation"
@@ -6271,7 +6271,7 @@ msgstr ""
 
 #: src/arch/win32/resc64dtv.rc.po.c:444
 msgid "Create"
-msgstr ""
+msgstr "생성"
 
 #: src/arch/win32/resc64dtv.rc.po.c:447
 msgid "Attach flash rom image"
@@ -10436,6 +10436,3 @@ msgstr ""
 
 #~ msgid "driver"
 #~ msgstr "드라이버"
-
-#~ msgid "custom"
-#~ msgstr "커스텀"
