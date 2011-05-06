@@ -38,6 +38,7 @@ typedef struct snapshot_s snapshot_t;
 extern int snapshot_module_write_byte(snapshot_module_t *m, BYTE data);
 extern int snapshot_module_write_word(snapshot_module_t *m, WORD data);
 extern int snapshot_module_write_dword(snapshot_module_t *m, DWORD data);
+extern int snapshot_module_write_double(snapshot_module_t *m, double db);
 extern int snapshot_module_write_padded_string(snapshot_module_t *m,
                                                const char *s, BYTE pad_char,
                                                int len);
@@ -52,6 +53,7 @@ extern int snapshot_module_write_string(snapshot_module_t *m, const char *s);
 extern int snapshot_module_read_byte(snapshot_module_t *m, BYTE *b_return);
 extern int snapshot_module_read_word(snapshot_module_t *m, WORD *w_return);
 extern int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return);
+extern int snapshot_module_read_double(snapshot_module_t *m, double *db_return);
 extern int snapshot_module_read_byte_array(snapshot_module_t *m,
                                            BYTE *b_return, unsigned int num);
 extern int snapshot_module_read_word_array(snapshot_module_t *m,
@@ -74,6 +76,7 @@ extern int snapshot_module_read_dword_into_uint(snapshot_module_t *m,
 #define SMW_B       snapshot_module_write_byte
 #define SMW_W       snapshot_module_write_word
 #define SMW_DW      snapshot_module_write_dword
+#define SMW_DB      snapshot_module_write_double
 #define SMW_PSTR    snapshot_module_write_padded_string
 #define SMW_BA      snapshot_module_write_byte_array
 #define SMW_WA      snapshot_module_write_word_array
@@ -82,6 +85,7 @@ extern int snapshot_module_read_dword_into_uint(snapshot_module_t *m,
 #define SMR_B       snapshot_module_read_byte
 #define SMR_W       snapshot_module_read_word
 #define SMR_DW      snapshot_module_read_dword
+#define SMR_DB      snapshot_module_read_double
 #define SMR_BA      snapshot_module_read_byte_array
 #define SMR_WA      snapshot_module_read_word_array
 #define SMR_DWA     snapshot_module_read_dword_array

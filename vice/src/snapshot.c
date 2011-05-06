@@ -100,6 +100,19 @@ static int snapshot_write_dword(FILE *f, DWORD data)
     return 0;
 }
 
+static int snapshot_write_double(FILE *f, double data)
+{
+   BYTE *byte_data = (BYTE *)&data;
+   int i;
+
+   for (i = 0; i < 8; i++) {
+      if (snapshot_write_byte(f, byte_data[i]) < 0) {
+         return -1;
+      }
+   }
+   return 0;
+}
+
 static int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
                                         int len)
 {
@@ -198,6 +211,24 @@ static int snapshot_read_dword(FILE *f, DWORD *dw_return)
     return 0;
 }
 
+static int snapshot_read_double(FILE *f, double *d_return)
+{
+    int i;
+    int c;
+    double val;
+    BYTE *byte_val = (BYTE *)&val;
+
+    for (i = 0; i < 8; i++) {
+        c = fgetc(f);
+        if (c == EOF) {
+            return -1;
+        }
+        byte_val[i] = (BYTE)c;
+    }
+    *d_return = val;
+    return 0;
+}
+
 static int snapshot_read_byte_array(FILE *f, BYTE *b_return, unsigned int num)
 {
     if (num > 0 && fread(b_return, (size_t)num, 1, f) < 1)
@@ -290,6 +321,16 @@ int snapshot_module_write_dword(snapshot_module_t *m, DWORD dw)
     return 0;
 }
 
+int snapshot_module_write_double(snapshot_module_t *m, double db)
+{
+    if (snapshot_write_double(m->file, db) < 0) {
+        return -1;
+    }
+
+    m->size += 8;
+    return 0;
+}
+
 int snapshot_module_write_padded_string(snapshot_module_t *m, const char *s,
                                         BYTE pad_char, int len)
 {
@@ -366,6 +407,14 @@ int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return)
         return -1;
 
     return snapshot_read_dword(m->file, dw_return);
+}
+
+int snapshot_module_read_double(snapshot_module_t *m, double *db_return)
+{
+    if (ftell(m->file) + 8 > m->offset + m->size)
+        return -1;
+
+    return snapshot_read_double(m->file, db_return);
 }
 
 int snapshot_module_read_byte_array(snapshot_module_t *m, BYTE *b_return,

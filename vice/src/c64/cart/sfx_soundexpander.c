@@ -94,11 +94,11 @@ static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
 static io_source_list_t *sfx_soundexpander_piano_list_item = NULL;
 
 static const c64export_resource_t export_res_sound= {
-    CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_SAMPLER
+    CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
 static const c64export_resource_t export_res_piano= {
-    CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_SAMPLER
+    CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
 /* ------------------------------------------------------------------------- */
@@ -160,6 +160,7 @@ int sfx_soundexpander_enable(void)
 {
     return resources_set_int("SFXSoundExpander", 1);
 }
+
 void sfx_soundexpander_detach(void)
 {
     resources_set_int("SFXSoundExpander", 0);
@@ -179,6 +180,7 @@ int sfx_soundexpander_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
+
 void sfx_soundexpander_resources_shutdown(void)
 {
 }
@@ -302,14 +304,14 @@ void sfx_soundexpander_sound_reset(void)
 
 static void sfx_soundexpander_sound_store(WORD addr, BYTE value)
 {
-    if (addr == 0xdf40) {
+    if (addr == 0x40) {
         if (sfx_soundexpander_chip == 3812) {
             ym3812_write(YM3812_chip, 0, value);
         } else {
             ym3526_write(YM3526_chip, 0, value);
         }
     }
-    if (addr == 0xdf50) {
+    if (addr == 0x50) {
         sound_store((WORD)0x60, value, 0);
     }
 }
@@ -320,7 +322,7 @@ static BYTE sfx_soundexpander_sound_read(WORD addr)
 
     sfx_soundexpander_sound_device.io_source_valid = 0;
 
-    if (addr == 0xdf60) {
+    if (addr == 0x60) {
         sfx_soundexpander_sound_device.io_source_valid = 1;
         value=sound_read((WORD)0x60, 0);
     }
@@ -331,7 +333,7 @@ static BYTE sfx_soundexpander_sound_peek(WORD addr)
 {
     BYTE value = 0;
 
-    if (addr == 0xdf40) {
+    if (addr == 0x40) {
         if (sfx_soundexpander_chip == 3812) {
             value = ym3812_peek(YM3812_chip, value);
         } else {
@@ -358,12 +360,11 @@ static BYTE sfx_soundexpander_piano_read(WORD addr)
 #define CART_DUMP_VER_MINOR   0
 #define SNAP_MODULE_NAME  "CARTSFXSE"
 
-/* FIXME: implement snapshot support */
 int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
 {
-    return -1;
-#if 0
+    FM_OPL *chip = (sfx_soundexpander_chip == 3526) ? YM3526_chip : YM3812_chip;
     snapshot_module_t *m;
+    int x, y;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
                           CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
@@ -371,22 +372,117 @@ int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (0
+        || (SMW_DW(m, (DWORD)sfx_soundexpander_chip) < 0)
+        || (SMW_B(m, (BYTE)snd.command) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    for (x = 0; x < 9; x++) {
+        for (y = 0; y < 2; y++) {
+            if (0
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].ar) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].dr) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].rr) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].KSR) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].ksl) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].ksr) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].mul) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].Cnt) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].Incr) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].FB) < 0)
+                || (SMW_DW(m, (DWORD)connect1_is_output0(chip->P_CH[x].SLOT[y].connect1)) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].op1_out[0]) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].op1_out[1]) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].CON) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_type) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].state) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].TL) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].TLL) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].volume) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].sl) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sh_ar) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sel_ar) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sh_dr) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sel_dr) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sh_rr) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].eg_sel_rr) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].key) < 0)
+                || (SMW_DW(m, (DWORD)chip->P_CH[x].SLOT[y].AMmask) < 0)
+                || (SMW_B(m, (BYTE)chip->P_CH[x].SLOT[y].vib) < 0)
+                || (SMW_W(m, (WORD)chip->P_CH[x].SLOT[y].wavetable) < 0)) {
+                snapshot_module_close(m);
+                return -1;
+            }
+        }
+        if (0
+            || (SMW_DW(m, (DWORD)chip->P_CH[x].block_fnum) < 0)
+            || (SMW_DW(m, (DWORD)chip->P_CH[x].fc) < 0)
+            || (SMW_DW(m, (DWORD)chip->P_CH[x].ksl_base) < 0)
+            || (SMW_B(m, (BYTE)chip->P_CH[x].kcode) < 0)) {
+            snapshot_module_close(m);
+            return -1;
+        }
+    }
+
+    if (0
+        || (SMW_DW(m, (DWORD)chip->eg_cnt) < 0)
+        || (SMW_DW(m, (DWORD)chip->eg_timer) < 0)
+        || (SMW_DW(m, (DWORD)chip->eg_timer_add) < 0)
+        || (SMW_DW(m, (DWORD)chip->eg_timer_overflow) < 0)
+        || (SMW_B(m, (BYTE)chip->rhythm) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    for (x = 0; x < 1024; x++) {
+        if (0
+            || (SMW_DW(m, (DWORD)chip->fn_tab[x]) < 0)) {
+            snapshot_module_close(m);
+            return -1;
+        }
+    }
+
+    if (0
+        || (SMW_B(m, (BYTE)chip->lfo_am_depth) < 0)
+        || (SMW_B(m, (BYTE)chip->lfo_pm_depth_range) < 0)
+        || (SMW_DW(m, (DWORD)chip->lfo_am_cnt) < 0)
+        || (SMW_DW(m, (DWORD)chip->lfo_am_inc) < 0)
+        || (SMW_DW(m, (DWORD)chip->lfo_pm_cnt) < 0)
+        || (SMW_DW(m, (DWORD)chip->lfo_pm_inc) < 0)
+        || (SMW_DW(m, (DWORD)chip->noise_rng) < 0)
+        || (SMW_DW(m, (DWORD)chip->noise_p) < 0)
+        || (SMW_DW(m, (DWORD)chip->noise_f) < 0)
+        || (SMW_B(m, (BYTE)chip->wavesel) < 0)
+        || (SMW_DW(m, (DWORD)chip->T[0]) < 0)
+        || (SMW_DW(m, (DWORD)chip->T[1]) < 0)
+        || (SMW_B(m, (BYTE)chip->st[0]) < 0)
+        || (SMW_B(m, (BYTE)chip->st[1]) < 0)
+        || (SMW_B(m, (BYTE)chip->type) < 0)
+        || (SMW_B(m, (BYTE)chip->address) < 0)
+        || (SMW_B(m, (BYTE)chip->status) < 0)
+        || (SMW_B(m, (BYTE)chip->statusmask) < 0)
+        || (SMW_B(m, (BYTE)chip->mode) < 0)
+        || (SMW_DW(m, (DWORD)chip->clock) < 0)
+        || (SMW_DW(m, (DWORD)chip->rate) < 0)
+        || (SMW_DB(m, (double)chip->freqbase) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
     return 0;
-#endif
 }
 
 int sfx_soundexpander_snapshot_read_module(snapshot_t *s)
 {
-    return -1;
-#if 0
     BYTE vmajor, vminor;
     snapshot_module_t *m;
+    int temp_chip;
+    FM_OPL *chip = NULL;
+    int temp_connect1;
+    int x, y;
 
     m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
     if (m == NULL) {
@@ -398,12 +494,113 @@ int sfx_soundexpander_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (0) {
+    if (0 || (SMR_DW_INT(m, &temp_chip) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (sfx_soundexpander_enabled) {
+        set_sfx_soundexpander_enabled(0, NULL);
+    }
+    set_sfx_soundexpander_chip(temp_chip, NULL);
+    set_sfx_soundexpander_enabled(1, NULL);
+    chip = (temp_chip == 3526) ? YM3526_chip : YM3812_chip;
+
+    if (0 || (SMR_B(m, &snd.command) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    for (x = 0; x < 9; x++) {
+        for (y = 0; y < 2; y++) {
+            if (0
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].ar) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].dr) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].rr) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].KSR) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].ksl) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].ksr) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].mul) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].Cnt) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].Incr) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].FB) < 0)
+                || (SMR_DW_INT(m, &temp_connect1) < 0)
+                || (SMR_DW_INT(m, &chip->P_CH[x].SLOT[y].op1_out[0]) < 0)
+                || (SMR_DW_INT(m, &chip->P_CH[x].SLOT[y].op1_out[1]) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].CON) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].eg_type) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].state) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].TL) < 0)
+                || (SMR_DW_INT(m, &chip->P_CH[x].SLOT[y].TLL) < 0)
+                || (SMR_DW_INT(m, &chip->P_CH[x].SLOT[y].volume) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].sl) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].eg_sh_ar) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].eg_sel_ar) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].eg_sh_dr) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].eg_sel_dr) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].eg_sh_rr) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].eg_sel_rr) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].key) < 0)
+                || (SMR_DW_UINT(m, &chip->P_CH[x].SLOT[y].AMmask) < 0)
+                || (SMR_B(m, &chip->P_CH[x].SLOT[y].vib) < 0)
+                || (SMR_W(m, &chip->P_CH[x].SLOT[y].wavetable) < 0)) {
+                snapshot_module_close(m);
+                return -1;
+            }
+            set_connect1(chip->P_CH[x].SLOT[y].connect1, temp_connect1);
+        }
+        if (0
+            || (SMR_DW_UINT(m, &chip->P_CH[x].block_fnum) < 0)
+            || (SMR_DW_UINT(m, &chip->P_CH[x].fc) < 0)
+            || (SMR_DW_UINT(m, &chip->P_CH[x].ksl_base) < 0)
+            || (SMR_B(m, &chip->P_CH[x].kcode) < 0)) {
+            snapshot_module_close(m);
+            return -1;
+        }
+    }
+    if (0
+        || (SMR_DW_UINT(m, &chip->eg_cnt) < 0)
+        || (SMR_DW_UINT(m, &chip->eg_timer) < 0)
+        || (SMR_DW_UINT(m, &chip->eg_timer_add) < 0)
+        || (SMR_DW_UINT(m, &chip->eg_timer_overflow) < 0)
+        || (SMR_B(m, &chip->rhythm) < 0)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    for (x = 0; x < 1024; x++) {
+        if (0
+            || (SMR_DW_UINT(m, &chip->fn_tab[x]) < 0)) {
+            snapshot_module_close(m);
+            return -1;
+        }
+    }
+    if (0
+        || (SMR_B(m, &chip->lfo_am_depth) < 0)
+        || (SMR_B(m, &chip->lfo_pm_depth_range) < 0)
+        || (SMR_DW_UINT(m, &chip->lfo_am_cnt) < 0)
+        || (SMR_DW_UINT(m, &chip->lfo_am_inc) < 0)
+        || (SMR_DW_UINT(m, &chip->lfo_pm_cnt) < 0)
+        || (SMR_DW_UINT(m, &chip->lfo_pm_inc) < 0)
+        || (SMR_DW_UINT(m, &chip->noise_rng) < 0)
+        || (SMR_DW_UINT(m, &chip->noise_p) < 0)
+        || (SMR_DW_UINT(m, &chip->noise_f) < 0)
+        || (SMR_B(m, &chip->wavesel) < 0)
+        || (SMR_DW_UINT(m, &chip->T[0]) < 0)
+        || (SMR_DW_UINT(m, &chip->T[1]) < 0)
+        || (SMR_B(m, &chip->st[0]) < 0)
+        || (SMR_B(m, &chip->st[1]) < 0)
+        || (SMR_B(m, &chip->type) < 0)
+        || (SMR_B(m, &chip->address) < 0)
+        || (SMR_B(m, &chip->status) < 0)
+        || (SMR_B(m, &chip->statusmask) < 0)
+        || (SMR_B(m, &chip->mode) < 0)
+        || (SMR_DW_UINT(m, &chip->clock) < 0)
+        || (SMR_DW_UINT(m, &chip->rate) < 0)
+        || (SMR_DB(m, &chip->freqbase) < 0)) {
         snapshot_module_close(m);
         return -1;
     }
 
     snapshot_module_close(m);
     return 0;
-#endif
 }
