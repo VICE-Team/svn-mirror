@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -70,7 +71,9 @@ static int ar_reg = 0;
 /* some prototypes are needed */
 static BYTE actionreplay3_io1_peek(WORD addr);
 static void actionreplay3_io1_store(WORD addr, BYTE value);
+static BYTE actionreplay3_io2_peek(WORD addr);
 static BYTE actionreplay3_io2_read(WORD addr);
+static int actionreplay3_dump(void);
 
 static io_source_t actionreplay3_io1_device = {
     CARTRIDGE_NAME_ACTION_REPLAY3,
@@ -81,7 +84,7 @@ static io_source_t actionreplay3_io1_device = {
     actionreplay3_io1_store,
     NULL,
     actionreplay3_io1_peek,
-    NULL, /* TODO: dump */
+    actionreplay3_dump,
     CARTRIDGE_ACTION_REPLAY3,
     0
 };
@@ -94,8 +97,8 @@ static io_source_t actionreplay3_io2_device = {
     1, /* read is always valid */
     NULL,
     actionreplay3_io2_read,
-    NULL,
-    NULL, /* TODO: dump */
+    actionreplay3_io2_peek,
+    actionreplay3_dump,
     CARTRIDGE_ACTION_REPLAY3,
     0
 };
@@ -150,6 +153,33 @@ static BYTE actionreplay3_io2_read(WORD addr)
 static BYTE actionreplay3_io1_peek(WORD addr)
 {
     return ar_reg;
+}
+
+static BYTE actionreplay3_io2_peek(WORD addr)
+{
+    if (!ar_active) {
+        return 0;
+    }
+
+    addr |= 0xdf00;
+
+    switch (roml_bank) {
+        case 0:
+           return roml_banks[addr & 0x1fff];
+        case 1:
+           return roml_banks[(addr & 0x1fff) + 0x2000];
+    }
+
+    return 0;
+}
+
+static int actionreplay3_dump(void)
+{
+    mon_out("EXROM line: %d, bank: %d, cart state: %s\n",
+            ar_reg & 8,
+            ar_reg & 1,
+            (ar_reg & 4) ? "Disabled" : "Enabled");
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
