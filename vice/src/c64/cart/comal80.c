@@ -38,6 +38,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "comal80.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -72,6 +73,12 @@ static BYTE comal80_io1_peek(WORD addr)
     return currbank;
 }
 
+static int comal80_dump(void)
+{
+    mon_out("bank: %d\n", currbank);
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t comal80_device = {
@@ -83,7 +90,7 @@ static io_source_t comal80_device = {
     comal80_io1_store,
     NULL,
     comal80_io1_peek,
-    NULL, /* TODO: dump */
+    comal80_dump,
     CARTRIDGE_COMAL80,
     0
 };
