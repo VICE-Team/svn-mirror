@@ -90,8 +90,8 @@ static io_source_t mach5_io1_device = {
     1, /* read is always valid */
     mach5_io1_store,
     mach5_io1_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    mach5_io1_read,
+    NULL,
     CARTRIDGE_MACH5,
     0
 };
@@ -104,8 +104,8 @@ static io_source_t mach5_io2_device = {
     1, /* read is always valid */
     mach5_io2_store,
     mach5_io2_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    mach5_io2_read,
+    NULL,
     CARTRIDGE_MACH5,
     0
 };
