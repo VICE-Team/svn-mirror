@@ -36,6 +36,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "dinamic.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -75,7 +76,13 @@ static BYTE dinamic_io1_read(WORD addr)
 
 static BYTE dinamic_io1_peek(WORD addr)
 {
-    return currbank;
+    return 0;
+}
+
+static int dinamic_dump(void)
+{
+    mon_out("Bank: %d\n", currbank);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -89,7 +96,7 @@ static io_source_t dinamic_io1_device = {
     NULL,
     dinamic_io1_read,
     dinamic_io1_peek,
-    NULL, /* dump */
+    dinamic_dump,
     CARTRIDGE_DINAMIC,
     0
 };
