@@ -44,6 +44,7 @@
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
+#include "monitor.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
@@ -125,7 +126,9 @@ static BYTE isepic_io1_read(WORD addr);
 static BYTE isepic_io1_peek(WORD addr);
 static void isepic_io1_store(WORD addr, BYTE byte);
 static BYTE isepic_io2_read(WORD addr);
+static BYTE isepic_io2_peek(WORD addr);
 static void isepic_io2_store(WORD addr, BYTE byte);
+static int isepic_dump(void);
 
 static io_source_t isepic_io1_device = {
     CARTRIDGE_NAME_ISEPIC,
@@ -136,7 +139,7 @@ static io_source_t isepic_io1_device = {
     isepic_io1_store,
     isepic_io1_read,
     isepic_io1_peek,
-    NULL, /* TODO: dump */
+    isepic_dump,
     CARTRIDGE_ISEPIC,
     0
 };
@@ -149,8 +152,8 @@ static io_source_t isepic_io2_device = {
     0,
     isepic_io2_store,
     isepic_io2_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    isepic_io2_peek,
+    isepic_dump,
     CARTRIDGE_ISEPIC,
     0
 };
@@ -410,7 +413,7 @@ int isepic_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-BYTE isepic_io1_read(WORD addr)
+static BYTE isepic_io1_read(WORD addr)
 {
     DBG(("io1 r %04x (sw:%d)\n", addr, isepic_switch));
 
@@ -420,12 +423,12 @@ BYTE isepic_io1_read(WORD addr)
     return 0;
 }
 
-BYTE isepic_io1_peek(WORD addr)
+static BYTE isepic_io1_peek(WORD addr)
 {
-    return isepic_page;
+    return 0;
 }
 
-void isepic_io1_store(WORD addr, BYTE byte)
+static void isepic_io1_store(WORD addr, BYTE byte)
 {
     DBG(("io1 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
 
@@ -434,7 +437,18 @@ void isepic_io1_store(WORD addr, BYTE byte)
     }
 }
 
-BYTE isepic_io2_read(WORD addr)
+static BYTE isepic_io2_peek(WORD addr)
+{
+    BYTE retval = 0;
+
+    if (isepic_switch) {
+        retval = isepic_ram[(isepic_page * 256) + (addr & 0xff)];
+    }
+
+    return retval;
+}
+
+static BYTE isepic_io2_read(WORD addr)
 {
     BYTE retval = 0;
 
@@ -450,13 +464,19 @@ BYTE isepic_io2_read(WORD addr)
     return retval;
 }
 
-void isepic_io2_store(WORD addr, BYTE byte)
+static void isepic_io2_store(WORD addr, BYTE byte)
 {
     DBG(("io2 w %04x %02x (sw:%d)\n", addr, byte, isepic_switch));
 
     if (isepic_switch) {
         isepic_ram[(isepic_page * 256) + (addr & 0xff)] = byte;
     }
+}
+
+static int isepic_dump(void)
+{
+    mon_out("Page: %d, Switch: %d\n", isepic_page, isepic_switch);
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
