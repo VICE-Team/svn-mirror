@@ -375,11 +375,16 @@ static BYTE actionreplay2_io1_peek(WORD addr)
     return 0;
 }
 
+static BYTE actionreplay2_io2_peek(WORD addr)
+{
+    addr |= 0xdf00;
+    return roml_banks[(addr & 0x1fff) + (1 << 13)];
+}
+
 static BYTE actionreplay2_io2_read(WORD addr)
 {
     cap_charge();
-    addr |= 0xdf00;
-    return roml_banks[(addr & 0x1fff) + (1 << 13)];
+    return actionreplay2_io2_peek(addr);
 }
 
 static void actionreplay2_io2_store(WORD addr, BYTE value)
@@ -387,11 +392,6 @@ static void actionreplay2_io2_store(WORD addr, BYTE value)
     cap_charge();
 }
 
-static BYTE actionreplay2_io2_peek(WORD addr)
-{
-    addr |= 0xdf00;
-    return roml_banks[(addr & 0x1fff) + (1 << 13)];
-}
 
 /* ---------------------------------------------------------------------*/
 
