@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "delaep7x8.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -79,11 +80,16 @@
 */
 
 /* ---------------------------------------------------------------------*/
+
 static int currbank = 0;
+
+static BYTE regval;
 
 static void delaep7x8_io1_store(WORD addr, BYTE value)
 {
     BYTE bank, config, test_value;
+
+    regval = value;
 
     /* Each bit of the register set to low activates a
        respective EPROM, $FF switches off EXROM */
@@ -105,7 +111,15 @@ static void delaep7x8_io1_store(WORD addr, BYTE value)
 
 static BYTE delaep7x8_io1_peek(WORD addr)
 {
-    return currbank;
+    return regval;
+}
+
+static int delaep7x8_dump(void)
+{
+    mon_out("Currently active EPROM bank: %d, cart status: %s\n",
+            currbank,
+            (regval == 0xff) ? "Disabled" : "Enabled");
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -119,7 +133,7 @@ static io_source_t delaep7x8_device = {
     delaep7x8_io1_store,
     NULL,
     delaep7x8_io1_peek,
-    NULL, /* TODO: dump */
+    delaep7x8_dump,
     CARTRIDGE_DELA_EP7x8,
     0
 };

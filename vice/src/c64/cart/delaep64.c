@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "delaep64.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -93,9 +94,13 @@
 
 static int currbank = 0;
 
+static BYTE regval;
+
 static void delaep64_io1(BYTE value, unsigned int mode)
 {
     BYTE bank, config;
+
+    regval = value;
 
     /* D7 -> EXROM */
     config = (value & 0x80) ? 2 : 0;
@@ -127,12 +132,20 @@ static BYTE delaep64_io1_read(WORD addr)
 
 static BYTE delaep64_io1_peek(WORD addr)
 {
-    return currbank;
+    return regval;
 }
 
 void delaep64_io1_store(WORD addr, BYTE value)
 {
     delaep64_io1(value, CMODE_WRITE);
+}
+
+static int delaep64_dump(void)
+{
+    mon_out("Currently selected EPROM bank: %d, cart status: %s\n",
+            currbank,
+            (regval & 0x80) ? "Disabled" : "Enabled");
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -146,7 +159,7 @@ static io_source_t delaep64_device = {
     delaep64_io1_store,
     delaep64_io1_read,
     delaep64_io1_peek,
-    NULL, /* TODO: dump */
+    delaep64_dump,
     CARTRIDGE_DELA_EP64,
     0
 };
