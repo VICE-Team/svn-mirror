@@ -86,7 +86,7 @@ static io_source_t final_plus_io2_device = {
     1, /* read is always valid */
     final_plus_io2_store,
     final_plus_io2_read,
-    NULL, /* TODO: peek */
+    final_plus_io2_read,
     NULL, /* TODO: dump */
     CARTRIDGE_FINAL_PLUS,
     0
