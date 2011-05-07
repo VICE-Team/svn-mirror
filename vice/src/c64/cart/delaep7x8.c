@@ -172,6 +172,7 @@ static int delaep7x8_common_attach(void)
 
 int delaep7x8_bin_attach(const char *filename, BYTE *rawcart)
 {
+    memset(rawcart, 0xff, 0x10000);
     if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         if (util_file_load(filename, rawcart, 0xe000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
             if (util_file_load(filename, rawcart, 0xc000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {

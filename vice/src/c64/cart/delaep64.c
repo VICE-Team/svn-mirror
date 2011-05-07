@@ -177,9 +177,9 @@ void delaep64_config_init(void)
     delaep64_io1(0, CMODE_READ);
 }
 
-/* FIXME: should copy rawcart to roml_banks ! */
 void delaep64_config_setup(BYTE *rawcart)
 {
+    memcpy(roml_banks, rawcart, 0x2000 * 9);
     delaep64_io1(0, CMODE_READ);
 }
 
@@ -193,17 +193,31 @@ static int delaep64_common_attach(void)
     return 0;
 }
 
-/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
-/* FIXME: handle the various combinations / possible file lengths */
 int delaep64_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, roml_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+    memset(rawcart, 0xff, 0x12000);
+    if (util_file_load(filename, rawcart_banks, 0x12000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        if (util_file_load(filename, rawcart_banks, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            if (util_file_load(filename, rawcart_banks, 0xe000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                if (util_file_load(filename, rawcart_banks, 0xc000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                    if (util_file_load(filename, rawcart_banks, 0xa000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                        if (util_file_load(filename, rawcart_banks, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                            if (util_file_load(filename, rawcart_banks, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                                if (util_file_load(filename, rawcart_banks, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                                    if (util_file_load(filename, rawcart_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                                        return -1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     return delaep64_common_attach();
 }
 
-/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
 int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
@@ -216,7 +230,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
      * 0x02000-0x09fff: 1st 27256
      * 0x0a000-0x11fff: 2nd 27256
      */
-    memset(roml_banks, 0xff, 0x12000);
+    memset(rawcart, 0xff, 0x12000);
 
     if (fread(chipheader, 0x10, 1, fd) < 1) {
         return -1;
@@ -230,7 +244,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
         return -1;
     }
 
-    if (fread(roml_banks, 0x2000, 1, fd) < 1) {
+    if (fread(rawcart, 0x2000, 1, fd) < 1) {
         return -1;
     }
 
@@ -263,7 +277,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
         }
 
         /* put the images in the right place */
-        if (fread(roml_banks + 0x2000 + ((chip - 1) * rom_size), size , 1, fd) < 1) {
+        if (fread(rawcart + 0x2000 + ((chip - 1) * rom_size), size , 1, fd) < 1) {
             return -1;
         }
     }
