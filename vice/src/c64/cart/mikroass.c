@@ -72,8 +72,8 @@ static io_source_t mikroass_io1_device = {
     1, /* read is always valid */
     NULL,
     mikroass_io1_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    mikroass_io1_read,
+    NULL,
     CARTRIDGE_MIKRO_ASSEMBLER,
     0
 };
@@ -86,8 +86,8 @@ static io_source_t mikroass_io2_device = {
     1, /* read is always valid */
     NULL,
     mikroass_io2_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    mikroass_io2_read,
+    NULL,
     CARTRIDGE_MIKRO_ASSEMBLER,
     0
 };
