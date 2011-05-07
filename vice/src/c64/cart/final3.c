@@ -39,6 +39,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "final3.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -76,11 +77,13 @@
 */
 
 static int fc3_reg_enabled = 1;
+static BYTE regval = 0;
 
 /* some prototypes are needed */
 static BYTE final_v3_io1_read(WORD addr);
 static BYTE final_v3_io2_read(WORD addr);
 static void final_v3_io2_store(WORD addr, BYTE value);
+static int final_v3_dump(void);
 
 static io_source_t final3_io1_device = {
     CARTRIDGE_NAME_FINAL_III,
@@ -90,8 +93,8 @@ static io_source_t final3_io1_device = {
     1, /* read is always valid */
     NULL,
     final_v3_io1_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    final_v3_io1_read,
+    final_v3_dump,
     CARTRIDGE_FINAL_III,
     0
 };
@@ -104,8 +107,8 @@ static io_source_t final3_io2_device = {
     1, /* read is always valid */
     final_v3_io2_store,
     final_v3_io2_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    final_v3_io2_read,
+    final_v3_dump,
     CARTRIDGE_FINAL_III,
     0
 };
@@ -134,6 +137,8 @@ void final_v3_io2_store(WORD addr, BYTE value)
     unsigned int flags;
     BYTE mode;
 
+    regval = value;
+
     if ((fc3_reg_enabled) && ((addr & 0xff) == 0xff)) {
         flags = CMODE_WRITE;
 
@@ -146,6 +151,15 @@ void final_v3_io2_store(WORD addr, BYTE value)
         mode = ((value >> 3) & 2) | (((value >> 5) & 1) ^ 1) | ((value & 3) << CMODE_BANK_SHIFT);
         cart_config_changed_slotmain(mode, mode, flags);
     }
+}
+
+/* FIXME: Add EXROM, GAME and NMI lines to the dump */
+static int final_v3_dump(void)
+{
+    mon_out("Bank: %d, register status: %s\n",
+            regval & 3,
+            (regval & 0x80) ? "Hidden" : "Visible");
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
