@@ -117,7 +117,7 @@ static io_source_t epyxfastload_io1_device = {
     NULL,
     epyxfastload_io1_read,
     epyxfastload_io1_peek,
-    NULL, /* TODO: dump */
+    NULL,
     CARTRIDGE_EPYX_FASTLOAD,
     0
 };
@@ -130,8 +130,8 @@ static io_source_t epyxfastload_io2_device = {
     1, /* read is always valid */
     NULL,
     epyxfastload_io2_read,
-    NULL, /* peek */
-    NULL, /* TODO: dump */
+    epyxfastload_io2_read,
+    NULL,
     CARTRIDGE_EPYX_FASTLOAD,
     0
 };
