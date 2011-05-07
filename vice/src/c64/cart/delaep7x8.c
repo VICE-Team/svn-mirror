@@ -172,25 +172,18 @@ static int delaep7x8_common_attach(void)
 
 int delaep7x8_bin_attach(const char *filename, BYTE *rawcart)
 {
+    int size = 0x10000;
+
     memset(rawcart, 0xff, 0x10000);
-    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        if (util_file_load(filename, rawcart, 0xe000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-            if (util_file_load(filename, rawcart, 0xc000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                if (util_file_load(filename, rawcart, 0xa000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                    if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                        if (util_file_load(filename, rawcart, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                            if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                                if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {   
-                                    return -1;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+
+    while (size != 0) {
+        if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            size -= 0x2000;
+        } else {
+            return delaep7x8_common_attach();
         }
     }
-    return delaep7x8_common_attach();
+    return -1;
 }
 
 int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)

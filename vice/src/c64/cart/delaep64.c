@@ -94,7 +94,7 @@
 
 static int currbank = 0;
 
-static BYTE regval;
+static BYTE regval = 0;
 
 static void delaep64_io1(BYTE value, unsigned int mode)
 {
@@ -195,27 +195,17 @@ static int delaep64_common_attach(void)
 
 int delaep64_bin_attach(const char *filename, BYTE *rawcart)
 {
+    int size = 0x12000;
+ 
     memset(rawcart, 0xff, 0x12000);
-    if (util_file_load(filename, rawcart, 0x12000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-            if (util_file_load(filename, rawcart, 0xe000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                if (util_file_load(filename, rawcart, 0xc000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                    if (util_file_load(filename, rawcart, 0xa000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                        if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                            if (util_file_load(filename, rawcart, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                                if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                                    if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                                        return -1;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    while (size != 0) {
+        if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            size -= 0x2000;
+        } else {
+            return delaep64_common_attach();
         }
     }
-    return delaep64_common_attach();
+    return -1;
 }
 
 int delaep64_crt_attach(FILE *fd, BYTE *rawcart)

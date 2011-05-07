@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "delaep256.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -68,10 +69,13 @@
 /* ---------------------------------------------------------------------*/
 
 static int currbank = 0;
+static BYTE regval = 0;
 
 static void delaep256_io1_store(WORD addr, BYTE value)
 {
     BYTE bank, config;
+
+    regval = value;
 
     /* D7 switches off EXROM */
     config = (value & 0x80) ? 2 : 0;
@@ -90,7 +94,15 @@ static void delaep256_io1_store(WORD addr, BYTE value)
 
 static BYTE delaep256_io1_peek(WORD addr)
 {
-    return currbank;
+    return regval;
+}
+
+static int delaep256_dump(void)
+{
+    mon_out("Currently selected EPROM bank: %d, cart status: %s\n",
+    currbank,
+    (regval & 0x80) ? "Disabled" : "Enabled");
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -104,7 +116,7 @@ static io_source_t delaep256_device = {
     delaep256_io1_store,
     NULL,
     delaep256_io1_peek,
-    NULL, /* TODO: dump */
+    delaep256_dump,
     CARTRIDGE_DELA_EP256,
     0
 };
@@ -123,9 +135,9 @@ void delaep256_config_init(void)
     cart_romlbank_set_slotmain(0);
 }
 
-/* FIXME: should copy rawcart to roml_banks ! */
 void delaep256_config_setup(BYTE *rawcart)
 {
+    memcpy(roml_banks, rawcart, 0x2000 * 33);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     cart_romlbank_set_slotmain(0);
 }
@@ -140,24 +152,28 @@ static int delaep256_common_attach(void)
     return 0;
 }
 
-/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
-/* FIXME: handle the various combinations / possible file lengths */
 int delaep256_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, roml_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+    int size = 0x42000;
+ 
+    memset(rawcart, 0xff, 0x42000);
+    while (size != 0) {
+        if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            size -= 0x2000;
+        } else {
+            return delaep256_common_attach();
+        }
     }
-    return delaep256_common_attach();
+    return -1;
 }
 
-/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
 int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
     WORD size;
     BYTE chipheader[0x10];
 
-    memset(roml_banks, 0xff, 0x42000);
+    memset(rawcart, 0xff, 0x42000);
 
     while (1) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
@@ -175,7 +191,7 @@ int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
 
-        if (fread(roml_banks + (chip << 13), 0x2000, 1, fd) < 1) {
+        if (fread(rawcart + (chip << 13), 0x2000, 1, fd) < 1) {
             return -1;
         }
     }
