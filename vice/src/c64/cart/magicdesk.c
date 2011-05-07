@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartridge.h"
 #include "magicdesk.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -54,9 +55,11 @@
 */
 
 static int currbank = 0;
+static BYTE regval = 0;
 
 static void magicdesk_io1_store(WORD addr, BYTE value)
 {
+    regval = value;
     cart_romlbank_set_slotmain(value & 0x3f);
     cart_set_port_game_slotmain(0);
     if (value & 0x80) {
@@ -71,7 +74,13 @@ static void magicdesk_io1_store(WORD addr, BYTE value)
 
 static BYTE magicdesk_io1_peek(WORD addr)
 {
-    return currbank;
+    return regval;
+}
+
+static int magicdesk_dump(void)
+{
+    mon_out("Bank: %d\n", currbank);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -85,7 +94,7 @@ static io_source_t magicdesk_device = {
     magicdesk_io1_store,
     NULL,
     magicdesk_io1_peek,
-    NULL, /* TODO: dump */
+    magicdesk_dump,
     CARTRIDGE_MAGIC_DESK,
     0
 };
