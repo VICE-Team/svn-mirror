@@ -79,7 +79,7 @@ static io_source_t final1_io1_device = {
     final_v1_io1_store,
     final_v1_io1_read,
     final_v1_io1_peek,
-    NULL, /* TODO: dump */
+    NULL,
     CARTRIDGE_FINAL_I,
     0
 };
@@ -93,7 +93,7 @@ static io_source_t final1_io2_device = {
     final_v1_io2_store,
     final_v1_io2_read,
     final_v1_io2_peek,
-    NULL, /* TODO: dump */
+    NULL,
     CARTRIDGE_FINAL_I,
     0
 };
