@@ -63,7 +63,8 @@
       wether it is decoded fully or mirrored over the full IO1 range is unknown
       (the software only uses $de00).
       - any access to io1 toggles the flipflop, which means enabling or disabling
-        ROMH (exrom) (?)
+        the cartridge RAM, ie ROMH (exrom) (?)
+      - any access to io1 seems to disable write-access to the RAM
 
     the cartridge has a 3 way switch:
 
@@ -92,14 +93,13 @@
 
       - NMI logic and registers are disabled
       - RAM not mapped
+      - according to the documentation, the cartridge is disabled. however,
+        the NMI logic of the cart still seems to interfer somehow and makes
+        some program misbehave. the solution for this was to put an additional
+        switch at the NMI line of the cartridge port, which then allows to 
+        completely disable the cartridge for real.
 
-    - according to the documentation, the cartridge is disabled. however,
-      the NMI logic of the cart still seems to interfer somehow and makes
-      some program misbehave. the solution for this was to put an additional
-      switch at the NMI line of the cartridge port, which then allows to 
-      completely disable the cartridge for real.
-
-      this misbehavior is NOT emulated
+        this misbehavior is NOT emulated
 
     there also was an "upgrade" to the hardware at some point, called "EMS".
     this pretty much was no more no less than a freezer button :=)
@@ -189,6 +189,7 @@ NMI entry from expert 2.70:
 
 #ifdef DBGEXPERT
 #define DBG(x) printf x
+char *expert_mode[3]={"off","prg","on"};
 #else
 #define DBG(x)
 #endif
@@ -234,7 +235,7 @@ static io_source_t expert_io1_device = {
     NULL,
     0xde00, 0xde01, 0xff,
     0, /* read is never valid */
-    NULL,
+    expert_io1_store,
     expert_io1_read,
     expert_io1_peek,
     NULL, /* dump */
@@ -260,7 +261,7 @@ int expert_cart_enabled(void)
 static int expert_mode_changed(int mode, void *param)
 {
     cartmode = mode;
-    DBG(("EXPERT: expert_mode_changed cartmode: %d\n", cartmode));
+    DBG(("EXPERT: expert_mode_changed cartmode: %d (%s)\n", cartmode, expert_mode[cartmode]));
     if (expert_enabled) {
         switch (mode) {
             case EXPERT_MODE_PRG:
@@ -403,10 +404,21 @@ static int set_expert_filename(const char *name, void *param)
 
 /* ---------------------------------------------------------------------*/
 
+void expert_io1_store(WORD addr, BYTE value)
+{
+    DBG(("EXPERT: io1 wr %04x (%d)\n", addr, value));
+    if ((cartmode == EXPERT_MODE_ON) && (expert_register_enabled == 1)) {
+        cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
+        expert_ramh_enabled ^= 1;
+        expert_ram_writeable = 0; /* =0 ? */
+        DBG(("EXPERT: ON (regs: %d ramh: %d ramwrite: %d)\n",expert_register_enabled, expert_ramh_enabled, expert_ram_writeable));
+    }
+}
+
 BYTE expert_io1_read(WORD addr)
 {
     expert_io1_device.io_source_valid = 0;
-    /* DBG(("EXPERT: io1 rd %04x (%d)\n", addr, expert_ramh_enabled)); */
+    DBG(("EXPERT: io1 rd %04x (%d)\n", addr, expert_ramh_enabled));
     if ((cartmode == EXPERT_MODE_ON) && (expert_register_enabled == 1)) {
         cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
         expert_ramh_enabled ^= 1;
@@ -428,7 +440,7 @@ BYTE expert_roml_read(WORD addr)
 /*    DBG(("EXPERT: set expert_roml_read: %x\n", addr)); */
     if (cartmode == EXPERT_MODE_PRG) {
         return expert_ram[addr & 0x1fff];
-    } else if (cartmode == EXPERT_MODE_ON) {
+    } else if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
         return expert_ram[addr & 0x1fff];
     } else {
         return ram_read(addr);
@@ -441,7 +453,7 @@ void expert_roml_store(WORD addr, BYTE value)
     if (expert_ram_writeable) {
         if (cartmode == EXPERT_MODE_PRG) {
             expert_ram[addr & 0x1fff] = value;
-        } else if (cartmode == EXPERT_MODE_ON) {
+        } else if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
             expert_ram[addr & 0x1fff] = value;
         } else {
             /* mem_store_without_ultimax(addr, value); */
@@ -543,7 +555,7 @@ void expert_reset(void)
     } else if (cartmode == EXPERT_MODE_PRG) {
         expert_register_enabled = 1;
         expert_ram_writeable = 1;
-        expert_ramh_enabled = 0;
+        expert_ramh_enabled = 1;
         cart_config_changed_slot1(2, EXPERT_PRG, CMODE_READ);
     } else {
         expert_register_enabled = 0;
