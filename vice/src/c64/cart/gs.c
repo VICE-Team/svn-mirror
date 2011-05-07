@@ -36,6 +36,7 @@
 #include "c64io.h"
 #include "cartridge.h"
 #include "gs.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -52,9 +53,11 @@
 */
 
 static int currbank = 0;
+static BYTE regval = 0;
 
 static void gs_io1_store(WORD addr, BYTE value)
 {
+    regval = value;
     cart_romlbank_set_slotmain(addr & 0x3f);
     cart_set_port_exrom_slotmain(1);
     cart_set_port_game_slotmain(0);
@@ -70,7 +73,13 @@ static BYTE gs_io1_read(WORD addr)
 
 static BYTE gs_io1_peek(WORD addr)
 {
-    return currbank;
+    return regval;
+}
+
+static int gs_dump(void)
+{
+    mon_out("Bank: %d\n", currbank);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -84,7 +93,7 @@ static io_source_t gs_device = {
     gs_io1_store,
     gs_io1_read,
     gs_io1_peek,
-    NULL, /* TODO: dump */
+    gs_dump,
     CARTRIDGE_GS,
     0
 };
