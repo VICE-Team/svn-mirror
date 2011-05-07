@@ -88,6 +88,11 @@ static void gamekiller_io2_store(WORD addr, BYTE value)
     }
 }
 
+static BYTE gamekiller_peek(WORD addr)
+{
+    return 0;
+}
+
 static io_source_t gamekiller_io1_device = {
     CARTRIDGE_NAME_GAME_KILLER,
     IO_DETACH_CART,
@@ -96,8 +101,8 @@ static io_source_t gamekiller_io1_device = {
     0, /* read is never valid */
     gamekiller_io1_store,
     NULL,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    gamekiller_peek,
+    NULL,
     CARTRIDGE_GAME_KILLER,
     0
 };
@@ -110,8 +115,8 @@ static io_source_t gamekiller_io2_device = {
     0, /* read is never valid */
     gamekiller_io2_store,
     NULL,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    gamekiller_peek,
+    NULL,
     CARTRIDGE_GAME_KILLER,
     0
 };
