@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-02 08:21-0700\n"
-"PO-Revision-Date: 2011-04-25 18:39+0200\n"
+"PO-Revision-Date: 2011-05-07 12:35+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5143,9 +5143,8 @@ msgid "Error saving EasyFlash crt file"
 msgstr "Fehler beim Speichern der EasyFlash CRT Datei"
 
 #: src/arch/win32/res.rc.po.c:1174
-#, fuzzy
 msgid "No EasyFlash cartridge inserted"
-msgstr "Easyflash Image (raw) einlegen"
+msgstr "Kein Easyflash Image eingelegt"
 
 #: src/arch/win32/res.rc.po.c:1175 src/arch/win32/res.rc.po.c:1484
 #: src/arch/amigaos/intl_text.c.po.c:2059
@@ -5168,7 +5167,7 @@ msgstr "IEC Gerät aktivieren"
 #: src/arch/win32/res.rc.po.c:1182 src/translate_text.c.po.c:2392
 #: src/translate_text.c.po.c:2408
 msgid "Directory"
-msgstr "Directory"
+msgstr "Verzeichnis"
 
 #: src/arch/win32/res.rc.po.c:1190
 msgid "Read P00 files"
