@@ -83,7 +83,7 @@
 
 static int currbank = 0;
 
-static BYTE regval;
+static BYTE regval = 0xfe;
 
 static void delaep7x8_io1_store(WORD addr, BYTE value)
 {
@@ -152,14 +152,15 @@ void delaep7x8_config_init(void)
     cart_romlbank_set_slotmain(0);
 }
 
-/* FIXME: should copy rawcart to roml_banks ! */
 void delaep7x8_config_setup(BYTE *rawcart)
 {
+    memcpy(roml_banks, rawcart, 0x2000 * 8);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
     cart_romlbank_set_slotmain(0);
 }
 
 /* ---------------------------------------------------------------------*/
+
 static int delaep7x8_common_attach(void)
 {
     if (c64export_add(&export_res) < 0) {
@@ -169,24 +170,35 @@ static int delaep7x8_common_attach(void)
     return 0;
 }
 
-/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
-/* FIXME: handle the various combinations / possible file lengths */
 int delaep7x8_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, roml_banks, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        return -1;
+    if (util_file_load(filename, rawcart, 0x10000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+        if (util_file_load(filename, rawcart, 0xe000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+            if (util_file_load(filename, rawcart, 0xc000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                if (util_file_load(filename, rawcart, 0xa000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                    if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                        if (util_file_load(filename, rawcart, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                            if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                                if (util_file_load(filename, rawcart, 0x2000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {   
+                                    return -1;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     return delaep7x8_common_attach();
 }
 
-/* FIXME: this function should setup rawcart instead of copying to roml_banks ! */
 int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
 {
     WORD chip;
     WORD size;
     BYTE chipheader[0x10];
 
-    memset(roml_banks, 0xff, 0x10000);
+    memset(rawcart, 0xff, 0x10000);
 
     while (1) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
@@ -204,7 +216,7 @@ int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
 
-        if (fread(roml_banks + (chip<<13), 0x2000, 1, fd)<1) {
+        if (fread(rawcart + (chip << 13), 0x2000, 1, fd) < 1) {
             return -1;
         }
     }
