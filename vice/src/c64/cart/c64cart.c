@@ -225,7 +225,6 @@ static int set_cartridge_reset(int val, void *param)
     if (c64cartridge_reset != val) {
         DBG(("c64cartridge_reset changed: %d\n", val));
         c64cartridge_reset = val; /* resource value modified */
-        return try_cartridge_attach(cartridge_type, cartridge_file);
     }
     return 0;
 }
