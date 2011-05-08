@@ -33,75 +33,131 @@
 # 'keysym -4 1' CAPS (ASCII/DIN) key
 #
 
+# Positional Mapping, US Layout, VIC20, X11
+
+#       +-----+-----+-----+-----+-----+-----+-----+-----+
+#       |Bit 0|Bit 1|Bit 2|Bit 3|Bit 4|Bit 5|Bit 6|Bit 7|
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 0| 1 ! |A_LFT| CTRL| R/S |SPACE|  C= |  Q  | 2 " |
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 1| 3 # |  W  |  A  | S_L |  Z  |  S  |  E  | 4 $ |
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 2| 5 % |  R  |  D  |  X  |  C  |  F  |  T  | 6 & |
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 3| 7 ' |  Y  |  G  |  V  |  B  |  H  |  U  | 8 ( |
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 4| 9 ) |  I  |  J  |  N  |  M  |  K  |  O  |  0  |
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 5|  +  |  P  |  L  | , < | . > | : [ |  @  |  -  |
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 6|POUND|  *  | ; ] | / ? | S_R |  =  | A_UP| HOME|
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+# |Bit 7| DEL |Retrn|C_L/R|C_U/D|  F1 |  F3 |  F5 |  F7 |
+# +-----+-----+-----+-----+-----+-----+-----+-----+-----+
+
 !CLEAR
 !LSHIFT 1 3
 !RSHIFT 6 4
 !VSHIFT RSHIFT
 
+#####################
+# |Bit 0| 1 ! |A_LFT| CTRL| R/S |SPACE|  C= |  Q  | 2 " |
+
+exclam          0 0 8
+# grave / tilde -> arrow left
+asciitilde      0 1 8
+grave           0 1 8
+End             0 1 8
 # Tab = CTRL
-Tab 0 2 8
+Tab             0 2 8
 # Shift + Tab = CTRL
-ISO_Left_Tab 0 2 8
-
+ISO_Left_Tab    0 2 8
+Escape          0 3 8
+space           0 4 8
 # Control_L = CBM
-Control_L 0 5 8
+Control_L       0 5 8
+at              0 7 8
 
-BackSpace 7 0 8
-Delete 7 0 8
-Down 7 7 8
-Escape 0 3 8
-F1 7 4 8
-F2 7 4 1
-F3 7 5 8
-F4 7 5 1
-F5 7 6 8
-F6 7 6 1
-F7 7 7 8
-F8 7 7 1
-Home 6 7 8
-Insert 6 0 8
-Left 7 2 1
-Return 7 1 8
-Right 7 2 8
-Shift_L 1 3 2
-Shift_R 6 4 4
-Up 7 7 1
+#####################
+# |Bit 1| 3 # |  W  |  A  | S_L |  Z  |  S  |  E  | 4 $ |
 
-ampersand 3 0 8
-apostrophe 6 2 8
-asciicircum 2 7 8
-asciitilde 0 1 8
-asterisk 3 7 8
-at 0 7 8
-backslash 6 5 8
-bar 6 5 8
-braceleft 5 6 8
-braceright 6 1 8
-bracketleft 5 6 8
-bracketright 6 1 8
-colon 5 5 8
-comma 5 3 8
-dollar 1 7 8
-equal 5 7 8
-exclam 0 0 8
-grave 0 1 8
-greater 5 4 1
-greater 5 4 8
-less 5 3 8
-minus 5 0 8
-numbersign 1 0 8
-parenleft 4 0 8
-parenright 4 7 8
-percent 2 0 8
-period 5 4 8
-plus 5 7 8
-question 6 3 8
-quotedbl 6 2 8
-semicolon 5 5 8
-slash 6 3 8
-space 0 4 8
-sterling 6 0 8
-underscore 5 0 8
+numbersign      1 0 8
+Shift_L         1 3 2
+dollar          1 7 8
+
+#####################
+# |Bit 2| 5 % |  R  |  D  |  X  |  C  |  F  |  T  | 6 & |
+
+percent         2 0 8
+asciicircum     2 7 8
+
+#####################
+# |Bit 3| 7 ' |  Y  |  G  |  V  |  B  |  H  |  U  | 8 ( |
+
+ampersand       3 0 8
+asterisk        3 7 8
+
+#####################
+# |Bit 4| 9 ) |  I  |  J  |  N  |  M  |  K  |  O  |  0  |
+
+parenleft       4 0 8
+parenright      4 7 8
+
+#####################
+# |Bit 5|  +  |  P  |  L  | , < | . > | : [ |  @  |  -  |
+
+minus           5 0 8
+underscore      5 0 8
+comma           5 3 8
+less            5 3 8
+period          5 4 8
+greater         5 4 8
+colon           5 5 8
+semicolon       5 5 8
+braceleft       5 6 8
+bracketleft     5 6 8
+plus            5 7 8
+equal           5 7 8
+
+#####################
+# |Bit 6|POUND|  *  | ; ] | / ? | S_R |  =  | A_UP| HOME|
+
+sterling        6 0 8
+Insert          6 0 8
+braceright      6 1 8
+bracketright    6 1 8
+apostrophe      6 2 8
+quotedbl        6 2 8
+question        6 3 8
+slash           6 3 8
+Shift_R         6 4 4
+backslash       6 5 8
+bar             6 5 8
+# Page down -> Arrow Up
+Page_Down       6 6 8
+Home            6 7 8
+
+#####################
+# |Bit 7| DEL |Retrn|C_L/R|C_U/D|  F1 |  F3 |  F5 |  F7 |
+
+BackSpace       7 0 8
+Delete          7 0 8
+Return          7 1 8
+Right           7 2 8
+Left            7 2 1
+Down            7 3 8
+Up              7 3 1
+F1              7 4 8
+F2              7 4 1
+F3              7 5 8
+F4              7 5 1
+F5              7 6 8
+F6              7 6 1
+F7              7 7 8
+F8              7 7 1
+
+#####################
+# letters and numbers
 
 0 4 7 8
 1 0 0 8
@@ -165,20 +221,6 @@ w 1 1 8
 x 2 3 8
 y 3 1 8
 z 1 4 8
-
-#
-# Joystick 1
-#
-KP_0 -1 0
-KP_1 -1 1
-KP_2 -1 2
-KP_3 -1 3
-KP_4 -1 4
-KP_5 -1 5
-KP_6 -1 6
-KP_7 -1 7
-KP_8 -1 8
-KP_9 -1 9
 
 # Restore key mappings
 Page_Up -3 0
