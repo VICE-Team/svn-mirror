@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "prophet64.h"
 #include "snapshot.h"
 #include "types.h"
@@ -57,8 +58,13 @@
 
 /* ---------------------------------------------------------------------*/
 
+static int currbank = 0;
+static BYTE regval = 0;
+
 static void p64_io2_store(WORD addr, BYTE value)
 {
+    regval = value;
+
     /* confirmation needed: register mirrored in entire io2 ? */
     if ((value >> 5) & 1) {
         /* cartridge off */
@@ -67,7 +73,19 @@ static void p64_io2_store(WORD addr, BYTE value)
         /* cartridge on */
         cart_config_changed_slotmain(0, 0, CMODE_READ);
     }
+    currbank = value & 0x1f
     cart_romlbank_set_slotmain(value & 0x1f);
+}
+
+static BYTE p64_io2_peek(WORD addr)
+{
+    return regval;
+}
+
+static int p64_dump(void)
+{
+    mon_out("Bank: %d\n", currbank);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -80,8 +98,8 @@ static io_source_t p64_device = {
     0, /* read is never valid */
     p64_io2_store,
     NULL,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    p64_io2_peek,
+    p64_dump,
     CARTRIDGE_P64,
     0
 };

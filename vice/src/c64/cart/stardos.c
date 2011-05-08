@@ -184,7 +184,7 @@ static void stardos_io1_store(WORD addr, BYTE value)
     cap_charge();
 }
 
-static BYTE stardos_io1_peek(WORD addr)
+static BYTE stardos_io_peek(WORD addr)
 {
     return roml_enable;
 }
@@ -200,11 +200,6 @@ static void stardos_io2_store(WORD addr, BYTE value)
     cap_discharge();
 }
 
-static BYTE stardos_io2_peek(WORD addr)
-{
-    return roml_enable;
-}
-
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stardos_io1_device = {
@@ -216,7 +211,7 @@ static io_source_t stardos_io1_device = {
     0, /* read is never valid */
     stardos_io1_store,
     stardos_io1_read,
-    stardos_io1_peek,
+    stardos_io_peek,
     NULL,
     CARTRIDGE_STARDOS,
     0
@@ -231,7 +226,7 @@ static io_source_t stardos_io2_device = {
     0, /* read is never valid */
     stardos_io2_store,
     stardos_io2_read,
-    stardos_io2_peek,
+    stardos_io_peek,
     NULL,
     CARTRIDGE_STARDOS,
     0

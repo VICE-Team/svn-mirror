@@ -36,6 +36,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "ocean.h"
 #include "snapshot.h"
 #include "types.h"
@@ -62,8 +63,11 @@
 
 static int currbank = 0;
 
+static BYTE regval = 0;
+
 static void ocean_io1_store(WORD addr, BYTE value)
 {
+    regval = value;
     currbank = value & 0x3f;
     cart_romhbank_set_slotmain(currbank);
     cart_romlbank_set_slotmain(currbank);
@@ -76,8 +80,15 @@ static void ocean_io1_store(WORD addr, BYTE value)
 
 static BYTE ocean_io1_peek(WORD addr)
 {
-    return currbank;
+    return regval;
 }
+
+static int ocean_dump(void)
+{
+    mon_out("Bank: %d\n", currbank);
+    return 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t ocean_device = {
@@ -89,7 +100,7 @@ static io_source_t ocean_device = {
     ocean_io1_store,
     NULL,
     ocean_io1_peek,
-    NULL, /* dump */
+    ocean_dump,
     CARTRIDGE_OCEAN,
     0
 };

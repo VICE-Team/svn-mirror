@@ -1,5 +1,5 @@
 /*
- * snapshot64.c - Cartridge handling, Super Snapshot cart.
+ * snapshot64.c - Cartridge handling, Snapshot64 cart.
  *
  * Written by
  *  Groepaz <groepaz@gmx.net>

@@ -56,17 +56,21 @@
 
 static int currbank = 0;
 
+static int ross_is_32k = 0;
+
 static BYTE ross_io1_read(WORD addr)
 {
-    cart_romhbank_set_slotmain(1);
-    cart_romlbank_set_slotmain(1);
-    currbank = 1;
+    if (ross_is_32k) {
+        cart_romhbank_set_slotmain(1);
+        cart_romlbank_set_slotmain(1);
+        currbank = 1;
+    }
     return 0;
 }
 
-static BYTE ross_io1_peek(WORD addr)
+static BYTE ross_io_peek(WORD addr)
 {
-    return currbank;
+    return 0;
 }
 
 static BYTE ross_io2_read(WORD addr)
@@ -77,8 +81,11 @@ static BYTE ross_io2_read(WORD addr)
     return 0;
 }
 
-static BYTE ross_io2_peek(WORD addr)
+static int ross_dump(void)
 {
+    mon_out("Size: %s, bank: %d\n",
+            (ross_is_32k) ? "32Kb" : "16Kb",
+             currbank);
     return 0;
 }
 
@@ -92,8 +99,8 @@ static io_source_t ross_io1_device = {
     0, /* read is never valid */
     NULL,
     ross_io1_read,
-    ross_io1_peek,
-    NULL, /* TODO: dump */
+    ross_io_peek,
+    ross_dump,
     CARTRIDGE_ROSS,
     0
 };
@@ -106,8 +113,8 @@ static io_source_t ross_io2_device = {
     0, /* read is never valid */
     NULL,
     ross_io2_read,
-    ross_io2_peek,
-    NULL, /* TODO: dump */
+    ross_io_peek,
+    ross_dump,
     CARTRIDGE_ROSS,
     0
 };
@@ -133,6 +140,7 @@ void ross_config_setup(BYTE *rawcart)
     memcpy(&roml_banks[0x2000], &rawcart[0x4000], 0x2000);
     memcpy(&romh_banks[0x2000], &rawcart[0x6000], 0x2000);
     cart_config_changed_slotmain(0, 0, CMODE_READ);
+    currbank = 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -153,7 +161,9 @@ int ross_bin_attach(const char *filename, BYTE *rawcart)
         if (util_file_load(filename, rawcart, 0x4000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
             return -1;
         }
-        memcpy(&rawcart[0x4000], &rawcart[0x0000], 0x4000);
+        ross_is_32k = 0;
+    } else {
+        ross_is_32k = 1;
     }
     return ross_common_attach();
 }
@@ -161,7 +171,7 @@ int ross_bin_attach(const char *filename, BYTE *rawcart)
 int ross_crt_attach(FILE *fd, BYTE *rawcart)
 {
     BYTE chipheader[0x10];
-    int amount=0;
+    int amount = 0;
 
     while (1) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
@@ -180,7 +190,9 @@ int ross_crt_attach(FILE *fd, BYTE *rawcart)
     }
 
     if (amount == 1) {
-        memcpy(&rawcart[0x4000], &rawcart[0x0000], 0x4000);
+        ross_is_32k = 0;
+    } else {
+        ross_is_32k = 1;
     }
     return ross_common_attach();
 }
