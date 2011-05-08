@@ -73,7 +73,7 @@ static void p64_io2_store(WORD addr, BYTE value)
         /* cartridge on */
         cart_config_changed_slotmain(0, 0, CMODE_READ);
     }
-    currbank = value & 0x1f
+    currbank = value & 0x1f;
     cart_romlbank_set_slotmain(value & 0x1f);
 }
 

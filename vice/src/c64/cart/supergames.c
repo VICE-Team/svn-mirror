@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "supergames.h"
 #include "types.h"
@@ -60,8 +61,11 @@
 
 static int currbank = 0;
 
+static BYTE regval = 0;
+
 static void supergames_io2_store(WORD addr, BYTE value)
 {
+    regval = value;
     cart_romhbank_set_slotmain(value & 3);
     cart_romlbank_set_slotmain(value & 3);
     currbank = value & 3;
@@ -82,7 +86,13 @@ static void supergames_io2_store(WORD addr, BYTE value)
 
 static BYTE supergames_io2_peek(WORD addr)
 {
-    return currbank;
+    return regval;
+}
+
+static int supergames_dump(void)
+{
+    mon_out("Bank: %d\n", currbank);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -96,7 +106,7 @@ static io_source_t supergames_device = {
     supergames_io2_store,
     NULL,
     supergames_io2_peek,
-    NULL, /* TODO: dump */
+    supergames_dump,
     CARTRIDGE_SUPER_GAMES,
     0
 };

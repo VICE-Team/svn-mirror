@@ -37,6 +37,7 @@
 #include "c64io.h"
 #include "c64mem.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "ross.h"
 #include "snapshot.h"
 #include "types.h"
