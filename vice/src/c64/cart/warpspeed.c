@@ -71,8 +71,8 @@ static io_source_t warpspeed_io1_device = {
     1, /* read is always valid */
     warpspeed_io1_store,
     warpspeed_io1_read,
-    NULL, /* no side effects when reading */
-    NULL, /* TODO: dump */
+    warpspeed_io1_read,
+    NULL,
     CARTRIDGE_WARPSPEED,
     0
 };
@@ -85,8 +85,8 @@ static io_source_t warpspeed_io2_device = {
     1, /* read is always valid */
     warpspeed_io2_store,
     warpspeed_io2_read,
-    NULL, /* no side effects when reading */
-    NULL, /* TODO: dump */
+    warpspeed_io2_read,
+    NULL,
     CARTRIDGE_WARPSPEED,
     0
 };
