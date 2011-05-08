@@ -36,6 +36,7 @@
 #include "c64export.h"
 #include "c64io.h"
 #include "cartridge.h"
+#include "monitor.h"
 #include "snapshot.h"
 #include "supersnapshot.h"
 #include "types.h"
@@ -69,7 +70,9 @@ static int ram_bank = 0; /* Version 5 supports 4 - 8Kb RAM banks. */
 
 /* some prototypes are needed */
 static BYTE supersnapshot_v5_io1_read(WORD addr);
+static BYTE supersnapshot_v5_io1_peek(WORD addr);
 static void supersnapshot_v5_io1_store(WORD addr, BYTE value);
+static int supersnapshot_v5_dump(void);
 
 static io_source_t ss5_device = {
     CARTRIDGE_NAME_SUPER_SNAPSHOT_V5,
@@ -79,8 +82,8 @@ static io_source_t ss5_device = {
     0,
     supersnapshot_v5_io1_store,
     supersnapshot_v5_io1_read,
-    NULL, /* TODO: peek */
-    NULL, /* TODO: dump */
+    supersnapshot_v5_io1_peek,
+    supersnapshot_v5_dump,
     CARTRIDGE_SUPER_SNAPSHOT_V5,
     0
 };
@@ -93,9 +96,12 @@ static const c64export_resource_t export_res_v5 = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE supersnapshot_v5_io1_read(WORD addr)
+static int currbank = 0;
+
+static BYTE supersnapshot_v5_io1_read(WORD addr)
 {
     ss5_device.io_source_valid = 1;
+
     switch (roml_bank) {
         case 0:
             return roml_banks[0x1e00 + (addr & 0xff)];
@@ -106,14 +112,31 @@ BYTE supersnapshot_v5_io1_read(WORD addr)
         case 3:
             return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
     }
+
     ss5_device.io_source_valid = 0;
+
     return 0;
 }
 
-void supersnapshot_v5_io1_store(WORD addr, BYTE value)
+static BYTE supersnapshot_v5_io1_peek(WORD addr)
+{
+    switch (roml_bank) {
+        case 0:
+            return roml_banks[0x1e00 + (addr & 0xff)];
+        case 1:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x2000];
+        case 2:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x4000];
+        case 3:
+            return roml_banks[0x1e00 + (addr & 0xff) + 0x6000];
+    }
+    return 0;
+}
+
+static void supersnapshot_v5_io1_store(WORD addr, BYTE value)
 {
     if (((addr & 0xff) == 0) || ((addr & 0xff) == 1)) {
-        int banknr, mode = CMODE_WRITE;
+        int mode = CMODE_WRITE;
 
         if ((value & 1) == 1) {
             mode |= CMODE_RELEASE_FREEZE;
@@ -123,21 +146,29 @@ void supersnapshot_v5_io1_store(WORD addr, BYTE value)
         romconfig = ((value & 1) ^ 1);
 
         /* Calc RAM/ROM bank nr. */
-        banknr = ((value >> 2) & 0x1) | ((value >> 3) & 0x2);
+        currbank = ((value >> 2) & 0x1) | ((value >> 3) & 0x2);
 
         /* ROM ~OE set? */
         if (((value >> 3) & 1) == 0) {
-            romconfig |= (banknr << CMODE_BANK_SHIFT); /* Select ROM banknr. */
+            romconfig |= (currbank << CMODE_BANK_SHIFT); /* Select ROM banknr. */
         }
 
         /* RAM ~OE set? */
         if (((value >> 1) & 1) == 0) {
-            ram_bank = banknr;          /* Select RAM banknr. */
+            ram_bank = currbank;          /* Select RAM banknr. */
             mode |= CMODE_EXPORT_RAM;   /* export_ram */
             romconfig |= (1 << 1);      /* exrom */
         }
         cart_config_changed_slotmain(1, romconfig, mode);
     }
+}
+
+static int supersnapshot_v5_dump(void)
+{
+    mon_out("Bank: %d, ROM/RAM: %s\n",
+            currbank,
+            (export_ram) ? "RAM" : "ROM");
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
