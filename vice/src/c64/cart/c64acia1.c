@@ -53,6 +53,7 @@ extern int acia1_set_mode(int mode);
 
 #define myacia_set_mode(x) acia1_set_mode(x)
 
+#include "machine.h"
 #include "maincpu.h"
 #include "cartridge.h"
 #include "c64export.h"
@@ -68,6 +69,9 @@ extern int acia1_set_mode(int mode);
 #ifdef HAVE_RS232
 /* Flag: Do we enable the ACIA RS232 interface emulation?  */
 static int acia_enabled = 0;
+
+/* Base address of the ACIA RS232 interface */
+static int acia_base = 0xde00;
 #endif
 
 /* ------------------------------------------------------------------------- */
@@ -125,6 +129,35 @@ static void acia1_disable(void)
     acia_list_item = NULL;
 }
 
+static int set_io_source_base(int address)
+{
+    switch (address) {
+        case 0xde00:
+        case 0xdf00:
+            acia_base = address;
+            acia_device.start_address = acia_base;
+            if (acia_device.name == CARTRIDGE_NAME_TURBO232) {
+                acia_device.end_address = acia_base + 7;
+            } else {
+                acia_device.end_address = acia_base + 3;
+            }
+            return 0;
+        case 0xd700:
+            if (machine_class != VICE_MACHINE_C128) {
+                return -1;
+            }
+            acia_base = address;
+            acia_device.start_address = acia_base;
+            if (acia_device.name == CARTRIDGE_NAME_TURBO232) {
+                acia_device.end_address = acia_base + 7;
+            } else {
+                acia_device.end_address = acia_base + 3;
+            }
+            return 0;
+    }
+    return -1;
+}
+
 static int set_acia_enabled(int val, void *param)
 {
     if ((val) && (!acia_enabled)) {
@@ -139,26 +172,43 @@ static int set_acia_enabled(int val, void *param)
     return 0;
 }
 
+static int set_acia_base(int val, void *param)
+{
+    int temp;
+
+    if (acia_enabled) {
+        set_acia_enabled(0, NULL);
+        temp = set_io_source_base(val);
+        set_acia_enabled(1, NULL);
+    } else {
+        temp = set_io_source_base(val);
+    }
+    return temp;
+}
+
 static void set_io_source_mode(int mode)
 {
     switch (mode) {
         default:
         case ACIA_MODE_NORMAL:
             acia_device.name = CARTRIDGE_NAME_ACIA;
-            acia_device.end_address = 0xde03;
-            acia_device.address_mask = 0x03;
+            acia_device.start_address = acia_base;
+            acia_device.end_address = acia_base + 3;
+            acia_device.address_mask = 3;
             acia_device.cart_id = CARTRIDGE_TURBO232;
             break;
         case ACIA_MODE_SWIFTLINK:
             acia_device.name = CARTRIDGE_NAME_SWIFTLINK;
-            acia_device.end_address = 0xde03;
-            acia_device.address_mask = 0x03;
+            acia_device.start_address = acia_base;
+            acia_device.end_address = acia_base + 3;
+            acia_device.address_mask = 3;
             acia_device.cart_id = CARTRIDGE_SWIFTLINK;
             break;
         case ACIA_MODE_TURBO232:
             acia_device.name = CARTRIDGE_NAME_TURBO232;
-            acia_device.end_address = 0xde07;
-            acia_device.address_mask = 0x07;
+            acia_device.start_address = acia_base;
+            acia_device.end_address = acia_base + 7;
+            acia_device.address_mask = 7;
             acia_device.cart_id = CARTRIDGE_TURBO232;
             break;
     }
@@ -183,6 +233,8 @@ int acia1_set_mode(int mode)
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &acia_enabled, set_acia_enabled, NULL },
+    { "Acia1Base", 0, RES_EVENT_STRICT, (resource_value_t)0xde00,
+      &acia_base, set_acia_base, NULL },
     { NULL }
 };
 #endif
