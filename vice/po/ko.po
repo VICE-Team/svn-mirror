@@ -6293,19 +6293,19 @@ msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:496
 msgid "Cart 1"
-msgstr ""
+msgstr "카트리지1"
 
 #: src/arch/win32/rescbm2.rc.po.c:497
 msgid "Cart 2"
-msgstr ""
+msgstr "카트리지2"
 
 #: src/arch/win32/rescbm2.rc.po.c:498
 msgid "Cart 4"
-msgstr ""
+msgstr "카트리지4"
 
 #: src/arch/win32/rescbm2.rc.po.c:499
 msgid "Cart 6"
-msgstr ""
+msgstr "카트리지6"
 
 #: src/arch/win32/rescbm2.rc.po.c:500 src/arch/win32/respet.rc.po.c:546
 msgid "Machine defaults"
@@ -6317,19 +6317,19 @@ msgstr ""
 
 #: src/arch/win32/rescbm2.rc.po.c:502
 msgid "128 kByte"
-msgstr ""
+msgstr "128 kbyte"
 
 #: src/arch/win32/rescbm2.rc.po.c:503
 msgid "256 kByte"
-msgstr ""
+msgstr "256 kbyte"
 
 #: src/arch/win32/rescbm2.rc.po.c:504
 msgid "512 kByte"
-msgstr ""
+msgstr "512 kbyte"
 
 #: src/arch/win32/rescbm2.rc.po.c:505
 msgid "1024 kByte"
-msgstr ""
+msgstr "1024 kbyte"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:11888
 msgid "Enable the DigiMAX cartridge"
@@ -6414,7 +6414,7 @@ msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:80
 msgid "Geometry"
-msgstr ""
+msgstr "지오메트리"
 
 #: src/arch/win32/reside64.rc.po.c:85
 #, c-format
@@ -6498,7 +6498,7 @@ msgstr ""
 #: src/arch/win32/resmmcreplay.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:6077
 msgid "read/write"
-msgstr ""
+msgstr "읽기/쓰기"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:53
 msgid "Save MMC Replay EEPROM when changed"
@@ -6506,7 +6506,7 @@ msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:540
 msgid "Input/Output"
-msgstr ""
+msgstr "입력/출력"
 
 #: src/arch/win32/respet.rc.po.c:541 src/arch/win32/respet.rc.po.c:564
 #: src/arch/amigaos/intl_text.c.po.c:2007
@@ -6516,23 +6516,23 @@ msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:542
 msgid "Editor"
-msgstr ""
+msgstr "에디터"
 
 #: src/arch/win32/respet.rc.po.c:543
 msgid "ROM 9"
-msgstr ""
+msgstr "롬9"
 
 #: src/arch/win32/respet.rc.po.c:544
 msgid "ROM A"
-msgstr ""
+msgstr "롬A"
 
 #: src/arch/win32/respet.rc.po.c:545
 msgid "ROM B"
-msgstr ""
+msgstr "롬B"
 
 #: src/arch/win32/respet.rc.po.c:548
 msgid "Video"
-msgstr ""
+msgstr "비디오"
 
 #: src/arch/win32/respet.rc.po.c:552
 msgid "IO Size"
@@ -6540,11 +6540,11 @@ msgstr ""
 
 #: src/arch/win32/respet.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:8079
 msgid "256 Byte"
-msgstr ""
+msgstr "256 byte"
 
 #: src/arch/win32/respet.rc.po.c:554 src/arch/amigaos/intl_text.c.po.c:8092
 msgid "2 kByte"
-msgstr ""
+msgstr "2 kbyte"
 
 #: src/arch/win32/respet.rc.po.c:559
 msgid "IO Settings"
@@ -6636,39 +6636,39 @@ msgstr ""
 
 #: src/arch/win32/resplus4.rc.po.c:443
 msgid "3+1 Lo"
-msgstr ""
+msgstr "3+1 Lo"
 
 #: src/arch/win32/resplus4.rc.po.c:444
 msgid "3+1 Hi"
-msgstr ""
+msgstr "3+1 Hi"
 
 #: src/arch/win32/resplus4.rc.po.c:446
 msgid "16 kByte"
-msgstr ""
+msgstr "16 kbyte"
 
 #: src/arch/win32/resplus4.rc.po.c:447
 msgid "32 kByte"
-msgstr ""
+msgstr "32 kbyte"
 
 #: src/arch/win32/resplus4.rc.po.c:448
 msgid "64 kByte"
-msgstr ""
+msgstr "64 kbyte"
 
 #: src/arch/win32/resplus4.rc.po.c:449
 msgid "256 kByte (CSORY)"
-msgstr ""
+msgstr "256 kbyte (CSORY)"
 
 #: src/arch/win32/resplus4.rc.po.c:450
 msgid "256 kByte (HANNES)"
-msgstr ""
+msgstr "256 kbyte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:451
 msgid "1024 kByte (HANNES)"
-msgstr ""
+msgstr "1024 kbyte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:452
 msgid "4096 kByte (HANNES)"
-msgstr ""
+msgstr "4096 kbyte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:512
 msgid "C1 low  image"
@@ -6766,7 +6766,7 @@ msgstr ""
 
 #: src/arch/win32/ressid.rc.po.c:65 src/arch/win32/ressiddtv.rc.po.c:54
 msgid "General"
-msgstr ""
+msgstr "제너럴"
 
 #: src/arch/win32/ressid.rc.po.c:71 src/arch/amigaos/intl_text.c.po.c:6675
 msgid "SID Stereo"
@@ -6824,7 +6824,7 @@ msgstr ""
 
 #: src/arch/win32/restfe.rc.po.c:37
 msgid "Ethernet"
-msgstr ""
+msgstr "이더넷"
 
 #: src/arch/win32/resv364speech.rc.po.c:25 src/translate_text.c.po.c:11616
 msgid "Enable the v364 speech add-on"
@@ -7024,7 +7024,7 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:1916
 msgid "Drean"
-msgstr ""
+msgstr "드린"
 
 #: src/arch/amigaos/intl_text.c.po.c:1929
 msgid "Custom C64 model"
@@ -7117,23 +7117,23 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:3762
 msgid "Yes|No"
-msgstr ""
+msgstr "네|아니요"
 
 #: src/arch/amigaos/intl_text.c.po.c:4139
 msgid "Parent"
-msgstr ""
+msgstr "부모"
 
 #: src/arch/amigaos/intl_text.c.po.c:4256
 msgid "Disabled"
-msgstr ""
+msgstr "작동하지않음"
 
 #: src/arch/amigaos/intl_text.c.po.c:4269
 msgid "Enabled"
-msgstr ""
+msgstr "작동"
 
 #: src/arch/amigaos/intl_text.c.po.c:4347
 msgid "Filesystem"
-msgstr ""
+msgstr "파일시스템"
 
 #: src/arch/amigaos/intl_text.c.po.c:4360
 msgid "Raw"
