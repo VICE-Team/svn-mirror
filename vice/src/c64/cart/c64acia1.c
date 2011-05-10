@@ -136,7 +136,7 @@ static int set_io_source_base(int address)
         case 0xdf00:
             acia_base = address;
             acia_device.start_address = acia_base;
-            if (acia_device.name == CARTRIDGE_NAME_TURBO232) {
+            if (acia_device.cart_id == CARTRIDGE_TURBO232) {
                 acia_device.end_address = acia_base + 7;
             } else {
                 acia_device.end_address = acia_base + 3;
@@ -148,7 +148,7 @@ static int set_io_source_base(int address)
             }
             acia_base = address;
             acia_device.start_address = acia_base;
-            if (acia_device.name == CARTRIDGE_NAME_TURBO232) {
+            if (acia_device.cart_id == CARTRIDGE_TURBO232) {
                 acia_device.end_address = acia_base + 7;
             } else {
                 acia_device.end_address = acia_base + 3;
@@ -231,9 +231,9 @@ int acia1_set_mode(int mode)
 
 #ifdef HAVE_RS232
 static const resource_int_t resources_i[] = {
-    { "Acia1Enable", 0, RES_EVENT_STRICT, (resource_value_t)0,
+    { "Acia1Enable", 0, RES_EVENT_STRICT, NULL,
       &acia_enabled, set_acia_enabled, NULL },
-    { "Acia1Base", 0, RES_EVENT_STRICT, (resource_value_t)0xde00,
+    { "Acia1Base", 0xde00, RES_EVENT_STRICT, NULL,
       &acia_base, set_acia_base, NULL },
     { NULL }
 };
