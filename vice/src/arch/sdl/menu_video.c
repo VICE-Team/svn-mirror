@@ -134,7 +134,6 @@ UI_MENU_DEFINE_INT(SDLCustomWidth)
 UI_MENU_DEFINE_INT(SDLCustomHeight)
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
 
-#ifndef DINGOO_NATIVE
 #define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
     { "Double size",                                \
       MENU_ENTRY_RESOURCE_TOGGLE,                   \
@@ -182,13 +181,6 @@ UI_MENU_DEFINE_RADIO(SDLLimitMode)
       MENU_ENTRY_RESOURCE_RADIO,                    \
       radio_SDLLimitMode_callback,                  \
       (ui_callback_data_t)SDL_LIMIT_MODE_FIXED },
-#else
-#define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
-    { "Fullscreen",                                 \
-      MENU_ENTRY_RESOURCE_TOGGLE,                   \
-      toggle_##chip##Fullscreen_callback,           \
-      NULL },
-#endif
 
 #ifdef HAVE_HWSCALE
 
