@@ -111,11 +111,6 @@
 #  endif
 #endif
 
-#ifdef DINGOO_NATIVE
-/* usz */
-#define TRACE trace(__LINE__, __FILE__)
-#endif
-
 /* ------------------------------------------------------------------------- */
 /* Which OS is using the common keyboard routines?  */
 #if (!defined(__riscos) && !defined(__OS2__)) || defined(USE_SDLUI)
