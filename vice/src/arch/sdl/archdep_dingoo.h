@@ -96,4 +96,126 @@ extern const char *archdep_pref_path;
 
 extern char *make_absolute_system_path(const char *s);
 
+/* special video timings for dingoo */
+
+/* this values are not the originals from
+   vicii-timing.h, because the screen of
+   the dingoo is only 320x240 in size.
+   To make the rendering faster, the
+   borders are as small as possible
+   (without crashing the emulator)
+*/
+
+#define VICE_VICII_TIMING_H
+
+/* Screen constants.  */
+#define VICII_PAL_SCREEN_HEIGHT                      312
+#define VICII_NTSC_SCREEN_HEIGHT                     263
+#define VICII_NTSCOLD_SCREEN_HEIGHT                  262
+#define VICII_PALN_SCREEN_HEIGHT                     312
+
+/* Sideborder sizes */
+#define VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH      0x08
+#define VICII_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH     0x08
+#define VICII_SCREEN_PAL_FULL_LEFTBORDERWIDTH        0x08
+#define VICII_SCREEN_PAL_FULL_RIGHTBORDERWIDTH       0x08
+#define VICII_SCREEN_PAL_DEBUG_LEFTBORDERWIDTH       0x08
+#define VICII_SCREEN_PAL_DEBUG_RIGHTBORDERWIDTH      0x08
+
+#define VICII_SCREEN_NTSC_NORMAL_LEFTBORDERWIDTH     0x08
+#define VICII_SCREEN_NTSC_NORMAL_RIGHTBORDERWIDTH    0x08
+#define VICII_SCREEN_NTSC_FULL_LEFTBORDERWIDTH       0x08
+#define VICII_SCREEN_NTSC_FULL_RIGHTBORDERWIDTH      0x08
+#define VICII_SCREEN_NTSC_DEBUG_LEFTBORDERWIDTH      0x08
+#define VICII_SCREEN_NTSC_DEBUG_RIGHTBORDERWIDTH     0x08
+
+#define VICII_SCREEN_NTSCOLD_NORMAL_LEFTBORDERWIDTH  0x08
+#define VICII_SCREEN_NTSCOLD_NORMAL_RIGHTBORDERWIDTH 0x08
+#define VICII_SCREEN_NTSCOLD_FULL_LEFTBORDERWIDTH    0x08
+#define VICII_SCREEN_NTSCOLD_FULL_RIGHTBORDERWIDTH   0x08
+#define VICII_SCREEN_NTSCOLD_DEBUG_LEFTBORDERWIDTH   0x08
+#define VICII_SCREEN_NTSCOLD_DEBUG_RIGHTBORDERWIDTH  0x08
+
+#define VICII_SCREEN_PALN_NORMAL_LEFTBORDERWIDTH     0x08
+#define VICII_SCREEN_PALN_NORMAL_RIGHTBORDERWIDTH    0x08
+#define VICII_SCREEN_PALN_FULL_LEFTBORDERWIDTH       0x08
+#define VICII_SCREEN_PALN_FULL_RIGHTBORDERWIDTH      0x08
+#define VICII_SCREEN_PALN_DEBUG_LEFTBORDERWIDTH      0x08
+#define VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH     0x08
+
+
+/* Y display ranges */
+/* Notes:
+   - If the last displayed line setting is larger than
+     the screen height, lines 0+ are displayed in the lower
+     border. This is used for NTSC display.
+   - "normal" shows all lines visible on a typical monitor
+   - "full" shows all lines minus the vertical retrace
+   - "debug" mode shows all lines, including vertical retrace
+*/
+#define VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE        0x10   /* 16 */
+#define VICII_PAL_NORMAL_LAST_DISPLAYED_LINE         0x11f  /* 287 */
+#define VICII_PAL_FULL_FIRST_DISPLAYED_LINE          0x08   /* 8 */
+#define VICII_PAL_FULL_LAST_DISPLAYED_LINE           0x12c  /* 300 */
+#define VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE         0x00   /* 0 */
+#define VICII_PAL_DEBUG_LAST_DISPLAYED_LINE          0x137  /* 311 */
+
+/* Y display ranges */
+/* Notes:
+   - If the last displayed line setting is larger than
+     the screen height, lines 0+ are displayed in the lower
+     border. This is used for NTSC display.
+   - "normal" shows all lines visible on a typical monitor
+   - "full" shows all lines minus the vertical retrace
+   - "debug" mode shows all lines, including vertical retrace
+*/
+#define VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE        0x10   /* 16 */
+#define VICII_PAL_NORMAL_LAST_DISPLAYED_LINE         0x11f  /* 287 */
+#define VICII_PAL_FULL_FIRST_DISPLAYED_LINE          0x08   /* 8 */
+#define VICII_PAL_FULL_LAST_DISPLAYED_LINE           0x12c  /* 300 */
+#define VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE         0x00   /* 0 */
+#define VICII_PAL_DEBUG_LAST_DISPLAYED_LINE          0x137  /* 311 */
+
+/*
+NTSC display ranges:
+*/
+
+#define VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE       (0x32 - 20)
+#define VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE        (0x32 + 220)
+#define VICII_NTSC_FULL_FIRST_DISPLAYED_LINE         (0x32 - 20)
+#define VICII_NTSC_FULL_LAST_DISPLAYED_LINE          (0x32 + 220)
+#define VICII_NTSC_DEBUG_FIRST_DISPLAYED_LINE        (0x32 - 20)
+#define VICII_NTSC_DEBUG_LAST_DISPLAYED_LINE         (0x32 + 220)
+
+#define VICII_NTSCOLD_NORMAL_FIRST_DISPLAYED_LINE    (0x32 - 20)
+#define VICII_NTSCOLD_NORMAL_LAST_DISPLAYED_LINE     (0x32 + 220)
+#define VICII_NTSCOLD_FULL_FIRST_DISPLAYED_LINE      (0x32 - 20)
+#define VICII_NTSCOLD_FULL_LAST_DISPLAYED_LINE       (0x32 + 220)
+#define VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE     (0x32 - 20)
+#define VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE      (0x32 + 220)
+
+#define VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE       (0x32 - 20)
+#define VICII_PALN_NORMAL_LAST_DISPLAYED_LINE        (0x32 + 220)
+#define VICII_PALN_FULL_FIRST_DISPLAYED_LINE         (0x32 - 20)
+#define VICII_PALN_FULL_LAST_DISPLAYED_LINE          (0x32 + 220)
+#define VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE        (0x32 - 20)
+#define VICII_PALN_DEBUG_LAST_DISPLAYED_LINE         (0x32 + 220)
+
+
+#define VICII_SCREEN_PAL_NORMAL_WIDTH  (320 + VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH + VICII_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH)
+#define VICII_SCREEN_PAL_NORMAL_HEIGHT (1 + (VICII_PAL_NORMAL_LAST_DISPLAYED_LINE - VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE))
+#define VICII_SCREEN_PALN_NORMAL_WIDTH  (320 + VICII_SCREEN_PALN_NORMAL_LEFTBORDERWIDTH + VICII_SCREEN_PALN_NORMAL_RIGHTBORDERWIDTH)
+#define VICII_SCREEN_PALN_NORMAL_HEIGHT (1 + (VICII_PALN_NORMAL_LAST_DISPLAYED_LINE - VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE))
+#define VICII_SCREEN_NTSC_NORMAL_WIDTH  (320 + VICII_SCREEN_NTSC_NORMAL_LEFTBORDERWIDTH + VICII_SCREEN_NTSC_NORMAL_RIGHTBORDERWIDTH)
+#define VICII_SCREEN_NTSC_NORMAL_HEIGHT (1 + (VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE - VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE))
+#define VICII_SCREEN_NTSCOLD_NORMAL_WIDTH  (320 + VICII_SCREEN_NTSCOLD_NORMAL_LEFTBORDERWIDTH + VICII_SCREEN_NTSCOLD_NORMAL_RIGHTBORDERWIDTH)
+#define VICII_SCREEN_NTSCOLD_NORMAL_HEIGHT (1 + (VICII_NTSCOLD_NORMAL_LAST_DISPLAYED_LINE - VICII_NTSCOLD_NORMAL_FIRST_DISPLAYED_LINE))
+
+struct machine_timing_s;
+
+extern void vicii_timing_set(struct machine_timing_s *machine_timing,
+                             int border_mode);
+
+/* end of special video timings for dingoo */
+
 #endif

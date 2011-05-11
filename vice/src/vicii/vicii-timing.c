@@ -27,6 +27,7 @@
 
 #include "vice.h"
 
+#include "archdep.h"
 #include "c64.h"
 #include "machine.h"
 #include "resources.h"
@@ -83,17 +84,10 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
-#ifdef DINGOO_NATIVE
-            vicii.screen_leftborderwidth = VICII_SCREEN_TINY_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_TINY_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_TINY_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_TINY_LAST_DISPLAYED_LINE;
-#else
             vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_NORMAL_LEFTBORDERWIDTH;
             vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_NORMAL_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE;
-#endif
             break;       
           case VICII_FULL_BORDERS:
             vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_FULL_LEFTBORDERWIDTH;
@@ -118,17 +112,10 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
-#ifdef DINGOO_NATIVE
-            vicii.screen_leftborderwidth = VICII_SCREEN_TINY_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_TINY_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_TINY_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_TINY_LAST_DISPLAYED_LINE;
-#else
             vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_NORMAL_LEFTBORDERWIDTH;
             vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_NORMAL_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_NTSCOLD_NORMAL_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_NTSCOLD_NORMAL_LAST_DISPLAYED_LINE;
-#endif
             break;
           case VICII_FULL_BORDERS:
             vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_FULL_LEFTBORDERWIDTH;
@@ -153,17 +140,10 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
-#ifdef DINGOO_NATIVE
-            vicii.screen_leftborderwidth = VICII_SCREEN_TINY_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_TINY_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_TINY_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_TINY_LAST_DISPLAYED_LINE;
-#else
             vicii.screen_leftborderwidth = VICII_SCREEN_PALN_NORMAL_LEFTBORDERWIDTH;
             vicii.screen_rightborderwidth = VICII_SCREEN_PALN_NORMAL_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_PALN_NORMAL_LAST_DISPLAYED_LINE;
-#endif
             break;
           case VICII_FULL_BORDERS:
             vicii.screen_leftborderwidth = VICII_SCREEN_PALN_FULL_LEFTBORDERWIDTH;
@@ -189,17 +169,10 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
         switch (border_mode) {
           default:
           case VICII_NORMAL_BORDERS:
-#ifdef DINGOO_NATIVE
-            vicii.screen_leftborderwidth = VICII_SCREEN_TINY_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_TINY_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_TINY_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_TINY_LAST_DISPLAYED_LINE;
-#else
             vicii.screen_leftborderwidth = VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH;
             vicii.screen_rightborderwidth = VICII_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_PAL_NORMAL_LAST_DISPLAYED_LINE;
-#endif
             break;
           case VICII_FULL_BORDERS:
             vicii.screen_leftborderwidth = VICII_SCREEN_PAL_FULL_LEFTBORDERWIDTH;
