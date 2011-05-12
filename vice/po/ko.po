@@ -6932,63 +6932,63 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:1175
 msgid "1/1"
-msgstr ""
+msgstr "1/1"
 
 #: src/arch/amigaos/intl_text.c.po.c:1188
 msgid "1/2"
-msgstr ""
+msgstr "1/2"
 
 #: src/arch/amigaos/intl_text.c.po.c:1201
 msgid "1/3"
-msgstr ""
+msgstr "1/3"
 
 #: src/arch/amigaos/intl_text.c.po.c:1214
 msgid "1/4"
-msgstr ""
+msgstr "1/4"
 
 #: src/arch/amigaos/intl_text.c.po.c:1227
 msgid "1/5"
-msgstr ""
+msgstr "1/5"
 
 #: src/arch/amigaos/intl_text.c.po.c:1240
 msgid "1/6"
-msgstr ""
+msgstr "1/6"
 
 #: src/arch/amigaos/intl_text.c.po.c:1253
 msgid "1/7"
-msgstr ""
+msgstr "1/7"
 
 #: src/arch/amigaos/intl_text.c.po.c:1266
 msgid "1/8"
-msgstr ""
+msgstr "1/8"
 
 #: src/arch/amigaos/intl_text.c.po.c:1279
 msgid "1/9"
-msgstr ""
+msgstr "1/9"
 
 #: src/arch/amigaos/intl_text.c.po.c:1292
 msgid "1/10"
-msgstr ""
+msgstr "1/10"
 
 #: src/arch/amigaos/intl_text.c.po.c:1318
 msgid "200%"
-msgstr ""
+msgstr "200%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1331
 msgid "100%"
-msgstr ""
+msgstr "100%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1344
 msgid "50%"
-msgstr ""
+msgstr "50%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1357
 msgid "20%"
-msgstr ""
+msgstr "20%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1370
 msgid "10%"
-msgstr ""
+msgstr "10%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1669
 msgid "PAL"
