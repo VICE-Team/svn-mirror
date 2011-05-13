@@ -1661,7 +1661,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
         AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
     elif test x"$is_unix_macosx" = "xyes"; then
-        LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL"
+        LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL -framework CoreVideo"
         CFLAGS="$CFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         CXXFLAGS="$CXXFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
@@ -2828,6 +2828,7 @@ if test x"$is_unix" = "xyes"; then
       ARCH_LIBS="$ARCH_DIR/macosx/libarchmacosx.a $ARCH_LIBS"
       ARCH_INCLUDES="-I$ARCH_SRC_DIR/macosx $ARCH_INCLUDES"
       ARCH_EXTRA_SUBDIR="$ARCH_EXTRA_SUBDIR macosx"
+      UI_LIBS="$UI_LIBS -framework CoreVideo"
       if test x"$enable_gnomeui" != "xyes" ; then
         UNIX_MACOSX_UITYPE=x11
       else
