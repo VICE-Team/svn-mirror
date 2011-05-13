@@ -106,7 +106,8 @@ typedef struct texture_s texture_t;
     int              displayPos;        /* position in ring buffer where to display from */
     int              numDrawn;          /* number of drawn buffers available */
     
-    unsigned long    hostToMsFactor;    /* factor to convert gettime() to ms */
+    unsigned long    usToMsFactor;    /* factor to convert us to ms */
+    unsigned long    hostToUsFactor;    /* how to convert host time to us */
     unsigned long    displayDelta;      /* delta to convert real time to interpol time for display */
     unsigned long    firstDrawTime;     /* when the first frame was rendered */
     unsigned long    lastDrawTime;      /* when the most recent frame was drawn */

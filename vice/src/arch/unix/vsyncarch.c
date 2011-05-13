@@ -52,6 +52,9 @@ static void_hook_t ui_dispatch_hook;
 
 /* ------------------------------------------------------------------------- */
 
+/* Mac OS X has its own version of these functions. See macosx/vsyncarch.c */
+#ifndef MACOSX_SUPPORT
+
 /* Number of timer units per second. */
 signed long vsyncarch_frequency(void)
 {
@@ -68,6 +71,8 @@ unsigned long vsyncarch_gettime(void)
 
     return 1000000UL * now.tv_sec + now.tv_usec;
 }
+
+#endif
 
 void vsyncarch_init(void)
 {

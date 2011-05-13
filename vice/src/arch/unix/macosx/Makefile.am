@@ -28,7 +28,8 @@ libarchmacosx_a_SOURCES = \
 	joy.h \
 	mididrv.c \
 	platform_macosx.c \
-	platform_macosx.h
+	platform_macosx.h \
+	vsyncarch.c
 
 EXTRA_DIST = \
 	analyze-vicerc.pl \

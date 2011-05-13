@@ -100,7 +100,8 @@ extern log_t video_log;
     
     // ----- Multi Buffer -----
     machineRefreshPeriod = 0.0f;
-    hostToMsFactor = 1000UL;
+    hostToUsFactor = (unsigned long)(CVGetHostClockFrequency() / 1000000UL);
+    usToMsFactor = 1000UL;
     displayDelta = 0;
     
     // ----- Pixel Buffer -----
@@ -294,7 +295,7 @@ extern log_t video_log;
 // the emulation wants to draw a new frame (called from machine thread!)
 - (BYTE *)beginMachineDraw:(int)frameNo
 {
-    unsigned long timeStamp = (unsigned long)(CVGetCurrentHostTime() / hostToMsFactor);
+    unsigned long timeStamp = (unsigned long)(CVGetCurrentHostTime() / hostToUsFactor);
 
     // no drawing possible right now
     if(numTextures == 0) {
@@ -307,7 +308,7 @@ extern log_t video_log;
 
         // delta too small: frames arrive in < 1ms!
         // mainly needed on startup...
-        if((timeStamp - lastDrawTime) < hostToMsFactor) {
+        if((timeStamp - lastDrawTime) < usToMsFactor) {
 #ifdef DEBUG_SYNC
             printf("COMPENSATE: #%d\n", drawPos);
 #endif
@@ -360,12 +361,12 @@ extern log_t video_log;
 #ifdef DEBUG_SYNC
         unsigned long ltime = 0;
         ltime = texture[drawPos].timeStamp - firstDrawTime;
-        ltime /= hostToMsFactor;
+        ltime /= usToMsFactor;
         unsigned long ddelta = 0;
         if(numDrawn > 1) {
             int lastPos = (drawPos + numTextures - 1) % numTextures;
             ddelta = texture[drawPos].timeStamp - texture[lastPos].timeStamp;
-            ddelta /= hostToMsFactor;
+            ddelta /= usToMsFactor;
         }
         int frameNo = texture[drawPos].frameNo;
         printf("D %lu: +%lu @%d - draw #%d (total %d)\n", ltime, ddelta, frameNo, drawPos, numDrawn);
@@ -630,7 +631,7 @@ extern log_t video_log;
     log_message(video_log, "displayDelta: %g ms", dd);
     
     // the display delta for multi buffer is a machine refresh
-    displayDelta = (unsigned long)((dd * (float)hostToMsFactor)+0.5f);
+    displayDelta = (unsigned long)((dd * (float)usToMsFactor)+0.5f);
 }
 
 - (int)calcBlend
@@ -641,7 +642,7 @@ extern log_t video_log;
     }
     
     // convert now render time to frame time
-    unsigned long now = (unsigned long)(CVGetCurrentHostTime() / hostToMsFactor);
+    unsigned long now = (unsigned long)(CVGetCurrentHostTime() / hostToUsFactor);
     unsigned long frameNow = now - displayDelta;
     
     // find display frame interval where we fit in
@@ -749,8 +750,8 @@ extern log_t video_log;
         ltime = frameNow - firstDrawTime;
     unsigned long ddelta = ltime - lastDisplayTime;
     lastDisplayTime = ltime;
-    ltime /= hostToMsFactor;
-    ddelta /= hostToMsFactor;
+    ltime /= usToMsFactor;
+    ddelta /= usToMsFactor;
     int oldDisplayPos = displayPos;
 #endif
 
@@ -770,7 +771,7 @@ extern log_t video_log;
         lastWasFullFrame = NO;
 #ifdef DEBUG_SYNC
         unsigned long delta = texture[displayPos].timeStamp - frameNow; 
-        delta /= hostToMsFactor;
+        delta /= usToMsFactor;
         printf("R %lu: +%lu BEFORE: #%d delta=%lu skip=%d\n", ltime, ddelta, displayPos, delta, i);
 #endif
     }
@@ -782,7 +783,7 @@ extern log_t video_log;
             blendAlpha = 0.5f;
 #ifdef DEBUG_SYNC
             unsigned long delta = frameNow - texture[displayPos].timeStamp;  
-            delta /= hostToMsFactor;
+            delta /= usToMsFactor;
             printf("R %lu: +%lu HOLD LAST FF: #%d delta=%lu skip=%d avail=%d\n", ltime, ddelta, displayPos, delta, i, nd);
 #endif            
         } 
@@ -791,7 +792,7 @@ extern log_t video_log;
             count = 1;
 #ifdef DEBUG_SYNC
             unsigned long delta = frameNow - texture[displayPos].timeStamp;  
-            delta /= hostToMsFactor;
+            delta /= usToMsFactor;
             printf("R %lu: +%lu BEYOND: #%d delta=%lu skip=%d\n", ltime, ddelta, displayPos, delta, i);
 #endif
         }
@@ -808,8 +809,8 @@ extern log_t video_log;
             printf("R %lu: +%lu TWO FF: #%d [%d,%d=-%lu ; %d,%d=%lu] oldpos=%d skip=%d avail=%d -> alpha=%g\n", 
                    ltime, ddelta, 
                    displayPos,
-                   l1, l2, (frameNow - texture[l1].timeStamp) / hostToMsFactor,
-                   r1, r2, (texture[r1].timeStamp - frameNow) / hostToMsFactor,
+                   l1, l2, (frameNow - texture[l1].timeStamp) / usToMsFactor,
+                   r1, r2, (texture[r1].timeStamp - frameNow) / usToMsFactor,
                    oldDisplayPos, i, nd,
                    blendAlpha);
 #endif
@@ -822,7 +823,7 @@ extern log_t video_log;
             count = 2;
 #ifdef DEBUG_SYNC
             unsigned long delta = frameNow - texture[l1].timeStamp;  
-            delta /= hostToMsFactor;
+            delta /= usToMsFactor;
             printf("R %lu: +%lu ONE FF: #%d [%d,%d=-%lu] oldpos=%d skip=%d avail=%d\n",
                    ltime, ddelta,
                    displayPos, 
