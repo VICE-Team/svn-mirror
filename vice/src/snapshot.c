@@ -411,7 +411,7 @@ int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return)
 
 int snapshot_module_read_double(snapshot_module_t *m, double *db_return)
 {
-    if (ftell(m->file) + 8 > m->offset + m->size)
+    if (ftell(m->file) + (unsigned)8 > m->offset + m->size)
         return -1;
 
     return snapshot_read_double(m->file, db_return);
