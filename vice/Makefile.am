@@ -9,6 +9,7 @@ COMMON_EXTRA_DIST = .descr \
 	AUTHORS \
 	build.minix \
 	ChangeLog.1 \
+	ChangeLog.2 \
 	COPYING \
 	FEEDBACK \
 	Doxyfile \
