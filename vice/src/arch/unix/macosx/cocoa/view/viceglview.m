@@ -26,6 +26,7 @@
  */
 
 #include <libkern/OSAtomic.h>
+#include <CoreVideo/CVHostTime.h>
 
 #include "lib.h"
 #include "log.h"
@@ -293,7 +294,7 @@ extern log_t video_log;
 // the emulation wants to draw a new frame (called from machine thread!)
 - (BYTE *)beginMachineDraw:(int)frameNo
 {
-    unsigned long timeStamp = vsyncarch_gettime();
+    unsigned long timeStamp = (unsigned long)(CVGetCurrentHostTime() / hostToMsFactor);
 
     // no drawing possible right now
     if(numTextures == 0) {
@@ -640,7 +641,7 @@ extern log_t video_log;
     }
     
     // convert now render time to frame time
-    unsigned long now = vsyncarch_gettime();
+    unsigned long now = (unsigned long)(CVGetCurrentHostTime() / hostToMsFactor);
     unsigned long frameNow = now - displayDelta;
     
     // find display frame interval where we fit in
