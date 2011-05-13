@@ -42,11 +42,11 @@ msgstr "이름"
 
 #: src/arch/unix/mididrv.c:669 src/arch/win32/res.rc.po.c:1171
 msgid "Specify MIDI-In device"
-msgstr ""
+msgstr "미디 인 디바이스의 이름을 정하세요"
 
 #: src/arch/unix/mididrv.c:674 src/arch/win32/res.rc.po.c:1172
 msgid "Specify MIDI-Out device"
-msgstr ""
+msgstr "미다 아웃 디바이스의 이름을 정하세요"
 
 #: src/arch/unix/mididrv.c:680 src/arch/unix/gui/uimidi.c:87
 #: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1226
@@ -60,7 +60,7 @@ msgstr ""
 #: src/arch/unix/rs232.c:165 src/arch/unix/rs232.c:170
 #: src/arch/unix/rs232.c:175 src/arch/unix/rs232.c:180
 msgid "baudrate"
-msgstr ""
+msgstr "보드레이트"
 
 #: src/arch/unix/rs232.c:165
 msgid "Specify baudrate of first RS232 device"
@@ -82,13 +82,13 @@ msgstr ""
 #: src/arch/unix/gui/c64ui.c:396 src/arch/unix/gui/cbm2ui.c:295
 #: src/arch/unix/gui/vsidui.c:204
 msgid "Second SID"
-msgstr ""
+msgstr "세컨드 SID"
 
 #: src/arch/unix/gui/c128ui.c:195 src/arch/unix/gui/c64scui.c:338
 #: src/arch/unix/gui/c64ui.c:398 src/arch/unix/gui/cbm2ui.c:297
 #: src/arch/unix/gui/vsidui.c:206
 msgid "Second SID base address"
-msgstr ""
+msgstr "세컨드 SID 에서 사용가능한 주소"
 
 #: src/arch/unix/gui/c128ui.c:198 src/arch/unix/gui/c64dtvui.c:75
 #: src/arch/unix/gui/c64scui.c:341 src/arch/unix/gui/c64ui.c:401
@@ -97,7 +97,7 @@ msgstr ""
 #: src/arch/unix/gui/vsidui.c:209 src/arch/win32/res.rc.po.c:1354
 #: src/arch/amigaos/intl_text.c.po.c:6701
 msgid "SID filters"
-msgstr ""
+msgstr "SID 필터"
 
 #: src/arch/unix/gui/c128ui.c:202 src/arch/unix/gui/c64dtvui.c:79
 #: src/arch/unix/gui/c64scui.c:345 src/arch/unix/gui/c64ui.c:405
@@ -119,11 +119,11 @@ msgstr ""
 #: src/arch/unix/gui/vsidui.c:201 src/arch/win32/res.rc.po.c:1353
 #: src/arch/win32/resc64.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:7429
 msgid "SID model"
-msgstr ""
+msgstr "SID 모델"
 
 #: src/arch/unix/gui/c128ui.c:234
 msgid "Function ROM image"
-msgstr ""
+msgstr "function ROM 파일"
 
 #: src/arch/unix/gui/c128ui.c:238
 #, c-format
@@ -2064,7 +2064,7 @@ msgstr ""
 #: src/arch/unix/gui/uifliplist.c:208 src/arch/unix/gui/uiramcart.c:58
 #: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:6090
 msgid "Read-only"
-msgstr ""
+msgstr "읽기 전용"
 
 #: src/arch/unix/gui/uifliplist.c:240 src/arch/unix/gui/uifliplist.c:242
 msgid "Next: "
@@ -7137,7 +7137,7 @@ msgstr "파일시스템"
 
 #: src/arch/amigaos/intl_text.c.po.c:4360
 msgid "Raw"
-msgstr ""
+msgstr "Raw"
 
 #: src/arch/amigaos/intl_text.c.po.c:4464
 msgid "256K Enabled"
@@ -7221,31 +7221,31 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:5453
 msgid "Stop/Blue"
-msgstr ""
+msgstr "멈춤/파랑"
 
 #: src/arch/amigaos/intl_text.c.po.c:5466
 msgid "Select/Red"
-msgstr ""
+msgstr "선택/빨강"
 
 #: src/arch/amigaos/intl_text.c.po.c:5479
 msgid "Repeat/Yellow"
-msgstr ""
+msgstr "반복/노랑"
 
 #: src/arch/amigaos/intl_text.c.po.c:5492
 msgid "Shuffle/Green"
-msgstr ""
+msgstr "셔플/초록"
 
 #: src/arch/amigaos/intl_text.c.po.c:5505
 msgid "Forward/Charcoal"
-msgstr ""
+msgstr "빨리감기/짙은 회색"
 
 #: src/arch/amigaos/intl_text.c.po.c:5518
 msgid "Reverse/Charcoal"
-msgstr ""
+msgstr "뒤집기/짙은 회색"
 
 #: src/arch/amigaos/intl_text.c.po.c:5531
 msgid "Play-Pause/Grey"
-msgstr ""
+msgstr "재생-정지/회색"
 
 #: src/arch/amigaos/intl_text.c.po.c:5544
 msgid "Joy 1 Device"
@@ -7511,7 +7511,7 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8118
 msgid "Text"
-msgstr ""
+msgstr "텍스트"
 
 #: src/arch/amigaos/intl_text.c.po.c:8144
 msgid "Set PET Model"
@@ -7555,11 +7555,11 @@ msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:8716
 msgid "Volume (0-100%)"
-msgstr ""
+msgstr "볼륨 (0-100%)"
 
 #: src/arch/amigaos/intl_text.c.po.c:8768
 msgid "1351 mouse"
-msgstr ""
+msgstr "1351 마우스"
 
 #: src/arch/amigaos/intl_text.c.po.c:8781
 msgid "NEOS mouse"
@@ -7787,7 +7787,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:776
 msgid " and "
-msgstr ""
+msgstr " 그리고 "
 
 #: src/translate_text.c.po.c:792
 msgid ""
@@ -7837,7 +7837,7 @@ msgstr ""
 #: src/translate_text.c.po.c:952
 #, c-format
 msgid "Abbreviation: %s\n"
-msgstr ""
+msgstr "축약: %s\n"
 
 #: src/translate_text.c.po.c:968
 msgid "Available commands are"
