@@ -491,7 +491,7 @@ static void pet_ui_specific(WPARAM wparam, HWND hwnd)
             uidrivepetcbm2_settings_dialog(hwnd);
             break;
         case IDM_ACIA_SETTINGS:
-            ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
+            ui_acia_settings_dialog(hwnd);
             break;
         case IDM_EXTRA_JOY_SETTINGS:
             ui_extra_joystick_settings_dialog(hwnd);

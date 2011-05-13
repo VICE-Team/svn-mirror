@@ -27,6 +27,6 @@
 #ifndef VICE_UIACIA_H
 #define VICE_UIACIA_H
 
-extern void ui_acia_settings_dialog(HWND hwnd, unsigned int enable, int *location, unsigned int interrupt, unsigned int mode);
+extern void ui_acia_settings_dialog(HWND hwnd);
 
 #endif

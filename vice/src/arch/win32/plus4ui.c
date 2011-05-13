@@ -458,7 +458,7 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             uidriveplus4_settings_dialog(hwnd);
             break;
         case IDM_ACIA_SETTINGS:
-            ui_acia_settings_dialog(hwnd, 0, NULL, 0, 0);
+            ui_acia_settings_dialog(hwnd);
             break;
         case IDM_SIDCART_SETTINGS:
             ui_sidcart_settings_dialog(hwnd);
