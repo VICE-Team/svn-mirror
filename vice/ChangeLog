@@ -1,5 +1,318 @@
 ------------------------------------------------------------------------------
 
+2011-05-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, src/version.h,
+	src/arch/win32/vice-version.bat, doc/vice.chm, doc/vice.pdf,
+	doc/vice.hlp, po/fr.po, po/nl.po, po/ko.po, po/pl.po, po/hu.po,
+	po/it.po, po/da.po, po/tr.po, po/ru.po, po/de.po, po/sv.po: VICE 
+	version 2.3.7
+
+2011-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, ChangeLog.1, ChangeLog.2, Makefile.am: Renamed ChangeLog.1
+	to ChangeLog.2, renamed ChangeLog to ChangeLog.1 and started a new
+	ChangeLog file.
+
+2011-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/snapshot.c: Fixed signed/unsigned mismatch.
+
+2011-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64.c: Added missing include.
+
+2011-05-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/resacia.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/uiacia.c,
+	src/arch/win32/uiacia.h: Fixed the windows acia dialog.
+
+2011-05-13 Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-05-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/x11-launcher.sh: macosx: added x64sc to x11/gtk
+	launcher
+
+2011-05-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in: macosx: make sure to link CoreVideo in every ui
+
+2011-05-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/cocoa/view/viceglview.h,
+	src/arch/unix/macosx/cocoa/view/viceglview.m,
+	src/arch/unix/macosx/vsyncarch.c, src/arch/unix/vsyncarch.c: macosx: use
+	a monotonic clock for vsync, too
+
+2011-05-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/viceglview.m: cocoa: fixed sync draw
+	display freeze bug
+
+2011-05-12  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-05-11  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/archdep_dingoo.h, src/vicii/vicii-timing.c,
+	src/vicii/vicii-timing.h: special video timings for dingoo removed
+	from generic header, because of this, some #ifdef DINGOO_NATIVE are
+	removed
+
+2011-05-10  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/vice.h: dingoo native : unneeded macro removed
+
+2011-05-10  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/c64dtv/c64dtvflash.c: DINGOO NATIVE removed
+
+2011-05-10  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/c64/c64.c, src/c64/cart/c64cartsystem.h, src/c64/cart/generic.c:
+	allocate rombanks dynamically. DINGOO_NATIVE removed
+
+2011-05-10  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/menu_video.c: VICE_DINGOO_NATIVE ifdef removed
+
+2011-05-10  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/resources.c: clean up reasources.c
+
+2011-05-10  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-05-10  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/c64/cart/c64acia1.c: fixed default value for Acia1Base resource
+	and fixed Turbo32 cart selection
+
+2011-05-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64acia1.c: Added base address setting to the c64/c128
+	acia/swiftlink/turbo232 carts.
+
+2011-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/warpspeed.c: For the warpspeed cart, peek is the same as
+	read, dump is useless because of no details.
+
+2011-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/supersnapshot.c: Added peek and dump support to the
+	supersnapshot(5) code.
+
+2011-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/prophet64.c, src/c64/cart/ross.c,
+	src/c64/cart/supergames.c: Added dump support to the supergames cart
+	code.
+
+2011-05-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ocean.c, src/c64/cart/prophet64.c,
+	src/c64/cart/rexutility.c, src/c64/cart/ross.c,
+	src/c64/cart/snapshot64.c, src/c64/cart/stardos.c: Updated some carts.
+
+2011-05-07  groepaz <groepaz@gmx.net>
+
+	* data/C64/x11_pos.vkm, data/C64/x11_sym.vkm, data/VIC20/x11_pos.vkm,
+	data/VIC20/x11_sym.vkm: cleaned up and fixed x11 c64 and vic20 keymaps,
+	fixes bug 3188237
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/mikroass.c: For the mikroassembler cart, peek is the
+	same as read, dump is useless because of no details.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/magicdesk.c: Added dump support to the magicdesk cart
+	code.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/mach5.c: For the mach5 cart, peek is the same as read,
+	dump is useless because of no details.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/isepic.c: Added dump support to the isepic code.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/gs.c: Added dump support to the gs cart code.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/gamekiller.c: For gamekiller, peek returns 0 and dump is
+	useless because of lack of details.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/funplay.c: Added dump support to the funplay cart code.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/finalplus.c: For fc+, peek is read.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/final3.c: Added dump support to the fc3 code.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/final.c: For fc1/2, dump is useless, no details.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/epyxfastload.c: For epyx fastload cart, io2-peek is the
+	same as io2-read, dump is useless because of no details.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/dinamic.c: Added dump support to the dinamic cart code.
+
+2011-05-07  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/expert.c: fix IO1 and mapping in ON mode
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/digimax.c: For digimax peek is the same as read, and
+	dump support is useless, since they are no real details to dump.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/rexep256.c: Added dump support to the rexep256 code.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep256.c, src/c64/cart/delaep64.c,
+	src/c64/cart/delaep7x8.c: Fixed and added dump support to the
+	delaep256 code.
+
+2011-05-07  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cart.c: do not try to (re)attach cart when changing
+	"CartridgeReset". fixes bug 3183435
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep64.c: Fixed a typo.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep64.c, src/c64/cart/delaep7x8.c: Fixed the delaep64
+	code for loading into rawcart and copying to roml_banks.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep7x8.c: Fixed the delaep7x8 code for loading into
+	rawcart and copying to roml_banks.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep64.c, src/c64/cart/delaep7x8.c: Added dump support
+	to the delaep7x8 and delaep64 carts.
+
+2011-05-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/actionreplay2.c: Updated the ar2 code a bit.
+
+2011-05-07  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/comal80.c: Added dump support to the comal 80 code.
+
+2011-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/actionreplay3.c: Added dump code to the action replay 3
+	code.
+
+2011-05-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundexpander.c, src/core/fmopl.c, src/core/fmopl.h,
+	src/snapshot.c, src/snapshot.h: Added snapshot support to the sfx sound
+	expander code.
+
+2011-05-04  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundsampler.c: Got rid of the 'fix me' comment.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundsampler.c: Added snapshot support to the sfx
+	sound sampler cart.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/dqbb.c: Added dump function to the dqbb code.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c: Fixed a typo.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ramcart.c: Added peek and dump functions to the ramcart
+	code.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/plus256k.c, src/c64/plus256k.h: Added peek and dump functions
+	to the plus256k code.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/plus60k.c, src/c64/plus60k.h: Added peek and dump functions
+	to the plus60k code.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128mem.c, src/c128/c128mmu.c, src/c128/c128mmu.h: Added
+	peek and dump functions to the c128 mmu code.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64_256k.c, src/cartridge.h: Added peek and dump functions
+	to the c64_256k code.
+
+2011-05-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/actionreplay.c: Added peek and dump functions to the
+	action replay code.
+
+2011-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/georam.c: Added peek and dump functions.
+
+2011-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundexpander.c: Fixed a typo.
+
+2011-05-03  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+
 
 
 See `ChangeLog.1' for earlier changes.

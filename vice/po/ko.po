@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-02 08:21-0700\n"
+"POT-Creation-Date: 2011-05-14 08:00-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Jesse Lee <interpreters.jesse@gmail.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -3116,7 +3116,7 @@ msgid "No IRQ/NMI"
 msgstr ""
 
 #: src/arch/unix/gui/uirs232c64c128.c:53 src/arch/unix/gui/uivicii.c:88
-#: src/arch/win32/res.rc.po.c:1437 src/arch/win32/resacia.rc.po.c:44
+#: src/arch/win32/res.rc.po.c:1437 src/arch/win32/resacia.rc.po.c:62
 #: src/arch/win32/resvicii.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:8677
 msgid "Normal"
 msgstr "보통"
@@ -3127,11 +3127,11 @@ msgstr ""
 
 #: src/arch/unix/gui/uirs232c64c128.c:68
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:38
-#: src/arch/win32/resacia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:4412
+#: src/arch/win32/resacia.rc.po.c:67 src/arch/amigaos/intl_text.c.po.c:4412
 msgid "ACIA device"
 msgstr ""
 
-#: src/arch/unix/gui/uirs232c64c128.c:70 src/arch/win32/resacia.rc.po.c:51
+#: src/arch/unix/gui/uirs232c64c128.c:70 src/arch/win32/resacia.rc.po.c:69
 #: src/arch/amigaos/intl_text.c.po.c:4425
 msgid "ACIA interrupt"
 msgstr ""
@@ -5828,7 +5828,7 @@ msgstr ""
 msgid "Ethernet settings"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1505 src/arch/win32/resacia.rc.po.c:47
+#: src/arch/win32/res.rc.po.c:1505 src/arch/win32/resacia.rc.po.c:65
 #: src/arch/amigaos/intl_text.c.po.c:2540
 #: src/arch/amigaos/intl_text.c.po.c:4451
 msgid "ACIA settings"
@@ -5928,7 +5928,7 @@ msgstr "인쇄"
 
 #: src/arch/win32/res.rc.po.c:1538
 msgid "Exit        Alt+F4"
-msgstr "나가기	Alt+F4"
+msgstr "나가기\tAlt+F4"
 
 #: src/arch/win32/res.rc.po.c:1539
 msgid "Stop Debug"
@@ -5998,31 +5998,31 @@ msgstr ""
 msgid "Arrange icons"
 msgstr ""
 
-#: src/arch/win32/resacia.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4386
+#: src/arch/win32/resacia.rc.po.c:60 src/arch/amigaos/intl_text.c.po.c:4386
 msgid "IRQ"
 msgstr "IRQ"
 
-#: src/arch/win32/resacia.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:4399
+#: src/arch/win32/resacia.rc.po.c:61 src/arch/amigaos/intl_text.c.po.c:4399
 msgid "NMI"
 msgstr "NMI"
 
-#: src/arch/win32/resacia.rc.po.c:45
+#: src/arch/win32/resacia.rc.po.c:63
 msgid "Swiftlink"
 msgstr "스위프트링크"
 
-#: src/arch/win32/resacia.rc.po.c:46
+#: src/arch/win32/resacia.rc.po.c:64
 msgid "Turbo232"
 msgstr "터보232"
 
-#: src/arch/win32/resacia.rc.po.c:48 src/translate_text.c.po.c:3371
+#: src/arch/win32/resacia.rc.po.c:66 src/translate_text.c.po.c:3371
 msgid "Enable the ACIA RS232 interface emulation"
 msgstr ""
 
-#: src/arch/win32/resacia.rc.po.c:50
+#: src/arch/win32/resacia.rc.po.c:68
 msgid "ACIA location"
 msgstr ""
 
-#: src/arch/win32/resacia.rc.po.c:52 src/arch/amigaos/intl_text.c.po.c:4438
+#: src/arch/win32/resacia.rc.po.c:70 src/arch/amigaos/intl_text.c.po.c:4438
 msgid "ACIA mode"
 msgstr ""
 
