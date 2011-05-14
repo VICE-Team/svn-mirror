@@ -44,6 +44,9 @@
 #include "c128mmu.h"
 #include "c128ui.h"
 #include "c64-midi.h"
+#define CARTRIDGE_INCLUDE_SLOTMAIN_API
+#include "c64cartsystem.h"
+#undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64cia.h"
 #include "c64export.h"
 #include "c64iec.h"
@@ -401,6 +404,7 @@ static void c128io_init(void)
 int machine_resources_init(void)
 {
     if (traps_resources_init() < 0
+        || rombanks_resources_init() < 0
         || vsync_resources_init() < 0
         || machine_video_resources_init() < 0
         || c128_resources_init() < 0
@@ -443,6 +447,7 @@ void machine_resources_shutdown(void)
     drive_resources_shutdown();
     cartridge_resources_shutdown();
     functionrom_resources_shutdown();
+    rombanks_resources_shutdown();
     c64io_shutdown();
 }
 
