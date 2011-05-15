@@ -105,7 +105,7 @@ static int snapshot_write_double(FILE *f, double data)
    BYTE *byte_data = (BYTE *)&data;
    int i;
 
-   for (i = 0; i < 8; i++) {
+   for (i = 0; i < sizeof(double); i++) {
       if (snapshot_write_byte(f, byte_data[i]) < 0) {
          return -1;
       }
@@ -218,7 +218,7 @@ static int snapshot_read_double(FILE *f, double *d_return)
     double val;
     BYTE *byte_val = (BYTE *)&val;
 
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < sizeof(double); i++) {
         c = fgetc(f);
         if (c == EOF) {
             return -1;
@@ -411,7 +411,7 @@ int snapshot_module_read_dword(snapshot_module_t *m, DWORD *dw_return)
 
 int snapshot_module_read_double(snapshot_module_t *m, double *db_return)
 {
-    if (ftell(m->file) + (unsigned)8 > m->offset + m->size)
+    if (ftell(m->file) + sizeof(double) > m->offset + m->size)
         return -1;
 
     return snapshot_read_double(m->file, db_return);
