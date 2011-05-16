@@ -48,7 +48,7 @@ typedef struct io_source_s {
     char *resource_name;
     WORD start_address;
     WORD end_address;
-    BYTE address_mask;
+    WORD address_mask;
     int  io_source_valid; /* after reading, is 1 if read was valid */
     void (*store)(WORD address, BYTE data);
     BYTE (*read)(WORD address);

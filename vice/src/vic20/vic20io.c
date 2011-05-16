@@ -324,7 +324,7 @@ void vic20io3_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int decodemask(BYTE mask)
+static int decodemask(WORD mask)
 {
     int len = 255;
 
