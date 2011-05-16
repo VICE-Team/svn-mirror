@@ -55,6 +55,7 @@
 #include "vic20.h"
 #include "vic20-resources.h"
 #include "vic20ieeevia.h"
+#include "vic20io.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
 #include "vic20via.h"
@@ -240,8 +241,7 @@ static BYTE io3_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-    vic20_mem_v_bus_read(addr);
-    return vic20_cpu_last_data;
+    return vic20io3_read(addr);
 }
 
 static void io3_store(WORD addr, BYTE value)
@@ -262,8 +262,7 @@ static void io3_store(WORD addr, BYTE value)
         cartridge_store_io3(addr, value);
     }
 
-    vic20_mem_v_bus_store(addr);
-    return;
+    vic20io3_store(addr, value);
 }
 
 static BYTE io3_peek(WORD addr)
@@ -319,8 +318,7 @@ static BYTE io2_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-    vic20_mem_v_bus_read(addr);
-    return vic20_cpu_last_data;
+    return vic20io2_read(addr);
 }
 
 static void io2_store(WORD addr, BYTE value)
@@ -343,8 +341,7 @@ static void io2_store(WORD addr, BYTE value)
         cartridge_store_io2(addr, value);
     }
 
-    vic20_mem_v_bus_store(addr);
-    return;
+    vic20io2_store(addr, value);
 }
 
 static BYTE io2_peek(WORD addr)
