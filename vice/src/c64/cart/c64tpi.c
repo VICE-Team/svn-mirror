@@ -435,7 +435,7 @@ static int set_ieee488_enabled(int val, void *param)
         lib_free(tpi_rom);
         tpi_rom = NULL;
         c64export_remove(&export_res);
-        c64io_unregister(tpi_list_item);
+        io_source_unregister(tpi_list_item);
         tpi_list_item = NULL;
         ieee488_enabled = 0;
         DBG(("IEEE: set_enabled unregistered\n"));
@@ -468,7 +468,7 @@ static int set_ieee488_enabled(int val, void *param)
                 return -1;
             } else {
                 DBG(("IEEE: set_enabled registered\n"));
-                tpi_list_item = c64io_register(&tpi_io2_device);
+                tpi_list_item = io_source_register(&tpi_io2_device);
                 ieee488_enabled = 1;
             }
         }

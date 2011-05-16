@@ -166,7 +166,7 @@ static int delaep7x8_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    delaep7x8_list_item = c64io_register(&delaep7x8_device);
+    delaep7x8_list_item = io_source_register(&delaep7x8_device);
     return 0;
 }
 
@@ -220,7 +220,7 @@ int delaep7x8_crt_attach(FILE *fd, BYTE *rawcart)
 void delaep7x8_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(delaep7x8_list_item);
+    io_source_unregister(delaep7x8_list_item);
     delaep7x8_list_item = NULL;
 }
 

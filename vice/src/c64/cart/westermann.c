@@ -107,7 +107,7 @@ static int westermann_common_attach(void)
     if (c64export_add(&export_res_westermann) < 0) {
         return -1;
     }
-    westermann_list_item = c64io_register(&westermann_device);
+    westermann_list_item = io_source_register(&westermann_device);
 
     return 0;
 }
@@ -142,7 +142,7 @@ int westermann_crt_attach(FILE *fd, BYTE *rawcart)
 void westermann_detach(void)
 {
     c64export_remove(&export_res_westermann);
-    c64io_unregister(westermann_list_item);
+    io_source_unregister(westermann_list_item);
     westermann_list_item = NULL;
 }
 

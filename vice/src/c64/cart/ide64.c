@@ -1202,7 +1202,7 @@ void ide64_detach(void)
 
     ide64_enabled = 0;
 
-    c64io_unregister(ide64_list_item);
+    io_source_unregister(ide64_list_item);
     ide64_list_item = NULL;
 #ifdef IDE64_DEBUG
     log_debug("IDE64 detached");
@@ -1238,7 +1238,7 @@ static int ide64_common_attach(void)
     log_debug("IDE64 attached");
 #endif
 
-    ide64_list_item = c64io_register(&ide64_device);
+    ide64_list_item = io_source_register(&ide64_device);
 
     return 0;
 }

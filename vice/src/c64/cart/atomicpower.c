@@ -269,8 +269,8 @@ static int atomicpower_common_attach(void)
         return -1;
     }
 
-    atomicpower_io1_list_item = c64io_register(&atomicpower_io1_device);
-    atomicpower_io2_list_item = c64io_register(&atomicpower_io2_device);
+    atomicpower_io1_list_item = io_source_register(&atomicpower_io1_device);
+    atomicpower_io2_list_item = io_source_register(&atomicpower_io2_device);
 
     return 0;
 }
@@ -309,8 +309,8 @@ int atomicpower_crt_attach(FILE *fd, BYTE *rawcart)
 void atomicpower_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(atomicpower_io1_list_item);
-    c64io_unregister(atomicpower_io2_list_item);
+    io_source_unregister(atomicpower_io1_list_item);
+    io_source_unregister(atomicpower_io2_list_item);
     atomicpower_io1_list_item = NULL;
     atomicpower_io2_list_item = NULL;
 }

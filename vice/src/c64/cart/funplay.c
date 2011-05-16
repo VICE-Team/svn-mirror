@@ -143,7 +143,7 @@ static int funplay_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    funplay_list_item = c64io_register(&funplay_device);
+    funplay_list_item = io_source_register(&funplay_device);
     return 0;
 }
 
@@ -175,7 +175,7 @@ int funplay_crt_attach(FILE *fd, BYTE *rawcart)
 
 void funplay_detach(void)
 {
-    c64io_unregister(funplay_list_item);
+    io_source_unregister(funplay_list_item);
     funplay_list_item = NULL;
     c64export_remove(&export_res);
 }

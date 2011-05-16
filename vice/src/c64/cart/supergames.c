@@ -143,7 +143,7 @@ static int supergames_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    supergames_list_item = c64io_register(&supergames_device);
+    supergames_list_item = io_source_register(&supergames_device);
     return 0;
 }
 
@@ -178,7 +178,7 @@ int supergames_crt_attach(FILE *fd, BYTE *rawcart)
 void supergames_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(supergames_list_item);
+    io_source_unregister(supergames_list_item);
     supergames_list_item = NULL;
 }
 

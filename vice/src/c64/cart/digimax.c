@@ -182,13 +182,13 @@ static int set_digimax_enabled(int val, void *param)
             if (c64export_add(&export_res) < 0) {
                 return -1;
             }
-            digimax_list_item = c64io_register(&digimax_device);
+            digimax_list_item = io_source_register(&digimax_device);
         }
         digimax_enabled = 1;
     } else if (digimax_enabled && !val) {
         if (digimax_list_item != NULL) {
             c64export_remove(&export_res);
-            c64io_unregister(digimax_list_item);
+            io_source_unregister(digimax_list_item);
             digimax_list_item = NULL;
         }
         digimax_enabled = 0;

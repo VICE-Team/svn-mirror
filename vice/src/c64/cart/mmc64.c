@@ -351,9 +351,9 @@ static int set_mmc64_enabled(int val, void *param)
                 mmc64_enabled = 1;
                 cart_set_port_exrom_slot0(1);
                 cart_port_config_changed_slot0();
-                mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
-                mmc64_io1_list_item = c64io_register(&mmc64_io1_device);
-                mmc64_io2_list_item = c64io_register(&mmc64_io2_device);
+                mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
+                mmc64_io1_list_item = io_source_register(&mmc64_io1_device);
+                mmc64_io2_list_item = io_source_register(&mmc64_io2_device);
                 mmc64_reset();
             }
         }
@@ -368,9 +368,9 @@ static int set_mmc64_enabled(int val, void *param)
         mmc64_enabled = 0;
         cart_set_port_exrom_slot0(0);
         cart_port_config_changed_slot0();
-        c64io_unregister(mmc64_clockport_list_item);
-        c64io_unregister(mmc64_io1_list_item);
-        c64io_unregister(mmc64_io2_list_item);
+        io_source_unregister(mmc64_clockport_list_item);
+        io_source_unregister(mmc64_io1_list_item);
+        io_source_unregister(mmc64_io2_list_item);
         mmc64_clockport_list_item = NULL;
         mmc64_io1_list_item = NULL;
         mmc64_io2_list_item = NULL;
@@ -623,16 +623,16 @@ static void mmc64_reg_store(WORD addr, BYTE value,int active)
                 if (mmc64_cport) {
                     mmc64_hw_clockport = 0xdf22;
                     mmc64_current_clockport_device = &mmc64_io2_clockport_device;
-                    c64io_unregister(mmc64_clockport_list_item);
-                    mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+                    io_source_unregister(mmc64_clockport_list_item);
+                    mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
 #ifdef HAVE_TFE
                     tfe_clockport_changed();
 #endif
                 } else {
                     mmc64_hw_clockport = 0xde02;
                     mmc64_current_clockport_device = &mmc64_io1_clockport_device;
-                    c64io_unregister(mmc64_clockport_list_item);
-                    mmc64_clockport_list_item = c64io_register(mmc64_current_clockport_device);
+                    io_source_unregister(mmc64_clockport_list_item);
+                    mmc64_clockport_list_item = io_source_register(mmc64_current_clockport_device);
 #ifdef HAVE_TFE
                     tfe_clockport_changed();
 #endif

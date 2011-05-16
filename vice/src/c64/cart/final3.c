@@ -206,8 +206,8 @@ static int final_v3_common_attach(void)
         return -1;
     }
 
-    final3_io1_list_item = c64io_register(&final3_io1_device);
-    final3_io2_list_item = c64io_register(&final3_io2_device);
+    final3_io1_list_item = io_source_register(&final3_io1_device);
+    final3_io2_list_item = io_source_register(&final3_io2_device);
 
     return 0;
 }
@@ -246,8 +246,8 @@ int final_v3_crt_attach(FILE *fd, BYTE *rawcart)
 void final_v3_detach(void)
 {
     c64export_remove(&export_res_v3);
-    c64io_unregister(final3_io1_list_item);
-    c64io_unregister(final3_io2_list_item);
+    io_source_unregister(final3_io1_list_item);
+    io_source_unregister(final3_io2_list_item);
     final3_io1_list_item = NULL;
     final3_io2_list_item = NULL;
 }

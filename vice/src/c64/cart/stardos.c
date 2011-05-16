@@ -321,8 +321,8 @@ static int stardos_common_attach(void)
     stardos_alarm = alarm_new(maincpu_alarm_context, "StardosRomAlarm", stardos_alarm_handler, NULL);
     stardos_alarm_time = CLOCK_MAX;
 
-    stardos_io1_list_item = c64io_register(&stardos_io1_device);
-    stardos_io2_list_item = c64io_register(&stardos_io2_device);
+    stardos_io1_list_item = io_source_register(&stardos_io1_device);
+    stardos_io2_list_item = io_source_register(&stardos_io2_device);
 
     return 0;
 }
@@ -363,8 +363,8 @@ void stardos_detach(void)
 {
     alarm_destroy(stardos_alarm);
     c64export_remove(&export_res);
-    c64io_unregister(stardos_io1_list_item);
-    c64io_unregister(stardos_io2_list_item);
+    io_source_unregister(stardos_io1_list_item);
+    io_source_unregister(stardos_io2_list_item);
     stardos_io1_list_item = NULL;
     stardos_io2_list_item = NULL;
 }

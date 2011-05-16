@@ -107,7 +107,7 @@ static int simon_common_attach(void)
     if (c64export_add(&export_res_simon) < 0) {
         return -1;
     }
-    simon_list_item = c64io_register(&simon_device);
+    simon_list_item = io_source_register(&simon_device);
     return 0;
 }
 
@@ -144,7 +144,7 @@ int simon_crt_attach(FILE *fd, BYTE *rawcart)
 void simon_detach(void)
 {
     c64export_remove(&export_res_simon);
-    c64io_unregister(simon_list_item);
+    io_source_unregister(simon_list_item);
     simon_list_item = NULL;
 }
 

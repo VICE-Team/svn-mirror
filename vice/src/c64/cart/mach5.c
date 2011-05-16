@@ -137,8 +137,8 @@ static int mach5_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    mach5_io1_list_item = c64io_register(&mach5_io1_device);
-    mach5_io2_list_item = c64io_register(&mach5_io2_device);
+    mach5_io1_list_item = io_source_register(&mach5_io1_device);
+    mach5_io2_list_item = io_source_register(&mach5_io2_device);
     return 0;
 }
 
@@ -179,8 +179,8 @@ int mach5_crt_attach(FILE *fd, BYTE *rawcart)
 void mach5_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(mach5_io1_list_item);
-    c64io_unregister(mach5_io2_list_item);
+    io_source_unregister(mach5_io1_list_item);
+    io_source_unregister(mach5_io2_list_item);
     mach5_io1_list_item = NULL;
     mach5_io2_list_item = NULL;
 }

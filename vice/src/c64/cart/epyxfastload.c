@@ -183,8 +183,8 @@ static int epyxfastload_common_attach(void)
     epyxrom_alarm = alarm_new(maincpu_alarm_context, "EPYXCartRomAlarm", epyxfastload_alarm_handler, NULL);
     epyxrom_alarm_time = CLOCK_MAX;
 
-    epyxfastload_io1_list_item = c64io_register(&epyxfastload_io1_device);
-    epyxfastload_io2_list_item = c64io_register(&epyxfastload_io2_device);
+    epyxfastload_io1_list_item = io_source_register(&epyxfastload_io1_device);
+    epyxfastload_io2_list_item = io_source_register(&epyxfastload_io2_device);
 
     return 0;
 }
@@ -216,8 +216,8 @@ void epyxfastload_detach(void)
 {
     alarm_destroy(epyxrom_alarm);
     c64export_remove(&export_res_epyx);
-    c64io_unregister(epyxfastload_io1_list_item);
-    c64io_unregister(epyxfastload_io2_list_item);
+    io_source_unregister(epyxfastload_io1_list_item);
+    io_source_unregister(epyxfastload_io2_list_item);
     epyxfastload_io1_list_item = NULL;
     epyxfastload_io2_list_item = NULL;
 }

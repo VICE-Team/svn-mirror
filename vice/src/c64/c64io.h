@@ -68,7 +68,7 @@ extern BYTE c64io_df00_peek(WORD addr);
 extern void c64io_df00_store(WORD addr, BYTE value);
 
 struct mem_ioreg_list_s;
-extern void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
+extern void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);
 
 extern int get_cpu_lines_lock(void);
 extern void set_cpu_lines_lock(int device, char *name);
@@ -104,10 +104,10 @@ typedef struct io_source_detach_s {
     int det_cartid;
 } io_source_detach_t;
 
-extern io_source_list_t *c64io_register(io_source_t *device);
-extern void c64io_unregister(io_source_list_t *device);
-extern void c64io_shutdown(void);
+extern io_source_list_t *io_source_register(io_source_t *device);
+extern void io_source_unregister(io_source_list_t *device);
 
+extern void c64io_shutdown(void);
 extern void c64io_vicii_init(void);
 extern void c64io_vicii_deinit(void);
 

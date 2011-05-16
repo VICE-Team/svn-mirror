@@ -118,14 +118,14 @@ static int acia1_enable(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    acia_list_item = c64io_register(&acia_device);
+    acia_list_item = io_source_register(&acia_device);
     return 0;
 }
 
 static void acia1_disable(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(acia_list_item);
+    io_source_unregister(acia_list_item);
     acia_list_item = NULL;
 }
 

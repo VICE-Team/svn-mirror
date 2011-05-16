@@ -107,7 +107,7 @@ static int rex_common_attach(void)
     if (c64export_add(&export_res_rex) < 0) {
         return -1;
     }
-    rex_list_item = c64io_register(&rex_device);
+    rex_list_item = io_source_register(&rex_device);
     return 0;
 }
 
@@ -137,7 +137,7 @@ int rex_crt_attach(FILE *fd, BYTE *rawcart)
 void rex_detach(void)
 {
     c64export_remove(&export_res_rex);
-    c64io_unregister(rex_list_item);
+    io_source_unregister(rex_list_item);
     rex_list_item = NULL;
 }
 

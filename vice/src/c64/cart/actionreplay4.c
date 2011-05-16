@@ -192,8 +192,8 @@ static int actionreplay4_common_attach(void)
         return -1;
     }
 
-    actionreplay4_io1_list_item = c64io_register(&actionreplay4_io1_device);
-    actionreplay4_io2_list_item = c64io_register(&actionreplay4_io2_device);
+    actionreplay4_io1_list_item = io_source_register(&actionreplay4_io1_device);
+    actionreplay4_io2_list_item = io_source_register(&actionreplay4_io2_device);
 
     return 0;
 }
@@ -232,8 +232,8 @@ int actionreplay4_crt_attach(FILE *fd, BYTE *rawcart)
 void actionreplay4_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(actionreplay4_io1_list_item);
-    c64io_unregister(actionreplay4_io2_list_item);
+    io_source_unregister(actionreplay4_io1_list_item);
+    io_source_unregister(actionreplay4_io2_list_item);
     actionreplay4_io1_list_item = NULL;
     actionreplay4_io2_list_item = NULL;
 }

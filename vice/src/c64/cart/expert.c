@@ -341,7 +341,7 @@ static int set_expert_enabled(int val, void *param)
         if (expert_deactivate() < 0) {
             return -1;
         }
-        c64io_unregister(expert_io1_list_item);
+        io_source_unregister(expert_io1_list_item);
         expert_io1_list_item = NULL;
         c64export_remove(&export_res);
         expert_enabled = 0;
@@ -351,10 +351,10 @@ static int set_expert_enabled(int val, void *param)
         if (expert_activate() < 0) {
             return -1;
         }
-        expert_io1_list_item = c64io_register(&expert_io1_device);
+        expert_io1_list_item = io_source_register(&expert_io1_device);
         if (c64export_add(&export_res) < 0) {
             DBG(("EXPERT: set enabled: error\n"));
-            c64io_unregister(expert_io1_list_item);
+            io_source_unregister(expert_io1_list_item);
             expert_io1_list_item = NULL;
             expert_enabled = 0;
             return -1;
@@ -917,12 +917,12 @@ int expert_snapshot_read_module(snapshot_t *s)
     expert_enabled = 1;
 
     /* FIXME: ugly code duplication to avoid cart_config_changed calls */
-    expert_io1_list_item = c64io_register(&expert_io1_device);
+    expert_io1_list_item = io_source_register(&expert_io1_device);
 
     if (c64export_add(&export_res) < 0) {
         lib_free(expert_ram);
         expert_ram = NULL;
-        c64io_unregister(expert_io1_list_item);
+        io_source_unregister(expert_io1_list_item);
         expert_io1_list_item = NULL;
         expert_enabled = 0;
         return -1;

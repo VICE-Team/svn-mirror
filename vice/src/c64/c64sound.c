@@ -75,11 +75,11 @@ int machine_sid2_check_range(unsigned int sid2_adr)
             stereo_sid_device.start_address = sid2_adr;
             stereo_sid_device.end_address = sid2_adr + 0x1f;
             if (stereo_sid_list_item != NULL) {
-                c64io_unregister(stereo_sid_list_item);
-                stereo_sid_list_item = c64io_register(&stereo_sid_device);
+                io_source_unregister(stereo_sid_list_item);
+                stereo_sid_list_item = io_source_register(&stereo_sid_device);
             } else {
                 if (sid_stereo) {
-                    stereo_sid_list_item = c64io_register(&stereo_sid_device);
+                    stereo_sid_list_item = io_source_register(&stereo_sid_device);
                 }
             }
             return 0;
@@ -89,11 +89,11 @@ int machine_sid2_check_range(unsigned int sid2_adr)
             stereo_sid_device.start_address = sid2_adr;
             stereo_sid_device.end_address = sid2_adr + 0x1f;
             if (stereo_sid_list_item != NULL) {
-                c64io_unregister(stereo_sid_list_item);
-                stereo_sid_list_item = c64io_register(&stereo_sid_device);
+                io_source_unregister(stereo_sid_list_item);
+                stereo_sid_list_item = io_source_register(&stereo_sid_device);
             } else {
                 if (sid_stereo) {
-                    stereo_sid_list_item = c64io_register(&stereo_sid_device);
+                    stereo_sid_list_item = io_source_register(&stereo_sid_device);
                 }
             }
             return 0;
@@ -105,10 +105,10 @@ int machine_sid2_check_range(unsigned int sid2_adr)
 void machine_sid2_enable(int val)
 {
     if (val) {
-        stereo_sid_list_item = c64io_register(&stereo_sid_device);
+        stereo_sid_list_item = io_source_register(&stereo_sid_device);
     } else {
         if (stereo_sid_list_item != NULL) {
-            c64io_unregister(stereo_sid_list_item);
+            io_source_unregister(stereo_sid_list_item);
             stereo_sid_list_item = NULL;
         }
     }

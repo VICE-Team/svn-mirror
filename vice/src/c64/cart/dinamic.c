@@ -127,7 +127,7 @@ static int dinamic_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    dinamic_io1_list_item = c64io_register(&dinamic_io1_device);
+    dinamic_io1_list_item = io_source_register(&dinamic_io1_device);
     return 0;
 }
 
@@ -163,7 +163,7 @@ int dinamic_crt_attach(FILE *fd, BYTE *rawcart)
 
 void dinamic_detach(void)
 {
-    c64io_unregister(dinamic_io1_list_item);
+    io_source_unregister(dinamic_io1_list_item);
     dinamic_io1_list_item = NULL;
     c64export_remove(&export_res);
 }

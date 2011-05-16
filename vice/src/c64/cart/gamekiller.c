@@ -169,8 +169,8 @@ static int gamekiller_common_attach(void)
         return -1;
     }
 
-    gamekiller_io1_list_item = c64io_register(&gamekiller_io1_device);
-    gamekiller_io2_list_item = c64io_register(&gamekiller_io2_device);
+    gamekiller_io1_list_item = io_source_register(&gamekiller_io1_device);
+    gamekiller_io2_list_item = io_source_register(&gamekiller_io2_device);
 
     return 0;
 }
@@ -206,8 +206,8 @@ int gamekiller_crt_attach(FILE *fd, BYTE *rawcart)
 void gamekiller_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(gamekiller_io1_list_item);
-    c64io_unregister(gamekiller_io2_list_item);
+    io_source_unregister(gamekiller_io1_list_item);
+    io_source_unregister(gamekiller_io2_list_item);
     gamekiller_io1_list_item = NULL;
     gamekiller_io2_list_item = NULL;
 }

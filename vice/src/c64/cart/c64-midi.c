@@ -134,11 +134,11 @@ static int set_midi_enabled(int val, void *param)
         if (c64export_add(&export_res) < 0) {
             return -1;
         }
-        midi_list_item = c64io_register(&midi_device);
+        midi_list_item = io_source_register(&midi_device);
         midi_enabled = 1;
     } else if (midi_enabled && !val) {
         c64export_remove(&export_res);
-        c64io_unregister(midi_list_item);
+        io_source_unregister(midi_list_item);
         midi_list_item = NULL;
         midi_enabled = 0;
     }

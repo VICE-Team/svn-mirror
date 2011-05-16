@@ -374,11 +374,11 @@ static int plus60k_activate(void)
 
     c64io_vicii_deinit();
     if (plus60k_base == 0xd100) {
-        vicii_d000_full_list_item = c64io_register(&vicii_d000_full_device);
-        vicii_d100_list_item = c64io_register(&vicii_d100_device);
+        vicii_d000_full_list_item = io_source_register(&vicii_d000_full_device);
+        vicii_d100_list_item = io_source_register(&vicii_d100_device);
     } else {
-        vicii_d000_list_item = c64io_register(&vicii_d000_device);
-        vicii_d040_list_item = c64io_register(&vicii_d040_device);
+        vicii_d000_list_item = io_source_register(&vicii_d000_device);
+        vicii_d040_list_item = io_source_register(&vicii_d040_device);
     }
     return 0;
 }
@@ -397,22 +397,22 @@ static int plus60k_deactivate(void)
     remove_cpu_lines_lock();
 
     if (vicii_d000_list_item != NULL) {
-        c64io_unregister(vicii_d000_list_item);
+        io_source_unregister(vicii_d000_list_item);
         vicii_d000_list_item = NULL;
     }
 
     if (vicii_d000_full_list_item != NULL) {
-        c64io_unregister(vicii_d000_full_list_item);
+        io_source_unregister(vicii_d000_full_list_item);
         vicii_d000_full_list_item = NULL;
     }
 
     if (vicii_d040_list_item != NULL) {
-        c64io_unregister(vicii_d040_list_item);
+        io_source_unregister(vicii_d040_list_item);
         vicii_d040_list_item = NULL;
     }
 
     if (vicii_d100_list_item != NULL) {
-        c64io_unregister(vicii_d100_list_item);
+        io_source_unregister(vicii_d100_list_item);
         vicii_d100_list_item = NULL;
     }
     c64io_vicii_init();

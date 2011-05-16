@@ -126,7 +126,7 @@ static int magicdesk_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    magicdesk_list_item = c64io_register(&magicdesk_device);
+    magicdesk_list_item = io_source_register(&magicdesk_device);
     return 0;
 }
 
@@ -163,7 +163,7 @@ int magicdesk_crt_attach(FILE *fd, BYTE *rawcart)
 void magicdesk_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(magicdesk_list_item);
+    io_source_unregister(magicdesk_list_item);
     magicdesk_list_item = NULL;
 }
 

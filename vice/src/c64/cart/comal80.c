@@ -127,7 +127,7 @@ static int comal80_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    comal80_list_item = c64io_register(&comal80_device);
+    comal80_list_item = io_source_register(&comal80_device);
     return 0;
 }
 
@@ -162,7 +162,7 @@ int comal80_crt_attach(FILE *fd, BYTE *rawcart)
 void comal80_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(comal80_list_item);
+    io_source_unregister(comal80_list_item);
     comal80_list_item = NULL;
 }
 

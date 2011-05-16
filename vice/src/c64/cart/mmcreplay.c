@@ -2461,8 +2461,8 @@ static int mmcreplay_common_attach(const char *filename)
         return -1;
     }
 
-    mmcreplay_io1_list_item = c64io_register(&mmcreplay_io1_device);
-    mmcreplay_io2_list_item = c64io_register(&mmcreplay_io2_device);
+    mmcreplay_io1_list_item = io_source_register(&mmcreplay_io1_device);
+    mmcreplay_io2_list_item = io_source_register(&mmcreplay_io2_device);
 
     mmcr_enabled = 1;
 
@@ -2702,8 +2702,8 @@ void mmcreplay_detach(void)
     mmc_close_card_image();
     eeprom_close_image(mmcr_eeprom_rw);
     c64export_remove(&export_res);
-    c64io_unregister(mmcreplay_io1_list_item);
-    c64io_unregister(mmcreplay_io2_list_item);
+    io_source_unregister(mmcreplay_io1_list_item);
+    io_source_unregister(mmcreplay_io2_list_item);
     mmcreplay_io1_list_item = NULL;
     mmcreplay_io2_list_item = NULL;
     mmcr_enabled = 0;

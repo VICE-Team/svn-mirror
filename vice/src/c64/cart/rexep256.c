@@ -185,7 +185,7 @@ static int rexep256_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    rexep256_list_item = c64io_register(&rexep256_device);
+    rexep256_list_item = io_source_register(&rexep256_device);
     return 0;
 }
 
@@ -259,7 +259,7 @@ int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
 void rexep256_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(rexep256_list_item);
+    io_source_unregister(rexep256_list_item);
     rexep256_list_item = NULL;
 }
 

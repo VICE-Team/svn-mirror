@@ -189,7 +189,7 @@ static int delaep64_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    delaep64_list_item = c64io_register(&delaep64_device);
+    delaep64_list_item = io_source_register(&delaep64_device);
     return 0;
 }
 
@@ -277,7 +277,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 void delaep64_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(delaep64_list_item);
+    io_source_unregister(delaep64_list_item);
     delaep64_list_item = NULL;
 }
 

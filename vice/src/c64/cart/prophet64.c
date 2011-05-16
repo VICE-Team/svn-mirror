@@ -133,7 +133,7 @@ static int p64_common_attach(void)
         return -1;
     }
 
-    p64_list_item = c64io_register(&p64_device);
+    p64_list_item = io_source_register(&p64_device);
 
     return 0;
 }
@@ -174,7 +174,7 @@ int p64_crt_attach(FILE *fd, BYTE *rawcart)
 void p64_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(p64_list_item);
+    io_source_unregister(p64_list_item);
     p64_list_item = NULL;
 }
 

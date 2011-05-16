@@ -323,13 +323,13 @@ void tfe_clockport_changed(void)
     }
     /* if adapter is already enabled then reset the LAN chip */
     if (tfe_enabled) {
-        c64io_unregister(tfe_list_item);
+        io_source_unregister(tfe_list_item);
         c64export_remove(&export_res);
         export_res.io1 = tfe_current_device;
-        tfe_list_item = c64io_register(tfe_current_device);
+        tfe_list_item = io_source_register(tfe_current_device);
         if (c64export_add(&export_res) < 0) {
             DBG(("TFE: set tfe_clockport_changed: error\n"));
-            c64io_unregister(tfe_list_item);
+            io_source_unregister(tfe_list_item);
             tfe_list_item = NULL;
             tfe_enabled = 0;
             return;
@@ -423,7 +423,7 @@ static int set_tfe_enabled(int val, void *param)
                     DBG(("TFE: set disabled: error\n"));
                     return -1;
                 }
-                c64io_unregister(tfe_list_item);
+                io_source_unregister(tfe_list_item);
                 tfe_list_item = NULL;
                 c64export_remove(&export_res);
             }
@@ -435,10 +435,10 @@ static int set_tfe_enabled(int val, void *param)
                     return -1;
                 }
                 export_res.io1 = tfe_current_device;
-                tfe_list_item = c64io_register(tfe_current_device);
+                tfe_list_item = io_source_register(tfe_current_device);
                 if (c64export_add(&export_res) < 0) {
                     DBG(("TFE: set enabled: error\n"));
-                    c64io_unregister(tfe_list_item);
+                    io_source_unregister(tfe_list_item);
                     tfe_list_item = NULL;
                     tfe_enabled = 0;
                     return -1;

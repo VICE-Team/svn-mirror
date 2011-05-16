@@ -177,7 +177,7 @@ static int snapshot64_common_attach(void)
         return -1;
     }
 
-    ss64_io2_list_item = c64io_register(&ss64_io2_device);
+    ss64_io2_list_item = io_source_register(&ss64_io2_device);
     return 0;
 }
 
@@ -211,7 +211,7 @@ int snapshot64_crt_attach(FILE *fd, BYTE *rawcart)
 void snapshot64_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(ss64_io2_list_item);
+    io_source_unregister(ss64_io2_list_item);
     ss64_io2_list_item = NULL;
 }
 

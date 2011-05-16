@@ -151,8 +151,8 @@ static int ross_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    ross_io1_list_item = c64io_register(&ross_io1_device);
-    ross_io2_list_item = c64io_register(&ross_io2_device);
+    ross_io1_list_item = io_source_register(&ross_io1_device);
+    ross_io2_list_item = io_source_register(&ross_io2_device);
     return 0;
 }
 
@@ -201,8 +201,8 @@ int ross_crt_attach(FILE *fd, BYTE *rawcart)
 void ross_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(ross_io1_list_item);
-    c64io_unregister(ross_io2_list_item);
+    io_source_unregister(ross_io1_list_item);
+    io_source_unregister(ross_io2_list_item);
     ross_io1_list_item = NULL;
     ross_io2_list_item = NULL;
 }

@@ -987,7 +987,7 @@ static int set_magicvoice_enabled(int val, void *param)
         }
 #endif
         c64export_remove(&export_res);
-        c64io_unregister(magicvoice_io2_list_item);
+        io_source_unregister(magicvoice_io2_list_item);
         magicvoice_io2_list_item = NULL;
         mv_enabled =  0;
         DBG(("MV: set_enabled unregistered\n"));
@@ -1012,7 +1012,7 @@ static int set_magicvoice_enabled(int val, void *param)
                 return -1;
             } else {
                 DBG(("MV: set_enabled registered\n"));
-                magicvoice_io2_list_item = c64io_register(&magicvoice_io2_device);
+                magicvoice_io2_list_item = io_source_register(&magicvoice_io2_device);
                 mv_enabled =  1;
             }
         }

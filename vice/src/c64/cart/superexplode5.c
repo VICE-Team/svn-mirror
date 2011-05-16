@@ -167,7 +167,7 @@ static int se5_common_attach(void)
         return -1;
     }
 
-    se5_io2_list_item = c64io_register(&se5_io2_device);
+    se5_io2_list_item = io_source_register(&se5_io2_device);
 
     return 0;
 }
@@ -208,7 +208,7 @@ int se5_crt_attach(FILE *fd, BYTE *rawcart)
 void se5_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(se5_io2_list_item);
+    io_source_unregister(se5_io2_list_item);
     se5_io2_list_item = NULL;
 }
 

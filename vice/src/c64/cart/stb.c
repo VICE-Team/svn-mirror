@@ -139,7 +139,7 @@ static int stb_common_attach(void)
         return -1;
     }
 
-    stb_list_item = c64io_register(&stb_device);
+    stb_list_item = io_source_register(&stb_device);
 
     return 0;
 }
@@ -178,7 +178,7 @@ int stb_crt_attach(FILE *fd, BYTE *rawcart)
 void stb_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(stb_list_item);
+    io_source_unregister(stb_list_item);
     stb_list_item = NULL;
 }
 

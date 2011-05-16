@@ -149,7 +149,7 @@ static int dsm_common_attach(void)
         return -1;
     }
 
-    dsm_io1_list_item = c64io_register(&dsm_io1_device);
+    dsm_io1_list_item = io_source_register(&dsm_io1_device);
     return 0;
 }
 
@@ -185,7 +185,7 @@ int dsm_crt_attach(FILE *fd, BYTE *rawcart)
 void dsm_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(dsm_io1_list_item);
+    io_source_unregister(dsm_io1_list_item);
     dsm_io1_list_item = NULL;
 }
 

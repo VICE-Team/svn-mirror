@@ -223,7 +223,7 @@ static int final_plus_common_attach(void)
         return -1;
     }
 
-    final_plus_io2_list_item = c64io_register(&final_plus_io2_device);
+    final_plus_io2_list_item = io_source_register(&final_plus_io2_device);
 
     return 0;
 }
@@ -266,7 +266,7 @@ int final_plus_crt_attach(FILE *fd, BYTE *rawcart)
 void final_plus_detach(void)
 {
     c64export_remove(&export_res_plus);
-    c64io_unregister(final_plus_io2_list_item);
+    io_source_unregister(final_plus_io2_list_item);
     final_plus_io2_list_item = NULL;
 }
 

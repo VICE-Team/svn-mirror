@@ -118,14 +118,14 @@ static int set_sfx_soundexpander_enabled(int val, void *param)
             if (c64export_add(&export_res_piano) < 0) {
                 return -1;
             }
-            sfx_soundexpander_sound_list_item = c64io_register(&sfx_soundexpander_sound_device);
-            sfx_soundexpander_piano_list_item = c64io_register(&sfx_soundexpander_piano_device);
+            sfx_soundexpander_sound_list_item = io_source_register(&sfx_soundexpander_sound_device);
+            sfx_soundexpander_piano_list_item = io_source_register(&sfx_soundexpander_piano_device);
             sfx_soundexpander_enabled = 1;
         } else {
             c64export_remove(&export_res_sound);
             c64export_remove(&export_res_piano);
-            c64io_unregister(sfx_soundexpander_sound_list_item);
-            c64io_unregister(sfx_soundexpander_piano_list_item);
+            io_source_unregister(sfx_soundexpander_sound_list_item);
+            io_source_unregister(sfx_soundexpander_piano_list_item);
             sfx_soundexpander_sound_list_item = NULL;
             sfx_soundexpander_piano_list_item = NULL;
             sfx_soundexpander_enabled = 0;

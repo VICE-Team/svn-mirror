@@ -176,8 +176,8 @@ static int kcs_common_attach(void)
         return -1;
     }
 
-    kcs_io1_list_item = c64io_register(&kcs_io1_device);
-    kcs_io2_list_item = c64io_register(&kcs_io2_device);
+    kcs_io1_list_item = io_source_register(&kcs_io1_device);
+    kcs_io2_list_item = io_source_register(&kcs_io2_device);
     return 0;
 }
 
@@ -214,8 +214,8 @@ int kcs_crt_attach(FILE *fd, BYTE *rawcart)
 void kcs_detach(void)
 {
     c64export_remove(&export_res_kcs);
-    c64io_unregister(kcs_io1_list_item);
-    c64io_unregister(kcs_io2_list_item);
+    io_source_unregister(kcs_io1_list_item);
+    io_source_unregister(kcs_io2_list_item);
     kcs_io1_list_item = NULL;
     kcs_io2_list_item = NULL;
 }

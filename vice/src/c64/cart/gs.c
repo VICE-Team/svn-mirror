@@ -127,7 +127,7 @@ static int gs_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    gs_list_item = c64io_register(&gs_device);
+    gs_list_item = io_source_register(&gs_device);
     return 0;
 }
 
@@ -160,7 +160,7 @@ int gs_crt_attach(FILE *fd, BYTE *rawcart)
 void gs_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(gs_list_item);
+    io_source_unregister(gs_list_item);
     gs_list_item = NULL;
 }
 

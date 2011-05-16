@@ -317,8 +317,8 @@ static int set_ramcart_enabled(int val, void *param)
         if (c64export_add(&export_res) < 0) {
             return -1;
         }
-        ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
-        ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
+        ramcart_io1_list_item = io_source_register(&ramcart_io1_device);
+        ramcart_io2_list_item = io_source_register(&ramcart_io2_device);
         ramcart_enabled = 1;
         cart_set_port_exrom_slot1(1);
         cart_port_config_changed_slot1();
@@ -327,8 +327,8 @@ static int set_ramcart_enabled(int val, void *param)
         if (ramcart_deactivate() < 0) {
             return -1;
         }
-        c64io_unregister(ramcart_io1_list_item);
-        c64io_unregister(ramcart_io2_list_item);
+        io_source_unregister(ramcart_io1_list_item);
+        io_source_unregister(ramcart_io2_list_item);
         ramcart_io1_list_item = NULL;
         ramcart_io2_list_item = NULL;
         c64export_remove(&export_res);
@@ -665,14 +665,14 @@ int ramcart_snapshot_read_module(snapshot_t *s)
     ramcart_enabled = 1;
 
     /* FIXME: ugly code duplication to avoid cart_config_changed calls */
-    ramcart_io1_list_item = c64io_register(&ramcart_io1_device);
-    ramcart_io2_list_item = c64io_register(&ramcart_io2_device);
+    ramcart_io1_list_item = io_source_register(&ramcart_io1_device);
+    ramcart_io2_list_item = io_source_register(&ramcart_io2_device);
 
     if (c64export_add(&export_res) < 0) {
         lib_free(ramcart_ram);
         ramcart_ram = NULL;
-        c64io_unregister(ramcart_io1_list_item);
-        c64io_unregister(ramcart_io2_list_item);
+        io_source_unregister(ramcart_io1_list_item);
+        io_source_unregister(ramcart_io2_list_item);
         ramcart_io1_list_item = NULL;
         ramcart_io2_list_item = NULL;
         ramcart_enabled = 0;

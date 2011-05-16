@@ -226,8 +226,8 @@ static int freezemachine_common_attach(void)
         return -1;
     }
 
-    freezemachine_io1_list_item = c64io_register(&freezemachine_io1_device);
-    freezemachine_io2_list_item = c64io_register(&freezemachine_io2_device);
+    freezemachine_io1_list_item = io_source_register(&freezemachine_io1_device);
+    freezemachine_io2_list_item = io_source_register(&freezemachine_io2_device);
 
     return 0;
 }
@@ -277,8 +277,8 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
 void freezemachine_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(freezemachine_io1_list_item);
-    c64io_unregister(freezemachine_io2_list_item);
+    io_source_unregister(freezemachine_io1_list_item);
+    io_source_unregister(freezemachine_io2_list_item);
     freezemachine_io1_list_item = NULL;
     freezemachine_io2_list_item = NULL;
 }

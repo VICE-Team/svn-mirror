@@ -248,8 +248,8 @@ static int set_isepic_enabled(int val, void *param)
             lib_free(isepic_filename);
             isepic_filename = NULL;
         }
-        c64io_unregister(isepic_io1_list_item);
-        c64io_unregister(isepic_io2_list_item);
+        io_source_unregister(isepic_io1_list_item);
+        io_source_unregister(isepic_io2_list_item);
         isepic_io1_list_item = NULL;
         isepic_io2_list_item = NULL;
         c64export_remove(&export_res);
@@ -260,13 +260,13 @@ static int set_isepic_enabled(int val, void *param)
     } else if (!isepic_enabled && val) {
         cart_power_off();
         isepic_ram = lib_malloc(ISEPIC_RAM_SIZE);
-        isepic_io1_list_item = c64io_register(&isepic_io1_device);
-        isepic_io2_list_item = c64io_register(&isepic_io2_device);
+        isepic_io1_list_item = io_source_register(&isepic_io1_device);
+        isepic_io2_list_item = io_source_register(&isepic_io2_device);
         if (c64export_add(&export_res) < 0) {
             lib_free(isepic_ram);
             isepic_ram = NULL;
-            c64io_unregister(isepic_io1_list_item);
-            c64io_unregister(isepic_io2_list_item);
+            io_source_unregister(isepic_io1_list_item);
+            io_source_unregister(isepic_io2_list_item);
             isepic_io1_list_item = NULL;
             isepic_io2_list_item = NULL;
             return -1;
@@ -883,14 +883,14 @@ int isepic_snapshot_read_module(snapshot_t *s)
     isepic_enabled = 1;
 
     /* FIXME: ugly code duplication to avoid cart_config_changed calls */
-    isepic_io1_list_item = c64io_register(&isepic_io1_device);
-    isepic_io2_list_item = c64io_register(&isepic_io2_device);
+    isepic_io1_list_item = io_source_register(&isepic_io1_device);
+    isepic_io2_list_item = io_source_register(&isepic_io2_device);
 
     if (c64export_add(&export_res) < 0) {
         lib_free(isepic_ram);
         isepic_ram = NULL;
-        c64io_unregister(isepic_io1_list_item);
-        c64io_unregister(isepic_io2_list_item);
+        io_source_unregister(isepic_io1_list_item);
+        io_source_unregister(isepic_io2_list_item);
         isepic_io1_list_item = NULL;
         isepic_io2_list_item = NULL;
         isepic_enabled = 0;

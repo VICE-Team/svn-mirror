@@ -148,7 +148,7 @@ static int delaep256_common_attach(void)
     if (c64export_add(&export_res) < 0) {
         return -1;
     }
-    delaep256_list_item = c64io_register(&delaep256_device);
+    delaep256_list_item = io_source_register(&delaep256_device);
     return 0;
 }
 
@@ -201,7 +201,7 @@ int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
 void delaep256_detach(void)
 {
     c64export_remove(&export_res);
-    c64io_unregister(delaep256_list_item);
+    io_source_unregister(delaep256_list_item);
     delaep256_list_item = NULL;
 }
 

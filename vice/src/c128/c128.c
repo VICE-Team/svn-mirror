@@ -362,31 +362,31 @@ static io_source_list_t *sid_d400_list_item = NULL;
 
 void c64io_vicii_init(void)
 {
-    vicii_d000_list_item = c64io_register(&vicii_d000_device);
-    vicii_d100_list_item = c64io_register(&vicii_d100_device);
-    vicii_d200_list_item = c64io_register(&vicii_d200_device);
-    vicii_d300_list_item = c64io_register(&vicii_d300_device);
+    vicii_d000_list_item = io_source_register(&vicii_d000_device);
+    vicii_d100_list_item = io_source_register(&vicii_d100_device);
+    vicii_d200_list_item = io_source_register(&vicii_d200_device);
+    vicii_d300_list_item = io_source_register(&vicii_d300_device);
 }
 
 void c64io_vicii_deinit(void)
 {
     if (vicii_d000_list_item != NULL) {
-        c64io_unregister(vicii_d000_list_item);
+        io_source_unregister(vicii_d000_list_item);
         vicii_d000_list_item = NULL;
     }
 
     if (vicii_d100_list_item != NULL) {
-        c64io_unregister(vicii_d100_list_item);
+        io_source_unregister(vicii_d100_list_item);
         vicii_d100_list_item = NULL;
     }
 
     if (vicii_d200_list_item != NULL) {
-        c64io_unregister(vicii_d200_list_item);
+        io_source_unregister(vicii_d200_list_item);
         vicii_d200_list_item = NULL;
     }
 
     if (vicii_d300_list_item != NULL) {
-        c64io_unregister(vicii_d300_list_item);
+        io_source_unregister(vicii_d300_list_item);
         vicii_d300_list_item = NULL;
     }
 }
@@ -394,7 +394,7 @@ void c64io_vicii_deinit(void)
 static void c128io_init(void)
 {
     c64io_vicii_init();
-    sid_d400_list_item = c64io_register(&sid_d400_device);
+    sid_d400_list_item = io_source_register(&sid_d400_device);
 }
 
 /* ------------------------------------------------------------------------ */

@@ -193,7 +193,7 @@ static int set_c64_256k_enabled(int val, void *param)
             return -1;
         }
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        c64io_unregister(c64_256k_list_item);
+        io_source_unregister(c64_256k_list_item);
         c64_256k_list_item = NULL;
         c64_256k_enabled = 0;
         return 0;
@@ -207,7 +207,7 @@ static int set_c64_256k_enabled(int val, void *param)
             }
         }
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        c64_256k_list_item = c64io_register(&c64_256k_device);
+        c64_256k_list_item = io_source_register(&c64_256k_device);
         c64_256k_enabled = 1;
         return 0;
     }
@@ -256,8 +256,8 @@ static int set_c64_256k_base(int val, void *param)
     }
 
     if (c64_256k_enabled) {
-        c64io_unregister(c64_256k_list_item);
-        c64_256k_list_item = c64io_register(&c64_256k_device);
+        io_source_unregister(c64_256k_list_item);
+        c64_256k_list_item = io_source_register(&c64_256k_device);
     }
     c64_256k_start = val;
 

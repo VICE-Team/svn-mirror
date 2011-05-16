@@ -313,7 +313,7 @@ static int set_reu_enabled(int val, void *param)
             return -1;
         }
         c64export_remove(&export_res_reu);
-        c64io_unregister(reu_list_item);
+        io_source_unregister(reu_list_item);
         reu_list_item = NULL;
         reu_enabled = 0;
     } else if ((val) && (!reu_enabled)) {
@@ -323,7 +323,7 @@ static int set_reu_enabled(int val, void *param)
         if (c64export_add(&export_res_reu) < 0) {
             return -1;
         }
-        reu_list_item = c64io_register(&reu_io2_device);
+        reu_list_item = io_source_register(&reu_io2_device);
         reu_enabled = 1;
     }
     return 0;

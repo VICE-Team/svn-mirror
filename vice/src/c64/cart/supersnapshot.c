@@ -222,7 +222,7 @@ static int supersnapshot_v5_common_attach(void)
         return -1;
     }
 
-    ss5_list_item = c64io_register(&ss5_device);
+    ss5_list_item = io_source_register(&ss5_device);
 
     return 0;
 }
@@ -257,7 +257,7 @@ int supersnapshot_v5_crt_attach(FILE *fd, BYTE *rawcart)
 void supersnapshot_v5_detach(void)
 {
     c64export_remove(&export_res_v5);
-    c64io_unregister(ss5_list_item);
+    io_source_unregister(ss5_list_item);
     ss5_list_item = NULL;
 }
 

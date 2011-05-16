@@ -691,8 +691,8 @@ static int retroreplay_common_attach(void)
         return -1;
     }
 
-    retroreplay_io1_list_item = c64io_register(&retroreplay_io1_device);
-    retroreplay_io2_list_item = c64io_register(&retroreplay_io2_device);
+    retroreplay_io1_list_item = io_source_register(&retroreplay_io1_device);
+    retroreplay_io2_list_item = io_source_register(&retroreplay_io2_device);
 
     return 0;
 }
@@ -934,8 +934,8 @@ void retroreplay_detach(void)
     lib_free(retroreplay_filename);
     retroreplay_filename = NULL;
     c64export_remove(&export_res);
-    c64io_unregister(retroreplay_io1_list_item);
-    c64io_unregister(retroreplay_io2_list_item);
+    io_source_unregister(retroreplay_io1_list_item);
+    io_source_unregister(retroreplay_io2_list_item);
     retroreplay_io1_list_item = NULL;
     retroreplay_io2_list_item = NULL;
 }

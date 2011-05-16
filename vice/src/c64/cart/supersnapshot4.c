@@ -286,8 +286,8 @@ static int supersnapshot_v4_common_attach(void)
     if (c64export_add(&export_res_v4) < 0) {
         return -1;
     }
-    ss4_io1_list_item = c64io_register(&ss4_io1_device);
-    ss4_io2_list_item = c64io_register(&ss4_io2_device);
+    ss4_io1_list_item = io_source_register(&ss4_io1_device);
+    ss4_io2_list_item = io_source_register(&ss4_io2_device);
     return 0;
 }
 
@@ -324,8 +324,8 @@ int supersnapshot_v4_crt_attach(FILE *fd, BYTE *rawcart)
 void supersnapshot_v4_detach(void)
 {
     c64export_remove(&export_res_v4);
-    c64io_unregister(ss4_io1_list_item);
-    c64io_unregister(ss4_io2_list_item);
+    io_source_unregister(ss4_io1_list_item);
+    io_source_unregister(ss4_io2_list_item);
     ss4_io1_list_item = NULL;
     ss4_io2_list_item = NULL;
 }

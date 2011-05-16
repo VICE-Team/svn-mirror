@@ -230,7 +230,7 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-io_source_list_t *c64io_register(io_source_t *device)
+io_source_list_t *io_source_register(io_source_t *device)
 {
     io_source_list_t *current;
     io_source_list_t *retval = lib_malloc(sizeof(io_source_list_t));
@@ -282,7 +282,7 @@ io_source_list_t *c64io_register(io_source_t *device)
     return retval;
 }
 
-void c64io_unregister(io_source_list_t *device)
+void io_source_unregister(io_source_list_t *device)
 {
     io_source_list_t *prev;
 
@@ -305,61 +305,61 @@ void c64io_shutdown(void)
 
     current = c64io_d000_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d000_head.next;
     }
 
     current = c64io_d100_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d100_head.next;
     }
 
     current = c64io_d200_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d200_head.next;
     }
 
     current = c64io_d300_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d300_head.next;
     }
 
     current = c64io_d400_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d400_head.next;
     }
 
     current = c64io_d500_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d500_head.next;
     }
 
     current = c64io_d600_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d600_head.next;
     }
 
     current = c64io_d700_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_d700_head.next;
     }
 
     current = c64io_de00_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_de00_head.next;
     }
 
     current = c64io_df00_head.next;
     while (current) {
-        c64io_unregister(current);
+        io_source_unregister(current);
         current = c64io_df00_head.next;
     }
 }
@@ -561,7 +561,7 @@ static int decodemask(BYTE mask)
 }
 
 /* add all registered i/o devices to the list for the monitor */
-void c64io_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
+void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
     io_source_list_t *current;
 

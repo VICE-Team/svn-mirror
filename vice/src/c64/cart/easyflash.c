@@ -329,8 +329,8 @@ static int easyflash_common_attach(const char *filename)
         return -1;
     }
 
-    easyflash_io1_list_item = c64io_register(&easyflash_io1_device);
-    easyflash_io2_list_item = c64io_register(&easyflash_io2_device);
+    easyflash_io1_list_item = io_source_register(&easyflash_io1_device);
+    easyflash_io2_list_item = io_source_register(&easyflash_io2_device);
 
     easyflash_filename = lib_stralloc(filename);
 
@@ -424,8 +424,8 @@ void easyflash_detach(void)
     lib_free(easyflash_state_high);
     lib_free(easyflash_filename);
     easyflash_filename = NULL;
-    c64io_unregister(easyflash_io1_list_item);
-    c64io_unregister(easyflash_io2_list_item);
+    io_source_unregister(easyflash_io1_list_item);
+    io_source_unregister(easyflash_io2_list_item);
     easyflash_io1_list_item = NULL;
     easyflash_io2_list_item = NULL;
     c64export_remove(&export_res);

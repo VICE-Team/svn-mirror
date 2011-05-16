@@ -142,8 +142,8 @@ static int warpspeed_common_attach(void)
         return -1;
     }
 
-    warpspeed_io1_list_item = c64io_register(&warpspeed_io1_device);
-    warpspeed_io2_list_item = c64io_register(&warpspeed_io2_device);
+    warpspeed_io1_list_item = io_source_register(&warpspeed_io1_device);
+    warpspeed_io2_list_item = io_source_register(&warpspeed_io2_device);
 
     return 0;
 }
@@ -178,8 +178,8 @@ int warpspeed_crt_attach(FILE *fd, BYTE *rawcart)
 void warpspeed_detach(void)
 {
     c64export_remove(&export_res_warpspeed);
-    c64io_unregister(warpspeed_io1_list_item);
-    c64io_unregister(warpspeed_io2_list_item);
+    io_source_unregister(warpspeed_io1_list_item);
+    io_source_unregister(warpspeed_io2_list_item);
     warpspeed_io1_list_item = NULL;
     warpspeed_io2_list_item = NULL;
 }

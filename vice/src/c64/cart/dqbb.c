@@ -226,7 +226,7 @@ static int set_dqbb_enabled(int val, void *param)
         if (dqbb_deactivate() < 0) {
             return -1;
         }
-        c64io_unregister(dqbb_io1_list_item);
+        io_source_unregister(dqbb_io1_list_item);
         dqbb_io1_list_item = NULL;
         dqbb_enabled = 0;
         dqbb_reset();
@@ -239,7 +239,7 @@ static int set_dqbb_enabled(int val, void *param)
         if (dqbb_activate() < 0) {
             return -1;
         }
-        dqbb_io1_list_item = c64io_register(&dqbb_io1_device);
+        dqbb_io1_list_item = io_source_register(&dqbb_io1_device);
         dqbb_enabled = 1;
         dqbb_reset();
         dqbb_change_config();
@@ -528,12 +528,12 @@ int dqbb_snapshot_read_module(snapshot_t *s)
     dqbb_enabled = 1;
 
     /* FIXME: ugly code duplication to avoid cart_config_changed calls */
-    dqbb_io1_list_item = c64io_register(&dqbb_io1_device);
+    dqbb_io1_list_item = io_source_register(&dqbb_io1_device);
 
     if (c64export_add(&export_res) < 0) {
         lib_free(dqbb_ram);
         dqbb_ram = NULL;
-        c64io_unregister(dqbb_io1_list_item);
+        io_source_unregister(dqbb_io1_list_item);
         dqbb_io1_list_item = NULL;
         dqbb_enabled = 0;
         return -1;

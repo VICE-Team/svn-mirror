@@ -91,11 +91,11 @@ static int set_sfx_soundsampler_enabled(int val, void *param)
             if (c64export_add(&export_res) < 0) {
                 return -1;
             }
-            sfx_soundsampler_list_item = c64io_register(&sfx_soundsampler_device);
+            sfx_soundsampler_list_item = io_source_register(&sfx_soundsampler_device);
             sfx_soundsampler_enabled = 1;
         } else {
             c64export_remove(&export_res);
-            c64io_unregister(sfx_soundsampler_list_item);
+            io_source_unregister(sfx_soundsampler_list_item);
             sfx_soundsampler_list_item = NULL;
             sfx_soundsampler_enabled = 0;
         }

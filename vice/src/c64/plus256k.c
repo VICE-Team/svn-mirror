@@ -287,8 +287,8 @@ static int plus256k_activate(void)
     plus256k_reset();
     set_cpu_lines_lock(CPU_LINES_PLUS256K, "PLUS256K");
     c64io_vicii_deinit();
-    vicii_d000_list_item = c64io_register(&vicii_d000_device);
-    vicii_d100_list_item = c64io_register(&vicii_d100_device);
+    vicii_d000_list_item = io_source_register(&vicii_d000_device);
+    vicii_d100_list_item = io_source_register(&vicii_d100_device);
     return 0;
 }
 
@@ -307,12 +307,12 @@ static int plus256k_deactivate(void)
     remove_cpu_lines_lock();
 
     if (vicii_d000_list_item != NULL) {
-        c64io_unregister(vicii_d000_list_item);
+        io_source_unregister(vicii_d000_list_item);
         vicii_d000_list_item = NULL;
     }
 
     if (vicii_d100_list_item != NULL) {
-        c64io_unregister(vicii_d100_list_item);
+        io_source_unregister(vicii_d100_list_item);
         vicii_d100_list_item = NULL;
     }
     c64io_vicii_init();
