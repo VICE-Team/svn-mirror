@@ -41,7 +41,6 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
-#include "midi.h"
 #include "monitor.h"
 #include "ram.h"
 #include "resources.h"
@@ -225,16 +224,6 @@ static BYTE io3_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-#ifdef HAVE_MIDI
-    if (midi_enabled && (addr & 0xff00) == 0x9c00) {
-        if (midi_test_read((WORD)(addr & 0xff))) {
-            vic20_cpu_last_data = midi_read((WORD)(addr & 0xff));
-            vic20_mem_v_bus_read(addr);
-            return vic20_cpu_last_data;
-        }
-    }
-#endif
-
     if (mem_cart_blocks & VIC_CART_IO3) {
         vic20_cpu_last_data = cartridge_read_io3(addr);
         vic20_mem_v_bus_read(addr);
@@ -251,12 +240,6 @@ static void io3_store(WORD addr, BYTE value)
     if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f) {
         sid_store(addr,value);
     }
-
-#ifdef HAVE_MIDI
-    if (midi_enabled && (addr & 0xff00) == 0x9c00) {
-        midi_store((WORD)(addr & 0xff), value);
-    }
-#endif
 
     if (mem_cart_blocks & VIC_CART_IO3) {
         cartridge_store_io3(addr, value);

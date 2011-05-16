@@ -37,4 +37,8 @@ extern int vic20_midi_cmdline_options_init(void);
 enum { MIDI_MODE_MAPLIN = 0   /* Electronics - Maplin magazine */
 };
 
+struct snapshot_s;
+extern int vic20_midi_snapshot_read_module(struct snapshot_s *s);
+extern int vic20_midi_snapshot_write_module(struct snapshot_s *s);
+
 #endif

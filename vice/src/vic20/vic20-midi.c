@@ -29,19 +29,62 @@
 
 #ifdef HAVE_MIDI
 
+#include "cartridge.h"
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
+#include "snapshot.h"
 #include "vic20-midi.h"
+#include "vic20io.h"
 
 midi_interface_t midi_interface[] = {
     /* Electronics - Maplin magazine */
-    { "Maplin", 0x9c00, 0, 0, 1, 1, 0xff, 2, 0 },
+    { "Maplin", 0x9c00, 0, 0, 1, 1, 0xff, 2, 0, CARTRIDGE_MIDI_MAPLIN },
     { NULL }
 };
 
+/* ---------------------------------------------------------------------*/
+
+static BYTE vic20midi_read(WORD address)
+{
+    return midi_read(address);
+}
+
+static BYTE vic20midi_peek(WORD address)
+{
+    return midi_peek(address);
+}
+
+/* ---------------------------------------------------------------------*/
+
+static io_source_t midi_device = {
+    "MIDI",
+    IO_DETACH_RESOURCE,
+    "MIDIEnable",
+    0x9c00, 0x9fff, 0x3ff,
+    1, /* read is always valid */
+    midi_store,
+    vic20midi_read,
+    vic20midi_peek,
+    NULL, /* TODO: dump */
+    CARTRIDGE_MIDI_MAPLIN,
+    0
+};
+
+static io_source_list_t *midi_list_item = NULL;
+
+/* ---------------------------------------------------------------------*/
+
 static int set_midi_enabled(int val, void *param)
 {
+    if (!midi_enabled && val) {
+        midi_list_item = io_source_register(&midi_device);
+        midi_enabled = 1;
+    } else if (midi_enabled && !val) {
+        io_source_unregister(midi_list_item);
+        midi_list_item = NULL;
+        midi_enabled = 0;
+    }
     midi_enabled = val;
     return 0;
 }
@@ -67,4 +110,62 @@ int vic20_midi_cmdline_options_init(void)
 {
     return midi_cmdline_options_init();
 }
+
+/* ---------------------------------------------------------------------*/
+/*    snapshot support functions                                             */
+
+#define CART_DUMP_VER_MAJOR   0
+#define CART_DUMP_VER_MINOR   0
+#define SNAP_MODULE_NAME  "CARTMIDI"
+
+/* FIXME: implement snapshot support */
+int vic20_midi_snapshot_write_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, SNAP_MODULE_NAME,
+                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
+}
+
+int vic20_midi_snapshot_read_module(snapshot_t *s)
+{
+    return -1;
+#if 0
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+
+    m = snapshot_module_open(s, SNAP_MODULE_NAME, &vmajor, &vminor);
+    if (m == NULL) {
+        return -1;
+    }
+
+    if ((vmajor != CART_DUMP_VER_MAJOR) || (vminor != CART_DUMP_VER_MINOR)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    if (0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    snapshot_module_close(m);
+    return 0;
+#endif
+}
+
 #endif
