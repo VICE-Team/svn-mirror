@@ -41,9 +41,6 @@ extern BYTE finalexpansion_blk3_read(WORD addr);
 extern void finalexpansion_blk3_store(WORD addr, BYTE value);
 extern BYTE finalexpansion_blk5_read(WORD addr);
 extern void finalexpansion_blk5_store(WORD addr, BYTE value);
-extern BYTE finalexpansion_io3_read(WORD addr);
-extern BYTE finalexpansion_io3_peek(WORD addr);
-extern void finalexpansion_io3_store(WORD addr, BYTE value);
 
 extern void finalexpansion_init(void);
 extern void finalexpansion_reset(void);

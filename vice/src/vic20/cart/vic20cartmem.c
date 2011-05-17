@@ -356,36 +356,18 @@ void cartridge_store_io2(WORD addr, BYTE value)
 
 BYTE cartridge_read_io3(WORD addr)
 {
-    switch (mem_cartridge_type) {
-    case CARTRIDGE_VIC20_FINAL_EXPANSION:
-        vic20_cpu_last_data = finalexpansion_io3_read(addr);
-        break;
-    default:
-        break;
-    }
     vic20_mem_v_bus_read(addr);
     return vic20_cpu_last_data;
 }
 
 BYTE cartridge_peek_io3(WORD addr)
 {
-    switch (mem_cartridge_type) {
-    case CARTRIDGE_VIC20_FINAL_EXPANSION:
-        return finalexpansion_io3_peek(addr);
-    default:
-        break;
-    }
     return 0;
 }
 
 void cartridge_store_io3(WORD addr, BYTE value)
 {
     vic20_cpu_last_data = value;
-    switch (mem_cartridge_type) {
-    case CARTRIDGE_VIC20_FINAL_EXPANSION:
-        finalexpansion_io3_store(addr, value);
-        break;
-    }
     vic20_mem_v_bus_store(addr);
 }
 
