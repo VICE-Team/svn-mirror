@@ -47,12 +47,6 @@ void cartridge_store_blk3(WORD addr, BYTE value);
 BYTE cartridge_read_blk5(WORD addr);
 BYTE cartridge_peek_blk5(WORD addr);
 void cartridge_store_blk5(WORD addr, BYTE value);
-BYTE cartridge_read_io2(WORD addr);
-BYTE cartridge_peek_io2(WORD addr);
-void cartridge_store_io2(WORD addr, BYTE value);
-BYTE cartridge_read_io3(WORD addr);
-BYTE cartridge_peek_io3(WORD addr);
-void cartridge_store_io3(WORD addr, BYTE value);
 
 struct mem_ioreg_list_s;
 extern void cartridge_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list);

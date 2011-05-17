@@ -319,58 +319,6 @@ void cartridge_store_blk5(WORD addr, BYTE value)
     }
 }
 
-BYTE cartridge_read_io2(WORD addr)
-{
-    switch (mem_cartridge_type) {
-    case CARTRIDGE_VIC20_FP:
-        vic20_cpu_last_data = vic_fp_io2_read(addr);
-        break;
-    default:
-        break;
-    }
-    vic20_mem_v_bus_read(addr);
-    return vic20_cpu_last_data;
-}
-
-BYTE cartridge_peek_io2(WORD addr)
-{
-    switch (mem_cartridge_type) {
-    case CARTRIDGE_VIC20_FP:
-        return vic_fp_io2_peek(addr);
-    default:
-        break;
-    }
-    return 0;
-}
-
-void cartridge_store_io2(WORD addr, BYTE value)
-{
-    vic20_cpu_last_data = value;
-    switch (mem_cartridge_type) {
-    case CARTRIDGE_VIC20_FP:
-        vic_fp_io2_store(addr, value);
-        break;
-    }
-    vic20_mem_v_bus_store(addr);
-}
-
-BYTE cartridge_read_io3(WORD addr)
-{
-    vic20_mem_v_bus_read(addr);
-    return vic20_cpu_last_data;
-}
-
-BYTE cartridge_peek_io3(WORD addr)
-{
-    return 0;
-}
-
-void cartridge_store_io3(WORD addr, BYTE value)
-{
-    vic20_cpu_last_data = value;
-    vic20_mem_v_bus_store(addr);
-}
-
 /* ------------------------------------------------------------------------- */
 
 void cartridge_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)

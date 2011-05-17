@@ -224,13 +224,6 @@ static BYTE io3_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
-    if ((mem_cart_blocks & VIC_CART_IO3) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART) && (mem_cartridge_type != CARTRIDGE_VIC20_FINAL_EXPANSION)) {
-        vic20_cpu_last_data = cartridge_read_io3(addr);
-        vic20_mem_v_bus_read(addr);
-        return vic20_cpu_last_data;
-    }
-
     return vic20io3_read(addr);
 }
 
@@ -240,11 +233,6 @@ static void io3_store(WORD addr, BYTE value)
 
     if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f) {
         sid_store(addr,value);
-    }
-
-    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
-    if ((mem_cart_blocks & VIC_CART_IO3) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART) && (mem_cartridge_type != CARTRIDGE_VIC20_FINAL_EXPANSION)) {
-        cartridge_store_io3(addr, value);
     }
 
     vic20io3_store(addr, value);
@@ -270,10 +258,6 @@ static BYTE io3_peek(WORD addr)
 #endif
 #endif
 
-    if (mem_cart_blocks & VIC_CART_IO3) {
-        return cartridge_peek_io3(addr);
-    }
-
     return vic20_v_bus_last_data;
 }
 
@@ -297,13 +281,6 @@ static BYTE io2_read(WORD addr)
         }
     }
 
-    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
-    if ((mem_cart_blocks & VIC_CART_IO2) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART)) {
-        vic20_cpu_last_data = cartridge_read_io2(addr);
-        vic20_mem_v_bus_read(addr);
-        return vic20_cpu_last_data;
-    }
-
     return vic20io2_read(addr);
 }
 
@@ -324,11 +301,6 @@ static void io2_store(WORD addr, BYTE value)
     }
 
 
-    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
-    if ((mem_cart_blocks & VIC_CART_IO2) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART)) {
-        cartridge_store_io2(addr, value);
-    }
-
     vic20io2_store(addr, value);
 }
 
@@ -348,10 +320,6 @@ static BYTE io2_peek(WORD addr)
         }
     }
 #endif
-
-    if (mem_cart_blocks & VIC_CART_IO2) {
-        return cartridge_peek_io2(addr);
-    }
 
     return vic20_v_bus_last_data;
 }

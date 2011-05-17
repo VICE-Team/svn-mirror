@@ -51,6 +51,7 @@
 #include "vic-fp.h"
 #include "vic20cart.h"
 #include "vic20cartmem.h"
+#include "vic20io.h"
 #include "vic20mem.h"
 #include "zfile.h"
 
@@ -134,6 +135,31 @@ static log_t fp_log = LOG_ERR;
 
 /* ------------------------------------------------------------------------- */
 
+/* Some prototypes are needed */
+static BYTE vic_fp_io2_read(WORD addr);
+static BYTE vic_fp_io2_peek(WORD addr);
+static void vic_fp_io2_store(WORD addr, BYTE value);
+static int vic_fp_mon_dump(void);
+
+static io_source_t vfp_device = {
+    CARTRIDGE_VIC20_NAME_FP,
+    IO_DETACH_CART,
+    NULL,
+    0x9800, 0x9bff, 0x3ff,
+    0,
+    vic_fp_io2_store,
+    vic_fp_io2_read,
+    vic_fp_io2_peek,
+    vic_fp_mon_dump,
+    CARTRIDGE_VIC20_FP,
+    0
+};
+
+static io_source_list_t *vfp_list_item = NULL;
+
+
+/* ------------------------------------------------------------------------- */
+
 /* read 0x0400-0x0fff */
 BYTE vic_fp_ram123_read(WORD addr)
 {
@@ -207,12 +233,17 @@ void vic_fp_blk5_store(WORD addr, BYTE value)
 BYTE vic_fp_io2_read(WORD addr)
 {
     BYTE value;
+
+    vfp_device.io_source_valid = 0;
+
     if (!cfg_en_flop) {
         value = vic20_cpu_last_data;
     } else if (addr & 1) {
         value = cart_cfg_reg;
+        vfp_device.io_source_valid = 1;
     } else {
         value = cart_bank_reg;
+        vfp_device.io_source_valid = 1;
     }
 
     return value;
@@ -306,6 +337,9 @@ int vic_fp_bin_attach(const char *filename)
         VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
         VIC_CART_IO2;
     mem_initialize_memory();
+
+    vfp_list_item = io_source_register(&vfp_device);
+
     return 0;
 }
 
@@ -345,6 +379,11 @@ void vic_fp_detach(void)
     cart_ram = NULL;
     cart_rom = NULL;
     cartfile = NULL;
+
+    if (vfp_list_item != NULL) {
+        io_source_unregister(vfp_list_item);
+        vfp_list_item = NULL;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
