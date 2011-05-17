@@ -76,6 +76,7 @@
 #include "vic20.h"
 #include "vic20iec.h"
 #include "vic20ieeevia.h"
+#include "vic20io.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
 #include "vic20sound.h"
@@ -268,6 +269,7 @@ void machine_resources_shutdown(void)
 #ifdef HAVE_MIDI
     midi_resources_shutdown();
 #endif
+    vic20io_shutdown();
 }
 
 /* VIC20-specific command-line option initialization.  */

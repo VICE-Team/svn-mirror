@@ -230,7 +230,7 @@ io_source_list_t *io_source_register(io_source_t *device)
     assert(device != NULL);
     DBG(("IO: register id:%d name:%s\n", device->cart_id, device->name));
 
-    switch (device->start_address & 0xf800) {
+    switch (device->start_address & 0xfc00) {
         case 0x9800:
             current = &vic20io2_head;
             break;

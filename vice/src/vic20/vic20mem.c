@@ -224,7 +224,8 @@ static BYTE io3_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-    if (mem_cart_blocks & VIC_CART_IO3) {
+    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
+    if ((mem_cart_blocks & VIC_CART_IO3) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART)) {
         vic20_cpu_last_data = cartridge_read_io3(addr);
         vic20_mem_v_bus_read(addr);
         return vic20_cpu_last_data;
@@ -241,7 +242,8 @@ static void io3_store(WORD addr, BYTE value)
         sid_store(addr,value);
     }
 
-    if (mem_cart_blocks & VIC_CART_IO3) {
+    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
+    if ((mem_cart_blocks & VIC_CART_IO3) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART)) {
         cartridge_store_io3(addr, value);
     }
 
@@ -295,7 +297,8 @@ static BYTE io2_read(WORD addr)
         }
     }
 
-    if (mem_cart_blocks & VIC_CART_IO2) {
+    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
+    if ((mem_cart_blocks & VIC_CART_IO2) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART)) {
         vic20_cpu_last_data = cartridge_read_io2(addr);
         vic20_mem_v_bus_read(addr);
         return vic20_cpu_last_data;
@@ -320,7 +323,9 @@ static void io2_store(WORD addr, BYTE value)
         }
     }
 
-    if (mem_cart_blocks & VIC_CART_IO2) {
+
+    /* this call will completely disappear once all carts have been adapted to use the vic20 io system */
+    if ((mem_cart_blocks & VIC_CART_IO2) && (mem_cartridge_type != CARTRIDGE_VIC20_MEGACART)) {
         cartridge_store_io2(addr, value);
     }
 

@@ -46,6 +46,7 @@
 #include "util.h"
 #include "vic20cart.h"
 #include "vic20cartmem.h"
+#include "vic20io.h"
 #include "vic20mem.h"
 #include "zfile.h"
 
@@ -107,6 +108,47 @@ static log_t megacart_log = LOG_ERR;
 /* helper pointers */
 static BYTE *cart_rom_low;
 static BYTE *cart_rom_high;
+
+/* ------------------------------------------------------------------------- */
+
+/* Some prototypes are needed */
+static BYTE megacart_io2_read(WORD addr);
+static void megacart_io2_store(WORD addr, BYTE value);
+static BYTE megacart_io3_read(WORD addr);
+static BYTE megacart_io3_peek(WORD addr);
+static void megacart_io3_store(WORD addr, BYTE value);
+static int megacart_mon_dump(void);
+
+static io_source_t megacart_io2_device = {
+    CARTRIDGE_VIC20_NAME_MEGACART,
+    IO_DETACH_CART,
+    NULL,
+    0x9800, 0x9bff, 0x3ff,
+    0,
+    megacart_io2_store,
+    megacart_io2_read,
+    NULL, /* TODO: peek */
+    megacart_mon_dump,
+    CARTRIDGE_VIC20_MEGACART,
+    0
+};
+
+static io_source_t megacart_io3_device = {
+    CARTRIDGE_VIC20_NAME_MEGACART,
+    IO_DETACH_CART,
+    NULL,
+    0x9c00, 0x9fff, 0x3ff,
+    0,
+    megacart_io3_store,
+    megacart_io3_read,
+    megacart_io3_peek,
+    megacart_mon_dump,
+    CARTRIDGE_VIC20_MEGACART,
+    0
+};
+
+static io_source_list_t *megacart_io2_list_item = NULL;
+static io_source_list_t *megacart_io3_list_item = NULL;
 
 /* ------------------------------------------------------------------------- */
 
@@ -229,19 +271,21 @@ void megacart_blk5_store(WORD addr, BYTE value)
 }
 
 /* read 0x9800-0x9bff */
-BYTE megacart_io2_read(WORD addr)
+static BYTE megacart_io2_read(WORD addr)
 {
     BYTE value;
     if (nvram_en_flop) {
+        megacart_io2_device.io_source_valid = 1;
         value = cart_nvram[addr & 0x1fff];
     } else {
+        megacart_io2_device.io_source_valid = 0;
         value = vic20_cpu_last_data;
     }
     return value;
 }
 
 /* store 0x9800-0x9bff */
-void megacart_io2_store(WORD addr, BYTE value)
+static void megacart_io2_store(WORD addr, BYTE value)
 {
     if (nvram_en_flop) {
         cart_nvram[addr & 0x1fff] = value;
@@ -249,18 +293,20 @@ void megacart_io2_store(WORD addr, BYTE value)
 }
 
 /* read 0x9c00-0x9fff */
-BYTE megacart_io3_read(WORD addr)
+static BYTE megacart_io3_read(WORD addr)
 {
     BYTE value;
     if (nvram_en_flop) {
+        megacart_io3_device.io_source_valid = 1;
         value = cart_nvram[addr & 0x1fff];
     } else {
+        megacart_io3_device.io_source_valid = 0;
         value = vic20_cpu_last_data;
     }
     return value;
 }
 
-BYTE megacart_io3_peek(WORD addr)
+static BYTE megacart_io3_peek(WORD addr)
 {
     if ((addr & 0x180) == 0x080) { /* $9c80 */
         return bank_high_reg;
@@ -274,7 +320,7 @@ BYTE megacart_io3_peek(WORD addr)
 }
 
 /* store 0x9c00-0x9fff */
-void megacart_io3_store(WORD addr, BYTE value)
+static void megacart_io3_store(WORD addr, BYTE value)
 {
     if (nvram_en_flop) {
         cart_nvram[addr & 0x1fff] = value;
@@ -415,6 +461,10 @@ int megacart_bin_attach(const char *filename)
         VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
         VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
+
+    megacart_io2_list_item = io_source_register(&megacart_io2_device);
+    megacart_io3_list_item = io_source_register(&megacart_io3_device);
+
     return 0;
 }
 
@@ -434,6 +484,16 @@ void megacart_detach(void)
     cart_ram = NULL;
     cart_nvram = NULL;
     cart_rom = NULL;
+
+    if (megacart_io2_list_item != NULL) {
+        io_source_unregister(megacart_io2_list_item);
+        megacart_io2_list_item = NULL;
+    }
+
+    if (megacart_io3_list_item != NULL) {
+        io_source_unregister(megacart_io3_list_item);
+        megacart_io3_list_item = NULL;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
