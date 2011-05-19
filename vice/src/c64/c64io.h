@@ -88,7 +88,7 @@ typedef struct io_source_s {
     BYTE (*peek)(WORD address); /* read without side effects (used by monitor) */
     int (*dump)(void); /* print detailed state for this i/o device (used by monitor) */
     int cart_id; /* id of associated cartridge */
-    int  io_source_prio; /* 0: normal, 1: priority (no collisions) */
+    int io_source_prio; /* 0: normal, 1: higher priority (no collisions), -1: lower priority (no collisions) */
 } io_source_t;
 
 typedef struct io_source_list_s {
