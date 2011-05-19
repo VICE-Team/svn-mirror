@@ -45,9 +45,17 @@ midi_interface_t midi_interface[] = {
 
 /* ---------------------------------------------------------------------*/
 
-/* Some prototypes are needed */
-static BYTE vic20midi_read(WORD address);
-static BYTE vic20midi_peek(WORD address);
+static BYTE vic20midi_read(WORD address)
+{
+    return midi_read(address);
+}
+
+static BYTE vic20midi_peek(WORD address)
+{
+    return midi_peek(address);
+}
+
+/* ---------------------------------------------------------------------*/
 
 static io_source_t midi_device = {
     "MIDI",
@@ -102,19 +110,6 @@ int vic20_midi_resources_init(void)
 int vic20_midi_cmdline_options_init(void)
 {
     return midi_cmdline_options_init();
-}
-
-/* ---------------------------------------------------------------------*/
-
-static BYTE vic20midi_read(WORD address)
-{
-    midi_device.io_source_valid = 1;
-    return midi_read(address);
-}
-
-static BYTE vic20midi_peek(WORD address)
-{
-    return midi_peek(address);
 }
 
 /* ---------------------------------------------------------------------*/
