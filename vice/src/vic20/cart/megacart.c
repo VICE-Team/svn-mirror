@@ -130,6 +130,7 @@ static io_source_t megacart_io2_device = {
     NULL, /* TODO: peek */
     megacart_mon_dump,
     CARTRIDGE_VIC20_MEGACART,
+    0,
     0
 };
 
@@ -144,6 +145,7 @@ static io_source_t megacart_io3_device = {
     megacart_io3_peek,
     megacart_mon_dump,
     CARTRIDGE_VIC20_MEGACART,
+    0,
     0
 };
 

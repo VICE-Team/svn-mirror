@@ -174,6 +174,7 @@ static io_source_t finalexpansion_device = {
     finalexpansion_io3_peek,
     finalexpansion_mon_dump,
     CARTRIDGE_VIC20_FINAL_EXPANSION,
+    0,
     0
 };
 

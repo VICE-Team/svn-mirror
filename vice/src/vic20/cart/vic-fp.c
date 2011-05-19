@@ -152,6 +152,7 @@ static io_source_t vfp_device = {
     vic_fp_io2_peek,
     vic_fp_mon_dump,
     CARTRIDGE_VIC20_FP,
+    0,
     0
 };
 

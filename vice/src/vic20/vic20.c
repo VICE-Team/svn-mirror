@@ -246,12 +246,13 @@ int machine_resources_init(void)
 #endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
-        || cartridge_resources_init() <0
+        || cartridge_resources_init() < 0
 #ifdef HAVE_MIDI
-        || vic20_midi_resources_init() <0
+        || vic20_midi_resources_init() < 0
 #endif
-)
+        || vic20io_resources_init() < 0 ) {
         return -1;
+    }
 
     return 0;
 }
@@ -299,8 +300,9 @@ int machine_cmdline_options_init(void)
 #ifdef HAVE_MIDI
         || vic20_midi_cmdline_options_init() < 0
 #endif
-)
+        || vic20io_cmdline_options_init() < 0) {
         return -1;
+    }
 
     return 0;
 }
