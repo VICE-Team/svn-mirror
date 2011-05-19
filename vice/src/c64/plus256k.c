@@ -123,7 +123,8 @@ static io_source_t vicii_d000_device = {
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    1 /* priority, device and mirrors never involved in collisions */
+    -1, /* priority, device and mirrors never involved in collisions */
+    0
 };
 
 static io_source_t vicii_d100_device = {
@@ -137,6 +138,7 @@ static io_source_t vicii_d100_device = {
     plus256k_peek,
     plus256k_dump,
     CARTRIDGE_PLUS256K,
+    0,
     0
 };
 

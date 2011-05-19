@@ -96,6 +96,7 @@ static io_source_t magicdesk_device = {
     magicdesk_io1_peek,
     magicdesk_dump,
     CARTRIDGE_MAGIC_DESK,
+    0,
     0
 };
 

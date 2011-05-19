@@ -290,6 +290,7 @@ static io_source_t mmcreplay_io1_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_MMC_REPLAY,
+    0,
     0
 };
 
@@ -304,6 +305,7 @@ static io_source_t mmcreplay_io2_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_MMC_REPLAY,
+    0,
     0
 };
 

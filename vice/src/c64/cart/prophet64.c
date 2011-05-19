@@ -101,6 +101,7 @@ static io_source_t p64_device = {
     p64_io2_peek,
     p64_dump,
     CARTRIDGE_P64,
+    0,
     0
 };
 

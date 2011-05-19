@@ -85,6 +85,7 @@ static io_source_t ss5_device = {
     supersnapshot_v5_io1_peek,
     supersnapshot_v5_dump,
     CARTRIDGE_SUPER_SNAPSHOT_V5,
+    0,
     0
 };
 

@@ -86,6 +86,7 @@ static io_source_t digimax_device = {
     digimax_sound_read,
     NULL,
     CARTRIDGE_DIGIMAX,
+    0,
     0
 };
 

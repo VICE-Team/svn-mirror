@@ -161,6 +161,7 @@ static io_source_t delaep64_device = {
     delaep64_io1_peek,
     delaep64_dump,
     CARTRIDGE_DELA_EP64,
+    0,
     0
 };
 

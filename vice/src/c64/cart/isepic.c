@@ -141,6 +141,7 @@ static io_source_t isepic_io1_device = {
     isepic_io1_peek,
     isepic_dump,
     CARTRIDGE_ISEPIC,
+    0,
     0
 };
 
@@ -155,6 +156,7 @@ static io_source_t isepic_io2_device = {
     isepic_io2_peek,
     isepic_dump,
     CARTRIDGE_ISEPIC,
+    0,
     0
 };
 

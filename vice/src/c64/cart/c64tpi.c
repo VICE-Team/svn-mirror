@@ -101,6 +101,7 @@ static io_source_t tpi_io2_device = {
     tpi_io2_peek,
     tpi_io2_dump,
     CARTRIDGE_IEEE488,
+    0,
     0
 };
 

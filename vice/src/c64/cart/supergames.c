@@ -108,6 +108,7 @@ static io_source_t supergames_device = {
     supergames_io2_peek,
     supergames_dump,
     CARTRIDGE_SUPER_GAMES,
+    0,
     0
 };
 

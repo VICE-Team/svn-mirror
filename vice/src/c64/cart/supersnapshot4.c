@@ -114,6 +114,7 @@ static io_source_t ss4_io1_device = {
     NULL,
     NULL,
     CARTRIDGE_SUPER_SNAPSHOT,
+    0,
     0
 };
 
@@ -128,6 +129,7 @@ static io_source_t ss4_io2_device = {
     NULL,
     NULL,
     CARTRIDGE_SUPER_SNAPSHOT,
+    0,
     0
 };
 

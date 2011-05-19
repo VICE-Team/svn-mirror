@@ -92,6 +92,7 @@ static io_source_t comal80_device = {
     comal80_io1_peek,
     comal80_dump,
     CARTRIDGE_COMAL80,
+    0,
     0
 };
 

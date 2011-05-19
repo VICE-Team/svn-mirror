@@ -36,6 +36,10 @@
 #define CPU_LINES_PLUS60K  2
 #define CPU_LINES_PLUS256K 3
 
+#define IO_COLLISION_METHOD_DETACH_ALL    0
+#define IO_COLLISION_METHOD_DETACH_LAST   1
+#define IO_COLLISION_METHOD_AND_WIRES     2
+
 extern BYTE c64io_d000_read(WORD addr);
 extern BYTE c64io_d000_peek(WORD addr);
 extern void c64io_d000_store(WORD addr, BYTE value);
@@ -89,6 +93,7 @@ typedef struct io_source_s {
     int (*dump)(void); /* print detailed state for this i/o device (used by monitor) */
     int cart_id; /* id of associated cartridge */
     int io_source_prio; /* 0: normal, 1: higher priority (no collisions), -1: lower priority (no collisions) */
+    unsigned int order; /* a tag to indicate the order of insertion */
 } io_source_t;
 
 typedef struct io_source_list_s {
@@ -102,6 +107,7 @@ typedef struct io_source_detach_s {
     char *det_devname;
     char *det_name;
     int det_cartid;
+    unsigned int order;
 } io_source_detach_t;
 
 extern io_source_list_t *io_source_register(io_source_t *device);
@@ -110,5 +116,10 @@ extern void io_source_unregister(io_source_list_t *device);
 extern void c64io_shutdown(void);
 extern void c64io_vicii_init(void);
 extern void c64io_vicii_deinit(void);
+
+extern int c64io_resources_init(void);
+extern int c64io_cmdline_options_init(void);
+
+extern void c64io_set_highest_order(unsigned int nr);
 
 #endif

@@ -73,6 +73,7 @@ static io_source_t sfx_soundexpander_sound_device = {
     sfx_soundexpander_sound_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_SFX_SOUND_EXPANDER,
+    0,
     0
 };
 
@@ -87,6 +88,7 @@ static io_source_t sfx_soundexpander_piano_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_SFX_SOUND_EXPANDER,
+    0,
     0
 };
 

@@ -149,6 +149,7 @@ static io_source_t georam_io1_device = {
     georam_io1_read,
     georam_dump,
     CARTRIDGE_GEORAM,
+    0,
     0
 };
 
@@ -163,6 +164,7 @@ static io_source_t georam_io2_device = {
     georam_io2_peek,
     georam_dump,
     CARTRIDGE_GEORAM,
+    0,
     0
 };
 

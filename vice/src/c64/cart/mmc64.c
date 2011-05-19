@@ -179,6 +179,7 @@ static io_source_t mmc64_io1_clockport_device = {
     NULL,
     NULL,
     CARTRIDGE_MMC64,
+    0,
     0
 };
 
@@ -193,6 +194,7 @@ static io_source_t mmc64_io2_clockport_device = {
     NULL,
     NULL,
     CARTRIDGE_MMC64,
+    0,
     0
 };
 
@@ -215,7 +217,8 @@ static io_source_t mmc64_io2_device = {
     mmc64_io2_peek,
     NULL,
     CARTRIDGE_MMC64,
-    1 /* mask df10-df13 from passthrough */
+    1, /* mask df10-df13 from passthrough */
+    0
 };
 
 static io_source_t mmc64_io1_device = {
@@ -229,6 +232,7 @@ static io_source_t mmc64_io1_device = {
     mmc64_io1_peek,
     NULL,
     CARTRIDGE_MMC64,
+    0,
     0
 };
 

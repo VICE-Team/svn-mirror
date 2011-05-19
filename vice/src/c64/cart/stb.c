@@ -65,6 +65,7 @@ static io_source_t stb_device = {
     stb_io1_peek,
     NULL, /* dump */
     CARTRIDGE_STRUCTURED_BASIC,
+    0,
     0
 };
 

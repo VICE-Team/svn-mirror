@@ -118,6 +118,7 @@ static io_source_t delaep256_device = {
     delaep256_io1_peek,
     delaep256_dump,
     CARTRIDGE_DELA_EP256,
+    0,
     0
 };
 

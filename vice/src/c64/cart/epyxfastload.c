@@ -119,6 +119,7 @@ static io_source_t epyxfastload_io1_device = {
     epyxfastload_io1_peek,
     NULL,
     CARTRIDGE_EPYX_FASTLOAD,
+    0,
     0
 };
 
@@ -133,6 +134,7 @@ static io_source_t epyxfastload_io2_device = {
     epyxfastload_io2_read,
     NULL,
     CARTRIDGE_EPYX_FASTLOAD,
+    0,
     0
 };
 

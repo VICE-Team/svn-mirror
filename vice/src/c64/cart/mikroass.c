@@ -75,6 +75,7 @@ static io_source_t mikroass_io1_device = {
     mikroass_io1_read,
     NULL,
     CARTRIDGE_MIKRO_ASSEMBLER,
+    0,
     0
 };
 
@@ -89,6 +90,7 @@ static io_source_t mikroass_io2_device = {
     mikroass_io2_read,
     NULL,
     CARTRIDGE_MIKRO_ASSEMBLER,
+    0,
     0
 };
 

@@ -74,6 +74,7 @@ static io_source_t warpspeed_io1_device = {
     warpspeed_io1_read,
     NULL,
     CARTRIDGE_WARPSPEED,
+    0,
     0
 };
 
@@ -88,6 +89,7 @@ static io_source_t warpspeed_io2_device = {
     warpspeed_io2_read,
     NULL,
     CARTRIDGE_WARPSPEED,
+    0,
     0
 };
 

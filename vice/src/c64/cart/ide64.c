@@ -160,6 +160,7 @@ static io_source_t ide64_device = {
     ide64_io1_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_IDE64,
+    0,
     0
 };
 

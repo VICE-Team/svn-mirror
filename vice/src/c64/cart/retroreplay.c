@@ -138,6 +138,7 @@ static io_source_t retroreplay_io1_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_RETRO_REPLAY,
+    0,
     0
 };
 
@@ -152,6 +153,7 @@ static io_source_t retroreplay_io2_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_RETRO_REPLAY,
+    0,
     0
 };
 

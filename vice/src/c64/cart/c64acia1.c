@@ -92,6 +92,7 @@ static io_source_t acia_device = {
     aciacart_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_ACIA,
+    0,
     0
 };
 

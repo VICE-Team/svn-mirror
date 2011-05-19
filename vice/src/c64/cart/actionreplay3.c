@@ -86,6 +86,7 @@ static io_source_t actionreplay3_io1_device = {
     actionreplay3_io1_peek,
     actionreplay3_dump,
     CARTRIDGE_ACTION_REPLAY3,
+    0,
     0
 };
 
@@ -100,6 +101,7 @@ static io_source_t actionreplay3_io2_device = {
     actionreplay3_io2_peek,
     actionreplay3_dump,
     CARTRIDGE_ACTION_REPLAY3,
+    0,
     0
 };
 

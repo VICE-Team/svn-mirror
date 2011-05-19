@@ -96,6 +96,7 @@ static io_source_t final3_io1_device = {
     final_v3_io1_read,
     final_v3_dump,
     CARTRIDGE_FINAL_III,
+    0,
     0
 };
 
@@ -110,6 +111,7 @@ static io_source_t final3_io2_device = {
     final_v3_io2_read,
     final_v3_dump,
     CARTRIDGE_FINAL_III,
+    0,
     0
 };
 

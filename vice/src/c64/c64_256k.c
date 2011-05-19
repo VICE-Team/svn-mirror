@@ -175,6 +175,7 @@ static io_source_t c64_256k_device = {
     c64_256k_read,
     c64_256k_dump,
     CARTRIDGE_C64_256K,
+    0,
     0
 };
 

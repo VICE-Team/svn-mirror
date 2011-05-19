@@ -111,6 +111,7 @@ static io_source_t funplay_device = {
     funplay_io1_peek,
     funplay_dump,
     CARTRIDGE_FUNPLAY,
+    0,
     0
 };
 

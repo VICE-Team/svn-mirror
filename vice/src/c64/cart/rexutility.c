@@ -80,6 +80,7 @@ static io_source_t rex_device = {
     rex_io2_peek,
     NULL,
     CARTRIDGE_REX,
+    0,
     0
 };
 

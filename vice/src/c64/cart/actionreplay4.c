@@ -77,6 +77,7 @@ static io_source_t actionreplay4_io1_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_ACTION_REPLAY4,
+    0,
     0
 };
 
@@ -91,6 +92,7 @@ static io_source_t actionreplay4_io2_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_ACTION_REPLAY4,
+    0,
     0
 };
 

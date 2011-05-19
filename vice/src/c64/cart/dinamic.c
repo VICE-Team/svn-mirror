@@ -98,6 +98,7 @@ static io_source_t dinamic_io1_device = {
     dinamic_io1_peek,
     dinamic_dump,
     CARTRIDGE_DINAMIC,
+    0,
     0
 };
 

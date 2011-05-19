@@ -267,6 +267,7 @@ static io_source_t reu_io2_device = {
     reu_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_REU,
+    0,
     0
 };
 

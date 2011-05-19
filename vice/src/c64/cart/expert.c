@@ -240,6 +240,7 @@ static io_source_t expert_io1_device = {
     expert_io1_peek,
     NULL, /* dump */
     CARTRIDGE_EXPERT,
+    0,
     0
 };
 

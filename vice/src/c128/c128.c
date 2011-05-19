@@ -295,7 +295,8 @@ static io_source_t vicii_d000_device = {
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    1 /* priority, device and mirrors never involved in collisions */
+    -1, /* priority, device and mirrors never involved in collisions */
+    0
 };
 
 static io_source_t vicii_d100_device = {
@@ -309,7 +310,8 @@ static io_source_t vicii_d100_device = {
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    1 /* priority, device and mirrors never involved in collisions */
+    -1, /* priority, device and mirrors never involved in collisions */
+    0
 };
 
 static io_source_t vicii_d200_device = {
@@ -323,7 +325,8 @@ static io_source_t vicii_d200_device = {
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    1 /* priority, device and mirrors never involved in collisions */
+    -1, /* priority, device and mirrors never involved in collisions */
+    0
 };
 
 static io_source_t vicii_d300_device = {
@@ -337,7 +340,8 @@ static io_source_t vicii_d300_device = {
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    1 /* priority, device and mirrors never involved in collisions */
+    -1, /* priority, device and mirrors never involved in collisions */
+    0
 };
 
 static io_source_t sid_d400_device = {
@@ -351,7 +355,8 @@ static io_source_t sid_d400_device = {
     sid_peek,
     NULL, /* TODO: dump */
     0, /* dummy (not a cartridge) */
-    1 /* priority, device and mirrors never involved in collisions */
+    -1, /* priority, device and mirrors never involved in collisions */
+    0
 };
 
 static io_source_list_t *vicii_d000_list_item = NULL;
@@ -429,6 +434,7 @@ int machine_resources_init(void)
         || cartridge_resources_init() < 0
         || mmu_resources_init() < 0
         || z80mem_resources_init() < 0
+        || c64io_resources_init() < 0
         || functionrom_resources_init() < 0) {
         return -1;
     }
@@ -478,6 +484,7 @@ int machine_cmdline_options_init(void)
         || cartridge_cmdline_options_init() < 0
         || mmu_cmdline_options_init() < 0
         || functionrom_cmdline_options_init() < 0
+        || c64io_cmdline_options_init() < 0
         || z80mem_cmdline_options_init() < 0) {
         return -1;
     }

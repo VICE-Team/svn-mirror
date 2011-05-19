@@ -122,6 +122,7 @@ static io_source_t kcs_io1_device = {
     kcs_io1_peek,
     NULL,
     CARTRIDGE_KCS_POWER,
+    0,
     0
 };
 
@@ -136,6 +137,7 @@ static io_source_t kcs_io2_device = {
     kcs_io2_peek,
     NULL,
     CARTRIDGE_KCS_POWER,
+    0,
     0
 };
 

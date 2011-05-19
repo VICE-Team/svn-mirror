@@ -152,6 +152,7 @@ static io_source_t ramcart_io1_device = {
     ramcart_io1_peek,
     ramcart_dump,
     CARTRIDGE_RAMCART,
+    0,
     0
 };
 
@@ -166,6 +167,7 @@ static io_source_t ramcart_io2_device = {
     ramcart_io2_read,
     ramcart_dump,
     CARTRIDGE_RAMCART,
+    0,
     0
 };
 

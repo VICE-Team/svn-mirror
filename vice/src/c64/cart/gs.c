@@ -95,6 +95,7 @@ static io_source_t gs_device = {
     gs_io1_peek,
     gs_dump,
     CARTRIDGE_GS,
+    0,
     0
 };
 

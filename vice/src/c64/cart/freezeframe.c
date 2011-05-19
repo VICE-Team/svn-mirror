@@ -127,6 +127,7 @@ static io_source_t freezeframe_io1_device = {
     freezeframe_io1_peek,
     NULL,
     CARTRIDGE_FREEZE_FRAME,
+    0,
     0
 };
 
@@ -141,6 +142,7 @@ static io_source_t freezeframe_io2_device = {
     freezeframe_io2_peek,
     NULL,
     CARTRIDGE_FREEZE_FRAME,
+    0,
     0
 };
 

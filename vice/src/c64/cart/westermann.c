@@ -66,6 +66,7 @@ static io_source_t westermann_device = {
     westermann_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_WESTERMANN,
+    0,
     0
 };
 

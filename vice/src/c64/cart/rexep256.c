@@ -155,6 +155,7 @@ static io_source_t rexep256_device = {
     rexep256_io2_peek,
     rexep256_dump,
     CARTRIDGE_REX_EP256,
+    0,
     0
 };
 

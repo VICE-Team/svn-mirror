@@ -104,6 +104,7 @@ static io_source_t gamekiller_io1_device = {
     gamekiller_peek,
     NULL,
     CARTRIDGE_GAME_KILLER,
+    0,
     0
 };
 
@@ -118,6 +119,7 @@ static io_source_t gamekiller_io2_device = {
     gamekiller_peek,
     NULL,
     CARTRIDGE_GAME_KILLER,
+    0,
     0
 };
 

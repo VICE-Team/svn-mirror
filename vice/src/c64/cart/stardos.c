@@ -214,6 +214,7 @@ static io_source_t stardos_io1_device = {
     stardos_io_peek,
     NULL,
     CARTRIDGE_STARDOS,
+    0,
     0
 };
 
@@ -229,6 +230,7 @@ static io_source_t stardos_io2_device = {
     stardos_io_peek,
     NULL,
     CARTRIDGE_STARDOS,
+    0,
     0
 };
 

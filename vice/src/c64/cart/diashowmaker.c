@@ -112,6 +112,7 @@ static io_source_t dsm_io1_device = {
     dsm_io1_peek,
     NULL,
     CARTRIDGE_DIASHOW_MAKER,
+    0,
     0
 };
 

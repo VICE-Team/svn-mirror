@@ -135,6 +135,7 @@ static io_source_t delaep7x8_device = {
     delaep7x8_io1_peek,
     delaep7x8_dump,
     CARTRIDGE_DELA_EP7x8,
+    0,
     0
 };
 

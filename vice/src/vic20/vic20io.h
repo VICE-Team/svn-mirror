@@ -34,7 +34,7 @@
 
 #define IO_COLLISION_METHOD_DETACH_ALL    0
 #define IO_COLLISION_METHOD_DETACH_LAST   1
-#define IO_COLLISION_AND_WIRES            2
+#define IO_COLLISION_METHOD_AND_WIRES     2
 
 extern BYTE vic20io2_read(WORD addr);
 extern BYTE vic20io2_peek(WORD addr);

@@ -89,6 +89,7 @@ static io_source_t final_plus_io2_device = {
     final_plus_io2_read,
     NULL, /* TODO: dump */
     CARTRIDGE_FINAL_PLUS,
+    0,
     0
 };
 

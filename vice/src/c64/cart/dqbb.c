@@ -122,6 +122,7 @@ static io_source_t dqbb_io1_device = {
     dqbb_io1_peek,
     dqbb_dump,
     CARTRIDGE_DQBB,
+    0,
     0
 };
 

@@ -107,6 +107,7 @@ static io_source_t atomicpower_io1_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_ATOMIC_POWER,
+    0,
     0
 };
 
@@ -121,6 +122,7 @@ static io_source_t atomicpower_io2_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     CARTRIDGE_ATOMIC_POWER,
+    0,
     0
 };
 

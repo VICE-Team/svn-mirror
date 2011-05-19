@@ -61,6 +61,7 @@ static io_source_t stereo_sid_device = {
     NULL, /* TODO: peek */
     NULL, /* TODO: dump */
     0,
+    0,
     0
 };
 

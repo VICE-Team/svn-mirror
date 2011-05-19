@@ -81,6 +81,7 @@ static io_source_t final1_io1_device = {
     final_v1_io1_peek,
     NULL,
     CARTRIDGE_FINAL_I,
+    0,
     0
 };
 
@@ -95,6 +96,7 @@ static io_source_t final1_io2_device = {
     final_v1_io2_peek,
     NULL,
     CARTRIDGE_FINAL_I,
+    0,
     0
 };
 

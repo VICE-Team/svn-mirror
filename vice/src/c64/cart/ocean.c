@@ -102,6 +102,7 @@ static io_source_t ocean_device = {
     ocean_io1_peek,
     ocean_dump,
     CARTRIDGE_OCEAN,
+    0,
     0
 };
 

@@ -123,6 +123,7 @@ static io_source_t se5_io2_device = {
     NULL,
     NULL,
     CARTRIDGE_SUPER_EXPLODE_V5,
+    0,
     0
 };
 

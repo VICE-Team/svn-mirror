@@ -298,7 +298,7 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
                             realval = retval;
                         }
                     }
-                    if (io_source_collision_handling == IO_COLLISION_AND_WIRES) {
+                    if (io_source_collision_handling == IO_COLLISION_METHOD_AND_WIRES) {
                         realval &= retval;
                     }
                     if (current->device->io_source_prio != -1) {
@@ -334,7 +334,7 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
         return vic20_cpu_last_data;
     }
 
-    if (io_source_collision_handling == IO_COLLISION_AND_WIRES) {
+    if (io_source_collision_handling == IO_COLLISION_METHOD_AND_WIRES) {
         io_source_log_collisions(addr, io_source_counter, list);
         vic20_cpu_last_data = realval;
         vic20_mem_v_bus_read(addr);
@@ -422,7 +422,7 @@ void io_source_unregister(io_source_list_t *device)
         device->next->previous = prev;
     }
 
-    if (device->device->order == order) {
+    if (device->device->order == order - 1) {
         if (order != 0) {
             order--;
         }

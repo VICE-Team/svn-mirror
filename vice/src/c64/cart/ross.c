@@ -103,6 +103,7 @@ static io_source_t ross_io1_device = {
     ross_io_peek,
     ross_dump,
     CARTRIDGE_ROSS,
+    0,
     0
 };
 
@@ -117,6 +118,7 @@ static io_source_t ross_io2_device = {
     ross_io_peek,
     ross_dump,
     CARTRIDGE_ROSS,
+    0,
     0
 };
 
