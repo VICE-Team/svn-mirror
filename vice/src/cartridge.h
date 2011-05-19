@@ -299,6 +299,7 @@ extern int cartridge_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
 #define CARTRIDGE_VIC20_MEGACART        2   /* megacart.c */
 #define CARTRIDGE_VIC20_FINAL_EXPANSION 3   /* finalexpansion.c */
 #define CARTRIDGE_VIC20_FP              4   /* vic-fp.c */
+#define CARTRIDGE_VIC20_IEEE488         5   /* vic20-resources.c */
 
 /*
  * VIC20 Generic cartridges

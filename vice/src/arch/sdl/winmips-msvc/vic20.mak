@@ -58,7 +58,6 @@ CLEAN :
 	-@erase "$(INTDIR)\vic-snapshot.obj"
 	-@erase "$(INTDIR)\vic.obj"
 	-@erase "$(INTDIR)\vic20-cmdline-options.obj"
-	-@erase "$(INTDIR)\vic20-midi.obj"
 	-@erase "$(INTDIR)\vic20-resources.obj"
 	-@erase "$(INTDIR)\vic20-snapshot.obj"
 	-@erase "$(INTDIR)\vic20.obj"
@@ -87,7 +86,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vic20.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /I "..\..\..\vic20\cart" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vic20.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -136,7 +135,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\vic-snapshot.obj" \
 	"$(INTDIR)\vic.obj" \
 	"$(INTDIR)\vic20-cmdline-options.obj" \
-	"$(INTDIR)\vic20-midi.obj" \
 	"$(INTDIR)\vic20-resources.obj" \
 	"$(INTDIR)\vic20-snapshot.obj" \
 	"$(INTDIR)\vic20.obj" \
@@ -199,7 +197,6 @@ CLEAN :
 	-@erase "$(INTDIR)\vic-snapshot.obj"
 	-@erase "$(INTDIR)\vic.obj"
 	-@erase "$(INTDIR)\vic20-cmdline-options.obj"
-	-@erase "$(INTDIR)\vic20-midi.obj"
 	-@erase "$(INTDIR)\vic20-resources.obj"
 	-@erase "$(INTDIR)\vic20-snapshot.obj"
 	-@erase "$(INTDIR)\vic20.obj"
@@ -228,7 +225,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vic20.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /I "..\..\..\vic20\cart" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vic20.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -277,7 +274,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\vic-snapshot.obj" \
 	"$(INTDIR)\vic.obj" \
 	"$(INTDIR)\vic20-cmdline-options.obj" \
-	"$(INTDIR)\vic20-midi.obj" \
 	"$(INTDIR)\vic20-resources.obj" \
 	"$(INTDIR)\vic20-snapshot.obj" \
 	"$(INTDIR)\vic20.obj" \
@@ -389,12 +385,6 @@ SOURCE=..\..\..\vic20\vic.c
 SOURCE="..\..\..\vic20\vic20-cmdline-options.c"
 
 "$(INTDIR)\vic20-cmdline-options.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\vic20\vic20-midi.c"
-
-"$(INTDIR)\vic20-midi.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
