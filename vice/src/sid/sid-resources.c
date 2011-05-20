@@ -67,37 +67,17 @@ static int sid_hardsid_right;
 int parsid_port = 0;
 #endif
 
-int sidcart_enabled;
-int sidcart_address;
-int sidcart_clock;
-
-static int set_sidcart_enabled(int val, void *param)
-{
-    sidcart_enabled = val;
-    sound_state_changed = 1;
-    return 0;
-}
-
-static int set_sid_address(int val, void *param)
-{
-    sidcart_address = val;
-    return 0;
-}
-
-static int set_sid_clock(int val, void *param)
-{
-    sidcart_clock = val;
-    sid_state_changed = 1;
-    return 0;
-}
-
 static int set_sid_engine(int set_engine, void *param)
 {
     int engine = set_engine;
 
     if (engine == SID_ENGINE_DEFAULT) {
 #ifdef HAVE_RESID
-        engine = SID_ENGINE_RESID;
+        if (machine_class != VICE_MACHINE_VIC20 && machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_PET) {
+            engine = SID_ENGINE_RESID;
+        } else {
+            engine = SID_ENGINE_FASTSID;
+        }
 #else
         engine = SID_ENGINE_FASTSID;
 #endif
@@ -299,26 +279,6 @@ static int set_sid_parsid_port(int val, void *param)
 }
 #endif
 
-static const resource_int_t sidcart_resources_int[] = {
-    { "SidEngine", SID_ENGINE_FASTSID,
-      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_FASTSID,
-      &sid_engine, set_sid_engine, NULL },
-    { "SidCart", 0, RES_EVENT_SAME, NULL,
-      &sidcart_enabled, set_sidcart_enabled, NULL },
-    { "SidAddress", 0, RES_EVENT_SAME, NULL,
-      &sidcart_address, set_sid_address, NULL },
-    { "SidClock", 1, RES_EVENT_SAME, NULL,
-      &sidcart_clock, set_sid_clock, NULL },
-    { NULL }
-};
-
-static const resource_int_t sidengine_resources_int[] = {
-    { "SidEngine", SID_ENGINE_DEFAULT,
-      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
-      &sid_engine, set_sid_engine, NULL },
-    { NULL }
-};
-
 #if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
 static const resource_int_t resid_resources_int[] = {
     { "SidResidSampling", 0, RES_EVENT_NO, NULL,
@@ -334,6 +294,9 @@ static const resource_int_t resid_resources_int[] = {
 #endif
 
 static const resource_int_t common_resources_int[] = {
+    { "SidEngine", SID_ENGINE_DEFAULT,
+      RES_EVENT_STRICT, (resource_value_t)SID_ENGINE_RESID,
+      &sid_engine, set_sid_engine, NULL },
     { "SidFilters", 1, RES_EVENT_SAME, NULL,
       &sid_filters_enabled, set_sid_filters_enabled, NULL },
     { "SidModel", SID_MODEL_DEFAULT, RES_EVENT_SAME, NULL,
@@ -353,27 +316,30 @@ static const resource_int_t common_resources_int[] = {
     { NULL }
 };
 
-int sidcart_resources_init(void)
-{
-    if (resources_register_int(sidcart_resources_int) < 0) {
-        return -1;
-    }
+static const resource_int_t stereo_resources_int[] = {
+    { "SidStereo", 0, RES_EVENT_SAME, NULL,
+      &sid_stereo, set_sid_stereo, NULL },
+    { NULL }
+};
 
+int sid_common_resources_init(void)
+{
     return resources_register_int(common_resources_int);
 }
 
 int sid_resources_init(void)
 {
-    if (resources_register_int(sidengine_resources_int) < 0) {
-        return -1;
-    }
 #if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
     if (resources_register_int(resid_resources_int) < 0) {
         return -1;
     }
 #endif
 
-    return resources_register_int(common_resources_int);
+    if (resources_register_int(stereo_resources_int) < 0) {
+        return -1;
+    }
+
+    return sid_common_resources_init();
 }
 
 static int sid_check_engine_model(int engine, int model)

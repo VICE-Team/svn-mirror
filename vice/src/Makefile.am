@@ -191,6 +191,7 @@ noinst_HEADERS = \
 	rsuser.h \
 	screenshot.h \
 	serial.h \
+	sidcart.h \
 	signals.h \
 	snapshot.h \
 	sound.h \

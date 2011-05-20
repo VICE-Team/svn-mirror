@@ -51,6 +51,7 @@ CLEAN :
 	-@erase "$(INTDIR)\digiblaster.obj"
 	-@erase "$(INTDIR)\plus4-cmdline-options.obj"
 	-@erase "$(INTDIR)\plus4-resources.obj"
+	-@erase "$(INTDIR)\plus4-sidcart.obj"
 	-@erase "$(INTDIR)\plus4-snapshot.obj"
 	-@erase "$(INTDIR)\plus4.obj"
 	-@erase "$(INTDIR)\plus4acia.obj"
@@ -75,7 +76,6 @@ CLEAN :
 	-@erase "$(INTDIR)\plus4speech.obj"
 	-@erase "$(INTDIR)\plus4tcbm.obj"
 	-@erase "$(INTDIR)\plus4video.obj"
-	-@erase "$(INTDIR)\sidcartjoy.obj"
 	-@erase "$(INTDIR)\ted-badline.obj"
 	-@erase "$(INTDIR)\ted-cmdline-options.obj"
 	-@erase "$(INTDIR)\ted-color.obj"
@@ -139,6 +139,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\digiblaster.obj" \
 	"$(INTDIR)\plus4-cmdline-options.obj" \
 	"$(INTDIR)\plus4-resources.obj" \
+	"$(INTDIR)\plus4-sidcart.obj" \
 	"$(INTDIR)\plus4-snapshot.obj" \
 	"$(INTDIR)\plus4.obj" \
 	"$(INTDIR)\plus4acia.obj" \
@@ -163,7 +164,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\plus4speech.obj" \
 	"$(INTDIR)\plus4tcbm.obj" \
 	"$(INTDIR)\plus4video.obj" \
-	"$(INTDIR)\sidcartjoy.obj" \
 	"$(INTDIR)\ted-badline.obj" \
 	"$(INTDIR)\ted-cmdline-options.obj" \
 	"$(INTDIR)\ted-color.obj" \
@@ -210,6 +210,7 @@ CLEAN :
 	-@erase "$(INTDIR)\digiblaster.obj"
 	-@erase "$(INTDIR)\plus4-cmdline-options.obj"
 	-@erase "$(INTDIR)\plus4-resources.obj"
+	-@erase "$(INTDIR)\plus4-sidcart.obj"
 	-@erase "$(INTDIR)\plus4-snapshot.obj"
 	-@erase "$(INTDIR)\plus4.obj"
 	-@erase "$(INTDIR)\plus4acia.obj"
@@ -234,7 +235,6 @@ CLEAN :
 	-@erase "$(INTDIR)\plus4speech.obj"
 	-@erase "$(INTDIR)\plus4tcbm.obj"
 	-@erase "$(INTDIR)\plus4video.obj"
-	-@erase "$(INTDIR)\sidcartjoy.obj"
 	-@erase "$(INTDIR)\ted-badline.obj"
 	-@erase "$(INTDIR)\ted-cmdline-options.obj"
 	-@erase "$(INTDIR)\ted-color.obj"
@@ -298,6 +298,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\digiblaster.obj" \
 	"$(INTDIR)\plus4-cmdline-options.obj" \
 	"$(INTDIR)\plus4-resources.obj" \
+	"$(INTDIR)\plus4-sidcart.obj" \
 	"$(INTDIR)\plus4-snapshot.obj" \
 	"$(INTDIR)\plus4.obj" \
 	"$(INTDIR)\plus4acia.obj" \
@@ -322,7 +323,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\plus4speech.obj" \
 	"$(INTDIR)\plus4tcbm.obj" \
 	"$(INTDIR)\plus4video.obj" \
-	"$(INTDIR)\sidcartjoy.obj" \
 	"$(INTDIR)\ted-badline.obj" \
 	"$(INTDIR)\ted-cmdline-options.obj" \
 	"$(INTDIR)\ted-color.obj" \
@@ -389,6 +389,12 @@ SOURCE="..\..\..\plus4\plus4-cmdline-options.c"
 SOURCE="..\..\..\plus4\plus4-resources.c"
 
 "$(INTDIR)\plus4-resources.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\plus4\plus4-sidcart.c"
+
+"$(INTDIR)\plus4-sidcart.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -551,12 +557,6 @@ SOURCE=..\..\..\plus4\plus4tcbm.c
 SOURCE=..\..\..\plus4\plus4video.c
 
 "$(INTDIR)\plus4video.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\plus4\sidcartjoy.c
-
-"$(INTDIR)\sidcartjoy.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

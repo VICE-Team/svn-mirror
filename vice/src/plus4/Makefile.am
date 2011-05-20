@@ -18,6 +18,7 @@ libplus4_a_SOURCES = \
 	plus4-cmdline-options.h \
 	plus4-resources.c \
 	plus4-resources.h \
+	plus4-sidcart.c \
 	plus4-snapshot.c \
 	plus4-snapshot.h \
 	plus4.c \
@@ -60,8 +61,6 @@ libplus4_a_SOURCES = \
 	plus4tcbm.c \
 	plus4tcbm.h \
 	plus4video.c \
-	sidcartjoy.c \
-	sidcartjoy.h \
 	ted-badline.c \
 	ted-badline.h \
 	ted-cmdline-options.c \

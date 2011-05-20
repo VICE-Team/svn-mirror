@@ -102,6 +102,10 @@ SOURCE="..\..\..\vic20\cart\vic20-midi.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\vic20\cart\vic20-sidcart.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\vic20\cart\vic20cart.c"
 # End Source File
 # Begin Source File

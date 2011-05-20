@@ -35,6 +35,7 @@
 #include "lib.h"
 #include "maincpu.h"
 #include "sid.h"
+#include "sidcart.h"
 #include "sid-resources.h"
 #include "sound.h"
 #include "types.h"

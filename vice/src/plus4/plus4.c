@@ -67,9 +67,9 @@
 #include "screenshot.h"
 #include "serial.h"
 #include "sid.h"
+#include "sidcart.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
-#include "sidcartjoy.h"
 #include "sound.h"
 #include "tape.h"
 #include "ted-cmdline-options.h"
@@ -254,7 +254,6 @@ int machine_resources_init(void)
         || ted_resources_init() < 0
         || digiblaster_resources_init() < 0
         || speech_resources_init() < 0
-        || sidcartjoy_resources_init() < 0
         || sound_resources_init() < 0
         || sidcart_resources_init() < 0
         || acia_resources_init() < 0
@@ -292,7 +291,6 @@ int machine_cmdline_options_init(void)
         || plus4_cmdline_options_init() < 0
         || ted_cmdline_options_init() < 0
         || digiblaster_cmdline_options_init() < 0
-        || sidcartjoy_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sidcart_cmdline_options_init() < 0
         || speech_cmdline_options_init() < 0

@@ -1,5 +1,5 @@
 /*
- * sidcartjoy.h - SIDCART joystick port emulation.
+ * sidcart.h - SID cart emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,17 +24,19 @@
  *
  */
 
-#ifndef VICE_SIDCARTJOY_H
-#define VICE_SIDCARTJOY_H
-
-#include "types.h"
+#ifndef VICE_SIDCART_H
+#define VICE_SIDCART_H
 
 extern int sidcartjoy_enabled;
 
-extern int sidcartjoy_resources_init(void);
-extern int sidcartjoy_cmdline_options_init(void);
+extern int sidcart_cmdline_options_init(void);
+extern int sidcart_resources_init(void);
 
 extern void sidcartjoy_store(WORD addr, BYTE value);
 extern BYTE sidcartjoy_read(WORD addr);
+
+extern int sidcart_enabled;
+extern int sidcart_address;
+extern int sidcart_clock;
 
 #endif

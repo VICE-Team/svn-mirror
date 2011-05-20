@@ -37,6 +37,7 @@
 #include "plus4.h"
 #include "plus4speech.h"
 #include "sid.h"
+#include "sidcart.h"
 #include "sid-resources.h"
 #include "sound.h"
 #include "ted-sound.h"

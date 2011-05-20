@@ -61,6 +61,7 @@
 #include "screenshot.h"
 #include "serial.h"
 #include "sid.h"
+#include "sidcart.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "sound.h"

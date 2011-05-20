@@ -19,6 +19,7 @@ libvic20cart_a_SOURCES = \
 	vic20-ieee488.h \
 	vic20-midi.c \
 	vic20-midi.h \
+	vic20-sidcart.c \
 	vic20cart.c \
 	vic20cart.h \
 	vic20cartmem.c \

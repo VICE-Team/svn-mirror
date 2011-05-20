@@ -50,6 +50,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pet-cmdline-options.obj"
 	-@erase "$(INTDIR)\pet-resources.obj"
+	-@erase "$(INTDIR)\pet-sidcart.obj"
 	-@erase "$(INTDIR)\pet-snapshot.obj"
 	-@erase "$(INTDIR)\pet.obj"
 	-@erase "$(INTDIR)\pet_userport_dac.obj"
@@ -119,6 +120,7 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\pet.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\pet-cmdline-options.obj" \
 	"$(INTDIR)\pet-resources.obj" \
+	"$(INTDIR)\pet-sidcart.obj" \
 	"$(INTDIR)\pet-snapshot.obj" \
 	"$(INTDIR)\pet.obj" \
 	"$(INTDIR)\pet_userport_dac.obj" \
@@ -171,6 +173,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\pet-cmdline-options.obj"
 	-@erase "$(INTDIR)\pet-resources.obj"
+	-@erase "$(INTDIR)\pet-sidcart.obj"
 	-@erase "$(INTDIR)\pet-snapshot.obj"
 	-@erase "$(INTDIR)\pet.obj"
 	-@erase "$(INTDIR)\pet_userport_dac.obj"
@@ -240,6 +243,7 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\pet.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\pet-cmdline-options.obj" \
 	"$(INTDIR)\pet-resources.obj" \
+	"$(INTDIR)\pet-sidcart.obj" \
 	"$(INTDIR)\pet-snapshot.obj" \
 	"$(INTDIR)\pet.obj" \
 	"$(INTDIR)\pet_userport_dac.obj" \
@@ -307,6 +311,12 @@ SOURCE="..\..\..\pet\pet-cmdline-options.c"
 SOURCE="..\..\..\pet\pet-resources.c"
 
 "$(INTDIR)\pet-resources.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\pet\pet-sidcart.c"
+
+"$(INTDIR)\pet-sidcart.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

@@ -39,7 +39,7 @@
 #include "sid-resources.h"
 #include "translate.h"
 
-static int sid_common_set_engine_model(const char *param, void *extra_param)
+int sid_common_set_engine_model(const char *param, void *extra_param)
 {
     int engine;
     int model;
@@ -144,14 +144,6 @@ static const cmdline_option_t common_cmdline_options[] = {
       NULL, NULL },
     { NULL }
 };
-
-int sidcart_cmdline_options_init(void)
-{
-    if (cmdline_register_options(sidcart_cmdline_options)<0)
-        return -1;
-
-    return cmdline_register_options(common_cmdline_options);
-}
 
 int sid_cmdline_options_init(void)
 {

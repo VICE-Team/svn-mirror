@@ -94,6 +94,10 @@ SOURCE="..\..\..\plus4\plus4-resources.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\plus4\plus4-sidcart.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\plus4\plus4-snapshot.c"
 # End Source File
 # Begin Source File
@@ -197,10 +201,6 @@ SOURCE=..\..\..\plus4\plus4tcbm.c
 # Begin Source File
 
 SOURCE=..\..\..\plus4\plus4video.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\plus4\sidcartjoy.c
 # End Source File
 # Begin Source File
 

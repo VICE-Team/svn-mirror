@@ -51,7 +51,7 @@
 #include "resources.h"
 #include "sid-resources.h"
 #include "sid.h"
-#include "sidcartjoy.h"
+#include "sidcart.h"
 #include "ted.h"
 #include "ted-mem.h"
 #include "types.h"

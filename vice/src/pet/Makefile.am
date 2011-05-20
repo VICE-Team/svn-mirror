@@ -15,6 +15,7 @@ libpet_a_SOURCES = \
 	pet-cmdline-options.h \
 	pet-resources.c \
 	pet-resources.h \
+	pet-sidcart.c \
 	pet-snapshot.c \
 	pet-snapshot.h \
 	pet_userport_dac.c \

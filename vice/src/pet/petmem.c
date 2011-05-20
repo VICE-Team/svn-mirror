@@ -48,6 +48,7 @@
 #include "ram.h"
 #include "resources.h"
 #include "sid.h"
+#include "sidcart.h"
 #include "sid-resources.h"
 #include "types.h"
 #include "via.h"

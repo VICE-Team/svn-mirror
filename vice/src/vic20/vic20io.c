@@ -366,6 +366,8 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
 {
     io_source_list_t *current = list->next;
 
+    vic20_cpu_last_data = value;
+
     while (current) {
         if (current->device->store != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
