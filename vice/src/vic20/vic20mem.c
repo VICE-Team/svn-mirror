@@ -269,18 +269,6 @@ static BYTE io2_read(WORD addr)
         return vic20_cpu_last_data;
     }
 
-    if (ieee488_enabled) {
-        if (addr & 0x10) {
-            vic20_cpu_last_data = ieeevia2_read(addr);
-            vic20_mem_v_bus_read(addr);
-            return vic20_cpu_last_data;
-        } else {
-            vic20_cpu_last_data = ieeevia1_read(addr);
-            vic20_mem_v_bus_read(addr);
-            return vic20_cpu_last_data;
-        }
-    }
-
     return vic20io2_read(addr);
 }
 
@@ -292,15 +280,6 @@ static void io2_store(WORD addr, BYTE value)
         sid_store(addr,value);
     }
 
-    if (ieee488_enabled) {
-        if (addr & 0x10) {
-            ieeevia2_store(addr, value);
-        } else {
-            ieeevia1_store(addr, value);
-        }
-    }
-
-
     vic20io2_store(addr, value);
 }
 
@@ -310,14 +289,6 @@ static BYTE io2_peek(WORD addr)
     /* TODO */
     if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f) {
         return sid_peek(addr);
-    }
-
-    if (ieee488_enabled) {
-        if (addr & 0x10) {
-            return ieeevia2_peek(addr);
-        } else {
-            return ieeevia1_peek(addr);
-        }
     }
 #endif
 

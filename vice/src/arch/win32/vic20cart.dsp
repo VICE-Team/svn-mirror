@@ -99,6 +99,10 @@ SOURCE="..\..\vic20\cart\vic-fp.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\vic20\cart\vic20-ieee488.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\vic20\cart\vic20-midi.c"
 # End Source File
 # Begin Source File

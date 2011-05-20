@@ -64,9 +64,6 @@ static char *basic_rom_name = NULL;
 /* Name of the Kernal ROM.  */
 static char *kernal_rom_name = NULL;
 
-/* Flag: Do we enable the VIC-1112 IEEE488 interface?  */
-int ieee488_enabled;
-
 /* Flag: Do we have RAM block `n'?  */
 int ram_block_0_enabled;
 int ram_block_1_enabled;
@@ -132,15 +129,6 @@ static int set_ram_block_5_enabled(int value, void *param)
 {
     ram_block_5_enabled = value;
     mem_initialize_memory();
-    return 0;
-}
-
-static int set_ieee488_enabled(int val, void *param)
-{
-    ieee488_enabled = val;
-
-    ui_update_menus();
-
     return 0;
 }
 
@@ -214,8 +202,6 @@ static const resource_int_t resources_int[] =
       &ram_block_3_enabled, set_ram_block_3_enabled, NULL },
     { "RAMBlock5", 0, RES_EVENT_SAME, NULL,
       &ram_block_5_enabled, set_ram_block_5_enabled, NULL },
-    { "IEEE488", 0, RES_EVENT_SAME, NULL,
-      &ieee488_enabled, set_ieee488_enabled, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_VIC20_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

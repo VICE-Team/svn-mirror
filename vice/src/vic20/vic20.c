@@ -70,6 +70,7 @@
 #include "via.h"
 #include "vic.h"
 #include "vic20-cmdline-options.h"
+#include "vic20-ieee488.h"
 #include "vic20-midi.h"
 #include "vic20-resources.h"
 #include "vic20-snapshot.h"
@@ -250,6 +251,7 @@ int machine_resources_init(void)
 #ifdef HAVE_MIDI
         || vic20_midi_resources_init() < 0
 #endif
+        || vic20_ieee488_resources_init() < 0
         || vic20io_resources_init() < 0 ) {
         return -1;
     }
@@ -300,6 +302,7 @@ int machine_cmdline_options_init(void)
 #ifdef HAVE_MIDI
         || vic20_midi_cmdline_options_init() < 0
 #endif
+        || vic20_ieee488_cmdline_options_init() < 0
         || vic20io_cmdline_options_init() < 0) {
         return -1;
     }

@@ -53,6 +53,7 @@ CLEAN :
 	-@erase "$(INTDIR)\megacart.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-fp.obj"
+	-@erase "$(INTDIR)\vic20-ieee488.obj"
 	-@erase "$(INTDIR)\vic20-midi.obj"
 	-@erase "$(INTDIR)\vic20cart.obj"
 	-@erase "$(INTDIR)\vic20cartmem.obj"
@@ -105,6 +106,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\finalexpansion.obj" \
 	"$(INTDIR)\generic.obj" \
 	"$(INTDIR)\megacart.obj" \
+	"$(INTDIR)\vic20-ieee488.obj" \
 	"$(INTDIR)\vic20-midi.obj" \
 	"$(INTDIR)\vic20cart.obj" \
 	"$(INTDIR)\vic20cartmem.obj" \
@@ -144,6 +146,7 @@ CLEAN :
 	-@erase "$(INTDIR)\megacart.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-fp.obj"
+	-@erase "$(INTDIR)\vic20-ieee488.obj"
 	-@erase "$(INTDIR)\vic20-midi.obj"
 	-@erase "$(INTDIR)\vic20cart.obj"
 	-@erase "$(INTDIR)\vic20cartmem.obj"
@@ -196,6 +199,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\finalexpansion.obj" \
 	"$(INTDIR)\generic.obj" \
 	"$(INTDIR)\megacart.obj" \
+	"$(INTDIR)\vic20-ieee488.obj" \
 	"$(INTDIR)\vic20-midi.obj" \
 	"$(INTDIR)\vic20cart.obj" \
 	"$(INTDIR)\vic20cartmem.obj" \
@@ -259,6 +263,12 @@ SOURCE="..\..\..\vic20\cart\megacart.c"
 SOURCE="..\..\..\vic20\cart\vic-fp.c"
 
 "$(INTDIR)\vic-fp.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\vic20\vic20-ieee488.c"
+
+"$(INTDIR)\vic20-ieee488.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
