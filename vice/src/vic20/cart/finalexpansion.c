@@ -1016,8 +1016,3 @@ static int finalexpansion_mon_dump(void)
 
     return 0;
 }
-
-void finalexpansion_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
-{
-    mon_ioreg_add_list(mem_ioreg_list, CARTRIDGE_VIC20_NAME_FINAL_EXPANSION, 0x9c02, 0x9c03, finalexpansion_mon_dump);
-}

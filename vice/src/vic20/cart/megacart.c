@@ -713,10 +713,3 @@ static int megacart_mon_dump(void)
 
     return 0;
 }
-
-void megacart_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
-{
-    /* The registers are rather far apart in the address space, so instead
-       of flooding the "io" output, just show the start of I/O3 range. */
-    mon_ioreg_add_list(mem_ioreg_list, CARTRIDGE_VIC20_NAME_MEGACART, 0x9c00, 0x9c00, megacart_mon_dump);
-}

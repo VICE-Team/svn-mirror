@@ -535,8 +535,3 @@ static int vic_fp_mon_dump(void)
     mon_out("ROM bank $%03x (offset $%06x)\n", cart_rom_bank, cart_rom_bank << 13);
     return 0;
 }
-
-void vic_fp_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
-{
-    mon_ioreg_add_list(mem_ioreg_list, CARTRIDGE_VIC20_NAME_FP, 0x9800, 0x9801, vic_fp_mon_dump);
-}

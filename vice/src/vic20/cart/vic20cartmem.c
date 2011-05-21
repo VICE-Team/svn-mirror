@@ -321,25 +321,6 @@ void cartridge_store_blk5(WORD addr, BYTE value)
 
 /* ------------------------------------------------------------------------- */
 
-void cartridge_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
-{
-    switch (mem_cartridge_type) {
-    case CARTRIDGE_VIC20_FP:
-        vic_fp_ioreg_add_list(mem_ioreg_list);
-        break;
-    case CARTRIDGE_VIC20_MEGACART:
-        megacart_ioreg_add_list(mem_ioreg_list);
-        break;
-    case CARTRIDGE_VIC20_FINAL_EXPANSION:
-        finalexpansion_ioreg_add_list(mem_ioreg_list);
-        break;
-    default:
-        break;
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
 void cartridge_init(void)
 {
     generic_init();
