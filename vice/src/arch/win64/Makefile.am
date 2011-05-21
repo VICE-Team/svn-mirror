@@ -54,6 +54,7 @@ EXTRA_DIST = \
 	vdc.vcproj \
 	vdrive.vcproj \
 	vic20.vcproj \
+	vic20cart.vcproj \
 	vicii.vcproj \
 	viciidtv.vcproj \
 	viciinew.vcproj \
