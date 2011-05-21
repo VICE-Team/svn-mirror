@@ -31,10 +31,10 @@
 #include "c64cart.h"
 #include "c64cartmem.h"
 #include "c64cia.h"
-#include "c64io.h"
 #include "c64mem.h"
 #include "c64meminit.h"
 #include "c64memrom.h"
+#include "cartio.h"
 #include "sid.h"
 #include "vicii-mem.h"
 

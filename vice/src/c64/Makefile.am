@@ -41,7 +41,6 @@ libc64_a_SOURCES = \
 	c64iec.c \
 	c64iec.h \
 	c64io.c \
-	c64io.h \
 	c64keyboard.c \
 	c64keyboard.h \
 	c64mem.c \

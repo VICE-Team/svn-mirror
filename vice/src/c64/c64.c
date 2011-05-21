@@ -51,6 +51,7 @@
 #include "c64memrom.h"
 #include "c64rsuser.h"
 #include "c64ui.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
 #include "clkguard.h"
@@ -365,7 +366,7 @@ int machine_resources_init(void)
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || c64_glue_resources_init() < 0
-        || c64io_resources_init() < 0
+        || cartio_resources_init() < 0
         || cartridge_resources_init() < 0) {
         return -1;
     }
@@ -390,7 +391,7 @@ void machine_resources_shutdown(void)
     drive_resources_shutdown();
     cartridge_resources_shutdown();
     rombanks_resources_shutdown();
-    c64io_shutdown();
+    cartio_shutdown();
 }
 
 /* C64-specific command-line option initialization.  */
@@ -431,7 +432,7 @@ int machine_cmdline_options_init(void)
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || c64_glue_cmdline_options_init() < 0
-        || c64io_cmdline_options_init() < 0
+        || cartio_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0) {
         return -1;
     }

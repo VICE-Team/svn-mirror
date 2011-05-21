@@ -34,8 +34,8 @@
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
+#include "cartio.h"
 #include "cartridge.h"
-#include "c64io.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"

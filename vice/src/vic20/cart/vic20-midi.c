@@ -29,13 +29,13 @@
 
 #ifdef HAVE_MIDI
 
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "machine.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "vic20-midi.h"
-#include "vic20io.h"
 
 midi_interface_t midi_interface[] = {
     /* Electronics - Maplin magazine */

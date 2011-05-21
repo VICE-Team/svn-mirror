@@ -79,6 +79,7 @@
 #include "sid.h"
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
+#include "sidcart.h"
 #include "sound.h"
 #include "tape.h"
 #include "traps.h"

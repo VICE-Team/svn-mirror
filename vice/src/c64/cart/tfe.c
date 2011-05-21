@@ -38,8 +38,8 @@
 #endif
 
 #include "archdep.h"
-#include "c64io.h"
 #include "c64export.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "cs8900.h"

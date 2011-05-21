@@ -32,7 +32,7 @@
 #include "c128mem.h"
 #include "c128mmu.h"
 #include "c64cia.h"
-#include "c64io.h"
+#include "cartio.h"
 #include "cmdline.h"
 #include "log.h"
 #include "mem.h"

@@ -31,7 +31,7 @@
 
 #include "autostart.h"
 #include "cartridge.h"
-#include "cart/vic20cartmem.h"
+#include "cartio.h"
 #include "clkguard.h"
 #include "cmdline.h"
 #include "datasette.h"
@@ -78,7 +78,6 @@
 #include "vic20.h"
 #include "vic20iec.h"
 #include "vic20ieeevia.h"
-#include "vic20io.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
 #include "vic20sound.h"
@@ -253,7 +252,7 @@ int machine_resources_init(void)
         || vic20_midi_resources_init() < 0
 #endif
         || vic20_ieee488_resources_init() < 0
-        || vic20io_resources_init() < 0 ) {
+        || cartio_resources_init() < 0 ) {
         return -1;
     }
 
@@ -273,7 +272,7 @@ void machine_resources_shutdown(void)
 #ifdef HAVE_MIDI
     midi_resources_shutdown();
 #endif
-    vic20io_shutdown();
+    cartio_shutdown();
 }
 
 /* VIC20-specific command-line option initialization.  */
@@ -304,7 +303,7 @@ int machine_cmdline_options_init(void)
         || vic20_midi_cmdline_options_init() < 0
 #endif
         || vic20_ieee488_cmdline_options_init() < 0
-        || vic20io_cmdline_options_init() < 0) {
+        || cartio_cmdline_options_init() < 0) {
         return -1;
     }
 

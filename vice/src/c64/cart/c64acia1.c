@@ -53,11 +53,11 @@ extern int acia1_set_mode(int mode);
 
 #define myacia_set_mode(x) acia1_set_mode(x)
 
+#include "c64export.h"
+#include "cartio.h"
+#include "cartridge.h"
 #include "machine.h"
 #include "maincpu.h"
-#include "cartridge.h"
-#include "c64export.h"
-#include "c64io.h"
 
 #define mycpu_alarm_context maincpu_alarm_context
 #define mycpu_set_irq maincpu_set_irq

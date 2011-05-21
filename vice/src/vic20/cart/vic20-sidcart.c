@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "resources.h"
@@ -34,7 +35,6 @@
 #include "sid-cmdline-options.h"
 #include "sid-resources.h"
 #include "translate.h"
-#include "vic20io.h"
 
 /* ---------------------------------------------------------------------*/
 

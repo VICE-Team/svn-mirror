@@ -34,8 +34,9 @@
 #include <string.h>
 
 #include "archdep.h"
-#include "cmdline.h"
+#include "cartio.h"
 #include "cartridge.h"
+#include "cmdline.h"
 #include "flash040.h"
 #include "lib.h"
 #include "log.h"
@@ -51,7 +52,6 @@
 #include "vic-fp.h"
 #include "vic20cart.h"
 #include "vic20cartmem.h"
-#include "vic20io.h"
 #include "vic20mem.h"
 #include "zfile.h"
 

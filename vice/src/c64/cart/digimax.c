@@ -31,7 +31,7 @@
 #include <string.h>
 
 #include "c64export.h"
-#include "c64io.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "digimax.h"

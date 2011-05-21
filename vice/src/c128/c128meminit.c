@@ -33,7 +33,7 @@
 #include "c128memrom.h"
 #include "c128mmu.h"
 #include "c64cia.h"
-#include "c64io.h"
+#include "cartio.h"
 #include "functionrom.h"
 #include "sid.h"
 #include "vdc-mem.h"

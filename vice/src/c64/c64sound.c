@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64io.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "machine.h"
 #include "sid.h"

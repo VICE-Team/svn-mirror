@@ -27,7 +27,7 @@
 #ifndef VICE_C64EXPORT_H
 #define VICE_C64EXPORT_H
 
-#include "c64io.h"
+#include "cartio.h"
 
 struct c64export_resource_s {
     const char *name;

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,7 +31,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "c64io.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"
@@ -461,7 +462,7 @@ void io_source_unregister(io_source_list_t *device)
     lib_free(device);
 }
 
-void c64io_shutdown(void)
+void cartio_shutdown(void)
 {
     io_source_list_t *current;
 
@@ -526,7 +527,7 @@ void c64io_shutdown(void)
     }
 }
 
-void c64io_set_highest_order(unsigned int nr)
+void cartio_set_highest_order(unsigned int nr)
 {
     order = nr;
 }
@@ -715,7 +716,7 @@ void c64io_df00_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int decodemask(BYTE mask)
+static int decodemask(WORD mask)
 {
     int len = 255;
 
@@ -848,7 +849,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int c64io_resources_init(void)
+int cartio_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
@@ -862,7 +863,7 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int c64io_cmdline_options_init(void)
+int cartio_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }

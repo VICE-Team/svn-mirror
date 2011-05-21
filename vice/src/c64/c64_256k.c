@@ -32,8 +32,8 @@
 
 #include "c64_256k.h"
 #include "c64cart.h"
-#include "c64io.h"
 #include "c64mem.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"

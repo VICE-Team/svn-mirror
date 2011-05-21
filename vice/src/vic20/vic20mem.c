@@ -35,8 +35,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartio.h"
 #include "cartridge.h"
-#include "cart/vic20cartmem.h"
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
@@ -53,8 +53,8 @@
 #include "vic-mem.h"
 #include "vic20.h"
 #include "vic20-resources.h"
+#include "vic20cartmem.h"
 #include "vic20ieeevia.h"
-#include "vic20io.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
 #include "vic20via.h"

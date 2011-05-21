@@ -33,10 +33,10 @@
 #include "c64cartsystem.h"
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
-#include "c64io.h"
 #include "c64mem.h"
 #include "c64memrom.h"
 #include "c64rom.h"
+#include "cartio.h"
 #include "cartridge.h"
 #include "exos.h"
 #include "resources.h"

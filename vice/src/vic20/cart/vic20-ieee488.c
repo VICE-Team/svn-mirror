@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "machine.h"
@@ -35,7 +36,6 @@
 #include "uiapi.h"
 #include "vic20-ieee488.h"
 #include "vic20ieeevia.h"
-#include "vic20io.h"
 
 /* Flag: Do we enable the VIC-1112 IEEE488 interface?  */
 static int ieee488_enabled;

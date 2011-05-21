@@ -30,6 +30,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"
@@ -40,7 +41,6 @@
 #include "types.h"
 #include "uiapi.h"
 #include "util.h"
-#include "vic20io.h"
 #include "vic20mem.h"
 
 /* #define IODEBUG */
@@ -433,7 +433,7 @@ void io_source_unregister(io_source_list_t *device)
     lib_free(device);
 }
 
-void vic20io_shutdown(void)
+void cartio_shutdown(void)
 {
     io_source_list_t *current;
 
@@ -450,7 +450,7 @@ void vic20io_shutdown(void)
     }
 }
 
-void vic20io_set_highest_order(unsigned int nr)
+void cartio_set_highest_order(unsigned int nr)
 {
     order = nr;
 }
@@ -499,7 +499,7 @@ static int decodemask(WORD mask)
 {
     int len = 255;
 
-    while (((mask & 0x80) == 0) && (len > 0)) {
+    while (((mask & 0x200) == 0) && (len > 0)) {
         mask <<= 1;
         len >>= 1;
     }
@@ -546,7 +546,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-int vic20io_resources_init(void)
+int cartio_resources_init(void)
 {
     return resources_register_int(resources_int);
 }
@@ -560,7 +560,7 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-int vic20io_cmdline_options_init(void)
+int cartio_cmdline_options_init(void)
 {
     return cmdline_register_options(cmdline_options);
 }
