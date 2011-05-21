@@ -86,11 +86,11 @@ SOURCE="..\..\..\vic20\cart\finalexpansion.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\vic20\cart\generic.c"
+SOURCE="..\..\..\vic20\cart\megacart.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\vic20\cart\megacart.c"
+SOURCE="..\..\..\vic20\cart\vic20-generic.c"
 # End Source File
 # Begin Source File
 

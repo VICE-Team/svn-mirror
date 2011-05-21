@@ -49,10 +49,10 @@ CLEAN :"base - Win32 ReleaseCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\finalexpansion.obj"
-	-@erase "$(INTDIR)\generic.obj"
 	-@erase "$(INTDIR)\megacart.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-fp.obj"
+	-@erase "$(INTDIR)\vic20-generic.obj"
 	-@erase "$(INTDIR)\vic20-ieee488.obj"
 	-@erase "$(INTDIR)\vic20-midi.obj"
 	-@erase "$(INTDIR)\vic20-sidcart.obj"
@@ -105,8 +105,8 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vic20cart.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\finalexpansion.obj" \
-	"$(INTDIR)\generic.obj" \
 	"$(INTDIR)\megacart.obj" \
+	"$(INTDIR)\vic20-generic.obj" \
 	"$(INTDIR)\vic20-ieee488.obj" \
 	"$(INTDIR)\vic20-midi.obj" \
 	"$(INTDIR)\vic20-sidcart.obj" \
@@ -144,10 +144,10 @@ CLEAN :"base - Win32 DebugCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\finalexpansion.obj"
-	-@erase "$(INTDIR)\generic.obj"
 	-@erase "$(INTDIR)\megacart.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-fp.obj"
+	-@erase "$(INTDIR)\vic20-generic.obj"
 	-@erase "$(INTDIR)\vic20-ieee488.obj"
 	-@erase "$(INTDIR)\vic20-midi.obj"
 	-@erase "$(INTDIR)\vic20-sidcart.obj"
@@ -200,8 +200,8 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vic20cart.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\finalexpansion.obj" \
-	"$(INTDIR)\generic.obj" \
 	"$(INTDIR)\megacart.obj" \
+	"$(INTDIR)\vic20-generic.obj" \
 	"$(INTDIR)\vic20-ieee488.obj" \
 	"$(INTDIR)\vic20-midi.obj" \
 	"$(INTDIR)\vic20-sidcart.obj" \
@@ -252,12 +252,6 @@ SOURCE="..\..\..\vic20\cart\finalexpansion.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\vic20\cart\generic.c"
-
-"$(INTDIR)\generic.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 SOURCE="..\..\..\vic20\cart\megacart.c"
 
 "$(INTDIR)\megacart.obj" : $(SOURCE) "$(INTDIR)"
@@ -270,19 +264,25 @@ SOURCE="..\..\..\vic20\cart\vic-fp.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\vic20\vic20-ieee488.c"
+SOURCE="..\..\..\vic20\cart\vic20-generic.c"
+
+"$(INTDIR)\vic20-generic.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\vic20\cart\vic20-ieee488.c"
 
 "$(INTDIR)\vic20-ieee488.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\vic20\vic20-midi.c"
+SOURCE="..\..\..\vic20\cart\vic20-midi.c"
 
 "$(INTDIR)\vic20-midi.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\vic20\vic20-sidcart.c"
+SOURCE="..\..\..\vic20\cart\vic20-sidcart.c"
 
 "$(INTDIR)\vic20-midi.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)

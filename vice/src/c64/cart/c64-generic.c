@@ -1,5 +1,5 @@
 /*
- * generic.c - Cartridge handling, generic carts.
+ * c64-generic.c - Cartridge handling, generic carts.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -34,9 +34,9 @@
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64mem.h"
+#include "c64-generic.h"
 #include "cartridge.h"
 #include "crt.h"
-#include "generic.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"

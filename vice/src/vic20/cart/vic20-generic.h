@@ -1,5 +1,5 @@
 /*
- * generic.h -- VIC20 generic cartridge emulation.
+ * vic20-generic.h -- VIC20 generic cartridge emulation.
  *
  * Written by
  *  Daniel Kahlin <daniel@kahlin.net>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_GENERIC_H
-#define VICE_GENERIC_H
+#ifndef VICE_VIC20_GENERIC_H
+#define VICE_VIC20_GENERIC_H
 
 #include <stdio.h>
 

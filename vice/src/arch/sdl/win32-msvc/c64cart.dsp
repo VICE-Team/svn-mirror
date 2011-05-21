@@ -102,6 +102,10 @@ SOURCE="..\..\..\c64\cart\atomicpower.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\c64-generic.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\c64-midi.c"
 # End Source File
 # Begin Source File
@@ -191,10 +195,6 @@ SOURCE="..\..\..\c64\cart\funplay.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\gamekiller.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\..\c64\cart\generic.c"
 # End Source File
 # Begin Source File
 

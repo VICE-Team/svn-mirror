@@ -47,7 +47,6 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "finalexpansion.h"
-#include "generic.h"
 #include "lib.h"
 #include "log.h"
 #include "mem.h"
@@ -61,6 +60,7 @@
 #include "vic20cart.h"
 #include "vic20cartmem.h"
 #include "vic20mem.h"
+#include "vic20-generic.h"
 #include "zfile.h"
 
 /* flag for indicating if cartridge is from snapshot, used for

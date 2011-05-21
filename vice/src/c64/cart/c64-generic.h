@@ -1,5 +1,5 @@
 /*
- * generic.h - Cartridge handling, generic carts.
+ * c64-generic.h - Cartridge handling, generic carts.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_GENERIC_H
-#define VICE_GENERIC_H
+#ifndef VICE_C64_GENERIC_H
+#define VICE_C64_GENERIC_H
 
 #include <stdio.h>
 

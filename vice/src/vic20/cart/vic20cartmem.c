@@ -30,7 +30,6 @@
 
 #include "cartridge.h"
 #include "finalexpansion.h"
-#include "generic.h"
 #include "vic-fp.h"
 #include "megacart.h"
 #include "machine.h"
@@ -39,6 +38,7 @@
 #include "types.h"
 #include "vic20mem.h"
 #include "vic20cartmem.h"
+#include "vic20-generic.h"
 
 /* ------------------------------------------------------------------------- */
 

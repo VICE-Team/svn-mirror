@@ -10,12 +10,12 @@ noinst_LIBRARIES = libvic20cart.a
 libvic20cart_a_SOURCES = \
 	finalexpansion.c \
 	finalexpansion.h \
-	generic.c \
-	generic.h \
 	megacart.c \
 	megacart.h \
 	vic-fp.c \
 	vic-fp.h \
+	vic20-generic.c \
+	vic20-generic.h \
 	vic20-ieee488.c \
 	vic20-ieee488.h \
 	vic20-midi.c \

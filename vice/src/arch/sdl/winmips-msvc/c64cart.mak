@@ -53,6 +53,7 @@ CLEAN :
 	-@erase "$(INTDIR)\actionreplay3.obj"
 	-@erase "$(INTDIR)\actionreplay4.obj"
 	-@erase "$(INTDIR)\atomicpower.obj"
+	-@erase "$(INTDIR)\c64-generic.obj"
 	-@erase "$(INTDIR)\c64-midi.obj"
 	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\c64tpi.obj"
@@ -76,7 +77,6 @@ CLEAN :
 	-@erase "$(INTDIR)\freezemachine.obj"
 	-@erase "$(INTDIR)\funplay.obj"
 	-@erase "$(INTDIR)\gamekiller.obj"
-	-@erase "$(INTDIR)\generic.obj"
 	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\gs.obj"
 	-@erase "$(INTDIR)\ide64.obj"
@@ -163,6 +163,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\actionreplay3.obj" \
 	"$(INTDIR)\actionreplay4.obj" \
 	"$(INTDIR)\atomicpower.obj" \
+	"$(INTDIR)\c64-generic.obj" \
 	"$(INTDIR)\c64-midi.obj" \
 	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\c64tpi.obj" \
@@ -186,7 +187,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\freezemachine.obj" \
 	"$(INTDIR)\funplay.obj" \
 	"$(INTDIR)\gamekiller.obj" \
-	"$(INTDIR)\generic.obj" \
 	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\gs.obj" \
 	"$(INTDIR)\ide64.obj" \
@@ -256,6 +256,7 @@ CLEAN :
 	-@erase "$(INTDIR)\actionreplay3.obj"
 	-@erase "$(INTDIR)\actionreplay4.obj"
 	-@erase "$(INTDIR)\atomicpower.obj"
+	-@erase "$(INTDIR)\c64-generic.obj"
 	-@erase "$(INTDIR)\c64-midi.obj"
 	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\c64tpi.obj"
@@ -279,7 +280,6 @@ CLEAN :
 	-@erase "$(INTDIR)\freezemachine.obj"
 	-@erase "$(INTDIR)\funplay.obj"
 	-@erase "$(INTDIR)\gamekiller.obj"
-	-@erase "$(INTDIR)\generic.obj"
 	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\gs.obj"
 	-@erase "$(INTDIR)\ide64.obj"
@@ -366,6 +366,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\actionreplay3.obj" \
 	"$(INTDIR)\actionreplay4.obj" \
 	"$(INTDIR)\atomicpower.obj" \
+	"$(INTDIR)\c64-generic.obj" \
 	"$(INTDIR)\c64-midi.obj" \
 	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\c64tpi.obj" \
@@ -389,7 +390,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\freezemachine.obj" \
 	"$(INTDIR)\funplay.obj" \
 	"$(INTDIR)\gamekiller.obj" \
-	"$(INTDIR)\generic.obj" \
 	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\gs.obj" \
 	"$(INTDIR)\ide64.obj" \
@@ -489,6 +489,12 @@ SOURCE="..\..\..\c64\cart\actionreplay4.c"
 SOURCE="..\..\..\c64\cart\atomicpower.c"
 
 "$(INTDIR)\atomicpower.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\c64\cart\c64-generic.c"
+
+"$(INTDIR)\c64-generic.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -627,12 +633,6 @@ SOURCE="..\..\..\c64\cart\funplay.c"
 SOURCE="..\..\..\c64\cart\gamekiller.c"
 
 "$(INTDIR)\gamekiller.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\c64\cart\generic.c"
-
-"$(INTDIR)\generic.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

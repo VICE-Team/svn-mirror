@@ -1,5 +1,5 @@
 /*
- * generic.c -- VIC20 generic cartridge emulation.
+ * vic20-generic.c -- VIC20 generic cartridge emulation.
  *
  * Written by
  *  Daniel Kahlin <daniel@kahlin.net>
@@ -36,7 +36,6 @@
 #include "archdep.h"
 #include "cartridge.h"
 #include "lib.h"
-#include "generic.h"
 #include "mem.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -45,6 +44,7 @@
 #include "vic20cart.h"
 #include "vic20cartmem.h"
 #include "vic20mem.h"
+#include "vic20-generic.h"
 #include "zfile.h"
 
 

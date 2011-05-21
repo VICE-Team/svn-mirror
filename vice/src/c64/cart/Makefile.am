@@ -31,6 +31,8 @@ libc64cart_a_SOURCES = \
 	actionreplay.h \
 	atomicpower.c \
 	atomicpower.h \
+	c64-generic.c \
+	c64-generic.h \
 	c64-midi.c \
 	c64-midi.h \
 	c64acia.h \
@@ -77,8 +79,6 @@ libc64cart_a_SOURCES = \
 	funplay.h \
 	gamekiller.c \
 	gamekiller.h \
-	generic.c \
-	generic.h \
 	georam.c \
 	georam.h \
 	gs.c \
