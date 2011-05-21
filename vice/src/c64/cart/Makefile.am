@@ -9,7 +9,16 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vicii
 
-noinst_LIBRARIES = libc64cart.a
+noinst_LIBRARIES = libc64cartsystem.a libc64cart.a
+
+libc64cartsystem_a_SOURCES = \
+	c64cart.c \
+	c64carthooks.c \
+	c64cartmem.c \
+	c64cartmem.h \
+	c64cartsystem.h \
+	crt.c \
+	crt.h
 
 libc64cart_a_SOURCES = \
 	actionreplay2.c \
@@ -26,19 +35,12 @@ libc64cart_a_SOURCES = \
 	c64-midi.h \
 	c64acia.h \
 	c64acia1.c \
-	c64cart.c \
-	c64carthooks.c \
-	c64cartmem.c \
-	c64cartmem.h \
-	c64cartsystem.h \
 	c64tpi.c \
 	c64tpi.h \
 	capture.c \
 	capture.h \
 	comal80.c \
 	comal80.h \
-	crt.c \
-	crt.h \
 	delaep256.c \
 	delaep256.h \
 	delaep64.c \

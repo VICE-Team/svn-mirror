@@ -110,18 +110,6 @@ SOURCE=..\..\..\c64\cart\c64acia1.c
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\c64\cart\c64cart.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\..\c64\cart\c64carthooks.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\..\c64\cart\c64cartmem.c"
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\cart\c64tpi.c
 # End Source File
 # Begin Source File
@@ -131,10 +119,6 @@ SOURCE="..\..\..\c64\cart\capture.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\comal80.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\..\c64\cart\crt.c"
 # End Source File
 # Begin Source File
 

@@ -55,13 +55,9 @@ CLEAN :
 	-@erase "$(INTDIR)\atomicpower.obj"
 	-@erase "$(INTDIR)\c64-midi.obj"
 	-@erase "$(INTDIR)\c64acia1.obj"
-	-@erase "$(INTDIR)\c64cart.obj"
-	-@erase "$(INTDIR)\c64carthooks.obj"
-	-@erase "$(INTDIR)\c64cartmem.obj"
 	-@erase "$(INTDIR)\c64tpi.obj"
 	-@erase "$(INTDIR)\capture.obj"
 	-@erase "$(INTDIR)\comal80.obj"
-	-@erase "$(INTDIR)\crt.obj"
 	-@erase "$(INTDIR)\delaep256.obj"
 	-@erase "$(INTDIR)\delaep64.obj"
 	-@erase "$(INTDIR)\delaep7x8.obj"
@@ -169,13 +165,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\atomicpower.obj" \
 	"$(INTDIR)\c64-midi.obj" \
 	"$(INTDIR)\c64acia1.obj" \
-	"$(INTDIR)\c64cart.obj" \
-	"$(INTDIR)\c64carthooks.obj" \
-	"$(INTDIR)\c64cartmem.obj" \
 	"$(INTDIR)\c64tpi.obj" \
 	"$(INTDIR)\capture.obj" \
 	"$(INTDIR)\comal80.obj" \
-	"$(INTDIR)\crt.obj" \
 	"$(INTDIR)\delaep256.obj" \
 	"$(INTDIR)\delaep64.obj" \
 	"$(INTDIR)\delaep7x8.obj" \
@@ -266,13 +258,9 @@ CLEAN :
 	-@erase "$(INTDIR)\atomicpower.obj"
 	-@erase "$(INTDIR)\c64-midi.obj"
 	-@erase "$(INTDIR)\c64acia1.obj"
-	-@erase "$(INTDIR)\c64cart.obj"
-	-@erase "$(INTDIR)\c64carthooks.obj"
-	-@erase "$(INTDIR)\c64cartmem.obj"
 	-@erase "$(INTDIR)\c64tpi.obj"
 	-@erase "$(INTDIR)\capture.obj"
 	-@erase "$(INTDIR)\comal80.obj"
-	-@erase "$(INTDIR)\crt.obj"
 	-@erase "$(INTDIR)\delaep256.obj"
 	-@erase "$(INTDIR)\delaep64.obj"
 	-@erase "$(INTDIR)\delaep7x8.obj"
@@ -380,13 +368,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\atomicpower.obj" \
 	"$(INTDIR)\c64-midi.obj" \
 	"$(INTDIR)\c64acia1.obj" \
-	"$(INTDIR)\c64cart.obj" \
-	"$(INTDIR)\c64carthooks.obj" \
-	"$(INTDIR)\c64cartmem.obj" \
 	"$(INTDIR)\c64tpi.obj" \
 	"$(INTDIR)\capture.obj" \
 	"$(INTDIR)\comal80.obj" \
-	"$(INTDIR)\crt.obj" \
 	"$(INTDIR)\delaep256.obj" \
 	"$(INTDIR)\delaep64.obj" \
 	"$(INTDIR)\delaep7x8.obj" \
@@ -520,24 +504,6 @@ SOURCE=..\..\..\c64\cart\c64acia1.c
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\c64\cart\c64cart.c"
-
-"$(INTDIR)\c64cart.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\c64\cart\c64carthooks.c"
-
-"$(INTDIR)\c64carthooks.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\c64\cart\c64cartmem.c"
-
-"$(INTDIR)\c64cartmem.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 SOURCE=..\..\..\c64\cart\c64tpi.c
 
 "$(INTDIR)\c64tpi.obj" : $(SOURCE) "$(INTDIR)"
@@ -553,12 +519,6 @@ SOURCE="..\..\..\c64\cart\capture.c"
 SOURCE="..\..\..\c64\cart\comal80.c"
 
 "$(INTDIR)\comal80.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\c64\cart\crt.c"
-
-"$(INTDIR)\crt.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

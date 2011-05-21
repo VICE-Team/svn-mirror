@@ -687,6 +687,7 @@ c64dtvstubs_lib = $(top_builddir)/src/c64dtv/libc64dtvstubs.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c64c64dtv_lib = $(top_builddir)/src/c64/libc64c64dtv.a
 c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
+c64cartsystem_lib = $(top_builddir)/src/c64/cart/libc64cartsystem.a
 core_lib = $(top_builddir)/src/core/libcore.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
@@ -796,6 +797,7 @@ EXTRA_PROGRAMS =
 x64_libs =  \
 	@X64_WINRES@ \
 	$(c64_lib) \
+	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
@@ -826,6 +828,7 @@ x64-all: \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	libc64 \
+	libc64cartsystem \
 	libc64cart \
 	libdriveiec \
 	libdriveiecieee \
@@ -859,6 +862,7 @@ x64-all: \
 x64sc_libs =  \
 	@X64_WINRES@ \
 	$(c64sc_lib) \
+	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
@@ -889,6 +893,7 @@ x64sc-all: \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	libc64sc \
+	libc64cartsystem \
 	libc64cart \
 	libdriveiec \
 	libdriveiecieee \
@@ -984,6 +989,7 @@ x64dtv-all: \
 x128_libs =  \
 	@X128_WINRES@ \
 	$(c128_lib) \
+	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
 	$(c64c128_lib) \
 	$(driveiec_lib) \
@@ -1016,6 +1022,7 @@ x128-all: \
 	$(BUILT_SOURCES) \
 	libc128 \
 	libc64c128 \
+	libc64cartsystem \
 	libc64cart \
 	libsounddrv \
 	libgfxoutputdrv \
@@ -1358,6 +1365,8 @@ libc64c64dtv:
 	(cd c64 && $(MAKE) libc64c64dtv.a)
 libc64cart:
 	(cd c64 && $(MAKE) libc64cart)
+libc64cartsystem:
+	(cd c64 && $(MAKE) libc64cartsystem)
 libc64dtv:
 	(cd c64dtv && $(MAKE) libc64dtv.a)
 libc64dtvstubs:
