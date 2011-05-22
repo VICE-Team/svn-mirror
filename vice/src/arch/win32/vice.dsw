@@ -1689,6 +1689,9 @@ Package=<4>
     Project_Dep_Name vic20cart
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name c64cart
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name raster
     End Project Dependency
     Begin Project Dependency

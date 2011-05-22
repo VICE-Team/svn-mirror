@@ -130,6 +130,10 @@ static char *georam_filename = NULL;
 
 static int georam_write_image = 0;
 
+/* Flag: swap io1/io2, currently only used for vic20 masC=erade,
+         but future usage of an io-swapper is possible */
+static int georam_io_swap = 0;
+
 /* ---------------------------------------------------------------------*/
 
 static BYTE georam_io1_read(WORD addr);
@@ -303,6 +307,20 @@ static int set_georam_enabled(int val, void *param)
         if (c64export_add(&export_res) < 0) {
             return -1;
         }
+        if (machine_class == VICE_MACHINE_VIC20) {
+            /* set correct addresses for masC=erade */
+            if (georam_io_swap) {
+                georam_io1_device.start_address = 0x9c00;
+                georam_io1_device.end_address = 0x9fff;
+                georam_io2_device.start_address = 0x9800;
+                georam_io2_device.end_address = 0x9bff;
+            } else {
+                georam_io1_device.start_address = 0x9800;
+                georam_io1_device.end_address = 0x9bff;
+                georam_io2_device.start_address = 0x9c00;
+                georam_io2_device.end_address = 0x9fff;
+            }
+        }
         georam_io1_list_item = io_source_register(&georam_io1_device);
         georam_io2_list_item = io_source_register(&georam_io2_device);
         georam_enabled = 1;
@@ -340,6 +358,22 @@ static int set_georam_size(int val, void *param)
         georam_size = georam_size_kb << 10;
     }
 
+    return 0;
+}
+
+static int set_georam_io_swap(int val, void *param)
+{
+    if (val == georam_io_swap) {
+        return 0;
+    }
+
+    if (georam_enabled) {
+        georam_deactivate();
+        georam_io_swap = val;
+        georam_activate();
+    } else {
+        georam_io_swap = val;
+    }
     return 0;
 }
 
@@ -392,10 +426,22 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+static const resource_int_t resources_masqerade_int[] = {
+    { "GEORAMIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &georam_io_swap, set_georam_io_swap, NULL },
+    { NULL }
+};
+
 int georam_resources_init(void)
 {
     if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (resources_register_int(resources_masqerade_int) < 0) {
+            return -1;
+        }
     }
 
     return resources_register_int(resources_int);
@@ -444,8 +490,29 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
+static const cmdline_option_t cmdline_mascerade_options[] =
+{
+    { "-georamioswap", SET_RESOURCE, 0,
+      NULL, NULL, "GEORAMIOSwap", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Swap io mapping (map GEO-RAM I/O-1 to VIC20 I/O-3 and GEO-RAM I/O-2 to VIC20 I/O-2") },
+    { "+georamioswap", SET_RESOURCE, 0,
+      NULL, NULL, "GEORAMIOSwap", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Don't swap io mapping (map GEO-RAM I/O-1 to VIC20 I/O-2 and GEO-RAM I/O-2 to VIC20 I/O-3") },
+    { NULL }
+};
+
 int georam_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (cmdline_register_options(cmdline_mascerade_options) < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 

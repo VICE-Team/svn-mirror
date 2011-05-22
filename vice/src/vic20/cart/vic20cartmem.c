@@ -30,7 +30,7 @@
 
 #include "cartridge.h"
 #include "finalexpansion.h"
-#include "vic-fp.h"
+#include "georam.h"
 #include "megacart.h"
 #include "machine.h"
 #include "mem.h"
@@ -39,6 +39,7 @@
 #include "vic20mem.h"
 #include "vic20cartmem.h"
 #include "vic20-generic.h"
+#include "vic-fp.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -327,6 +328,7 @@ void cartridge_init(void)
     megacart_init();
     finalexpansion_init();
     vic_fp_init();
+    georam_init();
 }
 
 void cartridge_reset(void)
@@ -344,6 +346,9 @@ void cartridge_reset(void)
     case CARTRIDGE_VIC20_FINAL_EXPANSION:
         finalexpansion_reset();
         break;
+    }
+    if (georam_cart_enabled()) {
+        georam_reset();
     }
 }
 

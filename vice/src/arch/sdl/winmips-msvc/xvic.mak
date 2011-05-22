@@ -119,6 +119,7 @@ LINK32_OBJS= \
 	".\libs\sounddrv\Release\sounddrv.lib" \
 	".\libs\vic20\Release\vic20.lib" \
 	".\libs\vic20cart\Release\vic20cart.lib" \
+	".\libs\c64cart\Release\c64cart.lib" \
 	".\libs\raster\Release\raster.lib" \
 	".\libs\vdrive\Release\vdrive.lib" \
 	".\libs\video\Release\video.lib" \
@@ -230,6 +231,7 @@ LINK32_OBJS= \
 	".\libs\sounddrv\Debug\sounddrv.lib" \
 	".\libs\vic20\Debug\vic20.lib" \
 	".\libs\vic20cart\Debug\vic20cart.lib" \
+	".\libs\c64cart\Debug\c64cart.lib" \
 	".\libs\raster\Debug\raster.lib" \
 	".\libs\vdrive\Debug\vdrive.lib" \
 	".\libs\video\Debug\video.lib" \

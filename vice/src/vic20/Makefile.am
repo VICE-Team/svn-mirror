@@ -13,6 +13,8 @@ INCLUDES = \
 noinst_LIBRARIES = libvic20.a
 
 libvic20_a_SOURCES = \
+	c64export-stubs.c \
+	c64export-stubs.h \
 	vic-cmdline-options.c \
 	vic-cmdline-options.h \
 	vic-color.c \

@@ -2,6 +2,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vic20
 
