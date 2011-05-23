@@ -288,14 +288,14 @@ static io_source_t vicii_d000_device = {
     "VIC-IIe",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0xd000, 0xd0ff, 0x3f,
+    0xd000, 0xd0ff, 0x7f,
     1, /* read is always valid */
     vicii_store,
     vicii_read,
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    -1, /* priority, device and mirrors never involved in collisions */
+    1, /* priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -303,14 +303,14 @@ static io_source_t vicii_d100_device = {
     "VIC-IIe $D100-$D1FF mirrors",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0xd100, 0xd1ff, 0x3f,
+    0xd100, 0xd1ff, 0x7f,
     1, /* read is always valid */
     vicii_store,
     vicii_read,
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    -1, /* priority, device and mirrors never involved in collisions */
+    1, /* priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -318,14 +318,14 @@ static io_source_t vicii_d200_device = {
     "VIC-IIe $D200-$D2FF mirrors",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0xd100, 0xd1ff, 0x3f,
+    0xd100, 0xd1ff, 0x7f,
     1, /* read is always valid */
     vicii_store,
     vicii_read,
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    -1, /* priority, device and mirrors never involved in collisions */
+    1, /* priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -333,14 +333,14 @@ static io_source_t vicii_d300_device = {
     "VIC-IIe $D300-$D3FF mirrors",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0xd100, 0xd1ff, 0x3f,
+    0xd100, 0xd1ff, 0x7f,
     1, /* read is always valid */
     vicii_store,
     vicii_read,
     vicii_peek,
     vicii_dump,
     0, /* dummy (not a cartridge) */
-    -1, /* priority, device and mirrors never involved in collisions */
+    1, /* priority, device and mirrors never involved in collisions */
     0
 };
 
