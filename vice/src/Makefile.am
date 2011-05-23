@@ -1061,6 +1061,7 @@ xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(vic20_lib) \
 	$(vic20cart_lib) \
+	$(c64cart_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
@@ -1098,6 +1099,7 @@ xvic-all: \
 	librs232drv \
 	libvic20 \
 	libvic20cart \
+	libc64cart \
 	libvideo \
 	libarch \
 	libmonitor \
