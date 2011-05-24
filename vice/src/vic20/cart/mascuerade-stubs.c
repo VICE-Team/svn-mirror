@@ -1,5 +1,5 @@
 /*
- * c64export-stubs.c - C64 expansion port stubs handling for the VIC20 masC=erade adapter.
+ * masceruade-stubs.c - C64 expansion port stubs handling for the VIC20 masC=uerade adapter.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "c64export-stubs.h"
+#include "mascuerade-stubs.h"
 
 export_list_t *c64export_query_list(export_list_t *item)
 {
@@ -54,3 +54,23 @@ int c64export_resources_init(void)
 {
     return 0;
 }
+
+int mmc64_cart_enabled(void)
+{
+    return 0;
+}
+
+int mmcreplay_cart_enabled(void)
+{
+    return 0;
+}
+
+int retroreplay_cart_enabled(void)
+{
+    return 0;
+}
+
+int mmc64_clockport_enabled = 0;
+int mmc64_hw_clockport = 0;
+int rr_clockport_enabled = 0;
+int mmcr_clockport_enabled = 0;

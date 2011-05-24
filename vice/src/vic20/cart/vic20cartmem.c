@@ -35,6 +35,13 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
+#ifdef HAVE_TFE
+#define CARTRIDGE_INCLUDE_PRIVATE_API
+#define CARTRIDGE_INCLUDE_PUBLIC_API
+#include "tfe.h"
+#undef CARTRIDGE_INCLUDE_PRIVATE_API
+#undef CARTRIDGE_INCLUDE_PUBLIC_API
+#endif
 #include "types.h"
 #include "vic20mem.h"
 #include "vic20cartmem.h"
@@ -328,6 +335,9 @@ void cartridge_init(void)
     megacart_init();
     finalexpansion_init();
     vic_fp_init();
+#ifdef HAVE_TFE
+    tfe_init();
+#endif
     georam_init();
 }
 
@@ -347,6 +357,11 @@ void cartridge_reset(void)
         finalexpansion_reset();
         break;
     }
+#ifdef HAVE_TFE
+    if (tfe_cart_enabled()) {
+        tfe_reset();
+    }
+#endif
     if (georam_cart_enabled()) {
         georam_reset();
     }

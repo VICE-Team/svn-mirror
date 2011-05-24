@@ -13,6 +13,7 @@ EXTRA_DIST = \
 	c64c128.vcproj \
 	c64cart.vcproj \
 	c64cartsystem.vcproj \
+	c64commoncart.vcproj \
 	c64exp.vcproj \
 	c64sc.vcproj \
 	cartconv.vcproj \

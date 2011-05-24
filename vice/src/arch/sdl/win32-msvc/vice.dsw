@@ -228,6 +228,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "c64commoncart"=".\c64commoncart.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "c64dtv"=".\c64dtv.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -975,6 +990,9 @@ Package=<4>
     Project_Dep_Name c64cart
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name c64commoncart
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name c64cartsystem
     End Project Dependency
     Begin Project Dependency
@@ -1083,6 +1101,9 @@ Package=<4>
     Project_Dep_Name c64cart
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name c64commoncart
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name c64cartsystem
     End Project Dependency
     Begin Project Dependency
@@ -1189,6 +1210,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name c64cart
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64commoncart
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name c64cartsystem
@@ -1659,7 +1683,7 @@ Package=<4>
     Project_Dep_Name vic20cart
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name c64cart
+    Project_Dep_Name c64commoncart
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name raster

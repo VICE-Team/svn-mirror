@@ -6,7 +6,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vic20
 
-noinst_LIBRARIES = libvic20cart.a
+noinst_LIBRARIES = libvic20cart.a libmascuerade.a
 
 libvic20cart_a_SOURCES = \
 	finalexpansion.c \
@@ -26,3 +26,7 @@ libvic20cart_a_SOURCES = \
 	vic20cart.h \
 	vic20cartmem.c \
 	vic20cartmem.h
+
+libmascuerade_a_SOURCES = \
+	mascuerade-stubs.c \
+	mascuerade-stubs.h

@@ -12,6 +12,7 @@ EXTRA_DIST = \
 	c64c64dtv.mak \
 	c64cart.mak \
 	c64cartsystem.mak \
+	c64commoncart.mak \
 	c64dtv.mak \
 	c64dtvstubs.mak \
 	c64exp.mak \

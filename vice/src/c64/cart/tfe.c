@@ -46,6 +46,7 @@
 #include "crc32.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "rawnet.h"
 #include "resources.h"
 #include "snapshot.h"
@@ -208,6 +209,10 @@ int tfe_as_rr_net = 0;
 
 static char *tfe_interface = NULL;
 
+/* Flag: swap io1/io2, currently only used for vic20 masC=uerade,
+         but future usage of an io-swapper is possible */
+static int tfe_io_swap = 0;
+
 /* ------------------------------------------------------------------------- */
 /*    initialization and deinitialization functions                          */
 
@@ -332,14 +337,23 @@ void tfe_clockport_changed(void)
         io_source_unregister(tfe_list_item);
         c64export_remove(&export_res);
         export_res.io1 = tfe_current_device;
-        tfe_list_item = io_source_register(tfe_current_device);
         if (c64export_add(&export_res) < 0) {
             DBG(("TFE: set tfe_clockport_changed: error\n"));
-            io_source_unregister(tfe_list_item);
             tfe_list_item = NULL;
             tfe_enabled = 0;
             return;
         }
+        if (machine_class == VICE_MACHINE_VIC20) {
+            /* set correct addresses for masC=uerade */
+            if (tfe_io_swap) {
+                tfe_current_device->start_address = 0x9c00;
+                tfe_current_device->end_address = 0x9fff;
+            } else {
+                tfe_current_device->start_address = 0x9800;
+                tfe_current_device->end_address = 0x9bff;
+            }
+        }
+        tfe_list_item = io_source_register(tfe_current_device);
         tfe_reset();
     }
 }
@@ -441,14 +455,23 @@ static int set_tfe_enabled(int val, void *param)
                     return -1;
                 }
                 export_res.io1 = tfe_current_device;
-                tfe_list_item = io_source_register(tfe_current_device);
                 if (c64export_add(&export_res) < 0) {
                     DBG(("TFE: set enabled: error\n"));
-                    io_source_unregister(tfe_list_item);
                     tfe_list_item = NULL;
                     tfe_enabled = 0;
                     return -1;
                 }
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    /* set correct addresses for masC=uerade */
+                    if (tfe_io_swap) {
+                        tfe_current_device->start_address = 0x9c00;
+                        tfe_current_device->end_address = 0x9fff;
+                    } else {
+                        tfe_current_device->start_address = 0x9800;
+                        tfe_current_device->end_address = 0x9bff;
+                    }
+                }
+                tfe_list_item = io_source_register(tfe_current_device);
             }
 
             return 0;
@@ -489,6 +512,22 @@ int tfe_enable(void)
     return resources_set_int("ETHERNET_ACTIVE", 1);
 }
 
+static int set_tfe_io_swap(int val, void *param)
+{
+    if (val == tfe_io_swap) {
+        return 0;
+    }
+
+    if (tfe_enable()) {
+        set_tfe_enabled(0, NULL);
+        tfe_io_swap = val;
+        set_tfe_enabled(1, NULL);
+    } else {
+        tfe_io_swap = val;
+    }
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "ETHERNET_INTERFACE", 
       ARCHDEP_ETHERNET_DEFAULT_DEVICE, RES_EVENT_NO, NULL,
@@ -506,10 +545,22 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+static const resource_int_t resources_mascuerade_int[] = {
+    { "TFEIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &tfe_io_swap, set_tfe_io_swap, NULL },
+    { NULL }
+};
+
 int tfe_resources_init(void)
 {
     if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (resources_register_int(resources_mascuerade_int) < 0) {
+            return -1;
+        }
     }
 
     return resources_register_int(resources_int);
@@ -553,8 +604,29 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
+static const cmdline_option_t cmdline_mascuerade_options[] =
+{
+    { "-tfeioswap", SET_RESOURCE, 0,
+      NULL, NULL, "TFEIOSwap", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Swap io mapping (map TFE I/O to VIC20 I/O-3") },
+    { "+tfeioswap", SET_RESOURCE, 0,
+      NULL, NULL, "TFEIOSwap", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Don't swap io mapping (map TFE I/O to VIC20 I/O-2") },
+    { NULL }
+};
+
 int tfe_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (cmdline_register_options(cmdline_mascuerade_options) < 0) {
+            return -1;
+        }
+    }
+
     return cmdline_register_options(cmdline_options);
 }
 

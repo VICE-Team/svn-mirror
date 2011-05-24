@@ -1,5 +1,5 @@
 /*
- * c64export-stubs.h - C64 expansion port stubs for the VIC20 masC=erade adapter.
+ * masceruade-stubs.h - C64 expansion port stubs for the VIC20 masC=uerade adapter.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,8 +24,8 @@
  *
  */
 
-#ifndef VICE_C64EXPORT_STUBS_H
-#define VICE_C64EXPORT_STUBS_H
+#ifndef VICE_MASCUERADE_STUBS_H
+#define VICE_MASCUERADE_STUBS_H
 
 #include "cartio.h"
 

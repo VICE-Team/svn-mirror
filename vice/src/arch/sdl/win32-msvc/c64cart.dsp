@@ -198,10 +198,6 @@ SOURCE="..\..\..\c64\cart\gamekiller.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\cart\georam.c
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\..\c64\cart\gs.c"
 # End Source File
 # Begin Source File
@@ -315,10 +311,6 @@ SOURCE="..\..\..\c64\cart\supersnapshot.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\supersnapshot4.c"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\cart\tfe.c
 # End Source File
 # Begin Source File
 

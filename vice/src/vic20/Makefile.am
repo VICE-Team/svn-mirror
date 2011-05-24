@@ -13,8 +13,6 @@ INCLUDES = \
 noinst_LIBRARIES = libvic20.a
 
 libvic20_a_SOURCES = \
-	c64export-stubs.c \
-	c64export-stubs.h \
 	vic-cmdline-options.c \
 	vic-cmdline-options.h \
 	vic-color.c \
@@ -69,7 +67,10 @@ libvic20_a_SOURCES = \
 	vic20via2.c \
 	vic20video.c
 
-.PHONY: libvic20cart
+.PHONY: libvic20cart libmascuerade
 
 libvic20cart:
-	(cd cart; $(MAKE))
+	(cd cart; $(MAKE) libvic20cart)
+
+libmascuerade:
+	(cd cart; $(MAKE) libmascuerade)

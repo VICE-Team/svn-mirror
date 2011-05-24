@@ -130,7 +130,7 @@ static char *georam_filename = NULL;
 
 static int georam_write_image = 0;
 
-/* Flag: swap io1/io2, currently only used for vic20 masC=erade,
+/* Flag: swap io1/io2, currently only used for vic20 masC=uerade,
          but future usage of an io-swapper is possible */
 static int georam_io_swap = 0;
 
@@ -308,7 +308,7 @@ static int set_georam_enabled(int val, void *param)
             return -1;
         }
         if (machine_class == VICE_MACHINE_VIC20) {
-            /* set correct addresses for masC=erade */
+            /* set correct addresses for masC=uerade */
             if (georam_io_swap) {
                 georam_io1_device.start_address = 0x9c00;
                 georam_io1_device.end_address = 0x9fff;
@@ -426,7 +426,7 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-static const resource_int_t resources_masqerade_int[] = {
+static const resource_int_t resources_mascuerade_int[] = {
     { "GEORAMIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &georam_io_swap, set_georam_io_swap, NULL },
     { NULL }
@@ -439,7 +439,7 @@ int georam_resources_init(void)
     }
 
     if (machine_class == VICE_MACHINE_VIC20) {
-        if (resources_register_int(resources_masqerade_int) < 0) {
+        if (resources_register_int(resources_mascuerade_int) < 0) {
             return -1;
         }
     }
@@ -490,7 +490,7 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
-static const cmdline_option_t cmdline_mascerade_options[] =
+static const cmdline_option_t cmdline_mascuerade_options[] =
 {
     { "-georamioswap", SET_RESOURCE, 0,
       NULL, NULL, "GEORAMIOSwap", (resource_value_t)1,
@@ -508,7 +508,7 @@ static const cmdline_option_t cmdline_mascerade_options[] =
 int georam_cmdline_options_init(void)
 {
     if (machine_class == VICE_MACHINE_VIC20) {
-        if (cmdline_register_options(cmdline_mascerade_options) < 0) {
+        if (cmdline_register_options(cmdline_mascuerade_options) < 0) {
             return -1;
         }
     }

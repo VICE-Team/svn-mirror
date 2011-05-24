@@ -82,10 +82,6 @@ LIB32=link.exe -lib
 # Name "vic20 - Win32 Debug"
 # Begin Source File
 
-SOURCE="..\..\..\vic20\c64export-stubs.c"
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\..\vic20\vic-cmdline-options.c"
 # End Source File
 # Begin Source File

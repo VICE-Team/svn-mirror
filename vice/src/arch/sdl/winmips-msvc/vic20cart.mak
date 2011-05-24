@@ -49,6 +49,7 @@ CLEAN :"base - Win32 ReleaseCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\finalexpansion.obj"
+	-@erase "$(INTDIR)\mascuerade-stubs.obj"
 	-@erase "$(INTDIR)\megacart.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-fp.obj"
@@ -105,6 +106,7 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vic20cart.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\finalexpansion.obj" \
+	"$(INTDIR)\mascuerade-stubs.obj" \
 	"$(INTDIR)\megacart.obj" \
 	"$(INTDIR)\vic20-generic.obj" \
 	"$(INTDIR)\vic20-ieee488.obj" \
@@ -144,6 +146,7 @@ CLEAN :"base - Win32 DebugCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\finalexpansion.obj"
+	-@erase "$(INTDIR)\mascuerade-stubs.obj"
 	-@erase "$(INTDIR)\megacart.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-fp.obj"
@@ -200,6 +203,7 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vic20cart.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\finalexpansion.obj" \
+	"$(INTDIR)\mascuerade-stubs.obj" \
 	"$(INTDIR)\megacart.obj" \
 	"$(INTDIR)\vic20-generic.obj" \
 	"$(INTDIR)\vic20-ieee488.obj" \
@@ -249,6 +253,12 @@ LIB32_OBJS= \
 SOURCE="..\..\..\vic20\cart\finalexpansion.c"
 
 "$(INTDIR)\finalexpansion.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\vic20\cart\mascuerade-stubs.c"
+
+"$(INTDIR)\mascuerade-stubs.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

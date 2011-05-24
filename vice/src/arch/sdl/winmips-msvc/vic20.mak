@@ -48,7 +48,6 @@ CLEAN :"base - Win32 ReleaseCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
-	-@erase "$(INTDIR)\c64export-stubs.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-cmdline-options.obj"
 	-@erase "$(INTDIR)\vic-color.obj"
@@ -127,7 +126,6 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vic20.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\c64export-stubs.obj" \
 	"$(INTDIR)\vic-cmdline-options.obj" \
 	"$(INTDIR)\vic-color.obj" \
 	"$(INTDIR)\vic-cycle.obj" \
@@ -189,7 +187,6 @@ CLEAN :"base - Win32 DebugCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
-	-@erase "$(INTDIR)\c64export-stubs.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\vic-cmdline-options.obj"
 	-@erase "$(INTDIR)\vic-color.obj"
@@ -268,7 +265,6 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vic20.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\c64export-stubs.obj" \
 	"$(INTDIR)\vic-cmdline-options.obj" \
 	"$(INTDIR)\vic-color.obj" \
 	"$(INTDIR)\vic-cycle.obj" \
@@ -337,12 +333,6 @@ LIB32_OBJS= \
    cd "."
 
 !ENDIF 
-
-SOURCE="..\..\..\vic20\c64export-stubs.c"
-
-"$(INTDIR)\c64export-stubs.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
 
 SOURCE="..\..\..\vic20\vic-cmdline-options.c"
 

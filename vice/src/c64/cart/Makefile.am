@@ -9,7 +9,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vicii
 
-noinst_LIBRARIES = libc64cartsystem.a libc64cart.a
+noinst_LIBRARIES = libc64cartsystem.a libc64cart.a libc64commoncart.a
 
 libc64cartsystem_a_SOURCES = \
 	c64cart.c \
@@ -79,8 +79,6 @@ libc64cart_a_SOURCES = \
 	funplay.h \
 	gamekiller.c \
 	gamekiller.h \
-	georam.c \
-	georam.h \
 	gs.c \
 	gs.h \
 	ide64.c \
@@ -139,11 +137,15 @@ libc64cart_a_SOURCES = \
 	supersnapshot.h \
 	supersnapshot4.c \
 	supersnapshot4.h \
-	tfe.c \
-	tfe.h \
 	warpspeed.c \
 	warpspeed.h \
 	westermann.c \
 	westermann.h \
 	zaxxon.c \
 	zaxxon.h
+
+libc64commoncart_a_SOURCES = \
+	georam.c \
+	georam.h \
+	tfe.c \
+	tfe.h

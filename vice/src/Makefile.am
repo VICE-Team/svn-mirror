@@ -688,6 +688,7 @@ c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
 c64c64dtv_lib = $(top_builddir)/src/c64/libc64c64dtv.a
 c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 c64cartsystem_lib = $(top_builddir)/src/c64/cart/libc64cartsystem.a
+c64commoncart_lib = $(top_builddir)/src/c64/cart/libc64commoncart.a
 core_lib = $(top_builddir)/src/core/libcore.a
 crtc_lib = $(top_builddir)/src/crtc/libcrtc.a
 diskimage_lib = $(top_builddir)/src/diskimage/libdiskimage.a
@@ -704,6 +705,7 @@ fileio_lib = $(top_builddir)/src/fileio/libfileio.a
 gfxoutputdrv_lib = $(top_builddir)/src/gfxoutputdrv/libgfxoutputdrv.a
 iecbus_lib = $(top_builddir)/src/iecbus/libiecbus.a
 imagecontents_lib = $(top_builddir)/src/imagecontents/libimagecontents.a
+mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
@@ -799,6 +801,7 @@ x64_libs =  \
 	$(c64_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
+	$(c64commoncart_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveiecc64exp_lib) \
@@ -830,6 +833,7 @@ x64-all: \
 	libc64 \
 	libc64cartsystem \
 	libc64cart \
+	libc64commoncart \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecc64exp \
@@ -864,6 +868,7 @@ x64sc_libs =  \
 	$(c64sc_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
+	$(c64commoncart_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveiecc64exp_lib) \
@@ -895,6 +900,7 @@ x64sc-all: \
 	libc64sc \
 	libc64cartsystem \
 	libc64cart \
+	libc64commoncart \
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecc64exp \
@@ -991,6 +997,7 @@ x128_libs =  \
 	$(c128_lib) \
 	$(c64cartsystem_lib) \
 	$(c64cart_lib) \
+	$(c64commoncart_lib) \
 	$(c64c128_lib) \
 	$(driveiec_lib) \
 	$(driveiec128dcr_lib) \
@@ -1024,6 +1031,7 @@ x128-all: \
 	libc64c128 \
 	libc64cartsystem \
 	libc64cart \
+	libc64commoncart \
 	libsounddrv \
 	libgfxoutputdrv \
 	libprinterdrv \
@@ -1061,7 +1069,8 @@ xvic_libs =  \
 	@XVIC_WINRES@ \
 	$(vic20_lib) \
 	$(vic20cart_lib) \
-	$(c64cart_lib) \
+	$(c64commoncart_lib) \
+	$(mascuerade_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
@@ -1099,7 +1108,8 @@ xvic-all: \
 	librs232drv \
 	libvic20 \
 	libvic20cart \
-	libc64cart \
+	libc64commoncart \
+	libmascuerade \
 	libvideo \
 	libarch \
 	libmonitor \
@@ -1369,6 +1379,8 @@ libc64cart:
 	(cd c64 && $(MAKE) libc64cart)
 libc64cartsystem:
 	(cd c64 && $(MAKE) libc64cartsystem)
+libc64commoncart:
+	(cd c64 && $(MAKE) libc64commoncart)
 libc64dtv:
 	(cd c64dtv && $(MAKE) libc64dtv.a)
 libc64dtvstubs:
@@ -1407,6 +1419,8 @@ libiecbus:
 	(cd iecbus && $(MAKE))
 libimagecontents:
 	(cd imagecontents && $(MAKE))
+libmascuerade:
+	(cd vic20 && $(MAKE) libmascuerade)
 libmonitor:
 	(cd monitor && $(MAKE) libmonitor.a)
 libparallel:

@@ -16,6 +16,7 @@ EXTRA_DIST = \
 	c64c64dtv.dsp \
 	c64cart.dsp \
 	c64cartsystem.dsp \
+	c64commoncart.dsp \
 	c64dtv.dsp \
 	c64dtvstubs.dsp \
 	c64exp.dsp \

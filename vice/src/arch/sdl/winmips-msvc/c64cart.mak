@@ -77,7 +77,6 @@ CLEAN :
 	-@erase "$(INTDIR)\freezemachine.obj"
 	-@erase "$(INTDIR)\funplay.obj"
 	-@erase "$(INTDIR)\gamekiller.obj"
-	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\gs.obj"
 	-@erase "$(INTDIR)\ide64.obj"
 	-@erase "$(INTDIR)\isepic.obj"
@@ -107,7 +106,6 @@ CLEAN :
 	-@erase "$(INTDIR)\supergames.obj"
 	-@erase "$(INTDIR)\supersnapshot.obj"
 	-@erase "$(INTDIR)\supersnapshot4.obj"
-	-@erase "$(INTDIR)\tfe.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\warpspeed.obj"
 	-@erase "$(INTDIR)\westermann.obj"
@@ -187,7 +185,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\freezemachine.obj" \
 	"$(INTDIR)\funplay.obj" \
 	"$(INTDIR)\gamekiller.obj" \
-	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\gs.obj" \
 	"$(INTDIR)\ide64.obj" \
 	"$(INTDIR)\isepic.obj" \
@@ -217,7 +214,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\supergames.obj" \
 	"$(INTDIR)\supersnapshot.obj" \
 	"$(INTDIR)\supersnapshot4.obj" \
-	"$(INTDIR)\tfe.obj" \
 	"$(INTDIR)\warpspeed.obj" \
 	"$(INTDIR)\westermann.obj" \
 	"$(INTDIR)\zaxxon.obj" \
@@ -280,7 +276,6 @@ CLEAN :
 	-@erase "$(INTDIR)\freezemachine.obj"
 	-@erase "$(INTDIR)\funplay.obj"
 	-@erase "$(INTDIR)\gamekiller.obj"
-	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\gs.obj"
 	-@erase "$(INTDIR)\ide64.obj"
 	-@erase "$(INTDIR)\isepic.obj"
@@ -310,7 +305,6 @@ CLEAN :
 	-@erase "$(INTDIR)\supergames.obj"
 	-@erase "$(INTDIR)\supersnapshot.obj"
 	-@erase "$(INTDIR)\supersnapshot4.obj"
-	-@erase "$(INTDIR)\tfe.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\warpspeed.obj"
 	-@erase "$(INTDIR)\westermann.obj"
@@ -390,7 +384,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\freezemachine.obj" \
 	"$(INTDIR)\funplay.obj" \
 	"$(INTDIR)\gamekiller.obj" \
-	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\gs.obj" \
 	"$(INTDIR)\ide64.obj" \
 	"$(INTDIR)\isepic.obj" \
@@ -420,7 +413,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\supergames.obj" \
 	"$(INTDIR)\supersnapshot.obj" \
 	"$(INTDIR)\supersnapshot4.obj" \
-	"$(INTDIR)\tfe.obj" \
 	"$(INTDIR)\warpspeed.obj" \
 	"$(INTDIR)\westermann.obj" \
 	"$(INTDIR)\zaxxon.obj" \
@@ -636,12 +628,6 @@ SOURCE="..\..\..\c64\cart\gamekiller.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\c64\cart\georam.c
-
-"$(INTDIR)\georam.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 SOURCE="..\..\..\c64\cart\gs.c"
 
 "$(INTDIR)\gs.obj" : $(SOURCE) "$(INTDIR)"
@@ -813,12 +799,6 @@ SOURCE="..\..\..\c64\cart\supersnapshot.c"
 SOURCE="..\..\..\c64\cart\supersnapshot4.c"
 
 "$(INTDIR)\supersnapshot4.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\cart\tfe.c
-
-"$(INTDIR)\tfe.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

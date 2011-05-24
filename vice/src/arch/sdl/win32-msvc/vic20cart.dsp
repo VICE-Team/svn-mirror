@@ -86,6 +86,10 @@ SOURCE="..\..\..\vic20\cart\finalexpansion.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\vic20\cart\mascuerade-stubs.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\vic20\cart\megacart.c"
 # End Source File
 # Begin Source File
