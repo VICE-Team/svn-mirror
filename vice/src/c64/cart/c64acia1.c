@@ -132,10 +132,23 @@ static void acia1_disable(void)
 
 static int set_io_source_base(int address)
 {
-    switch (address) {
+    int adr = address;
+
+    if (adr == 0xffff) {
+        switch (machine_class) {
+            case VICE_MACHINE_VIC20:
+                adr = 0x9800;
+                break;
+            default:
+                adr = 0xde00;
+                break;
+        }
+    }
+
+    switch (adr) {
         case 0xde00:
         case 0xdf00:
-            acia_base = address;
+            acia_base = adr;
             acia_device.start_address = acia_base;
             if (acia_device.cart_id == CARTRIDGE_TURBO232) {
                 acia_device.end_address = acia_base + 7;
@@ -147,7 +160,20 @@ static int set_io_source_base(int address)
             if (machine_class != VICE_MACHINE_C128) {
                 return -1;
             }
-            acia_base = address;
+            acia_base = adr;
+            acia_device.start_address = acia_base;
+            if (acia_device.cart_id == CARTRIDGE_TURBO232) {
+                acia_device.end_address = acia_base + 7;
+            } else {
+                acia_device.end_address = acia_base + 3;
+            }
+            return 0;
+        case 0x9800:
+        case 0x9c00:
+            if (machine_class != VICE_MACHINE_VIC20) {
+                return -1;
+            }
+            acia_base = adr;
             acia_device.start_address = acia_base;
             if (acia_device.cart_id == CARTRIDGE_TURBO232) {
                 acia_device.end_address = acia_base + 7;
@@ -234,7 +260,7 @@ int acia1_set_mode(int mode)
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, NULL,
       &acia_enabled, set_acia_enabled, NULL },
-    { "Acia1Base", 0xde00, RES_EVENT_STRICT, NULL,
+    { "Acia1Base", 0xffff, RES_EVENT_STRICT, NULL,
       &acia_base, set_acia_base, NULL },
     { NULL }
 };

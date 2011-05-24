@@ -110,10 +110,6 @@ SOURCE="..\..\c64\cart\c64-midi.c"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\c64\cart\c64acia1.c
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\c64\cart\c64tpi.c"
 # End Source File
 # Begin Source File

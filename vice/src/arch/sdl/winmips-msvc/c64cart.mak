@@ -55,7 +55,6 @@ CLEAN :
 	-@erase "$(INTDIR)\atomicpower.obj"
 	-@erase "$(INTDIR)\c64-generic.obj"
 	-@erase "$(INTDIR)\c64-midi.obj"
-	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\c64tpi.obj"
 	-@erase "$(INTDIR)\capture.obj"
 	-@erase "$(INTDIR)\comal80.obj"
@@ -163,7 +162,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\atomicpower.obj" \
 	"$(INTDIR)\c64-generic.obj" \
 	"$(INTDIR)\c64-midi.obj" \
-	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\c64tpi.obj" \
 	"$(INTDIR)\capture.obj" \
 	"$(INTDIR)\comal80.obj" \
@@ -254,7 +252,6 @@ CLEAN :
 	-@erase "$(INTDIR)\atomicpower.obj"
 	-@erase "$(INTDIR)\c64-generic.obj"
 	-@erase "$(INTDIR)\c64-midi.obj"
-	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\c64tpi.obj"
 	-@erase "$(INTDIR)\capture.obj"
 	-@erase "$(INTDIR)\comal80.obj"
@@ -362,7 +359,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\atomicpower.obj" \
 	"$(INTDIR)\c64-generic.obj" \
 	"$(INTDIR)\c64-midi.obj" \
-	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\c64tpi.obj" \
 	"$(INTDIR)\capture.obj" \
 	"$(INTDIR)\comal80.obj" \
@@ -493,12 +489,6 @@ SOURCE="..\..\..\c64\cart\c64-generic.c"
 SOURCE="..\..\..\c64\cart\c64-midi.c"
 
 "$(INTDIR)\c64-midi.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\cart\c64acia1.c
-
-"$(INTDIR)\c64acia1.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

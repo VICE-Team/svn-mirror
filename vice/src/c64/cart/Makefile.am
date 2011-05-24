@@ -35,8 +35,6 @@ libc64cart_a_SOURCES = \
 	c64-generic.h \
 	c64-midi.c \
 	c64-midi.h \
-	c64acia.h \
-	c64acia1.c \
 	c64tpi.c \
 	c64tpi.h \
 	capture.c \
@@ -145,6 +143,8 @@ libc64cart_a_SOURCES = \
 	zaxxon.h
 
 libc64commoncart_a_SOURCES = \
+	c64acia.h \
+	c64acia1.c \
 	georam.c \
 	georam.h \
 	tfe.c \

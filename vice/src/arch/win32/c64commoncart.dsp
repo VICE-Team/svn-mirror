@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "c64commoncart - Win32 Debug"
 # Begin Source File
 
+SOURCE=..\..\c64\cart\c64acia1.c
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\georam.c"
 # End Source File
 # Begin Source File

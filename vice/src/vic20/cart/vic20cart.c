@@ -44,6 +44,7 @@
 #include <sys/types.h>
 #endif
 
+#include "c64acia.h"
 #include "cartridge.h"
 #include "cmdline.h"
 #include "finalexpansion.h"
@@ -151,6 +152,7 @@ int cartridge_resources_init(void)
 #ifdef HAVE_TFE
         || tfe_resources_init() < 0
 #endif
+        || aciacart_resources_init() < 0
         || georam_resources_init() < 0) {
         return -1;
     }
@@ -165,6 +167,7 @@ void cartridge_resources_shutdown(void)
 #ifdef HAVE_TFE
     tfe_resources_shutdown();
 #endif
+    aciacart_resources_shutdown();
     georam_resources_shutdown();
 
     lib_free(cartridge_file);
@@ -264,6 +267,7 @@ int cartridge_cmdline_options_init(void)
 #ifdef HAVE_TFE
         || tfe_cmdline_options_init() < 0
 #endif
+        || aciacart_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0) {
         return -1;
     }

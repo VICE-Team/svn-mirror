@@ -28,6 +28,7 @@
 
 #include <stdio.h>
 
+#include "c64acia.h"
 #include "cartridge.h"
 #include "finalexpansion.h"
 #include "georam.h"
@@ -338,6 +339,7 @@ void cartridge_init(void)
 #ifdef HAVE_TFE
     tfe_init();
 #endif
+    aciacart_init();
     georam_init();
 }
 
@@ -362,6 +364,9 @@ void cartridge_reset(void)
         tfe_reset();
     }
 #endif
+    if (aciacart_cart_enabled()) {
+        aciacart_reset();
+    }
     if (georam_cart_enabled()) {
         georam_reset();
     }
