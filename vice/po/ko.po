@@ -630,55 +630,55 @@ msgstr "그래픽"
 #: src/arch/unix/gui/cbm2ui.c:215 src/arch/unix/gui/petui.c:163
 #: src/arch/win32/respet.rc.po.c:558 src/arch/amigaos/intl_text.c.po.c:8131
 msgid "Business (UK)"
-msgstr ""
+msgstr "비지니스(UK)"
 
 #: src/arch/unix/gui/cbm2ui.c:237 src/arch/unix/gui/petui.c:307
 msgid "Model defaults"
-msgstr ""
+msgstr "모델 디폴트"
 
 #: src/arch/unix/gui/cbm2ui.c:244 src/arch/unix/gui/petui.c:312
 msgid "Memory size"
-msgstr ""
+msgstr "메모리 크기"
 
 #: src/arch/unix/gui/cbm2ui.c:246
 msgid "Hardwired switches"
-msgstr ""
+msgstr "핸드와이어드 스위치"
 
 #: src/arch/unix/gui/cbm2ui.c:249 src/arch/win32/rescbm2.rc.po.c:507
 msgid "Bank 15 $0800-$0FFF RAM"
-msgstr ""
+msgstr "뱅크 15 $0800-$0FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:251 src/arch/win32/rescbm2.rc.po.c:508
 msgid "Bank 15 $1000-$1FFF RAM"
-msgstr ""
+msgstr "뱅크 15 $1000-$1FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:253 src/arch/win32/rescbm2.rc.po.c:509
 msgid "Bank 15 $2000-$3FFF RAM"
-msgstr ""
+msgstr "뱅크 15 $2000-$3FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:255 src/arch/win32/rescbm2.rc.po.c:510
 msgid "Bank 15 $4000-$5FFF RAM"
-msgstr ""
+msgstr "뱅크 15 $4000-$5FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:257 src/arch/win32/rescbm2.rc.po.c:511
 msgid "Bank 15 $6000-$7FFF RAM"
-msgstr ""
+msgstr "뱅크 15 $6000-$7FFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:259 src/arch/win32/rescbm2.rc.po.c:512
 msgid "Bank 15 $C000-$CFFF RAM"
-msgstr ""
+msgstr "뱅크 15 $C000-$CFFF RAM"
 
 #: src/arch/unix/gui/cbm2ui.c:263 src/arch/unix/gui/petui.c:329
 msgid "Keyboard type"
-msgstr ""
+msgstr "키보드 타입"
 
 #: src/arch/unix/gui/cbm2ui.c:345
 msgid "CBM-II model settings"
-msgstr ""
+msgstr "CBM-II 모델 설정"
 
 #: src/arch/unix/gui/cbm2ui.c:349 src/arch/unix/gui/petui.c:394
 msgid "CRTC settings"
-msgstr ""
+msgstr "CRTC 설정"
 
 #: src/arch/unix/gui/petui.c:121 src/arch/unix/gui/plus4ui.c:115
 #: src/arch/unix/gui/plus4ui.c:121 src/arch/unix/gui/uic64_256k.c:56
@@ -701,18 +701,18 @@ msgstr "작동시키다"
 #: src/arch/unix/gui/vic20ui.c:153 src/arch/win32/ressidcart.rc.po.c:139
 #: src/arch/amigaos/intl_text.c.po.c:7442
 msgid "SID address"
-msgstr ""
+msgstr "SID 주소"
 
 #. Translators: "SID clock" as in "CPU Frequency"
 #: src/arch/unix/gui/petui.c:131 src/arch/unix/gui/plus4ui.c:131
 #: src/arch/unix/gui/vic20ui.c:156 src/arch/win32/ressidcart.rc.po.c:140
 #: src/arch/amigaos/intl_text.c.po.c:7455
 msgid "SID clock"
-msgstr ""
+msgstr "SID 클락"
 
 #: src/arch/unix/gui/petui.c:165
 msgid "Business (DE)"
-msgstr ""
+msgstr "비지니스(DE)"
 
 #: src/arch/unix/gui/petui.c:171 src/arch/win32/respet.rc.po.c:549
 #: src/arch/amigaos/intl_text.c.po.c:8040
@@ -731,7 +731,7 @@ msgstr "80칸"
 
 #: src/arch/unix/gui/petui.c:214
 msgid "Load new editor ROM"
-msgstr ""
+msgstr "세로운 에디터 ROM 불러오기"
 
 #: src/arch/unix/gui/petui.c:226
 msgid "PET RAM and Expansion Unit"
@@ -739,20 +739,20 @@ msgstr ""
 
 #: src/arch/unix/gui/petui.c:228
 msgid "PET DWW hi-res graphics"
-msgstr ""
+msgstr "PET DWW hi-res 그래픽 "
 
 #: src/arch/unix/gui/petui.c:230 src/arch/unix/gui/plus4ui.c:201
 #: src/arch/unix/gui/vic20ui.c:510 src/arch/amigaos/intl_text.c.po.c:7416
 msgid "SID cartridge"
-msgstr ""
+msgstr "SID 카트리지"
 
 #: src/arch/unix/gui/petui.c:232
 msgid "Userport DAC"
-msgstr ""
+msgstr "유져포트 DAC"
 
 #: src/arch/unix/gui/petui.c:234
 msgid "PET userport diagnostic pin"
-msgstr ""
+msgstr "PET 유져포트 진단 핀"
 
 #: src/arch/unix/gui/petui.c:240
 msgid "Basic 1"
@@ -760,11 +760,11 @@ msgstr "기본1"
 
 #: src/arch/unix/gui/petui.c:242
 msgid "Basic 2, graphics"
-msgstr ""
+msgstr "기본 2, 그래픽"
 
 #: src/arch/unix/gui/petui.c:244
 msgid "Basic 2, Business"
-msgstr ""
+msgstr "기본 2, 비지니스"
 
 #: src/arch/unix/gui/petui.c:246
 msgid "Basic 4, 40 cols, graphics"
