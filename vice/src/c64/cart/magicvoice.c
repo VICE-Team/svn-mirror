@@ -140,16 +140,9 @@ static int mv_mapped_game = 1, mv_mapped_exrom = 1;
 
 static int mv_game8000_enabled = 0; /* gamecart at passthrough enabled */
 
-static int mv_enabled = 0; /* cartridge physically enabled */
-
 static void ga_memconfig_changed(int mode);
 
 static void set_int(unsigned int int_num, int value);
-
-int magicvoice_cart_enabled(void)
-{
-    return mv_enabled;
-}
 
 /*****************************************************************************
  FIFO (CD 40105 BE)
@@ -815,6 +808,36 @@ static const c64export_resource_t export_res = {
 };
 
 /* ---------------------------------------------------------------------*/
+
+static sound_chip_t magicvoice_sound_chip = {
+    NULL, /* no open */
+    magicvoice_sound_machine_init,
+    magicvoice_sound_machine_close,
+    magicvoice_sound_machine_calculate_samples,
+    magicvoice_sound_machine_store,
+    magicvoice_sound_machine_read,
+    NULL, /* no reset */
+    NULL, /* no enable function */
+    0, /* not cycle based */
+    1, /* 1 channel */
+    0x80, /* offset to be filled in by register routine */
+    0 /* chip enabled */
+};
+
+static sound_chip_list_t *magicvoice_sound_chip_item = NULL;
+
+void magicvoice_sound_chip_init(void)
+{
+    magicvoice_sound_chip_item = sound_chip_register(&magicvoice_sound_chip);
+}
+
+int magicvoice_cart_enabled(void)
+{
+    return magicvoice_sound_chip.chip_enabled;
+}
+
+/* ---------------------------------------------------------------------*/
+
 int magicvoice_ultimax_read(WORD addr, BYTE *value)
 {
     /* disabled, read c64 memory */
@@ -980,7 +1003,7 @@ char *magicvoice_filename = NULL;
 static int set_magicvoice_enabled(int val, void *param)
 {
     DBG(("MV: set_enabled: '%s' %d to %d\n", magicvoice_filename, mv_enabled, val));
-    if (mv_enabled && !val) {
+    if (magicvoice_sound_chip.chip_enabled && !val) {
         cart_power_off();
 #ifdef MVDEBUG
         if (magicvoice_io2_list_item == NULL) {
@@ -990,9 +1013,9 @@ static int set_magicvoice_enabled(int val, void *param)
         c64export_remove(&export_res);
         io_source_unregister(magicvoice_io2_list_item);
         magicvoice_io2_list_item = NULL;
-        mv_enabled =  0;
+        magicvoice_sound_chip.chip_enabled =  0;
         DBG(("MV: set_enabled unregistered\n"));
-    } else if (!mv_enabled && val) {
+    } else if (!magicvoice_sound_chip.chip_enabled && val) {
         if (param) {
             /* if the param is != NULL, then we should load the default image file */
             if (magicvoice_filename) {
@@ -1014,7 +1037,7 @@ static int set_magicvoice_enabled(int val, void *param)
             } else {
                 DBG(("MV: set_enabled registered\n"));
                 magicvoice_io2_list_item = io_source_register(&magicvoice_io2_device);
-                mv_enabled =  1;
+                magicvoice_sound_chip.chip_enabled =  1;
             }
         }
     }
@@ -1054,7 +1077,7 @@ static const resource_string_t resources_string[] = {
 };
 static const resource_int_t resources_int[] = {
     { "MagicVoiceCartridgeEnabled", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &mv_enabled, set_magicvoice_enabled, (void *)1 },
+      &magicvoice_sound_chip.chip_enabled, set_magicvoice_enabled, (void *)1 },
     { NULL }
 };
 
@@ -1144,7 +1167,7 @@ void magicvoice_config_init(struct export_s *export)
     mv_extexrom = ((export_t*)export)->exrom;
     mv_extgame = ((export_t*)export)->game;
 
-    if (mv_enabled) {
+    if (magicvoice_sound_chip.chip_enabled) {
         mv_exrom = 1;
         ga_reset();
         ga_memconfig_changed(CMODE_READ);
@@ -1234,7 +1257,7 @@ void magicvoice_init(void)
 void magicvoice_reset(void)
 {
     DBG(("MV: reset\n"));
-    if (mv_enabled) {
+    if (magicvoice_sound_chip.chip_enabled) {
         mv_game8000_enabled = 0;
         mv_exrom = 1;
         ga_reset();
@@ -1267,7 +1290,7 @@ int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
     int i;
     SWORD *buffer;
 
-    if (mv_enabled) {
+    if (magicvoice_sound_chip.chip_enabled) {
         buffer = lib_malloc(nr * 2);
 
         t6721_update_output(t6721, buffer, nr);
