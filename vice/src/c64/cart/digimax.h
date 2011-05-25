@@ -44,8 +44,10 @@ extern int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, i
 extern int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void digimax_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE digimax_sound_machine_read(sound_t *psid, WORD addr);
-extern void digimax_sound_reset(void);
+extern void digimax_sound_reset(sound_t *psid, CLOCK cpu_clk);
 extern void digimax_userport_store(WORD addr, BYTE value);
+
+extern void digimax_sound_chip_init(void);
 
 struct snapshot_s;
 

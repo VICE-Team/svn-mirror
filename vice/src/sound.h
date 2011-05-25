@@ -216,7 +216,6 @@ typedef struct sound_chip_s {
     int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
     void (*store)(sound_t *psid, WORD addr, BYTE val);
     BYTE (*read)(sound_t *psid, WORD addr);
-    char *(*dump_state)(sound_t *psid);
     void (*reset)(sound_t *psid, CLOCK cpu_clk);
     void (*enable)(int enable);
     int cycle_based;
