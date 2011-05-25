@@ -87,19 +87,23 @@ typedef struct sound_device_s
 
 static inline SWORD sound_audio_mix(int ch1, int ch2)
 {
-  if (ch1 == 0)
-    return (SWORD)ch2;
+    if (ch1 == 0) {
+       return (SWORD)ch2;
+    }
 
-  if (ch2 == 0)
-    return (SWORD)ch1;
+    if (ch2 == 0) {
+        return (SWORD)ch1;
+    }
 
-  if ((ch1 > 0 && ch2 < 0) || (ch1 < 0 && ch2 >0))
-    return (SWORD)ch1+ch2;
+    if ((ch1 > 0 && ch2 < 0) || (ch1 < 0 && ch2 >0)) {
+        return (SWORD)ch1 + ch2;
+    }
 
-  if (ch1 > 0)
-    return (SWORD)((ch1 + ch2) - (ch1 * ch2 / 32768));
+    if (ch1 > 0) {
+        return (SWORD)((ch1 + ch2) - (ch1 * ch2 / 32768));
+    }
 
-  return (SWORD)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
+    return (SWORD)-((-(ch1) + -(ch2)) - (-(ch1) * -(ch2) / 32768));
 }
 
 /* Sound adjustment types.  */
@@ -205,5 +209,31 @@ extern void sound_synthesize(SWORD *buffer, int length);
 
 extern sound_t *sound_get_psid(unsigned int channel);
 
-#endif
+typedef struct sound_chip_s {
+    sound_t *(*open)(int chipno);
+    int (*init)(sound_t *psid, int speed, int cycles_per_sec);
+    void (*close)(sound_t *psid);
+    int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+    void (*store)(sound_t *psid, WORD addr, BYTE val);
+    BYTE (*read)(sound_t *psid, WORD addr);
+    char *(*dump_state)(sound_t *psid);
+    void (*reset)(sound_t *psid, CLOCK cpu_clk);
+    void (*enable)(int enable);
+    int cycle_based;
+    int channels;
+    WORD offset;
+    int chip_enabled;
+} sound_chip_t;
 
+typedef struct sound_chip_list_s {
+    struct sound_chip_list_s *previous;
+    sound_chip_t *chip;
+    struct sound_chip_list_s *next;
+} sound_chip_list_t;
+
+extern sound_chip_list_t *sound_chip_register(sound_chip_t *chip);
+extern void sound_chip_unregister(sound_chip_list_t *device);
+
+extern void sound_chip_init(void);
+
+#endif

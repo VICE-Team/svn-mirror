@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <assert.h>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -67,6 +68,58 @@ static log_t sound_log = LOG_ERR;
 #ifndef FALSE
 #define FALSE 0
 #endif
+
+/* ------------------------------------------------------------------------- */
+
+static WORD offset = 0;
+
+static sound_chip_list_t sound_chip_head = { NULL, NULL, NULL };
+
+sound_chip_list_t *sound_chip_register(sound_chip_t *chip)
+{
+    sound_chip_list_t *current = &sound_chip_head;
+    sound_chip_list_t *retval = lib_malloc(sizeof(sound_chip_list_t));
+
+    assert(chip != NULL);
+
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = retval;
+    retval->previous = current;
+    retval->chip = chip;
+    retval->next = NULL;
+    retval->chip->offset = offset;
+    offset += 0x20;
+
+    return retval;
+}
+
+void sound_chip_unregister(sound_chip_list_t *chip)
+{
+    sound_chip_list_t *prev;
+
+    assert(chip != NULL);
+
+    prev = chip->previous;
+    prev->next = chip->next;
+
+    if (chip->next) {
+        chip->next->previous = prev;
+    }
+
+    lib_free(chip);
+}
+
+void sound_chip_shutdown(void)
+{
+    sound_chip_list_t *current = sound_chip_head.next;
+
+    while (current) {
+        sound_chip_unregister(current);
+        current = sound_chip_head.next;
+    }
+}
 
 /* ------------------------------------------------------------------------- */
 
@@ -241,6 +294,9 @@ void sound_resources_shutdown(void)
     lib_free(device_arg);
     lib_free(recorddevice_name);
     lib_free(recorddevice_arg);
+#if 0 /* will become active when the new sound chip handling system is in place */
+    sound_chip_shutdown();
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1272,6 +1328,10 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 #if 0
     sound_init_test_device();   /* XXX: missing */
+#endif
+
+#if 0 /* will become active when the new sound chip handling system is in place */
+    sound_chip_init();
 #endif
 
     log_message(sound_log, "Available sound devices:%s", devlist);
