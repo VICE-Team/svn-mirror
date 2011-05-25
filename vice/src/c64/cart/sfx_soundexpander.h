@@ -44,7 +44,9 @@ extern int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cy
 extern void sfx_soundexpander_sound_machine_close(sound_t *psid);
 extern void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr);
-extern void sfx_soundexpander_sound_reset(void);
+extern void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk);
+
+extern void sfx_soundexpander_sound_chip_init(void);
 
 struct snapshot_s;
 extern int sfx_soundexpander_snapshot_read_module(struct snapshot_s *s);

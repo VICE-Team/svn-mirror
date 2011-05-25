@@ -45,9 +45,6 @@
 #include "uiapi.h"
 #include "translate.h"
 
-/* Flag: Do we enable the SFX soundexpander cartridge?  */
-static int sfx_soundexpander_enabled = 0;
-
 /* Flag: What type of ym chip is used?  */
 int sfx_soundexpander_chip = 3526;
 
@@ -105,14 +102,38 @@ static const c64export_resource_t export_res_piano= {
 
 /* ------------------------------------------------------------------------- */
 
+static sound_chip_t sfx_soundexpander_sound_chip = {
+    NULL, /* no open */
+    sfx_soundexpander_sound_machine_init,
+    sfx_soundexpander_sound_machine_close,
+    sfx_soundexpander_sound_machine_calculate_samples,
+    sfx_soundexpander_sound_machine_store,
+    sfx_soundexpander_sound_machine_read,
+    sfx_soundexpander_sound_reset,
+    NULL, /* no enable function */
+    0, /* not cycle based */
+    1, /* 1 channel, FIXME: needs to become stereo for stereo capable ports */
+    0x60, /* offset to be filled in by register routine */
+    0 /* chip enabled */
+};
+
+static sound_chip_list_t *sfx_soundexpander_sound_chip_item = NULL;
+
+void sfx_soundexpander_sound_chip_init(void)
+{
+    sfx_soundexpander_sound_chip_item = sound_chip_register(&sfx_soundexpander_sound_chip);
+}
+
+/* ------------------------------------------------------------------------- */
+
 int sfx_soundexpander_cart_enabled(void)
 {
-    return sfx_soundexpander_enabled;
+    return sfx_soundexpander_sound_chip.chip_enabled;
 }
 
 static int set_sfx_soundexpander_enabled(int val, void *param)
 {
-    if (sfx_soundexpander_enabled != val) {
+    if (sfx_soundexpander_sound_chip.chip_enabled != val) {
         if (val) {
             if (c64export_add(&export_res_sound) < 0) {
                 return -1;
@@ -122,7 +143,7 @@ static int set_sfx_soundexpander_enabled(int val, void *param)
             }
             sfx_soundexpander_sound_list_item = io_source_register(&sfx_soundexpander_sound_device);
             sfx_soundexpander_piano_list_item = io_source_register(&sfx_soundexpander_piano_device);
-            sfx_soundexpander_enabled = 1;
+            sfx_soundexpander_sound_chip.chip_enabled = 1;
         } else {
             c64export_remove(&export_res_sound);
             c64export_remove(&export_res_piano);
@@ -130,7 +151,7 @@ static int set_sfx_soundexpander_enabled(int val, void *param)
             io_source_unregister(sfx_soundexpander_piano_list_item);
             sfx_soundexpander_sound_list_item = NULL;
             sfx_soundexpander_piano_list_item = NULL;
-            sfx_soundexpander_enabled = 0;
+            sfx_soundexpander_sound_chip.chip_enabled = 0;
         }
     }
     return 0;
@@ -172,7 +193,7 @@ void sfx_soundexpander_detach(void)
 
 static const resource_int_t resources_int[] = {
     { "SFXSoundExpander", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &sfx_soundexpander_enabled, set_sfx_soundexpander_enabled, NULL },
+      &sfx_soundexpander_sound_chip.chip_enabled, set_sfx_soundexpander_enabled, NULL },
     { "SFXSoundExpanderChip", 0, RES_EVENT_STRICT, (resource_value_t)3526,
       &sfx_soundexpander_chip, set_sfx_soundexpander_chip, NULL },
     { NULL }
@@ -228,7 +249,7 @@ int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
     int i;
     SWORD *buffer;
 
-    if (sfx_soundexpander_enabled) {
+    if (sfx_soundexpander_sound_chip.chip_enabled) {
         buffer = lib_malloc(nr * 2);
         if (sfx_soundexpander_chip == 3812) {
             ym3812_update_one(YM3812_chip, buffer, nr);
@@ -293,7 +314,7 @@ BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr)
     return ym3526_read(YM3526_chip, 1);
 }
 
-void sfx_soundexpander_sound_reset(void)
+void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     if (sfx_soundexpander_chip == 3812) {
         ym3812_reset_chip(YM3812_chip);
@@ -501,7 +522,7 @@ int sfx_soundexpander_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (sfx_soundexpander_enabled) {
+    if (sfx_soundexpander_sound_chip.chip_enabled) {
         set_sfx_soundexpander_enabled(0, NULL);
     }
     set_sfx_soundexpander_chip(temp_chip, NULL);
