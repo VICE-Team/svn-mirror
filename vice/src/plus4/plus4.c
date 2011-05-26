@@ -435,8 +435,6 @@ void machine_specific_reset(void)
 
     ted_reset();
 
-    digiblaster_sound_reset();
-
     sid_reset();
 
     cs256k_reset();

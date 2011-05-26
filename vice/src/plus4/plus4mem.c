@@ -465,7 +465,7 @@ static void fdxx_store(WORD addr, BYTE value)
         sid_store(addr, value);
         return;
     }
-    if (sidcart_enabled() && digiblaster_enabled && sidcart_address==0 && addr == 0xfd5e) {
+    if (sidcart_enabled() && digiblaster_enabled() && sidcart_address==0 && addr == 0xfd5e) {
         digiblaster_store(addr, value);
         return;
     }
@@ -510,7 +510,7 @@ static void fexx_store(WORD addr, BYTE value)
         sid_store(addr, value);
         return;
     }
-    if (sidcart_enabled() && digiblaster_enabled && sidcart_address==1 && addr == 0xfe9e) {
+    if (sidcart_enabled() && digiblaster_enabled() && sidcart_address==1 && addr == 0xfe9e) {
         digiblaster_store(addr, value);
         return;
     }

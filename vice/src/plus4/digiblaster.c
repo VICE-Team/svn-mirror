@@ -39,19 +39,57 @@
 #include "uiapi.h"
 #include "translate.h"
 
-/* Flag: Do we enable the DIGIBLASTER add-on?  */
-int digiblaster_enabled;
+/* ---------------------------------------------------------------------*/
+
+static int digiblaster_sound_machine_cycle_based(void)
+{
+	return 0;
+}
+
+static int digiblaster_sound_machine_channels(void)
+{
+	return 1;
+}
+
+static sound_chip_t digiblaster_sound_chip = {
+    NULL, /* no open */
+    digiblaster_sound_machine_init,
+    NULL, /* no close */
+    digiblaster_sound_machine_calculate_samples,
+    digiblaster_sound_machine_store,
+    digiblaster_sound_machine_read,
+    digiblaster_sound_reset,
+    NULL, /* no enable function */
+    digiblaster_sound_machine_cycle_based,
+    digiblaster_sound_machine_channels,
+    0x40, /* offset to be filled in by register routine */
+    0 /* chip enabled */
+};
+
+static sound_chip_list_t *digiblaster_sound_chip_item = NULL;
+
+void digiblaster_sound_chip_init(void)
+{
+    digiblaster_sound_chip_item = sound_chip_register(&digiblaster_sound_chip);
+}
+
+/* ---------------------------------------------------------------------*/
+
+int digiblaster_enabled(void)
+{
+    return digiblaster_sound_chip.chip_enabled;
+}
 
 static int set_digiblaster_enabled(int val, void *param)
 {
-    digiblaster_enabled = val;
+    digiblaster_sound_chip.chip_enabled = val;
 
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
     { "DIGIBLASTER", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &digiblaster_enabled, set_digiblaster_enabled, NULL },
+      &digiblaster_sound_chip.chip_enabled, set_digiblaster_enabled, NULL },
     { NULL }
 };
 
@@ -96,7 +134,7 @@ int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int 
 {
     int i;
 
-    if (digiblaster_enabled)
+    if (digiblaster_sound_chip.chip_enabled)
     {
         for (i = 0; i < nr; i++)
         {
@@ -123,7 +161,7 @@ BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr)
     return 0;
 }
 
-void digiblaster_sound_reset(void)
+void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     snd.voice0 = 0;
     digiblaster_sound_data = 0;
