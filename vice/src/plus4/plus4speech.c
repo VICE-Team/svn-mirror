@@ -120,7 +120,6 @@
 #define DBGIRQ(x)
 #endif
 
-static int speech_enabled = 0;
 static t6721_state *t6721; /* context for the t6721 chip */
 
 /* MOS 8706 context */
@@ -128,11 +127,6 @@ static BYTE regs[4];
 
 #define IRQNUM_DTRD     0
 #define IRQNUM_EOS      1
-
-int speech_cart_enabled(void)
-{
-    return speech_enabled;
-}
 
 /*
   IRQ latch
@@ -487,11 +481,51 @@ void speech_setup_context(machine_context_t *machine_context)
 }
 
 /* ------------------------------------------------------------------------- */
+
+static int speech_sound_machine_cycle_based(void)
+{
+	return 0;
+}
+
+static int speech_sound_machine_channels(void)
+{
+	return 1;
+}
+
+static sound_chip_t speech_sound_chip = {
+    NULL, /* no open */
+    speech_sound_machine_init,
+    speech_sound_machine_close,
+    speech_sound_machine_calculate_samples,
+    speech_sound_machine_store,
+    speech_sound_machine_read,
+    NULL, /* no reset */
+    NULL, /* no enable function */
+    speech_sound_machine_cycle_based,
+    speech_sound_machine_channels,
+    0x60, /* offset to be filled in by register routine */
+    0 /* chip enabled */
+};
+
+static sound_chip_list_t *speech_sound_chip_item = NULL;
+
+void speech_sound_chip_init(void)
+{
+    speech_sound_chip_item = sound_chip_register(&speech_sound_chip);
+}
+
+int speech_cart_enabled(void)
+{
+    return speech_sound_chip.chip_enabled;
+}
+
+/* ------------------------------------------------------------------------- */
+
 char *speech_filename = NULL;
 
 static int set_speech_enabled(int val, void *param)
 {
-    speech_enabled = 0;
+    speech_sound_chip.chip_enabled = 0;
     memset(extromlo3, 0, PLUS4_CART16K_SIZE);
 
     if (val) {
@@ -500,7 +534,7 @@ static int set_speech_enabled(int val, void *param)
                 if (plus4cart_load_c2lo(speech_filename) < 0) {
                     return -1;
                 }
-                speech_enabled = 1;
+                speech_sound_chip.chip_enabled = 1;
             }
         }
     }
@@ -540,7 +574,7 @@ static const resource_string_t resources_string[] = {
 };
 static const resource_int_t resources_int[] = {
     { "SpeechEnabled", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &speech_enabled, set_speech_enabled, NULL },
+      &speech_sound_chip.chip_enabled, set_speech_enabled, NULL },
     { NULL }
 };
 
@@ -590,7 +624,8 @@ int speech_cmdline_options_init(void)
   return cmdline_register_options(cmdline_options);
 }
 
-/* ------------------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------*/
 
 /* FIXME: shutdown missing */
 
@@ -615,7 +650,7 @@ int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, i
     int i;
     SWORD *buffer;
 
-    if (speech_enabled) {
+    if (speech_sound_chip.chip_enabled) {
         buffer = lib_malloc(nr * 2);
 
         t6721_update_output(t6721, buffer, nr);
