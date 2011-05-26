@@ -33,6 +33,32 @@
 #include "sound.h"
 #include "types.h"
 
+/* ---------------------------------------------------------------------*/
+
+static sound_chip_t sid_sound_chip = {
+    sid_sound_machine_open,
+    sid_sound_machine_init,
+    sid_sound_machine_close,
+    sid_sound_machine_calculate_samples,
+    sid_sound_machine_store,
+    sid_sound_machine_read,
+    sid_sound_machine_reset,
+    sid_sound_machine_enable,
+    sid_sound_machine_cycle_based,
+    sound_machine_channels,
+    0x00, /* offset to be filled in by register routine */
+    1 /* chip enabled */
+};
+
+static sound_chip_list_t *sid_sound_chip_item = NULL;
+
+void sid_sound_chip_init(void)
+{
+    sid_sound_chip_item = sound_chip_register(&sid_sound_chip);
+}
+
+/* ---------------------------------------------------------------------*/
+
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
     return -1;
@@ -56,12 +82,6 @@ void sound_machine_close(sound_t *psid)
 {
     sid_sound_machine_close(psid);
 }
-
-/* for read/store 0x00 <= addr <= 0x1f is the sid
- *                0x20 <= addr <= 0x3f is the digimax
- *
- * future sound devices will be able to use 0x40 and up
- */
 
 BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
