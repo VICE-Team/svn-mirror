@@ -418,11 +418,11 @@ static BYTE fdxx_read(WORD addr)
         return pio2_read(addr);
     }
 
-    if (sidcart_enabled && sidcart_address == 0 && addr >= 0xfd40 && addr <= 0xfd5f) {
+    if (sidcart_enabled() && sidcart_address == 0 && addr >= 0xfd40 && addr <= 0xfd5f) {
         return sid_read(addr);
     }
 
-    if (sidcart_enabled && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
+    if (sidcart_enabled() && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
         return sidcartjoy_read(addr);
     }
 
@@ -461,15 +461,15 @@ static void fdxx_store(WORD addr, BYTE value)
         pio2_store(addr, value);
         return;
     }
-    if (sidcart_enabled && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5d) {
+    if (sidcart_enabled() && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5d) {
         sid_store(addr, value);
         return;
     }
-    if (sidcart_enabled && digiblaster_enabled && sidcart_address==0 && addr == 0xfd5e) {
+    if (sidcart_enabled() && digiblaster_enabled && sidcart_address==0 && addr == 0xfd5e) {
         digiblaster_store(addr, value);
         return;
     }
-    if (sidcart_enabled && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
+    if (sidcart_enabled() && sidcartjoy_enabled && addr >= 0xfd80 && addr <= 0xfd8f) {
         sidcartjoy_store(addr, value);
         return;
     }
@@ -489,7 +489,7 @@ static BYTE fexx_read(WORD addr)
         return plus4tcbm1_read(addr);
     }
 
-    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f) {
+    if (sidcart_enabled() && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f) {
         return sid_read(addr);
     }
 
@@ -506,11 +506,11 @@ static void fexx_store(WORD addr, BYTE value)
         plus4tcbm1_store(addr, value);
         return;
     }
-    if (sidcart_enabled && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9d) {
+    if (sidcart_enabled() && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9d) {
         sid_store(addr, value);
         return;
     }
-    if (sidcart_enabled && digiblaster_enabled && sidcart_address==1 && addr == 0xfe9e) {
+    if (sidcart_enabled() && digiblaster_enabled && sidcart_address==1 && addr == 0xfe9e) {
         digiblaster_store(addr, value);
         return;
     }

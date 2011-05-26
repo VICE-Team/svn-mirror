@@ -43,14 +43,19 @@
 
 int sidcartjoy_enabled = 0;
 
-int sidcart_enabled;
+static int sidcart_is_enabled;
 int sidcart_address;
 int sidcart_clock;
 
+int sidcart_enabled(void)
+{
+    return sidcart_is_enabled;
+}
+
 static int set_sidcart_enabled(int val, void *param)
 {
-    if (val != sidcart_enabled) {
-        sidcart_enabled = val;
+    if (val != sidcart_is_enabled) {
+        sidcart_is_enabled = val;
         sound_state_changed = 1;
     }
     return 0;

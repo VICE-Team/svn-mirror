@@ -35,7 +35,8 @@ extern int sidcart_resources_init(void);
 extern void sidcartjoy_store(WORD addr, BYTE value);
 extern BYTE sidcartjoy_read(WORD addr);
 
-extern int sidcart_enabled;
+extern int sidcart_enabled(void);
+
 extern int sidcart_address;
 extern int sidcart_clock;
 

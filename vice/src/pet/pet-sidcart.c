@@ -35,7 +35,6 @@
 #include "sound.h"
 #include "translate.h"
 
-int sidcart_enabled;
 int sidcart_address;
 int sidcart_clock;
 
@@ -84,11 +83,15 @@ void sidcart_sound_chip_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+int sidcart_enabled(void)
+{
+    return sidcart_sound_chip.chip_enabled;
+}
+
 static int set_sidcart_enabled(int val, void *param)
 {
     if (val != sidcart_sound_chip.chip_enabled) {
         sidcart_sound_chip.chip_enabled = val;
-        sidcart_enabled = val;
         sound_state_changed = 1;
     }
     return 0;

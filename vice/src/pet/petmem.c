@@ -189,10 +189,10 @@ static BYTE read_unused(WORD addr)
         }
     }
 
-    if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<=0xe91f)
+    if (sidcart_enabled() && sidcart_address==1 && addr>=0xe900 && addr<=0xe91f)
       return sid_read(addr);
 
-    if (sidcart_enabled && sidcart_address==0 && addr>=0x8f00 && addr<=0x8f1f)
+    if (sidcart_enabled() && sidcart_address==0 && addr>=0x8f00 && addr<=0x8f1f)
       return sid_read(addr);
 
     return (addr >> 8) & 0xff;
@@ -422,10 +422,10 @@ static void store_dummy(WORD addr, BYTE value)
         }
     }
 
-    if (sidcart_enabled && sidcart_address==1 && addr>=0xe900 && addr<0xe91f)
+    if (sidcart_enabled() && sidcart_address==1 && addr>=0xe900 && addr<0xe91f)
       sid_store(addr,value);
 
-    if (sidcart_enabled && sidcart_address==0 && addr>=0x8f00 && addr<0x8f1f)
+    if (sidcart_enabled() && sidcart_address==0 && addr>=0x8f00 && addr<0x8f1f)
       sid_store(addr,value);
 
     return;

@@ -57,9 +57,14 @@ static io_source_list_t *sidcart_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
-int sidcart_enabled;
+static int sidcart_is_enabled;
 int sidcart_address;
 int sidcart_clock;
+
+int sidcart_enabled(void)
+{
+    return sidcart_is_enabled;
+}
 
 static void sidcart_enable(void)
 {
@@ -97,13 +102,13 @@ static void set_sidcart_address(int val)
 
 static int set_sidcart_enabled(int val, void *param)
 {
-    if (val != sidcart_enabled) {
+    if (val != sidcart_is_enabled) {
         if (val) {
             sidcart_enable();
         } else {
             sidcart_disable();
         }
-        sidcart_enabled = val;
+        sidcart_is_enabled = val;
         sound_state_changed = 1;
     }
     return 0;
@@ -131,7 +136,7 @@ static int set_sid_clock(int val, void *param)
 
 static const resource_int_t sidcart_resources_int[] = {
     { "SidCart", 0, RES_EVENT_SAME, NULL,
-      &sidcart_enabled, set_sidcart_enabled, NULL },
+      &sidcart_is_enabled, set_sidcart_enabled, NULL },
     { "SidAddress", 0, RES_EVENT_SAME, NULL,
       &sidcart_address, set_sid_address, NULL },
     { "SidClock", 1, RES_EVENT_SAME, NULL,
