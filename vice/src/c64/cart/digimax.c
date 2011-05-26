@@ -95,6 +95,16 @@ static c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+static int digimax_sound_machine_cycle_based(void)
+{
+	return 0;
+}
+
+static int digimax_sound_machine_channels(void)
+{
+	return 1; /* FIXME: needs to become stereo for stereo capable ports */
+}
+
 static sound_chip_t digimax_sound_chip = {
     NULL, /* no open */
     digimax_sound_machine_init,
@@ -104,9 +114,9 @@ static sound_chip_t digimax_sound_chip = {
     digimax_sound_machine_read,
     digimax_sound_reset,
     NULL, /* no enable function */
-    0, /* not cycle based */
-    1, /* 1 channel, FIXME: needs to become stereo for stereo capable ports */
-    0x20, /* offset to be filled in by register routine */
+    digimax_sound_machine_cycle_based,
+	digimax_sound_machine_channels,
+	0x20, /* offset to be filled in by register routine */
     0 /* chip enabled */
 };
 

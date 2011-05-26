@@ -218,8 +218,8 @@ typedef struct sound_chip_s {
     BYTE (*read)(sound_t *psid, WORD addr);
     void (*reset)(sound_t *psid, CLOCK cpu_clk);
     void (*enable)(int enable);
-    int cycle_based;
-    int channels;
+    int (*cycle_based)(void);
+    int (*channels)(void);
     WORD offset;
     int chip_enabled;
 } sound_chip_t;

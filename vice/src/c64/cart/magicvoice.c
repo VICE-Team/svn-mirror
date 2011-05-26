@@ -809,6 +809,16 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+static int magicvoice_sound_machine_cycle_based(void)
+{
+	return 0;
+}
+
+static int magicvoice_sound_machine_channels(void)
+{
+	return 1;
+}
+
 static sound_chip_t magicvoice_sound_chip = {
     NULL, /* no open */
     magicvoice_sound_machine_init,
@@ -818,9 +828,9 @@ static sound_chip_t magicvoice_sound_chip = {
     magicvoice_sound_machine_read,
     NULL, /* no reset */
     NULL, /* no enable function */
-    0, /* not cycle based */
-    1, /* 1 channel */
-    0x80, /* offset to be filled in by register routine */
+    magicvoice_sound_machine_cycle_based,
+	magicvoice_sound_machine_channels,
+	0x80, /* offset to be filled in by register routine */
     0 /* chip enabled */
 };
 

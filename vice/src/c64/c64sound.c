@@ -69,6 +69,30 @@ static io_source_list_t *stereo_sid_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
+static sound_chip_t sid_sound_chip = {
+    sid_sound_machine_open,
+    sid_sound_machine_init,
+    sid_sound_machine_close,
+    sid_sound_machine_calculate_samples,
+    sid_sound_machine_store,
+    sid_sound_machine_read,
+    sid_sound_machine_reset,
+    sid_sound_machine_enable,
+    sid_sound_machine_cycle_based,
+    sound_machine_channels,
+    0x00, /* offset to be filled in by register routine */
+    1 /* chip enabled */
+};
+
+static sound_chip_list_t *sid_sound_chip_item = NULL;
+
+void sid_sound_chip_init(void)
+{
+    sid_sound_chip_item = sound_chip_register(&sid_sound_chip);
+}
+
+/* ---------------------------------------------------------------------*/
+
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
     if (machine_class == VICE_MACHINE_C128) {

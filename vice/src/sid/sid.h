@@ -134,5 +134,6 @@ extern int sid_sound_machine_cycle_based(void);
 extern int sid_sound_machine_channels(void);
 extern void sid_sound_machine_enable(int enable);
 extern int sid_set_engine_model(int engine, int model);
+extern void sid_sound_chip_init(void);
 
 #endif
