@@ -335,7 +335,7 @@ static void sfx_soundexpander_sound_store(WORD addr, BYTE value)
         }
     }
     if (addr == 0x50) {
-        sound_store((WORD)0x60, value, 0);
+        sound_store(sfx_soundexpander_sound_chip.offset, value, 0);
     }
 }
 
@@ -347,7 +347,7 @@ static BYTE sfx_soundexpander_sound_read(WORD addr)
 
     if (addr == 0x60) {
         sfx_soundexpander_sound_device.io_source_valid = 1;
-        value=sound_read((WORD)0x60, 0);
+        value = sound_read(sfx_soundexpander_sound_chip.offset, 0);
     }
     return value;
 }

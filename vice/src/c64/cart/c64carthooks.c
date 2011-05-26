@@ -2177,7 +2177,7 @@ void cartridge_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
     digimax_sound_reset(psid, cpu_clk);
     sfx_soundexpander_sound_reset(psid, cpu_clk);
-    sfx_soundsampler_sound_reset();
+    sfx_soundsampler_sound_reset(psid, cpu_clk);
     magicvoice_sound_machine_reset(psid, cpu_clk);
 }
 
