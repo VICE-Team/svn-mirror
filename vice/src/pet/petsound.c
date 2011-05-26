@@ -262,7 +262,7 @@ void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 
 void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    pet_userport_dac_sound_reset();
+    pet_userport_dac_sound_reset(psid, cpu_clk);
     sid_sound_machine_reset(psid, cpu_clk);
 }
 

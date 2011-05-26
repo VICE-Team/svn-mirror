@@ -93,18 +93,14 @@ static void undump_pra(via_context_t *via_context, BYTE byte)
     if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
         extra_joystick_cga_store(byte);
     }
-    if (pet_userport_dac_enabled) {
-        pet_userport_dac_store(byte);
-    }
+    pet_userport_dac_store(byte);
 }
 
 static void store_pra(via_context_t *via_context, BYTE byte, BYTE myoldpa,
                       WORD addr)
 {
     printer_userport_write_data(byte);
-    if (pet_userport_dac_enabled) {
-        pet_userport_dac_store(byte);
-    }
+    pet_userport_dac_store(byte);
 }
 
 static void undump_prb(via_context_t *via_context, BYTE byte)

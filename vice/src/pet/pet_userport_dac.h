@@ -30,8 +30,6 @@
 #include "types.h"
 #include "sound.h"
 
-extern int pet_userport_dac_enabled;
-
 extern int pet_userport_dac_resources_init(void);
 extern int pet_userport_dac_cmdline_options_init(void);
 
@@ -41,6 +39,8 @@ extern int pet_userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD
 extern int pet_userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void pet_userport_dac_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE pet_userport_dac_sound_machine_read(sound_t *psid, WORD addr);
-extern void pet_userport_dac_sound_reset(void);
+extern void pet_userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk);
+
+extern void pet_userport_dac_sound_chip_init(void);
 
 #endif

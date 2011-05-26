@@ -39,28 +39,51 @@
 #include "uiapi.h"
 #include "translate.h"
 
-static BYTE pet_userport_dac_sound_data;
+/* ------------------------------------------------------------------------- */
 
-void pet_userport_dac_store(BYTE value)
+static int pet_userport_dac_sound_machine_cycle_based(void)
 {
-    pet_userport_dac_sound_data = value;
-    sound_store((WORD)0x40, value, 0);
+    return 0;
+}
+
+static int pet_userport_dac_sound_machine_channels(void)
+{
+    return 1;
+}
+
+static sound_chip_t pet_userport_dac_sound_chip = {
+    NULL, /* no open */
+    pet_userport_dac_sound_machine_init,
+    NULL, /* no close */
+    pet_userport_dac_sound_machine_calculate_samples,
+    pet_userport_dac_sound_machine_store,
+    pet_userport_dac_sound_machine_read,
+    pet_userport_dac_sound_reset,
+    NULL, /* no enable */
+    pet_userport_dac_sound_machine_cycle_based,
+    pet_userport_dac_sound_machine_channels,
+    0x40, /* offset to be filled in by register routine */
+    0 /* chip enabled */
+};
+
+static sound_chip_list_t *pet_userport_dac_sound_chip_item = NULL;
+
+void pet_userport_dac_sound_chip_init(void)
+{
+    pet_userport_dac_sound_chip_item = sound_chip_register(&pet_userport_dac_sound_chip);
 }
 
 /* ------------------------------------------------------------------------- */
 
-/* Flag: Do we enable the PET userport DAC?  */
-int pet_userport_dac_enabled;
-
 static int set_pet_userport_dac_enabled(int val, void *param)
 {
-    pet_userport_dac_enabled = val;
+    pet_userport_dac_sound_chip.chip_enabled = val;
     return 0;
 }
 
 static const resource_int_t resources_int[] = {
     { "PETUserportDAC", 0, RES_EVENT_STRICT, (resource_value_t)0,
-      &pet_userport_dac_enabled, set_pet_userport_dac_enabled, NULL },
+      &pet_userport_dac_sound_chip.chip_enabled, set_pet_userport_dac_enabled, NULL },
     { NULL }
 };
 
@@ -91,6 +114,16 @@ int pet_userport_dac_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
+static BYTE pet_userport_dac_sound_data;
+
+void pet_userport_dac_store(BYTE value)
+{
+    if (pet_userport_dac_sound_chip.chip_enabled) {
+        pet_userport_dac_sound_data = value;
+        sound_store(pet_userport_dac_sound_chip.offset, value, 0);
+    }
+}
+
 struct pet_userport_dac_sound_s
 {
     BYTE voice0;
@@ -102,7 +135,7 @@ int pet_userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
 {
     int i;
 
-    if (pet_userport_dac_enabled) {
+    if (pet_userport_dac_sound_chip.chip_enabled) {
         for (i = 0; i < nr; i++) {
             pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], snd.voice0 << 8);
         }
@@ -127,7 +160,7 @@ BYTE pet_userport_dac_sound_machine_read(sound_t *psid, WORD addr)
     return pet_userport_dac_sound_data;
 }
 
-void pet_userport_dac_sound_reset(void)
+void pet_userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     snd.voice0 = 0;
     pet_userport_dac_sound_data = 0;
