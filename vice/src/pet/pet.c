@@ -346,7 +346,6 @@ void machine_specific_reset(void)
     viacore_reset(machine_context.via);
     acia1_reset();
     crtc_reset();
-    petsound_reset();
     sid_reset();
     petmem_reset();
     rs232drv_reset();

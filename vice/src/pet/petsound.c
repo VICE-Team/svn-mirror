@@ -40,6 +40,48 @@
 #include "sound.h"
 #include "types.h"
 
+/* ------------------------------------------------------------------------- */
+
+/* Some prototypes are needed */
+static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
+static BYTE pet_sound_machine_read(sound_t *psid, WORD addr);
+
+static int pet_sound_machine_cycle_based(void)
+{
+    return 0;
+}
+
+static int pet_sound_machine_channels(void)
+{
+    return 1;
+}
+
+static sound_chip_t pet_sound_chip = {
+    NULL, /* no open */
+    pet_sound_machine_init,
+    NULL, /* no close */
+    pet_sound_machine_calculate_samples,
+    pet_sound_machine_store,
+    pet_sound_machine_read,
+    petsound_reset,
+    NULL, /* no enable */
+    pet_sound_machine_cycle_based,
+    pet_sound_machine_channels,
+    0x20, /* offset to be filled in by register routine */
+    0 /* chip enabled */
+};
+
+static sound_chip_list_t *pet_sound_chip_item = NULL;
+
+void pet_sound_chip_init(void)
+{
+    pet_sound_chip_item = sound_chip_register(&pet_sound_chip);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* dummy function for now */
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
@@ -191,7 +233,7 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     return 1;
 }
 
-void petsound_reset(void)
+void petsound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     sound_reset();
     petsound_store_onoff(0);
