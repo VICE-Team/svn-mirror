@@ -42,6 +42,48 @@
 #include "sound.h"
 #include "ted-sound.h"
 
+/* ------------------------------------------------------------------------- */
+
+/* Some prototypes are needed */
+static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static void ted_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
+static BYTE ted_sound_machine_read(sound_t *psid, WORD addr);
+
+static int ted_sound_machine_cycle_based(void)
+{
+    return 0;
+}
+
+static int ted_sound_machine_channels(void)
+{
+    return 1;
+}
+
+static sound_chip_t ted_sound_chip = {
+    NULL, /* no open */
+    ted_sound_machine_init,
+    NULL, /* no close */
+    ted_sound_machine_calculate_samples,
+    ted_sound_machine_store,
+    ted_sound_machine_read,
+    ted_sound_reset,
+    NULL, /* no enable */
+    ted_sound_machine_cycle_based,
+    ted_sound_machine_channels,
+    0x20, /* offset to be filled in by register routine */
+    0 /* chip enabled */
+};
+
+static sound_chip_list_t *ted_sound_chip_item = NULL;
+
+void ted_sound_chip_init(void)
+{
+    ted_sound_chip_item = sound_chip_register(&ted_sound_chip);
+}
+
+/* ------------------------------------------------------------------------- */
+
 static BYTE plus4_sound_data[5];
 
 /* dummy function for now */
@@ -273,7 +315,7 @@ static BYTE ted_sound_machine_read(sound_t *psid, WORD addr)
     return 0;
 }
 
-void ted_sound_reset(void)
+void ted_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     WORD i;
 

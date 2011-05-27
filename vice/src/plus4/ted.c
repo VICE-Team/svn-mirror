@@ -383,7 +383,6 @@ void ted_reset(void)
 /*    ted_change_timing();*/
 
     ted_timer_reset();
-    ted_sound_reset();
 
     raster_reset(&ted.raster);
 

@@ -29,10 +29,12 @@
 
 #include "types.h"
 
+#include "sound.h"
+
 extern void ted_sound_store(WORD addr, BYTE value);
 extern BYTE ted_sound_read(WORD addr);
 
-extern void ted_sound_reset(void);
+extern void ted_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 #endif
 
