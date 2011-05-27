@@ -49,16 +49,6 @@ static int sidcart_sound_machine_init(sound_t *psid, int speed, int cycles_per_s
     }
 }
 
-static int pet_userport_dac_sound_machine_cycle_based(void)
-{
-    return 0;
-}
-
-static int pet_userport_dac_sound_machine_channels(void)
-{
-    return 1;
-}
-
 static sound_chip_t sidcart_sound_chip = {
     sid_sound_machine_open,
     sidcart_sound_machine_init,
