@@ -596,7 +596,7 @@ msgstr "세로운 카트리지 $1*** 불러오기"
 
 #: src/arch/unix/gui/cbm2ui.c:108
 msgid "Unload Cart $1***"
-msgstr ""
+msgstr "언로드 카트리지 $1***"
 
 #: src/arch/unix/gui/cbm2ui.c:112
 msgid "Load new Cart $2-3***"
@@ -604,7 +604,7 @@ msgstr "세로운 카트리지 $2-3*** 불러오기"
 
 #: src/arch/unix/gui/cbm2ui.c:115
 msgid "Unload Cart $2-3***"
-msgstr ""
+msgstr "언로드 카트리지 $2-3***"
 
 #: src/arch/unix/gui/cbm2ui.c:119
 msgid "Load new Cart $4-5***"
@@ -612,7 +612,7 @@ msgstr "세로운 카트리지 $4-5*** 불러오기"
 
 #: src/arch/unix/gui/cbm2ui.c:122
 msgid "Unload Cart $4-5***"
-msgstr ""
+msgstr "언로드 카트리지 $4-5***"
 
 #: src/arch/unix/gui/cbm2ui.c:126
 msgid "Load new Cart $6-7***"
@@ -620,7 +620,7 @@ msgstr "세로운 카트리지 $6-7*** 불러오기"
 
 #: src/arch/unix/gui/cbm2ui.c:129
 msgid "Unload Cart $6-7***"
-msgstr ""
+msgstr "언로드 카트리지 $6-7***"
 
 #: src/arch/unix/gui/cbm2ui.c:213 src/arch/unix/gui/petui.c:161
 #: src/arch/win32/respet.rc.po.c:557 src/arch/amigaos/intl_text.c.po.c:8105
@@ -780,55 +780,55 @@ msgstr ""
 
 #: src/arch/unix/gui/petui.c:253
 msgid "Basic 1 Patch (if loaded)"
-msgstr ""
+msgstr "기본1, 패치(붙여넣으면)"
 
 #: src/arch/unix/gui/petui.c:255
 msgid "Basic 1 character set"
-msgstr ""
+msgstr "기본1 케릭터 셋"
 
 #: src/arch/unix/gui/petui.c:269
 msgid "Original character set"
-msgstr ""
+msgstr "오리지널 케릭터 셋"
 
 #: src/arch/unix/gui/petui.c:272
 msgid "German character set"
-msgstr ""
+msgstr "독일 케릭터 셋"
 
 #: src/arch/unix/gui/petui.c:276
 msgid "Load new $9*** ROM"
-msgstr ""
+msgstr "세로운 $9*** ROM 불러오기"
 
 #: src/arch/unix/gui/petui.c:279
 msgid "Unload $9*** ROM"
-msgstr ""
+msgstr "언로드 $9*** ROM"
 
 #: src/arch/unix/gui/petui.c:283
 msgid "Load new $A*** ROM"
-msgstr ""
+msgstr "세로운 $A*** ROM 불러오기"
 
 #: src/arch/unix/gui/petui.c:286
 msgid "Unload $A*** ROM"
-msgstr ""
+msgstr "언로드 $A*** ROM"
 
 #: src/arch/unix/gui/petui.c:290
 msgid "Load new $B*** ROM"
-msgstr ""
+msgstr "세로운 $B*** ROM 불러오기"
 
 #: src/arch/unix/gui/petui.c:293
 msgid "Unload $B*** ROM"
-msgstr ""
+msgstr "언로드 $B*** ROM"
 
 #: src/arch/unix/gui/petui.c:310 src/arch/amigaos/intl_text.c.po.c:8170
 msgid "Video size"
-msgstr ""
+msgstr "비디오 크기"
 
 #: src/arch/unix/gui/petui.c:314 src/arch/amigaos/intl_text.c.po.c:8183
 msgid "I/O size"
-msgstr ""
+msgstr "I/O 크기"
 
 #: src/arch/unix/gui/petui.c:316 src/arch/win32/respet.rc.po.c:555
 msgid "CRTC chip enable"
-msgstr ""
+msgstr "CRTC 칩 가동"
 
 #: src/arch/unix/gui/petui.c:319 src/arch/win32/respet.rc.po.c:560
 #: src/arch/amigaos/intl_text.c.po.c:8222
@@ -837,7 +837,7 @@ msgstr ""
 
 #: src/arch/unix/gui/petui.c:321
 msgid "SuperPET ACIA"
-msgstr ""
+msgstr "SuperPET ACIA"
 
 #: src/arch/unix/gui/petui.c:324
 msgid "$9*** as RAM (8296 only)"
@@ -849,7 +849,7 @@ msgstr ""
 
 #: src/arch/unix/gui/petui.c:390
 msgid "PET model settings"
-msgstr ""
+msgstr "PET 모델 셋팅"
 
 #: src/arch/unix/gui/plus4ui.c:143
 msgid "Load new 3 plus 1 LO ROM"
@@ -861,27 +861,27 @@ msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:199 src/arch/amigaos/intl_text.c.po.c:7468
 msgid "Digiblaster add-on"
-msgstr ""
+msgstr "Digiblaster 에드 온"
 
 #. Translators: "V364 Speech" is the speech extension present in the V364 prototype
 #: src/arch/unix/gui/plus4ui.c:204
 msgid "V364 Speech"
-msgstr ""
+msgstr "V364 스피치"
 
 #: src/arch/unix/gui/plus4ui.c:221
 msgid "TED model"
-msgstr ""
+msgstr "TED 모델"
 
 #: src/arch/unix/gui/plus4ui.c:223 src/arch/win32/res.rc.po.c:1251
 #: src/arch/win32/res.rc.po.c:1483 src/arch/win32/respet.rc.po.c:561
 #: src/arch/amigaos/intl_text.c.po.c:2215
 #: src/arch/amigaos/intl_text.c.po.c:6064
 msgid "RAM settings"
-msgstr ""
+msgstr "RAM 셋팅"
 
 #: src/arch/unix/gui/plus4ui.c:249
 msgid "TED settings"
-msgstr ""
+msgstr "TED 셋팅"
 
 #: src/arch/unix/gui/uiacia1.c:38 src/arch/unix/gui/uirs232user.c:38
 msgid "Serial 1"
@@ -893,7 +893,7 @@ msgstr "직렬 포트 2"
 
 #: src/arch/unix/gui/uiacia1.c:42 src/arch/unix/gui/uirs232user.c:42
 msgid "Dump to file"
-msgstr ""
+msgstr "덤프 파일"
 
 #: src/arch/unix/gui/uiacia1.c:44 src/arch/unix/gui/uirs232user.c:44
 msgid "Exec process"
@@ -906,7 +906,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiattach.c:92 src/arch/unix/gui/uiattach.c:145
 msgid "Invalid Disk Image"
-msgstr ""
+msgstr "사용불가능한 디스크 이미지"
 
 #: src/arch/unix/gui/uiattach.c:99
 msgid "Invalid Disk Image or Filename"
