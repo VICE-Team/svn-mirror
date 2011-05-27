@@ -461,7 +461,6 @@ void machine_specific_reset(void)
     viacore_reset(machine_context.via1);
     viacore_reset(machine_context.via2);
     vic_reset();
-    vic_sound_reset();
     sid_reset();
 
     viacore_reset(machine_context.ieeevia1);

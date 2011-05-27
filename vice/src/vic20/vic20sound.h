@@ -29,8 +29,10 @@
 
 #include "types.h"
 
+#include "sound.h"
+
 extern void vic_sound_store(WORD address, BYTE byte);
-extern void vic_sound_reset(void);
+extern void vic_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 #endif
 

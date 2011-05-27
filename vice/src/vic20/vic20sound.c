@@ -42,6 +42,48 @@
 #include "vic20sound.h"
 #include "vic20.h"
 
+/* ---------------------------------------------------------------------*/
+
+/* Some prototypes are needed */
+static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static void vic_sound_machine_store(sound_t *psid, WORD addr, BYTE value);
+static BYTE vic_sound_machine_read(sound_t *psid, WORD addr);
+
+static int vic_sound_machine_cycle_based(void)
+{
+	return 1;
+}
+
+static int vic_sound_machine_channels(void)
+{
+	return 1;
+}
+
+static sound_chip_t vic_sound_chip = {
+    NULL, /* no open */
+    vic_sound_machine_init,
+    NULL, /* no close */
+    vic_sound_machine_calculate_samples,
+    vic_sound_machine_store,
+    vic_sound_machine_read,
+    vic_sound_reset,
+    NULL, /* no enable function */
+    vic_sound_machine_cycle_based,
+    vic_sound_machine_channels,
+    0x20, /* offset to be filled in by register routine */
+    1 /* chip enabled */
+};
+
+static sound_chip_list_t *vic_sound_chip_item = NULL;
+
+void vic_sound_chip_init(void)
+{
+    vic_sound_chip_item = sound_chip_register(&vic_sound_chip);
+}
+
+/* ---------------------------------------------------------------------*/
+
 static BYTE noisepattern[1024] = {
       7, 30, 30, 28, 28, 62, 60, 56,120,248,124, 30, 31,143,  7,  7,193,192,224,
     241,224,240,227,225,192,224,120,126, 60, 56,224,225,195,195,135,199,  7, 30,
@@ -238,7 +280,7 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
     return s;
 }
 
-void vic_sound_reset(void)
+void vic_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     WORD i;
 
