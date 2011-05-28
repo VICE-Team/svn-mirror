@@ -5165,9 +5165,8 @@ msgid "Error saving EasyFlash crt file"
 msgstr "Kan het EasyFlash crt bestand niet opslaan"
 
 #: src/arch/win32/res.rc.po.c:1174
-#, fuzzy
 msgid "No EasyFlash cartridge inserted"
-msgstr "Koppel binair EasyFlash cartridge bestand"
+msgstr "Geen EasyFlash cartridge aanwezig"
 
 #: src/arch/win32/res.rc.po.c:1175 src/arch/win32/res.rc.po.c:1484
 #: src/arch/amigaos/intl_text.c.po.c:2059
