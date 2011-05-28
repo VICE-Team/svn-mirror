@@ -183,7 +183,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
+  IDS_SIDCART_ENABLE                         "SID Modul aktivieren"
   IDS_SIDCART_ADDRESS_LABEL                  "SID Adresse"
   IDS_SIDCART_CLOCK_LABEL                    "SID Takt"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID Ger‰te Auswahl"
@@ -249,8 +249,8 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
-  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
-  IDS_SIDCART_CLOCK_LABEL                    "SID clock"
+  IDS_SIDCART_ADDRESS_LABEL                  "SID ¡÷º“"
+  IDS_SIDCART_CLOCK_LABEL                    "SID ≈¨∂Ù"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
   IDS_DIGIBLASTER                            "Enable the digiblaster add-on"
@@ -272,26 +272,6 @@ BEGIN
   IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Hoofdapparaat"
   IDS_DIGIBLASTER                            "Activeer de digiblaster add-on"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
-  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
-  IDS_SIDCART_CLOCK_LABEL                    "SID clock"
-  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
-  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
-  IDS_DIGIBLASTER                            "Enable the digiblaster add-on"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

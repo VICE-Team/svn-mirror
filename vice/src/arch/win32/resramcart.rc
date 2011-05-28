@@ -77,8 +77,8 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "RamCart Einstellungen"
-  IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
+  IDS_RAMCART_ENABLE       "RamCart Erweiterung aktivieren"
+  IDS_RAMCART_READONLY     "Schreibgeschützt"
   IDS_RAMCART_SIZE         "RamCart Größe"
   IDS_RAMCART_WRITE_ENABLE "RamCart Imagedatei bei Änderung speichern"
   IDS_RAMCART_FILE         "RamCart Datei"
@@ -147,7 +147,7 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "RamCart settings"
   IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
+  IDS_RAMCART_READONLY     "ÀÐ±â Àü¿ë"
   IDS_RAMCART_SIZE         "RamCart size"
   IDS_RAMCART_WRITE_ENABLE "Save to RamCart image when changed"
   IDS_RAMCART_FILE         "RamCart file"
@@ -171,27 +171,6 @@ BEGIN
   IDS_RAMCART_FILE         "RamCart bestand"
   IDS_RAMCART_SELECT_FILE  "Selecteer bestand voor RamCart"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_RAMCART_CAPTION      "RamCart settings"
-  IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
-  IDS_RAMCART_SIZE         "RamCart size"
-  IDS_RAMCART_WRITE_ENABLE "Save to RamCart image when changed"
-  IDS_RAMCART_FILE         "RamCart file"
-  IDS_RAMCART_SELECT_FILE  "Select file for RamCart"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

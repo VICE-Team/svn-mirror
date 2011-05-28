@@ -73,7 +73,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Einstellungen"
-  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
+  IDS_REU_ENABLE       "RAM Speichererweiterung aktivieren"
   IDS_REU_SIZE         "REU Größe"
   IDS_REU_WRITE_ENABLE "REU Imagedatei bei Änderung speichern"
   IDS_REU_FILE         "REU Datei"
@@ -161,26 +161,6 @@ BEGIN
   IDS_REU_FILE         "REU bestand"
   IDS_REU_SELECT_FILE  "Selecteer bestand voor REU"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_REU_CAPTION      "REU Settings"
-  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
-  IDS_REU_SIZE         "Rozmiar REU"
-  IDS_REU_WRITE_ENABLE "Save REU image when changed"
-  IDS_REU_FILE         "REU file"
-  IDS_REU_SELECT_FILE  "Select file for REU"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

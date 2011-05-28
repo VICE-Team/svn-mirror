@@ -154,25 +154,6 @@ BEGIN
 END
 
 
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_MIDI_CAPTION    "MIDI settings"
-  IDS_MIDI_ENABLE     "Enable MIDI emulation"
-  IDS_MIDI_TYPE_LABEL "MIDI type"
-  IDS_MIDI_IN_LABEL   "MIDI-In device"
-  IDS_MIDI_OUT_LABEL  "MIDI-Out device"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
-
-
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

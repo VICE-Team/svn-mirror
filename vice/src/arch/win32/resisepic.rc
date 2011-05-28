@@ -72,7 +72,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_ISEPIC  "Datei für ISEPIC auswählen"
   IDS_ISEPIC_CAPTION      "ISEPIC Einstellungen"
-  IDS_ISEPIC_ENABLE       "Enable the ISEPIC cartridge"
+  IDS_ISEPIC_ENABLE       "ISEPIC Modul aktivieren"
   IDS_ISEPIC_SWITCH       "ISEPIC Schalter"
   IDS_ISEPIC_WRITE_ENABLE "ISEPIC Imagedatei bei Änderung speichern"
   IDS_ISEPIC_FILE_LABEL   "ISEPIC Imagedatei"
@@ -159,26 +159,6 @@ BEGIN
   IDS_ISEPIC_WRITE_ENABLE "ISEPIC bestand opslaan indien gewijzigd"
   IDS_ISEPIC_FILE_LABEL   "ISEPIC bestand"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_SELECT_FILE_ISEPIC  "Select file for ISEPIC"
-  IDS_ISEPIC_CAPTION      "ISEPIC settings"
-  IDS_ISEPIC_ENABLE       "Enable the ISEPIC cartridge"
-  IDS_ISEPIC_SWITCH       "ISEPIC switch"
-  IDS_ISEPIC_WRITE_ENABLE "Save ISEPIC image when changed"
-  IDS_ISEPIC_FILE_LABEL   "ISEPIC file"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

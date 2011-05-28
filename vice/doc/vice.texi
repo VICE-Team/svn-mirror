@@ -10280,9 +10280,6 @@ Provided the Italian user interface translations.
 @b{Jesse Lee}
 Provided the Korean user interface translations.
 
-@b{Flooder}
-Provided parts of the Polish user interface translations.
-
 @b{Michael Litvinov}
 Provided the Russian user interface translations.
 
@@ -10351,6 +10348,10 @@ Fixed a couple of bugs in the fast serial emulation.
 @b{Ricardo Ferreira}
 Contributed the @code{unlynx} and @code{system} commands in @code{c1541} and
 added aRts sound support.
+
+@item
+@b{Flooder}
+Provided parts of the Polish user interface translations.
 
 @item
 @b{Robert H. Forsman Jr.}

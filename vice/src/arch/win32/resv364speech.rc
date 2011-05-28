@@ -132,24 +132,6 @@ BEGIN
 END
 
 
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_V364SPEECH_CAPTION     "V364 Speech settings"
-  IDS_V364SPEECH_ENABLE      "Enable the v364 speech add-on"
-  IDS_V364SPEECH_FILE        "V364 Speech ROM file"
-  IDS_V364SPEECH_SELECT_FILE "Select ROM file for V364 Speech"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
-
-
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

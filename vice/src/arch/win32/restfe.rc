@@ -117,7 +117,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_TFE_CAPTION   "Ethernet settings"
-    IDS_TFE_ETHERNET  "Ethernet"
+    IDS_TFE_ETHERNET  "이더넷"
     IDS_TFE_INTERFACE "인터페이스"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -134,23 +134,6 @@ BEGIN
     IDS_TFE_ETHERNET  "Ethernet"
     IDS_TFE_INTERFACE "Interface"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-    IDS_TFE_CAPTION   "Ethernet settings"
-    IDS_TFE_ETHERNET  "Ethernet"
-    IDS_TFE_INTERFACE "Interface"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

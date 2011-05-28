@@ -132,24 +132,6 @@ BEGIN
 END
 
 
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_PLUS256K_CAPTION     "PLUS256K settings"
-  IDS_PLUS256K_ENABLE      "Enable the PLUS256K RAM expansion"
-  IDS_PLUS256K_FILE        "PLUS256K file"
-  IDS_PLUS256K_SELECT_FILE "Select file for PLUS256K"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
-
-
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

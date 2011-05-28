@@ -215,7 +215,6 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
-        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -655,12 +654,12 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to C64DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
-  IDS_DTV_REVISION_LABEL          "DTV revision"
+  IDS_DTV_REVISION_LABEL          "DTV 수정"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
-  IDS_CREATE                      "Create"
+  IDS_CREATE                      "생성"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
@@ -669,7 +668,7 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
-  IDS_JOYSTICK                    "Joystick"
+  IDS_JOYSTICK                    "조이스틱"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -702,40 +701,6 @@ BEGIN
   IDS_MI_C64DTV_SETTINGS          "C64DTV Instellingen..."
   IDS_JOYSTICK                    "Joystick"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_ATTACH_FLASH_CAPTION        "Attach DTV Flash Image"
-  IDS_DTV_ROM                     "DTV ROM"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to C64DTV ROM image"
-  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
-  IDS_DTV_REVISION_LABEL          "DTV revision"
-  IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
-  IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
-  IDS_DTV_ROM_CREATION            "DTV ROM Creation"
-  IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
-  IDS_CREATE                      "Create"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
-  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
-  IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
-  IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
-  IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
-  IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
-  IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
-  IDS_JOYSTICK                    "Joystick"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

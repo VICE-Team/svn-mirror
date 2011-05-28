@@ -252,7 +252,7 @@ gen_win32_rc: po2table po2table.c gen_win32_rc.c
 @CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_win32_rc.c -o gen_win32_rc
 @CROSS_TRUE@	gcc $(srcdir)/gen_win32_rc.c -o gen_win32_rc
 
-po_table.h: da.po de.po fr.po hu.po it.po ko.po nl.po pl.po ru.po sv.po tr.po po2table
+po_table.h: da.po de.po fr.po hu.po it.po ko.po nl.po ru.po sv.po tr.po po2table
 	./po2table
 
 trans-update:

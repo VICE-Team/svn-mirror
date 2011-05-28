@@ -84,7 +84,7 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_MMCREPLAY_CAPTION             "MMC Replay Einstellungen"
   IDS_MMCREPLAY_CARDIMAGE_LABEL     "Card Image Datei"
-  IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM image file"
+  IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM Image Datei"
   IDS_MMCREPLAY_RESCUEMODE          "Rescue Modus"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card Typ"
   IDS_MMCREPLAY_READ_WRITE          "lese/schreibe"
@@ -156,7 +156,7 @@ BEGIN
   IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM image file"
   IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
   IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
-  IDS_MMCREPLAY_READ_WRITE          "read/write"
+  IDS_MMCREPLAY_READ_WRITE          "읽기/쓰기"
   IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -177,27 +177,6 @@ BEGIN
   IDS_MMCREPLAY_READ_WRITE          "lees/schrijf"
   IDS_MMCREPLAY_WRITE_ENABLE        "MMC Replay EEPROM opslaan indien gewijzigd"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_MMCREPLAY_CAPTION             "MMC Replay settings"
-  IDS_MMCREPLAY_CARDIMAGE_LABEL     "Card image file"
-  IDS_MMCREPLAY_EEPROMIMAGE_LABEL   "EEPROM image file"
-  IDS_MMCREPLAY_RESCUEMODE          "Rescue mode"
-  IDS_MMCREPLAY_SDTYPE_LABEL        "Card type"
-  IDS_MMCREPLAY_READ_WRITE          "read/write"
-  IDS_MMCREPLAY_WRITE_ENABLE        "Save MMC Replay EEPROM when changed"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

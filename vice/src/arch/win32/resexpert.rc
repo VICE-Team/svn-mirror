@@ -158,7 +158,7 @@ BEGIN
   IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
   IDS_EXPERT_CAPTION      "Expert Cartridge settings"
   IDS_EXPERT_ENABLE       "Enable the Expert Cartridge"
-  IDS_EXPERT_MODE_LABEL   "Mode"
+  IDS_EXPERT_MODE_LABEL   "¸ðµå"
   IDS_EXPERT_WRITE_ENABLE "Save Expert Cartridge image when changed"
   IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
   IDS_OFF                 "Off"
@@ -185,29 +185,6 @@ BEGIN
   IDS_PRG                 "Prg"
   IDS_ON                  "Aan"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
-  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
-  IDS_EXPERT_ENABLE       "Enable the Expert Cartridge"
-  IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "Save Expert Cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
-  IDS_OFF                 "Wy³±cz"
-  IDS_PRG                 "Prg"
-  IDS_ON                  "W³±cz"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

@@ -225,8 +225,8 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_THIS_MACHINE_NO_SID "This machine may not have a SID"
-  IDS_GENERAL             "General"
-  IDS_SID_SETTINGS        "SID settings"
+  IDS_GENERAL             "제너럴"
+  IDS_SID_SETTINGS        "SID 설정"
   IDS_FAST                "빠른"
   IDS_INTERPOLATING       "보간하다"
   IDS_RESAMPLING          "리샘플링"
@@ -266,35 +266,6 @@ BEGIN
   IDS_HARDSID_LEFT_LABEL  "Linker-/hoofdapparaat"
   IDS_HARDSID_RIGHT_LABEL "Rechterapparaat"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_THIS_MACHINE_NO_SID "This machine may not have a SID"
-  IDS_GENERAL             "General"
-  IDS_SID_SETTINGS        "Ustawienia uk쿪du SID"
-  IDS_FAST                "Fast"
-  IDS_INTERPOLATING       "Interpolating"
-  IDS_RESAMPLING          "Resampling"
-  IDS_FAST_RESAMPLING     "Fast resampling"
-  IDS_SID_GENGROUP3       "SID Stereo"
-  IDS_SID_STEREO_AT       "Stereo SID at"
-  IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
-  IDS_SID_RESID_SAMPLE    "Sample method"
-  IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
-  IDS_HARDSID_GROUP       "Device selection"
-  IDS_HARDSID_LEFT_LABEL  "Left/Main device"
-  IDS_HARDSID_RIGHT_LABEL "Right device"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

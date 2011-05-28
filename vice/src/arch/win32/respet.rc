@@ -223,7 +223,6 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
-        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -808,28 +807,28 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_INPUT_OUTPUT               "Input/Output"
+  IDS_INPUT_OUTPUT               "입력/출력"
   IDS_PET_SETTINGS               "PET settings"
-  IDS_EDITOR                     "Editor"
-  IDS_ROM_9                      "ROM 9"
-  IDS_ROM_A                      "ROM A"
-  IDS_ROM_B                      "ROM B"
+  IDS_EDITOR                     "에디터"
+  IDS_ROM_9                      "롬9"
+  IDS_ROM_A                      "롬A"
+  IDS_ROM_B                      "롬B"
   IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
-  IDS_PET_MEMORY                 "Memory"
-  IDS_PET_VIDEO                  "Video"
+  IDS_PET_MEMORY                 "메모리"
+  IDS_PET_VIDEO                  "비디오"
   IDS_SELECT_PET_VIDEO_AUTO      "Auto (from ROM)"
   IDS_SELECT_PET_VIDEO_40        "40칸"
   IDS_SELECT_PET_VIDEO_80        "80칸"
   IDS_PET_IO_SIZE                "IO Size"
-  IDS_SELECT_PET_IO256           "256 Byte"
-  IDS_SELECT_PET_IO2K            "2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC chip enable"
-  IDS_PET_KEYBOARD               "Keyboard"
+  IDS_SELECT_PET_IO256           "256 byte"
+  IDS_SELECT_PET_IO2K            "2 kbyte"
+  IDS_TOGGLE_PET_CRTC            "CRTC 칩 가동"
+  IDS_PET_KEYBOARD               "키보드"
   IDS_SELECT_PET_KEYB_GRAPHICS   "그래픽"
-  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
+  IDS_SELECT_PET_KEYB_BUSINESS   "비지니스(UK)"
   IDS_PET_IO_SETTINGS            "IO Settings"
   IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
-  IDS_PET_RAM_SETTINGS           "RAM settings"
+  IDS_PET_RAM_SETTINGS           "RAM 셋팅"
   IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"
   IDS_MI_PET_SETTINGS            "PET settings..."
@@ -876,48 +875,6 @@ BEGIN
   IDS_MI_PETREU_SETTINGS         "PET REU instellingen..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer userport DAC voor geluidsuitvoer"
 END
-
-
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-  IDS_INPUT_OUTPUT               "Input/Output"
-  IDS_PET_SETTINGS               "PET settings"
-  IDS_EDITOR                     "Editor"
-  IDS_ROM_9                      "ROM 9"
-  IDS_ROM_A                      "ROM A"
-  IDS_ROM_B                      "ROM B"
-  IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
-  IDS_PET_MEMORY                 "Memory"
-  IDS_PET_VIDEO                  "Video"
-  IDS_SELECT_PET_VIDEO_AUTO      "Auto (from ROM)"
-  IDS_SELECT_PET_VIDEO_40        "40 Columns"
-  IDS_SELECT_PET_VIDEO_80        "80 Columns"
-  IDS_PET_IO_SIZE                "IO Size"
-  IDS_SELECT_PET_IO256           "256 Byte"
-  IDS_SELECT_PET_IO2K            "2 kByte"
-  IDS_TOGGLE_PET_CRTC            "CRTC chip enable"
-  IDS_PET_KEYBOARD               "Keyboard"
-  IDS_SELECT_PET_KEYB_GRAPHICS   "Graphics"
-  IDS_SELECT_PET_KEYB_BUSINESS   "Business (UK)"
-  IDS_PET_IO_SETTINGS            "IO Settings"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
-  IDS_PET_RAM_SETTINGS           "Ustawienia RAM"
-  IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
-  IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"
-  IDS_MI_PET_SETTINGS            "PET settings..."
-  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
-  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
-  IDS_MI_TOGGLE_PET_USERPORT_DAC "Enable Userport DAC for sound output"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
 
 
 // RUSSIAN text

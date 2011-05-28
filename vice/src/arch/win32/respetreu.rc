@@ -153,25 +153,6 @@ BEGIN
 END
 
 
-// POLISH text
-
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28592)
-#endif
-STRINGTABLE
-LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
-BEGIN
-    IDS_PETREU_CAPTION     "PET REU settings"
-    IDS_PETREU_ENABLE      "Enable the PET Ram and Expansion Unit"
-    IDS_PETREU_SIZE        "PET REU size"
-    IDS_PETREU_FILE        "PET REU file"
-    IDS_PETREU_SELECT_FILE "Select file for PET REU"
-END
-#ifndef WINDRES_CP_IGNORE
-#pragma code_page(28591)
-#endif
-
-
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE
