@@ -74,6 +74,7 @@
 #include "tape.h"
 #include "ted-cmdline-options.h"
 #include "ted-resources.h"
+#include "ted-sound.h"
 #include "ted.h"
 #include "traps.h"
 #include "types.h"
@@ -370,6 +371,16 @@ int machine_specific_init(void)
     /* Initialize autostart.  */
     autostart_init((CLOCK)(2 * PLUS4_PAL_RFSH_PER_SEC
                    * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
+
+    /* Initialize the sidcart first */
+    sidcart_sound_chip_init();
+
+    /* Initialize native sound chip */
+    ted_sound_chip_init();
+
+    /* Initialize cartridge based sound chips */
+    digiblaster_sound_chip_init();
+    speech_sound_chip_init();
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */

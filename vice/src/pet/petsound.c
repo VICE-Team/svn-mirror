@@ -244,26 +244,6 @@ static BYTE pet_sound_machine_read(sound_t *psid, WORD addr)
   return 0;
 }
 
-sound_t *sound_machine_open(int chipno)
-{
-    return sid_sound_machine_open(chipno);
-}
-
-int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
-{
-    pet_sound_machine_init(psid, speed, cycles_per_sec);
-    pet_userport_dac_sound_machine_init(psid, speed, cycles_per_sec);
-
-    if (!sidcart_clock)
-    {
-        return sid_sound_machine_init(psid, (int)(speed*1.015), cycles_per_sec);
-    }
-    else
-    {
-        return sid_sound_machine_init(psid, speed, cycles_per_sec);
-    }
-}
-
 void sound_machine_close(sound_t *psid)
 {
     sid_sound_machine_close(psid);

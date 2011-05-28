@@ -123,6 +123,63 @@ void sound_chip_shutdown(void)
 
 /* ------------------------------------------------------------------------- */
 
+static sound_t *sound_machine_open(int chipno)
+{
+    sound_t *retval = NULL;
+    sound_chip_list_t *current = sound_chip_head.next;
+
+    while (current) {
+        if (current->chip->open != NULL) {
+            retval = current->chip->open(chipno);
+        }
+        current = current->next;
+    }
+    return retval;
+}
+
+static int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+{
+    int retval = 1;
+    sound_chip_list_t *current = sound_chip_head.next;
+
+    while (current) {
+        if (current->chip->init != NULL) {
+            retval &= current->chip->init(psid, speed, cycles_per_sec);
+        }
+        current = current->next;
+    }
+    return retval;
+}
+
+
+#if 0
+extern void sound_machine_close(sound_t *psid);
+extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
+					   int interleave, int *delta_t);
+extern void sound_machine_store(sound_t *psid, WORD addr, BYTE val);
+extern BYTE sound_machine_read(sound_t *psid, WORD addr);
+extern char *sound_machine_dump_state(sound_t *psid);
+extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
+extern void sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
+extern int sound_machine_cycle_based(void);
+extern int sound_machine_channels(void);
+extern void sound_machine_enable(int enable);
+
+
+    void (*close)(sound_t *psid);
+    int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+    void (*store)(sound_t *psid, WORD addr, BYTE val);
+    BYTE (*read)(sound_t *psid, WORD addr);
+    void (*reset)(sound_t *psid, CLOCK cpu_clk);
+    void (*enable)(int enable);
+    int (*cycle_based)(void);
+    int (*channels)(void);
+    WORD offset;
+    int chip_enabled;
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 /* Resource handling -- Added by Ettore 98-04-26.  */
 
 /* FIXME: We need sanity checks!  And do we really need all of these
@@ -294,9 +351,7 @@ void sound_resources_shutdown(void)
     lib_free(device_arg);
     lib_free(recorddevice_name);
     lib_free(recorddevice_arg);
-#if 0 /* will become active when the new sound chip handling system is in place */
     sound_chip_shutdown();
-#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1328,10 +1383,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 
 #if 0
     sound_init_test_device();   /* XXX: missing */
-#endif
-
-#if 0 /* will become active when the new sound chip handling system is in place */
-    sound_chip_init();
 #endif
 
     log_message(sound_log, "Available sound devices:%s", devlist);

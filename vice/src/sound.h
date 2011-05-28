@@ -182,8 +182,6 @@ extern long sound_sample_position(void);
 
 /* functions and structs implemented by each machine */
 typedef struct sound_s sound_t;
-extern sound_t *sound_machine_open(int chipno);
-extern int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void sound_machine_close(sound_t *psid);
 extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
 					   int interleave, int *delta_t);
@@ -232,7 +230,5 @@ typedef struct sound_chip_list_s {
 
 extern sound_chip_list_t *sound_chip_register(sound_chip_t *chip);
 extern void sound_chip_unregister(sound_chip_list_t *device);
-
-extern void sound_chip_init(void);
 
 #endif

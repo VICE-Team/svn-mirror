@@ -40,7 +40,6 @@ extern void sfx_soundexpander_resources_shutdown(void);
 extern int sfx_soundexpander_cmdline_options_init(void);
 
 extern int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
-extern int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void sfx_soundexpander_sound_machine_close(sound_t *psid);
 extern void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr);

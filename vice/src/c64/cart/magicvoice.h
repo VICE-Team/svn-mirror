@@ -72,7 +72,6 @@ extern BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr);
 extern void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
 extern int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
 extern void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
-extern int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void magicvoice_sound_machine_close(sound_t *psid);
 
 extern void magicvoice_sound_chip_init(void);

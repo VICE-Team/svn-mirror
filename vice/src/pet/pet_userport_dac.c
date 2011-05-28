@@ -41,6 +41,9 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* Some prototypes are needed */
+static int pet_userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+
 static int pet_userport_dac_sound_machine_cycle_based(void)
 {
     return 0;
@@ -143,7 +146,7 @@ int pet_userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf,
     return 0;
 }
 
-int pet_userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+static int pet_userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     snd.voice0 = 0;
 

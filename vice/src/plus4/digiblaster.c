@@ -41,6 +41,9 @@
 
 /* ---------------------------------------------------------------------*/
 
+/* Some prototypes are needed */
+static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+
 static int digiblaster_sound_machine_cycle_based(void)
 {
 	return 0;
@@ -144,7 +147,7 @@ int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int 
     return 0;
 }
 
-int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     snd.voice0 = 0;
 

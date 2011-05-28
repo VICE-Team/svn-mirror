@@ -2108,13 +2108,12 @@ int cartridge_crt_save(int type, const char *filename)
 
 /* ------------------------------------------------------------------------- */
 
-int cartridge_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+void cartridge_sound_chip_init(void)
 {
-    digimax_sound_machine_init(psid, speed, cycles_per_sec);
-    sfx_soundexpander_sound_machine_init(psid, speed, cycles_per_sec);
-    sfx_soundsampler_sound_machine_init(psid, speed, cycles_per_sec);
-    magicvoice_sound_machine_init(psid, speed, cycles_per_sec);
-    return 0;
+    digimax_sound_chip_init();
+    sfx_soundexpander_sound_chip_init();
+    sfx_soundsampler_sound_chip_init();
+    magicvoice_sound_chip_init();
 }
 
 void cartridge_sound_machine_close(sound_t *psid)

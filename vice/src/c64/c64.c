@@ -536,6 +536,12 @@ int machine_specific_init(void)
     vsync_init(machine_vsync_hook);
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec, machine_timing.cycles_per_sec);
 
+    /* Initialize native sound chip */
+    sid_sound_chip_init();
+
+    /* Initialize cartridge based sound chips */
+    cartridge_sound_chip_init();
+
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);

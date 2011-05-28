@@ -36,7 +36,6 @@ extern int pet_userport_dac_cmdline_options_init(void);
 extern void pet_userport_dac_store(BYTE value);
 
 extern int pet_userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
-extern int pet_userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void pet_userport_dac_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 extern BYTE pet_userport_dac_sound_machine_read(sound_t *psid, WORD addr);
 extern void pet_userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk);

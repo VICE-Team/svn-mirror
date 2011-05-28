@@ -95,6 +95,9 @@ static c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
+/* Some prototypes are needed */
+static int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+
 static int digimax_sound_machine_cycle_based(void)
 {
 	return 0;
@@ -370,7 +373,7 @@ int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, 
     return 0;
 }
 
-int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+static int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     snd.voice0 = 0;
     snd.voice1 = 0;

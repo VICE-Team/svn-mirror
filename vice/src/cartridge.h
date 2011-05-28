@@ -95,7 +95,7 @@ extern BYTE cartridge_peek_mem(WORD addr);
 /* Initialize RAM for power-up.  */
 extern void cartridge_ram_init(void);
 
-extern int cartridge_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+extern void cartridge_sound_chip_init(void);
 extern void cartridge_sound_machine_close(sound_t *psid);
 extern int cartridge_sound_machine_read(sound_t *psid, WORD addr, BYTE *value);
 extern void cartridge_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);

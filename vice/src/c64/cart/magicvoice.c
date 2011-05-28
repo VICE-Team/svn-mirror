@@ -808,6 +808,8 @@ static const c64export_resource_t export_res = {
 };
 
 /* ---------------------------------------------------------------------*/
+/* Some prototypes are needed */
+static int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 
 static int magicvoice_sound_machine_cycle_based(void)
 {
@@ -1321,12 +1323,12 @@ void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
     DBG(("MV: magicvoice_sound_machine_reset\n"));
 }
 
-int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+static int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DBG(("MV: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
     t6721_sound_machine_init(t6721, speed, cycles_per_sec);
 
-    return 0; /* ? */
+    return 1;
 }
 
 void magicvoice_sound_machine_close(sound_t *psid)

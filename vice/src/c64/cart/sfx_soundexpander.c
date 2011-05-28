@@ -102,6 +102,9 @@ static const c64export_resource_t export_res_piano= {
 
 /* ------------------------------------------------------------------------- */
 
+/* Some prototypes are needed */
+static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+
 static int sfx_soundexpander_sound_machine_cycle_based(void)
 {
 	return 0;
@@ -275,7 +278,7 @@ int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
     return 0;
 }
 
-int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     if (sfx_soundexpander_chip == 3812) {
         if (YM3812_chip != NULL) {

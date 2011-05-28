@@ -482,6 +482,9 @@ void speech_setup_context(machine_context_t *machine_context)
 
 /* ------------------------------------------------------------------------- */
 
+/* Some prototypes are needed */
+static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+
 static int speech_sound_machine_cycle_based(void)
 {
 	return 0;
@@ -671,12 +674,12 @@ void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
     DBG(("SPEECH: speech_sound_machine_reset\n"));
 }
 
-int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
+static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     DBG(("SPEECH: speech_sound_machine_init: speed %d cycles/sec: %d\n", speed, cycles_per_sec));
     t6721_sound_machine_init(t6721, speed, cycles_per_sec);
 
-    return 0; /* all ok */
+    return 1;
 }
 
 void speech_sound_machine_close(sound_t *psid)

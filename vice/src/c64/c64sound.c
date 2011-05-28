@@ -139,17 +139,6 @@ void machine_sid2_enable(int val)
     }
 }
 
-sound_t *sound_machine_open(int chipno)
-{
-    return sid_sound_machine_open(chipno);
-}
-
-int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
-{
-    cartridge_sound_machine_init(psid, speed, cycles_per_sec);
-    return sid_sound_machine_init(psid, speed, cycles_per_sec);
-}
-
 void sound_machine_close(sound_t *psid)
 {
     cartridge_sound_machine_close(psid);

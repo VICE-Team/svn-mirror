@@ -40,4 +40,6 @@ extern int sidcart_enabled(void);
 extern int sidcart_address;
 extern int sidcart_clock;
 
+extern void sidcart_sound_chip_init(void);
+
 #endif

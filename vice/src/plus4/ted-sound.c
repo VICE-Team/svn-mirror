@@ -343,35 +343,6 @@ BYTE ted_sound_read(WORD addr)
     return value;
 }
 
-sound_t *sound_machine_open(int chipno)
-{
-    return sid_sound_machine_open(chipno);
-}
-
-int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
-{
-    ted_sound_machine_init(psid, speed, cycles_per_sec);
-    digiblaster_sound_machine_init(psid, speed, cycles_per_sec);
-    /* FIXME: v364 only */
-    speech_sound_machine_init(psid, speed, cycles_per_sec);
-
-    if (!sidcart_clock)
-    {
-        if (cycles_per_sec==PLUS4_PAL_CYCLES_PER_SEC)
-        {
-            return sid_sound_machine_init(psid, (int)(speed*1.8), cycles_per_sec);
-        }
-        else
-        {
-            return sid_sound_machine_init(psid, (int)(speed*1.75), cycles_per_sec);
-        }
-    }
-    else
-    {
-        return sid_sound_machine_init(psid, speed, cycles_per_sec);
-    }
-}
-
 void sound_machine_close(sound_t *psid)
 {
     sid_sound_machine_close(psid);

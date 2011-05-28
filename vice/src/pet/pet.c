@@ -303,6 +303,15 @@ int machine_specific_init(void)
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
                                 machine_timing.cycles_per_sec);
 
+    /* Initialize the sidcart first */
+    sidcart_sound_chip_init();
+
+    /* Initialize native sound chip */
+    pet_sound_chip_init();
+
+    /* Initialize cartridge based sound chips */
+    pet_userport_dac_sound_chip_init();
+
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
