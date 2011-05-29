@@ -897,7 +897,7 @@ msgstr "덤프 파일"
 
 #: src/arch/unix/gui/uiacia1.c:44 src/arch/unix/gui/uirs232user.c:44
 msgid "Exec process"
-msgstr ""
+msgstr "엑서큐트 프로세스"
 
 #: src/arch/unix/gui/uiattach.c:79
 #, c-format
@@ -915,27 +915,27 @@ msgstr ""
 #: src/arch/unix/gui/uiattach.c:113 src/arch/unix/gui/uiattach.c:150
 #: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:451
 msgid "Unit #8"
-msgstr ""
+msgstr "유닛 #8"
 
 #: src/arch/unix/gui/uiattach.c:116 src/arch/unix/gui/uiattach.c:152
 #: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:453
 msgid "Unit #9"
-msgstr ""
+msgstr "유닛 #9"
 
 #: src/arch/unix/gui/uiattach.c:119 src/arch/unix/gui/uiattach.c:154
 #: src/arch/unix/gui/uiattach.c:174 src/arch/unix/gui/uicommands.c:455
 msgid "Unit #10"
-msgstr ""
+msgstr "유닛 #10"
 
 #: src/arch/unix/gui/uiattach.c:122 src/arch/unix/gui/uiattach.c:156
 #: src/arch/unix/gui/uiattach.c:176 src/arch/unix/gui/uicommands.c:457
 msgid "Unit #11"
-msgstr ""
+msgstr "유닛 #11"
 
 #: src/arch/unix/gui/uiattach.c:179 src/arch/win32/res.rc.po.c:1394
 #: src/arch/amigaos/intl_text.c.po.c:102
 msgid "All"
-msgstr ""
+msgstr "전부"
 
 #: src/arch/unix/gui/uiattach.c:185 src/arch/win32/res.rc.po.c:988
 #: src/arch/win32/res.rc.po.c:1356 src/arch/win32/resc128.rc.po.c:23
@@ -944,7 +944,7 @@ msgstr ""
 #: src/arch/win32/resplus4.rc.po.c:23 src/arch/win32/resvic20.rc.po.c:23
 #: src/arch/amigaos/intl_text.c.po.c:30
 msgid "Attach disk image"
-msgstr ""
+msgstr "디스크 이미지 붙여넣기"
 
 #: src/arch/unix/gui/uiattach.c:187
 msgid "Create and attach an empty disk"
@@ -956,7 +956,7 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:30 src/arch/win32/resplus4.rc.po.c:30
 #: src/arch/win32/resvic20.rc.po.c:30 src/arch/amigaos/intl_text.c.po.c:90
 msgid "Detach disk image"
-msgstr ""
+msgstr "디스크 이미지 떼어내기"
 
 #: src/arch/unix/gui/uiattach.c:191 src/arch/win32/res.rc.po.c:1358
 #: src/arch/win32/resc128.rc.po.c:39 src/arch/win32/resc64.rc.po.c:39
@@ -972,7 +972,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiattach.c:212
 msgid "File exists"
-msgstr ""
+msgstr "파일 존재"
 
 #: src/arch/unix/gui/uiattach.c:213
 msgid "Do you want to overwrite it?"
@@ -983,36 +983,36 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:198
 #: src/arch/amigaos/intl_text.c.po.c:6391
 msgid "Attach tape image"
-msgstr ""
+msgstr "테이프 이미지 붙여넣기"
 
 #: src/arch/unix/gui/uiattach.c:246 src/arch/unix/gui/uiattach.c:253
 msgid "Invalid Tape Image"
-msgstr ""
+msgstr "사용불가능한 테이프 이미지"
 
 #: src/arch/unix/gui/uiattach.c:277 src/arch/win32/res.rc.po.c:1393
 #: src/arch/amigaos/intl_text.c.po.c:210
 msgid "Detach tape image"
-msgstr ""
+msgstr "테이프 이미지 때어내기"
 
 #: src/arch/unix/gui/uiattach.c:312
 msgid "Smart-attach a file"
-msgstr ""
+msgstr "파일 스마트 붙어넣기"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
 #: src/arch/unix/x11/xaw/x11ui.c:2040
 msgid "Unknown image type"
-msgstr ""
+msgstr "알수없는 이미지 타입"
 
 #: src/arch/unix/gui/uiattach.c:340
 msgid "Smart-attach disk/tape"
-msgstr ""
+msgstr "디스크/테이프 스마트 붙어넣기"
 
 #: src/arch/unix/gui/uiattach.c:343 src/arch/win32/res.rc.po.c:1474
 #: src/arch/win32/resautostart.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:1794
 #: src/arch/amigaos/intl_text.c.po.c:8239
 msgid "Autostart settings"
-msgstr ""
+msgstr "자동시작 셋팅"
 
 #: src/arch/unix/gui/uiautostart.c:48
 msgid "Disk image for PRG autostart"
@@ -1026,13 +1026,13 @@ msgstr ""
 #: src/arch/unix/gui/uiautostart.c:55 src/arch/win32/resautostart.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:8143
 msgid "Inject to RAM"
-msgstr ""
+msgstr "RAM 에 주입하기"
 
 #: src/arch/unix/gui/uiautostart.c:57 src/arch/win32/res.rc.po.c:1181
 #: src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:8155
 msgid "Disk image"
-msgstr ""
+msgstr "디스크 이미지"
 
 #: src/arch/unix/gui/uiautostart.c:63 src/arch/win32/res.rc.po.c:1399
 #: src/arch/amigaos/intl_text.c.po.c:1506 src/translate_text.c.po.c:2696
@@ -1042,17 +1042,17 @@ msgstr ""
 #: src/arch/unix/gui/uiautostart.c:65 src/arch/win32/resautostart.rc.po.c:42
 #: src/arch/amigaos/intl_text.c.po.c:8179
 msgid "Autostart warp"
-msgstr ""
+msgstr "자동 시작 warp"
 
 #: src/arch/unix/gui/uiautostart.c:67 src/arch/win32/resautostart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:8191
 msgid "Use ':' with RUN"
-msgstr ""
+msgstr "':' 를 RUN 과 사용하기"
 
 #: src/arch/unix/gui/uiautostart.c:69 src/arch/win32/resautostart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:8215
 msgid "Load to BASIC start"
-msgstr ""
+msgstr "BASIC 시작 에 로드하기"
 
 #: src/arch/unix/gui/uiautostart.c:71 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:8203
