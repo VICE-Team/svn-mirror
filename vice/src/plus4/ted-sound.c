@@ -68,18 +68,16 @@ static sound_chip_t ted_sound_chip = {
     ted_sound_machine_store,
     ted_sound_machine_read,
     ted_sound_reset,
-    NULL, /* no enable */
     ted_sound_machine_cycle_based,
     ted_sound_machine_channels,
-    0x20, /* offset to be filled in by register routine */
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *ted_sound_chip_item = NULL;
+static WORD ted_sound_chip_offset = 0;
 
 void ted_sound_chip_init(void)
 {
-    ted_sound_chip_item = sound_chip_register(&ted_sound_chip);
+    ted_sound_chip_offset = sound_chip_register(&ted_sound_chip);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -328,86 +326,19 @@ void ted_sound_reset(sound_t *psid, CLOCK cpu_clk)
 
 void ted_sound_store(WORD addr, BYTE value)
 {
-    sound_store((WORD)(addr+0x20), value, 0);
+    sound_store((WORD)(ted_sound_chip_offset | addr), value, 0);
 }
 
 BYTE ted_sound_read(WORD addr)
 {
     BYTE value;
 
-    value = sound_read((WORD)(addr+0x20), 0);
+    value = sound_read((WORD)(ted_sound_chip_offset | addr), 0);
 
     if (addr == 0x12)
         value &= 3;
 
     return value;
-}
-
-void sound_machine_close(sound_t *psid)
-{
-    sid_sound_machine_close(psid);
-}
-
-/* for read/store 0x00 <= addr <= 0x1f is the sid
- *                0x20 <= addr <= 0x3f is the ted
- *                0x40 <= addr <= 0x5f is the digiblaster
- *                0x60 <= addr <= 0x7f is the v364 speech add-on
- *
- * future sound devices will be able to use 0x60 and up
- */
-
-BYTE sound_machine_read(sound_t *psid, WORD addr)
-{
-    if (addr>=0x20 && addr<=0x3f) {
-        return ted_sound_machine_read(psid, (WORD)(addr-0x20));
-    }
-
-    if (addr>=0x40 && addr<=0x5f) {
-        return digiblaster_sound_machine_read(psid, (WORD)(addr-0x40));
-    }
-    /* FIXME: v364 only */
-    if (addr>=0x60 && addr<=0x7f) {
-        return speech_sound_machine_read(psid, (WORD)(addr-0x60));
-    }
-
-    return sid_sound_machine_read(psid, addr);
-}
-
-void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
-{
-    if (addr>=0x20 && addr<=0x3f) {
-        ted_sound_machine_store(psid, (WORD)(addr-0x20), byte);
-    }
-
-    if (addr>=0x40 && addr<=0x5f) {
-        digiblaster_sound_machine_store(psid, (WORD)(addr-0x40), byte);
-    }
-    /* FIXME: v364 only */
-    if (addr>=0x60 && addr<=0x7f) {
-        speech_sound_machine_store(psid, (WORD)(addr-0x60), byte);
-    }
-
-    sid_sound_machine_store(psid, addr, byte);
-}
-
-void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
-{
-    sid_sound_machine_reset(psid, cpu_clk);
-    /* FIXME: v364 only */
-    speech_sound_machine_reset(psid, cpu_clk);
-}
-
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                    int interleave, int *delta_t)
-{
-    int temp;
-
-    temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    ted_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    digiblaster_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    /* FIXME: v364 only */
-    speech_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    return temp;
 }
 
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
@@ -418,16 +349,6 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 char *sound_machine_dump_state(sound_t *psid)
 {
     return sid_sound_machine_dump_state(psid);
-}
-
-int sound_machine_cycle_based(void)
-{
-    return 0;
-}
-
-int sound_machine_channels(void)
-{
-    return sid_sound_machine_channels();
 }
 
 void sound_machine_enable(int enable)

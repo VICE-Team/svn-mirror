@@ -62,18 +62,16 @@ static sound_chip_t pet_userport_dac_sound_chip = {
     pet_userport_dac_sound_machine_store,
     pet_userport_dac_sound_machine_read,
     pet_userport_dac_sound_reset,
-    NULL, /* no enable */
     pet_userport_dac_sound_machine_cycle_based,
     pet_userport_dac_sound_machine_channels,
-    0x40, /* offset to be filled in by register routine */
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *pet_userport_dac_sound_chip_item = NULL;
+static WORD pet_userport_dac_sound_chip_offset = 0;
 
 void pet_userport_dac_sound_chip_init(void)
 {
-    pet_userport_dac_sound_chip_item = sound_chip_register(&pet_userport_dac_sound_chip);
+    pet_userport_dac_sound_chip_offset = sound_chip_register(&pet_userport_dac_sound_chip);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -123,7 +121,7 @@ void pet_userport_dac_store(BYTE value)
 {
     if (pet_userport_dac_sound_chip.chip_enabled) {
         pet_userport_dac_sound_data = value;
-        sound_store(pet_userport_dac_sound_chip.offset, value, 0);
+        sound_store(pet_userport_dac_sound_chip_offset, value, 0);
     }
 }
 
@@ -134,7 +132,7 @@ struct pet_userport_dac_sound_s
 
 static struct pet_userport_dac_sound_s snd;
 
-int pet_userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int pet_userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
 
@@ -153,12 +151,12 @@ static int pet_userport_dac_sound_machine_init(sound_t *psid, int speed, int cyc
     return 1;
 }
 
-void pet_userport_dac_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void pet_userport_dac_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     snd.voice0 = val;
 }
 
-BYTE pet_userport_dac_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE pet_userport_dac_sound_machine_read(sound_t *psid, WORD addr)
 {
     return pet_userport_dac_sound_data;
 }

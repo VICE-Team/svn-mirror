@@ -123,18 +123,16 @@ static sound_chip_t sfx_soundexpander_sound_chip = {
     sfx_soundexpander_sound_machine_store,
     sfx_soundexpander_sound_machine_read,
     sfx_soundexpander_sound_reset,
-    NULL, /* no enable function */
     sfx_soundexpander_sound_machine_cycle_based,
-	sfx_soundexpander_sound_machine_channels,
-	0x60, /* offset to be filled in by register routine */
+    sfx_soundexpander_sound_machine_channels,
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *sfx_soundexpander_sound_chip_item = NULL;
+static WORD sfx_soundexpander_sound_chip_offset = 0;
 
 void sfx_soundexpander_sound_chip_init(void)
 {
-    sfx_soundexpander_sound_chip_item = sound_chip_register(&sfx_soundexpander_sound_chip);
+    sfx_soundexpander_sound_chip_offset = sound_chip_register(&sfx_soundexpander_sound_chip);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -257,7 +255,7 @@ struct sfx_soundexpander_sound_s
 
 static struct sfx_soundexpander_sound_s snd;
 
-int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
     SWORD *buffer;
@@ -296,7 +294,7 @@ static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cy
     return 1;
 }
 
-void sfx_soundexpander_sound_machine_close(sound_t *psid)
+static void sfx_soundexpander_sound_machine_close(sound_t *psid)
 {
     if (YM3526_chip != NULL) {
         ym3526_shutdown(YM3526_chip);
@@ -308,7 +306,7 @@ void sfx_soundexpander_sound_machine_close(sound_t *psid)
     }
 }
 
-void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     snd.command = val;
 
@@ -319,7 +317,7 @@ void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
     }
 }
 
-BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr)
 {
     if (sfx_soundexpander_chip == 3812) {
         return ym3812_read(YM3812_chip, 1);
@@ -348,7 +346,7 @@ static void sfx_soundexpander_sound_store(WORD addr, BYTE value)
         }
     }
     if (addr == 0x50) {
-        sound_store(sfx_soundexpander_sound_chip.offset, value, 0);
+        sound_store(sfx_soundexpander_sound_chip_offset, value, 0);
     }
 }
 
@@ -360,7 +358,7 @@ static BYTE sfx_soundexpander_sound_read(WORD addr)
 
     if (addr == 0x60) {
         sfx_soundexpander_sound_device.io_source_valid = 1;
-        value = sound_read(sfx_soundexpander_sound_chip.offset, 0);
+        value = sound_read(sfx_soundexpander_sound_chip_offset, 0);
     }
     return value;
 }

@@ -33,10 +33,6 @@
 extern int digiblaster_resources_init(void);
 extern int digiblaster_cmdline_options_init(void);
 
-extern int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
-extern void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
-extern BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr);
-extern void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk);
 extern void digiblaster_store(WORD addr, BYTE value);
 extern BYTE digiblaster_read(WORD addr);
 

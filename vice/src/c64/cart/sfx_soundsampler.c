@@ -93,18 +93,16 @@ static sound_chip_t sfx_soundsampler_sound_chip = {
     sfx_soundsampler_sound_machine_store,
     sfx_soundsampler_sound_machine_read,
     sfx_soundsampler_sound_reset,
-    NULL, /* no enable function */
     sfx_soundsampler_sound_machine_cycle_based,
-	sfx_soundsampler_sound_machine_channels,
-	0x40, /* offset to be filled in by register routine */
+    sfx_soundsampler_sound_machine_channels,
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *sfx_soundsampler_sound_chip_item = NULL;
+static WORD sfx_soundsampler_sound_chip_offset = 0;
 
 void sfx_soundsampler_sound_chip_init(void)
 {
-    sfx_soundsampler_sound_chip_item = sound_chip_register(&sfx_soundsampler_sound_chip);
+    sfx_soundsampler_sound_chip_offset = sound_chip_register(&sfx_soundsampler_sound_chip);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -191,7 +189,7 @@ static BYTE sfx_soundsampler_sound_data;
 static void sfx_soundsampler_sound_store(WORD addr, BYTE value)
 {
     sfx_soundsampler_sound_data = value;
-    sound_store(sfx_soundsampler_sound_chip.offset, value, 0);
+    sound_store(sfx_soundsampler_sound_chip_offset, value, 0);
 }
 
 struct sfx_soundsampler_sound_s
@@ -201,7 +199,7 @@ struct sfx_soundsampler_sound_s
 
 static struct sfx_soundsampler_sound_s snd;
 
-int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
 
@@ -220,12 +218,12 @@ static int sfx_soundsampler_sound_machine_init(sound_t *psid, int speed, int cyc
     return 1;
 }
 
-void sfx_soundsampler_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void sfx_soundsampler_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     snd.voice0 = val;
 }
 
-BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr)
 {
     return sfx_soundsampler_sound_data;
 }
@@ -284,8 +282,8 @@ int sfx_soundsampler_snapshot_read_module(snapshot_t *s)
     if (!sfx_soundsampler_sound_chip.chip_enabled) {
         set_sfx_soundsampler_enabled(1, NULL);
     }
-    sound_store(sfx_soundsampler_sound_chip.offset, sfx_soundsampler_sound_data, 0);
-    
+    sound_store(sfx_soundsampler_sound_chip_offset, sfx_soundsampler_sound_data, 0);
+
     snapshot_module_close(m);
     return 0;
 }

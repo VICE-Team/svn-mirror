@@ -68,12 +68,6 @@ extern int magicvoice_enable(void);
 extern void magicvoice_detach(void);
 extern const char *magicvoice_get_file_name(void);
 
-extern BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr);
-extern void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
-extern int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
-extern void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
-extern void magicvoice_sound_machine_close(sound_t *psid);
-
 extern void magicvoice_sound_chip_init(void);
 
 struct snapshot_s;

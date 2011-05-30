@@ -96,11 +96,6 @@ extern BYTE cartridge_peek_mem(WORD addr);
 extern void cartridge_ram_init(void);
 
 extern void cartridge_sound_chip_init(void);
-extern void cartridge_sound_machine_close(sound_t *psid);
-extern int cartridge_sound_machine_read(sound_t *psid, WORD addr, BYTE *value);
-extern void cartridge_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
-extern void cartridge_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
-extern int cartridge_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
 
 /* Carts that don't have a rom images */
 #define CARTRIDGE_DIGIMAX            -100 /* digimax.c */

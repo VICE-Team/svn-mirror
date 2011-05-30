@@ -116,18 +116,16 @@ static sound_chip_t digimax_sound_chip = {
     digimax_sound_machine_store,
     digimax_sound_machine_read,
     digimax_sound_reset,
-    NULL, /* no enable function */
     digimax_sound_machine_cycle_based,
-	digimax_sound_machine_channels,
-	0x20, /* offset to be filled in by register routine */
+    digimax_sound_machine_channels,
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *digimax_sound_chip_item = NULL;
+static WORD digimax_sound_chip_offset = 0;
 
 void digimax_sound_chip_init(void)
 {
-    digimax_sound_chip_item = sound_chip_register(&digimax_sound_chip);
+    digimax_sound_chip_offset = sound_chip_register(&digimax_sound_chip);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -147,14 +145,12 @@ static int digimax_is_userport(void)
 static void digimax_sound_store(WORD addr, BYTE value)
 {
     digimax_sound_data[addr] = value;
-    sound_store((WORD)(addr + digimax_sound_chip.offset), value, 0);
+    sound_store((WORD)(digimax_sound_chip_offset | addr), value, 0);
 }
 
 static BYTE digimax_sound_read(WORD addr)
 {
-    BYTE value;
-
-    value = sound_read((WORD)(addr + digimax_sound_chip.offset), 0);
+    BYTE value = sound_read((WORD)(digimax_sound_chip_offset | addr), 0);
 
     return value;
 }
@@ -185,7 +181,7 @@ static void digimax_userport_sound_store(BYTE value)
             break;
     }
 
-    digimax_sound_store(addr,(BYTE)(value & digimax_userport_direction_B));
+    digimax_sound_store(addr, (BYTE)(value & digimax_userport_direction_B));
 }
 
 void digimax_userport_store(WORD addr, BYTE value)
@@ -355,7 +351,7 @@ struct digimax_sound_s {
 
 static struct digimax_sound_s snd;
 
-int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
 
@@ -383,7 +379,7 @@ static int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_s
     return 1;
 }
 
-void digimax_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void digimax_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch (addr & 3) {
         case 0:
@@ -401,12 +397,12 @@ void digimax_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
     }
 }
 
-BYTE digimax_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE digimax_sound_machine_read(sound_t *psid, WORD addr)
 {
-    return digimax_sound_data[addr&3];
+    return digimax_sound_data[addr & 3];
 }
 
-void digimax_sound_reset(sound_t *psid, CLOCK cpu_clk)
+static void digimax_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     snd.voice0 = 0;
     snd.voice1 = 0;

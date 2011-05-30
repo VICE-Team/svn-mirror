@@ -62,18 +62,16 @@ static sound_chip_t digiblaster_sound_chip = {
     digiblaster_sound_machine_store,
     digiblaster_sound_machine_read,
     digiblaster_sound_reset,
-    NULL, /* no enable function */
     digiblaster_sound_machine_cycle_based,
     digiblaster_sound_machine_channels,
-    0x40, /* offset to be filled in by register routine */
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *digiblaster_sound_chip_item = NULL;
+static WORD digiblaster_sound_chip_offset = 0;
 
 void digiblaster_sound_chip_init(void)
 {
-    digiblaster_sound_chip_item = sound_chip_register(&digiblaster_sound_chip);
+    digiblaster_sound_chip_offset = sound_chip_register(&digiblaster_sound_chip);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -132,8 +130,7 @@ struct digiblaster_sound_s
 
 static struct digiblaster_sound_s snd;
 
-int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                                int interleave, int *delta_t)
+static int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
 
@@ -154,12 +151,12 @@ static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_p
     return 1;
 }
 
-void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+static void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     snd.voice0 = val;
 }
 
-BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr)
 {
     return 0;
 }
@@ -175,10 +172,10 @@ void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk)
 void digiblaster_store(WORD addr, BYTE value)
 {
     digiblaster_sound_data = value;
-    sound_store((WORD)(0x40), value, 0);
+    sound_store(digiblaster_sound_chip_offset, value, 0);
 }
 
 BYTE digiblaster_read(WORD addr)
 {
-    return sound_read((WORD)(addr + 0x40), 0);
+    return sound_read(digiblaster_sound_chip_offset, 0);
 }

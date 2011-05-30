@@ -57,18 +57,16 @@ static sound_chip_t sidcart_sound_chip = {
     sid_sound_machine_store,
     sid_sound_machine_read,
     sid_sound_machine_reset,
-    sid_sound_machine_enable,
     sid_sound_machine_cycle_based,
     sid_sound_machine_channels,
-    0x00, /* offset to be filled in by register routine */
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *sidcart_sound_chip_item = NULL;
+static WORD sidcart_sound_chip_offset = 0;
 
 void sidcart_sound_chip_init(void)
 {
-    sidcart_sound_chip_item = sound_chip_register(&sidcart_sound_chip);
+    sidcart_sound_chip_offset = sound_chip_register(&sidcart_sound_chip);
 }
 
 /* ------------------------------------------------------------------------- */

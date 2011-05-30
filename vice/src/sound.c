@@ -73,52 +73,30 @@ static log_t sound_log = LOG_ERR;
 
 static WORD offset = 0;
 
-static sound_chip_list_t sound_chip_head = { NULL, NULL, NULL };
+static sound_chip_t sound_calls[20];
 
-sound_chip_list_t *sound_chip_register(sound_chip_t *chip)
+WORD sound_chip_register(sound_chip_t *chip)
 {
-    sound_chip_list_t *current = &sound_chip_head;
-    sound_chip_list_t *retval = lib_malloc(sizeof(sound_chip_list_t));
-
     assert(chip != NULL);
 
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    current->next = retval;
-    retval->previous = current;
-    retval->chip = chip;
-    retval->next = NULL;
-    retval->chip->offset = offset;
+    sound_calls[offset >> 5].open = chip->open;
+    sound_calls[offset >> 5].init = chip->init;
+    sound_calls[offset >> 5].close = chip->close;
+    sound_calls[offset >> 5].calculate_samples = chip->calculate_samples;
+    sound_calls[offset >> 5].store = chip->store;
+    sound_calls[offset >> 5].read = chip->read;
+    sound_calls[offset >> 5].reset = chip->reset;
+    sound_calls[offset >> 5].cycle_based = chip->cycle_based;
+    sound_calls[offset >> 5].channels = chip->channels;
     offset += 0x20;
 
-    return retval;
-}
+    assert((offset >> 5) < 20);
 
-void sound_chip_unregister(sound_chip_list_t *chip)
-{
-    sound_chip_list_t *prev;
-
-    assert(chip != NULL);
-
-    prev = chip->previous;
-    prev->next = chip->next;
-
-    if (chip->next) {
-        chip->next->previous = prev;
-    }
-
-    lib_free(chip);
+    return offset - 0x20;
 }
 
 void sound_chip_shutdown(void)
 {
-    sound_chip_list_t *current = sound_chip_head.next;
-
-    while (current) {
-        sound_chip_unregister(current);
-        current = sound_chip_head.next;
-    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -126,13 +104,12 @@ void sound_chip_shutdown(void)
 static sound_t *sound_machine_open(int chipno)
 {
     sound_t *retval = NULL;
-    sound_chip_list_t *current = sound_chip_head.next;
+    int i;
 
-    while (current) {
-        if (current->chip->open != NULL) {
-            retval = current->chip->open(chipno);
+    for (i = 0; i < (offset >> 5); i++) {
+        if (sound_calls[i].open != NULL) {
+            retval = sound_calls[i].open(chipno);
         }
-        current = current->next;
     }
     return retval;
 }
@@ -140,43 +117,86 @@ static sound_t *sound_machine_open(int chipno)
 static int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     int retval = 1;
-    sound_chip_list_t *current = sound_chip_head.next;
+    int i;
 
-    while (current) {
-        if (current->chip->init != NULL) {
-            retval &= current->chip->init(psid, speed, cycles_per_sec);
+    for (i = 0; i < (offset >> 5); i++) {
+        if (sound_calls[i].init != NULL) {
+            retval &= sound_calls[i].init(psid, speed, cycles_per_sec);
         }
-        current = current->next;
     }
     return retval;
 }
 
+static void sound_machine_close(sound_t *psid)
+{
+    int i;
 
-#if 0
-extern void sound_machine_close(sound_t *psid);
-extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-					   int interleave, int *delta_t);
-extern void sound_machine_store(sound_t *psid, WORD addr, BYTE val);
-extern BYTE sound_machine_read(sound_t *psid, WORD addr);
-extern char *sound_machine_dump_state(sound_t *psid);
-extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
-extern void sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
-extern int sound_machine_cycle_based(void);
-extern int sound_machine_channels(void);
-extern void sound_machine_enable(int enable);
+    for (i = 0; i < (offset >> 5); i++) {
+        if (sound_calls[i].close != NULL) {
+            sound_calls[i].close(psid);
+        }
+    }
+}
 
+static int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+{
+    int i;
+    int temp;
 
-    void (*close)(sound_t *psid);
-    int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
-    void (*store)(sound_t *psid, WORD addr, BYTE val);
-    BYTE (*read)(sound_t *psid, WORD addr);
-    void (*reset)(sound_t *psid, CLOCK cpu_clk);
-    void (*enable)(int enable);
-    int (*cycle_based)(void);
-    int (*channels)(void);
-    WORD offset;
-    int chip_enabled;
-#endif
+    temp = sound_calls[0].calculate_samples(psid, pbuf, nr, interleave, delta_t);
+
+    for (i = 1; i < (offset >> 5); i++) {
+        sound_calls[i].calculate_samples(psid, pbuf, temp, interleave, delta_t);
+    }
+    return temp;
+}
+
+static void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
+{
+    sound_calls[addr >> 5].store(psid,(WORD)(addr & 0x1f), val);
+}
+
+static BYTE sound_machine_read(sound_t *psid, WORD addr)
+{
+    return sound_calls[addr >> 5].read(psid, (WORD)(addr & 0x1f));
+}
+
+static void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+{
+    int i;
+
+    for (i = 0; i < (offset >> 5); i++) {
+        if (sound_calls[i].reset != NULL) {
+            sound_calls[i].reset(psid, cpu_clk);
+        }
+    }
+}
+
+static int sound_machine_cycle_based(void)
+{
+    int i;
+    int retval = 0;
+
+    for (i = 0; i < (offset >> 5); i++) {
+        retval |= sound_calls[i].cycle_based();
+    }
+    return retval;
+}
+
+static int sound_machine_channels(void)
+{
+    int i;
+    int retval = 0;
+    int temp;
+
+    for (i = 0; i < (offset >> 5); i++) {
+        temp = sound_calls[i].channels();
+        if (temp > retval) {
+            retval = temp;
+        }
+    }
+    return retval;
+}
 
 /* ------------------------------------------------------------------------- */
 

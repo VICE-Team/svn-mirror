@@ -77,18 +77,16 @@ static sound_chip_t sid_sound_chip = {
     sid_sound_machine_store,
     sid_sound_machine_read,
     sid_sound_machine_reset,
-    sid_sound_machine_enable,
     sid_sound_machine_cycle_based,
-    sound_machine_channels,
-    0x00, /* offset to be filled in by register routine */
+    sid_sound_machine_channels,
     1 /* chip enabled */
 };
 
-static sound_chip_list_t *sid_sound_chip_item = NULL;
+static WORD sid_sound_chip_offset = 0;
 
 void sid_sound_chip_init(void)
 {
-    sid_sound_chip_item = sound_chip_register(&sid_sound_chip);
+    sid_sound_chip_offset = sound_chip_register(&sid_sound_chip);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -139,49 +137,6 @@ void machine_sid2_enable(int val)
     }
 }
 
-void sound_machine_close(sound_t *psid)
-{
-    cartridge_sound_machine_close(psid);
-    sid_sound_machine_close(psid);
-}
-
-/* for read/store 0x00 <= addr <= 0x1f is the sid
- *                0x20 <= addr         is used by cartridges
- */
-
-BYTE sound_machine_read(sound_t *psid, WORD addr)
-{
-    BYTE value;
-    if (cartridge_sound_machine_read(psid, addr, &value)) {
-        return value;
-    }
-    return sid_sound_machine_read(psid, addr);
-}
-
-void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
-{
-    cartridge_sound_machine_store(psid, addr, byte);
-    sid_sound_machine_store(psid, addr, byte);
-}
-
-void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
-{
-    cartridge_sound_machine_reset(psid, cpu_clk);
-    sid_sound_machine_reset(psid, cpu_clk);
-}
-
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
-{
-    int temp;
-
-    temp=sid_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    /* tell cartridges how many samples to generate to keep in sync with
-     * resid's unpredictable sample generation. */
-    cartridge_sound_machine_calculate_samples(psid, pbuf, temp, interleave, delta_t);
-
-    return temp;
-}
-
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
     sid_sound_machine_prevent_clk_overflow(psid, sub);
@@ -190,16 +145,6 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 char *sound_machine_dump_state(sound_t *psid)
 {
     return sid_sound_machine_dump_state(psid);
-}
-
-int sound_machine_cycle_based(void)
-{
-    return sid_sound_machine_cycle_based();
-}
-
-int sound_machine_channels(void)
-{
-    return sid_sound_machine_channels();
 }
 
 void sound_machine_enable(int enable)

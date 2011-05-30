@@ -829,18 +829,16 @@ static sound_chip_t magicvoice_sound_chip = {
     magicvoice_sound_machine_store,
     magicvoice_sound_machine_read,
     NULL, /* no reset */
-    NULL, /* no enable function */
     magicvoice_sound_machine_cycle_based,
-	magicvoice_sound_machine_channels,
-	0x80, /* offset to be filled in by register routine */
+    magicvoice_sound_machine_channels,
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *magicvoice_sound_chip_item = NULL;
+static WORD magicvoice_sound_chip_offset = 0;
 
 void magicvoice_sound_chip_init(void)
 {
-    magicvoice_sound_chip_item = sound_chip_register(&magicvoice_sound_chip);
+    magicvoice_sound_chip_offset = sound_chip_register(&magicvoice_sound_chip);
 }
 
 int magicvoice_cart_enabled(void)
@@ -1282,14 +1280,14 @@ void magicvoice_reset(void)
 /* ---------------------------------------------------------------------*/
 
 /* FIXME: what are these two about anyway ? */
-BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr)
 {
     DBG(("MV: magicvoice_sound_machine_read\n"));
 
     return 0; /* ? */
 }
 
-void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
     DBG(("MV: magicvoice_sound_machine_store\n"));
 }
@@ -1297,7 +1295,7 @@ void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 /*
     called periodically for every sound fragment that is played
 */
-int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
     SWORD *buffer;
@@ -1315,10 +1313,10 @@ int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         lib_free(buffer);
     }
 
-    return 0; /* ? */
+    return nr;
 }
 
-void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
     DBG(("MV: magicvoice_sound_machine_reset\n"));
 }
@@ -1331,7 +1329,7 @@ static int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_pe
     return 1;
 }
 
-void magicvoice_sound_machine_close(sound_t *psid)
+static void magicvoice_sound_machine_close(sound_t *psid)
 {
     DBG(("MV: magicvoice_sound_machine_close\n"));
 }

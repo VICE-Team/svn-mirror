@@ -503,18 +503,16 @@ static sound_chip_t speech_sound_chip = {
     speech_sound_machine_store,
     speech_sound_machine_read,
     NULL, /* no reset */
-    NULL, /* no enable function */
     speech_sound_machine_cycle_based,
     speech_sound_machine_channels,
-    0x60, /* offset to be filled in by register routine */
     0 /* chip enabled */
 };
 
-static sound_chip_list_t *speech_sound_chip_item = NULL;
+static WORD speech_sound_chip_offset = 0;
 
 void speech_sound_chip_init(void)
 {
-    speech_sound_chip_item = sound_chip_register(&speech_sound_chip);
+    speech_sound_chip_offset = sound_chip_register(&speech_sound_chip);
 }
 
 int speech_cart_enabled(void)
@@ -633,14 +631,14 @@ int speech_cmdline_options_init(void)
 /* FIXME: shutdown missing */
 
 /* FIXME: what are those two doing exactly ?! */
-BYTE speech_sound_machine_read(sound_t *psid, WORD addr)
+static BYTE speech_sound_machine_read(sound_t *psid, WORD addr)
 {
     DBG(("SPEECH: speech_sound_machine_read\n"));
 
     return 0; /* ? */
 }
 
-void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
+static void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 {
     DBG(("SPEECH: speech_sound_machine_store\n"));
 }
@@ -648,7 +646,7 @@ void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 /*
     called periodically for every sound fragment that is played
 */
-int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
     SWORD *buffer;
@@ -669,7 +667,7 @@ int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, i
     return 0; /* ? */
 }
 
-void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
+static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 {
     DBG(("SPEECH: speech_sound_machine_reset\n"));
 }
@@ -682,7 +680,7 @@ static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_se
     return 1;
 }
 
-void speech_sound_machine_close(sound_t *psid)
+static void speech_sound_machine_close(sound_t *psid)
 {
     DBG(("SPEECH: speech_sound_machine_close\n"));
 }

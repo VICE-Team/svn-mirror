@@ -182,16 +182,8 @@ extern long sound_sample_position(void);
 
 /* functions and structs implemented by each machine */
 typedef struct sound_s sound_t;
-extern void sound_machine_close(sound_t *psid);
-extern int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-					   int interleave, int *delta_t);
-extern void sound_machine_store(sound_t *psid, WORD addr, BYTE val);
-extern BYTE sound_machine_read(sound_t *psid, WORD addr);
 extern char *sound_machine_dump_state(sound_t *psid);
 extern void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub);
-extern void sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
-extern int sound_machine_cycle_based(void);
-extern int sound_machine_channels(void);
 extern void sound_machine_enable(int enable);
 
 extern unsigned int sound_device_num(void);
@@ -215,20 +207,11 @@ typedef struct sound_chip_s {
     void (*store)(sound_t *psid, WORD addr, BYTE val);
     BYTE (*read)(sound_t *psid, WORD addr);
     void (*reset)(sound_t *psid, CLOCK cpu_clk);
-    void (*enable)(int enable);
     int (*cycle_based)(void);
     int (*channels)(void);
-    WORD offset;
     int chip_enabled;
 } sound_chip_t;
 
-typedef struct sound_chip_list_s {
-    struct sound_chip_list_s *previous;
-    sound_chip_t *chip;
-    struct sound_chip_list_s *next;
-} sound_chip_list_t;
-
-extern sound_chip_list_t *sound_chip_register(sound_chip_t *chip);
-extern void sound_chip_unregister(sound_chip_list_t *device);
+extern WORD sound_chip_register(sound_chip_t *chip);
 
 #endif

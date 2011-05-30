@@ -68,18 +68,16 @@ static sound_chip_t vic_sound_chip = {
     vic_sound_machine_store,
     vic_sound_machine_read,
     vic_sound_reset,
-    NULL, /* no enable function */
     vic_sound_machine_cycle_based,
     vic_sound_machine_channels,
-    0x20, /* offset to be filled in by register routine */
     1 /* chip enabled */
 };
 
-static sound_chip_list_t *vic_sound_chip_item = NULL;
+static WORD vic_sound_chip_offset = 0;
 
 void vic_sound_chip_init(void)
 {
-    vic_sound_chip_item = sound_chip_register(&vic_sound_chip);
+    vic_sound_chip_offset = sound_chip_register(&vic_sound_chip);
 }
 
 /* ---------------------------------------------------------------------*/
@@ -294,7 +292,8 @@ void vic_sound_store(WORD addr, BYTE value)
 {
     addr &= 0x0f;
     vic20_sound_data[addr] = value;
-    sound_store((WORD)(addr+0x20), value, 0);
+
+    sound_store((WORD)(vic_sound_chip_offset | addr), value, 0);
 }
 
 
@@ -405,49 +404,6 @@ static BYTE vic_sound_machine_read(sound_t *psid, WORD addr)
     return 0;
 }
 
-void sound_machine_close(sound_t *psid)
-{
-    sid_sound_machine_close(psid);
-}
-
-/* for read/store 0x00 <= addr <= 0x1f is the sid
- *                0x20 <= addr <= 0x3f is the vic
- *
- * future sound devices will be able to use 0x40 and up
- */
-
-BYTE sound_machine_read(sound_t *psid, WORD addr)
-{
-    if (addr >= 0x20 && addr <= 0x3f) {
-        return vic_sound_machine_read(psid, (WORD)(addr-0x20));
-    } else {
-        return sid_sound_machine_read(psid, addr);
-    }
-}
-
-void sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
-{
-    if (addr >= 0x20 && addr <= 0x3f) {
-        vic_sound_machine_store(psid, (WORD)(addr-0x20), byte);
-    } else {
-        sid_sound_machine_store(psid, addr, byte);
-    }
-}
-
-void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
-{
-    sid_sound_machine_reset(psid, cpu_clk);
-}
-
-int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                    int interleave, int *delta_t)
-{
-    int temp;
-
-    temp = vic_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    return fastsid_calculate_samples_mix(psid, pbuf, temp, interleave, delta_t);
-}
-
 void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 {
     sid_sound_machine_prevent_clk_overflow(psid, sub);
@@ -456,16 +412,6 @@ void sound_machine_prevent_clk_overflow(sound_t *psid, CLOCK sub)
 char *sound_machine_dump_state(sound_t *psid)
 {
     return sid_sound_machine_dump_state(psid);
-}
-
-int sound_machine_cycle_based(void)
-{
-    return 1;
-}
-
-int sound_machine_channels(void)
-{
-    return sid_sound_machine_channels();
 }
 
 void sound_machine_enable(int enable)

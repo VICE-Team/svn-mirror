@@ -2111,82 +2111,9 @@ int cartridge_crt_save(int type, const char *filename)
 void cartridge_sound_chip_init(void)
 {
     digimax_sound_chip_init();
-    sfx_soundexpander_sound_chip_init();
     sfx_soundsampler_sound_chip_init();
+    sfx_soundexpander_sound_chip_init();
     magicvoice_sound_chip_init();
-}
-
-void cartridge_sound_machine_close(sound_t *psid)
-{
-    sfx_soundexpander_sound_machine_close(psid);
-    magicvoice_sound_machine_close(psid);
-}
-
-/* for read/store 0x00 <= addr <= 0x1f is the sid
- *                0x20 <= addr <= 0x3f is the digimax
- *                0x40 <= addr <= 0x5f is the SFX sound sampler
- *                0x60 <= addr <= 0x7f is the SFX sound expander
- *                0x80 <= addr <= 0x9f is the Magic Voice
- */
-int cartridge_sound_machine_read(sound_t *psid, WORD addr, BYTE *value)
-{
-    if (addr >= 0x20 && addr <= 0x3f) {
-        *value = digimax_sound_machine_read(psid, (WORD)(addr - 0x20));
-        return 1;
-    }
-
-    if (addr >= 0x40 && addr <= 0x5f) {
-        *value = sfx_soundsampler_sound_machine_read(psid, (WORD)(addr - 0x40));
-        return 1;
-    }
-
-    if (addr >= 0x60 && addr <= 0x7f) {
-        *value = sfx_soundexpander_sound_machine_read(psid, (WORD)(addr - 0x60));
-        return 1;
-    }
-
-    if (addr >= 0x80 && addr <= 0x9f) {
-        *value = magicvoice_sound_machine_read(psid, (WORD)(addr - 0x80));
-        return 1;
-    }
-
-    return 0;
-}
-
-void cartridge_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
-{
-    if (addr >= 0x20 && addr <= 0x3f) {
-        digimax_sound_machine_store(psid, (WORD)(addr - 0x20), byte);
-    }
-
-    if (addr >= 0x40 && addr <= 0x5f) {
-        sfx_soundsampler_sound_machine_store(psid, (WORD)(addr - 0x40), byte);
-    }
-
-    if (addr >= 0x60 && addr <= 0x7f) {
-        sfx_soundexpander_sound_machine_store(psid, (WORD)(addr - 0x60), byte);
-    }
-
-    if (addr >= 0x80 && addr <= 0x9f) {
-        magicvoice_sound_machine_store(psid, (WORD)(addr - 0x80), byte);
-    }
-}
-
-void cartridge_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
-{
-    digimax_sound_reset(psid, cpu_clk);
-    sfx_soundexpander_sound_reset(psid, cpu_clk);
-    sfx_soundsampler_sound_reset(psid, cpu_clk);
-    magicvoice_sound_machine_reset(psid, cpu_clk);
-}
-
-int cartridge_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
-{
-    digimax_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    sfx_soundexpander_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    sfx_soundsampler_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    magicvoice_sound_machine_calculate_samples(psid, pbuf, nr, interleave, delta_t);
-    return nr;
 }
 
 /* ------------------------------------------------------------------------- */
