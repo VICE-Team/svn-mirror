@@ -49,6 +49,7 @@ CLEAN :"base - Win32 ReleaseCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64acia1.obj"
+	-@erase "$(INTDIR)\digimax.obj"
 	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\tfe.obj"
 	-@erase "$(OUTDIR)\c64commoncart.lib"
@@ -98,6 +99,7 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\c64commoncart.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\c64acia1.obj" \
+	"$(INTDIR)\digimax.obj" \
 	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\tfe.obj" \
 	".\libs\base\Release\base.lib"
@@ -131,6 +133,7 @@ CLEAN :"base - Win32 DebugCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64acia1.obj"
+	-@erase "$(INTDIR)\digimax.obj"
 	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\tfe.obj"
 	-@erase "$(OUTDIR)\c64commoncart.lib"
@@ -180,6 +183,7 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\c64commoncart.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\c64acia1.obj" \
+	"$(INTDIR)\digimax.obj" \
 	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\tfe.obj" \
 	".\libs\base\Debug\base.lib"
@@ -223,6 +227,12 @@ LIB32_OBJS= \
 SOURCE=..\..\..\c64\cart\c64acia1.c
 
 "$(INTDIR)\c64acia1.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c64\cart\digimax.c
+
+"$(INTDIR)\digimax.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

@@ -62,7 +62,6 @@ CLEAN :
 	-@erase "$(INTDIR)\delaep64.obj"
 	-@erase "$(INTDIR)\delaep7x8.obj"
 	-@erase "$(INTDIR)\diashowmaker.obj"
-	-@erase "$(INTDIR)\digimax.obj"
 	-@erase "$(INTDIR)\dinamic.obj"
 	-@erase "$(INTDIR)\dqbb.obj"
 	-@erase "$(INTDIR)\easyflash.obj"
@@ -169,7 +168,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\delaep64.obj" \
 	"$(INTDIR)\delaep7x8.obj" \
 	"$(INTDIR)\diashowmaker.obj" \
-	"$(INTDIR)\digimax.obj" \
 	"$(INTDIR)\dinamic.obj" \
 	"$(INTDIR)\dqbb.obj" \
 	"$(INTDIR)\easyflash.obj" \
@@ -259,7 +257,6 @@ CLEAN :
 	-@erase "$(INTDIR)\delaep64.obj"
 	-@erase "$(INTDIR)\delaep7x8.obj"
 	-@erase "$(INTDIR)\diashowmaker.obj"
-	-@erase "$(INTDIR)\digimax.obj"
 	-@erase "$(INTDIR)\dinamic.obj"
 	-@erase "$(INTDIR)\dqbb.obj"
 	-@erase "$(INTDIR)\easyflash.obj"
@@ -366,7 +363,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\delaep64.obj" \
 	"$(INTDIR)\delaep7x8.obj" \
 	"$(INTDIR)\diashowmaker.obj" \
-	"$(INTDIR)\digimax.obj" \
 	"$(INTDIR)\dinamic.obj" \
 	"$(INTDIR)\dqbb.obj" \
 	"$(INTDIR)\easyflash.obj" \
@@ -531,12 +527,6 @@ SOURCE="..\..\..\c64\cart\delaep7x8.c"
 SOURCE="..\..\..\c64\cart\diashowmaker.c"
 
 "$(INTDIR)\diashowmaker.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\cart\digimax.c
-
-"$(INTDIR)\digimax.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

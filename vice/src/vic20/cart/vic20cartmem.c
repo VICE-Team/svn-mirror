@@ -30,6 +30,7 @@
 
 #include "c64acia.h"
 #include "cartridge.h"
+#include "digimax.h"
 #include "finalexpansion.h"
 #include "georam.h"
 #include "megacart.h"
@@ -367,6 +368,9 @@ void cartridge_reset(void)
     if (aciacart_cart_enabled()) {
         aciacart_reset();
     }
+    if (digimax_cart_enabled()) {
+        digimax_reset();
+    }
     if (georam_cart_enabled()) {
         georam_reset();
     }
@@ -437,3 +441,13 @@ void cartridge_detach(int type)
 }
 
 /* ------------------------------------------------------------------------- */
+
+void cartridge_sound_chip_init(void)
+{
+    digimax_sound_chip_init();
+
+#if 0
+    sfx_soundsampler_sound_chip_init();
+    sfx_soundexpander_sound_chip_init();
+#endif
+}

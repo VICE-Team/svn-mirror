@@ -49,8 +49,6 @@ libc64cart_a_SOURCES = \
 	delaep7x8.h \
 	diashowmaker.c \
 	diashowmaker.h \
-	digimax.c \
-	digimax.h \
 	dqbb.c \
 	dqbb.h \
 	dinamic.c \
@@ -145,6 +143,8 @@ libc64cart_a_SOURCES = \
 libc64commoncart_a_SOURCES = \
 	c64acia.h \
 	c64acia1.c \
+	digimax.c \
+	digimax.h \
 	georam.c \
 	georam.h \
 	tfe.c \

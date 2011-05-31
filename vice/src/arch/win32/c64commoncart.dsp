@@ -86,6 +86,10 @@ SOURCE=..\..\c64\cart\c64acia1.c
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\digimax.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\georam.c"
 # End Source File
 # Begin Source File

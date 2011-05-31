@@ -36,6 +36,7 @@
 #include "cmdline.h"
 #include "digimax.h"
 #include "lib.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
 #include "sid.h"
@@ -254,10 +255,14 @@ static int set_digimax_base(int val, void *param)
         case 0xdea0:
         case 0xdec0:
         case 0xdee0:
-            digimax_device.start_address = (WORD)val;
-            digimax_device.end_address = (WORD)(val + 3);
-            export_res.io1 = &digimax_device;
-            export_res.io2 = NULL;
+            if (machine_class != VICE_MACHINE_VIC20) {
+                digimax_device.start_address = (WORD)val;
+                digimax_device.end_address = (WORD)(val + 3);
+                export_res.io1 = &digimax_device;
+                export_res.io2 = NULL;
+            } else {
+                return -1;
+            }
             break;
         case 0xdf00:
         case 0xdf20:
@@ -267,10 +272,37 @@ static int set_digimax_base(int val, void *param)
         case 0xdfa0:
         case 0xdfc0:
         case 0xdfe0:
-            digimax_device.start_address = (WORD)val;
-            digimax_device.end_address = (WORD)(val + 3);
-            export_res.io1 = NULL;
-            export_res.io2 = &digimax_device;
+            if (machine_class != VICE_MACHINE_VIC20) {
+                digimax_device.start_address = (WORD)val;
+                digimax_device.end_address = (WORD)(val + 3);
+                export_res.io1 = NULL;
+                export_res.io2 = &digimax_device;
+            } else {
+                return -1;
+            }
+            break;
+        case 0x9800:
+        case 0x9820:
+        case 0x9840:
+        case 0x9860:
+        case 0x9880:
+        case 0x98a0:
+        case 0x98c0:
+        case 0x98e0:
+        case 0x9c00:
+        case 0x9c20:
+        case 0x9c40:
+        case 0x9c60:
+        case 0x9c80:
+        case 0x9ca0:
+        case 0x9cc0:
+        case 0x9ce0:
+            if (machine_class == VICE_MACHINE_VIC20) {
+                digimax_device.start_address = (WORD)val;
+                digimax_device.end_address = (WORD)(val + 3);
+             } else {
+                return -1;
+            }
             break;
         default:
             return -1;

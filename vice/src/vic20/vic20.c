@@ -412,6 +412,9 @@ int machine_specific_init(void)
     /* Initialize native sound chip */
     vic_sound_chip_init();
 
+    /* Initialize cartridge based sound chips */
+    cartridge_sound_chip_init();
+
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
