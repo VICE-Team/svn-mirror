@@ -270,10 +270,6 @@ SOURCE=..\..\..\c64\cart\sfx_soundexpander.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\cart\sfx_soundsampler.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\cart\simonsbasic.c
 # End Source File
 # Begin Source File

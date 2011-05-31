@@ -115,8 +115,6 @@ libc64cart_a_SOURCES = \
 	ross.h \
 	sfx_soundexpander.c \
 	sfx_soundexpander.h \
-	sfx_soundsampler.c \
-	sfx_soundsampler.h \
 	simonsbasic.c \
 	simonsbasic.h \
 	snapshot64.c \
@@ -147,5 +145,7 @@ libc64commoncart_a_SOURCES = \
 	digimax.h \
 	georam.c \
 	georam.h \
+	sfx_soundsampler.c \
+	sfx_soundsampler.h \
 	tfe.c \
 	tfe.h

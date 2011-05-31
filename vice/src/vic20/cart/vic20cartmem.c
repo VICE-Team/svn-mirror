@@ -37,6 +37,7 @@
 #include "machine.h"
 #include "mem.h"
 #include "resources.h"
+#include "sfx_soundsampler.h"
 #ifdef HAVE_TFE
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #define CARTRIDGE_INCLUDE_PUBLIC_API
@@ -371,6 +372,9 @@ void cartridge_reset(void)
     if (digimax_cart_enabled()) {
         digimax_reset();
     }
+    if (sfx_soundsampler_cart_enabled()) {
+        sfx_soundsampler_reset();
+    }
     if (georam_cart_enabled()) {
         georam_reset();
     }
@@ -445,9 +449,9 @@ void cartridge_detach(int type)
 void cartridge_sound_chip_init(void)
 {
     digimax_sound_chip_init();
+    sfx_soundsampler_sound_chip_init();
 
 #if 0
-    sfx_soundsampler_sound_chip_init();
     sfx_soundexpander_sound_chip_init();
 #endif
 }

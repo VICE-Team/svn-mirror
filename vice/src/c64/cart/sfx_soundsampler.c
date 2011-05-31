@@ -35,6 +35,7 @@
 #include "cartridge.h"
 #include "cmdline.h"
 #include "lib.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
 #include "sfx_soundsampler.h"
@@ -111,6 +112,8 @@ void sfx_soundsampler_sound_chip_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+static int sfx_soundsampler_io_swap = 0;
+
 int sfx_soundsampler_cart_enabled(void)
 {
     return sfx_soundsampler_sound_chip.chip_enabled;
@@ -122,6 +125,15 @@ static int set_sfx_soundsampler_enabled(int val, void *param)
         if (val) {
             if (c64export_add(&export_res) < 0) {
                 return -1;
+            }
+            if (machine_class == VICE_MACHINE_VIC20) {
+                if (sfx_soundsampler_io_swap) {
+                    sfx_soundsampler_device.start_address = 0x9c00;
+                    sfx_soundsampler_device.end_address = 0x9fff;
+                } else {
+                    sfx_soundsampler_device.start_address = 0x9800;
+                    sfx_soundsampler_device.end_address = 0x9bff;
+                }
             }
             sfx_soundsampler_list_item = io_source_register(&sfx_soundsampler_device);
             sfx_soundsampler_sound_chip.chip_enabled = 1;
@@ -135,6 +147,22 @@ static int set_sfx_soundsampler_enabled(int val, void *param)
     return 0;
 }
 
+static int set_sfx_soundsampler_io_swap(int val, void *param)
+{
+    if (val == sfx_soundsampler_io_swap) {
+        return 0;
+    }
+
+    if (sfx_soundsampler_sound_chip.chip_enabled) {
+        set_sfx_soundsampler_enabled(0, NULL);
+        sfx_soundsampler_io_swap = val;
+        set_sfx_soundsampler_enabled(1, NULL);
+    } else {
+        sfx_soundsampler_io_swap = val;
+    }
+    return 0;
+}
+
 void sfx_soundsampler_reset(void)
 {
     /* TODO: do nothing ? */
@@ -144,6 +172,7 @@ int sfx_soundsampler_enable(void)
 {
     return resources_set_int("SFXSoundSampler", 1);
 }
+
 void sfx_soundsampler_detach(void)
 {
     resources_set_int("SFXSoundSampler", 0);
@@ -157,8 +186,19 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+static const resource_int_t resources_mascuerade_int[] = {
+    { "SFXSoundSamplerIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &sfx_soundsampler_io_swap, set_sfx_soundsampler_io_swap, NULL },
+    { NULL }
+};
+
 int sfx_soundsampler_resources_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (resources_register_int(resources_mascuerade_int) < 0) {
+            return -1;
+        }
+    }
     return resources_register_int(resources_int);
 }
 
@@ -181,8 +221,28 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
+static const cmdline_option_t cmdline_mascuerade_options[] =
+{
+    { "-sfxssioswap", SET_RESOURCE, 0,
+      NULL, NULL, "SFXSoundSamplerIOSwap", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Swap io mapping (map SFX SS I/O to VIC20 I/O-3") },
+    { "+sfxssioswap", SET_RESOURCE, 0,
+      NULL, NULL, "SFXSoundSamplerIOSwap", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Don't swap io mapping (map SFX SS I/O to VIC20 I/O-2") },
+    { NULL }
+};
+
 int sfx_soundsampler_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (cmdline_register_options(cmdline_mascuerade_options) < 0) {
+            return -1;
+        }
+    }
     return cmdline_register_options(cmdline_options);
 }
 

@@ -57,6 +57,7 @@
 #include "megacart.h"
 #include "monitor.h"
 #include "resources.h"
+#include "sfx_soundsampler.h"
 #include "snapshot.h"
 #ifdef HAVE_TFE
 #define CARTRIDGE_INCLUDE_PRIVATE_API
@@ -155,6 +156,7 @@ int cartridge_resources_init(void)
 #endif
         || aciacart_resources_init() < 0
         || digimax_resources_init() < 0
+        || sfx_soundsampler_resources_init() < 0
         || georam_resources_init() < 0) {
         return -1;
     }
@@ -171,6 +173,7 @@ void cartridge_resources_shutdown(void)
 #endif
     aciacart_resources_shutdown();
     digimax_resources_shutdown();
+    sfx_soundsampler_resources_shutdown();
     georam_resources_shutdown();
 
     lib_free(cartridge_file);
@@ -272,6 +275,7 @@ int cartridge_cmdline_options_init(void)
 #endif
         || aciacart_cmdline_options_init() < 0
         || digimax_cmdline_options_init() < 0
+        || sfx_soundsampler_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0) {
         return -1;
     }
