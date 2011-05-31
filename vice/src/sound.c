@@ -73,30 +73,18 @@ static log_t sound_log = LOG_ERR;
 
 static WORD offset = 0;
 
-static sound_chip_t sound_calls[20];
+static sound_chip_t *sound_calls[20];
 
 WORD sound_chip_register(sound_chip_t *chip)
 {
     assert(chip != NULL);
 
-    sound_calls[offset >> 5].open = chip->open;
-    sound_calls[offset >> 5].init = chip->init;
-    sound_calls[offset >> 5].close = chip->close;
-    sound_calls[offset >> 5].calculate_samples = chip->calculate_samples;
-    sound_calls[offset >> 5].store = chip->store;
-    sound_calls[offset >> 5].read = chip->read;
-    sound_calls[offset >> 5].reset = chip->reset;
-    sound_calls[offset >> 5].cycle_based = chip->cycle_based;
-    sound_calls[offset >> 5].channels = chip->channels;
+    sound_calls[offset >> 5] = chip;
     offset += 0x20;
 
     assert((offset >> 5) < 20);
 
     return offset - 0x20;
-}
-
-void sound_chip_shutdown(void)
-{
 }
 
 /* ------------------------------------------------------------------------- */
@@ -107,8 +95,8 @@ static sound_t *sound_machine_open(int chipno)
     int i;
 
     for (i = 0; i < (offset >> 5); i++) {
-        if (sound_calls[i].open != NULL) {
-            retval = sound_calls[i].open(chipno);
+        if (sound_calls[i]->open) {
+            retval = sound_calls[i]->open(chipno);
         }
     }
     return retval;
@@ -120,8 +108,8 @@ static int sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     int i;
 
     for (i = 0; i < (offset >> 5); i++) {
-        if (sound_calls[i].init != NULL) {
-            retval &= sound_calls[i].init(psid, speed, cycles_per_sec);
+        if (sound_calls[i]->init) {
+            retval &= sound_calls[i]->init(psid, speed, cycles_per_sec);
         }
     }
     return retval;
@@ -132,8 +120,8 @@ static void sound_machine_close(sound_t *psid)
     int i;
 
     for (i = 0; i < (offset >> 5); i++) {
-        if (sound_calls[i].close != NULL) {
-            sound_calls[i].close(psid);
+        if (sound_calls[i]->close) {
+            sound_calls[i]->close(psid);
         }
     }
 }
@@ -143,22 +131,24 @@ static int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, i
     int i;
     int temp;
 
-    temp = sound_calls[0].calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, interleave, delta_t);
 
     for (i = 1; i < (offset >> 5); i++) {
-        sound_calls[i].calculate_samples(psid, pbuf, temp, interleave, delta_t);
+        if (sound_calls[i]->chip_enabled) {
+            sound_calls[i]->calculate_samples(psid, pbuf, temp, interleave, delta_t);
+        }
     }
     return temp;
 }
 
 static void sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
-    sound_calls[addr >> 5].store(psid,(WORD)(addr & 0x1f), val);
+    sound_calls[addr >> 5]->store(psid,(WORD)(addr & 0x1f), val);
 }
 
 static BYTE sound_machine_read(sound_t *psid, WORD addr)
 {
-    return sound_calls[addr >> 5].read(psid, (WORD)(addr & 0x1f));
+    return sound_calls[addr >> 5]->read(psid, (WORD)(addr & 0x1f));
 }
 
 static void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
@@ -166,8 +156,8 @@ static void sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
     int i;
 
     for (i = 0; i < (offset >> 5); i++) {
-        if (sound_calls[i].reset != NULL) {
-            sound_calls[i].reset(psid, cpu_clk);
+        if (sound_calls[i]->reset) {
+            sound_calls[i]->reset(psid, cpu_clk);
         }
     }
 }
@@ -178,7 +168,7 @@ static int sound_machine_cycle_based(void)
     int retval = 0;
 
     for (i = 0; i < (offset >> 5); i++) {
-        retval |= sound_calls[i].cycle_based();
+        retval |= sound_calls[i]->cycle_based();
     }
     return retval;
 }
@@ -190,7 +180,7 @@ static int sound_machine_channels(void)
     int temp;
 
     for (i = 0; i < (offset >> 5); i++) {
-        temp = sound_calls[i].channels();
+        temp = sound_calls[i]->channels();
         if (temp > retval) {
             retval = temp;
         }
@@ -371,7 +361,6 @@ void sound_resources_shutdown(void)
     lib_free(device_arg);
     lib_free(recorddevice_name);
     lib_free(recorddevice_arg);
-    sound_chip_shutdown();
 }
 
 /* ------------------------------------------------------------------------- */
