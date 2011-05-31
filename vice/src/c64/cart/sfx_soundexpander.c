@@ -328,20 +328,20 @@ static int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWOR
     int i;
     SWORD *buffer;
 
-    if (sfx_soundexpander_sound_chip.chip_enabled) {
-        buffer = lib_malloc(nr * 2);
-        if (sfx_soundexpander_chip == 3812) {
-            ym3812_update_one(YM3812_chip, buffer, nr);
-        } else {
-            ym3526_update_one(YM3526_chip, buffer, nr);
-        }
+    buffer = lib_malloc(nr * 2);
 
-        for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
-        }
-        lib_free(buffer);
+    if (sfx_soundexpander_chip == 3812) {
+        ym3812_update_one(YM3812_chip, buffer, nr);
+    } else {
+        ym3526_update_one(YM3526_chip, buffer, nr);
     }
-    return 0;
+
+    for (i = 0; i < nr; i++) {
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
+    }
+    lib_free(buffer);
+
+    return nr;
 }
 
 static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)

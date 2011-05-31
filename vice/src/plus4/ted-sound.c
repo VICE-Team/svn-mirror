@@ -70,7 +70,7 @@ static sound_chip_t ted_sound_chip = {
     ted_sound_reset,
     ted_sound_machine_cycle_based,
     ted_sound_machine_channels,
-    0 /* chip enabled */
+    1 /* chip enabled */
 };
 
 static WORD ted_sound_chip_offset = 0;
@@ -134,8 +134,7 @@ static const SWORD volume_tab[16] = {
     0x0000, 0x0800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800,
     0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff };
 
-static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                    int interleave, int *delta_t)
+static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
     int j;
@@ -226,7 +225,7 @@ static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
             pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], volume);
         }
     }
-    return 0;
+    return nr;
 }
 
 static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)

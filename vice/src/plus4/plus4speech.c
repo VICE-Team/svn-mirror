@@ -655,20 +655,18 @@ static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, in
     int i;
     SWORD *buffer;
 
-    if (speech_sound_chip.chip_enabled) {
-        buffer = lib_malloc(nr * 2);
+    buffer = lib_malloc(nr * 2);
 
-        t6721_update_output(t6721, buffer, nr);
+    t6721_update_output(t6721, buffer, nr);
 
-        /* mix generated samples to output */
-        for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
-        }
-
-        lib_free(buffer);
+    /* mix generated samples to output */
+    for (i = 0; i < nr; i++) {
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
     }
 
-    return 0; /* ? */
+    lib_free(buffer);
+
+    return nr;
 }
 
 static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)

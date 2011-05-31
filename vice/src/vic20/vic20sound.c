@@ -234,8 +234,7 @@ static struct sound_vic20_s snd;
 
 void vic_sound_clock(int cycles);
 
-static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                    int interleave, int *delta_t)
+static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int s = 0;
 

@@ -394,13 +394,11 @@ static int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, i
     /* FIXME: this should use bandlimited step synthesis. Sadly, VICE does not
      * have an easy-to-use infrastructure for blep generation. We should write
      * this code. */
-    if (digimax_sound_chip.chip_enabled) {
-        for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice0) << 6);
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice1) << 6);
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice2) << 6);
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice3) << 6);
-        }
+    for (i = 0; i < nr; i++) {
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice0) << 6);
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice1) << 6);
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice2) << 6);
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],((int)snd.voice3) << 6);
     }
     return 0;
 }

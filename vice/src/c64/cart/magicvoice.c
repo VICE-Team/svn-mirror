@@ -1304,18 +1304,16 @@ static int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
     int i;
     SWORD *buffer;
 
-    if (magicvoice_sound_chip.chip_enabled) {
-        buffer = lib_malloc(nr * 2);
+    buffer = lib_malloc(nr * 2);
 
-        t6721_update_output(t6721, buffer, nr);
+    t6721_update_output(t6721, buffer, nr);
 
-        /* mix generated samples to output */
-        for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
-        }
-
-        lib_free(buffer);
+    /* mix generated samples to output */
+    for (i = 0; i < nr; i++) {
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
     }
+
+    lib_free(buffer);
 
     return nr;
 }

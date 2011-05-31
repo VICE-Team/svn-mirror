@@ -134,8 +134,7 @@ static WORD pet_makesample(double s, double e, BYTE sample)
     return ((WORD)(v * 4095.0 / (e - s)));
 }
 
-static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                    int interleave, int *delta_t)
+static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
     WORD v = 0;
@@ -152,7 +151,7 @@ static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
         while (snd.b >= 8.0)
             snd.b -= 8.0;
     }
-    return 0;
+    return nr;
 }
 
 void petsound_store_onoff(int value)

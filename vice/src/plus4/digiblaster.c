@@ -138,14 +138,10 @@ static int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbu
 {
     int i;
 
-    if (digiblaster_sound_chip.chip_enabled)
-    {
-        for (i = 0; i < nr; i++)
-        {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],snd.voice0 << 8);
-        }
+    for (i = 0; i < nr; i++) {
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],snd.voice0 << 8);
     }
-    return 0;
+    return nr;
 }
 
 static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
