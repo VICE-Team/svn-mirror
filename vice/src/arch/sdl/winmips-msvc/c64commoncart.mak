@@ -51,6 +51,7 @@ CLEAN :
 	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\digimax.obj"
 	-@erase "$(INTDIR)\georam.obj"
+	-@erase "$(INTDIR)\sfx_soundexpander.obj"
 	-@erase "$(INTDIR)\sfx_soundsampler.obj"
 	-@erase "$(INTDIR)\tfe.obj"
 	-@erase "$(OUTDIR)\c64commoncart.lib"
@@ -102,6 +103,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\digimax.obj" \
 	"$(INTDIR)\georam.obj" \
+	"$(INTDIR)\sfx_soundexpander.obj" \
 	"$(INTDIR)\sfx_soundsampler.obj" \
 	"$(INTDIR)\tfe.obj" \
 	".\libs\base\Release\base.lib"
@@ -137,6 +139,7 @@ CLEAN :
 	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\digimax.obj"
 	-@erase "$(INTDIR)\georam.obj"
+	-@erase "$(INTDIR)\sfx_soundexpander.obj"
 	-@erase "$(INTDIR)\sfx_soundsampler.obj"
 	-@erase "$(INTDIR)\tfe.obj"
 	-@erase "$(OUTDIR)\c64commoncart.lib"
@@ -188,6 +191,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\digimax.obj" \
 	"$(INTDIR)\georam.obj" \
+	"$(INTDIR)\sfx_soundexpander.obj" \
 	"$(INTDIR)\sfx_soundsampler.obj" \
 	"$(INTDIR)\tfe.obj" \
 	".\libs\base\Debug\base.lib"
@@ -241,6 +245,12 @@ SOURCE=..\..\..\c64\cart\digimax.c
 
 
 SOURCE=..\..\..\c64\cart\georam.c
+
+"$(INTDIR)\georam.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c64\cart\sfx_soundexpander.c
 
 "$(INTDIR)\georam.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)

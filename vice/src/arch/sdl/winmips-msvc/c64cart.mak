@@ -94,7 +94,6 @@ CLEAN :
 	-@erase "$(INTDIR)\rexep256.obj"
 	-@erase "$(INTDIR)\rexutility.obj"
 	-@erase "$(INTDIR)\ross.obj"
-	-@erase "$(INTDIR)\sfx_soundexpander.obj"
 	-@erase "$(INTDIR)\simonsbasic.obj"
 	-@erase "$(INTDIR)\snapshot64.obj"
 	-@erase "$(INTDIR)\stardos.obj"
@@ -199,7 +198,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\rexep256.obj" \
 	"$(INTDIR)\rexutility.obj" \
 	"$(INTDIR)\ross.obj" \
-	"$(INTDIR)\sfx_soundexpander.obj" \
 	"$(INTDIR)\simonsbasic.obj" \
 	"$(INTDIR)\snapshot64.obj" \
 	"$(INTDIR)\stardos.obj" \
@@ -287,7 +285,6 @@ CLEAN :
 	-@erase "$(INTDIR)\rexep256.obj"
 	-@erase "$(INTDIR)\rexutility.obj"
 	-@erase "$(INTDIR)\ross.obj"
-	-@erase "$(INTDIR)\sfx_soundexpander.obj"
 	-@erase "$(INTDIR)\simonsbasic.obj"
 	-@erase "$(INTDIR)\snapshot64.obj"
 	-@erase "$(INTDIR)\stardos.obj"
@@ -392,7 +389,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\rexep256.obj" \
 	"$(INTDIR)\rexutility.obj" \
 	"$(INTDIR)\ross.obj" \
-	"$(INTDIR)\sfx_soundexpander.obj" \
 	"$(INTDIR)\simonsbasic.obj" \
 	"$(INTDIR)\snapshot64.obj" \
 	"$(INTDIR)\stardos.obj" \
@@ -715,12 +711,6 @@ SOURCE="..\..\..\c64\cart\rexutility.c"
 SOURCE="..\..\..\c64\cart\ross.c"
 
 "$(INTDIR)\ross.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\cart\sfx_soundexpander.c
-
-"$(INTDIR)\sfx_soundexpander.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

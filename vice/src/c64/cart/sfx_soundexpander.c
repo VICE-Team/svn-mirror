@@ -36,6 +36,7 @@
 #include "cmdline.h"
 #include "fmopl.h"
 #include "lib.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "resources.h"
 #include "sfx_soundexpander.h"
@@ -142,6 +143,8 @@ void sfx_soundexpander_sound_chip_init(void)
 
 /* ------------------------------------------------------------------------- */
 
+static int sfx_soundexpander_io_swap = 0;
+
 int sfx_soundexpander_cart_enabled(void)
 {
     return sfx_soundexpander_sound_chip.chip_enabled;
@@ -156,6 +159,19 @@ static int set_sfx_soundexpander_enabled(int val, void *param)
             }
             if (c64export_add(&export_res_piano) < 0) {
                 return -1;
+            }
+            if (machine_class == VICE_MACHINE_VIC20) {
+                if (sfx_soundexpander_io_swap) {
+                    sfx_soundexpander_sound_device.start_address = 0x9800;
+                    sfx_soundexpander_sound_device.end_address = 0x9bff;
+                    sfx_soundexpander_piano_device.start_address = 0x9800;
+                    sfx_soundexpander_piano_device.end_address = 0x9bff;
+                } else {
+                    sfx_soundexpander_sound_device.start_address = 0x9c00;
+                    sfx_soundexpander_sound_device.end_address = 0x9fff;
+                    sfx_soundexpander_piano_device.start_address = 0x9c00;
+                    sfx_soundexpander_piano_device.end_address = 0x9fff;
+                }
             }
             sfx_soundexpander_sound_list_item = io_source_register(&sfx_soundexpander_sound_device);
             sfx_soundexpander_piano_list_item = io_source_register(&sfx_soundexpander_piano_device);
@@ -190,6 +206,22 @@ static int set_sfx_soundexpander_chip(int val, void *param)
     return 0;
 }
 
+static int set_sfx_soundexpander_io_swap(int val, void *param)
+{
+    if (val == sfx_soundexpander_io_swap) {
+        return 0;
+    }
+
+    if (sfx_soundexpander_sound_chip.chip_enabled) {
+        set_sfx_soundexpander_enabled(0, NULL);
+        sfx_soundexpander_io_swap = val;
+        set_sfx_soundexpander_enabled(1, NULL);
+    } else {
+        sfx_soundexpander_io_swap = val;
+    }
+    return 0;
+}
+
 void sfx_soundexpander_reset(void)
 {
     /* TODO: do nothing ? */
@@ -215,8 +247,19 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+static const resource_int_t resources_mascuerade_int[] = {
+    { "SFXSoundExpanderIOSwap", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &sfx_soundexpander_io_swap, set_sfx_soundexpander_io_swap, NULL },
+    { NULL }
+};
+
 int sfx_soundexpander_resources_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (resources_register_int(resources_mascuerade_int) < 0) {
+            return -1;
+        }
+    }
     return resources_register_int(resources_int);
 }
 
@@ -246,8 +289,28 @@ static const cmdline_option_t cmdline_options[] =
     { NULL }
 };
 
+static const cmdline_option_t cmdline_mascuerade_options[] =
+{
+    { "-sfxseioswap", SET_RESOURCE, 0,
+      NULL, NULL, "SFXSoundExpanderIOSwap", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Swap io mapping (map SFX SE I/O to VIC20 I/O-2") },
+    { "+sfxseioswap", SET_RESOURCE, 0,
+      NULL, NULL, "SFXSoundExpanderIOSwap", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
+      IDCLS_UNUSED, IDCLS_UNUSED,
+      NULL, T_("Don't swap io mapping (map SFX SE I/O to VIC20 I/O-3") },
+    { NULL }
+};
+
 int sfx_soundexpander_cmdline_options_init(void)
 {
+    if (machine_class == VICE_MACHINE_VIC20) {
+        if (cmdline_register_options(cmdline_mascuerade_options) < 0) {
+            return -1;
+        }
+    }
     return cmdline_register_options(cmdline_options);
 }
 
