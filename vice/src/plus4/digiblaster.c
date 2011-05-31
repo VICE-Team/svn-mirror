@@ -43,6 +43,10 @@
 
 /* Some prototypes are needed */
 static int digiblaster_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+static int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static void digiblaster_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
+static BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr);
+static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int digiblaster_sound_machine_cycle_based(void)
 {
@@ -161,7 +165,7 @@ static BYTE digiblaster_sound_machine_read(sound_t *psid, WORD addr)
     return 0;
 }
 
-void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk)
+static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     snd.voice0 = 0;
     digiblaster_sound_data = 0;

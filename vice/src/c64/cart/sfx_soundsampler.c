@@ -74,6 +74,10 @@ static const c64export_resource_t export_res= {
 
 /* Some prototypes are needed */
 static int sfx_soundsampler_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
+static int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static void sfx_soundsampler_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
+static BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr);
+static void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int sfx_soundsampler_sound_machine_cycle_based(void)
 {
@@ -228,7 +232,7 @@ static BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr)
     return sfx_soundsampler_sound_data;
 }
 
-void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk)
+static void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     snd.voice0 = 0;
     sfx_soundsampler_sound_data = 0;
