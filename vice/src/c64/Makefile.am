@@ -108,7 +108,6 @@ libc64sc_a_SOURCES = \
 	c64iec.c \
 	c64iec.h \
 	c64io.c \
-	c64io.h \
 	c64keyboard.c \
 	c64keyboard.h \
 	c64memsc.c \
@@ -179,7 +178,6 @@ libc64c128_a_SOURCES = \
 	c64iec.c \
 	c64iec.h \
 	c64io.c \
-	c64io.h \
 	c64keyboard.c \
 	c64keyboard.h \
 	c64meminit.c \

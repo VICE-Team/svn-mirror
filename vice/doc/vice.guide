@@ -9389,8 +9389,6 @@ involved in the development of X64 and VICE:
 
      Jesse Lee Provided the Korean user interface translations.
 
-     Flooder Provided parts of the Polish user interface translations.
-
      Michael Litvinov Provided the Russian user interface translations.
 
      Peter Krefting Provided the Swedish user interface translations.
@@ -9430,6 +9428,8 @@ involved in the development of X64 and VICE:
 
    * Ricardo Ferreira Contributed the `unlynx' and `system' commands in
      `c1541' and added aRts sound support.
+
+   * Flooder Provided parts of the Polish user interface translations.
 
    * Robert H. Forsman Jr.  Provided parts of the widget set for
      implementing the Xaw GUI.
