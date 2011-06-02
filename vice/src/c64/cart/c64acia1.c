@@ -51,7 +51,11 @@
 
 extern int acia1_set_mode(int mode);
 
+#ifdef HAVE_RS232
 #define myacia_set_mode(x) acia1_set_mode(x)
+#else
+#define myacia_set_mode(x) 0
+#endif
 
 #include "c64export.h"
 #include "cartio.h"

@@ -302,6 +302,7 @@ EXTRA_DIST = \
 	watcom/c64commonc128.tgt \
 	watcom/c64commonc128c64dtv.tgt \
 	watcom/c64commonc64dtv.tgt \
+	watcom/c64commoncart.tgt \
 	watcom/c64commonsc.tgt \
 	watcom/c64dtv.tgt \
 	watcom/c64exp.tgt \
@@ -357,6 +358,7 @@ EXTRA_DIST = \
 	watcom/vdc.tgt \
 	watcom/vdrive.tgt \
 	watcom/vic20.tgt \
+	watcom/vic20cart.tgt \
 	watcom/vice.wpj \
 	watcom/vicii.tgt \
 	watcom/viciicommon.tgt \
