@@ -234,17 +234,26 @@ static int set_digimax_enabled(int val, void *param)
 
 static int set_digimax_base(int val, void *param)
 {
+    int addr = val;
     int old = digimax_sound_chip.chip_enabled;
 
     if (val == digimax_address) {
         return 0;
     }
 
+    if (addr == 0xffff) {
+        if (machine_class == VICE_MACHINE_VIC20) {
+            addr = 0x9800;
+        } else {
+            addr = 0xde00;
+        }
+    }
+
     if (old) {
         set_digimax_enabled(0, NULL);
     }
 
-    switch (val) {
+    switch (addr) {
         case 0xdd00:   /* special case, userport interface */
             break;
         case 0xde00:
@@ -256,8 +265,8 @@ static int set_digimax_base(int val, void *param)
         case 0xdec0:
         case 0xdee0:
             if (machine_class != VICE_MACHINE_VIC20) {
-                digimax_device.start_address = (WORD)val;
-                digimax_device.end_address = (WORD)(val + 3);
+                digimax_device.start_address = (WORD)addr;
+                digimax_device.end_address = (WORD)(addr + 3);
                 export_res.io1 = &digimax_device;
                 export_res.io2 = NULL;
             } else {
@@ -273,8 +282,8 @@ static int set_digimax_base(int val, void *param)
         case 0xdfc0:
         case 0xdfe0:
             if (machine_class != VICE_MACHINE_VIC20) {
-                digimax_device.start_address = (WORD)val;
-                digimax_device.end_address = (WORD)(val + 3);
+                digimax_device.start_address = (WORD)addr;
+                digimax_device.end_address = (WORD)(addr + 3);
                 export_res.io1 = NULL;
                 export_res.io2 = &digimax_device;
             } else {
@@ -298,8 +307,8 @@ static int set_digimax_base(int val, void *param)
         case 0x9cc0:
         case 0x9ce0:
             if (machine_class == VICE_MACHINE_VIC20) {
-                digimax_device.start_address = (WORD)val;
-                digimax_device.end_address = (WORD)(val + 3);
+                digimax_device.start_address = (WORD)addr;
+                digimax_device.end_address = (WORD)(addr + 3);
              } else {
                 return -1;
             }
@@ -335,7 +344,7 @@ void digimax_detach(void)
 static const resource_int_t resources_int[] = {
   { "DIGIMAX", 0, RES_EVENT_STRICT, (resource_value_t)0,
     &digimax_sound_chip.chip_enabled, set_digimax_enabled, NULL },
-  { "DIGIMAXbase", 0xde00, RES_EVENT_NO, NULL,
+  { "DIGIMAXbase", 0xffff, RES_EVENT_NO, NULL,
     &digimax_address, set_digimax_base, NULL },
   { NULL }
 };
