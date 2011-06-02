@@ -78,7 +78,6 @@ EXTRA_DIST = \
 	watcom-source-wrappers/residfp-version.cc \
 	watcom-source-wrappers/residfp-voice.cc \
 	watcom-source-wrappers/residfp-wave.cc \
-	watcom-source-wrappers/vic20cart-generic.c \
 	watcom-source-wrappers/viciisc.c \
 	watcom-source-wrappers/viciisc-cmdline-options.c \
 	watcom-source-wrappers/viciisc-color.c \
