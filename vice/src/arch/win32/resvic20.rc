@@ -232,6 +232,7 @@ BEGIN
             MENUITEM "", IDM_VIC_FLASH_PLUGIN_WRITEBACK
             MENUITEM "", IDM_MEGACART_WRITEBACK
             MENUITEM "", IDM_MEGACART_WRITEBACK_FILE
+            MENUITEM "", IDM_ACIA_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
@@ -567,6 +568,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 
 
@@ -616,6 +618,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Aktivér Vic Flash Plugin tilbageskrivning til ROM-fil"
     IDS_MI_MEGACART_WRITEBACK         "Aktivér Mega-Cart NvRAM tilbageskrivning"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Vælg Mega-Cart NVRAM-fil"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 
 
@@ -665,6 +668,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Vic Flash Plugin Rückschreiben auf ROM Datei aktivieren"
     IDS_MI_MEGACART_WRITEBACK         "Mega-Cart NvRAM Rückschreiben aktivieren"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Mega-Cart nicht-flüchtiges RAM Datei wählen"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 
 
@@ -714,6 +718,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 
 
@@ -766,6 +771,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Válassza ki az NvRAM képfájlt"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -818,6 +824,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Attiva write back per Vic Flash Plugin su file ROM"
     IDS_MI_MEGACART_WRITEBACK         "Write back NvRAM Mega-Cart"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Seleziona file non-volatile RAM Mega-Cart"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 
 
@@ -870,6 +877,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -922,6 +930,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Activeer terug schrijven naar ROM bestand voor Vic Flash Plugin"
     IDS_MI_MEGACART_WRITEBACK         "Activeer Mega-Cart NvRAM terug schrijven"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Selecteer Mega-Cart non-volatile RAM bestand"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 
 
@@ -974,6 +983,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1026,6 +1036,7 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
     IDS_MI_MEGACART_WRITEBACK         "Aktivera Mega-Cart NvRAM-återskrivning"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Välj NvRAM-fil för Mega-Cart"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 
 
@@ -1078,9 +1089,9 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Flash Plugin ROM dosyasýna geri yazmayý aktif et"
     IDS_MI_MEGACART_WRITEBACK         "Mega-Cart NvRAM geri yazmayý aktif et"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Mega-Cart non-volatile RAM dosyasýný seç"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 

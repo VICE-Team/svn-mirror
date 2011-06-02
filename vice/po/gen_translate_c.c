@@ -129,6 +129,12 @@ static char *trailtest(char *text)
     int j = 0;
     char *sub = NULL;
 
+    sub = strstr(text, " (MasC=uerade)...\0");
+    if (sub != NULL) {
+        sub[0] = 0;
+        return " (MasC=uerade)...";
+    }
+
     sub = strstr(text, "...\0");
     if (sub != NULL) {
         sub[0] = 0;

@@ -39,6 +39,7 @@
 #include "system.h"
 #include "translate.h"
 #include "ui.h"
+#include "uiacia.h"
 #include "uicart.h"
 #include "uidrivevic20.h"
 #include "uijoystick.h"
@@ -326,6 +327,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_CART_VIC20_4KB_B000, IDS_MI_CART_VIC20_4KB_B000 },
     { IDM_TOGGLE_CART_RESET, IDS_MI_TOGGLE_CART_RESET },
     { IDM_VIC_SETTINGS, IDS_MI_VIC_SETTINGS },
+    { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS_MASCUERADE },
     { 0, 0 }
 };
 
@@ -521,6 +523,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_SIDCART_SETTINGS:
             ui_sidcart_settings_dialog(hwnd);
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia_settings_dialog(hwnd);
             break;
         case IDM_MIDI_SETTINGS:
             ui_midi_settings_dialog(hwnd);

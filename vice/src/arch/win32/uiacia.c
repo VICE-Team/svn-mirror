@@ -53,6 +53,12 @@ static int c128_base_address[] = {
     -1
 };
 
+static int vic20_base_address[] = {
+    0x9800,
+    0x9c00,
+    -1
+};
+
 static const int interrupt_names[] = {
     IDS_NONE,
     IDS_IRQ,
@@ -99,6 +105,7 @@ static void init_acia_dialog(HWND hwnd)
     int xsize, ysize;
     int res_value_loop;
     int active_value;
+    int *current_base_address;
 
     SetWindowText(hwnd, translate_text(IDS_ACIA_CAPTION));
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);
@@ -218,29 +225,27 @@ static void init_acia_dialog(HWND hwnd)
     active_value = 0;
     resources_get_int("Acia1Base", &res_value);
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_LOCATION);
-    if (machine_class == VICE_MACHINE_C128) {
-        for (res_value_loop = 0; c128_base_address[res_value_loop] != -1; res_value_loop++) {
-            TCHAR st[10];
+    switch (machine_class) {
+        case VICE_MACHINE_C128:
+            current_base_address = c128_base_address;
+            break;
+        case VICE_MACHINE_VIC20:
+            current_base_address = vic20_base_address;
+            break;
+        default:
+            current_base_address = c64_base_address;
+            break;
+    }
 
-            _stprintf(st, "$%X", c128_base_address[res_value_loop]);
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-        }
-        for (res_value_loop = 0; c128_base_address[res_value_loop] != -1; res_value_loop++) {
-            if (c128_base_address[res_value_loop] == res_value) {
-                active_value = res_value_loop;
-            }
-        }
-    } else {
-        for (res_value_loop = 0; c64_base_address[res_value_loop] != -1; res_value_loop++) {
-            TCHAR st[10];
+    for (res_value_loop = 0; current_base_address[res_value_loop] != -1; res_value_loop++) {
+        TCHAR st[10];
 
-            _stprintf(st, "$%X", c64_base_address[res_value_loop]);
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-        }
-        for (res_value_loop = 0; c64_base_address[res_value_loop] != -1; res_value_loop++) {
-            if (c64_base_address[res_value_loop] == res_value) {
-                active_value = res_value_loop;
-            }
+        _stprintf(st, "$%X", current_base_address[res_value_loop]);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+    }
+    for (res_value_loop = 0; current_base_address[res_value_loop] != -1; res_value_loop++) {
+        if (current_base_address[res_value_loop] == res_value) {
+            active_value = res_value_loop;
         }
     }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
@@ -337,6 +342,7 @@ static void init_nonc64_acia_dialog(HWND hwnd)
 static void end_acia_dialog(HWND hwnd)
 {
     int base;
+    int *current_base_address;
 
     resources_set_int("Acia1Enable", (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
@@ -344,11 +350,18 @@ static void end_acia_dialog(HWND hwnd)
     resources_set_int("Acia1Mode", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_MODE), CB_GETCURSEL, 0, 0));
 
     base = (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_LOCATION), CB_GETCURSEL, 0, 0);
-    if (machine_class == VICE_MACHINE_C128) {
-        resources_set_int("Acia1Base", c128_base_address[base]);
-    } else {
-        resources_set_int("Acia1Base", c64_base_address[base]);
+    switch (machine_class) {
+        case VICE_MACHINE_C128:
+            current_base_address = c128_base_address;
+            break;
+        case VICE_MACHINE_VIC20:
+            current_base_address = vic20_base_address;
+            break;
+        default:
+            current_base_address = c64_base_address;
+            break;
     }
+    resources_set_int("Acia1Base", current_base_address[base]);
 }
 
 static void end_nonc64_acia_dialog(HWND hwnd)
@@ -416,6 +429,7 @@ void ui_acia_settings_dialog(HWND hwnd)
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
         case VICE_MACHINE_C128:
+        case VICE_MACHINE_VIC20:
             DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd, dialog_proc);
             break;
         default:

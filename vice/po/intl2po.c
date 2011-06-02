@@ -226,6 +226,20 @@ int language_id(char *text)
     return 0;
 }
 
+static void remove_trailing_mascuerade(char *text)
+{
+    int i = 0;
+    char *sub = NULL;
+
+    sub = strstr(text, " (MasC=uerade)...\"");
+    while (sub[i + 17] != 0) {
+        sub[i] = sub[i + 17];
+        i++;
+    }
+    sub[i] = 0;
+}
+
+
 static void remove_trailing_3_dots(char *text)
 {
     int i = 0;
@@ -323,6 +337,10 @@ void remove_brackets(char *text)
 void replace_string(char *text, FILE *file)
 {
     int i, j;
+
+    if (strstr(text, " (MasC=uerade)...\"") != NULL) {
+        remove_trailing_mascuerade(text);
+    }
 
     if (strstr(text, "...\"") != NULL) {
         remove_trailing_3_dots(text);
