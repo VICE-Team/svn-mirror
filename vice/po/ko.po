@@ -1057,22 +1057,22 @@ msgstr "BASIC 시작 에 로드하기"
 #: src/arch/unix/gui/uiautostart.c:71 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:8202
 msgid "PRG autostart mode"
-msgstr ""
+msgstr "PRG 오토스마트 모드"
 
 #: src/arch/unix/gui/uiautostart.c:73 src/arch/win32/resautostart.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:8226
 msgid "PRG autostart disk image"
-msgstr ""
+msgstr "PRG 오토스마트 디스크 이미지"
 
 #: src/arch/unix/gui/uic64_256k.c:40 src/arch/win32/resc64_256k.rc.po.c:31
 #: src/arch/amigaos/intl_text.c.po.c:4133
 msgid "256K file"
-msgstr ""
+msgstr "256k 파일"
 
 #: src/arch/unix/gui/uic64_256k.c:58 src/arch/unix/gui/uidigimax.c:79
 #: src/arch/unix/gui/uiplus60k.c:54 src/translate_text.c.po.c:8209
 msgid "Base address"
-msgstr ""
+msgstr "베이스 주소"
 
 #: src/arch/unix/gui/uic64_256k.c:61 src/arch/unix/gui/uidqbb.c:49
 #: src/arch/unix/gui/uiexpert.c:60 src/arch/unix/gui/uigeoram.c:70
@@ -1083,7 +1083,7 @@ msgstr ""
 #: src/arch/unix/gui/uireu.c:72 src/arch/unix/gui/uitpi.c:52
 #: src/arch/unix/gui/uiv364speech.c:52
 msgid "Image name"
-msgstr ""
+msgstr "이미지 이름"
 
 #: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/uic64cart.c:156
 #: src/arch/unix/gui/vic20ui.c:251 src/arch/unix/gui/vic20ui.c:355
@@ -1091,15 +1091,15 @@ msgstr ""
 #: src/arch/win32/resc64.rc.po.c:63 src/arch/win32/resplus4.rc.po.c:63
 #: src/arch/win32/resvic20.rc.po.c:63 src/arch/amigaos/intl_text.c.po.c:317
 msgid "Attach cartridge image"
-msgstr ""
+msgstr "카트리지 이미지 붙이기"
 
 #: src/arch/unix/gui/uic64cart.c:59
 msgid "Cannot attach cartridge"
-msgstr ""
+msgstr "크트리지를 붙일수없음"
 
 #: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image"
-msgstr ""
+msgstr "스마트 붙이기 CRT 이미지"
 
 #: src/arch/unix/gui/uic64cart.c:106 src/arch/win32/res.rc.po.c:1056
 #: src/arch/amigaos/intl_text.c.po.c:3545 src/translate_text.c.po.c:4743
@@ -1165,22 +1165,22 @@ msgstr ""
 #: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:318
 #: src/arch/win32/res.rc.po.c:1431 src/arch/amigaos/intl_text.c.po.c:737
 msgid "Set cartridge as default"
-msgstr ""
+msgstr "카트리지를 디폴트 셋 하기"
 
 #: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:357
 #: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl_text.c.po.c:461
 msgid "Detach cartridge image(s)"
-msgstr ""
+msgstr "카트리지 이미지 떼기"
 
 #: src/arch/unix/gui/uic64cart.c:160 src/arch/win32/res.rc.po.c:1434
 #: src/arch/amigaos/intl_text.c.po.c:761
 msgid "Cartridge freeze"
-msgstr ""
+msgstr "카트리지 프리즈"
 
 #: src/arch/unix/gui/uic64dtv.c:54 src/arch/unix/gui/uic64dtv.c:78
 #: src/arch/amigaos/intl_text.c.po.c:4181
 msgid "C64DTV ROM file"
-msgstr ""
+msgstr "C64DTV ROM 파일"
 
 #: src/arch/unix/gui/uic64dtv.c:81 src/arch/win32/resc64dtv.rc.po.c:436
 #: src/translate_text.c.po.c:10711
@@ -1189,12 +1189,12 @@ msgstr ""
 
 #: src/arch/unix/gui/uic64dtv.c:95 src/arch/amigaos/intl_text.c.po.c:4217
 msgid "Hummer ADC"
-msgstr ""
+msgstr "험머 ADC"
 
 #: src/arch/unix/gui/uic64dtv.c:98 src/arch/win32/resc64dtv.rc.po.c:450
 #: src/arch/amigaos/intl_text.c.po.c:1661
 msgid "PS/2 mouse on Userport"
-msgstr ""
+msgstr "유저포트에 PS/S 마우스 "
 
 #: src/arch/unix/gui/uicmdline.c:37 src/arch/amigaos/intl_text.c.po.c:3713
 #, c-format
@@ -1202,12 +1202,12 @@ msgid ""
 "\n"
 "Available command-line options:\n"
 "\n"
-msgstr ""
+msgstr "\n사용가능한 커맨드 라인 옵션:\n\n"
 
 #: src/arch/unix/gui/uicommands.c:69 src/arch/unix/gui/uicommands.c:341
 #: src/arch/unix/gui/uikeyboard.c:111
 msgid "VICE setting"
-msgstr ""
+msgstr "VICE 셋팅"
 
 #: src/arch/unix/gui/uicommands.c:69 src/arch/unix/gui/uicommands.c:463
 msgid "Change current working directory"
@@ -1215,7 +1215,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:71 src/arch/unix/gui/uicommands.c:344
 msgid "Directory not found"
-msgstr ""
+msgstr "디렉토리 를 찾지못함"
 
 #: src/arch/unix/gui/uicommands.c:109
 msgid "Couldn't run /bin/sh???"
