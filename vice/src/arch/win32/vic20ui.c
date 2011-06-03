@@ -52,6 +52,7 @@
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uisidcart.h"
+#include "uisoundexpander.h"
 #include "uitfe.h"
 #include "uivideo.h"
 #include "vic20ui.h"
@@ -336,6 +337,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
 #ifdef HAVE_TFE
     { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS_MASCUERADE },
 #endif
+    { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS_MASCUERADE },
     { 0, 0 }
 };
 
@@ -546,6 +548,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
            ui_tfe_settings_dialog(hwnd);
            break;
 #endif
+        case IDM_SFX_SE_SETTINGS:
+            ui_soundexpander_settings_dialog(hwnd);
+            break;
         case IDM_MIDI_SETTINGS:
             ui_midi_settings_dialog(hwnd);
             break;

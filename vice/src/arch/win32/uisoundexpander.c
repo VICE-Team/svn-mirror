@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -48,6 +49,10 @@ static void enable_soundexpander_controls(HWND hwnd)
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE) == BST_CHECKED) ? 1 : 0;
 
     EnableWindow(GetDlgItem(hwnd, IDC_SFX_SOUNDEXPANDER_TYPE), is_enabled);
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        EnableWindow(GetDlgItem(hwnd, IDC_SFX_SOUNDEXPANDER_IO_SWAP), is_enabled);
+    }
 }
 
 static uilib_localize_dialog_param soundexpander_dialog[] = {
@@ -56,6 +61,11 @@ static uilib_localize_dialog_param soundexpander_dialog[] = {
     { IDC_SFX_SOUNDEXPANDER_TYPE_LABEL, IDS_SFX_SOUNDEXPANDER_TYPE, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_localize_dialog_param soundexpander_mascuerade_dialog[] = {
+    { IDC_SFX_SOUNDEXPANDER_IO_SWAP, IDS_IO_SWAP, 0 },
     { 0, 0, 0 }
 };
 
@@ -76,6 +86,11 @@ static void init_soundexpander_dialog(HWND hwnd)
     int xsize, ysize;
 
     uilib_localize_dialog(hwnd, soundexpander_dialog);
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        uilib_localize_dialog(hwnd, soundexpander_mascuerade_dialog);
+    }
+
     uilib_get_group_extent(hwnd, soundexpander_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, soundexpander_leftgroup);
     uilib_move_group(hwnd, soundexpander_rightgroup, xsize + 30);
@@ -83,6 +98,11 @@ static void init_soundexpander_dialog(HWND hwnd)
     resources_get_int("SFXSoundExpander", &res_value);
     CheckDlgButton(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_get_int("SFXSoundExpanderIOSwap", &res_value);
+        CheckDlgButton(hwnd, IDC_SFX_SOUNDEXPANDER_IO_SWAP, res_value ? BST_CHECKED : BST_UNCHECKED);
+    }
+
     temp_hwnd = GetDlgItem(hwnd, IDC_SFX_SOUNDEXPANDER_TYPE);
 
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"3526");
@@ -99,6 +119,10 @@ static void init_soundexpander_dialog(HWND hwnd)
 static void end_soundexpander_dialog(HWND hwnd)
 {
     resources_set_int("SFXSoundExpander", (IsDlgButtonChecked(hwnd, IDC_SFX_SOUNDEXPANDER_ENABLE) == BST_CHECKED ? 1 : 0 ));
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_set_int("SFXSoundExpanderIOSwap", (IsDlgButtonChecked(hwnd, IDC_SFX_SOUNDEXPANDER_IO_SWAP) == BST_CHECKED ? 1 : 0 ));
+    }
 
     resources_set_int("SFXSoundExpanderChip", (SendMessage(GetDlgItem(hwnd, IDC_SFX_SOUNDEXPANDER_TYPE), CB_GETCURSEL, 0, 0) == 0) ? 3526 : 3812);
 }
@@ -134,5 +158,9 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_soundexpander_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)IDD_SFX_SOUNDEXPANDER_SETTINGS_DIALOG, hwnd, dialog_proc);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        DialogBox(winmain_instance, (LPCTSTR)IDD_MASCUERADE_SFX_SOUNDEXPANDER_SETTINGS_DIALOG, hwnd, dialog_proc);
+    } else {
+        DialogBox(winmain_instance, (LPCTSTR)IDD_SFX_SOUNDEXPANDER_SETTINGS_DIALOG, hwnd, dialog_proc);
+    }
 }

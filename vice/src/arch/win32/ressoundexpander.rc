@@ -20,6 +20,30 @@ BEGIN
                     90, 90, 50, 14, WS_TABSTOP
 END
 
+
+// -----------------------------------------------------------------------------
+
+// template of dialog for all languages
+
+IDD_MASCUERADE_SFX_SOUNDEXPANDER_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_SFX_SOUNDEXPANDER_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_SFX_SOUNDEXPANDER_TYPE_LABEL,
+                    9, 24, 30, 8
+    COMBOBOX        IDC_SFX_SOUNDEXPANDER_TYPE,
+                    45, 22, 100, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_SFX_SOUNDEXPANDER_IO_SWAP,
+                    7, 40, 110, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 90, 50, 14, WS_TABSTOP
+END
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH text
