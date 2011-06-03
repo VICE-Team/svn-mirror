@@ -91,7 +91,7 @@ static int gray_ungray_items(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_T), enable);
     EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE), enable);
     if (machine_class == VICE_MACHINE_VIC20) {
-        EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_IO_SWAP), 0);
+        EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_IO_SWAP), enable);
     }
 
     if (enable) {
@@ -134,13 +134,6 @@ static uilib_dialog_group tfe_leftgroup[] = {
     { 0, 0 }
 };
 
-static uilib_dialog_group tfe_mascuerade_leftgroup[] = {
-    { IDC_TFE_SETTINGS_ENABLE_T, 0 },
-    { IDC_TFE_SETTINGS_INTERFACE_T, 0 },
-    { IDC_TFE_SETTINGS_IO_SWAP, 1 },
-    { 0, 0 }
-};
-
 static uilib_dialog_group tfe_rightgroup[] = {
     { IDC_TFE_SETTINGS_ENABLE, 0 },
     { IDC_TFE_SETTINGS_INTERFACE, 0 },
@@ -151,8 +144,6 @@ static void init_tfe_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
     int active_value;
-
-    uilib_dialog_group *leftgroup = (machine_class == VICE_MACHINE_VIC20) ? tfe_mascuerade_leftgroup : tfe_leftgroup;
 
     int tfe_enabled;
     int tfe_as_rr_net;
@@ -166,8 +157,8 @@ static void init_tfe_dialog(HWND hwnd)
         uilib_localize_dialog(hwnd, tfe_mascuerade_dialog);
     }
 
-    uilib_get_group_extent(hwnd, leftgroup, &xsize, &ysize);
-    uilib_adjust_group_width(hwnd, leftgroup);
+    uilib_get_group_extent(hwnd, tfe_leftgroup, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, tfe_leftgroup);
     uilib_move_group(hwnd, tfe_rightgroup, xsize + 30);
 
     resources_get_int("ETHERNET_ACTIVE", &tfe_enabled);
@@ -281,7 +272,11 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_tfe_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_TFE_SETTINGS_DIALOG, hwnd, dialog_proc);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_MASCUERADE_TFE_SETTINGS_DIALOG, hwnd, dialog_proc);
+    } else {
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_TFE_SETTINGS_DIALOG, hwnd, dialog_proc);
+    }
 }
 
 #endif // #ifdef HAVE_TFE
