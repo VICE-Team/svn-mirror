@@ -37,6 +37,35 @@ BEGIN
                     90, 102, 50, 14, WS_TABSTOP
 END
 
+// template of dialog for all languages
+
+IDD_GEORAM_MASCUERADE_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 136
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_GEORAM_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_GEORAM_IO_SWAP,
+                    7, 20, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_GEORAM_SIZE_LABEL,
+                    9, 38, 50, 8
+    COMBOBOX        IDC_GEORAM_SIZE,
+                    65, 36, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_GEORAM_WRITE_ENABLE,
+                    7, 58, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_GEORAM_FILE_LABEL,
+                    9, 80, 46, 8
+    PUSHBUTTON      "", IDC_GEORAM_BROWSE,
+                    55, 78, 50, 14, 0
+    EDITTEXT        IDC_GEORAM_FILE,
+                    9, 96, 160, 12, WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 116, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 116, 50, 14, WS_TABSTOP
+END
+
 // -----------------------------------------------------------------------------
 
 // original and default ENGLISH text

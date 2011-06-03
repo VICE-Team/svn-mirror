@@ -42,6 +42,7 @@
 #include "uiacia.h"
 #include "uicart.h"
 #include "uidrivevic20.h"
+#include "uigeoram.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
 #include "uilib.h"
@@ -328,6 +329,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_TOGGLE_CART_RESET, IDS_MI_TOGGLE_CART_RESET },
     { IDM_VIC_SETTINGS, IDS_MI_VIC_SETTINGS },
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS_MASCUERADE },
+    { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS_MASCUERADE },
     { 0, 0 }
 };
 
@@ -526,6 +528,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_ACIA_SETTINGS:
             ui_acia_settings_dialog(hwnd);
+            break;
+        case IDM_GEORAM_SETTINGS:
+            ui_georam_settings_dialog(hwnd);
             break;
         case IDM_MIDI_SETTINGS:
             ui_midi_settings_dialog(hwnd);

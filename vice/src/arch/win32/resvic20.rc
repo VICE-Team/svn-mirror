@@ -233,7 +233,8 @@ BEGIN
             MENUITEM "", IDM_MEGACART_WRITEBACK
             MENUITEM "", IDM_MEGACART_WRITEBACK_FILE
             MENUITEM "", IDM_ACIA_SETTINGS
-        END
+            MENUITEM "", IDM_GEORAM_SETTINGS
+       END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
         MENUITEM "", IDM_SETTINGS_LOAD_FILE
@@ -550,6 +551,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Attach 4/8/16KB cartridge image at $6000"
     IDS_ATTACH_4_8_CART_A000          "Attach 4/8KB cartridge image at $A000"
     IDS_ATTACH_4_CART_B000            "Attach 4KB cartridge image at $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488 module"
     IDS_MI_PADDLES                    "Enable paddles"
     IDS_MI_CART_VIC20_GENERIC         "Generic image..."
@@ -568,7 +570,8 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
-    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=uerade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 
 
@@ -600,6 +603,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Tilslut 4/8/16KB-cartridge image på $6000"
     IDS_ATTACH_4_8_CART_A000          "Tilslut 4/8KB-cartridge image på $A000"
     IDS_ATTACH_4_CART_B000            "Tilslut 4KB-cartridge image på $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488-modul"
     IDS_MI_PADDLES                    "Aktivér paddles"
     IDS_MI_CART_VIC20_GENERIC         "Standard-image..."
@@ -619,6 +623,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Aktivér Mega-Cart NvRAM tilbageskrivning"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Vælg Mega-Cart NVRAM-fil"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 
 
@@ -650,6 +655,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "4/8/16KB Modul Image bei $6000 einlegen"
     IDS_ATTACH_4_8_CART_A000          "4/8KB Modul Image bei $A000 einlegen"
     IDS_ATTACH_4_CART_B000            "4KB Modul Image bei $B000 einlegen"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488 Modul"
     IDS_MI_PADDLES                    "Paddles aktivieren"
     IDS_MI_CART_VIC20_GENERIC         "Generisches Image..."
@@ -669,6 +675,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Mega-Cart NvRAM Rückschreiben aktivieren"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Mega-Cart nicht-flüchtiges RAM Datei wählen"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 
 
@@ -700,6 +707,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Insertion d'une image 4/8/16Ko à $6000"
     IDS_ATTACH_4_8_CART_A000          "Insertion d'une image 4/8Ko à $A000"
     IDS_ATTACH_4_CART_B000            "Insertion d'une image 4Ko à $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "Module VIC-1112 IEEE 488"
     IDS_MI_PADDLES                    "Enable paddles"
     IDS_MI_CART_VIC20_GENERIC         "Generic image..."
@@ -719,6 +727,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 
 
@@ -753,6 +762,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "4/8/16KB képmás csatolása $6000 címre"
     IDS_ATTACH_4_8_CART_A000          "4/8KB képmás csatolása $A000 címre"
     IDS_ATTACH_4_CART_B000            "4KB képmás csatolása $B000 címre"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488 module"
     IDS_MI_PADDLES                    "Enable paddles"
     IDS_MI_CART_VIC20_GENERIC         "Generic image..."
@@ -772,6 +782,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Válassza ki az NvRAM képfájlt"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -806,6 +817,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Seleziona immagine cartuccia di 4/8/16KB a $6000"
     IDS_ATTACH_4_8_CART_A000          "Seleziona immagine cartuccia di 4/8KB a $A000"
     IDS_ATTACH_4_CART_B000            "Seleziona immagine cartuccia di 4KB a $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "Modulo VIC-1112 IEEE-488"
     IDS_MI_PADDLES                    "Attiva paddle"
     IDS_MI_CART_VIC20_GENERIC         "Immagine generica..."
@@ -825,6 +837,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Write back NvRAM Mega-Cart"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Seleziona file non-volatile RAM Mega-Cart"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 
 
@@ -859,6 +872,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Attach 4/8/16KB cartridge image at $6000"
     IDS_ATTACH_4_8_CART_A000          "Attach 4/8KB cartridge image at $A000"
     IDS_ATTACH_4_CART_B000            "Attach 4KB cartridge image at $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488 module"
     IDS_MI_PADDLES                    "Enable paddles"
     IDS_MI_CART_VIC20_GENERIC         "Generic image..."
@@ -878,6 +892,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -912,6 +927,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Koppel 4/8/16KB bestand op $6000"
     IDS_ATTACH_4_8_CART_A000          "Koppel 4/8KB bestand op $A000"
     IDS_ATTACH_4_CART_B000            "Koppel 4KB bestand op $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488 module"
     IDS_MI_PADDLES                    "Activeer paddles"
     IDS_MI_CART_VIC20_GENERIC         "Algemeen bestand..."
@@ -931,6 +947,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Activeer Mega-Cart NvRAM terug schrijven"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Selecteer Mega-Cart non-volatile RAM bestand"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 
 
@@ -965,6 +982,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Attach 4/8/16KB cartridge image at $6000"
     IDS_ATTACH_4_8_CART_A000          "Attach 4/8KB cartridge image at $A000"
     IDS_ATTACH_4_CART_B000            "Attach 4KB cartridge image at $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488 module"
     IDS_MI_PADDLES                    "Enable paddles"
     IDS_MI_CART_VIC20_GENERIC         "Generic image..."
@@ -984,6 +1002,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Select Mega-Cart non-volatile RAM file"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1018,6 +1037,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "Anslut 4/8/16KB-modulfil vid $6000"
     IDS_ATTACH_4_8_CART_A000          "Anslut 4/8KB-modulfil vid $A000"
     IDS_ATTACH_4_CART_B000            "Anslut 4KB-modulfil vid $B000"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488-modul"
     IDS_MI_PADDLES                    "Aktivera paddlar"
     IDS_MI_CART_VIC20_GENERIC         "Generisk avbild..."
@@ -1037,6 +1057,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Aktivera Mega-Cart NvRAM-återskrivning"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Välj NvRAM-fil för Mega-Cart"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 
 
@@ -1071,6 +1092,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000       "$6000 adresine 4/8/16KB kartuþ imajý yerleþtir"
     IDS_ATTACH_4_8_CART_A000          "$A000 adresine 4/8KB kartuþ imajý yerleþtir"
     IDS_ATTACH_4_CART_B000            "$B000 adresine 4KB kartuþ imajý yerleþtir"
+    IDS_IO_SWAP                       "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                    "VIC-1112 IEEE-488 modülü"
     IDS_MI_PADDLES                    "Paddlelarý aktif et"
     IDS_MI_CART_VIC20_GENERIC         "Jenerik imaj..."
@@ -1090,6 +1112,7 @@ BEGIN
     IDS_MI_MEGACART_WRITEBACK         "Mega-Cart NvRAM geri yazmayý aktif et"
     IDS_MI_MEGACART_WRITEBACK_FILE    "Mega-Cart non-volatile RAM dosyasýný seç"
     IDS_MI_ACIA_SETTINGS_MASCUERADE   "ACIA settings (MasC=erade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE "GEO-RAM settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

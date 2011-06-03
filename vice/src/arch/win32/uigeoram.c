@@ -32,6 +32,7 @@
 #include <tchar.h>
 
 #include "intl.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -58,6 +59,9 @@ static void enable_georam_controls(HWND hwnd)
 
     is_enabled = (IsDlgButtonChecked(hwnd, IDC_GEORAM_ENABLE) == BST_CHECKED) ? 1 : 0;
 
+    if (machine_class == VICE_MACHINE_VIC20) {
+        EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_IO_SWAP), is_enabled);
+    }
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_WRITE_ENABLE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_SIZE), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_GEORAM_BROWSE), is_enabled);
@@ -76,6 +80,11 @@ static uilib_localize_dialog_param georam_dialog_trans[] = {
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param georam_io_swap_dialog_trans[] = {
+    { IDC_GEORAM_IO_SWAP, IDS_IO_SWAP, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_dialog_group georam_main_group[] = {
     { IDC_GEORAM_ENABLE, 1 },
     { IDC_GEORAM_WRITE_ENABLE, 1 },
@@ -84,8 +93,27 @@ static uilib_dialog_group georam_main_group[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group georam_mascuerade_main_group[] = {
+    { IDC_GEORAM_ENABLE, 1 },
+    { IDC_GEORAM_IO_SWAP, 1 },
+    { IDC_GEORAM_WRITE_ENABLE, 1 },
+    { IDC_GEORAM_SIZE_LABEL, 0 },
+    { IDC_GEORAM_FILE_LABEL, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group georam_right_group[] = {
     { IDC_GEORAM_ENABLE, 0 },
+    { IDC_GEORAM_WRITE_ENABLE, 0 },
+    { IDC_GEORAM_SIZE, 0 },
+    { IDC_GEORAM_BROWSE, 0 },
+    { IDC_GEORAM_FILE, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group georam_mascuerade_right_group[] = {
+    { IDC_GEORAM_ENABLE, 0 },
+    { IDC_GEORAM_IO_SWAP, 0 },
     { IDC_GEORAM_WRITE_ENABLE, 0 },
     { IDC_GEORAM_SIZE, 0 },
     { IDC_GEORAM_BROWSE, 0 },
@@ -109,12 +137,19 @@ static void init_georam_dialog(HWND hwnd)
     int active_value;
     int xpos;
     RECT rect;
+    uilib_dialog_group *main_group = (machine_class == VICE_MACHINE_VIC20) ? georam_mascuerade_main_group : georam_main_group;
+    uilib_dialog_group *right_group = (machine_class == VICE_MACHINE_VIC20) ? georam_mascuerade_right_group : georam_right_group;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, georam_dialog_trans);
 
+    if (machine_class == VICE_MACHINE_VIC20) {
+        /* translate masC=uerade specific item */
+        uilib_localize_dialog(hwnd, georam_io_swap_dialog_trans);
+    }
+
     /* adjust the size of the elements in the main group */
-    uilib_adjust_group_width(hwnd, georam_main_group);
+    uilib_adjust_group_width(hwnd, main_group);
 
     /* get the max x of the georam size label element */
     uilib_get_element_max_x(hwnd, IDC_GEORAM_SIZE_LABEL, &xpos);
@@ -129,7 +164,7 @@ static void init_georam_dialog(HWND hwnd)
     uilib_move_element(hwnd, IDC_GEORAM_BROWSE, xpos + 10);
 
     /* get the max x of the right group */
-    uilib_get_group_max_x(hwnd, georam_right_group, &xpos);
+    uilib_get_group_max_x(hwnd, right_group, &xpos);
 
     /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
@@ -141,6 +176,11 @@ static void init_georam_dialog(HWND hwnd)
     resources_get_int("GEORAM", &res_value);
     CheckDlgButton(hwnd, IDC_GEORAM_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_get_int("GEORAMIOSwap", &res_value);
+        CheckDlgButton(hwnd, IDC_GEORAM_IO_SWAP, res_value ? BST_CHECKED : BST_UNCHECKED);
+    }
+
     resources_get_int("GEORAMImageWrite", &res_value);
     CheckDlgButton(hwnd, IDC_GEORAM_WRITE_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
 
@@ -177,6 +217,10 @@ static void end_georam_dialog(HWND hwnd)
     resources_set_int("GEORAM", (IsDlgButtonChecked(hwnd, IDC_GEORAM_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("GEORAMImageWrite", (IsDlgButtonChecked(hwnd, IDC_GEORAM_WRITE_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("GEORAMsize", ui_georam_size[SendMessage(GetDlgItem(hwnd, IDC_GEORAM_SIZE), CB_GETCURSEL, 0, 0)]);
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_set_int("GEORAMIOSwap", (IsDlgButtonChecked(hwnd, IDC_GEORAM_IO_SWAP) == BST_CHECKED ? 1 : 0 ));
+    }
 
     GetDlgItemText(hwnd, IDC_GEORAM_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
@@ -222,5 +266,9 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_georam_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_GEORAM_SETTINGS_DIALOG, hwnd, dialog_proc);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_GEORAM_MASCUERADE_SETTINGS_DIALOG, hwnd, dialog_proc);
+    } else {
+        DialogBox(winmain_instance, (LPCTSTR)(UINT_PTR)IDD_GEORAM_SETTINGS_DIALOG, hwnd, dialog_proc);
+    }
 }
