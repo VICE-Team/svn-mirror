@@ -23,7 +23,7 @@ MCommand
 
 5
 MCommand
-1837
+1874
 genwt.bat
 copy /b ..\resc128.rc + ..\res.rc + ..\resacia.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdrivec128.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\restfe.rc ..\resc128cat.rc /b
 copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resplus256k.rc + ..\resplus60k.rc + ..\resc64_256k.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexper.rc + ..\restfe.rc ..\resc64cat.rc /b
@@ -32,7 +32,7 @@ copy /b ..\resc64dtv.rc + ..\res.rc + ..\resdrivec64.rc  + ..\ressiddtv.rc + ..\
 copy /b ..\rescbm2.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\ressid.rc + ..\resautostart.rc + ..\resvicii.rc ..\rescbm2cat.rc /b
 copy /b ..\respet.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\respetreu.rc + ..\respetdww.rc + ..\resautostart.rc + ..\ressidcart.rc ..\respetcat.rc  /b
 copy /b ..\resplus4.rc + ..\res.rc + ..\resacia.rc + ..\resdriveplus4.rc + ..\resautostart.rc + ..\resv364speech.rc + ..\ressidcart.rc ..\resplus4cat.rc /b
-copy /b ..\resvic20.rc + ..\res.rc + ..\resacia.rc + ..\resdrivevic20.rc + ..\resrs232user.rc + ..\ressidcart.rc + ..\reslightpen.rc + ..\resautostart.rc + ..\resmidi.rc  ..\resvic20cat.rc /b
+copy /b ..\resvic20.rc + ..\res.rc + ..\resdigimax.rc + ..\resacia.rc + ..\resgeoram.rc + ..\resdrivevic20.rc + ..\resrs232user.rc + ..\ressidcart.rc + ..\reslightpen.rc + ..\resautostart.rc + ..\resmidi.rc  ..\resvic20cat.rc /b
 
 6
 MItem

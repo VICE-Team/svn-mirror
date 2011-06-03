@@ -446,8 +446,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc"
+					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc + ..\win32\resgeoram.rc + ..\win32\resdigimax.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc;..\win32\resgeoram.rc;..\win32\resdigimax.rc"
 					Outputs="..\win32\resvic20cat.rc"
 				/>
 			</FileConfiguration>
@@ -456,8 +456,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc"
+					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc + ..\win32\resgeoram.rc + ..\win32\resdigimax.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc;..\win32\resgeoram.rc;..\win32\resdigimax.rc"
 					Outputs="..\win32\resvic20cat.rc"
 				/>
 			</FileConfiguration>
@@ -466,8 +466,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc"
+					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc + ..\win32\resgeoram.rc + ..\win32\resdigimax.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc;..\win32\resgeoram.rc;..\win32\resdigimax.rc"
 					Outputs="..\win32\resvic20cat.rc"
 				/>
 			</FileConfiguration>
@@ -476,8 +476,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc"
+					CommandLine="copy /b ..\win32\resvic20.rc + ..\win32\res.rc + ..\win32\resdrivevic20.rc + ..\win32\resrs232user.rc + ..\win32\resmidi.rc + ..\win32\reslightpen.rc + ..\win32\resautostart.rc + ..\win32\ressidcart.rc + ..\win32\resacia.rc + ..\win32\resgeoram.rc + ..\win32\resdigimax.rc ..\win32\resvic20cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resvic20.rc;..\win32\res.rc;..\win32\resdrivevic20.rc;..\win32\resrs232user.rc;..\win32\ressidcart.rc;..\win32\reslightpen.rc;..\win32\resautostart.rc;..\win32\resmidi.rc;..\win32\resacia.rc;..\win32\resgeoram.rc;..\win32\resdigimax.rc"
 					Outputs="..\win32\resvic20cat.rc"
 				/>
 			</FileConfiguration>

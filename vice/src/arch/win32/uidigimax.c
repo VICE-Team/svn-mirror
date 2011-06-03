@@ -31,6 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -41,8 +42,7 @@
 #include "winmain.h"
 #include "intl.h"
 
-#define NUM_OF_DIGIMAX_BASE 17
-static const int ui_digimax_base[NUM_OF_DIGIMAX_BASE] = {
+static int ui_c64_digimax_base[] = {
     0xdd00,   /* special case, userport interface */
     0xde00,
     0xde20,
@@ -59,7 +59,28 @@ static const int ui_digimax_base[NUM_OF_DIGIMAX_BASE] = {
     0xdf80,
     0xdfa0,
     0xdfc0,
-    0xdfe0
+    0xdfe0,
+    -1
+};
+
+static int ui_vic20_digimax_base[] = {
+    0x9800,
+    0x9820,
+    0x9840,
+    0x9860,
+    0x9880,
+    0x98a0,
+    0x98c0,
+    0x98e0,
+    0x9c00,
+    0x9c20,
+    0x9c40,
+    0x9c60,
+    0x9c80,
+    0x9ca0,
+    0x9cc0,
+    0x9ce0,
+    -1
 };
 
 static void enable_digimax_controls(HWND hwnd)
@@ -97,6 +118,7 @@ static void init_digimax_dialog(HWND hwnd)
     int res_value_loop;
     int active_value;
     int xsize, ysize;
+    int *ui_digimax_base = (machine_class == VICE_MACHINE_VIC20) ? ui_vic20_digimax_base : ui_c64_digimax_base;
 
     uilib_localize_dialog(hwnd, digimax_dialog);
     uilib_get_group_extent(hwnd, digimax_leftgroup, &xsize, &ysize);
@@ -107,7 +129,7 @@ static void init_digimax_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_DIGIMAX_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     temp_hwnd = GetDlgItem(hwnd, IDC_DIGIMAX_BASE);
-    for (res_value_loop = 0; res_value_loop < NUM_OF_DIGIMAX_BASE; res_value_loop++) {
+    for (res_value_loop = 0; ui_digimax_base[res_value_loop] != -1; res_value_loop++) {
         TCHAR st[40];
 
         if (ui_digimax_base[res_value_loop] == 0xdd00) {
@@ -119,7 +141,7 @@ static void init_digimax_dialog(HWND hwnd)
     }
     resources_get_int("DIGIMAXbase", &res_value);
     active_value = 0;
-    for (res_value_loop = 0; res_value_loop < NUM_OF_DIGIMAX_BASE; res_value_loop++) {
+    for (res_value_loop = 0; ui_digimax_base[res_value_loop] != -1; res_value_loop++) {
         if (ui_digimax_base[res_value_loop] == res_value) {
             active_value = res_value_loop;
         }
@@ -131,6 +153,8 @@ static void init_digimax_dialog(HWND hwnd)
 
 static void end_digimax_dialog(HWND hwnd)
 {
+    int *ui_digimax_base = (machine_class == VICE_MACHINE_VIC20) ? ui_vic20_digimax_base : ui_c64_digimax_base;
+
     resources_set_int("DIGIMAX", (IsDlgButtonChecked(hwnd, IDC_DIGIMAX_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("DIGIMAXbase", ui_digimax_base[SendMessage(GetDlgItem(hwnd, IDC_DIGIMAX_BASE), CB_GETCURSEL, 0, 0)]);
 }
