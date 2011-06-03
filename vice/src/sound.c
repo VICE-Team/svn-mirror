@@ -131,7 +131,11 @@ static int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, i
     int i;
     int temp;
 
-    temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
+        temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, interleave, delta_t);
+    } else {
+        temp = nr;
+    }
 
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
