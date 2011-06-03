@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-31 16:22-0700\n"
+"POT-Creation-Date: 2011-06-03 08:58-0700\n"
 "PO-Revision-Date: 2011-02-16 20:41+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -2124,7 +2124,7 @@ msgstr "Fullskärmsenhet"
 msgid "Size"
 msgstr "Storlek"
 
-#: src/arch/unix/gui/uigeoram.c:84 src/arch/win32/resgeoram.rc.po.c:44
+#: src/arch/unix/gui/uigeoram.c:84 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:4577
 msgid "GEO-RAM file"
 msgstr "GEO-RAM-fil"
@@ -2572,7 +2572,7 @@ msgstr "Mustyp"
 msgid "Mouse port"
 msgstr "Musport"
 
-#: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:515
+#: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:519
 #: src/arch/amigaos/intl_text.c.po.c:1625
 msgid "Enable paddles"
 msgstr "Aktivera paddlar"
@@ -3260,7 +3260,7 @@ msgid "Resource file name"
 msgstr "Resursfilnamn"
 
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#: src/arch/win32/res.rc.po.c:1463 src/arch/win32/resvic20.rc.po.c:498
+#: src/arch/win32/res.rc.po.c:1463 src/arch/win32/resvic20.rc.po.c:501
 #: src/arch/amigaos/intl_text.c.po.c:1289
 msgid "Custom"
 msgstr "Egen"
@@ -3589,23 +3589,23 @@ msgstr "Sprite-till-sprite-kollision"
 msgid "Sprite-background collisions"
 msgstr "Sprite-till-bakgrund-kollision"
 
-#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:492
+#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:495
 msgid "No expansion memory"
 msgstr "Ingen minnesutökning"
 
-#: src/arch/unix/gui/vic20ui.c:198 src/arch/win32/resvic20.rc.po.c:493
+#: src/arch/unix/gui/vic20ui.c:198 src/arch/win32/resvic20.rc.po.c:496
 msgid "3K (block 0)"
 msgstr "3K (block 0)"
 
-#: src/arch/unix/gui/vic20ui.c:201 src/arch/win32/resvic20.rc.po.c:494
+#: src/arch/unix/gui/vic20ui.c:201 src/arch/win32/resvic20.rc.po.c:497
 msgid "8K (block 1)"
 msgstr "8K (block 1)"
 
-#: src/arch/unix/gui/vic20ui.c:204 src/arch/win32/resvic20.rc.po.c:495
+#: src/arch/unix/gui/vic20ui.c:204 src/arch/win32/resvic20.rc.po.c:498
 msgid "16K (blocks 1/2)"
 msgstr "16K (block 1/2)"
 
-#: src/arch/unix/gui/vic20ui.c:207 src/arch/win32/resvic20.rc.po.c:496
+#: src/arch/unix/gui/vic20ui.c:207 src/arch/win32/resvic20.rc.po.c:499
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (block 1/2/3)"
 
@@ -3617,23 +3617,23 @@ msgstr "Alla (block 0/1/2/3/5)"
 msgid "Common configurations"
 msgstr "Vanliga inställningar"
 
-#: src/arch/unix/gui/vic20ui.c:227 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/unix/gui/vic20ui.c:227 src/arch/win32/resvic20.rc.po.c:502
 msgid "Block 0 (3K at $0400-$0FFF)"
 msgstr "Block 0 (3K på $0400-$0FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:229 src/arch/win32/resvic20.rc.po.c:500
+#: src/arch/unix/gui/vic20ui.c:229 src/arch/win32/resvic20.rc.po.c:503
 msgid "Block 1 (8K at $2000-$3FFF)"
 msgstr "Block 1 (8K på $2000-$3FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:231 src/arch/win32/resvic20.rc.po.c:501
+#: src/arch/unix/gui/vic20ui.c:231 src/arch/win32/resvic20.rc.po.c:504
 msgid "Block 2 (8K at $4000-$5FFF)"
 msgstr "Block 2 (8K på $4000-$5FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:233 src/arch/win32/resvic20.rc.po.c:502
+#: src/arch/unix/gui/vic20ui.c:233 src/arch/win32/resvic20.rc.po.c:505
 msgid "Block 3 (8K at $6000-$7FFF)"
 msgstr "Block 3 (8K på $6000-$7FFF)"
 
-#: src/arch/unix/gui/vic20ui.c:235 src/arch/win32/resvic20.rc.po.c:503
+#: src/arch/unix/gui/vic20ui.c:235 src/arch/win32/resvic20.rc.po.c:506
 msgid "Block 5 (8K at $A000-$BFFF)"
 msgstr "Block 5 (8K på $A000-$BFFF)"
 
@@ -3647,27 +3647,27 @@ msgstr "Ogiltig insticksmodulfil"
 msgid "Smart-attach cartridge image"
 msgstr "Smartanslut insticksmodulfil"
 
-#: src/arch/unix/gui/vic20ui.c:273 src/arch/win32/resvic20.rc.po.c:509
+#: src/arch/unix/gui/vic20ui.c:273 src/arch/win32/resvic20.rc.po.c:512
 #: src/arch/amigaos/intl_text.c.po.c:3725
 msgid "Attach 4/8/16KB cartridge image at $2000"
 msgstr "Anslut 4/8/16KB-modulfil vid $2000"
 
-#: src/arch/unix/gui/vic20ui.c:276 src/arch/win32/resvic20.rc.po.c:510
+#: src/arch/unix/gui/vic20ui.c:276 src/arch/win32/resvic20.rc.po.c:513
 #: src/arch/amigaos/intl_text.c.po.c:3737
 msgid "Attach 4/8/16KB cartridge image at $4000"
 msgstr "Anslut 4/8/16KB-modulfil vid $4000"
 
-#: src/arch/unix/gui/vic20ui.c:279 src/arch/win32/resvic20.rc.po.c:511
+#: src/arch/unix/gui/vic20ui.c:279 src/arch/win32/resvic20.rc.po.c:514
 #: src/arch/amigaos/intl_text.c.po.c:3749
 msgid "Attach 4/8/16KB cartridge image at $6000"
 msgstr "Anslut 4/8/16KB-modulfil vid $6000"
 
-#: src/arch/unix/gui/vic20ui.c:282 src/arch/win32/resvic20.rc.po.c:512
+#: src/arch/unix/gui/vic20ui.c:282 src/arch/win32/resvic20.rc.po.c:515
 #: src/arch/amigaos/intl_text.c.po.c:3761
 msgid "Attach 4/8KB cartridge image at $A000"
 msgstr "Anslut 4/8KB-modulfil vid $A000"
 
-#: src/arch/unix/gui/vic20ui.c:285 src/arch/win32/resvic20.rc.po.c:513
+#: src/arch/unix/gui/vic20ui.c:285 src/arch/win32/resvic20.rc.po.c:516
 #: src/arch/amigaos/intl_text.c.po.c:3773
 msgid "Attach 4KB cartridge image at $B000"
 msgstr "Anslut 4KB-modulfil vid $B000"
@@ -3689,7 +3689,7 @@ msgid "Attach Vic Flash Plugin image"
 msgstr "Anslut Vic Flash insticksmodulsavbildning"
 
 #: src/arch/unix/gui/vic20ui.c:315 src/arch/win32/resvic20.rc.po.c:70
-#: src/arch/win32/resvic20.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:377
+#: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:377
 msgid "Add to generic cartridge"
 msgstr "Lägg till generisk insticksmodul"
 
@@ -3721,8 +3721,8 @@ msgstr "Minnesutökningar"
 msgid "Paddle emulation"
 msgstr "Paddelemulering"
 
-#: src/arch/unix/gui/vic20ui.c:549 src/arch/win32/resvic20.rc.po.c:491
-#: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:1817
+#: src/arch/unix/gui/vic20ui.c:549 src/arch/win32/resvic20.rc.po.c:494
+#: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:1817
 #: src/arch/amigaos/intl_text.c.po.c:6330
 msgid "VIC settings"
 msgstr "VIC-inställningar"
@@ -5649,7 +5649,7 @@ msgstr "Modul/IO-inställningar"
 #: src/arch/win32/res.rc.po.c:1376 src/arch/win32/resc128.rc.po.c:270
 #: src/arch/win32/resc64.rc.po.c:258 src/arch/win32/resc64dtv.rc.po.c:201
 #: src/arch/win32/rescbm2.rc.po.c:206 src/arch/win32/respet.rc.po.c:209
-#: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:239
+#: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:242
 #: src/arch/amigaos/intl_text.c.po.c:2801
 msgid "Language"
 msgstr "Språk"
@@ -5657,7 +5657,7 @@ msgstr "Språk"
 #: src/arch/win32/res.rc.po.c:1377 src/arch/win32/resc128.rc.po.c:284
 #: src/arch/win32/resc64.rc.po.c:272 src/arch/win32/resc64dtv.rc.po.c:215
 #: src/arch/win32/rescbm2.rc.po.c:220 src/arch/win32/respet.rc.po.c:223
-#: src/arch/win32/resplus4.rc.po.c:236 src/arch/win32/resvic20.rc.po.c:253
+#: src/arch/win32/resplus4.rc.po.c:236 src/arch/win32/resvic20.rc.po.c:256
 #: src/arch/amigaos/intl_text.c.po.c:2561
 msgid "Help"
 msgstr "Hjälp"
@@ -5826,8 +5826,8 @@ msgstr "Musinställningar"
 msgid "REU settings"
 msgstr "REU-Inställningar"
 
-#: src/arch/win32/res.rc.po.c:1490 src/arch/win32/resgeoram.rc.po.c:40
-#: src/arch/amigaos/intl_text.c.po.c:2117
+#: src/arch/win32/res.rc.po.c:1490 src/arch/win32/resgeoram.rc.po.c:66
+#: src/arch/win32/resvic20.rc.po.c:537 src/arch/amigaos/intl_text.c.po.c:2117
 #: src/arch/amigaos/intl_text.c.po.c:4613
 msgid "GEO-RAM settings"
 msgstr "GEO-RAM-inställningar"
@@ -5878,7 +5878,7 @@ msgid "MIDI settings"
 msgstr "MIDI-inställningar"
 
 #: src/arch/win32/res.rc.po.c:1499 src/arch/win32/resdigimax.rc.po.c:22
-#: src/arch/amigaos/intl_text.c.po.c:2273
+#: src/arch/win32/resvic20.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:2273
 #: src/arch/amigaos/intl_text.c.po.c:7830
 msgid "DigiMAX settings"
 msgstr "DigiMAX-inställningar"
@@ -5899,7 +5899,7 @@ msgid "Ethernet settings"
 msgstr "Ethernetinställningar"
 
 #: src/arch/win32/res.rc.po.c:1505 src/arch/win32/resacia.rc.po.c:65
-#: src/arch/amigaos/intl_text.c.po.c:2345
+#: src/arch/win32/resvic20.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:2345
 #: src/arch/amigaos/intl_text.c.po.c:4097
 msgid "ACIA settings"
 msgstr "ACIA-inställningar"
@@ -6443,20 +6443,20 @@ msgstr "Aktivera Expert Cartridge"
 msgid "Save Expert Cartridge image when changed"
 msgstr "Spara Expert Cartrdige-avbildning vid ändringar"
 
-#: src/arch/win32/resgeoram.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4601
+#: src/arch/win32/resgeoram.rc.po.c:65 src/arch/amigaos/intl_text.c.po.c:4601
 msgid "Select file for GEO-RAM"
 msgstr "Välj fil för GEO-RAM"
 
-#: src/arch/win32/resgeoram.rc.po.c:41 src/translate_text.c.po.c:3661
+#: src/arch/win32/resgeoram.rc.po.c:67 src/translate_text.c.po.c:3661
 #, fuzzy
 msgid "Enable the GEO-RAM expansion unit"
 msgstr "Aktivera GEORAM-expansionsenhet"
 
-#: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4565
+#: src/arch/win32/resgeoram.rc.po.c:68 src/arch/amigaos/intl_text.c.po.c:4565
 msgid "GEO-RAM size"
 msgstr "GEO-RAM-storlek"
 
-#: src/arch/win32/resgeoram.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:4589
+#: src/arch/win32/resgeoram.rc.po.c:69 src/arch/amigaos/intl_text.c.po.c:4589
 msgid "Save GEO-RAM image when changed"
 msgstr "Spara GEO-RAM-avbildning vid ändringar"
 
@@ -6913,90 +6913,95 @@ msgstr "ROM-fil för V364-röst"
 msgid "Select ROM file for V364 Speech"
 msgstr "Välj ROM-fil för V364-röst"
 
-#: src/arch/win32/resvic20.rc.po.c:497
+#: src/arch/win32/resvic20.rc.po.c:500
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "Alla (block 0/1/2/3/5)"
 
-#: src/arch/win32/resvic20.rc.po.c:504 src/arch/amigaos/intl_text.c.po.c:6774
+#: src/arch/win32/resvic20.rc.po.c:507 src/arch/amigaos/intl_text.c.po.c:6774
 msgid "Select generic cartridge image"
 msgstr "Välj generisk insticksmodulavbildning"
 
-#: src/arch/win32/resvic20.rc.po.c:505 src/arch/amigaos/intl_text.c.po.c:6798
+#: src/arch/win32/resvic20.rc.po.c:508 src/arch/amigaos/intl_text.c.po.c:6798
 msgid "Select Mega-Cart image"
 msgstr "Välj Mega-Cart-modulfil"
 
-#: src/arch/win32/resvic20.rc.po.c:506 src/arch/amigaos/intl_text.c.po.c:6810
+#: src/arch/win32/resvic20.rc.po.c:509 src/arch/amigaos/intl_text.c.po.c:6810
 msgid "Select Final Expansion image"
 msgstr "Välj avbildning för Final Expansion"
 
-#: src/arch/win32/resvic20.rc.po.c:507 src/arch/amigaos/intl_text.c.po.c:6786
+#: src/arch/win32/resvic20.rc.po.c:510 src/arch/amigaos/intl_text.c.po.c:6786
 msgid "Select Vic Flash Plugin image"
 msgstr "Välj avbildning för Vic Flash-insticksmodul"
 
-#: src/arch/win32/resvic20.rc.po.c:508 src/arch/amigaos/intl_text.c.po.c:6822
+#: src/arch/win32/resvic20.rc.po.c:511 src/arch/amigaos/intl_text.c.po.c:6822
 msgid "Select cartridge file"
 msgstr "Välj insticksmodulfil"
 
-#: src/arch/win32/resvic20.rc.po.c:514 src/arch/amigaos/intl_text.c.po.c:1613
+#: src/arch/win32/resvic20.rc.po.c:517
+#, fuzzy
+msgid "Enable MasC=uerade I/O swap"
+msgstr "Aktivera SuperPET-I/O"
+
+#: src/arch/win32/resvic20.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:1613
 msgid "VIC-1112 IEEE-488 module"
 msgstr "VIC-1112 IEEE-488-modul"
 
-#: src/arch/win32/resvic20.rc.po.c:516 src/arch/amigaos/intl_text.c.po.c:329
+#: src/arch/win32/resvic20.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:329
 msgid "Generic image"
 msgstr "Generisk avbild"
 
-#: src/arch/win32/resvic20.rc.po.c:517 src/arch/amigaos/intl_text.c.po.c:341
+#: src/arch/win32/resvic20.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:341
 msgid "Mega-Cart image"
 msgstr "Mega-Cart-avbildning"
 
-#: src/arch/win32/resvic20.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:353
+#: src/arch/win32/resvic20.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:353
 msgid "Final Expansion image"
 msgstr "Final Expansion-fil"
 
-#: src/arch/win32/resvic20.rc.po.c:519 src/arch/amigaos/intl_text.c.po.c:365
+#: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:365
 msgid "Vic Flash Plugin image"
 msgstr "Vic Flash insticksmodul-fil"
 
-#: src/arch/win32/resvic20.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:389
+#: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:389
 msgid "Smart-attach image"
 msgstr "Smartanslut avbildning"
 
-#: src/arch/win32/resvic20.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:401
+#: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:401
 msgid "4/8/16KB image at $2000"
 msgstr "4/8/16KB-fil vid $2000"
 
-#: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:413
+#: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:413
 msgid "4/8/16KB image at $4000"
 msgstr "4/8/16KB-fil vid $4000"
 
-#: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:425
+#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:425
 msgid "4/8/16KB image at $6000"
 msgstr "4/8/16KB-fil vid $6000"
 
-#: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:437
+#: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:437
 msgid "4/8KB image at $A000"
 msgstr "4/8KB-fil vid $A000"
 
-#: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:449
+#: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:449
 msgid "4KB image at $B000"
 msgstr "4KB-fil vid $B000"
 
-#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:2405
+#: src/arch/win32/resvic20.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:2405
 #: src/translate_text.c.po.c:8586
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Aktivera återskrivning till ROM-fil för Final Expansion"
 
-#: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2417
+#: src/arch/win32/resvic20.rc.po.c:533 src/arch/amigaos/intl_text.c.po.c:2417
 #: src/translate_text.c.po.c:8661
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Aktivera återskrivning till ROM-fil för Vic Flash-insticksmodul"
 
-#: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:2429
+#: src/arch/win32/resvic20.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:2429
 #: src/translate_text.c.po.c:8631
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr "Aktivera Mega-Cart NvRAM-återskrivning"
 
-#: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2441
+#: src/arch/win32/resvic20.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:2441
 msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Välj NvRAM-fil för Mega-Cart"
 

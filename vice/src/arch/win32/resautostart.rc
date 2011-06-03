@@ -163,16 +163,16 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                    "Autostart settings"
-    IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use '"
-    IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
-    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
+    IDS_AUTOSTART_CAPTION                    "자동시작 셋팅"
+    IDS_AUTOSTART_WARP                       "자동 시작 warp"
+    IDS_AUTOSTART_COLON_RUN                  "':' 를 RUN 과 사용하기"
+    IDS_AUTOSTART_LOAD_TO_BASIC              "BASIC 시작 에 로드하기"
+    IDS_AUTOSTART_PRG_MODE                   "PRG 오토스마트 모드"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG 오토스마트 디스크 이미지"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
     IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
-    IDS_AUTOSTART_INJECT                     "Inject to RAM"
-    IDS_AUTOSTART_DISK                       "Disk image"
+    IDS_AUTOSTART_INJECT                     "RAM 에 주입하기"
+    IDS_AUTOSTART_DISK                       "디스크 이미지"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

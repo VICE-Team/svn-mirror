@@ -1,14 +1,14 @@
 # translation of hu.po to Hungarian
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the VICE package.
-#
+# 
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 # Karai Csaba <cskarai@freemail.hu>, 2006, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-31 16:22-0700\n"
+"POT-Creation-Date: 2011-06-03 08:58-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -2229,7 +2229,7 @@ msgstr "Teljesképernyõs eszköz"
 msgid "Size"
 msgstr "&I/O méret"
 
-#: src/arch/unix/gui/uigeoram.c:84 src/arch/win32/resgeoram.rc.po.c:44
+#: src/arch/unix/gui/uigeoram.c:84 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:4577
 #, fuzzy
 msgid "GEO-RAM file"
@@ -2725,7 +2725,7 @@ msgstr "Egér típusa"
 msgid "Mouse port"
 msgstr "Egér port"
 
-#: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:515
+#: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:519
 #: src/arch/amigaos/intl_text.c.po.c:1625
 #, fuzzy
 msgid "Enable paddles"
@@ -3452,7 +3452,7 @@ msgid "Resource file name"
 msgstr "Erõforrás fájl neve"
 
 #: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#: src/arch/win32/res.rc.po.c:1463 src/arch/win32/resvic20.rc.po.c:498
+#: src/arch/win32/res.rc.po.c:1463 src/arch/win32/resvic20.rc.po.c:501
 #: src/arch/amigaos/intl_text.c.po.c:1289
 msgid "Custom"
 msgstr "Egyéni"
@@ -3816,23 +3816,23 @@ msgstr "*Sprite-sprite ütközések"
 msgid "Sprite-background collisions"
 msgstr "*Sprite-háttér ütközések"
 
-#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:492
+#: src/arch/unix/gui/vic20ui.c:194 src/arch/win32/resvic20.rc.po.c:495
 msgid "No expansion memory"
 msgstr "Nincs memória bõvítés"
 
-#: src/arch/unix/gui/vic20ui.c:198 src/arch/win32/resvic20.rc.po.c:493
+#: src/arch/unix/gui/vic20ui.c:198 src/arch/win32/resvic20.rc.po.c:496
 msgid "3K (block 0)"
 msgstr "3K (blokk 0)"
 
-#: src/arch/unix/gui/vic20ui.c:201 src/arch/win32/resvic20.rc.po.c:494
+#: src/arch/unix/gui/vic20ui.c:201 src/arch/win32/resvic20.rc.po.c:497
 msgid "8K (block 1)"
 msgstr "8K (blokk 1)"
 
-#: src/arch/unix/gui/vic20ui.c:204 src/arch/win32/resvic20.rc.po.c:495
+#: src/arch/unix/gui/vic20ui.c:204 src/arch/win32/resvic20.rc.po.c:498
 msgid "16K (blocks 1/2)"
 msgstr "16K (blokk 1/2)"
 
-#: src/arch/unix/gui/vic20ui.c:207 src/arch/win32/resvic20.rc.po.c:496
+#: src/arch/unix/gui/vic20ui.c:207 src/arch/win32/resvic20.rc.po.c:499
 msgid "24K (blocks 1/2/3)"
 msgstr "24K (blokk 1/2/3)"
 
@@ -3844,27 +3844,27 @@ msgstr "Mindegyik (blokk 0/1/2/3/5)"
 msgid "Common configurations"
 msgstr "Közös konfigurációk"
 
-#: src/arch/unix/gui/vic20ui.c:227 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/unix/gui/vic20ui.c:227 src/arch/win32/resvic20.rc.po.c:502
 #, fuzzy
 msgid "Block 0 (3K at $0400-$0FFF)"
 msgstr "*Blokk 0 (3K $0400-$0FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:229 src/arch/win32/resvic20.rc.po.c:500
+#: src/arch/unix/gui/vic20ui.c:229 src/arch/win32/resvic20.rc.po.c:503
 #, fuzzy
 msgid "Block 1 (8K at $2000-$3FFF)"
 msgstr "*Blokk 1 (8K $2000-$3FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:231 src/arch/win32/resvic20.rc.po.c:501
+#: src/arch/unix/gui/vic20ui.c:231 src/arch/win32/resvic20.rc.po.c:504
 #, fuzzy
 msgid "Block 2 (8K at $4000-$5FFF)"
 msgstr "*Blokk 2 (8K $4000-$5FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:233 src/arch/win32/resvic20.rc.po.c:502
+#: src/arch/unix/gui/vic20ui.c:233 src/arch/win32/resvic20.rc.po.c:505
 #, fuzzy
 msgid "Block 3 (8K at $6000-$7FFF)"
 msgstr "*Blokk 3 (8K $6000-$7FFF címen)"
 
-#: src/arch/unix/gui/vic20ui.c:235 src/arch/win32/resvic20.rc.po.c:503
+#: src/arch/unix/gui/vic20ui.c:235 src/arch/win32/resvic20.rc.po.c:506
 #, fuzzy
 msgid "Block 5 (8K at $A000-$BFFF)"
 msgstr "*Blokk 5 (8K $A000-$BFFF címen)"
@@ -3880,27 +3880,27 @@ msgstr "Érvénytelen cartridge képmás"
 msgid "Smart-attach cartridge image"
 msgstr "Cartridge képmás gyors csatolása.."
 
-#: src/arch/unix/gui/vic20ui.c:273 src/arch/win32/resvic20.rc.po.c:509
+#: src/arch/unix/gui/vic20ui.c:273 src/arch/win32/resvic20.rc.po.c:512
 #: src/arch/amigaos/intl_text.c.po.c:3725
 msgid "Attach 4/8/16KB cartridge image at $2000"
 msgstr "4/8/16KB képmás csatolása $2000 címre"
 
-#: src/arch/unix/gui/vic20ui.c:276 src/arch/win32/resvic20.rc.po.c:510
+#: src/arch/unix/gui/vic20ui.c:276 src/arch/win32/resvic20.rc.po.c:513
 #: src/arch/amigaos/intl_text.c.po.c:3737
 msgid "Attach 4/8/16KB cartridge image at $4000"
 msgstr "4/8/16KB képmás csatolása $4000 címre"
 
-#: src/arch/unix/gui/vic20ui.c:279 src/arch/win32/resvic20.rc.po.c:511
+#: src/arch/unix/gui/vic20ui.c:279 src/arch/win32/resvic20.rc.po.c:514
 #: src/arch/amigaos/intl_text.c.po.c:3749
 msgid "Attach 4/8/16KB cartridge image at $6000"
 msgstr "4/8/16KB képmás csatolása $6000 címre"
 
-#: src/arch/unix/gui/vic20ui.c:282 src/arch/win32/resvic20.rc.po.c:512
+#: src/arch/unix/gui/vic20ui.c:282 src/arch/win32/resvic20.rc.po.c:515
 #: src/arch/amigaos/intl_text.c.po.c:3761
 msgid "Attach 4/8KB cartridge image at $A000"
 msgstr "4/8KB képmás csatolása $A000 címre"
 
-#: src/arch/unix/gui/vic20ui.c:285 src/arch/win32/resvic20.rc.po.c:513
+#: src/arch/unix/gui/vic20ui.c:285 src/arch/win32/resvic20.rc.po.c:516
 #: src/arch/amigaos/intl_text.c.po.c:3773
 msgid "Attach 4KB cartridge image at $B000"
 msgstr "4KB képmás csatolása $B000 címre"
@@ -3926,7 +3926,7 @@ msgid "Attach Vic Flash Plugin image"
 msgstr "DTV Flash képmás csatolása"
 
 #: src/arch/unix/gui/vic20ui.c:315 src/arch/win32/resvic20.rc.po.c:70
-#: src/arch/win32/resvic20.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:377
+#: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:377
 msgid "Add to generic cartridge"
 msgstr "Hozzáadás általános cartridge-hoz"
 
@@ -3963,8 +3963,8 @@ msgstr "Memória bõvítések"
 msgid "Paddle emulation"
 msgstr "Paddle emuláció"
 
-#: src/arch/unix/gui/vic20ui.c:549 src/arch/win32/resvic20.rc.po.c:491
-#: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:1817
+#: src/arch/unix/gui/vic20ui.c:549 src/arch/win32/resvic20.rc.po.c:494
+#: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:1817
 #: src/arch/amigaos/intl_text.c.po.c:6330
 msgid "VIC settings"
 msgstr "VIC beállításai"
@@ -5958,7 +5958,7 @@ msgstr "Cartridge/IO beállításai"
 #: src/arch/win32/res.rc.po.c:1376 src/arch/win32/resc128.rc.po.c:270
 #: src/arch/win32/resc64.rc.po.c:258 src/arch/win32/resc64dtv.rc.po.c:201
 #: src/arch/win32/rescbm2.rc.po.c:206 src/arch/win32/respet.rc.po.c:209
-#: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:239
+#: src/arch/win32/resplus4.rc.po.c:222 src/arch/win32/resvic20.rc.po.c:242
 #: src/arch/amigaos/intl_text.c.po.c:2801
 msgid "Language"
 msgstr "Nyelv"
@@ -5966,7 +5966,7 @@ msgstr "Nyelv"
 #: src/arch/win32/res.rc.po.c:1377 src/arch/win32/resc128.rc.po.c:284
 #: src/arch/win32/resc64.rc.po.c:272 src/arch/win32/resc64dtv.rc.po.c:215
 #: src/arch/win32/rescbm2.rc.po.c:220 src/arch/win32/respet.rc.po.c:223
-#: src/arch/win32/resplus4.rc.po.c:236 src/arch/win32/resvic20.rc.po.c:253
+#: src/arch/win32/resplus4.rc.po.c:236 src/arch/win32/resvic20.rc.po.c:256
 #: src/arch/amigaos/intl_text.c.po.c:2561
 msgid "Help"
 msgstr "Segítség"
@@ -6161,8 +6161,8 @@ msgstr "Egér beállítások"
 msgid "REU settings"
 msgstr "REU beállításai"
 
-#: src/arch/win32/res.rc.po.c:1490 src/arch/win32/resgeoram.rc.po.c:40
-#: src/arch/amigaos/intl_text.c.po.c:2117
+#: src/arch/win32/res.rc.po.c:1490 src/arch/win32/resgeoram.rc.po.c:66
+#: src/arch/win32/resvic20.rc.po.c:537 src/arch/amigaos/intl_text.c.po.c:2117
 #: src/arch/amigaos/intl_text.c.po.c:4613
 #, fuzzy
 msgid "GEO-RAM settings"
@@ -6221,7 +6221,7 @@ msgid "MIDI settings"
 msgstr "SID beállításai"
 
 #: src/arch/win32/res.rc.po.c:1499 src/arch/win32/resdigimax.rc.po.c:22
-#: src/arch/amigaos/intl_text.c.po.c:2273
+#: src/arch/win32/resvic20.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:2273
 #: src/arch/amigaos/intl_text.c.po.c:7830
 #, fuzzy
 msgid "DigiMAX settings"
@@ -6245,7 +6245,7 @@ msgid "Ethernet settings"
 msgstr "Ethernet beállításai"
 
 #: src/arch/win32/res.rc.po.c:1505 src/arch/win32/resacia.rc.po.c:65
-#: src/arch/amigaos/intl_text.c.po.c:2345
+#: src/arch/win32/resvic20.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:2345
 #: src/arch/amigaos/intl_text.c.po.c:4097
 #, fuzzy
 msgid "ACIA settings"
@@ -6837,22 +6837,22 @@ msgstr "Expert cartridge engedélyezése"
 msgid "Save Expert Cartridge image when changed"
 msgstr "Cartridge képmás csatolása..."
 
-#: src/arch/win32/resgeoram.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:4601
+#: src/arch/win32/resgeoram.rc.po.c:65 src/arch/amigaos/intl_text.c.po.c:4601
 #, fuzzy
 msgid "Select file for GEO-RAM"
 msgstr "Válasszon fájlt a GEORAM-hoz"
 
-#: src/arch/win32/resgeoram.rc.po.c:41 src/translate_text.c.po.c:3661
+#: src/arch/win32/resgeoram.rc.po.c:67 src/translate_text.c.po.c:3661
 #, fuzzy
 msgid "Enable the GEO-RAM expansion unit"
 msgstr "GEORAM Expansion Unit engedélyezése"
 
-#: src/arch/win32/resgeoram.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:4565
+#: src/arch/win32/resgeoram.rc.po.c:68 src/arch/amigaos/intl_text.c.po.c:4565
 #, fuzzy
 msgid "GEO-RAM size"
 msgstr "GEORAM mérete"
 
-#: src/arch/win32/resgeoram.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:4589
+#: src/arch/win32/resgeoram.rc.po.c:69 src/arch/amigaos/intl_text.c.po.c:4589
 #, fuzzy
 msgid "Save GEO-RAM image when changed"
 msgstr "BIOS &mentése változás után"
@@ -7356,106 +7356,111 @@ msgstr "Válasszon ROM fájlt"
 msgid "Select ROM file for V364 Speech"
 msgstr "Válasszon fájlt a 256K-hoz"
 
-#: src/arch/win32/resvic20.rc.po.c:497
+#: src/arch/win32/resvic20.rc.po.c:500
 #, fuzzy
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr "&Mindegyik (blokk 0/1/2/3/5)"
 
-#: src/arch/win32/resvic20.rc.po.c:504 src/arch/amigaos/intl_text.c.po.c:6774
+#: src/arch/win32/resvic20.rc.po.c:507 src/arch/amigaos/intl_text.c.po.c:6774
 #, fuzzy
 msgid "Select generic cartridge image"
 msgstr "Általános cartridge fájl kiválasztása"
 
-#: src/arch/win32/resvic20.rc.po.c:505 src/arch/amigaos/intl_text.c.po.c:6798
+#: src/arch/win32/resvic20.rc.po.c:508 src/arch/amigaos/intl_text.c.po.c:6798
 msgid "Select Mega-Cart image"
 msgstr "Válassza ki a Mega-Cart képmást"
 
-#: src/arch/win32/resvic20.rc.po.c:506 src/arch/amigaos/intl_text.c.po.c:6810
+#: src/arch/win32/resvic20.rc.po.c:509 src/arch/amigaos/intl_text.c.po.c:6810
 msgid "Select Final Expansion image"
 msgstr "Válassza ki a Final Expansion képmást"
 
-#: src/arch/win32/resvic20.rc.po.c:507 src/arch/amigaos/intl_text.c.po.c:6786
+#: src/arch/win32/resvic20.rc.po.c:510 src/arch/amigaos/intl_text.c.po.c:6786
 #, fuzzy
 msgid "Select Vic Flash Plugin image"
 msgstr "Válassza ki a Final Expansion képmást"
 
-#: src/arch/win32/resvic20.rc.po.c:508 src/arch/amigaos/intl_text.c.po.c:6822
+#: src/arch/win32/resvic20.rc.po.c:511 src/arch/amigaos/intl_text.c.po.c:6822
 msgid "Select cartridge file"
 msgstr "Cartridge fájl kiválasztása"
 
-#: src/arch/win32/resvic20.rc.po.c:514 src/arch/amigaos/intl_text.c.po.c:1613
+#: src/arch/win32/resvic20.rc.po.c:517
+#, fuzzy
+msgid "Enable MasC=uerade I/O swap"
+msgstr "SuperPET I/O engedélyezése"
+
+#: src/arch/win32/resvic20.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:1613
 #, fuzzy
 msgid "VIC-1112 IEEE-488 module"
 msgstr "VIC-1112 IEEE 488 modul"
 
-#: src/arch/win32/resvic20.rc.po.c:516 src/arch/amigaos/intl_text.c.po.c:329
+#: src/arch/win32/resvic20.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:329
 #, fuzzy
 msgid "Generic image"
 msgstr "Általános képmás..."
 
-#: src/arch/win32/resvic20.rc.po.c:517 src/arch/amigaos/intl_text.c.po.c:341
+#: src/arch/win32/resvic20.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:341
 #, fuzzy
 msgid "Mega-Cart image"
 msgstr "Mega-Cart képmás..."
 
-#: src/arch/win32/resvic20.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:353
+#: src/arch/win32/resvic20.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:353
 #, fuzzy
 msgid "Final Expansion image"
 msgstr "Final Expansion képmás..."
 
-#: src/arch/win32/resvic20.rc.po.c:519 src/arch/amigaos/intl_text.c.po.c:365
+#: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:365
 #, fuzzy
 msgid "Vic Flash Plugin image"
 msgstr "Final Expansion képmás..."
 
-#: src/arch/win32/resvic20.rc.po.c:521 src/arch/amigaos/intl_text.c.po.c:389
+#: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:389
 #, fuzzy
 msgid "Smart-attach image"
 msgstr "Képmás okos csatolása..."
 
-#: src/arch/win32/resvic20.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:401
+#: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:401
 #, fuzzy
 msgid "4/8/16KB image at $2000"
 msgstr "4/8/16KB képmás $2000 címen..."
 
-#: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:413
+#: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:413
 #, fuzzy
 msgid "4/8/16KB image at $4000"
 msgstr "4/8/16KB képmás $4000 címen..."
 
-#: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:425
+#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:425
 #, fuzzy
 msgid "4/8/16KB image at $6000"
 msgstr "4/8/16KB képmás $6000 címen..."
 
-#: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:437
+#: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:437
 #, fuzzy
 msgid "4/8KB image at $A000"
 msgstr "4/8KB képmás $A000 címen..."
 
-#: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:449
+#: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:449
 #, fuzzy
 msgid "4KB image at $B000"
 msgstr "4KB képmás $B000 címen..."
 
-#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:2405
+#: src/arch/win32/resvic20.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:2405
 #: src/translate_text.c.po.c:8586
 msgid "Enable Final Expansion write back to ROM file"
 msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
 
-#: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:2417
+#: src/arch/win32/resvic20.rc.po.c:533 src/arch/amigaos/intl_text.c.po.c:2417
 #: src/translate_text.c.po.c:8661
 #, fuzzy
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr "Final Expansion ROM fájlba visszaírás engedélyezése"
 
-#: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:2429
+#: src/arch/win32/resvic20.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:2429
 #: src/translate_text.c.po.c:8631
 #, fuzzy
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr "*Mega-Cart NvRAM visszaírás"
 
-#: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:2441
+#: src/arch/win32/resvic20.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:2441
 msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Válassza ki az NvRAM képfájlt"
 

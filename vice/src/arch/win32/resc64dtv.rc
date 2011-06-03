@@ -666,7 +666,7 @@ BEGIN
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
-  IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
+  IDS_MI_PS2MOUSE                 "유저포트에 PS/S 마우스 "
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
   IDS_JOYSTICK                    "조이스틱"
 END

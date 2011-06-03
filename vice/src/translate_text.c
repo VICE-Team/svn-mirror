@@ -8268,7 +8268,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_P_BASE_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_BASE_ADDRESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_BASE_ADDRESS_IT, "<Indirizzo base>"},
-/* ko */ {IDCLS_P_BASE_ADDRESS_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_BASE_ADDRESS_KO, "<베이스 주소>"},
 /* nl */ {IDCLS_P_BASE_ADDRESS_NL, "<Basisadres>"},
 /* ru */ {IDCLS_P_BASE_ADDRESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_BASE_ADDRESS_SV, "<Basadress>"},

@@ -56,7 +56,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_ATTACH_DISK_IMAGE_FR, "Insérer une image de disque" },
 /* hu */ { IDMS_ATTACH_DISK_IMAGE_HU, "Lemez képmás csatolása" },
 /* it */ { IDMS_ATTACH_DISK_IMAGE_IT, "Seleziona immagine disco" },
-/* ko */ { IDMS_ATTACH_DISK_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_ATTACH_DISK_IMAGE_KO, "µð½ºÅ© ÀÌ¹ÌÁö ºÙ¿©³Ö±â" },
 /* nl */ { IDMS_ATTACH_DISK_IMAGE_NL, "Koppel schijfbestand aan" },
 /* ru */ { IDMS_ATTACH_DISK_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ATTACH_DISK_IMAGE_SV, "Anslut diskettavbildningsfil" },
@@ -116,7 +116,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_DETACH_DISK_IMAGE_FR, "Retirer une image de disque" },
 /* hu */ { IDMS_DETACH_DISK_IMAGE_HU, "Lemezképmás leválasztása" },
 /* it */ { IDMS_DETACH_DISK_IMAGE_IT, "Rimuovi immagine disco" },
-/* ko */ { IDMS_DETACH_DISK_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_DETACH_DISK_IMAGE_KO, "µð½ºÅ© ÀÌ¹ÌÁö ¶¼¾î³»±â" },
 /* nl */ { IDMS_DETACH_DISK_IMAGE_NL, "Ontkoppel schijfbestand" },
 /* ru */ { IDMS_DETACH_DISK_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_DETACH_DISK_IMAGE_SV, "Koppla från diskettavbildningsfil" },
@@ -128,7 +128,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_ALL_FR, "Tous" },
 /* hu */ { IDMS_ALL_HU, "Összes" },
 /* it */ { IDMS_ALL_IT, "Tutti" },
-/* ko */ { IDMS_ALL_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_ALL_KO, "ÀüºÎ" },
 /* nl */ { IDMS_ALL_NL, "Alles" },
 /* ru */ { IDMS_ALL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ALL_SV, "Alla" },
@@ -224,7 +224,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_ATTACH_TAPE_IMAGE_FR, "Insérer une image de datassette..." },
 /* hu */ { IDMS_ATTACH_TAPE_IMAGE_HU, "Szalag képmás csatolása..." },
 /* it */ { IDMS_ATTACH_TAPE_IMAGE_IT, "Seleziona immagine cassetta..." },
-/* ko */ { IDMS_ATTACH_TAPE_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_ATTACH_TAPE_IMAGE_KO, "Å×ÀÌÇÁ ÀÌ¹ÌÁö ºÙ¿©³Ö±â..." },
 /* nl */ { IDMS_ATTACH_TAPE_IMAGE_NL, "Koppel tapebestand aan..." },
 /* ru */ { IDMS_ATTACH_TAPE_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ATTACH_TAPE_IMAGE_SV, "Anslut bandavbildningsfil..." },
@@ -236,7 +236,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_DETACH_TAPE_IMAGE_FR, "Retirer une image datassette..." },
 /* hu */ { IDMS_DETACH_TAPE_IMAGE_HU, "Szalag képmás leválasztása" },
 /* it */ { IDMS_DETACH_TAPE_IMAGE_IT, "Rimuovi immagine cassetta" },
-/* ko */ { IDMS_DETACH_TAPE_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_DETACH_TAPE_IMAGE_KO, "Å×ÀÌÇÁ ÀÌ¹ÌÁö ¶§¾î³»±â" },
 /* nl */ { IDMS_DETACH_TAPE_IMAGE_NL, "Ontkoppel tapebestand" },
 /* ru */ { IDMS_DETACH_TAPE_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_DETACH_TAPE_IMAGE_SV, "Koppla från bandavbildningsfil" },
@@ -344,7 +344,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_ATTACH_CART_IMAGE_FR, "Insérer une cartouche..." },
 /* hu */ { IDMS_ATTACH_CART_IMAGE_HU, "Cartridge képmás csatolása..." },
 /* it */ { IDMS_ATTACH_CART_IMAGE_IT, "Seleziona immagine cartuccia..." },
-/* ko */ { IDMS_ATTACH_CART_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_ATTACH_CART_IMAGE_KO, "Ä«Æ®¸®Áö ÀÌ¹ÌÁö ºÙÀÌ±â..." },
 /* nl */ { IDMS_ATTACH_CART_IMAGE_NL, "Koppel cartridge bestand..." },
 /* ru */ { IDMS_ATTACH_CART_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ATTACH_CART_IMAGE_SV, "Anslut insticksmodulfil..." },
@@ -488,7 +488,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_DETACH_CART_IMAGE_FR, "Retirer une cartouche" },
 /* hu */ { IDMS_DETACH_CART_IMAGE_HU, "Cartridge képmás(ok) leválasztása" },
 /* it */ { IDMS_DETACH_CART_IMAGE_IT, "Rimuovi le immagini delle cartucce" },
-/* ko */ { IDMS_DETACH_CART_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_DETACH_CART_IMAGE_KO, "Ä«Æ®¸®Áö ÀÌ¹ÌÁö ¶¼±â" },
 /* nl */ { IDMS_DETACH_CART_IMAGE_NL, "Ontkoppel cartridge bestand(en)" },
 /* ru */ { IDMS_DETACH_CART_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_DETACH_CART_IMAGE_SV, "Koppla från insticksmodulfil(er)" },
@@ -764,7 +764,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_SET_CART_AS_DEFAULT_FR, "Définir cette cartouche par défaut" },
 /* hu */ { IDMS_SET_CART_AS_DEFAULT_HU, "Cartridge alapértelmezetté tétele" },
 /* it */ { IDMS_SET_CART_AS_DEFAULT_IT, "Imposta la cartuccia come predefinita" },
-/* ko */ { IDMS_SET_CART_AS_DEFAULT_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_SET_CART_AS_DEFAULT_KO, "Ä«Æ®¸®Áö¸¦ µðÆúÆ® ¼Â ÇÏ±â" },
 /* nl */ { IDMS_SET_CART_AS_DEFAULT_NL, "Zet cartridge als standaard" },
 /* ru */ { IDMS_SET_CART_AS_DEFAULT_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_SET_CART_AS_DEFAULT_SV, "Välj insticksmodul som förval" },
@@ -788,7 +788,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_CART_FREEZE_FR, "Geler la cartouche" },
 /* hu */ { IDMS_CART_FREEZE_HU, "Fagyasztás Cartridge-dzsel" },
 /* it */ { IDMS_CART_FREEZE_IT, "Freeze cartuccia" },
-/* ko */ { IDMS_CART_FREEZE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_CART_FREEZE_KO, "Ä«Æ®¸®Áö ÇÁ¸®Áî" },
 /* nl */ { IDMS_CART_FREEZE_NL, "Cartridge freeze" },
 /* ru */ { IDMS_CART_FREEZE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_CART_FREEZE_SV, "Insticksmodulens frysfunktion" },
@@ -1688,7 +1688,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_PS2_MOUSE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_PS2_MOUSE_HU, "PS/2 egér a userporton" },
 /* it */ { IDMS_PS2_MOUSE_IT, "Mouse PS/2 su userport" },
-/* ko */ { IDMS_PS2_MOUSE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_PS2_MOUSE_KO, "À¯ÀúÆ÷Æ®¿¡ PS/S ¸¶¿ì½º " },
 /* nl */ { IDMS_PS2_MOUSE_NL, "Aktiveer emulatie van een PS/2 muis op de userport" },
 /* ru */ { IDMS_PS2_MOUSE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_PS2_MOUSE_SV, "PS/2-mus på användarport" },
@@ -1820,7 +1820,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_AUTOSTART_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_AUTOSTART_SETTINGS_HU, "Autostart beállításai..." },
 /* it */ { IDMS_AUTOSTART_SETTINGS_IT, "Impostazioni avvio automatico..." },
-/* ko */ { IDMS_AUTOSTART_SETTINGS_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_AUTOSTART_SETTINGS_KO, "ÀÚµ¿½ÃÀÛ ¼ÂÆÃ..." },
 /* nl */ { IDMS_AUTOSTART_SETTINGS_NL, "Autostart instellingen..." },
 /* ru */ { IDMS_AUTOSTART_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_AUTOSTART_SETTINGS_SV, "Autostartinställningar..." },
@@ -3740,7 +3740,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AVAILABLE_CMDLINE_OPTIONS_FR, "\nOptions de ligne de commande disponibles:\n\n" },
 /* hu */ { IDS_AVAILABLE_CMDLINE_OPTIONS_HU, "\nLehetséges parancssori opciók:\n\n" },
 /* it */ { IDS_AVAILABLE_CMDLINE_OPTIONS_IT, "\nOpzioni disponibili da riga di comando:\n\n" },
-/* ko */ { IDS_AVAILABLE_CMDLINE_OPTIONS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AVAILABLE_CMDLINE_OPTIONS_KO, "\n»ç¿ë°¡´ÉÇÑ Ä¿¸Çµå ¶óÀÎ ¿É¼Ç:\n\n" },
 /* nl */ { IDS_AVAILABLE_CMDLINE_OPTIONS_NL, "\nBeschikbare command-line opties:\n\n" },
 /* ru */ { IDS_AVAILABLE_CMDLINE_OPTIONS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AVAILABLE_CMDLINE_OPTIONS_SV, "\nTillgängliga kommandoradsflaggor:\n\n" },
@@ -4160,7 +4160,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_256K_FILENAME_FR, "Fichier 256K" },
 /* hu */ { IDS_256K_FILENAME_HU, "256K fájl" },
 /* it */ { IDS_256K_FILENAME_IT, "File 256K" },
-/* ko */ { IDS_256K_FILENAME_KO, "" },  /* fuzzy */
+/* ko */ { IDS_256K_FILENAME_KO, "256k ÆÄÀÏ" },
 /* nl */ { IDS_256K_FILENAME_NL, "256K bestand" },
 /* ru */ { IDS_256K_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_256K_FILENAME_SV, "256K-fil" },
@@ -4208,7 +4208,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_C64DTV_ROM_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_C64DTV_ROM_FILENAME_HU, "C64DTV ROM fájl" },
 /* it */ { IDS_C64DTV_ROM_FILENAME_IT, "File ROM C64DTV" },
-/* ko */ { IDS_C64DTV_ROM_FILENAME_KO, "" },  /* fuzzy */
+/* ko */ { IDS_C64DTV_ROM_FILENAME_KO, "C64DTV ROM ÆÄÀÏ" },
 /* nl */ { IDS_C64DTV_ROM_FILENAME_NL, "C64DTV ROM bestand" },
 /* ru */ { IDS_C64DTV_ROM_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_C64DTV_ROM_FILENAME_SV, "C64DTV-ROM-fil" },
@@ -4244,7 +4244,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_C64DTV_HUMMER_ADC_FR, "" },  /* fuzzy */
 /* hu */ { IDS_C64DTV_HUMMER_ADC_HU, "" },  /* fuzzy */
 /* it */ { IDS_C64DTV_HUMMER_ADC_IT, "Hummer ADC" },
-/* ko */ { IDS_C64DTV_HUMMER_ADC_KO, "" },  /* fuzzy */
+/* ko */ { IDS_C64DTV_HUMMER_ADC_KO, "Çè¸Ó ADC" },
 /* nl */ { IDS_C64DTV_HUMMER_ADC_NL, "Hummer ADC" },
 /* ru */ { IDS_C64DTV_HUMMER_ADC_RU, "" },  /* fuzzy */
 /* sv */ { IDS_C64DTV_HUMMER_ADC_SV, "Hummer A/D-omvandlare" },
@@ -6417,7 +6417,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_ATTACH_TAPE_IMAGE_FR, "Insérer une image de datassette" },
 /* hu */ { IDS_ATTACH_TAPE_IMAGE_HU, "Szalag képmás csatolása" },
 /* it */ { IDS_ATTACH_TAPE_IMAGE_IT, "Seleziona immagine cassetta" },
-/* ko */ { IDS_ATTACH_TAPE_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_ATTACH_TAPE_IMAGE_KO, "Å×ÀÌÇÁ ÀÌ¹ÌÁö ºÙ¿©³Ö±â" },
 /* nl */ { IDS_ATTACH_TAPE_IMAGE_NL, "Koppel tapebestand aan" },
 /* ru */ { IDS_ATTACH_TAPE_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ATTACH_TAPE_IMAGE_SV, "Anslut bandavbildningsfil" },
@@ -8169,7 +8169,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AUTOSTART_INJECT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_INJECT_HU, "" },  /* fuzzy */
 /* it */ { IDS_AUTOSTART_INJECT_IT, "Immetti su RAM" },
-/* ko */ { IDS_AUTOSTART_INJECT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_INJECT_KO, "RAM ¿¡ ÁÖÀÔÇÏ±â" },
 /* nl */ { IDS_AUTOSTART_INJECT_NL, "injecteer in RAM" },
 /* ru */ { IDS_AUTOSTART_INJECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_INJECT_SV, "Lägg in i RAM" },
@@ -8181,7 +8181,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AUTOSTART_DISK_FR, "Image de disque" },
 /* hu */ { IDS_AUTOSTART_DISK_HU, "Lemez képmás" },
 /* it */ { IDS_AUTOSTART_DISK_IT, "Immagine disco" },
-/* ko */ { IDS_AUTOSTART_DISK_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_DISK_KO, "µð½ºÅ© ÀÌ¹ÌÁö" },
 /* nl */ { IDS_AUTOSTART_DISK_NL, "Disk bestand" },
 /* ru */ { IDS_AUTOSTART_DISK_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_DISK_SV, "Diskavbildning" },
@@ -8205,7 +8205,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_WARP_ON_AUTOSTART_FR, "" },  /* fuzzy */
 /* hu */ { IDS_WARP_ON_AUTOSTART_HU, "Automatikus indítás hipergyors" },
 /* it */ { IDS_WARP_ON_AUTOSTART_IT, "Avvio automatico in turbo" },
-/* ko */ { IDS_WARP_ON_AUTOSTART_KO, "" },  /* fuzzy */
+/* ko */ { IDS_WARP_ON_AUTOSTART_KO, "ÀÚµ¿ ½ÃÀÛ warp" },
 /* nl */ { IDS_WARP_ON_AUTOSTART_NL, "Autostart warp" },
 /* ru */ { IDS_WARP_ON_AUTOSTART_RU, "" },  /* fuzzy */
 /* sv */ { IDS_WARP_ON_AUTOSTART_SV, "Starta warp automatiskt" },
@@ -8217,7 +8217,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_RUN_WITH_COLON_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RUN_WITH_COLON_HU, "" },  /* fuzzy */
 /* it */ { IDS_RUN_WITH_COLON_IT, "Usa ':' con RUN" },
-/* ko */ { IDS_RUN_WITH_COLON_KO, "" },  /* fuzzy */
+/* ko */ { IDS_RUN_WITH_COLON_KO, "':' ¸¦ RUN °ú »ç¿ëÇÏ±â" },
 /* nl */ { IDS_RUN_WITH_COLON_NL, "Gebruik ':' met RUN" },
 /* ru */ { IDS_RUN_WITH_COLON_RU, "" },  /* fuzzy */
 /* sv */ { IDS_RUN_WITH_COLON_SV, "Använd \":\" med RUN" },
@@ -8229,7 +8229,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AUTOSTART_PRG_MODE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_PRG_MODE_HU, "PRG automatikus indítás mód" },
 /* it */ { IDS_AUTOSTART_PRG_MODE_IT, "Avvio automatico PRG" },
-/* ko */ { IDS_AUTOSTART_PRG_MODE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_PRG_MODE_KO, "PRG ¿ÀÅä½º¸¶Æ® ¸ðµå" },
 /* nl */ { IDS_AUTOSTART_PRG_MODE_NL, "PRG autostart modus" },
 /* ru */ { IDS_AUTOSTART_PRG_MODE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_PRG_MODE_SV, "Autostartläge för PRG" },
@@ -8241,7 +8241,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_HU, "" },  /* fuzzy */
 /* it */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_IT, "Carica all'inizio del BASIC" },
-/* ko */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_KO, "BASIC ½ÃÀÛ ¿¡ ·ÎµåÇÏ±â" },
 /* nl */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_NL, "Laad naar BASIC start" },
 /* ru */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_LOAD_TO_BASIC_START_SV, "Läs till BASIC-start" },
@@ -8253,7 +8253,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_HU, "PRG automatikus indítás képmás" },
 /* it */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_IT, "Immagine disco avvio automatico PRG" },
-/* ko */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_KO, "PRG ¿ÀÅä½º¸¶Æ® µð½ºÅ© ÀÌ¹ÌÁö" },
 /* nl */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_NL, "PRG autostart disk bestand" },
 /* ru */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_DISK_IMAGE_FILENAME_SV, "Autostartdiskavbildning för PRG" },
@@ -8265,7 +8265,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AUTOSTART_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_SETTINGS_HU, "Autostart beállításai" },
 /* it */ { IDS_AUTOSTART_SETTINGS_IT, "Impostazioni avvio automatico" },
-/* ko */ { IDS_AUTOSTART_SETTINGS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_SETTINGS_KO, "ÀÚµ¿½ÃÀÛ ¼ÂÆÃ" },
 /* nl */ { IDS_AUTOSTART_SETTINGS_NL, "Autostart instellingen" },
 /* ru */ { IDS_AUTOSTART_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AUTOSTART_SETTINGS_SV, "Autostartinställningar" },
