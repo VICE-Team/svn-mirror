@@ -32,6 +32,7 @@
 #include <windows.h>
 
 #include "lib.h"
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "rawnet.h"
@@ -89,6 +90,9 @@ static int gray_ungray_items(HWND hwnd)
 
     EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE_T), enable);
     EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_INTERFACE), enable);
+    if (machine_class == VICE_MACHINE_VIC20) {
+        EnableWindow(GetDlgItem(hwnd, IDC_TFE_SETTINGS_IO_SWAP), 0);
+    }
 
     if (enable) {
         char *pname = NULL;
@@ -119,9 +123,21 @@ static uilib_localize_dialog_param tfe_dialog[] = {
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param tfe_mascuerade_dialog[] = {
+    { IDC_TFE_SETTINGS_IO_SWAP, IDS_IO_SWAP, 0 },
+    { 0, 0, 0 }
+};
+
 static uilib_dialog_group tfe_leftgroup[] = {
     { IDC_TFE_SETTINGS_ENABLE_T, 0 },
     { IDC_TFE_SETTINGS_INTERFACE_T, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group tfe_mascuerade_leftgroup[] = {
+    { IDC_TFE_SETTINGS_ENABLE_T, 0 },
+    { IDC_TFE_SETTINGS_INTERFACE_T, 0 },
+    { IDC_TFE_SETTINGS_IO_SWAP, 1 },
     { 0, 0 }
 };
 
@@ -136,6 +152,8 @@ static void init_tfe_dialog(HWND hwnd)
     HWND temp_hwnd;
     int active_value;
 
+    uilib_dialog_group *leftgroup = (machine_class == VICE_MACHINE_VIC20) ? tfe_mascuerade_leftgroup : tfe_leftgroup;
+
     int tfe_enabled;
     int tfe_as_rr_net;
     int xsize, ysize;
@@ -143,8 +161,13 @@ static void init_tfe_dialog(HWND hwnd)
     const char *interface_name;
 
     uilib_localize_dialog(hwnd, tfe_dialog);
-    uilib_get_group_extent(hwnd, tfe_leftgroup, &xsize, &ysize);
-    uilib_adjust_group_width(hwnd, tfe_leftgroup);
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        uilib_localize_dialog(hwnd, tfe_mascuerade_dialog);
+    }
+
+    uilib_get_group_extent(hwnd, leftgroup, &xsize, &ysize);
+    uilib_adjust_group_width(hwnd, leftgroup);
     uilib_move_group(hwnd, tfe_rightgroup, xsize + 30);
 
     resources_get_int("ETHERNET_ACTIVE", &tfe_enabled);
@@ -154,8 +177,15 @@ static void init_tfe_dialog(HWND hwnd)
     temp_hwnd=GetDlgItem(hwnd,IDC_TFE_SETTINGS_ENABLE);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Disabled");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"TFE");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RR Net");
+    if (machine_class != VICE_MACHINE_VIC20) {
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"RR Net");
+    }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_get_int("TFEIOSwap", &active_value);
+        CheckDlgButton(hwnd, IDC_TFE_SETTINGS_IO_SWAP, active_value ? BST_CHECKED : BST_UNCHECKED);
+    }
 
     resources_get_string("ETHERNET_INTERFACE", &interface_name);
 
@@ -215,6 +245,10 @@ static void save_tfe_dialog(HWND hwnd)
     buffer[255] = '\0';
     GetDlgItemText(hwnd, IDC_TFE_SETTINGS_INTERFACE, buffer, 255);
     resources_set_string("ETHERNET_INTERFACE", buffer);
+
+    if (machine_class == VICE_MACHINE_VIC20) {
+        resources_set_int("TFEIOSwap", (IsDlgButtonChecked(hwnd, IDC_TFE_SETTINGS_IO_SWAP) == BST_CHECKED ? 1 : 0 ));
+    }
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

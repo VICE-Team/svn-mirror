@@ -52,6 +52,7 @@
 #include "uirom.h"
 #include "uirs232user.h"
 #include "uisidcart.h"
+#include "uitfe.h"
 #include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
@@ -332,6 +333,9 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS_MASCUERADE },
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS_MASCUERADE },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS_MASCUERADE },
+#ifdef HAVE_TFE
+    { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS_MASCUERADE },
+#endif
     { 0, 0 }
 };
 
@@ -537,6 +541,11 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_settings_dialog(hwnd);
             break;
+#ifdef HAVE_TFE
+        case IDM_TFE_SETTINGS:
+           ui_tfe_settings_dialog(hwnd);
+           break;
+#endif
         case IDM_MIDI_SETTINGS:
             ui_midi_settings_dialog(hwnd);
             break;

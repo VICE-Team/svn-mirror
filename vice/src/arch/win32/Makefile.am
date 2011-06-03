@@ -552,13 +552,14 @@ resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resgeoram.rc \
-	$(srcdir)/resdigimax.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resgeoram.rc \
-	$(srcdir)/resdigimax.rc
+	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc
 
 if OWCC
 resc128.res: resc128cat.rc

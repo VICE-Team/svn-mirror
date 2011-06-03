@@ -235,6 +235,9 @@ BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
             MENUITEM "", IDM_GEORAM_SETTINGS
             MENUITEM "", IDM_DIGIMAX_SETTINGS
+#ifdef HAVE_TFE
+            MENUITEM "", IDM_TFE_SETTINGS
+#endif
         END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
@@ -574,6 +577,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA settings (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX settings (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 
 
@@ -627,6 +633,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA-indstillinger (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM-indstillinger (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX-indstillinger (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 
 
@@ -680,6 +689,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA Einstellungen (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM Einstellungen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX Einstellungen (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 
 
@@ -733,6 +745,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA settings (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX settings (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 
 
@@ -789,6 +804,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA settings (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX settings (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -845,6 +863,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "Impostazioni ACIA (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "Impostazioni GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "Impostazioni DigiMAX (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 
 
@@ -901,6 +922,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA settings (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX settings (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -957,6 +981,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA instellingen (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM instellingen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX instellingen (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 
 
@@ -1013,6 +1040,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA settings (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM settings (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX settings (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1069,6 +1099,9 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA-inställningar (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM-inställningar (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX-inställningar (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 
 
@@ -1125,9 +1158,11 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA Ayarlarý (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM ayarlarý (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX ayarlarý (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+#endif
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
 
