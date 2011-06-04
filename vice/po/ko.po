@@ -717,7 +717,7 @@ msgstr "비지니스(DE)"
 #: src/arch/unix/gui/petui.c:171 src/arch/win32/respet.rc.po.c:548
 #: src/arch/amigaos/intl_text.c.po.c:7410
 msgid "Auto (from ROM)"
-msgstr ""
+msgstr "자동 (ROM 에서)"
 
 #: src/arch/unix/gui/petui.c:173 src/arch/win32/respet.rc.po.c:549
 #: src/arch/amigaos/intl_text.c.po.c:7422
@@ -768,15 +768,15 @@ msgstr "기본 2, 비지니스"
 
 #: src/arch/unix/gui/petui.c:246
 msgid "Basic 4, 40 cols, graphics"
-msgstr ""
+msgstr "기본 4, 40 칸, 그래픽"
 
 #: src/arch/unix/gui/petui.c:248
 msgid "Basic 4, 40 cols, business"
-msgstr ""
+msgstr "기본 4, 40 칸, 비지니스"
 
 #: src/arch/unix/gui/petui.c:250
 msgid "Basic 4, 80 cols, business"
-msgstr ""
+msgstr "기본 4, 80 칸, 비지니스"
 
 #: src/arch/unix/gui/petui.c:253
 msgid "Basic 1 Patch (if loaded)"
@@ -841,11 +841,11 @@ msgstr "SuperPET ACIA"
 
 #: src/arch/unix/gui/petui.c:324
 msgid "$9*** as RAM (8296 only)"
-msgstr ""
+msgstr "$9*** as RAM (8296 오직)"
 
 #: src/arch/unix/gui/petui.c:326
 msgid "$A*** as RAM (8296 only)"
-msgstr ""
+msgstr "$A*** as RAM (8296 오직)"
 
 #: src/arch/unix/gui/petui.c:390
 msgid "PET model settings"
@@ -1021,7 +1021,7 @@ msgstr ""
 #: src/arch/unix/gui/uiautostart.c:53 src/arch/win32/resautostart.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:8130
 msgid "Virtual FS"
-msgstr ""
+msgstr "버추얼 파일스타일"
 
 #: src/arch/unix/gui/uiautostart.c:55 src/arch/win32/resautostart.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:8142
@@ -1214,7 +1214,7 @@ msgstr "VICE 셋팅"
 
 #: src/arch/unix/gui/uicommands.c:69 src/arch/unix/gui/uicommands.c:463
 msgid "Change current working directory"
-msgstr ""
+msgstr "현제 작업중인 디랙토리를 변경하세요"
 
 #: src/arch/unix/gui/uicommands.c:71 src/arch/unix/gui/uicommands.c:344
 msgid "Directory not found"
@@ -1222,11 +1222,11 @@ msgstr "디렉토리 를 찾지못함"
 
 #: src/arch/unix/gui/uicommands.c:109
 msgid "Couldn't run /bin/sh???"
-msgstr ""
+msgstr "를 돌릴수 없습니다"
 
 #: src/arch/unix/gui/uicommands.c:112
 msgid "Couldn't run xterm"
-msgstr ""
+msgstr "를 돌릴수없습니다."
 
 #: src/arch/unix/gui/uicommands.c:117
 msgid "Unknown error while running c1541"
@@ -1234,30 +1234,30 @@ msgstr ""
 
 #: src/arch/unix/gui/uicommands.c:146
 msgid "No HTML browser is defined."
-msgstr ""
+msgstr "아무런 HTML 브라우서가 정해지지않았습니다."
 
 #: src/arch/unix/gui/uicommands.c:175 src/arch/unix/gui/uicommands.c:189
 #: src/arch/unix/gui/uicommands.c:202
 msgid "Browser command too long."
-msgstr ""
+msgstr "브라우저 커맨드가 너무 깁니다."
 
 #: src/arch/unix/gui/uicommands.c:217
 msgid "Cannot run HTML browser."
-msgstr ""
+msgstr "HTML 브라우저를 돌릴수 없습니다."
 
 #: src/arch/unix/gui/uicommands.c:265 src/arch/unix/gui/uicommands.c:483
 #: src/arch/win32/res.rc.po.c:1041 src/arch/win32/res.rc.po.c:1445
 #: src/arch/amigaos/intl_text.c.po.c:881
 #: src/arch/amigaos/intl_text.c.po.c:7038
 msgid "Load snapshot image"
-msgstr ""
+msgstr "스냅샷 이미지 불러오기"
 
 #: src/arch/unix/gui/uicommands.c:275
 #, c-format
 msgid ""
 "Cannot load snapshot file\n"
 "`%s'"
-msgstr ""
+msgstr "스냅샷 파일을 불러올수 없습니다\n`%s'"
 
 #: src/arch/unix/gui/uicommands.c:308 src/arch/unix/x11/gnome/uisnapshot.c:105
 #: src/arch/unix/x11/xaw/uisnapshot.c:116
@@ -1265,54 +1265,54 @@ msgstr ""
 msgid ""
 "Cannot write snapshot file\n"
 "`%s'\n"
-msgstr ""
+msgstr "스냅샷 파일을 생성할수 없습니다\n`%s'\n"
 
 #: src/arch/unix/gui/uicommands.c:341 src/arch/unix/gui/uicommands.c:497
 msgid "Select history directory"
-msgstr ""
+msgstr "히스토리 디랙토리 선택"
 
 #: src/arch/unix/gui/uicommands.c:387 src/arch/win32/res.rc.po.c:1166
 #: src/arch/amigaos/intl_text.c.po.c:7878
 msgid "Sound Recording stopped"
-msgstr ""
+msgstr "사운드 레코딩 멈춤"
 
 #: src/arch/unix/gui/uicommands.c:401 src/arch/win32/res.rc.po.c:1459
 msgid "Record sound to file"
-msgstr ""
+msgstr "레코딩 사운드 를 파일로"
 
 #: src/arch/unix/gui/uicommands.c:408 src/arch/win32/res.rc.po.c:1165
 #: src/arch/amigaos/intl_text.c.po.c:7890
 msgid "Sound Recording started"
-msgstr ""
+msgstr "사운드 레코딩이 시작했습니다"
 
 #: src/arch/unix/gui/uicommands.c:444 src/arch/win32/res.rc.po.c:1387
 #: src/arch/amigaos/intl_text.c.po.c:809
 msgid "Soft"
-msgstr ""
+msgstr "부드러운"
 
 #: src/arch/unix/gui/uicommands.c:447 src/arch/win32/res.rc.po.c:1386
 #: src/arch/amigaos/intl_text.c.po.c:797
 msgid "Hard"
-msgstr ""
+msgstr "단단한"
 
 #: src/arch/unix/gui/uicommands.c:471 src/arch/win32/res.rc.po.c:1453
 #: src/arch/amigaos/intl_text.c.po.c:965
 msgid "Save new snapshot"
-msgstr ""
+msgstr "세로운 스냅샷 저장"
 
 #: src/arch/unix/gui/uicommands.c:473 src/arch/win32/res.rc.po.c:1454
 #: src/arch/amigaos/intl_text.c.po.c:977
 msgid "Load existing snapshot"
-msgstr ""
+msgstr "현존하는 스냅샷 불러오기"
 
 #: src/arch/unix/gui/uicommands.c:475 src/arch/win32/res.rc.po.c:1455
 #: src/arch/amigaos/intl_text.c.po.c:989
 msgid "Start with reset"
-msgstr ""
+msgstr "리셋으로 사작하기"
 
 #: src/arch/unix/gui/uicommands.c:477
 msgid "Overwrite running playback"
-msgstr ""
+msgstr "진행중인 플레이백 덮어쓰기"
 
 #: src/arch/unix/gui/uicommands.c:486 src/arch/unix/x11/gnome/uisnapshot.c:46
 #: src/arch/unix/x11/xaw/uisnapshot.c:85
