@@ -257,8 +257,8 @@ Filter::Filter()
 		  PointPlotter<int>(opamp), 1.0);
 
       // Store both fn and dfn in the same table.
-      mf.ak = scaled_voltage[0][0];
-      mf.bk = scaled_voltage[fi.opamp_voltage_size - 1][0];
+      mf.ak = (int)scaled_voltage[0][0];
+      mf.bk = (int)scaled_voltage[fi.opamp_voltage_size - 1][0];
       int j;
       for (j = 0; j < mf.ak; j++) {
 	opamp[j] = 0;
@@ -400,7 +400,7 @@ Filter::Filter()
     for (int kVg_Vx = 0; kVg_Vx < (1 << 16); kVg_Vx++) {
       double log_term = log(1 + exp((kVg_Vx/N16 - kVt)/(2*Ut)));
       // Scaled by m*2^15
-      vcr_n_Ids_term[kVg_Vx] = n_Is*log_term*log_term;
+      vcr_n_Ids_term[kVg_Vx] = (unsigned short)(n_Is*log_term*log_term);
     }
 
     class_init = true;
