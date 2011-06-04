@@ -103,6 +103,7 @@ libarch_a_SOURCES = \
 	ressidcart.rc \
 	ressiddtv.rc \
 	ressoundexpander.rc \
+	ressoundsampler.rc \
 	restfe.rc \
 	resv364speech.rc \
 	resvic20.rc \
@@ -242,6 +243,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uisoundexpander.c \
 	uisoundexpander.h \
+	uisoundsampler.c \
+	uisoundsampler.h \
 	uispeed.c \
 	uispeed.h \
 	uitfe.c \
@@ -553,14 +556,15 @@ resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resautostart.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
-	$(srcdir)/ressoundexpander.rc $(top_srcdir)/src/debug.h
+	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc \
+	$(top_srcdir)/src/debug.h
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
-	$(srcdir)/ressoundexpander.rc
+	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc
 
 if OWCC
 resc128.res: resc128cat.rc

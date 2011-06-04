@@ -239,6 +239,7 @@ BEGIN
             MENUITEM "", IDM_TFE_SETTINGS
 #endif
             MENUITEM "", IDM_SFX_SE_SETTINGS
+            MENUITEM "", IDM_SFX_SS_SETTINGS
         END
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SETTINGS_SAVE_FILE
@@ -582,6 +583,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
 
@@ -639,6 +641,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
 
@@ -696,6 +699,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
 
@@ -753,6 +757,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
 
@@ -813,6 +818,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -873,6 +879,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
 
@@ -933,6 +940,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -993,6 +1001,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
 
@@ -1053,6 +1062,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1113,6 +1123,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
 
@@ -1173,6 +1184,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

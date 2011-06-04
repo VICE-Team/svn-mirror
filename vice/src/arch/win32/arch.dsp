@@ -495,6 +495,10 @@ SOURCE=.\uisoundexpander.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uisoundsampler.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uispeed.c
 # End Source File
 # Begin Source File
