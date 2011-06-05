@@ -1320,41 +1320,41 @@ msgstr "진행중인 플레이백 덮어쓰기"
 #: src/arch/win32/res.rc.po.c:1446 src/arch/amigaos/intl_text.c.po.c:893
 #: src/arch/amigaos/intl_text.c.po.c:7026
 msgid "Save snapshot image"
-msgstr ""
+msgstr "스냅샷 이미지 저장"
 
 #: src/arch/unix/gui/uicommands.c:490
 msgid "Quickload snapshot"
-msgstr ""
+msgstr "스냅샷 빨리 불러오기"
 
 #: src/arch/unix/gui/uicommands.c:493
 msgid "Quicksave snapshot"
-msgstr ""
+msgstr "스냅샷 빨리 저장"
 
 #: src/arch/unix/gui/uicommands.c:499
 msgid "Start recording events"
-msgstr ""
+msgstr "레코딩 이벤트 시작"
 
 #: src/arch/unix/gui/uicommands.c:501
 msgid "Stop recording events"
-msgstr ""
+msgstr "레코딩 이벤트 멈춤"
 
 #: src/arch/unix/gui/uicommands.c:503
 msgid "Start playing back events"
-msgstr ""
+msgstr "플레잉백 이벤트 시장"
 
 #: src/arch/unix/gui/uicommands.c:505
 msgid "Stop playing back events"
-msgstr ""
+msgstr "플레잉백 이벤트 멈춤"
 
 #: src/arch/unix/gui/uicommands.c:507 src/arch/win32/res.rc.po.c:1451
 #: src/arch/amigaos/intl_text.c.po.c:929
 msgid "Set recording milestone"
-msgstr ""
+msgstr "레코딩 마일스톤 설정"
 
 #: src/arch/unix/gui/uicommands.c:509 src/arch/win32/res.rc.po.c:1452
 #: src/arch/amigaos/intl_text.c.po.c:941
 msgid "Return to milestone"
-msgstr ""
+msgstr "마일스톤 으로 돌아가기"
 
 #: src/arch/unix/gui/uicommands.c:512 src/arch/win32/res.rc.po.c:1368
 #: src/arch/win32/resc128.rc.po.c:135 src/arch/win32/resc64.rc.po.c:135
@@ -1362,53 +1362,53 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:109 src/arch/win32/resplus4.rc.po.c:121
 #: src/arch/win32/resvic20.rc.po.c:131 src/arch/amigaos/intl_text.c.po.c:953
 msgid "Recording start mode"
-msgstr ""
+msgstr "레코딩 시작 모드"
 
 #: src/arch/unix/gui/uicommands.c:516 src/arch/unix/gui/uinetplay.c:109
 #: src/arch/win32/resc64.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:1037
 msgid "Netplay (experimental)"
-msgstr ""
+msgstr "넷플레이 (실험적)"
 
 #: src/arch/unix/gui/uicommands.c:523
 msgid "Snapshot commands"
-msgstr ""
+msgstr "스냅샷 명령"
 
 #: src/arch/unix/gui/uicommands.c:529
 msgid "Sound record WAV"
-msgstr ""
+msgstr "사운드 레코드 WAV"
 
 #: src/arch/unix/gui/uicommands.c:531
 msgid "Sound record AIFF"
-msgstr ""
+msgstr "사운드 레코드 AIFF"
 
 #: src/arch/unix/gui/uicommands.c:533
 msgid "Sound record VOC"
-msgstr ""
+msgstr "사운드 레코드 VOC"
 
 #: src/arch/unix/gui/uicommands.c:535
 msgid "Sound record IFF"
-msgstr ""
+msgstr "사운드 레코드 IFF"
 
 #: src/arch/unix/gui/uicommands.c:538
 msgid "Sound record MP3"
-msgstr ""
+msgstr "사운드 레코드 MP3"
 
 #: src/arch/unix/gui/uicommands.c:541 src/arch/win32/res.rc.po.c:1460
 #: src/arch/amigaos/intl_text.c.po.c:2849
 msgid "Stop Sound record"
-msgstr ""
+msgstr "사운드 레코드 멈춤"
 
 #: src/arch/unix/gui/uicommands.c:547
 msgid "Activate monitor"
-msgstr ""
+msgstr "모니터 사용시작"
 
 #: src/arch/unix/gui/uicommands.c:550
 msgid "Run C1541"
-msgstr ""
+msgstr "C1541 를 돌리시오"
 
 #: src/arch/unix/gui/uicommands.c:558
 msgid "Browse manuals"
-msgstr ""
+msgstr "브라우스 설명서"
 
 #: src/arch/unix/gui/uicommands.c:560 src/arch/win32/res.rc.po.c:176
 #: src/arch/win32/res.rc.po.c:1381 src/arch/amigaos/intl_text.c.po.c:2573
@@ -1425,22 +1425,22 @@ msgstr "도움 VICE"
 #: src/arch/win32/resplus4.rc.po.c:77 src/arch/win32/resvic20.rc.po.c:87
 #: src/arch/amigaos/intl_text.c.po.c:293
 msgid "Reset"
-msgstr ""
+msgstr "리셋"
 
 #: src/arch/unix/gui/uicommands.c:568 src/arch/win32/res.rc.po.c:1382
 #: src/arch/amigaos/intl_text.c.po.c:773
 msgid "Pause"
-msgstr ""
+msgstr "일시정지"
 
 #: src/arch/unix/gui/uicommands.c:575
 msgid "Exit emulator"
-msgstr ""
+msgstr "에뮬레이터 나가기"
 
 #: src/arch/unix/gui/uicrtc.c:58 src/arch/unix/gui/uited.c:57
 #: src/arch/unix/gui/uivdc.c:56 src/arch/unix/gui/uivic.c:57
 #: src/arch/unix/gui/uivicii.c:60
 msgid "Internal"
-msgstr ""
+msgstr "인터널"
 
 #: src/arch/unix/gui/uicrtc.c:61
 msgid "Default (Green)"
