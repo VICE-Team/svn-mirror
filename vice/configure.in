@@ -53,6 +53,7 @@ VICE_ARG_ENABLE_LIST(embedded,    [  --enable-embedded       enable embedding of
 VICE_ARG_ENABLE_LIST(hidmgr,      [  --disable-hidmgr        disable IOHIDManager joystick support on Mac])
 VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitlities joystick support on Mac])
 VICE_ARG_ENABLE_LIST(debug,       [  --enable-debug          enable debug source options])
+VICE_ARG_ENABLE_LIST(debug-code,  [  --enable-debug-code     enable debugging code])
 
 dnl register ReSID-fp options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
@@ -144,6 +145,11 @@ else
 fi
 
 AC_SUBST(DEBUGBUILD)
+
+dnl check whether to build debug code
+if test x"$enable_debug_code" = "xyes"; then
+  AC_DEFINE(DEBUG,,[Enable debugging code])
+fi
 
 if test x"$enable_gnomeui" = "xyes" ; then
   AC_DEFINE(USE_GNOMEUI,,[Use GNOME UI.])
@@ -658,7 +664,7 @@ dnl All other UN*X systems
       dnl if using GCC.
       dnl If the user has specified her own `CFLAGS', we do not override them.
 
-      optimization_c="-O3 $march"
+      optimization_c="$march"
       optimization_cxx="-fno-exceptions $optimization_c"
       dnl Use -g if available.
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
