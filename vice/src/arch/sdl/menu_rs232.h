@@ -31,8 +31,9 @@
 #include "types.h"
 #include "uimenu.h"
 
-extern const ui_menu_entry_t rs232_menu[];
-extern const ui_menu_entry_t rs232_noacia_menu[];
+extern const ui_menu_entry_t rs232_c64_menu[];
+extern const ui_menu_entry_t rs232_c128_menu[];
+extern const ui_menu_entry_t rs232_vic20_menu[];
 extern const ui_menu_entry_t rs232_nouser_menu[];
 
 #endif

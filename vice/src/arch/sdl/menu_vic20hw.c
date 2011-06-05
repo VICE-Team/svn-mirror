@@ -151,7 +151,7 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)rs232_noacia_menu },
+      (ui_callback_data_t)rs232_vic20_menu },
 #endif
 #ifdef HAVE_MIDI
     { "MIDI settings",

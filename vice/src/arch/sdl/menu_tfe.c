@@ -32,6 +32,7 @@
 
 #include "types.h"
 
+#include "lib.h"
 #include "menu_common.h"
 #include "menu_tfe.h"
 #include "rawnet.h"
@@ -75,10 +76,8 @@ void sdl_menu_ethernet_interface_free(void)
 
 UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
 {
-    char *interface_name;
     char *pname;
     char *pdescription;
-    char *name;
     int i;
 
     if (ethernet_interface_dyn_menu_init != 0) {
@@ -93,9 +92,9 @@ UI_MENU_CALLBACK(ETHERNET_INTERFACE_dynmenu_callback)
         ethernet_interface_dyn_menu[0].callback = seperator_callback;
         ethernet_interface_dyn_menu[0].data = NULL;
         ethernet_interface_dyn_menu[1].string = NULL;
-        ethernet_interface_dyn_menu[i].type = 0;
-        ethernet_interface_dyn_menu[i].callback = NULL;
-        ethernet_interface_dyn_menu[i].data = NULL;
+        ethernet_interface_dyn_menu[1].type = 0;
+        ethernet_interface_dyn_menu[1].callback = NULL;
+        ethernet_interface_dyn_menu[1].data = NULL;
     } else {
         for (i = 0; (rawnet_enumadapter(&pname, &pdescription)) && (i < 20); i++) {
             ethernet_interface_dyn_menu[i].string = (char *)lib_stralloc(pdescription);

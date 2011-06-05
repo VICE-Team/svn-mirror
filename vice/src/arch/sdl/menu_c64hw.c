@@ -98,7 +98,7 @@ const ui_menu_entry_t c64_hardware_menu[] = {
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)rs232_menu },
+      (ui_callback_data_t)rs232_c64_menu },
 #endif
     { CARTRIDGE_NAME_DIGIMAX " settings",
       MENU_ENTRY_SUBMENU,
@@ -164,7 +164,7 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)rs232_menu },
+      (ui_callback_data_t)rs232_c64_menu },
 #endif
     { CARTRIDGE_NAME_DIGIMAX " settings",
       MENU_ENTRY_SUBMENU,

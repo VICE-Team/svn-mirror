@@ -176,6 +176,48 @@ static const ui_menu_entry_t acia1mode_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_RADIO(Acia1Base)
+
+static const ui_menu_entry_t acia1base_c64_menu[] = {
+    { "$DE00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Acia1Base_callback,
+      (ui_callback_data_t)0xde00 },
+    { "$DF00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Acia1Base_callback,
+      (ui_callback_data_t)0xdf00 },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t acia1base_c128_menu[] = {
+    { "$D700",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Acia1Base_callback,
+      (ui_callback_data_t)0xd700 },
+    { "$DE00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Acia1Base_callback,
+      (ui_callback_data_t)0xde00 },
+    { "$DF00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Acia1Base_callback,
+      (ui_callback_data_t)0xdf00 },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t acia1base_vic20_menu[] = {
+    { "$9800",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Acia1Base_callback,
+      (ui_callback_data_t)0x9800 },
+    { "$9C00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Acia1Base_callback,
+      (ui_callback_data_t)0x9c00 },
+    SDL_MENU_LIST_END
+};
+
 UI_MENU_DEFINE_TOGGLE(RsUserEnable)
 UI_MENU_DEFINE_RADIO(RsUserBaud)
 
@@ -221,37 +263,6 @@ static const ui_menu_entry_t rsuserdev_menu[] = {
     SDL_MENU_LIST_END
 };
 
-const ui_menu_entry_t rs232_noacia_menu[] = {
-    { "Userport RS232 emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_RsUserEnable_callback,
-      NULL },
-    { "Userport RS232 host device",
-      MENU_ENTRY_SUBMENU,
-      submenu_radio_callback,
-      (ui_callback_data_t)rsuserdev_menu },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Host settings"),
-    { "Device 1",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice1_callback,
-      (ui_callback_data_t)"RS232 host device 1" },
-    { "Device 2",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice2_callback,
-      (ui_callback_data_t)"RS232 host device 2" },
-    { "Device 3",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice3_callback,
-      (ui_callback_data_t)"RS232 host device 3" },
-    { "Device 4",
-      MENU_ENTRY_RESOURCE_STRING,
-      string_RsDevice4_callback,
-      (ui_callback_data_t)"RS232 host device 4" },
-    VICE_SDL_RS232_ARCHDEP_ITEMS
-    SDL_MENU_LIST_END
-};
-
 const ui_menu_entry_t rs232_nouser_menu[] = {
     { "ACIA host device",
       MENU_ENTRY_SUBMENU,
@@ -283,11 +294,127 @@ const ui_menu_entry_t rs232_nouser_menu[] = {
     SDL_MENU_LIST_END
 };
 
-const ui_menu_entry_t rs232_menu[] = {
+const ui_menu_entry_t rs232_c64_menu[] = {
     { "ACIA RS232 interface emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_Acia1Enable_callback,
       NULL },
+    { "ACIA base address",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1base_c64_menu },
+    { "ACIA host device",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1dev_menu },
+    { "ACIA interrupt",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1irq_menu },
+    { "ACIA emulation mode",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1mode_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Userport RS232 emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RsUserEnable_callback,
+      NULL },
+    { "Userport RS232 host device",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)rsuserdev_menu },
+    { "Userport RS232 baud rate",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)rsuserbaud_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Host settings"),
+    { "Device 1",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice1_callback,
+      (ui_callback_data_t)"RS232 host device 1" },
+    { "Device 2",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice2_callback,
+      (ui_callback_data_t)"RS232 host device 2" },
+    { "Device 3",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice3_callback,
+      (ui_callback_data_t)"RS232 host device 3" },
+    { "Device 4",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice4_callback,
+      (ui_callback_data_t)"RS232 host device 4" },
+    VICE_SDL_RS232_ARCHDEP_ITEMS
+    SDL_MENU_LIST_END
+};
+
+const ui_menu_entry_t rs232_c128_menu[] = {
+    { "ACIA RS232 interface emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_Acia1Enable_callback,
+      NULL },
+    { "ACIA base address",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1base_c128_menu },
+    { "ACIA host device",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1dev_menu },
+    { "ACIA interrupt",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1irq_menu },
+    { "ACIA emulation mode",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1mode_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Userport RS232 emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_RsUserEnable_callback,
+      NULL },
+    { "Userport RS232 host device",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)rsuserdev_menu },
+    { "Userport RS232 baud rate",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)rsuserbaud_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Host settings"),
+    { "Device 1",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice1_callback,
+      (ui_callback_data_t)"RS232 host device 1" },
+    { "Device 2",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice2_callback,
+      (ui_callback_data_t)"RS232 host device 2" },
+    { "Device 3",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice3_callback,
+      (ui_callback_data_t)"RS232 host device 3" },
+    { "Device 4",
+      MENU_ENTRY_RESOURCE_STRING,
+      string_RsDevice4_callback,
+      (ui_callback_data_t)"RS232 host device 4" },
+    VICE_SDL_RS232_ARCHDEP_ITEMS
+    SDL_MENU_LIST_END
+};
+
+const ui_menu_entry_t rs232_vic20_menu[] = {
+    { "ACIA RS232 interface emulation (MasC=uerade)",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_Acia1Enable_callback,
+      NULL },
+    { "ACIA base address",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)acia1base_vic20_menu },
     { "ACIA host device",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
