@@ -238,6 +238,10 @@ SOURCE="..\..\..\rawfile.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\rawnet.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\resources.c"
 # End Source File
 # Begin Source File

@@ -90,6 +90,10 @@ SOURCE="..\..\..\core\ciatimer.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\core\cs8900.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\core\flash040core.c"
 # End Source File
 # Begin Source File

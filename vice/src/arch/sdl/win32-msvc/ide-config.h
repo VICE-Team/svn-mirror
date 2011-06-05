@@ -54,7 +54,7 @@
 #define HAVE_HTONS             1
 #define HAVE_GETCWD            1
 
-/* #define HAVE_TFE                1 */
+#define HAVE_TFE                1
 #define HAVE_FFMPEG             1
 #define HAVE_FFMPEG_SWSCALE     1
 #define HAVE_FFMPEG_HEADER_SUBDIRS 1
