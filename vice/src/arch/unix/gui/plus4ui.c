@@ -378,6 +378,10 @@ static ui_menu_entry_t plus4_settings_menu[] = {
       NULL, NULL, plus4_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
+#ifdef DEBUG
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_debug_settings_menu },
+#endif
     { NULL }
 };
 
