@@ -30,6 +30,8 @@
 
 #include "types.h"
 
+#include "cartridge.h"
+
 #include "menu_common.h"
 #include "menu_joystick.h"
 
@@ -49,6 +51,11 @@
 #endif
 
 #include "menu_sid.h"
+
+#ifdef HAVE_TFE
+#include "menu_tfe.h"
+#endif
+
 #include "resources.h"
 #include "uimenu.h"
 
@@ -158,6 +165,12 @@ const ui_menu_entry_t vic20_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)midi_vic20_menu },
+#endif
+#ifdef HAVE_TFE
+    { CARTRIDGE_NAME_TFE " settings (MasC=uerade)",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)tfe_menu },
 #endif
 #ifdef HAVE_MOUSE
     { "Paddle emulation",
