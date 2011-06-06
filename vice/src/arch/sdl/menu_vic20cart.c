@@ -128,6 +128,195 @@ static UI_MENU_CALLBACK(set_cart_default_callback)
     return NULL;
 }
 
+/* GEORAM */
+
+UI_MENU_DEFINE_TOGGLE(GEORAM)
+UI_MENU_DEFINE_TOGGLE(GEORAMIOSwap)
+UI_MENU_DEFINE_RADIO(GEORAMsize)
+UI_MENU_DEFINE_FILE_STRING(GEORAMfilename)
+UI_MENU_DEFINE_TOGGLE(GEORAMImageWrite)
+
+static const ui_menu_entry_t georam_menu[] = {
+    { "Enable " CARTRIDGE_NAME_GEORAM,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GEORAM_callback,
+      NULL },
+    { "Swap " CARTRIDGE_NAME_GEORAM " I/O",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GEORAMIOSwap_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Memory size"),
+    { "64kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)64 },
+    { "128kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)128 },
+    { "256kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)256 },
+    { "512kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)512 },
+    { "1024kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)1024 },
+#ifndef DINGOO_NATIVE
+    { "2048kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)2048 },
+    { "4096kB",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_GEORAMsize_callback,
+      (ui_callback_data_t)4096 },
+#endif
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("RAM image"),
+    { "Image file",
+      MENU_ENTRY_DIALOG,
+      file_string_GEORAMfilename_callback,
+      (ui_callback_data_t)"Select " CARTRIDGE_NAME_GEORAM " image" },
+    { "Save image on detach",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_GEORAMImageWrite_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
+
+/* SFX Sound Expander */
+
+UI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
+UI_MENU_DEFINE_TOGGLE(SFXSoundExpanderIOSwap)
+UI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
+
+static const ui_menu_entry_t soundexpander_menu[] = {
+    { "Enable " CARTRIDGE_NAME_SFX_SOUND_EXPANDER,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundExpander_callback,
+      NULL },
+    { "Swap " CARTRIDGE_NAME_SFX_SOUND_EXPANDER " I/O",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundExpanderIOSwap_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("YM chip type"),
+    { "3526",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SFXSoundExpanderChip_callback,
+      (ui_callback_data_t)3526 },
+    { "3812",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SFXSoundExpanderChip_callback,
+      (ui_callback_data_t)3812 },
+    SDL_MENU_LIST_END
+};
+
+
+/* SFX Sound Sampler */
+
+UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+UI_MENU_DEFINE_TOGGLE(SFXSoundSamplerIOSwap)
+
+static const ui_menu_entry_t soundsampler_menu[] = {
+    { "Enable " CARTRIDGE_NAME_SFX_SOUND_SAMPLER,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundSampler_callback,
+      NULL },
+    { "Swap " CARTRIDGE_NAME_SFX_SOUND_SAMPLER " I/O",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_SFXSoundSamplerIOSwap_callback,
+      NULL },
+    SDL_MENU_LIST_END
+};
+
+
+/* DIGIMAX MENU */
+
+UI_MENU_DEFINE_TOGGLE(DIGIMAX)
+UI_MENU_DEFINE_RADIO(DIGIMAXbase)
+
+static const ui_menu_entry_t digimax_vic20_menu[] = {
+    { "Enable " CARTRIDGE_NAME_DIGIMAX,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DIGIMAX_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Base address"),
+    { "$9800",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9800 },
+    { "$9820",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9820 },
+    { "$9840",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9840 },
+    { "$9860",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9860 },
+    { "$9880",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9880 },
+    { "$98A0",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x98a0 },
+    { "$98C0",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x98c0 },
+    { "$98E0",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x98e0 },
+    { "$9C00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9c00 },
+    { "$9C20",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9c20 },
+    { "$9C40",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9c40 },
+    { "$9C60",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9c60 },
+    { "$9C80",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9c80 },
+    { "$9CA0",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9ca0 },
+    { "$9CC0",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9cc0 },
+    { "$9CE0",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DIGIMAXbase_callback,
+      (ui_callback_data_t)0x9ce0 },
+    SDL_MENU_LIST_END
+};
+
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
 UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
@@ -186,5 +375,23 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_MegaCartNvRAMfilename_callback,
       (ui_callback_data_t)"Select " CARTRIDGE_VIC20_NAME_MEGACART " NvRAM image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("MasC=uerade specific cart settings"),
+    { CARTRIDGE_NAME_GEORAM,
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)georam_menu },
+    { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)soundexpander_menu },
+    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)soundsampler_menu },
+    { CARTRIDGE_NAME_DIGIMAX " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)digimax_vic20_menu },
     SDL_MENU_LIST_END
 };
