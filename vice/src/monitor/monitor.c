@@ -2014,21 +2014,8 @@ void monitor_check_icount(WORD a)
         if (MONITOR_GET_OPCODE(caller_space) == OP_RTI)
             wait_for_return_level--;
 
-        if (wait_for_return_level < 0) {
+        if (wait_for_return_level < 0)
             wait_for_return_level = 0;
-
-            /* FIXME: [SRT], 01-24-2000: this is only a workaround.
-             this occurs when the commands 'n' or  'ret' are executed
-             out of an active IRQ or NMI processing routine.
-
-             the following command immediately stops executing when used
-             with 'n' and parameter > 1, but it's necessary because else,
-             it can occur that the monitor will not come back at all.
-             Don't know so far how this can be avoided. The only
-             solution I see is to keep track of every IRQ and NMI
-             invocation and every RTI. */
-            instruction_count = 0;
-        }
     }
 
     if (wait_for_return_level == 0)
