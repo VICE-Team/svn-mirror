@@ -1444,47 +1444,47 @@ msgstr "인터널"
 
 #: src/arch/unix/gui/uicrtc.c:61
 msgid "Default (Green)"
-msgstr ""
+msgstr "디폴트 (초록색)"
 
 #: src/arch/unix/gui/uicrtc.c:63
 msgid "Amber"
-msgstr ""
+msgstr "황색"
 
 #: src/arch/unix/gui/uicrtc.c:65
 msgid "White"
-msgstr ""
+msgstr "흰색"
 
 #: src/arch/unix/gui/uicrtc.c:68 src/arch/unix/gui/uited.c:63
 #: src/arch/unix/gui/uivdc.c:64 src/arch/unix/gui/uivic.c:63
 #: src/arch/unix/gui/uivicii.c:80
 msgid "Load custom"
-msgstr ""
+msgstr "불러오기 커스텀"
 
 #: src/arch/unix/gui/uicrtc.c:79 src/arch/unix/gui/uited.c:74
 #: src/arch/unix/gui/uivdc.c:75 src/arch/unix/gui/uivic.c:74
 #: src/arch/unix/gui/uivicii.c:103
 msgid "Unfiltered"
-msgstr ""
+msgstr "걸러지지않은"
 
 #: src/arch/unix/gui/uicrtc.c:81 src/arch/unix/gui/uipalemu.c:120
 #: src/arch/unix/gui/uited.c:76 src/arch/unix/gui/uivdc.c:77
 #: src/arch/unix/gui/uivic.c:76 src/arch/unix/gui/uivicii.c:105
 #: src/arch/win32/res.rc.po.c:1046 src/arch/amigaos/intl_text.c.po.c:7122
 msgid "CRT emulation"
-msgstr ""
+msgstr "케토드 레이 터미널 에뮬레이터"
 
 #: src/arch/unix/gui/uicrtc.c:84 src/arch/unix/gui/uited.c:78
 #: src/arch/unix/gui/uivdc.c:80 src/arch/unix/gui/uivic.c:78
 #: src/arch/unix/gui/uivicii.c:107 src/arch/win32/res.rc.po.c:1048
 #: src/arch/amigaos/intl_text.c.po.c:7134
 msgid "Scale2x"
-msgstr ""
+msgstr "Scale2x"
 
 #: src/arch/unix/gui/uicrtc.c:105 src/arch/unix/gui/uisettings.c:120
 #: src/arch/unix/gui/uited.c:108 src/arch/unix/gui/uivdc.c:127
 #: src/arch/unix/gui/uivic.c:104 src/arch/unix/gui/uivicii.c:128
 msgid "Enter refresh rate"
-msgstr ""
+msgstr "재생률을 넣으시오"
 
 #: src/arch/unix/gui/uicrtc.c:106 src/arch/unix/gui/uisettings.c:121
 #: src/arch/unix/gui/uisettings.c:389 src/arch/unix/gui/uited.c:109
@@ -1503,21 +1503,21 @@ msgstr "재생률"
 #: src/arch/unix/gui/uivicii.c:168 src/arch/win32/res.rc.po.c:1396
 #: src/arch/amigaos/intl_text.c.po.c:1337
 msgid "Double size"
-msgstr ""
+msgstr "더블 사이즈"
 
 #: src/arch/unix/gui/uicrtc.c:144 src/arch/unix/gui/uited.c:135
 #: src/arch/unix/gui/uivdc.c:162 src/arch/unix/gui/uivic.c:134
 #: src/arch/unix/gui/uivicii.c:170 src/arch/win32/res.rc.po.c:1397
 #: src/arch/amigaos/intl_text.c.po.c:1349
 msgid "Double scan"
-msgstr ""
+msgstr "더블 스캔"
 
 #: src/arch/unix/gui/uicrtc.c:146 src/arch/unix/gui/uited.c:137
 #: src/arch/unix/gui/uivdc.c:164 src/arch/unix/gui/uivic.c:136
 #: src/arch/unix/gui/uivicii.c:172 src/arch/win32/res.rc.po.c:1400
 #: src/arch/amigaos/intl_text.c.po.c:1325
 msgid "Video cache"
-msgstr ""
+msgstr "비디오 캐시"
 
 #: src/arch/unix/gui/uicrtc.c:149 src/arch/unix/gui/uited.c:140
 #: src/arch/unix/gui/uivdc.c:167 src/arch/unix/gui/uivic.c:139
@@ -1530,37 +1530,37 @@ msgstr "섹상"
 #: src/arch/unix/gui/uivicii.c:180 src/arch/win32/res.rc.po.c:1047
 #: src/arch/amigaos/intl_text.c.po.c:7146
 msgid "Render filter"
-msgstr ""
+msgstr "랜더 필터"
 
 #: src/arch/unix/gui/uicrtc.c:155 src/arch/unix/gui/uited.c:146
 #: src/arch/unix/gui/uivdc.c:173 src/arch/unix/gui/uivic.c:145
 #: src/arch/unix/gui/uivicii.c:183 src/arch/unix/x11/gnome/uipalcontrol.c:98
 msgid "CRT emulation settings"
-msgstr ""
+msgstr "케토드 레이 터미널 설정"
 
 #: src/arch/unix/gui/uicrtc.c:160 src/arch/unix/gui/uited.c:151
 #: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:150
 #: src/arch/unix/gui/uivicii.c:196
 msgid "Hardware scaling"
-msgstr ""
+msgstr "하드웨어 스케일링"
 
 #: src/arch/unix/gui/uicrtc.c:162 src/arch/unix/gui/uited.c:153
 #: src/arch/unix/gui/uivdc.c:180 src/arch/unix/gui/uivic.c:152
 #: src/arch/unix/gui/uivicii.c:198 src/arch/win32/res.rc.po.c:1232
 msgid "Keep aspect ratio"
-msgstr ""
+msgstr "화면비율을 유지하시오"
 
 #: src/arch/unix/gui/uicrtc.c:164 src/arch/unix/gui/uited.c:155
 #: src/arch/unix/gui/uivdc.c:182 src/arch/unix/gui/uivic.c:154
 #: src/arch/unix/gui/uivicii.c:200 src/arch/win32/res.rc.po.c:1233
 msgid "True aspect ratio"
-msgstr ""
+msgstr "정 화면비율"
 
 #: src/arch/unix/gui/uicrtc.c:167 src/arch/unix/gui/uited.c:158
 #: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:157
 #: src/arch/unix/gui/uivicii.c:203
 msgid "Set custom aspect ratio"
-msgstr ""
+msgstr "커스텀 화면비율 설정"
 
 #: src/arch/unix/gui/uicrtc.c:174 src/arch/unix/gui/uited.c:165
 #: src/arch/unix/gui/uivdc.c:192 src/arch/unix/gui/uivic.c:164
@@ -1572,43 +1572,43 @@ msgstr ""
 #: src/arch/unix/gui/uivdc.c:194 src/arch/unix/gui/uivic.c:166
 #: src/arch/unix/gui/uivicii.c:212
 msgid "Desktop Refreshrate"
-msgstr ""
+msgstr "바탕화면 재생률"
 
 #: src/arch/unix/gui/uicrtc.c:181 src/arch/unix/gui/uited.c:172
 #: src/arch/unix/gui/uivdc.c:199 src/arch/unix/gui/uivic.c:171
 #: src/arch/unix/gui/uivicii.c:217
 msgid "Fullscreen settings"
-msgstr ""
+msgstr "전체화면 설정"
 
 #: src/arch/unix/gui/uicrtc.c:185 src/arch/unix/gui/uited.c:176
 #: src/arch/unix/gui/uivdc.c:203 src/arch/unix/gui/uivic.c:174
 #: src/arch/unix/gui/uivicii.c:221
 msgid "Use XSync()"
-msgstr ""
+msgstr "XSync() 를 사용하시오"
 
 #: src/arch/unix/gui/uidatasette.c:55 src/arch/unix/gui/uidatasette.c:86
 msgid "Datasette speed tuning"
-msgstr ""
+msgstr "데이타셋 속도 튠닝"
 
 #: src/arch/unix/gui/uidatasette.c:58 src/arch/unix/gui/uidatasette.c:84
 #: src/arch/win32/res.rc.po.c:1179 src/arch/amigaos/intl_text.c.po.c:4397
 msgid "Datasette zero gap delay"
-msgstr ""
+msgstr "데이타셋 영 차이 딜레이"
 
 #: src/arch/unix/gui/uidatasette.c:69 src/arch/unix/gui/uipalemu.c:106
 #, c-format
 msgid "Invalid value: %s"
-msgstr ""
+msgstr "사용불가능한 가치: %s"
 
 #: src/arch/unix/gui/uidatasette.c:82 src/arch/win32/res.rc.po.c:1176
 #: src/arch/amigaos/intl_text.c.po.c:4373
 msgid "Reset Datasette with CPU"
-msgstr ""
+msgstr "데이타셋 을 CPU 로 리셋 하시오"
 
 #: src/arch/unix/gui/uidatasette.c:89 src/arch/win32/res.rc.po.c:1424
 #: src/arch/amigaos/intl_text.c.po.c:233
 msgid "Stop"
-msgstr ""
+msgstr "멈춤"
 
 #: src/arch/unix/gui/uidatasette.c:91
 msgid "Play"
