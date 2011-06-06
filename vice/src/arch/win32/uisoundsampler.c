@@ -31,10 +31,6 @@
 #include <windows.h>
 #include <tchar.h>
 
-#if 1
-#include "log.h"
-#endif
-
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -66,10 +62,6 @@ static uilib_localize_dialog_param soundsampler_dialog[] = {
 static void init_soundsampler_dialog(HWND hwnd)
 {
     int res_value;
-
-#if 1
-    log_message(LOG_DEFAULT, "init dialog");
-#endif
 
     uilib_localize_dialog(hwnd, soundsampler_dialog);
 
@@ -119,8 +111,5 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_soundsampler_settings_dialog(HWND hwnd)
 {
-#if 1
-    log_message(LOG_DEFAULT, "starting dialog");
-#endif
     DialogBox(winmain_instance, (LPCTSTR)IDD_SFX_SOUNDSAMPLER_SETTINGS_DIALOG, hwnd, dialog_proc);
 }
