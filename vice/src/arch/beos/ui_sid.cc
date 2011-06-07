@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -23,20 +24,18 @@
  *  02111-1307  USA.
  *
  */
- 
+
 #include <Box.h>
 #include <CheckBox.h>
-#include <ListItem.h>
-#include <ListView.h>
+#include <OptionPopUp.h>
 #include <RadioButton.h>
-#include <ScrollView.h>
 #include <Slider.h>
 #include <string.h>
 #include <Window.h>
 
 #include <stdlib.h>
 
-extern "C" { 
+extern "C" {
 #include "constants.h"
 #include "machine.h"
 #include "resources.h"
@@ -55,59 +54,42 @@ static char *samplingmode[] = {
     NULL
 };
 
-static char *sidmodelengine[] = {
-    "6581 (Fast SID)",
-    "8580 (Fast SID)",
+static struct _sid_engine_model {
+    char *name;
+    int id;
+} sid_engine_model[] = {
+    { "6581 (Fast SID)", SID_FASTSID_6581 },
+    { "8580 (Fast SID)", SID_FASTSID_8580 },
 #ifdef HAVE_RESID
-    "6581 (ReSID)",
-    "8580 (ReSID)",
-    "8580 + digiboost (ReSID)",
+    { "6581 (ReSID)", SID_RESID_6581 },
+    { "8580 (ReSID)", SID_RESID_8580 },
+    { "8580 + digiboost (ReSID)", SID_RESID_8580D },
 #endif
 #ifdef HAVE_RESID_FP
-    "6581R3 4885 (ReSID-fp)",
-    "6581R3 0486S (ReSID-fp)",
-    "6581R3 3984 (ReSID-fp)",
-    "6581R4AR 3789 (ReSID-fp)",
-    "6581R3 4485 (ReSID-fp)",
-    "6581R4 1986S (ReSID-fp)",
-    "8580R5 3691 (ReSID-fp)",
-    "8580R5 3691 + digiboost (ReSID-fp)",
-    "8580R5 1489",
-    "8580R5 1489 + digiboost (ReSID-fp)",
+    { "6581R3 4885 (ReSID-fp)", SID_RESIDFP_6581R3_4885 },
+    { "6581R3 0486S (ReSID-fp)", SID_RESIDFP_6581R3_0486S },
+    { "6581R3 3984 (ReSID-fp)", SID_RESIDFP_6581R3_3984 },
+    { "6581R4AR 3789 (ReSID-fp)", SID_RESIDFP_6581R4AR_3789 },
+    { "6581R3 4485 (ReSID-fp)", SID_RESIDFP_6581R3_4485 },
+    { "6581R4 1986S (ReSID-fp)", SID_RESIDFP_6581R4_1986S },
+    { "8580R5 3691 (ReSID-fp)", SID_RESIDFP_8580R5_3691 },
+    { "8580R5 3691 + digiboost (ReSID-fp)", SID_RESIDFP_8580R5_3691D },
+    { "8580R5 1489 (ReSID-fp)", SID_RESIDFP_8580R5_1489 },
+    { "8580R5 1489 + digiboost (ReSID-fp)", SID_RESIDFP_8580R5_1489D, },
 #endif
-    NULL
-};
-
-static int sidmodelengine_values[] = {
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_RESID_FP
-    SID_RESIDFP_6581R3_4885,
-    SID_RESIDFP_6581R3_0486S,
-    SID_RESIDFP_6581R3_3984,
-    SID_RESIDFP_6581R4AR_3789,
-    SID_RESIDFP_6581R3_4485,
-    SID_RESIDFP_6581R4_1986S,
-    SID_RESIDFP_8580R5_3691,
-    SID_RESIDFP_8580R5_3691D,
-    SID_RESIDFP_8580R5_1489,
-    SID_RESIDFP_8580R5_1489D,
-#endif
-    -1
+    { NULL, -1 }
 };
 
 static int *sidaddressbase;
 
 class SidWindow : public BWindow {
-        BListView *addresslistview;
-        BScrollView *scrollview;
+        BOptionPopUp *engine_model_popup;
+        BOptionPopUp *address_popup;
         BSlider *passbandslider;
         BBox *residbox;
+
+        void CreateAddressList();
+        void EnableReSidControls(int engine);
     public:
         SidWindow();
         ~SidWindow();
@@ -116,39 +98,35 @@ class SidWindow : public BWindow {
 
 static SidWindow *sidwindow = NULL;
 
-void CreateAndGetAddressList(BListView *addresslistview, int mode)
+void SidWindow::CreateAddressList()
 {
-    /* mode: 0=Create  1=get */	
     char st[12];
-    int res_value;
-    int adr, ladr, hi, index = -1;
+    int adr, ladr, hi;
     int *hadr = sidaddressbase;
-    int cursel = addresslistview->CurrentSelection();
-    BListItem *item;
-
-    resources_get_int("SidStereoAddressStart", &res_value);
 
     for (hi = 0; hadr[hi] >= 0; hi++) {
         for (ladr = (hi == 0 ? 0x20 : 0x0); ladr < 0x100; ladr += 0x20) {
-            index++;
-            sprintf(st, "$%02X%02X", hadr[hi], ladr);
             adr = hadr[hi] * 0x100 + ladr;
+            sprintf(st, "$%04X", adr);
 
-            if (mode == 0) {
-                addresslistview->AddItem(item = new BStringItem(st));
-                if (adr == res_value) {
-                    addresslistview->Select(addresslistview->IndexOf(item));
-                }
-            } else if (index == cursel) {
-                resources_set_int("SidStereoAddressStart", adr);
-                return;
-            }
+            address_popup->AddOption(st, adr);
         }
     }
 }
 
+void SidWindow::EnableReSidControls(int engine)
+{
+    int32 children, i;
+
+    children = residbox->CountChildren();
+    for (i = 0; i < children; i++) {
+        ((BControl *)residbox->ChildAt(i))->SetEnabled((engine == SID_ENGINE_RESID) || (engine == SID_ENGINE_RESID_FP));
+    }
+
+}
+
 SidWindow::SidWindow() 
-    : BWindow(BRect(250, 50, 500, 250), "Sid settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(250, 50, 500, 240), "Sid settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BMessage *msg;
     BCheckBox *checkbox;
@@ -156,7 +134,7 @@ SidWindow::SidWindow()
     BBox *box;
     BRadioButton *radiobutton;
     BView *background;
-    int res_val, i;
+    int engine, res_val, i;
 
     r = Bounds();
     background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
@@ -165,50 +143,40 @@ SidWindow::SidWindow()
 
     /* SID model */
     resources_get_int("SidModel", &i);
-    resources_get_int("SidEngine", &res_val);
-    res_val <<= 8;
+    resources_get_int("SidEngine", &engine);
+    res_val = engine << 8;
     res_val |= i;
-    r = Bounds();
-    r.bottom = r.top + 50;
+    r.bottom = 35;
     r.InsetBy(10, 5);
-    box = new BBox(r, "SID Engine/Model");
-    box->SetViewColor(220, 220, 220, 0);
-    box->SetLabel("SID Engine/Model");
-
-    for (i = 0; sidmodelengine[i] != NULL; i++) {
-        msg = new BMessage(MESSAGE_SID_MODEL);
-        msg->AddInt32("model", i);
-        radiobutton = new BRadioButton(BRect(10 + i * r.Width() / 2, 15, (i + 1) * r.Width() / 2 - 10, 30), sidmodelengine[i], sidmodelengine[i], msg);
-        radiobutton->SetValue(res_val == sidmodelengine_values[i]);
-        box->AddChild(radiobutton);
+    engine_model_popup = new BOptionPopUp(r, "SID Engine/Model", "SID Engine/Model", new BMessage(MESSAGE_SID_MODEL));
+    for (i = 0; sid_engine_model[i].name != NULL; i++) {
+        engine_model_popup->AddOption(sid_engine_model[i].name, sid_engine_model[i].id);
     }
-    background->AddChild(box);
+    engine_model_popup->SelectOptionFor(res_val);
+    background->AddChild(engine_model_popup);
 
     /* SID filter */
     resources_get_int("SidFilters", &res_val);
-    checkbox = new BCheckBox(BRect(10, 60, r.Width() / 2 - 40, 75), "SID Filters", "SID Filters", new BMessage(MESSAGE_SID_FILTERS));
+    checkbox = new BCheckBox(BRect(10, 35, 120, 50), "SID Filters", "SID Filters", new BMessage(MESSAGE_SID_FILTERS));
     checkbox->SetValue(res_val);
     background->AddChild(checkbox);
 
     /* SID address */
     resources_get_int("SidStereoAddressStart", &res_val);
-    addresslistview = new BListView(BRect(r.Width() - 45, 65, r.Width() - 10, 100), "");
-    addresslistview->SetSelectionMessage(new BMessage(MESSAGE_SID_ADDRESS));
-    background->AddChild(scrollview = new BScrollView("scroll", addresslistview, B_FOLLOW_LEFT | B_FOLLOW_TOP, 0, false, true));
-    CreateAndGetAddressList(addresslistview, 0);
-    addresslistview->ScrollToSelection();
+    address_popup = new BOptionPopUp(BRect(120, 50, 240, 75), "", "", new BMessage(MESSAGE_SID_ADDRESS));
+    CreateAddressList();
+    address_popup->SelectOptionFor(res_val);
+    background->AddChild(address_popup);
 
     /* Stereo SID */
     resources_get_int("SidStereo", &res_val);
-    checkbox = new BCheckBox(BRect(r.Width() / 2 - 20, 60, r.Width() - 50, 75), "Stereo SID at", "Stereo SID at", new BMessage(MESSAGE_SID_STEREO));
+    checkbox = new BCheckBox(BRect(10, 55, 120, 70), "Stereo SID at", "Stereo SID at", new BMessage(MESSAGE_SID_STEREO));
     checkbox->SetValue(res_val);
     background->AddChild(checkbox);
-    if (!res_val) {
-        scrollview->Hide();
-    }
-	
+    address_popup->SetEnabled(res_val);
+
     /* reSID settings */
-    residbox = new BBox(BRect(10, 110, r.Width() - 10, 190), "reSID/reSID-fp settings");
+    residbox = new BBox(BRect(10, 80, 240, 180), "reSID/reSID-fp settings");
     residbox->SetViewColor(220, 220, 220, 0);
     residbox->SetLabel("reSID/reSID-fp settings");
     background->AddChild(residbox);
@@ -232,47 +200,39 @@ SidWindow::SidWindow()
     passbandslider->SetLimitLabels("0", "90");
     residbox->AddChild(passbandslider);
 
-    resources_get_int("SidEngine", &res_val);
-    if (res_val != SID_ENGINE_RESID) {
-        residbox->Hide();
-    }
+    EnableReSidControls(engine);
 
     Show();
 }
 
 SidWindow::~SidWindow() 
 {
-    sidwindow = NULL;	
+    sidwindow = NULL;
 }
 
 void SidWindow::MessageReceived(BMessage *msg)
 {
-    int32 val;	
-    resource_value_t dummy;
-    BListItem *item;
-    int32 temp;
+    int32 engine, val;
 
     switch (msg->what) {
         case MESSAGE_SID_MODEL:
-            val = msg->FindInt32("model");
-            temp = val >> 8;
+            /* engine_model_popup->SelectedOption((char **)&dummy, &val); */
+            val = engine_model_popup->Value();
+            engine = val >> 8;
             val &= 0xff;
-            sid_set_engine_model(temp, val);
+            sid_set_engine_model(engine, val);
+            EnableReSidControls(engine);
             break;
         case MESSAGE_SID_FILTERS:
-            resources_toggle("SidFilters", (int *)&dummy);
+            resources_toggle("SidFilters", (int *)&val);
             break;
         case MESSAGE_SID_STEREO:
-            resources_toggle("SidStereo", (int *)&dummy);
-            addresslistview->ScrollToSelection();
-            dummy ? scrollview->Show() : scrollview->Hide();
+            resources_toggle("SidStereo", (int *)&val);
+            /* address_popup->ScrollToSelection(); */
+            address_popup->SetEnabled(val);
             break;
         case MESSAGE_SID_ADDRESS:
-            CreateAndGetAddressList(addresslistview, 1);
-            break;
-        case MESSAGE_SID_RESID:
-            resources_toggle("SidEngine", (int *)&dummy);
-            dummy ? residbox->Show() : residbox->Hide();
+            resources_set_int("SidStereoAddressStart", address_popup->Value());
             break;
         case MESSAGE_SID_RESIDSAMPLING:
             val = msg->FindInt32("mode");

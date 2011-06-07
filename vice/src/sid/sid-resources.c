@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "hardsid.h"
+#include "log.h"
 #include "machine.h"
 #ifdef HAVE_PARSID
 #include "parsid.h"
@@ -45,6 +46,8 @@
 
 /* FIXME: We need sanity checks!  And do we really need all of these
    `close_sound()' calls?  */
+
+#define SID_ENGINE_MODEL_DEBUG
 
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
@@ -123,6 +126,9 @@ static int set_sid_engine(int set_engine, void *param)
     }
 #endif
 
+#ifdef SID_ENGINE_MODEL_DEBUG
+    log_debug("SID engine set to %d", engine);
+#endif
     sound_state_changed = 1;
 
     return 0;
@@ -178,6 +184,9 @@ static int set_sid_model(int val, void *param)
         }
     }
 
+#ifdef SID_ENGINE_MODEL_DEBUG
+    log_debug("SID model set to %d", sid_model);
+#endif
     sid_state_changed = 1;
     return 0;
 }
