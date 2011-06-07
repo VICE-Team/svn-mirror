@@ -27,6 +27,7 @@
 #define HAVE_DYNLIB_SUPPORT   1
 #define HAVE_SDL_NUMJOYSTICKS 1
 #define USE_SDL_PREFIX        1
+#define HAVE_TFE              1
 
 #define HAS_LONGLONG_INTEGER  1
 #define HAS_UNLOCKRESOURCE    1
