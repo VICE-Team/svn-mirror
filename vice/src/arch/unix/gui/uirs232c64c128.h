@@ -29,6 +29,8 @@
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s uirs232c64c128_submenu[];
+extern struct ui_menu_entry_s uirs232_c64_submenu[];
+extern struct ui_menu_entry_s uirs232_c128_submenu[];
+extern struct ui_menu_entry_s uirs232_vic20_submenu[];
 
 #endif

@@ -497,7 +497,7 @@ static ui_menu_entry_t c128_menu[] = {
     { N_("Memory and I/O extensions"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, io_extensions_submenu },
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uirs232c64c128_submenu },
+      NULL, NULL, uirs232_c128_submenu },
     { NULL }
 };
 

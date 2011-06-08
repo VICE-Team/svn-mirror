@@ -56,8 +56,7 @@
 #include "uilightpen.h"
 #include "uiperipheraliec.h"
 #include "uiromset.h"
-#include "uirs232.h"
-#include "uirs232user.h"
+#include "uirs232c64c128.h"
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -423,37 +422,9 @@ static ui_menu_entry_t joystick_settings_menu[] = {
 
 /*------------------------------------------------------------*/
 
-UI_MENU_DEFINE_TOGGLE(RsUserEnable)
-
-static ui_menu_entry_t vic20_rs232_submenu[] = {
-    { N_("Userport RS232 emulation"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_RsUserEnable, NULL, NULL },
-    { N_("Userport RS232 baud rate"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, rs232user_baudrate_submenu },
-    { N_("Userport RS232 device"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, rs232user_device_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Serial 1 device"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice1", NULL },
-    { N_("Serial 1 baudrate"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ser1_baud_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Serial 2 device"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_rs232_device_file,
-      (ui_callback_data_t)"RsDevice2", NULL },
-    { N_("Serial 2 baudrate"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ser2_baud_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Dump filename"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_rs232_dump_file,
-      (ui_callback_data_t)"RsDevice3", NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Program name to exec"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_rs232_exec_file,
-      (ui_callback_data_t)"RsDevice4", NULL },
-    { NULL }
-};
-
 static ui_menu_entry_t rs232_settings_menu[] = {
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_rs232_submenu },
+      NULL, NULL, uirs232_vic20_submenu },
     { NULL }
 };
 
