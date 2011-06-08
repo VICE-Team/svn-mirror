@@ -35,7 +35,7 @@
 UI_MENU_DEFINE_TOGGLE(DIGIMAX)
 UI_MENU_DEFINE_RADIO(DIGIMAXbase)
 
-static ui_menu_entry_t digimax_base_submenu[] = {
+static ui_menu_entry_t digimax_c64_base_submenu[] = {
     { N_("Userport"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
       (ui_callback_data_t)0xdd00, NULL },
     { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
@@ -73,10 +73,54 @@ static ui_menu_entry_t digimax_base_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t digimax_submenu[] = {
+static ui_menu_entry_t digimax_vic20_base_submenu[] = {
+    { "$9800", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9800, NULL },
+    { "$9820", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9820, NULL },
+    { "$9840", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9840, NULL },
+    { "$9860", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9860, NULL },
+    { "$9880", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9880, NULL },
+    { "$98A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x98a0, NULL },
+    { "$98C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x98c0, NULL },
+    { "$98E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x98e0, NULL },
+    { "$9C00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9c00, NULL },
+    { "$9C20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9c20, NULL },
+    { "$9C40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9c40, NULL },
+    { "$9C60", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9c60, NULL },
+    { "$9C80", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9c80, NULL },
+    { "$9CA0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9ca0, NULL },
+    { "$9CC0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9cc0, NULL },
+    { "$9CE0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_DIGIMAXbase,
+      (ui_callback_data_t)0x9ce0, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t digimax_c64_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DIGIMAX, NULL, NULL },
     { N_("Base address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, digimax_base_submenu },
+      NULL, NULL, digimax_c64_base_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t digimax_vic20_submenu[] = {
+    { N_("Enable"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DIGIMAX, NULL, NULL },
+    { N_("Base address"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, digimax_vic20_base_submenu },
     { NULL }
 };

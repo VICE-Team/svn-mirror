@@ -44,6 +44,7 @@
 #include "uiattach.h"
 #include "uicommands.h"
 #include "uidatasette.h"
+#include "uidigimax.h"
 #include "uidrive.h"
 #include "uidrivec64vic20.h"
 #include "uidrivevic20.h"
@@ -477,9 +478,12 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, fexp_submenu },
     { CARTRIDGE_VIC20_NAME_FP, UI_MENU_TYPE_NORMAL,
       NULL, NULL, vicflash_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { CARTRIDGE_NAME_DIGIMAX " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, digimax_vic20_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouse_vic20_submenu },
 #if defined(HAVE_MOUSE)

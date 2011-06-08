@@ -27,6 +27,7 @@
 #ifndef VICE_UI_DIGIMAX_H
 #define VICE_UI_DIGIMAX_H
 
-extern struct ui_menu_entry_s digimax_submenu[];
+extern struct ui_menu_entry_s digimax_c64_submenu[];
+extern struct ui_menu_entry_s digimax_vic20_submenu[];
 
 #endif

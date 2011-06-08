@@ -409,7 +409,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DIGIMAX, UI_MENU_TYPE_NORMAL,
-      NULL, NULL, digimax_submenu },
+      NULL, NULL, digimax_c64_submenu },
     { CARTRIDGE_NAME_MAGIC_VOICE, UI_MENU_TYPE_NORMAL,
       NULL, NULL, magicvoice_submenu },
 #ifdef HAVE_MIDI
