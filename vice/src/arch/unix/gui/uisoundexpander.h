@@ -27,6 +27,7 @@
 #ifndef VICE_UI_SOUNDEXPANDER_H
 #define VICE_UI_SOUNDEXPANDER_H
 
-extern struct ui_menu_entry_s soundexpander_submenu[];
+extern struct ui_menu_entry_s soundexpander_c64_submenu[];
+extern struct ui_menu_entry_s soundexpander_vic20_submenu[];
 
 #endif
