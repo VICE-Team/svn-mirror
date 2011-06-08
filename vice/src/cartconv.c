@@ -375,7 +375,7 @@ static int checkflag(char *flg, char *arg)
 {
     int i;
 
-    switch (tolower(flg[1])) {
+    switch (tolower((int)flg[1])) {
         case 'f':
             printinfo(arg);
             return 2;
@@ -584,7 +584,7 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
             if (cart_name[i] == 0) {
                 endofname = 1;
             } else {
-                crt_header[0x20 + i] = toupper(cart_name[i]);
+                crt_header[0x20 + i] = (char)toupper((int)cart_name[i]);
             }
         }
     }

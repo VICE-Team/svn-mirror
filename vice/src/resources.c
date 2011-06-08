@@ -125,7 +125,7 @@ static unsigned int resources_calc_hash_key(const char *name)
     key = 0; shift = 0;
     for (i = 0; name[i] != '\0'; i++) {
         /* resources are case-insensitive */
-        unsigned int sym = (unsigned int)tolower(name[i]);
+        unsigned int sym = (unsigned int)tolower((int)name[i]);
 
         if (shift >= logHashSize)
             shift = 0;

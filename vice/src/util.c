@@ -893,3 +893,19 @@ char *util_get_extension(char *filename)
     else
         return NULL;
 }
+
+/* char to char tolower function, still uses tolower,
+   but it keeps the ugly casting to avoid warnings
+   out of the main sources. */
+char util_tolower(char c)
+{
+    return (char)tolower((int)c);
+}
+
+/* char to char toupper function, still uses toupper,
+   but it keeps the ugly casting to avoid warnings
+   out of the main sources. */
+char util_toupper(char c)
+{
+    return (char)toupper((int)c);
+}

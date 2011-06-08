@@ -68,6 +68,7 @@
 #include "lib.h"
 #include "network.h"
 #include "types.h"
+#include "util.h"
 #include "vice-event.h"
 
 /* dummy functions */
@@ -1201,7 +1202,7 @@ static int parse_version(char *str)
         return 0;
     }
 
-    switch (toupper(*str)) {
+    switch (util_toupper(*str)) {
         case '1':         /* Basic 1.0 and Basic 10.0 */
             if (str[1] == '0') {
                 version = B_10;
@@ -1219,7 +1220,7 @@ static int parse_version(char *str)
           break;
 
       case '4':
-          version = ((toupper(str[1]) == 'E') ? B_4E : ((toupper(str[1]) == 'v') ? B_VIC4 : B_4)); /* Basic 4.0 */
+          version = ((util_toupper(str[1]) == 'E') ? B_4E : ((util_toupper(str[1]) == 'v') ? B_VIC4 : B_4)); /* Basic 4.0 */
           break;
 
       case '5':
@@ -1244,7 +1245,7 @@ static int parse_version(char *str)
           break;
 
       case 'B':
-          switch (toupper(str[1])) {
+          switch (util_toupper(str[1])) {
               case 'L':
                   version = B_BLARG;
                   break;
@@ -1261,15 +1262,15 @@ static int parse_version(char *str)
           break;
 
       case 'E':
-          switch (toupper(str[1])) {
+          switch (util_toupper(str[1])) {
               case 'A':
                   version = B_EASY;
                   break;
               case 'X':
-                  if (toupper(str[2]) != 'P') {
+                  if (util_toupper(str[2]) != 'P') {
                       fprintf(stderr, "Please, select one of the following: exp20, exp64\n");
                   } else {
-                      switch (toupper(str[3])) {
+                      switch (util_toupper(str[3])) {
                           case '2':
                               version = B_EXPBAS20;
                               break;
@@ -1289,7 +1290,7 @@ static int parse_version(char *str)
           break;
 
       case 'G':
-          switch (toupper(str[1])) {
+          switch (util_toupper(str[1])) {
               case 'R':
                   version = B_GRAPH;
                   break;
@@ -1306,7 +1307,7 @@ static int parse_version(char *str)
           break;
 
       case 'M':
-          switch (toupper(str[1])) {
+          switch (util_toupper(str[1])) {
               case 'I':
                   version = B_MIGHTY;
                   break;
@@ -1327,12 +1328,12 @@ static int parse_version(char *str)
           break;
 
       case 'S':
-          switch (toupper(str[1])) {
+          switch (util_toupper(str[1])) {
               case 'U':
-                  if (toupper(str[2]) != 'P' || toupper(str[3]) != 'E' || toupper(str[4]) != 'R') {
+                  if (util_toupper(str[2]) != 'P' || util_toupper(str[3]) != 'E' || util_toupper(str[4]) != 'R') {
                       fprintf(stderr, "Please, select one of the following: superbas, superexp\n");
                   } else {
-                      switch(toupper(str[5])) {
+                      switch(util_toupper(str[5])) {
                           case 'B':
                               version = B_SUPERBAS;
                               break;
@@ -1373,15 +1374,15 @@ static int parse_version(char *str)
           break;
 
       case 'W':
-          switch (toupper(str[1])) {
+          switch (util_toupper(str[1])) {
               case 'A':
                   version = B_WARSAW;
                   break;
               case 'S':
-                  if (toupper(str[2]) != 'B') {
+                  if (util_toupper(str[2]) != 'B') {
                       fprintf(stderr, "Please, select one of the following: WSB, WSBF\n");
                   } else {
-                      if (toupper(str[3]) == 'F') {
+                      if (util_toupper(str[3]) == 'F') {
                           version = B_WSF;
                       } else {
                           version = B_WS;
@@ -2639,7 +2640,7 @@ static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist,
         if (codesnocase)
         {
             for (p = wordlist[token], q = (char *)line, j = 0;
-                *p && *q && tolower(*p) == tolower(*q); p++, q++, j++);
+                *p && *q && util_tolower(*p) == util_tolower(*q); p++, q++, j++);
         }
         else
         {

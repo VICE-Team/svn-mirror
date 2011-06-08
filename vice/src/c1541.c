@@ -441,6 +441,7 @@ static int split_args(const char *line, int *nargs, char **args)
 static int arg_to_int(const char *arg, int *return_value)
 {
     char *tailptr;
+    int counter = 0;
 
     *return_value = (int)strtol(arg, &tailptr, 10);
 
@@ -449,8 +450,9 @@ static int arg_to_int(const char *arg, int *return_value)
 
     /* Only whitespace is allowed after the last valid character.  */
     if (!util_check_null_string(tailptr)) {
-        while (isspace(*tailptr))
-            tailptr++;
+        while (isspace((int)tailptr[counter]))
+            counter++;
+        tailptr += counter;
         if (*tailptr != 0)
             return -1;
     }
@@ -1164,7 +1166,7 @@ static int format_cmd(int nargs, char **args)
         /* format <diskname,id> <type> <imagename> */
         /* Create a new image.  */
         /* FIXME: I want a unit number here too.  */
-        *args[2] = tolower(*args[2]);
+        *args[2] = util_tolower(*args[2]);
         if (strcmp(args[2], "d64") == 0)
             disk_type = DISK_IMAGE_TYPE_D64;
         else if (strcmp(args[2], "d67") == 0)

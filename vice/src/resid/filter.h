@@ -477,8 +477,8 @@ void Filter::clock(int voice1, int voice2, int voice3)
   v3 = (voice3*f.voice_scale_s14 >> 18) + f.voice_DC;
 
   // Sum inputs routed into the filter.
-  int Vi;
-  int offset;
+  int Vi = 0;
+  int offset = 0;
 
   switch (sum & 0xf) {
   case 0x0:
@@ -589,8 +589,8 @@ void Filter::clock(cycle_count delta_t, int voice1, int voice2, int voice3)
   }
 
   // Sum inputs routed into the filter.
-  int Vi;
-  int offset;
+  int Vi = 0;
+  int offset = 0;
 
   switch (sum & 0xf) {
   case 0x0:
@@ -752,8 +752,8 @@ for my $mix (0..2**@i-1) {
   */
 
   // Sum inputs routed into the mixer.
-  int Vi;
-  int offset;
+  int Vi = 0;
+  int offset = 0;
 
   switch (mix & 0x7f) {
   case 0x00:

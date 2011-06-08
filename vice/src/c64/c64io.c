@@ -244,7 +244,6 @@ static void io_source_log_collisions(WORD addr, int amount, io_source_list_t *st
     char *old_msg = NULL;
     char *new_msg = NULL;
     int found = 0;
-    int i = 0;
 
     current = current->next;
 

@@ -47,7 +47,7 @@ typedef enum _CASE {
 */
 typedef struct _KEYMAP {
     CHAR Key;
-    STATUS (*Function)();
+    STATUS (*Function)(void);
 } KEYMAP;
 
 /*
@@ -608,7 +608,7 @@ STATIC STATUS h_last(void)
 /*
 **  Return zero if pat appears as a substring in text.
 */
-STATIC int substrcmp(char *text, char *pat, int len)
+STATIC int substrcmp(const char *text, const char *pat, size_t len)
 {
     CHAR c;
 
@@ -628,7 +628,7 @@ STATIC CHAR *search_hist(CHAR *search, CHAR *(*move)(void))
     static CHAR *old_search;
     int len;
     int pos;
-    int (*match)(char *, char *, int);
+    int (*match)(const char *, const char *, size_t);
     char *pat;
 
     /* Save or get remembered search pattern. */

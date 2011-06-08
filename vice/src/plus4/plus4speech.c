@@ -488,6 +488,7 @@ static void speech_sound_machine_close(sound_t *psid);
 static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
 static BYTE speech_sound_machine_read(sound_t *psid, WORD addr);
 static void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
+static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int speech_sound_machine_cycle_based(void)
 {
@@ -506,7 +507,7 @@ static sound_chip_t speech_sound_chip = {
     speech_sound_machine_calculate_samples,
     speech_sound_machine_store,
     speech_sound_machine_read,
-    NULL, /* no reset */
+    speech_sound_machine_reset,
     speech_sound_machine_cycle_based,
     speech_sound_machine_channels,
     0 /* chip enabled */

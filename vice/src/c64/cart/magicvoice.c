@@ -814,6 +814,7 @@ static void magicvoice_sound_machine_close(sound_t *psid);
 static int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
 static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
 static BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr);
+static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int magicvoice_sound_machine_cycle_based(void)
 {
@@ -832,7 +833,7 @@ static sound_chip_t magicvoice_sound_chip = {
     magicvoice_sound_machine_calculate_samples,
     magicvoice_sound_machine_store,
     magicvoice_sound_machine_read,
-    NULL, /* no reset */
+    magicvoice_sound_machine_reset,
     magicvoice_sound_machine_cycle_based,
     magicvoice_sound_machine_channels,
     0 /* chip enabled */

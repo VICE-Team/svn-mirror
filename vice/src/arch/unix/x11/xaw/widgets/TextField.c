@@ -478,6 +478,7 @@ static void ClassInitialize(void)
 }
 
 /* Unused... */
+#if 0
 static void ClassDestroy(void)
 {
 #ifdef INTERNATIONAL_SUPPORT
@@ -489,6 +490,7 @@ static void ClassDestroy(void)
     }
 #endif
 }
+#endif
 
 static void Initialize(Widget treq, Widget tnew, ArgList args, Cardinal *num)
 {

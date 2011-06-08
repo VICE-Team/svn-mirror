@@ -93,24 +93,27 @@ extern WORD util_le_buf_to_word(BYTE *buf);
 extern char *util_find_prev_line(const char *text, const char *pos);
 extern char *util_find_next_line(const char *pos);
 
+extern char util_tolower(char c);
+extern char util_toupper(char c);
+
 #if !defined HAVE_MEMMOVE
-void *memmove(void *target, const void *source, unsigned int length);
+extern void *memmove(void *target, const void *source, unsigned int length);
 #endif
 
 #if !defined HAVE_ATEXIT
-int atexit(void (*function)(void));
+extern int atexit(void (*function)(void));
 #endif
 
 #if !defined HAVE_STRERROR
-char *strerror(int errnum);
+extern char *strerror(int errnum);
 #endif
 
 #if !defined HAVE_STRCASECMP
-int strcasecmp(const char *s1, const char *s2);
+extern int strcasecmp(const char *s1, const char *s2);
 #endif
 
 #if !defined HAVE_STRNCASECMP
-int strncasecmp(const char *s1, const char *s2, unsigned int n);
+extern int strncasecmp(const char *s1, const char *s2, unsigned int n);
 #endif
 
 #endif

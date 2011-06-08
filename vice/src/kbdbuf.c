@@ -89,8 +89,8 @@ static void kbd_buf_parse_string(const char *string)
     memset(kbd_buf_string, 0, len + 1);
 
     for (i = 0, j = 0; i < len; i++) {
-        if (string[i] == '\\' && i < (len - 2) && isxdigit(string[i + 1])
-            && isxdigit(string[i + 2])) {
+        if (string[i] == '\\' && i < (len - 2) && isxdigit((int)string[i + 1])
+            && isxdigit((int)string[i + 2])) {
             char hexvalue[3];
 
             hexvalue[0] = string[i + 1];

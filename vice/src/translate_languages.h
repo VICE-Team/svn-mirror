@@ -27,6 +27,7 @@
 #ifndef VICE_TRANSLATE_LANGUAGES_H
 #define VICE_TRANSLATE_LANGUAGES_H
 
+#ifdef HAS_TRANSLATION
 static char *language_table[] = {
 
 /* english */
@@ -100,5 +101,6 @@ static int language_cp_table[] = {
 /* turkish */
   28599	/* ISO 8859-9 */
 };
+#endif
 
 #endif

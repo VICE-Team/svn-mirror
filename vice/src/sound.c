@@ -895,7 +895,7 @@ static int sound_run_sound(void)
     int nr = 0, c, i;
     int delta_t = 0;
     SWORD *bufferptr;
-    static overflow_warning_count = 0;
+    static int overflow_warning_count = 0;
 
     /* XXX: implement the exact ... */
     if (!playback_enabled || (suspend_time > 0 && disabletime))

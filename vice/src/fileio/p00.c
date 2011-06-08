@@ -79,7 +79,7 @@ static int p00_check_name(const char *name)
     if (!isdigit((int)p[1]) || !isdigit((int)p[2]))
         return -1;
 
-    switch (toupper(*p)) {
+    switch (util_toupper(*p)) {
       case 'D':
         t = CBMDOS_FT_DEL;
         break;
@@ -259,7 +259,7 @@ static char *p00_evaluate_name(const char *name, int length)
             break;
           default:
             if (islower((int)name[i])) {
-                filename[j++] = toupper(name[i]);
+                filename[j++] = util_toupper(name[i]);
                 break;
             }
             if (isalnum((int)name[i])) {
