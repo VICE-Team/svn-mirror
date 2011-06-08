@@ -64,6 +64,7 @@
 #include "uisid.h"
 #include "uisound.h"
 #include "uisoundexpander.h"
+#include "uisoundsampler.h"
 #include "uivic.h"
 #include "util.h"
 #include "vsync.h"
@@ -489,6 +490,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, georam_vic20_submenu },
     { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
       NULL, NULL, soundexpander_vic20_submenu },
+    { CARTRIDGE_NAME_SFX_SOUND_SAMPLER " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, soundsampler_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouse_vic20_submenu },
