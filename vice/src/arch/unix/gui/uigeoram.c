@@ -38,6 +38,7 @@
 UI_MENU_DEFINE_TOGGLE(GEORAM)
 UI_MENU_DEFINE_RADIO(GEORAMsize)
 UI_MENU_DEFINE_TOGGLE(GEORAMImageWrite) /* FIXME */
+UI_MENU_DEFINE_TOGGLE(GEORAMIOSwap)
 
 UI_CALLBACK(set_georam_image_name);
 static UI_CALLBACK(georam_flush_callback);
@@ -61,7 +62,7 @@ static ui_menu_entry_t georam_size_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t georam_submenu[] = {
+ui_menu_entry_t georam_c64_submenu[] = {
     { N_("Enable"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_GEORAM, NULL, NULL },
     { N_("Size"), UI_MENU_TYPE_NORMAL,
@@ -76,6 +77,22 @@ ui_menu_entry_t georam_submenu[] = {
       (ui_callback_t)georam_flush_callback, NULL, NULL },
     { N_("Save image as"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)georam_save_callback, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t georam_vic20_submenu[] = {
+    { N_("Enable"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_GEORAM, NULL, NULL },
+    { N_("MasC=uerade I/O swap"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_GEORAMIOSwap, NULL, NULL },
+    { N_("Size"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, georam_size_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Image name"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_georam_image_name,
+      (ui_callback_data_t)"GEORAMfilename", NULL },
+    { N_("Save image when changed"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_GEORAMImageWrite, NULL, NULL },
     { NULL }
 };
 

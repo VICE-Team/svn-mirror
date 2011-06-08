@@ -271,7 +271,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
     { CARTRIDGE_NAME_GEORAM, UI_MENU_TYPE_NORMAL,
-      NULL, NULL, georam_submenu },
+      NULL, NULL, georam_c64_submenu },
     { CARTRIDGE_NAME_REU, UI_MENU_TYPE_NORMAL,
       NULL, NULL, reu_submenu },
     { CARTRIDGE_NAME_RAMCART, UI_MENU_TYPE_NORMAL,

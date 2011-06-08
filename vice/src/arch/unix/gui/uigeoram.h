@@ -29,6 +29,7 @@
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s georam_submenu[];
+extern struct ui_menu_entry_s georam_c64_submenu[];
+extern struct ui_menu_entry_s georam_vic20_submenu[];
 
 #endif
