@@ -65,6 +65,7 @@
 #include "uisound.h"
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
+#include "uitfe.h"
 #include "uivic.h"
 #include "util.h"
 #include "vsync.h"
@@ -492,6 +493,10 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, soundexpander_vic20_submenu },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
       NULL, NULL, soundsampler_submenu },
+#ifdef HAVE_TFE
+    { N_("Ethernet emulation (MasC=uerade)"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, tfe_vic20_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouse_vic20_submenu },

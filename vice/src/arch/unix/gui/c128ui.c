@@ -297,7 +297,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef HAVE_TFE
     { N_("Ethernet emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, tfe_submenu },
+      NULL, NULL, tfe_c64_submenu },
 #endif
     { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
       NULL, NULL, tpi_submenu },
