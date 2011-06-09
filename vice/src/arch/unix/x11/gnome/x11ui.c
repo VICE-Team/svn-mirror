@@ -2105,7 +2105,7 @@ static GtkWidget *rebuild_contents_menu(int unit, const char *name)
     memset(menu, 0, 2 * sizeof(ui_menu_entry_t));
     util_fname_split(name, NULL, &title);
     for (tmp = title; *tmp; tmp++) {
-        *tmp = toupper(*tmp);
+        *tmp = util_toupper(*tmp);
     }
     menu[fno].string = lib_stralloc(title);
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;

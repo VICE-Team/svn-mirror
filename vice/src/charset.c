@@ -36,6 +36,7 @@
 #include "lib.h"
 #include "log.h"
 #include "types.h"
+#include "util.h"
 
 /*
     test for line ending, return number of bytes to skip if found.

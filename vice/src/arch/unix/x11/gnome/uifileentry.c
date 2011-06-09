@@ -35,6 +35,7 @@
 #include "uiapi.h"
 #include "uifileentry.h"
 #include "uilib.h"
+#include "util.h"
 
 typedef struct uilib_file_filter_s {
     const char* filter_string;
@@ -151,6 +152,7 @@ GtkWidget *vice_file_entry(const char *title, GtkWidget* parent_window, const ch
             char *dst = filter_made_case_insensitive;
             char *dstend = filter_made_case_insensitive + sizeof(filter_made_case_insensitive) - 1;
             const char *src = file_filters[patterns[i]].filters[j].filter_string;
+            char c;
 
             strncat(filter_name, j == 0 ? " (" : ";", filter_name_len);
             filter_name_len = sizeof(filter_name) - strlen(filter_name);
@@ -160,7 +162,8 @@ GtkWidget *vice_file_entry(const char *title, GtkWidget* parent_window, const ch
                 if (dst >= dstend) {
                     break;
                 }
-                if (!file_filters[patterns[i]].filters[j].filter_string_is_case_sensitive && isalpha(*src) && islower(*src)) {
+                c = *src;
+                if (!file_filters[patterns[i]].filters[j].filter_string_is_case_sensitive && isalpha((int)c) && islower((int)c)) {
                     *dst++ = '[';
                     if (dst >= dstend) {
                         break;
@@ -169,7 +172,7 @@ GtkWidget *vice_file_entry(const char *title, GtkWidget* parent_window, const ch
                     if (dst >= dstend) {
                         break;
                     }
-                    *dst++ = toupper(*src++);
+                    *dst++ = util_toupper(*src++);
                     if (dst >= dstend) {
                         break;
                     }
