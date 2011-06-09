@@ -27,6 +27,6 @@
 #ifndef VICE_UIC64MODEL_H
 #define VICE_UIC64MODEL_H
 
-extern void ui_c64_model_custom_dialog();
+extern void ui_c64_model_custom_dialog(void);
 
 #endif
