@@ -105,7 +105,7 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             ui_magicvoice_settings_dialog(canvas);
             break;
         case IDM_GEORAM_SETTINGS:
-            ui_georam_settings_dialog(canvas);
+            ui_georam_c64_settings_dialog(canvas);
             break;
         case IDM_RAMCART_SETTINGS:
             ui_ramcart_settings_dialog(canvas);

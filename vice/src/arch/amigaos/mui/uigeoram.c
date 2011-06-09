@@ -72,7 +72,7 @@ static const int ui_georam_size_values[] = {
     -1
 };
 
-static ui_to_from_t ui_to_from[] = {
+static ui_to_from_t ui_to_from64[] = {
     { NULL, MUI_TYPE_CYCLE, "GEORAM", ui_georam_enable, ui_georam_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "GEORAMsize", ui_georam_size, ui_georam_size_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "GEORAMfilename", NULL, NULL, NULL },
@@ -80,36 +80,58 @@ static ui_to_from_t ui_to_from[] = {
     UI_END /* mandatory */
 };
 
-static ULONG Browse( struct Hook *hook, Object *obj, APTR arg )
+static ui_to_from_t ui_to_from20[] = {
+    { NULL, MUI_TYPE_CYCLE, "GEORAM", ui_georam_enable, ui_georam_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GEORAMIOSwap", ui_georam_enable, ui_georam_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GEORAMsize", ui_georam_size, ui_georam_size_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, "GEORAMfilename", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_CYCLE, "GEORAMImageWrite", ui_georam_enable, ui_georam_enable_values, NULL },
+    UI_END /* mandatory */
+};
+
+static ULONG Browse64( struct Hook *hook, Object *obj, APTR arg )
 {
     char *fname = NULL;
 
     fname = BrowseFile(translate_text(IDS_GEORAM_FILENAME_SELECT), "#?", georam_canvas);
 
     if (fname != NULL) {
-        set(ui_to_from[2].object, MUIA_String_Contents, fname);
+        set(ui_to_from64[2].object, MUIA_String_Contents, fname);
     }
 
     return 0;
 }
 
-static APTR build_gui(void)
+static ULONG Browse20( struct Hook *hook, Object *obj, APTR arg )
+{
+    char *fname = NULL;
+
+    fname = BrowseFile(translate_text(IDS_GEORAM_FILENAME_SELECT), "#?", georam_canvas);
+
+    if (fname != NULL) {
+        set(ui_to_from20[3].object, MUIA_String_Contents, fname);
+    }
+
+    return 0;
+}
+
+static APTR build_gui64(void)
 {
     APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse64, NULL };
 #else
-    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse, NULL, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse64, NULL, NULL };
 #endif
 
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from[0].object, "GEORAM", ui_georam_enable)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_GEORAM_SIZE), ui_georam_size)
-           FILENAME(ui_to_from[2].object, translate_text(IDS_GEORAM_FILENAME), browse_button)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED), ui_georam_enable)
+           CYCLE(ui_to_from64[0].object, "GEORAM", ui_georam_enable)
+           CYCLE(ui_to_from64[1].object, translate_text(IDS_GEORAM_SIZE), ui_georam_size)
+           FILENAME(ui_to_from64[2].object, translate_text(IDS_GEORAM_FILENAME), browse_button)
+           CYCLE(ui_to_from64[3].object, translate_text(IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED), ui_georam_enable)
            OK_CANCEL_BUTTON
          End;
 
@@ -127,21 +149,78 @@ static APTR build_gui(void)
     return ui;
 }
 
-void ui_georam_settings_dialog(video_canvas_t *canvas)
+static APTR build_gui20(void)
+{
+    APTR app, ui, ok, browse_button, cancel;
+
+#ifdef AMIGA_MORPHOS
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse20, NULL };
+#else
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse20, NULL, NULL };
+#endif
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from20[0].object, "GEORAM", ui_georam_enable)
+           CYCLE(ui_to_from20[1].object, translate_text(IDS_MASCUERADE_IO_SWAP), ui_georam_enable)
+           CYCLE(ui_to_from20[2].object, translate_text(IDS_GEORAM_SIZE), ui_georam_size)
+           FILENAME(ui_to_from20[3].object, translate_text(IDS_GEORAM_FILENAME), browse_button)
+           CYCLE(ui_to_from20[4].object, translate_text(IDS_SAVE_GEORAM_IMAGE_WHEN_CHANGED), ui_georam_enable)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+
+        DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook);
+    }
+
+    return ui;
+}
+
+void ui_georam_c64_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
     georam_canvas = canvas;
     intl_convert_mui_table(ui_georam_enable_translate, ui_georam_enable);
 
-    window = mui_make_simple_window(build_gui(), translate_text(IDS_GEORAM_SETTINGS));
+    window = mui_make_simple_window(build_gui64(), translate_text(IDS_GEORAM_SETTINGS));
 
     if (window != NULL) {
         mui_add_window(window);
-        ui_get_to(ui_to_from);
+        ui_get_to(ui_to_from64);
         set(window, MUIA_Window_Open, TRUE);
         if (mui_run() == BTN_OK) {
-            ui_get_from(ui_to_from);
+            ui_get_from(ui_to_from64);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_georam_vic20_settings_dialog(video_canvas_t *canvas)
+{
+    APTR window;
+
+    georam_canvas = canvas;
+    intl_convert_mui_table(ui_georam_enable_translate, ui_georam_enable);
+
+    window = mui_make_simple_window(build_gui20(), translate_text(IDS_GEORAM_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from20);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from20);
         }
         set(window, MUIA_Window_Open, FALSE);
         mui_rem_window(window);

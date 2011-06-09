@@ -27,6 +27,7 @@
 #ifndef VICE_UIGEORAM_H
 #define VICE_UIGEORAM_H
 
-extern void ui_georam_settings_dialog(video_canvas_t *canvas);
+extern void ui_georam_c64_settings_dialog(video_canvas_t *canvas);
+extern void ui_georam_vic20_settings_dialog(video_canvas_t *canvas);
 
 #endif

@@ -2150,6 +2150,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_GEORAM_SETTINGS_SV, "GEO-RAM-inställningar..." },
 /* tr */ { IDMS_GEORAM_SETTINGS_TR, "GEO-RAM ayarlarý..." },
 
+/* en */ { IDMS_GEORAM_SETTINGS_MASCUERADE,    "GEO-RAM settings (MasC=uerade)..." },
+/* da */ { IDMS_GEORAM_SETTINGS_MASCUERADE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_GEORAM_SETTINGS_MASCUERADE_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_GEORAM_SETTINGS_MASCUERADE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_GEORAM_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_GEORAM_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_GEORAM_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_GEORAM_SETTINGS_MASCUERADE_NL, "" },  /* fuzzy */
+/* ru */ { IDMS_GEORAM_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_GEORAM_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_GEORAM_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_RAMCART_SETTINGS,    "RamCart settings..." },
 /* da */ { IDMS_RAMCART_SETTINGS_DA, "RamCart-indstillinger..." },
 /* de */ { IDMS_RAMCART_SETTINGS_DE, "RamCart Einstellungen..." },
@@ -4621,6 +4633,18 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_GEORAM_SIZE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_GEORAM_SIZE_SV, "GEO-RAM-storlek" },
 /* tr */ { IDS_GEORAM_SIZE_TR, "GEO-RAM boyutu" },
+
+/* en */ { IDS_MASCUERADE_IO_SWAP,    "MasC=uerade I/O swap" },
+/* da */ { IDS_MASCUERADE_IO_SWAP_DA, "" },  /* fuzzy */
+/* de */ { IDS_MASCUERADE_IO_SWAP_DE, "" },  /* fuzzy */
+/* fr */ { IDS_MASCUERADE_IO_SWAP_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MASCUERADE_IO_SWAP_HU, "" },  /* fuzzy */
+/* it */ { IDS_MASCUERADE_IO_SWAP_IT, "" },  /* fuzzy */
+/* ko */ { IDS_MASCUERADE_IO_SWAP_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MASCUERADE_IO_SWAP_NL, "" },  /* fuzzy */
+/* ru */ { IDS_MASCUERADE_IO_SWAP_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MASCUERADE_IO_SWAP_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MASCUERADE_IO_SWAP_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_GEORAM_FILENAME,    "GEO-RAM file" },
 /* da */ { IDS_GEORAM_FILENAME_DA, "GEO-RAM-fil" },
