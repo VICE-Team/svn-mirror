@@ -28,6 +28,8 @@
 #define VICE_UIACIA_H
 
 extern void ui_acia_settings_dialog(void);
-extern void ui_acia64128_settings_dialog(void);
+extern void ui_acia64_settings_dialog(void);
+extern void ui_acia128_settings_dialog(void);
+extern void ui_acia20_settings_dialog(void);
 
 #endif

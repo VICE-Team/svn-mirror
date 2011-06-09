@@ -154,7 +154,7 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             ui_printer_settings_dialog(canvas, 0, 1);
             break;
         case IDM_ACIA_SETTINGS:
-            ui_acia64128_settings_dialog();
+            ui_acia128_settings_dialog();
             break;
         case IDM_RS232USER_SETTINGS:
             ui_rs232user_settings_dialog();

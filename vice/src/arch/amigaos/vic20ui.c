@@ -36,6 +36,7 @@
 #include "vic20ui.h"
 #include "vic20uires.h"
 
+#include "mui/uiacia.h"
 #include "mui/uidrivec64vic20.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
@@ -147,6 +148,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             if (fname != NULL) {
                 resources_set_string("MegaCartNvRAMfilename", fname);
             }
+            break;
+        case IDM_ACIA_SETTINGS:
+            ui_acia20_settings_dialog();
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

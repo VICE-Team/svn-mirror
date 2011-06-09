@@ -2378,6 +2378,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ACIA_SETTINGS_SV, "ACIA-inställningar..." },
 /* tr */ { IDMS_ACIA_SETTINGS_TR, "ACIA Ayarlarý..." },
 
+/* en */ { IDMS_ACIA_SETTINGS_MASCUERADE,    "ACIA settings (MasC=uerade)..." },
+/* da */ { IDMS_ACIA_SETTINGS_MASCUERADE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ACIA_SETTINGS_MASCUERADE_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_ACIA_SETTINGS_MASCUERADE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ACIA_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ACIA_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ACIA_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ACIA_SETTINGS_MASCUERADE_NL, "" },  /* fuzzy */
+/* ru */ { IDMS_ACIA_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ACIA_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ACIA_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_PETREU_SETTINGS,    "PET REU settings..." },
 /* da */ { IDMS_PETREU_SETTINGS_DA, "PET REU-indstillinger..." },
 /* de */ { IDMS_PETREU_SETTINGS_DE, "PET REU Einstellungen..." },
@@ -4093,6 +4105,18 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_ACIA_DEVICE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ACIA_DEVICE_SV, "ACIA-enhet" },
 /* tr */ { IDS_ACIA_DEVICE_TR, "ACIA aygýtý" },
+
+/* en */ { IDS_ACIA_BASE,    "ACIA base address" },
+/* da */ { IDS_ACIA_BASE_DA, "" },  /* fuzzy */
+/* de */ { IDS_ACIA_BASE_DE, "" },  /* fuzzy */
+/* fr */ { IDS_ACIA_BASE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ACIA_BASE_HU, "" },  /* fuzzy */
+/* it */ { IDS_ACIA_BASE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_ACIA_BASE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_ACIA_BASE_NL, "" },  /* fuzzy */
+/* ru */ { IDS_ACIA_BASE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_ACIA_BASE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_ACIA_BASE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_ACIA_INTERRUPT,    "ACIA interrupt" },
 /* da */ { IDS_ACIA_INTERRUPT_DA, "ACIA-interrupt" },
