@@ -2318,6 +2318,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_DIGIMAX_SETTINGS_SV, "DigiMAX-inställningar..." },
 /* tr */ { IDMS_DIGIMAX_SETTINGS_TR, "DigiMAX ayarlarý..." },
 
+/* en */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE,    "DigiMAX settings (MasC=uerade)..." },
+/* da */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_NL, "" },  /* fuzzy */
+/* ru */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_SFX_SE_SETTINGS,    "SFX Sound Expander settings..." },
 /* da */ { IDMS_SFX_SE_SETTINGS_DA, "SFX Sound Expander-indstillinger..." },
 /* de */ { IDMS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen..." },

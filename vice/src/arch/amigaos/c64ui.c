@@ -146,7 +146,7 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             ui_mmcreplay_settings_dialog(canvas);
             break;
         case IDM_DIGIMAX_SETTINGS:
-            ui_digimax_settings_dialog(canvas);
+            ui_digimax_c64_settings_dialog(canvas);
             break;
         case IDM_SFX_SE_SETTINGS:
             ui_soundexpander_settings_dialog(canvas);

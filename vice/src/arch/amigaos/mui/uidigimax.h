@@ -27,6 +27,7 @@
 #ifndef VICE_UIDIGIMAX_H
 #define VICE_UIDIGIMAX_H
 
-extern void ui_digimax_settings_dialog(video_canvas_t *canvas);
+extern void ui_digimax_c64_settings_dialog(video_canvas_t *canvas);
+extern void ui_digimax_vic20_settings_dialog(video_canvas_t *canvas);
 
 #endif

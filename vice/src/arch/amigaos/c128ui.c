@@ -111,7 +111,7 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             ui_ramcart_settings_dialog(canvas);
             break;
         case IDM_DIGIMAX_SETTINGS:
-            ui_digimax_settings_dialog(canvas);
+            ui_digimax_c64_settings_dialog(canvas);
             break;
         case IDM_EXPERT_SETTINGS:
             ui_expert_settings_dialog(canvas);
