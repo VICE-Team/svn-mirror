@@ -32,6 +32,7 @@ libarch_a_SOURCES = \
 	c128ui.c \
 	c64ui.c \
 	c64dtvui.c \
+	catweaselmkiii.c \
 	cbm2ui.c \
 	cbmcharsets.c \
 	cbmcharsets.h \

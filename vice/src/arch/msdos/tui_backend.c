@@ -186,7 +186,7 @@ void tui_display(int x, int y, int len, const char *format, ...)
 
     va_start(vl, format);
     buf = lib_mvsprintf(format, vl);
-    va_end(ap);
+    va_end(vl);
     buf_len = strlen(buf);
     if (len == 0) {
         len = buf_len;
