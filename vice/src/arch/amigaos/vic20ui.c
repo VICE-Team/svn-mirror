@@ -46,6 +46,7 @@
 #include "mui/uiromc64vic20settings.h"
 #include "mui/uirs232user.h"
 #include "mui/uisidcart.h"
+#include "mui/uisoundexpander.h"
 #include "mui/uivic20mem.h"
 #include "mui/uivideo.h"
 
@@ -159,6 +160,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_GEORAM_SETTINGS:
             ui_georam_vic20_settings_dialog(canvas);
+            break;
+        case IDM_SFX_SE_SETTINGS:
+            ui_soundexpander_vic20_settings_dialog(canvas);
             break;
         case IDM_KEYBOARD_SETTINGS:
 //          uikeyboard_settings_dialog(hwnd, &uikeyboard_config);

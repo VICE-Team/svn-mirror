@@ -62,21 +62,28 @@ static const int ui_soundexpander_chip_values[] = {
     -1
 };
 
-static ui_to_from_t ui_to_from[] = {
+static ui_to_from_t ui_to_from64[] = {
     { NULL, MUI_TYPE_CYCLE, "SFXSoundExpander", ui_soundexpander_enable, ui_soundexpander_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SFXSoundExpanderChip", ui_soundexpander_chip, ui_soundexpander_chip_values, NULL },
     UI_END /* mandatory */
 };
 
-static APTR build_gui(void)
+static ui_to_from_t ui_to_from20[] = {
+    { NULL, MUI_TYPE_CYCLE, "SFXSoundExpander", ui_soundexpander_enable, ui_soundexpander_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SFXSoundExpanderIOSwap", ui_soundexpander_enable, ui_soundexpander_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SFXSoundExpanderChip", ui_soundexpander_chip, ui_soundexpander_chip_values, NULL },
+    UI_END /* mandatory */
+};
+
+static APTR build_gui64(void)
 {
     APTR app, ui, ok, cancel;
 
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from[0].object, translate_text(IDS_SFX_SE_ENABLED), ui_soundexpander_enable)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_SFX_SE_CHIP), ui_soundexpander_chip)
+           CYCLE(ui_to_from64[0].object, translate_text(IDS_SFX_SE_ENABLED), ui_soundexpander_enable)
+           CYCLE(ui_to_from64[1].object, translate_text(IDS_SFX_SE_CHIP), ui_soundexpander_chip)
            OK_CANCEL_BUTTON
          End;
 
@@ -91,21 +98,67 @@ static APTR build_gui(void)
     return ui;
 }
 
-void ui_soundexpander_settings_dialog(video_canvas_t *canvas)
+static APTR build_gui20(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from20[0].object, translate_text(IDS_SFX_SE_ENABLED), ui_soundexpander_enable)
+           CYCLE(ui_to_from20[1].object, translate_text(IDS_MASCUERADE_IO_SWAP), ui_soundexpander_enable)
+           CYCLE(ui_to_from20[2].object, translate_text(IDS_SFX_SE_CHIP), ui_soundexpander_chip)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
+}
+
+void ui_soundexpander_c64_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
     soundexpander_canvas = canvas;
     intl_convert_mui_table(ui_soundexpander_enable_translate, ui_soundexpander_enable);
 
-    window = mui_make_simple_window(build_gui(), translate_text(IDS_SFX_SE_SETTINGS));
+    window = mui_make_simple_window(build_gui64(), translate_text(IDS_SFX_SE_SETTINGS));
 
     if (window != NULL) {
         mui_add_window(window);
-        ui_get_to(ui_to_from);
+        ui_get_to(ui_to_from64);
         set(window, MUIA_Window_Open, TRUE);
         if (mui_run() == BTN_OK) {
-            ui_get_from(ui_to_from);
+            ui_get_from(ui_to_from64);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_soundexpander_vic20_settings_dialog(video_canvas_t *canvas)
+{
+    APTR window;
+
+    soundexpander_canvas = canvas;
+    intl_convert_mui_table(ui_soundexpander_enable_translate, ui_soundexpander_enable);
+
+    window = mui_make_simple_window(build_gui20(), translate_text(IDS_SFX_SE_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from20);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from20);
         }
         set(window, MUIA_Window_Open, FALSE);
         mui_rem_window(window);

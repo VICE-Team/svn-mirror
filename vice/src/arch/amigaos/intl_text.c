@@ -2342,6 +2342,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SFX_SE_SETTINGS_SV, "Inställningar för SFX Sound Expander..." },
 /* tr */ { IDMS_SFX_SE_SETTINGS_TR, "SFX Sound Expander Ayarlarý..." },
 
+/* en */ { IDMS_SFX_SE_SETTINGS_MASCUERADE,    "SFX Sound Expander settings (MasC=uerade)..." },
+/* da */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_NL, "" },  /* fuzzy */
+/* ru */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_EASYFLASH_SETTINGS,    "EasyFlash settings..." },
 /* da */ { IDMS_EASYFLASH_SETTINGS_DA, "EasyFlash-indstillinger..." },
 /* de */ { IDMS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen..." },

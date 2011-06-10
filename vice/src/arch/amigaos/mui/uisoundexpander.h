@@ -27,6 +27,7 @@
 #ifndef VICE_UISOUNDEXPANDER_H
 #define VICE_UISOUNDEXPANDER_H
 
-extern void ui_soundexpander_settings_dialog(video_canvas_t *canvas);
+extern void ui_soundexpander_c64_settings_dialog(video_canvas_t *canvas);
+extern void ui_soundexpander_vic20_settings_dialog(video_canvas_t *canvas);
 
 #endif
