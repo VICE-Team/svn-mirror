@@ -184,7 +184,7 @@ static unsigned char read_sid( unsigned char reg )
 
 static void write_sid(unsigned char reg, unsigned char data)
 {
-    pci_outw(((reg * 0x1f) << 8) | data, HSbase + 3);
+    pci_outw(((reg & 0x1f) << 8) | data, HSbase + 3);
 }
 
 int hardsid_close(void)
@@ -404,7 +404,7 @@ static unsigned char read_sid( unsigned char reg )
 
 static void write_sid( unsigned char reg, unsigned char data )
 {
-    HSDevPCI->OutWord(HSDevBAR->BaseAddress + 3, ((reg * 0x1f) << 8) | data);
+    HSDevPCI->OutWord(HSDevBAR->BaseAddress + 3, ((reg & 0x1f) << 8) | data);
 }
 
 /* set current main clock frequency, which gives us the possibilty to
