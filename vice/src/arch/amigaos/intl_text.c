@@ -2354,6 +2354,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_SFX_SE_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
 
+/* en */ { IDMS_SFX_SS_SETTINGS_MASCUERADE,    "SFX Sound Sampler settings (MasC=uerade)..." },
+/* da */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_DE, "" },  /* fuzzy */
+/* fr */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_NL, "" },  /* fuzzy */
+/* ru */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_SFX_SS_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_EASYFLASH_SETTINGS,    "EasyFlash settings..." },
 /* da */ { IDMS_EASYFLASH_SETTINGS_DA, "EasyFlash-indstillinger..." },
 /* de */ { IDMS_EASYFLASH_SETTINGS_DE, "EasyFlash Einstellungen..." },
@@ -7959,6 +7971,18 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SFX_SE_CHIP_SV, "SFX Sound Expander-krets" },
 /* tr */ { IDS_SFX_SE_CHIP_TR, "SFX Sound Expander Çipi" },
 
+/* en */ { IDS_SFX_SS_ENABLED,    "SFX Sound Sampler Enabled" },
+/* da */ { IDS_SFX_SS_ENABLED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SFX_SS_ENABLED_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SFX_SS_ENABLED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SFX_SS_ENABLED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SFX_SS_ENABLED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SFX_SS_ENABLED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SFX_SS_ENABLED_NL, "" },  /* fuzzy */
+/* ru */ { IDS_SFX_SS_ENABLED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SFX_SS_ENABLED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SFX_SS_ENABLED_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SFX_SE_SETTINGS,    "SFX Sound Expander settings" },
 /* da */ { IDS_SFX_SE_SETTINGS_DA, "SFX Sound Expander-indstillinger" },
 /* de */ { IDS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen" },
@@ -7970,6 +7994,18 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_SFX_SE_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SFX_SE_SETTINGS_SV, "Inställningar för SFX Sound Expander" },
 /* tr */ { IDS_SFX_SE_SETTINGS_TR, "SFX Sound Expander Ayarlarý" },
+
+/* en */ { IDS_SFX_SS_SETTINGS,    "SFX Sound Sampler settings" },
+/* da */ { IDS_SFX_SS_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_SFX_SS_SETTINGS_DE, "" },  /* fuzzy */
+/* fr */ { IDS_SFX_SS_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SFX_SS_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_SFX_SS_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SFX_SS_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SFX_SS_SETTINGS_NL, "" },  /* fuzzy */
+/* ru */ { IDS_SFX_SS_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SFX_SS_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SFX_SS_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SOUND_RECORDING_STOPPED,    "Sound Recording stopped..." },
 /* da */ { IDS_SOUND_RECORDING_STOPPED_DA, "Lydoptagelse stoppet..." },

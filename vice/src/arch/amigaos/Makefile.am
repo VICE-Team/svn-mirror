@@ -215,6 +215,8 @@ libarch_a_SOURCES = \
 	mui/uisound.h \
 	mui/uisoundexpander.c \
 	mui/uisoundexpander.h \
+	mui/uisoundsampler.c \
+	mui/uisoundsampler.h \
 	mui/uiv364speech.c \
 	mui/uiv364speech.h \
 	mui/uivic20mem.c \
