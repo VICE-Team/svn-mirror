@@ -110,6 +110,9 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
             s = "8580R5 1489 + digi boost (ReSID-fp)";
             break;
 #endif
+        case SID_CATWEASELMKIII:
+            s = "Catweasel";
+            break;
     }
     return s;
 }
@@ -153,6 +156,10 @@ static tui_menu_item_def_t sid_engine_model_submenu[] = {
     { "_8580 (Fast SID)",
       "Fast SID 8580 emulation",
       sid_radio_engine_model_callback, (void *)SID_FASTSID_8580, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Catweasel",
+      "Catweasel emulation",
+      sid_radio_engine_model_callback, (void *)SID_CATWEASELMKIII, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #ifdef HAVE_RESID
     { "_6581 (ReSID)",

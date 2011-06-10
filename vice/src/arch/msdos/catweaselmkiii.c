@@ -31,15 +31,20 @@
 #include <dpmi.h>
 #include <string.h>
 
+#include "log.h"
+#include "types.h"
+
 typedef unsigned short uint16;
 typedef unsigned long uint32;
 
-static int sid_NTSC = FALSE; // TRUE for 60Hz oscillator, FALSE for 50
+static int sid_NTSC = 0; // TRUE for 60Hz oscillator, FALSE for 50
 
-static int cw3_base;
+static int base;
 
 /* buffer containing current register state of SIDs */
 static BYTE sidbuf[0x20];
+
+static int sidfh = -1;
 
 #define CW_SID_DAT 0xd8
 #define CW_SID_CMD 0xdc
@@ -206,7 +211,7 @@ static void write_sid(unsigned char reg, unsigned char data)
 
 int catweaselmkiii_open(void)
 {
-    int base;
+    int i;
 
     base = pci_find_catweasel(0);
 
@@ -237,9 +242,60 @@ int catweaselmkiii_open(void)
     return 0;
 }
 
+int catweaselmkiii_close(void)
+{
+    unsigned int i;
+
+    /* mute all sids */
+    memset(sidbuf, 0, sizeof(sidbuf));
+    for (i = 0; i < sizeof(sidbuf); i++) {
+        write_sid(i, 0);
+    }
+
+    log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
+
+    return 0;
+}
+
+/* read value from SIDs */
+int catweaselmkiii_read(WORD addr, int chipno)
+{
+    /* check if chipno and addr is valid */
+    if (chipno < 1 && addr < 0x20) {
+        /* if addr is from read-only register, perform a read read */
+        if (addr >= 0x19 && addr <= 0x1C && sidfh >= 0) {
+            addr += chipno * 0x20;
+            sidbuf[addr] = read_sid(addr);
+        } else {
+            addr += chipno * 0x20;
+        }
+
+        /* take value from sidbuf[] */
+        return sidbuf[addr];
+    }
+
+    return 0;
+}
+
+/* write value into SID */
+void catweaselmkiii_store(WORD addr, BYTE val, int chipno)
+{
+    /* check if chipno and addr is valid */
+    if (chipno < 1 && addr <= 0x18) {
+        /* correct addr, so it becomes an index into sidbuf[] and the unix device */
+        addr += chipno * 0x20;
+        /* write into sidbuf[] */
+        sidbuf[addr] = val;
+        /* if the device is opened, write to device */
+        if (sidfh >= 0) {
+            write_sid(addr, val);
+        }
+    }
+}
+
 /* set current main clock frequency, which gives us the possibilty to
    choose between pal and ntsc frequencies */
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
-    sid_NTSC = (cycles_per_sec <= 1000000) ? FALSE : TRUE;
+    sid_NTSC = (cycles_per_sec <= 1000000) ? 0 : 1;
 }
