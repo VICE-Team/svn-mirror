@@ -1612,22 +1612,22 @@ msgstr "멈춤"
 
 #: src/arch/unix/gui/uidatasette.c:91
 msgid "Play"
-msgstr ""
+msgstr "재생"
 
 #: src/arch/unix/gui/uidatasette.c:93 src/arch/win32/res.rc.po.c:1426
 #: src/arch/amigaos/intl_text.c.po.c:257
 msgid "Forward"
-msgstr ""
+msgstr "빨리감기"
 
 #: src/arch/unix/gui/uidatasette.c:95 src/arch/win32/res.rc.po.c:1427
 #: src/arch/amigaos/intl_text.c.po.c:269
 msgid "Rewind"
-msgstr ""
+msgstr "되감기"
 
 #: src/arch/unix/gui/uidatasette.c:97 src/arch/win32/res.rc.po.c:1428
 #: src/arch/amigaos/intl_text.c.po.c:281
 msgid "Record"
-msgstr ""
+msgstr "녹화"
 
 #: src/arch/unix/gui/uidatasette.c:105 src/arch/win32/res.rc.po.c:1359
 #: src/arch/win32/resc128.rc.po.c:52 src/arch/win32/resc64.rc.po.c:52
@@ -1635,11 +1635,11 @@ msgstr ""
 #: src/arch/win32/resplus4.rc.po.c:52 src/arch/win32/resvic20.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:221
 msgid "Datassette control"
-msgstr ""
+msgstr "데이타셋 커트롤"
 
 #: src/arch/unix/gui/uidigimax.c:39
 msgid "Userport"
-msgstr ""
+msgstr "유져포트"
 
 #: src/arch/unix/gui/uidqbb.c:52 src/arch/unix/gui/uieasyflash.c:49
 #: src/arch/unix/gui/uiexpert.c:63 src/arch/unix/gui/uigeoram.c:73
@@ -1647,7 +1647,7 @@ msgstr ""
 #: src/arch/unix/gui/uimmcreplay.c:68 src/arch/unix/gui/uiramcart.c:66
 #: src/arch/unix/gui/uiretroreplay.c:51 src/arch/unix/gui/uireu.c:75
 msgid "Save image when changed"
-msgstr ""
+msgstr "변경된 이미지 저장하기"
 
 #: src/arch/unix/gui/uidqbb.c:54 src/arch/unix/gui/uieasyflash.c:51
 #: src/arch/unix/gui/uiexpert.c:65 src/arch/unix/gui/uigeoram.c:75
@@ -1655,7 +1655,7 @@ msgstr ""
 #: src/arch/unix/gui/uimmcreplay.c:70 src/arch/unix/gui/uiramcart.c:68
 #: src/arch/unix/gui/uiretroreplay.c:53 src/arch/unix/gui/uireu.c:77
 msgid "Save image now"
-msgstr ""
+msgstr "이미지 지금 저장"
 
 #: src/arch/unix/gui/uidqbb.c:56 src/arch/unix/gui/uieasyflash.c:53
 #: src/arch/unix/gui/uiexpert.c:67 src/arch/unix/gui/uigeoram.c:77
@@ -1663,12 +1663,12 @@ msgstr ""
 #: src/arch/unix/gui/uimmcreplay.c:72 src/arch/unix/gui/uiramcart.c:70
 #: src/arch/unix/gui/uiretroreplay.c:55 src/arch/unix/gui/uireu.c:79
 msgid "Save image as"
-msgstr ""
+msgstr "다름이름으로 저장"
 
 #: src/arch/unix/gui/uidqbb.c:63 src/arch/win32/resdqbb.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:4721
 msgid "DQBB file"
-msgstr ""
+msgstr "DQBB 파일"
 
 #: src/arch/unix/gui/uidqbb.c:72 src/arch/unix/gui/uieasyflash.c:64
 #: src/arch/unix/gui/uiexpert.c:83 src/arch/unix/gui/uigeoram.c:102
@@ -1676,25 +1676,25 @@ msgstr ""
 #: src/arch/unix/gui/uimmcreplay.c:109 src/arch/unix/gui/uiramcart.c:95
 #: src/arch/unix/gui/uiretroreplay.c:75 src/arch/unix/gui/uireu.c:104
 msgid "Can not save cartridge"
-msgstr ""
+msgstr "카트리지를 저장할수 없습니다"
 
 #: src/arch/unix/gui/uidrive.c:62 src/arch/unix/gui/uidrive.c:72
 #: src/arch/unix/gui/uidrive.c:82 src/arch/unix/gui/uidrive.c:92
 #: src/arch/win32/res.rc.po.c:1339 src/arch/amigaos/intl_text.c.po.c:4421
 msgid "Never extend"
-msgstr ""
+msgstr "절대 연장하지않기"
 
 #: src/arch/unix/gui/uidrive.c:64 src/arch/unix/gui/uidrive.c:74
 #: src/arch/unix/gui/uidrive.c:84 src/arch/unix/gui/uidrive.c:94
 #: src/arch/win32/res.rc.po.c:1340 src/arch/amigaos/intl_text.c.po.c:4433
 msgid "Ask on extend"
-msgstr ""
+msgstr "연장하는것에 대한 질문"
 
 #: src/arch/unix/gui/uidrive.c:66 src/arch/unix/gui/uidrive.c:76
 #: src/arch/unix/gui/uidrive.c:86 src/arch/unix/gui/uidrive.c:96
 #: src/arch/win32/res.rc.po.c:1341 src/arch/amigaos/intl_text.c.po.c:4445
 msgid "Extend on access"
-msgstr ""
+msgstr "엑세스 연장하기"
 
 #: src/arch/unix/gui/uidrive.c:182 src/arch/unix/gui/uidrivec128.c:143
 #: src/arch/unix/gui/uidrivec64.c:42 src/arch/unix/gui/uidrivec64dtv.c:43
@@ -1702,7 +1702,7 @@ msgstr ""
 #: src/arch/unix/gui/uidrivevic20.c:65 src/arch/win32/res.rc.po.c:1398
 #: src/arch/amigaos/intl_text.c.po.c:1493
 msgid "True drive emulation"
-msgstr ""
+msgstr "트루 드라이브 에뮬레이터"
 
 #: src/arch/unix/gui/uidrive.c:188 src/arch/unix/gui/uidrivec64dtv.c:45
 #: src/translate_text.c.po.c:10786
@@ -1731,19 +1731,19 @@ msgstr ""
 #: src/arch/unix/gui/vic20ui.c:379 src/arch/win32/res.rc.po.c:1169
 #: src/arch/win32/res.rc.po.c:1186 src/arch/amigaos/intl_text.c.po.c:3989
 msgid "None"
-msgstr ""
+msgstr "없음"
 
 #: src/arch/unix/gui/uidrivec128.c:146 src/arch/unix/gui/uidrivec64.c:45
 #: src/arch/unix/gui/uidrivec64dtv.c:48 src/arch/unix/gui/uidriveplus4.c:213
 #: src/arch/unix/gui/uidrivevic20.c:68
 msgid "Drive #8 model"
-msgstr ""
+msgstr "드라이브 #8 모델"
 
 #: src/arch/unix/gui/uidrivec128.c:148 src/arch/unix/gui/uidrivec64.c:47
 #: src/arch/unix/gui/uidrivec64dtv.c:50 src/arch/unix/gui/uidriveplus4.c:215
 #: src/arch/unix/gui/uidrivevic20.c:70
 msgid "Drive #8 expansion"
-msgstr ""
+msgstr "드라이브 #8 확장"
 
 #: src/arch/unix/gui/uidrivec128.c:151 src/arch/unix/gui/uidrivec64.c:50
 #: src/arch/unix/gui/uidrivec64dtv.c:53 src/arch/unix/gui/uidrivepetcbm2.c:96
@@ -1755,19 +1755,19 @@ msgstr ""
 #: src/arch/unix/gui/uidrivec64dtv.c:56 src/arch/unix/gui/uidriveplus4.c:221
 #: src/arch/unix/gui/uidrivevic20.c:76
 msgid "Drive #8 idle method"
-msgstr ""
+msgstr "드라이브 #8 아이들 방법"
 
 #: src/arch/unix/gui/uidrivec128.c:158 src/arch/unix/gui/uidrivec64.c:57
 #: src/arch/unix/gui/uidrivec64dtv.c:60 src/arch/unix/gui/uidriveplus4.c:225
 #: src/arch/unix/gui/uidrivevic20.c:80
 msgid "Drive #9 model"
-msgstr ""
+msgstr "드라이브 #9 모델"
 
 #: src/arch/unix/gui/uidrivec128.c:160 src/arch/unix/gui/uidrivec64.c:59
 #: src/arch/unix/gui/uidrivec64dtv.c:62 src/arch/unix/gui/uidriveplus4.c:227
 #: src/arch/unix/gui/uidrivevic20.c:82
 msgid "Drive #9 expansion"
-msgstr ""
+msgstr "드라이브 #9 확장"
 
 #: src/arch/unix/gui/uidrivec128.c:163 src/arch/unix/gui/uidrivec64.c:62
 #: src/arch/unix/gui/uidrivec64dtv.c:65 src/arch/unix/gui/uidrivepetcbm2.c:102
@@ -1779,19 +1779,19 @@ msgstr ""
 #: src/arch/unix/gui/uidrivec64dtv.c:68 src/arch/unix/gui/uidriveplus4.c:233
 #: src/arch/unix/gui/uidrivevic20.c:88
 msgid "Drive #9 idle method"
-msgstr ""
+msgstr "드라이브 #9 아이들 방법"
 
 #: src/arch/unix/gui/uidrivec128.c:170 src/arch/unix/gui/uidrivec64.c:69
 #: src/arch/unix/gui/uidrivec64dtv.c:72 src/arch/unix/gui/uidriveplus4.c:237
 #: src/arch/unix/gui/uidrivevic20.c:92
 msgid "Drive #10 model"
-msgstr ""
+msgstr "드라이브 #10 모델"
 
 #: src/arch/unix/gui/uidrivec128.c:172 src/arch/unix/gui/uidrivec64.c:71
 #: src/arch/unix/gui/uidrivec64dtv.c:74 src/arch/unix/gui/uidriveplus4.c:239
 #: src/arch/unix/gui/uidrivevic20.c:94
 msgid "Drive #10 expansion"
-msgstr ""
+msgstr "드라이브 #10 확장"
 
 #: src/arch/unix/gui/uidrivec128.c:175 src/arch/unix/gui/uidrivec64.c:74
 #: src/arch/unix/gui/uidrivec64dtv.c:77 src/arch/unix/gui/uidrivepetcbm2.c:108
@@ -1803,19 +1803,19 @@ msgstr ""
 #: src/arch/unix/gui/uidrivec64dtv.c:80 src/arch/unix/gui/uidriveplus4.c:245
 #: src/arch/unix/gui/uidrivevic20.c:100
 msgid "Drive #10 idle method"
-msgstr ""
+msgstr "드라이브 #10 아이들 방법"
 
 #: src/arch/unix/gui/uidrivec128.c:182 src/arch/unix/gui/uidrivec64.c:81
 #: src/arch/unix/gui/uidrivec64dtv.c:84 src/arch/unix/gui/uidriveplus4.c:249
 #: src/arch/unix/gui/uidrivevic20.c:104
 msgid "Drive #11 model"
-msgstr ""
+msgstr "드라이브 #11 모델"
 
 #: src/arch/unix/gui/uidrivec128.c:184 src/arch/unix/gui/uidrivec64.c:83
 #: src/arch/unix/gui/uidrivec64dtv.c:86 src/arch/unix/gui/uidriveplus4.c:251
 #: src/arch/unix/gui/uidrivevic20.c:106
 msgid "Drive #11 expansion"
-msgstr ""
+msgstr "드라이브 #11 확장"
 
 #: src/arch/unix/gui/uidrivec128.c:187 src/arch/unix/gui/uidrivec64.c:86
 #: src/arch/unix/gui/uidrivec64dtv.c:89 src/arch/unix/gui/uidrivepetcbm2.c:114
@@ -1827,7 +1827,7 @@ msgstr ""
 #: src/arch/unix/gui/uidrivec64dtv.c:92 src/arch/unix/gui/uidriveplus4.c:257
 #: src/arch/unix/gui/uidrivevic20.c:112
 msgid "Drive #11 idle method"
-msgstr ""
+msgstr "드라이브 #11 아이들 방법"
 
 #: src/arch/unix/gui/uidrivec128.c:197 src/arch/unix/gui/uidrivec64.c:96
 #: src/arch/unix/gui/uidrivec64dtv.c:99 src/arch/unix/gui/uidrivepetcbm2.c:121
@@ -1836,31 +1836,31 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:1877
 #: src/arch/amigaos/intl_text.c.po.c:4553
 msgid "Drive settings"
-msgstr ""
+msgstr "드라이브 셋팅"
 
 #: src/arch/unix/gui/uidrivec128.c:205 src/arch/unix/gui/uidrivec64vic20.c:131
 #: src/arch/unix/gui/uidriveplus4.c:272
 msgid "Load new 1541 ROM"
-msgstr ""
+msgstr "세로운 1541 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:208 src/arch/unix/gui/uidrivec64vic20.c:134
 #: src/arch/unix/gui/uidriveplus4.c:275
 msgid "Load new 1541-II ROM"
-msgstr ""
+msgstr "세로운 1541-II ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:211 src/arch/unix/gui/uidrivec64vic20.c:137
 #: src/arch/unix/gui/uidriveplus4.c:281
 msgid "Load new 1570 ROM"
-msgstr ""
+msgstr "세로운 1570 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:214 src/arch/unix/gui/uidrivec64vic20.c:140
 #: src/arch/unix/gui/uidriveplus4.c:284
 msgid "Load new 1571 ROM"
-msgstr ""
+msgstr "세로운 1571 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:217
 msgid "Load new 1571CR ROM"
-msgstr ""
+msgstr "세로운 1571CR ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:220 src/arch/unix/gui/uidrivec64vic20.c:143
 #: src/arch/unix/gui/uidriveplus4.c:287
