@@ -1,7 +1,7 @@
 
 *** CRT - CaRTridge Images (from the CCS64 emulator)
-*** Document revision: 1.13
-*** Last updated: June 12, 2007
+*** Document revision: 1.14
+*** Last updated: June 11, 2011
 *** Compiler/Editor: Peter Schepers
 *** Contributors/sources: Per Hakan Sundell,
                           Markus Brenner
@@ -46,7 +46,7 @@ Camels"...
                        1 - Action Replay
                        2 - KCS Power Cartridge
                        3 - Final Cartridge III
-                       4 - Simons Basic
+                       4 - Simons BASIC
                        5 - Ocean type 1*
                        6 - Expert Cartridge
                        7 - Fun Play, Power Play
@@ -58,18 +58,43 @@ Camels"...
                       13 - Final Cartridge I
                       14 - Magic Formel
                       15 - C64 Game System, System 3
-                      16 - WarpSpeed
+                      16 - Warp Speed
                       17 - Dinamic**
                       18 - Zaxxon, Super Zaxxon (SEGA)
                       19 - Magic Desk, Domark, HES Australia
-                      20 - Super Snapshot 5
+                      20 - Super Snapshot V5
                       21 - Comal-80
-                      22 - Structured Basic
+                      22 - Structured BASIC
                       23 - Ross
                       24 - Dela EP64
                       25 - Dela EP7x8
                       26 - Dela EP256
                       27 - Rex EP256
+                      28 - Mikro Assembler
+                      29 - Final Cartridge Plus
+                      30 - Action Replay 4
+                      31 - Stardos
+                      32 - EasyFlash
+                      33 - EasyFlash Xbank
+                      34 - Capture
+                      35 - Action Replay 3
+                      36 - Retro Replay
+                      37 - MMC64
+                      38 - MMC Replay
+                      39 - IDE64
+                      40 - Super Snapshot V4
+                      41 - IEEE-488
+                      42 - Game Killer
+                      43 - Prophet64
+                      44 - EXOS
+                      45 - Freeze Frame
+                      46 - Freeze Machine
+                      47 - Snapshot64
+                      48 - Super Explode V5.0
+                      49 - Magic Voice
+                      50 - Action Replay 2
+                      51 - MACH 5
+                      52 - Diashow-Maker
               0018 - Cartridge port EXROM line status
                       0 - inactive
                       1 - active
@@ -88,9 +113,7 @@ Camels"...
 
   (**Note: Dinamic includes Narco Police and more)
 
-
 ---------------------------------------------------------------------------
-
 
 CHIP Contents
 -------------
