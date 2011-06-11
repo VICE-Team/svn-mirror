@@ -14,6 +14,7 @@ doc_DATA = \
 	plain/64doc.txt \
 	plain/BUGS \
 	plain/COPYING \
+	plain/CRT.txt \
 	plain/NEWS \
 	plain/PETdoc.txt \
 	plain/TODO \
