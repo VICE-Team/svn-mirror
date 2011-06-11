@@ -281,7 +281,6 @@ void vic_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     WORD i;
 
-    sound_reset();
     for (i = 10; i < 15; i++) {
         vic_sound_store(i, 0);
     }
