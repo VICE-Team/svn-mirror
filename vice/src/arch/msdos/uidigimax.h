@@ -29,6 +29,7 @@
 
 struct tui_menu;
 
-extern void uidigimax_init(struct tui_menu *parent_submenu);
+extern void uidigimax_c64_init(struct tui_menu *parent_submenu);
+extern void uidigimax_vic20_init(struct tui_menu *parent_submenu);
 
 #endif

@@ -50,7 +50,7 @@ static TUI_MENU_CALLBACK(digimax_base_submenu_callback)
     return s;
 }
 
-static tui_menu_item_def_t digimax_base_submenu[] = {
+static tui_menu_item_def_t digimax_c64_base_submenu[] = {
     { "Userport", NULL, radio_DIGIMAXbase_callback,
       (void *)0xdd00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "$DE00", NULL, radio_DIGIMAXbase_callback,
@@ -88,26 +88,88 @@ static tui_menu_item_def_t digimax_base_submenu[] = {
     { NULL }
 };
 
-static tui_menu_item_def_t digimax_menu_items[] = {
+static tui_menu_item_def_t digimax_vic20_base_submenu[] = {
+    { "$9800", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9800, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9820", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9820, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9840", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9840, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9860", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9860, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9880", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9880, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$98A0", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x98a0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$98C0", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x98c0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$98E0", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x98e0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9C00", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9c00, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9C20", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9c20, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9C40", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9c40, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9C60", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9c60, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9C80", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9c80, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9CA0", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9ca0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9CC0", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9cc0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "$9CE0", NULL, radio_DIGIMAXbase_callback,
+      (void *)0x9ce0, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t digimax_c64_menu_items[] = {
     { "_Enable DigiMAX:", "Emulate DigiMAX Cartridge",
       toggle_DIGIMAX_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "DigiMAX _base:", "Select the base of the DigiMAX Cartridge",
       digimax_base_submenu_callback, NULL, 11,
-      TUI_MENU_BEH_CONTINUE, digimax_base_submenu,
+      TUI_MENU_BEH_CONTINUE, digimax_c64_base_submenu,
       "DigiMAX base" },
     { NULL }
 };
 
-void uidigimax_init(struct tui_menu *parent_submenu)
+static tui_menu_item_def_t digimax_vic20_menu_items[] = {
+    { "_Enable DigiMAX:", "Emulate DigiMAX Cartridge",
+      toggle_DIGIMAX_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "DigiMAX _base:", "Select the base of the DigiMAX Cartridge",
+      digimax_base_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, digimax_vic20_base_submenu,
+      "DigiMAX base" },
+    { NULL }
+};
+
+void uidigimax_c64_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_digimax_submenu;
 
     ui_digimax_submenu = tui_menu_create("DigiMAX settings", 1);
 
-    tui_menu_add(ui_digimax_submenu, digimax_menu_items);
+    tui_menu_add(ui_digimax_submenu, digimax_c64_menu_items);
 
     tui_menu_add_submenu(parent_submenu, "_DigiMAX settings...",
+                         "DigiMAX settings",
+                         ui_digimax_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+}
+
+void uidigimax_vic20_init(struct tui_menu *parent_submenu)
+{
+    tui_menu_t ui_digimax_submenu;
+
+    ui_digimax_submenu = tui_menu_create("DigiMAX settings (MasC=uerade)", 1);
+
+    tui_menu_add(ui_digimax_submenu, digimax_vic20_menu_items);
+
+    tui_menu_add_submenu(parent_submenu, "_DigiMAX settings (MasC=uerade)...",
                          "DigiMAX settings",
                          ui_digimax_submenu,
                          NULL, 0,

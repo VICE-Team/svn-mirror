@@ -224,7 +224,7 @@ int c128ui_init(void)
 
     uireu_init(ui_ioextensions_submenu);
 
-    uigeoram_init(ui_ioextensions_submenu);
+    uigeoram_c64_init(ui_ioextensions_submenu);
 
     uiramcart_init(ui_ioextensions_submenu);
 
@@ -232,7 +232,7 @@ int c128ui_init(void)
 
     uiide64_init(ui_ioextensions_submenu);
 
-    uidigimax_init(ui_ioextensions_submenu);
+    uidigimax_c64_init(ui_ioextensions_submenu);
 
     uimmc64_init(ui_ioextensions_submenu);
 
@@ -241,12 +241,12 @@ int c128ui_init(void)
     uimagicvoice_init(ui_ioextensions_submenu);
 
 #ifdef HAVE_TFE
-    uitfe_init(ui_ioextensions_submenu);
+    uitfe_c64_init(ui_ioextensions_submenu);
 #endif
 
     uieasyflash_init(ui_ioextensions_submenu);
 
-    uisoundexpander_init(ui_ioextensions_submenu);
+    uisoundexpander_c64_init(ui_ioextensions_submenu);
 
     tui_menu_add_item(ui_ioextensions_submenu, "Enable SFX Sound Sampler",
                       "Enable SFX Sound Sampler",

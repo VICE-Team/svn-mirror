@@ -30,7 +30,9 @@
 #ifdef HAVE_TFE
 struct tui_menu;
 
-extern void uitfe_init(struct tui_menu *parent_submenu);
+extern void uitfe_c64_init(struct tui_menu *parent_submenu);
+extern void uitfe_vic20_init(struct tui_menu *parent_submenu);
+
 #endif
 
 #endif

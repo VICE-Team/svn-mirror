@@ -309,6 +309,7 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
   AC_DEFINE(HAS_SINGLE_CANVAS,,[Is only one canvas supported?])
   AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
+  AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
 
   if test x"$enable_parsid" = "xyes"; then
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])

@@ -36,6 +36,7 @@
 #include "uitfe.h"
 
 TUI_MENU_DEFINE_TOGGLE(ETHERNET_ACTIVE)
+TUI_MENU_DEFINE_TOGGLE(TFEIOSwap)
 TUI_MENU_DEFINE_RADIO(ETHERNET_AS_RR)
 
 static TUI_MENU_CALLBACK(ethernet_as_rr_submenu_callback)
@@ -56,7 +57,7 @@ static tui_menu_item_def_t ethernet_as_rr_submenu[] = {
     { NULL }
 };
 
-static tui_menu_item_def_t tfe_menu_items[] = {
+static tui_menu_item_def_t tfe_c64_menu_items[] = {
     { "_Enable Ethernet:", "Emulate Ethernet Cartridge",
       toggle_ETHERNET_ACTIVE_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -67,15 +68,40 @@ static tui_menu_item_def_t tfe_menu_items[] = {
     { NULL }
 };
 
-void uitfe_init(struct tui_menu *parent_submenu)
+static tui_menu_item_def_t tfe_vic20_menu_items[] = {
+    { "_Enable Ethernet:", "Emulate Ethernet Cartridge",
+      toggle_ETHERNET_ACTIVE_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Enable MasC=uerade I/O swap:", "Map TFE I/O to vic20 I/O-3",
+      toggle_TFEIOSwap_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+void uitfe_c64_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_tfe_submenu;
 
     ui_tfe_submenu = tui_menu_create("TFE settings", 1);
 
-    tui_menu_add(ui_tfe_submenu, tfe_menu_items);
+    tui_menu_add(ui_tfe_submenu, tfe_c64_menu_items);
 
     tui_menu_add_submenu(parent_submenu, "_TFE settings...",
+                         "TFE settings",
+                         ui_tfe_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+}
+
+void uitfe_vic20_init(struct tui_menu *parent_submenu)
+{
+    tui_menu_t ui_tfe_submenu;
+
+    ui_tfe_submenu = tui_menu_create("TFE settings (MasC=uerade)", 1);
+
+    tui_menu_add(ui_tfe_submenu, tfe_vic20_menu_items);
+
+    tui_menu_add_submenu(parent_submenu, "_TFE settings (MasC=uerade)...",
                          "TFE settings",
                          ui_tfe_submenu,
                          NULL, 0,

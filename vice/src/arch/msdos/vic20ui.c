@@ -42,10 +42,17 @@
 #include "tuifs.h"
 #include "types.h"
 #include "ui.h"
+#include "uidigimax.h"
+#include "uigeoram.h"
 #include "uilightpen.h"
 #include "uisidcart.h"
-#include "util.h"
+#include "uisoundexpander.h"
+#include "uisoundsampler.h"
+#ifdef HAVE_TFE
+#include "uitfe.h"
+#endif
 #include "uivideo.h"
+#include "util.h"
 #include "vic20ui.h"
 
 static WORD cartridge_type_to_address(int type)
@@ -474,6 +481,14 @@ int vic20ui_init(void)
                          ui_megacart_submenu,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
+
+    uidigimax_vic20_init(ui_ioextensions_submenu);
+    uigeoram_vic20_init(ui_ioextensions_submenu);
+    uisoundexpander_vic20_init(ui_ioextensions_submenu);
+    uisoundsampler_init(ui_ioextensions_submenu);
+#ifdef HAVE_TFE
+    uitfe_vic20_init(ui_ioextensions_submenu);
+#endif
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

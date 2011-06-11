@@ -34,6 +34,7 @@
 #include "uisoundexpander.h"
 
 TUI_MENU_DEFINE_TOGGLE(SFXSoundExpander)
+TUI_MENU_DEFINE_TOGGLE(SFXSoundExpanderIOSwap)
 TUI_MENU_DEFINE_RADIO(SFXSoundExpanderChip)
 
 static TUI_MENU_CALLBACK(soundexpander_chip_submenu_callback)
@@ -55,7 +56,7 @@ static tui_menu_item_def_t soundexpander_chip_submenu[] = {
     { NULL }
 };
 
-static tui_menu_item_def_t soundexpander_menu_items[] = {
+static tui_menu_item_def_t soundexpander_c64_menu_items[] = {
     { "_Enable SFX Sound Expander:", "Emulate SFX Sound Expander Cartridge",
       toggle_SFXSoundExpander_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
@@ -66,15 +67,44 @@ static tui_menu_item_def_t soundexpander_menu_items[] = {
     { NULL }
 };
 
-void uisoundexpander_init(struct tui_menu *parent_submenu)
+static tui_menu_item_def_t soundexpander_vic20_menu_items[] = {
+    { "_Enable SFX Sound Expander:", "Emulate SFX Sound Expander Cartridge",
+      toggle_SFXSoundExpander_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Enable MasC=uerade I/O swap:", "Map SFX SE I/O to vic20 I/O-3",
+      toggle_SFXSoundExpanderIOSwap_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "SFX Sound Expander _chip:", "Select the YM chip model used in the SFX Sound Expander Cartridge",
+      soundexpander_chip_submenu_callback, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, soundexpander_chip_submenu,
+      "SFX Sound Expander chip" },
+    { NULL }
+};
+
+void uisoundexpander_c64_init(struct tui_menu *parent_submenu)
 {
     tui_menu_t ui_soundexpander_submenu;
 
     ui_soundexpander_submenu = tui_menu_create("SFX Sound Expander settings", 1);
 
-    tui_menu_add(ui_soundexpander_submenu, soundexpander_menu_items);
+    tui_menu_add(ui_soundexpander_submenu, soundexpander_c64_menu_items);
 
     tui_menu_add_submenu(parent_submenu, "SFX Sound _Expander settings...",
+                         "SFX Sound Expander settings",
+                         ui_soundexpander_submenu,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+}
+
+void uisoundexpander_vic20_init(struct tui_menu *parent_submenu)
+{
+    tui_menu_t ui_soundexpander_submenu;
+
+    ui_soundexpander_submenu = tui_menu_create("SFX Sound Expander settings (MasC=uerade)", 1);
+
+    tui_menu_add(ui_soundexpander_submenu, soundexpander_vic20_menu_items);
+
+    tui_menu_add_submenu(parent_submenu, "SFX Sound _Expander settings (MasC=uerade)...",
                          "SFX Sound Expander settings",
                          ui_soundexpander_submenu,
                          NULL, 0,

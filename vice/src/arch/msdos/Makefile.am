@@ -146,6 +146,8 @@ libarch_a_SOURCES = \
 	uisound.h \
 	uisoundexpander.c \
 	uisoundexpander.h \
+	uisoundsampler.c \
+	uisoundsampler.h \
 	uitfe.c \
 	uitfe.h \
 	uiv364speech.c \

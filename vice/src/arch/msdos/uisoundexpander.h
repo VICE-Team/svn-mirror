@@ -29,6 +29,7 @@
 
 struct tui_menu;
 
-extern void uisoundexpander_init(struct tui_menu *parent_submenu);
+extern void uisoundexpander_c64_init(struct tui_menu *parent_submenu);
+extern void uisoundexpander_vic20_init(struct tui_menu *parent_submenu);
 
 #endif

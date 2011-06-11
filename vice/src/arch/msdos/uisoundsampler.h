@@ -1,5 +1,5 @@
 /*
- * uigeoram.h - GEO-RAM UI interface for MS-DOS.
+ * uisoundsampler.h - SFX sound sampler cartridge UI interface for MS-DOS.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,12 +24,11 @@
  *
  */
 
-#ifndef UIGEORAM_H
-#define UIGEORAM_H
+#ifndef UISOUNDSAMPLER_H
+#define UISOUNDSAMPLER_H
 
 struct tui_menu;
 
-extern void uigeoram_c64_init(struct tui_menu *parent_submenu);
-extern void uigeoram_vic20_init(struct tui_menu *parent_submenu);
+extern void uisoundsampler_init(struct tui_menu *parent_submenu);
 
 #endif
