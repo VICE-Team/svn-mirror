@@ -75,6 +75,9 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
         case SID_CATWEASELMKIII:
             s = "Catweasel";
             break;
+        case SID_HARDSID:
+            s = "HardSID";
+            break;
     }
     return s;
 }
@@ -116,6 +119,10 @@ static tui_menu_item_def_t sid_engine_model_submenu[] = {
     { "_Catweasel",
       "Catweasel emulation",
       sid_radio_engine_model_callback, (void *)SID_CATWEASELMKIII, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_HardSID",
+      "HardSID emulation",
+      sid_radio_engine_model_callback, (void *)SID_HARDSID, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
 #ifdef HAVE_PARSID
     { "ParSID in Port 1",
