@@ -8,7 +8,6 @@ SDL port of VICE
     1. General info
     2. Usage
     3. Video output
-    4. Building
 
 
 1. General info
@@ -293,22 +292,3 @@ OpenGL, using the "Custom" fullscreen mode is strongly advised. The pixel aspect
 ratio can be left as is ("Off"), fixed to a settable constant ("Custom") or
 fixed to the true aspect ratio of the emulated video chip/system ("True").
 Resolution limiting is disabled when free scaling is enabled.
-
-
-4. Building
-===========
-
-4.1 Building in *nix compile enviroments
-
-./configure --enable-sdlui
-make
-make install
-
-You'll need the SDL libs and headers. For free scaling, the OpenGL is
-also needed (libGL, opengl32.dll, ...). Movie recording needs the
-FFMPEG libraries and headers.
-
-
-4.2 Building in Visual Studio
-
-For MSVC building instructions see src/arch/sdl/win32-msvc/Readme.txt

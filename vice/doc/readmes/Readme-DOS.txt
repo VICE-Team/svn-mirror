@@ -95,10 +95,10 @@ received information about this together with your soundcard).
 HOW TO RUN THE EMULATORS
 ========================
 
-There are four executables for the three PET, VIC20 and C64
-emulators:
+There are several executables for the emulators:
 
       x64.exe, the C64 emulator
+      x64dtv.exe, the C64DTV emulator
       x128.exe, the C128 emulator
       xvic.exe, the VIC20 emulator
       xpet.exe, the PET emulator

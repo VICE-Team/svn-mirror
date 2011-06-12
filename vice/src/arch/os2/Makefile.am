@@ -87,7 +87,6 @@ EXTRA_DIST = \
 	icons/xplus4.ico \
 	icons/xvic.ico \
 	doc/vice2.ipf \
-	doc/Vice_for_OS2.txt \
 	fonts/header.fnt \
 	fonts/header1.fnt \
 	fonts/header2.fnt \

@@ -246,7 +246,6 @@ EXTRA_DIST = \
 	genintl_h.sh.in \
 	genintltable.sh \
 	intl.txt \
-	README.AMIGA \
 	make-bindist.sh
 
 BUILT_SOURCES = intl.h intl_table.h

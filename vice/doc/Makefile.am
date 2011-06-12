@@ -4,24 +4,31 @@
 docdir = $(realdocdir)
 
 MISC_DOX = \
-	MacOSX-Build.txt \
 	MacOSX-ResourceTree.txt \
-	Minix-Howto.txt \
-	MSDOS-Ethernet-Howto.txt \
-	MSDOS-Howto.txt \
 	NLS-Howto.txt \
-	Readme.beos \
-	Readme.dos \
-	ReadmeMacOSX.txt \
-	ReadmeSDL.txt \
-	Win32-Cygwin-HOWTO.txt \
-	Win32-Howto.txt \
-	OpenVMS-Howto.txt \
 	iec-bus.txt \
 	openGLsync-howto.txt \
-	GP2X-Howto.txt \
 	coding-guidelines.txt \
 	CIA-README.txt
+
+BUILDING_DOX = \
+	building/GP2X-Howto.txt \
+	building/MacOSX-Howto.txt \
+	building/Minix-Howto.txt \
+	building/MSDOS-Howto.txt \
+	building/MSDOS-Ethernet-Howto.txt \
+	building/OpenVMS-Howto.txt \
+	building/SDL-Howto.txt \
+	building/Win32-Cygwin-Howto.txt \
+	building/Win32-Mingw32-Howto.txt
+
+READMES = \
+	readmes/Readme-Amiga.txt \
+	readmes/Readme-BeOS.txt \
+	readmes/Readme-DOS.txt \
+	readmes/Readme-MacOSX.txt \
+	readmes/Readme-OS2.txt \
+	readmes/Readme-SDL.txt
 
 TEXI_TOOLS = \
 	fixdox.sh \
@@ -39,7 +46,7 @@ VICE_DOX = \
 
 info_TEXINFOS = vice.texi
 
-dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
+dist_doc_DATA = $(MISC_DOX) $(VICE_DOX) $(BUILDING_DOX) $(READMES)
 
 EXTRA_DIST = $(TEXI_TOOLS)
 
