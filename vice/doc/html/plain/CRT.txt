@@ -280,6 +280,24 @@ Cartridge Specifics
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIPúúúúúúúú€úúú
 0050: 09 80 0C 80 C3 C2 CD 38 30 4C 60 80 4C 63 80 4C   ú€ú€ÃÂÍ80L`€Lc€L
 
+    This cart has 32Kb of ROM, and 8Kb of RAM.
+
+    The bank switching is done by writing to the I/O-1 range as follows:
+
+    bit  meaning
+    ---  -------
+    7    extra ROM bank selector (A15) (unused)
+    6    1 = resets FREEZE-mode (turns back to normal mode)
+    5    1 = enable RAM at ROML ($8000-$9FFF) &
+             I/O-2 ($DF00-$DFFF = $9F00-$9FFF)
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = disable cartridge (turn off $DE00)
+    1    1 = /EXROM high
+    0    1 = /GAME low
+
+    Additionally the RAM or ROM can be available through a window in the
+    I/O-2 range.
 
 ===========================================================================
 
@@ -334,14 +352,45 @@ C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIPúú@úúúúú€ú@ú
 C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢ú½Ý…•úÊúø® úèì¢
 
     A total of 64 kB of ROM memory  is  organized  into  four  $4000  banks
-    located at $8000-$BFFF. Bank switching is  done  by  writing  the  bank
-    number plus $40 into memory location $DFFF.  For  instance,  to  select
-    bank 2, $DFFF is set to $42.
+    located at $8000-$BFFF.
+
+    The banks are arranged in the following way:
+
+    Bank 0:  BASIC, Monitor, Disk-Turbo
+    Bank 1:  Notepad, BASIC (Menu Bar)
+    Bank 2:  Desktop, Freezer/Print
+    Bank 3:  Freezer, Compression
+
+    The cartridges uses the entire I/O-1 and I/O-2 range. Bank switching is
+    done by writing the bank number plus $40 into memory location $DFFF.
+    For  instance,  to  select bank 2, $DFFF is set to $42.
 
     The CRT file contains four CHIP blocks, each block with a start address
     of $8000, length $4000 and the bank number in the bank  field.  In  the
     cartridge header, both EXROM ($18) and GAME  ($19)  are  set  to  1  to
     enable the 16 kB ROM configuration.
+
+    The registers are arranged in the following way:
+
+    One register at $DFFF:
+
+    bit  meaning
+    ---  -------
+    7      Hide this register (1 = hidden)
+    6      NMI line  (0 = low = active) *1)
+    5      GAME line  (0 = low = active) *2)
+    4      EXROM line (0 = low = active)
+    2-3    unassigned (usually set to 0)
+    0-1    number of bank to show at $8000
+
+    1) if either the freezer button is pressed, or bit 6 is 0, then
+       an NMI is generated
+
+    2) if the freezer button is pressed, GAME is also forced low
+
+    The rest of I/O-1/I/O-2 contain a mirror of the last 2 pages of the
+    currently selected ROM bank (also at $dfff, contrary to what some
+    other documents say)
 
 
 ===========================================================================
