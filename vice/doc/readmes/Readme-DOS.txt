@@ -18,7 +18,7 @@ started, and is incomplete.
 
 If you feel like helping us to maintain the MS-DOS version of the
 documentation, you are of course welcome.  Please contact the VICE
-mailing list <vice-devel@firenze.linux.it>.
+mailing list <vice-emu-mail@lists.sourceforge.net>.
 
 
 OVERVIEW
@@ -579,7 +579,7 @@ too.
 If you want to report bugs, make suggestions or contribute to the
 project, write to the VICE developer's mailing list:
 
-    vice-devel@firenze.linux.it
+    vice-emu-mail@lists.sourceforge.net
 
 
 COPYRIGHT

@@ -1,4 +1,4 @@
-Mac OS X Port of VICE
+﻿Mac OS X Port of VICE
 ====================
 
 This document contains information relevant for the Mac OS X Port of VICE.
@@ -327,7 +327,7 @@ should work with other models as well.
 If you discover problems not listed above or just want to tell us your
 experiences, please write a mail to the VICE team 
 
-  mailto:vice-devel@firenze.linux.it
+  mailto:vice-emu-mail@lists.sourceforge.net
 
 or directly to your fellow Mac OS X porter
 

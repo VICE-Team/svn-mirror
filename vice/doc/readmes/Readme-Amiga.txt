@@ -51,6 +51,6 @@ make bindistzip
 instead of make bindist.
 
 Any comments or questions related to the Amiga ports can be sent to the 
-VICE mailing-list at vice-devel@firenze.linux.it
+VICE mailing-list at vice-emu-mail@lists.sourceforge.net
 
 The ports are done by Mathias "AmiDog" Roslund and Marco van den Heuvel.

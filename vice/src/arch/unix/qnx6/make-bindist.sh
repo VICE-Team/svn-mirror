@@ -94,16 +94,16 @@ _END
   echo >manifest.05 "            <QPM:ProductIdentifier>VICE-host_x86</QPM:ProductIdentifier>"
 
   cat >manifest.06 <<_END
-            <QPM:ProductEmail>vice-devel@firenze.linux.it</QPM:ProductEmail>
+            <QPM:ProductEmail>vice-emu-mail@lists.sourceforge.net</QPM:ProductEmail>
             <QPM:VendorName>Public</QPM:VendorName>
             <QPM:VendorInstallName>public</QPM:VendorInstallName>
             <QPM:VendorURL>http://vice-emu.sourceforge.net</QPM:VendorURL>
             <QPM:VendorEmbedURL/>
-            <QPM:VendorEmail>vice-devel@firenze.linux.it</QPM:VendorEmail>
+            <QPM:VendorEmail>vice-emu-mail@lists.sourceforge.net</QPM:VendorEmail>
             <QPM:AuthorName>The VICE Team</QPM:AuthorName>
             <QPM:AuthorURL>http://vice-emu.sourceforge.net</QPM:AuthorURL>
             <QPM:AuthorEmbedURL/>
-            <QPM:AuthorEmail>vice-devel@firenze.linux.it</QPM:AuthorEmail>
+            <QPM:AuthorEmail>vice-emu-mail@lists.sourceforge.net</QPM:AuthorEmail>
             <QPM:ProductIconSmall>http://www.trikaliotis.net/vicekb/common/vice-logo.png</QPM:ProductIconSmall>
             <QPM:ProductIconLarge>http://www.viceteam.org/images/vice-logo.jpg</QPM:ProductIconLarge>
             <QPM:ProductDescriptionShort>The Versatile Commodore Emulator</QPM:ProductDescriptionShort>

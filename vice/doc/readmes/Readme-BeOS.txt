@@ -49,8 +49,4 @@ FEEDBACK
 ------------------
 If you discover problems not listed above or just want to tell us your
 experiences, please write a mail to the VICE team 
-  mailto:vice-devel@firenze.linux.it
-or directly to BeOS porter
-  mailto:andreas.matthies@gmx.net
-or BeOS maintainer
-  mailto:blackystardust68@yahoo.com
+  mailto:vice-emu-mail@lists.sourceforge.net

@@ -10830,7 +10830,7 @@ report to the mailing address of the Vice team at
 @itemize @bullet
 
 @item
-VICE Mailing List (@email{vice-devel@@firenze.linux.it}) for all
+VICE Mailing List (@email{vice-emu-mail@@lists.sourceforge.net}) for all
 general questions, bug reports, suggestions.
 
 @end itemize
