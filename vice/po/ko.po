@@ -1865,39 +1865,39 @@ msgstr "세로운 1571CR ROM 불러오기"
 #: src/arch/unix/gui/uidrivec128.c:220 src/arch/unix/gui/uidrivec64vic20.c:143
 #: src/arch/unix/gui/uidriveplus4.c:287
 msgid "Load new 1581 ROM"
-msgstr ""
+msgstr "세로운 1581 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:223 src/arch/unix/gui/uidrivec64vic20.c:146
 #: src/arch/unix/gui/uidrivepetcbm2.c:129
 msgid "Load new 2031 ROM"
-msgstr ""
+msgstr "세로운 2031 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:226 src/arch/unix/gui/uidrivec64vic20.c:149
 #: src/arch/unix/gui/uidrivepetcbm2.c:132
 msgid "Load new 2040 ROM"
-msgstr ""
+msgstr "세로운 2040 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:229 src/arch/unix/gui/uidrivec64vic20.c:152
 #: src/arch/unix/gui/uidrivepetcbm2.c:135
 msgid "Load new 3040 ROM"
-msgstr ""
+msgstr "세로운 3040 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:232 src/arch/unix/gui/uidrivec64vic20.c:155
 #: src/arch/unix/gui/uidrivepetcbm2.c:138
 msgid "Load new 4040 ROM"
-msgstr ""
+msgstr "세로운 4040 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:235 src/arch/unix/gui/uidrivec64vic20.c:158
 #: src/arch/unix/gui/uidrivepetcbm2.c:141
 msgid "Load new 1001 ROM"
-msgstr ""
+msgstr "세로운 1001 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec64c128.c:67 src/arch/unix/gui/uidrivec64c128.c:77
 #: src/arch/unix/gui/uidrivec64c128.c:87 src/arch/unix/gui/uidrivec64c128.c:97
 #: src/arch/unix/gui/uidriveplus4.c:66 src/arch/unix/gui/uidriveplus4.c:74
 #: src/arch/unix/gui/uidriveplus4.c:82 src/arch/unix/gui/uidriveplus4.c:90
 msgid "Standard Userport"
-msgstr ""
+msgstr "스탠다드 유져포트"
 
 #: src/arch/unix/gui/uidrivec64c128.c:69 src/arch/unix/gui/uidrivec64c128.c:79
 #: src/arch/unix/gui/uidrivec64c128.c:89 src/arch/unix/gui/uidrivec64c128.c:99
@@ -1912,32 +1912,32 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:126 src/arch/win32/res.rc.po.c:1345
 #: src/arch/amigaos/intl_text.c.po.c:4541
 msgid "Parallel cable"
-msgstr ""
+msgstr "평행 캐이블"
 
 #: src/arch/unix/gui/uidrivec64c128.c:112
 #: src/arch/unix/gui/uidrivec64c128.c:125
 #: src/arch/unix/gui/uidrivec64c128.c:138
 #: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:6680
 msgid "Enable Professional DOS"
-msgstr ""
+msgstr "프로페셔널 DOS 사용가능케하기"
 
 #: src/arch/unix/gui/uidriveiec.c:153 src/arch/unix/gui/uidriveiec.c:163
 #: src/arch/unix/gui/uidriveiec.c:173 src/arch/unix/gui/uidriveiec.c:183
 #: src/arch/amigaos/intl_text.c.po.c:4457
 msgid "No traps"
-msgstr ""
+msgstr "트랩이 없습니다"
 
 #: src/arch/unix/gui/uidriveiec.c:155 src/arch/unix/gui/uidriveiec.c:165
 #: src/arch/unix/gui/uidriveiec.c:175 src/arch/unix/gui/uidriveiec.c:185
 #: src/arch/win32/res.rc.po.c:1344 src/arch/amigaos/intl_text.c.po.c:4469
 msgid "Skip cycles"
-msgstr ""
+msgstr "싸이클 넘어가기"
 
 #: src/arch/unix/gui/uidriveiec.c:157 src/arch/unix/gui/uidriveiec.c:167
 #: src/arch/unix/gui/uidriveiec.c:177 src/arch/unix/gui/uidriveiec.c:187
 #: src/arch/win32/res.rc.po.c:1343 src/arch/amigaos/intl_text.c.po.c:4481
 msgid "Trap idle"
-msgstr ""
+msgstr "트랩 아이들"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:94
 msgid "Drive #8 floppy disk type"
@@ -1957,37 +1957,37 @@ msgstr ""
 
 #: src/arch/unix/gui/uidriveplus4.c:278
 msgid "Load new 1551 ROM"
-msgstr ""
+msgstr "세로운 1551 ROM 불러오기"
 
 #: src/arch/unix/gui/uieasyflash.c:46
 msgid "Enable jumper"
-msgstr ""
+msgstr "점퍼 사용가능하게하기"
 
 #: src/arch/unix/gui/uiexpert.c:53 src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:4649
 msgid "Prg"
-msgstr ""
+msgstr "Prg"
 
 #: src/arch/unix/gui/uiexpert.c:55 src/arch/unix/x11/xaw/uisnapshot.c:224
 #: src/arch/unix/x11/xaw/uisnapshot.c:261 src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:4637
 msgid "Off"
-msgstr ""
+msgstr "꺼짐"
 
 #: src/arch/unix/gui/uiexpert.c:57 src/arch/unix/x11/xaw/uisnapshot.c:235
 #: src/arch/unix/x11/xaw/uisnapshot.c:272 src/arch/win32/resexpert.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:4661
 msgid "On"
-msgstr ""
+msgstr "켜짐"
 
 #: src/arch/unix/gui/uiexpert.c:74 src/arch/win32/resexpert.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:4673
 msgid "Expert Cartridge file"
-msgstr ""
+msgstr "Expert 카트리지 파일"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
-msgstr ""
+msgstr "불러오기 "
 
 #: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:171
 #: src/arch/unix/x11/xaw/uiedisk.c:403
@@ -1995,27 +1995,27 @@ msgstr ""
 #: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:1307
 #: src/arch/win32/res.rc.po.c:1535 src/arch/amigaos/intl_text.c.po.c:3209
 msgid "Save"
-msgstr ""
+msgstr "저장"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Flip list file"
-msgstr ""
+msgstr "리스트 파일 뒤집기"
 
 #: src/arch/unix/gui/uifliplist.c:95
 #, c-format
 msgid "Successfully read `%s'."
-msgstr ""
+msgstr "`%s' 를 성공적으로 읽었습니다."
 
 #: src/arch/unix/gui/uifliplist.c:97
 #, c-format
 msgid "Error reading `%s'."
-msgstr ""
+msgstr "%s' 를 읽는중  에러 가 있습니다."
 
 #: src/arch/unix/gui/uifliplist.c:101 src/arch/unix/x11/gnome/uicartridge.c:74
 #: src/arch/unix/x11/gnome/uiscreenshot.c:522
 #, c-format
 msgid "Successfully wrote `%s'"
-msgstr ""
+msgstr "`%s' 를 성공적으로 썼습니다."
 
 #: src/arch/unix/gui/uifliplist.c:103
 #, c-format
