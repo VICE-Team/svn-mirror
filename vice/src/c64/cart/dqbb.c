@@ -69,7 +69,7 @@
     The register is write-only. Attempting to read it will
     only return random values.
 
-    The current emulation has the two registers mirrorred through the
+    The current emulation has the register mirrorred through the
     range of $de00-$deff
 */
 
