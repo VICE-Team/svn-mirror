@@ -1,7 +1,7 @@
 
 *** CRT - CaRTridge Images (from the CCS64 emulator)
 *** Document revision: 1.14
-*** Last updated: June 11, 2011
+*** Last updated: June 13, 2011
 *** Compiler/Editor: Peter Schepers
 *** Contributors/sources: Per Hakan Sundell,
                           Markus Brenner
@@ -280,9 +280,8 @@ Cartridge Specifics
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP˙˙˙˙˙˙˙˙Ä˙˙˙
 0050: 09 80 0C 80 C3 C2 CD 38 30 4C 60 80 4C 63 80 4C   ˙Ä˙Ä√¬Õ80L`ÄLcÄL
 
-    This cart has 32Kb of ROM, and 8Kb of RAM.
-
-    The bank switching is done by writing to the I/O-1 range as follows:
+    This cart has 32Kb of ROM, and 8Kb of RAM. The bank switching  is  done
+    by writing to the I/O-1 range as follows:
 
     bit  meaning
     ---  -------
@@ -296,8 +295,9 @@ Cartridge Specifics
     1    1 = /EXROM high
     0    1 = /GAME low
 
-    Additionally the RAM or ROM can be available through a window in the
+    Additionally the RAM or ROM can be available through a  window  in  the
     I/O-2 range.
+
 
 ===========================================================================
 
@@ -362,8 +362,8 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
     Bank 3:  Freezer, Compression
 
     The cartridges uses the entire I/O-1 and I/O-2 range. Bank switching is
-    done by writing the bank number plus $40 into memory location $DFFF.
-    For  instance,  to  select bank 2, $DFFF is set to $42.
+    done by writing the bank number plus $40 into  memory  location  $DFFF.
+    For instance, to select bank 2, $DFFF is set to $42.
 
     The CRT file contains four CHIP blocks, each block with a start address
     of $8000, length $4000 and the bank number in the bank  field.  In  the
@@ -383,14 +383,14 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
     2-3    unassigned (usually set to 0)
     0-1    number of bank to show at $8000
 
-    1) if either the freezer button is pressed, or bit 6 is 0, then
-       an NMI is generated
+    1) if either the freezer button is pressed, or bit 6 is 0, then an  NMI
+       is generated
 
     2) if the freezer button is pressed, GAME is also forced low
 
-    The rest of I/O-1/I/O-2 contain a mirror of the last 2 pages of the
-    currently selected ROM bank (also at $dfff, contrary to what some
-    other documents say)
+    The rest of I/O-1/I/O-2 contain a mirror of the last  2  pages  of  the
+    currently selected ROM bank (also at $dfff, contrary to what some other
+    documents say)
 
 
 ===========================================================================
@@ -416,7 +416,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00   CHIP˙˙˙˙˙˙˙˙†˙˙˙
 2060: 20 A4 A6 99 9E CB A0 05 A5 A8 91 20 A4 A6 99 A2   ˙§¶ôûÀ†˙•®ë˙§¶ô¢
 
-    SIMONS BASIC permanently uses 16 kB ($4000) bytes of  cartridge  memory
+    Simons BASIC permanently uses 16 kB ($4000) bytes of  cartridge  memory
     from $8000-$BFFF. However, through some custom bank-switching logic the
     upper area ($A000-$BFFF) may be disabled so Simons BASIC may use it  as
     additional RAM. Writing a value of $01 to address location $DE00  banks
@@ -433,7 +433,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
 
 5 - Ocean type 1
 
-    Size - 128Kb, 256Kb or 512Kb sizes (16, 32 or 64 banks of 8Kb each)
+    Size - 32Kb, 128Kb, 256Kb or 512Kb sizes (4, 16, 32 or 64 banks of 8Kb)
     GAME - inactive (0)
     EXROM - inactive (0)
     Load address - Banks 00-15 - $8000-9FFF
@@ -470,10 +470,17 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
     Terminator 2        (512 kB)
 
 
-    Memory is divided into 8Kb ($2000) banks. For the lower  128Kb,  memory
-    is banked into $8000-$9FFF and for the upper 128Kb,  memory  is  banked
-    into $A000-$BFFF. Note that the Terminator 2  cartridge  loads  all  64
-    banks at $8000-$9FFF.
+    The 32Kb type of cart  has  4  banks  of  8Kb  ($2000),  banked  in  at
+    $8000-$9FFF.
+
+    The 128Kb type of cart has  16  banks of  8Kb  ($2000),  banked  in  at
+    $8000-$9FFF.
+
+    The 256Kb type of cart has 32 banks of 8Kb ($2000),  16  banked  in  at
+    $8000-$9FFF, and 16 banked in at $A000-$BFFF.
+
+    The 512Kb type of cart has 64  banks  of  8Kb  ($2000),  banked  in  at
+    $8000-$9FFF.
 
     Bank switching is done by writing to $DE00. The lower six bits give the
     bank number (ranging from 0-63). Bit 8 in this selection word is always
@@ -531,7 +538,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
 1E130: 43 48 49 50 00 00 20 10 00 00 00 39 80 00 20 00   CHIP˙˙˙˙˙˙˙9Ä˙˙˙
 1E140: 85 EB 41 EA 9E 08 03 00 C0 06 18 01 00 C0 08 03   ÖÎAÍû˙˙˙¿˙˙˙˙¿˙˙
 
-      The FUN PLAY Cartridge uses $DE00 for bank selection,  and  uses  8Kb
+    The FUN PLAY Cartridge uses $DE00 for  bank  selection,  and  uses  8Kb
     banks ($2000) at $8000-$9FFF. There are 16 banks of ROM memory and  are
     referenced by the following values:
 
@@ -552,14 +559,14 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
     $31 -> Bank 14
     $39 -> Bank 15
 
-      The bank field in the chip headers is  set  according  to  the  value
+    The bank field in the chip  headers  is  set  according  to  the  value
     written to $DE00. The following bits are  used  for  bank  decoding  in
     $DE00 (0 being the LSB, 3 being the MSB).
 
         Bit# 76543210
              xx210xx3
 
-      After copying memory from the ROM banks, the selection program writes
+    After copying memory from the ROM banks, the selection  program  writes
     a value of $86 to $DE00. This seems either  to  reset  or  disable  the
     cartridge ROM.
 
@@ -592,22 +599,18 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢˙Ω›Öï˙ ˙¯Æ†˙ËÏ¢
 C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIP˙˙@˙˙˙˙˙Ä˙@˙
 C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   ’˘¡’˜ΩËµ˙˚…˙0
 
-      The SUPER GAMES cartridge uses 4  16Kb  banks  ($8000-$BFFF)  of  ROM
+    The Super Games cartridge  uses  4  16Kb  banks  ($8000-$BFFF)  of  ROM
     memory. Bank selecting is done by writing to $DF00.
 
-    Values for $DF00:
+    $DF00 register is as follows:
 
-    $00 -> Bank 0
-    $01 -> Bank 1 (also value $09 used)
-    $02 -> Bank 2
-    $03 -> Bank 3
-
-      Bit #2
-       0: ROM $8000-$BFFF
-       1: ROM $8000-$9FFF
-      Bit #3
-       0: ?
-       1: if bit #2 AND #3 are on (1) then the module is off
+    bit  meaning
+    ---  -------
+    0    bank bit 0
+    1    bank bit 1
+    2    inverted GAME line
+    3    inverted EXROM line
+    4-7  unused
 
 
 ===========================================================================
@@ -637,6 +640,30 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   ’˘¡’˜ΩËµ˙˚…˙0
 ....
 6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00   CHIP˙˙˙˙˙˙˙˙Ä˙˙˙
 6080: 09 80 0C 80 C3 C2 CD 38 30 4C 73 86 4C 30 80 4C   ˙Ä˙Ä√¬Õ80LsÜL0ÄL
+
+    This cart has 32Kb of ROM and 8Kb of RAM
+
+    Writing to I/O-1 will do the following:
+
+    bit  meaning
+    ---  -------
+    7    extra ROM bank selector (A15) (unused)
+    6    1 = resets FREEZE-mode (turns back to normal mode)
+    5    1 = enable RAM at ROML ($8000-$9FFF) &
+             I/O-2 ($DF00-$DFFF = $9F00-$9FFF)
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = disable cartridge (turn off $DE00)
+    1    1 = /EXROM high
+    0    1 = /GAME low
+
+    If bit 5 (RAM enable) is 1, bit 0,1 (exrom/game) is ==  2  (cart  off),
+    bit 2,6,7 (cart disable, freeze clear) are 0, then cart ROM (Bank 0..3)
+    is mapped at 8000-9FFF, and cart RAM (Bank 0) is  mapped  at  A000-BFFF
+    and cart RAM (Bank 0) is is enabled in the I/O-2 area using  16Kb  game
+    config.
+
+    The cart RAM or ROM is available through a window in the I/O-2 range.
 
 
 ===========================================================================
@@ -678,6 +705,8 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   ’˘¡’˜ΩËµ˙˚…˙0
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 40 00   CHIP˙˙˙˙˙˙˙˙Ä˙@˙
 0050: 09 80 9C 80 C3 C2 CD 38 30 A2 00 8E 16 D0 20 84   ˙ÄúÄ√¬Õ80¢˙é˙–˙Ñ
 
+    Any read from the I/O-2 range will switch the cart off.
+
 
 ===========================================================================
 
@@ -697,6 +726,9 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   ’˘¡’˜ΩËµ˙˚…˙0
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ˙˙˙˙˙˙˙˙˙˙˙˙˙˙˙˙
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP˙˙˙˙˙˙˙˙Ä˙˙˙
 0050: 08 80 C1 FE C3 C2 CD 38 30 6C 95 E3 20 A3 FD 20   ˙Ä¡˛√¬Õ80lï„˙£˝˙
+
+    When bits 7 and 6 are 1, then the cart is enabled, otherwise  the  cart
+    is disabled.
 
 
 ===========================================================================
@@ -718,6 +750,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   ’˘¡’˜ΩËµ˙˚…˙0
 0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP˙˙@˙˙˙˙˙Ä˙@˙
 0050: 80 BA 5E FE C3 C2 CD 38 30 00 A0 A0 20 2D FE 58   Ä∫^˛√¬Õ80˙††˙-˛X
 
+    Any access to I/O-1 turns cartridge ROM off. Any access to I/O-2  turns
+    cartridge ROM on.
+
+    The cart ROM is visible in I/O-1 and I/O-2.
 
 ===========================================================================
 
@@ -800,7 +836,8 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç˙ﬂ`ç˙ﬂ`ç˙ﬂ`ç
     ROM memory is organized in 8Kb ($2000) banks  located  at  $8000-$9FFF.
     Bank switching is done by writing to address $DE00+X, where  X  is  the
     bank number (STA $DE00,X). For instance, to read from bank  3,  address
-    $DE03 is accessed.
+    $DE03 is written to. Reading from anywhere  in  the  I/O-1  range  will
+    disable the cart.
 
     The CRT file contains a string of CHIP blocks, each block with a  start
     address of $8000, length $2000 and the bank number in the  bank  field.
@@ -811,7 +848,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç˙ﬂ`ç˙ﬂ`ç˙ﬂ`ç
 ===========================================================================
 
 
-16 - WarpSpeed
+16 - Warp Speed
 
      Size - 16Kb
      GAME - inactive (0)
@@ -827,15 +864,12 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç˙ﬂ`ç˙ﬂ`ç˙ﬂ`ç
 0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP˙˙@˙˙˙˙˙Ä˙@˙
 0050: 4C 22 80 4C 22 80 FF 43 42 4D 20 53 E4 20 18 E5  L"ÄL"Ä˙CBM˙S‰˙˙Â
 
-     After RESET or  POWER  ON,  16kB  of  Cartridge  ROM  are  visible  at
-     $8000-$BFFF. Additionally, ROM normally located  at  $9E00-$9FFF  is
-     mirrored into IO1 and  IO2  at  $DE00-$DFFF.  ROM  at  $8000-$BFFF  is
-     disabled by writing into the IO2 area (typically  $DF00)  and  may  be
-     re-enabled by writing  into  IO1  ($DE00).  However,  the  $DE00-$DFFF
-     (IO1/IO2) area itself always remains mapped to cartridge ROM.
-
-     Included with these documents is a WRPSPEED.JPG which is the schematic
-     of the WarpSpeed cartridge itself.
+    After  RESET  or  POWER  ON,  16kB  of  cartridge  ROM  is  visible  at
+    $8000-$BFFF. Additionally,  ROM  normally  located  at  $9E00-$9FFF  is
+    mirrored into I/O-1 and I/O-2 at $DE00-$DFFF.  ROM  at  $8000-$BFFF  is
+    disabled by writing into the I/O-2 area (typically $DF00)  and  may  be
+    re-enabled by writing into  I/O-1  ($DE00).  However,  the  $DE00-$DFFF
+    (I/O-1/I/O-2) area itself always remains mapped to cartridge ROM.
 
 
 ===========================================================================
@@ -972,7 +1006,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç˙ﬂ`ç˙ﬂ`ç˙ﬂ`ç
 ===========================================================================
 
 
-20. Super Snapshot 5
+20. Super Snapshot V5
 
     Size - 64Kb (4 banks of 16Kb each)
     GAME - active (1)
@@ -996,6 +1030,20 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç˙ﬂ`ç˙ﬂ`ç˙ﬂ`ç
 ...
 C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP˙˙@˙˙˙˙˙Ä˙@˙
 C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  Pﬁº˛√¬Õ80Ö˙˙˙≠•v
+
+    The first page of the currently selected ROM bank is  mirrored  in  the
+    I/O-1 range when reading.
+
+    The control Register is the I/O-1 range when writing:
+
+    bit  meaning
+    ---  -------
+    7-5  unused
+    4    ROM/RAM bank bit 1
+    3    ROM enable
+    2    ROM/RAM bank bit 0
+    1    RAM enable, EXROM
+    0    release freeze, !GAME
 
 
 ===========================================================================
@@ -1049,9 +1097,9 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  {»~»√¬Õ80COMALÄì
 
     No sample data/file available.
 
-    Any read/write access to $DE00 or $DE01 will switch in bank 0.
-    Any read/write access to $DE02 will switch in bank 1.
-    Any read/write access to $DE03 will switch off EXROM.
+    Any read/write access to $DE00 or $DE01 will  switch  in  bank  0.  Any
+    read/write access to $DE02 will switch in bank 1. Any read/write access
+    to $DE03 will switch off EXROM.
 
 
 ===========================================================================
@@ -1076,8 +1124,8 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  {»~»√¬Õ80COMALÄì
 4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP˙˙@˙˙˙˙˙Ä˙@˙
 4060: 3F 5A 4D 4D 50 4D 8D 25 3F 1A 1F 77 3F CD E0 3F  ?ZMMPMç%?˙˙w?Õ‡?
 
-    Any read access to $DE00 will switch in bank 1 (if cart is 32Kb).
-    Any read access to $DF00 will switch off EXROM and GAME.
+    Any read access to $DE00 will switch in bank 1 (if cart is  32Kb).  Any
+    read access to $DF00 will switch off EXROM and GAME.
 
 
 ===========================================================================
@@ -1269,5 +1317,649 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  {»~»√¬Õ80COMALÄì
 
     Reading from $DFC0 switches off the EXROM.
     Reading from $DFE0 switches on the EXROM.
+
+
+==========================================================================
+
+
+28. Mikro Assembler
+
+    Size - 8Kb (1 bank of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $8000-9FFF
+
+DUMP: TODO
+
+    The $9E00-$9EFF range is mirrored at $DE00-$DEFF. The $9F00-$9FFF range
+    is mirrored at $DF00-$DFFF.
+
+
+==========================================================================
+
+
+29. Final Cartridge Plus
+
+    Size - 32Kb (4 banks of 8Kb, only 3 banks are used)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $E000-$FFFF (bank 2),
+                   $8000-$9FFF (bank 3),
+                   $A000-$BFFF (bank 4)
+
+DUMP: TODO
+
+    This cart has 32Kb of ROM, bank 0 is in the cart image but is unused.
+
+    An NMI can be triggered by the cart, if address $0001 is written to and
+    the cartridge is enabled. The cart can  be  disabled  by  software,  by
+    clearing bit 4 when writing to $DF00-$DFFF. Cart ROM at $E000-$FFFF can
+    be disabled by setting bit 5 to 0 when writing to $DF00-$DFFF. Cart ROM
+    at $8000-$BFFF can be disabled by setting bit 6 to 1  when  writing  to
+    $DF00-$DFFF. Bit 7 of a byte written to $DF00-$DFFF can  be  read  back
+    from the cartridge if enabled (like a memory cell).
+
+
+==========================================================================
+
+
+30. Action Replay 4
+
+    Size - 32Kb (4 banks of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+    The control register is the I/O-1 range:
+
+    bit  meaning
+    ---  -------
+    0    Eprom banking bit 0 (bank address 13)
+    1    Controls the GAME line (0 sets GAME low, 1 sets GAME high)
+    2    Freeze-end bit (disables the register and hides any rom bank)
+    3    Controls the Exrom line (1 sets EXROM low, 0 sets EXROM high)
+    4    Eprom banking bit 1 (bank address 14)
+    5-7  Unused
+
+    The first page of the currently banked ROM block can be  read  in  the
+    I/O-2 range.
+
+==========================================================================
+
+
+31. Stardos
+
+    Size - 16Kb (2 banks of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $8000-$9FFF (bank 0),
+                   $E000-$FFFF (bank 1)
+
+DUMP: TODO
+
+
+    This cart has 16Kb of ROM, of which the first  8Kb  is  mapped  in  at
+    $8000-$9FFF and the second 8Kb is used as a  kernel  replacement.  The
+    kernel replacement is achieved by a clip that needs  to  be  installed
+    inside the C64.
+
+    Reading from I/O-1 causes a capacitor to get charged with every  read,
+    once the capacitor is charged enough it switches the cart on.
+
+    Reading from I/O-2 causes a different capacitor to  get  charged  with
+    every read, once the capacitor is charged enough it switched the  cart
+    off.
+
+
+==========================================================================
+
+
+32. EasyFlash
+
+    Size - 1024Kb (128 banks of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $8000-$9FFF (banks 0-63),
+                   $A000-$BFFF (banks 64-127)
+
+DUMP: TODO
+
+    EasyFlash is a 1 MByte Flash EPROM card with  multiple  configurations
+    and banks possible, it also has 256 bytes of RAM which is mapped  into
+    the I/O-2 range.
+
+    There are two control registers, one at $DE00 and one at $DE02.
+
+    The register at $DE00 does the following:
+
+    bit  meaning
+    ---  -------
+    7    LED control
+    6-3  Unused
+    2    Mode (0/1)
+    1    Exrom line control
+    0    Game line control
+
+    The register at $DE02 controls which bank  is  mapped  into  ROMH  and
+    ROML.
+
+
+==========================================================================
+
+
+33. EasyFlash Xbank
+
+    Size - TODO
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+
+==========================================================================
+
+
+34. Capture
+
+    Size - 8Kb (1 bank of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $E000-$FFFF
+
+DUMP: TODO
+
+    This cart has 8Kb of ROM which is mapped to  $E000,  and  8Kb  of  RAM
+    which is mapped to $6000. The cartridge is disabled after a reset.
+
+    When the freeze button is pressed the following happens:
+
+    - an NMI is generated
+    - as soon as the current adress is in bank 0xfe the cart  switches  to
+      ultimax  mode.  The  cart  ROM  then  contains  one  page  full   of
+      "jmp $eaea", which ultimately calls the freezer code.
+    - the $FFF7/$FFF8 "register" logic is enabled and any access (read  or
+      write) to $FFF7 will turn the cart_enabled off (leave ultimax mode),
+      and an access to $FFF8 will turn the cart  back  on  (enter  ultimax
+      mode). the "register logic" that causes this can  only  be  disabled
+      again by a hardware reset.
+
+
+==========================================================================
+
+
+35. Action Replay 3
+
+    Size - 16Kb (2 banks of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $8000-$9FFF
+
+DUMP: TODO
+
+    This cart has 16Kb of ROM of which 8Kb is mapped in at both  ROML  and
+    ROMH. Bank switching and control register is done  through  the  I/O-1
+    range:
+
+    bit  meaning
+    ---  -------
+    7-4  unused
+    3    Exrom line control
+    2    Disable cart
+    1    Unused
+    0    Bank
+
+==========================================================================
+
+
+36. Retro Replay
+
+    Size - 32Kb, 64Kb or 128Kb (TODO)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+    The Retro Replay has three registers: Two write-only ($DE00  &  $DE01)
+    and one read-only register ($DE00 & $DE01 giving the same results).
+
+    The register at $DE00 is reset to $00 on a hard reset if not in  flash
+    mode. If in flash mode, it is set to  $02  in  order  to  prevent  the
+    computer from starting the normal cartridge. Flash  mode  is  selected
+    with a jumper.
+
+    Register at $DE00:
+
+    bit  meaning
+    ---  -------
+    0    Controls the GAME line: A 1 asserts the line, a 0  will  deassert
+         it.
+    1    Controls the EXROM line: A 0 will assert it, a  1  will  deassert
+         it.
+    2    Writing a 1 will disable further write accesses to all  registers
+         of the Retro Replay, and  set  the  memory  map  of  the  C64  to
+         standard, as if there is no cartridge installed at all.
+    3    Controls bank-address 13 for ROM and RAM banking.
+    4    Controls bank-address 14 for ROM and RAM banking.
+    5    Switches between ROM and RAM: 0=ROM, 1=RAM
+    6    Must be written once to "1" after a successful freeze in order to
+         set the correct memory map and  enable  bits  0  and  1  of  this
+         register. Otherwise no effect.
+    7    Controls bank-address 15 for ROM banking.
+
+    The register at $DE01 is the extended  control  register.  If  not  in
+    Flash mode, bits 1, 2 and 6 can only be  written  once.  If  in  Flash
+    mode, the REUcomp bit cannot be set, but  the  register  will  not  be
+    disabled by the first write. Bit 5 is always set to 0 if not in  Flash
+    mode.
+
+    Register at $DE01:
+
+    bit  meaning
+    ---  -------
+    0    Enable clockport connector.
+    1    AllowBank (1 allows banking of RAM in $DF00/$DE02 area)
+    2    NoFreeze (1 disables Freeze function)
+    3    Bank-address 13 for RAM and ROM (mirror of $DE00)
+    4    Bank-address 14 for RAM and ROM (mirror of $DE00)
+    5    Bank-address 16 for ROM (only in flash mode)
+    6    REU compatibility bit. 0=standard memory map, 1 = REU  compatible
+         memory map
+    7    Bank-address 15 for ROM (mirror of $DE00)
+
+    Reading from the registers at either $DE00 or $DE01  will  return  the
+    content of the status register.
+
+    Status register:
+
+    bit  meaning
+    ---  -------
+    0    1=Flashmode active (jumper set)
+    1    feedback of AllowBank bit
+    2    1=Freeze button pressed
+    3    feedback of banking bit 13
+    4    feedback of banking bit 14
+    5    feedback of banking bit 16
+    6    1=REU compatible memory map active
+    7    feedback of banking bit 15
+
+    The following memory maps are available:
+
+    standard
+    --------
+    $DE00 and $DE01 registers are active,  $DF00-$DFFF  contain  the  last
+    page of the selected 8Kb bank  of  either  ROM  or  RAM,  whatever  is
+    selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
+    to $8000, $A000 or $E000 with the corresponding  status  on  GAME  and
+    EXROM.
+
+    Note: If the AllowBank bit is  not  set,  the  $DF00-$DFFF  area  will
+    always access bank 0 of the RAM, so the older  cartridge  images  will
+    work. The AllowBank bit does not have any effect on the ROM mirror  in
+    that area.
+
+    Freeze
+    ------
+    ROM is mapped to $E000-$FFFF, bank 0 is active directly after  Freeze.
+    Writing to bits 0 and 1 of the $DE00 register will have no  effect  on
+    GAME and EXROM. RAM can be  selected  and  used  in  $DF00  or  $DE02,
+    respectively, but not in $8000. Banking bits work, so  you  have  full
+    read access to the ROM, and access to up to four RAM  pages  with  the
+    AllowBank bit set (minus 2 bytes if REU compatible bit  is  set).  You
+    should leave this memory map ASAP by setting bit 6 of  $DE00,  because
+    C64 RAM in the $E000 area is not available, and you don't have control
+    of the GAME and EXROM lines.
+
+    REU compatible
+    --------------
+    $DE00 and $DE01 registers are active, $DE02-$DEFF contain a mirror  of
+    $9E02-$9EFF of the selected 8K-bank of either ROM or RAM, whatever  is
+    selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
+    to $8000, $A000 or $E000 with the corresponding  status  on  GAME  and
+    EXROM. The $DF00 stays free for use with the 1764 Ram  Expansion  Unit
+    (REU).
+
+    Note: If the AllowBank bit is  not  set,  the  $DE02-$DEFF  area  will
+    always access bank 0 of the RAM, so the older  cartridge  images  will
+    work. The AllowBank bit does not have any effect on the ROM mirror  in
+    that area.
+
+
+==========================================================================
+
+
+37. MMC64
+
+    Size - 8Kb (1 bank of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $8000-$9FFF
+
+DUMP: TODO
+
+    The clockport registers  of  this  cart  can  be  switched  to  either
+    $DE01-$DE0F or $DF21-$DF2F. The control  registers  are  available  at
+    $DF10-$DF13.
+
+    The register at $DE01 / $DF21 is write only:
+
+    bit  meaning
+    ---  -------
+    7-1  Unused
+    0    0 = disable clock port, 1 = enable clockport
+
+    The registers at $DE02-$DE0F / $DF22-$DF2F are for the clock port  and
+    are read/write.
+
+    The register at $DF10 is the  MMC64  SPI  transfer  register,  a  byte
+    written to this registers is sent to the card & response from the card
+    is read here.
+
+    The register at $DF11 is the MMC64 control register:
+
+    bit  meaning
+    ---  -------
+    0    0 = MMC64 BIOS active, 1 = external ROM active
+    1    0 = card selected, 1 = card not selected
+    2    0 = 250khz transfer, 1 = 8mhz transfer
+    3    0 = clock port @ $DE00, 1 = clock port @ $DF20
+    4    0 = normal Operation, 1 = flash mode (*)
+    5    0 = allow external rom when BIOS is disabled,
+         1 = disable external ROM
+    6    0 = SPI write trigger mode, 1 = SPI read trigger mode
+    7    0 = MMC64 is active, 1 = MMC64 is completely disabled (**)
+
+    (*) bit can only be programmed when flash jumper is set
+    (**) bit can only be modified after unlocking
+
+    The  register  at  $DF12  is  the  MMC64  status  register,  which  is
+    read-only:
+
+    bit  meaning
+    ---  -------
+    0    0 = SPI ready, 1 = SPI busy
+    1    external GAME line
+    2    external EXROM line
+    3    0 = card inserted, 1 = no card inserted
+    4    0 = card write enabled, 1 = card write disabled
+    5    0 = flash jumper not set, 1 = flash jumper set
+    6-7  unused
+
+    The register at $DF13 is the MMC64 identification register, which when
+    reading from it can have the following values:
+
+    $64 when bit 1 of $DF11 is 0.
+    $01 when bit 1 of $DF11 is 1 and REV A hardware is used.
+    $02 when bit 1 of $DF11 is 1 and REV B hardware is used.
+
+    when writing to it it can be used to unlock  bit  7  of  $DF11  or  to
+    re-enable the cart:
+
+    Write $55 & $AA into this register to unlock bit 7 of $DF11.
+    Write $0A & $1C into this register to re-enable MMC64 hardware.
+
+
+==========================================================================
+
+38. MMC Replay
+
+    Size - 64Kb or 512Kb (TODO)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+    The cart uses the following registers:
+
+    $DE00 - RR control register write
+
+    bit  meaning
+    ---  -------
+    0    GAME line
+    1    EXROM line
+    2    1 = disable RR, bit can be reset by setting bit 6 of $DF12
+    3    bank address 13
+    4    bank address 14
+    5    0 = rom enable, 1 = ram enable
+    6    1 = exit freeze mode
+    7    bank address 15
+
+    $DE01 - extended RR control register write
+
+    bit  meaning
+    ---  -------
+    0    0 = disable clockport, 1 = enable clockport
+    1    0 = disable I/O RAM banking, 1 = enable I/O RAM banking
+    2    0 = enable freeze, 1 = disable freeze
+    3    bank address 13 (mirror of $DE00)
+    4    bank address 14 (mirror of $DE00)
+    5    0 = enable MMC registers, 1 = disable MMC registers. Can only  be
+         written when bit 6 of $DF12 is 1. Register becomes effective when
+         bit 0 of $DF11 is 1.
+    6    0 = RAM/ROM at $DFxx, 1 = RAM/ROM at $DExx
+    7    bank address 15 (mirror of $DE00)
+
+    $DE02-$DE0F - Clockport memory area (when enabled)
+
+    $DF10 - MMC SPI transfer register, a byte written is sent to the  card
+            & response from the card is read here.
+
+    $DF11 - MMC control register
+
+    bit  meaning
+    ---  -------
+    0    0 = MMC BIOS enabled, 1 = MMC BIOS disabled.  Enabling  MMC  BIOS
+         sets ROM banking to the last 64Kb bank.
+    1    0 = card selected, 1 = card not selected. This bit also  controls
+         the green activity LED.
+    2    0 = 250khz transfer, 1 = 8mhz transfer
+    3    ALWAYS 0
+    4    ALWAYS 0
+    5    (in RR-Mode:)
+          0 = allow RR rom when MMC BIOS disabled , 1 = disable RR ROM
+          (in mmcreplay bios mode:)
+          RAM banking (0 = $E000 - $FFFF, 1 = $8000 - $9FFF)
+          (in 16K mode:)
+          enable RAM at $A000 - $BFFF
+    6    0 = SPI write trigger mode, 1 = SPI read trigger mode
+    7    ALWAYS 0
+
+    $DF12 - MMC status register
+
+    bit  meaning
+    ---  -------
+    0    0 = SPI ready, 1 = SPI busy (read)
+                        1 = forbid ROM  write  accesses  (write).  Setting
+                        this bit will disable writes  to  ROM  until  next
+                        reset
+    1  feedback of $DE00 bit 0 (GAME)
+    2  feedback of $DE00 bit 1 (EXROM)
+    3  0 = card inserted, 1 = no card inserted
+    4  0 = card write enabled, 1 = card write disabled
+    5  EEPROM DATA line /  DDR  register.  Setting  DATA  to  "1"  enables
+       reading data bit from EEPROM at this position.
+    6  0 = RR compatibility mode, 1 = Extended mode
+       Selecting RR compatibility mode limits RAM  to  32Kb  and  disables
+       writes  to  extended  banking  register.  Selecting  Extended  mode
+       enables full RAM banking and enables Nordic Power mode in RR mode.
+    7  EEPROM CLK line
+
+
+    $DF13 - Extended banking register
+            Can only be read/written to when bit 6 of $DF12 is 1
+
+    bit  meaning
+    ---  -------
+    0    bank address 16
+    1    bank address 17
+    2    bank address 18
+    3    ALWAYS 0
+    4    ALWAYS 0
+    5    16K rom mapping
+    6    1 = enable  RR  register.  Disabling  RR  register  disables  ALL
+         ROM/RAM banking too.
+    7    ALWAYS 0
+
+
+==========================================================================
+
+
+39. IDE64
+
+    Size - 64Kb (TODO)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+REGISTERS: TODO
+
+$DE20 - $DE27  Primary HDD Registers
+$DE28 - $DE2F  Secondary HDD Registers
+$DE30 - Low Data HDD register
+$DE31 - High Data HDD register
+
+$DE32 register:
+
+bit  meaning
+---  -------
+7    unused (0)
+6    unused (0)
+5    unused (0)
+4    version number (1)
+3    romaddr15
+2    romaddr14
+1    game
+0    exrom
+
+$DE32 - $DE35  IDE64 ROM bank select registers
+
+$DE5F - RTC access (bit 0 only to serial accessed RTC)
+$DEFB - IDE64 clock reset, kill the cartridge
+$DEFC - $DEFF  IDE64 ROM configuration registers
+
+$DE60 - $DEFA  Software for IDE64 cartridge serving
+
+
+==========================================================================
+
+
+40. Super Snapshot V4
+
+    Size - 32Kb (4 banks of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+REGISTERS: TODO
+
+
+==========================================================================
+
+
+41. IEEE-488
+
+    Size - 4Kb (1 bank of 4Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+    The cart uses a TPI for the  IEEE488  interface/communication  in  the
+    I/O-2 range:
+
+    $DF00 - Port A Data
+    $DF01 - Port B Data
+    $DF02 - Port C Data
+    $DF03 - Port A Direction
+    $DF04 - Port B Direction
+    $DF05 - Port C Direction
+    $DF06 - Control register
+    $DF07 - Active Interrupt register
+
+
+==========================================================================
+
+
+42. Game Killer
+
+    Size - 8Kb (1 bank of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - TODO
+
+DUMP: TODO
+
+    When the cartridge is active, ultimax  is  enabled  when  the  address
+    being accessed is is the $E000-$FFFF range, so the ROM is  visible  at
+    $E000, below is normal C64 RAM. The cart can be disabled by writing to
+    either I/O-1 or I/O-2 range. When the freezer button is  pressed,  the
+    cartridge will be enabled and an NMI will be triggered.
+
+
+==========================================================================
+
+
+43. Prophet64
+
+    Size - 256Kb (32 banks of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $8000-$9FFF
+
+DUMP: TODO
+
+    The control register is the I/O-2 range:
+
+    bit  meaning
+    ---  -------
+    7-6  unused
+    5    disable cart
+    3-0  bank select
+
+
+==========================================================================
+
+
+44. EXOS
+
+    Size - 8Kb (1 bank of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $E000-$FFFF
+
+DUMP: TODO
+
+    This cart has 8Kb of ROM, mapped in at $E000-$FFFF only when hirom  is
+    selected. The cart uses a clip that needs to be installed  inside  the
+    C64.
+
+
+==========================================================================
+
+
+45. Freeze Frame
+
+    Size - 8Kb (1 bank of 8Kb)
+    GAME - inactive (TODO)
+    EXROM - active (TODO)
+    Load address - $8000-$9FFF
+
+DUMP: TODO
+
+    When reading from the I/O-1 range the cart is  enabled,  when  reading
+    from the I/O-2 range the cart is disabled. When the freeze  button  is
+    pressed the ROM is mapped to both $8000-$9FFF and $E000-$FFFF.
+
+
+==========================================================================
 
 
