@@ -643,8 +643,12 @@ void myacia_reset(void)
         rs232drv_close(acia.fd);
     acia.fd = -1;
 
-    alarm_unset(acia.alarm_tx);
-    alarm_unset(acia.alarm_rx);
+    if (acia.alarm_tx) {
+        alarm_unset(acia.alarm_tx);
+    }
+    if (acia.alarm_rx) {
+        alarm_unset(acia.alarm_rx);
+    }
     acia.alarm_active_tx = 0;
     acia.alarm_active_rx = 0;
 
