@@ -1325,11 +1325,19 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  {ָ~ֲֳָֽ80COMAL€“
 28. Mikro Assembler
 
     Size - 8Kb (1 bank of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - inactive (0)
+    EXROM - active (1)
     Load address - $8000-9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 1C 00 01 00 00 00 00 00 00  תתת@תתתתתתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 60 80 FE 80 C3 C2 CD 38 30 4C 07 87 4C CA 82 41  `€‏€ֲֳֽ80Lת‡LÊ‚A
+
 
     The $9E00-$9EFF range is mirrored at $DE00-$DEFF. The $9F00-$9FFF range
     is mirrored at $DF00-$DFFF.
