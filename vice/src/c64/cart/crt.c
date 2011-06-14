@@ -73,6 +73,7 @@
 #include "mmc64.h"
 #include "mmcreplay.h"
 #include "ocean.h"
+#include "pagefox.h"
 #include "prophet64.h"
 #include "retroreplay.h"
 #include "rexep256.h"
@@ -301,6 +302,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_P64:
             rc = p64_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_PAGEFOX:
+            rc = pagefox_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             rc = retroreplay_crt_attach(fd, rawcart, filename);

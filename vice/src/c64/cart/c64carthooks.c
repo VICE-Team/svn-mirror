@@ -102,6 +102,7 @@
 #include "sfx_soundexpander.h"
 #include "sfx_soundsampler.h"
 #include "ocean.h"
+#include "pagefox.h"
 #include "prophet64.h"
 #include "ramcart.h"
 #include "retroreplay.h"
@@ -383,6 +384,11 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_OCEAN, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_OCEAN_CART,
+      NULL, NULL },
+    { "-cartpf", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_PAGEFOX, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_PAGEFOX_CART,
       NULL, NULL },
     { "-cartp64", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_P64, NULL, NULL,
@@ -885,6 +891,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return ocean_bin_attach(filename, rawcart);
         case CARTRIDGE_P64:
             return p64_bin_attach(filename, rawcart);
+        case CARTRIDGE_PAGEFOX:
+            return pagefox_bin_attach(filename, rawcart);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_bin_attach(filename, rawcart);
         case CARTRIDGE_REX:
@@ -1062,6 +1070,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_P64:
             p64_config_setup(rawcart);
+            break;
+        case CARTRIDGE_PAGEFOX:
+            pagefox_config_setup(rawcart);
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_setup(rawcart);
@@ -1448,6 +1459,9 @@ void cart_detach(int type)
         case CARTRIDGE_OCEAN:
             ocean_detach();
             break;
+        case CARTRIDGE_PAGEFOX:
+            pagefox_detach();
+            break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_detach();
             break;
@@ -1667,6 +1681,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_P64:
             p64_config_init();
+            break;
+        case CARTRIDGE_PAGEFOX:
+            pagefox_config_init();
             break;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_config_init();
@@ -2420,6 +2437,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_PAGEFOX:
+                if (pagefox_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_RETRO_REPLAY:
                 if (retroreplay_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2856,6 +2878,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_P64:
                 if (p64_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_PAGEFOX:
+                if (pagefox_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;

@@ -5496,6 +5496,21 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_PAGEFOX_CART,    N_("Attach raw 64KB Pagefox cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DA, "Tilslut råt 64KB Pagefox cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DE, "64KB Pagefox Erweiterungsmodul Image einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_IT, "Seleziona immagine cartuccia Pagefox di 64KB"},
+/* ko */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_NL, "Koppel binair 64KB Pagefox cartridge bestand"},
+/* ru */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_SV, "Anslut rå 64KB Pagefox-insticksmodulfil"},
+/* tr */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_TR, "Düz 64KB Pagefox kartuþ imajý yerleþtir"},
+#endif
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_P64_CART,    N_("Attach raw 256KB Prophet 64 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_P64_CART_DA, "Tilslut råt 256KB Prophet 64 cartridge image"},

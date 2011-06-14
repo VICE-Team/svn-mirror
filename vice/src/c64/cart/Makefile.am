@@ -101,6 +101,8 @@ libc64cart_a_SOURCES = \
 	ocean.h \
 	prophet64.c \
 	prophet64.h \
+	pagefox.c \
+	pagefox.h \
 	ramcart.c \
 	ramcart.h \
 	retroreplay.c \

@@ -88,6 +88,7 @@
 #include "mmc64.h"
 #include "mmcreplay.h"
 #include "ocean.h"
+#include "pagefox.h"
 #include "prophet64.h"
 #include "ramcart.h"
 #include "retroreplay.h"
@@ -580,6 +581,8 @@ static BYTE roml_read_slotmain(WORD addr)
             return ide64_roml_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_roml_read(addr);
+        case CARTRIDGE_PAGEFOX:
+            return pagefox_roml_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_roml_read(addr);
         case CARTRIDGE_STARDOS:
@@ -762,6 +765,8 @@ static BYTE romh_read_slotmain(WORD addr)
             return mmcreplay_romh_read(addr);
         case CARTRIDGE_OCEAN:
             return ocean_romh_read(addr);
+        case CARTRIDGE_PAGEFOX:
+            return pagefox_romh_read(addr);
         case CARTRIDGE_RETRO_REPLAY:
             return retroreplay_romh_read(addr);
         case CARTRIDGE_SNAPSHOT64:
@@ -987,6 +992,9 @@ void romh_no_ultimax_store(WORD addr, BYTE value)
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_romh_store(addr, value);
             break;
+        case CARTRIDGE_PAGEFOX:
+            pagefox_romh_store(addr, value);
+            return;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
@@ -1027,6 +1035,9 @@ void roml_no_ultimax_store(WORD addr, BYTE value)
         case CARTRIDGE_ATOMIC_POWER:
             atomicpower_roml_store(addr, value);
             break;
+        case CARTRIDGE_PAGEFOX:
+            pagefox_roml_store(addr, value);
+            return;
         case CARTRIDGE_RETRO_REPLAY:
             if (retroreplay_roml_no_ultimax_store(addr, value))
             {

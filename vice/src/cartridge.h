@@ -197,8 +197,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_ACTION_REPLAY2       50 /* actionreplay2.c */
 #define CARTRIDGE_MACH5                51 /* mach5.c */
 #define CARTRIDGE_DIASHOW_MAKER        52 /* diashowmaker.c */
+#define CARTRIDGE_PAGEFOX              53 /* pagefox.c */
 
-#define CARTRIDGE_LAST                 52 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 53 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -260,6 +261,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
+#define CARTRIDGE_NAME_PAGEFOX            "Pagefox"
 #define CARTRIDGE_NAME_P64                "Prophet64" /* see http://www.prophet64.com/ */
 #define CARTRIDGE_NAME_RAMCART            "RamCart" /* see cc65 driver */
 #define CARTRIDGE_NAME_REU                "RAM Expansion Module" /* http://www.retroport.de/C64_C128_Hardware.html */
