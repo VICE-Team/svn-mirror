@@ -104,6 +104,7 @@ struct drive_t {
     BYTE ide_identify[128];
     FILE *ide_disk;
     unsigned int settings_cylinders, settings_heads, settings_sectors;
+    int settings_autodetect_size;
 };
 
 static struct drive_t drives[4], *cdrive = NULL;
@@ -117,7 +118,7 @@ static char ide64_DS1302[65];
 
 static char *ide64_configuration_string = NULL;
 
-static int settings_autodetect_size, settings_version4, rtc_offset_res;
+static int settings_version4, rtc_offset_res;
 static time_t rtc_offset;
 
 static BYTE hdd_identify[128] = {
@@ -221,7 +222,7 @@ static int ide64_disk_attach(struct drive_t *cdrive)
 
     memcpy(cdrive->ide_identify, hdd_identify, sizeof(hdd_identify));
 
-    if (!settings_autodetect_size) {
+    if (!cdrive->settings_autodetect_size) {
         return 0;
     }
 
@@ -348,13 +349,14 @@ static int set_ide64_image_file(const char *name, void *param)
 static int set_cylinders(int val, void *param)
 {
     unsigned int cylinders = (unsigned int)val;
+    int i = vice_ptr_to_int(param);
 
     if (cylinders > 1024) {
         return -1;
     }
 
-    drives[0].settings_cylinders = cylinders;
-    geometry_update(&drives[0]);
+    drives[i].settings_cylinders = cylinders;
+    geometry_update(&drives[i]);
 
     return 0;
 }
@@ -362,13 +364,14 @@ static int set_cylinders(int val, void *param)
 static int set_heads(int val, void *param)
 {
     unsigned int heads = (unsigned int)val;
+    int i = vice_ptr_to_int(param);
 
     if (heads > 16) {
         return -1;
     }
 
-    drives[0].settings_heads = heads;
-    geometry_update(&drives[0]);
+    drives[i].settings_heads = heads;
+    geometry_update(&drives[i]);
 
     return 0;
 }
@@ -376,20 +379,23 @@ static int set_heads(int val, void *param)
 static int set_sectors(int val, void *param)
 {
     unsigned int sectors = (unsigned int)val;
+    int i = vice_ptr_to_int(param);
 
     if (sectors > 63) {
         return -1;
     }
 
-    drives[0].settings_sectors = sectors;
-    geometry_update(&drives[0]);
+    drives[i].settings_sectors = sectors;
+    geometry_update(&drives[i]);
 
     return 0;
 }
 
 static int set_autodetect_size(int val, void *param)
 {
-    settings_autodetect_size = val;
+    int i = vice_ptr_to_int(param);
+
+    drives[i].settings_autodetect_size = val;
 
     return 0;
 }
@@ -428,18 +434,54 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "IDE64Cylinders", 256,
+    { "IDE64Cylinders1", 256,
       RES_EVENT_NO, NULL,
-      (int *)&drives[0].settings_cylinders, set_cylinders, NULL },
-    { "IDE64Heads", 4,
+      (int *)&drives[0].settings_cylinders, set_cylinders, (void *)0 },
+    { "IDE64Cylinders2", 256,
       RES_EVENT_NO, NULL,
-      (int *)&drives[0].settings_heads, set_heads, NULL },
-    { "IDE64Sectors", 16,
+      (int *)&drives[1].settings_cylinders, set_cylinders, (void *)1 },
+    { "IDE64Cylinders3", 256,
       RES_EVENT_NO, NULL,
-      (int *)&drives[0].settings_sectors, set_sectors, NULL },
-    { "IDE64AutodetectSize", 1,
+      (int *)&drives[2].settings_cylinders, set_cylinders, (void *)2 },
+    { "IDE64Cylinders4", 256,
       RES_EVENT_NO, NULL,
-      &settings_autodetect_size, set_autodetect_size, NULL },
+      (int *)&drives[3].settings_cylinders, set_cylinders, (void *)3 },
+    { "IDE64Heads1", 4,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[0].settings_heads, set_heads, (void *)0 },
+    { "IDE64Heads2", 4,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[1].settings_heads, set_heads, (void *)1 },
+    { "IDE64Heads3", 4,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[2].settings_heads, set_heads, (void *)2 },
+    { "IDE64Heads4", 4,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[3].settings_heads, set_heads, (void *)3 },
+    { "IDE64Sectors1", 16,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[0].settings_sectors, set_sectors, (void *)0 },
+    { "IDE64Sectors2", 16,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[1].settings_sectors, set_sectors, (void *)1 },
+    { "IDE64Sectors3", 16,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[2].settings_sectors, set_sectors, (void *)2 },
+    { "IDE64Sectors4", 16,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[3].settings_sectors, set_sectors, (void *)3 },
+    { "IDE64AutodetectSize1", 1,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[0].settings_autodetect_size, set_autodetect_size, (void *)0 },
+    { "IDE64AutodetectSize2", 1,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[1].settings_autodetect_size, set_autodetect_size, (void *)1 },
+    { "IDE64AutodetectSize3", 1,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[2].settings_autodetect_size, set_autodetect_size, (void *)2 },
+    { "IDE64AutodetectSize4", 1,
+      RES_EVENT_NO, NULL,
+      (int *)&drives[3].settings_autodetect_size, set_autodetect_size, (void *)3 },
     { "IDE64version4", 0,
       RES_EVENT_NO, NULL,
       &settings_version4, set_version4, NULL },
@@ -504,28 +546,103 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_IDE64_NAME,
       NULL, NULL },
-    { "-IDE64cyl", SET_RESOURCE, 1,
-      NULL, NULL, "IDE64Cylinders", NULL,
+    { "-IDE64cyl1", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Cylinders1", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SET_AMOUNT_CYLINDERS_IDE64,
       NULL, NULL },
-    { "-IDE64hds", SET_RESOURCE, 1,
-      NULL, NULL, "IDE64Heads", NULL,
+    { "-IDE64cyl2", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Cylinders2", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_CYLINDERS_IDE64,
+      NULL, NULL },
+    { "-IDE64cyl3", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Cylinders3", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_CYLINDERS_IDE64,
+      NULL, NULL },
+    { "-IDE64cyl4", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Cylinders4", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_CYLINDERS_IDE64,
+      NULL, NULL },
+    { "-IDE64hds1", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Heads1", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SET_AMOUNT_HEADS_IDE64,
       NULL, NULL },
-    { "-IDE64sec", SET_RESOURCE, 1,
-      NULL, NULL, "IDE64Sectors", NULL,
+    { "-IDE64hds2", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Heads2", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_HEADS_IDE64,
+      NULL, NULL },
+    { "-IDE64hds3", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Heads3", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_HEADS_IDE64,
+      NULL, NULL },
+    { "-IDE64hds4", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Heads4", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_HEADS_IDE64,
+      NULL, NULL },
+    { "-IDE64sec1", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Sectors1", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SET_AMOUNT_SECTORS_IDE64,
       NULL, NULL },
-    { "-IDE64autosize", SET_RESOURCE, 0,
-      NULL, NULL, "IDE64AutodetectSize", (void *)1,
+    { "-IDE64sec2", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Sectors2", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_SECTORS_IDE64,
+      NULL, NULL },
+    { "-IDE64sec3", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Sectors3", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_SECTORS_IDE64,
+      NULL, NULL },
+    { "-IDE64sec4", SET_RESOURCE, 1,
+      NULL, NULL, "IDE64Sectors4", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_AMOUNT_SECTORS_IDE64,
+      NULL, NULL },
+    { "-IDE64autosize1", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize1", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_AUTODETECT_IDE64_GEOMETRY,
       NULL, NULL },
-    { "+IDE64autosize", SET_RESOURCE, 0,
-      NULL, NULL, "IDE64AutodetectSize", (void *)0,
+    { "+IDE64autosize1", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize1", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_NO_AUTODETECT_IDE64_GEOMETRY,
+      NULL, NULL },
+    { "-IDE64autosize2", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize2", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_AUTODETECT_IDE64_GEOMETRY,
+      NULL, NULL },
+    { "+IDE64autosize2", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize2", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_NO_AUTODETECT_IDE64_GEOMETRY,
+      NULL, NULL },
+    { "-IDE64autosize3", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize3", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_AUTODETECT_IDE64_GEOMETRY,
+      NULL, NULL },
+    { "+IDE64autosize3", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize3", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_NO_AUTODETECT_IDE64_GEOMETRY,
+      NULL, NULL },
+    { "-IDE64autosize4", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize4", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_AUTODETECT_IDE64_GEOMETRY,
+      NULL, NULL },
+    { "+IDE64autosize4", SET_RESOURCE, 0,
+      NULL, NULL, "IDE64AutodetectSize4", (void *)0,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_NO_AUTODETECT_IDE64_GEOMETRY,
       NULL, NULL },
