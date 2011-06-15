@@ -1902,7 +1902,7 @@ msgstr "스탠다드 유져포트"
 #: src/arch/unix/gui/uidrivec64c128.c:69 src/arch/unix/gui/uidrivec64c128.c:79
 #: src/arch/unix/gui/uidrivec64c128.c:89 src/arch/unix/gui/uidrivec64c128.c:99
 msgid "Dolphin DOS 3"
-msgstr ""
+msgstr "Dolphin DOS 3"
 
 #: src/arch/unix/gui/uidrivec64c128.c:105
 #: src/arch/unix/gui/uidrivec64c128.c:118
@@ -2020,49 +2020,49 @@ msgstr "`%s' 를 성공적으로 썼습니다."
 #: src/arch/unix/gui/uifliplist.c:103
 #, c-format
 msgid "Error writing `%s'."
-msgstr ""
+msgstr "`%s' 를 쓰는것에 에러가 있습니다."
 
 #: src/arch/unix/gui/uifliplist.c:115 src/arch/win32/res.rc.po.c:1418
 #: src/arch/amigaos/intl_text.c.po.c:125
 msgid "Add current image (Unit 8)"
-msgstr ""
+msgstr "현제 이미지 (Unit 8) 더하기"
 
 #: src/arch/unix/gui/uifliplist.c:118 src/arch/win32/res.rc.po.c:1419
 #: src/arch/amigaos/intl_text.c.po.c:137
 msgid "Remove current image (Unit 8)"
-msgstr ""
+msgstr "현제 이미지 (Unit 8) 삭제하기"
 
 #: src/arch/unix/gui/uifliplist.c:121 src/arch/win32/res.rc.po.c:1420
 #: src/arch/amigaos/intl_text.c.po.c:149
 msgid "Attach next image (Unit 8)"
-msgstr ""
+msgstr "다음 이미지 (Unit 8) 붙이기"
 
 #: src/arch/unix/gui/uifliplist.c:124 src/arch/win32/res.rc.po.c:1421
 #: src/arch/amigaos/intl_text.c.po.c:161
 msgid "Attach previous image (Unit 8)"
-msgstr ""
+msgstr "이전 이미지 (Unit 8) 붙이기"
 
 #: src/arch/unix/gui/uifliplist.c:127 src/arch/win32/res.rc.po.c:997
 #: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:173
 #: src/arch/amigaos/intl_text.c.po.c:6906
 msgid "Load flip list file"
-msgstr ""
+msgstr "플립 리스트 파일 불러오기"
 
 #: src/arch/unix/gui/uifliplist.c:129 src/arch/win32/res.rc.po.c:999
 #: src/arch/win32/res.rc.po.c:1423 src/arch/amigaos/intl_text.c.po.c:185
 #: src/arch/amigaos/intl_text.c.po.c:6930
 msgid "Save flip list file"
-msgstr ""
+msgstr "플립 리스트 파일 저장하기"
 
 #: src/arch/unix/gui/uifliplist.c:184
 #, c-format
 msgid "Attach #%d"
-msgstr ""
+msgstr "#%d 붙이기"
 
 #: src/arch/unix/gui/uifliplist.c:192
 #, c-format
 msgid "Detach #%d"
-msgstr ""
+msgstr "#%d 때어내기"
 
 #: src/arch/unix/gui/uifliplist.c:208 src/arch/unix/gui/uiramcart.c:58
 #: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:5610
@@ -2071,12 +2071,12 @@ msgstr "읽기 전용"
 
 #: src/arch/unix/gui/uifliplist.c:240 src/arch/unix/gui/uifliplist.c:242
 msgid "Next: "
-msgstr ""
+msgstr "다음: "
 
 #: src/arch/unix/gui/uifliplist.c:242 src/arch/unix/gui/uifliplist.c:261
 #: src/arch/unix/x11/gnome/x11ui.c:687 src/arch/unix/x11/gnome/x11ui.c:1428
 msgid "empty"
-msgstr ""
+msgstr "비어있다"
 
 #: src/arch/unix/gui/uifliplist.c:259 src/arch/unix/gui/uifliplist.c:261
 msgid "Previous: "
@@ -2103,15 +2103,15 @@ msgstr ""
 #: src/arch/unix/gui/uifullscreen-menu.h:92
 #: src/arch/unix/x11/ui-cmdline-options.c:79
 msgid "Enable fullscreen"
-msgstr ""
+msgstr "전체화면 으로 보기"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:95
 msgid "Show Statusbar/Menu"
-msgstr ""
+msgstr "스테이터스 바/ 메뉴 보이기"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:98
 msgid "Fullscreen device"
-msgstr ""
+msgstr "전체화면 디바이스"
 
 #: src/arch/unix/gui/uigeoram.c:67 src/arch/unix/gui/uipetreu.c:58
 #: src/arch/unix/gui/uiramcart.c:60 src/arch/unix/gui/uireu.c:69
@@ -2121,16 +2121,16 @@ msgstr "크기"
 #: src/arch/unix/gui/uigeoram.c:84 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:4577
 msgid "GEO-RAM file"
-msgstr ""
+msgstr "GEO-RAM 파일"
 
 #: src/arch/unix/gui/uiide64.c:42 src/arch/win32/res.rc.po.c:1414
 #: src/arch/amigaos/intl_text.c.po.c:677
 msgid "IDE64 interface image"
-msgstr ""
+msgstr "IDE64 인터페이스 이미지"
 
 #: src/arch/unix/gui/uiide64.c:74
 msgid "Enter number of cylinders"
-msgstr ""
+msgstr "신린더 의 숫자를 넣으시오"
 
 #: src/arch/unix/gui/uiide64.c:75 src/arch/unix/gui/uiide64.c:192
 #: src/arch/win32/reside64.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:6498
@@ -2139,7 +2139,7 @@ msgstr "실린더"
 
 #: src/arch/unix/gui/uiide64.c:113
 msgid "Enter number of heads"
-msgstr ""
+msgstr "머리 의 숫자를 넣으시오"
 
 #: src/arch/unix/gui/uiide64.c:114 src/arch/unix/gui/uiide64.c:194
 #: src/arch/win32/reside64.rc.po.c:83 src/arch/amigaos/intl_text.c.po.c:6510
@@ -2148,7 +2148,7 @@ msgstr "헤드"
 
 #: src/arch/unix/gui/uiide64.c:152
 msgid "Enter number of sectors"
-msgstr ""
+msgstr "섹터 숫자를 넣으시오"
 
 #: src/arch/unix/gui/uiide64.c:153 src/arch/unix/gui/uiide64.c:196
 #: src/arch/win32/reside64.rc.po.c:84 src/arch/amigaos/intl_text.c.po.c:6522
@@ -2170,19 +2170,19 @@ msgstr "수정"
 
 #: src/arch/unix/gui/uiide64.c:177
 msgid "HD image 1 name"
-msgstr ""
+msgstr "하드 드라이브 이미지 1 이름"
 
 #: src/arch/unix/gui/uiide64.c:180
 msgid "HD image 2 name"
-msgstr ""
+msgstr "하드 드라이브 이미지 2 이름"
 
 #: src/arch/unix/gui/uiide64.c:183
 msgid "HD image 3 name"
-msgstr ""
+msgstr "하드 드라이브 이미지 3 이름"
 
 #: src/arch/unix/gui/uiide64.c:186
 msgid "HD image 4 name"
-msgstr ""
+msgstr "하드 드라이브 이미지 4 이름"
 
 #: src/arch/unix/gui/uiide64.c:190 src/arch/win32/reside64.rc.po.c:81
 #: src/arch/amigaos/intl_text.c.po.c:6486 src/translate_text.c.po.c:5733
