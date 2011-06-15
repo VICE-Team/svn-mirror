@@ -1905,40 +1905,45 @@ DUMP: TODO
 
 39. IDE64
 
-    Size - 64Kb (TODO)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
-    Load address - TODO
+    Size - 64Kb or 128Kb (8 or 16 banks of 8Kb)
+    GAME - inactive (0)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  תתת@תתת'תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 63 80 5E FE C3 C2 CD 38 30 20 49 44 45 36 34 20  c€^‏ֲֳֽ80תIDE64ת
 
-REGISTERS: TODO
+    The IDE64 cart uses the following registers:
 
-$DE20 - $DE27  Primary HDD Registers
-$DE28 - $DE2F  Secondary HDD Registers
-$DE30 - Low Data HDD register
-$DE31 - High Data HDD register
+    $DE20 - $DE27  Primary HDD Registers
+    $DE28 - $DE2F  Secondary HDD Registers
+    $DE30 - Low Data HDD register
+    $DE31 - High Data HDD register
 
-$DE32 register:
+    $DE32 register:
 
-bit  meaning
----  -------
-7    unused (0)
-6    unused (0)
-5    unused (0)
-4    version number (1)
-3    romaddr15
-2    romaddr14
-1    game
-0    exrom
+    bit  meaning
+    ---  -------
+    7    unused (0)
+    6    unused (0)
+    5    unused (0)
+    4    version number (1)
+    3    romaddr15
+    2    romaddr14
+    1    game
+    0    exrom
 
-$DE32 - $DE35  IDE64 ROM bank select registers
-
-$DE5F - RTC access (bit 0 only to serial accessed RTC)
-$DEFB - IDE64 clock reset, kill the cartridge
-$DEFC - $DEFF  IDE64 ROM configuration registers
-
-$DE60 - $DEFA  Software for IDE64 cartridge serving
+    $DE33 - $DE35 = IDE64 ROM bank select registers
+    $DE5F         = RTC access (bit 0 only to serial accessed RTC)
+    $DE60 - $DEFA = RAM used by software
+    $DEFB         = IDE64 clock reset, kill the cartridge
+    $DEFC - $DEFF = IDE64 ROM configuration registers
 
 
 ==========================================================================
