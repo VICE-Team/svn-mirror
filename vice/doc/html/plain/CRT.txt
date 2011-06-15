@@ -2144,3 +2144,104 @@ DUMP: TODO
 
 
 ==========================================================================
+
+
+46. Freeze Machine
+
+    Size - 16Kb or 32Kb (2 or 4 banks of 8Kb)
+    GAME - active (1)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 2E 00 01 00 00 00 00 00 00  תתת@תתת.תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :ƒ`€ֲֳֽ80תתת@תתת
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+2060: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x©4…ת ת±ר‘צµת׀תµ
+...
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIPתתתתתתתת€תתת
+4070: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :ƒ`€ֲֳֽ80תתת@תתת
+...
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIPתתתתתתתת€תתת
+6080: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x©4…ת ת±ר‘צµת׀תµ
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    When reading from  the  I/O-1  range  ROM  bank  0(/2)  is  mapped  to
+    $8000-$9FFF and ROM bank 1(/3) is mapped to $A000-$BFFF. When  reading
+    from the I/O-2 range the cart is disabled. When a  reset  happens  the
+    ROM banks get switched and ROM bank 0(/2) is  mapped  to  $8000-$9FFF.
+    When a freeze happens ROM bank 0(/2) is mapped to both $8000-$9FFF and
+    $E000-$FFFF.
+
+
+==========================================================================
+
+
+47. Freeze Machine
+
+    Size - 4Kb (1 bank of 4Kb)
+    GAME - inactive (0)
+    EXROM - inactive (0)
+    Load address - $E000-$EFFF
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 2F 00 00 00 00 00 00 00 00  תתת@תתת/תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 10 10 00 00 00 00 E0 00 10 00  CHIPתתתתתתתתאתתת
+0050: 78 D8 48 8A 48 98 48 AC 0D DD 10 03 4C EE F2 AD  x״HH˜H¼תÝתתLמע
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    The cart has a control bit (bit 0) in the I/O-2 range which is used to
+    disable or enable the cart.
+
+
+==========================================================================
+
+
+48. Super Explode V5.0
+
+    Size - 16Kb (2 banks of 8Kb)
+    GAME - active (1)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 30 00 01 00 00 00 00 00 00  תתת@תתת0תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: D7 86 5E FE C3 C2 CD 38 30 A9 00 2C A9 FF 85 FE  ׳†^‏ֲֳֽ80©ת,©ת…‏
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+2060: E8 96 5E FE C3 C2 CD 38 30 20 6C 81 A9 09 8D 99  ט–^‏ֲֳֽ80תl©ת™
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    The cart has 16Kb of ROM which are used as two banks of 8Kb, they  are
+    mapped into $8000-$9FFF and the last page of the current ROM  bank  is
+    mirrored in $DF00-$DFFF. The cart has a control bit (bit 7) at  $DF00,
+    which is used to select what ROM bank is used.
+
+
+==========================================================================
+
+
