@@ -2043,11 +2043,19 @@ DUMP: TODO
 42. Game Killer
 
     Size - 8Kb (1 bank of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
-    Load address - TODO
+    GAME - inactive (0)
+    EXROM - inactive (0)
+    Load address - $E000-$FFFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 2A 00 00 00 00 00 00 00 00  תתת@תתת*תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIPתתתתתתתתאתתת
+0050: 00 25 08 CF 07 9E 32 30 38 38 20 4D 43 2E 43 52  ת%תֿת2088תMC.CR
+
 
     When the cartridge is active, ultimax  is  enabled  when  the  address
     being accessed is is the $E000-$FFFF range, so the ROM is  visible  at
@@ -2062,11 +2070,19 @@ DUMP: TODO
 43. Prophet64
 
     Size - 256Kb (32 banks of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - active (1)
+    EXROM - inactive (0)
     Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 2B 00 01 00 00 00 00 00 00  תתת@תתת+תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 09 80 09 80 C3 C2 CD 38 30 78 A0 00 84 F8 84 FA  ת€ת€ֲֳֽ80x ת„ר„ת
+
 
     The control register is the I/O-2 range:
 
@@ -2083,11 +2099,19 @@ DUMP: TODO
 44. EXOS
 
     Size - 8Kb (1 bank of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - inactive (0)
+    EXROM - active (1)
     Load address - $E000-$FFFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 2C 01 00 00 00 00 00 00 00  תתת@תתת,תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIPתתתתתתתתאתתת
+0050: 85 56 20 0F BC A5 61 C9 88 90 03 20 D4 BA 20 CC  …Vתת¼¥aֹˆתתװ÷תּ
+
 
     This cart has 8Kb of ROM, mapped in at $E000-$FFFF only when hirom  is
     selected. The cart uses a clip that needs to be installed  inside  the
@@ -2100,11 +2124,19 @@ DUMP: TODO
 45. Freeze Frame
 
     Size - 8Kb (1 bank of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - active (1)
+    EXROM - inactive (0)
     Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 2D 00 01 00 00 00 00 00 00  תתת@תתת-תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 10 80 10 80 C3 C2 CD 38 30 20 00 00 00 00 00 00  ת€ת€ֲֳֽ80תתתתתתת
+
 
     When reading from the I/O-1 range the cart is  enabled,  when  reading
     from the I/O-2 range the cart is disabled. When the freeze  button  is
@@ -2112,5 +2144,3 @@ DUMP: TODO
 
 
 ==========================================================================
-
-
