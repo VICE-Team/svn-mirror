@@ -1348,24 +1348,33 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  {ָ~ֲֳָֽ80COMAL€“
 
 29. Final Cartridge Plus
 
-    Size - 32Kb (4 banks of 8Kb, only 3 banks are used)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
-    Load address - $E000-$FFFF (bank 2),
-                   $8000-$9FFF (bank 3),
-                   $A000-$BFFF (bank 4)
+    Size - 32Kb (1 bank of 32Kb)
+    GAME - active (1)
+    EXROM - active (1)
+    Load address - $0000-$7FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 1D 00 01 00 00 00 00 00 00  תתת@תתתתתתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 80 10 00 00 00 00 00 00 80 00  CHIPתת€תתתתתתת€ת
+0050: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF  תתתתתתתתתתתתתתתת
 
-    This cart has 32Kb of ROM, bank 0 is in the cart image but is unused.
 
-    An NMI can be triggered by the cart, if address $0001 is written to and
-    the cartridge is enabled. The cart can  be  disabled  by  software,  by
-    clearing bit 4 when writing to $DF00-$DFFF. Cart ROM at $E000-$FFFF can
-    be disabled by setting bit 5 to 0 when writing to $DF00-$DFFF. Cart ROM
-    at $8000-$BFFF can be disabled by setting bit 6 to 1  when  writing  to
-    $DF00-$DFFF. Bit 7 of a byte written to $DF00-$DFFF can  be  read  back
-    from the cartridge if enabled (like a memory cell).
+    This cart has 32Kb of ROM, bank 0 is in the cart image but is  unused.
+    The first 8Kb of the cart image is unused, the second 8Kb of the  cart
+    image is mapped to $E000-$FFFF, the third 8Kb of  the  cart  image  is
+    mapped to $8000-$9FFF and the fourth 8Kb of the cart image  is  mapped
+    to $A000-$BFFF. An NMI can be triggered by the cart, if address  $0001
+    is written to and the cartridge is enabled. The cart can  be  disabled
+    by software, by clearing bit 4 when writing to $DF00-$DFFF.  Cart  ROM
+    at $E000-$FFFF can be disabled by setting bit 5 to 0 when  writing  to
+    $DF00-$DFFF. Cart ROM at $8000-$BFFF can be disabled by setting bit  6
+    to 1 when  writing  to  $DF00-$DFFF.  Bit  7  of  a  byte  written  to
+    $DF00-$DFFF can be read back from the cartridge  if  enabled  (like  a
+    memory cell).
 
 
 ==========================================================================
@@ -1374,11 +1383,28 @@ DUMP: TODO
 30. Action Replay 4
 
     Size - 32Kb (4 banks of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
-    Load address - TODO
+    GAME - active (1)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 1E 00 01 00 00 00 00 00 00  תתת@תתתתתתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: EA 78 48 A9 7F 8D 0D DD D0 0E 48 AD 0D DD 10 04  ךxP©תתÝ׀תPתÝתת
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+2060: 09 80 0C 80 C3 C2 CD 38 30 4C E9 80 4C 81 81 4C  ת€ת€ֲֳֽ80Lי€LL
+...
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIPתתתתתתתת€תתת
+4070: 09 80 0E 80 C3 C2 CD 38 30 A2 00 4C EF FC 20 BC  ת€ת€ֲֳֽ80¢תLןüת¼
+...
+6070: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIPתתתתתתתת€תתת
+6080: 09 80 0C 80 C3 C2 CD 38 30 4C 70 88 4C 3F 80 4C  ת€ת€ֲֳֽ80LpˆL?€L
+
 
     The control register is the I/O-1 range:
 
@@ -1400,12 +1426,22 @@ DUMP: TODO
 31. Stardos
 
     Size - 16Kb (2 banks of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - active (1)
+    EXROM - inactive (0)
     Load address - $8000-$9FFF (bank 0),
                    $E000-$FFFF (bank 1)
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 1F 00 01 00 00 00 00 00 00  תתת@תתתתתתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: F9 80 B6 80 C3 C2 CD 38 30 FD 80 89 80 4C 0C 88  ש€¶€ֲֳֽ80‎€‰€Lתˆ
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIPתתתתתתתתאתתת
+2060: 85 56 20 0F BC A5 61 C9 88 90 03 20 D4 BA 20 CC  …Vתת¼¥aֹˆתתװ÷תּ
 
 
     This cart has 16Kb of ROM, of which the first  8Kb  is  mapped  in  at
@@ -1427,12 +1463,20 @@ DUMP: TODO
 32. EasyFlash
 
     Size - 1024Kb (128 banks of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - inactive (0)
+    EXROM - active (1)
     Load address - $8000-$9FFF (banks 0-63),
                    $A000-$BFFF (banks 64-127)
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 20 00 01 00 00 00 00 00 00  תתת@תתתתתתתתתתתת
+0020: 45 61 73 79 46 6C 61 73 68 20 43 61 72 74 72 69  EasyFlashתCartri
+0030: 64 67 65 00 00 00 00 00 00 00 00 00 00 00 00 00  dgeתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 00 85 5E FE C3 C2 CD 38 30 93 0D 2B 2B 2B 20 45  ת…^‏ֲֳֽ80“ת+++תE
+
 
     EasyFlash is a 1 MByte Flash EPROM card with  multiple  configurations
     and banks possible, it also has 256 bytes of RAM which is mapped  into
@@ -1473,11 +1517,19 @@ DUMP: TODO
 34. Capture
 
     Size - 8Kb (1 bank of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - inactive (0)
+    EXROM - inactive (0)
     Load address - $E000-$FFFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 22 00 01 00 00 00 00 00 00  תתת@תתת"תתתתתתתת
+0020: 4D 61 67 69 63 20 46 6F 72 6D 65 6C 00 00 00 00  MagicתFormelתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIPתתתתתתתתאתתת
+0050: 00 0A 0D 8A B4 A1 20 80 00 0A 82 8A 8D 20 9E 20  תתת´¡ת€תת‚תת
+
 
     This cart has 8Kb of ROM which is mapped to  $E000,  and  8Kb  of  RAM
     which is mapped to $6000. The cartridge is disabled after a reset.
@@ -1501,11 +1553,22 @@ DUMP: TODO
 35. Action Replay 3
 
     Size - 16Kb (2 banks of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - active (1)
+    EXROM - inactive (0)
     Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 23 00 01 00 00 00 00 00 00  תתת@תתת#תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: EA A9 E3 48 A9 7B 48 08 4C 1A 80 EA EA EA 48 AD  ך©דH©{HתLת€ךךךH
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+2060: 09 80 5E FE C3 C2 CD 38 30 78 A2 FB D8 9A A9 27  ת€^‏ֲֳֽ80x¢û״©'
+
 
     This cart has 16Kb of ROM of which 8Kb is mapped in at both  ROML  and
     ROMH. Bank switching and control register is done  through  the  I/O-1
@@ -1524,12 +1587,20 @@ DUMP: TODO
 
 36. Retro Replay
 
-    Size - 32Kb, 64Kb or 128Kb (TODO)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
-    Load address - TODO
+    Size - 32Kb, 64Kb or 128Kb (4, 8 or 16 banks of 8Kb)
+    GAME - inactive (0)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 24 00 00 00 00 00 00 00 00  תתת@תתת$תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 09 80 0C 80 C3 C2 CD 38 30 4C 7F 81 4C 87 81 4C  ת€ת€ֲֳֽ80LתL‡L
+
 
     The Retro Replay has three registers: Two write-only ($DE00  &  $DE01)
     and one read-only register ($DE00 & $DE01 giving the same results).
@@ -1642,11 +1713,19 @@ DUMP: TODO
 37. MMC64
 
     Size - 8Kb (1 bank of 8Kb)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
+    GAME - active (1)
+    EXROM - inactive (0)
     Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 25 00 01 00 00 00 00 00 00  תתת@תתת%תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 09 80 64 97 C3 C2 CD 38 30 78 D8 A2 FF 9A 20 D4  ת€d—ֲֳֽ80x״¢תתװ
+
 
     The clockport registers  of  this  cart  can  be  switched  to  either
     $DE01-$DE0F or $DF21-$DF2F. The control  registers  are  available  at
@@ -1714,12 +1793,20 @@ DUMP: TODO
 
 38. MMC Replay
 
-    Size - 64Kb or 512Kb (TODO)
-    GAME - inactive (TODO)
-    EXROM - active (TODO)
-    Load address - TODO
+    Size - 64Kb or 512Kb (8 or 64 banks of 8Kb)
+    GAME - inactive (0)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
 
-DUMP: TODO
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  תתת@תתת&תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 1A 80 6E 9E C3 C2 CD 38 30 4D 4D 43 52 45 50 4C  ת€nֲֳֽ80MMCREPL
+
 
     The cart uses the following registers:
 
