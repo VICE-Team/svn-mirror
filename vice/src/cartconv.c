@@ -164,7 +164,7 @@ static const cart_t cart_info[] = {
     {1, 0, CARTRIDGE_SIZE_256KB, 0x2000, 0x8000, 32, 0, CARTRIDGE_NAME_P64, "p64", save_regular_crt},
     {0, 1, CARTRIDGE_SIZE_8KB, 0x2000, 0xe000, 1, 0, CARTRIDGE_NAME_EXOS, "exos", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, CARTRIDGE_NAME_FREEZE_FRAME, "ff", save_regular_crt},
-    {1, 0, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_FREEZE_MACHINE, "fm", save_regular_crt},
+    {1, 0, CARTRIDGE_SIZE_16KB | CARTRIDGE_SIZE_32KB, 0x2000, 0x8000, 0, 0, CARTRIDGE_NAME_FREEZE_MACHINE, "fm", save_8000_a000_crt},
     {0, 0, CARTRIDGE_SIZE_4KB, 0x1000, 0xe000, 1, 0, CARTRIDGE_NAME_SNAPSHOT64, "s64", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_SUPER_EXPLODE_V5, "se5", save_regular_crt},
     {1, 0, CARTRIDGE_SIZE_16KB, 0x2000, 0x8000, 2, 0, CARTRIDGE_NAME_MAGIC_VOICE, "mv", save_regular_crt},
@@ -745,16 +745,22 @@ static void save_2_blocks_crt(unsigned int l1, unsigned int l2, unsigned int a1,
     exit(0);
 }
 
-static void save_8000_a000_crt(unsigned int l1, unsigned int banks, unsigned int a1, unsigned int a2, unsigned char game, unsigned char exrom)
+static void save_8000_a000_crt(unsigned int length, unsigned int banks, unsigned int a1, unsigned int a2, unsigned char game, unsigned char exrom)
 {
     int i;
+    unsigned int real_banks = banks;
+
+
+    if (real_banks == 0) {
+        real_banks = loadfile_size / length;
+    }
 
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);
     }
 
-    for (i = 0; i < (banks >> 1); i++) {
+    for (i = 0; i < (real_banks >> 1); i++) {
         if (write_chip_package(0x2000, i, 0x8000, 0) < 0) {
             cleanup();
             exit(1);
