@@ -1229,19 +1229,15 @@ int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
 
 int magicvoice_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    int i = 2;
+    int i;
     BYTE chipheader[0x10];
 
-    while (i--) {
+    for (i = 0; i < 2; i++) {
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             return -1;
         }
 
-        if (chipheader[0xb] > 1) {
-            return -1;
-        }
-
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+        if (fread(&rawcart[0x2000 * i], 0x2000, 1, fd) < 1) {
             return -1;
         }
     }

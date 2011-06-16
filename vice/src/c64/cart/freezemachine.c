@@ -258,11 +258,6 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
         if (fread(chipheader, 0x10, 1, fd) < 1) {
             break;
         }
-/*
-        if (chipheader[0xb] > 0) {
-            return -1;
-        }
-*/
         if (fread(&rawcart[0x2000 * i], 0x2000, 1, fd) < 1) {
             break;
         }
