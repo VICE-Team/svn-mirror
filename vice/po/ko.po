@@ -1919,7 +1919,7 @@ msgstr "평행 캐이블"
 #: src/arch/unix/gui/uidrivec64c128.c:138
 #: src/arch/unix/gui/uidrivec64c128.c:151 src/translate_text.c.po.c:6680
 msgid "Enable Professional DOS"
-msgstr "프로페셔널 DOS 사용가능케하기"
+msgstr "Professional DOS 사용가능하게 하기"
 
 #: src/arch/unix/gui/uidriveiec.c:153 src/arch/unix/gui/uidriveiec.c:163
 #: src/arch/unix/gui/uidriveiec.c:173 src/arch/unix/gui/uidriveiec.c:183
@@ -2093,12 +2093,12 @@ msgstr "제거 하다: "
 #. Translators: 'VidMode' must remain in the beginning          of the translation e.g. German: "VidMode Aufloesungen"
 #: src/arch/unix/gui/uifullscreen-menu.h:37
 msgid "VidMode Resolutions"
-msgstr ""
+msgstr "VidMode 해상도"
 
 #. Translators: `XRandR' must remain in the beginning of the translation:        e.g. German: "XRandR Aufloesungen"
 #: src/arch/unix/gui/uifullscreen-menu.h:58
 msgid "XRandR Resolutions"
-msgstr ""
+msgstr "XRandR 해상도"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:92
 #: src/arch/unix/x11/ui-cmdline-options.c:79
@@ -2187,39 +2187,39 @@ msgstr "하드 드라이브 이미지 4 이름"
 #: src/arch/unix/gui/uiide64.c:190 src/arch/win32/reside64.rc.po.c:81
 #: src/arch/amigaos/intl_text.c.po.c:6486 src/translate_text.c.po.c:5733
 msgid "Autodetect image size"
-msgstr ""
+msgstr "이미지 크기 자동으로 찾기"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
-msgstr ""
+msgstr "스위치 사용가능하게하기"
 
 #: src/arch/unix/gui/uiisepic.c:65
 msgid "ISEPIC image"
-msgstr ""
+msgstr "ISEPIC 이미지"
 
 #: src/arch/unix/gui/uijoystick2.c:127 src/arch/unix/gui/uijoystick2.c:141
 #: src/arch/win32/res.rc.po.c:1095
 msgid "CGA userport joy adapter"
-msgstr ""
+msgstr "CGA 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:129 src/arch/unix/gui/uijoystick2.c:143
 #: src/arch/win32/res.rc.po.c:1096
 msgid "PET userport joy adapter"
-msgstr ""
+msgstr "PET 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:131 src/arch/unix/gui/uijoystick2.c:145
 #: src/arch/win32/res.rc.po.c:1097
 msgid "Hummer userport joy adapter"
-msgstr ""
+msgstr "Hummer 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:133 src/arch/unix/gui/uijoystick2.c:147
 #: src/arch/win32/res.rc.po.c:1098
 msgid "OEM userport joy adapter"
-msgstr ""
+msgstr "OEM 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:135 src/arch/win32/res.rc.po.c:1099
 msgid "HIT userport joy adapter"
-msgstr ""
+msgstr "HIT 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:156 src/arch/unix/gui/uijoystick2.c:208
 #: src/arch/unix/gui/uijoystick2.c:260 src/arch/unix/gui/uijoystick2.c:312
@@ -2237,137 +2237,137 @@ msgstr "키셋A"
 #: src/arch/unix/gui/uijoystick2.c:266 src/arch/unix/gui/uijoystick2.c:318
 #: src/arch/unix/gui/vic20ui.c:388 src/arch/win32/res.rc.po.c:1104
 msgid "Keyset B"
-msgstr "키셋A"
+msgstr "키셋B"
 
 #: src/arch/unix/gui/uijoystick2.c:166 src/arch/unix/gui/uijoystick2.c:218
 #: src/arch/unix/gui/uijoystick2.c:270 src/arch/unix/gui/uijoystick2.c:322
 #: src/arch/unix/gui/vic20ui.c:392
 msgid "Analog Joystick 0"
-msgstr ""
+msgstr "아날로그 조이스틱 0"
 
 #: src/arch/unix/gui/uijoystick2.c:169 src/arch/unix/gui/uijoystick2.c:221
 #: src/arch/unix/gui/uijoystick2.c:273 src/arch/unix/gui/uijoystick2.c:325
 #: src/arch/unix/gui/vic20ui.c:395
 msgid "Analog Joystick 1"
-msgstr ""
+msgstr "아날로그 조이스틱 1"
 
 #: src/arch/unix/gui/uijoystick2.c:172 src/arch/unix/gui/uijoystick2.c:224
 #: src/arch/unix/gui/uijoystick2.c:276 src/arch/unix/gui/uijoystick2.c:328
 msgid "Analog Joystick 2"
-msgstr ""
+msgstr "아날로그 조이스틱 2"
 
 #: src/arch/unix/gui/uijoystick2.c:175 src/arch/unix/gui/uijoystick2.c:227
 #: src/arch/unix/gui/uijoystick2.c:279 src/arch/unix/gui/uijoystick2.c:331
 msgid "Analog Joystick 3"
-msgstr ""
+msgstr "아날로그 조이스틱 3"
 
 #: src/arch/unix/gui/uijoystick2.c:178 src/arch/unix/gui/uijoystick2.c:230
 #: src/arch/unix/gui/uijoystick2.c:282 src/arch/unix/gui/uijoystick2.c:334
 msgid "Analog Joystick 4"
-msgstr ""
+msgstr "아날로그 조이스틱 4"
 
 #: src/arch/unix/gui/uijoystick2.c:181 src/arch/unix/gui/uijoystick2.c:233
 #: src/arch/unix/gui/uijoystick2.c:285 src/arch/unix/gui/uijoystick2.c:337
 msgid "Analog Joystick 5"
-msgstr ""
+msgstr "아날로그 조이스틱 5"
 
 #: src/arch/unix/gui/uijoystick2.c:185 src/arch/unix/gui/uijoystick2.c:237
 #: src/arch/unix/gui/uijoystick2.c:289 src/arch/unix/gui/uijoystick2.c:341
 #: src/arch/unix/gui/vic20ui.c:399
 msgid "Digital Joystick 0"
-msgstr ""
+msgstr "디지털 조이스틱 0"
 
 #: src/arch/unix/gui/uijoystick2.c:188 src/arch/unix/gui/uijoystick2.c:240
 #: src/arch/unix/gui/uijoystick2.c:292 src/arch/unix/gui/uijoystick2.c:344
 #: src/arch/unix/gui/vic20ui.c:402
 msgid "Digital Joystick 1"
-msgstr ""
+msgstr "디지털 조이스틱 1"
 
 #: src/arch/unix/gui/uijoystick2.c:193 src/arch/unix/gui/uijoystick2.c:245
 #: src/arch/unix/gui/uijoystick2.c:297 src/arch/unix/gui/uijoystick2.c:349
 #: src/arch/unix/gui/vic20ui.c:407
 msgid "USB Joystick 0"
-msgstr ""
+msgstr "USB 조이스틱 0"
 
 #: src/arch/unix/gui/uijoystick2.c:196 src/arch/unix/gui/uijoystick2.c:248
 #: src/arch/unix/gui/uijoystick2.c:300 src/arch/unix/gui/uijoystick2.c:352
 #: src/arch/unix/gui/vic20ui.c:410
 msgid "USB Joystick 1"
-msgstr ""
+msgstr "USB 조이스틱 1"
 
 #: src/arch/unix/gui/uijoystick2.c:361 src/arch/unix/gui/uijoystick2.c:392
 #: src/arch/unix/gui/uijoystick2.c:423 src/arch/unix/gui/uijoystick2.c:467
 #: src/arch/unix/gui/uijoystick2.c:494 src/arch/win32/res.rc.po.c:1194
 #: src/arch/amigaos/intl_text.c.po.c:4853
 msgid "Joystick in port #1"
-msgstr ""
+msgstr "1번 포트 조이스틱"
 
 #: src/arch/unix/gui/uijoystick2.c:363 src/arch/unix/gui/uijoystick2.c:394
 #: src/arch/unix/gui/uijoystick2.c:425 src/arch/unix/gui/uijoystick2.c:496
 #: src/arch/win32/res.rc.po.c:1198 src/arch/amigaos/intl_text.c.po.c:4865
 msgid "Joystick in port #2"
-msgstr ""
+msgstr "2번 포트 조이스틱"
 
 #: src/arch/unix/gui/uijoystick2.c:367 src/arch/unix/gui/uijoystick2.c:398
 #: src/arch/unix/gui/uijoystick2.c:429 src/arch/unix/gui/uijoystick2.c:444
 #: src/arch/unix/gui/uijoystick2.c:471 src/arch/unix/gui/uijoystick2.c:500
 msgid "Define keysets"
-msgstr ""
+msgstr "키셋을 정하시오"
 
 #: src/arch/unix/gui/uijoystick2.c:371 src/arch/unix/gui/uijoystick2.c:402
 #: src/arch/unix/gui/uijoystick2.c:433 src/arch/unix/gui/uijoystick2.c:448
 #: src/arch/unix/gui/uijoystick2.c:475 src/arch/unix/gui/uijoystick2.c:504
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:1469
 msgid "Allow opposite directions"
-msgstr ""
+msgstr "반대 방향 허가하기"
 
 #: src/arch/unix/gui/uijoystick2.c:373 src/arch/unix/gui/uijoystick2.c:404
 #: src/arch/unix/gui/uijoystick2.c:435 src/arch/unix/gui/uijoystick2.c:450
 #: src/arch/unix/gui/uijoystick2.c:477 src/arch/unix/gui/uijoystick2.c:506
 msgid "Allow keyset joystick"
-msgstr ""
+msgstr "키셋 조이스틱 허가하기"
 
 #: src/arch/unix/gui/uijoystick2.c:375 src/arch/unix/gui/uijoystick2.c:406
 #: src/arch/unix/gui/uijoystick2.c:437 src/arch/unix/gui/uijoystick2.c:508
 #: src/arch/unix/gui/uijoystick2.c:519 src/arch/win32/res.rc.po.c:1467
 #: src/arch/amigaos/intl_text.c.po.c:1433
 msgid "Swap joysticks"
-msgstr ""
+msgstr "조이스틱을 바꾸세요"
 
 #: src/arch/unix/gui/uijoystick2.c:378 src/arch/unix/gui/uijoystick2.c:409
 #: src/arch/unix/gui/uijoystick2.c:453 src/arch/unix/gui/uijoystick2.c:480
 #: src/arch/amigaos/intl_text.c.po.c:4877
 msgid "Userport joystick adapter"
-msgstr ""
+msgstr "유져포트 조이스틱 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:380 src/arch/unix/gui/uijoystick2.c:411
 #: src/arch/unix/gui/uijoystick2.c:455 src/arch/unix/gui/uijoystick2.c:482
 #: src/arch/amigaos/intl_text.c.po.c:4889
 msgid "Userport joystick adapter type"
-msgstr ""
+msgstr "유져포트 조이스틱 아답터 종류"
 
 #: src/arch/unix/gui/uijoystick2.c:382 src/arch/unix/gui/uijoystick2.c:413
 #: src/arch/unix/gui/uijoystick2.c:457 src/arch/unix/gui/uijoystick2.c:484
 #: src/arch/unix/gui/uijoystick2.c:513 src/arch/win32/res.rc.po.c:1203
 #: src/arch/amigaos/intl_text.c.po.c:4901
 msgid "Joystick in extra port #1"
-msgstr ""
+msgstr "엑스트라 포트 #1 에 조이스틱"
 
 #: src/arch/unix/gui/uijoystick2.c:384 src/arch/unix/gui/uijoystick2.c:415
 #: src/arch/unix/gui/uijoystick2.c:459 src/arch/unix/gui/uijoystick2.c:486
 #: src/arch/win32/res.rc.po.c:1204 src/arch/amigaos/intl_text.c.po.c:4913
 msgid "Joystick in extra port #2"
-msgstr ""
+msgstr "엑스트라 포트 #2 에 조이스틱"
 
 #: src/arch/unix/gui/uijoystick2.c:386 src/arch/unix/gui/uijoystick2.c:417
 #: src/arch/unix/gui/uijoystick2.c:461 src/arch/unix/gui/uijoystick2.c:488
 #: src/arch/win32/res.rc.po.c:1468 src/arch/amigaos/intl_text.c.po.c:1445
 msgid "Swap userport joysticks"
-msgstr ""
+msgstr "유져포트 조이스틱을 바꾸세요"
 
 #: src/arch/unix/gui/uijoystick2.c:511 src/arch/amigaos/intl_text.c.po.c:4925
 msgid "SIDcart joystick"
-msgstr ""
+msgstr "SIDcard 조이스틱"
 
 #: src/arch/unix/gui/uijoystick2.c:525 src/arch/unix/gui/uijoystick2.c:531
 #: src/arch/unix/gui/uijoystick2.c:537 src/arch/unix/gui/uijoystick2.c:543
@@ -2376,7 +2376,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1477 src/arch/amigaos/intl_text.c.po.c:1937
 #: src/arch/amigaos/intl_text.c.po.c:4950
 msgid "Joystick settings"
-msgstr ""
+msgstr "조이스틱 설정"
 
 #: src/arch/unix/gui/uikeyboard.c:66
 msgid "Symbolic mapping"
