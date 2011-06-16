@@ -87,6 +87,7 @@ CLEAN :
 	-@erase "$(INTDIR)\mmc64.obj"
 	-@erase "$(INTDIR)\mmcreplay.obj"
 	-@erase "$(INTDIR)\ocean.obj"
+	-@erase "$(INTDIR)\pagefox.obj"
 	-@erase "$(INTDIR)\prophet64.obj"
 	-@erase "$(INTDIR)\ramcart.obj"
 	-@erase "$(INTDIR)\retroreplay.obj"
@@ -191,6 +192,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\mmcreplay.obj" \
 	"$(INTDIR)\mikroass.obj" \
 	"$(INTDIR)\ocean.obj" \
+	"$(INTDIR)\pagefox.obj" \
 	"$(INTDIR)\prophet64.obj" \
 	"$(INTDIR)\ramcart.obj" \
 	"$(INTDIR)\retroreplay.obj" \
@@ -278,6 +280,7 @@ CLEAN :
 	-@erase "$(INTDIR)\mmc64.obj"
 	-@erase "$(INTDIR)\mmcreplay.obj"
 	-@erase "$(INTDIR)\ocean.obj"
+	-@erase "$(INTDIR)\pagefox.obj"
 	-@erase "$(INTDIR)\prophet64.obj"
 	-@erase "$(INTDIR)\ramcart.obj"
 	-@erase "$(INTDIR)\retroreplay.obj"
@@ -382,6 +385,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\mmcreplay.obj" \
 	"$(INTDIR)\mikroass.obj" \
 	"$(INTDIR)\ocean.obj" \
+	"$(INTDIR)\pagefox.obj" \
 	"$(INTDIR)\prophet64.obj" \
 	"$(INTDIR)\ramcart.obj" \
 	"$(INTDIR)\retroreplay.obj" \
@@ -669,6 +673,12 @@ SOURCE="..\..\..\c64\cart\mmcreplay.c"
 SOURCE="..\..\..\c64\cart\ocean.c"
 
 "$(INTDIR)\ocean.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\c64\cart\pagefox.c"
+
+"$(INTDIR)\pagefox.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

@@ -238,6 +238,10 @@ SOURCE="..\..\..\c64\cart\ocean.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\pagefox.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\prophet64.c"
 # End Source File
 # Begin Source File
