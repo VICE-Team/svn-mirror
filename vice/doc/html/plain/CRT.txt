@@ -95,6 +95,7 @@ Camels"...
                       50 - Action Replay 2
                       51 - MACH 5
                       52 - Diashow-Maker
+                      53 - Pagefox
               0018 - Cartridge port EXROM line status
                       0 - inactive
                       1 - active
