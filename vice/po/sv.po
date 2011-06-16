@@ -1,16 +1,17 @@
 # Swedish translation file for VICE
 # Copyright 2000-2011
 # Peter Krefting <peter@softwolves.pp.se>, 2011.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-03 08:58-0700\n"
-"PO-Revision-Date: 2011-02-16 20:41+0100\n"
+"PO-Revision-Date: 2011-06-16 08:10+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2071,9 +2072,8 @@ msgstr "Koppla från %d"
 
 #: src/arch/unix/gui/uifliplist.c:208 src/arch/unix/gui/uiramcart.c:58
 #: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:5610
-#, fuzzy
 msgid "Read-only"
-msgstr "Endast läsåtkomst"
+msgstr "Endast läsning"
 
 #: src/arch/unix/gui/uifliplist.c:240 src/arch/unix/gui/uifliplist.c:242
 msgid "Next: "
@@ -2500,7 +2500,6 @@ msgstr "Aktivera flashbygel"
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
 #: src/arch/win32/resmmcreplay.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:6690
-#, fuzzy
 msgid "Card image file"
 msgstr "Kortavbildningsfil"
 
@@ -2530,7 +2529,6 @@ msgstr "Aktivera räddningsläge"
 
 #: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:6714
-#, fuzzy
 msgid "EEPROM image file"
 msgstr "EEPROM-avbildningsfil"
 
@@ -2675,7 +2673,6 @@ msgid "Blur"
 msgstr "Suddighet"
 
 #: src/arch/unix/gui/uipalemu.c:99
-#, fuzzy
 msgid "Blur in percent"
 msgstr "Suddighet i procent"
 
@@ -2693,9 +2690,8 @@ msgstr ""
 "\"%s\""
 
 #: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10186
-#, fuzzy
 msgid "Path"
-msgstr "Sökväg:"
+msgstr "Sökväg"
 
 #: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
 #: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
@@ -2873,9 +2869,8 @@ msgstr "Välj utskriftsdumpfil"
 
 #: src/arch/unix/gui/uiprinter.c:130 src/arch/unix/gui/uirs232.c:120
 #: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:1793
-#, fuzzy
 msgid "Command"
-msgstr "Kommando:"
+msgstr "Kommando"
 
 #: src/arch/unix/gui/uiprinter.c:132
 msgid "Command to execute for printing (preceed with '|')"
@@ -3144,9 +3139,8 @@ msgid "Normal"
 msgstr "Normal"
 
 #: src/arch/unix/gui/uirs232c64c128.c:66
-#, fuzzy
 msgid "ACIA RS232 interface emulation"
-msgstr "ACIA $DExx RS232-gränssnittsemulering"
+msgstr "ACIA RS232-gränssnittsemulering"
 
 #: src/arch/unix/gui/uirs232c64c128.c:68
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:38
@@ -3160,9 +3154,8 @@ msgid "ACIA interrupt"
 msgstr "ACIA-avbrott"
 
 #: src/arch/unix/gui/uirs232c64c128.c:72
-#, fuzzy
 msgid "ACIA emulation mode"
-msgstr "ACIA $DExx-emuleringsläge"
+msgstr "ACIA emuleringsläge"
 
 #: src/arch/unix/gui/uirs232c64c128.c:75 src/arch/unix/gui/vic20ui.c:429
 msgid "Userport RS232 emulation"
@@ -3782,7 +3775,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
 #: src/arch/unix/x11/gnome/about.c:97
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3795,15 +3787,16 @@ msgid ""
 "Peter Krefting - Swedish\n"
 "Emir Akaydin (aka: Skate) - Turkish\n"
 msgstr ""
-"Martin Pottendorfer - tyska\n"
-"Peter Krefting - svenska\n"
-"Andrea Musuruane - italienska\n"
-"Paul Dube - franska\n"
-"Marco van den Heuvel - nederländska\n"
-"Flooder - polska\n"
-"Czirkos Zoltan, Karai Csaba - ungerska\n"
-"Emir Akaydin (alias Skate) - turkiska\n"
 "Mikkel Holm Olsen - danska\n"
+"Martin Pottendorfer - tyska\n"
+"Paul Dube - franska\n"
+"Czirkos Zoltan, Karai Csaba - ungerska\n"
+"Andrea Musuruane - italienska\n"
+"Jesse Lee - koreanska\n"
+"Marco van den Heuvel - nederländska\n"
+"Mihail Litvinov - ryska\n"
+"Peter Krefting - svenska\n"
+"Emir Akaydin (alias Skate) - turkiska\n"
 
 #: src/arch/unix/x11/gnome/about.c:114
 msgid "(c) 1998 - 2011 The VICE Team"
@@ -4206,12 +4199,10 @@ msgstr "Bekräfta inte för att avsluta VICE"
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
 #: src/arch/win32/res.rc.po.c:1144 src/arch/amigaos/intl_text.c.po.c:5334
-#, fuzzy
 msgid "Never save settings on exit"
-msgstr "Spara inställningar vid avslut"
+msgstr "Spara aldrig inställningar vid avslut"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:84
-#, fuzzy
 msgid "Disable fullscreen"
 msgstr "Inaktivera fullskärmsläge"
 
@@ -4278,9 +4269,8 @@ msgid "%d: Track %.1f"
 msgstr "%d: Spår %.1f"
 
 #: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:284
-#, fuzzy
 msgid "Aspect ratio"
-msgstr "storleksförhållande"
+msgstr "Storleksförhållande"
 
 #: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Custom aspect ratio"
@@ -5167,9 +5157,8 @@ msgid "Error saving EasyFlash crt file"
 msgstr "Fel vid skrivning av EasyFlash-crt-fil."
 
 #: src/arch/win32/res.rc.po.c:1174
-#, fuzzy
 msgid "No EasyFlash cartridge inserted"
-msgstr "Anslut rå EasyFlash-insticksmodulavbilding"
+msgstr "EasyFlash-insticksmodul har inte satts in"
 
 #: src/arch/win32/res.rc.po.c:1175 src/arch/win32/res.rc.po.c:1484
 #: src/arch/amigaos/intl_text.c.po.c:1901
@@ -5961,7 +5950,7 @@ msgstr "Ungerska"
 
 #: src/arch/win32/res.rc.po.c:1523 src/arch/amigaos/intl_text.c.po.c:2729
 msgid "Korean"
-msgstr ""
+msgstr "Koreanska"
 
 #: src/arch/win32/res.rc.po.c:1524 src/arch/amigaos/intl_text.c.po.c:2741
 msgid "Dutch"
@@ -5969,7 +5958,7 @@ msgstr "Nederländska"
 
 #: src/arch/win32/res.rc.po.c:1525 src/arch/amigaos/intl_text.c.po.c:2765
 msgid "Russian"
-msgstr ""
+msgstr "Ryska"
 
 #: src/arch/win32/res.rc.po.c:1527 src/arch/amigaos/intl_text.c.po.c:2789
 msgid "Turkish"
@@ -6081,9 +6070,8 @@ msgid "Turbo232"
 msgstr "Turbo232"
 
 #: src/arch/win32/resacia.rc.po.c:66 src/translate_text.c.po.c:3161
-#, fuzzy
 msgid "Enable the ACIA RS232 interface emulation"
-msgstr "Aktivera $DE** ACIA RS232-gränssnittsemulering"
+msgstr "Aktivera ACIA RS232-gränssnittsemulering"
 
 #: src/arch/win32/resacia.rc.po.c:68
 msgid "ACIA location"
@@ -6448,7 +6436,6 @@ msgid "Select file for GEO-RAM"
 msgstr "Välj fil för GEO-RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:67 src/translate_text.c.po.c:3661
-#, fuzzy
 msgid "Enable the GEO-RAM expansion unit"
 msgstr "Aktivera GEORAM-expansionsenhet"
 
@@ -6498,7 +6485,6 @@ msgid "Select file for ISEPIC"
 msgstr "Välj fil för ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:4111
-#, fuzzy
 msgid "Enable the ISEPIC cartridge"
 msgstr "Aktivera ISEPIC-modul"
 
@@ -6782,9 +6768,8 @@ msgid "Select file for PLUS60K"
 msgstr "Ange fil för PLUS60K"
 
 #: src/arch/win32/resramcart.rc.po.c:42 src/translate_text.c.po.c:3946
-#, fuzzy
 msgid "Enable the RamCart expansion"
-msgstr "Aktivera RAMCART-expansion"
+msgstr "Aktivera RamCart-expansion"
 
 #: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:5634
 msgid "RamCart size"
@@ -6803,7 +6788,6 @@ msgid "REU Settings"
 msgstr "REU-Inställningar"
 
 #: src/arch/win32/resreu.rc.po.c:40 src/translate_text.c.po.c:4531
-#, fuzzy
 msgid "Enable the RAM Expansion Unit"
 msgstr "Aktivera RAM-expansionsenhet"
 
@@ -6858,9 +6842,8 @@ msgstr "Samplingsmetod"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:6198
-#, fuzzy
 msgid "Passband"
-msgstr "Passband (0-90%)"
+msgstr "Passband"
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
 msgid "Device selection"
@@ -6875,9 +6858,8 @@ msgid "Right device"
 msgstr "Höger enhet"
 
 #: src/arch/win32/ressidcart.rc.po.c:138 src/translate_text.c.po.c:8179
-#, fuzzy
 msgid "Enable the SID cartridge"
-msgstr "Aktivera ISEPIC-modul"
+msgstr "Aktivera SID-insticksmodul"
 
 #: src/arch/win32/ressidcart.rc.po.c:141
 msgid "HardSID device selection"
@@ -6892,9 +6874,8 @@ msgid "Enable the digiblaster add-on"
 msgstr "Aktivera digiblaster-tillägg"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:23 src/translate_text.c.po.c:10968
-#, fuzzy
 msgid "Enable the SFX Sound Expander cartridge"
-msgstr "Aktivera SFX soundexpander-insticksmodul"
+msgstr "Aktivera SFX Sound Expander-insticksmodul"
 
 #: src/arch/win32/restfe.rc.po.c:37
 msgid "Ethernet"
@@ -6938,9 +6919,8 @@ msgid "Select cartridge file"
 msgstr "Välj insticksmodulfil"
 
 #: src/arch/win32/resvic20.rc.po.c:517
-#, fuzzy
 msgid "Enable MasC=uerade I/O swap"
-msgstr "Aktivera SuperPET-I/O"
+msgstr "Aktivera MasC=uerade I/O-växling"
 
 #: src/arch/win32/resvic20.rc.po.c:518 src/arch/amigaos/intl_text.c.po.c:1613
 msgid "VIC-1112 IEEE-488 module"
@@ -7237,7 +7217,6 @@ msgid "Writes to C64DTV ROM"
 msgstr "Skrivningar till C64DTV-ROM"
 
 #: src/arch/amigaos/intl_text.c.po.c:4253 src/translate_text.c.po.c:5883
-#, fuzzy
 msgid "RAM size"
 msgstr "RAM-storlek"
 
@@ -7416,14 +7395,14 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:5298
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-"
-"3)"
+"Emulering för extra styrspak 1: (0: ingen, 1: numerisk, 2-5: Amigastyrspak "
+"0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:5310
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 msgstr ""
-"Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak 0-"
-"3)"
+"Emulering för extra styrspak 2: (0: ingen, 1: numerisk, 2-5: Amigastyrspak "
+"0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:5430
 msgid "Select file for V364 Speech"
@@ -8486,19 +8465,16 @@ msgid "device"
 msgstr "enhet"
 
 #: src/translate_text.c.po.c:2093
-#, fuzzy
 msgid "file_index"
-msgstr "<filnamn>"
+msgstr "filindex"
 
 #: src/translate_text.c.po.c:2108
-#, fuzzy
 msgid "autostart a given disk/tape image or program"
-msgstr "Autostarta disk-/bandavbildningsfil"
+msgstr "starta given disk-/bandavbildningsfil eller program automatiskt"
 
 #: src/translate_text.c.po.c:2123
-#, fuzzy
 msgid "autoload given disk/tape image or program"
-msgstr "Autostarta disk-/bandavbildningsfil"
+msgstr "läs in given disk-/bandavbildningsfil eller program automatiskt"
 
 #: src/translate_text.c.po.c:2138
 msgid "Attach file to device. (device 32 = cart)"
@@ -8547,7 +8523,6 @@ msgstr ""
 "på disken i enhet 8."
 
 #: src/translate_text.c.po.c:2273
-#, fuzzy
 msgid "Change current working directory."
 msgstr "Ändra aktuell arbetskatalog"
 
@@ -8806,9 +8781,8 @@ msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Patcha kernal-ROM till angiven <utgåva>"
 
 #: src/translate_text.c.po.c:3176
-#, fuzzy
 msgid "Disable the ACIA RS232 interface emulation"
-msgstr "Inaktivera $DE** ACIA-RS232-gränssnittsemulering"
+msgstr "Inaktivera ACIA-RS232-gränssnittsemulering"
 
 #: src/translate_text.c.po.c:3208
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -8907,9 +8881,8 @@ msgid "specify IEEE488 interface image name"
 msgstr "ange namn på IEEE488-gränssnittsfil"
 
 #: src/translate_text.c.po.c:3676
-#, fuzzy
 msgid "Disable the GEO-RAM expansion unit"
-msgstr "Inaktivera GEORAM-expansionsenhet"
+msgstr "Inaktivera GEO RAM-expansionsenhet"
 
 #: src/translate_text.c.po.c:3691
 msgid "Specify name of GEORAM image"
@@ -8968,9 +8941,8 @@ msgid "Specify PSID tune <number>"
 msgstr "Ange PSID-låt <nummer>"
 
 #: src/translate_text.c.po.c:3961
-#, fuzzy
 msgid "Disable the RamCart expansion"
-msgstr "Inaktivera RAMCART-expansion"
+msgstr "Inaktivera RamCart-expansion"
 
 #: src/translate_text.c.po.c:3976
 msgid "Specify name of RAMCART image"
@@ -9005,7 +8977,6 @@ msgid "Do not write to DQBB image"
 msgstr "Skriv inte till DQBB-avbildning"
 
 #: src/translate_text.c.po.c:4126
-#, fuzzy
 msgid "Disable the ISEPIC cartridge"
 msgstr "Inaktivera ISEPIC-modul"
 
@@ -9102,7 +9073,6 @@ msgid "Set RR Flash Jumper"
 msgstr "Sätt RR-flashbygel"
 
 #: src/translate_text.c.po.c:4546
-#, fuzzy
 msgid "Disable the RAM Expansion Unit"
 msgstr "Inaktivera RAM-expansionsenhet"
 
@@ -10010,9 +9980,8 @@ msgid "Enable second SID"
 msgstr "Aktivera andra SID"
 
 #: src/translate_text.c.po.c:8194
-#, fuzzy
 msgid "Disable the SID cartridge"
-msgstr "Inaktivera ISEPIC-modul"
+msgstr "Inaktivera SID-insticksmodul"
 
 #: src/translate_text.c.po.c:8224
 msgid "Specify base address for 2nd SID"
@@ -10632,9 +10601,8 @@ msgid "Specify name of C64DTV ROM image"
 msgstr "Ange namn på C64DTV-ROM-avbildning"
 
 #: src/translate_text.c.po.c:10726
-#, fuzzy
 msgid "Disable writes to C64DTV ROM image"
-msgstr "Inaktivera skrivning till C64DTV-ROM-avbildning."
+msgstr "Inaktivera skrivning till C64DTV-ROM-avbildning"
 
 #: src/translate_text.c.po.c:10741
 msgid "Enable DTV flash chip logs."
@@ -10677,9 +10645,8 @@ msgid "Attach Speech ROM image"
 msgstr "Anslut röst-ROM-avbildning"
 
 #: src/translate_text.c.po.c:10983
-#, fuzzy
 msgid "Disable the SFX Sound Expander cartridge"
-msgstr "Inaktivera SFX soundexpander-insticksmodul"
+msgstr "Inaktivera SFX Sound Expander-insticksmodul"
 
 #: src/translate_text.c.po.c:10998
 msgid "Set YM chip type (3526 / 3812)"
