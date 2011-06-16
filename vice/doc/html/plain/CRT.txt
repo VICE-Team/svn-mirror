@@ -1402,7 +1402,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  {ָ~ֲֳָֽ80COMAL€“
 4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIPתתתתתתתת€תתת
 4070: 09 80 0E 80 C3 C2 CD 38 30 A2 00 4C EF FC 20 BC  ת€ת€ֲֳֽ80¢תLןüת¼
 ...
-6070: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIPתתתתתתתת€תתת
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIPתתתתתתתת€תתת
 6080: 09 80 0C 80 C3 C2 CD 38 30 4C 70 88 4C 3F 80 4C  ת€ת€ֲֳֽ80LpˆL?€L
 
 
@@ -1965,13 +1965,13 @@ DUMP: TODO
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
 0050: 80 AD B5 80 C3 C2 CD 38 30 08 48 A9 06 8D 00 DF  €µ€ֲֳֽ80תP©תתß
 ...
-2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIPתתתתתתתת תתת
 2060: 4C FA A0 A9 07 8D 00 DD 2C 00 DD 50 FB 2C 00 DD  Lת ©תתÝ,תÝPû,תÝ
 ...
-4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIPתתתתתתתת€תתת
+4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
 4070: 13 80 BC FE C3 C2 CD 38 30 08 48 A9 02 8D 00 DF  ת€¼‏ֲֳֽ80תH©תתß
 ...
-6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIPתתתתתתתת€תתת
+6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIPתתתתתתתת תתת
 6080: F0 8A 48 A9 00 85 22 85 23 8D 53 0F 20 0C A1 B0  נH©ת…"…#Sתתת¡°
 
 
@@ -2090,7 +2090,7 @@ DUMP: TODO
     ---  -------
     7-6  unused
     5    disable cart
-    3-0  bank select
+    4-0  bank select
 
 
 ==========================================================================
@@ -2162,13 +2162,13 @@ DUMP: TODO
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
 0050: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :ƒ`€ֲֳֽ80תתת@תתת
 ...
-2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIPתתתתתתתת תתת
 2060: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x©4…ת ת±ר‘צµת׀תµ
 ...
-4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIPתתתתתתתת€תתת
+4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
 4070: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :ƒ`€ֲֳֽ80תתת@תתת
 ...
-6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIPתתתתתתתת€תתת
+6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIPתתתתתתתת תתת
 6080: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x©4…ת ת±ר‘צµת׀תµ
 
 
@@ -2186,7 +2186,7 @@ DUMP: TODO
 ==========================================================================
 
 
-47. Freeze Machine
+47. Snapshot 64
 
     Size - 4Kb (1 bank of 4Kb)
     GAME - inactive (0)
@@ -2241,6 +2241,85 @@ DUMP: TODO
     mirrored in $DF00-$DFFF. The cart has a control bit (bit 7) at  $DF00,
     which is used to select what ROM bank is used.
 
+
+==========================================================================
+
+
+49. Magic Voice
+
+    Size - 16Kb (2 banks of 8Kb)
+    GAME - active (1)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF (bank 1),
+                   $A000-$BFFF (bank 2)
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  תתת@תתת1תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: EA 2C 80 DF 50 FB A0 00 8C 80 DF B9 E3 A3 29 0F  ך,€ßPû ת€ß¹ד£)ת
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIPתתתתתתתת תתת
+2060: 4A EB C0 49 6A EA BB FB 4E CA 43 1E 75 63 15 97  JכְIjך»ûNÊCתucת—
+
+
+    This cart has 16Kb of ROM, mapped in at reset at $8000-$BFFF. The cart
+    is controled through a TPI at $DF80-$DF87:
+
+    $DF80 - Port A Data
+    $DF81 - Port B Data
+    $DF82 - Port C Data
+    $DF83 - Port A Direction
+    $DF84 - Port B Direction
+    $DF85 - Port C Direction
+    $DF86 - Control register
+    $DF87 - Active Interrupt register
+
+    The cart has a pass-through port and does the following at start-up:
+
+    - Program  starts  after  reset  at  $FFD3,  and  copies   code   from
+      $FF36-$FFD2 to $0200-$029C (157 bytes)
+
+    - Program continues at $021A, copies $A000-$BFFF from EPROM to RAM  at
+      $A000-$BFFF  (8Kb),  copies  $E000-$FFFF  from  EPROM  to   RAM   at
+      $E000-$FFFF (8Kb), copies $AE62-$B461 from RAM to RAM at $C000-$C5FF
+      (Magic Voice Code)
+
+    - Jump to beginning of Magic Voice code at $C000
+
+==========================================================================
+
+
+50. Action Replay 2
+
+    Size - 16Kb (2 banks of 8Kb)
+    GAME - active (1)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 32 00 01 00 00 00 00 00 00  תתת@תתת2תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: EA EA 68 AA 68 85 94 68 85 95 68 85 96 68 85 97  ךךh×h…”h…•h…–h…—
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIPתתתתתתתת€תתת
+2060: 30 80 5E FE C3 C2 CD 38 30 20 04 90 4C 38 DF 1A  0€^‏ֲֳֽ80תתL8ßת
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    I/O-1 is somehow used to enable the cart, the exact way in which  this
+    is done is unknown. Reading from the I/O-2 range  will  give  you  the
+    last page of the current ROM bank, and writing to it will disable  the
+    cart.
 
 ==========================================================================
 
