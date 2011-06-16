@@ -2324,3 +2324,105 @@ DUMP: TODO
 ==========================================================================
 
 
+51. MACH 5
+
+    Size - 4Kb or 8Kb (1 bank of 4Kb or 8Kb)
+    GAME - active (1)
+    EXROM - inactive (0)
+    Load address - $8000-$8FFF (4Kb),
+                   $8000-$9FFF (8Kb)
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 33 00 01 00 00 00 00 00 00  תתת@תתת3תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: AF 83 5E FE C3 C2 CD 38 30 4D 41 43 48 35 A5 93  »ƒ^‏ֲֳֽ80MACH5¥“
+
+
+    This cart has 8Kb ROM mapped at $8000-$9FFF, the $9E00-$9EFF range  is
+    mirrored at $DE00-$DEFF and  the  $9F00-$9FFF  range  is  mirrored  at
+    $DF00-$DFFF.
+
+
+==========================================================================
+
+
+52. Diashow maker
+
+    Size - 8Kb (1 bank of 8Kb)
+    GAME - active (1)
+    EXROM - inactive (0)
+    Load address - $8000-$9FFF
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 34 00 01 00 00 00 00 00 00  תתת@תתת4תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIPתתתתתתתת€תתת
+0050: 09 80 09 80 C3 C2 CD 38 30 AD 11 D0 29 10 D0 62  ת€ת€ֲֳֽ80ת׀)ת׀b
+
+
+    Accessing I/O-1 (the software  uses  $DE00  only  it  seems)  disables
+    cartridge ROM. A reset enables 8K game mode and the ROM bank is mapped
+    to $8000. A freeze causes ROM to be mapped to $8000.
+
+
+==========================================================================
+
+
+53. Pagefox
+
+    Size - 64Kb (4 banks of 16Kb)
+    GAME - active (1)
+    EXROM - active (1)
+    Load address - $8000-$BFFF
+
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64תCARTRIDGEתתת
+0010: 00 00 00 40 01 00 00 35 01 01 00 00 00 00 00 00  תתת@תתת5תתתתתתתת
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICEתCARTתתתתתתת
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  תתתתתתתתתתתתתתתת
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIPתת@תתתתת€ת@ת
+0050: 31 80 BB 0E C3 C2 CD 38 30 50 46 20 56 31 2E 30  1€»תֲֳֽ80PFתV1.0
+...
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIPתת@תתתתת€ת@ת
+4060: A2 FE 9A 20 EC AE 20 82 80 20 74 86 20 A5 8B 4C  ¢‏תל®ת‚€תt†ת¥‹L
+...
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIPתת@תתתתת€ת@ת
+8070: 5A 01 02 03 04 06 0A 0B 10 14 1E 28 3C 00 00 00  Zתתתתתתתתתת(<תתת
+...
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIPתת@תתתתת€ת@ת
+C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  תתת‚תתתתתתתתתתתת
+
+
+    This cart has 64Kb ROM (2 32Kb Eproms, mapped to $8000  and  $A000  in
+    16Kb Game Mode), and 32Kb RAM (mapped to $8000 and $A000 in  16K  Game
+    Mode). The cart has 1 (write-only)  bank  control  register  which  is
+    located at $DE80 and mirrored throughout the $DE80-$DEFF range:
+
+    Bit 0: unused/don't care
+    Bit 1: Bank select: 0=upper, 1=lower (not correct ?!)
+    Bit 2: chip select 0
+    Bit 3: chip select 1
+    Bit 4: cartridge enable/disable: 0=enable, 1=disable
+    Bits 5-7: unused/don't care
+
+    Chip select combinations of 0/1 are:
+    00: Eprom "79"
+    01: Eprom "ZS3"
+    10: Ram
+    11: empty space (reading returns VIC-II data)
+
+    note: on the original hardware "disabling" the  cartridge  by  setting
+          bit 4 of the control register does NOT prevent write accesses to
+          the cartridge RAM!. So  to  actually  disable  the  RAM,  it  is
+          suggested to write $FF to the register.
+
+
+==========================================================================
