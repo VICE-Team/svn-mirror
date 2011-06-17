@@ -160,10 +160,10 @@ BEGIN
   IDS_EXPERT_ENABLE       "Enable the Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "¸ðµå"
   IDS_EXPERT_WRITE_ENABLE "Save Expert Cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
-  IDS_OFF                 "Off"
+  IDS_EXPERT_FILE_LABEL   "Expert Ä«Æ®¸®Áö ÆÄÀÏ"
+  IDS_OFF                 "²¨Áü"
   IDS_PRG                 "Prg"
-  IDS_ON                  "On"
+  IDS_ON                  "ÄÑÁü"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

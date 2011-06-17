@@ -816,7 +816,7 @@ BEGIN
   IDS_PET_MACHINE_DEFAULTS       "Machine defaults"
   IDS_PET_MEMORY                 "메모리"
   IDS_PET_VIDEO                  "비디오"
-  IDS_SELECT_PET_VIDEO_AUTO      "Auto (from ROM)"
+  IDS_SELECT_PET_VIDEO_AUTO      "자동 (ROM 에서)"
   IDS_SELECT_PET_VIDEO_40        "40칸"
   IDS_SELECT_PET_VIDEO_80        "80칸"
   IDS_PET_IO_SIZE                "IO Size"

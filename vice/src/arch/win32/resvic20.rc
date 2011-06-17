@@ -638,9 +638,9 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM-indstillinger (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX-indstillinger (MasC=uerade)..."
 #ifdef HAVE_TFE
-    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernetindstillinger (MasC=uerade)..."
 #endif
-    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander-indstillinger (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
@@ -696,9 +696,9 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM Einstellungen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX Einstellungen (MasC=uerade)..."
 #ifdef HAVE_TFE
-    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet Einstellungen (MasC=uerade)..."
 #endif
-    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander Einstellungen (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
@@ -876,9 +876,9 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "Impostazioni GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "Impostazioni DigiMAX (MasC=uerade)..."
 #ifdef HAVE_TFE
-    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Impostazioni Ethernet (MasC=uerade)..."
 #endif
-    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Impostazioni SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
@@ -998,9 +998,9 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM instellingen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX instellingen (MasC=uerade)..."
 #ifdef HAVE_TFE
-    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet instellingen (MasC=uerade)..."
 #endif
-    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander instellingen (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
@@ -1097,7 +1097,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000          "Anslut 4/8/16KB-modulfil vid $6000"
     IDS_ATTACH_4_8_CART_A000             "Anslut 4/8KB-modulfil vid $A000"
     IDS_ATTACH_4_CART_B000               "Anslut 4KB-modulfil vid $B000"
-    IDS_IO_SWAP                          "Enable MasC=uerade I/O swap"
+    IDS_IO_SWAP                          "Aktivera MasC=uerade I/O-växling"
     IDS_MI_IEEE488                       "VIC-1112 IEEE-488-modul"
     IDS_MI_PADDLES                       "Aktivera paddlar"
     IDS_MI_CART_VIC20_GENERIC            "Generisk avbild..."
@@ -1120,9 +1120,9 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM-inställningar (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX-inställningar (MasC=uerade)..."
 #ifdef HAVE_TFE
-    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernetinställningar (MasC=uerade)..."
 #endif
-    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Inställningar för SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 
@@ -1181,12 +1181,13 @@ BEGIN
     IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM ayarlarý (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX ayarlarý (MasC=uerade)..."
 #ifdef HAVE_TFE
-    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet Ayarlarý (MasC=uerade)..."
 #endif
-    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander Ayarlarý (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

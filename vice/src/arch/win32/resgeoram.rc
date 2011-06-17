@@ -171,7 +171,7 @@ BEGIN
   IDS_GEORAM_ENABLE       "Enable the GEO-RAM expansion unit"
   IDS_GEORAM_SIZE_LABEL   "GEO-RAM size"
   IDS_GEORAM_WRITE_ENABLE "Save GEO-RAM image when changed"
-  IDS_GEORAM_FILE_LABEL   "GEO-RAM file"
+  IDS_GEORAM_FILE_LABEL   "GEO-RAM ÆÄÀÏ"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -219,7 +219,7 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_GEORAM  "Välj fil för GEO-RAM"
   IDS_GEORAM_CAPTION      "GEO-RAM-inställningar"
-  IDS_GEORAM_ENABLE       "Enable the GEO-RAM expansion unit"
+  IDS_GEORAM_ENABLE       "Aktivera GEORAM-expansionsenhet"
   IDS_GEORAM_SIZE_LABEL   "GEO-RAM-storlek"
   IDS_GEORAM_WRITE_ENABLE "Spara GEO-RAM-avbildning vid ändringar"
   IDS_GEORAM_FILE_LABEL   "GEO-RAM-fil"

@@ -1824,7 +1824,7 @@ translate_t string_table[] = {
 /* ko */ {IDGS_COMMAND_KO, "¸í·É"},
 /* nl */ {IDGS_COMMAND_NL, "Commando"},
 /* ru */ {IDGS_COMMAND_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_COMMAND_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_COMMAND_SV, "Kommando"},
 /* tr */ {IDGS_COMMAND_TR, ""},  /* fuzzy */
 #endif
 
@@ -2124,7 +2124,7 @@ translate_t string_table[] = {
 /* ko */ {IDGS_FILE_INDEX_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_FILE_INDEX_NL, "bestandsindex"},
 /* ru */ {IDGS_FILE_INDEX_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_FILE_INDEX_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_FILE_INDEX_SV, "filindex"},
 /* tr */ {IDGS_FILE_INDEX_TR, ""},  /* fuzzy */
 #endif
 
@@ -2139,7 +2139,7 @@ translate_t string_table[] = {
 /* ko */ {IDGS_MON_AUTOSTART_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_AUTOSTART_DESCRIPTION_NL, "autostart een opgegeven disk-/tapebestand of programma"},
 /* ru */ {IDGS_MON_AUTOSTART_DESCRIPTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_AUTOSTART_DESCRIPTION_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_AUTOSTART_DESCRIPTION_SV, "starta given disk-/bandavbildningsfil eller program automatiskt"},
 /* tr */ {IDGS_MON_AUTOSTART_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
@@ -2154,7 +2154,7 @@ translate_t string_table[] = {
 /* ko */ {IDGS_MON_AUTOLOAD_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_AUTOLOAD_DESCRIPTION_NL, "autolaad een opgegeven disk-/tapebestand of programma"},
 /* ru */ {IDGS_MON_AUTOLOAD_DESCRIPTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_AUTOLOAD_DESCRIPTION_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_AUTOLOAD_DESCRIPTION_SV, "läs in given disk-/bandavbildningsfil eller program automatiskt"},
 /* tr */ {IDGS_MON_AUTOLOAD_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
@@ -2304,7 +2304,7 @@ translate_t string_table[] = {
 /* ko */ {IDGS_MON_CD_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_CD_DESCRIPTION_NL, "Verander de huidige werk directory"},
 /* ru */ {IDGS_MON_CD_DESCRIPTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_CD_DESCRIPTION_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_CD_DESCRIPTION_SV, "Ändra aktuell arbetskatalog"},
 /* tr */ {IDGS_MON_CD_DESCRIPTION_TR, ""},  /* fuzzy */
 #endif
 
@@ -3208,7 +3208,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_NL, "Activeer de ACIA RS232 interface emulatie"},
 /* ru */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_SV, "Aktivera ACIA RS232-gränssnittsemulering"},
 /* tr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_TR, ""},  /* fuzzy */
 #endif
 
@@ -3223,7 +3223,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De ACIA RS232 interface emulatie aflsuiten"},
 /* ru */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_SV, "Inaktivera ACIA-RS232-gränssnittsemulering"},
 /* tr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_TR, ""},  /* fuzzy */
 #endif
 #endif
@@ -3719,7 +3719,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_ENABLE_GEORAM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_GEORAM_NL, "Activeer de GEO-RAM uitbreidingseenheid"},
 /* ru */ {IDCLS_ENABLE_GEORAM_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_GEORAM_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_GEORAM_SV, "Aktivera GEORAM-expansionsenhet"},
 /* tr */ {IDCLS_ENABLE_GEORAM_TR, ""},  /* fuzzy */
 #endif
 
@@ -3734,7 +3734,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_GEORAM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_GEORAM_NL, "De GEO-RAM uitbreidingseenheid uitschakelen"},
 /* ru */ {IDCLS_DISABLE_GEORAM_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_GEORAM_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_GEORAM_SV, "Inaktivera GEO RAM-expansionsenhet"},
 /* tr */ {IDCLS_DISABLE_GEORAM_TR, ""},  /* fuzzy */
 #endif
 
@@ -4004,7 +4004,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_ENABLE_RAMCART_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_RAMCART_NL, "Activeer de RamCart uitbreiding"},
 /* ru */ {IDCLS_ENABLE_RAMCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_RAMCART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_RAMCART_SV, "Aktivera RamCart-expansion"},
 /* tr */ {IDCLS_ENABLE_RAMCART_TR, ""},  /* fuzzy */
 #endif
 
@@ -4019,7 +4019,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_RAMCART_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_RAMCART_NL, "De RamCart uitbreiding uitschakelen"},
 /* ru */ {IDCLS_DISABLE_RAMCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_RAMCART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_RAMCART_SV, "Inaktivera RamCart-expansion"},
 /* tr */ {IDCLS_DISABLE_RAMCART_TR, ""},  /* fuzzy */
 #endif
 
@@ -4169,7 +4169,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_ENABLE_ISEPIC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_ISEPIC_NL, "*Activeer de ISEPIC cartridge"},
 /* ru */ {IDCLS_ENABLE_ISEPIC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_ISEPIC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_ISEPIC_SV, "Aktivera ISEPIC-modul"},
 /* tr */ {IDCLS_ENABLE_ISEPIC_TR, ""},  /* fuzzy */
 #endif
 
@@ -4184,7 +4184,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_ISEPIC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_ISEPIC_NL, "De ISEPIC cartridge uitschakelen"},
 /* ru */ {IDCLS_DISABLE_ISEPIC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_ISEPIC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_ISEPIC_SV, "Inaktivera ISEPIC-modul"},
 /* tr */ {IDCLS_DISABLE_ISEPIC_TR, ""},  /* fuzzy */
 #endif
 
@@ -4589,7 +4589,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_ENABLE_REU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_REU_NL, "Activeer de RAM uitbreidingseenheid (REU)"},
 /* ru */ {IDCLS_ENABLE_REU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_REU_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_REU_SV, "Aktivera RAM-expansionsenhet"},
 /* tr */ {IDCLS_ENABLE_REU_TR, ""},  /* fuzzy */
 #endif
 
@@ -4604,7 +4604,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_REU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_REU_NL, "De RAM uitbreidingseenheid (REU) uitschakelen"},
 /* ru */ {IDCLS_DISABLE_REU_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_REU_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_REU_SV, "Inaktivera RAM-expansionsenhet"},
 /* tr */ {IDCLS_DISABLE_REU_TR, ""},  /* fuzzy */
 #endif
 
@@ -5498,16 +5498,16 @@ translate_t string_table[] = {
 /* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_PAGEFOX_CART,    N_("Attach raw 64KB Pagefox cartridge image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DA, "Tilslut råt 64KB Pagefox cartridge image"},
-/* de */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DE, "64KB Pagefox Erweiterungsmodul Image einlegen"},
+/* da */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_IT, "Seleziona immagine cartuccia Pagefox di 64KB"},
+/* it */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_NL, "Koppel binair 64KB Pagefox cartridge bestand"},
+/* nl */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_NL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_SV, "Anslut rå 64KB Pagefox-insticksmodulfil"},
-/* tr */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_TR, "Düz 64KB Pagefox kartuþ imajý yerleþtir"},
+/* sv */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/c64cart.c */
@@ -5804,7 +5804,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_IT, "Rileva automaticamente immagine"},
-/* ko */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_KO, "ÀÌ¹ÌÁö Å©±â ÀÚµ¿À¸·Î Ã£±â"},
 /* nl */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_NL, "Automatisch detecteren bestandsgrootte"},
 /* ru */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_AUTODETECT_IDE64_GEOMETRY_SV, "Autodetektera storlek på avbildning"},
@@ -5957,7 +5957,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_P_RAMSIZE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_RAMSIZE_NL, "<RAM grootte>"},
 /* ru */ {IDCLS_P_RAMSIZE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_RAMSIZE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_RAMSIZE_SV, "<RAM-storlek>"},
 /* tr */ {IDCLS_P_RAMSIZE_TR, ""},  /* fuzzy */
 #endif
 
@@ -6754,7 +6754,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_PROFDOS_FR, "Activer le DOS Professionnel"},
 /* hu */ {IDCLS_ENABLE_PROFDOS_HU, "Professional DOS engedélyezése"},
 /* it */ {IDCLS_ENABLE_PROFDOS_IT, "Attiva Professional DOS"},
-/* ko */ {IDCLS_ENABLE_PROFDOS_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_PROFDOS_KO, "Professional DOS »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â"},
 /* nl */ {IDCLS_ENABLE_PROFDOS_NL, "Activeer Professional DOS"},
 /* ru */ {IDCLS_ENABLE_PROFDOS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_PROFDOS_SV, "Aktivera Professional DOS"},
@@ -8256,7 +8256,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_ENABLE_SIDCART_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SIDCART_NL, "*Activeer de SID cartridge"},
 /* ru */ {IDCLS_ENABLE_SIDCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SIDCART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SIDCART_SV, "Aktivera SID-insticksmodul"},
 /* tr */ {IDCLS_ENABLE_SIDCART_TR, ""},  /* fuzzy */
 #endif
 
@@ -8271,7 +8271,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_SIDCART_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SIDCART_NL, "De SID cartridge uitschakelen"},
 /* ru */ {IDCLS_DISABLE_SIDCART_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SIDCART_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SIDCART_SV, "Inaktivera SID-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_SIDCART_TR, ""},  /* fuzzy */
 #endif
 
@@ -10263,7 +10263,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_P_PATH_KO, "<±æ>"},
 /* nl */ {IDCLS_P_PATH_NL, "<Pad>"},
 /* ru */ {IDCLS_P_PATH_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_PATH_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_PATH_SV, "<Sökväg>"},
 /* tr */ {IDCLS_P_PATH_TR, ""},  /* fuzzy */
 #endif
 
@@ -10803,7 +10803,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_C64DTVROM_RW_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_C64DTVROM_RW_NL, "Schrijven naar C64DTV ROM bestand uitschakelen"},
 /* ru */ {IDCLS_DISABLE_C64DTVROM_RW_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_C64DTVROM_RW_SV, "Inaktivera skrivning till C64DTV-ROM-avbildning"},
 /* tr */ {IDCLS_DISABLE_C64DTVROM_RW_TR, ""},  /* fuzzy */
 #endif
 
@@ -11045,7 +11045,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_ENABLE_SFX_SE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SFX_SE_NL, "Activeer de SFX Sound Expander cartridge"},
 /* ru */ {IDCLS_ENABLE_SFX_SE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SFX_SE_SV, "Aktivera SFX Sound Expander-insticksmodul"},
 /* tr */ {IDCLS_ENABLE_SFX_SE_TR, ""},  /* fuzzy */
 #endif
 
@@ -11060,7 +11060,7 @@ translate_t string_table[] = {
 /* ko */ {IDCLS_DISABLE_SFX_SE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SFX_SE_NL, "De SFX Sound Expander cartridge uitschakelen"},
 /* ru */ {IDCLS_DISABLE_SFX_SE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SFX_SE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SFX_SE_SV, "Inaktivera SFX Sound Expander-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_SFX_SE_TR, ""},  /* fuzzy */
 #endif
 

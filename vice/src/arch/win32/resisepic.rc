@@ -188,7 +188,7 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_ISEPIC  "Välj fil för ISEPIC"
   IDS_ISEPIC_CAPTION      "ISEPIC-inställningar"
-  IDS_ISEPIC_ENABLE       "Enable the ISEPIC cartridge"
+  IDS_ISEPIC_ENABLE       "Aktivera ISEPIC-modul"
   IDS_ISEPIC_SWITCH       "ISEPIC-omkopplare"
   IDS_ISEPIC_WRITE_ENABLE "Spara ISEPIC-avbildning vid ändringar"
   IDS_ISEPIC_FILE_LABEL   "ISEPIC-fil"

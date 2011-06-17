@@ -299,7 +299,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
+  IDS_SIDCART_ENABLE                         "Aktivera SID-insticksmodul"
   IDS_SIDCART_ADDRESS_LABEL                  "SID-adress"
   IDS_SIDCART_CLOCK_LABEL                    "SID-klocka"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-enhetsval"

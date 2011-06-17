@@ -169,7 +169,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDEXPANDER_CAPTION "Inställningar för SFX Sound Expander"
-    IDS_SFX_SOUNDEXPANDER_ENABLE  "Enable the SFX Sound Expander cartridge"
+    IDS_SFX_SOUNDEXPANDER_ENABLE  "Aktivera SFX Sound Expander-insticksmodul"
     IDS_SFX_SOUNDEXPANDER_TYPE    "YM-kretstyp"
 END
 

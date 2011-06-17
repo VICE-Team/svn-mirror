@@ -1,5 +1,547 @@
 ------------------------------------------------------------------------------
 
+2011-06-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, src/version.h, src/translate_text.c,
+	src/arch/amigaos/intl_text.c, src/arch/win32/resgeoram.rc,
+	src/arch/win32/vice-version.bat, src/arch/win32/resramcart.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/ressidcart.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/respet.rc, doc/vice.guide, doc/vice.chm, doc/vice.pdf,
+	doc/vice.hlp, po/fr.po, po/ko.po, po/nl.po, po/it.po, po/hu.po, po/da.po,
+	po/tr.po, po/ru.po, po/de.po, po/sv.po: VICE version 2.3.9
+
+2011-06-17  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* src/lightpen.c: hint
+
+2011-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c64cart.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/c64cart.dsp,
+	src/arch/sdl/win32-watcom/c64cart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/c64cart.vcproj,
+	src/arch/sdl/winmips-msvc/c64cart.mak, src/arch/win32/c64cart.dsp,
+	src/arch/win32/watcom/c64cart.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win64/c64cart.vcproj: Added pagefox support to the various
+	project files.
+
+2011-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated.
+
+2011-06-16  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Finished updating the CRT.txt file.
+
+2011-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/freezemachine.c, src/c64/cart/magicvoice.c,
+	src/cartconv.c: Fixed magic voice crt format, old crt will still load
+	properly, but cartconv outputs only the new (correct) crt.
+
+2011-06-16  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2272t0f0u).
+
+2011-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: Fixed freeze machine crt format, used to be 2 or 4
+	banks loaded at $8000, now 1 or 2 banks at $8000 and 1 or 2 banks at
+	$a000, old crt will still load properly, but cartconv outputs only the
+	new (correct) crt.
+
+2011-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/supersnapshot4.c, src/cartconv.c: Fixed supersnapshot v4
+	crt format, used to be 4 banks loaded at $8000, now 2 banks at $8000 and
+	2 banks at $a000, old crt will still load properly, but cartconv outputs
+	only the new (correct) crt.
+
+2011-06-15  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-15  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c: Extended IDE64 geometry settings and auto detect
+	size settings to be able to be used for each HD seperately, ui's will
+	need to be adjusted to handle this.
+
+2011-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-13  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64carthooks.c,
+	src/c64/cart/c64cartmem.c, src/c64/cart/crt.c, src/c64/cart/pagefox.c,
+	src/c64/cart/pagefox.h, src/cartconv.c, src/cartridge.h,
+	src/translate.txt, src/translate_text.c: added support for the "Pagefox"
+	cartridge by Scantronik
+
+2011-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c: Fixed xpet crash.
+
+2011-06-13  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/dqbb.c: Fixed a typo.
+
+2011-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* FEEDBACK, doc/html/index.html, doc/readmes/Readme-Amiga.txt,
+	doc/readmes/Readme-BeOS.txt, doc/readmes/Readme-DOS.txt,
+	doc/readmes/Readme-MacOSX.txt, doc/vice.texi,
+	src/arch/sdl/make-bindist_qnx6.sh, src/arch/sdl/make-bindist_scosol.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/sco_sol/make-bindist.sh: Updated our maillist address.
+
+2011-06-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/GP2X-Howto.txt, doc/MSDOS-Ethernet-Howto.txt, doc/MSDOS-Howto.txt,
+	doc/MacOSX-Build.txt, doc/Makefile.am, doc/Minix-Howto.txt,
+	doc/OpenVMS-Howto.txt, doc/Readme.beos, doc/Readme.dos,
+	doc/ReadmeMacOSX.txt, doc/ReadmeSDL.txt, doc/Win32-Cygwin-HOWTO.txt,
+	doc/Win32-Howto.txt, doc/building, doc/building/GP2X-Howto.txt,
+	doc/building/MSDOS-Ethernet-Howto.txt, doc/building/MSDOS-Howto.txt,
+	doc/building/MacOSX-Howto.txt, doc/building/Minix-Howto.txt,
+	doc/building/OpenVMS-Howto.txt, doc/building/SDL-Howto.txt,
+	doc/building/Win32-Cygwin-Howto.txt,
+	doc/building/Win32-Mingw32-Howto.txt, doc/readmes,
+	doc/readmes/Readme-Amiga.txt, doc/readmes/Readme-BeOS.txt,
+	doc/readmes/Readme-DOS.txt, doc/readmes/Readme-MacOSX.txt,
+	doc/readmes/Readme-OS2.txt, doc/readmes/Readme-SDL.txt,
+	src/arch/amigaos/Makefile.am, src/arch/amigaos/README.AMIGA,
+	src/arch/os2/Makefile.am, src/arch/os2/doc/Vice_for_OS2.txt:
+	Re-organized the doc directory a bit: added a building directory which
+	contains documents for the various platforms with instructions for
+	building VICE, and added a readmes directory which contains documents
+	which platform specific information.
+
+2011-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated slightly.
+
+2011-06-11  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: psid v3 (stereo tunes) support (patch by ian coog)
+
+2011-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc: Added checkdoc.exe to the svn ignore list.
+
+2011-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am, doc/html/plain/CRT.txt: Added the CRT format
+	describing document as composed by Peter Schepers.
+
+2011-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisid.c, src/arch/msdos/uisidcart.c,
+	src/arch/msdos/uisiddtv.c: Added hardsid support to the msdos ui.
+
+2011-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/uidigimax.c,
+	src/arch/msdos/uidigimax.h, src/arch/msdos/uigeoram.c,
+	src/arch/msdos/uigeoram.h, src/arch/msdos/uisoundexpander.c,
+	src/arch/msdos/uisoundexpander.h, src/arch/msdos/uisoundsampler.c,
+	src/arch/msdos/uisoundsampler.h, src/arch/msdos/uitfe.c,
+	src/arch/msdos/uitfe.h, src/arch/msdos/vic20ui.c: Added digimax, georam,
+	sfx sound expander, sfx sound sampler and tfe support to the msdos vic20
+	ui.
+
+2011-06-11  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/hardsid.c: Added hardsid
+	support to the msdos port, no gui yet.
+
+2011-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20sound.c: Fixed recursive sound reset.
+
+2011-06-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/msdos/catweaselmkiii.c, src/arch/msdos/uisid.c,
+	src/arch/msdos/uisidcart.c, src/arch/msdos/uisiddtv.c: Added catweasel
+	support to the msdos ui.
+
+2011-06-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20sound.c: Changed return value of vic20 native
+	cycle_based() routine to return 0.
+
+2011-06-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/catweaselmkiii.c,
+	src/arch/msdos/tui_backend.c: Added catweasel support to the msdos port,
+	no ui yet.
+
+2011-06-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/hardsid.c: Fixed.
+
+2011-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uisoundsampler.c,
+	src/arch/amigaos/mui/uisoundsampler.h, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added sfx
+	sound sampler support to the amiga vic20 ui.
+
+2011-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisoundexpander.c,
+	src/arch/amigaos/mui/uisoundexpander.h, src/arch/amigaos/vic20ui.c,
+	src/arch/amigaos/vic20uires.h: Added sfx sound expander support to the
+	amiga vic20 ui.
+
+2011-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uidigimax.c, src/arch/amigaos/mui/uidigimax.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added digimax
+	support to the amiga vic20 ui.
+
+2011-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uigeoram.c, src/arch/amigaos/mui/uigeoram.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added georam
+	support to the amiga vic20 ui.
+
+2011-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uic64model.h: Fixed a prototype.
+
+2011-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiacia.c, src/arch/amigaos/mui/uiacia.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Fixed acia
+	dialogs for the amiga ui.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/uifileentry.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/charset.c: Some more warning fixes.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uitfe.c,
+	src/arch/unix/gui/uitfe.h, src/arch/unix/gui/vic20ui.c: Added tfe
+	support to the xaw vic20 ui.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uisoundsampler.c,
+	src/arch/unix/gui/uisoundsampler.h, src/arch/unix/gui/vic20ui.c: Added
+	sfx sound sampler support to the xaw vic20 ui.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uisoundexpander.c,
+	src/arch/unix/gui/uisoundexpander.h, src/arch/unix/gui/vic20ui.c: Added
+	sfx sound expander support to the xaw vic20 ui.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uigeoram.c,
+	src/arch/unix/gui/uigeoram.h, src/arch/unix/gui/vic20ui.c,
+	src/vic20/cart/mascuerade-stubs.c: Added georam support to the xaw vic20
+	ui.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uidigimax.c,
+	src/arch/unix/gui/uidigimax.h, src/arch/unix/gui/vic20ui.c: Added
+	digimax support to the xaw vic20 ui.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uirs232c64c128.c,
+	src/arch/unix/gui/uirs232c64c128.h, src/arch/unix/gui/vic20ui.c: Fixed
+	and extended the xaw ui for acia emulation.
+
+2011-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/archdep.c, src/arch/unix/readline/Makefile.am,
+	src/arch/unix/readline/editline.c, src/arch/unix/readline/editline2.c,
+	src/arch/unix/x11/xaw/widgets/TextField.c, src/c1541.c, src/c64/c64io.c,
+	src/c64/cart/magicvoice.c, src/cartconv.c, src/charset.c,
+	src/fileio/p00.c, src/kbdbuf.c, src/petcat.c, src/plus4/plus4speech.c,
+	src/resid/filter.h, src/resources.c, src/sound.c,
+	src/translate_languages.h, src/util.c, src/util.h, src/vic20/vic20io.c:
+	Some warning fixes.
+
+2011-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/arch.tgt, src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/ide-config.h,
+	src/arch/sdl/win32-watcom/vice.wpj: Added tfe support to the ow sdl win32
+	project files.
+
+2011-06-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_sid.cc, src/sid/sid-resources.c: Rewrote BeVICE SID
+	settings dialog to use 'BOptionPopup's instead of invisible radio
+	buttons.
+
+2011-06-06  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/tape/tap.c: Apply some previous fixes to copied-and-pasted code
+	too
+
+2011-06-06  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/monitor.c: Executing the next command when the current
+	opcode was RTS gave wrong results
+
+2011-06-06  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_vic20cart.c: Added masC=erade carts to the sdl ui.
+
+2011-06-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_vic20hw.c: Added masC=erade carts to the sdl ui.
+
+2011-06-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisoundsampler.c: Removed some debug messages.
+
+2011-06-05  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64hw.c,
+	src/arch/sdl/menu_rs232.c, src/arch/sdl/menu_rs232.h,
+	src/arch/sdl/menu_tfe.c, src/arch/sdl/menu_vic20hw.c: Fixed and extended
+	the ACIA support in the sdl ui.
+
+2011-06-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/arch.dsp, src/arch/sdl/win32-msvc/base.dsp,
+	src/arch/sdl/win32-msvc/core.dsp, src/arch/sdl/win32-msvc/ide-config.h:
+	Added TFE support to the win32 sdl msvc project files.
+
+2011-06-05  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in: Add ability to #define DEBUG at configure time
+
+2011-06-05  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/gui/plus4ui.c: Add debug settings (if compiled in) to
+	settings menu
+
+2011-06-05  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/monitor.c: The logic behind the next and ret monitor
+	commands was broken, fix it
+
+2011-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid/filter.cc: Fixed some warnings.
+
+2011-06-04  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/uisoundsampler.c,
+	src/arch/win32/uisoundsampler.h, src/arch/win32/vic20ui.c,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/xvic.dsp,
+	src/arch/win64/arch.vcproj, src/arch/win64/xvic.vcproj: Added vic20
+	masC=uerade sfx sound sampler cart to the windows gui.
+
+2011-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/resdialogs.txt,
+	src/arch/win32/ressoundexpander.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/uisoundexpander.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/xvic.dsp,
+	src/arch/win64/xvic.vcproj: Added vic20 masC=uerade sfx sound expander
+	cart to the windows gui.
+
+2011-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/restfe.rc, src/arch/win32/uitfe.c: Windows tfe dialog
+	fixes.
+
+2011-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/restfe.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/uitfe.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/xvic.dsp,
+	src/arch/win64/xvic.vcproj: Added vic20 masC=uerade tfe cart to the
+	windows gui.
+
+2011-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, it.po, po/ko.po, po/nl.po,
+	po/ru.po, po/sv.po, po/tr.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2011-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c: Only call sid calc samples when either the engine is cycle
+	based (unstable number of samples) or when the engine is not cycle based
+	but enabled (sidcart for pet, plus4 and vic20), fixes slowdown bug on
+	gtk/xaw.
+
+2011-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/uidigimax.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/xvic.dsp,
+	src/arch/win64/xvic.vcproj: Added vic20 masC=uerade digimax cart to the
+	windows gui.
+
+2011-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resgeoram.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/uigeoram.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/xvic.dsp: Added vic20
+	masC=uerade georam cart to the windows gui.
+
+2011-06-02  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/gen_amiga_intl_c.c, po/gen_translate_c.c, po/gen_win32_rc.c,
+	po/intl2po.c, src/arch/win32/Makefile.am, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/uiacia.c,
+	src/arch/win32/vic20ui.c, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/xvic.dsp,
+	src/arch/win64/xvic.vcproj: Added vic20 masC=uerade
+	acia/swiftlink/turbo232 cart to the windows gui.
+
+2011-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am,
+	src/arch/watcom-source-wrappers/vic20cart-generic.c: Removed the ow
+	generic.c wrapper.
+
+2011-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/watcom/c64cart.tgt,
+	src/arch/os2/watcom/c64commoncart.tgt, src/arch/os2/watcom/vic20.tgt,
+	src/arch/os2/watcom/vic20cart.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/x64dtv.tgt, src/arch/os2/watcom/x64sc.tgt,
+	src/arch/os2/watcom/xvic.tgt, src/arch/win32/Makefile.am,
+	src/c64/cart/c64acia1.c: Updated os2 ow project files.
+
+2011-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/c64cart.tgt,
+	src/arch/sdl/win32-watcom/c64commoncart.tgt,
+	src/arch/sdl/win32-watcom/vic20.tgt,
+	src/arch/sdl/win32-watcom/vic20cart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/sdl/win32-watcom/x128.tgt,
+	src/arch/sdl/win32-watcom/x64.tgt, src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Updated win32 sdl ow project files.
+
+2011-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/c64cart.tgt,
+	src/arch/win32/watcom/c64commoncart.tgt, src/arch/win32/watcom/vic20.tgt,
+	src/arch/win32/watcom/vic20cart.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/xvic.tgt: Updated
+	win32 ow project files.
+
+2011-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/digimax.c: Fixed base selection for vic20 use.
+
 2011-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, src/c64/Makefile.am, src/version.h,

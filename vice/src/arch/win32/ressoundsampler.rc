@@ -36,7 +36,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "Aktivér SFX Sound Sampler cartridge"
 END
 
 
@@ -46,7 +46,7 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "SFX Sound Sampler Modul aktivieren"
 END
 
 
@@ -69,7 +69,7 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "SFX Sound Sampler engedélyezése"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -82,7 +82,7 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "Attiva cartuccia SFX Sound Sampler"
 END
 
 
@@ -108,7 +108,7 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "Activeer de SFX Sound Sampler cartridge"
 END
 
 
@@ -134,7 +134,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "Aktivera SFX Sound Sampler-insticksmodul"
 END
 
 
@@ -147,9 +147,10 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "SFX Sound Sampler kartuþunu aktif et"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

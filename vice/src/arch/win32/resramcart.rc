@@ -200,8 +200,8 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "RamCart-inställningar"
-  IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
+  IDS_RAMCART_ENABLE       "Aktivera RamCart-expansion"
+  IDS_RAMCART_READONLY     "Endast läsning"
   IDS_RAMCART_SIZE         "RamCart-storlek"
   IDS_RAMCART_WRITE_ENABLE "Spara till RamCart-avbildning vid ändringar"
   IDS_RAMCART_FILE         "RamCart-fil"

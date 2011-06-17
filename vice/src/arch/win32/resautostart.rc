@@ -170,7 +170,7 @@ BEGIN
     IDS_AUTOSTART_PRG_MODE                   "PRG 오토스마트 모드"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG 오토스마트 디스크 이미지"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
+    IDS_AUTOSTART_VIRTUAL_FS                 "버추얼 파일스타일"
     IDS_AUTOSTART_INJECT                     "RAM 에 주입하기"
     IDS_AUTOSTART_DISK                       "디스크 이미지"
 END
