@@ -76,7 +76,7 @@ struct lp_type_s {
 typedef struct lp_type_s lp_type_t;
 
 static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
-    /* Pen with button Up */
+    /* Pen with button Up (e.g. Atari CX75) */
     { PEN, 0x00, 0x01, 0, 0 },
     /* Pen with button Left */
     { PEN, 0x00, 0x04, 0, 0 },
