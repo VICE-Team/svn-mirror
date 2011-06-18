@@ -2133,9 +2133,8 @@ msgstr "Grootte"
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
 #: src/arch/unix/gui/uitfe.c:70 src/arch/amigaos/intl_text.c.po.c:4650
-#, fuzzy
 msgid "MasC=uerade I/O swap"
-msgstr "Activeer SuperPET I/O"
+msgstr "MasC=uerade I/O verwisseling"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:4662
@@ -3168,9 +3167,8 @@ msgstr "ACIA apparaat"
 #: src/arch/unix/gui/uirs232c64c128.c:135
 #: src/arch/unix/gui/uirs232c64c128.c:172
 #: src/arch/amigaos/intl_text.c.po.c:4134
-#, fuzzy
 msgid "ACIA base address"
-msgstr "256K basisadres"
+msgstr "ACIA basisadres"
 
 #: src/arch/unix/gui/uirs232c64c128.c:100
 #: src/arch/unix/gui/uirs232c64c128.c:137
@@ -3241,9 +3239,8 @@ msgid "Program name to exec"
 msgstr "Programmanaam om uit te voeren"
 
 #: src/arch/unix/gui/uirs232c64c128.c:168
-#, fuzzy
 msgid "ACIA RS232 interface emulation (MasC=uerade)"
-msgstr "ACIA RS232 interface emulatie"
+msgstr "ACIA RS232 interface emulatie (MasC=uerade)"
 
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:46
 msgid "Serial 2 device"
@@ -3761,9 +3758,8 @@ msgid "Memory expansions"
 msgstr "Geheugen uitbredingen"
 
 #: src/arch/unix/gui/vic20ui.c:497
-#, fuzzy
 msgid "Ethernet emulation (MasC=uerade)"
-msgstr "Ethernetemulatie"
+msgstr "Ethernetemulatie (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:501
 msgid "Paddle emulation"
@@ -3830,7 +3826,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:97
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3850,7 +3845,6 @@ msgstr ""
 "Andrea Musuruane - Italiaans\n"
 "Jesse Lee - Koreaans\n"
 "Marco van den Heuvel - Nederlands\n"
-"Flooder - Pools\n"
 "Mihail Litvinov - Russisch\n"
 "Peter Krefting - Zweeds\n"
 "Emir Akaydin (aka: Skate) - Turks\n"
@@ -6946,9 +6940,8 @@ msgstr "Activeer de SFX Sound Expander cartridge"
 #: src/arch/win32/ressoundsampler.rc.po.c:20
 #: src/arch/win32/resvic20.rc.po.c:548 src/arch/amigaos/intl_text.c.po.c:2334
 #: src/arch/amigaos/intl_text.c.po.c:7975
-#, fuzzy
 msgid "SFX Sound Sampler settings"
-msgstr "SFX Sound Expander instellingen"
+msgstr "SFX Sound Sampler instellingen"
 
 #: src/arch/win32/restfe.rc.po.c:62
 msgid "Ethernet"
@@ -6992,9 +6985,8 @@ msgid "Select cartridge file"
 msgstr "Selecteer cartridge bestand"
 
 #: src/arch/win32/resvic20.rc.po.c:522
-#, fuzzy
 msgid "Enable MasC=uerade I/O swap"
-msgstr "Activeer SuperPET I/O"
+msgstr "Activeer MasC=uerade I/O verwisseling"
 
 #: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:1614
 msgid "VIC-1112 IEEE-488 module"
@@ -7693,9 +7685,8 @@ msgid "SFX Sound Expander Chip"
 msgstr "SFX Sound Expander Chip"
 
 #: src/arch/amigaos/intl_text.c.po.c:7951
-#, fuzzy
 msgid "SFX Sound Sampler Enabled"
-msgstr "SFX Sound Expander Aan/Uit"
+msgstr "SFX Sound Sampler Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:8011
 msgid "Select Sound Record File"
@@ -9345,9 +9336,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Koppel binair 16kB Zaxxon cartridge bestand"
 
 #: src/translate_text.c.po.c:5449
-#, fuzzy
 msgid "Attach raw 64KB Pagefox cartridge image"
-msgstr "Koppel binair 16KB cartridge bestand"
+msgstr "Koppel binair 64KB Pagefox cartridge bestand"
 
 #: src/translate_text.c.po.c:5464
 msgid "Attach raw 256KB Prophet 64 cartridge image"
@@ -10801,309 +10791,3 @@ msgstr "De DigiMAX cartridge uitschakelen"
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basisadres van de DigiMAX cartridge"
 
-#~ msgid "Polish"
-#~ msgstr "Pools"
-
-#, fuzzy
-#~ msgid "TCP Port"
-#~ msgstr "TCP poort"
-
-#~ msgid "Successfully wrote `%s'."
-#~ msgstr "Met succes geschreven bestand `%s'."
-
-#~ msgid "unknown"
-#~ msgstr "onbekent"
-
-#~ msgid "Start Server"
-#~ msgstr "Start server"
-
-#~ msgid "TCP port: "
-#~ msgstr "TCP poort:"
-
-#~ msgid "Save snapshot"
-#~ msgstr "Opslaan momentopname"
-
-#~ msgid "VICE Error"
-#~ msgstr "Vice fout"
-
-#~ msgid "Snapshot options:"
-#~ msgstr "Momentopname opties:"
-
-#~ msgid "VICE question"
-#~ msgstr "VICE vraag"
-
-#~ msgid "Scan line shade"
-#~ msgstr "Scanlijnschaduw"
-
-#~ msgid "Swap Joysticks"
-#~ msgstr "Verwissel Joysticks"
-
-#~ msgid "Swap Userport joysticks"
-#~ msgstr "Verwissel Userport joysticks"
-
-#~ msgid "Select internal function ROM image"
-#~ msgstr "Selecteer intern functie ROM bestand"
-
-#~ msgid "Select external function ROM image"
-#~ msgstr "Selecteer extern functie ROM bestand"
-
-#~ msgid "SFX Sound Expander Settings"
-#~ msgstr "SFX Sound Expander instellingen"
-
-#~ msgid "V364 Speech Settings"
-#~ msgstr "V364 Spraak instellingen"
-
-#~ msgid "Select Generic image"
-#~ msgstr "Selecteer Algemeen bestand"
-
-#~ msgid "Select cartridge image"
-#~ msgstr "Selecteer cartridge bestand"
-
-#~ msgid "VIC-1112 IEEE 488 module"
-#~ msgstr "VIC-1112 IEEE 488 module"
-
-#~ msgid "V364 Speech file"
-#~ msgstr "V364 Spraak bestand"
-
-#~ msgid "SID Cart"
-#~ msgstr "SID cart"
-
-#~ msgid "type"
-#~ msgstr "soort"
-
-#~ msgid "Save Cartridge"
-#~ msgstr "Opslaan Cartridge"
-
-#~ msgid "Save Media File"
-#~ msgstr "Opslaan mediabestand"
-
-#~ msgid "Save Screenshot"
-#~ msgstr "Schermafdruk opslaan"
-
-#~ msgid "Save currently attached disks"
-#~ msgstr "Opslaan huidig gekoppelde disks"
-
-#~ msgid "Save currently attached ROMs"
-#~ msgstr "Opslaan huidig gekoppelde ROMs"
-
-#~ msgid "Save settings (resources) on exit"
-#~ msgstr "Instellingen (resources) opslaan bij afsluiten"
-
-#~ msgid "Never save settings (resources) on exit"
-#~ msgstr "Instellingen (resources) niet opslaan bij afsluiten"
-
-#~ msgid "Save cartridge image file"
-#~ msgstr "Opslaan cartridge bestand"
-
-#~ msgid "Save currently attached disks:"
-#~ msgstr "Opslaan huidig gekoppelde disks:"
-
-#~ msgid "Save currently loaded ROMs:"
-#~ msgstr "Opslaan huidig geladen ROMs:"
-
-#~ msgid "Save media image"
-#~ msgstr "Mediabestand opslaan"
-
-#~ msgid "Save currently attached disks images"
-#~ msgstr "Opslaan huidig gekoppelde schijfbestanden"
-
-#~ msgid "REU image"
-#~ msgstr "REU bestandsnaam"
-
-#~ msgid "ROM set archive:"
-#~ msgstr "ROM set archief:"
-
-#~ msgid "ROM set file:"
-#~ msgstr "ROM set bestand:"
-
-#~ msgid "Sample Frequency"
-#~ msgstr "Sample Frequencie"
-
-#~ msgid "RS232 Userport Settings"
-#~ msgstr "RS232 Userport instellingen"
-
-#~ msgid "revision"
-#~ msgstr "revisie"
-
-#~ msgid "Restore default (factory) settings"
-#~ msgstr "Herstel standaard instellingen"
-
-#~ msgid "Refreshrate: "
-#~ msgstr "Vernieuwingssnelheid: "
-
-#~ msgid "Renderer"
-#~ msgstr "Renderer"
-
-#~ msgid "Write Protect"
-#~ msgstr "Schrijfbeveilig"
-
-#~ msgid "RAMCART image"
-#~ msgstr "RAMCART bestandsnaam"
-
-#~ msgid "Refreshrate"
-#~ msgstr "Vernieuwing snelheid"
-
-#~ msgid "Remove current image"
-#~ msgstr "Verwijder huidig bestand"
-
-#~ msgid "Record Sound"
-#~ msgstr "Geluidsopname"
-
-#~ msgid "RAM Settings"
-#~ msgstr "RAM instellingen"
-
-#~ msgid "RamCart Settings"
-#~ msgstr "RamCart instellingen"
-
-#~ msgid "Read Only"
-#~ msgstr "Alleen lezen"
-
-#~ msgid "read-only"
-#~ msgstr "Alleen lezen"
-
-#~ msgid "ramsize"
-#~ msgstr "geheugengrootte"
-
-#~ msgid "PETREU image"
-#~ msgstr "PETREU bestandsnaam"
-
-#~ msgid "PLUS256K image"
-#~ msgstr "PLUS256K bestandsnaam"
-
-#~ msgid "PLUS60K image"
-#~ msgstr "PLUS60K bestandsnaam"
-
-#~ msgid "PS/2 mouse emulation"
-#~ msgstr "PS/2 muis emulatie"
-
-#~ msgid "Ram banks"
-#~ msgstr "Ram banken"
-
-#~ msgid "PET REU Settings"
-#~ msgstr "PET REU instellingen"
-
-#~ msgid "PLUS256K Settings"
-#~ msgstr "PLUS256K instellingen"
-
-#~ msgid "PLUS60K Settings"
-#~ msgstr "PLUS60K instellingen"
-
-#~ msgid "PLUS60K Base"
-#~ msgstr "PLUS60K basisadres"
-
-#~ msgid "PETDWW image"
-#~ msgstr "PETDWW bestand"
-
-#~ msgid "No warranty"
-#~ msgstr "Geen garantie!"
-
-#~ msgid "PET DWW Settings"
-#~ msgstr "PET DWW instellingen"
-
-#~ msgid "no expansion memory"
-#~ msgstr "geen geheugenuitbreiding"
-
-#~ msgid "New Luminances"
-#~ msgstr "Nieuwe kleuren"
-
-#~ msgid "path"
-#~ msgstr "pad"
-
-#~ msgid "name"
-#~ msgstr "naam"
-
-#~ msgid "Name:"
-#~ msgstr "Naam:"
-
-#~ msgid "Load snapshot"
-#~ msgstr "Laad momentopname"
-
-#~ msgid "Maximum Speed"
-#~ msgstr "Maximale Snelheid"
-
-#~ msgid "Magic Voice Settings"
-#~ msgstr "Magic Voice instellingen"
-
-#~ msgid "model line"
-#~ msgstr "modellijn"
-
-#~ msgid "Mouse Settings"
-#~ msgstr "Muis instellingen"
-
-#~ msgid "model"
-#~ msgstr "model"
-
-#~ msgid "mode"
-#~ msgstr "modus"
-
-#~ msgid "Keyset 1"
-#~ msgstr "Keyset 1"
-
-#~ msgid "Keyset 2"
-#~ msgstr "Keyset 2"
-
-#~ msgid "Invalid cartridge"
-#~ msgstr "Ongeldige cartridge"
-
-#~ msgid "Load flip list"
-#~ msgstr "Laad fliplijst"
-
-#~ msgid "Save flip list"
-#~ msgstr "Opslaan fliplijst"
-
-#~ msgid "lightpen Settings"
-#~ msgstr "lichtpen instellingen"
-
-#~ msgid "Internal Function ROM name"
-#~ msgstr "Interne functie ROM naam"
-
-#~ msgid "Handle TDE on autostart"
-#~ msgstr "Manipuleer hardwarematige drive emulatie bij autostarten"
-
-#~ msgid "IDE64 image"
-#~ msgstr "IDE64 bestandsnaam"
-
-#~ msgid "Hide raw CBM files"
-#~ msgstr "Verberg raw CBM bestanden"
-
-#~ msgid "IEEE 488 Interface image"
-#~ msgstr "IEEE488 interfacebestand"
-
-#~ msgid "Image format:"
-#~ msgstr "Beeld formaat:"
-
-#~ msgid "Handle TDE for autostart"
-#~ msgstr "Zorg voor correcte TDE tijdens autostart"
-
-#~ msgid "IEEE-488 Interface emulation"
-#~ msgstr "IEEE-488 Interface emulatie"
-
-#~ msgid "External Function ROM name"
-#~ msgstr "Externe functie ROM naam"
-
-#~ msgid "GEORAM image"
-#~ msgstr "GEORAM bestandsnaam"
-
-#~ msgid "File name:"
-#~ msgstr "Bestandsnaam:"
-
-#~ msgid "format"
-#~ msgstr "formaat"
-
-#~ msgid "Enter Refreshrate (Hz): "
-#~ msgstr "Geef vernieuwingssnelheid op (Hz): "
-
-#~ msgid "Expert Cartridge image"
-#~ msgstr "Koppel Expert Cartridge bestand"
-
-#~ msgid "Enable writes to EEPROM image"
-#~ msgstr "Activeer schrijven naar EEPROM bestand"
-
-#~ msgid "Enable writes to DTV ROM image"
-#~ msgstr "Aktiveer schrijven naar DTV ROM bestand"
-
-#~ msgid "Ethernet Settings"
-#~ msgstr "Ethernet instellingen"
-
-#~ msgid "Enable writing to C64DTV ROM image"
-#~ msgstr "Aktiveer schrijven naar C64DTV ROM bestand"
