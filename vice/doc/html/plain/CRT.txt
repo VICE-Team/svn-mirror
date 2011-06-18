@@ -46,7 +46,7 @@ Camels"...
                        1 - Action Replay
                        2 - KCS Power Cartridge
                        3 - Final Cartridge III
-                       4 - Simons BASIC
+                       4 - Simons' BASIC
                        5 - Ocean type 1*
                        6 - Expert Cartridge
                        7 - Fun Play, Power Play
@@ -397,7 +397,7 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢ú½Ý…•úÊúø® úèì¢
 ===========================================================================
 
 
-4 - Simons Basic
+4 - Simons' Basic
 
     Size - 16Kb (2 banks of 8kb each)
     GAME - active (1)
@@ -417,9 +417,9 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   ¢ú½Ý…•úÊúø® úèì¢
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00   CHIPúúúúúúúú úúú
 2060: 20 A4 A6 99 9E CB A0 05 A5 A8 91 20 A4 A6 99 A2   ú¤¦™žË ú¥¨‘ú¤¦™¢
 
-    Simons BASIC permanently uses 16 kB ($4000) bytes of  cartridge  memory
+    Simons' BASIC permanently uses 16 kB ($4000) bytes of cartridge  memory
     from $8000-$BFFF. However, through some custom bank-switching logic the
-    upper area ($A000-$BFFF) may be disabled so Simons BASIC may use it  as
+    upper area ($A000-$BFFF) may be disabled so Simons' BASIC may use it as
     additional RAM. Writing a value of $01 to address location $DE00  banks
     in ROM, $00 disables ROM and enables RAM.
 
