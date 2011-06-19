@@ -127,10 +127,130 @@ UI_MENU_DEFINE_FILE_STRING(IDE64Image1)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image2)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image3)
 UI_MENU_DEFINE_FILE_STRING(IDE64Image4)
-UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
-UI_MENU_DEFINE_INT(IDE64Cylinders)
-UI_MENU_DEFINE_INT(IDE64Heads)
-UI_MENU_DEFINE_INT(IDE64Sectors)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize3)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize4)
+UI_MENU_DEFINE_INT(IDE64Cylinders1)
+UI_MENU_DEFINE_INT(IDE64Cylinders2)
+UI_MENU_DEFINE_INT(IDE64Cylinders3)
+UI_MENU_DEFINE_INT(IDE64Cylinders4)
+UI_MENU_DEFINE_INT(IDE64Heads1)
+UI_MENU_DEFINE_INT(IDE64Heads2)
+UI_MENU_DEFINE_INT(IDE64Heads3)
+UI_MENU_DEFINE_INT(IDE64Heads4)
+UI_MENU_DEFINE_INT(IDE64Sectors1)
+UI_MENU_DEFINE_INT(IDE64Sectors2)
+UI_MENU_DEFINE_INT(IDE64Sectors3)
+UI_MENU_DEFINE_INT(IDE64Sectors4)
+
+static const ui_menu_entry_t ide64_menu_HD_1[] = {
+    SDL_MENU_ITEM_TITLE("HD image 1 settings"),
+    { "HD1 image file",
+      MENU_ENTRY_DIALOG,
+      file_string_IDE64Image1_callback,
+      (ui_callback_data_t)"Select HD1 image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("HD 1 geometry"),
+    { "Autodetect geometry",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IDE64AutodetectSize1_callback,
+      NULL },
+    { "Cylinders",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Cylinders1_callback,
+      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
+    { "Heads",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Heads1_callback,
+      (ui_callback_data_t)"Enter amount of heads (1-16)" },
+    { "Sectors",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Sectors1_callback,
+      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t ide64_menu_HD_2[] = {
+    SDL_MENU_ITEM_TITLE("HD image 2 settings"),
+    { "HD1 image file",
+      MENU_ENTRY_DIALOG,
+      file_string_IDE64Image2_callback,
+      (ui_callback_data_t)"Select HD2 image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("HD 2 geometry"),
+    { "Autodetect geometry",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IDE64AutodetectSize2_callback,
+      NULL },
+    { "Cylinders",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Cylinders2_callback,
+      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
+    { "Heads",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Heads2_callback,
+      (ui_callback_data_t)"Enter amount of heads (1-16)" },
+    { "Sectors",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Sectors2_callback,
+      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t ide64_menu_HD_3[] = {
+    SDL_MENU_ITEM_TITLE("HD image 3 settings"),
+    { "HD1 image file",
+      MENU_ENTRY_DIALOG,
+      file_string_IDE64Image3_callback,
+      (ui_callback_data_t)"Select HD3 image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("HD 3 geometry"),
+    { "Autodetect geometry",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IDE64AutodetectSize3_callback,
+      NULL },
+    { "Cylinders",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Cylinders3_callback,
+      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
+    { "Heads",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Heads3_callback,
+      (ui_callback_data_t)"Enter amount of heads (1-16)" },
+    { "Sectors",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Sectors3_callback,
+      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t ide64_menu_HD_4[] = {
+    SDL_MENU_ITEM_TITLE("HD image 4 settings"),
+    { "HD1 image file",
+      MENU_ENTRY_DIALOG,
+      file_string_IDE64Image4_callback,
+      (ui_callback_data_t)"Select HD4 image" },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("HD 4 geometry"),
+    { "Autodetect geometry",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_IDE64AutodetectSize4_callback,
+      NULL },
+    { "Cylinders",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Cylinders4_callback,
+      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
+    { "Heads",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Heads4_callback,
+      (ui_callback_data_t)"Enter amount of heads (1-16)" },
+    { "Sectors",
+      MENU_ENTRY_RESOURCE_INT,
+      int_IDE64Sectors4_callback,
+      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+    SDL_MENU_LIST_END
+};
 
 const ui_menu_entry_t ide64_menu[] = {
     { "Cartridge version 4",
@@ -138,40 +258,22 @@ const ui_menu_entry_t ide64_menu[] = {
       toggle_IDE64version4_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("HD images"),
-    { "HD1 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image1_callback,
-      (ui_callback_data_t)"Select HD1 image" },
-    { "HD2 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image2_callback,
-      (ui_callback_data_t)"Select HD2 image" },
-    { "HD3 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image3_callback,
-      (ui_callback_data_t)"Select HD3 image" },
-    { "HD4 image file",
-      MENU_ENTRY_DIALOG,
-      file_string_IDE64Image4_callback,
-      (ui_callback_data_t)"Select HD4 image" },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("HD geometry"),
-    { "Autodetect geometry",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_IDE64AutodetectSize_callback,
-      NULL },
-    { "Cylinders",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Cylinders_callback,
-      (ui_callback_data_t)"Enter amount of cylinders (1-1024)" },
-    { "Heads",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Heads_callback,
-      (ui_callback_data_t)"Enter amount of heads (1-16)" },
-    { "Sectors",
-      MENU_ENTRY_RESOURCE_INT,
-      int_IDE64Sectors_callback,
-      (ui_callback_data_t)"Enter amount of sectors (0-63)" },
+    SDL_MENU_ITEM_TITLE("HD settings"),
+    { "HD1 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_menu_HD_1 },
+    { "HD2 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_menu_HD_2 },
+    { "HD3 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_menu_HD_3 },
+    { "HD4 settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ide64_menu_HD_4 },
     SDL_MENU_LIST_END
 };
