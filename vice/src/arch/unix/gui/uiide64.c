@@ -37,22 +37,26 @@
 #include "uimenu.h"
 #include "vsync.h"
 
-UI_CALLBACK(set_ide64_image_name)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize3)
+UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize4)
+UI_MENU_DEFINE_RADIO(IDE64version4)
+
+static UI_CALLBACK(set_ide64_image_name)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("IDE64 interface image"), UILIB_FILTER_ALL);
 }
 
-UI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
-UI_MENU_DEFINE_RADIO(IDE64version4)
-
 static UI_CALLBACK(set_cylinders)
 {
     static char input_string[32];
+    int num = (int)UI_MENU_CB_PARAM;
 
     if (CHECK_MENUS) {
         int autosize;
 
-        resources_get_int("IDE64AutodetectSize", &autosize);
+        resources_get_int_sprintf("IDE64AutodetectSize%i", &autosize, num);
 
         if (autosize) {
             ui_menu_set_sensitive(w, 0);
@@ -67,7 +71,7 @@ static UI_CALLBACK(set_cylinders)
 
         vsync_suspend_speed_eval();
 
-        resources_get_int("IDE64Cylinders", &cylinders);
+        resources_get_int_sprintf("IDE64Cylinders%i", &cylinders, num);
 
         sprintf(input_string, "%d", cylinders);
 
@@ -77,7 +81,7 @@ static UI_CALLBACK(set_cylinders)
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             if (cylinders > 0 && cylinders <= 1024 && cylinders != i) {
-                resources_set_int("IDE64Cylinders", i);
+                resources_set_int_sprintf("IDE64Cylinders%i", i, num);
                 ui_update_menus();
             }
         }
@@ -87,11 +91,12 @@ static UI_CALLBACK(set_cylinders)
 static UI_CALLBACK(set_heads)
 {
     static char input_string[32];
+    int num = (int)UI_MENU_CB_PARAM;
 
     if (CHECK_MENUS) {
         int autosize;
 
-        resources_get_int("IDE64AutodetectSize", &autosize);
+        resources_get_int_sprintf("IDE64AutodetectSize%i", &autosize, num);
 
         if (autosize) {
             ui_menu_set_sensitive(w, 0);
@@ -106,7 +111,7 @@ static UI_CALLBACK(set_heads)
 
         vsync_suspend_speed_eval();
 
-        resources_get_int("IDE64Heads", &heads);
+        resources_get_int_sprintf("IDE64Heads%i", &heads, num);
 
         sprintf(input_string, "%d", heads);
 
@@ -116,7 +121,7 @@ static UI_CALLBACK(set_heads)
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             if (heads > 0 && heads <= 16 && heads != i) {
-                resources_set_int("IDE64Heads", i);
+                resources_set_int_sprintf("IDE64Heads%i", i, num);
                 ui_update_menus();
             }
         }
@@ -126,11 +131,12 @@ static UI_CALLBACK(set_heads)
 static UI_CALLBACK(set_sectors)
 {
     static char input_string[32];
+    int num = (int)UI_MENU_CB_PARAM;
 
     if (CHECK_MENUS) {
         int autosize;
 
-        resources_get_int("IDE64AutodetectSize", &autosize);
+        resources_get_int_sprintf("IDE64AutodetectSize%i", &autosize, num);
 
         if (autosize) {
             ui_menu_set_sensitive(w, 0);
@@ -145,7 +151,7 @@ static UI_CALLBACK(set_sectors)
 
         vsync_suspend_speed_eval();
 
-        resources_get_int("IDE64Sectors", &sectors);
+        resources_get_int_sprintf("IDE64Sectors%i", &sectors, num);
 
         sprintf(input_string, "%d", sectors);
 
@@ -155,7 +161,7 @@ static UI_CALLBACK(set_sectors)
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
             if (sectors >= 0 && sectors <= 63 && sectors != i) {
-                resources_set_int("IDE64Sectors", i);
+                resources_set_int_sprintf("IDE64Sectors%i", i, num);
                 ui_update_menus();
             }
         }
@@ -170,30 +176,93 @@ static ui_menu_entry_t ide64_revision_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t ide64_submenu[] = {
-    { N_("Revision"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ide64_revision_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("HD image 1 name"), UI_MENU_TYPE_DOTS,
+static ui_menu_entry_t ide64_hd1_submenu[] = {
+    { N_("HD image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image1", NULL },
-    { N_("HD image 2 name"), UI_MENU_TYPE_DOTS,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Autodetect image size"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IDE64AutodetectSize1, NULL, NULL },
+    { N_("Cylinders"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_cylinders,
+      (ui_callback_data_t)1, NULL },
+    { N_("Heads"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_heads,
+      (ui_callback_data_t)1, NULL },
+    { N_("Sectors"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_sectors,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t ide64_hd2_submenu[] = {
+    { N_("HD image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image2", NULL },
-    { N_("HD image 3 name"), UI_MENU_TYPE_DOTS,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Autodetect image size"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IDE64AutodetectSize2, NULL, NULL },
+    { N_("Cylinders"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_cylinders,
+      (ui_callback_data_t)2, NULL },
+    { N_("Heads"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_heads,
+      (ui_callback_data_t)2, NULL },
+    { N_("Sectors"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_sectors,
+      (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t ide64_hd3_submenu[] = {
+    { N_("HD image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image3", NULL },
-    { N_("HD image 4 name"), UI_MENU_TYPE_DOTS,
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Autodetect image size"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_IDE64AutodetectSize3, NULL, NULL },
+    { N_("Cylinders"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_cylinders,
+      (ui_callback_data_t)3, NULL },
+    { N_("Heads"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_heads,
+      (ui_callback_data_t)3, NULL },
+    { N_("Sectors"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)set_sectors,
+      (ui_callback_data_t)3, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t ide64_hd4_submenu[] = {
+    { N_("HD image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image4", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Autodetect image size"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_IDE64AutodetectSize, NULL, NULL },
+      (ui_callback_t)toggle_IDE64AutodetectSize4, NULL, NULL },
     { N_("Cylinders"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_cylinders, NULL, NULL },
+      (ui_callback_t)set_cylinders,
+      (ui_callback_data_t)4, NULL },
     { N_("Heads"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_heads, NULL, NULL },
+      (ui_callback_t)set_heads,
+      (ui_callback_data_t)4, NULL },
     { N_("Sectors"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_sectors, NULL, NULL },
+      (ui_callback_t)set_sectors,
+      (ui_callback_data_t)4, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ide64_submenu[] = {
+    { N_("Revision"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ide64_revision_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("HD 1 settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ide64_hd1_submenu },
+    { N_("HD 2 settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ide64_hd2_submenu },
+    { N_("HD 3 settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ide64_hd3_submenu },
+    { N_("HD 4 settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ide64_hd4_submenu },
     { NULL }
 };
