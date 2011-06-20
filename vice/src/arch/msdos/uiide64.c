@@ -34,7 +34,10 @@
 #include "uiide64.h"
 
 TUI_MENU_DEFINE_TOGGLE(IDE64version4)
-TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize)
+TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
+TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
+TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize3)
+TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize4)
 TUI_MENU_DEFINE_FILENAME(IDE64Image1, "IDE64 HD #1")
 TUI_MENU_DEFINE_FILENAME(IDE64Image2, "IDE64 HD #2")
 TUI_MENU_DEFINE_FILENAME(IDE64Image3, "IDE64 HD #3")
@@ -42,11 +45,13 @@ TUI_MENU_DEFINE_FILENAME(IDE64Image4, "IDE64 HD #4")
 
 static TUI_MENU_CALLBACK(ui_set_cylinders_callback)
 {
+    int num = (int)param;
+
     if (been_activated) {
         int current_cyls, value;
         char buf[10];
 
-        resources_get_int("IDE64Cylinders", &current_cyls);
+        resources_get_int_sprintf("IDE64Cylinders%i", &current_cyls, num);
         sprintf(buf, "%d", current_cyls);
 
         if (tui_input_string("Cylinders", "Enter the amount of cylinders (1-1024):", buf, 10) == 0) {
@@ -56,7 +61,7 @@ static TUI_MENU_CALLBACK(ui_set_cylinders_callback)
             } else if (value < 1) {
                 value = 1;
             }
-            resources_set_int("IDE64Cylinders", value);
+            resources_set_int_sprintf("IDE64Cylinders%i", value, num);
         } else {
             return NULL;
         }
@@ -66,11 +71,13 @@ static TUI_MENU_CALLBACK(ui_set_cylinders_callback)
 
 static TUI_MENU_CALLBACK(ui_set_heads_callback)
 {
+    int num = (int)param;
+
     if (been_activated) {
         int current_heads, value;
         char buf[10];
 
-        resources_get_int("IDE64Heads", &current_heads);
+        resources_get_int_sprintf("IDE64Heads%i", &current_heads, num);
         sprintf(buf, "%d", current_heads);
 
         if (tui_input_string("Heads", "Enter the amount of heads (1-16):", buf, 10) == 0) {
@@ -80,7 +87,7 @@ static TUI_MENU_CALLBACK(ui_set_heads_callback)
             } else if (value < 1) {
                 value = 1;
             }
-            resources_set_int("IDE64Heads", value);
+            resources_set_int_sprintf("IDE64Heads", value, num);
         } else {
             return NULL;
         }
@@ -90,11 +97,13 @@ static TUI_MENU_CALLBACK(ui_set_heads_callback)
 
 static TUI_MENU_CALLBACK(ui_set_sectors_callback)
 {
+    int num = (int)param;
+
     if (been_activated) {
         int current_sectors, value;
         char buf[10];
 
-        resources_get_int("IDE64Sectors", &current_sectors);
+        resources_get_int_sprintf("IDE64Sectors", &current_sectors, num);
         sprintf(buf, "%d", current_sectors);
 
         if (tui_input_string("Sectors", "Enter the amount of sectors (1-63):", buf, 10) == 0) {
@@ -104,7 +113,7 @@ static TUI_MENU_CALLBACK(ui_set_sectors_callback)
             } else if (value < 1) {
                 value = 1;
             }
-            resources_set_int("IDE64Sectors", value);
+            resources_set_int_sprintf("IDE64Sectors", value, num);
         } else {
             return NULL;
         }
@@ -112,37 +121,114 @@ static TUI_MENU_CALLBACK(ui_set_sectors_callback)
     return NULL;
 }
 
-static tui_menu_item_def_t ide64_menu_items[] = {
-    { "_Enable IDE64 V4 support:", "Emulate IDE64 V4 model",
-      toggle_IDE64version4_callback, NULL, 3,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+static tui_menu_item_def_t ide64_hd1_menu_items[] = {
     { "IDE64 HD #_1 image file:", "Select the IDE64 HD #1 image file",
       filename_IDE64Image1_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Autodetect geometry:", "Autodetect the geometry",
+      toggle_IDE64AutodetectSize1_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Cylinders",
+      "Set the amount of cylinders",
+      ui_set_cylinders_callback, (void *)1, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Heads",
+      "Set the amount of heads",
+      ui_set_heads_callback, (void *)1, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Sectors",
+      "Set the amount of sectors",
+      ui_set_sectors_callback, (void *)1, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t ide64_hd2_menu_items[] = {
     { "IDE64 HD #_2 image file:", "Select the IDE64 HD #2 image file",
       filename_IDE64Image2_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Autodetect geometry:", "Autodetect the geometry",
+      toggle_IDE64AutodetectSize2_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Cylinders",
+      "Set the amount of cylinders",
+      ui_set_cylinders_callback, (void *)2, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Heads",
+      "Set the amount of heads",
+      ui_set_heads_callback, (void *)2, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Sectors",
+      "Set the amount of sectors",
+      ui_set_sectors_callback, (void *)2, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t ide64_hd3_menu_items[] = {
     { "IDE64 HD #_3 image file:", "Select the IDE64 HD #3 image file",
       filename_IDE64Image3_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Autodetect geometry:", "Autodetect the geometry",
+      toggle_IDE64AutodetectSize3_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Cylinders",
+      "Set the amount of cylinders",
+      ui_set_cylinders_callback, (void *)3, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Heads",
+      "Set the amount of heads",
+      ui_set_heads_callback, (void *)3, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "Sectors",
+      "Set the amount of sectors",
+      ui_set_sectors_callback, (void *)3, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t ide64_hd4_menu_items[] = {
     { "IDE64 HD #_4 image file:", "Select the IDE64 HD #4 image file",
       filename_IDE64Image4_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Autodetect geometry:", "Autodetect the geometry",
-      toggle_IDE64AutodetectSize_callback, NULL, 3,
+      toggle_IDE64AutodetectSize4_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Cylinders",
       "Set the amount of cylinders",
-      ui_set_cylinders_callback, NULL, 30,
+      ui_set_cylinders_callback, (void *)4, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Heads",
       "Set the amount of heads",
-      ui_set_heads_callback, NULL, 30,
+      ui_set_heads_callback, (void *)4, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Sectors",
       "Set the amount of sectors",
-      ui_set_sectors_callback, NULL, 30,
+      ui_set_sectors_callback, (void *)4, 30,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t ide64_menu_items[] = {
+    { "_Enable IDE64 V4 support:", "Emulate IDE64 V4 model",
+      toggle_IDE64version4_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "IDE64 HD 1 settings:", "HD 1 settings",
+      NULL, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, ide64_hd1_menu_items,
+      "HD 1 settings" },
+    { "IDE64 HD 2 settings:", "HD 2 settings",
+      NULL, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, ide64_hd2_menu_items,
+      "HD 2 settings" },
+    { "IDE64 HD 3 settings:", "HD 3 settings",
+      NULL, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, ide64_hd3_menu_items,
+      "HD 3 settings" },
+    { "IDE64 HD 4 settings:", "HD 4 settings",
+      NULL, NULL, 11,
+      TUI_MENU_BEH_CONTINUE, ide64_hd4_menu_items,
+      "HD 4 settings" },
     { NULL }
 };
 
