@@ -747,7 +747,7 @@ static void save_2_blocks_crt(unsigned int l1, unsigned int l2, unsigned int a1,
 
 static void save_8000_a000_crt(unsigned int length, unsigned int banks, unsigned int a1, unsigned int a2, unsigned char game, unsigned char exrom)
 {
-    int i;
+    unsigned int i;
     unsigned int real_banks = banks;
 
 
