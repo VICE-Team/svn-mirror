@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-06-17 12:56-0700\n"
-"PO-Revision-Date: 2011-05-07 12:35+0200\n"
+"PO-Revision-Date: 2011-06-26 12:44+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2126,9 +2126,8 @@ msgstr "Größe"
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
 #: src/arch/unix/gui/uitfe.c:70 src/arch/amigaos/intl_text.c.po.c:4650
-#, fuzzy
 msgid "MasC=uerade I/O swap"
-msgstr "SuperPET I/O aktivieren"
+msgstr "MasC=uerade I/O swap"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:4662
@@ -3153,9 +3152,8 @@ msgstr "ACIA Gerät"
 #: src/arch/unix/gui/uirs232c64c128.c:135
 #: src/arch/unix/gui/uirs232c64c128.c:172
 #: src/arch/amigaos/intl_text.c.po.c:4134
-#, fuzzy
 msgid "ACIA base address"
-msgstr "Basis Adresse"
+msgstr "ACIA Basis Adresse"
 
 #: src/arch/unix/gui/uirs232c64c128.c:100
 #: src/arch/unix/gui/uirs232c64c128.c:137
@@ -3226,9 +3224,8 @@ msgid "Program name to exec"
 msgstr "Auszuführendes Programm"
 
 #: src/arch/unix/gui/uirs232c64c128.c:168
-#, fuzzy
 msgid "ACIA RS232 interface emulation (MasC=uerade)"
-msgstr "ACIA RS232 Schnittstellen-Emulation"
+msgstr "ACIA RS232 Schnittstellen-Emulation (MasC=uerade)"
 
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:46
 msgid "Serial 2 device"
@@ -3746,9 +3743,8 @@ msgid "Memory expansions"
 msgstr "Speicher Erweiterungen"
 
 #: src/arch/unix/gui/vic20ui.c:497
-#, fuzzy
 msgid "Ethernet emulation (MasC=uerade)"
-msgstr "Ethernet Emulation"
+msgstr "Ethernet Emulation (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:501
 msgid "Paddle emulation"
@@ -3815,7 +3811,6 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:97
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3833,7 +3828,6 @@ msgstr ""
 "Andrea Musuruane - Italienisch\n"
 "Paul Dubé - Französisch\n"
 "Marco van den Heuvel - Niederländisch\n"
-"Flooder - Polnisch\n"
 "Czirkos Zoltan, Karai Csaba - Ungarisch\n"
 "Emir Akaydin (aka: Skate) - Türkisch\n"
 "Mikkel Holm Olsen - Dänisch\n"
@@ -6924,9 +6918,8 @@ msgstr "SFX Soundexpander Modul aktivieren"
 #: src/arch/win32/ressoundsampler.rc.po.c:20
 #: src/arch/win32/resvic20.rc.po.c:548 src/arch/amigaos/intl_text.c.po.c:2334
 #: src/arch/amigaos/intl_text.c.po.c:7975
-#, fuzzy
 msgid "SFX Sound Sampler settings"
-msgstr "SFX Sound Expander Einstellungen"
+msgstr "SFX Sound Sampler Einstellungen"
 
 #: src/arch/win32/restfe.rc.po.c:62
 msgid "Ethernet"
@@ -6970,9 +6963,8 @@ msgid "Select cartridge file"
 msgstr "Erweiterungsmodul Image Datei wählen"
 
 #: src/arch/win32/resvic20.rc.po.c:522
-#, fuzzy
 msgid "Enable MasC=uerade I/O swap"
-msgstr "SuperPET I/O aktivieren"
+msgstr "MasC=uerade I/O swap aktivieren"
 
 #: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:1614
 msgid "VIC-1112 IEEE-488 module"
@@ -7675,9 +7667,8 @@ msgid "SFX Sound Expander Chip"
 msgstr "SFX Sound Expander Chip"
 
 #: src/arch/amigaos/intl_text.c.po.c:7951
-#, fuzzy
 msgid "SFX Sound Sampler Enabled"
-msgstr "SFX Sound Expander aktiviert"
+msgstr "SFX Sound Sampler aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:8011
 msgid "Select Sound Record File"
@@ -9315,9 +9306,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "16kB Zaxxon Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:5449
-#, fuzzy
 msgid "Attach raw 64KB Pagefox cartridge image"
-msgstr "16KB Erweiterungsmodul (raw) Image einlegen"
+msgstr "Pagefox Erweiterungsmodul Image einlegen"
 
 #: src/translate_text.c.po.c:5464
 msgid "Attach raw 256KB Prophet 64 cartridge image"
