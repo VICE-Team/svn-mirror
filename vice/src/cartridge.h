@@ -198,8 +198,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_MACH5                51 /* mach5.c */
 #define CARTRIDGE_DIASHOW_MAKER        52 /* diashowmaker.c */
 #define CARTRIDGE_PAGEFOX              53 /* pagefox.c */
+#define CARTRIDGE_KINGSOFT             54 /* pagefox.c */
 
-#define CARTRIDGE_LAST                 53 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 54 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -250,6 +251,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_IEEE488            "IEEE-488 Interface"
 #define CARTRIDGE_NAME_ISEPIC             "ISEPIC" /* http://rr.pokefinder.org/wiki/Isepic */
 #define CARTRIDGE_NAME_KCS_POWER          "KCS Power Cartridge" /* http://rr.pokefinder.org/wiki/Power_Cartridge */
+#define CARTRIDGE_NAME_KINGSOFT           "Kingsoft"
 #define CARTRIDGE_NAME_MACH5              "MACH 5" /* http://rr.pokefinder.org/wiki/MACH_5 */
 #define CARTRIDGE_NAME_MAGIC_DESK         "Magic Desk" /* also: "Domark, Hes Australia" */
 #define CARTRIDGE_NAME_MAGIC_FORMEL       "Magic Formel" /* http://rr.pokefinder.org/wiki/Magic_Formel */

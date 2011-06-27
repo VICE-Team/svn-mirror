@@ -5331,6 +5331,21 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_KINGSOFT_CART,    N_("Attach raw 24kB Kingsoft cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_DA, "Tilslut råt 8KB Kingsoft cartridge image"},
+/* de */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_DE, "24kB MAC 5 Image (raw) einlegen"},
+/* fr */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_IT, "Seleziona immagine cartuccia Kingsoft di 24kB"},
+/* ko */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_NL, "Koppel binair 24kB Kingsoft cartridge bestand"},
+/* ru */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_SV, "Anslut rå 24kB Kingsoft-insticksmodulavbilding"},
+/* tr */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_TR, "Düz 24kB Kingsoft kartuþ imajý yerleþtir"},
+#endif
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_MACH5_CART,    N_("Attach raw 8kB MACH 5 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_MACH5_CART_DA, "Tilslut råt 8KB MACH 5 cartridge image"},

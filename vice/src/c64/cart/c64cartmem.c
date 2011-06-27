@@ -80,6 +80,7 @@
 #include "ide64.h"
 #include "isepic.h"
 #include "kcs.h"
+#include "kingsoft.h"
 #include "mach5.h"
 #include "magicdesk.h"
 #include "magicformel.h"
@@ -579,6 +580,8 @@ static BYTE roml_read_slotmain(WORD addr)
             return freezemachine_roml_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_roml_read(addr);
+        case CARTRIDGE_KINGSOFT:
+            return kingsoft_roml_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_roml_read(addr);
         case CARTRIDGE_PAGEFOX:
@@ -759,6 +762,8 @@ static BYTE romh_read_slotmain(WORD addr)
             return final_plus_romh_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_romh_read(addr);
+        case CARTRIDGE_KINGSOFT:
+            return kingsoft_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read(addr);
         case CARTRIDGE_MMC_REPLAY:
@@ -857,6 +862,8 @@ BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
             return final_plus_romh_read(addr);
         case CARTRIDGE_IDE64:
             return ide64_romh_read(addr);
+        case CARTRIDGE_KINGSOFT:
+            return kingsoft_romh_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
             return magicformel_romh_read_hirom(addr);
         case CARTRIDGE_MMC_REPLAY:
@@ -1116,14 +1123,15 @@ BYTE ultimax_1000_7fff_read_slot1(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_IDE64:
-            return ide64_1000_7fff_read(addr);
         case CARTRIDGE_CAPTURE:
             return capture_1000_7fff_read(addr);
+        case CARTRIDGE_IDE64:
+            return ide64_1000_7fff_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_1000_7fff_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_GAME_KILLER:
+        case CARTRIDGE_KINGSOFT:
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
@@ -1196,6 +1204,7 @@ void ultimax_1000_7fff_store(WORD addr, BYTE value)
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_KINGSOFT:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
             break;
@@ -1328,6 +1337,7 @@ BYTE ultimax_c000_cfff_read_slot1(WORD addr)
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_KINGSOFT:
             /* fake ultimax hack, c64 ram */
             return mem_read_without_ultimax(addr);
         case CARTRIDGE_CRT: /* invalid */
@@ -1394,6 +1404,7 @@ void ultimax_c000_cfff_store(WORD addr, BYTE value)
         case CARTRIDGE_FINAL_PLUS:
         case CARTRIDGE_EXOS:
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_KINGSOFT:
             /* fake ultimax hack, c64 ram */
             mem_store_without_ultimax(addr, value);
             break;
@@ -1422,6 +1433,7 @@ static BYTE ultimax_d000_dfff_read_slot1(WORD addr)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_KINGSOFT:
             /* fake ultimax hack, c64 io,colram,ram */
             return mem_read_without_ultimax(addr);
         case CARTRIDGE_CRT: /* invalid */
@@ -1482,6 +1494,7 @@ void ultimax_d000_dfff_store(WORD addr, BYTE value)
         case CARTRIDGE_MAGIC_FORMEL:
         case CARTRIDGE_SNAPSHOT64: /* ? */
         case CARTRIDGE_STARDOS:
+        case CARTRIDGE_KINGSOFT:
             /* fake ultimax hack, c64 io,colram,ram */
             mem_store_without_ultimax(addr, value);
             return;

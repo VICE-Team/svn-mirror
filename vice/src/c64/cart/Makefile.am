@@ -83,6 +83,8 @@ libc64cart_a_SOURCES = \
 	isepic.h \
 	kcs.c \
 	kcs.h \
+	kingsoft.c \
+	kingsoft.h \
 	mach5.c \
 	mach5.h \
 	magicdesk.c \

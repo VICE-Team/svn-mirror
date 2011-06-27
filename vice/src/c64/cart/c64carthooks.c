@@ -92,6 +92,7 @@
 #include "ide64.h"
 #include "isepic.h"
 #include "kcs.h"
+#include "kingsoft.h"
 #include "mach5.h"
 #include "magicdesk.h"
 #include "magicformel.h"
@@ -344,6 +345,11 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_KCS_POWER, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_KCS_CART,
+      NULL, NULL },
+    { "-cartks", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_KINGSOFT, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_KINGSOFT_CART,
       NULL, NULL },
     { "-cartmach5", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_MACH5, NULL, NULL,
@@ -877,6 +883,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return ide64_bin_attach(filename, rawcart);
         case CARTRIDGE_KCS_POWER:
             return kcs_bin_attach(filename, rawcart);
+        case CARTRIDGE_KINGSOFT:
+            return kingsoft_bin_attach(filename, rawcart);
         case CARTRIDGE_MACH5:
             return mach5_bin_attach(filename, rawcart);
         case CARTRIDGE_MAGIC_DESK:
@@ -1049,6 +1057,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_KCS_POWER:
             kcs_config_setup(rawcart);
+            break;
+        case CARTRIDGE_KINGSOFT:
+            kingsoft_config_setup(rawcart);
             break;
         case CARTRIDGE_MACH5:
             mach5_config_setup(rawcart);
@@ -1441,6 +1452,9 @@ void cart_detach(int type)
         case CARTRIDGE_KCS_POWER:
             kcs_detach();
             break;
+        case CARTRIDGE_KINGSOFT:
+            kingsoft_detach();
+            break;
         case CARTRIDGE_MACH5:
             mach5_detach();
             break;
@@ -1660,6 +1674,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_KCS_POWER:
             kcs_config_init();
+            break;
+        case CARTRIDGE_KINGSOFT:
+            kingsoft_config_init();
             break;
         case CARTRIDGE_MACH5:
             mach5_config_init();
@@ -2402,6 +2419,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_KINGSOFT:
+                if (kingsoft_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_MACH5:
                 if (mach5_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2843,6 +2865,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_KCS_POWER:
                 if (kcs_snapshot_read_module(s) < 0) {
+                    return -1;
+                }
+                break;
+            case CARTRIDGE_KINGSOFT:
+                if (kingsoft_snapshot_read_module(s) < 0) {
                     return -1;
                 }
                 break;
