@@ -10,7 +10,7 @@ librtc_a_SOURCES = \
 	bq4830y.h \
 	ds12c887.c \
 	ds12c887.h \
-	ds1302.c \
-	ds1302.h \
+	ds1202_1302.c \
+	ds1202_1302.h \
 	rtc.c \
 	rtc.h

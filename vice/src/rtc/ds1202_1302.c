@@ -1,5 +1,5 @@
 /*
- * ds1302.c - DS1302 RTC emulation.
+ * ds1202_1302.c - DS1202/1302 RTC emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -26,14 +26,14 @@
 
 #include "vice.h"
 
-#include "ds1302.h"
+#include "ds1202_1302.h"
 #include "lib.h"
 #include "rtc.h"
 #include "snapshot.h"
 
 #include <string.h>
 
-/* The DS1302 is a serial line based RTC, it has the following features:
+/* The DS1202 and DS1302 are serial line based RTCs, they have the following features:
  * - Real-Time Clock Counts Seconds, Minutes, Hours, Date of the Month,
  *   Month, Day of the Week, and Year with Leap-Year,
  *   Compensation Valid Up to 2100
@@ -46,7 +46,7 @@
  * - All clock registers are in BCD format
  */
 
-/* The DS1302 has the following clock registers:
+/* The DS1202 and DS1302 have the following clock registers:
  *
  * register 0 : bit  7   Clock Halt
  *              bits 6-4 10 seconds
@@ -80,9 +80,12 @@
  * register 7 : bit 7    Write Protect flag
  *              bits 6-0 0
  *
- * register 8 : bits 7-0 Trickle Charge register (emulated as a dummy ram byte)
+ * DS1202 : registers 8-30: There are no registers at these locations (emulated as returning
+ *                          0 upon read)
  *
- * registers 9-30 : There are no registers at these locations (emulated as returning 0 upon read)
+ * DS1302 : register 8 : bits 7-0 Trickle Charge register (emulated as a dummy ram byte)
+ * DS1202 : registers 9-30: There are no registers at these locations (emulated as returning
+ *                          0 upon read)
  *
  * register 31 : Clock Burst mode, all 9 registers will be read from on written to in sequence.
  *               When writing in burst mode the first 8 registers need to be transfered before
@@ -93,36 +96,37 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-void ds1302_reset(rtc_ds1302_t *context)
+void ds1202_1302_reset(rtc_ds1202_1302_t *context)
 {
-    context->state = DS1302_INPUT_COMMAND_BITS;
+    context->state = DS1202_1302_INPUT_COMMAND_BITS;
     context->bit = 0;
     context->io_byte = 0;
 }
 
-rtc_ds1302_t *ds1302_init(BYTE *data, time_t *offset)
+rtc_ds1202_1302_t *ds1202_1302_init(BYTE *data, time_t *offset, int rtc_type)
 {
-    rtc_ds1302_t *retval = lib_malloc(sizeof(rtc_ds1302_t));
+    rtc_ds1202_1302_t *retval = lib_malloc(sizeof(rtc_ds1202_1302_t));
 
-    memset(retval, 0, sizeof(rtc_ds1302_t));
+    memset(retval, 0, sizeof(rtc_ds1202_1302_t));
     retval->ram = data;
     retval->offset = offset;
+    retval->rtc_type = rtc_type;
     return retval;
 }
 
-void ds1302_destroy(rtc_ds1302_t *context)
+void ds1202_1302_destroy(rtc_ds1202_1302_t *context)
 {
     lib_free(context);
 }
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, time_t offset, int latched)
+static BYTE ds1202_1302_get_clock_register(rtc_ds1202_1302_t *context, int reg, time_t offset, int latched)
 {
     BYTE retval;
 
     switch(reg) {
-        case DS1302_REG_SECONDS_CH:
+        case DS1202_1302_REG_SECONDS_CH:
             retval = context->clock_halt << 7;
             if (latched) {
                 retval |= (BYTE)rtc_get_second(offset, 1);
@@ -130,14 +134,14 @@ static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, time_t off
                 retval |= (BYTE)rtc_get_second(rtc_get_latch(offset), 1);
             }
             break;
-        case DS1302_REG_MINUTES:
+        case DS1202_1302_REG_MINUTES:
             if (latched) {
                 retval = (BYTE)rtc_get_minute(offset, 1);
             } else {
                 retval = (BYTE)rtc_get_minute(rtc_get_latch(offset), 1);
             }
             break;
-        case DS1302_REG_HOURS:
+        case DS1202_1302_REG_HOURS:
             retval = context->am_pm << 7;
             if (context->am_pm) {
                 if (latched) {
@@ -153,14 +157,14 @@ static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, time_t off
                 }
             }
             break;
-        case DS1302_REG_DAYS_OF_MONTH:
+        case DS1202_1302_REG_DAYS_OF_MONTH:
             if (latched) {
                 retval = (BYTE)rtc_get_day_of_month(offset, 1);
             } else {
                 retval = (BYTE)rtc_get_day_of_month(rtc_get_latch(offset), 1);
             }
             break;
-        case DS1302_REG_MONTHS:
+        case DS1202_1302_REG_MONTHS:
             if (latched) {
                 retval = (BYTE)(rtc_get_month(offset, 1) + 1);
             } else {
@@ -170,25 +174,29 @@ static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, time_t off
                 retval += 7;
             }
             break;
-        case DS1302_REG_DAYS_OF_WEEK:
+        case DS1202_1302_REG_DAYS_OF_WEEK:
             if (latched) {
                 retval = (BYTE)(rtc_get_weekday(offset) + 1);
             } else {
                 retval = (BYTE)(rtc_get_weekday(rtc_get_latch(offset)) + 1);
             }
             break;
-        case DS1302_REG_YEARS:
+        case DS1202_1302_REG_YEARS:
             if (latched) {
                 retval = (BYTE)rtc_get_year(offset, 1);
             } else {
                 retval = (BYTE)rtc_get_year(rtc_get_latch(offset), 1);
             }
             break;
-        case DS1302_REG_WRITE_PROTECT:
+        case DS1202_1302_REG_WRITE_PROTECT:
             retval = context->write_protect << 7;
             break;
         case DS1302_REG_TRICKLE_CHARGE:
-            retval = context->trickle_charge;
+            if (context->rtc_type == 1302) {
+                retval = context->trickle_charge;
+            } else {
+                retval = 0;
+            }
             break;
         default:
             retval = 0;
@@ -196,7 +204,7 @@ static BYTE ds1302_get_clock_register(rtc_ds1302_t *context, int reg, time_t off
     return retval;
 }
 
-static void ds1302_decode_command(rtc_ds1302_t *context)
+static void ds1202_1302_decode_command(rtc_ds1202_1302_t *context)
 {
     int burst = 0;
     int read = 0;
@@ -207,7 +215,7 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
 
     /* is bit 7 set ? */
     if (command < 0x80) {
-        ds1302_reset(context);
+        ds1202_1302_reset(context);
         return;
     }
 
@@ -232,40 +240,40 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
         read = 1;
     }
 
-    /* check for DS1302_INPUT_SINGLE_DATA_BITS */
+    /* check for DS1202_1302_INPUT_SINGLE_DATA_BITS */
     if (!read && !burst) {
-        context->state = DS1302_INPUT_SINGLE_DATA_BITS;
+        context->state = DS1202_1302_INPUT_SINGLE_DATA_BITS;
         context->io_byte = 0;
         context->bit = 0;
     }
 
-    /* check for DS1302_INPUT_BURST_DATA_BITS */
+    /* check for DS1202_1302_INPUT_BURST_DATA_BITS */
     if (!read && burst) {
-        context->state = DS1302_INPUT_BURST_DATA_BITS;
+        context->state = DS1202_1302_INPUT_BURST_DATA_BITS;
         context->io_byte = 0;
         context->bit = 0;
         context->reg = 0;
     }
 
-    /* check for DS1302_OUTPUT_SINGLE_DATA_BITS and clock */
+    /* check for DS1202_1302_OUTPUT_SINGLE_DATA_BITS and clock */
     if (read && !burst && clock_reg) {
-        context->state = DS1302_OUTPUT_SINGLE_DATA_BITS;
+        context->state = DS1202_1302_OUTPUT_SINGLE_DATA_BITS;
         context->bit = 0;
         latched = context->clock_halt;
         offset = (latched) ? context->clock_halt_latch : context->offset[0];
-        context->io_byte = ds1302_get_clock_register(context, context->reg, offset, latched);
+        context->io_byte = ds1202_1302_get_clock_register(context, context->reg, offset, latched);
     }
 
-    /* check for DS1302_OUTPUT_SINGLE_DATA_BITS and ram */
+    /* check for DS1202_1302_OUTPUT_SINGLE_DATA_BITS and ram */
     if (read && !burst && !clock_reg) {
-        context->state = DS1302_OUTPUT_SINGLE_DATA_BITS;
+        context->state = DS1202_1302_OUTPUT_SINGLE_DATA_BITS;
         context->bit = 0;
         context->io_byte = (context->ram[context->reg * 2] << 4) | (context->ram[(context->reg * 2) + 1] & 0xf);
     }
 
-    /* check for DS1302_OUTPUT_BURST_DATA_BITS and clock */
+    /* check for DS1202_1302_OUTPUT_BURST_DATA_BITS and clock */
     if (read && burst && clock_reg) {
-        context->state = DS1302_OUTPUT_BURST_DATA_BITS;
+        context->state = DS1202_1302_OUTPUT_BURST_DATA_BITS;
         context->reg = 0;
         context->bit = 0;
         if (context->clock_halt) {
@@ -273,28 +281,28 @@ static void ds1302_decode_command(rtc_ds1302_t *context)
         } else {
             context->latch = rtc_get_latch(context->offset[0]);
         }
-        context->io_byte = ds1302_get_clock_register(context, 0, context->latch, 1);
+        context->io_byte = ds1202_1302_get_clock_register(context, 0, context->latch, 1);
     }
 
-    /* check for DS1302_OUTPUT_BURST_DATA_BITS and ram */
+    /* check for DS1202_1302_OUTPUT_BURST_DATA_BITS and ram */
     if (read && burst && !clock_reg) {
-        context->state = DS1302_OUTPUT_BURST_DATA_BITS;
+        context->state = DS1202_1302_OUTPUT_BURST_DATA_BITS;
         context->reg = 0;
         context->bit = 0;
         context->io_byte = (context->ram[0] << 4) | (context->ram[1] & 0xf);
     }
 }
 
-static void ds1302_write_command_bit(rtc_ds1302_t *context, unsigned int input_bit)
+static void ds1202_1302_write_command_bit(rtc_ds1202_1302_t *context, unsigned int input_bit)
 {
     context->io_byte |= (input_bit << context->bit);
     context->bit++;
     if (context->bit == 8) {
-        ds1302_decode_command(context);
+        ds1202_1302_decode_command(context);
     }
 }
 
-static BYTE ds1302_read_burst_data_bit(rtc_ds1302_t *context)
+static BYTE ds1202_1302_read_burst_data_bit(rtc_ds1202_1302_t *context)
 {
     BYTE retval;
 
@@ -304,16 +312,16 @@ static BYTE ds1302_read_burst_data_bit(rtc_ds1302_t *context)
         context->reg++;
         if (context->clock_register) {
             if (context->reg == 8) {
-                context->state = DS1302_INPUT_COMMAND_BITS;
+                context->state = DS1202_1302_INPUT_COMMAND_BITS;
                 context->bit = 0;
                 context->io_byte = 0;
             } else {
                 context->bit = 0;
-                context->io_byte = ds1302_get_clock_register(context, context->reg, context->latch, 1);
+                context->io_byte = ds1202_1302_get_clock_register(context, context->reg, context->latch, 1);
             }
         } else {
             if (context->reg == 32) {
-                context->state = DS1302_INPUT_COMMAND_BITS;
+                context->state = DS1202_1302_INPUT_COMMAND_BITS;
                 context->bit = 0;
                 context->io_byte = 0;
             } else {
@@ -325,21 +333,21 @@ static BYTE ds1302_read_burst_data_bit(rtc_ds1302_t *context)
     return retval;
 }
 
-static BYTE ds1302_read_single_data_bit(rtc_ds1302_t *context)
+static BYTE ds1202_1302_read_single_data_bit(rtc_ds1202_1302_t *context)
 {
     BYTE retval;
 
     retval = ((context->io_byte) >> context->bit) & 1;
     context->bit++;
     if (context->bit == 8) {
-        context->state = DS1302_INPUT_COMMAND_BITS;
+        context->state = DS1202_1302_INPUT_COMMAND_BITS;
         context->bit = 0;
         context->io_byte = 0;
     }
     return retval;
 }
 
-static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, unsigned int input_bit)
+static void ds1202_1302_write_burst_data_bit(rtc_ds1202_1302_t *context, unsigned int input_bit)
 {
     BYTE val;
 
@@ -350,55 +358,55 @@ static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, unsigned int inpu
             context->clock_regs[context->reg] = context->io_byte;
             context->reg++;
             if (context->reg == 8) {
-                context->state = DS1302_INPUT_COMMAND_BITS;
+                context->state = DS1202_1302_INPUT_COMMAND_BITS;
                 if (!context->write_protect) {
                     if (context->clock_halt) {
-                        val = context->clock_regs[DS1302_REG_MINUTES];
+                        val = context->clock_regs[DS1202_1302_REG_MINUTES];
                         context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, 1);
-                        val = context->clock_regs[DS1302_REG_DAYS_OF_MONTH];
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_MONTH];
                         context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, 1);
-                        val = context->clock_regs[DS1302_REG_MONTHS] - 1;
+                        val = context->clock_regs[DS1202_1302_REG_MONTHS] - 1;
                         if (val == 15) {
                             val = 9;
                         }
                         context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
-                        val = context->clock_regs[DS1302_REG_DAYS_OF_WEEK];
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_WEEK];
                         context->clock_halt_latch = rtc_set_latched_weekday(val - 1, context->clock_halt_latch);
-                        val = context->clock_regs[DS1302_REG_YEARS];
+                        val = context->clock_regs[DS1202_1302_REG_YEARS];
                         context->clock_halt_latch = rtc_set_latched_year(val, context->clock_halt_latch, 1);
-                        val = context->clock_regs[DS1302_REG_HOURS];
+                        val = context->clock_regs[DS1202_1302_REG_HOURS];
                         if (val & 0x80) {
                             context->clock_halt_latch = rtc_set_latched_hour_am_pm(val & 0x7f, context->clock_halt_latch, 1);
                         } else {
                             context->clock_halt_latch = rtc_set_latched_hour(val & 0x7f, context->clock_halt_latch, 1);
                         }
-                        val = context->clock_regs[DS1302_REG_SECONDS_CH];
+                        val = context->clock_regs[DS1202_1302_REG_SECONDS_CH];
                         context->clock_halt_latch = rtc_set_latched_second(val & 0x7f, context->clock_halt_latch, 1);
                         if (!(val & 0x80)) {
                             context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->clock_halt_latch - context->offset[0]));
                             context->clock_halt = 0;
                         }
                     } else {
-                        val = context->clock_regs[DS1302_REG_MINUTES];
+                        val = context->clock_regs[DS1202_1302_REG_MINUTES];
                         context->offset[0] = rtc_set_minute(val, context->offset[0], 1);
-                        val = context->clock_regs[DS1302_REG_DAYS_OF_MONTH];
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_MONTH];
                         context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
-                        val = context->clock_regs[DS1302_REG_MONTHS] - 1;
+                        val = context->clock_regs[DS1202_1302_REG_MONTHS] - 1;
                         if (val == 15) {
                             val = 9;
                         }
                         context->offset[0] = rtc_set_month(val, context->offset[0], 1);
-                        val = context->clock_regs[DS1302_REG_DAYS_OF_WEEK];
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_WEEK];
                         context->offset[0] = rtc_set_weekday(val - 1, context->offset[0]);
-                        val = context->clock_regs[DS1302_REG_YEARS];
+                        val = context->clock_regs[DS1202_1302_REG_YEARS];
                         context->offset[0] = rtc_set_year(val, context->offset[0], 1);
-                        val = context->clock_regs[DS1302_REG_HOURS];
+                        val = context->clock_regs[DS1202_1302_REG_HOURS];
                         if (val & 0x80) {
                             context->offset[0] = rtc_set_hour_am_pm(val & 0x7f, context->offset[0], 1);
                         } else {
                             context->offset[0] = rtc_set_hour(val & 0x7f, context->offset[0], 1);
                         }
-                        val = context->clock_regs[DS1302_REG_SECONDS_CH];
+                        val = context->clock_regs[DS1202_1302_REG_SECONDS_CH];
                         context->offset[0] = rtc_set_second(val & 0x7f, context->offset[0], 1);
                         if (val & 0x80) {
                             context->clock_halt = 1;
@@ -412,7 +420,7 @@ static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, unsigned int inpu
             context->ram[(context->reg * 2) + 1] = (context->io_byte & 0xf) | 0x40;
             context->reg++;
             if (context->reg == 32) {
-                context->state = DS1302_INPUT_COMMAND_BITS;
+                context->state = DS1202_1302_INPUT_COMMAND_BITS;
             }
         }
         context->io_byte = 0;
@@ -420,7 +428,7 @@ static void ds1302_write_burst_data_bit(rtc_ds1302_t *context, unsigned int inpu
     }
 }
 
-static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int input_bit)
+static void ds1202_1302_write_single_data_bit(rtc_ds1202_1302_t *context, unsigned int input_bit)
 {
     BYTE val;
 
@@ -430,7 +438,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
         if (context->clock_register) {
             val = context->io_byte;
             switch (context->reg) {
-                case DS1302_REG_MINUTES:
+                case DS1202_1302_REG_MINUTES:
                     if (!context->write_protect) {
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, 1);
@@ -439,7 +447,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         }
                     }
                     break;
-                case DS1302_REG_DAYS_OF_MONTH:
+                case DS1202_1302_REG_DAYS_OF_MONTH:
                     if (!context->write_protect) {
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, 1);
@@ -448,7 +456,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         }
                     }
                     break;
-                case DS1302_REG_MONTHS:
+                case DS1202_1302_REG_MONTHS:
                     if (!context->write_protect) {
                         val--;
                         if (val == 15) {
@@ -461,7 +469,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         }
                     }
                     break;
-                case DS1302_REG_DAYS_OF_WEEK:
+                case DS1202_1302_REG_DAYS_OF_WEEK:
                     if (!context->write_protect) {
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_weekday(val - 1, context->clock_halt_latch);
@@ -470,7 +478,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         }
                     }
                     break;
-                case DS1302_REG_YEARS:
+                case DS1202_1302_REG_YEARS:
                     if (!context->write_protect) {
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_year(val, context->clock_halt_latch, 1);
@@ -480,12 +488,14 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                     }
                     break;
                 case DS1302_REG_TRICKLE_CHARGE:
-                    context->trickle_charge = val;
+                    if (context->rtc_type == 1302) {
+                        context->trickle_charge = val;
+                    }
                     break;
-                case DS1302_REG_WRITE_PROTECT:
+                case DS1202_1302_REG_WRITE_PROTECT:
                     context->write_protect = val >> 7;
                     break;
-                case DS1302_REG_HOURS:
+                case DS1202_1302_REG_HOURS:
                     if (!context->write_protect) {
                         if (val & 0x80) {
                             if (context->clock_halt) {
@@ -504,7 +514,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
                         }
                     }
                     break;
-                case DS1302_REG_SECONDS_CH:
+                case DS1202_1302_REG_SECONDS_CH:
                     if (!context->write_protect) {
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_second(val & 0x7f, context->clock_halt_latch, 1);
@@ -526,7 +536,7 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
             context->ram[context->reg * 2] = (context->io_byte >> 4) | 0x40;
             context->ram[(context->reg * 2) + 1] = (context->io_byte & 0xf) | 0x40;
         }
-        context->state = DS1302_INPUT_COMMAND_BITS;
+        context->state = DS1202_1302_INPUT_COMMAND_BITS;
         context->bit = 0;
         context->io_byte = 0;
     }
@@ -534,13 +544,13 @@ static void ds1302_write_single_data_bit(rtc_ds1302_t *context, unsigned int inp
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-void ds1302_set_lines(rtc_ds1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit)
+void ds1202_1302_set_lines(rtc_ds1202_1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit)
 {
     int rising_edge = 0;
 
     /* is the Chip Enable line low ? */
     if (!ce_line) {
-        ds1302_reset(context);
+        ds1202_1302_reset(context);
         context->sclk_line = sclk_line;
         return;
     }
@@ -560,38 +570,38 @@ void ds1302_set_lines(rtc_ds1302_t *context, unsigned int ce_line, unsigned int 
     if (rising_edge) {
         /* handle writing state of rtc */
         switch (context->state) {
-            case DS1302_OUTPUT_SINGLE_DATA_BITS:
-            case DS1302_OUTPUT_BURST_DATA_BITS:
+            case DS1202_1302_OUTPUT_SINGLE_DATA_BITS:
+            case DS1202_1302_OUTPUT_BURST_DATA_BITS:
                 break;
-            case DS1302_INPUT_COMMAND_BITS:
-                ds1302_write_command_bit(context, input_bit & 1u);
+            case DS1202_1302_INPUT_COMMAND_BITS:
+                ds1202_1302_write_command_bit(context, input_bit & 1u);
                 break;
-            case DS1302_INPUT_SINGLE_DATA_BITS:
-                ds1302_write_single_data_bit(context, input_bit & 1u);
+            case DS1202_1302_INPUT_SINGLE_DATA_BITS:
+                ds1202_1302_write_single_data_bit(context, input_bit & 1u);
                 break;
-            case DS1302_INPUT_BURST_DATA_BITS:
-                ds1302_write_burst_data_bit(context, input_bit & 1u);
+            case DS1202_1302_INPUT_BURST_DATA_BITS:
+                ds1202_1302_write_burst_data_bit(context, input_bit & 1u);
                 break;
         }
     } else {
         /* handle reading state of rtc */
         switch (context->state) {
-            case DS1302_INPUT_COMMAND_BITS:
-            case DS1302_INPUT_SINGLE_DATA_BITS:
-            case DS1302_INPUT_BURST_DATA_BITS:
+            case DS1202_1302_INPUT_COMMAND_BITS:
+            case DS1202_1302_INPUT_SINGLE_DATA_BITS:
+            case DS1202_1302_INPUT_BURST_DATA_BITS:
                 context->output_bit = input_bit & 1u;
                 break;
-            case DS1302_OUTPUT_SINGLE_DATA_BITS:
-                context->output_bit = ds1302_read_single_data_bit(context);
+            case DS1202_1302_OUTPUT_SINGLE_DATA_BITS:
+                context->output_bit = ds1202_1302_read_single_data_bit(context);
                 break;
-            case DS1302_OUTPUT_BURST_DATA_BITS:
-                context->output_bit = ds1302_read_burst_data_bit(context);
+            case DS1202_1302_OUTPUT_BURST_DATA_BITS:
+                context->output_bit = ds1202_1302_read_burst_data_bit(context);
                 break;
         }
     }
 }
 
-BYTE ds1302_read_data_line(rtc_ds1302_t *context)
+BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
 {
     return context->output_bit;
 }
@@ -601,10 +611,10 @@ BYTE ds1302_read_data_line(rtc_ds1302_t *context)
 
 #define CART_DUMP_VER_MAJOR   0
 #define CART_DUMP_VER_MINOR   0
-#define SNAP_MODULE_NAME  "DS1302"
+#define SNAP_MODULE_NAME  "DS1202_1302"
 
 /* FIXME: implement snapshot support */
-int ds1302_snapshot_write_module(snapshot_t *s)
+int ds1202_1302_snapshot_write_module(snapshot_t *s)
 {
     return -1;
 #if 0
@@ -626,7 +636,7 @@ int ds1302_snapshot_write_module(snapshot_t *s)
 #endif
 }
 
-int ds1302_snapshot_read_module(snapshot_t *s)
+int ds1202_1302_snapshot_read_module(snapshot_t *s)
 {
     return -1;
 #if 0
