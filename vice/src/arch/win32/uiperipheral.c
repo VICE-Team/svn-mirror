@@ -181,7 +181,11 @@ static void init_dialog(HWND hwnd, unsigned int num)
     int xpos, xpos1, xpos2, xpos3;
     int distance1, distance2;
     RECT rect;
-    uilib_localize_dialog_param *diskdevice_dialog = (opencbmlib_is_available()) ? diskdevice_opencbm_dialog : diskdevice_normal_dialog;
+    uilib_localize_dialog_param *diskdevice_dialog =
+#ifdef HAVE_OPENCBM
+      (opencbmlib_is_available()) ? diskdevice_opencbm_dialog : 
+#endif
+      diskdevice_normal_dialog;
 
     if (num >= 8 && num <= 11) {
         /* translate all dialog items */
@@ -662,7 +666,11 @@ static void init_printer_dialog(unsigned int num, HWND hwnd)
     int xmax;
     int xpos;
     int size;
-    const int *ui_printer = (opencbmlib_is_available()) ? ui_printer_opencbm : ui_printer_normal;
+    const int *ui_printer = 
+#ifdef HAVE_OPENCBM
+      (opencbmlib_is_available()) ? ui_printer_opencbm :
+#endif
+      ui_printer_normal;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, printer_dialog_trans);
@@ -933,16 +941,22 @@ static void uiperipheral_dialog(HWND hwnd)
         psp[no_of_printers + i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[no_of_printers + i].hInstance = winmain_instance;
 #ifdef _ANONYMOUS_UNION
+#ifdef HAVE_OPENCBM
         if (opencbmlib_is_available()) {
             psp[no_of_printers + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
-        } else {
+        } else
+#endif
+        {
             psp[no_of_printers + i].pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         }
         psp[no_of_printers + i].pszIcon = NULL;
 #else
+#ifdef HAVE_OPENCBM
         if (opencbmlib_is_available()) {
             psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_OPENCBM_DIALOG);
-        } else {
+        } else 
+#endif
+        {
             psp[no_of_printers + i].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_DISKDEVICE_DIALOG);
         }
         psp[no_of_printers + i].u2.pszIcon = NULL;
