@@ -166,12 +166,14 @@ static BYTE ds1202_1302_get_clock_register(rtc_ds1202_1302_t *context, int reg, 
             break;
         case DS1202_1302_REG_MONTHS:
             if (latched) {
-                retval = (BYTE)(rtc_get_month(offset, 1) + 1);
+                retval = (BYTE)(rtc_get_month(offset, 1));
             } else {
-                retval = (BYTE)(rtc_get_month(rtc_get_latch(offset), 1) + 1);
+                retval = (BYTE)(rtc_get_month(rtc_get_latch(offset), 1));
             }
-            if (retval >= 10) {
-                retval += 7;
+            if (retval == 7) {
+                retval += 9;
+            } else {
+                retval++;
             }
             break;
         case DS1202_1302_REG_DAYS_OF_WEEK:
@@ -393,7 +395,7 @@ static void ds1202_1302_write_burst_data_bit(rtc_ds1202_1302_t *context, unsigne
                         context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
                         val = context->clock_regs[DS1202_1302_REG_MONTHS] - 1;
                         if (val == 15) {
-                            val = 9;
+                            val = 7;
                         }
                         context->offset[0] = rtc_set_month(val, context->offset[0], 1);
                         val = context->clock_regs[DS1202_1302_REG_DAYS_OF_WEEK];
@@ -460,7 +462,7 @@ static void ds1202_1302_write_single_data_bit(rtc_ds1202_1302_t *context, unsign
                     if (!context->write_protect) {
                         val--;
                         if (val == 15) {
-                            val = 9;
+                            val = 7;
                         }
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
