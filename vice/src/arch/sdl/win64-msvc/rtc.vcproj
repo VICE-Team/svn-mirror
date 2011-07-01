@@ -393,7 +393,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\rtc\ds1302.c"
+			RelativePath="..\..\..\rtc\ds1202_1302.c"
 			>
 			<FileConfiguration
 				Name="Release|x64"

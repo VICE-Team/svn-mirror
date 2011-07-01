@@ -50,7 +50,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\bq4830y.obj"
 	-@erase "$(INTDIR)\ds12c887.obj"
-	-@erase "$(INTDIR)\ds1302.obj"
+	-@erase "$(INTDIR)\ds1202_1302.obj"
 	-@erase "$(INTDIR)\rtc.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\rtc.lib"
@@ -101,7 +101,7 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\rtc.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\bq4830y.obj" \
 	"$(INTDIR)\ds12c887.obj" \
-	"$(INTDIR)\ds1302.obj" \
+	"$(INTDIR)\ds1202_1302.obj" \
 	"$(INTDIR)\rtc.obj" \
 	".\libs\base\Release\base.lib"
 
@@ -135,7 +135,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\bq4830y.obj"
 	-@erase "$(INTDIR)\ds12c887.obj"
-	-@erase "$(INTDIR)\ds1302.obj"
+	-@erase "$(INTDIR)\ds1202_1302.obj"
 	-@erase "$(INTDIR)\rtc.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\rtc.lib"
@@ -186,7 +186,7 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\rtc.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\bq4830y.obj" \
 	"$(INTDIR)\ds12c887.obj" \
-	"$(INTDIR)\ds1302.obj" \
+	"$(INTDIR)\ds1202_1302.obj" \
 	"$(INTDIR)\rtc.obj" \
 	".\libs\base\Debug\base.lib"
 
@@ -238,9 +238,9 @@ SOURCE="..\..\..\rtc\ds12c887.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\rtc\ds1302.c"
+SOURCE="..\..\..\rtc\ds1202_1302.c"
 
-"$(INTDIR)\ds1302.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\ds1202_1302.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

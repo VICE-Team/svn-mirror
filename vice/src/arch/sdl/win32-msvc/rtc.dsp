@@ -90,7 +90,7 @@ SOURCE="..\..\..\rtc\ds12c887.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\rtc\ds1302.c"
+SOURCE="..\..\..\rtc\ds1202_1302.c"
 # End Source File
 # Begin Source File
 
