@@ -5,7 +5,6 @@
 
 #include "debug.h"
 #include "res.h"
-#include "videoarch.h"
 #include "rescommon.h"
 
 #ifndef WINDRES_CP_IGNORE
