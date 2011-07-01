@@ -2073,8 +2073,21 @@ fi
 
 if test x"$is_win32" = "xyes"; then
     if test x"$enable_sdlui" != "xyes"; then
-        SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o soundwmm.o"
-        AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])
+        SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
+        AC_MSG_CHECKING(whether we can use directx sound)
+        old_LIBS="$LIBS"
+        LIBS="$LIBS -ldsound"
+        AC_TRY_LINK([#define DIRECTSOUND_VERSION 0x500
+                         #include <dsound.h>],
+                        [LPDIRECTSOUNDBUFFER buffer=NULL;
+                         IDirectSoundBuffer_Restore(buffer);],
+                        [AC_MSG_RESULT(yes);
+                         SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o";
+                         SOUND_LIBS="$SOUND_LIBS -ldsound";
+                         AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])],
+                        [AC_MSG_RESULT(no)])
+        LIBS="$old_LIBS"
+
         AC_PATH_TOOL(WINDRES, windres, windres)
         AC_PATH_PROGS(WRC, wrc , windres)
         if test x"$WRC" != "xwindres"; then
