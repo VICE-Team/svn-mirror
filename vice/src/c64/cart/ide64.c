@@ -42,7 +42,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cmdline.h"
-#include "ds1302.h"
+#include "ds1202_1302.h"
 #include "ide64.h"
 #include "log.h"
 #include "lib.h"
@@ -81,7 +81,7 @@ static unsigned int current_bank;
 static unsigned int current_cfg;
 
 /* ds1302 context */
-static rtc_ds1302_t *ds1302_context = NULL;
+static rtc_ds1202_1302_t *ds1302_context = NULL;
 
 /*  */
 static BYTE kill_port;
@@ -802,9 +802,9 @@ static BYTE ide64_io1_read(WORD addr)
                 return i;
             }
             i &= ~1;
-            ds1302_set_lines(ds1302_context, 1u, 0u, 1u);
-            i |= ds1302_read_data_line(ds1302_context);
-            ds1302_set_lines(ds1302_context, 1u, 1u, 1u);
+            ds1202_1302_set_lines(ds1302_context, 1u, 0u, 1u);
+            i |= ds1202_1302_read_data_line(ds1302_context);
+            ds1202_1302_set_lines(ds1302_context, 1u, 1u, 1u);
             return i;
     }
     ide64_device.io_source_valid = 0;
@@ -1176,8 +1176,8 @@ aborted_command:
             if ((kill_port & 2) == 0) {
                 break;
             }
-            ds1302_set_lines(ds1302_context, 1u, 0u, value & 1u);
-            ds1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
+            ds1202_1302_set_lines(ds1302_context, 1u, 0u, value & 1u);
+            ds1202_1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
             return;
         case 0x60:
             if (settings_version4) {
@@ -1221,7 +1221,7 @@ aborted_command:
             break;
         case 0xfb:
             if (((kill_port & 0x02) == 0) && (value & 0x02)) {
-                ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
+                ds1202_1302_set_lines(ds1302_context, 0u, 1u, 1u);
             }
             kill_port = value;
             if ((kill_port & 1) == 0) {
@@ -1289,7 +1289,7 @@ void ide64_config_init(void)
     current_cfg = 0;
     kill_port = 0;
     if (ds1302_context != NULL) {
-        ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
+        ds1202_1302_set_lines(ds1302_context, 0u, 1u, 1u);
     }
 }
 
@@ -1307,7 +1307,7 @@ void ide64_detach(void)
     c64export_remove(&export_res);
 
     if (ds1302_context != NULL) {
-        ds1302_destroy(ds1302_context);
+        ds1202_1302_destroy(ds1302_context);
         ds1302_context = NULL;
     }
 
@@ -1338,10 +1338,10 @@ static int ide64_common_attach(void)
     ide64_enabled = 1;
 
     if (ds1302_context != NULL) {
-        ds1302_destroy(ds1302_context);
+        ds1202_1302_destroy(ds1302_context);
     }
-    ds1302_context = ds1302_init((BYTE *)ide64_DS1302, &rtc_offset);
-    ds1302_set_lines(ds1302_context, 0u, 1u, 1u);
+    ds1302_context = ds1202_1302_init((BYTE *)ide64_DS1302, &rtc_offset, 1302);
+    ds1202_1302_set_lines(ds1302_context, 0u, 1u, 1u);
 
     for (i = 0; i < 4; i++) {
         if (idrive < 0) {
