@@ -360,7 +360,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
 
 BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
 {
-    BYTE retval;
+    BYTE retval, val;
     int latch_state = context->read_latch | (context->write_latch << 1) | (context->clock_halt << 2);
     time_t latch;
 
