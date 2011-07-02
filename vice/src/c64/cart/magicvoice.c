@@ -1299,6 +1299,7 @@ static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 static int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
+    int j;
     SWORD *buffer;
 
     buffer = lib_malloc(nr * 2);
@@ -1307,7 +1308,9 @@ static int magicvoice_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf
 
     /* mix generated samples to output */
     for (i = 0; i < nr; i++) {
-        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
+        for (j = 0; j < interleave; j++) {
+            pbuf[(i * interleave) + j] = sound_audio_mix(pbuf[(i * interleave) + j], buffer[i]);
+        }
     }
 
     lib_free(buffer);
