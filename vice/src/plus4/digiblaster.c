@@ -136,10 +136,12 @@ static struct digiblaster_sound_s snd;
 
 static int digiblaster_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
-    int i;
+    int i, j;
 
     for (i = 0; i < nr; i++) {
-        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],snd.voice0 << 8);
+        for (j = 0; j < interleave; j++) {
+            pbuf[(i * interleave) + j] = sound_audio_mix(pbuf[(i * interleave) + j],snd.voice0 << 8);
+        }
     }
     return nr;
 }

@@ -137,19 +137,24 @@ static WORD pet_makesample(double s, double e, BYTE sample)
 static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int i;
+    int j;
     WORD v = 0;
 
-    for (i = 0; i < nr; i++)
-    {
-        if (snd.on)
+    for (i = 0; i < nr; i++) {
+        if (snd.on) {
             v = pet_makesample(snd.b, snd.b + snd.bs, snd.sample);
-        else if (snd.manual)
+        } else if (snd.manual) {
             v = 20000;
+        }
 
-        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],(SWORD)v);
+        for (j = 0; j < interleave; j++) {
+            pbuf[(i * interleave) + j] = sound_audio_mix(pbuf[(i * interleave) + j],(SWORD)v);
+        }
+
         snd.b += snd.bs;
-        while (snd.b >= 8.0)
+        while (snd.b >= 8.0) {
             snd.b -= 8.0;
+        }
     }
     return nr;
 }

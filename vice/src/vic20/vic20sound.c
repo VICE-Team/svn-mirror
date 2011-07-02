@@ -237,6 +237,7 @@ void vic_sound_clock(int cycles);
 static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
 {
     int s = 0;
+    int i;
 
     while (s < nr && *delta_t >= snd.cycles_per_sample - snd.leftover_cycles) {
         float o;
@@ -263,7 +264,9 @@ static int vic_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
             vicbuf = (SWORD)o;
         }
 
-        pbuf[s * interleave] = vicbuf;
+        for (i = 0; i < interleave; i++) {
+            pbuf[(s * interleave) + i] = vicbuf;
+        }
         s++;
         snd.accum = 0;
         snd.accum_cycles = 0;

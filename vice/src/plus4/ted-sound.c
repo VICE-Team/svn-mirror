@@ -138,13 +138,14 @@ static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
 {
     int i;
     int j;
+    int k;
     SWORD volume;
 
     if (snd.digital) {
         for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], (snd.volume *
-                                   (snd.voice0_output_enabled
-                                   + snd.voice1_output_enabled)));
+            for (k = 0; k < interleave; k++) {
+                pbuf[(i * interleave) + k] = sound_audio_mix(pbuf[(i * interleave) + k], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
+            }
         }
     } else {
         for (i = 0; i < nr; i++) {
@@ -222,7 +223,9 @@ static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
                 && (!(snd.noise_shift_register & 1)))
                 volume += snd.volume;
 
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], volume);
+            for (k = 0; k < interleave; k++) {
+                pbuf[(i * interleave) + k] = sound_audio_mix(pbuf[(i * interleave) + k], volume);
+            }
         }
     }
     return nr;
