@@ -10685,6 +10685,8 @@ goes to the following people:
 @b{Holger Busse}
 @item
 @b{David "jbevren" Wood}
+@item
+@b{Gary Glenn}
 @end itemize
 
 Last but not least, a very special thank to Andreas Arens, Lutz

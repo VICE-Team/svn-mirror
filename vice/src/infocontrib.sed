@@ -141,6 +141,7 @@ s/@b{Jennifer Medkief}/Jennifer Medkief <jennifermedkief@gmail.com>/g
 s/@b{Ulrich Schulz}/Ulrich Schulz <peiselulli@t-online.de>/g
 s/@b{Michael Litvinov}/Michael Litvinov <litvinov.m@i.ua>/g
 s/@b{Jesse Lee}/Jesse Lee <interpreters.jesse@gmail.com>/g
+s/@b{Gary Glenn}/Gary Glenn/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g
