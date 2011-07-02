@@ -52,7 +52,7 @@ static BYTE vic_sound_machine_read(sound_t *psid, WORD addr);
 
 static int vic_sound_machine_cycle_based(void)
 {
-	return 0;
+	return 1;
 }
 
 static int vic_sound_machine_channels(void)
