@@ -94,6 +94,10 @@ SOURCE="..\..\rtc\ds1202_1302.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\rtc\ds1216e.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\rtc\rtc.c"
 # End Source File
 # End Target
