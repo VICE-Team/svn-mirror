@@ -12,5 +12,7 @@ librtc_a_SOURCES = \
 	ds12c887.h \
 	ds1202_1302.c \
 	ds1202_1302.h \
+	ds1216e.c \
+	ds1216e.h \
 	rtc.c \
 	rtc.h

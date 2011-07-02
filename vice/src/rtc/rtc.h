@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+extern int rtc_get_centisecond(int bcd);
+
 extern int rtc_get_second(time_t time_val, int bcd);         /* 0 - 61 (leap seconds would be 60 and 61) */
 extern int rtc_get_minute(time_t time_val, int bcd);         /* 0 - 59 */
 extern int rtc_get_hour(time_t time_val, int bcd);           /* 0 - 23 */

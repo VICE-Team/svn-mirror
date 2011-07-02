@@ -27,6 +27,7 @@
 #include "vice.h"
 
 #include <time.h>
+#include <sys/time.h>
 
 #include "rtc.h"
 
@@ -41,6 +42,20 @@ inline static int bcd_to_int(int bcd)
 }
 
 /* ---------------------------------------------------------------------- */
+
+/* get 1/100 seconds from clock */
+int rtc_get_centisecond(int bcd)
+{
+#ifdef HAVE_GETTIMEOFDAY
+    struct timeval t;
+
+    gettimeofday(&t, NULL);
+    return (int)((bcd) ? int_to_bcd(t.tv_usec / 10000) : t.tv_usec / 10000);
+#else
+    /* FIXME: arch-dependent implementation will need to be made */
+    #error not implemented
+#endif
+}
 
 /* get seconds from time value
    0 - 61 (leap seconds would be 60 and 61) */
