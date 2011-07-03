@@ -26,6 +26,8 @@
  *
  */
 
+/* #define DEBUG_DRIVE */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -136,6 +138,19 @@ static unsigned int vdrive_rel_blocks_max(vdrive_t *vdrive)
     return maximum;
 }
 
+static void vdrive_rel_commit(vdrive_t *vdrive, bufferinfo_t *p)
+{
+    /* Check for writes here to commit the buffers. */
+    if (p->needsupdate & DIRTY_SECTOR) {
+        /* Write the sector */
+        disk_image_write_sector(vdrive->image, p->buffer, p->track, p->sector);
+        /* Clear flag for next sector */
+        p->needsupdate &= ~(DIRTY_SECTOR);
+    }
+
+    return;
+}
+
 static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
                                   unsigned int *track, unsigned int *sector)
 {
@@ -207,7 +222,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         o = 256 * ( i + side * SIDE_SECTORS_MAX) + OFFSET_POINTER + 2 * (j-1);
         *track = p->side_sector[o];
         *sector = p->side_sector[o + 1];
-
+	
         /* Find a new sector */
         retval = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, track,
                                                    sector);
@@ -301,6 +316,25 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
             any dirty buffers too. */
         vdrive_rel_position(vdrive, secondary, p->record_max & 255,
                             p->record_max >> 8, 1);
+	
+	/* Check whether record is split over two sectors to determine
+	   the last sector of the relative file. */
+	if (p->bufptr + p->slot[SLOT_RECORD_LENGTH] > 256 ) {
+	      BYTE *tmp;
+	       
+	      /* Commit the buffers. */
+	      vdrive_rel_commit(vdrive, p);
+	      
+	      /* Swap the two buffers */
+	      tmp = p->buffer;
+	      p->buffer = p->buffer_next;
+	      p->buffer_next = tmp;
+	      p->track = p->track_next;
+	      p->sector = p->sector_next;
+
+	      o = p->bufptr + m - 254;
+	    }
+	else o = p->bufptr + m;
 
         /* Modify this sector to connect to the next one. */
         /* We won't use the pointer in this sector for the last used
@@ -314,7 +348,6 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         p->buffer[OFFSET_NEXT_SECTOR] = p->sector_next = *sector;
 
         /* Fill the new records up with the default 0xff 0x00 ... */
-        o = p->bufptr + m;
         while (o < 256)
         {
             if (k==0) p->buffer[o] = 0xff;
@@ -475,19 +508,6 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
 
     /* everything is okay. */
     return 0;
-}
-
-static void vdrive_rel_commit(vdrive_t *vdrive, bufferinfo_t *p)
-{
-    /* Check for writes here to commit the buffers. */
-    if (p->needsupdate & DIRTY_SECTOR) {
-        /* Write the sector */
-        disk_image_write_sector(vdrive->image, p->buffer, p->track, p->sector);
-        /* Clear flag for next sector */
-        p->needsupdate &= ~(DIRTY_SECTOR);
-    }
-
-    return;
 }
 
 static void vdrive_rel_fillrecord(vdrive_t *vdrive, unsigned int secondary)
@@ -722,6 +742,11 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     BYTE *slot;
 
+#ifdef DEBUG_DRIVE
+    log_debug("vdrive_rel_open_new: Name (%d) '%s'",
+              cmd_parse->parselength, cmd_parse->parsecmd);
+#endif
+
     /* Allocate a directory slot */
     vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
     slot = vdrive_dir_find_next_slot(vdrive);
@@ -739,8 +764,8 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     memset(p->slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(p->slot + SLOT_NAME_OFFSET, cmd_parse->parsecmd, cmd_parse->parselength);
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: Created dir slot. Name (%d) '%s'\n",
-              cmd_parse->parsecmd, cmd_parse->parselength);
+    log_debug("DIR: Created dir slot. Name (%d) '%s'",
+              cmd_parse->parselength, cmd_parse->parsecmd);
 #endif
     p->slot[SLOT_TYPE_OFFSET] = cmd_parse->filetype | 0x80;       /* closed */
 
