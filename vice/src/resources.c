@@ -1159,7 +1159,6 @@ int resources_save(const char *fname)
         /* open the old config */
         in_file = fopen(backup_name, MODE_READ_TEXT);
         if (!in_file) {
-            fclose(out_file);
             lib_free(backup_name);
             return RESERR_READ_ERROR;
         }
@@ -1170,6 +1169,9 @@ int resources_save(const char *fname)
     out_file = fopen(fname, MODE_WRITE_TEXT);
 
     if (!out_file) {
+        if (in_file != NULL) {
+            fclose(in_file);
+        }
         lib_free(backup_name);
         lib_free(default_name);
         return RESERR_CANNOT_CREATE_FILE;
@@ -1182,11 +1184,13 @@ int resources_save(const char *fname)
         while (1) {
             char buf[1024];
 
-            if (util_get_line(buf, 1024, in_file) < 0)
+            if (util_get_line(buf, 1024, in_file) < 0) {
                 break;
+            }
 
-            if (check_emu_id(buf))
+            if (check_emu_id(buf)) {
                 break;
+            }
 
             fprintf(out_file, "%s\n", buf);
         }
@@ -1194,17 +1198,19 @@ int resources_save(const char *fname)
 
     /* Write our current configuration.  */
     fprintf(out_file,"[%s]\n", machine_id);
-    for (i = 0; i < num_resources; i++)
+    for (i = 0; i < num_resources; i++) {
         write_resource_item(out_file, i);
-        fprintf(out_file, "\n");
+    }
+    fprintf(out_file, "\n");
 
     if(in_file != NULL) {
         char buf[1024];
 
         /* Skip the old configuration for this emulator.  */
         while (1) {
-            if (util_get_line(buf, 1024, in_file) < 0)
+            if (util_get_line(buf, 1024, in_file) < 0) {
                 break;
+            }
 
             /* Check if another emulation section starts.  */
             if (*buf == '[') {
@@ -1215,8 +1221,9 @@ int resources_save(const char *fname)
 
         if (!feof(in_file)) {
             /* Copy the configuration for the other emulators.  */
-            while (util_get_line(buf, 1024, in_file) >= 0)
+            while (util_get_line(buf, 1024, in_file) >= 0) {
                 fprintf(out_file, "%s\n", buf);
+            }
         }
         fclose(in_file);
         /* remove the backup */
