@@ -37,6 +37,9 @@
 #include <mmsystem.h>
 #endif
 
+#ifndef HAVE_GUIDLIB
+#define INITGUID
+#endif
 #if defined(WATCOM_COMPILE) || defined(__WATCOMC__)
 #define DIRECTSOUND_VERSION 0x0900
 #include <directx/dsound.h>
@@ -54,13 +57,6 @@
 #include "sound.h"
 #include "types.h"
 #include "uiapi.h"
-
-#ifndef HAVE_GUIDLIB
-/* FIXME: It would be better to convert the dxguid.lib from DX5 into the
-   Mingw32 port of DX5 */
-const GUID IID_IDirectSoundNotify = {0xb0210783, 0x89cd, 0x11d0,
-                                    {0xaf,0x08,0x00,0xa0,0xc9,0x25,0xcd,0x16}};
-#endif
 
 #ifdef USE_SDLUI
 HWND ui_get_main_hwnd(void)
