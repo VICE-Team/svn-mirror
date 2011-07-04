@@ -275,7 +275,15 @@ HRESULT result;
            *speed, *fragsize, *fragnr, *channels));
 
     if (ds == NULL) {
+#ifdef HAVE_DSOUND_LIB
         result = DirectSoundCreate(NULL, &ds, NULL);
+#else
+        CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+
+        result = CoCreateInstance(&CLSID_DirectSound, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectSound, (PVOID*)&ds);
+        if (result == S_OK)
+            result = IDirectSound_Initialize(ds, NULL);
+#endif
         if (result != DS_OK) {
             ui_error("Cannot initialize DirectSound:\n%s", ds_error(result));
             return -1;
