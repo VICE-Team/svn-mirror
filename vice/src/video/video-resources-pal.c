@@ -30,7 +30,6 @@
 #include <stdio.h>
 
 #include "resources.h"
-#include "ui.h"
 #include "video.h"
 #include "video-canvas.h"
 #include "video-resources.h"
