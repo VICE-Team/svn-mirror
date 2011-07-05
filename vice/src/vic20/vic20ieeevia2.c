@@ -55,12 +55,12 @@ BYTE ieeevia2_peek(WORD addr)
     return viacore_peek(machine_context.ieeevia2, addr);
 }
 
-static void set_ca2(int state)
+static void set_ca2(via_context_t *via_context, int state)
 {
     parallel_cpu_set_atn((char)(state ? 0 : 1));
 }
 
-static void set_cb2(int state)
+static void set_cb2(via_context_t *via_context, int state)
 {
     parallel_cpu_set_eoi((BYTE)(state ? 0 : 1));
 }

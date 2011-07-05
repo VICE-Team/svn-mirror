@@ -268,8 +268,8 @@ void viacore_reset(via_context_t *via_context)
 
     via_context->ca2_state = 1;
     via_context->cb2_state = 1;
-    (via_context->set_ca2)(via_context->ca2_state);      /* input = high */
-    (via_context->set_cb2)(via_context->cb2_state);      /* input = high */
+    (via_context->set_ca2)(via_context, via_context->ca2_state);      /* input = high */
+    (via_context->set_cb2)(via_context, via_context->cb2_state);      /* input = high */
 
     if (via_context && via_context->reset)
         (via_context->reset)(via_context);
@@ -284,7 +284,7 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
         if ((edge ? 1 : 0) == (via_context->via[VIA_PCR] & 0x01)) {
             if (IS_CA2_TOGGLE_MODE() && !(via_context->ca2_state)) {
                 via_context->ca2_state = 1;
-                (via_context->set_ca2)(via_context->ca2_state);
+                (via_context->set_ca2)(via_context, via_context->ca2_state);
             }
             via_context->ifr |= VIA_IM_CA1;
             update_myviairq(via_context);
@@ -307,7 +307,7 @@ void viacore_signal(via_context_t *via_context, int line, int edge)
         if ((edge ? 0x10 : 0) == (via_context->via[VIA_PCR] & 0x10)) {
             if (IS_CB2_TOGGLE_MODE() && !(via_context->cb2_state)) {
                 via_context->cb2_state = 1;
-                (via_context->set_cb2)(via_context->cb2_state);
+                (via_context->set_cb2)(via_context, via_context->cb2_state);
             }
             via_context->ifr |= VIA_IM_CB1;
             update_myviairq(via_context);
@@ -355,10 +355,10 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
         }
         if (IS_CA2_HANDSHAKE()) {
             via_context->ca2_state = 0;
-            (via_context->set_ca2)(via_context->ca2_state);
+            (via_context->set_ca2)(via_context, via_context->ca2_state);
             if (IS_CA2_PULSE_MODE()) {
                 via_context->ca2_state = 1;
-                (via_context->set_ca2)(via_context->ca2_state);
+                (via_context->set_ca2)(via_context, via_context->ca2_state);
             }
         }
         if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2))
@@ -381,10 +381,10 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
         }
         if (IS_CB2_HANDSHAKE()) {
             via_context->cb2_state = 0;
-            (via_context->set_cb2)(via_context->cb2_state);
+            (via_context->set_cb2)(via_context, via_context->cb2_state);
             if (IS_CB2_PULSE_MODE()) {
                 via_context->cb2_state = 1;
-                (via_context->set_cb2)(via_context->cb2_state);
+                (via_context->set_cb2)(via_context, via_context->cb2_state);
             }
         }
         if (via_context->ier & (VIA_IM_CB1 | VIA_IM_CB2))
@@ -542,7 +542,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
             /* FIXME: is this correct if handshake is already active? */
             via_context->ca2_state = 1;
         }
-        (via_context->set_ca2)(via_context->ca2_state);
+        (via_context->set_ca2)(via_context, via_context->ca2_state);
 
         if ((byte & 0xe0) == 0xc0) {  /* set output low */
             via_context->cb2_state = 0;
@@ -553,7 +553,7 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
             /* FIXME: is this correct if handshake is already active? */
             via_context->cb2_state = 1;
         }
-        (via_context->set_cb2)(via_context->cb2_state);
+        (via_context->set_cb2)(via_context, via_context->cb2_state);
 
         (via_context->store_pcr)(via_context, byte, addr);
 
@@ -612,10 +612,10 @@ BYTE viacore_read_(via_context_t *via_context, WORD addr)
         }
         if (IS_CA2_HANDSHAKE()) {
             via_context->ca2_state = 0;
-            (via_context->set_ca2)(via_context->ca2_state);
+            (via_context->set_ca2)(via_context, via_context->ca2_state);
             if (IS_CA2_PULSE_MODE()) {
                 via_context->ca2_state = 1;
-                (via_context->set_ca2)(via_context->ca2_state);
+                (via_context->set_ca2)(via_context, via_context->ca2_state);
             }
         }
         if (via_context->ier & (VIA_IM_CA1 | VIA_IM_CA2))

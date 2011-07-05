@@ -74,11 +74,11 @@ BYTE via1d1541_peek(drive_context_t *ctxptr, WORD addr)
     return viacore_peek(ctxptr->via1d1541, addr);
 }
 
-static void set_ca2(int state)
+static void set_ca2(via_context_t *via_context, int state)
 {
 }
 
-static void set_cb2(int state)
+static void set_cb2(via_context_t *via_context, int state)
 {
 }
 

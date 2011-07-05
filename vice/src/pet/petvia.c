@@ -64,13 +64,13 @@ BYTE via_peek(WORD addr)
 }
 
 /* switching PET charrom with CA2 */
-static void set_ca2(int state)
+static void set_ca2(via_context_t *via_context, int state)
 {
     crtc_set_chargen_offset(state ? 256 : 0);
 }
 
 /* switching userport strobe with CB2 */
-static void set_cb2(int state)
+static void set_cb2(via_context_t *via_context, int state)
 {
     printer_userport_write_strobe(state);
 }
