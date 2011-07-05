@@ -86,14 +86,11 @@
 
 /* ---------------------------------------------------------------------------------------------------- */
 
-rtc_ds1216e_t *ds1216e_init(BYTE *ram, time_t *offset)
+rtc_ds1216e_t *ds1216e_init(time_t *offset)
 {
     rtc_ds1216e_t *retval = lib_malloc(sizeof(rtc_ds1216e_t));
     memset(retval, 0, sizeof(rtc_ds1216e_t));
-    retval->ram = ram;
     retval->offset = offset;
-    retval->inactive = 1;
-    retval->reset = 1;
 
     return retval;
 }
