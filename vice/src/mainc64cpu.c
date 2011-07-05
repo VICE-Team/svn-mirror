@@ -95,6 +95,7 @@ inline static void interrupt_delay(void)
 static void maincpu_steal_cycles(void)
 {
     interrupt_cpu_status_t *cs = maincpu_int_status;
+    BYTE opcode;
 
     if (maincpu_ba_low_flags & MAINCPU_BA_LOW_VICII) {
         vicii_steal_cycles();
@@ -110,25 +111,45 @@ static void maincpu_steal_cycles(void)
         alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);
     }
 
-    /* CLI */
-    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) == 0x58) {
-        /* this is a hacky way of signaling CLI() that it
-           shouldn't delay the interrupt */
-        OPINFO_SET_ENABLES_IRQ(*cs->last_opcode_info_ptr, 1);
+    /* special handling for steals during opcodes */
+    opcode = OPINFO_NUMBER(*cs->last_opcode_info_ptr);
+    switch (opcode) {
+        /* SHA */
+        case 0x93:
+        /* SHS */
+        case 0x9b:
+        /* SHY */
+        case 0x9c:
+        /* SHX */
+        case 0x9e:
+        /* SHA */
+        case 0x9f:
+            /* this is a hacky way of signaling SET_ABS_SH_I() that
+               cycles were stolen before the write */
+            /* (fall through) */
+
+        /* ANE */
+        case 0x8b:
+            /* this is a hacky way of signaling ANE() that
+               cycles were stolen after the first fetch */
+            /* (fall through) */
+
+        /* CLI */
+        case 0x58:
+            /* this is a hacky way of signaling CLI() that it
+               shouldn't delay the interrupt */
+            OPINFO_SET_ENABLES_IRQ(*cs->last_opcode_info_ptr, 1);
+            break;
+
+        default:
+            break;
     }
 
     /* SEI: do not update interrupt delay counters */
-    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) != 0x78) {
+    if (opcode != 0x78) {
         if (cs->irq_delay_cycles == 0 && cs->irq_clk < maincpu_clk) {
             cs->irq_delay_cycles++;
         }
-    }
-
-    /* ANE */
-    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) == 0x8b) {
-        /* this is a hacky way of signaling ANE() that
-           cycles were stolen after the first fetch */
-        OPINFO_SET_ENABLES_IRQ(*cs->last_opcode_info_ptr, 1);
     }
 
     if (cs->nmi_delay_cycles == 0 && cs->nmi_clk < maincpu_clk) {

@@ -1369,7 +1369,7 @@ be found that works for both.
                                                                           \
       tmp = (addr);                                                       \
       INC_PC(3);                                                          \
-      STORE_ABS_SH_Y(tmp, reg_a_read & reg_x & (((tmp + reg_y) >> 8) + 1), CLK_ABS_I_STORE2);  \
+      STORE_ABS_SH_Y(tmp, reg_a_read & reg_x & ((tmp >> 8) + 1), CLK_ABS_I_STORE2);  \
   } while (0)
 
 #define SHA_IND_Y(addr)                               \
@@ -1396,7 +1396,7 @@ be found that works for both.
                                                                    \
       tmp = (addr);                                                \
       INC_PC(3);                                                   \
-      STORE_ABS_SH_Y(tmp, reg_x & (((tmp + reg_y) >> 8) + 1), CLK_ABS_I_STORE2); \
+      STORE_ABS_SH_Y(tmp, reg_x & ((tmp >> 8) + 1), CLK_ABS_I_STORE2); \
   } while (0)
 
 #define SHY_ABS_X(addr)                                            \
@@ -1405,7 +1405,7 @@ be found that works for both.
                                                                    \
       tmp = (addr);                                                \
       INC_PC(3);                                                   \
-      STORE_ABS_SH_X(tmp, reg_y & (((tmp + reg_x) >> 8) + 1), CLK_ABS_I_STORE2); \
+      STORE_ABS_SH_X(tmp, reg_y & ((tmp >> 8) + 1), CLK_ABS_I_STORE2); \
   } while (0)
 
 #define SHS_ABS_Y(addr)                                                    \
@@ -1413,7 +1413,7 @@ be found that works for both.
       int tmp = (addr);                                                    \
                                                                            \
       INC_PC(3);                                                           \
-      STORE_ABS_SH_Y(tmp, reg_a_read & reg_x & (((tmp + reg_y) >> 8) + 1), CLK_ABS_I_STORE2); \
+      STORE_ABS_SH_Y(tmp, reg_a_read & reg_x & ((tmp >> 8) + 1), CLK_ABS_I_STORE2); \
       reg_sp = reg_a_read & reg_x;                                         \
   } while (0)
 

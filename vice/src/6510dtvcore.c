@@ -566,20 +566,26 @@
     STORE(addr, new_value);               \
     CLK_INC();
 
-#define SET_ABS_SH_I(reg_and, reg_i)                     \
-  do {                                                   \
-      unsigned int tmp2, value;                          \
-                                                         \
-      value = reg_and & (((p2 + reg_i) >> 8) + 1);       \
-      if (!SKIP_CYCLE) {                                 \
-          LOAD(((p2 + reg_i) & 0xff) | ((p2) & 0xff00)); \
-          CLK_INC();                                     \
-      }                                                  \
-      tmp2 = p2 + reg_i;                                 \
-      if (((p2) & 0xff) + reg_i > 0xff)                  \
-          tmp2 = (tmp2 & 0xff) | ((value) << 8);         \
-      STORE(tmp2, (value));                              \
-      CLK_INC();                                         \
+#define SET_ABS_SH_I(addr, reg_and, reg_i)                         \
+  do {                                                             \
+      unsigned int tmp2, tmp3, value;                              \
+                                                                   \
+      tmp3 = reg_and & (((addr) >> 8) + 1);                        \
+      /* Set by main cpu to signal steal after above fetch */      \
+      if (OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {                  \
+          /* Remove the signal */                                  \
+          LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;             \
+          /* Value is not ANDed */                                 \
+          value = reg_and;                                         \
+      } else {                                                     \
+          value = tmp3;                                            \
+      }                                                            \
+      tmp2 = addr + reg_i;                                         \
+      if ((((addr) & 0xff) + reg_i) > 0xff) {                      \
+          tmp2 = (tmp2 & 0xff) | ((tmp3) << 8);                    \
+      }                                                            \
+      STORE(tmp2, (value));                                        \
+      CLK_INC();                                                   \
   } while (0)
 
 #define INC_PC(value)   (reg_pc += (value))
@@ -651,7 +657,7 @@
 
 #define ANE()                                                     \
   do {                                                            \
-      /* Set by viciisc to signal steal after first fetch */     \
+      /* Set by main-cpu to signal steal after first fetch */     \
       if (OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {                 \
           /* Remove the signal */                                 \
           LAST_OPCODE_INFO &= ~OPINFO_ENABLES_IRQ_MSK;            \
@@ -871,7 +877,7 @@
 #define CLI()                                           \
   do {                                                  \
       INC_PC(1);                                        \
-      /* Set by viciisc to signal steal during CLI */  \
+      /* Set by main-cpu to signal steal during CLI */  \
       if (!OPINFO_ENABLES_IRQ(LAST_OPCODE_INFO)) {      \
           if (LOCAL_INTERRUPT()) {                      \
               OPCODE_ENABLES_IRQ();                     \
@@ -1315,20 +1321,19 @@
 
 #define SHA_IND_Y()                                    \
   do {                                                 \
-      BYTE val;                                        \
       INT_IND_Y_W();                                   \
-      val = reg_a_read & reg_x & ((tmpa >> 8) + 1);    \
-      if ((tmpa & 0xff) + reg_y > 0xff)                \
-          addr = ((tmpa + reg_y) & 0xff) | (val << 8); \
+      SET_ABS_SH_I(tmpa, reg_a_read & reg_x, reg_y);   \
       INC_PC(2);                                       \
-      STORE(addr, val);                                \
-      CLK_INC();                                       \
   } while (0)
 
-#define SH_ABS_I(reg_and, reg_i)    \
-  do {                              \
-      SET_ABS_SH_I(reg_and, reg_i); \
-      INC_PC(3);                    \
+#define SH_ABS_I(reg_and, reg_i)                          \
+  do {                                                    \
+      if (!SKIP_CYCLE) {                                  \
+          LOAD(((p2 + reg_i) & 0xff) | ((p2) & 0xff00));  \
+          CLK_INC();                                      \
+      }                                                   \
+      SET_ABS_SH_I(p2, reg_and, reg_i);                   \
+      INC_PC(3);                                          \
   } while (0)
 
 #define SHS_ABS_Y()                        \
