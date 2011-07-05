@@ -32,14 +32,15 @@
 
 #include <stdio.h>
 
+#ifndef HAVE_GUIDLIB
+#define INITGUID
+#endif
+
 #if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=95)
 #include <windows.h>
 #include <mmsystem.h>
 #endif
 
-#ifndef HAVE_GUIDLIB
-#define INITGUID
-#endif
 #if defined(WATCOM_COMPILE) || defined(__WATCOMC__)
 #define DIRECTSOUND_VERSION 0x0900
 #include <directx/dsound.h>

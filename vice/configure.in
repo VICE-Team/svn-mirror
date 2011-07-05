@@ -274,6 +274,27 @@ else
   fi
 fi
 
+dnl Check for needed external programs.
+AC_PROG_CPP
+AC_CHECK_PROG(AR, ar, ar, ar)
+AC_CHECK_TOOL(RANLIB, ranlib, :)
+AC_CHECK_TOOL(STRIP, strip, :)
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_YACC
+AM_PROG_LEX
+AM_PROG_AS
+
+AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
+
+AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
+AC_CHECK_PROGS(PDFTEX, pdftex, no)
+if test x"$TEXI2DVI" = "xno" -o x"$PDFTEX" = "xno"; then
+  AM_CONDITIONAL(BUILD_PDF, false)
+else
+  AM_CONDITIONAL(BUILD_PDF, true)
+fi
+
 dnl Setup crosscompiling.
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
@@ -431,6 +452,7 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   fi
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
+  dinput_header_no_lib="no"
   AC_CHECK_HEADER(dinput.h,
               [ AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
               [ AC_MSG_CHECKING(for -ldinput) ]
@@ -440,7 +462,8 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
                                ],
                             [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput.lib or libdinput.a are present]) ]
    	                        [ AC_MSG_RESULT(yes) ],
-                            [ LIBS="-lole32 $SAVELIBS" ]
+                            [ dinput_header_no_lib="yes" ]
+                            [ LIBS="$SAVELIBS" ]
                             [ AC_MSG_RESULT(no) ]
               )]
 		 )
@@ -717,27 +740,6 @@ else
 fi
 
 AM_CONDITIONAL(USE_MIDAS_SOUND, test x"$with_midas" = "xyes")
-
-dnl Check for needed external programs.
-AC_PROG_CPP
-AC_CHECK_PROG(AR, ar, ar, ar)
-AC_CHECK_TOOL(RANLIB, ranlib, :)
-AC_CHECK_TOOL(STRIP, strip, :)
-AC_PROG_INSTALL
-AC_PROG_LN_S
-AC_PROG_YACC
-AM_PROG_LEX
-AM_PROG_AS
-
-AC_CHECK_PROGS(MAKEINFO, makeinfo, no)
-
-AC_CHECK_PROGS(TEXI2DVI, texi2dvi, no)
-AC_CHECK_PROGS(PDFTEX, pdftex, no)
-if test x"$TEXI2DVI" = "xno" -o x"$PDFTEX" = "xno"; then
-  AM_CONDITIONAL(BUILD_PDF, false)
-else
-  AM_CONDITIONAL(BUILD_PDF, true)
-fi
 
 dnl check for texi to amigaguide program
 AC_CHECK_PROGS(MAKEGUIDE, makeguide, no)
@@ -2071,22 +2073,48 @@ if test x"$is_dos" = "xyes"; then
     fi
 fi
 
+dsound_header_no_lib="no"
+
 if test x"$is_win32" = "xyes"; then
     if test x"$enable_sdlui" != "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundwmm.o"
         AC_MSG_CHECKING(whether we can use directx sound)
-        old_LIBS="$LIBS"
-        LIBS="$LIBS -ldsound"
-        AC_TRY_LINK([#define DIRECTSOUND_VERSION 0x500
-                         #include <dsound.h>],
-                        [LPDIRECTSOUNDBUFFER buffer=NULL;
-                         IDirectSoundBuffer_Restore(buffer);],
-                        [AC_MSG_RESULT(yes);
-                         SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o";
-                         SOUND_LIBS="$SOUND_LIBS -ldsound";
-                         AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])],
-                        [AC_MSG_RESULT(no)])
-        LIBS="$old_LIBS"
+        AC_CHECK_HEADER(dsound.h,
+              [ AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.]) ]
+              [ SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o" ]
+              [ AC_MSG_CHECKING(for -ldsound) ]
+              [ old_LIBS="$LIBS" ]
+              [ LIBS="$LIBS -ldsound" ]
+              [ AC_LINK_IFELSE([
+                               AC_LANG_PROGRAM(
+                                               [#define DIRECTSOUND_VERSION 0x500
+                                                #include <dsound.h>],
+                                               [LPDIRECTSOUNDBUFFER buffer=NULL;
+                                                IDirectSoundBuffer_Restore(buffer);]
+                                              )
+                               ],
+                            [ AC_DEFINE(HAVE_DSOUND_LIB, [], [dsound.lib or libdsound.a are present]) ]
+                            [ AC_MSG_RESULT(yes) ]
+                            [ SOUND_LIBS="$SOUND_LIBS -ldsound" ],
+                            [ AC_MSG_RESULT(no) ]
+                            [ dsound_header_no_lib="yes" ]
+              )]
+              [ LIBS="$old_LIBS" ]
+        )
+
+        if test x"$dsound_header_no_lib" == "xyes" -o x"$dinput_header_no_lib" == "xyes"; then
+              AC_MSG_CHECKING(if CoInitialize can be linked)
+              LIBS="$LIBS -lole32"
+              AC_LINK_IFELSE([
+                               AC_LANG_PROGRAM(
+                                               [#include <objbase.h>],
+                                               [CoInitialize(NULL);]
+                                              )
+                               ],
+                               [ AC_MSG_RESULT(yes) ],
+                               [ AC_MSG_ERROR(no) ]
+                              )
+        fi
 
         AC_PATH_TOOL(WINDRES, windres, windres)
         AC_PATH_PROGS(WRC, wrc , windres)
@@ -2667,9 +2695,9 @@ elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   dnl On Windows, we already know what we want.
 
   if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -lws2_32 -lversion"
+    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -lws2_32 -lversion"
   else
-    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -ldsound -lwsock32 -lversion"
+    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -lwsock32 -lversion"
   fi
 
   AC_CHECK_HEADER(d3d9.h,
