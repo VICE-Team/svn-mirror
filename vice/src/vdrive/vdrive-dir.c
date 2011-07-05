@@ -156,8 +156,7 @@ void vdrive_dir_create_slot(bufferinfo_t *p, char *realname,
 #endif
     p->slot[SLOT_TYPE_OFFSET] = filetype;       /* unclosed */
 
-    p->buffer = lib_calloc(1, 256);
-    p->mode = BUFFER_SEQUENTIAL;
+    vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
     p->bufptr = 2;
     return;
 }

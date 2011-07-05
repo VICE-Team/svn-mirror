@@ -84,9 +84,8 @@ static int iec_open_read_sequential(vdrive_t *vdrive, unsigned int secondary,
     int status;
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-    p->mode = BUFFER_SEQUENTIAL;
+    vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
     p->bufptr = 2;
-    p->buffer = lib_malloc(256);
 
     status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
 
@@ -133,8 +132,7 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
         return iec_open_read_sequential(vdrive, secondary, vdrive->Dir_Track,
                                         0);
 
-    p->mode = BUFFER_DIRECTORY_READ;
-    p->buffer = lib_malloc(DIR_MAXBUF);
+    vdrive_alloc_buffer(p, BUFFER_DIRECTORY_READ);
 
     retlen = vdrive_dir_create_directory(vdrive, cmd_parse->parsecmd,
                                          cmd_parse->parselength,
@@ -142,8 +140,7 @@ static int iec_open_read_directory(vdrive_t *vdrive, unsigned int secondary,
 
     if (retlen < 0) {
         /* Directory not valid.  */
-        p->mode = BUFFER_NOT_IN_USE;
-        lib_free(p->buffer);
+        vdrive_free_buffer(p);
         p->length = 0;
         vdrive_command_set_error(vdrive, CBMDOS_IPE_NOT_FOUND, 0, 0);
         return SERIAL_ERROR;
@@ -176,8 +173,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
             /* replace mode: we don't want the dirent updated at all until
                 close */
             /* allocate buffers */
-            p->buffer = lib_calloc(1, 256);
-            p->mode = BUFFER_SEQUENTIAL;
+            vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
             p->bufptr = 2;
 
             /* Create our own slot, since the one passed is static */
@@ -197,8 +193,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
             if (p->readmode == CBMDOS_FAM_APPEND) {
                 /* append mode */
                 /* allocate buffers */
-                p->buffer = lib_malloc(256);
-                p->mode = BUFFER_SEQUENTIAL;
+                vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
 
                 /* Create our own slot, since the one passed is static */
                 p->slot = lib_calloc(1, 32);
@@ -228,9 +223,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                     if (disk_image_read_sector(vdrive->image, p->buffer,
                         p->track, p->sector)) {
                         /* couldn't read sector, report error and leave */
-                        p->mode = BUFFER_NOT_IN_USE;
-                        lib_free((char *)p->buffer);
-                        p->buffer = NULL;
+                        vdrive_free_buffer(p);
                         vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR, p->track, p->sector);
                         return SERIAL_ERROR;
                     }
@@ -273,9 +266,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
         /* If there is not space for the slot, disk is full */
         if (!e) {
-            p->mode = BUFFER_NOT_IN_USE;
-            lib_free((char *)p->buffer);
-            p->buffer = NULL;
+            vdrive_free_buffer(p);
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
             return SERIAL_ERROR;
         }
@@ -442,17 +433,16 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     }
 
     /* Limit file name to 16 chars.  */
-    if (cmd_parse->parselength > 16)
+    if (cmd_parse->parselength > 16) {
         cmd_parse->parselength = 16;
+    }
 
     /*
      * Internal buffer ?
      */
     if (*name == '#') {
-        p->mode = BUFFER_MEMORY_BUFFER;
-        p->buffer = lib_malloc(256);
-        /* clear out buffer */
-        memset(p->buffer, 0, 256);
+        vdrive_alloc_buffer(p, BUFFER_MEMORY_BUFFER);
+
         /* the pointer is actually 1 on the real drives. */
         /* this probably relates to the B-R and B-W commands. */
         /* 1541 firmware: $cb84 - open channel, $cc0f bp = 1 */
@@ -657,9 +647,7 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
         lib_free(p->slot);
     }
     /* Release buffers */
-    p->mode = BUFFER_NOT_IN_USE;
-    lib_free((char *)p->buffer);
-    p->buffer = NULL;
+    vdrive_free_buffer(p);
 
     return SERIAL_OK;
 }
@@ -679,9 +667,7 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
 
       case BUFFER_MEMORY_BUFFER:
       case BUFFER_DIRECTORY_READ:
-        lib_free((char *)p->buffer);
-        p->mode = BUFFER_NOT_IN_USE;
-        p->buffer = NULL;
+        vdrive_free_buffer(p);
         p->slot = NULL;
         break;
       case BUFFER_SEQUENTIAL:

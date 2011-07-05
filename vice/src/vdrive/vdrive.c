@@ -60,11 +60,9 @@
 #include "vdrive-snapshot.h"
 #include "vdrive.h"
 
-
 static log_t vdrive_log = LOG_ERR;
 
 static void vdrive_set_disk_geometry(vdrive_t *vdrive);
-
 
 void vdrive_init(void)
 {
@@ -79,6 +77,50 @@ void vdrive_init(void)
 }
 
 /* ------------------------------------------------------------------------- */
+/*
+    allocate/free buffers. these functions should somewhat mimic the behaviour
+    of a real drive to increase compatibility with some hacks a bit. see
+    testprogs/vdrive/disk/dircheck.bas
+
+    FIXME: find out the *exact* behaviour of the various drives and implement
+           this function accordingly.
+    FIXME: REL files do not use this logic yet (vdrive-rel.c)
+    FIXME: ideally this logic should allocate memory from a common drive memory
+           array, which then can be used properly for M-R too
+*/
+void vdrive_alloc_buffer(bufferinfo_t *p, int mode)
+{
+    size_t size;
+    if (mode == BUFFER_DIRECTORY_READ) {
+        size = DIR_MAXBUF;
+    } else {
+        size = 256;
+    }
+    if (p->buffer == NULL) {
+        /* first time actually allocate memory, and clear it */
+        p->buffer = lib_malloc(size);
+        memset(p->buffer, 0, size);
+    } else {
+        /* any other time, just adjust the size of the buffer */
+        p->buffer = lib_realloc(p->buffer, size);
+    }
+    p->mode = mode;
+}
+
+void vdrive_free_buffer(bufferinfo_t *p)
+{
+    p->mode = BUFFER_NOT_IN_USE;
+/*
+    do NOT actually free here. once allocated, buffers should get reused and
+    their content stay untouched. vdrive_device_shutdown will free the buffers
+    at shutdown time.
+
+    lib_free((char *)p->buffer);
+    p->buffer = NULL;
+*/
+}
+
+/* ------------------------------------------------------------------------- */
 
 int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
 {
@@ -86,26 +128,31 @@ int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
 
     vdrive->unit = unit;
 
-    for (i = 0; i < 15; i++)
+    /* init buffers */
+    for (i = 0; i < 15; i++) {
         vdrive->buffers[i].mode = BUFFER_NOT_IN_USE;
+        vdrive->buffers[i].buffer = NULL;
+    }
 
-    vdrive->buffers[15].mode = BUFFER_COMMAND_CHANNEL;
-
-    if (vdrive->buffers[15].buffer == NULL)
-        vdrive->buffers[15].buffer = lib_malloc(256);
-    memset(vdrive->buffers[15].buffer, 0, 256);
-
+    /* init command channel */
+    vdrive_alloc_buffer(&(vdrive->buffers[15]), BUFFER_COMMAND_CHANNEL);
     vdrive_command_set_error(vdrive, CBMDOS_IPE_DOS_VERSION, 0, 0);
+
     return 0;
 }
 
 void vdrive_device_shutdown(vdrive_t *vdrive)
 {
     unsigned int i;
+    bufferinfo_t *p;
 
     if (vdrive != NULL) {
-        for (i = 0; i < 16; i++)
-            lib_free(vdrive->buffers[i].buffer);
+        /* de-init buffers */
+        for (i = 0; i < 16; i++) {
+            p = &(vdrive->buffers[i]);
+            vdrive_free_buffer(p);
+            lib_free(p->buffer);
+        }
     }
 }
 
@@ -123,8 +170,9 @@ void vdrive_close_all_channels(vdrive_t *vdrive)
 
     for (i = 0; i <= 15; i++) {
         p = &(vdrive->buffers[i]);
-        if (p->mode != BUFFER_NOT_IN_USE && p->mode != BUFFER_COMMAND_CHANNEL)
+        if (p->mode != BUFFER_NOT_IN_USE && p->mode != BUFFER_COMMAND_CHANNEL) {
             vdrive_iec_close(vdrive, i);
+        }
     }
 }
 
@@ -189,8 +237,9 @@ int vdrive_get_max_sectors(unsigned int type, unsigned int track)
 void vdrive_detach_image(disk_image_t *image, unsigned int unit,
                          vdrive_t *vdrive)
 {
-    if (image == NULL)
+    if (image == NULL) {
         return;
+    }
 
     disk_image_detach_log(image, vdrive_log, unit);
     vdrive_close_all_channels(vdrive);
