@@ -30,10 +30,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "console.h"
 #include "lib.h"
-
+#include "log.h"
 
 static FILE *mon_input, *mon_output;
 
@@ -53,6 +54,15 @@ int console_init(void)
 console_t *console_open(const char *id)
 {
     console_t *console;
+
+    if (!isatty(fileno(stdin))) {
+        log_error(LOG_DEFAULT, "console_open: stdin is not a tty.");
+        return NULL;
+    }
+    if (!isatty(fileno(stdout))) {
+        log_error(LOG_DEFAULT, "console_open: stdout is not a tty.");
+        return NULL;
+    }
 
     console = lib_malloc(sizeof(console_t));
 
