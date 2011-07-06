@@ -29,6 +29,14 @@
  *
  */
 
+/* #define DEBUG_X11UI */
+
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #define _UI_C
 
 #include "vice.h"
@@ -136,6 +144,10 @@ static log_t ui_log = LOG_ERR;
 static int tape_motor_status = -1;
 static int tape_control_status = -1;
 
+
+#define WINDOW_MINW     (320 / 2)
+#define WINDOW_MINH     (200 / 2)
+
 #define LED_WIDTH 12
 #define LED_HEIGHT 6
 #define CTRL_WIDTH 13
@@ -226,7 +238,6 @@ GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel,
 drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
 GdkColor drive_led_on_red_pixels[16];
 GdkColor drive_led_on_green_pixels[16];
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -958,18 +969,8 @@ static void build_screen_canvas_widget(video_canvas_t *c)
         }
     }
 #endif
-
-    gtk_widget_set_events(new_canvas,
-                          GDK_LEAVE_NOTIFY_MASK |
-                          GDK_ENTER_NOTIFY_MASK |			  
-                          GDK_BUTTON_PRESS_MASK |
-                          GDK_BUTTON_RELEASE_MASK |
-                          GDK_KEY_PRESS_MASK |
-                          GDK_KEY_RELEASE_MASK |
-                          GDK_FOCUS_CHANGE_MASK |
-                          GDK_POINTER_MOTION_MASK |
-                          GDK_STRUCTURE_MASK |
-                          GDK_EXPOSURE_MASK);
+    /* supress events, add mask later */
+    gtk_widget_set_events(new_canvas, 0);
     /* XVideo must be refreshed when the application window is moved. */
     g_signal_connect(G_OBJECT(new_canvas), "configure-event", G_CALLBACK(configure_callback_canvas), (void*)c);
     g_signal_connect(G_OBJECT(new_canvas), "expose-event", G_CALLBACK(exposure_callback_canvas), (void*)c);
@@ -1011,6 +1012,18 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     GTK_WIDGET_SET_FLAGS(new_canvas, GTK_CAN_FOCUS);
     gtk_widget_grab_focus(new_canvas);
     c->emuwindow = new_canvas;
+
+    gtk_widget_add_events(new_canvas,
+                          GDK_LEAVE_NOTIFY_MASK |
+                          GDK_ENTER_NOTIFY_MASK |
+                          GDK_BUTTON_PRESS_MASK |
+                          GDK_BUTTON_RELEASE_MASK |
+                          GDK_KEY_PRESS_MASK |
+                          GDK_KEY_RELEASE_MASK |
+                          GDK_FOCUS_CHANGE_MASK |
+                          GDK_POINTER_MOTION_MASK |
+                          GDK_STRUCTURE_MASK |
+                          GDK_EXPOSURE_MASK);
 }
 
 /* Create a shell with a canvas widget in it.  */
@@ -1021,7 +1034,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     GdkColor black = { 0, 0, 0, 255 };
     int i;
     gint window_width, window_height;
-    
+
+    DBG(("ui_open_canvas_window (w: %d h: %d)", w, h));
+
     if (++num_app_shells > MAX_APP_SHELLS) {
         log_error(ui_log, "Maximum number of toplevel windows reached.");
         return -1;
@@ -1029,16 +1044,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
-    gtk_widget_set_events(new_window,
-                            GDK_LEAVE_NOTIFY_MASK |
-                            GDK_ENTER_NOTIFY_MASK |
-                            GDK_BUTTON_PRESS_MASK |
-                            GDK_BUTTON_RELEASE_MASK |
-                            GDK_KEY_PRESS_MASK |
-                            GDK_KEY_RELEASE_MASK |
-                            GDK_FOCUS_CHANGE_MASK |
-                            GDK_POINTER_MOTION_MASK |
-                            GDK_EXPOSURE_MASK);
+    /* supress events, add mask later */
+    gtk_widget_set_events(new_window, 0);
+
     if (!_ui_top_level) {
         _ui_top_level = new_window;
     }
@@ -1102,6 +1110,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     resources_get_int("WindowWidth", &window_width);
     resources_get_int("WindowHeight", &window_height);
+    DBG(("ui_open_canvas_window (winw: %d winh: %d)", window_width, window_height));
     if (window_width > 0 && window_height > 0) {
         gtk_window_resize(GTK_WINDOW(new_window), window_width, window_height);
     }
@@ -1144,6 +1153,17 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     c->offx = c->geometry->screen_size.width - w;
     ui_cached_video_canvas = c;
+
+    gtk_widget_add_events(new_window,
+                            GDK_LEAVE_NOTIFY_MASK |
+                            GDK_ENTER_NOTIFY_MASK |
+                            GDK_BUTTON_PRESS_MASK |
+                            GDK_BUTTON_RELEASE_MASK |
+                            GDK_KEY_PRESS_MASK |
+                            GDK_KEY_RELEASE_MASK |
+                            GDK_FOCUS_CHANGE_MASK |
+                            GDK_POINTER_MOTION_MASK |
+                            GDK_EXPOSURE_MASK);
 
     return 0;
 }
@@ -1827,18 +1847,43 @@ static void setup_aspect(video_canvas_t *canvas)
 /* Resize one window. */
 void ui_resize_canvas_window(video_canvas_t *canvas, int width, int height)
 {
-    app_shell_type *appshell = &app_shells[canvas->app_shell];
+    gint window_width, window_height;
+    app_shell_type *appshell;
+    int def;
+
+    resources_get_int("WindowWidth", &window_width);
+    resources_get_int("WindowHeight", &window_height);
+
+    DBG(("ui_resize_canvas_window (width: %d height: %d  winw: %d winh: %d hwscale:%d)", width, height, window_width, window_height,canvas->videoconfig->hwscale));
+
+    def = 0;
+    if (!canvas->videoconfig->hwscale || (window_width < WINDOW_MINW) || (window_height < WINDOW_MINH)) {
+        def = 1;
+        window_width = width;
+        window_height = height;
+    }
+
+    appshell = &app_shells[canvas->app_shell];
 
     build_screen_canvas_widget(canvas);
     if (! canvas->videoconfig->hwscale) {
-        gtk_widget_set_size_request(canvas->emuwindow, width, height);
+        gtk_widget_set_size_request(canvas->emuwindow, window_width, window_height);
     }
 
-    /* maintain aspect ratio */
-    setup_aspect(canvas);
-    toggle_aspect(canvas);
-    /* set initial (properly scaled) window size */
-    gtk_window_resize(GTK_WINDOW(appshell->shell), appshell->geo.min_width, appshell->geo.min_height);
+    if (def) {
+        /* maintain aspect ratio */
+        setup_aspect(canvas);
+        toggle_aspect(canvas);
+        /* set initial (properly scaled) window size */
+        window_width = appshell->geo.min_width;
+        window_height = appshell->geo.min_height;
+    }
+    gtk_window_resize(GTK_WINDOW(appshell->shell), window_width, window_height);
+
+    resources_set_int("WindowWidth", window_width);
+    resources_set_int("WindowHeight", window_height);
+
+    DBG(("ui_resize_canvas_window exit (w:%d h:%d)", window_width, window_height));
 }
 
 void x11ui_move_canvas_window(ui_window_t w, int x, int y)
@@ -2689,6 +2734,11 @@ gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
 
 gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
+    if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
+        /* DBG(("configure_callback_app skipped")); */
+        return 0;
+    }
+    DBG(("configure_callback_app (e->width %d e->height %d)",e->width, e->height));
     resources_set_int("WindowWidth", e->width);
     resources_set_int("Windowheight", e->height);
     return 0;
@@ -2697,6 +2747,12 @@ gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer cli
 gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *c = (video_canvas_t *) client_data;
+
+    if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
+        /* DBG(("configure_callback_canvas skipped")); */
+        return 0;
+    }
+    DBG(("configure_callback_canvas (e->width %d e->height %d)",e->width, e->height));
 
     /* This should work, but doesn't... Sigh...
     c->draw_buffer->canvas_width = e->width;
