@@ -2151,7 +2151,11 @@ static void monitor_open(void)
         return;
     }
 
-    signals_abort_set();
+    if ( ! monitor_is_remote() ) {
+        signals_abort_set();
+    } else {
+        signals_pipe_set();
+    }
 
     inside_monitor = TRUE;
     monitor_trap_triggered = FALSE;
@@ -2255,7 +2259,11 @@ static void monitor_close(int check)
 
     exit_mon = 0;
 
-    signals_abort_unset();
+    if ( ! monitor_is_remote() ) {
+        signals_abort_unset();
+    } else {
+        signals_pipe_unset();
+    }
 
     if ((console_log == NULL) || (console_log->console_can_stay_open == 0)) {
         mon_console_close_on_leaving = 1;

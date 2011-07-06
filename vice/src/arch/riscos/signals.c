@@ -32,9 +32,12 @@
 #include "monitor.h"
 #include "signals.h"
 
+/*
+    used once at init time to setup all signal handlers
+*/
 void signals_init(int do_core_dumps)
 {
-    /* What is a signal?  */
+    /* FIXME: should this really be empty? */
     return;
 }
 
@@ -48,6 +51,10 @@ static void handle_abort(int signo)
     signal(SIGINT, (signal_handler_t)handle_abort);
 }
 
+/*
+    these two are used by the monitor, to handle aborting ongoing output by
+    pressing CTRL+C (SIGINT)
+*/
 void signals_abort_set(void)
 {
     old_handler = signal(SIGINT, handle_abort);
@@ -56,4 +63,23 @@ void signals_abort_set(void)
 void signals_abort_unset(void)
 {
     signal(SIGINT, old_handler);
+}
+
+/*
+    these two are used if the monitor is in remote mode. in this case we might
+    get SIGPIPE if the connection is unexpectedly closed.
+*/
+/*
+    FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
+           or crashes when the connection is closed, you might have to install
+           a signal handler which calls monitor_abort().
+
+           see arch/unix/signals.c and bug #3201796
+*/
+void signals_pipe_set(void)
+{
+}
+
+void signals_pipe_unset(void)
+{
 }

@@ -38,6 +38,29 @@
 #include "monitor.h"
 #include "signals.h"
 
+#ifdef SYS_SIGLIST_DECLARED
+#define signal_name(x) sys_siglist[x]
+#else
+static const char *sigstr[7] = {
+    "SIGINT", "SIGTERM", "SIGSEGV", "SIGILL", "SIGPIPE", "SIGHUP", "SIGQUIT"
+};
+static const int signum[7] = {
+    SIGINT, SIGTERM, SIGSEGV, SIGILL, SIGPIPE, SIGHUP, SIGQUIT
+};
+static const char *signal_name(int num)
+{
+    int i;
+    for (i = 0; i < 7; i++) {
+        if (num == signum[i]) {
+            return sigstr[i];
+        }
+    }
+    return "unknown";
+}
+#endif
+
+/******************************************************************************/
+
 #ifdef OPENSERVER5_COMPILE
 static RETSIGTYPE ignore64(int sig)
 {
@@ -46,15 +69,13 @@ static RETSIGTYPE ignore64(int sig)
 
 static RETSIGTYPE break64(int sig)
 {
-#ifdef SYS_SIGLIST_DECLARED
-    log_message(LOG_DEFAULT, "Received signal %d (%s).", sig, sys_siglist[sig]);
-#else
-    log_message(LOG_DEFAULT, "Received signal %d.", sig);
-#endif
-
+    log_message(LOG_DEFAULT, "Received signal %d (%s), exiting.", sig, signal_name(sig));
     exit (-1);
 }
 
+/*
+    used once at init time to setup all signal handlers
+*/
 void signals_init(int do_core_dumps)
 {
     signal(SIGINT, break64);
@@ -73,9 +94,18 @@ void signals_init(int do_core_dumps)
     }
 }
 
+/******************************************************************************/
+
 typedef void (*signal_handler_t)(int);
 
-static signal_handler_t old_handler;
+static signal_handler_t old_abort_handler;
+static signal_handler_t old_pipe_handler;
+
+static void handle_pipe(int signo)
+{
+    log_message(LOG_DEFAULT, "Received signal %d (%s), aborting remote monitor.", signo, signal_name(signo));
+    monitor_abort();
+}
 
 static void handle_abort(int signo)
 {
@@ -83,12 +113,30 @@ static void handle_abort(int signo)
     signal(SIGINT, (signal_handler_t)handle_abort);
 }
 
+/*
+    these two are used by the monitor, to handle aborting ongoing output by
+    pressing CTRL+C (SIGINT)
+*/
 void signals_abort_set(void)
 {
-    old_handler = signal(SIGINT, handle_abort);
+    old_abort_handler = signal(SIGINT, (signal_handler_t)handle_abort);
 }
 
 void signals_abort_unset(void)
 {
-    signal(SIGINT, old_handler);
+    signal(SIGINT, old_abort_handler);
+}
+
+/*
+    these two are used if the monitor is in remote mode. in this case we might
+    get SIGPIPE if the connection is unexpectedly closed.
+*/
+void signals_pipe_set(void)
+{
+    old_pipe_handler = signal(SIGPIPE, (signal_handler_t)handle_pipe);
+}
+
+void signals_pipe_unset(void)
+{
+    signal(SIGPIPE, old_pipe_handler);
 }
