@@ -2134,10 +2134,8 @@ static void monitor_open(void)
 
     if (monitor_is_remote()) {
         static console_t console_log_remote = { 80, 25, 0, 0 };
-
-        console_log = & console_log_remote;
-    }
-    else {
+        console_log = &console_log_remote;
+    } else {
         if (mon_console_close_on_leaving) {
             console_log = uimon_window_open();
             uimon_set_interface(mon_interfaces, NUM_MEMSPACES);
@@ -2145,6 +2143,12 @@ static void monitor_open(void)
             console_log = uimon_window_resume();
             mon_console_close_on_leaving = 1;
         }
+    }
+
+    if (console_log == NULL) {
+        log_error(LOG_DEFAULT, "monitor_open: could not open monitor console.");
+        exit_mon = 1;
+        return;
     }
 
     signals_abort_set();
@@ -2245,15 +2249,17 @@ static void monitor_close(int check)
 
     exit_mon--;
 
-    if (check && exit_mon)
+    if (check && exit_mon) {
         exit(0);
+    }
 
     exit_mon = 0;
 
     signals_abort_unset();
 
-    if (console_log->console_can_stay_open == 0)
-                mon_console_close_on_leaving = 1;
+    if ((console_log == NULL) || (console_log->console_can_stay_open == 0)) {
+        mon_console_close_on_leaving = 1;
+    }
 
     if ( ! monitor_is_remote() ) {
         if (mon_console_close_on_leaving) {
