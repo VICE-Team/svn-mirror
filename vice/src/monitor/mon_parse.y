@@ -459,7 +459,7 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_print_convert($2); }
                   | CMD_CHDIR rest_of_line end_cmd
                     { mon_change_dir($2); }
-                  | CMD_KEYBUF rest_of_line end_cmd
+                  | CMD_KEYBUF STRING end_cmd
                     { mon_keyboard_feed($2); }
                   | CMD_BACKTRACE end_cmd
                     { mon_backtrace(); }

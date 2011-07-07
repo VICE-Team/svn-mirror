@@ -58,6 +58,51 @@ YY_BUFFER_STATE my_state;
 
 #define YY_USER_ACTION { last_len = cur_len; cur_len += yyleng; }
 
+static int hexint(char n) {
+    if ((n >= '0') && (n <= '9')) {
+        return n - '0';
+    } else if ((n >= 'a') && (n <= 'f')) {
+        return n - ('a' - 0x0a);
+    } else if ((n >= 'A') && (n <= 'F')) {
+        return n - ('A' - 0x0a);
+    }
+    return 0;
+}
+
+/* remove escaped codes from string and replace them by their actual character
+   codes. */
+static void unescape(char *s) {
+    char *d = s;
+    int n;
+    while (*s) {
+        if (*s == '\\') {
+            s++;
+            switch (*s) {
+                case '\\': *d = '\\'; break; /* backslash */
+                case 'n': *d = '\n'; break; /* lf */
+                case 'r': *d = '\r'; break; /* cr */
+                case '"': *d = '"';  break; /* quote */
+                case 'x': /* hex codes */
+                    s++; if (*s == 0) { goto send; }
+                    n = hexint(*s) << 4;
+                    s++; if (*s == 0) { goto send; }
+                    *d = n | hexint(*s);
+                    break;
+                default:
+                    *d = '\\'; d++;
+                    if (*s == 0) { goto send; }
+                    *d = *s;
+                    break;
+            }
+        } else {
+            *d = *s;
+        }
+        s++;d++;
+    }
+send:
+    *d = 0;
+} 
+
 %}
 
 %option case-insensitive
@@ -125,7 +170,7 @@ HDIGIT  [0-9a-f]
         ii              { BEGIN(INITIAL);       return CMD_SCREENCODE_DISPLAY; }
         ignore          { BEGIN(INITIAL);       return CMD_IGNORE; }
         io              { BEGIN(INITIAL);       return CMD_IO; }
-        keybuf          { BEGIN(ROL);           return CMD_KEYBUF; }
+        keybuf          { BEGIN(INITIAL);       return CMD_KEYBUF; }
         list            { BEGIN(INITIAL);       return CMD_LIST; }
         load|l          { BEGIN(FNAME);         return CMD_LOAD; }
         load_labels|ll  { BEGIN(FNAME);         return CMD_LOAD_LABELS; }
@@ -182,13 +227,35 @@ if		{ BEGIN (COND_MODE); return IF; }
                      BEGIN (STR);
                   }
                 }
+
 <STR>\" 	{ if (quote) {
-                     quote = 0;
-                     BEGIN (INITIAL);
+                     if ((yyleng > 1) && (yytext[yyleng - 2] == '\\')) {
+                         yymore(); /* skip escaped quote */
+                     } else if (((yyleng < 4) || (yytext[yyleng - 4] != '\\')) &&
+                                (yyleng > 2) && (yytext[yyleng - 3] == '\\') &&
+                                (yytext[yyleng - 2] == '"')) {
+                         /* special case, \"" at end of string */
+                         yylval.str = lib_stralloc(yytext);
+                         yylval.str[yyleng -1] = 0;
+                         unescape(yylval.str);
+                         quote = 0;
+                         BEGIN (INITIAL);
+                         return STRING;
+                     } else {
+                         quote = 0;
+                         BEGIN (INITIAL);
+                     }
                   }
                 }
 
-<STR>[^\"\n]*      { yylval.str = lib_stralloc(yytext); return STRING; }
+<STR>[^\"\n]*   { if (yytext[yyleng - 1] == '\\') {
+                     yymore(); /* skip escaped quote */
+                  } else {
+                     yylval.str = lib_stralloc(yytext);
+                     unescape(yylval.str);
+                     return STRING;
+                  }
+                }
 
  /* prefixes for numbers */
 \.\$		{ yylval.i = e_hexadecimal; return INPUT_SPEC; }
