@@ -109,37 +109,37 @@ BYTE rtc58321a_read(rtc_58321a_t *context)
 
     switch (context->address) {
         case RTC58321A_REGISTER_SECONDS:
-            retval = (BYTE)rtc_get_second(latch, 0);
+            retval = rtc_get_second(latch, 0);
             retval %= 10;
             break;
         case RTC58321A_REGISTER_10SECONDS:
-            retval = (BYTE)rtc_get_second(latch, 0);
+            retval = rtc_get_second(latch, 0);
             retval /= 10;
             break;
         case RTC58321A_REGISTER_MINUTES:
-            retval = (BYTE)rtc_get_minute(latch, 0);
+            retval = rtc_get_minute(latch, 0);
             retval %= 10;
             break;
         case RTC58321A_REGISTER_10MINUTES:
-            retval = (BYTE)rtc_get_minute(latch, 0);
+            retval = rtc_get_minute(latch, 0);
             retval /= 10;
             break;
         case RTC58321A_REGISTER_HOURS:
             if (context->hour24) {
-                retval = (BYTE)rtc_get_hour(latch, 0);
+                retval = rtc_get_hour(latch, 0);
             } else {
-                retval = (BYTE)rtc_get_hour_am_pm(latch, 0);
+                retval = rtc_get_hour_am_pm(latch, 0);
                 retval &= 0x1f;
             }
             retval %= 10;
             break;
         case RTC58321A_REGISTER_10HOURS:
             if (context->hour24) {
-                retval = (BYTE)rtc_get_hour(latch, 0);
+                retval = rtc_get_hour(latch, 0);
                 retval /= 10;
                 retval |= 0x80;
             } else {
-                retval = (BYTE)rtc_get_hour_am_pm(latch, 0);
+                retval = rtc_get_hour_am_pm(latch, 0);
                 if (retval > 23) {
                     retval = (retval - 32) / 10;
                     retval |= 4;
@@ -149,31 +149,31 @@ BYTE rtc58321a_read(rtc_58321a_t *context)
             }
             break;
         case RTC58321A_REGISTER_WEEKDAYS:
-            retval = (BYTE)rtc_get_weekday(latch);
+            retval = rtc_get_weekday(latch);
             break;
         case RTC58321A_REGISTER_MONTHDAYS:
-            retval = (BYTE)rtc_get_day_of_month(latch, 0);
+            retval = rtc_get_day_of_month(latch, 0);
             retval %= 10;
             break;
         case RTC58321A_REGISTER_10MONTHDAYS:
-            retval = (BYTE)rtc_get_day_of_month(latch, 0);
+            retval = rtc_get_day_of_month(latch, 0);
             retval /= 10;
 /* TODO: leapyear calculation */
             break;
         case RTC58321A_REGISTER_MONTHS:
-            retval = (BYTE)rtc_get_month(latch, 0);
+            retval = rtc_get_month(latch, 0);
             retval %= 10;
             break;
         case RTC58321A_REGISTER_10MONTHS:
-            retval = (BYTE)rtc_get_month(latch, 0);
+            retval = rtc_get_month(latch, 0);
             retval /= 10;
             break;
         case RTC58321A_REGISTER_YEARS:
-            retval = (BYTE)rtc_get_year(latch, 0);
+            retval = rtc_get_year(latch, 0);
             retval %= 10;
             break;
         case RTC58321A_REGISTER_10YEARS:
-            retval = (BYTE)rtc_get_year(latch, 0);
+            retval = rtc_get_year(latch, 0);
             retval /= 10;
             break;
     }
@@ -196,7 +196,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
 
     switch (context->address) {
         case RTC58321A_REGISTER_SECONDS:
-            new_data = (BYTE)rtc_get_second(latch, 0);
+            new_data = rtc_get_second(latch, 0);
             new_data /= 10;
             new_data *= 10;
             new_data += LIMIT_9(real_data);
@@ -207,7 +207,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_10SECONDS:
-            new_data = (BYTE)rtc_get_second(latch, 0);
+            new_data = rtc_get_second(latch, 0);
             new_data %= 10;
             new_data += ((real_data & 7) * 10);
             if (context->stop) {
@@ -217,7 +217,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_MINUTES:
-            new_data = (BYTE)rtc_get_minute(latch, 0);
+            new_data = rtc_get_minute(latch, 0);
             new_data /= 10;
             new_data *= 10;
             new_data += LIMIT_9(real_data);
@@ -228,7 +228,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_10MINUTES:
-            new_data = (BYTE)rtc_get_minute(latch, 0);
+            new_data = rtc_get_minute(latch, 0);
             new_data %= 10;
             new_data += ((real_data & 7) * 10);
             if (context->stop) {
@@ -239,7 +239,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             break;
         case RTC58321A_REGISTER_HOURS:
             if (context->hour24) {
-                new_data = (BYTE)rtc_get_hour(latch, 0);
+                new_data = rtc_get_hour(latch, 0);
                 new_data /= 10;
                 new_data *= 10;
                 new_data += LIMIT_9(real_data);
@@ -249,7 +249,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
                     context->offset[0] = rtc_set_hour(new_data, context->offset[0], 0);
                 }
             } else {
-                new_data = (BYTE)rtc_get_hour_am_pm(latch, 0);
+                new_data = rtc_get_hour_am_pm(latch, 0);
                 if (new_data >= 32) {
                     new_data -= 32;
                     new_data /= 10;
@@ -269,7 +269,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             break;
         case RTC58321A_REGISTER_10HOURS:
             if (real_data & 8) {
-                new_data = (BYTE)rtc_get_hour(latch, 0);
+                new_data = rtc_get_hour(latch, 0);
                 new_data %= 10;
                 new_data += ((real_data & 3) * 10);
                 context->hour24 = 1;
@@ -280,7 +280,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
                 }
             } else {
                 real_data &= 7;
-                new_data = (BYTE)rtc_get_hour_am_pm(latch, 0);
+                new_data = rtc_get_hour_am_pm(latch, 0);
                 if (new_data >= 32) {
                     new_data -= 32;
                 }
@@ -305,7 +305,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_MONTHDAYS:
-            new_data = (BYTE)rtc_get_day_of_month(latch, 0);
+            new_data = rtc_get_day_of_month(latch, 0);
             new_data /= 10;
             new_data *= 10;
             new_data += LIMIT_9(real_data);
@@ -316,7 +316,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_10MONTHDAYS:
-            new_data = (BYTE)rtc_get_day_of_month(latch, 0);
+            new_data = rtc_get_day_of_month(latch, 0);
             new_data %= 10;
             new_data += ((real_data & 3) * 10);
             if (context->stop) {
@@ -326,7 +326,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_MONTHS:
-            new_data = (BYTE)rtc_get_month(latch, 0);
+            new_data = rtc_get_month(latch, 0);
             new_data /= 10;
             new_data *= 10;
             new_data += LIMIT_9(real_data);
@@ -337,7 +337,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_10MONTHS:
-            new_data = (BYTE)rtc_get_month(latch, 0);
+            new_data = rtc_get_month(latch, 0);
             new_data %= 10;
             new_data += ((real_data & 1) * 10);
             if (context->stop) {
@@ -347,7 +347,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_YEARS:
-            new_data = (BYTE)rtc_get_year(latch, 0);
+            new_data = rtc_get_year(latch, 0);
             new_data /= 10;
             new_data *= 10;
             new_data += LIMIT_9(real_data);
@@ -358,7 +358,7 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             }
             break;
         case RTC58321A_REGISTER_10YEARS:
-            new_data = (BYTE)rtc_get_year(latch, 0);
+            new_data = rtc_get_year(latch, 0);
             new_data %= 10;
             new_data += (LIMIT_9(real_data) * 10);
             if (context->stop) {

@@ -124,52 +124,29 @@ void ds1202_1302_destroy(rtc_ds1202_1302_t *context)
 static BYTE ds1202_1302_get_clock_register(rtc_ds1202_1302_t *context, int reg, time_t offset, int latched)
 {
     BYTE retval;
+    time_t latch = (latched) ? offset : rtc_get_latch(offset);
 
     switch(reg) {
         case DS1202_1302_REG_SECONDS_CH:
             retval = context->clock_halt << 7;
-            if (latched) {
-                retval |= (BYTE)rtc_get_second(offset, 1);
-            } else {
-                retval |= (BYTE)rtc_get_second(rtc_get_latch(offset), 1);
-            }
+            retval |= rtc_get_second(latch, 1);
             break;
         case DS1202_1302_REG_MINUTES:
-            if (latched) {
-                retval = (BYTE)rtc_get_minute(offset, 1);
-            } else {
-                retval = (BYTE)rtc_get_minute(rtc_get_latch(offset), 1);
-            }
+            retval = rtc_get_minute(latch, 1);
             break;
         case DS1202_1302_REG_HOURS:
             retval = context->am_pm << 7;
             if (context->am_pm) {
-                if (latched) {
-                    retval |= (BYTE)rtc_get_hour_am_pm(offset, 1);
-                } else {
-                    retval |= (BYTE)rtc_get_hour_am_pm(rtc_get_latch(offset), 1);
-                }
+                retval |= rtc_get_hour_am_pm(latch, 1);
             } else {
-                if (latched) {
-                    retval |= (BYTE)rtc_get_hour(offset, 1);
-                } else {
-                    retval |= (BYTE)rtc_get_hour(rtc_get_latch(offset), 1);
-                }
+                retval |= rtc_get_hour(latch, 1);
             }
             break;
         case DS1202_1302_REG_DAYS_OF_MONTH:
-            if (latched) {
-                retval = (BYTE)rtc_get_day_of_month(offset, 1);
-            } else {
-                retval = (BYTE)rtc_get_day_of_month(rtc_get_latch(offset), 1);
-            }
+            retval = rtc_get_day_of_month(latch, 1);
             break;
         case DS1202_1302_REG_MONTHS:
-            if (latched) {
-                retval = (BYTE)(rtc_get_month(offset, 1));
-            } else {
-                retval = (BYTE)(rtc_get_month(rtc_get_latch(offset), 1));
-            }
+            retval = rtc_get_month(latch, 1);
             if (retval == 7) {
                 retval += 9;
             } else {
@@ -177,18 +154,10 @@ static BYTE ds1202_1302_get_clock_register(rtc_ds1202_1302_t *context, int reg, 
             }
             break;
         case DS1202_1302_REG_DAYS_OF_WEEK:
-            if (latched) {
-                retval = (BYTE)(rtc_get_weekday(offset) + 1);
-            } else {
-                retval = (BYTE)(rtc_get_weekday(rtc_get_latch(offset)) + 1);
-            }
+            retval = rtc_get_weekday(latch) + 1;
             break;
         case DS1202_1302_REG_YEARS:
-            if (latched) {
-                retval = (BYTE)rtc_get_year(offset, 1);
-            } else {
-                retval = (BYTE)rtc_get_year(rtc_get_latch(offset), 1);
-            }
+            retval = rtc_get_year(latch, 1);
             break;
         case DS1202_1302_REG_WRITE_PROTECT:
             retval = context->write_protect << 7;

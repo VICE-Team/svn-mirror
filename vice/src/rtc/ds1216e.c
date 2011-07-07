@@ -118,27 +118,27 @@ static void ds1216e_latch_regs(rtc_ds1216e_t *context)
     BYTE val;
     time_t latch = (context->inactive) ? context->latch : rtc_get_latch(context->offset[0]);
 
-    context->clock_regs[DS1216E_REGISTER_CENTISECONDS] = (BYTE)rtc_get_centisecond(1);
-    context->clock_regs[DS1216E_REGISTER_SECONDS] = (BYTE)rtc_get_second(latch, 1);
-    context->clock_regs[DS1216E_REGISTER_MINUTES] = (BYTE)rtc_get_minute(latch, 1);
-    context->clock_regs[DS1216E_REGISTER_HOURS] = (BYTE)((context->hours12) ? 0x80 : 0);
+    context->clock_regs[DS1216E_REGISTER_CENTISECONDS] = rtc_get_centisecond(1);
+    context->clock_regs[DS1216E_REGISTER_SECONDS] = rtc_get_second(latch, 1);
+    context->clock_regs[DS1216E_REGISTER_MINUTES] = rtc_get_minute(latch, 1);
+    context->clock_regs[DS1216E_REGISTER_HOURS] = (context->hours12) ? 0x80 : 0;
     if (context->hours12) {
-        context->clock_regs[DS1216E_REGISTER_HOURS] |= (BYTE)rtc_get_hour_am_pm(latch, 1);
+        context->clock_regs[DS1216E_REGISTER_HOURS] |= rtc_get_hour_am_pm(latch, 1);
     } else {
-        context->clock_regs[DS1216E_REGISTER_HOURS] |= (BYTE)rtc_get_hour(latch, 1);
+        context->clock_regs[DS1216E_REGISTER_HOURS] |= rtc_get_hour(latch, 1);
     }
     context->clock_regs[DS1216E_REGISTER_WEEKDAYS] = (context->inactive) ? 0x20 : 0;
     context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= (context->reset) ? 0x10 : 0;
-    context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= (BYTE)rtc_get_weekday(latch) + 1;
-    context->clock_regs[DS1216E_REGISTER_MONTHDAYS] = (BYTE)rtc_get_day_of_month(latch, 1);
-    val = (BYTE)rtc_get_month(context->latch, 1);
+    context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= rtc_get_weekday(latch) + 1;
+    context->clock_regs[DS1216E_REGISTER_MONTHDAYS] = rtc_get_day_of_month(latch, 1);
+    val = rtc_get_month(latch, 1);
     if (val == 7) {
         val += 9;
     } else {
         val++;
     }
     context->clock_regs[DS1216E_REGISTER_MONTHS] = val;
-    context->clock_regs[DS1216E_REGISTER_YEARS] = (BYTE)rtc_get_year(latch, 1);
+    context->clock_regs[DS1216E_REGISTER_YEARS] = rtc_get_year(latch, 1);
 }
 
 static void ds1216e_match_pattern(rtc_ds1216e_t *context, WORD address)

@@ -242,21 +242,21 @@ static BYTE ds12c887_get_clock(rtc_ds12c887_t *context, BYTE address, time_t lat
     switch (address) {
         case DS12C887_REG_SECONDS:
             retval = context->clock_regs[DS12C887_REG_SECONDS] & ((context->bcd) ? 0x80 : 0xc0);
-            retval |= (BYTE)rtc_get_second(latch, context->bcd);
+            retval |= rtc_get_second(latch, context->bcd);
             break;
         case DS12C887_REG_SECONDS_ALARM:
             retval = context->clock_regs[DS12C887_REG_SECONDS_ALARM];
             break;
         case DS12C887_REG_MINUTES:
             retval = context->clock_regs[DS12C887_REG_MINUTES] & ((context->bcd) ? 0x80 : 0xc0);
-            retval |= (BYTE)rtc_get_minute(latch, context->bcd);
+            retval |= rtc_get_minute(latch, context->bcd);
             break;
         case DS12C887_REG_MINUTES_ALARM:
             retval = context->clock_regs[DS12C887_REG_MINUTES_ALARM];
             break;
         case DS12C887_REG_HOURS:
             retval = context->clock_regs[DS12C887_REG_HOURS] & ((context->bcd) ? ((context->am_pm) ? 0x60 : 0xc0) : ((context->am_pm) ? 0x70 : 0xe0));
-            hour = (BYTE)rtc_get_hour(latch, 0);
+            hour = rtc_get_hour(latch, 0);
             if (context->bcd) {
                 if (context->am_pm) {
                     if (hour == 0) {
@@ -294,15 +294,15 @@ static BYTE ds12c887_get_clock(rtc_ds12c887_t *context, BYTE address, time_t lat
             break;
         case DS12C887_REG_DAY_OF_WEEK:
             retval = context->clock_regs[DS12C887_REG_DAY_OF_WEEK] & 0xf8;
-            retval |= (BYTE)rtc_get_weekday(latch) + 1;
+            retval |= rtc_get_weekday(latch) + 1;
             break;
         case DS12C887_REG_DAY_OF_MONTH:
             retval = context->clock_regs[DS12C887_REG_DAY_OF_MONTH] & ((context->bcd) ? 0xc0 : 0xe0);
-            retval |= (BYTE)rtc_get_day_of_month(latch, context->bcd);
+            retval |= rtc_get_day_of_month(latch, context->bcd);
             break;
         case DS12C887_REG_MONTHS:
             retval = context->clock_regs[DS12C887_REG_MONTHS] & ((context->bcd) ? 0xe0 : 0xf0);
-            month = (BYTE)rtc_get_month(latch, context->bcd);
+            month = rtc_get_month(latch, context->bcd);
             if (month == 7 && context->bcd) {
                 month += 9;
             } else {
@@ -313,15 +313,15 @@ static BYTE ds12c887_get_clock(rtc_ds12c887_t *context, BYTE address, time_t lat
         case DS12C887_REG_YEARS:
             if (!context->bcd) {
                 retval = context->clock_regs[DS12C887_REG_YEARS] & 0x80;
-                retval |= (BYTE)rtc_get_year(latch, 0);
+                retval |= rtc_get_year(latch, 0);
             } else {
-                retval = (BYTE)rtc_get_year(latch, 1);
+                retval = rtc_get_year(latch, 1);
             }
             break;
         case DS12C887_REG_CENTURIES:
             if (context->bcd) {
                 retval = context->clock_regs[10] & 0xc0;
-                retval |= (BYTE)rtc_get_century(latch, 1);
+                retval |= rtc_get_century(latch, 1);
             } else {
                 retval = 0;
             }

@@ -29,18 +29,18 @@
 
 #include "types.h"
 
-extern int rtc_get_centisecond(int bcd);
+extern BYTE rtc_get_centisecond(int bcd);
 
-extern int rtc_get_second(time_t time_val, int bcd);         /* 0 - 61 (leap seconds would be 60 and 61) */
-extern int rtc_get_minute(time_t time_val, int bcd);         /* 0 - 59 */
-extern int rtc_get_hour(time_t time_val, int bcd);           /* 0 - 23 */
-extern int rtc_get_hour_am_pm(time_t time_val, int bcd);     /* 1 - 12 + AM/PM in bit 5 (0 = AM, 1 = PM) */
-extern int rtc_get_day_of_month(time_t time_val, int bcd);   /* 1 - 31 */
-extern int rtc_get_month(time_t time_val, int bcd);          /* 0 - 11 (0 = January, 1 = Febuary ...etc) */
-extern int rtc_get_year(time_t time_val, int bcd);           /* 0 - 99 */
-extern int rtc_get_century(time_t time_val, int bcd);        /* 19 - 20 */
-extern int rtc_get_weekday(time_t time_val);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
-extern int rtc_get_day_of_year(time_t time_val);             /* 0 - 365 */
+extern BYTE rtc_get_second(time_t time_val, int bcd);         /* 0 - 61 (leap seconds would be 60 and 61) */
+extern BYTE rtc_get_minute(time_t time_val, int bcd);         /* 0 - 59 */
+extern BYTE rtc_get_hour(time_t time_val, int bcd);           /* 0 - 23 */
+extern BYTE rtc_get_hour_am_pm(time_t time_val, int bcd);     /* 1 - 12 + AM/PM in bit 5 (0 = AM, 1 = PM) */
+extern BYTE rtc_get_day_of_month(time_t time_val, int bcd);   /* 1 - 31 */
+extern BYTE rtc_get_month(time_t time_val, int bcd);          /* 0 - 11 (0 = January, 1 = Febuary ...etc) */
+extern BYTE rtc_get_year(time_t time_val, int bcd);           /* 0 - 99 */
+extern BYTE rtc_get_century(time_t time_val, int bcd);        /* 19 - 20 */
+extern BYTE rtc_get_weekday(time_t time_val);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
+extern WORD rtc_get_day_of_year(time_t time_val);             /* 0 - 365 */
 extern int rtc_get_dst(time_t time_val);                     /* 0 - >0 (0 no dst, >0 dst) */
 extern time_t rtc_get_latch(time_t offset);
 

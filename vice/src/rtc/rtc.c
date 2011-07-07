@@ -44,13 +44,13 @@ inline static int bcd_to_int(int bcd)
 /* ---------------------------------------------------------------------- */
 
 /* get 1/100 seconds from clock */
-int rtc_get_centisecond(int bcd)
+BYTE rtc_get_centisecond(int bcd)
 {
 #ifdef HAVE_GETTIMEOFDAY
     struct timeval t;
 
     gettimeofday(&t, NULL);
-    return (int)((bcd) ? int_to_bcd(t.tv_usec / 10000) : t.tv_usec / 10000);
+    return (BYTE)((bcd) ? int_to_bcd(t.tv_usec / 10000) : t.tv_usec / 10000);
 #else
     /* FIXME: arch-dependent implementation will need to be made */
     #error not implemented
@@ -59,39 +59,39 @@ int rtc_get_centisecond(int bcd)
 
 /* get seconds from time value
    0 - 61 (leap seconds would be 60 and 61) */
-int rtc_get_second(time_t time_val, int bcd)
+BYTE rtc_get_second(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (bcd) ? int_to_bcd(local->tm_sec) : local->tm_sec;
+    return (BYTE)((bcd) ? int_to_bcd(local->tm_sec) : local->tm_sec);
 }
 
 /* get minutes from time value
    0 - 59 */
-int rtc_get_minute(time_t time_val, int bcd)
+BYTE rtc_get_minute(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (bcd) ? int_to_bcd(local->tm_min) : local->tm_min;
+    return (BYTE)((bcd) ? int_to_bcd(local->tm_min) : local->tm_min);
 }
 
 /* get hours from time value
    0 - 23 */
-int rtc_get_hour(time_t time_val, int bcd)
+BYTE rtc_get_hour(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (bcd) ? int_to_bcd(local->tm_hour) : local->tm_hour;
+    return (BYTE)((bcd) ? int_to_bcd(local->tm_hour) : local->tm_hour);
 }
 
 /* get hours from time_value
    1 - 12 + AM/PM flag in bit 5 (0 = PM, 1 = AM) */
-int rtc_get_hour_am_pm(time_t time_val, int bcd)
+BYTE rtc_get_hour_am_pm(time_t time_val, int bcd)
 {
-    int hour;
+    BYTE hour;
     int pm = 0;
     time_t now = time_val;
     struct tm *local = localtime(&now);
@@ -106,69 +106,69 @@ int rtc_get_hour_am_pm(time_t time_val, int bcd)
         hour -= 12;
         pm = 1;
     }
-    hour = (bcd) ? int_to_bcd(hour) : hour;
+    hour = (BYTE)((bcd) ? int_to_bcd(hour) : hour);
     hour |= (pm << 5);
     return hour;
 }
 
 /* get day of month from time value
    1 - 31 */
-int rtc_get_day_of_month(time_t time_val, int bcd)
+BYTE rtc_get_day_of_month(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (bcd) ? int_to_bcd(local->tm_mday) : local->tm_mday;
+    return (BYTE)((bcd) ? int_to_bcd(local->tm_mday) : local->tm_mday);
 }
 
 /* get month from time value
    0 - 11 */
-int rtc_get_month(time_t time_val, int bcd)
+BYTE rtc_get_month(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (bcd) ? int_to_bcd(local->tm_mon) : local->tm_mon;
+    return (BYTE)((bcd) ? int_to_bcd(local->tm_mon) : local->tm_mon);
 }
 
 /* get year of the century from time value
    0 - 99 */
-int rtc_get_year(time_t time_val, int bcd)
+BYTE rtc_get_year(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (bcd) ? int_to_bcd(local->tm_year % 100) : local->tm_year & 100;
+    return (BYTE)((bcd) ? int_to_bcd(local->tm_year % 100) : local->tm_year % 100);
 }
 
 /* get the century from time value
    19 - 20 */
-int rtc_get_century(time_t time_val, int bcd)
+BYTE rtc_get_century(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (bcd) ? int_to_bcd((int)(local->tm_year / 100) + 19) : (int)(local->tm_year / 100) + 19;
+    return (BYTE)((bcd) ? int_to_bcd((int)(local->tm_year / 100) + 19) : (int)(local->tm_year / 100) + 19);
 }
 
 /* get the day of the week from time value
    0 - 6 (sunday 0, monday 1 ...etc) */
-int rtc_get_weekday(time_t time_val)
+BYTE rtc_get_weekday(time_t time_val)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return local->tm_wday;
+    return (BYTE)local->tm_wday;
 }
 
 /* get the day of the year from time value
    0 - 365 */
-int rtc_get_day_of_year(time_t time_val)
+WORD rtc_get_day_of_year(time_t time_val)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return local->tm_yday;
+    return (WORD)local->tm_yday;
 }
 
 /* get the DST from time value
