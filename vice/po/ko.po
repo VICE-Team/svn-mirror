@@ -2395,60 +2395,60 @@ msgstr "조이스틱 설정"
 
 #: src/arch/unix/gui/uikeyboard.c:66
 msgid "Symbolic mapping"
-msgstr ""
+msgstr "심볼릭 매핑"
 
 #: src/arch/unix/gui/uikeyboard.c:68
 msgid "Positional mapping"
-msgstr ""
+msgstr "포시셔널 매핑"
 
 #: src/arch/unix/gui/uikeyboard.c:87
 msgid "Read Keymap File"
-msgstr ""
+msgstr "키맾 파일 읽기"
 
 #: src/arch/unix/gui/uikeyboard.c:111
 msgid "Write to Keymap File:"
-msgstr ""
+msgstr "키맾 파일에 쓰기:"
 
 #: src/arch/unix/gui/uikeyboard.c:171
 msgid "Set symbolic keymap file"
-msgstr ""
+msgstr "심볼릭 키맾 파일 설정"
 
 #: src/arch/unix/gui/uikeyboard.c:179
 msgid "Set positional keymap file"
-msgstr ""
+msgstr "포지셔널 키맾 파일 설정"
 
 #: src/arch/unix/gui/uikeyboard.c:185
 msgid "Keyboard mapping type"
-msgstr ""
+msgstr "키보드 맾핑 종류"
 
 #: src/arch/unix/gui/uikeyboard.c:187
 msgid "Select symbolic keymap"
-msgstr ""
+msgstr "심볼릭 키맾을 선택하시오"
 
 #: src/arch/unix/gui/uikeyboard.c:188
 msgid "Select positional keymap"
-msgstr ""
+msgstr "포지셔널 키맾을 선택하시오"
 
 #: src/arch/unix/gui/uikeyboard.c:190
 msgid "Dump keymap to file"
-msgstr ""
+msgstr "키맾을 파일로 덤프 하시오"
 
 #: src/arch/unix/gui/uikeyboard.c:195 src/arch/win32/res.rc.po.c:1007
 #: src/arch/win32/res.rc.po.c:1480 src/arch/amigaos/intl_text.c.po.c:1974
 msgid "Keyboard settings"
-msgstr ""
+msgstr "키보드 설정"
 
 #: src/arch/unix/gui/uilightpen.c:40
 msgid "Pen with button Up"
-msgstr ""
+msgstr "라이트 위 버튼"
 
 #: src/arch/unix/gui/uilightpen.c:42
 msgid "Pen with button Left"
-msgstr ""
+msgstr "라이트 왼쪽 버튼"
 
 #: src/arch/unix/gui/uilightpen.c:44
 msgid "Datel Pen"
-msgstr ""
+msgstr "Datel 라이트"
 
 #: src/arch/unix/gui/uilightpen.c:46
 msgid "Magnum Light Phaser"
@@ -2456,12 +2456,12 @@ msgstr ""
 
 #: src/arch/unix/gui/uilightpen.c:48
 msgid "Stack Light Rifle"
-msgstr ""
+msgstr "Stack 라이트 라이플"
 
 #: src/arch/unix/gui/uilightpen.c:68 src/arch/win32/reslightpen.rc.po.c:23
 #: src/translate_text.c.po.c:11059
 msgid "Enable lightpen emulation"
-msgstr ""
+msgstr "라이트펜 에물레어터 사용가능케 하기"
 
 #: src/arch/unix/gui/uilightpen.c:70 src/arch/win32/reslightpen.rc.po.c:24
 msgid "Lightpen type"
@@ -2475,12 +2475,12 @@ msgstr ""
 #: src/arch/unix/gui/uimidi.c:49 src/arch/unix/gui/uimidi.c:90
 #: src/arch/unix/gui/uimidi.c:106 src/arch/win32/resmidi.rc.po.c:41
 msgid "MIDI-In device"
-msgstr ""
+msgstr "MIDI-IN 디바이스"
 
 #: src/arch/unix/gui/uimidi.c:54 src/arch/unix/gui/uimidi.c:93
 #: src/arch/unix/gui/uimidi.c:109 src/arch/win32/resmidi.rc.po.c:42
 msgid "MIDI-Out device"
-msgstr ""
+msgstr "MIDI-OUT 디바이스"
 
 #: src/arch/unix/gui/uimidi.c:84 src/arch/win32/res.rc.po.c:1304
 #: src/translate_text.c.po.c:834 src/translate_text.c.po.c:6306
@@ -2503,14 +2503,14 @@ msgstr "자동"
 
 #: src/arch/unix/gui/uimmc64.c:75 src/arch/unix/gui/uiretroreplay.c:46
 msgid "Enable flashjumper"
-msgstr ""
+msgstr "플레쉬점퍼 사용가능케하기"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
 #: src/arch/win32/resmmcreplay.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:6775
 msgid "Card image file"
-msgstr ""
+msgstr "카드 이미지 파일"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:95 src/arch/unix/gui/uimmcreplay.c:80
@@ -2522,11 +2522,11 @@ msgstr ""
 #: src/arch/win32/resmmc64.rc.po.c:59 src/arch/win32/resmmcreplay.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:6715
 msgid "Card type"
-msgstr ""
+msgstr "카드 종류"
 
 #: src/arch/unix/gui/uimmc64.c:117
 msgid "MMC64 BIOS name"
-msgstr ""
+msgstr "MMC64 BIOS 이름"
 
 #: src/arch/unix/gui/uimmc64.c:142
 msgid "MMC64 image"
