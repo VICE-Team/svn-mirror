@@ -933,6 +933,8 @@ x64sc-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
+	libuserport \
 	x64sc$(EXEEXT)
 
 # x64dtv
@@ -1134,6 +1136,8 @@ xvic-all: \
 	libcore \
 	librtc \
 	libuserport \
+	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
 	xvic$(EXEEXT)
 
 # xpet
@@ -1190,6 +1194,8 @@ xpet-all: \
 	libcore \
 	librtc \
 	libuserport \
+	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -1247,6 +1253,8 @@ xplus4-all: \
 	libcore \
 	librtc \
 	libuserport \
+	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -1438,7 +1446,7 @@ libiecbus:
 libimagecontents:
 	(cd imagecontents && $(MAKE))
 libmascuerade:
-	(cd vic20 && $(MAKE) libmascuerade)
+	(cd vic20/cart && $(MAKE) libmascuerade.a)
 libmonitor:
 	(cd monitor && $(MAKE) libmonitor.a)
 libparallel:
@@ -1478,7 +1486,7 @@ libvdrive:
 libvic20:
 	(cd vic20 && $(MAKE))
 libvic20cart:
-	(cd vic20 && $(MAKE) libvic20cart)
+	(cd vic20/cart && $(MAKE) libvic20cart.a)
 libvicii:
 	(cd vicii && $(MAKE) libvicii.a)
 libviciidtv:
