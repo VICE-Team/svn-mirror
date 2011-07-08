@@ -27,6 +27,7 @@
 #ifndef VICE_PETSOUND_H
 #define VICE_PETSOUND_H
 
+#include "sound.h"
 #include "types.h"
 
 extern void petsound_store_onoff(int value);

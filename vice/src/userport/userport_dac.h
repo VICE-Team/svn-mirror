@@ -1,5 +1,5 @@
 /*
- * pet_userport_dac.h
+ * userport_dac.h: Generic userport 8bit DAC sound device emulation.
  *
  * Written by
  *  Marco van den Heuvel <viceteam@t-online.de>
@@ -24,17 +24,17 @@
  *
  */
 
-#ifndef VICE_PET_USERPORT_DAC_H
-#define VICE_PET_USERPORT_DAC_H
+#ifndef VICE_USERPORT_DAC_H
+#define VICE_USERPORT_DAC_H
 
 #include "types.h"
 #include "sound.h"
 
-extern int pet_userport_dac_resources_init(void);
-extern int pet_userport_dac_cmdline_options_init(void);
+extern int userport_dac_resources_init(void);
+extern int userport_dac_cmdline_options_init(void);
 
-extern void pet_userport_dac_store(BYTE value);
+extern void userport_dac_store(BYTE value);
 
-extern void pet_userport_dac_sound_chip_init(void);
+extern void userport_dac_sound_chip_init(void);
 
 #endif

@@ -32,7 +32,6 @@
 #include <math.h>
 
 #include "lib.h"
-#include "pet_userport_dac.h"
 #include "petsound.h"
 #include "sid.h"
 #include "sidcart.h"

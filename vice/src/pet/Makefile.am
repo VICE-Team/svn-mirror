@@ -6,6 +6,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/tape
 
 noinst_LIBRARIES = libpet.a
@@ -18,8 +19,6 @@ libpet_a_SOURCES = \
 	pet-sidcart.c \
 	pet-snapshot.c \
 	pet-snapshot.h \
-	pet_userport_dac.c \
-	pet_userport_dac.h \
 	pet.c \
 	pet.h \
 	petacia.h \

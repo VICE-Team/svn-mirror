@@ -3460,6 +3460,7 @@ if false ; then
     mkdir -p sid
     mkdir -p sounddrv
     mkdir -p tape
+    mkdir -p userport
     mkdir -p vdc
     mkdir -p vdrive
     mkdir -p vic20
@@ -3579,6 +3580,7 @@ AC_OUTPUT([Makefile
            src/sid/Makefile
            src/sounddrv/Makefile
            src/tape/Makefile
+           src/userport/Makefile
            src/vdc/Makefile
            src/vdrive/Makefile
            src/vic20/Makefile

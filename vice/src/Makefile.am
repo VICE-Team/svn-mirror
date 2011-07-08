@@ -33,6 +33,7 @@ SUBDIRS = \
 	monitor \
 	core \
 	rtc \
+	userport \
 	c64 \
 	c64dtv \
 	c128 \
@@ -67,6 +68,7 @@ DIST_SUBDIRS = \
 	monitor \
 	core \
 	rtc \
+	userport \
 	c64 \
 	c64dtv \
 	c128 \
@@ -92,7 +94,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/imagecontents
+	-I$(top_srcdir)/src/imagecontents \
+	-I$(top_srcdir)/src/userport
 
 noinst_HEADERS = \
 	6510core.h \
@@ -718,6 +721,7 @@ serial_lib = $(top_builddir)/src/serial/libserial.a
 sid_lib = $(top_builddir)/src/sid/libsid.a
 sounddrv_lib = $(top_builddir)/src/sounddrv/libsounddrv.a
 tape_lib = $(top_builddir)/src/tape/libtape.a
+userport_lib = $(top_builddir)/src/userport/libuserport.a
 vdc_lib = $(top_builddir)/src/vdc/libvdc.a
 vdrive_lib = $(top_builddir)/src/vdrive/libvdrive.a
 vic20_lib = $(top_builddir)/src/vic20/libvic20.a
@@ -816,6 +820,7 @@ x64_libs =  \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
+	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs)
@@ -860,6 +865,7 @@ x64-all: \
 	libfileio \
 	libcore \
 	librtc \
+	libuserport \
 	x64$(EXEEXT)
 
 # x64sc
@@ -883,6 +889,7 @@ x64sc_libs =  \
 	$(viciisc_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
+	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs)
@@ -1015,6 +1022,7 @@ x128_libs =  \
 	$(vdc_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
+	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs)
@@ -1060,6 +1068,7 @@ x128-all: \
 	libfileio \
 	libcore \
 	librtc \
+	libuserport \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	x128$(EXEEXT)
@@ -1082,6 +1091,7 @@ xvic_libs =  \
 	$(driver_libs) \
 	$(raster_lib) \
 	$(rtc_lib) \
+	$(userport_lib) \
 	$(sid_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1123,6 +1133,7 @@ xvic-all: \
 	libfileio \
 	libcore \
 	librtc \
+	libuserport \
 	xvic$(EXEEXT)
 
 # xpet
@@ -1140,6 +1151,7 @@ xpet_libs =  \
 	$(rtc_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
+	$(userport_lib) \
 	$(video_lib) \
 	$(sid_lib) \
 	$(common_libs) \
@@ -1177,6 +1189,7 @@ xpet-all: \
 	libfileio \
 	libcore \
 	librtc \
+	libuserport \
 	xpet$(EXEEXT)
 
 # xplus4
@@ -1195,6 +1208,7 @@ xplus4_libs =  \
 	$(sid_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
+	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_libs)
@@ -1232,6 +1246,7 @@ xplus4-all: \
 	libfileio \
 	libcore \
 	librtc \
+	libuserport \
 	xplus4$(EXEEXT)
 
 # xcbm2
@@ -1250,6 +1265,7 @@ xcbm2_libs = \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
+	$(userport_lib) \
 	$(common_libs) \
 	$(resid_libs)
 
@@ -1287,6 +1303,7 @@ xcbm2-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	libuserport \
 	xcbm2$(EXEEXT)
 
 # c1541
@@ -1358,10 +1375,11 @@ cartconv_LDADD = @INTLLIBS@
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2 libdrive libvdrive
-	libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
-	libfsdevice libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc libvideo
-	libserial libparallel libcore libiecbus libfileio @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
+.PHONY: libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2
+	libdrive libvdrive libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
+	libfsdevice libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
+	libvideo libserial libparallel libcore libiecbus libfileio librtc libuserport
+	@RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1451,6 +1469,8 @@ libsounddrv:
 	(cd sounddrv && $(MAKE))
 libtape:
 	(cd tape && $(MAKE))
+libuserport:
+	(cd userport && $(MAKE))
 libvdc:
 	(cd vdc && $(MAKE))
 libvdrive:

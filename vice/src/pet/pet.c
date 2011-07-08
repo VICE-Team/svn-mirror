@@ -61,7 +61,6 @@
 #include "pet-resources.h"
 #include "pet-snapshot.h"
 #include "pet.h"
-#include "pet_userport_dac.h"
 #include "petiec.h"
 #include "petmem.h"
 #include "petreu.h"
@@ -84,6 +83,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
+#include "userport_dac.h"
 #include "util.h"
 #include "via.h"
 #include "video.h"
@@ -140,7 +140,7 @@ int machine_resources_init(void)
         || petdww_resources_init() < 0
         || sound_resources_init() < 0
         || sidcart_resources_init() < 0
-        || pet_userport_dac_resources_init() < 0
+        || userport_dac_resources_init() < 0
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || acia1_resources_init() < 0
@@ -185,7 +185,7 @@ int machine_cmdline_options_init(void)
         || pia1_init_cmdline_options() < 0
         || sound_cmdline_options_init() < 0
         || sidcart_cmdline_options_init() < 0
-        || pet_userport_dac_cmdline_options_init() < 0
+        || userport_dac_cmdline_options_init() < 0
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || acia1_cmdline_options_init() < 0
@@ -310,7 +310,7 @@ int machine_specific_init(void)
     pet_sound_chip_init();
 
     /* Initialize cartridge based sound chips */
-    pet_userport_dac_sound_chip_init();
+    userport_dac_sound_chip_init();
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
