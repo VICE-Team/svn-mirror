@@ -1,5 +1,5 @@
 /*
- * digimax.h
+ * userport_digimax.h
  *
  * Written by
  *  Marco van den Heuvel <viceteam@t-online.de>
@@ -24,30 +24,11 @@
  *
  */
 
-#ifndef VICE_DIGIMAX_H
-#define VICE_DIGIMAX_H
+#ifndef VICE_USERPORT_DIGIMAX_H
+#define VICE_USERPORT_DIGIMAX_H
 
 #include "types.h"
-#include "sound.h"
 
-extern int digimax_cart_enabled(void);
-extern int digimax_is_userport(void);
-extern int digimax_enable(void);
-extern void digimax_detach(void);
-extern void digimax_reset(void);
-
-extern int digimax_resources_init(void);
-extern void digimax_resources_shutdown(void);
-extern int digimax_cmdline_options_init(void);
-
-extern void digimax_sound_chip_init(void);
-
-extern void digimax_sound_store(WORD address, BYTE value);
-extern BYTE digimax_sound_read(WORD address);
-
-struct snapshot_s;
-
-extern int digimax_snapshot_write_module(struct snapshot_s *s);
-extern int digimax_snapshot_read_module(struct snapshot_s *s);
+extern void digimax_userport_store(WORD addr, BYTE value);
 
 #endif

@@ -61,17 +61,7 @@
 /* DIGIMAX address */
 int digimax_address;
 
-/* DIGIMAX userport address latch */
-static BYTE digimax_userport_address;
-
-/* DIGIMAX userport direction latches */
-static BYTE digimax_userport_direction_A;
-static BYTE digimax_userport_direction_B;
-
 /* ---------------------------------------------------------------------*/
-
-static void digimax_sound_store(WORD addr, BYTE value);
-static BYTE digimax_sound_read(WORD addr);
 
 static io_source_t digimax_device = {
     CARTRIDGE_NAME_DIGIMAX,
@@ -142,71 +132,22 @@ int digimax_cart_enabled(void)
 
 static BYTE digimax_sound_data[4];
 
-static int digimax_is_userport(void)
+int digimax_is_userport(void)
 {
     return (digimax_address == 0xdd00);
 }
 
-static void digimax_sound_store(WORD addr, BYTE value)
+void digimax_sound_store(WORD addr, BYTE value)
 {
     digimax_sound_data[addr] = value;
     sound_store((WORD)(digimax_sound_chip_offset | addr), value, 0);
 }
 
-static BYTE digimax_sound_read(WORD addr)
+BYTE digimax_sound_read(WORD addr)
 {
     BYTE value = sound_read((WORD)(digimax_sound_chip_offset | addr), 0);
 
     return value;
-}
-
-/*
-    PA2  low, /PA3  low: DAC #0 (left)
-    PA2 high, /PA3  low: DAC #1 (right)
-    PA2  low, /PA3 high: DAC #2 (left)
-    PA2 high, /PA3 high: DAC #3 (right).
-*/
-
-static void digimax_userport_sound_store(BYTE value)
-{
-    WORD addr = 0;
-
-    switch ((digimax_userport_address & digimax_userport_direction_A) & 0xc) {
-        case 0x0:
-            addr = 2;
-            break;
-        case 0x4:
-            addr = 3;
-            break;
-        case 0x8:
-            addr = 0;
-            break;
-        case 0xc:
-            addr = 1;
-            break;
-    }
-
-    digimax_sound_store(addr, (BYTE)(value & digimax_userport_direction_B));
-}
-
-void digimax_userport_store(WORD addr, BYTE value)
-{
-    switch (addr & 0x1f) {
-        case 0:
-            digimax_userport_address = value;
-            break;
-        case 1:
-            if (digimax_sound_chip.chip_enabled && digimax_is_userport()) {
-                digimax_userport_sound_store(value);
-            }
-            break;
-        case 2:
-            digimax_userport_direction_A = value;
-            break;
-        case 3:
-            digimax_userport_direction_B = value;
-            break;
-    }
 }
 
 /* ---------------------------------------------------------------------*/
@@ -489,9 +430,12 @@ int digimax_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_DW(m, (DWORD)digimax_address) < 0)
+/* FIXME: implement userport part in userport_digimax.c */
+#if 0
         || (SMW_B(m, digimax_userport_address) < 0)
         || (SMW_B(m, digimax_userport_direction_A) < 0)
         || (SMW_B(m, digimax_userport_direction_B) < 0)
+#endif
         || (SMW_BA(m, digimax_sound_data, 4) < 0)
         || (SMW_B(m, snd.voice0) < 0)
         || (SMW_B(m, snd.voice1) < 0)
@@ -523,9 +467,12 @@ int digimax_snapshot_read_module(snapshot_t *s)
 
     if (0
         || (SMR_DW_INT(m, &temp_digimax_address) < 0)
+/* FIXME: Implement the userport part in userport_digimax.c */
+#if 0
         || (SMR_B(m, &digimax_userport_address) < 0)
         || (SMR_B(m, &digimax_userport_direction_A) < 0)
         || (SMR_B(m, &digimax_userport_direction_B) < 0)
+#endif
         || (SMR_BA(m, digimax_sound_data, 4) < 0)
         || (SMR_B(m, &snd.voice0) < 0)
         || (SMR_B(m, &snd.voice1) < 0)

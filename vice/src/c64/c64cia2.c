@@ -39,7 +39,6 @@
 #include "c64gluelogic.h"
 #include "c64parallel.h"
 #include "cia.h"
-#include "digimax.h"
 #include "iecbus.h"
 #include "interrupt.h"
 #include "joystick.h"
@@ -50,6 +49,7 @@
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
+#include "userport_digimax.h"
 #include "vicii.h"
 
 #ifdef HAVE_RS232
