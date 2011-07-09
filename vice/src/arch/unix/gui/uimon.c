@@ -32,6 +32,7 @@
 
 #include "console.h"
 #include "lib.h"
+#include "log.h"
 #include "monitor.h"
 #include "uimon.h"
 #include "ui.h"
@@ -55,11 +56,17 @@ console_t *uimon_window_open(void)
 
 void uimon_window_suspend( void )
 {
-    uimon_window_close();
+#ifdef HAVE_MOUSE
+    ui_check_mouse_cursor();
+#endif
 }
 
 console_t *uimon_window_resume(void)
 {
+    if (console_log_local) {
+        return console_log_local;
+    }
+    log_error(LOG_DEFAULT, "uimon_window_resume: log was not opened.");
     return uimon_window_open();
 }
 

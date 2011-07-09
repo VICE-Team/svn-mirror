@@ -102,8 +102,7 @@ static int mon_out_buffered(const char *buffer)
     if (!console_log || console_log->console_cannot_output) {
         mon_buffer_alloc();
         mon_buffer_add(buffer, (unsigned int)strlen(buffer));
-    }
-    else {
+    } else {
         rv = mon_buffer_flush();
         rv = uimon_out(buffer) || rv;
     }
