@@ -887,6 +887,9 @@ void ui_dispatch_events(void)
             case MENU_JOYSTICK_SETTINGS:
                 ui_joystick();
                 break;
+            case MENU_EXTRA_JOYSTICK_SETTINGS:
+                ui_extra_joystick();
+                break;
             case MENU_SOUND_SETTINGS:
                 ui_sound();
                 break;

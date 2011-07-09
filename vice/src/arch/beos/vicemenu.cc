@@ -762,42 +762,40 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if (!vsid_mode) {
-        uppermenu->AddItem(menu = new BMenu("Joystick..."));
+        uppermenu->AddItem(menu = new BMenu("Joystick"));
+        if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {
             menu->AddItem(new BMenuItem("Joystick/Keyset settings...", new BMessage(MENU_JOYSTICK_SETTINGS)));
-            menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
-    }
-
-    if (machine_class == VICE_MACHINE_PLUS4 && !vsid_mode) {
-            menu->AddItem(new BMenuItem("SIDcart joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
-    }
-
-    if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_PLUS4 && !vsid_mode) {
+        }
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            menu->AddItem(new BMenuItem("SIDcart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
+            menu->AddItem(new BMenuItem("SIDcart joystick settings...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
+        }
+        if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("Userport joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
+            menu->AddItem(new BMenuItem("Userport joystick settings...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
             menu->AddItem(submenu = new BMenu("Userport joystick type"));
                 submenu->AddItem(new BMenuItem("CGA", new BMessage(MENU_USERPORT_JOY_CGA)));
                 submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_USERPORT_JOY_PET)));
                 submenu->AddItem(new BMenuItem("Hummer", new BMessage(MENU_USERPORT_JOY_HUMMER)));
                 submenu->AddItem(new BMenuItem("OEM", new BMessage(MENU_USERPORT_JOY_OEM)));
+            if (machine_class == VICE_MACHINE_C64 ||
+                machine_class == VICE_MACHINE_C64SC ||
+                machine_class == VICE_MACHINE_C128) {
+                submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
+            }
+        }
+            menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));
     }
 
-    if ((machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C64SC ||
-         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
-                submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
-    }
-        
     uppermenu->AddItem(new BMenuItem("Sound ...", new BMessage(MENU_SOUND_SETTINGS)));
 
     if (machine_class == VICE_MACHINE_C64 ||
         machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C64DTV ||
         machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM5x0 ||
         machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(new BMenuItem("SID ...", new BMessage(MENU_SID_SETTINGS)));
-    }
-
-    if (machine_class == VICE_MACHINE_C64DTV) {
-        uppermenu->AddItem(new BMenuItem("SID ...", new BMessage(MENU_SIDDTV_SETTINGS)));
     }
 
     uppermenu->AddItem(new BMenuItem("RAM ...", new BMessage(MENU_RAM_SETTINGS)));

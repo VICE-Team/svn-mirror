@@ -54,7 +54,7 @@ class JoyView : public BView {
 
 class JoystickWindow : public BWindow {
     public:
-        JoystickWindow();
+        JoystickWindow(int first_port, int second_port);
         ~JoystickWindow();
         virtual void MessageReceived(BMessage *msg);
 };
@@ -94,7 +94,7 @@ JoyView::JoyView(BRect r, int joyport) : BView(r, "joy_view", B_FOLLOW_NONE, B_W
         } else {
             sprintf(str, "%s (stick %d-%d)", hardware_joystick[device - NUM_OF_SOFTDEVICES].device_name,
                                              hardware_joystick[device - NUM_OF_SOFTDEVICES].stick,
-				                     hardware_joystick[device-NUM_OF_SOFTDEVICES].axes);
+                                             hardware_joystick[device - NUM_OF_SOFTDEVICES].axes);
             item_name = str;
         }
 
@@ -120,80 +120,40 @@ JoyView::JoyView(BRect r, int joyport) : BView(r, "joy_view", B_FOLLOW_NONE, B_W
 }
 
 /* definition for JoystickWindow */
-JoystickWindow::JoystickWindow() 
-    : BWindow(BRect(50, 50, 400, 230 + hardware_joystick_count * 20), "Joystick settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+JoystickWindow::JoystickWindow(int first_port, int second_port) 
+    : BWindow(BRect(50, 50, 400, 230 + hardware_joystick_count * 20), "", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
 {
     BRect r;
     BView *background;
     BCheckBox *checkbox;
     int res_value;
-    int port1_present = 0;
-    int port2_present = 0;
-    int port3_present = 0;
-    int port4_present = 0;
+
+    if (first_port == 3 && second_port == 4) {
+        SetTitle("Userport joystick settings");
+    } else if (first_port == 3 && second_port == 0) {
+        SetTitle("SIDcart joystick settings");
+    } else {
+        SetTitle("Joystick settings");
+    }
+/*     ResizeTo(240, 150);  */
 
     r = Bounds();
     background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
     background->SetViewColor(220, 220, 220, 0);
     AddChild(background);
 
-    switch (machine_class) {
-        case VICE_MACHINE_C128:
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64DTV:
-        default:
-            port1_present = 1;
-            port2_present = 1;
-            port3_present = 1;
-            port4_present = 1;
-            break;
-        case VICE_MACHINE_CBM5x0:
-            port1_present = 1;
-            port2_present = 1;
-            break;
-        case VICE_MACHINE_CBM6x0:
-        case VICE_MACHINE_PET:
-            port3_present = 1;
-            port4_present = 1;
-            break;
-        case VICE_MACHINE_VIC20:
-            port1_present = 1;
-            port3_present = 1;
-            port4_present = 1;
-            break;
-        case VICE_MACHINE_PLUS4:
-            port1_present = 1;
-            port2_present = 1;
-            port3_present = 1;
-            break;
-    }
-
-    if (port1_present) {
+    if (first_port) {
         r = Bounds();
         r.right -= r.Width() / 2;
         r.bottom -= 70;
-        background->AddChild(new JoyView(r, 1));
+        background->AddChild(new JoyView(r, first_port));
     }
 
-    if (port2_present) {
+    if (second_port) {
         r = Bounds();
         r.left += r.Width() / 2;
         r.bottom -= 70;
-        background->AddChild(new JoyView(r, 2));
-    }
-
-    if (port3_present) {
-        r = Bounds();
-        r.left += r.Width() / 2;
-        r.bottom -= 70;
-        background->AddChild(new JoyView(r, 3));
-    }
-
-    if (port4_present) {
-        r = Bounds();
-        r.left += r.Width() / 2;
-        r.bottom -= 70;
-        background->AddChild(new JoyView(r, 4));
+        background->AddChild(new JoyView(r, second_port));
     }
 
     r = Bounds();
@@ -219,20 +179,18 @@ JoystickWindow::JoystickWindow()
 
 JoystickWindow::~JoystickWindow() 
 {
-    joywindow = NULL;	
+    joywindow = NULL;
 }
 
 void JoystickWindow::MessageReceived(BMessage *msg)
 {
-    int32 port,device;
-    char resource_name[16];
+    int32 port, device;
 
     switch(msg->what) {
         case JOYMESSAGE_DEVPORT:
             msg->FindInt32("device_num", &device);
             msg->FindInt32("joy_port", &port);
-            sprintf(resource_name, "JoyDevice%d", port); 	
-            resources_set_int(resource_name, device);
+            resources_set_int_sprintf("JoyDevice%d", device, port);
             break;
         case JOYMESSAGE_KEYSET1:
             keysetwindow = new KeysetWindow(1);
@@ -290,8 +248,8 @@ static char *keyset_instruction_last = "Now press the key for %s or press button
 
 static int keyset[9];
 
-KeysetWindow::KeysetWindow(int set_nr) 
-	: BWindow(BRect(105, 75, 105, 75), "", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+KeysetWindow::KeysetWindow(int set_nr)
+        : BWindow(BRect(105, 75, 105, 75), "", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE)
 {
     BRect r;
     BView *background;
@@ -382,12 +340,73 @@ void KeysetWindow::MessageReceived(BMessage *msg)
 void ui_joystick() {
     thread_id joythread;
     status_t exit_value;
+    int first_port, second_port;
 
-    if (joywindow != NULL) {
+    switch (machine_class) {
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_CBM5x0:
+        case VICE_MACHINE_PLUS4:
+        default:
+            first_port = 1;
+            second_port = 2;
+            break;
+        case VICE_MACHINE_CBM6x0:
+        case VICE_MACHINE_PET:
+            first_port = 0;
+            second_port = 0;
+            break;
+        case VICE_MACHINE_VIC20:
+            first_port = 1;
+            second_port = 0;
+            break;
+    }
+
+    if (joywindow != NULL || first_port == 0) {
         return;
     }
 
-    joywindow = new JoystickWindow;
+    joywindow = new JoystickWindow(first_port, second_port);
+
+    vsync_suspend_speed_eval();
+
+    /* wait until window closed */
+    joythread = joywindow->Thread();
+    wait_for_thread(joythread, &exit_value);
+}
+
+void ui_extra_joystick() {
+    thread_id joythread;
+    status_t exit_value;
+    int first_port, second_port;
+
+    switch (machine_class) {
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_CBM6x0:
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_VIC20:
+        default:
+            first_port = 3;
+            second_port = 4;
+            break;
+        case VICE_MACHINE_CBM5x0:
+            first_port = 0;
+            second_port = 0;
+            break;
+        case VICE_MACHINE_PLUS4:
+            first_port = 3;
+            second_port = 0;
+            break;
+    }
+
+    if (joywindow != NULL || first_port == 0) {
+        return;
+    }
+
+    joywindow = new JoystickWindow(first_port, second_port);
 
     vsync_suspend_speed_eval();
 

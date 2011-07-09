@@ -34,5 +34,6 @@ const uint32 JOYMESSAGE_KEYTEXT = 'J003';
 const uint32 JOYMESSAGE_DISPLAY = 'J004';
 
 extern void ui_joystick(void);
+extern void ui_extra_joystick(void);
 
 #endif

@@ -92,7 +92,7 @@ void c64dtv_ui_specific(void *msg, void *window)
         case MENU_VICII_SETTINGS:
             ui_vicii();
             break;
-        case MENU_SIDDTV_SETTINGS:
+        case MENU_SID_SETTINGS:
             ui_siddtv();
             break;
         case MENU_C64DTV_ROM_FILE:
