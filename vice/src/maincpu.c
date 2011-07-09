@@ -237,6 +237,9 @@ int maincpu_rmw_flag = 0;
    when the branch is taken.  */
 unsigned int last_opcode_info;
 
+/* Address of the last executed opcode. This is used by watchpoints. */
+unsigned int last_opcode_addr;
+
 /* Number of write cycles for each 6510 opcode.  */
 const CLOCK maincpu_opcode_write_cycles[] = {
             /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
@@ -443,6 +446,7 @@ void maincpu_mainloop(void)
 #define CLK maincpu_clk
 #define RMW_FLAG maincpu_rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
+#define LAST_OPCODE_ADDR last_opcode_addr
 #define TRACEFLG debug.maincpu_traceflg
 
 #define CPU_INT_STATUS maincpu_int_status

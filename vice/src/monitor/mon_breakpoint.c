@@ -353,14 +353,13 @@ static int compare_checkpoints(checkpoint_t *bp1, checkpoint_t *bp2)
     return 0;
 }
 
-
-bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr, MEMORY_OP op)
+bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned int lastpc, MEMORY_OP op)
 {
     checkpoint_list_t *ptr;
     checkpoint_t *cp;
     checkpoint_list_t *list;
     bool must_stop = FALSE;
-    MON_ADDR temp;
+    MON_ADDR instpc;
     const char *op_str;
     const char *action_str;
 
@@ -368,16 +367,19 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr, MEMORY_OP op)
         case e_load:
             list   = watchpoints_load[mem];
             op_str = "load";
+            instpc = new_addr(mem, lastpc);
             break;
 
         case e_store:
             list = watchpoints_store[mem];
             op_str = "store";
+            instpc = new_addr(mem, lastpc);
             break;
 
         default: /* e_exec */
             list = breakpoints[mem];
             op_str = "exec";
+            instpc = new_addr(mem, (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC));
             break;
     }
 
@@ -403,8 +405,6 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr, MEMORY_OP op)
 
             cp->hit_count++;
 
-            temp = new_addr(mem,
-                            (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC));
             if (cp->stop) {
                 must_stop  = TRUE;
                 action_str = "Stop on";
@@ -414,15 +414,16 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, WORD addr, MEMORY_OP op)
 
             /*archdep_open_monitor_console(&mon_input, &mon_output);*/
             mon_out("#%d (%s %s %04x) ", cp->checknum, action_str, op_str, addr);
-            mon_disassemble_instr(temp);
+            mon_disassemble_instr(instpc);
 
             if (cp->command) {
                 mon_out("Executing: %s\n", cp->command);
                 parse_and_execute_line(cp->command);
             }
 
-            if (cp->temporary)
+            if (cp->temporary) {
                 mon_breakpoint_delete_checkpoint(cp->checknum);
+            }
         }
     }
 

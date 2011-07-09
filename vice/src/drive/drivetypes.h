@@ -84,6 +84,9 @@ typedef struct drivecpu_context_s {
     /* Information about the last executed opcode.  */
     unsigned int last_opcode_info;
 
+    /* Address of the last executed opcode. This is used by watchpoints. */
+    unsigned int last_opcode_addr;
+
     /* Public copy of the registers.  */
     mos6510_regs_t cpu_regs;
 

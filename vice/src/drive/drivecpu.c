@@ -478,6 +478,7 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 #define RMW_FLAG (cpu->rmw_flag)
 #define PAGE_ONE (cpu->pageone)
 #define LAST_OPCODE_INFO (cpu->last_opcode_info)
+#define LAST_OPCODE_ADDR (cpu->last_opcode_addr)
 #define TRACEFLG (debug.drivecpu_traceflg[drv->mynumber])
 
 #define CPU_INT_STATUS (cpu->int_status)

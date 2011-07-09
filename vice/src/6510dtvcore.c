@@ -140,6 +140,12 @@
 
 #endif
 
+#ifdef LAST_OPCODE_ADDR
+#define SET_LAST_ADDR(x) LAST_OPCODE_ADDR = (x)
+#else
+#error "please define LAST_OPCODE_ADDR"
+#endif
+
 #ifndef C64DTV
 /* Export the local version of the registers.  */
 #define EXPORT_REGISTERS()      \
@@ -345,7 +351,7 @@
                     IMPORT_REGISTERS();                               \
                 }                                                     \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {              \
-                    monitor_check_watchpoints((WORD)reg_pc);          \
+                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)reg_pc); \
                     IMPORT_REGISTERS();                               \
                 }                                                     \
             }                                                         \
@@ -1487,6 +1493,7 @@ static const BYTE fetch_tab[] = {
         memmap_state |= (MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
 #endif
 
+        SET_LAST_ADDR(reg_pc);
         FETCH_OPCODE(opcode);
 
 #ifdef FEATURE_CPUMEMHISTORY

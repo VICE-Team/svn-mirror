@@ -137,7 +137,7 @@ extern void monitor_abort(void);
 extern int monitor_force_import(MEMSPACE mem);
 extern void monitor_check_icount(WORD a);
 extern void monitor_check_icount_interrupt(void);
-extern void monitor_check_watchpoints(WORD a);
+extern void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc);
 
 extern void monitor_cpu_type_set(const char *cpu_type);
 

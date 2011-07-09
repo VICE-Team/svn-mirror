@@ -1912,11 +1912,13 @@ void mon_delete_conditional(cond_node_t *cnode)
 
 void monitor_watch_push_load_addr(WORD addr, MEMSPACE mem)
 {
-    if (inside_monitor)
+    if (inside_monitor) {
         return;
+    }
 
-    if (watch_load_count[mem] == 9)
+    if (watch_load_count[mem] == 9) {
          return;
+    }
 
     watch_load_occurred = TRUE;
     watch_load_array[watch_load_count[mem]][mem] = addr;
@@ -1925,18 +1927,20 @@ void monitor_watch_push_load_addr(WORD addr, MEMSPACE mem)
 
 void monitor_watch_push_store_addr(WORD addr, MEMSPACE mem)
 {
-    if (inside_monitor)
+    if (inside_monitor) {
         return;
+    }
 
-    if (watch_store_count[mem] == 9)
+    if (watch_store_count[mem] == 9) {
         return;
+    }
 
     watch_store_occurred = TRUE;
     watch_store_array[watch_store_count[mem]][mem] = addr;
     watch_store_count[mem]++;
 }
 
-static bool watchpoints_check_loads(MEMSPACE mem)
+static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
     bool trap = FALSE;
     unsigned count;
@@ -1947,14 +1951,14 @@ static bool watchpoints_check_loads(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_load_array[count][mem];
-        if (mon_breakpoint_check_checkpoint(mem, addr, e_load)) {
+        if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_load)) {
             trap = TRUE;
         }
     }
     return trap;
 }
 
-static bool watchpoints_check_stores(MEMSPACE mem)
+static bool watchpoints_check_stores(MEMSPACE mem, unsigned int lastpc, unsigned int pc)
 {
     bool trap = FALSE;
     unsigned count;
@@ -1966,7 +1970,7 @@ static bool watchpoints_check_stores(MEMSPACE mem)
     while (count) {
         count--;
         addr = watch_store_array[count][mem];
-        if (mon_breakpoint_check_checkpoint(mem, addr, e_store)) {
+        if (mon_breakpoint_check_checkpoint(mem, addr, lastpc, e_store)) {
             trap = TRUE;
         }
     }
@@ -2032,27 +2036,30 @@ void monitor_check_icount_interrupt(void)
     and the monitor_mask[caller_space] | MI_STEP is
     active, i.e., we're in the single step mode.   */
 
-    if (instruction_count)
-        if (skip_jsrs == TRUE)
+    if (instruction_count) {
+        if (skip_jsrs == TRUE) {
             wait_for_return_level++;
+        }
+    }
 }
 
 int monitor_check_breakpoints(MEMSPACE mem, WORD addr)
 {
-    return mon_breakpoint_check_checkpoint(mem, addr, e_exec);
+    return mon_breakpoint_check_checkpoint(mem, addr, 0, e_exec); /* FIXME */
 }
 
-void monitor_check_watchpoints(WORD a)
+/* called by macro DO_INTERRUPT() in 6510(dtv)core.c */
+void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
 {
     unsigned int dnr;
 
     if (watch_load_occurred) {
-        if (watchpoints_check_loads(e_comp_space)) {
+        if (watchpoints_check_loads(e_comp_space, lastpc, pc)) {
             caller_space = e_comp_space;
             monitor_startup();
         }
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-            if (watchpoints_check_loads(monitor_diskspace_mem(dnr))) {
+            if (watchpoints_check_loads(monitor_diskspace_mem(dnr), lastpc, pc)) {
                 caller_space = monitor_diskspace_mem(dnr);
                 monitor_startup();
             }
@@ -2061,12 +2068,12 @@ void monitor_check_watchpoints(WORD a)
     }
 
     if (watch_store_occurred) {
-        if (watchpoints_check_stores(e_comp_space)) {
+        if (watchpoints_check_stores(e_comp_space, lastpc, pc)) {
             caller_space = e_comp_space;
             monitor_startup();
         }
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-            if (watchpoints_check_stores(monitor_diskspace_mem(dnr))) {
+            if (watchpoints_check_stores(monitor_diskspace_mem(dnr), lastpc, pc)) {
                 caller_space = monitor_diskspace_mem(dnr);
                 monitor_startup();
             }

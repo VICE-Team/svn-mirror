@@ -30,9 +30,9 @@
 
 #include "types.h"
 
-
 /* Information about the last opcode executed by the main CPU.  */
 extern unsigned int last_opcode_info;
+extern unsigned int last_opcode_addr;
 
 /* Masks to extract information. */
 #define OPINFO_NUMBER_MSK               0xff

@@ -149,8 +149,10 @@ inline static int z80mem_read_limit(int addr)
 /* ------------------------------------------------------------------------- */
 
 static unsigned int z80_last_opcode_info;
+static unsigned int z80_last_opcode_addr;
 
 #define LAST_OPCODE_INFO z80_last_opcode_info
+#define LAST_OPCODE_ADDR z80_last_opcode_addr
 
 /* Remember the number of the last opcode.  By default, the opcode does not
    delay interrupt and does not change the I flag.  */
@@ -166,6 +168,12 @@ static unsigned int z80_last_opcode_info;
 /* Remember that the last opcode changed the I flag from 1 to 0, so we must
    not dispatch an IRQ even if the I flag is 1 when we check it.  */
 #define OPCODE_ENABLES_IRQ() OPINFO_SET_ENABLES_IRQ(LAST_OPCODE_INFO, 1)
+
+#ifdef LAST_OPCODE_ADDR
+#define SET_LAST_ADDR(x) LAST_OPCODE_ADDR = (x)
+#else
+#error "please define LAST_OPCODE_ADDR"
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -519,7 +527,7 @@ static void export_registers(void)
                 monitor_check_icount((WORD)z80_reg_pc);                                   \
             }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_WATCH)) {                                \
-                monitor_check_watchpoints((WORD)z80_reg_pc);                              \
+                monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)z80_reg_pc);            \
             }                                                                             \
         }                                                                                 \
     } while (0)
@@ -5488,6 +5496,7 @@ void z80_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_a
             }
         }
 
+        SET_LAST_ADDR(reg_pc);
         FETCH_OPCODE(opcode);
 
 #ifdef DEBUG
