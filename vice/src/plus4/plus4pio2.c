@@ -33,7 +33,7 @@ BYTE pio2_kbd;
 
 BYTE pio2_read(WORD addr)
 {
-    return 0;
+    return pio2_kbd;
 }
 
 void pio2_store(WORD addr, BYTE value)
