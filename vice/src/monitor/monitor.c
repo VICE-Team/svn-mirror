@@ -78,6 +78,7 @@
 #include "signals.h"
 #include "sysfile.h"
 #include "translate.h"
+#include "traps.h"
 #include "types.h"
 #include "uiapi.h"
 #include "uimon.h"
@@ -1993,7 +1994,8 @@ int monitor_force_import(MEMSPACE mem)
     return result;
 }
 
-void monitor_check_icount(WORD a)
+/* called by cpu core */
+void monitor_check_icount(WORD pc)
 {
     if (trigger_break_on_next_instruction) {
         trigger_break_on_next_instruction = FALSE;
@@ -2001,36 +2003,50 @@ void monitor_check_icount(WORD a)
             monitor_mask[caller_space] &= ~MI_STEP;
             disassemble_on_entry = 1;
         }
-        if (!monitor_mask[caller_space])
+        if (!monitor_mask[caller_space]) {
             interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
+        }
 
         monitor_startup();
     }
 
-    if (!instruction_count)
+    if (!instruction_count) {
         return;
-
-    if (skip_jsrs == TRUE) {
-        if (MONITOR_GET_OPCODE(caller_space) == OP_JSR)
-            wait_for_return_level++;
-
-        if (MONITOR_GET_OPCODE(caller_space) == OP_RTS)
-            wait_for_return_level--;
-
-        if (MONITOR_GET_OPCODE(caller_space) == OP_RTI)
-            wait_for_return_level--;
-
-        if (wait_for_return_level < 0)
-            wait_for_return_level = 0;
     }
 
-    if (wait_for_return_level == 0)
-        instruction_count--;
+    if (skip_jsrs == TRUE) {
+        /*
+            maintain the return level while "trace over"
 
-    if (instruction_count == 0)
+            - if the current address is the start of a trap, the respective opcode
+              is not actually executed and thus is ignored.
+        */
+        if ((caller_space != e_comp_space) || (traps_checkaddr(pc) == 0)) {
+            if (MONITOR_GET_OPCODE(caller_space) == OP_JSR) {
+                wait_for_return_level++;
+            }
+            if (MONITOR_GET_OPCODE(caller_space) == OP_RTS) {
+                wait_for_return_level--;
+            }
+            if (MONITOR_GET_OPCODE(caller_space) == OP_RTI) {
+                wait_for_return_level--;
+            }
+            if (wait_for_return_level < 0) {
+                wait_for_return_level = 0;
+            }
+        }
+    }
+
+    if (wait_for_return_level == 0) {
+        instruction_count--;
+    }
+
+    if (instruction_count == 0) {
         trigger_break_on_next_instruction = TRUE;
+    }
 }
 
+/* called by cpu core */
 void monitor_check_icount_interrupt(void)
 {
     /* This is a helper for monitor_check_icount.

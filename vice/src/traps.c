@@ -236,8 +236,7 @@ DWORD traps_handler(void)
 
             result = (*p->trap->func)();
             if (!result) {
-                return (p->trap->check[0] | (p->trap->check[1] << 8)
-                    | (p->trap->check[2] << 16));
+                return (p->trap->check[0] | (p->trap->check[1] << 8) | (p->trap->check[2] << 16));
             } 
             /* XXX ALERT!  `p' might not be valid anymore here, because
                `p->trap->func()' might have removed all the traps.  */
@@ -255,3 +254,16 @@ DWORD traps_handler(void)
     return (DWORD)-1;
 }
 
+int traps_checkaddr(unsigned int addr)
+{
+    traplist_t *p = traplist;
+
+    while (p) {
+        if (p->trap->address == addr) {
+            return 1;
+        }
+        p = p->next;
+    }
+
+    return 0;
+}
