@@ -339,6 +339,8 @@ void machine_setup_context(void)
 /* Plus4-specific initialization.  */
 int machine_specific_init(void)
 {
+    int delay;
+
     plus4_log = log_open("Plus4");
 
     if (mem_load() < 0)
@@ -369,7 +371,11 @@ int machine_specific_init(void)
     drive_init();
 
     /* Initialize autostart.  */
-    autostart_init((CLOCK)(2 * PLUS4_PAL_RFSH_PER_SEC
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 2; /* default */
+    }
+    autostart_init((CLOCK)(delay * PLUS4_PAL_RFSH_PER_SEC
                    * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
 
     /* Initialize the sidcart first */

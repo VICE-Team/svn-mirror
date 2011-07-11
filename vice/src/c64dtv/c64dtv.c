@@ -308,6 +308,8 @@ void machine_setup_context(void)
 /* C64-specific initialization.  */
 int machine_specific_init(void)
 {
+    int delay;
+
     c64_log = log_open("C64");
 
     if (mem_load() < 0)
@@ -338,7 +340,11 @@ int machine_specific_init(void)
     drive_init();
 
     /* Initialize autostart.  */
-    autostart_init((CLOCK)(3 * C64_PAL_RFSH_PER_SEC
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 3; /* default */
+    }
+    autostart_init((CLOCK)(delay * C64_PAL_RFSH_PER_SEC
 		     * C64_PAL_CYCLES_PER_RFSH),
                      1, 0xcc, 0xd1, 0xd3, 0xd5);
 

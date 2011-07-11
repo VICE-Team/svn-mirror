@@ -28,6 +28,8 @@
  *
  */
 
+#define DEBUG_AUTOSTART
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -68,6 +70,12 @@
 #include "vdrive.h"
 #include "vdrive-bam.h"
 #include "vice-event.h"
+
+#ifdef DEBUG_AUTOSTART
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
 static void autostart_done(void);
 
@@ -113,6 +121,7 @@ static char *autostart_program_name = NULL;
 
 /* Minimum number of cycles before we feed BASIC with commands.  */
 static CLOCK min_cycles;
+static CLOCK autostart_initial_delay_cycles;
 
 /* Flag: Do we want to switch true drive emulation on/off during autostart?
  * Normally, this is the same as handle_drive_true_emulation_by_machine;
@@ -139,6 +148,11 @@ static int entered_rom = 0;
 /* Flag: trap monitor after done */
 static int trigger_monitor = 0;
 
+int autostart_ignore_reset = 0; /* FIXME: only used by datasette.c, does it really have to be global? */
+
+/* additional random delay of up to 10 frames */
+#define AUTOSTART_RAND() (1 + (int)(((float)machine_get_cycles_per_frame()) * 10.0f * rand() / (RAND_MAX + 1.0)))
+
 /* ------------------------------------------------------------------------- */
 
 static int autostart_basic_load = 0;
@@ -148,6 +162,9 @@ static int AutostartRunWithColon = 0;
 static int AutostartHandleTrueDriveEmulation = 0;
 
 static int AutostartWarp = 0;
+
+static int AutostartDelay = 0;
+static int AutostartDelayRandom = 0;
 
 static int AutostartPrgMode = AUTOSTART_PRG_MODE_VFS;
 
@@ -222,6 +239,23 @@ static int set_autostart_warp(int val, void *param)
     return 0;
 }
 
+/*! \internal \brief set initial autostart delay. 0 means default. */
+static int set_autostart_delay(int val, void *param)
+{
+    if ((val < 0) || (val > 1000)) {
+        val = 0;
+    }
+    AutostartDelay = val;
+    return 0;
+}
+
+/*! \internal \brief set initial autostart random delay. 0 means off, 1 means on. */
+static int set_autostart_delayrandom(int val, void *param)
+{
+    AutostartDelayRandom = val ? 1 : 0;
+    return 0;
+}
+
 /*! \internal \brief set autostart prg mode */
 static int set_autostart_prg_mode(int val, void *param)
 {
@@ -262,6 +296,10 @@ static const resource_int_t resources_int[] = {
       &AutostartWarp, set_autostart_warp, NULL },
     { "AutostartPrgMode", 0, RES_EVENT_NO, (resource_value_t)0,
       &AutostartPrgMode, set_autostart_prg_mode, NULL },
+    { "AutostartDelay", 0, RES_EVENT_NO, (resource_value_t)0,
+      &AutostartDelay, set_autostart_delay, NULL },
+    { "AutostartDelayRandom", 1, RES_EVENT_NO, (resource_value_t)0,
+      &AutostartDelayRandom, set_autostart_delayrandom, NULL },
     { NULL }
 };
 
@@ -341,6 +379,21 @@ static const cmdline_option_t cmdline_options[] =
       NULL, NULL, "AutostartPrgDiskImage", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,
+      NULL, NULL },
+    { "-autostart-delay", SET_RESOURCE, 1,
+      NULL, NULL, "AutostartDelay", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_AUTOSTART_DELAY,
+      NULL, NULL },
+    { "-autostart-delay-random", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartDelayRandom", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY,
+      NULL, NULL },
+    { "+autostart-delay-random", SET_RESOURCE, 0,
+      NULL, NULL, "AutostartDelayRandom", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY,
       NULL, NULL },
     { NULL }
 };
@@ -517,12 +570,12 @@ void autostart_reinit(CLOCK _min_cycles, int _handle_drive_true_emulation,
 }
 
 /* Initialize autostart.  */
-int autostart_init(CLOCK min_cycles, int handle_drive_true_emulation,
+int autostart_init(CLOCK _min_cycles, int handle_drive_true_emulation,
                    int blnsw, int pnt, int pntr, int lnmx)
 {
     autostart_prg_init();
 
-    autostart_reinit(min_cycles, handle_drive_true_emulation, blnsw, pnt,
+    autostart_reinit(_min_cycles, handle_drive_true_emulation, blnsw, pnt,
                      pntr, lnmx);
 
     if (autostart_log == LOG_ERR) {
@@ -854,22 +907,22 @@ static void advance_inject(void)
    mode if necessary.  */
 void autostart_advance(void)
 {
-    if (!autostart_enabled)
+    if (!autostart_enabled) {
         return;
+    }
 
-    if ( orig_drive_true_emulation_state == -1)
-    {
+    if ( orig_drive_true_emulation_state == -1) {
         orig_drive_true_emulation_state = get_true_drive_emulation_state();
     }
- 
-    if (maincpu_clk < min_cycles)
-    {
+
+    if (maincpu_clk < autostart_initial_delay_cycles) {
         autostart_wait_for_reset = 0;
         return;
     }
 
-    if (autostart_wait_for_reset)
+    if (autostart_wait_for_reset) {
         return;
+    }
 
     switch (autostartmode) {
       case AUTOSTART_HASTAPE:
@@ -910,34 +963,42 @@ void autostart_advance(void)
     }
 }
 
-int autostart_ignore_reset = 0;
-
 /* Clean memory and reboot for autostart.  */
 static void reboot_for_autostart(const char *program_name, unsigned int mode,
                                  unsigned int runmode)
 {
-    if (!autostart_enabled)
+    int rnd;
+
+    if (!autostart_enabled) {
         return;
+    }
 
     log_message(autostart_log, "Resetting the machine to autostart '%s'",
                 program_name ? program_name : "*");
-    
+
     mem_powerup();
-    
+
     autostart_ignore_reset = 1;
     deallocate_program_name();
     if (program_name && program_name[0]) {
         autostart_program_name = lib_stralloc(program_name);
     }
-    
+
+    autostart_initial_delay_cycles = min_cycles;
+    resources_get_int("AutostartDelayRandom", &rnd);
+    if (rnd) {
+        autostart_initial_delay_cycles += AUTOSTART_RAND();
+    }
+    DBG(("autostart_initial_delay_cycles: %d", autostart_initial_delay_cycles));
+
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-    
+
     /* The autostartmode must be set AFTER the shutdown to make the autostart
        threadsafe for OS/2 */
     autostartmode = mode;
     autostart_run_mode = runmode;
     autostart_wait_for_reset = 1;
-    
+
     /* enable warp before reset */
     if (mode != AUTOSTART_HASSNAPSHOT) {
         enable_warp_if_requested();

@@ -346,6 +346,8 @@ void machine_handle_pending_alarms(int num_write_cycles)
 /* VIC20-specific initialization.  */
 int machine_specific_init(void)
 {
+    int delay;
+
     vic20_log = log_open("VIC20");
 
     if (mem_load() < 0)
@@ -379,8 +381,12 @@ int machine_specific_init(void)
     drive_init();
 
     /* Initialize autostart.  */
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 3; /* default */
+    }
     autostart_init((CLOCK)
-                   (3 * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH),
+                   (delay * VIC20_PAL_RFSH_PER_SEC * VIC20_PAL_CYCLES_PER_RFSH),
                    1, 0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-I emulation.  */

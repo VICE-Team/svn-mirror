@@ -341,6 +341,7 @@ void petrom_checksum(void)
 {
     static WORD last_kernal = 0;
     static WORD last_editor = 0;
+    int delay;
 
     /* log_message(petrom_log, "editor checksum=%d, kernal checksum=%d",
                    (int) petres.editor_checksum,
@@ -350,6 +351,11 @@ void petrom_checksum(void)
        check when printing, because we need the tape traps etc */
 
     petres.rom_video = 0;
+
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 3; /* default */
+    }
 
     /* The length of the keyboard buffer might actually differ from 10 - in
        the 4032 and 8032 50Hz editor ROMs it is checked against different
@@ -366,7 +372,7 @@ void petrom_checksum(void)
                 log_message(petrom_log,
                             "Identified 80 columns editor by checksum.");
             petres.rom_video = 80;
-            autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+            autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC
                            * PET_PAL_CYCLES_PER_RFSH),
                            0, 0xa7, 0xc4, 0xc6, -80);
         } else
@@ -376,7 +382,7 @@ void petrom_checksum(void)
                 log_message(petrom_log,
                             "Identified 80 columns editor by checksum.");
             petres.rom_video = 40;
-            autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+            autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC
                            * PET_PAL_CYCLES_PER_RFSH),
                            0, 0xa7, 0xc4, 0xc6, -40);
         }
@@ -386,7 +392,7 @@ void petrom_checksum(void)
         petres.rom_video = 40;
         kbdbuf_init(0x26f, 0x9e, 10,
                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
-        autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+        autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC
                        * PET_PAL_CYCLES_PER_RFSH), 0,
                        0xa7, 0xc4, 0xc6, -40);
         tape_init(&tapeinit2);
@@ -396,7 +402,7 @@ void petrom_checksum(void)
         petres.rom_video = 40;
         kbdbuf_init(0x20f, 0x20d, 10,
                     (CLOCK)(PET_PAL_CYCLES_PER_RFSH * PET_PAL_RFSH_PER_SEC));
-        autostart_init((CLOCK)(3 * PET_PAL_RFSH_PER_SEC
+        autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC
                        * PET_PAL_CYCLES_PER_RFSH), 0,
                        0x224, 0xe0, 0xe2, -40);
         tape_init(&tapeinit1);

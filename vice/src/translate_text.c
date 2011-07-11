@@ -2779,7 +2779,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG,    N_("Set autostart mode for PRG files")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DA, "Vælg autostart-tilstand for PRG-filer"},
-/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, "Autstart Modus für PRG Dateien definieren"},
+/* de */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_DE, "Autostart Modus für PRG Dateien definieren"},
 /* fr */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_HU, "Automatikus indítás módja PRG fájloknál"},
 /* it */ {IDCLS_SET_AUTOSTART_MODE_FOR_PRG_IT, "Imposta avvio automatico per i file PRG"},
@@ -2794,7 +2794,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG,    N_("Set disk image for autostart of PRG files")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DA, "Vælg diskimage for autostart af PRG-filer"},
-/* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autstart definieren"},
+/* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autostart definieren"},
 /* fr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lmeez képmás megadása PRG automatikus indításhoz"},
 /* it */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_IT, "Imposta immagine disco per l'avvio automatico dei file PRG"},
@@ -2803,6 +2803,51 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_SV, "Ange diskavbildning för autostart av PRG-filer"},
 /* tr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_TR, "PRG dosyalarýnýn otomatik baþlatýlmasý için disk imajý ayarla"},
+#endif
+
+/* autostart.c */
+/* en */ {IDCLS_SET_AUTOSTART_DELAY,    N_("Set initial autostart delay (0: use default)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_AUTOSTART_DELAY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_AUTOSTART_DELAY_DE, "Autostart Verzögerung definieren. (0: Standard)"},
+/* fr */ {IDCLS_SET_AUTOSTART_DELAY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_AUTOSTART_DELAY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_AUTOSTART_DELAY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_AUTOSTART_DELAY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_AUTOSTART_DELAY_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_AUTOSTART_DELAY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_AUTOSTART_DELAY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_AUTOSTART_DELAY_TR, ""},  /* fuzzy */
+#endif
+
+/* autostart.c */
+/* en */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY,    N_("Enable random initial autostart delay.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_DE, "Zufällige Autostart Verzögerung aktivieren."},
+/* fr */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_TR, ""},  /* fuzzy */
+#endif
+
+/* autostart.c */
+/* en */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY,    N_("Disable random initial autostart delay.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DE, "Zufällige Autostart Verzögerung deaktivieren."},
+/* fr */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,

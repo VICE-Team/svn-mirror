@@ -525,6 +525,8 @@ void machine_setup_context(void)
 /* C128-specific initialization.  */
 int machine_specific_init(void)
 {
+    int delay;
+
     c128_log = log_open("C128");
 
     if (mem_load() < 0) {
@@ -563,7 +565,11 @@ int machine_specific_init(void)
     drive_init();
 
     /* Initialize autostart. FIXME: at least 0xa26 is only for 40 cols */
-    autostart_init((CLOCK)(3 * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1, 0xa27, 0xe0, 0xec, 0xee);
+    resources_get_int("AutostartDelay", &delay);
+    if (delay == 0) {
+        delay = 3; /* default */
+    }
+    autostart_init((CLOCK)(delay * C128_PAL_RFSH_PER_SEC * C128_PAL_CYCLES_PER_RFSH), 1, 0xa27, 0xe0, 0xec, 0xee);
 
     if (vdc_init() == NULL) {
         return -1;
