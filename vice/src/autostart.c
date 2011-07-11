@@ -28,7 +28,7 @@
  *
  */
 
-#define DEBUG_AUTOSTART
+/* #define DEBUG_AUTOSTART */
 
 #include "vice.h"
 

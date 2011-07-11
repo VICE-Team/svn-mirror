@@ -39,6 +39,7 @@ UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 UI_MENU_DEFINE_TOGGLE(AutostartWarp)
 UI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
 UI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
+UI_MENU_DEFINE_TOGGLE(AutostartDelayRandom)
 UI_MENU_DEFINE_RADIO(AutostartPrgMode)
 
 UI_CALLBACK(set_autostart_image_name)
@@ -64,6 +65,8 @@ ui_menu_entry_t uiautostart_settings_submenu[] = {
       (ui_callback_t)toggle_AutostartHandleTrueDriveEmulation, NULL, NULL },
     { N_("Autostart warp"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartWarp, NULL, NULL },
+    { N_("Autostart random delay"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_AutostartDelayRandom, NULL, NULL },
     { N_("Use ':' with RUN"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AutostartRunWithColon, NULL, NULL },
     { N_("Load to BASIC start"), UI_MENU_TYPE_TICK,
