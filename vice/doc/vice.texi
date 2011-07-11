@@ -4535,6 +4535,9 @@ Allow/Disallow writing to ISEPIC image
 @cindex -cartkcs
 @item -cartkcs <name>
 Attach raw 16kB KCS Power cartridge image
+@cindex -cartks
+@item -cartks <name>
+Attach raw 24kB Kingsoft cartridge image
 @cindex -cartmach5
 @item -cartmach5 <name>
 Attach raw 8kB MACH 5 cartridge image
@@ -4603,6 +4606,9 @@ Attach raw Ocean cartridge image
 @cindex -cartp64
 @item -cartp64 <name>
 Attach raw 256KB Prophet 64 cartridge image
+@cindex -cartpf
+@item -cartpf <name>
+Attach raw 64kb Pagefox cartridge image
 @cindex -cartramcart
 @item -cartramcart <name>
 Attach raw RamCart cartridge image
@@ -8727,13 +8733,16 @@ instructions are disassembled from the dot address.
 
 @table @code
 
-@item break [<address> [if <cond_expr>] ]
+@item break [load|store|exec] [address [address] [if <cond_expr>]]
 This command allows setting a breakpoint or listing the current
 breakpoints.  If no address is given, the currently valid checkpoints
 are printed.  If an address is given, a breakpoint is set for that
-address and the breakpoint number is printed.  A conditional
-expression can also be specified for the breakpoint.  For more
-information on conditions, see the CONDITION command.
+address and the breakpoint number is printed.
+The "load|store|exec" parameter can be either "load", "store" or "exec"
+(or any combination of these) to determine on which operation the
+monitor breaks. If not specified, the monitor breaks on "exec".
+A conditional expression can also be specified for the breakpoint.
+For more information on conditions, see the CONDITION command.
 
 @item enable <checknum>
 @item disable <checknum>
@@ -8769,13 +8778,19 @@ Delete the specified checkpoint.
 Ignore a checkpoint after a given number of crossings.  If no count is
 given, the default value is 1.
 
-@item trace [address [address]]
-@itemx tr [address [address]]
+@item trace [load|store|exec] [address [address] [if <cond_expr>]]
+@itemx tr [load|store|exec] [address [address] [if <cond_expr>]]
 This command is similar to the @code{break} command except that it
 operates on tracepoints.  A tracepoint differs from a breakpoint by
 not stopping execution but simply printing the PC, giving the user an
 execution trace.  The second optional address can be used to specify
 the end of an range of addresses to be traced.
+If no addresses are given, a list of all the checkpoints is printed.
+The "load|store|exec" parameter can be either "load", "store" or "exec"
+(or any combination of these) to determine which operation the
+monitor traces. If not specified, the monitor traces all operations.
+A conditional expression can also be specified for the tracepoint.
+For more information on conditions, see the CONDITION command.
 
 @item until [<address>]
 @itemx un [<address>]
@@ -8784,15 +8799,18 @@ If an address is given, a temporary breakpoint is set for that address
 and the breakpoint number is printed.  Control is returned to the
 emulator by this command.  The breakpoint is deleted once it is hit.
 
-@item watch [loadstore] [address [address]]
-@itemx w [loadstore] [address [address]]
-This command is similar to the previous two commands except that it
-operates on watchpoints.  A watchpoint differs from the others by
+@item watch [load|store|exec] [address [address] [if <cond_expr>]]
+@itemx w [load|store|exec] [address [address] [if <cond_expr>]]
+This command is similar to the @code{break} command except that it
+operates on watchpoints.  A watchpoint differs from a breakpoint by
 stopping on a read and/or write to an address or range of addresses.
-If no addresses are given, a list of all the watchpoints is printed.
-The loadstore parameter can be either "load" or "store" to determine
-on which operation the monitor breaks. If not specified, the monitor
-breaks on both operations.
+If no addresses are given, a list of all the checkpoints is printed.
+The "load|store|exec" parameter can be either "load", "store" or "exec"
+(or any combination of these) to determine on which operation the
+monitor breaks. If not specified, the monitor breaks on "load" and
+"store" operations.
+A conditional expression can also be specified for the watchpoint.
+For more information on conditions, see the CONDITION command.
 
 @end table
 
@@ -8976,7 +8994,8 @@ If no argument is given, prints out a list of all available commands.
 If an argument is given, prints out specific help for that command.
 
 @item keybuf "<string>"
-Put the specified string into the keyboard buffer.
+Put the specified string into the keyboard buffer. Note that you can specify
+specific keycodes by using C-style escaped hexcodes ("\x0a").
 
 @item print <expression>
 @itemx p <expression>
