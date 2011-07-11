@@ -1798,8 +1798,16 @@ translate_t string_table[] = {
 /* tr */ {IDGS_COND_EXPR_TR, "koþul_idafesi"},
 #endif
 
+/*
+   Translators: this command was extended:
+
+   - "load|store|exec" option added
+
+   TODO: update these languages: DA, DE, HU, IT, NL, SV, TR
+*/
+
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_BREAK_DESCRIPTION,    N_("If no address is given, the currently valid watchpoints are printed.\nIf an address is given, a breakpoint is set for that address and the\nbreakpoint number is printed.  A conditional expression can also be\nspecified for the breakpoint.  For more information on conditions, see\nthe CONDITION command.")},
+/* en */ {IDGS_MON_BREAK_DESCRIPTION,    N_("Set a breakpoint, If no address is given, the currently valid break-\npoints are printed.\nIf an address is given, a breakpoint is set for that address and the\nbreakpoint number is printed.\n`load|store|exec' is either `load', `store' or `exec' (or any combina-\ntion of these) to specify on which operation the monitor breaks. If\nnot specified, the monitor breaks on `exec'.\nA conditional expression can also be specified for the breakpoint.\nFor more information on conditions, see the CONDITION command.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BREAK_DESCRIPTION_DA, "Hvis ingen adresse angives vises nuværende watchpoints. Hvis en\nadresse angives sættes et watchpoint på denne och watchpointets\nnummer vises. En betingelse kan også angives for et watchpoint.\nFor mere information om betingelser, se kommandoen CONDITION."},
 /* de */ {IDGS_MON_BREAK_DESCRIPTION_DE, "Wenn keine Adresse angegeben wurde, werden die aktuellen watchpoints gezeigt.\nWenn eine Adresse angegebene wurde, wird ein breakpoint auf diese Adresse\ngesetzt und die breakpoint Nummer wird ausgegeben. Ein bedingter Ausdruck\ncan zu dem breakpoint zugeordnet werden. Für mehr Informations über \nbedingte Ausdrücke, bitte Kommando CONDITION ansehen."},
@@ -1918,23 +1926,36 @@ translate_t string_table[] = {
 /* tr */ {IDGS_MON_UNTIL_DESCRIPTION_TR, "Eðer adres girilmemiþse, geçerli mevcut kesme noktalarý yazdýrýlýr.\nEðer bir adres girilmiþse, o adres için geçici bir kesme noktasý\niþaretlenir ve kesme noktasý sayýsý yazdýrýlýr.  Kontrol bu komutla\nemülatöre döndürülür.  Bir kere eriþildiði zaman kesme noktasý silinir."},
 #endif
 
-/* monitor/mon_command.c */
-/* en */ {IDGS_LOADSTORE,    N_("loadstore")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_LOADSTORE_DA, "loadstore"},
-/* de */ {IDGS_LOADSTORE_DE, "loadstore"},
-/* fr */ {IDGS_LOADSTORE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_LOADSTORE_HU, ""},  /* fuzzy */
-/* it */ {IDGS_LOADSTORE_IT, "loadstore"},
-/* ko */ {IDGS_LOADSTORE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_LOADSTORE_NL, "laad/opslaan"},
-/* ru */ {IDGS_LOADSTORE_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_LOADSTORE_SV, "loadstore"},
-/* tr */ {IDGS_LOADSTORE_TR, "yükle/depola"},
-#endif
+/*
+   Translators: this is part of an actual command and should not get translated
+*/
 
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_WATCH_DESCRIPTION,    N_("Set a watchpoint.  If a single address is specified, set a watchpoint\nfor that address.  If two addresses are specified, set a watchpoint\nfor the memory locations between the two addresses.\n`loadstore' is either `load' or `store' to specify on which operation\nthe monitor breaks. If not specified, the monitor breaks on both\noperations.")},
+/* en */ {IDGS_LOADSTORE,    N_("load|store|exec")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_LOADSTORE_DA, "load|store|exec"},
+/* de */ {IDGS_LOADSTORE_DE, "load|store|exec"},
+/* fr */ {IDGS_LOADSTORE_FR, "load|store|exec"},
+/* hu */ {IDGS_LOADSTORE_HU, "load|store|exec"},
+/* it */ {IDGS_LOADSTORE_IT, "load|store|exec"},
+/* ko */ {IDGS_LOADSTORE_KO, "load|store|exec"},
+/* nl */ {IDGS_LOADSTORE_NL, "load|store|exec"},
+/* ru */ {IDGS_LOADSTORE_RU, "load|store|exec"},
+/* sv */ {IDGS_LOADSTORE_SV, "load|store|exec"},
+/* tr */ {IDGS_LOADSTORE_TR, "load|store|exec"},
+#endif
+
+/*
+   Translators: this command was extended:
+
+   - "loadstore" option is now "load|store|exec"
+   - conditional expression was added
+
+   TODO: update these languages: DA, DE, HU, IT, NL, SV, TR
+*/
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_WATCH_DESCRIPTION,    N_("Set a watchpoint. If no address is given, the currently valid watch-\npoints are printed. If a single address is specified, set a watchpoint\nfor that address.  If two addresses are specified, set a watchpoint\nfor the memory locations between the two addresses.\n`load|store|exec' is either `load', `store' or `exec' (or any combina-\ntion of these) to specify on which operation the monitor breaks. If\nnot specified, the monitor breaks on `load' and `store'.\n")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_WATCH_DESCRIPTION_DA, "Sæt et watchpoint. Hvis der angives en enkelt adresse sættes et\nwatchpoint for adressen. Hvis der angives to adresser sættes et\nwatchpoint for hukommelsesområdet mellem adresserne.\n\"loadstore\" er enten \"load\" eller \"store\" og angiver hvilken\noperation emulatoren skal stoppe ved. Hvis loadstore ikke angives\nstopper emulatoren på begge operationer."},
 /* de */ {IDGS_MON_WATCH_DESCRIPTION_DE, "Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \nden Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \nsetze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \nbei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \nhält der Monitor bei beiden Operationen an."},
@@ -1948,8 +1969,17 @@ translate_t string_table[] = {
 /* tr */ {IDGS_MON_WATCH_DESCRIPTION_TR, "Bir izleme noktasý koy.  Eðer tek bir adres belirtilmiþse, izleme\nnoktasýný o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\no iki adres arasýnda kalan adreslere koy.\n`yükle/depola' monitörün kesildiði operatöre baðlý olarak `yükle' ya da\n`depola' iþlemlerinde çalýþabilir. Eðer belirtilmemiþse, her iki iþlemde de\nmonitör kesilecektir."},
 #endif
 
+/*
+   Translators: this command was extended:
+
+   - "load|store|exec" option added
+   - conditional expression was added
+
+   TODO: update these languages: DA, DE, HU, IT, NL, SV, TR
+*/
+
 /* monitor/mon_command.c */
-/* en */ {IDGS_MON_TRACE_DESCRIPTION,    N_("Set a tracepoint.  If a single address is specified, set a tracepoint\nfor that address.  If two addresses are specified, set a tracepoint\nfor the memory locations between the two addresses.")},
+/* en */ {IDGS_MON_TRACE_DESCRIPTION,    N_("Set a tracepoint. If no address is given, the currently valid trace-\npoints are printed. If a single address is specified, set a tracepoint\nfor that address.  If two addresses are specified, set a tracepoint\nfor the memory locations between the two addresses.\n`load|store|exec' is either `load', `store' or `exec' (or any combina-\ntion of these) to specify on which operation the monitor breaks. If\nnot specified, the monitor traces all three operations.\n")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_TRACE_DESCRIPTION_DA, "Sæt et tracepoint. Hvis der angives en enkelt adresse sættes et\ntracepoint for adressen. Hvis der angives to adresser sættes et\ntracepoint for hukommelsesområdet mellem adresserne."},
 /* de */ {IDGS_MON_TRACE_DESCRIPTION_DE, "Setze einen Tracepoint. Wenn eine einzelne Adresse angegeben wurde, setze eine\nTracepoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \nsetze Tracepoints für die Speicheradressen zwischen diesen beiden Adressen."},
