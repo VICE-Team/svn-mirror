@@ -18,19 +18,19 @@ msgstr ""
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
-msgstr ""
+msgstr "디바이스를 조이스틱 포트1 로 설정하세요"
 
 #: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:397
 msgid "Set device for joystick port 2"
-msgstr ""
+msgstr "디바이스를 조이스틱 포트2 로 설정하세요"
 
 #: src/arch/unix/joy.c:120 src/arch/unix/macosx/joy.c:406
 msgid "Set device for extra joystick port 1"
-msgstr ""
+msgstr "디바이스를 엑스트라 조이스틱 포트 1 로 설정하세요"
 
 #: src/arch/unix/joy.c:129 src/arch/unix/macosx/joy.c:415
 msgid "Set device for extra joystick port 2"
-msgstr ""
+msgstr "디바이스를 엑스트라 조이스틱 포트 2 로 설정하세요"
 
 #: src/arch/unix/mididrv.c:669 src/arch/unix/mididrv.c:674
 #: src/arch/unix/gui/uiautostart.c:46 src/arch/unix/gui/uitfe.c:45
@@ -64,19 +64,19 @@ msgstr "보드레이트"
 
 #: src/arch/unix/rs232.c:165
 msgid "Specify baudrate of first RS232 device"
-msgstr ""
+msgstr "처음 RS232 디바이스 의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/rs232.c:170
 msgid "Specify baudrate of second RS232 device"
-msgstr ""
+msgstr "두번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/rs232.c:175
 msgid "Specify baudrate of third RS232 device"
-msgstr ""
+msgstr "세번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/rs232.c:180
 msgid "Specify baudrate of 4th RS232 device"
-msgstr ""
+msgstr "네번째 RS232 디바이스 의 보드 레이트를 명시하세요"
 
 #: src/arch/unix/gui/c128ui.c:193 src/arch/unix/gui/c64scui.c:336
 #: src/arch/unix/gui/c64ui.c:396 src/arch/unix/gui/cbm2ui.c:295
@@ -103,13 +103,13 @@ msgstr "SID 필터"
 #: src/arch/unix/gui/c64scui.c:345 src/arch/unix/gui/c64ui.c:405
 #: src/arch/unix/gui/cbm2ui.c:304 src/arch/unix/gui/vsidui.c:213
 msgid "reSID sampling method"
-msgstr ""
+msgstr "reSID 샘플링 방법"
 
 #: src/arch/unix/gui/c128ui.c:204 src/arch/unix/gui/c64dtvui.c:81
 #: src/arch/unix/gui/c64scui.c:347 src/arch/unix/gui/c64ui.c:407
 #: src/arch/unix/gui/cbm2ui.c:306 src/arch/unix/gui/vsidui.c:215
 msgid "reSID resampling passband"
-msgstr ""
+msgstr "reSID 샘플링 패스 밴드"
 
 #: src/arch/unix/gui/c128ui.c:211 src/arch/unix/gui/c128ui.c:453
 #: src/arch/unix/gui/c64dtvui.c:153 src/arch/unix/gui/c64scui.c:183
@@ -130,21 +130,21 @@ msgstr "function ROM 파일"
 msgid ""
 "Could not load function ROM image\n"
 "'%s'"
-msgstr ""
+msgstr "function ROM 이미지 '%s' 을 불러올수 없습니다"
 
 #: src/arch/unix/gui/c128ui.c:244 src/arch/win32/resc128.rc.po.c:687
 #: src/translate_text.c.po.c:3345
 msgid "Enable the internal Function ROM"
-msgstr ""
+msgstr "인터널 Function ROM 을 사용가능하게 하기"
 
 #: src/arch/unix/gui/c128ui.c:246 src/arch/amigaos/intl_text.c.po.c:7795
 msgid "Internal Function ROM file"
-msgstr ""
+msgstr "인터널 Function ROM 파일"
 
 #: src/arch/unix/gui/c128ui.c:250 src/arch/win32/resc128.rc.po.c:690
 #: src/translate_text.c.po.c:3375
 msgid "Enable the external Function ROM"
-msgstr ""
+msgstr "외부 Function ROM 을 사용가능하게 하기"
 
 #: src/arch/unix/gui/c128ui.c:252 src/arch/amigaos/intl_text.c.po.c:7819
 msgid "External Function ROM file"
@@ -152,7 +152,7 @@ msgstr "외부함수 ROM 파일"
 
 #: src/arch/unix/gui/c128ui.c:259 src/arch/win32/resc128.rc.po.c:648
 msgid "Function ROM"
-msgstr ""
+msgstr "Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:261
 msgid "Banks 2 & 3"
@@ -201,19 +201,19 @@ msgstr "카트리지 변경 리셋"
 
 #: src/arch/unix/gui/c128ui.c:333
 msgid "Load new Int. Kernal ROM"
-msgstr ""
+msgstr "세로운 인터내셔널 Kernal ROM 을 불러오세요"
 
 #: src/arch/unix/gui/c128ui.c:336
 msgid "Load new German Kernal ROM"
-msgstr ""
+msgstr "세로운 독일 Kernal ROM 을 불러오세요"
 
 #: src/arch/unix/gui/c128ui.c:339
 msgid "Load new Basic Lo ROM"
-msgstr ""
+msgstr "세로운 Basic Lo ROM 을 불러오세요"
 
 #: src/arch/unix/gui/c128ui.c:342
 msgid "Load new Basic Hi ROM"
-msgstr ""
+msgstr "세로운 Basic Hi ROM 을 불러오세요"
 
 #: src/arch/unix/gui/c128ui.c:345 src/arch/unix/gui/c64dtvui.c:96
 #: src/arch/unix/gui/c64scui.c:438 src/arch/unix/gui/c64ui.c:498
@@ -247,7 +247,7 @@ msgstr "세로운 드라이브 ROM 불러오기"
 #: src/arch/unix/gui/cbm2ui.c:102 src/arch/unix/gui/petui.c:263
 #: src/arch/unix/gui/plus4ui.c:162 src/arch/unix/gui/vic20ui.c:187
 msgid "ROM set type"
-msgstr ""
+msgstr "ROM 셋 종류"
 
 #: src/arch/unix/gui/c128ui.c:364 src/arch/unix/gui/c64dtvui.c:115
 #: src/arch/unix/gui/c64scui.c:457 src/arch/unix/gui/c64ui.c:517
@@ -255,7 +255,7 @@ msgstr ""
 #: src/arch/unix/gui/plus4ui.c:165 src/arch/unix/gui/uiromset.c:124
 #: src/arch/unix/gui/vic20ui.c:190
 msgid "ROM set archive"
-msgstr ""
+msgstr "ROM 셋 보관소"
 
 #: src/arch/unix/gui/c128ui.c:366 src/arch/unix/gui/c64dtvui.c:117
 #: src/arch/unix/gui/c64scui.c:459 src/arch/unix/gui/c64ui.c:519
@@ -263,7 +263,7 @@ msgstr ""
 #: src/arch/unix/gui/plus4ui.c:167 src/arch/unix/gui/uiromset.c:265
 #: src/arch/unix/gui/vic20ui.c:192
 msgid "ROM set file"
-msgstr ""
+msgstr "ROM 셋 파일"
 
 #: src/arch/unix/gui/c128ui.c:390
 msgid "VIC II Save media file"
@@ -358,7 +358,7 @@ msgstr "CIA 2 모델"
 
 #: src/arch/unix/gui/c128ui.c:465 src/translate_text.c.po.c:3285
 msgid "Always switch to C64 mode on reset"
-msgstr ""
+msgstr "다시시작하면 항상 C64 모드 로 바뀝니다"
 
 #: src/arch/unix/gui/c128ui.c:487 src/arch/unix/gui/c64dtvui.c:175
 #: src/arch/unix/gui/c64scui.c:505 src/arch/unix/gui/c64ui.c:565
@@ -737,7 +737,7 @@ msgstr "세로운 에디터 ROM 불러오기"
 
 #: src/arch/unix/gui/petui.c:226
 msgid "PET RAM and Expansion Unit"
-msgstr ""
+msgstr "PET RAM 그리고 익스팬션 유닛"
 
 #: src/arch/unix/gui/petui.c:228
 msgid "PET DWW hi-res graphics"
@@ -835,7 +835,7 @@ msgstr "CRTC 칩 가동"
 #: src/arch/unix/gui/petui.c:319 src/arch/win32/respet.rc.po.c:559
 #: src/arch/amigaos/intl_text.c.po.c:7663
 msgid "SuperPET I/O enable (disables 8x96)"
-msgstr ""
+msgstr "SuperPET I/O 사용하기 (사용하지않기 8x96)"
 
 #: src/arch/unix/gui/petui.c:321
 msgid "SuperPET ACIA"
@@ -855,11 +855,11 @@ msgstr "PET 모델 셋팅"
 
 #: src/arch/unix/gui/plus4ui.c:143
 msgid "Load new 3 plus 1 LO ROM"
-msgstr ""
+msgstr "세로운 3 플러스 1 낮은 ROM 을 불러오세요"
 
 #: src/arch/unix/gui/plus4ui.c:146
 msgid "Load new 3 plus 1 HI ROM"
-msgstr ""
+msgstr "세로운 3 플러스 1 높은 ROM 을 불러오세요"
 
 #: src/arch/unix/gui/plus4ui.c:199 src/arch/amigaos/intl_text.c.po.c:6967
 msgid "Digiblaster add-on"
@@ -912,7 +912,7 @@ msgstr "사용불가능한 디스크 이미지"
 
 #: src/arch/unix/gui/uiattach.c:99
 msgid "Invalid Disk Image or Filename"
-msgstr ""
+msgstr "사용불가능한 디스크 이미지 이거나 파일 이름 입니다"
 
 #: src/arch/unix/gui/uiattach.c:113 src/arch/unix/gui/uiattach.c:150
 #: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:451
@@ -950,7 +950,7 @@ msgstr "디스크 이미지 붙여넣기"
 
 #: src/arch/unix/gui/uiattach.c:187
 msgid "Create and attach an empty disk"
-msgstr ""
+msgstr "빈 디스크를 생성하고 붙이세요"
 
 #: src/arch/unix/gui/uiattach.c:189 src/arch/win32/res.rc.po.c:1357
 #: src/arch/win32/resc128.rc.po.c:30 src/arch/win32/resc64.rc.po.c:30
@@ -970,7 +970,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiattach.c:207 src/arch/unix/gui/uiattach.c:271
 msgid "Create a new tape image"
-msgstr ""
+msgstr "세로운 테이프 이미지를 생성 하세요"
 
 #: src/arch/unix/gui/uiattach.c:212
 msgid "File exists"
@@ -978,7 +978,7 @@ msgstr "파일 존재"
 
 #: src/arch/unix/gui/uiattach.c:213
 msgid "Do you want to overwrite it?"
-msgstr ""
+msgstr "덮어쓰길 원하십니까?"
 
 #: src/arch/unix/gui/uiattach.c:241 src/arch/unix/gui/uiattach.c:274
 #: src/arch/win32/res.rc.po.c:989 src/arch/win32/res.rc.po.c:1392
@@ -1018,7 +1018,7 @@ msgstr "자동시작 셋팅"
 
 #: src/arch/unix/gui/uiautostart.c:48
 msgid "Disk image for PRG autostart"
-msgstr ""
+msgstr "디스크 이미지 를 PRG 오토스타트 로"
 
 #: src/arch/unix/gui/uiautostart.c:53 src/arch/win32/resautostart.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:8239
@@ -1107,63 +1107,63 @@ msgstr "스마트 붙이기 CRT 이미지"
 #: src/arch/unix/gui/uic64cart.c:106 src/arch/win32/res.rc.po.c:1056
 #: src/arch/amigaos/intl_text.c.po.c:3606 src/translate_text.c.po.c:4744
 msgid "Attach raw 8KB cartridge image"
-msgstr ""
+msgstr "8kb 카트리지 이미지를 붙이세요"
 
 #: src/arch/unix/gui/uic64cart.c:109 src/arch/win32/res.rc.po.c:1057
 #: src/arch/amigaos/intl_text.c.po.c:3618 src/translate_text.c.po.c:4759
 msgid "Attach raw 16KB cartridge image"
-msgstr ""
+msgstr "16kb 카트리지 이미지를 붙이세요"
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:114
 msgid "Attach Action Replay V5 image"
-msgstr ""
+msgstr "Action Replay V5 카트리지 이미지를 붙이세요"
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:118 src/arch/win32/res.rc.po.c:1062
 #: src/arch/amigaos/intl_text.c.po.c:3678 src/translate_text.c.po.c:5059
 msgid "Attach raw 32KB Atomic Power cartridge image"
-msgstr ""
+msgstr "32kb Atomic Power 카트리지 이미지를 붙이세요"
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:122 src/translate_text.c.po.c:4984
 msgid "Attach raw EasyFlash cartridge image"
-msgstr ""
+msgstr "EasyFlash 카트리지 이미지를 붙이세요"
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:126 src/arch/win32/res.rc.po.c:1063
 #: src/arch/amigaos/intl_text.c.po.c:3690 src/translate_text.c.po.c:5074
 msgid "Attach raw 8KB Epyx FastLoad cartridge image"
-msgstr ""
+msgstr "8kb Epyx FastLoad 카트리지 이미지를 붙이세요"
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:130 src/arch/win32/res.rc.po.c:1067
 #: src/arch/amigaos/intl_text.c.po.c:3726 src/translate_text.c.po.c:5044
 msgid "Attach raw 64KB IDE64 cartridge image"
-msgstr ""
+msgstr "64kb IDE64 카트리지 이미지를 붙이세요"
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:134 src/translate_text.c.po.c:5314
 msgid "Attach raw Magic Formel cartridge image"
-msgstr ""
+msgstr "Magic Formel 카트리지 이미지를 붙이세요"
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:138 src/arch/win32/res.rc.po.c:1066
 #: src/translate_text.c.po.c:5359
 msgid "Attach raw 512kB MMC Replay cartridge image"
-msgstr ""
+msgstr "512KB MMC Replay 카트리지 이미지를 붙이세요"
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:142 src/arch/win32/res.rc.po.c:1065
 #: src/arch/amigaos/intl_text.c.po.c:3714 src/translate_text.c.po.c:4999
 msgid "Attach raw 64KB Retro Replay cartridge image"
-msgstr ""
+msgstr "64KB Retro Replay 카트리지 이미지를 붙이세요"
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:146 src/arch/win32/res.rc.po.c:1069
 #: src/arch/amigaos/intl_text.c.po.c:3750 src/translate_text.c.po.c:5224
 msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
-msgstr ""
+msgstr "64KB Super Snapshot V5 카트리지 이미지를 붙이세요"
 
 #: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:322
 #: src/arch/win32/res.rc.po.c:1431 src/arch/amigaos/intl_text.c.po.c:738
@@ -1188,7 +1188,7 @@ msgstr "C64DTV ROM 파일"
 #: src/arch/unix/gui/uic64dtv.c:81 src/arch/win32/resc64dtv.rc.po.c:436
 #: src/translate_text.c.po.c:10727
 msgid "Enable writes to C64DTV ROM image"
-msgstr ""
+msgstr "C64DTV ROM 이미지에 쓰기 가능하게 하기"
 
 #: src/arch/unix/gui/uic64dtv.c:95 src/arch/amigaos/intl_text.c.po.c:4290
 msgid "Hummer ADC"
@@ -1233,7 +1233,7 @@ msgstr "를 돌릴수없습니다."
 
 #: src/arch/unix/gui/uicommands.c:117
 msgid "Unknown error while running c1541"
-msgstr ""
+msgstr "c1541를 실행중 알수없는 에러가 방생했습니다"
 
 #: src/arch/unix/gui/uicommands.c:146
 msgid "No HTML browser is defined."
