@@ -30,13 +30,12 @@
 /* VDC resources.  */
 struct vdc_resources_s
 {
-    /* Flag: VDC memory size.  */
-    int vdc_64kb_expansion;
+    int vdc_64kb_expansion; /* Flag: VDC memory size.  */
+    int stretchy;           /* additional doubling of y size */
 };
 typedef struct vdc_resources_s vdc_resources_t;
 
 extern vdc_resources_t vdc_resources;
-
 
 extern int vdc_resources_init(void);
 

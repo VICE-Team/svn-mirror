@@ -98,6 +98,7 @@ static ui_menu_entry_t set_vdc_revison_submenu[] = {
 #define NOTHING(x) x
 
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
+UI_MENU_DEFINE_TOGGLE(VDCStretchVertical)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
 
@@ -159,6 +160,8 @@ ui_menu_entry_t set_vdcmodel_submenu[] = {
 ui_menu_entry_t vdc_submenu[] = {
     { N_("Double size"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDCDoubleSize, NULL, NULL },
+    { N_("Stretch vertically"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_VDCStretchVertical, NULL, NULL },
     { N_("Double scan"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDCDoubleScan, NULL, NULL },
     { N_("Video cache"), UI_MENU_TYPE_TICK,

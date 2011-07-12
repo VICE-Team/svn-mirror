@@ -879,6 +879,7 @@ static const ui_menu_entry_t fliplist_menu[] = {
 
 UI_MENU_DEFINE_TOGGLE(AutostartHandleTrueDriveEmulation)
 UI_MENU_DEFINE_TOGGLE(AutostartWarp)
+UI_MENU_DEFINE_TOGGLE(AutostartDelayRandom)
 UI_MENU_DEFINE_TOGGLE(AutostartBasicLoad)
 UI_MENU_DEFINE_TOGGLE(AutostartRunWithColon)
 UI_MENU_DEFINE_RADIO(AutostartPrgMode)
@@ -892,6 +893,10 @@ static const ui_menu_entry_t autostart_settings_menu[] = {
     { "Autostart warp",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_AutostartWarp_callback,
+      NULL },
+    { "Autostart random delay",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_AutostartDelayRandom_callback,
       NULL },
     { "Use ',1' with LOAD",
       MENU_ENTRY_RESOURCE_TOGGLE,

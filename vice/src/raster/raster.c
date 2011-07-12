@@ -529,10 +529,12 @@ void raster_async_refresh(raster_t *raster, struct canvas_refresh_s *ref)
              + raster->canvas->viewport->first_x;
     ref->y = raster->geometry->first_displayed_line;
 
-    if (raster->canvas->videoconfig->doublesizex)
-        ref->x *= 2;
-    if (raster->canvas->videoconfig->doublesizey)
-        ref->y *= 2;
+    if (raster->canvas->videoconfig->doublesizex) {
+        ref->x *= (raster->canvas->videoconfig->doublesizex + 1);
+    }
+    if (raster->canvas->videoconfig->doublesizey) {
+        ref->y *= (raster->canvas->videoconfig->doublesizey + 1);
+    }
 }
 
 void raster_shutdown(raster_t *raster)

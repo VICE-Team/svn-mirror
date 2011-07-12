@@ -38,6 +38,9 @@
 #include "render1x2.h"
 #include "render1x2crt.h"
 #include "render2x2.h"
+#include "render2x2crt.h"
+#include "render2x4.h"
+#include "render2x4crt.h"
 #include "renderscale2x.h"
 #include "resources.h"
 #include "types.h"
@@ -48,6 +51,8 @@
 #ifdef DINGOO_NATIVE
 #include "render1x1_dingoo.h"
 #endif
+
+static int rendermode_error = -1;
 
 static void video_render_crt_main(video_render_config_t *config,
                                   BYTE *src, BYTE *trg,
@@ -78,13 +83,15 @@ static void video_render_crt_main(video_render_config_t *config,
 
     if ((rendermode == VIDEO_RENDER_CRT_1X1
         || rendermode == VIDEO_RENDER_CRT_1X2
-        || rendermode == VIDEO_RENDER_CRT_2X2)
+        || rendermode == VIDEO_RENDER_CRT_2X2
+        || rendermode == VIDEO_RENDER_CRT_2X4)
         && video_resources.pal_scanlineshade <= 0) {
         doublescan = 0;
     }
 
     switch (rendermode) {
       case VIDEO_RENDER_NULL:
+            return;
         break;
 
       case VIDEO_RENDER_CRT_1X1:
@@ -124,7 +131,7 @@ static void video_render_crt_main(video_render_config_t *config,
                     return;
             }
         }
-        return;
+        break;
       case VIDEO_RENDER_CRT_1X2:
         if (delayloop && depth != 8) {
             switch (depth) {
@@ -164,9 +171,8 @@ static void video_render_crt_main(video_render_config_t *config,
                     return;
             }
         }
-        return;
+        break;
       case VIDEO_RENDER_CRT_2X2:
-        /* FIXME: write 2x2 CRT renderer */
         if (scale2x) {
             switch (depth) {
                 case 8:
@@ -184,6 +190,21 @@ static void video_render_crt_main(video_render_config_t *config,
                 case 32:
                     render_32_scale2x(colortab, src, trg, width, height,
                                     xs, ys, xt, yt, pitchs, pitcht);
+                    return;
+            }
+        } else if (delayloop && depth != 8) {
+            switch (depth) {
+                case 16:
+                    render_16_2x2_crt(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                    return;
+                case 24:
+                    render_24_2x2_crt(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                    return;
+                case 32:
+                    render_32_2x2_crt(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
                     return;
             }
         } else {
@@ -206,8 +227,49 @@ static void video_render_crt_main(video_render_config_t *config,
                     return;
             }
         }
+        break;
+      case VIDEO_RENDER_CRT_2X4:
+        if (delayloop && depth != 8) {
+            switch (depth) {
+                case 16:
+                    render_16_2x4_crt(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                    return;
+                case 24:
+                    render_24_2x4_crt(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                    return;
+                case 32:
+                    render_32_2x4_crt(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                    return;
+            }
+        } else {
+            switch (depth) {
+                case 8:
+                    render_08_2x4_04(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                    return;
+                case 16:
+                    render_16_2x4_04(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                    return;
+                case 24:
+                    render_24_2x4_04(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                    return;
+                case 32:
+                    render_32_2x4_04(colortab, src, trg, width, height,
+                                    xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                    return;
+            }
+        }
+        break;
     }
-    log_debug("video_render_crt_main unsupported rendermode (%d)\n", rendermode);
+    if (rendermode_error != rendermode) {
+        log_error(LOG_DEFAULT, "video_render_crt_main: unsupported rendermode (%d)", rendermode);
+    }
+    rendermode_error = rendermode;
 #endif
 }
 

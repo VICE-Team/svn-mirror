@@ -72,6 +72,7 @@ extern void crtc_screen_enable(int);
 extern int crtc_offscreen(void);
 
 extern void crtc_update_window(void);
+extern void crtc_update_renderer(void);
 
 #endif
 

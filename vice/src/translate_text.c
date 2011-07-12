@@ -8502,6 +8502,36 @@ translate_t string_table[] = {
 #endif
 #endif
 
+/* vdc/vdc-cmdline-options.c, crtc/crtc-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_STRETCH_VERTICAL,    N_("Enable additional vertical stretching.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_STRETCH_VERTICAL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_STRETCH_VERTICAL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_STRETCH_VERTICAL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_STRETCH_VERTICAL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_STRETCH_VERTICAL_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_STRETCH_VERTICAL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_STRETCH_VERTICAL_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_STRETCH_VERTICAL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_STRETCH_VERTICAL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_STRETCH_VERTICAL_TR, ""},  /* fuzzy */
+#endif
+
+/* vdc/vdc-cmdline-options.c, crtc/crtc-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_STRETCH_VERTICAL,    N_("Disable additional vertical stretching.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_STRETCH_VERTICAL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_STRETCH_VERTICAL_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_STRETCH_VERTICAL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_STRETCH_VERTICAL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_STRETCH_VERTICAL_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_STRETCH_VERTICAL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_STRETCH_VERTICAL_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_STRETCH_VERTICAL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_STRETCH_VERTICAL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_STRETCH_VERTICAL_TR, ""},  /* fuzzy */
+#endif
+
 /* vdc/vdc-cmdline-options.c */
 /* en */ {IDCLS_SET_VDC_MEMORY_16KB,    N_("Set the VDC memory size to 16KB")},
 #ifdef HAS_TRANSLATION

@@ -38,12 +38,14 @@
 #define VIDEO_RENDER_PAL_2X2    2
 /* no filtering */
 #define VIDEO_RENDER_RGB_1X1    3
-#define VIDEO_RENDER_RGB_1X2    4
+#define VIDEO_RENDER_RGB_1X2    4 /* needed for y-stretch */
 #define VIDEO_RENDER_RGB_2X2    5
+#define VIDEO_RENDER_RGB_2X4    6 /* needed for y-stretch */
 /* RGB(I) or monochrome Monitor (CRTC and VDC) */
-#define VIDEO_RENDER_CRT_1X1    6 /* FIXME: to be written */
-#define VIDEO_RENDER_CRT_1X2    7
-#define VIDEO_RENDER_CRT_2X2    8 /* FIXME: to be written, needed by crtc */
+#define VIDEO_RENDER_CRT_1X1    7 /* FIXME: to be written */
+#define VIDEO_RENDER_CRT_1X2    8 /* needed for y-stretch */
+#define VIDEO_RENDER_CRT_2X2    9
+#define VIDEO_RENDER_CRT_2X4   10 /* needed for y-stretch */
 
 struct video_canvas_s;
 struct video_cbm_palette_s;

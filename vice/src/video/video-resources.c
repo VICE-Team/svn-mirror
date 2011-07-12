@@ -25,6 +25,14 @@
  *
  */
 
+/* #define DEBUG_VIDEO */
+
+#ifdef DEBUG_VIDEO
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -97,7 +105,7 @@ static int set_double_size_enabled(int val, void *param)
         || (canvas->draw_buffer->canvas_width > 0
         && canvas->draw_buffer->canvas_width
         <= video_chip_cap->dsize_limit_width))) {
-        canvas->videoconfig->doublesizex = 1;
+        canvas->videoconfig->doublesizex = (cap_render->sizex - 1);
     } else {
         canvas->videoconfig->doublesizex = 0;
     }
@@ -107,22 +115,12 @@ static int set_double_size_enabled(int val, void *param)
         || (canvas->draw_buffer->canvas_height > 0
         && canvas->draw_buffer->canvas_height
         <= video_chip_cap->dsize_limit_height))) {
-        canvas->videoconfig->doublesizey = 1;
+        canvas->videoconfig->doublesizey = (cap_render->sizey - 1);
     } else {
         canvas->videoconfig->doublesizey = 0;
     }
 
-    /* FIXME: Kludge needed until kind of render and dimensions are
-       separated from `rendermode' (which is overloaded currently). */
-    if (canvas->videoconfig->rendermode == VIDEO_RENDER_RGB_2X2) {
-        if (canvas->videoconfig->doublesizex == 0) {
-            canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X2;
-        }
-        if (canvas->videoconfig->doublesizex == 0
-            && canvas->videoconfig->doublesizey == 0) {
-            canvas->videoconfig->rendermode = VIDEO_RENDER_RGB_1X1;
-        }
-    }
+    DBG(("set_double_size_enabled sizex:%d sizey:%d doublesizex:%d doublesizey:%d", cap_render->sizex, cap_render->sizey, canvas->videoconfig->doublesizex, canvas->videoconfig->doublesizey));
 
     if ((canvas->videoconfig->double_size_enabled != val
         || old_doublesizex != canvas->videoconfig->doublesizex

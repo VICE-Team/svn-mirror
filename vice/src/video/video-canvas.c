@@ -82,10 +82,10 @@ void video_canvas_render(video_canvas_t *canvas, BYTE *trg, int width,
     viewport_t *viewport = canvas->viewport;
 #ifdef VIDEO_SCALE_SOURCE
     if (canvas->videoconfig->doublesizex) {
-        xs /= 2;
+        xs /= (canvas->videoconfig->doublesizex + 1);
     }
     if (canvas->videoconfig->doublesizey) {
-        ys /= 2;
+        ys /= (canvas->videoconfig->doublesizey + 1);
     }
 #endif
     video_render_main(canvas->videoconfig, canvas->draw_buffer->draw_buffer,
@@ -123,10 +123,10 @@ void video_canvas_redraw_size(video_canvas_t *canvas, unsigned int width,
                               unsigned int height)
 {
     if (canvas->videoconfig->doublesizex) {
-        width /= 2;
+        width /= (canvas->videoconfig->doublesizex + 1);
     }
     if (canvas->videoconfig->doublesizey) {
-        height /= 2;
+        height /= (canvas->videoconfig->doublesizey + 1);
     }
 
     if (width != canvas->draw_buffer->canvas_width

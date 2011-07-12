@@ -168,11 +168,11 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
     }
 
     if (canvas->videoconfig->doublesizex) {
-        width *= 2;
+        width *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        height *= 2;
+        height *= (canvas->videoconfig->doublesizey + 1);
     }
 
     if (canvas->gdk_image != NULL) {
@@ -218,13 +218,13 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     }
 
     if (canvas->videoconfig->doublesizex) {
-        xi *= 2;
-        w *= 2;
+        xi *= (canvas->videoconfig->doublesizex + 1);
+        w *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        yi *= 2;
-        h *= 2;
+        yi *= (canvas->videoconfig->doublesizey + 1);
+        h *= (canvas->videoconfig->doublesizey + 1);
     }
 
 #ifdef HAVE_FULLSCREEN

@@ -29,6 +29,14 @@
  *
  */
 
+/* #define DEBUG_CRTC */
+
+#ifdef DEBUG_CRTC
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -256,8 +264,9 @@ static int crtc_get_crt_type(void)
 /* update screen window */
 void crtc_update_window(void)
 {
-    if (!crtc.initialized)
+    if (!crtc.initialized) {
         return;
+    }
 
     crtc.raster.display_ystart = CRTC_SCREEN_BORDERHEIGHT;
     crtc.raster.display_ystop = crtc.screen_height
@@ -265,6 +274,8 @@ void crtc_update_window(void)
     crtc.raster.display_xstart = CRTC_SCREEN_BORDERWIDTH;
     crtc.raster.display_xstop = crtc.screen_width
                                 - 2 * CRTC_SCREEN_BORDERWIDTH;
+
+    crtc_update_renderer();
 
     raster_set_geometry(&crtc.raster,
                         crtc.screen_width, crtc.screen_height,
@@ -307,21 +318,18 @@ void crtc_set_chargen_addr(BYTE *chargen, int cmask)
 
 void crtc_set_screen_options(int num_cols, int rasterlines)
 {
-    crtc.screen_width = (num_cols + CRTC_EXTRA_COLS) * 8
-                        + 2 * CRTC_SCREEN_BORDERWIDTH;
-    crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES
-                         + 2 * CRTC_SCREEN_BORDERHEIGHT;
+    crtc.screen_width = (num_cols + CRTC_EXTRA_COLS) * 8 + 2 * CRTC_SCREEN_BORDERWIDTH;
+    crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES + 2 * CRTC_SCREEN_BORDERHEIGHT;
 
-#if 0
-    log_debug("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d\n",
-              num_cols, rasterlines, crtc.screen_width, crtc.screen_height);
-#endif
+    DBG(("crtc_set_screen_options: cols=%d, rl=%d -> w=%d, h=%d",
+              num_cols, rasterlines, crtc.screen_width, crtc.screen_height));
 
     crtc_update_window();
     resources_touch("CrtcDoubleSize");
 
-    if (crtc.raster.canvas != NULL)
+    if (crtc.raster.canvas != NULL) {
         video_viewport_resize(crtc.raster.canvas);
+    }
 }
 
 void crtc_set_hw_options(int hwflag, int vmask, int vchar, int vcoffset,
@@ -367,6 +375,8 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 raster_t *crtc_init(void)
 {
     raster_t *raster;
+
+    DBG(("crtc_init"));
 
     crtc.log = log_open("CRTC");
 

@@ -24,22 +24,29 @@
  *
  */
 
+/* #define DEBUG_VDC */
+
+#ifdef DEBUG_VDC
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
 
 #include "archdep.h"
 #include "fullscreen.h"
+#include "log.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "vdc-resources.h"
 #include "vdctypes.h"
 #include "video.h"
 
-
 vdc_resources_t vdc_resources;
 static video_chip_cap_t video_chip_cap;
-
 
 static int set_64kb_expansion(int val, void *param)
 {
@@ -56,11 +63,41 @@ static int set_vdc_revision(int val, void *param)
 
     revision = (unsigned int)val;
 
-    if (revision > 2)
+    if (revision > 2) {
         return -1;
+    }
 
     vdc.revision = revision;
 
+    return 0;
+}
+
+void vdc_update_renderer(void)
+{
+    DBG(("vdc_update_renderer"));
+    if (vdc_resources.stretchy) {
+        video_chip_cap.single_mode.sizex = 1;
+        video_chip_cap.single_mode.sizey = 2;
+        video_chip_cap.single_mode.rmode = VIDEO_RENDER_CRT_1X2;
+        video_chip_cap.double_mode.sizex = 2;
+        video_chip_cap.double_mode.sizey = 4;
+        video_chip_cap.double_mode.rmode = VIDEO_RENDER_CRT_2X4;
+    } else {
+        video_chip_cap.single_mode.sizex = 1;
+        video_chip_cap.single_mode.sizey = 1;
+        video_chip_cap.single_mode.rmode = VIDEO_RENDER_CRT_1X1;
+        video_chip_cap.double_mode.sizex = 2;
+        video_chip_cap.double_mode.sizey = 2;
+        video_chip_cap.double_mode.rmode = VIDEO_RENDER_CRT_2X2;
+    }
+}
+
+static int set_stretch(int val, void *param)
+{
+    DBG(("set_stretch"));
+    vdc_resources.stretchy = val;
+    vdc_update_renderer();
+    resources_touch("VDCDoubleSize");
     return 0;
 }
 
@@ -70,6 +107,8 @@ static const resource_int_t resources_int[] =
       &vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
     { "VDCRevision", 2, RES_EVENT_SAME, NULL,
       (int *)&vdc.revision, set_vdc_revision, NULL },
+    { "VDCStretchVertical", 1, RES_EVENT_SAME, NULL,
+      &vdc_resources.stretchy, set_stretch, NULL },
     { NULL, 0, 0, NULL,
       NULL, NULL, NULL }
 };
@@ -87,12 +126,8 @@ int vdc_resources_init(void)
     video_chip_cap.external_palette_name = "vdc_deft";
     video_chip_cap.palemulation_allowed = 1;
     video_chip_cap.double_buffering_allowed = ARCHDEP_VDC_DBUF;
-    video_chip_cap.single_mode.sizex = 1;
-    video_chip_cap.single_mode.sizey = 1;
-    video_chip_cap.single_mode.rmode = VIDEO_RENDER_CRT_1X1;
-    video_chip_cap.double_mode.sizex = 1;
-    video_chip_cap.double_mode.sizey = 2;
-    video_chip_cap.double_mode.rmode = VIDEO_RENDER_CRT_1X2;
+
+    vdc_update_renderer();
 
     fullscreen_capability(&(video_chip_cap.fullscreen));
 

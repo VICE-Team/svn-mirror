@@ -30,6 +30,8 @@
  *
  */
 
+/* #define SDL_DEBUG */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -469,11 +471,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     new_height = *height;
 
     if (canvas->videoconfig->doublesizex) {
-        new_width *= 2;
+        new_width *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        new_height *= 2;
+        new_height *= (canvas->videoconfig->doublesizey + 1);
     }
 
     if ((canvas == sdl_active_canvas) && (canvas->fullscreenconfig->enable)) {
@@ -505,11 +507,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
                 temp_height = canvas->real_height;
 
                 if (canvas->videoconfig->doublesizex) {
-                    temp_width *= 2;
+                    temp_width *= (canvas->videoconfig->doublesizex + 1);
                 }
 
                 if (canvas->videoconfig->doublesizey) {
-                    temp_height *= 2;
+                    temp_height *= (canvas->videoconfig->doublesizey + 1);
                 }
 
                 if ((new_width != temp_width) || (new_height != temp_height)) {
@@ -675,13 +677,13 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     }
 
     if (canvas->videoconfig->doublesizex) {
-        xi *= 2;
-        w *= 2;
+        xi *= (canvas->videoconfig->doublesizex + 1);
+        w *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        yi *= 2;
-        h *= 2;
+        yi *= (canvas->videoconfig->doublesizey + 1);
+        h *= (canvas->videoconfig->doublesizey + 1);
     }
 
     w = MIN(w, canvas->width);
@@ -830,9 +832,14 @@ void video_canvas_resize(struct video_canvas_s *canvas, unsigned int width, unsi
 #endif
     /* Check if canvas needs to be resized to real size first */
     if (check_resize(canvas)) {
+#ifdef SDL_DEBUG
+    fprintf(stderr, "%s: set and resize to real size (%ix%i)\n", __func__, width, height);
+#endif
+        canvas->real_width = width;
+        canvas->real_height = height;
+        canvas->dsizex = canvas->videoconfig->doublesizex;
+        canvas->dsizey = canvas->videoconfig->doublesizey;
         sdl_video_resize(0, 0);
-        width = canvas->real_width;
-        height = canvas->real_height;
     }
     video_canvas_create(canvas, &width, &height, 0);
 }
@@ -849,12 +856,15 @@ void sdl_video_resize(unsigned int w, unsigned int h)
         h = sdl_active_canvas->real_height;
 
         if (sdl_active_canvas->videoconfig->doublesizex) {
-            w *= 2;
+            w *= (sdl_active_canvas->videoconfig->doublesizex + 1);
         }
 
         if (sdl_active_canvas->videoconfig->doublesizey) {
-            h *= 2;
+            h *= (sdl_active_canvas->videoconfig->doublesizey + 1);
         }
+#ifdef SDL_DEBUG
+    fprintf(stderr,"%s: %ix%i->%ix%i\n",__func__,sdl_active_canvas->real_width,sdl_active_canvas->real_height,w,h);
+#endif
     }
 
     sdl_forced_resize = 1;
@@ -909,11 +919,11 @@ void sdl_video_canvas_switch(int index)
     h = canvas->height;
 
     if (canvas->videoconfig->doublesizex) {
-        w /= 2;
+        w /= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        h /= 2;
+        h /= (canvas->videoconfig->doublesizey + 1);
     }
 
     sdl_forced_resize = 1;
@@ -929,11 +939,11 @@ void sdl_video_canvas_switch(int index)
     h = canvas->height;
 
     if (canvas->videoconfig->doublesizex) {
-        w /= 2;
+        w /= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        h /= 2;
+        h /= (canvas->videoconfig->doublesizey + 1);
     }
 
     sdl_forced_resize = 1;
@@ -944,7 +954,7 @@ void sdl_video_canvas_switch(int index)
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: (%08x, %i)\n", __func__, (unsigned int)canvas, sdl_num_screens);
+    fprintf(stderr, "%s: (%p, %i)\n", __func__, canvas, sdl_num_screens);
 #endif
 
     if (sdl_num_screens == MAX_CANVAS_NUM) {
@@ -977,7 +987,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     int i;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: (%08x, %i)\n", __func__, (unsigned int)canvas, canvas->index);
+    fprintf(stderr, "%s: (%p, %i)\n", __func__, canvas, canvas->index);
 #endif
 
     for (i = 0; i < sdl_num_screens; ++i) {

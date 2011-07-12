@@ -20,12 +20,18 @@ libvideo_a_SOURCES = \
 	render1x2crt.h \
 	render2x2.c \
 	render2x2.h \
+	render2x2crt.c \
+	render2x2crt.h \
 	render2x2pal.c \
 	render2x2pal.h \
 	render2x2ntsc.c \
 	render2x2ntsc.h \
 	renderscale2x.c \
 	renderscale2x.h \
+	render2x4.c \
+	render2x4.h \
+	render2x4crt.c \
+	render2x4crt.h \
 	renderyuv.c \
 	renderyuv.h \
 	video-canvas.c \

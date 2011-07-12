@@ -305,13 +305,13 @@ void ui_check_mouse_cursor(void)
 
     if (_mouse_enabled) {
         if (ui_cached_video_canvas->videoconfig->doublesizex) {
-            mouse_accelx = 2;
+            mouse_accelx = 4 / (ui_cached_video_canvas->videoconfig->doublesizex + 1);
         } else {
             mouse_accelx = 4;
         }
 
         if (ui_cached_video_canvas->videoconfig->doublesizey) {
-            mouse_accely = 2;
+            mouse_accely = 4 / (ui_cached_video_canvas->videoconfig->doublesizey + 1);
         } else {
             mouse_accely = 4;
         }
@@ -465,10 +465,10 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
                 h = canvas->geometry->screen_size.height;
 
                 if (canvas->videoconfig->doublesizex) {
-                    w <<= 1;
+                    w *= (canvas->videoconfig->doublesizex + 1);
                 }
                 if (canvas->videoconfig->doublesizey) {
-                    h <<= 1;
+                    h *= (canvas->videoconfig->doublesizey + 1);
                 }
 
                 taspect = get_aspect(canvas);
@@ -1796,10 +1796,10 @@ static void setup_aspect(video_canvas_t *canvas)
     w = canvas->draw_buffer->canvas_width;
     h = canvas->draw_buffer->canvas_height;
     if (canvas->videoconfig->doublesizex) {
-        w <<= 1;
+        w *= (canvas->videoconfig->doublesizex + 1);
     }
     if (canvas->videoconfig->doublesizey) {
-        h <<= 1;
+        h *= (canvas->videoconfig->doublesizey + 1);
     }
     /* calculate unscaled size of window */
     winw = w;

@@ -90,6 +90,7 @@ static ui_menu_entry_t renderer_submenu[] = {
 #define NOTHING(x) x
 
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
+UI_MENU_DEFINE_TOGGLE(CrtcStretchVertical)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 
@@ -141,6 +142,8 @@ extern UI_CALLBACK(set_custom_aspect_ratio);
 ui_menu_entry_t crtc_submenu[] = {
     { N_("Double size"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcDoubleSize, NULL, NULL },
+    { N_("Stretch vertically"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CrtcStretchVertical, NULL, NULL },
     { N_("Double scan"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcDoubleScan, NULL, NULL },
     { N_("Video cache"), UI_MENU_TYPE_TICK,

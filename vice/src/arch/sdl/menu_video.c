@@ -134,11 +134,19 @@ UI_MENU_DEFINE_INT(SDLCustomWidth)
 UI_MENU_DEFINE_INT(SDLCustomHeight)
 UI_MENU_DEFINE_RADIO(SDLLimitMode)
 
-#define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
+#define VICE_SDL_SIZE_MENU_DOUBLESIZE(chip)         \
     { "Double size",                                \
       MENU_ENTRY_RESOURCE_TOGGLE,                   \
       toggle_##chip##DoubleSize_callback,           \
-      NULL },                                       \
+      NULL },
+
+#define VICE_SDL_SIZE_MENU_STRETCHVERTICAL(chip)    \
+    { "Stretch vertically",                         \
+      MENU_ENTRY_RESOURCE_TOGGLE,                   \
+      toggle_##chip##StretchVertical_callback,      \
+      NULL },
+
+#define VICE_SDL_SIZE_MENU_ITEMS(chip)              \
     { "Double scan",                                \
       MENU_ENTRY_RESOURCE_TOGGLE,                   \
       toggle_##chip##DoubleScan_callback,           \
@@ -245,6 +253,7 @@ UI_MENU_DEFINE_TOGGLE(VICIIFullscreen)
 UI_MENU_DEFINE_RADIO(VICIISDLFullscreenMode)
 
 static const ui_menu_entry_t vicii_size_menu[] = {
+    VICE_SDL_SIZE_MENU_DOUBLESIZE(VICII)
     VICE_SDL_SIZE_MENU_ITEMS(VICII)
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VICII)
@@ -256,11 +265,14 @@ static const ui_menu_entry_t vicii_size_menu[] = {
 /* VDC size menu */
 
 UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
+UI_MENU_DEFINE_TOGGLE(VDCStretchVertical)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCFullscreen)
 UI_MENU_DEFINE_RADIO(VDCSDLFullscreenMode)
 
 static const ui_menu_entry_t vdc_size_menu[] = {
+    VICE_SDL_SIZE_MENU_DOUBLESIZE(VDC)
+    VICE_SDL_SIZE_MENU_STRETCHVERTICAL(VDC)
     VICE_SDL_SIZE_MENU_ITEMS(VDC)
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VDC)
@@ -274,9 +286,12 @@ static const ui_menu_entry_t vdc_size_menu[] = {
 UI_MENU_DEFINE_TOGGLE(CrtcFullscreen)
 UI_MENU_DEFINE_RADIO(CrtcSDLFullscreenMode)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
+UI_MENU_DEFINE_TOGGLE(CrtcStretchVertical)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 
 static const ui_menu_entry_t crtc_size_menu[] = {
+    VICE_SDL_SIZE_MENU_DOUBLESIZE(Crtc)
+    VICE_SDL_SIZE_MENU_STRETCHVERTICAL(Crtc)
     VICE_SDL_SIZE_MENU_ITEMS(Crtc)
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(Crtc)
@@ -293,6 +308,7 @@ UI_MENU_DEFINE_TOGGLE(TEDFullscreen)
 UI_MENU_DEFINE_RADIO(TEDSDLFullscreenMode)
 
 static const ui_menu_entry_t ted_size_menu[] = {
+    VICE_SDL_SIZE_MENU_DOUBLESIZE(TED)
     VICE_SDL_SIZE_MENU_ITEMS(TED)
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(TED)
@@ -309,6 +325,7 @@ UI_MENU_DEFINE_TOGGLE(VICFullscreen)
 UI_MENU_DEFINE_RADIO(VICSDLFullscreenMode)
 
 static const ui_menu_entry_t vic_size_menu[] = {
+    VICE_SDL_SIZE_MENU_DOUBLESIZE(VIC)
     VICE_SDL_SIZE_MENU_ITEMS(VIC)
 #ifdef HAVE_HWSCALE
     VICE_SDL_SIZE_MENU_OPENGL_ITEMS(VIC)

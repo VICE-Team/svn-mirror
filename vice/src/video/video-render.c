@@ -29,6 +29,7 @@
 
 #include <stdio.h>
 
+#include "log.h"
 #include "render1x1.h"
 #include "render1x1pal.h"
 #include "render2x2pal.h"
@@ -97,6 +98,8 @@ void video_render_setphysicalcolor(video_render_config_t *config, int index,
     config->color_tables.physical_colors[index] = color;
 }
 
+static int rendermode_error = -1;
+
 void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                        int width, int height, int xs, int ys, int xt, int yt,
                        int pitchs, int pitcht, int depth, viewport_t *viewport)
@@ -109,14 +112,16 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
               width, height, xs, ys, xt, yt, pitchs, pitcht, depth);
 
 #endif
-    if (width <= 0)
+    if (width <= 0) {
         return; /* some render routines don't like invalid width */
+    }
 
     rendermode = config->rendermode;
     colortab = &config->color_tables;
 
     switch (rendermode) {
       case VIDEO_RENDER_NULL:
+          return;
         break;
 
       case VIDEO_RENDER_PAL_1X1:
@@ -128,6 +133,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
       case VIDEO_RENDER_CRT_1X1:
       case VIDEO_RENDER_CRT_1X2:
       case VIDEO_RENDER_CRT_2X2:
+      case VIDEO_RENDER_CRT_2X4:
         (*render_crt_func)(config, src, trg, width, height, xs, ys, xt, yt,
                            pitchs, pitcht, depth, viewport);
         return;
@@ -163,6 +169,10 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                            xs, ys, xt, yt, pitchs, pitcht, depth);
         return;
     }
+    if (rendermode_error != rendermode) {
+        log_error(LOG_DEFAULT, "video_render_main: unsupported rendermode (%d)", rendermode);
+    }
+    rendermode_error = rendermode;
 }
 
 void video_render_1x2func_set(void(*func)(video_render_config_t *,
