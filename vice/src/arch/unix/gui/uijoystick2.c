@@ -36,6 +36,7 @@
 #include "uimenu.h"
 #include "vsync.h"
 #include "uijoystickkeys.h"
+#include "userport_joystick.h"
 
 static UI_CALLBACK(set_joystick_device_1)
 {
@@ -125,27 +126,27 @@ UI_MENU_DEFINE_RADIO(ExtraJoyType)
 
 static ui_menu_entry_t userport_joystick_type_c64_submenu[] = {
     { N_("CGA userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_CGA, NULL },
     { N_("PET userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_PET, NULL },
     { N_("Hummer userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_HUMMER, NULL },
     { N_("OEM userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_OEM, NULL },
     { N_("HIT userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_HIT, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_HIT, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t userport_joystick_type_submenu[] = {
     { N_("CGA userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_CGA, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_CGA, NULL },
     { N_("PET userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_PET, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_PET, NULL },
     { N_("Hummer userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_HUMMER, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_HUMMER, NULL },
     { N_("OEM userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
-      (ui_callback_data_t)EXTRA_JOYSTICK_OEM, NULL },
+      (ui_callback_data_t)USERPORT_JOYSTICK_OEM, NULL },
     { NULL }
 };
 

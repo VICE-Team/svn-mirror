@@ -49,6 +49,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "uiapi.h"
+#include "userport_joystick.h"
 #include "vice-event.h"
 
 #define JOYSTICK_RAND() (rand() % machine_get_cycles_per_frame())
@@ -213,73 +214,9 @@ void joystick_clear_all(void)
     joystick_latch_matrix(0);
 }
 
-/*-----------------------------------------------------------------------*/
-
-/* Userport joystick interface emulation */
-
-int extra_joystick_enable;
-int extra_joystick_type;
-
-static int extra_joystick_cga_select = 0;
-static BYTE extra_joystick_hit_sp2_button = 0xff;
-
-BYTE extra_joystick_cga_read(void)
+BYTE get_joystick_value(int index)
 {
-    return (BYTE)~((joystick_value[3] & 0x10)
-           | ((joystick_value[4] & 0x10) << 1)
-           | (joystick_value[extra_joystick_cga_select + 3] & 0xf));
-}
-
-void extra_joystick_cga_store(BYTE value)
-{
-    extra_joystick_cga_select = (value & 0x80) ? 0 : 1;
-}
-
-BYTE extra_joystick_hit_read_button2(void)
-{
-    return extra_joystick_hit_sp2_button;
-}
-
-BYTE extra_joystick_hit_read_button1(void)
-{
-    return (BYTE)((joystick_value[3] & 0x10) ? 0 : 4);
-}
-
-BYTE extra_joystick_hit_read(void)
-{
-    return (BYTE)~((joystick_value[3] & 0xf) | ((joystick_value[4] & 0xf) << 4));
-}
-
-void extra_joystick_hit_store(BYTE value)
-{
-    extra_joystick_hit_sp2_button = (joystick_value[4] & 0x10) ? 0 : 0xff;
-}
-
-BYTE extra_joystick_pet_read(void)
-{
-    BYTE retval;
-
-    retval = ((joystick_value[3] & 0xf) | (joystick_value[4] & 0xf) << 4);
-    retval |= (joystick_value[3] & 0x10) ? 3 : 0;
-    retval |= (joystick_value[4] & 0x10) ? 0x30 : 0;
-    return (BYTE)~(retval);
-}
-
-BYTE extra_joystick_hummer_read(void)
-{
-    return (BYTE)~(joystick_value[3] & 0x1f);
-}
-
-BYTE extra_joystick_oem_read(void)
-{
-    BYTE retval;
-
-    retval = ((joystick_value[3] & 1) << 7);
-    retval |= ((joystick_value[3] & 2) << 5);
-    retval |= ((joystick_value[3] & 4) << 3);
-    retval |= ((joystick_value[3] & 8) << 1);
-    retval |= ((joystick_value[3] & 16) >> 1);
-    return (BYTE)~(retval);
+    return joystick_value[index];
 }
 
 /*-----------------------------------------------------------------------*/
@@ -403,23 +340,24 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-static int set_extra_joystick_enable(int val, void *param)
+static int set_userport_joystick_enable(int val, void *param)
 {
-    extra_joystick_enable = val;
+    userport_joystick_enable = val;
     return 0;
 }
 
-static int set_extra_joystick_type(int val, void *param)
+static int set_userport_joystick_type(int val, void *param)
 {
-    extra_joystick_type = val;
+    userport_joystick_type = val;
     return 0;
 }
 
-static const resource_int_t extra_resources_int[] = {
+/* FIXME: ExtraJoy* needs to be renamed to UserportJoy* in due time */
+static const resource_int_t userport_resources_int[] = {
     { "ExtraJoy", 0, RES_EVENT_NO, NULL,
-      &extra_joystick_enable, set_extra_joystick_enable, NULL },
+      &userport_joystick_enable, set_userport_joystick_enable, NULL },
     { "ExtraJoyType", 0, RES_EVENT_NO, NULL,
-      &extra_joystick_type, set_extra_joystick_type, NULL },
+      &userport_joystick_type, set_userport_joystick_type, NULL },
     { NULL }
 };
 
@@ -483,7 +421,7 @@ int joystick_init_resources(void)
     resources_register_int(resources_int);
 
     if (machine_class != VICE_MACHINE_PLUS4) {
-        resources_register_int(extra_resources_int);
+        resources_register_int(userport_resources_int);
     }
 
     return joystick_arch_init_resources();

@@ -41,7 +41,7 @@
 #include "printer.h"
 #include "tpi.h"
 #include "types.h"
-
+#include "userport_joystick.h"
 
 void cia1_store(WORD addr, BYTE data)
 {
@@ -120,9 +120,9 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     printer_userport_write_data(byte);
     printer_userport_write_strobe(0);
     printer_userport_write_strobe(1);
-    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA && !cbm2_is_c500()) {
-        extra_joystick_cga_store(byte);
-    }
+
+    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    userport_joystick_store_pbx(byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -164,25 +164,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
                & ~( (joystick_value[1] & 0x0f)
                | ((joystick_value[2] & 0x0f) << 4));
     } else {
-        if (extra_joystick_enable) {
-            switch (extra_joystick_type) {
-                case EXTRA_JOYSTICK_CGA:
-                    byte = extra_joystick_cga_read();
-                    break;
-                case EXTRA_JOYSTICK_PET:
-                    byte = extra_joystick_pet_read();
-                    break;
-                case EXTRA_JOYSTICK_HUMMER:
-                    byte = extra_joystick_hummer_read();
-                    break;
-                case EXTRA_JOYSTICK_OEM:
-                    byte = extra_joystick_oem_read();
-                    break;
-                default:
-                    byte = 0xff;
-                    break;
-            }
-        }
+        /* FIXME: in the upcoming userport system this call needs to be conditional */
+        byte = userport_joystick_read_pbx(byte);
+
         byte &= ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
                | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]));
     }

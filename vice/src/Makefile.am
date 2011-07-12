@@ -949,6 +949,7 @@ x64dtv_libs =  \
 	$(drive_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
+	$(userport_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
@@ -995,6 +996,7 @@ x64dtv-all: \
 	libserial \
 	libfsdevice \
 	libtape \
+	libuserport \
 	libimagecontents \
 	libfileio \
 	libcore \

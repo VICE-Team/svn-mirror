@@ -43,7 +43,7 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "uijoystick.h"
-
+#include "userport_joystick.h"
 
 TUI_MENU_DEFINE_TOGGLE(KeySetEnable)
 
@@ -753,23 +753,23 @@ static tui_menu_item_def_t joy_list_submenu[] = {
 static tui_menu_item_def_t userport_joy_type_c64_submenu[] = {
     { "CGA",
       "CGA userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_CGA, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_CGA, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "PET",
       "PET userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_PET, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_PET, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Hummer",
       "Hummer userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_HUMMER, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_HUMMER, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "OEM",
       "OEM userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_OEM, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_OEM, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "HIT",
       "HIT userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_HIT, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_HIT, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
@@ -777,19 +777,19 @@ static tui_menu_item_def_t userport_joy_type_c64_submenu[] = {
 static tui_menu_item_def_t userport_joy_type_submenu[] = {
     { "CGA",
       "CGA userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_CGA, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_CGA, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "PET",
       "PET userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_PET, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_PET, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "Hummer",
       "Hummer userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_HUMMER, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_HUMMER, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "OEM",
       "OEM userport joystick adapter",
-      userport_type_callback, (void *)EXTRA_JOYSTICK_OEM, 0,
+      userport_type_callback, (void *)USERPORT_JOYSTICK_OEM, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };

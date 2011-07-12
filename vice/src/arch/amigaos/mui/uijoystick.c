@@ -35,8 +35,9 @@
 #include "joystick.h"
 #include "machine.h"
 #include "resources.h"
-#include "uijoystick.h"
 #include "translate.h"
+#include "uijoystick.h"
+#include "userport_joystick.h"
 
 static int ui_joystick_translate[] = {
     IDS_NONE,
@@ -83,11 +84,11 @@ static char *ui_userport_c64_joystick[] = {
 };
 
 static const int ui_userport_c64_joystick_values[] = {
-    EXTRA_JOYSTICK_CGA,
-    EXTRA_JOYSTICK_PET,
-    EXTRA_JOYSTICK_HUMMER,
-    EXTRA_JOYSTICK_OEM,
-    EXTRA_JOYSTICK_HIT,
+    USERPORT_JOYSTICK_CGA,
+    USERPORT_JOYSTICK_PET,
+    USERPORT_JOYSTICK_HUMMER,
+    USERPORT_JOYSTICK_OEM,
+    USERPORT_JOYSTICK_HIT,
     -1
 };
 
@@ -100,10 +101,10 @@ static char *ui_userport_joystick[] = {
 };
 
 static const int ui_userport_joystick_values[] = {
-    EXTRA_JOYSTICK_CGA,
-    EXTRA_JOYSTICK_PET,
-    EXTRA_JOYSTICK_HUMMER,
-    EXTRA_JOYSTICK_OEM,
+    USERPORT_JOYSTICK_CGA,
+    USERPORT_JOYSTICK_PET,
+    USERPORT_JOYSTICK_HUMMER,
+    USERPORT_JOYSTICK_OEM,
     -1
 };
 

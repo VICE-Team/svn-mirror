@@ -32,6 +32,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/vdrive \
+	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src
 

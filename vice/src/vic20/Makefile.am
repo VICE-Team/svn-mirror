@@ -8,6 +8,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/raster \
+	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/vic20/cart
 
 noinst_LIBRARIES = libvic20.a

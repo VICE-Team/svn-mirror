@@ -36,6 +36,7 @@
 #include "resources.h"
 #include "translate.h"
 #include "uilib.h"
+#include "userport_joystick.h"
 #include "winjoy.h"
 #include "winkbd.h"
 #include "winlong.h"
@@ -789,7 +790,7 @@ static void init_extra_joystick_dialog(HWND hwnd)
             joyamount = 0;
         } else {
             resources_get_int("ExtraJoyType", &res_value);
-            if (res_value == EXTRA_JOYSTICK_HUMMER || res_value == EXTRA_JOYSTICK_OEM) {
+            if (res_value == USERPORT_JOYSTICK_HUMMER || res_value == USERPORT_JOYSTICK_OEM) {
                 joyamount = 1;
             } else {
                 joyamount = 2;
@@ -1141,17 +1142,17 @@ static INT_PTR CALLBACK dialog_proc_2(HWND hwnd, UINT msg, WPARAM wparam, LPARAM
                             default:
                                 joyamount = 0;
                                 break;
-                            case EXTRA_JOYSTICK_CGA + 1:
-                            case EXTRA_JOYSTICK_PET + 1:
-                            case EXTRA_JOYSTICK_HIT + 1:
+                            case USERPORT_JOYSTICK_CGA + 1:
+                            case USERPORT_JOYSTICK_PET + 1:
+                            case USERPORT_JOYSTICK_HIT + 1:
                                 if (machine_class == VICE_MACHINE_PLUS4) {
                                     joyamount = 1;
                                 } else {
                                     joyamount = 2;
                                 }
                                 break;
-                            case EXTRA_JOYSTICK_HUMMER+1:
-                            case EXTRA_JOYSTICK_OEM+1:
+                            case USERPORT_JOYSTICK_HUMMER+1:
+                            case USERPORT_JOYSTICK_OEM+1:
                                 joyamount = 1;
                                 break;
                         }

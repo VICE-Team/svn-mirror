@@ -90,6 +90,7 @@ extern "C" {
 #include "ui_sound.h"
 #include "ui_video.h"
 #include "uicmdline.h"
+#include "userport_joystick.h"
 #include "util.h"
 #include "version.h"
 #include "vice-event.h"
@@ -169,11 +170,11 @@ ui_res_possible_values SyncFactor[] = {
 };
 
 ui_res_possible_values UserportJoyType[] = {
-    { EXTRA_JOYSTICK_CGA, MENU_USERPORT_JOY_CGA },
-    { EXTRA_JOYSTICK_PET, MENU_USERPORT_JOY_PET },
-    { EXTRA_JOYSTICK_HUMMER, MENU_USERPORT_JOY_HUMMER },
-    { EXTRA_JOYSTICK_OEM, MENU_USERPORT_JOY_OEM },
-    { EXTRA_JOYSTICK_HIT, MENU_USERPORT_JOY_HIT },
+    { USERPORT_JOYSTICK_CGA, MENU_USERPORT_JOY_CGA },
+    { USERPORT_JOYSTICK_PET, MENU_USERPORT_JOY_PET },
+    { USERPORT_JOYSTICK_HUMMER, MENU_USERPORT_JOY_HUMMER },
+    { USERPORT_JOYSTICK_OEM, MENU_USERPORT_JOY_OEM },
+    { USERPORT_JOYSTICK_HIT, MENU_USERPORT_JOY_HIT },
     { -1, 0 }
 };
 

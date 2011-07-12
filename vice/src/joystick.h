@@ -29,12 +29,6 @@
 
 #include "types.h"
 
-#define EXTRA_JOYSTICK_CGA    0
-#define EXTRA_JOYSTICK_PET    1
-#define EXTRA_JOYSTICK_HUMMER 2
-#define EXTRA_JOYSTICK_OEM    3
-#define EXTRA_JOYSTICK_HIT    4
-
 struct snapshot_s;
 
 extern int joystick_init(void);
@@ -54,28 +48,13 @@ extern void joystick_event_playback(CLOCK offset, void *data);
 extern void joystick_event_delayed_playback(void *data);
 extern void joystick_register_delay(unsigned int delay);
 
+extern BYTE get_joystick_value(int index);
+
 typedef void (*joystick_machine_func_t)(void);
 extern void joystick_register_machine(joystick_machine_func_t func);
 
 extern int joystick_snapshot_write_module(struct snapshot_s *s);
 extern int joystick_snapshot_read_module(struct snapshot_s *s);
-
-extern int extra_joystick_enable;
-extern int extra_joystick_type;
-
-extern BYTE extra_joystick_cga_read(void);
-extern void extra_joystick_cga_store(BYTE value);
-
-extern BYTE extra_joystick_hit_read_button2(void);
-extern BYTE extra_joystick_hit_read_button1(void);
-extern BYTE extra_joystick_hit_read(void);
-extern void extra_joystick_hit_store(BYTE value);
-
-extern BYTE extra_joystick_pet_read(void);
-
-extern BYTE extra_joystick_hummer_read(void);
-
-extern BYTE extra_joystick_oem_read(void);
 
 /*! the number of joysticks that can be attached to the emu */
 #define JOYSTICK_NUM 4

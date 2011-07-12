@@ -24,6 +24,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/rs232drv \
 	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src

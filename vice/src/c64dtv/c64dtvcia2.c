@@ -49,6 +49,7 @@
 #include "printer.h"
 #include "ps2mouse.h"
 #include "types.h"
+#include "userport_joystick.h"
 #include "vicii.h"
 
 #ifdef HAVE_RS232
@@ -58,10 +59,10 @@
 
 void cia2_store(WORD addr, BYTE data)
 {
-    if ((addr&0x1f) == 1) {
-        if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
-            extra_joystick_cga_store(data);
-        }
+    if ((addr & 0x1f) == 1) {
+        /* FIXME: in the upcoming userport system this call needs to be conditional */
+        userport_joystick_store_pbx(data);
+
         if (c64dtv_hummer_adc_enabled) {
             hummeradc_store(data);
         }
@@ -76,23 +77,11 @@ void cia2_store(WORD addr, BYTE data)
 BYTE cia2_read(WORD addr)
 {
     BYTE retval = 0xff;
-    if ((addr&0x1f) == 1) {
-        if (extra_joystick_enable) {
-            switch (extra_joystick_type) {
-                case EXTRA_JOYSTICK_CGA:
-                    retval &= extra_joystick_cga_read();
-                    break;
-                case EXTRA_JOYSTICK_PET:
-                    retval &= extra_joystick_pet_read();
-                    break;
-                case EXTRA_JOYSTICK_HUMMER:
-                    retval &= extra_joystick_hummer_read();
-                    break;
-                case EXTRA_JOYSTICK_OEM:
-                    retval &= extra_joystick_oem_read();
-                    break;
-            }
-        }
+
+    if ((addr & 0x1f) == 1) {
+        /* FIXME: in the upcoming userport system this call needs to be conditional */
+        retval = userport_joystick_read_pbx(retval);
+
         if (ps2mouse_enabled) {
             retval &= (ps2mouse_read() | 0x3f);
         }
@@ -103,7 +92,7 @@ BYTE cia2_read(WORD addr)
     }
 
     /* disable TOD & serial */
-    if (((addr&0xf)>=8)&&((addr&0xf)<=0xc)) {
+    if (((addr & 0xf) >= 8) && ((addr & 0xf) <= 0xc)) {
         return 0xff;
     }
 
@@ -147,7 +136,6 @@ static void do_reset_cia(cia_context_t *cia_context)
     vbank = 0;
     mem_set_vbank(vbank);
 }
-
 
 static void pre_store(void)
 {
@@ -222,9 +210,8 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
-        extra_joystick_cga_store(byte);
-    }
+    /* in the upcoming userport system this call needs to be conditional */
+    userport_joystick_store_pbx(byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */

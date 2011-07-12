@@ -10,4 +10,6 @@ libuserport_a_SOURCES = \
 	userport_dac.c \
 	userport_dac.h \
 	userport_digimax.c \
-	userport_digimax.h
+	userport_digimax.h \
+	userport_joystick.c \
+	userport_joystick.h

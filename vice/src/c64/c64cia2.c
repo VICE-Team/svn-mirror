@@ -41,7 +41,6 @@
 #include "cia.h"
 #include "iecbus.h"
 #include "interrupt.h"
-#include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
@@ -50,6 +49,7 @@
 #include "printer.h"
 #include "types.h"
 #include "userport_digimax.h"
+#include "userport_joystick.h"
 #include "vicii.h"
 
 #ifdef HAVE_RS232
@@ -177,9 +177,8 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
-        extra_joystick_cga_store(byte);
-    }
+    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    userport_joystick_store_pbx(byte);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -196,9 +195,8 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byt
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_CGA) {
-        extra_joystick_cga_store(byte);
-    }
+    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    userport_joystick_store_pbx(byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -208,10 +206,8 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
     value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
 
-    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_HIT) {
-        value &= 0xfb;
-        value |= extra_joystick_hit_read_button1();
-    }
+    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    value = userport_joystick_read_pa2(value);
     return value;
 }
 
@@ -224,30 +220,10 @@ static BYTE read_ciapb(cia_context_t *cia_context)
         byte = rsuser_read_ctrl();
     } else
 #endif
-    if (extra_joystick_enable) {
-        switch (extra_joystick_type) {
-            case EXTRA_JOYSTICK_HIT:
-                byte = extra_joystick_hit_read();
-                break;
-            case EXTRA_JOYSTICK_CGA:
-                byte = extra_joystick_cga_read();
-                break;
-            case EXTRA_JOYSTICK_PET:
-                byte = extra_joystick_pet_read();
-                break;
-            case EXTRA_JOYSTICK_HUMMER:
-                byte = extra_joystick_hummer_read();
-                break;
-            case EXTRA_JOYSTICK_OEM:
-                byte = extra_joystick_oem_read();
-                break;
-            default:
-                byte = 0xff;
-                break;
-        }
-    } else {
-        byte = parallel_cable_cpu_read();
-    }
+    byte = parallel_cable_cpu_read();
+
+    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    byte = userport_joystick_read_pbx(byte);
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB])) | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
     return byte;
@@ -260,9 +236,8 @@ static void read_ciaicr(cia_context_t *cia_context)
 
 static void read_sdr(cia_context_t *cia_context)
 {
-    if (extra_joystick_enable && extra_joystick_type == EXTRA_JOYSTICK_HIT) {
-        cia_context->c_cia[CIA_SDR] = extra_joystick_hit_read_button2();
-    }
+    /* FIXME: in the upcomming userport system this call needs to be conditional */
+    cia_context->c_cia[CIA_SDR] = userport_joystick_read_sdr(cia_context->c_cia[CIA_SDR]);
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
