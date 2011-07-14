@@ -34,6 +34,7 @@
 #include "icon.h"
 #include "machine.h"
 #include "machine-video.h"
+#include "plus4model.h"
 #include "plus4ui.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -47,8 +48,11 @@
 #include "uikeyboard.h"
 #include "uimenu.h"
 #include "uiperipheraliec.h"
+#include "uiplus4cart.h"
 #include "uiromset.h"
+#ifdef HAVE_RS232
 #include "uirs232petplus4cbm2.h"
+#endif
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -109,6 +113,14 @@ static ui_menu_entry_t sidcart_clock_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(Acia1Enable)
+
+static ui_menu_entry_t acia_submenu[] = {
+    { N_("Enable"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Acia1Enable, NULL, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(DIGIBLASTER)
 
 static ui_menu_entry_t digiblaster_submenu[] = {
@@ -135,17 +147,21 @@ static ui_menu_entry_t sidcart_submenu[] = {
 
 static ui_menu_entry_t plus4ui_main_romset_submenu[] = {
     { N_("Load new kernal ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"KernalName", NULL },
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"KernalName", NULL },
     { N_("Load new BASIC ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"BasicName", NULL },
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"BasicName", NULL },
     { N_("Load new 3 plus 1 LO ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"3plus1loName", NULL },
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"FunctionLowName", NULL },
     { N_("Load new 3 plus 1 HI ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"3plus1hiName", NULL },
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"FunctionHighName", NULL },
+    { N_("Load new c1 LO ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"c1loName", NULL },
+    { N_("Load new c1 HI ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"c1hiName", NULL },
+    { N_("Load new c2 LO ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"c2loName", NULL },
+    { N_("Load new c2 HI ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file, (ui_callback_data_t)"c2hiName", NULL },
     { NULL }
 };
 
@@ -171,6 +187,42 @@ static ui_menu_entry_t plus4_romset_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static UI_CALLBACK(radio_model)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        plus4model_set(selected);
+        ui_update_menus();
+    } else {
+        model = plus4model_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
+
+static ui_menu_entry_t set_model_submenu[] = {
+    { "C16/116 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)PLUS4MODEL_C16_PAL, NULL },
+    { "C16/116 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)PLUS4MODEL_C16_NTSC, NULL },
+    { "Plus4 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)PLUS4MODEL_PLUS4_PAL, NULL },
+    { "Plus4 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)PLUS4MODEL_PLUS4_NTSC, NULL },
+    { "V364 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)PLUS4MODEL_V364_NTSC, NULL },
+    { "C232 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)PLUS4MODEL_232_NTSC, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_RADIO(H256K)
 UI_MENU_DEFINE_RADIO(CS256K)
@@ -195,14 +247,21 @@ ui_menu_entry_t set_ram_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+
 static ui_menu_entry_t io_extensions_submenu[] = {
-    { N_("Digiblaster add-on"), UI_MENU_TYPE_TICK,
+    { N_("ACIA"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, acia_submenu },
+    { N_("Digiblaster add-on"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, digiblaster_submenu },
     { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
     /* Translators: "V364 Speech" is the speech extension present in the V364 prototype */
     { N_("V364 Speech"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, speech_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
 };
 
@@ -218,6 +277,10 @@ static ui_menu_entry_t set_ted_model_submenu[] = {
 };
 
 static ui_menu_entry_t plus4_model_submenu[] = {
+    { N_("Model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_model_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, NULL },
     { N_("TED model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_ted_model_submenu },
     { N_("RAM settings"), UI_MENU_TYPE_NORMAL,
@@ -250,8 +313,10 @@ static ui_menu_entry_t plus4_menu[] = {
       NULL, NULL, ted_submenu },
     { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, io_extensions_submenu },
+#ifdef HAVE_RS232
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
+#endif
     { NULL }
 };
 
@@ -325,6 +390,8 @@ static ui_menu_entry_t plus4_file_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_datasette_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_plus4cart_commands_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
@@ -358,6 +425,10 @@ static ui_menu_entry_t plus4_options_menu[] = {
       NULL, NULL, ui_performance_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_options_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, NULL },
+    { N_("Model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_model_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, io_extensions_submenu },
     { NULL }

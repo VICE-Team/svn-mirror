@@ -107,6 +107,8 @@ int plus4rom_load_3plus1lo(const char *rom_name)
                       rom_name);
             return -1;
         }
+    } else {
+        memset(extromlo1, 0, PLUS4_CART16K_SIZE);
     }
     return 0;
 }
@@ -125,6 +127,8 @@ int plus4rom_load_3plus1hi(const char *rom_name)
                       rom_name);
             return -1;
         }
+    } else {
+        memset(extromhi1, 0, PLUS4_CART16K_SIZE);
     }
     return 0;
 }

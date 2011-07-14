@@ -4,7 +4,10 @@ roms = \
 	3plus1hi \
 	3plus1lo \
 	basic \
-	kernal
+	kernal \
+	kernal.232 \
+	kernal.364 \
+	c2lo.364
 
 romsets = \
 	default.vrs

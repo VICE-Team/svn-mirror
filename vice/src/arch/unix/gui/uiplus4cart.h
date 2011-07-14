@@ -1,9 +1,8 @@
 /*
- * plus4acia.h - Definitions for a 6551 ACIA interface
+ * uiplus4cart.h - Implementation of the Plus 4 cart-specific part of the UI.
  *
  * Written by
- *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
- *  Andreas Boose <viceteam@t-online.de>
+ *  Groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,27 +24,11 @@
  *
  */
 
-#ifndef VICE_PLUS4ACIA_H
-#define VICE_PLUS4ACIA_H
+#ifndef VICE_UIPLUS4CART_H
+#define VICE_UIPLUS4CART_H
 
-#include "types.h"
+#include "uimenu.h"
 
-struct snapshot_s;
-
-extern void acia_init(void);
-extern BYTE acia_read(WORD a);
-extern BYTE acia_peek(WORD a);
-extern void acia_store(WORD a, BYTE b);
-extern void acia_reset(void);
-
-extern int acia_cmdline_options_init(void);
-extern int acia_resources_init(void);
-
-extern int acia_snapshot_read_module(struct snapshot_s *);
-extern int acia_snapshot_write_module(struct snapshot_s *);
-
-extern int acia_enabled(void);
-extern int acia_dump(void *ctx);
+extern struct ui_menu_entry_s ui_plus4cart_commands_menu[];
 
 #endif
-

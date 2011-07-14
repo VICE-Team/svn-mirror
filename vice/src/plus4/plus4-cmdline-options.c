@@ -27,13 +27,58 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cmdline.h"
 #include "machine.h"
 #include "plus4-cmdline-options.h"
 #include "plus4memcsory256k.h"
 #include "plus4memhannes256k.h"
+#include "plus4model.h"
 #include "translate.h"
+
+struct model_s {
+    const char *name;
+    int model;
+};
+
+static struct model_s model_match[] = {
+    { "c16", PLUS4MODEL_C16_PAL },
+    { "c16pal", PLUS4MODEL_C16_PAL },
+    { "c16ntsc", PLUS4MODEL_C16_NTSC },
+    { "plus4", PLUS4MODEL_PLUS4_PAL },
+    { "plus4pal", PLUS4MODEL_PLUS4_PAL },
+    { "plus4ntsc", PLUS4MODEL_PLUS4_NTSC },
+    { "v364", PLUS4MODEL_V364_NTSC },
+    { "cv364", PLUS4MODEL_V364_NTSC },
+    { "c232", PLUS4MODEL_232_NTSC },
+    { NULL, PLUS4MODEL_UNKNOWN }
+};
+
+static int set_plus4_model(const char *param, void *extra_param)
+{
+    int model = PLUS4MODEL_UNKNOWN;
+    int i = 0;
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(model_match[i].name, param) == 0) {
+            model = model_match[i].model;
+        }
+        i++;
+    } while ((model == PLUS4MODEL_UNKNOWN) && (model_match[i].name != NULL));
+
+    if (model == PLUS4MODEL_UNKNOWN) {
+        return -1;
+    }
+
+    plus4model_set(model);
+
+    return 0;
+}
 
 static const cmdline_option_t cmdline_options[] =
 {
@@ -109,15 +154,22 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
       NULL, NULL },
 #endif
+    { "-model", CALL_FUNCTION, 1,
+      set_plus4_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODEL, IDCLS_SET_PLUS4_MODEL,
+      NULL, NULL },
     { NULL }
 };
 
 int plus4_cmdline_options_init(void)
 {
-    if (h256k_cmdline_options_init()<0)
+    if (h256k_cmdline_options_init()<0) {
       return -1;
-    if (cs256k_cmdline_options_init()<0)
+    }
+    if (cs256k_cmdline_options_init()<0) {
       return -1;
+    }
 
     return cmdline_register_options(cmdline_options);
 }

@@ -3303,6 +3303,36 @@ translate_t string_table[] = {
 #endif
 #endif
 
+/* plus4/plus4acia.c */
+/* en */ {IDCLS_ENABLE_ACIA_EMU,    N_("Enable the ACIA emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_ACIA_EMU_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_ACIA_EMU_DE, "ACIA Emulation aktivieren"},
+/* fr */ {IDCLS_ENABLE_ACIA_EMU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_ACIA_EMU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_ACIA_EMU_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_ACIA_EMU_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_ACIA_EMU_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_ACIA_EMU_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_ACIA_EMU_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_ACIA_EMU_TR, ""},  /* fuzzy */
+#endif
+
+/* plus4/plus4acia.c */
+/* en */ {IDCLS_DISABLE_ACIA_EMU,    N_("Disable the ACIA emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_ACIA_EMU_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_ACIA_EMU_DE, "ACIA Emulation deaktivieren"},
+/* fr */ {IDCLS_DISABLE_ACIA_EMU_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_ACIA_EMU_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_ACIA_EMU_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_ACIA_EMU_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_ACIA_EMU_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_ACIA_EMU_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_ACIA_EMU_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_ACIA_EMU_TR, ""},  /* fuzzy */
+#endif
+
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
@@ -3609,6 +3639,21 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_C64_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_C64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
 /* tr */ {IDCLS_SET_C64_MODEL_TR, "C64 modelini belirle (c64/c64c/c64eski, ntsc/yenintsc/eskintsc, drean)"},
+#endif
+
+/* plus4/plus4-cmdline-options.c */
+/* en */ {IDCLS_SET_PLUS4_MODEL,    N_("Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_PLUS4_MODEL_DA, "Vælg Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
+/* de */ {IDCLS_SET_PLUS4_MODEL_DE, "Wähle Plus4 Modell (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
+/* fr */ {IDCLS_SET_PLUS4_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_PLUS4_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_PLUS4_MODEL_IT, "Imposta modello Plus4 (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
+/* ko */ {IDCLS_SET_PLUS4_MODEL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_PLUS4_MODEL_NL, "Zet Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
+/* ru */ {IDCLS_SET_PLUS4_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_PLUS4_MODEL_SV, "Välj Plus4-modell (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
+/* tr */ {IDCLS_SET_PLUS4_MODEL_TR, "Plus4 modelini belirle (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
 #endif
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
@@ -5808,6 +5853,21 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_CART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_CART_SV, "Inaktivera standardinsticksmodul"},
 /* tr */ {IDCLS_DISABLE_CART_TR, "Varsayýlan kartuþu pasifleþtir"},
+#endif
+
+/* plus4/plus4cart.c */
+/* en */ {IDCLS_SMART_ATTACH_CART,    N_("Smart-attach cartridge image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SMART_ATTACH_CART_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SMART_ATTACH_CART_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SMART_ATTACH_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SMART_ATTACH_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SMART_ATTACH_CART_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SMART_ATTACH_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SMART_ATTACH_CART_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SMART_ATTACH_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SMART_ATTACH_CART_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SMART_ATTACH_CART_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/ide64.c */

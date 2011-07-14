@@ -1,9 +1,8 @@
 /*
- * plus4acia.h - Definitions for a 6551 ACIA interface
+ * plus4model.h - Plus4 model detection and setting.
  *
  * Written by
- *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,27 +24,25 @@
  *
  */
 
-#ifndef VICE_PLUS4ACIA_H
-#define VICE_PLUS4ACIA_H
+#ifndef VICE_PLUS4MODEL_H
+#define VICE_PLUS4MODEL_H
 
 #include "types.h"
 
-struct snapshot_s;
+#define PLUS4MODEL_C16_PAL        0 /* C16/C116 (PAL)*/
+#define PLUS4MODEL_C16_NTSC       1 /* C16/C116 (NTSC)*/
+#define PLUS4MODEL_PLUS4_PAL      2 /* Plus4 (PAL) */
+#define PLUS4MODEL_PLUS4_NTSC     3 /* Plus4/C264 (NTSC) */
+#define PLUS4MODEL_V364_NTSC      4 /* V364 (NTSC) */
+#define PLUS4MODEL_232_NTSC       5 /* C232 (NTSC) */
 
-extern void acia_init(void);
-extern BYTE acia_read(WORD a);
-extern BYTE acia_peek(WORD a);
-extern void acia_store(WORD a, BYTE b);
-extern void acia_reset(void);
+#define PLUS4MODEL_NUM 6
 
-extern int acia_cmdline_options_init(void);
-extern int acia_resources_init(void);
+#define PLUS4MODEL_UNKNOWN 99
 
-extern int acia_snapshot_read_module(struct snapshot_s *);
-extern int acia_snapshot_write_module(struct snapshot_s *);
-
-extern int acia_enabled(void);
-extern int acia_dump(void *ctx);
+extern int plus4model_get(void);
+extern int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia);
+extern void plus4model_set(int model);
+extern void plus4model_set_temp(int model, int *ted_model, int *ramsize, int *hasspeech, int *hasacia);
 
 #endif
-

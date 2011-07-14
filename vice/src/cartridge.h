@@ -45,6 +45,8 @@ extern void cartridge_resources_shutdown(void);
 /* init the cartridge config so the cartridge can start (or whatever) */
 extern void cartridge_init_config(void);
 
+/* detect cartridge type (takes crt and bin files) */
+extern int cartridge_detect(const char *filename);
 /* attach (and enable) a cartridge by type and filename (takes crt and bin files) */
 extern int cartridge_attach_image(int type, const char *filename);
 /* enable cartridge by type. loads default image if any.
@@ -336,7 +338,22 @@ extern void cartridge_sound_chip_init(void);
  * plus4 cartridge system
  */
 /* #define CARTRIDGE_NONE               -1 */
-#define CARTRIDGE_V364_SPEECH        0x8100
+#define CARTRIDGE_V364_SPEECH           0x8100
+
+#define CARTRIDGE_PLUS4_DETECT          0x8200 /* low byte must be 0x00 */
+
+#define CARTRIDGE_PLUS4_16KB_C0LO       0x8201
+#define CARTRIDGE_PLUS4_16KB_C0HI       0x8202
+#define CARTRIDGE_PLUS4_16KB_C1LO       0x8204
+#define CARTRIDGE_PLUS4_16KB_C1HI       0x8208
+#define CARTRIDGE_PLUS4_16KB_C2LO       0x8210
+#define CARTRIDGE_PLUS4_16KB_C2HI       0x8220
+
+#define CARTRIDGE_PLUS4_32KB_C0         0x8203
+#define CARTRIDGE_PLUS4_32KB_C1         0x820c
+#define CARTRIDGE_PLUS4_32KB_C2         0x8230
+
+#define CARTRIDGE_PLUS4_NEWROM          0x8207 /* c0lo,c0hi,c1lo (48k) */
 
 /* FIXME: cartconv: the sizes are used in a bitfield and also by their absolute values */
 #define CARTRIDGE_SIZE_4KB     0x00001000

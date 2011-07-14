@@ -30,6 +30,7 @@
 #include <stdlib.h>
 
 #include "autostart.h"
+#include "cartridge.h"
 #include "clkguard.h"
 #include "datasette.h"
 #include "debug.h"
@@ -80,14 +81,6 @@
 #include "types.h"
 #include "video.h"
 #include "vsync.h"
-
-/* beos dummy for the generally used cart function in ui_file.cc */
-#ifdef __BEOS__
-int cartridge_attach_image(int type, const char *filename)
-{
-    return 0;
-}
-#endif
 
 machine_context_t machine_context;
 
@@ -253,6 +246,7 @@ int machine_resources_init(void)
         || machine_video_resources_init() < 0
         || plus4_resources_init() < 0
         || ted_resources_init() < 0
+        || cartridge_resources_init() < 0
         || digiblaster_resources_init() < 0
         || speech_resources_init() < 0
         || sound_resources_init() < 0
@@ -274,6 +268,7 @@ int machine_resources_init(void)
 
 void machine_resources_shutdown(void)
 {
+    cartridge_resources_shutdown();
     serial_shutdown();
     video_resources_shutdown();
     plus4_resources_shutdown();
@@ -291,6 +286,7 @@ int machine_cmdline_options_init(void)
         || video_init_cmdline_options() < 0
         || plus4_cmdline_options_init() < 0
         || ted_cmdline_options_init() < 0
+        || cartridge_cmdline_options_init() < 0
         || digiblaster_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sidcart_cmdline_options_init() < 0

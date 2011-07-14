@@ -9,6 +9,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/userport \
@@ -124,6 +125,8 @@ libarchgui_a_SOURCES = \
 	uipetreu.h \
 	uiplus256k.c \
 	uiplus256k.h \
+	uiplus4cart.c \
+	uiplus4cart.h \
 	uiplus60k.c \
 	uiplus60k.h \
 	uiprinter.c \

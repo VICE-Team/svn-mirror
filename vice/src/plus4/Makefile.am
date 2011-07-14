@@ -46,6 +46,8 @@ libplus4_a_SOURCES = \
 	plus4memrom.h \
 	plus4memsnapshot.c \
 	plus4memsnapshot.h \
+	plus4model.c \
+	plus4model.h \
 	plus4parallel.c \
 	plus4parallel.h \
 	plus4pio1.c \
