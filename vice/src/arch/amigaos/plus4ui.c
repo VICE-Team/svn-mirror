@@ -107,7 +107,7 @@ static int uiplus4cart_attach_image(int type, char *s)
             return plus4cart_load_func_lo(s);
         case IDM_CART_ATTACH_FUNCHI:
             resources_set_string("FunctionHighName", s);
-            return plus4cart_load_func_lo(s);
+            return plus4cart_load_func_hi(s);
         case IDM_CART_ATTACH_C1LO:
             resources_set_string("c1loName", s);
             return plus4cart_load_c1lo(s);

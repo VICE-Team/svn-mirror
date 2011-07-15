@@ -96,7 +96,7 @@ static int set_func_lo_rom_name(const char *val, void *param)
     if (util_string_set(&func_lo_rom_name, val))
         return 0;
 
-    return plus4rom_load_3plus1lo(func_lo_rom_name);
+    return plus4cart_load_func_lo(func_lo_rom_name);
 }
 
 static int set_func_hi_rom_name(const char *val, void *param)
@@ -104,7 +104,7 @@ static int set_func_hi_rom_name(const char *val, void *param)
     if (util_string_set(&func_hi_rom_name, val))
         return 0;
 
-    return plus4rom_load_3plus1hi(func_hi_rom_name);
+    return plus4cart_load_func_hi(func_hi_rom_name);
 }
 
 static int set_c1lo_rom_name(const char *val, void *param)

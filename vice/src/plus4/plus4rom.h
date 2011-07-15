@@ -29,8 +29,6 @@
 
 extern int plus4rom_load_kernal(const char *rom_name);
 extern int plus4rom_load_basic(const char *rom_name);
-extern int plus4rom_load_3plus1lo(const char *rom_name);
-extern int plus4rom_load_3plus1hi(const char *rom_name);
 
 #endif
 

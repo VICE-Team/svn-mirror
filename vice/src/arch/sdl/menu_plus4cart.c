@@ -68,7 +68,7 @@ static UI_MENU_CALLBACK(attach_cart_callback)
                 name = sdl_ui_file_selection_dialog("Select function high image", FILEREQ_MODE_CHOOSE_FILE);
                 if (name != NULL) {
                     resources_set_string("FunctionHighName", name);
-                    if (plus4cart_load_func_lo(name) < 0) {
+                    if (plus4cart_load_func_hi(name) < 0) {
                         ui_error("Cannot load cartridge image.");
                     }
                     lib_free(name);

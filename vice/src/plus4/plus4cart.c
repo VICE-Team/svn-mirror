@@ -148,6 +148,40 @@ void cart_power_off(void)
 }
 /* ---------------------------------------------------------------------*/
 
+int plus4cart_load_func_lo(const char *rom_name)
+{
+    /* Load 3plus1 low ROM.  */
+    if (*rom_name != 0) {
+        if (sysfile_load(rom_name,
+            extromlo1, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
+            log_error(LOG_ERR,
+                      "Couldn't load 3plus1 low ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    } else {
+        memset(extromlo1, 0, PLUS4_CART16K_SIZE);
+    }
+    return 0;
+}
+
+int plus4cart_load_func_hi(const char *rom_name)
+{
+    /* Load 3plus1 high ROM.  */
+    if (*rom_name != 0) {
+        if (sysfile_load(rom_name,
+            extromhi1, PLUS4_CART16K_SIZE, PLUS4_CART16K_SIZE) < 0) {
+            log_error(LOG_ERR,
+                      "Couldn't load 3plus1 high ROM `%s'.",
+                      rom_name);
+            return -1;
+        }
+    } else {
+        memset(extromhi1, 0, PLUS4_CART16K_SIZE);
+    }
+    return 0;
+}
+
 /*
     FIXME: make these 4 non public and replace by cartridge_attach_image() in UIs (win32, amigaos)
 */
