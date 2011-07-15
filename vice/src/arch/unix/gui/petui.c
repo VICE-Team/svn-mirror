@@ -122,7 +122,7 @@ static ui_menu_entry_t sidcart_submenu[] = {
       (ui_callback_t)toggle_SidCart, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_model_noresid_submenu },
+      NULL, NULL, sid_model_submenu },
     { N_("SID filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("SID address"), UI_MENU_TYPE_NORMAL,
@@ -220,7 +220,7 @@ static ui_menu_entry_t petui_main_romset_submenu[] = {
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(PETUserportDAC)
+UI_MENU_DEFINE_TOGGLE(UserportDAC)
 
 static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("PET RAM and Expansion Unit"), UI_MENU_TYPE_NORMAL,
@@ -230,7 +230,7 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
     { N_("Userport DAC"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_PETUserportDAC, NULL, NULL },
+      (ui_callback_t)toggle_UserportDAC, NULL, NULL },
     { N_("PET userport diagnostic pin"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DiagPin, NULL, NULL },
     { NULL }

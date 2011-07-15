@@ -174,6 +174,7 @@ ui_menu_entry_t sid_dtv_model_submenu[] = {
     { NULL }
 };
 
+#if 0
 ui_menu_entry_t sid_model_noresid_submenu[] = {
     { "6581 (FastSID)", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SidModel, (ui_callback_data_t)SID_FASTSID_6581, NULL },
@@ -200,6 +201,7 @@ ui_menu_entry_t sid_model_noresid_submenu[] = {
 #endif
     { NULL }
 };
+#endif
 
 #ifdef HAVE_RESID
 UI_MENU_DEFINE_RADIO(SidResidSampling)

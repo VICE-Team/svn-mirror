@@ -177,7 +177,7 @@ static const resource_int_t sidcart_resources_int[] = {
 
 int sidcart_resources_init(void)
 {
-    if (sid_common_resources_init() < 0) {
+    if (sid_resources_init() < 0) {
         return -1;
     }
     return resources_register_int(sidcart_resources_int);
@@ -186,11 +186,6 @@ int sidcart_resources_init(void)
 /* ---------------------------------------------------------------------*/
 
 static const cmdline_option_t sidcart_cmdline_options[] = {
-    { "-sidenginemodel", CALL_FUNCTION, 1,
-      sid_common_set_engine_model, NULL, NULL, NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_ENGINE_MODEL, IDCLS_SPECIFY_SIDCART_ENGINE_MODEL,
-      NULL, NULL },
     { "-sidcart", SET_RESOURCE, 1,
       NULL, NULL, "SidCart", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -201,20 +196,13 @@ static const cmdline_option_t sidcart_cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_SIDCART,
       NULL, NULL },
-    { "-sidfilters", SET_RESOURCE, 0,
-      NULL, NULL, "SidFilters", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SID_FILTERS,
-      NULL, NULL },
-    { "+sidfilters", SET_RESOURCE, 0,
-      NULL, NULL, "SidFilters", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SID_FILTERS,
-      NULL, NULL },
     { NULL }
 };
 
 int sidcart_cmdline_options_init(void)
 {
+    if (sid_cmdline_options_init() < 0) {
+        return -1;
+    }
     return cmdline_register_options(sidcart_cmdline_options);
 }

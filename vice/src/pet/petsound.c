@@ -46,6 +46,7 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
 static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE pet_sound_machine_read(sound_t *psid, WORD addr);
+static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int pet_sound_machine_cycle_based(void)
 {
@@ -64,10 +65,10 @@ static sound_chip_t pet_sound_chip = {
     pet_sound_machine_calculate_samples,
     pet_sound_machine_store,
     pet_sound_machine_read,
-    petsound_reset,
+    pet_sound_reset,
     pet_sound_machine_cycle_based,
     pet_sound_machine_channels,
-    0 /* chip enabled */
+    1 /* chip enabled */
 };
 
 static WORD pet_sound_chip_offset = 0;
@@ -234,10 +235,14 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     return 1;
 }
 
+static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk)
+{
+    petsound_store_onoff(0);
+}
+
 void petsound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     sound_reset();
-    petsound_store_onoff(0);
 }
 
 static BYTE pet_sound_machine_read(sound_t *psid, WORD addr)

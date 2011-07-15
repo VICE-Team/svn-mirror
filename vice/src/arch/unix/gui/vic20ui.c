@@ -151,7 +151,7 @@ static ui_menu_entry_t sidcart_submenu[] = {
       (ui_callback_t)toggle_SidCart, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_model_noresid_submenu },
+      NULL, NULL, sid_model_submenu },
     { N_("SID filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
     { N_("SID address"), UI_MENU_TYPE_NORMAL,
