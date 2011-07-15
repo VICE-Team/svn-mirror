@@ -2951,10 +2951,10 @@ Turns true drive emulation on (@code{DriveTrueEmulation=1}) and off
 @itemx -drive10type TYPE
 @itemx -drive11type TYPE
 Specifies the drive types for drives 8-11, respectively.  Possible
-values for @code{TYPE} are @code{1541}, @code{1571}, @code{1581} and
-@code{2031}.
-
-@c FIXME: add all supported drives
+values for @code{TYPE} are @code{1541}, @code{1542} (meaning 1541-II),
+@code{1551}, @code{1570}, @code{1571}, @code{1573} (meaning 1571cr),
+@code{1581}, @code{2031}, @code{2040}, @code{3040}, @code{4040},
+@code{1001}, @code{8050} and @code{8250}.
 
 @cindex -parallel8
 @cindex -parallel9
