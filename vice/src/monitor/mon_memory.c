@@ -332,6 +332,7 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
     set_addr_location(&(dot_addr[mem]), addr);
 }
 
+/* display binary data (sprites/chars) */
 void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
                              unsigned int x, unsigned int y)
 {
@@ -363,6 +364,9 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
             break;
     }
 
+    if ((x == 24) && (y == 21)) {
+        addr++; /* continue at next even address when showing sprites */
+    }
     set_addr_location(&(dot_addr[mem]), addr);
 }
 
