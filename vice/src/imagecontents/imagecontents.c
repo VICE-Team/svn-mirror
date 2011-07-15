@@ -162,12 +162,10 @@ char *image_contents_to_string(image_contents_t * contents,
     return string;
 }
 
-char *image_contents_file_to_string(image_contents_file_list_t * p,
-                                    char convert_to_ascii)
+static char *image_contents_get_filename(image_contents_file_list_t * p)
 {
     int i;
-    char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 3] = { 0 };
-    char* string;
+    static char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 3] = { 0 };
     char encountered_a0 = 0;
 
     memset(print_name, 0x20, sizeof(print_name)-1); /* redundant? better safe than sorry */
@@ -192,6 +190,32 @@ char *image_contents_file_to_string(image_contents_file_list_t * p,
         print_name[i+1] = '\"';
     }
 
+    return print_name;
+}
+
+char *image_contents_filename_to_string(image_contents_file_list_t * p,
+                                    char convert_to_ascii)
+{
+    char *print_name;
+    char *string;
+
+    print_name = image_contents_get_filename(p);
+    string = strdup(print_name);
+
+    if (convert_to_ascii) {
+        charset_petconvstring((unsigned char *)string, 1);
+    }
+
+    return string;
+}
+
+char *image_contents_file_to_string(image_contents_file_list_t * p,
+                                    char convert_to_ascii)
+{
+    char *print_name;
+    char *string;
+
+    print_name = image_contents_get_filename(p);
     string = lib_msprintf("%-5d %s %s", p->size, print_name, p->type);
 
     if (convert_to_ascii) {

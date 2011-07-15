@@ -74,6 +74,8 @@ extern char *image_contents_to_string(image_contents_t * contents,
                                       char convert_to_ascii);
 extern char *image_contents_file_to_string(image_contents_file_list_t * p,
                                            char convert_to_ascii);
+extern char *image_contents_filename_to_string(image_contents_file_list_t * p,
+                                           char convert_to_ascii);
 extern char *image_contents_filename_by_number(image_contents_t *contents,
                                                unsigned int file_index);
 
