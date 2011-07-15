@@ -1,8 +1,8 @@
 /*
- * uic64dtv.h
+ * c64dtvmodel.h - DTV model detection and setting.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,13 +24,24 @@
  *
  */
 
-#ifndef VICE_UI_C64DTV_H
-#define VICE_UI_C64DTV_H
+#ifndef VICE_DTVMODEL_H
+#define VICE_DTVMODEL_H
 
-extern struct ui_menu_entry_s c64dtv_submenu[];
-extern struct ui_menu_entry_s c64dtv_setmodel_submenu[];
-extern struct ui_menu_entry_s c64dtv_revision_submenu[];
-extern struct ui_menu_entry_s c64dtv_flash_submenu[];
-extern struct ui_menu_entry_s c64dtv_extension_submenu[];
+#include "types.h"
+
+#define DTVMODEL_V2_PAL        0 /* DTV v2 (pal) */
+#define DTVMODEL_V2_NTSC       1 /* DTV v2 (ntsc) */
+#define DTVMODEL_V3_PAL        2 /* DTV v3 (pal) */
+#define DTVMODEL_V3_NTSC       3 /* DTV v3 (ntsc) */
+#define DTVMODEL_HUMMER_NTSC   4 /* Hummer (ntsc) */
+
+#define DTVMODEL_NUM 5
+
+#define DTVMODEL_UNKNOWN 99
+
+extern int dtvmodel_get(void);
+extern int dtvmodel_get_temp(int video, int asic, int hummeradc);
+extern void dtvmodel_set(int model);
+extern void dtvmodel_set_temp(int model, int *vic_model, int *asic, int *hummeradc);
 
 #endif

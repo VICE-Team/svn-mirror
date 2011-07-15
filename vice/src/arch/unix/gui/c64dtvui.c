@@ -146,6 +146,9 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t c64dtv_model_submenu[] = {
+    { N_("DTV model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, c64dtv_setmodel_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("DTV revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64dtv_revision_submenu },
     { N_("VIC-II model"), UI_MENU_TYPE_NORMAL,
@@ -275,11 +278,15 @@ static ui_menu_entry_t x64_options_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_options_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, c64dtv_model_submenu },
+      NULL, NULL, NULL },
+    { N_("DTV model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, c64dtv_setmodel_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, c64dtv_extension_submenu },
     { NULL }
 };
+
+
 
 static ui_menu_entry_t x64_settings_submenu[] = {
     { "", UI_MENU_TYPE_NONE,

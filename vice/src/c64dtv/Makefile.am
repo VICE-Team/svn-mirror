@@ -45,6 +45,8 @@ libc64dtv_a_SOURCES = \
 	c64dtviec.c \
 	c64dtvmeminit.c \
 	c64dtvmeminit.h \
+	c64dtvmodel.c \
+	c64dtvmodel.h \
 	c64dtvpla.c \
 	c64dtvsound.c \
 	flash-trap.c \

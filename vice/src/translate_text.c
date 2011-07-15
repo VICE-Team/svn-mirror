@@ -3656,6 +3656,21 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_PLUS4_MODEL_TR, "Plus4 modelini belirle (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
 #endif
 
+/* c64dtv/c64dtv-cmdline-options.c */
+/* en */ {IDCLS_SET_DTV_MODEL,    N_("Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DTV_MODEL_DA, "Vælg DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
+/* de */ {IDCLS_SET_DTV_MODEL_DE, "Wähle DTV Modell (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
+/* fr */ {IDCLS_SET_DTV_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DTV_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DTV_MODEL_IT, "Imposta modello DTV (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
+/* ko */ {IDCLS_SET_DTV_MODEL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DTV_MODEL_NL, "Zet DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
+/* ru */ {IDCLS_SET_DTV_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DTV_MODEL_SV, "Välj DTV-modell (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
+/* tr */ {IDCLS_SET_DTV_MODEL_TR, "DTV modelini belirle (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
+#endif
+
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
    vic20/vic20-cmdline-options.c */

@@ -29,6 +29,7 @@
 #include <stdio.h>
 
 #include "c64dtv-resources.h"
+#include "c64dtvmodel.h"
 #include "lib.h"
 #include "resources.h"
 #include "uilib.h"
@@ -39,6 +40,41 @@
 #include "uidrivec64vic20.h"
 #include "uips2mouse.h"
 #include "util.h"
+
+static UI_CALLBACK(radio_model)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        dtvmodel_set(selected);
+        ui_update_menus();
+    } else {
+        model = dtvmodel_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
+
+ui_menu_entry_t c64dtv_setmodel_submenu[] = {
+    { "DTV v2 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)DTVMODEL_V2_PAL, NULL },
+    { "DTV v2 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)DTVMODEL_V2_NTSC, NULL },
+    { "DTV v3 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)DTVMODEL_V3_PAL, NULL },
+    { "DTV v3 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)DTVMODEL_V3_NTSC, NULL },
+    { "Hummer NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_model,
+      (ui_callback_data_t)DTVMODEL_HUMMER_NTSC, NULL },
+    { NULL }
+};
+
 
 UI_MENU_DEFINE_RADIO(DtvRevision)
 UI_MENU_DEFINE_TOGGLE(c64dtvromrw)

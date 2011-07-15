@@ -388,6 +388,9 @@ IDCLS_SET_C64_MODEL
 /* plus4/plus4-cmdline-options.c */
 IDCLS_SET_PLUS4_MODEL
 
+/* c64dtv/c64dtv-cmdline-options.c */
+IDCLS_SET_DTV_MODEL
+
 /* c64/c64-cmdline-options.c */
 IDCLS_USE_PALN_SYNC_FACTOR
 
