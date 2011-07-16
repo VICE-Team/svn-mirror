@@ -9616,7 +9616,6 @@ the C64S emulator.  It is easy to use and allows future extensions.
 * T64 file record::             
 @end menu
 
-@c FIXME: add X64 disk image file structure; Used by the 1541, 2031, 3040, 4040 drives.
 @c FIXME: add D67 CBM2040 (DOS1) disk image file structure
 @c FIXME: add D71 VC1571 disk image file structure
 @c FIXME: add D81 VC1581 disk image file structure
@@ -10039,10 +10038,11 @@ speed zone data is not important, meaning they do not have to be in any
 particular order since they are all referenced by the offsets at the
 beginning of the image.
 
-@node D64, , G64, File formats
+@node D64, X64 , G64, File formats
 @section The D64 disk image format
 
-@c FIXME: the D64 section needs to be style-checked
+@c FIXME: the D64 section needs to be style-checked.
+@c FIXME: some of the D64 section needs to have sub-sections.
 
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
@@ -10513,9 +10513,9 @@ has 21 sectors, so there are a few unused bits.
 @item $0C-$0F
 @tab $15 $FF $FF $1F
 @tab Track 3 BAM
-@item @dots{3}
-@tab @dots{3}
-@tab @dots{3}
+@item @dots{}
+@tab @dots{}
+@tab @dots{}
 @item $8C-$8F
 @tab $11 $FF $FF $01
 @tab Track 35 BAM
@@ -10717,30 +10717,30 @@ Below is a HEX dump of a Speed DOS BAM sector. Note the
 location of the extra BAM info from $C0-D3.
 
 @example
-       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
-       ----------------------------------------------- ----------------
- 0070: 12 FF FF 03 12 FF FF 03 12 FF FF 03 11 FF FF 01 תתתתתתתתתתתתתתתת
- 0080: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01 תתתתתתתתתתתתתתתת
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+       -----------------------------------------------
+ 0070: 12 FF FF 03 12 FF FF 03 12 FF FF 03 11 FF FF 01
+ 0080: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01
  0090: A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0
- 00A0: A0 A0 30 30 A0 32 41 A0 A0 A0 A0 00 00 00 00 00   00 2A    תתתתת
- 00B0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 תתתתתתתתתתתתתתתת
- 00C0: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01 תתתתתתתתתתתתתתתת
- 00D0: 11 FF FF 01 00 00 00 00 00 00 00 00 00 00 00 00 תתתתתתתתתתתתתתתת
+ 00A0: A0 A0 30 30 A0 32 41 A0 A0 A0 A0 00 00 00 00 00
+ 00B0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ 00C0: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01
+ 00D0: 11 FF FF 01 00 00 00 00 00 00 00 00 00 00 00 00
 @end example
 
 Below is a HEX dump of a Dolphin DOS BAM sector. Note
 the location of the extra BAM info from $AC-BF.
 
 @example
-       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
-       ----------------------------------------------- ----------------
- 0070: 12 FF FF 03 12 FF FF 03 12 FF FF 03 11 FF FF 01 תתתתתתתתתתתתתתתת
- 0080: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01 תתתתתתתתתתתתתתתת
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+       -----------------------------------------------
+ 0070: 12 FF FF 03 12 FF FF 03 12 FF FF 03 11 FF FF 01
+ 0080: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01
  0090: A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0
- 00A0: A0 A0 30 30 A0 32 41 A0 A0 A0 A0 00 11 FF FF 01   00 2A    תתתתת
- 00B0: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01 תתתתתתתתתתתתתתתת
- 00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 תתתתתתתתתתתתתתתת
- 00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 תתתתתתתתתתתתתתתת
+ 00A0: A0 A0 30 30 A0 32 41 A0 A0 A0 A0 00 11 FF FF 01
+ 00B0: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01
+ 00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ 00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @end example
 
 Below is a HEX dump of a PrologicDOS BAM sector. Note
@@ -10748,15 +10748,16 @@ that the disk name and ID are now located at $A4 instead
 of starting at $90.
 
 @example
-       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
-       ----------------------------------------------- ----------------
- 0070: 12 FF FF 03 12 FF FF 03 12 FF FF 03 11 FF FF 01 תתתתתתתתתתתתתתתת
- 0080: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01 תתתתתתתתתתתתתתתת
- 0090: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01 תתתתתתתתתתתתתתתת
- 00A0: 11 FF FF 01 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 תתתת
- 00B0: A0 A0 A0 A0 A0 A0 30 30 A0 32 50 A0 A0 A0 A0 00       00 2P    ת
- 00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 תתתתתתתתתתתתתתתת
- 00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 תתתתתתתתתתתתתתתת
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+       -----------------------------------------------
+ 0070: 12 FF FF 03 12 FF FF 03 12 FF FF 03 11 FF FF 01
+ 0080: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01
+ 0090: 11 FF FF 01 11 FF FF 01 11 FF FF 01 11 FF FF 01
+ 00A0: 11 FF FF 01 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0 A0
+ 00B0: A0 A0 A0 A0 A0 A0 30 30 A0 32 50 A0 A0 A0 A0 00
+ 00C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ 00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
 
 *** Error codes
 
@@ -10929,6 +10930,118 @@ send it down to the C64 and writing it back to a 1541. It is the
 best documented format since it is also native to the C64, with
 many books explaining the disk layout and the internals of the
 1541. 
+
+@node X64, , D64, File formats
+@section The X64 disk image format
+
+@c FIXME: the X64 section needs to be style-checked.
+
+This file type, created by Teemu Rantanen, is used on the X64
+emulator (a UNIX-based emulator) which has been superceeded by
+VICE. Both VICE and X64 support the X64 file standard, with
+VICE also supporting the regular D64 and T64 files.
+
+X64 is not a specific type of file, but rather encompasses
+*all* known C64 disk types (hard disk, floppies, etc). An X64
+is created by prepending a 64-byte header to an existing image
+(1541, 1571, etc) and setting specific bytes which describe
+what type of image follows. This header has undergone some
+revision, and this description is based on the 1.02 version,
+which was the last known at the time of writing.
+
+The most common X64 file you will see is the D64 variety,
+typically 174912 bytes long (174848 for the D64 and 64 bytes
+for the header, assuming no error bytes are appended). The
+header layout (as used in 64COPY) is as follows:
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+0000: 43 15 41 64 01 02 01 23 00 00 00 00 00 00 00 00
+0010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+0040: XX XX XX <- standard C64 image starts here....
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$03
+@tab This is the "Magic header" ($43 $15 $41 $64)
+@item $04
+@tab Header version major ($01)
+@item $05
+@tab Header version minor ($01, now its up to $02)
+@item $06
+@tab Device type represented
+@item $07
+@tab Maximum tracks in image (only in version 1.02 or greater) 1540/41/70: 35 1571: 35 1581: 80 (Logical single-sided disk)
+@item $08
+@tab Number of disk sides in image. This value must be $00 for all 1541 and 1581 formats. $00=No second side $01=Second side
+@item $09
+@tab Error data flag.
+@item $0A-$1F
+@tab Unused, set to $00
+@item $20-$3E
+@tab Disk image description (in ASCII or ISO Latin/1)
+@item $3F
+@tab Always set to $00
+@item $40-
+@tab Standard C64 file begins here.
+@end multitable
+
+The device types are:
+
+@multitable @columnfractions .2 .8
+@item @b{Value}
+@tab @b{Drive type}
+@item $00
+@tab 1540 See note below...
+@item $01
+@tab 1541 (Default)
+@item $02
+@tab 1542
+@item $03
+@tab 1551
+@item $04
+@tab 1570
+@item $05
+@tab 1571
+@item $06
+@tab 1572
+@item $08
+@tab 1581
+@item $10
+@tab 2031 or 4031
+@item $11
+@tab 2040 or 3040
+@item $12
+@tab 2041
+@item $18
+@tab 4040
+@item $20
+@tab 8050
+@item $21
+@tab 8060
+@item $22
+@tab 8061
+@item $30
+@tab SFD-1001
+@item $31
+@tab 8250
+@item $32
+@tab 8280
+@end multitable
+
+The first four bytes used for the device type at position $06
+($00 to $03) are functionally the same, and are compatible with
+older version of X64 files. Some old X64 files might have $00
+for the device type (instead of $01), but it makes no real
+difference.
+
+As most instances of X64 files will be strictly 1541 images,
+bytes $08-$3F are set to zero, and some versions of the X64
+emulator don't use bytes $08-$3F.
 
 @node Acknowledgments, Copyright, File formats, Top
 @chapter Acknowledgments
