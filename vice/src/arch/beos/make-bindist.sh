@@ -52,19 +52,19 @@ cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET BeVICE-$VICEVERSION.$BEOSCPU
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER BeVICE-$VICEVERSION.$BEOSCPU
 cp -a $TOPSRCDIR/data/VIC20 BeVICE-$VICEVERSION.$BEOSCPU
 cp -a $TOPSRCDIR/data/fonts BeVICE-$VICEVERSION.$BEOSCPU
-mkdir BeVICE-$VICEVERSION.$BEOSCPU/doc
-cp -a $TOPSRCDIR/doc/html BeVICE-$VICEVERSION.$BEOSCPU/doc
-cp $TOPSRCDIR/doc/iec-bus.txt BeVICE-$VICEVERSION.$BEOSCPU/doc
-cp $TOPSRCDIR/doc/Readme.beos BeVICE-$VICEVERSION.$BEOSCPU/doc
+
+cp -a $TOPSRCDIR/doc/html BeVICE-$VICEVERSION.$BEOSCPU
+cp $TOPSRCDIR/doc/readmes/Readme-BeOS.txt BeVICE-$VICEVERSION.$BEOSCPU
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README BeVICE-$VICEVERSION.$BEOSCPU
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "Makefile*"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vkm" -and ! -name "beos*.vkm"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "*.vsc"`
 rm `find BeVICE-$VICEVERSION.$BEOSCPU -name "win_*.v*"`
-if [ -e BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html ]
-then
-  rm BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html
-fi
+rm BeVICE-$VICEVERSION.$BEOSCPU/html/texi2html
+
+# just in case ...
+rm -f -r `find BeVICE-$VICEVERSION.$BEOSCPU -name ".svn"`
+
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q BeVICE-$VICEVERSION.$BEOSCPU.zip BeVICE-$VICEVERSION.$BEOSCPU

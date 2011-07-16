@@ -56,19 +56,19 @@ cp -a $TOPSRCDIR/data/PLUS4 SDLVICE-$BEOSCPU-beos-$VICEVERSION
 cp -a $TOPSRCDIR/data/PRINTER SDLVICE-$BEOSCPU-beos-$VICEVERSION
 cp -a $TOPSRCDIR/data/VIC20 SDLVICE-$BEOSCPU-beos-$VICEVERSION
 cp -a $TOPSRCDIR/data/fonts SDLVICE-$BEOSCPU-beos-$VICEVERSION
-mkdir SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
-cp -a $TOPSRCDIR/doc/html SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
-cp $TOPSRCDIR/doc/iec-bus.txt SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
-cp $TOPSRCDIR/doc/ReadmeSDL.txt SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
+
+cp -a $TOPSRCDIR/doc/html SDLVICE-$BEOSCPU-beos-$VICEVERSION
+cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt SDLVICE-$BEOSCPU-beos-$VICEVERSION
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README SDLVICE-$BEOSCPU-beos-$VICEVERSION
 rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "Makefile*"`
 rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "*.vkm" -and ! -name "sdl*.vkm"`
 rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "*.vsc"`
 rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "win_*.v*"`
-if [ -e SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html ]
-then
-  rm SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html
-fi
+rm SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html
+
+# just in case ...
+rm -f -r `find BeVICE-$VICEVERSION.$BEOSCPU -name ".svn"`
+
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q SDLVICE-$BEOSCPU-beos-$VICEVERSION.zip SDLVICE-$BEOSCPU-beos-$VICEVERSION

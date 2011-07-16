@@ -82,7 +82,7 @@ $STRIP src/c1541,ff8
 $STRIP src/petcat,ff8
 $STRIP src/cartconv,ff8
 mkdir SDLVICE-riscos$VICEVERMAJOR\_$VICEVERMINOR
-cp $TOPSRCDIR/doc/ReadmeSDL.txt SDLVICE-riscos$VICEVERMAJOR\_$VICEVERMINOR/ReadmeSDL,fff
+cp $TOPSRCDIR/doc/readmes/Readme-SDL.txt SDLVICE-riscos$VICEVERMAJOR\_$VICEVERMINOR/ReadmeSDL,fff
 cp $TOPSRCDIR/src/arch/riscos/binfiles/ReadMeSnd SDLVICE-riscos$VICEVERMAJOR\_$VICEVERMINOR/ReadMeSnd,fff
 mkdir SDLVICE-riscos$VICEVERMAJOR\_$VICEVERMINOR/!Vice128
 cp $TOPSRCDIR/src/arch/riscos/binfiles/runothers SDLVICE-riscos$VICEVERMAJOR\_$VICEVERMINOR/!Vice128/!Run,feb
