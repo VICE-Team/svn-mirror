@@ -9600,6 +9600,8 @@ supported by the emulators.
 * T64::                         The tape image format
 * G64::                         The GCR-encoded disk image format
 * D64::                         The D64 disk image format
+* D71::                         The D71 disk image format
+* X64::                         The X64 disk image format
 @end menu
 
 @node T64, G64, File formats, File formats
@@ -10964,6 +10966,7 @@ header layout (as used in 64COPY) is as follows:
 0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0040: XX XX XX <- standard C64 image starts here....
+@end example
 
 @multitable @columnfractions .2 .8
 @item @b{Bytes}
