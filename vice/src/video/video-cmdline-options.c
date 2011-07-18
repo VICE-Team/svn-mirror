@@ -27,9 +27,11 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cmdline.h"
 #include "lib.h"
+#include "resources.h"
 #include "translate.h"
 #include "util.h"
 #include "video.h"
@@ -100,24 +102,18 @@ static cmdline_option_t cmdline_options_chip_hwscale[] =
     CMDLINE_LIST_END
 };
 
-static const char *cname_chip_scale2x[] =
+static const char *cname_chip_renderer_2x[] =
 {
-    "-", "scale2x", "Scale2x",
-    "+", "scale2x", "Scale2x",
+    "-", "filter", "Filter",
     NULL
 };
 
-static cmdline_option_t cmdline_options_chip_scale2x[] =
+static cmdline_option_t cmdline_options_chip_renderer_2x[] =
 {
-    { NULL, SET_RESOURCE,
-      0, NULL, NULL, NULL, (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_SCALE2X,
-      NULL, NULL },
-    { NULL, SET_RESOURCE, 0,
-      NULL, NULL, NULL, (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_SCALE2X,
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SET_VIDEO_FILTER,
       NULL, NULL },
     CMDLINE_LIST_END
 };
@@ -208,6 +204,90 @@ static cmdline_option_t cmdline_options_chip_fullscreen_mode[] =
     CMDLINE_LIST_END
 };
 
+static const char *cname_chip_colors[] =
+{
+    "-", "saturation", "ColorSaturation",
+    "-", "contrast", "ColorContrast",
+    "-", "brightness", "ColorBrightness",
+    "-", "gamma", "ColorGamma",
+    "-", "tint", "ColorTint",
+    NULL
+};
+
+static cmdline_option_t cmdline_options_chip_colors[] =
+{
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_SATURATION,
+      "<0-2000>", NULL },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_CONTRAST,
+      "<0-2000>", NULL },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_BRIGHTNESS,
+      "<0-2000>", NULL },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_GAMMA,
+      "<0-4000>", NULL },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_TINT,
+      "<0-2000>", NULL },
+    CMDLINE_LIST_END
+};
+
+static const char *cname_chip_crtemu_palntsc[] =
+{
+    "-", "oddlinesphase", "PALOddLinePhase",
+    "-", "oddlinesoffset", "PALOddLineOffset",
+    NULL
+};
+
+static const char *cname_chip_crtemu[] =
+{
+    "-", "crtblur", "PALBlur",
+    "-", "crtscanlineshade", "PALScanLineShade",
+    NULL
+};
+
+static cmdline_option_t cmdline_options_chip_crtemu_palntsc[] =
+{
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_ODDLINES_PHASE,
+      "<0-2000>", NULL },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_ODDLINES_OFFSET,
+      "<0-2000>", NULL },
+    CMDLINE_LIST_END
+};
+
+static cmdline_option_t cmdline_options_chip_crtemu[] =
+{
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_BLUR,
+      "<0-1000>", NULL },
+    { NULL, SET_RESOURCE, 1,
+      NULL, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SET_SCANLINE_SHADE,
+      "<0-1000>", NULL },
+    CMDLINE_LIST_END
+};
+
 int video_cmdline_options_chip_init(const char *chipname,
                                     video_chip_cap_t *video_chip_cap)
 {
@@ -271,21 +351,21 @@ int video_cmdline_options_chip_init(const char *chipname,
     }
 
     if (video_chip_cap->scale2x_allowed) {
-        for (i = 0; cname_chip_scale2x[i * 3] != NULL; i++) {
-            cmdline_options_chip_scale2x[i].name
-                = util_concat(cname_chip_scale2x[i * 3], chipname,
-                cname_chip_scale2x[i * 3 + 1], NULL);
-            cmdline_options_chip_scale2x[i].resource_name
-                = util_concat(chipname, cname_chip_scale2x[i * 3 + 2], NULL);
+        for (i = 0; cname_chip_renderer_2x[i * 3] != NULL; i++) {
+            cmdline_options_chip_renderer_2x[i].name
+                = util_concat(cname_chip_renderer_2x[i * 3], chipname,
+                cname_chip_renderer_2x[i * 3 + 1], NULL);
+            cmdline_options_chip_renderer_2x[i].resource_name
+                = util_concat(chipname, cname_chip_renderer_2x[i * 3 + 2], NULL);
         }
 
-        if (cmdline_register_options(cmdline_options_chip_scale2x) < 0) {
+        if (cmdline_register_options(cmdline_options_chip_renderer_2x) < 0) {
             return -1;
         }
 
-        for (i = 0; cname_chip_scale2x[i * 3] != NULL; i++) {
-            lib_free((char *)cmdline_options_chip_scale2x[i].name);
-            lib_free((char *)cmdline_options_chip_scale2x[i].resource_name);
+        for (i = 0; cname_chip_renderer_2x[i * 3] != NULL; i++) {
+            lib_free((char *)cmdline_options_chip_renderer_2x[i].name);
+            lib_free((char *)cmdline_options_chip_renderer_2x[i].resource_name);
         }
     }
 
@@ -328,6 +408,7 @@ int video_cmdline_options_chip_init(const char *chipname,
         lib_free((char *)cmdline_options_chip_palette[i].resource_name);
     }
 
+    /* fullscreen options */
     if (video_chip_cap->fullscreen.device_num > 0) {
         for (i = 0; cname_chip_fullscreen[i * 3] != NULL; i++) {
             cmdline_options_chip_fullscreen[i].name
@@ -368,6 +449,60 @@ int video_cmdline_options_chip_init(const char *chipname,
                 lib_free((char *)cmdline_options_chip_fullscreen_mode[i].resource_name);
             }
         }
+    }
+
+    /* color generator */
+    for (i = 0; cname_chip_colors[i * 3] != NULL; i++) {
+        cmdline_options_chip_colors[i].name
+            = util_concat(cname_chip_colors[i * 3], chipname,
+            cname_chip_colors[i * 3 + 1], NULL);
+        cmdline_options_chip_colors[i].resource_name
+            = util_concat(chipname, cname_chip_colors[i * 3 + 2], NULL);
+    }
+
+    if (cmdline_register_options(cmdline_options_chip_colors) < 0) {
+        return -1;
+    }
+
+    for (i = 0; cname_chip_colors[i * 3] != NULL; i++) {
+        lib_free((char *)cmdline_options_chip_colors[i].name);
+        lib_free((char *)cmdline_options_chip_colors[i].resource_name);
+    }
+
+    /* crt emulation */
+
+    for (i = 0; cname_chip_crtemu[i * 3] != NULL; i++) {
+        cmdline_options_chip_crtemu[i].name
+            = util_concat(cname_chip_crtemu[i * 3], chipname,
+            cname_chip_crtemu[i * 3 + 1], NULL);
+        cmdline_options_chip_crtemu[i].resource_name
+            = util_concat(chipname, cname_chip_crtemu[i * 3 + 2], NULL);
+    }
+
+    if (cmdline_register_options(cmdline_options_chip_crtemu) < 0) {
+        return -1;
+    }
+
+    for (i = 0; cname_chip_crtemu[i * 3] != NULL; i++) {
+        lib_free((char *)cmdline_options_chip_crtemu[i].name);
+        lib_free((char *)cmdline_options_chip_crtemu[i].resource_name);
+    }
+
+    for (i = 0; cname_chip_crtemu_palntsc[i * 3] != NULL; i++) {
+        cmdline_options_chip_crtemu_palntsc[i].name
+            = util_concat(cname_chip_crtemu_palntsc[i * 3], chipname,
+            cname_chip_crtemu_palntsc[i * 3 + 1], NULL);
+        cmdline_options_chip_crtemu_palntsc[i].resource_name
+            = util_concat(chipname, cname_chip_crtemu_palntsc[i * 3 + 2], NULL);
+    }
+
+    if (cmdline_register_options(cmdline_options_chip_crtemu_palntsc) < 0) {
+        return -1;
+    }
+
+    for (i = 0; cname_chip_crtemu_palntsc[i * 3] != NULL; i++) {
+        lib_free((char *)cmdline_options_chip_crtemu_palntsc[i].name);
+        lib_free((char *)cmdline_options_chip_crtemu_palntsc[i].resource_name);
     }
 
     return 0;

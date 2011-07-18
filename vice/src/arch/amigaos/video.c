@@ -91,7 +91,6 @@
 #include <cybergraphx/cgxvideo.h>
 #include <proto/cgxvideo.h>
 #include "video/renderyuv.h"
-#include "video/video-resources.h"
 #endif
 
 
@@ -879,8 +878,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
                 /* everything else is preset at creation time */
                 canvas->vlayer_image.data = (APTR)cgx_base_addy;
 
-                render_yuv_image(doublesize, canvas->videoconfig->doublescan, video_resources.delayloop_emulation,
-                                 video_resources.pal_blur * 64 / 1000, video_resources.pal_scanlineshade * 1024 / 1000,
+                render_yuv_image(doublesize, canvas->videoconfig->doublescan, (canvas->videoconfig->filter == VIDEO_FILTER_CRT),
+                                 canvas->videoconfig->video_resources.pal_blur * 64 / 1000, canvas->videoconfig->video_resources.pal_scanlineshade * 1024 / 1000,
                                  canvas->vlayer_yuvfmt, &canvas->vlayer_image, canvas->draw_buffer->draw_buffer,
                                  canvas->draw_buffer->draw_buffer_width, canvas->videoconfig,
                                  xs, ys,

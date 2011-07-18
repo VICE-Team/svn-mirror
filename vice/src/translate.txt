@@ -1486,10 +1486,7 @@ IDCLS_ENABLE_HARDWARE_SCALING
 IDCLS_DISABLE_HARDWARE_SCALING
 
 /* video/video-cmdline-options.c */
-IDCLS_ENABLE_SCALE2X
-
-/* video/video-cmdline-options.c */
-IDCLS_DISABLE_SCALE2X
+IDCLS_SET_VIDEO_FILTER
 
 /* video/video-cmdline-options.c */
 IDCLS_USE_INTERNAL_CALC_PALETTE

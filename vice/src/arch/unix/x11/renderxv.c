@@ -35,7 +35,6 @@
 #include "renderxv.h"
 
 #include "video.h"
-#include "video/video-resources.h"
 
 #include <stdio.h>
 #include <string.h>

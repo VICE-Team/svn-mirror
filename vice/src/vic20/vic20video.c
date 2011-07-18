@@ -40,9 +40,9 @@ void machine_video_init(void)
 
 int machine_video_resources_init(void)
 {
-    if (video_resources_pal_init() < 0
-        || video_resources_init() < 0)
+    if (video_resources_init() < 0) {
         return -1;
+    }
 
     return 0;
 }

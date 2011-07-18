@@ -33,6 +33,4 @@ struct palette_s;
 extern int video_canvas_palette_set(struct video_canvas_s *canvas,
                                     struct palette_s *palette);
 
-extern struct video_canvas_s *video_current_canvas;
-
 #endif

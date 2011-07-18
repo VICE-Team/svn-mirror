@@ -45,7 +45,6 @@
 #include "resources.h"
 #include "types.h"
 #include "video-render.h"
-#include "video-resources.h"
 #include "video.h"
 
 #ifdef DINGOO_NATIVE
@@ -73,19 +72,13 @@ static void video_render_crt_main(video_render_config_t *config,
     colortab = &config->color_tables;
     scale2x = config->scale2x;
 
-    /* FIXME: bad name. this toggles the CRT emulation */
-    delayloop = video_resources.delayloop_emulation;
-
-    /*
-    if (config->external_palette)
-        delayloop = 0;
-    */
+    delayloop = (config->filter == VIDEO_FILTER_CRT);
 
     if ((rendermode == VIDEO_RENDER_CRT_1X1
         || rendermode == VIDEO_RENDER_CRT_1X2
         || rendermode == VIDEO_RENDER_CRT_2X2
         || rendermode == VIDEO_RENDER_CRT_2X4)
-        && video_resources.pal_scanlineshade <= 0) {
+        && config->video_resources.pal_scanlineshade <= 0) {
         doublescan = 0;
     }
 
@@ -138,17 +131,17 @@ static void video_render_crt_main(video_render_config_t *config,
                 case 16:
                     render_16_1x2_crt(colortab, src, trg, width, height,
                                     xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
+                                    viewport, config);
                     return;
                 case 24:
                     render_24_1x2_crt(colortab, src, trg, width, height,
                                     xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
+                                    viewport, config);
                     return;
                 case 32:
                     render_32_1x2_crt(colortab, src, trg, width, height,
                                     xs, ys, xt, yt, pitchs, pitcht,
-                                    viewport);
+                                    viewport, config);
                     return;
             }
         } else {
@@ -196,15 +189,15 @@ static void video_render_crt_main(video_render_config_t *config,
             switch (depth) {
                 case 16:
                     render_16_2x2_crt(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                     return;
                 case 24:
                     render_24_2x2_crt(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                     return;
                 case 32:
                     render_32_2x2_crt(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                     return;
             }
         } else {
@@ -233,15 +226,15 @@ static void video_render_crt_main(video_render_config_t *config,
             switch (depth) {
                 case 16:
                     render_16_2x4_crt(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                     return;
                 case 24:
                     render_24_2x4_crt(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                     return;
                 case 32:
                     render_32_2x4_crt(colortab, src, trg, width, height,
-                                    xs, ys, xt, yt, pitchs, pitcht, viewport);
+                                    xs, ys, xt, yt, pitchs, pitcht, viewport, config);
                     return;
             }
         } else {

@@ -39,7 +39,6 @@
 #include "uimenu.h"
 #include "uivicii.h"
 #include "uipalemu.h"
-#include "uirenderer.h"
 #include "util.h"
 #include "vicii.h"
 
@@ -94,18 +93,15 @@ static ui_menu_entry_t bordermode_submenu[] = {
     { NULL }
 };
 
-static UI_CALLBACK(radio_renderer)
-{
-    ui_select_renderer(w, CHECK_MENUS, vice_ptr_to_int(UI_MENU_CB_PARAM), "VICII");
-}
+UI_MENU_DEFINE_RADIO(VICIIFilter)
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
-      (ui_callback_data_t)0, NULL },
-    { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
-      (ui_callback_data_t)1, NULL },
-    { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
-      (ui_callback_data_t)2, NULL },
+    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIFilter,
+      (ui_callback_data_t)VIDEO_FILTER_NONE, NULL },
+    { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIFilter,
+      (ui_callback_data_t)VIDEO_FILTER_CRT, NULL },
+    { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIFilter,
+      (ui_callback_data_t)VIDEO_FILTER_SCALE2X, NULL },
     { NULL }
 };
 
@@ -176,12 +172,16 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
+#ifndef USE_GNOMEUI
+    { N_("Color settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Render filter"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
     { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, PALMode_submenu },
+      NULL, NULL, NULL },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Border mode"), UI_MENU_TYPE_NORMAL,
@@ -226,10 +226,18 @@ ui_menu_entry_t vicii_submenu[] = {
 
 void uivicii_menu_create(void)
 {
+#ifndef USE_GNOMEUI
+    vicii_submenu[6].sub_menu = build_color_menu("VICII");
+    vicii_submenu[9].sub_menu = build_crt_menu("VICII");
+#endif
     UI_FULLSCREEN_MENU_CREATE(VICII)
 }
 
 void uivicii_menu_shutdown(void)
 {
+#ifndef USE_GNOMEUI
+    shutdown_color_menu(vicii_submenu[6].sub_menu);
+    shutdown_crt_menu(vicii_submenu[9].sub_menu);
+#endif
     UI_FULLSCREEN_MENU_SHUTDOWN(VICII)
 }

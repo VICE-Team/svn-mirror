@@ -9148,33 +9148,18 @@ translate_t string_table[] = {
 #endif
 
 /* video/video-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_SCALE2X,    N_("Enable Scale2x")},
+/* en */ {IDCLS_SET_VIDEO_FILTER,    N_("Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_SCALE2X_DA, "Aktivér Scale2x"},
-/* de */ {IDCLS_ENABLE_SCALE2X_DE, "Scale2x aktivieren"},
-/* fr */ {IDCLS_ENABLE_SCALE2X_FR, "Activer Scale2x"},
-/* hu */ {IDCLS_ENABLE_SCALE2X_HU, "Élsimítás engedélyezése"},
-/* it */ {IDCLS_ENABLE_SCALE2X_IT, "Attiva Scale2x"},
-/* ko */ {IDCLS_ENABLE_SCALE2X_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SCALE2X_NL, "Activeer Schaal2x"},
-/* ru */ {IDCLS_ENABLE_SCALE2X_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SCALE2X_SV, "Aktivera Scale2x"},
-/* tr */ {IDCLS_ENABLE_SCALE2X_TR, "2x Geniþlet'i aktif et"},
-#endif
-
-/* video/video-cmdline-options.c */
-/* en */ {IDCLS_DISABLE_SCALE2X,    N_("Disable Scale2x")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_SCALE2X_DA, "Deaktivér Scale2x"},
-/* de */ {IDCLS_DISABLE_SCALE2X_DE, "Scale2x deaktivieren"},
-/* fr */ {IDCLS_DISABLE_SCALE2X_FR, "Désactiver Scale2x"},
-/* hu */ {IDCLS_DISABLE_SCALE2X_HU, "Élsimítás tiltása"},
-/* it */ {IDCLS_DISABLE_SCALE2X_IT, "Disattiva Scale2x"},
-/* ko */ {IDCLS_DISABLE_SCALE2X_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SCALE2X_NL, "Schaal2x uitschakelen"},
-/* ru */ {IDCLS_DISABLE_SCALE2X_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SCALE2X_SV, "Inaktivera Scale2x"},
-/* tr */ {IDCLS_DISABLE_SCALE2X_TR, "2x Geniþlet'i pasifleþtir"},
+/* da */ {IDCLS_SET_VIDEO_FILTER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_VIDEO_FILTER_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VIDEO_FILTER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_VIDEO_FILTER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_VIDEO_FILTER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_VIDEO_FILTER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VIDEO_FILTER_NL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_VIDEO_FILTER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VIDEO_FILTER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_VIDEO_FILTER_TR, ""},  /* fuzzy */
 #endif
 
 /* video/video-cmdline-options.c */

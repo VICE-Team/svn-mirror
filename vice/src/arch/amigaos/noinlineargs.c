@@ -90,7 +90,6 @@
 #include <cybergraphx/cgxvideo.h>
 #include <proto/cgxvideo.h>
 #include "video/renderyuv.h"
-#include "video/video-resources.h"
 #endif
 
 #define TAGAMOUNT(start_var, type) va_start(ap, start_var);     \

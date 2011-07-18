@@ -209,7 +209,6 @@ static int init_raster(void)
     raster_t *raster;
 
     raster = &vic.raster;
-    video_color_set_canvas(raster->canvas);
 
     raster->sprite_status = NULL;
     raster_line_changes_init(raster);

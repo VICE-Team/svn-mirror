@@ -27,27 +27,11 @@
 #ifndef VICE_VIDEO_RESOURCES_H
 #define VICE_VIDEO_RESOURCES_H
 
-#define VIDEO_RESOURCE_PAL_MODE_FAST    0
-#define VIDEO_RESOURCE_PAL_MODE_TRUE    1
-#define VIDEO_RESOURCE_PAL_MODE_NEW     2
+/* FIXME: things that were previously in this file have been either removed or
+          moved to video.h, and it is currently not included by any file(s).
 
-struct video_resources_s
-{
-    int color_saturation;
-    int color_contrast;
-    int color_brightness;
-    int color_gamma;
-    int color_tint;
-    int delayloop_emulation;    /* flag for fake PAL emu */
-    int pal_scanlineshade;      /* amount of scanline shade */
-    int pal_blur;               /* exact pal emu, luma blur */
-    int pal_oddlines_phase;     /* exact pal emu, oddlines UV phase offset */
-    int pal_oddlines_offset;    /* exact pal emu, oddlines UV multiplier */
-};
-
-typedef struct video_resources_s video_resources_t;
-
-extern video_resources_t video_resources;
+   TODO:  move related stuff from video.h, which is "private" to the video system,
+          back here.
+*/
 
 #endif
-

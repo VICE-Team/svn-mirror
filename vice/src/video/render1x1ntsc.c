@@ -29,7 +29,6 @@
 
 #include "render1x1ntsc.h"
 #include "types.h"
-#include "video-resources.h"
 #include "video-color.h"
 
 /*

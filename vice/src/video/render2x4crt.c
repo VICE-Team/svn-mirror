@@ -32,7 +32,6 @@
 #include "render2x4.h"
 #include "render2x4crt.h"
 #include "types.h"
-#include "video-resources.h"
 #include "video-color.h"
 
 /*
@@ -279,7 +278,7 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
                             BYTE *const line, BYTE *const scanline,
                             SWORD *const prevline, const int shade,
                             SDWORD l, SDWORD u, SDWORD v),
-                       const int write_interpolated_pixels)
+                       const int write_interpolated_pixels, video_render_config_t *config)
 {
     SWORD *prevrgblineptr;
     const SDWORD *ytablel = color_tab->ytablel;
@@ -307,7 +306,7 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
      * for one full line after it! */
 
     /* Calculate odd line shading */
-    shade = (int) ((float) video_resources.pal_scanlineshade / 1000.0f * 256.f);
+    shade = (int) ((float) config->video_resources.pal_scanlineshade / 1000.0f * 256.f);
     off_flip = 1 << 6;
 
     /* height & 1 == 0. */
@@ -441,11 +440,11 @@ void render_UYVY_2x4_crt(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport)
+                       viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_UYVY, 0);
+                           4, store_line_and_scanline_UYVY, 0, config);
 }
 
 void render_YUY2_2x4_crt(video_render_color_tables_t *color_tab,
@@ -454,11 +453,11 @@ void render_YUY2_2x4_crt(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport)
+                       viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_YUY2, 0);
+                           4, store_line_and_scanline_YUY2, 0, config);
 }
 
 void render_YVYU_2x4_crt(video_render_color_tables_t *color_tab,
@@ -467,11 +466,11 @@ void render_YVYU_2x4_crt(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport)
+                       viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_YVYU, 0);
+                           4, store_line_and_scanline_YVYU, 0, config);
 }
 
 void render_16_2x4_crt(video_render_color_tables_t *color_tab,
@@ -480,11 +479,11 @@ void render_16_2x4_crt(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport)
+                       viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
-                           2, store_line_and_scanline_2, 1);
+                           2, store_line_and_scanline_2, 1, config);
 }
 
 void render_24_2x4_crt(video_render_color_tables_t *color_tab,
@@ -493,11 +492,11 @@ void render_24_2x4_crt(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport)
+                       viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
-                           3, store_line_and_scanline_3, 1);
+                           3, store_line_and_scanline_3, 1, config);
 }
 
 void render_32_2x4_crt(video_render_color_tables_t *color_tab,
@@ -506,9 +505,9 @@ void render_32_2x4_crt(video_render_color_tables_t *color_tab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport)
+                       viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x4_crt(color_tab, src, trg, width, height, xs, ys,
                            xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_4, 1);
+                           4, store_line_and_scanline_4, 1, config);
 }

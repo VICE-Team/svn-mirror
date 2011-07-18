@@ -468,13 +468,15 @@ struct {
     Atom atom;
     int min;
     int max;
+    int v_max;
     int *value;
 }
+
 xv_settings[] = {
-    { "XV_SATURATION", 0, 0, 0, &video_resources.color_saturation },
-    { "XV_CONTRAST", 0, 0, 0, &video_resources.color_contrast },
-    { "XV_BRIGHTNESS", 0, 0, 0, &video_resources.color_brightness },
-    { "XV_GAMMA", 0, 0, 0, &video_resources.color_gamma }
+    { "XV_SATURATION", 0, 0, 0, 2000, NULL },
+    { "XV_CONTRAST", 0, 0, 0, 2000, NULL },
+    { "XV_BRIGHTNESS", 0, 0, 0, 2000, NULL },
+    { "XV_GAMMA", 0, 0, 0, 4000, NULL }
 };
 
 static void init_xv_settings(video_canvas_t *canvas)
@@ -485,6 +487,12 @@ static void init_xv_settings(video_canvas_t *canvas)
         int numattr = 0;
         Display *dpy = x11ui_get_display_ptr();
         XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port, &numattr);
+
+        xv_settings[0].value = &(canvas->videoconfig->video_resources.color_saturation);
+        xv_settings[1].value = &(canvas->videoconfig->video_resources.color_contrast);
+        xv_settings[2].value = &(canvas->videoconfig->video_resources.color_brightness);
+        xv_settings[3].value = &(canvas->videoconfig->video_resources.color_gamma);
+
         for (i = 0; i < (int)(sizeof(xv_settings)/sizeof(xv_settings[0])); i++) {
             xv_settings[i].atom = 0;
 
@@ -710,11 +718,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     new_height = *height;
 
     if (canvas->videoconfig->doublesizex) {
-        new_width *= 2;
+        new_width *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        new_height *= 2;
+        new_height *= (canvas->videoconfig->doublesizey + 1);
     }
 
 #ifdef HAVE_XVIDEO
@@ -786,7 +794,7 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 
         for (i = 0; i < (int)(sizeof(xv_settings) / sizeof(xv_settings[0])); i++) {
             /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
-            int v_min = 0, v_max = 2000;
+            int v_min = 0, v_max = xv_settings[i].v_max;
             int v_zero = (v_min + v_max) / 2;
             int v_range = v_max - v_min;
 
@@ -824,11 +832,11 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
     }
 #endif
     if (canvas->videoconfig->doublesizex) {
-        width *= 2;
+        width *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        height *= 2;
+        height *= (canvas->videoconfig->doublesizey + 1);
     }
 
     video_arch_frame_buffer_free(canvas);
@@ -877,16 +885,15 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
         Window root;
         int x, y;
         unsigned int border_width, depth;
-        unsigned int canvas_height;
         double local_aspect_ratio;
 
         display = x11ui_get_display_ptr();
 
         render_yuv_image(doublesize,
                          canvas->viewport,
-                         video_resources.delayloop_emulation,
-                         video_resources.pal_blur * 64 / 1000,
-                         video_resources.pal_scanlineshade * 1024 / 1000,
+                         (canvas->videoconfig->filter == VIDEO_FILTER_CRT),
+                         canvas->videoconfig->video_resources.pal_blur * 64 / 1000,
+                         canvas->videoconfig->video_resources.pal_scanlineshade * 1024 / 1000,
                          canvas->xv_format,
                          &canvas->yuv_image,
                          canvas->draw_buffer->draw_buffer,
@@ -894,13 +901,6 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
                          canvas->videoconfig,
                          xs, ys, w, h,
                          xi, yi);
-
-        /*
-         * render_yuv_image() doesn't handle 1x2 drawing modes.
-         * So it mistakenly fills only half the canvas vertically.
-         * However, that is what we can use the hardware scaling for!
-         */
-        canvas_height = canvas->height;
 
         if (trueaspect) {
             local_aspect_ratio = canvas->geometry->pixel_aspect_ratio;
@@ -910,16 +910,11 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
             local_aspect_ratio = 0.0;
         }
 
-        if (!doublesize && canvas->videoconfig->doublesizey) {
-            canvas_height /= 2;
-            local_aspect_ratio /= 2;
-        }
-
         XGetGeometry(display, canvas->drawable, &root, &x, &y, &canvas->xv_geometry.w, &canvas->xv_geometry.h, &border_width, &depth);
 
         /* Xv does subpixel scaling. Since coordinates are in integers we
            refresh the entire image to get it right. */
-        display_yuv_image(display, canvas->xv_port, canvas->drawable, _video_gc, canvas->xv_image, shminfo, 0, 0, canvas->width, canvas_height, &canvas->xv_geometry, local_aspect_ratio);
+        display_yuv_image(display, canvas->xv_port, canvas->drawable, _video_gc, canvas->xv_image, shminfo, 0, 0, canvas->width, canvas->height, &canvas->xv_geometry, local_aspect_ratio);
 
         if (_video_use_xsync) {
             XSync(display, False);
@@ -930,13 +925,13 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 #endif
 
     if (canvas->videoconfig->doublesizex) {
-        xi *= 2;
-        w *= 2;
+        xi *= (canvas->videoconfig->doublesizex + 1);
+        w *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        yi *= 2;
-        h *= 2;
+        yi *= (canvas->videoconfig->doublesizey + 1);
+        h *= (canvas->videoconfig->doublesizey + 1);
     }
 
 #ifdef HAVE_FULLSCREEN

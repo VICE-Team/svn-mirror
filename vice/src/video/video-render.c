@@ -32,11 +32,15 @@
 #include "log.h"
 #include "render1x1.h"
 #include "render1x1pal.h"
+#include "render1x1ntsc.h"
+#include "render1x2crt.h"
+#include "render2x2crt.h"
+#include "render2x2ntsc.h"
 #include "render2x2pal.h"
+#include "render2x4crt.h"
 #include "renderyuv.h"
 #include "types.h"
 #include "video-render.h"
-#include "video-resources.h"
 #include "video.h"
 
 static void(*render_1x2_func)(video_render_config_t *, const BYTE *, BYTE *,
@@ -60,14 +64,6 @@ static void(*render_pal_func)(video_render_config_t *, BYTE *, BYTE *,
 static void(*render_crt_func)(video_render_config_t *, BYTE *, BYTE *,
                               int, int, int, int,
                               int, int, int, int, int, viewport_t *);
-
-
-/* this function is the interface to the outer world */
-
-int video_render_get_fake_pal_state(void)
-{
-    return video_resources.delayloop_emulation;
-}
 
 void video_render_initconfig(video_render_config_t *config)
 {
@@ -157,7 +153,7 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
                              xs, ys, xt, yt, pitchs, pitcht);
             return;
         }
-        return;
+        break;
 
       case VIDEO_RENDER_RGB_1X2:
         (*render_1x2_func)(config, src, trg, width, height,
@@ -211,6 +207,14 @@ void video_render_crtfunc_set(void(*func)(video_render_config_t *,
     render_crt_func = func;
 }
 
+/*******************************************************************************
+  YUV rendering
+  - used by XAW and AmigaOS ports
+
+  FIXME: - several sub renderers are missing
+         - the prototype of this function should be changed to be the same
+           as the one of video_render_main()
+*******************************************************************************/
 
 #ifdef HAVE_XVIDEO
 /* Render YUV 4:2:2 and 4:1:1 formats. */
@@ -276,100 +280,477 @@ void render_yuv_image(int double_size,
             return;
     }
 
-    if (double_size) {
-        /* 2x2 */
-        if (planar) {
-            if (!true_pal_mode) {
-                renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
-                                   src, src_pitch, config->color_tables.yuv_table,
-                                   src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                   double_scan, pal_scanline_shade);
+    switch (config->rendermode) {
+      case VIDEO_RENDER_NULL:
+          return;
+        break;
+
+      case VIDEO_RENDER_PAL_1X1:
+            if (planar) {
+                if (!true_pal_mode) {
+                    /* planar, 1x1, no filter */
+                    renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                } else {
+                    /* planar, 1x1, pal filter */
+                    renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
+                                        src, src_pitch, config->color_tables.yuv_table,
+                                        src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                        pal_blur);
+/* FIXME: implement renderyuv_4_1_1_ntsc */
+                }
+                return;
             } else {
-                renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
-                                       src, src_pitch, config->color_tables.yuv_table,
-                                       src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                       pal_blur, double_scan, pal_scanline_shade);
-            }
-        } else {
-            if (!true_pal_mode) {
-                renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-                                   src, src_pitch, config->color_tables.yuv_table,
-                                   src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                   double_scan, pal_scanline_shade);
-            } else {
-                src_w *= 2;
-                src_h *= 2;
-                dest_y *= 2;
-                switch (format.id) {
-                    case FOURCC_UYVY:
-                        render_UYVY_2x2_pal(
-                            &config->color_tables, src, image->data + image->offsets[0],
-                            src_w, src_h, src_x, src_y,
-                            dest_x, dest_y, src_pitch, image->pitches[0], viewport
-                        );
-                        break;
-                    case FOURCC_YUY2:
-                        render_YUY2_2x2_pal(
-                            &config->color_tables, src, image->data + image->offsets[0],
-                            src_w, src_h, src_x, src_y,
-                            dest_x, dest_y, src_pitch, image->pitches[0], viewport
-                        );
-                        break;
-                    case FOURCC_YVYU:
-                        render_YVYU_2x2_pal(
-                            &config->color_tables, src, image->data + image->offsets[0],
-                            src_w, src_h, src_x, src_y,
-                            dest_x, dest_y, src_pitch, image->pitches[0], viewport
-                        );
-                        break;
+                if (!true_pal_mode) {
+                    /* not planar, 1x1, no filter */
+                    renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                    return;
+                } else {
+                    if (viewport->crt_type) {
+                        /* not planar, 1x1, pal filter */
+                        switch (format.id) {
+                            case FOURCC_UYVY:
+                                render_UYVY_1x1_pal(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], config
+                                );
+                                return;
+                            case FOURCC_YUY2:
+                                render_YUY2_1x1_pal(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], config
+                                );
+                                return;
+                            case FOURCC_YVYU:
+                                render_YVYU_1x1_pal(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], config
+                                );
+                                return;
+                        }
+                    } else {
+                        /* not planar, 1x1, ntsc filter */
+                        switch (format.id) {
+                            case FOURCC_UYVY:
+                                render_UYVY_1x1_ntsc(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0]
+                                );
+                                return;
+                            case FOURCC_YUY2:
+                                render_YUY2_1x1_ntsc(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0]
+                                );
+                                return;
+                            case FOURCC_YVYU:
+                                render_YVYU_1x1_ntsc(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0]
+                                );
+                                return;
+                        }
+                    }
                 }
             }
-        }
-    } else {
-        /* 1x1 */
-        if (planar) {
-            if (!true_pal_mode) {
+        break;
+      case VIDEO_RENDER_PAL_2X2:
+            if (planar) {
+                if (!true_pal_mode) {
+                    /* planar, 2x2, no filter */
+                    renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                    double_scan, pal_scanline_shade);
+                } else {
+                    /* planar, 2x2, pal filter */
+                    renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
+                                        src, src_pitch, config->color_tables.yuv_table,
+                                        src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                        pal_blur, double_scan, pal_scanline_shade);
+/* FIXME: implement renderyuv_2x_4_1_1_ntsc */
+                }
+                return;
+            } else {
+                if (!true_pal_mode) {
+                    /* not planar, 2x2, no filter */
+                    renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                    double_scan, pal_scanline_shade);
+                    return;
+                } else {
+                    src_w *= 2;
+                    src_h *= 2;
+                    dest_y *= 2;
+                    if (viewport->crt_type) {
+                        /* not planar, 2x2, pal filter */
+                        switch (format.id) {
+                            case FOURCC_UYVY:
+                                render_UYVY_2x2_pal(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                                );
+                                return;
+                            case FOURCC_YUY2:
+                                render_YUY2_2x2_pal(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                                );
+                                return;
+                            case FOURCC_YVYU:
+                                render_YVYU_2x2_pal(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                                );
+                                return;
+                        }
+                    } else {
+                        /* not planar, 2x2, ntsc filter */
+                        switch (format.id) {
+                            case FOURCC_UYVY:
+                                render_UYVY_2x2_ntsc(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                                );
+                                return;
+                            case FOURCC_YUY2:
+                                render_YUY2_2x2_ntsc(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                                );
+                                return;
+                            case FOURCC_YVYU:
+                                render_YVYU_2x2_ntsc(
+                                    &config->color_tables, src, image->data + image->offsets[0],
+                                    src_w, src_h, src_x, src_y,
+                                    dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                                );
+                                return;
+                        }
+                    }
+                }
+            }
+        break;
+
+      case VIDEO_RENDER_CRT_1X1:
+            if (planar) {
+                /* planar, 1x1, no filter */
+                renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+                return;
+            } else {
+                /* not planar, 1x1, no filter */
+                renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+                return;
+            }
+/* FIXME: implement renderyuv_4_1_1_crt, render_UYVY_1x1_crt, render_YUY2_1x1_crt, render_YVYU_1x1_crt */
+#if 0
+            if (planar) {
+                if (!true_pal_mode) {
+                    /* planar, 1x1, no filter */
+                    renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                } else {
+                    /* planar, 1x1, crt filter */
+                    renderyuv_4_1_1_crt(image, plane_y, plane_u, plane_v,
+                                        src, src_pitch, config->color_tables.yuv_table,
+                                        src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                        pal_blur);
+                }
+                return;
+            } else {
+                if (!true_pal_mode) {
+                    /* not planar, 1x1, no filter */
+                    renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                    return;
+                } else {
+                    /* not planar, 1x1, crt filter */
+                    switch (format.id) {
+                        case FOURCC_UYVY:
+                            render_UYVY_1x1_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], config
+                            );
+                            return;
+                        case FOURCC_YUY2:
+                            render_YUY2_1x1_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], config
+                            );
+                            return;
+                        case FOURCC_YVYU:
+                            render_YVYU_1x1_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], config
+                            );
+                            return;
+                    }
+                }
+            }
+#endif
+        break;
+      case VIDEO_RENDER_CRT_1X2:
+            if (planar) {
+/* FIXME: implement renderyuv_1x2_4_1_1, renderyuv_1x2_4_1_1_crt */
+#if 0
+                if (!true_pal_mode) {
+                    /* planar, 1x2, no filter */
+                    renderyuv_1x2_4_1_1(image, plane_y, plane_u, plane_v,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                } else {
+                    /* planar, 1x2, crt filter */
+                    renderyuv_1x2_4_1_1_crt(image, plane_y, plane_u, plane_v,
+                                        src, src_pitch, config->color_tables.yuv_table,
+                                        src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                        pal_blur);
+                }
+                return;
+#endif
+            } else {
+/* FIXME: implement renderyuv_1x2_4_2_2 */
+#if 0
+                if (!true_pal_mode) {
+                    /* not planar, 1x2, no filter */
+                    renderyuv_1x2_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                    return;
+                } else {
+#endif
+                    /* not planar, 1x2, crt filter */
+                    src_h *= 2;
+                    dest_y *= 2;
+                    switch (format.id) {
+                        case FOURCC_UYVY:
+                            render_UYVY_1x2_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                        case FOURCC_YUY2:
+                            render_YUY2_1x2_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                        case FOURCC_YVYU:
+                            render_YVYU_1x2_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                    }
+                }
+#if 0
+            }
+#endif
+        break;
+      case VIDEO_RENDER_CRT_2X2:
+            if (planar) {
+/* FIXME: implement renderyuv_2x_4_1_1_crt */
+#if 0
+                if (!true_pal_mode) {
+                    /* planar, 2x2, no filter */
+                    renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                    double_scan, pal_scanline_shade);
+                } else {
+                    /* planar, 2x2, crt filter */
+                    renderyuv_2x_4_1_1_crt(image, plane_y, plane_u, plane_v,
+                                        src, src_pitch, config->color_tables.yuv_table,
+                                        src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                        pal_blur, double_scan, pal_scanline_shade);
+                }
+                return;
+#else
+                /* planar, 2x2, no filter */
+                renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                double_scan, pal_scanline_shade);
+                return;
+#endif
+            } else {
+                if (!true_pal_mode) {
+                    /* not planar, 2x2, no filter */
+                    renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                    double_scan, pal_scanline_shade);
+                    return;
+                } else {
+                    /* not planar, 2x2, crt filter */
+                    src_w *= 2;
+                    src_h *= 2;
+                    dest_y *= 2;
+                    switch (format.id) {
+                        case FOURCC_UYVY:
+                            render_UYVY_2x2_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                        case FOURCC_YUY2:
+                            render_YUY2_2x2_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                        case FOURCC_YVYU:
+                            render_YVYU_2x2_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                    }
+                }
+            }
+        break;
+      case VIDEO_RENDER_CRT_2X4:
+            if (planar) {
+/* FIXME: implement renderyuv_2x4_4_1_1, renderyuv_2x4_4_1_1_crt */
+#if 0
+                if (!true_pal_mode) {
+                    /* planar, 2x4, no filter */
+                    renderyuv_2x4_4_1_1(image, plane_y, plane_u, plane_v,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                } else {
+                    /* planar, 2x4, crt filter */
+                    renderyuv_2x4_4_1_1_crt(image, plane_y, plane_u, plane_v,
+                                        src, src_pitch, config->color_tables.yuv_table,
+                                        src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                        pal_blur);
+                }
+                return;
+#endif
+            } else {
+/* FIXME: implement renderyuv_2x4_4_2_2 */
+#if 0
+                if (!true_pal_mode) {
+                    /* not planar, 2x4, no filter */
+                    renderyuv_2x4_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                    src, src_pitch, config->color_tables.yuv_table,
+                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                    return;
+                } else {
+#endif
+                    /* not planar, 2x4, crt filter */
+                    src_w *= 2;
+                    src_h *= 4;
+                    dest_y *= 4;
+                    switch (format.id) {
+                        case FOURCC_UYVY:
+                            render_UYVY_2x4_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                        case FOURCC_YUY2:
+                            render_YUY2_2x4_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+                        case FOURCC_YVYU:
+                            render_YVYU_2x4_crt(
+                                &config->color_tables, src, image->data + image->offsets[0],
+                                src_w, src_h, src_x, src_y,
+                                dest_x, dest_y, src_pitch, image->pitches[0], viewport, config
+                            );
+                            return;
+#if 0
+                    }
+#endif
+                }
+            }
+        break;
+
+      case VIDEO_RENDER_RGB_1X1:
+            if (planar) {
+                /* planar, 1x1, no filter */
                 renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
                                 src, src_pitch, config->color_tables.yuv_table,
                                 src_x, src_y, src_w, src_h, dest_x, dest_y);
             } else {
-                renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
-                                    src, src_pitch, config->color_tables.yuv_table,
-                                    src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                    pal_blur);
-            }
-        } else {
-            if (!true_pal_mode) {
+                /* not planar, 1x1, no filter */
                 renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                                 src, src_pitch, config->color_tables.yuv_table,
                                 src_x, src_y, src_w, src_h, dest_x, dest_y);
-            } else {
-                switch (format.id) {
-                    case FOURCC_UYVY:
-                        render_UYVY_1x1_pal(
-                            &config->color_tables, src, image->data + image->offsets[0],
-                            src_w, src_h, src_x, src_y,
-                            dest_x, dest_y, src_pitch, image->pitches[0]
-                        );
-                        break;
-                    case FOURCC_YUY2:
-                        render_YUY2_1x1_pal(
-                            &config->color_tables, src, image->data + image->offsets[0],
-                            src_w, src_h, src_x, src_y,
-                            dest_x, dest_y, src_pitch, image->pitches[0]
-                        );
-                        break;
-                    case FOURCC_YVYU:
-                        render_YVYU_1x1_pal(
-                            &config->color_tables, src, image->data + image->offsets[0],
-                            src_w, src_h, src_x, src_y,
-                            dest_x, dest_y, src_pitch, image->pitches[0]
-                        );
-                        break;
-                }
             }
-        }
+        return;
+
+      case VIDEO_RENDER_RGB_1X2:
+/* FIXME: implement renderyuv_1x2_4_1_1, renderyuv_1x2_4_2_2 */
+#if 0
+            if (planar) {
+                /* planar, 1x2, no filter */
+                renderyuv_1x2_4_1_1(image, plane_y, plane_u, plane_v,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+            } else {
+                /* not planar, 1x2, no filter */
+                renderyuv_1x2_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+            }
+        return;
+#endif
+        break;
+      case VIDEO_RENDER_RGB_2X2:
+            if (planar) {
+                /* planar, 2x2, no filter */
+                renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                double_scan, pal_scanline_shade);
+            } else {
+                /* not planar, 2x2, no filter */
+                renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
+                                src, src_pitch, config->color_tables.yuv_table,
+                                src_x, src_y, src_w, src_h, dest_x, dest_y,
+                                double_scan, pal_scanline_shade);
+            }
+        return;
     }
+
+    if (rendermode_error != config->rendermode) {
+        log_error(LOG_DEFAULT, "render_yuv_image: unsupported rendermode (%d)", config->rendermode);
+    }
+    rendermode_error = config->rendermode;
 }
 #endif
-

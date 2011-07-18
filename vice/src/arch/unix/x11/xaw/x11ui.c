@@ -285,10 +285,10 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                     h = canvas->geometry->screen_size.height;
 
                     if (canvas->videoconfig->doublesizex) {
-                        w <<= 1;
+                        w *= (canvas->videoconfig->doublesizex + 1);
                     }
                     if (canvas->videoconfig->doublesizey) {
-                        h <<= 1;
+                        h *= (canvas->videoconfig->doublesizey + 1);
                     }
 #if 0
                     taspect = get_aspect(canvas);
@@ -420,13 +420,13 @@ void ui_check_mouse_cursor(void)
 
     if (_mouse_enabled) {
         if (ui_cached_video_canvas->videoconfig->doublesizex) {
-            mouse_accelx = 2;   
+            mouse_accelx = 4 / (ui_cached_video_canvas->videoconfig->doublesizex + 1);
         } else {
             mouse_accelx = 4;
         }
 
         if (ui_cached_video_canvas->videoconfig->doublesizey) {
-            mouse_accely = 2;   
+            mouse_accely = 4 / (ui_cached_video_canvas->videoconfig->doublesizey + 1);
         } else {
             mouse_accely = 4;
         }

@@ -179,7 +179,7 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
 
     if (canvas->videoconfig->doublesizex) {
         xoffs = ((fs_w) - (vm->hdisplay));
-        fs_w /= 2;
+        fs_w /= (canvas->videoconfig->doublesizex + 1);
     } else {
         xoffs = (fs_w / 2) - (vm->hdisplay / 2);
     }
@@ -187,7 +187,7 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
     if (canvas->videoconfig->doublesizey) {
         yoffs = ((fs_h) - (vm->vdisplay));
         fs_h -= status_h;
-        fs_h /= 2;
+        fs_h /= (canvas->videoconfig->doublesizey + 1);
     } else {
         yoffs = (fs_h / 2) - (vm->vdisplay / 2);
         fs_h -= status_h;

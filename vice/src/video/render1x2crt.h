@@ -36,7 +36,7 @@ extern void render_UYVY_1x2_crt(video_render_color_tables_t *colortab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport);
+                       viewport_t *viewport, video_render_config_t *config);
 
 extern void render_YUY2_1x2_crt(video_render_color_tables_t *colortab,
                        const BYTE *src, BYTE *trg,
@@ -44,7 +44,7 @@ extern void render_YUY2_1x2_crt(video_render_color_tables_t *colortab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport);
+                       viewport_t *viewport, video_render_config_t *config);
 
 extern void render_YVYU_1x2_crt(video_render_color_tables_t *colortab,
                        const BYTE *src, BYTE *trg,
@@ -52,7 +52,7 @@ extern void render_YVYU_1x2_crt(video_render_color_tables_t *colortab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport);
+                       viewport_t *viewport, video_render_config_t *config);
 
 
 extern void render_16_1x2_crt(video_render_color_tables_t *colortab,
@@ -61,7 +61,7 @@ extern void render_16_1x2_crt(video_render_color_tables_t *colortab,
                        const unsigned int xs, const unsigned int ys,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport);
+                       viewport_t *viewport, video_render_config_t *config);
 
 extern void render_24_1x2_crt(video_render_color_tables_t *colortab,
                        const BYTE *src, BYTE *trg,
@@ -70,7 +70,7 @@ extern void render_24_1x2_crt(video_render_color_tables_t *colortab,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs,
                        const unsigned int pitcht,
-                       viewport_t *viewport);
+                       viewport_t *viewport, video_render_config_t *config);
 
 extern void render_32_1x2_crt(video_render_color_tables_t *colortab,
                        const BYTE *src, BYTE *trg,
@@ -79,5 +79,5 @@ extern void render_32_1x2_crt(video_render_color_tables_t *colortab,
                        const unsigned int xt, const unsigned int yt,
                        const unsigned int pitchs,
                        const unsigned int pitcht,
-                       viewport_t *viewport);
+                       viewport_t *viewport, video_render_config_t *config);
 #endif

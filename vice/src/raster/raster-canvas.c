@@ -60,7 +60,7 @@ inline static void refresh_canvas(raster_t *raster)
     w = update_area->xe - update_area->xs + 1;
     h = update_area->ye - update_area->ys + 1;
 
-    if (video_render_get_fake_pal_state()) {
+    if (raster->canvas->videoconfig->filter == VIDEO_FILTER_CRT) {
         /* if pal emu is activated, more pixels have to be updated: around,
          * above and below, because of blurring and scanline effects.
          *
@@ -106,19 +106,23 @@ inline static void refresh_canvas(raster_t *raster)
 
 void raster_canvas_handle_end_of_frame(raster_t *raster)
 {
-    if (video_disabled_mode)
+    if (video_disabled_mode) {
         return;
+    }
 
-    if (raster->skip_frame)
+    if (raster->skip_frame) {
         return;
+    }
 
-    if (!raster->canvas->viewport->update_canvas)
+    if (!raster->canvas->viewport->update_canvas) {
         return;
+    }
 
-    if (raster->dont_cache)
+    if (raster->dont_cache) {
         video_canvas_refresh_all(raster->canvas);
-    else
+    } else {
         refresh_canvas(raster);
+    }
 }
 
 void raster_canvas_init(raster_t *raster)

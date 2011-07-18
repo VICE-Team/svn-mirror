@@ -35,7 +35,6 @@
 #include "uiconfig.h"
 #include "videoarch.h"
 #include "drive/drive.h"
-#include "video/video-resources.h"
 #include "sid/sid.h"
 
 /* Resource names */

@@ -339,7 +339,6 @@ static int init_raster(void)
     raster_t *raster;
 
     raster = &vicii.raster;
-    video_color_set_canvas(raster->canvas);
 
     raster_sprite_status_new(raster, VICII_NUM_SPRITES, vicii_sprite_offset());
     raster_line_changes_sprite_init(raster);

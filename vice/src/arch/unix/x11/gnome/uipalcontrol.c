@@ -1,5 +1,5 @@
 /*
- * uipalcontrol.c - UI controls for PAL
+ * uipalcontrol.c - GTK only, UI controls for CRT emu
  *
  * Written by
  *  pottendo <pottendo@gmx.net>
@@ -23,12 +23,16 @@
  *  02111-1307  USA.
  *
  */
+
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
+#include "lib.h"
 #include "machine.h"
 #include "ui.h"
+#include "util.h"
 #include "video.h"
 #include "resources.h"
 #include "videoarch.h"
@@ -63,21 +67,24 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
     v  = (int)v / p->scale;
 
     resources_set_int(p->res, v);
+
+    /* video_canvas_refresh_all(cached_canvas); */
 }
 
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 {
+    pal_res_t *p = (pal_res_t *)data;
     unsigned int i;
     int tmp;
 
     for (i = 0; i < sizeof(ctrls) / sizeof(ctrls[0]); i++) {
-        resources_get_default_value(ctrls[i].res, (void *)&tmp);
-        resources_set_int(ctrls[i].res, tmp);
-        tmp = tmp * ctrls[i].scale;
-        if (ctrls[i].adj) {
-            gtk_adjustment_set_value(GTK_ADJUSTMENT(ctrls[i].adj), (gfloat)tmp);
+        resources_get_default_value(p[i].res, (void *)&tmp);
+        resources_set_int(p[i].res, tmp);
+        tmp = tmp * p[i].scale;
+        if (p[i].adj) {
+            gtk_adjustment_set_value(GTK_ADJUSTMENT(p[i].adj), (gfloat)tmp);
         }
-    }      
+    }
 
     video_canvas_refresh_all(cached_canvas);
 }
@@ -93,6 +100,13 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     GtkWidget *rb;
     unsigned int i;
     int v;
+    char *resname;
+    char *chip;
+    pal_res_t *ctrldata;
+
+    chip = canvas->videoconfig->chip_name;
+    ctrldata = lib_malloc(sizeof(ctrls));
+    memcpy(ctrldata, ctrls, sizeof(ctrls));
 
     cached_canvas = canvas;
     f = gtk_frame_new(_("CRT emulation settings"));
@@ -100,40 +114,43 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     b = gtk_vbox_new(FALSE, 5);
 
     for (i = 0; i < sizeof(ctrls) / sizeof(ctrls[0]); i++) {
+
+        resname = util_concat(chip, ctrls[i].res, NULL);
         hb = gtk_hbox_new(FALSE, 0);
 
         c = gtk_hbox_new(FALSE, 0);
         gtk_widget_set_size_request(GTK_WIDGET(c), 100, 10);
 
-        l = gtk_label_new(_(ctrls[i].label));
+        l = gtk_label_new(_(ctrldata[i].label));
         gtk_container_add(GTK_CONTAINER(c), l);
         gtk_widget_show(l);
 
         gtk_box_pack_start(GTK_BOX(hb), c, FALSE, FALSE, 5);
         gtk_widget_show(c);
 
-        ctrls[i].adj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
+        ctrldata[i].adj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
 
-        resources_get_int(ctrls[i].res, &v);
+        resources_get_int(resname, &v);
+        ctrldata[i].res = resname;
 
-        gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * ctrls[i].scale));
+        gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * ctrldata[i].scale));
         sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
         gtk_range_set_update_policy(GTK_RANGE(sb), GTK_UPDATE_CONTINUOUS);
         gtk_box_pack_start(GTK_BOX(hb), sb, TRUE, TRUE, 0);
 
-        g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (upd_sb), &ctrls[i]);
+        g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (upd_sb), &ctrldata[i]);
 
         gtk_widget_show(sb);
         gtk_box_pack_start(GTK_BOX(b), hb, TRUE, TRUE, 0);
         gtk_widget_show(hb);
-        ctrls[i].w = hb;
+        ctrldata[i].w = hb;
     }
 
     box = gtk_hbox_new(FALSE, 0);
 
     rb = gtk_button_new_with_label(_("Reset"));
     gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
-    g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), rb);
+    g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), ctrldata);
     GTK_WIDGET_UNSET_FLAGS(rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 

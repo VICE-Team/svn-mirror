@@ -33,7 +33,6 @@
 #include <stdlib.h>
 
 #include "renderyuv.h"
-#include "video-resources.h"
 
 /* Extract YUV components. */
 inline static unsigned int Y(unsigned int YUV)

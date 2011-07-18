@@ -45,7 +45,6 @@ libvideo_a_SOURCES = \
 	video-render-pal.c \
 	video-render.c \
 	video-render.h \
-	video-resources-pal.c \
 	video-resources.c \
 	video-resources.h \
 	video-viewport.c

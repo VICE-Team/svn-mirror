@@ -37,7 +37,6 @@
 #include "uimenu.h"
 #include "uipalemu.h"
 #include "uipalette.h"
-#include "uirenderer.h"
 #include "util.h"
 
 #ifdef HAVE_OPENGL_SYNC
@@ -70,22 +69,20 @@ static ui_menu_entry_t crtc_palette_submenu[] = {
     { NULL }
 };
 
-static UI_CALLBACK(radio_renderer)
-{
-    ui_select_renderer(w, CHECK_MENUS, vice_ptr_to_int(UI_MENU_CB_PARAM), "Crtc");
-}
+UI_MENU_DEFINE_RADIO(CrtcFilter)
 
 static ui_menu_entry_t renderer_submenu[] = {
-    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
-      (ui_callback_data_t)0, NULL },
-    { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
-      (ui_callback_data_t)1, NULL },
+    { N_("Unfiltered"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcFilter,
+      (ui_callback_data_t)VIDEO_FILTER_NONE, NULL },
+    { N_("CRT emulation"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcFilter,
+      (ui_callback_data_t)VIDEO_FILTER_CRT, NULL },
 #if 0
-    { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_renderer,
-      (ui_callback_data_t)2, NULL },
+    { N_("Scale2x"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CrtcFilter,
+      (ui_callback_data_t)VIDEO_FILTER_SCALE2X, NULL },
 #endif
     { NULL }
 };
+
 
 #define NOTHING(x) x
 
@@ -151,12 +148,16 @@ ui_menu_entry_t crtc_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, crtc_palette_submenu },
+#ifndef USE_GNOMEUI
+    { N_("Color settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Render filter"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
 #ifndef USE_GNOMEUI
     { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, PALMode_submenu },
+      NULL, NULL, NULL },
 #endif
 #ifdef HAVE_HWSCALE
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -193,10 +194,18 @@ ui_menu_entry_t crtc_submenu[] = {
 
 void uicrtc_menu_create(void)
 {
+#ifndef USE_GNOMEUI
+    crtc_submenu[6].sub_menu = build_color_menu("Crtc");
+    crtc_submenu[9].sub_menu = build_crt_menu("Crtc");
+#endif
     UI_FULLSCREEN_MENU_CREATE(CRTC)
 }
 
 void uicrtc_menu_shutdown(void)
 {
+#ifndef USE_GNOMEUI
+    shutdown_color_menu(crtc_submenu[6].sub_menu);
+    shutdown_crt_menu(crtc_submenu[9].sub_menu);
+#endif
     UI_FULLSCREEN_MENU_SHUTDOWN(CRTC)
 }
