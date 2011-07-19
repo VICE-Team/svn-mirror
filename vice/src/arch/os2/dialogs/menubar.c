@@ -903,7 +903,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 
         case IDM_PET_USERPORT_DAC:
-            toggle("PETUserportDAC");
+            toggle("UserportDAC");
             return;
 #endif
 
@@ -1666,7 +1666,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_DIAGPIN, "DiagPin");
             WinCheckRes(hwnd, IDM_SUPERPET, "SuperPET");
             WinCheckRes(hwnd, IDM_CRTC, "Crtc");
-            resources_get_int("PETUserportDAC", &val);
+            resources_get_int("UserportDAC", &val);
             WinCheckMenuItem(hwnd, IDM_PET_USERPORT_DAC, val);
 #endif // __XPET__
 

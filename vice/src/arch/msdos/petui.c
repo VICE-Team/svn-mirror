@@ -353,7 +353,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-TUI_MENU_DEFINE_TOGGLE(PETUserportDAC)
+TUI_MENU_DEFINE_TOGGLE(UserportDAC)
 
 int petui_init(void)
 {
@@ -385,7 +385,7 @@ int petui_init(void)
 
     tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport DAC",
                       "Enable Userport DAC",
-                      toggle_PETUserportDAC_callback,
+                      toggle_UserportDAC_callback,
                       NULL, 3,
                       TUI_MENU_BEH_CONTINUE);
 
