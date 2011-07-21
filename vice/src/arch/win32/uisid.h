@@ -27,6 +27,6 @@
 #ifndef VICE_UISID_H
 #define VICE_UISID_H
 
-void ui_sid_settings_dialog(HWND hwnd);
+void ui_sid_settings_dialog(HWND hwnd, const int *stereo_baseaddress);
 
 #endif

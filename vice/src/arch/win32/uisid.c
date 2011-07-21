@@ -47,73 +47,7 @@
 #include "winmain.h"
 #include "uilib.h"
 
-static const TCHAR *ui_sid_engine_model[] = {
-    TEXT("6581 (FastSID)"),
-    TEXT("8580 (FastSID)"),
-#ifdef HAVE_RESID
-    TEXT("6581 (ReSID)"),
-    TEXT("8580 (ReSID)"),
-    TEXT("8580 + digi boost (ReSID)"),
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    TEXT("Catweasel MK3"),
-#endif
-#ifdef HAVE_HARDSID
-    TEXT("HardSID"),
-#endif
-#ifdef HAVE_PARSID
-    TEXT("ParSID on Port 1"),
-    TEXT("ParSID on Port 2"),
-    TEXT("ParSID on Port 3"),
-#endif
-#ifdef HAVE_RESID_FP
-    TEXT("6581R3 4885 (reSID-fp)"),
-    TEXT("6581R3 0486S (reSID-fp)"),
-    TEXT("6581R3 3984 (reSID-fp)"),
-    TEXT("6581R4AR 3789 (reSID-fp)"),
-    TEXT("6581R3 4485 (reSID-fp)"),
-    TEXT("6581R4 1986S (reSID-fp)"),
-    TEXT("8580R5 3691 (reSID-fp)"),
-    TEXT("8580R5 3691 + digi boost (reSID-fp)"),
-    TEXT("8580R5 1489 (reSID-fp)"),
-    TEXT("8580R5 1489 + digi boost (reSID-fp)"),
-#endif
-    NULL
-};
-
-static const int ui_sid_engine_model_values[] = {
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    SID_CATWEASELMKIII,
-#endif
-#ifdef HAVE_HARDSID
-    SID_HARDSID,
-#endif
-#ifdef HAVE_PARSID
-    SID_PARSID_PORT1,
-    SID_PARSID_PORT2,
-    SID_PARSID_PORT3,
-#endif
-#ifdef HAVE_RESID_FP
-    SID_RESIDFP_6581R3_4885,
-    SID_RESIDFP_6581R3_0486S,
-    SID_RESIDFP_6581R3_3984,
-    SID_RESIDFP_6581R4AR_3789,
-    SID_RESIDFP_6581R3_4485,
-    SID_RESIDFP_6581R4_1986S,
-    SID_RESIDFP_8580R5_3691,
-    SID_RESIDFP_8580R5_3691D,
-    SID_RESIDFP_8580R5_1489,
-    SID_RESIDFP_8580R5_1489D,
-#endif
-    -1
-};
+static sid_engine_model_t **ui_sid_engine_model_list;
 
 static const int ui_sid_samplemethod[] = {
     IDS_FAST,
@@ -123,9 +57,7 @@ static const int ui_sid_samplemethod[] = {
     0
 };
 
-static const int ui_sid_c64baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
-static const int ui_sid_c128baseaddress[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
-static const int ui_sid_cbm2baseaddress[] = { 0xda, -1 };
+static const int *ui_sid_baseaddress;
 
 static void enable_general_sid_controls(HWND hwnd)
 {
@@ -164,28 +96,11 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
     TCHAR st[12];
     int res_value;
     int adr, ladr, hi, index = -1;
-    const int *hadr;
+    const int *hadr = ui_sid_baseaddress;
     HWND sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
     int cursel = (int)SendMessage(GetDlgItem(hwnd, IDC_SID_STEREOADDRESS), CB_GETCURSEL, 0, 0);
 
     resources_get_int("SidStereoAddressStart", &res_value);
-
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64SC:
-            hadr = ui_sid_c64baseaddress;
-            break;
-        case VICE_MACHINE_C128:
-            hadr = ui_sid_c128baseaddress;
-            break;
-        case VICE_MACHINE_CBM5x0:
-        case VICE_MACHINE_CBM6x0:
-            hadr = ui_sid_cbm2baseaddress;
-            break;
-        default:
-            ui_error(translate_text(IDS_THIS_MACHINE_NO_SID));
-            return;
-    }
 
     for (hi = 0; hadr[hi] >= 0; hi++) {
         for (ladr = (hi > 0 ? 0x0 : 0x20); ladr < 0x100; ladr += 0x20) {
@@ -204,27 +119,6 @@ static void CreateAndGetSidAddress(HWND hwnd, int mode)
             }
         }
     }
-}
-
-static int model_valid(int ui_id)
-{
-#ifdef HAVE_CATWEASELMKIII
-    if (ui_sid_engine_model_values[ui_id] == SID_CATWEASELMKIII) {
-        if (!catweaselmkiii_available()) {
-            return 0;
-        }
-    }
-#endif
-
-#ifdef HAVE_HARDSID
-    if (ui_sid_engine_model_values[ui_id] == SID_HARDSID) {
-        if (!hardsid_available()) {
-            return 0;
-        }
-    }
-#endif
-
-    return 1;
 }
 
 static void init_general_sid_dialog(HWND hwnd)
@@ -254,20 +148,20 @@ static void init_general_sid_dialog(HWND hwnd)
 
     CreateAndGetSidAddress(hwnd, 0);
 
+    ui_sid_engine_model_list = sid_get_engine_model_list();
+
     resources_get_int("SidModel", &temp_value);
     resources_get_int("SidEngine", &res_value);
     res_value <<= 8;
     res_value |= temp_value;
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL);
-    for (res_value_loop = 0; ui_sid_engine_model[res_value_loop]; res_value_loop++) {
-        if (model_valid(res_value_loop)) {
-            SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model[res_value_loop]);
-        }
+    for (res_value_loop = 0; ui_sid_engine_model_list[res_value_loop]; res_value_loop++) {
+        SendMessageA(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model_list[res_value_loop]->name);
     }
 
     active_value = 0;
-    for (res_value_loop = 0; ui_sid_engine_model_values[res_value_loop] != -1; res_value_loop++) {
-        if (ui_sid_engine_model_values[res_value_loop] == res_value) {
+    for (res_value_loop = 0; ui_sid_engine_model_list[res_value_loop]; res_value_loop++) {
+        if (ui_sid_engine_model_list[res_value_loop]->value == res_value) {
             active_value = res_value_loop;
         }
     }
@@ -491,16 +385,16 @@ static void end_general_dialog(HWND hwnd)
 static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
-    int engine;
-    int model;
+    int engine, model, temp;
 
     switch (msg) {
         case WM_COMMAND:
             command = LOWORD(wparam);
             switch (command) {
                 case IDC_SID_ENGINE_MODEL:
-                    engine = ui_sid_engine_model_values[SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL), CB_GETCURSEL, 0, 0)] >> 8;
-                    model = ui_sid_engine_model_values[SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL), CB_GETCURSEL, 0, 0)] & 0xff;
+                    temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
+                    engine = temp >> 8;
+                    model = temp & 0xff;
                     sid_set_engine_model(engine, model);
                     break;
                 case IDC_SID_STEREO:
@@ -533,21 +427,25 @@ static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, 
 static void end_resid_dialog(HWND hwnd)
 {
     TCHAR st[4];
-    int ival;
+    int temp_val, res_val;
 
-    resources_set_int("SidResidSampling", (int)SendMessage(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), CB_GETCURSEL, 0, 0));
+    res_val = (int)SendDlgItemMessage(hwnd, IDC_SID_RESID_SAMPLING, CB_GETCURSEL, 0, 0);
+    resources_set_int("SidResidSampling", res_val);
 
     GetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st, 4);
-    ival = _ttoi(st);
-    if (ival < 0) {
-        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), ival, translate_text(IDS_SID_RESID_PASSBAND), 0);
-        ival = 0;
+    temp_val = _ttoi(st);
+    if (temp_val < 0) {
+        res_val = 0;
+    } else if (temp_val > 90) {
+        res_val = 90;
+    } else {
+        res_val = temp_val;
     }
-    if (ival > 90) {
-        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), ival, translate_text(IDS_SID_RESID_PASSBAND), 90);
-        ival = 90;
+    
+    if (temp_val != res_val) {
+        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), temp_val, translate_text(IDS_SID_RESID_PASSBAND), res_val);
     }
-    resources_set_int("SidResidPassband", ival);
+    resources_set_int("SidResidPassband", res_val);
 }
 
 static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -615,10 +513,12 @@ static INT_PTR CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, 
     return FALSE;
 }
 
-void ui_sid_settings_dialog(HWND hwnd)
+void ui_sid_settings_dialog(HWND hwnd, const int *stereo_baseaddress)
 {
     PROPSHEETPAGE psp[3];
     PROPSHEETHEADER psh;
+
+    ui_sid_baseaddress = stereo_baseaddress;
 
     psp[0].dwSize = sizeof(PROPSHEETPAGE);
     psp[0].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
@@ -640,8 +540,7 @@ void ui_sid_settings_dialog(HWND hwnd)
     psp[1].pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
     psp[1].pszIcon = NULL;
 #else
-    psp[1].DUMMYUNIONNAME.pszTemplate
-        = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_SID_RESID_SETTINGS_DIALOG);
     psp[1].u2.pszIcon = NULL;
 #endif
     psp[1].lParam = 0;

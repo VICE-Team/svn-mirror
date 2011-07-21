@@ -351,6 +351,126 @@ int sid_resources_init(void)
     return sid_common_resources_init();
 }
 
+/* ------------------------------------------------------------------------- */
+
+#ifdef SID_SETTINGS_DIALOG
+static sid_engine_model_t *sid_engine_model_list[22];
+static int num_sid_engine_models;
+
+#ifdef HAVE_RESID_DTV
+static const sid_engine_model_t sid_engine_models_resid_dtv[] = {
+    { "DTVSID (ReSID-DTV)", SID_RESID_DTVSID },
+    { NULL, -1 }
+};
+#endif
+
+static const sid_engine_model_t sid_engine_models_fastsid[] = {
+    { "6581 (Fast SID)", SID_FASTSID_6581 },
+    { "8580 (Fast SID)", SID_FASTSID_8580 },
+    { NULL, -1 }
+};
+
+#ifdef HAVE_RESID
+static const sid_engine_model_t sid_engine_models_resid[] = {
+    { "6581 (ReSID)", SID_RESID_6581 },
+    { "8580 (ReSID)", SID_RESID_8580 },
+    { "8580 + digi boost (ReSID)", SID_RESID_8580D },
+    { NULL, -1 }
+};
+#endif
+
+#ifdef HAVE_CATWEASELMKIII
+static const sid_engine_model_t sid_engine_models_catweaselmkiii[] = {
+    { "Catweasel MK3", SID_CATWEASELMKIII },
+    { NULL, -1 }
+};
+#endif
+
+#ifdef HAVE_HARDSID
+static const sid_engine_model_t sid_engine_models_hardsid[] = {
+    { "HardSID", SID_HARDSID },
+    { NULL, -1 }
+};
+#endif
+
+#ifdef HAVE_PARSID
+static const sid_engine_model_t sid_engine_models_parsid[] = {
+    { "ParSID on Port 1", SID_PARSID_PORT1 },
+    { "ParSID on Port 2", SID_PARSID_PORT2 },
+    { "ParSID on Port 3", SID_PARSID_PORT3 },
+    { NULL, -1 }
+};
+#endif
+
+#ifdef HAVE_RESID_FP
+static const sid_engine_model_t sid_engine_models_resid_fp[] = {
+    { "6581R3 4885 (ReSID-fp)",  SID_RESIDFP_6581R3_4885 },
+    { "6581R3 0486S (ReSID-fp)", SID_RESIDFP_6581R3_0486S },
+    { "6581R3 3984 (ReSID-fp)",  SID_RESIDFP_6581R3_3984 },
+    { "6581R4AR 3789 (ReSID-fp)", SID_RESIDFP_6581R4AR_3789 },
+    { "6581R3 4485 (ReSID-fp)",  SID_RESIDFP_6581R3_4485 },
+    { "6581R4 1986S (ReSID-fp)", SID_RESIDFP_6581R4_1986S },
+    { "8580R5 3691 (ReSID-fp)",  SID_RESIDFP_8580R5_3691 },
+    { "8580R5 3691 + digi boost (ReSID-fp)", SID_RESIDFP_8580R5_3691D },
+    { "8580R5 1489 (ReSID-fp)",  SID_RESIDFP_8580R5_1489 },
+    { "8580R5 1489 + digi boost (ReSID-fp)", SID_RESIDFP_8580R5_1489D, },
+    { NULL, -1 }
+};
+#endif
+
+static void add_sid_engine_models(const sid_engine_model_t *sid_engine_models)
+{
+    int i = 0;
+
+    while (sid_engine_models[i].name) {
+        sid_engine_model_list[num_sid_engine_models++] = &sid_engine_models[i++];
+    }
+
+}
+
+sid_engine_model_t **sid_get_engine_model_list(void)
+{
+    num_sid_engine_models = 0;
+
+#ifdef HAVE_RESID_DTV
+    if (machine_class == VICE_MACHINE_C64DTV) {
+        add_sid_engine_models(sid_engine_models_resid_dtv);
+    }
+#endif
+
+    add_sid_engine_models(sid_engine_models_fastsid);
+
+#ifdef HAVE_RESID
+    /* Should we have if (machine_class != VICE_MACHINE_C64DTV) here? */
+    add_sid_engine_models(sid_engine_models_resid);
+#endif
+
+#ifdef HAVE_CATWEASELMKIII
+    if (catweaselmkiii_available()) {
+        add_sid_engine_models(sid_engine_models_catweaselmkiii);
+    }
+#endif
+
+#ifdef HAVE_HARDSID
+    if (hardsid_available()) {
+        add_sid_engine_models(sid_engine_models_hardsid);
+    }
+#endif
+
+#ifdef HAVE_PARSID
+    add_sid_engine_models(sid_engine_models_parsid);
+#endif
+
+#ifdef HAVE_RESID_FP
+    add_sid_engine_models(sid_engine_models_resid_fp);
+#endif
+
+    sid_engine_model_list[num_sid_engine_models] = NULL;
+
+    return sid_engine_model_list;
+}
+#endif /* SID_SETTINGS_DIALOG */
+
 static int sid_check_engine_model(int engine, int model)
 {
     switch (engine) {

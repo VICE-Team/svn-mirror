@@ -47,79 +47,7 @@
 #include "winmain.h"
 #include "uilib.h"
 
-static const TCHAR *ui_sid_engine_model[] = {
-#ifdef HAVE_RESID
-    TEXT("DTVSID (reSID-DTV)"),
-#endif
-    TEXT("6581 (FastSID)"),
-    TEXT("8580 (FastSID)"),
-#ifdef HAVE_RESID
-    TEXT("6581 (ReSID)"),
-    TEXT("8580 (ReSID)"),
-    TEXT("8580 + digi boost (ReSID)"),
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    TEXT("Catweasel MK3"),
-#endif
-#ifdef HAVE_HARDSID
-    TEXT("HardSID"),
-#endif
-#ifdef HAVE_PARSID
-    TEXT("ParSID on Port 1"),
-    TEXT("ParSID on Port 2"),
-    TEXT("ParSID on Port 3"),
-#endif
-#ifdef HAVE_RESID_FP
-    TEXT("6581R3 4885 (reSID-fp)"),
-    TEXT("6581R3 0486S (reSID-fp)"),
-    TEXT("6581R3 3984 (reSID-fp)"),
-    TEXT("6581R4AR 3789 (reSID-fp)"),
-    TEXT("6581R3 4485 (reSID-fp)"),
-    TEXT("6581R4 1986S (reSID-fp)"),
-    TEXT("8580R5 3691 (reSID-fp)"),
-    TEXT("8580R5 3691 + digi boost (reSID-fp)"),
-    TEXT("8580R5 1489 (reSID-fp)"),
-    TEXT("8580R5 1489 + digi boost (reSID-fp)"),
-#endif
-    NULL
-};
-
-static const int ui_sid_engine_model_values[] = {
-#ifdef HAVE_RESID
-    SID_RESID_DTVSID,
-#endif
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    SID_CATWEASELMKIII,
-#endif
-#ifdef HAVE_HARDSID
-    SID_HARDSID,
-#endif
-#ifdef HAVE_PARSID
-    SID_PARSID_PORT1,
-    SID_PARSID_PORT2,
-    SID_PARSID_PORT3,
-#endif
-#ifdef HAVE_RESID_FP
-    SID_RESIDFP_6581R3_4885,
-    SID_RESIDFP_6581R3_0486S,
-    SID_RESIDFP_6581R3_3984,
-    SID_RESIDFP_6581R4AR_3789,
-    SID_RESIDFP_6581R3_4485,
-    SID_RESIDFP_6581R4_1986S,
-    SID_RESIDFP_8580R5_3691,
-    SID_RESIDFP_8580R5_3691D,
-    SID_RESIDFP_8580R5_1489,
-    SID_RESIDFP_8580R5_1489D,
-#endif
-    -1
-};
+static sid_engine_model_t **ui_sid_engine_model_list;
 
 static const int ui_sid_samplemethod[] = {
     IDS_FAST,
@@ -150,27 +78,6 @@ static void enable_hardsid_sid_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_LEFT_ENGINE), is_enabled);
 }
 
-static int model_valid(int ui_id)
-{
-#ifdef HAVE_CATWEASELMKIII
-    if (ui_sid_engine_model_values[ui_id] == SID_CATWEASELMKIII) {
-        if (!catweaselmkiii_available()) {
-            return 0;
-        }
-    }
-#endif
-
-#ifdef HAVE_HARDSID
-    if (ui_sid_engine_model_values[ui_id] == SID_HARDSID) {
-        if (!hardsid_available()) {
-            return 0;
-        }
-    }
-#endif
-
-    return 1;
-}
-
 static void init_general_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
@@ -188,21 +95,21 @@ static void init_general_sid_dialog(HWND hwnd)
 
     resources_get_int("SidFilters", &res_value);
     CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
-    
+
+    ui_sid_engine_model_list = sid_get_engine_model_list();
+
     resources_get_int("SidModel", &temp_value);
     resources_get_int("SidEngine", &res_value);
     res_value <<= 8;
     res_value |= temp_value;
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL);
-    for (res_value_loop = 0; ui_sid_engine_model[res_value_loop]; res_value_loop++) {
-        if (model_valid(res_value_loop)) {
-            SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model[res_value_loop]);
-        }
+    for (res_value_loop = 0; ui_sid_engine_model_list[res_value_loop]; res_value_loop++) {
+        SendMessageA(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model_list[res_value_loop]->name);
     }
 
     active_value = 0;
-    for (res_value_loop = 0; ui_sid_engine_model_values[res_value_loop] != -1; res_value_loop++) {
-        if (ui_sid_engine_model_values[res_value_loop] == res_value) {
+    for (res_value_loop = 0; ui_sid_engine_model_list[res_value_loop]; res_value_loop++) {
+        if (ui_sid_engine_model_list[res_value_loop]->value == res_value) {
             active_value = res_value_loop;
         }
     }
@@ -372,16 +279,16 @@ static void end_general_dialog(HWND hwnd)
 static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
     int command;
-    int engine;
-    int model;
+    int engine, model, temp;
 
     switch (msg) {
         case WM_COMMAND:
             command = LOWORD(wparam);
             switch (command) {
                 case IDC_SID_ENGINE_MODEL:
-                    engine = ui_sid_engine_model_values[SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL), CB_GETCURSEL, 0, 0)] >> 8;
-                    model = ui_sid_engine_model_values[SendMessage(GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL), CB_GETCURSEL, 0, 0)] & 0xff;
+                    temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
+                    engine = temp >> 8;
+                    model = temp & 0xff;
                     sid_set_engine_model(engine, model);
                     break;
             }
@@ -410,11 +317,25 @@ static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, 
 static void end_resid_dialog(HWND hwnd)
 {
     TCHAR st[4];
+    int temp_val, res_val;
 
-    resources_set_int("SidResidSampling", (int)SendMessage(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), CB_GETCURSEL, 0, 0));
+    res_val = (int)SendDlgItemMessage(hwnd, IDC_SID_RESID_SAMPLING, CB_GETCURSEL, 0, 0);
+    resources_set_int("SidResidSampling", res_val);
 
     GetDlgItemText(hwnd, IDC_SID_RESID_PASSBAND_VALUE, st, 4);
-    resources_set_int("SidResidPassband", _ttoi(st));
+    temp_val = _ttoi(st);
+    if (temp_val < 0) {
+        res_val = 0;
+    } else if (temp_val > 90) {
+        res_val = 90;
+    } else {
+        res_val = temp_val;
+    }
+    
+    if (temp_val != res_val) {
+        ui_error(translate_text(IDS_VAL_D_FOR_S_OUT_RANGE_USE_D), temp_val, translate_text(IDS_SID_RESID_PASSBAND), res_val);
+    }
+    resources_set_int("SidResidPassband", res_val);
 }
 
 static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

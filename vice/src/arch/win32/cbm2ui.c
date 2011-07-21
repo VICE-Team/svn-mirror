@@ -460,6 +460,8 @@ static generic_trans_table_t cbm2_generic_res_trans[] = {
     { 0, NULL }
 };
 
+static const int cbm2_sid_baseaddress[] = { 0xda, -1 };
+
 static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -474,7 +476,7 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
             }
             break;
         case IDM_SID_SETTINGS:
-            ui_sid_settings_dialog(hwnd);
+            ui_sid_settings_dialog(hwnd, cbm2_sid_baseaddress);
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG, IDD_CBM2DRIVEROM_SETTINGS_DIALOG,

@@ -30,6 +30,10 @@
 #include "types.h"
 #include "sound.h"
 
+#if (defined(WIN32) || defined(__BEOS__)) && !defined(USE_SDLUI)
+#define SID_SETTINGS_DIALOG
+#endif
+
 struct sound_s;
 struct sid_snapshot_state_s;
 
@@ -120,6 +124,12 @@ struct sid_engine_s {
 };
 typedef struct sid_engine_s sid_engine_t;
 
+struct sid_engine_model_s {
+    char *name;
+    int value;
+};
+typedef struct sid_engine_model_s sid_engine_model_t;
+
 extern sound_t *sid_sound_machine_open(int chipno);
 extern int sid_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 extern void sid_sound_machine_close(sound_t *psid);
@@ -133,6 +143,7 @@ extern char *sid_sound_machine_dump_state(sound_t *psid);
 extern int sid_sound_machine_cycle_based(void);
 extern int sid_sound_machine_channels(void);
 extern void sid_sound_machine_enable(int enable);
+extern sid_engine_model_t **sid_get_engine_model_list(void);
 extern int sid_set_engine_model(int engine, int model);
 extern void sid_sound_chip_init(void);
 

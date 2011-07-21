@@ -643,6 +643,8 @@ static generic_trans_table_t c128_generic_res_trans[] = {
     { 0, NULL }
 };
 
+static const int c128_sid_baseaddress[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
+
 static void c128_ui_specific(WPARAM wparam, HWND hwnd)
 {
     uic64cart_proc(wparam, hwnd);
@@ -652,7 +654,7 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             ui_vicii_settings_dialog(hwnd);
             break;
         case IDM_SID_SETTINGS:
-            ui_sid_settings_dialog(hwnd);
+            ui_sid_settings_dialog(hwnd, c128_sid_baseaddress);
             break;
         case IDM_REU_SETTINGS:
             ui_reu_settings_dialog(hwnd);
