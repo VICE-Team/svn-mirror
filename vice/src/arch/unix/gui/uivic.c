@@ -37,6 +37,7 @@
 #include "uipalemu.h"
 #include "uipalette.h"
 #include "util.h"
+#include "video.h"
 
 #ifdef HAVE_OPENGL_SYNC
 #include <stdlib.h>     /* strtol() */
