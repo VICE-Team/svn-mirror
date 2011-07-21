@@ -95,4 +95,15 @@ extern void archdep_set_drive_leds(unsigned int led, int status);
 extern const char *archdep_rsrc_machine_name;
 extern void (*archdep_set_leds_callback)(unsigned int, int);
 
+/*
+    FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
+           or crashes when the connection is closed, you might have to install
+           a signal handler which calls monitor_abort().
+
+           see archdep_unix.c and bug #3201796
+*/
+#define archdep_signals_init(x)
+#define archdep_signals_pipe_set()
+#define archdep_signals_pipe_unset()
+
 #endif

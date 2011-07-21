@@ -26,6 +26,7 @@
 
 #include "vice.h"
 
+#include "archdep.h"
 #include "signals.h"
 
 /*
@@ -33,11 +34,12 @@
 */
 void signals_init(int do_core_dumps)
 {
+    archdep_signals_init(do_core_dumps);
 }
 
 /*
     these two are used by the monitor, to handle aborting ongoing output by
-    pressing CTRL+C (SIGINT)
+    pressing CTRL+C (SIGINT). this is bogus in SDL, so these are empty :)
 */
 void signals_abort_set(void)
 {
@@ -51,17 +53,12 @@ void signals_abort_unset(void)
     these two are used if the monitor is in remote mode. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.
 */
-/*
-    FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
-           or crashes when the connection is closed, you might have to install
-           a signal handler which calls monitor_abort().
-
-           see arch/unix/signals.c and bug #3201796
-*/
 void signals_pipe_set(void)
 {
+    archdep_signals_pipe_set();
 }
 
 void signals_pipe_unset(void)
 {
+    archdep_signals_pipe_unset();
 }

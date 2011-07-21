@@ -207,24 +207,6 @@ static const ui_menu_entry_t sid_dtv_model_menu[] = {
     SDL_MENU_LIST_END
 };
 
-static const ui_menu_entry_t sid_model_noresid_menu[] = {
-    VICE_SDL_SID_FASTSID_MODELS
-#if defined(HAVE_CATWEASELMKIII) || defined(HAVE_HARDSID) || defined(HAVE_PARSID)
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("Hardware"),
-#ifdef HAVE_CATWEASELMKIII
-    VICE_SDL_SID_CATWEASEL_MODELS
-#endif
-#ifdef HAVE_HARDSID
-    VICE_SDL_SID_HARDSID_MODELS
-#endif
-#ifdef HAVE_PARSID
-    VICE_SDL_SID_PARSID_MODELS
-#endif
-#endif
-    SDL_MENU_LIST_END
-};
-
 #ifdef HAVE_RESID
 UI_MENU_DEFINE_RADIO(SidResidSampling)
 
@@ -706,11 +688,14 @@ const ui_menu_entry_t sid_vic_menu[] = {
     { "SID Model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
-      (ui_callback_data_t)sid_model_noresid_menu },
+      (ui_callback_data_t)sid_model_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,
       NULL },
+#ifdef HAVE_RESID
+    VICE_SDL_RESID_OPTIONS
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("SID address"),
     { "$9800",
@@ -742,11 +727,14 @@ const ui_menu_entry_t sid_pet_menu[] = {
     { "SID Model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
-      (ui_callback_data_t)sid_model_noresid_menu },
+      (ui_callback_data_t)sid_model_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,
       NULL },
+#ifdef HAVE_RESID
+    VICE_SDL_RESID_OPTIONS
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("SID address"),
     { "$8F00",
@@ -780,11 +768,14 @@ const ui_menu_entry_t sid_plus4_menu[] = {
     { "SID Model",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
-      (ui_callback_data_t)sid_model_noresid_menu },
+      (ui_callback_data_t)sid_model_menu },
     { "Emulate filters",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_SidFilters_callback,
       NULL },
+#ifdef HAVE_RESID
+    VICE_SDL_RESID_OPTIONS
+#endif
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("SID address"),
     { "$FD40",

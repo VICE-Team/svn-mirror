@@ -99,4 +99,12 @@ extern const char *archdep_pref_path;
 
 #define VICEUSERDIR ".vice"
 
+/*
+    these are used if the monitor is in remote mode. in this case we might
+    get SIGPIPE if the connection is unexpectedly closed.
+*/
+extern void archdep_signals_init(int do_core_dumps);
+extern void archdep_signals_pipe_set(void);
+extern void archdep_signals_pipe_unset(void);
+
 #endif

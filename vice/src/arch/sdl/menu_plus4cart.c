@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartridge.h"
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_plus4cart.h"
@@ -39,82 +40,18 @@
 #include "uifilereq.h"
 #include "uimenu.h"
 
-enum {
-    CART_ATTACH_FUNCLO,
-    CART_ATTACH_FUNCHI,
-    CART_ATTACH_C1LO,
-    CART_ATTACH_C1HI,
-    CART_ATTACH_C2LO,
-    CART_ATTACH_C2HI
-};
-
 static UI_MENU_CALLBACK(attach_cart_callback)
 {
     char *name = NULL;
+    int type = vice_ptr_to_int(param);
 
     if (activated) {
-        switch (vice_ptr_to_int(param)) {
-            case CART_ATTACH_FUNCLO:
-                name = sdl_ui_file_selection_dialog("Select function low image", FILEREQ_MODE_CHOOSE_FILE);
-                if (name != NULL) {
-                    resources_set_string("FunctionLowName", name);
-                    if (plus4cart_load_func_lo(name) < 0) {
-                        ui_error("Cannot load cartridge image.");
-                    }
-                    lib_free(name);
-                }
-                break;
-            case CART_ATTACH_FUNCHI:
-                name = sdl_ui_file_selection_dialog("Select function high image", FILEREQ_MODE_CHOOSE_FILE);
-                if (name != NULL) {
-                    resources_set_string("FunctionHighName", name);
-                    if (plus4cart_load_func_hi(name) < 0) {
-                        ui_error("Cannot load cartridge image.");
-                    }
-                    lib_free(name);
-                }
-                break;
-            case CART_ATTACH_C1LO:
-                name = sdl_ui_file_selection_dialog("Select C1 low image", FILEREQ_MODE_CHOOSE_FILE);
-                if (name != NULL) {
-                    resources_set_string("c1loName", name);
-                    if (plus4cart_load_c1lo(name) < 0) {
-                        ui_error("Cannot load cartridge image.");
-                    }
-                    lib_free(name);
-                }
-                break;
-            case CART_ATTACH_C1HI:
-                name = sdl_ui_file_selection_dialog("Select C1 high image", FILEREQ_MODE_CHOOSE_FILE);
-                if (name != NULL) {
-                    resources_set_string("c1hiName", name);
-                    if (plus4cart_load_c1hi(name) < 0) {
-                        ui_error("Cannot load cartridge image.");
-                    }
-                    lib_free(name);
-                }
-                break;
-            case CART_ATTACH_C2LO:
-                name = sdl_ui_file_selection_dialog("Select C2 low image", FILEREQ_MODE_CHOOSE_FILE);
-                if (name != NULL) {
-                    resources_set_string("c2loName", name);
-                    if (plus4cart_load_c2lo(name) < 0) {
-                        ui_error("Cannot load cartridge image.");
-                    }
-                    lib_free(name);
-                }
-                break;
-            case CART_ATTACH_C2HI:
-            default:
-                name = sdl_ui_file_selection_dialog("Select C2 high image", FILEREQ_MODE_CHOOSE_FILE);
-                if (name != NULL) {
-                    resources_set_string("c2hiName", name);
-                    if (plus4cart_load_c2hi(name) < 0) {
-                        ui_error("Cannot load cartridge image.");
-                    }
-                    lib_free(name);
-                }
-                break;
+        name = sdl_ui_file_selection_dialog("Select cartridge image", FILEREQ_MODE_CHOOSE_FILE);
+        if (name != NULL) {
+            if (cartridge_attach_image(type, name) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            lib_free(name);
         }
     }
     return NULL;
@@ -123,40 +60,51 @@ static UI_MENU_CALLBACK(attach_cart_callback)
 static UI_MENU_CALLBACK(detach_cart_callback)
 {
     if (activated) {
-        plus4cart_detach_cartridges();
+        cartridge_detach_image(-1);
     }
     return NULL;
 }
 
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+
 const ui_menu_entry_t plus4cart_menu[] = {
+    { "Smart attach cartridge image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_PLUS4_DETECT },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Attach C0 low image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C0LO },
+    { "Attach C0 high image",
+      MENU_ENTRY_DIALOG,
+      attach_cart_callback,
+      (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C0HI },
     { "Attach C1 low image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
-      (ui_callback_data_t)CART_ATTACH_C1LO },
+      (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C1LO },
     { "Attach C1 high image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
-      (ui_callback_data_t)CART_ATTACH_C1HI },
+      (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C1HI },
     { "Attach C2 low image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
-      (ui_callback_data_t)CART_ATTACH_C2LO },
+      (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C2LO },
     { "Attach C2 high image",
       MENU_ENTRY_DIALOG,
       attach_cart_callback,
-      (ui_callback_data_t)CART_ATTACH_C2HI },
-    { "Attach function low image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CART_ATTACH_FUNCLO },
-    { "Attach function high image",
-      MENU_ENTRY_DIALOG,
-      attach_cart_callback,
-      (ui_callback_data_t)CART_ATTACH_FUNCHI },
+      (ui_callback_data_t)CARTRIDGE_PLUS4_16KB_C2HI },
     SDL_MENU_ITEM_SEPARATOR,
     { "Detach cartridge image",
       MENU_ENTRY_OTHER,
       detach_cart_callback,
+      NULL },
+    { "Reset on cartridge change",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CartridgeReset_callback,
       NULL },
     SDL_MENU_LIST_END
 };

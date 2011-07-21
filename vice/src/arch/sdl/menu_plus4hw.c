@@ -34,6 +34,7 @@
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#include "plus4model.h"
 
 #ifdef HAVE_RS232
 #include "menu_rs232.h"
@@ -41,6 +42,55 @@
 
 #include "menu_sid.h"
 #include "uimenu.h"
+
+/* PLUS4 MODEL SELECTION */
+
+static UI_MENU_CALLBACK(custom_PLUS4Model_callback)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(param);
+
+    if (activated) {
+        plus4model_set(selected);
+    } else {
+        model = plus4model_get();
+
+        if (selected == model) {
+            return sdl_menu_text_tick;
+        }
+    }
+
+    return NULL;
+}
+
+static const ui_menu_entry_t plus4_model_submenu[] = {
+    { "C16 PAL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_PLUS4Model_callback,
+      (ui_callback_data_t)PLUS4MODEL_C16_PAL },
+    { "C16 NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_PLUS4Model_callback,
+      (ui_callback_data_t)PLUS4MODEL_C16_NTSC },
+    { "Plus4 PAL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_PLUS4Model_callback,
+      (ui_callback_data_t)PLUS4MODEL_PLUS4_PAL },
+    { "Plus4 NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_PLUS4Model_callback,
+      (ui_callback_data_t)PLUS4MODEL_PLUS4_NTSC },
+    { "V364 NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_PLUS4Model_callback,
+      (ui_callback_data_t)PLUS4MODEL_V364_NTSC },
+    { "C232 NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_PLUS4Model_callback,
+      (ui_callback_data_t)PLUS4MODEL_232_NTSC },
+    SDL_MENU_LIST_END
+};
 
 UI_MENU_DEFINE_TOGGLE(SpeechEnabled)
 UI_MENU_DEFINE_FILE_STRING(SpeechImage)
@@ -60,8 +110,13 @@ static const ui_menu_entry_t v364speech_menu[] = {
 UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_TOGGLE(CS256K)
 UI_MENU_DEFINE_RADIO(H256K)
+UI_MENU_DEFINE_TOGGLE(Acia1Enable)
 
 const ui_menu_entry_t plus4_hardware_menu[] = {
+    { "Select Plus4 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)plus4_model_submenu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -82,6 +137,10 @@ const ui_menu_entry_t plus4_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)plus4_rom_menu },
+    { "ACIA installed",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_Acia1Enable_callback,
+      NULL },
 #ifdef HAVE_RS232
     { "RS232 settings",
       MENU_ENTRY_SUBMENU,

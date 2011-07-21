@@ -218,4 +218,15 @@ extern void vicii_timing_set(struct machine_timing_s *machine_timing,
 
 /* end of special video timings for dingoo */
 
+/*
+    FIXME: confirm wether SIGPIPE must be handled or not. if the emulator quits
+           or crashes when the connection is closed, you might have to install
+           a signal handler which calls monitor_abort().
+
+           see archdep_unix.c and bug #3201796
+*/
+#define archdep_signals_init(x)
+#define archdep_signals_pipe_set()
+#define archdep_signals_pipe_unset()
+
 #endif

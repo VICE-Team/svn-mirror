@@ -28,12 +28,58 @@
 #include "types.h"
 
 #include "c64dtv-resources.h"
+#include "c64dtvmodel.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
 #include "menu_sid.h"
 #include "uimenu.h"
+
+/* DTV MODEL SELECTION */
+
+static UI_MENU_CALLBACK(custom_DTVModel_callback)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(param);
+
+    if (activated) {
+        dtvmodel_set(selected);
+    } else {
+        model = dtvmodel_get();
+
+        if (selected == model) {
+            return sdl_menu_text_tick;
+        }
+    }
+
+    return NULL;
+}
+
+static const ui_menu_entry_t dtv_model_submenu[] = {
+    { "DTV2 PAL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_DTVModel_callback,
+      (ui_callback_data_t)DTVMODEL_V2_PAL },
+    { "DTV2 NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_DTVModel_callback,
+      (ui_callback_data_t)DTVMODEL_V2_NTSC },
+    { "DTV3 PAL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_DTVModel_callback,
+      (ui_callback_data_t)DTVMODEL_V3_PAL },
+    { "DTV3 NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_DTVModel_callback,
+      (ui_callback_data_t)DTVMODEL_V3_NTSC },
+    { "Hummer NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_DTVModel_callback,
+      (ui_callback_data_t)DTVMODEL_HUMMER_NTSC },
+    SDL_MENU_LIST_END
+};
 
 UI_MENU_DEFINE_TOGGLE(HummerADC)
 
@@ -48,6 +94,10 @@ UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 UI_MENU_DEFINE_RADIO(DtvRevision)
 
 const ui_menu_entry_t c64dtv_hardware_menu[] = {
+    { "Select DTV model",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)dtv_model_submenu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

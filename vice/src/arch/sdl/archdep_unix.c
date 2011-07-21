@@ -55,6 +55,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "monitor.h"
 #include "ui.h"
 #include "util.h"
 
@@ -652,3 +653,44 @@ static void archdep_shutdown_extra(void)
 #include "../unix/macosx/platform_macosx.c"
 #endif
 
+/******************************************************************************/
+
+static RETSIGTYPE break64(int sig)
+{
+    log_message(LOG_DEFAULT, "Received signal %d, exiting.", sig);
+    exit (-1);
+}
+
+/*
+    used once at init time to setup all signal handlers
+*/
+void archdep_signals_init(int do_core_dumps)
+{
+    if (!do_core_dumps) {
+        signal(SIGPIPE, break64);
+    }
+}
+
+typedef void (*signal_handler_t)(int);
+
+static signal_handler_t old_pipe_handler;
+
+static void handle_pipe(int signo)
+{
+    log_message(LOG_DEFAULT, "Received signal %d, aborting remote monitor.", signo);
+    /* monitor_abort(); */
+}
+
+/*
+    these two are used if the monitor is in remote mode. in this case we might
+    get SIGPIPE if the connection is unexpectedly closed.
+*/
+void archdep_signals_pipe_set(void)
+{
+    old_pipe_handler = signal(SIGPIPE, (signal_handler_t)handle_pipe);
+}
+
+void archdep_signals_pipe_unset(void)
+{
+    signal(SIGPIPE, old_pipe_handler);
+}

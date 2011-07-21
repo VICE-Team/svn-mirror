@@ -62,71 +62,153 @@ static const ui_menu_entry_t vicii_border_menu[] = {
 
 /* CRT emulation menu */
 
-UI_MENU_DEFINE_TOGGLE(PALEmulation)
-UI_MENU_DEFINE_SLIDER(PALScanLineShade, 0, 1000)
-UI_MENU_DEFINE_SLIDER(PALBlur, 0, 1000)
-UI_MENU_DEFINE_SLIDER(PALOddLinePhase, 0, 2000)
-UI_MENU_DEFINE_SLIDER(PALOddLineOffset, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICPALScanLineShade, 0, 1000)
+UI_MENU_DEFINE_SLIDER(VICPALBlur, 0, 1000)
+UI_MENU_DEFINE_SLIDER(VICPALOddLinePhase, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICPALOddLineOffset, 0, 2000)
 
-static const ui_menu_entry_t crt_controls_menu[] = {
-    { "CRT emulation",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_PALEmulation_callback,
-      NULL },
-    SDL_MENU_ITEM_SEPARATOR,
-    SDL_MENU_ITEM_TITLE("CRT controls"),
-    { "Scanline shade",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_PALScanLineShade_callback,
-      (ui_callback_data_t)"Set PAL shade (0-1000)" },
-    { "Blur",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_PALBlur_callback,
-      (ui_callback_data_t)"Set PAL blur (0-1000)" },
-    { "Oddline phase",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_PALOddLinePhase_callback,
-      (ui_callback_data_t)"Set PAL oddline phase (0-2000)" },
-    { "Oddline offset",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_PALOddLineOffset_callback,
-      (ui_callback_data_t)"Set PAL oddline offset (0-2000)" },
+UI_MENU_DEFINE_SLIDER(VDCPALScanLineShade, 0, 1000)
+UI_MENU_DEFINE_SLIDER(VDCPALBlur, 0, 1000)
+UI_MENU_DEFINE_SLIDER(VDCPALOddLinePhase, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VDCPALOddLineOffset, 0, 2000)
+
+UI_MENU_DEFINE_SLIDER(VICIIPALScanLineShade, 0, 1000)
+UI_MENU_DEFINE_SLIDER(VICIIPALBlur, 0, 1000)
+UI_MENU_DEFINE_SLIDER(VICIIPALOddLinePhase, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICIIPALOddLineOffset, 0, 2000)
+
+UI_MENU_DEFINE_SLIDER(TEDPALScanLineShade, 0, 1000)
+UI_MENU_DEFINE_SLIDER(TEDPALBlur, 0, 1000)
+UI_MENU_DEFINE_SLIDER(TEDPALOddLinePhase, 0, 2000)
+UI_MENU_DEFINE_SLIDER(TEDPALOddLineOffset, 0, 2000)
+
+UI_MENU_DEFINE_SLIDER(CrtcPALScanLineShade, 0, 1000)
+UI_MENU_DEFINE_SLIDER(CrtcPALBlur, 0, 1000)
+UI_MENU_DEFINE_SLIDER(CrtcPALOddLinePhase, 0, 2000)
+UI_MENU_DEFINE_SLIDER(CrtcPALOddLineOffset, 0, 2000)
+
+#define VICE_SDL_CRTEMU_MENU_ITEMS(chip)                        \
+    { "Scanline shade",                                         \
+      MENU_ENTRY_RESOURCE_INT,                                  \
+      slider_##chip##PALScanLineShade_callback,                 \
+      (ui_callback_data_t)"Set PAL shade (0-1000)" },           \
+    { "Blur",                                                   \
+      MENU_ENTRY_RESOURCE_INT,                                  \
+      slider_##chip##PALBlur_callback,                          \
+      (ui_callback_data_t)"Set PAL blur (0-1000)" },            \
+    { "Oddline phase",                                          \
+      MENU_ENTRY_RESOURCE_INT,                                  \
+      slider_##chip##PALOddLinePhase_callback,                  \
+      (ui_callback_data_t)"Set PAL oddline phase (0-2000)" },   \
+    { "Oddline offset",                                         \
+      MENU_ENTRY_RESOURCE_INT,                                  \
+      slider_##chip##PALOddLineOffset_callback,                 \
+      (ui_callback_data_t)"Set PAL oddline offset (0-2000)" }
+
+static const ui_menu_entry_t vic_crt_controls_menu[] = {
+    VICE_SDL_CRTEMU_MENU_ITEMS(VIC),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t vicii_crt_controls_menu[] = {
+    VICE_SDL_CRTEMU_MENU_ITEMS(VICII),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t vdc_crt_controls_menu[] = {
+    VICE_SDL_CRTEMU_MENU_ITEMS(VDC),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t ted_crt_controls_menu[] = {
+    VICE_SDL_CRTEMU_MENU_ITEMS(TED),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t crtc_crt_controls_menu[] = {
+    VICE_SDL_CRTEMU_MENU_ITEMS(Crtc),
     SDL_MENU_LIST_END
 };
 
 
 /* Color menu */
 
-UI_MENU_DEFINE_SLIDER(ColorGamma, 0, 4000)
-UI_MENU_DEFINE_SLIDER(ColorTint, 0, 2000)
-UI_MENU_DEFINE_SLIDER(ColorSaturation, 0, 2000)
-UI_MENU_DEFINE_SLIDER(ColorContrast, 0, 2000)
-UI_MENU_DEFINE_SLIDER(ColorBrightness, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICColorGamma, 0, 4000)
+UI_MENU_DEFINE_SLIDER(VICColorTint, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICColorSaturation, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICColorContrast, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICColorBrightness, 0, 2000)
 
-static const ui_menu_entry_t color_controls_menu[] = {
-    { "Gamma",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_ColorGamma_callback,
-      (ui_callback_data_t)"Set gamma (0-4000)" },
-    { "Tint",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_ColorTint_callback,
-      (ui_callback_data_t)"Set tint (0-2000)" },
-    { "Saturation",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_ColorSaturation_callback,
-      (ui_callback_data_t)"Set saturation (0-2000)" },
-    { "Contrast",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_ColorContrast_callback,
-      (ui_callback_data_t)"Set contrast (0-2000)" },
-    { "Brightness",
-      MENU_ENTRY_RESOURCE_INT,
-      slider_ColorBrightness_callback,
-      (ui_callback_data_t)"Set brightness (0-2000)" },
+UI_MENU_DEFINE_SLIDER(VICIIColorGamma, 0, 4000)
+UI_MENU_DEFINE_SLIDER(VICIIColorTint, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICIIColorSaturation, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICIIColorContrast, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VICIIColorBrightness, 0, 2000)
+
+UI_MENU_DEFINE_SLIDER(VDCColorGamma, 0, 4000)
+UI_MENU_DEFINE_SLIDER(VDCColorTint, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VDCColorSaturation, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VDCColorContrast, 0, 2000)
+UI_MENU_DEFINE_SLIDER(VDCColorBrightness, 0, 2000)
+
+UI_MENU_DEFINE_SLIDER(TEDColorGamma, 0, 4000)
+UI_MENU_DEFINE_SLIDER(TEDColorTint, 0, 2000)
+UI_MENU_DEFINE_SLIDER(TEDColorSaturation, 0, 2000)
+UI_MENU_DEFINE_SLIDER(TEDColorContrast, 0, 2000)
+UI_MENU_DEFINE_SLIDER(TEDColorBrightness, 0, 2000)
+
+UI_MENU_DEFINE_SLIDER(CrtcColorGamma, 0, 4000)
+UI_MENU_DEFINE_SLIDER(CrtcColorTint, 0, 2000)
+UI_MENU_DEFINE_SLIDER(CrtcColorSaturation, 0, 2000)
+UI_MENU_DEFINE_SLIDER(CrtcColorContrast, 0, 2000)
+UI_MENU_DEFINE_SLIDER(CrtcColorBrightness, 0, 2000)
+
+#define VICE_SDL_COLOR_MENU_ITEMS(chip)                        \
+    { "Gamma",                                                 \
+      MENU_ENTRY_RESOURCE_INT,                                 \
+      slider_##chip##ColorGamma_callback,                      \
+      (ui_callback_data_t)"Set gamma (0-4000)" },              \
+    { "Tint",                                                  \
+      MENU_ENTRY_RESOURCE_INT,                                 \
+      slider_##chip##ColorTint_callback,                       \
+      (ui_callback_data_t)"Set tint (0-2000)" },               \
+    { "Saturation",                                            \
+      MENU_ENTRY_RESOURCE_INT,                                 \
+      slider_##chip##ColorSaturation_callback,                 \
+      (ui_callback_data_t)"Set saturation (0-2000)" },         \
+    { "Contrast",                                              \
+      MENU_ENTRY_RESOURCE_INT,                                 \
+      slider_##chip##ColorContrast_callback,                   \
+      (ui_callback_data_t)"Set contrast (0-2000)" },           \
+    { "Brightness",                                            \
+      MENU_ENTRY_RESOURCE_INT,                                 \
+      slider_##chip##ColorBrightness_callback,                 \
+      (ui_callback_data_t)"Set brightness (0-2000)" }
+
+static const ui_menu_entry_t vic_color_controls_menu[] = {
+    VICE_SDL_COLOR_MENU_ITEMS(VIC),
     SDL_MENU_LIST_END
 };
 
+static const ui_menu_entry_t vicii_color_controls_menu[] = {
+    VICE_SDL_COLOR_MENU_ITEMS(VICII),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t vdc_color_controls_menu[] = {
+    VICE_SDL_COLOR_MENU_ITEMS(VDC),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t ted_color_controls_menu[] = {
+    VICE_SDL_COLOR_MENU_ITEMS(TED),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t crtc_color_controls_menu[] = {
+    VICE_SDL_COLOR_MENU_ITEMS(Crtc),
+    SDL_MENU_LIST_END
+};
 
 /* Size menu template */
 
@@ -334,17 +416,64 @@ static const ui_menu_entry_t vic_size_menu[] = {
 };
 
 
-/* Misc. callbacks */
+/* Output Rendering Filter */
+UI_MENU_DEFINE_RADIO(VICIIFilter)
+UI_MENU_DEFINE_RADIO(TEDFilter)
+UI_MENU_DEFINE_RADIO(VICFilter)
+UI_MENU_DEFINE_RADIO(VDCFilter)
+UI_MENU_DEFINE_RADIO(CrtcFilter)
 
+#define VICE_SDL_FILTER_MENU_ITEMS(chip)  \
+    { "None",                                  \
+      MENU_ENTRY_RESOURCE_RADIO,               \
+      radio_##chip##Filter_callback,           \
+      (ui_callback_data_t)VIDEO_FILTER_NONE }, \
+    { "CRT Emulation",                         \
+      MENU_ENTRY_RESOURCE_RADIO,               \
+      radio_##chip##Filter_callback,           \
+      (ui_callback_data_t)VIDEO_FILTER_CRT }
+
+#define VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(chip)  \
+    { "Scale2x",                               \
+      MENU_ENTRY_RESOURCE_RADIO,               \
+      radio_##chip##Filter_callback,           \
+      (ui_callback_data_t)VIDEO_FILTER_SCALE2X }
+
+static const ui_menu_entry_t vicii_filter_menu[] = {
+    VICE_SDL_FILTER_MENU_ITEMS(VICII),
+    VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(VICII),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t ted_filter_menu[] = {
+    VICE_SDL_FILTER_MENU_ITEMS(TED),
+    VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(TED),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t vic_filter_menu[] = {
+    VICE_SDL_FILTER_MENU_ITEMS(VIC),
+    VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(VIC),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t crtc_filter_menu[] = {
+    VICE_SDL_FILTER_MENU_ITEMS(Crtc),
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t vdc_filter_menu[] = {
+    VICE_SDL_FILTER_MENU_ITEMS(VDC),
+    SDL_MENU_LIST_END
+};
+
+/* Misc. callbacks */
 UI_MENU_DEFINE_TOGGLE(VICIIVideoCache)
-UI_MENU_DEFINE_TOGGLE(VICIIScale2x)
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
-UI_MENU_DEFINE_TOGGLE(TEDScale2x)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
-UI_MENU_DEFINE_TOGGLE(VICScale2x)
 UI_MENU_DEFINE_TOGGLE(VICIIExternalPalette)
 UI_MENU_DEFINE_TOGGLE(VDCExternalPalette)
 UI_MENU_DEFINE_TOGGLE(CrtcExternalPalette)
@@ -421,18 +550,18 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIINewLuminances_callback,
       NULL },
-    { "Color controls",
+    { "VICII Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
-    { "CRT emulation controls",
+      (ui_callback_data_t)vicii_color_controls_menu },
+    { "VICII CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
-    { "VICII Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+      (ui_callback_data_t)vicii_crt_controls_menu },
+    { "VICII render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_filter_menu },
     { "External VICII palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VICIIExternalPalette_callback,
@@ -441,10 +570,23 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose VICII palette file" },
+    SDL_MENU_ITEM_SEPARATOR,
     { "VDC Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VDCVideoCache_callback,
       NULL },
+    { "VDC Color controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vdc_color_controls_menu },
+    { "VDC CRT emulation controls",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vdc_crt_controls_menu },
+    { "VDC render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vdc_filter_menu },
     { "External VDC palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_VDCExternalPalette_callback,
@@ -496,15 +638,15 @@ const ui_menu_entry_t c64_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)vicii_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+      (ui_callback_data_t)vicii_crt_controls_menu },
+    { "Render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_filter_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -538,15 +680,15 @@ const ui_menu_entry_t c64sc_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)vicii_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+      (ui_callback_data_t)vicii_crt_controls_menu },
+    { "Render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_filter_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -589,15 +731,15 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)vicii_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+      (ui_callback_data_t)vicii_crt_controls_menu },
+    { "Render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_filter_menu },
 #if 0   /* disabled until there are external DTV palette files available */
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -647,15 +789,15 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)vicii_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICIIScale2x_callback,
-      NULL },
+      (ui_callback_data_t)vicii_crt_controls_menu },
+    { "Render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vicii_filter_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -699,11 +841,15 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)crtc_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
+      (ui_callback_data_t)crtc_crt_controls_menu },
+    { "Render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)crtc_filter_menu },
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CrtcExternalPalette_callback,
@@ -736,11 +882,15 @@ const ui_menu_entry_t pet_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)crtc_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
+      (ui_callback_data_t)crtc_crt_controls_menu },
+    { "Render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)crtc_filter_menu },
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_CrtcExternalPalette_callback,
@@ -773,15 +923,15 @@ const ui_menu_entry_t plus4_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)ted_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_TEDScale2x_callback,
-      NULL },
+      (ui_callback_data_t)ted_crt_controls_menu },
+    { "Render filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)ted_filter_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -836,15 +986,15 @@ const ui_menu_entry_t vic20_video_menu[] = {
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)color_controls_menu },
+      (ui_callback_data_t)vic_color_controls_menu },
     { "CRT emulation controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)crt_controls_menu },
-    { "Scale2x",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_VICScale2x_callback,
-      NULL },
+      (ui_callback_data_t)vic_crt_controls_menu },
+    { "Rrender filter",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vic_filter_menu },
     SDL_MENU_ITEM_SEPARATOR,
     { "External palette",
       MENU_ENTRY_RESOURCE_TOGGLE,

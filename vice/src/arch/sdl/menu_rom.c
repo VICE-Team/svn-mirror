@@ -248,8 +248,12 @@ const ui_menu_entry_t pet_rom_menu[] = {
     SDL_MENU_LIST_END
 };
 
-UI_MENU_DEFINE_FILE_STRING(3plus1loName)
-UI_MENU_DEFINE_FILE_STRING(3plus1hiName)
+UI_MENU_DEFINE_FILE_STRING(FunctionLowName)
+UI_MENU_DEFINE_FILE_STRING(FunctionHighName)
+UI_MENU_DEFINE_FILE_STRING(c1loName)
+UI_MENU_DEFINE_FILE_STRING(c1hiName)
+UI_MENU_DEFINE_FILE_STRING(c2loName)
+UI_MENU_DEFINE_FILE_STRING(c2hiName)
 
 const ui_menu_entry_t plus4_rom_menu[] = {
     { "Drive ROMs",
@@ -266,13 +270,29 @@ const ui_menu_entry_t plus4_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_BasicName_callback,
       (ui_callback_data_t)"Select basic ROM image" },
-    { "3+1 low",
+    { "Function low",
       MENU_ENTRY_DIALOG,
-      file_string_3plus1loName_callback,
-      (ui_callback_data_t)"Select 3+1 low ROM image" },
-    { "3+1 high",
+      file_string_FunctionLowName_callback,
+      (ui_callback_data_t)"Select Function low ROM image" },
+    { "Function high",
       MENU_ENTRY_DIALOG,
-      file_string_3plus1hiName_callback,
-      (ui_callback_data_t)"Select 3+1 high ROM image" },
+      file_string_FunctionHighName_callback,
+      (ui_callback_data_t)"Select Function high ROM image" },
+    { "C1 low",
+      MENU_ENTRY_DIALOG,
+      file_string_c1loName_callback,
+      (ui_callback_data_t)"Select C1 low ROM image" },
+    { "C1 high",
+      MENU_ENTRY_DIALOG,
+      file_string_c1hiName_callback,
+      (ui_callback_data_t)"Select C1 high ROM image" },
+    { "C2 low",
+      MENU_ENTRY_DIALOG,
+      file_string_c2loName_callback,
+      (ui_callback_data_t)"Select C2 low ROM image" },
+    { "C2 high",
+      MENU_ENTRY_DIALOG,
+      file_string_c2hiName_callback,
+      (ui_callback_data_t)"Select C2 high ROM image" },
     SDL_MENU_LIST_END
 };
