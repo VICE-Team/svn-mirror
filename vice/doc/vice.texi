@@ -9601,6 +9601,8 @@ supported by the emulators.
 * G64::                         The GCR-encoded disk image format
 * D64::                         The D64 disk image format
 * D71::                         The D71 disk image format
+* D81::                         The D81 disk image format
+* D80::                         The D80 disk image format
 * X64::                         The X64 disk image format
 @end menu
 
@@ -9619,8 +9621,6 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @end menu
 
 @c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-@c FIXME: add D81 VC1581 disk image file structure
-@c FIXME: add D80 CBM8050 disk image file structure
 @c FIXME: add D82 CBM8250/1001 disk image file structure
 @c FIXME: add P00 program file structure;
 @c FIXME: add CRT c64 cartridge images file structure
@@ -11048,11 +11048,11 @@ As most instances of X64 files will be strictly 1541 images,
 bytes $08-$3F are set to zero, and some versions of the X64
 emulator don't use bytes $08-$3F.
 
-@node D71, , X64, File formats
+@node D71, D81, X64, File formats
 @section The D71 disk image format
 
 @c FIXME: the D71 section needs to be style-checked.
-@c FIXME: some of the D64 section needs to have sub-sections.
+@c FIXME: some of the D71 section needs to have sub-sections.
 
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
@@ -11708,6 +11708,2678 @@ Just like a D64, you can attach error bytes to the file, for
 sector error information. This block is 1366 bytes long, 1 byte
 for each of the 1366 sectors in the image. With the error bytes,
 the file size is 351062 bytes.
+
+@node D81, D80, D71, File formats
+@section The D81 disk image format
+
+@c FIXME: the D81 section needs to be style-checked.
+@c FIXME: some of the D81 section needs to have sub-sections.
+
+(This section was contributed by Peter Schepers and slightly edited by
+Marco van den Heuvel.)
+
+Like D64 and D71, this is a byte for byte copy of a physical 1581
+disk. It consists of 80 tracks, 40 sectors each (0 to 39) for a
+size of 819200 bytes, or 3200 sectors. If the error byte block is
+attached, this makes the file size 822400 bytes.
+
+There are three sectors on the directory track used for disk
+internals (header and BAM), leaving 37 sectors for filename
+entries, thus allowing for 296 files (37 * 8) to be stored at the
+root level of the disk.
+
+The actual physical layout on the disk is quite different from what
+the user sees, but this is unimportant to the scope of this section.
+One important difference from the D64 and D71 is all the sector
+interleaves are now 1 for both files and directory storage (rather
+than 3 for directory and 10 for file on a D64/D71). This is due to
+the built-in buffering in the 1581. When reading a sector, the
+whole track will be buffered in memory, and any sectors being
+modified will be done in memory. Once it has to be written, the
+whole track will be written out in one step.
+
+The track range and offsets into the D81 files are as follows:
+
+@multitable @columnfractions .25 .25 .25 .25
+@item @b{Track}
+@tab @b{#Sect}
+@tab @b{#SectorsIn}
+@tab @b{D81 Offset}
+@item 1
+@tab 40
+@tab 0
+@tab $00000
+@item 2
+@tab 40
+@tab 40
+@tab $02800
+@item 3
+@tab 40
+@tab 80
+@tab $05000
+@item 4
+@tab 40
+@tab 120
+@tab $07800
+@item 5
+@tab 40
+@tab 160
+@tab $0A000
+@item 6
+@tab 40
+@tab 200
+@tab $0C800
+@item 7
+@tab 40
+@tab 240
+@tab $0F000
+@item 8
+@tab 40
+@tab 280
+@tab $11800
+@item 9
+@tab 40
+@tab 320
+@tab $14000
+@item 10
+@tab 40
+@tab 360
+@tab $16800
+@item 11
+@tab 40
+@tab 400
+@tab $19000
+@item 12
+@tab 40
+@tab 440
+@tab $1B800
+@item 13
+@tab 40
+@tab 480
+@tab $1E000
+@item 14
+@tab 40
+@tab 520
+@tab $20800
+@item 15
+@tab 40
+@tab 560
+@tab $23000
+@item 16
+@tab 40
+@tab 600
+@tab $25800
+@item 17
+@tab 40
+@tab 640
+@tab $28000
+@item 18
+@tab 40
+@tab 680
+@tab $2A800
+@item 19
+@tab 40
+@tab 720
+@tab $2D000
+@item 20
+@tab 40
+@tab 760
+@tab $2F800
+@item 21
+@tab 40
+@tab 800
+@tab $32000
+@item 22
+@tab 40
+@tab 840
+@tab $34800
+@item 23
+@tab 40
+@tab 880
+@tab $37000
+@item 24
+@tab 40
+@tab 920
+@tab $39800
+@item 25
+@tab 40
+@tab 960
+@tab $3C000
+@item 26
+@tab 40
+@tab 1000
+@tab $3E800
+@item 27
+@tab 40
+@tab 1040
+@tab $41000
+@item 28
+@tab 40
+@tab 1080
+@tab $43800
+@item 29
+@tab 40
+@tab 1120
+@tab $46000
+@item 30
+@tab 40
+@tab 1160
+@tab $48800
+@item 31
+@tab 40
+@tab 1200
+@tab $4B000
+@item 32
+@tab 40
+@tab 1240
+@tab $4D800
+@item 33
+@tab 40
+@tab 1280
+@tab $50000
+@item 34
+@tab 40
+@tab 1320
+@tab $52800
+@item 35
+@tab 40
+@tab 1360
+@tab $55000
+@item 36
+@tab 40
+@tab 1400
+@tab $57800
+@item 37
+@tab 40
+@tab 1440
+@tab $5A000
+@item 38
+@tab 40
+@tab 1480
+@tab $5C800
+@item 39
+@tab 40
+@tab 1520
+@tab $5F000
+@item 40
+@tab 40
+@tab 1560
+@tab $61800
+@item 41
+@tab 40
+@tab 1600
+@tab $64000
+@item 42
+@tab 40
+@tab 1640
+@tab $66800
+@item 43
+@tab 40
+@tab 1680
+@tab $69000
+@item 44
+@tab 40
+@tab 1720
+@tab $6B800
+@item 45
+@tab 40
+@tab 1760
+@tab $6E000
+@item 46
+@tab 40
+@tab 1800
+@tab $70800
+@item 47
+@tab 40
+@tab 1840
+@tab $73000
+@item 48
+@tab 40
+@tab 1880
+@tab $75800
+@item 49
+@tab 40
+@tab 1920
+@tab $78000
+@item 50
+@tab 40
+@tab 1960
+@tab $7A800
+@item 51
+@tab 40
+@tab 2000
+@tab $7D000
+@item 52
+@tab 40
+@tab 2040
+@tab $7F800
+@item 53
+@tab 40
+@tab 2080
+@tab $82000
+@item 54
+@tab 40
+@tab 2120
+@tab $84800
+@item 55
+@tab 40
+@tab 2160
+@tab $87000
+@item 56
+@tab 40
+@tab 2200
+@tab $89800
+@item 57
+@tab 40
+@tab 2240
+@tab $8C000
+@item 58
+@tab 40
+@tab 2280
+@tab $8E800
+@item 59
+@tab 40
+@tab 2320
+@tab $91000
+@item 60
+@tab 40
+@tab 2360
+@tab $93800
+@item 61
+@tab 40
+@tab 2400
+@tab $96000
+@item 62
+@tab 40
+@tab 2440
+@tab $98800
+@item 63
+@tab 40
+@tab 2480
+@tab $9B000
+@item 64
+@tab 40
+@tab 2520
+@tab $9D800
+@item 65
+@tab 40
+@tab 2560
+@tab $A0000
+@item 66
+@tab 40
+@tab 2600
+@tab $A2800
+@item 67
+@tab 40
+@tab 2640
+@tab $A5000
+@item 68
+@tab 40
+@tab 2680
+@tab $A7800
+@item 69
+@tab 40
+@tab 2720
+@tab $AA000
+@item 70
+@tab 40
+@tab 2760
+@tab $AC800
+@item 71
+@tab 40
+@tab 2800
+@tab $AF000
+@item 72
+@tab 40
+@tab 2840
+@tab $B1800
+@item 73
+@tab 40
+@tab 2880
+@tab $B4000
+@item 74
+@tab 40
+@tab 2920
+@tab $B6800
+@item 75
+@tab 40
+@tab 2960
+@tab $B9000
+@item 76
+@tab 40
+@tab 3000
+@tab $BB800
+@item 77
+@tab 40
+@tab 3040
+@tab $BE000
+@item 78
+@tab 40
+@tab 3080
+@tab $C0800
+@item 79
+@tab 40
+@tab 3120
+@tab $C3000
+@item 80
+@tab 40
+@tab 3160
+@tab $C5800
+@end multitable
+
+The header sector is stored at 40/0, and contains the disk name,
+ID and DOS version bytes, but the BAM is no longer contained here
+(like the D64).
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 28 03 44 00 31 35 38 31 20 55 54 49 4C 49 54 59
+10: 20 56 30 31 A0 A0 47 42 A0 33 44 A0 A0 00 00 00
+20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+A0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+B0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+E0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab Track/Sector location of the first directory sector (should be set to 40/3 but it doesn't matter, and don't trust what is there, always go to 40/3 for first directory entry)
+@item $02
+@tab Disk DOS version type (see note below) $44 ('D')=1581
+@item $03
+@tab $00
+@item $04-$13
+@tab 16 character Disk Name (padded with $A0)
+@item $14-$15
+@tab $A0
+@item $16-$17
+@tab Disk ID
+@item $18
+@tab $A0
+@item $19
+@tab DOS Version ("3")
+@item $1A
+@tab Disk version ("D")
+@item $1B-$1C
+@tab $A0
+@item $1D-$FF
+@tab Unused (usually $00)
+@end multitable
+
+The following might be set if the disk is a GEOS format (this
+info is based on the D64 layout, and might not prove to be true)
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $AB-$AC
+@tab Border sector (GEOS only, else set to $00)
+@item $AD-$BC
+@tab GEOS ID string ("geos FORMAT V1.x" GEOS only, else $00)
+@item $BD-$FF
+@tab Unused (usually $00)
+@end multitable
+
+Note: If the DOS version byte is changed to anything other than
+a $44 (or $00), then we have what is called "soft write
+protection". Any attempt to write to the disk will return the
+"DOS Version" error code 73. The drive is simply telling you
+that it thinks the disk format version is incompatible.
+
+The directory track should be contained totally on track 40.
+Sectors 3-39 contain the entries and sector 1 and 2 contain the
+BAM (Block Availability Map). Sector 0 holds the disk name and
+ID. The first directory sector is always 40/3, even though the
+t/s pointer at 40/0 (first two bytes) might point somewhere
+else. It goes linearly up the sector count, 3-4-5-6-etc. Each
+sector holds up to eight entries.
+
+The first two bytes of the sector ($28/$04) indicate the location
+of the next track/sector of the directory (40/4). If the track is
+set to $00, then it is the last sector of the directory. It is
+possible, however unlikely, that the directory may *not* be
+competely on track 40. Just follow the chain anyhow.
+
+When the directory is done (track=$00), the sector should contain
+an $FF, meaning the whole sector is allocated. Theactual value
+doesn't matter as all the entries will be returned anyways. Each
+directory sector has the following layout:
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 28 04 81 2B 00 53 43 52 45 45 4E 20 20 33 A0 A0
+10: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 02 00
+20: 00 00 81 2B 01 53 43 52 45 45 4E 20 20 34 A0 A0
+30: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 03 00
+40: 00 00 81 2B 02 53 43 52 45 45 4E 20 20 35 A0 A0
+50: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 07 00
+60: 00 00 81 2B 08 53 43 52 45 45 4E 20 20 36 A0 A0
+70: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 08 00
+80: 00 00 81 2B 14 53 43 52 45 45 4E 20 20 37 A0 A0
+90: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 07 00
+A0: 00 00 81 24 00 53 43 52 45 45 4E 20 20 38 A0 A0
+B0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 0B 00
+C0: 00 00 82 24 04 46 49 4C 45 34 32 39 33 36 39 30
+D0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 07 00
+E0: 00 00 82 24 06 46 49 4C 45 32 35 37 38 38 31 35
+F0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 05 00
+@end example
+
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$1F
+@tab First directory entry
+@item $20-$3F
+@tab Second dir entry
+@item $40-$5F
+@tab Third dir entry
+@item $60-$7F
+@tab Fourth dir entry
+@item $80-$9F
+@tab Fifth dir entry
+@item $A0-$BF
+@tab Sixth dir entry
+@item $C0-$DF
+@tab Seventh dir entry
+@item $E0-$FF
+@tab Eighth dir entry
+@end multitable
+
+This is a breakdown of a standard directory entry:
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab Track/Sector location of next directory sector
+@item $02
+@tab File type
+@item $03-$04
+@tab Track/sector location of first sector of file or partition
+@item $05-$14
+@tab 16 character filename (in PETASCII, padded with $A0)
+@item $15-$16
+@tab Track/Sector location of first SUPER SIDE SECTOR block (REL file only)
+@item $17
+@tab REL file record length (REL file only)
+@item $18-$1B
+@tab Unused (except with GEOS disks)
+@item $1C-$1D
+@tab (Used during an @SAVE or @OPEN, holds the new t/s link)
+@item $1E-$1F
+@tab File or partition size in sectors, low/high byte order ($1E+$1F*256). The approx. file size in bytes is <= #sectors * 254
+@end multitable
+
+The file type field is used as follows:
+
+@multitable @columnfractions .2 .8
+@item @b{Bits}
+@tab @b{Description}
+@item 0-3
+@tab The actual file type
+@item 4
+@tab Unused
+@item 5
+@tab Used only during SAVE-@ replacement
+@item 6
+@tab Locked flag (Set produces ">" locked files)
+@item 7
+@tab Closed flag (Not set produces "*", or "splat" files)
+@end multitable
+
+The actual file type can be one of the following:
+
+@multitable @columnfractions .2 .2 .6
+@item @b{Binary}
+@tab @b{Decimal}
+@tab @b{File type}
+@item 0000
+@tab 0
+@tab DEL
+@item 0001
+@tab 1
+@tab SEQ
+@item 0010
+@tab 2
+@tab PRG
+@item 0011
+@tab 3
+@tab USR
+@item 0100
+@tab 4
+@tab REL
+@item 0101
+@tab 5
+@tab CBM (partition or sub-directory)
+@end multitable
+
+Values 6-15 are illegal, but if used will produce very strange results.
+
+*** Non-Standard & Long Directories
+
+Most Commdore floppy disk drives use a single dedicated directory
+track where all filenames are stored. This limits the number of
+files stored on a disk based on the number of sectors on the
+directory track. There are some disk images that contain more
+files than would normally be allowed. This requires extending the
+directory off the default directory track by changing the last
+directory sector pointer to a new track, allocating the new
+sectors in the BAM, and manually placing (or moving existing)
+file entries there. The directory of an extended disk can be read
+and the files that reside there can be loaded without problems on
+a real drive. However, this is still a very dangerous practice as
+writing to the extended portion of the directory will cause
+directory corruption in the non-extended part. Many of the floppy
+drives core ROM routines ignore the track value that the
+directory is on and assume the default directory track for
+operations.
+
+*** BAM layout
+
+The BAM is located on 40/1 (for side 0, tracks 1-40) and 40/2
+(for side 1, tracks 41-80). Each entry takes up six bytes, one
+for the "free sector" count and five for the allocation bitmap.
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 28 02 44 BB 47 42 C0 00 00 00 00 00 00 00 00 00
+10: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+20: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+30: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+40: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+50: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+60: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+70: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+80: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+90: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+A0: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+B0: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+C0: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+D0: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+E0: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+F0: FF FF FF FF 28 FF FF FF FF FF 24 F0 FF 2D FF FE
+
+@example
+Bytes:
+$00-$01: Track/sector of next bam sector (40/2)
+    $02: Version # ('D')
+    $03: One's complement of version# ($BB)
+$04-$05: Disk ID bytes (same as 40/0 Disk ID)
+    $06: I/O byte
+         bit 7 set - Verify on
+         bit 7 clear - Verify off
+         bit 6 set - Check header CRC
+         bit 6 clear - Don't check header CRC
+    $07: Auto-boot-loader flag
+$08-$0F: Reserved for future (set to $00)
+$10-$15: BAM entry for track 1 (track 41, side 1)
+$16-$1B: BAM entry for track 2 (track 42, side 1)
+         ...
+$46-$4B: BAM entry for track 10 (track 50, side 1)
+         ...
+$82-$87: BAM entry for track 20 (track 60, side 1)
+         ...
+$BE-$C3: BAM entry for track 30 (track 70, side 1)
+         ...
+$FA-$FF: BAM entry for track 40 (track 80, side 1)
+@end example
+
+The BAM entries require some explanation, so lets look at the
+track 40 entry at bytes $FA-FF ($24 $F0 $FF $2D $FF $FE). The
+first byte ($24, or 36 decimal) is the number of free sectors
+on that track. The next five bytes represent the bitmap of
+which sectors are used/free. Since it is five bytes
+(8 bits/byte) we have 40 bits of storage. Since this format
+has 40 sectors/track, the whole five bytes are used.
+
+@example
+ F0: .. .. .. .. .. .. .. .. .. .. 24 F0 FF 2D FF FE
+@end example
+
+The last five bytes of any BAM entry must be viewed in binary
+to make any sense. We will once again use track 40 as our
+reference:
+
+@example
+ F0=11110000, FF=11111111, 2D=00101101, FF=11111111, FE=11111110
+@end example
+
+In order to make any sense from the binary notation, flip the
+bits around.
+
+@example
+                   111111 11112222 22222233 33333333
+ Sector 01234567 89012345 67890123 45678901 23456789
+        -------------------------- -------- --------
+        00001111 11111111 10110100 11111111 01111111
+@end example
+
+Note that if a bit is on (1), the sector is free. Therefore,
+track 40 has sectors 0-3, 17, 20, 22, 23 and 32 used, all the
+rest are free.
+
+The second BAM (for side 1) contains the entries for tracks
+41-80.
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 00 FF 44 BB 47 42 C0 00 00 00 00 00 00 00 00 00
+10: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+20: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+30: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+40: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+50: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+60: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+70: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+80: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+90: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+A0: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+B0: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+C0: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+D0: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+E0: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
+F0: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
+@end example
+
+It is laid out exactly as the side 0 BAM except for one
+difference. The track/sector reference for the next sector
+should be set to $00/$FF, indicating there is no next sector.
+
+*** REL files The REL filetype requires some extra explaining.
+It was designed to make access to data *anywhere* on the disk
+very fast. Take a look at this directory entry...
+
+@example
+ 00: 00 FF 84 27 00 41 44 44 49 54 49 4F 4E 41 4C 20
+ 10: 49 4E 46 4F A0 27 02 FE 00 00 00 00 00 00 D2 0B
+@end example
+
+The third byte ($84) indicates this entry is a REL file and
+that the three normally empty entries at offset $15, $16 and
+$17 are now used as they are explained above. It's the
+track/sector chain that this entry points to, called the SUPER
+SIDE SECTOR, which is of interest here (in this case, 39/2).
+The SUPER SIDE SECTOR is very different from the D64 format. If
+you check the D64 entry for a REL file and do the calculations,
+you will find that the maximum file size of the REL file is 720
+data sectors. With the new SUPER SIDE SECTOR, you can now have
+126 groups of these SIDE SECTORS chains, allowing for file
+sizes up to (theoretically) 90720 sectors, or about 22.15
+Megabytes.
+
+Here is a dump of the beginning of the SUPER SIDE SECTOR...
+
+@example
+ 00: 27 01 FE 27 01 15 09 03 0F 38 16 4A 1C 00 00 00
+ 10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ 20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
+
+@example
+Bytes:
+$00-$01: Track/sector of first side sector in group 0
+    $02: Always $FE
+$03-$04: Track/sector of first side sector in group 0 (again)
+         ...
+$FD-$FE: Track/sector of first side sector in group 125
+    $FF: Unused (likely $00)
+@end example
+
+The side sector layout is the same as the D64/1571.
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 12 0A 00 FE 15 09 12 0A 0F 0B 0C 0C 09 0D 06 0E
+10: 15 07 15 08 15 0A 15 0B 15 0C 15 0D 15 0E 15 0F
+20: 15 10 15 11 15 12 15 13 15 14 15 15 15 16 15 17
+30: 15 18 15 19 15 1A 15 1B 15 1C 15 1D 15 1E 15 1F
+40: 15 20 15 21 15 22 15 23 15 24 15 25 15 26 15 27
+50: 14 00 14 01 14 02 14 03 14 04 14 05 14 06 14 07
+60: 14 08 14 09 14 0A 14 0B 14 0C 14 0D 14 0E 14 0F
+70: 14 10 14 11 14 12 14 13 14 14 14 15 14 16 14 17
+80: 14 18 14 19 14 1A 14 1B 14 1C 14 1D 14 1E 14 1F
+90: 14 20 14 21 14 22 14 23 14 24 14 25 14 26 14 27
+A0: 13 00 13 01 13 02 13 03 13 04 13 05 13 06 13 07
+B0: 13 08 13 09 13 0A 13 0B 13 0C 13 0D 13 0E 13 0F
+C0: 13 10 13 11 13 12 13 13 13 14 13 15 13 16 13 17
+D0: 13 18 13 19 13 1A 13 1B 13 1C 13 1D 13 1E 13 1F
+E0: 13 20 13 21 13 22 13 23 13 24 13 25 13 26 13 27
+F0: 12 00 12 01 12 02 12 03 12 04 12 05 12 06 12 07
+@end example
+
+@example
+Bytes:
+    $00: Track location of next side-sector ($00 if last sector)
+    $01: Sector location of next side-sector
+    $02: Side-sector block number (first sector is $00, the next is
+         $01, then $02, etc)
+    $03: REL file RECORD size (from directory entry)
+$04-$0F: Track/sector locations of the six other side-sectors. Note
+         the first entry is this very sector we have listed here.
+         The next is the next t/s listed at the beginning of the
+         sector. All of this information must be correct. If one of
+         these chains is $00/$00, then we have no more side sectors.
+         Also, all of these (up to six) side sectors must have the
+         same values in this range.
+$10-$FF: T/S chains of *each* sector of the data portion. When we
+         get a $00/$00, we are at the end of the file.
+@end example
+
+*** 1581 Partitions and Sub-directories
+
+At the beginning of this section it was stated that the 1581 can
+hold 296 entries "at the root level". The 1581 also has the
+ability to partition areas of the disk. Under the right
+conditions these can become sub-directories, acting as a small
+diskette, complete with its own directory and BAM. When you are
+inside of a sub-directory, no other files except those in that
+directory are visible, or can be affected.
+
+To the 1581, this file will show up as a "CBM" filetype in a
+directory. All this does is tell the disk that a file, starting
+at X/Y track/sector and Z sectors large exists. Doing a validate
+will not harm these files as they have a directory entry, and
+are fully allocated in the BAM.
+
+There are two main uses for partitions. One is to simply
+allocate a section of the disk to be used for direct-access
+reads/writes, and lock it away from being overwritten after a
+VALIDATE. The second is as a sub-directory, basically a small
+"disk within a disk".
+
+In order to use a partition as a sub-directory, it must adhere
+to the following four rules:
+
+@example
+ 1. If must start on sector 0
+ 2. It's size must be in multiples of 40 sectors
+ 3. It must be a minimum of 120 sectors long (3 tracks)
+ 4. If must not start on or cross track 40, which limits the
+    biggest directory to 1600 sectors (tracks 1-39).
+@end example
+
+This is a dump of a sub-directory entry:
+
+@example
+ 00: 00 FF 85 29 00 50 41 52 54 49 54 49 4F 4E 20 31
+ 10: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 40 06
+@end example
+
+It is a partition starting on track 41/0, extends for 1600
+sectors, and has been formatted as a sub-directory. Note that
+when a partition is created, the area being allocated is not
+touched in any way. If you want it set up as a sub-directory,
+you must issue the FORMAT command to the 1581 to create the
+central directory and BAM. Also note that from the directory
+entry you can't tell whether it is a sub-directory or not, just
+that it fits the sub-directory parameters.
+
+The BAM track for the sub-directory exists on the first track of
+the partition, and has the same layout as the disk BAM on track
+40. The biggest difference is the "disk name" is what what given
+when the partition was formatted rather than what the actual
+disk name is. Also, except for the free sectors in the partition
+area, all other sectors in the BAM will be allocated.
+
+If the partition size doesn't match the above rules for a
+sub-directory, it will simply exist as a "protected" area of the
+disk, and can't be used as a sub-directory. Either way, it still
+shows up as a "CBM" type in a directory listing. Below is a dump
+of a 10-sector partition starting on track 5/1, which does not
+qualify as a sub-directory...
+
+@example
+ 00: 00 00 85 05 01 53 4D 41 4C 4C 50 41 52 54 20 32
+ 10: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 0A 00
+@end example
+
+The master BAM shows the entry for this partition on track 5...
+
+@example
+ 00: 28 02 44 BB 43 44 C0 00 00 00 00 00 00 00 00 00
+ 10: 23 C1 FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
+ 20: FF FF 28 FF FF FF FF FF 1E 01 F8 FF FF FF 28 FF
+                             ^^^^^^^^^^^^^^^^^
+@end example
+
+The breakdown of the BAM shows the allocation for this track,
+with sectors 1-10 allocated, as it should be.
+
+@example
+ 10000000 00011111 11111111 11111111 11111111
+ ^          ^          ^         ^          ^
+ 0          10         20        30         39
+@end example
+
+Partitions and sub-directories share one very important trait.
+When created, the sub-directory entry simply has the starting
+track/sector and the size of the partition in sectors.
+Partitions are created linearly, meaning if one starts on 30/1
+and is of size 15 sectors, then the sector range from 1 through
+15 on track 30 will be allocated. If a partition size crosses
+a track boundary, the allocation will continue on the next
+track starting on sector 0, and going up.
+
+The section allocated will *not* have a track/sector chain like
+a file would, but rather is dependant on the directory entry to
+keep it from being overwritten. You can store whatever you want
+to in the allocated area.
+
+*** AUTO-BOOT LOADER
+
+If byte $07 in the BAM is set, then when the drive is reset
+(and other circumstances) it will look for a USR file called
+"COPYRIGHT CBM 86". This file will then be loaded into the
+drive RAM and executed.
+
+The format for this auto-loader file is fairly basic. It
+starts with a two-byte load address, a size byte, program data,
+and a checksum at the end.
+
+@example
+Bytes:
+       $00-$01: Load address, low/high format
+           $02: Size of program (SZ) (smaller than 256 bytes)
+$03-($03+SZ-1): Program data
+        $03+SZ: Checksum byte
+@end example
+ 
+@node D80, D82, D81, File formats
+@section The D80 disk image format
+
+@c FIXME: the D80 section needs to be style-checked.
+@c FIXME: some of the D80 section needs to have sub-sections.
+
+(This section was contributed by Peter Schepers and slightly edited by
+Marco van den Heuvel.)
+
+This is a sector-for-sector copy of an 8050 floppy disk. The
+file size for an 8050 image is 533248 bytes. It is comprised
+of 256-byte sectors arranged across 77 tracks, with a
+varying number of sectors per track for a total of 2083
+sectors. Track counting starts at 1 (not 0) and sector
+counting starts at 0 (not 1), therefore a track with 29
+sectors will go from 0 to 28.
+
+The original media (a 5.25" disk) has the tracks laid out in
+circles, with track 1 on the very outside of the disk
+(closest to the sides) to track 77 being on the inside of
+the disk (closest to the inner hub ring). Commodore, in
+their infinite wisdom, varied the number of sectors per
+track and data densities across the disk to optimize
+available storage, resulting in the chart below. It shows
+the sectors/track for a D80. Since the outside diameter of a
+circle is the largest (versus closer to the center), the
+outside tracks have the largest amount of storage.
+
+@multitable @columnfractions .33 .33 .33
+@item @b{Track Range}
+@tab @b{Sectors/track}
+@tab @b{# Sectors}
+@item 1-39
+@tab 29
+@tab 1131
+@item 40-53
+@tab 27
+@tab 378
+@item 54-64
+@tab 25
+@tab 275
+@item 65-77
+@tab 23
+@tab 299
+@end multitable
+
+@multitable @columnfractions .25 .25 .25 .25
+@item @b{Track}
+@tab @b{#Sect}
+@tab @b{#SectorsIn}
+@tab @b{D8x Offset}
+@item 1
+@tab 29
+@tab 0
+@tab $00000
+@item 2
+@tab 29
+@tab 29
+@tab $01D00
+@item 3
+@tab 29
+@tab 58
+@tab $03A00
+@item 4
+@tab 29
+@tab 87
+@tab $05700
+@item 5
+@tab 29
+@tab 116
+@tab $07400
+@item 6
+@tab 29
+@tab 145
+@tab $09100
+@item 7
+@tab 29
+@tab 174
+@tab $0AE00
+@item 8
+@tab 29
+@tab 203
+@tab $0CB00
+@item 9
+@tab 29
+@tab 232
+@tab $0E800
+@item 10
+@tab 29
+@tab 261
+@tab $10500
+@item 11
+@tab 29
+@tab 290
+@tab $12200
+@item 12
+@tab 29
+@tab 319
+@tab $13F00
+@item 13
+@tab 29
+@tab 348
+@tab $15C00
+@item 14
+@tab 29
+@tab 377
+@tab $17900
+@item 15
+@tab 29
+@tab 406
+@tab $19600
+@item 16
+@tab 29
+@tab 435
+@tab $1B300
+@item 17
+@tab 29
+@tab 464
+@tab $1D000
+@item 18
+@tab 29
+@tab 493
+@tab $1ED00
+@item 19
+@tab 29
+@tab 522
+@tab $20A00
+@item 20
+@tab 29
+@tab 551
+@tab $22700
+@item 21
+@tab 29
+@tab 580
+@tab $24400
+@item 22
+@tab 29
+@tab 609
+@tab $26100
+@item 23
+@tab 29
+@tab 638
+@tab $27E00
+@item 24
+@tab 29
+@tab 667
+@tab $29B00
+@item 25
+@tab 29
+@tab 696
+@tab $2B800
+@item 26
+@tab 29
+@tab 725
+@tab $2D500
+@item 27
+@tab 29
+@tab 754
+@tab $2F200
+@item 28
+@tab 29
+@tab 783
+@tab $30F00
+@item 29
+@tab 29
+@tab 812
+@tab $32C00
+@item 30
+@tab 29
+@tab 841
+@tab $34900
+@item 31
+@tab 29
+@tab 870
+@tab $36600
+@item 32
+@tab 29
+@tab 899
+@tab $38300
+@item 33
+@tab 29
+@tab 928
+@tab $3A000
+@item 34
+@tab 29
+@tab 957
+@tab $3BD00
+@item 35
+@tab 29
+@tab 986
+@tab $3DA00
+@item 36
+@tab 29
+@tab 1015
+@tab $3F700
+@item 37
+@tab 29
+@tab 1044
+@tab $41400
+@item 38
+@tab 29
+@tab 1073
+@tab $43100
+@item 39
+@tab 29
+@tab 1102
+@tab $44E00
+@item 40
+@tab 27
+@tab 1131
+@tab $46B00
+@item 41
+@tab 27
+@tab 1158
+@tab $48600
+@item 42
+@tab 27
+@tab 1185
+@tab $4A100
+@item 43
+@tab 27
+@tab 1212
+@tab $4BC00
+@item 44
+@tab 27
+@tab 1239
+@tab $4D700
+@item 45
+@tab 27
+@tab 1266
+@tab $4F200
+@item 46
+@tab 27
+@tab 1293
+@tab $50D00
+@item 47
+@tab 27
+@tab 1320
+@tab $52800
+@item 48
+@tab 27
+@tab 1347
+@tab $54300
+@item 49
+@tab 27
+@tab 1374
+@tab $55E00
+@item 50
+@tab 27
+@tab 1401
+@tab $57900
+@item 51
+@tab 27
+@tab 1428
+@tab $59400
+@item 52
+@tab 27
+@tab 1455
+@tab $5AF00
+@item 53
+@tab 27
+@tab 1482
+@tab $5CA00
+@item 54
+@tab 25
+@tab 1509
+@tab $5E500
+@item 55
+@tab 25
+@tab 1534
+@tab $5FE00
+@item 56
+@tab 25
+@tab 1559
+@tab $61700
+@item 57
+@tab 25
+@tab 1584
+@tab $63000
+@item 58
+@tab 25
+@tab 1609
+@tab $64900
+@item 59
+@tab 25
+@tab 1634
+@tab $66200
+@item 60
+@tab 25
+@tab 1659
+@tab $67B00
+@item 61
+@tab 25
+@tab 1684
+@tab $69400
+@item 62
+@tab 25
+@tab 1709
+@tab $6AD00
+@item 63
+@tab 25
+@tab 1734
+@tab $6C600
+@item 64
+@tab 25
+@tab 1759
+@tab $6DF00
+@item 65
+@tab 23
+@tab 1784
+@tab $6F800
+@item 66
+@tab 23
+@tab 1807
+@tab $70F00
+@item 67
+@tab 23
+@tab 1830
+@tab $72600
+@item 68
+@tab 23
+@tab 1853
+@tab $73D00
+@item 69
+@tab 23
+@tab 1876
+@tab $75400
+@item 70
+@tab 23
+@tab 1899
+@tab $76B00
+@item 71
+@tab 23
+@tab 1922
+@tab $78200
+@item 72
+@tab 23
+@tab 1945
+@tab $79900
+@item 73
+@tab 23
+@tab 1968
+@tab $7B000
+@item 74
+@tab 23
+@tab 1991
+@tab $7C700
+@item 75
+@tab 23
+@tab 2014
+@tab $7DE00
+@item 76
+@tab 23
+@tab 2037
+@tab $7F500
+@item 77
+@tab 23
+@tab 2060
+@tab $80C00
+@end multitable
+
+The BAM (Block Availability Map) is on track 38. The D80 is only
+77 tracks and so the BAM is contained on 38/0 and 38/3. The BAM
+interleave is 3.
+
+The directory is on track 39, with 39/0 contains the header
+(DOS type, disk name, disk ID's) and sectors 1-28 contain the
+directory entries. Both files and the directory use an
+interleave of 1. Since the directory is only 28 sectors large
+(29 less one for the header), and each sector can contain only
+8 entries (32 bytes per entry), the maximum number of directory
+entries is 28 * 8 = 224. The first directory sector is always
+39/1. It then follows a chain structure using a sector
+interleave of 1 making the links go 39/1, 39/2, 39/3 etc.
+
+When reading a disk, you start with 39/0 (disk label/ID) which
+points to 38/0 (BAM0), 38/3 (BAM1), and finally to 39/1 (first
+dir entry sector). When writing a file to a blank disk, it will
+start at 38/1 because 38/0 is already allocated.
+
+Below is a dump of the header sector 39/0:
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 26 00 43 00 00 00 73 61 6D 70 6C 65 20 64 38 30
+10: A0 A0 A0 A0 A0 A0 A0 A0 65 72 A0 32 43 A0 A0 A0
+20: A0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+...
+F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to first BAM sector (38/0)
+@item $02
+@tab $43 'C' is for DOS format version
+@item $03
+@tab Reserved
+@item $04-$05
+@tab Unused
+@item $06-$16
+@tab Disk name, padded with 0xA0 ("sample d80")
+@item $17
+@tab 0xA0
+@item $18-$19
+@tab Disk ID bytes "er"
+@item $1A
+@tab 0xA0
+@item $1B-$1C
+@tab DOS version bytes "2C"
+@item $1D-$20
+@tab 0xA0
+@item $21-$FF
+@tab Unused
+@end multitable
+
+Below is a dump of the first directory sector, 39/1
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 27 02 82 26 01 54 45 53 54 A0 A0 A0 A0 A0 A0 A0
+10: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+20: 00 00 82 26 02 54 45 53 54 32 A0 A0 A0 A0 A0 A0
+30: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+40: 00 00 82 26 04 54 45 53 54 33 A0 A0 A0 A0 A0 A0
+50: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 05 00
+60: 00 00 82 26 0B 54 45 53 54 34 A0 A0 A0 A0 A0 A0
+70: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 09 00
+80: 00 00 82 26 14 54 45 53 54 35 A0 A0 A0 A0 A0 A0
+90: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 0C 00
+A0: 00 00 82 28 00 54 45 53 54 36 A0 A0 A0 A0 A0 A0
+B0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+C0: 00 00 82 28 01 54 45 53 54 37 A0 A0 A0 A0 A0 A0
+D0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+E0: 00 00 82 28 02 54 45 53 54 38 A0 A0 A0 A0 A0 A0
+F0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+@end example
+
+The first two bytes of the directory sector ($27/$02) indicate
+the location of the next track/sector of the directory (39/2).
+If the track is set to $00, then it is the last sector of the
+directory.
+
+When the directory is done, the track value will be $00. The sector
+link should contain a value of $FF, meaning the whole sector is
+allocated, but the actual value doesn't matter. The drive will
+return all the available entries anyways. This is a breakdown of a
+standard directory sector:
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$1F
+@tab First directory entry
+@item $20-$3F
+@tab Second dir entry
+@item $40-$5F
+@tab Third dir entry
+@item $60-$7F
+@tab Fourth dir entry
+@item $80-$9F
+@tab Fifth dir entry
+@item $A0-$BF
+@tab Sixth dir entry
+@item $C0-$DF
+@tab Seventh dir entry
+@item $E0-$FF
+@tab Eighth dir entry
+@end multitable
+
+This is a breakdown of a standard directory entry:
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab Track/Sector location of next directory sector ($00 $00 if not the first entry in the sector)
+@item $02
+@tab File type
+@item $03-$04
+@tab Track/sector location of first sector of file
+@item $05-$14
+@tab 16 character filename (in PETASCII, padded with $A0)
+@item $15-$16
+@tab Track/Sector location of first side-sector block (REL file only)
+@item $17
+@tab REL file record length (REL file only, max. value 254)
+@item $18-$1D
+@tab Unused
+@item $1E-$1F
+@tab File size in sectors, low/high byte order ($1E+$1F*256). The approx. filesize in bytes is <= #sectors * 254
+0@end multitable
+
+The file type field is used as follows:
+
+@multitable @columnfractions .2 .8
+@item @b{Bits}
+@tab @b{Description}
+@item 0-3
+@tab The actual file type
+@item 4
+@tab Unused
+@item 5
+@tab Used only during SAVE-@ replacement
+@item 6
+@tab Locked flag (Set produces ">" locked files)
+@item 7
+@tab Closed flag (Not set produces "*", or "splat" files)
+@end multitable
+
+The actual file type can be one of the following:
+
+@multitable @columnfractions .2 .2 .6
+@item @b{Binary}
+@tab @b{Decimal}
+@tab @b{File type}
+@item 0000
+@tab 0
+@tab DEL
+@item 0001
+@tab 1
+@tab SEQ
+@item 0010
+@tab 2
+@tab PRG
+@item 0011
+@tab 3
+@tab USR
+@item 0100
+@tab 4
+@tab REL
+@end multitable
+
+Values 5-15 are illegal, but if used will produce very strange results.
+
+*** Non-Standard & Long Directories
+
+Most Commdore floppy disk drives use a single dedicated
+directory track where all filenames are stored. This limits the
+number of files stored on a disk based on the number of sectors
+on the directory track. There are some disk images that contain
+more files than would normally be allowed. This requires
+extending the directory off the default directory track by
+changing the last directory sector pointer to a new track,
+allocating the new sectors in the BAM, and manually placing (or
+moving existing) file entries there. The directory of an
+extended disk can be read and the files that reside there can
+be loaded without problems on a real drive. However, this is
+still a very dangerous practice as writing to the extended
+portion of the directory will cause directory corruption in the
+non-extended part. Many of the floppy drives core ROM routines
+ignore the track value that the directory is on and assume the
+default directory track for operations.
+
+*** BAM layout
+
+The BAM only occupies up to four sectors on track 38, so the
+rest of the track is empty and is available for file storage.
+Below is a dump of the first BAM block, 38/0. A D80 will only
+contain two BAM sectors, 38/0 and 38/3. Each entry takes 5
+bytes, 1 for the free count on that track, and 4 for the BAM
+bits.
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 26 03 43 00 01 33 1D FF FF FF 1F 1D FF FF FF 1F
+10: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D
+20: FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF
+30: FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF
+40: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
+50: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
+60: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D
+70: FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF
+80: FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF
+90: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
+A0: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
+B0: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1B
+C0: F6 FF FF 1F 1B FC FF FF 1F 1B FF FF FF 07 1B FF
+D0: FF FF 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF
+E0: FF 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF FF
+F0: 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF FF 07
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to second BAM sector (38/3)
+@item $02
+@tab DOS version byte (0x43='C')
+@item $03
+@tab Reserved
+@item $04
+@tab Lowest track covered by this BAM (0x01=1)
+@item $05
+@tab Highest+1 track covered by this BAM (0x33=51)
+@item $06-$0A
+@tab BAM for track 1. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
+@item $0B-$0F
+@tab BAM for track 2
+@item dots{}
+@tab dots{}
+@item $FB-$FF
+@tab BAM for track 50
+@end multitable
+
+Being bit-based, the BAM entries need some explanation. The
+first track entry in the above BAM sector is at offset 06,
+"1D FF FF FF 1F". The first number is how many blocks are
+free on this track ($1D=29) and the remainder is the bit
+representation of the usage map for the track. These
+entries must be viewed in binary to make any sense. First
+convert the values to binary:
+
+@example
+ FF=11111111, FF=11111111, FF=11111111, 1F=00011111
+@end example
+
+In order to make any sense from the binary notation, flip the
+bits around.
+
+@example
+            111111 11112222 222222
+ 01234567 89012345 67890123 456789...
+ -------------------------- ---------
+ 11111111 11111111 11111111 11111000
+ ^                              ^
+ sector 0                   sector 28
+@end example
+
+Since we are on the first track, we have 29 sectors, and only
+use up to the bit 28 position. If a bit is on (1), the sector
+is free. Therefore, track 1 is clean, all sectors are free.
+Any leftover bits that refer to sectors that don't exist,
+like bits 29-31 in the above example, are set to allocated.
+
+Second BAM block 38/3.
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 27 01 43 00 33 4E 1B FF FF FF 07 1B FF FF FF 07
+10: 1B FF FF FF 07 19 FF FF FF 01 19 FF FF FF 01 19
+20: FF FF FF 01 19 FF FF FF 01 19 FF FF FF 01 19 FF
+30: FF FF 01 19 FF FF FF 01 19 FF FF FF 01 19 FF FF
+40: FF 01 19 FF FF FF 01 19 FF FF FF 01 17 FF FF 7F
+50: 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00
+60: 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 17
+70: FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF
+80: FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 00 00 00
+90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+A0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+B0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+C0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+E0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to second BAM sector (39/1)
+@item $02
+@tab DOS version byte (0x43='C')
+@item $03
+@tab Reserved
+@item $04
+@tab Lowest track covered by this BAM (0x33=51)
+@item $05
+@tab Highest+1 track covered by this BAM (0x43=78)
+@item $06-$0A
+@tab BAM for track 51. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
+@item $0B-$0F
+@tab BAM for track 52
+@item dots{}
+@tab dots{}
+@item $88-$8C
+@tab BAM for track 77
+@item $8D-$FF
+@tab Not used
+@end multitable
+
+@node D82, , D80, File formats
+@section The D82 disk image format
+
+@c FIXME: the D82 section needs to be style-checked.
+@c FIXME: some of the D82 section needs to have sub-sections.
+
+(This section was contributed by Peter Schepers and slightly edited by
+Marco van den Heuvel.)
+
+This is a sector-for-sector copy of an 8250 floppy disk. The file
+size for an 8250 image is 1066496 bytes. It is comprised of
+256-byte sectors arranged across 154 tracks, with a varying
+number of sectors per track for a total of 4166 sectors. Track
+counting starts at 1 (not 0) and sector counting starts at 0
+(not 1), therefore a track with 29 sectors will go from 0 to 28.
+
+The original media (a 5.25" disk) has the tracks laid out in
+circles, with track 1 on the very outside of the disk (closest
+to the sides) to track 77 being on the inside of the disk
+(closest to the inner hub ring). Commodore, in their infinite
+wisdom, varied the number of sectors per track and data
+densities across the disk to optimize available storage,
+resulting in the chart below. It shows the sectors/track for a
+D82. Since the outside diameter of a circle is the largest
+(versus closer to the center), the outside tracks have the
+largest amount of storage.
+
+
+@multitable @columnfractions .33 .33 .33
+@item @b{Track Range}
+@tab @b{Sectors/track}
+@tab @b{# Sectors}
+@item 1-39
+@tab 29
+@tab 1131
+@item 40-53
+@tab 27
+@tab 378
+@item 55-64
+@tab 25
+@tab 275
+@item 65-77
+@tab 23
+@tab 299
+@item 78-116
+@tab 29
+@tab 1131
+@item 117-130
+@tab 27
+@tab 378
+@item 131-141
+@tab 25
+@tab 275
+@item 142-154
+@tab 23
+@tab 299
+@end multitable
+
+@multitable @columnfractions .25 .25 .25 .25
+@item @b{Track}
+@tab @b{#Sect}
+@tab @b{#SectorsIn}
+@tab @b{D82 Offset}
+@item 1
+@tab 29
+@tab 0
+@tab $000000
+@item 2
+@tab 29
+@tab 29
+@tab $001D00
+@item 3
+@tab 29
+@tab 58
+@tab $003A00
+@item 4
+@tab 29
+@tab 87
+@tab $005700
+@item 5
+@tab 29
+@tab 116
+@tab $007400
+@item 6
+@tab 29
+@tab 145
+@tab $009100
+@item 7
+@tab 29
+@tab 174
+@tab $00AE00
+@item 8
+@tab 29
+@tab 203
+@tab $00CB00
+@item 9
+@tab 29
+@tab 232
+@tab $00E800
+@item 10
+@tab 29
+@tab 261
+@tab $010500
+@item 11
+@tab 29
+@tab 290
+@tab $012200
+@item 12
+@tab 29
+@tab 319
+@tab $013F00
+@item 13
+@tab 29
+@tab 348
+@tab $015C00
+@item 14
+@tab 29
+@tab 377
+@tab $017900
+@item 15
+@tab 29
+@tab 406
+@tab $019600
+@item 16
+@tab 29
+@tab 435
+@tab $01B300
+@item 17
+@tab 29
+@tab 464
+@tab $01D000
+@item 18
+@tab 29
+@tab 493
+@tab $01ED00
+@item 19
+@tab 29
+@tab 522
+@tab $020A00
+@item 20
+@tab 29
+@tab 551
+@tab $022700
+@item 21
+@tab 29
+@tab 580
+@tab $024400
+@item 22
+@tab 29
+@tab 609
+@tab $026100
+@item 23
+@tab 29
+@tab 638
+@tab $027E00
+@item 24
+@tab 29
+@tab 667
+@tab $029B00
+@item 25
+@tab 29
+@tab 696
+@tab $02B800
+@item 26
+@tab 29
+@tab 725
+@tab $02D500
+@item 27
+@tab 29
+@tab 754
+@tab $02F200
+@item 28
+@tab 29
+@tab 783
+@tab $030F00
+@item 29
+@tab 29
+@tab 812
+@tab $032C00
+@item 30
+@tab 29
+@tab 841
+@tab $034900
+@item 31
+@tab 29
+@tab 870
+@tab $036600
+@item 32
+@tab 29
+@tab 899
+@tab $038300
+@item 33
+@tab 29
+@tab 928
+@tab $03A000
+@item 34
+@tab 29
+@tab 957
+@tab $03BD00
+@item 35
+@tab 29
+@tab 986
+@tab $03DA00
+@item 36
+@tab 29
+@tab 1015
+@tab $03F700
+@item 37
+@tab 29
+@tab 1044
+@tab $041400
+@item 38
+@tab 29
+@tab 1073
+@tab $043100
+@item 39
+@tab 29
+@tab 1102
+@tab $044E00
+@item 40
+@tab 27
+@tab 1131
+@tab $046B00
+@item 41
+@tab 27
+@tab 1158
+@tab $048600
+@item 42
+@tab 27
+@tab 1185
+@tab $04A100
+@item 43
+@tab 27
+@tab 1212
+@tab $04BC00
+@item 44
+@tab 27
+@tab 1239
+@tab $04D700
+@item 45
+@tab 27
+@tab 1266
+@tab $04F200
+@item 46
+@tab 27
+@tab 1293
+@tab $050D00
+@item 47
+@tab 27
+@tab 1320
+@tab $052800
+@item 48
+@tab 27
+@tab 1347
+@tab $054300
+@item 49
+@tab 27
+@tab 1374
+@tab $055E00
+@item 50
+@tab 27
+@tab 1401
+@tab $057900
+@item 51
+@tab 27
+@tab 1428
+@tab $059400
+@item 52
+@tab 27
+@tab 1455
+@tab $05AF00
+@item 53
+@tab 27
+@tab 1482
+@tab $05CA00
+@item 54
+@tab 25
+@tab 1509
+@tab $05E500
+@item 55
+@tab 25
+@tab 1534
+@tab $05FE00
+@item 56
+@tab 25
+@tab 1559
+@tab $061700
+@item 57
+@tab 25
+@tab 1584
+@tab $063000
+@item 58
+@tab 25
+@tab 1609
+@tab $064900
+@item 59
+@tab 25
+@tab 1634
+@tab $066200
+@item 60
+@tab 25
+@tab 1659
+@tab $067B00
+@item 61
+@tab 25
+@tab 1684
+@tab $069400
+@item 62
+@tab 25
+@tab 1709
+@tab $06AD00
+@item 63
+@tab 25
+@tab 1734
+@tab $06C600
+@item 64
+@tab 25
+@tab 1759
+@tab $06DF00
+@item 65
+@tab 23
+@tab 1784
+@tab $06F800
+@item 66
+@tab 23
+@tab 1807
+@tab $070F00
+@item 67
+@tab 23
+@tab 1830
+@tab $072600
+@item 68
+@tab 23
+@tab 1853
+@tab $073D00
+@item 69
+@tab 23
+@tab 1876
+@tab $075400
+@item 70
+@tab 23
+@tab 1899
+@tab $076B00
+@item 71
+@tab 23
+@tab 1922
+@tab $078200
+@item 72
+@tab 23
+@tab 1945
+@tab $079900
+@item 73
+@tab 23
+@tab 1968
+@tab $07B000
+@item 74
+@tab 23
+@tab 1991
+@tab $07C700
+@item 75
+@tab 23
+@tab 2014
+@tab $07DE00
+@item 76
+@tab 23
+@tab 2037
+@tab $07F500
+@item 77
+@tab 23
+@tab 2060
+@tab $080C00
+@item 78
+@tab 29
+@tab 2083
+@tab $082300
+@item 79
+@tab 29
+@tab 2112
+@tab $084000
+@item 80
+@tab 29
+@tab 2141
+@tab $085D00
+@item 81
+@tab 29
+@tab 2170
+@tab $087A00
+@item 82
+@tab 29
+@tab 2199
+@tab $089700
+@item 83
+@tab 29
+@tab 2228
+@tab $08B400
+@item 84
+@tab 29
+@tab 2257
+@tab $08D100
+@item 85
+@tab 29
+@tab 2286
+@tab $08EE00
+@item 86
+@tab 29
+@tab 2315
+@tab $090600
+@item 87
+@tab 29
+@tab 2344
+@tab $092800
+@item 88
+@tab 29
+@tab 2373
+@tab $094500
+@item 89
+@tab 29
+@tab 2402
+@tab $096200
+@item 90
+@tab 29
+@tab 2431
+@tab $097F00
+@item 91
+@tab 29
+@tab 2460
+@tab $099C00
+@item 92
+@tab 29
+@tab 2489
+@tab $09B900
+@item 93
+@tab 29
+@tab 2518
+@tab $09D600
+@item 94
+@tab 29
+@tab 2547
+@tab $09F300
+@item 95
+@tab 29
+@tab 2576
+@tab $0A1000
+@item 96
+@tab 29
+@tab 2605
+@tab $0A2D00
+@item 97
+@tab 29
+@tab 2634
+@tab $0A4A00
+@item 98
+@tab 29
+@tab 2663
+@tab $0A6700
+@item 99
+@tab 29
+@tab 2692
+@tab $0A8400
+@item 100
+@tab 29
+@tab 2721
+@tab $0AA100
+@item 101
+@tab 29
+@tab 2750
+@tab $0ABE00
+@item 102
+@tab 29
+@tab 2779
+@tab $0ADB00
+@item 103
+@tab 29
+@tab 2808
+@tab $0AF800
+@item 104
+@tab 29
+@tab 2837
+@tab $0B1500
+@item 105
+@tab 29
+@tab 2866
+@tab $0B3200
+@item 106
+@tab 29
+@tab 2895
+@tab $0B4F00
+@item 107
+@tab 29
+@tab 2924
+@tab $0B6C00
+@item 108
+@tab 29
+@tab 2953
+@tab $0B8900
+@item 109
+@tab 29
+@tab 2982
+@tab $0BA600
+@item 110
+@tab 29
+@tab 3011
+@tab $0BC300
+@item 111
+@tab 29
+@tab 3040
+@tab $0BE000
+@item 112
+@tab 29
+@tab 3069
+@tab $0BFD00
+@item 113
+@tab 29
+@tab 3098
+@tab $0C1A00
+@item 114
+@tab 29
+@tab 3137
+@tab $0C3700
+@item 115
+@tab 29
+@tab 3156
+@tab $0C5400
+@item 116
+@tab 29
+@tab 3185
+@tab $0C7100
+@item 117
+@tab 27
+@tab 3214
+@tab $0C8E00
+@item 118
+@tab 27
+@tab 3241
+@tab $0CA900
+@item 119
+@tab 27
+@tab 3268
+@tab $0CC400
+@item 120
+@tab 27
+@tab 3295
+@tab $0CDF00
+@item 121
+@tab 27
+@tab 3322
+@tab $0CFA00
+@item 122
+@tab 27
+@tab 3349
+@tab $0D1500
+@item 123
+@tab 27
+@tab 3376
+@tab $0D3000
+@item 124
+@tab 27
+@tab 3403
+@tab $0D4B00
+@item 125
+@tab 27
+@tab 3430
+@tab $0D6600
+@item 126
+@tab 27
+@tab 3457
+@tab $0D8100
+@item 127
+@tab 27
+@tab 3484
+@tab $0D9C00
+@item 128
+@tab 27
+@tab 3511
+@tab $0DB700
+@item 129
+@tab 27
+@tab 3538
+@tab $0DD200
+@item 130
+@tab 27
+@tab 3565
+@tab $0DED00
+@item 131
+@tab 25
+@tab 3592
+@tab $0E0800
+@item 132
+@tab 25
+@tab 3617
+@tab $0E2100
+@item 133
+@tab 25
+@tab 3642
+@tab $0E3A00
+@item 134
+@tab 25
+@tab 3667
+@tab $0E5300
+@item 135
+@tab 25
+@tab 3692
+@tab $0E6C00
+@item 136
+@tab 25
+@tab 3717
+@tab $0E8500
+@item 137
+@tab 25
+@tab 3742
+@tab $0E9E00
+@item 138
+@tab 25
+@tab 3767
+@tab $0EB700
+@item 139
+@tab 25
+@tab 3792
+@tab $0ED000
+@item 140
+@tab 25
+@tab 3817
+@tab $0EE900
+@item 141
+@tab 25
+@tab 3842
+@tab $0F0200
+@item 142
+@tab 23
+@tab 3867
+@tab $0F1B00
+@item 143
+@tab 23
+@tab 3890
+@tab $0F3200
+@item 144
+@tab 23
+@tab 3913
+@tab $0F4900
+@item 145
+@tab 23
+@tab 3936
+@tab $0F6000
+@item 146
+@tab 23
+@tab 3959
+@tab $0F7700
+@item 147
+@tab 23
+@tab 3982
+@tab $0F8E00
+@item 148
+@tab 23
+@tab 4005
+@tab $0FA500
+@item 149
+@tab 23
+@tab 4028
+@tab $0FBC00
+@item 150
+@tab 23
+@tab 4051
+@tab $0FD300
+@item 151
+@tab 23
+@tab 4074
+@tab $0FEA00
+@item 152
+@tab 23
+@tab 4097
+@tab $100100
+@item 153
+@tab 23
+@tab 4120
+@tab $101800
+@item 154
+@tab 23
+@tab 4143
+@tab $102F00
+@end multitable
+
+The BAM (Block Availability Map) is on track 38. The D82 is 154
+tracks and so the BAM is contained on 38/0, 38/3, 38/6 and 38/9.
+The BAM interleave is 3.
+
+The directory is on track 39, with 39/0 contains the header (DOS
+type, disk name, disk ID's) and sectors 1-28 contain the
+directory entries. Both files and the directory use an
+interleave of 1. Since the directory is only 28 sectors large
+(29 less one for the header), and each sector can contain only 8
+entries (32 bytes per entry), the maximum number of directory
+entries is 28 * 8 = 224. The first directory sector is always
+39/1. It then follows a chain structure using a sector
+interleave of 1 making the links go 39/1, 39/2, 39/3 etc.
+
+When reading a disk, you start with 39/0 (disk label/ID) which
+points to 38/0 (BAM0), 38/3 (BAM1), 38/6 (BAM2), 38/9 (BAM3, and
+finally to 39/1 (first dir entry sector). When writing a file to
+a blank disk, it will start at 38/1 because 38/0 is already
+allocated.
+
+Below is a dump of the header sector 39/0:
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 26 00 43 00 00 00 73 61 6D 70 6C 65 20 64 38 30
+10: A0 A0 A0 A0 A0 A0 A0 A0 65 72 A0 32 43 A0 A0 A0
+20: A0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+...
+F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to first BAM sector (38/0)
+@item $02
+@tab $43 'C' is for DOS format version
+@item $03
+@tab Reserved
+@item $04-$05
+@tab Unused
+@item $06-$16
+@tab Disk name, padded with 0xA0 ("sample d82")
+@item $17
+@tab 0xA0
+@item $18-$19
+@tab Disk ID bytes "er"
+@item $1A
+@tab 0xA0
+@item $1B-$1C
+@tab DOS version bytes "2C"
+@item $1D-$20
+@tab 0xA0
+@item $21-$FF
+@tab Unused
+@end multitable
+
+Below is a dump of the first directory sector, 39/1
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 27 02 82 26 01 54 45 53 54 A0 A0 A0 A0 A0 A0 A0
+10: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+20: 00 00 82 26 02 54 45 53 54 32 A0 A0 A0 A0 A0 A0
+30: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+40: 00 00 82 26 04 54 45 53 54 33 A0 A0 A0 A0 A0 A0
+50: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 05 00
+60: 00 00 82 26 0B 54 45 53 54 34 A0 A0 A0 A0 A0 A0
+70: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 09 00
+80: 00 00 82 26 14 54 45 53 54 35 A0 A0 A0 A0 A0 A0
+90: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 0C 00
+A0: 00 00 82 28 00 54 45 53 54 36 A0 A0 A0 A0 A0 A0
+B0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+C0: 00 00 82 28 01 54 45 53 54 37 A0 A0 A0 A0 A0 A0
+D0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+E0: 00 00 82 28 02 54 45 53 54 38 A0 A0 A0 A0 A0 A0
+F0: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 01 00
+@end example
+
+The first two bytes of the directory sector ($27/$02) indicate
+the location of the next track/sector of the directory (39/2).
+If the track is set to $00, then it is the last sector of the
+directory.
+
+When the directory is done, the track value will be $00. The
+sector link should contain a value of $FF, meaning the whole
+sector is allocated, but the actual value doesn't matter. The
+drive will return all the available entries anyways. This is a
+breakdown of a standard directory sector:
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$1F
+@tab First directory entry
+@item $20-$3F
+@tab Second dir entry
+@item $40-$5F
+@tab Third dir entry
+@item $60-$7F
+@tab Fourth dir entry
+@item $80-$9F
+@tab Fifth dir entry
+@item $A0-$BF
+@tab Sixth dir entry
+@item $C0-$DF
+@tab Seventh dir entry
+@item $E0-$FF
+@tab Eighth dir entry
+@end multitable
+
+This is a breakdown of a standard directory entry:
+
+@multitable @columnfractions .2 .8
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab Track/Sector location of next directory sector ($00 $00 if not the first entry in the sector)
+@item $02
+@tab File type
+@item $03-$04
+@tab Track/sector location of first sector of file
+@item $05-$14
+@tab 16 character filename (in PETASCII, padded with $A0)
+@item $15-$16
+@tab Track/Sector location of first side-sector block (REL file only)
+@item $17
+@tab REL file record length (REL file only, max. value 254)
+@item $18-$1D
+@tab Unused
+@item $1E-$1F
+@tab File size in sectors, low/high byte order ($1E+$1F*256). The approx. filesize in bytes is <= #sectors * 254
+0@end multitable
+
+The file type field is used as follows:
+
+@multitable @columnfractions .2 .8
+@item @b{Bits}
+@tab @b{Description}
+@item 0-3
+@tab The actual file type
+@item 4
+@tab Unused
+@item 5
+@tab Used only during SAVE-@ replacement
+@item 6
+@tab Locked flag (Set produces ">" locked files)
+@item 7
+@tab Closed flag (Not set produces "*", or "splat" files)
+@end multitable
+
+The actual file type can be one of the following:
+
+@multitable @columnfractions .2 .2 .6
+@item @b{Binary}
+@tab @b{Decimal}
+@tab @b{File type}
+@item 0000
+@tab 0
+@tab DEL
+@item 0001
+@tab 1
+@tab SEQ
+@item 0010
+@tab 2
+@tab PRG
+@item 0011
+@tab 3
+@tab USR
+@item 0100
+@tab 4
+@tab REL
+@end multitable
+
+Values 5-15 are illegal, but if used will produce very strange results.
+
+*** Non-Standard & Long Directories
+
+Most Commdore floppy disk drives use a single dedicated
+directory track where all filenames are stored. This limits the
+number of files stored on a disk based on the number of sectors
+on the directory track. There are some disk images that contain
+more files than would normally be allowed. This requires
+extending the directory off the default directory track by
+changing the last directory sector pointer to a new track,
+allocating the new sectors in the BAM, and manually placing (or
+moving existing) file entries there. The directory of an
+extended disk can be read and the files that reside there can
+be loaded without problems on a real drive. However, this is
+still a very dangerous practice as writing to the extended
+portion of the directory will cause directory corruption in the
+non-extended part. Many of the floppy drives core ROM routines
+ignore the track value that the directory is on and assume the
+default directory track for operations.
+
+*** BAM layout
+
+The BAM only occupies up to four sectors on track 38, so the
+rest of the track is empty and is available for file storage.
+Below is a dump of the first BAM block, 38/0. A D82 will
+contain four BAM sectors, 38/0, 38/3, 38/6 and 38/9. Each
+entry takes 5 bytes, 1 for the free count on that track, and
+4 for the BAM bits.
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 26 03 43 00 01 33 1D FF FF FF 1F 1D FF FF FF 1F
+10: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D
+20: FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF
+30: FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF
+40: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
+50: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
+60: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D
+70: FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF
+80: FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF
+90: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
+A0: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
+B0: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1B
+C0: F6 FF FF 1F 1B FC FF FF 1F 1B FF FF FF 07 1B FF
+D0: FF FF 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF
+E0: FF 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF FF
+F0: 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF FF 07
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to second BAM sector (38/3)
+@item $02
+@tab DOS version byte (0x43='C')
+@item $03
+@tab Reserved
+@item $04
+@tab Lowest track covered by this BAM (0x01=1)
+@item $05
+@tab Highest+1 track covered by this BAM (0x33=51)
+@item $06-$0A
+@tab BAM for track 1. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
+@item $0B-$0F
+@tab BAM for track 2
+@item dots{}
+@tab dots{}
+@item $FB-$FF
+@tab BAM for track 50
+@end multitable
+
+Being bit-based, the BAM entries need some explanation. The
+first track entry in the above BAM sector is at offset 06,
+"1D FF FF FF 1F". The first number is how many blocks are free
+on this track ($1D=29) and the remainder is the bit
+representation of the usage map for the track. These entries
+must be viewed in binary to make any sense. First convert the
+values to binary:
+
+@example
+ FF=11111111, FF=11111111, FF=11111111, 1F=00011111
+@end example
+
+In order to make any sense from the binary notation, flip the
+bits around.
+
+@example
+            111111 11112222 222222
+ 01234567 89012345 67890123 456789...
+ -------------------------- ---------
+ 11111111 11111111 11111111 11111000
+ ^                              ^
+ sector 0                  sector 28
+@end example
+
+Since we are on the first track, we have 29 sectors, and only
+use up to the bit 28 position. If a bit is on (1), the sector is
+free. Therefore, track 1 is clean, all sectors are free. Any
+leftover bits that refer to sectors that don't exist, like bits
+29-31 in the above example, are set to allocated.
+
+Second BAM block 38/3
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 26 06 43 00 33 65 1B FF FF FF 07 1B FF FF FF 07
+10: 1B FF FF FF 07 19 FF FF FF 01 19 FF FF FF 01 19
+20: FF FF FF 01 19 FF FF FF 01 19 FF FF FF 01 19 FF
+30: FF FF 01 19 FF FF FF 01 19 FF FF FF 01 19 FF FF
+40: FF 01 19 FF FF FF 01 19 FF FF FF 01 17 FF FF 7F
+50: 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00
+60: 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 17
+70: FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF
+80: FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 1D FF FF
+90: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
+A0: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
+B0: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D
+C0: FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF
+D0: FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF
+E0: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
+F0: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to third BAM sector (38/6)
+@item $02
+@tab DOS version byte (0x43='C')
+@item $03
+@tab Reserved
+@item $04
+@tab Lowest track covered by this BAM (0x33=51)
+@item $05
+@tab Highest+1 track covered by this BAM (0x65=101)
+@item $06-$0A
+@tab BAM for track 51. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
+@item $0B-$0F
+@tab BAM for track 52
+@item dots{}
+@tab dots{}
+@item $FB-$FF
+@tab BAM for track 100
+@end multitable
+
+Third BAM block 38/6
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 26 09 43 00 65 97 1D FF FF FF 1F 1D FF FF FF 1F
+10: 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D
+20: FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF
+30: FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF
+40: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
+50: 1F 1D FF FF FF 1F 1B FF FF FF 07 1B FF FF FF 07
+60: 1B FF FF FF 07 1B FF FF FF 07 1B FF FF FF 07 1B
+70: FF FF FF 07 1B FF FF FF 07 1B FF FF FF 07 1B FF
+80: FF FF 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF
+90: FF 07 1B FF FF FF 07 1B FF FF FF 07 19 FF FF FF
+A0: 01 19 FF FF FF 01 19 FF FF FF 01 19 FF FF FF 01
+B0: 19 FF FF FF 01 19 FF FF FF 01 19 FF FF FF 01 19
+C0: FF FF FF 01 19 FF FF FF 01 19 FF FF FF 01 19 FF
+D0: FF FF 01 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF
+E0: 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F
+F0: 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to fourth BAM sector (38/9)
+@item $02
+@tab DOS version byte (0x43='C')
+@item $03
+@tab Reserved
+@item $04
+@tab Lowest track covered by this BAM (0x65=101)
+@item $05
+@tab Highest+1 track covered by this BAM (0x97=151)
+@item $06-$0A
+@tab BAM for track 101. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
+@item $0B-$0F
+@tab BAM for track 102
+@item dots{}
+@tab dots{}
+@item $FB-$FF
+@tab BAM for track 150
+@end multitable
+
+Fourth BAM block 38/9
+
+@example
+    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+    -----------------------------------------------
+00: 27 01 43 00 97 9B 17 FF FF 7F 00 17 FF FF 7F 00
+10: 17 FF FF 7F 00 17 FF FF 7F 00 00 00 00 00 00 00
+20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+40: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$01
+@tab T/S pointer to first directory sector (39/1)
+@item $02
+@tab DOS version byte (0x43='C')
+@item $03
+@tab Reserved
+@item $04
+@tab Lowest track covered by this BAM (0x97=151)
+@item $05
+@tab Highest+1 track covered by this BAM (0x9B=155)
+@item $06-$0A
+@tab BAM for track 151. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
+@item $0B-$0F
+@tab BAM for track 152
+@item dots{}
+@tab dots{}
+@item $15-$19
+@tab BAM for track 154
+@item $1A-$FF
+@tab Not used
+@end multitable
 
 @node Acknowledgments, Copyright, File formats, Top
 @chapter Acknowledgments
