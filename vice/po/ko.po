@@ -1949,19 +1949,19 @@ msgstr "트랩 아이들"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:94
 msgid "Drive #8 floppy disk type"
-msgstr ""
+msgstr "드라이브 #8 플로피 디스크 타입"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:100
 msgid "Drive #9 floppy disk type"
-msgstr ""
+msgstr "드라이브 #9 플로피 디스크 타입"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:106
 msgid "Drive #10 floppy disk type"
-msgstr ""
+msgstr "드라이브 #10 플로피 디스크 타입"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:112
 msgid "Drive #11 floppy disk type"
-msgstr ""
+msgstr "드라이브 #11 플로피 디스크 타입"
 
 #: src/arch/unix/gui/uidriveplus4.c:278
 msgid "Load new 1551 ROM"
@@ -2131,7 +2131,7 @@ msgstr "크기"
 #: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
 #: src/arch/unix/gui/uitfe.c:70 src/arch/amigaos/intl_text.c.po.c:4650
 msgid "MasC=uerade I/O swap"
-msgstr ""
+msgstr "MasC=uerade I/O 스왑"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:4662
@@ -2452,7 +2452,7 @@ msgstr "Datel 라이트"
 
 #: src/arch/unix/gui/uilightpen.c:46
 msgid "Magnum Light Phaser"
-msgstr ""
+msgstr "Magnum 라이트 페이져"
 
 #: src/arch/unix/gui/uilightpen.c:48
 msgid "Stack Light Rifle"
@@ -2515,7 +2515,7 @@ msgstr "카드 이미지 파일"
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:95 src/arch/unix/gui/uimmcreplay.c:80
 msgid "Enable writes to card image"
-msgstr ""
+msgstr "카드 이미지에 쓰기 가능하게 하기"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:98 src/arch/unix/gui/uimmcreplay.c:83
@@ -2530,28 +2530,28 @@ msgstr "MMC64 BIOS 이름"
 
 #: src/arch/unix/gui/uimmc64.c:142
 msgid "MMC64 image"
-msgstr ""
+msgstr "MMC64 이미지"
 
 #: src/arch/unix/gui/uimmcreplay.c:65
 msgid "Enable rescue mode"
-msgstr ""
+msgstr "구조 모드 가능하게하기"
 
 #: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:6799
 msgid "EEPROM image file"
-msgstr ""
+msgstr "EEPROM 이미지 파일"
 
 #: src/arch/unix/gui/uimmcreplay.c:89 src/translate_text.c.po.c:4352
 msgid "Enable writes to MMC Replay EEPROM image"
-msgstr ""
+msgstr "MMC Replay EEPROM 이미지 에 쓰기 가능하게 하기"
 
 #: src/arch/unix/gui/uimmcreplay.c:116
 msgid "MMC Replay card image filename"
-msgstr ""
+msgstr "MMC Replay 카드 이미지 파일이름"
 
 #: src/arch/unix/gui/uimmcreplay.c:122
 msgid "MMC Replay EEPROM image filename"
-msgstr ""
+msgstr "MMC Replay EEPROM 이미지 파일이름"
 
 #: src/arch/unix/gui/uimouse.c:46 src/arch/amigaos/intl_text.c.po.c:8227
 msgid "Paddles"
@@ -2567,42 +2567,42 @@ msgstr "포트2"
 
 #: src/arch/unix/gui/uimouse.c:62 src/translate_text.c.po.c:9872
 msgid "Enable mouse grab"
-msgstr ""
+msgstr "마우스 그랩 가능하게 하기"
 
 #: src/arch/unix/gui/uimouse.c:64 src/arch/win32/resmouse.rc.po.c:31
 #: src/arch/amigaos/intl_text.c.po.c:8155
 msgid "Mouse type"
-msgstr ""
+msgstr "마우스 타입"
 
 #: src/arch/unix/gui/uimouse.c:66 src/arch/win32/resmouse.rc.po.c:32
 #: src/arch/amigaos/intl_text.c.po.c:8179
 msgid "Mouse port"
-msgstr ""
+msgstr "마우스 포트"
 
 #: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:524
 #: src/arch/amigaos/intl_text.c.po.c:1626
 msgid "Enable paddles"
-msgstr ""
+msgstr "패디스 사용가능하게 하기"
 
 #: src/arch/unix/gui/uinetplay.c:67
 msgid "Enter port"
-msgstr ""
+msgstr "앤터 포트"
 
 #: src/arch/unix/gui/uinetplay.c:68
 msgid "Netplay TCP port"
-msgstr ""
+msgstr "넷플레이 TCP 포트"
 
 #: src/arch/unix/gui/uinetplay.c:77
 msgid "Invalid TCP port"
-msgstr ""
+msgstr "사용가능하지않은 TCP 포트"
 
 #: src/arch/unix/gui/uinetplay.c:85
 msgid "Error starting the netplay server."
-msgstr ""
+msgstr "넷플레이 써버 에러 스타팅"
 
 #: src/arch/unix/gui/uinetplay.c:91
 msgid "Netplay Server name"
-msgstr ""
+msgstr "넷플레이 서버 이름"
 
 #: src/arch/unix/gui/uinetplay.c:91
 msgid "Hostname:"
@@ -2610,25 +2610,25 @@ msgstr "호스트 명:"
 
 #: src/arch/unix/gui/uinetplay.c:97
 msgid "Error connecting to server."
-msgstr ""
+msgstr "서버에 에러 연결중"
 
 #: src/arch/unix/gui/uinetplay.c:112 src/arch/unix/x11/gnome/uinetplay.c:208
 #: src/arch/win32/res.rc.po.c:1287 src/arch/amigaos/intl_text.c.po.c:3306
 msgid "TCP port"
-msgstr ""
+msgstr "TCP 포트"
 
 #: src/arch/unix/gui/uinetplay.c:114 src/arch/unix/x11/gnome/uinetplay.c:231
 #: src/arch/win32/res.rc.po.c:1288 src/arch/amigaos/intl_text.c.po.c:3318
 msgid "Start server"
-msgstr ""
+msgstr "서버 시작"
 
 #: src/arch/unix/gui/uinetplay.c:116
 msgid "Server to connect to"
-msgstr ""
+msgstr "연결 할수있는 서버"
 
 #: src/arch/unix/gui/uinetplay.c:119
 msgid "Connect to server"
-msgstr ""
+msgstr "서버에 연결"
 
 #: src/arch/unix/gui/uinetplay.c:121 src/arch/unix/x11/gnome/uinetplay.c:322
 #: src/arch/win32/res.rc.po.c:1290 src/arch/amigaos/intl_text.c.po.c:3354
@@ -2639,11 +2639,11 @@ msgstr "연결을 끊다"
 #: src/arch/unix/x11/gnome/uipalcontrol.c:48 src/arch/win32/res.rc.po.c:1241
 #: src/arch/amigaos/intl_text.c.po.c:7267
 msgid "Scanline shade"
-msgstr ""
+msgstr "주사선 가리게"
 
 #: src/arch/unix/gui/uipalemu.c:70
 msgid "Scanline Shade in percent"
-msgstr ""
+msgstr "주사선 가리게 확률"
 
 #: src/arch/unix/gui/uipalemu.c:77 src/arch/unix/gui/uipalemu.c:127
 #: src/arch/unix/x11/gnome/uipalcontrol.c:53 src/arch/win32/res.rc.po.c:1237
@@ -2653,7 +2653,7 @@ msgstr "틴트"
 
 #: src/arch/unix/gui/uipalemu.c:77
 msgid "Tint in percent"
-msgstr ""
+msgstr "틴트 확률"
 
 #: src/arch/unix/gui/uipalemu.c:84 src/arch/unix/gui/uipalemu.c:129
 #: src/arch/unix/x11/gnome/uipalcontrol.c:54 src/arch/win32/res.rc.po.c:1243
@@ -2663,17 +2663,17 @@ msgstr ""
 
 #: src/arch/unix/gui/uipalemu.c:84
 msgid "Phase in percent"
-msgstr ""
+msgstr "단계 확률"
 
 #: src/arch/unix/gui/uipalemu.c:91 src/arch/unix/gui/uipalemu.c:131
 #: src/arch/unix/x11/gnome/uipalcontrol.c:55 src/arch/win32/res.rc.po.c:1244
 #: src/arch/amigaos/intl_text.c.po.c:7315
 msgid "Odd lines offset"
-msgstr ""
+msgstr "홀수 라인 오프셋"
 
 #: src/arch/unix/gui/uipalemu.c:91
 msgid "Offset in percent"
-msgstr ""
+msgstr "오프셋 확률"
 
 #: src/arch/unix/gui/uipalemu.c:99 src/arch/unix/gui/uipalemu.c:125
 #: src/arch/unix/x11/gnome/uipalcontrol.c:47 src/arch/win32/res.rc.po.c:1242
@@ -2683,18 +2683,18 @@ msgstr "흐릿함"
 
 #: src/arch/unix/gui/uipalemu.c:99
 msgid "Blur in percent"
-msgstr ""
+msgstr "흐릿함 확률"
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
-msgstr ""
+msgstr "커스텀 팔레트 불러오기"
 
 #: src/arch/unix/gui/uipalette.c:62
 #, c-format
 msgid ""
 "Could not load palette file\n"
 "'%s'"
-msgstr ""
+msgstr "팔레트 파일 '%s'를 불러올수 없습니다"
 
 #: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:10202
 msgid "Path"
@@ -2704,18 +2704,18 @@ msgstr "길"
 #: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
 #: src/arch/unix/gui/uiprinter.c:144 src/arch/unix/gui/uiprinter.c:156
 msgid "File system access"
-msgstr ""
+msgstr "파일 시스템 엑세스"
 
 #: src/arch/unix/gui/uiperipheral.c:66 src/arch/unix/gui/uiperipheral.c:82
 #: src/arch/unix/gui/uiperipheral.c:98 src/arch/unix/gui/uiperipheral.c:114
 #: src/arch/unix/gui/uiprinter.c:147 src/arch/unix/gui/uiprinter.c:159
 msgid "Real device access"
-msgstr ""
+msgstr "리얼 디바이스 엑세스"
 
 #: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
 #: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
 msgid "Raw device access"
-msgstr ""
+msgstr "생 디바이스 엑세스"
 
 #: src/arch/unix/gui/uiperipheraliec.c:65
 #: src/arch/unix/gui/uiperipheraliec.c:84
@@ -2726,14 +2726,14 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:94
 #: src/arch/unix/gui/uiperipheralieee.c:111
 msgid "Device type"
-msgstr ""
+msgstr "디바이스 종류"
 
 #: src/arch/unix/gui/uiperipheraliec.c:67
 #: src/arch/unix/gui/uiperipheraliec.c:86
 #: src/arch/unix/gui/uiperipheraliec.c:105
 #: src/arch/unix/gui/uiperipheraliec.c:124
 msgid "Enable IEC device"
-msgstr ""
+msgstr "IEC 디바이스 사용가능하게하기"
 
 #: src/arch/unix/gui/uiperipheraliec.c:69
 #: src/arch/unix/gui/uiperipheraliec.c:88
@@ -2744,7 +2744,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:96
 #: src/arch/unix/gui/uiperipheralieee.c:113
 msgid "Read only access"
-msgstr ""
+msgstr "읽기만 가능하게하기"
 
 #: src/arch/unix/gui/uiperipheraliec.c:72
 #: src/arch/unix/gui/uiperipheraliec.c:91
@@ -2755,7 +2755,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:99
 #: src/arch/unix/gui/uiperipheralieee.c:116
 msgid "File system directory"
-msgstr ""
+msgstr "파일 시스템 디렉토리"
 
 #: src/arch/unix/gui/uiperipheraliec.c:74
 #: src/arch/unix/gui/uiperipheraliec.c:93
@@ -2766,7 +2766,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:101
 #: src/arch/unix/gui/uiperipheralieee.c:118
 msgid "Convert P00 file names"
-msgstr ""
+msgstr "P00 파일 이름들 컨버트 하기"
 
 #: src/arch/unix/gui/uiperipheraliec.c:76
 #: src/arch/unix/gui/uiperipheraliec.c:95
@@ -2777,7 +2777,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:103
 #: src/arch/unix/gui/uiperipheralieee.c:120
 msgid "Create P00 files on save"
-msgstr ""
+msgstr "저장 메뉴에 P00 파일 생성하기"
 
 #: src/arch/unix/gui/uiperipheraliec.c:78
 #: src/arch/unix/gui/uiperipheraliec.c:97
@@ -2820,20 +2820,20 @@ msgstr "디바이스#11"
 #: src/arch/amigaos/intl_text.c.po.c:1890
 #: src/arch/amigaos/intl_text.c.po.c:6091
 msgid "Printer settings"
-msgstr ""
+msgstr "프린터 셋팅"
 
 #: src/arch/unix/gui/uiperipheraliec.c:148
 #: src/arch/unix/gui/uiperipheraliec.c:161
 #: src/arch/unix/gui/uiperipheralieee.c:135
 msgid "Enable Virtual Devices"
-msgstr ""
+msgstr "버츄얼 디바이스 사용가능하게 하기"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:173
 #: src/arch/unix/gui/uiperipheralieee.c:141 src/arch/win32/res.rc.po.c:1025
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:1866
 msgid "Peripheral settings"
-msgstr ""
+msgstr "주변장치 셋팅"
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:5539
