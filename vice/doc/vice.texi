@@ -9601,8 +9601,9 @@ supported by the emulators.
 * G64::                         The GCR-encoded disk image format
 * D64::                         The D64 disk image format
 * D71::                         The D71 disk image format
-* D81::                         The D81 disk image format
 * D80::                         The D80 disk image format
+* D81::                         The D81 disk image format
+* D82::                         The D82 disk image format
 * X64::                         The X64 disk image format
 @end menu
 
@@ -12221,7 +12222,7 @@ This is a breakdown of a standard directory entry:
 @item $18-$1B
 @tab Unused (except with GEOS disks)
 @item $1C-$1D
-@tab (Used during an @SAVE or @OPEN, holds the new t/s link)
+@tab (Used during an SAVE or OPEN, holds the new t/s link)
 @item $1E-$1F
 @tab File or partition size in sectors, low/high byte order ($1E+$1F*256). The approx. file size in bytes is <= #sectors * 254
 @end multitable
@@ -12315,6 +12316,7 @@ C0: FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF
 D0: 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF FF FF
 E0: FF FF 28 FF FF FF FF FF 28 FF FF FF FF FF 28 FF
 F0: FF FF FF FF 28 FF FF FF FF FF 24 F0 FF 2D FF FE
+@end example
 
 @example
 Bytes:
@@ -13208,8 +13210,8 @@ F0: 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF FF 07
 @tab BAM for track 1. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
 @item $0B-$0F
 @tab BAM for track 2
-@item dots{}
-@tab dots{}
+@item @dots{}
+@tab @dots{}
 @item $FB-$FF
 @tab BAM for track 50
 @end multitable
@@ -13284,8 +13286,8 @@ F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @tab BAM for track 51. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
 @item $0B-$0F
 @tab BAM for track 52
-@item dots{}
-@tab dots{}
+@item @dots{}
+@tab @dots{}
 @item $88-$8C
 @tab BAM for track 77
 @item $8D-$FF
@@ -14218,8 +14220,8 @@ F0: 07 1B FF FF FF 07 1B FF FF FF 07 1B FF FF FF 07
 @tab BAM for track 1. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
 @item $0B-$0F
 @tab BAM for track 2
-@item dots{}
-@tab dots{}
+@item @dots{}
+@tab @dots{}
 @item $FB-$FF
 @tab BAM for track 50
 @end multitable
@@ -14275,6 +14277,7 @@ C0: FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF
 D0: FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF
 E0: FF 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF
 F0: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
+@end example
 
 @multitable @columnfractions .3 .7
 @item @b{Bytes}
@@ -14293,8 +14296,8 @@ F0: 1F 1D FF FF FF 1F 1D FF FF FF 1F 1D FF FF FF 1F
 @tab BAM for track 51. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
 @item $0B-$0F
 @tab BAM for track 52
-@item dots{}
-@tab dots{}
+@item @dots{}
+@tab @dots{}
 @item $FB-$FF
 @tab BAM for track 100
 @end multitable
@@ -14320,6 +14323,7 @@ C0: FF FF FF 01 19 FF FF FF 01 19 FF FF FF 01 19 FF
 D0: FF FF 01 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF
 E0: 7F 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F
 F0: 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00
+@end example
 
 @multitable @columnfractions .3 .7
 @item @b{Bytes}
@@ -14338,8 +14342,8 @@ F0: 00 17 FF FF 7F 00 17 FF FF 7F 00 17 FF FF 7F 00
 @tab BAM for track 101. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
 @item $0B-$0F
 @tab BAM for track 102
-@item dots{}
-@tab dots{}
+@item @dots{}
+@tab @dots{}
 @item $FB-$FF
 @tab BAM for track 150
 @end multitable
@@ -14373,8 +14377,8 @@ Fourth BAM block 38/9
 @tab BAM for track 151. The first byte shows the "blocks free" for this track, the remaining 4 show the BAM for the track.
 @item $0B-$0F
 @tab BAM for track 152
-@item dots{}
-@tab dots{}
+@item @dots{}
+@tab @dots{}
 @item $15-$19
 @tab BAM for track 154
 @item $1A-$FF
