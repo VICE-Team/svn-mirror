@@ -100,29 +100,33 @@ TODO:
 like mentioned above, the todo list is contained in vice.texi in the form of
 comments. to show it using the checkdoc tool use "./checkdoc.mak fixme"
 
-at the time of last updating this file (01/02/2011), the list looked like this:
+at the time of last updating this file (21/07/2011), the list looked like this:
 
-list of FIXMEs (20):
-660:@c FIXME: add link to doc/html/plain/PETdoc.txt
-681:@c FIXME: add link to doc/html/plain/PETdoc.txt
-709:@c FIXME: add link to section
-779:@c FIXME: add a detailed list of all keys
-2469:@c FIXME: remove -symdekeymap option!
-2954:@c FIXME: add all supported drives
-3905:@c FIXME: clean up "c64/128" vs "c64"
-4169:@c FIXME: incomplete descriptions for resources
-8328:@c FIXME: add some info on making screenshots, wav- and avi recordings
-8361:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-9167:@c FIXME: add more c1541 examples
-9535:@c FIXME: add X64 disk image file structure; Used by the 1541, 2031, 3040, 4040 drives.
-9536:@c FIXME: add D64 disk image file structure; Used by the 1541, 2031, 3040, 4040 drives.
-9537:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-9538:@c FIXME: add D71 VC1571 disk image file structure
-9539:@c FIXME: add D81 VC1581 disk image file structure
-9540:@c FIXME: add D80 CBM8050 disk image file structure
-9541:@c FIXME: add D82 CBM8250/1001 disk image file structure
-9542:@c FIXME: add P00 program file structure;
-9543:@c FIXME: add CRT c64 cartridge images file structure
+list of FIXMEs (24):
+663:@c FIXME: add link to doc/html/plain/PETdoc.txt
+684:@c FIXME: add link to doc/html/plain/PETdoc.txt
+712:@c FIXME: add link to section
+782:@c FIXME: add a detailed list of all keys
+2472:@c FIXME: remove -symdekeymap option!
+3908:@c FIXME: clean up "c64/128" vs "c64"
+4233:@c FIXME: incomplete descriptions for resources
+8398:@c FIXME: add some info on making screenshots, wav- and avi recordings
+8431:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+9250:@c FIXME: add more c1541 examples
+9624:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+9626:@c FIXME: add P00 program file structure;
+9627:@c FIXME: add CRT c64 cartridge images file structure
+10046:@c FIXME: the D64 section needs to be style-checked.
+10047:@c FIXME: some of the D64 section needs to have sub-sections.
+10939:@c FIXME: the X64 section needs to be style-checked.
+11055:@c FIXME: the D71 section needs to be style-checked.
+11056:@c FIXME: some of the D71 section needs to have sub-sections.
+11716:@c FIXME: the D81 section needs to be style-checked.
+11717:@c FIXME: some of the D81 section needs to have sub-sections.
+12611:@c FIXME: the D80 section needs to be style-checked.
+12612:@c FIXME: some of the D80 section needs to have sub-sections.
+13300:@c FIXME: the D82 section needs to be style-checked.
+13301:@c FIXME: some of the D82 section needs to have sub-sections.
 
 to get a much more detailed list use "./checkdoc.mak full"
 
