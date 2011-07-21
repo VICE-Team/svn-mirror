@@ -384,7 +384,7 @@ static void canvas_change_palette(video_canvas_t *c)
                                    makecol_depth(c->depth, 0, i, 0),
                                    makecol_depth(c->depth, 0, 0, i));
         }
-        video_render_initraw();
+        video_render_initraw(c->videoconfig);
     }
 
     canvas_update_colors(c);

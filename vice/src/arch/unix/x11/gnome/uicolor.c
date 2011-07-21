@@ -167,8 +167,8 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
     for (i = 0; i < 256; i ++) {
         video_render_setrawrgb(i, endian_swap(i << 8 >> (16 - rb) << rs, bpp, swap), endian_swap(i << 8 >> (16 - gb) << gs, bpp, swap), endian_swap(i << 8 >> (16 - bb) << bs, bpp, swap));
     }
-    
-    video_render_initraw();
+
+    video_render_initraw(c->videoconfig);
 
     return 0;
 }

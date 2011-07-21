@@ -683,7 +683,7 @@ static void VideoInitRenderer(video_canvas_t *c)
         video_render_setrawrgb(i, GetRed(fcc, i), GetGreen(fcc, i), GetBlue(fcc, i));
     }
 
-    video_render_initraw();
+    video_render_initraw(c->videoconfig);
 }
 
 video_canvas_t *initcanvas;

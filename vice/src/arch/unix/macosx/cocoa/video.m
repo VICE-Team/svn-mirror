@@ -347,7 +347,7 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
                                ((i & (bmask << bbits)) >> bbits) << bshift);
     }
     video_render_setrawalpha(0xff000000);
-    video_render_initraw();
+    video_render_initraw(c->videoconfig);
 
     return 0;
 }

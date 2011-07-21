@@ -318,7 +318,7 @@ int video_set_physical_colors(video_canvas_t *c)
         for (i = 0; i < 256; i++) {
             video_render_setrawrgb(i, ((i & (rmask << rbits)) >> rbits) << rshift, ((i & (gmask << gbits)) >> gbits) << gshift, ((i & (bmask << bbits)) >> bbits) << bshift);
         }
-        video_render_initraw();
+        video_render_initraw(c->videoconfig);
     }
 
     for (i = 0; i < c->palette->num_entries; i++) {

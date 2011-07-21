@@ -199,7 +199,8 @@ static void video_init_raw_rgb(void)
                 video_render_setrawrgb(i, (DWORD)i, (DWORD)(i << 8), (DWORD)(i << 16));
             }
         }
-        video_render_initraw();
+#warning "FIXME: video_render_initraw() takes additional parameter"
+        /* video_render_initraw(); */ /* FIXME: this function takes the videoconfig of the active canvas */
     }
 }
 

@@ -614,9 +614,9 @@ void video_color_palette_free(struct palette_s *palette)
     palette_free(palette);
 }
 
-/* FIXME: unneeded ? called from archdep code, but seems pointless :) */
-void video_render_initraw(void)
+/* called by archdep code for first initial setup */
+void video_render_initraw(struct video_render_config_s *videoconfig)
 {
-    /* video_calc_gammatable(); */
+    video_calc_gammatable(&(videoconfig->video_resources));
 }
 

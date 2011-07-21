@@ -304,7 +304,7 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
         for (i = 0; i < 256; i++) {
             video_render_setrawrgb(i, ((i & (rmask << rbits)) >> rbits) << rshift, ((i & (gmask << gbits)) >> gbits) << gshift, ((i & (bmask << bbits)) >> bbits) << bshift);
         }
-        video_render_initraw();
+        video_render_initraw(c->videoconfig);
     }
 
     return 0;

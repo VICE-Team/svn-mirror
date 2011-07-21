@@ -157,12 +157,12 @@ void uicolor_convert_color_table(unsigned int colnr, BYTE *data, long color_pixe
     video_convert_color_table(colnr, data, color_pixel, (video_canvas_t *)c);
 }
 
-void uicolor_init_video_colors()
+void uicolor_init_video_colors(struct video_canvas_s *c)
 {
     short i;
     XColor colorr, colorg, colorb;
     Display *display;
-    
+
     display = x11ui_get_display_ptr();
     for (i = 0; i < 256; i++) {
         colorr.flags = DoRed | DoGreen | DoBlue;
@@ -191,6 +191,6 @@ void uicolor_init_video_colors()
         }
         video_render_setrawrgb(i, (DWORD)colorr.pixel, (DWORD)colorg.pixel, (DWORD)colorb.pixel);
     }
-    
-    video_render_initraw();
+
+    video_render_initraw(c->videoconfig);
 }

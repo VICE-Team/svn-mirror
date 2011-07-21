@@ -60,7 +60,7 @@ void video_resources_shutdown(void)
 /*-----------------------------------------------------------------------*/
 /* Per chip resources.  */
 
-static void video_resources_update_ui(video_canvas_t *canvas);
+static int video_resources_update_ui(video_canvas_t *canvas);
 
 struct video_resource_chip_mode_s {
     video_canvas_t *resource_chip;
@@ -647,18 +647,6 @@ int video_resources_chip_init(const char *chipname,
         return -1;
     }
 
-    /* CHIPFilter */
-    resources_chip_rendermode[0].name
-        = util_concat(chipname, vname_chip_rendermode[0], NULL);
-    resources_chip_rendermode[0].value_ptr
-        = &((*canvas)->videoconfig->filter);
-    resources_chip_rendermode[0].param = (void *)*canvas;
-    if (resources_register_int(resources_chip_rendermode) < 0) {
-        return -1;
-    }
-
-    lib_free((char *)(resources_chip_rendermode[0].name));
-
     /* CHIPDoubleSize */
     if (video_chip_cap->dsize_allowed != 0) {
         resources_chip_size[0].name
@@ -820,6 +808,18 @@ int video_resources_chip_init(const char *chipname,
         ++i;
     }
 
+    /* CHIPFilter */
+    resources_chip_rendermode[0].name
+        = util_concat(chipname, vname_chip_rendermode[0], NULL);
+    resources_chip_rendermode[0].value_ptr
+        = &((*canvas)->videoconfig->filter);
+    resources_chip_rendermode[0].param = (void *)*canvas;
+    if (resources_register_int(resources_chip_rendermode) < 0) {
+        return -1;
+    }
+
+    lib_free((char *)(resources_chip_rendermode[0].name));
+
     return 0;
 }
 
@@ -833,6 +833,8 @@ void video_resources_chip_shutdown(struct video_canvas_s *canvas)
     }
 }
 
-static void video_resources_update_ui(video_canvas_t *canvas)
+/* FIXME: this one seems weird */
+static int video_resources_update_ui(video_canvas_t *canvas)
 {
+    return video_color_update_palette(canvas);
 }

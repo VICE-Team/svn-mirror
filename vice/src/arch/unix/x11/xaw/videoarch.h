@@ -104,7 +104,7 @@ extern int _video_use_xsync;
 
 extern void video_convert_color_table(unsigned int i, BYTE *data, long col, video_canvas_t *c);
 
-extern void uicolor_init_video_colors(void);
+extern void uicolor_init_video_colors(struct video_canvas_s *);
 
 void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd);
 

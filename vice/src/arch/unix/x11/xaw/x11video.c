@@ -759,7 +759,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     ui_finish_canvas(canvas);
 
     if (canvas->depth > 8) {
-        uicolor_init_video_colors();
+        uicolor_init_video_colors(canvas);
     }
 
 #ifdef HAVE_XVIDEO

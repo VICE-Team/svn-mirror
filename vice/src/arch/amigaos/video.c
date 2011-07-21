@@ -1203,7 +1203,7 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
         for (i = 0; i < 256; i++) {
             video_render_setrawrgb(i, makecol(i, 0, 0), makecol(0, i, 0), makecol(0, 0, i));
         }
-        video_render_initraw();
+        video_render_initraw(canvas->videoconfig);
     }
 
     return 0;
