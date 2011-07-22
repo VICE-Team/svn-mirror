@@ -29,6 +29,20 @@
 
 #include "vice.h"
 
+/* get rid of some annoying SDL.h / config.h definition duplication warnings */
+
+/* save condition of HAVE_STRDUP and undef HAVE_STRDUP */
+#ifdef HAVE_STRDUP
+#define HAVE_VICE_STRDUP
+#undef HAVE_STRDUP
+#endif
+
+/* save condition of HAVE_NANOSLEEP and undef HAVE_NANOSLEEP */
+#ifdef HAVE_NANOSLEEP
+#define HAVE_VICE_NANOSLEEP
+#undef HAVE_NANOSLEEP
+#endif
+
 #ifdef USE_SDL_PREFIX
 #  include <SDL/SDL.h>
 #  include <SDL/SDL_keysym.h>
@@ -61,6 +75,22 @@
 
 #ifdef POWERSDL_AMIGA_INLINE
 #  include <ppcinline/powersdl.h>
+#endif
+
+/* restore HAVE_STRDUP definition if it is not defined */
+#ifdef HAVE_VICE_STRDUP
+#ifndef HAVE_STRDUP
+#define HAVE_STRDUP
+#endif
+#undef HAVE_VICE_STRDUP
+#endif
+
+/* restore HAVE_NANOSLEEP definition if it is not defined */
+#ifdef HAVE_VICE_NANOSLEEP
+#ifndef HAVE_NANOSLEEP
+#define HAVE_NANOSLEEP
+#endif
+#undef HAVE_VICE_NANOSLEEP
 #endif
 
 #endif
