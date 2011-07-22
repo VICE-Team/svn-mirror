@@ -40,6 +40,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <signal.h>
 
 #ifdef HAVE_VFORK_H
 #include <vfork.h>
