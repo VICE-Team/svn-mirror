@@ -826,7 +826,7 @@ BEGIN
   IDS_SELECT_PET_KEYB_GRAPHICS   "그래픽"
   IDS_SELECT_PET_KEYB_BUSINESS   "비지니스(UK)"
   IDS_PET_IO_SETTINGS            "IO Settings"
-  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O enable (disables 8x96)"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET I/O 사용하기 (사용하지않기 8x96)"
   IDS_PET_RAM_SETTINGS           "RAM 셋팅"
   IDS_TOGGLE_PET_8296_RAM9       "$9*** as RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$A*** as RAM"

@@ -651,7 +651,7 @@ BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Attach DTV Flash Image"
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
-  IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to C64DTV ROM image"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "C64DTV ROM 이미지에 쓰기 가능하게 하기"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
   IDS_DTV_REVISION_LABEL          "DTV 수정"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"

@@ -672,7 +672,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000          "4/8/16KB Modul Image bei $6000 einlegen"
     IDS_ATTACH_4_8_CART_A000             "4/8KB Modul Image bei $A000 einlegen"
     IDS_ATTACH_4_CART_B000               "4KB Modul Image bei $B000 einlegen"
-    IDS_IO_SWAP                          "Enable MasC=uerade I/O swap"
+    IDS_IO_SWAP                          "MasC=uerade I/O swap aktivieren"
     IDS_MI_IEEE488                       "VIC-1112 IEEE-488 Modul"
     IDS_MI_PADDLES                       "Paddles aktivieren"
     IDS_MI_CART_VIC20_GENERIC            "Generisches Image..."
@@ -698,7 +698,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet Einstellungen (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander Einstellungen (MasC=uerade)..."
-    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler Einstellungen (MasC=uerade)..."
 END
 
 
@@ -915,7 +915,7 @@ BEGIN
     IDS_ATTACH_4_CART_B000               "Attach 4KB cartridge image at $B000"
     IDS_IO_SWAP                          "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                       "VIC-1112 IEEE-488 module"
-    IDS_MI_PADDLES                       "Enable paddles"
+    IDS_MI_PADDLES                       "패디스 사용가능하게 하기"
     IDS_MI_CART_VIC20_GENERIC            "Generic image..."
     IDS_MI_CART_VIC20_MEGACART           "Mega-Cart image..."
     IDS_MI_CART_VIC20_FINAL_EXPANSION    "Final Expansion image..."
@@ -974,7 +974,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000          "Koppel 4/8/16KB bestand op $6000"
     IDS_ATTACH_4_8_CART_A000             "Koppel 4/8KB bestand op $A000"
     IDS_ATTACH_4_CART_B000               "Koppel 4KB bestand op $B000"
-    IDS_IO_SWAP                          "Enable MasC=uerade I/O swap"
+    IDS_IO_SWAP                          "Activeer MasC=uerade I/O verwisseling"
     IDS_MI_IEEE488                       "VIC-1112 IEEE-488 module"
     IDS_MI_PADDLES                       "Activeer paddles"
     IDS_MI_CART_VIC20_GENERIC            "Algemeen bestand..."
@@ -1000,7 +1000,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet instellingen (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander instellingen (MasC=uerade)..."
-    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler instellingen (MasC=uerade)..."
 END
 
 

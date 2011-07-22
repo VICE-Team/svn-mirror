@@ -93,7 +93,7 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
     IDS_IDE64_SETTINGS              "IDE64-indstillinger"
     IDS_IDE64_V4                    "Aktivér IDE64 V4"
-    IDS_IDE64_IMAGE                 "HD-imagefil"
+    IDS_IDE64_IMAGE                 "HD image file"
     IDS_IDE64_GEOMETRY              "Geometri"
     IDS_IDE64_AUTODETECT            "Autodetektér størrelse på image"
     IDS_IDE64_CYLINDERS             "Cylindrer"
@@ -116,7 +116,7 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
     IDS_IDE64_SETTINGS              "IDE64 Einstellungen"
     IDS_IDE64_V4                    "IDE64 V4 aktivieren"
-    IDS_IDE64_IMAGE                 "HD Image Datei"
+    IDS_IDE64_IMAGE                 "HD Image Name"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Image Größe automatisch erkennen"
     IDS_IDE64_CYLINDERS             "Zylinder"
@@ -165,7 +165,7 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
     IDS_IDE64_SETTINGS              "IDE64 beállításai"
     IDS_IDE64_V4                    "Enable IDE64 V4"
-    IDS_IDE64_IMAGE                 "HD image file"
+    IDS_IDE64_IMAGE                 "Merevlemez képmás fájl"
     IDS_IDE64_GEOMETRY              "Geometry"
     IDS_IDE64_AUTODETECT            "Autodetect image size"
     IDS_IDE64_CYLINDERS             "Sávok"
@@ -243,7 +243,7 @@ BEGIN
     IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
     IDS_IDE64_SETTINGS              "IDE64 instellingen"
     IDS_IDE64_V4                    "Activeer IDE64 V4"
-    IDS_IDE64_IMAGE                 "HD bestand"
+    IDS_IDE64_IMAGE                 "HD image file"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Automatisch detecteren bestandsgrootte"
     IDS_IDE64_CYLINDERS             "Cylinders"
@@ -333,4 +333,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
 

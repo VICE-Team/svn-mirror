@@ -103,7 +103,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_LIGHTPEN_CAPTION "Lightpen settings"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen emulation"
+    IDS_LIGHTPEN_ENABLE  "라이트펜 에물레어터 사용가능케 하기"
     IDS_LIGHTPEN_TYPE    "Lightpen type"
 END
 #ifndef WINDRES_CP_IGNORE

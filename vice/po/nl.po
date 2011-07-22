@@ -8430,7 +8430,7 @@ msgid ""
 "not specified, the monitor breaks on `exec'.\n"
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
-msgstr
+msgstr ""
 "Zet een breekpunt, als er geen adres is opgegeven dan zullen de huidige\n"
 "geldige breekpunten worden geprint. Als er een adres is opgegeven dan\n"
 "zal er een breekpunt gezet worden voor dat adres en de nummer van het\n"
