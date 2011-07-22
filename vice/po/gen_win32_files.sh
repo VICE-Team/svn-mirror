@@ -7,7 +7,7 @@
 while test x"$1" != "x"
 do
     file=$1
-    checkfile="${file:0:18}"
+    checkfile=$(echo $file | awk '{ string=substr($1, 1, 18); print string; }' )
     realfile=${file%%.po.c}
     if test x"$checkfile" = "x../src/arch/win32/"; then
         echo regenerating $realfile
