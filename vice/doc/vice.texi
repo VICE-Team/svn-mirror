@@ -9605,6 +9605,7 @@ supported by the emulators.
 * D81::                         The D81 disk image format
 * D82::                         The D82 disk image format
 * X64::                         The X64 disk image format
+* P00::                         The P00 image format
 @end menu
 
 @node T64, G64, File formats, File formats
@@ -9622,7 +9623,6 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @end menu
 
 @c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-@c FIXME: add P00 program file structure;
 @c FIXME: add CRT c64 cartridge images file structure
 
 @node T64 file structure, T64 tape record, T64, T64
@@ -13293,7 +13293,7 @@ F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @tab Not used
 @end multitable
 
-@node D82, , D80, File formats
+@node D82, P00, D80, File formats
 @section The D82 disk image format
 
 @c FIXME: the D82 section needs to be style-checked.
@@ -14383,6 +14383,63 @@ Fourth BAM block 38/9
 @item $1A-$FF
 @tab Not used
 @end multitable
+
+@node P00, , D82, File formats
+@section The P00 image format
+
+@c FIXME: the P00 section needs to be style-checked.
+
+(This section was contributed by Peter Schepers and slightly edited by
+Marco van den Heuvel.)
+
+These files were created for use in the PC64 emulator, written
+by Wolfgang Lorenz. Each one has the same layout with the
+filetype being stored in the DOS extension (i.e. Pxx is a PRG,
+Sxx is a SEQ, Uxx is a USR and Rxx is a RELative file), and the
+header is only 26 bytes long.
+
+This is a dump of a Pxx file (PRG)...
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
+      -----------------------------------------------
+0000: 43 36 34 46 69 6C 65 00 43 52 49 53 49 53 20 4D
+0010: 4F 55 4E 54 41 49 4E 00 00 00
+@end example
+
+@multitable @columnfractions .3 .7
+@item @b{Bytes}
+@tab @b{Description}
+@item $00-$06
+@tab ASCII string "C64File"
+@item $07
+@tab Always $00
+@item $08-$17
+@tab Filename in PETASCII, padded with $00 (not $A0, like a D64)
+@item $18
+@tab Always $00
+@item $19
+@tab REL file record size ($00 if not a REL file)
+@item $1A-??
+@tab Program data
+@end multitable
+
+The 'xx' in the extension of the file is usually 00, except when
+we have two DOS filenames which would be the same, but the C64
+filenames are different! If we have two C64 filenames which are
+the same, they *cannot* co-exist in the same directory. If we
+have two files which do convert down to be the same DOS
+filename, the extension is incremented until an unused one is
+found (x01, x02, x03, up to x99). We can have up to 99 different
+C64 files with the same corresponding DOS names as that's all
+the extension will hold (from P00 to P99).
+
+Each PC64 file only has one entry, there are no multi-file
+containers allowed. This could result in a large number of
+these files in a directory, even for only a few programs, as
+each C64 file will result in a PC64 file entry. The best use
+for a PC64 file is a single-file program, one which does not
+load anything else.
 
 @node Acknowledgments, Copyright, File formats, Top
 @chapter Acknowledgments
