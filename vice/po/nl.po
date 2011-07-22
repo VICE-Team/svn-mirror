@@ -509,9 +509,8 @@ msgid "Save media file"
 msgstr "Opslaan mediabestand"
 
 #: src/arch/unix/gui/c64dtvui.c:149 src/arch/unix/gui/c64dtvui.c:282
-#, fuzzy
 msgid "DTV model"
-msgstr "SID model"
+msgstr "DTV model"
 
 #: src/arch/unix/gui/c64dtvui.c:152 src/arch/win32/resc64dtv.rc.po.c:437
 #: src/arch/amigaos/intl_text.c.po.c:4265
@@ -872,29 +871,24 @@ msgid "Load new 3 plus 1 HI ROM"
 msgstr "Laad nieuw 3 plus 1 HI ROM"
 
 #: src/arch/unix/gui/plus4ui.c:157
-#, fuzzy
 msgid "Load new c1 LO ROM"
-msgstr "Laad nieuw Basic Lo ROM"
+msgstr "Laad nieuw c1 LO ROM"
 
 #: src/arch/unix/gui/plus4ui.c:159
-#, fuzzy
 msgid "Load new c1 HI ROM"
-msgstr "Laad nieuw Basic Hi ROM"
+msgstr "Laad nieuw c1 HI ROM"
 
 #: src/arch/unix/gui/plus4ui.c:161
-#, fuzzy
 msgid "Load new c2 LO ROM"
-msgstr "Laad nieuw Basic Lo ROM"
+msgstr "Laad nieuw c2 LO ROM"
 
 #: src/arch/unix/gui/plus4ui.c:163
-#, fuzzy
 msgid "Load new c2 HI ROM"
-msgstr "Laad nieuw Basic Hi ROM"
+msgstr "Laad nieuw c2 HI ROM"
 
 #: src/arch/unix/gui/plus4ui.c:253
-#, fuzzy
 msgid "ACIA"
-msgstr "ACIA modus"
+msgstr "ACIA"
 
 #: src/arch/unix/gui/plus4ui.c:255 src/arch/amigaos/intl_text.c.po.c:6978
 msgid "Digiblaster add-on"
@@ -1087,9 +1081,8 @@ msgid "Autostart warp"
 msgstr "Autostart warp"
 
 #: src/arch/unix/gui/uiautostart.c:68
-#, fuzzy
 msgid "Autostart random delay"
-msgstr "Autostart schijfbestand"
+msgstr "Willekeurige vertraging van de autostart"
 
 #: src/arch/unix/gui/uiautostart.c:70 src/arch/win32/resautostart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:8310
@@ -1558,9 +1551,8 @@ msgid "Double size"
 msgstr "Dubbele grootte"
 
 #: src/arch/unix/gui/uicrtc.c:143 src/arch/unix/gui/uivdc.c:160
-#, fuzzy
 msgid "Stretch vertically"
-msgstr "Naast elkaar"
+msgstr "Vertikaal uitrekken"
 
 #: src/arch/unix/gui/uicrtc.c:145 src/arch/unix/gui/uited.c:132
 #: src/arch/unix/gui/uivdc.c:162 src/arch/unix/gui/uivic.c:131
@@ -1585,9 +1577,8 @@ msgstr "Kleuren"
 #: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:140
 #: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:139
 #: src/arch/unix/gui/uivicii.c:177
-#, fuzzy
 msgid "Color settings"
-msgstr "Model instellingen"
+msgstr "Kleur instellingen"
 
 #: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:144
 #: src/arch/unix/gui/uivdc.c:174 src/arch/unix/gui/uivic.c:143
@@ -2243,9 +2234,8 @@ msgstr "Versie 4"
 
 #: src/arch/unix/gui/uiide64.c:180 src/arch/unix/gui/uiide64.c:199
 #: src/arch/unix/gui/uiide64.c:218 src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "HD image name"
-msgstr "Naam van HD bestand 1"
+msgstr "HD bestand naam"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2260,24 +2250,20 @@ msgid "Revision"
 msgstr "Revisie"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "HD 1 settings"
-msgstr "VDC instellingen"
+msgstr "HD 1 instellingen"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "HD 2 settings"
-msgstr "VDC instellingen"
+msgstr "HD 2 instellingen"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "HD 3 settings"
-msgstr "VDC instellingen"
+msgstr "HD 3 instellingen"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "HD 4 settings"
-msgstr "IDE64 instellingen"
+msgstr "HD 4 instellingen"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2765,9 +2751,8 @@ msgid "Odd lines offset"
 msgstr "Oneven lijnen compensatie"
 
 #: src/arch/unix/gui/uipalemu.c:93
-#, fuzzy
 msgid "in percent"
-msgstr "procent"
+msgstr "in procent"
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
@@ -2977,9 +2962,8 @@ msgstr "Printer #4 emulatie"
 
 #: src/arch/unix/gui/uiprinteriec.c:42
 #: src/arch/unix/gui/uiprinteriecplus4.c:41
-#, fuzzy
 msgid "Printer #4 enable IEC device"
-msgstr "IEC printer #4 activeer IEC apparaat"
+msgstr "Printer #4 activeer IEC apparaat"
 
 #: src/arch/unix/gui/uiprinteriec.c:44
 #: src/arch/unix/gui/uiprinteriecplus4.c:43
@@ -2990,16 +2974,14 @@ msgstr "Printer #4 stuurprogramma"
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 text output device"
-msgstr "Printer #4 uitvoer apparaat"
+msgstr "Printer #4 tekst uitvoer apparaat"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
 #: src/arch/unix/gui/uiprinterieee.c:45
-#, fuzzy
 msgid "Printer #4 formfeed"
-msgstr "IEC printer #4 formfeed"
+msgstr "Printer #4 formfeed"
 
 #: src/arch/unix/gui/uiprinteriec.c:52
 #: src/arch/unix/gui/uiprinteriecplus4.c:51
@@ -3009,9 +2991,8 @@ msgstr "Printer #5 emulatie"
 
 #: src/arch/unix/gui/uiprinteriec.c:54
 #: src/arch/unix/gui/uiprinteriecplus4.c:53
-#, fuzzy
 msgid "Printer #5 enable IEC device"
-msgstr "IEC printer #5 activeer IEC apparaat"
+msgstr "Printer #5 activeer IEC apparaat"
 
 #: src/arch/unix/gui/uiprinteriec.c:56
 #: src/arch/unix/gui/uiprinteriecplus4.c:55
@@ -3022,16 +3003,14 @@ msgstr "Printer #5 stuurprogramma"
 #: src/arch/unix/gui/uiprinteriec.c:58
 #: src/arch/unix/gui/uiprinteriecplus4.c:57
 #: src/arch/unix/gui/uiprinterieee.c:53
-#, fuzzy
 msgid "Printer #5 text output device"
-msgstr "Printer #5 uitvoer apparaat"
+msgstr "Printer #5 tekst uitvoer apparaat"
 
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 formfeed"
-msgstr "IEC printer #5 formfeed"
+msgstr "Printer #5 formfeed"
 
 #: src/arch/unix/gui/uiprinteriec.c:64 src/arch/unix/gui/uiprinterieee.c:59
 #: src/arch/amigaos/intl_text.c.po.c:5874
@@ -6571,38 +6550,32 @@ msgid "Save GEO-RAM image when changed"
 msgstr "GEO-RAM bestand opslaan indien gewijzigd"
 
 #: src/arch/win32/reside64.rc.po.c:54
-#, fuzzy
 msgid "IDE64 V4 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 V4 instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 HD image #1 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD bestand #1 instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 HD image #2 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD bestand #2 instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 HD image #3 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD bestand #3 instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 HD image #4 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD bestand #4 instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
 msgstr "Activeer IDE64 V4"
 
 #: src/arch/win32/reside64.rc.po.c:61 src/arch/amigaos/intl_text.c.po.c:6498
-#, fuzzy
 msgid "HD image file"
-msgstr "HD bestand #1"
+msgstr "HD bestand"
 
 #: src/arch/win32/reside64.rc.po.c:62
 msgid "Geometry"
@@ -7618,24 +7591,20 @@ msgid "Speed Adjustment"
 msgstr "Snelheidsaanpassing"
 
 #: src/arch/amigaos/intl_text.c.po.c:6522
-#, fuzzy
 msgid "IDE64 HD 1 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD 1 instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6534
-#, fuzzy
 msgid "IDE64 HD 2 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD 2 instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6546
-#, fuzzy
 msgid "IDE64 HD 3 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD 3 instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6558
-#, fuzzy
 msgid "IDE64 HD 4 settings"
-msgstr "IDE64 instellingen"
+msgstr "IDE64 HD 4 instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6570
 msgid "IDE64 V4"
@@ -8451,7 +8420,6 @@ msgid "cond_expr"
 msgstr "cond_expr"
 
 #: src/translate_text.c.po.c:1780
-#, fuzzy
 msgid ""
 "Set a breakpoint, If no address is given, the currently valid break-\n"
 "points are printed.\n"
@@ -8462,13 +8430,17 @@ msgid ""
 "not specified, the monitor breaks on `exec'.\n"
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
-msgstr ""
-"Als er geen adres is opgegeven dan zullen de huidige geldige kijkpunten\n"
-"geprint. Als er een adres is opgegeven dan zal er een breekpunt gezet "
-"worden\n"
-"voor dat adres en de nummer van het breekpunt zal worden getoond. Een\n"
-"conditie kan worden opgegeven voor het breekpunt. Voor meer informatie over\n"
-"condities zie het CONDITION commando."
+msgstr
+"Zet een breekpunt, als er geen adres is opgegeven dan zullen de huidige\n"
+"geldige breekpunten worden geprint. Als er een adres is opgegeven dan\n"
+"zal er een breekpunt gezet worden voor dat adres en de nummer van het\n"
+"breekpunt zal worden getoond.\n"
+"`load|store|exec' is `load', `store' of `exec' (of een combinatie) die\n"
+"gebruikt zal worden om aan te geven bij wlke operatie de monitor zou\n"
+"moeten starten. Als er niets is opgegeven dan zal de monitor op 'exec'\n"
+"starten.\n"
+"Een conditie kan worden opgegeven voor het breekpunt. Voor meer\n"
+"informatie over condities zie het CONDITION commando."
 
 #: src/translate_text.c.po.c:1810
 msgid ""
@@ -8538,12 +8510,10 @@ msgstr ""
 "emulator. Het breekpunt zal worden verwijdert na het uitvoeren."
 
 #: src/translate_text.c.po.c:1902
-#, fuzzy
 msgid "load|store|exec"
-msgstr "laad/opslaan"
+msgstr "load|store|exec"
 
 #: src/translate_text.c.po.c:1919
-#, fuzzy
 msgid ""
 "Set a watchpoint. If no address is given, the currently valid watch-\n"
 "points are printed. If a single address is specified, set a watchpoint\n"
@@ -8553,16 +8523,16 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor breaks on `load' and `store'.\n"
 msgstr ""
-"Zet een kijkpunt. Als er een enkel adres is opgegeven dan zal er een\n"
-"kijkpunt worden gezet voor dat adres. Als er twee adressen zijn opgegeven\n"
-"dan zal er een kijkpunt worden gezet voor de adressen tussen de twee\n"
-"adressen.\n"
-"laad/opslaan is 'load' of 'store' om aan te geven bij welke operatie de\n"
-"monitor zou moeten starten. Als deze niet opgegeven is dan zal de monitor\n"
-"starten bij beide operaties."
+"Zet een kijkpunt. Als er geen adres is opgegeven dan zal de huidige\n"
+"geldige kijkpunten worden getoont. Als er een enkel adres is opgegeven\n"
+"dan zal er een kijkpunt worden gezet voor dat adres. Als er twee\n"
+"adressen zijn opgegeven dan zal er een kijkpunt worden gezet voor de\n"
+"adressen tussen de twee adressen.\n"
+"`load|store|exec' is `load',  `store' of `exec' om aan te geven bij\n"
+"welke operatie de monitor zou moeten starten. Als deze niet opgegeven\n"
+"is dan zal de monitor starten bij `load' en `store' operaties."
 
 #: src/translate_text.c.po.c:1936
-#, fuzzy
 msgid ""
 "Set a tracepoint. If no address is given, the currently valid trace-\n"
 "points are printed. If a single address is specified, set a tracepoint\n"
@@ -8572,13 +8542,14 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor traces all three operations.\n"
 msgstr ""
-"Zet een kijkpunt. Als er een enkel adres is opgegeven dan zal er een\n"
-"kijkpunt worden gezet voor dat adres. Als er twee adressen zijn opgegeven\n"
-"dan zal er een kijkpunt worden gezet voor de adressen tussen de twee\n"
-"adressen.\n"
-"laad/opslaan is 'load' of 'store' om aan te geven bij welke operatie de\n"
-"monitor zou moeten starten. Als deze niet opgegeven is dan zal de monitor\n"
-"starten bij beide operaties."
+"Zet een traceerpunt. Als er geen adres is opgegeven dan zullen de huidige\n"
+"geldige traceerpunten worden getoont. Als er een enkel adres is opgegeven\n"
+"dan zal er een traceerpunt worden gezet voor dat adres. Als er twee\n"
+"adressen zijn opgegeven dan zal er een traceerpunt worden gezet voor de\n"
+"adressen tussen de twee adressen.\n"
+"`load|store|exec' is `load', `store' of 'exec' om aan te geven bij welke\n"
+"operatie de monitor zou moeten starten. Als deze niet opgegeven is dan zal\n"
+"de monitor starten bij alle operaties."
 
 #: src/translate_text.c.po.c:1951
 msgid "Monitor state commands"
@@ -8885,14 +8856,12 @@ msgid "Set initial autostart delay (0: use default)"
 msgstr ""
 
 #: src/translate_text.c.po.c:2808
-#, fuzzy
 msgid "Enable random initial autostart delay."
-msgstr "Activeer warp modus tijdens autostarten"
+msgstr "Activeer willekeurige vertraging bij begin van het autostarten."
 
 #: src/translate_text.c.po.c:2823
-#, fuzzy
 msgid "Disable random initial autostart delay."
-msgstr "Warp modus tijdens autostarten uitschakelen"
+msgstr "Willekeurige vertraging bij begin van het uitostarten uitschakelen."
 
 #: src/translate_text.c.po.c:2838
 msgid "Use PAL sync factor"
@@ -8991,14 +8960,12 @@ msgid "Disable the ACIA RS232 interface emulation"
 msgstr "De ACIA RS232 interface emulatie aflsuiten"
 
 #: src/translate_text.c.po.c:3245
-#, fuzzy
 msgid "Enable the ACIA emulation"
-msgstr "Activeer MIDI emulatie"
+msgstr "Activeer de ACIA emulatie"
 
 #: src/translate_text.c.po.c:3260
-#, fuzzy
 msgid "Disable the ACIA emulation"
-msgstr "MIDI emulatie uitschakelen"
+msgstr "De ACIA emulatie uitschakelen"
 
 #: src/translate_text.c.po.c:3291
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -9431,9 +9398,8 @@ msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr "Koppel binair 16kB KSC Power cartridge bestand"
 
 #: src/translate_text.c.po.c:5396
-#, fuzzy
 msgid "Attach raw 24kB Kingsoft cartridge image"
-msgstr "Koppel binair 4kB Snapshot 64 cartridge bestand"
+msgstr "Koppel binair 24kB Kingsoft cartridge bestand"
 
 #: src/translate_text.c.po.c:5411
 msgid "Attach raw 8kB MACH 5 cartridge image"
@@ -10066,18 +10032,16 @@ msgid "Specify name of printer text device or dump file"
 msgstr "Geef de naam van het text apparaat of het dumpbestand"
 
 #: src/translate_text.c.po.c:7800
-#, fuzzy
 msgid "Specify printer text output device for printer #4"
-msgstr "Geef het text uitvoer apparaat voor IEC printer #4"
+msgstr "Geef het tekst uitvoer apparaat voor printer #4"
 
 #: src/translate_text.c.po.c:7815
-#, fuzzy
 msgid "Specify printer text output device for printer #5"
-msgstr "Geef het text uitvoer apparaat voor IEC printer #5"
+msgstr "Geef het tekst uitvoer apparaat voor printer #5"
 
 #: src/translate_text.c.po.c:7830
 msgid "Specify printer text output device for userport printer"
-msgstr "Geef het text uitvoer apparaat voor de userport printer"
+msgstr "Geef het tekst uitvoer apparaat voor de userport printer"
 
 #: src/translate_text.c.po.c:7845
 msgid "Enable the video cache"
