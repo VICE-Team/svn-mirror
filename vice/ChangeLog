@@ -1,5 +1,646 @@
 ------------------------------------------------------------------------------
 
+2011-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/reslightpen.rc,
+	src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resmouse.rc,
+	src/arch/win32/respet.rc, src/arch/win32/ressoundsampler.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Did a make
+	trans-update.
+
+2011-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/gen_win32_files.sh: Removed bashism.
+
+2011-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po,
+	po/ru.po, po/sv.po, po/tr.po: Did a make update-po.
+
+2011-07-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added P00 description to the documentation.
+
+2011-07-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt, doc/vice.texi: Updated.
+
+2011-07-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/cbm2ui.c, src/arch/win32/uisid.c, src/arch/win32/uisid.h,
+	src/arch/win32/uisiddtv.c, src/sid/sid-resources.c, src/sid/sid.h:
+	Dynamically generate SID engine/model list in common code and use in
+	WinVICE SID and SID-DTV settings dialogs.
+
+2011-07-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/video.c, src/arch/beos/video.cc,
+	src/arch/msdos/video.c, src/arch/os2/video.c, src/arch/riscos/video.c,
+	src/arch/sdl/video.c, src/arch/unix/macosx/cocoa/video.m,
+	src/arch/unix/x11/gnome/uicolor.c, src/arch/unix/x11/xaw/uicolor.c,
+	src/arch/unix/x11/xaw/videoarch.h, src/arch/unix/x11/xaw/x11video.c,
+	src/arch/win32/video.c, src/video/video-color.c,
+	src/video/video-resources.c, src/video.h: fix video_render_initraw()
+
+2011-07-21  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: fix some errors
+
+2011-07-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c: fix xaw compilation problem
+
+2011-07-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/archdep_amiga.h, src/arch/sdl/archdep_beos.h,
+	src/arch/sdl/archdep_cegcc.h, src/arch/sdl/archdep_dingoo.h,
+	src/arch/sdl/archdep_riscos.h, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_unix.h, src/arch/sdl/archdep_win32.h,
+	src/arch/sdl/archdep_xbox.h, src/arch/sdl/menu_c64dtvhw.c,
+	src/arch/sdl/menu_plus4cart.c, src/arch/sdl/menu_plus4hw.c,
+	src/arch/sdl/menu_rom.c, src/arch/sdl/menu_sid.c,
+	src/arch/sdl/menu_video.c, src/arch/sdl/signals.c: sdl ui updates
+
+2011-07-20  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-07-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added D80, D81 and D82 sections to the documentation.
+
+2011-07-20  groepaz <groepaz@gmx.net>
+
+	* src/userport: update svn props
+
+2011-07-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/petui.c, src/arch/beos/petui.cc,
+	src/arch/msdos/petui.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/sdl/menu_pethw.c, src/arch/win32/petui.c: rename
+	"PETUserportDAC" to "UserportDAC"
+
+2011-07-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiprinteriec.c,
+	src/arch/unix/gui/uiprinteriecplus4.c,
+	src/arch/unix/gui/uiprinterieee.c, src/translate_text.c: remove 'IEC'
+	references from user visible printer descriptions in commandline options
+	and *nix ui
+
+2011-07-18  groepaz <groepaz@gmx.net>
+
+	* data/C128/vdc_deft.vpl, src/arch/amigaos/noinlineargs.c,
+	src/arch/amigaos/video.c, src/arch/riscos/uiconfig.c,
+	src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uipalemu.h,
+	src/arch/unix/gui/uirenderer.c, src/arch/unix/gui/uirenderer.h,
+	src/arch/unix/gui/uited.c, src/arch/unix/gui/uivdc.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	src/arch/unix/x11/gnome/uipalcontrol.c, src/arch/unix/x11/renderxv.c,
+	src/arch/unix/x11/vidmode.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/unix/x11/xaw/x11video.c, src/c128/c128video.c,
+	src/c64/c64video.c, src/cbm2/cbm2video.c,
+	src/crtc/crtc-cmdline-options.c, src/pet/petvideo.c,
+	src/plus4/plus4video.c, src/plus4/ted-cmdline-options.c,
+	src/plus4/ted.c, src/raster/raster-canvas.c, src/translate.txt,
+	src/translate_text.c, src/vdc/vdc-cmdline-options.c,
+	src/vdc/vdc-color.c, src/vic20/vic.c, src/vic20/vic20video.c,
+	src/vicii/vicii-cmdline-options.c, src/vicii/vicii.c,
+	src/viciisc/vicii-cmdline-options.c, src/viciisc/vicii.c,
+	src/video/Makefile.am, src/video/render1x1ntsc.c,
+	src/video/render1x1pal.c, src/video/render1x1pal.h,
+	src/video/render1x2crt.c, src/video/render1x2crt.h,
+	src/video/render2x2crt.c, src/video/render2x2crt.h,
+	src/video/render2x2ntsc.c, src/video/render2x2ntsc.h,
+	src/video/render2x2pal.c, src/video/render2x2pal.h,
+	src/video/render2x4crt.c, src/video/render2x4crt.h,
+	src/video/renderyuv.c, src/video/video-canvas.h,
+	src/video/video-cmdline-options.c, src/video/video-color.c,
+	src/video/video-render-crt.c, src/video/video-render-pal.c,
+	src/video/video-render.c, src/video/video-resources-pal.c,
+	src/video/video-resources.c, src/video/video-resources.h, src/video.h:
+	scale2x and palemulation resources merged into one CHIPfilter resource.
+	color- and crt emulation related resourced made chip specific. first
+	step to x128 sanity :) (see devlog) related dtk/xaw gui updates, some
+	yuv rendering fixes, better vdc colors.
+
+2011-07-18  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: fix missing node/menu
+	entries
+
+2011-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added D71 format section to the documentation.
+
+2011-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added X64 format section to the documentation.
+
+2011-07-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added D64 format section to the documentation.
+
+2011-07-16  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/make-bindist.sh, src/arch/sdl/make-bindist_amiga.sh,
+	src/arch/sdl/make-bindist_beos.sh, src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_gp2x.sh, src/arch/sdl/make-bindist_riscos.sh,
+	src/arch/sdl/make-bindist_win32.sh: Fixed some docs in some of the
+	bindist scripts.
+
+2011-07-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added all supported drives to the documentation.
+
+2011-07-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/plus4ui.c, src/arch/sdl/menu_plus4cart.c,
+	src/arch/win32/uiplus4cart.c, src/plus4/plus4-resources.c,
+	src/plus4/plus4cart.c, src/plus4/plus4rom.c, src/plus4/plus4rom.h: fix
+	function rom loading
+
+2011-07-15  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_memory.c: skip to next even address after showing
+	sprite data (ms)
+
+2011-07-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/uisid.c, src/arch/unix/gui/vic20ui.c,
+	src/pet/pet-sidcart.c, src/pet/petsound.c, src/plus4/plus4-sidcart.c,
+	src/sid/sid-cmdline-options.c, src/vic20/cart/vic20-sidcart.c: fixed
+	sound init in xpet. added support for all SID engines to xpet, xplus4,
+	xvic. (see devlog)
+
+2011-07-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/uic64dtv.c,
+	src/arch/unix/gui/uic64dtv.h, src/c64dtv/Makefile.am,
+	src/c64dtv/c64dtv-cmdline-options.c, src/c64dtv/c64dtvmodel.c,
+	src/c64dtv/c64dtvmodel.h, src/translate.txt, src/translate_text.c: added
+	model selection to x64dtv (see devlog)
+
+2011-07-15  groepaz <groepaz@gmx.net>
+
+	* src/c1541.c, src/imagecontents/imagecontents.c, src/imagecontents.h:
+	implemented pattern matching for -list and -dir (as documented =P).
+	fixes bug 3367517
+
+2011-07-14  groepaz <groepaz@gmx.net>
+
+	* data/PLUS4/Makefile.am, data/PLUS4/c2lo.364, data/PLUS4/default.vrs,
+	data/PLUS4/kernal.232, data/PLUS4/kernal.364,
+	src/arch/unix/gui/Makefile.am, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/uiplus4cart.c, src/arch/unix/gui/uiplus4cart.h,
+	src/cartridge.h, src/plus4/Makefile.am,
+	src/plus4/plus4-cmdline-options.c, src/plus4/plus4.c,
+	src/plus4/plus4acia.c, src/plus4/plus4acia.h, src/plus4/plus4cart.c,
+	src/plus4/plus4mem.c, src/plus4/plus4model.c, src/plus4/plus4model.h,
+	src/plus4/plus4rom.c, src/plus4/plus4romset.c, src/translate.txt,
+	src/translate_text.c: some xplus4 fixes: added model selection, ACIA
+	emulation can be disabled, cartridge system unified to common api  (see
+	devlog)
+
+2011-07-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_drive.c, src/arch/sdl/menu_video.c,
+	src/arch/sdl/video.c, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/crtc/crtc-cmdline-options.c,
+	src/crtc/crtc-resources.c, src/crtc/crtc.c, src/crtc/crtc.h,
+	src/raster/raster.c, src/translate.txt, src/translate_text.c,
+	src/vdc/vdc-cmdline-options.c, src/vdc/vdc-resources.c,
+	src/vdc/vdc-resources.h, src/video/Makefile.am,
+	src/video/render2x2crt.c, src/video/render2x2crt.h,
+	src/video/render2x4.c, src/video/render2x4.h, src/video/render2x4crt.c,
+	src/video/render2x4crt.h, src/video/video-canvas.c,
+	src/video/video-render-crt.c, src/video/video-render.c,
+	src/video/video-resources.c, src/video.h: proper double size / y-stretch
+	handling for VDC and CRTC (needs ui update, see devlog). related ui
+	updates for *nix and sdl. fixes bug 3260871
+
+2011-07-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/mui/uijoystick.c, src/arch/amigaos/mui/uijoystickll.c,
+	src/arch/beos/Makefile.am, src/arch/beos/ui.cc,
+	src/arch/msdos/Makefile.am, src/arch/msdos/uijoystick.c,
+	src/arch/sdl/Makefile.am, src/arch/sdl/menu_joystick.c,
+	src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uijoystick2.c,
+	src/arch/win32/Makefile.am, src/arch/win32/uijoystick.c,
+	src/c128/Makefile.am, src/c128/c128cia1.c, src/c64/c64cia1.c,
+	src/c64/c64cia2.c, src/c64dtv/Makefile.am, src/c64dtv/c64dtvcia2.c,
+	src/cbm2/Makefile.am, src/cbm2/cbm2cia1.c, src/joystick.c,
+	src/joystick.h, src/pet/petvia.c, src/userport/Makefile.am,
+	src/userport/userport_joystick.c, src/userport/userport_joystick.h,
+	src/vic20/Makefile.am, src/vic20/vic20via2.c: Moved userport joystick
+	support code to src/userport/userport_joystick.* (more generic approach
+	to handling them and in preparation for a more generic userport handling
+	system).
+
+2011-07-12  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-07-11  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: updated description of watch/break/trace commands
+
+2011-07-11  groepaz <groepaz@gmx.net>
+
+	* src/translate_text.c: updated (english) help for break/watch/trace
+
+2011-07-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiautostart.c, src/autostart.c: added toggle for
+	AutostartDelayRandom to unix gui
+
+2011-07-11  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	src/pet/petrom.c, src/plus4/plus4.c, src/translate.txt,
+	src/translate_text.c, src/vic20/vic20.c: added random delay for
+	autostart, made fixed delay configureable. (see devlog)
+
+2011-07-10  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii-timing.h, src/viciisc/vicii-timing.h: fix vic-ii
+	border sizes. fixes bug 3197181
+
+2011-07-10  groepaz <groepaz@gmx.net>
+
+	* src/plus4/plus4pio2.c: make keyboard latch readable. fixes bug 3205837
+
+2011-07-09  groepaz <groepaz@gmx.net>
+
+	* src/monitor/monitor.c, src/traps.c, src/traps.h: ignore current opcode
+	if it is at the address of a trap. fixes bug 3151796
+
+2011-07-09  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_command.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.c, src/monitor/mon_parse.y:
+	break/watch/trace commands now all optionally take memop (any
+	combination of load/store/exec) and a conditional expression. Help texts
+	still need to be updated.
+
+2011-07-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c64dtvui.cc, src/arch/beos/constants.h,
+	src/arch/beos/ui.cc, src/arch/beos/ui_joystick.cc,
+	src/arch/beos/ui_joystick.h, src/arch/beos/vicemenu.cc: Split BeVICE
+	Userport joystick settings into their own dialog and fixed various menu
+	constants.
+
+2011-07-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/console.c, src/arch/unix/gui/uimon.c,
+	src/monitor/mon_util.c, src/monitor/monitor.c: if
+	console_log->console_can_stay_open is 1, keep the monitor
+	console/window opened (call uimon_window_suspend() instead of _close())
+	when exiting the monitor. allows eg tracepoint output to show up
+	immediatly. win32 maintainers please check for regressions!
+
+2011-07-08  groepaz <groepaz@gmx.net>
+
+	* src/6510core.c, src/6510dtvcore.c, src/c128/z80.c,
+	src/drive/drivecpu.c, src/drive/drivetypes.h, src/mainc64cpu.c,
+	src/maincpu.c, src/maincpu.h, src/mainviccpu.c,
+	src/monitor/mon_breakpoint.c, src/monitor/mon_breakpoint.h,
+	src/monitor/monitor.c, src/monitor.h: remember address of last fetched
+	opcode in cpu core(s). use that information for the watchpoints. fixed
+	bug 3356784
+
+2011-07-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed some make x* problems.
+
+2011-07-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/Makefile.am, src/c64/c64cia2.c, src/c64/cart/digimax.c,
+	src/c64/cart/digimax.h, src/userport/Makefile.am,
+	src/userport/userport_digimax.c, src/userport/userport_digimax.h: Split
+	the digimax code into a cartridge part (src/c64/cart/digimax.c) and
+	userport part (src/userport/userport_digimax.c).
+
+2011-07-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am, src/pet/Makefile.am, src/pet/pet.c,
+	src/pet/pet_userport_dac.c, src/pet/pet_userport_dac.h,
+	src/pet/petsound.c, src/pet/petsound.h, src/pet/petvia.c, src/userport,
+	src/userport/Makefile.am, src/userport/userport_dac.c,
+	src/userport/userport_dac.h: Started on moving 'generic' userport
+	modules into a seperate directory (src/userport), so they can be used by
+	any machine which has a userport (paves the way for a userport conflict
+	detection system).
+
+2011-07-08  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-07-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c, src/rtc/ds1202_1302.c, src/rtc/ds1216e.c,
+	src/rtc/ds12c887.c, src/rtc/rtc-58321a.c, src/rtc/rtc.c, src/rtc/rtc.h:
+	Changed most return values of the rtc_get_*() type to BYTE (since that
+	is how most are used anyways, and gets rid of alot of casting), and
+	fixed some rtc issues.
+
+2011-07-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4speech.c: Added stereo output support to the v364
+	speech code.
+
+2011-07-07  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_lex.l, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/monitor/mon_parse.y: handle some escape
+	codes (\n \r " \xNN) in input strings. changed keybuf command to take a
+	string. fixes bug 3184145
+
+2011-07-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/Makefile.am, src/rtc/rtc-58321a.c, src/rtc/rtc-58321a.h:
+	Added RTC-58321A core support.
+
+2011-07-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: better handling of initial window
+	size. fixes bug 3283658
+
+2011-07-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/signals.c, src/arch/beos/signals.c,
+	src/arch/msdos/signals.c, src/arch/os2/signals.c,
+	src/arch/riscos/signals.c, src/arch/sdl/signals.c,
+	src/arch/unix/signals.c, src/arch/win32/signals.c,
+	src/monitor/monitor.c, src/signals.h: added handling of SIGPIPE in
+	monitor, added handler in unix archdep code. similar fixes might be
+	needed for other ports (see devlog). fixes bug 3201796
+
+2011-07-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/console.c: check if stdio/stdout are a tty, and do not
+	open console if not. fixes bug 3317803
+
+2011-07-05  groepaz <groepaz@gmx.net>
+
+	* src/monitor/monitor.c: log error (instead of crashing) if monitor
+	console could not be opened.
+
+2011-07-05  groepaz <groepaz@gmx.net>
+
+	* src/core/viacore.c, src/drive/iec/via1d1541.c,
+	src/drive/iecieee/via2d.c, src/drive/ieee/via1d2031.c, src/pet/petvia.c,
+	src/via.h, src/vic20/vic20ieeevia1.c, src/vic20/vic20ieeevia2.c,
+	src/vic20/vic20via1.c, src/vic20/vic20via2.c: updated via core to pass
+	via context to set_ca2 and set_cb2 callbacks. (hopefully) fixed via2
+	ca2/cb2 handling (drives). please test for regressions!
+
+2011-07-05  groepaz <groepaz@gmx.net>
+
+	* src/vdrive/vdrive-dir.c, src/vdrive/vdrive-iec.c, src/vdrive/vdrive.c,
+	src/vdrive/vdrive.h: made common function to allocate/free buffers.
+	changed allocation logic to behave somewhat like a real drive.
+
+2011-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds1216e.c: Fixed some typos.
+
+2011-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds1216e.c, src/rtc/ds1216e.h: No RAM in the ds1216e rtc
+	modules, fixed.
+
+2011-07-05  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in, src/sounddrv/sounddx.c: Check for dev tools earlier,
+	separate check for DirectSound header and lib, add a check for
+	ole32.lib when CoInitialize is needed
+
+2011-07-04  groepaz <groepaz@gmx.net>
+
+	* src/6510core.c, src/6510dtvcore.c, src/mainc64cpu.c: fix emulation of
+	illegal opcodes SHA/SHX/SHY. (patch by nojoopa) fixes bug 3334602
+
+2011-07-04  groepaz <groepaz@gmx.net>
+
+	* src/6510core.c
+
+changed ANE magic const to 0xff (see comment). fixes bug 2110948
+
+2011-07-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/sounddrv/sounddx.c: Allow building without dxguid.lib
+
+2011-07-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/sounddrv/sounddx.c: Allow building without dsound.lib
+
+2011-07-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/video/video-resources-pal.c: Remove unneeded include
+
+2011-07-03  groepaz <groepaz@gmx.net>
+
+	* src/gcr.c: handle non byte aligned gcr data when decoding buffer.
+	fixes bug 3200309
+
+2011-07-02  groepaz <groepaz@gmx.net>
+
+	* src/resources.c: properly close file(s) (oops). some style fixes.
+
+2011-07-02  groepaz <groepaz@gmx.net>
+
+	* src/resources.c: do not leave temporary config file behind, patch by
+	mar77i
+
+2011-07-02  groepaz <groepaz@gmx.net>
+
+	* src/vdrive/vdrive-rel.c: fix erroneous sector links when a rel file
+	record is split over two sectors. patch by Helfried
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/pet_userport_dac.c, src/pet/petsound.c,
+	src/plus4/digiblaster.c, src/plus4/ted-sound.c, src/vic20/vic20sound.c:
+	Added stereo sound support to the other sound chips, not used yet, but
+	will make the possibility of stereo sidcarts possible for pet, vic20 and
+	plus4.
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/magicvoice.c: Added stereo output support to the magic
+	voice code.
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/digimax.c: Updated the digimax code to produce stereo
+	output when the sound output is in stereo mode and mono output when the
+	sound output is in mono mode.
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c:
+	Added stereo output handling to the sfx sound sampler and expander code.
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Updated the credits a bit.
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20.c, src/vic20/vic20sound.c: Fixed vic20 sound, native
+	sound generator is cycle-based, and needs to be the first in the sound
+	chip init list, as a consequence either only sample-based sid chips can
+	be used for the sidcart, or a method of using 2 cycle-based sound chips
+	needs to be made.
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/rtc.dsp, src/arch/sdl/win64-msvc/rtc.vcproj,
+	src/arch/sdl/winmips-msvc/rtc.mak, src/arch/win32/rtc.dsp,
+	src/arch/win64/rtc.vcproj: Added ds1216e.c to the various msvc project
+	files.
+
+2011-07-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* /src/rtc/Makefile.am, src/rtc/ds1216e.c, src/rtc/ds1216e.h,
+	src/rtc/rtc.c, src/rtc/rtc.h: Added DS1216E (phantom / no slot clock)
+	code.
+
+2011-07-02  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/rtc/bq4830y.c: Add missing declaration
+
+2011-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds12c887.c: Fixed month calculation.
+
+2011-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds1202_1302.c: Fixed month calculation.
+
+2011-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c: Fixed month calculation.
+
+2011-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/rtc.dsp, src/arch/sdl/win64-msvc/rtc.vcproj,
+	src/arch/sdl/winmips-msvc/rtc.mak, src/arch/win32/rtc.dsp,
+	src/arch/win64/rtc.vcproj: Changed ds1302.c to ds1202_1302.c in the
+	various msvc project files.
+
+2011-07-01  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc: Remove unneeded include
+
+2011-07-01  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in: Improve check so HAVE_OPENCBM is defined for MinGW
+	(time for a more generic check for Windows?)
+
+2011-07-01  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in: Properly check, and do not just assume, the presence of
+	DirectSound. It's a copy and paste of existing lines, but it works
+
+2011-07-01  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/c64/cart/ide64.c: Fix compilation which was broken by revision
+	24225
+
+2011-07-01  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/uiperipheral.c: Fix a link error if HAVE_OPENCBM is
+	not set
+
+2011-06-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/Makefile.am, src/rtc/ds1202_1302.c, src/rtc/ds1202_1302.h,
+	src/rtc/ds1302.c, src/rtc/ds1302.h: Added DS1202 support to the DS1302
+	module and changed the file names from ds1302.* to ds1202_1302.*
+
+2011-06-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/Makefile.am: Fixed for make x64 usage.
+
+2011-06-28  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/kingsoft.c, src/c64/cart/kingsoft.h: added missing files
+	/o\
+
+2011-06-26  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64carthooks.c,
+	src/c64/cart/c64cartmem.c, src/c64/cart/crt.c, src/cartconv.c,
+	src/cartridge.h, src/translate.txt, src/translate_text.c: added support
+	for "Kingsoft" cartridge ("Business Basic" aka "S'more")
+
+2011-06-26  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiide64.c: Fixed the amiga ide64 dialog.
+
+2011-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uiide64.c: Fixed the unix ide64 dialog.
+
+2011-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiide64.c: Fixed the msdos ide64 dialog.
+
+2011-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartconv.c: Fixed a warning.
+
+2011-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/core/tpicore.c: Fixed a typo.
+
+2011-06-20  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/vsync.c: Only include a file when it's needed
+
+2011-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64_common_expansions.c: Fixed the sdl ide64 dialog.
+
+2011-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/reside64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiide64.c: Fixed the
+	windows ide64 dialog.
+
+2011-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-06-18  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* doc/html/plain/CRT.txt: typo
+
 2011-06-17  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, src/version.h, src/translate_text.c,
