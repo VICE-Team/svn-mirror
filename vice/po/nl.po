@@ -8530,7 +8530,7 @@ msgstr ""
 "adressen tussen de twee adressen.\n"
 "`load|store|exec' is `load',  `store' of `exec' om aan te geven bij\n"
 "welke operatie de monitor zou moeten starten. Als deze niet opgegeven\n"
-"is dan zal de monitor starten bij `load' en `store' operaties."
+"is dan zal de monitor starten bij `load' en `store' operaties.\n"
 
 #: src/translate_text.c.po.c:1936
 msgid ""
@@ -8549,7 +8549,7 @@ msgstr ""
 "adressen tussen de twee adressen.\n"
 "`load|store|exec' is `load', `store' of 'exec' om aan te geven bij welke\n"
 "operatie de monitor zou moeten starten. Als deze niet opgegeven is dan zal\n"
-"de monitor starten bij alle operaties."
+"de monitor starten bij alle operaties.\n"
 
 #: src/translate_text.c.po.c:1951
 msgid "Monitor state commands"
