@@ -175,29 +175,31 @@ int init_cmdline_options(void)
         init_cmdline_options_fail("system file locator");
         return -1;
     }
-    if ((!(vsid_mode && video_disabled_mode)) && ui_cmdline_options_init() < 0) {
+    if (!video_disabled_mode && ui_cmdline_options_init() < 0) {
         init_cmdline_options_fail("UI");
         return -1;
     }
-    if (!vsid_mode && autostart_cmdline_options_init() < 0) {
-        init_resource_fail("autostart");
-        return -1;
-    }
-    if (!vsid_mode && fliplist_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("flip list");
-        return -1;
-    }
-    if (!vsid_mode && file_system_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("attach");
-        return -1;
-    }
-    if (!vsid_mode && disk_image_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("disk image");
-        return -1;
-    }
-    if (!vsid_mode && event_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("event");
-        return -1;
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (autostart_cmdline_options_init() < 0) {
+            init_resource_fail("autostart");
+            return -1;
+        }
+        if (fliplist_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("flip list");
+            return -1;
+        }
+        if (file_system_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("attach");
+            return -1;
+        }
+        if (disk_image_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("disk image");
+            return -1;
+        }
+        if (event_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("event");
+            return -1;
+        }
     }
     if (monitor_cmdline_options_init() < 0) {
         init_cmdline_options_fail("monitor");
@@ -214,25 +216,29 @@ int init_cmdline_options(void)
         return -1;
     }
 
-    if (!vsid_mode && fsdevice_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("file system");
-        return -1;
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (fsdevice_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("file system");
+            return -1;
+        }
     }
-    if ((!(vsid_mode && video_disabled_mode)) && joystick_init_cmdline_options() < 0) {
+    if (!video_disabled_mode && joystick_init_cmdline_options() < 0) {
         init_cmdline_options_fail("joystick");
         return -1;
     }
-    if (!vsid_mode && kbdbuf_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("keyboard");
-        return -1;
-    }
-    if (!vsid_mode && ram_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("RAM");
-        return -1;
-    }
-    if (!vsid_mode && gfxoutput_cmdline_options_init() < 0) {
-        init_cmdline_options_fail("GFXOUTPUT");
-        return -1;
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (kbdbuf_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("keyboard");
+            return -1;
+        }
+        if (ram_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("RAM");
+            return -1;
+        }
+        if (gfxoutput_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("GFXOUTPUT");
+            return -1;
+        }
     }
 #ifdef HAVE_NETWORK
     if (monitor_network_cmdline_options_init() < 0) {
@@ -253,7 +259,7 @@ int init_main(void)
         palette_init();
     }
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         gfxoutput_init();
         screenshot_init();
 
@@ -272,7 +278,8 @@ int init_main(void)
     }
 
     /* FIXME: what's about uimon_init??? */
-    if (!vsid_mode && console_init() < 0) {
+    /* FIXME: is this really correct? monitor IS available in VSID! */
+    if ((machine_class != VICE_MACHINE_VSID) && console_init() < 0) {
         log_error(LOG_DEFAULT, "Console initialization failed.");
         return -1;
     }
@@ -283,7 +290,7 @@ int init_main(void)
         joystick_init();
     }
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         disk_image_init();
         vdrive_init();
     }

@@ -2715,6 +2715,7 @@ unsigned long test; ],
                    [Is DWORD defined as long or int in the Windows header files?])
                    AC_MSG_RESULT(unsigned long) ], AC_MSG_RESULT(unsigned int))
 
+  vsid_LDFLAGS="-mwindows"
   x64_LDFLAGS="-mwindows"
   x128_LDFLAGS="-mwindows"
   xvic_LDFLAGS="-mwindows"
@@ -2765,6 +2766,7 @@ else
   AC_MSG_RESULT([no (realdevice disabled)])
 fi
 
+AC_SUBST(vsid_LDFLAGS)
 AC_SUBST(x64_LDFLAGS)
 AC_SUBST(x128_LDFLAGS)
 AC_SUBST(xvic_LDFLAGS)

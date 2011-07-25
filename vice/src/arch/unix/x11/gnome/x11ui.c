@@ -144,6 +144,8 @@ static log_t ui_log = LOG_ERR;
 static int tape_motor_status = -1;
 static int tape_control_status = -1;
 
+#define VSID_WINDOW_MINW     (400)
+#define VSID_WINDOW_MINH     (300)
 
 #define WINDOW_MINW     (320 / 2)
 #define WINDOW_MINH     (200 / 2)
@@ -688,8 +690,7 @@ static void statusbar_setstatustext(const char *t)
     }
 }
 
-static GtkWidget *
-ui_create_status_bar(GtkWidget *pane)
+static GtkWidget *ui_create_status_bar(GtkWidget *pane)
 {
     /* Create the status bar on the bottom.  */
     GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp, *pal_ctrl_checkbox, *status_bar;
@@ -731,16 +732,18 @@ ui_create_status_bar(GtkWidget *pane)
 
     as = &app_shells[num_app_shells - 1];
 
-    /* PAL Control checkbox */
-    pal_ctrl_checkbox = gtk_frame_new(NULL);
-    gtk_frame_set_shadow_type(GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
-    pcb = gtk_check_button_new_with_label(_("CRT Controls"));
-    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
-    g_signal_connect(G_OBJECT(pcb), "toggled", G_CALLBACK(ui_update_pal_checkbox), as);
-    gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
-    gtk_widget_show(pcb);
-    gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, FALSE, FALSE, 0);
-    gtk_widget_show(pal_ctrl_checkbox);
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* PAL Control checkbox */
+        pal_ctrl_checkbox = gtk_frame_new(NULL);
+        gtk_frame_set_shadow_type(GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
+        pcb = gtk_check_button_new_with_label(_("CRT Controls"));
+        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+        g_signal_connect(G_OBJECT(pcb), "toggled", G_CALLBACK(ui_update_pal_checkbox), as);
+        gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
+        gtk_widget_show(pcb);
+        gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, FALSE, FALSE, 0);
+        gtk_widget_show(pal_ctrl_checkbox);
+    }
 
     /* Video Control checkbox */
     video_ctrl_checkbox = gtk_frame_new(NULL);
@@ -1066,7 +1069,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     gtk_widget_show(c->pane);
 
     gtk_widget_show(new_window);
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         GtkWidget *new_canvas = build_vsid_ctrl_widget();
         gtk_container_add(GTK_CONTAINER(c->pane), new_canvas);
         gtk_widget_show(new_canvas);
@@ -1076,7 +1079,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     }
 
     sb = ui_create_status_bar(panelcontainer);
-    if (! vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         pal_ctrl_widget = build_pal_ctrl_widget(c);
         gtk_box_pack_end(GTK_BOX(panelcontainer), pal_ctrl_widget, FALSE, FALSE, 0);
         gtk_widget_hide(pal_ctrl_widget);
@@ -1104,55 +1107,55 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     gtk_window_set_title(GTK_WINDOW(new_window), title);
 
-    if (vsid_mode) {
-        return 0;
+    if (machine_class == VICE_MACHINE_VSID) {
+        gtk_window_resize(GTK_WINDOW(new_window), VSID_WINDOW_MINW, VSID_WINDOW_MINH);
+    } else {
+        resources_get_int("WindowWidth", &window_width);
+        resources_get_int("WindowHeight", &window_height);
+        DBG(("ui_open_canvas_window (winw: %d winh: %d)", window_width, window_height));
+        if (window_width > 0 && window_height > 0) {
+            gtk_window_resize(GTK_WINDOW(new_window), window_width, window_height);
+        }
+
+        if (!app_gc) {
+            app_gc = gdk_gc_new(new_window->window);
+        }
+
+        if (uicolor_alloc_colors(c) < 0) {
+            return -1;
+        }
+
+        /* This is necessary because the status might have been set before we
+        actually open the canvas window. e.g. by commandline */
+        ui_enable_drive_status(enabled_drives, drive_active_led);
+
+        /* make sure that all drive status widgets are initialized.
+        This is needed for proper dual disk/dual led drives (8050, 8250). */
+        for (i = 0; i < NUM_DRIVES; i++) {
+            ui_display_drive_led(i, 1000, 1000);
+        }
+
+        ui_style_red = gtk_style_new();
+        ui_style_red->fg[GTK_STATE_NORMAL] = drive_led_on_red_pixel;
+        ui_style_red->fg[GTK_STATE_ACTIVE] = drive_led_on_red_pixel;
+        ui_style_red->fg[GTK_STATE_SELECTED] = drive_led_on_red_pixel;
+        ui_style_red->fg[GTK_STATE_PRELIGHT] = drive_led_on_red_pixel;
+        gtk_widget_set_style(video_ctrl_checkbox_label, ui_style_red);
+        gtk_widget_set_style(event_rec_checkbox_label, ui_style_red);
+
+        ui_style_green = gtk_style_new();
+        ui_style_green->fg[GTK_STATE_NORMAL] = drive_led_on_green_pixel;
+        ui_style_green->fg[GTK_STATE_ACTIVE] = drive_led_on_green_pixel;
+        ui_style_green->fg[GTK_STATE_SELECTED] = drive_led_on_green_pixel;
+        ui_style_green->fg[GTK_STATE_PRELIGHT] = drive_led_on_green_pixel;
+        gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
+
+        initBlankCursor();
+        gtk_init_lightpen();
+
+        c->offx = c->geometry->screen_size.width - w;
+        ui_cached_video_canvas = c;
     }
-
-    resources_get_int("WindowWidth", &window_width);
-    resources_get_int("WindowHeight", &window_height);
-    DBG(("ui_open_canvas_window (winw: %d winh: %d)", window_width, window_height));
-    if (window_width > 0 && window_height > 0) {
-        gtk_window_resize(GTK_WINDOW(new_window), window_width, window_height);
-    }
-
-    if (!app_gc) {
-        app_gc = gdk_gc_new(new_window->window);
-    }
-
-    if (uicolor_alloc_colors(c) < 0) {
-        return -1;
-    }
-
-    /* This is necessary because the status might have been set before we
-       actually open the canvas window. e.g. by commandline */
-    ui_enable_drive_status(enabled_drives, drive_active_led);
-
-    /* make sure that all drive status widgets are initialized.
-       This is needed for proper dual disk/dual led drives (8050, 8250). */
-    for (i = 0; i < NUM_DRIVES; i++) {
-        ui_display_drive_led(i, 1000, 1000);
-    }
-
-    ui_style_red = gtk_style_new();
-    ui_style_red->fg[GTK_STATE_NORMAL] = drive_led_on_red_pixel;
-    ui_style_red->fg[GTK_STATE_ACTIVE] = drive_led_on_red_pixel;
-    ui_style_red->fg[GTK_STATE_SELECTED] = drive_led_on_red_pixel;
-    ui_style_red->fg[GTK_STATE_PRELIGHT] = drive_led_on_red_pixel;
-    gtk_widget_set_style(video_ctrl_checkbox_label, ui_style_red);
-    gtk_widget_set_style(event_rec_checkbox_label, ui_style_red);
-
-    ui_style_green = gtk_style_new();
-    ui_style_green->fg[GTK_STATE_NORMAL] = drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_ACTIVE] = drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_SELECTED] = drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_PRELIGHT] = drive_led_on_green_pixel;
-    gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
-
-    initBlankCursor();
-    gtk_init_lightpen();
-
-    c->offx = c->geometry->screen_size.width - w;
-    ui_cached_video_canvas = c;
 
     gtk_widget_add_events(new_window,
                             GDK_LEAVE_NOTIFY_MASK |

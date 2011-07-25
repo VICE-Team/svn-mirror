@@ -730,6 +730,7 @@ vicii_lib = $(top_builddir)/src/vicii/libvicii.a
 viciidtv_lib = $(top_builddir)/src/vicii/libviciidtv.a
 viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
 video_lib = $(top_builddir)/src/video/libvideo.a
+vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
@@ -795,9 +796,76 @@ else
 OW_progs =
 endif
 
-bin_PROGRAMS = x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 $(c1541) $(petcat) $(cartconv) $(OW_progs)
+bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 $(c1541) $(petcat) $(cartconv) $(OW_progs)
 
 EXTRA_PROGRAMS =
+
+bla = 
+
+# vsid
+vsid_libs =  \
+	@X64_WINRES@ \
+	$(vsid_lib) \
+	\
+	$(driveiec_lib) \
+	$(driveiecieee_lib) \
+	$(driveiecc64exp_lib) \
+	$(driveieee_lib) \
+	$(drive_lib) \
+	\
+	$(iecbus_lib) \
+	$(vdrive_lib) \
+	$(sid_lib) \
+	$(monitor_lib) \
+	$(driver_libs) \
+	$(vicii_lib) \
+	$(raster_lib) \
+	$(userport_lib) \
+	$(video_lib) \
+	$(common_libs) \
+	$(resid_libs)
+
+vsid_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
+vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+vsid_DEPENDENCIES = $(vsid_libs)
+vsid_LDFLAGS = @vsid_LDFLAGS@
+
+.PHONY: vsid-all
+vsid-all: \
+	$(BUILT_SOURCES) \
+	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
+	libvsid \
+	\
+	libdriveiec \
+	libdriveiecieee \
+	libdriveiecc64exp \
+	libdriveieee \
+	libdrive \
+	\
+	libparallel \
+	libvdrive \
+	libraster \
+	libsid \
+	libsounddrv \
+	libgfxoutputdrv \
+	libprinterdrv \
+	librs232drv \
+	libvicii \
+	libvideo \
+	libarch \
+	libmonitor \
+	libdiskimage \
+	libiecbus \
+	libserial \
+	libfsdevice \
+	libtape \
+	libimagecontents \
+	libfileio \
+	libcore \
+	librtc \
+	libuserport \
+	vsid$(EXEEXT)
 
 # x64
 x64_libs =  \
@@ -1385,7 +1453,7 @@ cartconv_LDADD = @INTLLIBS@
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2
+.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2
 	libdrive libvdrive libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
 	libvideo libserial libparallel libcore libiecbus libfileio librtc libuserport
@@ -1497,6 +1565,8 @@ libviciisc:
 	(cd viciisc && $(MAKE) libviciisc.a)
 libvideo:
 	(cd video && $(MAKE))
+libvsid:
+	(cd c64 && $(MAKE) libvsid.a)
 
 x64ow$(EXEEXT): x64$(EXEEXT)
 	wrc -fe=x64ow$(EXEEXT) arch/win32/resc64.res x64$(EXEEXT)

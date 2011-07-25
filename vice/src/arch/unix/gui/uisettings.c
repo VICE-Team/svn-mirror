@@ -48,6 +48,7 @@
 #include "uirs232.h"
 #include "uisettings.h"
 #include "uisound.h"
+#include "util.h"
 #include "vsync.h"
 
 
@@ -278,17 +279,7 @@ static UI_CALLBACK(save_resources_file)
             }
         }
         lib_free(resources_last_dir);
-        resources_last_dir = lib_stralloc(filename);
-#ifdef HAVE_DIRNAME
-        resources_last_dir = dirname(resources_last_dir);
-#else
-        tmp = resources_last_dir + strlen(resources_last_dir);
-        while (*tmp != '/') {
-            tmp--;
-        }
-        tmp--;
-        *tmp = 0;
-#endif
+        util_fname_split(filename, &resources_last_dir, NULL);
     }
 
     lib_free(filename);
@@ -313,6 +304,9 @@ static UI_CALLBACK(load_resources_file)
             } else {
                 ui_error(_("Cannot load settings:\nresource file not found."));
             }
+        } else {
+            lib_free(resources_last_dir);
+            util_fname_split(filename, &resources_last_dir, NULL);
         }
     }
 
@@ -415,17 +409,42 @@ ui_menu_entry_t ui_settings_settings_menu[] = {
 };
 
 #ifdef DEBUG
+
+UI_MENU_DEFINE_RADIO(TraceMode)
+
+ui_menu_entry_t debug_tracemode_submenu[] = {
+    { "Normal", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_NORMAL, NULL },
+    { "Small", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_SMALL, NULL },
+    { "History", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_HISTORY, NULL },
+    { "Autoplay", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_TraceMode, (ui_callback_data_t)DEBUG_AUTOPLAY, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(MainCPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive0CPU_TRACE)
 UI_MENU_DEFINE_TOGGLE(Drive1CPU_TRACE)
+UI_MENU_DEFINE_TOGGLE(Drive2CPU_TRACE)
+UI_MENU_DEFINE_TOGGLE(Drive3CPU_TRACE)
 
 ui_menu_entry_t debug_settings_submenu[] = {
+    { "Trace Mode", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_tracemode_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { "Main CPU Trace", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MainCPU_TRACE, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { "Drive0 CPU Trace", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive0CPU_TRACE, NULL, NULL },
     { "Drive1 CPU Trace", UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Drive1CPU_TRACE, NULL, NULL },
+    { "Drive2 CPU Trace", UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive2CPU_TRACE, NULL, NULL },
+    { "Drive3 CPU Trace", UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Drive3CPU_TRACE, NULL, NULL },
     { NULL }
 };
 

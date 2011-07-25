@@ -12,7 +12,66 @@ INCLUDES = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/viciisc
 
-noinst_LIBRARIES = libc64.a libc64sc.a libc64c128.a libc64c64dtv.a
+noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a
+
+libvsid_a_SOURCES = \
+	c64-cmdline-options.c \
+	c64-cmdline-options.h \
+	c64-resources.c \
+	c64-resources.h \
+	c64-snapshot.c \
+	c64-snapshot.h \
+	c64.h \
+	c64bus.c \
+	c64cart.h \
+	c64cia.h \
+	c64cia1.c \
+	c64cia2.c \
+	c64datasette.c \
+	c64embedded.c \
+	c64export.c \
+	c64export.h \
+	c64fastiec.c \
+	c64fastiec.h \
+	c64gluelogic.c \
+	c64gluelogic.h \
+	c64iec.c \
+	c64iec.h \
+	c64io.c \
+	c64keyboard.c \
+	c64keyboard.h \
+	c64mem.h \
+	c64meminit.c \
+	c64meminit.h \
+	c64memlimit.c \
+	c64memlimit.h \
+	c64memrom.c \
+	c64memrom.h \
+	c64memsnapshot.c \
+	c64memsnapshot.h \
+	c64model.c \
+	c64model.h \
+	c64parallel.h \
+	c64pla.c \
+	c64pla.h \
+	c64printer.c \
+	c64rom.c \
+	c64rom.h \
+	c64romset.c \
+	c64rsuser.c \
+	c64rsuser.h \
+	c64sound.c \
+	c64video.c \
+	patchrom.c \
+	patchrom.h \
+	psid.c \
+	psid.h \
+	psiddrv.a65 \
+	psiddrv.h \
+	reloc65.c \
+	vsid.c \
+	vsidmem.c \
+	vsidstubs.c
 
 libc64_a_SOURCES = \
 	c64-cmdline-options.c \

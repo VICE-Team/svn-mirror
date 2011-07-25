@@ -186,6 +186,7 @@ int joystick_init_cmdline_options(void)
             return cmdline_register_options(joydev4cmdline_options);
             break;
         case VICE_MACHINE_NONE:
+        case VICE_MACHINE_VSID:
             return 0;
             break;
     }

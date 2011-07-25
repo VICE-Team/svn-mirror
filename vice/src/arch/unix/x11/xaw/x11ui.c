@@ -248,7 +248,7 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
     app_shell_type *appshell;
 
     /* HACK avoid segfaults on vsid */
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         return;
     }
 
@@ -809,7 +809,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     int i;
     char *button_title;
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         if (uicolor_alloc_colors(c) < 0) {
             return -1;
         }
@@ -839,30 +839,35 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                    XtNdefaultDistance, 2,
                                    NULL);
 
-    canvas = XtVaCreateManagedWidget("Canvas",
-                                     xfwfcanvasWidgetClass, pane,
-                                     XtNwidth, width,
-                                     XtNheight, height,
-                                     XtNresizable, True,
-                                     XtNbottom, XawChainBottom,
-                                     XtNtop, XawChainTop,
-                                     XtNleft, XawChainLeft,
-                                     XtNright, XawChainRight,
-                                     XtNborderWidth, 0,
-                                     XtNbackground, BlackPixel(display, screen),
-                                     NULL);
+    if (machine_class != VICE_MACHINE_VSID) {
+        canvas = XtVaCreateManagedWidget("Canvas",
+                                        xfwfcanvasWidgetClass, pane,
+                                        XtNwidth, width,
+                                        XtNheight, height,
+                                        XtNresizable, True,
+                                        XtNbottom, XawChainBottom,
+                                        XtNtop, XawChainTop,
+                                        XtNleft, XawChainLeft,
+                                        XtNright, XawChainRight,
+                                        XtNborderWidth, 0,
+                                        XtNbackground, BlackPixel(display, screen),
+                                        NULL);
+    } else {
+        vsid_ctrl_widget_set_parent(pane);
+        canvas = build_vsid_ctrl_widget();
+    }
+
     last_visited_canvas = canvas;
 
     XtAddEventHandler(shell, EnterWindowMask, False, (XtEventHandler)enter_window_callback_shell, (XtPointer)c);
 
     /* XVideo must be refreshed when the shell window is moved. */
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         XtAddEventHandler(shell, StructureNotifyMask, False, (XtEventHandler)exposure_callback_shell, (XtPointer)c);
 
         XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
     }
     XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, canvas);
-
 
     /* Create the status bar on the bottom.  */
     {
@@ -884,70 +889,51 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
         XtVaGetValues(speed_label, XtNheight, &height, NULL);
 
-        for (i = 0; i < NUM_DRIVES; i++) {
-            char *name;
+        if (machine_class != VICE_MACHINE_VSID) {
+            for (i = 0; i < NUM_DRIVES; i++) {
+                char *name;
 
-            name = lib_msprintf("driveCurrentImage%d", i + 1);
-            drive_current_image[i] = XtVaCreateManagedWidget(name,
-                                                             labelWidgetClass, pane,
-                                                             XtNlabel, "",
-                                                             XtNwidth, (width / 3)  - led_width - 2,
-                                                             XtNfromVert, i == 0 ? canvas : drive_current_image[i-1],
-                                                             XtNfromHoriz, speed_label,
-                                                             XtNhorizDistance, 0,
-                                                             XtNtop, XawChainBottom,
-                                                             XtNbottom, XawChainBottom,
-                                                             XtNleft, XawChainRight,
-                                                             XtNright, XawChainRight,
-                                                             XtNjustify, XtJustifyLeft,
-                                                             XtNborderWidth, 0,
-                                                             NULL);
-            lib_free(name);
+                name = lib_msprintf("driveCurrentImage%d", i + 1);
+                drive_current_image[i] = XtVaCreateManagedWidget(name,
+                                                                labelWidgetClass, pane,
+                                                                XtNlabel, "",
+                                                                XtNwidth, (width / 3)  - led_width - 2,
+                                                                XtNfromVert, i == 0 ? canvas : drive_current_image[i-1],
+                                                                XtNfromHoriz, speed_label,
+                                                                XtNhorizDistance, 0,
+                                                                XtNtop, XawChainBottom,
+                                                                XtNbottom, XawChainBottom,
+                                                                XtNleft, XawChainRight,
+                                                                XtNright, XawChainRight,
+                                                                XtNjustify, XtJustifyLeft,
+                                                                XtNborderWidth, 0,
+                                                                NULL);
+                lib_free(name);
 
-            name = lib_msprintf("driveTrack%d", i + 1);
-            drive_track_label[i] = XtVaCreateManagedWidget(name,
-                                                           labelWidgetClass, pane,
-                                                           XtNlabel, "",
-                                                           XtNwidth, (width / 3) - led_width - 2,
-                                                           XtNfromVert, canvas,
-                                                           XtNfromVert, i == 0 ? canvas : drive_track_label[i - 1],
-                                                           XtNfromHoriz, drive_current_image[i],
-                                                           XtNhorizDistance, 0,
-                                                           XtNtop, XawChainBottom,
-                                                           XtNbottom, XawChainBottom,
-                                                           XtNleft, XawChainRight,
-                                                           XtNright, XawChainRight,
-                                                           XtNjustify, XtJustifyRight,
-                                                           XtNborderWidth, 0,
-                                                           NULL);
-            lib_free(name);
+                name = lib_msprintf("driveTrack%d", i + 1);
+                drive_track_label[i] = XtVaCreateManagedWidget(name,
+                                                            labelWidgetClass, pane,
+                                                            XtNlabel, "",
+                                                            XtNwidth, (width / 3) - led_width - 2,
+                                                            XtNfromVert, canvas,
+                                                            XtNfromVert, i == 0 ? canvas : drive_track_label[i - 1],
+                                                            XtNfromHoriz, drive_current_image[i],
+                                                            XtNhorizDistance, 0,
+                                                            XtNtop, XawChainBottom,
+                                                            XtNbottom, XawChainBottom,
+                                                            XtNleft, XawChainRight,
+                                                            XtNright, XawChainRight,
+                                                            XtNjustify, XtJustifyRight,
+                                                            XtNborderWidth, 0,
+                                                            NULL);
+                lib_free(name);
 
-            name = lib_msprintf("driveLed%d", i + 1);
-            drive_led[i] = XtVaCreateManagedWidget(name,
-                                                   xfwfcanvasWidgetClass, pane,
-                                                   XtNwidth, led_width,
-                                                   XtNheight, led_height,
-                                                   XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
-                                                   XtNfromHoriz, drive_track_label[i],
-                                                   XtNhorizDistance, 8,
-                                                   XtNvertDistance, (height - led_height) / 2 + 1,
-                                                   XtNtop, XawChainBottom,
-                                                   XtNbottom, XawChainBottom,
-                                                   XtNleft, XawChainRight,
-                                                   XtNright, XawChainRight,
-                                                   XtNjustify, XtJustifyRight,
-                                                   XtNborderWidth, 1,
-                                                   NULL);
-            lib_free(name);
-
-            /* double LEDs */
-
-            name = lib_msprintf("driveLedA%d", i + 1);
-            drive_led1[i] = XtVaCreateManagedWidget(name,
+                name = lib_msprintf("driveLed%d", i + 1);
+                drive_led[i] = XtVaCreateManagedWidget(name,
                                                     xfwfcanvasWidgetClass, pane,
-                                                    XtNwidth, led_width / 2 - 1,
+                                                    XtNwidth, led_width,
                                                     XtNheight, led_height,
-                                                    XtNfromVert, i == 0 ? canvas : drive_track_label[i - 1],
+                                                    XtNfromVert, i == 0 ? canvas : drive_track_label[i-1],
                                                     XtNfromHoriz, drive_track_label[i],
                                                     XtNhorizDistance, 8,
                                                     XtNvertDistance, (height - led_height) / 2 + 1,
@@ -958,25 +944,46 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                                     XtNjustify, XtJustifyRight,
                                                     XtNborderWidth, 1,
                                                     NULL);
-            lib_free(name);
+                lib_free(name);
 
-            name = lib_msprintf("driveLedB%d", i + 1);
-            drive_led2[i] = XtVaCreateManagedWidget(name,
-                                                    xfwfcanvasWidgetClass, pane,
-                                                    XtNwidth, led_width / 2 - 1,
-                                                    XtNheight, led_height,
-                                                    XtNfromVert, i == 0 ? canvas : drive_track_label[i - 1],
-                                                    XtNfromHoriz, drive_led1[i],
-                                                    XtNhorizDistance, 8,
-                                                    XtNvertDistance, (height - led_height) / 2 + 1,
-                                                    XtNtop, XawChainBottom,
-                                                    XtNbottom, XawChainBottom,
-                                                    XtNleft, XawChainRight,
-                                                    XtNright, XawChainRight,
-                                                    XtNjustify, XtJustifyRight,
-                                                    XtNborderWidth, 1,
-                                                    NULL);
-            lib_free(name);
+                /* double LEDs */
+
+                name = lib_msprintf("driveLedA%d", i + 1);
+                drive_led1[i] = XtVaCreateManagedWidget(name,
+                                                        xfwfcanvasWidgetClass, pane,
+                                                        XtNwidth, led_width / 2 - 1,
+                                                        XtNheight, led_height,
+                                                        XtNfromVert, i == 0 ? canvas : drive_track_label[i - 1],
+                                                        XtNfromHoriz, drive_track_label[i],
+                                                        XtNhorizDistance, 8,
+                                                        XtNvertDistance, (height - led_height) / 2 + 1,
+                                                        XtNtop, XawChainBottom,
+                                                        XtNbottom, XawChainBottom,
+                                                        XtNleft, XawChainRight,
+                                                        XtNright, XawChainRight,
+                                                        XtNjustify, XtJustifyRight,
+                                                        XtNborderWidth, 1,
+                                                        NULL);
+                lib_free(name);
+
+                name = lib_msprintf("driveLedB%d", i + 1);
+                drive_led2[i] = XtVaCreateManagedWidget(name,
+                                                        xfwfcanvasWidgetClass, pane,
+                                                        XtNwidth, led_width / 2 - 1,
+                                                        XtNheight, led_height,
+                                                        XtNfromVert, i == 0 ? canvas : drive_track_label[i - 1],
+                                                        XtNfromHoriz, drive_led1[i],
+                                                        XtNhorizDistance, 8,
+                                                        XtNvertDistance, (height - led_height) / 2 + 1,
+                                                        XtNtop, XawChainBottom,
+                                                        XtNbottom, XawChainBottom,
+                                                        XtNleft, XawChainRight,
+                                                        XtNright, XawChainRight,
+                                                        XtNjustify, XtJustifyRight,
+                                                        XtNborderWidth, 1,
+                                                        NULL);
+                lib_free(name);
+            }
         }
         statustext_label = XtVaCreateManagedWidget("statustext",
                                                    labelWidgetClass, pane,
@@ -1048,6 +1055,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     app_shells[num_app_shells - 1].statustext_label = statustext_label;
     status_bar = speed_label;
 
+    if (machine_class != VICE_MACHINE_VSID) {
     for (i = 0; i < NUM_DRIVES; i++) {
         app_shells[num_app_shells - 1].drive_widgets[i].track_label = drive_track_label[i];
         app_shells[num_app_shells - 1].drive_widgets[i].driveled = drive_led[i];
@@ -1063,24 +1071,27 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         XtManageChild(app_shells[num_app_shells - 1].drive_widgets[i].current_image);
 
     }
+    }
     XtUnrealizeWidget(rec_button);
     XtUnrealizeWidget(event_recording_button);
 
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     XtOverrideTranslations(shell, XtParseTranslationTable("<Message>WM_PROTOCOLS: Close()"));
 
-    /* This is necessary because the status might have been set before we
-       actually open the canvas window.  */
-    ui_enable_drive_status(enabled_drives, drive_active_led);
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* This is necessary because the status might have been set before we
+        actually open the canvas window.  */
+        ui_enable_drive_status(enabled_drives, drive_active_led);
+    }
 
     initBlankCursor(canvas);
     c->app_shell = num_app_shells - 1;
     c->emuwindow = canvas;
 
-    if (!vsid_mode) {
-        xaw_init_lightpen(display);
+    ui_cached_video_canvas = c;
 
-        ui_cached_video_canvas = c;
+    if (machine_class != VICE_MACHINE_VSID) {
+        xaw_init_lightpen(display);
         xaw_lightpen_update_canvas(ui_cached_video_canvas, TRUE);
     }
 
@@ -2467,7 +2478,7 @@ UI_CALLBACK(enter_window_callback_shell)
     video_canvas_t *video_canvas = (video_canvas_t *)client_data;
 
     last_visited_app_shell = w;
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         last_visited_canvas = video_canvas->emuwindow;   /* keep global up to date */
         ui_cached_video_canvas = video_canvas;
         xaw_lightpen_update_canvas(video_canvas, TRUE);

@@ -638,8 +638,12 @@ static ui_menu_entry_t c128_main_menu[] = {
       NULL, NULL, c128_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c128_settings_menu },
-                   /* Translators: RJ means right justify and should be
-                      saved in your tranlation! e.g. german "RJHilfe" */
+#ifdef DEBUG
+    { N_("Debug"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_settings_submenu },
+#endif
+    /* Translators: RJ means right justify and should be
+        saved in your tranlation! e.g. german "RJHilfe" */
     { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_help_commands_menu },
     { NULL }

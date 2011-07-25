@@ -37,6 +37,7 @@
 #include "attach.h"
 #include "c64mem.h"
 #include "c64ui.h"
+#include "debug.h"
 #include "icon.h"
 #include "lib.h"
 #include "log.h"
@@ -50,6 +51,7 @@
 #include "uisettings.h"
 #include "uisid.h"
 #include "uisound.h"
+#include "util.h"
 #include "videoarch.h"
 #include "vsync.h"
 #include "vsidui.h"
@@ -231,13 +233,15 @@ static ui_menu_entry_t ui_tune_menu[] = {
     { NULL }
 };
 
+static char *psidpath = NULL;
+
 static UI_CALLBACK(psid_load)
 {
     char *filename;
     ui_button_t button;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_SID, UILIB_FILTER_ALL };
 
-    filename = ui_select_file(_("Load PSID file"), NULL, 0, NULL, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
+    filename = ui_select_file(_("Load PSID file"), NULL, 0, psidpath, filter, sizeof(filter) / sizeof(*filter), &button, 0, NULL, UI_FC_LOAD);
 
     vsync_suspend_speed_eval();
 
@@ -247,6 +251,8 @@ static UI_CALLBACK(psid_load)
                 log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
                 return;
             }
+            lib_free(psidpath);
+            util_fname_split(filename, &psidpath, NULL);
             psid_init_driver();
             machine_play_psid(0);
             machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
@@ -291,41 +297,60 @@ static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
     { NULL }
 };
 
-/*
-UI_MENU_DEFINE_RADIO(SoundBufferSize)
+static UI_CALLBACK(reset)
+{
+    vsync_suspend_speed_eval();
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+}
 
-static ui_menu_entry_t set_sound_buffer_size_submenu_vsid[] = {
-    { "3.00 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)3000, NULL },
-    { "1.00 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)1000, NULL },
-    { "0.50 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)500, NULL },
-    { "0.10 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
-      (ui_callback_data_t)100, NULL },
+static UI_CALLBACK(powerup_reset)
+{
+    vsync_suspend_speed_eval();
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+}
+
+static ui_menu_entry_t reset_submenu[] = {
+    { N_("Soft"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)reset, NULL, NULL,
+      KEYSYM_F9, UI_HOTMOD_META },
+    { N_("Hard"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)powerup_reset, NULL, NULL,
+      KEYSYM_F12, UI_HOTMOD_META },
     { NULL }
 };
-*/
 
-/*
-UI_MENU_DEFINE_TOGGLE(Sound)
-static ui_menu_entry_t sound_settings_submenu_vsid[] = {
-    { N_("Enable sound playback"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_Sound, NULL, NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Sample rate"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sound_sample_rate_submenu },
-    { N_("Buffer size"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sound_buffer_size_submenu_vsid },
-    { N_("Oversample"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sound_oversample_submenu },
-    { NULL },
+static UI_CALLBACK(toggle_pause)
+{
+    static int pause = 0;
+
+    if (!CHECK_MENUS) {
+        pause = !pause;
+        ui_update_menus();
+        ui_pause_emulation(pause);
+        return;
+    }
+
+    ui_menu_set_tick(w, pause);
+}
+
+static ui_menu_entry_t vsid_run_commands_menu[] = {
+    { N_("Reset"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, reset_submenu },
+    { N_("Pause"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_pause, NULL, NULL,
+      KEYSYM_p, UI_HOTMOD_META },
+    { NULL }
 };
-*/
 
 static ui_menu_entry_t ui_sound_settings_menu_vsid[] = {
     { N_("Sound settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sound_settings_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t ui_sound_recording_menu_vsid[] = {
+    { N_("Sound recording"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_sound_record_commands_menu },
     { NULL }
 };
 
@@ -346,12 +371,12 @@ static ui_menu_entry_t vsidui_left_menu[] = {
       NULL, NULL, ui_load_commands_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_tune_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_sound_recording_menu_vsid },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_tool_commands_menu },
+      NULL, NULL, vsid_run_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_help_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_run_commands_menu },
+      NULL, NULL, ui_tool_commands_monitor_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_exit_commands_menu },
     { NULL }
@@ -364,6 +389,12 @@ static ui_menu_entry_t vsidui_right_menu[] = {
       NULL, NULL, psid_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_help_commands_menu },
+#ifdef DEBUG
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_debug_settings_menu },
+#endif
     { NULL }
 };
 
@@ -372,13 +403,11 @@ static ui_menu_entry_t vsidui_file_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_load_commands_menu },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_tune_menu },
+      NULL, NULL, ui_sound_recording_menu_vsid },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_tool_commands_menu },
+      NULL, NULL, vsid_run_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_help_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_run_commands_menu },
+      NULL, NULL, ui_tool_commands_monitor_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_exit_commands_menu },
     { NULL }
@@ -397,8 +426,18 @@ static ui_menu_entry_t vsidui_settings_menu[] = {
 static ui_menu_entry_t vsidui_top_menu[] = {
     { N_("File"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vsidui_file_menu },
+    { N_("Tunes"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, NULL }, /* WARNING: position hardcoded */
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vsidui_settings_menu },
+#ifdef DEBUG
+    { N_("Debug"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_settings_submenu },
+#endif
+    /* Translators: RJ means right justify and should be
+        saved in your tranlation! e.g. german "RJHilfe" */
+    { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_help_commands_menu },
     { NULL }
 };
 #endif  /* USE_GNOMEUI */
@@ -443,11 +482,11 @@ static void vsid_create_menus(void)
     tune_menu[i].string = (ui_callback_data_t) NULL;
 
     ui_tune_menu[0].sub_menu = tune_menu;
+    vsidui_top_menu[1].sub_menu = tune_menu;
 
     num_checkmark_menu_items = 0;
 
     ui_set_left_menu(vsidui_left_menu);
-
     ui_set_right_menu(vsidui_right_menu);
 
 #ifdef USE_GNOMEUI
@@ -469,13 +508,16 @@ int vsid_ui_init(void)
 
     /* FIXME: There might be a separte vsid icon.  */
     ui_set_application_icon(c64_icon_data);
+    uisound_menu_create();
 
     vsid_create_menus();
-#ifdef LATER
-    ui_set_topmenu();
-#endif
-
     return 0;
+}
+
+/* void vsid_ui_shutdown(void) */
+void vsid_ui_close(void) /* FIXME: bad name */
+{
+    uisound_menu_shutdown();
 }
 
 void vsid_ui_display_name(const char *name)
@@ -534,10 +576,6 @@ void vsid_ui_display_irqtype(const char *irq)
 {
     log_message(LOG_DEFAULT, "Using %s interrupt", irq);
     ui_vsid_setirq(irq);
-}
-
-void vsid_ui_close(void)
-{
 }
 
 void vsid_ui_setdrv(char* driver_info_text)

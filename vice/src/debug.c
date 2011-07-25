@@ -68,7 +68,7 @@ static int set_maincpu_traceflg(int val, void *param)
 
 static int set_drive_traceflg(int val, void *param)
 {
-    debug.drivecpu_traceflg[(int)param] = val;
+    debug.drivecpu_traceflg[vice_ptr_to_uint(param)] = val;
     return 0;
 }
 
@@ -263,18 +263,20 @@ void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
     sprintf(st, "Drive %2u:.%04X %10ld %-22s %02x%02x%02x%02x",
             driveno,
             (unsigned int)reg_pc, (long)mclk, dis, reg_a, reg_x, reg_y, reg_sp);
-    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
+    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY) {
         debug_history_step(st);
-    else
-        log_debug(st);
+    } else {
+        log_debug("%s", st);
+    }
 }
 
 void debug_text(const char *text)
 {
-    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
+    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY) {
         debug_history_step(text);
-    else
-        log_debug(text);
+    } else {
+        log_debug("%s", text);
+    }
 }
 
 static void debug_int(interrupt_cpu_status_t *cs, const char *name,
@@ -297,10 +299,11 @@ static void debug_int(interrupt_cpu_status_t *cs, const char *name,
     lib_free(textout);
     textout = texttmp;
 
-    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY)
+    if (debug.trace_mode == DEBUG_HISTORY || debug.trace_mode == DEBUG_AUTOPLAY) {
         debug_history_step(textout);
-    else
-        log_debug(textout);
+    } else {
+        log_debug("%s", textout);
+    }
 
     lib_free(textout);
 }

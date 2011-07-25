@@ -319,8 +319,12 @@ static ui_menu_entry_t x64_main_menu[] = {
       NULL, NULL, x64_options_submenu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, x64_settings_submenu },
-                   /* Translators: RJ means right justify and should be
-                      saved in your tranlation! e.g. german "RJHilfe" */
+#ifdef DEBUG
+    { N_("Debug"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_settings_submenu },
+#endif
+    /* Translators: RJ means right justify and should be
+        saved in your tranlation! e.g. german "RJHilfe" */
     { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_help_commands_menu },
     { NULL }

@@ -440,7 +440,7 @@ void psid_init_tune(void)
         log_message(vlog, "Using %s interrupt", irq_str);
         log_message(vlog, "Playing tune %d out of %d (default=%d)", start_song, psid->songs, psid->start_song);
     } else {
-        if (vsid_mode) {
+        if (machine_class == VICE_MACHINE_VSID) {
             char * driver_info_text;
             driver_info_text = lib_msprintf("Driver=$%04X, Image=$%04X-$%04X, Init=$%04X, Play=$%04X", reloc_addr, psid->load_addr,
                                             psid->load_addr + psid->data_size - 1, psid->init_addr, psid->play_addr);

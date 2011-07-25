@@ -85,7 +85,7 @@ static int cmdline_help(const char *param, void *extra_param)
 
 static int cmdline_dummy_callback(const char *param, void *extra_param)
 {
-    /* "-config" and "-vsid" need to be handled before this gets called
+    /* "-config" needs to be handled before this gets called
        but they also need to be registered as cmdline options,
        hence this kludge. */
     return 0;
@@ -207,16 +207,6 @@ static const cmdline_option_t common_cmdline_options[] = {
     { NULL }
 };
 
-static const cmdline_option_t vsid_cmdline_options[] = {
-    { "-vsid", CALL_FUNCTION, 0,
-      cmdline_dummy_callback, NULL, NULL, NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SID_PLAYER_MODE,
-      NULL, NULL },
-    { NULL }
-};
-
-
 /* These are the command-line options for the initialization sequence.  */
 
 static const cmdline_option_t cmdline_options[] = {
@@ -265,19 +255,12 @@ static const cmdline_option_t cmdline_options[] = {
 
 int initcmdline_init(void)
 {
-    /* Show "-vsid" only for x64 */
-    if (machine_class == VICE_MACHINE_C64) {
-        if (cmdline_register_options(vsid_cmdline_options) < 0) {
-            return -1;
-        }
-    }
-
     if (cmdline_register_options(common_cmdline_options) < 0) {
         return -1;
     }
 
     /* Disable autostart options for vsid */
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         if (cmdline_register_options(cmdline_options) < 0) {
             return -1;
         }
@@ -292,7 +275,7 @@ int initcmdline_check_psid(void)
 {
     /* Check for PSID here since we don't want to allow autodetection
        in autostart.c. */
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         if (autostart_string != NULL
             && machine_autodetect_psid(autostart_string) == -1) {
             log_error(LOG_DEFAULT, "`%s' is not a valid PSID file.",
@@ -339,7 +322,7 @@ int initcmdline_check_args(int argc, char **argv)
 
 void initcmdline_check_attach(void)
 {
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         /* Handle general-purpose command-line options.  */
 
         /* `-autostart' */

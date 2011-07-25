@@ -32,6 +32,7 @@
 #include "joy.h"
 #include "kbdbuf.h"
 #include "lightpendrv.h"
+#include "machine.h"
 #include "raster.h"
 #include "ui.h"
 #include "uistatusbar.h"
@@ -91,7 +92,9 @@ void vsyncarch_presync(void)
     }
 
     if ((sdl_vkbd_state & SDL_VKBD_REPAINT) || (uistatusbar_state & UISTATUSBAR_REPAINT) || (sdl_vsid_state & SDL_VSID_REPAINT)) {
-        raster_force_repaint(sdl_active_canvas->parent_raster);
+	if (!console_mode) {
+	    raster_force_repaint(sdl_active_canvas->parent_raster);
+	}
         sdl_vkbd_state &= ~SDL_VKBD_REPAINT;
         uistatusbar_state &= ~UISTATUSBAR_REPAINT;
     }

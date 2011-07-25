@@ -29,6 +29,7 @@
 
 #include "ui.h"
 
+extern void vsid_ctrl_widget_set_parent(ui_window_t p);
 extern ui_window_t build_vsid_ctrl_widget(void);
 extern void ui_vsid_setpsid(const char *psid);
 extern void ui_vsid_settune(const int tune);

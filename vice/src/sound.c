@@ -567,7 +567,7 @@ static int sound_error(const char *msg)
 {
     sound_close();
 
-    if (console_mode || vsid_mode) {
+    if (console_mode || video_disabled_mode) {
         log_message(sound_log, "%s", msg);
     } else {
         char *txt = lib_msprintf("Sound: %s", msg);
@@ -577,8 +577,9 @@ static int sound_error(const char *msg)
 
     playback_enabled = 0;
 
-    if (!console_mode)
+    if (!console_mode) {
         ui_update_menus();
+    }
 
     return 1;
 }

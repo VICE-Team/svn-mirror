@@ -38,6 +38,7 @@ extern struct ui_menu_entry_s ui_snapshot_commands_menu[];
 extern struct ui_menu_entry_s ui_snapshot_commands_submenu[];
 extern struct ui_menu_entry_s ui_sound_record_commands_menu[];
 extern struct ui_menu_entry_s ui_tool_commands_menu[];
+extern struct ui_menu_entry_s ui_tool_commands_monitor_menu[];
 
 extern void uicommands_shutdown(void);
 extern ui_button_t ui_change_dir(const char *title, const char *prompt, char *buf,unsigned int buflen);

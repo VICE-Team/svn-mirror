@@ -28,6 +28,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <X11/Xlib.h>
+#include <X11/Intrinsic.h>
+#include <X11/Shell.h>
+#include <X11/Xaw/SimpleMenu.h>
+#include <X11/Xaw/SmeBSB.h>
+#include <X11/Xaw/SmeLine.h>
+#include <X11/Xaw/Command.h>
+#include <X11/Xaw/Form.h>
+#include <X11/Xaw/Paned.h>
+#include <X11/Xaw/Box.h>
+#include <X11/Xaw/AsciiText.h>
+
 #include "lib.h"
 #include "ui.h"
 #include "uiarch.h"
@@ -37,15 +49,42 @@ static char *author, *copyright, *name, *vsidsync, *model, *irq;
 static int tune;
 static char *line;
 
+static Widget psidparent;
+static Widget psidwidget;
+
 static void update_line(void)
 {
     lib_free(line);
     line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s"), name, tune, author, copyright, vsidsync, model, irq);
+    XtVaSetValues(psidwidget, XtNlabel, line, NULL);
+}
+
+void vsid_ctrl_widget_set_parent(ui_window_t p)
+{
+    psidparent = p;
 }
 
 ui_window_t build_vsid_ctrl_widget(void)
 {
-    return NULL;
+    Pixel Background = 0;
+
+    line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s"), "-", 0, "-", "-", "", "-", "-");
+    XtVaGetValues(psidparent, XtNbackground, &Background,NULL);
+    psidwidget = XtVaCreateManagedWidget("Canvas",
+                                    labelWidgetClass, psidparent,
+                                     XtNwidth, 320,
+                                     XtNheight, 200,
+                                     XtNresizable, True,
+                                     XtNbottom, XawChainBottom,
+                                     XtNtop, XawChainTop,
+                                     XtNleft, XawChainLeft,
+                                     XtNright, XawChainRight,
+                                     XtNborderWidth, 0,
+                                     XtNlabel, line ? line : "VSID",
+                                     XtNbackground, Background,
+                                     NULL);
+
+    return psidwidget;
 }
 
 void ui_vsid_setpsid(const char *psid)

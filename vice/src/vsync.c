@@ -245,7 +245,10 @@ static void display_speed(int num_frames)
                / factor;
     frame_rate = num_frames / diff_sec;
     speed_index = 100.0 * diff_clk / (cycles_per_sec * diff_sec);
-    vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
+    
+    if (!console_mode) {
+        vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
+    }
 
     speed_eval_prev_clk = maincpu_clk;
 }

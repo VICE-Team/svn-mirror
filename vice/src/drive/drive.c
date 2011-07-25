@@ -687,7 +687,7 @@ void drive_update_ui_status(void)
 {
     int i;
 
-    if (console_mode || vsid_mode) {
+    if (console_mode || (machine_class == VICE_MACHINE_VSID)) {
         return;
     }
 

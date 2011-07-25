@@ -50,7 +50,8 @@ ui_window_t build_vsid_ctrl_widget(void)
     GtkWidget *event_box, *f;
 
     event_box = gtk_event_box_new();
-    f = gtk_frame_new("VSID");
+    f = gtk_frame_new("");
+    gtk_frame_set_shadow_type((GtkFrame*)f, GTK_SHADOW_NONE);
 
     current_line = gtk_label_new("");
     gtk_container_add(GTK_CONTAINER(f), current_line);
@@ -58,6 +59,9 @@ ui_window_t build_vsid_ctrl_widget(void)
 
     gtk_container_add(GTK_CONTAINER(event_box), f);
     gtk_widget_show(f);
+
+    line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s"), "-", 0, "-", "-", "", "-", "-");
+    gtk_label_set_text(GTK_LABEL(current_line), line);
 
     return event_box;
 }

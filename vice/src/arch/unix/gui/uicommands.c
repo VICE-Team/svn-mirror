@@ -389,6 +389,8 @@ static void sound_record_stop(void)
     lib_free(retval);
 }
 
+static char *soundrecordpath = NULL;
+
 static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
 {
     ui_button_t button;
@@ -398,8 +400,10 @@ static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
     vsync_suspend_speed_eval();
 
     resources_set_string("SoundRecordDeviceName", "");
-    s = ui_select_file(_("Record sound to file"), NULL, 0, NULL, &extension, 1, &button, 0, NULL, UI_FC_SAVE);
+    s = ui_select_file(_("Record sound to file"), NULL, 0, soundrecordpath, &extension, 1, &button, 0, NULL, UI_FC_SAVE);
     if (button == UI_BUTTON_OK && s != NULL) {
+        lib_free(soundrecordpath);
+        util_fname_split(s, &soundrecordpath, NULL);
         util_add_extension(&s, format);
         resources_set_string("SoundRecordDeviceArg", s);
         resources_set_string("SoundRecordDeviceName", format);
@@ -549,6 +553,13 @@ ui_menu_entry_t ui_tool_commands_menu[] = {
       KEYSYM_h, UI_HOTMOD_META },
     { N_("Run C1541"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)run_c1541, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_tool_commands_monitor_menu[] = {
+    { N_("Activate monitor"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)activate_monitor, NULL, NULL,
+      KEYSYM_h, UI_HOTMOD_META },
     { NULL }
 };
 

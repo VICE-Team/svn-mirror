@@ -820,7 +820,7 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 /* Change the size of the canvas. */
 void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
 {
-    if (console_mode || vsid_mode) {
+    if (console_mode || video_disabled_mode) {
         return;
     }
 
@@ -869,7 +869,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 {
     Display *display;
 
-    if (console_mode || vsid_mode) {
+    if (console_mode || video_disabled_mode) {
         return;
     }
 

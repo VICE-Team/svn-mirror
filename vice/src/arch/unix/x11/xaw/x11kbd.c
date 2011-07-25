@@ -105,7 +105,7 @@ void x11kbd_press(signed long key)
         return;
     }
 
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         return;
     }
 
@@ -155,7 +155,7 @@ void x11kbd_release(signed long key)
             break;
     }
 
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         return;
     }
 

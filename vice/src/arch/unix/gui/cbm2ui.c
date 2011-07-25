@@ -555,8 +555,12 @@ static ui_menu_entry_t cbm5x0_top_menu[] = {
       NULL, NULL, cbm2_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm5x0_settings_menu },
-                   /* Translators: RJ means right justify and should be
-                      saved in your tranlation! e.g. german "RJHilfe" */
+#ifdef DEBUG
+    { N_("Debug"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_settings_submenu },
+#endif
+    /* Translators: RJ means right justify and should be
+        saved in your tranlation! e.g. german "RJHilfe" */
     { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_help_commands_menu },
     { NULL }
@@ -575,8 +579,12 @@ static ui_menu_entry_t cbm6x0_top_menu[] = {
       NULL, NULL, cbm2_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm6x0_settings_menu },
-                   /* Translators: RJ means right justify and should be
-                      saved in your tranlation! e.g. german "RJHilfe" */
+#ifdef DEBUG
+    { N_("Debug"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, debug_settings_submenu },
+#endif
+    /* Translators: RJ means right justify and should be
+        saved in your tranlation! e.g. german "RJHilfe" */
     { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_help_commands_menu },
     { NULL }
