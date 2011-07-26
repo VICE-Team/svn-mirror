@@ -89,7 +89,7 @@ all: all-@USE_NLS@
 all-yes: cat-id-tbl.c $(CATALOGS)
 all-no:
 
-$(srcdir)/$(PACKAGE).pot: $(POTFILES)
+$(srcdir)/$(PACKAGE).pot $(PACKAGE).pot: $(POTFILES)
 	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
 	  --add-comments --keyword=_ --keyword=N_ \
 	  --files-from=$(srcdir)/POTFILES.in \
@@ -98,7 +98,7 @@ $(srcdir)/$(PACKAGE).pot: $(POTFILES)
 		&& mv $(PACKAGE).po $(srcdir)/$(PACKAGE).pot )
 
 $(srcdir)/cat-id-tbl.c: stamp-cat-id; @:
-$(srcdir)/stamp-cat-id: $(PACKAGE).pot
+$(srcdir)/stamp-cat-id stamp-cat-id: $(PACKAGE).pot
 	rm -f cat-id-tbl.tmp
 	sed -f $(srcdir)/po2tbl.sed $(srcdir)/$(PACKAGE).pot \
 		| sed -e "s/@PACKAGE NAME@/$(PACKAGE)/" > cat-id-tbl.tmp
