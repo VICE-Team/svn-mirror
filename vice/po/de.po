@@ -598,7 +598,7 @@ msgstr "Basic 256k, obere Zeichen"
 
 #: src/arch/unix/gui/cbm2ui.c:105
 msgid "Load new Cart $1***"
-msgstr "Neues Modual bei $1*** laden"
+msgstr "Modul bei $1*** laden"
 
 #: src/arch/unix/gui/cbm2ui.c:108
 msgid "Unload Cart $1***"
@@ -954,22 +954,22 @@ msgstr "Ungültiges Disk Image oder Dateiname falsch."
 #: src/arch/unix/gui/uiattach.c:113 src/arch/unix/gui/uiattach.c:150
 #: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:451
 msgid "Unit #8"
-msgstr "Laufwerk #8..."
+msgstr "Laufwerk #8"
 
 #: src/arch/unix/gui/uiattach.c:116 src/arch/unix/gui/uiattach.c:152
 #: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:453
 msgid "Unit #9"
-msgstr "Laufwerk #9..."
+msgstr "Laufwerk #9"
 
 #: src/arch/unix/gui/uiattach.c:119 src/arch/unix/gui/uiattach.c:154
 #: src/arch/unix/gui/uiattach.c:174 src/arch/unix/gui/uicommands.c:455
 msgid "Unit #10"
-msgstr "Laufwerk #10..."
+msgstr "Laufwerk #10"
 
 #: src/arch/unix/gui/uiattach.c:122 src/arch/unix/gui/uiattach.c:156
 #: src/arch/unix/gui/uiattach.c:176 src/arch/unix/gui/uicommands.c:457
 msgid "Unit #11"
-msgstr "Laufwerk #11..."
+msgstr "Laufwerk #11"
 
 #: src/arch/unix/gui/uiattach.c:179 src/arch/win32/res.rc.po.c:1394
 #: src/arch/amigaos/intl_text.c.po.c:101
@@ -1210,7 +1210,7 @@ msgstr "64kB Super Snapshot V5 Image (raw) einlegen"
 #: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:322
 #: src/arch/win32/res.rc.po.c:1431 src/arch/amigaos/intl_text.c.po.c:737
 msgid "Set cartridge as default"
-msgstr "Aktuelles Erweiterungsmodul als standard aktivieren"
+msgstr "Aktuelles Erweiterungsmodul als Standard aktivieren"
 
 #: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:361
 #: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl_text.c.po.c:461
@@ -1259,7 +1259,7 @@ msgstr "VICE Einstellungen"
 
 #: src/arch/unix/gui/uicommands.c:69 src/arch/unix/gui/uicommands.c:463
 msgid "Change current working directory"
-msgstr "Arbeitsverzeichnis ändern."
+msgstr "Arbeitsverzeichnis ändern"
 
 #: src/arch/unix/gui/uicommands.c:71 src/arch/unix/gui/uicommands.c:344
 msgid "Directory not found"
@@ -1369,7 +1369,7 @@ msgstr "Snapshot Datei speichern"
 
 #: src/arch/unix/gui/uicommands.c:490
 msgid "Quickload snapshot"
-msgstr "Snapshot schnell laden..."
+msgstr "Snapshot schnell laden"
 
 #: src/arch/unix/gui/uicommands.c:493
 msgid "Quicksave snapshot"
@@ -1377,19 +1377,19 @@ msgstr "Snapshot schnell speichern"
 
 #: src/arch/unix/gui/uicommands.c:499
 msgid "Start recording events"
-msgstr "Aufnahme Start"
+msgstr "Eventaufnahme Start"
 
 #: src/arch/unix/gui/uicommands.c:501
 msgid "Stop recording events"
-msgstr "Aufnahme Stop"
+msgstr "Eventaufnahme Stop"
 
 #: src/arch/unix/gui/uicommands.c:503
 msgid "Start playing back events"
-msgstr "Aufnahme Wiedergabe Start"
+msgstr "Eventwiedergabe Start"
 
 #: src/arch/unix/gui/uicommands.c:505
 msgid "Stop playing back events"
-msgstr "Aufnahme Wiedergabe Stop"
+msgstr "Eventwiedergabe Stop"
 
 #: src/arch/unix/gui/uicommands.c:507 src/arch/win32/res.rc.po.c:1451
 #: src/arch/amigaos/intl_text.c.po.c:929
@@ -1933,22 +1933,22 @@ msgstr "2031 ROM laden"
 #: src/arch/unix/gui/uidrivec128.c:226 src/arch/unix/gui/uidrivec64vic20.c:149
 #: src/arch/unix/gui/uidrivepetcbm2.c:132
 msgid "Load new 2040 ROM"
-msgstr "Neues 2040 ROM laden"
+msgstr "2040 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:229 src/arch/unix/gui/uidrivec64vic20.c:152
 #: src/arch/unix/gui/uidrivepetcbm2.c:135
 msgid "Load new 3040 ROM"
-msgstr "Neues 3040 ROM laden"
+msgstr "3040 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:232 src/arch/unix/gui/uidrivec64vic20.c:155
 #: src/arch/unix/gui/uidrivepetcbm2.c:138
 msgid "Load new 4040 ROM"
-msgstr "Neues 4040 ROM laden"
+msgstr "4040 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:235 src/arch/unix/gui/uidrivec64vic20.c:158
 #: src/arch/unix/gui/uidrivepetcbm2.c:141
 msgid "Load new 1001 ROM"
-msgstr "Neues 1001 ROM laden"
+msgstr "1001 ROM laden"
 
 #: src/arch/unix/gui/uidrivec64c128.c:67 src/arch/unix/gui/uidrivec64c128.c:77
 #: src/arch/unix/gui/uidrivec64c128.c:87 src/arch/unix/gui/uidrivec64c128.c:97
@@ -11481,7 +11481,7 @@ msgstr "Basis Adresse für DigiMAX Erweiterung"
 #~ msgstr "C64DTV ROM Image Name"
 
 #~ msgid "Change working directory"
-#~ msgstr "Arbeitsverzeichnis ändern."
+#~ msgstr "Arbeitsverzeichnis ändern"
 
 #~ msgid "Card image name"
 #~ msgstr "Card Imagedateiname"
@@ -11511,7 +11511,7 @@ msgstr "Basis Adresse für DigiMAX Erweiterung"
 #~ msgstr "CBM2 Einstellungen"
 
 #~ msgid "Change the working directory."
-#~ msgstr "Arbeitsverzeichnis ändern."
+#~ msgstr "Arbeitsverzeichnis ändern"
 
 #~ msgid "Blurredness"
 #~ msgstr "Unschärfe"
