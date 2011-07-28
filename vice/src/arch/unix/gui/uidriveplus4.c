@@ -269,22 +269,22 @@ ui_menu_entry_t ui_driveplus4_settings_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t ui_driveplus4_romset_submenu[] = {
-    { N_("Load new 1541 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 1541 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1541", NULL },
-    { N_("Load new 1541-II ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 1541-II ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1541ii", NULL },
-    { N_("Load new 1551 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 1551 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1551", NULL },
-    { N_("Load new 1570 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 1570 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1570", NULL },
-    { N_("Load new 1571 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 1571 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1571", NULL },
-    { N_("Load new 1581 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 1581 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1581", NULL },
     { NULL }

@@ -57,6 +57,7 @@
 #include "uimouse.h"
 #include "uilightpen.h"
 #include "uiperipheraliec.h"
+#include "uiram.h"
 #include "uiromset.h"
 #include "uirs232c64c128.h"
 #include "uiscreenshot.h"
@@ -452,7 +453,7 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { N_("Save media file"), UI_MENU_TYPE_NORMAL,
+    { N_("Save media file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
     { NULL }
 };
@@ -533,6 +534,8 @@ static ui_menu_entry_t keymap_pos_submenu[] = {
 static ui_menu_entry_t vic20_menu[] = {
     { N_("Model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vic20_model_submenu },
+    { N_("RAM reset pattern"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_ram_pattern_submenu },
     { N_("ROM settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vic20_romset_submenu },
     { N_("VIC settings"), UI_MENU_TYPE_NORMAL,

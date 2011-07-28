@@ -210,18 +210,18 @@ static UI_CALLBACK(uiromset_archive_item_select)
 }
 
 ui_menu_entry_t uiromset_archive_submenu[] = {
-    { N_("Load ROM set archive"), UI_MENU_TYPE_NORMAL,
+    { N_("Load ROM set archive"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_archive_load, NULL, NULL },
-    { N_("Save ROM set archive"), UI_MENU_TYPE_NORMAL,
+    { N_("Save ROM set archive"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_archive_save, NULL, NULL },
-    { N_("List current ROM set archive"), UI_MENU_TYPE_NORMAL,
+    { N_("List current ROM set archive"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_archive_list, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Create ROM set item"), UI_MENU_TYPE_NORMAL,
+    { N_("Create ROM set item"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_archive_item_create, NULL, NULL },
-    { N_("Delete ROM set item"), UI_MENU_TYPE_NORMAL,
+    { N_("Delete ROM set item"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_archive_item_delete, NULL, NULL },
-    { N_("Select ROM set item"), UI_MENU_TYPE_NORMAL,
+    { N_("Select ROM set item"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_archive_item_select, NULL, NULL },
     { NULL }
 };
@@ -293,11 +293,11 @@ static UI_CALLBACK(uiromset_file_list)
 }
 
 ui_menu_entry_t uiromset_file_submenu[] = {
-    { N_("Load custom ROM set from file"), UI_MENU_TYPE_NORMAL,
+    { N_("Load custom ROM set from file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_file_load, NULL, NULL },
-    { N_("Dump ROM set definition to file"), UI_MENU_TYPE_NORMAL,
+    { N_("Dump ROM set definition to file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_file_save, NULL, NULL },
-    { N_("List current ROM set"), UI_MENU_TYPE_NORMAL,
+    { N_("List current ROM set"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)uiromset_file_list, NULL, NULL },
     { NULL }
 };

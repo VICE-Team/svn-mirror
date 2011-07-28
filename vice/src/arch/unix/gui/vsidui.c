@@ -482,7 +482,9 @@ static void vsid_create_menus(void)
     tune_menu[i].string = (ui_callback_data_t) NULL;
 
     ui_tune_menu[0].sub_menu = tune_menu;
+#ifdef USE_GNOMEUI
     vsidui_top_menu[1].sub_menu = tune_menu;
+#endif
 
     num_checkmark_menu_items = 0;
 

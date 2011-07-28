@@ -65,22 +65,27 @@ static char *kernal_rom_name = NULL;
 static char *chargen_name = NULL;
 static char *basic_rom_name = NULL;
 
-static char *cart_1_name = NULL;
-static char *cart_2_name = NULL;
-static char *cart_4_name = NULL;
-static char *cart_6_name = NULL;
+static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
 int cbm2_model_line = 0;
-static int use_vicii = 0;
 
-int cart08_ram = 0;
-int cart1_ram = 0;
-int cart2_ram = 0;
-int cart4_ram = 0;
-int cart6_ram = 0;
-int cartC_ram = 0;
+static int set_cbm2_model_line(int val, void *param)
+{
+    int tmp = val;
 
-static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
+    if (tmp >= 0 && tmp < 3) {
+        cbm2_model_line = val;
+    }
+
+    set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
+
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        /* FIXME: VIC-II config */
+    } else {
+        crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
+    }
+    return 0;
+}
 
 /* ramsize starts counting at 0x10000 if less than 512. If 512 or more,
    it starts counting at 0x00000.
@@ -101,43 +106,6 @@ static int set_ramsize(int rs, void *param)
     vsync_suspend_speed_eval();
     mem_initialize_memory();
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-
-    return 0;
-}
-
-static int set_cbm2_model_line(int val, void *param)
-{
-    int tmp = val;
-
-    if (tmp >= 0 && tmp < 3)
-        cbm2_model_line = val;
-
-    set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
-
-    if (cbm2_isC500) {
-        /* FIXME: VIC-II config */
-    } else {
-        crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
-    }
-
-    return 0;
-}
-
-static int set_use_vicii(int val, void *param)
-{
-    int tmp = val;
-
-    if (tmp < 0 || tmp > 1)
-        return -1;
-
-    use_vicii = tmp;
-
-    /* on boot, select video chip. FIXME: change on runtime */
-    if (cbm2_isC500 < 1)
-        cbm2_isC500 = use_vicii;
-
-    /* FIXME: this doesnt belong here */
-    machine_class = (cbm2_isC500) ? VICE_MACHINE_CBM5x0 : VICE_MACHINE_CBM6x0;
 
     return 0;
 }
@@ -166,82 +134,7 @@ static int set_basic_rom_name(const char *val, void *param)
     return cbm2rom_load_basic(basic_rom_name);
 }
 
-static int set_cart1_rom_name(const char *val, void *param)
-{
-    if (util_string_set(&cart_1_name, val))
-        return 0;
-
-    return cbm2rom_load_cart_1(cart_1_name);
-}
-
-static int set_cart2_rom_name(const char *val, void *param)
-{
-    if (util_string_set(&cart_2_name, val))
-        return 0;
-
-    return cbm2rom_load_cart_2(cart_2_name);
-}
-
-static int set_cart4_rom_name(const char *val, void *param)
-{
-    if (util_string_set(&cart_4_name, val))
-        return 0;
-
-    return cbm2rom_load_cart_4(cart_4_name);
-}
-
-static int set_cart6_rom_name(const char *val, void *param)
-{
-    if (util_string_set(&cart_6_name, val))
-        return 0;
-
-    return cbm2rom_load_cart_6(cart_6_name);
-    /* only does something after mem_load() */
-}
-
-static int set_cart08_ram(int val, void *param)
-{
-    cart08_ram = val;
-    mem_initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart1_ram(int val, void *param)
-{
-    cart1_ram = val;
-    mem_initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart2_ram(int val, void *param)
-{
-    cart2_ram = val;
-    mem_initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart4_ram(int val, void *param)
-{
-    cart4_ram = val;
-    mem_initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cart6_ram(int val, void *param)
-{
-    cart6_ram = val;
-    mem_initialize_memory_bank(15);
-    return 0;
-}
-
-static int set_cartC_ram(int val, void *param)
-{
-    cartC_ram = val;
-    mem_initialize_memory_bank(15);
-    return 0;
-}
- 
-static int set_sync_factor(int val, void *param)
+static int cbm5x0_set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
     int border_mode = VICII_BORDER_MODE(vicii_resources.border_mode);
@@ -266,6 +159,30 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
+static int cbm6x0_set_sync_factor(int val, void *param)
+{
+    int change_timing = 0;
+
+    if (sync_factor != val)
+        change_timing = 1;
+
+    switch (val) {
+      case MACHINE_SYNC_PAL:
+        sync_factor = val;
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_PAL);
+        break;
+      case MACHINE_SYNC_NTSC:
+        sync_factor = val;
+        if (change_timing)
+            machine_change_timing(MACHINE_SYNC_NTSC);
+        break;
+      default:
+        return -1;
+    }
+    return 0;
+}
+
 static int set_romset_firmware(int val, void *param)
 {
     unsigned int num = vice_ptr_to_uint(param);
@@ -275,21 +192,27 @@ static int set_romset_firmware(int val, void *param)
     return 0;
 }
 
-static const resource_string_t resources_string[] = {
+static const resource_string_t cbm5x0_resources_string[] = {
+    { "ChargenName", CBM2_CHARGEN500, RES_EVENT_NO, NULL,
+      &chargen_name, set_chargen_rom_name, NULL },
+    { "KernalName", CBM2_KERNAL500, RES_EVENT_NO, NULL,
+      &kernal_rom_name, set_kernal_rom_name, NULL },
+    { "BasicName", CBM2_BASIC500, RES_EVENT_NO, NULL,
+      &basic_rom_name, set_basic_rom_name, NULL },
+    { NULL }
+};
+
+static const resource_string_t cbm6x0_resources_string[] = {
     { "ChargenName", CBM2_CHARGEN600, RES_EVENT_NO, NULL,
       &chargen_name, set_chargen_rom_name, NULL },
-    { "KernalName", "kernal", RES_EVENT_NO, NULL,
+    { "KernalName", CBM2_KERNAL, RES_EVENT_NO, NULL,
       &kernal_rom_name, set_kernal_rom_name, NULL },
     { "BasicName", CBM2_BASIC128, RES_EVENT_NO, NULL,
       &basic_rom_name, set_basic_rom_name, NULL },
-    { "Cart1Name", "", RES_EVENT_NO, NULL,
-      &cart_1_name, set_cart1_rom_name, NULL },
-    { "Cart2Name", "", RES_EVENT_NO, NULL,
-      &cart_2_name, set_cart2_rom_name, NULL },
-    { "Cart4Name", "", RES_EVENT_NO, NULL,
-      &cart_4_name, set_cart4_rom_name, NULL },
-    { "Cart6Name", "", RES_EVENT_NO, NULL,
-      &cart_6_name, set_cart6_rom_name, NULL },
+    { NULL }
+};
+
+static const resource_string_t resources_string[] = {
 #ifdef COMMON_KBD
     { "KeymapBusinessUKSymFile", KBD_CBM2_SYM_UK, RES_EVENT_NO, NULL,
       &machine_keymap_file_list[0], keyboard_set_keymap_file, (void *)0 },
@@ -307,11 +230,27 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
-static const resource_int_t resources_int[] = {
+static const resource_int_t cbm5x0_resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
-      &sync_factor, set_sync_factor, NULL },
+      &sync_factor, cbm5x0_set_sync_factor, NULL },
+    { "RamSize", 64, RES_EVENT_SAME, NULL,
+      &ramsize, set_ramsize, NULL },
+    { "ModelLine", 2, RES_EVENT_SAME, NULL,
+      &cbm2_model_line, set_cbm2_model_line, NULL },
+    { NULL }
+};
+
+static const resource_int_t cbm6x0_resources_int[] = {
+    { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
+      &sync_factor, cbm6x0_set_sync_factor, NULL },
     { "RamSize", 128, RES_EVENT_SAME, NULL,
       &ramsize, set_ramsize, NULL },
+    { "ModelLine", 2, RES_EVENT_SAME, NULL,
+      &cbm2_model_line, set_cbm2_model_line, NULL },
+    { NULL }
+};
+
+static const resource_int_t resources_int[] = {
     { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
       &romset_firmware[0], set_romset_firmware, (void *)0 },
     { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
@@ -326,22 +265,6 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[5], set_romset_firmware, (void *)5 },
     { "RomsetCart6Name", 0, RES_EVENT_NO, NULL,
       &romset_firmware[6], set_romset_firmware, (void *)6 },
-    { "Ram08", 0, RES_EVENT_NO, NULL,
-      &cart08_ram, set_cart08_ram, NULL },
-    { "Ram1", 0, RES_EVENT_NO, NULL,
-      &cart1_ram, set_cart1_ram, NULL },
-    { "Ram2", 0, RES_EVENT_NO, NULL,
-      &cart2_ram, set_cart2_ram, NULL },
-    { "Ram4", 0, RES_EVENT_NO, NULL,
-      &cart4_ram, set_cart4_ram, NULL },
-    { "Ram6", 0, RES_EVENT_NO, NULL,
-      &cart6_ram, set_cart6_ram, NULL },
-    { "RamC", 0, RES_EVENT_NO, NULL,
-      &cartC_ram, set_cartC_ram, NULL },
-    { "UseVicII", 0, RES_EVENT_SAME, NULL,
-      &use_vicii, set_use_vicii, NULL },
-    { "ModelLine", 2, RES_EVENT_SAME, NULL,
-      &cbm2_model_line, set_cbm2_model_line, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_CBM2_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
@@ -353,10 +276,26 @@ static const resource_int_t resources_int[] = {
 
 int cbm2_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
-    return resources_register_int(resources_int);
+    if (resources_register_int(resources_int) < 0) {
+        return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        if (resources_register_string(cbm5x0_resources_string) < 0) {
+            return -1;
+        }
+        return resources_register_int(cbm5x0_resources_int);
+    }
+
+    if (resources_register_string(cbm6x0_resources_string) < 0) {
+        return -1;
+    }
+
+    return resources_register_int(cbm6x0_resources_int);
 }
 
 void cbm2_resources_shutdown(void)
@@ -364,10 +303,6 @@ void cbm2_resources_shutdown(void)
     lib_free(kernal_rom_name);
     lib_free(chargen_name);
     lib_free(basic_rom_name);
-    lib_free(cart_1_name);
-    lib_free(cart_2_name);
-    lib_free(cart_4_name);
-    lib_free(cart_6_name);
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
     lib_free(machine_keymap_file_list[2]);

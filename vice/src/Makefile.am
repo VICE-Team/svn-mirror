@@ -732,6 +732,7 @@ viciisc_lib = $(top_builddir)/src/viciisc/libviciisc.a
 video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
+xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@ @RESID_FP_LIBS@
@@ -781,22 +782,24 @@ cartconv =
 endif
 
 # workaround for extra exe creation
+vsidow_SOURCES = maincpu.c
 x128ow_SOURCES = maincpu.c
 x64ow_SOURCES = maincpu.c
 x64dtvow_SOURCES = maincpu.c
 x64scow_SOURCES = maincpu.c
 xcbm2ow_SOURCES = maincpu.c
+xcbm5x0ow_SOURCES = maincpu.c
 xpetow_SOURCES = maincpu.c
 xplus4ow_SOURCES = maincpu.c
 xvicow_SOURCES = maincpu.c
 
 if OWCC
-OW_progs = x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow
+OW_progs = vsidow x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow xcbm5x0ow
 else
 OW_progs =
 endif
 
-bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 $(c1541) $(petcat) $(cartconv) $(OW_progs)
+bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(c1541) $(petcat) $(cartconv) $(OW_progs)
 
 EXTRA_PROGRAMS =
 
@@ -1383,6 +1386,63 @@ xcbm2-all: \
 	libcore \
 	libuserport \
 	xcbm2$(EXEEXT)
+
+# xcbm5x0
+xcbm5x0_libs = \
+	@XCBM2_WINRES@ \
+	$(xcbm5x0_lib) \
+	$(driveiecieee_lib) \
+	$(driveieee_lib) \
+	$(drive_lib) \
+	$(parallel_lib) \
+	$(vdrive_lib) \
+	$(monitor_lib) \
+	$(driver_libs) \
+	$(sid_lib) \
+	$(crtc_lib) \
+	$(vicii_lib) \
+	$(raster_lib) \
+	$(video_lib) \
+	$(userport_lib) \
+	$(common_libs) \
+	$(resid_libs)
+
+xcbm5x0_SOURCES = $(base_sources) $(mouse_sources)
+xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xcbm5x0_DEPENDENCIES = $(xcbm5x0_libs) 
+xcbm5x0_LDFLAGS = @xcbm2_LDFLAGS@
+
+.PHONY: xcbm5x0-all
+xcbm5x0-all: \
+	$(BUILT_SOURCES) \
+	libcbm5x0 \
+	libsounddrv \
+	libgfxoutputdrv \
+	libprinterdrv \
+	librs232drv \
+	libarch \
+	libsid \
+	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
+	libdriveiecieee \
+	libdriveieee \
+	libdrive \
+	libparallel \
+	libvdrive \
+	libraster \
+	libcrtc \
+	libvicii \
+	libvideo \
+	libmonitor \
+	libdiskimage \
+	libserial \
+	libfsdevice \
+	libtape \
+	libimagecontents \
+	libfileio \
+	libcore \
+	libuserport \
+	xcbm5x0$(EXEEXT)
 
 # c1541
 c1541_SOURCES = \

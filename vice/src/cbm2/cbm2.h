@@ -82,8 +82,6 @@
 
 struct snapshot_s;
 
-extern int cbm2_is_c500(void);
-extern int cbm2_isC500;
 extern int cbm2_c500_snapshot_write_module(struct snapshot_s *p);
 extern int cbm2_c500_snapshot_read_module(struct snapshot_s *p);
 

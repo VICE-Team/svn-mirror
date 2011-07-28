@@ -32,6 +32,7 @@
 
 #include "cbm2.h"
 #include "cbm2mem.h"
+#include "cbm2model.h"
 #include "cbm2ui.h"
 #include "debug.h"
 #include "icon.h"
@@ -41,6 +42,7 @@
 #include "uiapi.h"
 #include "uiattach.h"
 #include "uicommands.h"
+#include "uicbm2cart.h"
 #include "uicrtc.h"
 #include "uidatasette.h"
 #include "uidrive.h"
@@ -49,6 +51,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uiperipheralieee.h"
+#include "uiram.h"
 #include "uiromset.h"
 #include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
@@ -69,30 +72,32 @@ static ui_menu_entry_t set_viciimodel_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+
+static ui_menu_entry_t io_extensions_submenu[] = {
+    { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t cbm2ui_main_romset_submenu[] = {
-    { N_("Load new kernal ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new kernal ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new character ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new character ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
-    { N_("Load new BASIC ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new BASIC ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"BasicName", NULL },
     { NULL }
 };
 
-static ui_menu_entry_t cbm2_romset_submenu[] = {
-    { N_("Basic 128k, low chars"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom128l.vrs", NULL },
-    { N_("Basic 256k, low chars"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom256l.vrs", NULL },
-    { N_("Basic 128k, high chars"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom128h.vrs", NULL },
-    { N_("Basic 256k, high chars"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom256h.vrs", NULL },
+static ui_menu_entry_t cbm5x0_romset_submenu[] = {
+    { N_("Load default ROMs"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom500.vrs", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Load new computer ROM"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2ui_main_romset_submenu },
@@ -102,33 +107,32 @@ static ui_menu_entry_t cbm2_romset_submenu[] = {
     { N_("ROM set type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiromset_type_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Load new Cart $1***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"Cart1Name", NULL },
-    { N_("Unload Cart $1***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_unload_rom_file,
-      (ui_callback_data_t)"Cart1Name", NULL },
+    { N_("ROM set archive"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, uiromset_archive_submenu },
+    { N_("ROM set file"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, uiromset_file_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t cbm6x0_romset_submenu[] = {
+
+    { N_("Basic 128k, low chars"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom128l.vrs", NULL },
+    { N_("Basic 256k, low chars"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom256l.vrs", NULL },
+    { N_("Basic 128k, high chars"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom128h.vrs", NULL },
+    { N_("Basic 256k, high chars"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_set_romset, (ui_callback_data_t)"rom256h.vrs", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Load new Cart $2-3***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"Cart2Name", NULL },
-    { N_("Unload Cart $2-3***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_unload_rom_file,
-      (ui_callback_data_t)"Cart2Name", NULL },
+
+    { N_("Load new computer ROM"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm2ui_main_romset_submenu },
+    { N_("Load new drive ROM"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_drivepetcbm2_romset_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Load new Cart $4-5***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"Cart4Name", NULL },
-    { N_("Unload Cart $4-5***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_unload_rom_file,
-      (ui_callback_data_t)"Cart4Name", NULL },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Load new Cart $6-7***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"Cart6Name", NULL },
-    { N_("Unload Cart $6-7***"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_unload_rom_file,
-      (ui_callback_data_t)"Cart6Name", NULL },
+    { N_("ROM set type"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, uiromset_type_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("ROM set archive"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiromset_archive_submenu },
@@ -141,9 +145,17 @@ static ui_menu_entry_t cbm2_romset_submenu[] = {
 
 UI_MENU_DEFINE_RADIO(ModelLine)
 
-static ui_menu_entry_t cbm2_modelline_submenu[] = {
+static ui_menu_entry_t cbm6x0_modelline_submenu[] = {
     { "7x0 (50 Hz)", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_ModelLine, (ui_callback_data_t)0, NULL },
+    { "6x0 60 Hz", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_ModelLine, (ui_callback_data_t)1, NULL },
+    { "6x0 50 Hz", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_ModelLine, (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t cbm5x0_modelline_submenu[] = {
     { "6x0 60 Hz", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_ModelLine, (ui_callback_data_t)1, NULL },
     { "6x0 50 Hz", UI_MENU_TYPE_TICK,
@@ -154,6 +166,8 @@ static ui_menu_entry_t cbm2_modelline_submenu[] = {
 UI_MENU_DEFINE_RADIO(RamSize)
 
 static ui_menu_entry_t cbm2_memsize_submenu[] = {
+    { "64 kB", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_RamSize, (ui_callback_data_t)64, NULL },
     { "128 kB", UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_RamSize, (ui_callback_data_t)128, NULL },
     { "256 kB", UI_MENU_TYPE_TICK,
@@ -165,27 +179,53 @@ static ui_menu_entry_t cbm2_memsize_submenu[] = {
     { NULL }
 };
 
-static UI_CALLBACK(ui_set_model)
+static UI_CALLBACK(radio_cbm2model)
 {
-    cbm2_set_model(UI_MENU_CB_PARAM, NULL);
-    ui_update_menus();
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        cbm2model_set(selected);
+        ui_update_menus();
+    } else {
+        model = cbm2model_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
 }
 
-static ui_menu_entry_t model_defaults_submenu[] = {
-    { "CBM 510", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_model, (ui_callback_data_t)"510", NULL },
-    { "CBM 610", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_model, (ui_callback_data_t)"610", NULL },
-    { "CBM 620", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_model, (ui_callback_data_t)"620", NULL },
-    { "CBM 620+ (1M)", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_model, (ui_callback_data_t)"620+", NULL },
-    { "CBM 710", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_model, (ui_callback_data_t)"710", NULL },
-    { "CBM 720", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_model, (ui_callback_data_t)"720", NULL },
-    { "CBM 720+ (1M)", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_set_model, (ui_callback_data_t)"720+", NULL },
+static ui_menu_entry_t cbm5x0_model_defaults_submenu[] = {
+    { "CBM 510 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_510_PAL, NULL },
+    { "CBM 510 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_510_NTSC, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t cbm6x0_model_defaults_submenu[] = {
+    { "CBM 610 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_610_PAL, NULL },
+    { "CBM 610 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_610_NTSC, NULL },
+    { "CBM 620 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_620_PAL, NULL },
+    { "CBM 620 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_620_NTSC, NULL },
+    { "CBM 620+ (1M) PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_620PLUS_PAL, NULL },
+    { "CBM 620+ (1M) NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_620PLUS_NTSC, NULL },
+    { "CBM 710 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_710_NTSC, NULL },
+    { "CBM 720 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_720_NTSC, NULL },
+    { "CBM 720+ (1M) NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_cbm2model,
+      (ui_callback_data_t)CBM2MODEL_720PLUS_NTSC, NULL },
     { NULL }
 };
 
@@ -226,16 +266,9 @@ UI_MENU_DEFINE_TOGGLE(Ram4)
 UI_MENU_DEFINE_TOGGLE(Ram6)
 UI_MENU_DEFINE_TOGGLE(RamC)
 
-UI_CALLBACK(Cbm2modelMenu)
-{
-    if (CHECK_MENUS) {
-        ui_menu_set_sensitive(w, !cbm2_is_c500());
-    }
-}
-
-static ui_menu_entry_t model_settings_submenu[] = {
+static ui_menu_entry_t cbm5x0_model_settings_submenu[] = {
     { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)Cbm2modelMenu, NULL, model_defaults_submenu },
+      NULL, NULL, cbm5x0_model_defaults_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("VIC-II model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_viciimodel_submenu },
@@ -244,7 +277,38 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { N_("Memory size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_memsize_submenu },
     { N_("Hardwired switches"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm2_modelline_submenu },
+      NULL, NULL, cbm5x0_modelline_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Bank 15 $0800-$0FFF RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Ram08, NULL, NULL },
+    { N_("Bank 15 $1000-$1FFF RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Ram1, NULL, NULL },
+    { N_("Bank 15 $2000-$3FFF RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Ram2, NULL, NULL },
+    { N_("Bank 15 $4000-$5FFF RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Ram4, NULL, NULL },
+    { N_("Bank 15 $6000-$7FFF RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_Ram6, NULL, NULL },
+    { N_("Bank 15 $C000-$CFFF RAM"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_RamC, NULL, NULL },
+#if 0
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Keyboard type"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm2_keybd_submenu },
+#endif
+    { NULL }
+};
+
+static ui_menu_entry_t cbm6x0_model_settings_submenu[] = {
+    { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm6x0_model_defaults_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("SID model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, sid_model_submenu },
+    { N_("Memory size"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm2_memsize_submenu },
+    { N_("Hardwired switches"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm6x0_modelline_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Bank 15 $0800-$0FFF RAM"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Ram08, NULL, NULL },
@@ -311,22 +375,6 @@ static ui_menu_entry_t sid_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static UI_CALLBACK(CrtcMenu)
-{
-    if (CHECK_MENUS) {
-        ui_menu_set_sensitive(w, !cbm2_is_c500());
-    }
-}
-
-static UI_CALLBACK(VicMenu)
-{
-    if (CHECK_MENUS) {
-        ui_menu_set_sensitive(w, cbm2_is_c500());
-    }
-}
-
-/* ------------------------------------------------------------------------- */
-
 static ui_menu_entry_t keymap_sym_submenu[] = {
     { "US", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_buks.vkm", NULL },
     { N_("German"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SymKeymap, (ui_callback_data_t)"x11_buks_de.vkm", NULL },
@@ -341,15 +389,31 @@ static ui_menu_entry_t keymap_pos_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
-static ui_menu_entry_t cbm2_menu[] = {
-    { N_("CBM-II model settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, model_settings_submenu },
+static ui_menu_entry_t cbm6x0_menu[] = {
+    { N_("Model settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm6x0_model_settings_submenu },
+    { N_("RAM reset pattern"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_ram_pattern_submenu },
     { N_("ROM settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm2_romset_submenu },
+      NULL, NULL, cbm6x0_romset_submenu },
     { N_("CRTC settings"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)CrtcMenu, NULL, crtc_submenu },
+      NULL, NULL, crtc_submenu },
+    { N_("SID settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, sid_submenu },
+    { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, uirs232petplus4cbm2_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t cbm5x0_menu[] = {
+    { N_("Model settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm5x0_model_settings_submenu },
+    { N_("RAM settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_ram_pattern_submenu },
+    { N_("ROM settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm5x0_romset_submenu },
     { N_("VIC-II settings"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)VicMenu, NULL, vicii_submenu },
+      NULL, NULL, vicii_submenu },
     { N_("SID settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_submenu },
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
@@ -374,7 +438,7 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { N_("Save media file"), UI_MENU_TYPE_NORMAL,
+    { N_("Save media file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
     { NULL }
 };
@@ -394,6 +458,8 @@ static ui_menu_entry_t cbm2_left_menu[] = {
       NULL, NULL, ui_screenshot_commands_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_record_commands_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_cbm2cart_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -419,7 +485,7 @@ static ui_menu_entry_t cbm5x0_right_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL,  joystick_settings_cbm5x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, cbm2_menu },
+      NULL, NULL, cbm5x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
 #ifdef DEBUG
@@ -443,7 +509,7 @@ static ui_menu_entry_t cbm6x0_right_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL,  joystick_settings_pet_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, cbm2_menu },
+      NULL, NULL, cbm6x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
 #ifdef DEBUG
@@ -470,6 +536,8 @@ static ui_menu_entry_t cbm2_file_menu[] = {
       NULL, NULL, uiattach_tape_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL,  ui_datasette_commands_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_cbm2cart_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -499,14 +567,29 @@ static ui_menu_entry_t cbm2_snapshot_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t cbm2_options_menu[] = {
+static ui_menu_entry_t cbm5x0_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL,  ui_performance_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_options_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_model_submenu },
+    { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm5x0_model_defaults_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, io_extensions_submenu },
+    { NULL }
+};
+
+static ui_menu_entry_t cbm6x0_options_menu[] = {
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL,  ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, joystick_options_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm6x0_model_defaults_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, io_extensions_submenu },
     { NULL }
 };
 
@@ -522,7 +605,7 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_cbm5x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, cbm2_menu },
+      NULL, NULL, cbm5x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
     { NULL }
@@ -540,7 +623,7 @@ static ui_menu_entry_t cbm6x0_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_pet_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, cbm2_menu },
+      NULL, NULL, cbm6x0_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
     { NULL }
@@ -549,10 +632,14 @@ static ui_menu_entry_t cbm6x0_settings_menu[] = {
 static ui_menu_entry_t cbm5x0_top_menu[] = {
     { N_("File"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_file_menu },
+#ifdef USE_GNOMEUI
+    { N_("Edit"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, cbm2_edit_submenu },
+#endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_snapshot_menu },
     { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm2_options_menu },
+      NULL, NULL, cbm5x0_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm5x0_settings_menu },
 #ifdef DEBUG
@@ -576,7 +663,7 @@ static ui_menu_entry_t cbm6x0_top_menu[] = {
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_snapshot_menu },
     { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm2_options_menu },
+      NULL, NULL, cbm6x0_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm6x0_settings_menu },
 #ifdef DEBUG
@@ -595,8 +682,11 @@ static ui_menu_entry_t cbm6x0_top_menu[] = {
 static void cbm2ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
-    uicrtc_menu_create();
-    uivicii_menu_create();
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        uivicii_menu_create();
+    } else {
+        uicrtc_menu_create();
+    }
 
     memcpy(uikeymap_sym_submenu, keymap_sym_submenu, sizeof(keymap_sym_submenu));
     memcpy(uikeymap_pos_submenu, keymap_pos_submenu, sizeof(keymap_pos_submenu));
@@ -604,8 +694,11 @@ static void cbm2ui_dynamic_menu_create(void)
 
 static void cbm2ui_dynamic_menu_shutdown(void)
 {
-    uicrtc_menu_shutdown();
-    uivicii_menu_shutdown();
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        uivicii_menu_shutdown();
+    } else {
+        uicrtc_menu_shutdown();
+    }
     uisound_menu_shutdown();
 }
 
@@ -614,7 +707,6 @@ int cbm2ui_init(void)
     ui_set_application_icon(cbm2_icon_data);
     cbm2ui_dynamic_menu_create();
     ui_set_left_menu(cbm2_left_menu);
-
 
     if (machine_class == VICE_MACHINE_CBM5x0) {
         ui_set_right_menu(cbm5x0_right_menu);

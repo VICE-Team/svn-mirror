@@ -52,6 +52,7 @@
 #include "uiperipheralieee.h"
 #include "uipetdww.h"
 #include "uipetreu.h"
+#include "uiram.h"
 #include "uiromset.h"
 #include "uirs232petplus4cbm2.h"
 #include "uiscreenshot.h"
@@ -389,6 +390,8 @@ static ui_menu_entry_t keymap_pos_submenu[] = {
 static ui_menu_entry_t pet_menu[] = {
     { N_("PET model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, model_settings_submenu },
+    { N_("RAM reset pattern"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_ram_pattern_submenu },
     { N_("ROM settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, pet_romset_submenu },
     { N_("CRTC settings"), UI_MENU_TYPE_NORMAL,
@@ -417,7 +420,7 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { N_("Save media file"), UI_MENU_TYPE_NORMAL,
+    { N_("Save media file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
     { NULL }
 };

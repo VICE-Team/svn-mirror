@@ -126,19 +126,19 @@ ui_menu_entry_t ui_drivepetcbm2_settings_menu[] = {
 /* ------------------------------------------------------------------------- */
 
 ui_menu_entry_t ui_drivepetcbm2_romset_submenu[] = {
-    { N_("Load new 2031 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 2031 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName2031", NULL },
-    { N_("Load new 2040 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 2040 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName2040", NULL },
-    { N_("Load new 3040 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 3040 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName3040", NULL },
-    { N_("Load new 4040 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 4040 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName4040", NULL },
-    { N_("Load new 1001 ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new 1001 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1001", NULL },
     { NULL }

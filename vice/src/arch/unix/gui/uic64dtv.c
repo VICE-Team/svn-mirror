@@ -32,6 +32,7 @@
 #include "c64dtvmodel.h"
 #include "lib.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uic64dtv.h"

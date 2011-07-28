@@ -28,13 +28,75 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cbm2-cmdline-options.h"
 #include "cbm2mem.h"
+#include "cbm2model.h"
 #include "cmdline.h"
 #include "machine.h"
+#include "mem.h"
 #include "resources.h"
 #include "translate.h"
+
+struct modtab_s {
+    const char *model;
+    int modelline;
+    int modelid;
+};
+typedef struct modtab_s modtab_t;
+
+/* FIXME: add more/all models */
+static modtab_t modtab[] = {
+    { "510",  VICE_MACHINE_CBM5x0, CBM2MODEL_510_PAL },
+    { "610",  VICE_MACHINE_CBM6x0, CBM2MODEL_610_PAL },
+    { "620",  VICE_MACHINE_CBM6x0, CBM2MODEL_620_PAL },
+    { "620+", VICE_MACHINE_CBM6x0, CBM2MODEL_620PLUS_PAL },
+    { "710",  VICE_MACHINE_CBM6x0, CBM2MODEL_710_NTSC },
+    { "720",  VICE_MACHINE_CBM6x0, CBM2MODEL_720_NTSC },
+    { "720+", VICE_MACHINE_CBM6x0, CBM2MODEL_720PLUS_NTSC },
+    { NULL }
+};
+
+static int cbm2_model = 1;
+
+/* FIXME: make static (currently still used directly by some ports) */
+int cbm2_set_model(const char *model, void *extra)
+{
+    int i;
+
+    /* vsync_suspend_speed_eval(); */
+
+    for (i = 0; modtab[i].model; i++) {
+        if (machine_class != modtab[i].modelline) {
+            continue;
+        }
+        if (strcmp(modtab[i].model, model)) {
+            continue;
+        }
+
+        cbm2model_set(modtab[i].modelid);
+        cbm2_model = i;
+
+        /* we have to wait until we did enough initialization */
+        if (!cbm2_init_ok)
+            return 0; 
+
+        mem_powerup();
+        mem_load();
+        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+        return 0;
+    }
+    return -1;
+}
+
+/* FIXME: remove this (only used in os/2 port */
+const char *cbm2_get_model()
+{
+    return modtab[cbm2_model].model;
+}
+
+/* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {
     { "-pal", SET_RESOURCE, 0,
@@ -52,21 +114,6 @@ static const cmdline_option_t cmdline_options[] = {
      USE_PARAM_ID, USE_DESCRIPTION_ID,
      IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM2_MODEL,
      NULL, NULL },
-    { "-usevicii", SET_RESOURCE, 0,
-      NULL, NULL, "UseVicII", (void *)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SPECIFY_TO_USE_VIC_II,
-      NULL, NULL },
-    { "+usevicii", SET_RESOURCE, 0,
-      NULL, NULL, "UseVicII", (void *)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SPECIFY_TO_USE_CRTC,
-      NULL, NULL },
-    { "-modelline", SET_RESOURCE, 1,
-      NULL, NULL, "ModelLine", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_LINENUMBER, IDCLS_SPECIFY_CBM2_MODEL_HARDWARE,
-      NULL, NULL },
     { "-ramsize", SET_RESOURCE, 1,
       NULL, NULL, "RamSize", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -86,26 +133,6 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "ChargenName", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_SPECIFY_CHARGEN_ROM_NAME,
-      NULL, NULL },
-    { "-cart1", SET_RESOURCE, 1,
-      NULL, NULL, "Cart1Name", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_CART_ROM_1000_NAME,
-      NULL, NULL },
-    { "-cart2", SET_RESOURCE, 1,
-      NULL, NULL, "Cart2Name", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_CART_ROM_2000_NAME,
-      NULL, NULL },
-    { "-cart4", SET_RESOURCE, 1,
-      NULL, NULL, "Cart4Name", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_CART_ROM_4000_NAME,
-      NULL, NULL },
-    { "-cart6", SET_RESOURCE, 1,
-      NULL, NULL, "Cart6Name", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_NAME, IDCLS_SPECIFY_CART_ROM_6000_NAME,
       NULL, NULL },
     { "-ram08", SET_RESOURCE, 0,
       NULL, NULL, "Ram08", (void *)1,

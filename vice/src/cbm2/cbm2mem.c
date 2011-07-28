@@ -37,6 +37,7 @@
 #include "cbm2acia.h"
 #include "cbm2cia.h"
 #include "cbm2mem.h"
+#include "cbm2model.h"
 #include "cbm2tpi.h"
 #include "cia.h"
 #include "crtc-mem.h"
@@ -56,21 +57,6 @@
 #include "vicii-mem.h"
 #include "vicii-phi1.h"
 #include "vicii.h"
-
-/* Expansion port signals. */
-export_t export = { 0, 0};
-
-static BYTE romh_banks[1]; /* dummy */
-
-BYTE *ultimax_romh_phi1_ptr(WORD addr)
-{
-    return romh_banks;
-}
-
-BYTE *ultimax_romh_phi2_ptr(WORD addr)
-{
-    return romh_banks;
-}
 
 void cia1_set_extended_keyboard_rows_mask(BYTE foo)
 {
@@ -191,7 +177,7 @@ void cbm2_set_tpi2pc(BYTE b) {
     int vbank = (b & 0xc0) >> 6;
     c500_vbank = vbank;
 
-    if (cbm2_isC500) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         if (!c500_vicdotsel) {
             vicii_set_phi1_vbank(vbank);
         }
@@ -202,7 +188,7 @@ void cbm2_set_tpi2pc(BYTE b) {
 }
 
 void cbm2_set_tpi1ca(int a) {
-    if (cbm2_isC500) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         c500_set_phi2_bank(a);
     } else {
         crtc_set_chargen_offset((a) ? 256 : 0);
@@ -210,71 +196,9 @@ void cbm2_set_tpi1ca(int a) {
 }
 
 void cbm2_set_tpi1cb(int a) {
-    if (cbm2_isC500) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         c500_set_phi1_bank(a);
     }
-}
-
-/* ------------------------------------------------------------------------- */
-
-struct modtab_s {
-    const char *model;
-    int usevicii;
-    int ramsize;
-    const char *basic;
-    const char *charrom;
-    const char *kernal;
-    int line; /* 0=7x0 (50 Hz), 1=6x0 60Hz, 2=6x0 50Hz */
-};
-typedef struct modtab_s modtab_t;
-
-static modtab_t modtab[] = {
-    { "510",  1, 64,   CBM2_BASIC500, CBM2_CHARGEN500, CBM2_KERNAL500, 2  },
-    { "610",  0, 128,  CBM2_BASIC128, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
-    { "620",  0, 256,  CBM2_BASIC256, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
-    { "620+", 0, 1024, CBM2_BASIC256, CBM2_CHARGEN600, CBM2_KERNAL, 2  },
-    { "710",  0, 128,  CBM2_BASIC128, CBM2_CHARGEN700, CBM2_KERNAL, 0  },
-    { "720",  0, 256,  CBM2_BASIC256, CBM2_CHARGEN700, CBM2_KERNAL, 0  },
-    { "720+", 0, 1024, CBM2_BASIC256, CBM2_CHARGEN700, CBM2_KERNAL, 0  },
-    { NULL }
-};
-
-static int cbm2_model = 1;
-
-int cbm2_set_model(const char *model, void *extra)
-{
-    int i;
-
-    vsync_suspend_speed_eval();
-
-    for (i = 0; modtab[i].model; i++) {
-        if (strcmp(modtab[i].model, model))
-            continue;
-
-        resources_set_int("UseVicII", modtab[i].usevicii);
-        resources_set_int("RamSize", modtab[i].ramsize);
-        resources_set_string("BasicName", modtab[i].basic);
-        resources_set_string("ChargenName", modtab[i].charrom);
-        resources_set_string("KernalName", modtab[i].kernal);
-        resources_set_int("ModelLine", modtab[i].line);
-
-        cbm2_model = i;
-
-        /* we have to wait until we did enough initialization */
-        if (!cbm2_init_ok)
-            return 0; 
-
-        mem_powerup();
-        mem_load();
-        machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        return 0;
-    }
-    return -1;
-}
-
-const char *cbm2_get_model()
-{
-    return modtab[cbm2_model].model;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -569,14 +493,14 @@ void store_io(WORD addr, BYTE value)
     switch (addr & 0xf800) {
       case 0xd000:
         rom_store(addr, value);         /* video RAM mapped here... */
-        if (cbm2_isC500 && (addr >= 0xd400)) {
+        if ((machine_class == VICE_MACHINE_CBM5x0) && (addr >= 0xd400)) {
             colorram_store(addr, value);
         }
         return;
       case 0xd800:
         switch(addr & 0xff00) {
           case 0xd800:
-            if (cbm2_isC500) {
+            if (machine_class == VICE_MACHINE_CBM5x0) {
                 vicii_store(addr, value);
             } else {
                 crtc_store(addr, value);
@@ -616,7 +540,7 @@ BYTE read_io(WORD addr)
       case 0xd800:
         switch (addr & 0xff00) {
           case 0xd800:
-            if (cbm2_isC500) {
+            if (machine_class == VICE_MACHINE_CBM5x0) {
                 return vicii_read(addr);
             } else {
                 return crtc_read(addr);
@@ -626,7 +550,7 @@ BYTE read_io(WORD addr)
           case 0xda00:
             if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end)
             {
-              if (cbm2_isC500)
+              if (machine_class == VICE_MACHINE_CBM5x0)
               {
                 return sid2_read(addr);
               }
@@ -635,7 +559,7 @@ BYTE read_io(WORD addr)
                 return 0xff;            /* 2 MHz too fast for SID */
               }
             }
-            if (cbm2_isC500) {
+            if (machine_class == VICE_MACHINE_CBM5x0) {
                 return sid_read(addr);
             } else {
                 return 0xff;            /* 2 MHz too fast for SID */
@@ -648,7 +572,7 @@ BYTE read_io(WORD addr)
             return acia1_read(addr);
           case 0xde00:
             /* FIXME: VIC-II irq? */
-            /* if (cbm2_isC500 && ((addr & 7) == 2)) {
+            /* if ((machine_class == VICE_MACHINE_CBM5x0) && ((addr & 7) == 2)) {
                    return tpi1_read(addr&7)|1; }   */
             return tpi1_read((WORD)(addr & 0x07));
           case 0xdf00:
@@ -680,7 +604,7 @@ void mem_reset(void) {
     cbm2mem_set_bank_exec(15);
     cbm2mem_set_bank_ind(15);
 
-    if (cbm2_isC500) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         c500_set_phi1_bank(15);
         c500_set_phi2_bank(15);
     }
@@ -743,7 +667,7 @@ void mem_initialize_memory(void)
             mem_read_limit_tab[1][i] = 0xbffd;
         } else
         if (i <0xd0) {  /* C000-CFFF */
-            if (cbm2_isC500) { /* charrom */
+            if (machine_class == VICE_MACHINE_CBM5x0) { /* charrom */
                 mem_read_limit_tab[1][i] = 0xcffd;
             } else {    /* open(?) */
                 mem_read_limit_tab[1][i] = 0;
@@ -773,7 +697,7 @@ void mem_initialize_memory_bank(int i)
 
     switch (i) {
       case 0:
-        if (cbm2_isC500 || ramsize >= 512) {
+        if ((machine_class == VICE_MACHINE_CBM5x0) || ramsize >= 512) {
             for (j = 255; j >= 0; j--) {
                 _mem_read_tab[i][j] = read_ram_tab[i];
                 _mem_write_tab[i][j] = store_ram_tab[i];
@@ -872,7 +796,7 @@ void mem_initialize_memory_bank(int i)
             _mem_read_base_tab[i][j] = mem_rom + (j << 8);
         }
         for (; j < 0xd0; j++) { /* C000-CFFF */
-            if (!cbm2_isC500) {
+            if (machine_class != VICE_MACHINE_CBM5x0) {
                 _mem_read_tab[i][j] = read_unused;
                 _mem_write_tab[i][j] = store_dummy;
                 _mem_read_base_tab[i][j] = NULL;
@@ -1020,7 +944,7 @@ static BYTE peek_bank_io(WORD addr)
       case 0xd800:
         switch (addr & 0xff00) {
           case 0xd800:
-            if (cbm2_isC500) {
+            if (machine_class == VICE_MACHINE_CBM5x0) {
                 return vicii_peek(addr);
             } else {
                 return crtc_read(addr);
@@ -1130,7 +1054,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 static int mem_dump_io(WORD addr)
 {
     if ((addr >= 0xd800) && (addr <= 0xd82e)) {
-        if (cbm2_isC500) {
+        if (machine_class == VICE_MACHINE_CBM5x0) {
             return vicii_dump();
         } else {
             return crtc_dump(&crtc);
@@ -1153,7 +1077,7 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
 {
     mem_ioreg_list_t *mem_ioreg_list = NULL;
 
-    if (cbm2_isC500) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         mon_ioreg_add_list(&mem_ioreg_list, "VIC-II", 0xd800, 0xd82e, mem_dump_io);
     } else {
         mon_ioreg_add_list(&mem_ioreg_list, "CRTC", 0xd800, 0xd80f, mem_dump_io);
@@ -1171,7 +1095,7 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 {
     *base = 0xd000;
     *rows = 25;
-    *columns = (cbm2_isC500) ? 40 : 80;
+    *columns = (machine_class == VICE_MACHINE_CBM5x0) ? 40 : 80;
     *bank = 16;
 }
 

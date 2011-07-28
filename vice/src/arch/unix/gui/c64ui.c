@@ -69,6 +69,7 @@
 #include "uiperipheraliec.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
+#include "uiram.h"
 #include "uiramcart.h"
 #include "uiretroreplay.h"
 #include "uireu.h"
@@ -540,7 +541,7 @@ static UI_CALLBACK(save_screenshot)
 }
 
 static ui_menu_entry_t ui_screenshot_commands_menu[] = {
-    { N_("Save media file"), UI_MENU_TYPE_NORMAL,
+    { N_("Save media file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)save_screenshot, (ui_callback_data_t)0, NULL },
     { NULL }
 };
@@ -564,6 +565,8 @@ static ui_menu_entry_t keymap_pos_submenu[] = {
 static ui_menu_entry_t c64_menu[] = {
     { N_("Model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_model_submenu },
+    { N_("RAM reset pattern"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_ram_pattern_submenu },
     { N_("ROM settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, c64_romset_submenu },
     { N_("VIC-II settings"), UI_MENU_TYPE_NORMAL,

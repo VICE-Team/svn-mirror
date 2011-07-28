@@ -96,6 +96,7 @@
 #include "viewport.h"
 #include "video.h"
 #include "videoarch.h"
+#include "vsiduiunix.h"
 #include "screenshot.h"
 #include "vice-event.h"
 #include "x11ui.h"

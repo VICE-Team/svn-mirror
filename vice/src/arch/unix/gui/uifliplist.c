@@ -124,9 +124,9 @@ ui_menu_entry_t fliplist_submenu[] = {
     { N_("Attach previous image (Unit 8)"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)attach_from_fliplist3, (ui_callback_data_t)0, NULL,
       KEYSYM_N, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
-    { N_("Load flip list file"), UI_MENU_TYPE_NORMAL,
+    { N_("Load flip list file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)load_save_fliplist, (ui_callback_data_t)1, NULL },
-    { N_("Save flip list file"), UI_MENU_TYPE_NORMAL,
+    { N_("Save flip list file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)load_save_fliplist, (ui_callback_data_t)0, NULL },
     { NULL }
 };

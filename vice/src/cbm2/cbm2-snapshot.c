@@ -57,7 +57,6 @@
 #define SNAP_MAJOR          0
 #define SNAP_MINOR          0
 
-
 int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
                         int event_mode)
 {
@@ -72,15 +71,15 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
 
     if (maincpu_snapshot_write_module(s) < 0
         || cbm2_snapshot_write_module(s, save_roms) < 0
-        || ((!cbm2_isC500) && crtc_snapshot_write_module(s) < 0)
+        || ((machine_class != VICE_MACHINE_CBM5x0) && crtc_snapshot_write_module(s) < 0)
         || ciacore_snapshot_write_module(machine_context.cia1, s) < 0
         || tpicore_snapshot_write_module(machine_context.tpi1, s) < 0
         || tpicore_snapshot_write_module(machine_context.tpi2, s) < 0
         || acia1_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
-        || (cbm2_isC500 && vicii_snapshot_write_module(s) < 0)
-        || (cbm2_isC500 && cbm2_c500_snapshot_write_module(s) < 0)
+        || ((machine_class == VICE_MACHINE_CBM5x0) && vicii_snapshot_write_module(s) < 0)
+        || ((machine_class == VICE_MACHINE_CBM5x0) && cbm2_c500_snapshot_write_module(s) < 0)
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
@@ -111,13 +110,13 @@ int cbm2_snapshot_read(const char *name, int event_mode)
         goto fail;
     }
 
-    if (cbm2_isC500)
+    if (machine_class == VICE_MACHINE_CBM5x0)
         vicii_snapshot_prepare();
 
     if (maincpu_snapshot_read_module(s) < 0
-        || ((!cbm2_isC500) && crtc_snapshot_read_module(s) < 0)
-        || (cbm2_isC500 && vicii_snapshot_read_module(s) < 0)
-        || (cbm2_isC500 && cbm2_c500_snapshot_read_module(s) < 0)
+        || ((machine_class != VICE_MACHINE_CBM5x0) && crtc_snapshot_read_module(s) < 0)
+        || ((machine_class == VICE_MACHINE_CBM5x0) && vicii_snapshot_read_module(s) < 0)
+        || ((machine_class == VICE_MACHINE_CBM5x0) && cbm2_c500_snapshot_read_module(s) < 0)
         || cbm2_snapshot_read_module(s) < 0
         || ciacore_snapshot_read_module(machine_context.cia1, s) < 0
         || tpicore_snapshot_read_module(machine_context.tpi1, s) < 0

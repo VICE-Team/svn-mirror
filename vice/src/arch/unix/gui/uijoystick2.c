@@ -365,7 +365,7 @@ static ui_menu_entry_t joystick_settings_c64_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
-    { N_("Define keysets"), UI_MENU_TYPE_NORMAL,
+    { N_("Define keysets"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
@@ -396,7 +396,7 @@ static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
-    { N_("Define keysets"), UI_MENU_TYPE_NORMAL,
+    { N_("Define keysets"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
@@ -427,7 +427,7 @@ static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
-    { N_("Define keysets"), UI_MENU_TYPE_NORMAL,
+    { N_("Define keysets"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
@@ -442,7 +442,7 @@ static ui_menu_entry_t joystick_settings_cbm5x0_submenu[] = {
 
 static ui_menu_entry_t joystick_settings_pet_submenu[] = {
 #ifdef USE_GNOMEUI
-    { N_("Define keysets"), UI_MENU_TYPE_NORMAL,
+    { N_("Define keysets"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
@@ -469,7 +469,7 @@ static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
       NULL, NULL, set_joystick_device_1_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
-    { N_("Define keysets"), UI_MENU_TYPE_NORMAL,
+    { N_("Define keysets"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif
@@ -498,7 +498,7 @@ static ui_menu_entry_t joystick_settings_plus4_submenu[] = {
       NULL, NULL, set_joystick_device_2_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #ifdef USE_GNOMEUI
-    { N_("Define keysets"), UI_MENU_TYPE_NORMAL,
+    { N_("Define keysets"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_keyset_dialog },
     { "--", UI_MENU_TYPE_SEPARATOR },
 #endif

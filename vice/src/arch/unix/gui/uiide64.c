@@ -51,7 +51,7 @@ static UI_CALLBACK(set_ide64_image_name)
 static UI_CALLBACK(set_cylinders)
 {
     static char input_string[32];
-    int num = (int)UI_MENU_CB_PARAM;
+    int num = vice_ptr_to_int(UI_MENU_CB_PARAM);
 
     if (CHECK_MENUS) {
         int autosize;
@@ -91,7 +91,7 @@ static UI_CALLBACK(set_cylinders)
 static UI_CALLBACK(set_heads)
 {
     static char input_string[32];
-    int num = (int)UI_MENU_CB_PARAM;
+    int num = vice_ptr_to_int(UI_MENU_CB_PARAM);
 
     if (CHECK_MENUS) {
         int autosize;
@@ -131,7 +131,7 @@ static UI_CALLBACK(set_heads)
 static UI_CALLBACK(set_sectors)
 {
     static char input_string[32];
-    int num = (int)UI_MENU_CB_PARAM;
+    int num = vice_ptr_to_int(UI_MENU_CB_PARAM);
 
     if (CHECK_MENUS) {
         int autosize;

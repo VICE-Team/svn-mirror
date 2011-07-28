@@ -36,6 +36,7 @@
 #include "keyboard.h"
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "maincpu.h"
 #include "parallel.h"
 #include "printer.h"
@@ -141,7 +142,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
                     parallel_bus, cia_context->c_cia[CIA_PRA],
                     cia_context->c_cia[CIA_DDRA], byte);
     }
-    if (cbm2_is_c500()) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         byte = ((byte & ~(cia_context->c_cia[CIA_DDRA]))
                | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]))
                & ~( ((joystick_value[1] & 0x10) ? 0x40 : 0)
@@ -158,7 +159,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte = 0xff;
 
-    if (cbm2_is_c500()) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         byte = ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
                | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]))
                & ~( (joystick_value[1] & 0x0f)

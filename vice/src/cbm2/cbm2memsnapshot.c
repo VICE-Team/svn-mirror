@@ -35,11 +35,11 @@
 #include "cbm2memsnapshot.h"
 #include "cbm2rom.h"
 #include "log.h"
+#include "machine.h"
 #include "mem.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "types.h"
-
 
 static log_t cbm2_snapshot_log = LOG_ERR;
 
@@ -96,10 +96,10 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     /* ramsize starts counting at 0x10000 if less than 512k */
     effective_ramsize = ramsize;
     effective_start = 0x10000;
-    if (cbm2_isC500 && ramsize < 512) {
+    if ((machine_class == VICE_MACHINE_CBM5x0) && ramsize < 512) {
         effective_ramsize += 64;
     }
-    if (cbm2_isC500 || ramsize >= 512) {
+    if ((machine_class == VICE_MACHINE_CBM5x0) || ramsize >= 512) {
         effective_start = 0;
     }
     memsize = effective_ramsize >> 7;   /* rescale from 1k to 128k */
@@ -110,7 +110,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
              | (cart4_ram ? 8 : 0)
              | (cart6_ram ? 16 : 0)
              | (cartC_ram ? 32 : 0)
-             | (cbm2_isC500 ? 64 : 0);
+             | ((machine_class == VICE_MACHINE_CBM5x0) ? 64 : 0);
 
     SMW_B(m, memsize);
     SMW_B(m, config);
@@ -293,7 +293,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
              | (cart_2_name ? 4 : 0)
              | (cart_4_name ? 8 : 0)
              | (cart_6_name ? 16 : 0)
-             | (cbm2_isC500 ? 32 : 0));
+             | ((machine_class == VICE_MACHINE_CBM5x0) ? 32 : 0));
 
     /* SMW_B(m, save_roms & 3); */
     SMW_B(m, config);
@@ -304,7 +304,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         /* basic */
         SMW_BA(m, mem_rom + 0x8000, 0x4000);
         /* chargen */
-        if (cbm2_isC500) {
+        if ((machine_class == VICE_MACHINE_CBM5x0)) {
             SMW_BA(m, mem_chargen_rom, 0x1000);
         } else {
             SMW_BA(m, mem_chargen_rom, 0x0800);

@@ -46,7 +46,6 @@
 #include "cia.h"
 #include "clkguard.h"
 #include "cmdline.h"
-#include "crtc.h"
 #include "datasette.h"
 #include "debug.h"
 #include "drive-cmdline-options.h"
@@ -79,6 +78,8 @@
 #include "tpi.h"
 #include "traps.h"
 #include "types.h"
+#include "vicii.h"
+#include "vicii-resources.h"
 #include "video.h"
 #include "vsync.h"
 
@@ -97,15 +98,11 @@ char *machine_keymap_file_list[NUM_KEYBOARD_MAPPINGS] = {
 };
 
 const char machine_name[] = "CBM-II";
-int machine_class = VICE_MACHINE_CBM6x0;
+int machine_class = VICE_MACHINE_CBM5x0;
 
 static void machine_vsync_hook(void);
 
-/*
-static long cbm2_cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
-static double cbm2_rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
-static long cbm2_cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
-*/
+#define C500_POWERLINE_CYCLES_PER_IRQ (C500_PAL_CYCLES_PER_RFSH)
 
 static log_t cbm2_log = LOG_ERR;
 static machine_timing_t machine_timing;
@@ -121,7 +118,7 @@ int machine_resources_init(void)
         || machine_video_resources_init() < 0
         || cbm2_resources_init() < 0
         || cartridge_resources_init() < 0
-        || crtc_resources_init() < 0
+        || vicii_resources_init() < 0
         || sound_resources_init() < 0
         || sid_resources_init() < 0
         || drive_resources_init() < 0
@@ -155,7 +152,7 @@ int machine_cmdline_options_init(void)
         || video_init_cmdline_options() < 0
         || cbm2_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0
-        || crtc_cmdline_options_init() < 0
+        || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
         || sid_cmdline_options_init() < 0
         || drive_cmdline_options_init() < 0
@@ -180,14 +177,80 @@ int machine_cmdline_options_init(void)
 #define SIGNAL_VERT_BLANK_ON  tpicore_set_int(machine_context.tpi1, 0, 0);
 
 /* ------------------------------------------------------------------------- */
-/* ... while the other CBM-II use the CRTC retrace signal. */
+/* for the C500 there is a powerline IRQ... */
 
-static void cbm2_crtc_signal(unsigned int signal) {
-    if (signal) {
-        SIGNAL_VERT_BLANK_ON
-    } else {
-        SIGNAL_VERT_BLANK_OFF
+static alarm_t *c500_powerline_clk_alarm = NULL;
+static CLOCK c500_powerline_clk = 0;
+
+static void c500_powerline_clk_alarm_handler(CLOCK offset, void *data) {
+
+    c500_powerline_clk += C500_POWERLINE_CYCLES_PER_IRQ;
+
+    SIGNAL_VERT_BLANK_OFF
+
+    alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
+
+    SIGNAL_VERT_BLANK_ON
+
+}
+
+static void c500_powerline_clk_overflow_callback(CLOCK sub, void *data)
+{
+    c500_powerline_clk -= sub;
+}
+
+
+/*
+ * C500 extra data (state of 50Hz clk)
+ */
+#define C500DATA_DUMP_VER_MAJOR   0
+#define C500DATA_DUMP_VER_MINOR   0
+
+/*
+ * DWORD        IRQCLK          CPU clock ticks until next 50 Hz IRQ
+ *
+ */
+
+static const char module_name[] = "C500DATA";
+
+int cbm2_c500_snapshot_write_module(snapshot_t *p)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(p, module_name, C500DATA_DUMP_VER_MAJOR,
+                               C500DATA_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
+
+    SMW_DW(m, c500_powerline_clk - maincpu_clk);
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int cbm2_c500_snapshot_read_module(snapshot_t *p)
+{
+    BYTE vmajor, vminor;
+    snapshot_module_t *m;
+    DWORD dword;
+
+    m = snapshot_module_open(p, module_name, &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
+
+    if (vmajor != C500DATA_DUMP_VER_MAJOR) {
+        snapshot_module_close(m);
+        return -1;
     }
+
+    SMR_DW(m, &dword);
+    c500_powerline_clk = maincpu_clk + dword;
+    alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
+
+    snapshot_module_close(m);
+
+    return 0;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -238,12 +301,22 @@ int machine_specific_init(void)
     /* initialize print devices */
     printer_init();
 
-    if (crtc_init() == NULL) {
+    if (vicii_init(VICII_STANDARD) == NULL)
         return -1;
-    }
-    crtc_set_retrace_callback(cbm2_crtc_signal);
-    crtc_set_retrace_type(0);
-    crtc_set_hw_options(1, 0x7ff, 0x1000, 512, -0x2000);
+    /*
+    c500_set_phi1_bank(15);
+    c500_set_phi2_bank(15);
+    */
+
+    c500_powerline_clk_alarm = alarm_new(maincpu_alarm_context,
+                                            "C500PowerlineClk",
+                                            c500_powerline_clk_alarm_handler,
+                                            NULL);
+    clk_guard_add_callback(maincpu_clk_guard,
+                            c500_powerline_clk_overflow_callback, NULL);
+    machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
+    machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
+    machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
 
     cia1_init(machine_context.cia1);
     acia1_init();
@@ -290,7 +363,7 @@ int machine_specific_init(void)
         int fs;
         resources_get_int("UseFullscreen", &fs);
         if (fs) {
-            resources_set_int("CRTCFullscreen", 1);
+            resources_set_int("VICIIFullscreen", 1);
         }
     }
 #endif
@@ -307,7 +380,9 @@ void machine_specific_reset(void)
 
     sid_reset();
 
-    crtc_reset();
+    c500_powerline_clk = maincpu_clk + C500_POWERLINE_CYCLES_PER_IRQ;
+    alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
+    vicii_reset();
 
     printer_reset();
 
@@ -333,7 +408,7 @@ void machine_specific_shutdown(void)
     tpicore_shutdown(machine_context.tpi2);
 
     /* close the video chip(s) */
-    crtc_shutdown();
+    vicii_shutdown();
 
     cbm2ui_shutdown();
 }
@@ -394,24 +469,43 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
-static void machine_change_timing_c610(int timeval)
+/* note: function splitted to prepare binary splitting */
+static void machine_change_timing_c500(int timeval)
 {
-    /* log_message(LOG_DEFAULT, "machine_change_timing_c610 %d", timeval); */
+   int border_mode;
+
+    /* log_message(LOG_DEFAULT, "machine_change_timing_c500 %d", timeval); */
+
+    switch (timeval) {
+      default:
+      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+        timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
+        border_mode = VICII_NORMAL_BORDERS;
+        break;
+      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+        timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
+        border_mode = VICII_FULL_BORDERS;
+        break;
+      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+        timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
+        border_mode = VICII_DEBUG_BORDERS;
+        break;
+   }
 
     switch (timeval) {
         case MACHINE_SYNC_PAL:
-            machine_timing.cycles_per_sec = C610_PAL_CYCLES_PER_SEC;
-            machine_timing.cycles_per_rfsh = C610_PAL_CYCLES_PER_RFSH;
-            machine_timing.rfsh_per_sec = C610_PAL_RFSH_PER_SEC;
-            machine_timing.cycles_per_line = C610_PAL_CYCLES_PER_LINE;
-            machine_timing.screen_lines = C610_PAL_SCREEN_LINES;
+            machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C500_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C500_PAL_SCREEN_LINES;
             break;
         case MACHINE_SYNC_NTSC:
-            machine_timing.cycles_per_sec = C610_NTSC_CYCLES_PER_SEC;
-            machine_timing.cycles_per_rfsh = C610_NTSC_CYCLES_PER_RFSH;
-            machine_timing.rfsh_per_sec = C610_NTSC_RFSH_PER_SEC;
-            machine_timing.cycles_per_line = C610_NTSC_CYCLES_PER_LINE;
-            machine_timing.screen_lines = C610_NTSC_SCREEN_LINES;
+            machine_timing.cycles_per_sec = C500_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C500_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C500_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C500_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C500_NTSC_SCREEN_LINES;
             break;
         default:
             log_error(LOG_DEFAULT, "Unknown machine timing.");
@@ -422,12 +516,13 @@ static void machine_change_timing_c610(int timeval)
     drive_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
+    vicii_change_timing(&machine_timing, border_mode);
     cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_rfsh);
 }
 
 void machine_change_timing(int timeval)
 {
-    machine_change_timing_c610(timeval);
+    machine_change_timing_c500(timeval);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */
@@ -473,19 +568,18 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
-    if (canvas == crtc_get_canvas()) {
-        crtc_screenshot(screenshot);
+    if (canvas == vicii_get_canvas()) {
+        vicii_screenshot(screenshot);
         return 0;
     }
-
     return -1;
 }
 
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas == crtc_get_canvas()) {
-        crtc_async_refresh(refresh);
+    if (canvas == vicii_get_canvas()) {
+        vicii_async_refresh(refresh);
         return 0;
     }
     return -1;
@@ -516,7 +610,7 @@ int machine_addr_in_ram(unsigned int addr)
 
 const char *machine_get_name(void)
 {
-    return (machine_class == VICE_MACHINE_CBM6x0) ? machine_name : "CBM-II-5x0";
+    return "CBM-II-5x0";
 }
 
 #ifdef USE_SDLUI
@@ -524,14 +618,3 @@ const char *machine_get_name(void)
 const char **csidmodel = NULL;
 void psid_init_driver(void) {}
 #endif
-
-/* FIXME: further rework snapshot stuff and remove these */
-int cbm2_c500_snapshot_write_module(snapshot_t *p)
-{
-    return 0;
-}
-
-int cbm2_c500_snapshot_read_module(snapshot_t *p)
-{
-    return 0;
-}

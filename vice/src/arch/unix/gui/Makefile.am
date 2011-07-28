@@ -40,6 +40,8 @@ libarchgui_a_SOURCES = \
 	uic64dtv.c \
 	uic64dtv.h \
 	uicartridge.h \
+	uicbm2cart.c \
+	uicbm2cart.h \
 	uicmdline.c \
 	uicommands.c \
 	uicommands.h \
@@ -139,6 +141,8 @@ libarchgui_a_SOURCES = \
 	uiprinterieee.h \
 	uips2mouse.c \
 	uips2mouse.h \
+	uiram.c \
+	uiram.h \
 	uiramcart.c \
 	uiramcart.h \
 	uiretroreplay.c \

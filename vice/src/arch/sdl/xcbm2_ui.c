@@ -34,6 +34,7 @@
 #include "cbm2.h"
 #include "cbm2mem.h"
 #include "lib.h"
+#include "machine.h"
 #include "menu_cbm2cart.h"
 #include "menu_cbm2hw.h"
 #include "menu_common.h"
@@ -270,7 +271,7 @@ int cbm2ui_init(void)
     cbm2_font_14 = lib_malloc(14 * 256);
     cbm2_font_8 = lib_malloc(8 * 256);
 
-    if (cbm2_is_c500()) {
+    if (machine_class == VICE_MACHINE_CBM5x0) {
         sdl_ui_set_menu_params = NULL;
         sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
         sdl_ui_set_main_menu(xcbm5x0_main_menu);

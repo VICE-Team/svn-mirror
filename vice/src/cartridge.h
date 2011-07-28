@@ -355,6 +355,16 @@ extern void cartridge_sound_chip_init(void);
 
 #define CARTRIDGE_PLUS4_NEWROM          0x8207 /* c0lo,c0hi,c1lo (48k) */
 
+/*
+ * cbm2 cartridge system
+ */
+/* #define CARTRIDGE_NONE               -1 */
+/* #define CARTRIDGE_CBM2_DETECT          0x9000 */ /* not implemented yet */
+#define CARTRIDGE_CBM2_8KB_1000        0x9001
+#define CARTRIDGE_CBM2_8KB_2000        0x9002
+#define CARTRIDGE_CBM2_16KB_4000       0x9004
+#define CARTRIDGE_CBM2_16KB_6000       0x9008
+
 /* FIXME: cartconv: the sizes are used in a bitfield and also by their absolute values */
 #define CARTRIDGE_SIZE_4KB     0x00001000
 #define CARTRIDGE_SIZE_8KB     0x00002000
