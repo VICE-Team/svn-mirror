@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-07-22 13:50-0600\n"
-"PO-Revision-Date: 2011-06-26 12:44+0200\n"
+"PO-Revision-Date: 2011-07-30 21:55+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -506,9 +506,8 @@ msgid "Save media file"
 msgstr "Media Image speichern"
 
 #: src/arch/unix/gui/c64dtvui.c:149 src/arch/unix/gui/c64dtvui.c:282
-#, fuzzy
 msgid "DTV model"
-msgstr "SID Modell"
+msgstr "DTV Modell"
 
 #: src/arch/unix/gui/c64dtvui.c:152 src/arch/win32/resc64dtv.rc.po.c:437
 #: src/arch/amigaos/intl_text.c.po.c:4265
@@ -869,29 +868,24 @@ msgid "Load new 3 plus 1 HI ROM"
 msgstr "Lade neues `3 plus 1' HI ROM"
 
 #: src/arch/unix/gui/plus4ui.c:157
-#, fuzzy
 msgid "Load new c1 LO ROM"
-msgstr "Basic Lo ROM laden"
+msgstr "Neues c1 LO ROM laden"
 
 #: src/arch/unix/gui/plus4ui.c:159
-#, fuzzy
 msgid "Load new c1 HI ROM"
-msgstr "Basic Hi ROM laden"
+msgstr "Neues c1 HI ROM laden"
 
 #: src/arch/unix/gui/plus4ui.c:161
-#, fuzzy
 msgid "Load new c2 LO ROM"
-msgstr "Basic Lo ROM laden"
+msgstr "Neues c2 LO ROM laden"
 
 #: src/arch/unix/gui/plus4ui.c:163
-#, fuzzy
 msgid "Load new c2 HI ROM"
-msgstr "Basic Hi ROM laden"
+msgstr "Neues c2 HI ROM laden"
 
 #: src/arch/unix/gui/plus4ui.c:253
-#, fuzzy
 msgid "ACIA"
-msgstr "ACIA Modus"
+msgstr "ACIA"
 
 #: src/arch/unix/gui/plus4ui.c:255 src/arch/amigaos/intl_text.c.po.c:6978
 msgid "Digiblaster add-on"
@@ -1084,9 +1078,8 @@ msgid "Autostart warp"
 msgstr "Autostart Warp"
 
 #: src/arch/unix/gui/uiautostart.c:68
-#, fuzzy
 msgid "Autostart random delay"
-msgstr "Autostart Disk Image"
+msgstr "Autostart Zufallsverzögerung"
 
 #: src/arch/unix/gui/uiautostart.c:70 src/arch/win32/resautostart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:8310
@@ -1551,9 +1544,8 @@ msgid "Double size"
 msgstr "Doppelte Größe"
 
 #: src/arch/unix/gui/uicrtc.c:143 src/arch/unix/gui/uivdc.c:160
-#, fuzzy
 msgid "Stretch vertically"
-msgstr "Vertical anordnen"
+msgstr "Vertikal dehnen"
 
 #: src/arch/unix/gui/uicrtc.c:145 src/arch/unix/gui/uited.c:132
 #: src/arch/unix/gui/uivdc.c:162 src/arch/unix/gui/uivic.c:131
@@ -1578,9 +1570,8 @@ msgstr "Farben"
 #: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:140
 #: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:139
 #: src/arch/unix/gui/uivicii.c:177
-#, fuzzy
 msgid "Color settings"
-msgstr "Modell Einstellungen"
+msgstr "Farb Einstellungen"
 
 #: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:144
 #: src/arch/unix/gui/uivdc.c:174 src/arch/unix/gui/uivic.c:143
@@ -2236,9 +2227,8 @@ msgstr "Version 4"
 
 #: src/arch/unix/gui/uiide64.c:180 src/arch/unix/gui/uiide64.c:199
 #: src/arch/unix/gui/uiide64.c:218 src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "HD image name"
-msgstr "HD Image 1 Name"
+msgstr "HD Image Name"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2253,24 +2243,20 @@ msgid "Revision"
 msgstr "Revision"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "HD 1 settings"
-msgstr "VDC Einstellungen"
+msgstr "HD 1 Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "HD 2 settings"
-msgstr "VDC Einstellungen"
+msgstr "HD 2 Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "HD 3 settings"
-msgstr "VDC Einstellungen"
+msgstr "HD 3 Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "HD 4 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "HD 4 Einstellungen"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2758,9 +2744,8 @@ msgid "Odd lines offset"
 msgstr "Ungerader Zeilenoffset"
 
 #: src/arch/unix/gui/uipalemu.c:93
-#, fuzzy
 msgid "in percent"
-msgstr "prozent"
+msgstr "in prozent"
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
@@ -2968,7 +2953,6 @@ msgstr "Drucker #4 Emulation"
 
 #: src/arch/unix/gui/uiprinteriec.c:42
 #: src/arch/unix/gui/uiprinteriecplus4.c:41
-#, fuzzy
 msgid "Printer #4 enable IEC device"
 msgstr "IEC Drucker #4 aktivieren"
 
@@ -2981,16 +2965,14 @@ msgstr "Drucker #4 Treiber"
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 text output device"
-msgstr "Drucker #4 Ausgabegerät"
+msgstr "Drucker #4 Text Ausgabegerät"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
 #: src/arch/unix/gui/uiprinterieee.c:45
-#, fuzzy
 msgid "Printer #4 formfeed"
-msgstr "IEC Drucker #4 Seitenvorschub"
+msgstr "Drucker #4 Seitenvorschub"
 
 #: src/arch/unix/gui/uiprinteriec.c:52
 #: src/arch/unix/gui/uiprinteriecplus4.c:51
@@ -3000,7 +2982,6 @@ msgstr "Drucker #5 Emulation"
 
 #: src/arch/unix/gui/uiprinteriec.c:54
 #: src/arch/unix/gui/uiprinteriecplus4.c:53
-#, fuzzy
 msgid "Printer #5 enable IEC device"
 msgstr "IEC Drucker #5 aktivieren"
 
@@ -3013,16 +2994,14 @@ msgstr "Drucker #5 Treiber"
 #: src/arch/unix/gui/uiprinteriec.c:58
 #: src/arch/unix/gui/uiprinteriecplus4.c:57
 #: src/arch/unix/gui/uiprinterieee.c:53
-#, fuzzy
 msgid "Printer #5 text output device"
-msgstr "Drucker #5 Ausgabegerät"
+msgstr "Drucker #5 Text Ausgabegerät"
 
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 formfeed"
-msgstr "IEC Drucker #5 Seitenvorschub"
+msgstr "Drucker #5 Seitenvorschub"
 
 #: src/arch/unix/gui/uiprinteriec.c:64 src/arch/unix/gui/uiprinterieee.c:59
 #: src/arch/amigaos/intl_text.c.po.c:5874
@@ -6549,29 +6528,24 @@ msgid "Save GEO-RAM image when changed"
 msgstr "GEO-RAM Imagedatei bei Änderung speichern"
 
 #: src/arch/win32/reside64.rc.po.c:54
-#, fuzzy
 msgid "IDE64 V4 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 V4 Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 HD image #1 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD Image #1 Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 HD image #2 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD Image #2 Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 HD image #3 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD Image #3 Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 HD image #4 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD Image #4 Einstellungen"
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
@@ -7599,24 +7573,20 @@ msgid "Speed Adjustment"
 msgstr "Geschwindigkeitsanpassung"
 
 #: src/arch/amigaos/intl_text.c.po.c:6522
-#, fuzzy
 msgid "IDE64 HD 1 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD 1 Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6534
-#, fuzzy
 msgid "IDE64 HD 2 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD 2 Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6546
-#, fuzzy
 msgid "IDE64 HD 3 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD 3 Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6558
-#, fuzzy
 msgid "IDE64 HD 4 settings"
-msgstr "IDE64 Einstellungen"
+msgstr "IDE64 HD 4 Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:6570
 msgid "IDE64 V4"
@@ -8429,7 +8399,6 @@ msgid "cond_expr"
 msgstr "bedingter Ausdruck"
 
 #: src/translate_text.c.po.c:1780
-#, fuzzy
 msgid ""
 "Set a breakpoint, If no address is given, the currently valid break-\n"
 "points are printed.\n"
@@ -8441,12 +8410,17 @@ msgid ""
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
 msgstr ""
-"Wenn keine Adresse angegeben wurde, werden die aktuellen watchpoints "
-"gezeigt.\n"
-"Wenn eine Adresse angegebene wurde, wird ein breakpoint auf diese Adresse\n"
-"gesetzt und die breakpoint Nummer wird ausgegeben. Ein bedingter Ausdruck\n"
-"can zu dem breakpoint zugeordnet werden. Für mehr Informations über \n"
-"bedingte Ausdrücke, bitte Kommando CONDITION ansehen."
+"Setze einen Breakpoint. Wenn keine Adresse angegeben wurde, werden die\n"
+"aktuellen gültigen Breakpoints gezeigt. \n"
+"Wenn eine Adresse angegebene wurde, wird ein Breakpoint auf diese Adresse\n"
+"gesetzt und die Breakpoint Nummer wird ausgegeben.\n"
+"`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\n"
+"Kombination) und dient zur Angabe, bei welcher Operation der Monitor\n"
+"anhalten soll. Wenn keine Angabe gemacht wird, stoppt der Monitor bei\n"
+"`exec'.\n"
+"Ein bedingter Ausdruck kann zu Breakpoints zugeordnet werden. Für\n"
+"mehr Informations über bedingte Ausdrücke, bitte Kommando CONDITION\n"
+"ansehen."
 
 #: src/translate_text.c.po.c:1810
 msgid ""
@@ -8514,12 +8488,10 @@ msgstr ""
 "Der Breakpoint wird gelöscht, wenn er einmal getroffen wurde."
 
 #: src/translate_text.c.po.c:1902
-#, fuzzy
 msgid "load|store|exec"
-msgstr "loadstore"
+msgstr "load|store|exec"
 
 #: src/translate_text.c.po.c:1919
-#, fuzzy
 msgid ""
 "Set a watchpoint. If no address is given, the currently valid watch-\n"
 "points are printed. If a single address is specified, set a watchpoint\n"
@@ -8532,12 +8504,14 @@ msgstr ""
 "Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \n"
 "den Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
 "setze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n"
-"`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \n"
-"bei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \n"
-"hält der Monitor bei beiden Operationen an."
+"`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\n"
+"Kombination) und dient zur Angabe, bei welcher Operation der Monitor\n"
+"anhalten soll. Wenn keine Angabe gemacht wird, stoppt der Monitor bei\n"
+"`exec'.\n"
+"Wenn keine Angabe gemacht wurde, hält der Monitor bei bei `load' und\n"
+"`store' Operationen an.\n"
 
 #: src/translate_text.c.po.c:1936
-#, fuzzy
 msgid ""
 "Set a tracepoint. If no address is given, the currently valid trace-\n"
 "points are printed. If a single address is specified, set a tracepoint\n"
@@ -8547,12 +8521,15 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor traces all three operations.\n"
 msgstr ""
-"Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \n"
-"den Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \n"
-"setze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n"
-"`loadstore' ist entweder `load' oder `store' und bezeichnet die Operation, \n"
-"bei welcher der Monitor anhalten soll. Wenn keine Angabe gemacht wurde, \n"
-"hält der Monitor bei beiden Operationen an."
+"Setze einen Tracepoint. Wenn keine Adresse angegeben wird, werden die\n"
+"aktuellen gültigen Tracepoints ausgegeben. Wenn eine einzelne Adresse\n"
+"angegeben wurde, setze den Watchpoint für diese Adresse. Wenn zwei\n"
+"Adressen angegeben wurden, setze den Watchpoint auf die Adressen\n"
+"zwischen den beiden Adressen.\n"
+"`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\n"
+"Kombination) und dient zur Angabe, bei welcher Operation der Monitor\n"
+"anhalten soll. Wenn keine Angabe gemacht wird, beobachtet der Monitor\n"
+"alle Operationen.\n"
 
 #: src/translate_text.c.po.c:1951
 msgid "Monitor state commands"
@@ -8847,17 +8824,15 @@ msgstr "Disk Imagedatei für Autstart definieren"
 
 #: src/translate_text.c.po.c:2793
 msgid "Set initial autostart delay (0: use default)"
-msgstr ""
+msgstr "Setze initiale Autostart Verzögerung (0: benutze Standard)"
 
 #: src/translate_text.c.po.c:2808
-#, fuzzy
 msgid "Enable random initial autostart delay."
-msgstr "Warp Mode während Autostart aktivieren"
+msgstr "Zufälle Verzögerung während Autostart aktivieren,"
 
 #: src/translate_text.c.po.c:2823
-#, fuzzy
 msgid "Disable random initial autostart delay."
-msgstr "Warp Mode währen Autostart deaktivieren"
+msgstr "Zufälle Verzögerung während Autostart deaktivieren."
 
 #: src/translate_text.c.po.c:2838
 msgid "Use PAL sync factor"
@@ -8956,14 +8931,12 @@ msgid "Disable the ACIA RS232 interface emulation"
 msgstr "ACIA RS232 Schnittstellen-Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:3245
-#, fuzzy
 msgid "Enable the ACIA emulation"
-msgstr "MIDI Emulation aktivieren"
+msgstr "ACIA Emulation aktivieren"
 
 #: src/translate_text.c.po.c:3260
-#, fuzzy
 msgid "Disable the ACIA emulation"
-msgstr "MIDI Emulation deaktivieren"
+msgstr "ACIA Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:3291
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -9029,11 +9002,11 @@ msgstr "Wähle C64 Modell (c64/c64c/c64alt/c64ntsc/c64cntsc/c64oldntsc/drean)"
 msgid ""
 "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
 "c232)"
-msgstr ""
+msgstr "Setze Plus4 Modell (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"
 
 #: src/translate_text.c.po.c:3592
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
-msgstr ""
+msgstr "Setze DTV Modell (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
 
 #: src/translate_text.c.po.c:3607
 msgid "Specify name of Kernal ROM image"
@@ -9399,9 +9372,8 @@ msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr "16kB KCS Power Cartridge Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:5396
-#, fuzzy
 msgid "Attach raw 24kB Kingsoft cartridge image"
-msgstr "4kB Snapshot 64 Image (raw) einlegen"
+msgstr "24kB Kingsoft Image einlegen"
 
 #: src/translate_text.c.po.c:5411
 msgid "Attach raw 8kB MACH 5 cartridge image"
@@ -10019,14 +9991,12 @@ msgid "Specify name of printer text device or dump file"
 msgstr "Name für Druckerausgabe Textgerät oder Dump Datei definieren"
 
 #: src/translate_text.c.po.c:7800
-#, fuzzy
 msgid "Specify printer text output device for printer #4"
-msgstr "IEC Drucker #4 Gerät für Textausgabe definieren"
+msgstr "Drucker #4 Gerät für Textausgabe definieren"
 
 #: src/translate_text.c.po.c:7815
-#, fuzzy
 msgid "Specify printer text output device for printer #5"
-msgstr "IEC Drucker #5 Gerät für Textausgabe definieren"
+msgstr "Drucker #5 Gerät für Textausgabe definieren"
 
 #: src/translate_text.c.po.c:7830
 msgid "Specify printer text output device for userport printer"
@@ -10218,11 +10188,11 @@ msgstr "reSID Gain in Prozent (90 - 100)"
 
 #: src/translate_text.c.po.c:8504
 msgid "Enable additional vertical stretching."
-msgstr ""
+msgstr "Aktiviere zusätzliche Vertikalstreckung."
 
 #: src/translate_text.c.po.c:8519
 msgid "Disable additional vertical stretching."
-msgstr ""
+msgstr "Deaktiviere zusätzliche Vertikalstreckung."
 
 #: src/translate_text.c.po.c:8534
 msgid "Set the VDC memory size to 16KB"
@@ -10358,7 +10328,7 @@ msgstr "Hardwareunterstützung für Skalierung deaktivieren"
 
 #: src/translate_text.c.po.c:9074
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr ""
+msgstr "Wähle Rendering Filter, 0:kein, 1:CRT Emulation, 2: Scale2x"
 
 #: src/translate_text.c.po.c:9089
 msgid "Use an internal calculated palette"
