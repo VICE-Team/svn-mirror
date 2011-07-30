@@ -23,6 +23,14 @@
  *  02111-1307  USA.
  * */
 
+/* #define DEBUG_CIA1 */
+
+#ifdef DEBUG_CIA1
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -46,12 +54,29 @@
 
 void cia1_store(WORD addr, BYTE data)
 {
+#ifdef DEBUG_CIA1
+    if (!((addr >= 0x08) && (addr <= 0x0b))) {
+        DBG(("cia1_store: %04x %02x", addr, data));
+    }
+#endif
     ciacore_store(machine_context.cia1, addr, data);
 }
 
 BYTE cia1_read(WORD addr)
 {
+#ifdef DEBUG_CIA1
+    static int olddata, oldaddr;
+    BYTE data;
+    data = ciacore_read(machine_context.cia1, addr);
+/*    if (!((addr >= 0x08) && (addr <= 0x0b))) { */
+    if ((oldaddr != addr) || (olddata != data)) { 
+        DBG(("cia1_read: %04x %02x", addr, data));
+        oldaddr = addr; olddata = data;
+    }
+    return data;
+#else
     return ciacore_read(machine_context.cia1, addr);
+#endif
 }
 
 BYTE cia1_peek(WORD addr)
@@ -75,7 +100,6 @@ static void cia_restore_int(cia_context_t *cia_context, int value)
 
 #define cycles_per_sec               machine_get_cycles_per_second()
 
-
 static int cia1_ieee_is_output;
 
 void cia1_set_ieee_dir(cia_context_t *cia_context, int isout)
@@ -87,7 +111,6 @@ void cia1_set_ieee_dir(cia_context_t *cia_context, int isout)
         parallel_cpu_set_bus(0xff);
     }
 }
-
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
@@ -192,6 +215,12 @@ void cia1_init(cia_context_t *cia_context)
                  maincpu_int_status, maincpu_clk_guard);
 }
 
+void cia1_set_timing(cia_context_t *cia_context, int todticks)
+{
+    DBG(("cia1_set_timing: %d ticks", todticks));
+    cia_context->todticks = todticks;
+}
+
 void cia1_setup_context(machine_context_t *machine_context)
 {
     cia_context_t *cia;
@@ -205,7 +234,12 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->rmw_flag = &maincpu_rmw_flag;
     cia->clk_ptr = &maincpu_clk;
 
-    cia->todticks = C610_NTSC_CYCLES_PER_RFSH; /* FIXME */
+    if (machine_class == VICE_MACHINE_CBM5x0) {
+        cia1_set_timing(cia, C500_NTSC_CYCLES_PER_RFSH);
+    } else {
+        cia1_set_timing(cia, C610_NTSC_CYCLES_PER_RFSH);
+    }
+    cia->model = CIA_MODEL_6526;
 
     ciacore_setup_context(cia);
 
@@ -231,7 +265,3 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->pre_peek = NULL;
 }
 
-void cia1_set_timing(cia_context_t *cia_context, int todticks)
-{
-    cia_context->todticks = todticks;
-}
