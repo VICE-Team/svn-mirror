@@ -28,6 +28,14 @@
  *
  */
 
+/* #define DEBUG_CIA */
+
+#ifdef DEBUG_CIA
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -1039,7 +1047,7 @@ void ciacore_set_sdr(cia_context_t *cia_context, BYTE data)
 
 static void ciacore_inttod(CLOCK offset, void *data)
 {
-    int t, pm, update = 0;
+    int t0, t1, t2, t3, t4, t5, t6, pm, update = 0;
     CLOCK rclk;
     cia_context_t *cia_context = (cia_context_t *)data;
 
@@ -1065,38 +1073,73 @@ static void ciacore_inttod(CLOCK offset, void *data)
     }
 
     if (update) {
-        /* inc timer */
-        t = bcd2byte(cia_context->c_cia[CIA_TOD_TEN]);
-        t++;
-        cia_context->c_cia[CIA_TOD_TEN] = byte2bcd(t % 10);
-        if (t >= 10) {
-            t = bcd2byte(cia_context->c_cia[CIA_TOD_SEC]);
-            t++;
-            cia_context->c_cia[CIA_TOD_SEC] = byte2bcd(t % 60);
-            if (t >= 60) {
-                t = bcd2byte(cia_context->c_cia[CIA_TOD_MIN]);
-                t++;
-                cia_context->c_cia[CIA_TOD_MIN] = byte2bcd(t % 60);
-                if (t >= 60) {
-                    pm = cia_context->c_cia[CIA_TOD_HR] & 0x80;
-                    t = cia_context->c_cia[CIA_TOD_HR] & 0x1f;
-                    if (t == 0x11) {
-                        pm ^= 0x80;     /* toggle am/pm on 0:59->1:00 hr */
+        /* advance the counters.
+         * - individual counters are all 4 bit
+         */
+        t0 = cia_context->c_cia[CIA_TOD_TEN] & 0x0f;
+        t1 = cia_context->c_cia[CIA_TOD_SEC] & 0x0f;
+        t2 = (cia_context->c_cia[CIA_TOD_SEC] >> 4) & 0x0f;
+        t3 = cia_context->c_cia[CIA_TOD_MIN] & 0x0f;
+        t4 = (cia_context->c_cia[CIA_TOD_MIN] >> 4) & 0x0f;
+        t5 = cia_context->c_cia[CIA_TOD_HR] & 0x0f;
+        t6 = (cia_context->c_cia[CIA_TOD_HR] >> 4) & 0x01;
+        pm = cia_context->c_cia[CIA_TOD_HR] & 0x80;
+
+        /* tenth seconds (0-9) */
+        t0 = (t0 + 1) & 0x0f;
+        if ((t0 == 0) || (t0 == 10)) {
+            t0 = 0;
+            /* seconds (0-59) */
+            t1 = (t1 + 1) & 0x0f;
+            if ((t1 == 0) || (t1 == 10)) {
+                t1 = 0;
+                t2 = (t2 + 1) & 0x0f;
+                if ((t2 == 0) || (t2 == 6)) {
+                    t2 = 0;
+                    /* minutes (0-59) */
+                    t3 = (t3 + 1) & 0x0f;
+                    if ((t3 == 0) || (t3 == 10)) {
+                        t3 = 0;
+                        t4 = (t4 + 1) & 0x0f;
+                        if ((t4 == 0) || (t4 == 6)) {
+                            t4 = 0;
+                            /* hours (1-12) */
+                            t5 = (t5 + 1) & 0x0f;
+                            if (t6) {
+                                if (t5 == 3) {
+                                    t5 = 1;
+                                    t6 = 0;
+                                    pm ^= 0x80;     /* toggle am/pm on 0:59->1:00 hr */
+                                }
+                            } else {
+                                if (t5 == 10) {
+                                    t5 = 0;
+                                    t6 = 1;
+                                }
+                            }
+                        }
                     }
-                    if (t == 0x12) {
-                        t = 1;
-                    } else {
-                        if (++t == 10)
-                            t = 0x10; /* increment, adjust bcd */
-                    }
-                    t &= 0x1f;
-                    cia_context->c_cia[CIA_TOD_HR] = t | pm;
                 }
             }
         }
+
+        DBG(("ciacore_inttod [%s %02x:%02x:%02x.%x0]->[%s %x%x:%x%x:%x%x.%x0]\n",
+            cia_context->c_cia[CIA_TOD_HR] & 0x80 ? "pm" : "am", 
+            cia_context->c_cia[CIA_TOD_HR] & 0x7f,
+            cia_context->c_cia[CIA_TOD_MIN],
+            cia_context->c_cia[CIA_TOD_SEC],
+            cia_context->c_cia[CIA_TOD_TEN],
+            pm ? "pm" : "am", t6, t5, t4, t3, t2, t1, t0));
+
+        cia_context->c_cia[CIA_TOD_TEN] = t0;
+        cia_context->c_cia[CIA_TOD_SEC] = t1 | (t2 << 4);
+        cia_context->c_cia[CIA_TOD_MIN] = t3 | (t4 << 4);
+        cia_context->c_cia[CIA_TOD_HR] = t5 | (t6 << 4) | pm;
+
         /* check alarm */
         check_ciatodalarm(cia_context, rclk);
     }
+
 }
 
 void ciacore_setup_context(cia_context_t *cia_context)
