@@ -563,9 +563,9 @@
 				<key>ASIC glue logic</key>
 				<string>GlueLogic,b</string>
 				<key>CIA 1 Model</key>
-				<string>CIA1Model,e,6526 (old),6526A (new),6526x (old timer B bug)</string>
+				<string>CIA1Model,e,6526 (old),6526A (new)</string>
 				<key>CIA 2 Model</key>
-				<string>CIA2Model,e,6526 (old),6526A (new),6526x (old timer B bug)</string>
+				<string>CIA2Model,e,6526 (old),6526A (new)</string>
 			</dict>
 		</dict>
 		<key>_C64_C64DTV_CBM-II_PET_VIC20_</key>
