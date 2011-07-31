@@ -230,9 +230,11 @@ build_vice () {
     BUILD_ARCH2="powerpc"
   fi
   local BUILD_TAG="$BUILD_ARCH-$BUILD_SDK_VERSION-$BUILD_COMPILER"
+  local HOST_TAG="`uname -p`-$BUILD_SDK_VERSION-$BUILD_COMPILER"
 
   echo
-  echo "----- Bulding VICE [$BUILD_ARCH-$BUILD_SDK_VERSION-$COMPILER] -----"
+  echo "----- Bulding VICE [$BUILD_TAG] -----"
+  echo "  host:         $HOST_TAG"
   echo "  sdk path:     $BUILD_SDK"
   echo "  c compiler:   $BUILD_CC"
   echo "  c++ compiler: $BUILD_CXX"
@@ -248,7 +250,7 @@ build_vice () {
   cd "$BUILD_DIR/$BUILD_ARCH"
   set -x
   env \
-    PATH="$EXTLIB_DIR/$BUILD_TAG/bin:$PATH" \
+    PATH="$EXTLIB_DIR/$HOST_TAG/bin:$PATH" \
     CPPFLAGS="-I$EXTLIB_DIR/$BUILD_TAG/include" \
     CFLAGS="$COMMON_CFLAGS" \
     OBJCFLAGS="$COMMON_CFLAGS" \
@@ -339,9 +341,13 @@ fix_ref () {
 
 # setup SDK paths
 SDK_BASE=/Developer/SDKs
+SDK_BASE_OLD=/Developer3/SDKs
+if [ ! -d "$SDK_BASE_OLD" ]; then
+  SDK_BASE_OLD="$SDK_BASE"
+fi
 case "$SDK_VERSION" in
-10.4) SDK_PATH=$SDK_BASE/MacOSX10.4u.sdk;;
-10.5) SDK_PATH=$SDK_BASE/MacOSX10.5.sdk;;
+10.4) SDK_PATH=$SDK_BASE_OLD/MacOSX10.4u.sdk;;
+10.5) SDK_PATH=$SDK_BASE_OLD/MacOSX10.5.sdk;;
 10.6) SDK_PATH=$SDK_BASE/MacOSX10.6.sdk;;
 esac
 if [ ! -d "$SDK_PATH" ]; then
@@ -350,16 +356,21 @@ if [ ! -d "$SDK_PATH" ]; then
 fi
 
 # setup compiler
+GCC_BASE=/Developer/usr/bin
+GCC_BASE_OLD=/Developer3/usr/bin
+if [ ! -d "$GCC_BASE_OLD" ]; then
+  GCC_BASE_OLD="$GCC_BASE"
+fi
 case "$COMPILER" in
 gcc40) 
-  BUILD_CC=/usr/bin/gcc-4.0
-  BUILD_CXX=/usr/bin/g++-4.0;;
+  BUILD_CC=$GCC_BASE_OLD/gcc-4.0
+  BUILD_CXX=$GCC_BASE_OLD/g++-4.0;;
 gcc42)
-  BUILD_CC=/usr/bin/gcc-4.2
-  BUILD_CXX=/usr/bin/g++-4.2;;
+  BUILD_CC=$GCC_BASE/gcc-4.2
+  BUILD_CXX=$GCC_BASE/g++-4.2;;
 clang)
-  BUILD_CC=/Developer/usr/bin/clang
-  BUILD_CXX=/Developer/usr/bin/llvm-g++-4.2;;
+  BUILD_CC=$GCC_BASE/clang
+  BUILD_CXX=$GCC_BASE/llvm-g++-4.2;;
 esac
 if [ ! -x "$BUILD_CC" ]; then
   echo "ERROR: C compiler not found: $BUILD_CC"
