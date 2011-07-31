@@ -100,24 +100,60 @@
 				</dict>
 				<key>IDE64</key>
 				<dict>
+					<key>Drive 1</key>
+					<dict>
+						<key>Sectors</key>
+						<string>IDE64Sectors1,i</string>
+						<key>Heads</key>
+						<string>IDE64Heads1,i</string>
+						<key>Cylinders</key>
+						<string>IDE64Cylinders1,i</string>
+						<key>Autodetect Size</key>
+						<string>IDE64AutodetectSize1,b</string>
+						<key>HD Image File</key>
+						<string>IDE64Image1,fs</string>
+					</dict>
+					<key>Drive 2</key>
+					<dict>
+						<key>Sectors</key>
+						<string>IDE64Sectors2,i</string>
+						<key>Heads</key>
+						<string>IDE64Heads2,i</string>
+						<key>Cylinders</key>
+						<string>IDE64Cylinders2,i</string>
+						<key>Autodetect Size</key>
+						<string>IDE64AutodetectSize2,b</string>
+						<key>HD Image File</key>
+						<string>IDE64Image2,fs</string>
+					</dict>
+					<key>Drive 3</key>
+					<dict>
+						<key>Sectors</key>
+						<string>IDE64Sectors3,i</string>
+						<key>Heads</key>
+						<string>IDE64Heads3,i</string>
+						<key>Cylinders</key>
+						<string>IDE64Cylinders3,i</string>
+						<key>Autodetect Size</key>
+						<string>IDE64AutodetectSize3,b</string>
+						<key>HD Image File</key>
+						<string>IDE64Image3,fs</string>
+					</dict>
+					<key>Drive 4</key>
+					<dict>
+						<key>Sectors</key>
+						<string>IDE64Sectors4,i</string>
+						<key>Heads</key>
+						<string>IDE64Heads4,i</string>
+						<key>Cylinders</key>
+						<string>IDE64Cylinders4,i</string>
+						<key>Autodetect Size</key>
+						<string>IDE64AutodetectSize4,b</string>
+						<key>HD Image File</key>
+						<string>IDE64Image4,fs</string>
+					</dict>
 					<key>Version 4</key>
 					<string>IDE64Version4,b</string>
-					<key>Autodetect Size</key>
-					<string>IDE64AutodetectSize,b</string>
-					<key>Cylinders</key>
-					<string>IDE64Cylinders,i</string>
-					<key>HD Image File 1</key>
-					<string>IDE64Image1,fs</string>
-					<key>HD Image File 2</key>
-					<string>IDE64Image2,fs</string>
-					<key>HD Image File 3</key>
-					<string>IDE64Image3,fs</string>
-					<key>HD Image File 4</key>
-					<string>IDE64Image4,fs</string>
-					<key>Heads</key>
-					<string>IDE64Heads,i</string>
-					<key>Sectors</key>
-					<string>IDE64Sectors,i</string>
 				</dict>
 				<key>MIDI</key>
 				<dict>
