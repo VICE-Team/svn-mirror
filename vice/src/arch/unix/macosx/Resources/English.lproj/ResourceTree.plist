@@ -28,8 +28,7 @@
 			<key>Device 4 Baud Rate</key>
 			<string>RsDevice4Baud,E,300,1200,2400,9600,19200,38400,57600,115200</string>
 		</dict>
-		<key>_C128_C64_CBM-II_PET_PLUS4_VIC20_
-</key>
+		<key>_C128_C64_CBM-II_PET_PLUS4_VIC20_</key>
 		<dict>
 			<key>Datasette</key>
 			<dict>
@@ -39,6 +38,17 @@
 				<string>DatasetteSpeedTuning,E,0,1,2,3,4,5,6,7</string>
 				<key>Zero Gap Delay</key>
 				<string>DatasetteZeroGapDelay,E,1000,2000,5000,10000,20000,50000,100000</string>
+			</dict>
+		</dict>
+		<key>_C128_</key>
+		<dict>
+			<key>Cartridges</key>
+			<dict>
+				<key>ACIA</key>
+				<dict>
+					<key>Base</key>
+					<string>Acia1Base,E,$d700,$de00,$df00</string>
+				</dict>
 			</dict>
 		</dict>
 		<key>_C128_VIC20_</key>
@@ -298,6 +308,11 @@
 					<key>Image File</key>
 					<string>C64_256Kfilename,fs</string>
 				</dict>
+				<key>ACIA</key>
+				<dict>
+					<key>Base</key>
+					<string>Acia1Base,E,$de00,$df00</string>
+				</dict>
 				<key>Double Quick Brown Box</key>
 				<dict>
 					<key>Write Image</key>
@@ -370,6 +385,11 @@
 		<dict>
 			<key>Cartridges</key>
 			<dict>
+				<key>ACIA</key>
+				<dict>
+					<key>Base</key>
+					<string>Acia1Base,E,$9800,$9c00</string>
+				</dict>
 				<key>MIDI</key>
 				<dict>
 					<key>Type</key>
