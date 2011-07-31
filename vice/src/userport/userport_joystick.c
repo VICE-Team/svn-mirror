@@ -34,8 +34,8 @@
 #include "types.h"
 #include "userport_joystick.h"
 
-int userport_joystick_enable;
-int userport_joystick_type;
+int userport_joystick_enable = 0;
+int userport_joystick_type = 0;
 
 static int userport_joystick_cga_select = 0;
 static BYTE userport_joystick_hit_button_sp2 = 0xff;
