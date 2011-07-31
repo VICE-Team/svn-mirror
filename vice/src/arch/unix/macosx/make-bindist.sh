@@ -86,7 +86,7 @@ ROM_xplus4=PLUS4
 ROM_xvic=VIC20
 # files to remove from ROM directory
 ROM_REMOVE="{beos,amiga,dos,os2,win,RO}*.vkm"
-DOC_REMOVE="texi2html *.tex *.texi MSDOS* Minix* *.beos *.dos Win32*"
+DOC_REMOVE="Makefile.* *.c *.mak *.sh *.tex *.texi *.pl *.chm *.guide *.hlp *.inf building readmes"
 # define droppable file types
 DROP_TYPES="x64|g64|d64|d71|d81|t64|tap|prg|p00|crt|reu"
 DROP_FORMATS="x64 g64 d64 d71 d81 t64 tap prg p00 crt reu"
@@ -339,7 +339,7 @@ for bundle in $BUNDLES ; do
   # copy html docs into bundle
   echo -n "[docs] "
   copy_tree "$TOP_DIR/doc/html" "$APP_DOCS"
-  (cd $APP_DOCS && eval "rm -f $DOC_REMOVE")
+  (cd $APP_DOCS && eval "rm -rf $DOC_REMOVE")
 
   # embed c1541
   echo -n "[c1541] "
@@ -464,8 +464,9 @@ cp $TOP_DIR/FEEDBACK $BUILD_DIR/FEEDBACK.txt
 cp $TOP_DIR/README $BUILD_DIR/README.txt
 mkdir "$BUILD_DIR/doc"
 copy_tree "$TOP_DIR/doc" "$BUILD_DIR/doc"
-(cd $BUILD_DIR/doc && eval "rm -f $DOC_REMOVE")
-mv $BUILD_DIR/doc/ReadmeMacOSX.txt $BUILD_DIR/
+mv $BUILD_DIR/doc/readmes/Readme-MacOSX.txt $BUILD_DIR/
+mv $BUILD_DIR/doc/building/MacOSX-Howto.txt $BUILD_DIR/doc/
+(cd $BUILD_DIR/doc && eval "rm -rf $DOC_REMOVE")
 
 # --- copy fonts ---
 FONTS="CBM.ttf"
