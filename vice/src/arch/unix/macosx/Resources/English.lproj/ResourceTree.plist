@@ -75,11 +75,6 @@
 		<dict>
 			<key>Cartridges</key>
 			<dict>
-				<key>ACIA</key>
-				<dict>
-					<key>Enable</key>
-					<string>Acia1Enable,b</string>
-				</dict>
 				<key>EasyFlash</key>
 				<dict>
 					<key>Jumper</key>
@@ -241,6 +236,17 @@
 				<string>Mouseport,m,Joy1=1,Joy2=2</string>
 				<key>Mouse Type</key>
 				<string>Mousetype,e,1351,NEOS,AMIGA,Paddles</string>
+			</dict>
+		</dict>
+		<key>_C128_C64_PLUS4_</key>
+		<dict>
+			<key>Cartridges</key>
+			<dict>
+				<key>ACIA</key>
+				<dict>
+					<key>Enable</key>
+					<string>Acia1Enable,b</string>
+				</dict>
 			</dict>
 		</dict>
 		<key>_C128_C64_VIC20_</key>
