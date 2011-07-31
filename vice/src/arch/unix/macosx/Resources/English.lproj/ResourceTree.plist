@@ -30,6 +30,18 @@
 		</dict>
 		<key>_C128_C64_CBM-II_PET_PLUS4_VIC20_</key>
 		<dict>
+			<key>Cartridges</key>
+			<dict>
+				<key>ACIA</key>
+				<dict>
+					<key>Device</key>
+					<string>Acia1Dev,e,RS232 Device 1,RS232 Device 2,RS232 Device 3,RS232 Device 4</string>
+					<key>Interrupt</key>
+					<string>Acia1Irq,e,None,IRQ,NMI</string>
+					<key>Mode</key>
+					<string>Acia1Mode,e,Normal,Swiftlink,Turbo232</string>
+				</dict>
+			</dict>
 			<key>Datasette</key>
 			<dict>
 				<key>Reset with CPU</key>
@@ -68,13 +80,6 @@
 					<key>Enable</key>
 					<string>Acia1Enable,b</string>
 				</dict>
-				<key>DIGIMAX</key>
-				<dict>
-					<key>Base Address</key>
-					<string>DIGIMAXbase,E,$DD00,$DE00,$DE20,$DE40,$DE60,$DE80,$DEA0,$DEC0,$DEE0,$DF00,$DF20,$DF40,$DF60,$DF80,$DFA0,$DFC0,$DFE0</string>
-					<key>Enable</key>
-					<string>DIGIMAX,b</string>
-				</dict>
 				<key>EasyFlash</key>
 				<dict>
 					<key>Jumper</key>
@@ -92,17 +97,6 @@
 					<string>ExpertCartridgeEnabled,b</string>
 					<key>Mode</key>
 					<string>ExpertCartridgeMode,e,OFF,PRG,ON</string>
-				</dict>
-				<key>GEORAM</key>
-				<dict>
-					<key>Write Image</key>
-					<string>GEORAMImageWrite,b</string>
-					<key>Enable</key>
-					<string>GEORAM,b</string>
-					<key>Image File</key>
-					<string>GEORAMsize,E,64,128,256,512,1024,2048,4096</string>
-					<key>Size (KiB)</key>
-					<string>GEORAMfilename,fs</string>
 				</dict>
 				<key>IDE64</key>
 				<dict>
@@ -197,27 +191,6 @@
 					<key>Size (KiB)</key>
 					<string>REUsize,E,128,256,512,1024,2048,4096,8192,16384</string>
 				</dict>
-				<key>SFX Sound Expander</key>
-				<dict>
-					<key>Enable</key>
-					<string>SFXSoundExpander,b</string>
-					<key>Chip</key>
-					<string>SFXSoundExpanderChip,E,3526,3812</string>
-				</dict>
-				<key>SFX Sound Sampler</key>
-				<dict>
-					<key>Enable</key>
-					<string>SFXSoundSampler,b</string>
-				</dict>
-				<key>TFE/RRNet</key>
-				<dict>
-					<key>Enable</key>
-					<string>ETHERNET_ACTIVE,b</string>
-					<key>Interface</key>
-					<string>ETHERNET_INTERFACE,s</string>
-					<key>RRNet</key>
-					<string>ETHERNET_AS_RR,b</string>
-				</dict>
 			</dict>
 			<key>Joystick</key>
 			<dict>
@@ -243,6 +216,45 @@
 			</dict>
 			<key>Cartridges</key>
 			<dict>
+				<key>TFE/RRNet</key>
+				<dict>
+					<key>Enable</key>
+					<string>ETHERNET_ACTIVE,b</string>
+					<key>Interface</key>
+					<string>ETHERNET_INTERFACE,s</string>
+					<key>RRNet</key>
+					<string>ETHERNET_AS_RR,b</string>
+				</dict>
+				<key>SFX Sound Expander</key>
+				<dict>
+					<key>Enable</key>
+					<string>SFXSoundExpander,b</string>
+					<key>Chip</key>
+					<string>SFXSoundExpanderChip,E,3526,3812</string>
+				</dict>
+				<key>SFX Sound Sampler</key>
+				<dict>
+					<key>Enable</key>
+					<string>SFXSoundSampler,b</string>
+				</dict>
+				<key>DIGIMAX</key>
+				<dict>
+					<key>Base Address</key>
+					<string>DIGIMAXbase,E,$DD00,$DE00,$DE20,$DE40,$DE60,$DE80,$DEA0,$DEC0,$DEE0,$DF00,$DF20,$DF40,$DF60,$DF80,$DFA0,$DFC0,$DFE0</string>
+					<key>Enable</key>
+					<string>DIGIMAX,b</string>
+				</dict>
+				<key>GEORAM</key>
+				<dict>
+					<key>Write Image</key>
+					<string>GEORAMImageWrite,b</string>
+					<key>Enable</key>
+					<string>GEORAM,b</string>
+					<key>Image File</key>
+					<string>GEORAMsize,E,64,128,256,512,1024,2048,4096</string>
+					<key>Size (KiB)</key>
+					<string>GEORAMfilename,fs</string>
+				</dict>
 				<key>MIDI</key>
 				<dict>
 					<key>Enable</key>
@@ -277,21 +289,6 @@
 					<string>RsUserEnable,b</string>
 					<key>RS232 Device</key>
 					<string>RsUserDev,e,Device 1,Device 2,Device 3,Device 4</string>
-				</dict>
-			</dict>
-		</dict>
-		<key>_C128_C64_CBM-II_PET_PLUS4_</key>
-		<dict>
-			<key>Cartridges</key>
-			<dict>
-				<key>ACIA</key>
-				<dict>
-					<key>Device</key>
-					<string>Acia1Dev,e,RS232 Device 1,RS232 Device 2,RS232 Device 3,RS232 Device 4</string>
-					<key>Interrupt</key>
-					<string>Acia1Irq,e,None,IRQ,NMI</string>
-					<key>Mode</key>
-					<string>Acia1Mode,e,Normal,Swiftlink,Turbo232</string>
 				</dict>
 			</dict>
 		</dict>
