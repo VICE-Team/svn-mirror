@@ -394,6 +394,11 @@
 		</dict>
 		<key>_PET_</key>
 		<dict>
+			<key>DAC</key>
+			<dict>
+				<key>Enable</key>
+				<string>UserportDAC,b</string>
+			</dict>
 			<key>REU</key>
 			<dict>
 				<key>Enable</key>
