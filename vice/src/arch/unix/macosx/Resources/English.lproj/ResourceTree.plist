@@ -875,6 +875,8 @@
 	<dict>
 		<key>Autostart</key>
 		<dict>
+			<key>Random Delay</key>
+			<string>AutostartDelayRandom,b</string>
 			<key>Handle True Drive Emulation</key>
 			<string>AutostartHandleTrueDriveEmulation,b</string>
 			<key>Run With Colon</key>
