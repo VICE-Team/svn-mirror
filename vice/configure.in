@@ -3371,6 +3371,16 @@ fi
 AC_DEFINE_UNQUOTED(PREFIX, "$PREFIX",
 		   [Where do we want to install the executable?])
 
+dnl Fix for po directory Makefile
+case "$host_os" in
+  freebsd*)
+    AM_CONDITIONAL(PO_SRCDIR_PREFIX, false)
+    ;;
+  *)
+    AM_CONDITIONAL(PO_SRCDIR_PREFIX, true)
+    ;;
+esac
+
 dnl Path for keymaps, ROMs etc.
 case "$host_os" in
   netbsd*)

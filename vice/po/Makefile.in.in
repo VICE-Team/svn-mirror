@@ -99,8 +99,8 @@ all-no:
 		&& mv $(PACKAGE).po $(srcdir)/$(PACKAGE).pot )
 
 $(srcdir)/cat-id-tbl.c: stamp-cat-id; @:
-@PO_SRC_DIR_PREFIX_TRUE@$(srcdir)/stamp-cat-id: $(PACKAGE).pot
-@PO_SRC_DIR_PREFIX_FALSE@stamp-cat-id: $(PACKAGE).pot
+@PO_SRCDIR_PREFIX_TRUE@$(srcdir)/stamp-cat-id: $(PACKAGE).pot
+@PO_SRCDIR_PREFIX_FALSE@stamp-cat-id: $(PACKAGE).pot
 	rm -f cat-id-tbl.tmp
 	sed -f $(srcdir)/po2tbl.sed $(srcdir)/$(PACKAGE).pot \
 		| sed -e "s/@PACKAGE NAME@/$(PACKAGE)/" > cat-id-tbl.tmp
