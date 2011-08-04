@@ -58,7 +58,10 @@ else
   X64SC_INCLUDED = no
 endif
 
-.PHONY: x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2
+.PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0
+vsid:
+	(cd src; $(MAKE) vsid-all)
+
 x64:
 	(cd src; $(MAKE) x64-all)
 
@@ -86,6 +89,9 @@ xplus4:
 
 xcbm2:
 	(cd src; $(MAKE) xcbm2-all)
+
+xcbm5x0:
+	(cd src; $(MAKE) xcbm5x0-all)
 
 
 install: installvice

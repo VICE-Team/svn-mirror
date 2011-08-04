@@ -1513,7 +1513,7 @@ cartconv_LDADD = @INTLLIBS@
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2
+.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2 libcbm5x0
 	libdrive libvdrive libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
 	libfsdevice libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
 	libvideo libserial libparallel libcore libiecbus libfileio librtc libuserport
@@ -1542,7 +1542,9 @@ libc64dtv:
 libc64dtvstubs:
 	(cd c64dtv && $(MAKE) libc64dtvstubs.a)
 libcbm2:
-	(cd cbm2 && $(MAKE))
+	(cd cbm2 && $(MAKE) libcbm2.a)
+libcbm5x0:
+	(cd cbm2 && $(MAKE) libcbm5x0.a)
 libcore:
 	(cd core && $(MAKE))
 libcrtc:
