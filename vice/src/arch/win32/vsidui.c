@@ -225,12 +225,12 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_CREATE:
             songs = psid_tunes(&default_song);
             current_song = default_song;
-
+#if 0
             if (songs == 0) {
                 log_message(LOG_DEFAULT, "Vsid: no file specified, quitting");
                 return -1;
             }
-
+#endif
             DragAcceptFiles(window, TRUE);
             return 0;
         case WM_KEYDOWN:
