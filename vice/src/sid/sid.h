@@ -1,3 +1,6 @@
+
+/*! \file sid/sid.h */
+
 /*
  * sid.h - MOS6581 (SID) emulation, hooks to actual implementation.
  *

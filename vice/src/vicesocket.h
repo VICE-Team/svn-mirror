@@ -1,4 +1,4 @@
-/*! \file socket.h \n
+/*! \file vicesocket.h \n
  *  \author Spiro Trikaliotis\n
  *  \brief  Abstraction from network sockets.
  *

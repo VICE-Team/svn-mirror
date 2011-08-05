@@ -1,11 +1,16 @@
+/*! \file cia.h 
+ *
+ *  \brief Definitions for MOS6526 (CIA) chip emulation.
+ *
+ *  \author Jouko Valta <jopi@stekt.oulu.fi>
+ *  \author André Fachat <fachat@physik.tu-chemnitz.de>
+ *  \author Andreas Boose <viceteam@t-online.de>
+ *
+ *  \page cia CIA timer emulation
+ *  \htmlinclude CIA-README.txt
+ */
+
 /*
- * cia.h - Definitions for MOS6526 (CIA) chip emulation.
- *
- * Written by
- *  Jouko Valta <jopi@stekt.oulu.fi>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -30,10 +35,6 @@
 #define VICE_CIA_H
 
 #include "types.h"
-
-
-#define byte2bcd(byte)  (((((byte) / 10) << 4) + ((byte) % 10)) & 0xff)
-#define bcd2byte(bcd)   (((10*(((bcd) & 0xf0) >> 4)) + ((bcd) & 0xf)) & 0xff)
 
 /* MOS 6526 models */
 #define CIA_MODEL_6526  0  /* "old" */

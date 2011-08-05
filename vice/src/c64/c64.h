@@ -1,10 +1,13 @@
+
+/*! \file c64/c64.h 
+ *
+ *  \brief Definitions for C64 Machine context and -timing.
+ *
+ *  \author Andreas Boose <viceteam@t-online.de>
+ *  \author Ettore Perazzoli <ettore@comm2000.it>
+ */
+
 /*
- * c64.h
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

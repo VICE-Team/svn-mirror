@@ -1,3 +1,5 @@
+/*! \file resid/sid.h */
+
 //  ---------------------------------------------------------------------------
 //  This file is part of reSID, a MOS6581 SID emulator engine.
 //  Copyright (C) 2010  Dag Lem <resid@nimrod.no>

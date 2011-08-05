@@ -37,7 +37,7 @@
    and send into the VICE log
    WARNING: The log grows very fast!
 */
-/** #define RAWNET_DEBUG_FRAMES **/
+/* #define RAWNET_DEBUG_FRAMES */
 
 #include "types.h"
 

@@ -81,7 +81,7 @@ static CLOCK joystick_delay;
 static int joykeys[3][9];
 #endif
 
-/*! \todo @@@SRT offset is unused! */
+/*! \todo SRT: offset is unused! */
 
 static void joystick_latch_matrix(CLOCK offset)
 {
@@ -131,7 +131,7 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
 void joystick_event_delayed_playback(void *data)
 {
-    /*! \todo @@@SRT: why network_joystick_value?
+    /*! \todo SRT: why network_joystick_value?
      * and why sizeof latch_joystick_value, 
      * if the target is network_joystick_value?
      */

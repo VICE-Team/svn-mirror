@@ -1,11 +1,14 @@
+
+/*! \file vice.h 
+ *
+ *  \brief Main header file for VICE.
+ *
+ *  \author Ettore Perazzoli <ettore@comm2000.it>
+ *  \author Jouko Valta <jopi@stekt.oulu.fi>
+ *  \author Andreas Boose <viceteam@t-online.de>
+ */
+
 /*
- * vice.h - Main header file for VICE.
- *
- * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Jouko Valta <jopi@stekt.oulu.fi>
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *

@@ -1,9 +1,15 @@
+
+/*! \file iecbus.h 
+ *
+ *  \brief IEC bus handling.
+ *
+ *  \author Andreas Boose <viceteam@t-online.de>
+ *
+ *  \page iecbus IEC bus handling
+ *  \htmlinclude iec-bus.txt
+ */
+
 /*
- * iecbus.h - IEC bus handling.
- *
- * Written by
- *  Andreas Boose <viceteam@t-online.de>
- *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
