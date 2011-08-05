@@ -1,0 +1,78 @@
+/*!
+  \mainpage Developer Information
+
+  \subpage chips
+  \n
+  \subpage subsystems
+  \n
+  \subpage howtocode
+  \n
+  \subpage howtodoxy
+  \n
+  \subpage howtodoc
+  \n
+  \subpage howtonls
+  \n
+  \subpage howtobuild
+*/
+/*!
+  \page chips Chips
+  \subpage cia
+*/
+/*!
+  \page subsystems Subsystems
+  \subpage iecbus
+*/
+/*!
+  \page howtocode coding guidelines
+  \htmlinclude coding-guidelines.txt
+  \page howtodoxy doxygen quick guide
+  \htmlinclude Doxygen-Howto.txt
+  \page howtodoc how to update the documentation
+  \htmlinclude Documentation-Howto.txt
+  \page howtonls National Language Support
+  \htmlinclude NLS-Howto.txt
+*/
+/*!
+  \page howtobuild How to build VICE
+  \subpage buildwindowsmingw
+  \n
+  \subpage buildwindowscygwin
+  \n
+  \subpage buildlinuxmingw
+  \n
+  \subpage buildosx
+  \n
+  \subpage buildmsdos
+  \subpage buildmsdoseth
+  \n
+  \subpage buildsdl
+  \n
+  \subpage buildgp2x
+  \n
+  \subpage buildminix
+  \n
+  \subpage buildopenvms
+*/
+/*!
+  \page buildwindowsmingw WinVICE (mingw32)
+  \htmlinclude Win32-Mingw32-Howto.txt
+  \page buildwindowscygwin WinVICE (cygwin)
+  \htmlinclude Win32-Cygwin-Howto.txt
+  \page buildlinuxmingw WinVICE on Linux (mingw32)
+  \htmlinclude Linux-Mingw32-Howto.txt
+  \page buildosx building on OSX
+  \htmlinclude MacOSX-Howto.txt
+  \page buildmsdos building the MSDOS port (djgpp)
+  \htmlinclude MSDOS-Howto.txt
+  \page buildmsdoseth building the MSDOS port with ethernet support (djgpp)
+  \htmlinclude MSDOS-Ethernet-Howto.txt
+  \page buildsdl building the SDL ports
+  \htmlinclude SDL-Howto.txt
+  \page buildgp2x building the GP2X port
+  \htmlinclude GP2X-Howto.txt
+  \page buildminix building VICE on Minix
+  \htmlinclude Minix-Howto.txt
+  \page buildopenvms building VICE on OpenVMS
+  \htmlinclude OpenVMS-Howto.txt
+*/
