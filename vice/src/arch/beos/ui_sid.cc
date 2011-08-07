@@ -54,31 +54,7 @@ static char *samplingmode[] = {
     NULL
 };
 
-static struct _sid_engine_model {
-    char *name;
-    int id;
-} sid_engine_model[] = {
-    { "6581 (Fast SID)", SID_FASTSID_6581 },
-    { "8580 (Fast SID)", SID_FASTSID_8580 },
-#ifdef HAVE_RESID
-    { "6581 (ReSID)", SID_RESID_6581 },
-    { "8580 (ReSID)", SID_RESID_8580 },
-    { "8580 + digiboost (ReSID)", SID_RESID_8580D },
-#endif
-#ifdef HAVE_RESID_FP
-    { "6581R3 4885 (ReSID-fp)", SID_RESIDFP_6581R3_4885 },
-    { "6581R3 0486S (ReSID-fp)", SID_RESIDFP_6581R3_0486S },
-    { "6581R3 3984 (ReSID-fp)", SID_RESIDFP_6581R3_3984 },
-    { "6581R4AR 3789 (ReSID-fp)", SID_RESIDFP_6581R4AR_3789 },
-    { "6581R3 4485 (ReSID-fp)", SID_RESIDFP_6581R3_4485 },
-    { "6581R4 1986S (ReSID-fp)", SID_RESIDFP_6581R4_1986S },
-    { "8580R5 3691 (ReSID-fp)", SID_RESIDFP_8580R5_3691 },
-    { "8580R5 3691 + digiboost (ReSID-fp)", SID_RESIDFP_8580R5_3691D },
-    { "8580R5 1489 (ReSID-fp)", SID_RESIDFP_8580R5_1489 },
-    { "8580R5 1489 + digiboost (ReSID-fp)", SID_RESIDFP_8580R5_1489D, },
-#endif
-    { NULL, -1 }
-};
+static sid_engine_model_t **sid_engine_model_list;
 
 static int *sidaddressbase;
 
@@ -142,6 +118,7 @@ SidWindow::SidWindow()
     AddChild(background);
 
     /* SID model */
+    sid_engine_model_list = sid_get_engine_model_list();
     resources_get_int("SidModel", &i);
     resources_get_int("SidEngine", &engine);
     res_val = engine << 8;
@@ -149,8 +126,8 @@ SidWindow::SidWindow()
     r.bottom = 35;
     r.InsetBy(10, 5);
     engine_model_popup = new BOptionPopUp(r, "SID Engine/Model", "SID Engine/Model", new BMessage(MESSAGE_SID_MODEL));
-    for (i = 0; sid_engine_model[i].name != NULL; i++) {
-        engine_model_popup->AddOption(sid_engine_model[i].name, sid_engine_model[i].id);
+    for (i = 0; sid_engine_model_list[i] != NULL; i++) {
+        engine_model_popup->AddOption(sid_engine_model_list[i]->name, sid_engine_model_list[i]->value);
     }
     engine_model_popup->SelectOptionFor(res_val);
     background->AddChild(engine_model_popup);
@@ -161,22 +138,30 @@ SidWindow::SidWindow()
     checkbox->SetValue(res_val);
     background->AddChild(checkbox);
 
-    /* SID address */
-    resources_get_int("SidStereoAddressStart", &res_val);
-    address_popup = new BOptionPopUp(BRect(120, 50, 240, 75), "", "", new BMessage(MESSAGE_SID_ADDRESS));
-    CreateAddressList();
-    address_popup->SelectOptionFor(res_val);
-    background->AddChild(address_popup);
+    if (sidaddressbase) {
+        /* SID address */
+        resources_get_int("SidStereoAddressStart", &res_val);
+        address_popup = new BOptionPopUp(BRect(120, 50, 240, 75), "", "", new BMessage(MESSAGE_SID_ADDRESS));
+        CreateAddressList();
+        address_popup->SelectOptionFor(res_val);
+        background->AddChild(address_popup);
 
-    /* Stereo SID */
-    resources_get_int("SidStereo", &res_val);
-    checkbox = new BCheckBox(BRect(10, 55, 120, 70), "Stereo SID at", "Stereo SID at", new BMessage(MESSAGE_SID_STEREO));
-    checkbox->SetValue(res_val);
-    background->AddChild(checkbox);
-    address_popup->SetEnabled(res_val);
+        /* Stereo SID */
+        resources_get_int("SidStereo", &res_val);
+        checkbox = new BCheckBox(BRect(10, 55, 120, 70), "Stereo SID at", "Stereo SID at", new BMessage(MESSAGE_SID_STEREO));
+        checkbox->SetValue(res_val);
+        background->AddChild(checkbox);
+        address_popup->SetEnabled(res_val);
+    } else {
+        address_popup = NULL;
+        ResizeTo(250, 170);
+    }
 
     /* reSID settings */
-    residbox = new BBox(BRect(10, 80, 240, 180), "reSID/reSID-fp settings");
+    r = Bounds();
+    r.InsetBy(10, 10);
+    r.top = r.bottom - 100;
+    residbox = new BBox(r, "reSID/reSID-fp settings");
     residbox->SetViewColor(220, 220, 220, 0);
     residbox->SetLabel("reSID/reSID-fp settings");
     background->AddChild(residbox);
@@ -227,12 +212,15 @@ void SidWindow::MessageReceived(BMessage *msg)
             resources_toggle("SidFilters", (int *)&val);
             break;
         case MESSAGE_SID_STEREO:
-            resources_toggle("SidStereo", (int *)&val);
-            /* address_popup->ScrollToSelection(); */
-            address_popup->SetEnabled(val);
+            if (address_popup) {
+                resources_toggle("SidStereo", (int *)&val);
+                address_popup->SetEnabled(val);
+            }
             break;
         case MESSAGE_SID_ADDRESS:
-            resources_set_int("SidStereoAddressStart", address_popup->Value());
+            if (address_popup) {
+                resources_set_int("SidStereoAddressStart", address_popup->Value());
+            }
             break;
         case MESSAGE_SID_RESIDSAMPLING:
             val = msg->FindInt32("mode");
