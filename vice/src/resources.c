@@ -1113,7 +1113,7 @@ static void write_resource_item(FILE *f, int num)
    resources for the other emulators.  */
 int resources_save(const char *fname)
 {
-    char *backup_name;
+    char *backup_name = NULL;
     FILE *in_file = NULL, *out_file;
     unsigned int i;
     char *default_name = NULL;
