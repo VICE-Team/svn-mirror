@@ -4136,7 +4136,7 @@ Ethernet (The Final Ethernet, RR-Net)
 @item
 GEO-RAM
 @item
-MIDI (Passport, Datel, Maplin, Namesoft, Sequential)
+MIDI (Passport/Sentech, Datel/Siel/JMS/C-Lab, Maplin, Namesoft, Sequential)
 @item
 RAM Expansion Module (REU)
 @item
