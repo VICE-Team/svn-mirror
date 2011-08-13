@@ -14701,7 +14701,7 @@ Provided the Italian user interface translations.
 @b{Jesse Lee}
 Provided the Korean user interface translations.
 
-@b{Robert Thurnreiter}
+@b{Jarek Sobolewski}
 Provided the new Polish user interface translations.
 
 @b{Michael Litvinov}

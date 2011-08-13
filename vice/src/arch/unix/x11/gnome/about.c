@@ -101,7 +101,7 @@ void ui_about(gpointer data)
         "Andrea Musuruane - Italian\n"
         "Jesse Lee - Korean\n"
         "Marco van den Heuvel - Dutch\n"
-        "Robert Thurnreiter - Polish\n"
+        "Jarek Sobolewski - Polish\n"
         "Mihail Litvinov - Russian\n"
         "Peter Krefting - Swedish\n"
         "Emir Akaydin (aka: Skate) - Turkish\n"
