@@ -117,8 +117,8 @@ static void bq4830y_latch_write_regs(rtc_bq4830y_t *context)
     context->clock_regs[BQ4830Y_REG_DAYS_OF_MONTH & 7] |= rtc_get_day_of_month(context->latch, 1);
     context->clock_regs[BQ4830Y_REG_MONTHS & 7] &= 0xe0;
     val = rtc_get_month(context->latch, 1);
-    if (val == 7) {
-        val += 9;
+    if (val >= 9) {
+        val += 7;
     } else {
         val++;
     }
@@ -156,8 +156,8 @@ static void bq4830y_write_clock_data(rtc_bq4830y_t *context)
         }
         if (context->clock_regs_changed[BQ4830Y_REG_MONTHS & 7]) {
             val = (context->clock_regs[BQ4830Y_REG_MONTHS & 7] & 0x1f) - 1;
-            if (val == 0xf) {
-                val = 7;
+            if (val >= 0xf) {
+                val -= 6;
             }
             context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
         }
@@ -188,8 +188,8 @@ static void bq4830y_write_clock_data(rtc_bq4830y_t *context)
         }
         if (context->clock_regs_changed[BQ4830Y_REG_MONTHS & 7]) {
             val = (context->clock_regs[BQ4830Y_REG_MONTHS & 7] & 0x1f) -1;
-            if (val == 0xf) {
-                val = 7;
+            if (val >= 0xf) {
+                val -= 6;
             }
             context->offset[0] = rtc_set_month(val, context->offset[0], 1);
         }
@@ -394,8 +394,8 @@ BYTE bq4830y_read(rtc_bq4830y_t *context, WORD address)
         case BQ4830Y_REG_MONTHS:
             retval = context->clock_regs[address & 7] & 0xe0;
             val = rtc_get_month(latch, 1);
-            if (val == 7) {
-                val += 9;
+            if (val >= 9) {
+                val += 7;
             } else {
                 val++;
             }

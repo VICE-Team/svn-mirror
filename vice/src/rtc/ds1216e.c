@@ -132,8 +132,8 @@ static void ds1216e_latch_regs(rtc_ds1216e_t *context)
     context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= rtc_get_weekday(latch) + 1;
     context->clock_regs[DS1216E_REGISTER_MONTHDAYS] = rtc_get_day_of_month(latch, 1);
     val = rtc_get_month(latch, 1);
-    if (val == 7) {
-        val += 9;
+    if (val >= 9) {
+        val += 7;
     } else {
         val++;
     }
@@ -198,8 +198,8 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
     context->clock_regs[DS1216E_REGISTER_MONTHDAYS] &= 0x3f;
     context->clock_regs[DS1216E_REGISTER_MONTHS] &= 0x1f;
     context->clock_regs[DS1216E_REGISTER_MONTHS]--;
-    if (context->clock_regs[DS1216E_REGISTER_MONTHS] == 15) {
-        context->clock_regs[DS1216E_REGISTER_MONTHS] = 7;
+    if (context->clock_regs[DS1216E_REGISTER_MONTHS] >= 15) {
+        context->clock_regs[DS1216E_REGISTER_MONTHS] -= 6;
     }
 
     if (context->inactive) {
