@@ -254,7 +254,7 @@ gen_win32_rc: po2table po2table.c gen_win32_rc.c
 @CROSS_FALSE@	$(CC) $(INCLUDES) $(CFLAGS) $(srcdir)/gen_win32_rc.c -o gen_win32_rc
 @CROSS_TRUE@	gcc $(srcdir)/gen_win32_rc.c -o gen_win32_rc
 
-po_table.h: da.po de.po fr.po hu.po it.po ko.po nl.po ru.po sv.po tr.po po2table
+po_table.h: da.po de.po fr.po hu.po it.po ko.po nl.po pl.po ru.po sv.po tr.po po2table
 	./po2table
 
 trans-update:
@@ -264,6 +264,8 @@ trans-update:
 	iconv -f UTF-8 -t ISO-8859-1 <sv.po >sv_iso.po
 	rm -f nl_iso.po
 	iconv -f UTF-8 -t ISO-8859-1 <nl.po >nl_iso.po
+	rm -f pl_iso.po
+	iconv -f UTF-8 -t ISO-8859-2 <pl.po >pl_iso.po
 	rm -f po_table.h
 	$(MAKE) po_table.h
 	$(MAKE) gen_translate_c

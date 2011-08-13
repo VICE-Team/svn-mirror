@@ -82,6 +82,8 @@ if test x"$DEBUGBUILD" = "xyes"; then
            count=`expr $count + 1`
            echo $data"_NL, /* "$count" */"
            count=`expr $count + 1`
+           echo $data"_PL, /* "$count" */"
+           count=`expr $count + 1`
            echo $data"_RU, /* "$count" */"
            count=`expr $count + 1`
            echo $data"_SV, /* "$count" */"
@@ -110,6 +112,7 @@ else
            echo $data"_IT,"
            echo $data"_KO,"
            echo $data"_NL,"
+           echo $data"_PL,"
            echo $data"_RU,"
            echo $data"_SV,"
            echo $data"_TR,"

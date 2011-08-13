@@ -230,7 +230,7 @@ BEGIN
   IDS_FAST                "ºü¸¥"
   IDS_INTERPOLATING       "º¸°£ÇÏ´Ù"
   IDS_RESAMPLING          "¸®»ùÇÃ¸µ"
-  IDS_FAST_RESAMPLING     "Fast resampling"
+  IDS_FAST_RESAMPLING     "ºü¸¥ ¸®¼Àºí¸µ"
   IDS_SID_GENGROUP3       "SID Stereo"
   IDS_SID_STEREO_AT       "Stereo SID at"
   IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
@@ -266,6 +266,35 @@ BEGIN
   IDS_HARDSID_LEFT_LABEL  "Linker-/hoofdapparaat"
   IDS_HARDSID_RIGHT_LABEL "Rechterapparaat"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_THIS_MACHINE_NO_SID "W tej maszynie mo¿e nie byæ SID"
+  IDS_GENERAL             "Ogólne"
+  IDS_SID_SETTINGS        "Ustawienia SID"
+  IDS_FAST                "Szybko"
+  IDS_INTERPOLATING       "Interpolacja"
+  IDS_RESAMPLING          "Przesamplowanie"
+  IDS_FAST_RESAMPLING     "Szybkie przesamplowanie"
+  IDS_SID_GENGROUP3       "Stereo SID"
+  IDS_SID_STEREO_AT       "SID stereo w"
+  IDS_SID_RESID_GROUP     "Opcje reSID/reSID-fp"
+  IDS_SID_RESID_SAMPLE    "Metoda samplowania"
+  IDS_SID_RESID_PASSBAND  "Pasmo przepuszczania (0..90%)"
+  IDS_HARDSID_GROUP       "Wybór urz±dzenia"
+  IDS_HARDSID_LEFT_LABEL  "Lewe/G³ówne urz±dzenie"
+  IDS_HARDSID_RIGHT_LABEL "Urz±dzenie"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

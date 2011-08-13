@@ -122,6 +122,23 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_LIGHTPEN_CAPTION "Ustawienia pióra ¶wietlnego"
+    IDS_LIGHTPEN_ENABLE  "W³±cz emulacjê pióra ¶wietlnego"
+    IDS_LIGHTPEN_TYPE    "Typ pióra ¶wietlnego"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

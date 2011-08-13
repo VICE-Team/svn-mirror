@@ -123,7 +123,7 @@ BEGIN
   IDS_PLUS60K_CAPTION     "PLUS60K settings"
   IDS_PLUS60K_ENABLE      "Enable the PLUS60K RAM expansion"
   IDS_PLUS60K_BASE        "PLUS60K base address"
-  IDS_PLUS60K_FILE        "PLUS60K file"
+  IDS_PLUS60K_FILE        "PLUS60K ÆÄÀÏ"
   IDS_PLUS60K_SELECT_FILE "Select file for PLUS60K"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -142,6 +142,25 @@ BEGIN
   IDS_PLUS60K_FILE        "PLUS60K bestand"
   IDS_PLUS60K_SELECT_FILE "Selecteer bestand voor PLUS60K"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PLUS60K_CAPTION     "Ustawienia PLUS60K"
+  IDS_PLUS60K_ENABLE      "W³±cz rozszerzenie RAM PLUS60K"
+  IDS_PLUS60K_BASE        "Adres bazowy PLUS60K"
+  IDS_PLUS60K_FILE        "Plik PLUS60K"
+  IDS_PLUS60K_SELECT_FILE "Wybierz plik PLUS60K"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

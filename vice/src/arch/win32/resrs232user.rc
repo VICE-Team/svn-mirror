@@ -142,6 +142,24 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_RS232USER_CAPTION "Ustawienia userportu RS232"
+  IDS_RS232USER_ENABLE  "W³±cz emulacjê userportu RS232"
+  IDS_RS232USER_DEVICE  "Urz±dzenie userportu"
+  IDS_RS232USER_BAUD    "Prêdko¶æ transmisji userportu"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

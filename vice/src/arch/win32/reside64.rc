@@ -109,11 +109,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD image #1 settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD image #2 settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD image #3 settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
+    IDS_IDE64_V4_SETTINGS           "IDE64 V4 Einstellungen"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD Image #1 Einstellungen"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD Image #2 Einstellungen"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD Image #3 Einstellungen"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD Image #4 Einstellungen"
     IDS_IDE64_SETTINGS              "IDE64 Einstellungen"
     IDS_IDE64_V4                    "IDE64 V4 aktivieren"
     IDS_IDE64_IMAGE                 "HD Image Name"
@@ -236,14 +236,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD image #1 settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD image #2 settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD image #3 settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
+    IDS_IDE64_V4_SETTINGS           "IDE64 V4 instellingen"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD bestand #1 instellingen"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD bestand #2 instellingen"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD bestand #3 instellingen"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD bestand #4 instellingen"
     IDS_IDE64_SETTINGS              "IDE64 instellingen"
     IDS_IDE64_V4                    "Activeer IDE64 V4"
-    IDS_IDE64_IMAGE                 "HD image file"
+    IDS_IDE64_IMAGE                 "HD bestand"
     IDS_IDE64_GEOMETRY              "Geometrie"
     IDS_IDE64_AUTODETECT            "Automatisch detecteren bestandsgrootte"
     IDS_IDE64_CYLINDERS             "Cylinders"
@@ -252,6 +252,35 @@ BEGIN
     IDS_IDE64_TOTAL_SIZE            "Totale grootte: %iKB"
     IDS_IDE64_SELECT_IMAGE          "Selecteer HD bestand"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_IDE64_V4_SETTINGS           "Ustawienia IDE64 V4"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "Ustawienia obrazu #1 IDE64 HD"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "Ustawienia obrazu #2 IDE64 HD"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "Ustawienia obrazu #3 IDE64 HD"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "Ustawienia obrazu #4 IDE64 HD"
+    IDS_IDE64_SETTINGS              "Ustawienia IDE64"
+    IDS_IDE64_V4                    "W³±cz IDE64 V4"
+    IDS_IDE64_IMAGE                 "Plik obrazu HD"
+    IDS_IDE64_GEOMETRY              "Geometria"
+    IDS_IDE64_AUTODETECT            "Automatycznie wykrywaj rozmiar obrazu"
+    IDS_IDE64_CYLINDERS             "Cylindry"
+    IDS_IDE64_HEADS                 "G³owice"
+    IDS_IDE64_SECTORS               "Sektory"
+    IDS_IDE64_TOTAL_SIZE            "Ca³kowity rozmiar: %iKB"
+    IDS_IDE64_SELECT_IMAGE          "Wybierz plik obrazu HD"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

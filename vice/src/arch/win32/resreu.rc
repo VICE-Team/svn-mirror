@@ -141,7 +141,7 @@ BEGIN
   IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
   IDS_REU_SIZE         "REU size"
   IDS_REU_WRITE_ENABLE "Save REU image when changed"
-  IDS_REU_FILE         "REU file"
+  IDS_REU_FILE         "REU ÆÄÀÏ"
   IDS_REU_SELECT_FILE  "Select file for REU"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -161,6 +161,26 @@ BEGIN
   IDS_REU_FILE         "REU bestand"
   IDS_REU_SELECT_FILE  "Selecteer bestand voor REU"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_REU_CAPTION      "Ustawienia REU"
+  IDS_REU_ENABLE       "W³±cz RAM Expansion Unit"
+  IDS_REU_SIZE         "Rozmiar REU"
+  IDS_REU_WRITE_ENABLE "Zapisuj obraz REU przy zmianie"
+  IDS_REU_FILE         "Plik REU"
+  IDS_REU_SELECT_FILE  "Wybierz plik REU"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

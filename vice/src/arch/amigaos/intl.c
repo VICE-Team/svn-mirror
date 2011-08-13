@@ -69,6 +69,8 @@ static amiga_iso_t amiga_to_iso[] = {
     { "korean.language", "ko" },
     { "dutch.language", "nl" },
     { "nederlands.language", "nl" },
+    { "polish.language", "pl" },
+    { "polski.language", "pl" },
     { "russian.language", "ru" },
     { "swedish.language", "sv" },
     { "svenska.language", "sv" },

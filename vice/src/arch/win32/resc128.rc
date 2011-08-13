@@ -283,6 +283,7 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
+        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -1101,7 +1102,7 @@ BEGIN
   IDS_C128_FULL_BANKS           "Enable RAM banks 2 and 3"
   IDS_MP_VDC_SETTINGS           "VDC ¼³Á¤"
   IDS_MP_VDC_REVISION           "VDC revision"
-  IDS_MI_TOGGLE_VDC64KB         "64KB video memory"
+  IDS_MI_TOGGLE_VDC64KB         "64KB ºñµð¿À ¸Þ¸ð¸®"
   IDS_MI_IEEE488                "IEEE488 Interface emulation"
   IDS_MI_C128_SETTINGS          "C128 settings..."
 END
@@ -1168,6 +1169,72 @@ BEGIN
   IDS_MI_IEEE488                "IEEE488 Interface emulatie"
   IDS_MI_C128_SETTINGS          "C128 instellingen..."
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SELECT_INT_FUNCTION_ROM   "Wybierz plik ROM Internal Function"
+  IDS_SELECT_EXT_FUNCTION_ROM   "Wybierz plik ROM External Function"
+  IDS_MACHINE_TYPE              "Typ maszyny"
+  IDS_FUNCTION_ROM              "Funkcja ROM"
+  IDS_RAM_BANKS                 "Banki RAM"
+  IDS_C128_SETTINGS             "Ustawienia C128"
+  IDS_KERNAL_INT                "Kernal Int."
+  IDS_KERNAL_DE                 "Kernal DE"
+  IDS_KERNAL_FI                 "Kernal FI"
+  IDS_KERNAL_FR                 "Kernal FR"
+  IDS_KERNAL_IT                 "Kernal IT"
+  IDS_KERNAL_NO                 "Kernal NO"
+  IDS_KERNAL_SE                 "Kernal SE"
+  IDS_BASIC_LO                  "Basic LO"
+  IDS_BASIC_HI                  "Basic HI"
+  IDS_CHAR_INT                  "Znak Int."
+  IDS_CHAR_DE                   "Znak DE"
+  IDS_CHAR_FR                   "Znak FR"
+  IDS_CHAR_SE                   "Znak SE"
+  IDS_KERNAL_C64                "Kernal C64"
+  IDS_BASIC_C64                 "Basic C64"
+  IDS_INTERNATIONAL_KERNAL      "Miêdzynarodowy Kernal"
+  IDS_GERMAN_KERNAL             "Niemiecki Kernal"
+  IDS_FINNISH_KERNAL            "Fiñski Kernal"
+  IDS_FRENCH_KERNAL             "Francuski Kernal"
+  IDS_ITALIAN_KERNAL            "W³oski Kernal"
+  IDS_NORWEGIAN_KERNAL          "Norweski Kernal"
+  IDS_SWEDISH_KERNAL            "Szwedzki Kernal"
+  IDS_INTERNATIONAL_CHARACTER   "Znak miêdzynarodowy"
+  IDS_GERMAN_CHARACTER          "Znak niemiecki"
+  IDS_FRENCH_CHARACTER          "Znak francuski"
+  IDS_SWEDISH_CHARACTER         "Znak szwedzki"
+  IDS_C64_MODE_KERNAL           "Tryb C64 Kernal"
+  IDS_C64_MODE_BASIC            "Tryb C64 Basic"
+  IDS_INTERNATIONAL             "Miêdzynarodowa"
+  IDS_FINNISH                   "Fiñski"
+  IDS_FRENCH                    "Francuski"
+  IDS_GERMAN                    "Niemiecki"
+  IDS_ITALIAN                   "W³oski"
+  IDS_NORWEGIAN                 "Norweski"
+  IDS_SWEDISH                   "Szwedzki"
+  IDS_INT_FUNCTION_ROM          "Wewnêtrzna funkcja ROM"
+  IDS_ENABLE_INT_FUNCTION_ROM   "W³±cz wewnêtrzn± funkcjê ROM"
+  IDS_FILE_NAME                 "Nazwa pliku"
+  IDS_EXT_FUNCTION_ROM          "Zewnêtrzna funkcja ROM"
+  IDS_ENABLE_EXT_FUNCTION_ROM   "W³±cz zewnêtrzn± funkcjê ROM"
+  IDS_C128_FULL_BANKS           "W³±cz banki RAM 2 i 3"
+  IDS_MP_VDC_SETTINGS           "Ustawienia VDC"
+  IDS_MP_VDC_REVISION           "Wersja VDC"
+  IDS_MI_TOGGLE_VDC64KB         "Pamiêæ wideo 64KB"
+  IDS_MI_IEEE488                "Emulacja interfejsu IEEE488"
+  IDS_MI_C128_SETTINGS          "Ustawienia C128..."
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

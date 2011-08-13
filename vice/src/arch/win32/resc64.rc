@@ -271,6 +271,7 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
+        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -751,7 +752,7 @@ BEGIN
   IDS_MI_C64_256K_SETTINGS "256K settings..."
   IDS_C64_MODEL            "C64 ¸ðµ¨"
   IDS_VICII_MODEL          "VIC-II ¸ðµ¨"
-  IDS_NEW_LUMINANCES       "New luminances"
+  IDS_NEW_LUMINANCES       "¼¼·Î¿î ¹à±â"
   IDS_SID_MODEL            "SID ¸ðµ¨"
   IDS_CIA1_MODEL           "CIA 1 ¸ðµ¨"
   IDS_CIA2_MODEL           "CIA 2 ¸ðµ¨"
@@ -803,6 +804,43 @@ BEGIN
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 model instellingen"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MI_NETWORK_SETTINGS  "Netplay (eksperymentalne)..."
+  IDS_MI_PLUS60K_SETTINGS  "Ustawienia PLUS60K..."
+  IDS_MI_PLUS256K_SETTINGS "Ustawienia PLUS256K..."
+  IDS_MI_C64_256K_SETTINGS "Ustawienia 256K..."
+  IDS_C64_MODEL            "Model C64"
+  IDS_VICII_MODEL          "Model VIC-II"
+  IDS_NEW_LUMINANCES       "Nowy typ jaskrawo¶ci"
+  IDS_SID_MODEL            "Model SID"
+  IDS_CIA1_MODEL           "Model CIA 1"
+  IDS_CIA2_MODEL           "Model CIA 2"
+  IDS_GLUE_LOGIC           "Glue logic"
+  IDS_6526_OLD             "6526 (stary)"
+  IDS_6526A_NEW            "6526A (nowy)"
+  IDS_DISCRETE             "Dyskretny"
+  IDS_CUSTOM_IC            "W³asne IC"
+  IDS_6569_PAL             "6569 (PAL)"
+  IDS_8565_PAL             "8565 (PAL)"
+  IDS_6569R1_OLD_PAL       "6569R1 (stary PAL)"
+  IDS_6567_NTSC            "6567 (NTSC)"
+  IDS_8562_NTSC            "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC    "6567R56A (stary NTSC)"
+  IDS_6572_PAL_N           "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION    "Ustawienia modelu C64"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

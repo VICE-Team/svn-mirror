@@ -37,6 +37,7 @@ PO_EXTRA_DIST = po/ChangeLog \
 	po/intl2po.c \
 	po/it.po \
 	po/nl.po \
+	po/pl.po \
 	po/po2tbl.sed \
 	po/ru.po \
 	po/sv.po \

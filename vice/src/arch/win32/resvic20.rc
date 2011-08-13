@@ -260,6 +260,7 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
+        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -890,8 +891,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION                      "VIC settings"
-    IDS_VIC_NOEXPANSION                  "No expansion memory"
+    IDS_VIC_CAPTION                      "VIC ¼ÂÆÃ"
+    IDS_VIC_NOEXPANSION                  "È®Àå ¸Þ¸ð¸® ¾øÀ½"
     IDS_VIC_3KEXPANSION                  "3k (block 0)"
     IDS_VIC_8KEXPANSION                  "8k (block 1)"
     IDS_VIC_16KEXPANSION                 "16k (block 1/2)"
@@ -908,11 +909,11 @@ BEGIN
     IDS_SELECT_FINAL_EXPANSION           "Select Final Expansion image"
     IDS_SELECT_FP                        "Select Vic Flash Plugin image"
     IDS_SELECT_CARTRIDGE_IMAGE           "Select cartridge file"
-    IDS_ATTACH_4_8_16_CART_2000          "Attach 4/8/16KB cartridge image at $2000"
-    IDS_ATTACH_4_8_16_CART_4000          "Attach 4/8/16KB cartridge image at $4000"
-    IDS_ATTACH_4_8_16_CART_6000          "Attach 4/8/16KB cartridge image at $6000"
-    IDS_ATTACH_4_8_CART_A000             "Attach 4/8KB cartridge image at $A000"
-    IDS_ATTACH_4_CART_B000               "Attach 4KB cartridge image at $B000"
+    IDS_ATTACH_4_8_16_CART_2000          "4/8/16KB Ä«Æ®¸®Áö ÀÌ¹ÌÁö ¸¦  $2000 ¿¡ ºÙÀÌ±â"
+    IDS_ATTACH_4_8_16_CART_4000          "4/8/16KB Ä«Æ®¸®Áö ÀÌ¹ÌÁö ¸¦  $4000 ¿¡ ºÙÀÌ±â"
+    IDS_ATTACH_4_8_16_CART_6000          "4/8/16KB Ä«Æ®¸®Áö ÀÌ¹ÌÁö ¸¦  $6000 ¿¡ ºÙÀÌ±â"
+    IDS_ATTACH_4_8_CART_A000             "4/8KB Ä«Æ®¸®Áö ÀÌ¹ÌÁö ¸¦  $A000 ¿¡ ºÙÀÌ±â"
+    IDS_ATTACH_4_CART_B000               "4KB Ä«Æ®¸®Áö ÀÌ¹ÌÁö ¸¦  $B000 ¿¡ ºÙÀÌ±â"
     IDS_IO_SWAP                          "Enable MasC=uerade I/O swap"
     IDS_MI_IEEE488                       "VIC-1112 IEEE-488 module"
     IDS_MI_PADDLES                       "ÆÐµð½º »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â"
@@ -920,14 +921,14 @@ BEGIN
     IDS_MI_CART_VIC20_MEGACART           "Mega-Cart image..."
     IDS_MI_CART_VIC20_FINAL_EXPANSION    "Final Expansion image..."
     IDS_MI_CART_VIC20_FP                 "Vic Flash Plugin image..."
-    IDS_MP_ADD_TO_GENERIC                "Add to generic cartridge..."
+    IDS_MP_ADD_TO_GENERIC                "Á¦³Ê¸¯ Ä«Æ®¸®Áö¿¡ ´õÇÏ±â..."
     IDS_MI_CART_VIC20_SMART_ATTACH       "Smart-attach image..."
     IDS_MI_CART_VIC20_8KB_2000           "4/8/16KB image at $2000..."
     IDS_MI_CART_VIC20_16KB_4000          "4/8/16KB image at $4000..."
     IDS_MI_CART_VIC20_8KB_6000           "4/8/16KB image at $6000..."
     IDS_MI_CART_VIC20_8KB_A000           "4/8KB image at $A000..."
     IDS_MI_CART_VIC20_4KB_B000           "4KB image at $B000..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC ¼ÂÆÃ..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK     "Enable Final Expansion write back to ROM file"
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK    "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK            "Enable Mega-Cart NvRAM writeback"
@@ -1002,6 +1003,70 @@ BEGIN
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander instellingen (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler instellingen (MasC=uerade)..."
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VIC_CAPTION                      "Ustawienia VIC"
+    IDS_VIC_NOEXPANSION                  "Bez rozszerzenia pamiêci"
+    IDS_VIC_3KEXPANSION                  "3K (blok 0)"
+    IDS_VIC_8KEXPANSION                  "8K (blok 1)"
+    IDS_VIC_16KEXPANSION                 "16K (bloki 1/2)"
+    IDS_VIC_24KEXPANSION                 "24K (bloki 1/2/3)"
+    IDS_VIC_FULLEXPANSION                "Wszystkie (bloki 0/1/2/3/5)"
+    IDS_VIC_CUSTOMEXPANSION              "W³asna"
+    IDS_VIC_BLOCK0                       "Blok 0 (3K w $0400-$0FFF)"
+    IDS_VIC_BLOCK1                       "Blok 1 (8K w $2000-$3FFF)"
+    IDS_VIC_BLOCK2                       "Blok 2 (8K w $4000-$5FFF)"
+    IDS_VIC_BLOCK3                       "Blok 3 (8K w $6000-$7FFF)"
+    IDS_VIC_BLOCK5                       "Blok 5 (8K w $A000-$BFFF)"
+    IDS_SELECT_GENERIC                   "Wybierz typowy obraz kartrid¿a"
+    IDS_SELECT_MEGACART                  "Wybierz obraz Mega-Cart"
+    IDS_SELECT_FINAL_EXPANSION           "Wybierz obraz Final Expansion"
+    IDS_SELECT_FP                        "Wybierz obraz Vic Flash Plugin"
+    IDS_SELECT_CARTRIDGE_IMAGE           "Wybierz plik kartrid¿a"
+    IDS_ATTACH_4_8_16_CART_2000          "Wsuñ 4/8/16KB obraz w $2000"
+    IDS_ATTACH_4_8_16_CART_4000          "Wsuñ 4/8/16KB obraz w $4000"
+    IDS_ATTACH_4_8_16_CART_6000          "Wsuñ 4/8/16KB obraz w $6000"
+    IDS_ATTACH_4_8_CART_A000             "Wsuñ 4/8KB obraz w $A000"
+    IDS_ATTACH_4_CART_B000               "Wsuñ 4KB obraz w $B000"
+    IDS_IO_SWAP                          "W³±cz zamianê we/wy MasC=uerade"
+    IDS_MI_IEEE488                       "Modu³ IEEE-488 VIC-1112"
+    IDS_MI_PADDLES                       "W³±cz pokrêt³a steruj±ce"
+    IDS_MI_CART_VIC20_GENERIC            "Standardowy obraz..."
+    IDS_MI_CART_VIC20_MEGACART           "Obraz Mega-Cart..."
+    IDS_MI_CART_VIC20_FINAL_EXPANSION    "Obraz Final Expansion..."
+    IDS_MI_CART_VIC20_FP                 "Obraz Vic Flash Plugin..."
+    IDS_MP_ADD_TO_GENERIC                "Dodaj do standardowego kartrid¿a..."
+    IDS_MI_CART_VIC20_SMART_ATTACH       "Inteligentne montowanie obrazu..."
+    IDS_MI_CART_VIC20_8KB_2000           "4/8/16KB obraz w $2000..."
+    IDS_MI_CART_VIC20_16KB_4000          "4/8/16KB obraz w $4000..."
+    IDS_MI_CART_VIC20_8KB_6000           "4/8/16KB obraz w $6000..."
+    IDS_MI_CART_VIC20_8KB_A000           "4/8KB obraz w $A000..."
+    IDS_MI_CART_VIC20_4KB_B000           "4KB obraz w $B000..."
+    IDS_MI_VIC_SETTINGS                  "Ustawienia VIC..."
+    IDS_MI_FINAL_EXPANSION_WRITEBACK     "W³±cz zapis do pliku ROM Final Expansion"
+    IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK    "W³±cz zapis do pliku ROM Vic Flash Plugin"
+    IDS_MI_MEGACART_WRITEBACK            "W³±cz zapis do NvRAM Mega-Cart"
+    IDS_MI_MEGACART_WRITEBACK_FILE       "Wybierz sta³y plik RAM Mega-Cart"
+    IDS_MI_ACIA_SETTINGS_MASCUERADE      "Ustawienia ACIA (MasC=uerade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE    "Ustawienia GEO-RAM (MasC=uerade)..."
+    IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "Ustawienia DigiMAX (MasC=uerade)..."
+#ifdef HAVE_TFE
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ustawienia Ethernet (MasC=uerade)..."
+#endif
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Ustawienia SFX Sound Expander (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "Ustawienia samplera d¼wiêku SFX (MasC=uerade)..."
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

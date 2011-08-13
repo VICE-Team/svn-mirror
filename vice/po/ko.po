@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-23 20:17+0000\n"
+"POT-Creation-Date: 2011-08-13 12:08-0600\n"
 "PO-Revision-Date: 2011-06-16 11:50-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -78,343 +78,358 @@ msgstr "세번쩨 RS232 디바이스의 보드 레이트를 명시하세요"
 msgid "Specify baudrate of 4th RS232 device"
 msgstr "네번째 RS232 디바이스 의 보드 레이트를 명시하세요"
 
-#: src/arch/unix/gui/c128ui.c:193 src/arch/unix/gui/c64scui.c:336
-#: src/arch/unix/gui/c64ui.c:396 src/arch/unix/gui/cbm2ui.c:295
-#: src/arch/unix/gui/vsidui.c:204
+#: src/arch/unix/gui/c128ui.c:194 src/arch/unix/gui/c64scui.c:337
+#: src/arch/unix/gui/c64ui.c:397 src/arch/unix/gui/cbm2ui.c:359
+#: src/arch/unix/gui/vsidui.c:206
 msgid "Second SID"
 msgstr "세컨드 SID"
 
-#: src/arch/unix/gui/c128ui.c:195 src/arch/unix/gui/c64scui.c:338
-#: src/arch/unix/gui/c64ui.c:398 src/arch/unix/gui/cbm2ui.c:297
-#: src/arch/unix/gui/vsidui.c:206
+#: src/arch/unix/gui/c128ui.c:196 src/arch/unix/gui/c64scui.c:339
+#: src/arch/unix/gui/c64ui.c:399 src/arch/unix/gui/cbm2ui.c:361
+#: src/arch/unix/gui/vsidui.c:208
 msgid "Second SID base address"
 msgstr "세컨드 SID 에서 사용가능한 주소"
 
-#: src/arch/unix/gui/c128ui.c:198 src/arch/unix/gui/c64dtvui.c:75
-#: src/arch/unix/gui/c64scui.c:341 src/arch/unix/gui/c64ui.c:401
-#: src/arch/unix/gui/cbm2ui.c:300 src/arch/unix/gui/petui.c:126
-#: src/arch/unix/gui/plus4ui.c:138 src/arch/unix/gui/vic20ui.c:155
-#: src/arch/unix/gui/vsidui.c:209 src/arch/win32/res.rc.po.c:1354
+#: src/arch/unix/gui/c128ui.c:199 src/arch/unix/gui/c64dtvui.c:76
+#: src/arch/unix/gui/c64scui.c:342 src/arch/unix/gui/c64ui.c:402
+#: src/arch/unix/gui/cbm2ui.c:364 src/arch/unix/gui/petui.c:127
+#: src/arch/unix/gui/plus4ui.c:139 src/arch/unix/gui/vic20ui.c:156
+#: src/arch/unix/gui/vsidui.c:211 src/arch/win32/res.rc.po.c:1354
 #: src/arch/amigaos/intl_text.c.po.c:6259
 msgid "SID filters"
 msgstr "SID 필터"
 
-#: src/arch/unix/gui/c128ui.c:202 src/arch/unix/gui/c64dtvui.c:79
-#: src/arch/unix/gui/c64scui.c:345 src/arch/unix/gui/c64ui.c:405
-#: src/arch/unix/gui/cbm2ui.c:304 src/arch/unix/gui/vsidui.c:213
+#: src/arch/unix/gui/c128ui.c:203 src/arch/unix/gui/c64dtvui.c:80
+#: src/arch/unix/gui/c64scui.c:346 src/arch/unix/gui/c64ui.c:406
+#: src/arch/unix/gui/cbm2ui.c:368 src/arch/unix/gui/vsidui.c:215
 msgid "reSID sampling method"
 msgstr "reSID 샘플링 방법"
 
-#: src/arch/unix/gui/c128ui.c:204 src/arch/unix/gui/c64dtvui.c:81
-#: src/arch/unix/gui/c64scui.c:347 src/arch/unix/gui/c64ui.c:407
-#: src/arch/unix/gui/cbm2ui.c:306 src/arch/unix/gui/vsidui.c:215
+#: src/arch/unix/gui/c128ui.c:205 src/arch/unix/gui/c64dtvui.c:82
+#: src/arch/unix/gui/c64scui.c:348 src/arch/unix/gui/c64ui.c:408
+#: src/arch/unix/gui/cbm2ui.c:370 src/arch/unix/gui/vsidui.c:217
 msgid "reSID resampling passband"
 msgstr "reSID 샘플링 패스 밴드"
 
-#: src/arch/unix/gui/c128ui.c:211 src/arch/unix/gui/c128ui.c:453
-#: src/arch/unix/gui/c64dtvui.c:156 src/arch/unix/gui/c64scui.c:183
-#: src/arch/unix/gui/c64ui.c:245 src/arch/unix/gui/cbm2ui.c:242
-#: src/arch/unix/gui/cbm2ui.c:508 src/arch/unix/gui/petui.c:124
-#: src/arch/unix/gui/plus4ui.c:136 src/arch/unix/gui/vic20ui.c:153
-#: src/arch/unix/gui/vsidui.c:201 src/arch/win32/res.rc.po.c:1353
-#: src/arch/win32/resc64.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:6943
+#: src/arch/unix/gui/c128ui.c:212 src/arch/unix/gui/c128ui.c:454
+#: src/arch/unix/gui/c64dtvui.c:157 src/arch/unix/gui/c64scui.c:184
+#: src/arch/unix/gui/c64ui.c:246 src/arch/unix/gui/cbm2ui.c:275
+#: src/arch/unix/gui/cbm2ui.c:306 src/arch/unix/gui/petui.c:125
+#: src/arch/unix/gui/plus4ui.c:137 src/arch/unix/gui/vic20ui.c:154
+#: src/arch/unix/gui/vsidui.c:203 src/arch/win32/res.rc.po.c:1353
+#: src/arch/win32/resc64.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:6943
 msgid "SID model"
 msgstr "SID 모델"
 
-#: src/arch/unix/gui/c128ui.c:234
+#: src/arch/unix/gui/c128ui.c:235
 msgid "Function ROM image"
 msgstr "function ROM 파일"
 
-#: src/arch/unix/gui/c128ui.c:238
+#: src/arch/unix/gui/c128ui.c:239
 #, c-format
 msgid ""
 "Could not load function ROM image\n"
 "'%s'"
 msgstr "function ROM 이미지 '%s' 을 불러올수 없습니다"
 
-#: src/arch/unix/gui/c128ui.c:244 src/arch/win32/resc128.rc.po.c:686
+#: src/arch/unix/gui/c128ui.c:245 src/arch/win32/resc128.rc.po.c:687
 #: src/translate_text.c.po.c:3428
 msgid "Enable the internal Function ROM"
 msgstr "인터널 Function ROM 을 사용가능하게 하기"
 
-#: src/arch/unix/gui/c128ui.c:246 src/arch/amigaos/intl_text.c.po.c:7807
+#: src/arch/unix/gui/c128ui.c:247 src/arch/amigaos/intl_text.c.po.c:7807
 msgid "Internal Function ROM file"
 msgstr "인터널 Function ROM 파일"
 
-#: src/arch/unix/gui/c128ui.c:250 src/arch/win32/resc128.rc.po.c:689
+#: src/arch/unix/gui/c128ui.c:251 src/arch/win32/resc128.rc.po.c:690
 #: src/translate_text.c.po.c:3458
 msgid "Enable the external Function ROM"
 msgstr "외부 Function ROM 을 사용가능하게 하기"
 
-#: src/arch/unix/gui/c128ui.c:252 src/arch/amigaos/intl_text.c.po.c:7831
+#: src/arch/unix/gui/c128ui.c:253 src/arch/amigaos/intl_text.c.po.c:7831
 msgid "External Function ROM file"
 msgstr "외부함수 ROM 파일"
 
-#: src/arch/unix/gui/c128ui.c:259 src/arch/win32/resc128.rc.po.c:647
+#: src/arch/unix/gui/c128ui.c:260 src/arch/win32/resc128.rc.po.c:648
 msgid "Function ROM"
 msgstr "Function ROM"
 
-#: src/arch/unix/gui/c128ui.c:261
+#: src/arch/unix/gui/c128ui.c:262
 msgid "Banks 2 & 3"
 msgstr "뱅크 2&3"
 
-#: src/arch/unix/gui/c128ui.c:265 src/arch/unix/gui/c64scui.c:365
-#: src/arch/unix/gui/c64ui.c:425
+#: src/arch/unix/gui/c128ui.c:266 src/arch/unix/gui/c64scui.c:366
+#: src/arch/unix/gui/c64ui.c:426
 msgid "256K RAM Expansion"
 msgstr "256K RAM 확장"
 
-#: src/arch/unix/gui/c128ui.c:267 src/arch/unix/gui/c64scui.c:367
-#: src/arch/unix/gui/c64ui.c:427
+#: src/arch/unix/gui/c128ui.c:268 src/arch/unix/gui/c64scui.c:368
+#: src/arch/unix/gui/c64ui.c:428
 msgid "PLUS60K RAM Expansion"
 msgstr "PLUS60K RAM 확장"
 
-#: src/arch/unix/gui/c128ui.c:269 src/arch/unix/gui/c64scui.c:369
-#: src/arch/unix/gui/c64ui.c:429
+#: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64scui.c:370
+#: src/arch/unix/gui/c64ui.c:430
 msgid "PLUS256K RAM Expansion"
 msgstr "PLUS256K RAM 확장"
 
-#: src/arch/unix/gui/c128ui.c:299 src/arch/unix/gui/c64scui.c:398
-#: src/arch/unix/gui/c64ui.c:458
+#: src/arch/unix/gui/c128ui.c:300 src/arch/unix/gui/c64scui.c:399
+#: src/arch/unix/gui/c64ui.c:459
 msgid "Ethernet emulation"
 msgstr "이더넷 에뮬레이터"
 
-#: src/arch/unix/gui/c128ui.c:306 src/arch/unix/gui/c64scui.c:405
-#: src/arch/unix/gui/c64ui.c:465
+#: src/arch/unix/gui/c128ui.c:307 src/arch/unix/gui/c64scui.c:406
+#: src/arch/unix/gui/c64ui.c:466
 msgid "Mouse emulation"
 msgstr "마우스 에뮬레이터"
 
-#: src/arch/unix/gui/c128ui.c:308 src/arch/unix/gui/c64scui.c:407
-#: src/arch/unix/gui/c64ui.c:467 src/arch/unix/gui/vic20ui.c:504
+#: src/arch/unix/gui/c128ui.c:309 src/arch/unix/gui/c64scui.c:408
+#: src/arch/unix/gui/c64ui.c:468 src/arch/unix/gui/vic20ui.c:505
 msgid "Lightpen emulation"
 msgstr "라이트펜 에뮬레이터"
 
-#: src/arch/unix/gui/c128ui.c:317 src/arch/unix/gui/c64scui.c:416
-#: src/arch/unix/gui/c64ui.c:476 src/arch/unix/gui/vic20ui.c:508
+#: src/arch/unix/gui/c128ui.c:318 src/arch/unix/gui/c64scui.c:417
+#: src/arch/unix/gui/c64ui.c:477 src/arch/unix/gui/vic20ui.c:509
 msgid "MIDI emulation"
 msgstr "MIDI 에뮬레이터"
 
-#: src/arch/unix/gui/c128ui.c:325 src/arch/unix/gui/c64scui.c:424
-#: src/arch/unix/gui/c64ui.c:484 src/arch/unix/gui/plus4ui.c:263
-#: src/arch/unix/gui/vic20ui.c:512 src/arch/win32/res.rc.po.c:1432
-#: src/arch/amigaos/intl_text.c.po.c:750
+#: src/arch/unix/gui/c128ui.c:326 src/arch/unix/gui/c64scui.c:425
+#: src/arch/unix/gui/c64ui.c:485 src/arch/unix/gui/cbm2ui.c:78
+#: src/arch/unix/gui/plus4ui.c:264 src/arch/unix/gui/vic20ui.c:513
+#: src/arch/win32/res.rc.po.c:1432 src/arch/amigaos/intl_text.c.po.c:750
 msgid "Reset on cart change"
 msgstr "카트리지 변경 리셋"
 
-#: src/arch/unix/gui/c128ui.c:333
+#: src/arch/unix/gui/c128ui.c:334
 msgid "Load new Int. Kernal ROM"
 msgstr "세로운 인터내셔널 Kernal ROM 을 불러오세요"
 
-#: src/arch/unix/gui/c128ui.c:336
+#: src/arch/unix/gui/c128ui.c:337
 msgid "Load new German Kernal ROM"
 msgstr "세로운 독일 Kernal ROM 을 불러오세요"
 
-#: src/arch/unix/gui/c128ui.c:339
+#: src/arch/unix/gui/c128ui.c:340
 msgid "Load new Basic Lo ROM"
 msgstr "세로운 Basic Lo ROM 을 불러오세요"
 
-#: src/arch/unix/gui/c128ui.c:342
+#: src/arch/unix/gui/c128ui.c:343
 msgid "Load new Basic Hi ROM"
 msgstr "세로운 Basic Hi ROM 을 불러오세요"
 
-#: src/arch/unix/gui/c128ui.c:345 src/arch/unix/gui/c64dtvui.c:96
-#: src/arch/unix/gui/c64scui.c:438 src/arch/unix/gui/c64ui.c:498
-#: src/arch/unix/gui/cbm2ui.c:78 src/arch/unix/gui/petui.c:266
-#: src/arch/unix/gui/vic20ui.c:172
+#: src/arch/unix/gui/c128ui.c:346 src/arch/unix/gui/c64dtvui.c:97
+#: src/arch/unix/gui/c64scui.c:439 src/arch/unix/gui/c64ui.c:499
+#: src/arch/unix/gui/cbm2ui.c:89 src/arch/unix/gui/petui.c:267
+#: src/arch/unix/gui/vic20ui.c:173
 msgid "Load new character ROM"
 msgstr "세로운 ROM 케릭터 불러오기"
 
-#: src/arch/unix/gui/c128ui.c:352 src/arch/unix/gui/c64dtvui.c:103
-#: src/arch/unix/gui/c64scui.c:445 src/arch/unix/gui/c64ui.c:505
-#: src/arch/unix/gui/plus4ui.c:169 src/arch/unix/gui/vic20ui.c:179
+#: src/arch/unix/gui/c128ui.c:353 src/arch/unix/gui/c64dtvui.c:104
+#: src/arch/unix/gui/c64scui.c:446 src/arch/unix/gui/c64ui.c:506
+#: src/arch/unix/gui/cbm2ui.c:99 src/arch/unix/gui/plus4ui.c:170
+#: src/arch/unix/gui/vic20ui.c:180
 msgid "Load default ROMs"
 msgstr "디폴트 ROMs 불러오기"
 
-#: src/arch/unix/gui/c128ui.c:356 src/arch/unix/gui/c64dtvui.c:107
-#: src/arch/unix/gui/c64scui.c:449 src/arch/unix/gui/c64ui.c:509
-#: src/arch/unix/gui/cbm2ui.c:97 src/arch/unix/gui/petui.c:258
-#: src/arch/unix/gui/plus4ui.c:173 src/arch/unix/gui/vic20ui.c:182
+#: src/arch/unix/gui/c128ui.c:357 src/arch/unix/gui/c64dtvui.c:108
+#: src/arch/unix/gui/c64scui.c:450 src/arch/unix/gui/c64ui.c:510
+#: src/arch/unix/gui/cbm2ui.c:102 src/arch/unix/gui/cbm2ui.c:129
+#: src/arch/unix/gui/petui.c:259 src/arch/unix/gui/plus4ui.c:174
+#: src/arch/unix/gui/vic20ui.c:183
 msgid "Load new computer ROM"
 msgstr "세로운 컴퓨터 ROM 불러오기"
 
-#: src/arch/unix/gui/c128ui.c:358 src/arch/unix/gui/c64dtvui.c:109
-#: src/arch/unix/gui/c64scui.c:451 src/arch/unix/gui/c64ui.c:511
-#: src/arch/unix/gui/cbm2ui.c:99 src/arch/unix/gui/petui.c:260
-#: src/arch/unix/gui/plus4ui.c:175 src/arch/unix/gui/vic20ui.c:184
+#: src/arch/unix/gui/c128ui.c:359 src/arch/unix/gui/c64dtvui.c:110
+#: src/arch/unix/gui/c64scui.c:452 src/arch/unix/gui/c64ui.c:512
+#: src/arch/unix/gui/cbm2ui.c:104 src/arch/unix/gui/cbm2ui.c:131
+#: src/arch/unix/gui/petui.c:261 src/arch/unix/gui/plus4ui.c:176
+#: src/arch/unix/gui/vic20ui.c:185
 msgid "Load new drive ROM"
 msgstr "세로운 드라이브 ROM 불러오기"
 
-#: src/arch/unix/gui/c128ui.c:361 src/arch/unix/gui/c64dtvui.c:112
-#: src/arch/unix/gui/c64scui.c:454 src/arch/unix/gui/c64ui.c:514
-#: src/arch/unix/gui/cbm2ui.c:102 src/arch/unix/gui/petui.c:263
-#: src/arch/unix/gui/plus4ui.c:178 src/arch/unix/gui/vic20ui.c:187
+#: src/arch/unix/gui/c128ui.c:362 src/arch/unix/gui/c64dtvui.c:113
+#: src/arch/unix/gui/c64scui.c:455 src/arch/unix/gui/c64ui.c:515
+#: src/arch/unix/gui/cbm2ui.c:107 src/arch/unix/gui/cbm2ui.c:134
+#: src/arch/unix/gui/petui.c:264 src/arch/unix/gui/plus4ui.c:179
+#: src/arch/unix/gui/vic20ui.c:188
 msgid "ROM set type"
 msgstr "ROM 셋 종류"
 
-#: src/arch/unix/gui/c128ui.c:364 src/arch/unix/gui/c64dtvui.c:115
-#: src/arch/unix/gui/c64scui.c:457 src/arch/unix/gui/c64ui.c:517
-#: src/arch/unix/gui/cbm2ui.c:133 src/arch/unix/gui/petui.c:297
-#: src/arch/unix/gui/plus4ui.c:181 src/arch/unix/gui/uiromset.c:124
-#: src/arch/unix/gui/vic20ui.c:190
+#: src/arch/unix/gui/c128ui.c:365 src/arch/unix/gui/c64dtvui.c:116
+#: src/arch/unix/gui/c64scui.c:458 src/arch/unix/gui/c64ui.c:518
+#: src/arch/unix/gui/cbm2ui.c:110 src/arch/unix/gui/cbm2ui.c:137
+#: src/arch/unix/gui/petui.c:298 src/arch/unix/gui/plus4ui.c:182
+#: src/arch/unix/gui/uiromset.c:124 src/arch/unix/gui/vic20ui.c:191
 msgid "ROM set archive"
 msgstr "ROM 셋 보관소"
 
-#: src/arch/unix/gui/c128ui.c:366 src/arch/unix/gui/c64dtvui.c:117
-#: src/arch/unix/gui/c64scui.c:459 src/arch/unix/gui/c64ui.c:519
-#: src/arch/unix/gui/cbm2ui.c:135 src/arch/unix/gui/petui.c:299
-#: src/arch/unix/gui/plus4ui.c:183 src/arch/unix/gui/uiromset.c:265
-#: src/arch/unix/gui/vic20ui.c:192
+#: src/arch/unix/gui/c128ui.c:367 src/arch/unix/gui/c64dtvui.c:118
+#: src/arch/unix/gui/c64scui.c:460 src/arch/unix/gui/c64ui.c:520
+#: src/arch/unix/gui/cbm2ui.c:112 src/arch/unix/gui/cbm2ui.c:139
+#: src/arch/unix/gui/petui.c:300 src/arch/unix/gui/plus4ui.c:184
+#: src/arch/unix/gui/uiromset.c:265 src/arch/unix/gui/vic20ui.c:193
 msgid "ROM set file"
 msgstr "ROM 셋 파일"
 
-#: src/arch/unix/gui/c128ui.c:390
+#: src/arch/unix/gui/c128ui.c:391
 msgid "VIC II Save media file"
 msgstr "VIC II 미디어 파일 저장"
 
-#: src/arch/unix/gui/c128ui.c:392
+#: src/arch/unix/gui/c128ui.c:393
 msgid "VDC Save media file"
 msgstr "VDC 미디어 파일 저장"
 
-#: src/arch/unix/gui/c128ui.c:398
+#: src/arch/unix/gui/c128ui.c:399
 msgid "Screenshots"
 msgstr "스크린샷"
 
-#: src/arch/unix/gui/c128ui.c:408 src/arch/win32/resc128.rc.po.c:678
+#: src/arch/unix/gui/c128ui.c:409 src/arch/win32/resc128.rc.po.c:679
 #: src/arch/amigaos/intl_text.c.po.c:2694
 msgid "International"
 msgstr "국제"
 
-#: src/arch/unix/gui/c128ui.c:410 src/arch/win32/resc128.rc.po.c:679
+#: src/arch/unix/gui/c128ui.c:411 src/arch/win32/resc128.rc.po.c:680
 #: src/arch/amigaos/intl_text.c.po.c:2742
 msgid "Finnish"
 msgstr "핀란드어"
 
-#: src/arch/unix/gui/c128ui.c:412 src/arch/win32/res.rc.po.c:1520
-#: src/arch/win32/resc128.rc.po.c:680 src/arch/amigaos/intl_text.c.po.c:2754
+#: src/arch/unix/gui/c128ui.c:413 src/arch/win32/res.rc.po.c:1520
+#: src/arch/win32/resc128.rc.po.c:681 src/arch/amigaos/intl_text.c.po.c:2754
 msgid "French"
 msgstr "프랑스어"
 
-#: src/arch/unix/gui/c128ui.c:414 src/arch/unix/gui/c64scui.c:492
-#: src/arch/unix/gui/c64scui.c:498 src/arch/unix/gui/c64ui.c:552
-#: src/arch/unix/gui/c64ui.c:558 src/arch/unix/gui/cbm2ui.c:332
-#: src/arch/unix/gui/petui.c:377 src/arch/unix/gui/petui.c:383
-#: src/arch/unix/gui/plus4ui.c:295 src/arch/win32/res.rc.po.c:1519
-#: src/arch/win32/resc128.rc.po.c:681 src/arch/amigaos/intl_text.c.po.c:2730
+#: src/arch/unix/gui/c128ui.c:415 src/arch/unix/gui/c64scui.c:493
+#: src/arch/unix/gui/c64scui.c:499 src/arch/unix/gui/c64ui.c:553
+#: src/arch/unix/gui/c64ui.c:559 src/arch/unix/gui/cbm2ui.c:380
+#: src/arch/unix/gui/petui.c:378 src/arch/unix/gui/petui.c:384
+#: src/arch/unix/gui/plus4ui.c:296 src/arch/win32/res.rc.po.c:1519
+#: src/arch/win32/resc128.rc.po.c:682 src/arch/amigaos/intl_text.c.po.c:2730
 msgid "German"
 msgstr "독일어"
 
-#: src/arch/unix/gui/c128ui.c:416 src/arch/win32/res.rc.po.c:1522
-#: src/arch/win32/resc128.rc.po.c:682 src/arch/amigaos/intl_text.c.po.c:2778
+#: src/arch/unix/gui/c128ui.c:417 src/arch/win32/res.rc.po.c:1522
+#: src/arch/win32/resc128.rc.po.c:683 src/arch/amigaos/intl_text.c.po.c:2778
 msgid "Italian"
 msgstr "이탈리아어"
 
-#: src/arch/unix/gui/c128ui.c:418 src/arch/win32/resc128.rc.po.c:683
+#: src/arch/unix/gui/c128ui.c:419 src/arch/win32/resc128.rc.po.c:684
 #: src/arch/amigaos/intl_text.c.po.c:2814
 msgid "Norwegian"
 msgstr "노르웨이어"
 
-#: src/arch/unix/gui/c128ui.c:420 src/arch/win32/res.rc.po.c:1526
-#: src/arch/win32/resc128.rc.po.c:684 src/arch/amigaos/intl_text.c.po.c:2838
+#: src/arch/unix/gui/c128ui.c:421 src/arch/win32/res.rc.po.c:1527
+#: src/arch/win32/resc128.rc.po.c:685 src/arch/amigaos/intl_text.c.po.c:2838
 msgid "Swedish"
 msgstr "스웨덴어"
 
-#: src/arch/unix/gui/c128ui.c:431 src/arch/unix/gui/c128ui.c:440
-#: src/arch/unix/gui/c64scui.c:150 src/arch/unix/gui/c64scui.c:160
-#: src/arch/unix/gui/c64ui.c:222 src/arch/unix/gui/c64ui.c:232
-#: src/arch/win32/resc64.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:8503
+#: src/arch/unix/gui/c128ui.c:432 src/arch/unix/gui/c128ui.c:441
+#: src/arch/unix/gui/c64scui.c:151 src/arch/unix/gui/c64scui.c:161
+#: src/arch/unix/gui/c64ui.c:223 src/arch/unix/gui/c64ui.c:233
+#: src/arch/win32/resc64.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:8503
 msgid "6526 (old)"
 msgstr "6526 (오래된)"
 
-#: src/arch/unix/gui/c128ui.c:433 src/arch/unix/gui/c128ui.c:442
-#: src/arch/win32/resc64.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:8515
+#: src/arch/unix/gui/c128ui.c:434 src/arch/unix/gui/c128ui.c:443
+#: src/arch/win32/resc64.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:8515
 msgid "6526A (new)"
 msgstr "6526A (새로운)"
 
-#: src/arch/unix/gui/c128ui.c:449 src/arch/win32/resc128.rc.po.c:646
+#: src/arch/unix/gui/c128ui.c:450 src/arch/win32/resc128.rc.po.c:647
 #: src/arch/amigaos/intl_text.c.po.c:7783
 msgid "Machine type"
 msgstr "머신 종류"
 
-#: src/arch/unix/gui/c128ui.c:451 src/arch/unix/gui/c64dtvui.c:154
-#: src/arch/unix/gui/c64scui.c:181 src/arch/unix/gui/c64ui.c:243
-#: src/arch/unix/gui/cbm2ui.c:240 src/arch/win32/resc64.rc.po.c:524
+#: src/arch/unix/gui/c128ui.c:452 src/arch/unix/gui/c64dtvui.c:155
+#: src/arch/unix/gui/c64scui.c:182 src/arch/unix/gui/c64ui.c:244
+#: src/arch/unix/gui/cbm2ui.c:273 src/arch/win32/resc64.rc.po.c:525
 #: src/arch/amigaos/intl_text.c.po.c:8551
 msgid "VIC-II model"
 msgstr "VIC-II 모델"
 
-#: src/arch/unix/gui/c128ui.c:455
+#: src/arch/unix/gui/c128ui.c:456
 msgid "VDC model"
 msgstr "VDC 모델"
 
-#: src/arch/unix/gui/c128ui.c:459 src/arch/unix/gui/c64scui.c:185
-#: src/arch/unix/gui/c64ui.c:247 src/arch/win32/resc64.rc.po.c:527
+#: src/arch/unix/gui/c128ui.c:460 src/arch/unix/gui/c64scui.c:186
+#: src/arch/unix/gui/c64ui.c:248 src/arch/win32/resc64.rc.po.c:528
 #: src/arch/amigaos/intl_text.c.po.c:8563
 msgid "CIA 1 model"
 msgstr "CIA 1 모델"
 
-#: src/arch/unix/gui/c128ui.c:461 src/arch/unix/gui/c64scui.c:187
-#: src/arch/unix/gui/c64ui.c:249 src/arch/win32/resc64.rc.po.c:528
+#: src/arch/unix/gui/c128ui.c:462 src/arch/unix/gui/c64scui.c:188
+#: src/arch/unix/gui/c64ui.c:250 src/arch/win32/resc64.rc.po.c:529
 #: src/arch/amigaos/intl_text.c.po.c:8575
 msgid "CIA 2 model"
 msgstr "CIA 2 모델"
 
-#: src/arch/unix/gui/c128ui.c:465 src/translate_text.c.po.c:3368
+#: src/arch/unix/gui/c128ui.c:466 src/translate_text.c.po.c:3368
 msgid "Always switch to C64 mode on reset"
 msgstr "다시시작하면 항상 C64 모드 로 바뀝니다"
 
-#: src/arch/unix/gui/c128ui.c:487 src/arch/unix/gui/c64dtvui.c:178
-#: src/arch/unix/gui/c64scui.c:505 src/arch/unix/gui/c64ui.c:565
-#: src/arch/unix/gui/plus4ui.c:308 src/arch/unix/gui/vic20ui.c:534
+#: src/arch/unix/gui/c128ui.c:488 src/arch/unix/gui/c64dtvui.c:179
+#: src/arch/unix/gui/c64scui.c:506 src/arch/unix/gui/c64ui.c:566
+#: src/arch/unix/gui/cbm2ui.c:393 src/arch/unix/gui/cbm2ui.c:409
+#: src/arch/unix/gui/plus4ui.c:309 src/arch/unix/gui/vic20ui.c:535
 msgid "Model settings"
 msgstr "모델 설정"
 
-#: src/arch/unix/gui/c128ui.c:489 src/arch/unix/gui/c64dtvui.c:180
-#: src/arch/unix/gui/c64scui.c:507 src/arch/unix/gui/c64ui.c:567
-#: src/arch/unix/gui/cbm2ui.c:347 src/arch/unix/gui/petui.c:392
-#: src/arch/unix/gui/plus4ui.c:310 src/arch/unix/gui/vic20ui.c:536
-#: src/arch/win32/res.rc.po.c:1038 src/arch/win32/res.rc.po.c:1482
+#: src/arch/unix/gui/c128ui.c:490 src/arch/unix/gui/c64dtvui.c:181
+#: src/arch/unix/gui/c64scui.c:508 src/arch/unix/gui/c64ui.c:568
+#: src/arch/unix/gui/cbm2ui.c:395 src/arch/unix/gui/petui.c:393
+#: src/arch/unix/gui/plus4ui.c:311 src/arch/unix/gui/vic20ui.c:537
+#, fuzzy
+msgid "RAM reset pattern"
+msgstr "ROM 셋 종류"
+
+#: src/arch/unix/gui/c128ui.c:492 src/arch/unix/gui/c64dtvui.c:183
+#: src/arch/unix/gui/c64scui.c:510 src/arch/unix/gui/c64ui.c:570
+#: src/arch/unix/gui/cbm2ui.c:397 src/arch/unix/gui/cbm2ui.c:413
+#: src/arch/unix/gui/petui.c:395 src/arch/unix/gui/plus4ui.c:313
+#: src/arch/unix/gui/vic20ui.c:539 src/arch/win32/res.rc.po.c:1038
+#: src/arch/win32/res.rc.po.c:1482
 msgid "ROM settings"
 msgstr "ROM 설정"
 
-#: src/arch/unix/gui/c128ui.c:491 src/arch/unix/gui/c64dtvui.c:182
-#: src/arch/unix/gui/c64scui.c:509 src/arch/unix/gui/c64ui.c:569
-#: src/arch/unix/gui/cbm2ui.c:351 src/arch/win32/res.rc.po.c:1485
+#: src/arch/unix/gui/c128ui.c:494 src/arch/unix/gui/c64dtvui.c:185
+#: src/arch/unix/gui/c64scui.c:512 src/arch/unix/gui/c64ui.c:572
+#: src/arch/unix/gui/cbm2ui.c:415 src/arch/win32/res.rc.po.c:1485
 #: src/arch/win32/resvicii.rc.po.c:38 src/arch/amigaos/intl_text.c.po.c:1926
 #: src/arch/amigaos/intl_text.c.po.c:6463
 msgid "VIC-II settings"
 msgstr "VIC-II 설정"
 
-#: src/arch/unix/gui/c128ui.c:493 src/arch/win32/resc128.rc.po.c:184
-#: src/arch/win32/resc128.rc.po.c:691 src/arch/amigaos/intl_text.c.po.c:1362
+#: src/arch/unix/gui/c128ui.c:496 src/arch/win32/resc128.rc.po.c:184
+#: src/arch/win32/resc128.rc.po.c:692 src/arch/amigaos/intl_text.c.po.c:1362
 msgid "VDC settings"
 msgstr "VDC 설정"
 
-#: src/arch/unix/gui/c128ui.c:495 src/arch/unix/gui/c64dtvui.c:184
-#: src/arch/unix/gui/c64scui.c:511 src/arch/unix/gui/c64ui.c:571
-#: src/arch/unix/gui/cbm2ui.c:353 src/arch/unix/gui/vsidui.c:337
-#: src/arch/win32/res.rc.po.c:1487 src/arch/win32/ressid.rc.po.c:66
-#: src/arch/win32/ressiddtv.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:2010
+#: src/arch/unix/gui/c128ui.c:498 src/arch/unix/gui/c64dtvui.c:187
+#: src/arch/unix/gui/c64scui.c:514 src/arch/unix/gui/c64ui.c:574
+#: src/arch/unix/gui/cbm2ui.c:401 src/arch/unix/gui/cbm2ui.c:417
+#: src/arch/unix/gui/vsidui.c:362 src/arch/win32/res.rc.po.c:1487
+#: src/arch/win32/ressid.rc.po.c:66 src/arch/win32/ressiddtv.rc.po.c:55
+#: src/arch/amigaos/intl_text.c.po.c:2010
 #: src/arch/amigaos/intl_text.c.po.c:6307
 msgid "SID settings"
 msgstr "SID 설정"
 
-#: src/arch/unix/gui/c128ui.c:497
+#: src/arch/unix/gui/c128ui.c:500
 msgid "Memory and I/O extensions"
 msgstr "메모리 와 I/O 확장"
 
-#: src/arch/unix/gui/c128ui.c:499 src/arch/unix/gui/c64scui.c:515
-#: src/arch/unix/gui/c64ui.c:575 src/arch/unix/gui/cbm2ui.c:355
-#: src/arch/unix/gui/plus4ui.c:317 src/arch/unix/gui/vic20ui.c:431
-#: src/arch/win32/res.rc.po.c:1279 src/arch/win32/res.rc.po.c:1488
-#: src/arch/amigaos/intl_text.c.po.c:2058
+#: src/arch/unix/gui/c128ui.c:502 src/arch/unix/gui/c64scui.c:518
+#: src/arch/unix/gui/c64ui.c:578 src/arch/unix/gui/cbm2ui.c:403
+#: src/arch/unix/gui/cbm2ui.c:419 src/arch/unix/gui/plus4ui.c:320
+#: src/arch/unix/gui/vic20ui.c:432 src/arch/win32/res.rc.po.c:1279
+#: src/arch/win32/res.rc.po.c:1488 src/arch/amigaos/intl_text.c.po.c:2058
 msgid "RS232 settings"
 msgstr "RS232 설정"
 
-#: src/arch/unix/gui/c128ui.c:629 src/arch/unix/gui/c64dtvui.c:310
-#: src/arch/unix/gui/c64scui.c:645 src/arch/unix/gui/c64ui.c:705
-#: src/arch/unix/gui/cbm2ui.c:550 src/arch/unix/gui/cbm2ui.c:566
-#: src/arch/unix/gui/petui.c:552 src/arch/unix/gui/plus4ui.c:460
-#: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:676
-#: src/arch/unix/gui/vsidui.c:398 src/arch/win32/res.rc.po.c:84
+#: src/arch/unix/gui/c128ui.c:632 src/arch/unix/gui/c64dtvui.c:313
+#: src/arch/unix/gui/c64scui.c:648 src/arch/unix/gui/c64ui.c:708
+#: src/arch/unix/gui/cbm2ui.c:633 src/arch/unix/gui/cbm2ui.c:657
+#: src/arch/unix/gui/petui.c:555 src/arch/unix/gui/plus4ui.c:463
+#: src/arch/unix/gui/uiromset.c:87 src/arch/unix/gui/vic20ui.c:679
+#: src/arch/unix/gui/vsidui.c:427 src/arch/win32/res.rc.po.c:84
 #: src/arch/win32/res.rc.po.c:1355 src/arch/win32/resc128.rc.po.c:18
 #: src/arch/win32/resc64.rc.po.c:18 src/arch/win32/resc64dtv.rc.po.c:18
 #: src/arch/win32/rescbm2.rc.po.c:18 src/arch/win32/respet.rc.po.c:18
@@ -423,23 +438,23 @@ msgstr "RS232 설정"
 msgid "File"
 msgstr "파일"
 
-#: src/arch/unix/gui/c128ui.c:632 src/arch/unix/gui/c64dtvui.c:313
-#: src/arch/unix/gui/c64scui.c:648 src/arch/unix/gui/c64ui.c:708
-#: src/arch/unix/gui/cbm2ui.c:569 src/arch/unix/gui/petui.c:555
-#: src/arch/unix/gui/plus4ui.c:463 src/arch/unix/gui/vic20ui.c:679
-#: src/arch/win32/res.rc.po.c:1366 src/arch/win32/resc128.rc.po.c:118
-#: src/arch/win32/resc64.rc.po.c:118 src/arch/win32/resc64dtv.rc.po.c:85
-#: src/arch/win32/rescbm2.rc.po.c:92 src/arch/win32/respet.rc.po.c:92
-#: src/arch/win32/resplus4.rc.po.c:104 src/arch/win32/resvic20.rc.po.c:114
-#: src/arch/amigaos/intl_text.c.po.c:834
+#: src/arch/unix/gui/c128ui.c:635 src/arch/unix/gui/c64dtvui.c:316
+#: src/arch/unix/gui/c64scui.c:651 src/arch/unix/gui/c64ui.c:711
+#: src/arch/unix/gui/cbm2ui.c:636 src/arch/unix/gui/cbm2ui.c:660
+#: src/arch/unix/gui/petui.c:558 src/arch/unix/gui/plus4ui.c:466
+#: src/arch/unix/gui/vic20ui.c:682 src/arch/win32/res.rc.po.c:1366
+#: src/arch/win32/resc128.rc.po.c:118 src/arch/win32/resc64.rc.po.c:118
+#: src/arch/win32/resc64dtv.rc.po.c:85 src/arch/win32/rescbm2.rc.po.c:92
+#: src/arch/win32/respet.rc.po.c:92 src/arch/win32/resplus4.rc.po.c:104
+#: src/arch/win32/resvic20.rc.po.c:114 src/arch/amigaos/intl_text.c.po.c:834
 msgid "Edit"
 msgstr "편집"
 
-#: src/arch/unix/gui/c128ui.c:635 src/arch/unix/gui/c64dtvui.c:316
-#: src/arch/unix/gui/c64scui.c:651 src/arch/unix/gui/c64ui.c:711
-#: src/arch/unix/gui/cbm2ui.c:552 src/arch/unix/gui/cbm2ui.c:572
-#: src/arch/unix/gui/petui.c:558 src/arch/unix/gui/plus4ui.c:466
-#: src/arch/unix/gui/vic20ui.c:682 src/arch/win32/res.rc.po.c:1367
+#: src/arch/unix/gui/c128ui.c:638 src/arch/unix/gui/c64dtvui.c:319
+#: src/arch/unix/gui/c64scui.c:654 src/arch/unix/gui/c64ui.c:714
+#: src/arch/unix/gui/cbm2ui.c:639 src/arch/unix/gui/cbm2ui.c:663
+#: src/arch/unix/gui/petui.c:561 src/arch/unix/gui/plus4ui.c:469
+#: src/arch/unix/gui/vic20ui.c:685 src/arch/win32/res.rc.po.c:1367
 #: src/arch/win32/resc128.rc.po.c:123 src/arch/win32/resc64.rc.po.c:123
 #: src/arch/win32/resc64dtv.rc.po.c:90 src/arch/win32/rescbm2.rc.po.c:97
 #: src/arch/win32/respet.rc.po.c:97 src/arch/win32/resplus4.rc.po.c:109
@@ -447,11 +462,11 @@ msgstr "편집"
 msgid "Snapshot"
 msgstr "스냅샷"
 
-#: src/arch/unix/gui/c128ui.c:637 src/arch/unix/gui/c64dtvui.c:318
-#: src/arch/unix/gui/c64scui.c:653 src/arch/unix/gui/c64ui.c:713
-#: src/arch/unix/gui/cbm2ui.c:554 src/arch/unix/gui/cbm2ui.c:574
-#: src/arch/unix/gui/petui.c:560 src/arch/unix/gui/plus4ui.c:468
-#: src/arch/unix/gui/vic20ui.c:684 src/arch/win32/res.rc.po.c:1369
+#: src/arch/unix/gui/c128ui.c:640 src/arch/unix/gui/c64dtvui.c:321
+#: src/arch/unix/gui/c64scui.c:656 src/arch/unix/gui/c64ui.c:716
+#: src/arch/unix/gui/cbm2ui.c:641 src/arch/unix/gui/cbm2ui.c:665
+#: src/arch/unix/gui/petui.c:563 src/arch/unix/gui/plus4ui.c:471
+#: src/arch/unix/gui/vic20ui.c:687 src/arch/win32/res.rc.po.c:1369
 #: src/arch/win32/resc128.rc.po.c:148 src/arch/win32/resc64.rc.po.c:150
 #: src/arch/win32/resc64dtv.rc.po.c:115 src/arch/win32/rescbm2.rc.po.c:122
 #: src/arch/win32/respet.rc.po.c:122 src/arch/win32/resplus4.rc.po.c:134
@@ -459,11 +474,12 @@ msgstr "스냅샷"
 msgid "Options"
 msgstr "선택"
 
-#: src/arch/unix/gui/c128ui.c:639 src/arch/unix/gui/c64dtvui.c:320
-#: src/arch/unix/gui/c64scui.c:655 src/arch/unix/gui/c64ui.c:715
-#: src/arch/unix/gui/cbm2ui.c:556 src/arch/unix/gui/cbm2ui.c:576
-#: src/arch/unix/gui/petui.c:562 src/arch/unix/gui/plus4ui.c:470
-#: src/arch/unix/gui/vic20ui.c:686 src/arch/unix/gui/vsidui.c:400
+#. WARNING: position hardcoded
+#: src/arch/unix/gui/c128ui.c:642 src/arch/unix/gui/c64dtvui.c:323
+#: src/arch/unix/gui/c64scui.c:658 src/arch/unix/gui/c64ui.c:718
+#: src/arch/unix/gui/cbm2ui.c:643 src/arch/unix/gui/cbm2ui.c:667
+#: src/arch/unix/gui/petui.c:565 src/arch/unix/gui/plus4ui.c:473
+#: src/arch/unix/gui/vic20ui.c:689 src/arch/unix/gui/vsidui.c:431
 #: src/arch/unix/x11/gnome/uinetplay.c:68 src/arch/win32/res.rc.po.c:1298
 #: src/arch/win32/res.rc.po.c:1374 src/arch/win32/resc128.rc.po.c:219
 #: src/arch/win32/resc64.rc.po.c:202 src/arch/win32/resc64dtv.rc.po.c:175
@@ -473,222 +489,217 @@ msgstr "선택"
 msgid "Settings"
 msgstr "설정"
 
+#: src/arch/unix/gui/c128ui.c:645 src/arch/unix/gui/c64dtvui.c:326
+#: src/arch/unix/gui/c64scui.c:661 src/arch/unix/gui/c64ui.c:721
+#: src/arch/unix/gui/cbm2ui.c:646 src/arch/unix/gui/cbm2ui.c:670
+#: src/arch/unix/gui/petui.c:568 src/arch/unix/gui/plus4ui.c:476
+#: src/arch/unix/gui/uivicii.c:92 src/arch/unix/gui/vic20ui.c:692
+#: src/arch/unix/gui/vsidui.c:434 src/arch/win32/res.rc.po.c:92
+#: src/arch/win32/res.rc.po.c:1362 src/arch/win32/resc128.rc.po.c:101
+#: src/arch/win32/resc64.rc.po.c:101 src/arch/win32/resc64dtv.rc.po.c:68
+#: src/arch/win32/rescbm2.rc.po.c:75 src/arch/win32/respet.rc.po.c:75
+#: src/arch/win32/resplus4.rc.po.c:87 src/arch/win32/resvic20.rc.po.c:97
+#: src/arch/win32/resvicii.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:8143
+msgid "Debug"
+msgstr "디벅"
+
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
-#: src/arch/unix/gui/c128ui.c:643 src/arch/unix/gui/c64dtvui.c:324
-#: src/arch/unix/gui/c64scui.c:659 src/arch/unix/gui/c64ui.c:719
-#: src/arch/unix/gui/cbm2ui.c:560 src/arch/unix/gui/cbm2ui.c:580
-#: src/arch/unix/gui/petui.c:566 src/arch/unix/gui/plus4ui.c:474
-#: src/arch/unix/gui/vic20ui.c:690
+#: src/arch/unix/gui/c128ui.c:650 src/arch/unix/gui/c64dtvui.c:331
+#: src/arch/unix/gui/c64scui.c:666 src/arch/unix/gui/c64ui.c:726
+#: src/arch/unix/gui/cbm2ui.c:651 src/arch/unix/gui/cbm2ui.c:675
+#: src/arch/unix/gui/petui.c:573 src/arch/unix/gui/plus4ui.c:481
+#: src/arch/unix/gui/vic20ui.c:697 src/arch/unix/gui/vsidui.c:439
 msgid "RJHelp"
 msgstr "RJ도움"
 
-#: src/arch/unix/gui/c64dtvui.c:90 src/arch/unix/gui/c64scui.c:432
-#: src/arch/unix/gui/c64ui.c:492 src/arch/unix/gui/cbm2ui.c:75
-#: src/arch/unix/gui/petui.c:211 src/arch/unix/gui/plus4ui.c:149
-#: src/arch/unix/gui/vic20ui.c:166
+#: src/arch/unix/gui/c64dtvui.c:91 src/arch/unix/gui/c64scui.c:433
+#: src/arch/unix/gui/c64ui.c:493 src/arch/unix/gui/cbm2ui.c:86
+#: src/arch/unix/gui/petui.c:212 src/arch/unix/gui/plus4ui.c:150
+#: src/arch/unix/gui/vic20ui.c:167
 msgid "Load new kernal ROM"
 msgstr "세로운 kernal ROM 불러오기"
 
-#: src/arch/unix/gui/c64dtvui.c:93 src/arch/unix/gui/c64scui.c:435
-#: src/arch/unix/gui/c64ui.c:495 src/arch/unix/gui/cbm2ui.c:81
-#: src/arch/unix/gui/petui.c:217 src/arch/unix/gui/plus4ui.c:151
-#: src/arch/unix/gui/vic20ui.c:169
+#: src/arch/unix/gui/c64dtvui.c:94 src/arch/unix/gui/c64scui.c:436
+#: src/arch/unix/gui/c64ui.c:496 src/arch/unix/gui/cbm2ui.c:92
+#: src/arch/unix/gui/petui.c:218 src/arch/unix/gui/plus4ui.c:152
+#: src/arch/unix/gui/vic20ui.c:170
 msgid "Load new BASIC ROM"
 msgstr "세로운 BASIC ROM 불러오기"
 
-#: src/arch/unix/gui/c64dtvui.c:141 src/arch/unix/gui/c64scui.c:483
-#: src/arch/unix/gui/c64ui.c:543 src/arch/unix/gui/cbm2ui.c:377
-#: src/arch/unix/gui/petui.c:420 src/arch/unix/gui/plus4ui.c:86
-#: src/arch/unix/gui/vic20ui.c:455 src/arch/unix/x11/gnome/uiscreenshot.c:288
+#: src/arch/unix/gui/c64dtvui.c:142 src/arch/unix/gui/c64scui.c:484
+#: src/arch/unix/gui/c64ui.c:544 src/arch/unix/gui/cbm2ui.c:441
+#: src/arch/unix/gui/petui.c:423 src/arch/unix/gui/plus4ui.c:87
+#: src/arch/unix/gui/vic20ui.c:456 src/arch/unix/x11/gnome/uiscreenshot.c:288
 #: src/arch/win32/res.rc.po.c:1131
 msgid "Save media file"
 msgstr "미디어 파일을 저장하세요"
 
-#: src/arch/unix/gui/c64dtvui.c:149 src/arch/unix/gui/c64dtvui.c:282
+#: src/arch/unix/gui/c64dtvui.c:150 src/arch/unix/gui/c64dtvui.c:285
 #, fuzzy
 msgid "DTV model"
 msgstr "SID 모델"
 
-#: src/arch/unix/gui/c64dtvui.c:152 src/arch/win32/resc64dtv.rc.po.c:437
+#: src/arch/unix/gui/c64dtvui.c:153 src/arch/win32/resc64dtv.rc.po.c:438
 #: src/arch/amigaos/intl_text.c.po.c:4266
 msgid "DTV revision"
 msgstr "DTV 수정"
 
-#: src/arch/unix/gui/c64dtvui.c:186
+#: src/arch/unix/gui/c64dtvui.c:189
 msgid "Flash settings"
 msgstr "플래쉬 설정"
 
-#: src/arch/unix/gui/c64dtvui.c:188 src/arch/unix/gui/c64scui.c:513
-#: src/arch/unix/gui/c64ui.c:573 src/arch/unix/gui/petui.c:396
-#: src/arch/unix/gui/plus4ui.c:314 src/arch/unix/gui/vic20ui.c:540
+#: src/arch/unix/gui/c64dtvui.c:191 src/arch/unix/gui/c64scui.c:516
+#: src/arch/unix/gui/c64ui.c:576 src/arch/unix/gui/petui.c:399
+#: src/arch/unix/gui/plus4ui.c:317 src/arch/unix/gui/vic20ui.c:543
 msgid "I/O extensions"
 msgstr "I/O 확장"
 
-#: src/arch/unix/gui/c64scui.c:114 src/arch/unix/gui/c64ui.c:172
+#: src/arch/unix/gui/c64scui.c:115 src/arch/unix/gui/c64ui.c:173
 #: src/arch/amigaos/intl_text.c.po.c:1722
 msgid "C64 old PAL"
 msgstr "C64 올드 PAL"
 
-#: src/arch/unix/gui/c64scui.c:120 src/arch/unix/gui/c64ui.c:178
+#: src/arch/unix/gui/c64scui.c:121 src/arch/unix/gui/c64ui.c:179
 #: src/arch/amigaos/intl_text.c.po.c:1758
 msgid "C64 old NTSC"
 msgstr "C64 올드 NTSC"
 
-#: src/arch/unix/gui/c64scui.c:134 src/arch/win32/resc64.rc.po.c:536
+#: src/arch/unix/gui/c64scui.c:135 src/arch/win32/resc64.rc.po.c:537
 #: src/arch/amigaos/intl_text.c.po.c:8443
 msgid "6569R1 (old PAL)"
 msgstr "6569R1 (올드 PAL)"
 
-#: src/arch/unix/gui/c64scui.c:140 src/arch/win32/resc64.rc.po.c:539
+#: src/arch/unix/gui/c64scui.c:141 src/arch/win32/resc64.rc.po.c:540
 #: src/arch/amigaos/intl_text.c.po.c:8479
 msgid "6567R56A (old NTSC)"
 msgstr "6567R56A (올드 NTSC)"
 
-#: src/arch/unix/gui/c64scui.c:152 src/arch/unix/gui/c64scui.c:162
-#: src/arch/unix/gui/c64ui.c:224 src/arch/unix/gui/c64ui.c:234
+#: src/arch/unix/gui/c64scui.c:153 src/arch/unix/gui/c64scui.c:163
+#: src/arch/unix/gui/c64ui.c:225 src/arch/unix/gui/c64ui.c:235
 msgid "6526 (new)"
 msgstr "6526 (새로운)"
 
-#: src/arch/unix/gui/c64scui.c:170 src/arch/win32/resc64.rc.po.c:532
+#: src/arch/unix/gui/c64scui.c:171 src/arch/win32/resc64.rc.po.c:533
 #: src/arch/amigaos/intl_text.c.po.c:8527
 msgid "Discrete"
 msgstr "다른"
 
-#: src/arch/unix/gui/c64scui.c:172 src/arch/win32/resc64.rc.po.c:533
+#: src/arch/unix/gui/c64scui.c:173 src/arch/win32/resc64.rc.po.c:534
 #: src/arch/amigaos/intl_text.c.po.c:8539
 msgid "Custom IC"
 msgstr "커스텀 IC"
 
-#: src/arch/unix/gui/c64scui.c:178 src/arch/unix/gui/c64scui.c:354
-#: src/arch/unix/gui/c64ui.c:240 src/arch/unix/gui/c64ui.c:414
-#: src/arch/win32/resc64.rc.po.c:523
+#: src/arch/unix/gui/c64scui.c:179 src/arch/unix/gui/c64scui.c:355
+#: src/arch/unix/gui/c64ui.c:241 src/arch/unix/gui/c64ui.c:415
+#: src/arch/win32/resc64.rc.po.c:524
 msgid "C64 model"
 msgstr "C64 모델"
 
-#: src/arch/unix/gui/c64scui.c:189 src/arch/win32/resc64.rc.po.c:529
+#: src/arch/unix/gui/c64scui.c:190 src/arch/win32/resc64.rc.po.c:530
 #: src/arch/amigaos/intl_text.c.po.c:8587
 msgid "Glue logic"
 msgstr "글루 로직"
 
-#: src/arch/unix/gui/c64ui.c:208
+#: src/arch/unix/gui/c64ui.c:209
 msgid "Old PAL-G"
 msgstr "올드 PAL-G"
 
-#: src/arch/unix/gui/c64ui.c:212 src/arch/unix/gui/vsidui.c:289
+#: src/arch/unix/gui/c64ui.c:213 src/arch/unix/gui/vsidui.c:295
 #: src/arch/amigaos/intl_text.c.po.c:1602
 msgid "Old NTSC-M"
 msgstr "올드 NTSC-M"
 
-#: src/arch/unix/gui/cbm2ui.c:88
+#: src/arch/unix/gui/cbm2ui.c:119
 msgid "Basic 128k, low chars"
 msgstr "Basic 128k, low chars"
 
-#: src/arch/unix/gui/cbm2ui.c:90
+#: src/arch/unix/gui/cbm2ui.c:121
 msgid "Basic 256k, low chars"
 msgstr "Basic 256k, low chars"
 
-#: src/arch/unix/gui/cbm2ui.c:92
+#: src/arch/unix/gui/cbm2ui.c:123
 msgid "Basic 128k, high chars"
 msgstr "Basic 128k, high chars"
 
-#: src/arch/unix/gui/cbm2ui.c:94
+#: src/arch/unix/gui/cbm2ui.c:125
 msgid "Basic 256k, high chars"
 msgstr "Basic 256k, high chars"
 
-#: src/arch/unix/gui/cbm2ui.c:105
-msgid "Load new Cart $1***"
-msgstr "세로운 카트리지 $1*** 불러오기"
-
-#: src/arch/unix/gui/cbm2ui.c:108
-msgid "Unload Cart $1***"
-msgstr "언로드 카트리지 $1***"
-
-#: src/arch/unix/gui/cbm2ui.c:112
-msgid "Load new Cart $2-3***"
-msgstr "세로운 카트리지 $2-3*** 불러오기"
-
-#: src/arch/unix/gui/cbm2ui.c:115
-msgid "Unload Cart $2-3***"
-msgstr "언로드 카트리지 $2-3***"
-
-#: src/arch/unix/gui/cbm2ui.c:119
-msgid "Load new Cart $4-5***"
-msgstr "세로운 카트리지 $4-5*** 불러오기"
-
-#: src/arch/unix/gui/cbm2ui.c:122
-msgid "Unload Cart $4-5***"
-msgstr "언로드 카트리지 $4-5***"
-
-#: src/arch/unix/gui/cbm2ui.c:126
-msgid "Load new Cart $6-7***"
-msgstr "세로운 카트리지 $6-7*** 불러오기"
-
-#: src/arch/unix/gui/cbm2ui.c:129
-msgid "Unload Cart $6-7***"
-msgstr "언로드 카트리지 $6-7***"
-
-#: src/arch/unix/gui/cbm2ui.c:213 src/arch/unix/gui/petui.c:161
-#: src/arch/win32/respet.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:7567
+#: src/arch/unix/gui/cbm2ui.c:253 src/arch/unix/gui/petui.c:162
+#: src/arch/win32/respet.rc.po.c:556 src/arch/amigaos/intl_text.c.po.c:7567
 msgid "Graphics"
 msgstr "그래픽"
 
-#: src/arch/unix/gui/cbm2ui.c:215 src/arch/unix/gui/petui.c:163
-#: src/arch/win32/respet.rc.po.c:556 src/arch/amigaos/intl_text.c.po.c:7591
+#: src/arch/unix/gui/cbm2ui.c:255 src/arch/unix/gui/petui.c:164
+#: src/arch/win32/respet.rc.po.c:557 src/arch/amigaos/intl_text.c.po.c:7591
 msgid "Business (UK)"
 msgstr "비지니스(UK)"
 
-#: src/arch/unix/gui/cbm2ui.c:237 src/arch/unix/gui/petui.c:307
+#: src/arch/unix/gui/cbm2ui.c:270 src/arch/unix/gui/cbm2ui.c:303
+#: src/arch/unix/gui/cbm2ui.c:576 src/arch/unix/gui/cbm2ui.c:589
+#: src/arch/unix/gui/petui.c:308
 msgid "Model defaults"
 msgstr "모델 디폴트"
 
-#: src/arch/unix/gui/cbm2ui.c:244 src/arch/unix/gui/petui.c:312
+#: src/arch/unix/gui/cbm2ui.c:277 src/arch/unix/gui/cbm2ui.c:308
+#: src/arch/unix/gui/petui.c:313
 msgid "Memory size"
 msgstr "메모리 크기"
 
-#: src/arch/unix/gui/cbm2ui.c:246
+#: src/arch/unix/gui/cbm2ui.c:279 src/arch/unix/gui/cbm2ui.c:310
 msgid "Hardwired switches"
 msgstr "핸드와이어드 스위치"
 
-#: src/arch/unix/gui/cbm2ui.c:249 src/arch/win32/rescbm2.rc.po.c:505
+#: src/arch/unix/gui/cbm2ui.c:282 src/arch/unix/gui/cbm2ui.c:313
+#: src/arch/win32/rescbm2.rc.po.c:506
 msgid "Bank 15 $0800-$0FFF RAM"
 msgstr "뱅크 15 $0800-$0FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:251 src/arch/win32/rescbm2.rc.po.c:506
+#: src/arch/unix/gui/cbm2ui.c:284 src/arch/unix/gui/cbm2ui.c:315
+#: src/arch/win32/rescbm2.rc.po.c:507
 msgid "Bank 15 $1000-$1FFF RAM"
 msgstr "뱅크 15 $1000-$1FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:253 src/arch/win32/rescbm2.rc.po.c:507
+#: src/arch/unix/gui/cbm2ui.c:286 src/arch/unix/gui/cbm2ui.c:317
+#: src/arch/win32/rescbm2.rc.po.c:508
 msgid "Bank 15 $2000-$3FFF RAM"
 msgstr "뱅크 15 $2000-$3FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:255 src/arch/win32/rescbm2.rc.po.c:508
+#: src/arch/unix/gui/cbm2ui.c:288 src/arch/unix/gui/cbm2ui.c:319
+#: src/arch/win32/rescbm2.rc.po.c:509
 msgid "Bank 15 $4000-$5FFF RAM"
 msgstr "뱅크 15 $4000-$5FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:257 src/arch/win32/rescbm2.rc.po.c:509
+#: src/arch/unix/gui/cbm2ui.c:290 src/arch/unix/gui/cbm2ui.c:321
+#: src/arch/win32/rescbm2.rc.po.c:510
 msgid "Bank 15 $6000-$7FFF RAM"
 msgstr "뱅크 15 $6000-$7FFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:259 src/arch/win32/rescbm2.rc.po.c:510
+#: src/arch/unix/gui/cbm2ui.c:292 src/arch/unix/gui/cbm2ui.c:323
+#: src/arch/win32/rescbm2.rc.po.c:511
 msgid "Bank 15 $C000-$CFFF RAM"
 msgstr "뱅크 15 $C000-$CFFF RAM"
 
-#: src/arch/unix/gui/cbm2ui.c:263 src/arch/unix/gui/petui.c:329
+#: src/arch/unix/gui/cbm2ui.c:296 src/arch/unix/gui/cbm2ui.c:327
+#: src/arch/unix/gui/petui.c:330
 msgid "Keyboard type"
 msgstr "키보드 타입"
 
-#: src/arch/unix/gui/cbm2ui.c:345
-msgid "CBM-II model settings"
-msgstr "CBM-II 모델 설정"
-
-#: src/arch/unix/gui/cbm2ui.c:349 src/arch/unix/gui/petui.c:394
+#: src/arch/unix/gui/cbm2ui.c:399 src/arch/unix/gui/petui.c:397
 msgid "CRTC settings"
 msgstr "CRTC 설정"
 
-#: src/arch/unix/gui/petui.c:121 src/arch/unix/gui/plus4ui.c:119
-#: src/arch/unix/gui/plus4ui.c:127 src/arch/unix/gui/plus4ui.c:133
-#: src/arch/unix/gui/uic64_256k.c:56 src/arch/unix/gui/uic64dtv.c:125
+#: src/arch/unix/gui/cbm2ui.c:411 src/arch/unix/gui/plus4ui.c:287
+#: src/arch/win32/res.rc.po.c:1251 src/arch/win32/res.rc.po.c:1483
+#: src/arch/win32/respet.rc.po.c:560 src/arch/amigaos/intl_text.c.po.c:2046
+#: src/arch/amigaos/intl_text.c.po.c:5671
+msgid "RAM settings"
+msgstr "RAM 셋팅"
+
+#: src/arch/unix/gui/petui.c:122 src/arch/unix/gui/plus4ui.c:120
+#: src/arch/unix/gui/plus4ui.c:128 src/arch/unix/gui/plus4ui.c:134
+#: src/arch/unix/gui/uic64_256k.c:56 src/arch/unix/gui/uic64dtv.c:126
 #: src/arch/unix/gui/uidigimax.c:113 src/arch/unix/gui/uidigimax.c:121
 #: src/arch/unix/gui/uidqbb.c:46 src/arch/unix/gui/uiexpert.c:50
 #: src/arch/unix/gui/uigeoram.c:66 src/arch/unix/gui/uigeoram.c:84
@@ -701,223 +712,216 @@ msgstr "CRTC 설정"
 #: src/arch/unix/gui/uisoundexpander.c:49
 #: src/arch/unix/gui/uisoundexpander.c:57 src/arch/unix/gui/uitfe.c:55
 #: src/arch/unix/gui/uitfe.c:67 src/arch/unix/gui/uitpi.c:49
-#: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:150
+#: src/arch/unix/gui/uiv364speech.c:49 src/arch/unix/gui/vic20ui.c:151
 #: src/arch/amigaos/intl_text.c.po.c:726
 msgid "Enable"
 msgstr "작동시키다"
 
-#: src/arch/unix/gui/petui.c:128 src/arch/unix/gui/plus4ui.c:140
-#: src/arch/unix/gui/vic20ui.c:157 src/arch/win32/ressidcart.rc.po.c:139
+#: src/arch/unix/gui/petui.c:129 src/arch/unix/gui/plus4ui.c:141
+#: src/arch/unix/gui/vic20ui.c:158 src/arch/win32/ressidcart.rc.po.c:139
 #: src/arch/amigaos/intl_text.c.po.c:6955
 msgid "SID address"
 msgstr "SID 주소"
 
 #. Translators: "SID clock" as in "CPU Frequency"
-#: src/arch/unix/gui/petui.c:131 src/arch/unix/gui/plus4ui.c:143
-#: src/arch/unix/gui/vic20ui.c:160 src/arch/win32/ressidcart.rc.po.c:140
+#: src/arch/unix/gui/petui.c:132 src/arch/unix/gui/plus4ui.c:144
+#: src/arch/unix/gui/vic20ui.c:161 src/arch/win32/ressidcart.rc.po.c:140
 #: src/arch/amigaos/intl_text.c.po.c:6967
 msgid "SID clock"
 msgstr "SID 클락"
 
-#: src/arch/unix/gui/petui.c:165
+#: src/arch/unix/gui/petui.c:166
 msgid "Business (DE)"
 msgstr "비지니스(DE)"
 
-#: src/arch/unix/gui/petui.c:171 src/arch/win32/respet.rc.po.c:547
+#: src/arch/unix/gui/petui.c:172 src/arch/win32/respet.rc.po.c:548
 #: src/arch/amigaos/intl_text.c.po.c:7507
 msgid "Auto (from ROM)"
 msgstr "자동 (ROM 에서)"
 
-#: src/arch/unix/gui/petui.c:173 src/arch/win32/respet.rc.po.c:548
+#: src/arch/unix/gui/petui.c:174 src/arch/win32/respet.rc.po.c:549
 #: src/arch/amigaos/intl_text.c.po.c:7519
 msgid "40 Columns"
 msgstr "40칸"
 
-#: src/arch/unix/gui/petui.c:175 src/arch/win32/respet.rc.po.c:549
+#: src/arch/unix/gui/petui.c:176 src/arch/win32/respet.rc.po.c:550
 #: src/arch/amigaos/intl_text.c.po.c:7531
 msgid "80 Columns"
 msgstr "80칸"
 
-#: src/arch/unix/gui/petui.c:214
+#: src/arch/unix/gui/petui.c:215
 msgid "Load new editor ROM"
 msgstr "세로운 에디터 ROM 불러오기"
 
-#: src/arch/unix/gui/petui.c:226
+#: src/arch/unix/gui/petui.c:227
 msgid "PET RAM and Expansion Unit"
 msgstr "PET RAM 그리고 익스팬션 유닛"
 
-#: src/arch/unix/gui/petui.c:228
+#: src/arch/unix/gui/petui.c:229
 msgid "PET DWW hi-res graphics"
 msgstr "PET DWW hi-res 그래픽 "
 
-#: src/arch/unix/gui/petui.c:230 src/arch/unix/gui/plus4ui.c:257
-#: src/arch/unix/gui/vic20ui.c:485 src/arch/amigaos/intl_text.c.po.c:6931
+#: src/arch/unix/gui/petui.c:231 src/arch/unix/gui/plus4ui.c:258
+#: src/arch/unix/gui/vic20ui.c:486 src/arch/amigaos/intl_text.c.po.c:6931
 msgid "SID cartridge"
 msgstr "SID 카트리지"
 
-#: src/arch/unix/gui/petui.c:232
+#: src/arch/unix/gui/petui.c:233
 msgid "Userport DAC"
 msgstr "유져포트 DAC"
 
-#: src/arch/unix/gui/petui.c:234
+#: src/arch/unix/gui/petui.c:235
 msgid "PET userport diagnostic pin"
 msgstr "PET 유져포트 진단 핀"
 
-#: src/arch/unix/gui/petui.c:240
+#: src/arch/unix/gui/petui.c:241
 msgid "Basic 1"
 msgstr "기본1"
 
-#: src/arch/unix/gui/petui.c:242
+#: src/arch/unix/gui/petui.c:243
 msgid "Basic 2, graphics"
 msgstr "기본 2, 그래픽"
 
-#: src/arch/unix/gui/petui.c:244
+#: src/arch/unix/gui/petui.c:245
 msgid "Basic 2, Business"
 msgstr "기본 2, 비지니스"
 
-#: src/arch/unix/gui/petui.c:246
+#: src/arch/unix/gui/petui.c:247
 msgid "Basic 4, 40 cols, graphics"
 msgstr "기본 4, 40 칸, 그래픽"
 
-#: src/arch/unix/gui/petui.c:248
+#: src/arch/unix/gui/petui.c:249
 msgid "Basic 4, 40 cols, business"
 msgstr "기본 4, 40 칸, 비지니스"
 
-#: src/arch/unix/gui/petui.c:250
+#: src/arch/unix/gui/petui.c:251
 msgid "Basic 4, 80 cols, business"
 msgstr "기본 4, 80 칸, 비지니스"
 
-#: src/arch/unix/gui/petui.c:253
+#: src/arch/unix/gui/petui.c:254
 msgid "Basic 1 Patch (if loaded)"
 msgstr "기본1, 패치(붙여넣으면)"
 
-#: src/arch/unix/gui/petui.c:255
+#: src/arch/unix/gui/petui.c:256
 msgid "Basic 1 character set"
 msgstr "기본1 케릭터 셋"
 
-#: src/arch/unix/gui/petui.c:269
+#: src/arch/unix/gui/petui.c:270
 msgid "Original character set"
 msgstr "오리지널 케릭터 셋"
 
-#: src/arch/unix/gui/petui.c:272
+#: src/arch/unix/gui/petui.c:273
 msgid "German character set"
 msgstr "독일 케릭터 셋"
 
-#: src/arch/unix/gui/petui.c:276
+#: src/arch/unix/gui/petui.c:277
 msgid "Load new $9*** ROM"
 msgstr "세로운 $9*** ROM 불러오기"
 
-#: src/arch/unix/gui/petui.c:279
+#: src/arch/unix/gui/petui.c:280
 msgid "Unload $9*** ROM"
 msgstr "언로드 $9*** ROM"
 
-#: src/arch/unix/gui/petui.c:283
+#: src/arch/unix/gui/petui.c:284
 msgid "Load new $A*** ROM"
 msgstr "세로운 $A*** ROM 불러오기"
 
-#: src/arch/unix/gui/petui.c:286
+#: src/arch/unix/gui/petui.c:287
 msgid "Unload $A*** ROM"
 msgstr "언로드 $A*** ROM"
 
-#: src/arch/unix/gui/petui.c:290
+#: src/arch/unix/gui/petui.c:291
 msgid "Load new $B*** ROM"
 msgstr "세로운 $B*** ROM 불러오기"
 
-#: src/arch/unix/gui/petui.c:293
+#: src/arch/unix/gui/petui.c:294
 msgid "Unload $B*** ROM"
 msgstr "언로드 $B*** ROM"
 
-#: src/arch/unix/gui/petui.c:310 src/arch/amigaos/intl_text.c.po.c:7627
+#: src/arch/unix/gui/petui.c:311 src/arch/amigaos/intl_text.c.po.c:7627
 msgid "Video size"
 msgstr "비디오 크기"
 
-#: src/arch/unix/gui/petui.c:314 src/arch/amigaos/intl_text.c.po.c:7639
+#: src/arch/unix/gui/petui.c:315 src/arch/amigaos/intl_text.c.po.c:7639
 msgid "I/O size"
 msgstr "I/O 크기"
 
-#: src/arch/unix/gui/petui.c:316 src/arch/win32/respet.rc.po.c:553
+#: src/arch/unix/gui/petui.c:317 src/arch/win32/respet.rc.po.c:554
 msgid "CRTC chip enable"
 msgstr "CRTC 칩 가동"
 
-#: src/arch/unix/gui/petui.c:319 src/arch/win32/respet.rc.po.c:558
+#: src/arch/unix/gui/petui.c:320 src/arch/win32/respet.rc.po.c:559
 #: src/arch/amigaos/intl_text.c.po.c:7675
 msgid "SuperPET I/O enable (disables 8x96)"
 msgstr "SuperPET I/O 사용하기 (사용하지않기 8x96)"
 
-#: src/arch/unix/gui/petui.c:321
+#: src/arch/unix/gui/petui.c:322
 msgid "SuperPET ACIA"
 msgstr "SuperPET ACIA"
 
-#: src/arch/unix/gui/petui.c:324
+#: src/arch/unix/gui/petui.c:325
 msgid "$9*** as RAM (8296 only)"
 msgstr "$9*** as RAM (8296 오직)"
 
-#: src/arch/unix/gui/petui.c:326
+#: src/arch/unix/gui/petui.c:327
 msgid "$A*** as RAM (8296 only)"
 msgstr "$A*** as RAM (8296 오직)"
 
-#: src/arch/unix/gui/petui.c:390
+#: src/arch/unix/gui/petui.c:391
 msgid "PET model settings"
 msgstr "PET 모델 셋팅"
 
-#: src/arch/unix/gui/plus4ui.c:153
+#: src/arch/unix/gui/plus4ui.c:154
 msgid "Load new 3 plus 1 LO ROM"
 msgstr "세로운 3 플러스 1 낮은 ROM 을 불러오세요"
 
-#: src/arch/unix/gui/plus4ui.c:155
+#: src/arch/unix/gui/plus4ui.c:156
 msgid "Load new 3 plus 1 HI ROM"
 msgstr "세로운 3 플러스 1 높은 ROM 을 불러오세요"
 
-#: src/arch/unix/gui/plus4ui.c:157
+#: src/arch/unix/gui/plus4ui.c:158
 #, fuzzy
 msgid "Load new c1 LO ROM"
 msgstr "세로운 Basic Lo ROM 을 불러오세요"
 
-#: src/arch/unix/gui/plus4ui.c:159
+#: src/arch/unix/gui/plus4ui.c:160
 #, fuzzy
 msgid "Load new c1 HI ROM"
 msgstr "세로운 Basic Hi ROM 을 불러오세요"
 
-#: src/arch/unix/gui/plus4ui.c:161
+#: src/arch/unix/gui/plus4ui.c:162
 #, fuzzy
 msgid "Load new c2 LO ROM"
 msgstr "세로운 Basic Lo ROM 을 불러오세요"
 
-#: src/arch/unix/gui/plus4ui.c:163
+#: src/arch/unix/gui/plus4ui.c:164
 #, fuzzy
 msgid "Load new c2 HI ROM"
 msgstr "세로운 Basic Hi ROM 을 불러오세요"
 
-#: src/arch/unix/gui/plus4ui.c:253
+#: src/arch/unix/gui/plus4ui.c:254
 msgid "ACIA"
 msgstr ""
 
-#: src/arch/unix/gui/plus4ui.c:255 src/arch/amigaos/intl_text.c.po.c:6979
+#: src/arch/unix/gui/plus4ui.c:256 src/arch/amigaos/intl_text.c.po.c:6979
 msgid "Digiblaster add-on"
 msgstr "Digiblaster 에드 온"
 
 #. Translators: "V364 Speech" is the speech extension present in the V364 prototype
-#: src/arch/unix/gui/plus4ui.c:260
+#: src/arch/unix/gui/plus4ui.c:261
 msgid "V364 Speech"
 msgstr "V364 스피치"
 
-#: src/arch/unix/gui/plus4ui.c:280 src/arch/unix/gui/plus4ui.c:430
+#: src/arch/unix/gui/plus4ui.c:281 src/arch/unix/gui/plus4ui.c:433
 #: src/arch/win32/res.rc.po.c:1071 src/translate_text.c.po.c:3503
 msgid "Model"
 msgstr "모델"
 
-#: src/arch/unix/gui/plus4ui.c:284
+#: src/arch/unix/gui/plus4ui.c:285
 msgid "TED model"
 msgstr "TED 모델"
 
-#: src/arch/unix/gui/plus4ui.c:286 src/arch/win32/res.rc.po.c:1251
-#: src/arch/win32/res.rc.po.c:1483 src/arch/win32/respet.rc.po.c:559
-#: src/arch/amigaos/intl_text.c.po.c:2046
-#: src/arch/amigaos/intl_text.c.po.c:5671
-msgid "RAM settings"
-msgstr "RAM 셋팅"
-
-#: src/arch/unix/gui/plus4ui.c:312
+#: src/arch/unix/gui/plus4ui.c:315
 msgid "TED settings"
 msgstr "TED 셋팅"
 
@@ -951,22 +955,22 @@ msgid "Invalid Disk Image or Filename"
 msgstr "사용불가능한 디스크 이미지 이거나 파일 이름 입니다"
 
 #: src/arch/unix/gui/uiattach.c:113 src/arch/unix/gui/uiattach.c:150
-#: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:451
+#: src/arch/unix/gui/uiattach.c:170 src/arch/unix/gui/uicommands.c:455
 msgid "Unit #8"
 msgstr "유닛 #8"
 
 #: src/arch/unix/gui/uiattach.c:116 src/arch/unix/gui/uiattach.c:152
-#: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:453
+#: src/arch/unix/gui/uiattach.c:172 src/arch/unix/gui/uicommands.c:457
 msgid "Unit #9"
 msgstr "유닛 #9"
 
 #: src/arch/unix/gui/uiattach.c:119 src/arch/unix/gui/uiattach.c:154
-#: src/arch/unix/gui/uiattach.c:174 src/arch/unix/gui/uicommands.c:455
+#: src/arch/unix/gui/uiattach.c:174 src/arch/unix/gui/uicommands.c:459
 msgid "Unit #10"
 msgstr "유닛 #10"
 
 #: src/arch/unix/gui/uiattach.c:122 src/arch/unix/gui/uiattach.c:156
-#: src/arch/unix/gui/uiattach.c:176 src/arch/unix/gui/uicommands.c:457
+#: src/arch/unix/gui/uiattach.c:176 src/arch/unix/gui/uicommands.c:461
 msgid "Unit #11"
 msgstr "유닛 #11"
 
@@ -1037,7 +1041,7 @@ msgid "Smart-attach a file"
 msgstr "파일 스마트 붙어넣기"
 
 #: src/arch/unix/gui/uiattach.c:320 src/arch/unix/gui/uiattach.c:327
-#: src/arch/unix/x11/xaw/x11ui.c:2040
+#: src/arch/unix/x11/xaw/x11ui.c:2052
 msgid "Unknown image type"
 msgstr "알수없는 이미지 타입"
 
@@ -1130,7 +1134,7 @@ msgid "Image name"
 msgstr "이미지 이름"
 
 #: src/arch/unix/gui/uic64cart.c:55 src/arch/unix/gui/uic64cart.c:156
-#: src/arch/unix/gui/vic20ui.c:255 src/arch/unix/gui/vic20ui.c:359
+#: src/arch/unix/gui/vic20ui.c:256 src/arch/unix/gui/vic20ui.c:360
 #: src/arch/win32/res.rc.po.c:1360 src/arch/win32/resc128.rc.po.c:62
 #: src/arch/win32/resc64.rc.po.c:62 src/arch/win32/resplus4.rc.po.c:62
 #: src/arch/win32/resvic20.rc.po.c:62 src/arch/amigaos/intl_text.c.po.c:318
@@ -1206,12 +1210,12 @@ msgstr "64KB Retro Replay 카트리지 이미지를 붙이세요"
 msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
 msgstr "64KB Super Snapshot V5 카트리지 이미지를 붙이세요"
 
-#: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:322
+#: src/arch/unix/gui/uic64cart.c:150 src/arch/unix/gui/vic20ui.c:323
 #: src/arch/win32/res.rc.po.c:1431 src/arch/amigaos/intl_text.c.po.c:738
 msgid "Set cartridge as default"
 msgstr "카트리지를 디폴트 셋 하기"
 
-#: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:361
+#: src/arch/unix/gui/uic64cart.c:158 src/arch/unix/gui/vic20ui.c:362
 #: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl_text.c.po.c:462
 msgid "Detach cartridge image(s)"
 msgstr "카트리지 이미지 떼기"
@@ -1221,21 +1225,21 @@ msgstr "카트리지 이미지 떼기"
 msgid "Cartridge freeze"
 msgstr "카트리지 프리즈"
 
-#: src/arch/unix/gui/uic64dtv.c:90 src/arch/unix/gui/uic64dtv.c:114
+#: src/arch/unix/gui/uic64dtv.c:91 src/arch/unix/gui/uic64dtv.c:115
 #: src/arch/amigaos/intl_text.c.po.c:4254
 msgid "C64DTV ROM file"
 msgstr "C64DTV ROM 파일"
 
-#: src/arch/unix/gui/uic64dtv.c:117 src/arch/win32/resc64dtv.rc.po.c:435
+#: src/arch/unix/gui/uic64dtv.c:118 src/arch/win32/resc64dtv.rc.po.c:436
 #: src/translate_text.c.po.c:10885
 msgid "Enable writes to C64DTV ROM image"
 msgstr "C64DTV ROM 이미지에 쓰기 가능하게 하기"
 
-#: src/arch/unix/gui/uic64dtv.c:131 src/arch/amigaos/intl_text.c.po.c:4290
+#: src/arch/unix/gui/uic64dtv.c:132 src/arch/amigaos/intl_text.c.po.c:4290
 msgid "Hummer ADC"
 msgstr "험머 ADC"
 
-#: src/arch/unix/gui/uic64dtv.c:134 src/arch/win32/resc64dtv.rc.po.c:449
+#: src/arch/unix/gui/uic64dtv.c:135 src/arch/win32/resc64dtv.rc.po.c:450
 #: src/arch/amigaos/intl_text.c.po.c:1662
 msgid "PS/2 mouse on Userport"
 msgstr "유저포트에 PS/S 마우스 "
@@ -1256,7 +1260,7 @@ msgstr ""
 msgid "VICE setting"
 msgstr "VICE 셋팅"
 
-#: src/arch/unix/gui/uicommands.c:69 src/arch/unix/gui/uicommands.c:463
+#: src/arch/unix/gui/uicommands.c:69 src/arch/unix/gui/uicommands.c:467
 msgid "Change current working directory"
 msgstr "현제 작업중인 디랙토리를 변경하세요"
 
@@ -1289,7 +1293,7 @@ msgstr "브라우저 커맨드가 너무 깁니다."
 msgid "Cannot run HTML browser."
 msgstr "HTML 브라우저를 돌릴수 없습니다."
 
-#: src/arch/unix/gui/uicommands.c:265 src/arch/unix/gui/uicommands.c:483
+#: src/arch/unix/gui/uicommands.c:265 src/arch/unix/gui/uicommands.c:487
 #: src/arch/win32/res.rc.po.c:1041 src/arch/win32/res.rc.po.c:1445
 #: src/arch/amigaos/intl_text.c.po.c:882
 #: src/arch/amigaos/intl_text.c.po.c:7135
@@ -1315,7 +1319,7 @@ msgstr ""
 "스냅샷 파일을 생성할수 없습니다\n"
 "`%s'\n"
 
-#: src/arch/unix/gui/uicommands.c:341 src/arch/unix/gui/uicommands.c:497
+#: src/arch/unix/gui/uicommands.c:341 src/arch/unix/gui/uicommands.c:501
 msgid "Select history directory"
 msgstr "히스토리 디랙토리 선택"
 
@@ -1324,45 +1328,45 @@ msgstr "히스토리 디랙토리 선택"
 msgid "Sound Recording stopped"
 msgstr "사운드 레코딩 멈춤"
 
-#: src/arch/unix/gui/uicommands.c:401 src/arch/win32/res.rc.po.c:1459
+#: src/arch/unix/gui/uicommands.c:403 src/arch/win32/res.rc.po.c:1459
 msgid "Record sound to file"
 msgstr "레코딩 사운드 를 파일로"
 
-#: src/arch/unix/gui/uicommands.c:408 src/arch/win32/res.rc.po.c:1165
+#: src/arch/unix/gui/uicommands.c:412 src/arch/win32/res.rc.po.c:1165
 #: src/arch/amigaos/intl_text.c.po.c:8011
 msgid "Sound Recording started"
 msgstr "사운드 레코딩이 시작했습니다"
 
-#: src/arch/unix/gui/uicommands.c:444 src/arch/win32/res.rc.po.c:1387
-#: src/arch/amigaos/intl_text.c.po.c:810
+#: src/arch/unix/gui/uicommands.c:448 src/arch/unix/gui/vsidui.c:313
+#: src/arch/win32/res.rc.po.c:1387 src/arch/amigaos/intl_text.c.po.c:810
 msgid "Soft"
 msgstr "부드러운"
 
-#: src/arch/unix/gui/uicommands.c:447 src/arch/win32/res.rc.po.c:1386
-#: src/arch/amigaos/intl_text.c.po.c:798
+#: src/arch/unix/gui/uicommands.c:451 src/arch/unix/gui/vsidui.c:316
+#: src/arch/win32/res.rc.po.c:1386 src/arch/amigaos/intl_text.c.po.c:798
 msgid "Hard"
 msgstr "단단한"
 
-#: src/arch/unix/gui/uicommands.c:471 src/arch/win32/res.rc.po.c:1453
+#: src/arch/unix/gui/uicommands.c:475 src/arch/win32/res.rc.po.c:1453
 #: src/arch/amigaos/intl_text.c.po.c:966
 msgid "Save new snapshot"
 msgstr "세로운 스냅샷 저장"
 
-#: src/arch/unix/gui/uicommands.c:473 src/arch/win32/res.rc.po.c:1454
+#: src/arch/unix/gui/uicommands.c:477 src/arch/win32/res.rc.po.c:1454
 #: src/arch/amigaos/intl_text.c.po.c:978
 msgid "Load existing snapshot"
 msgstr "현존하는 스냅샷 불러오기"
 
-#: src/arch/unix/gui/uicommands.c:475 src/arch/win32/res.rc.po.c:1455
+#: src/arch/unix/gui/uicommands.c:479 src/arch/win32/res.rc.po.c:1455
 #: src/arch/amigaos/intl_text.c.po.c:990
 msgid "Start with reset"
 msgstr "리셋으로 사작하기"
 
-#: src/arch/unix/gui/uicommands.c:477
+#: src/arch/unix/gui/uicommands.c:481
 msgid "Overwrite running playback"
 msgstr "진행중인 플레이백 덮어쓰기"
 
-#: src/arch/unix/gui/uicommands.c:486 src/arch/unix/x11/gnome/uisnapshot.c:46
+#: src/arch/unix/gui/uicommands.c:490 src/arch/unix/x11/gnome/uisnapshot.c:46
 #: src/arch/unix/x11/xaw/uisnapshot.c:85
 #: src/arch/unix/x11/xaw/uisnapshot.c:302 src/arch/win32/res.rc.po.c:1039
 #: src/arch/win32/res.rc.po.c:1446 src/arch/amigaos/intl_text.c.po.c:894
@@ -1370,41 +1374,41 @@ msgstr "진행중인 플레이백 덮어쓰기"
 msgid "Save snapshot image"
 msgstr "스냅샷 이미지 저장"
 
-#: src/arch/unix/gui/uicommands.c:490
+#: src/arch/unix/gui/uicommands.c:494
 msgid "Quickload snapshot"
 msgstr "스냅샷 빨리 불러오기"
 
-#: src/arch/unix/gui/uicommands.c:493
+#: src/arch/unix/gui/uicommands.c:497
 msgid "Quicksave snapshot"
 msgstr "스냅샷 빨리 저장"
 
-#: src/arch/unix/gui/uicommands.c:499
+#: src/arch/unix/gui/uicommands.c:503
 msgid "Start recording events"
 msgstr "레코딩 이벤트 시작"
 
-#: src/arch/unix/gui/uicommands.c:501
+#: src/arch/unix/gui/uicommands.c:505
 msgid "Stop recording events"
 msgstr "레코딩 이벤트 멈춤"
 
-#: src/arch/unix/gui/uicommands.c:503
+#: src/arch/unix/gui/uicommands.c:507
 msgid "Start playing back events"
 msgstr "플레잉백 이벤트 시장"
 
-#: src/arch/unix/gui/uicommands.c:505
+#: src/arch/unix/gui/uicommands.c:509
 msgid "Stop playing back events"
 msgstr "플레잉백 이벤트 멈춤"
 
-#: src/arch/unix/gui/uicommands.c:507 src/arch/win32/res.rc.po.c:1451
+#: src/arch/unix/gui/uicommands.c:511 src/arch/win32/res.rc.po.c:1451
 #: src/arch/amigaos/intl_text.c.po.c:930
 msgid "Set recording milestone"
 msgstr "레코딩 마일스톤 설정"
 
-#: src/arch/unix/gui/uicommands.c:509 src/arch/win32/res.rc.po.c:1452
+#: src/arch/unix/gui/uicommands.c:513 src/arch/win32/res.rc.po.c:1452
 #: src/arch/amigaos/intl_text.c.po.c:942
 msgid "Return to milestone"
 msgstr "마일스톤 으로 돌아가기"
 
-#: src/arch/unix/gui/uicommands.c:512 src/arch/win32/res.rc.po.c:1368
+#: src/arch/unix/gui/uicommands.c:516 src/arch/win32/res.rc.po.c:1368
 #: src/arch/win32/resc128.rc.po.c:134 src/arch/win32/resc64.rc.po.c:134
 #: src/arch/win32/resc64dtv.rc.po.c:101 src/arch/win32/rescbm2.rc.po.c:108
 #: src/arch/win32/respet.rc.po.c:108 src/arch/win32/resplus4.rc.po.c:120
@@ -1412,61 +1416,61 @@ msgstr "마일스톤 으로 돌아가기"
 msgid "Recording start mode"
 msgstr "레코딩 시작 모드"
 
-#: src/arch/unix/gui/uicommands.c:516 src/arch/unix/gui/uinetplay.c:109
-#: src/arch/win32/resc64.rc.po.c:519 src/arch/amigaos/intl_text.c.po.c:1038
+#: src/arch/unix/gui/uicommands.c:520 src/arch/unix/gui/uinetplay.c:109
+#: src/arch/win32/resc64.rc.po.c:520 src/arch/amigaos/intl_text.c.po.c:1038
 msgid "Netplay (experimental)"
 msgstr "넷플레이 (실험적)"
 
-#: src/arch/unix/gui/uicommands.c:523
+#: src/arch/unix/gui/uicommands.c:527
 msgid "Snapshot commands"
 msgstr "스냅샷 명령"
 
-#: src/arch/unix/gui/uicommands.c:529
+#: src/arch/unix/gui/uicommands.c:533
 msgid "Sound record WAV"
 msgstr "사운드 레코드 WAV"
 
-#: src/arch/unix/gui/uicommands.c:531
+#: src/arch/unix/gui/uicommands.c:535
 msgid "Sound record AIFF"
 msgstr "사운드 레코드 AIFF"
 
-#: src/arch/unix/gui/uicommands.c:533
+#: src/arch/unix/gui/uicommands.c:537
 msgid "Sound record VOC"
 msgstr "사운드 레코드 VOC"
 
-#: src/arch/unix/gui/uicommands.c:535
+#: src/arch/unix/gui/uicommands.c:539
 msgid "Sound record IFF"
 msgstr "사운드 레코드 IFF"
 
-#: src/arch/unix/gui/uicommands.c:538
+#: src/arch/unix/gui/uicommands.c:542
 msgid "Sound record MP3"
 msgstr "사운드 레코드 MP3"
 
-#: src/arch/unix/gui/uicommands.c:541 src/arch/win32/res.rc.po.c:1460
+#: src/arch/unix/gui/uicommands.c:545 src/arch/win32/res.rc.po.c:1460
 #: src/arch/amigaos/intl_text.c.po.c:2910
 msgid "Stop Sound record"
 msgstr "사운드 레코드 멈춤"
 
-#: src/arch/unix/gui/uicommands.c:547
+#: src/arch/unix/gui/uicommands.c:551 src/arch/unix/gui/uicommands.c:560
 msgid "Activate monitor"
 msgstr "모니터 사용시작"
 
-#: src/arch/unix/gui/uicommands.c:550
+#: src/arch/unix/gui/uicommands.c:554
 msgid "Run C1541"
 msgstr "C1541 를 돌리시오"
 
-#: src/arch/unix/gui/uicommands.c:558
+#: src/arch/unix/gui/uicommands.c:569
 msgid "Browse manuals"
 msgstr "브라우스 설명서"
 
-#: src/arch/unix/gui/uicommands.c:560 src/arch/win32/res.rc.po.c:176
+#: src/arch/unix/gui/uicommands.c:571 src/arch/win32/res.rc.po.c:176
 #: src/arch/win32/res.rc.po.c:1381 src/arch/amigaos/intl_text.c.po.c:2634
 #: src/arch/amigaos/intl_text.c.po.c:3954
 msgid "About VICE"
 msgstr "도움 VICE"
 
-#: src/arch/unix/gui/uicommands.c:566 src/arch/unix/gui/uidatasette.c:99
-#: src/arch/unix/x11/gnome/uipalcontrol.c:151
-#: src/arch/unix/x11/gnome/x11ui.c:2021 src/arch/win32/res.rc.po.c:1361
+#: src/arch/unix/gui/uicommands.c:577 src/arch/unix/gui/uidatasette.c:99
+#: src/arch/unix/gui/vsidui.c:337 src/arch/unix/x11/gnome/uipalcontrol.c:151
+#: src/arch/unix/x11/gnome/x11ui.c:2024 src/arch/win32/res.rc.po.c:1361
 #: src/arch/win32/res.rc.po.c:1429 src/arch/win32/resc128.rc.po.c:90
 #: src/arch/win32/resc64.rc.po.c:90 src/arch/win32/resc64dtv.rc.po.c:57
 #: src/arch/win32/rescbm2.rc.po.c:64 src/arch/win32/respet.rc.po.c:64
@@ -1475,12 +1479,12 @@ msgstr "도움 VICE"
 msgid "Reset"
 msgstr "리셋"
 
-#: src/arch/unix/gui/uicommands.c:568 src/arch/win32/res.rc.po.c:1382
-#: src/arch/amigaos/intl_text.c.po.c:774
+#: src/arch/unix/gui/uicommands.c:579 src/arch/unix/gui/vsidui.c:339
+#: src/arch/win32/res.rc.po.c:1382 src/arch/amigaos/intl_text.c.po.c:774
 msgid "Pause"
 msgstr "일시정지"
 
-#: src/arch/unix/gui/uicommands.c:575
+#: src/arch/unix/gui/uicommands.c:586
 msgid "Exit emulator"
 msgstr "에뮬레이터 나가기"
 
@@ -1528,14 +1532,14 @@ msgstr "케토드 레이 터미널 에뮬레이터"
 msgid "Scale2x"
 msgstr "Scale2x"
 
-#: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uisettings.c:120
+#: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uisettings.c:121
 #: src/arch/unix/gui/uited.c:105 src/arch/unix/gui/uivdc.c:125
 #: src/arch/unix/gui/uivic.c:101 src/arch/unix/gui/uivicii.c:125
 msgid "Enter refresh rate"
 msgstr "재생률을 넣으시오"
 
-#: src/arch/unix/gui/uicrtc.c:105 src/arch/unix/gui/uisettings.c:121
-#: src/arch/unix/gui/uisettings.c:389 src/arch/unix/gui/uited.c:106
+#: src/arch/unix/gui/uicrtc.c:105 src/arch/unix/gui/uisettings.c:122
+#: src/arch/unix/gui/uisettings.c:383 src/arch/unix/gui/uited.c:106
 #: src/arch/unix/gui/uivdc.c:126 src/arch/unix/gui/uivic.c:102
 #: src/arch/unix/gui/uivicii.c:126 src/arch/win32/res.rc.po.c:1229
 #: src/arch/win32/res.rc.po.c:1370 src/arch/win32/resc128.rc.po.c:150
@@ -1788,7 +1792,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheral.c:61 src/arch/unix/gui/uiperipheral.c:77
 #: src/arch/unix/gui/uiperipheral.c:93 src/arch/unix/gui/uiperipheral.c:109
 #: src/arch/unix/gui/uiprinter.c:142 src/arch/unix/gui/uiprinter.c:154
-#: src/arch/unix/gui/vic20ui.c:383 src/arch/win32/res.rc.po.c:1169
+#: src/arch/unix/gui/vic20ui.c:384 src/arch/win32/res.rc.po.c:1169
 #: src/arch/win32/res.rc.po.c:1186 src/arch/amigaos/intl_text.c.po.c:4050
 msgid "None"
 msgstr "없음"
@@ -2053,7 +2057,7 @@ msgstr "불러오기 "
 #: src/arch/unix/x11/xaw/uiedisk.c:403
 #: src/arch/unix/x11/xaw/uiscreenshot.c:259
 #: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:1307
-#: src/arch/win32/res.rc.po.c:1535 src/arch/amigaos/intl_text.c.po.c:3270
+#: src/arch/win32/res.rc.po.c:1536 src/arch/amigaos/intl_text.c.po.c:3270
 msgid "Save"
 msgstr "저장"
 
@@ -2134,7 +2138,7 @@ msgid "Next: "
 msgstr "다음: "
 
 #: src/arch/unix/gui/uifliplist.c:242 src/arch/unix/gui/uifliplist.c:261
-#: src/arch/unix/x11/gnome/x11ui.c:698 src/arch/unix/x11/gnome/x11ui.c:1448
+#: src/arch/unix/x11/gnome/x11ui.c:699 src/arch/unix/x11/gnome/x11ui.c:1451
 msgid "empty"
 msgstr "비어있다"
 
@@ -2308,31 +2312,31 @@ msgstr "HIT 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:157 src/arch/unix/gui/uijoystick2.c:209
 #: src/arch/unix/gui/uijoystick2.c:261 src/arch/unix/gui/uijoystick2.c:313
-#: src/arch/unix/gui/vic20ui.c:386 src/arch/amigaos/intl_text.c.po.c:5047
+#: src/arch/unix/gui/vic20ui.c:387 src/arch/amigaos/intl_text.c.po.c:5047
 msgid "Numpad"
 msgstr "너패드"
 
 #: src/arch/unix/gui/uijoystick2.c:160 src/arch/unix/gui/uijoystick2.c:212
 #: src/arch/unix/gui/uijoystick2.c:264 src/arch/unix/gui/uijoystick2.c:316
-#: src/arch/unix/gui/vic20ui.c:389 src/arch/win32/res.rc.po.c:1103
+#: src/arch/unix/gui/vic20ui.c:390 src/arch/win32/res.rc.po.c:1103
 msgid "Keyset A"
 msgstr "키셋A"
 
 #: src/arch/unix/gui/uijoystick2.c:163 src/arch/unix/gui/uijoystick2.c:215
 #: src/arch/unix/gui/uijoystick2.c:267 src/arch/unix/gui/uijoystick2.c:319
-#: src/arch/unix/gui/vic20ui.c:392 src/arch/win32/res.rc.po.c:1104
+#: src/arch/unix/gui/vic20ui.c:393 src/arch/win32/res.rc.po.c:1104
 msgid "Keyset B"
 msgstr "키셋B"
 
 #: src/arch/unix/gui/uijoystick2.c:167 src/arch/unix/gui/uijoystick2.c:219
 #: src/arch/unix/gui/uijoystick2.c:271 src/arch/unix/gui/uijoystick2.c:323
-#: src/arch/unix/gui/vic20ui.c:396
+#: src/arch/unix/gui/vic20ui.c:397
 msgid "Analog Joystick 0"
 msgstr "아날로그 조이스틱 0"
 
 #: src/arch/unix/gui/uijoystick2.c:170 src/arch/unix/gui/uijoystick2.c:222
 #: src/arch/unix/gui/uijoystick2.c:274 src/arch/unix/gui/uijoystick2.c:326
-#: src/arch/unix/gui/vic20ui.c:399
+#: src/arch/unix/gui/vic20ui.c:400
 msgid "Analog Joystick 1"
 msgstr "아날로그 조이스틱 1"
 
@@ -2358,25 +2362,25 @@ msgstr "아날로그 조이스틱 5"
 
 #: src/arch/unix/gui/uijoystick2.c:186 src/arch/unix/gui/uijoystick2.c:238
 #: src/arch/unix/gui/uijoystick2.c:290 src/arch/unix/gui/uijoystick2.c:342
-#: src/arch/unix/gui/vic20ui.c:403
+#: src/arch/unix/gui/vic20ui.c:404
 msgid "Digital Joystick 0"
 msgstr "디지털 조이스틱 0"
 
 #: src/arch/unix/gui/uijoystick2.c:189 src/arch/unix/gui/uijoystick2.c:241
 #: src/arch/unix/gui/uijoystick2.c:293 src/arch/unix/gui/uijoystick2.c:345
-#: src/arch/unix/gui/vic20ui.c:406
+#: src/arch/unix/gui/vic20ui.c:407
 msgid "Digital Joystick 1"
 msgstr "디지털 조이스틱 1"
 
 #: src/arch/unix/gui/uijoystick2.c:194 src/arch/unix/gui/uijoystick2.c:246
 #: src/arch/unix/gui/uijoystick2.c:298 src/arch/unix/gui/uijoystick2.c:350
-#: src/arch/unix/gui/vic20ui.c:411
+#: src/arch/unix/gui/vic20ui.c:412
 msgid "USB Joystick 0"
 msgstr "USB 조이스틱 0"
 
 #: src/arch/unix/gui/uijoystick2.c:197 src/arch/unix/gui/uijoystick2.c:249
 #: src/arch/unix/gui/uijoystick2.c:301 src/arch/unix/gui/uijoystick2.c:353
-#: src/arch/unix/gui/vic20ui.c:414
+#: src/arch/unix/gui/vic20ui.c:415
 msgid "USB Joystick 1"
 msgstr "USB 조이스틱 1"
 
@@ -2457,7 +2461,7 @@ msgstr "SIDcard 조이스틱"
 #: src/arch/unix/gui/uijoystick2.c:526 src/arch/unix/gui/uijoystick2.c:532
 #: src/arch/unix/gui/uijoystick2.c:538 src/arch/unix/gui/uijoystick2.c:544
 #: src/arch/unix/gui/uijoystick2.c:550 src/arch/unix/gui/uijoystick2.c:556
-#: src/arch/unix/gui/vic20ui.c:423 src/arch/win32/res.rc.po.c:1193
+#: src/arch/unix/gui/vic20ui.c:424 src/arch/win32/res.rc.po.c:1193
 #: src/arch/win32/res.rc.po.c:1477 src/arch/amigaos/intl_text.c.po.c:1938
 #: src/arch/amigaos/intl_text.c.po.c:5035
 msgid "Joystick settings"
@@ -2566,7 +2570,7 @@ msgid "Rev. B"
 msgstr "수정B"
 
 #: src/arch/unix/gui/uimmc64.c:61 src/arch/unix/gui/uimmcreplay.c:52
-#: src/arch/unix/gui/uisettings.c:339 src/arch/win32/res.rc.po.c:1461
+#: src/arch/unix/gui/uisettings.c:333 src/arch/win32/res.rc.po.c:1461
 #: src/arch/amigaos/intl_text.c.po.c:1074
 msgid "Auto"
 msgstr "자동"
@@ -2649,7 +2653,7 @@ msgstr "마우스 타입"
 msgid "Mouse port"
 msgstr "마우스 포트"
 
-#: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:523
+#: src/arch/unix/gui/uimouse.c:72 src/arch/win32/resvic20.rc.po.c:524
 #: src/arch/amigaos/intl_text.c.po.c:1626
 msgid "Enable paddles"
 msgstr "패디스 사용가능하게 하기"
@@ -3315,11 +3319,11 @@ msgstr ""
 msgid "Serial 2 device"
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:194
+#: src/arch/unix/gui/uisettings.c:195
 msgid "Enter speed"
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:195 src/arch/unix/gui/uisettings.c:391
+#: src/arch/unix/gui/uisettings.c:196 src/arch/unix/gui/uisettings.c:385
 #: src/arch/win32/res.rc.po.c:1371 src/arch/win32/resc128.rc.po.c:164
 #: src/arch/win32/resc64.rc.po.c:166 src/arch/win32/resc64dtv.rc.po.c:131
 #: src/arch/win32/rescbm2.rc.po.c:138 src/arch/win32/respet.rc.po.c:138
@@ -3328,77 +3332,77 @@ msgstr ""
 msgid "Maximum speed"
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:207
+#: src/arch/unix/gui/uisettings.c:208
 msgid "Invalid speed value"
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:221 src/arch/unix/gui/uisettings.c:274
-#: src/arch/unix/x11/gnome/x11ui.c:1273 src/arch/unix/x11/xaw/x11ui.c:1277
+#: src/arch/unix/gui/uisettings.c:222 src/arch/unix/gui/uisettings.c:275
+#: src/arch/unix/x11/gnome/x11ui.c:1276 src/arch/unix/x11/xaw/x11ui.c:1289
 #: src/arch/win32/res.rc.po.c:966 src/arch/amigaos/intl_text.c.po.c:3054
 msgid "Cannot save settings."
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:224 src/arch/unix/gui/uisettings.c:277
+#: src/arch/unix/gui/uisettings.c:225 src/arch/unix/gui/uisettings.c:278
 #: src/arch/win32/res.rc.po.c:986 src/arch/amigaos/intl_text.c.po.c:2946
 msgid "Settings saved successfully."
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:242 src/arch/unix/gui/uisettings.c:312
+#: src/arch/unix/gui/uisettings.c:243 src/arch/unix/gui/uisettings.c:303
 msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:244 src/arch/unix/gui/uisettings.c:314
+#: src/arch/unix/gui/uisettings.c:245 src/arch/unix/gui/uisettings.c:305
 msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:270
+#: src/arch/unix/gui/uisettings.c:271
 msgid "File to save settings to"
 msgstr ""
 
-#: src/arch/unix/gui/uisettings.c:306
+#: src/arch/unix/gui/uisettings.c:297
 msgid "Resource file name"
 msgstr "리소스 파일 이름"
 
-#: src/arch/unix/gui/uisettings.c:362 src/arch/unix/gui/uisettings.c:381
-#: src/arch/win32/res.rc.po.c:1463 src/arch/win32/resvic20.rc.po.c:505
+#: src/arch/unix/gui/uisettings.c:356 src/arch/unix/gui/uisettings.c:375
+#: src/arch/win32/res.rc.po.c:1463 src/arch/win32/resvic20.rc.po.c:506
 #: src/arch/amigaos/intl_text.c.po.c:1290
 msgid "Custom"
 msgstr "커스텀"
 
-#: src/arch/unix/gui/uisettings.c:378 src/arch/win32/res.rc.po.c:1462
+#: src/arch/unix/gui/uisettings.c:372 src/arch/win32/res.rc.po.c:1462
 #: src/arch/amigaos/intl_text.c.po.c:1278
 msgid "No limit"
 msgstr "한계없음"
 
-#: src/arch/unix/gui/uisettings.c:393 src/translate_text.c.po.c:10450
+#: src/arch/unix/gui/uisettings.c:387 src/translate_text.c.po.c:10450
 msgid "Enable warp mode"
 msgstr "웜프 모드 사용가능하게 하기"
 
-#: src/arch/unix/gui/uisettings.c:399
+#: src/arch/unix/gui/uisettings.c:393
 msgid "Save settings"
 msgstr "설정 저장하시"
 
-#: src/arch/unix/gui/uisettings.c:401
+#: src/arch/unix/gui/uisettings.c:395
 msgid "Load settings"
 msgstr "설정 불러오기"
 
-#: src/arch/unix/gui/uisettings.c:403
+#: src/arch/unix/gui/uisettings.c:397
 msgid "Save settings to file"
 msgstr "설정 을 파일로 저장하기"
 
-#: src/arch/unix/gui/uisettings.c:405
+#: src/arch/unix/gui/uisettings.c:399
 msgid "Load settings from file"
 msgstr "세팅을 파일에서 불러오기"
 
-#: src/arch/unix/gui/uisettings.c:407 src/translate_text.c.po.c:9820
+#: src/arch/unix/gui/uisettings.c:401 src/translate_text.c.po.c:9820
 msgid "Restore default settings"
 msgstr "디폴트 설정 복원시키기"
 
-#: src/arch/unix/gui/uisettings.c:410
+#: src/arch/unix/gui/uisettings.c:404
 #: src/arch/unix/x11/ui-cmdline-options.c:57
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:40
 #: src/arch/win32/res.rc.po.c:1143 src/arch/win32/res.rc.po.c:1515
@@ -3407,7 +3411,7 @@ msgstr "디폴트 설정 복원시키기"
 msgid "Save settings on exit"
 msgstr "종료시 설정 저장하기"
 
-#: src/arch/unix/gui/uisettings.c:412
+#: src/arch/unix/gui/uisettings.c:406
 #: src/arch/unix/x11/ui-cmdline-options.c:67
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:55
 #: src/arch/win32/res.rc.po.c:1145 src/arch/win32/res.rc.po.c:1516
@@ -3593,7 +3597,7 @@ msgstr ""
 msgid "Suspend time"
 msgstr "시간 종료"
 
-#: src/arch/unix/gui/uisound.c:152 src/arch/unix/gui/vsidui.c:327
+#: src/arch/unix/gui/uisound.c:152 src/arch/unix/gui/vsidui.c:346
 #: src/arch/win32/res.rc.po.c:1481 src/arch/amigaos/intl_text.c.po.c:1998
 #: src/arch/amigaos/intl_text.c.po.c:6403
 msgid "Sound settings"
@@ -3653,7 +3657,7 @@ msgstr "수정 1"
 msgid "Rev 2"
 msgstr "수정 2"
 
-#: src/arch/unix/gui/uivdc.c:150 src/arch/win32/resc128.rc.po.c:693
+#: src/arch/unix/gui/uivdc.c:150 src/arch/win32/resc128.rc.po.c:694
 #: src/arch/amigaos/intl_text.c.po.c:1374
 msgid "64KB video memory"
 msgstr "64KB 비디오 메모리"
@@ -3663,16 +3667,7 @@ msgstr "64KB 비디오 메모리"
 msgid "Full"
 msgstr "가득"
 
-#: src/arch/unix/gui/uivicii.c:92 src/arch/win32/res.rc.po.c:92
-#: src/arch/win32/res.rc.po.c:1362 src/arch/win32/resc128.rc.po.c:101
-#: src/arch/win32/resc64.rc.po.c:101 src/arch/win32/resc64dtv.rc.po.c:68
-#: src/arch/win32/rescbm2.rc.po.c:75 src/arch/win32/respet.rc.po.c:75
-#: src/arch/win32/resplus4.rc.po.c:87 src/arch/win32/resvic20.rc.po.c:97
-#: src/arch/win32/resvicii.rc.po.c:42 src/arch/amigaos/intl_text.c.po.c:8143
-msgid "Debug"
-msgstr "디벅"
-
-#: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:525
+#: src/arch/unix/gui/uivicii.c:172 src/arch/win32/resc64.rc.po.c:526
 #: src/arch/win32/resvicii.rc.po.c:46 src/arch/amigaos/intl_text.c.po.c:6451
 msgid "New luminances"
 msgstr "세로운 밝기"
@@ -3692,177 +3687,182 @@ msgstr "스프라이트-스프라이트 충돌"
 msgid "Sprite-background collisions"
 msgstr "스프라이트-배경 충돌"
 
-#: src/arch/unix/gui/vic20ui.c:198 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/unix/gui/vic20ui.c:199 src/arch/win32/resvic20.rc.po.c:500
 msgid "No expansion memory"
 msgstr "확장 메모리 없음"
 
-#: src/arch/unix/gui/vic20ui.c:202 src/arch/win32/resvic20.rc.po.c:500
+#: src/arch/unix/gui/vic20ui.c:203 src/arch/win32/resvic20.rc.po.c:501
 msgid "3K (block 0)"
 msgstr "3k (block 0)"
 
-#: src/arch/unix/gui/vic20ui.c:205 src/arch/win32/resvic20.rc.po.c:501
+#: src/arch/unix/gui/vic20ui.c:206 src/arch/win32/resvic20.rc.po.c:502
 msgid "8K (block 1)"
 msgstr "8k (block 1)"
 
-#: src/arch/unix/gui/vic20ui.c:208 src/arch/win32/resvic20.rc.po.c:502
+#: src/arch/unix/gui/vic20ui.c:209 src/arch/win32/resvic20.rc.po.c:503
 msgid "16K (blocks 1/2)"
 msgstr "16k (block 1/2)"
 
-#: src/arch/unix/gui/vic20ui.c:211 src/arch/win32/resvic20.rc.po.c:503
+#: src/arch/unix/gui/vic20ui.c:212 src/arch/win32/resvic20.rc.po.c:504
 msgid "24K (blocks 1/2/3)"
 msgstr "24k (block 1/2/3)"
 
-#: src/arch/unix/gui/vic20ui.c:215
+#: src/arch/unix/gui/vic20ui.c:216
 msgid "All (blocks 0/1/2/3/5)"
 msgstr "모두 (block 0/1/2/3/5)"
 
-#: src/arch/unix/gui/vic20ui.c:228
+#: src/arch/unix/gui/vic20ui.c:229
 msgid "Common configurations"
 msgstr "공통된 배열"
 
-#: src/arch/unix/gui/vic20ui.c:231 src/arch/win32/resvic20.rc.po.c:506
+#: src/arch/unix/gui/vic20ui.c:232 src/arch/win32/resvic20.rc.po.c:507
 msgid "Block 0 (3K at $0400-$0FFF)"
 msgstr "block 0 (3k $0400-$0FFF 으로)"
 
-#: src/arch/unix/gui/vic20ui.c:233 src/arch/win32/resvic20.rc.po.c:507
+#: src/arch/unix/gui/vic20ui.c:234 src/arch/win32/resvic20.rc.po.c:508
 msgid "Block 1 (8K at $2000-$3FFF)"
 msgstr "block 1 (8k $2000-$3FFF 으로)"
 
-#: src/arch/unix/gui/vic20ui.c:235 src/arch/win32/resvic20.rc.po.c:508
+#: src/arch/unix/gui/vic20ui.c:236 src/arch/win32/resvic20.rc.po.c:509
 msgid "Block 2 (8K at $4000-$5FFF)"
 msgstr "block 2 (8k $4000-$5FFF 으로)"
 
-#: src/arch/unix/gui/vic20ui.c:237 src/arch/win32/resvic20.rc.po.c:509
+#: src/arch/unix/gui/vic20ui.c:238 src/arch/win32/resvic20.rc.po.c:510
 msgid "Block 3 (8K at $6000-$7FFF)"
 msgstr "block 3 (8k $6000-$7FFF 으로)"
 
-#: src/arch/unix/gui/vic20ui.c:239 src/arch/win32/resvic20.rc.po.c:510
+#: src/arch/unix/gui/vic20ui.c:240 src/arch/win32/resvic20.rc.po.c:511
 msgid "Block 5 (8K at $A000-$BFFF)"
 msgstr "block 5 (8k $A000-$BFFF 으로)"
 
-#: src/arch/unix/gui/vic20ui.c:259 src/arch/win32/res.rc.po.c:991
+#: src/arch/unix/gui/vic20ui.c:260 src/arch/win32/res.rc.po.c:991
 #: src/arch/win32/res.rc.po.c:993 src/arch/amigaos/intl_text.c.po.c:3138
 #: src/arch/amigaos/intl_text.c.po.c:3162
 msgid "Invalid cartridge image"
 msgstr "카트리지 이미지 사용불가"
 
-#: src/arch/unix/gui/vic20ui.c:273 src/translate_text.c.po.c:5802
+#: src/arch/unix/gui/vic20ui.c:274 src/translate_text.c.po.c:5802
 msgid "Smart-attach cartridge image"
 msgstr "카트리지 이미지를 스마트-붙이기 하기"
 
-#: src/arch/unix/gui/vic20ui.c:277 src/arch/win32/resvic20.rc.po.c:516
+#: src/arch/unix/gui/vic20ui.c:278 src/arch/win32/resvic20.rc.po.c:517
 #: src/arch/amigaos/intl_text.c.po.c:3786
 msgid "Attach 4/8/16KB cartridge image at $2000"
 msgstr "4/8/16KB 카트리지 이미지 를  $2000 에 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:280 src/arch/win32/resvic20.rc.po.c:517
+#: src/arch/unix/gui/vic20ui.c:281 src/arch/win32/resvic20.rc.po.c:518
 #: src/arch/amigaos/intl_text.c.po.c:3798
 msgid "Attach 4/8/16KB cartridge image at $4000"
 msgstr "4/8/16KB 카트리지 이미지 를  $4000 에 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:283 src/arch/win32/resvic20.rc.po.c:518
+#: src/arch/unix/gui/vic20ui.c:284 src/arch/win32/resvic20.rc.po.c:519
 #: src/arch/amigaos/intl_text.c.po.c:3810
 msgid "Attach 4/8/16KB cartridge image at $6000"
 msgstr "4/8/16KB 카트리지 이미지 를  $6000 에 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:286 src/arch/win32/resvic20.rc.po.c:519
+#: src/arch/unix/gui/vic20ui.c:287 src/arch/win32/resvic20.rc.po.c:520
 #: src/arch/amigaos/intl_text.c.po.c:3822
 msgid "Attach 4/8KB cartridge image at $A000"
 msgstr "4/8KB 카트리지 이미지 를  $A000 에 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:289 src/arch/win32/resvic20.rc.po.c:520
+#: src/arch/unix/gui/vic20ui.c:290 src/arch/win32/resvic20.rc.po.c:521
 #: src/arch/amigaos/intl_text.c.po.c:3834
 msgid "Attach 4KB cartridge image at $B000"
 msgstr "4KB 카트리지 이미지 를  $B000 에 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:306
+#: src/arch/unix/gui/vic20ui.c:307
 msgid "Attach generic image"
 msgstr "제너릭 이미지 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:309
+#: src/arch/unix/gui/vic20ui.c:310
 msgid "Attach Mega-Cart image"
 msgstr ""
 
-#: src/arch/unix/gui/vic20ui.c:312
+#: src/arch/unix/gui/vic20ui.c:313
 msgid "Attach Final Expansion image"
 msgstr "Final Expansion 이미지 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:315
+#: src/arch/unix/gui/vic20ui.c:316
 msgid "Attach Vic Flash Plugin image"
 msgstr "Vic Flash Plugin 이미지 붙이기"
 
-#: src/arch/unix/gui/vic20ui.c:319 src/arch/win32/resvic20.rc.po.c:69
-#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:378
+#: src/arch/unix/gui/vic20ui.c:320 src/arch/win32/resvic20.rc.po.c:69
+#: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:378
 msgid "Add to generic cartridge"
 msgstr "제너릭 카트리지에 더하기"
 
-#: src/arch/unix/gui/vic20ui.c:334
+#: src/arch/unix/gui/vic20ui.c:335
 msgid "Mega-Cart NvRAM image"
 msgstr ""
 
-#: src/arch/unix/gui/vic20ui.c:338 src/arch/unix/gui/vic20ui.c:344
+#: src/arch/unix/gui/vic20ui.c:339 src/arch/unix/gui/vic20ui.c:345
 msgid "Enable image write back"
 msgstr "이미지 라이트 백 사용가능케하기"
 
-#: src/arch/unix/gui/vic20ui.c:350
+#: src/arch/unix/gui/vic20ui.c:351
 msgid "Enable NvRAM image write back"
 msgstr "NvRAM 이미지 라이트 백 사용 가능케 하기"
 
-#: src/arch/unix/gui/vic20ui.c:352
+#: src/arch/unix/gui/vic20ui.c:353
 msgid "NvRAM image file"
 msgstr "NvRAM 이미지 파일"
 
-#: src/arch/unix/gui/vic20ui.c:471
+#: src/arch/unix/gui/vic20ui.c:472
 msgid "VIC model"
 msgstr "VIC 모델"
 
-#: src/arch/unix/gui/vic20ui.c:473
+#: src/arch/unix/gui/vic20ui.c:474
 msgid "Memory expansions"
 msgstr "메모리 확장"
 
-#: src/arch/unix/gui/vic20ui.c:497
+#: src/arch/unix/gui/vic20ui.c:498
 msgid "Ethernet emulation (MasC=uerade)"
 msgstr "이더넷 에뮬레이터 (MasC=uerade)"
 
-#: src/arch/unix/gui/vic20ui.c:501
+#: src/arch/unix/gui/vic20ui.c:502
 msgid "Paddle emulation"
 msgstr "패블 에뮬레이터"
 
-#: src/arch/unix/gui/vic20ui.c:538 src/arch/win32/resvic20.rc.po.c:498
-#: src/arch/win32/resvic20.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:1818
+#: src/arch/unix/gui/vic20ui.c:541 src/arch/win32/resvic20.rc.po.c:499
+#: src/arch/win32/resvic20.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:1818
 #: src/arch/amigaos/intl_text.c.po.c:6415
 msgid "VIC settings"
 msgstr "VIC 셋팅"
 
-#: src/arch/unix/gui/vsidui.c:229
+#: src/arch/unix/gui/vsidui.c:231 src/arch/unix/gui/vsidui.c:429
 msgid "Tunes"
 msgstr "음"
 
-#: src/arch/unix/gui/vsidui.c:240 src/arch/unix/gui/vsidui.c:273
+#: src/arch/unix/gui/vsidui.c:244 src/arch/unix/gui/vsidui.c:279
 msgid "Load PSID file"
 msgstr "PSID 파일 불러오기"
 
-#: src/arch/unix/gui/vsidui.c:335
+#: src/arch/unix/gui/vsidui.c:352
+#, fuzzy
+msgid "Sound recording"
+msgstr "사운드 레코드 WAV"
+
+#: src/arch/unix/gui/vsidui.c:360
 msgid "Override PSID settings"
 msgstr "PSID 셋팅 오버라이드 하기"
 
-#: src/arch/unix/gui/vsidui.c:339 src/arch/win32/res.rc.po.c:1372
+#: src/arch/unix/gui/vsidui.c:364 src/arch/win32/res.rc.po.c:1372
 #: src/arch/win32/resc128.rc.po.c:210 src/arch/win32/resc64dtv.rc.po.c:166
 #: src/arch/win32/resplus4.rc.po.c:183 src/arch/win32/resvic20.rc.po.c:193
 #: src/arch/amigaos/intl_text.c.po.c:1566
 msgid "Video standard"
 msgstr "표준 비디오"
 
-#: src/arch/unix/gui/vsidui.c:418
+#: src/arch/unix/gui/vsidui.c:457
 msgid "Default Tune"
 msgstr "디폴트 조율"
 
-#: src/arch/unix/gui/vsidui.c:438
+#: src/arch/unix/gui/vsidui.c:477
 #, c-format
 msgid "Tune %d"
 msgstr "음%d"
 
-#: src/arch/unix/gui/vsidui.c:465
+#: src/arch/unix/gui/vsidui.c:506
 msgid "VSID: The SID Emulator"
 msgstr ""
 
@@ -3871,7 +3871,7 @@ msgid "VICE is FREE software!"
 msgstr "VICE 는 무료 소프트웨어 입니다"
 
 #: src/arch/unix/x11/gnome/about.c:43 src/arch/unix/x11/xaw/about.c:67
-#: src/arch/win32/res.rc.po.c:1083 src/arch/win32/res.rc.po.c:1531
+#: src/arch/win32/res.rc.po.c:1083 src/arch/win32/res.rc.po.c:1532
 #: src/arch/amigaos/intl_text.c.po.c:2682
 msgid "No warranty!"
 msgstr "워런티 없습니다"
@@ -3897,25 +3897,26 @@ msgid ""
 "Andrea Musuruane - Italian\n"
 "Jesse Lee - Korean\n"
 "Marco van den Heuvel - Dutch\n"
+"Robert Thurnreiter - Polish\n"
 "Mihail Litvinov - Russian\n"
 "Peter Krefting - Swedish\n"
 "Emir Akaydin (aka: Skate) - Turkish\n"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:114
+#: src/arch/unix/x11/gnome/about.c:115
 msgid "(c) 1998 - 2011 The VICE Team"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/about.c:121 src/arch/win32/res.rc.po.c:1082
-#: src/arch/win32/res.rc.po.c:1530 src/arch/amigaos/intl_text.c.po.c:2670
+#: src/arch/unix/x11/gnome/about.c:122 src/arch/win32/res.rc.po.c:1082
+#: src/arch/win32/res.rc.po.c:1531 src/arch/amigaos/intl_text.c.po.c:2670
 msgid "License"
 msgstr "면허"
 
-#: src/arch/unix/x11/gnome/about.c:123
+#: src/arch/unix/x11/gnome/about.c:124
 msgid "Warranty"
 msgstr "워런티"
 
-#: src/arch/unix/x11/gnome/about.c:125 src/arch/win32/res.rc.po.c:1529
+#: src/arch/unix/x11/gnome/about.c:126 src/arch/win32/res.rc.po.c:1530
 #: src/arch/amigaos/intl_text.c.po.c:2658
 msgid "Contributors"
 msgstr "공헌자"
@@ -3970,7 +3971,7 @@ msgid "Paste"
 msgstr "붙여넣기"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:56 src/arch/win32/res.rc.po.c:1294
-#: src/arch/win32/respet.rc.po.c:554 src/arch/amigaos/intl_text.c.po.c:7651
+#: src/arch/win32/respet.rc.po.c:555 src/arch/amigaos/intl_text.c.po.c:7651
 msgid "Keyboard"
 msgstr "키보드"
 
@@ -4111,7 +4112,9 @@ msgid "Successfully wrote `%s'\n"
 msgstr ""
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:44
-#: src/arch/unix/x11/xaw/uivsidcontrol.c:43
+#: src/arch/unix/x11/gnome/uivsidcontrol.c:63
+#: src/arch/unix/x11/xaw/uivsidcontrol.c:58
+#: src/arch/unix/x11/xaw/uivsidcontrol.c:71
 #, c-format
 msgid ""
 "Name: %s\n"
@@ -4123,133 +4126,133 @@ msgid ""
 "IRQ: %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:737
+#: src/arch/unix/x11/gnome/x11ui.c:739
 msgid "CRT Controls"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:749
+#: src/arch/unix/x11/gnome/x11ui.c:752
 msgid "audio/video recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:758 src/arch/unix/x11/gnome/x11ui.c:773
+#: src/arch/unix/x11/gnome/x11ui.c:761 src/arch/unix/x11/gnome/x11ui.c:776
 msgid "click to stop recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:764 src/arch/unix/x11/xaw/x11ui.c:1002
+#: src/arch/unix/x11/gnome/x11ui.c:767 src/arch/unix/x11/xaw/x11ui.c:1010
 msgid "event recording"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:779
+#: src/arch/unix/x11/gnome/x11ui.c:782
 msgid "event playback"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:788
+#: src/arch/unix/x11/gnome/x11ui.c:791
 msgid "click to stop playback"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:800
+#: src/arch/unix/x11/gnome/x11ui.c:803
 #, c-format
 msgid "Drive %d: "
 msgstr ""
 
 #. Tape Label
-#: src/arch/unix/x11/gnome/x11ui.c:882
+#: src/arch/unix/x11/gnome/x11ui.c:885
 msgid "Tape 000"
 msgstr "테이프000"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1255 src/arch/unix/x11/xaw/x11ui.c:1262
+#: src/arch/unix/x11/gnome/x11ui.c:1258 src/arch/unix/x11/xaw/x11ui.c:1274
 msgid " emulator"
 msgstr " 에뮬래이터"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1262 src/arch/unix/x11/xaw/x11ui.c:1266
+#: src/arch/unix/x11/gnome/x11ui.c:1265 src/arch/unix/x11/xaw/x11ui.c:1278
 msgid "Do you really want to exit?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1270 src/arch/unix/x11/xaw/x11ui.c:1274
+#: src/arch/unix/x11/gnome/x11ui.c:1273 src/arch/unix/x11/xaw/x11ui.c:1286
 msgid "Save the current settings?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1306 src/arch/unix/x11/gnome/x11ui.c:1308
-#: src/arch/unix/x11/xaw/x11ui.c:1342 src/arch/unix/x11/xaw/x11ui.c:1345
+#: src/arch/unix/x11/gnome/x11ui.c:1309 src/arch/unix/x11/gnome/x11ui.c:1311
+#: src/arch/unix/x11/xaw/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1357
 msgid "(warp)"
 msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
-#: src/arch/unix/x11/gnome/x11ui.c:1599
+#: src/arch/unix/x11/gnome/x11ui.c:1602
 #, c-format
 msgid "Tape %03d"
 msgstr "테이프 %03d"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1648 src/arch/unix/x11/xaw/x11ui.c:1591
+#: src/arch/unix/x11/gnome/x11ui.c:1651 src/arch/unix/x11/xaw/x11ui.c:1603
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (멈춤)"
 
-#: src/arch/unix/x11/gnome/x11ui.c:1982 src/arch/amigaos/intl_text.c.po.c:2982
+#: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl_text.c.po.c:2982
 msgid "VICE Message"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:1994 src/arch/unix/x11/xaw/x11ui.c:1785
+#: src/arch/unix/x11/gnome/x11ui.c:1997 src/arch/unix/x11/xaw/x11ui.c:1797
 #: src/arch/win32/res.rc.po.c:961 src/arch/amigaos/intl_text.c.po.c:3078
 msgid "VICE Error!"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2021
+#: src/arch/unix/x11/gnome/x11ui.c:2024
 msgid "Hard Reset"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2021 src/arch/win32/res.rc.po.c:1435
+#: src/arch/unix/x11/gnome/x11ui.c:2024 src/arch/win32/res.rc.po.c:1435
 #: src/arch/amigaos/intl_text.c.po.c:786
 msgid "Monitor"
 msgstr "모니터"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2021
+#: src/arch/unix/x11/gnome/x11ui.c:2024
 msgid "Continue"
 msgstr "계속"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2065 src/arch/unix/x11/xaw/x11ui.c:1916
+#: src/arch/unix/x11/gnome/x11ui.c:2068 src/arch/unix/x11/xaw/x11ui.c:1928
 msgid "Extend disk image"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2065
+#: src/arch/unix/x11/gnome/x11ui.c:2068
 msgid "Do you want to extend the disk image to 40 tracks?"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2076
+#: src/arch/unix/x11/gnome/x11ui.c:2079
 #, c-format
 msgid "Autostart not possible for unit %d"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2081 src/arch/unix/x11/gnome/x11ui.c:2087
+#: src/arch/unix/x11/gnome/x11ui.c:2084 src/arch/unix/x11/gnome/x11ui.c:2090
 #, c-format
 msgid "Can't autostart selection %d in image %s"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2258
+#: src/arch/unix/x11/gnome/x11ui.c:2261
 msgid "NO IMAGE CONTENTS AVAILABLE"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2590
+#: src/arch/unix/x11/gnome/x11ui.c:2593
 msgid "Contents"
 msgstr "목차"
 
 #. write-protect checkbox
-#: src/arch/unix/x11/gnome/x11ui.c:2621 src/arch/win32/res.rc.po.c:1189
+#: src/arch/unix/x11/gnome/x11ui.c:2624 src/arch/win32/res.rc.po.c:1189
 #: src/arch/amigaos/intl_text.c.po.c:3882
 msgid "Attach read only"
 msgstr ""
 
 #. show hidden files
-#: src/arch/unix/x11/gnome/x11ui.c:2628
+#: src/arch/unix/x11/gnome/x11ui.c:2631
 msgid "Show hidden files"
 msgstr ""
 
-#: src/arch/unix/x11/gnome/x11ui.c:2637 src/arch/win32/res.rc.po.c:1187
+#: src/arch/unix/x11/gnome/x11ui.c:2640 src/arch/win32/res.rc.po.c:1187
 msgid "Autostart"
 msgstr "자동시작"
 
-#: src/arch/unix/x11/gnome/x11ui.c:2653
+#: src/arch/unix/x11/gnome/x11ui.c:2656
 msgid "Text cannot be displayed.\n"
 msgstr ""
 
@@ -4300,7 +4303,7 @@ msgstr ""
 
 #: src/arch/unix/x11/xaw/uicartridge.c:113 src/arch/unix/x11/xaw/uiedisk.c:204
 #: src/arch/unix/x11/xaw/uiscreenshot.c:151
-#: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:687
+#: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:688
 msgid "File name"
 msgstr ""
 
@@ -4334,11 +4337,11 @@ msgstr ""
 msgid "Screen Snapshot"
 msgstr ""
 
-#: src/arch/unix/x11/xaw/x11ui.c:990
+#: src/arch/unix/x11/xaw/x11ui.c:998
 msgid "recording"
 msgstr "녹화중"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1446
+#: src/arch/unix/x11/xaw/x11ui.c:1458
 #, c-format
 msgid "%d: Track %.1f"
 msgstr "%d: 트랙 %.1f"
@@ -4758,7 +4761,7 @@ msgstr ""
 msgid "Cannot create image file!"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1012 src/arch/win32/res.rc.po.c:1528
+#: src/arch/win32/res.rc.po.c:1012 src/arch/win32/res.rc.po.c:1529
 #: src/arch/amigaos/intl_text.c.po.c:2646
 msgid "Command line options"
 msgstr ""
@@ -4776,7 +4779,7 @@ msgstr ""
 msgid "Cannot write screenshot file `%s'."
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1016 src/arch/win32/resc64dtv.rc.po.c:444
+#: src/arch/win32/res.rc.po.c:1016 src/arch/win32/resc64dtv.rc.po.c:445
 msgid "Autostart disk image"
 msgstr ""
 
@@ -4797,12 +4800,12 @@ msgid "Printer 5"
 msgstr "프린터5"
 
 #: src/arch/win32/res.rc.po.c:1021 src/arch/win32/res.rc.po.c:1388
-#: src/arch/win32/res.rc.po.c:1552 src/arch/amigaos/intl_text.c.po.c:42
+#: src/arch/win32/res.rc.po.c:1553 src/arch/amigaos/intl_text.c.po.c:42
 msgid "Drive 8"
 msgstr "드라이브8"
 
 #: src/arch/win32/res.rc.po.c:1022 src/arch/win32/res.rc.po.c:1389
-#: src/arch/win32/res.rc.po.c:1553 src/arch/amigaos/intl_text.c.po.c:54
+#: src/arch/win32/res.rc.po.c:1554 src/arch/amigaos/intl_text.c.po.c:54
 msgid "Drive 9"
 msgstr "드라이브9"
 
@@ -4857,7 +4860,7 @@ msgstr ""
 msgid "Romset"
 msgstr "롬셋"
 
-#: src/arch/win32/res.rc.po.c:1036 src/arch/win32/res.rc.po.c:1551
+#: src/arch/win32/res.rc.po.c:1036 src/arch/win32/res.rc.po.c:1552
 msgid "Computer"
 msgstr "컴퓨터"
 
@@ -5128,7 +5131,7 @@ msgstr ""
 msgid "Tape"
 msgstr "테이프"
 
-#: src/arch/win32/res.rc.po.c:1134 src/arch/win32/resc64dtv.rc.po.c:451
+#: src/arch/win32/res.rc.po.c:1134 src/arch/win32/resc64dtv.rc.po.c:452
 #: src/arch/amigaos/intl_text.c.po.c:4086
 msgid "Joystick"
 msgstr "조이스틱"
@@ -5626,7 +5629,7 @@ msgid "DE Pos."
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1336 src/arch/win32/res.rc.po.c:1352
-#: src/arch/win32/rescbm2.rc.po.c:492 src/arch/win32/respet.rc.po.c:545
+#: src/arch/win32/rescbm2.rc.po.c:493 src/arch/win32/respet.rc.po.c:546
 #: src/arch/amigaos/intl_text.c.po.c:7615
 msgid "Memory"
 msgstr "메모리"
@@ -5695,10 +5698,10 @@ msgstr ""
 msgid "Language"
 msgstr "언어"
 
-#: src/arch/win32/res.rc.po.c:1377 src/arch/win32/resc128.rc.po.c:283
-#: src/arch/win32/resc64.rc.po.c:271 src/arch/win32/resc64dtv.rc.po.c:214
-#: src/arch/win32/rescbm2.rc.po.c:219 src/arch/win32/respet.rc.po.c:222
-#: src/arch/win32/resplus4.rc.po.c:235 src/arch/win32/resvic20.rc.po.c:260
+#: src/arch/win32/res.rc.po.c:1377 src/arch/win32/resc128.rc.po.c:284
+#: src/arch/win32/resc64.rc.po.c:272 src/arch/win32/resc64dtv.rc.po.c:215
+#: src/arch/win32/rescbm2.rc.po.c:220 src/arch/win32/respet.rc.po.c:223
+#: src/arch/win32/resplus4.rc.po.c:236 src/arch/win32/resvic20.rc.po.c:261
 #: src/arch/amigaos/intl_text.c.po.c:2622
 msgid "Help"
 msgstr "도움"
@@ -5843,7 +5846,7 @@ msgstr ""
 msgid "Virtual device traps"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1473 src/arch/win32/resc64.rc.po.c:541
+#: src/arch/win32/res.rc.po.c:1473 src/arch/win32/resc64.rc.po.c:542
 #: src/arch/amigaos/intl_text.c.po.c:1686
 #: src/arch/amigaos/intl_text.c.po.c:8599
 msgid "C64 model settings"
@@ -5868,7 +5871,7 @@ msgid "REU settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1490 src/arch/win32/resgeoram.rc.po.c:66
-#: src/arch/win32/resvic20.rc.po.c:541 src/arch/amigaos/intl_text.c.po.c:2118
+#: src/arch/win32/resvic20.rc.po.c:542 src/arch/amigaos/intl_text.c.po.c:2118
 #: src/arch/amigaos/intl_text.c.po.c:2130
 #: src/arch/amigaos/intl_text.c.po.c:4698
 msgid "GEO-RAM settings"
@@ -5920,7 +5923,7 @@ msgid "MIDI settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1499 src/arch/win32/resdigimax.rc.po.c:22
-#: src/arch/win32/resvic20.rc.po.c:542 src/arch/amigaos/intl_text.c.po.c:2286
+#: src/arch/win32/resvic20.rc.po.c:543 src/arch/amigaos/intl_text.c.po.c:2286
 #: src/arch/amigaos/intl_text.c.po.c:2298
 #: src/arch/amigaos/intl_text.c.po.c:7927
 msgid "DigiMAX settings"
@@ -5937,12 +5940,12 @@ msgid "IDE64 settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1503 src/arch/win32/restfe.rc.po.c:61
-#: src/arch/win32/resvic20.rc.po.c:544 src/arch/amigaos/intl_text.c.po.c:2382
+#: src/arch/win32/resvic20.rc.po.c:545 src/arch/amigaos/intl_text.c.po.c:2382
 msgid "Ethernet settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1505 src/arch/win32/resacia.rc.po.c:65
-#: src/arch/win32/resvic20.rc.po.c:540 src/arch/amigaos/intl_text.c.po.c:2394
+#: src/arch/win32/resvic20.rc.po.c:541 src/arch/amigaos/intl_text.c.po.c:2394
 #: src/arch/amigaos/intl_text.c.po.c:2406
 #: src/arch/amigaos/intl_text.c.po.c:4170
 msgid "ACIA settings"
@@ -5961,7 +5964,7 @@ msgid "EasyFlash settings"
 msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1508 src/arch/win32/ressoundexpander.rc.po.c:42
-#: src/arch/win32/resvic20.rc.po.c:546 src/arch/amigaos/intl_text.c.po.c:2310
+#: src/arch/win32/resvic20.rc.po.c:547 src/arch/amigaos/intl_text.c.po.c:2310
 #: src/arch/amigaos/intl_text.c.po.c:2322
 #: src/arch/amigaos/intl_text.c.po.c:7975
 msgid "SFX Sound Expander settings"
@@ -6012,100 +6015,104 @@ msgstr "한국어"
 msgid "Dutch"
 msgstr "네덜란드어"
 
-#: src/arch/win32/res.rc.po.c:1525 src/arch/amigaos/intl_text.c.po.c:2826
+#: src/arch/win32/res.rc.po.c:1525
+msgid "Polish"
+msgstr "폴란드어"
+
+#: src/arch/win32/res.rc.po.c:1526 src/arch/amigaos/intl_text.c.po.c:2826
 msgid "Russian"
 msgstr "러시아어"
 
-#: src/arch/win32/res.rc.po.c:1527 src/arch/amigaos/intl_text.c.po.c:2850
+#: src/arch/win32/res.rc.po.c:1528 src/arch/amigaos/intl_text.c.po.c:2850
 msgid "Turkish"
 msgstr "터키어"
 
-#: src/arch/win32/res.rc.po.c:1532 src/arch/amigaos/intl_text.c.po.c:1314
+#: src/arch/win32/res.rc.po.c:1533 src/arch/amigaos/intl_text.c.po.c:1314
 msgid "Fullscreen"
 msgstr "전체화면"
 
-#: src/arch/win32/res.rc.po.c:1533 src/arch/amigaos/intl_text.c.po.c:2442
+#: src/arch/win32/res.rc.po.c:1534 src/arch/amigaos/intl_text.c.po.c:2442
 #: src/arch/amigaos/intl_text.c.po.c:6991
 msgid "SID cart settings"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1534
+#: src/arch/win32/res.rc.po.c:1535
 msgid "Open"
 msgstr "열기"
 
-#: src/arch/win32/res.rc.po.c:1536
+#: src/arch/win32/res.rc.po.c:1537
 msgid "Print"
 msgstr "인쇄"
 
-#: src/arch/win32/res.rc.po.c:1537
+#: src/arch/win32/res.rc.po.c:1538
 msgid "Exit        Alt+F4"
 msgstr "나가기\tAlt+F4"
 
-#: src/arch/win32/res.rc.po.c:1538
+#: src/arch/win32/res.rc.po.c:1539
 msgid "Stop Debug"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1539
+#: src/arch/win32/res.rc.po.c:1540
 msgid "Stop Execution"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1540
+#: src/arch/win32/res.rc.po.c:1541
 msgid "Step into"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1541
+#: src/arch/win32/res.rc.po.c:1542
 msgid "Step over"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1542
+#: src/arch/win32/res.rc.po.c:1543
 msgid "Step until return"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1543
+#: src/arch/win32/res.rc.po.c:1544
 msgid "Go to cursor"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1544
+#: src/arch/win32/res.rc.po.c:1545
 msgid "Evaluate"
 msgstr "평가"
 
-#: src/arch/win32/res.rc.po.c:1545
+#: src/arch/win32/res.rc.po.c:1546
 msgid "Current instruction"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1546
+#: src/arch/win32/res.rc.po.c:1547
 msgid "Evaluation window"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1547
+#: src/arch/win32/res.rc.po.c:1548
 msgid "Register window"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1548
+#: src/arch/win32/res.rc.po.c:1549
 msgid "Memory window"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1549
+#: src/arch/win32/res.rc.po.c:1550
 msgid "Disassembly window"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1550
+#: src/arch/win32/res.rc.po.c:1551
 msgid "Console window"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1554
+#: src/arch/win32/res.rc.po.c:1555
 msgid "Cascade"
 msgstr "케스케이드"
 
-#: src/arch/win32/res.rc.po.c:1555
+#: src/arch/win32/res.rc.po.c:1556
 msgid "Tile vertically"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1556
+#: src/arch/win32/res.rc.po.c:1557
 msgid "Tile horizontally"
 msgstr ""
 
-#: src/arch/win32/res.rc.po.c:1557
+#: src/arch/win32/res.rc.po.c:1558
 msgid "Arrange icons"
 msgstr ""
 
@@ -6142,192 +6149,192 @@ msgstr ""
 msgid "Select file for PRG autostart disk"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:191 src/arch/win32/resc128.rc.po.c:692
+#: src/arch/win32/resc128.rc.po.c:191 src/arch/win32/resc128.rc.po.c:693
 #: src/arch/amigaos/intl_text.c.po.c:1386
 msgid "VDC revision"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:644 src/arch/amigaos/intl_text.c.po.c:7759
+#: src/arch/win32/resc128.rc.po.c:645 src/arch/amigaos/intl_text.c.po.c:7759
 msgid "Select Internal Function ROM file"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:645 src/arch/amigaos/intl_text.c.po.c:7771
+#: src/arch/win32/resc128.rc.po.c:646 src/arch/amigaos/intl_text.c.po.c:7771
 msgid "Select External Function ROM file"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:648 src/arch/win32/rescbm2.rc.po.c:504
+#: src/arch/win32/resc128.rc.po.c:649 src/arch/win32/rescbm2.rc.po.c:505
 msgid "RAM banks"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:649 src/arch/win32/resc128.rc.po.c:695
+#: src/arch/win32/resc128.rc.po.c:650 src/arch/win32/resc128.rc.po.c:696
 #: src/arch/amigaos/intl_text.c.po.c:2070
 #: src/arch/amigaos/intl_text.c.po.c:7855
 msgid "C128 settings"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:650
+#: src/arch/win32/resc128.rc.po.c:651
 msgid "Kernal Int."
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:651
+#: src/arch/win32/resc128.rc.po.c:652
 msgid "Kernal DE"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:652
+#: src/arch/win32/resc128.rc.po.c:653
 msgid "Kernal FI"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:653
+#: src/arch/win32/resc128.rc.po.c:654
 msgid "Kernal FR"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:654
+#: src/arch/win32/resc128.rc.po.c:655
 msgid "Kernal IT"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:655
+#: src/arch/win32/resc128.rc.po.c:656
 msgid "Kernal NO"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:656
+#: src/arch/win32/resc128.rc.po.c:657
 msgid "Kernal SE"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:657
+#: src/arch/win32/resc128.rc.po.c:658
 msgid "Basic LO"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:658
+#: src/arch/win32/resc128.rc.po.c:659
 msgid "Basic HI"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:659
+#: src/arch/win32/resc128.rc.po.c:660
 msgid "Char. Int."
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:660
+#: src/arch/win32/resc128.rc.po.c:661
 msgid "Char. DE"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:661
+#: src/arch/win32/resc128.rc.po.c:662
 msgid "Char. FR"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:662
+#: src/arch/win32/resc128.rc.po.c:663
 msgid "Char. SE"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:663
+#: src/arch/win32/resc128.rc.po.c:664
 msgid "Kernal C64"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:664
+#: src/arch/win32/resc128.rc.po.c:665
 msgid "Basic C64"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:665
+#: src/arch/win32/resc128.rc.po.c:666
 msgid "International Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:666
+#: src/arch/win32/resc128.rc.po.c:667
 msgid "German Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:667
+#: src/arch/win32/resc128.rc.po.c:668
 msgid "Finnish Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:668
+#: src/arch/win32/resc128.rc.po.c:669
 msgid "French Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:669
+#: src/arch/win32/resc128.rc.po.c:670
 msgid "Italian Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:670
+#: src/arch/win32/resc128.rc.po.c:671
 msgid "Norwegian Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:671
+#: src/arch/win32/resc128.rc.po.c:672
 msgid "Swedish Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:672
+#: src/arch/win32/resc128.rc.po.c:673
 msgid "International Character"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:673
+#: src/arch/win32/resc128.rc.po.c:674
 msgid "German Character"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:674
+#: src/arch/win32/resc128.rc.po.c:675
 msgid "French Character"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:675
+#: src/arch/win32/resc128.rc.po.c:676
 msgid "Swedish Character"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:676
+#: src/arch/win32/resc128.rc.po.c:677
 msgid "C64 mode Kernal"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:677
+#: src/arch/win32/resc128.rc.po.c:678
 msgid "C64 mode Basic"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:685 src/arch/amigaos/intl_text.c.po.c:7795
+#: src/arch/win32/resc128.rc.po.c:686 src/arch/amigaos/intl_text.c.po.c:7795
 msgid "Internal Function ROM"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:688 src/arch/amigaos/intl_text.c.po.c:7819
+#: src/arch/win32/resc128.rc.po.c:689 src/arch/amigaos/intl_text.c.po.c:7819
 msgid "External Function ROM"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:690
+#: src/arch/win32/resc128.rc.po.c:691
 msgid "Enable RAM banks 2 and 3"
 msgstr ""
 
-#: src/arch/win32/resc128.rc.po.c:694 src/arch/amigaos/intl_text.c.po.c:1638
+#: src/arch/win32/resc128.rc.po.c:695 src/arch/amigaos/intl_text.c.po.c:1638
 msgid "IEEE488 Interface emulation"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:520 src/arch/win32/resplus60k.rc.po.c:28
+#: src/arch/win32/resc64.rc.po.c:521 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:2190
 #: src/arch/amigaos/intl_text.c.po.c:5623
 msgid "PLUS60K settings"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:521 src/arch/win32/resplus256k.rc.po.c:24
+#: src/arch/win32/resc64.rc.po.c:522 src/arch/win32/resplus256k.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2226
 #: src/arch/amigaos/intl_text.c.po.c:5575
 msgid "PLUS256K settings"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:522 src/arch/win32/resc64_256k.rc.po.c:28
+#: src/arch/win32/resc64.rc.po.c:523 src/arch/win32/resc64_256k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:2238
 #: src/arch/amigaos/intl_text.c.po.c:4230
 msgid "256K settings"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:8419
+#: src/arch/win32/resc64.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:8419
 msgid "6569 (PAL)"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:8431
+#: src/arch/win32/resc64.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:8431
 msgid "8565 (PAL)"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:537 src/arch/amigaos/intl_text.c.po.c:8455
+#: src/arch/win32/resc64.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:8455
 msgid "6567 (NTSC)"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:8467
+#: src/arch/win32/resc64.rc.po.c:539 src/arch/amigaos/intl_text.c.po.c:8467
 msgid "8562 (NTSC)"
 msgstr ""
 
-#: src/arch/win32/resc64.rc.po.c:540 src/arch/amigaos/intl_text.c.po.c:8491
+#: src/arch/win32/resc64.rc.po.c:541 src/arch/amigaos/intl_text.c.po.c:8491
 msgid "6572 (PAL-N)"
 msgstr ""
 
@@ -6345,100 +6352,100 @@ msgstr ""
 msgid "Select file for 256K"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:38 src/arch/win32/resc64dtv.rc.po.c:434
-#: src/arch/win32/resc64dtv.rc.po.c:443
+#: src/arch/win32/resc64dtv.rc.po.c:38 src/arch/win32/resc64dtv.rc.po.c:435
+#: src/arch/win32/resc64dtv.rc.po.c:444
 msgid "DTV ROM image File"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:432
+#: src/arch/win32/resc64dtv.rc.po.c:433
 msgid "Attach DTV Flash Image"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:433
+#: src/arch/win32/resc64dtv.rc.po.c:434
 msgid "DTV ROM"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:436 src/arch/win32/resc64dtv.rc.po.c:450
+#: src/arch/win32/resc64dtv.rc.po.c:437 src/arch/win32/resc64dtv.rc.po.c:451
 #: src/arch/amigaos/intl_text.c.po.c:2514
 #: src/arch/amigaos/intl_text.c.po.c:4302
 msgid "C64DTV settings"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:438 src/translate_text.c.po.c:3700
+#: src/arch/win32/resc64dtv.rc.po.c:439 src/translate_text.c.po.c:3700
 msgid "Enable Hummer ADC"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:439 src/arch/win32/resc64dtv.rc.po.c:447
+#: src/arch/win32/resc64dtv.rc.po.c:440 src/arch/win32/resc64dtv.rc.po.c:448
 msgid "Create DTV Flash Image"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:440
+#: src/arch/win32/resc64dtv.rc.po.c:441
 msgid "DTV ROM Creation"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:441
+#: src/arch/win32/resc64dtv.rc.po.c:442
 msgid "Copy C64 ROMS into image"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:442
+#: src/arch/win32/resc64dtv.rc.po.c:443
 msgid "Create"
 msgstr "생성"
 
-#: src/arch/win32/resc64dtv.rc.po.c:445
+#: src/arch/win32/resc64dtv.rc.po.c:446
 msgid "Attach flash rom image"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:446
+#: src/arch/win32/resc64dtv.rc.po.c:447
 msgid "Detach flash rom image"
 msgstr ""
 
-#: src/arch/win32/resc64dtv.rc.po.c:448
+#: src/arch/win32/resc64dtv.rc.po.c:449
 msgid "True flash filesystem"
 msgstr ""
 
-#: src/arch/win32/rescbm2.rc.po.c:493 src/arch/win32/rescbm2.rc.po.c:511
+#: src/arch/win32/rescbm2.rc.po.c:494 src/arch/win32/rescbm2.rc.po.c:512
 #: src/arch/amigaos/intl_text.c.po.c:1830
 #: src/arch/amigaos/intl_text.c.po.c:4434
 msgid "CBM2 settings"
 msgstr ""
 
-#: src/arch/win32/rescbm2.rc.po.c:494
+#: src/arch/win32/rescbm2.rc.po.c:495
 msgid "Cart 1"
 msgstr "카트리지1"
 
-#: src/arch/win32/rescbm2.rc.po.c:495
+#: src/arch/win32/rescbm2.rc.po.c:496
 msgid "Cart 2"
 msgstr "카트리지2"
 
-#: src/arch/win32/rescbm2.rc.po.c:496
+#: src/arch/win32/rescbm2.rc.po.c:497
 msgid "Cart 4"
 msgstr "카트리지4"
 
-#: src/arch/win32/rescbm2.rc.po.c:497
+#: src/arch/win32/rescbm2.rc.po.c:498
 msgid "Cart 6"
 msgstr "카트리지6"
 
-#: src/arch/win32/rescbm2.rc.po.c:498 src/arch/win32/respet.rc.po.c:544
+#: src/arch/win32/rescbm2.rc.po.c:499 src/arch/win32/respet.rc.po.c:545
 msgid "Machine defaults"
 msgstr ""
 
-#: src/arch/win32/rescbm2.rc.po.c:499 src/arch/amigaos/intl_text.c.po.c:4314
+#: src/arch/win32/rescbm2.rc.po.c:500 src/arch/amigaos/intl_text.c.po.c:4314
 msgid "Model line"
 msgstr ""
 
-#: src/arch/win32/rescbm2.rc.po.c:500
+#: src/arch/win32/rescbm2.rc.po.c:501
 msgid "128 kByte"
 msgstr "128 kbyte"
 
-#: src/arch/win32/rescbm2.rc.po.c:501
+#: src/arch/win32/rescbm2.rc.po.c:502
 msgid "256 kByte"
 msgstr "256 kbyte"
 
-#: src/arch/win32/rescbm2.rc.po.c:502
+#: src/arch/win32/rescbm2.rc.po.c:503
 msgid "512 kByte"
 msgstr "512 kbyte"
 
-#: src/arch/win32/rescbm2.rc.po.c:503
+#: src/arch/win32/rescbm2.rc.po.c:504
 msgid "1024 kByte"
 msgstr "1024 kbyte"
 
@@ -6629,73 +6636,73 @@ msgstr "읽기/쓰기"
 msgid "Save MMC Replay EEPROM when changed"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:538
+#: src/arch/win32/respet.rc.po.c:539
 msgid "Input/Output"
 msgstr "입력/출력"
 
-#: src/arch/win32/respet.rc.po.c:539 src/arch/win32/respet.rc.po.c:562
+#: src/arch/win32/respet.rc.po.c:540 src/arch/win32/respet.rc.po.c:563
 #: src/arch/amigaos/intl_text.c.po.c:1854
 #: src/arch/amigaos/intl_text.c.po.c:7711
 msgid "PET settings"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:540
+#: src/arch/win32/respet.rc.po.c:541
 msgid "Editor"
 msgstr "에디터"
 
-#: src/arch/win32/respet.rc.po.c:541
+#: src/arch/win32/respet.rc.po.c:542
 msgid "ROM 9"
 msgstr "롬9"
 
-#: src/arch/win32/respet.rc.po.c:542
+#: src/arch/win32/respet.rc.po.c:543
 msgid "ROM A"
 msgstr "롬A"
 
-#: src/arch/win32/respet.rc.po.c:543
+#: src/arch/win32/respet.rc.po.c:544
 msgid "ROM B"
 msgstr "롬B"
 
-#: src/arch/win32/respet.rc.po.c:546
+#: src/arch/win32/respet.rc.po.c:547
 msgid "Video"
 msgstr "비디오"
 
-#: src/arch/win32/respet.rc.po.c:550
+#: src/arch/win32/respet.rc.po.c:551
 msgid "IO Size"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:551 src/arch/amigaos/intl_text.c.po.c:7543
+#: src/arch/win32/respet.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:7543
 msgid "256 Byte"
 msgstr "256 byte"
 
-#: src/arch/win32/respet.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:7555
+#: src/arch/win32/respet.rc.po.c:553 src/arch/amigaos/intl_text.c.po.c:7555
 msgid "2 kByte"
 msgstr "2 kbyte"
 
-#: src/arch/win32/respet.rc.po.c:557
+#: src/arch/win32/respet.rc.po.c:558
 msgid "IO Settings"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:560 src/arch/amigaos/intl_text.c.po.c:7687
+#: src/arch/win32/respet.rc.po.c:561 src/arch/amigaos/intl_text.c.po.c:7687
 msgid "$9*** as RAM"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:561 src/arch/amigaos/intl_text.c.po.c:7699
+#: src/arch/win32/respet.rc.po.c:562 src/arch/amigaos/intl_text.c.po.c:7699
 msgid "$A*** as RAM"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:563 src/arch/win32/respetdww.rc.po.c:24
+#: src/arch/win32/respet.rc.po.c:564 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2454
 #: src/arch/amigaos/intl_text.c.po.c:5563
 msgid "PET DWW settings"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:564 src/arch/win32/respetreu.rc.po.c:37
+#: src/arch/win32/respet.rc.po.c:565 src/arch/win32/respetreu.rc.po.c:37
 #: src/arch/amigaos/intl_text.c.po.c:2418
 #: src/arch/amigaos/intl_text.c.po.c:5491
 msgid "PET REU settings"
 msgstr ""
 
-#: src/arch/win32/respet.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:2370
+#: src/arch/win32/respet.rc.po.c:566 src/arch/amigaos/intl_text.c.po.c:2370
 #: src/translate_text.c.po.c:3985
 msgid "Enable Userport DAC for sound output"
 msgstr ""
@@ -6729,97 +6736,97 @@ msgstr ""
 msgid "Select file for PLUS256K"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:378 src/arch/win32/resplus4.rc.po.c:443
-#: src/arch/win32/resplus4.rc.po.c:457 src/arch/amigaos/intl_text.c.po.c:1914
+#: src/arch/win32/resplus4.rc.po.c:379 src/arch/win32/resplus4.rc.po.c:444
+#: src/arch/win32/resplus4.rc.po.c:458 src/arch/amigaos/intl_text.c.po.c:1914
 #: src/arch/amigaos/intl_text.c.po.c:7747
 msgid "Plus4 settings"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:435 src/arch/amigaos/intl_text.c.po.c:7051
+#: src/arch/win32/resplus4.rc.po.c:436 src/arch/amigaos/intl_text.c.po.c:7051
 msgid "Attach cartridge image for Function Low"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:436 src/arch/amigaos/intl_text.c.po.c:7063
+#: src/arch/win32/resplus4.rc.po.c:437 src/arch/amigaos/intl_text.c.po.c:7063
 msgid "Attach cartridge image for Function High"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:437 src/arch/amigaos/intl_text.c.po.c:7075
+#: src/arch/win32/resplus4.rc.po.c:438 src/arch/amigaos/intl_text.c.po.c:7075
 msgid "Attach cartridge image for Cartridge1 Low"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:438 src/arch/amigaos/intl_text.c.po.c:7087
+#: src/arch/win32/resplus4.rc.po.c:439 src/arch/amigaos/intl_text.c.po.c:7087
 msgid "Attach cartridge image for Cartridge1 High"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:439 src/arch/amigaos/intl_text.c.po.c:7099
+#: src/arch/win32/resplus4.rc.po.c:440 src/arch/amigaos/intl_text.c.po.c:7099
 msgid "Attach cartridge image for Cartridge2 Low"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:440 src/arch/amigaos/intl_text.c.po.c:7111
+#: src/arch/win32/resplus4.rc.po.c:441 src/arch/amigaos/intl_text.c.po.c:7111
 msgid "Attach cartridge image for Cartridge2 High"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:441
+#: src/arch/win32/resplus4.rc.po.c:442
 msgid "3+1 Lo"
 msgstr "3+1 Lo"
 
-#: src/arch/win32/resplus4.rc.po.c:442
+#: src/arch/win32/resplus4.rc.po.c:443
 msgid "3+1 Hi"
 msgstr "3+1 Hi"
 
-#: src/arch/win32/resplus4.rc.po.c:444
+#: src/arch/win32/resplus4.rc.po.c:445
 msgid "16 kByte"
 msgstr "16 kbyte"
 
-#: src/arch/win32/resplus4.rc.po.c:445
+#: src/arch/win32/resplus4.rc.po.c:446
 msgid "32 kByte"
 msgstr "32 kbyte"
 
-#: src/arch/win32/resplus4.rc.po.c:446
+#: src/arch/win32/resplus4.rc.po.c:447
 msgid "64 kByte"
 msgstr "64 kbyte"
 
-#: src/arch/win32/resplus4.rc.po.c:447
+#: src/arch/win32/resplus4.rc.po.c:448
 msgid "256 kByte (CSORY)"
 msgstr "256 kbyte (CSORY)"
 
-#: src/arch/win32/resplus4.rc.po.c:448
+#: src/arch/win32/resplus4.rc.po.c:449
 msgid "256 kByte (HANNES)"
 msgstr "256 kbyte (HANNES)"
 
-#: src/arch/win32/resplus4.rc.po.c:449
+#: src/arch/win32/resplus4.rc.po.c:450
 msgid "1024 kByte (HANNES)"
 msgstr "1024 kbyte (HANNES)"
 
-#: src/arch/win32/resplus4.rc.po.c:450
+#: src/arch/win32/resplus4.rc.po.c:451
 msgid "4096 kByte (HANNES)"
 msgstr "4096 kbyte (HANNES)"
 
-#: src/arch/win32/resplus4.rc.po.c:451 src/arch/amigaos/intl_text.c.po.c:474
+#: src/arch/win32/resplus4.rc.po.c:452 src/arch/amigaos/intl_text.c.po.c:474
 msgid "C1 low  image"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:452 src/arch/amigaos/intl_text.c.po.c:486
+#: src/arch/win32/resplus4.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:486
 msgid "C1 high image"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:453 src/arch/amigaos/intl_text.c.po.c:498
+#: src/arch/win32/resplus4.rc.po.c:454 src/arch/amigaos/intl_text.c.po.c:498
 msgid "C2 low  image"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:454 src/arch/amigaos/intl_text.c.po.c:510
+#: src/arch/win32/resplus4.rc.po.c:455 src/arch/amigaos/intl_text.c.po.c:510
 msgid "C2 high image"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:455 src/arch/amigaos/intl_text.c.po.c:522
+#: src/arch/win32/resplus4.rc.po.c:456 src/arch/amigaos/intl_text.c.po.c:522
 msgid "Function low  image (3plus1)"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:456 src/arch/amigaos/intl_text.c.po.c:534
+#: src/arch/win32/resplus4.rc.po.c:457 src/arch/amigaos/intl_text.c.po.c:534
 msgid "Function high image (3plus1)"
 msgstr ""
 
-#: src/arch/win32/resplus4.rc.po.c:458 src/arch/win32/resv364speech.rc.po.c:24
+#: src/arch/win32/resplus4.rc.po.c:459 src/arch/win32/resv364speech.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2430
 #: src/arch/amigaos/intl_text.c.po.c:5527
 msgid "V364 Speech settings"
@@ -6948,7 +6955,7 @@ msgid "Enable the SFX Sound Expander cartridge"
 msgstr ""
 
 #: src/arch/win32/ressoundsampler.rc.po.c:20
-#: src/arch/win32/resvic20.rc.po.c:547 src/arch/amigaos/intl_text.c.po.c:2334
+#: src/arch/win32/resvic20.rc.po.c:548 src/arch/amigaos/intl_text.c.po.c:2334
 #: src/arch/amigaos/intl_text.c.po.c:7987
 #, fuzzy
 msgid "SFX Sound Sampler settings"
@@ -6971,94 +6978,94 @@ msgstr ""
 msgid "Select ROM file for V364 Speech"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:504
+#: src/arch/win32/resvic20.rc.po.c:505
 msgid "Full (blocks 0/1/2/3/5)"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:511 src/arch/amigaos/intl_text.c.po.c:6871
+#: src/arch/win32/resvic20.rc.po.c:512 src/arch/amigaos/intl_text.c.po.c:6871
 msgid "Select generic cartridge image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:512 src/arch/amigaos/intl_text.c.po.c:6895
+#: src/arch/win32/resvic20.rc.po.c:513 src/arch/amigaos/intl_text.c.po.c:6895
 msgid "Select Mega-Cart image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:513 src/arch/amigaos/intl_text.c.po.c:6907
+#: src/arch/win32/resvic20.rc.po.c:514 src/arch/amigaos/intl_text.c.po.c:6907
 msgid "Select Final Expansion image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:514 src/arch/amigaos/intl_text.c.po.c:6883
+#: src/arch/win32/resvic20.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:6883
 msgid "Select Vic Flash Plugin image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:515 src/arch/amigaos/intl_text.c.po.c:6919
+#: src/arch/win32/resvic20.rc.po.c:516 src/arch/amigaos/intl_text.c.po.c:6919
 msgid "Select cartridge file"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:521
+#: src/arch/win32/resvic20.rc.po.c:522
 msgid "Enable MasC=uerade I/O swap"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:522 src/arch/amigaos/intl_text.c.po.c:1614
+#: src/arch/win32/resvic20.rc.po.c:523 src/arch/amigaos/intl_text.c.po.c:1614
 msgid "VIC-1112 IEEE-488 module"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:330
+#: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:330
 msgid "Generic image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:525 src/arch/amigaos/intl_text.c.po.c:342
+#: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:342
 msgid "Mega-Cart image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:526 src/arch/amigaos/intl_text.c.po.c:354
+#: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:354
 msgid "Final Expansion image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:527 src/arch/amigaos/intl_text.c.po.c:366
+#: src/arch/win32/resvic20.rc.po.c:528 src/arch/amigaos/intl_text.c.po.c:366
 msgid "Vic Flash Plugin image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:529 src/arch/amigaos/intl_text.c.po.c:390
+#: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:390
 msgid "Smart-attach image"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:530 src/arch/amigaos/intl_text.c.po.c:402
+#: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:402
 msgid "4/8/16KB image at $2000"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:531 src/arch/amigaos/intl_text.c.po.c:414
+#: src/arch/win32/resvic20.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:414
 msgid "4/8/16KB image at $4000"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:532 src/arch/amigaos/intl_text.c.po.c:426
+#: src/arch/win32/resvic20.rc.po.c:533 src/arch/amigaos/intl_text.c.po.c:426
 msgid "4/8/16KB image at $6000"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:533 src/arch/amigaos/intl_text.c.po.c:438
+#: src/arch/win32/resvic20.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:438
 msgid "4/8KB image at $A000"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:534 src/arch/amigaos/intl_text.c.po.c:450
+#: src/arch/win32/resvic20.rc.po.c:535 src/arch/amigaos/intl_text.c.po.c:450
 msgid "4KB image at $B000"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:536 src/arch/amigaos/intl_text.c.po.c:2466
+#: src/arch/win32/resvic20.rc.po.c:537 src/arch/amigaos/intl_text.c.po.c:2466
 #: src/translate_text.c.po.c:8775
 msgid "Enable Final Expansion write back to ROM file"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:537 src/arch/amigaos/intl_text.c.po.c:2478
+#: src/arch/win32/resvic20.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:2478
 #: src/translate_text.c.po.c:8850
 msgid "Enable Vic Flash Plugin write back to ROM file"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:2490
+#: src/arch/win32/resvic20.rc.po.c:539 src/arch/amigaos/intl_text.c.po.c:2490
 #: src/translate_text.c.po.c:8820
 msgid "Enable Mega-Cart NvRAM writeback"
 msgstr ""
 
-#: src/arch/win32/resvic20.rc.po.c:539 src/arch/amigaos/intl_text.c.po.c:2502
+#: src/arch/win32/resvic20.rc.po.c:540 src/arch/amigaos/intl_text.c.po.c:2502
 msgid "Select Mega-Cart non-volatile RAM file"
 msgstr ""
 
@@ -10612,6 +10619,33 @@ msgstr ""
 msgid "Base address of the DigiMAX cartridge"
 msgstr ""
 
+#~ msgid "Load new Cart $1***"
+#~ msgstr "세로운 카트리지 $1*** 불러오기"
+
+#~ msgid "Unload Cart $1***"
+#~ msgstr "언로드 카트리지 $1***"
+
+#~ msgid "Load new Cart $2-3***"
+#~ msgstr "세로운 카트리지 $2-3*** 불러오기"
+
+#~ msgid "Unload Cart $2-3***"
+#~ msgstr "언로드 카트리지 $2-3***"
+
+#~ msgid "Load new Cart $4-5***"
+#~ msgstr "세로운 카트리지 $4-5*** 불러오기"
+
+#~ msgid "Unload Cart $4-5***"
+#~ msgstr "언로드 카트리지 $4-5***"
+
+#~ msgid "Load new Cart $6-7***"
+#~ msgstr "세로운 카트리지 $6-7*** 불러오기"
+
+#~ msgid "Unload Cart $6-7***"
+#~ msgstr "언로드 카트리지 $6-7***"
+
+#~ msgid "CBM-II model settings"
+#~ msgstr "CBM-II 모델 설정"
+
 #~ msgid "HD image 2 name"
 #~ msgstr "하드 드라이브 이미지 2 이름"
 
@@ -10632,9 +10666,6 @@ msgstr ""
 
 #~ msgid "Blur in percent"
 #~ msgstr "흐릿함 확률"
-
-#~ msgid "Polish"
-#~ msgstr "폴란드어"
 
 #~ msgid "type"
 #~ msgstr "종류"

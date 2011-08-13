@@ -274,6 +274,26 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SIDCART_ENABLE                         "W³±cz kartrid¿ SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "Adres SID"
+  IDS_SIDCART_CLOCK_LABEL                    "Zegar SID"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "Wybór urz±dzenia HardSID"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "G³ówne urz±dzenie"
+  IDS_DIGIBLASTER                            "W³±cz dodatek digiblaster"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

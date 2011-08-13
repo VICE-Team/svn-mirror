@@ -192,6 +192,26 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SELECT_FILE_GEORAM  "Wybierz plik GEO-RAM"
+  IDS_GEORAM_CAPTION      "Ustawienia GEO-RAM"
+  IDS_GEORAM_ENABLE       "W³±cz jednostkê rozszerzenia GEO-RAM"
+  IDS_GEORAM_SIZE_LABEL   "Rozmiar GEO-RAM"
+  IDS_GEORAM_WRITE_ENABLE "Zapisuj obraz GEO-RAM przy zmianie"
+  IDS_GEORAM_FILE_LABEL   "Plik GEO-RAM"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

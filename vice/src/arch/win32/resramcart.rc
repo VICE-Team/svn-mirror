@@ -150,7 +150,7 @@ BEGIN
   IDS_RAMCART_READONLY     "읽기 전용"
   IDS_RAMCART_SIZE         "RamCart size"
   IDS_RAMCART_WRITE_ENABLE "Save to RamCart image when changed"
-  IDS_RAMCART_FILE         "RamCart file"
+  IDS_RAMCART_FILE         "RamCart 파일"
   IDS_RAMCART_SELECT_FILE  "Select file for RamCart"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -171,6 +171,27 @@ BEGIN
   IDS_RAMCART_FILE         "RamCart bestand"
   IDS_RAMCART_SELECT_FILE  "Selecteer bestand voor RamCart"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_RAMCART_CAPTION      "Ustawienia RamCart"
+  IDS_RAMCART_ENABLE       "W낢cz rozszerzenie RamCart"
+  IDS_RAMCART_READONLY     "Tylko do odczytu"
+  IDS_RAMCART_SIZE         "Rozmiar RamCart"
+  IDS_RAMCART_WRITE_ENABLE "Zapisuj do obrazu RamCart przy zmianie"
+  IDS_RAMCART_FILE         "Plik RamCart"
+  IDS_RAMCART_SELECT_FILE  "Wybierz plik RamCart"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

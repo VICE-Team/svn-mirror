@@ -112,7 +112,7 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PETDWW_CAPTION     "PET DWW settings"
   IDS_PETDWW_ENABLE      "Enable the PET DWW hi-res board"
-  IDS_PETDWW_FILE        "PET DWW file"
+  IDS_PETDWW_FILE        "PET DWW ÆÄÀÏ"
   IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -130,6 +130,24 @@ BEGIN
   IDS_PETDWW_FILE        "PET DWW bestand"
   IDS_PETDWW_SELECT_FILE "Selecteer bestand voor PET DWW"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PETDWW_CAPTION     "Ustawienia PET DWW"
+  IDS_PETDWW_ENABLE      "W³±cz uk³ad PET DWW hi-res"
+  IDS_PETDWW_FILE        "Plik PET DWW"
+  IDS_PETDWW_SELECT_FILE "Wybierz plik PET DWW"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

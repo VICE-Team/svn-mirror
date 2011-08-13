@@ -266,6 +266,7 @@ ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
     { IDM_LANG_IT, IDS_MI_LANG_IT },
     { IDM_LANG_KO, IDS_MI_LANG_KO },
     { IDM_LANG_NL, IDS_MI_LANG_NL },
+    { IDM_LANG_PL, IDS_MI_LANG_PL },
     { IDM_LANG_RU, IDS_MI_LANG_RU },
     { IDM_LANG_SV, IDS_MI_LANG_SV },
     { IDM_LANG_TR, IDS_MI_LANG_TR },

@@ -132,6 +132,24 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MAGICVOICE_CAPTION     "Ustawienia Magic Voice"
+  IDS_MAGICVOICE_ENABLE      "W³±cz Magic Voice"
+  IDS_MAGICVOICE_FILE        "Plik Magic Voice"
+  IDS_MAGICVOICE_SELECT_FILE "Wybierz filtr Magic Voice"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

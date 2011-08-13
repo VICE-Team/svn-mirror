@@ -227,6 +227,31 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_IRQ            "IRQ"
+  IDS_NMI            "NMI"
+  IDS_NORMAL         "Zwyk³y"
+  IDS_SWIFTLINK      "Swiftlink"
+  IDS_TURBO232       "Turbo232"
+  IDS_ACIA_CAPTION   "Ustawienia ACIA"
+  IDS_ACIA_ENABLE    "W³±cz emulacjê interfejsu ACIA RS232"
+  IDS_ACIA_DEVICE    "Urz±dzenia ACIA"
+  IDS_ACIA_LOCATION  "Po³o¿enie ACIA"
+  IDS_ACIA_INTERRUPT "Przerwanie ACIA"
+  IDS_ACIA_MODE      "Tryb ACIA"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

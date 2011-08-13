@@ -161,6 +161,26 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SELECT_FILE_ISEPIC  "Wybierz plik ISEPIC"
+  IDS_ISEPIC_CAPTION      "Ustawienia ISEPIC"
+  IDS_ISEPIC_ENABLE       "W³±cz kartrid¿ ISEPIC"
+  IDS_ISEPIC_SWITCH       "Prze³±cznik ISEPIC"
+  IDS_ISEPIC_WRITE_ENABLE "Zapisuj obraz ISEPIC przy zmianie"
+  IDS_ISEPIC_FILE_LABEL   "Plik ISEPIC"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

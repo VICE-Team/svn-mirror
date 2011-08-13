@@ -235,6 +235,7 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
+        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -727,6 +728,44 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 instellingen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_ATTACH_FUNCTION_LOW_CART    "Zamontuj obraz kartrid¿a do Function Low"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Zamontuj obraz kartrid¿a do Function High"
+  IDS_ATTACH_CART1_LOW            "Zamontuj obraz kartrid¿a do Cartridge1 Low"
+  IDS_ATTACH_CART1_HIGH           "Zamontuj obraz kartrid¿a do Cartridge1 High"
+  IDS_ATTACH_CART2_LOW            "Zamontuj obraz kartrid¿a do Cartridge2 Low"
+  IDS_ATTACH_CART2_HIGH           "Zamontuj obraz kartrid¿a do Cartridge2 High"
+  IDS_3_PLUS_1_LO                 "3+1 Lo"
+  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_PLUS4_SETTINGS_CAPTION      "Ustawienia Plus4"
+  IDS_SELECT_PLUS4_MEM_16         "16 kBajtów"
+  IDS_SELECT_PLUS4_MEM_32         "32 kBajty"
+  IDS_SELECT_PLUS4_MEM_64         "64 kBajty"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kBajtów (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kBajtów (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kBajty (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kBajtów (HANNES)"
+  IDS_MI_CART_ATTACH_C1LO         "Obraz C1 low..."
+  IDS_MI_CART_ATTACH_C1HI         "Obraz C1 high..."
+  IDS_MI_CART_ATTACH_C2LO         "Obraz C2 low..."
+  IDS_MI_CART_ATTACH_C2HI         "Obraz C2 low..."
+  IDS_MI_CART_ATTACH_FUNCLO       "Obraz Function low (3plus1)..."
+  IDS_MI_CART_ATTACH_FUNCHI       "Obraz Function High (3plus1)..."
+  IDS_MI_PLUS4_SETTINGS           "Ustawienia Plus4..."
+  IDS_MI_V364SPEECH_SETTINGS      "Ustawienia mowy V364..."
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

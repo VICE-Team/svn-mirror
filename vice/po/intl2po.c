@@ -211,7 +211,11 @@ int language_id(char *text)
         return 1;
     }
 
-    if (text[i - 3]== '_' && text[i - 2] == 'R' && text[i - 1] == 'U') {
+    if (text[i - 3] == '_' && text[i - 2] == 'P' && text[i - 1] == 'L') {
+        return 1;
+    }
+
+    if (text[i - 3] == '_' && text[i - 2] == 'R' && text[i - 1] == 'U') {
         return 1;
     }
 

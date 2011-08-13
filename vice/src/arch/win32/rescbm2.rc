@@ -219,6 +219,7 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
+        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -756,6 +757,40 @@ BEGIN
   IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
   IDS_MI_CBM2_SETTINGS      "CBM2 instellingen..."
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Pamiêæ"
+  IDS_CBM2_SETTINGS         "Ustawienia CBM2"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MACHINE_DEFAULTS      "Domy¶lne ustawienia maszyny"
+  IDS_MODEL_LINE            "Linia modelu"
+  IDS_SELECT_CBMII_MEM_128  "128 kBajtów"
+  IDS_SELECT_CBMII_MEM_256  "256 kBajtów"
+  IDS_SELECT_CBMII_MEM_512  "512 kBajtów"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kBajty"
+  IDS_CBM2_RAM_BANKS        "Banki RAM"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+  IDS_MI_CBM2_SETTINGS      "Ustawienia CBM2..."
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

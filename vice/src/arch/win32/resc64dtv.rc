@@ -214,6 +214,7 @@ BEGIN
         MENUITEM "", IDM_LANG_IT
         MENUITEM "", IDM_LANG_KO
         MENUITEM "", IDM_LANG_NL
+        MENUITEM "", IDM_LANG_PL
         MENUITEM "", IDM_LANG_RU
         MENUITEM "", IDM_LANG_SV
         MENUITEM "", IDM_LANG_TR
@@ -700,6 +701,40 @@ BEGIN
   IDS_MI_C64DTV_SETTINGS          "C64DTV Instellingen..."
   IDS_JOYSTICK                    "Joystick"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_ATTACH_FLASH_CAPTION        "Zamontuj obraz DTV Flash"
+  IDS_DTV_ROM                     "ROM DTV"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "Plik obrazu DTV ROM"
+  IDS_C64DTV_ROM_WRITE_ENABLE     "W³±cz zapis do obrazu ROM C64DTV"
+  IDS_C64DTV_SETTINGS_CAPTION     "Ustawienia C64DTV"
+  IDS_DTV_REVISION_LABEL          "Wersja DRV"
+  IDS_ENABLE_HUMMER_ADC           "W³±cz Hummer ADC"
+  IDS_CREATE_FLASH_CAPTION        "Utwórz obraz flash DTV"
+  IDS_DTV_ROM_CREATION            "Tworzenie ROM-u DTV"
+  IDS_C64DTV_ROM_COPY_C64         "Kopiuj ROM-y C64 do obrazu"
+  IDS_CREATE                      "Utwórz"
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "Plik obrazu DTV ROM"
+  IDS_MI_AUTOSTART_DISK           "Automatycznie startuj z obrazu dyskietki..."
+  IDS_MI_ATTACH_DTV_FLASH         "Zamontuj obraz flash rom"
+  IDS_MI_DETACH_DTV_FLASH         "Odmontuj obraz flash rom"
+  IDS_MI_CREATE_DTV_FLASH         "Utwórz obraz flash DTV"
+  IDS_MI_FLASH_TRUE_FILESYSTEM    "Rzeczywisty system plików flash"
+  IDS_MI_PS2MOUSE                 "Mysz PS/2 w userporcie"
+  IDS_MI_C64DTV_SETTINGS          "Ustawienia C64DTV..."
+  IDS_JOYSTICK                    "Joystick"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

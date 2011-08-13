@@ -154,6 +154,25 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MIDI_CAPTION    "Ustawienia MIDI"
+  IDS_MIDI_ENABLE     "W³±cz emulacjê MIDI"
+  IDS_MIDI_TYPE_LABEL "Typ MIDI"
+  IDS_MIDI_IN_LABEL   "Urz±dzenie wej¶ciowe MIDI"
+  IDS_MIDI_OUT_LABEL  "Urz±dzenie wyj¶ciowe MIDI"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

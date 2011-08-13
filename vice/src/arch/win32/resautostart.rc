@@ -197,6 +197,30 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_AUTOSTART_CAPTION                    "Ustawienia autostartu"
+    IDS_AUTOSTART_WARP                       "Turbo przy autostarcie"
+    IDS_AUTOSTART_COLON_RUN                  "U¿ywaj ':' z RUN"
+    IDS_AUTOSTART_LOAD_TO_BASIC              "Wczytuj do BASIC-a"
+    IDS_AUTOSTART_PRG_MODE                   "Tryb autostartu z PRG"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "Obraz dyskietki do autostartu z PRG"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Wybierz plik dysku do automatycznego startu z PRG"
+    IDS_AUTOSTART_VIRTUAL_FS                 "Wirtualny system plików"
+    IDS_AUTOSTART_INJECT                     "Wstrzyknij w RAM"
+    IDS_AUTOSTART_DISK                       "Obraz dyskietki"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

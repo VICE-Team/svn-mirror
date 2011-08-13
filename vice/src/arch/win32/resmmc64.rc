@@ -192,6 +192,28 @@ BEGIN
 END
 
 
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MMC64_ENABLE           "W³±cz rozszerzenie MMC64"
+  IDS_MMC64_REVISION_LABEL   "Wersja BIOS"
+  IDS_MMC64_FLASHJUMPER      "W³±cz prze³±cznik BIOS Flash"
+  IDS_MMC64_BIOS_SAVE        "Zapisuj BIOS przy zmianie"
+  IDS_MMC64_BIOS_FILE_LABEL  "Plik BIOS"
+  IDS_MMC64_IMAGE_RO         "Obraz MMC/SC tylko do odczytu"
+  IDS_MMC64_IMAGE_FILE_LABEL "Plik obrazu MMC/SD"
+  IDS_MMC64_SDTYPE_LABEL     "Typ karty"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
 // RUSSIAN text
 
 #ifndef WINDRES_CP_IGNORE

@@ -195,7 +195,7 @@ BEGIN
   IDS_FAST               "ºü¸¥"
   IDS_INTERPOLATING      "º¸°£ÇÏ´Ù"
   IDS_RESAMPLING         "¸®»ùÇÃ¸µ"
-  IDS_FAST_RESAMPLING    "Fast resampling"
+  IDS_FAST_RESAMPLING    "ºü¸¥ ¸®¼Àºí¸µ"
   IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE   "Sample method"
   IDS_SID_RESID_PASSBAND "Passband (0..90%)"
@@ -224,6 +224,31 @@ BEGIN
   IDS_HARDSID_GROUP      "Apparaatselectie"
   IDS_HARDSID_LEFT_LABEL "Hoofdapparaat"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_GENERAL            "Ogólne"
+  IDS_SID_SETTINGS       "Ustawienia SID"
+  IDS_FAST               "Szybko"
+  IDS_INTERPOLATING      "Interpolacja"
+  IDS_RESAMPLING         "Przesamplowanie"
+  IDS_FAST_RESAMPLING    "Szybkie przesamplowanie"
+  IDS_SID_RESID_GROUP    "Opcje reSID/reSID-fp"
+  IDS_SID_RESID_SAMPLE   "Metoda samplowania"
+  IDS_SID_RESID_PASSBAND "Pasmo przepuszczania (0..90%)"
+  IDS_HARDSID_GROUP      "Wybór urz±dzenia"
+  IDS_HARDSID_LEFT_LABEL "G³ówne urz±dzenie"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text

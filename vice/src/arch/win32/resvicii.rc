@@ -154,14 +154,14 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II ¼³Á¤"
-    IDS_VICII_BORDERSGROUP  "Border mode"
+    IDS_VICII_BORDERSGROUP  "º¸´õ ¸ðµå"
     IDS_VICII_NORMALBORDERS "º¸Åë"
     IDS_VICII_FULLBORDERS   "°¡µæ"
     IDS_VICII_DEBUGBORDERS  "µð¹÷"
     IDS_VICII_SPRITEGROUP   "Sprite Collisions"
-    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
-    IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New luminances"
+    IDS_VICII_SPRITECOLL    "½ºÇÁ¶óÀÌÆ®-½ºÇÁ¶óÀÌÆ® Ãæµ¹"
+    IDS_VICII_BACKCOLL      "½ºÇÁ¶óÀÌÆ®-¹è°æ Ãæµ¹"
+    IDS_VICII_LUMINANCE     "¼¼·Î¿î ¹à±â"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -183,6 +183,29 @@ BEGIN
     IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
     IDS_VICII_LUMINANCE     "Nieuwe kleuren"
 END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VICII_CAPTION       "Ustawienia VIC-II"
+    IDS_VICII_BORDERSGROUP  "Tryb ramki"
+    IDS_VICII_NORMALBORDERS "Zwyk³y"
+    IDS_VICII_FULLBORDERS   "Pe³ny"
+    IDS_VICII_DEBUGBORDERS  "Debug"
+    IDS_VICII_SPRITEGROUP   "Kolizje duszków"
+    IDS_VICII_SPRITECOLL    "Kolizje duszków"
+    IDS_VICII_BACKCOLL      "Kolizje duszków z t³em"
+    IDS_VICII_LUMINANCE     "Nowy typ jaskrawo¶ci"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
 
 
 // RUSSIAN text
