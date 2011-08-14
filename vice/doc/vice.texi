@@ -4066,7 +4066,7 @@ Fun Play
 @item
 Game Killer
 @item
-IDE64 (@code{http://www.volny.cz/dundera/})
+IDE64 (@code{http://www.ide64.org/})
 @item
 KCS Power Cartridge
 @item
