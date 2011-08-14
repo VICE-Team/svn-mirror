@@ -1977,6 +1977,10 @@ static const BYTE rewind_fetch_tab[] = {
             BYTE lo = (BYTE)(p1);
             BYTE hi = (BYTE)(p2 >> 8);
 
+            if (op == 0x20) {
+               hi = LOAD(reg_pc + 2);
+            }
+
             debug_maincpu((DWORD)(reg_pc), debug_clk,
                           mon_disassemble_to_string(e_comp_space,
                                                     reg_pc, op,
