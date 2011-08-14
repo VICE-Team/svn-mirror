@@ -4255,6 +4255,17 @@ Boolean specifying whether the Expert Cartridge should be emulated or not.
 @item ExpertImageWrite
 @vindex ExpertCartridgeMode
 @item ExpertCartridgeMode
+@vindex IDE64Config
+@item IDE64Config
+String encoded content of IDE64 DS1302 RAM, used to store IDEDOS setup parameters. Not meant to
+be directly manipulated as content depends on the version of IDEDOS used.
+@vindex IDE64version4
+@item IDE64version4
+Boolean specifying whether the emulated card version is V4.1 or V3.4. This is automatically
+detected most of the time for .crt cartridge images.
+@vindex IDE64RTCOffset
+@item IDE64RTCOffset
+Integer in seconds which gives the difference between the local time and the time of the emulated DS1302 RTC.
 @vindex IDE64Image1
 @item IDE64Image1
 @vindex IDE64Image2
@@ -4263,20 +4274,45 @@ Boolean specifying whether the Expert Cartridge should be emulated or not.
 @item IDE64Image3
 @vindex IDE64Image4
 @item IDE64Image4
-@vindex IDE64Config
-@item IDE64Config
-@vindex IDE64Cylinders
-@item IDE64Cylinders
-@vindex IDE64Heads
-@item IDE64Heads
-@vindex IDE64Sectors
-@item IDE64Sectors
-@vindex IDE64AutodetectSize
-@item IDE64AutodetectSize
-@vindex IDE64version4
-@item IDE64version4
-@vindex IDE64RTCOffset
-@item IDE64RTCOffset
+String specifying the full path to the four harddisk images. If a file is non-existing the drive is not emulated.
+Some older IDEDOS versions only support the first two harddisks.
+@vindex IDE64Cylinders1
+@item IDE64Cylinders1
+@vindex IDE64Cylinders2
+@item IDE64Cylinders2
+@vindex IDE64Cylinders3
+@item IDE64Cylinders3
+@vindex IDE64Cylinders4
+@item IDE64Cylinders4
+Number of cylinders for the four harddisk images. Valid range is 1--65535.
+@vindex IDE64Heads1
+@item IDE64Heads1
+@vindex IDE64Heads2
+@item IDE64Heads2
+@vindex IDE64Heads3
+@item IDE64Heads3
+@vindex IDE64Heads4
+@item IDE64Heads4
+Number of heads for the four harddisk images. Valid range is 1--16.
+@vindex IDE64Sectors1
+@item IDE64Sectors1
+@vindex IDE64Sectors2
+@item IDE64Sectors2
+@vindex IDE64Sectors3
+@item IDE64Sectors3
+@vindex IDE64Sectors4
+@item IDE64Sectors4
+Number of sectors for the four harddisk images. Valid range is 1--63.
+@vindex IDE64AutodetectSize1
+@item IDE64AutodetectSize1
+@vindex IDE64AutodetectSize2
+@item IDE64AutodetectSize2
+@vindex IDE64AutodetectSize3
+@item IDE64AutodetectSize3
+@vindex IDE64AutodetectSize4
+@item IDE64AutodetectSize4
+Boolean specifying whether the disk geometry should be auto detected based
+on the disk image for the respective harddisk, or the cylinder/head/sector resources above should be used.
 @vindex IEEE488
 @item IEEE488
 Boolean specifying whether the IEEE488 interface should be emulated or not.
@@ -4477,32 +4513,53 @@ Attach raw 8KB Game Killer cartridge image
 Attach raw 512kB Game System cartridge image
 @cindex -cartide64
 @item -cartide64 <name>
-Attach raw 64KB IDE64 cartridge image
+Attach raw 64KB or 128KB IDE64 cartridge image
 @cindex -IDE64image1
 @item -IDE64image1 <name>
-Specify name of IDE64 image file
 @cindex -IDE64image2
 @item -IDE64image2 <name>
-Specify name of IDE64 image file
 @cindex -IDE64image3
 @item -IDE64image3 <name>
-Specify name of IDE64 image file
 @cindex -IDE64image4
 @item -IDE64image4 <name>
-Specify name of IDE64 image file
-@cindex -IDE64cyl
-@item -IDE64cyl <value>
-Set number of cylinders for the IDE64 emulation
-@cindex -IDE64hds
-@item -IDE64hds <value>
-Set number of heads for the IDE64 emulation
-@cindex -IDE64sec
-@item -IDE64sec <value>
-Set number of sectors for the IDE64 emulation
-@cindex -IDE64autosize, +IDE64autosize
-@item -IDE64autosize
-@itemx +IDE64autosize
-Autodetect/do not autodetect geometry of formatted images
+Specify path to the image files for IDE64 harddisks
+@cindex -IDE64cyl1
+@item -IDE64cyl1 <value>
+@cindex -IDE64cyl2
+@item -IDE64cyl2 <value>
+@cindex -IDE64cyl3
+@item -IDE64cyl3 <value>
+@cindex -IDE64cyl4
+@item -IDE64cyl4 <value>
+Set number of cylinders for the IDE64 harddisk emulation (1-65535)
+@cindex -IDE64hds1
+@item -IDE64hds1 <value>
+@cindex -IDE64hds2
+@item -IDE64hds2 <value>
+@cindex -IDE64hds3
+@item -IDE64hds3 <value>
+@cindex -IDE64hds4
+@item -IDE64hds4 <value>
+Set number of heads for the IDE64 harddisk emulation (1-16)
+@cindex -IDE64sec1
+@item -IDE64sec1 <value>
+@cindex -IDE64sec2
+@item -IDE64sec2 <value>
+@cindex -IDE64sec3
+@item -IDE64sec3 <value>
+@cindex -IDE64sec4
+@item -IDE64sec4 <value>
+Set number of sectors for the IDE64 harddisk emulation (1-63)
+@cindex -IDE64autosize1, +IDE64autosize1, -IDE64autosize2, +IDE64autosize2, -IDE64autosize3, +IDE64autosize3, -IDE64autosize4, +IDE64autosize4
+@item -IDE64autosize1
+@itemx +IDE64autosize1
+@item -IDE64autosize2
+@itemx +IDE64autosize2
+@item -IDE64autosize3
+@itemx +IDE64autosize3
+@item -IDE64autosize4
+@itemx +IDE64autosize4
+Autodetect geometry of formatted images or do not autodetect and use specified geometry
 @cindex -IDE64version4, +IDE64version4
 @item -IDE64version4
 @itemx +IDE64version4
