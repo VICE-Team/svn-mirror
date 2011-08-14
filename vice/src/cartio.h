@@ -40,6 +40,10 @@
 #define IO_COLLISION_METHOD_DETACH_LAST   1
 #define IO_COLLISION_METHOD_AND_WIRES     2
 
+#define IO_PRIO_HIGH     1      /*!< override others on collisions */
+#define IO_PRIO_NORMAL   0      /*!< handle collisions */
+#define IO_PRIO_LOW     -1      /*!< overridden by others on collisions */
+
 extern BYTE c64io_d000_read(WORD addr);
 extern BYTE c64io_d000_peek(WORD addr);
 extern void c64io_d000_store(WORD addr, BYTE value);
@@ -87,20 +91,20 @@ extern void remove_cpu_lines_lock(void);
 extern char *get_cpu_lines_lock_name(void);
 
 typedef struct io_source_s {
-    char *name; /* literal name of this i/o device */
+    char *name; /*!< literal name of this i/o device */
     int detach_id;
     char *resource_name;
     WORD start_address;
     WORD end_address;
     WORD address_mask;
-    int  io_source_valid; /* after reading, is 1 if read was valid */
+    int  io_source_valid; /*!< after reading, is 1 if read was valid */
     void (*store)(WORD address, BYTE data);
     BYTE (*read)(WORD address);
-    BYTE (*peek)(WORD address); /* read without side effects (used by monitor) */
-    int (*dump)(void); /* print detailed state for this i/o device (used by monitor) */
-    int cart_id; /* id of associated cartridge */
-    int io_source_prio; /* 0: normal, 1: higher priority (no collisions), -1: lower priority (no collisions) */
-    unsigned int order; /* a tag to indicate the order of insertion */
+    BYTE (*peek)(WORD address); /*!< read without side effects (used by monitor) */
+    int (*dump)(void); /*!< print detailed state for this i/o device (used by monitor) */
+    int cart_id; /*!< id of associated cartridge */
+    int io_source_prio; /*!< 0: normal, 1: higher priority (no collisions), -1: lower priority (no collisions) */
+    unsigned int order; /*!< a tag to indicate the order of insertion */
 } io_source_t;
 
 typedef struct io_source_list_s {

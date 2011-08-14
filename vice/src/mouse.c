@@ -27,11 +27,20 @@
  *
  */
 
+/* #define DEBUG_MOUSE */
+
+#ifdef DEBUG_MOUSE
+#define DBG(_x_)  log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include "alarm.h"
 #include "cmdline.h"
 #include "joystick.h"
+#include "log.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "mouse.h"
@@ -51,18 +60,21 @@ int mouse_type = 0;
 
 /* POT input port. Defaults to 1 for xvic.
 
- note: this actually represents the upper two bits of CIA1 port A
+    For C64 this actually represents the upper two bits of CIA1 port A
     00 - no paddle selected
     01 - paddle port 1 selected
     10 - paddle port 2 selected
     11 - both paddle ports selected
+
+    For Vic20 (and possibly others?) it must be 1
 */
-static BYTE input_port = 0;
+static BYTE input_port = 1;
 
 /* this is called from c64cia1.c/c128cia1.c */
 void mouse_set_input(int port)
 {
     input_port = port & 3;
+    DBG(("mouse_set_input: %x", input_port));
 }
 
 /* --------------------------------------------------------- */
@@ -375,6 +387,8 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
     BYTE diff = new_v - *old_v;
     BYTE new_paddle;
 
+    /* DBG(("new_v from driver: %d", new_v)); */
+
     if (new_v < *old_v) {
         if (*old_v > 0x6f && new_v < 0x10) {
             diff += 0x80;
@@ -436,6 +450,7 @@ static BYTE mouse_get_paddle_y(void)
 static BYTE mouse_get_paddle_x(void)
 {
     int i = input_port & mouse_port;
+    /* DBG(("mouse_get_paddle_x: %x", i)); */
     if (i != 0) {
         i = i << 1;
         /* one of the ports is selected */
@@ -623,6 +638,7 @@ void mouse_button_right(int pressed)
 
 BYTE mouse_get_x(void)
 {
+    /* DBG(("mouse_get_x: %d", mouse_type)); */
     switch (mouse_type) {
         case MOUSE_TYPE_1351:
             return mouse_get_1351_x();
@@ -631,8 +647,8 @@ BYTE mouse_get_x(void)
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
             return (neos_and_amiga_buttons & 1) ? 0xff : 0;
-            break;
         default:
+            DBG(("mouse_get_x: invalid mouse_type"));
             break;
     }
     return 0xff;
@@ -650,6 +666,7 @@ BYTE mouse_get_y(void)
             /* FIXME: is this correct ?! */
             break;
         default:
+            DBG(("mouse_get_y: invalid mouse_type"));
             break;
     }
     return 0xff;

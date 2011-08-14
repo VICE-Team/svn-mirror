@@ -106,7 +106,7 @@ static void sid_write_off(WORD addr, BYTE val, int chipno)
 
 static BYTE sid_read_chip(WORD addr, int chipno)
 {
-    int	val;
+    int val = -1;
 
     addr &= 0x1f;
 
