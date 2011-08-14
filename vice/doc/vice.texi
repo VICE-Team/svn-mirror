@@ -14625,6 +14625,9 @@ Made some console, dialog and joystick fixes for the BeOS port.
 @b{Ulrich Schulz}
 Maintains the Dingoo port(s).
 
+@b{Helfried Peyrl}
+Supplied a patch that fixes REL file records larger 256 bytes when using vdrive.
+
 @end itemize
 
 Former/inactive team members:
