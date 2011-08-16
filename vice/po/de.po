@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-08-13 12:08-0600\n"
-"PO-Revision-Date: 2011-07-30 21:55+0200\n"
+"PO-Revision-Date: 2011-08-16 22:28+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -376,9 +376,8 @@ msgstr "Modell Einstellungen"
 #: src/arch/unix/gui/c64scui.c:508 src/arch/unix/gui/c64ui.c:568
 #: src/arch/unix/gui/cbm2ui.c:395 src/arch/unix/gui/petui.c:393
 #: src/arch/unix/gui/plus4ui.c:311 src/arch/unix/gui/vic20ui.c:537
-#, fuzzy
 msgid "RAM reset pattern"
-msgstr "ROM Satz Typ"
+msgstr "RAM Reset Muster"
 
 #: src/arch/unix/gui/c128ui.c:492 src/arch/unix/gui/c64dtvui.c:183
 #: src/arch/unix/gui/c64scui.c:510 src/arch/unix/gui/c64ui.c:570
@@ -3826,9 +3825,8 @@ msgid "Load PSID file"
 msgstr "PSID Datei laden"
 
 #: src/arch/unix/gui/vsidui.c:352
-#, fuzzy
 msgid "Sound recording"
-msgstr "Tonaufnahme Einstellungen"
+msgstr "Tonaufnahme"
 
 #: src/arch/unix/gui/vsidui.c:360
 msgid "Override PSID settings"
@@ -3877,7 +3875,6 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:97
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3899,6 +3896,7 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - Ungarisch\n"
 "Emir Akaydin (aka: Skate) - Türkisch\n"
 "Mikkel Holm Olsen - Dänisch\n"
+"Robert Thurnreiter - Polish\n"
 "Jesse Lee - Koreanisch\n"
 "Mihail Litvinov - Russisch\n"
 
