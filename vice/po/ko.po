@@ -4000,25 +4000,25 @@ msgstr "가동하지않는"
 #: src/arch/unix/x11/gnome/uinetplay.c:146 src/arch/win32/res.rc.po.c:1158
 #: src/arch/amigaos/intl_text.c.po.c:3378
 msgid "Server listening"
-msgstr ""
+msgstr "서버 리스닝"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:151 src/arch/win32/res.rc.po.c:1159
 #: src/arch/amigaos/intl_text.c.po.c:3390
 msgid "Connected server"
-msgstr ""
+msgstr "연결된 서버"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:156 src/arch/win32/res.rc.po.c:1160
 #: src/arch/amigaos/intl_text.c.po.c:3402
 msgid "Connected client"
-msgstr ""
+msgstr "연결된 클라이언트"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:178
 msgid "Couldn't start netplay server."
-msgstr ""
+msgstr "넷플레이 서버를 시작할수없습니다."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:188
 msgid "Couldn't connect client."
-msgstr ""
+msgstr "클라이언트를 연결할수없습니다."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:205 src/arch/win32/res.rc.po.c:1137
 msgid "Unknown"
@@ -4027,18 +4027,18 @@ msgstr "알수없음"
 #: src/arch/unix/x11/gnome/uinetplay.c:206 src/arch/win32/res.rc.po.c:1289
 #: src/arch/amigaos/intl_text.c.po.c:3342
 msgid "Connect to"
-msgstr ""
+msgstr "연결"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:207 src/arch/win32/res.rc.po.c:1285
 #: src/arch/amigaos/intl_text.c.po.c:3294
 msgid "Current mode"
-msgstr ""
+msgstr "현제 모드"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:210
 #: src/arch/unix/x11/gnome/uinetplay.c:212 src/arch/win32/res.rc.po.c:1284
 #: src/arch/amigaos/intl_text.c.po.c:3414
 msgid "Netplay Settings"
-msgstr ""
+msgstr "넷플레이 설정"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:288 src/arch/win32/res.rc.po.c:1291
 msgid "Control"
@@ -4055,7 +4055,7 @@ msgstr "클라이언트"
 #: src/arch/unix/x11/gnome/uiscreenshot.c:296
 #: src/arch/unix/x11/xaw/uiscreenshot.c:152
 msgid "Image Format"
-msgstr ""
+msgstr "이미지 포멧"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:362 src/arch/win32/res.rc.po.c:1310
 #: src/translate_text.c.po.c:1644
@@ -4064,52 +4064,52 @@ msgstr "구성 방식"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:376 src/arch/win32/res.rc.po.c:1311
 msgid "Audio codec"
-msgstr ""
+msgstr "오디오 코덱"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:390 src/arch/win32/res.rc.po.c:1313
 msgid "Video codec"
-msgstr ""
+msgstr "비디오 코덱"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:402
 msgid "Audio bitrate"
-msgstr ""
+msgstr "오디오 비트레이트"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:412
 msgid "Video bitrate"
-msgstr ""
+msgstr "비디오 비트레이트"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:458
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
 #: src/arch/amigaos/intl_text.c.po.c:3426
 msgid "Save screenshot file"
-msgstr ""
+msgstr "스크린샷 파일 저장"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:515
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
-msgstr ""
+msgstr "드라이버 %s 로 '%s' 에 스크린샷 을 쓸수 없습니다."
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:51
 #: src/arch/unix/x11/xaw/uisnapshot.c:128
 msgid "Snapshot options"
-msgstr ""
+msgstr "스냅샷 옵션"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:54
 #: src/arch/unix/x11/xaw/uisnapshot.c:126 src/arch/win32/res.rc.po.c:1224
 #: src/arch/amigaos/intl_text.c.po.c:7147
 msgid "Save currently attached disk images"
-msgstr ""
+msgstr "현제 붙어있는 디스크 이미지 저장"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:58
 #: src/arch/unix/x11/xaw/uisnapshot.c:127 src/arch/win32/res.rc.po.c:1225
 #: src/arch/amigaos/intl_text.c.po.c:7159
 msgid "Save currently loaded ROM images"
-msgstr ""
+msgstr "현제 불러오기 된 ROM 이미지 저장"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:107
 #, c-format
 msgid "Successfully wrote `%s'\n"
-msgstr ""
+msgstr "'%s' 를 성공적으로 썻습니다\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:44
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:63
@@ -4124,36 +4124,36 @@ msgid ""
 "%s\n"
 "Model: %s\n"
 "IRQ: %s"
-msgstr ""
+msgstr "이름: %s\n 튠: %d\n 작가: %s\n 저작권: %s\n%s\n 모델: %s\n IRQ: %s"
 
 #: src/arch/unix/x11/gnome/x11ui.c:739
 msgid "CRT Controls"
-msgstr ""
+msgstr "CRT 컨트롤"
 
 #: src/arch/unix/x11/gnome/x11ui.c:752
 msgid "audio/video recording"
-msgstr ""
+msgstr "오디오/비디오 레코딩"
 
 #: src/arch/unix/x11/gnome/x11ui.c:761 src/arch/unix/x11/gnome/x11ui.c:776
 msgid "click to stop recording"
-msgstr ""
+msgstr "레코딩을 멈추려면 클릭 하세요"
 
 #: src/arch/unix/x11/gnome/x11ui.c:767 src/arch/unix/x11/xaw/x11ui.c:1010
 msgid "event recording"
-msgstr ""
+msgstr "이벤트 레코딩"
 
 #: src/arch/unix/x11/gnome/x11ui.c:782
 msgid "event playback"
-msgstr ""
+msgstr "이벤트 플레이백"
 
 #: src/arch/unix/x11/gnome/x11ui.c:791
 msgid "click to stop playback"
-msgstr ""
+msgstr "플레이백을 멈추려면 클릭 하시오"
 
 #: src/arch/unix/x11/gnome/x11ui.c:803
 #, c-format
 msgid "Drive %d: "
-msgstr ""
+msgstr "드라이브 %d: "
 
 #. Tape Label
 #: src/arch/unix/x11/gnome/x11ui.c:885
@@ -4166,11 +4166,11 @@ msgstr " 에뮬래이터"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1265 src/arch/unix/x11/xaw/x11ui.c:1278
 msgid "Do you really want to exit?"
-msgstr ""
+msgstr "정말 종료하시겠습니까?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1273 src/arch/unix/x11/xaw/x11ui.c:1286
 msgid "Save the current settings?"
-msgstr ""
+msgstr "현제 설정을 저장하시겠습니까?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1309 src/arch/unix/x11/gnome/x11ui.c:1311
 #: src/arch/unix/x11/xaw/x11ui.c:1354 src/arch/unix/x11/xaw/x11ui.c:1357
@@ -4191,16 +4191,16 @@ msgstr "%s (멈춤)"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1985 src/arch/amigaos/intl_text.c.po.c:2982
 msgid "VICE Message"
-msgstr ""
+msgstr "VICE 메세지"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1997 src/arch/unix/x11/xaw/x11ui.c:1797
 #: src/arch/win32/res.rc.po.c:961 src/arch/amigaos/intl_text.c.po.c:3078
 msgid "VICE Error!"
-msgstr ""
+msgstr "VICE 오류!"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2024
 msgid "Hard Reset"
-msgstr ""
+msgstr "하드 리셋"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2024 src/arch/win32/res.rc.po.c:1435
 #: src/arch/amigaos/intl_text.c.po.c:786
@@ -4213,11 +4213,11 @@ msgstr "계속"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2068 src/arch/unix/x11/xaw/x11ui.c:1928
 msgid "Extend disk image"
-msgstr ""
+msgstr "확장 디스크 이미지"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2068
 msgid "Do you want to extend the disk image to 40 tracks?"
-msgstr ""
+msgstr "디스크 이미지를 40개 트랙으로 확장 하시겠습니까?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2079
 #, c-format
@@ -4258,31 +4258,31 @@ msgstr ""
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
-msgstr ""
+msgstr "HTML 브라우져 를 온라인 도움을 위해 명시하세요"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:47
 msgid "Install a private colormap"
-msgstr ""
+msgstr "개인 컬러맾 을 설치 하세요"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:52
 msgid "Use the default colormap"
-msgstr ""
+msgstr "디폴트 컬러맾을 사용합니다"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:62
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:50
 #: src/arch/win32/res.rc.po.c:1146 src/arch/amigaos/intl_text.c.po.c:5443
 msgid "Never confirm quiting VICE"
-msgstr ""
+msgstr "VICE 를 절대 끝내지 않습니다"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
 #: src/arch/win32/res.rc.po.c:1144 src/arch/amigaos/intl_text.c.po.c:5419
 msgid "Never save settings on exit"
-msgstr ""
+msgstr "종료시 절대 설정을 저장하지 않습니다"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:84
 msgid "Disable fullscreen"
-msgstr ""
+msgstr "전체화면 사용하지않기"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2567
 #: src/translate_text.c.po.c:5832
@@ -4291,7 +4291,7 @@ msgstr "가치"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
 msgid "Specify X display depth (1..32)"
-msgstr ""
+msgstr "X 디스플레이 뎊스 (1..32) 를 명시하세요"
 
 #: src/arch/unix/x11/xrandr.c:280
 msgid "Desktop"
@@ -4299,13 +4299,13 @@ msgstr "데스크탑"
 
 #: src/arch/unix/x11/xaw/about.c:166 src/arch/win32/res.rc.po.c:962
 msgid "VICE Information"
-msgstr ""
+msgstr "VICE 정보"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:113 src/arch/unix/x11/xaw/uiedisk.c:204
 #: src/arch/unix/x11/xaw/uiscreenshot.c:151
 #: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:688
 msgid "File name"
-msgstr ""
+msgstr "파일 이름"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:247
 #: src/arch/unix/x11/xaw/uiscreenshot.c:195
