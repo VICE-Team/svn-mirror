@@ -24,6 +24,10 @@
  *
  */
 
+
+#ifndef VICE_PLATFORM_NETBSD_VERSION_H
+#define VICE_PLATFORM_NETBSD_VERSION_H
+
 #include <sys/param.h>
 
 #ifdef NetBSD0_8
@@ -181,3 +185,5 @@
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "NetBSD"
 #endif
+
+#endif // VICE_PLATFORM_NETBSD_VERSION_H

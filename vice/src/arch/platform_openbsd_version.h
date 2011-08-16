@@ -24,6 +24,9 @@
  *
  */
 
+#ifndef VICE_PLATFORM_OPENBSD_VERSION_H
+#define VICE_PLATFORM_OPENBSD_VERSION_H
+
 #include <sys/param.h>
 
 #ifdef OpenBSD2_1
@@ -141,3 +144,5 @@
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "OpenBSD"
 #endif
+
+#endif // VICE_PLATFORM_OPENBSD_VERSION_H

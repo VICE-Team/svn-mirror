@@ -24,6 +24,9 @@
  *
  */
 
+#ifndef VICE_PLATFORM_QNX6_VERSION_H
+#define VICE_PLATFORM_QNX6_VERSION_H
+
 #include <sys/neutrino.h>
 
 #if (_NTO_VERSION==600)
@@ -65,3 +68,5 @@
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "QNX 6.x"
 #endif
+
+#endif // VICE_PLATFORM_QNX6_VERSION_H

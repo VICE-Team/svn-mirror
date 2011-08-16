@@ -24,6 +24,9 @@
  *
  */
 
+#ifndef VICE_PLATFORM_FREEBSD_VERSION_H
+#define VICE_PLATFORM_FREEBSD_VERSION_H
+
 #if (__FreeBSD__==1)
 #define PLATFORM_OS "FreeBSD 1.x"
 #else
@@ -227,3 +230,5 @@
 #ifndef PLATFORM_OS
 #define PLATFORM_OS "FreeBSD"
 #endif
+
+#endif // VICE_PLATFORM_FREEBSD_VERSION_H
