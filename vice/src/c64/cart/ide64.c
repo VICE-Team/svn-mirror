@@ -828,6 +828,16 @@ static BYTE ide64_io1_read(WORD addr)
             return in_d030 >> 8;
         case 0x32:
             return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
+        case 0x5d:
+            if (settings_version4) {
+                return 0xff;
+            }
+            break;
+        case 0x5e:
+            if (settings_version4) {
+                return 0xc0 | vicii_read_phi1();
+            }
+            break;
         case 0x5f:
             i = vicii_read_phi1();
             if ((kill_port & 2) == 0) {
@@ -953,6 +963,16 @@ static BYTE ide64_io1_peek(WORD addr)
             return in_d030 >> 8;
         case 0x32:
             return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
+        case 0x5d:
+            if (settings_version4) {
+                return 0xff;
+            }
+            break;
+        case 0x5e:
+            if (settings_version4) {
+                return 0xc0;
+            }
+            break;
         case 0x5f:
             return 0;
     }
