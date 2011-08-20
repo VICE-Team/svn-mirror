@@ -22,4 +22,6 @@ libcore_a_SOURCES = \
 	t6721.c \
 	t6721.h \
 	tpicore.c \
-	viacore.c
+	viacore.c \
+	ata.c \
+	ata.h
