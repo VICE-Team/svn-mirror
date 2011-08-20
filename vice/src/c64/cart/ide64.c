@@ -941,7 +941,7 @@ int ide64_snapshot_write_module(snapshot_t *s)
     SMW_DW(m, idrive);
     SMW_W(m, in_d030);
     SMW_W(m, out_d030);
-    SMW_BA(m, ide64_DS1302, 64); /* TODO: RTC snapshot! */
+    SMW_BA(m, (unsigned char *)ide64_DS1302, 64); /* TODO: RTC snapshot! */
 
     snapshot_module_close(m);
 
@@ -985,7 +985,7 @@ int ide64_snapshot_read_module(snapshot_t *s)
     if (idrive) idrive = 2;
     SMR_W(m, &in_d030);
     SMR_W(m, &out_d030);
-    SMR_BA(m, ide64_DS1302, 64); /* TODO: RTC snapshot! */
+    SMR_BA(m, (unsigned char *)ide64_DS1302, 64); /* TODO: RTC snapshot! */
     ide64_DS1302[64] = 0;
 
     snapshot_module_close(m);
