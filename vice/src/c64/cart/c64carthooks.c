@@ -2699,305 +2699,305 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* "Slot 0" */
             case CARTRIDGE_MMC64:
                 if (mmc64_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_MAGIC_VOICE:
                 if (magicvoice_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_IEEE488:
                 if (tpi_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 
             /* "Slot 1" */
             case CARTRIDGE_DQBB:
                 if (dqbb_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_EXPERT:
                 if (expert_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_ISEPIC:
                 if (isepic_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_RAMCART:
                 if (ramcart_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 
             /* "Main Slot" */
             case CARTRIDGE_ACTION_REPLAY:
                 if (actionreplay_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_ACTION_REPLAY2:
                 if (actionreplay2_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_ACTION_REPLAY3:
                 if (actionreplay3_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_ACTION_REPLAY4:
                 if (actionreplay4_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_ATOMIC_POWER:
                 if (atomicpower_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_CAPTURE:
                 if (capture_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_COMAL80:
                 if (comal80_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_DELA_EP64:
                 if (delaep64_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_DELA_EP7x8:
                 if (delaep7x8_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_DELA_EP256:
                 if (delaep256_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_DIASHOW_MAKER:
                 if (dsm_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_DINAMIC:
                 if (dinamic_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_EASYFLASH:
                 if (easyflash_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_EPYX_FASTLOAD:
                 if (epyxfastload_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_EXOS:
                 if (exos_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_FINAL_I:
                 if (final_v1_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_FINAL_III:
                 if (final_v3_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_FINAL_PLUS:
                 if (final_plus_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_FREEZE_FRAME:
                 if (freezeframe_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_FREEZE_MACHINE:
                 if (freezemachine_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_FUNPLAY:
                 if (funplay_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_GAME_KILLER:
                 if (gamekiller_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_GENERIC_16KB:
             case CARTRIDGE_GENERIC_8KB:
             case CARTRIDGE_ULTIMAX:
                 if (generic_snapshot_read_module(s, cart_ids[i]) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_GS:
                 if (gs_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_IDE64:
                 if (ide64_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_KCS_POWER:
                 if (kcs_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_KINGSOFT:
                 if (kingsoft_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_MACH5:
                 if (mach5_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_MAGIC_DESK:
                 if (magicdesk_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_MAGIC_FORMEL:
                 if (magicformel_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_MIKRO_ASSEMBLER:
                 if (mikroass_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_MMC_REPLAY:
                 if (mmcreplay_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_OCEAN:
                 if (ocean_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_P64:
                 if (p64_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_PAGEFOX:
                 if (pagefox_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_RETRO_REPLAY:
                 if (retroreplay_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_REX:
                 if (rex_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_REX_EP256:
                 if (rexep256_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_ROSS:
                 if (ross_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SIMONS_BASIC:
                 if (simon_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SNAPSHOT64:
                 if (snapshot64_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_STARDOS:
                 if (stardos_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_STRUCTURED_BASIC:
                 if (stb_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SUPER_EXPLODE_V5:
                 if (se5_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SUPER_GAMES:
                 if (supergames_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SUPER_SNAPSHOT:
                 if (supersnapshot_v4_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SUPER_SNAPSHOT_V5:
                 if (supersnapshot_v5_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_WARPSPEED:
                 if (warpspeed_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_WESTERMANN:
                 if (westermann_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_ZAXXON:
                 if (zaxxon_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 
             /* "IO Slot" */
             case CARTRIDGE_DIGIMAX:
                 if (digimax_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_GEORAM:
                 if (georam_read_snapshot_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 #ifdef HAVE_MIDI
@@ -3007,43 +3007,43 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             case CARTRIDGE_MIDI_NAMESOFT:
             case CARTRIDGE_MIDI_MAPLIN:
                 if (c64_midi_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 #endif
             case CARTRIDGE_REU:
                 if (reu_read_snapshot_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SFX_SOUND_EXPANDER:
                 if (sfx_soundexpander_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
             case CARTRIDGE_SFX_SOUND_SAMPLER:
                 if (sfx_soundsampler_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 #ifdef HAVE_TFE
             case CARTRIDGE_TFE:
                 if (tfe_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 #endif
 #ifdef HAVE_RS232
             case CARTRIDGE_TURBO232:
                 if (aciacart_snapshot_read_module(s) < 0) {
-                    return -1;
+                    goto fail2;
                 }
                 break;
 #endif
 
             default:
                 DBG(("CART snapshot read: cart %i handler missing\n", cart_ids[i]));
-                return -1;
+                    goto fail2;
         }
 
         cart_attach_from_snapshot(cart_ids[i]);
@@ -3062,6 +3062,8 @@ fail:
     if (m != NULL) {
         snapshot_module_close(m);
     }
+fail2:
+    mem_cartridge_type = CARTRIDGE_NONE; /* Failed to load cartridge! */
     return -1;
 }
 
