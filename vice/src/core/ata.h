@@ -39,6 +39,7 @@ struct ata_drive_t {
     BYTE head;
     BYTE control;
     BYTE cmd;
+    BYTE power;
     int bufp;
     BYTE *buffer;
     FILE *file;
@@ -54,6 +55,8 @@ struct ata_drive_t {
     int atapi;
     int sector_size;
     int attention;
+    int wcache;
+    int lookahead;
     log_t log;
 };
 
