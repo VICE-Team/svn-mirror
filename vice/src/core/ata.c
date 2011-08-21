@@ -505,7 +505,7 @@ WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
         return (WORD)drv->head;
     case 7:
     case 14:
-        return ATA_DRDY | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
+        return ((drv->atapi && drv->cmd == 0x08) ? 0: ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
     case 15:
         return (WORD)((drv->slave ? 0xc1 : 0xc2) | (((drv->head ^ 15) & 15) << 2));
     default:
