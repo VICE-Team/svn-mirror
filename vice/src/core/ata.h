@@ -1,5 +1,5 @@
 /*
- * ata.h - ATA device emulation
+ * ata.h - ATA(PI) device emulation
  *
  * Written by
  *  Kajtar Zsolt <soci@c64.rulez.org>
@@ -40,7 +40,7 @@ struct ata_drive_t {
     BYTE control;
     BYTE cmd;
     int bufp;
-    BYTE buffer[512];
+    BYTE *buffer;
     FILE *file;
     char *filename;
     char *myname;
@@ -51,6 +51,9 @@ struct ata_drive_t {
     int slave;
     int update_needed;
     int readonly;
+    int atapi;
+    int sector_size;
+    int attention;
     log_t log;
 };
 
