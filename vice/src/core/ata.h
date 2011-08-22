@@ -47,6 +47,7 @@ struct ata_drive_t {
     BYTE control;
     BYTE cmd;
     BYTE power;
+    BYTE packet[12];
     int bufp;
     BYTE *buffer;
     FILE *file;
@@ -69,7 +70,7 @@ struct ata_drive_t {
     alarm_t *bsy_alarm;
     log_t log;
     int sector_size;
-    int atapi;
+    int atapi, lba;
     CLOCK seek_time;
     CLOCK spinup_time, spindown_time;
 };

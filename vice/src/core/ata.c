@@ -47,16 +47,19 @@
 #define ATA_DRQ 0x08
 #define ATA_ERR 0x01
 #define ATA_LBA 0x40
+#define ATA_COPYRIGHT "KAJTAR ZSOLT (SOCI/SINGULAR)"
+#define ATA_SERIAL_NUMBER &"$Date::                      $"[8]
+#define ATA_REVISION &"$Revision:: 12345678 $"[12]
 
 #ifdef ATA_DEBUG
 #define debug(args...) log_message(drv->log, args)
 #else
 #define debug(args...) {}
 #endif
-#define putw(a,b) drv->buffer[(a)*2]=(b) & 0xff;drv->buffer[(a)*2+1]=(b) >> 8
-#define setb(a,b,c) drv->buffer[(a)*2+(b)/8]|=(c) ? (1 << ((b) & 7)) : 0
+#define putw(a,b) {result[(a)*2]=(b) & 0xff;result[(a)*2+1]=(b) >> 8;}
+#define setb(a,b,c) {result[(a)*2+(b)/8]|=(c) ? (1 << ((b) & 7)) : 0;}
 
-static const BYTE hdd_identify[128] = {
+static const BYTE identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x30, 0x32, 0x31, 0x31,
@@ -77,6 +80,14 @@ static const BYTE hdd_identify[128] = {
     0x10, 0x00, 0x00, 0x40, 0x00, 0x00, 0x01, 0x01,
     0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
+
+static void ident_update_string(BYTE *b, char *s, int n) { 	 
+    int i; 	 
+    for (i=0;i<n;i+=2) { 	 
+        b[i | 1] = *s ? *s++ : 0x20; 	 
+        b[i] = *s ? *s++ : 0x20; 	 
+    } 	 
+} 	 
 
 static void ata_change_power_mode(struct ata_drive_t *drv, BYTE value) {
     if (drv->power == 0x00 && value != 0x00) {
@@ -109,8 +120,8 @@ static int seek_sector(struct ata_drive_t *drv)
     drv->error = 0;
 
     if (drv->atapi) {
-        lba = (drv->buffer[2] << 24) | (drv->buffer[3] << 16) | (drv->buffer[4] << 8) | drv->buffer[5];
-    } else if (drv->head & ATA_LBA) {
+        lba = (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5];
+    } else if (drv->lba && (drv->head & ATA_LBA)) {
         lba = ((drv->head & 0x0f) << 24) | (drv->cylinder << 8) | drv->sector;
     } else {
         if (drv->sector == 0 || drv->sector > drv->sectors || (drv->head & 0xf) >= drv->heads ||
@@ -284,15 +295,17 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
     if (drv->cmd == 0xe6) {
         return;
     }
+    drv->bufp = drv->sector_size;
     drv->error = 0;
+    drv->cmd = 0x00;
     switch (value) {
         case 0x00:
             debug("NOP");
             drv->error = ATA_ABRT;
-            break;
+            return;
         case 0x20:
         case 0x21:
-            if (drv->head & ATA_LBA) {
+            if (drv->lba && (drv->head & ATA_LBA)) {
                 debug("READ SECTORS (%d)*%d", ((drv->head & 0xf) << 24) | (drv->cylinder << 8) | drv->sector, drv->sector_count);
             } else {
                 debug("READ SECTORS (%d/%d/%d)*%d", drv->cylinder, drv->head & 0xf, drv->sector, drv->sector_count);
@@ -306,7 +319,7 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
             return;
         case 0x30:
         case 0x31:
-            if (drv->head & ATA_LBA) {
+            if (drv->lba && (drv->head & ATA_LBA)) {
                 debug("WRITE SECTORS (%d)*%d", ((drv->head & 0xf) << 24) | (drv->cylinder << 8) | drv->sector, drv->sector_count);
             } else {
                 debug("WRITE SECTORS (%d/%d/%d)*%d", drv->cylinder, drv->head & 0xf, drv->sector, drv->sector_count);
@@ -317,7 +330,7 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
             }
             if (drv->readonly) {
                 drv->error = ATA_WP | ATA_ABRT;
-                break;
+                return;
             }
             drv->bufp = 0;
             drv->cmd = 0x30;
@@ -342,28 +355,29 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                 drv->heads = 0;
                 drv->sectors = 0;
                 drv->error = ATA_ABRT;
+                return;
             } 
-            break;
+            return;
         case 0x94:
         case 0xe0:
             debug("STANDBY IMMEDIATE");
             ata_change_power_mode(drv, 0x00);
-            break;
+            return;
         case 0x95:
         case 0xe1:
             debug("IDLE IMMEDIATE");
             ata_change_power_mode(drv, 0x80);
-            break;
+            return;
         case 0x96:
         case 0xe2:
             debug("STANDBY %02x", drv->sector_count);
             ata_change_power_mode(drv, 0x00);
-            break;
+            return;
         case 0x97:
         case 0xe3:
             debug("IDLE %02x", drv->sector_count);
             ata_change_power_mode(drv, 0x80);
-            break;
+            return;
         case 0xe4:
             debug("READ BUFFER");
             drv->sector_count_internal = 1;
@@ -392,9 +406,10 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
             return;
         case 0xec:
             {
+                BYTE result[512];
+                memset(result, 0, sizeof(result));
                 int size;
                 debug("IDENTIFY DEVICE");
-                memset(drv->buffer, 0, 512);
                 putw(0, (drv->type == ATA_DRIVE_HDD) ? 0x0040 : 0x848a);
                 putw(1, drv->default_cylinders);
                 putw(3, drv->default_heads);
@@ -407,15 +422,16 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                     putw(7, drv->size >> 16);
                     putw(8, drv->size & 0xffff);
                 }
-                memcpy(drv->buffer+20, hdd_identify+20, 20);
+                ident_update_string(result + 20, ATA_SERIAL_NUMBER, 20);
                 putw(21, BUFSIZ / drv->sector_size);
-                memcpy(drv->buffer+46, hdd_identify+46, 8);
-                memcpy(drv->buffer+54, hdd_identify+54, 40);
-                drv->buffer[58] = (drv->type == ATA_DRIVE_HDD) ? 0x48: 0x43;
-                drv->buffer[61] = (drv->type == ATA_DRIVE_HDD) ? 0x44: 0x46;
-                drv->buffer[60] = (drv->type == ATA_DRIVE_HDD) ? 0x44: 0x41;
+                ident_update_string(result + 46, ATA_REVISION, 8);
+                if (drv->type == ATA_DRIVE_HDD) {
+                    ident_update_string(result + 54, "ATA-HDD " ATA_COPYRIGHT, 40);
+                } else {
+                    ident_update_string(result + 54, "ATA-CFA " ATA_COPYRIGHT, 40);
+                }
                 setb(49, 13, 1); /* standard timers */
-                setb(49, 9, 1); /* LBA support */
+                setb(49, 9, drv->lba); /* LBA support */
                 setb(53, 0, drv->sectors > 0);
                 putw(54, drv->cylinders);
                 putw(55, drv->heads);
@@ -424,8 +440,10 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                 if (size > drv->size) size = drv->size;
                 putw(57, size & 0xffff);
                 putw(58, size >> 16);
-                putw(60, drv->size & 0xffff);
-                putw(61, drv->size >> 16);
+                if (drv->lba) {
+                    putw(60, drv->size & 0xffff);
+                    putw(61, drv->size >> 16);
+                }
                 setb(82, 3, 1); /* pm command set */
                 setb(82, 4, drv->atapi); /* packet */
                 setb(82, 5, 1); /* write cache */
@@ -443,7 +461,8 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                 setb(87, 14, 1);
 
                 drv->sector_count_internal = 1;
-                drv->bufp = 0;
+                memcpy(drv->buffer + drv->sector_size - sizeof(result), result, sizeof(result));
+                drv->bufp = drv->sector_size - sizeof(result);
                 drv->cmd = 0xec;
             }
             return;
@@ -452,46 +471,42 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
             case 0x02:
                 debug("SET ENABLE WRITE CACHE");
                 drv->wcache = 1;
-                break;
+                return;
             case 0x03:
                 debug("SET TRANSFER MODE %02x", drv->sector_count);
                 if (drv->sector_count > 1 && drv->sector_count != 8) {
                     drv->error = ATA_ABRT;
                 }
-                break;
+                return;
             case 0x33:
                 debug("SET DISABLE RETRY");
-                break;
+                return;
             case 0x55:
                 debug("SET DISABLE LOOK-AHEAD");
                 drv->lookahead = 0;
-                break;
+                return;
             case 0x82:
                 debug("SET DISABLE WRITE CACHE");
                 drv->wcache = 0;
                 if (drv->file) {
                     fflush(drv->file);
                 }
-                break;
+                return;
             case 0x99:
                 debug("SET ENABLE RETRY");
-                break;
+                return;
             case 0xaa:
                 debug("SET ENABLE LOOK-AHEAD");
                 drv->lookahead = 1;
-                break;
+                return;
             default:
                 debug("SET FEATURES %02x", drv->features);
                 drv->error = ATA_ABRT;
             }
-            break;
-        default:
-            debug("COMMAND %02x", value & 0xff);
-            drv->error = ATA_ABRT;
-            break;
+            return;
     }
-    drv->bufp = drv->sector_size;
-    drv->cmd = 0x00;
+    debug("COMMAND %02x", value & 0xff);
+    drv->error = ATA_ABRT;
     return;
 }
 
@@ -502,7 +517,9 @@ static void atapi_execute_command(struct ata_drive_t *drv, BYTE value) {
     if (drv->cmd == 0xe6 && value != 0x08) {
         return;
     }
+    drv->bufp = drv->sector_size;
     drv->error = 0;
+    drv->cmd = 0x00;
     switch (value) {
         case 0x00:
             ata_execute_command(drv, value);
@@ -515,37 +532,43 @@ static void atapi_execute_command(struct ata_drive_t *drv, BYTE value) {
             ata_execute_command(drv, value);
             return;
         case 0xa0:
-            drv->bufp = 0;
+            drv->sector_count_internal = 1;
+            drv->bufp = drv->sector_size - sizeof(drv->packet);
             drv->cmd = 0xa0;
             return;
         case 0xa1:
-            debug("IDENTIFY PACKET DEVICE");
-            memset(drv->buffer, 0, 512);
-            putw(0, (drv->type == ATA_DRIVE_FDD) ? 0x8180: 0x8580);
-            memcpy(drv->buffer+20, hdd_identify+20, 20);
-            putw(21, BUFSIZ / drv->sector_size);
-            memcpy(drv->buffer+46, hdd_identify+46, 8);
-            memcpy(drv->buffer+54, hdd_identify+54, 40);
-            drv->buffer[58] = (drv->type == ATA_DRIVE_FDD) ? 0x46: 0x43;
-            setb(49, 9, 1); /* LBA support */
-            putw(60, drv->size & 0xffff);
-            putw(61, drv->size >> 16);
-            setb(82, 3, 1); /* pm command set */
-            setb(82, 4, drv->atapi); /* packet */
-            setb(82, 5, 1); /* write cache */
-            setb(82, 6, 1); /* look-ahead */
-            setb(82, 9, 1); /* device reset */
-            setb(83, 14, 1);
-            setb(84, 14, 1);
-            setb(85, 3, 1); /* pm command set */
-            setb(85, 4, drv->atapi); /* packet */
-            setb(85, 5, drv->wcache);
-            setb(85, 6, drv->lookahead);
-            setb(87, 14, 1);
+            {
+                BYTE result[512];
+                memset(result, 0, sizeof(result));
+                debug("IDENTIFY PACKET DEVICE");
+                putw(0, (drv->type == ATA_DRIVE_FDD) ? 0x8180: 0x8580);
+                ident_update_string(result + 20, ATA_SERIAL_NUMBER, 20);
+                putw(21, BUFSIZ / drv->sector_size);
+                ident_update_string(result + 46, ATA_REVISION, 8);
+                if (drv->type == ATA_DRIVE_FDD) {
+                    ident_update_string(result + 54, "ATA-FDD " ATA_COPYRIGHT, 40);
+                } else {
+                    ident_update_string(result + 54, "ATA-DVD " ATA_COPYRIGHT, 40);
+                }
+                setb(49, 9, drv->lba); /* LBA support */
+                setb(82, 3, 1); /* pm command set */
+                setb(82, 4, drv->atapi); /* packet */
+                setb(82, 5, 1); /* write cache */
+                setb(82, 6, 1); /* look-ahead */
+                setb(82, 9, 1); /* device reset */
+                setb(83, 14, 1);
+                setb(84, 14, 1);
+                setb(85, 3, 1); /* pm command set */
+                setb(85, 4, drv->atapi); /* packet */
+                setb(85, 5, drv->wcache);
+                setb(85, 6, drv->lookahead);
+                setb(87, 14, 1);
 
-            drv->sector_count_internal = 1;
-            drv->bufp = 0;
-            drv->cmd = 0xa1;
+                drv->sector_count_internal = 1;
+                memcpy(drv->buffer + drv->sector_size - sizeof(result), result, sizeof(result));
+                drv->bufp = drv->sector_size - sizeof(result);
+                drv->cmd = 0xa1;
+            }
             return;
         case 0xe0:
         case 0xe1:
@@ -556,34 +579,55 @@ static void atapi_execute_command(struct ata_drive_t *drv, BYTE value) {
         case 0xef:
             ata_execute_command(drv, value);
             return;
-        default:
-            debug("COMMAND %02x", value & 0xff);
-            drv->error = ATA_ABRT;
-            break;
     }
-    drv->bufp = drv->sector_size;
-    drv->cmd = 0x00;
+    debug("COMMAND %02x", value & 0xff);
+    drv->error = ATA_ABRT;
     return;
 }
 
 static void atapi_packet_execute_command(struct ata_drive_t *drv) {
+    drv->bufp = drv->sector_size;
+    drv->error = 0x00;
+    drv->cmd = 0x00;
     if (drv->attention) {
         drv->attention = 0;
         drv->error = 0x64;
-        drv->cmd = 0x00;
         return;
     }
-    drv->error = 0x00;
-    switch (drv->buffer[0]) {
+    switch (drv->packet[0]) {
     case 0x00:
         debug("TEST UNIT READY");
-        break;
+        return;
     case 0x1b:
-        debug("START STOP %d", drv->buffer[4] & 3);
-        break;
+        debug("START STOP %d", drv->packet[4] & 3);
+        return;
+    case 0x23:
+        {
+            BYTE result[12];
+            int len;
+            memset(result, 0, sizeof(result));
+            debug("READ FORMAT CAPACITIES");
+            result[3]=8;
+            result[4]=drv->size >> 24;
+            result[5]=drv->size >> 16;
+            result[6]=drv->size >> 8;
+            result[7]=drv->size;
+            result[8]=drv->file ? 2 : 3;
+            result[10]=drv->sector_size >> 8;
+            result[11]=drv->sector_size;
+
+            len = (drv->packet[8] < sizeof(result) && !drv->packet[7]) ? ((drv->packet[8] + 1) & 0xfe) : sizeof(result);
+            drv->sector_count_internal = 1;
+            memcpy(drv->buffer + drv->sector_size - len, result, len);
+            if (len) {
+                drv->bufp = drv->sector_size - len;
+                drv->cmd = 0x23;
+            }
+        }
+        return;
     case 0x28:
-        debug("READ 10 (%d)*%d", (drv->buffer[2] << 24) | (drv->buffer[3] << 16) | (drv->buffer[4] << 8) | drv->buffer[5], drv->buffer[8]);
-        drv->sector_count_internal = drv->buffer[8];
+        debug("READ 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]);
+        drv->sector_count_internal = drv->packet[8];
         if (seek_sector(drv)) {
             return;
         }
@@ -591,31 +635,27 @@ static void atapi_packet_execute_command(struct ata_drive_t *drv) {
         read_sector(drv);
         return;
     case 0x2a:
-        debug("WRITE 10 (%d)*%d", (drv->buffer[2] << 24) | (drv->buffer[3] << 16) | (drv->buffer[4] << 8) | drv->buffer[5], drv->buffer[8]);
-        drv->sector_count_internal = drv->buffer[8];
+        debug("WRITE 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]);
+        drv->sector_count_internal = drv->packet[8];
         if (seek_sector(drv)) {
             return;
         }
         if (drv->readonly) {
             drv->error = 0x54;
-            break;
+            return;
         }
         drv->bufp = 0;
         drv->cmd = 0x2a;
         return;
     case 0xbb:
-        debug("SET CD SPEED %d/%d", drv->buffer[2] | (drv->buffer[3] << 8), drv->buffer[4] | (drv->buffer[5] << 8));
+        debug("SET CD SPEED %d/%d", drv->packet[2] | (drv->packet[3] << 8), drv->packet[4] | (drv->packet[5] << 8));
         if (drv->type != ATA_DRIVE_CD) {
             drv->error = 0xB4;
         }
-        break;
-    default:
-        debug("PACKET COMMAND %02x", drv->buffer[0]);
-        drv->error = 0xB4;
-        break;
+        return;
     }
-    drv->bufp = drv->sector_size;
-    drv->cmd = 0x00;
+    debug("PACKET COMMAND %02x", drv->packet[0]);
+    drv->error = 0xB4;
     return;
 }
 
@@ -635,23 +675,31 @@ WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
     switch (addr) {
     case 0:
         switch (drv->cmd) {
-            case 0x20:
-            case 0x28:
-            case 0xec:
-            case 0xe4:
-            case 0xa1:
-                res = drv->buffer[drv->bufp] | (drv->buffer[drv->bufp | 1] << 8);
-                drv->bufp += 2;
-                if (drv->bufp >= ((drv->cmd == 0xa1 || drv->cmd == 0xec) ? 512 : drv->sector_size)) {
-                    drv->sector_count_internal--;
-                    if (!drv->sector_count_internal) {
-                        drv->bufp = drv->sector_size;
-                        drv->cmd = 0x00;
-                    } else {
-                        read_sector(drv);
-                    }
+        case 0x20:
+        case 0x23:
+        case 0x28:
+        case 0xec:
+        case 0xe4:
+        case 0xa1:
+            res = drv->buffer[drv->bufp] | (drv->buffer[drv->bufp | 1] << 8);
+            drv->bufp += 2;
+            if (drv->bufp >= drv->sector_size) {
+                drv->sector_count_internal--;
+                if (!drv->sector_count_internal) {
+                    drv->cmd = 0x00;
+                } 
+                switch (drv->cmd) {
+                case 0x20:
+                case 0x28:
+                    read_sector(drv);
+                    break;
+                default:
+                    drv->bufp = drv->sector_size;
+                    drv->cmd = 0x00;
+                    break;
                 }
-                return res;
+            }
+            return res;
         }
         return 0;
     case 1:
@@ -664,6 +712,7 @@ WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
                 return 0x01;
             case 0xa1:
             case 0x28:
+            case 0x23:
                 return 0x02;
             case 0x2a:
                 return 0x00;
@@ -712,38 +761,35 @@ void ata_register_store(struct ata_drive_t *drv, BYTE addr, WORD value)
             case 0x30:
             case 0x2a:
             case 0xe8:
-                drv->buffer[drv->bufp] = value & 0xff;
-                drv->buffer[drv->bufp | 1] = value >> 8;
-                drv->bufp += 2;
-                if (drv->bufp >= drv->sector_size) {
-                    if (drv->cmd != 0xe8) {
-                        if (write_sector(drv)) {
-                            return;
-                        }
-                    }
-                    drv->sector_count_internal--;
-                    if (!drv->sector_count_internal) {
-                        if (drv->cmd != 0xe8) {
-                            if (!drv->file || fflush(drv->file)) {
-                                drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
-                                drv->cmd = 0x00;
-                                return;
-                            }
-                        }
-                        drv->cmd = 0x00;
-                    } else {
-                        drv->error = 0;
-                        drv->bufp = 0;
-                    }
-                }
-                break;
             case 0xa0:
                 drv->buffer[drv->bufp] = value & 0xff;
                 drv->buffer[drv->bufp | 1] = value >> 8;
                 drv->bufp += 2;
-                if (drv->bufp >= 12) {
+                if (drv->bufp >= drv->sector_size) {
+                    switch (drv->cmd) {
+                    case 0x2a:
+                    case 0x30:
+                        if (write_sector(drv)) {
+                            return;
+                        }
+                        if (drv->sector_count_internal--) {
+                            drv->bufp = 0;
+                            return;
+                        }
+                        if (!drv->file || fflush(drv->file)) {
+                            drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
+                            break;
+                        }
+                        break;
+                    case 0xe8:
+                        break;
+                    case 0xa0:
+                        memcpy(drv->packet, drv->buffer + drv->sector_size - sizeof(drv->packet), sizeof(drv->packet));
+                        atapi_packet_execute_command(drv);
+                        return;
+                    }
                     drv->bufp = drv->sector_size;
-                    atapi_packet_execute_command(drv);
+                    drv->cmd = 0x00;
                 }
                 break;
             }
@@ -780,9 +826,8 @@ void ata_register_store(struct ata_drive_t *drv, BYTE addr, WORD value)
             }
             drv->control = (BYTE)value;
             return;
-        default:
-            return;
     }
+    return;
 }
 
 void ata_image_attach(struct ata_drive_t *drv)
@@ -800,6 +845,7 @@ void ata_image_attach(struct ata_drive_t *drv)
         switch (drv->type) {
         case ATA_DRIVE_FDD:
             drv->atapi = 1;
+            drv->lba = 1;
             drv->sector_size = 512;
             drv->readonly = 0;
             drv->seek_time = (CLOCK)90000;
@@ -808,6 +854,7 @@ void ata_image_attach(struct ata_drive_t *drv)
             break;
         case ATA_DRIVE_CD:
             drv->atapi = 1;
+            drv->lba = 1;
             drv->sector_size = 2048;
             drv->readonly = 1;
             drv->seek_time = (CLOCK)190000;
@@ -816,6 +863,7 @@ void ata_image_attach(struct ata_drive_t *drv)
             break;
         case ATA_DRIVE_HDD:
             drv->atapi = 0;
+            drv->lba = 1;
             drv->sector_size = 512;
             drv->readonly = 0;
             drv->seek_time = (CLOCK)16000;
@@ -824,6 +872,7 @@ void ata_image_attach(struct ata_drive_t *drv)
             break;
         case ATA_DRIVE_CF:
             drv->atapi = 0;
+            drv->lba = 1;
             drv->sector_size = 512;
             drv->readonly = 0;
             drv->seek_time = (CLOCK)10;
@@ -832,6 +881,7 @@ void ata_image_attach(struct ata_drive_t *drv)
             break;
         default:
             drv->atapi = 0;
+            drv->lba = 1;
             drv->sector_size = 512;
             drv->readonly = 1;
             drv->seek_time = (CLOCK)0;
@@ -877,15 +927,18 @@ void ata_image_attach(struct ata_drive_t *drv)
     }
 
     if (drv->size < 1) {
-        drv->default_cylinders = hdd_identify[2] | (hdd_identify[3] << 8);
-        drv->default_heads = hdd_identify[6];
-        drv->default_sectors = hdd_identify[12];
+        drv->default_cylinders = identify[2] | (identify[3] << 8);
+        drv->default_heads = identify[6];
+        drv->default_sectors = identify[12];
         drv->size = drv->default_cylinders * drv->default_heads * drv->default_sectors;
-        if ((hdd_identify[99] & 0x02) && (hdd_identify[120] || hdd_identify[121] || hdd_identify[122] || hdd_identify[123])) {
-            drv->size = hdd_identify[120];
-            drv->size |= hdd_identify[121] << 8;
-            drv->size |= hdd_identify[122] << 16;
-            drv->size |= hdd_identify[123] << 24;
+        if ((identify[99] & 0x02) && (identify[120] || identify[121] || identify[122] || identify[123])) {
+            drv->size = identify[120];
+            drv->size |= identify[121] << 8;
+            drv->size |= identify[122] << 16;
+            drv->size |= identify[123] << 24;
+            drv->lba = 1;
+        } else {
+            drv->lba = 0;
         }
         log_warning(drv->log, "Image size invalid, using default %d MiB.", drv->size / (1048576 / drv->sector_size));
     }
@@ -979,7 +1032,7 @@ void ata_image_change(struct ata_drive_t *drv)
  */
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   4
+#define CART_DUMP_VER_MINOR   5
 
 int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
 {
@@ -1008,6 +1061,7 @@ int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
     SMW_B(m, drv->control);
     SMW_B(m, drv->cmd);
     SMW_B(m, drv->power);
+    SMW_BA(m, drv->packet, sizeof(drv->packet));
     SMW_DW(m, drv->bufp);
     SMW_BA(m, drv->buffer, drv->sector_size);
     SMW_DW(m, drv->cylinders);
@@ -1065,6 +1119,7 @@ int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
     SMR_B(m, &drv->control);
     SMR_B(m, &drv->cmd);
     SMR_B(m, &drv->power);
+    SMR_BA(m, drv->packet, sizeof(drv->packet));
     if (drv->power != 0 && drv->power != 0x80) drv->power = 0xff;
     SMR_DW_INT(m, &drv->bufp);
     if (drv->bufp < 0 || drv->bufp > drv->sector_size) drv->bufp = drv->sector_size;
