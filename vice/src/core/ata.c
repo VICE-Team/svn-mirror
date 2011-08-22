@@ -49,7 +49,7 @@
 #define ATA_LBA 0x40
 #define ATA_COPYRIGHT "KAJTAR ZSOLT (SOCI/SINGULAR)"
 #define ATA_SERIAL_NUMBER &"$Date::                      $"[8]
-#define ATA_REVISION &"$Revision:: 12345678 $"[12]
+#define ATA_REVISION &"$Revision::          $"[12]
 
 #ifdef ATA_DEBUG
 #define debug(args...) log_message(drv->log, args)
