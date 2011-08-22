@@ -3329,7 +3329,7 @@ Integer specifying how the IEC printer (device 4-5) is being emulated.
 @vindex Printer5Driver
 @item Printer4Driver
 @item Printer5Driver
-String specifying the IEC printer output driver.
+String (ascii, mps803, nl10) specifying the IEC printer output driver.
 
 @vindex Printer4Output
 @vindex Printer5Output
