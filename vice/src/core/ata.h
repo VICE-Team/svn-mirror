@@ -35,6 +35,7 @@
 #define ATA_DRIVE_HDD 1
 #define ATA_DRIVE_FDD 2
 #define ATA_DRIVE_CD 3
+#define ATA_DRIVE_CF 4
 
 struct ata_drive_t {
     BYTE error;
@@ -70,6 +71,7 @@ struct ata_drive_t {
     int sector_size;
     int atapi;
     CLOCK seek_time;
+    CLOCK spinup_time, spindown_time;
 };
 
 extern void ata_init(struct ata_drive_t *drv, int drive);

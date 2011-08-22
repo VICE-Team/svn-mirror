@@ -151,9 +151,13 @@ static int detect_ide64_image(struct ata_drive_t *drv)
         return -1;
     }
 
-    drv->settings_type = ATA_DRIVE_HDD;
+    drv->settings_type = ATA_DRIVE_CF;
     if (res > 4) {
-        if (!strcasecmp(drv->filename + res - 4, ".fdd")) {
+        if (!strcasecmp(drv->filename + res - 4, ".cfa")) {
+            drv->settings_type = ATA_DRIVE_CF;
+        } else if (!strcasecmp(drv->filename + res - 4, ".hdd")) {
+            drv->settings_type = ATA_DRIVE_HDD;
+        } else if (!strcasecmp(drv->filename + res - 4, ".fdd")) {
             drv->settings_type = ATA_DRIVE_FDD;
         } else if (!strcasecmp(drv->filename + res - 4, ".iso")) {
             drv->settings_type = ATA_DRIVE_CD;
@@ -276,7 +280,7 @@ static int set_rtc_offset(int val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "IDE64Image1", "ide.hdd", RES_EVENT_NO, NULL,
+    { "IDE64Image1", "ide.cfa", RES_EVENT_NO, NULL,
       &drives[0].filename, set_ide64_image_file, (void *)0 },
     { "IDE64Image2", "", RES_EVENT_NO, NULL,
       &drives[1].filename, set_ide64_image_file, (void *)1 },
