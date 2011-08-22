@@ -29,6 +29,7 @@
 
 #include "types.h"
 #include "log.h"
+#include "alarm.h"
 
 #define ATA_DRIVE_NONE 0
 #define ATA_DRIVE_HDD 1
@@ -58,13 +59,17 @@ struct ata_drive_t {
     int slave;
     int update_needed;
     int readonly;
-    int atapi;
-    int sector_size;
     int attention;
     int wcache;
     int lookahead;
     int type;
+    int busy;
+    int pos;
+    alarm_t *bsy_alarm;
     log_t log;
+    int sector_size;
+    int atapi;
+    CLOCK seek_time;
 };
 
 extern void ata_init(struct ata_drive_t *drv, int drive);

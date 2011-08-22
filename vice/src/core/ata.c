@@ -36,6 +36,8 @@
 #include "types.h"
 #include "util.h"
 #include "lib.h"
+#include "alarm.h"
+#include "maincpu.h"
 
 #define ATA_UNC  0x40
 #define ATA_IDNF 0x10
@@ -83,6 +85,7 @@ static void drive_diag(struct ata_drive_t *drv)
     drv->head = drv->slave ? 0x10 : 0x00;
     drv->bufp = drv->sector_size;
     drv->cmd = 0x08;
+    drv->busy = 0;
 }
 
 static int seek_sector(struct ata_drive_t *drv)
@@ -112,8 +115,11 @@ static int seek_sector(struct ata_drive_t *drv)
         drv->error = drv->atapi ? 0x24 : ATA_ABRT;
     } else if (lba < 0 || fseek(drv->file, (off_t)lba * drv->sector_size, SEEK_SET)) {
         drv->error = drv->atapi ? 0x54 : ATA_IDNF;
+    } else {
+        drv->busy = 1;
+        alarm_set(drv->bsy_alarm, maincpu_clk + (CLOCK)(abs(drv->pos - lba) * drv->seek_time / drv->size));
+        drv->pos = lba;
     }
-
     drv->cmd = 0x00;
     return drv->error;
 }
@@ -145,6 +151,7 @@ static int read_sector(struct ata_drive_t *drv)
         drv->error = drv->atapi ? 0x54: (ATA_UNC | ATA_ABRT);
         drv->cmd = 0x00;
     } else {
+        drv->pos++;
         drv->bufp = 0;
     }
     return drv->error;
@@ -178,6 +185,8 @@ static int write_sector(struct ata_drive_t *drv)
     if (fwrite(drv->buffer, 1, drv->sector_size, drv->file) != drv->sector_size) {
         drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
         drv->cmd = 0x00;
+    } else {
+        drv->pos++;
     }
 
     if (!drv->wcache) {
@@ -214,8 +223,16 @@ static void ata_poweron(struct ata_drive_t *drv)
     ata_reset(drv);
 }
 
+static void ata_bsy_alarm_handler(CLOCK offset, void *data) {
+    struct ata_drive_t *drv = (struct ata_drive_t *)data;
+
+    drv->busy = 0;
+    alarm_unset(drv->bsy_alarm);
+}
+
 void ata_init(struct ata_drive_t *drv, int drive)
 {
+    char *name;
     drv->myname = lib_msprintf("ATA%d", drive);
     drv->log = log_open(drv->myname);
     drv->file = NULL;
@@ -231,6 +248,9 @@ void ata_init(struct ata_drive_t *drv, int drive)
     drv->auto_heads = 0;
     drv->auto_sectors = 0;
     drv->auto_size = 0;
+    name = lib_msprintf("%sBSY", drv->myname);
+    drv->bsy_alarm = alarm_new(maincpu_alarm_context, name, ata_bsy_alarm_handler, drv);
+    lib_free(name);
 }
 
 void ata_shutdown(struct ata_drive_t *drv) {
@@ -628,7 +648,7 @@ WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
         return (WORD)drv->head | 0xa0;
     case 7:
     case 14:
-        return ((drv->atapi && drv->cmd == 0x08) ? 0: ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
+        return (drv->busy ? 0x80 : 0) | ((drv->atapi && drv->cmd == 0x08) ? 0: ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
     case 15:
         return (WORD)((drv->slave ? 0xc1 : 0xc2) | (((drv->head ^ 15) & 15) << 2));
     default:
@@ -749,16 +769,19 @@ void ata_image_attach(struct ata_drive_t *drv)
             drv->atapi = 1;
             drv->sector_size = 512;
             drv->readonly = 0;
+            drv->seek_time = (CLOCK)60000;
             break;
         case ATA_DRIVE_CD:
             drv->atapi = 1;
             drv->sector_size = 2048;
             drv->readonly = 1;
+            drv->seek_time = (CLOCK)140000;
             break;
         case ATA_DRIVE_HDD:
             drv->atapi = 0;
             drv->sector_size = 512;
             drv->readonly = 0;
+            drv->seek_time = (CLOCK)16000;
             break;
         default:
             drv->atapi = 0;
@@ -906,12 +929,12 @@ void ata_image_change(struct ata_drive_t *drv)
  */
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   3
+#define CART_DUMP_VER_MINOR   4
 
 int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
-    int pos = 0;
+    DWORD bsy_clk = CLOCK_MAX;
 
     m = snapshot_module_create(s, drv->myname,
                           CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
@@ -919,9 +942,8 @@ int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
         return -1;
     }
 
-    if (drv->file) {
-        fflush(drv->file);
-        pos = ftell(drv->file) / drv->sector_size;
+    if (drv->busy) {
+        bsy_clk = drv->bsy_alarm->context->pending_alarms[drv->bsy_alarm->pending_idx].clk;
     }
 
     SMW_STR(m, drv->filename);
@@ -945,9 +967,11 @@ int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
     SMW_DW(m, drv->default_heads);
     SMW_DW(m, drv->default_sectors);
     SMW_DW(m, drv->size);
-    SMW_DW(m, pos);
-    SMW_DW(m, drv->wcache);
-    SMW_DW(m, drv->lookahead);
+    SMW_DW(m, drv->pos);
+    SMW_B(m, drv->wcache);
+    SMW_B(m, drv->lookahead);
+    SMW_B(m, drv->busy);
+    SMW_DW(m, bsy_clk);
 
     return snapshot_module_close(m);
 }
@@ -957,7 +981,7 @@ int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     char *filename = NULL;
-    int pos;
+    DWORD bsy_clk;
 
     m = snapshot_module_open(s, drv->myname, &vmajor, &vminor);
     if (m == NULL) {
@@ -1009,15 +1033,23 @@ int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
     if (drv->default_sectors < 1 || drv->default_sectors > 16) drv->default_sectors = 1;
     SMR_DW_INT(m, &drv->size);
     if (drv->size < 1 || drv->size > 268435455) drv->size = 1;
-    SMR_DW_INT(m, &pos);
-    if (pos < 0 || pos > 268435455) pos = 0;
-    SMR_DW_INT(m, &drv->wcache);
+    SMR_DW_INT(m, &drv->pos);
+    if (drv->pos < 0 || drv->pos > 268435455) drv->pos = 0;
+    SMR_B_INT(m, &drv->wcache);
     if (drv->wcache) drv->wcache = 1;
-    SMR_DW_INT(m, &drv->lookahead);
+    SMR_B_INT(m, &drv->lookahead);
     if (drv->lookahead) drv->lookahead = 1;
+    SMR_B_INT(m, &drv->busy);
+    SMR_DW(m, &bsy_clk);
+    if (drv->busy) {
+        drv->busy = 1;
+        alarm_set(drv->bsy_alarm, bsy_clk);
+    } else {
+        alarm_unset(drv->bsy_alarm);
+    }
 
     if (drv->file) {
-        fseek(drv->file, (off_t)pos * drv->sector_size, SEEK_SET);
+        fseek(drv->file, (off_t)drv->pos * drv->sector_size, SEEK_SET);
     }
     if (!drv->atapi) { /* atapi supports disc change events */
         drv->readonly = 1; /* make sure for ata that there's no filesystem corruption */
