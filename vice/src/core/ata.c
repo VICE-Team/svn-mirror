@@ -54,6 +54,7 @@
 #define debug(args...) {}
 #endif
 #define putw(a,b) drv->buffer[(a)*2]=(b) & 0xff;drv->buffer[(a)*2+1]=(b) >> 8
+#define setb(a,b,c) drv->buffer[(a)*2+(b)/8]|=(c) ? (1 << ((b) & 7)) : 0
 
 static const BYTE hdd_identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
@@ -394,23 +395,28 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                 int size;
                 debug("IDENTIFY DEVICE");
                 memset(drv->buffer, 0, 512);
-                memcpy(drv->buffer, hdd_identify, 128);
                 putw(0, (drv->type == ATA_DRIVE_HDD) ? 0x0040 : 0x848a);
                 putw(1, drv->default_cylinders);
                 putw(3, drv->default_heads);
-                putw(4, drv->sector_size * drv->default_sectors);
-                putw(5, drv->sector_size);
+                if (drv->type != ATA_DRIVE_CF) {
+                    putw(4, drv->sector_size * drv->default_sectors);
+                    putw(5, drv->sector_size);
+                }
                 putw(6, drv->default_sectors);
                 if (drv->type == ATA_DRIVE_CF) {
                     putw(7, drv->size >> 16);
                     putw(8, drv->size & 0xffff);
-                } else {
                 }
+                memcpy(drv->buffer+20, hdd_identify+20, 20);
+                putw(21, BUFSIZ / drv->sector_size);
+                memcpy(drv->buffer+46, hdd_identify+46, 8);
+                memcpy(drv->buffer+54, hdd_identify+54, 40);
                 drv->buffer[58] = (drv->type == ATA_DRIVE_HDD) ? 0x48: 0x43;
                 drv->buffer[61] = (drv->type == ATA_DRIVE_HDD) ? 0x44: 0x46;
                 drv->buffer[60] = (drv->type == ATA_DRIVE_HDD) ? 0x44: 0x41;
-                drv->buffer[99] = 0x02;
-                putw(53, drv->sectors ? 1 : 0);
+                setb(49, 13, 1); /* standard timers */
+                setb(49, 9, 1); /* LBA support */
+                setb(53, 0, drv->sectors > 0);
                 putw(54, drv->cylinders);
                 putw(55, drv->heads);
                 putw(56, drv->sectors);
@@ -420,12 +426,21 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                 putw(58, size >> 16);
                 putw(60, drv->size & 0xffff);
                 putw(61, drv->size >> 16);
-                drv->buffer[164] = 0x40 | 0x20 | 0x08;
-                drv->buffer[165] = 0x40 | 0x20 | 0x10;
-                drv->buffer[167] = 0x40;
-                drv->buffer[170] = (drv->lookahead ? 0x40 : 0) | (drv->wcache ? 0x20 : 0) | 0x08;
-                drv->buffer[171] = 0x40 | 0x20 | 0x10;
-                drv->buffer[175] = 0x40;
+                setb(82, 3, 1); /* pm command set */
+                setb(82, 4, drv->atapi); /* packet */
+                setb(82, 5, 1); /* write cache */
+                setb(82, 6, 1); /* look-ahead */
+                setb(82, 12, 1); /* write buffer */
+                setb(82, 13, 1); /* read buffer */
+                setb(83, 14, 1);
+                setb(84, 14, 1);
+                setb(85, 3, 1); /* pm command set */
+                setb(85, 4, drv->atapi); /* packet */
+                setb(85, 5, drv->wcache);
+                setb(85, 6, drv->lookahead);
+                setb(85, 12, 1); /* write buffer */
+                setb(85, 13, 1); /* read buffer */
+                setb(87, 14, 1);
 
                 drv->sector_count_internal = 1;
                 drv->bufp = 0;
@@ -506,27 +521,27 @@ static void atapi_execute_command(struct ata_drive_t *drv, BYTE value) {
         case 0xa1:
             debug("IDENTIFY PACKET DEVICE");
             memset(drv->buffer, 0, 512);
-            memcpy(drv->buffer, hdd_identify, 96);
             putw(0, (drv->type == ATA_DRIVE_FDD) ? 0x8180: 0x8580);
-            putw(1, 0);
-            putw(3, 0);
-            putw(6, 0);
+            memcpy(drv->buffer+20, hdd_identify+20, 20);
+            putw(21, BUFSIZ / drv->sector_size);
+            memcpy(drv->buffer+46, hdd_identify+46, 8);
+            memcpy(drv->buffer+54, hdd_identify+54, 40);
             drv->buffer[58] = (drv->type == ATA_DRIVE_FDD) ? 0x46: 0x43;
-            drv->buffer[99] = 0x02;
-            putw(53, 0);
-            putw(54, 0);
-            putw(55, 0);
-            putw(56, 0);
-            putw(57, 0);
-            putw(58, 0);
+            setb(49, 9, 1); /* LBA support */
             putw(60, drv->size & 0xffff);
             putw(61, drv->size >> 16);
-            drv->buffer[164] = 0x40 | 0x20 | 0x10 | 0x08;
-            drv->buffer[165] = 0x40 | 0x02;
-            drv->buffer[167] = 0x40;
-            drv->buffer[170] = (drv->lookahead ? 0x40 : 0) | (drv->wcache ? 0x20 : 0) | 0x10 | 0x08;
-            drv->buffer[171] = 0x40 | 0x02;
-            drv->buffer[175] = 0x40;
+            setb(82, 3, 1); /* pm command set */
+            setb(82, 4, drv->atapi); /* packet */
+            setb(82, 5, 1); /* write cache */
+            setb(82, 6, 1); /* look-ahead */
+            setb(82, 9, 1); /* device reset */
+            setb(83, 14, 1);
+            setb(84, 14, 1);
+            setb(85, 3, 1); /* pm command set */
+            setb(85, 4, drv->atapi); /* packet */
+            setb(85, 5, drv->wcache);
+            setb(85, 6, drv->lookahead);
+            setb(87, 14, 1);
 
             drv->sector_count_internal = 1;
             drv->bufp = 0;
