@@ -772,7 +772,7 @@ void ata_register_store(struct ata_drive_t *drv, BYTE addr, WORD value)
                         if (write_sector(drv)) {
                             return;
                         }
-                        if (drv->sector_count_internal--) {
+                        if (--drv->sector_count_internal) {
                             drv->bufp = 0;
                             return;
                         }
