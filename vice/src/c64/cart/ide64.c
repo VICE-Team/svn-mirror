@@ -57,9 +57,9 @@
 #include "monitor.h"
 
 #ifdef IDE64_DEBUG
-#define debug(args...) log_debug(args)
+#define debug(...) log_debug(__VA_ARGS__)
 #else
-#define debug(args...) {}
+#define debug(...) {}
 #endif
 
 /* Current IDE64 bank */

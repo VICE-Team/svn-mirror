@@ -52,9 +52,9 @@
 #define ATA_REVISION &"$Revision::          $"[12]
 
 #ifdef ATA_DEBUG
-#define debug(args...) log_message(drv->log, args)
+#define debug(...) log_message(drv->log, __VA_ARGS__)
 #else
-#define debug(args...) {}
+#define debug(...) {}
 #endif
 #define putw(a,b) {result[(a)*2]=(b) & 0xff;result[(a)*2+1]=(b) >> 8;}
 #define setb(a,b,c) {result[(a)*2+(b)/8]|=(c) ? (1 << ((b) & 7)) : 0;}
