@@ -70,7 +70,7 @@ struct ata_drive_t {
     alarm_t *bsy_alarm;
     log_t log;
     int sector_size;
-    int atapi, lba;
+    int atapi, lba, pmcommands, wbuffer, rbuffer, flush;
     CLOCK seek_time;
     CLOCK spinup_time, spindown_time;
 };
