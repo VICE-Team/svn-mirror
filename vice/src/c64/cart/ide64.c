@@ -694,37 +694,20 @@ static void ide64_io1_store(WORD addr, BYTE value)
             ata_register_store(&drives[idrive ^ 1], addr - 0x20, out_d030);
             return;
         case 0x30:
-            if (settings_version4) {
-                return;
+            if (!settings_version4) {
+                out_d030 = (out_d030 & 0xff00) | value;
             }
-            out_d030 = (out_d030 & 0xff00) | value;
             return;
         case 0x31:
             out_d030 = (out_d030 & 0x00ff) | (value << 8);
             return;
         case 0x32:
-            if (settings_version4) {
-                break;
-            }
-            current_bank = 0;
-            break;
         case 0x33:
-            if (settings_version4) {
-                break;
-            }
-            current_bank = 1;
-            break;
         case 0x34:
-            if (settings_version4) {
-                break;
-            }
-            current_bank = 2;
-            break;
         case 0x35:
-            if (settings_version4) {
-                break;
+            if (!settings_version4) {
+                current_bank = (addr - 2) & 3;
             }
-            current_bank = 3;
             break;
         case 0x5f:
             if ((kill_port & 2) == 0) {
@@ -734,43 +717,15 @@ static void ide64_io1_store(WORD addr, BYTE value)
             ds1202_1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
             return;
         case 0x60:
-            if (settings_version4) {
-                current_bank = 0;
-            }
-            break;
         case 0x61:
-            if (settings_version4) {
-                current_bank = 1;
-            }
-            break;
         case 0x62:
-            if (settings_version4) {
-                current_bank = 2;
-            }
-            break;
         case 0x63:
-            if (settings_version4) {
-                current_bank = 3;
-            }
-            break;
         case 0x64:
-            if (settings_version4) {
-                current_bank = 4;
-            }
-            break;
         case 0x65:
-            if (settings_version4) {
-                current_bank = 5;
-            }
-            break;
         case 0x66:
-            if (settings_version4) {
-                current_bank = 6;
-            }
-            break;
         case 0x67:
             if (settings_version4) {
-                current_bank = 7;
+                current_bank = addr & 7;
             }
             break;
         case 0xfb:
@@ -784,16 +739,10 @@ static void ide64_io1_store(WORD addr, BYTE value)
             current_cfg = 2;
             break;
         case 0xfc:
-            current_cfg = 1;
-            break;
         case 0xfd:
-            current_cfg = 0;
-            break;
         case 0xfe:
-            current_cfg = 3;
-            break;
         case 0xff:
-            current_cfg = 2;
+            current_cfg = (addr ^ 1) & 3;
             break;
         default:
             return;
