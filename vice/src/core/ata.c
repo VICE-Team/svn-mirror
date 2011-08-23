@@ -779,8 +779,14 @@ WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
     if (drv->cmd == 0xe6) {
         return 0;
     }
+    if (drv->busy && addr > 0 && addr < 7) {
+        addr = 14;
+    }
     switch (addr) {
     case 0:
+        if (drv->busy || drv->bufp >= drv->sector_size) {
+            return 0;
+        }
         switch (drv->cmd) {
         case 0x20:
         case 0x23:
@@ -841,8 +847,6 @@ WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
     case 7:
     case 14:
         return (drv->busy ? 0x80 : 0) | ((drv->atapi && drv->cmd == 0x08) ? 0: ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
-    case 15:
-        return (WORD)((drv->slave ? 0xc1 : 0xc2) | (((drv->head ^ 15) & 15) << 2));
     default:
         return 0;
     }
@@ -862,8 +866,19 @@ void ata_register_store(struct ata_drive_t *drv, BYTE addr, WORD value)
     if (drv->type == ATA_DRIVE_NONE) {
         return;
     }
+    if (addr != 0 && addr != 14 && !(addr == 7 && drv->atapi && (BYTE)value == 0x08)) {
+        if (drv->busy || drv->bufp < drv->sector_size) {
+            return;
+        }
+    }
+    if (drv->cmd == 0xe6 && addr != 14 && !(addr == 6 && drv->atapi) && !(addr == 7 && drv->atapi && (BYTE)value == 0x08)) {
+        return;
+    }
     switch (addr) {
         case 0:
+            if (drv->busy || drv->bufp >= drv->sector_size) {
+                return;
+            }
             switch (drv->cmd) {
             case 0x30:
             case 0x2a:
@@ -917,7 +932,11 @@ void ata_register_store(struct ata_drive_t *drv, BYTE addr, WORD value)
             drv->cylinder = (drv->cylinder & 0xff) | (value << 8);
             return;
         case 6:
-            drv->head = (BYTE)value;
+            if (drv->cmd == 0xe6) {
+                drv->head = (drv->head & 0xef) | (value & 0x10);
+            } else {
+                drv->head = (BYTE)value;
+            }
             return;
         case 7:
             if (((drv->head >> 4) & 1) == drv->slave || (BYTE)value == 0x90) {
