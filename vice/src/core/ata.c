@@ -672,7 +672,41 @@ static void atapi_packet_execute_command(struct ata_drive_t *drv) {
         debug("TEST UNIT READY");
         return;
     case 0x1b:
-        debug("START STOP %d", drv->packet[4] & 3);
+        debug("START/STOP UNIT (%d)", drv->packet[4] & 3);
+        switch (drv->packet[4] & 3) {
+        case 0:
+            ata_change_power_mode(drv, 0x00);
+            break;
+        case 1:
+            ata_change_power_mode(drv, 0xff);
+            break;
+        case 2:
+            if (drv->file) {
+                if (drv->locked) {
+                    drv->error = 0x24;
+                } else {
+                    ata_change_power_mode(drv, 0x00);
+                    ata_image_detach(drv);
+                }
+            }
+            break;
+        case 3:
+            if (!drv->file) {
+                if (drv->type == drv->settings_type) {
+                    ata_image_attach(drv);
+                }
+                if (!drv->file) {
+                    drv->error = 0x24;
+                } else {
+                    ata_change_power_mode(drv, 0xff);
+                }
+            }
+            break;
+        }
+        return;
+    case 0x1e:
+        debug("PREVENT/ALLOW MEDIUM REMOVAL (%d)", drv->packet[4] & 1);
+        drv->locked = drv->packet[4] & 1;
         return;
     case 0x23:
         {
@@ -925,14 +959,16 @@ void ata_image_attach(struct ata_drive_t *drv)
         switch (drv->type) {
         case ATA_DRIVE_FDD:
             drv->atapi = 1;
+            drv->locked = 0;
             drv->sector_size = 512;
             drv->readonly = 0;
-            drv->seek_time = (CLOCK)90000;
-            drv->spinup_time = (CLOCK)8000000;
-            drv->spindown_time = (CLOCK)5000000;
+            drv->seek_time = (CLOCK)120000;
+            drv->spinup_time = (CLOCK)800000;
+            drv->spindown_time = (CLOCK)500000;
             break;
         case ATA_DRIVE_CD:
             drv->atapi = 1;
+            drv->locked = 0;
             drv->sector_size = 2048;
             drv->readonly = 1;
             drv->seek_time = (CLOCK)190000;
@@ -941,6 +977,7 @@ void ata_image_attach(struct ata_drive_t *drv)
             break;
         case ATA_DRIVE_HDD:
             drv->atapi = 0;
+            drv->locked = 1;
             drv->sector_size = 512;
             drv->readonly = 0;
             drv->seek_time = (CLOCK)16000;
@@ -949,6 +986,7 @@ void ata_image_attach(struct ata_drive_t *drv)
             break;
         case ATA_DRIVE_CF:
             drv->atapi = 0;
+            drv->locked = 1;
             drv->sector_size = 512;
             drv->readonly = 0;
             drv->seek_time = (CLOCK)10;
@@ -957,6 +995,7 @@ void ata_image_attach(struct ata_drive_t *drv)
             break;
         default:
             drv->atapi = 0;
+            drv->locked = 0;
             drv->sector_size = 512;
             drv->readonly = 1;
             drv->seek_time = (CLOCK)0;
@@ -967,95 +1006,97 @@ void ata_image_attach(struct ata_drive_t *drv)
         }
     }
 
-    if (drv->type != ATA_DRIVE_NONE && drv->filename && drv->filename[0]) {
-        if (!drv->readonly) {
-            drv->file = fopen(drv->filename, MODE_READ_WRITE);
+    if (drv->type != ATA_DRIVE_NONE) {
+        if (drv->filename && drv->filename[0]) {
+            if (!drv->readonly) {
+                drv->file = fopen(drv->filename, MODE_READ_WRITE);
+            }
+            if (!drv->file) {
+                drv->readonly = 1;
+                drv->file = fopen(drv->filename, MODE_READ);
+            }
         }
-        if (!drv->file) {
-            drv->readonly = 1;
-            drv->file = fopen(drv->filename, MODE_READ);
-        }
-    }
 
-    if ((drv->settings_autodetect_size || drv->atapi) && drv->file) {
-        drv->default_cylinders = drv->auto_cylinders;
-        drv->default_heads = drv->auto_heads;
-        drv->default_sectors = drv->auto_sectors;
-        drv->size = drv->auto_size;
+        if ((drv->settings_autodetect_size || drv->atapi) && drv->file) {
+            drv->default_cylinders = drv->auto_cylinders;
+            drv->default_heads = drv->auto_heads;
+            drv->default_sectors = drv->auto_sectors;
+            drv->size = drv->auto_size;
+
+            if (drv->size < 1) {
+                off_t size = 0;
+                if (fseek(drv->file, 0, SEEK_END) == 0) {
+                    size = ftell(drv->file);
+                    if (size < 0) size = 0;
+                }
+                drv->default_cylinders = 0;
+                drv->default_heads = 0;
+                drv->default_sectors = 0;
+                drv->size = size / drv->sector_size;
+            }
+        } else {
+            drv->default_cylinders = drv->settings_cylinders;
+            drv->default_heads = drv->settings_heads;
+            drv->default_sectors = drv->settings_sectors;
+            drv->size = drv->settings_sectors * drv->settings_heads * drv->settings_cylinders;
+        }
 
         if (drv->size < 1) {
-            off_t size = 0;
-            if (fseek(drv->file, 0, SEEK_END) == 0) {
-                size = ftell(drv->file);
-                if (size < 0) size = 0;
-            }
-            drv->default_cylinders = 0;
-            drv->default_heads = 0;
-            drv->default_sectors = 0;
-            drv->size = size / drv->sector_size;
-        }
-    } else {
-        drv->default_cylinders = drv->settings_cylinders;
-        drv->default_heads = drv->settings_heads;
-        drv->default_sectors = drv->settings_sectors;
-        drv->size = drv->settings_sectors * drv->settings_heads * drv->settings_cylinders;
-    }
-
-    if (drv->size < 1) {
-        drv->default_cylinders = identify[2] | (identify[3] << 8);
-        drv->default_heads = identify[6];
-        drv->default_sectors = identify[12];
-        drv->size = drv->default_cylinders * drv->default_heads * drv->default_sectors;
-        if ((identify[99] & 0x02) && (identify[120] || identify[121] || identify[122] || identify[123])) {
-            drv->size = identify[120];
-            drv->size |= identify[121] << 8;
-            drv->size |= identify[122] << 16;
-            drv->size |= identify[123] << 24;
-            drv->lba = 1;
-        } else {
-            drv->lba = 0;
-        }
-        log_warning(drv->log, "Image size invalid, using default %d MiB.", drv->size / (1048576 / drv->sector_size));
-    }
-
-    while (drv->default_sectors < 1 || drv->default_sectors > 63 || drv->default_cylinders > 65535 ||
-            (drv->default_sectors * drv->default_heads * drv->default_cylinders) > 16514064) {
-        int size = drv->size;
-        int i, c, h, s;
-
-        if (drv->atapi) break;
-
-        if (size > 16514064) size = 16514064;
-        h = 1; s = 1; i = 63; c = size;
-        while (i > 1 && c > 1) {
-            if ((c % i) == 0) {
-                if (s * i <= 63) {
-                    s *= i; c /= i;
-                    continue;
-                }
-                if (h * i <= 16) {
-                    h *= i; c /= i;
-                    continue;
-                }
-            }
-            i--;
-        }
-        for (;;) {
-            if (size <= 1032192) {
-                if (c <= 1024) break;
+            drv->default_cylinders = identify[2] | (identify[3] << 8);
+            drv->default_heads = identify[6];
+            drv->default_sectors = identify[12];
+            drv->size = drv->default_cylinders * drv->default_heads * drv->default_sectors;
+            if ((identify[99] & 0x02) && (identify[120] || identify[121] || identify[122] || identify[123])) {
+                drv->size = identify[120];
+                drv->size |= identify[121] << 8;
+                drv->size |= identify[122] << 16;
+                drv->size |= identify[123] << 24;
+                drv->lba = 1;
             } else {
-                if (h < 5 && c < 65536) break;
-                if (h < 9 && c < 32768) break;
-                if (c < 16384) break;
+                drv->lba = 0;
             }
-            if (s == 63 && h < 16) h++;
-            if (s < 63) s++;
-            c = size / (h * s);
+            log_warning(drv->log, "Image size invalid, using default %d MiB.", drv->size / (1048576 / drv->sector_size));
         }
-        drv->default_cylinders = c;
-        drv->default_heads = h;
-        drv->default_sectors = s;
-        break;
+
+        while (drv->default_sectors < 1 || drv->default_sectors > 63 || drv->default_cylinders > 65535 ||
+                (drv->default_sectors * drv->default_heads * drv->default_cylinders) > 16514064) {
+            int size = drv->size;
+            int i, c, h, s;
+
+            if (drv->atapi) break;
+
+            if (size > 16514064) size = 16514064;
+            h = 1; s = 1; i = 63; c = size;
+            while (i > 1 && c > 1) {
+                if ((c % i) == 0) {
+                    if (s * i <= 63) {
+                        s *= i; c /= i;
+                        continue;
+                    }
+                    if (h * i <= 16) {
+                        h *= i; c /= i;
+                        continue;
+                    }
+                }
+                i--;
+            }
+            for (;;) {
+                if (size <= 1032192) {
+                    if (c <= 1024) break;
+                } else {
+                    if (h < 5 && c < 65536) break;
+                    if (h < 9 && c < 32768) break;
+                    if (c < 16384) break;
+                }
+                if (s == 63 && h < 16) h++;
+                if (s < 63) s++;
+                c = size / (h * s);
+            }
+            drv->default_cylinders = c;
+            drv->default_heads = h;
+            drv->default_sectors = s;
+            break;
+        }
     }
 
     if (drv->file) {
@@ -1090,7 +1131,7 @@ void ata_image_detach(struct ata_drive_t *drv)
 
 void ata_image_change(struct ata_drive_t *drv)
 {
-    if (drv->type != drv->settings_type || !drv->atapi) {
+    if (drv->type != drv->settings_type || drv->locked) {
         drv->update_needed = 1;
     } else {
         ata_image_attach(drv);

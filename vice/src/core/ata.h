@@ -62,6 +62,7 @@ struct ata_drive_t {
     int update_needed;
     int readonly;
     int attention;
+    int locked;
     int wcache;
     int lookahead;
     int type;
