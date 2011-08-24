@@ -86,6 +86,7 @@ extern void ata_shutdown(struct ata_drive_t *drv);
 extern void ata_register_store(struct ata_drive_t *cdrive, BYTE addr, WORD value);
 extern WORD ata_register_read(struct ata_drive_t *cdrive, BYTE addr);
 extern WORD ata_register_peek(struct ata_drive_t *cdrive, BYTE addr);
+extern int ata_register_dump(struct ata_drive_t *cdrive);
 extern void ata_image_attach(struct ata_drive_t *cdrive);
 extern void ata_image_detach(struct ata_drive_t *cdrive);
 extern void ata_image_change(struct ata_drive_t *cdrive);

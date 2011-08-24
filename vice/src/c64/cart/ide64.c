@@ -91,31 +91,160 @@ static time_t rtc_offset;
 /* ---------------------------------------------------------------------*/
 
 /* some prototypes are needed */
-static void ide64_io1_store(WORD addr, BYTE value);
-static BYTE ide64_io1_read(WORD addr);
-static BYTE ide64_io1_peek(WORD addr);
-static int ide64_io1_dump(void);
+static void ide64_idebus_store(WORD addr, BYTE value);
+static BYTE ide64_idebus_read(WORD addr);
+static BYTE ide64_idebus_peek(WORD addr);
+static int ide64_idebus_dump(void);
+static void ide64_io_store(WORD addr, BYTE value);
+static BYTE ide64_io_read(WORD addr);
+static BYTE ide64_io_peek(WORD addr);
+static int ide64_io_dump(void);
+static void ide64_ft245_store(WORD addr, BYTE value);
+static BYTE ide64_ft245_read(WORD addr);
+static BYTE ide64_ft245_peek(WORD addr);
+static void ide64_ds1302_store(WORD addr, BYTE value);
+static BYTE ide64_ds1302_read(WORD addr);
+static BYTE ide64_ds1302_peek(WORD addr);
+static void ide64_rom_store(WORD addr, BYTE value);
+static BYTE ide64_rom_read(WORD addr);
+static BYTE ide64_rom_peek(WORD addr);
 
-static io_source_t ide64_device = {
-    CARTRIDGE_NAME_IDE64,
+static io_source_t ide64_idebus_device = {
+    CARTRIDGE_NAME_IDE64 " IDE",
     IO_DETACH_CART,
     NULL,
-    0xde20, 0xdeff, 0xff,
+    0xde20, 0xde2f, 0x0f,
     0,
-    ide64_io1_store,
-    ide64_io1_read,
-    ide64_io1_peek,
-    ide64_io1_dump,
+    ide64_idebus_store,
+    ide64_idebus_read,
+    ide64_idebus_peek,
+    ide64_idebus_dump,
     CARTRIDGE_IDE64,
     0,
     0
 };
 
-static io_source_list_t *ide64_list_item = NULL;
-
-static const c64export_resource_t export_res = {
-    CARTRIDGE_NAME_IDE64, 1, 1, &ide64_device, NULL, CARTRIDGE_IDE64
+static io_source_t ide64_io_device = {
+    CARTRIDGE_NAME_IDE64 " I/O",
+    IO_DETACH_CART,
+    NULL,
+    0xde30, 0xde37, 0x07,
+    0,
+    ide64_io_store,
+    ide64_io_read,
+    ide64_io_peek,
+    ide64_io_dump,
+    CARTRIDGE_IDE64,
+    0,
+    0
 };
+
+static io_source_t ide64_ft245_device = {
+    CARTRIDGE_NAME_IDE64 " FT245",
+    IO_DETACH_CART,
+    NULL,
+    0xde5d, 0xde5e, 0x01,
+    0,
+    ide64_ft245_store,
+    ide64_ft245_read,
+    ide64_ft245_peek,
+    NULL,
+    CARTRIDGE_IDE64,
+    0,
+    0
+};
+
+static io_source_t ide64_ds1302_device = {
+    CARTRIDGE_NAME_IDE64 " DS1302",
+    IO_DETACH_CART,
+    NULL,
+    0xde5f, 0xde5f, 0x00,
+    0,
+    ide64_ds1302_store,
+    ide64_ds1302_read,
+    ide64_ds1302_peek,
+    NULL,
+    CARTRIDGE_IDE64,
+    0,
+    0
+};
+
+static io_source_t ide64_rom_device = {
+    CARTRIDGE_NAME_IDE64 " ROM",
+    IO_DETACH_CART,
+    NULL,
+    0xde60, 0xdeff, 0xff,
+    0,
+    ide64_rom_store,
+    ide64_rom_read,
+    ide64_rom_peek,
+    NULL,
+    CARTRIDGE_IDE64,
+    0,
+    0
+};
+
+static io_source_list_t *ide64_idebus_list_item = NULL;
+static io_source_list_t *ide64_io_list_item = NULL;
+static io_source_list_t *ide64_ft245_list_item = NULL;
+static io_source_list_t *ide64_ds1302_list_item = NULL;
+static io_source_list_t *ide64_rom_list_item = NULL;
+
+static const c64export_resource_t export_res[5] = {
+    {CARTRIDGE_NAME_IDE64 " IDE", 1, 1, &ide64_idebus_device, NULL, CARTRIDGE_IDE64},
+    {CARTRIDGE_NAME_IDE64 " I/O", 1, 1, &ide64_io_device, NULL, CARTRIDGE_IDE64},
+    {CARTRIDGE_NAME_IDE64 " FT245", 1, 1, &ide64_ft245_device, NULL, CARTRIDGE_IDE64},
+    {CARTRIDGE_NAME_IDE64 " DS1302", 1, 1, &ide64_ds1302_device, NULL, CARTRIDGE_IDE64},
+    {CARTRIDGE_NAME_IDE64 " ROM", 1, 1, &ide64_rom_device, NULL, CARTRIDGE_IDE64},
+};
+
+static int ide64_register(void)
+{
+    int i;
+
+    for (i = 0; i < 5; i++) {
+        if (!settings_version4 && i==2) {
+            continue;
+        }
+        if (c64export_add(&export_res[i]) < 0) {
+            return -1;
+        }
+    }
+
+    ide64_idebus_list_item = io_source_register(&ide64_idebus_device);
+    ide64_io_list_item = io_source_register(&ide64_io_device);
+    if (settings_version4) {
+        ide64_ft245_list_item = io_source_register(&ide64_ft245_device);
+    }
+    ide64_ds1302_list_item = io_source_register(&ide64_ds1302_device);
+    ide64_rom_list_item = io_source_register(&ide64_rom_device);
+    return 0;
+}
+
+static void ide64_unregister(void)
+{
+    int i;
+
+    for (i = 0; i < 5; i++) {
+        if (!settings_version4 && i==2) {
+            continue;
+        }
+        c64export_remove(&export_res[i]);
+    }
+
+    io_source_unregister(ide64_idebus_list_item);
+    io_source_unregister(ide64_io_list_item);
+    if (ide64_ft245_list_item) {
+        io_source_unregister(ide64_ft245_list_item);
+    }
+    io_source_unregister(ide64_ds1302_list_item);
+    io_source_unregister(ide64_rom_list_item);
+    ide64_idebus_list_item = NULL;
+    ide64_io_list_item = NULL;
+    ide64_ft245_list_item = NULL;
+    ide64_ds1302_list_item = NULL;
+    ide64_rom_list_item = NULL;
+}
 
 static int set_ide64_config(const char *cfg, void *param)
 {
@@ -266,11 +395,13 @@ static int set_autodetect_size(int val, void *param)
 static int set_version4(int val, void *param)
 {
     if (settings_version4 != val) {
+        ide64_unregister();
+        settings_version4 = val;
+        if (ide64_register() < 0) {
+            return -1;
+        }
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
     }
-
-    settings_version4 = val;
-
     return 0;
 }
 
@@ -526,194 +657,192 @@ int ide64_cmdline_options_init(void)
     return cmdline_register_options(cmdline_options);
 }
 
-static BYTE ide64_io1_read(WORD addr)
+static BYTE ide64_idebus_read(WORD addr)
 {
-    int i;
-
-    ide64_device.io_source_valid = 1;
-
-    if (kill_port & 1) {
-        if ((addr & 0xff) >= 0x5f) {
-            ide64_device.io_source_valid = 0;
-            return vicii_read_phi1();
-        }
+    in_d030 = ata_register_read(&drives[idrive], addr) | ata_register_read(&drives[idrive ^ 1], addr);
+    if (settings_version4) {
+        ide64_idebus_device.io_source_valid = 1;
+        return in_d030 & 0xff;
     }
-
-    if ((addr & 0xff) >= 0x60) {
-        return roml_banks[(addr & 0xff) | 0x1e00 | (current_bank << 14)];
-    }
-
-    switch (addr & 0xff) {
-        case 0x20:
-        case 0x21:
-        case 0x22:
-        case 0x23:
-        case 0x24:
-        case 0x25:
-        case 0x26:
-        case 0x27:
-        case 0x28:
-        case 0x29:
-        case 0x2a:
-        case 0x2b:
-        case 0x2c:
-        case 0x2d:
-        case 0x2e:
-        case 0x2f:
-            in_d030 = ata_register_read(&drives[idrive], addr - 0x20) | ata_register_read(&drives[idrive ^ 1], addr - 0x20);
-            if (settings_version4) {
-                return in_d030 & 0xff;
-            }
-            break;
-        case 0x30:
-            if (settings_version4) {
-                break;
-            }
-            return (BYTE)in_d030;
-        case 0x31:
-            return in_d030 >> 8;
-        case 0x32:
-            return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
-        case 0x5d:
-            if (settings_version4) {
-                return 0xff;
-            }
-            break;
-        case 0x5e:
-            if (settings_version4) {
-                return 0xc0 | vicii_read_phi1();
-            }
-            break;
-        case 0x5f:
-            i = vicii_read_phi1();
-            if ((kill_port & 2) == 0) {
-                return i;
-            }
-            i &= ~1;
-            ds1202_1302_set_lines(ds1302_context, 1u, 0u, 1u);
-            i |= ds1202_1302_read_data_line(ds1302_context);
-            ds1202_1302_set_lines(ds1302_context, 1u, 1u, 1u);
-            return i;
-    }
-    ide64_device.io_source_valid = 0;
+    ide64_idebus_device.io_source_valid = 0;
     return vicii_read_phi1();
 }
 
-static BYTE ide64_io1_peek(WORD addr)
+static BYTE ide64_idebus_peek(WORD addr)
 {
-    BYTE value = 0;
-
-    if (kill_port & 1) {
-        if ((addr & 0xff) >= 0x5f) {
-            return 0;
-        }
+    if (settings_version4) {
+        return ata_register_peek(&drives[idrive], addr) | ata_register_peek(&drives[idrive ^ 1], addr);
     }
+    return 0;
+}
 
-    if ((addr & 0xff) >= 0x60) {
-        return roml_banks[(addr & 0xff) | 0x1e00 | (current_bank << 14)];
-    }
-
-    switch (addr & 0xff) {
-        case 0x20:
-        case 0x21:
-        case 0x22:
-        case 0x23:
-        case 0x24:
-        case 0x25:
-        case 0x26:
-        case 0x27:
-        case 0x28:
-        case 0x29:
-        case 0x2a:
-        case 0x2b:
-        case 0x2c:
-        case 0x2d:
-        case 0x2e:
-        case 0x2f:
+static void ide64_idebus_store(WORD addr, BYTE value)
+{
+    switch (addr) {
+        case 8:
+        case 9:
+            idrive = (addr & 1) << 1;
+        default:
             if (settings_version4) {
-                return ata_register_peek(&drives[idrive], addr - 0x20) | ata_register_peek(&drives[idrive ^ 1], addr - 0x20);
+                out_d030 = value | (out_d030 & 0xff00);
             }
-            break;
-        case 0x30:
+            ata_register_store(&drives[idrive], addr, out_d030);
+            ata_register_store(&drives[idrive ^ 1], addr, out_d030);
+            return;
+    }
+}
+
+static BYTE ide64_io_read(WORD addr)
+{
+    ide64_io_device.io_source_valid = 1;
+
+    switch (addr) {
+        case 0:
             if (settings_version4) {
                 break;
             }
             return (BYTE)in_d030;
-        case 0x31:
+        case 1:
             return in_d030 >> 8;
-        case 0x32:
+        case 2:
             return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
-        case 0x5d:
-            if (settings_version4) {
-                return 0xff;
-            }
-            break;
-        case 0x5e:
-            if (settings_version4) {
-                return 0xc0;
-            }
-            break;
-        case 0x5f:
-            return 0;
     }
-    return value;
+    ide64_io_device.io_source_valid = 0;
+    return vicii_read_phi1();
 }
 
-static void ide64_io1_store(WORD addr, BYTE value)
+static BYTE ide64_io_peek(WORD addr)
 {
-    if (kill_port & 1) {
-        if ((addr & 0xff) >= 0x5f) {
-            return;
-        }
-    }
-
-    switch (addr & 0xff) {
-        case 0x28:
-        case 0x29:
-            idrive = (addr & 1) << 1;
-        case 0x20:
-        case 0x21:
-        case 0x22:
-        case 0x23:
-        case 0x24:
-        case 0x25:
-        case 0x26:
-        case 0x27:
-        case 0x2a:
-        case 0x2b:
-        case 0x2c:
-        case 0x2d:
-        case 0x2e:
-        case 0x2f:
+    switch (addr) {
+        case 0:
             if (settings_version4) {
-                out_d030 = value | (out_d030 & 0xff00);
+                break;
             }
-            ata_register_store(&drives[idrive], addr - 0x20, out_d030);
-            ata_register_store(&drives[idrive ^ 1], addr - 0x20, out_d030);
-            return;
-        case 0x30:
+            return (BYTE)in_d030;
+        case 1:
+            return in_d030 >> 8;
+        case 2:
+            return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
+    }
+    return 0;
+}
+
+static void ide64_io_store(WORD addr, BYTE value)
+{
+    switch (addr) {
+        case 0:
             if (!settings_version4) {
                 out_d030 = (out_d030 & 0xff00) | value;
             }
             return;
-        case 0x31:
+        case 1:
             out_d030 = (out_d030 & 0x00ff) | (value << 8);
             return;
-        case 0x32:
-        case 0x33:
-        case 0x34:
-        case 0x35:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
             if (!settings_version4) {
-                current_bank = (addr - 2) & 3;
+                current_bank = (addr ^ 2) & 3;
             }
-            break;
-        case 0x5f:
-            if ((kill_port & 2) == 0) {
-                break;
-            }
-            ds1202_1302_set_lines(ds1302_context, 1u, 0u, value & 1u);
-            ds1202_1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
+            cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
             return;
+    }
+}
+
+static BYTE ide64_ft245_read(WORD addr)
+{
+    if (settings_version4) {
+        ide64_ft245_device.io_source_valid = 1;
+        switch (addr ^ 1) {
+        case 0:
+            return 0xff;
+        case 1:
+            return 0xc0 | vicii_read_phi1();
+        }
+    }
+    ide64_ft245_device.io_source_valid = 0;
+    return vicii_read_phi1();
+}
+
+static BYTE ide64_ft245_peek(WORD addr)
+{
+    if (settings_version4) {
+        switch (addr ^ 1) {
+        case 0:
+            return 0xff;
+        case 1:
+            return 0xc0;
+        }
+    }
+    return 0;
+}
+
+static void ide64_ft245_store(WORD addr, BYTE value)
+{
+    return;
+}
+
+static BYTE ide64_ds1302_read(WORD addr)
+{
+    int i;
+
+    if ((kill_port & 3) != 2) {
+        ide64_ds1302_device.io_source_valid = 0;
+        return vicii_read_phi1();
+    }
+
+    i = vicii_read_phi1() & ~1;
+    ds1202_1302_set_lines(ds1302_context, 1u, 0u, 1u);
+    i |= ds1202_1302_read_data_line(ds1302_context);
+    ds1202_1302_set_lines(ds1302_context, 1u, 1u, 1u);
+
+    ide64_ds1302_device.io_source_valid = 1;
+    return i;
+}
+
+static BYTE ide64_ds1302_peek(WORD addr)
+{
+    return 0;
+}
+
+static void ide64_ds1302_store(WORD addr, BYTE value)
+{
+    if ((kill_port & 2) == 0) {
+        return;
+    }
+    ds1202_1302_set_lines(ds1302_context, 1u, 0u, value & 1u);
+    ds1202_1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
+    return;
+}
+
+
+static BYTE ide64_rom_read(WORD addr)
+{
+    if (kill_port & 1) {
+        ide64_rom_device.io_source_valid = 0;
+        return vicii_read_phi1();
+    }
+
+    ide64_rom_device.io_source_valid = 1;
+    return roml_banks[addr | 0x1e00 | (current_bank << 14)];
+}
+
+static BYTE ide64_rom_peek(WORD addr)
+{
+    if (kill_port & 1) {
+        return 0;
+    }
+    return roml_banks[addr | 0x1e00 | (current_bank << 14)];
+}
+
+static void ide64_rom_store(WORD addr, BYTE value)
+{
+    if (kill_port & 1) {
+        return;
+    }
+
+    switch (addr) {
         case 0x60:
         case 0x61:
         case 0x62:
@@ -821,26 +950,19 @@ void ide64_detach(void)
 {
     int i;
 
-    c64export_remove(&export_res);
-
     ds1202_1302_destroy(ds1302_context);
 
     for (i = 0; i < 4; i++) {
         ata_image_detach(&drives[i]);
     }
 
-    io_source_unregister(ide64_list_item);
-    ide64_list_item = NULL;
+    ide64_unregister();
     debug("IDE64 detached");
 }
 
 static int ide64_common_attach(BYTE *rawcart, int detect)
 {
     int i;
-
-    if (c64export_add(&export_res) < 0) {
-        return -1;
-    }
 
     ds1302_context = ds1202_1302_init((BYTE *)ide64_DS1302, &rtc_offset, 1302);
 
@@ -857,10 +979,8 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
         }
     }
 
-    ide64_list_item = io_source_register(&ide64_device);
     debug("IDE64 attached");
-
-    return 0;
+    return ide64_register();
 }
 
 int ide64_bin_attach(const char *filename, BYTE *rawcart)
@@ -901,7 +1021,14 @@ int ide64_crt_attach(FILE *fd, BYTE *rawcart)
     return ide64_common_attach(rawcart, 1);
 }
 
-static int ide64_io1_dump(void) {
+static int ide64_idebus_dump(void) {
+    if (ata_register_dump(&drives[idrive]) == 0) {
+        return 0;
+    }
+    return ata_register_dump(&drives[idrive ^ 1]);
+}
+
+static int ide64_io_dump(void) {
     const char *configs[4] = {
         "8k", "16k", "stnd", "open"
     };

@@ -38,6 +38,7 @@
 #include "lib.h"
 #include "alarm.h"
 #include "maincpu.h"
+#include "monitor.h"
 
 #define ATA_UNC  0x40
 #define ATA_IDNF 0x10
@@ -1013,6 +1014,9 @@ WORD ata_register_peek(struct ata_drive_t *drv, BYTE addr)
     if (addr == 0) {
         return 0;
     }
+    if (addr == 7) {
+        addr = 14;
+    }
     return ata_register_read(drv, addr);
 }
 
@@ -1211,6 +1215,21 @@ void ata_image_change(struct ata_drive_t *drv)
     } else {
         ata_image_attach(drv);
     }
+}
+
+int ata_register_dump(struct ata_drive_t *drv) {
+    if (drv->dev != drv->slave || drv->type == ATA_DRIVE_NONE) {
+        return -1;
+    }
+    mon_out("%s device %s\n", drv->atapi ? "ATAPI" : "ATA", drv->myname);
+    mon_out("Error:        %02x\n", ata_register_peek(drv, 1));
+    mon_out("Sector count: %02x\n", ata_register_peek(drv, 2));
+    mon_out("LBA low:      %02x\n", ata_register_peek(drv, 3));
+    mon_out("LBA mid:      %02x\n", ata_register_peek(drv, 4));
+    mon_out("LBA high:     %02x\n", ata_register_peek(drv, 5));
+    mon_out("Device:       %02x\n", ata_register_peek(drv, 6));
+    mon_out("Status:       %02x\n", ata_register_peek(drv, 7));
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
