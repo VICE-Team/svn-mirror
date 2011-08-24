@@ -23,7 +23,7 @@
  *  02111-1307  USA.
  *
  */
-#define ATA_DEBUG
+
 #include "vice.h"
 
 #include <stdio.h>
