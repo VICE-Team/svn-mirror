@@ -724,92 +724,34 @@ void c64io_df00_store(WORD addr, BYTE value)
 
 /* ---------------------------------------------------------------------------------------------------------- */
 
-static int decodemask(WORD mask)
+static void io_source_ioreg_add_onelist(struct mem_ioreg_list_s **mem_ioreg_list, io_source_list_t *current)
 {
-    int len = 255;
+    WORD end;
 
-    while (((mask & 0x80) == 0) && (len > 0)) {
-        mask <<= 1;
-        len >>= 1;
+    while (current) {
+        end = current->device->end_address;
+        if (end > current->device->start_address + current->device->address_mask) {
+            end = current->device->start_address + current->device->address_mask;
+        }
+
+        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, end, current->device->dump);
+        current = current->next;
     }
-
-    return len;
 }
 
 /* add all registered i/o devices to the list for the monitor */
 void io_source_ioreg_add_list(struct mem_ioreg_list_s **mem_ioreg_list)
 {
-    io_source_list_t *current;
-
-    current = c64io_d000_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_d100_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_d200_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_d300_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_d400_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_d500_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_d600_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_d700_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_de00_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
-
-    current = c64io_df00_head.next;
-
-    while (current) {
-        mon_ioreg_add_list(mem_ioreg_list, current->device->name, current->device->start_address, current->device->start_address + decodemask(current->device->address_mask), current->device->dump);
-        current = current->next;
-    }
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d000_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d100_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d200_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d300_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d400_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d500_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d600_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_d700_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_de00_head.next);
+    io_source_ioreg_add_onelist(mem_ioreg_list, c64io_df00_head.next);
 }
 
 /* ---------------------------------------------------------------------------------------------------------- */
