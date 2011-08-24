@@ -682,6 +682,7 @@ static void ide64_idebus_store(WORD addr, BYTE value)
         case 8:
         case 9:
             idrive = (addr & 1) << 1;
+            /* fall through */
         default:
             if (settings_version4) {
                 out_d030 = value | (out_d030 & 0xff00);
@@ -742,10 +743,10 @@ static void ide64_io_store(WORD addr, BYTE value)
         case 3:
         case 4:
         case 5:
-            if (!settings_version4) {
+            if (!settings_version4 && current_bank != ((addr ^ 2) & 3)) {
                 current_bank = (addr ^ 2) & 3;
+                cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
             }
-            cart_config_changed_slotmain(0, (BYTE)(current_cfg | (current_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
             return;
     }
 }
@@ -787,15 +788,15 @@ static BYTE ide64_ds1302_read(WORD addr)
 {
     int i;
 
-    if ((kill_port & 3) != 2) {
+    if (kill_port & 1) {
         ide64_ds1302_device.io_source_valid = 0;
         return vicii_read_phi1();
     }
 
     i = vicii_read_phi1() & ~1;
-    ds1202_1302_set_lines(ds1302_context, 1u, 0u, 1u);
+    ds1202_1302_set_lines(ds1302_context, kill_port & 2, 0u, 1u);
     i |= ds1202_1302_read_data_line(ds1302_context);
-    ds1202_1302_set_lines(ds1302_context, 1u, 1u, 1u);
+    ds1202_1302_set_lines(ds1302_context, kill_port & 2, 1u, 1u);
 
     ide64_ds1302_device.io_source_valid = 1;
     return i;
@@ -808,11 +809,11 @@ static BYTE ide64_ds1302_peek(WORD addr)
 
 static void ide64_ds1302_store(WORD addr, BYTE value)
 {
-    if ((kill_port & 2) == 0) {
+    if (kill_port & 1) {
         return;
     }
-    ds1202_1302_set_lines(ds1302_context, 1u, 0u, value & 1u);
-    ds1202_1302_set_lines(ds1302_context, 1u, 1u, value & 1u);
+    ds1202_1302_set_lines(ds1302_context, kill_port & 2u, 0u, 1u);
+    ds1202_1302_set_lines(ds1302_context, kill_port & 2u, 1u, value & 1u);
     return;
 }
 
@@ -851,26 +852,27 @@ static void ide64_rom_store(WORD addr, BYTE value)
         case 0x65:
         case 0x66:
         case 0x67:
-            if (settings_version4) {
+            if (settings_version4 && current_bank != (addr & 7)) {
                 current_bank = addr & 7;
+                break;
             }
-            break;
+            return;
         case 0xfb:
-            if (((kill_port & 0x02) == 0) && (value & 0x02)) {
-                ds1202_1302_set_lines(ds1302_context, 0u, 1u, 1u);
-            }
             kill_port = value;
+            ds1202_1302_set_lines(ds1302_context, kill_port & 2u, 1u, 1u);
             if ((kill_port & 1) == 0) {
                 return;
             }
-            current_cfg = 2;
-            break;
+            /* fall through */
         case 0xfc:
         case 0xfd:
         case 0xfe:
         case 0xff:
-            current_cfg = (addr ^ 1) & 3;
-            break;
+            if (current_cfg != ((addr ^ 1) & 3)) {
+                current_cfg = (addr ^ 1) & 3;
+                break;
+            }
+            return;
         default:
             return;
     }
@@ -922,7 +924,6 @@ void ide64_config_init(void)
     current_cfg = 0;
     kill_port = 0;
     idrive = 0;
-    ds1202_1302_set_lines(ds1302_context, 0u, 1u, 1u);
 
     for (i = 0; i < 4; i++) {
         drives[i].cycles_1s = machine_get_cycles_per_second();
