@@ -44,6 +44,7 @@ struct ata_drive_t {
     BYTE sector;
     WORD cylinder;
     BYTE head;
+    int lba, dev;
     BYTE control;
     BYTE cmd;
     BYTE power;
@@ -68,12 +69,16 @@ struct ata_drive_t {
     int type;
     int busy;
     int pos;
-    alarm_t *bsy_alarm;
+    int standby, standby_max;
+    alarm_t *spindle_alarm;
+    alarm_t *head_alarm;
+    alarm_t *standby_alarm;
     log_t log;
     int sector_size;
-    int atapi, lba, pmcommands, wbuffer, rbuffer, flush;
+    int atapi, lbamode, pmcommands, wbuffer, rbuffer, flush;
     CLOCK seek_time;
     CLOCK spinup_time, spindown_time;
+    CLOCK cycles_1s;
 };
 
 extern void ata_init(struct ata_drive_t *drv, int drive);

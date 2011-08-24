@@ -798,12 +798,15 @@ void ide64_config_init(void)
     ds1202_1302_set_lines(ds1302_context, 0u, 1u, 1u);
 
     for (i = 0; i < 4; i++) {
+        drives[i].cycles_1s = machine_get_cycles_per_second();
         if (drives[i].update_needed) {
             drives[i].update_needed = 0;
             ata_image_attach(&drives[i]);
             memset(export_ram0, 0, 0x8000);
         } else {
-            ata_reset(&drives[i]);
+            if (settings_version4) {
+                ata_reset(&drives[i]);
+            }
         }
     }
 }
