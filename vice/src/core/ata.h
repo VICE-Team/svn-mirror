@@ -31,69 +31,29 @@
 #include "log.h"
 #include "alarm.h"
 
-#define ATA_DRIVE_NONE 0
-#define ATA_DRIVE_HDD 1
-#define ATA_DRIVE_FDD 2
-#define ATA_DRIVE_CD 3
-#define ATA_DRIVE_CF 4
+typedef enum ata_drive_type_e {
+    ATA_DRIVE_NONE, ATA_DRIVE_HDD, ATA_DRIVE_FDD, ATA_DRIVE_CD, ATA_DRIVE_CF
+} ata_drive_type_t;
 
-struct ata_drive_t {
-    BYTE error;
-    BYTE features;
-    BYTE sector_count, sector_count_internal;
-    BYTE sector;
-    WORD cylinder;
-    BYTE head;
-    int lba, dev;
-    BYTE control;
-    BYTE cmd;
-    BYTE power;
-    BYTE packet[12];
-    int bufp;
-    BYTE *buffer;
-    FILE *file;
-    char *filename;
-    char *myname;
-    int default_cylinders, default_heads, default_sectors, size;
-    int cylinders, heads, sectors;
-    int settings_cylinders, settings_heads, settings_sectors;
-    int auto_cylinders, auto_heads, auto_sectors, auto_size;
-    int settings_autodetect_size, settings_type;
-    int slave;
-    int update_needed;
-    int readonly;
-    int attention;
-    int locked;
-    int wcache;
-    int lookahead;
-    int type;
-    int busy;
-    int pos;
-    int standby, standby_max;
-    alarm_t *spindle_alarm;
-    alarm_t *head_alarm;
-    alarm_t *standby_alarm;
-    log_t log;
-    int sector_size;
-    int atapi, lbamode, pmcommands, wbuffer, rbuffer, flush;
-    CLOCK seek_time;
-    CLOCK spinup_time, spindown_time;
-    CLOCK cycles_1s;
-};
+typedef struct ata_drive_s ata_drive_t;
+typedef struct ata_drive_geometry_s {
+    int cylinders, heads, sectors, size;
+} ata_drive_geometry_t;
 
-extern void ata_init(struct ata_drive_t *drv, int drive);
-extern void ata_shutdown(struct ata_drive_t *drv);
-extern void ata_register_store(struct ata_drive_t *cdrive, BYTE addr, WORD value);
-extern WORD ata_register_read(struct ata_drive_t *cdrive, BYTE addr);
-extern WORD ata_register_peek(struct ata_drive_t *cdrive, BYTE addr);
-extern int ata_register_dump(struct ata_drive_t *cdrive);
-extern void ata_image_attach(struct ata_drive_t *cdrive);
-extern void ata_image_detach(struct ata_drive_t *cdrive);
-extern void ata_image_change(struct ata_drive_t *cdrive);
-extern void ata_reset(struct ata_drive_t *cdrive);
+extern ata_drive_t *ata_init(int drive);
+extern void ata_shutdown(ata_drive_t *drv);
+extern void ata_register_store(ata_drive_t *cdrive, BYTE addr, WORD value);
+extern WORD ata_register_read(ata_drive_t *cdrive, BYTE addr);
+extern WORD ata_register_peek(ata_drive_t *cdrive, BYTE addr);
+extern int ata_register_dump(ata_drive_t *cdrive);
+extern void ata_image_attach(ata_drive_t *cdrive, char *filename, ata_drive_type_t type, ata_drive_geometry_t geometry);
+extern void ata_image_detach(ata_drive_t *cdrive);
+extern int ata_image_change(ata_drive_t *cdrive, char *filename, ata_drive_type_t type, ata_drive_geometry_t geometry);
+extern void ata_reset(ata_drive_t *cdrive);
+void ata_update_timing(ata_drive_t *drv, CLOCK cycles_1s);
 
 struct snapshot_s;
-extern int ata_snapshot_read_module(struct ata_drive_t *drv, struct snapshot_s *s);
-extern int ata_snapshot_write_module(struct ata_drive_t *drv, struct snapshot_s *s);
+extern int ata_snapshot_read_module(ata_drive_t *drv, struct snapshot_s *s);
+extern int ata_snapshot_write_module(ata_drive_t *drv, struct snapshot_s *s);
 
 #endif

@@ -74,7 +74,16 @@ static rtc_ds1202_1302_t *ds1302_context = NULL;
 /*  */
 static BYTE kill_port;
 
-static struct ata_drive_t drives[4];
+static struct drive_s {
+    ata_drive_t *drv;
+    char *filename;
+    ata_drive_geometry_t settings;
+    int autodetect_size;
+    ata_drive_type_t type;
+    ata_drive_geometry_t detected;
+    int update_needed;
+} drives[4];
+
 static int idrive = 0;
 
 /* communication latch */
@@ -270,133 +279,143 @@ static int set_ide64_config(const char *cfg, void *param)
     return 0;
 }
 
-static int detect_ide64_image(struct ata_drive_t *drv)
+static void detect_ide64_image(struct drive_s *drive)
 {
     FILE *file;
     unsigned char header[24];
     int res;
+    ata_drive_geometry_t *geometry = &drive->detected;
 
-    drv->auto_cylinders = 0;
-    drv->auto_heads = 0;
-    drv->auto_sectors = 0;
-    drv->auto_size = 0;
+    if (!ide64_rom_list_item) {
+        drive->type = ATA_DRIVE_NONE;
+        return;
+    }
+    debug("IDE64 detect");
+    geometry->cylinders = drive->settings.cylinders;
+    geometry->heads = drive->settings.heads;
+    geometry->sectors = drive->settings.sectors;
+    geometry->size = geometry->cylinders * geometry->heads * geometry->sectors;
 
-    res = strlen(drv->filename); 
+    res = strlen(drive->filename); 
 
     if (!res) {
-        drv->settings_type = ATA_DRIVE_NONE;
-        return -1;
+        drive->type = ATA_DRIVE_NONE;
+        return;
     }
 
-    drv->settings_type = ATA_DRIVE_CF;
+    drive->type = ATA_DRIVE_CF;
     if (res > 4) {
-        if (!strcasecmp(drv->filename + res - 4, ".cfa")) {
-            drv->settings_type = ATA_DRIVE_CF;
-        } else if (!strcasecmp(drv->filename + res - 4, ".hdd")) {
-            drv->settings_type = ATA_DRIVE_HDD;
-        } else if (!strcasecmp(drv->filename + res - 4, ".fdd")) {
-            drv->settings_type = ATA_DRIVE_FDD;
-        } else if (!strcasecmp(drv->filename + res - 4, ".iso")) {
-            drv->settings_type = ATA_DRIVE_CD;
+        if (!strcasecmp(drive->filename + res - 4, ".cfa")) {
+            drive->type = ATA_DRIVE_CF;
+        } else if (!strcasecmp(drive->filename + res - 4, ".hdd")) {
+            drive->type = ATA_DRIVE_HDD;
+        } else if (!strcasecmp(drive->filename + res - 4, ".fdd")) {
+            drive->type = ATA_DRIVE_FDD;
+        } else if (!strcasecmp(drive->filename + res - 4, ".iso")) {
+            drive->type = ATA_DRIVE_CD;
         }
     }
 
-    if (!drv->settings_autodetect_size) {
-        return 0;
-    }
-
-    file = fopen(drv->filename, MODE_READ);
+    file = fopen(drive->filename, MODE_READ);
 
     if (!file) {
-        return -1;
+        return;
     }
 
-    if (fread(header, 1, 24, file) < 24) {
-        memset(&header, 0, sizeof(header));
-    }
+    if (drive->autodetect_size) {
 
-    if (memcmp(header, "C64-IDE V", 9) == 0) { /* old filesystem always CHS */
-        drv->auto_cylinders = ((header[0x10] << 8) | header[0x11]) + 1;
-        drv->auto_heads = (header[0x12] & 0x0f) + 1;
-        drv->auto_sectors = header[0x13];
-        drv->auto_size = drv->settings_cylinders * drv->settings_heads * drv->settings_sectors;
-    } else if (memcmp(header + 8, "C64 CFS V", 9) == 0) {
-        if (header[0x04] & 0x40) { /* LBA */
-            drv->auto_size = ((header[0x04] & 0x0f) << 24) | (header[0x05] << 16) | (header[0x06] << 8) | header[0x07];
-        } else { /* CHS */
-            drv->auto_cylinders = ((header[0x05] << 8) | header[0x06]) + 1;
-            drv->auto_heads = (header[0x04] & 0x0f) + 1;
-            drv->auto_sectors = header[0x07];
-            drv->auto_size = drv->settings_cylinders * drv->settings_heads * drv->settings_sectors;
+        if (fread(header, 1, 24, file) < 24) {
+            memset(&header, 0, sizeof(header));
+        }
+
+        if (memcmp(header, "C64-IDE V", 9) == 0) { /* old filesystem always CHS */
+            geometry->cylinders = ((header[0x10] << 8) | header[0x11]) + 1;
+            geometry->heads = (header[0x12] & 0x0f) + 1;
+            geometry->sectors = header[0x13];
+            geometry->size = geometry->cylinders * geometry->heads * geometry->sectors;
+        } else if (memcmp(header + 8, "C64 CFS V", 9) == 0) {
+            if (header[0x04] & 0x40) { /* LBA */
+                geometry->cylinders = 0;
+                geometry->heads = 0;
+                geometry->sectors = 0;
+                geometry->size = ((header[0x04] & 0x0f) << 24) | (header[0x05] << 16) | (header[0x06] << 8) | header[0x07];
+            } else { /* CHS */
+                geometry->cylinders = ((header[0x05] << 8) | header[0x06]) + 1;
+                geometry->heads = (header[0x04] & 0x0f) + 1;
+                geometry->sectors = header[0x07];
+                geometry->size = geometry->cylinders * geometry->heads * geometry->sectors;
+            }
+        } else {
+            off_t size = 0;
+            if (fseek(file, 0, SEEK_END) == 0) {
+                size = ftell(file);
+                if (size < 0) size = 0;
+            }
+            geometry->cylinders = 0;
+            geometry->heads = 0;
+            geometry->sectors = 0;
+            geometry->size = size / ((drive->type == ATA_DRIVE_CD) ? 2048 : 512);
         }
     }
-    fclose(file);
 
-    return 0;
+    fclose(file);
+    return;
 }
 
 static int set_ide64_image_file(const char *name, void *param)
 {
-    struct ata_drive_t *drv = &drives[vice_ptr_to_int(param)];
+    struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
-    util_string_set(&drv->filename, name);
-    detect_ide64_image(drv);
-    ata_image_change(drv);
-
+    util_string_set(&drive->filename, name);
+    detect_ide64_image(drive);
+    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
     return 0;
 }
 
 static int set_cylinders(int cylinders, void *param)
 {
-    struct ata_drive_t *drv = &drives[vice_ptr_to_int(param)];
+    struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
     if (cylinders > 65535 || cylinders < 1) {
         return -1;
     }
 
-    drv->settings_cylinders = cylinders;
-    ata_image_change(drv);
-
+    drive->settings.cylinders = cylinders;
+    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
     return 0;
 }
 
 static int set_heads(int heads, void *param)
 {
-    struct ata_drive_t *drv = &drives[vice_ptr_to_int(param)];
+    struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
     if (heads > 16 || heads < 1) {
         return -1;
     }
-
-    drv->settings_heads = heads;
-    ata_image_change(drv);
+    drive->settings.heads = heads;
+    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
     return 0;
 }
 
 static int set_sectors(int sectors, void *param)
 {
-    struct ata_drive_t *drv = &drives[vice_ptr_to_int(param)];
+    struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
     if (sectors > 63 || sectors < 1) {
         return -1;
     }
-
-    drv->settings_sectors = sectors;
-    ata_image_change(drv);
+    drive->settings.sectors = sectors;
+    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
     return 0;
 }
 
-static int set_autodetect_size(int val, void *param)
+static int set_autodetect_size(int autodetect_size, void *param)
 {
-    struct ata_drive_t *drv = &drives[vice_ptr_to_int(param)];
+    struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
-    if (drv->settings_autodetect_size != val) {
-        drv->settings_autodetect_size = val;
-        if (val) {
-            detect_ide64_image(drv);
-            ata_image_change(drv);
-        }
-    }
+    drive->autodetect_size = autodetect_size;
+    detect_ide64_image(drive);
+    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
     return 0;
 }
 
@@ -438,52 +457,52 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "IDE64Cylinders1", 256,
       RES_EVENT_NO, NULL,
-      (int *)&drives[0].settings_cylinders, set_cylinders, (void *)0 },
+      (int *)&drives[0].settings.cylinders, set_cylinders, (void *)0 },
     { "IDE64Cylinders2", 256,
       RES_EVENT_NO, NULL,
-      (int *)&drives[1].settings_cylinders, set_cylinders, (void *)1 },
+      (int *)&drives[1].settings.cylinders, set_cylinders, (void *)1 },
     { "IDE64Cylinders3", 256,
       RES_EVENT_NO, NULL,
-      (int *)&drives[2].settings_cylinders, set_cylinders, (void *)2 },
+      (int *)&drives[2].settings.cylinders, set_cylinders, (void *)2 },
     { "IDE64Cylinders4", 256,
       RES_EVENT_NO, NULL,
-      (int *)&drives[3].settings_cylinders, set_cylinders, (void *)3 },
+      (int *)&drives[3].settings.cylinders, set_cylinders, (void *)3 },
     { "IDE64Heads1", 4,
       RES_EVENT_NO, NULL,
-      (int *)&drives[0].settings_heads, set_heads, (void *)0 },
+      (int *)&drives[0].settings.heads, set_heads, (void *)0 },
     { "IDE64Heads2", 4,
       RES_EVENT_NO, NULL,
-      (int *)&drives[1].settings_heads, set_heads, (void *)1 },
+      (int *)&drives[1].settings.heads, set_heads, (void *)1 },
     { "IDE64Heads3", 4,
       RES_EVENT_NO, NULL,
-      (int *)&drives[2].settings_heads, set_heads, (void *)2 },
+      (int *)&drives[2].settings.heads, set_heads, (void *)2 },
     { "IDE64Heads4", 4,
       RES_EVENT_NO, NULL,
-      (int *)&drives[3].settings_heads, set_heads, (void *)3 },
+      (int *)&drives[3].settings.heads, set_heads, (void *)3 },
     { "IDE64Sectors1", 16,
       RES_EVENT_NO, NULL,
-      (int *)&drives[0].settings_sectors, set_sectors, (void *)0 },
+      (int *)&drives[0].settings.sectors, set_sectors, (void *)0 },
     { "IDE64Sectors2", 16,
       RES_EVENT_NO, NULL,
-      (int *)&drives[1].settings_sectors, set_sectors, (void *)1 },
+      (int *)&drives[1].settings.sectors, set_sectors, (void *)1 },
     { "IDE64Sectors3", 16,
       RES_EVENT_NO, NULL,
-      (int *)&drives[2].settings_sectors, set_sectors, (void *)2 },
+      (int *)&drives[2].settings.sectors, set_sectors, (void *)2 },
     { "IDE64Sectors4", 16,
       RES_EVENT_NO, NULL,
-      (int *)&drives[3].settings_sectors, set_sectors, (void *)3 },
+      (int *)&drives[3].settings.sectors, set_sectors, (void *)3 },
     { "IDE64AutodetectSize1", 1,
       RES_EVENT_NO, NULL,
-      (int *)&drives[0].settings_autodetect_size, set_autodetect_size, (void *)0 },
+      (int *)&drives[0].autodetect_size, set_autodetect_size, (void *)0 },
     { "IDE64AutodetectSize2", 1,
       RES_EVENT_NO, NULL,
-      (int *)&drives[1].settings_autodetect_size, set_autodetect_size, (void *)1 },
+      (int *)&drives[1].autodetect_size, set_autodetect_size, (void *)1 },
     { "IDE64AutodetectSize3", 1,
       RES_EVENT_NO, NULL,
-      (int *)&drives[2].settings_autodetect_size, set_autodetect_size, (void *)2 },
+      (int *)&drives[2].autodetect_size, set_autodetect_size, (void *)2 },
     { "IDE64AutodetectSize4", 1,
       RES_EVENT_NO, NULL,
-      (int *)&drives[3].settings_autodetect_size, set_autodetect_size, (void *)3 },
+      (int *)&drives[3].autodetect_size, set_autodetect_size, (void *)3 },
     { "IDE64version4", 0,
       RES_EVENT_NO, NULL,
       &settings_version4, set_version4, NULL },
@@ -499,7 +518,8 @@ int ide64_resources_init(void)
 
     debug("IDE64 resource init");
     for (i = 0; i < 4; i++) {
-        ata_init(&drives[i], i);
+        drives[i].drv = ata_init(i);
+        drives[i].filename = NULL;
     }
 
     if (resources_register_string(resources_string) < 0) {
@@ -517,11 +537,17 @@ int ide64_resources_shutdown(void)
     int i;
 
     debug("IDE64 resource shutdown");
-    lib_free(ide64_configuration_string);
 
     for (i = 0; i < 4; i++) {
-        ata_shutdown(&drives[i]);
+        ata_shutdown(drives[i].drv);
+        drives[i].drv = NULL;
+        if (drives[i].filename) {
+            lib_free(drives[i].filename);
+        }
+        drives[i].filename = NULL;
     }
+
+    lib_free(ide64_configuration_string);
     ide64_configuration_string = NULL;
     return 0;
 }
@@ -667,7 +693,7 @@ int ide64_cmdline_options_init(void)
 
 static BYTE ide64_idebus_read(WORD addr)
 {
-    in_d030 = ata_register_read(&drives[idrive], addr) | ata_register_read(&drives[idrive ^ 1], addr);
+    in_d030 = ata_register_read(drives[idrive].drv, addr) | ata_register_read(drives[idrive ^ 1].drv, addr);
     if (settings_version4) {
         ide64_idebus_device.io_source_valid = 1;
         return in_d030 & 0xff;
@@ -679,7 +705,7 @@ static BYTE ide64_idebus_read(WORD addr)
 static BYTE ide64_idebus_peek(WORD addr)
 {
     if (settings_version4) {
-        return ata_register_peek(&drives[idrive], addr) | ata_register_peek(&drives[idrive ^ 1], addr);
+        return ata_register_peek(drives[idrive].drv, addr) | ata_register_peek(drives[idrive ^ 1].drv, addr);
     }
     return 0;
 }
@@ -695,8 +721,8 @@ static void ide64_idebus_store(WORD addr, BYTE value)
             if (settings_version4) {
                 out_d030 = value | (out_d030 & 0xff00);
             }
-            ata_register_store(&drives[idrive], addr, out_d030);
-            ata_register_store(&drives[idrive ^ 1], addr, out_d030);
+            ata_register_store(drives[idrive].drv, addr, out_d030);
+            ata_register_store(drives[idrive ^ 1].drv, addr, out_d030);
             return;
     }
 }
@@ -925,6 +951,7 @@ void ide64_c000_cfff_store(WORD addr, BYTE value)
 void ide64_config_init(void)
 {
     int i;
+    struct drive_s *drive;
 
     debug("IDE64 init");
     cart_config_changed_slotmain(0, 0, CMODE_READ | CMODE_PHI2_RAM);
@@ -934,14 +961,16 @@ void ide64_config_init(void)
     idrive = 0;
 
     for (i = 0; i < 4; i++) {
-        drives[i].cycles_1s = machine_get_cycles_per_second();
-        if (drives[i].update_needed) {
-            drives[i].update_needed = 0;
-            ata_image_attach(&drives[i]);
+        drive = &drives[i];
+        ata_update_timing(drive->drv, machine_get_cycles_per_second());
+        if (drive->update_needed) {
+            drive->update_needed = 0;
+            detect_ide64_image(drive);
+            ata_image_attach(drive->drv, drive->filename, drive->type, drive->detected);
             memset(export_ram0, 0, 0x8000);
         } else {
             if (settings_version4) {
-                ata_reset(&drives[i]);
+                ata_reset(drive->drv);
             }
         }
     }
@@ -962,7 +991,7 @@ void ide64_detach(void)
     ds1202_1302_destroy(ds1302_context);
 
     for (i = 0; i < 4; i++) {
-        ata_image_detach(&drives[i]);
+        ata_image_detach(drives[i].drv);
     }
 
     ide64_unregister();
@@ -986,6 +1015,9 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
                 break;
             }
         }
+    }
+    for (i = 0; i < 4; i++) {
+        drives[i].update_needed = 1;
     }
 
     debug("IDE64 attached");
@@ -1031,10 +1063,10 @@ int ide64_crt_attach(FILE *fd, BYTE *rawcart)
 }
 
 static int ide64_idebus_dump(void) {
-    if (ata_register_dump(&drives[idrive]) == 0) {
+    if (ata_register_dump(drives[idrive].drv) == 0) {
         return 0;
     }
-    return ata_register_dump(&drives[idrive ^ 1]);
+    return ata_register_dump(drives[idrive ^ 1].drv);
 }
 
 static int ide64_io_dump(void) {
@@ -1059,7 +1091,7 @@ int ide64_snapshot_write_module(snapshot_t *s)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (ata_snapshot_write_module(&drives[i], s)) {
+        if (ata_snapshot_write_module(drives[i].drv, s)) {
             return -1;
         }
     }
@@ -1093,7 +1125,7 @@ int ide64_snapshot_read_module(snapshot_t *s)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (ata_snapshot_read_module(&drives[i], s)) {
+        if (ata_snapshot_read_module(drives[i].drv, s)) {
             return -1;
         }
     }

@@ -59,6 +59,46 @@
 #define putw(a,b) {result[(a)*2]=(b) & 0xff;result[(a)*2+1]=(b) >> 8;}
 #define setb(a,b,c) {result[(a)*2+(b)/8]|=(c) ? (1 << ((b) & 7)) : 0;}
 
+typedef struct ata_drive_s {
+    BYTE error;
+    BYTE features;
+    BYTE sector_count, sector_count_internal;
+    BYTE sector;
+    WORD cylinder;
+    BYTE head;
+    int lba, dev;
+    BYTE control;
+    BYTE cmd;
+    BYTE power;
+    BYTE packet[12];
+    int bufp;
+    BYTE *buffer;
+    FILE *file;
+    char *filename;
+    char *myname;
+    ata_drive_geometry_t geometry;
+    int cylinders, heads, sectors;
+    int slave;
+    int readonly;
+    int attention;
+    int locked;
+    int wcache;
+    int lookahead;
+    int type;
+    int busy;
+    int pos;
+    int standby, standby_max;
+    alarm_t *spindle_alarm;
+    alarm_t *head_alarm;
+    alarm_t *standby_alarm;
+    log_t log;
+    int sector_size;
+    int atapi, lbamode, pmcommands, wbuffer, rbuffer, flush;
+    CLOCK seek_time;
+    CLOCK spinup_time, spindown_time;
+    CLOCK cycles_1s;
+} ata_drive_t;
+
 static const BYTE identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
     0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00,
@@ -89,7 +129,7 @@ static void ident_update_string(BYTE *b, char *s, int n) {
     }
 }
 
-static void ata_change_power_mode(struct ata_drive_t *drv, BYTE value) {
+static void ata_change_power_mode(ata_drive_t *drv, BYTE value) {
     if (drv->power == 0x00 && value != 0x00) {
         drv->busy |= 1;
         alarm_set(drv->spindle_alarm, maincpu_clk + drv->spinup_time);
@@ -114,7 +154,7 @@ static void ata_change_power_mode(struct ata_drive_t *drv, BYTE value) {
     drv->power = value;
 }
 
-static int ata_set_standby(struct ata_drive_t *drv, int value)
+static int ata_set_standby(ata_drive_t *drv, int value)
 {
     if (value == 254) {
         return -1;
@@ -132,7 +172,7 @@ static int ata_set_standby(struct ata_drive_t *drv, int value)
     return 0;
 }
 
-static void drive_diag(struct ata_drive_t *drv)
+static void drive_diag(ata_drive_t *drv)
 {
     drv->error = 1;
     drv->sector_count = 1;
@@ -145,7 +185,7 @@ static void drive_diag(struct ata_drive_t *drv)
     drv->cmd = 0x08;
 }
 
-static void ata_set_command_block(struct ata_drive_t *drv)
+static void ata_set_command_block(ata_drive_t *drv)
 {
     if (drv->atapi) {
         return;
@@ -162,7 +202,7 @@ static void ata_set_command_block(struct ata_drive_t *drv)
     return;
 }
 
-static int seek_sector(struct ata_drive_t *drv)
+static int seek_sector(ata_drive_t *drv)
 {
     int lba;
 
@@ -186,12 +226,12 @@ static int seek_sector(struct ata_drive_t *drv)
         drv->error = drv->atapi ? 0x24 : ATA_ABRT;
         return drv->error;
     }
-    if (lba >= drv->size || lba < 0) {
+    if (lba >= drv->geometry.size || lba < 0) {
         drv->error = drv->atapi ? 0x54 : ATA_IDNF;
         return drv->error;
     }
     drv->busy |= 2;
-    alarm_set(drv->head_alarm, maincpu_clk + (CLOCK)(abs(drv->pos - lba) * drv->seek_time / drv->size));
+    alarm_set(drv->head_alarm, maincpu_clk + (CLOCK)(abs(drv->pos - lba) * drv->seek_time / drv->geometry.size));
     ata_change_power_mode(drv, 0xff);
     if (fseek(drv->file, (off_t)lba * drv->sector_size, SEEK_SET)) {
         drv->error = drv->atapi ? 0x54 : ATA_IDNF;
@@ -200,7 +240,7 @@ static int seek_sector(struct ata_drive_t *drv)
     return drv->error;
 }
 
-static void debug_addr(struct ata_drive_t *drv, char *cmd) {
+static void debug_addr(ata_drive_t *drv, char *cmd) {
     if (drv->lbamode && drv->lba) {
         debug("%s (%d)*%d", cmd, (drv->head << 24) | (drv->cylinder << 8) | drv->sector, drv->sector_count ? drv->sector_count : 256);
     } else {
@@ -208,7 +248,7 @@ static void debug_addr(struct ata_drive_t *drv, char *cmd) {
     }
 }
 
-static int read_sector(struct ata_drive_t *drv)
+static int read_sector(ata_drive_t *drv)
 {
     drv->bufp = drv->sector_size;
     drv->error = 0;
@@ -242,7 +282,7 @@ static int read_sector(struct ata_drive_t *drv)
     return drv->error;
 }
 
-static int write_sector(struct ata_drive_t *drv)
+static int write_sector(ata_drive_t *drv)
 {
     drv->bufp = drv->sector_size;
     drv->error = 0;
@@ -286,7 +326,7 @@ static int write_sector(struct ata_drive_t *drv)
     return drv->error;
 }
 
-void ata_reset(struct ata_drive_t *drv)
+void ata_reset(ata_drive_t *drv)
 {
     BYTE oldcmd = drv->cmd;
 
@@ -294,13 +334,45 @@ void ata_reset(struct ata_drive_t *drv)
 
     if (oldcmd != 0xe6) {
         drv->dev = 0;
-        drv->sectors = drv->default_sectors;
-        drv->heads = drv->default_heads;
-        drv->cylinders = drv->default_cylinders;
+        drv->sectors = drv->geometry.sectors;
+        drv->heads = drv->geometry.heads;
+        drv->cylinders = drv->geometry.cylinders;
     }
 }
 
-static void ata_poweron(struct ata_drive_t *drv, int type)
+void ata_update_timing(ata_drive_t *drv, CLOCK cycles_1s) {
+    drv->cycles_1s = cycles_1s;
+    switch (drv->type) {
+    case ATA_DRIVE_FDD:
+        drv->seek_time = (CLOCK)drv->cycles_1s*120/1000;
+        drv->spinup_time = (CLOCK)drv->cycles_1s*800/1000;
+        drv->spindown_time = (CLOCK)drv->cycles_1s*500/1000;
+        break;
+    case ATA_DRIVE_CD:
+        drv->seek_time = (CLOCK)drv->cycles_1s*190/1000;
+        drv->spinup_time = (CLOCK)drv->cycles_1s*2800/1000;
+        drv->spindown_time = (CLOCK)drv->cycles_1s*2000/1000;
+        break;
+    case ATA_DRIVE_HDD:
+        drv->seek_time = (CLOCK)drv->cycles_1s*16/1000;
+        drv->spinup_time = (CLOCK)drv->cycles_1s*3000/1000;
+        drv->spindown_time = (CLOCK)drv->cycles_1s*2000/1000;
+        break;
+    case ATA_DRIVE_CF:
+        drv->seek_time = (CLOCK)drv->cycles_1s*10/1000000;
+        drv->spinup_time = (CLOCK)drv->cycles_1s*300/1000;
+        drv->spindown_time = (CLOCK)drv->cycles_1s*2/1000;
+        break;
+    default:
+        drv->seek_time = (CLOCK)0;
+        drv->spinup_time = (CLOCK)0;
+        drv->spindown_time = (CLOCK)0;
+        break;
+    }
+    return;
+}
+
+static void ata_poweron(ata_drive_t *drv, int type)
 {
     drv->wcache = 0;
     drv->lookahead = 0;
@@ -316,58 +388,44 @@ static void ata_poweron(struct ata_drive_t *drv, int type)
     drv->rbuffer = 1;
     drv->wbuffer = 1;
     drv->type = type;
+    ata_update_timing(drv, drv->cycles_1s);
     switch (drv->type) {
     case ATA_DRIVE_FDD:
         drv->atapi = 1;
         drv->locked = 0;
         drv->sector_size = 512;
         drv->readonly = 0;
-        drv->seek_time = (CLOCK)drv->cycles_1s*120/1000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*800/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*500/1000;
         break;
     case ATA_DRIVE_CD:
         drv->atapi = 1;
         drv->locked = 0;
         drv->sector_size = 2048;
         drv->readonly = 1;
-        drv->seek_time = (CLOCK)drv->cycles_1s*190/1000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*2800/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*2000/1000;
         break;
     case ATA_DRIVE_HDD:
         drv->atapi = 0;
         drv->locked = 1;
         drv->sector_size = 512;
         drv->readonly = 0;
-        drv->seek_time = (CLOCK)drv->cycles_1s*16/1000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*3000/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*2000/1000;
         break;
     case ATA_DRIVE_CF:
         drv->atapi = 0;
         drv->locked = 1;
         drv->sector_size = 512;
         drv->readonly = 0;
-        drv->seek_time = (CLOCK)drv->cycles_1s*10/1000000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*300/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*2/1000;
         break;
     default:
         drv->atapi = 0;
         drv->locked = 0;
         drv->sector_size = 512;
         drv->readonly = 1;
-        drv->seek_time = (CLOCK)0;
-        drv->spinup_time = (CLOCK)0;
-        drv->spindown_time = (CLOCK)0;
         drv->type = ATA_DRIVE_NONE;
         return;
     }
 
-    if (!drv->atapi && (drv->default_sectors < 1 || drv->default_sectors > 63 || drv->default_cylinders > 65535 ||
-            (drv->default_sectors * drv->default_heads * drv->default_cylinders) > 16514064)) {
-        int size = drv->size;
+    if (!drv->atapi && (drv->geometry.sectors < 1 || drv->geometry.sectors > 63 || drv->geometry.cylinders > 65535 ||
+            (drv->geometry.sectors * drv->geometry.heads * drv->geometry.cylinders) > 16514064)) {
+        int size = drv->geometry.size;
         int i, c, h, s;
 
         if (size > 16514064) size = 16514064;
@@ -397,9 +455,9 @@ static void ata_poweron(struct ata_drive_t *drv, int type)
             if (s < 63) s++;
             c = size / (h * s);
         }
-        drv->default_cylinders = c;
-        drv->default_heads = h;
-        drv->default_sectors = s;
+        drv->geometry.cylinders = c;
+        drv->geometry.heads = h;
+        drv->geometry.sectors = s;
     }
 
     ata_reset(drv);
@@ -407,21 +465,21 @@ static void ata_poweron(struct ata_drive_t *drv, int type)
 }
 
 static void ata_spindle_alarm_handler(CLOCK offset, void *data) {
-    struct ata_drive_t *drv = (struct ata_drive_t *)data;
+    ata_drive_t *drv = (ata_drive_t *)data;
 
     drv->busy &= ~1;
     alarm_unset(drv->spindle_alarm);
 }
 
 static void ata_head_alarm_handler(CLOCK offset, void *data) {
-    struct ata_drive_t *drv = (struct ata_drive_t *)data;
+    ata_drive_t *drv = (ata_drive_t *)data;
 
     drv->busy &= ~2;
     alarm_unset(drv->head_alarm);
 }
 
 static void ata_standby_alarm_handler(CLOCK offset, void *data) {
-    struct ata_drive_t *drv = (struct ata_drive_t *)data;
+    ata_drive_t *drv = (ata_drive_t *)data;
 
     if (drv->standby) {
         drv->standby--;
@@ -434,23 +492,17 @@ static void ata_standby_alarm_handler(CLOCK offset, void *data) {
     }
 }
 
-void ata_init(struct ata_drive_t *drv, int drive)
+ata_drive_t *ata_init(int drive)
 {
     char *name;
+    ata_drive_t *drv = lib_malloc(sizeof(ata_drive_t));
+
     drv->myname = lib_msprintf("ATA%d", drive);
     drv->log = log_open(drv->myname);
     drv->file = NULL;
     drv->filename = NULL;
-    drv->update_needed = 0;
     drv->buffer = lib_malloc(2048);
     drv->slave = drive & 1;
-    drv->settings_cylinders = 0;
-    drv->settings_heads = 0;
-    drv->settings_sectors = 0;
-    drv->auto_cylinders = 0;
-    drv->auto_heads = 0;
-    drv->auto_sectors = 0;
-    drv->auto_size = 0;
     drv->cycles_1s = (CLOCK)1000000;
     ata_poweron(drv, ATA_DRIVE_NONE);
     name = lib_msprintf("%sBSY", drv->myname);
@@ -458,9 +510,10 @@ void ata_init(struct ata_drive_t *drv, int drive)
     drv->head_alarm = alarm_new(maincpu_alarm_context, name, ata_head_alarm_handler, drv);
     drv->standby_alarm = alarm_new(maincpu_alarm_context, name, ata_standby_alarm_handler, drv);
     lib_free(name);
+    return drv;
 }
 
-void ata_shutdown(struct ata_drive_t *drv) {
+void ata_shutdown(ata_drive_t *drv) {
     if (drv->filename) {
         lib_free(drv->filename);
         drv->filename = NULL;
@@ -468,9 +521,10 @@ void ata_shutdown(struct ata_drive_t *drv) {
     log_close(drv->log);
     lib_free(drv->myname);
     lib_free(drv->buffer);
+    lib_free(drv);
 }
 
-static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
+static void ata_execute_command(ata_drive_t *drv, BYTE value) {
     if (drv->cmd == 0xe6) {
         return;
     }
@@ -535,7 +589,7 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
             if (drv->sectors < 1 || drv->sectors > 63) {
                 drv->cylinders = 0;
             } else {
-                int size = drv->size;
+                int size = drv->geometry.size;
                 if (size > 16514064) size = 16514064;
                 size /= drv->heads * drv->sectors;
                 drv->cylinders = (size > 65535) ? 65535 : size;
@@ -624,16 +678,16 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                 memset(result, 0, sizeof(result));
                 debug("IDENTIFY DEVICE");
                 putw(0, (drv->type == ATA_DRIVE_HDD) ? 0x0040 : 0x848a);
-                putw(1, drv->default_cylinders);
-                putw(3, drv->default_heads);
+                putw(1, drv->geometry.cylinders);
+                putw(3, drv->geometry.heads);
                 if (drv->type != ATA_DRIVE_CF) {
-                    putw(4, drv->sector_size * drv->default_sectors);
+                    putw(4, drv->sector_size * drv->geometry.sectors);
                     putw(5, drv->sector_size);
                 }
-                putw(6, drv->default_sectors);
+                putw(6, drv->geometry.sectors);
                 if (drv->type == ATA_DRIVE_CF) {
-                    putw(7, drv->size >> 16);
-                    putw(8, drv->size);
+                    putw(7, drv->geometry.size >> 16);
+                    putw(8, drv->geometry.size);
                 }
                 ident_update_string(result + 20, ATA_SERIAL_NUMBER, 20);
                 putw(21, BUFSIZ / drv->sector_size);
@@ -651,13 +705,13 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
                         putw(55, drv->heads);
                         putw(56, drv->sectors);
                         i = drv->cylinders * drv->heads * drv->sectors;
-                        if (i > drv->size) i = drv->size;
+                        if (i > drv->geometry.size) i = drv->geometry.size;
                         putw(57, i);
                         putw(58, i >> 16);
                 }
                 if (drv->lbamode) {
-                    putw(60, drv->size);
-                    putw(61, drv->size >> 16);
+                    putw(60, drv->geometry.size);
+                    putw(61, drv->geometry.size >> 16);
                 }
                 setb(82, 3, drv->pmcommands); /* pm command set */
                 setb(82, 4, drv->atapi); /* packet */
@@ -729,7 +783,7 @@ static void ata_execute_command(struct ata_drive_t *drv, BYTE value) {
     return;
 }
 
-static void atapi_execute_command(struct ata_drive_t *drv, BYTE value) {
+static void atapi_execute_command(ata_drive_t *drv, BYTE value) {
     if (drv->cmd == 0xe6 && value != 0x08) {
         return;
     }
@@ -815,7 +869,7 @@ static void atapi_execute_command(struct ata_drive_t *drv, BYTE value) {
     return;
 }
 
-static void atapi_packet_execute_command(struct ata_drive_t *drv) {
+static void atapi_packet_execute_command(ata_drive_t *drv) {
     drv->bufp = drv->sector_size;
     drv->error = 0x00;
     drv->cmd = 0x00;
@@ -849,9 +903,7 @@ static void atapi_packet_execute_command(struct ata_drive_t *drv) {
             break;
         case 3:
             if (!drv->file) {
-                if (drv->type == drv->settings_type) {
-                    ata_image_attach(drv);
-                }
+                ata_image_attach(drv, drv->filename, drv->type, drv->geometry);
                 if (!drv->file) {
                     drv->error = 0x24;
                 } else {
@@ -872,10 +924,10 @@ static void atapi_packet_execute_command(struct ata_drive_t *drv) {
             memset(result, 0, sizeof(result));
             debug("READ FORMAT CAPACITIES");
             result[3]=8;
-            result[4]=drv->size >> 24;
-            result[5]=drv->size >> 16;
-            result[6]=drv->size >> 8;
-            result[7]=drv->size;
+            result[4]=drv->geometry.size >> 24;
+            result[5]=drv->geometry.size >> 16;
+            result[6]=drv->geometry.size >> 8;
+            result[7]=drv->geometry.size;
             result[8]=drv->file ? 2 : 3;
             result[10]=drv->sector_size >> 8;
             result[11]=drv->sector_size;
@@ -923,7 +975,7 @@ static void atapi_packet_execute_command(struct ata_drive_t *drv) {
     return;
 }
 
-WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
+WORD ata_register_read(ata_drive_t *drv, BYTE addr)
 {
     WORD res;
 
@@ -1009,7 +1061,7 @@ WORD ata_register_read(struct ata_drive_t *drv, BYTE addr)
     }
 }
 
-WORD ata_register_peek(struct ata_drive_t *drv, BYTE addr)
+WORD ata_register_peek(ata_drive_t *drv, BYTE addr)
 {
     if (addr == 0) {
         return 0;
@@ -1021,7 +1073,7 @@ WORD ata_register_peek(struct ata_drive_t *drv, BYTE addr)
 }
 
 
-void ata_register_store(struct ata_drive_t *drv, BYTE addr, WORD value)
+void ata_register_store(ata_drive_t *drv, BYTE addr, WORD value)
 {
     if (drv->type == ATA_DRIVE_NONE) {
         return;
@@ -1118,14 +1170,19 @@ void ata_register_store(struct ata_drive_t *drv, BYTE addr, WORD value)
     return;
 }
 
-void ata_image_attach(struct ata_drive_t *drv)
+void ata_image_attach(ata_drive_t *drv, char *filename, ata_drive_type_t type, ata_drive_geometry_t geometry)
 {
     if (drv->file != NULL) {
         fclose(drv->file);
         drv->file = NULL;
     }
 
-    if (drv->settings_type != ATA_DRIVE_NONE) {
+    if (drv->filename != filename) {
+        util_string_set(&drv->filename, filename);
+    }
+    drv->geometry = geometry;
+
+    if (type != ATA_DRIVE_NONE) {
         if (drv->filename && drv->filename[0]) {
             if (!drv->readonly) {
                 drv->file = fopen(drv->filename, MODE_READ_WRITE);
@@ -1136,69 +1193,45 @@ void ata_image_attach(struct ata_drive_t *drv)
             }
         }
 
-        if ((drv->settings_autodetect_size || drv->atapi) && drv->file) {
-            drv->default_cylinders = drv->auto_cylinders;
-            drv->default_heads = drv->auto_heads;
-            drv->default_sectors = drv->auto_sectors;
-            drv->size = drv->auto_size;
-
-            if (drv->size < 1) {
-                off_t size = 0;
-                if (fseek(drv->file, 0, SEEK_END) == 0) {
-                    size = ftell(drv->file);
-                    if (size < 0) size = 0;
-                }
-                drv->default_cylinders = 0;
-                drv->default_heads = 0;
-                drv->default_sectors = 0;
-                drv->size = size / drv->sector_size;
-            }
-        } else {
-            drv->default_cylinders = drv->settings_cylinders;
-            drv->default_heads = drv->settings_heads;
-            drv->default_sectors = drv->settings_sectors;
-            drv->size = drv->settings_sectors * drv->settings_heads * drv->settings_cylinders;
-        }
-
-        if (drv->size < 1) {
-            drv->default_cylinders = identify[2] | (identify[3] << 8);
-            drv->default_heads = identify[6];
-            drv->default_sectors = identify[12];
-            drv->size = drv->default_cylinders * drv->default_heads * drv->default_sectors;
+        if (drv->geometry.size < 1) {
+            drv->geometry.cylinders = identify[2] | (identify[3] << 8);
+            drv->geometry.heads = identify[6];
+            drv->geometry.sectors = identify[12];
+            drv->geometry.size = drv->geometry.cylinders * drv->geometry.heads * drv->geometry.sectors;
             if ((identify[99] & 0x02) && (identify[120] || identify[121] || identify[122] || identify[123])) {
-                drv->size = identify[120];
-                drv->size |= identify[121] << 8;
-                drv->size |= identify[122] << 16;
-                drv->size |= identify[123] << 24;
+                drv->geometry.size = identify[120];
+                drv->geometry.size |= identify[121] << 8;
+                drv->geometry.size |= identify[122] << 16;
+                drv->geometry.size |= identify[123] << 24;
                 drv->lbamode = 1;
             } else {
                 drv->lbamode = 0;
             }
-            log_warning(drv->log, "Image size invalid, using default %d MiB.", drv->size / (1048576 / drv->sector_size));
+            log_warning(drv->log, "Image size invalid, using default %d MiB.", drv->geometry.size / (1048576 / drv->sector_size));
         }
     }
 
-    if (!drv->atapi || drv->type != drv->settings_type) {
-        ata_poweron(drv, drv->settings_type); /* update actual geometry */
+    if (!drv->atapi || drv->type != type) {
+        ata_poweron(drv, type); /* update actual geometry */
     } else {
         drv->attention = 1; /* disk change only */
     }
 
     if (drv->file) {
         if (drv->atapi) {
-            log_message(drv->log, "Attached `%s' %u sectors total.", drv->filename, drv->size);
+            log_message(drv->log, "Attached `%s' %u sectors total.", drv->filename, drv->geometry.size);
         } else {
-            log_message(drv->log, "Attached `%s' %i/%i/%i CHS geometry, %u sectors total.", drv->filename, drv->default_cylinders, drv->default_heads, drv->default_sectors, drv->size);
+            log_message(drv->log, "Attached `%s' %i/%i/%i CHS geometry, %u sectors total.", drv->filename, drv->geometry.cylinders, drv->geometry.heads, drv->geometry.sectors, drv->geometry.size);
         }
     } else {
-        if (drv->filename && drv->filename[0]) {
+        if (drv->filename && drv->filename[0] && drv->type != ATA_DRIVE_NONE) {
             log_warning(drv->log, "Cannot use image file `%s', drive disabled.", drv->filename);
         }
     }
     return;
 }
 
-void ata_image_detach(struct ata_drive_t *drv)
+void ata_image_detach(ata_drive_t *drv)
 {
     if (drv->file != NULL) {
         fclose(drv->file);
@@ -1208,16 +1241,16 @@ void ata_image_detach(struct ata_drive_t *drv)
     return;
 }
 
-void ata_image_change(struct ata_drive_t *drv)
+int ata_image_change(ata_drive_t *drv, char *filename, ata_drive_type_t type, ata_drive_geometry_t geometry)
 {
-    if (drv->type != drv->settings_type || drv->locked) {
-        drv->update_needed = 1;
-    } else {
-        ata_image_attach(drv);
+    if (drv->type != type || drv->locked) {
+        return 1;
     }
+    ata_image_attach(drv, filename, type, geometry);
+    return 0;
 }
 
-int ata_register_dump(struct ata_drive_t *drv) {
+int ata_register_dump(ata_drive_t *drv) {
     if (drv->dev != drv->slave || drv->type == ATA_DRIVE_NONE) {
         return -1;
     }
@@ -1242,14 +1275,15 @@ int ata_register_dump(struct ata_drive_t *drv) {
  */
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   6
+#define CART_DUMP_VER_MINOR   7
 
-int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
+int ata_snapshot_write_module(ata_drive_t *drv, snapshot_t *s)
 {
     snapshot_module_t *m;
     DWORD spindle_clk = CLOCK_MAX;
     DWORD head_clk = CLOCK_MAX;
     DWORD standby_clk = CLOCK_MAX;
+    off_t pos = 0;
 
     m = snapshot_module_create(s, drv->myname,
                           CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
@@ -1266,9 +1300,19 @@ int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
     if (drv->standby) {
         standby_clk = drv->standby_alarm->context->pending_alarms[drv->standby_alarm->pending_idx].clk;
     }
+    if (drv->file) {
+        pos = ftell(drv->file);
+        if (pos < 0) {
+            pos = 0;
+        }
+    }
 
     SMW_STR(m, drv->filename);
     SMW_DW(m, drv->type);
+    SMW_W(m, drv->geometry.cylinders);
+    SMW_B(m, drv->geometry.heads);
+    SMW_B(m, drv->geometry.sectors);
+    SMW_DW(m, drv->geometry.size);
     SMW_B(m, drv->error);
     SMW_B(m, drv->features);
     SMW_B(m, drv->sector_count);
@@ -1280,16 +1324,13 @@ int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
     SMW_B(m, drv->cmd);
     SMW_B(m, drv->power);
     SMW_BA(m, drv->packet, sizeof(drv->packet));
-    SMW_DW(m, drv->bufp);
+    SMW_W(m, drv->bufp);
     SMW_BA(m, drv->buffer, drv->sector_size);
-    SMW_DW(m, drv->cylinders);
-    SMW_DW(m, drv->heads);
-    SMW_DW(m, drv->sectors);
-    SMW_DW(m, drv->default_cylinders);
-    SMW_DW(m, drv->default_heads);
-    SMW_DW(m, drv->default_sectors);
-    SMW_DW(m, drv->size);
+    SMW_W(m, drv->cylinders);
+    SMW_B(m, drv->heads);
+    SMW_B(m, drv->sectors);
     SMW_DW(m, drv->pos);
+    SMW_DW(m, pos / drv->sector_size);
     SMW_B(m, drv->wcache);
     SMW_B(m, drv->lookahead);
     SMW_B(m, drv->busy);
@@ -1302,7 +1343,7 @@ int ata_snapshot_write_module(struct ata_drive_t *drv, snapshot_t *s)
     return snapshot_module_close(m);
 }
 
-int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
+int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
@@ -1310,6 +1351,7 @@ int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
     DWORD spindle_clk;
     DWORD head_clk;
     DWORD standby_clk;
+    int pos;
 
     m = snapshot_module_open(s, drv->myname, &vmajor, &vminor);
     if (m == NULL) {
@@ -1332,7 +1374,15 @@ int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
     if (drv->type != ATA_DRIVE_HDD && drv->type != ATA_DRIVE_FDD && drv->type != ATA_DRIVE_CD) {
         drv->type = ATA_DRIVE_NONE;
     }
-    ata_image_attach(drv);
+    SMR_W_INT(m, &drv->geometry.cylinders);
+    if (drv->geometry.cylinders < 1 || drv->geometry.cylinders > 16) drv->geometry.cylinders = 1;
+    SMR_B_INT(m, &drv->geometry.heads);
+    if (drv->geometry.heads < 1 || drv->geometry.heads > 16) drv->geometry.heads = 1;
+    SMR_B_INT(m, &drv->geometry.sectors);
+    if (drv->geometry.sectors < 1 || drv->geometry.sectors > 16) drv->geometry.sectors = 1;
+    SMR_DW_INT(m, &drv->geometry.size);
+    if (drv->geometry.size < 1 || drv->geometry.size > 268435455) drv->geometry.size = 1;
+    ata_image_attach(drv, drv->filename, drv->type, drv->geometry);
     SMR_B(m, &drv->error);
     SMR_B(m, &drv->features);
     SMR_B(m, &drv->sector_count);
@@ -1348,25 +1398,18 @@ int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
     SMR_B(m, &drv->power);
     SMR_BA(m, drv->packet, sizeof(drv->packet));
     if (drv->power != 0 && drv->power != 0x80) drv->power = 0xff;
-    SMR_DW_INT(m, &drv->bufp);
+    SMR_W_INT(m, &drv->bufp);
     if (drv->bufp < 0 || drv->bufp > drv->sector_size) drv->bufp = drv->sector_size;
     SMR_BA(m, drv->buffer, drv->sector_size);
-    SMR_DW_INT(m, &drv->cylinders);
+    SMR_W_INT(m, &drv->cylinders);
     if (drv->cylinders < 1 || drv->cylinders > 65535) drv->cylinders = 1;
-    SMR_DW_INT(m, &drv->heads);
+    SMR_B_INT(m, &drv->heads);
     if (drv->heads < 1 || drv->heads > 16) drv->heads = 1;
-    SMR_DW_INT(m, &drv->sectors);
-    if (drv->sectors < 1 || drv->sectors > 16) drv->sectors = 1;
-    SMR_DW_INT(m, &drv->default_cylinders);
-    if (drv->default_cylinders < 1 || drv->default_cylinders > 16) drv->default_cylinders = 1;
-    SMR_DW_INT(m, &drv->default_heads);
-    if (drv->default_heads < 1 || drv->default_heads > 16) drv->default_heads = 1;
-    SMR_DW_INT(m, &drv->default_sectors);
-    if (drv->default_sectors < 1 || drv->default_sectors > 16) drv->default_sectors = 1;
-    SMR_DW_INT(m, &drv->size);
-    if (drv->size < 1 || drv->size > 268435455) drv->size = 1;
+    SMR_B_INT(m, &drv->sectors);
+    if (drv->sectors < 1 || drv->sectors > 63) drv->sectors = 1;
     SMR_DW_INT(m, &drv->pos);
     if (drv->pos < 0 || drv->pos > 268435455) drv->pos = 0;
+    SMR_DW_INT(m, &pos);
     SMR_B_INT(m, &drv->wcache);
     if (drv->wcache) drv->wcache = 1;
     SMR_B_INT(m, &drv->lookahead);
@@ -1395,11 +1438,10 @@ int ata_snapshot_read_module(struct ata_drive_t *drv, snapshot_t *s)
     }
 
     if (drv->file) {
-        fseek(drv->file, (off_t)drv->pos * drv->sector_size, SEEK_SET);
+        fseek(drv->file, (off_t)pos * drv->sector_size, SEEK_SET);
     }
     if (!drv->atapi) { /* atapi supports disc change events */
         drv->readonly = 1; /* make sure for ata that there's no filesystem corruption */
-        drv->update_needed = 1; /* temporary settings only */
     }
 
     return snapshot_module_close(m);
