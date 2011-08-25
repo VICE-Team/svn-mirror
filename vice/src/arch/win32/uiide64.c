@@ -70,7 +70,7 @@ static void update_text(HWND hwnd)
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
     sectors_idx = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
 
-    total = (cylinders_idx + 1) * (heads_idx + 1) * sectors_idx / 2;
+    total = (cylinders_idx + 1) * (heads_idx + 1) * (sectors_idx + 1) / 2;
 
     str = lib_msprintf(translate_text(IDS_IDE64_TOTAL_SIZE), total);
     st = system_mbstowcs_alloc(str);
@@ -178,7 +178,7 @@ static void init_ide64_dialog(HWND hwnd, int num)
     SendMessage(ide64_hwnd, CB_SETCURSEL, (WPARAM)(res_value - 1), 0);
 
     ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
-    for (index = 0; index < 64; index++) {
+    for (index = 1; index <= 63; index++) {
         _stprintf(memb, TEXT("%d"), index);
         SendMessage(ide64_hwnd, CB_ADDSTRING, 0, (LPARAM)memb);
     }

@@ -160,7 +160,7 @@ static UI_CALLBACK(set_sectors)
         lib_free(msg_string);
         if (button == UI_BUTTON_OK) {
             i = atoi(input_string);
-            if (sectors >= 0 && sectors <= 63 && sectors != i) {
+            if (sectors > 0 && sectors <= 63 && sectors != i) {
                 resources_set_int_sprintf("IDE64Sectors%i", i, num);
                 ui_update_menus();
             }

@@ -114,7 +114,7 @@ void IDE64Window::MessageReceived(BMessage *msg)
     switch (msg->what) {
         case MESSAGE_IDE64_APPLY:
             cylinders = atoi(cylinderstextcontrol->Text());
-            if (cylinders < 0) {
+            if (cylinders < 1) {
                 ui_error("Value for IDE64 cylinders was invalid, using 1 instead.");
                 cylinders = 1;
             }
@@ -125,7 +125,7 @@ void IDE64Window::MessageReceived(BMessage *msg)
             resources_set_int("IDE64Cylinders", cylinders);
 
             heads = atoi(headstextcontrol->Text());
-            if (heads < 0) {
+            if (heads < 1) {
                 ui_error("Value for IDE64 heads was invalid, using 1 instead.");
                 heads = 1;
             }
@@ -136,7 +136,7 @@ void IDE64Window::MessageReceived(BMessage *msg)
             resources_set_int("IDE64Heads", heads);
 
             sectors = atoi(sectorstextcontrol->Text());
-            if (sectors < 0) {
+            if (sectors < 1) {
                 ui_error("Value for IDE64 sectors was invalid, using 1 instead.");
                 sectors = 1;
             }
