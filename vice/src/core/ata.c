@@ -84,7 +84,7 @@ typedef struct ata_drive_s {
     int locked;
     int wcache;
     int lookahead;
-    int type;
+    ata_drive_type_t type;
     int busy;
     int pos;
     int standby, standby_max;
@@ -372,7 +372,7 @@ void ata_update_timing(ata_drive_t *drv, CLOCK cycles_1s) {
     return;
 }
 
-static void ata_poweron(ata_drive_t *drv, int type)
+static void ata_poweron(ata_drive_t *drv, ata_drive_type_t type)
 {
     drv->wcache = 0;
     drv->lookahead = 0;
