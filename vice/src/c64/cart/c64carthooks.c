@@ -2169,6 +2169,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
     BYTE i;
     BYTE number_of_carts = 0;
     int cart_ids[C64CART_DUMP_MAX_CARTS];
+    int last_cart = 0;
 
     memset(cart_ids, 0, sizeof(cart_ids));
 
@@ -2181,7 +2182,10 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 DBG(("CART snapshot save: active carts > max (%i)\n", number_of_carts));
                 return -1;
             }
-            cart_ids[number_of_carts++] = e->device->cartid;
+            if (last_cart != e->device->cartid) {
+                last_cart = e->device->cartid;
+                cart_ids[number_of_carts++] = last_cart;
+            }
             e = e->next;
         }
     }
