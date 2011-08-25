@@ -202,6 +202,10 @@ static int ide64_register(void)
 {
     int i;
 
+    if (ide64_rom_list_item) {
+        return 0;
+    }
+
     for (i = 0; i < 5; i++) {
         if (!settings_version4 && i==2) {
             continue;
@@ -224,6 +228,10 @@ static int ide64_register(void)
 static void ide64_unregister(void)
 {
     int i;
+
+    if (!ide64_rom_list_item) {
+        return;
+    }
 
     for (i = 0; i < 5; i++) {
         if (!settings_version4 && i==2) {
@@ -1050,7 +1058,7 @@ int ide64_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
     int i;
 
-    for (i=0;i<4;i++) {
+    for (i = 0; i < 4; i++) {
         if (ata_snapshot_write_module(&drives[i], s)) {
             return -1;
         }
@@ -1063,7 +1071,7 @@ int ide64_snapshot_write_module(snapshot_t *s)
     }
 
     SMW_DW(m, settings_version4);
-    SMW_BA(m, roml_banks, settings_version4 ? 0x20000: 0x10000);
+    SMW_BA(m, roml_banks, settings_version4 ? 0x20000 : 0x10000);
     SMW_BA(m, export_ram0, 0x8000);
     SMW_DW(m, current_bank);
     SMW_DW(m, current_cfg);
@@ -1084,7 +1092,7 @@ int ide64_snapshot_read_module(snapshot_t *s)
     snapshot_module_t *m;
     int i;
 
-    for (i=0;i<4;i++) {
+    for (i = 0; i < 4; i++) {
         if (ata_snapshot_read_module(&drives[i], s)) {
             return -1;
         }
@@ -1101,15 +1109,17 @@ int ide64_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
+    ide64_unregister();
     SMR_DW_INT(m, &settings_version4);
     if (settings_version4) settings_version4 = 1;
+    ide64_register();
     SMR_BA(m, roml_banks, settings_version4 ? 0x20000: 0x10000);
     memcpy(romh_banks, roml_banks, settings_version4 ? 0x20000: 0x10000);
     SMR_BA(m, export_ram0, 0x8000);
     SMR_DW_INT(m, &current_bank);
-    if (current_bank < 0 || current_bank > 7) current_bank = 0;
+    current_bank &= settings_version4 ? 7 : 3;
     SMR_DW_INT(m, &current_cfg);
-    if (current_cfg < 0 || current_cfg > 3) current_cfg = 0;
+    current_cfg &= 3;
     SMR_B(m, &kill_port);
     SMR_DW_INT(m, &idrive);
     if (idrive) idrive = 2;
