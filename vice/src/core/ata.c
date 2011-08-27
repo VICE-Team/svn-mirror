@@ -1351,7 +1351,7 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
     DWORD spindle_clk;
     DWORD head_clk;
     DWORD standby_clk;
-    int pos;
+    int pos, type;
 
     m = snapshot_module_open(s, drv->myname, &vmajor, &vminor);
     if (m == NULL) {
@@ -1370,7 +1370,8 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
         return -1;
     }
     lib_free(filename);
-    SMR_DW_INT(m, (int *)&drv->type);
+    SMR_DW_INT(m, &type);
+    drv->type = type;
     if (drv->type != ATA_DRIVE_HDD && drv->type != ATA_DRIVE_FDD && drv->type != ATA_DRIVE_CD) {
         drv->type = ATA_DRIVE_NONE;
     }
