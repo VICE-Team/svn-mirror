@@ -1370,7 +1370,7 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
         return -1;
     }
     lib_free(filename);
-    SMR_DW_INT(m, &drv->type);
+    SMR_DW_INT(m, (int *)&drv->type);
     if (drv->type != ATA_DRIVE_HDD && drv->type != ATA_DRIVE_FDD && drv->type != ATA_DRIVE_CD) {
         drv->type = ATA_DRIVE_NONE;
     }
