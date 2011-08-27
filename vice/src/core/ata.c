@@ -59,7 +59,7 @@
 #define putw(a,b) {result[(a)*2]=(b) & 0xff;result[(a)*2+1]=(b) >> 8;}
 #define setb(a,b,c) {result[(a)*2+(b)/8]|=(c) ? (1 << ((b) & 7)) : 0;}
 
-typedef struct ata_drive_s {
+struct ata_drive_s {
     BYTE error;
     BYTE features;
     BYTE sector_count, sector_count_internal;
@@ -97,7 +97,7 @@ typedef struct ata_drive_s {
     CLOCK seek_time;
     CLOCK spinup_time, spindown_time;
     CLOCK cycles_1s;
-} ata_drive_t;
+};
 
 static const BYTE identify[128] = {
     0x40, 0x00, 0x00, 0x01, 0x00, 0x00, 0x04, 0x00,
