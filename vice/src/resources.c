@@ -322,6 +322,8 @@ static resource_ram_t *lookup(const char *name)
     resource_ram_t *res;
     unsigned int hashkey;
 
+    if (name == NULL)
+        return NULL;
     hashkey = resources_calc_hash_key(name);
     res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
     while (res != NULL) {
