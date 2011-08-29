@@ -52,7 +52,6 @@
 #define min(a,b) ((a) < (b) ? (a) : (b))
 
 int new_cmd = 1, quote = 0, opt_asm = 0, cur_len = 0, last_len = 0, dont_match_reg_a = 0;
-int memop_next = 0, memop_value = 0;
 int temp, push_back;
 static int yywrap(void);
 YY_BUFFER_STATE my_state;
@@ -219,17 +218,9 @@ on  		{ yylval.i = e_ON; return TOGGLE; }
 off 		{ yylval.i = e_OFF; return TOGGLE; }
 toggle		{ yylval.i = e_TOGGLE; return TOGGLE; }
 
-load\ [store|exec]  { memop_value |= e_load; memop_next = 1; REJECT; }
-store\ [load|exec]  { memop_value |= e_store; memop_next = 1; REJECT; }
-exec\ [load|store]  { memop_value |= e_exec; memop_next = 1; REJECT; }
-
-load  { memop_value |= e_load; if (memop_next == 0) { yylval.i = memop_value; memop_value = 0; return MEM_OP; } }
-store { memop_value |= e_store; if (memop_next == 0) { yylval.i = memop_value; memop_value = 0; return MEM_OP; } }
-exec  { memop_value |= e_exec; if (memop_next == 0) { yylval.i = memop_value; memop_value = 0; return MEM_OP; } }
-
-load\ [^store|^exec] { memop_value |= e_load; memop_next = 0; REJECT; }
-store\ [^load|^exec] { memop_value |= e_store; memop_next = 0; REJECT; }
-exec\ [^load|^store] { memop_value |= e_exec; memop_next = 0; REJECT; }
+load { yylval.i = e_load; return MEM_OP; }
+store { yylval.i = e_store; return MEM_OP; }
+exec { yylval.i = e_exec; return MEM_OP; }
 
 if		{ BEGIN (COND_MODE); return IF; }
 

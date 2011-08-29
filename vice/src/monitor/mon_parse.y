@@ -599,7 +599,8 @@ device_num: expression
       | error { return ERR_EXPECT_DEVICE_NUM; }
       ;
 
-opt_mem_op: MEM_OP { $$ = $1; }
+opt_mem_op: opt_mem_op MEM_OP { $$ = $1 | $2; }
+	  | MEM_OP { $$ = $1; }
           | { $$ = e_load | e_store | e_exec; }
           ;
 
