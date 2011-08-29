@@ -112,20 +112,18 @@ void vic_change_timing(void)
     }
 }
 
-/* return pixel aspect ratio for current video mode */
-/* FIXME: calculate proper values.
-   look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
-   for an example calculation
-*/
+/* return pixel aspect ratio for current video mode
+ * based on http://codebase64.com/doku.php?id=base:pixel_aspect_ratio
+ */
 static float vic_get_pixel_aspect(void)
 {
     int video;
     resources_get_int("MachineVideoStandard", &video);
     switch (video) {
         case MACHINE_SYNC_PAL:
-            return ((float)VIC_SCREEN_PAL_NORMAL_HEIGHT * 4.0f) / ((float)VIC_SCREEN_PAL_NORMAL_WIDTH * 3.0f);
+            return 1.66574035f / 2.0f;
         case MACHINE_SYNC_NTSC:
-            return ((float)VIC_SCREEN_NTSC_NORMAL_HEIGHT * 4.0f) / ((float)VIC_SCREEN_NTSC_NORMAL_WIDTH * 3.0f);
+            return 1.50411479f / 2.0f;
         default:
             return 1.0f;
     }
