@@ -69,7 +69,7 @@
  *              bit  5   oscilator control
  *              bit  4   reset control
  *              bit  3   0
- *              bits 2-0 day of week
+ *              bits 2-0 day of week (1-7, mon-sun)
  *
  * register 5: bits 7-6 0
  *             bits 5-4 10 day of month
@@ -115,7 +115,6 @@ static BYTE pattern[64] = {
 
 static void ds1216e_latch_regs(rtc_ds1216e_t *context)
 {
-    BYTE val;
     time_t latch = (context->inactive) ? context->latch : rtc_get_latch(context->offset[0]);
 
     context->clock_regs[DS1216E_REGISTER_CENTISECONDS] = rtc_get_centisecond(1);
@@ -129,15 +128,9 @@ static void ds1216e_latch_regs(rtc_ds1216e_t *context)
     }
     context->clock_regs[DS1216E_REGISTER_WEEKDAYS] = (context->inactive) ? 0x20 : 0;
     context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= (context->reset) ? 0x10 : 0;
-    context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= rtc_get_weekday(latch) + 1;
+    context->clock_regs[DS1216E_REGISTER_WEEKDAYS] |= ((rtc_get_weekday(latch) - 1) % 7) + 1;
     context->clock_regs[DS1216E_REGISTER_MONTHDAYS] = rtc_get_day_of_month(latch, 1);
-    val = rtc_get_month(latch, 1);
-    if (val >= 9) {
-        val += 7;
-    } else {
-        val++;
-    }
-    context->clock_regs[DS1216E_REGISTER_MONTHS] = val;
+    context->clock_regs[DS1216E_REGISTER_MONTHS] = rtc_get_month(latch, 1);
     context->clock_regs[DS1216E_REGISTER_YEARS] = rtc_get_year(latch, 1);
 }
 
@@ -197,17 +190,19 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
 
     context->clock_regs[DS1216E_REGISTER_MONTHDAYS] &= 0x3f;
     context->clock_regs[DS1216E_REGISTER_MONTHS] &= 0x1f;
-    context->clock_regs[DS1216E_REGISTER_MONTHS]--;
-    if (context->clock_regs[DS1216E_REGISTER_MONTHS] >= 15) {
-        context->clock_regs[DS1216E_REGISTER_MONTHS] -= 6;
-    }
 
     if (context->inactive) {
-        if (context->clock_regs_changed[DS1216E_REGISTER_SECONDS]) {
-            context->latch = rtc_set_latched_second(context->clock_regs[DS1216E_REGISTER_SECONDS], context->latch, 1);
+        if (context->clock_regs_changed[DS1216E_REGISTER_YEARS]) {
+            context->latch = rtc_set_latched_year(context->clock_regs[DS1216E_REGISTER_YEARS], context->latch, 1);
         }
-        if (context->clock_regs_changed[DS1216E_REGISTER_MINUTES]) {
-            context->latch = rtc_set_latched_minute(context->clock_regs[DS1216E_REGISTER_MINUTES], context->latch, 1);
+        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHS]) {
+            context->latch = rtc_set_latched_month(context->clock_regs[DS1216E_REGISTER_MONTHS], context->latch, 1);
+        }
+        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHDAYS]) {
+            context->latch = rtc_set_latched_day_of_month(context->clock_regs[DS1216E_REGISTER_MONTHDAYS], context->latch, 1);
+        }
+        if (context->clock_regs_changed[DS1216E_REGISTER_WEEKDAYS]) {
+            context->latch = rtc_set_latched_weekday(context->clock_regs[DS1216E_REGISTER_WEEKDAYS] % 7, context->latch);
         }
         if (context->clock_regs_changed[DS1216E_REGISTER_HOURS]) {
             if (new_12) {
@@ -216,28 +211,28 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
                 context->latch = rtc_set_latched_hour(context->clock_regs[DS1216E_REGISTER_HOURS], context->latch, 1);
             }
         }
-        if (context->clock_regs_changed[DS1216E_REGISTER_WEEKDAYS]) {
-            context->latch = rtc_set_latched_weekday(context->clock_regs[DS1216E_REGISTER_WEEKDAYS], context->latch);
+        if (context->clock_regs_changed[DS1216E_REGISTER_MINUTES]) {
+            context->latch = rtc_set_latched_minute(context->clock_regs[DS1216E_REGISTER_MINUTES], context->latch, 1);
         }
-        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHDAYS]) {
-            context->latch = rtc_set_latched_day_of_month(context->clock_regs[DS1216E_REGISTER_MONTHDAYS], context->latch, 1);
-        }
-        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHS]) {
-            context->latch = rtc_set_latched_month(context->clock_regs[DS1216E_REGISTER_MONTHS], context->latch, 1);
-        }
-        if (context->clock_regs_changed[DS1216E_REGISTER_YEARS]) {
-            context->latch = rtc_set_latched_year(context->clock_regs[DS1216E_REGISTER_YEARS], context->latch, 1);
+        if (context->clock_regs_changed[DS1216E_REGISTER_SECONDS]) {
+            context->latch = rtc_set_latched_second(context->clock_regs[DS1216E_REGISTER_SECONDS], context->latch, 1);
         }
         if (!new_osc) {
             context->offset[0] = context->offset[0] - (rtc_get_latch(0) - (context->latch - context->offset[0]));
             context->inactive = 0;
         }
     } else {
-        if (context->clock_regs_changed[DS1216E_REGISTER_SECONDS]) {
-            context->offset[0] = rtc_set_second(context->clock_regs[DS1216E_REGISTER_SECONDS], context->offset[0], 1);
+        if (context->clock_regs_changed[DS1216E_REGISTER_YEARS]) {
+            context->offset[0] = rtc_set_year(context->clock_regs[DS1216E_REGISTER_YEARS], context->offset[0], 1);
         }
-        if (context->clock_regs_changed[DS1216E_REGISTER_MINUTES]) {
-            context->offset[0] = rtc_set_minute(context->clock_regs[DS1216E_REGISTER_MINUTES], context->offset[0], 1);
+        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHS]) {
+            context->offset[0] = rtc_set_month(context->clock_regs[DS1216E_REGISTER_MONTHS], context->offset[0], 1);
+        }
+        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHDAYS]) {
+            context->offset[0] = rtc_set_day_of_month(context->clock_regs[DS1216E_REGISTER_MONTHDAYS], context->offset[0], 1);
+        }
+        if (context->clock_regs_changed[DS1216E_REGISTER_WEEKDAYS]) {
+            context->offset[0] = rtc_set_weekday(context->clock_regs[DS1216E_REGISTER_WEEKDAYS] % 7, context->offset[0]);
         }
         if (context->clock_regs_changed[DS1216E_REGISTER_HOURS]) {
             if (new_12) {
@@ -246,20 +241,14 @@ static void ds1216e_update_clock(rtc_ds1216e_t *context)
                 context->offset[0] = rtc_set_hour(context->clock_regs[DS1216E_REGISTER_HOURS], context->offset[0], 1);
             }
         }
-        if (context->clock_regs_changed[DS1216E_REGISTER_WEEKDAYS]) {
-            context->offset[0] = rtc_set_weekday(context->clock_regs[DS1216E_REGISTER_WEEKDAYS], context->offset[0]);
+        if (context->clock_regs_changed[DS1216E_REGISTER_MINUTES]) {
+            context->offset[0] = rtc_set_minute(context->clock_regs[DS1216E_REGISTER_MINUTES], context->offset[0], 1);
         }
-        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHDAYS]) {
-            context->offset[0] = rtc_set_day_of_month(context->clock_regs[DS1216E_REGISTER_MONTHDAYS], context->offset[0], 1);
-        }
-        if (context->clock_regs_changed[DS1216E_REGISTER_MONTHS]) {
-            context->offset[0] = rtc_set_month(context->clock_regs[DS1216E_REGISTER_MONTHS], context->offset[0], 1);
-        }
-        if (context->clock_regs_changed[DS1216E_REGISTER_YEARS]) {
-            context->offset[0] = rtc_set_year(context->clock_regs[DS1216E_REGISTER_YEARS], context->offset[0], 1);
+        if (context->clock_regs_changed[DS1216E_REGISTER_SECONDS]) {
+            context->offset[0] = rtc_set_second(context->clock_regs[DS1216E_REGISTER_SECONDS], context->offset[0], 1);
         }
         if (new_osc) {
-            context->latch = rtc_get_latch(context->offset);
+            context->latch = rtc_get_latch(context->offset[0]);
             context->inactive = new_osc;
         }
     }

@@ -147,11 +147,6 @@ static BYTE ds1202_1302_get_clock_register(rtc_ds1202_1302_t *context, int reg, 
             break;
         case DS1202_1302_REG_MONTHS:
             retval = rtc_get_month(latch, 1);
-            if (retval >= 9) {
-                retval += 7;
-            } else {
-                retval++;
-            }
             break;
         case DS1202_1302_REG_DAYS_OF_WEEK:
             retval = rtc_get_weekday(latch) + 1;
@@ -332,25 +327,22 @@ static void ds1202_1302_write_burst_data_bit(rtc_ds1202_1302_t *context, unsigne
                 context->state = DS1202_1302_INPUT_COMMAND_BITS;
                 if (!context->write_protect) {
                     if (context->clock_halt) {
-                        val = context->clock_regs[DS1202_1302_REG_MINUTES];
-                        context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, 1);
-                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_MONTH];
-                        context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, 1);
-                        val = context->clock_regs[DS1202_1302_REG_MONTHS] - 1;
-                        if (val >= 15) {
-                            val -= 6;
-                        }
-                        context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
-                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_WEEK];
-                        context->clock_halt_latch = rtc_set_latched_weekday(val - 1, context->clock_halt_latch);
                         val = context->clock_regs[DS1202_1302_REG_YEARS];
                         context->clock_halt_latch = rtc_set_latched_year(val, context->clock_halt_latch, 1);
+                        val = context->clock_regs[DS1202_1302_REG_MONTHS];
+                        context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_MONTH];
+                        context->clock_halt_latch = rtc_set_latched_day_of_month(val, context->clock_halt_latch, 1);
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_WEEK];
+                        context->clock_halt_latch = rtc_set_latched_weekday(val - 1, context->clock_halt_latch);
                         val = context->clock_regs[DS1202_1302_REG_HOURS];
                         if (val & 0x80) {
                             context->clock_halt_latch = rtc_set_latched_hour_am_pm(val & 0x7f, context->clock_halt_latch, 1);
                         } else {
                             context->clock_halt_latch = rtc_set_latched_hour(val & 0x7f, context->clock_halt_latch, 1);
                         }
+                        val = context->clock_regs[DS1202_1302_REG_MINUTES];
+                        context->clock_halt_latch = rtc_set_latched_minute(val, context->clock_halt_latch, 1);
                         val = context->clock_regs[DS1202_1302_REG_SECONDS_CH];
                         context->clock_halt_latch = rtc_set_latched_second(val & 0x7f, context->clock_halt_latch, 1);
                         if (!(val & 0x80)) {
@@ -358,25 +350,22 @@ static void ds1202_1302_write_burst_data_bit(rtc_ds1202_1302_t *context, unsigne
                             context->clock_halt = 0;
                         }
                     } else {
-                        val = context->clock_regs[DS1202_1302_REG_MINUTES];
-                        context->offset[0] = rtc_set_minute(val, context->offset[0], 1);
-                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_MONTH];
-                        context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
-                        val = context->clock_regs[DS1202_1302_REG_MONTHS] - 1;
-                        if (val >= 15) {
-                            val -= 6;
-                        }
-                        context->offset[0] = rtc_set_month(val, context->offset[0], 1);
-                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_WEEK];
-                        context->offset[0] = rtc_set_weekday(val - 1, context->offset[0]);
                         val = context->clock_regs[DS1202_1302_REG_YEARS];
                         context->offset[0] = rtc_set_year(val, context->offset[0], 1);
+                        val = context->clock_regs[DS1202_1302_REG_MONTHS];
+                        context->offset[0] = rtc_set_month(val, context->offset[0], 1);
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_MONTH];
+                        context->offset[0] = rtc_set_day_of_month(val, context->offset[0], 1);
+                        val = context->clock_regs[DS1202_1302_REG_DAYS_OF_WEEK];
+                        context->offset[0] = rtc_set_weekday(val - 1, context->offset[0]);
                         val = context->clock_regs[DS1202_1302_REG_HOURS];
                         if (val & 0x80) {
                             context->offset[0] = rtc_set_hour_am_pm(val & 0x7f, context->offset[0], 1);
                         } else {
                             context->offset[0] = rtc_set_hour(val & 0x7f, context->offset[0], 1);
                         }
+                        val = context->clock_regs[DS1202_1302_REG_MINUTES];
+                        context->offset[0] = rtc_set_minute(val, context->offset[0], 1);
                         val = context->clock_regs[DS1202_1302_REG_SECONDS_CH];
                         context->offset[0] = rtc_set_second(val & 0x7f, context->offset[0], 1);
                         if (val & 0x80) {
@@ -429,10 +418,6 @@ static void ds1202_1302_write_single_data_bit(rtc_ds1202_1302_t *context, unsign
                     break;
                 case DS1202_1302_REG_MONTHS:
                     if (!context->write_protect) {
-                        val--;
-                        if (val >= 15) {
-                            val -= 6;
-                        }
                         if (context->clock_halt) {
                             context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, 1);
                         } else {

@@ -237,7 +237,6 @@ static BYTE ds12c887_get_clock(rtc_ds12c887_t *context, BYTE address, time_t lat
 {
     BYTE retval;
     BYTE hour;
-    BYTE month;
 
     switch (address) {
         case DS12C887_REG_SECONDS:
@@ -302,13 +301,7 @@ static BYTE ds12c887_get_clock(rtc_ds12c887_t *context, BYTE address, time_t lat
             break;
         case DS12C887_REG_MONTHS:
             retval = context->clock_regs[DS12C887_REG_MONTHS] & ((context->bcd) ? 0xe0 : 0xf0);
-            month = rtc_get_month(latch, context->bcd);
-            if (month >= 9 && context->bcd) {
-                month += 7;
-            } else {
-                month++;
-            }
-            retval |= month;
+            retval |= rtc_get_month(latch, context->bcd);
             break;
         case DS12C887_REG_YEARS:
             if (!context->bcd) {
@@ -425,10 +418,6 @@ static void ds12c887_write_clock_byte(rtc_ds12c887_t *context, BYTE address, BYT
         case DS12C887_REG_MONTHS:
             context->clock_regs[address] = data;
             val = data & ((context->bcd) ? 0x1f : 0xf);
-            val--;
-            if (context->bcd && val >= 0xf) {
-                val -= 6;
-            }
             if (context->clock_halt) {
                 context->clock_halt_latch = rtc_set_latched_month(val, context->clock_halt_latch, context->bcd);
             } else {

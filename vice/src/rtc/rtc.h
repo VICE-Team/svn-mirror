@@ -36,7 +36,7 @@ extern BYTE rtc_get_minute(time_t time_val, int bcd);         /* 0 - 59 */
 extern BYTE rtc_get_hour(time_t time_val, int bcd);           /* 0 - 23 */
 extern BYTE rtc_get_hour_am_pm(time_t time_val, int bcd);     /* 1 - 12 + AM/PM in bit 5 (0 = AM, 1 = PM) */
 extern BYTE rtc_get_day_of_month(time_t time_val, int bcd);   /* 1 - 31 */
-extern BYTE rtc_get_month(time_t time_val, int bcd);          /* 0 - 11 (0 = January, 1 = Febuary ...etc) */
+extern BYTE rtc_get_month(time_t time_val, int bcd);          /* 1 - 12 (1 = January, 2 = Febuary ...etc) */
 extern BYTE rtc_get_year(time_t time_val, int bcd);           /* 0 - 99 */
 extern BYTE rtc_get_century(time_t time_val, int bcd);        /* 19 - 20 */
 extern BYTE rtc_get_weekday(time_t time_val);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
@@ -51,7 +51,7 @@ extern time_t rtc_set_minute(int minutes, time_t offset, int bcd);     /* 0 - 59
 extern time_t rtc_set_hour(int hours, time_t offset, int bcd);         /* 0 - 23 */
 extern time_t rtc_set_hour_am_pm(int hours, time_t offset, int bcd);   /* 1 - 12 + AM/PM in bit 5 (0 = AM, 1 = PM) */
 extern time_t rtc_set_day_of_month(int day, time_t offset, int bcd);   /* 1 - 31 */
-extern time_t rtc_set_month(int month, time_t offset, int bcd);        /* 0 - 11 */
+extern time_t rtc_set_month(int month, time_t offset, int bcd);        /* 1 - 12 */
 extern time_t rtc_set_year(int year, time_t offset, int bcd);          /* 0 - 99 */
 extern time_t rtc_set_century(int year, time_t offset, int bcd);       /* 19 - 20 */
 extern time_t rtc_set_weekday(int day, time_t offset);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */
@@ -63,7 +63,7 @@ extern time_t rtc_set_latched_minute(int minutes, time_t latch, int bcd);     /*
 extern time_t rtc_set_latched_hour(int hours, time_t latch, int bcd);         /* 0 - 23 */
 extern time_t rtc_set_latched_hour_am_pm(int hours, time_t latch, int bcd);   /* 1 - 12 + AM/PM in bit 5 (0 = AM, 1 = PM) */
 extern time_t rtc_set_latched_day_of_month(int day, time_t latch, int bcd);   /* 1 - 31 */
-extern time_t rtc_set_latched_month(int month, time_t latch, int bcd);        /* 0 - 11 */
+extern time_t rtc_set_latched_month(int month, time_t latch, int bcd);        /* 1 - 12 */
 extern time_t rtc_set_latched_year(int year, time_t latch, int bcd);          /* 0 - 99 */
 extern time_t rtc_set_latched_century(int year, time_t latch, int bcd);       /* 19 - 20 */
 extern time_t rtc_set_latched_weekday(int day, time_t latch);                 /* 0 - 6 (sunday 0, monday 1 ...etc) */

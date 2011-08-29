@@ -122,13 +122,13 @@ BYTE rtc_get_day_of_month(time_t time_val, int bcd)
 }
 
 /* get month from time value
-   0 - 11 */
+   1 - 12 */
 BYTE rtc_get_month(time_t time_val, int bcd)
 {
     time_t now = time_val;
     struct tm *local = localtime(&now);
 
-    return (BYTE)((bcd) ? int_to_bcd(local->tm_mon) : local->tm_mon);
+    return (BYTE)((bcd) ? int_to_bcd(local->tm_mon + 1) : (local->tm_mon + 1));
 }
 
 /* get year of the century from time value
@@ -274,7 +274,7 @@ time_t rtc_set_hour_am_pm(int hours, time_t offset, int bcd)
 }
 
 /* set day of month and returns new offset
-   0 - 31 */
+   1 - 31 */
 time_t rtc_set_day_of_month(int day, time_t offset, int bcd)
 {
     time_t now = time(NULL) + offset;
@@ -299,20 +299,23 @@ time_t rtc_set_day_of_month(int day, time_t offset, int bcd)
         case 7:
         case 9:
         case 11:
-            if (real_day < 0 || real_day > 31) {
+            if (real_day < 1 || real_day > 31) {
                 return offset;
             }
+            break;
         case 3:
         case 5:
         case 8:
         case 10:
-            if (real_day < 0 || real_day > 30) {
+            if (real_day < 1 || real_day > 30) {
                 return offset;
             }
+            break;
         case 1:
-            if (real_day < 0 || real_day > (28 + is_leap_year)) {
+            if (real_day < 1 || real_day > (28 + is_leap_year)) {
                 return offset;
             }
+            break;
     }
     local->tm_mday = real_day;
     offset_now = mktime(local);
@@ -321,7 +324,7 @@ time_t rtc_set_day_of_month(int day, time_t offset, int bcd)
 }
 
 /* set month and returns new offset
-   0 - 11 */
+   1 - 12 */
 time_t rtc_set_month(int month, time_t offset, int bcd)
 {
     time_t now = time(NULL) + offset;
@@ -330,10 +333,10 @@ time_t rtc_set_month(int month, time_t offset, int bcd)
     int real_month = (bcd) ? bcd_to_int(month) : month;
 
     /* sanity check */
-    if (real_month < 0 || real_month > 11) {
+    if (real_month < 1 || real_month > 12) {
         return offset;
     }
-    local->tm_mon = real_month;
+    local->tm_mon = real_month - 1;
     offset_now = mktime(local);
 
     return offset + (offset_now - now);
@@ -504,7 +507,7 @@ time_t rtc_set_latched_hour_am_pm(int hours, time_t latch, int bcd)
 }
 
 /* set day of month and returns new latched value
-   0 - 31 */
+   1 - 31 */
 time_t rtc_set_latched_day_of_month(int day, time_t latch, int bcd)
 {
     time_t now = latch;
@@ -529,20 +532,23 @@ time_t rtc_set_latched_day_of_month(int day, time_t latch, int bcd)
         case 7:
         case 9:
         case 11:
-            if (real_day < 0 || real_day > 31) {
+            if (real_day < 1 || real_day > 31) {
                 return latch;
             }
+            break;
         case 3:
         case 5:
         case 8:
         case 10:
-            if (real_day < 0 || real_day > 30) {
+            if (real_day < 1 || real_day > 30) {
                 return latch;
             }
+            break;
         case 1:
-            if (real_day < 0 || real_day > (28 + is_leap_year)) {
+            if (real_day < 1 || real_day > (28 + is_leap_year)) {
                 return latch;
             }
+            break;
     }
     local->tm_mday = real_day;
     offset_now = mktime(local);
@@ -551,7 +557,7 @@ time_t rtc_set_latched_day_of_month(int day, time_t latch, int bcd)
 }
 
 /* set month and returns new latched value
-   0 - 11 */
+   1 - 12 */
 time_t rtc_set_latched_month(int month, time_t latch, int bcd)
 {
     time_t now = latch;
@@ -560,10 +566,10 @@ time_t rtc_set_latched_month(int month, time_t latch, int bcd)
     int real_month = (bcd) ? bcd_to_int(month) : month;
 
     /* sanity check */
-    if (real_month < 0 || real_month > 11) {
+    if (real_month < 1 || real_month > 12) {
         return latch;
     }
-    local->tm_mon = real_month;
+    local->tm_mon = real_month - 1;
     offset_now = mktime(local);
 
     return offset_now;
