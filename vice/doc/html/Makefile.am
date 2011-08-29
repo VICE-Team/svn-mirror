@@ -25,6 +25,7 @@ doc_DATA = \
 	plain/cbm_basic_tokens.txt \
 	plain/drive_info.txt \
 	plain/serial.txt \
+	plain/pixel_aspect.txt \
 	qnx.html \
 	sco.html \
 	solaris.html \
