@@ -116,7 +116,7 @@ static BYTE pattern[64] = {
 static void ds1216e_latch_regs(rtc_ds1216e_t *context)
 {
     BYTE val;
-    time_t latch = (context->inactive) ? context->latch : rtc_get_latch(context->offset[0]);
+    time_t latch = (context->inactive) ? context->latch : rtc_get_latch(context->offset);
 
     context->clock_regs[DS1216E_REGISTER_CENTISECONDS] = rtc_get_centisecond(1);
     context->clock_regs[DS1216E_REGISTER_SECONDS] = rtc_get_second(latch, 1);
