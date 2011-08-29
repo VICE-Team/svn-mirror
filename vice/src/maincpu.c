@@ -80,12 +80,12 @@
 
 #ifndef STORE_ZERO
 #define STORE_ZERO(addr, value) \
-    zero_store((WORD)(addr), (BYTE)(value))
+    (*_mem_write_tab_ptr[0])((WORD)(addr), (BYTE)(value))
 #endif
 
 #ifndef LOAD_ZERO
 #define LOAD_ZERO(addr) \
-    zero_read((WORD)(addr))
+    (*_mem_read_tab_ptr[0])((WORD)(addr))
 #endif
 
 #ifdef FEATURE_CPUMEMHISTORY
