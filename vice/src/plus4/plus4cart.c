@@ -148,8 +148,13 @@ void cart_power_off(void)
 }
 /* ---------------------------------------------------------------------*/
 
+extern int plus4_rom_loaded;
+
 int plus4cart_load_func_lo(const char *rom_name)
 {
+    if (!plus4_rom_loaded)
+        return 0;
+
     /* Load 3plus1 low ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name,
@@ -167,6 +172,9 @@ int plus4cart_load_func_lo(const char *rom_name)
 
 int plus4cart_load_func_hi(const char *rom_name)
 {
+    if (!plus4_rom_loaded)
+        return 0;
+
     /* Load 3plus1 high ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name,
@@ -187,6 +195,9 @@ int plus4cart_load_func_hi(const char *rom_name)
 */
 int plus4cart_load_c1lo(const char *rom_name)
 {
+    if (!plus4_rom_loaded)
+        return 0;
+
     /* Load c1 low ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name,
@@ -205,6 +216,9 @@ int plus4cart_load_c1lo(const char *rom_name)
 
 int plus4cart_load_c1hi(const char *rom_name)
 {
+    if (!plus4_rom_loaded)
+        return 0;
+
     /* Load c1 high ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name,
@@ -223,6 +237,9 @@ int plus4cart_load_c1hi(const char *rom_name)
 
 int plus4cart_load_c2lo(const char *rom_name)
 {
+    if (!plus4_rom_loaded)
+        return 0;
+
     /* Load c2 low ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name,
@@ -240,6 +257,9 @@ int plus4cart_load_c2lo(const char *rom_name)
 
 int plus4cart_load_c2hi(const char *rom_name)
 {
+    if (!plus4_rom_loaded)
+        return 0;
+
     /* Load c2 high ROM.  */
     if (*rom_name != 0) {
         if (sysfile_load(rom_name,

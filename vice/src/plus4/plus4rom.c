@@ -44,7 +44,7 @@
 static log_t plus4rom_log = LOG_ERR;
 
 /* Flag: nonzero if the Kernal and BASIC ROMs have been loaded.  */
-static int plus4_rom_loaded = 0;
+int plus4_rom_loaded = 0;
 
 
 int plus4rom_load_kernal(const char *rom_name)
