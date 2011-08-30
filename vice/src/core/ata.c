@@ -1371,7 +1371,7 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
     }
 
     SMR_STR(m, &filename);
-    if (strcmp(filename, drv->filename)) {
+    if (!drv->filename || strcmp(filename, drv->filename)) {
         lib_free(filename);
         snapshot_module_close(m);
         return -1;

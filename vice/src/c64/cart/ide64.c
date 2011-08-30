@@ -1004,9 +1004,11 @@ void ide64_detach(void)
     ds1202_1302_destroy(ds1302_context);
 
     for (i = 0; i < 4; i++) {
-        ata_image_detach(drives[i].drv);
-        ata_shutdown(drives[i].drv);
-        drives[i].drv = NULL;
+        if (drives[i].drv) {
+            ata_image_detach(drives[i].drv);
+            ata_shutdown(drives[i].drv);
+            drives[i].drv = NULL;
+        }
     }
 
     ide64_unregister();
@@ -1032,7 +1034,9 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
         }
     }
     for (i = 0; i < 4; i++) {
-        drives[i].drv = ata_init(i);
+        if (!drives[i].drv) {
+            drives[i].drv = ata_init(i);
+        }
         drives[i].update_needed = 1;
     }
 
@@ -1107,8 +1111,10 @@ int ide64_snapshot_write_module(snapshot_t *s)
     int i;
 
     for (i = 0; i < 4; i++) {
-        if (ata_snapshot_write_module(drives[i].drv, s)) {
-            return -1;
+        if (drives[i].drv) {
+            if (ata_snapshot_write_module(drives[i].drv, s)) {
+                return -1;
+            }
         }
     }
 
@@ -1141,6 +1147,11 @@ int ide64_snapshot_read_module(snapshot_t *s)
     int i;
 
     for (i = 0; i < 4; i++) {
+        if (!drives[i].drv) {
+            drives[i].drv = ata_init(i);
+            detect_ide64_image(&drives[i]);
+            ata_image_attach(drives[i].drv, drives[i].filename, drives[i].type, drives[i].detected);
+        }
         if (ata_snapshot_read_module(drives[i].drv, s)) {
             return -1;
         }
