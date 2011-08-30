@@ -505,9 +505,13 @@ ata_drive_t *ata_init(int drive)
     drv->slave = drive & 1;
     drv->cycles_1s = (CLOCK)1000000;
     ata_poweron(drv, ATA_DRIVE_NONE);
-    name = lib_msprintf("%sBSY", drv->myname);
+    name = lib_msprintf("%sSPINDLE", drv->myname);
     drv->spindle_alarm = alarm_new(maincpu_alarm_context, name, ata_spindle_alarm_handler, drv);
+    lib_free(name);
+    name = lib_msprintf("%sHEAD", drv->myname);
     drv->head_alarm = alarm_new(maincpu_alarm_context, name, ata_head_alarm_handler, drv);
+    lib_free(name);
+    name = lib_msprintf("%sSTANDBY", drv->myname);
     drv->standby_alarm = alarm_new(maincpu_alarm_context, name, ata_standby_alarm_handler, drv);
     lib_free(name);
     return drv;
@@ -518,6 +522,9 @@ void ata_shutdown(ata_drive_t *drv) {
         lib_free(drv->filename);
         drv->filename = NULL;
     }
+    alarm_destroy(drv->spindle_alarm);
+    alarm_destroy(drv->head_alarm);
+    alarm_destroy(drv->standby_alarm);
     log_close(drv->log);
     lib_free(drv->myname);
     lib_free(drv->buffer);

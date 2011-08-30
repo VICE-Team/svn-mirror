@@ -296,7 +296,12 @@ static void detect_ide64_image(struct drive_s *drive)
     geometry->sectors = drive->settings.sectors;
     geometry->size = geometry->cylinders * geometry->heads * geometry->sectors;
 
-    res = strlen(drive->filename); 
+    if (!drive->filename) {
+        drive->type = ATA_DRIVE_NONE;
+        return;
+    }
+
+    res = strlen(drive->filename);
 
     if (!res) {
         drive->type = ATA_DRIVE_NONE;
@@ -367,8 +372,11 @@ static int set_ide64_image_file(const char *name, void *param)
     struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
     util_string_set(&drive->filename, name);
-    detect_ide64_image(drive);
-    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+
+    if (drive->drv) {
+        detect_ide64_image(drive);
+        drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    }
     return 0;
 }
 
@@ -381,7 +389,9 @@ static int set_cylinders(int cylinders, void *param)
     }
 
     drive->settings.cylinders = cylinders;
-    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    if (drive->drv) {
+        drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    }
     return 0;
 }
 
@@ -393,7 +403,9 @@ static int set_heads(int heads, void *param)
         return -1;
     }
     drive->settings.heads = heads;
-    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    if (drive->drv) {
+        drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    }
     return 0;
 }
 
@@ -405,7 +417,9 @@ static int set_sectors(int sectors, void *param)
         return -1;
     }
     drive->settings.sectors = sectors;
-    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    if (drive->drv) {
+        drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    }
     return 0;
 }
 
@@ -414,8 +428,10 @@ static int set_autodetect_size(int autodetect_size, void *param)
     struct drive_s *drive = &drives[vice_ptr_to_int(param)];
 
     drive->autodetect_size = autodetect_size;
-    detect_ide64_image(drive);
-    drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    if (drive->drv) {
+        detect_ide64_image(drive);
+        drive->update_needed = ata_image_change(drive->drv, drive->filename, drive->type, drive->detected);
+    }
     return 0;
 }
 
@@ -518,10 +534,9 @@ int ide64_resources_init(void)
 
     debug("IDE64 resource init");
     for (i = 0; i < 4; i++) {
-        drives[i].drv = ata_init(i);
+        drives[i].drv = NULL;
         drives[i].filename = NULL;
     }
-
     if (resources_register_string(resources_string) < 0) {
         return -1;
     }
@@ -539,8 +554,6 @@ int ide64_resources_shutdown(void)
     debug("IDE64 resource shutdown");
 
     for (i = 0; i < 4; i++) {
-        ata_shutdown(drives[i].drv);
-        drives[i].drv = NULL;
         if (drives[i].filename) {
             lib_free(drives[i].filename);
         }
@@ -992,6 +1005,8 @@ void ide64_detach(void)
 
     for (i = 0; i < 4; i++) {
         ata_image_detach(drives[i].drv);
+        ata_shutdown(drives[i].drv);
+        drives[i].drv = NULL;
     }
 
     ide64_unregister();
@@ -1017,6 +1032,7 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
         }
     }
     for (i = 0; i < 4; i++) {
+        drives[i].drv = ata_init(i);
         drives[i].update_needed = 1;
     }
 
