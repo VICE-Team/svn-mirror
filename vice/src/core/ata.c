@@ -1191,11 +1191,10 @@ void ata_image_attach(ata_drive_t *drv, char *filename, ata_drive_type_t type, a
 
     if (type != ATA_DRIVE_NONE) {
         if (drv->filename && drv->filename[0]) {
-            if (!drv->readonly) {
+            if (type != ATA_DRIVE_CD) {
                 drv->file = fopen(drv->filename, MODE_READ_WRITE);
             }
             if (!drv->file) {
-                drv->readonly = 1;
                 drv->file = fopen(drv->filename, MODE_READ);
             }
         }
