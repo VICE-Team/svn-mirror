@@ -399,6 +399,11 @@ void viacore_store(via_context_t *via_context, WORD addr, BYTE byte)
 
       case VIA_SR:              /* Serial Port output buffer */
         via_context->via[addr] = byte;
+        if ((via_context->via[VIA_ACR] & 0x10)) {
+            /* TODO: proper shifting! */
+            via_context->ifr |= VIA_IM_SR;
+            update_myviairq(via_context);
+        }
         (via_context->store_sr)(via_context, byte);
         break;
 
@@ -692,6 +697,7 @@ BYTE viacore_read_(via_context_t *via_context, WORD addr)
         return via_context->last_read;
 
       case VIA_SR:              /* Serial Port Shift Register */
+        via_context->ifr &= ~VIA_IM_SR;
         via_context->last_read = via_context->via[addr];
         return via_context->last_read;
 
@@ -912,6 +918,15 @@ void viacore_shutdown(via_context_t *via_context)
     lib_free(via_context->my_module_name_alt1);
     lib_free(via_context->my_module_name_alt2);
     lib_free(via_context);
+}
+
+void viacore_set_sr(via_context_t *via_context, BYTE data)
+{
+    if (!(via_context->via[VIA_ACR] & 0x10) && (via_context->via[VIA_ACR] & 0x0c)) {
+        via_context->via[VIA_SR] = data;
+        via_context->ifr |= VIA_IM_SR;
+        update_myviairq(via_context);
+    }
 }
 
 /*------------------------------------------------------------------------*/

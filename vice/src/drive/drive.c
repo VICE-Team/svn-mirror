@@ -67,6 +67,7 @@
 #include "rotation.h"
 #include "types.h"
 #include "uiapi.h"
+#include "ds1216e.h"
 
 
 drive_context_t *drive_context[DRIVE_NUM];
@@ -184,6 +185,10 @@ int drive_init(void)
             resources_set_int_sprintf("Drive%iType", DRIVE_TYPE_NONE, dnr + 8);
 
         machine_drive_rom_setup_image(dnr);
+
+        drive->rtc_offset = (time_t)0; /* TODO: offset */
+        drive->ds1216 = ds1216e_init(&drive->rtc_offset);
+        drive->ds1216->hours12 = 1;
     }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
@@ -244,6 +249,7 @@ void drive_shutdown(void)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drivecpu_shutdown(drive_context[dnr]);
         gcr_destroy_image(drive_context[dnr]->drive->gcr);
+        ds1216e_destroy(drive_context[dnr]->drive->ds1216);
     }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
@@ -264,6 +270,7 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
         break;
       case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_1992:
         drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
         break;
       case DRIVE_TYPE_2031:
@@ -652,7 +659,7 @@ static void drive_led_update(drive_t *drive)
         my_led_status = drive->led_status;
 
     /* Update remaining led clock ticks. */
-    if (drive->led_status)
+    if (drive->led_status & 1)
         drive->led_active_ticks += *(drive->clk)
                                    - drive->led_last_change_clk;
     drive->led_last_change_clk = *(drive->clk);
@@ -663,9 +670,15 @@ static void drive_led_update(drive_t *drive)
     if (led_period == 0)
         return;
 
-    led_pwm = drive->led_active_ticks * 1000 / led_period;
+    if (drive->led_active_ticks > led_period) {
     /* during startup it has been observer that led_pwm > 1000, 
        which potentially breaks several UIs */
+    /* this also happens when the drive is reset from UI
+       and the LED was on */
+        led_pwm = 1000;
+    } else {
+        led_pwm = drive->led_active_ticks * 1000 / led_period;
+    }
     assert(led_pwm <= MAX_PWM);
     if (led_pwm > MAX_PWM) {
         led_pwm = MAX_PWM;
@@ -719,6 +732,10 @@ int drive_num_leds(unsigned int dnr)
     }
 
     if ((dnr == 1) && drive_check_dual(drive_context[0]->drive->type)) {
+        return 2;
+    }
+
+    if (drive_context[dnr]->drive->type == DRIVE_TYPE_1992) {
         return 2;
     }
 

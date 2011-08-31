@@ -823,6 +823,7 @@ vsid_libs =  \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
@@ -1027,6 +1028,7 @@ x64dtv_libs =  \
 	$(driver_libs) \
 	$(viciidtv_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(resid_dtv_libs) \
@@ -1071,6 +1073,7 @@ x64dtv-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	x64dtv$(EXEEXT)
 
 # x128
@@ -1225,7 +1228,6 @@ xpet_libs =  \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(crtc_lib) \
-	$(rtc_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
 	$(userport_lib) \
@@ -1345,6 +1347,7 @@ xcbm2_libs = \
 	$(crtc_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(userport_lib) \
 	$(common_libs) \
@@ -1384,6 +1387,7 @@ xcbm2-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	libuserport \
 	xcbm2$(EXEEXT)
 
@@ -1402,6 +1406,7 @@ xcbm5x0_libs = \
 	$(crtc_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(userport_lib) \
 	$(common_libs) \
@@ -1441,6 +1446,7 @@ xcbm5x0-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
+	librtc \
 	libuserport \
 	xcbm5x0$(EXEEXT)
 

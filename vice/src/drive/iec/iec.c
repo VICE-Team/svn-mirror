@@ -72,7 +72,9 @@ void iec_drive_init(struct drive_context_s *drv)
     via1d1541_init(drv);
     cia1571_init(drv);
     cia1581_init(drv);
+    via1992_init(drv);
     wd1770d_init(drv);
+    pc8477d_init(drv);
 }
 
 void iec_drive_reset(struct drive_context_s *drv)
@@ -97,11 +99,17 @@ void iec_drive_reset(struct drive_context_s *drv)
 
     if (drv->drive->type == DRIVE_TYPE_1581) {
         ciacore_reset(drv->cia1581);
+        wd1770d_reset(drv);
     } else {
         ciacore_disable(drv->cia1581);
     }
-    /* FIXME:  which drive type needs this chip?? */
-    wd1770d_reset(drv);
+
+    if (drv->drive->type == DRIVE_TYPE_1992) {
+        viacore_reset(drv->via1992);
+        pc8477d_reset(drv);
+    } else {
+        viacore_disable(drv->via1992);
+    }
 }
 
 void iec_drive_mem_init(struct drive_context_s *drv, unsigned int type)
@@ -114,6 +122,7 @@ void iec_drive_setup_context(struct drive_context_s *drv)
     via1d1541_setup_context(drv);
     cia1571_setup_context(drv);
     cia1581_setup_context(drv);
+    via1992_setup_context(drv);
 }
 
 void iec_drive_shutdown(struct drive_context_s *drv)
@@ -121,6 +130,7 @@ void iec_drive_shutdown(struct drive_context_s *drv)
     viacore_shutdown(drv->via1d1541);
     ciacore_shutdown(drv->cia1571);
     ciacore_shutdown(drv->cia1581);
+    viacore_shutdown(drv->via1992);
 }
 
 void iec_drive_idling_method(unsigned int dnr)
@@ -137,6 +147,7 @@ void iec_drive_idling_method(unsigned int dnr)
 void iec_drive_vsync_hook(void)
 {
     wd1770_vsync_hook();
+    pc8477_vsync_hook();
 }
 
 void iec_drive_rom_load(void)
@@ -146,6 +157,7 @@ void iec_drive_rom_load(void)
     iecrom_load_1570();
     iecrom_load_1571();
     iecrom_load_1581();
+    iecrom_load_1992();
 }
 
 void iec_drive_rom_setup_image(unsigned int dnr)
@@ -192,6 +204,11 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
             return -1;
     }
 
+    if (ctxptr->drive->type == DRIVE_TYPE_1992) {
+        if (viacore_snapshot_read_module(ctxptr->via1992, s) < 0)
+            return -1;
+    }
+
     return 0;
 }
 
@@ -219,17 +236,22 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
             return -1;
     }
 
+    if (ctxptr->drive->type == DRIVE_TYPE_1992) {
+        if (viacore_snapshot_write_module(ctxptr->via1992, s) < 0)
+            return -1;
+    }
+
     return 0;
 }
 
 int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit)
 {
-    return wd1770_attach_image(image, unit);
+    return wd1770_attach_image(image, unit) & pc8477_attach_image(image, unit);
 }
 
 int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 {
-    return wd1770_detach_image(image, unit);
+    return wd1770_detach_image(image, unit) & pc8477_detach_image(image, unit);
 }
 
 void iec_drive_port_default(struct drive_context_s *drv)

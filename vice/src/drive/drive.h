@@ -30,6 +30,7 @@
 #define VICE_DRIVE_H
 
 #include "types.h"
+#include "rtc/ds1216e.h"
 
 #define DRIVE_NUM 4
 #define MAX_PWM 1000
@@ -56,6 +57,7 @@
 #define DRIVE_TYPE_1571   1571
 #define DRIVE_TYPE_1571CR 1573
 #define DRIVE_TYPE_1581   1581
+#define DRIVE_TYPE_1992   1992
 #define DRIVE_TYPE_2031   2031
 #define DRIVE_TYPE_2040   2040  /* DOS 1 dual floppy drive, 170k/disk */
 #define DRIVE_TYPE_3040   3040  /* DOS 2.0 dual floppy drive, 170k/disk */
@@ -217,6 +219,10 @@ typedef struct drive_s {
 
     /* Are the Professional DOS extentions enabled?  */
     int profdos;
+
+    /* RTC context */
+    rtc_ds1216e_t *ds1216;
+    time_t rtc_offset;
 
     /* Drive ROM starts here.  */
     WORD rom_start;

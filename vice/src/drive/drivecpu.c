@@ -576,6 +576,9 @@ static void drive_jam(drive_context_t *drv)
       case DRIVE_TYPE_1581:
         dname = "  1581";
         break;
+      case DRIVE_TYPE_1992:
+        dname = "  1992";
+        break;
       case DRIVE_TYPE_2031:
         dname = "  2031";
         break;
@@ -667,7 +670,8 @@ int drivecpu_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
             goto fail;
     }
 
-    if (drv->drive->type == DRIVE_TYPE_1581) {
+    if (drv->drive->type == DRIVE_TYPE_1581
+        || drv->drive->type == DRIVE_TYPE_1992) {
         if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
             goto fail;
     }
@@ -748,7 +752,8 @@ int drivecpu_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
             goto fail;
     }
 
-    if (drv->drive->type == DRIVE_TYPE_1581) {
+    if (drv->drive->type == DRIVE_TYPE_1581
+        || drv->drive->type == DRIVE_TYPE_1992) {
         if (SMR_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
             goto fail;
     }

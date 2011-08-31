@@ -376,7 +376,8 @@ int drive_snapshot_read_module(snapshot_t *s)
         if (drive->type != DRIVE_TYPE_1570
             && drive->type != DRIVE_TYPE_1571
             && drive->type != DRIVE_TYPE_1571CR) {
-            if (drive->type == DRIVE_TYPE_1581) {
+            if (drive->type == DRIVE_TYPE_1581
+                || drive->type == DRIVE_TYPE_1992) {
                 resources_set_int("MachineVideoStandard", sync_factor);
             } else {
                 drive->side = 0;
@@ -394,6 +395,7 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_1992:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_2040:
@@ -425,6 +427,7 @@ int drive_snapshot_read_module(snapshot_t *s)
       case DRIVE_TYPE_1570:
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_1992:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
         /* drive 1 does not allow dual disk drive */
@@ -613,6 +616,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
 
     switch(word) {
       case 1581:
+      case 1992:
         len = D81_FILE_SIZE;
         break;
       case 8050:
@@ -848,6 +852,10 @@ static int drive_snapshot_write_rom_module(snapshot_t *s, unsigned int dnr)
         base = drive->rom;
         len = DRIVE_ROM1581_SIZE;
         break;
+      case DRIVE_TYPE_1992:
+        base = drive->rom;
+        len = DRIVE_ROM1992_SIZE;
+        break;
       case DRIVE_TYPE_2031:
         base = &(drive->rom[0x4000]);
         len = DRIVE_ROM2031_SIZE;
@@ -937,6 +945,10 @@ static int drive_snapshot_read_rom_module(snapshot_t *s, unsigned int dnr)
       case DRIVE_TYPE_1581:
         base = drive->rom;
         len = DRIVE_ROM1581_SIZE;
+        break;
+      case DRIVE_TYPE_1992:
+        base = drive->rom;
+        len = DRIVE_ROM1992_SIZE;
         break;
       case DRIVE_TYPE_2031:
         base = &(drive->rom[0x4000]);

@@ -28,7 +28,13 @@ libdriveiec_a_SOURCES = \
 	via1d1541.c \
 	via1d1541.h \
 	wd1770.c \
-	wd1770.h
+	wd1770.h \
+	via1992.c \
+	via1992.h \
+	fdd.c \
+	fdd.h \
+	pc8477.c \
+	pc8477.h
 
 .PHONY: libdriveiecc64exp libdriveiecplus4exp
 

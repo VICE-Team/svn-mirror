@@ -39,6 +39,7 @@
 #include "mem.h"
 #include "monitor.h"
 #include "types.h"
+#include "ds1216e.h"
 
 
 /* ------------------------------------------------------------------------- */
@@ -47,6 +48,11 @@
 BYTE drive_read_rom(drive_context_t *drv, WORD address)
 {
     return drv->drive->rom[address & 0x7fff];
+}
+
+BYTE drive_read_rom_ds1216(drive_context_t *drv, WORD address)
+{
+    return ds1216e_read(drv->drive->ds1216, address, drv->drive->rom[address & 0x7fff]);
 }
 
 static BYTE drive_read_free(drive_context_t *drv, WORD address)
@@ -143,6 +149,7 @@ void drivemem_init(drive_context_t *drv, unsigned int type)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_1992:
         drv->drive->rom_start = 0x8000;
         break;
       default:
@@ -181,6 +188,10 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
       case DRIVE_TYPE_1581:
         mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
         mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL);
+        break;
+      case DRIVE_TYPE_1992:
+        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL);
         break;
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_2040:

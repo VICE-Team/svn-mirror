@@ -39,13 +39,14 @@
 #include "util.h"
 
 
-static int romset_firmware[5];
+static int romset_firmware[6];
 
 static char *dos_rom_name_1541 = NULL;
 static char *dos_rom_name_1541ii = NULL;
 static char *dos_rom_name_1570 = NULL;
 static char *dos_rom_name_1571 = NULL;
 static char *dos_rom_name_1581 = NULL;
+static char *dos_rom_name_1992 = NULL;
 
 
 static void set_drive_ram(unsigned int dnr)
@@ -154,6 +155,14 @@ static int set_dos_rom_name_1581(const char *val, void *param)
     return iecrom_load_1581();
 }
 
+static int set_dos_rom_name_1992(const char *val, void *param)
+{
+    if (util_string_set(&dos_rom_name_1992, val))
+        return 0;
+
+    return iecrom_load_1992();
+}
+
 static int set_drive_ram2(int val, void *param)
 {
     drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
@@ -220,6 +229,8 @@ static const resource_string_t resources_string[] = {
       &dos_rom_name_1571, set_dos_rom_name_1571, NULL },
     { "DosName1581", "dos1581", RES_EVENT_NO, NULL,
       &dos_rom_name_1581, set_dos_rom_name_1581, NULL },
+    { "DosName1992", "dos1992", RES_EVENT_NO, NULL,
+      &dos_rom_name_1992, set_dos_rom_name_1992, NULL },
     { NULL }
 };
 
@@ -234,6 +245,8 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[3], set_romset_firmware, (void *)3 },
     { "RomsetDosName1581", 0, RES_EVENT_NO, NULL,
       &romset_firmware[4], set_romset_firmware, (void *)4 },
+    { "RomsetDosName1992", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[5], set_romset_firmware, (void *)5 },
     { NULL }
 };
 
@@ -304,5 +317,6 @@ void iec_resources_shutdown(void)
     lib_free(dos_rom_name_1570);
     lib_free(dos_rom_name_1571);
     lib_free(dos_rom_name_1581);
+    lib_free(dos_rom_name_1992);
 }
 

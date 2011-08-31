@@ -39,6 +39,8 @@
 #include "via1d1541.h"
 #include "viad.h"
 #include "wd1770.h"
+#include "via1992.h"
+#include "pc8477.h"
 
 
 static BYTE drive_read_ram(drive_context_t *drv, WORD address)
@@ -146,7 +148,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
 
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
-        || type == DRIVE_TYPE_1571CR || type == DRIVE_TYPE_1581) {
+        || type == DRIVE_TYPE_1571CR || type == DRIVE_TYPE_1581
+        || type == DRIVE_TYPE_1992) {
 
         /* Setup drive RAM.  */
         switch (type) {
@@ -167,6 +170,19 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
             drivemem_set_func(cpud, 0x00, 0x20,
                               drive_read_1581ram, drive_store_1581ram);
             break;
+          case DRIVE_TYPE_1992:
+            drivemem_set_func(cpud, 0x00, 0x20,
+                              drive_read_1581ram, drive_store_1581ram);
+            realloc_expram(&drv->drive->drive_ram_expand2, 0x2000);
+            drivemem_set_func(cpud, 0x20, 0x40,
+                              drive_read_ram2, drive_store_ram2);
+            realloc_expram(&drv->drive->drive_ram_expand4, 0x2000);
+            drivemem_set_func(cpud, 0x50, 0x60,
+                              drive_read_ram4, drive_store_ram4);
+            realloc_expram(&drv->drive->drive_ram_expand6, 0x2000);
+            drivemem_set_func(cpud, 0x60, 0x80,
+                              drive_read_ram6, drive_store_ram6);
+            break;
         }
 
         drv->cpu->pageone = cpud->drive_ram + 0x100;
@@ -176,6 +192,10 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
 
         /* Setup drive ROM.  */
         drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL);
+
+        if (type == DRIVE_TYPE_1992) { /* for performance reasons it's only this page */
+            drivemem_set_func(cpud, 0xf0, 0xf1, drive_read_rom_ds1216, NULL);
+        }
     }
 
     /* Setup 1541, 1541-II VIAs.  */
@@ -201,6 +221,12 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     if (type == DRIVE_TYPE_1581) {
         drivemem_set_func(cpud, 0x40, 0x60, cia1581_read, cia1581_store);
         drivemem_set_func(cpud, 0x60, 0x80, wd1770d_read, wd1770d_store);
+    }
+
+    /* Setup 1992 VIA and dp8473/pc8477 */
+    if (type == DRIVE_TYPE_1992) {
+        drivemem_set_func(cpud, 0x40, 0x4c, via1992_read, via1992_store);
+        drivemem_set_func(cpud, 0x4e, 0x50, pc8477d_read, pc8477d_store);
     }
 
     if (!rom_loaded)

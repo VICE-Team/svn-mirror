@@ -1,7 +1,11 @@
 /*
- * drivemem.h - Drive memory handling.
+ * via1992.h - Drive 1992 VIA definitions.
  *
  * Written by
+ *  Kajtar Zsolt <soci@c64.rulez.org>
+ *
+ * Based on old code by
+ *  Andre' Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -24,28 +28,21 @@
  *
  */
 
-#ifndef VICE_DRIVEMEM_H
-#define VICE_DRIVEMEM_H
+#ifndef VICE_VIA1992_H
+#define VICE_VIA1992_H
 
-#include "drivetypes.h"
 #include "types.h"
 
 struct drive_context_s;
-struct drivecpud_context_s;
-struct mem_ioreg_list_s;
+struct via_context_s;
 
-extern void drivemem_init(struct drive_context_s *drv, unsigned int type);
-extern void drivemem_set_func(struct drivecpud_context_s *cpud,
-                              unsigned int start, unsigned int stop,
-                              drive_read_func_t *read_func,
-                              drive_store_func_t *store_func);
+extern void via1992_setup_context(struct drive_context_s *ctxptr);
+extern void via1992_init(struct drive_context_s *ctxptr);
 
-extern struct mem_ioreg_list_s *drivemem_ioreg_list_get(void *context);
-
-extern BYTE drive_read_rom(struct drive_context_s *drv,
-                                    WORD address);
-extern BYTE drive_read_rom_ds1216(struct drive_context_s *drv,
-                                    WORD address);
+extern void via1992_store(struct drive_context_s *ctxptr, WORD addr,
+                                     BYTE byte);
+extern BYTE via1992_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE via1992_peek(struct drive_context_s *ctxptr, WORD addr);
 
 #endif
 
