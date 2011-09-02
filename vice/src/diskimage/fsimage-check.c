@@ -104,6 +104,24 @@ int fsimage_check_sector(disk_image_t *image, unsigned int track,
             sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
         sectors += sector;
         break;
+      case DISK_IMAGE_TYPE_D1M:
+        if (track > NUM_TRACKS_1000 || sector > 255
+            || (track == NUM_TRACKS_1000 && sector >= NUM_SYS_SECTORS_1000))
+            return -1;
+        sectors = (track - 1) * 256 + sector;
+        break;
+      case DISK_IMAGE_TYPE_D2M:
+        if (track > NUM_TRACKS_2000 || sector > 255
+            || (track == NUM_TRACKS_2000 && sector >= NUM_SYS_SECTORS_2000))
+            return -1;
+        sectors = (track - 1) * 256 + sector;
+        break;
+      case DISK_IMAGE_TYPE_D4M:
+        if (track > NUM_TRACKS_4000 || sector > 255
+            || (track == NUM_TRACKS_4000 && sector >= NUM_SYS_SECTORS_4000))
+            return -1;
+        sectors = (track - 1) * 256 + sector;
+        break;
       default:
         return -1;
     }

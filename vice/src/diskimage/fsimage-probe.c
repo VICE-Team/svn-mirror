@@ -45,6 +45,9 @@
 #define IS_D81_LEN(x) (((x) == D81_FILE_SIZE) || ((x) == D81_FILE_SIZE_E))
 #define IS_D80_LEN(x) ((x) == D80_FILE_SIZE)
 #define IS_D82_LEN(x) ((x) == D82_FILE_SIZE)
+#define IS_D1M_LEN(x) (((x) == D1M_FILE_SIZE) || ((x) == D1M_FILE_SIZE_E))
+#define IS_D2M_LEN(x) (((x) == D2M_FILE_SIZE) || ((x) == D2M_FILE_SIZE_E))
+#define IS_D4M_LEN(x) (((x) == D4M_FILE_SIZE) || ((x) == D4M_FILE_SIZE_E))
 
 static log_t disk_image_probe_log = LOG_ERR;
 
@@ -423,6 +426,129 @@ static int disk_image_check_for_gcr(disk_image_t *image)
     return 1;
 }
 
+static int disk_image_check_for_d1m(disk_image_t *image)
+{
+    unsigned int blk = 0;
+    size_t len;
+    BYTE block[256];
+    fsimage_t *fsimage;
+
+    fsimage = image->media.fsimage;
+
+    if (!(IS_D1M_LEN(util_file_length(fsimage->fd))))
+        return 0;
+
+    image->type = DISK_IMAGE_TYPE_D1M;
+    image->tracks = NUM_TRACKS_1000;
+
+    rewind(fsimage->fd);
+
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
+        if (++blk > NUM_BLOCKS_1000 + 13) {
+            log_error(disk_image_probe_log, "Disk image too large.");
+            break;
+        }
+    }
+
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_1000) < 0) {
+        return 0;
+    }
+
+    switch (blk) {
+      case NUM_BLOCKS_1000:
+      case NUM_BLOCKS_1000 + 12: /* with errors */
+        image->tracks = NUM_TRACKS_1000;
+        break;
+      default:
+        return 0;
+    }
+    fsimage_error_info_destroy(fsimage);
+    disk_image_check_log(image, "D1M");
+    return 1;
+}
+
+static int disk_image_check_for_d2m(disk_image_t *image)
+{
+    unsigned int blk = 0;
+    size_t len;
+    BYTE block[256];
+    fsimage_t *fsimage;
+
+    fsimage = image->media.fsimage;
+
+    if (!(IS_D2M_LEN(util_file_length(fsimage->fd))))
+        return 0;
+
+    image->type = DISK_IMAGE_TYPE_D2M;
+    image->tracks = NUM_TRACKS_2000;
+
+    rewind(fsimage->fd);
+
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
+        if (++blk > NUM_BLOCKS_2000 + 26) {
+            log_error(disk_image_probe_log, "Disk image too large.");
+            break;
+        }
+    }
+
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_2000) < 0) {
+        return 0;
+    }
+
+    switch (blk) {
+      case NUM_BLOCKS_2000:
+      case NUM_BLOCKS_2000 + 25: /* with errors */
+        image->tracks = NUM_TRACKS_2000;
+        break;
+      default:
+        return 0;
+    }
+    fsimage_error_info_destroy(fsimage);
+    disk_image_check_log(image, "D2M");
+    return 1;
+}
+
+static int disk_image_check_for_d4m(disk_image_t *image)
+{
+    unsigned int blk = 0;
+    size_t len;
+    BYTE block[256];
+    fsimage_t *fsimage;
+
+    fsimage = image->media.fsimage;
+
+    if (!(IS_D4M_LEN(util_file_length(fsimage->fd))))
+        return 0;
+
+    image->type = DISK_IMAGE_TYPE_D4M;
+    image->tracks = NUM_TRACKS_4000;
+
+    rewind(fsimage->fd);
+
+    while ((len = fread(block, 1, 256, fsimage->fd)) == 256) {
+        if (++blk > NUM_BLOCKS_4000 + 51) {
+            log_error(disk_image_probe_log, "Disk image too large.");
+            break;
+        }
+    }
+
+    if (disk_image_check_min_block(blk, NUM_BLOCKS_4000) < 0) {
+        return 0;
+    }
+
+    switch (blk) {
+      case NUM_BLOCKS_4000:
+      case NUM_BLOCKS_4000 + 50: /* with errors */
+        image->tracks = NUM_TRACKS_4000;
+        break;
+      default:
+        return 0;
+    }
+    fsimage_error_info_destroy(fsimage);
+    disk_image_check_log(image, "D4M");
+    return 1;
+}
+
 
 int fsimage_probe(disk_image_t *image)
 {
@@ -441,6 +567,12 @@ int fsimage_probe(disk_image_t *image)
     if (disk_image_check_for_gcr(image))
         return 0;
     if (disk_image_check_for_x64(image))
+        return 0;
+    if (disk_image_check_for_d1m(image))
+        return 0;
+    if (disk_image_check_for_d2m(image))
+        return 0;
+    if (disk_image_check_for_d4m(image))
         return 0;
 
     return -1;

@@ -176,6 +176,9 @@ static const char *disk_image_type(disk_image_t *image)
         case DISK_IMAGE_TYPE_X64: return "X64";
         case DISK_IMAGE_TYPE_D71: return "D71";
         case DISK_IMAGE_TYPE_D81: return "D81";
+        case DISK_IMAGE_TYPE_D1M: return "D1M";
+        case DISK_IMAGE_TYPE_D2M: return "D2M";
+        case DISK_IMAGE_TYPE_D4M: return "D4M";
         default: return NULL;
     }
 }

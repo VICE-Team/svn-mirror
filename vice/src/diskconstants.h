@@ -106,6 +106,31 @@
 #define DIR_TRACK_8250         39
 #define DIR_SECTOR_8250        1
 
+#define NUM_TRACKS_1000        13
+#define NUM_BLOCKS_1000        3240
+#define NUM_SYS_SECTORS_1000   168      /* on system partition track */
+#define MAX_TRACKS_1000        13
+#define MAX_BLOCKS_1000        3240
+
+#define NUM_TRACKS_2000        26
+#define NUM_BLOCKS_2000        6480
+#define NUM_SYS_SECTORS_2000   80       /* on system partition track */
+#define MAX_TRACKS_2000        26
+#define MAX_BLOCKS_2000        6480
+
+#define NUM_TRACKS_4000        51
+#define NUM_BLOCKS_4000        12960
+#define NUM_SYS_SECTORS_4000   160      /* on system partition track */
+#define MAX_TRACKS_4000        51
+#define MAX_BLOCKS_4000        12960
+
+#define DIR_TRACK_1992         1
+#define DIR_SECTOR_1992        34
+#define BAM_TRACK_1992         1
+#define BAM_SECTOR_1992        1
+#define BAM_NAME_1992          4
+#define BAM_ID_1992            22
+
 #define MAX_TRACKS_ANY         MAX_TRACKS_8250
 #define MAX_BLOCKS_ANY         MAX_BLOCKS_8250
 

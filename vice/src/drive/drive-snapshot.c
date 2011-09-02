@@ -616,7 +616,6 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
 
     switch(word) {
       case 1581:
-      case 1992:
         len = D81_FILE_SIZE;
         break;
       case 8050:

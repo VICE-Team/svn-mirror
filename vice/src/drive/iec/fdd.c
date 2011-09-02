@@ -73,19 +73,48 @@ void fdd_shutdown(fd_drive_t *drv)
 
 void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
 {
-    int t, h, s;
+    int t, h, s, i;
     if (!drv) {
-	return;
+        return;
     }
     drv->image = image;
-    drv->tracks = 80;
-    drv->sectors = 10;
-    drv->sector_size = 2;
-    drv->head_invert = 1;
+    switch (image->type) {
+    case DISK_IMAGE_TYPE_D1M:
+        drv->tracks = 81;
+        drv->sectors = 5;
+        drv->sector_size = 3;
+        drv->head_invert = 1;
+        drv->disk_rate = 2;
+        drv->image_sectors = 256;
+        break;
+    case DISK_IMAGE_TYPE_D2M:
+        drv->tracks = 81;
+        drv->sectors = 10;
+        drv->sector_size = 3;
+        drv->head_invert = 1;
+        drv->disk_rate = 0;
+        drv->image_sectors = 256;
+        break;
+    case DISK_IMAGE_TYPE_D4M:
+        drv->tracks = 81;
+        drv->sectors = 20;
+        drv->sector_size = 3;
+        drv->head_invert = 1;
+        drv->disk_rate = 3;
+        drv->image_sectors = 256;
+        break;
+    case DISK_IMAGE_TYPE_D81:
+    default:
+        drv->tracks = 80;
+        drv->sectors = 10;
+        drv->sector_size = 2;
+        drv->head_invert = 1;
+        drv->disk_rate = 2;
+        drv->image_sectors = 40;
+        break;
+    }
     drv->disk_change = 1;
     drv->write_protect = image->read_only;
-    drv->disk_rate = 2;
-    drv->image_sectors = 40;
     drv->headers = lib_malloc(drv->tracks * 2 * drv->sectors * sizeof(fdd_sector_header_t));
     for (t = 0; t < drv->tracks; t++)
         for (h = 0; h < 2; h++)
@@ -95,8 +124,10 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
                 header->head = h ^ drv->head_invert;
                 header->sector = s;
                 header->bytes = drv->sector_size;
-                header->itrack = t + 1;
-                header->isector = (h ^ drv->head_invert) * (drv->image_sectors / 2) + s * 2 - 2;
+                i = (t * 2 + (h ^ drv->head_invert)) * drv->sectors + s - 1;
+                i <<= drv->sector_size - 1;
+                header->itrack = i / drv->image_sectors + 1;
+                header->isector = i % drv->image_sectors;
                 header->rate = drv->disk_rate;
             }
 }
@@ -149,7 +180,7 @@ int fdd_image_read(fd_drive_t *drv, BYTE *buffer)
     t = header -> itrack;
     s = header -> isector;
 
-    for (i = 0; i < drv->sector_size; i++) {
+    for (i = 0; i < (1 << (drv->sector_size - 1)); i++) {
 	res = disk_image_read_sector(drv->image, buffer, t, s);
 	if (res < 0) {
 	    fdd_rotate(drv);
@@ -189,7 +220,7 @@ int fdd_image_write(fd_drive_t *drv, BYTE *buffer)
     t = header -> itrack;
     s = header -> isector;
 
-    for (i = 0; i < drv->sector_size; i++) {
+    for (i = 0; i < (1 << (drv->sector_size - 1)); i++) {
 	res = disk_image_write_sector(drv->image, buffer, t, s);
 	if (res < 0) {
 	    fdd_rotate(drv);

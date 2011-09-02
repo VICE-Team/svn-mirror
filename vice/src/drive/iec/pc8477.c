@@ -38,7 +38,11 @@
 #include "types.h"
 #include "pc8477.h"
 
+#ifdef PC8477_DEBUG
 #define debug(...) log_message(pc8477_log, __VA_ARGS__)
+#else
+#define debug(...) {}
+#endif
 
 /* wd1770 disk controller structure.  */
 pc8477_t pc8477[DRIVE_NUM];
@@ -573,6 +577,9 @@ int pc8477_attach_image(disk_image_t *image, unsigned int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
+      case DISK_IMAGE_TYPE_D1M:
+      case DISK_IMAGE_TYPE_D2M:
+      case DISK_IMAGE_TYPE_D4M:
         disk_image_attach_log(image, pc8477_log, unit);
         break;
       default:
@@ -590,6 +597,9 @@ int pc8477_detach_image(disk_image_t *image, unsigned int unit)
 
     switch(image->type) {
       case DISK_IMAGE_TYPE_D81:
+      case DISK_IMAGE_TYPE_D1M:
+      case DISK_IMAGE_TYPE_D2M:
+      case DISK_IMAGE_TYPE_D4M:
         disk_image_detach_log(image, pc8477_log, unit);
         break;
       default:

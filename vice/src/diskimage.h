@@ -38,6 +38,12 @@
 #define D81_FILE_SIZE_E    822400        /* D81 image, 80 tracks with errors */
 #define D80_FILE_SIZE      533248        /* D80 image, 77 tracks */
 #define D82_FILE_SIZE     1066496        /* D82 image, 77 tracks */
+#define D1M_FILE_SIZE      829440        /* D1M image, 81 tracks */
+#define D1M_FILE_SIZE_E    832680        /* D1M image, 81 tracks with errors */
+#define D2M_FILE_SIZE     1658880        /* D2M image, 81 tracks */
+#define D2M_FILE_SIZE_E   1665360        /* D2M image, 81 tracks with errors */
+#define D4M_FILE_SIZE     3317760        /* D4M image, 81 tracks */
+#define D4M_FILE_SIZE_E   3330720        /* D4M image, 81 tracks with errors */
 
 #define DISK_IMAGE_DEVICE_FS   0
 #define DISK_IMAGE_DEVICE_REAL 1
@@ -52,7 +58,9 @@
 #define DISK_IMAGE_TYPE_D80 8050
 #define DISK_IMAGE_TYPE_D82 8250
 #define DISK_IMAGE_TYPE_TAP 1531
-
+#define DISK_IMAGE_TYPE_D1M 1000
+#define DISK_IMAGE_TYPE_D2M 2000
+#define DISK_IMAGE_TYPE_D4M 4000
 
 struct fsimage_s;
 struct rawimage_s;

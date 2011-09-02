@@ -237,6 +237,12 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
             && (drive->type != DRIVE_TYPE_8250))
             return -1;
         break;
+      case DISK_IMAGE_TYPE_D1M:
+      case DISK_IMAGE_TYPE_D2M:
+      case DISK_IMAGE_TYPE_D4M:
+        if (drive->type != DRIVE_TYPE_1992)
+            return -1;
+        break;
       default:
         return -1;
     }
