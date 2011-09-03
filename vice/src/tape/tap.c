@@ -240,7 +240,7 @@ inline static int tap_get_pulse(tap_t *tap, int *pos_advance)
             res = fread(size, 3, 1, tap->fd);
             if (res == 0)
                 return -1;
-            *pos_advance += (int)res;
+            *pos_advance += 3;
             pulse_length = ((size[2] << 16) | (size[1] << 8) | size[0]) >> 3;
         }
     } else {
@@ -261,7 +261,7 @@ inline static int tap_get_pulse(tap_t *tap, int *pos_advance)
             res = fread(size, 3, 1, tap->fd);
             if (res == 0)
                 return -1;
-            *pos_advance += (int)res;
+            *pos_advance += 3;
             pulse_length2 = ((size[2] << 16) | (size[1] << 8) | size[0]) >> 3;
         } else {
             pulse_length2 = data;
