@@ -80,6 +80,7 @@
 #define CBMDOS_FT_USR         3
 #define CBMDOS_FT_REL         4
 #define CBMDOS_FT_CBM         5       /* 1581 partition */
+#define CBMDOS_FT_DIR         6
 #define CBMDOS_FT_REPLACEMENT 0x20
 #define CBMDOS_FT_LOCKED      0x40
 #define CBMDOS_FT_CLOSED      0x80

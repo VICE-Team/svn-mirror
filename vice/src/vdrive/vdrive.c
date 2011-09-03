@@ -178,10 +178,10 @@ void vdrive_close_all_channels(vdrive_t *vdrive)
 
 /* ------------------------------------------------------------------------- */
 
-int vdrive_calculate_disk_half(unsigned int type)
+int vdrive_calculate_disk_half(vdrive_t *vdrive)
 {
     /* Maximum distance from dir track to start/end of disk.  */
-    switch (type) {
+    switch (vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
       case VDRIVE_IMAGE_FORMAT_2040:
         return 17 + 5;
@@ -192,16 +192,18 @@ int vdrive_calculate_disk_half(unsigned int type)
       case VDRIVE_IMAGE_FORMAT_8050:
       case VDRIVE_IMAGE_FORMAT_8250:
         return 39;
+      case VDRIVE_IMAGE_FORMAT_1992:
+        return vdrive->num_tracks - 1;
       default:
         log_error(vdrive_log,
-                  "Unknown disk type %i.  Cannot calculate disk half.", type);
+                  "Unknown disk type %i.  Cannot calculate disk half.", vdrive->image_format);
     }
     return -1;
 }
 
-int vdrive_get_max_sectors(unsigned int type, unsigned int track)
+int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track)
 {
-    switch (type) {
+    switch (vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
         return disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
       case VDRIVE_IMAGE_FORMAT_2040:
@@ -219,10 +221,12 @@ int vdrive_get_max_sectors(unsigned int type, unsigned int track)
             return disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track
                                                - (NUM_TRACKS_8250 / 2));
         }
+      case VDRIVE_IMAGE_FORMAT_1992:
+        return 256;
       default:
         log_message(vdrive_log,
                     "Unknown disk type %i.  Cannot calculate max sectors",
-                    type);
+                    vdrive->image_format);
 
     }
     return -1;
@@ -286,6 +290,12 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = image->tracks;
         break;
+      case DISK_IMAGE_TYPE_D1M:
+      case DISK_IMAGE_TYPE_D2M:
+      case DISK_IMAGE_TYPE_D4M:
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1992;
+        vdrive->num_tracks = image->tracks - 1;
+        break;
       default:
         return -1;
     }
@@ -300,44 +310,6 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         return -1;
     }
     return 0;
-}
-
-/* ------------------------------------------------------------------------- */
-
-/*
- * Calculate and return the total number of blocks available on a disk.
- */
-
-int vdrive_calc_num_blocks(unsigned int format, unsigned int tracks)
-{
-    int blocks = -1;
-
-    switch (format) {
-      case VDRIVE_IMAGE_FORMAT_1541:
-        if (tracks > MAX_TRACKS_1541)
-            tracks = MAX_TRACKS_1541;
-        blocks = NUM_BLOCKS_1541 + (tracks - 35) * 17;
-        break;
-      case VDRIVE_IMAGE_FORMAT_1571:
-        if (tracks > MAX_TRACKS_1571)
-            tracks = MAX_TRACKS_1571;
-        blocks = NUM_BLOCKS_1571 + (tracks - 70) * 17;
-        break;
-      case VDRIVE_IMAGE_FORMAT_1581:
-        blocks = NUM_BLOCKS_1581;
-        break;
-      case VDRIVE_IMAGE_FORMAT_8050:
-        blocks = NUM_BLOCKS_8050;
-        break;
-      case VDRIVE_IMAGE_FORMAT_8250:
-        blocks = NUM_BLOCKS_8250;
-        break;
-      default:
-        log_error(vdrive_log,
-                  "Unknown disk type %i.  Cannot calculate number of blocks.",
-                  format);
-    }
-    return blocks;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -396,6 +368,14 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
         vdrive->bam_id     = BAM_ID_8250;
         vdrive->Dir_Track  = DIR_TRACK_8250;
         vdrive->Dir_Sector = DIR_SECTOR_8250;
+        break;
+      case VDRIVE_IMAGE_FORMAT_1992:
+        vdrive->Bam_Track  = BAM_TRACK_1992;
+        vdrive->Bam_Sector = BAM_SECTOR_1992;
+        vdrive->bam_name   = BAM_NAME_1992;
+        vdrive->bam_id     = BAM_ID_1992;
+        vdrive->Dir_Track  = DIR_TRACK_1992;
+        vdrive->Dir_Sector = DIR_SECTOR_1992;
         break;
       default:
         log_error(vdrive_log,

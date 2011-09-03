@@ -297,7 +297,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
 
             if (command == 0xd7) {
                 /* For write */
-                if (vdrive->image->read_only)
+                if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST)
                     return CBMDOS_IPE_WRITE_PROTECT_ON;
                 if (disk_image_write_sector(vdrive->image,
                                             vdrive->buffers[channel].buffer,
@@ -337,7 +337,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
 
             if (command == 'W') {
                 /* For write */
-                if (vdrive->image->read_only)
+                if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST)
                     return CBMDOS_IPE_WRITE_PROTECT_ON;
                 /* Update length of block based on the buffer pointer. */
                 l = vdrive->buffers[channel].bufptr - 1;
@@ -548,7 +548,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
         goto out2;
     }
 
-    if (vdrive->image->read_only) {
+    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST) {
         status = CBMDOS_IPE_WRITE_PROTECT_ON;
         goto out2;
     }
@@ -623,7 +623,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
 
     if (rc != SERIAL_OK) {
         status = CBMDOS_IPE_NO_NAME;
-    } else if (vdrive->image->read_only) {
+    } else if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST) {
         status = CBMDOS_IPE_WRITE_PROTECT_ON;
     } else {
 /*#ifdef DEBUG_DRIVE*/
@@ -684,7 +684,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
     if (status != CBMDOS_IPE_OK)
         return status;
-    if (vdrive->image->read_only)
+    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST)
         return CBMDOS_IPE_WRITE_PROTECT_ON;
 
     memcpy(oldbam, vdrive->bam, BAM_MAXSIZE);
@@ -693,7 +693,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
     for (t = 1; t <= vdrive->num_tracks; t++) {
         int max_sector;
-        max_sector = vdrive_get_max_sectors(vdrive->image_format, t);
+        max_sector = vdrive_get_max_sectors(vdrive, t);
         for (s = 0; s < (unsigned int)max_sector; s++)
             vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s);
     }
@@ -707,19 +707,27 @@ int vdrive_command_validate(vdrive_t *vdrive)
         return status;
     }
 
-    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571) {
-        int max_sector;
-        max_sector = vdrive_get_max_sectors(vdrive->image_format, 53);
-        for (s = 0; s < (unsigned int)max_sector; s++)
-            vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 53,
-                                       s);
-    }
-
-    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) {
+    switch (vdrive->image_format) {
+    case VDRIVE_IMAGE_FORMAT_1571:
+        {
+            int max_sector;
+            max_sector = vdrive_get_max_sectors(vdrive, 53);
+            for (s = 0; s < (unsigned int)max_sector; s++)
+                vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 53,
+                                           s);
+            break;
+        }
+    case VDRIVE_IMAGE_FORMAT_1581:
         vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
                                    vdrive->Bam_Track, vdrive->Bam_Sector + 1);
         vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
                                    vdrive->Bam_Track, vdrive->Bam_Sector + 2);
+        break;
+    case VDRIVE_IMAGE_FORMAT_1992:
+        vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 1, 0);
+        for (s = 2; s < 34; s++)
+            vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 1, s);
+        break;
     }
 
     vdrive_dir_find_first_slot(vdrive, "*", 1, 0);
@@ -732,7 +740,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
             status = vdrive_bam_allocate_chain(vdrive, b[SLOT_FIRST_TRACK],
                                                b[SLOT_FIRST_SECTOR]);
             if (status != CBMDOS_IPE_OK) {
-                memcpy(vdrive->bam, oldbam, 5 * 256);
+                memcpy(vdrive->bam, oldbam, BAM_MAXSIZE);
                 return status;
             }
             /* The real drive always validates side sectors even if the file
@@ -740,7 +748,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
             status = vdrive_bam_allocate_chain(vdrive, b[SLOT_SIDE_TRACK],
                                                b[SLOT_SIDE_SECTOR]);
             if (status != CBMDOS_IPE_OK) {
-                memcpy(vdrive->bam, oldbam, 5 * 256);
+                memcpy(vdrive->bam, oldbam, BAM_MAXSIZE);
                 return status;
             }
         } else {
@@ -766,7 +774,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     if (!disk_name)
         return CBMDOS_IPE_SYNTAX;
 
-    if (vdrive->image->read_only)
+    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST)
         return CBMDOS_IPE_WRITE_PROTECT_ON;
 
     if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
@@ -809,7 +817,6 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
         lib_free(name);
         return CBMDOS_IPE_WRITE_ERROR_VER;
     }
-
     vdrive_bam_create_empty_bam(vdrive, name, id);
     vdrive_bam_write_bam(vdrive);
 

@@ -29,6 +29,9 @@
 
 #include "types.h"
 
+/* temporarily until the 1992 support is not safe */
+#define VDRIVE_IMAGE_FORMAT_1992_TEST (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1992)
+
 /* High level disk formats.
    They can be different than the disk image type.  */
 #define VDRIVE_IMAGE_FORMAT_1541 0
@@ -37,6 +40,7 @@
 #define VDRIVE_IMAGE_FORMAT_8050 3 /* Dual Disk Drive */
 #define VDRIVE_IMAGE_FORMAT_8250 4 /* Dual Disk Drive */
 #define VDRIVE_IMAGE_FORMAT_2040 5 /* Dual Disk Drive */
+#define VDRIVE_IMAGE_FORMAT_1992 6
 
 #define BUFFER_NOT_IN_USE      0
 #define BUFFER_DIRECTORY_READ  1
@@ -56,7 +60,7 @@
 #define DRIVE_RAMSIZE           0x400
 
 #define DIR_MAXBUF  (40 * 256)
-#define BAM_MAXSIZE (5 * 256)
+#define BAM_MAXSIZE (33 * 256)
 
 /* Serial Error Codes. */
 #define SERIAL_OK               0
@@ -191,10 +195,9 @@ extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
                                vdrive_t *vdrive);
 extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,
                                 vdrive_t *vdrive);
-extern int vdrive_calc_num_blocks(unsigned int format, unsigned int tracks);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
-extern int vdrive_calculate_disk_half(unsigned int type);
-extern int vdrive_get_max_sectors(unsigned int type, unsigned int track);
+extern int vdrive_calculate_disk_half(vdrive_t *vdrive);
+extern int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track);
 extern void vdrive_get_last_read(unsigned int *track, unsigned int *sector,
                                  BYTE **buffer);
 extern void vdrive_set_last_read(unsigned int track, unsigned int sector,

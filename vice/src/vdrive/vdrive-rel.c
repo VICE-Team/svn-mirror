@@ -835,7 +835,7 @@ int vdrive_rel_open(vdrive_t *vdrive, unsigned int secondary,
             name, cmd_parse->recordlength, secondary);
 
         /* abort if we are in read only mode */
-        if (vdrive->image->read_only) {
+        if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
             return SERIAL_ERROR;
         }
@@ -1321,7 +1321,7 @@ int vdrive_rel_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-    if (vdrive->image->read_only) {
+    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }

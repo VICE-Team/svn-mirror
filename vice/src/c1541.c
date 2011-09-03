@@ -152,6 +152,7 @@ int rom1581_loaded = 0;
 int rom2031_loaded = 0;
 int rom1001_loaded = 0;
 int rom2040_loaded = 0;
+int rom1992_loaded = 0;
 
 BYTE *drive_rom1541;
 BYTE *drive_rom1541ii;
@@ -160,6 +161,7 @@ BYTE *drive_rom1581;
 BYTE *drive_rom2031;
 BYTE *drive_rom1001;
 BYTE *drive_rom2040;
+BYTE *drive_rom1992;
 
 /* ------------------------------------------------------------------------- */
 
@@ -1183,6 +1185,12 @@ static int format_cmd(int nargs, char **args)
             disk_type = DISK_IMAGE_TYPE_G64;
         else if (strcmp(args[2], "x64") == 0)
             disk_type = DISK_IMAGE_TYPE_X64;
+        else if (strcmp(args[2], "d1m") == 0)
+            disk_type = DISK_IMAGE_TYPE_D1M;
+        else if (strcmp(args[2], "d2m") == 0)
+            disk_type = DISK_IMAGE_TYPE_D2M;
+        else if (strcmp(args[2], "d4m") == 0)
+            disk_type = DISK_IMAGE_TYPE_D4M;
         else
             return FD_BADVAL;
         if (nargs > 4) {
@@ -1293,6 +1301,9 @@ static int info_cmd(int nargs, char **args)
         break;
       case VDRIVE_IMAGE_FORMAT_2040:
         format_name = "2040";
+        break;
+      case VDRIVE_IMAGE_FORMAT_1992:
+        format_name = "1992";
         break;
       default:
         return FD_NOTREADY;

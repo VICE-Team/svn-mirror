@@ -71,6 +71,7 @@ static int vdrive_dir_get_interleave(unsigned int type)
     case VDRIVE_IMAGE_FORMAT_8250:
         return 3;
     case VDRIVE_IMAGE_FORMAT_1581:
+    case VDRIVE_IMAGE_FORMAT_1992:
         return 1;
     default:
         log_error(LOG_ERR,
@@ -286,7 +287,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
             vdrive_dir_get_interleave(vdrive->image_format);
 
         for (i = 0;
-             i < vdrive_get_max_sectors(vdrive->image_format,
+             i < vdrive_get_max_sectors(vdrive,
                                         vdrive->Curr_track);
              i++) {
             dirbuf = find_next_directory_sector(vdrive,
@@ -297,7 +298,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
             }
 
             sector++;
-            if (sector >= vdrive_get_max_sectors(vdrive->image_format,
+            if (sector >= vdrive_get_max_sectors(vdrive,
                                                  vdrive->Curr_track)) {
                 sector = 0;
             }
