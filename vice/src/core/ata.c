@@ -66,7 +66,7 @@ struct ata_drive_s {
     BYTE sector;
     WORD cylinder;
     BYTE head;
-    int lba, dev;
+    int lba, dev, legacy;
     BYTE control;
     BYTE cmd;
     BYTE power;
@@ -85,7 +85,7 @@ struct ata_drive_s {
     int wcache;
     int lookahead;
     ata_drive_type_t type;
-    int busy;
+    int busy; /* bits: spinup, seek, reset */
     int pos;
     int standby, standby_max;
     alarm_t *spindle_alarm;
@@ -181,6 +181,7 @@ static void drive_diag(ata_drive_t *drv)
     drv->head = 0;
     drv->lba = 0;
     drv->dev = drv->slave;
+    drv->legacy = 0;
     drv->bufp = drv->sector_size;
     drv->cmd = 0x08;
 }
@@ -982,7 +983,7 @@ static void atapi_packet_execute_command(ata_drive_t *drv) {
     return;
 }
 
-WORD ata_register_read(ata_drive_t *drv, BYTE addr)
+WORD ata_register_read(ata_drive_t *drv, BYTE addr, WORD bus)
 {
     WORD res;
 
@@ -1001,7 +1002,7 @@ WORD ata_register_read(ata_drive_t *drv, BYTE addr)
     switch (addr) {
     case 0:
         if (drv->busy || drv->bufp >= drv->sector_size) {
-            return 0;
+            return bus;
         }
         switch (drv->cmd) {
         case 0x20:
@@ -1030,9 +1031,9 @@ WORD ata_register_read(ata_drive_t *drv, BYTE addr)
             }
             return res;
         }
-        return 0;
+        return bus;
     case 1:
-        return (WORD)drv->error;
+        return (bus & 0xff00) | drv->error;
     case 2:
         if (drv->atapi) {
             switch (drv->cmd) {
@@ -1051,20 +1052,25 @@ WORD ata_register_read(ata_drive_t *drv, BYTE addr)
                 return 0x03;
             }
         }
-        return (WORD)drv->sector_count;
+        return (bus & 0xff00) | drv->sector_count;
     case 3:
-        return (WORD)drv->sector;
+        return (bus & 0xff00) | drv->sector;
     case 4:
-        return (WORD)drv->cylinder & 0xff;
+        return (bus & 0xff00) | (drv->cylinder & 0xff);
     case 5:
-        return (WORD)drv->cylinder >> 8;
+        return (bus & 0xff00) | (drv->cylinder >> 8);
     case 6:
-        return (WORD)drv->head | (drv->dev << 4) | (drv->lba << 6) | 0xa0;
+        return (bus & 0xff00) | drv->head | (drv->dev << 4) | (drv->lba << 6) | drv->legacy;
     case 7:
     case 14:
-        return (drv->busy ? 0x80 : 0) | ((drv->atapi && drv->cmd == 0x08) ? 0: ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
+        return (bus & 0xff00) | (drv->busy ? 0x80 : 0) | ((drv->atapi && drv->cmd == 0x08) ? 0: ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
+    case 15:
+        if (drv->busy & 0x04) {
+            return bus & 0xff80;
+        }
+        return (bus & 0xff80) | (0x7f ^ (drv->head << 2) ^ (1 << drv->dev));
     default:
-        return 0;
+        return bus;
     }
 }
 
@@ -1076,7 +1082,7 @@ WORD ata_register_peek(ata_drive_t *drv, BYTE addr)
     if (addr == 7) {
         addr = 14;
     }
-    return ata_register_read(drv, addr);
+    return ata_register_read(drv, addr, 0);
 }
 
 
@@ -1155,6 +1161,7 @@ void ata_register_store(ata_drive_t *drv, BYTE addr, WORD value)
             if (drv->cmd != 0xe6) {
                 drv->head = value & 0xf;
                 drv->lba = (value >> 6) & 1;
+                drv->legacy = value & 0xa0;
             }
             return;
         case 7:
@@ -1167,6 +1174,7 @@ void ata_register_store(ata_drive_t *drv, BYTE addr, WORD value)
             }
             return;
         case 14:
+            drv->busy = (drv->busy & ~0x04) | (value & 0x04);
             if ((drv->control & 0x04) && ((value ^ 0x04) & 0x04)) {
                 ata_reset(drv);
                 debug("SOFTWARE RESET");
@@ -1325,7 +1333,7 @@ int ata_snapshot_write_module(ata_drive_t *drv, snapshot_t *s)
     SMW_B(m, drv->sector_count_internal);
     SMW_B(m, drv->sector);
     SMW_W(m, drv->cylinder);
-    SMW_B(m, drv->head | (drv->dev << 4) | (drv->lba << 6));
+    SMW_B(m, drv->head | (drv->dev << 4) | (drv->lba << 6) | drv->legacy);
     SMW_B(m, drv->control);
     SMW_B(m, drv->cmd);
     SMW_B(m, drv->power);
@@ -1399,6 +1407,7 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
     SMR_B(m, &drv->head);
     drv->dev = (drv->head >> 4) & 1;
     drv->lba = (drv->head >> 6) & 1;
+    drv->legacy = drv->head & 0xa0;
     drv->head &= 0xf;
     SMR_B(m, &drv->control);
     SMR_B(m, &drv->cmd);

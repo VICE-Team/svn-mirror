@@ -87,7 +87,7 @@ static struct drive_s {
 static int idrive = 0;
 
 /* communication latch */
-static WORD out_d030, in_d030;
+static WORD out_d030, in_d030, idebus;
 
 /* config ram */
 static char ide64_DS1302[65];
@@ -706,10 +706,14 @@ int ide64_cmdline_options_init(void)
 
 static BYTE ide64_idebus_read(WORD addr)
 {
-    in_d030 = ata_register_read(drives[idrive].drv, addr) | ata_register_read(drives[idrive ^ 1].drv, addr);
+    in_d030 = ata_register_read(drives[idrive].drv, addr, idebus)
+            | ata_register_read(drives[idrive ^ 1].drv, addr, idebus);
     if (settings_version4) {
+        idebus = (in_d030 & 0xff00) | vicii_read_phi1();
         ide64_idebus_device.io_source_valid = 1;
         return in_d030 & 0xff;
+    } else {
+        idebus = in_d030;
     }
     ide64_idebus_device.io_source_valid = 0;
     return vicii_read_phi1();
@@ -736,6 +740,7 @@ static void ide64_idebus_store(WORD addr, BYTE value)
             }
             ata_register_store(drives[idrive].drv, addr, out_d030);
             ata_register_store(drives[idrive ^ 1].drv, addr, out_d030);
+            idebus = out_d030;
             return;
     }
 }
@@ -801,12 +806,12 @@ static void ide64_io_store(WORD addr, BYTE value)
 static BYTE ide64_ft245_read(WORD addr)
 {
     if (settings_version4) {
-        ide64_ft245_device.io_source_valid = 1;
         switch (addr ^ 1) {
         case 0:
-            return 0xff;
+            break;
         case 1:
-            return 0xc0 | vicii_read_phi1();
+            ide64_ft245_device.io_source_valid = 1;
+            return 0xc0;
         }
     }
     ide64_ft245_device.io_source_valid = 0;
@@ -981,10 +986,6 @@ void ide64_config_init(void)
             detect_ide64_image(drive);
             ata_image_attach(drive->drv, drive->filename, drive->type, drive->detected);
             memset(export_ram0, 0, 0x8000);
-        } else {
-            if (settings_version4) {
-                ata_reset(drive->drv);
-            }
         }
     }
 }
@@ -1019,6 +1020,7 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
 {
     int i;
 
+    idebus = 0;
     ds1302_context = ds1202_1302_init((BYTE *)ide64_DS1302, &rtc_offset, 1302);
 
     if (detect) {
