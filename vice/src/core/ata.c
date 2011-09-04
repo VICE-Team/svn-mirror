@@ -988,13 +988,13 @@ WORD ata_register_read(ata_drive_t *drv, BYTE addr, WORD bus)
     WORD res;
 
     if (drv->type == ATA_DRIVE_NONE) {
-        return 0;
+        return bus;
     }
     if (drv->dev != drv->slave) {
-        return 0;
+        return bus;
     }
     if (drv->cmd == 0xe6) {
-        return 0;
+        return bus;
     }
     if (drv->busy && addr > 0 && addr < 7) {
         addr = 14;
@@ -1039,20 +1039,27 @@ WORD ata_register_read(ata_drive_t *drv, BYTE addr, WORD bus)
             switch (drv->cmd) {
             case 0xa0:
             case 0x08:
-                return 0x01;
+                res = 0x01;
+                break;
             case 0xa1:
             case 0x28:
             case 0x23:
-                return 0x02;
+                res = 0x02;
+                break;
             case 0x2a:
-                return 0x00;
+                res = 0x00;
+                break;
             case 0xe5:
+                res = drv->sector_count;
                 break;
             default:
-                return 0x03;
+                res = 0x03;
+                break;
             }
+        } else {
+            res = drv->sector_count;
         }
-        return (bus & 0xff00) | drv->sector_count;
+        return (bus & 0xff00) | res;
     case 3:
         return (bus & 0xff00) | drv->sector;
     case 4:
