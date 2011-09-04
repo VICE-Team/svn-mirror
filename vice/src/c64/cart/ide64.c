@@ -706,7 +706,7 @@ int ide64_cmdline_options_init(void)
 
 static BYTE ide64_idebus_read(WORD addr)
 {
-    in_d030 = ata_register_read(drives[idrive ^ 1].drv, addr, idebus)
+    in_d030 = ata_register_read(drives[idrive ^ 1].drv, addr, idebus);
     in_d030 = ata_register_read(drives[idrive].drv, addr, in_d030);
     if (settings_version4) {
         idebus = (in_d030 & 0xff00) | vicii_read_phi1();
