@@ -567,6 +567,35 @@ BEGIN
             MENUITEM "Magic Voice ROM Filename",          IDM_MAGICVOICEFILE,           MIS_TEXT
         END
 
+        SUBMENU "IDE64 Settings",                         IDM_IDE64_SETTINGS,           MIS_TEXT
+        BEGIN
+            SUBMENU "IDE64 Revision",                     IDM_IDE64_REVISION,           MIS_TEXT
+            BEGIN
+                MENUITEM "Version 3",                     IDM_IDE64_VER_3,              MIS_TEXT
+                MENUITEM "Version 4",                     IDM_IDE64_VER_4,              MIS_TEXT
+            END
+            SUBMENU "HD 1 Settings",                      IDM_IDE64_HD1,                MIS_TEXT
+            BEGIN
+                MENUITEM "HD image name",                 IDM_IDE64_IMAGE1,             MIS_TEXT
+                MENUITEM "Autodetect image size",         IDM_IDE64_AUTO1,              MIS_TEXT
+            END
+            SUBMENU "HD 2 Settings",                      IDM_IDE64_HD2,                MIS_TEXT
+            BEGIN
+                MENUITEM "HD image name",                 IDM_IDE64_IMAGE2,             MIS_TEXT
+                MENUITEM "Autodetect image size",         IDM_IDE64_AUTO2,              MIS_TEXT
+            END
+            SUBMENU "HD 3 Settings",                      IDM_IDE64_HD3,                MIS_TEXT
+            BEGIN
+                MENUITEM "HD image name",                 IDM_IDE64_IMAGE3,             MIS_TEXT
+                MENUITEM "Autodetect image size",         IDM_IDE64_AUTO3,              MIS_TEXT
+            END
+            SUBMENU "HD 4 Settings",                      IDM_IDE64_HD4,                MIS_TEXT
+            BEGIN
+                MENUITEM "HD image name",                 IDM_IDE64_IMAGE4,             MIS_TEXT
+                MENUITEM "Autodetect image size",         IDM_IDE64_AUTO4,              MIS_TEXT
+            END
+        END
+
         SUBMENU "MMC64 Settings",                         IDM_MMC64_SETTINGS,           MIS_TEXT
         BEGIN
             MENUITEM "MMC64 Cartridge",                   IDM_MMC64,                    MIS_TEXT

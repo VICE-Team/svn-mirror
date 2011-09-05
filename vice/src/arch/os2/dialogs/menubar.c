@@ -751,6 +751,35 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_set_int("DIGIMAXbase", 0xde00 + ((idm & 0xf) * 0x20));
             return;
 
+        case IDM_IDE64_VER_3:
+        case IDM_IDE64_VER_4:
+            resources_set_int("IDE64version4", idm - IDM_IDE64_VER_3);
+            return;
+        case IDM_IDE64_IMAGE1:
+            resources_set_string("IDE64Image1", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_IDE64_IMAGE2:
+            resources_set_string("IDE64Image2", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_IDE64_IMAGE3:
+            resources_set_string("IDE64Image3", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_IDE64_IMAGE4:
+            resources_set_string("IDE64Image4", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_IDE64_AUTO1:
+            toggle("IDE64AutodetectSize1");
+            return;
+        case IDM_IDE64_AUTO2:
+            toggle("IDE64AutodetectSize2");
+            return;
+        case IDM_IDE64_AUTO3:
+            toggle("IDE64AutodetectSize3");
+            return;
+        case IDM_IDE64_AUTO4:
+            toggle("IDE64AutodetectSize4");
+            return;
+ 
         case IDM_MMC64:
             toggle("MMC64");
             return;
@@ -1405,6 +1434,24 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
 #if defined(__X64__) || defined(__X128__)
+        case IDM_IDE64_REVISION:
+            resources_get_int("IDE64version4", &val);
+            WinCheckMenuItem(hwnd, IDM_IDE64_VER_3, val == 0);
+            WinCheckMenuItem(hwnd, IDM_IDE64_VER_4, val == 1);
+            return;
+        case IDM_IDE64_HD1:
+            WinCheckRes(hwnd, IDM_AUTO1, "IDE64AutodetectSize1");
+            return;
+        case IDM_IDE64_HD2:
+            WinCheckRes(hwnd, IDM_AUTO2, "IDE64AutodetectSize2");
+            return;
+        case IDM_IDE64_HD3:
+            WinCheckRes(hwnd, IDM_AUTO3, "IDE64AutodetectSize3");
+            return;
+        case IDM_IDE64_HD4:
+            WinCheckRes(hwnd, IDM_AUTO4, "IDE64AutodetectSize4");
+            return;
+
         case IDM_MMC64_SETTINGS:
             WinCheckRes(hwnd, IDM_MMC64, "MMC64");
             WinCheckRes(hwnd, IDM_MMC64_FLASH_JUMPER, "MMC64_flashjumper");
