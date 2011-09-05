@@ -131,7 +131,8 @@ typedef struct vdrive_s {
     unsigned int Dir_Sector;
     unsigned int num_tracks;
 
-    BYTE bam[BAM_MAXSIZE];
+    unsigned int bam_size;
+    BYTE *bam;
     bufferinfo_t buffers[16];
 
     /* File information */

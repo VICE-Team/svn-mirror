@@ -687,7 +687,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
     if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST)
         return CBMDOS_IPE_WRITE_PROTECT_ON;
 
-    memcpy(oldbam, vdrive->bam, BAM_MAXSIZE);
+    memcpy(oldbam, vdrive->bam, vdrive->bam_size);
 
     vdrive_bam_clear_all(vdrive->image_format, vdrive->bam);
 
@@ -703,7 +703,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
                                        vdrive->Bam_Sector);
 
     if (status != CBMDOS_IPE_OK) {
-        memcpy(vdrive->bam, oldbam, BAM_MAXSIZE);
+        memcpy(vdrive->bam, oldbam, vdrive->bam_size);
         return status;
     }
 
@@ -740,7 +740,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
             status = vdrive_bam_allocate_chain(vdrive, b[SLOT_FIRST_TRACK],
                                                b[SLOT_FIRST_SECTOR]);
             if (status != CBMDOS_IPE_OK) {
-                memcpy(vdrive->bam, oldbam, BAM_MAXSIZE);
+                memcpy(vdrive->bam, oldbam, vdrive->bam_size);
                 return status;
             }
             /* The real drive always validates side sectors even if the file
@@ -748,7 +748,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
             status = vdrive_bam_allocate_chain(vdrive, b[SLOT_SIDE_TRACK],
                                                b[SLOT_SIDE_SECTOR]);
             if (status != CBMDOS_IPE_OK) {
-                memcpy(vdrive->bam, oldbam, BAM_MAXSIZE);
+                memcpy(vdrive->bam, oldbam, vdrive->bam_size);
                 return status;
             }
         } else {

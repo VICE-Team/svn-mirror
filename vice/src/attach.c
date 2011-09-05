@@ -546,24 +546,12 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
 
     switch (unit) {
       case 8:
-        err = drive_image_attach(image, 8);
-        err &= vdrive_attach_image(image, 8, floppy);
-        err &= machine_drive_image_attach(image, 8);
-        break;
       case 9:
-        err = drive_image_attach(image, 9);
-        err &= vdrive_attach_image(image, 9, floppy);
-        err &= machine_drive_image_attach(image, 9);
-        break;
       case 10:
-        err = drive_image_attach(image, 10);
-        err &= vdrive_attach_image(image, 10, floppy);
-        err &= machine_drive_image_attach(image, 10);
-        break;
       case 11:
-        err = drive_image_attach(image, 11);
-        err &= vdrive_attach_image(image, 11, floppy);
-        err &= machine_drive_image_attach(image, 11);
+        err = drive_image_attach(image, unit);
+        err &= vdrive_attach_image(image, unit, floppy);
+        err &= machine_drive_image_attach(image, unit);
         break;
     }
     if (err) {
