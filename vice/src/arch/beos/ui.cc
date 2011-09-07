@@ -474,26 +474,32 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     free(fullname);
 }
 
-static char *get_scale2x_res(void)
+static void set_render_filter_res(int render_mode)
 {
+    char *render_filter_res;
+
     switch (machine_class) {
-    default:
-        return NULL;
-        break;
     case VICE_MACHINE_C64:
     case VICE_MACHINE_C64SC:
     case VICE_MACHINE_C64DTV:
     case VICE_MACHINE_C128:
     case VICE_MACHINE_CBM5x0:
-        return "VICIIScale2x";
+    default:
+        render_filter_res = "VICIIFilter";
+        break;
+    case VICE_MACHINE_CBM6x0:
+    case VICE_MACHINE_PET:
+        render_filter_res = "CRTCFilter";
         break;
     case VICE_MACHINE_PLUS4:
-        return "TEDScale2x";
+        render_filter_res = "TEDFilter";
         break;
     case VICE_MACHINE_VIC20:
-        return "VICScale2x";
+        render_filter_res = "VICFilter";
         break;
     }
+
+    resources_set_int(render_filter_res, render_mode);
 }
 
 static void scan_files(void)
@@ -627,7 +633,6 @@ void ui_dispatch_events(void)
     int m;
     int attachdrive;
     int key;
-    char *scale2x_res;
     ViceFilePanel *filepanel = windowlist[0]->filepanel;
 
     for (i = 0; i < num_queued_messages; i++) {
@@ -641,14 +646,14 @@ void ui_dispatch_events(void)
             case B_KEY_DOWN:
             case B_UNMAPPED_KEY_DOWN:
                 message_queue[i].FindInt32("key", (int32*)&key);
-                if (!vsid_mode) {
+                if (machine_class != VICE_MACHINE_VSID) {
                     kbd_handle_keydown(key);
                 }
                 break;
             case B_KEY_UP:
             case B_UNMAPPED_KEY_UP:
                 message_queue[i].FindInt32("key", (int32*)&key);
-                if (!vsid_mode) {
+                if (machine_class != VICE_MACHINE_VSID) {
                     kbd_handle_keyup(key);
                 }
                 break;
@@ -782,23 +787,13 @@ void ui_dispatch_events(void)
                 interrupt_maincpu_trigger_trap(save_quicksnapshot_trap, (void *)0);
                 break;
             case MENU_RENDER_FILTER_NONE:
-                scale2x_res = get_scale2x_res();
-                resources_set_int("PALEmulation", 0);
-                if (scale2x_res != NULL) {
-                    resources_set_int(scale2x_res, 0);
-                }
+                set_render_filter_res(VIDEO_FILTER_NONE);
                 break;
             case MENU_RENDER_FILTER_CRT_EMULATION:
-                scale2x_res = get_scale2x_res();
-                resources_set_int("PALEmulation", 1);
-                if (scale2x_res != NULL) {
-                    resources_set_int(scale2x_res, 0);
-                }
+                set_render_filter_res(VIDEO_FILTER_CRT);
                 break;
             case MENU_RENDER_FILTER_SCALE2X:
-                scale2x_res = get_scale2x_res();
-                resources_set_int("PALEmulation", 0);
-                resources_set_int(scale2x_res, 1);
+                set_render_filter_res(VIDEO_FILTER_SCALE2X);
                 break;
             case MENU_NETPLAY_SERVER:
                 network_start_server();
@@ -895,7 +890,7 @@ void ui_dispatch_events(void)
                 ui_sound();
                 break;
             case MENU_VIDEO_SETTINGS:
-                ui_video();
+                ui_video(0);
                 break;
             case MENU_RAM_SETTINGS:
                 ui_ram();
@@ -994,9 +989,9 @@ void ui_dispatch_events(void)
                         if (message_queue[i].FindInt32("resval", &res_val) == B_OK) {
                             resources_set_int(res_name, res_val);
                         }
-                    }
-                    if (message_queue[i].FindString("resvalstr", &res_val_str) == B_OK) {
-                        resources_set_string(res_name, res_val_str);
+                        if (message_queue[i].FindString("resvalstr", &res_val_str) == B_OK) {
+                            resources_set_string(res_name, res_val_str);
+                        }
                     }
                     break;
                 }

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -50,87 +51,106 @@ extern "C" {
 #include "vsync.h"
 }
 
-static struct _colorcontrol {
+typedef struct control_res_s {
     char *name;
     char *res_name;
     int multiplier;
-    BSlider *slider;
-} color_control[] =  {
-    { "Gamma", "ColorGamma", 4000, NULL },
-    { "Tint", "ColorTint", 2000, NULL },
-    { "Saturation", "ColorSaturation", 2000, NULL },
-    { "Contrast", "ColorContrast", 2000, NULL },
-    { "Brightness", "ColorBrightness", 2000, NULL },
-    { "Scanline Shade", "PALScanLineShade", 1000, NULL },
-    { "Blur", "PALBlur", 1000, NULL },
-    { "Odd Lines Phase", "PALOddLinePhase", 2000, NULL },
-    { "Odd Lines Offset", "PALOddLineOffset", 2000, NULL },
-    { NULL, NULL, 0, NULL }
+} control_res_t;
+
+static control_res_t color_controls[] = {
+    { "Gamma", "ColorGamma", 4000 },
+    { "Tint", "ColorTint", 2000 },
+    { "Saturation", "ColorSaturation", 2000 },
+    { "Contrast", "ColorContrast", 2000 },
+    { "Brightness", "ColorBrightness", 2000 },
+    { NULL, NULL, 0 }
 };
 
-typedef struct {
-    char *res_PaletteFile_name;
-    char *res_ExternalPalette_name;
-    char *page_title;
-} Chip_Parameters;
-
-static Chip_Parameters chip_param_table[] =
-{
-    { "VICIIPaletteFile", "VICIIExternalPalette",
-      "VICII Palette" },
-    { "VICPaletteFile", "VICExternalPalette",
-      "VIC Palette" },
-    { "CRTCPaletteFile", "CRTCExternalPalette",
-      "CRTC Palette"},
-    { "VDCPaletteFile", "VDCExternalPalette",
-      "VDC Palette" },
-    { "TEDPaletteFile", "TEDExternalPalette",
-      "TED Palette" },
+static control_res_t crt_controls[] = {
+    { "Scanline Shade", "PALScanLineShade", 1000 },
+    { "Blur", "PALBlur", 1000 },
+    { "Odd Lines Phase", "PALOddLinePhase", 2000 },
+    { "Odd Lines Offset", "PALOddLineOffset", 2000 },
+    { NULL, NULL, 0 }
 };
+
+static char *chip_name_table[] = { "VICII", "VIC", "CRTC", "VDC", "TED" };
 
 static int chip[] = { -1, -1 };
 
-BListView *palettelistview;
-
 class VideoWindow : public BWindow {
+        BBox *color_ctrlsbox;
+        BBox *crt_ctrlsbox;
+        BListView *palettelistview;
+        int chip_no;
+        char *chip_name;
+
+        void CreateSliders(BBox *parent, control_res_t *ctrls);
+        //~ void EnableSliders(BBox *parent);
     public:
-        VideoWindow();
+        VideoWindow(int chipno);
         ~VideoWindow();
         virtual void MessageReceived(BMessage *msg);
 };
 
-static VideoWindow *videowindow = NULL;
+static VideoWindow *videowindow[] = { NULL, NULL };
 
-VideoWindow::VideoWindow() 
-    : BWindow(BRect(250, 50, 500, 345), "Video settings", B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+void VideoWindow::CreateSliders(BBox *parent, control_res_t *ctrls)
+{
+    int res_val;
+    char *resname;
+    BMessage *msg;
+    BSlider *slider;
+    BRect r;
+
+    r = parent->Bounds();
+    r.bottom = 50;
+    r.InsetBy(5, 15);
+    for (int i = 0; ctrls[i].name; i++) {
+        resname = util_concat(chip_name, ctrls[i].res_name, NULL);
+        if (resources_get_int(resname, &res_val) == 0) {
+            slider = new BSlider(r.OffsetByCopy(0, i * 45), resname, ctrls[i].name, NULL, 0, ctrls[i].multiplier, B_TRIANGLE_THUMB);
+            msg = new BMessage(MESSAGE_VIDEO_COLOR);
+            msg->AddString("resname", resname);
+            msg->AddPointer("slider", slider);
+            slider->SetMessage(msg);
+            slider->SetValue(res_val);
+            slider->SetHashMarkCount(11);
+            slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
+            parent->AddChild(slider);
+        }
+        lib_free(resname);
+    }
+}
+
+VideoWindow::VideoWindow(int chipno) 
+    : BWindow(BRect(250, 50, 640, 345), "Video settings", B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BMessage *msg;
     BCheckBox *checkbox;
     BRect r;
-    BBox *box;
     BView *background;
     BDirectory dir;
     BEntry entry;
-    int res_val, i;
+    int res_val;
+    char *resname;
     char *dirpath;
     const char *palettefile_const;
     char *palettefile;
-    BRadioButton *rb_mode;
+    //~ BRadioButton *rb_mode;
 
     switch (machine_class) {
         case VICE_MACHINE_C128:
-            chip[0] = 0;
             chip[1] = 3;
-            break;
+            /* fall through */
         case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_CBM5x0:
+        default:
             chip[0] = 0;
             break;
         case VICE_MACHINE_CBM6x0:
-            chip[0] = 2;
-            break;
-        case  VICE_MACHINE_CBM5x0:
-            chip[0] = 0;
-            break;
         case VICE_MACHINE_PET:
             chip[0] = 2;
             break;
@@ -140,10 +160,10 @@ VideoWindow::VideoWindow()
         case VICE_MACHINE_VIC20:
             chip[0] = 1;
             break;
-        default:
-            chip[0] = 0;
-            break;
     }
+
+    chip_no = chipno;
+    chip_name = chip_name_table[chip[chipno]];
 
     r = Bounds();
     background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
@@ -151,39 +171,42 @@ VideoWindow::VideoWindow()
     AddChild(background);
 
     /* Sliders for color control */
-    for (i = 0; color_control[i].name; i++) {
-        if (chip_param_table[chip[0]].res_ExternalPalette_name != NULL &&
-            resources_get_int(color_control[i].res_name, &res_val) == 0) {
-            msg = new BMessage(MESSAGE_VIDEO_COLOR);
-            msg->AddInt32("index", i);
-            color_control[i].slider = new BSlider(BRect(5, 10 + i * 45, 100, 30 + i * 45), color_control[i].name, color_control[i].name, msg, 0, color_control[i].multiplier, B_TRIANGLE_THUMB);
-            color_control[i].slider->SetValue(res_val);
-            color_control[i].slider->SetHashMarkCount(11);
-            color_control[i].slider->SetHashMarks(B_HASH_MARKS_BOTTOM);
-            background->AddChild(color_control[i].slider);
-        }
-    }
+    color_ctrlsbox = new BBox(BRect(10, 10, 120, 255), "Color controls");
+    color_ctrlsbox->SetLabel("Color controls");
+    CreateSliders(color_ctrlsbox, color_controls);
+    background->AddChild(color_ctrlsbox);
+    //~ color_ctrlsbox->SetViewColor(216, 216, 216, 0);
 
-    /* External Palette */
-    checkbox = new BCheckBox(BRect(110, 10, 240, 25), "External Palette", "External Palette", new BMessage(MESSAGE_VIDEO_EXTERNALPALETTE));
+    /* Sliders for CRT Emulation control */
+    crt_ctrlsbox = new BBox(BRect(130, 10, 240, 210), "CRT emulation");
+    crt_ctrlsbox->SetLabel("CRT emulation");
+    CreateSliders(crt_ctrlsbox, crt_controls);
+    background->AddChild(crt_ctrlsbox);
+
+    /* External Palette check box */
+    resname = util_concat(chip_name, "ExternalPalette", NULL);
+    msg = new BMessage(MESSAGE_VIDEO_EXTERNALPALETTE);
+    msg->AddString("resname", resname);
+    checkbox = new BCheckBox(BRect(250, 10, 380, 25), "ExternalPalette", "External Palette", msg);
     background->AddChild(checkbox);
-    if (chip_param_table[chip[0]].res_ExternalPalette_name != NULL) {
-        resources_get_int(chip_param_table[chip[0]].res_ExternalPalette_name, &res_val);
-    } else {
-        res_val = 1;
-        checkbox->SetEnabled(0);
-    }
+    resources_get_int(resname, &res_val);
     checkbox->SetValue(res_val);
+    lib_free(resname);
 
-    resources_get_string(chip_param_table[chip[0]].res_PaletteFile_name, &palettefile_const);
+    /* External Palette File list box */
+    resname = util_concat(chip_name, "PaletteFile", NULL);
+    msg = new BMessage(MESSAGE_VIDEO_PALETTEFILE);
+    msg->AddString("resname", resname);
+    palettelistview = new BListView(BRect(250, 35, 360, 125), "PaletteFile");
+    palettelistview->SetSelectionMessage(msg);
+    background->AddChild(new BScrollView("scroll", palettelistview, B_FOLLOW_LEFT | B_FOLLOW_TOP, 0, false, true));
+
+    /* Fill External Palette File list box */
+    resources_get_string(resname, &palettefile_const);
     palettefile = lib_stralloc(palettefile_const);
     util_add_extension(&palettefile, "vpl");
-    palettelistview = new BListView(BRect(110, 35, 220, 125), "Palette File");
-    palettelistview->SetSelectionMessage(new BMessage(MESSAGE_VIDEO_PALETTEFILE));
-    background->AddChild(new BScrollView("scroll", palettelistview, B_FOLLOW_LEFT | B_FOLLOW_TOP, 0, false, true));
     dirpath = util_concat(archdep_boot_path(), "/", machine_name, NULL);
     dir = BDirectory(dirpath);
-    free(dirpath);
     while (dir.GetNextEntry(&entry) != B_ENTRY_NOT_FOUND) {
         char s[255];
         BListItem *item;
@@ -191,49 +214,59 @@ VideoWindow::VideoWindow()
         entry.GetName(s);
         if (strstr(s, ".vpl")) {
             palettelistview->AddItem(item = new BStringItem(s));
-        }
-        if (strncmp(s, palettefile, strlen(s)) == 0) {
-            palettelistview->Select(palettelistview->IndexOf(item));
+            if (strncmp(s, palettefile, strlen(s)) == 0) {
+                palettelistview->Select(palettelistview->IndexOf(item));
+            }
         }
     }
+    lib_free(dirpath);
+    lib_free(palettefile);
+    lib_free(resname);
 
     Show();
-    lib_free(palettefile);
 }
 
 VideoWindow::~VideoWindow() 
 {
-    videowindow = NULL; 
+    videowindow[chip_no] = NULL;
 }
 
-void VideoWindow::MessageReceived(BMessage *msg) {
-    int32 index, val;   
+void VideoWindow::MessageReceived(BMessage *msg)
+{
+    const char *resname;
+    int32 val;
     BMessage *msr;
+    BSlider *slider;
     BListItem *item;
+
+    msg->FindString("resname", &resname);
 
     switch (msg->what) {
         case MESSAGE_VIDEO_COLOR:
-            index = msg->FindInt32("index");
-            val = color_control[index].slider->Value();
+            msg->FindPointer("slider", (void **)&slider);
+            val = slider->Value();
             msr = new BMessage(MESSAGE_SET_RESOURCE);
-            msr->AddString("resname", color_control[index].res_name);
+            msr->AddString("resname", resname);
             msr->AddInt32("resval", val);
             ui_add_event((void*)msr);
+            delete msr;
             break;
         case MESSAGE_VIDEO_EXTERNALPALETTE:
-            resources_get_int(chip_param_table[chip[0]].res_ExternalPalette_name, (int *)&val);
+            resources_get_int(resname, (int *)&val);
             msr = new BMessage(MESSAGE_SET_RESOURCE);
-            msr->AddString("resname", chip_param_table[chip[0]].res_ExternalPalette_name);
+            msr->AddString("resname", resname);
             msr->AddInt32("resval", 1 - val);
             ui_add_event((void*)msr);
+            delete msr;
             break;
         case MESSAGE_VIDEO_PALETTEFILE:
             item = palettelistview->ItemAt(palettelistview->CurrentSelection());
             if (item) {
                 msr = new BMessage(MESSAGE_SET_RESOURCE);
-                msr->AddString("resname", chip_param_table[chip[0]].res_PaletteFile_name);
+                msr->AddString("resname", resname);
                 msr->AddString("resvalstr", ((BStringItem*) item)->Text());
                 ui_add_event((void*)msr);
+                delete msr;
             }
             break;
         default:
@@ -241,11 +274,12 @@ void VideoWindow::MessageReceived(BMessage *msg) {
     }
 }
 
-void ui_video()
+void ui_video(int chip_no)
 {
-    if (videowindow != NULL) {
+    if (videowindow[chip_no] != NULL) {
+        videowindow[chip_no]->Activate();
         return;
     }
 
-    videowindow = new VideoWindow();
+    videowindow[chip_no] = new VideoWindow(chip_no);
 }

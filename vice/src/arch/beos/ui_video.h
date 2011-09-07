@@ -33,6 +33,6 @@ const uint32 MESSAGE_VIDEO_EXTERNALPALETTE = 'MVD3';
 const uint32 MESSAGE_VIDEO_PALMODE         = 'MVD4';
 const uint32 MESSAGE_VIDEO_PALSHADE        = 'MVD5';
 
-extern void ui_video(void);
+extern void ui_video(int chip_no);
 
 #endif
