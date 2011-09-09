@@ -143,6 +143,7 @@ struct cia_context_s;
 struct riot_context_s;
 struct tpi_context_s;
 struct via_context_s;
+struct pc8477_s;
 
 typedef struct drive_context_s {
     int mynumber;         /* init to [01] */
@@ -161,6 +162,7 @@ typedef struct drive_context_s {
     struct riot_context_s *riot1;
     struct riot_context_s *riot2;
     struct tpi_context_s *tpid;
+    struct pc8477_s *pc8477;
 } drive_context_t;
 
 #endif

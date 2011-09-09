@@ -49,6 +49,7 @@
 #include "via.h"
 #include "via1992.h"
 #include "viad.h"
+#include "pc8477.h"
 
 
 #define iecbus (viap->v_iecbus)
@@ -235,20 +236,16 @@ static void reset(via_context_t *via_context)
 static BYTE read_pra(via_context_t *via_context, WORD addr)
 {
     BYTE byte;
-    BYTE orval;
     drivevia_context_t *viap;
 
     viap = (drivevia_context_t *)(via_context->prv);
 
-    /* 0 for drive0, 0x20 for drive 1 */
-    orval = 0;
-
     if (iecbus != NULL) {
         byte = (((via_context->via[VIA_PRA] & 0x1a)
-               | iecbus->drv_port) ^ 0x85) | orval;
+               | iecbus->drv_port) ^ 0x85);
     } else {
         byte = (((via_context->via[VIA_PRA] & 0x1a)
-               | iec_drive_read(viap->number)) ^ 0x85) | orval;
+               | iec_drive_read(viap->number)) ^ 0x85);
     }
 
     DEBUG_IEC_DRV_READ(byte);
@@ -262,10 +259,12 @@ static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
     drivevia_context_t *viap;
+    drive_context_t *drive;
 
     viap = (drivevia_context_t *)(via_context->prv);
+    drive = (drive_context_t *)(via_context->context);
 
-    byte = (viap->number << 3) | 0x80;
+    byte = (viap->number << 3) | (drive->pc8477->irq ? 0x80 : 0);
 
     return byte;
 }

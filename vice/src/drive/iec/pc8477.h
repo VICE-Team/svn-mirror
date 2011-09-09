@@ -29,6 +29,7 @@
 
 #include "types.h"
 #include "fdd.h"
+#include "alarm.h"
 
 struct disk_image_s;
 
@@ -47,6 +48,7 @@ typedef enum pc8477_cmd_e {
 } pc8477_cmd_t;
 
 typedef struct pc8477_s {
+    char *myname;
     pc8477_cmd_t command;
     pc8477_state_t state;
     drive_context_t *mycontext;
@@ -57,16 +59,21 @@ typedef struct pc8477_s {
     int motor[4]; /* motor signals */
     int sel;
     int cmd_sel;
+    int irq;
+
+    CLOCK seek_clk;
 
     /* Registers */
     BYTE st[4];
     int track[4]; /* actual track of head */
     int step_rate, motor_off_time, motor_on_time, nodma;
     int index_count;
+    int rate;
 
     int sector; /* sector register */
     int is8477; /* dp8473 or pc 8477 */
 
+    alarm_t *exec_alarm;
     int bufp, buf_size;
     BYTE buf[8192];
     int cmdp, cmd_size;
@@ -75,21 +82,16 @@ typedef struct pc8477_s {
     BYTE res[7];
 } pc8477_t;
 
-extern pc8477_t pc8477[];
-
 struct drive_context_s;
 
-extern void pc8477d_init(struct drive_context_s *drv);
-extern void pc8477d_store(struct drive_context_s *drv, WORD addr,
-                                   BYTE byte);
-extern BYTE pc8477d_read(struct drive_context_s *drv, WORD addr);
-extern void pc8477d_reset(struct drive_context_s *drv);
+extern void pc8477d_init(drive_context_t *drv);
+extern void pc8477_setup_context(drive_context_t *drv);
+extern void pc8477d_store(drive_context_t *drv, WORD addr, BYTE byte);
+extern BYTE pc8477d_read(drive_context_t *drv, WORD addr);
+extern void pc8477d_reset(drive_context_t *drv);
 
-extern void pc8477_vsync_hook(void);
-
-extern int pc8477_attach_image(struct disk_image_s *image, unsigned int unit);
-extern int pc8477_detach_image(struct disk_image_s *image, unsigned int unit);
-extern int pc8477_disk_change(struct drive_context_s *drive_context);
+extern int pc8477_image_attach(pc8477_t *drv, struct disk_image_s *image);
+extern int pc8477_image_detach(pc8477_t *drv);
 
 #endif 
 

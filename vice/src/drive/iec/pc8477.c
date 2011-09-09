@@ -35,8 +35,10 @@
 #include "drivecpu.h"
 #include "drivetypes.h"
 #include "log.h"
+#include "lib.h"
 #include "types.h"
 #include "pc8477.h"
+#include "alarm.h"
 
 #ifdef PC8477_DEBUG
 #define debug(...) log_message(pc8477_log, __VA_ARGS__)
@@ -44,49 +46,72 @@
 #define debug(...) {}
 #endif
 
-/* wd1770 disk controller structure.  */
-pc8477_t pc8477[DRIVE_NUM];
+const int data_rates[4] = {500, 300, 250, 1000};
+#define STEP_RATE ((16 - drv->step_rate) * 1000000 / drv->rate)
 
 static log_t pc8477_log = LOG_ERR;
 
 /*-----------------------------------------------------------------------*/
 
-static void pc8477_store(WORD addr, BYTE byte, unsigned int dnr);
-static BYTE pc8477_read(WORD addr, unsigned int dnr);
-static void pc8477_reset(int unsigned dnr);
+static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte);
+static BYTE pc8477_read(pc8477_t *drv, WORD addr);
+static void pc8477_reset(pc8477_t *drv);
+
+static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase);
+
+static void exec_alarm_handler(CLOCK offset, void *data)
+{
+    pc8477_t *drv = (pc8477_t *)data;
+
+    alarm_unset(drv->exec_alarm);
+    drv->state = pc8477_execute(drv, 1);
+}
 
 /* Clock overflow handling.  */
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
+    pc8477_t *drv = (pc8477_t *)data;
+
+    if (drv->seek_clk > (CLOCK) 0)
+        drv->seek_clk -= sub;
 }
 
 /* Functions using drive context.  */
 void pc8477d_init(drive_context_t *drv)
 {
+    char *name;
+
     if (pc8477_log == LOG_ERR)
         pc8477_log = log_open("PC8477");
 
-    clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
-                           uint_to_void_ptr(drv->mynumber));
+    clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback, drv);
 
-    memset(&pc8477[drv->mynumber], 0, sizeof(pc8477_t));
-    pc8477[drv->mynumber].fdds[1] = fdd_init(1);
-    pc8477[drv->mynumber].mycontext = drv;
+    name = lib_msprintf("%sEXEC", drv->pc8477->myname);
+    drv->pc8477->exec_alarm = alarm_new(drv->cpu->alarm_context, name, exec_alarm_handler, drv->pc8477);
+    lib_free(name);
+}
+
+void pc8477_setup_context(drive_context_t *drv)
+{
+    drv->pc8477 = lib_calloc(1, sizeof(pc8477_t));
+    drv->pc8477->myname = lib_msprintf("PC8477_%d", drv->mynumber);
+    drv->pc8477->fdds[1] = fdd_init(1);
+    drv->pc8477->mycontext = drv;
 }
 
 void pc8477d_store(drive_context_t *drv, WORD addr, BYTE byte)
 {
-    pc8477_store((WORD)(addr & 7), byte, drv->mynumber);
+    pc8477_store(drv->pc8477, (WORD)(addr & 7), byte);
 }
 
 BYTE pc8477d_read(drive_context_t *drv, WORD addr)
 {
-    return pc8477_read((WORD)(addr & 7), drv->mynumber);
+    return pc8477_read(drv->pc8477, (WORD)(addr & 7));
 }
 
 void pc8477d_reset(drive_context_t *drv)
 {
-    pc8477_reset(drv->mynumber);
+    pc8477_reset(drv->pc8477);
 }
 
 
@@ -100,6 +125,7 @@ static void pc8477_software_reset(pc8477_t *drv)
     drv->st[2] = 0x00;
     drv->st[3] = 0x00;
     drv->state = PC8477_WAIT;
+    drv->irq = 1;
 }
 
 static void pc8477_result(pc8477_t *drv)
@@ -208,36 +234,48 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase)
         if (!phase) {
 	    debug("RECALIBRATE #%d", drv->cmd[1] & 3);
 	    drv->seeking[drv->cmd[1] & 3] = 1;
+            drv->seek_clk = *drv->mycontext->clk_ptr;
 	}
         if (drv->fdd && drv->fdd->track0) {
             drv->track[drv->cmd[1] & 3] = 0;
             drv->st[0] |= 0x20; /* seek end */
+            drv->irq = 1;
             return PC8477_WAIT;
         } 
-        fdd_seek_pulse(drv->fdd, 0);
-	if (drv->fdd) {
-	    drv->mycontext->drive->current_half_track = (drv->fdd->track + 1) * 2;
-	}
+        if (*drv->mycontext->clk_ptr - drv->seek_clk >= STEP_RATE) {
+            drv->seek_clk = *drv->mycontext->clk_ptr;
+            fdd_seek_pulse(drv->fdd, 0);
+            if (drv->fdd) {
+                drv->mycontext->drive->current_half_track = (drv->fdd->track + 1) * 2;
+            }
+        }
+        alarm_set(drv->exec_alarm, drv->seek_clk + STEP_RATE);
         return PC8477_EXEC;
     case PC8477_CMD_SEEK:
         if (!phase) {
             debug("SEEK #%d %d", drv->cmd[1] & 3, drv->cmd[2]);
             drv->seeking[drv->cmd[1] & 3] = 1;
+            drv->seek_clk = *drv->mycontext->clk_ptr;
         }
         if (drv->cmd[2] == drv->track[drv->cmd[1] & 3]) {
             drv->st[0] |= 0x20; /* seek end */;
+            drv->irq = 1;
             return PC8477_WAIT;
         }
-        if (drv->cmd[2] < drv->track[drv->cmd[1] & 3]) {
-            fdd_seek_pulse(drv->fdd, 0);
-            drv->track[drv->cmd[1] & 3]--;
-        } else {
-            fdd_seek_pulse(drv->fdd, 1);
-            drv->track[drv->cmd[1] & 3]++;
+        if (*drv->mycontext->clk_ptr - drv->seek_clk >= STEP_RATE) {
+            drv->seek_clk = *drv->mycontext->clk_ptr;
+            if (drv->cmd[2] < drv->track[drv->cmd[1] & 3]) {
+                fdd_seek_pulse(drv->fdd, 0);
+                drv->track[drv->cmd[1] & 3]--;
+            } else {
+                fdd_seek_pulse(drv->fdd, 1);
+                drv->track[drv->cmd[1] & 3]++;
+            }
+            if (drv->fdd) {
+                drv->mycontext->drive->current_half_track = (drv->fdd->track + 1) * 2;
+            }
         }
-	if (drv->fdd) {
-	    drv->mycontext->drive->current_half_track = (drv->fdd->track + 1) * 2;
-	}
+        alarm_set(drv->exec_alarm, drv->seek_clk + STEP_RATE);
         return PC8477_EXEC;
     case PC8477_CMD_DUMPREG:
         if (!drv->is8477) break;
@@ -378,9 +416,8 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase)
     return PC8477_RESULT;
 }
 
-static void pc8477_store(WORD addr, BYTE byte, unsigned int dnr)
+static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
 {
-    pc8477_t *drv = &pc8477[dnr];
     int i;
     const static struct {
         BYTE code, mask; 
@@ -466,6 +503,7 @@ static void pc8477_store(WORD addr, BYTE byte, unsigned int dnr)
                     drv->st[0] = drv->st[3];
                 }
                 memset(drv->res, 0, sizeof(drv->res));
+                drv->irq = 0;
                 drv->state = pc8477_execute(drv, 0);
                 break;
             case PC8477_WRITE:
@@ -488,13 +526,13 @@ static void pc8477_store(WORD addr, BYTE byte, unsigned int dnr)
             fdd_set_rate(drv->fdds[1], byte);
             fdd_set_rate(drv->fdds[2], byte);
             fdd_set_rate(drv->fdds[3], byte);
+            drv->rate = data_rates[byte & 3];
             break;
     }
 }
 
-static BYTE pc8477_read(WORD addr, unsigned int dnr)
+static BYTE pc8477_read(pc8477_t *drv, WORD addr)
 {
-    pc8477_t *drv = &pc8477[dnr];
     BYTE result = 0;
 
     switch (addr) {
@@ -536,6 +574,7 @@ static BYTE pc8477_read(WORD addr, unsigned int dnr)
             case PC8477_RESULT:
                 if (!drv->resp) {
                     pc8477_result(drv);
+                    drv->irq = 0;
                 }
                 result = drv->res[drv->resp++];
                 if (drv->resp >= drv->res_size) {
@@ -554,59 +593,26 @@ static BYTE pc8477_read(WORD addr, unsigned int dnr)
     return addr >> 8; /* tri-state */
 }
 
-static void pc8477_reset(unsigned int dnr)
+static void pc8477_reset(pc8477_t *drv)
 {
-    pc8477_t *drv = &pc8477[dnr];
-
     drv->is8477 = 1;
     memset(drv->track, 0, sizeof(drv->track));
     drv->sel = 0;
+    drv->rate = 250;
     pc8477_software_reset(drv);
 }
 
 /*-----------------------------------------------------------------------*/
 
-void pc8477_vsync_hook(void)
+int pc8477_image_attach(pc8477_t *drv, disk_image_t *image)
 {
-}
-
-int pc8477_attach_image(disk_image_t *image, unsigned int unit)
-{
-    if (unit < 8 || unit > 8 + DRIVE_NUM)
-        return -1;
-
-    switch(image->type) {
-      case DISK_IMAGE_TYPE_D81:
-      case DISK_IMAGE_TYPE_D1M:
-      case DISK_IMAGE_TYPE_D2M:
-      case DISK_IMAGE_TYPE_D4M:
-        disk_image_attach_log(image, pc8477_log, unit);
-        break;
-      default:
-        return -1;
-    }
-
-    fdd_image_attach(pc8477[unit - 8].fdds[1], image);
+    fdd_image_attach(drv->fdds[1], image);
     return 0;
 }
 
-int pc8477_detach_image(disk_image_t *image, unsigned int unit)
+int pc8477_image_detach(pc8477_t *drv)
 {
-    if (image == NULL || unit < 8 || unit > 8 + DRIVE_NUM)
-        return -1;
-
-    switch(image->type) {
-      case DISK_IMAGE_TYPE_D81:
-      case DISK_IMAGE_TYPE_D1M:
-      case DISK_IMAGE_TYPE_D2M:
-      case DISK_IMAGE_TYPE_D4M:
-        disk_image_detach_log(image, pc8477_log, unit);
-        break;
-      default:
-        return -1;
-    }
-
-    fdd_image_detach(pc8477[unit - 8].fdds[1]);
+    fdd_image_detach(drv->fdds[1]);
     return 0;
 }
 

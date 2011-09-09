@@ -236,7 +236,8 @@ int fdd_image_write(fd_drive_t *drv, BYTE *buffer)
     return 0;
 }
 
-void fdd_seek_pulse(fd_drive_t *drv, int dir) {
+void fdd_seek_pulse(fd_drive_t *drv, int dir)
+{
     if (!drv) {
 	return;
     }
@@ -247,7 +248,7 @@ void fdd_seek_pulse(fd_drive_t *drv, int dir) {
         drv->disk_change = 0;
     }
     if (drv->track < 0) drv->track = 0;
-    if (drv->track > drv->tracks) drv->track = drv->tracks; /* one extra track */
+    if (drv->track > 82) drv->track = 82;
     drv->track0 = drv->track ? 0 : 1;
 }
 

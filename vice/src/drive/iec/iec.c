@@ -123,6 +123,7 @@ void iec_drive_setup_context(struct drive_context_s *drv)
     cia1571_setup_context(drv);
     cia1581_setup_context(drv);
     via1992_setup_context(drv);
+    pc8477_setup_context(drv);
 }
 
 void iec_drive_shutdown(struct drive_context_s *drv)
@@ -147,7 +148,6 @@ void iec_drive_idling_method(unsigned int dnr)
 void iec_drive_vsync_hook(void)
 {
     wd1770_vsync_hook();
-    pc8477_vsync_hook();
 }
 
 void iec_drive_rom_load(void)
@@ -246,12 +246,12 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
 
 int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit)
 {
-    return wd1770_attach_image(image, unit) & pc8477_attach_image(image, unit);
+    return wd1770_attach_image(image, unit);
 }
 
 int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 {
-    return wd1770_detach_image(image, unit) & pc8477_detach_image(image, unit);
+    return wd1770_detach_image(image, unit);
 }
 
 void iec_drive_port_default(struct drive_context_s *drv)
