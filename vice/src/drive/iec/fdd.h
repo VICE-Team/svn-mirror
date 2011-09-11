@@ -29,6 +29,8 @@
 
 #include "types.h"
 
+struct disk_image_s;
+
 typedef struct fdd_sector_header_s fdd_sector_header_t;
 typedef struct fd_drive_s {
     int number;

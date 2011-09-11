@@ -45,6 +45,7 @@
 #include "via.h"
 #include "via1d1541.h"
 #include "wd1770.h"
+#include "via1992.h"
 #include "pc8477.h"
 
 
