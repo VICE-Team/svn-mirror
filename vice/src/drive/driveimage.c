@@ -227,7 +227,7 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
         break;
       case DISK_IMAGE_TYPE_D81:
         if (drive->type != DRIVE_TYPE_1581
-            && drive->type != DRIVE_TYPE_1992)
+            && drive->type != DRIVE_TYPE_4000)
             return -1;
         break;
       case DISK_IMAGE_TYPE_D80:
@@ -240,7 +240,7 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
       case DISK_IMAGE_TYPE_D1M:
       case DISK_IMAGE_TYPE_D2M:
       case DISK_IMAGE_TYPE_D4M:
-        if (drive->type != DRIVE_TYPE_1992)
+        if (drive->type != DRIVE_TYPE_4000)
             return -1;
         break;
       default:

@@ -152,7 +152,7 @@ int rom1581_loaded = 0;
 int rom2031_loaded = 0;
 int rom1001_loaded = 0;
 int rom2040_loaded = 0;
-int rom1992_loaded = 0;
+int rom4000_loaded = 0;
 
 BYTE *drive_rom1541;
 BYTE *drive_rom1541ii;
@@ -161,7 +161,7 @@ BYTE *drive_rom1581;
 BYTE *drive_rom2031;
 BYTE *drive_rom1001;
 BYTE *drive_rom2040;
-BYTE *drive_rom1992;
+BYTE *drive_rom4000;
 
 /* ------------------------------------------------------------------------- */
 
@@ -1302,8 +1302,8 @@ static int info_cmd(int nargs, char **args)
       case VDRIVE_IMAGE_FORMAT_2040:
         format_name = "2040";
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
-        format_name = "1992";
+      case VDRIVE_IMAGE_FORMAT_4000:
+        format_name = "4000";
         break;
       default:
         return FD_NOTREADY;

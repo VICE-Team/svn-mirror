@@ -68,8 +68,8 @@ void c128fastiec_fast_cpu_write(BYTE data)
                 case DRIVE_TYPE_1581:
                     ciacore_set_sdr(drive_context[dnr]->cia1581, data);
                     break;
-                case DRIVE_TYPE_1992:
-                    viacore_set_sr(drive_context[dnr]->via1992, data);
+                case DRIVE_TYPE_4000:
+                    viacore_set_sr(drive_context[dnr]->via4000, data);
                     break;
                 }
             }

@@ -1,5 +1,5 @@
 /*
- * via1992.h - Drive 1992 VIA definitions.
+ * via4000.h - Drive 4000 VIA definitions.
  *
  * Written by
  *  Kajtar Zsolt <soci@c64.rulez.org>
@@ -28,21 +28,21 @@
  *
  */
 
-#ifndef VICE_VIA1992_H
-#define VICE_VIA1992_H
+#ifndef VICE_VIA4000_H
+#define VICE_VIA4000_H
 
 #include "types.h"
 
 struct drive_context_s;
 struct via_context_s;
 
-extern void via1992_setup_context(struct drive_context_s *ctxptr);
-extern void via1992_init(struct drive_context_s *ctxptr);
+extern void via4000_setup_context(struct drive_context_s *ctxptr);
+extern void via4000_init(struct drive_context_s *ctxptr);
 
-extern void via1992_store(struct drive_context_s *ctxptr, WORD addr,
+extern void via4000_store(struct drive_context_s *ctxptr, WORD addr,
                                      BYTE byte);
-extern BYTE via1992_read(struct drive_context_s *ctxptr, WORD addr);
-extern BYTE via1992_peek(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE via4000_read(struct drive_context_s *ctxptr, WORD addr);
+extern BYTE via4000_peek(struct drive_context_s *ctxptr, WORD addr);
 
 #endif
 

@@ -37,13 +37,13 @@
 #define BAM_BIT_MAP_1581        16
 #define BAM_BIT_MAP_8050        6
 #define BAM_BIT_MAP_8250        BAM_BIT_MAP_8050
-#define BAM_BIT_MAP_1992        32
+#define BAM_BIT_MAP_4000        32
 #define BAM_VERSION_1541        165     /* position of DOS version (2A/2C)
                                            in BAM blk */
 #define BAM_VERSION_1581        25
 #define BAM_VERSION_8050        27
 #define BAM_VERSION_8250        BAM_VERSION_8050
-#define BAM_VERSION_1992        25
+#define BAM_VERSION_4000        25
 
 struct vdrive_s;
 

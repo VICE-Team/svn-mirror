@@ -158,7 +158,7 @@ typedef struct drive_context_s {
     struct via_context_s *via2;
     struct cia_context_s *cia1571;
     struct cia_context_s *cia1581;
-    struct via_context_s *via1992;
+    struct via_context_s *via4000;
     struct riot_context_s *riot1;
     struct riot_context_s *riot2;
     struct tpi_context_s *tpid;

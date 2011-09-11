@@ -71,7 +71,7 @@ static int vdrive_dir_get_interleave(unsigned int type)
     case VDRIVE_IMAGE_FORMAT_8250:
         return 3;
     case VDRIVE_IMAGE_FORMAT_1581:
-    case VDRIVE_IMAGE_FORMAT_1992:
+    case VDRIVE_IMAGE_FORMAT_4000:
         return 1;
     default:
         log_error(LOG_ERR,

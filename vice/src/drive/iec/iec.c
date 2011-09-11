@@ -45,7 +45,7 @@
 #include "via.h"
 #include "via1d1541.h"
 #include "wd1770.h"
-#include "via1992.h"
+#include "via4000.h"
 #include "pc8477.h"
 
 
@@ -74,7 +74,7 @@ void iec_drive_init(struct drive_context_s *drv)
     via1d1541_init(drv);
     cia1571_init(drv);
     cia1581_init(drv);
-    via1992_init(drv);
+    via4000_init(drv);
     wd1770d_init(drv);
     pc8477d_init(drv);
 }
@@ -106,11 +106,11 @@ void iec_drive_reset(struct drive_context_s *drv)
         ciacore_disable(drv->cia1581);
     }
 
-    if (drv->drive->type == DRIVE_TYPE_1992) {
-        viacore_reset(drv->via1992);
+    if (drv->drive->type == DRIVE_TYPE_4000) {
+        viacore_reset(drv->via4000);
         pc8477d_reset(drv);
     } else {
-        viacore_disable(drv->via1992);
+        viacore_disable(drv->via4000);
     }
 }
 
@@ -124,7 +124,7 @@ void iec_drive_setup_context(struct drive_context_s *drv)
     via1d1541_setup_context(drv);
     cia1571_setup_context(drv);
     cia1581_setup_context(drv);
-    via1992_setup_context(drv);
+    via4000_setup_context(drv);
     pc8477_setup_context(drv);
 }
 
@@ -133,7 +133,7 @@ void iec_drive_shutdown(struct drive_context_s *drv)
     viacore_shutdown(drv->via1d1541);
     ciacore_shutdown(drv->cia1571);
     ciacore_shutdown(drv->cia1581);
-    viacore_shutdown(drv->via1992);
+    viacore_shutdown(drv->via4000);
 }
 
 void iec_drive_idling_method(unsigned int dnr)
@@ -159,7 +159,7 @@ void iec_drive_rom_load(void)
     iecrom_load_1570();
     iecrom_load_1571();
     iecrom_load_1581();
-    iecrom_load_1992();
+    iecrom_load_4000();
 }
 
 void iec_drive_rom_setup_image(unsigned int dnr)
@@ -206,8 +206,8 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
             return -1;
     }
 
-    if (ctxptr->drive->type == DRIVE_TYPE_1992) {
-        if (viacore_snapshot_read_module(ctxptr->via1992, s) < 0)
+    if (ctxptr->drive->type == DRIVE_TYPE_4000) {
+        if (viacore_snapshot_read_module(ctxptr->via4000, s) < 0)
             return -1;
     }
 
@@ -238,8 +238,8 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
             return -1;
     }
 
-    if (ctxptr->drive->type == DRIVE_TYPE_1992) {
-        if (viacore_snapshot_write_module(ctxptr->via1992, s) < 0)
+    if (ctxptr->drive->type == DRIVE_TYPE_4000) {
+        if (viacore_snapshot_write_module(ctxptr->via4000, s) < 0)
             return -1;
     }
 

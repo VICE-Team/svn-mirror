@@ -87,7 +87,7 @@ void drivesync_clock_frequency(unsigned int type, drive_t *drive)
         break;
       case DRIVE_TYPE_1551:
       case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_1992:
+      case DRIVE_TYPE_4000:
         drive->clock_frequency = 2;
         break;
       case DRIVE_TYPE_2031:

@@ -29,8 +29,8 @@
 
 #include "types.h"
 
-/* temporarily until the 1992 support is not safe */
-#define VDRIVE_IMAGE_FORMAT_1992_TEST (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1992)
+/* temporarily until the 4000 support is not safe */
+#define VDRIVE_IMAGE_FORMAT_4000_TEST (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000)
 
 /* High level disk formats.
    They can be different than the disk image type.  */
@@ -40,7 +40,7 @@
 #define VDRIVE_IMAGE_FORMAT_8050 3 /* Dual Disk Drive */
 #define VDRIVE_IMAGE_FORMAT_8250 4 /* Dual Disk Drive */
 #define VDRIVE_IMAGE_FORMAT_2040 5 /* Dual Disk Drive */
-#define VDRIVE_IMAGE_FORMAT_1992 6
+#define VDRIVE_IMAGE_FORMAT_4000 6
 
 #define BUFFER_NOT_IN_USE      0
 #define BUFFER_DIRECTORY_READ  1

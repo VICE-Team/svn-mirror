@@ -88,7 +88,7 @@ int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
             max_sector = vdrive_get_max_sectors(vdrive, t);
             if (d) {
                 s = 0;
-            } else if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1992) {
+            } else if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) {
                 s = 64; /* after root directory */
             } else {
                 s = max_sector; /* skip bam track */
@@ -153,7 +153,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
     unsigned int max_sector, i, t, s;
 
     if (*track == vdrive->Bam_Track) {
-        if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_1992 || *sector < 64)
+        if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_4000 || *sector < 64)
             return -1;
     }
 
@@ -168,7 +168,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
     }
     /* Look for a sector on the same track */
     for (i = 0; i < max_sector; i++) {
-        if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1992
+        if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000
                 && *track == vdrive->Bam_Track && s < 64) {
             s = 64;
         }
@@ -181,7 +181,7 @@ int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
         if (s >= max_sector)
             s = 0;
     }
-    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1992
+    if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000
             && *track == vdrive->Bam_Track) {
         (*track)++;
     }
@@ -306,8 +306,8 @@ static BYTE *vdrive_bam_calculate_track(unsigned int type, BYTE *bam,
             }
         }
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
-        bamp = &bam[0x100 + BAM_BIT_MAP_1992 + 32 * (track - 1) - 1];
+      case VDRIVE_IMAGE_FORMAT_4000:
+        bamp = &bam[0x100 + BAM_BIT_MAP_4000 + 32 * (track - 1) - 1];
         break;
       default:
         log_error(LOG_ERR,
@@ -333,7 +333,7 @@ static void vdrive_bam_sector_free(unsigned int type, BYTE *bamp, BYTE *bam,
         else
             bam[BAM_EXT_BIT_MAP_1571 + track - NUM_TRACKS_1571 / 2 - 1] += add;
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
+      case VDRIVE_IMAGE_FORMAT_4000:
         break;
       default:
         log_error(LOG_ERR,
@@ -346,7 +346,7 @@ int vdrive_bam_allocate_sector(unsigned int type, BYTE *bam,
 {
     BYTE *bamp;
 
-    if (type == VDRIVE_IMAGE_FORMAT_1992) {
+    if (type == VDRIVE_IMAGE_FORMAT_4000) {
         sector ^= 7;
     }
 
@@ -364,7 +364,7 @@ int vdrive_bam_free_sector(unsigned int type, BYTE *bam, unsigned int track,
 {
     BYTE *bamp;
 
-    if (type == VDRIVE_IMAGE_FORMAT_1992) {
+    if (type == VDRIVE_IMAGE_FORMAT_4000) {
         sector ^= 7;
     }
 
@@ -405,8 +405,8 @@ void vdrive_bam_clear_all(unsigned int type, BYTE *bam)
         memset(bam + 0x300 + BAM_BIT_MAP_8250, 0, 0x100 - BAM_BIT_MAP_8250);
         memset(bam + 0x400 + BAM_BIT_MAP_8250, 0, 0x100 - BAM_BIT_MAP_8250);
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
-        memset(bam + 0x100 + BAM_BIT_MAP_1992, 255, 255 * 32);
+      case VDRIVE_IMAGE_FORMAT_4000:
+        memset(bam + 0x100 + BAM_BIT_MAP_4000, 255, 255 * 32);
         break;
       default:
         log_error(LOG_ERR,
@@ -424,13 +424,13 @@ static int mystrncpy(BYTE *d, BYTE *s, int n)
 
 void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
 {
-    /* Create Disk Format for 1541/1571/1581/2040/1992 disks.  */
+    /* Create Disk Format for 1541/1571/1581/2040/4000 disks.  */
     memset(vdrive->bam, 0, vdrive->bam_size);
     if (vdrive->image_format != VDRIVE_IMAGE_FORMAT_8050
         && vdrive->image_format != VDRIVE_IMAGE_FORMAT_8250) {
         vdrive->bam[0] = vdrive->Dir_Track;
         vdrive->bam[1] = vdrive->Dir_Sector;
-        /* position 2 will be overwritten later for 2040/1581/1992 */
+        /* position 2 will be overwritten later for 2040/1581/4000 */
         vdrive->bam[2] = 65;
 
         if (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1571)
@@ -438,7 +438,7 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
 
         memset(vdrive->bam + vdrive->bam_name, 0xa0,
                (vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581
-                || vdrive->image_format == VDRIVE_IMAGE_FORMAT_1992) ? 25 : 27);
+                || vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) ? 25 : 27);
         mystrncpy(vdrive->bam + vdrive->bam_name, (BYTE *)name, 16);
         mystrncpy(vdrive->bam + vdrive->bam_id, id, 2);
     }
@@ -529,11 +529,11 @@ void vdrive_bam_create_empty_bam(vdrive_t *vdrive, const char *name, BYTE *id)
             vdrive->bam[0x400 + 5] = 155;   /* till excluding track ... */
         }
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
+      case VDRIVE_IMAGE_FORMAT_4000:
         vdrive->bam[0x02] = 72;
         /* Setup BAM version.  */
-        vdrive->bam[BAM_VERSION_1992] = 49;
-        vdrive->bam[BAM_VERSION_1992 + 1] = 72;
+        vdrive->bam[BAM_VERSION_4000] = 49;
+        vdrive->bam[BAM_VERSION_4000 + 1] = 72;
         vdrive->bam[0x20] = vdrive->Bam_Track;
         vdrive->bam[0x21] = vdrive->Bam_Sector;
         vdrive->bam[0x100 + 2] = 72;
@@ -594,7 +594,7 @@ int vdrive_bam_get_interleave(unsigned int type)
         return 6;
     case VDRIVE_IMAGE_FORMAT_8250:
         return 7;
-    case VDRIVE_IMAGE_FORMAT_1992:
+    case VDRIVE_IMAGE_FORMAT_4000:
         return 1; 
     default:
         log_error(LOG_ERR,
@@ -665,10 +665,10 @@ int vdrive_bam_read_bam(vdrive_t *vdrive)
         err = disk_image_read_sector(vdrive->image, vdrive->bam + 1024,
                                      BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
+      case VDRIVE_IMAGE_FORMAT_4000:
         for (i = 0; i < 33; i++) {
             err = disk_image_read_sector(vdrive->image, vdrive->bam + i * 256,
-                                         BAM_TRACK_1992, BAM_SECTOR_1992 + i);
+                                         BAM_TRACK_4000, BAM_SECTOR_4000 + i);
             if (err != 0)
                 break;
         }
@@ -732,11 +732,11 @@ int vdrive_bam_write_bam(vdrive_t *vdrive)
         err |= disk_image_write_sector(vdrive->image, vdrive->bam + 1024,
                                   BAM_TRACK_8050 - 1, BAM_SECTOR_8050 + 9);
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
+      case VDRIVE_IMAGE_FORMAT_4000:
         err = 0;
         for (i = 0; i < 33; i++) {
             err |= disk_image_write_sector(vdrive->image, vdrive->bam + i * 256,
-                                     BAM_TRACK_1992, BAM_SECTOR_1992 + i);
+                                     BAM_TRACK_4000, BAM_SECTOR_4000 + i);
         }
         break;
       default:
@@ -807,9 +807,9 @@ unsigned int vdrive_bam_free_block_count(vdrive_t *vdrive)
                 }
             }
             break;
-          case VDRIVE_IMAGE_FORMAT_1992:
+          case VDRIVE_IMAGE_FORMAT_4000:
             for (j = ((i == vdrive->Bam_Track) ? 64 : 0); j < 256; j++) {
-                blocks += (vdrive->bam[BAM_BIT_MAP_1992 + 256 + 32 * (i - 1) + j / 8] >> (j % 8)) & 1;
+                blocks += (vdrive->bam[BAM_BIT_MAP_4000 + 256 + 32 * (i - 1) + j / 8] >> (j % 8)) & 1;
             }
             break;
           default:

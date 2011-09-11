@@ -192,7 +192,7 @@ int vdrive_calculate_disk_half(vdrive_t *vdrive)
       case VDRIVE_IMAGE_FORMAT_8050:
       case VDRIVE_IMAGE_FORMAT_8250:
         return 39;
-      case VDRIVE_IMAGE_FORMAT_1992:
+      case VDRIVE_IMAGE_FORMAT_4000:
         return vdrive->num_tracks - 1;
       default:
         log_error(vdrive_log,
@@ -221,7 +221,7 @@ int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track)
             return disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track
                                                - (NUM_TRACKS_8250 / 2));
         }
-      case VDRIVE_IMAGE_FORMAT_1992:
+      case VDRIVE_IMAGE_FORMAT_4000:
         return 256;
       default:
         log_message(vdrive_log,
@@ -303,7 +303,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
       case DISK_IMAGE_TYPE_D1M:
       case DISK_IMAGE_TYPE_D2M:
       case DISK_IMAGE_TYPE_D4M:
-        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1992;
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_4000;
         vdrive->num_tracks = image->tracks - 1;
         vdrive->bam_size = 0x2100;
         break;
@@ -381,13 +381,13 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
         vdrive->Dir_Track  = DIR_TRACK_8250;
         vdrive->Dir_Sector = DIR_SECTOR_8250;
         break;
-      case VDRIVE_IMAGE_FORMAT_1992:
-        vdrive->Bam_Track  = BAM_TRACK_1992;
-        vdrive->Bam_Sector = BAM_SECTOR_1992;
-        vdrive->bam_name   = BAM_NAME_1992;
-        vdrive->bam_id     = BAM_ID_1992;
-        vdrive->Dir_Track  = DIR_TRACK_1992;
-        vdrive->Dir_Sector = DIR_SECTOR_1992;
+      case VDRIVE_IMAGE_FORMAT_4000:
+        vdrive->Bam_Track  = BAM_TRACK_4000;
+        vdrive->Bam_Sector = BAM_SECTOR_4000;
+        vdrive->bam_name   = BAM_NAME_4000;
+        vdrive->bam_id     = BAM_ID_4000;
+        vdrive->Dir_Track  = DIR_TRACK_4000;
+        vdrive->Dir_Sector = DIR_SECTOR_4000;
         break;
       default:
         log_error(vdrive_log,

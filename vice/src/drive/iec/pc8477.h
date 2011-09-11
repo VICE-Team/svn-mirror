@@ -1,5 +1,5 @@
 /*
- * pc8477.h - dp8473/pc8477 emulation for the 1992 disk drive.
+ * pc8477.h - dp8473/pc8477 emulation for the 4000 disk drive.
  *
  * Written by
  *  Kajtar Zsolt <soci@c64.rulez.org>

@@ -8,6 +8,7 @@ drv_DATA = \
 	dos1571 \
 	d1571cr \
 	dos1581 \
+	dos4000 \
 	dos2031 \
 	dos1001 \
 	dos2040 \

@@ -124,12 +124,12 @@
 #define MAX_TRACKS_4000        51
 #define MAX_BLOCKS_4000        12960
 
-#define DIR_TRACK_1992         1
-#define DIR_SECTOR_1992        34
-#define BAM_TRACK_1992         1
-#define BAM_SECTOR_1992        1
-#define BAM_NAME_1992          4
-#define BAM_ID_1992            22
+#define DIR_TRACK_4000         1
+#define DIR_SECTOR_4000        34
+#define BAM_TRACK_4000         1
+#define BAM_SECTOR_4000        1
+#define BAM_NAME_4000          4
+#define BAM_ID_4000            22
 
 #define MAX_TRACKS_ANY         MAX_TRACKS_8250
 #define MAX_BLOCKS_ANY         MAX_BLOCKS_8250

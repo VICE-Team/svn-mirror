@@ -159,7 +159,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
     unsigned int track, sector;
     BYTE *slot = p->slot, *e;
 
-    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST) {
+    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;
     }
@@ -604,7 +604,7 @@ static int iec_close_sequential(vdrive_t *vdrive, unsigned int secondary)
          * Flush bytes and write slot to directory
          */
 
-        if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST) {
+        if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
             return SERIAL_ERROR;
         }
@@ -833,7 +833,7 @@ int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
 
-    if ((vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_1992_TEST)
+    if ((vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
          && p->mode != BUFFER_COMMAND_CHANNEL) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_WRITE_PROTECT_ON, 0, 0);
         return SERIAL_ERROR;

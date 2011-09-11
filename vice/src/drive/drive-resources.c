@@ -132,7 +132,7 @@ static int drive0_resources_type(int val, void *param)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_1992:
+      case DRIVE_TYPE_4000:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_2040:
@@ -210,7 +210,7 @@ static int drive1_resources_type(int val, void *param)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_1992:
+      case DRIVE_TYPE_4000:
       case DRIVE_TYPE_2031:
       case DRIVE_TYPE_1001:
       case DRIVE_TYPE_2040:

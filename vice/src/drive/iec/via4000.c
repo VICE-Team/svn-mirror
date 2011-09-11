@@ -1,5 +1,5 @@
 /*
- * via1992.c - VIA emulation in the 1992 disk drive.
+ * via4000.c - VIA emulation in the 4000 disk drive.
  *
  * Written by
  *  Kajtar Zsolt <soci@c64.rulez.org>
@@ -47,7 +47,7 @@
 #include "rotation.h"
 #include "types.h"
 #include "via.h"
-#include "via1992.h"
+#include "via4000.h"
 #include "viad.h"
 #include "pc8477.h"
 
@@ -61,19 +61,19 @@ typedef struct drivevia_context_s {
 } drivevia_context_t;
 
 
-void via1992_store(drive_context_t *ctxptr, WORD addr, BYTE data)
+void via4000_store(drive_context_t *ctxptr, WORD addr, BYTE data)
 {
-    viacore_store(ctxptr->via1992, addr, data);
+    viacore_store(ctxptr->via4000, addr, data);
 }
 
-BYTE via1992_read(drive_context_t *ctxptr, WORD addr)
+BYTE via4000_read(drive_context_t *ctxptr, WORD addr)
 {
-    return viacore_read(ctxptr->via1992, addr);
+    return viacore_read(ctxptr->via4000, addr);
 }
 
-BYTE via1992_peek(drive_context_t *ctxptr, WORD addr)
+BYTE via4000_peek(drive_context_t *ctxptr, WORD addr)
 {
-    return viacore_peek(ctxptr->via1992, addr);
+    return viacore_peek(ctxptr->via4000, addr);
 }
 
 static void set_ca2(via_context_t *via_context, int state)
@@ -269,20 +269,20 @@ static BYTE read_prb(via_context_t *via_context)
     return byte;
 }
 
-void via1992_init(drive_context_t *ctxptr)
+void via4000_init(drive_context_t *ctxptr)
 {
-    viacore_init(ctxptr->via1992, ctxptr->cpu->alarm_context,
+    viacore_init(ctxptr->via4000, ctxptr->cpu->alarm_context,
                  ctxptr->cpu->int_status, ctxptr->cpu->clk_guard);
 }
 
-void via1992_setup_context(drive_context_t *ctxptr)
+void via4000_setup_context(drive_context_t *ctxptr)
 {
     drivevia_context_t *viap;
     via_context_t *via;
 
     /* Clear struct as snapshot code may write uninitialized values.  */
-    ctxptr->via1992 = lib_calloc(1, sizeof(via_context_t));
-    via = ctxptr->via1992;
+    ctxptr->via4000 = lib_calloc(1, sizeof(via_context_t));
+    via = ctxptr->via4000;
 
     via->prv = lib_malloc(sizeof(drivevia_context_t));
     viap = (drivevia_context_t *)(via->prv);
@@ -293,13 +293,13 @@ void via1992_setup_context(drive_context_t *ctxptr)
     via->rmw_flag = &(ctxptr->cpu->rmw_flag);
     via->clk_ptr = ctxptr->clk_ptr;
 
-    via->myname = lib_msprintf("1992Drive%dVia1", ctxptr->mynumber);
-    via->my_module_name = lib_msprintf("1992VIA1D%d", ctxptr->mynumber);
+    via->myname = lib_msprintf("4000Drive%dVia1", ctxptr->mynumber);
+    via->my_module_name = lib_msprintf("4000VIA1D%d", ctxptr->mynumber);
 
     viacore_setup_context(via);
 
     via->my_module_name_alt1 = lib_msprintf("VIA1D%d", ctxptr->mynumber);
-    via->my_module_name_alt2 = lib_msprintf("VIA1992");
+    via->my_module_name_alt2 = lib_msprintf("VIA4000");
 
     via->irq_line = IK_IRQ;
 

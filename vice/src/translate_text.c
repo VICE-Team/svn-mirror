@@ -7176,19 +7176,19 @@ translate_t string_table[] = {
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
-/* en */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME,    N_("Specify name of 1992 DOS ROM image")},
+/* en */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME,    N_("Specify name of 4000 DOS ROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_DA, "Angivn navn på 1992-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_DE, "Name der 1992 DOS ROM Image Datei definieren"},
-/* fr */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 1992 DOS ROM"},
-/* hu */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_HU, "Adja meg az 1992 DOS ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_IT, "Specifica il nome immagine della ROM del DOS del 1992"},
-/* ko */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_NL, "Geef de naam van het 1992 DOS ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu 1992 DOS ROM"},
-/* ru */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_SV, "Ange namn på 1992-DOS-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_1992_DOS_ROM_NAME_TR, "1992 DOS ROM imajýnýn ismini belirt"},
+/* da */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DA, "Angivn navn på 4000-DOS-ROM-image"},
+/* de */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DE, "Name der 4000 DOS ROM Image Datei definieren"},
+/* fr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 4000 DOS ROM"},
+/* hu */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_HU, "Adja meg az 4000 DOS ROM képmás nevét"},
+/* it */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_IT, "Specifica il nome immagine della ROM del DOS del 4000"},
+/* ko */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_NL, "Geef de naam van het 4000 DOS ROM bestand"},
+/* pl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu 4000 DOS ROM"},
+/* ru */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_SV, "Ange namn på 4000-DOS-ROM-avbildning"},
+/* tr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_TR, "4000 DOS ROM imajýnýn ismini belirt"},
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
