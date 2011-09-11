@@ -45,6 +45,7 @@
 #include "via.h"
 #include "via1d1541.h"
 #include "wd1770.h"
+#include "pc8477.h"
 
 
 /* Pointer to the IEC bus structure.  */
@@ -246,12 +247,12 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
 
 int iec_drive_image_attach(struct disk_image_s *image, unsigned int unit)
 {
-    return wd1770_attach_image(image, unit);
+    return wd1770_attach_image(image, unit) & pc8477_attach_image(image, unit);
 }
 
 int iec_drive_image_detach(struct disk_image_s *image, unsigned int unit)
 {
-    return wd1770_detach_image(image, unit);
+    return wd1770_detach_image(image, unit) & pc8477_detach_image(image, unit);
 }
 
 void iec_drive_port_default(struct drive_context_s *drv)

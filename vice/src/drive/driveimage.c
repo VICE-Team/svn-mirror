@@ -37,7 +37,6 @@
 #include "gcr.h"
 #include "log.h"
 #include "types.h"
-#include "iec/pc8477.h"
 
 
 #define GCR_OFFSET(track) ((track - 1) * NUM_MAX_BYTES_TRACK)
@@ -279,11 +278,6 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
       case DISK_IMAGE_TYPE_X64:
         disk_image_attach_log(image, driveimage_log, unit);
         break;
-      case DISK_IMAGE_TYPE_D81:
-      case DISK_IMAGE_TYPE_D1M:
-      case DISK_IMAGE_TYPE_D2M:
-      case DISK_IMAGE_TYPE_D4M:
-        return pc8477_image_attach(drive_context[dnr]->pc8477, image);
       default:
         return -1;
     }
@@ -331,11 +325,6 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
           case DISK_IMAGE_TYPE_X64:
             disk_image_detach_log(image, driveimage_log, unit);
             break;
-          case DISK_IMAGE_TYPE_D81:
-          case DISK_IMAGE_TYPE_D1M:
-          case DISK_IMAGE_TYPE_D2M:
-          case DISK_IMAGE_TYPE_D4M:
-            return pc8477_image_detach(drive_context[dnr]->pc8477);
           default:
             return -1;
         }

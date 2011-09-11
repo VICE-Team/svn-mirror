@@ -32,6 +32,7 @@
 #include "alarm.h"
 
 struct disk_image_s;
+struct drive_context_s;
 
 typedef enum pc8477_state_e {
     PC8477_WAIT, PC8477_COMMAND, PC8477_READ, PC8477_WRITE, PC8477_EXEC, PC8477_RESULT
@@ -51,7 +52,7 @@ typedef struct pc8477_s {
     char *myname;
     pc8477_cmd_t command;
     pc8477_state_t state;
-    drive_context_t *mycontext;
+    struct drive_context_s *mycontext;
 
     /* Floppy drives */
     fd_drive_t *fdds[4], *fdd;
@@ -82,16 +83,14 @@ typedef struct pc8477_s {
     BYTE res[7];
 } pc8477_t;
 
-struct drive_context_s;
+extern void pc8477d_init(struct drive_context_s *drv);
+extern void pc8477_setup_context(struct drive_context_s *drv);
+extern void pc8477d_store(struct drive_context_s *drv, WORD addr, BYTE byte);
+extern BYTE pc8477d_read(struct drive_context_s *drv, WORD addr);
+extern void pc8477d_reset(struct drive_context_s *drv);
 
-extern void pc8477d_init(drive_context_t *drv);
-extern void pc8477_setup_context(drive_context_t *drv);
-extern void pc8477d_store(drive_context_t *drv, WORD addr, BYTE byte);
-extern BYTE pc8477d_read(drive_context_t *drv, WORD addr);
-extern void pc8477d_reset(drive_context_t *drv);
-
-extern int pc8477_image_attach(pc8477_t *drv, struct disk_image_s *image);
-extern int pc8477_image_detach(pc8477_t *drv);
+extern int pc8477_attach_image(struct disk_image_s *image, unsigned int unit);
+extern int pc8477_detach_image(struct disk_image_s *image, unsigned int unit);
 
 #endif 
 

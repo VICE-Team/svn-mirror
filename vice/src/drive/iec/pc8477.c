@@ -604,15 +604,43 @@ static void pc8477_reset(pc8477_t *drv)
 
 /*-----------------------------------------------------------------------*/
 
-int pc8477_image_attach(pc8477_t *drv, disk_image_t *image)
+int pc8477_attach_image(disk_image_t *image, unsigned int unit)
 {
-    fdd_image_attach(drv->fdds[1], image);
+    if (unit < 8 || unit > 8 + DRIVE_NUM)
+        return -1;
+
+    switch (image->type) {
+      case DISK_IMAGE_TYPE_D81:
+      case DISK_IMAGE_TYPE_D1M:
+      case DISK_IMAGE_TYPE_D2M:
+      case DISK_IMAGE_TYPE_D4M:
+        disk_image_attach_log(image, pc8477_log, unit);
+        break;
+      default:
+        return -1;
+    }
+
+    fdd_image_attach(drive_context[unit - 8]->pc8477->fdds[1], image);
     return 0;
 }
 
-int pc8477_image_detach(pc8477_t *drv)
+int pc8477_detach_image(disk_image_t *image, unsigned int unit)
 {
-    fdd_image_detach(drv->fdds[1]);
+    if (image == NULL || unit < 8 || unit > 8 + DRIVE_NUM)
+        return -1;
+
+    switch (image->type) {
+      case DISK_IMAGE_TYPE_D81:
+      case DISK_IMAGE_TYPE_D1M:
+      case DISK_IMAGE_TYPE_D2M:
+      case DISK_IMAGE_TYPE_D4M:
+        disk_image_detach_log(image, pc8477_log, unit);
+        break;
+      default:
+        return -1;
+    }
+
+    fdd_image_detach(drive_context[unit - 8]->pc8477->fdds[1]);
     return 0;
 }
 
