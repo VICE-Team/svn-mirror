@@ -15102,7 +15102,7 @@ Did some IDE64 and C1541 fixes.
 
 @item
 @b{Kajtar Zsolt}
-Wrote the IDE64 interface emulation, 1992 drive emulation and
+Wrote the IDE64 interface emulation, 4000 drive emulation and
 did some fixes.
 
 @end itemize
