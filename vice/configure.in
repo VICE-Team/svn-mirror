@@ -689,7 +689,7 @@ dnl All other UN*X systems
       dnl if using GCC.
       dnl If the user has specified her own `CFLAGS', we do not override them.
 
-      optimization_c="$march"
+      optimization_c="-O3 $march"
       optimization_cxx="-fno-exceptions $optimization_c"
       dnl Use -g if available.
       if test x"$ac_cv_prog_cc_g" = "xyes" ; then
