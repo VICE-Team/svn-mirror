@@ -287,7 +287,7 @@ static void neosmouse_alarm_handler(CLOCK offset, void *data)
  * situations where we over- and under flow */
 static int subtract_coords(BYTE a, BYTE b)
 {
-    /* range [-63,63] to [-32,31] */
+    /* range [-64,63] to [-32,31] */
     return ((a - b + 32) & 63) - 32;
 }
 
@@ -327,6 +327,10 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 {
     if (done_emu > (CLOCK) 0)
         done_emu -= sub;
+    if (next_update_x_emu_ts > (CLOCK) 0)
+        next_update_x_emu_ts -= sub;
+    if (next_update_y_emu_ts > (CLOCK) 0)
+        next_update_y_emu_ts -= sub;
 }
 
 BYTE mouse_poll(void)
