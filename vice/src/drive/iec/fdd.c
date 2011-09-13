@@ -66,7 +66,7 @@ fd_drive_t *fdd_init(int num) {
 void fdd_shutdown(fd_drive_t *drv)
 {
     if (!drv) {
-	return;
+        return;
     }
     lib_free(drv);
 }
@@ -81,8 +81,8 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
     switch (image->type) {
     case DISK_IMAGE_TYPE_D1M:
         drv->tracks = 81;
-        drv->sectors = 5;
-        drv->sector_size = 3;
+        drv->sectors = 10;
+        drv->sector_size = 2;
         drv->head_invert = 1;
         drv->disk_rate = 2;
         drv->image_sectors = 256;
@@ -135,7 +135,7 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
 void fdd_image_detach(fd_drive_t *drv)
 {
     if (!drv) {
-	return;
+        return;
     }
     drv->image = NULL;
     lib_free(drv->headers);
@@ -146,11 +146,11 @@ void fdd_image_detach(fd_drive_t *drv)
 static void fdd_rotate(fd_drive_t *drv)
 {
     if (!drv) {
-	return;
+        return;
     }
     drv->onheader ^= 1;
     if (drv->onheader) {
-	drv->sector = (drv->sector % drv->sectors) + 1;
+        drv->sector = (drv->sector % drv->sectors) + 1;
     }
     drv->index = (drv->sector == 1) ? 1 : 0;
 }
@@ -161,36 +161,36 @@ int fdd_image_read(fd_drive_t *drv, BYTE *buffer)
     int i, t, s, res;
 
     if (!drv) {
-	return -1;
+        return -1;
     }
 
     if (drv->onheader) {
-	fdd_rotate(drv);
+        fdd_rotate(drv);
     }
 
     if (drv->track >= drv->tracks || !drv->image) {
-	fdd_rotate(drv);
-	return -1;
+        fdd_rotate(drv);
+        return -1;
     }
     header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
     if (header->rate != drv->rate) {
-	fdd_rotate(drv);
-	return -1;
+        fdd_rotate(drv);
+        return -1;
     }
     t = header -> itrack;
     s = header -> isector;
 
     for (i = 0; i < (1 << (drv->sector_size - 1)); i++) {
-	res = disk_image_read_sector(drv->image, buffer, t, s);
-	if (res < 0) {
-	    fdd_rotate(drv);
-	    return -1;
-	}
-	buffer += 256;
-	s = (s + 1) % drv->image_sectors;
-	if (!s) {
-	    t++;
-	}
+        res = disk_image_read_sector(drv->image, buffer, t, s);
+        if (res < 0) {
+            fdd_rotate(drv);
+            return -1;
+        }
+        buffer += 256;
+        s = (s + 1) % drv->image_sectors;
+        if (!s) {
+            t++;
+        }
     }
     fdd_rotate(drv);
     return 0;
@@ -202,35 +202,35 @@ int fdd_image_write(fd_drive_t *drv, BYTE *buffer)
     int i, t, s, res;
 
     if (!drv) {
-	return -1;
+        return -1;
     }
     if (drv->onheader) {
-	fdd_rotate(drv);
+        fdd_rotate(drv);
     }
 
     if (drv->track >= drv->tracks || drv->write_protect || !drv->image) {
-	fdd_rotate(drv);
-	return -1;
+        fdd_rotate(drv);
+        return -1;
     }
     header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
     if (header->rate != drv->rate) {
-	fdd_rotate(drv);
-	return -1;
+        fdd_rotate(drv);
+        return -1;
     }
     t = header -> itrack;
     s = header -> isector;
 
     for (i = 0; i < (1 << (drv->sector_size - 1)); i++) {
-	res = disk_image_write_sector(drv->image, buffer, t, s);
-	if (res < 0) {
-	    fdd_rotate(drv);
-	    return -1;
-	}
-	buffer += 256;
-	s = (s + 1) % drv->image_sectors;
-	if (!s) {
-	    t++;
-	}
+        res = disk_image_write_sector(drv->image, buffer, t, s);
+        if (res < 0) {
+            fdd_rotate(drv);
+            return -1;
+        }
+        buffer += 256;
+        s = (s + 1) % drv->image_sectors;
+        if (!s) {
+            t++;
+        }
     }
     fdd_rotate(drv);
     return 0;
@@ -239,7 +239,7 @@ int fdd_image_write(fd_drive_t *drv, BYTE *buffer)
 void fdd_seek_pulse(fd_drive_t *drv, int dir)
 {
     if (!drv) {
-	return;
+        return;
     }
     if (drv->motor) {
         drv->track += dir ? 1 : -1;
@@ -255,7 +255,7 @@ void fdd_seek_pulse(fd_drive_t *drv, int dir)
 void fdd_select_head(fd_drive_t *drv, int head)
 {
     if (!drv) {
-	return;
+        return;
     }
     drv->head = head & 1;
 }
@@ -263,7 +263,7 @@ void fdd_select_head(fd_drive_t *drv, int head)
 void fdd_set_motor(fd_drive_t *drv, int motor)
 {
     if (!drv) {
-	return;
+        return;
     }
     drv->motor = motor & 1;
 }
@@ -271,7 +271,7 @@ void fdd_set_motor(fd_drive_t *drv, int motor)
 void fdd_set_rate(fd_drive_t *drv, int rate)
 {
     if (!drv) {
-	return;
+        return;
     }
     drv->rate = rate & 3;
 }
@@ -281,21 +281,21 @@ int fdd_image_read_header(fd_drive_t *drv, BYTE *track, BYTE *head, BYTE *sector
     fdd_sector_header_t *header;
 
     if (!drv) {
-	return -1;
+        return -1;
     }
     if (!drv->onheader) {
-	fdd_rotate(drv);
+        fdd_rotate(drv);
     }
 
     if (drv->track >= drv->tracks || !drv->image) {
-	fdd_rotate(drv);
+        fdd_rotate(drv);
         return -1;
     }
 
     header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
     if (header->rate != drv->rate) {
-	fdd_rotate(drv);
-	return -1;
+        fdd_rotate(drv);
+        return -1;
     }
     *track = header->track;
     *head = header->head;

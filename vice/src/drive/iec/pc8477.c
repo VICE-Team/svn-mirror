@@ -145,9 +145,9 @@ static void pc8477_result(pc8477_t *drv)
         return;
     case PC8477_CMD_SENSE_DRIVE_STATUS:
         drv->res[0] = drv->st[3] | 0x20;
-	if (drv->fdd) {
-	    drv->res[0] |= (drv->fdd->track0? 0x10 : 0) | (drv->fdd->write_protect? 0x40 : 0);
-	}
+        if (drv->fdd) {
+            drv->res[0] |= (drv->fdd->track0? 0x10 : 0) | (drv->fdd->write_protect? 0x40 : 0);
+        }
         return;
     case PC8477_CMD_READ_ID:
         memcpy(drv->res, drv->st, 3);
@@ -175,6 +175,7 @@ static void pc8477_result(pc8477_t *drv)
         return;
     case PC8477_CMD_READ_DATA:
     case PC8477_CMD_WRITE_DATA:
+    case PC8477_CMD_FORMAT_A_TRACK:
         memcpy(drv->res, drv->st, 3);
         memcpy(drv->res + 3, drv->cmd + 2, 4);
         return;
@@ -232,10 +233,10 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase)
         }
     case PC8477_CMD_RECALIBRATE:
         if (!phase) {
-	    debug("RECALIBRATE #%d", drv->cmd[1] & 3);
-	    drv->seeking[drv->cmd[1] & 3] = 1;
+            debug("RECALIBRATE #%d", drv->cmd[1] & 3);
+            drv->seeking[drv->cmd[1] & 3] = 1;
             drv->seek_clk = *drv->mycontext->clk_ptr;
-	}
+        }
         if (drv->fdd && drv->fdd->track0) {
             drv->track[drv->cmd[1] & 3] = 0;
             drv->st[0] |= 0x20; /* seek end */
@@ -332,14 +333,14 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase)
             }
             if (drv->cmd[3] == head && drv->sector == sector && drv->cmd[5] == bytes) {
                 fdd_image_read(drv->fdd, drv->buf);
-		if (drv->cmd[6] == drv->sector) {
-		    drv->st[1] = 0x80;
-		    drv->sector = 1;
-		    drv->cmd[2]++;
-		} else {
-		    drv->st[1] = 0x00;
-		    drv->sector++;
-		}
+                if (drv->cmd[6] == drv->sector) {
+                    drv->st[1] = 0x80;
+                    drv->sector = 1;
+                    drv->cmd[2]++;
+                } else {
+                    drv->st[1] = 0x00;
+                    drv->sector++;
+                }
                 drv->buf_size = 128 << bytes;
                 drv->bufp = 0;
                 drv->index_count = 0;
@@ -358,10 +359,10 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase)
                 drv->sector = drv->cmd[4];
                 drv->st[1] = 0x01; /* no AM */
             }
-	    if (drv->st[1] & 0x08) {
+            if (drv->st[1] & 0x08) {
                 fdd_image_write(drv->fdd, drv->buf);
-		drv->st[1] &= 0xf7;
-	    }
+                drv->st[1] &= 0xf7;
+            }
             if (drv->st[1] & 0x80) {
                 drv->cmd[4] = drv->sector;
                 drv->st[0] = drv->st[3] | 0x40;
@@ -389,20 +390,64 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase)
                 return PC8477_RESULT;
             }
             if (drv->cmd[3] == head && drv->sector == sector && drv->cmd[5] == bytes) {
-		if (drv->cmd[6] == drv->sector) {
-		    drv->st[1] = 0x88;
-		    drv->sector = 1;
-		    drv->cmd[2]++;
-		} else {
-		    drv->st[1] = 0x08;
-		    drv->sector++;
-		}
+                if (drv->cmd[6] == drv->sector) {
+                    drv->st[1] = 0x88;
+                    drv->sector = 1;
+                    drv->cmd[2]++;
+                } else {
+                    drv->st[1] = 0x08;
+                    drv->sector++;
+                }
                 drv->buf_size = 128 << bytes;
                 drv->bufp = 0;
                 drv->index_count = 0;
                 return PC8477_WRITE;
             }
-	    drv->st[1] = 0x00;
+            drv->st[1] = 0x00;
+            return PC8477_EXEC;
+        }
+        break;
+    case PC8477_CMD_FORMAT_A_TRACK:
+        {
+            BYTE track, head, sector, bytes;
+            int res;
+            if (!phase) {
+                debug("FORMAT TRACK #%d %d", drv->cmd[1] & 3, (drv->cmd[1] >> 2) & 1);
+                drv->index_count = 0;
+                drv->sector = 0;
+            }
+            if (drv->st[1] & 0x08) {
+                memset(drv->buf, drv->cmd[5], 128 << drv->cmd[2]);
+                fdd_image_write(drv->fdd, drv->buf);
+                drv->sector++;
+                drv->st[1] &= 0xf7;
+                if (drv->sector == drv->cmd[3]) {
+                    drv->st[0] = drv->st[3];
+                    return PC8477_RESULT;
+                }
+            }
+            res = fdd_image_read_header(drv->fdd, &track, &head, &sector, &bytes);
+            if (drv->fdd && drv->fdd->index) {
+                drv->index_count++;
+                if (drv->index_count > 1) {
+                    drv->st[0] = drv->st[3] | 0x40;
+                    return PC8477_RESULT;
+                }
+            }
+            if (res) {
+                return PC8477_EXEC;
+            }
+            if (drv->index_count == 0) {
+                return PC8477_EXEC;
+            }
+            if (drv->cmd[2] == bytes) {
+                drv->st[1] = 0x08;
+                drv->sector++;
+                drv->buf_size = 4;
+                drv->bufp = 0;
+                return PC8477_WRITE;
+            }
+            drv->st[1] = 0x00;
             return PC8477_EXEC;
         }
         break;
@@ -497,9 +542,9 @@ static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
                         drv->fdd = drv->fdds[drv->sel];
                         drv->st[3] = drv->sel;
                     }
-		    if (drv->fdd) {
-			drv->st[3] |= drv->fdd->head << 2;
-		    }
+                    if (drv->fdd) {
+                        drv->st[3] |= drv->fdd->head << 2;
+                    }
                     drv->st[0] = drv->st[3];
                 }
                 memset(drv->res, 0, sizeof(drv->res));
@@ -507,13 +552,13 @@ static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
                 drv->state = pc8477_execute(drv, 0);
                 break;
             case PC8477_WRITE:
-		drv->buf[drv->bufp++] = byte;
+                drv->buf[drv->bufp++] = byte;
                 if (drv->bufp >= drv->buf_size) {
-		    drv->state = PC8477_EXEC;
+                    drv->state = PC8477_EXEC;
                 }
                 return;
             case PC8477_EXEC:
-		drv->st[0] |= 0x40;
+                drv->st[0] |= 0x40;
                 drv->state = PC8477_RESULT;
                 return;
             case PC8477_RESULT:
@@ -585,9 +630,9 @@ static BYTE pc8477_read(pc8477_t *drv, WORD addr)
             break;
         case 7: /* DKR */
             result = (addr >> 8) & 0x7f;
-	    if (drv->fdds[drv->sel]) {
-		result |= drv->fdds[drv->sel]->disk_change ? 0x80 : 0;
-	    }
+            if (drv->fdds[drv->sel]) {
+                result |= drv->fdds[drv->sel]->disk_change ? 0x80 : 0;
+            }
             return result;
     }
     return addr >> 8; /* tri-state */
