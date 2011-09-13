@@ -685,7 +685,7 @@ static void advance_hastape(void)
         } else {
             kbdbuf_feed("LOAD:\r");
         }
-        if (tape_tap_attched()) {
+        if (tape_tap_attached()) {
             autostartmode = AUTOSTART_PRESSPLAYONTAPE;
         } else {
             autostartmode = AUTOSTART_LOADINGTAPE;
@@ -1039,26 +1039,22 @@ int autostart_snapshot(const char *file_name, const char *program_name)
 int autostart_tape(const char *file_name, const char *program_name,
                    unsigned int program_number, unsigned int runmode)
 {
-    char *name = NULL;
+    BYTE do_seek = 1;
 
     if (network_connected() || event_record_active() || event_playback_active()
         || !file_name || !autostart_enabled)
         return -1;
 
-    /* Get program name first to avoid more than one file handle open on
-       image.  */
-    if (!program_name && program_number > 0)
-        name = image_contents_filename_by_number(tapecontents_read(file_name), program_number);
-    else
-        name = lib_stralloc(program_name ? program_name : "");
-
     if (!(tape_image_attach(1, file_name) < 0)) {
         log_message(autostart_log,
                     "Attached file `%s' as a tape image.", file_name);
-        if (tape_tap_attched()) {
+        if (!tape_tap_attached()) {
+            if (program_number == 0 || program_number == 1)
+                do_seek = 0;
+             program_number -= 1;
+        }
+        if (do_seek) {
             if (program_number > 0) {
-                lib_free(name);
-                name = NULL;
                 /* program numbers in tape_seek_to_file() start at 0 */
                 tape_seek_to_file(tape_image_dev1, program_number-1);
             } else {
@@ -1066,16 +1062,13 @@ int autostart_tape(const char *file_name, const char *program_name,
             }
         }
         resources_set_int("VirtualDevices", 1); /* Kludge: iAN CooG - for t64 images we need devtraps ON */
-        reboot_for_autostart(name, AUTOSTART_HASTAPE, runmode);
-        lib_free(name);
+        reboot_for_autostart(NULL, AUTOSTART_HASTAPE, runmode);
 
         return 0;
     }
 
     autostartmode = AUTOSTART_ERROR;
     deallocate_program_name();
-
-    lib_free(name);
 
     return -1;
 }

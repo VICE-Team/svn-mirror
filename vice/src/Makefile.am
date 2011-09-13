@@ -745,7 +745,7 @@ resid_dtv_libs = @RESID_DTV_LIBS@ @RESID_FP_LIBS@
 # external libraries required for all emulators
 emu_extlibs = @X_LIBS@ @UI_LIBS@ @SDL_EXTRA_LIBS@ @INTLLIBS@ @SOUND_LIBS@ @FFMPEG_LIBS@ @QUICKTIME_LIBS@ @JOY_LIBS@ @READLINE_LIBS@ @GFXOUTPUT_LIBS@ @ZLIB_LIBS@ @DYNLIB_LIBS@
 
-driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(imagecontents_lib) $(fileio_lib) $(serial_lib) $(core_lib)
+driver_libs = $(sounddrv_lib) $(gfxoutputdrv_lib) $(printerdrv_lib) $(rs232drv_lib) $(diskimage_lib) $(fsdevice_lib) $(tape_lib) $(fileio_lib) $(serial_lib) $(core_lib)
 
 if HAVE_RAWDRIVE
 blockdev_lib = @ARCH_DIR@/blockdev.o
@@ -831,6 +831,7 @@ vsid_libs =  \
 	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 vsid_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
@@ -899,6 +900,7 @@ x64_libs =  \
 	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
@@ -968,6 +970,7 @@ x64sc_libs =  \
 	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 x64sc_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1035,6 +1038,7 @@ x64dtv_libs =  \
 	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_dtv_libs) \
 	$(c64dtvstubs_lib)
 
@@ -1107,6 +1111,7 @@ x128_libs =  \
 	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 x128_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1177,6 +1182,7 @@ xvic_libs =  \
 	$(sid_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 xvic_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
@@ -1238,6 +1244,7 @@ xpet_libs =  \
 	$(video_lib) \
 	$(sid_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 xpet_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
@@ -1296,6 +1303,7 @@ xplus4_libs =  \
 	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 xplus4_SOURCES = $(base_sources) $(mouse_sources)
@@ -1355,6 +1363,7 @@ xcbm2_libs = \
 	$(video_lib) \
 	$(userport_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 xcbm2_SOURCES = $(base_sources) $(mouse_sources)
@@ -1414,6 +1423,7 @@ xcbm5x0_libs = \
 	$(video_lib) \
 	$(userport_lib) \
 	$(common_libs) \
+	$(imagecontents_lib) \
 	$(resid_libs)
 
 xcbm5x0_SOURCES = $(base_sources) $(mouse_sources)

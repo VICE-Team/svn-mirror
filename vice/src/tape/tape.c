@@ -431,7 +431,7 @@ const char *tape_get_file_name(void)
     return tape_image_dev1->name;
 }
 
-int tape_tap_attched(void)
+int tape_tap_attached(void)
 {
     if (tape_image_dev1->name != NULL
         && tape_image_dev1->type == TAPE_TYPE_TAP) {

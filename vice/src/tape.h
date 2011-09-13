@@ -96,7 +96,7 @@ extern int tape_receive_trap(void);
 extern int tape_find_header_trap_plus4(void);
 extern int tape_receive_trap_plus4(void);
 extern const char *tape_get_file_name(void);
-extern int tape_tap_attched(void);
+extern int tape_tap_attached(void);
 
 extern void tape_traps_install(void);
 extern void tape_traps_deinstall(void);
