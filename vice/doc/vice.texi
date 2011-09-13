@@ -15105,6 +15105,10 @@ Did some IDE64 and C1541 fixes.
 Wrote the IDE64 interface emulation, 4000 drive emulation and
 did some fixes.
 
+@item
+@b{Magnus Lind}
+Atari ST mouse and Atari CX-22 trackball emulation.
+
 @end itemize
 
 (We hope we have not forgotten anybody; if you think we have,

@@ -143,6 +143,7 @@ s/@b{Michael Litvinov}/Michael Litvinov <litvinov.m@i.ua>/g
 s/@b{Jesse Lee}/Jesse Lee <interpreters.jesse@gmail.com>/g
 s/@b{Gary Glenn}/Gary Glenn/g
 s/@b{Jarek Sobolewski}/Jarek Sobolewski <r@sledinmay.com>/g
+s/@b{Magnus Lind}/Magnus Lind/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g
