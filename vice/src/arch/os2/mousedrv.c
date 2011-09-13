@@ -34,10 +34,12 @@
 #include "cmdline.h"
 #include "resources.h"
 #include "translate.h"
+#include "vsyncapi.h"
 
 static int hide_mouseptr;
 static int visible=TRUE;
 static SHORT _mouse_x, _mouse_y; // [-32768, 32768]
+static unsigned long mouse_timestamp = 0;
 
 /* ----------------------------------------------------------- */
 
@@ -161,6 +163,11 @@ inline BYTE mousedrv_get_y(void)
     return ((last_mouse_y / stretch) << 1) & 0x7e;
 }
 
+unsigned long mousedrv_get_timestamp(void)
+{
+    return mouse_timestamp;
+}
+
 /* ----------------- OS/2 specific ------------------------- */
 
 void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
@@ -173,6 +180,7 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
         case WM_MOUSEMOVE:
             _mouse_x = SHORT1FROMMP(mp1);
             _mouse_y = SHORT2FROMMP(mp1);
+            mouse_timestamp = vsyncarch_gettime();
             {
                 SWP swp;
 

@@ -39,8 +39,10 @@
 #include "mousedrv.h"
 #include "types.h"
 #include "ui.h"
+#include "vsyncapi.h"
 
 int _mouse_x, _mouse_y;
+unsigned long _mouse_timestamp = 0;
 
 #ifdef HAVE_DINPUT
 static int mouse_acquired = 0;
@@ -91,6 +93,7 @@ void mouse_update_mouse(void)
 
     mouse_button_left((int)(state.rgbButtons[0] & 0x80));
     mouse_button_right((int)(state.rgbButtons[1] & 0x80));
+    _mouse_timestamp = vsyncarch_gettime();
 #endif
 }
 
@@ -175,4 +178,9 @@ BYTE mousedrv_get_y(void)
         return 0xff;
     }
     return (BYTE)(~_mouse_y >> 1) & 0x7e;
+}
+
+unsigned long mousedrv_get_timestamp(void)
+{
+    return _mouse_timestamp;
 }

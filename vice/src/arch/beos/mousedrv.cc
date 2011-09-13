@@ -37,9 +37,11 @@ extern "C" {
 #include "mousedrv.h"
 #include "types.h"
 #include "ui.h"
+#include "vsyncapi.h"
 }
 
 int _mouse_x, _mouse_y;
+static unsigned long mouse_timestamp = 0;
 /* ------------------------------------------------------------------------- */
 
 void mousedrv_mouse_changed(void)
@@ -94,6 +96,7 @@ void mouse_update_mouse(void)
 
     _mouse_x += (int)((point.x - last_point.x) / bounds.Width() * 1024) % 1024;
     _mouse_y += (int)((point.y - last_point.y) / bounds.Height() * 1024) % 1024;
+    mouse_timestamp = vsyncarch_gettime();
 
     last_point = point;
 }
@@ -118,4 +121,9 @@ BYTE mousedrv_get_y(void)
     }
     mouse_update_mouse();
     return (BYTE)~_mouse_y;
+}
+
+unsigned long mousedrv_get_timestamp(void)
+{
+    return mouse_timestamp;
 }

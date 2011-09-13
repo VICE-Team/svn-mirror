@@ -37,6 +37,7 @@ extern void mousedrv_mouse_changed(void);
 
 extern BYTE mousedrv_get_x(void);
 extern BYTE mousedrv_get_y(void);
+extern unsigned long mousedrv_get_timestamp(void);
 
 extern void mouse_set_format(void);
 extern void mouse_update_mouse(void);
@@ -44,5 +45,6 @@ extern void mouse_update_mouse_acquire(void);
 extern void mouse_set_cooperative_level(void);
 
 extern int _mouse_x, _mouse_y;
+extern unsigned long _mouse_timestamp;
 
 #endif

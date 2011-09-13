@@ -34,9 +34,11 @@
 #include "mouse.h"
 #include "mousedrv.h"
 #include "ui.h"
+#include "vsyncapi.h"
 
 int mouse_x, mouse_y;
 int mouse_accelx = 2, mouse_accely = 2;
+static unsigned long mouse_timestamp = 0;
 
 void mousedrv_mouse_changed(void)
 {
@@ -110,4 +112,10 @@ void mouse_move(int x, int y)
 {
     mouse_x += x;
     mouse_y -= y;
+    mouse_timestamp = vsyncarch_gettime();
+}
+
+unsigned long mousedrv_get_timestamp(void)
+{
+    return mouse_timestamp;
 }

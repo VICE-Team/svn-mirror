@@ -33,6 +33,7 @@
 #include <wimp.h>
 
 static int lastMouseX = 0, lastMouseY = 0, lastMouseButtons = 0;
+static unsigned long mouse_timestamp = 0;
 
 void mousedrv_sync(void)
 {
@@ -63,6 +64,7 @@ void mousedrv_sync(void)
         if ((newX >= 0) && (newX < ActiveCanvas->width) && (newY >= 0) && (newY < ActiveCanvas->height)) {
             lastMouseX = newX;
             lastMouseY = newY;
+            mouse_timestamp = 0; /* FIXME: no vsyncarch_gettime? */
         } else {
             newButtons = 0;
         }
@@ -104,4 +106,9 @@ BYTE mousedrv_get_x(void)
 BYTE mousedrv_get_y(void)
 {
     return lastMouseY;
+}
+
+unsigned long mousedrv_get_timestamp(void)
+{
+    return mouse_timestamp;
 }

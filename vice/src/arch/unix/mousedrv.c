@@ -35,11 +35,13 @@
 #include "mousedrv.h"
 #include "log.h"
 #include "ui.h"
+#include "vsyncapi.h"
 
 #ifndef MACOSX_COCOA
 
 int mouse_x, mouse_y;
 int mouse_accelx = 2, mouse_accely = 2;
+static unsigned long mouse_timestamp = 0;
 
 void mousedrv_mouse_changed(void)
 {
@@ -113,10 +115,16 @@ void mouse_move(int x, int y)
     if (!_mouse_enabled) {
         return;
     }
+    mouse_timestamp = vsyncarch_gettime();
 
     mouse_x = x;
     /* mouse_y = 256 - y; */
     mouse_y = ~(y - 1);
+}
+
+unsigned long mousedrv_get_timestamp(void)
+{
+    return mouse_timestamp;
 }
 
 #endif

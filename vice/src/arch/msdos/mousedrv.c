@@ -34,11 +34,13 @@
 #include "mouse.h"
 #include "mousedrv.h"
 #include "log.h"
+#include "vsyncapi.h"
 
 
 int _mouse_available;
 int _mouse_x, _mouse_y;
 int _mouse_coords_dirty;
+static unsigned long mouse_timestamp = 0;
 
 static void my_mouse_callback(int flags);
 
@@ -113,6 +115,7 @@ inline static void _update_mouse(void)
         _mouse_x = (_mouse_x + (x / 3)) & 0xff;
         _mouse_y = (_mouse_y + (y / 3)) & 0xff;
         _mouse_coords_dirty = 0;
+        mouse_timestamp = vsyncarch_gettime();
     }
 }
 
@@ -132,4 +135,9 @@ BYTE mousedrv_get_y(void)
     }
     _update_mouse();
     return (BYTE)(~_mouse_y >> 1) & 0x7e;
+}
+
+unsigned long mousedrv_get_timestamp(void)
+{
+    return mouse_timestamp;
 }

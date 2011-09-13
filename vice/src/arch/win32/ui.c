@@ -97,6 +97,7 @@
 #include "winlong.h"
 #include "winmain.h"
 #include "statusbar.h"
+#include "vsyncapi.h"
 
 #define countof(array) (sizeof(array) / sizeof((array)[0]))
 
@@ -1975,6 +1976,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_MOUSEMOVE:
             _mouse_x = (int)((lparam & 0xFFFF) * 4);
             _mouse_y = (int)(((lparam >> 16) & 0xFFFF) * 4);
+            _mouse_timestamp = vsyncarch_gettime();
             break;
         case WM_LBUTTONDOWN:
             if (_mouse_enabled) {

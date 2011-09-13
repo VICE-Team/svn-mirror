@@ -29,6 +29,7 @@
 #include "resources.h"
 #include "translate.h"
 #include "vicemachine.h"
+#include "vsyncapi.h"
 
 // mouse.c
 extern int _mouse_enabled;
@@ -38,6 +39,7 @@ static int  pointerX;
 static int  pointerY;
 static int  emuX;
 static int  emuY;
+static unsigned long mouse_timestamp = 0;
 
 static int  scaleX;
 static int  scaleY;
@@ -135,9 +137,15 @@ void mouse_move(int x, int y)
 {
     pointerX = x * scaleX;
     pointerY = y * scaleY;
+    mouse_timestamp = vsyncarch_gettime();
     if(firstMove) {
         firstMove = NO;
         emuX = x * scaleX;
         emuY = y * scaleY;
     }
+}
+
+unsigned long mousedrv_get_timestamp(void)
+{
+    return mouse_timestamp;
 }
