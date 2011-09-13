@@ -993,6 +993,9 @@ IDCLS_SPECIFY_1571_DOS_ROM_NAME
 IDCLS_SPECIFY_1581_DOS_ROM_NAME
 
 /* drive/iec/iec-cmdline-options.c */
+IDCLS_SPECIFY_2000_DOS_ROM_NAME
+
+/* drive/iec/iec-cmdline-options.c */
 IDCLS_SPECIFY_4000_DOS_ROM_NAME
 
 /* drive/iec/iec-cmdline-options.c */

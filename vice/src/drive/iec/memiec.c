@@ -149,7 +149,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II
         || type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
         || type == DRIVE_TYPE_1571CR || type == DRIVE_TYPE_1581
-        || type == DRIVE_TYPE_4000) {
+        || type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
 
         /* Setup drive RAM.  */
         switch (type) {
@@ -170,6 +170,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
             drivemem_set_func(cpud, 0x00, 0x20,
                               drive_read_1581ram, drive_store_1581ram);
             break;
+          case DRIVE_TYPE_2000:
           case DRIVE_TYPE_4000:
             drivemem_set_func(cpud, 0x00, 0x20,
                               drive_read_1581ram, drive_store_1581ram);
@@ -193,7 +194,8 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         /* Setup drive ROM.  */
         drivemem_set_func(cpud, 0x80, 0x100, drive_read_rom, NULL);
 
-        if (type == DRIVE_TYPE_4000) { /* for performance reasons it's only this page */
+        /* for performance reasons it's only this page */
+        if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
             drivemem_set_func(cpud, 0xf0, 0xf1, drive_read_rom_ds1216, NULL);
         }
     }
@@ -224,7 +226,7 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
     }
 
     /* Setup 4000 VIA and dp8473/pc8477 */
-    if (type == DRIVE_TYPE_4000) {
+    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
         drivemem_set_func(cpud, 0x40, 0x4c, via4000_read, via4000_store);
         drivemem_set_func(cpud, 0x4e, 0x50, pc8477d_read, pc8477d_store);
     }

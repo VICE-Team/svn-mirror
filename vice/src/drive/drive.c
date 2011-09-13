@@ -270,6 +270,7 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
         break;
       case DRIVE_TYPE_1541II:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_2000:
       case DRIVE_TYPE_4000:
         drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
         break;
@@ -735,7 +736,8 @@ int drive_num_leds(unsigned int dnr)
         return 2;
     }
 
-    if (drive_context[dnr]->drive->type == DRIVE_TYPE_4000) {
+    if (drive_context[dnr]->drive->type == DRIVE_TYPE_2000
+        || drive_context[dnr]->drive->type == DRIVE_TYPE_4000) {
         return 2;
     }
 

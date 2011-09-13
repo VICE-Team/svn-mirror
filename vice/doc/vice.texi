@@ -1403,7 +1403,8 @@ The C128 needs the following files:
 @end itemize
 
 The C128, VIC20 and C64 emulators also need the following DOS ROMs for
-the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
+the hardware-level emulation of the 1541, 1571, 1581, 2000 and 4000 disk
+drives:
 
 @itemize @bullet
 
@@ -1418,6 +1419,12 @@ the hardware-level emulation of the 1541, 1571 and 1581 disk drives:
 
 @item
 @file{dos1581}, the 1581 drive ROM (32 Kbytes)
+
+@item
+@file{dos2000}, the 2000 drive ROM (32 Kbytes)
+
+@item
+@file{dos4000}, the 4000 drive ROM (32 Kbytes)
 
 @end itemize
 
@@ -2893,8 +2900,9 @@ Boolean controlling whether the ``true'' drive emulation is turned on.
 @vindex Drive9Type
 @item Drive8Type
 @itemx Drive9Type
-Integers specifying the model number for drives 8 and 9.  Possible values 
-are @code{1541}, @code{1571}, @code{1581} and @code{2031}.
+Integers specifying the model number for drives 8 and 9.  Possible
+values  are @code{1541}, @code{1571}, @code{1581}, @code{2000},
+@code{4000} and @code{2031}.
 
 @vindex Drive8ParallelCable
 @item Drive8ParallelCable
@@ -2925,6 +2933,10 @@ are @code{0} (none), @code{1} (skip cycles), @code{2} (trap idle).
 @itemx DosName1571
 @vindex DosName1581
 @itemx DosName1581
+@vindex DosName2000
+@itemx DosName2000
+@vindex DosName4000
+@itemx DosName4000
 @vindex DosName2031
 @itemx DosName2031
 Strings specifying the names of the ROM images for the drive emulation.
@@ -2953,8 +2965,8 @@ Turns true drive emulation on (@code{DriveTrueEmulation=1}) and off
 Specifies the drive types for drives 8-11, respectively.  Possible
 values for @code{TYPE} are @code{1541}, @code{1542} (meaning 1541-II),
 @code{1551}, @code{1570}, @code{1571}, @code{1573} (meaning 1571cr),
-@code{1581}, @code{2031}, @code{2040}, @code{3040}, @code{4040},
-@code{1001}, @code{8050} and @code{8250}.
+@code{1581}, @code{2000}, @code{4000}, @code{2031}, @code{2040},
+@code{3040}, @code{4040}, @code{1001}, @code{8050} and @code{8250}.
 
 @cindex -parallel8
 @cindex -parallel9
@@ -2998,6 +3010,8 @@ respectively
 @cindex -dos1571
 @cindex -dos1571cr
 @cindex -dos1581
+@cindex -dos2000
+@cindex -dos4000
 @cindex -dos2031
 @cindex -dos2040
 @cindex -dos3040
@@ -3010,13 +3024,15 @@ respectively
 @itemx -dos1571 <name>
 @itemx -dos1571cr <name>
 @itemx -dos1581 <name>
+@itemx -dos2000 <name>
+@itemx -dos4000 <name>
 @itemx -dos2031 <name>
 @itemx -dos2040 <name>
 @itemx -dos3040 <name>
 @itemx -dos4040 <name>
 @itemx -dos1001 <name>
 Specify the ROM names for the 1541, 1541II, 1551, 1570, 1571, 1571cr, 1581,
-2031, 2040, 3040, 4040 and 1001 emulation respectively.
+2000, 4000, 2031, 2040, 3040, 4040 and 1001 emulation respectively.
 
 @cindex -drive8ram2000, +drive8ram2000
 @cindex -drive9ram2000, +drive9ram2000
@@ -15102,7 +15118,7 @@ Did some IDE64 and C1541 fixes.
 
 @item
 @b{Kajtar Zsolt}
-Wrote the IDE64 interface emulation, 4000 drive emulation and
+Wrote the IDE64 interface emulation, 2000/4000 drive emulation and
 did some fixes.
 
 @item

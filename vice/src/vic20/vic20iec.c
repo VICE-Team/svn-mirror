@@ -93,10 +93,15 @@ void iec_update_ports_embedded(void)
 
 static void iec_calculate_data_modifier(unsigned int dnr)
 {
-    if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581)
-        drive_data_modifier[dnr] = (NOT(cpu_atn) ^ NOT(drive_atna[dnr]));
-    else
+    switch (drive_context[dnr]->drive->type) {
+    case DRIVE_TYPE_1581:
+    case DRIVE_TYPE_2000:
+    case DRIVE_TYPE_4000:
         drive_data_modifier[dnr] = (cpu_atn & drive_atna[dnr]);
+        break;
+    default:
+        drive_data_modifier[dnr] = (NOT(cpu_atn) ^ NOT(drive_atna[dnr]));
+    }
 }
 
 void iec_drive_write(BYTE data, unsigned int dnr)
@@ -158,11 +163,19 @@ void iec_pa_write(BYTE data)
             drive = drive_context[i]->drive;
 
             if (drive->enable) {
-                if (drive->type != DRIVE_TYPE_1581)
+                switch (drive->type) {
+                case DRIVE_TYPE_1581:
+                    ciacore_set_flag(drive_context[i]->cia1581);
+                    break;
+                case DRIVE_TYPE_2000:
+                case DRIVE_TYPE_4000:
+                    viacore_signal(drive_context[i]->via4000, VIA_SIG_CA2,
+                                   VIA_SIG_RISE);
+                    break;
+                default:
                     viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1,
                                    VIA_SIG_RISE);
-                else
-                    ciacore_set_flag(drive_context[i]->cia1581);
+                }
             }
         }
     }
@@ -173,9 +186,16 @@ void iec_pa_write(BYTE data)
             drive = drive_context[i]->drive;
 
             if (drive->enable) {
-                if (drive->type != DRIVE_TYPE_1581)
+                switch (drive->type) {
+                case DRIVE_TYPE_1581:
+                    break;
+                case DRIVE_TYPE_2000:
+                case DRIVE_TYPE_4000:
+                    viacore_signal(drive_context[i]->via4000, VIA_SIG_CA1, 0);
+                    break;
+                default:
                     viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1, 0);
-
+                }
             }
         }
     }

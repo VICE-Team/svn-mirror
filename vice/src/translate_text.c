@@ -7176,6 +7176,22 @@ translate_t string_table[] = {
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME,    N_("Specify name of 2000 DOS ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DA, "Angivn navn på 2000-DOS-ROM-image"},
+/* de */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DE, "Name der 2000 DOS ROM Image Datei definieren"},
+/* fr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 2000 DOS ROM"},
+/* hu */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_HU, "Adja meg az 2000 DOS ROM képmás nevét"},
+/* it */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_IT, "Specifica il nome immagine della ROM del DOS del 2000"},
+/* ko */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_NL, "Geef de naam van het 2000 DOS ROM bestand"},
+/* pl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu 2000 DOS ROM"},
+/* ru */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_SV, "Ange namn på 2000-DOS-ROM-avbildning"},
+/* tr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_TR, "2000 DOS ROM imajýnýn ismini belirt"},
+#endif
+
+/* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME,    N_("Specify name of 4000 DOS ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DA, "Angivn navn på 4000-DOS-ROM-image"},

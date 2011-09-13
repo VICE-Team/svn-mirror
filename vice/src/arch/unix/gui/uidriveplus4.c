@@ -147,6 +147,8 @@ static ui_menu_entry_t set_drive0_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_1571, NULL },
     { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { "2000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
+      (ui_callback_data_t)DRIVE_TYPE_2000, NULL },
     { "4000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8Type,
       (ui_callback_data_t)DRIVE_TYPE_4000, NULL },
     { NULL }
@@ -167,6 +169,8 @@ static ui_menu_entry_t set_drive1_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
     { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { "2000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
+      (ui_callback_data_t)DRIVE_TYPE_2000, NULL },
     { "4000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9Type,
       (ui_callback_data_t)DRIVE_TYPE_4000, NULL },
     { NULL }
@@ -187,6 +191,8 @@ static ui_menu_entry_t set_drive2_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
     { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { "2000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_2000, NULL },
     { "4000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_4000, NULL },
     { NULL }
@@ -207,6 +213,8 @@ static ui_menu_entry_t set_drive3_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_1551, NULL },
     { "1581", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_1581, NULL },
+    { "2000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
+      (ui_callback_data_t)DRIVE_TYPE_2000, NULL },
     { "4000", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11Type,
       (ui_callback_data_t)DRIVE_TYPE_4000, NULL },
     { NULL }
@@ -295,6 +303,9 @@ ui_menu_entry_t ui_driveplus4_romset_submenu[] = {
     { N_("Load new 1581 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName1581", NULL },
+    { N_("Load new 2000 ROM"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"DosName2000", NULL },
     { N_("Load new 4000 ROM"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"DosName4000", NULL },

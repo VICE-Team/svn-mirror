@@ -243,6 +243,7 @@ static void iecbus_cpu_write_conf1(BYTE data, CLOCK clock)
             if (!iec_old_atn)
                 ciacore_set_flag(drive_context[0]->cia1581);
             break;
+        case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
             viacore_signal(drive_context[0]->via4000, VIA_SIG_CA2,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
@@ -253,17 +254,21 @@ static void iecbus_cpu_write_conf1(BYTE data, CLOCK clock)
         }
     }
 
-    if (drive->type != DRIVE_TYPE_1581 && drive->type != DRIVE_TYPE_4000)
-        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
-                            | ((iecbus.drv_data[8] << 6)
-                            & ((~iecbus.drv_data[8] ^ iecbus.cpu_bus) << 3)
-                            & 0x80));
-    else
+    switch (drive->type) {
+    case DRIVE_TYPE_1581:
+    case DRIVE_TYPE_2000:
+    case DRIVE_TYPE_4000:
         iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
                             | ((iecbus.drv_data[8] << 6)
                             & ((iecbus.drv_data[8] | iecbus.cpu_bus) << 3)
                             & 0x80));
-
+        break;
+    default:
+        iecbus.drv_bus[8] = (((iecbus.drv_data[8] << 3) & 0x40)
+                            | ((iecbus.drv_data[8] << 6)
+                            & ((~iecbus.drv_data[8] ^ iecbus.cpu_bus) << 3)
+                            & 0x80));
+    }
     iec_update_ports();
 }
 
@@ -295,6 +300,7 @@ static void iecbus_cpu_write_conf2(BYTE data, CLOCK clock)
             if (!iec_old_atn)
                 ciacore_set_flag(drive_context[1]->cia1581);
             break;
+        case DRIVE_TYPE_2000:
         case DRIVE_TYPE_4000:
             viacore_signal(drive_context[1]->via4000, VIA_SIG_CA2,
                            iec_old_atn ? 0 : VIA_SIG_RISE);
@@ -305,16 +311,21 @@ static void iecbus_cpu_write_conf2(BYTE data, CLOCK clock)
         }
     }
 
-    if (drive->type != DRIVE_TYPE_1581 && drive->type != DRIVE_TYPE_4000)
-        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
-                            | ((iecbus.drv_data[9] << 6)
-                            & ((~iecbus.drv_data[9] ^ iecbus.cpu_bus) << 3)
-                            & 0x80));
-    else
+    switch (drive->type) {
+    case DRIVE_TYPE_1581:
+    case DRIVE_TYPE_2000:
+    case DRIVE_TYPE_4000:
         iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
                             | ((iecbus.drv_data[9] << 6)
                             & ((iecbus.drv_data[9] | iecbus.cpu_bus) << 3)
                             & 0x80));
+        break;
+    default:
+        iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
+                            | ((iecbus.drv_data[9] << 6)
+                            & ((~iecbus.drv_data[9] ^ iecbus.cpu_bus) << 3)
+                            & 0x80));
+    }
 
     iec_update_ports();
 }
@@ -352,6 +363,7 @@ static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
                 if (!iec_old_atn)
                   ciacore_set_flag(drive_context[dnr]->cia1581);
                 break;
+              case DRIVE_TYPE_2000:
               case DRIVE_TYPE_4000:
                 viacore_signal(drive_context[dnr]->via4000, VIA_SIG_CA2,
                                iec_old_atn ? 0 : VIA_SIG_RISE);
@@ -368,17 +380,21 @@ static void iecbus_cpu_write_conf3(BYTE data, CLOCK clock)
         {
           unsigned int unit;
           unit = dnr + 8;
-          if (drive_context[dnr]->drive->type != DRIVE_TYPE_1581
-              && drive_context[dnr]->drive->type != DRIVE_TYPE_4000)
-            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
-                                    | ((iecbus.drv_data[unit] << 6)
-                                       & ((~iecbus.drv_data[unit]
-                                           ^ iecbus.cpu_bus) << 3) & 0x80));
-          else
+          switch (drive_context[dnr]->drive->type) {
+          case DRIVE_TYPE_1581:
+          case DRIVE_TYPE_2000:
+          case DRIVE_TYPE_4000:
             iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
                                     | ((iecbus.drv_data[unit] << 6)
                                        & ((iecbus.drv_data[unit]
                                            | iecbus.cpu_bus) << 3) & 0x80));
+            break;
+          default:
+            iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
+                                    | ((iecbus.drv_data[unit] << 6)
+                                       & ((~iecbus.drv_data[unit]
+                                           ^ iecbus.cpu_bus) << 3) & 0x80));
+          }
         }
     
     iec_update_ports();

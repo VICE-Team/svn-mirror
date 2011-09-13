@@ -57,6 +57,7 @@
 #define DRIVE_TYPE_1571   1571
 #define DRIVE_TYPE_1571CR 1573
 #define DRIVE_TYPE_1581   1581
+#define DRIVE_TYPE_2000   2000
 #define DRIVE_TYPE_4000   4000
 #define DRIVE_TYPE_2031   2031
 #define DRIVE_TYPE_2040   2040  /* DOS 1 dual floppy drive, 170k/disk */

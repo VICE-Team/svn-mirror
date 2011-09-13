@@ -46,6 +46,7 @@ static char *dos_rom_name_1541ii = NULL;
 static char *dos_rom_name_1570 = NULL;
 static char *dos_rom_name_1571 = NULL;
 static char *dos_rom_name_1581 = NULL;
+static char *dos_rom_name_2000 = NULL;
 static char *dos_rom_name_4000 = NULL;
 
 
@@ -155,6 +156,14 @@ static int set_dos_rom_name_1581(const char *val, void *param)
     return iecrom_load_1581();
 }
 
+static int set_dos_rom_name_2000(const char *val, void *param)
+{
+    if (util_string_set(&dos_rom_name_2000, val))
+        return 0;
+
+    return iecrom_load_2000();
+}
+
 static int set_dos_rom_name_4000(const char *val, void *param)
 {
     if (util_string_set(&dos_rom_name_4000, val))
@@ -229,6 +238,8 @@ static const resource_string_t resources_string[] = {
       &dos_rom_name_1571, set_dos_rom_name_1571, NULL },
     { "DosName1581", "dos1581", RES_EVENT_NO, NULL,
       &dos_rom_name_1581, set_dos_rom_name_1581, NULL },
+    { "DosName2000", "dos2000", RES_EVENT_NO, NULL,
+      &dos_rom_name_2000, set_dos_rom_name_2000, NULL },
     { "DosName4000", "dos4000", RES_EVENT_NO, NULL,
       &dos_rom_name_4000, set_dos_rom_name_4000, NULL },
     { NULL }
@@ -245,6 +256,8 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[3], set_romset_firmware, (void *)3 },
     { "RomsetDosName1581", 0, RES_EVENT_NO, NULL,
       &romset_firmware[4], set_romset_firmware, (void *)4 },
+    { "RomsetDosName2000", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[5], set_romset_firmware, (void *)5 },
     { "RomsetDosName4000", 0, RES_EVENT_NO, NULL,
       &romset_firmware[5], set_romset_firmware, (void *)5 },
     { NULL }
@@ -317,6 +330,7 @@ void iec_resources_shutdown(void)
     lib_free(dos_rom_name_1570);
     lib_free(dos_rom_name_1571);
     lib_free(dos_rom_name_1581);
+    lib_free(dos_rom_name_2000);
     lib_free(dos_rom_name_4000);
 }
 

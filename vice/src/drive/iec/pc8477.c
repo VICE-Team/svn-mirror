@@ -55,7 +55,7 @@ static log_t pc8477_log = LOG_ERR;
 
 static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte);
 static BYTE pc8477_read(pc8477_t *drv, WORD addr);
-static void pc8477_reset(pc8477_t *drv);
+static void pc8477_reset(pc8477_t *drv, int is8477);
 
 static pc8477_state_t pc8477_execute(pc8477_t *drv, int phase);
 
@@ -109,9 +109,9 @@ BYTE pc8477d_read(drive_context_t *drv, WORD addr)
     return pc8477_read(drv->pc8477, (WORD)(addr & 7));
 }
 
-void pc8477d_reset(drive_context_t *drv)
+void pc8477d_reset(drive_context_t *drv, int is8477)
 {
-    pc8477_reset(drv->pc8477);
+    pc8477_reset(drv->pc8477, is8477);
 }
 
 
@@ -638,9 +638,9 @@ static BYTE pc8477_read(pc8477_t *drv, WORD addr)
     return addr >> 8; /* tri-state */
 }
 
-static void pc8477_reset(pc8477_t *drv)
+static void pc8477_reset(pc8477_t *drv, int is8477)
 {
-    drv->is8477 = 1;
+    drv->is8477 = is8477;
     memset(drv->track, 0, sizeof(drv->track));
     drv->sel = 0;
     drv->rate = 250;

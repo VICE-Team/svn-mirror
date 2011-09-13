@@ -40,6 +40,7 @@ const char *machine_romset_resources_list[] = {
     "DosName1570",
     "DosName1571",
     "DosName1581",
+    "DosName2000",
     "DosName4000",
     "DosName2031",
     "DosName2040",

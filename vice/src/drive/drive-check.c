@@ -58,6 +58,7 @@ static unsigned int drive_check_iec(unsigned int type)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_2000:
       case DRIVE_TYPE_4000:
         return 1;
     }

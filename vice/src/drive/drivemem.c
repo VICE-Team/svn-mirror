@@ -149,6 +149,7 @@ void drivemem_init(drive_context_t *drv, unsigned int type)
       case DRIVE_TYPE_1571:
       case DRIVE_TYPE_1571CR:
       case DRIVE_TYPE_1581:
+      case DRIVE_TYPE_2000:
       case DRIVE_TYPE_4000:
         drv->drive->rom_start = 0x8000;
         break;
@@ -188,6 +189,10 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
       case DRIVE_TYPE_1581:
         mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
         mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL);
+        break;
+      case DRIVE_TYPE_2000:
+        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);
+        mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL);
         break;
       case DRIVE_TYPE_4000:
         mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);

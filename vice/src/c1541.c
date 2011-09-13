@@ -149,19 +149,21 @@ int rom1541_loaded = 0;
 int rom1541ii_loaded = 0;
 int rom1571_loaded = 0;
 int rom1581_loaded = 0;
+int rom2000_loaded = 0;
+int rom4000_loaded = 0;
 int rom2031_loaded = 0;
 int rom1001_loaded = 0;
 int rom2040_loaded = 0;
-int rom4000_loaded = 0;
 
 BYTE *drive_rom1541;
 BYTE *drive_rom1541ii;
 BYTE *drive_rom1571;
 BYTE *drive_rom1581;
+BYTE *drive_rom2000;
+BYTE *drive_rom4000;
 BYTE *drive_rom2031;
 BYTE *drive_rom1001;
 BYTE *drive_rom2040;
-BYTE *drive_rom4000;
 
 /* ------------------------------------------------------------------------- */
 

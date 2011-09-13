@@ -106,9 +106,10 @@ void iec_drive_reset(struct drive_context_s *drv)
         ciacore_disable(drv->cia1581);
     }
 
-    if (drv->drive->type == DRIVE_TYPE_4000) {
+    if (drv->drive->type == DRIVE_TYPE_2000
+        || drv->drive->type == DRIVE_TYPE_4000) {
         viacore_reset(drv->via4000);
-        pc8477d_reset(drv);
+        pc8477d_reset(drv, drv->drive->type == DRIVE_TYPE_4000);
     } else {
         viacore_disable(drv->via4000);
     }
@@ -159,6 +160,7 @@ void iec_drive_rom_load(void)
     iecrom_load_1570();
     iecrom_load_1571();
     iecrom_load_1581();
+    iecrom_load_2000();
     iecrom_load_4000();
 }
 
@@ -206,7 +208,8 @@ int iec_drive_snapshot_read(struct drive_context_s *ctxptr,
             return -1;
     }
 
-    if (ctxptr->drive->type == DRIVE_TYPE_4000) {
+    if (ctxptr->drive->type == DRIVE_TYPE_2000
+        || ctxptr->drive->type == DRIVE_TYPE_4000) {
         if (viacore_snapshot_read_module(ctxptr->via4000, s) < 0)
             return -1;
     }
@@ -238,7 +241,8 @@ int iec_drive_snapshot_write(struct drive_context_s *ctxptr,
             return -1;
     }
 
-    if (ctxptr->drive->type == DRIVE_TYPE_4000) {
+    if (ctxptr->drive->type == DRIVE_TYPE_2000
+        || ctxptr->drive->type == DRIVE_TYPE_4000) {
         if (viacore_snapshot_write_module(ctxptr->via4000, s) < 0)
             return -1;
     }
