@@ -47,14 +47,21 @@
 #include "mousedrv.h"
 #include "resources.h"
 #include "translate.h"
+#include "vsyncapi.h"
+#include "vsync.h"
+
+/* Log descriptor.  */
+#ifdef DEBUG
+static log_t mouse_log = LOG_ERR;
+#endif
 
 /* --------------------------------------------------------- */
 /* extern variables */
 
 int _mouse_enabled = 0;
 int mouse_port = 1;
-int mouse_type = 0;
-
+int mouse_type = MOUSE_TYPE_1351;
+int mouse_kind = MOUSE_KIND_OTHER;
 /* --------------------------------------------------------- */
 /* POT input selection */
 
@@ -273,95 +280,198 @@ static void neosmouse_alarm_handler(CLOCK offset, void *data)
 }
 
 /* --------------------------------------------------------- */
-/* Amiga mouse support (currently experimental) */
+/* quadrature encoding mice support (currently experimental) */
+
+/* range of mice coordinates a and b are [0,63] and we must consider
+ * situations where we over- and under flow */
+static int subtract_coords(BYTE a, BYTE b)
+{
+    int diff = a - b;
+    /* range [-63,63] */
+    if ((diff & 0x20) != 0) {
+        diff |= 0xffffffc0;
+    }
+    else {
+        diff &= 0x0000001f;
+    }
+    /* range [-32,31] */
+    return diff;
+}
+
+/* The mousedev only updates its returned coordinates at certain *
+ * frequency. We try to estimate this interval by timestamping unique
+ * successive readings. The estimated interval is then converted from
+ * vsynchapi units to emulated cpu cycles which in turn are used to
+ * clock the quardrature emulation. */
+static unsigned long latest_os_ts = 0; // in vsynchapi units
+static CLOCK done_os_ts = 0; // in vsynchapi units
+/* The mouse coordinates returned from the latest unique mousedrv
+ * reading, range is [0,63] */
+static BYTE latest_x = 0;
+static BYTE latest_y = 0;
+
+static CLOCK update_x_emu_iv = 0; // in cpu cycle units
+static CLOCK update_y_emu_iv = 0; // in cpu cycle units
+static CLOCK next_update_x_emu_ts = 0; // in cpu cycle units
+static CLOCK next_update_y_emu_ts = 0; // in cpu cycle units
+static int sx, sy;
+
+/* the ratio between emulated cpu cycles and vsynchapi time units */
+static float emu_units_per_os_units;
+
+/* The current emulated quadrature state of the polled mouse, range is
+ * [0,3] */
+static BYTE quadrature_x = 0;
+static BYTE quadrature_y = 0;
+
+static BYTE polled_joyval = 0xff;
 
 static const BYTE amiga_mouse_table[4] = { 0x0, 0x1, 0x5, 0x4 };
+static const BYTE st_mouse_table[4] = { 0x0, 0x2, 0x3, 0x1 };
 
-/* the method below results in alot of overflows */
-#if 0
-BYTE amiga_mouse_read(void)
+BYTE mouse_poll(void)
 {
     BYTE new_x, new_y;
+    unsigned long os_now;
+    CLOCK emu_now;
 
+    /* fetch now for both emu and os */
+    os_now = vsyncarch_gettime();
+    emu_now = maincpu_clk;
+
+    /* update the quadrature wheels unless we're done */
+    if (os_now < done_os_ts)
+    {
+        /* update x-wheel until we're ahead */
+        while (next_update_x_emu_ts <= emu_now)
+        {
+            quadrature_x += sx;
+            next_update_x_emu_ts += update_x_emu_iv;
+            polled_joyval = 0; // signal that the wheel has changed
+        }
+
+        /* update y-wheel until we're ahead */
+        while (next_update_y_emu_ts <= emu_now)
+        {
+            quadrature_y += sy;
+            next_update_y_emu_ts += update_y_emu_iv;
+            polled_joyval = 0; // signal that the wheel has changed
+        }
+
+#ifdef DEBUG
+        log_message(mouse_log, "cpu %u: quad %d,%d",
+                    emu_now, quadrature_x & 0x3, quadrature_y & 0x3);
+#endif
+    }
+
+    if (polled_joyval == 0)
+    {
+        /* keep within range */
+        quadrature_x &= 0x3;
+        quadrature_y &= 0x3;
+
+        switch (mouse_type)
+        {
+        case MOUSE_TYPE_AMIGA:
+            polled_joyval = ((amiga_mouse_table[quadrature_x] << 1) |
+                             amiga_mouse_table[quadrature_y] | 0xf0);
+            break;
+        case MOUSE_TYPE_CX22:
+            polled_joyval = (((quadrature_y & 2) << 2) | ((sy + 1) << 1) |
+                             (quadrature_x & 2) | ((sx + 1) >> 1) | 0xf0);
+            break;
+        case MOUSE_TYPE_ST:
+            polled_joyval = (st_mouse_table[quadrature_x] |
+                             (st_mouse_table[quadrature_y] << 2) | 0xf0);
+            break;
+        default:
+            polled_joyval = 0xff;
+        }
+    }
+
+    /* get new mouse values, range [0,127] with lsb=0 */
     new_x = mousedrv_get_x() / 2;
-    new_y = (-mousedrv_get_y()) / 2;
+    new_y = (127 - mousedrv_get_y()) / 2;
+    /* range of new_x and new_y are [0,63] */
 
-    return (amiga_mouse_table[new_x & 3] << 1) | amiga_mouse_table[new_y & 3] | 0xf0;
-}
+    /* check if the new values belong to a new mouse reading */
+    if (latest_os_ts == 0)
+    {
+        /* only first time, init stuff */
+        latest_x = new_x;
+        latest_y = new_y;
+        latest_os_ts = os_now;
+    }
+    else if (os_now != latest_os_ts &&
+        (new_x != latest_x || new_y != latest_y))
+    {
+        // yes, we have a new unique mouse coordinate reading
+        int diff_x, diff_y;
+        unsigned long os_iv;
+        CLOCK emu_iv;
+
+        /* timestamping the coordinate readings with now_os introduces
+         * jitter that affects the quad-emulation negatively. It would
+         * be better if we cound get the real timestamps from the
+         * mouse events but they are hidden from us. */
+
+        /* calculate the interval between the latest two mousedrv
+         * updates in emulated cycles */
+        os_iv = os_now - latest_os_ts;
+        emu_iv = os_iv * emu_units_per_os_units;
+#ifdef DEBUG
+        log_message(mouse_log,
+                    "New interval os_now %lu, os_iv %lu, emu_iv %lu",
+                    os_now, os_iv, emu_iv);
 #endif
 
-/* the alternate method below doesn't keep track of the speed of
-   the mouse movements, just the direction.
- */
+        /* Let's set up quadrature emulation */
+        diff_x = subtract_coords(new_x, latest_x);
+        diff_y = subtract_coords(new_y, latest_y);
 
-static BYTE old_x = 0;
-static BYTE old_y = 0;
-static BYTE x_count = 0;
-static BYTE y_count = 0;
-
-BYTE amiga_mouse_read(void)
-{
-    BYTE new_x, new_y;
-    signed char dir_x, dir_y;
-
-    /* get the new mouse values */
-    new_x = mousedrv_get_x();
-    new_y = (-mousedrv_get_y());
-
-    /* find out the x direction */
-    if (new_x == old_x) {
-        /* no direction, 0 */
-        dir_x = 0;
-    } else {
-        if (new_x > old_x) {
-            if ((new_x - old_x) < (old_x + 256 - new_x)) {
-                /* right, +1 */
-                dir_x = 1;
-            } else {
-                /* left underflow, -1 */
-                dir_x = -1;
-            }
-        } else {
-            if ((old_x - new_x) < (new_x + 256 - old_x)) {
-                /* left, -1 */
-                dir_x = -1;
-            } else {
-                /* right overflow, +1 */
-                dir_x = 1;
-            }
+        if (diff_x != 0)
+        {
+            int dx = diff_x < 0 ? -diff_x : diff_x;
+            sx = diff_x >= 0 ? 1 : -1;
+            /* lets calculate the interval between x-quad rotations */
+            update_x_emu_iv = emu_iv / dx;
+            /* and the emulated cpu cycle count when to do the first one */
+            next_update_x_emu_ts = emu_now + update_x_emu_iv / 2;
         }
+        else
+        {
+            next_update_x_emu_ts = ~0;
+        }
+        if (diff_y != 0)
+        {
+            int dy = diff_y < 0 ? -diff_y : diff_y;
+            sy = diff_y >= 0 ? 1 : -1;
+            /* lets calculate the interval between y-quad rotations */
+            update_y_emu_iv = emu_iv / dy;
+            /* and the emulated cpu cycle count when to do the first one */
+            next_update_y_emu_ts = emu_now + update_y_emu_iv / 2;
+        }
+        else
+        {
+            next_update_y_emu_ts = ~0;
+        }
+
+        /* calculate the timestamp when to stop emulating */
+        done_os_ts = os_now + os_iv;
+
+#ifdef DEBUG
+        log_message(mouse_log, "cpu %u iv %u,%u old %d,%d new %d,%d",
+                    emu_now, update_x_emu_iv, update_y_emu_iv,
+                    latest_x, latest_y, new_x, new_y);
+#endif
+
+        /* store the new coordinates for next time */
+        latest_x = new_x;
+        latest_y = new_y;
+        latest_os_ts = os_now;
     }
 
-    /* find out the y direction */
-    if (new_y == old_y) {
-        dir_y = 0;
-    } else {
-        if (new_y > old_y) {
-            if ((new_y - old_y) < (old_y + 256 - new_y)) {
-                dir_y = 1;
-            } else {
-                dir_y = -1;
-            }
-        } else {
-            if ((old_y - new_y) < (new_y + 256 - old_y)) {
-                dir_y = -1;
-            } else {
-                dir_y = 1;
-            }
-        }
-    }
-
-    /* store new values as old values */
-    old_x = new_x;
-    old_y = new_y;
-
-    /* add x direction to x counter */
-    x_count += dir_x;
-
-    /* add y direction to y counter */
-    y_count += dir_y;
-
-    return (amiga_mouse_table[x_count & 3] << 1) | amiga_mouse_table[y_count & 3] | 0xf0;
+    return polled_joyval;
 }
 
 /* --------------------------------------------------------- */
@@ -500,6 +610,16 @@ static int set_mouse_type(int val, void *param)
     }
 
     mouse_type = val;
+    if (mouse_type == MOUSE_TYPE_ST ||
+        mouse_type == MOUSE_TYPE_AMIGA ||
+        mouse_type == MOUSE_TYPE_CX22)
+    {
+        mouse_kind = MOUSE_KIND_POLLED;
+    }
+    else
+    {
+        mouse_kind = MOUSE_KIND_OTHER;
+    }
 
     return 0;
 }
@@ -586,6 +706,13 @@ void mouse_init(void)
         set_mouse_type(MOUSE_TYPE_PADDLE, NULL);
     }
 
+    emu_units_per_os_units =
+        (float)vsync_get_cycles_per_sec() / vsyncarch_frequency();
+#ifdef DEBUG
+    mouse_log = log_open("Mouse");
+    log_message(mouse_log, "cpu cycles / time unit %.5f",
+                emu_units_per_os_units);
+#endif
     neos_and_amiga_buttons = 0;
     neos_prev = 0xff;
     neosmouse_alarm = alarm_new(maincpu_alarm_context, "NEOSMOUSEAlarm", neosmouse_alarm_handler, NULL);
@@ -625,6 +752,8 @@ void mouse_button_right(int pressed)
             break;
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_CX22:
+        case MOUSE_TYPE_ST:
             if (pressed) {
                 neos_and_amiga_buttons |= 1;
             } else {
@@ -663,6 +792,8 @@ BYTE mouse_get_y(void)
             return mouse_get_paddle_y();
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_CX22:
+        case MOUSE_TYPE_ST:
             /* FIXME: is this correct ?! */
             break;
         default:

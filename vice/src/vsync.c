@@ -272,6 +272,11 @@ double vsync_get_refresh_frequency(void)
     return refresh_frequency;
 }
 
+long vsync_get_cycles_per_sec(void)
+{
+    return cycles_per_sec;
+}
+
 void vsync_init(void (*hook)(void))
 {
     vsync_hook = hook;

@@ -193,8 +193,8 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2)) {
         byte &= neos_mouse_read();
     }
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 2)) {
-        byte &= amiga_mouse_read();
+    if (_mouse_enabled && (mouse_kind == MOUSE_KIND_POLLED) && (mouse_port == 2)) {
+        byte &= mouse_poll();
     }
 #endif
 
@@ -241,8 +241,8 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1)) {
         byte &= neos_mouse_read();
     }
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_AMIGA) && (mouse_port == 1)) {
-        byte &= amiga_mouse_read();
+    if (_mouse_enabled && (mouse_kind == MOUSE_KIND_POLLED) && (mouse_port == 1)) {
+        byte &= mouse_poll();
     }
 #endif
 
