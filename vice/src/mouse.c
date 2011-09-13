@@ -35,6 +35,7 @@
 #define DBG(_x_)
 #endif
 
+#include <stdlib.h> /* abs */
 #include "vice.h"
 
 #include "alarm.h"
@@ -48,9 +49,10 @@
 #include "resources.h"
 #include "translate.h"
 #include "vsyncapi.h"
+#include "clkguard.h"
 
 /* Log descriptor.  */
-#ifdef DEBUG
+#ifdef DEBUG_MOUSE
 static log_t mouse_log = LOG_ERR;
 #endif
 
@@ -295,7 +297,7 @@ static int subtract_coords(BYTE a, BYTE b)
  * vsynchapi units to emulated cpu cycles which in turn are used to
  * clock the quardrature emulation. */
 static unsigned long latest_os_ts = 0; // in vsynchapi units
-static CLOCK done_os_ts = 0; // in vsynchapi units
+static CLOCK done_emu = 0; // in machine cycles
 /* The mouse coordinates returned from the latest unique mousedrv
  * reading, range is [0,63] */
 static BYTE latest_x = 0;
@@ -320,18 +322,29 @@ static BYTE polled_joyval = 0xff;
 static const BYTE amiga_mouse_table[4] = { 0x0, 0x1, 0x5, 0x4 };
 static const BYTE st_mouse_table[4] = { 0x0, 0x2, 0x3, 0x1 };
 
+/* Clock overflow handling.  */
+static void clk_overflow_callback(CLOCK sub, void *data)
+{
+    if (done_emu > (CLOCK) 0)
+        done_emu -= sub;
+}
+
 BYTE mouse_poll(void)
 {
     BYTE new_x, new_y;
     unsigned long os_now;
     CLOCK emu_now;
 
+    /* get new mouse values, range [0,127] with lsb=0 */
+    new_x = mousedrv_get_x() / 2;
+    new_y = mousedrv_get_y() / 2;
+    /* range of new_x and new_y are [0,63] */
     /* fetch now for both emu and os */
-    os_now = vsyncarch_gettime();
+    os_now = mousedrv_get_timestamp();
     emu_now = maincpu_clk;
 
     /* update the quadrature wheels unless we're done */
-    if (os_now < done_os_ts)
+    if (emu_now < done_emu)
     {
         /* update x-wheel until we're ahead */
         while (next_update_x_emu_ts <= emu_now)
@@ -349,7 +362,7 @@ BYTE mouse_poll(void)
             polled_joyval = 0; // signal that the wheel has changed
         }
 
-#ifdef DEBUG
+#ifdef DEBUG_MOUSE
         log_message(mouse_log, "cpu %u: quad %d,%d",
                     emu_now, quadrature_x & 0x3, quadrature_y & 0x3);
 #endif
@@ -380,11 +393,6 @@ BYTE mouse_poll(void)
         }
     }
 
-    /* get new mouse values, range [0,127] with lsb=0 */
-    new_x = mousedrv_get_x() / 2;
-    new_y = mousedrv_get_y() / 2;
-    /* range of new_x and new_y are [0,63] */
-
     /* check if the new values belong to a new mouse reading */
     if (latest_os_ts == 0)
     {
@@ -401,16 +409,14 @@ BYTE mouse_poll(void)
         unsigned long os_iv;
         CLOCK emu_iv;
 
-        /* timestamping the coordinate readings with now_os introduces
-         * jitter that affects the quad-emulation negatively. It would
-         * be better if we cound get the real timestamps from the
-         * mouse events but they are hidden from us. */
-
         /* calculate the interval between the latest two mousedrv
          * updates in emulated cycles */
         os_iv = os_now - latest_os_ts;
+        if (os_iv > vsyncarch_frequency()) {
+            os_iv = vsyncarch_frequency(); /* more than a second response time?! */
+        }
         emu_iv = os_iv * emu_units_per_os_units;
-#ifdef DEBUG
+#ifdef DEBUG_MOUSE
         log_message(mouse_log,
                     "New interval os_now %lu, os_iv %lu, emu_iv %lu",
                     os_now, os_iv, emu_iv);
@@ -448,9 +454,9 @@ BYTE mouse_poll(void)
         }
 
         /* calculate the timestamp when to stop emulating */
-        done_os_ts = os_now + os_iv;
+        done_emu = emu_now + emu_iv;
 
-#ifdef DEBUG
+#ifdef DEBUG_MOUSE
         log_message(mouse_log, "cpu %u iv %u,%u old %d,%d new %d,%d",
                     emu_now, update_x_emu_iv, update_y_emu_iv,
                     latest_x, latest_y, new_x, new_y);
@@ -704,10 +710,12 @@ void mouse_init(void)
     log_message(mouse_log, "cpu cycles / time unit %.5f",
                 emu_units_per_os_units);
 #endif
+
     neos_and_amiga_buttons = 0;
     neos_prev = 0xff;
     neosmouse_alarm = alarm_new(maincpu_alarm_context, "NEOSMOUSEAlarm", neosmouse_alarm_handler, NULL);
     mousedrv_init();
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 }
 
 /* --------------------------------------------------------- */
