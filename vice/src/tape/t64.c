@@ -304,8 +304,6 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
     rec = t64->file_records + t64->current_file_number;
 
     recsize = t64_file_record_get_size(rec);
-    if (t64->current_file_seek_position >= recsize)
-        return -1;
 
     offset = rec->contents + t64->current_file_seek_position;
 
@@ -315,23 +313,14 @@ int t64_read(t64_t *t64, BYTE *buf, size_t size)
     if (recsize < (int)(t64->current_file_seek_position + size))
         size = recsize - t64->current_file_seek_position;
 
+    if (0 > size)
+        return -1;
+
     amount = (int)fread(buf, 1, size, t64->fd);
 
     t64->current_file_seek_position += amount;
 
     return amount;
-}
-
-int t64_read_byte(t64_t *t64)
-{
-    int retval;
-    BYTE b;
-
-    retval = t64_read(t64, &b, 1);
-    if (retval == 1)
-        return b;
-    else
-        return EOF;
 }
 
 void t64_get_header(t64_t *t64, BYTE *name)

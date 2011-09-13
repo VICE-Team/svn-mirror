@@ -128,7 +128,6 @@ extern int t64_seek_to_next_file(t64_t *t64, unsigned int allow_rewind);
 extern t64_file_record_t *t64_get_file_record(t64_t *t64, unsigned int num);
 extern t64_file_record_t *t64_get_current_file_record(t64_t *t64);
 extern int t64_read(t64_t *t64, BYTE *buf, size_t size);
-extern int t64_read_byte(t64_t *t64);
 extern void t64_get_header(t64_t *t64, BYTE *name);
 
 #endif
