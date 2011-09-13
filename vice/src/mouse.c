@@ -48,7 +48,6 @@
 #include "resources.h"
 #include "translate.h"
 #include "vsyncapi.h"
-#include "vsync.h"
 
 /* Log descriptor.  */
 #ifdef DEBUG
@@ -286,16 +285,8 @@ static void neosmouse_alarm_handler(CLOCK offset, void *data)
  * situations where we over- and under flow */
 static int subtract_coords(BYTE a, BYTE b)
 {
-    int diff = a - b;
-    /* range [-63,63] */
-    if ((diff & 0x20) != 0) {
-        diff |= 0xffffffc0;
-    }
-    else {
-        diff &= 0x0000001f;
-    }
-    /* range [-32,31] */
-    return diff;
+    /* range [-63,63] to [-32,31] */
+    return ((a - b + 32) & 63) - 32;
 }
 
 /* The mousedev only updates its returned coordinates at certain *
@@ -391,7 +382,7 @@ BYTE mouse_poll(void)
 
     /* get new mouse values, range [0,127] with lsb=0 */
     new_x = mousedrv_get_x() / 2;
-    new_y = (127 - mousedrv_get_y()) / 2;
+    new_y = mousedrv_get_y() / 2;
     /* range of new_x and new_y are [0,63] */
 
     /* check if the new values belong to a new mouse reading */
@@ -431,7 +422,7 @@ BYTE mouse_poll(void)
 
         if (diff_x != 0)
         {
-            int dx = diff_x < 0 ? -diff_x : diff_x;
+            int dx = abs(diff_x);
             sx = diff_x >= 0 ? 1 : -1;
             /* lets calculate the interval between x-quad rotations */
             update_x_emu_iv = emu_iv / dx;
@@ -440,12 +431,12 @@ BYTE mouse_poll(void)
         }
         else
         {
-            next_update_x_emu_ts = ~0;
+            next_update_x_emu_ts = CLOCK_MAX; /* never */
         }
         if (diff_y != 0)
         {
-            int dy = diff_y < 0 ? -diff_y : diff_y;
-            sy = diff_y >= 0 ? 1 : -1;
+            int dy = abs(diff_y);
+            sy = diff_y >= 0 ? -1 : 1;
             /* lets calculate the interval between y-quad rotations */
             update_y_emu_iv = emu_iv / dy;
             /* and the emulated cpu cycle count when to do the first one */
@@ -453,7 +444,7 @@ BYTE mouse_poll(void)
         }
         else
         {
-            next_update_y_emu_ts = ~0;
+            next_update_y_emu_ts = CLOCK_MAX; /* never */
         }
 
         /* calculate the timestamp when to stop emulating */
@@ -707,7 +698,7 @@ void mouse_init(void)
     }
 
     emu_units_per_os_units =
-        (float)vsync_get_cycles_per_sec() / vsyncarch_frequency();
+        (float)machine_get_cycles_per_second() / vsyncarch_frequency();
 #ifdef DEBUG
     mouse_log = log_open("Mouse");
     log_message(mouse_log, "cpu cycles / time unit %.5f",
