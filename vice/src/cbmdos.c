@@ -61,7 +61,7 @@ static const cbmdos_errortext_t cbmdos_error_messages[] =
     { 32, "SYNTAX ERROR" },
     { 33, "SYNTAX ERROR" },
     { 34, "SYNTAX ERROR" },
-    { 39, "SYNTAX ERROR" },
+    { 39, "FILE NOT FOUND" }, /* 2000/4000 */
     { 50, "RECORD NOT RESENT" },
     { 51, "OVERFLOW IN RECORD" },
     { 52, "FILE TOO LARGE" },   /* 1581 */

@@ -57,6 +57,7 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
                                  unsigned int length);
 static int vdrive_command_initialize(vdrive_t *vdrive);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
+static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *dest, int length);
 static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length);
 static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length);
 static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
@@ -121,7 +122,11 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
 
     switch (*p) {
       case 'C': /* Copy command.  */
-        status = vdrive_command_copy(vdrive, (char *)name, length);
+        if (p[1] == 'D' && vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) {
+            status = vdrive_command_chdir(vdrive, (BYTE *)name, length);
+        } else {
+            status = vdrive_command_copy(vdrive, (char *)name, length);
+        }
         break;
 
       case 'D':         /* Backup unused */
@@ -656,6 +661,58 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
             status = CBMDOS_IPE_NOT_FOUND;
 
         vdrive_command_set_error(vdrive, status, 1, 0);
+    }
+
+    lib_free(cmd_parse.parsecmd);
+
+    return status;
+}
+
+static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
+{
+    int status, rc;
+    BYTE *slot, buffer[256];
+    cbmdos_cmd_parse_t cmd_parse;
+
+    cmd_parse.cmd = name;
+    cmd_parse.cmdlength = length;
+    cmd_parse.readmode = 0;
+
+    rc = cbmdos_command_parse(&cmd_parse);
+
+    if (rc != SERIAL_OK) {
+        status = CBMDOS_IPE_NO_NAME;
+    } else {
+/*#ifdef DEBUG_DRIVE*/
+        log_debug("chdir name= '%s' len=%d (%d) type= %d.",
+                  cmd_parse.parsecmd, cmd_parse.parselength,
+                  length, cmd_parse.filetype);
+/*#endif*/
+
+        vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
+                                   cmd_parse.parselength, CBMDOS_FT_DIR);
+
+        slot = vdrive_dir_find_next_slot(vdrive);
+
+        if (slot) {
+            slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
+            rc = disk_image_read_sector(vdrive->image, buffer,
+                                        slot[SLOT_FIRST_TRACK],
+                                        slot[SLOT_FIRST_SECTOR]);
+            if (rc > 0)
+                return rc;
+            if (rc < 0)
+                return CBMDOS_IPE_NOT_READY;
+
+            vdrive->Header_Track = slot[SLOT_FIRST_TRACK];
+            vdrive->Header_Sector = slot[SLOT_FIRST_SECTOR];
+            vdrive->Dir_Track = buffer[0];
+            vdrive->Dir_Sector = buffer[1];
+            status = CBMDOS_IPE_OK;
+        } else
+            status = CBMDOS_IPE_PATH_NOT_FOUND;
+
+        vdrive_command_set_error(vdrive, status, 0, 0);
     }
 
     lib_free(cmd_parse.parsecmd);

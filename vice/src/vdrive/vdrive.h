@@ -59,7 +59,6 @@
 
 #define DRIVE_RAMSIZE           0x400
 
-#define DIR_MAXBUF  (40 * 256)
 #define BAM_MAXSIZE (33 * 256)
 
 /* Serial Error Codes. */
@@ -125,9 +124,11 @@ typedef struct vdrive_s {
 
     unsigned int Bam_Track;
     unsigned int Bam_Sector;
-    unsigned int bam_name;   /* Offset from start of BAM to disk name.   */
-    unsigned int bam_id;     /* Offset from start of BAM to disk ID.  */
-    unsigned int Dir_Track;
+    unsigned int bam_name;     /* Offset from start of BAM to disk name.   */
+    unsigned int bam_id;       /* Offset from start of BAM to disk ID.  */
+    unsigned int Header_Track; /* Directory header location */
+    unsigned int Header_Sector;
+    unsigned int Dir_Track;    /* First directory sector location */
     unsigned int Dir_Sector;
     unsigned int num_tracks;
 

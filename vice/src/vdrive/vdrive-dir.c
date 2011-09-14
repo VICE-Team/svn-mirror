@@ -222,20 +222,20 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
     vdrive->find_length = length;
     vdrive->find_type = type;
 
-    vdrive->Curr_track = vdrive->Dir_Track;
-    vdrive->Curr_sector = vdrive->Dir_Sector;
-    vdrive->SlotNumber = 0;
-    vdrive->SlotNumber--;
+    vdrive->Curr_track = vdrive->Header_Track;
+    vdrive->Curr_sector = vdrive->Header_Sector;
+    vdrive->SlotNumber = 7;
 
     disk_image_read_sector(vdrive->image, vdrive->Dir_buffer,
-                           vdrive->Dir_Track, vdrive->Dir_Sector);
+                           vdrive->Curr_track, vdrive->Curr_sector);
+
+    vdrive->Dir_buffer[0] = vdrive->Dir_Track;
+    vdrive->Dir_buffer[1] = vdrive->Dir_Sector;
 }
 
 BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
 {
     static BYTE return_slot[32];
-
-    vdrive->SlotNumber++;
 
     /*
      * Loop all directory blocks starting from track 18, sector 1 (1541).
@@ -245,6 +245,8 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
         /*
          * Load next(first) directory block ?
          */
+
+        vdrive->SlotNumber++;
 
         if (vdrive->SlotNumber >= 8) {
             int status;
@@ -262,18 +264,13 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
             if (status != 0)
                 break;
         }
-        while (vdrive->SlotNumber < 8) {
-            if (vdrive_dir_name_match(
-                                  &vdrive->Dir_buffer[vdrive->SlotNumber * 32],
+        if (vdrive_dir_name_match(&vdrive->Dir_buffer[vdrive->SlotNumber * 32],
                                   vdrive->find_nslot, vdrive->find_length,
                                   vdrive->find_type)) {
-                memcpy(return_slot,
-                       &vdrive->Dir_buffer[vdrive->SlotNumber * 32], 32);
-                return return_slot;
-            }
-            vdrive->SlotNumber++;
+            memcpy(return_slot, &vdrive->Dir_buffer[vdrive->SlotNumber * 32], 32);
+            return return_slot;
         }
-    } while (*(vdrive->Dir_buffer));
+    } while (1);
 
     /*
      * If length < 0, create new directory-entry if possible
@@ -316,18 +313,14 @@ void vdrive_dir_no_a0_pads(BYTE *ptr, int l)
     }
 }
 
-/*
- * Create directory listing. (called from vdrive_open)
- * If filetype is 0, match for all files.  Return the length in bytes
- * if successful, -1 if the directory is not valid.
- */
+int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b);
 
-int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
-                                int length, int filetype, BYTE *outputptr)
+int vdrive_dir_first_directory(vdrive_t *vdrive, const char *name,
+                               int length, int filetype, bufferinfo_t *p)
 {
-    BYTE *l, *p;
-    BYTE *origptr = outputptr;
+    BYTE *l;
     int blocks, i;
+    int status;
 
     if (length) {
         if (*name == '$') {
@@ -344,78 +337,72 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
         length = 1;
     }
 
+    vdrive_dir_find_first_slot(vdrive, name, length, filetype);
+
     /*
      * Start Address, Line Link and Line number 0
      */
 
-    l = outputptr;
+    l = p->buffer;
+
     *l++ = 1;
     *l++ = 4;
 
-    l += 2;                     /* Leave space for Next Line Link */
+    *l++ = 1;
+    *l++ = 1;
+
     *l++ = 0;
     *l++ = 0;
+
+    l[25] = 0;
 
     *l++ = (BYTE)0x12;          /* Reverse on */
-
     *l++ = '"';
 
-    memcpy(l, &vdrive->bam[vdrive->bam_name], 16);
+    memcpy(l, vdrive->Dir_buffer + vdrive->bam_name, 16);
     vdrive_dir_no_a0_pads(l, 16);
     l += 16;
     *l++ = '"';
     *l++ = ' ';
-    memcpy(l, &vdrive->bam[vdrive->bam_id], 5);
+    memcpy(l, vdrive->Dir_buffer + vdrive->bam_id, 5);
     vdrive_dir_no_a0_pads(l, 5);
-    l += 5;
-    *l++ = 0;
 
-    /*
-     * Pointer to the next line
-     */
+    p->bufptr = 32;
 
-    outputptr[2] = 1;
-    outputptr[3] = 1;
-    outputptr = l;
+    return vdrive_dir_next_directory(vdrive, p);
+}
 
-    /*
-     * Now, list files that match the pattern.
-     * Wildcards can be used too.
-     */
-
-    vdrive_dir_find_first_slot(vdrive, name, length, filetype);
+int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b)
+{
+    BYTE *l, *p;
+    int blocks, i;
 
     while ((p = vdrive_dir_find_next_slot(vdrive))) {
-        BYTE *tl;
-
-        /* Check whether the directory exceeds the malloced memory.  We make
-           sure there is enough space for two lines because we also have to
-           add the final ``...BLOCKS FREE'' line.  */
-        if ((l - origptr) >= DIR_MAXBUF - 64) {
-            log_error(vdrive_dir_log, "Directory too long: giving up.");
-            return -1;
-        }
 
         if (p[SLOT_TYPE_OFFSET]) {
 
-            tl = l;
-            l += 2;
+            l = b->buffer + b->bufptr;
+
+            *l++ = 1;
+            *l++ = 1;
 
             /*
              * Length and spaces
              */
+            *l++ = p[SLOT_NR_BLOCKS];
+            *l++ = p[SLOT_NR_BLOCKS + 1];
+
+            memset(l, 32, 27);
+            l[27] = 0;
+
             blocks = p[SLOT_NR_BLOCKS] + p[SLOT_NR_BLOCKS + 1] * 256;
-            SET_LO_HI(l, blocks);
 
             if (blocks < 10)
-                *l++ = ' ';
+                l++;
             if (blocks < 100)
-                *l++ = ' ';
-            /*
-             * Filename
-             */
+                l++;
+            l++;
 
-            *l++ = ' ';
             *l++ = '"';
 
             memcpy(l, &p[SLOT_NAME_OFFSET], 16);
@@ -425,9 +412,7 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
 
             vdrive_dir_no_a0_pads(l, 16);
 
-            l[16] = ' ';
             l[i] = '"';
-            l += 17;
 
             /*
              * Type + End
@@ -437,52 +422,29 @@ int vdrive_dir_create_directory(vdrive_t *vdrive, const char *name,
              * Depending on the file size, there are more or less spaces
              */
 
-            sprintf((char *)l, "%c%s%c%c",
-                    (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_CLOSED ? ' ' : '*'),
-                    cbmdos_filetype_get(p[SLOT_TYPE_OFFSET] & 0x07),
-                    (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_LOCKED ? '<' : ' '),
-                    0);
-            l += 5;
-            i = (int)(l - tl);
+            l[17] = (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_CLOSED) ? ' ' : '*';
+            memcpy(l + 18, cbmdos_filetype_get(p[SLOT_TYPE_OFFSET] & 0x07), 3);
+            l[21] = (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_LOCKED) ? '<' : ' ';
 
-            while (i < 31) {
-                *l++ = ' ';
-                i++;
-            }
-            *l++ = '\0';
+            b->bufptr = (b->bufptr + 32) & 255;
 
-            /*
-             * New address
-             */
-
-            outputptr[0] = 1;
-            outputptr[1] = 1;
-            outputptr = l;
+            if (b->bufptr == 0)
+                return 0;
         }
     }
 
     blocks = vdrive_bam_free_block_count(vdrive);
 
-    *l++ = 0;
-    *l++ = 0;
-    SET_LO_HI(l, blocks);
+    l = b->buffer + b->bufptr;
+    *l++ = 1;
+    *l++ = 1;
+    *l++ = blocks;
+    *l++ = blocks >> 8;
     memcpy(l, "BLOCKS FREE.", 12);
-    l += 12;
-    memset(l, ' ', 13);
-    l += 13;
-    *l++ = (char) 0;
-
-    /* Line Address */
-    outputptr[0] = 1;
-    outputptr[1] = 1;
-
-    /*
-     * end
-     */
-    *l++ = (char) 0;
-    *l++ = (char) 0;
-    *l   = (char) 0;
-
-    return (int)(l - origptr);
+    memset(l + 12, 32, 13);
+    l[25] = 0;
+    l[26] = 0;
+    l[27] = 0;
+    return b->bufptr + 31;
 }
 

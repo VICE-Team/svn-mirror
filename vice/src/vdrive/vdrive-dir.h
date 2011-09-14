@@ -55,10 +55,12 @@ struct vdrive_s;
 struct bufferinfo_s;
 
 extern void vdrive_dir_init(void);
-extern int vdrive_dir_create_directory(struct vdrive_s *vdrive,
-                                       const char *name,
-                                       int length, int filetype,
-                                       BYTE *outputptr);
+extern int vdrive_dir_first_directory(struct vdrive_s *vdrive,
+                                      const char *name,
+                                      int length, int filetype,
+                                      struct bufferinfo_s *p);
+extern int vdrive_dir_next_directory(struct vdrive_s *vdrive,
+                                     struct bufferinfo_s *b);
 extern void vdrive_dir_find_first_slot(struct vdrive_s *vdrive,
                                        const char *name,
                                        int length, unsigned int type);

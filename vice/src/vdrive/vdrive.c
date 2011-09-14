@@ -90,12 +90,8 @@ void vdrive_init(void)
 */
 void vdrive_alloc_buffer(bufferinfo_t *p, int mode)
 {
-    size_t size;
-    if (mode == BUFFER_DIRECTORY_READ) {
-        size = DIR_MAXBUF;
-    } else {
-        size = 256;
-    }
+    size_t size = 256;
+
     if (p->buffer == NULL) {
         /* first time actually allocate memory, and clear it */
         p->buffer = lib_malloc(size);
@@ -334,60 +330,74 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
 {
     switch (vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
-        vdrive->Bam_Track  = BAM_TRACK_1541;
-        vdrive->Bam_Sector = BAM_SECTOR_1541;
-        vdrive->bam_name   = BAM_NAME_1541;
-        vdrive->bam_id     = BAM_ID_1541;
-        vdrive->Dir_Track  = DIR_TRACK_1541;
-        vdrive->Dir_Sector = DIR_SECTOR_1541;
+        vdrive->Bam_Track     = BAM_TRACK_1541;
+        vdrive->Bam_Sector    = BAM_SECTOR_1541;
+        vdrive->Header_Track  = BAM_TRACK_1541;
+        vdrive->Header_Sector = BAM_SECTOR_1541;
+        vdrive->bam_name      = BAM_NAME_1541;
+        vdrive->bam_id        = BAM_ID_1541;
+        vdrive->Dir_Track     = DIR_TRACK_1541;
+        vdrive->Dir_Sector    = DIR_SECTOR_1541;
         break;
       case VDRIVE_IMAGE_FORMAT_2040:
-        vdrive->Bam_Track  = BAM_TRACK_2040;
-        vdrive->Bam_Sector = BAM_SECTOR_2040;
-        vdrive->bam_name   = BAM_NAME_2040;
-        vdrive->bam_id     = BAM_ID_2040;
-        vdrive->Dir_Track  = DIR_TRACK_2040;
-        vdrive->Dir_Sector = DIR_SECTOR_2040;
+        vdrive->Bam_Track     = BAM_TRACK_2040;
+        vdrive->Bam_Sector    = BAM_SECTOR_2040;
+        vdrive->Header_Track  = BAM_TRACK_2040;
+        vdrive->Header_Sector = BAM_SECTOR_2040;
+        vdrive->bam_name      = BAM_NAME_2040;
+        vdrive->bam_id        = BAM_ID_2040;
+        vdrive->Dir_Track     = DIR_TRACK_2040;
+        vdrive->Dir_Sector    = DIR_SECTOR_2040;
         break;
       case VDRIVE_IMAGE_FORMAT_1571:
-        vdrive->Bam_Track  = BAM_TRACK_1571;
-        vdrive->Bam_Sector = BAM_SECTOR_1571;
-        vdrive->bam_name   = BAM_NAME_1571;
-        vdrive->bam_id     = BAM_ID_1571;
-        vdrive->Dir_Track  = DIR_TRACK_1571;
-        vdrive->Dir_Sector = DIR_SECTOR_1571;
+        vdrive->Bam_Track     = BAM_TRACK_1571;
+        vdrive->Bam_Sector    = BAM_SECTOR_1571;
+        vdrive->Header_Track  = BAM_TRACK_1571;
+        vdrive->Header_Sector = BAM_SECTOR_1571;
+        vdrive->bam_name      = BAM_NAME_1571;
+        vdrive->bam_id        = BAM_ID_1571;
+        vdrive->Dir_Track     = DIR_TRACK_1571;
+        vdrive->Dir_Sector    = DIR_SECTOR_1571;
         break;
       case VDRIVE_IMAGE_FORMAT_1581:
-        vdrive->Bam_Track  = BAM_TRACK_1581;
-        vdrive->Bam_Sector = BAM_SECTOR_1581;
-        vdrive->bam_name   = BAM_NAME_1581;
-        vdrive->bam_id     = BAM_ID_1581;
-        vdrive->Dir_Track  = DIR_TRACK_1581;
-        vdrive->Dir_Sector = DIR_SECTOR_1581;
+        vdrive->Bam_Track     = BAM_TRACK_1581;
+        vdrive->Bam_Sector    = BAM_SECTOR_1581;
+        vdrive->Header_Track  = BAM_TRACK_1571;
+        vdrive->Header_Sector = BAM_SECTOR_1571;
+        vdrive->bam_name      = BAM_NAME_1581;
+        vdrive->bam_id        = BAM_ID_1581;
+        vdrive->Dir_Track     = DIR_TRACK_1581;
+        vdrive->Dir_Sector    = DIR_SECTOR_1581;
         break;
       case VDRIVE_IMAGE_FORMAT_8050:
-        vdrive->Bam_Track  = BAM_TRACK_8050;
-        vdrive->Bam_Sector = BAM_SECTOR_8050;
-        vdrive->bam_name   = BAM_NAME_8050;
-        vdrive->bam_id     = BAM_ID_8050;
-        vdrive->Dir_Track  = DIR_TRACK_8050;
-        vdrive->Dir_Sector = DIR_SECTOR_8050;
+        vdrive->Bam_Track     = BAM_TRACK_8050;
+        vdrive->Bam_Sector    = BAM_SECTOR_8050;
+        vdrive->Header_Track  = BAM_TRACK_8050;
+        vdrive->Header_Sector = BAM_SECTOR_8050;
+        vdrive->bam_name      = BAM_NAME_8050;
+        vdrive->bam_id        = BAM_ID_8050;
+        vdrive->Dir_Track     = DIR_TRACK_8050;
+        vdrive->Dir_Sector    = DIR_SECTOR_8050;
         break;
       case VDRIVE_IMAGE_FORMAT_8250:
-        vdrive->Bam_Track  = BAM_TRACK_8250;
-        vdrive->Bam_Sector = BAM_SECTOR_8250;
-        vdrive->bam_name   = BAM_NAME_8250;
-        vdrive->bam_id     = BAM_ID_8250;
-        vdrive->Dir_Track  = DIR_TRACK_8250;
-        vdrive->Dir_Sector = DIR_SECTOR_8250;
+        vdrive->Bam_Track     = BAM_TRACK_8250;
+        vdrive->Bam_Sector    = BAM_SECTOR_8250;
+        vdrive->Header_Track  = BAM_TRACK_8250;
+        vdrive->Header_Sector = BAM_SECTOR_8250;
+        vdrive->bam_name      = BAM_NAME_8250;
+        vdrive->bam_id        = BAM_ID_8250;
+        vdrive->Dir_Track     = DIR_TRACK_8250;
+        vdrive->Dir_Sector    = DIR_SECTOR_8250;
         break;
       case VDRIVE_IMAGE_FORMAT_4000:
-        vdrive->Bam_Track  = BAM_TRACK_4000;
-        vdrive->Bam_Sector = BAM_SECTOR_4000;
-        vdrive->bam_name   = BAM_NAME_4000;
-        vdrive->bam_id     = BAM_ID_4000;
-        vdrive->Dir_Track  = DIR_TRACK_4000;
-        vdrive->Dir_Sector = DIR_SECTOR_4000;
+        vdrive->Bam_Track     = BAM_TRACK_4000;
+        vdrive->Bam_Sector    = BAM_SECTOR_4000;
+        vdrive->Header_Track  = BAM_TRACK_4000;
+        vdrive->Header_Sector = BAM_SECTOR_4000;
+        vdrive->bam_name      = BAM_NAME_4000;
+        vdrive->bam_id        = BAM_ID_4000;
+        vdrive->Dir_Track     = DIR_TRACK_4000;
+        vdrive->Dir_Sector    = DIR_SECTOR_4000;
         break;
       default:
         log_error(vdrive_log,
