@@ -47,9 +47,6 @@
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
 
-static int drive1_resources_type(int val, void *param);
-
-
 static int set_drive_true_emulation(int val, void *param)
 {
     unsigned int dnr;
@@ -124,9 +121,9 @@ static int drive_resources_type(int val, void *param)
             log_warning(drive->log,
                     "Dual disk drive disables other emulated drives");
 
-            drive_resources_type(DRIVE_TYPE_NONE, 1);
-            drive_resources_type(DRIVE_TYPE_NONE, 2);
-            drive_resources_type(DRIVE_TYPE_NONE, 3);
+            drive_resources_type(DRIVE_TYPE_NONE, int_to_void_ptr(1));
+            drive_resources_type(DRIVE_TYPE_NONE, int_to_void_ptr(2));
+            drive_resources_type(DRIVE_TYPE_NONE, int_to_void_ptr(3));
         }
     } else {
         drive0 = drive_context[0]->drive;
