@@ -105,7 +105,7 @@ static unsigned int drive_check_tcbm(unsigned int type)
     return 0;
 }
 
-unsigned int drive_check_bus(unsigned int drive_type, unsigned int dnr,
+unsigned int drive_check_bus(unsigned int drive_type,
                              unsigned int bus_map)
 {
     if (drive_type == DRIVE_TYPE_NONE)
@@ -125,7 +125,7 @@ unsigned int drive_check_bus(unsigned int drive_type, unsigned int dnr,
 
 int drive_check_type(unsigned int drive_type, unsigned int dnr)
 {
-    if (!drive_check_bus(drive_type, dnr, iec_available_busses()))
+    if (!drive_check_bus(drive_type, iec_available_busses()))
         return 0;
 
     if (drive_check_dual(drive_type)) {

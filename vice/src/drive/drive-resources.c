@@ -105,7 +105,7 @@ static int drive_resources_type(int val, void *param)
     busses = iec_available_busses();
 
     /* if bus for drive type is not allowed, set to default value for bus */
-    if (!drive_check_bus(type, 0, busses)) {
+    if (!drive_check_bus(type, busses)) {
         if (busses & IEC_BUS_IEC) {
             type = DRIVE_TYPE_1541;
         } else
@@ -166,7 +166,7 @@ static int drive_resources_type(int val, void *param)
             drive->enable = 1;
             drive_enable(drive_context[0]);
             /* 1551 drive does not use the IEC bus */
-            machine_bus_status_drivetype_set(8, drive_check_bus(type, 0,
+            machine_bus_status_drivetype_set(8, drive_check_bus(type,
                                              IEC_BUS_IEC));
         }
         drive_set_disk_drive_type(type, drive_context[0]);

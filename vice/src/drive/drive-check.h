@@ -27,7 +27,7 @@
 #ifndef VICE_DRIVE_CHECK_H
 #define VICE_DRIVE_CHECK_H
 
-extern unsigned int drive_check_bus(unsigned int drive_type, unsigned int dnr,
+extern unsigned int drive_check_bus(unsigned int drive_type,
                                     unsigned int bus_map);
 extern unsigned int drive_check_old(unsigned int type);
 extern unsigned int drive_check_dual(unsigned int type);
