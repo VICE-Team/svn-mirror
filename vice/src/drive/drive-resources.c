@@ -99,7 +99,7 @@ static int drive_resources_type(int val, void *param)
     drive_t *drive, *drive0;
 
     dnr = vice_ptr_to_uint(param);
-    drive = drive_context[0]->drive;
+    drive = drive_context[dnr]->drive;
 
     type = (unsigned int)val;
     busses = iec_available_busses();
