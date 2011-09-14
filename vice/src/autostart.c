@@ -1062,7 +1062,7 @@ int autostart_tape(const char *file_name, const char *program_name,
             }
         }
         resources_set_int("VirtualDevices", 1); /* Kludge: iAN CooG - for t64 images we need devtraps ON */
-        reboot_for_autostart(NULL, AUTOSTART_HASTAPE, runmode);
+        reboot_for_autostart(program_name, AUTOSTART_HASTAPE, runmode);
 
         return 0;
     }
