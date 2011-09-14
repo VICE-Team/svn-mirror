@@ -164,19 +164,19 @@ static int drive_resources_type(int val, void *param)
         drive->type = type;
         if (drive_true_emulation) {
             drive->enable = 1;
-            drive_enable(drive_context[0]);
+            drive_enable(drive_context[dnr]);
             /* 1551 drive does not use the IEC bus */
-            machine_bus_status_drivetype_set(8, drive_check_bus(type,
+            machine_bus_status_drivetype_set(dnr + 8, drive_check_bus(type,
                                              IEC_BUS_IEC));
         }
-        drive_set_disk_drive_type(type, drive_context[0]);
+        drive_set_disk_drive_type(type, drive_context[dnr]);
         driverom_initialize_traps(drive);
-        machine_drive_idling_method(0);
+        machine_drive_idling_method(dnr);
         return 0;
       case DRIVE_TYPE_NONE:
         drive->type = type;
-        drive_disable(drive_context[0]);
-        machine_bus_status_drivetype_set(8, 0);
+        drive_disable(drive_context[dnr]);
+        machine_bus_status_drivetype_set(dnr + 8, 0);
         return 0;
       default:
         return -1;
