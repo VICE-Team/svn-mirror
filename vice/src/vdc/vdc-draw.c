@@ -349,9 +349,9 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
     */
     
     /* r=return value, cursor_pos=the cursor position in screen memory so that it can be drawn correctly */
-    int r, cursor_pos = -1; 
+    int r, cursor_pos;
 
-    cursor_pos = vdc.crsrpos - vdc.mem_counter;
+    cursor_pos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
 
     if (vdc.regs[25] & 0x40) {
         /* attribute mode */
