@@ -14641,8 +14641,10 @@ Made some console, dialog and joystick fixes for the BeOS port.
 @b{Ulrich Schulz}
 Maintains the Dingoo port(s).
 
-@b{Helfried Peyrl}
-Supplied a patch that fixes REL file records larger 256 bytes when using vdrive.
+@item
+@b{Kajtar Zsolt}
+Wrote the IDE64 interface emulation, 2000/4000 drive emulation and
+did some fixes.
 
 @end itemize
 
@@ -14931,6 +14933,10 @@ Provided the routines for the cybergraphics support for the Amiga
 ports.
 
 @item
+@b{Magnus Lind}
+Atari ST mouse and Atari CX-22 trackball emulation.
+
+@item
 @b{Wolfgang Lorenz}
 Wrote an excellent 6510 test suite that helped us to debug the CPU
 emulation.
@@ -14979,6 +14985,10 @@ Digitalized the C64 colors used in the (old) default palette.
 @item
 @b{Lasse Öörni}
 Contributed the Windows Multimedia sound driver
+
+@item
+b{Helfried Peyrl}
+Supplied a patch that fixes REL file records larger 256 bytes when using vdrive.
 
 @item
 @b{Frank Prindle}
@@ -15115,15 +15125,6 @@ Contributed the @code{extract} command in @code{c1541}.
 @item
 @b{Maciej Witkowiak}
 Did some IDE64 and C1541 fixes.
-
-@item
-@b{Kajtar Zsolt}
-Wrote the IDE64 interface emulation, 2000/4000 drive emulation and
-did some fixes.
-
-@item
-@b{Magnus Lind}
-Atari ST mouse and Atari CX-22 trackball emulation.
 
 @end itemize
 
