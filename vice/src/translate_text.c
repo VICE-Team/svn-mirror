@@ -28,6 +28,7 @@ translate_t string_table[] = {
 
 
 
+
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -7178,33 +7179,33 @@ translate_t string_table[] = {
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME,    N_("Specify name of 2000 DOS ROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DA, "Angivn navn på 2000-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DE, "Name der 2000 DOS ROM Image Datei definieren"},
-/* fr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 2000 DOS ROM"},
-/* hu */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_HU, "Adja meg az 2000 DOS ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_IT, "Specifica il nome immagine della ROM del DOS del 2000"},
+/* da */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_NL, "Geef de naam van het 2000 DOS ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu 2000 DOS ROM"},
+/* nl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_SV, "Ange namn på 2000-DOS-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_TR, "2000 DOS ROM imajýnýn ismini belirt"},
+/* sv */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME,    N_("Specify name of 4000 DOS ROM image")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DA, "Angivn navn på 4000-DOS-ROM-image"},
-/* de */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DE, "Name der 4000 DOS ROM Image Datei definieren"},
-/* fr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_FR, "Spécifier le nom de l'image 4000 DOS ROM"},
-/* hu */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_HU, "Adja meg az 4000 DOS ROM képmás nevét"},
-/* it */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_IT, "Specifica il nome immagine della ROM del DOS del 4000"},
+/* da */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_NL, "Geef de naam van het 4000 DOS ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu 4000 DOS ROM"},
+/* nl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_SV, "Ange namn på 4000-DOS-ROM-avbildning"},
-/* tr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_TR, "4000 DOS ROM imajýnýn ismini belirt"},
+/* sv */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_TR, ""},  /* fuzzy */
 #endif
 
 /* drive/iec/iec-cmdline-options.c */
@@ -10852,17 +10853,17 @@ translate_t string_table[] = {
 /* mouse.c */
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"},
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"},
+/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, "Válassza ki az egér típusát (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddle, 4 = CX-22, 5 = ST)"},
-/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddle, 4 = CX-22, 5 = ST)"},
+/* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"},
-/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrêt³a)"},
+/* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST)"},
-/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, "Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddle, 4 = CX-22, 5 = ST)"},
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
 #endif
 
 /* ps2mouse.c */

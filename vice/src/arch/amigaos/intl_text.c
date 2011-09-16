@@ -28,6 +28,7 @@ intl_translate_t intl_string_table[] = {
 
 
 
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -3258,7 +3259,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMES_VICE_MESSAGE_FR, "Message VICE" },
 /* hu */ { IDMES_VICE_MESSAGE_HU, "VICE üzenet" },
 /* it */ { IDMES_VICE_MESSAGE_IT, "Messaggio di VICE" },
-/* ko */ { IDMES_VICE_MESSAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMES_VICE_MESSAGE_KO, "VICE ¸Þ¼¼Áö" },
 /* nl */ { IDMES_VICE_MESSAGE_NL, "VICE bericht" },
 /* pl */ { IDMES_VICE_MESSAGE_PL, "Komunikat VICE" },
 /* ru */ { IDMES_VICE_MESSAGE_RU, "" },  /* fuzzy */
@@ -3362,7 +3363,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMES_VICE_ERROR_FR, "Erreur VICE!" },
 /* hu */ { IDMES_VICE_ERROR_HU, "VICE hiba!" },
 /* it */ { IDMES_VICE_ERROR_IT, "Errore di VICE!" },
-/* ko */ { IDMES_VICE_ERROR_KO, "" },  /* fuzzy */
+/* ko */ { IDMES_VICE_ERROR_KO, "VICE ¿À·ù!" },
 /* nl */ { IDMES_VICE_ERROR_NL, "VICE Fout!" },
 /* pl */ { IDMES_VICE_ERROR_PL, "B³±d VICE!" },
 /* ru */ { IDMES_VICE_ERROR_RU, "" },  /* fuzzy */
@@ -3596,7 +3597,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CURRENT_MODE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CURRENT_MODE_HU, "Jelenlegi mód" },
 /* it */ { IDS_CURRENT_MODE_IT, "Modalità attuale" },
-/* ko */ { IDS_CURRENT_MODE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CURRENT_MODE_KO, "ÇöÁ¦ ¸ðµå" },
 /* nl */ { IDS_CURRENT_MODE_NL, "Huidige modus" },
 /* pl */ { IDS_CURRENT_MODE_PL, "Obecny tryb" },
 /* ru */ { IDS_CURRENT_MODE_RU, "" },  /* fuzzy */
@@ -3648,7 +3649,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CONNECT_TO_FR, "Se connecter à" },
 /* hu */ { IDS_CONNECT_TO_HU, "Kapcsolódás ehhez:" },
 /* it */ { IDS_CONNECT_TO_IT, "Connetti a" },
-/* ko */ { IDS_CONNECT_TO_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CONNECT_TO_KO, "¿¬°á" },
 /* nl */ { IDS_CONNECT_TO_NL, "Maak verbinding naar" },
 /* pl */ { IDS_CONNECT_TO_PL, "Po³±cz z" },
 /* ru */ { IDS_CONNECT_TO_RU, "" },  /* fuzzy */
@@ -3687,7 +3688,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SERVER_LISTENING_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SERVER_LISTENING_HU, "Várakozás kliensre" },
 /* it */ { IDS_SERVER_LISTENING_IT, "Server in ascolto" },
-/* ko */ { IDS_SERVER_LISTENING_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SERVER_LISTENING_KO, "¼­¹ö ¸®½º´×" },
 /* nl */ { IDS_SERVER_LISTENING_NL, "Server wacht op verbinding" },
 /* pl */ { IDS_SERVER_LISTENING_PL, "Serwer nas³uchuje" },
 /* ru */ { IDS_SERVER_LISTENING_RU, "" },  /* fuzzy */
@@ -3700,7 +3701,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CONNECTED_SERVER_FR, "Connecté au serveur" },
 /* hu */ { IDS_CONNECTED_SERVER_HU, "Kapcsolódva kiszolgálóhoz" },
 /* it */ { IDS_CONNECTED_SERVER_IT, "Server connesso" },
-/* ko */ { IDS_CONNECTED_SERVER_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CONNECTED_SERVER_KO, "¿¬°áµÈ ¼­¹ö" },
 /* nl */ { IDS_CONNECTED_SERVER_NL, "Verbonden server" },
 /* pl */ { IDS_CONNECTED_SERVER_PL, "Po³±czony serwer" },
 /* ru */ { IDS_CONNECTED_SERVER_RU, "" },  /* fuzzy */
@@ -3713,7 +3714,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CONNECTED_CLIENT_FR, "Client connecté" },
 /* hu */ { IDS_CONNECTED_CLIENT_HU, "Kapcsolódó kliens" },
 /* it */ { IDS_CONNECTED_CLIENT_IT, "Client connesso" },
-/* ko */ { IDS_CONNECTED_CLIENT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CONNECTED_CLIENT_KO, "¿¬°áµÈ Å¬¶óÀÌ¾ðÆ®" },
 /* nl */ { IDS_CONNECTED_CLIENT_NL, "Verbonden client" },
 /* pl */ { IDS_CONNECTED_CLIENT_PL, "Po³±czony klient" },
 /* ru */ { IDS_CONNECTED_CLIENT_RU, "" },  /* fuzzy */
@@ -3726,7 +3727,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_NETPLAY_SETTINGS_FR, "Paramètres de jeu en réseau" },
 /* hu */ { IDS_NETPLAY_SETTINGS_HU, "Hálózati játék beállításai" },
 /* it */ { IDS_NETPLAY_SETTINGS_IT, "Impostazioni Netplay" },
-/* ko */ { IDS_NETPLAY_SETTINGS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_NETPLAY_SETTINGS_KO, "³ÝÇÃ·¹ÀÌ ¼³Á¤" },
 /* nl */ { IDS_NETPLAY_SETTINGS_NL, "Netplay instellingen" },
 /* pl */ { IDS_NETPLAY_SETTINGS_PL, "Ustawienia Netplay" },
 /* ru */ { IDS_NETPLAY_SETTINGS_RU, "" },  /* fuzzy */
@@ -3739,7 +3740,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SAVE_SCREENSHOT_FR, "Enregistrer une capture d'écran" },
 /* hu */ { IDS_SAVE_SCREENSHOT_HU, "Fénykép fájl mentése" },
 /* it */ { IDS_SAVE_SCREENSHOT_IT, "Salva schermata su file" },
-/* ko */ { IDS_SAVE_SCREENSHOT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SAVE_SCREENSHOT_KO, "½ºÅ©¸°¼¦ ÆÄÀÏ ÀúÀå" },
 /* nl */ { IDS_SAVE_SCREENSHOT_NL, "Opslaan schermafdrukbestand" },
 /* pl */ { IDS_SAVE_SCREENSHOT_PL, "Zapisz plik zrzutu ekranu" },
 /* ru */ { IDS_SAVE_SCREENSHOT_RU, "" },  /* fuzzy */
@@ -5898,7 +5899,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_NEVER_SAVE_SETTINGS_EXIT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_NEVER_SAVE_SETTINGS_EXIT_HU, "" },  /* fuzzy */
 /* it */ { IDS_NEVER_SAVE_SETTINGS_EXIT_IT, "" },  /* fuzzy */
-/* ko */ { IDS_NEVER_SAVE_SETTINGS_EXIT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_NEVER_SAVE_SETTINGS_EXIT_KO, "Á¾·á½Ã Àý´ë ¼³Á¤À» ÀúÀåÇÏÁö ¾Ê½À´Ï´Ù" },
 /* nl */ { IDS_NEVER_SAVE_SETTINGS_EXIT_NL, "Instellingen nooit opslaan bij afsluiten" },
 /* pl */ { IDS_NEVER_SAVE_SETTINGS_EXIT_PL, "Nigdy nie zapisuj ustawieñ przy wyj¶ciu" },
 /* ru */ { IDS_NEVER_SAVE_SETTINGS_EXIT_RU, "" },  /* fuzzy */
@@ -5924,7 +5925,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_NEVER_CONFIRM_QUITING_VICE_FR, "Ne pas demander de confirmation pour quitter VICE" },
 /* hu */ { IDS_NEVER_CONFIRM_QUITING_VICE_HU, "Sosem kér megerõsítést kilépés elõtt" },
 /* it */ { IDS_NEVER_CONFIRM_QUITING_VICE_IT, "Non confermare mai l'uscita da VICE" },
-/* ko */ { IDS_NEVER_CONFIRM_QUITING_VICE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_NEVER_CONFIRM_QUITING_VICE_KO, "VICE ¸¦ Àý´ë ³¡³»Áö ¾Ê½À´Ï´Ù" },
 /* nl */ { IDS_NEVER_CONFIRM_QUITING_VICE_NL, "Niet bevestigen van het afsluiten van VICE" },
 /* pl */ { IDS_NEVER_CONFIRM_QUITING_VICE_PL, "Nigdy nie potwierdzaj zamkniêcia VICE" },
 /* ru */ { IDS_NEVER_CONFIRM_QUITING_VICE_RU, "" },  /* fuzzy */
@@ -7770,7 +7771,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_HU, "A jelenleg csatolt lemezek mentése" },
 /* it */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_IT, "Salva immagini dischi attualmente selezionati" },
-/* ko */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_KO, "ÇöÁ¦ ºÙ¾îÀÖ´Â µð½ºÅ© ÀÌ¹ÌÁö ÀúÀå" },
 /* nl */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_NL, "Opslaan huidige gekoppelde schijfbestanden" },
 /* pl */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_PL, "Zapisz zaontowane obrazy dyskietek" },
 /* ru */ { IDS_SAVE_CURRENTLY_ATTACHED_DISKS_RU, "" },  /* fuzzy */
@@ -7783,7 +7784,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_FR, "Sauvegarder les images ROM présentement chargés" },
 /* hu */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_HU, "A jelenleg betöltött ROM-ok mentése" },
 /* it */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_IT, "Salva immagini ROM attualmente caricate" },
-/* ko */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_KO, "ÇöÁ¦ ºÒ·¯¿À±â µÈ ROM ÀÌ¹ÌÁö ÀúÀå" },
 /* nl */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_NL, "Opslaan huidig gekoppelde ROMs" },
 /* pl */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_PL, "Zapisz wczytane obrazy ROM" },
 /* ru */ { IDS_SAVE_CURRENTLY_ATTACHED_ROMS_RU, "" },  /* fuzzy */
