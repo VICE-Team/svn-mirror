@@ -1,5 +1,869 @@
 ------------------------------------------------------------------------------
 
+2011-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, doc/vice.texi, doc/vice.txt,
+	po/fr.po, po/nl.po, po/ko.po, po/pl.po, po/hu.po, po/it.po, po/da.po,
+	po/tr.po, po/ru.po, po/de.po, po/sv.po: VICE 2.3.10
+
+2011-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/vice.texi: Fixed for 'make dist'.
+
+2011-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Updated.
+
+2011-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/fr.po, po/hu.po, po/it.po, po/ko.po,
+	po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdc/vdc-draw.c: Fix cursor draw when screen base is not 0
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/cbmdos.c, src/cbmdos.h, src/vdrive/vdrive-command.c,
+	src/vdrive/vdrive-dir.c, src/vdrive/vdrive-dir.h,
+	src/vdrive/vdrive-iec.c, src/vdrive/vdrive.c,
+	src/vdrive/vdrive.h: Proof of concept directory changing for
+	vdrive. This needs some more work later.
+
+2011-09-14  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/autostart.c: Restore functionality of -autostart
+	file.t64:program
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c: Do not increment twice
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-resources.c: More dnr
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-check.c, src/drive/drive-check.h,
+	src/drive/drive-resources.c: Remove unused dnr parameter
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-resources.c: dnr of course
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-resources.c: Fix warnings
+
+2011-09-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-resources.c: Simplify and remove mostly duplicated
+	code
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/DRIVES/Makefile.am, data/DRIVES/dos2000, doc/vice.texi,
+	src/Makefile.am, src/arch/unix/gui/uidrivec128.c,
+	src/arch/unix/gui/uidrivec64vic20.c, src/arch/unix/gui/uidriveplus4.c,
+	src/c128/c128fastiec.c, src/c128/c128romset.c, src/c1541.c,
+	src/c64/c64romset.c, src/drive/drive-check.c,
+	src/drive/drive-resources.c, src/drive/drive-snapshot.c,
+	src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/driveimage.c, src/drive/drivemem.c, src/drive/driverom.h,
+	src/drive/drivesync.c, src/drive/iec/iec-cmdline-options.c,
+	src/drive/iec/iec-resources.c, src/drive/iec/iec.c,
+	src/drive/iec/iecrom.c, src/drive/iec/iecrom.h,
+	src/drive/iec/memiec.c, src/drive/iec/pc8477.c,
+	src/drive/iec/pc8477.h, src/embedded.c, src/iecbus/iecbus.c,
+	src/plus4/plus4romset.c, src/translate.txt, src/translate_text.c,
+	src/vic20/vic20iec.c, src/vic20/vic20romset.c: Add option for 2000
+	drive emulation
+
+2011-09-13  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/Makefile.am, src/autostart.c, src/tape/tape.c, src/tape.h: When
+	autostarting a T64 file, skip to the right program in it. Saves time
+	with large T64s, and, if case there are duplicate names, go to the
+	right one and not to the first one with the given name
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/fdd.c, src/drive/iec/pc8477.c: Implement format track,
+	fix d1m disk format
+
+2011-09-13  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/tape/t64.c, src/tape/t64.h: Fix loading of T64 files from
+	filesystem device
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Add some missing clk overflow guards
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Use timestamps from mouse driver for less jitter
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/mousedrv.c, src/arch/amigaos/mousedrv.h,
+	src/arch/beos/mousedrv.cc, src/arch/beos/mousedrv.h,
+	src/arch/msdos/mousedrv.c, src/arch/msdos/mousedrv.h,
+	src/arch/os2/mousedrv.c, src/arch/os2/mousedrv.h,
+	src/arch/riscos/mousedrv.c, src/arch/riscos/mousedrv.h,
+	src/arch/sdl/mousedrv.c, src/arch/sdl/mousedrv.h,
+	src/arch/unix/macosx/cocoa/mousedrv.m, src/arch/unix/mousedrv.c,
+	src/arch/unix/mousedrv.h, src/arch/win32/mousedrv.c,
+	src/arch/win32/mousedrv.h, src/arch/win32/ui.c: Introduce
+	mousedrv_get_timestamp(), to get the timestamp of last mouse
+	coordinate update.
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/infocontrib.sed: Add Magnus Lind to contrib
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c, src/vsync.c, src/vsync.h: Updates to previous amiga
+	mouse patch: Remove vsync_get_cycles_per_sec and use
+	machine_get_cycles_per_second. Use CLOCK_MAX. Simpler absolute value
+	calculation and circular substraction
+
+2011-09-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c, src/mouse.c, src/mouse.h,
+	src/translate_text.c, src/vsync.c, src/vsync.h: Add improved amiga
+	mouse emulation patch by Magnus Lind. Better Amiga mouse emulation
+	- ID: 3399817 Magnus Lind ( magli143 ) - 2011-08-28 15:55:21 UTC.
+	Text edited from original thread to fit final version (soci). This
+	patch increases the responsiveness of the Amiga mouse emulation
+	without causing more overflows than the current emulation. The this
+	mouse emulation, like the current, polls the lower vice-layers for
+	current mouse coordinates. The problem is that they are only updated
+	at about 100Hz. The current emulation only permits one step of
+	quadrature change per coordinate update in order to avoid overflow.
+	This makes it really unresponsive. Apart from the improving the mouse
+	emulation the patch also extends it to support the Atari ST mouse and
+	the Atari CX-22 trackball. However, in order to keep the patch small
+	they are only selectable by command line options. This is basically
+	what my patch does. It measures the time between coordinate updates
+	and tries to move the wheels accordingly in emulated time. The line
+	drawing is only a complicated way of updating both the x-wheel and
+	the y-wheel in the same loop. The complicated stuff is to convert
+	time intervals from os-time to emulated time without introducing too
+	much temporal jitter. Part of this is to estimate a lower bound for
+	the intervals between mousedrv updates. (which I got wrong, the
+	interval became too small so the wheels rotated too quick). The key
+	to improve the Amiga mouse emulation further is to reduce more of
+	the temporal jitter in the mouse emulation. To do so we probably
+	would have to get the proper timestamps from the mouse events from
+	the os and have a queue for mouse readings that arrive too early.
+	Today they just interrupt the previous interval emulation which is
+	easy to do but not optimal for the emulation.
+
+2011-09-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in: Revert a change which was only meant for development
+	purposes
+
+2011-09-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/translate.txt: Forgot to rename these
+
+2011-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/DRIVES/Makefile.am, data/DRIVES/dos4000, src/Makefile.am,
+	src/arch/unix/gui/uidrivec128.c, src/arch/unix/gui/uidrivec64vic20.c,
+	src/arch/unix/gui/uidriveplus4.c, src/c128/c128fastiec.c,
+	src/c128/c128romset.c, src/c1541.c, src/c64/c64romset.c,
+	src/diskconstants.h, src/drive/drive-check.c,
+	src/drive/drive-resources.c, src/drive/drive-snapshot.c,
+	src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/driveimage.c, src/drive/drivemem.c, src/drive/driverom.h,
+	src/drive/drivesync.c, src/drive/drivetypes.h,
+	src/drive/iec/Makefile.am, src/drive/iec/iec-cmdline-options.c,
+	src/drive/iec/iec-resources.c, src/drive/iec/iec.c,
+	src/drive/iec/iecrom.c, src/drive/iec/iecrom.h,
+	src/drive/iec/memiec.c, src/drive/iec/pc8477.c,
+	src/drive/iec/pc8477.h, src/drive/iec/via1992.c,
+	src/drive/iec/via1992.h, src/drive/iec/via4000.c,
+	src/drive/iec/via4000.h, src/iecbus/iecbus.c,
+	src/plus4/plus4romset.c, src/translate_text.c,
+	src/vdrive/vdrive-bam.c, src/vdrive/vdrive-bam.h,
+	src/vdrive/vdrive-command.c, src/vdrive/vdrive-dir.c,
+	src/vdrive/vdrive-iec.c, src/vdrive/vdrive-rel.c, src/vdrive/vdrive.c,
+	src/vdrive/vdrive.h, src/vic20/vic20romset.c: Rename 1992 to 4000
+
+2011-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/fdd.h, src/drive/iec/iec.c: Some declarations
+
+2011-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driveimage.c, src/drive/iec/iec.c, src/drive/iec/pc8477.c,
+	src/drive/iec/pc8477.h: Move back image attach where it was. Breaks
+	too much otherwise.
+
+2011-09-09  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driveimage.c, src/drive/drivetypes.h,
+	src/drive/iec/fdd.c, src/drive/iec/iec.c, src/drive/iec/pc8477.c,
+	src/drive/iec/pc8477.h, src/drive/iec/via1992.c: Real head seeking
+	times, FDC irqs, cleanup
+
+2011-09-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui.cc, src/arch/beos/ui_video.cc,
+	src/arch/beos/ui_video.h: Major rewrite of BeVICE video settings
+	dialog, fixing/unbreaking it and preparing for new features. Also
+	added a (probably temporary) render filter fix.
+
+2011-09-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Some IDE64 menu items for OS/2. No
+	disk geometry as I couldn't find any number entry dialogs ;( (and I
+	cannot test the OS/2 port)
+
+2011-09-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uidrivec128.c,
+	src/arch/unix/gui/uidrivec64vic20.c,
+	src/arch/unix/gui/uidriveplus4.c: Add some gui entries for 1992
+
+2011-09-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/attach.c, src/vdrive/vdrive-bam.c, src/vdrive/vdrive-command.c,
+	src/vdrive/vdrive.c, src/vdrive/vdrive.h: Allocate bam dynamically,
+	not all drives have that huge one
+
+2011-09-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Real pass through
+
+2011-09-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: semicolon
+
+2011-09-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Not quite as I wanted originally...
+
+2011-09-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c, src/core/ata.h: More
+	IDE64/ata corrections
+
+2011-09-03  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/tape/tap.c: Skip the right number of bytes. Fixes TAP file
+	viewing in some cases
+
+2011-09-03  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c1541.c, src/cbmdos.c, src/cbmdos.h,
+	src/diskimage/fsimage-create.c, src/vdrive/vdrive-bam.c,
+	src/vdrive/vdrive-bam.h, src/vdrive/vdrive-command.c,
+	src/vdrive/vdrive-dir.c, src/vdrive/vdrive-iec.c,
+	src/vdrive/vdrive-rel.c, src/vdrive/vdrive.c, src/vdrive/vdrive.h:
+	Some D1M/D2M/D4M updates for virtual drive and c1541. Write support
+	is disabled until it's safe.
+
+2011-09-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskconstants.h, src/diskimage/diskimage.c,
+	src/diskimage/fsimage-check.c, src/diskimage/fsimage-probe.c,
+	src/diskimage/fsimage.c, src/diskimage.h, src/drive/drive-snapshot.c,
+	src/drive/driveimage.c, src/drive/iec/fdd.c, src/drive/iec/pc8477.c,
+	Support for d1m/d2m/d4m images. Not for the vdrive yet, maybe later,
+	as partitions needs to be supported too.
+
+2011-08-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/Makefile.am, src/c128/c128fastiec.c,
+	src/core/viacore.c, src/drive/Makefile.am, src/drive/drive-check.c,
+	src/drive/drive-resources.c, src/drive/drive-snapshot.c,
+	src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/driveimage.c, src/drive/drivemem.c, src/drive/drivemem.h,
+	src/drive/driverom.h, src/drive/drivesync.c, src/drive/drivetypes.h,
+	src/drive/iec/Makefile.am, src/drive/iec/fdd.c, src/drive/iec/fdd.h,
+	src/drive/iec/iec-cmdline-options.c, src/drive/iec/iec-resources.c,
+	src/drive/iec/iec.c, src/drive/iec/iecrom.c, src/drive/iec/iecrom.h,
+	src/drive/iec/memiec.c, src/drive/iec/pc8477.c,
+	src/drive/iec/pc8477.h, src/drive/iec/via1992.c,
+	src/drive/iec/via1992.h, src/iecbus/iecbus.c, src/translate.txt,
+	src/translate_text.c, src/via.h: The 1992 drive emulation. Including
+	FDD emulation (needs more work), pc8477/dp8473 floppy controller with
+	most used functions. (but no formatting yet) Using RTC option and
+	works with fast-iec on x128. d81 image read/write support only for
+	now, can be expanded later. And various other fixes (drive leds).
+	I hope nothing was broken which can't be fixed ;)
+
+2011-08-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/plus4/plus4cart.c, src/plus4/plus4rom.c: Do not try to read
+	cart ROM files before the system is initialised
+
+2011-08-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Fix readonly problem
+
+2011-08-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c: Make IDE64 snapshot work
+	again after the initialization changes
+
+2011-08-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c: Only use ATA system while the
+	IDE64 cartridge is attached.
+
+2011-08-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/html/Makefile.am: Add pixel_aspect.txt to Makefile
+
+2011-08-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/maincpu.c: He's right, it was not working on zeropage.
+
+2011-08-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_lex.l,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y: There was a nice hack for load/store/exec
+	options, now it's gone, and this bug is fixed. Wonder which magic is
+	hidden there letting vice know I want to trace LOAD as well. That
+	magic is broken apparently.
+
+2011-08-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/html/plain/pixel_aspect.txt, src/plus4/ted.c, src/vic20/vic.c,
+	src/vicii/vicii.c, src/viciisc/vicii.c: Submitted: Magnus Lind
+	( magli143 ) - 2011-08-28 16:14:14 UTC, Description: proper aspect
+	ratio patch, This patch contains calculated aspect rations for the
+	TED, VIC and VIC II. the calculations are done according to
+	http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio
+	and replaces the current defaults (that are wrong).
+
+2011-08-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/rtc/bq4830y.c, src/rtc/ds1202_1302.c, src/rtc/ds1216e.c,
+	src/rtc/ds12c887.c, src/rtc/rtc.c, src/rtc/rtc.h: Days of month now
+	1-12 not 0-11, this simplifies the rtc modules (and solves some BCD
+	bugs). Reorder writing sequence of year/month, etc. otherwise maximum
+	day of month check might fail. DS1216e day of week fixes, it's 1-7
+	mon-sun. Some range check errors for day of month, missing breaks in
+	switch (rtc.c). Fixed typo of BQ4830Y_REG_MONTHS instead of
+	BQ4830Y_REG_YEARS
+
+2011-08-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/rtc/ds1216e.c: Revert, my mistake
+
+2011-08-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/rtc/ds1216e.c: Fix small indexing typo.
+
+2011-08-28  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/resources.c: Add a null pointer guard.
+
+2011-08-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Maybe it's better if it's really int
+
+2011-08-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Fix warning
+
+2011-08-27  Ingo Korb <ingo@akana.de>
+
+	* src/core/ata.c: Unbreak the build by "fixing" ata.c
+
+2011-08-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Forgot to change type on these
+
+2011-08-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c, src/core/ata.h: Cleanup
+
+2011-08-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/beos/ui_ide64.cc, src/arch/unix/gui/uiide64.c,
+	src/arch/win32/uiide64.c: Some IDE64 related range check errors in UIs
+
+2011-08-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Re-register resources on snapshot load
+
+2011-08-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c: Do not snapshot cart multiple times if
+	it has more than one exports. Like sfx_soundexpander, or ide64.
+
+2011-08-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Some cleanup
+
+2011-08-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Forgot to switch off debug
+
+2011-08-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c, src/core/ata.h: Split IDE64
+	cart on I/O area, ATA dump
+
+2011-08-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64io.c: Do not display more in monitor than length of
+	device, even if mask is longer than device. start = $de60,
+	end = $deff, mask = $ff, earlier it was incorrectly displayed up to
+	$df5f, now it's $deff. Also made it a bit shorter now.
+
+2011-08-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/c64/cart/ide64.h, src/core/ata.c:
+	Reorganize ata poweron
+
+2011-08-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c, src/core/ata.h: standby
+	timer
+
+2011-08-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Correct bus handling
+
+2011-08-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Do it shorter
+
+2011-08-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/ata.h: load/eject image
+
+2011-08-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/ata.h: Flush cache, optional commands
+
+2011-08-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c: Fix variadic macros, maybe it
+	compiles on msvc now
+
+2011-08-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Read verify and seek
+
+2011-08-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Fix writing
+
+2011-08-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Set keywords right this time
+
+2011-08-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/ata.h: READ FORMAT CAPACITIES and more
+	ident updates
+
+2011-08-22  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* doc/vice.texi: Added driver strings.
+
+2011-08-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: identify cleanup
+
+2011-08-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c, src/core/ata.h: CF emulation,
+	spin up/down
+
+2011-08-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/ata.h: BSY bit and seek times
+
+2011-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c, src/core/ata.h: Image size
+	detection now in cartridge. It can change removable media on the fly
+	for ATAPI
+
+2011-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/ata.h: Power management commands, write
+	cache, set features
+
+2011-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Fix ATAPI DRDY handling
+
+2011-08-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/ata.h: Support ATAPI FD/CD emulation
+
+2011-08-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Fix warning
+
+2011-08-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Use the core ATA infrastructure, monitor dump
+	implemented, snapshot support
+
+2011-08-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/Makefile.am, src/core/ata.c, src/core/ata.h: Introduce
+	core ATA emulation
+
+2011-08-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c: Make sure if a cartridge failed to
+	load from snapshot, then there's no cartridge selected. Otherwise
+	there's a half-dead (detached, but active) cartridge around, which
+	causes memory corruption in some cases.
+
+2011-08-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Add disconnected usb "emulation" to IDE64 v4
+
+2011-08-16  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-08-16  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po: Added an ignore for pl_iso.po
+
+2011-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/uiedisk.c: Fixed a typo.
+
+2011-08-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/platform_aix_version.h, src/arch/platform_cpu_type.h,
+	src/arch/platform_freebsd_version.h,
+	src/arch/platform_netbsd_version.h,
+	src/arch/platform_openbsd_version.h, src/arch/platform_qnx6_version.h:
+	add missing include guards, patch by Microtop
+
+2011-08-14  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: updated contributors list
+
+2011-08-14  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/c64io.c, src/c64/plus60k.c,
+	src/c64/vsid.c, src/cartio.h, src/mouse.c, src/sid/sid.c: fix mouse
+	port init, use high i/o priority for SID. fixes paddles/mouse on
+	x64(sc) and xvic, fixes bug 3358664.
+
+2011-08-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c: Fix high byte of trace output for jsr. Works the
+	same way as for the cpumemhistory, so it's probably ok.
+
+2011-08-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi: Describe IDE64 resource/options
+
+2011-08-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/cartconv.c: Use 16Kb banks for IDE64 (like on hardware), type
+	and game/exrom adjusted. "Reference" crt files can be downloaded from:
+	http://singularcrew.hu/idedos/beta/compile.php
+
+2011-08-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi: IDE64 homepage updated
+
+2011-08-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: clean up of the geometry/ident handling,
+	generate guessed geometry for unknown images and detect v3/v4
+	cartridge for crt images.
+
+2011-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c, src/rtc/ds1202_1302.c, src/rtc/ds1216e.c,
+	src/rtc/ds12c887.c: Fixed month calculations.
+
+2011-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/unix/x11/gnome/about.c, src/infocontrib.sed:
+	Corrected a name.
+
+2011-08-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in, doc/vice.texi, po/Makefile.in.in,
+	po/da.po, po/de.po, po/fr.po, po/gen_amiga_intl_c.c,
+	po/gen_translate_c.c, po/gen_win32_files.sh, po/gen_win32_rc.c,
+	po/hu.po, po/intl2po.c, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/po2table.c, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/genintl_h.sh, src/arch/amigaos/genintl_h.sh.in,
+	src/arch/amigaos/genintltable.sh, src/arch/amigaos/intl.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20uires.h, src/arch/unix/x11/gnome/about.c,
+	src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/intl.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdigimax.rc,
+	src/arch/win32/resdqbb.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/reslightpen.rc, src/arch/win32/resmagicvoice.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmmc64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/restfe.rc, src/arch/win32/resv364speech.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/arch/win32/ui.c, src/arch/win32/utils/gentranslate.c,
+	src/arch/win32/vic20ui.c, src/gentranslate_h.sh,
+	src/gentranslate_h.sh.in, src/gentranslatetable.sh,
+	src/infocontrib.sed, src/translate_languages.h, src/translate_text.c:
+	Added polish support back in again, since it is now maintained.
+
+2011-08-12  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* doc/vice.texi: typo
+
+2011-08-12  Stefan Haubenthal <polluks@LONESTAR.ORG>
+
+	* doc/vice.texi: More interface vendors.
+
+2011-08-10  Ingo Korb <ingo@akana.de>
+
+	* src/fsdevice/fsdevice-flush.c: Add CD:<- as an alias for CD<- for
+	compatibility with other drives
+
+2011-08-08  groepaz <groepaz@gmx.net>
+
+	* src/resources.c: add missing init for backup_name. fixes crash when
+	saving config to a file that does not yet exist.
+
+2011-08-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c64dtvui.cc, src/arch/beos/ui_sid.cc: Use the
+	dynamically generated SID engine/model list in BeVICE and unsplit SID
+	and SID-DTV settings dialogs.
+
+2011-08-06  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-08-05  groepaz <groepaz@gmx.net>
+
+	* src, src/c64/c64.h, src/cia.h, src/iecbus.h, src/joystick.c,
+	src/rawnetarch.h, src/resid/sid.h, src/resid-dtv/sid.h,
+	src/resid-fp/sid.h, src/sid/sid.h, src/vice.h, src/vicesocket.h:
+	bunch of trivial cosmetic doxygen related fixes
+
+2011-08-05  groepaz <groepaz@gmx.net>
+
+	* doc, doc/Doxyfile, doc/Doxygen-Howto.txt,
+	doc/html/images/vice-logo-small.png, doc/mainpage.dox, doc/mkdoxy.sh,
+	doc/src2doxy.sh, doc/txt2doxy.sh: added (wip) script(s) to generate
+	source docs using doxygen
+
+2011-08-04  groepaz <groepaz@gmx.net>
+
+	* doc/building/Linux-Mingw32-Howto.txt: added brief howto on building
+	winvice on linux
+
+2011-08-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/joy.c, src/arch/win32/vsidui.c: add vsid machine,
+	make vsid always start up
+
+2011-08-04  groepaz <groepaz@gmx.net>
+
+	* Makefile.am, src/Makefile.am: vsid/xcbm5x0 build fixes
+
+2011-08-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/make-bindist.sh: added vsid and xcbm5x0 executables
+
+2011-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, po/Makefile.in.in: Fix for the po dir prefix issue.
+
+2011-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in: Fixed the Makefile in the po directory for
+	compiling without warnings on both freebsd and non-freebsd systems.
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: macosx: build fixes for lion
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	macosx: added Acia1Enable resource to xplus4 ui
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	macosx: added AutostartDelayRandom resource to ui
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	macosx: added UserportDAC for xpet ui
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	macosx: added IDE64 per drive resources
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	macosx: made georam, digimax, acia/swiftlink/turbo232, sfx sound
+	sampler, sfx sound expander available to xvic ui
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	macosx: added ACIA1Base
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	macosx: removed obsolete CIA model
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/make-bindist.sh: macosx: fixed doc bundling
+
+2011-07-31  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/userport/userport_joystick.c, src/vicii/vicii-resources.c:
+	macosx: link fixes
+
+2011-07-30  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-07-30  groepaz <groepaz@gmx.net>
+
+	* src, src/cbm2/cbm2cia1.c, src/cbm2/cbm2mem.c: fix cia mirrors, fix initial timing
+
+2011-07-30  groepaz <groepaz@gmx.net>
+
+	* src/core/ciacore.c: fixed TOD counter behaviour
+
+2011-07-28  groepaz <groepaz@gmx.net>
+
+	* src, src/Makefile.am, src/arch/sdl/xcbm2_ui.c,
+	src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64dtvui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/uic64dtv.c, src/arch/unix/gui/uicbm2cart.c,
+	src/arch/unix/gui/uicbm2cart.h, src/arch/unix/gui/uidrivec128.c,
+	src/arch/unix/gui/uidrivec64vic20.c,
+	src/arch/unix/gui/uidrivepetcbm2.c, src/arch/unix/gui/uidriveplus4.c,
+	src/arch/unix/gui/uifliplist.c, src/arch/unix/gui/uiide64.c,
+	src/arch/unix/gui/uijoystick2.c, src/arch/unix/gui/uikeyboard.c,
+	src/arch/unix/gui/uiram.c, src/arch/unix/gui/uiram.h,
+	src/arch/unix/gui/uiromset.c, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/gui/vsidui.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/cartridge.h, src/cbm2/Makefile.am,
+	src/cbm2/cbm2-cmdline-options.c, src/cbm2/cbm2-resources.c,
+	src/cbm2/cbm2-snapshot.c, src/cbm2/cbm2.c, src/cbm2/cbm2.h,
+	src/cbm2/cbm2cart.c, src/cbm2/cbm2cia1.c, src/cbm2/cbm2mem.c,
+	src/cbm2/cbm2memsnapshot.c, src/cbm2/cbm2model.c,
+	src/cbm2/cbm2model.h, src/cbm2/cbm2rom.c, src/cbm2/cbm5x0.c,
+	src/main.c: xcbm5x0 splitted from xcbm2, common cartridge functions,
+	common model select functions (see devlog) *nix gui updates and fixes
+
+2011-07-28  groepaz <groepaz@gmx.net>
+
+	* po/de.po: fixed some type^Hos :)
+
+2011-07-28  groepaz <groepaz@gmx.net>
+
+	* data/CBM-II/rom128h.vrs, data/CBM-II/rom128l.vrs,
+	data/CBM-II/rom256h.vrs, data/CBM-II/rom256l.vrs,
+	data/CBM-II/rom500.vrs: fixed default romsets
+
+2011-07-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in: Fixed.
+
+2011-07-26  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-07-25  groepaz <groepaz@gmx.net>
+
+	* configure.in, src/Makefile.am, src/arch/sdl/vsyncarch.c,
+	src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uicommands.c,
+	src/arch/unix/gui/uicommands.h, src/arch/unix/gui/uisettings.c,
+	src/arch/unix/gui/uisettings.h, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/gui/vsidui.c, src/arch/unix/joy.c,
+	src/arch/unix/vsiduiunix.h, src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uivsidcontrol.c,
+	src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/x11/xaw/uivsidcontrol.c, src/arch/unix/x11/xaw/x11kbd.c,
+	src/arch/unix/x11/xaw/x11ui.c, src/arch/unix/x11/xaw/x11video.c,
+	src/c64/Makefile.am, src/c64/c64.c, src/c64/c64drive.c,
+	src/c64/psid.c, src/c64/vsid.c, src/c64/vsidmem.c,
+	src/c64/vsidstubs.c, src/debug.c, src/drive/drive.c, src/init.c,
+	src/initcmdline.c, src/machine.h, src/main.c, src/sound.c,
+	src/vsync.c: made vsid a seperate machine, generate seperate stripped
+	down binary for vsid (see devlog). gtk/xaw/sdl ui updates/fixes
+
+2011-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt: Updated the Fixme section.
+
+2011-07-23  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* po/nl.po: Solve a problem with mismatching \n
+
+2011-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c: Include <signal.h> for signal stuff.
+
+2011-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vice_sdl.h: Fixed config.h/SDL.h HAVE_STRDUP and HAVE_NANOSLEEP
+	definition warnings.
+
 2011-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,

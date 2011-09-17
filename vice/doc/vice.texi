@@ -14987,7 +14987,7 @@ Digitalized the C64 colors used in the (old) default palette.
 Contributed the Windows Multimedia sound driver
 
 @item
-b{Helfried Peyrl}
+@b{Helfried Peyrl}
 Supplied a patch that fixes REL file records larger 256 bytes when using vdrive.
 
 @item
