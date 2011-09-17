@@ -14934,7 +14934,7 @@ ports.
 
 @item
 @b{Magnus Lind}
-Atari ST mouse and Atari CX-22 trackball emulation.
+Atari ST mouse and Atari CX-22 trackball emulation and pixel aspect fixes.
 
 @item
 @b{Wolfgang Lorenz}

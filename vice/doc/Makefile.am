@@ -4,12 +4,14 @@
 docdir = $(realdocdir)
 
 MISC_DOX = \
+	CIA-README.txt \
+	coding-guidelines.txt \
+	Documentation-Howto.txt \
+	Doxygen-Howto.txt \
+	iec-bus.txt \
 	MacOSX-ResourceTree.txt \
 	NLS-Howto.txt \
-	iec-bus.txt \
-	openGLsync-howto.txt \
-	coding-guidelines.txt \
-	CIA-README.txt
+	openGLsync-howto.txt
 
 BUILDING_DOX = \
 	building/GP2X-Howto.txt \
@@ -32,9 +34,18 @@ READMES = \
 
 TEXI_TOOLS = \
 	fixdox.sh \
+	t2h.pl \
 	texi2chm.sh \
-	texi2guide.sh \
-	t2h.pl
+	texi2guide.sh
+
+DOC_TOOLS = \
+	checkdoc.c \
+	checkdoc.mak \
+	Doxyfile \
+	mainpage.dox \
+	mkdoxy.sh \
+	src2doxy.sh \
+	txt2doxy.sh
 
 VICE_DOX = \
 	vice.txt \
@@ -48,7 +59,7 @@ info_TEXINFOS = vice.texi
 
 dist_doc_DATA = $(MISC_DOX) $(VICE_DOX) $(BUILDING_DOX) $(READMES)
 
-EXTRA_DIST = $(TEXI_TOOLS)
+EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS)
 
 SUBDIRS = html
 
