@@ -41,6 +41,15 @@
 #endif
 #endif
 
+/* backwards compatibility */
+#if LIBAVUTIL_VERSION_MAJOR < 51
+#define av_guess_format guess_format
+#define av_guess_format_t guess_format_t
+#define AVMEDIA_TYPE_AUDIO CODEC_TYPE_AUDIO
+#define AVMEDIA_TYPE_VIDEO CODEC_TYPE_VIDEO
+#define AV_PKT_FLAG_KEY PKT_FLAG_KEY
+#endif
+
 /* generic version function */
 typedef unsigned (*ffmpeg_version_t) (void);
 
@@ -64,11 +73,7 @@ typedef int (*av_write_trailer_t) (AVFormatContext*);
 typedef int (*url_fopen_t) (ByteIOContext**, const char*, int);
 typedef int (*url_fclose_t) (ByteIOContext*);
 typedef void (*dump_format_t) (AVFormatContext *, int, const char*, int);
-#if LIBAVUTIL_VERSION_MAJOR < 51 
-typedef AVOutputFormat* (*guess_format_t) (const char*, const char*, const char*);
-#else
 typedef AVOutputFormat* (*av_guess_format_t) (const char*, const char*, const char*);
-#endif
 typedef int (*img_convert_t) (AVPicture*, int, AVPicture*, int, int, int);
 
 /* avutil functions */
@@ -106,12 +111,7 @@ struct ffmpeglib_s {
     url_fopen_t                 p_url_fopen;
     url_fclose_t                p_url_fclose;
     dump_format_t               p_dump_format;
-#if LIBAVUTIL_VERSION_MAJOR < 51 
-    guess_format_t              p_guess_format;
-#else
-    av_guess_format_t              p_av_guess_format;
-#endif
-
+    av_guess_format_t           p_av_guess_format;
 #ifndef HAVE_FFMPEG_SWSCALE
     img_convert_t               p_img_convert;
 #endif

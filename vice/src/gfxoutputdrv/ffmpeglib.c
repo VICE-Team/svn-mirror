@@ -215,12 +215,7 @@ static int load_avformat(ffmpeglib_t *lib)
         GET_SYMBOL_AND_TEST_AVFORMAT(url_fopen);
         GET_SYMBOL_AND_TEST_AVFORMAT(url_fclose);
         GET_SYMBOL_AND_TEST_AVFORMAT(dump_format);
-#if LIBAVUTIL_VERSION_MAJOR < 51 
-        GET_SYMBOL_AND_TEST_AVFORMAT(guess_format);
-#else
         GET_SYMBOL_AND_TEST_AVFORMAT(av_guess_format);
-#endif
-
 #ifndef HAVE_FFMPEG_SWSCALE
         GET_SYMBOL_AND_TEST_AVFORMAT(img_convert);
 #endif
@@ -252,12 +247,7 @@ static void free_avformat(ffmpeglib_t *lib)
     lib->p_url_fopen = NULL;
     lib->p_url_fclose = NULL;
     lib->p_dump_format = NULL;
-#if LIBAVUTIL_VERSION_MAJOR < 51 
-    lib->p_guess_format = NULL;    
-#else
-    lib->p_av_guess_format = NULL;    
-#endif
-
+    lib->p_av_guess_format = NULL;
 #ifndef HAVE_FFMPEG_SWSCALE
     lib->p_img_convert = NULL;
 #endif
