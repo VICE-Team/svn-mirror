@@ -2531,7 +2531,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_MON_LIST_DESCRIPTION_DA, "Vis diskens indhold."},
 /* de */ {IDGS_MON_LIST_DESCRIPTION_DE, "Zeige den Verzeichnisinhalt."},
 /* fr */ {IDGS_MON_LIST_DESCRIPTION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_MON_LIST_DESCRIPTION_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_LIST_DESCRIPTION_HU, "Lemeztartalom listázása."},
 /* it */ {IDGS_MON_LIST_DESCRIPTION_IT, "Elenca i contenuti del disco."},
 /* ko */ {IDGS_MON_LIST_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_LIST_DESCRIPTION_NL, "Toon disk inhoud."},
@@ -2595,7 +2595,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_OTHER_COMMANDS_DA, "Andre kommandoer:"},
 /* de */ {IDGS_OTHER_COMMANDS_DE, "Andere Kommandos:"},
 /* fr */ {IDGS_OTHER_COMMANDS_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_OTHER_COMMANDS_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_OTHER_COMMANDS_HU, "Egyéb parancsok:"},
 /* it */ {IDGS_OTHER_COMMANDS_IT, "Altri comandi:"},
 /* ko */ {IDGS_OTHER_COMMANDS_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_OTHER_COMMANDS_NL, "Andere commandos:"},
@@ -2707,7 +2707,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_EXPRESSION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_EXPRESSION_DE, "Ausdruck"},
 /* fr */ {IDGS_EXPRESSION_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_EXPRESSION_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_EXPRESSION_HU, "kifejezés"},
 /* it */ {IDGS_EXPRESSION_IT, "espressione"},
 /* ko */ {IDGS_EXPRESSION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_EXPRESSION_NL, "expressie"},
@@ -2755,7 +2755,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_RESOURCE_DA, "resource"},
 /* de */ {IDGS_RESOURCE_DE, "Ressource"},
 /* fr */ {IDGS_RESOURCE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_RESOURCE_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_RESOURCE_HU, "erõforrás"},
 /* it */ {IDGS_RESOURCE_IT, "risorsa"},
 /* ko */ {IDGS_RESOURCE_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_RESOURCE_NL, "bron"},
@@ -2787,7 +2787,7 @@ translate_t string_table[] = {
 /* da */ {IDGS_VALUE_DA, "værdi"},
 /* de */ {IDGS_VALUE_DE, "Wert"},
 /* fr */ {IDGS_VALUE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_VALUE_HU, ""},  /* fuzzy */
+/* hu */ {IDGS_VALUE_HU, "érték"},
 /* it */ {IDGS_VALUE_IT, "valore"},
 /* ko */ {IDGS_VALUE_KO, "°¡Ä¡"},
 /* nl */ {IDGS_VALUE_NL, "waarde"},
@@ -3013,7 +3013,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DA, "Vælg diskimage for autostart af PRG-filer"},
 /* de */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_DE, "Disk Imagedatei für Autstart definieren"},
 /* fr */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lmeez képmás megadása PRG automatikus indításhoz"},
+/* hu */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_HU, "Lemez képmás megadása PRG automatikus indításához"},
 /* it */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_IT, "Imposta immagine disco per l'avvio automatico dei file PRG"},
 /* ko */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_DISK_IMAGE_FOR_AUTOSTART_PRG_NL, "Zet disk bestand voor het autostarten van PRG bestanden"},
@@ -3029,7 +3029,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_SET_AUTOSTART_DELAY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_AUTOSTART_DELAY_DE, "Setze initiale Autostart Verzögerung (0: benutze Standard)"},
 /* fr */ {IDCLS_SET_AUTOSTART_DELAY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_SET_AUTOSTART_DELAY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_AUTOSTART_DELAY_HU, "Automatikus indítás elõtti várakozás (0: alapértelmezés szerint)"},
 /* it */ {IDCLS_SET_AUTOSTART_DELAY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AUTOSTART_DELAY_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_AUTOSTART_DELAY_NL, ""},  /* fuzzy */
@@ -3045,7 +3045,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_DE, "Zufälle Verzögerung während Autostart aktivieren,"},
 /* fr */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_HU, "Véletlenszerû várakozás engedélyezése automatikus indítás elõtt."},
 /* it */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_NL, "Activeer willekeurige vertraging bij begin van het autostarten."},
@@ -3061,7 +3061,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DE, "Zufälle Verzögerung während Autostart deaktivieren."},
 /* fr */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_HU, "Véletlenszerû várakozás kikapcsolása autómatikus indítás elõtt."},
 /* it */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_NL, "Willekeurige vertraging bij begin van het uitostarten uitschakelen."},
@@ -3113,7 +3113,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_USE_PALN_SYNC_FACTOR_DA, "Anvend PAL-N synkfaktor"},
 /* de */ {IDCLS_USE_PALN_SYNC_FACTOR_DE, "PAL Sync Faktor benutzen"},
 /* fr */ {IDCLS_USE_PALN_SYNC_FACTOR_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_USE_PALN_SYNC_FACTOR_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_USE_PALN_SYNC_FACTOR_HU, "PAL-N szinkron használata"},
 /* it */ {IDCLS_USE_PALN_SYNC_FACTOR_IT, "Usa fattore di sincronizzazione PAL-N"},
 /* ko */ {IDCLS_USE_PALN_SYNC_FACTOR_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_USE_PALN_SYNC_FACTOR_NL, "Gebruik PAL-N synchronisatiefaktor"},
@@ -3121,6 +3121,22 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_USE_PALN_SYNC_FACTOR_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_USE_PALN_SYNC_FACTOR_SV, "Använd PAL N-synkfaktor"},
 /* tr */ {IDCLS_USE_PALN_SYNC_FACTOR_TR, "PAL-N senkron faktörü kullan"},
+#endif
+
+/* c64/c64-cmdline-options.c */
+/* en */ {IDCLS_SET_BURST_MOD,    N_("Burst modification (0 = None, 1 = CIA1, 2 = CIA2)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_BURST_MOD_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BURST_MOD_DE, "Burst modifikation (0 = None, 1 = CIA1, 2 = CIA2)"},
+/* fr */ {IDCLS_SET_BURST_MOD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_BURST_MOD_HU, "Burst módosítás (0 = None, 1 = CIA1, 2 = CIA2)"},
+/* it */ {IDCLS_SET_BURST_MOD_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_BURST_MOD_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_BURST_MOD_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_BURST_MOD_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_BURST_MOD_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_BURST_MOD_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_BURST_MOD_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c, c128/functionrom.c,
@@ -3494,7 +3510,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA RS232 Schnittstellen-Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_HU, "ACIA RS232 emuláció engedélyezése"},
 /* it */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_NL, "Activeer de ACIA RS232 interface emulatie"},
@@ -3510,7 +3526,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA RS232 Schnittstellen-Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_HU, "ACIA RS232 emuláció tiltása"},
 /* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_NL, "De ACIA RS232 interface emulatie aflsuiten"},
@@ -3527,7 +3543,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_ENABLE_ACIA_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_ACIA_EMU_DE, "ACIA Emulation aktivieren"},
 /* fr */ {IDCLS_ENABLE_ACIA_EMU_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_ACIA_EMU_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_ACIA_EMU_HU, "ACIA emuláció engedélyezése"},
 /* it */ {IDCLS_ENABLE_ACIA_EMU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_ACIA_EMU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_ACIA_EMU_NL, "Activeer de ACIA emulatie"},
@@ -3543,7 +3559,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_DISABLE_ACIA_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_ACIA_EMU_DE, "ACIA Emulation deaktivieren"},
 /* fr */ {IDCLS_DISABLE_ACIA_EMU_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_ACIA_EMU_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_ACIA_EMU_HU, "ACIA emuláció tiltása"},
 /* it */ {IDCLS_DISABLE_ACIA_EMU_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_ACIA_EMU_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_ACIA_EMU_NL, "De ACIA emulatie uitschakelen"},
@@ -3562,7 +3578,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_NUMBER_DA, "<nummer>"},
 /* de */ {IDCLS_P_NUMBER_DE, "<Nummer>"},
 /* fr */ {IDCLS_P_NUMBER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_NUMBER_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_NUMBER_HU, "<szám>"},
 /* it */ {IDCLS_P_NUMBER_IT, "<numero>"},
 /* ko */ {IDCLS_P_NUMBER_KO, "<¼ýÀÚ>"},
 /* nl */ {IDCLS_P_NUMBER_NL, "<nummer>"},
@@ -4182,7 +4198,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_SIZE_IN_KB_DA, "<størrelse i KB>"},
 /* de */ {IDCLS_P_SIZE_IN_KB_DE, "<Größe in KB>"},
 /* fr */ {IDCLS_P_SIZE_IN_KB_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_SIZE_IN_KB_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SIZE_IN_KB_HU, "<Méret KB-ban>"},
 /* it */ {IDCLS_P_SIZE_IN_KB_IT, "<dimensione in KB>"},
 /* ko */ {IDCLS_P_SIZE_IN_KB_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_SIZE_IN_KB_NL, "<grootte in KB>"},
@@ -6297,7 +6313,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_VALUE_DA, "<værdi>"},
 /* de */ {IDCLS_P_VALUE_DE, "<Wert>"},
 /* fr */ {IDCLS_P_VALUE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_VALUE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_VALUE_HU, "<érték>"},
 /* it */ {IDCLS_P_VALUE_IT, "<valore>"},
 /* ko */ {IDCLS_P_VALUE_KO, "<°¡Ä¡>"},
 /* nl */ {IDCLS_P_VALUE_NL, "<waarde>"},
@@ -6425,7 +6441,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_MODELNUMBER_DA, "<modelnummer>"},
 /* de */ {IDCLS_P_MODELNUMBER_DE, "<Modell Nummer>"},
 /* fr */ {IDCLS_P_MODELNUMBER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_MODELNUMBER_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_MODELNUMBER_HU, "<modell szám>"},
 /* it */ {IDCLS_P_MODELNUMBER_IT, "<numero di modello>"},
 /* ko */ {IDCLS_P_MODELNUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_MODELNUMBER_NL, "<modelnummer>"},
@@ -6489,7 +6505,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_LINENUMBER_DA, "<linjenummer>"},
 /* de */ {IDCLS_P_LINENUMBER_DE, "<Zeilennummer>"},
 /* fr */ {IDCLS_P_LINENUMBER_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_LINENUMBER_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_LINENUMBER_HU, "<sorszám>"},
 /* it */ {IDCLS_P_LINENUMBER_IT, "<numero di linea>"},
 /* ko */ {IDCLS_P_LINENUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_LINENUMBER_NL, "<lijnnummer>"},
@@ -6521,7 +6537,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_RAMSIZE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_P_RAMSIZE_DE, "<RAM Größe>"},
 /* fr */ {IDCLS_P_RAMSIZE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_RAMSIZE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_RAMSIZE_HU, "<RAM mérete>"},
 /* it */ {IDCLS_P_RAMSIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_RAMSIZE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_RAMSIZE_NL, "<RAM grootte>"},
@@ -6990,7 +7006,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_METHOD_DA, "<metode>"},
 /* de */ {IDCLS_P_METHOD_DE, "<Methode>"},
 /* fr */ {IDCLS_P_METHOD_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_METHOD_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_METHOD_HU, "<metódus>"},
 /* it */ {IDCLS_P_METHOD_IT, "<metodo>"},
 /* ko */ {IDCLS_P_METHOD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_METHOD_NL, "<methode>"},
@@ -7006,7 +7022,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_COLOR_DA, "<farve>"},
 /* de */ {IDCLS_P_COLOR_DE, "<Farbe>"},
 /* fr */ {IDCLS_P_COLOR_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_COLOR_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_COLOR_HU, "<szín>"},
 /* it */ {IDCLS_P_COLOR_IT, "<colore>"},
 /* ko */ {IDCLS_P_COLOR_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_COLOR_NL, "<kleur>"},
@@ -8610,7 +8626,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_BAUD_DA, "<baud>"},
 /* de */ {IDCLS_P_BAUD_DE, "<Baud>"},
 /* fr */ {IDCLS_P_BAUD_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_BAUD_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_BAUD_HU, "<baud>"},
 /* it */ {IDCLS_P_BAUD_IT, "<baud>"},
 /* ko */ {IDCLS_P_BAUD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_BAUD_NL, "<baud>"},
@@ -9036,7 +9052,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_BASE_ADDRESS_DA, "<Baseadresse>"},
 /* de */ {IDCLS_P_BASE_ADDRESS_DE, "<Basis Adresse>"},
 /* fr */ {IDCLS_P_BASE_ADDRESS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_BASE_ADDRESS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_BASE_ADDRESS_HU, "<Bázis cím>"},
 /* it */ {IDCLS_P_BASE_ADDRESS_IT, "<Indirizzo base>"},
 /* ko */ {IDCLS_P_BASE_ADDRESS_KO, "<º£ÀÌ½º ÁÖ¼Ò>"},
 /* nl */ {IDCLS_P_BASE_ADDRESS_NL, "<Basisadres>"},
@@ -9117,7 +9133,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_PERCENT_DA, "<procent>"},
 /* de */ {IDCLS_P_PERCENT_DE, "<prozent>"},
 /* fr */ {IDCLS_P_PERCENT_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_PERCENT_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_PERCENT_HU, "<százalék>"},
 /* it */ {IDCLS_P_PERCENT_IT, "<percento>"},
 /* ko */ {IDCLS_P_PERCENT_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_PERCENT_NL, "<procent>"},
@@ -9854,7 +9870,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_DEVICE_DA, "<enhed>"},
 /* de */ {IDCLS_P_DEVICE_DE, "<Gerät>"},
 /* fr */ {IDCLS_P_DEVICE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_DEVICE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_DEVICE_HU, "<eszköz>"},
 /* it */ {IDCLS_P_DEVICE_IT, "<dispositivo>"},
 /* ko */ {IDCLS_P_DEVICE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_DEVICE_NL, "<apparaat>"},
@@ -9886,7 +9902,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_MODE_DA, "<Tilstand>"},
 /* de */ {IDCLS_P_MODE_DE, "<Modus>"},
 /* fr */ {IDCLS_P_MODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_MODE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_MODE_HU, "<Mód>"},
 /* it */ {IDCLS_P_MODE_IT, "<Modalità>"},
 /* ko */ {IDCLS_P_MODE_KO, "<¸ðµå>"},
 /* nl */ {IDCLS_P_MODE_NL, "<Modus>"},
@@ -10600,7 +10616,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_FILE_DA, "<filnavn>"},
 /* de */ {IDCLS_P_FILE_DE, "<Dateiname>"},
 /* fr */ {IDCLS_P_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_FILE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_FILE_HU, "<fájlnév>"},
 /* it */ {IDCLS_P_FILE_IT, "<nome file>"},
 /* ko */ {IDCLS_P_FILE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_FILE_NL, "<bestandsnaam>"},
@@ -10744,7 +10760,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_STRING_DA, "<streng>"},
 /* de */ {IDCLS_P_STRING_DE, "<String>"},
 /* fr */ {IDCLS_P_STRING_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_STRING_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_STRING_HU, "<karakterfüzér>"},
 /* it */ {IDCLS_P_STRING_IT, "<stringa>"},
 /* ko */ {IDCLS_P_STRING_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_STRING_NL, "<string>"},
@@ -10920,7 +10936,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_NUM_OF_BYTES_DA, "<antal bytes>"},
 /* de */ {IDCLS_P_NUM_OF_BYTES_DE, "<Anzahl an Bytes>"},
 /* fr */ {IDCLS_P_NUM_OF_BYTES_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_NUM_OF_BYTES_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_NUM_OF_BYTES_HU, "<bájtok száma>"},
 /* it */ {IDCLS_P_NUM_OF_BYTES_IT, "<numero di byte>"},
 /* ko */ {IDCLS_P_NUM_OF_BYTES_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_NUM_OF_BYTES_NL, "<aantal bytes>"},
@@ -11064,7 +11080,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_ARGS_DA, "<argumenter>"},
 /* de */ {IDCLS_P_ARGS_DE, "<Argumente>"},
 /* fr */ {IDCLS_P_ARGS_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_ARGS_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ARGS_HU, "<paraméterek>"},
 /* it */ {IDCLS_P_ARGS_IT, "<argomenti>"},
 /* ko */ {IDCLS_P_ARGS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ARGS_NL, "<parameters>"},
@@ -11128,7 +11144,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_SYNC_DA, "<sync>"},
 /* de */ {IDCLS_P_SYNC_DE, "<Sync>"},
 /* fr */ {IDCLS_P_SYNC_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_SYNC_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_SYNC_HU, "<szinkron>"},
 /* it */ {IDCLS_P_SYNC_IT, "<sync>"},
 /* ko */ {IDCLS_P_SYNC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_SYNC_NL, "<sync>"},
@@ -11160,7 +11176,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_PATH_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_P_PATH_DE, "<Pfad>"},
 /* fr */ {IDCLS_P_PATH_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_PATH_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_PATH_HU, "<elérési út>"},
 /* it */ {IDCLS_P_PATH_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_PATH_KO, "<±æ>"},
 /* nl */ {IDCLS_P_PATH_NL, "<Pad>"},
@@ -11288,7 +11304,7 @@ translate_t string_table[] = {
 /* da */ {IDCLS_P_ISO_LANGUAGE_CODE_DA, "<iso-sprogkode>"},
 /* de */ {IDCLS_P_ISO_LANGUAGE_CODE_DE, "<iso Sprachcode>"},
 /* fr */ {IDCLS_P_ISO_LANGUAGE_CODE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, "<iso nyelvi kód>"},
 /* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, "<codice iso lingua>"},
 /* ko */ {IDCLS_P_ISO_LANGUAGE_CODE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ISO_LANGUAGE_CODE_NL, "<iso taalcode>"},

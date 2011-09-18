@@ -5358,6 +5358,12 @@ Set the system ethernet interface for TFE emulation
 @item -tferrnet
 @itemx +tferrnet
 Enable/Disable RRNet mode of TFE emulation
+@cindex -burstmod
+@item -burstmod <value>
+Enable/Disable burst modification. If it's 1 the cable is connected to CIA1, if 2
+then to CIA2 and 0 disables it. This is emulates the fast serial bus connection
+as described at @uref{http://www.cs.tut.fi/~albert/Dev/burst/}, with the wire to
+the tape port cut.
 @end table
 
 @node C64/128 system ROM settings,  , C64 I/O extension settings, C64/128-specific

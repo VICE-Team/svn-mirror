@@ -33,5 +33,7 @@ extern void c128fastiec_init(void);
 
 extern void c128fastiec_fast_cpu_write(BYTE data);
 extern void c128fastiec_fast_cpu_direction(int direction);
+extern void c64fastiec_fast_cpu_write(BYTE data);
+extern int burst_mod;
 
 #endif

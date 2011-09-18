@@ -27,6 +27,15 @@
 #ifndef VICE_C64FASTIEC_H
 #define VICE_C64FASTIEC_H
 
+#include "types.h"
+
+#define BURST_MOD_NONE 0
+#define BURST_MOD_CIA1 1
+#define BURST_MOD_CIA2 2
+
 extern void c64fastiec_init(void);
+extern void c64fastiec_fast_cpu_write(BYTE data);
+extern int burst_mod;
+extern int set_burst_mod(int mode, void *param);
 
 #endif

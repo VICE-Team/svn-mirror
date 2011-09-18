@@ -27,21 +27,78 @@
 #include "vice.h"
 
 #include "c64fastiec.h"
+#include "c64.h"
+#include "cia.h"
+#include "via.h"
+#include "drivecpu.h"
+#include "drivetypes.h"
 #include "iecdrive.h"
+#include "maincpu.h"
 #include "types.h"
 
 
-/* Fast IEC for C64 is not implemented by now.  */
+/* Fast IEC for C64 with burst mod */
 
+static int fast_drive_direction[DRIVE_NUM];
+int burst_mod;
+
+int set_burst_mod(int mode, void *param)
+{
+    burst_mod = mode;
+}
 
 void c64fastiec_init(void)
 {
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        fast_drive_direction[dnr] = 1;
+    }
+}
+
+void c64fastiec_fast_cpu_write(BYTE data)
+{
+    drive_t *drive;
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+	drive = drive_context[dnr]->drive;
+	if (drive->enable) {
+	    drivecpu_execute(drive_context[dnr], maincpu_clk);
+	    switch (drive->type) {
+		case DRIVE_TYPE_1570:
+		case DRIVE_TYPE_1571:
+		case DRIVE_TYPE_1571CR:
+		    ciacore_set_sdr(drive_context[dnr]->cia1571, data);
+		    break;
+		case DRIVE_TYPE_1581:
+		    ciacore_set_sdr(drive_context[dnr]->cia1581, data);
+		    break;
+		case DRIVE_TYPE_2000:
+		case DRIVE_TYPE_4000:
+		    viacore_set_sr(drive_context[dnr]->via4000, data);
+		    break;
+	    }
+	}
+    }
 }
 
 void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
+    if (fast_drive_direction[dnr]) {
+        switch (burst_mod) {
+        case BURST_MOD_CIA1:
+            ciacore_set_sdr(machine_context.cia1, data);
+            break;
+        case BURST_MOD_CIA2:
+            ciacore_set_sdr(machine_context.cia2, data);
+            break;
+        }
+    }
 }
 
 void iec_fast_drive_direction(int direction, unsigned int dnr)
 {
+    /* 0: input */
+    fast_drive_direction[dnr] = direction;
 }

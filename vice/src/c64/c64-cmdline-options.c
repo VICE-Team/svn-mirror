@@ -220,6 +220,11 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODEL, IDCLS_SET_C64_MODEL,
       NULL, NULL },
+    { "-burstmod", SET_RESOURCE, 1,
+      NULL, NULL, "BurstMod", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_VALUE, IDCLS_SET_BURST_MOD,
+      NULL, NULL },
     { NULL }
 };
 

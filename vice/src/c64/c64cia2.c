@@ -31,6 +31,7 @@
 
 #include <stdio.h>
 
+#include "c64fastiec.h"
 #include "c64-resources.h"
 #include "c64.h"
 #include "c64mem.h"
@@ -40,6 +41,7 @@
 #include "c64parallel.h"
 #include "cia.h"
 #include "iecbus.h"
+#include "drivecpu.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -231,17 +233,26 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
+    if (burst_mod == BURST_MOD_CIA2) {
+        drivecpu_execute_all(maincpu_clk);
+    }
     parallel_cable_cpu_execute();
 }
 
 static void read_sdr(cia_context_t *cia_context)
 {
+    if (burst_mod == BURST_MOD_CIA2) {
+        drivecpu_execute_all(maincpu_clk);
+    }
     /* FIXME: in the upcomming userport system this call needs to be conditional */
     cia_context->c_cia[CIA_SDR] = userport_joystick_read_sdr(cia_context->c_cia[CIA_SDR]);
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
+    if (burst_mod == BURST_MOD_CIA2) {
+        c64fastiec_fast_cpu_write((BYTE)byte);
+    }
 }
 
 /* Temporary!  */

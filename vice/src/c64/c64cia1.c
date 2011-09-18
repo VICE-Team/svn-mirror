@@ -30,11 +30,13 @@
 
 #include <stdio.h>
 
+#include "c64fastiec.h"
 #include "c64-resources.h"
 #include "c64.h"
 #include "c64cia.h"
 #include "cia.h"
 #include "interrupt.h"
+#include "drivecpu.h"
 #include "joystick.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -251,14 +253,23 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
+    if (burst_mod == BURST_MOD_CIA1) {
+        drivecpu_execute_all(maincpu_clk);
+    }
 }
 
 static void read_sdr(cia_context_t *cia_context)
 {
+    if (burst_mod == BURST_MOD_CIA1) {
+        drivecpu_execute_all(maincpu_clk);
+    }
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
+    if (burst_mod == BURST_MOD_CIA1) {
+        c64fastiec_fast_cpu_write((BYTE)byte);
+    }
 #ifdef HAVE_RS232
     if (rsuser_enabled) {
         rsuser_tx_byte(byte);

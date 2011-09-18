@@ -38,6 +38,7 @@
 #include "types.h"
 
 static int fast_cpu_direction, fast_drive_direction[DRIVE_NUM];
+int burst_mod = 0;
 
 void c128fastiec_init(void)
 {
@@ -96,4 +97,8 @@ void iec_fast_drive_direction(int direction, unsigned int dnr)
 {
     /* 0: input */
     fast_drive_direction[dnr] = direction;
+}
+
+void c64fastiec_fast_cpu_write(BYTE data)
+{
 }
