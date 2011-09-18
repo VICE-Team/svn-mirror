@@ -29,6 +29,7 @@
 #include "c128fastiec.h"
 #include "c64.h"
 #include "cia.h"
+#include "via.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
