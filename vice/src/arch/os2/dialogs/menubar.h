@@ -337,6 +337,8 @@
 #define IDM_MOUSE_TYPE_NEOS          0x15b
 #define IDM_MOUSE_TYPE_AMIGA         0x15c
 #define IDM_MOUSE_TYPE_PADDLE        0x15d
+#define IDM_MOUSE_TYPE_CX22          0x2ae
+#define IDM_MOUSE_TYPE_ST            0x2af
 #define IDM_MOUSE_PORT               0x15e
 #define IDM_MOUSE_PORT_1             0x15f
 #define IDM_MOUSE_PORT_2             0x18a

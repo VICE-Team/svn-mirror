@@ -478,6 +478,8 @@ const uint32 MENU_MOUSE_TYPE_1351                 = 'M153';
 const uint32 MENU_MOUSE_TYPE_NEOS                 = 'M154';
 const uint32 MENU_MOUSE_TYPE_AMIGA                = 'M155';
 const uint32 MENU_MOUSE_TYPE_PADDLE               = 'M170';
+const uint32 MENU_MOUSE_TYPE_CX22                 = 'M214';
+const uint32 MENU_MOUSE_TYPE_ST                   = 'M215';
 
 const uint32 MENU_MOUSE_PORT_JOY1                 = 'M156';
 const uint32 MENU_MOUSE_PORT_JOY2                 = 'M157';

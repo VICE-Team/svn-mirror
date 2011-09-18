@@ -45,6 +45,10 @@ static ui_menu_entry_t mousetype_submenu[] = {
       (ui_callback_data_t)2, NULL },
     { N_("Paddles"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)3, NULL },
+    { "Atari CX-22", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)4, NULL },
+    { "Atari ST", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)5, NULL },
     { NULL }
 };
 

@@ -71,7 +71,7 @@ static TUI_MENU_CALLBACK(toggle_MouseType_callback)
     resources_get_int("Mousetype", &value);
 
     if (been_activated) {
-        value = (value + 1) % 3;
+        value = (value + 1) % 5;
         resources_set_int("Mousetype", value);
     }
 
@@ -84,6 +84,10 @@ static TUI_MENU_CALLBACK(toggle_MouseType_callback)
             return "AMIGA";
         case MOUSE_TYPE_PADDLE:
             return "PADDLE";
+        case MOUSE_TYPE_CX22:
+            return "Atari CX-22";
+        case MOUSE_TYPE_ST:
+            return "Atari ST";
         default:
             return "unknown";
     }

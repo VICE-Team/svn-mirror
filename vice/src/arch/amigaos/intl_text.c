@@ -8961,6 +8961,32 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MOUSE_PADDLES_SV, "Paddlar" },
 /* tr */ { IDS_MOUSE_PADDLES_TR, "Paddlelar" },
 
+/* en */ { IDS_MOUSE_CX22,    "Atari CX-22 trackball" },
+/* da */ { IDS_MOUSE_CX22_DA, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_CX22_DE, "" },  /* fuzzy */
+/* fr */ { IDS_MOUSE_CX22_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MOUSE_CX22_HU, "" },  /* fuzzy */
+/* it */ { IDS_MOUSE_CX22_IT, "" },  /* fuzzy */
+/* ko */ { IDS_MOUSE_CX22_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_CX22_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MOUSE_CX22_PL, "" },  /* fuzzy */
+/* ru */ { IDS_MOUSE_CX22_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MOUSE_CX22_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MOUSE_CX22_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_MOUSE_ST,    "Atari ST mouse" },
+/* da */ { IDS_MOUSE_ST_DA, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_ST_DE, "Atari ST Maus" },
+/* fr */ { IDS_MOUSE_ST_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MOUSE_ST_HU, "Atari ST egér" },
+/* it */ { IDS_MOUSE_ST_IT, "" },  /* fuzzy */
+/* ko */ { IDS_MOUSE_ST_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_ST_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MOUSE_ST_PL, "" },  /* fuzzy */
+/* ru */ { IDS_MOUSE_ST_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MOUSE_ST_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MOUSE_ST_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
 /* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "Virtuelt FS" },
 /* de */ { IDS_AUTOSTART_VIRTUAL_FS_DE, "Virtual FS" },

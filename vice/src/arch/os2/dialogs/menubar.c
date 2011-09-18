@@ -957,6 +957,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_MOUSE_TYPE_PADDLE:
             resources_set_int("Mousetype", MOUSE_TYPE_PADDLE);
             return;
+        case IDM_MOUSE_TYPE_CX22:
+            resources_set_int("Mousetype", MOUSE_TYPE_CX22);
+            return;
+        case IDM_MOUSE_TYPE_ST:
+            resources_set_int("Mousetype", MOUSE_TYPE_ST);
+            return;
         case IDM_MOUSE_PORT_1:
             resources_set_int("Mouseport", 1);
             return;
@@ -1740,6 +1746,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_NEOS, val == MOUSE_TYPE_NEOS);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_AMIGA, val == MOUSE_TYPE_AMIGA);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_PADDLE, val == MOUSE_TYPE_1351);
+            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_CX22, val == MOUSE_TYPE_CX22);
+            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_ST, val == MOUSE_TYPE_ST);
             return;
         case IDM_MOUSE_PORT:
             resources_get_int("Mouseport", &val);

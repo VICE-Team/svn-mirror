@@ -40,6 +40,8 @@ static int ui_mouse_type_translate[] = {
     IDS_MOUSE_NEOS,
     IDS_MOUSE_AMIGA,
     IDS_MOUSE_PADDLES,
+    IDS_MOUSE_CX22,
+    IDS_MOUSE_ST,
     0
 };
 
@@ -50,6 +52,8 @@ static const int ui_mouse_type_values[] = {
     MOUSE_TYPE_NEOS,
     MOUSE_TYPE_AMIGA,
     MOUSE_TYPE_PADDLE,
+    MOUSE_TYPE_CX22,
+    MOUSE_TYPE_ST,
     -1
 };
 

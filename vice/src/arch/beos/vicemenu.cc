@@ -397,6 +397,8 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("NEOS", new BMessage(MENU_MOUSE_TYPE_NEOS)));
                 submenu->AddItem(new BMenuItem("AMIGA", new BMessage(MENU_MOUSE_TYPE_AMIGA)));
                 submenu->AddItem(new BMenuItem("PADDLE", new BMessage(MENU_MOUSE_TYPE_PADDLE)));
+                submenu->AddItem(new BMenuItem("Atari CX-22", new BMessage(MENU_MOUSE_TYPE_CX22)));
+                submenu->AddItem(new BMenuItem("Atari ST", new BMessage(MENU_MOUSE_TYPE_ST)));
             menu->AddItem(submenu = new BMenu("Mouse Port"));
                 submenu->SetRadioMode(true);
                 submenu->AddItem(new BMenuItem("Joy1", new BMessage(MENU_MOUSE_PORT_JOY1)));

@@ -326,6 +326,8 @@ BEGIN
             MENUITEM "~NEOS",                             IDM_MOUSE_TYPE_NEOS,          MIS_TEXT
             MENUITEM "~AMIGA",                            IDM_MOUSE_TYPE_AMIGA,         MIS_TEXT
             MENUITEM "~PADDLE",                           IDM_MOUSE_TYPE_PADDLE,        MIS_TEXT
+            MENUITEM "Atari ~CX-22",                      IDM_MOUSE_TYPE_CX22,          MIS_TEXT
+            MENUITEM "Atari ~ST",                         IDM_MOUSE_TYPE_ST,            MIS_TEXT
         END
         SUBMENU "Mouse port",                             IDM_MOUSE_TYPE,               MIS_TEXT
         BEGIN
