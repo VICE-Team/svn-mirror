@@ -442,7 +442,7 @@ static void draw_std_text(void)
     unsigned int i, d;
     unsigned int cpos = 0xffff;
 
-	cpos = vdc.crsrpos - vdc.mem_counter;
+	cpos = vdc.crsrpos - vdc.screen_adr - vdc.mem_counter;
 
     p = vdc.raster.draw_buffer_ptr
         + vdc.border_width
