@@ -107,6 +107,13 @@ VICEMachine *theVICEMachine = nil;
     isSleepPaused = NO;
     isWaitingForLineInput = NO;
     doMonitorInPause = NO;
+    pausePollInterval = 0.5;
+
+    // frame step control via key board
+    escapeFromPause = NO;
+    keepEscaping = NO;
+    inFrameStep = NO;
+
     machineController = nil;
     machineNotifier = [[VICEMachineNotifier alloc] init];
 
@@ -156,6 +163,56 @@ VICEMachine *theVICEMachine = nil;
     doMonitorInPause = YES;
 }
 
+// press a key in pause mode
+-(void)keyPressedInPause:(unsigned int)code
+{
+    const NSTimeInterval iv[] = { 0,0.05,0.1,0.2,0.4,0.8 };
+    
+    if(!inFrameStep) {
+        switch(code) {
+            case 0x31: // SPACE - single frame skip
+                escapeFromPause = YES;
+                keepEscaping = NO;
+                inFrameStep = YES;
+                pausePollInterval = 0.1;
+                break;
+            case 0x05:
+            case 0x04:
+            case 0x03: // a,s,d,f,g,h - multi frame skip
+            case 0x02:
+            case 0x01:
+            case 0x00:
+                escapeFromPause = YES;
+                keepEscaping = YES;
+                inFrameStep = YES;
+                pausePollInterval = iv[code];
+                break;
+            default:
+                printf("Unknown Pause key: 0x%04x\n", code);
+                break;
+        }
+    }
+}
+
+// release a key in pause mode
+-(void)keyReleasedInPause:(unsigned int)code
+{
+    if(inFrameStep) {
+        switch(code) {
+            case 0x31: // SPACE
+            case 0x00:
+            case 0x01:
+            case 0x02:
+            case 0x03: // a,s,d,f,g,h
+            case 0x04:
+            case 0x05:
+                inFrameStep = NO;
+                escapeFromPause = NO;
+                break;
+        }
+    } 
+}
+
 -(void)triggerRunLoop
 {    
     // enter a pause loop?
@@ -165,14 +222,23 @@ VICEMachine *theVICEMachine = nil;
         
         // enter pause loop -> wait for togglePause triggered from UI thread
         while (isPaused) {
-            // check for events every 500 ms
+            // check for events
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+                beforeDate:[NSDate dateWithTimeIntervalSinceNow:pausePollInterval]];
             
             // user requested to enter monitor during pause
             if(doMonitorInPause) {
                 doMonitorInPause = false;
                 monitor_startup();
+            }
+            
+            // shall we escape from pause?
+            if(escapeFromPause) {
+                if(!keepEscaping) {
+                    escapeFromPause = NO;
+                    pausePollInterval = 0.5;
+                }
+                return;
             }
         }
     }

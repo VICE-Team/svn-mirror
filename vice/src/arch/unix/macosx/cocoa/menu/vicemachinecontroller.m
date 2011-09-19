@@ -616,14 +616,24 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 
 -(void)keyPressed:(unsigned int)code
 {
-    // tell VICE a key was pressed
-    keyboard_key_pressed(code);
+    if([theVICEMachine isPaused]) {
+        // in pause mode route key to machine
+        [theVICEMachine keyPressedInPause:code];
+    } else {
+        // tell VICE a key was pressed
+        keyboard_key_pressed(code);
+    }
 }
 
 -(void)keyReleased:(unsigned int)code
 {
-    // tell VICE a key was released
-    keyboard_key_released(code);
+    if([theVICEMachine isPaused]) {
+        // in pause mode route key to machine
+        [theVICEMachine keyReleasedInPause:code];
+    } else {
+        // tell VICE a key was released
+        keyboard_key_released(code);
+    }
 }
 
 -(BOOL)dumpKeymap:(NSString *)path

@@ -40,6 +40,12 @@ struct video_canvas_s;
   BOOL isPaused;
   BOOL isSleepPaused;
   BOOL doMonitorInPause;
+  NSTimeInterval pausePollInterval;
+  
+  BOOL escapeFromPause;
+  BOOL keepEscaping;
+  BOOL inFrameStep;
+  
   VICEMachineController *machineController;
   VICEMachineNotifier *machineNotifier;
 
@@ -64,6 +70,12 @@ struct video_canvas_s;
 
 // activate the monitor in the pause loop
 -(void)activateMonitorInPause;
+
+// press a key in pause mode
+-(void)keyPressedInPause:(unsigned int)code;
+
+// release a key in pause mode
+-(void)keyReleasedInPause:(unsigned int)code;
 
 // trigger runloop and wait for input submission from UI thread
 -(NSString *)lineInputWithPrompt:(NSString *)prompt timeout:(double)seconds;
