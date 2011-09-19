@@ -39,6 +39,7 @@ struct video_canvas_s;
   BOOL shallIDie;
   BOOL isPaused;
   BOOL isSleepPaused;
+  BOOL doMonitorInPause;
   VICEMachineController *machineController;
   VICEMachineNotifier *machineNotifier;
 
@@ -60,6 +61,9 @@ struct video_canvas_s;
 
 // trigger the machine thread's run loop and terminate thread if shallIDie is set
 -(void)triggerRunLoop;
+
+// activate the monitor in the pause loop
+-(void)activateMonitorInPause;
 
 // trigger runloop and wait for input submission from UI thread
 -(NSString *)lineInputWithPrompt:(NSString *)prompt timeout:(double)seconds;

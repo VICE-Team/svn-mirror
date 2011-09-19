@@ -106,6 +106,7 @@ VICEMachine *theVICEMachine = nil;
     isPaused = NO;
     isSleepPaused = NO;
     isWaitingForLineInput = NO;
+    doMonitorInPause = NO;
     machineController = nil;
     machineNotifier = [[VICEMachineNotifier alloc] init];
 
@@ -150,6 +151,11 @@ VICEMachine *theVICEMachine = nil;
     return isPaused;
 }
 
+-(void)activateMonitorInPause
+{
+    doMonitorInPause = YES;
+}
+
 -(void)triggerRunLoop
 {    
     // enter a pause loop?
@@ -157,11 +163,17 @@ VICEMachine *theVICEMachine = nil;
         // suspend speed evalution
         vsync_suspend_speed_eval();
         
-        // enter pause loop and check every 500ms to end it
-        while ( [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]] ) {
-            if (!isPaused)
-                break;
+        // enter pause loop -> wait for togglePause triggered from UI thread
+        while (isPaused) {
+            // check for events every 500 ms
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.5]];
+            
+            // user requested to enter monitor during pause
+            if(doMonitorInPause) {
+                doMonitorInPause = false;
+                monitor_startup();
+            }
         }
     }
     

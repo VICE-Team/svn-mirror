@@ -681,12 +681,14 @@ const float control_win_width = 200;
 // machine thread suspends monitor UI inputs (e.g. before a single step)
 -(void)suspendMonitor
 {
+    inMonitor = NO;
     [self postMonitorStateNotification:VICEMonitorStateSuspend];    
 }
 
 // machine thread resumes monitor UI inputs (e.g. after a single step)
 -(void)resumeMonitor
 {
+    inMonitor = YES;
     [self postMonitorStateNotification:VICEMonitorStateResume];
 }
 

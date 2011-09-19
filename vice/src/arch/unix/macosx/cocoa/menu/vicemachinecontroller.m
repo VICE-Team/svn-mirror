@@ -177,8 +177,10 @@
 -(void)activateMonitor
 {
     if ([theVICEMachine isPaused])
-        monitor_startup();
+        // trigger monitor_startup() in pause loop of machine
+        [theVICEMachine activateMonitorInPause];
     else
+        // trigger monitor_startup() in next emu execution
         monitor_startup_trap();
 }
 

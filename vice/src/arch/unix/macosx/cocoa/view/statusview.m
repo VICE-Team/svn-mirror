@@ -132,10 +132,12 @@
     int state = [[[notification userInfo] objectForKey:@"state"] intValue];
     switch(state) {
         case VICEMonitorStateOn:
+        case VICEMonitorStateResume:
             [speedView setStringValue:@"MONITOR"];
             break;
         case VICEMonitorStateOff:
-            [speedView setStringValue:@"RESUME"];
+        case VICEMonitorStateSuspend:
+            [speedView setStringValue:@"EXIT MON"];
             break;
         default:
             break;
