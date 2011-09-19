@@ -47,7 +47,7 @@ struct drive_s;
 #define DRIVE_ROM4040_SIZE            0x3000
 
 extern void driverom_init(void);
-extern void driverom_initialize_traps(struct drive_s *drive);
+extern void driverom_initialize_traps(struct drive_s *drive, int save);
 extern int driverom_load_images(void);
 
 extern int drive_rom_load_ok;

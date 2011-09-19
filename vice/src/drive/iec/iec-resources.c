@@ -78,41 +78,11 @@ static int set_drive_idling_method(int val, void *param)
 
     drive->idling_method = val;
 
-    /* FIXME: These traps are duplicated in driverom.c */
-    if (rom_loaded &&
-        ((drive->type == DRIVE_TYPE_1541) ||
-         (drive->type == DRIVE_TYPE_1541II))) {
-        if (drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive->rom[0xeae4 - 0x8000] = 0xea;
-            drive->rom[0xeae5 - 0x8000] = 0xea;
-            drive->rom[0xeae8 - 0x8000] = 0xea;
-            drive->rom[0xeae9 - 0x8000] = 0xea;
-            drive->rom[0xec9b - 0x8000] = TRAP_OPCODE;
-        } else {
-            drive->rom[0xeae4 - 0x8000] = drive->rom_checksum[0];
-            drive->rom[0xeae5 - 0x8000] = drive->rom_checksum[1];
-            drive->rom[0xeae8 - 0x8000] = drive->rom_checksum[2];
-            drive->rom[0xeae9 - 0x8000] = drive->rom_checksum[3];
-            drive->rom[0xec9b - 0x8000] = drive->rom_idle_trap[0];
-        }
+    if (!rom_loaded) {
+        return 0;
     }
-    if (rom_loaded && drive->type == DRIVE_TYPE_1551) {
-        if (drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
-            drive->rom[0xe9f4 - 0x8000] = 0xea;
-            drive->rom[0xe9f5 - 0x8000] = 0xea;
-            drive->rom[0xeabf - 0x8000] = 0xea;
-            drive->rom[0xeac0 - 0x8000] = 0xea;
-            drive->rom[0xead0 - 0x8000] = 0x08;
-            drive->rom[0xead9 - 0x8000] = TRAP_OPCODE;
-        } else {
-            drive->rom[0xe9f4 - 0x8000] = drive->rom_checksum[0];
-            drive->rom[0xe9f5 - 0x8000] = drive->rom_checksum[1];
-            drive->rom[0xeabf - 0x8000] = drive->rom_idle_trap[0];
-            drive->rom[0xeac0 - 0x8000] = drive->rom_idle_trap[1];
-            drive->rom[0xead0 - 0x8000] = drive->rom_idle_trap[2];
-            drive->rom[0xead9 - 0x8000] = drive->rom_idle_trap[3];
-        }
-    }
+
+    driverom_initialize_traps(drive, 0);
     return 0;
 }
 

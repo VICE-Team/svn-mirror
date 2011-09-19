@@ -409,7 +409,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         machine_drive_rom_setup_image(0);
         drivemem_init(drive_context[0], drive->type);
         resources_set_int("Drive8IdleMethod", drive->idling_method);
-        driverom_initialize_traps(drive);
+        driverom_initialize_traps(drive, 1);
         drive_set_active_led_color(drive->type, 0);
         machine_bus_status_drivetype_set(8, 1);
         break;
@@ -438,7 +438,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         machine_drive_rom_setup_image(1);
         drivemem_init(drive_context[1], drive->type);
         resources_set_int("Drive9IdleMethod", drive->idling_method);
-        driverom_initialize_traps(drive);
+        driverom_initialize_traps(drive, 1);
         drive_set_active_led_color(drive->type, 1);
         machine_bus_status_drivetype_set(9, 1);
         break;

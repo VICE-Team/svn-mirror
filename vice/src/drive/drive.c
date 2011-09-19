@@ -223,7 +223,7 @@ int drive_init(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
-        driverom_initialize_traps(drive);
+        driverom_initialize_traps(drive, 1);
 
         drivesync_clock_frequency(drive->type, drive);
 

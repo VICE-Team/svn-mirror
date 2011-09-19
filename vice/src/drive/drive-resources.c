@@ -170,7 +170,7 @@ static int drive_resources_type(int val, void *param)
                                              IEC_BUS_IEC));
         }
         drive_set_disk_drive_type(type, drive_context[dnr]);
-        driverom_initialize_traps(drive);
+        driverom_initialize_traps(drive, 1);
         machine_drive_idling_method(dnr);
         return 0;
       case DRIVE_TYPE_NONE:
