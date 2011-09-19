@@ -142,6 +142,21 @@ static void driverom_fix_checksum(drive_t *drive)
         drive->rom[2] = sum;
         drive->rom[3] = sum >> 8;
         break;
+    case DRIVE_TYPE_2031:
+        sum=-0xc0;
+        drive->rom[0x4000] = 0xff;
+        for (i = 0; i < 0x2000; i++) {
+            sum += drive->rom[i ^ 0x5f00];
+        }
+        drive->rom[0x4000] = ~(sum % 255);
+
+        sum=-0xe0;
+        drive->rom[0x7f35] = 0xff;
+        for (i = 0; i < 0x2000; i++) {
+            sum += drive->rom[i ^ 0x7f00];
+        }
+        drive->rom[0x7f35] = ~(sum % 255);
+        break;
     }
     switch (drive->type) {
     case DRIVE_TYPE_1570:
@@ -229,6 +244,10 @@ void driverom_initialize_traps(drive_t *drive, int save)
     case DRIVE_TYPE_4000:
         drive->trap = 0xf3ec;
         drive->trapcont = 0xf394;
+        break;
+    case DRIVE_TYPE_2031:
+        drive->trap = 0xece9;
+        drive->trapcont = 0xec4d;
         break;
     default:
         drive->trap = -1;
