@@ -538,6 +538,8 @@
 				<string>VDC64KB,b</string>
 				<key>Revision</key>
 				<string>VDCRevision,e,Rev _0,Rev _1,Rev _2</string>
+				<key>Stretch Vertical</key>
+				<string>VDCStretchVertical,b</string>
 			</dict>
 		</dict>
 		<key>_C128_PLUS4_VIC20_</key>
@@ -729,6 +731,14 @@
 				<string>KeymapGraphicsPosFile,fo</string>
 				<key>Graphics Symbolic</key>
 				<string>KeymapGraphicsSymFile,fo</string>
+			</dict>
+		</dict>
+		<key>_CBM-II_PET_</key>
+		<dict>
+			<key>CRTC</key>
+			<dict>
+				<key>Stretch Vertical</key>
+				<string>CRTCStretchVertical,b</string>
 			</dict>
 		</dict>
 		<key>_PET_</key>

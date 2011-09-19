@@ -253,7 +253,7 @@ void video_canvas_resize(video_canvas_t * canvas,
                          unsigned int height)
 {
     if (canvas->videoconfig->doublesizex)
-        width *= 2;
+        width *= (canvas->videoconfig->doublesizex + 1);
     if (canvas->videoconfig->doublesizey)
         height *= 2;
     if (canvas->width == width && canvas->height == height)
