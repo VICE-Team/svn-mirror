@@ -53,7 +53,8 @@
     JoystickSettingsWindowController *joystickSettingsController;
     SIDSettingsWindowController *sidSettingsController;
     SoundSettingsWindowController *soundSettingsController;
-    VideoSettingsWindowController *videoSettingsController;
+    VideoSettingsWindowController *video0SettingsController;
+    VideoSettingsWindowController *video1SettingsController;
 
     VICEInformationWindowController *infoController;
     ResourceEditorController *resourceEditorController;
@@ -159,11 +160,17 @@
 - (IBAction)toggleVideo0DoubleSize:(id)sender;
 - (IBAction)toggleVideo0DoubleScan:(id)sender;
 - (IBAction)setVideo0Filter:(id)sender;
+- (IBAction)showVideo0Settings:(id)sender;
 
 - (IBAction)toggleVideo1VideoCache:(id)sender;
 - (IBAction)toggleVideo1DoubleSize:(id)sender;
 - (IBAction)toggleVideo1DoubleScan:(id)sender;
 - (IBAction)setVideo1Filter:(id)sender;
+- (IBAction)showVideo1Settings:(id)sender;
+
+// Sound
+- (IBAction)showSIDSettings:(id)sender;
+- (IBAction)showSoundSettings:(id)sender;
 
 // Settings
 - (IBAction)showDriveSettings:(id)sender;
@@ -171,9 +178,6 @@
 - (IBAction)showPrinterSettings:(id)sender;
 - (IBAction)showKeyboardSettings:(id)sender;
 - (IBAction)showJoystickSettings:(id)sender;
-- (IBAction)showSoundSettings:(id)sender;
-- (IBAction)showSIDSettings:(id)sender;
-- (IBAction)showVideoSettings:(id)sender;
 
 // Resources
 - (IBAction)showResourceEditor:(id)sender;

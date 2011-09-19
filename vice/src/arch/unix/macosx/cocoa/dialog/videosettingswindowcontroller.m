@@ -70,122 +70,92 @@ static const char *ted_palettes[] = {
 
 @implementation VideoSettingsWindowController
 
--(id)init
+-(id)initWithChipName:(NSString *)name
 {
     self = [super initWithWindowNibName:@"VideoSettings"];
+
+    chipName = [name retain];
+
+    // derive resource names from chip name
+    paletteFileResource = [[NSString stringWithFormat:@"%@PaletteFile", chipName] retain];
+    paletteExtResource = [[NSString stringWithFormat:@"%@ExternalPalette", chipName] retain];
+    
+    colorSaturationResource = [[NSString stringWithFormat:@"%@ColorSaturation", chipName] retain];
+    colorContrastResource = [[NSString stringWithFormat:@"%@ColorContrast", chipName] retain];
+    colorBrightnessResource = [[NSString stringWithFormat:@"%@ColorBrightness", chipName] retain];
+    colorGammaResource = [[NSString stringWithFormat:@"%@ColorGamma", chipName] retain];
+    
+    palScanLineShadeResource = [[NSString stringWithFormat:@"%@PALScanLineShade", chipName] retain];
+    palBlurResource = [[NSString stringWithFormat:@"%@PALBlur", chipName] retain];
+    palOddLinePhaseResource = [[NSString stringWithFormat:@"%@PALOddLinePhase", chipName] retain];
+    palOddLineOffsetResource = [[NSString stringWithFormat:@"%@PALOddLineOffset", chipName] retain];
+
     return self;
 }
 
--(void)initPalettes
+-(void)dispose
 {
-    palette1Entries = NULL;
-    palette2Entries = NULL;
+    [chipName release];
+    
+    [paletteFileResource release];
+    [paletteExtResource release];
+    
+    [colorSaturationResource release];
+    [colorContrastResource release];
+    [colorBrightnessResource release];
+    [colorGammaResource release];
+    
+    [palScanLineShadeResource release];
+    [palBlurResource release];
+    [palOddLinePhaseResource release];
+    [palOddLineOffsetResource release]; 
+}
 
-    chip1Title = nil;
-    chip1File  = nil;
-    chip1Ext   = nil;
+-(void)initUI
+{
+    // set title of dialog
+    NSString *title = [NSString stringWithFormat:@"%@ Video Settings", chipName];
+    [[self window] setTitle:title];
 
-    chip2Title = nil;
-    chip2File  = nil;
-    chip2Ext   = nil;
-    
-    hasColorTab = YES;
-    hasCRTEmuTab = YES;
-    
-    // determine machine setup
-    switch(machine_class) {
-        case VICE_MACHINE_C128:
-            palette2Entries = vdc_palettes;
-            chip2Title = @"VDC Palette";
-            chip2File  = @"VDCPaletteFile";
-            chip2Ext   = @"VDCExternalPalette";
-            // fall through!
-        case VICE_MACHINE_C64:
-        case VICE_MACHINE_C64DTV:
-            palette1Entries = vicii_palettes;
-            chip1Title = @"VICII Palette";
-            chip1File  = @"VICIIPaletteFile";    
-            chip1Ext   = @"VICIIExternalPalette";
-            break;
-        case VICE_MACHINE_VIC20:
-            palette1Entries = vic_palettes;
-            chip1Title = @"VIC Palette";
-            chip1File  = @"VICPaletteFile";    
-            chip1Ext   = @"VICExternalPalette";
-            break;
-        case VICE_MACHINE_PET:
-        case VICE_MACHINE_CBM5x0:
-        case VICE_MACHINE_CBM6x0:
-            palette1Entries = crtc_palettes;
-            chip1Title = @"CRTC Palette";
-            chip1File  = @"CRTCPaletteFile";    
-            chip1Ext   = @"CRTCExternalPalette";
-            break;
-        case VICE_MACHINE_PLUS4:
-            palette1Entries = ted_palettes;
-            chip1Title = @"TED Palette";
-            chip1File  = @"TEDPaletteFile";    
-            chip1Ext   = @"TEDExternalPalette";
-            break;
+    // pick palette
+    paletteEntries = NULL;
+    hasOddLines = YES;
+    if([chipName isEqualToString:@"VIC-II"]) {
+        paletteEntries = vicii_palettes;
+    } else if([chipName isEqualToString:@"VIC"]) {
+        paletteEntries = vic_palettes;
+    } else if([chipName isEqualToString:@"Crtc"]) {
+        paletteEntries = crtc_palettes;
+        hasOddLines = NO;
+    } else if([chipName isEqualToString:@"VDC"]) {
+        paletteEntries = vdc_palettes;
+        hasOddLines = NO;
+    } else if([chipName isEqualToString:@"TED"]) {
+        paletteEntries = ted_palettes; 
     }
     
-    //NSLog(@"chip1: title=%@ file=%@ ext=%@", chip1Title, chip1File, chip1Ext);
-    //NSLog(@"chip2: title=%@ file=%@ ext=%@", chip2Title, chip2File, chip2Ext);
-    
-    if(!hasColorTab) {
-        [[colorTab tabView] removeTabViewItem:colorTab];
-    }
-    if(!hasCRTEmuTab) {
-        [[palEmuTab tabView] removeTabViewItem:palEmuTab];
+    // enable controls
+    if(!hasOddLines) {
+        [oddLinePhaseText setEnabled:NO];
+        [oddLinePhaseSlider setEnabled:NO];
+        [oddLineOffsetText setEnabled:NO];
+        [oddLineOffsetSlider setEnabled:NO];
     }
     
-    // setup palette1
-    if(chip1Title != nil) {
-        [palette1Label setStringValue:chip1Title];
-        [palette1Popup removeAllItems];
-        const char **pal = palette1Entries;
+    // setup palette
+    [palettePopup removeAllItems];
+    if(paletteEntries != NULL) {
+        const char **pal = paletteEntries;
         while (*pal != NULL) {
-            [palette1Popup addItemWithTitle:[NSString stringWithCString:*pal encoding:NSUTF8StringEncoding]];
+            [palettePopup addItemWithTitle:[NSString stringWithCString:*pal encoding:NSUTF8StringEncoding]];
             pal++;
         }
-        [palette1Toggle setTitle:chip1Title];
-        if(chip1Ext == nil) {
-            [palette1Toggle removeFromSuperview];
-            palette1Toggle = nil;
-        }
-    } else {
-        [palette1Toggle removeFromSuperview];
-        [palette1Label removeFromSuperview];
-        [palette1Popup removeFromSuperview];
-        [palette1Pick removeFromSuperview];
     }
-    
-    // setup palette2
-    if(chip2Title != nil) {
-        [palette2Label setStringValue:chip2Title];
-        [palette2Popup removeAllItems];
-        const char **pal = palette2Entries;
-        while (*pal != NULL) {
-            [palette2Popup addItemWithTitle:[NSString stringWithCString:*pal encoding:NSUTF8StringEncoding]];
-            pal++;
-        }
-        [palette2Toggle setTitle:chip2Title];
-        if(chip2Ext == nil) {
-            [palette2Toggle removeFromSuperview];
-            palette2Toggle = nil;
-        }
-    } else {
-        [palette2Toggle removeFromSuperview];
-        [palette2Label removeFromSuperview];
-        [palette2Popup removeFromSuperview];
-        [palette2Pick removeFromSuperview];        
-    }
-    
 }
 
 -(void)windowDidLoad
 {
-    [self initPalettes];
+    [self initUI];
     [self updateResources:nil];
     [self registerForResourceUpdate:@selector(updateResources:)];
     [super windowDidLoad];
@@ -193,44 +163,29 @@ static const char *ted_palettes[] = {
 
 // ----- Resources -----
 
--(void)updatePalette1Resources
+-(void)updatePaletteResources
 {
-    if(chip1Ext != nil) {
-        BOOL usePal1 = [self getIntResource:chip1Ext];
-        [palette1Toggle setState:usePal1];
-    }
+    // use external palette?
+    BOOL usePal = [self getIntResource:paletteExtResource];
+    [paletteToggle setState:usePal];
 
-    NSString *pal1Name = [self getStringResource:chip1File];
+    NSString *palFile = [self getStringResource:paletteFileResource];
 
     // make sure palette entry is available
-    if ([palette1Popup itemWithTitle:pal1Name] == nil) {
-        [palette1Popup addItemWithTitle:pal1Name];
+    if(palFile != nil) {
+        if ([palettePopup itemWithTitle:palFile] == nil) {
+            [palettePopup addItemWithTitle:palFile];
+        }
+        [palettePopup selectItemWithTitle:palFile];
     }
-    [palette1Popup selectItemWithTitle:pal1Name];
-}
-
--(void)updatePalette2Resources
-{
-    if(chip2Ext != nil) {
-        BOOL usePal2 = [self getIntResource:chip2Ext];
-        [palette2Toggle setState:usePal2];
-    }
-    
-    NSString *pal2Name = [self getStringResource:chip2File];
-
-    // make sure palette entry is available
-    if ([palette2Popup itemWithTitle:pal2Name] == nil) {
-        [palette2Popup addItemWithTitle:pal2Name];
-    }
-    [palette2Popup selectItemWithTitle:pal2Name];
-}
+}   
 
 -(void)updateColorResources
 {
-    int saturation = [self getIntResource:@"ColorSaturation"];
-    int contrast = [self getIntResource:@"ColorContrast"];
-    int brightness = [self getIntResource:@"ColorBrightness"];
-    int gamma = [self getIntResource:@"ColorGamma"];
+    int saturation = [self getIntResource:colorSaturationResource];
+    int contrast = [self getIntResource:colorContrastResource];
+    int brightness = [self getIntResource:colorBrightnessResource];
+    int gamma = [self getIntResource:colorGammaResource];
 
     [saturationSlider setFloatValue:saturation];
     [saturationText   setFloatValue:saturation];
@@ -244,36 +199,30 @@ static const char *ted_palettes[] = {
 
 -(void)updatePALResources
 {
-    int blur = [self getIntResource:@"PALBlur"];
-    int scanlineShade = [self getIntResource:@"PALScanLineShade"];
-    int oddLinePhase = [self getIntResource:@"PALOddLinePhase"];
-    int oddLineOffset = [self getIntResource:@"PALOddLineOffset"];
+    int blur = [self getIntResource:palBlurResource];
+    int scanlineShade = [self getIntResource:palScanLineShadeResource];
 
     [blurSlider            setFloatValue:blur];
     [blurText              setFloatValue:blur];
     [scanlineShadeSlider   setFloatValue:scanlineShade];
     [scanlineShadeText     setFloatValue:scanlineShade];
-    [oddLinePhaseSlider    setFloatValue:oddLinePhase];
-    [oddLinePhaseText      setFloatValue:oddLinePhase];
-    [oddLineOffsetSlider   setFloatValue:oddLineOffset];
-    [oddLineOffsetText     setFloatValue:oddLineOffset];
+
+    if(hasOddLines) {
+        int oddLinePhase = [self getIntResource:palOddLinePhaseResource];
+        int oddLineOffset = [self getIntResource:palOddLineOffsetResource];
+    
+        [oddLinePhaseSlider    setFloatValue:oddLinePhase];
+        [oddLinePhaseText      setFloatValue:oddLinePhase];
+        [oddLineOffsetSlider   setFloatValue:oddLineOffset];
+        [oddLineOffsetText     setFloatValue:oddLineOffset];
+    }
 }
 
 -(void)updateResources:(NSNotification *)notification
 {
-    if(chip1Title != nil) {
-        [self updatePalette1Resources];
-    }
-    if(chip2Title != nil) {
-        [self updatePalette2Resources];
-    }
-     
-    if(hasColorTab) {
-        [self updateColorResources];
-    }
-    if(hasCRTEmuTab) {
-        [self updatePALResources];
-    }
+    [self updatePaletteResources];
+    [self updateColorResources];
+    [self updatePALResources];
 }
 
 // ----- Actions -----
@@ -282,49 +231,49 @@ static const char *ted_palettes[] = {
 
 -(IBAction)slideSaturation:(id)sender
 {
-    [self setIntResource:@"ColorSaturation" toValue:[sender intValue]];
+    [self setIntResource:colorSaturationResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)slideContrast:(id)sender
 {
-    [self setIntResource:@"ColorContrast" toValue:[sender intValue]];
+    [self setIntResource:colorContrastResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)slideBrightness:(id)sender
 {
-    [self setIntResource:@"ColorBrightness" toValue:[sender intValue]];
+    [self setIntResource:colorBrightnessResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)slideGamma:(id)sender
 {    
-    [self setIntResource:@"ColorGamma" toValue:[sender intValue]];
+    [self setIntResource:colorGammaResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)enterSaturation:(id)sender
 {
-    [self setIntResource:@"ColorSaturation" toValue:[sender intValue]];
+    [self setIntResource:colorSaturationResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)enterContrast:(id)sender
 {
-    [self setIntResource:@"ColorContrast" toValue:[sender intValue]];
+    [self setIntResource:colorContrastResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)enterBrightness:(id)sender
 {
-    [self setIntResource:@"ColorBrightness" toValue:[sender intValue]];
+    [self setIntResource:colorBrightnessResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
 -(IBAction)enterGamma:(id)sender
 {
-    [self setIntResource:@"ColorGamma" toValue:[sender intValue]];
+    [self setIntResource:colorGammaResource toValue:[sender intValue]];
     [self updateColorResources];
 }
 
@@ -332,107 +281,75 @@ static const char *ted_palettes[] = {
 
 -(IBAction)slideBlur:(id)sender
 {
-    [self setIntResource:@"PALBlur" toValue:[sender intValue]];
+    [self setIntResource:palBlurResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)slideScanlineShade:(id)sender
 {
-    [self setIntResource:@"PALScanLineShade" toValue:[sender intValue]];
+    [self setIntResource:palScanLineShadeResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)slideOddLinePhase:(id)sender
 {
-    [self setIntResource:@"PALOddLinePhase" toValue:[sender intValue]];
+    [self setIntResource:palOddLinePhaseResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)slideOddLineOffset:(id)sender
 {
-    [self setIntResource:@"PALOddLineOffset" toValue:[sender intValue]];
+    [self setIntResource:palOddLineOffsetResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)enterBlur:(id)sender
 {
-    [self setIntResource:@"PALBlur" toValue:[sender intValue]];
+    [self setIntResource:palBlurResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)enterScanlineShade:(id)sender
 {
-    [self setIntResource:@"PALScanLineShade" toValue:[sender intValue]];
+    [self setIntResource:palScanLineShadeResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)enterOddLinePhase:(id)sender
 {
-    [self setIntResource:@"PALOddLinePhase" toValue:[sender intValue]];
+    [self setIntResource:palOddLinePhaseResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 -(IBAction)enterOddLineOffset:(id)sender
 {
-    [self setIntResource:@"PALOddLineOffset" toValue:[sender intValue]];
+    [self setIntResource:palOddLineOffsetResource toValue:[sender intValue]];
     [self updatePALResources];
 }
 
 // ----- Palette -----
 
--(IBAction)togglePalette1:(id)sender
+-(IBAction)togglePalette:(id)sender
 {
-    if(chip1Ext != nil) {
-        BOOL on = [sender state];
-        [self setIntResource:chip1Ext toValue:on];
-        [self updatePalette1Resources];
-    } else {
-        [sender setEnabled:YES];
-    }
+    BOOL on = [sender state];
+    [self setIntResource:paletteExtResource toValue:on];
+    [self updatePaletteResources];
 }
 
--(IBAction)popupPalette1:(id)sender
+-(IBAction)popupPalette:(id)sender
 {
     NSString *item = [sender titleOfSelectedItem];
-    [self setStringResource:chip1File toValue:item];
-    [self updatePalette1Resources];
+    [self setStringResource:paletteFileResource toValue:item];
+    [self updatePaletteResources];
 }
 
--(IBAction)pickPalette1:(id)sender
+-(IBAction)pickPalette:(id)sender
 {
     VICEAppController *appCtrl = [VICEApplication theAppController];
     NSString *path = [[appCtrl getFilePanel] pickOpenFileWithType:@"Palette"];
     if (path != nil) {
-        [self setStringResource:chip1File toValue:path];
-        [self updatePalette1Resources];
-    }
-}
-
--(IBAction)togglePalette2:(id)sender
-{
-    if(chip2Ext != nil) {
-        BOOL on = [sender state];
-        [self setIntResource:chip2Ext toValue:on];
-        [self updatePalette2Resources];
-    } else {
-        [sender setEnabled:YES];
-    }
-}
-
--(IBAction)popupPalette2:(id)sender
-{
-    NSString *item = [sender titleOfSelectedItem];
-    [self setStringResource:chip2File toValue:item];
-    [self updatePalette2Resources];
-}
-
--(IBAction)pickPalette2:(id)sender
-{
-    VICEAppController *appCtrl = [VICEApplication theAppController];
-    NSString *path = [[appCtrl getFilePanel] pickOpenFileWithType:@"Palette"];
-    if (path != nil) {
-        [self setStringResource:chip2File toValue:path];
-        [self updatePalette2Resources];
+        [self setStringResource:paletteFileResource toValue:path];
+        [self updatePaletteResources];
     }
 }
 

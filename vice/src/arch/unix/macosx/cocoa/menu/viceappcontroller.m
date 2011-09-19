@@ -67,7 +67,8 @@
     [joystickSettingsController release];
     [sidSettingsController release];
     [soundSettingsController release];
-    [videoSettingsController release];
+    [video0SettingsController release];
+    [video1SettingsController release];
     
     [infoController release];
     [resourceEditorController release];
@@ -565,12 +566,20 @@
     [soundSettingsController showWindow:self];
 }
 
-- (IBAction)showVideoSettings:(id)sender
+- (IBAction)showVideo0Settings:(id)sender
 {
-    if (!videoSettingsController) {
-        videoSettingsController = [[VideoSettingsWindowController alloc] init];
+    if (!video0SettingsController) {
+        video0SettingsController = [[VideoSettingsWindowController alloc] initWithChipName:[video0Menu title]];
     }
-    [videoSettingsController showWindow:self];
+    [video0SettingsController showWindow:self];
+}
+
+- (IBAction)showVideo1Settings:(id)sender
+{
+    if (!video1SettingsController) {
+        video1SettingsController = [[VideoSettingsWindowController alloc] initWithChipName:[video1Menu title]];
+    }
+    [video1SettingsController showWindow:self];
 }
 
 // ----- Resources -----
