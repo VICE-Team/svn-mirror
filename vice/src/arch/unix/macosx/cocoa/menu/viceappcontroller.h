@@ -26,22 +26,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "drivesettingswindowcontroller.h"
-#import "iecdrivesettingswindowcontroller.h"
-#import "printersettingswindowcontroller.h"
-#import "keyboardsettingswindowcontroller.h"
-#import "joysticksettingswindowcontroller.h"
-#import "sidsettingswindowcontroller.h"
-#import "soundsettingswindowcontroller.h"
-#import "videosettingswindowcontroller.h"
-
-#import "viceinformationwindowcontroller.h"
-#import "resourceeditorcontroller.h"
-#import "recordhistorywindowcontroller.h"
-#import "recordmediawindowcontroller.h"
-#import "netplaycontrolwindowcontroller.h"
-
 #import "vicefilepanel.h"
+
+@class DriveSettingsWindowController;
+@class IECDriveSettingsWindowController;
+@class PrinterSettingsWindowController;
+@class KeyboardSettingsWindowController;
+@class JoystickSettingsWindowController;
+@class SIDSettingsWindowController;
+@class SoundSettingsWindowController;
+@class VideoSettingsWindowController;
+
+@class VICEInformationWindowController;
+@class ResourceEditorController;
+@class RecordHistoryWindowController;
+@class RecordMediaWindowController;
+@class NetplayControlWindowController;
 
 @interface VICEAppController : NSObject
 {

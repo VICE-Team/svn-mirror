@@ -36,58 +36,6 @@ static const int c64baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 static const int c128baseaddress[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 static const int cbm2baseaddress[] = { 0xda, -1 };
 
-static char *engine_model_names[] = {
-#ifdef HAVE_RESID
-    "DTVSID (reSID-DTV)",
-#endif
-    "6581 (Fast SID)",
-    "8580 (Fast SID)",
-#ifdef HAVE_RESID
-    "6581 (ReSID)",
-    "8580 (ReSID)",
-    "8580 + digiboost (ReSID)",
-#endif
-#ifdef HAVE_RESID_FP
-    "6581R3 4885 (ReSID-fp)",
-    "6581R3 0486S (ReSID-fp)",
-    "6581R3 3984 (ReSID-fp)",
-    "6581R4AR 3789 (ReSID-fp)",
-    "6581R3 4485 (ReSID-fp)",
-    "6581R4 1986S (ReSID-fp)",
-    "8580R5 3691 (ReSID-fp)",
-    "8580R5 3691 + digiboost (ReSID-fp)",
-    "8580R5 1489 (ReSID-fp)",
-    "8580R5 1489 + digiboost (ReSID-fp)",
-#endif
-    NULL
-};
-
-static const int engine_model_values[] = {
-#ifdef HAVE_RESID
-    SID_RESID_DTVSID,
-#endif
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_RESID_FP
-    SID_RESIDFP_6581R3_4885,
-    SID_RESIDFP_6581R3_0486S,
-    SID_RESIDFP_6581R3_3984,
-    SID_RESIDFP_6581R4AR_3789,
-    SID_RESIDFP_6581R3_4485,
-    SID_RESIDFP_6581R4_1986S,
-    SID_RESIDFP_8580R5_3691,
-    SID_RESIDFP_8580R5_3691D,
-    SID_RESIDFP_8580R5_1489,
-    SID_RESIDFP_8580R5_1489D,
-#endif
-    -1
-};
-
 @implementation SIDSettingsWindowController
 
 -(id)init
@@ -100,7 +48,7 @@ static const int engine_model_values[] = {
     // machine config
     stereoAddrs = NULL;
     if(machine_class == VICE_MACHINE_C64DTV) {
-        hasFilters = NO;
+        hasFilters = YES;
         hasStereo  = NO;
     } else {
         hasFilters = YES;
@@ -145,7 +93,7 @@ static const int engine_model_values[] = {
         while(stereoAddrs[i]!=-1) {
             int hi = stereoAddrs[i];
             int lo;
-            for (lo = (hi > 0 ? 0x0 : 0x20); lo < 0x100; lo += 0x20) {
+            for (lo = (i > 0 ? 0x0 : 0x20); lo < 0x100; lo += 0x20) {
                 int addr = hi * 0x100 + lo;
                 NSString *title = [NSString stringWithFormat:@"$%04X",addr];
                 [stereoSidAddressButton addItemWithTitle:title];
@@ -155,15 +103,10 @@ static const int engine_model_values[] = {
     }
     
     // setup sid model
-    modelOffset = 1;
-#ifdef HAVE_RESID
-    if(machine_class == VICE_MACHINE_C64DTV) {
-        modelOffset = 0;
-    }
-#endif
-    int offset = modelOffset;
-    while(engine_model_names[offset] != NULL) {
-        const char *name = engine_model_names[offset];
+    engine_model_list = sid_get_engine_model_list();
+    int offset = 0;
+    while(engine_model_list[offset] != NULL) {
+        const char *name = engine_model_list[offset]->name;
         [engineModelButton addItemWithTitle:[NSString stringWithCString:name 
                                             encoding:NSUTF8StringEncoding]];
         offset++;
@@ -183,17 +126,17 @@ static const int engine_model_values[] = {
 -(void)updateResources:(NSNotification *)notification
 {
     // set model
-    int i = modelOffset;
+    int i = 0;
     int engine = [self getIntResource:@"SidEngine"];
     int model  = [self getIntResource:@"SidModel"];
     int pair   = engine << 8 | model;
-    while(engine_model_values[i] != -1) {
-        if(engine_model_values[i] == pair) {
+    while(engine_model_list[i]->value != -1) {
+        if(engine_model_list[i]->value == pair) {
             break;
         }
         i++;
     }
-    i -= modelOffset;
+
     [engineModelButton selectItemAtIndex:i];
     
     // is reSID enabled?
@@ -225,8 +168,8 @@ static const int engine_model_values[] = {
 
 -(IBAction)popupEngineModel:(id)sender
 {
-    int modelIndex = modelOffset + [engineModelButton indexOfSelectedItem];
-    int pair = engine_model_values[modelIndex];
+    int modelIndex = [engineModelButton indexOfSelectedItem];
+    int pair = engine_model_list[modelIndex]->value;
     int engine = pair >> 8;
     int model  = pair & 0xff;
     [self setIntResource:@"SidModel" toValue:model];

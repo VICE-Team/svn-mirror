@@ -25,11 +25,27 @@
  */
 
 #include "info.h"
+#include "sid.h"
 
 #import "viceappcontroller.h"
 #import "viceapplication.h"
 #import "vicenotifications.h"
 #import "vicemachinecontroller.h"
+
+#import "drivesettingswindowcontroller.h"
+#import "iecdrivesettingswindowcontroller.h"
+#import "printersettingswindowcontroller.h"
+#import "keyboardsettingswindowcontroller.h"
+#import "joysticksettingswindowcontroller.h"
+#import "sidsettingswindowcontroller.h"
+#import "soundsettingswindowcontroller.h"
+#import "videosettingswindowcontroller.h"
+
+#import "viceinformationwindowcontroller.h"
+#import "resourceeditorcontroller.h"
+#import "recordhistorywindowcontroller.h"
+#import "recordmediawindowcontroller.h"
+#import "netplaycontrolwindowcontroller.h"
 
 @implementation VICEAppController
 

@@ -42,7 +42,7 @@
     BOOL hasStereo;
     BOOL hasFilters;
     const int *stereoAddrs;
-    int modelOffset;
+    sid_engine_model_t **engine_model_list;
 }
 
 -(void)updateResources:(NSNotification *)notification;

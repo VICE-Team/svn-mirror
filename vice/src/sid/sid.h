@@ -33,7 +33,7 @@
 #include "types.h"
 #include "sound.h"
 
-#if (defined(WIN32) || defined(__BEOS__)) && !defined(USE_SDLUI)
+#if (defined(WIN32) || defined(MACOSX_COCOA) || defined(__BEOS__)) && !defined(USE_SDLUI)
 #define SID_SETTINGS_DIALOG
 #endif
 
