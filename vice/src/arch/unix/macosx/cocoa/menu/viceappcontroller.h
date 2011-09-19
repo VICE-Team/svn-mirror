@@ -88,15 +88,18 @@
     IBOutlet NSMenuItem *video0VideoCacheMenuItem;
     IBOutlet NSMenuItem *video0DoubleSizeMenuItem;
     IBOutlet NSMenuItem *video0DoubleScanMenuItem;
-    IBOutlet NSMenuItem *video0Scale2xMenuItem;
-    IBOutlet NSMenuItem *crtEmulationMenuItem;
+    IBOutlet NSMenuItem *video0Type0MenuItem;
+    IBOutlet NSMenuItem *video0Type1MenuItem;
+    IBOutlet NSMenuItem *video0Type2MenuItem;
 
     // Video 1
     IBOutlet NSMenu     *video1Menu;
     IBOutlet NSMenuItem *video1VideoCacheMenuItem;
     IBOutlet NSMenuItem *video1DoubleSizeMenuItem;
     IBOutlet NSMenuItem *video1DoubleScanMenuItem;
-    IBOutlet NSMenuItem *video1Scale2xMenuItem;
+    IBOutlet NSMenuItem *video1Type0MenuItem;
+    IBOutlet NSMenuItem *video1Type1MenuItem;
+    IBOutlet NSMenuItem *video1Type2MenuItem;
 }
 
 // File
@@ -155,14 +158,12 @@
 - (IBAction)toggleVideo0VideoCache:(id)sender;
 - (IBAction)toggleVideo0DoubleSize:(id)sender;
 - (IBAction)toggleVideo0DoubleScan:(id)sender;
-- (IBAction)toggleVideo0Scale2x:(id)sender;
+- (IBAction)setVideo0Filter:(id)sender;
 
 - (IBAction)toggleVideo1VideoCache:(id)sender;
 - (IBAction)toggleVideo1DoubleSize:(id)sender;
 - (IBAction)toggleVideo1DoubleScan:(id)sender;
-- (IBAction)toggleVideo1Scale2x:(id)sender;
-
-- (IBAction)toggleCRTEmulation:(id)sender;
+- (IBAction)setVideo1Filter:(id)sender;
 
 // Settings
 - (IBAction)showDriveSettings:(id)sender;
@@ -196,7 +197,6 @@
 - (void)updateMachineResources;
 - (void)updateVideo0Resources;
 - (void)updateVideo1Resources;
-- (void)updateCRTResources;
 
 - (BOOL)updateSubMenuCheckState:(NSMenu *)menu withTag:(int)tagValue;
 

@@ -468,10 +468,11 @@
     [self updateVideo0Resources];
 }
 
-- (IBAction)toggleVideo0Scale2x:(id)sender
+- (IBAction)setVideo0Filter:(id)sender
 {
-    NSString *res = [NSString stringWithFormat:@"%@Scale2x", [video0Menu title]];
-    [self setIntResource:res toValue:![sender state]];
+    int type = [sender tag];
+    NSString *res = [NSString stringWithFormat:@"%@Filter", [video0Menu title]];
+    [self setIntResource:res toValue:type];
     [self updateVideo0Resources];
 }
 
@@ -496,17 +497,12 @@
     [self updateVideo1Resources];
 }
 
-- (IBAction)toggleVideo1Scale2x:(id)sender
+- (IBAction)setVideo1Filter:(id)sender
 {
-    NSString *res = [NSString stringWithFormat:@"%@Scale2x", [video1Menu title]];
-    [self setIntResource:res toValue:![sender state]];
+    int type = [sender tag];
+    NSString *res = [NSString stringWithFormat:@"%@Filter", [video1Menu title]];
+    [self setIntResource:res toValue:type];
     [self updateVideo1Resources];
-}
-
-- (IBAction)toggleCRTEmulation:(id)sender
-{
-    [self setIntResource:@"PALEmulation" toValue:![sender state]];
-    [self updateCRTResources];
 }
 
 // ----- Settings -----
@@ -649,7 +645,6 @@
     if(video1Menu != nil) {
         [self updateVideo1Resources];
     }
-    [self updateCRTResources];
 }
 
 - (void)updateMachineResources
@@ -724,15 +719,11 @@
     NSString *res3 = [NSString stringWithFormat:@"%@DoubleScan", name];        
     [video0DoubleScanMenuItem setState:[self getIntResource:res3]];
     
-    NSString *res4 = [NSString stringWithFormat:@"%@Scale2x", name];    
-    [video0Scale2xMenuItem setState:[self getIntResource:res4]];
-}
-
-- (void)updateCRTResources
-{
-    if(crtEmulationMenuItem != nil) {
-        [crtEmulationMenuItem setState:[self getIntResource:@"PALEmulation"]];
-    }
+    NSString *res4 = [NSString stringWithFormat:@"%@Filter", name];    
+    int type = [self getIntResource:res4];
+    [video0Type0MenuItem setState:(type == 0)];
+    [video0Type1MenuItem setState:(type == 1)];
+    [video0Type2MenuItem setState:(type == 2)];
 }
 
 - (void)updateVideo1Resources
@@ -748,8 +739,11 @@
     NSString *res3 = [NSString stringWithFormat:@"%@DoubleScan", name];        
     [video1DoubleScanMenuItem setState:[self getIntResource:res3]];
     
-    NSString *res4 = [NSString stringWithFormat:@"%@Scale2x", name];    
-    [video1Scale2xMenuItem setState:[self getIntResource:res4]];
+    NSString *res4 = [NSString stringWithFormat:@"%@Filter", name];    
+    int type = [self getIntResource:res4];
+    [video1Type0MenuItem setState:(type == 0)];
+    [video1Type1MenuItem setState:(type == 1)];
+    [video1Type2MenuItem setState:(type == 2)];    
 }
 
 - (void)updateSettingsResources
