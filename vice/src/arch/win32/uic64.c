@@ -180,75 +180,7 @@ static const int ui_c64video_standard_values[] = {
     0
 };
 
-
-/* FIXME: duplicated from uisid.c */
-static const TCHAR *ui_c64sid_engine_model[] = {
-    TEXT("6581 (FastSID)"),
-    TEXT("8580 (FastSID)"),
-#ifdef HAVE_RESID
-    TEXT("6581 (ReSID)"),
-    TEXT("8580 (ReSID)"),
-    TEXT("8580 + digi boost (ReSID)"),
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    TEXT("Catweasel MK3"),
-#endif
-#ifdef HAVE_HARDSID
-    TEXT("HardSID"),
-#endif
-#ifdef HAVE_PARSID
-    TEXT("ParSID on Port 1"),
-    TEXT("ParSID on Port 2"),
-    TEXT("ParSID on Port 3"),
-#endif
-#ifdef HAVE_RESID_FP
-    TEXT("6581R3 4885 (reSID-fp)"),
-    TEXT("6581R3 0486S (reSID-fp)"),
-    TEXT("6581R3 3984 (reSID-fp)"),
-    TEXT("6581R4AR 3789 (reSID-fp)"),
-    TEXT("6581R3 4485 (reSID-fp)"),
-    TEXT("6581R4 1986S (reSID-fp)"),
-    TEXT("8580R5 3691 (reSID-fp)"),
-    TEXT("8580R5 3691 + digi boost (reSID-fp)"),
-    TEXT("8580R5 1489 (reSID-fp)"),
-    TEXT("8580R5 1489 + digi boost (reSID-fp)"),
-#endif
-    NULL
-};
-
-static const int ui_c64sid_engine_model_values[] = {
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_RESID
-    SID_RESID_6581,
-    SID_RESID_8580,
-    SID_RESID_8580D,
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    SID_CATWEASELMKIII,
-#endif
-#ifdef HAVE_HARDSID
-    SID_HARDSID,
-#endif
-#ifdef HAVE_PARSID
-    SID_PARSID_PORT1,
-    SID_PARSID_PORT2,
-    SID_PARSID_PORT3,
-#endif
-#ifdef HAVE_RESID_FP
-    SID_RESIDFP_6581R3_4885,
-    SID_RESIDFP_6581R3_0486S,
-    SID_RESIDFP_6581R3_3984,
-    SID_RESIDFP_6581R4AR_3789,
-    SID_RESIDFP_6581R3_4485,
-    SID_RESIDFP_6581R4_1986S,
-    SID_RESIDFP_8580R5_3691,
-    SID_RESIDFP_8580R5_3691D,
-    SID_RESIDFP_8580R5_1489,
-    SID_RESIDFP_8580R5_1489D,
-#endif
-    -1
-};
+static sid_engine_model_t **ui_c64sid_engine_model_list;
 
 static int vicii_model, sid_model, sid_engine;
 static int glue_logic, cia1_model, cia2_model, new_luma;
@@ -298,10 +230,12 @@ static void uic64_update_controls(HWND hwnd, int mode)
 
         sub_hwnd = GetDlgItem(hwnd, IDC_C64SID_LIST);
         SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
-        for (i = 0; ui_c64sid_engine_model[i]; i++) {
-            _stprintf(st, TEXT("%s"), ui_c64sid_engine_model[i]);
+        for (i = 0; ui_c64sid_engine_model_list[i]; i++) {
+            /* Use "%hs" because the strings are in common code
+               and hence are char rather than TCHAR */
+            _stprintf(st, TEXT("%hs"), ui_c64sid_engine_model_list[i]->name);
             SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
-            if (ui_c64sid_engine_model_values[i] == ((sid_engine << 8 ) | sid_model)) {
+            if (ui_c64sid_engine_model_list[i]->value == ((sid_engine << 8 ) | sid_model)) {
                 active_value = i;
             }
         }
@@ -373,6 +307,8 @@ static void init_c64model_dialog(HWND hwnd)
 
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(hwnd, move_buttons_group, 0);
+
+    ui_c64sid_engine_model_list = sid_get_engine_model_list();
 
     resources_get_int("SidModel", &sid_model);
     resources_get_int("SidEngine", &sid_engine);
@@ -469,8 +405,8 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                     }
                     break;
                 case IDC_C64SID_LIST:
-                    new_sidengmod = ui_c64sid_engine_model_values[SendMessage(
-                                    GetDlgItem(hwnd, IDC_C64SID_LIST), CB_GETCURSEL, 0, 0)];
+                    new_sidengmod = ui_c64sid_engine_model_list[SendMessage(
+                                    GetDlgItem(hwnd, IDC_C64SID_LIST), CB_GETCURSEL, 0, 0)]->value;
                     break;
                 case IDC_C64CIA1_LIST:
                     new_cia1 = ui_c64cia_values[SendMessage(

@@ -82,8 +82,7 @@ static void init_general_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
     int temp_value;
-    int res_value;
-    int res_value_loop;
+    int res_value, i;
     int active_value;
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP1);
@@ -103,14 +102,17 @@ static void init_general_sid_dialog(HWND hwnd)
     res_value <<= 8;
     res_value |= temp_value;
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL);
-    for (res_value_loop = 0; ui_sid_engine_model_list[res_value_loop]; res_value_loop++) {
-        SendMessageA(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model_list[res_value_loop]->name);
-    }
 
     active_value = 0;
-    for (res_value_loop = 0; ui_sid_engine_model_list[res_value_loop]; res_value_loop++) {
-        if (ui_sid_engine_model_list[res_value_loop]->value == res_value) {
-            active_value = res_value_loop;
+    for (i = 0; ui_sid_engine_model_list[i]; i++) {
+        TCHAR st[40];
+
+        /* Use "%hs" because the strings are in common code,
+           and hence are char rather than TCHAR */
+        _stprintf(st, TEXT("%hs"), ui_sid_engine_model_list[i]->name);
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+        if (ui_sid_engine_model_list[i]->value == res_value) {
+            active_value = i;
         }
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
@@ -146,8 +148,7 @@ static void resize_general_sid_dialog(HWND hwnd)
 static void init_resid_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
-    int res_value;
-    int res_value_loop;
+    int res_value, i;
     TCHAR st[10];
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_GROUP);
@@ -159,8 +160,8 @@ static void init_resid_sid_dialog(HWND hwnd)
 
     resources_get_int("SidResidSampling", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING);
-    for (res_value_loop = 0; ui_sid_samplemethod[res_value_loop]; res_value_loop++) {
-        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_sid_samplemethod[res_value_loop]));
+    for (i = 0; ui_sid_samplemethod[i]; i++) {
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_sid_samplemethod[i]));
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
