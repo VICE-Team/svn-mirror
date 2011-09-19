@@ -31,6 +31,7 @@
 
 #include "drive.h"
 #include "uidrive.h"
+#include "uidriveiec.h"
 #include "uidrivepetcbm2.h"
 #include "uimenu.h"
 #include "uiromset.h"
@@ -96,24 +97,36 @@ static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
     { N_("Drive #8 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
       set_drive0_extend_image_policy_submenu },
+    { N_("Drive #8 idle method"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)0,
+      set_drive0_idle_method_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #9 floppy disk type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive1_type_submenu },
     { N_("Drive #9 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
       set_drive1_extend_image_policy_submenu },
+    { N_("Drive #9 idle method"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)1,
+      set_drive1_idle_method_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #10 floppy disk type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive2_type_submenu },
     { N_("Drive #10 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
       set_drive2_extend_image_policy_submenu },
+    { N_("Drive #10 idle method"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)2,
+      set_drive2_idle_method_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #11 floppy disk type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive3_type_submenu },
     { N_("Drive #11 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
       set_drive3_extend_image_policy_submenu },
+    { N_("Drive #11 idle method"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)3,
+      set_drive3_idle_method_submenu },
     { NULL }
 };
 
