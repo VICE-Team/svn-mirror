@@ -117,6 +117,8 @@ libc64cart_a_SOURCES = \
 	rexutility.h \
 	ross.c \
 	ross.h \
+	silverrock128.c \
+	silverrock128.h \
 	simonsbasic.c \
 	simonsbasic.h \
 	snapshot64.c \

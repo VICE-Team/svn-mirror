@@ -80,6 +80,7 @@
 #include "rexep256.h"
 #include "rexutility.h"
 #include "ross.h"
+#include "silverrock128.h"
 #include "simonsbasic.h"
 #include "stardos.h"
 #include "stb.h"
@@ -321,6 +322,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_ROSS:
             rc = ross_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_SILVERROCK_128:
+            rc = silverrock128_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_SIMONS_BASIC:
             rc = simon_crt_attach(fd, rawcart);

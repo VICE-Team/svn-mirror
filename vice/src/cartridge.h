@@ -201,8 +201,9 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_DIASHOW_MAKER        52 /* diashowmaker.c */
 #define CARTRIDGE_PAGEFOX              53 /* pagefox.c */
 #define CARTRIDGE_KINGSOFT             54 /* pagefox.c */
+#define CARTRIDGE_SILVERROCK_128       55 /* silverrock128.c */
 
-#define CARTRIDGE_LAST                 54 /* cartconv: last cartridge in list */
+#define CARTRIDGE_LAST                 55 /* cartconv: last cartridge in list */
 
 /* list of canonical names for the c64 cartridges:
    note: often it is hard to determine "the" official name, let alone the way it
@@ -277,6 +278,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_ROSS               "ROSS"
 #define CARTRIDGE_NAME_SFX_SOUND_EXPANDER "SFX Sound Expander" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-sfx-fmbport.jpg */
 #define CARTRIDGE_NAME_SFX_SOUND_SAMPLER  "SFX Sound Sampler" /* http://www.floodgap.com/retrobits/ckb/secret/cbm-ssm-box.jpg */
+#define CARTRIDGE_NAME_SILVERROCK_128     "Silverrock 128K Cartridge"
 #define CARTRIDGE_NAME_SIMONS_BASIC       "Simons' BASIC" /* http://en.wikipedia.org/wiki/Simons'_BASIC */
 #define CARTRIDGE_NAME_SNAPSHOT64         "Snapshot 64" /* http://rr.pokefinder.org/wiki/Super_Snapshot */
 #define CARTRIDGE_NAME_STARDOS            "Stardos" /* see manual http://rr.pokefinder.org/wiki/StarDOS */

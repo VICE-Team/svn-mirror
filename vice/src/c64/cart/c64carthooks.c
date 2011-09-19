@@ -111,6 +111,7 @@
 #include "rexep256.h"
 #include "rexutility.h"
 #include "ross.h"
+#include "silverrock128.h"
 #include "simonsbasic.h"
 #include "snapshot64.h"
 #include "stardos.h"
@@ -450,6 +451,11 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_SUPER_GAMES, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_SUPER_GAMES_CART,
+      NULL, NULL },
+    { "-cartsilver", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_SILVERROCK_128, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_SILVERROCK_128_CART,
       NULL, NULL },
     { "-cartsimon", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_SIMONS_BASIC, NULL, NULL,
@@ -909,6 +915,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return rexep256_bin_attach(filename, rawcart);
         case CARTRIDGE_ROSS:
             return ross_bin_attach(filename, rawcart);
+        case CARTRIDGE_SILVERROCK_128:
+            return silverrock128_bin_attach(filename, rawcart);
         case CARTRIDGE_SIMONS_BASIC:
             return simon_bin_attach(filename, rawcart);
         case CARTRIDGE_SNAPSHOT64:
@@ -1096,6 +1104,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_ROSS:
             ross_config_setup(rawcart);
+            break;
+        case CARTRIDGE_SILVERROCK_128:
+            silverrock128_config_setup(rawcart);
             break;
         case CARTRIDGE_SIMONS_BASIC:
             simon_config_setup(rawcart);
@@ -1488,6 +1499,9 @@ void cart_detach(int type)
         case CARTRIDGE_ROSS:
             ross_detach();
             break;
+        case CARTRIDGE_SILVERROCK_128:
+            silverrock128_detach();
+            break;
         case CARTRIDGE_SIMONS_BASIC:
             simon_detach();
             break;
@@ -1713,6 +1727,9 @@ void cartridge_init_config(void)
             break;
         case CARTRIDGE_ROSS:
             ross_config_init();
+            break;
+        case CARTRIDGE_SILVERROCK_128:
+            silverrock128_config_init();
             break;
         case CARTRIDGE_SIMONS_BASIC:
             simon_config_init();
@@ -2488,6 +2505,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_SILVERROCK_128:
+                if (silverrock128_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_SIMONS_BASIC:
                 if (simon_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2935,6 +2957,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             case CARTRIDGE_ROSS:
                 if (ross_snapshot_read_module(s) < 0) {
                     goto fail2;
+                }
+                break;
+            case CARTRIDGE_SILVERROCK_128:
+                if (silverrock128_snapshot_read_module(s) < 0) {
+                    return -1;
                 }
                 break;
             case CARTRIDGE_SIMONS_BASIC:
