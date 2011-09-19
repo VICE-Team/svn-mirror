@@ -31,6 +31,7 @@
 #include "drive.h"
 #include "drivemem.h"
 #include "drivetypes.h"
+#include "driverom.h"
 #include "iec-resources.h"
 #include "iecrom.h"
 #include "lib.h"
