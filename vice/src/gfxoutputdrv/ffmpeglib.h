@@ -45,13 +45,21 @@
 #if LIBAVUTIL_VERSION_MAJOR < 51
 #define AVMEDIA_TYPE_AUDIO CODEC_TYPE_AUDIO
 #define AVMEDIA_TYPE_VIDEO CODEC_TYPE_VIDEO
+/* the win32 check is needed otherwise *nix builds fail */
+#ifdef WIN32
+#define av_guess_format guess_format
+#define av_guess_format_t guess_format_t
+#define AV_PKT_FLAG_KEY PKT_FLAG_KEY
+#endif
 #endif
 
+/* wether this check makes sense for V51 is unclear */
 #if LIBAVFORMAT_VERSION_MAJOR < 51
 #define av_guess_format guess_format
 #define av_guess_format_t guess_format_t
 #endif
 
+/* wether this check makes sense for V51 is unclear */
 #if LIBAVCODEC_VERSION_MAJOR < 51
 #define AV_PKT_FLAG_KEY PKT_FLAG_KEY
 #endif
