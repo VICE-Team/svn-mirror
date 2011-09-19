@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-09-17 11:58+0000\n"
-"PO-Revision-Date: 2011-08-16 22:28+0200\n"
+"PO-Revision-Date: 2011-09-19 22:30+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1921,15 +1921,13 @@ msgstr "1581 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:239 src/arch/unix/gui/uidrivec64vic20.c:162
 #: src/arch/unix/gui/uidriveplus4.c:306
-#, fuzzy
 msgid "Load new 2000 ROM"
-msgstr "2040 ROM laden"
+msgstr "2000 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:242 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:309
-#, fuzzy
 msgid "Load new 4000 ROM"
-msgstr "4040 ROM laden"
+msgstr "4000 ROM laden"
 
 #: src/arch/unix/gui/uidrivec128.c:245 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidrivepetcbm2.c:129
@@ -3887,7 +3885,6 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:97
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3909,7 +3906,7 @@ msgstr ""
 "Czirkos Zoltan, Karai Csaba - Ungarisch\n"
 "Emir Akaydin (aka: Skate) - Türkisch\n"
 "Mikkel Holm Olsen - Dänisch\n"
-"Robert Thurnreiter - Polish\n"
+"Jarek Sobolewski - Polnisch\n"
 "Jesse Lee - Koreanisch\n"
 "Mihail Litvinov - Russisch\n"
 
@@ -4339,7 +4336,6 @@ msgid "Cancel"
 msgstr "Abbruch"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:98
-#, fuzzy
 msgid "Save empty disk file"
 msgstr "Leeres Disk Image erzeugen"
 
@@ -9712,14 +9708,12 @@ msgid "Specify name of 1581 DOS ROM image"
 msgstr "Name der 1581 DOS ROM Image Datei definieren"
 
 #: src/translate_text.c.po.c:7103
-#, fuzzy
 msgid "Specify name of 2000 DOS ROM image"
-msgstr "Name der 2040 DOS ROM Datei definieren"
+msgstr "Name der 2000 DOS ROM Datei definieren"
 
 #: src/translate_text.c.po.c:7119
-#, fuzzy
 msgid "Specify name of 4000 DOS ROM image"
-msgstr "Name der 4040 DOS ROM Datei definieren"
+msgstr "Name der 4000 DOS ROM Datei definieren"
 
 #: src/translate_text.c.po.c:7135
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
@@ -10609,11 +10603,10 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Joystickport für Maus auswählen"
 
 #: src/translate_text.c.po.c:10777
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-"
 "22, 5 = ST)"
-msgstr "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
+msgstr "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"
 
 #: src/translate_text.c.po.c:10793
 msgid "Enable PS/2 mouse on userport"
