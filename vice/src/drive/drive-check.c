@@ -234,7 +234,14 @@ int drive_check_idle_method(int drive_type)
 {
     if (drive_type == DRIVE_TYPE_1541
         || drive_type == DRIVE_TYPE_1541II
-        || drive_type == DRIVE_TYPE_1551)
+        || drive_type == DRIVE_TYPE_1570
+        || drive_type == DRIVE_TYPE_1571
+        || drive_type == DRIVE_TYPE_1571CR
+        || drive_type == DRIVE_TYPE_1551
+        || drive_type == DRIVE_TYPE_1581
+        || drive_type == DRIVE_TYPE_2000
+        || drive_type == DRIVE_TYPE_4000
+        || drive_type == DRIVE_TYPE_2031)
         return 1;
     return 0;
 }
