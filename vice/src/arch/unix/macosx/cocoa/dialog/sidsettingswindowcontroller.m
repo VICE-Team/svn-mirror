@@ -53,13 +53,20 @@ static const int cbm2baseaddress[] = { 0xda, -1 };
     } else {
         hasFilters = YES;
         hasStereo  = YES;
-        if(machine_class == VICE_MACHINE_C64) {
-            stereoAddrs = c64baseaddress;
-        } else if(machine_class == VICE_MACHINE_C128) {
-            stereoAddrs = c128baseaddress;
-        } else if((machine_class == VICE_MACHINE_CBM6x0)||
-                  (machine_class == VICE_MACHINE_CBM5x0)) {
-            stereoAddrs = cbm2baseaddress;
+        switch(machine_class) {
+            case VICE_MACHINE_C64:
+                stereoAddrs = c64baseaddress;
+                break;
+            case VICE_MACHINE_C128:
+                stereoAddrs = c128baseaddress;
+                break;
+            case VICE_MACHINE_CBM6x0:
+            case VICE_MACHINE_CBM5x0:
+                stereoAddrs = cbm2baseaddress;
+                break;
+            default:
+                hasStereo = NO;
+                break;
         }
     }
 
