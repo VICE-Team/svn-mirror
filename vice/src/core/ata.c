@@ -26,6 +26,11 @@
 
 #include "vice.h"
 
+/* required for off_t on some platforms */
+#ifdef HAVE_SYS_TYPES_H
+#include <sys/types.h>
+#endif
+
 #include <stdio.h>
 #include <string.h>
 
