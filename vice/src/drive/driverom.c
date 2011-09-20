@@ -86,139 +86,139 @@ static void driverom_fix_checksum(drive_t *drive)
     switch (drive->type) {
     case DRIVE_TYPE_1541:
     case DRIVE_TYPE_1541II:
-	{
-	    DWORD sum = (DWORD)-0xc0;
-	    drive->rom[0x4001] = 0xff;
-	    for (i = 0; i < 0x2000; i++) {
-		sum += drive->rom[i ^ 0x5f00];
-	    }
-	    drive->rom[0x4001] = ~(sum % 255);
+        {
+            DWORD sum = (DWORD)-0xc0;
+            drive->rom[0x4001] = 0xff;
+            for (i = 0; i < 0x2000; i++) {
+                sum += drive->rom[i ^ 0x5f00];
+            }
+            drive->rom[0x4001] = ~(sum % 255);
 
-	    sum = (DWORD)-0xe0;
-	    drive->rom[0x7ee6] = 0xff;
-	    for (i = 0; i < 0x2000; i++) {
-		sum += drive->rom[i ^ 0x7f00];
-	    }
-	    drive->rom[0x7ee6] = ~(sum % 255);
-	}
-	break;
+            sum = (DWORD)-0xe0;
+            drive->rom[0x7ee6] = 0xff;
+            for (i = 0; i < 0x2000; i++) {
+                sum += drive->rom[i ^ 0x7f00];
+            }
+            drive->rom[0x7ee6] = ~(sum % 255);
+        }
+        break;
     case DRIVE_TYPE_1551:
-	{
-	    DWORD sum = 0xfe;
-	    drive->rom[0x4000] = 0xff;
-	    for (i = 0x0; i < 0x4000; i++) {
-		sum += drive->rom[i ^ 0x7f00];
-	    }
-	    drive->rom[0x4000] = ~(sum % 255);
-	}
-	break;
+        {
+            DWORD sum = 0xfe;
+            drive->rom[0x4000] = 0xff;
+            for (i = 0x0; i < 0x4000; i++) {
+                sum += drive->rom[i ^ 0x7f00];
+            }
+            drive->rom[0x4000] = ~(sum % 255);
+        }
+        break;
     case DRIVE_TYPE_1570:
-	{
-	    DWORD sum = 0xff;
-	    drive->rom[0x4000] = 0xff;
-	    for (i = 0x102; i < 0x8000; i++) {
-		sum += drive->rom[i];
-	    }
-	    drive->rom[0x4000] = ~(sum % 255);
-	}
+        {
+            DWORD sum = 0xff;
+            drive->rom[0x4000] = 0xff;
+            for (i = 0x102; i < 0x8000; i++) {
+                sum += drive->rom[i];
+            }
+            drive->rom[0x4000] = ~(sum % 255);
+        }
         break;
     case DRIVE_TYPE_1571:
     case DRIVE_TYPE_1571CR:
-	{
-	    DWORD sum = 0xfe;
-	    drive->rom[0x4000] = 0xff;
-	    for (i = 2; i < 0x8000; i++) {
-		sum += drive->rom[i];
-	    }
-	    drive->rom[0x4000] = ~(sum % 255);
-	}
+        {
+            DWORD sum = 0xfe;
+            drive->rom[0x4000] = 0xff;
+            for (i = 2; i < 0x8000; i++) {
+                sum += drive->rom[i];
+            }
+            drive->rom[0x4000] = ~(sum % 255);
+        }
         break;
     case DRIVE_TYPE_1581:
-	{
-	    DWORD sum = 0xff;
-	    drive->rom[0x0002] = 0xff;
-	    for (i = 2; i < 0x8000; i++) {
-		sum += drive->rom[i];
-	    }
-	    drive->rom[0x0002] = ~(sum % 255);
-	}
+        {
+            DWORD sum = 0xff;
+            drive->rom[2] = 0xff;
+            for (i = 2; i < 0x8000; i++) {
+                sum += drive->rom[i];
+            }
+            drive->rom[2] = ~(sum % 255);
+        }
         break;
     case DRIVE_TYPE_2000:
     case DRIVE_TYPE_4000:
-	{
-	    WORD sum = 0;
-	    for (i = 4; i < 0x8000; i++) {
-		sum += drive->rom[i];
-	    }
-	    drive->rom[2] = sum;
-	    drive->rom[3] = sum >> 8;
-	}
+        {
+            WORD sum = 0;
+            for (i = 4; i < 0x8000; i++) {
+                sum += drive->rom[i];
+            }
+            drive->rom[2] = sum;
+            drive->rom[3] = sum >> 8;
+        }
         break;
     case DRIVE_TYPE_2031:
-	{
-	    DWORD sum = (DWORD)-0xc0;
-	    drive->rom[0x4000] = 0xff;
-	    for (i = 0; i < 0x2000; i++) {
-		sum += drive->rom[i ^ 0x5f00];
-	    }
-	    drive->rom[0x4000] = ~(sum % 255);
+        {
+            DWORD sum = (DWORD)-0xc0;
+            drive->rom[0x4000] = 0xff;
+            for (i = 0; i < 0x2000; i++) {
+                sum += drive->rom[i ^ 0x5f00];
+            }
+            drive->rom[0x4000] = ~(sum % 255);
 
-	    sum = (DWORD)-0xe0;
-	    drive->rom[0x7f35] = 0xff;
-	    for (i = 0; i < 0x2000; i++) {
-		sum += drive->rom[i ^ 0x7f00];
-	    }
-	    drive->rom[0x7f35] = ~(sum % 255);
-	}
+            sum = (DWORD)-0xe0;
+            drive->rom[0x7f35] = 0xff;
+            for (i = 0; i < 0x2000; i++) {
+                sum += drive->rom[i ^ 0x7f00];
+            }
+            drive->rom[0x7f35] = ~(sum % 255);
+        }
         break;
     }
     switch (drive->type) {
     case DRIVE_TYPE_1570:
     case DRIVE_TYPE_1571:
     case DRIVE_TYPE_1571CR:
-	{
-	    WORD sum = 0;
-	    BYTE m, m2;
-	    for (i = 6; i < 0x8003; i++) {
-		switch (i) {
-		case 0x8000:
-		    m = sum;
-		    break;
-		case 0x8001:
-		    m = sum >> 8;
-		    break;
-		case 0x8002:
-		    break;
-		default:
-		    m = drive->rom[i];
-		}
-		for (j = 0; j < 8; j++) {
-		    m2 = m ^ (sum >> 8) ^ (sum >> 11) ^ (sum >> 15) ^ (sum >> 6);
-		    m = (m >> 1) | ((sum >> 8) & 0x80);
-		    sum = (sum << 1) | (m2 & 1);
-		}
-	    }
-	    drive->rom[0] = sum;
-	    drive->rom[1] = sum >> 8;
-	}
+        {
+            WORD sum = 0;
+            BYTE m, m2;
+            for (i = 6; i < 0x8003; i++) {
+                switch (i) {
+                case 0x8000:
+                    m = sum;
+                    break;
+                case 0x8001:
+                    m = sum >> 8;
+                    break;
+                case 0x8002:
+                    break;
+                default:
+                    m = drive->rom[i];
+                }
+                for (j = 0; j < 8; j++) {
+                    m2 = m ^ (sum >> 8) ^ (sum >> 11) ^ (sum >> 15) ^ (sum >> 6);
+                    m = (m >> 1) | ((sum >> 8) & 0x80);
+                    sum = (sum << 1) | (m2 & 1);
+                }
+            }
+            drive->rom[0] = sum;
+            drive->rom[1] = sum >> 8;
+        }
         break;
     case DRIVE_TYPE_1581:
-	{
-	    WORD sum = 0xffff, m, m2;
-	    for (i = 2; i < 0x8000; i += 2) {
-		m = (drive->rom[i] << 8) | drive->rom[i + 1];
-		for (j = 0; j < 16; j++) {
-		    m2 = m ^ sum;
-		    m <<= 1;
-		    sum <<= 1;
-		    if (m2 & 0x8000) {
-			sum ^= 0x1021;
-		    }
-		}
-	    }
-	    drive->rom[0] = sum;
-	    drive->rom[1] = sum >> 8;
-	}
+        {
+            WORD sum = 0xffff, m, m2;
+            for (i = 2; i < 0x8000; i += 2) {
+                m = (drive->rom[i] << 8) | drive->rom[i + 1];
+                for (j = 0; j < 16; j++) {
+                    m2 = m ^ sum;
+                    m <<= 1;
+                    sum <<= 1;
+                    if (m2 & 0x8000) {
+                        sum ^= 0x1021;
+                    }
+                }
+            }
+            drive->rom[0] = sum;
+            drive->rom[1] = sum >> 8;
+        }
         break;
     }
 }
