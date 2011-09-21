@@ -88,7 +88,7 @@ static c64export_resource_t export_res = {
 
 /* Some prototypes are needed */
 static int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
+static int digimax_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void digimax_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE digimax_sound_machine_read(sound_t *psid, WORD addr);
 static void digimax_sound_reset(sound_t *psid, CLOCK cpu_clk);
@@ -337,14 +337,14 @@ struct digimax_sound_s {
 
 static struct digimax_sound_s snd;
 
-static int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
+static int digimax_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
 
     /* FIXME: this should use bandlimited step synthesis. Sadly, VICE does not
      * have an easy-to-use infrastructure for blep generation. We should write
      * this code. */
-    switch (interleave) {
+    switch (soc) {
         default:
         case 1:
             for (i = 0; i < nr; i++) {
@@ -355,17 +355,11 @@ static int digimax_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, i
             }
             break;
         case 2:
-            if (channel) {
-                for (i = 0; i < nr; i++) {
-                    pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], ((int)snd.voice1) << 6);
-                    pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], ((int)snd.voice3) << 6);
-                }
-            } else {
-                for (i = 0; i < nr; i++) {
-                    pbuf[i * 2] = sound_audio_mix(pbuf[i * 2],((int)snd.voice0) << 6);
-                    pbuf[i * 2] = sound_audio_mix(pbuf[i * 2],((int)snd.voice2) << 6);
-
-                }
+            for (i = 0; i < nr; i++) {
+                pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], ((int)snd.voice1) << 6);
+                pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], ((int)snd.voice3) << 6);
+                pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1],((int)snd.voice0) << 6);
+                pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1],((int)snd.voice2) << 6);
             }
             break;
 

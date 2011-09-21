@@ -43,7 +43,7 @@
 
 /* Some prototypes are needed */
 static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
+static int pet_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE pet_sound_machine_read(sound_t *psid, WORD addr);
 static void pet_sound_reset(sound_t *psid, CLOCK cpu_clk);
@@ -134,7 +134,7 @@ static WORD pet_makesample(double s, double e, BYTE sample)
     return ((WORD)(v * 4095.0 / (e - s)));
 }
 
-static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
+static int pet_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
     WORD v = 0;
@@ -146,7 +146,10 @@ static int pet_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
             v = 20000;
         }
 
-        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave],(SWORD)v);
+        pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], (SWORD)v);
+        if (soc > 1) {
+            pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], (SWORD)v);
+        }
 
         snd.b += snd.bs;
         while (snd.b >= 8.0) {

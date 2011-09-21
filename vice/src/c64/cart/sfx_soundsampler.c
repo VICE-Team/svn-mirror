@@ -75,7 +75,7 @@ static const c64export_resource_t export_res= {
 
 /* Some prototypes are needed */
 static int sfx_soundsampler_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
+static int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void sfx_soundsampler_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE sfx_soundsampler_sound_machine_read(sound_t *psid, WORD addr);
 static void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk);
@@ -263,12 +263,15 @@ struct sfx_soundsampler_sound_s
 
 static struct sfx_soundsampler_sound_s snd;
 
-static int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
+static int sfx_soundsampler_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
 
     for (i = 0; i < nr; i++) {
-        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], snd.voice0 << 8);
+        pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], snd.voice0 << 8);
+        if (soc > 1) {
+            pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], snd.voice0 << 8);
+        }
     }
     return nr;
 }

@@ -46,7 +46,7 @@
 
 /* Some prototypes are needed */
 static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
+static int ted_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void ted_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE ted_sound_machine_read(sound_t *psid, WORD addr);
 
@@ -134,7 +134,7 @@ static const SWORD volume_tab[16] = {
     0x0000, 0x0800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800,
     0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff };
 
-static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
+static int ted_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
     int j;
@@ -142,7 +142,10 @@ static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
 
     if (snd.digital) {
         for (i = 0; i < nr; i++) {
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
+            pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
+            if (soc > 1) {
+                pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
+            }
         }
     } else {
         for (i = 0; i < nr; i++) {
@@ -220,7 +223,10 @@ static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
                 && (!(snd.noise_shift_register & 1)))
                 volume += snd.volume;
 
-            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], volume);
+            pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], volume);
+            if (soc > 1) {
+                pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], volume);
+            }
         }
     }
     return nr;

@@ -116,6 +116,11 @@ static inline SWORD sound_audio_mix(int ch1, int ch2)
 #define SOUND_FRAGMENT_MEDIUM   1
 #define SOUND_FRAGMENT_LARGE    2
 
+/* Sound output modes */
+#define SOUND_OUTPUT_SYSTEM   0
+#define SOUND_OUTPUT_MONO     1
+#define SOUND_OUTPUT_STEREO   2
+
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
 extern void sound_reset(void);
@@ -203,7 +208,7 @@ typedef struct sound_chip_s {
     sound_t *(*open)(int chipno);
     int (*init)(sound_t *psid, int speed, int cycles_per_sec);
     void (*close)(sound_t *psid);
-    int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
+    int (*calculate_samples)(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
     void (*store)(sound_t *psid, WORD addr, BYTE val);
     BYTE (*read)(sound_t *psid, WORD addr);
     void (*reset)(sound_t *psid, CLOCK cpu_clk);
