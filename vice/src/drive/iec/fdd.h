@@ -54,6 +54,7 @@ typedef struct fd_drive_s {
     fdd_sector_header_t *headers;
 } fd_drive_t;
 
+extern const int fdd_data_rates[4];
 extern fd_drive_t *fdd_init(int num);
 extern void fdd_shutdown(fd_drive_t *drv);
 

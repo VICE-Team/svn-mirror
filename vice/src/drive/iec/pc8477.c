@@ -46,7 +46,6 @@
 #define debug(...) {}
 #endif
 
-const int data_rates[4] = {500, 300, 250, 1000};
 #define STEP_RATE ((16 - drv->step_rate) * 1000000 / drv->rate)
 
 static log_t pc8477_log = LOG_ERR;
@@ -555,7 +554,7 @@ static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
         fdd_set_rate(drv->fdds[1], byte);
         fdd_set_rate(drv->fdds[2], byte);
         fdd_set_rate(drv->fdds[3], byte);
-        drv->rate = data_rates[byte & 3];
+        drv->rate = fdd_data_rates[byte & 3];
         break;
     }
 }

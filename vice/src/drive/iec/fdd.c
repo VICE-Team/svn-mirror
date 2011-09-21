@@ -35,10 +35,11 @@
 #include "fdd.h"
 #include "diskimage.h"
 
+const int fdd_data_rates[4] = {500, 300, 250, 1000}; /* kbit/s */
+
 struct fdd_sector_header_s {
     BYTE track, head, sector, bytes;
     BYTE itrack, isector;
-    BYTE rate;
 };
 
 fd_drive_t *fdd_init(int num) {
@@ -128,7 +129,6 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
                 i <<= drv->sector_size - 1;
                 header->itrack = i / drv->image_sectors + 1;
                 header->isector = i % drv->image_sectors;
-                header->rate = drv->disk_rate;
             }
 }
 
@@ -172,11 +172,11 @@ int fdd_image_read(fd_drive_t *drv, BYTE *buffer)
         fdd_rotate(drv);
         return -1;
     }
-    header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
-    if (header->rate != drv->rate) {
+    if (drv->disk_rate != drv->rate) {
         fdd_rotate(drv);
         return -1;
     }
+    header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
     t = header -> itrack;
     s = header -> isector;
 
@@ -212,11 +212,11 @@ int fdd_image_write(fd_drive_t *drv, BYTE *buffer)
         fdd_rotate(drv);
         return -1;
     }
-    header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
-    if (header->rate != drv->rate) {
+    if (drv->disk_rate != drv->rate) {
         fdd_rotate(drv);
         return -1;
     }
+    header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
     t = header -> itrack;
     s = header -> isector;
 
@@ -292,11 +292,11 @@ int fdd_image_read_header(fd_drive_t *drv, BYTE *track, BYTE *head, BYTE *sector
         return -1;
     }
 
-    header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
-    if (header->rate != drv->rate) {
+    if (drv->disk_rate != drv->rate) {
         fdd_rotate(drv);
         return -1;
     }
+    header = &drv->headers[(drv->track * 2 + drv->head) * drv->sectors + drv->sector - 1];
     *track = header->track;
     *head = header->head;
     *sector = header->sector;
