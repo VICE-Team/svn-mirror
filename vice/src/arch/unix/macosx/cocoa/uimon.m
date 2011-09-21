@@ -33,7 +33,8 @@
 
 #import "vicemachine.h"
 
-static console_t dummy = { 80,25,1,0,NULL };
+/* make sure to set console_can_stay_open=0 otherwise uimon_window_close will not be called! */
+static console_t dummy = { 80,25,0,0,NULL };
 
 console_t *uimon_window_open( void )
 {
