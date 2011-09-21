@@ -319,8 +319,6 @@ int vdrive_dir_first_directory(vdrive_t *vdrive, const char *name,
                                int length, int filetype, bufferinfo_t *p)
 {
     BYTE *l;
-    int blocks, i;
-    int status;
 
     if (length) {
         if (*name == '$') {
