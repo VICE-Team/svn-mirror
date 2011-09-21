@@ -478,85 +478,85 @@ static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
     };
 
     switch (addr) {
-        case 2: /* DCR */
-            if (byte & 0x04) {
-                pc8477_software_reset(drv);
+    case 2: /* DCR */
+        if (byte & 0x04) {
+            pc8477_software_reset(drv);
+        }
+        fdd_set_motor(drv->fdds[0], byte >> 4);
+        fdd_set_motor(drv->fdds[1], byte >> 5);
+        fdd_set_motor(drv->fdds[2], byte >> 6);
+        fdd_set_motor(drv->fdds[3], byte >> 7);
+        drv->sel = byte & 3;
+        break;
+    case 5: /* DATA */
+        switch (drv->state) {
+        case PC8477_WAIT:
+            drv->cmdp = 0;
+            drv->resp = 0;
+            drv->bufp = 0;
+            drv->buf_size = 0;
+            for (i = 0; i < 22; i++) {
+                if (commands[i].code == (commands[i].mask & byte)) {
+                    break;
+                }
             }
-            fdd_set_motor(drv->fdds[0], byte >> 4);
-            fdd_set_motor(drv->fdds[1], byte >> 5);
-            fdd_set_motor(drv->fdds[2], byte >> 6);
-            fdd_set_motor(drv->fdds[3], byte >> 7);
-            drv->sel = byte & 3;
-            break;
-        case 5: /* DATA */
-            switch (drv->state) {
-            case PC8477_WAIT:
-                drv->cmdp = 0;
-                drv->resp = 0;
-                drv->bufp = 0;
-                drv->buf_size = 0;
-                for (i = 0; i < 22; i++) {
-                    if (commands[i].code == (commands[i].mask & byte)) {
-                        break;
-                    }
-                }
-                drv->command = commands[i].command;
-                drv->cmd_size = commands[i].len;
-                drv->res_size = commands[i].rlen;
-                drv->state = PC8477_COMMAND;
-                drv->cmd_sel = commands[i].sel;
-                /* fall through */
-            case PC8477_COMMAND:
-                if (drv->cmdp < drv->cmd_size) {
-                    drv->cmd[drv->cmdp++] = byte;
-                }
-                if (drv->cmdp < drv->cmd_size) {
-                    return;
-                }
-                if (drv->command != PC8477_CMD_SENSE_INTERRUPT) {
-                    drv->st[1] = 0;
-                    drv->st[2] = 0;
-                    if (drv->cmd_sel) {
-                        drv->fdd = drv->fdds[drv->cmd[1] & 3];
-                        drv->st[3] = drv->cmd[1] & 3;
-                        if (drv->cmd_sel > 1) {
-                            fdd_select_head(drv->fdd, drv->cmd[1] >> 2);
-                        }
-                    } else {
-                        drv->fdd = drv->fdds[drv->sel];
-                        drv->st[3] = drv->sel;
-                    }
-                    if (drv->fdd) {
-                        drv->st[3] |= drv->fdd->head << 2;
-                    }
-                    drv->st[0] = drv->st[3];
-                }
-                memset(drv->res, 0, sizeof(drv->res));
-                drv->irq = 0;
-                drv->state = pc8477_execute(drv, 0);
-                break;
-            case PC8477_WRITE:
-                drv->buf[drv->bufp++] = byte;
-                if (drv->bufp >= drv->buf_size) {
-                    drv->state = PC8477_EXEC;
-                }
-                return;
-            case PC8477_EXEC:
-                drv->st[0] |= 0x40;
-                drv->state = PC8477_RESULT;
-                return;
-            case PC8477_RESULT:
-            case PC8477_READ:
+            drv->command = commands[i].command;
+            drv->cmd_size = commands[i].len;
+            drv->res_size = commands[i].rlen;
+            drv->state = PC8477_COMMAND;
+            drv->cmd_sel = commands[i].sel;
+            /* fall through */
+        case PC8477_COMMAND:
+            if (drv->cmdp < drv->cmd_size) {
+                drv->cmd[drv->cmdp++] = byte;
+            }
+            if (drv->cmdp < drv->cmd_size) {
                 return;
             }
+            if (drv->command != PC8477_CMD_SENSE_INTERRUPT) {
+                drv->st[1] = 0;
+                drv->st[2] = 0;
+                if (drv->cmd_sel) {
+                    drv->fdd = drv->fdds[drv->cmd[1] & 3];
+                    drv->st[3] = drv->cmd[1] & 3;
+                    if (drv->cmd_sel > 1) {
+                        fdd_select_head(drv->fdd, drv->cmd[1] >> 2);
+                    }
+                } else {
+                    drv->fdd = drv->fdds[drv->sel];
+                    drv->st[3] = drv->sel;
+                }
+                if (drv->fdd) {
+                    drv->st[3] |= drv->fdd->head << 2;
+                }
+                drv->st[0] = drv->st[3];
+            }
+            memset(drv->res, 0, sizeof(drv->res));
+            drv->irq = 0;
+            drv->state = pc8477_execute(drv, 0);
             break;
-        case 7: /* DRR */
-            fdd_set_rate(drv->fdds[0], byte);
-            fdd_set_rate(drv->fdds[1], byte);
-            fdd_set_rate(drv->fdds[2], byte);
-            fdd_set_rate(drv->fdds[3], byte);
-            drv->rate = data_rates[byte & 3];
-            break;
+        case PC8477_WRITE:
+            drv->buf[drv->bufp++] = byte;
+            if (drv->bufp >= drv->buf_size) {
+                drv->state = PC8477_EXEC;
+            }
+            return;
+        case PC8477_EXEC:
+            drv->st[0] |= 0x40;
+            drv->state = PC8477_RESULT;
+            return;
+        case PC8477_RESULT:
+        case PC8477_READ:
+            return;
+        }
+        break;
+    case 7: /* DRR */
+        fdd_set_rate(drv->fdds[0], byte);
+        fdd_set_rate(drv->fdds[1], byte);
+        fdd_set_rate(drv->fdds[2], byte);
+        fdd_set_rate(drv->fdds[3], byte);
+        drv->rate = data_rates[byte & 3];
+        break;
     }
 }
 
@@ -565,59 +565,59 @@ static BYTE pc8477_read(pc8477_t *drv, WORD addr)
     BYTE result = 0;
 
     switch (addr) {
-        case 4: /* MSR */
-            if (drv->state == PC8477_EXEC) {
-                drv->state = pc8477_execute(drv, 1);
-            }
-            result |= drv->seeking[0] ? 0x01 : 0x00;
-            result |= drv->seeking[1] ? 0x02 : 0x00;
-            result |= drv->seeking[2] ? 0x04 : 0x00;
-            result |= drv->seeking[3] ? 0x08 : 0x00;
+    case 4: /* MSR */
+        if (drv->state == PC8477_EXEC) {
+            drv->state = pc8477_execute(drv, 1);
+        }
+        result |= drv->seeking[0] ? 0x01 : 0x00;
+        result |= drv->seeking[1] ? 0x02 : 0x00;
+        result |= drv->seeking[2] ? 0x04 : 0x00;
+        result |= drv->seeking[3] ? 0x08 : 0x00;
 
-            if (drv->state != PC8477_WAIT) {
-                result |= 0x10;
-            }
-            if (drv->nodma && (drv->state == PC8477_READ || drv->state == PC8477_WRITE)) {
-                result |= 0x20;
-            }
-            if (drv->state == PC8477_READ || drv->state == PC8477_RESULT) {
-                result |= 0x40;
-            }
-            if (drv->state != PC8477_EXEC) {
-                result |= 0x80;
-            }
-            return result;
-        case 5: /* DATA */
-            switch (drv->state) {
-            case PC8477_WAIT:
-            case PC8477_COMMAND:
-            case PC8477_WRITE:
-            case PC8477_EXEC:
-                break;
-            case PC8477_READ:
-                result = drv->buf[drv->bufp++];
-                if (drv->bufp >= drv->buf_size) {
-                    drv->state = PC8477_EXEC;
-                }
-                return result;
-            case PC8477_RESULT:
-                if (!drv->resp) {
-                    pc8477_result(drv);
-                    drv->irq = 0;
-                }
-                result = drv->res[drv->resp++];
-                if (drv->resp >= drv->res_size) {
-                    drv->state = PC8477_WAIT;
-                }
-                return result;
-            }
+        if (drv->state != PC8477_WAIT) {
+            result |= 0x10;
+        }
+        if (drv->nodma && (drv->state == PC8477_READ || drv->state == PC8477_WRITE)) {
+            result |= 0x20;
+        }
+        if (drv->state == PC8477_READ || drv->state == PC8477_RESULT) {
+            result |= 0x40;
+        }
+        if (drv->state != PC8477_EXEC) {
+            result |= 0x80;
+        }
+        return result;
+    case 5: /* DATA */
+        switch (drv->state) {
+        case PC8477_WAIT:
+        case PC8477_COMMAND:
+        case PC8477_WRITE:
+        case PC8477_EXEC:
             break;
-        case 7: /* DKR */
-            result = (addr >> 8) & 0x7f;
-            if (drv->fdds[drv->sel]) {
-                result |= drv->fdds[drv->sel]->disk_change ? 0x80 : 0;
+        case PC8477_READ:
+            result = drv->buf[drv->bufp++];
+            if (drv->bufp >= drv->buf_size) {
+                drv->state = PC8477_EXEC;
             }
             return result;
+        case PC8477_RESULT:
+            if (!drv->resp) {
+                pc8477_result(drv);
+                drv->irq = 0;
+            }
+            result = drv->res[drv->resp++];
+            if (drv->resp >= drv->res_size) {
+                drv->state = PC8477_WAIT;
+            }
+            return result;
+        }
+        break;
+    case 7: /* DKR */
+        result = (addr >> 8) & 0x7f;
+        if (drv->fdds[drv->sel]) {
+            result |= drv->fdds[drv->sel]->disk_change ? 0x80 : 0;
+        }
+        return result;
     }
     return addr >> 8; /* tri-state */
 }
