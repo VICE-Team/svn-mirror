@@ -45,6 +45,7 @@ int burst_mod;
 int set_burst_mod(int mode, void *param)
 {
     burst_mod = mode;
+    return 0;
 }
 
 void c64fastiec_init(void)
