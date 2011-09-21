@@ -356,7 +356,10 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
     BYTE *tmptrg, *tmptrgscanline;
     SDWORD *cbtable, *crtable;
     DWORD x, y, wfirst, wlast, yys;
-    SDWORD l, l2, u, u2, unew, v, v2, vnew, off_flip, shade;
+    SDWORD l, u, unew, v, vnew, off_flip, shade;
+    SDWORD l2 = 0;
+    SDWORD u2 = 0;
+    SDWORD v2 = 0;
 
     src = src + pitchs * ys + xs - 2;
     trg = trg + pitcht * yt + xt * pixelstride;
