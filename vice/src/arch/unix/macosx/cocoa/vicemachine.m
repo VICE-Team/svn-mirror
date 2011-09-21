@@ -229,7 +229,9 @@ VICEMachine *theVICEMachine = nil;
             // user requested to enter monitor during pause
             if(doMonitorInPause) {
                 doMonitorInPause = false;
-                monitor_startup();
+                monitor_startup_trap();
+                // leave run loop -> monitor will be entered via trap
+                return;
             }
             
             // shall we escape from pause?
