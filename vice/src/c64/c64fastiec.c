@@ -87,12 +87,12 @@ void iec_fast_drive_write(BYTE data, unsigned int dnr)
 {
     if (fast_drive_direction[dnr]) {
         switch (burst_mod) {
-        case BURST_MOD_CIA1:
-            ciacore_set_sdr(machine_context.cia1, data);
-            break;
-        case BURST_MOD_CIA2:
-            ciacore_set_sdr(machine_context.cia2, data);
-            break;
+            case BURST_MOD_CIA1:
+                ciacore_set_sdr(machine_context.cia1, data);
+                break;
+            case BURST_MOD_CIA2:
+                ciacore_set_sdr(machine_context.cia2, data);
+                break;
         }
     }
 }
