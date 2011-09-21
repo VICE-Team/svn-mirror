@@ -541,6 +541,7 @@ void psid_init_driver(void)
         if (psid->version >= 3) {
             resources_set_int("SidStereo", 0);
             sid2loc = 0xd000 | ((psid->reserved >> 4) & 0x0ff0);
+            log_message(vlog, "2nd SID at $%04x", sid2loc);
             if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc >= 0xde00)
                     && (sid2loc & 0x10) == 0) {
                     resources_set_int("SidStereo", 1);

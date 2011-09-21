@@ -743,179 +743,177 @@ static GtkWidget *ui_create_status_bar(GtkWidget *pane)
         gtk_widget_show(pcb);
         gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, FALSE, FALSE, 0);
         gtk_widget_show(pal_ctrl_checkbox);
-    }
 
-    /* Video Control checkbox */
-    video_ctrl_checkbox = gtk_frame_new(NULL);
-    gtk_frame_set_shadow_type(GTK_FRAME(video_ctrl_checkbox), GTK_SHADOW_IN);
+        /* Video Control checkbox */
+        video_ctrl_checkbox = gtk_frame_new(NULL);
+        gtk_frame_set_shadow_type(GTK_FRAME(video_ctrl_checkbox), GTK_SHADOW_IN);
 
-    video_ctrl_checkbox_label = gtk_label_new(_("audio/video recording"));
-    vcb = gtk_button_new();
-    gtk_container_add(GTK_CONTAINER(vcb), video_ctrl_checkbox_label);
-    gtk_widget_show(video_ctrl_checkbox_label);
-    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
-    g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_video_checkbox), vcb);
-    gtk_container_add(GTK_CONTAINER(video_ctrl_checkbox), vcb);
-    gtk_widget_show(vcb);
-    gtk_box_pack_start(GTK_BOX(status_bar), video_ctrl_checkbox, FALSE, FALSE, 0);
-    gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop recording"));
+        video_ctrl_checkbox_label = gtk_label_new(_("audio/video recording"));
+        vcb = gtk_button_new();
+        gtk_container_add(GTK_CONTAINER(vcb), video_ctrl_checkbox_label);
+        gtk_widget_show(video_ctrl_checkbox_label);
+        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+        g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_video_checkbox), vcb);
+        gtk_container_add(GTK_CONTAINER(video_ctrl_checkbox), vcb);
+        gtk_widget_show(vcb);
+        gtk_box_pack_start(GTK_BOX(status_bar), video_ctrl_checkbox, FALSE, FALSE, 0);
+        gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop recording"));
 
-    /* Event record control checkbox */
-    event_rec_checkbox = gtk_frame_new(NULL);
-    gtk_frame_set_shadow_type(GTK_FRAME(event_rec_checkbox), GTK_SHADOW_IN);
+        /* Event record control checkbox */
+        event_rec_checkbox = gtk_frame_new(NULL);
+        gtk_frame_set_shadow_type(GTK_FRAME(event_rec_checkbox), GTK_SHADOW_IN);
 
-    event_rec_checkbox_label = gtk_label_new(_("event recording"));
-    vcb = gtk_button_new();
-    gtk_container_add(GTK_CONTAINER(vcb), event_rec_checkbox_label);
-    gtk_widget_show(event_rec_checkbox_label);
-    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
-    g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_event_checkbox), (gpointer)0);
-    gtk_container_add(GTK_CONTAINER(event_rec_checkbox), vcb);
-    gtk_widget_show(vcb);
-    gtk_box_pack_start(GTK_BOX(status_bar), event_rec_checkbox, FALSE, FALSE, 0);
-    gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop recording"));
+        event_rec_checkbox_label = gtk_label_new(_("event recording"));
+        vcb = gtk_button_new();
+        gtk_container_add(GTK_CONTAINER(vcb), event_rec_checkbox_label);
+        gtk_widget_show(event_rec_checkbox_label);
+        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+        g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_event_checkbox), (gpointer)0);
+        gtk_container_add(GTK_CONTAINER(event_rec_checkbox), vcb);
+        gtk_widget_show(vcb);
+        gtk_box_pack_start(GTK_BOX(status_bar), event_rec_checkbox, FALSE, FALSE, 0);
+        gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop recording"));
 
-    /* Event playback control checkbox */
-    event_playback_checkbox = gtk_frame_new(NULL);
-    gtk_frame_set_shadow_type(GTK_FRAME(event_playback_checkbox), GTK_SHADOW_IN);
+        /* Event playback control checkbox */
+        event_playback_checkbox = gtk_frame_new(NULL);
+        gtk_frame_set_shadow_type(GTK_FRAME(event_playback_checkbox), GTK_SHADOW_IN);
 
-    event_playback_checkbox_label = gtk_label_new(_("event playback"));
-    vcb = gtk_button_new();
-    gtk_container_add(GTK_CONTAINER(vcb), event_playback_checkbox_label);
-    gtk_widget_show(event_playback_checkbox_label);
-    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
-    g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_event_checkbox), (gpointer)1);
-    gtk_container_add(GTK_CONTAINER(event_playback_checkbox), vcb);
-    gtk_widget_show(vcb);
-    gtk_box_pack_start(GTK_BOX(status_bar), event_playback_checkbox, FALSE, FALSE, 0);
-    gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop playback"));
+        event_playback_checkbox_label = gtk_label_new(_("event playback"));
+        vcb = gtk_button_new();
+        gtk_container_add(GTK_CONTAINER(vcb), event_playback_checkbox_label);
+        gtk_widget_show(event_playback_checkbox_label);
+        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+        g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_event_checkbox), (gpointer)1);
+        gtk_container_add(GTK_CONTAINER(event_playback_checkbox), vcb);
+        gtk_widget_show(vcb);
+        gtk_box_pack_start(GTK_BOX(status_bar), event_playback_checkbox, FALSE, FALSE, 0);
+        gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop playback"));
 
-    /* drive stuff */
-    drive_box = gtk_hbox_new(FALSE, 0);
-    for (i = 0; i < NUM_DRIVES; i++) {
-        char label[256];
+        /* drive stuff */
+        drive_box = gtk_hbox_new(FALSE, 0);
+        for (i = 0; i < NUM_DRIVES; i++) {
+            char label[256];
 
-        as->drive_status[i].event_box = gtk_event_box_new();
+            as->drive_status[i].event_box = gtk_event_box_new();
+
+            frame = gtk_frame_new(NULL);
+            gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
+
+            sprintf(label, _("Drive %d: "), i + 8);
+            as->drive_status[i].box = gtk_hbox_new(FALSE, 0);
+
+            gtk_container_add(GTK_CONTAINER(frame), as->drive_status[i].box);
+            gtk_widget_show(as->drive_status[i].box);
+
+            gtk_container_add(GTK_CONTAINER(as->drive_status[i].event_box), frame);
+            gtk_widget_show(frame);
+
+#if 0
+            drive_tooltips[i] = gtk_tooltips_new();
+            gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]), as->drive_status[i].box->parent->parent, empty, NULL);
+#else
+            gtk_widget_set_tooltip_text(GTK_WIDGET(as->drive_status[i].box->parent->parent), empty);
+#endif
+            /* Label */
+            as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
+            gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].label, TRUE, TRUE, 0);
+            gtk_widget_show((GtkWidget *)as->drive_status[i].label);
+#if 0
+            as->drive_status[i].image = (void *)gtk_label_new(empty);
+            gtk_container_add(GTK_CONTAINER(event_box), as->drive_status[i].image);
+            gtk_widget_show(as->drive_status[i].image);
+#endif
+            /* Track Label */
+            as->drive_status[i].track_label = gtk_label_new("");
+            gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), as->drive_status[i].track_label, FALSE, FALSE, 0);
+            gtk_widget_show(as->drive_status[i].track_label);      
+
+            /* Single Led */
+            as->drive_status[i].led_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH, LED_HEIGHT, -1);
+            as->drive_status[i].led = gtk_image_new_from_pixmap(as->drive_status[i].led_pixmap, NULL);
+            gtk_widget_set_size_request(as->drive_status[i].led, LED_WIDTH, LED_HEIGHT);
+            gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led, FALSE, FALSE, 4);
+            gtk_widget_show(as->drive_status[i].led);
+
+            /* Led1 for double Led drive */
+            as->drive_status[i].led1_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH / 2, LED_HEIGHT, -1);
+            as->drive_status[i].led1 = gtk_image_new_from_pixmap(as->drive_status[i].led1_pixmap, NULL);
+            gtk_widget_set_size_request(as->drive_status[i].led1, LED_WIDTH / 2, LED_HEIGHT);
+            gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led1, FALSE, FALSE, 1);
+            gtk_widget_show(as->drive_status[i].led1);
+
+            /* Led2 for double Led drive */
+            as->drive_status[i].led2_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH / 2, LED_HEIGHT, -1);
+            as->drive_status[i].led2 = gtk_image_new_from_pixmap(as->drive_status[i].led2_pixmap, NULL);
+            gtk_widget_set_size_request(as->drive_status[i].led2, LED_WIDTH / 2, LED_HEIGHT);
+            gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led2, FALSE, FALSE, 1);
+            gtk_widget_show(as->drive_status[i].led2);
+
+            /* Pack everything together */
+            gtk_box_pack_start(GTK_BOX(drive_box), as->drive_status[i].event_box, FALSE, FALSE, 0);
+
+            gtk_widget_set_events(as->drive_status[i].event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
+            g_signal_connect(G_OBJECT(as->drive_status[i].event_box), "button-press-event", G_CALLBACK(fliplist_popup_cb), (gpointer)(int_to_void_ptr(i)));
+            gtk_widget_show(as->drive_status[i].event_box);
+        }
+
+        gtk_widget_show(drive_box);
+        gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
+
+        /* tape stuff */
+        as->tape_status.event_box = gtk_event_box_new();
 
         frame = gtk_frame_new(NULL);
         gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 
-        sprintf(label, _("Drive %d: "), i + 8);
-        as->drive_status[i].box = gtk_hbox_new(FALSE, 0);
+        as->tape_status.box = gtk_hbox_new(FALSE, 0);
+        gtk_container_add(GTK_CONTAINER(frame), as->tape_status.box);
+        gtk_widget_show(as->tape_status.box);
 
-        gtk_container_add(GTK_CONTAINER(frame), as->drive_status[i].box);
-        gtk_widget_show(as->drive_status[i].box);
-
-        gtk_container_add(GTK_CONTAINER(as->drive_status[i].event_box), frame);
+        gtk_container_add(GTK_CONTAINER(as->tape_status.event_box), frame);
         gtk_widget_show(frame);
 
+        gtk_widget_set_tooltip_text(GTK_WIDGET(as->tape_status.box->parent->parent), "");
+
+        /* Tape Label */
+        as->tape_status.label = gtk_label_new(_("Tape 000"));
+        gtk_container_add(GTK_CONTAINER(as->tape_status.box), as->tape_status.label);
+        gtk_misc_set_alignment(GTK_MISC (as->tape_status.label), 0, -1);
+        gtk_widget_show(as->tape_status.label);
+
+        /* Tape control */
+        as->tape_status.control_pixmap = gdk_pixmap_new(_ui_top_level->window, CTRL_WIDTH, CTRL_HEIGHT, -1);
+        as->tape_status.control = gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
+        gtk_widget_set_size_request(as->tape_status.control, CTRL_WIDTH, CTRL_HEIGHT);
+        gtk_box_pack_start(GTK_BOX(as->tape_status.box), as->tape_status.control, FALSE, FALSE, 4);
+        gtk_widget_show(as->tape_status.control);
+
+        gtk_widget_set_events(as->tape_status.event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
+        g_signal_connect(G_OBJECT(as->tape_status.event_box), "button-press-event", G_CALLBACK(tape_popup_cb), (gpointer)NULL);
+
+        gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
+        gtk_widget_show(as->tape_status.event_box);
+        gtk_widget_show(status_bar);
+
+        for (i = 0; i < NUM_DRIVES; i++) {
 #if 0
-        drive_tooltips[i] = gtk_tooltips_new();
-        gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]), as->drive_status[i].box->parent->parent, empty, NULL);
-#else
-        gtk_widget_set_tooltip_text(GTK_WIDGET(as->drive_status[i].box->parent->parent), empty);
+            int ih, iw;
+
+            gdk_window_get_size_request(((GtkWidget *)as->drive_status[i].image)->window, &iw, &ih);
+            gtk_widget_set_size_request(as->drive_status[i].image, width / 3, ih);
 #endif
-
-        /* Label */
-        as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
-        gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].label, TRUE, TRUE, 0);
-        gtk_widget_show((GtkWidget *)as->drive_status[i].label);
-
-#if 0
-        as->drive_status[i].image = (void *)gtk_label_new(empty);
-        gtk_container_add(GTK_CONTAINER(event_box), as->drive_status[i].image);
-        gtk_widget_show(as->drive_status[i].image);
-#endif
-	
-        /* Track Label */
-        as->drive_status[i].track_label = gtk_label_new("");
-        gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), as->drive_status[i].track_label, FALSE, FALSE, 0);
-        gtk_widget_show(as->drive_status[i].track_label);      
-
-        /* Single Led */
-        as->drive_status[i].led_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH, LED_HEIGHT, -1);
-        as->drive_status[i].led = gtk_image_new_from_pixmap(as->drive_status[i].led_pixmap, NULL);
-        gtk_widget_set_size_request(as->drive_status[i].led, LED_WIDTH, LED_HEIGHT);
-        gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led, FALSE, FALSE, 4);
-        gtk_widget_show(as->drive_status[i].led);
-
-        /* Led1 for double Led drive */
-        as->drive_status[i].led1_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH / 2, LED_HEIGHT, -1);
-        as->drive_status[i].led1 = gtk_image_new_from_pixmap(as->drive_status[i].led1_pixmap, NULL);
-        gtk_widget_set_size_request(as->drive_status[i].led1, LED_WIDTH / 2, LED_HEIGHT);
-        gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led1, FALSE, FALSE, 1);
-        gtk_widget_show(as->drive_status[i].led1);
-
-        /* Led2 for double Led drive */
-        as->drive_status[i].led2_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH / 2, LED_HEIGHT, -1);
-        as->drive_status[i].led2 = gtk_image_new_from_pixmap(as->drive_status[i].led2_pixmap, NULL);
-        gtk_widget_set_size_request(as->drive_status[i].led2, LED_WIDTH / 2, LED_HEIGHT);
-        gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led2, FALSE, FALSE, 1);
-        gtk_widget_show(as->drive_status[i].led2);
-
-        /* Pack everything together */
-        gtk_box_pack_start(GTK_BOX(drive_box), as->drive_status[i].event_box, FALSE, FALSE, 0);
-
-        gtk_widget_set_events(as->drive_status[i].event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
-        g_signal_connect(G_OBJECT(as->drive_status[i].event_box), "button-press-event", G_CALLBACK(fliplist_popup_cb), (gpointer)(int_to_void_ptr(i)));
-        gtk_widget_show(as->drive_status[i].event_box);
+            gtk_widget_hide(as->drive_status[i].event_box);	/* Hide Drive widget */
+            gdk_window_set_cursor(as->drive_status[i].event_box->window, gdk_cursor_new (GDK_HAND1)); 
+        }
+        gtk_widget_hide(as->tape_status.event_box);	/* Hide Tape widget */
+        gdk_window_set_cursor(as->tape_status.event_box->window, gdk_cursor_new(GDK_HAND1)); 
     }
-
-    lib_free(empty);
-
-    gtk_widget_show(drive_box);
-    gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
-
-    /* tape stuff */
-    as->tape_status.event_box = gtk_event_box_new();
-
-    frame = gtk_frame_new(NULL);
-    gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
-
-    as->tape_status.box = gtk_hbox_new(FALSE, 0);
-    gtk_container_add(GTK_CONTAINER(frame), as->tape_status.box);
-    gtk_widget_show(as->tape_status.box);
-
-    gtk_container_add(GTK_CONTAINER(as->tape_status.event_box), frame);
-    gtk_widget_show(frame);
-
-    gtk_widget_set_tooltip_text(GTK_WIDGET(as->tape_status.box->parent->parent), "");
-
-    /* Tape Label */
-    as->tape_status.label = gtk_label_new(_("Tape 000"));
-    gtk_container_add(GTK_CONTAINER(as->tape_status.box), as->tape_status.label);
-    gtk_misc_set_alignment(GTK_MISC (as->tape_status.label), 0, -1);
-    gtk_widget_show(as->tape_status.label);
-
-    /* Tape control */
-    as->tape_status.control_pixmap = gdk_pixmap_new(_ui_top_level->window, CTRL_WIDTH, CTRL_HEIGHT, -1);
-    as->tape_status.control = gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
-    gtk_widget_set_size_request(as->tape_status.control, CTRL_WIDTH, CTRL_HEIGHT);
-    gtk_box_pack_start(GTK_BOX(as->tape_status.box), as->tape_status.control, FALSE, FALSE, 4);
-    gtk_widget_show(as->tape_status.control);
-
-    gtk_widget_set_events(as->tape_status.event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
-    g_signal_connect(G_OBJECT(as->tape_status.event_box), "button-press-event", G_CALLBACK(tape_popup_cb), (gpointer)NULL);
-
-    gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
-    gtk_widget_show(as->tape_status.event_box);
-    gtk_widget_show(status_bar);
-
-    for (i = 0; i < NUM_DRIVES; i++) {
-#if 0
-        int ih, iw;
-
-        gdk_window_get_size_request(((GtkWidget *)as->drive_status[i].image)->window, &iw, &ih);
-        gtk_widget_set_size_request(as->drive_status[i].image, width / 3, ih);
-#endif
-        gtk_widget_hide(as->drive_status[i].event_box);	/* Hide Drive widget */
-        gdk_window_set_cursor(as->drive_status[i].event_box->window, gdk_cursor_new (GDK_HAND1)); 
-    }
-    gtk_widget_hide(as->tape_status.event_box);	/* Hide Tape widget */
-    gdk_window_set_cursor(as->tape_status.event_box->window, gdk_cursor_new(GDK_HAND1)); 
 
     /* finalize event-box */
     gdk_window_set_cursor(event_box->window, gdk_cursor_new(GDK_HAND1)); 
+
+    lib_free(empty);
+
     return status_bar;
 }
 
@@ -1318,8 +1316,10 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
             statusbar_setstatustext("");
         }
     }
-    if (!screenshot_is_recording()) {
-        ui_update_video_checkbox(video_ctrl_checkbox, NULL);
+    if (machine_class != VICE_MACHINE_VSID) {
+        if (!screenshot_is_recording()) {
+            ui_update_video_checkbox(video_ctrl_checkbox, NULL);
+        }
     }
 }
 
