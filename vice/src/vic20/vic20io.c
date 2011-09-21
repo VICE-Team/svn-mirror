@@ -382,7 +382,7 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
 
 io_source_list_t *io_source_register(io_source_t *device)
 {
-    io_source_list_t *current;
+    io_source_list_t *current = NULL;
     io_source_list_t *retval = lib_malloc(sizeof(io_source_list_t));
 
     assert(device != NULL);
