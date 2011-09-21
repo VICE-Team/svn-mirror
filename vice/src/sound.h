@@ -203,7 +203,7 @@ typedef struct sound_chip_s {
     sound_t *(*open)(int chipno);
     int (*init)(sound_t *psid, int speed, int cycles_per_sec);
     void (*close)(sound_t *psid);
-    int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+    int (*calculate_samples)(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
     void (*store)(sound_t *psid, WORD addr, BYTE val);
     BYTE (*read)(sound_t *psid, WORD addr);
     void (*reset)(sound_t *psid, CLOCK cpu_clk);

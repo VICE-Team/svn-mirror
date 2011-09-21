@@ -485,7 +485,7 @@ void speech_setup_context(machine_context_t *machine_context)
 /* Some prototypes are needed */
 static int speech_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void speech_sound_machine_close(sound_t *psid);
-static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
 static BYTE speech_sound_machine_read(sound_t *psid, WORD addr);
 static void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
 static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
@@ -651,9 +651,9 @@ static void speech_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 /*
     called periodically for every sound fragment that is played
 */
-static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
 {
-    int i, j;
+    int i;
     SWORD *buffer;
 
     buffer = lib_malloc(nr * 2);
@@ -662,9 +662,7 @@ static int speech_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, in
 
     /* mix generated samples to output */
     for (i = 0; i < nr; i++) {
-        for (j = 0; j < interleave; j++) {
-            pbuf[(i * interleave) + j] = sound_audio_mix(pbuf[(i * interleave) + j], buffer[i]);
-        }
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
     }
 
     lib_free(buffer);

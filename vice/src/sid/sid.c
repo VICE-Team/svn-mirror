@@ -284,7 +284,7 @@ void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 }
 
 int sid_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr,
-                                        int interleave, int *delta_t)
+                                        int interleave, int *delta_t, int channel)
 {
     return sid_engine.calculate_samples(psid, pbuf, nr, interleave, delta_t);
 }

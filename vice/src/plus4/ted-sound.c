@@ -46,7 +46,7 @@
 
 /* Some prototypes are needed */
 static int ted_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
 static void ted_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE ted_sound_machine_read(sound_t *psid, WORD addr);
 
@@ -134,18 +134,15 @@ static const SWORD volume_tab[16] = {
     0x0000, 0x0800, 0x1000, 0x1800, 0x2000, 0x2800, 0x3000, 0x3800,
     0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff, 0x3fff };
 
-static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
 {
     int i;
     int j;
-    int k;
     SWORD volume;
 
     if (snd.digital) {
         for (i = 0; i < nr; i++) {
-            for (k = 0; k < interleave; k++) {
-                pbuf[(i * interleave) + k] = sound_audio_mix(pbuf[(i * interleave) + k], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
-            }
+            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], (snd.volume * (snd.voice0_output_enabled + snd.voice1_output_enabled)));
         }
     } else {
         for (i = 0; i < nr; i++) {
@@ -223,9 +220,7 @@ static int ted_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int n
                 && (!(snd.noise_shift_register & 1)))
                 volume += snd.volume;
 
-            for (k = 0; k < interleave; k++) {
-                pbuf[(i * interleave) + k] = sound_audio_mix(pbuf[(i * interleave) + k], volume);
-            }
+            pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], volume);
         }
     }
     return nr;

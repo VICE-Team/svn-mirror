@@ -106,7 +106,7 @@ static const c64export_resource_t export_res_piano= {
 /* Some prototypes are needed */
 static int sfx_soundexpander_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void sfx_soundexpander_sound_machine_close(sound_t *psid);
-static int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
 static void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr);
 static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk);
@@ -323,10 +323,9 @@ struct sfx_soundexpander_sound_s
 
 static struct sfx_soundexpander_sound_s snd;
 
-static int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
 {
     int i;
-    int j;
     SWORD *buffer;
 
     buffer = lib_malloc(nr * 2);
@@ -338,9 +337,7 @@ static int sfx_soundexpander_sound_machine_calculate_samples(sound_t *psid, SWOR
     }
 
     for (i = 0; i < nr; i++) {
-        for (j = 0; j < interleave; j++) {
-            pbuf[(i * interleave) + j] = sound_audio_mix(pbuf[(i * interleave) + j], buffer[i]);
-        }
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], buffer[i]);
     }
     lib_free(buffer);
 

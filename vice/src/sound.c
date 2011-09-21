@@ -126,20 +126,20 @@ static void sound_machine_close(sound_t *psid)
     }
 }
 
-static int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
 {
     int i;
     int temp;
 
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
-        temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, interleave, delta_t);
+        temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, interleave, delta_t, channel);
     } else {
         temp = nr;
     }
 
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
-            sound_calls[i]->calculate_samples(psid, pbuf, temp, interleave, delta_t);
+            sound_calls[i]->calculate_samples(psid, pbuf, temp, interleave, delta_t, channel);
         }
     }
     return temp;
@@ -924,7 +924,7 @@ static int sound_run_sound(void)
                                                  bufferptr,
                                                  SOUND_BUFSIZE - snddata.bufptr,
                                                  snddata.channels,
-                                                 &delta_t);
+                                                 &delta_t, c);
             if (volume < 100) {
                 for (i = 0; i < (nr * snddata.channels); i ++)
                     bufferptr[i] = (volume!=0) ? 
@@ -958,7 +958,7 @@ static int sound_run_sound(void)
                                             bufferptr,
                                             nr,
                                             snddata.channels,
-                                            &delta_t);
+                                            &delta_t, c);
             if (volume < 100) {
                 for (i = 0; i < (nr * snddata.channels); i ++)
                     bufferptr[i] = (volume != 0) ?
@@ -1022,7 +1022,7 @@ void sound_synthesize(SWORD *buffer, int length)
         for (c = 0; c < snddata.channels; c++) {
             sound_machine_calculate_samples(snddata.psid[c], buffer + c,
                                             length, snddata.channels,
-                                            &delta_t);
+                                            &delta_t, c);
         }
         snddata.fclk += length * snddata.clkstep;
     }

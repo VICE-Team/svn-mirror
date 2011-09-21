@@ -43,7 +43,7 @@
 
 /* Some prototypes are needed */
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t);
+static int userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel);
 static void userport_dac_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE userport_dac_sound_machine_read(sound_t *psid, WORD addr);
 static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk);
@@ -136,15 +136,12 @@ struct userport_dac_sound_s
 
 static struct userport_dac_sound_s snd;
 
-static int userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t)
+static int userport_dac_sound_machine_calculate_samples(sound_t *psid, SWORD *pbuf, int nr, int interleave, int *delta_t, int channel)
 {
     int i;
-    int j;
 
     for (i = 0; i < nr; i++) {
-        for (j = 0; j < interleave; j++) {
-            pbuf[(i * interleave) + j] = sound_audio_mix(pbuf[(i * interleave) + j], snd.voice0 << 8);
-        }
+        pbuf[i * interleave] = sound_audio_mix(pbuf[i * interleave], snd.voice0 << 8);
     }
     return nr;
 }
