@@ -42,7 +42,7 @@ struct video_param_s;
 
 #define MAX_BUFFERS     8
 
-#define NUM_KEY_MODIFIERS 32
+#define NUM_KEY_MODIFIERS 4
 
 struct texture_s {
     BYTE            *buffer;            /* raw data of texture */
@@ -68,6 +68,7 @@ typedef struct texture_s texture_t;
     // Keyboard
     unsigned int lastKeyModifierFlags;
     unsigned int modifierKeyCode[NUM_KEY_MODIFIERS];
+    unsigned int tempKeyMask;
     
     // Mouse
     BOOL        trackMouse;

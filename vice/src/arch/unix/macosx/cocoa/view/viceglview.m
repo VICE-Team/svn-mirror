@@ -70,6 +70,8 @@ extern log_t video_log;
     // ----- Mouse & Keyboard -----
     // setup keyboard
     lastKeyModifierFlags = 0;
+    tempKeyMask = 0;
+    
     // setup mouse
     trackMouse = NO;
     mouseHideTimer = nil;
@@ -1108,36 +1110,105 @@ extern log_t video_log;
 
 // ----- Keyboard -----
 
-- (void)keyUp:(NSEvent *)theEvent
-{
-    unsigned int code = [theEvent keyCode];
-    [[VICEApplication theMachineController] keyReleased:code];
-}
+static const unsigned int modifierMasks[] = {
+    NSAlphaShiftKeyMask,
+    NSShiftKeyMask,
+    NSControlKeyMask,
+    NSAlternateKeyMask
+};
+
+//#define DEBUG_KEY
 
 - (void)flagsChanged:(NSEvent *)theEvent
 {
     unsigned int modifierFlags = [theEvent modifierFlags] &
-        (NSAlphaShiftKeyMask | NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask);
-
+        (NSAlphaShiftKeyMask | NSShiftKeyMask | NSControlKeyMask | NSAlternateKeyMask | NSCommandKeyMask);
+    
+#ifdef DEBUG_KEY
+    printf("key: flagsChanges: modifier=%04x  last=%04x\n", modifierFlags, lastKeyModifierFlags);
+#endif
+    
     if (modifierFlags != lastKeyModifierFlags) {
+        
+        // report emu keys on flag change
         unsigned int code = [theEvent keyCode];
         unsigned int changedFlags = modifierFlags ^ lastKeyModifierFlags;
         int i;
         for (i=0;i<NUM_KEY_MODIFIERS;i++) {
-            unsigned int flag = 1<<i;
+            unsigned int flag = modifierMasks[i];
             if (changedFlags & flag) {
                 modifierKeyCode[i] = code;
+                
                 if (modifierFlags & flag) {
-                    [[VICEApplication theMachineController] keyPressed:code];
+                    // key was pressed
+                    if(modifierFlags & NSCommandKeyMask) {
+                        // remember in command key mask
+                        tempKeyMask |= flag;
+#ifdef DEBUG_KEY
+                        printf("key: DOWN (ignored) modifier: #%d %04x\n",i,code);
+#endif
+                    } else {
+#ifdef DEBUG_KEY
+                        printf("key: DOWN modifier: #%d %04x\n",i,code);
+#endif
+                        [[VICEApplication theMachineController] keyPressed:code];
+                    }
                 } else {
-                    [[VICEApplication theMachineController] keyReleased:code];
+                    // key was released
+                    if(modifierFlags & NSCommandKeyMask) {
+                        // remove in command key mask
+                        tempKeyMask &= ~flag;
+#ifdef DEBUG_KEY
+                        printf("key: UP (ignored) modifier: #%d %04x\n",i,code);
+#endif
+                    } else {
+#ifdef DEBUG_KEY
+                        printf("key: UP modifier: #%d %04x\n",i,code);
+#endif
+                        [[VICEApplication theMachineController] keyReleased:code];
+                    }
                 }
             }
         }
+        
+        // was the command key altered?
+        if(changedFlags & NSCommandKeyMask) {
+            if (modifierFlags & NSCommandKeyMask) {
+                // command was pressed -> release all other modifiers temporarly
+                tempKeyMask = modifierFlags & ~NSCommandKeyMask;
+#ifdef DEBUG_KEY
+                printf("key: cmd pressed. temp=%08x\n",tempKeyMask);
+#endif
+                for(i=0;i<NUM_KEY_MODIFIERS;i++) {
+                    unsigned int flag = modifierMasks[i];
+                    if(modifierFlags & flag) {
+                        unsigned int tempCode = modifierKeyCode [i];
+#ifdef DEBUG_KEY
+                        printf("key: temp UP modifier: #%d %04x\n", i, tempCode);
+#endif
+                        [[VICEApplication theMachineController] keyReleased:tempCode];
+                    }
+                }
+            } else {
+#ifdef DEBUG_KEY
+                printf("key: cmd released. temp=%08x\n",tempKeyMask);
+#endif
+                for(i=0;i<NUM_KEY_MODIFIERS;i++) {
+                    unsigned int flag = modifierMasks[i];
+                    if(tempKeyMask & flag) {
+                        unsigned int tempCode = modifierKeyCode [i];
+#ifdef DEBUG_KEY
+                        printf("key: temp DOWN modifier: #%d %04x\n", i, tempCode);
+#endif
+                        [[VICEApplication theMachineController] keyPressed:tempCode];
+                    }
+                }
+            }
+        }
+        
         lastKeyModifierFlags = modifierFlags;
     }
 }
-
 
 - (void)keyDown:(NSEvent *)theEvent
 {
@@ -1150,12 +1221,18 @@ extern log_t video_log;
         unsigned int changedFlags = modifierFlags ^ lastKeyModifierFlags;
         int i;
         for (i=0;i<NUM_KEY_MODIFIERS;i++) {
-            unsigned int flag = 1<<i;
+            unsigned int flag = modifierMasks[i];
             if (changedFlags & flag) {
                 unsigned int code = modifierKeyCode[i];
                 if (modifierFlags & flag) {
+#ifdef DEBUG_KEY
+                    printf("key: DOWN (late) modifier: #%d %04x\n", i, code);
+#endif
                     [[VICEApplication theMachineController] keyPressed:code];
                 } else {
+#ifdef DEBUG_KEY
+                    printf("key: UP (late) modifier: #%d %04x\n", i, code);
+#endif
                     [[VICEApplication theMachineController] keyReleased:code];
                 }
             }
@@ -1163,11 +1240,24 @@ extern log_t video_log;
         lastKeyModifierFlags = modifierFlags;
     }
 
+    // report only non repeating non command keys
     if (![theEvent isARepeat] &&
         !([theEvent modifierFlags] & NSCommandKeyMask)) {
         unsigned int code = [theEvent keyCode];
+#ifdef DEBUG_KEY
+        printf("key: DOWN normal: %04x\n",code);
+#endif
         [[VICEApplication theMachineController] keyPressed:code];
     }
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    unsigned int code = [theEvent keyCode];
+#ifdef DEBUG_KEY
+        printf("key: UP normal: %04x\n",code);
+#endif
+    [[VICEApplication theMachineController] keyReleased:code];
 }
 
 // ----- Mouse -----
