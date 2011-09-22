@@ -289,13 +289,14 @@ int sid_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *p
     int i;
     SWORD *tmp_buf;
     int tmp_nr = 0;
+    int tmp_delta_t = *delta_t;
 
     if (soc == 1 && scc == 1) {
         return sid_engine.calculate_samples(psid0, pbuf, nr, 1, delta_t);
     }
     if (soc == 1 && scc == 2) {
         tmp_buf = lib_malloc(2 * nr);
-        tmp_nr = sid_engine.calculate_samples(psid0, tmp_buf, nr, 1, delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid0, tmp_buf, nr, 1, &tmp_delta_t);
         tmp_nr = sid_engine.calculate_samples(psid1, pbuf, nr, 1, delta_t);
         for (i = 0; i < tmp_nr; i++) {
             pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf[i]);
@@ -311,7 +312,7 @@ int sid_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *p
         return tmp_nr;
     }
     if (soc == 2 && scc == 2) {
-        tmp_nr = sid_engine.calculate_samples(psid0, pbuf, nr, 2, delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid0, pbuf, nr, 2, &tmp_delta_t);
         tmp_nr = sid_engine.calculate_samples(psid1, pbuf + 1, nr, 2, delta_t);
         return tmp_nr;
     }

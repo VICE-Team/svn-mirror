@@ -801,7 +801,9 @@ int sound_open(void)
                 return 1;
             }
             if (channels_cap != snddata.sound_chip_channels) {
-                log_warning(sound_log, "sound device lacks stereo capability, switching to mono output");
+                if (output_option != SOUND_OUTPUT_MONO) {
+                    log_warning(sound_log, "sound device lacks stereo capability, switching to mono output");
+                }
                 snddata.sound_output_channels = 1;
             } else {
                 snddata.sound_output_channels = channels_cap;
