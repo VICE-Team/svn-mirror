@@ -7,9 +7,11 @@ if not exist ..\..\..\data\x64dtv.exe goto missingmsvc
 if not exist ..\..\..\data\x64sc.exe goto missingmsvc
 if not exist ..\..\..\data\x128.exe goto missingmsvc
 if not exist ..\..\..\data\xcbm2.exe goto missingmsvc
+if not exist ..\..\..\data\xcbm5x0.exe goto missingmsvc
 if not exist ..\..\..\data\xpet.exe goto missingmsvc
 if not exist ..\..\..\data\xplus4.exe goto missingmsvc
 if not exist ..\..\..\data\xvic.exe goto missingmsvc
+if not exist ..\..\..\data\vsid.exe goto missingmsvc
 if not exist ..\..\..\data\c1541.exe goto missingmsvc
 if not exist ..\..\..\data\cartconv.exe goto missingmsvc
 if not exist ..\..\..\data\petcat.exe goto missingmsvc
@@ -24,6 +26,8 @@ copy ..\..\..\data\xvic.exe %VICEDIR%
 copy ..\..\..\data\xpet.exe %VICEDIR%
 copy ..\..\..\data\xplus4.exe %VICEDIR%
 copy ..\..\..\data\xcbm2.exe %VICEDIR%
+copy ..\..\..\data\xcbm5x0.exe %VICEDIR%
+copy ..\..\..\data\vsid.exe %VICEDIR%
 copy ..\..\..\data\c1541.exe %VICEDIR%
 copy ..\..\..\data\petcat.exe %VICEDIR%
 copy ..\..\..\data\cartconv.exe %VICEDIR%

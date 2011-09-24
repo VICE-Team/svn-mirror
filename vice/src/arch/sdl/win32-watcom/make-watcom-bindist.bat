@@ -6,9 +6,11 @@ if not exist x64dtv.exe goto missingwatcom
 if not exist x64sc.exe goto missingwatcom
 if not exist x128.exe goto missingwatcom
 if not exist xcbm2.exe goto missingwatcom
+if not exist xcbm5x0.exe goto missingwatcom
 if not exist xpet.exe goto missingwatcom
 if not exist xplus4.exe goto missingwatcom
 if not exist xvic.exe goto missingwatcom
+if not exist vsid.exe goto missingwatcom
 if not exist c1541.exe goto missingwatcom
 if not exist cartconv.exe goto missingwatcom
 if not exist petcat.exe goto missingwatcom
@@ -23,6 +25,8 @@ copy xvic.exe %VICEDIR%
 copy xpet.exe %VICEDIR%
 copy xplus4.exe %VICEDIR%
 copy xcbm2.exe %VICEDIR%
+copy xcbm5x0.exe %VICEDIR%
+copy vsid.exe %VICEDIR%
 copy c1541.exe %VICEDIR%
 copy petcat.exe %VICEDIR%
 copy cartconv.exe %VICEDIR%

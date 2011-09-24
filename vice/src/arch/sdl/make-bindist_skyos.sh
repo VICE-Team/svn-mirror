@@ -24,7 +24,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -73,6 +73,7 @@ Category=Emulators
 DefaultPath=
 
 [PANELMENU]
+/menu="Emulators/SDLVICE"	/name="vsid"	/link="/boot/programs/SDLVICE/bin/vsid.app"	/icon="/boot/programs/SDLVICE/icons/vsid.ico"
 /menu="Emulators/SDLVICE"	/name="x64"	/link="/boot/programs/SDLVICE/bin/x64.app"		/icon="/boot/programs/SDLVICE/icons/x64.ico"   
 /menu="Emulators/SDLVICE"	/name="x64dtv"	/link="/boot/programs/SDLVICE/bin/x64dtv.app"		/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"   
 _end
@@ -86,11 +87,13 @@ fi
 cat >>SDLVICE-$VERSION/install.sif <<_END
 /menu="Emulators/SDLVICE"	/name="x128"	/link="/boot/programs/SDLVICE/bin/x128.app"	/icon="/boot/programs/SDLVICE/icons/x128.ico"   
 /menu="Emulators/SDLVICE"	/name="xcbm2"	/link="/boot/programs/SDLVICE/bin/xcbm2.app"	/icon="/boot/programs/SDLVICE/icons/xcbm2.ico"   
+/menu="Emulators/SDLVICE"	/name="xcbm5x0"	/link="/boot/programs/SDLVICE/bin/xcbm5x0.app"	/icon="/boot/programs/SDLVICE/icons/xcbm5x0.ico"
 /menu="Emulators/SDLVICE"	/name="xpet"	/link="/boot/programs/SDLVICE/bin/xpet.app"	/icon="/boot/programs/SDLVICE/icons/xpet.ico"   
 /menu="Emulators/SDLVICE"	/name="xplus4"	/link="/boot/programs/SDLVICE/bin/xplus4.app"	/icon="/boot/programs/SDLVICE/icons/xplus4.ico"   
 /menu="Emulators/SDLVICE"	/name="xvic"	/link="/boot/programs/SDLVICE/bin/xvic.app"	/icon="/boot/programs/SDLVICE/icons/xvic.ico"   
 
 [FILEICONS]
+/file="\$INSTALL_ROOT/programs/SDLVICE/bin/vsid.app"	/icon="/boot/programs/SDLVICE/icons/vsid.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64.app"	/icon="/boot/programs/SDLVICE/icons/x64.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64dtv.app"	/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"
 _END
@@ -104,6 +107,7 @@ fi
 cat >>SDLVICE-$VERSION/install.sif <<_END
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x128.app"	/icon="/boot/programs/SDLVICE/icons/x128.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xcbm2.app"	/icon="/boot/programs/SDLVICE/icons/xcbm2.ico"
+/file="\$INSTALL_ROOT/programs/SDLVICE/bin/xcbm5x0.app"	/icon="/boot/programs/SDLVICE/icons/xcbm5x0.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xpet.app"	/icon="/boot/programs/SDLVICE/icons/xpet.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xplus4.app"	/icon="/boot/programs/SDLVICE/icons/xplus4.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/xvic.app"	/icon="/boot/programs/SDLVICE/icons/xvic.ico"

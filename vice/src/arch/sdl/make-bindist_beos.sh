@@ -19,7 +19,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c141 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 

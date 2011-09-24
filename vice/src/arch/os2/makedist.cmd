@@ -14,6 +14,8 @@ copy ..\..\..\data\xvic.exe     Vice2
 copy ..\..\..\data\xpet.exe     Vice2
 copy ..\..\..\data\xplus4.exe   Vice2
 copy ..\..\..\data\xcbm2.exe    Vice2
+copy ..\..\..\data\xcbm5x0.exe  Vice2
+copy ..\..\..\data\vsid.exe     Vice2
 copy ..\..\..\data\x1541.exe    Vice2
 copy ..\..\..\data\petcat.exe   Vice2
 copy ..\..\..\data\cartconv.exe Vice2

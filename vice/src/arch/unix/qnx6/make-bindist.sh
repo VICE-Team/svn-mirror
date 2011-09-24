@@ -31,7 +31,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -184,6 +184,7 @@ cat >manifest.15 <<_END
                      <QPM:File>c1541</QPM:File>
                      <QPM:File>petcat</QPM:File>
                      <QPM:File>cartconv</QPM:File>
+                     <QPM:File>vsid</QPM:File>
                      <QPM:File>x128</QPM:File>
                      <QPM:File>x64</QPM:File>
                      <QPM:File>x64dtv</QPM:File>
@@ -197,6 +198,7 @@ fi
 
 cat >>manifest.15 <<_END
                      <QPM:File>xcbm2</QPM:File>
+                     <QPM:File>xcbm5x0</QPM:File>
                      <QPM:File>xpet</QPM:File>
                      <QPM:File>xplus4</QPM:File>
                      <QPM:File>xvic</QPM:File>
@@ -692,6 +694,12 @@ _END
 fi
 
 cat >>manifest.15 <<_END
+      <QPM:Launch name="vsid">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/vsid"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
       <QPM:Launch name="x128">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x128"/>
@@ -751,6 +759,19 @@ cat >>manifest.15 <<_END
          <QPM:String name="Command" value="/opt/bin/xcbm2 -sounddev dummy"/>
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
+
+      <QPM:Launch name="xcbm5x0">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/xcbmx0"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
+      <QPM:Launch name="xcbm5x0 (no sound)">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/xcbm5x0 -sounddev dummy"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
    </RDF:Description>
 </RDF:RDF>
 _END

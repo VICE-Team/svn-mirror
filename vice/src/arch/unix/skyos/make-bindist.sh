@@ -24,7 +24,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 LANGUAGES="da de fr hu it nl pl sv tr"
@@ -80,6 +80,7 @@ Category=Emulators
 DefaultPath=
 
 [PANELMENU]
+/menu="Emulators/VICE"	/name="vsid"	/link="/boot/programs/VICE/bin/vsid.app"	/icon="/boot/programs/VICE/icons/vsid.ico"
 /menu="Emulators/VICE"	/name="x64"	/link="/boot/programs/VICE/bin/x64.app"		/icon="/boot/programs/VICE/icons/x64.ico"   
 /menu="Emulators/VICE"	/name="x64dtv"	/link="/boot/programs/VICE/bin/x64dtv.app"		/icon="/boot/programs/VICE/icons/x64dtv.ico"   
 _END
@@ -93,11 +94,13 @@ fi
 cat >>VICE-$VERSION/install.sif <<_END
 /menu="Emulators/VICE"	/name="x128"	/link="/boot/programs/VICE/bin/x128.app"	/icon="/boot/programs/VICE/icons/x128.ico"   
 /menu="Emulators/VICE"	/name="xcbm2"	/link="/boot/programs/VICE/bin/xcbm2.app"	/icon="/boot/programs/VICE/icons/xcbm2.ico"   
+/menu="Emulators/VICE"	/name="xcbm5x0"	/link="/boot/programs/VICE/bin/xcbm5x0.app"	/icon="/boot/programs/VICE/icons/xcbm5x0.ico"
 /menu="Emulators/VICE"	/name="xpet"	/link="/boot/programs/VICE/bin/xpet.app"	/icon="/boot/programs/VICE/icons/xpet.ico"   
 /menu="Emulators/VICE"	/name="xplus4"	/link="/boot/programs/VICE/bin/xplus4.app"	/icon="/boot/programs/VICE/icons/xplus4.ico"   
 /menu="Emulators/VICE"	/name="xvic"	/link="/boot/programs/VICE/bin/xvic.app"	/icon="/boot/programs/VICE/icons/xvic.ico"   
 
 [FILEICONS]
+/file="\$INSTALL_ROOT/programs/VICE/bin/vsid.app"	/icon="/boot/programs/VICE/icons/vsid.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64.app"	/icon="/boot/programs/VICE/icons/x64.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64dtv.app"	/icon="/boot/programs/VICE/icons/x64dtv.ico"
 _END
@@ -111,6 +114,7 @@ fi
 cat >>VICE-$VERSION/install.sif <<_END
 /file="\$INSTALL_ROOT/programs/VICE/bin/x128.app"	/icon="/boot/programs/VICE/icons/x128.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xcbm2.app"	/icon="/boot/programs/VICE/icons/xcbm2.ico"
+/file="\$INSTALL_ROOT/programs/VICE/bin/xcbm5x0.app"	/icon="/boot/programs/VICE/icons/xcbm5x0.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xpet.app"	/icon="/boot/programs/VICE/icons/xpet.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xplus4.app"	/icon="/boot/programs/VICE/icons/xplus4.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/xvic.app"	/icon="/boot/programs/VICE/icons/xvic.ico"

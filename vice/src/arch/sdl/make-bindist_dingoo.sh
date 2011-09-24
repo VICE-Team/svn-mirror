@@ -11,7 +11,7 @@ VICEVERSION=$2
 ZIPKIND=$3
 TOPSRCDIR=$4
 
-EMULATORS="x64 x64dtv x128 xcbm2 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
