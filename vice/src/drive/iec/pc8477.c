@@ -26,7 +26,6 @@
 
 #include "vice.h"
 
-#include <stdio.h>
 #include <string.h>
 
 #include "clkguard.h"
@@ -40,6 +39,7 @@
 #include "pc8477.h"
 #include "alarm.h"
 #include "drivesync.h"
+#include "fdd.h"
 
 #ifdef PC8477_DEBUG
 #define debug(...) log_message(pc8477_log, __VA_ARGS__)

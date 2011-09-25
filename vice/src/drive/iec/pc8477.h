@@ -28,8 +28,6 @@
 #define VICE_PC8477_H
 
 #include "types.h"
-#include "fdd.h"
-#include "alarm.h"
 
 struct disk_image_s;
 struct drive_context_s;
