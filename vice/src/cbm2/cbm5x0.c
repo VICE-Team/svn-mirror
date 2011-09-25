@@ -350,7 +350,13 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize the CBM-II-specific part of the UI.  */
+#if defined(__BEOS__) && !defined(USE_SDLUI)
+    /* FIXME make this available on other ports */
+    cbm5x0ui_init();
+#else
+    /* ...and remove this */
     cbm2ui_init();
+#endif
 
     cbm2iec_init();
 
@@ -410,7 +416,12 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vicii_shutdown();
 
+#if defined(__BEOS__) && !defined(USE_SDLUI)
+    /* FIXME make this available on other ports too */
+    cbm5x0ui_shutdown();
+#else
     cbm2ui_shutdown();
+#endif
 }
 
 void machine_handle_pending_alarms(int num_write_cycles)

@@ -1,8 +1,8 @@
 /*
- * cbm2ui.cc - CBM2-specific user interface.
+ * cbm5x0ui.cc - CBM5x0-specific user interface.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -35,22 +35,26 @@ extern "C" {
 #include "ui.h"
 #include "ui_cbm2.h"
 #include "ui_sid.h"
+#include "ui_vicii.h"
 }
 
-ui_menu_toggle  cbm2_ui_menu_toggles[] = {
-    { "CRTCDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CRTCDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CRTCVideoCache", MENU_TOGGLE_VIDEOCACHE },
+ui_menu_toggle  cbm5x0_ui_menu_toggles[] = {
+    { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "VICIIVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { NULL, 0 }
 };
 
 static int cbm2sidaddressbase[] = { 0xda, -1 };
 
-void cbm2_ui_specific(void *msg, void *window)
+void cbm5x0_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_CBM2_SETTINGS:
             ui_cbm2();
+            break;
+        case MENU_VICII_SETTINGS:
+            ui_vicii();
             break;
         case MENU_SID_SETTINGS:
             ui_sid(cbm2sidaddressbase);
@@ -59,14 +63,14 @@ void cbm2_ui_specific(void *msg, void *window)
     }
 }
 
-int cbm2ui_init(void)
+int cbm5x0ui_init(void)
 {
-    ui_register_machine_specific(cbm2_ui_specific);
-    ui_register_menu_toggles(cbm2_ui_menu_toggles);
+    ui_register_machine_specific(cbm5x0_ui_specific);
+    ui_register_menu_toggles(cbm5x0_ui_menu_toggles);
     ui_update_menus();
     return 0;
 }
 
-void cbm2ui_shutdown(void)
+void cbm5x0ui_shutdown(void)
 {
 }

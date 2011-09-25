@@ -31,5 +31,8 @@
 extern int cbm2ui_init(void);
 extern void cbm2ui_shutdown(void);
 
+extern int cbm5x0ui_init(void);
+extern void cbm5x0ui_shutdown(void);
+
 #endif
 

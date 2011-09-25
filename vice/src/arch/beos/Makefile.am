@@ -31,6 +31,7 @@ libarch_a_SOURCES = \
 	c64ui.cc \
 	c64dtvui.cc \
 	cbm2ui.cc \
+	cbm5x0ui.cc \
 	console.c \
 	constants.h \
 	joy.cc \
