@@ -30,43 +30,29 @@
 #include "types.h"
 
 struct disk_image_s;
-
-typedef struct fdd_sector_header_s fdd_sector_header_t;
-typedef struct fd_drive_s {
-    int number;
-    int disk_change; /* out signal */
-    int write_protect; /* out signal */
-    int track0; /* out signal */
-    int index; /* out signal */
-    int track;
-    int tracks;
-    int head;
-    int sector;
-    int onheader;
-    int sectors;
-    int motor; /* in signal */
-    int rate; /* in signal */
-    int sector_size;
-    int head_invert;
-    int disk_rate;
-    int image_sectors;
-    struct disk_image_s *image;
-    fdd_sector_header_t *headers;
-} fd_drive_t;
+struct drive_s;
+typedef struct fd_drive_s fd_drive_t;
 
 extern const int fdd_data_rates[4];
-extern fd_drive_t *fdd_init(int num);
+extern fd_drive_t *fdd_init(int num, struct drive_s *drive);
 extern void fdd_shutdown(fd_drive_t *drv);
 
 extern void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image);
 extern void fdd_image_detach(fd_drive_t *drv);
-extern int fdd_image_read(fd_drive_t *drv, BYTE *buffer);
-extern int fdd_image_write(fd_drive_t *drv, BYTE *buffer);
-extern int fdd_image_read_header(fd_drive_t *drv, BYTE *track, BYTE *head, BYTE *sector, BYTE *bytes);
+extern WORD fdd_read(fd_drive_t *drv);
+extern int fdd_write(fd_drive_t *drv, WORD data);
+extern void fdd_flush(fd_drive_t *drv);
 extern void fdd_seek_pulse(fd_drive_t *drv, int dir);
 extern void fdd_select_head(fd_drive_t *drv, int head);
 extern void fdd_set_motor(fd_drive_t *drv, int motor);
 extern void fdd_set_rate(fd_drive_t *drv, int rate);
+extern int fdd_rotate(fd_drive_t *drv, int bytes);
+extern inline int fdd_index(fd_drive_t *drv);
+extern inline void fdd_index_count_reset(fd_drive_t *drv);
+extern inline int fdd_index_count(fd_drive_t *drv);
+extern inline int fdd_track0(fd_drive_t *drv);
+extern inline int fdd_write_protect(fd_drive_t *drv);
+extern inline int fdd_disk_change(fd_drive_t *drv);
 
 #endif 
 
