@@ -246,7 +246,7 @@ void pc8477d_init(drive_context_t *drv)
     if (pc8477_log == LOG_ERR)
         pc8477_log = log_open("PC8477");
 
-    clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback, drv);
+    clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback, drv->pc8477);
 
     name = lib_msprintf("%sEXEC", drv->pc8477->myname);
     drv->pc8477->seek_alarm = alarm_new(drv->cpu->alarm_context, name, seek_alarm_handler, drv->pc8477);
