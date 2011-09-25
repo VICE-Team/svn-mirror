@@ -193,14 +193,6 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE p_oldpb,
 
 static void undump_pcr(via_context_t *via_context, BYTE byte)
 {
-    drivevia_context_t *viap;
-
-    viap = (drivevia_context_t *)(via_context->prv);
-#if 0
-    /* FIXME: Is this correct? */
-    if (viap->number != 0)
-        via2d_update_pcr(byte, &drive[0]);
-#endif
 }
 
 static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
@@ -264,7 +256,7 @@ static BYTE read_prb(via_context_t *via_context)
     viap = (drivevia_context_t *)(via_context->prv);
     drive = (drive_context_t *)(via_context->context);
 
-    byte = (viap->number << 3) | (drive->pc8477->irq ? 0x80 : 0);
+    byte = (viap->number << 3) | (pc8477_irq(drive->pc8477) ? 0x80 : 0);
 
     return byte;
 }

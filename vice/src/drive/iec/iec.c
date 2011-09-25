@@ -109,7 +109,7 @@ void iec_drive_reset(struct drive_context_s *drv)
     if (drv->drive->type == DRIVE_TYPE_2000
         || drv->drive->type == DRIVE_TYPE_4000) {
         viacore_reset(drv->via4000);
-        pc8477d_reset(drv, drv->drive->type == DRIVE_TYPE_4000);
+        pc8477_reset(drv->pc8477, drv->drive->type == DRIVE_TYPE_4000);
     } else {
         viacore_disable(drv->via4000);
     }
