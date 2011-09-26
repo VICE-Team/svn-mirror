@@ -183,7 +183,7 @@ struct pc8477_s {
     int cmdp, cmd_size;
     BYTE cmd[9];
     int resp, res_size;
-    BYTE res[7];
+    BYTE res[10];
 };
 
 static log_t pc8477_log = LOG_ERR;
