@@ -167,6 +167,12 @@ static char *get_drive_type_string(int drive)
         case DRIVE_TYPE_1581:
             return "-> 1581";
             break;
+        case DRIVE_TYPE_2000:
+            return "-> 2000";
+            break;
+        case DRIVE_TYPE_4000:
+            return "-> 4000";
+            break;
         case DRIVE_TYPE_2031:
             return "-> 2031";
             break;
@@ -685,6 +691,8 @@ static const ui_menu_entry_t create_disk_image_menu[] = {
         DRIVE_TYPE_ITEM("1571", DRIVE_TYPE_1571 + (x * 0x10000))                    \
         DRIVE_TYPE_ITEM("1571CR", DRIVE_TYPE_1571CR + (x * 0x10000))                \
         DRIVE_TYPE_ITEM("1581", DRIVE_TYPE_1581 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("2000", DRIVE_TYPE_2000 + (x * 0x10000))                    \
+        DRIVE_TYPE_ITEM("4000", DRIVE_TYPE_4000 + (x * 0x10000))                    \
         DRIVE_TYPE_ITEM("2031", DRIVE_TYPE_2031 + (x * 0x10000))                    \
         DRIVE_TYPE_ITEM("2040", DRIVE_TYPE_2040 + (x * 0x10000))                    \
         DRIVE_TYPE_ITEM("3040", DRIVE_TYPE_3040 + (x * 0x10000))                    \
