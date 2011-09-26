@@ -759,8 +759,6 @@ void drive_vsync_hook(void)
             && drive->enable)
             drivecpu_execute(drive_context[dnr], maincpu_clk);
     }
-
-    machine_drive_vsync_hook();
 }
 
 /* ------------------------------------------------------------------------- */

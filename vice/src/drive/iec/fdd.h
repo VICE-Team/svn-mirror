@@ -53,6 +53,7 @@ extern inline int fdd_index_count(fd_drive_t *drv);
 extern inline int fdd_track0(fd_drive_t *drv);
 extern inline int fdd_write_protect(fd_drive_t *drv);
 extern inline int fdd_disk_change(fd_drive_t *drv);
+extern inline WORD fdd_crc(WORD crc, BYTE b);
 
 #endif 
 

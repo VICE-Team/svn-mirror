@@ -39,6 +39,7 @@
 const int fdd_data_rates[4] = {500, 300, 250, 1000}; /* kbit/s */
 #define INDEXLEN (16)
 static void fdd_flush_raw(fd_drive_t *drv);
+static WORD *crc1021 = NULL;
 
 struct fd_drive_s {
     int number;
@@ -70,7 +71,8 @@ struct fd_drive_s {
     } raw;
 };
 
-fd_drive_t *fdd_init(int num, drive_t *drive) {
+fd_drive_t *fdd_init(int num, drive_t *drive)
+{
     fd_drive_t *drv = lib_malloc(sizeof(fd_drive_t));
     drv->image = NULL;
     drv->number = num;
@@ -86,6 +88,26 @@ fd_drive_t *fdd_init(int num, drive_t *drive) {
     drv->image_sectors = 40;
     drv->drive = drive;
     return drv;
+}
+
+static void fdd_init_crc1021(void)
+{
+    int i, j;
+    WORD w;
+
+    crc1021 = lib_malloc(256 * sizeof(WORD));
+    for (i = 0; i < 256; i++) {
+        w = i << 8;
+        for (j = 0; j < 8; j++) {
+            if (w & 0x8000) {
+                w <<= 1;
+                w ^= 0x1021;
+            } else {
+                w <<= 1;
+            }
+        }
+        crc1021[i] = w;
+    }
 }
 
 void fdd_shutdown(fd_drive_t *drv)
@@ -182,6 +204,14 @@ void fdd_image_detach(fd_drive_t *drv)
     drv->raw.sync[p >> 3] |= 0x80 >> (p & 7); \
     p++;if (p >= drv->raw.size) p = 0;}
 
+inline WORD fdd_crc(WORD crc, BYTE b)
+{
+    if (!crc1021) {
+        fdd_init_crc1021();
+    }
+    return crc1021[(crc >> 8) ^ b] ^ (crc << 8);
+}
+
 static void fdd_flush_raw(fd_drive_t *drv) {
     int i, j, s, p, it, is, step, d;
     BYTE *data;
@@ -193,6 +223,13 @@ static void fdd_flush_raw(fd_drive_t *drv) {
     drv->raw.dirty = 0;
 
     if (drv->raw.track_head / 2 < drv->tracks && drv->image) {
+#if FDD_DEBUG
+        for (i = 0; i < drv->raw.size; i++) {
+            if (!(i & 15)) printf("%04x: ", i);
+            printf("%02x ", drv->raw.data[i]);
+            if ((i & 15)==15) printf("\n");
+        }
+#endif
         data = lib_malloc(128 << drv->sector_size);
         p = 0;
         for (s = 0; s < drv->sectors; s++) {
@@ -320,6 +357,7 @@ static void fdd_flush_raw(fd_drive_t *drv) {
 static void fdd_update_raw(fd_drive_t *drv) {
     int i, j, s, p, it, is, res;
     BYTE buffer[256];
+    WORD crc;
 
     if (drv->track * 2 + drv->head == drv->raw.track_head) {
         return;
@@ -363,14 +401,19 @@ static void fdd_update_raw(fd_drive_t *drv) {
             }
             fdd_raw_write(0xfe); /* ID mark */
             fdd_raw_write(drv->track);
+            crc = fdd_crc(0xb230, drv->track);
             fdd_raw_write(drv->head ^ drv->head_invert);
+            crc = fdd_crc(crc, drv->head ^ drv->head_invert);
             fdd_raw_write(s + 1);
+            crc = fdd_crc(crc, s + 1);
             fdd_raw_write(drv->sector_size);
-            fdd_raw_write(0);
-            fdd_raw_write(0);
+            crc = fdd_crc(crc, drv->sector_size);
+            fdd_raw_write(crc >> 8);
+            fdd_raw_write(crc);
             for (i = 0; i < drv->gap2; i++) {
                 fdd_raw_write(0x4e);
             }
+            crc = 0xe295;
             for (j = 0; j < (1 << drv->sector_size); j += 2) {
                 res = disk_image_read_sector(drv->image, buffer, it, is);
                 if (res < 0) {
@@ -387,18 +430,26 @@ static void fdd_update_raw(fd_drive_t *drv) {
                 }
                 for (i = 0; i < 256; i++) {
                     fdd_raw_write(buffer[i]);
+                    crc = fdd_crc(crc, buffer[i]);
                 }
                 is = (is + 1) % drv->image_sectors;
                 if (!is) {
                     it++;
                 }
             }
-            fdd_raw_write(0);
-            fdd_raw_write(0);
+            fdd_raw_write(crc >> 8);
+            fdd_raw_write(crc & 0xff);
             for (i = 0; i < drv->gap3; i++) {
                 fdd_raw_write(0x4e); /* GAP 3 */
             }
         }
+#if FDD_DEBUG
+        for (i = 0; i < drv->raw.size; i++) {
+            if (!(i & 15)) printf("%04x: ", i);
+            printf("%02x ", drv->raw.data[i]);
+            if ((i & 15)==15) printf("\n");
+        }
+#endif
     }
 }
 

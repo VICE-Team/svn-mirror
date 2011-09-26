@@ -93,11 +93,6 @@ void machine_drive_idling_method(unsigned int dnr)
     iec_drive_idling_method(dnr);
 }
 
-void machine_drive_vsync_hook(void)
-{
-    iec_drive_vsync_hook();
-}
-
 void machine_drive_rom_load(void)
 {
     iec_drive_rom_load();

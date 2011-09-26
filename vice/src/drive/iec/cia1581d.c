@@ -123,10 +123,13 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     drivecia1581_context_t *cia1581p;
+    drive_context_t *drive;
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
+    drive = (drive_context_t *)(cia_context->context);
 
-    wd1770[cia1581p->number].side = (byte & 0x01) ? 1 : 0;
+    wd1770_set_side(drive->wd1770, (byte & 0x01) ? 0 : 1);
+    wd1770_set_motor(drive->wd1770, (byte & 0x04) ? 0 : 1);
 
     cia1581p->drive->led_status = (byte & 0x40) ? 1 : 0;
     if (cia1581p->drive->led_status)
@@ -138,10 +141,8 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     drivecia1581_context_t *cia1581p;
-    drive_context_t *drive_context;
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
-    drive_context = (drive_context_t *)(cia_context->context);
 
     if (byte != cia_context->old_pb) {
         if (cia1581p->iecbus != NULL) {
@@ -184,7 +185,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
     tmp = 8 * (cia1581p->number);
 
-    if (!wd1770_disk_change(drive_context))
+    if (!wd1770_disk_change(drive_context->wd1770))
         tmp |= 0x80;
 
     return (tmp & ~(cia_context->c_cia[CIA_DDRA]))
@@ -193,11 +194,9 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
-    drive_context_t *drive_context;
     drivecia1581_context_t *cia1581p;
 
     cia1581p = (drivecia1581_context_t *)(cia_context->prv);
-    drive_context = (drive_context_t *)(cia_context->context);
 
     if (cia1581p->iecbus != NULL) {
         BYTE *drive_port;
@@ -253,7 +252,7 @@ void cia1581_setup_context(drive_context_t *ctxptr)
     cia->rmw_flag = &(ctxptr->cpu->rmw_flag);
     cia->clk_ptr = ctxptr->clk_ptr;
 
-    cia->todticks = 100000;
+    cia->todticks = 100000; /* incorrect, J1 closed = 1, J1 open, no ticks at all */
 
     ciacore_setup_context(cia);
 

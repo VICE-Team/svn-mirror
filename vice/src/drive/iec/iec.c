@@ -101,7 +101,7 @@ void iec_drive_reset(struct drive_context_s *drv)
 
     if (drv->drive->type == DRIVE_TYPE_1581) {
         ciacore_reset(drv->cia1581);
-        wd1770d_reset(drv);
+        wd1770_reset(drv->wd1770);
     } else {
         ciacore_disable(drv->cia1581);
     }
@@ -146,11 +146,6 @@ void iec_drive_idling_method(unsigned int dnr)
     resources_touch(tmp);
 
     lib_free(tmp);
-}
-
-void iec_drive_vsync_hook(void)
-{
-    wd1770_vsync_hook();
 }
 
 void iec_drive_rom_load(void)
