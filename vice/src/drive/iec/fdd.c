@@ -456,7 +456,7 @@ static void fdd_update_raw(fd_drive_t *drv) {
 int fdd_rotate(fd_drive_t *drv, int bytes)
 {
     if (!drv || !drv->motor || !drv->image) {
-        return 0;
+        return bytes;
     }
     drv->index_count += (drv->raw.head + bytes) / drv->raw.size;
     drv->raw.head = (drv->raw.head + bytes) % drv->raw.size;
