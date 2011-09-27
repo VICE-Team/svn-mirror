@@ -46,7 +46,7 @@
 
 /* Some prototypes are needed */
 static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int vic_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static int vic_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void vic_sound_machine_store(sound_t *psid, WORD addr, BYTE value);
 static BYTE vic_sound_machine_read(sound_t *psid, WORD addr);
 
@@ -234,7 +234,7 @@ static struct sound_vic20_s snd;
 
 void vic_sound_clock(int cycles);
 
-static int vic_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int vic_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int s = 0;
     int i;

@@ -43,7 +43,7 @@
 
 /* Some prototypes are needed */
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
-static int userport_dac_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void userport_dac_sound_machine_store(sound_t *psid, WORD addr, BYTE val);
 static BYTE userport_dac_sound_machine_read(sound_t *psid, WORD addr);
 static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk);
@@ -136,7 +136,7 @@ struct userport_dac_sound_s
 
 static struct userport_dac_sound_s snd;
 
-static int userport_dac_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
 

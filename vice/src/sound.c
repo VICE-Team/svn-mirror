@@ -126,20 +126,20 @@ static void sound_machine_close(sound_t *psid)
     }
 }
 
-static int sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
     int temp;
 
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
-        temp = sound_calls[0]->calculate_samples(psid0, psid1, pbuf, nr, soc, scc, delta_t);
+        temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, soc, scc, delta_t);
     } else {
         temp = nr;
     }
 
     for (i = 1; i < (offset >> 5); i++) {
         if (sound_calls[i]->chip_enabled) {
-            sound_calls[i]->calculate_samples(psid0, psid1, pbuf, temp, soc, scc, delta_t);
+            sound_calls[i]->calculate_samples(psid, pbuf, temp, soc, scc, delta_t);
         }
     }
     return temp;
@@ -962,8 +962,7 @@ static int sound_run_sound(void)
     if (cycle_based) {
         delta_t = maincpu_clk - snddata.lastclk;
         bufferptr = snddata.buffer + snddata.bufptr * snddata.sound_output_channels;
-        nr = sound_machine_calculate_samples(snddata.psid[0],
-                                             snddata.psid[1],
+        nr = sound_machine_calculate_samples(snddata.psid,
                                              bufferptr,
                                              SOUND_BUFSIZE - snddata.bufptr,
                                              snddata.sound_output_channels,
@@ -997,8 +996,7 @@ static int sound_run_sound(void)
             return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW));
         }
         bufferptr = snddata.buffer + snddata.bufptr * snddata.sound_output_channels;
-        sound_machine_calculate_samples(snddata.psid[0],
-                                        snddata.psid[1],
+        sound_machine_calculate_samples(snddata.psid,
                                         bufferptr,
                                         nr,
                                         snddata.sound_output_channels,

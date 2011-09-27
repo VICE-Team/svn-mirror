@@ -811,7 +811,7 @@ static const c64export_resource_t export_res = {
 /* Some prototypes are needed */
 static int magicvoice_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static void magicvoice_sound_machine_close(sound_t *psid);
-static int magicvoice_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
+static int magicvoice_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
 static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte);
 static BYTE magicvoice_sound_machine_read(sound_t *psid, WORD addr);
 static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
@@ -1296,7 +1296,7 @@ static void magicvoice_sound_machine_store(sound_t *psid, WORD addr, BYTE byte)
 /*
     called periodically for every sound fragment that is played
 */
-static int magicvoice_sound_machine_calculate_samples(sound_t *psid0, sound_t *psid1, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
+static int magicvoice_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
     SWORD *buffer;
