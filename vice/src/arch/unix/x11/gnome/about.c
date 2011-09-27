@@ -78,6 +78,11 @@ void ui_about(gpointer data)
         "Copyright @ 2009-2011 Ingo Korb",
         "Copyright @ 2009-2011 Errol Smith",
         "Copyright @ 2010-2011 Olaf Seibert",
+        "Copyright @ 2011      Marcus Sutton",
+        "Copyright @ 2011      Ulrich Schulz",
+        "Copyright @ 2011      Stefan Haubenthal",
+        "Copyright @ 2011      Thomas Giesel",
+        "Copyright @ 2011      Kajtar Zsolt",
         "",
 #ifdef __GNUC__
         _("Official VICE homepage:"),

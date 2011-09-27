@@ -334,6 +334,11 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 2009-2011 Ingo Korb", 16);
         sdl_ui_print_center("(C) 2009-2011 Errol Smith", 17);
         sdl_ui_print_center("(C) 2010-2011 Olaf Seibert", 18);
+        sdl_ui_print_center("(C) 2011      Marcus Sutton", 19);
+        sdl_ui_print_center("(C) 2011      Ulrich Schulz", 20);
+        sdl_ui_print_center("(C) 2011      Stefan Haubenthal", 21);
+        sdl_ui_print_center("(C) 2011      Thomas Giesel", 22);
+        sdl_ui_print_center("(C) 2011      Kajtar Zsolt", 23);
         sdl_ui_refresh();
 
         while (active) {

@@ -946,6 +946,11 @@ void ui_dispatch_events(void)
                                         "(c) 2009-2011 Ingo Korb\n",
                                         "(c) 2009-2011 Errol Smith\n",
                                         "(c) 2010-2011 Olaf Seibert\n",
+                                        "(c) 2011      Marcus Sutton\n",
+                                        "(c) 2011      Ulrich Schulz\n",
+                                        "(c) 2011      Stefan Haubenthal\n",
+                                        "(c) 2011      Thomas Giesel\n",
+                                        "(c) 2011      Kajtar Zsolt\n",
                                         "\nOfficial VICE homepage:\n",
                                         "http://vice-emu.sourceforge.net/",
                                         NULL);

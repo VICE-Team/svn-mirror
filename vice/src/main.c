@@ -201,7 +201,8 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, "Current VICE team members:");
     log_message(LOG_DEFAULT, "D. Lem, A. Matthies, M. Pottendorfer, S. Trikaliotis, M. van den Heuvel,");
     log_message(LOG_DEFAULT, "C. Vogelgsang, F. Gennari, D. Kahlin, A. Lankila, Groepaz, I. Korb,");
-    log_message(LOG_DEFAULT, "E. Smith, O. Seibert.");
+    log_message(LOG_DEFAULT, "E. Smith, O. Seibert, M. Sutton, U. Schulz, S. Haubenthal, T. Giesel,");
+    log_message(LOG_DEFAULT, "K. Zsolt.");
 
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "This is free software with ABSOLUTELY NO WARRANTY.");

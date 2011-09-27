@@ -217,11 +217,11 @@ BEGIN
     LTEXT         "Copyright (c) 2009-2011 Ingo Korb",            IDC_STATIC,          5, 140, 158,  8
     LTEXT         "Copyright (c) 2009-2011 Errol Smith",          IDC_STATIC,          5, 149, 180,  8
     LTEXT         "Copyright (c) 2010-2011 Olaf Seibert",         IDC_STATIC,          5, 158, 158,  8
-    LTEXT         " ",                                            IDC_STATIC,          5, 167, 180,  8
-    LTEXT         " ",                                            IDC_STATIC,          5, 176, 180,  8
-    LTEXT         " ",                                            IDC_STATIC,          5, 185, 180,  8
-    LTEXT         " ",                                            IDC_STATIC,          5, 194, 180,  8
-    LTEXT         " ",                                            IDC_STATIC,          5, 203, 180,  8
+    LTEXT         "Copyright (c) 2011      Marcus Sutton",        IDC_STATIC,          5, 167, 180,  8
+    LTEXT         "Copyright (c) 2011      Ulrich Schulz",        IDC_STATIC,          5, 176, 180,  8
+    LTEXT         "Copyright (c) 2011      Stefan Haubenthal",    IDC_STATIC,          5, 185, 180,  8
+    LTEXT         "Copyright (c) 2011      Thomas Giesel",        IDC_STATIC,          5, 194, 180,  8
+    LTEXT         "Copyright (c) 2011      Kajtar Zsolt",         IDC_STATIC,          5, 203, 180,  8
 END
 
 // -----------------------------------------------------------------------------
