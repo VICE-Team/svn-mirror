@@ -509,10 +509,15 @@ void store_io(WORD addr, BYTE value)
           case 0xd900:
             return;                     /* disk units */
           case 0xda00:
-            if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end)
-              sid2_store(addr, value);
-            else
-              sid_store((WORD)(addr & 0xff), value);
+            if (sid_stereo >= 1 && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
+                sid2_store(addr, value);
+            } else {
+                if (sid_stereo == 2 && addr >= sid_triple_address_start && addr < sid_triple_address_end) {
+                    sid3_store(addr, value);
+                } else {
+                    sid_store((WORD)(addr & 0xff), value);
+                }
+            }
             return;
           case 0xdb00:
             return;                     /* coprocessor */
@@ -548,22 +553,18 @@ BYTE read_io(WORD addr)
           case 0xd900:
             return read_unused(addr);
           case 0xda00:
-            if (sid_stereo && addr >= sid_stereo_address_start && addr < sid_stereo_address_end)
-            {
-              if (machine_class == VICE_MACHINE_CBM5x0)
-              {
+            if (machine_class != VICE_MACHINE_CBM5x0) {
+                return 0xff;
+            }
+            if (sid_stereo >= 1 && addr >= sid_stereo_address_start && addr < sid_stereo_address_end) {
                 return sid2_read(addr);
-              }
-              else
-              {
-                return 0xff;            /* 2 MHz too fast for SID */
-              }
-            }
-            if (machine_class == VICE_MACHINE_CBM5x0) {
-                return sid_read(addr);
             } else {
-                return 0xff;            /* 2 MHz too fast for SID */
-            }
+                if (sid_stereo == 2 && addr >= sid_triple_address_start && addr < sid_triple_address_end) {
+                    return sid3_read(addr);
+                } else {
+                    return sid_read(addr);
+                }
+          }
           case 0xdb00:
             return read_unused(addr);
           case 0xdc00:
