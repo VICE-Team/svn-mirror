@@ -48,6 +48,16 @@ static void machine_sid2_store(WORD addr, BYTE byte)
     sid2_store(addr, byte);
 }
 
+static BYTE machine_sid3_read(WORD addr)
+{
+    return sid3_read(addr);
+}
+
+static void machine_sid3_store(WORD addr, BYTE byte)
+{
+    sid3_store(addr, byte);
+}
+
 /* ---------------------------------------------------------------------*/
 
 static io_source_t stereo_sid_device = {
@@ -65,7 +75,23 @@ static io_source_t stereo_sid_device = {
     0
 };
 
+static io_source_t triple_sid_device = {
+    "Triple SID",
+    IO_DETACH_RESOURCE,
+    "SidStereo",
+    0xdf00, 0xdf1f, 0x1f,
+    1, /* read is always valid */
+    machine_sid3_store,
+    machine_sid3_read,
+    NULL, /* TODO: peek */
+    NULL, /* TODO: dump */
+    0,
+    0,
+    0
+};
+
 static io_source_list_t *stereo_sid_list_item = NULL;
+static io_source_list_t *triple_sid_list_item = NULL;
 
 /* ---------------------------------------------------------------------*/
 
@@ -127,13 +153,21 @@ int machine_sid2_check_range(unsigned int sid2_adr)
 
 void machine_sid2_enable(int val)
 {
-    if (val) {
+    if (stereo_sid_list_item != NULL) {
+        io_source_unregister(stereo_sid_list_item);
+        stereo_sid_list_item = NULL;
+    }
+    if (triple_sid_list_item != NULL) {
+        io_source_unregister(triple_sid_list_item);
+        triple_sid_list_item = NULL;
+    }
+
+    if (val == 1) {
         stereo_sid_list_item = io_source_register(&stereo_sid_device);
-    } else {
-        if (stereo_sid_list_item != NULL) {
-            io_source_unregister(stereo_sid_list_item);
-            stereo_sid_list_item = NULL;
-        }
+    }
+    if (val == 2) {
+        stereo_sid_list_item = io_source_register(&stereo_sid_device);
+        triple_sid_list_item = io_source_register(&triple_sid_device);
     }
 }
 

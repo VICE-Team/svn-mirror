@@ -59,9 +59,9 @@ void sid_sound_chip_init(void)
 
 int machine_sid2_check_range(unsigned int sid2_adr)
 {
-    if (sid2_adr >= 0xda20 && sid2_adr <= 0xdae0)
+    if (sid2_adr >= 0xda20 && sid2_adr <= 0xdae0) {
         return 0;
-
+    }
     return -1;
 }
 

@@ -68,7 +68,7 @@ static sid_engine_t sid_engine;
 static BYTE lastsidread;
 
 /* register data */
-static BYTE siddata[SOUND_CHANNELS_MAX][32];
+static BYTE siddata[SOUND_SIDS_MAX][32];
 
 static int (*sid_read_func)(WORD addr, int chipno);
 static void (*sid_store_func)(WORD addr, BYTE val, int chipno);
@@ -86,13 +86,14 @@ static int sid_read_off(WORD addr, int chipno)
 {
     BYTE val;
 
-    if (addr == 0x19 || addr == 0x1a)
+    if (addr == 0x19 || addr == 0x1a) {
         val = 0xff;
-    else {
-        if (addr == 0x1b || addr == 0x1c)
+    } else {
+        if (addr == 0x1b || addr == 0x1c) {
             val = (BYTE)(maincpu_clk % 256);
-        else
+        } else {
             val = 0;
+        }
     }
 
     /* FIXME: Change API, return BYTE! */
@@ -140,14 +141,15 @@ static BYTE sid_read_chip(WORD addr, int chipno)
 
     /* Fallback when sound is switched off. */
     if (val < 0) {
-        if (addr == 0x19 || addr == 0x1a)
+        if (addr == 0x19 || addr == 0x1a) {
 	    val = 0xff;
-	else {
-	    if (addr == 0x1b || addr == 0x1c)
-		val = maincpu_clk % 256;
-	    else
-		val = 0;
-	}
+        } else {
+            if (addr == 0x1b || addr == 0x1c) {
+                val = maincpu_clk % 256;
+            } else {
+                val = 0;
+            }
+        }
     }
 
     lastsidread = val;
@@ -185,20 +187,33 @@ static void sid_store_chip(WORD addr, BYTE byte, int chipno)
 
 BYTE sid_read(WORD addr)
 {
-    if (sid_stereo
+    if (sid_stereo == 1
         && addr >= sid_stereo_address_start
-        && addr < sid_stereo_address_end)
-        sid_read_chip(addr, 1);
+        && addr < sid_stereo_address_end) {
+        return sid_read_chip(addr, 1);
+    }
+
+    if (sid_stereo == 2
+        && addr >= sid_triple_address_start
+        && addr < sid_triple_address_end) {
+        return sid_read_chip(addr, 2);
+    }
 
     return sid_read_chip(addr, 0);
 }
 
 BYTE sid_peek(WORD addr)
 {
-    if (sid_stereo
+    if (sid_stereo == 1
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end) {
-        sid_peek_chip(addr, 1);
+        return sid_peek_chip(addr, 1);
+    }
+
+    if (sid_stereo == 2
+        && addr >= sid_triple_address_start
+        && addr < sid_triple_address_end) {
+        return sid_peek_chip(addr, 2);
     }
 
     return sid_peek_chip(addr, 0);
@@ -209,21 +224,35 @@ BYTE sid2_read(WORD addr)
     return sid_read_chip(addr, 1);
 }
 
+BYTE sid3_read(WORD addr)
+{
+    return sid_read_chip(addr, 2);
+}
+
 void sid_store(WORD addr, BYTE byte)
 {
-    if (sid_stereo
+    if (sid_stereo == 1
         && addr >= sid_stereo_address_start
         && addr < sid_stereo_address_end) {
         sid_store_chip(addr, byte, 1);
         return;
     }
-
+    if (sid_stereo == 2
+        && addr >= sid_triple_address_start
+        && addr < sid_triple_address_end) {
+        sid_store_chip(addr, byte, 2);
+    }
     sid_store_chip(addr, byte, 0);
 }
 
 void sid2_store(WORD addr, BYTE byte)
 {
     sid_store_chip(addr, byte, 1);
+}
+
+void sid3_store(WORD addr, BYTE byte)
+{
+    sid_store_chip(addr, byte, 2);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -241,19 +270,22 @@ sound_t *sid_sound_machine_open(int chipno)
 {
     sidengine = 0;
 
-    if (resources_get_int("SidEngine", &sidengine) < 0)
+    if (resources_get_int("SidEngine", &sidengine) < 0) {
         return NULL;
+    }
 
     sid_engine = fastsid_hooks;
 
 #ifdef HAVE_RESID
-    if (sidengine == SID_ENGINE_RESID)
+    if (sidengine == SID_ENGINE_RESID) {
         sid_engine = resid_hooks;
+    }
 #endif
 
 #ifdef HAVE_RESID_FP
-    if (sidengine == SID_ENGINE_RESID_FP)
+    if (sidengine == SID_ENGINE_RESID_FP) {
         sid_engine = residfp_hooks;
+    }
 #endif
 
     return sid_engine.open(siddata[chipno]);
@@ -287,7 +319,8 @@ void sid_sound_machine_reset(sound_t *psid, CLOCK cpu_clk)
 int sid_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
-    SWORD *tmp_buf;
+    SWORD *tmp_buf1;
+    SWORD *tmp_buf2;
     int tmp_nr = 0;
     int tmp_delta_t = *delta_t;
 
@@ -295,13 +328,28 @@ int sid_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int
         return sid_engine.calculate_samples(psid[0], pbuf, nr, 1, delta_t);
     }
     if (soc == 1 && scc == 2) {
-        tmp_buf = lib_malloc(2 * nr);
-        tmp_nr = sid_engine.calculate_samples(psid[0], tmp_buf, nr, 1, &tmp_delta_t);
+        tmp_buf1 = lib_malloc(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[0], tmp_buf1, nr, 1, &tmp_delta_t);
         tmp_nr = sid_engine.calculate_samples(psid[1], pbuf, nr, 1, delta_t);
         for (i = 0; i < tmp_nr; i++) {
-            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf1[i]);
         }
-        lib_free(tmp_buf);
+        lib_free(tmp_buf1);
+        return tmp_nr;
+    }
+    if (soc == 1 && scc == 3) {
+        tmp_buf1 = lib_malloc(2 * nr);
+        tmp_buf2 = lib_malloc(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[0], tmp_buf1, nr, 1, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf2, nr, 1, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf, nr, 1, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf1[i]);
+            pbuf[i] = sound_audio_mix(pbuf[i], tmp_buf2[i]);
+        }
+        lib_free(tmp_buf1);
+        lib_free(tmp_buf2);
         return tmp_nr;
     }
     if (soc == 2 && scc == 1) {
@@ -315,6 +363,18 @@ int sid_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int
         tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, &tmp_delta_t);
         tmp_nr = sid_engine.calculate_samples(psid[1], pbuf + 1, nr, 2, delta_t);
         return tmp_nr;
+    }
+    if (soc == 2 && scc == 3) {
+        tmp_buf1 = lib_malloc(2 * nr);
+        tmp_nr = sid_engine.calculate_samples(psid[2], tmp_buf1, nr, 1, &tmp_delta_t);
+        tmp_delta_t = *delta_t;
+        tmp_nr = sid_engine.calculate_samples(psid[0], pbuf, nr, 2, &tmp_delta_t);
+        tmp_nr = sid_engine.calculate_samples(psid[1], pbuf + 1, nr, 2, delta_t);
+        for (i = 0; i < tmp_nr; i++) {
+            pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], tmp_buf1[i]);
+            pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1], tmp_buf1[i]);
+        }
+        lib_free(tmp_buf1);
     }
     return tmp_nr;
 }
@@ -363,9 +423,11 @@ int sid_sound_machine_cycle_based(void)
 
 int sid_sound_machine_channels(void)
 {
-    int stereo = 0;
-    resources_get_int("SidStereo", &stereo);
-    return stereo ? 2 : 1;
+    int channels = 0;
+
+    resources_get_int("SidStereo", &channels);
+
+    return channels + 1;
 }
 
 static void set_sound_func(void)
@@ -425,42 +487,50 @@ int sid_engine_set(int engine)
 #ifdef HAVE_CATWEASELMKIII
     if (engine == SID_ENGINE_CATWEASELMKIII
         && sid_engine_type != SID_ENGINE_CATWEASELMKIII) {
-        if (catweaselmkiii_open() < 0)
+        if (catweaselmkiii_open() < 0) {
             return -1;
+        }
     }
     if (engine != SID_ENGINE_CATWEASELMKIII
-        && sid_engine_type == SID_ENGINE_CATWEASELMKIII)
+        && sid_engine_type == SID_ENGINE_CATWEASELMKIII) {
         catweaselmkiii_close();
+    }
 #endif
 #ifdef HAVE_HARDSID
     if (engine == SID_ENGINE_HARDSID
         && sid_engine_type != SID_ENGINE_HARDSID) {
-        if (hardsid_open() < 0)
+        if (hardsid_open() < 0) {
             return -1;
+        }
     }
     if (engine != SID_ENGINE_HARDSID
-        && sid_engine_type == SID_ENGINE_HARDSID)
+        && sid_engine_type == SID_ENGINE_HARDSID) {
         hardsid_close();
+    }
 #endif
 #ifdef HAVE_PARSID
     if ((engine == SID_ENGINE_PARSID_PORT1 || engine == SID_ENGINE_PARSID_PORT2 || engine == SID_ENGINE_PARSID_PORT3)
         && sid_engine_type != engine) {
         if (engine == SID_ENGINE_PARSID_PORT1) {
-          if (parsid_open(1) < 0)
-            return -1;
+            if (parsid_open(1) < 0) {
+                return -1;
+            }
         }
         if (engine == SID_ENGINE_PARSID_PORT2) {
-          if (parsid_open(2) < 0)
-            return -1;
+            if (parsid_open(2) < 0) {
+                return -1;
+            }
         }
         if (engine == SID_ENGINE_PARSID_PORT3) {
-          if (parsid_open(3) < 0)
-            return -1;
+            if (parsid_open(3) < 0) {
+                return -1;
+            }
         }
     }
     if (engine != SID_ENGINE_PARSID_PORT1 && engine != SID_ENGINE_PARSID_PORT2 && engine != SID_ENGINE_PARSID_PORT3
-        && (sid_engine_type == SID_ENGINE_PARSID_PORT1 || sid_engine_type == SID_ENGINE_PARSID_PORT2 || sid_engine_type == SID_ENGINE_PARSID_PORT3))
+        && (sid_engine_type == SID_ENGINE_PARSID_PORT1 || sid_engine_type == SID_ENGINE_PARSID_PORT2 || sid_engine_type == SID_ENGINE_PARSID_PORT3)) {
         parsid_close();
+    }
 #endif
 
     sid_engine_type = engine;

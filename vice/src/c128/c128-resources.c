@@ -486,6 +486,8 @@ static const resource_int_t resources_int[] = {
 #endif
     { "SidStereoAddressStart", 0xde00, RES_EVENT_SAME, NULL,
       (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
+    { "SidTripleAddressStart", 0xdf00, RES_EVENT_SAME, NULL,
+      (int *)&sid_triple_address_start, sid_set_sid_triple_address, NULL },
     { "C128FullBanks", 0, RES_EVENT_NO, NULL,
       (int *)&c128_full_banks, set_c128_full_banks, NULL },
     { NULL }

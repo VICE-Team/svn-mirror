@@ -38,6 +38,7 @@
 #define SOUND_SAMPLE_RATE 44100
 #define SOUND_CHANNELS_MAX 2
 #define SOUND_BUFSIZE 32768
+#define SOUND_SIDS_MAX 3
 
 #ifdef __MSDOS__
 # define SOUND_SAMPLE_BUFFER_SIZE       100     /* ms */

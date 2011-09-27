@@ -61,6 +61,8 @@ int sid_stereo;
 int checking_sid_stereo;
 unsigned int sid_stereo_address_start;
 unsigned int sid_stereo_address_end;
+unsigned int sid_triple_address_start;
+unsigned int sid_triple_address_end;
 static int sid_engine;
 #ifdef HAVE_HARDSID
 static int sid_hardsid_main;
@@ -76,7 +78,7 @@ static int set_sid_engine(int set_engine, void *param)
 
     if (engine == SID_ENGINE_DEFAULT) {
 #ifdef HAVE_RESID
-        if (machine_class != VICE_MACHINE_VIC20 && machine_class != VICE_MACHINE_PLUS4 && machine_class != VICE_MACHINE_PET) {
+        if (machine_class != VICE_MACHINE_VIC20) {
             engine = SID_ENGINE_RESID;
         } else {
             engine = SID_ENGINE_FASTSID;
@@ -104,7 +106,7 @@ static int set_sid_engine(int set_engine, void *param)
         && engine != SID_ENGINE_PARSID_PORT2
         && engine != SID_ENGINE_PARSID_PORT3
 #endif
-        ) {
+    ) {
         return -1;
     }
 
@@ -147,6 +149,9 @@ static int set_sid_stereo(int val, void *param)
         sid_stereo = 0;
     } else {
         if (val != sid_stereo) {
+            if (val < 0 || val > 2) {
+                return -1;
+            }
             sid_stereo = val;
             sound_state_changed = 1;
             machine_sid2_enable(val);
@@ -161,11 +166,27 @@ int sid_set_sid_stereo_address(int val, void *param)
 
     sid2_adr = (unsigned int)val;
 
-    if (machine_sid2_check_range(sid2_adr) < 0)
+    if (machine_sid2_check_range(sid2_adr) < 0) {
         return -1;
+    }
 
     sid_stereo_address_start = sid2_adr;
     sid_stereo_address_end = sid_stereo_address_start + 32;
+    return 0;
+}
+
+int sid_set_sid_triple_address(int val, void *param)
+{
+    unsigned int sid3_adr;
+
+    sid3_adr = (unsigned int)val;
+
+    if (machine_sid2_check_range(sid3_adr) < 0) {
+        return -1;
+    }
+
+    sid_triple_address_start = sid3_adr;
+    sid_triple_address_end = sid_triple_address_start + 32;
     return 0;
 }
 

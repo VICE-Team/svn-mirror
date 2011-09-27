@@ -8999,22 +8999,6 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
-/* en */ {IDCLS_ENABLE_SECOND_SID,    N_("Enable second SID")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_SECOND_SID_DA, "Aktivér sekundær SID"},
-/* de */ {IDCLS_ENABLE_SECOND_SID_DE, "Zweiten SID aktivieren"},
-/* fr */ {IDCLS_ENABLE_SECOND_SID_FR, "Activer le second SID"},
-/* hu */ {IDCLS_ENABLE_SECOND_SID_HU, "Második SID engedélyezése"},
-/* it */ {IDCLS_ENABLE_SECOND_SID_IT, "Attiva secondo SID"},
-/* ko */ {IDCLS_ENABLE_SECOND_SID_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SECOND_SID_NL, "Activeer stereo SID"},
-/* pl */ {IDCLS_ENABLE_SECOND_SID_PL, "W³±cz drugi SID"},
-/* ru */ {IDCLS_ENABLE_SECOND_SID_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SECOND_SID_SV, "Aktivera andra SID"},
-/* tr */ {IDCLS_ENABLE_SECOND_SID_TR, "Ýkinci SID'i aktif et"},
-#endif
-
-/* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_SIDCART,    N_("Enable the SID cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SIDCART_DA, ""},  /* fuzzy */
@@ -9076,6 +9060,22 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SPECIFY_SID_2_ADDRESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_2_ADDRESS_SV, "Ange basadress för andra SID"},
 /* tr */ {IDCLS_SPECIFY_SID_2_ADDRESS_TR, "2nci SID için taban adresini belirt"},
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SID_3_ADDRESS,    N_("Specify base address for 3rd SID")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SID_3_ADDRESS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_3_ADDRESS_DE, ""},  /* fuzzy */
+/* fr */ {IDCLS_SPECIFY_SID_3_ADDRESS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SID_3_ADDRESS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SID_3_ADDRESS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SPECIFY_SID_3_ADDRESS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_3_ADDRESS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_SID_3_ADDRESS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SPECIFY_SID_3_ADDRESS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SID_3_ADDRESS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SID_2_ADDRESS_TR, ""},  /* fuzzy */
 #endif
 
 /* sid/sid-cmdline-options.c */

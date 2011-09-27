@@ -466,7 +466,7 @@ typedef struct
     int sound_chip_channels;
 
     /* sid itself */
-    sound_t *psid[SOUND_CHANNELS_MAX];
+    sound_t *psid[SOUND_SIDS_MAX];
 
     /* number of clocks between each sample. used value */
     soundclk_t clkstep;
@@ -785,7 +785,7 @@ int sound_open(void)
             switch (output_option) {
                 case SOUND_OUTPUT_SYSTEM:
                 default:
-                    channels_cap = snddata.sound_chip_channels;
+                    channels_cap = (snddata.sound_chip_channels >= 2) ? 2 : 1;
                     break;
                 case SOUND_OUTPUT_MONO:
                     channels_cap = 1;
@@ -800,7 +800,7 @@ int sound_open(void)
                 lib_free(err);
                 return 1;
             }
-            if (channels_cap != snddata.sound_chip_channels) {
+            if (channels_cap != (snddata.sound_chip_channels >= 2) ? 2 : 1) {
                 if (output_option != SOUND_OUTPUT_MONO) {
                     log_warning(sound_log, "sound device lacks stereo capability, switching to mono output");
                 }
@@ -818,7 +818,7 @@ int sound_open(void)
         snddata.playdev = pdev;
         snddata.fragsize = fragsize;
         snddata.fragnr = fragnr;
-        snddata.bufsize = fragsize*fragnr;
+        snddata.bufsize = fragsize * fragnr;
         snddata.bufptr = 0;
         log_message(sound_log,
                     "Opened device `%s', speed %dHz, fragment size %dms, buffer size %dms%s",
@@ -940,8 +940,9 @@ static int sound_run_sound(void)
     static int overflow_warning_count = 0;
 
     /* XXX: implement the exact ... */
-    if (!playback_enabled || (suspend_time > 0 && disabletime))
+    if (!playback_enabled || (suspend_time > 0 && disabletime)) {
         return 1;
+    }
 
     if (!snddata.playdev) {
         i = sound_open();
@@ -1082,6 +1083,7 @@ double sound_flush()
 {
     int c, i, nr, space = 0, used;
     int j;
+    static int drained_warning_count = 0;
     char *state;
     static time_t prev;
     time_t now;
@@ -1171,9 +1173,15 @@ double sound_flush()
             snddata.prevfill = j;
 
             /* Fresh start for vsync. */
-#ifndef DEBUG
-            log_warning(sound_log, "Buffer drained");
-#endif
+           if (drained_warning_count < 25) {
+                log_warning(sound_log, "Buffer drained");
+                drained_warning_count++;
+            } else {
+                if (drained_warning_count == 25) {
+                    log_warning(sound_log, "Buffer drainded warning repeated 25 times, will now be ignored");
+                    drained_warning_count++;
+                }
+            }
             vsync_sync_reset();
         }
         if (cycle_based || speed_adjustment_setting != SOUND_ADJUST_ADJUSTING) {
