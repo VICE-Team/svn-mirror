@@ -1372,7 +1372,6 @@ int ciacore_snapshot_read_module(cia_context_t *cia_context, snapshot_t *s)
     BYTE vmajor, vminor;
     BYTE byte;
     DWORD dword;
-    WORD addr;
     CLOCK rclk = *(cia_context->clk_ptr);
     snapshot_module_t *m;
     WORD cia_tal, cia_tbl, cia_tac, cia_tbc;
@@ -1403,13 +1402,11 @@ int ciacore_snapshot_read_module(cia_context_t *cia_context, snapshot_t *s)
         SMR_B(m, &(cia_context->c_cia[CIA_DDRA]));
         SMR_B(m, &(cia_context->c_cia[CIA_DDRB]));
 
-        addr = CIA_DDRA;
         byte = cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]);
         cia_context->old_pa = byte ^ 0xff;    /* all bits change? */
         (cia_context->undump_ciapa)(cia_context, rclk, byte);
         cia_context->old_pa = byte;
 
-        addr = CIA_DDRB;
         byte = cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]);
         cia_context->old_pb = byte ^ 0xff;    /* all bits change? */
         (cia_context->undump_ciapb)(cia_context, rclk, byte);

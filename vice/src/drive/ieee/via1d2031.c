@@ -202,10 +202,11 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE p_oldpb,
 
 static void undump_pcr(via_context_t *via_context, BYTE byte)
 {
+#if 0
     drivevia1_context_t *via1p;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
-#if 0
+
     /* FIXME: Is this correct? */
     if (via1p->number != 0)
         via2d_update_pcr(byte, &drive[0]);
@@ -264,14 +265,11 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
 static BYTE read_prb(via_context_t *via_context)
 {
     BYTE byte;
-    BYTE orval;
     BYTE andval;
     drivevia1_context_t *via1p;
 
     via1p = (drivevia1_context_t *)(via_context->prv);
 
-    /* 0 for drive0, 0x20 for drive 1 */
-    orval = (via1p->number << 5);
     /* 0xfe for drive0, 0xff for drive 1 */
     andval = (0xfe | via1p->number);
 
