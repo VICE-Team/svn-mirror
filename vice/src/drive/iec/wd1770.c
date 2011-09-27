@@ -246,10 +246,10 @@ static void wd1770_execute(wd1770_t *drv)
                 case WD_STEP:
                     break;
                 case WD_STEP_IN:
-                    drv->direction = 0;
+                    drv->direction = 1;
                     break;
                 case WD_STEP_OUT:
-                    drv->direction = 1;
+                    drv->direction = 0;
                     break;
                 case WD_RESTORE:
                     drv->track = 0xff;
@@ -265,7 +265,7 @@ static void wd1770_execute(wd1770_t *drv)
                     drv->step = 8;
                     continue;
                 }
-                drv->direction = (drv->data > drv->track) ? 1 : 0;
+                drv->direction = (drv->data > drv->track);
                 drv->step++;
             case 5:
                 drv->track += drv->direction ? 1 : -1;
@@ -315,7 +315,7 @@ static void wd1770_execute(wd1770_t *drv)
                 res = fdd_read(drv->fdd);
                 if (!drv->dden || res != 0x1fe) {
                     if (!drv->sync || res != 0xfe) {
-                        drv->sync = (res == 0x1a1) ? 1 : 0;
+                        drv->sync = (res == 0x1a1);
                         continue;
                     }
                 }
@@ -406,7 +406,7 @@ static void wd1770_execute(wd1770_t *drv)
                 res = fdd_read(drv->fdd);
                 if (!drv->dden || res != 0x1fe) {
                     if (!drv->sync || res != 0xfe) {
-                        drv->sync = (res == 0x1a1) ? 1 : 0;
+                        drv->sync = (res == 0x1a1);
                         continue;
                     }
                 }
@@ -465,7 +465,7 @@ static void wd1770_execute(wd1770_t *drv)
                             drv->crc = 0xffff;
                         }
                         drv->crc = fdd_crc(drv->crc, res);
-                        drv->sync = (res == 0x1a1) ? 1 : 0;
+                        drv->sync = (res == 0x1a1);
                         continue;
                     }
                 }
@@ -524,7 +524,7 @@ static void wd1770_execute(wd1770_t *drv)
                     drv->crc = fdd_crc(drv->crc, 0xa1);
                     continue;
                 }
-                res = (drv->cmd & WD_A) ? 0xf8 : 0xfb | (drv->dden ? 0x100 : 0);
+                res = ((drv->cmd & WD_A) ? 0xf8 : 0xfb) | (drv->dden ? 0x100 : 0);
                 fdd_write(drv->fdd, res);
                 drv->crc = fdd_crc(drv->crc, res);
                 drv->byte_count = (128 << drv->tmp) + 3;
@@ -645,7 +645,7 @@ static void wd1770_execute(wd1770_t *drv)
                 res = fdd_read(drv->fdd);
                 if (!drv->dden || res != 0x1fe) {
                     if (!drv->sync || res != 0xfe) {
-                        drv->sync = (res == 0x1a1) ? 1 : 0;
+                        drv->sync = (res == 0x1a1);
                         continue;
                     }
                 }
