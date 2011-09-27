@@ -61,8 +61,8 @@
 #else
 #define debug(...) {}
 #endif
-#define putw(a,b) {result[(a)*2]=(b) & 0xff;result[(a)*2+1]=(b) >> 8;}
-#define setb(a,b,c) {result[(a)*2+(b)/8]|=(c) ? (1 << ((b) & 7)) : 0;}
+#define putw(a,b) {result[(a) * 2] = (b) & 0xff;result[(a) * 2 + 1] = (b) >> 8;}
+#define setb(a,b,c) {result[(a) * 2 + (b) / 8] |= (c) ? (1 << ((b) & 7)) : 0;}
 
 struct ata_drive_s {
     BYTE error;
@@ -130,7 +130,7 @@ static void ident_update_string(BYTE *b, char *s, int n)
 {
     int i;
 
-    for (i=0;i<n;i+=2) {
+    for (i = 0; i < n; i += 2) {
         b[i | 1] = *s ? *s++ : 0x20;
         b[i] = *s ? *s++ : 0x20;
     }
@@ -755,7 +755,9 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             setb(86, 12, drv->flush); /* flush cache */
             setb(87, 14, 1);
             putw(255, 0xa5);
-            for (i=0; i<511; i++) result[511] -= result[i];
+            for (i = 0; i < 511; i++) {
+                result[511] -= result[i];
+            }
 
             drv->sector_count_internal = 1;
             memcpy(drv->buffer + drv->sector_size - sizeof(result), result, sizeof(result));
@@ -864,7 +866,9 @@ static void atapi_execute_command(ata_drive_t *drv, BYTE value)
             setb(86, 12, drv->flush); /* flush cache */
             setb(87, 14, 1);
             putw(255, 0xa5);
-            for (i=0; i < 511; i++) result[511] -= result[i];
+            for (i = 0; i < 511; i++) {
+                result[511] -= result[i];
+            }
 
             drv->sector_count_internal = 1;
             memcpy(drv->buffer + drv->sector_size - sizeof(result), result, sizeof(result));
@@ -947,14 +951,14 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
     case 0x23:
         memset(result, 0, sizeof(result));
         debug("READ FORMAT CAPACITIES");
-        result[3]=8;
-        result[4]=drv->geometry.size >> 24;
-        result[5]=drv->geometry.size >> 16;
-        result[6]=drv->geometry.size >> 8;
-        result[7]=drv->geometry.size;
-        result[8]=drv->file ? 2 : 3;
-        result[10]=drv->sector_size >> 8;
-        result[11]=drv->sector_size;
+        result[3] = 8;
+        result[4] = drv->geometry.size >> 24;
+        result[5] = drv->geometry.size >> 16;
+        result[6] = drv->geometry.size >> 8;
+        result[7] = drv->geometry.size;
+        result[8] = drv->file ? 2 : 3;
+        result[10] = drv->sector_size >> 8;
+        result[11] = drv->sector_size;
 
         len = (drv->packet[8] < sizeof(result) && !drv->packet[7]) ? ((drv->packet[8] + 1) & 0xfe) : sizeof(result);
         drv->sector_count_internal = 1;
