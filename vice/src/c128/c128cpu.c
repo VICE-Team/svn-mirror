@@ -1,5 +1,5 @@
 /*
- * c128cpu.c - Emulation of the main 6510 processor.
+ * c128cpu.c - Emulation of the main 8502 processor.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>

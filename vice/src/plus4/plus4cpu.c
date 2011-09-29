@@ -1,5 +1,5 @@
 /*
- * plus4cpu.c - Emulation of the main 6510 processor.
+ * plus4cpu.c - Emulation of the main 7501 processor.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -33,4 +33,3 @@
 #define CPU_DELAY_CLK ted_delay_clk();
 
 #include "../maincpu.c"
-

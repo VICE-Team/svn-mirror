@@ -1,5 +1,5 @@
 /*
- * vic20cpu.c - Emulation of the VIC 6510 processor.
+ * vic20cpu.c - Emulation of the VIC 6502 processor.
  *
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
