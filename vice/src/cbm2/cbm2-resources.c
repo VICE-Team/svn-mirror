@@ -269,10 +269,6 @@ static const resource_int_t resources_int[] = {
     { "KeymapIndex", KBD_INDEX_CBM2_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
-    { "SidStereoAddressStart", 0xda20, RES_EVENT_SAME, NULL,
-      (int *)&sid_stereo_address_start, sid_set_sid_stereo_address, NULL },
-    { "SidTripleAddressStart", 0xda40, RES_EVENT_SAME, NULL,
-      (int *)&sid_triple_address_start, sid_set_sid_triple_address, NULL },
     { NULL }
 };
 
