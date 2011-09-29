@@ -181,7 +181,7 @@ int sid_set_sid_triple_address(int val, void *param)
 
     sid3_adr = (unsigned int)val;
 
-    if (machine_sid2_check_range(sid3_adr) < 0) {
+    if (machine_sid3_check_range(sid3_adr) < 0) {
         return -1;
     }
 

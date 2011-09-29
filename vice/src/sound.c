@@ -712,6 +712,7 @@ int sound_open(void)
 {
     int c, i, j;
     int channels_cap;
+    int channels;
     sound_device_t *pdev, *rdev;
     char *playname, *recname;
     char *playparam, *recparam;
@@ -785,28 +786,29 @@ int sound_open(void)
             switch (output_option) {
                 case SOUND_OUTPUT_SYSTEM:
                 default:
-                    channels_cap = (snddata.sound_chip_channels >= 2) ? 2 : 1;
+                    channels = (snddata.sound_chip_channels >= 2) ? 2 : 1;
                     break;
                 case SOUND_OUTPUT_MONO:
-                    channels_cap = 1;
+                    channels = 1;
                     break;
                 case SOUND_OUTPUT_STEREO:
-                    channels_cap = 2;
+                    channels = 2;
                     break;
             }
+            channels_cap = channels;
             if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
                 err = lib_msprintf(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S), pdev->name);
                 sound_error(err);
                 lib_free(err);
                 return 1;
             }
-            if (channels_cap != (snddata.sound_chip_channels >= 2) ? 2 : 1) {
+            if (channels_cap != channels) {
                 if (output_option != SOUND_OUTPUT_MONO) {
                     log_warning(sound_log, "sound device lacks stereo capability, switching to mono output");
                 }
                 snddata.sound_output_channels = 1;
             } else {
-                snddata.sound_output_channels = channels_cap;
+                snddata.sound_output_channels = channels;
             }
         }
         snddata.issuspended = 0;

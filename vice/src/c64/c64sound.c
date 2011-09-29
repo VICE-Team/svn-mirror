@@ -127,7 +127,7 @@ int machine_sid2_check_range(unsigned int sid2_adr)
                 io_source_unregister(stereo_sid_list_item);
                 stereo_sid_list_item = io_source_register(&stereo_sid_device);
             } else {
-                if (sid_stereo) {
+                if (sid_stereo >= 1) {
                     stereo_sid_list_item = io_source_register(&stereo_sid_device);
                 }
             }
@@ -141,8 +141,42 @@ int machine_sid2_check_range(unsigned int sid2_adr)
                 io_source_unregister(stereo_sid_list_item);
                 stereo_sid_list_item = io_source_register(&stereo_sid_device);
             } else {
-                if (sid_stereo) {
+                if (sid_stereo >= 1) {
                     stereo_sid_list_item = io_source_register(&stereo_sid_device);
+                }
+            }
+            return 0;
+        }
+    }
+    return -1;
+}
+
+int machine_sid3_check_range(unsigned int sid3_adr)
+{
+    if (machine_class == VICE_MACHINE_C128) {
+        if ((sid3_adr >= 0xd400 && sid3_adr <= 0xd4e0) || (sid3_adr >= 0xd700 && sid3_adr <= 0xdfe0)) {
+            triple_sid_device.start_address = sid3_adr;
+            triple_sid_device.end_address = sid3_adr + 0x1f;
+            if (triple_sid_list_item != NULL) {
+                io_source_unregister(triple_sid_list_item);
+                triple_sid_list_item = io_source_register(&triple_sid_device);
+            } else {
+                if (sid_stereo == 2) {
+                    triple_sid_list_item = io_source_register(&triple_sid_device);
+                }
+            }
+            return 0;
+        }
+    } else {
+        if (sid3_adr >= 0xd400 && sid3_adr <= 0xdfe0) {
+            triple_sid_device.start_address = sid3_adr;
+            triple_sid_device.end_address = sid3_adr + 0x1f;
+            if (triple_sid_list_item != NULL) {
+                io_source_unregister(triple_sid_list_item);
+                triple_sid_list_item = io_source_register(&triple_sid_device);
+            } else {
+                if (sid_stereo == 2) {
+                    triple_sid_list_item = io_source_register(&triple_sid_device);
                 }
             }
             return 0;

@@ -103,8 +103,8 @@ static const cmdline_option_t resid_cmdline_options[] = {
 #endif
 
 static const cmdline_option_t common_cmdline_options[] = {
-    { "-sidstereo", SET_RESOURCE, 0,
-      NULL, NULL, "SidStereo", (void *)1,
+    { "-sidstereo", SET_RESOURCE, 1,
+      NULL, NULL, "SidStereo", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
       T_("<amount>"), T_("amount of extra SID chips") },

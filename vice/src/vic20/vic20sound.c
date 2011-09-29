@@ -199,6 +199,12 @@ int machine_sid2_check_range(unsigned int sid2_adr)
     return 0;
 }
 
+/* dummy function for now */
+int machine_sid3_check_range(unsigned int sid3_adr)
+{
+    return 0;
+}
+
 void machine_sid2_enable(int val)
 {
 }
