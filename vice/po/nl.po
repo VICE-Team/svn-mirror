@@ -379,9 +379,8 @@ msgstr "Model instellingen"
 #: src/arch/unix/gui/c64scui.c:508 src/arch/unix/gui/c64ui.c:568
 #: src/arch/unix/gui/cbm2ui.c:395 src/arch/unix/gui/petui.c:393
 #: src/arch/unix/gui/plus4ui.c:311 src/arch/unix/gui/vic20ui.c:537
-#, fuzzy
 msgid "RAM reset pattern"
-msgstr "ROM set type"
+msgstr "RAM reset patroon"
 
 #: src/arch/unix/gui/c128ui.c:492 src/arch/unix/gui/c64dtvui.c:183
 #: src/arch/unix/gui/c64scui.c:510 src/arch/unix/gui/c64ui.c:570
@@ -1929,15 +1928,13 @@ msgstr "Laad nieuw 1581 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:239 src/arch/unix/gui/uidrivec64vic20.c:162
 #: src/arch/unix/gui/uidriveplus4.c:306
-#, fuzzy
 msgid "Load new 2000 ROM"
-msgstr "Laad nieuw 2040 ROM"
+msgstr "Laad nieuw 2000 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:242 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:309
-#, fuzzy
 msgid "Load new 4000 ROM"
-msgstr "Laad nieuw 4040 ROM"
+msgstr "Laad nieuw 4000 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:245 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidrivepetcbm2.c:129
@@ -3853,9 +3850,8 @@ msgid "Load PSID file"
 msgstr "Laad PSID bestand"
 
 #: src/arch/unix/gui/vsidui.c:352
-#, fuzzy
 msgid "Sound recording"
-msgstr "Geluidsopname instellingen"
+msgstr "Geluidsopname gestart"
 
 #: src/arch/unix/gui/vsidui.c:360
 msgid "Override PSID settings"
@@ -3904,7 +3900,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiële VICE homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:97
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3925,6 +3920,7 @@ msgstr ""
 "Andrea Musuruane - Italiaans\n"
 "Jesse Lee - Koreaans\n"
 "Marco van den Heuvel - Nederlands\n"
+"Jarek Sobolewski - Pools\n"
 "Mihail Litvinov - Russisch\n"
 "Peter Krefting - Zweeds\n"
 "Emir Akaydin (aka: Skate) - Turks\n"
@@ -4357,7 +4353,6 @@ msgid "Cancel"
 msgstr "Annuleren"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:98
-#, fuzzy
 msgid "Save empty disk file"
 msgstr "Opslaan leeg schijfbestand"
 
@@ -6076,9 +6071,8 @@ msgid "Dutch"
 msgstr "Nederlands"
 
 #: src/arch/win32/res.rc.po.c:1525
-#, fuzzy
 msgid "Polish"
-msgstr "Engels"
+msgstr "Pools"
 
 #: src/arch/win32/res.rc.po.c:1526 src/arch/amigaos/intl_text.c.po.c:3063
 msgid "Russian"
@@ -9753,14 +9747,12 @@ msgid "Specify name of 1581 DOS ROM image"
 msgstr "Geef de naam van het 1581 DOS ROM bestand"
 
 #: src/translate_text.c.po.c:7103
-#, fuzzy
 msgid "Specify name of 2000 DOS ROM image"
-msgstr "Geef de naam van het 2040 DOS ROM bestand"
+msgstr "Geef de naam van het 2000 DOS ROM bestand"
 
 #: src/translate_text.c.po.c:7119
-#, fuzzy
 msgid "Specify name of 4000 DOS ROM image"
-msgstr "Geef de naam van het 4040 DOS ROM bestand"
+msgstr "Geef de naam van het 4000 DOS ROM bestand"
 
 #: src/translate_text.c.po.c:7135
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
@@ -10260,11 +10252,11 @@ msgstr "reSID versterking procent (90 - 100)"
 
 #: src/translate_text.c.po.c:9103
 msgid "Enable additional vertical stretching."
-msgstr ""
+msgstr "Aktiveer additionele vertikale rekking"
 
 #: src/translate_text.c.po.c:9119
 msgid "Disable additional vertical stretching."
-msgstr ""
+msgstr "Additionele vertikale rekking afsluiten"
 
 #: src/translate_text.c.po.c:9135
 msgid "Set the VDC memory size to 16KB"
@@ -10400,7 +10392,7 @@ msgstr "Hardwareschaling uitschakelen"
 
 #: src/translate_text.c.po.c:9711
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr ""
+msgstr "Selecteer de rendering filter: 0:geen, 1:CRT emulatie, 2:Schaal2x"
 
 #: src/translate_text.c.po.c:9727
 msgid "Use an internal calculated palette"
@@ -10653,11 +10645,10 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
 
 #: src/translate_text.c.po.c:10777
-#, fuzzy
-msgid ""
+sgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-"
 "22, 5 = ST)"
-msgstr "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)"
+msgstr "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"
 
 #: src/translate_text.c.po.c:10793
 msgid "Enable PS/2 mouse on userport"
