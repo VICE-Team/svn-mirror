@@ -458,7 +458,7 @@ static void wd1770_execute(wd1770_t *drv)
                 }
                 drv->clk += BYTE_RATE;
                 res = fdd_read(drv->fdd);
-                if (!drv->dden || (res != 0x1fb || res != 0x1f8)) {
+                if (!drv->dden || (res != 0x1fb && res != 0x1f8)) {
                     if (!drv->sync || (res != 0xfb && res != 0xf8)) {
                         if (!drv->sync) {
                             drv->crc = 0xffff;
@@ -469,7 +469,7 @@ static void wd1770_execute(wd1770_t *drv)
                     }
                 }
                 drv->crc = fdd_crc(drv->crc, res);
-                drv->status |= (res == 0xf8) ? WD_RT : 0;
+                drv->status |= ((res & 0xff) == 0xf8) ? WD_RT : 0;
                 drv->byte_count = (128 << drv->tmp) + 2;
                 drv->step++;
             case 9:
