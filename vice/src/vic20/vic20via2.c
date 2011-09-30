@@ -237,9 +237,13 @@ inline static BYTE read_prb(via_context_t *via_context)
     byte = via_context->via[VIA_PRB] | ~(via_context->via[VIA_DDRB]);
 
 #ifdef HAVE_RS232
-    byte = rsuser_read_ctrl();
+    if (rsuser_enabled)
+        byte = rsuser_read_ctrl();
+    } else
 #else
-    byte = 0xff;
+    {
+        byte = 0xff;
+    }
 #endif
 
     /* FIXME: in the upcoming userport system this call needs to be conditional */
