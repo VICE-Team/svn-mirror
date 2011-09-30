@@ -10645,7 +10645,7 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
 
 #: src/translate_text.c.po.c:10777
-sgid ""
+msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-"
 "22, 5 = ST)"
 msgstr "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"
