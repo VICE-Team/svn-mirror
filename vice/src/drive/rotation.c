@@ -141,7 +141,11 @@ inline static void write_next_bit(drive_t *dptr, int value)
         return;
     }
 
-    dptr->GCR_head_offset = (off + 1) % (dptr->GCR_current_track_size << 3);
+    off++;
+    if (off >= (dptr->GCR_current_track_size << 3)) {
+        off = 0;
+    }
+    dptr->GCR_head_offset = off;
 
     if (value) {
         dptr->GCR_track_start_ptr[byte_offset] |= 1 << bit;
@@ -161,7 +165,11 @@ inline static int read_next_bit(drive_t *dptr)
         return 0;
     }
 
-    dptr->GCR_head_offset = (off + 1) % (dptr->GCR_current_track_size << 3);
+    off++;
+    if (off >= (dptr->GCR_current_track_size << 3)) {
+        off = 0;
+    }
+    dptr->GCR_head_offset = off;
 
     return (dptr->GCR_track_start_ptr[byte_offset] >> bit) & 1;
 }
