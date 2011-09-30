@@ -77,8 +77,6 @@ libarch_a_SOURCES = \
 	vsyncarch.c \
 	vsiduiunix.h
 
-bin_SCRIPTS = vsid
-
 EXTRA_DIST = \
 	hpux/getdate.pl \
 	hpux/getnow.pl \
@@ -104,8 +102,7 @@ EXTRA_DIST = \
 	skyos/icons/xplus4.ico \
 	skyos/icons/xvic.ico \
 	skyos/make-bindist.sh \
-	vms/config.h \
-	vsid
+	vms/config.h
 
 .PHONY: x11
 x11:
