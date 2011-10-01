@@ -108,6 +108,7 @@ noinst_HEADERS = \
 	blockdev.h \
 	c128ui.h \
 	c64ui.h \
+	cartio.h \
 	cartridge.h \
 	catweaselmkiii.h \
 	cbm2ui.h \
