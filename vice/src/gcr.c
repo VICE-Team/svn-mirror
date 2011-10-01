@@ -59,7 +59,7 @@ static const BYTE From_GCR_conv_data[32] =
       0,  9, 10, 11,  0, 13, 14,  0 };
 
 
-void gcr_convert_4bytes_to_GCR(BYTE *source, BYTE *dest)
+static void gcr_convert_4bytes_to_GCR(BYTE *source, BYTE *dest)
 {
     int i;
     register unsigned int tdest = 0;    /* at least 16 bits for overflow shifting */
@@ -78,7 +78,7 @@ void gcr_convert_4bytes_to_GCR(BYTE *source, BYTE *dest)
     *dest   = (BYTE)tdest;
 }
 
-void gcr_convert_GCR_to_4bytes(BYTE *source, BYTE *dest)
+static void gcr_convert_GCR_to_4bytes(BYTE *source, BYTE *dest)
 {
     int i;
         /* at least 24 bits for shifting into bits 16...20 */
