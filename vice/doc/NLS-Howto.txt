@@ -45,9 +45,8 @@ appropriate environment variables (see below). To choose the
 appropriate language check the alias in 
   /usr/share/locale/locale.alias
 
-There you'll find "danish", "german", "french", hungarian", italian",
-"dutch", "swedish", "turkish" and "polish"; the "polish" translations
-are very outdated and currently not well supported! Any volunteer?
+There you'll find "danish", "german", "spanish", "french", hungarian",
+"italian", "dutch", "swedish", "turkish" and "polish".
 
 so try
   LC_ALL=german ; export LC_ALL 
