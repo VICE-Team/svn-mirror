@@ -230,6 +230,7 @@ BEGIN
         MENUITEM "", IDM_LANG_EN
         MENUITEM "", IDM_LANG_DA
         MENUITEM "", IDM_LANG_DE
+        MENUITEM "", IDM_LANG_ES
         MENUITEM "", IDM_LANG_FR
         MENUITEM "", IDM_LANG_HU
         MENUITEM "", IDM_LANG_IT
@@ -555,6 +556,38 @@ BEGIN
   IDS_MI_CART_ATTACH_FUNCHI       "Funktions ROM Image Datei high (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 Einstellungen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Stimme Einstellungen..."
+END
+
+
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_ATTACH_FUNCTION_LOW_CART    "Insertar imagen cartucho para función baja"
+  IDS_ATTACH_FUNCTION_HIGH_CART   "Insertar imagen cartucho para función alta"
+  IDS_ATTACH_CART1_LOW            "Insertar imagen cartucho para cartucho1 bajo"
+  IDS_ATTACH_CART1_HIGH           "Insertar imagen cartucho para cartucho1 alto"
+  IDS_ATTACH_CART2_LOW            "Insertar imagen cartucho para cartucho2 bajo"
+  IDS_ATTACH_CART2_HIGH           "Insertar imagen cartucho para cartucho2 alto"
+  IDS_3_PLUS_1_LO                 "3+1 bajo"
+  IDS_3_PLUS_1_HI                 "3+1 alto"
+  IDS_PLUS4_SETTINGS_CAPTION      "Ajustes Plus4"
+  IDS_SELECT_PLUS4_MEM_16         "16 kByte"
+  IDS_SELECT_PLUS4_MEM_32         "32 kByte"
+  IDS_SELECT_PLUS4_MEM_64         "64 kByte"
+  IDS_SELECT_PLUS4_MEM_256_CSORY  "256 kByte (CSORY)"
+  IDS_SELECT_PLUS4_MEM_256_HANNES "256 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
+  IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
+  IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
+  IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
+  IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
+  IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
+  IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
+  IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
+  IDS_MI_PLUS4_SETTINGS           "Ajustes Plus4..."
+  IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
 END
 
 

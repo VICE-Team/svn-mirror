@@ -77,6 +77,19 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MIDI_CAPTION    "Ajustes MIDI"
+  IDS_MIDI_ENABLE     "Habilitar emulación MIDI"
+  IDS_MIDI_TYPE_LABEL "Tipo MIDI"
+  IDS_MIDI_IN_LABEL   "Periférico de entrada MIDI"
+  IDS_MIDI_OUT_LABEL  "Periférico de salida MIDI"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

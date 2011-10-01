@@ -127,6 +127,29 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD image #1 settings"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD image #2 settings"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD image #3 settings"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
+    IDS_IDE64_SETTINGS              "Ajustes IDE64"
+    IDS_IDE64_V4                    "Permitir IDE64 V4"
+    IDS_IDE64_IMAGE                 "HD image file"
+    IDS_IDE64_GEOMETRY              "Geometry"
+    IDS_IDE64_AUTODETECT            "Autodetección del tamaño de la imagen"
+    IDS_IDE64_CYLINDERS             "Cilindros"
+    IDS_IDE64_HEADS                 "Cabezas"
+    IDS_IDE64_SECTORS               "Sectores"
+    IDS_IDE64_TOTAL_SIZE            "Tamaño total: %iKB"
+    IDS_IDE64_SELECT_IMAGE          "Seleccionar fichero imagen HD"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

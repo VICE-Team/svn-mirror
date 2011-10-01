@@ -44,6 +44,7 @@ do
            echo "/* en */ {"$data","
            echo "/* de */  "$data"_DA,"
            echo "/* de */  "$data"_DE,"
+           echo "/* es */  "$data"_ES,"
            echo "/* fr */  "$data"_FR,"
            echo "/* hu */  "$data"_HU,"
            echo "/* it */  "$data"_IT,"

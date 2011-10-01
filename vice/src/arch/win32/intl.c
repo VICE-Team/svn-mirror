@@ -66,6 +66,7 @@ static windows_iso_t windows_to_iso[] = {
     { LANG_ENGLISH, "en", 28591, 1 },
     { LANG_DANISH, "da", 28591, 1 },
     { LANG_GERMAN, "de", 28591, 1 },
+    { LANG_SPANISH, "es", 28591, 1 },
     { LANG_FRENCH, "fr", 28591, 1 },
     { LANG_HUNGARIAN, "hu", 28592, 1 },
     { LANG_ITALIAN, "it", 28591, 1 },
@@ -84,6 +85,7 @@ static int intl_table[][countof(language_table)] = {
 /* en */ { IDR_MENUMONITOR,
 /* da */   IDR_MENUMONITOR_DA,    /* fuzzy */
 /* de */   IDR_MENUMONITOR_DE,
+/* es */   IDR_MENUMONITOR_ES,    /* fuzzy */
 /* fr */   IDR_MENUMONITOR_FR,
 /* hu */   IDR_MENUMONITOR_HU,
 /* it */   IDR_MENUMONITOR_IT,

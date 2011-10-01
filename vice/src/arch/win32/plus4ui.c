@@ -274,6 +274,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_LANG_EN, IDS_MI_LANG_EN },
     { IDM_LANG_DA, IDS_MI_LANG_DA },
     { IDM_LANG_DE, IDS_MI_LANG_DE },
+    { IDM_LANG_ES, IDS_MI_LANG_ES },
     { IDM_LANG_FR, IDS_MI_LANG_FR },
     { IDM_LANG_HU, IDS_MI_LANG_HU },
     { IDM_LANG_KO, IDS_MI_LANG_KO },

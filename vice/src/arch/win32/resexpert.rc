@@ -90,6 +90,23 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SELECT_FILE_EXPERT  "Seleccionar fichero para Expert Cartrige"
+  IDS_EXPERT_CAPTION      "Ajustes Expert Cartrige"
+  IDS_EXPERT_ENABLE       "Permitir Expert Cartridge"
+  IDS_EXPERT_MODE_LABEL   "Modo"
+  IDS_EXPERT_WRITE_ENABLE "Grabar imagen Expert Cartridge cuando cambie"
+  IDS_EXPERT_FILE_LABEL   "Fichero Expert Cartrige"
+  IDS_OFF                 "Apagado"
+  IDS_PRG                 "Prg"
+  IDS_ON                  "Encendido"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

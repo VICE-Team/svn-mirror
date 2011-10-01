@@ -217,6 +217,7 @@ BEGIN
         MENUITEM "", IDM_LANG_EN
         MENUITEM "", IDM_LANG_DA
         MENUITEM "", IDM_LANG_DE
+        MENUITEM "", IDM_LANG_ES
         MENUITEM "", IDM_LANG_FR
         MENUITEM "", IDM_LANG_HU
         MENUITEM "", IDM_LANG_IT
@@ -682,6 +683,42 @@ BEGIN
   IDS_MI_PETDWW_SETTINGS         "PET DWW Einstellungen..."
   IDS_MI_PETREU_SETTINGS         "PET REU Einstellungen..."
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Userport DAC Sound aktivieren"
+END
+
+
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_INPUT_OUTPUT               "Entrada/Salida"
+  IDS_PET_SETTINGS               "Ajustes PET"
+  IDS_EDITOR                     "Editor"
+  IDS_ROM_9                      "ROM 9"
+  IDS_ROM_A                      "ROM A"
+  IDS_ROM_B                      "ROM B"
+  IDS_PET_MACHINE_DEFAULTS       "Valores por defecto"
+  IDS_PET_MEMORY                 "Memoria"
+  IDS_PET_VIDEO                  "Video"
+  IDS_SELECT_PET_VIDEO_AUTO      "Auto (desde ROM)"
+  IDS_SELECT_PET_VIDEO_40        "40 columnas"
+  IDS_SELECT_PET_VIDEO_80        "80 columnas"
+  IDS_PET_IO_SIZE                "IO Size"
+  IDS_SELECT_PET_IO256           "256 Bytes"
+  IDS_SELECT_PET_IO2K            "2 kBytes"
+  IDS_TOGGLE_PET_CRTC            "Permitir chip CRTC"
+  IDS_PET_KEYBOARD               "Teclado"
+  IDS_SELECT_PET_KEYB_GRAPHICS   "Gráficos"
+  IDS_SELECT_PET_KEYB_BUSINESS   "Negocios (UK)"
+  IDS_PET_IO_SETTINGS            "IO Settings"
+  IDS_TOGGLE_PET_SUPER_IO_ENABLE "SuperPET entradas/salidas habilitadas (deshabilitado 8x96)"
+  IDS_PET_RAM_SETTINGS           "Ajustes RAM"
+  IDS_TOGGLE_PET_8296_RAM9       "$9*** como RAM"
+  IDS_TOGGLE_PET_8296_RAMA       "$A*** como RAM"
+  IDS_MI_PET_SETTINGS            "Ajustes PET..."
+  IDS_MI_PETDWW_SETTINGS         "PET DWW settings..."
+  IDS_MI_PETREU_SETTINGS         "PET REU settings..."
+  IDS_MI_TOGGLE_PET_USERPORT_DAC "Permitir puerto DAC para salida de sonido"
 END
 
 

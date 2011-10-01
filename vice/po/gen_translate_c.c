@@ -345,6 +345,15 @@ int main(int argc, char *argv[])
             if (strlen(text[i].msgstr_de) == 0) {
                 fprintf(outfile, "  /* fuzzy */");
             }
+            fprintf(outfile, "\n/* es */ {%s_ES, \"", id_string);
+
+            if (strlen(text[i].msgstr_es) != 0) {
+                write_converted_text(text[i].msgstr_es, prefix_string, trail_string);
+            }
+            fprintf(outfile, "\"},");
+            if (strlen(text[i].msgstr_es) == 0) {
+                fprintf(outfile, "  /* fuzzy */");
+            }
             fprintf(outfile, "\n/* fr */ {%s_FR, \"", id_string);
 
             if (strlen(text[i].msgstr_fr) != 0) {

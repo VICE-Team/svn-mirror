@@ -13,14 +13,16 @@ do
         echo regenerating $realfile
         ./gen_win32_rc $realfile
         cat >$realfile ../src/arch/win32/temp_en.rc ../src/arch/win32/temp_da.rc \
-                       ../src/arch/win32/temp_de.rc ../src/arch/win32/temp_fr.rc \
-                       ../src/arch/win32/temp_hu.rc ../src/arch/win32/temp_it.rc \
-                       ../src/arch/win32/temp_ko.rc ../src/arch/win32/temp_nl.rc \
-                       ../src/arch/win32/temp_pl.rc ../src/arch/win32/temp_ru.rc \
-                       ../src/arch/win32/temp_sv.rc ../src/arch/win32/temp_tr.rc
+                       ../src/arch/win32/temp_de.rc ../src/arch/win32/temp_es.rc \
+                       ../src/arch/win32/temp_fr.rc ../src/arch/win32/temp_hu.rc \
+                       ../src/arch/win32/temp_it.rc ../src/arch/win32/temp_ko.rc \
+                       ../src/arch/win32/temp_nl.rc ../src/arch/win32/temp_pl.rc \
+                       ../src/arch/win32/temp_ru.rc ../src/arch/win32/temp_sv.rc \
+                       ../src/arch/win32/temp_tr.rc
         rm ../src/arch/win32/temp_en.rc
         rm ../src/arch/win32/temp_da.rc
         rm ../src/arch/win32/temp_de.rc
+        rm ../src/arch/win32/temp_es.rc
         rm ../src/arch/win32/temp_fr.rc
         rm ../src/arch/win32/temp_hu.rc
         rm ../src/arch/win32/temp_it.rc

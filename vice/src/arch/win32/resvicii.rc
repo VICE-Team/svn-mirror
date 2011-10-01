@@ -88,6 +88,23 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_VICII_CAPTION       "Ajuester VIC-II"
+    IDS_VICII_BORDERSGROUP  "Modo del borde"
+    IDS_VICII_NORMALBORDERS "Normal"
+    IDS_VICII_FULLBORDERS   "Completo"
+    IDS_VICII_DEBUGBORDERS  "Depurar"
+    IDS_VICII_SPRITEGROUP   "Colisión de Sprites"
+    IDS_VICII_SPRITECOLL    "Colisiones sprite-sprite"
+    IDS_VICII_BACKCOLL      "Colisiones sprite-fondo"
+    IDS_VICII_LUMINANCE     "Nuevas luminancias"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

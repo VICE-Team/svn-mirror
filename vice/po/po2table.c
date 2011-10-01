@@ -58,6 +58,7 @@ typedef struct file_table_s {
 static file_table_t files[] = {
     { "da.po", NULL, 0, 0 },
     { "de.po", NULL, 0, 0 },
+    { "es.po", NULL, 0, 0 },
     { "fr.po", NULL, 0, 0 },
     { "hu.po", NULL, 0, 0 },
     { "it.po", NULL, 0, 0 },
@@ -179,6 +180,7 @@ int main(int argc, char *argv[])
     fprintf(outfile, "    char *msgid;\n");
     fprintf(outfile, "    char *msgstr_da;\n");
     fprintf(outfile, "    char *msgstr_de;\n");
+    fprintf(outfile, "    char *msgstr_es;\n");
     fprintf(outfile, "    char *msgstr_fr;\n");
     fprintf(outfile, "    char *msgstr_hu;\n");
     fprintf(outfile, "    char *msgstr_it;\n");

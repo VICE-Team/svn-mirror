@@ -101,6 +101,7 @@ void ui_about(gpointer data)
     const gchar *transl = _(
         "Mikkel Holm Olsen - Danish\n"
         "Martin Pottendorfer - German\n"
+        "Manuel Antonio Rodriguez Bas - Spanish\n"
         "Paul Dube - French\n"
         "Czirkos Zoltan, Karai Csaba - Hungarian\n"
         "Andrea Musuruane - Italian\n"

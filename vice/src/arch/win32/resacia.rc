@@ -120,6 +120,25 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_IRQ            "IRQ"
+  IDS_NMI            "NMI"
+  IDS_NORMAL         "Normal"
+  IDS_SWIFTLINK      "Enlace rápido"
+  IDS_TURBO232       "Turbo232"
+  IDS_ACIA_CAPTION   "ACIA settings"
+  IDS_ACIA_ENABLE    "Enable the ACIA RS232 interface emulation"
+  IDS_ACIA_DEVICE    "Periférico ACIA"
+  IDS_ACIA_LOCATION  "Ubicación ACIA"
+  IDS_ACIA_INTERRUPT "Interruptor ACIA"
+  IDS_ACIA_MODE      "Modo ACIA"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

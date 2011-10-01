@@ -79,6 +79,20 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_SELECT_FILE_ISEPIC  "Seleccionar fichero para ISEPIC"
+  IDS_ISEPIC_CAPTION      "Ajustes ISEPIC"
+  IDS_ISEPIC_ENABLE       "Enable the ISEPIC cartridge"
+  IDS_ISEPIC_SWITCH       "interruptor ISEPIC"
+  IDS_ISEPIC_WRITE_ENABLE "Grabar imagen ISEPIC cuando cambie"
+  IDS_ISEPIC_FILE_LABEL   "Fichero ISEPIC"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

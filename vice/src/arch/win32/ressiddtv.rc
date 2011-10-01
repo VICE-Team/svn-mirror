@@ -119,6 +119,25 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_GENERAL            "General"
+  IDS_SID_SETTINGS       "Ajustes SID"
+  IDS_FAST               "Rápido"
+  IDS_INTERPOLATING      "Interpolando"
+  IDS_RESAMPLING         "Remuestreo"
+  IDS_FAST_RESAMPLING    "Remuestreo rápido"
+  IDS_SID_RESID_GROUP    "Opciones reSID/reSID-fp"
+  IDS_SID_RESID_SAMPLE   "Método de muestreo"
+  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
+  IDS_HARDSID_GROUP      "Selección de periférico"
+  IDS_HARDSID_LEFT_LABEL "Periférico principal"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

@@ -869,6 +869,13 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
                 ui_menu_destroy(canvas);
             }
             break;
+        case IDM_LANGUAGE_SPANISH:
+            resources_get_value("Language", (void *)&curlang);
+            if (strcasecmp(curlang, "es")) {
+                resources_set_value("Language", (resource_value_t *)"es");
+                ui_menu_destroy(canvas);
+            }
+            break;
         case IDM_LANGUAGE_FRENCH:
             resources_get_value("Language", (void *)&curlang);
             if (strcasecmp(curlang, "fr")) {

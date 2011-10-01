@@ -141,6 +141,29 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_THIS_MACHINE_NO_SID "Esta máquina dispone de SID"
+  IDS_GENERAL             "General"
+  IDS_SID_SETTINGS        "Ajustes SID"
+  IDS_FAST                "Rápido"
+  IDS_INTERPOLATING       "Interpolando"
+  IDS_RESAMPLING          "Remuestreo"
+  IDS_FAST_RESAMPLING     "Remuestreo rápido"
+  IDS_SID_GENGROUP3       "SID estereo"
+  IDS_SID_STEREO_AT       "SID estereo en"
+  IDS_SID_RESID_GROUP     "Opciones reSID/reSID-fp"
+  IDS_SID_RESID_SAMPLE    "Método de muestreo"
+  IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
+  IDS_HARDSID_GROUP       "Selección de periférico"
+  IDS_HARDSID_LEFT_LABEL  "Periférico Izquierda/Principal"
+  IDS_HARDSID_RIGHT_LABEL "Periférico derecha"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

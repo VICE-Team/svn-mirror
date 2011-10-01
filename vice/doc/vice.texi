@@ -14772,6 +14772,9 @@ Internationalization Team:
 Provided the Danish user interface translations and fixed a few
 monitor bugs.
 
+@b{Manuel Antonio Rodriguez Bas}
+provided the Spanish user interface translations.
+
 @b{Paul Dubé}
 From Rivière-du-Loup, Québec, provided the French user interface
 translations.

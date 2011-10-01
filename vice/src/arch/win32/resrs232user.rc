@@ -70,6 +70,18 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_RS232USER_CAPTION "RS232 userport settings"
+  IDS_RS232USER_ENABLE  "Permitir emulacion puerto RS232"
+  IDS_RS232USER_DEVICE  "Periférico puerto usuario"
+  IDS_RS232USER_BAUD    "Velocidad (baudios) puerto usuario"
+END
+
+
 // FRENCH text
 
 STRINGTABLE

@@ -39,6 +39,9 @@ static char *language_table[] = {
 /* german */
   "de",
 
+/* spanish */
+  "es",
+
 /* french */
   "fr",
 
@@ -78,6 +81,9 @@ static int language_cp_table[] = {
   28591,	/* ISO 8859-1 */
 
 /* german */
+  28591,	/* ISO 8859-1 */
+
+/* spanish */
   28591,	/* ISO 8859-1 */
 
 /* french */

@@ -60,6 +60,18 @@ BEGIN
 END
 
 
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MAGICVOICE_CAPTION     "Ajustes Magic Voice"
+  IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
+  IDS_MAGICVOICE_FILE        "Fichero Magic Voice"
+  IDS_MAGICVOICE_SELECT_FILE "Seleccionar fichero para Magic Voice"
+END
+
+
 // FRENCH text
 
 STRINGTABLE
