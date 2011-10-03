@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-10-01 11:39+0000\n"
-"PO-Revision-Date: 2011-09-19 22:30+0200\n"
+"PO-Revision-Date: 2011-10-03 22:11+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3885,7 +3885,6 @@ msgid "Official VICE homepage:"
 msgstr "Offizielle VICE Homepage:"
 
 #: src/arch/unix/x11/gnome/about.c:102
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -3911,6 +3910,7 @@ msgstr ""
 "Jarek Sobolewski - Polnisch\n"
 "Jesse Lee - Koreanisch\n"
 "Mihail Litvinov - Russisch\n"
+"Manuel Antonio Rodriguez Bas - Spanisch\n"
 
 #: src/arch/unix/x11/gnome/about.c:121
 msgid "(c) 1998 - 2011 The VICE Team"
@@ -4591,29 +4591,24 @@ msgid "Copyright (c) 2010-2011 Olaf Seibert"
 msgstr "Copyright (c) 2010-2011 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011      Marcus Sutton"
-msgstr "Copyright (c) 1999-2011 Martin Pottendorfer"
+msgstr "Copyright (c) 2011      Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011      Ulrich Schulz"
-msgstr "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Copyright (c) 2011      Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011      Stefan Haubenthal"
-msgstr "Copyright (c) 2005-2011 Marco van den Heuvel"
+msgstr "Copyright (c) 2011      Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011      Thomas Giesel"
-msgstr "Copyright (c) 1999-2011 Andreas Matthies"
+msgstr "Copyright (c) 2011      Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2011      Kajtar Zsolt"
-msgstr "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Copyright (c) 2011      Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:963 src/arch/amigaos/intl_text.c.po.c:4111
 msgid "VICE Question"
@@ -6058,9 +6053,8 @@ msgid "Danish"
 msgstr "Dänisch"
 
 #: src/arch/win32/res.rc.po.c:1520 src/arch/amigaos/intl_text.c.po.c:3201
-#, fuzzy
 msgid "Spanish"
-msgstr "Dänisch"
+msgstr "Spanisch"
 
 #: src/arch/win32/res.rc.po.c:1522 src/arch/amigaos/intl_text.c.po.c:3243
 msgid "Hungarian"
@@ -7784,12 +7778,11 @@ msgstr "Amiga Maus"
 
 #: src/arch/amigaos/intl_text.c.po.c:9656
 msgid "Atari CX-22 trackball"
-msgstr ""
+msgstr "Atari CX-22 Trackball"
 
 #: src/arch/amigaos/intl_text.c.po.c:9670
-#, fuzzy
 msgid "Atari ST mouse"
-msgstr "Amiga Maus"
+msgstr "Amiga ST Maus"
 
 #: src/arch/amigaos/intl_text.c.po.c:9852
 msgid "Save to EasyFlash CRT file on detach"
@@ -8899,7 +8892,7 @@ msgstr "PAL Sync Faktor benutzen"
 
 #: src/translate_text.c.po.c:3269
 msgid "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
-msgstr ""
+msgstr "Burst Modifikation (0 = Kein, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3303
 msgid "Specify name of international Kernal ROM image"
@@ -10210,9 +10203,8 @@ msgid "Specify base address for 2nd SID"
 msgstr "Basis Adresse für zweiten SID definieren"
 
 #: src/translate_text.c.po.c:9549
-#, fuzzy
 msgid "Specify base address for 3rd SID"
-msgstr "Basis Adresse für zweiten SID definieren"
+msgstr "Basis Adresse für dritten SID definieren"
 
 #: src/translate_text.c.po.c:9566
 msgid "Emulate SID filters"
@@ -10792,9 +10784,8 @@ msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "64kB Super Games Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:12196
-#, fuzzy
 msgid "Attach raw Silverrock 128 cartridge image"
-msgstr "8KB Erweiterungsmodul (raw) Image einlegen"
+msgstr "Silverrock 128 Erweiterungsmodul (raw) Image einlegen"
 
 #: src/translate_text.c.po.c:12213
 msgid "Attach raw 16kB Simons Basic cartridge image"
