@@ -36,6 +36,8 @@ extern "C" {
 #include "log.h"
 #include "machine.h"
 #include "psid.h"
+#include "ui_file.h"
+#include "ui_sid.h"
 #include "vicemenu.h"
 #include "vsync.h"
 
@@ -50,12 +52,12 @@ static BTextControl *tc_current_tune;
 static BTextControl *tc_last_tune;
 static BTextControl *tc_time;
 static BTextControl *tc_irqtype;
-static ViceWindow	*vsidwindow;
+static ViceWindow   *vsidwindow;
 
 static void vsid_play_vsid(const char *filename)
 {
     int tunes, default_tune, i;
-    		
+
     if (machine_autodetect_psid(filename) < 0) {
         ui_error("`%s' is not a valid PSID file.", filename);
         return;
@@ -74,6 +76,8 @@ static void vsid_play_vsid(const char *filename)
         vicemenu_tune_menu_add(i+1);
     }
 }
+
+static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
 void vsid_ui_specific(void *msg, void *window)
 {
@@ -99,6 +103,9 @@ void vsid_ui_specific(void *msg, void *window)
                 vsid_play_vsid(filename);
                 break;
             }
+        case MENU_SID_SETTINGS:
+            ui_sid(c64sidaddressbase);
+            break;
         default:
             break;
     }
@@ -110,7 +117,7 @@ int vsid_ui_init(void)
     BView *view;
     BBox *box;
 
-    vsidwindow = new ViceWindow(BRect(0, 0, 384, 272), "C64 in SID player mode");
+    vsidwindow = new ViceWindow(BRect(0, 0, 384, 272), "VICE: C64 SID player");
     vsidwindow->MoveTo(30, 30);
 
     window = windowlist[0];
@@ -164,7 +171,7 @@ int vsid_ui_init(void)
     tc_irqtype->SetDivider(0);
     tc_irqtype->SetAlignment(B_ALIGN_LEFT, B_ALIGN_CENTER);
     box->AddChild(tc_irqtype);
-	
+
     window->AddChild(view);
 
     ui_register_machine_specific(vsid_ui_specific);
@@ -179,7 +186,7 @@ void vsid_ui_display_name(const char *name)
         tc_name->SetText(name);
         window->Unlock();
     }
-}	
+}
 
 void vsid_ui_display_author(const char *author)
 {

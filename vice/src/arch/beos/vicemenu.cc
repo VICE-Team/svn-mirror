@@ -85,7 +85,8 @@ BMenuBar *menu_create(int machine_class)
     uppermenu = new BMenu("File");
     menubar->AddItem(uppermenu);
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
+        uppermenu->AddItem(new BMenuItem("Autostart", new BMessage(MENU_AUTOSTART), 'A'));
         uppermenu->AddItem(menu = new BMenu("Autostart Settings"));
             menu->AddItem(new BMenuItem("Autostart warp", new BMessage(MENU_AUTOSTART_WARP)));
             menu->AddItem(new BMenuItem("Use ':' with run", new BMessage(MENU_USE_COLON_WITH_RUN)));
@@ -96,8 +97,6 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("Inject", new BMessage(MENU_AUTOSTART_PRG_INJECT)));
                 submenu->AddItem(new BMenuItem("Disk image", new BMessage(MENU_AUTOSTART_PRG_DISK_IMAGE)));
             menu->AddItem(new BMenuItem("Select file for PRG autostart disk", new BMessage(MENU_AUTOSTART_PRG_DISK_IMAGE_SELECT)));
-        uppermenu->AddSeparatorItem();
-        uppermenu->AddItem(new BMenuItem("Autostart", new BMessage(MENU_AUTOSTART), 'A'));
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(menu = new BMenu("Attach Disk"));
             menu->AddItem(new BMenuItem("Drive 8", new BMessage(MENU_ATTACH_DISK8), '8'));
@@ -117,7 +116,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV && !vsid_mode) {
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("Attach Tape", new BMessage(MENU_ATTACH_TAPE), 'T'));
         uppermenu->AddItem(new BMenuItem("Detach Tape", new BMessage(MENU_DETACH_TAPE)));
         uppermenu->AddItem(menu = new BMenu("Datasette Control"));
@@ -131,7 +130,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if ((machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC)&& !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
         uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
             menu->AddItem(new BMenuItem("CRT", new BMessage(MENU_CART_ATTACH_CRT)));
             menu->AddItem(new BMenuItem("Generic 8KB", new BMessage(MENU_CART_ATTACH_8KB)));
@@ -153,7 +152,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_VIC20) {
         uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
             menu->AddItem(new BMenuItem("Generic cartridge image", new BMessage(MENU_CART_VIC20_GENERIC)));
             menu->AddItem(new BMenuItem("Mega-Cart image", new BMessage(MENU_CART_VIC20_MEGACART)));
@@ -170,7 +169,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
                         
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Snapshot"));
             menu->AddItem(new BMenuItem("Load snapshot", new BMessage(MENU_SNAPSHOT_LOAD)));
             menu->AddItem(new BMenuItem("Save snapshot", new BMessage(MENU_SNAPSHOT_SAVE)));
@@ -196,9 +195,9 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Overwrite Playback", new BMessage(MENU_EVENT_START_MODE_PLAYBACK)));
     }
 
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         /* vsid */
-        uppermenu->AddItem(new BMenuItem("Load psid file", new BMessage(MENU_VSID_LOAD)));
+        uppermenu->AddItem(new BMenuItem("Load PSID file", new BMessage(MENU_VSID_LOAD)));
         uppermenu->AddItem(vsid_tune_menu = new BMenu("Tune"));
     }
 
@@ -211,10 +210,10 @@ BMenuBar *menu_create(int machine_class)
     uppermenu->AddItem(new BMenuItem("Quit", new BMessage(MENU_EXIT_REQUESTED), 'Q'));
 
     /* create the EDIT menu */
-    uppermenu = new BMenu("Edit");
-    menubar->AddItem(uppermenu);
+    if (machine_class != VICE_MACHINE_VSID) {
+        uppermenu = new BMenu("Edit");
+        menubar->AddItem(uppermenu);
 
-    if (!vsid_mode) {
         uppermenu->AddItem(new BMenuItem("Copy", new BMessage(MENU_COPY)));
         uppermenu->AddItem(new BMenuItem("Paste", new BMessage(MENU_PASTE)));
     }
@@ -223,7 +222,7 @@ BMenuBar *menu_create(int machine_class)
     uppermenu = new BMenu("Options");
     menubar->AddItem(uppermenu);
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         /* refresh rate */
         uppermenu->AddItem(menu = new BMenu("Refresh Rate"));
             menu->SetRadioMode(true);
@@ -250,21 +249,24 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("10%", new BMessage(MENU_MAXIMUM_SPEED_10)));
         uppermenu->AddItem(new BMenuItem("Warp Mode", new BMessage(MENU_TOGGLE_WARP_MODE),'W'));
         uppermenu->AddSeparatorItem();
+
+        /* video options */
         uppermenu->AddItem(new BMenuItem("DirectWindow", new BMessage(MENU_TOGGLE_DIRECTWINDOW)));
         uppermenu->AddItem(new BMenuItem("Video Cache", new BMessage(MENU_TOGGLE_VIDEOCACHE)));
         uppermenu->AddItem(new BMenuItem("Double Size", new BMessage(MENU_TOGGLE_DOUBLESIZE),'D'));
         uppermenu->AddItem(new BMenuItem("Double Scan", new BMessage(MENU_TOGGLE_DOUBLESCAN)));
 
         uppermenu->AddItem(menu = new BMenu("Render filter"));
+            menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("None", new BMessage(MENU_RENDER_FILTER_NONE)));
             menu->AddItem(new BMenuItem("CRT emulation", new BMessage(MENU_RENDER_FILTER_CRT_EMULATION)));
-            if (machine_class != VICE_MACHINE_PET &&
-                machine_class != VICE_MACHINE_CBM6x0) {
+            if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {
                     menu->AddItem(new BMenuItem("Scale2x", new BMessage(MENU_RENDER_FILTER_SCALE2X)));
             }
     }
 
-    if (machine_class == VICE_MACHINE_C128 && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C128) {
+        /* VDC options */
         uppermenu->AddItem(menu = new BMenu("VDC"));
             menu->AddItem(new BMenuItem("Double Size", new BMessage(MENU_TOGGLE_VDC_DOUBLESIZE)));
             menu->AddItem(new BMenuItem("Double Scan", new BMessage(MENU_TOGGLE_VDC_DOUBLESCAN)));
@@ -277,13 +279,15 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Rev 2", new BMessage(MENU_VDC_REV_2)));
     }
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddSeparatorItem();
     }
 
     /* sound options */
     uppermenu->AddItem(new BMenuItem("Sound", new BMessage(MENU_TOGGLE_SOUND)));
     uppermenu->AddItem(menu = new BMenu("Sound Recording"));
+        menu->AddItem(new BMenuItem("Stop Sound Record", new BMessage(MENU_SOUND_RECORD_STOP)));
+        menu->AddSeparatorItem();
         menu->AddItem(new BMenuItem("Sound Record AIFF", new BMessage(MENU_SOUND_RECORD_AIFF)));
         menu->AddItem(new BMenuItem("Sound Record IFF", new BMessage(MENU_SOUND_RECORD_IFF)));
 #ifdef USE_LAMEMP3
@@ -291,27 +295,25 @@ BMenuBar *menu_create(int machine_class)
 #endif
         menu->AddItem(new BMenuItem("Sound Record VOC", new BMessage(MENU_SOUND_RECORD_VOC)));
         menu->AddItem(new BMenuItem("Sound Record WAV", new BMessage(MENU_SOUND_RECORD_WAV)));
-        menu->AddItem(new BMenuItem("Stop Sound Record", new BMessage(MENU_SOUND_RECORD_STOP)));
-        menu->AddSeparatorItem();
+    uppermenu->AddSeparatorItem();
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("True Drive Emulation", new BMessage(MENU_TOGGLE_DRIVE_TRUE_EMULATION)));
         uppermenu->AddItem(new BMenuItem("Handle TDE for autostart", new BMessage(MENU_TOGGLE_HANDLE_TDE_AUTOSTART)));
         uppermenu->AddItem(new BMenuItem("Virtual Devices", new BMessage(MENU_TOGGLE_VIRTUAL_DEVICES)));
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class == VICE_MACHINE_C64 ||
-        machine_class == VICE_MACHINE_C128 ||
-        machine_class == VICE_MACHINE_VIC20 ||
-        machine_class == VICE_MACHINE_C64DTV) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64DTV ||
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_VIC20 ||
+        machine_class == VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Video Standard"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("PAL-G", new BMessage(MENU_SYNC_FACTOR_PAL)));
             menu->AddItem(new BMenuItem("NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSC)));
     }
 
-    if (machine_class == VICE_MACHINE_C64) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_VSID) {
             menu->AddItem(new BMenuItem("Old NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
             menu->AddItem(new BMenuItem("PAL-N", new BMessage(MENU_SYNC_FACTOR_PALN)));
     }
@@ -351,30 +353,26 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_GLUE_LOGIC_CUSTOM_IC)));
     }
 
-    if (machine_class == VICE_MACHINE_PET ||
-        machine_class == VICE_MACHINE_PLUS4 ||
-        machine_class == VICE_MACHINE_CBM5x0 ||
-        machine_class == VICE_MACHINE_CBM6x0) {
+    if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||
+        machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(menu = new BMenu("Drive sync factor"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("PAL", new BMessage(MENU_SYNC_FACTOR_PAL)));
             menu->AddItem(new BMenuItem("NTSC", new BMessage(MENU_SYNC_FACTOR_NTSC)));
     }
 
-    if ((machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C64SC ||
-         machine_class == VICE_MACHINE_C64DTV ||
-         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_C128) {
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
     }
 
-    if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_VIC20) {
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(new BMenuItem("Enable Paddles", new BMessage(MENU_TOGGLE_MOUSE)));
     }
 
-    if (machine_class == VICE_MACHINE_C64DTV && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C64DTV) {
         uppermenu->AddItem(new BMenuItem("PS/2 mouse", new BMessage(MENU_TOGGLE_PS2MOUSE)));
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(menu = new BMenu("C64DTV Options"));
@@ -387,9 +385,8 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Enable Hummer ADC", new BMessage(MENU_HUMMER_USERPORT_ADC)));
     }
 
-    if ((machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C64SC ||
-         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(menu = new BMenu("Mouse Options"));
             menu->AddItem(submenu = new BMenu("Mouse Type"));
                 submenu->SetRadioMode(true);
@@ -487,7 +484,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("Save .crt file now", new BMessage(MENU_EASYFLASH_SAVE_NOW)));
     }
 
-    if ((machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
             menu->AddItem(submenu = new BMenu("Double Quick Brown Box Options"));
                 submenu->AddItem(new BMenuItem("DQBB emulation", new BMessage(MENU_TOGGLE_DQBB)));
                 submenu->AddItem(new BMenuItem("Save to DQBB image when changed", new BMessage(MENU_TOGGLE_DQBB_SWC)));
@@ -557,8 +554,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("MMC Replay Image File", new BMessage(MENU_MMCR_IMAGE_FILE)));
     }
 
-    if ((machine_class == VICE_MACHINE_VIC20 ||
-         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C128) {
         menu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
     }
 
@@ -566,12 +562,11 @@ BMenuBar *menu_create(int machine_class)
     uppermenu = new BMenu("Settings");
     menubar->AddItem(uppermenu);
 
-    if ((machine_class == VICE_MACHINE_CBM5x0 ||
-         machine_class == VICE_MACHINE_CBM6x0) && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0) {
         uppermenu->AddItem(new BMenuItem("CBM 2 ...", new BMessage(MENU_CBM2_SETTINGS)));
     }
 
-    if (machine_class == VICE_MACHINE_PET && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_PET) {
         uppermenu->AddItem(new BMenuItem("PET ...", new BMessage(MENU_PET_SETTINGS)));
         uppermenu->AddItem(menu = new BMenu("PET REU Options"));
             menu->AddItem(new BMenuItem("PET REU emulation", new BMessage(MENU_TOGGLE_PETREU)));
@@ -588,17 +583,17 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
     }
 
-    if (machine_class == VICE_MACHINE_PLUS4 && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_PLUS4) {
         uppermenu->AddItem(menu = new BMenu("V364 speech Options"));
             menu->AddItem(new BMenuItem("V364 speech emulation", new BMessage(MENU_TOGGLE_V364SPEECH)));
             menu->AddItem(new BMenuItem("V364 speech File", new BMessage(MENU_V364SPEECH_FILE)));
     }
 
-    if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_VIC20) {
         uppermenu->AddItem(new BMenuItem("VIC20 ...", new BMessage(MENU_VIC20_SETTINGS)));
     }
 
-    if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_VIC20) {
         uppermenu->AddItem(menu = new BMenu("Final Expansion Options"));
             menu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_FE_WRITE_BACK)));
         uppermenu->AddItem(menu = new BMenu("Mega-Cart Options"));
@@ -608,9 +603,9 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_VFP_WRITE_BACK)));
     }
 
-    if ((machine_class == VICE_MACHINE_VIC20 ||
-         machine_class == VICE_MACHINE_PLUS4 ||
-         machine_class == VICE_MACHINE_PET) && !vsid_mode) {
+    /* SIDCART options */
+    if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_PLUS4 ||
+        machine_class == VICE_MACHINE_PET) {
         uppermenu->AddItem(menu = new BMenu("SIDCART Options"));
             menu->AddItem(new BMenuItem("SIDCART emulation", new BMessage(MENU_TOGGLE_SIDCART)));
             menu->AddItem(submenu = new BMenu("SIDCART model"));
@@ -618,46 +613,45 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("6581", new BMessage(MENU_SIDCART_MODEL_6581)));
                 submenu->AddItem(new BMenuItem("8580", new BMessage(MENU_SIDCART_MODEL_8580)));
             menu->AddItem(new BMenuItem("SIDCART filters", new BMessage(MENU_TOGGLE_SIDCART_FILTERS)));
-            menu->AddItem(submenu = new BMenu("SIDCART address"));
-                submenu->SetRadioMode(true);
-    }
 
-    if (machine_class == VICE_MACHINE_PET && !vsid_mode) {
-                submenu->AddItem(new BMenuItem("$8F00", new BMessage(MENU_SIDCART_ADDRESS_1)));
-                submenu->AddItem(new BMenuItem("$E900", new BMessage(MENU_SIDCART_ADDRESS_2)));
-    }
+        /* SIDCART address */
+        menu->AddItem(submenu = new BMenu("SIDCART address"));
+            submenu->SetRadioMode(true);
 
-    if (machine_class == VICE_MACHINE_PLUS4 && !vsid_mode) {
-                submenu->AddItem(new BMenuItem("$FD40", new BMessage(MENU_SIDCART_ADDRESS_1)));
-                submenu->AddItem(new BMenuItem("$FE80", new BMessage(MENU_SIDCART_ADDRESS_2)));
-    }
+        if (machine_class == VICE_MACHINE_PET) {
+            submenu->AddItem(new BMenuItem("$8F00", new BMessage(MENU_SIDCART_ADDRESS_1)));
+            submenu->AddItem(new BMenuItem("$E900", new BMessage(MENU_SIDCART_ADDRESS_2)));
+        }
 
-    if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
-                submenu->AddItem(new BMenuItem("$9800", new BMessage(MENU_SIDCART_ADDRESS_1)));
-                submenu->AddItem(new BMenuItem("$9C00", new BMessage(MENU_SIDCART_ADDRESS_2)));
-    }
+        if (machine_class == VICE_MACHINE_PLUS4) {
+            submenu->AddItem(new BMenuItem("$FD40", new BMessage(MENU_SIDCART_ADDRESS_1)));
+            submenu->AddItem(new BMenuItem("$FE80", new BMessage(MENU_SIDCART_ADDRESS_2)));
+        }
 
-    if ((machine_class == VICE_MACHINE_VIC20 ||
-         machine_class == VICE_MACHINE_PLUS4 ||
-         machine_class == VICE_MACHINE_PET) && !vsid_mode) {
+        if (machine_class == VICE_MACHINE_VIC20) {
+            submenu->AddItem(new BMenuItem("$9800", new BMessage(MENU_SIDCART_ADDRESS_1)));
+            submenu->AddItem(new BMenuItem("$9C00", new BMessage(MENU_SIDCART_ADDRESS_2)));
+        }
+
+        /* SIDCART clock */
         menu->AddItem(submenu = new BMenu("SIDCART clock"));
             submenu->SetRadioMode(true);
             submenu->AddItem(new BMenuItem("C64", new BMessage(MENU_SIDCART_CLOCK_C64)));
-    }
 
-    if (machine_class == VICE_MACHINE_PET&& !vsid_mode) {
+        if (machine_class == VICE_MACHINE_PET) {
             submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
-    }
+        }
 
-    if (machine_class == VICE_MACHINE_PLUS4 && !vsid_mode) {
+        if (machine_class == VICE_MACHINE_PLUS4) {
             submenu->AddItem(new BMenuItem("PLUS4", new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
+        }
+
+        if (machine_class == VICE_MACHINE_VIC20) {
+            submenu->AddItem(new BMenuItem("VIC20", new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
+        }
     }
 
-    if (machine_class == VICE_MACHINE_VIC20 && !vsid_mode) {
-            submenu->AddItem(new BMenuItem("PLUS4", new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
-    }
-
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("Video ...", new BMessage(MENU_VIDEO_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Device ...", new BMessage(MENU_DEVICE_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Drive ...", new BMessage(MENU_DRIVE_SETTINGS)));
@@ -751,19 +745,17 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Output device 3", new BMessage(MENU_OUTPUT_DEVICE_3)));
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV && !vsid_mode) {
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("Datasette ...", new BMessage(MENU_DATASETTE_SETTINGS)));
     }
 
-    if ((machine_class == VICE_MACHINE_C64 ||
-         machine_class == VICE_MACHINE_C64SC ||
-         machine_class == VICE_MACHINE_C64DTV ||
-         machine_class == VICE_MACHINE_CBM5x0 ||
-         machine_class == VICE_MACHINE_C128) && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_CBM5x0 ||
+        machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(new BMenuItem("VIC-II ...", new BMessage(MENU_VICII_SETTINGS)));
     }
 
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Joystick"));
         if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {
             menu->AddItem(new BMenuItem("Joystick/Keyset settings...", new BMessage(MENU_JOYSTICK_SETTINGS)));
@@ -791,30 +783,26 @@ BMenuBar *menu_create(int machine_class)
 
     uppermenu->AddItem(new BMenuItem("Sound ...", new BMessage(MENU_SOUND_SETTINGS)));
 
-    if (machine_class == VICE_MACHINE_C64 ||
-        machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_C64DTV ||
-        machine_class == VICE_MACHINE_C128 ||
-        machine_class == VICE_MACHINE_CBM5x0 ||
-        machine_class == VICE_MACHINE_CBM6x0) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0 ||
+        machine_class == VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("SID ...", new BMessage(MENU_SID_SETTINGS)));
     }
 
     uppermenu->AddItem(new BMenuItem("RAM ...", new BMessage(MENU_RAM_SETTINGS)));
 
-    if (machine_class == VICE_MACHINE_C128 && !vsid_mode) {
+    if (machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(new BMenuItem("RAM banks 2 & 3", new BMessage(MENU_TOGGLE_C128FULLBANKS)));
     }
 
-    if (!vsid_mode) {
-        uppermenu->AddSeparatorItem();
-        uppermenu->AddItem(new BMenuItem("Load Settings", new BMessage(MENU_SETTINGS_LOAD)));
-        uppermenu->AddItem(new BMenuItem("Save Settings", new BMessage(MENU_SETTINGS_SAVE)));
-        uppermenu->AddItem(new BMenuItem("Default Settings", new BMessage(MENU_SETTINGS_DEFAULT)));
-        uppermenu->AddSeparatorItem();
-        uppermenu->AddItem(new BMenuItem("Save settings on exit", new BMessage(MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT)));
-        uppermenu->AddItem(new BMenuItem("Confirm on exit", new BMessage(MENU_TOGGLE_CONFIRM_ON_EXIT)));
-    }
+    uppermenu->AddSeparatorItem();
+    uppermenu->AddItem(new BMenuItem("Load Settings", new BMessage(MENU_SETTINGS_LOAD)));
+    uppermenu->AddItem(new BMenuItem("Save Settings", new BMessage(MENU_SETTINGS_SAVE)));
+    uppermenu->AddItem(new BMenuItem("Default Settings", new BMessage(MENU_SETTINGS_DEFAULT)));
+    uppermenu->AddSeparatorItem();
+    uppermenu->AddItem(new BMenuItem("Save settings on exit", new BMessage(MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT)));
+    uppermenu->AddItem(new BMenuItem("Confirm on exit", new BMessage(MENU_TOGGLE_CONFIRM_ON_EXIT)));
 
     /* create the HELP menu */
     uppermenu = new BMenu("Help");
