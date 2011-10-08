@@ -2344,8 +2344,10 @@ trap_skipped:
 
           case 0x50:            /* BVC $nnnn */
 #ifdef DRIVE_CPU
+            CLK_ADD(CLK, -2);
             if (drivecpu_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
+            CLK_ADD(CLK, 2);
 #endif
             BRANCH(!LOCAL_OVERFLOW(), p1);
             break;
@@ -2452,8 +2454,10 @@ trap_skipped:
 
           case 0x70:            /* BVS $nnnn */
 #ifdef DRIVE_CPU
+            CLK_ADD(CLK, -2);
             if (drivecpu_byte_ready())
                 LOCAL_SET_OVERFLOW(1);
+            CLK_ADD(CLK, 2);
 #endif
             BRANCH(LOCAL_OVERFLOW(), p1);
             break;
