@@ -515,10 +515,6 @@ inline static BYTE d019_read(void)
 
 inline static BYTE d01e_read(void)
 {
-    /* Remove the pending sprite-sprite interrupt, as the collision
-       register is reset upon read accesses.  */
-    vicii_irq_sscoll_clear();
-
     if (!vicii_resources.sprite_sprite_collisions_enabled) {
         VICII_DEBUG_REGISTER(("Sprite-sprite collision mask: $00 "
                              "(emulation disabled)"));
@@ -536,10 +532,6 @@ inline static BYTE d01e_read(void)
 
 inline static BYTE d01f_read(void)
 {
-    /* Remove the pending sprite-background interrupt, as the collision
-       register is reset upon read accesses.  */
-    vicii_irq_sbcoll_clear();
-
     if (!vicii_resources.sprite_background_collisions_enabled) {
         VICII_DEBUG_REGISTER(("Sprite-background collision mask: $00 "
                              "(emulation disabled)"));
