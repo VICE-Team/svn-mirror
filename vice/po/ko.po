@@ -4723,57 +4723,57 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:987 src/arch/amigaos/intl_text.c.po.c:3481
 msgid "Settings loaded successfully."
-msgstr ""
+msgstr "셋팅이 성공적으로 불러오기 됬습니다"
 
 #: src/arch/win32/res.rc.po.c:990 src/arch/win32/res.rc.po.c:1385
 #: src/arch/amigaos/intl_text.c.po.c:23 src/arch/amigaos/intl_text.c.po.c:7598
 msgid "Autostart disk/tape image"
-msgstr ""
+msgstr "자동 시작 디스크/테이프 이미지"
 
 #: src/arch/win32/res.rc.po.c:992 src/arch/amigaos/intl_text.c.po.c:3705
 msgid "Bad cartridge config in UI!"
-msgstr ""
+msgstr "UI 에 잘못된 카트리지가 있습니다"
 
 #: src/arch/win32/res.rc.po.c:994
 msgid "Logging console output image"
-msgstr ""
+msgstr "로깅 콘솔 아웃풋 이미지"
 
 #: src/arch/win32/res.rc.po.c:995
 msgid "VICE console logging files (*.dbg)"
-msgstr ""
+msgstr "VICE 콘솔 로깅 파일 (*.dbg)"
 
 #: src/arch/win32/res.rc.po.c:996
 #, c-format
 msgid "Cannot write log file `%s'."
-msgstr ""
+msgstr "로그 파일  '%s' 를 쓸수 없습니다."
 
 #: src/arch/win32/res.rc.po.c:998 src/arch/amigaos/intl_text.c.po.c:8214
 msgid "Cannot read flip list file"
-msgstr ""
+msgstr "플립 리스트 파일을 읽을수 없습니다"
 
 #: src/arch/win32/res.rc.po.c:1000 src/arch/amigaos/intl_text.c.po.c:8242
 msgid "Cannot write flip list file"
-msgstr ""
+msgstr "플립 리스트 파일을 쓸수 없습니다"
 
 #: src/arch/win32/res.rc.po.c:1001
 msgid "Select keymap file"
-msgstr ""
+msgstr "키맾 파일 선택"
 
 #: src/arch/win32/res.rc.po.c:1002
 msgid "Save keymap file"
-msgstr ""
+msgstr "키퍂 파일 저장"
 
 #: src/arch/win32/res.rc.po.c:1003
 msgid "Cannot write keymap file"
-msgstr ""
+msgstr "키맾 파일을 쓸수 없습니다"
 
 #: src/arch/win32/res.rc.po.c:1004
 msgid "Save config file"
-msgstr ""
+msgstr "환경설정 파일 저장"
 
 #: src/arch/win32/res.rc.po.c:1005
 msgid "Load config file"
-msgstr ""
+msgstr "환경설정 파일 불러오기"
 
 #: src/arch/win32/res.rc.po.c:1006
 msgid "Mapping"
@@ -4785,46 +4785,46 @@ msgstr "붙이다"
 
 #: src/arch/win32/res.rc.po.c:1009
 msgid "Please enter a filename."
-msgstr ""
+msgstr "파일이름을 넣으세요."
 
 #: src/arch/win32/res.rc.po.c:1010 src/arch/amigaos/intl_text.c.po.c:4629
 msgid "Overwrite existing image?"
-msgstr ""
+msgstr "현제 이미지를 덮어 쓰기 할까요?"
 
 #: src/arch/win32/res.rc.po.c:1011 src/arch/amigaos/intl_text.c.po.c:3733
 #: src/translate_text.c.po.c:44
 msgid "Cannot create image file!"
-msgstr ""
+msgstr "이미지 파일을 생성할수 없습니다!"
 
 #: src/arch/win32/res.rc.po.c:1012 src/arch/win32/res.rc.po.c:1530
 #: src/arch/amigaos/intl_text.c.po.c:3089
 msgid "Command line options"
-msgstr ""
+msgstr "커맨드 라인 옵션"
 
 #: src/arch/win32/res.rc.po.c:1013 src/arch/amigaos/intl_text.c.po.c:3579
 msgid "Which command line options are available?"
-msgstr ""
+msgstr "어떤 커맨드 라인 옵션이 가능합니까?"
 
 #: src/arch/win32/res.rc.po.c:1014
 msgid "No driver selected or selected driver not supported"
-msgstr ""
+msgstr "드라이버가 선택되지 않았거나 선택된 드라이버가 지원되지 않습니다"
 
 #: src/arch/win32/res.rc.po.c:1015
 #, c-format
 msgid "Cannot write screenshot file `%s'."
-msgstr ""
+msgstr "스크린샷 파일 `%s' 를 쓸수가 없습니다"
 
 #: src/arch/win32/res.rc.po.c:1016 src/arch/win32/resc64dtv.rc.po.c:446
 msgid "Autostart disk image"
-msgstr ""
+msgstr "자동 시작 디스크 이미지"
 
 #: src/arch/win32/res.rc.po.c:1017
 msgid "Select file system directory"
-msgstr ""
+msgstr "파일 시스템 디렉토리를 선택하세요"
 
 #: src/arch/win32/res.rc.po.c:1018
 msgid "Printer Userport"
-msgstr ""
+msgstr "프린터 유져 포트"
 
 #: src/arch/win32/res.rc.po.c:1019
 msgid "Printer 4"
@@ -4856,40 +4856,40 @@ msgstr "드라이브11"
 
 #: src/arch/win32/res.rc.po.c:1026
 msgid "Can't write snapshot file."
-msgstr ""
+msgstr "스냅샷 파일을 쓸수 없습니다."
 
 #: src/arch/win32/res.rc.po.c:1027 src/arch/amigaos/intl_text.c.po.c:8410
 msgid "Cannot read snapshot image"
-msgstr ""
+msgstr "스탭샷 파일을 읽을수 없습니다"
 
 #: src/arch/win32/res.rc.po.c:1028
 #, c-format
 msgid "Load %s ROM image"
-msgstr ""
+msgstr "%s ROM 이미지 불러오기"
 
 #: src/arch/win32/res.rc.po.c:1029
 msgid "Select romset archive"
-msgstr ""
+msgstr "롬셋 아카이브 를 선택하세요"
 
 #: src/arch/win32/res.rc.po.c:1030
 msgid "Cannot load romset archive!"
-msgstr ""
+msgstr "롬셋 아카이브를 불러올수 없습니다!"
 
 #: src/arch/win32/res.rc.po.c:1031
 msgid "Cannot save romset archive!"
-msgstr ""
+msgstr "롬셋 아카이브를 저장할수 없습니다!"
 
 #: src/arch/win32/res.rc.po.c:1032
 msgid "Cannot load romset file!"
-msgstr ""
+msgstr "롬셋 파일을 불러올수 없습니다!"
 
 #: src/arch/win32/res.rc.po.c:1033
 msgid "Cannot save romset file!"
-msgstr ""
+msgstr "롬셋 파일을 저장할수 없습니다!"
 
 #: src/arch/win32/res.rc.po.c:1034
 msgid "Select romset file"
-msgstr ""
+msgstr "롬셋 파일을 선택하세요"
 
 #: src/arch/win32/res.rc.po.c:1035
 msgid "Romset"
@@ -4906,7 +4906,7 @@ msgstr "드라이브"
 #: src/arch/win32/res.rc.po.c:1040 src/arch/amigaos/intl_text.c.po.c:8396
 #, c-format
 msgid "Cannot write snapshot file `%s'."
-msgstr ""
+msgstr "스냅샷 파일 `%s' 를 쓸수 없습니다."
 
 #: src/arch/win32/res.rc.po.c:1042
 msgid "Could not load palette file."
@@ -4918,31 +4918,31 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1044
 msgid "Fullscreen/DirectX"
-msgstr ""
+msgstr "전체화면/DirectX"
 
 #: src/arch/win32/res.rc.po.c:1049 src/arch/win32/res.rc.po.c:1475
 #: src/arch/amigaos/intl_text.c.po.c:2109
 #: src/arch/amigaos/intl_text.c.po.c:8774
 msgid "Video settings"
-msgstr ""
+msgstr "비디로 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1050
 msgid "File system"
-msgstr ""
+msgstr "파일 시스템"
 
 #: src/arch/win32/res.rc.po.c:1052 src/arch/win32/res.rc.po.c:1184
 msgid "Real IEC device"
-msgstr ""
+msgstr "리얼 IEC 디바이스"
 
 #: src/arch/win32/res.rc.po.c:1054
 #, c-format
 msgid "RS232 device %i"
-msgstr ""
+msgstr "RS232 디바이스 %i"
 
 #: src/arch/win32/res.rc.po.c:1055 src/arch/amigaos/intl_text.c.po.c:4223
 #: src/translate_text.c.po.c:5504
 msgid "Attach CRT cartridge image"
-msgstr ""
+msgstr "CRT 카트리지 이미지를 붙여넣으시오"
 
 #: src/arch/win32/res.rc.po.c:1058 src/arch/amigaos/intl_text.c.po.c:4265
 #: src/translate_text.c.po.c:5640
@@ -4967,7 +4967,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1064 src/arch/amigaos/intl_text.c.po.c:4349
 #: src/translate_text.c.po.c:6082
 msgid "Attach IEEE-488 Interface cartridge image"
-msgstr ""
+msgstr "IEEE-488 인터패이스 카트리지 이미지를 붙여넣으세요"
 
 #: src/arch/win32/res.rc.po.c:1068 src/arch/amigaos/intl_text.c.po.c:4391
 #: src/translate_text.c.po.c:6048
@@ -4981,11 +4981,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1073 src/arch/amigaos/intl_text.c.po.c:4181
 msgid "Select start snapshot for event history"
-msgstr ""
+msgstr "이벤트 히스토리 스냅샷을 선택 시작 하세요"
 
 #: src/arch/win32/res.rc.po.c:1074 src/arch/amigaos/intl_text.c.po.c:4195
 msgid "Select end snapshot for event history"
-msgstr ""
+msgstr "이벤트 히스토리 스냅샷을 선택 종료 하세요"
 
 #: src/arch/win32/res.rc.po.c:1076
 #, c-format
