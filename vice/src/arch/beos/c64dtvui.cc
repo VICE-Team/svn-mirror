@@ -26,15 +26,10 @@
 
 #include "vice.h"
 
-#include <Alert.h>
-#include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
-#include <ScrollView.h>
-#include <TextView.h>
-#include <View.h>
 #include <Window.h>
 #include <signal.h>
 #include <stdio.h>
@@ -51,18 +46,14 @@ extern "C" {
 #include "constants.h"
 #include "keyboard.h"
 #include "resources.h"
-#include "statusbar.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "util.h"
-#include "viceapp.h"
-#include "vicewindow.h"
+#include "video.h"
 }
-
-extern ViceWindow *windowlist[];
 
 ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -75,6 +66,13 @@ ui_menu_toggle  c64dtv_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+ui_res_possible_values C64DTVRenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
+    { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
+    { -1, 0 }
+};
+
 ui_res_possible_values C64DTVRevision[] = {
     { 2, MENU_C64DTV_REVISION_2 },
     { 3, MENU_C64DTV_REVISION_3 },
@@ -82,6 +80,7 @@ ui_res_possible_values C64DTVRevision[] = {
 };
 
 ui_res_value_list c64dtv_ui_res_values[] = {
+    { "VICIIFilter", C64DTVRenderFilters },
     { "DtvRevision", C64DTVRevision },
     { NULL, NULL }
 };
@@ -96,7 +95,7 @@ void c64dtv_ui_specific(void *msg, void *window)
             ui_sid(NULL);
             break;
         case MENU_C64DTV_ROM_FILE:
-            ui_select_file(windowlist[0]->savepanel,C64DTV_ROM_FILE,(void*)0);
+            ui_select_file(B_SAVE_PANEL, C64DTV_ROM_FILE, (void*)0);
             break;
         default:
             break;

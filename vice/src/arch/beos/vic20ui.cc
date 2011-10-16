@@ -26,15 +26,10 @@
 
 #include "vice.h"
 
-#include <Alert.h>
-#include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
-#include <ScrollView.h>
-#include <TextView.h>
-#include <View.h>
 #include <Window.h>
 #include <signal.h>
 #include <stdio.h>
@@ -49,18 +44,14 @@ extern "C" {
 #include "cartridge.h"
 #include "constants.h"
 #include "resources.h"
-#include "statusbar.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_vic20.h"
 #include "util.h"
 #include "vic20ui.h"
-#include "viceapp.h"
-#include "vicewindow.h"
+#include "video.h"
 }
-
-extern ViceWindow *windowlist[];
 
 ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -76,6 +67,13 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
+ui_res_possible_values vic20_RenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
+    { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
+    { -1, 0 }
+};
+
 static ui_cartridge_t vic20_ui_cartridges[] = {
     { MENU_CART_VIC20_16KB_2000, CARTRIDGE_VIC20_16KB_2000, "4/8/16KB at $2000" },
     { MENU_CART_VIC20_16KB_4000, CARTRIDGE_VIC20_16KB_4000, "4/8/16KB at $4000" },
@@ -86,10 +84,8 @@ static ui_cartridge_t vic20_ui_cartridges[] = {
 };
 
 
-void vic20_ui_attach_cartridge(void *msg, void *window)
+static void vic20_ui_attach_cartridge(int menu)
 {
-    int menu = ((BMessage*)msg)->what;
-    ViceFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
     int i = 0;
 
     while (menu != vic20_ui_cartridges[i].menu_item && vic20_ui_cartridges[i].menu_item) {
@@ -101,7 +97,7 @@ void vic20_ui_attach_cartridge(void *msg, void *window)
         return;
     }
 
-    ui_select_file(filepanel,VIC20_CARTRIDGE_FILE, &vic20_ui_cartridges[i]);
+    ui_select_file(B_OPEN_PANEL, VIC20_CARTRIDGE_FILE, &vic20_ui_cartridges[i]);
 }       
 
 void vic20_ui_specific(void *msg, void *window)
@@ -112,25 +108,25 @@ void vic20_ui_specific(void *msg, void *window)
         case MENU_CART_VIC20_16KB_6000:
         case MENU_CART_VIC20_8KB_A000:
         case MENU_CART_VIC20_4KB_B000:
-            vic20_ui_attach_cartridge(msg, window);
+            vic20_ui_attach_cartridge(((BMessage*)msg)->what);
             break;
         case MENU_CART_VIC20_GENERIC:
-            ui_select_file(windowlist[0]->savepanel, VIC20_GENERIC_CART_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, VIC20_GENERIC_CART_FILE, (void*)0);
             break;
         case MENU_CART_VIC20_FP:
-            ui_select_file(windowlist[0]->savepanel, VIC20_FP_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, VIC20_FP_FILE, (void*)0);
             break;
         case MENU_CART_VIC20_MEGACART:
-            ui_select_file(windowlist[0]->savepanel, VIC20_MEGACART_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, VIC20_MEGACART_FILE, (void*)0);
             break;
         case MENU_CART_VIC20_FINAL_EXPANSION:
-            ui_select_file(windowlist[0]->savepanel, VIC20_FINAL_EXPANSION_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, VIC20_FINAL_EXPANSION_FILE, (void*)0);
             break;
         case MENU_CART_VIC20_SMART_ATTACH:
-            ui_select_file(windowlist[0]->savepanel, VIC20_SMART_CART_ATTACH_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, VIC20_SMART_CART_ATTACH_FILE, (void*)0);
             break;
         case MENU_MC_NVRAM_FILE:
-            ui_select_file(windowlist[0]->savepanel, VIC20_MEGACART_NVRAM_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, VIC20_MEGACART_NVRAM_FILE, (void*)0);
             break;
         case MENU_CART_SET_DEFAULT:
             cartridge_set_default();
@@ -177,6 +173,7 @@ ui_res_possible_values vic20_SIDCARTClock[] = {
 };
 
 ui_res_value_list vic20_ui_res_values[] = {
+    { "VICFilter", vic20_RenderFilters },
     { "SidModel", vic20_SIDCARTModel },
     { "SidAddress", vic20_SIDCARTAddress },
     { "SidClock", vic20_SIDCARTClock },

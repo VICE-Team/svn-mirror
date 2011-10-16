@@ -28,15 +28,10 @@
 
 #include <stdio.h>
 
-#include <Alert.h>
-#include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
-#include <ScrollView.h>
-#include <TextView.h>
-#include <View.h>
 #include <Window.h>
 #include <signal.h>
 #include <stdio.h>
@@ -52,11 +47,8 @@ extern "C" {
 #include "resources.h"
 #include "ui.h"
 #include "ui_file.h"
-#include "viceapp.h"
-#include "vicewindow.h"
+#include "video.h"
 }
-
-extern ViceWindow *windowlist[];
 
 ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -67,6 +59,13 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
     { "SpeechEnabled", MENU_TOGGLE_V364SPEECH },
     { NULL, 0 }
+};
+
+ui_res_possible_values plus4_RenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
+    { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
+    { -1, 0 }
 };
 
 ui_res_possible_values plus4_SIDCARTModel[] = {
@@ -88,6 +87,7 @@ ui_res_possible_values plus4_SIDCARTClock[] = {
 };
 
 ui_res_value_list plus4_ui_res_values[] = {
+    { "TEDFilter", plus4_RenderFilters },
     { "SidModel", plus4_SIDCARTModel },
     { "SidAddress", plus4_SIDCARTAddress },
     { "SidClock", plus4_SIDCARTClock },
@@ -98,7 +98,7 @@ static void plus4_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_V364SPEECH_FILE:
-            ui_select_file(windowlist[0]->savepanel,V364SPEECH_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, V364SPEECH_FILE, (void*)0);
             break;
         default:
             break;

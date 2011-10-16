@@ -36,6 +36,7 @@ extern "C" {
 #include "ui_cbm2.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
+#include "video.h"
 }
 
 ui_menu_toggle  cbm5x0_ui_menu_toggles[] = {
@@ -45,7 +46,17 @@ ui_menu_toggle  cbm5x0_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-static int cbm2sidaddressbase[] = { 0xda, -1 };
+ui_res_possible_values cbm5x0RenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
+    { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
+    { -1, 0 }
+};
+
+ui_res_value_list cbm5x0_ui_res_values[] = {
+    { "VICIIFilter", cbm5x0RenderFilters },
+    { NULL, NULL }
+};
 
 void cbm5x0_ui_specific(void *msg, void *window)
 {
@@ -57,7 +68,7 @@ void cbm5x0_ui_specific(void *msg, void *window)
             ui_vicii();
             break;
         case MENU_SID_SETTINGS:
-            ui_sid(cbm2sidaddressbase);
+            ui_sid(NULL);
             break;
         default: ;
     }
@@ -67,6 +78,7 @@ int cbm5x0ui_init(void)
 {
     ui_register_machine_specific(cbm5x0_ui_specific);
     ui_register_menu_toggles(cbm5x0_ui_menu_toggles);
+    ui_register_res_values(cbm5x0_ui_res_values);
     ui_update_menus();
     return 0;
 }

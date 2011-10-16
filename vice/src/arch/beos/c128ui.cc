@@ -26,15 +26,10 @@
 
 #include "vice.h"
 
-#include <Alert.h>
-#include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
-#include <ScrollView.h>
-#include <TextView.h>
-#include <View.h>
 #include <Window.h>
 #include <signal.h>
 #include <stdio.h>
@@ -50,7 +45,6 @@ extern "C" {
 #include "constants.h"
 #include "mouse.h"
 #include "resources.h"
-#include "statusbar.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
@@ -58,11 +52,8 @@ extern "C" {
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "util.h"
-#include "viceapp.h"
-#include "vicewindow.h"
+#include "video.h"
 }
-
-extern ViceWindow *windowlist[];
 
 ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -172,6 +163,14 @@ ui_res_possible_values c128mouseports[] = {
     { -1, 0 }
 };
 
+/* FIXME: We need VDC filter setting as well */
+ui_res_possible_values c128viciiRenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
+    { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
+    { -1, 0 }
+};
+
 ui_res_possible_values c128ExpertModes[] = {
     { 0, MENU_EXPERT_MODE_OFF },
     { 1, MENU_EXPERT_MODE_PRG },
@@ -185,6 +184,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "RAMCARTsize", c128RamCartSize },
     { "DIGIMAXbase", c128DigimaxBase },
     { "SFXSoundExpanderChip", c128SFXSoundExpanderChip },
+    { "VICIIFilter", c128viciiRenderFilters },
     { "VDCRevision", c128VDCrev },
     { "Mousetype", c128mousetypes },
     { "Mouseport", c128mouseports },
@@ -204,31 +204,31 @@ void c128_ui_specific(void *msg, void *window)
             ui_sid(c128sidaddressbase);
             break;
         case MENU_REU_FILE:
-            ui_select_file(windowlist[0]->savepanel,REU_FILE,(void*)0);
+            ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);
             break;
         case MENU_GEORAM_FILE:
-            ui_select_file(windowlist[0]->savepanel,GEORAM_FILE,(void*)0);
+            ui_select_file(B_SAVE_PANEL, GEORAM_FILE, (void*)0);
             break;
         case MENU_RAMCART_FILE:
-            ui_select_file(windowlist[0]->savepanel,RAMCART_FILE,(void*)0);
+            ui_select_file(B_SAVE_PANEL, RAMCART_FILE, (void*)0);
             break;
         case MENU_IDE64_FILE1:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE1, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);
             break;
         case MENU_IDE64_FILE2:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE2, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE2, (void*)0);
             break;
         case MENU_IDE64_FILE3:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE3, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE3, (void*)0);
             break;
         case MENU_IDE64_FILE4:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE4, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE4, (void*)0);
             break;
         case MENU_IDE64_CUSTOM_SIZE:
             ui_ide64();
             break;
         case MENU_EXPERT_FILE:
-            ui_select_file(windowlist[0]->filepanel, EXPERT_FILE, (void*)0);
+            ui_select_file(B_OPEN_PANEL, EXPERT_FILE, (void*)0);
             break;
         case MENU_EASYFLASH_SAVE_NOW:
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {

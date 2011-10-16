@@ -96,7 +96,6 @@ extern "C" {
 #include "vice-event.h"
 #include "viceapp.h"
 #include "vicewindow.h"
-#include "video.h"
 #include "videoarch.h"
 #include "vsync.h"
 }
@@ -474,34 +473,6 @@ static void load_quicksnapshot_trap(WORD unused_addr, void *unused_data)
     free(fullname);
 }
 
-static void set_render_filter_res(int render_mode)
-{
-    char *render_filter_res;
-
-    switch (machine_class) {
-    case VICE_MACHINE_C64:
-    case VICE_MACHINE_C64SC:
-    case VICE_MACHINE_C64DTV:
-    case VICE_MACHINE_C128:
-    case VICE_MACHINE_CBM5x0:
-    default:
-        render_filter_res = "VICIIFilter";
-        break;
-    case VICE_MACHINE_CBM6x0:
-    case VICE_MACHINE_PET:
-        render_filter_res = "CRTCFilter";
-        break;
-    case VICE_MACHINE_PLUS4:
-        render_filter_res = "TEDFilter";
-        break;
-    case VICE_MACHINE_VIC20:
-        render_filter_res = "VICFilter";
-        break;
-    }
-
-    resources_set_int(render_filter_res, render_mode);
-}
-
 static void scan_files(void)
 {
     int i;
@@ -633,7 +604,6 @@ void ui_dispatch_events(void)
     int m;
     int attachdrive;
     int key;
-    ViceFilePanel *filepanel = windowlist[0]->filepanel;
 
     for (i = 0; i < num_queued_messages; i++) {
 
@@ -697,26 +667,26 @@ void ui_dispatch_events(void)
                 machine_trigger_reset(MACHINE_RESET_MODE_HARD);
                 break;
             case MENU_AUTOSTART_PRG_DISK_IMAGE_SELECT:
-                ui_select_file(filepanel, AUTOSTART_DISK_IMAGE_FILE, (void*)0);
+                ui_select_file(B_OPEN_PANEL, AUTOSTART_DISK_IMAGE_FILE, (void*)0);
                 break;
             case MENU_AUTOSTART:
-                ui_select_file(filepanel, AUTOSTART_FILE, (void*)0);
+                ui_select_file(B_OPEN_PANEL, AUTOSTART_FILE, (void*)0);
                 break;
             case MENU_ATTACH_DISK8:
                 attachdrive = 8;
-                ui_select_file(filepanel, DISK_FILE, (void*)&attachdrive);
+                ui_select_file(B_OPEN_PANEL, DISK_FILE, (void*)&attachdrive);
                 break;
             case MENU_ATTACH_DISK9:
                 attachdrive = 9;
-                ui_select_file(filepanel, DISK_FILE, (void*)&attachdrive);
+                ui_select_file(B_OPEN_PANEL, DISK_FILE, (void*)&attachdrive);
                 break;
             case MENU_ATTACH_DISK10:
                 attachdrive = 10;
-                ui_select_file(filepanel, DISK_FILE, (void*)&attachdrive);
+                ui_select_file(B_OPEN_PANEL, DISK_FILE, (void*)&attachdrive);
                 break;
             case MENU_ATTACH_DISK11:
                 attachdrive = 11;
-                ui_select_file(filepanel, DISK_FILE, (void*)&attachdrive);
+                ui_select_file(B_OPEN_PANEL, DISK_FILE, (void*)&attachdrive);
                 break;
             case MENU_DETACH_DISK8:
                 file_system_detach_disk(8);
@@ -732,7 +702,7 @@ void ui_dispatch_events(void)
                 break;
             case MENU_ATTACH_TAPE:
                 attachdrive = 1;
-                ui_select_file(filepanel, TAPE_FILE, (void*)1);
+                ui_select_file(B_OPEN_PANEL, TAPE_FILE, (void*)1);
                 break;
             case MENU_DETACH_TAPE:
                 tape_image_detach(1);
@@ -771,10 +741,10 @@ void ui_dispatch_events(void)
                 datasette_control(DATASETTE_CONTROL_RESET_COUNTER);
                 break;
             case MENU_SNAPSHOT_LOAD:
-                ui_select_file(filepanel, SNAPSHOTLOAD_FILE, (void*)0);
+                ui_select_file(B_OPEN_PANEL, SNAPSHOTLOAD_FILE, (void*)0);
                 break;
             case MENU_SNAPSHOT_SAVE:
-                ui_select_file(windowlist[0]->savepanel, SNAPSHOTSAVE_FILE, (void*)0);
+                ui_select_file(B_SAVE_PANEL, SNAPSHOTSAVE_FILE, (void*)0);
                 break;
             case MENU_LOADQUICK:
                 scan_files();
@@ -785,15 +755,6 @@ void ui_dispatch_events(void)
             case MENU_SAVEQUICK:
                 scan_files();
                 interrupt_maincpu_trigger_trap(save_quicksnapshot_trap, (void *)0);
-                break;
-            case MENU_RENDER_FILTER_NONE:
-                set_render_filter_res(VIDEO_FILTER_NONE);
-                break;
-            case MENU_RENDER_FILTER_CRT_EMULATION:
-                set_render_filter_res(VIDEO_FILTER_CRT);
-                break;
-            case MENU_RENDER_FILTER_SCALE2X:
-                set_render_filter_res(VIDEO_FILTER_SCALE2X);
                 break;
             case MENU_NETPLAY_SERVER:
                 network_start_server();
@@ -828,10 +789,10 @@ void ui_dispatch_events(void)
                 event_record_reset_milestone();
                 break;
             case MENU_EVENT_SNAPSHOT_START:
-                ui_select_file(windowlist[0]->savepanel, SNAPSHOT_HISTORY_START, NULL);
+                ui_select_file(B_SAVE_PANEL, SNAPSHOT_HISTORY_START, NULL);
                 break;
             case MENU_EVENT_SNAPSHOT_END:
-                ui_select_file(windowlist[0]->savepanel, SNAPSHOT_HISTORY_END, NULL);
+                ui_select_file(B_SAVE_PANEL, SNAPSHOT_HISTORY_END, NULL);
                 break;
             case MENU_MONITOR:
                 monitor_startup_trap();
@@ -847,25 +808,25 @@ void ui_dispatch_events(void)
                 break;
             case MENU_SOUND_RECORD_AIFF:
                 resources_set_string("SoundRecordDeviceName", "");
-                ui_select_file(windowlist[0]->savepanel, AIFF_FILE, (void*)0);
+                ui_select_file(B_SAVE_PANEL, AIFF_FILE, (void*)0);
                 break;
             case MENU_SOUND_RECORD_IFF:
                 resources_set_string("SoundRecordDeviceName", "");
-                ui_select_file(windowlist[0]->savepanel, IFF_FILE, (void*)0);
+                ui_select_file(B_SAVE_PANEL, IFF_FILE, (void*)0);
                 break;
 #ifdef USE_LAMEMP3
             case MENU_SOUND_RECORD_MP3:
                 resources_set_string("SoundRecordDeviceName", "");
-                ui_select_file(windowlist[0]->savepanel, MP3_FILE, (void*)0);
+                ui_select_file(B_SAVE_PANEL, MP3_FILE, (void*)0);
                 break;
 #endif
             case MENU_SOUND_RECORD_VOC:
                 resources_set_string("SoundRecordDeviceName", "");
-                ui_select_file(windowlist[0]->savepanel, VOC_FILE, (void*)0);
+                ui_select_file(B_SAVE_PANEL, VOC_FILE, (void*)0);
                 break;
             case MENU_SOUND_RECORD_WAV:
                 resources_set_string("SoundRecordDeviceName", "");
-                ui_select_file(windowlist[0]->savepanel, WAV_FILE, (void*)0);
+                ui_select_file(B_SAVE_PANEL, WAV_FILE, (void*)0);
                 break;
             case MENU_SOUND_RECORD_STOP:
                 resources_set_string("SoundRecordDeviceName", "");
@@ -921,13 +882,13 @@ void ui_dispatch_events(void)
                 printer_formfeed(2);
                 break;
             case MENU_OUTPUT_DEVICE_1:
-                ui_select_file(windowlist[0]->savepanel, PRINTER_OUTPUT_FILE1, (void*)0);
+                ui_select_file(B_SAVE_PANEL, PRINTER_OUTPUT_FILE1, (void*)0);
                 break;
             case MENU_OUTPUT_DEVICE_2:
-                ui_select_file(windowlist[0]->savepanel, PRINTER_OUTPUT_FILE2, (void*)0);
+                ui_select_file(B_SAVE_PANEL, PRINTER_OUTPUT_FILE2, (void*)0);
                 break;
             case MENU_OUTPUT_DEVICE_3:
-                ui_select_file(windowlist[0]->savepanel, PRINTER_OUTPUT_FILE3, (void*)0);
+                ui_select_file(B_SAVE_PANEL, PRINTER_OUTPUT_FILE3, (void*)0);
                 break;
             case MENU_ABOUT:
                 char *abouttext;

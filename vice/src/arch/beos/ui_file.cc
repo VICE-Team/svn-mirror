@@ -58,8 +58,11 @@ extern "C" {
 #include "util.h"
 #include "vic20ui.h"
 #include "vicemenu.h"
+#include "vicewindow.h"
 #include "vsync.h"
 }
+
+extern ViceWindow *windowlist[];
 
 static int last_fileparam[2]; /* 0=filepanel, 1=savepanel */
 static int last_filetype[2];
@@ -225,10 +228,19 @@ void ViceFilePanel::SelectionChanged(void)
     BFilePanel::SelectionChanged();
 }
 
-void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *fileparam)
+void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *fileparam)
 {
-    int panelnr = (filepanel->PanelMode() == B_OPEN_PANEL ? 0 : 1);
+    ViceFilePanel *filepanel;
+    int panelnr; /* = (panelmode == B_OPEN_PANEL ? 0 : 1); */
     char title[40];
+
+    if (panelmode == B_OPEN_PANEL) {
+        filepanel = windowlist[0]->filepanel;
+        panelnr = 0;
+    } else {
+        filepanel = windowlist[0]->savepanel;
+        panelnr = 1;
+    }
 
     sprintf(title,"VICE filepanel"); /* default */
 

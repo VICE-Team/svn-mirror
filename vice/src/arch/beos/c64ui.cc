@@ -26,15 +26,10 @@
 
 #include "vice.h"
 
-#include <Alert.h>
-#include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
-#include <ScrollView.h>
-#include <TextView.h>
-#include <View.h>
 #include <Window.h>
 #include <signal.h>
 #include <stdio.h>
@@ -52,7 +47,6 @@ extern "C" {
 #include "keyboard.h"
 #include "mouse.h"
 #include "resources.h"
-#include "statusbar.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
@@ -60,12 +54,9 @@ extern "C" {
 #include "ui_sid.h"
 #include "ui_vicii.h"
 #include "util.h"
-#include "viceapp.h"
-#include "vicewindow.h"
 #include "vicii.h"
+#include "video.h"
 }
-
-extern ViceWindow *windowlist[];
 
 ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -244,6 +235,13 @@ ui_res_possible_values gluelogic[] = {
     { -1, 0 }
 };
 
+ui_res_possible_values RenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
+    { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
+    { -1, 0 }
+};
+
 ui_res_possible_values ExpertModes[] = {
     { 0, MENU_EXPERT_MODE_OFF },
     { 1, MENU_EXPERT_MODE_PRG },
@@ -268,6 +266,7 @@ ui_res_value_list c64_ui_res_values[] = {
     { "CIA1Model", cia1models },
     { "CIA2Model", cia2models },
     { "GlueLogic", gluelogic },
+    { "VICIIFilter", RenderFilters },
     { "ExpertCartridgeMode", ExpertModes },
     { NULL, NULL }
 };
@@ -289,12 +288,10 @@ static ui_cartridge_t c64_ui_cartridges[]={
     { 0, 0, NULL }
 };
 
-static void c64_ui_attach_cartridge(void *msg, void *window)
+static void c64_ui_attach_cartridge(int menu)
 {
-    int menu = ((BMessage*)msg)->what;
-    ViceFilePanel *filepanel = ((ViceWindow*)window)->filepanel;
     int i = 0;
-        
+
     while (menu != c64_ui_cartridges[i].menu_item && c64_ui_cartridges[i].menu_item) {
         i++;
     }
@@ -304,7 +301,7 @@ static void c64_ui_attach_cartridge(void *msg, void *window)
         return;
     }
 
-    ui_select_file(filepanel,C64_CARTRIDGE_FILE, &c64_ui_cartridges[i]);
+    ui_select_file(B_OPEN_PANEL, C64_CARTRIDGE_FILE, &c64_ui_cartridges[i]);
 }       
 
 static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
@@ -322,7 +319,7 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_CART_ATTACH_IDE64:
         case MENU_CART_ATTACH_SS4:
         case MENU_CART_ATTACH_SS5:
-            c64_ui_attach_cartridge(msg, window);
+            c64_ui_attach_cartridge(((BMessage*)msg)->what);
             break;
         case MENU_CART_SET_DEFAULT:
             cartridge_set_default();
@@ -353,55 +350,55 @@ void c64_ui_specific(void *msg, void *window)
             ui_sid(c64sidaddressbase);
             break;
         case MENU_IDE64_FILE1:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE1, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);
             break;
         case MENU_IDE64_FILE2:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE2, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE2, (void*)0);
             break;
         case MENU_IDE64_FILE3:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE3, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE3, (void*)0);
             break;
         case MENU_IDE64_FILE4:
-            ui_select_file(windowlist[0]->savepanel, IDE64_FILE4, (void*)0);
+            ui_select_file(B_SAVE_PANEL, IDE64_FILE4, (void*)0);
             break;
         case MENU_REU_FILE:
-            ui_select_file(windowlist[0]->savepanel, REU_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);
             break;
         case MENU_GEORAM_FILE:
-            ui_select_file(windowlist[0]->savepanel, GEORAM_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, GEORAM_FILE, (void*)0);
             break;
         case MENU_RAMCART_FILE:
-            ui_select_file(windowlist[0]->savepanel, RAMCART_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, RAMCART_FILE, (void*)0);
             break;
         case MENU_DQBB_FILE:
-            ui_select_file(windowlist[0]->savepanel, DQBB_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, DQBB_FILE, (void*)0);
             break;
         case MENU_ISEPIC_FILE:
-            ui_select_file(windowlist[0]->savepanel, ISEPIC_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, ISEPIC_FILE, (void*)0);
             break;
         case MENU_PLUS60K_FILE:
-            ui_select_file(windowlist[0]->savepanel, PLUS60K_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, PLUS60K_FILE, (void*)0);
             break;
         case MENU_PLUS256K_FILE:
-            ui_select_file(windowlist[0]->savepanel, PLUS256K_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, PLUS256K_FILE, (void*)0);
             break;
         case MENU_C64_256K_FILE:
-            ui_select_file(windowlist[0]->savepanel, C64_256K_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, C64_256K_FILE, (void*)0);
             break;
         case MENU_MMC64_BIOS_FILE:
-            ui_select_file(windowlist[0]->filepanel, MMC64_BIOS_FILE, (void*)0);
+            ui_select_file(B_OPEN_PANEL, MMC64_BIOS_FILE, (void*)0);
             break;
         case MENU_MMC64_IMAGE_FILE:
-            ui_select_file(windowlist[0]->filepanel, MMC64_IMAGE_FILE, (void*)0);
+            ui_select_file(B_OPEN_PANEL, MMC64_IMAGE_FILE, (void*)0);
             break;
         case MENU_MMCR_EEPROM_FILE:
-            ui_select_file(windowlist[0]->filepanel, MMCR_EEPROM_FILE, (void*)0);
+            ui_select_file(B_OPEN_PANEL, MMCR_EEPROM_FILE, (void*)0);
             break;
         case MENU_MMCR_IMAGE_FILE:
-            ui_select_file(windowlist[0]->filepanel, MMCR_IMAGE_FILE, (void*)0);
+            ui_select_file(B_OPEN_PANEL, MMCR_IMAGE_FILE, (void*)0);
             break;
         case MENU_EXPERT_FILE:
-            ui_select_file(windowlist[0]->filepanel, EXPERT_FILE, (void*)0);
+            ui_select_file(B_OPEN_PANEL, EXPERT_FILE, (void*)0);
             break;
         case MENU_EASYFLASH_SAVE_NOW:
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {

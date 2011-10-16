@@ -35,6 +35,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_cbm2.h"
 #include "ui_sid.h"
+#include "video.h"
 }
 
 ui_menu_toggle  cbm2_ui_menu_toggles[] = {
@@ -44,7 +45,16 @@ ui_menu_toggle  cbm2_ui_menu_toggles[] = {
     { NULL, 0 }
 };
 
-static int cbm2sidaddressbase[] = { 0xda, -1 };
+ui_res_possible_values cbm2RenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
+    { -1, 0 }
+};
+
+ui_res_value_list cbm2_ui_res_values[] = {
+    { "CRTCFilter", cbm2RenderFilters },
+    { NULL, NULL }
+};
 
 void cbm2_ui_specific(void *msg, void *window)
 {
@@ -53,7 +63,7 @@ void cbm2_ui_specific(void *msg, void *window)
             ui_cbm2();
             break;
         case MENU_SID_SETTINGS:
-            ui_sid(cbm2sidaddressbase);
+            ui_sid(NULL);
             break;
         default: ;
     }
@@ -63,6 +73,7 @@ int cbm2ui_init(void)
 {
     ui_register_machine_specific(cbm2_ui_specific);
     ui_register_menu_toggles(cbm2_ui_menu_toggles);
+    ui_register_res_values(cbm2_ui_res_values);
     ui_update_menus();
     return 0;
 }

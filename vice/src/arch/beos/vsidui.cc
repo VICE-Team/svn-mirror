@@ -83,7 +83,7 @@ void vsid_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_VSID_LOAD:
-            ui_select_file(((ViceWindow*)window)->filepanel, VSID_FILE, 0);
+            ui_select_file(B_OPEN_PANEL, VSID_FILE, 0);
             break;
         case MENU_VSID_TUNE:
             {

@@ -26,15 +26,10 @@
 
 #include "vice.h"
 
-#include <Alert.h>
-#include <Application.h>
 #include <FilePanel.h>
 #include <Menu.h>
 #include <MenuBar.h>
 #include <MenuItem.h>
-#include <ScrollView.h>
-#include <TextView.h>
-#include <View.h>
 #include <Window.h>
 #include <signal.h>
 #include <stdio.h>
@@ -48,17 +43,13 @@ extern "C" {
 #include "archdep.h"
 #include "constants.h"
 #include "resources.h"
-#include "statusbar.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_pet.h"
 #include "util.h"
-#include "viceapp.h"
-#include "vicewindow.h"
+#include "video.h"
 }
-
-extern ViceWindow *windowlist[];
 
 ui_menu_toggle  pet_ui_menu_toggles[] = {
     { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
@@ -77,6 +68,12 @@ ui_res_possible_values PETREUSize[] = {
     { 512, MENU_PETREU_SIZE_512 },
     { 1024, MENU_PETREU_SIZE_1024 },
     { 2048, MENU_PETREU_SIZE_2048 },
+    { -1, 0 }
+};
+
+ui_res_possible_values pet_RenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
     { -1, 0 }
 };
 
@@ -105,10 +102,10 @@ void pet_ui_specific(void *msg, void *window)
             ui_pet();
             break;
         case MENU_PETREU_FILE:
-            ui_select_file(windowlist[0]->savepanel,PETREU_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, PETREU_FILE, (void*)0);
             break;
         case MENU_PETDWW_FILE:
-            ui_select_file(windowlist[0]->savepanel,PETDWW_FILE, (void*)0);
+            ui_select_file(B_SAVE_PANEL, PETDWW_FILE, (void*)0);
             break;
         default:
             break;
@@ -117,6 +114,7 @@ void pet_ui_specific(void *msg, void *window)
 
  ui_res_value_list pet_ui_res_values[] = {
     {"PETREUsize", PETREUSize},
+    {"CRTCFilter", pet_RenderFilters },
     {"SidModel", pet_SIDCARTModel},
     {"SidAddress", pet_SIDCARTAddress},
     {"SidClock", pet_SIDCARTClock},

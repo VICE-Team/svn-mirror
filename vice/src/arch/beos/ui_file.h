@@ -104,7 +104,7 @@ class ViceFilePanel : public BFilePanel {
         VicePreview *previewwindow;
 };
 
-extern void ui_select_file(ViceFilePanel *filepanel, filetype_t filetype, void *fileparam);
+extern void ui_select_file(file_panel_mode panelmode, filetype_t filetype, void *fileparam);
 extern void ui_select_file_action(BMessage *msg);
 
 #endif
