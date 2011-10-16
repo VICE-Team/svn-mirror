@@ -383,6 +383,18 @@ static ui_menu_entry_t model_options_submenu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_RADIO(BurstMod)
+
+static ui_menu_entry_t burstmod_submenu[] = {
+    { N_("None"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_BurstMod, (ui_callback_data_t)0, NULL },
+    { N_("CIA1"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_BurstMod, (ui_callback_data_t)1, NULL },
+    { N_("CIA2"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_BurstMod, (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
@@ -425,6 +437,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #endif
     { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
       NULL, NULL, tpi_submenu },
+    { N_("Burst Mode Modification"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, burstmod_submenu },
 #ifdef HAVE_MOUSE
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
