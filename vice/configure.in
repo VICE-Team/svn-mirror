@@ -1922,7 +1922,8 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
                             [AC_MSG_RESULT(yes);
                              SOUND_DRIVERS="$SOUND_DRIVERS sounddx.o";
                              SOUND_LIBS="$SOUND_LIBS -ldsound";
-                             AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])],
+                             AC_DEFINE(USE_DXSOUND,,[Enable directx sound support.])
+                             AC_DEFINE(HAVE_DSOUND_LIB, [], [dsound.lib or libdsound.a are present])],
                             [AC_MSG_RESULT(no)])
             LIBS="$old_LIBS"
 
