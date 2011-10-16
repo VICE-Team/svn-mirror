@@ -42,6 +42,7 @@ UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundBufferSize)
 UI_MENU_DEFINE_RADIO(SoundFragmentSize)
 UI_MENU_DEFINE_RADIO(SoundSuspendTime)
+UI_MENU_DEFINE_RADIO(SoundOutput)
 
 UI_CALLBACK(set_sound_device_arg)
 {
@@ -123,6 +124,19 @@ static ui_menu_entry_t set_sound_adjustment_submenu [] = {
     { NULL }
 };
 
+static ui_menu_entry_t set_sound_outmode_submenu [] = {
+    { N_("System"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SoundOutput,
+      (ui_callback_data_t)SOUND_OUTPUT_SYSTEM, NULL },
+    { N_("Mono"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SoundOutput,
+      (ui_callback_data_t)SOUND_OUTPUT_MONO, NULL },
+    { N_("Stereo"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_SoundOutput,
+      (ui_callback_data_t)SOUND_OUTPUT_STEREO, NULL },
+    { NULL }
+};
+
 ui_menu_entry_t sound_settings_submenu[] = {
     { N_("Enable sound playback"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Sound, NULL, NULL },
@@ -134,6 +148,8 @@ ui_menu_entry_t sound_settings_submenu[] = {
       (ui_callback_t)set_sound_device_arg,
       (ui_callback_data_t)"SoundDeviceArg", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Output mode"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_sound_outmode_submenu },
     { N_("Sound synchronization"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sound_adjustment_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
