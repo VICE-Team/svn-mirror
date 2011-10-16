@@ -195,158 +195,182 @@ static ui_menu_entry_t c64_model_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
+UI_MENU_DEFINE_RADIO(SidTripleAddressStart)
 
 static ui_menu_entry_t set_sid_stereo_address_d4xx_submenu[] = {
-    { "$D420", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd420, NULL },
-    { "$D440", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd440, NULL },
-    { "$D460", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd460, NULL },
-    { "$D480", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd480, NULL },
-    { "$D4A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd4a0, NULL },
-    { "$D4C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd4c0, NULL },
-    { "$D4E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd4e0, NULL },
+    { "$D420", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd420, NULL },
+    { "$D440", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd440, NULL },
+    { "$D460", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd460, NULL },
+    { "$D480", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd480, NULL },
+    { "$D4A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd4a0, NULL },
+    { "$D4C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd4c0, NULL },
+    { "$D4E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd4e0, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sid_stereo_address_d5xx_submenu[] = {
-    { "$D500", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd500, NULL },
-    { "$D520", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd520, NULL },
-    { "$D540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd540, NULL },
-    { "$D560", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd560, NULL },
-    { "$D580", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd580, NULL },
-    { "$D5A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd5a0, NULL },
-    { "$D5C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd5c0, NULL },
-    { "$D5E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd5e0, NULL },
+    { "$D500", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd500, NULL },
+    { "$D520", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd520, NULL },
+    { "$D540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd540, NULL },
+    { "$D560", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd560, NULL },
+    { "$D580", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd580, NULL },
+    { "$D5A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd5a0, NULL },
+    { "$D5C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd5c0, NULL },
+    { "$D5E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd5e0, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sid_stereo_address_d6xx_submenu[] = {
-    { "$D600", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd600, NULL },
-    { "$D620", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd620, NULL },
-    { "$D640", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd640, NULL },
-    { "$D660", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd660, NULL },
-    { "$D680", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd680, NULL },
-    { "$D6A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd6a0, NULL },
-    { "$D6C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd6c0, NULL },
-    { "$D6E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd6e0, NULL },
+    { "$D600", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd600, NULL },
+    { "$D620", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd620, NULL },
+    { "$D640", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd640, NULL },
+    { "$D660", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd660, NULL },
+    { "$D680", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd680, NULL },
+    { "$D6A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd6a0, NULL },
+    { "$D6C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd6c0, NULL },
+    { "$D6E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd6e0, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sid_stereo_address_d7xx_submenu[] = {
-    { "$D700", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd700, NULL },
-    { "$D720", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd720, NULL },
-    { "$D740", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd740, NULL },
-    { "$D760", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd760, NULL },
-    { "$D780", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd780, NULL },
-    { "$D7A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd7a0, NULL },
-    { "$D7C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd7c0, NULL },
-    { "$D7E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xd7e0, NULL },
+    { "$D700", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd700, NULL },
+    { "$D720", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd720, NULL },
+    { "$D740", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd740, NULL },
+    { "$D760", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd760, NULL },
+    { "$D780", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd780, NULL },
+    { "$D7A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd7a0, NULL },
+    { "$D7C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd7c0, NULL },
+    { "$D7E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xd7e0, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sid_stereo_address_dexx_submenu[] = {
-    { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xde00, NULL },
-    { "$DE20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xde20, NULL },
-    { "$DE40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xde40, NULL },
-    { "$DE60", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xde60, NULL },
-    { "$DE80", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xde80, NULL },
-    { "$DEA0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdea0, NULL },
-    { "$DEC0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdec0, NULL },
-    { "$DEE0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdee0, NULL },
+    { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xde00, NULL },
+    { "$DE20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xde20, NULL },
+    { "$DE40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xde40, NULL },
+    { "$DE60", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xde60, NULL },
+    { "$DE80", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xde80, NULL },
+    { "$DEA0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdea0, NULL },
+    { "$DEC0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdec0, NULL },
+    { "$DEE0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdee0, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sid_stereo_address_dfxx_submenu[] = {
-    { "$DF00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdf00, NULL },
-    { "$DF20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdf20, NULL },
-    { "$DF40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdf40, NULL },
-    { "$DF60", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdf60, NULL },
-    { "$DF80", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdf80, NULL },
-    { "$DFA0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdfa0, NULL },
-    { "$DFC0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdfc0, NULL },
-    { "$DFE0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart,
-      (ui_callback_data_t)0xdfe0, NULL },
+    { "$DF00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdf00, NULL },
+    { "$DF20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdf20, NULL },
+    { "$DF40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdf40, NULL },
+    { "$DF60", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdf60, NULL },
+    { "$DF80", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdf80, NULL },
+    { "$DFA0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdfa0, NULL },
+    { "$DFC0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdfc0, NULL },
+    { "$DFE0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereoAddressStart, (ui_callback_data_t)0xdfe0, NULL },
     { NULL }
 };
 
 static ui_menu_entry_t set_sid_stereo_address_submenu[] = {
-    { "$D4xx", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sid_stereo_address_d4xx_submenu },
-    { "$D5xx", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sid_stereo_address_d5xx_submenu },
-    { "$D6xx", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sid_stereo_address_d6xx_submenu },
-    { "$D7xx", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sid_stereo_address_d7xx_submenu },
-    { "$DExx", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sid_stereo_address_dexx_submenu },
-    { "$DFxx", UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sid_stereo_address_dfxx_submenu },
+    { "$D4xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d4xx_submenu },
+    { "$D5xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d5xx_submenu },
+    { "$D6xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d6xx_submenu },
+    { "$D7xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_d7xx_submenu },
+    { "$DExx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_dexx_submenu },
+    { "$DFxx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_dfxx_submenu },
     { NULL }
 };
 
-UI_MENU_DEFINE_TOGGLE(SidStereo)
+static ui_menu_entry_t set_sid_triple_address_d4xx_submenu[] = {
+    { "$D420", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd420, NULL },
+    { "$D440", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd440, NULL },
+    { "$D460", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd460, NULL },
+    { "$D480", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd480, NULL },
+    { "$D4A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd4a0, NULL },
+    { "$D4C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd4c0, NULL },
+    { "$D4E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd4e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_triple_address_d5xx_submenu[] = {
+    { "$D500", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd500, NULL },
+    { "$D520", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd520, NULL },
+    { "$D540", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd540, NULL },
+    { "$D560", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd560, NULL },
+    { "$D580", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd580, NULL },
+    { "$D5A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd5a0, NULL },
+    { "$D5C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd5c0, NULL },
+    { "$D5E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd5e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_triple_address_d6xx_submenu[] = {
+    { "$D600", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd600, NULL },
+    { "$D620", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd620, NULL },
+    { "$D640", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd640, NULL },
+    { "$D660", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd660, NULL },
+    { "$D680", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd680, NULL },
+    { "$D6A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd6a0, NULL },
+    { "$D6C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd6c0, NULL },
+    { "$D6E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd6e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_triple_address_d7xx_submenu[] = {
+    { "$D700", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd700, NULL },
+    { "$D720", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd720, NULL },
+    { "$D740", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd740, NULL },
+    { "$D760", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd760, NULL },
+    { "$D780", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd780, NULL },
+    { "$D7A0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd7a0, NULL },
+    { "$D7C0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd7c0, NULL },
+    { "$D7E0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xd7e0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_triple_address_dexx_submenu[] = {
+    { "$DE00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xde00, NULL },
+    { "$DE20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xde20, NULL },
+    { "$DE40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xde40, NULL },
+    { "$DE60", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xde60, NULL },
+    { "$DE80", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xde80, NULL },
+    { "$DEA0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdea0, NULL },
+    { "$DEC0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdec0, NULL },
+    { "$DEE0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdee0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_triple_address_dfxx_submenu[] = {
+    { "$DF00", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdf00, NULL },
+    { "$DF20", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdf20, NULL },
+    { "$DF40", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdf40, NULL },
+    { "$DF60", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdf60, NULL },
+    { "$DF80", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdf80, NULL },
+    { "$DFA0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdfa0, NULL },
+    { "$DFC0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdfc0, NULL },
+    { "$DFE0", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidTripleAddressStart, (ui_callback_data_t)0xdfe0, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_sid_triple_address_submenu[] = {
+    { "$D4xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d4xx_submenu },
+    { "$D5xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d5xx_submenu },
+    { "$D6xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d6xx_submenu },
+    { "$D7xx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_d7xx_submenu },
+    { "$DExx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_dexx_submenu },
+    { "$DFxx", UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_dfxx_submenu },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
-    { N_("Second SID"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SidStereo, NULL, NULL },
-    { N_("Second SID base address"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_sid_stereo_address_submenu },
+    { N_("Extra SIDs"), UI_MENU_TYPE_NORMAL, NULL, NULL, sid_extra_sids_submenu },
+    { N_("Second SID base address"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_submenu },
+    { N_("Third SID base address"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("SID filters"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_SidFilters, NULL, NULL },
+    { N_("SID filters"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_SidFilters, NULL, NULL },
 #ifdef HAVE_RESID
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("reSID sampling method"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_resid_sampling_submenu },
-    { N_("reSID resampling passband"), UI_MENU_TYPE_DOTS,
-      (ui_callback_t)set_sid_resid_passband, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR }, 
+    { N_("reSID sampling method"), UI_MENU_TYPE_NORMAL, NULL, NULL, sid_resid_sampling_submenu }, 
+    { N_("reSID resampling passband"), UI_MENU_TYPE_DOTS, (ui_callback_t)set_sid_resid_passband, NULL, NULL },
 #endif
     { NULL },
 };

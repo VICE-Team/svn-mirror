@@ -247,3 +247,12 @@ UI_CALLBACK(set_sid_resid_passband)
     }
 }
 #endif
+
+UI_MENU_DEFINE_RADIO(SidStereo)
+
+ui_menu_entry_t sid_extra_sids_submenu[] = {
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereo, (ui_callback_data_t)0, NULL },
+    { N_("One"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereo, (ui_callback_data_t)1, NULL },
+    { N_("Two"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SidStereo, (ui_callback_data_t)2, NULL },
+    { NULL }
+};
