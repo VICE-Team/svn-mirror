@@ -44,6 +44,7 @@ UI_MENU_DEFINE_RADIO(SoundSampleRate)
 UI_MENU_DEFINE_RADIO(SoundFragmentSize)
 UI_MENU_DEFINE_RADIO(SoundSpeedAdjustment)
 UI_MENU_DEFINE_RADIO(SoundDeviceName)
+UI_MENU_DEFINE_RADIO(SoundOutput)
 
 static UI_MENU_CALLBACK(custom_volume_callback)
 {
@@ -268,6 +269,22 @@ static ui_menu_entry_t sound_output_driver_menu[] = {
     SDL_MENU_LIST_END
 };
 
+static ui_menu_entry_t sound_output_mode_menu[] = {
+    { "System",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundOutput_callback,
+      (ui_callback_data_t)SOUND_OUTPUT_SYSTEM },
+    { "Mono",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundOutput_callback,
+      (ui_callback_data_t)SOUND_OUTPUT_MONO },
+    { "Stereo",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundOutput_callback,
+      (ui_callback_data_t)SOUND_OUTPUT_STEREO },
+    SDL_MENU_LIST_END
+};
+
 static ui_menu_entry_t fragment_size_menu[] = {
     { "Small",
       MENU_ENTRY_RESOURCE_RADIO,
@@ -339,6 +356,10 @@ const ui_menu_entry_t sound_output_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)sound_output_driver_menu },
+    { "Output Mode",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)sound_output_mode_menu },
     { "Buffer size",
       MENU_ENTRY_DIALOG,
       custom_buffer_size_callback,

@@ -30,57 +30,52 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cartridge.h"
+#include "lib.h"
 #include "menu_cbm2cart.h"
 #include "menu_common.h"
 #include "resources.h"
 #include "ui.h"
+#include "uifilereq.h"
 #include "uimenu.h"
 
-UI_MENU_DEFINE_FILE_STRING(Cart1Name)
-UI_MENU_DEFINE_FILE_STRING(Cart2Name)
-UI_MENU_DEFINE_FILE_STRING(Cart4Name)
-UI_MENU_DEFINE_FILE_STRING(Cart6Name)
+UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+
+static UI_MENU_CALLBACK(attach_cart_callback)
+{
+    char *name;
+    if (activated) {
+        name = sdl_ui_file_selection_dialog("Select Cart image", FILEREQ_MODE_CHOOSE_FILE);
+        if (name != NULL) {
+            if (cartridge_attach_image(vice_ptr_to_int(param), name) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            lib_free(name);
+        }
+    }
+    return NULL;
+}
 
 static UI_MENU_CALLBACK(detach_cart_callback)
 {
+    int m;
+    m = vice_ptr_to_int(param);
     if (activated) {
-        resources_set_string((char *)param, "");
+        cartridge_detach_image(m);
     }
     return NULL;
 }
 
 const ui_menu_entry_t cbm2cart_menu[] = {
-    { "Attach Cart 1",
-      MENU_ENTRY_DIALOG,
-      file_string_Cart1Name_callback,
-      (ui_callback_data_t)"Select Cart 1 image" },
-    { "Detach Cart 1",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      (ui_callback_data_t)"Cart1Name" },
-    { "Attach Cart 2",
-      MENU_ENTRY_DIALOG,
-      file_string_Cart2Name_callback,
-      (ui_callback_data_t)"Select Cart 2 image" },
-    { "Detach Cart 2",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      (ui_callback_data_t)"Cart2Name" },
-    { "Attach Cart 4",
-      MENU_ENTRY_DIALOG,
-      file_string_Cart4Name_callback,
-      (ui_callback_data_t)"Select Cart 4 image" },
-    { "Detach Cart 4",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      (ui_callback_data_t)"Cart4Name" },
-    { "Attach Cart 6",
-      MENU_ENTRY_DIALOG,
-      file_string_Cart6Name_callback,
-      (ui_callback_data_t)"Select Cart 6 image" },
-    { "Detach Cart 6",
-      MENU_ENTRY_OTHER,
-      detach_cart_callback,
-      (ui_callback_data_t)"Cart6Name" },
+    { "Load new Cart $1***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000 },
+    { "Unload Cart $1***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_1000 },
+    { "Load new Cart $2-3***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000 },
+    { "Unload Cart $2-3***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_8KB_2000 },
+    { "Load new Cart $4-5***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000 },
+    { "Unload Cart $4-5***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_4000 },
+    { "Load new Cart $6-7***", MENU_ENTRY_OTHER, attach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000 },
+    { "Unload Cart $6-7***", MENU_ENTRY_OTHER, detach_cart_callback, (ui_callback_data_t)CARTRIDGE_CBM2_16KB_6000 },
+    SDL_MENU_ITEM_SEPARATOR,
+    { "Reset on cartridge change", MENU_ENTRY_RESOURCE_TOGGLE, toggle_CartridgeReset_callback, NULL },
     SDL_MENU_LIST_END
 };

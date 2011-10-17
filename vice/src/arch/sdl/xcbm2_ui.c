@@ -268,18 +268,11 @@ void cbm2ui_set_menu_params(int index, menu_draw_t *menu_draw)
 
 int cbm2ui_init(void)
 {
-    cbm2_font_14 = lib_malloc(14 * 256);
     cbm2_font_8 = lib_malloc(8 * 256);
+    cbm2_font_14 = lib_malloc(14 * 256);
 
-    if (machine_class == VICE_MACHINE_CBM5x0) {
-        sdl_ui_set_menu_params = NULL;
-        sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
-        sdl_ui_set_main_menu(xcbm5x0_main_menu);
-        sdl_video_canvas_switch(1);
-    } else {
-        sdl_ui_set_menu_params = cbm2ui_set_menu_params;
-        sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
-    }
+    sdl_ui_set_menu_params = cbm2ui_set_menu_params;
+    sdl_ui_set_main_menu(xcbm6x0_7x0_main_menu);
 
     sdl_vkbd_set_vkbd(&vkbd_cbm2);
 
@@ -301,5 +294,35 @@ void cbm2ui_shutdown(void)
 #endif
 
     lib_free(cbm2_font_14);
+    lib_free(cbm2_font_8);
+}
+
+int cbm5x0ui_init(void)
+{
+    cbm2_font_8 = lib_malloc(8 * 256);
+
+    sdl_ui_set_menu_params = NULL;
+    sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
+    sdl_ui_set_main_menu(xcbm5x0_main_menu);
+    sdl_video_canvas_switch(1);
+
+    sdl_vkbd_set_vkbd(&vkbd_cbm2);
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_init();
+#endif
+
+    return 0;
+}
+
+void cbm5x0ui_shutdown(void)
+{
+#ifdef SDL_DEBUG
+    fprintf(stderr,"%s\n",__func__);
+#endif
+
+#ifdef HAVE_FFMPEG
+    sdl_menu_ffmpeg_shutdown();
+#endif
     lib_free(cbm2_font_8);
 }

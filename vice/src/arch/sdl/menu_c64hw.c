@@ -61,6 +61,24 @@
 
 #include "uimenu.h"
 
+UI_MENU_DEFINE_RADIO(BurstMod)
+
+const ui_menu_entry_t burstmod_menu[] = {
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_BurstMod_callback,
+      (ui_callback_data_t)0 },
+    { "CIA1",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_BurstMod_callback,
+      (ui_callback_data_t)1 },
+    { "CIA2",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_BurstMod_callback,
+      (ui_callback_data_t)2 },
+    SDL_MENU_LIST_END
+};
+
 const ui_menu_entry_t c64_hardware_menu[] = {
     { "Model settings",
       MENU_ENTRY_SUBMENU,
@@ -124,6 +142,10 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
+    { "Burst Mode Modification",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)burstmod_menu },
     SDL_MENU_LIST_END
 };
 
@@ -190,5 +212,9 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       submenu_callback,
       (ui_callback_data_t)tfe_menu },
 #endif
+    { "Burst Mode Modification",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)burstmod_menu },
     SDL_MENU_LIST_END
 };
