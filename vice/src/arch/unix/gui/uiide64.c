@@ -45,7 +45,7 @@ UI_MENU_DEFINE_RADIO(IDE64version4)
 
 static UI_CALLBACK(set_ide64_image_name)
 {
-    uilib_select_file((char *)UI_MENU_CB_PARAM, _("IDE64 interface image"), UILIB_FILTER_ALL);
+    uilib_select_file((char *)UI_MENU_CB_PARAM, _("IDE64 interface image"), UILIB_FILTER_HD_IMAGE);
 }
 
 static UI_CALLBACK(set_cylinders)

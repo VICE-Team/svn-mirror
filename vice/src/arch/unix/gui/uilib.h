@@ -27,7 +27,7 @@
 #ifndef VICE_UILIB_H
 #define VICE_UILIB_H
 
-/* this must be in sync with uifileentry.c */
+/* this must be in sync with x11/gnome/uifileentry.c */
 typedef enum uilib_file_filter_enum_s {
     UILIB_FILTER_ALL,
     UILIB_FILTER_PALETTE,
@@ -52,7 +52,8 @@ typedef enum uilib_file_filter_enum_s {
     UILIB_FILTER_DTVROM,
     UILIB_FILTER_COMPRESSED,
     UILIB_FILTER_ETH,
-    UILIB_FILTER_MIDI
+    UILIB_FILTER_MIDI,
+    UILIB_FILTER_HD_IMAGE
 } uilib_file_filter_enum_t;
 
 #include "ui.h"

@@ -83,8 +83,15 @@ static uilib_file_filter_t compressed_filter[] = {
 };
 static uilib_file_filter_t eth_filter[] = { { "eth*", 1 }, { NULL } };
 static uilib_file_filter_t midi_filter[] = { { "mi*", 1 }, { NULL } }; /* FIXME */
+static uilib_file_filter_t hd_image_filter[] = {
+    { "*.bin", 0 },
+    { "*.iso", 0 },
+    { "*.fdd", 0 },
+    { "*.cfa", 0 },
+    { NULL }
+};
 
-/* this must be in sync with uilib_file_filter_enum_t */
+/* this must be in sync with uilib_file_filter_enum_t (gui/uilib.h)*/
 struct {
     const char* filter_name;
     uilib_file_filter_t *filters;
@@ -113,6 +120,7 @@ struct {
     { "Compressed files", compressed_filter },
     { "Network ports", eth_filter },
     { "Midi ports", midi_filter },
+    { "HD image files", hd_image_filter },
 };
 
 GtkWidget *vice_file_entry(const char *title, GtkWidget* parent_window, const char *default_dir, uilib_file_filter_enum_t* patterns, int num_patterns, ui_filechooser_t action)
