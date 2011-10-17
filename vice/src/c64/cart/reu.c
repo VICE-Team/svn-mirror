@@ -267,7 +267,7 @@ static io_source_t reu_io2_device = {
     reu_io2_peek,
     NULL, /* TODO: dump */
     CARTRIDGE_REU,
-    0,
+    IO_PRIO_HIGH, /* high priority so it will work together with cartridges like RR and SSV5 */
     0
 };
 
