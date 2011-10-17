@@ -228,6 +228,7 @@ static ui_menu_entry_t set_sid_triple_address_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
+    { N_("SID Model"), UI_MENU_TYPE_NORMAL, NULL, NULL, sid_model_submenu },
     { N_("Extra SIDs"), UI_MENU_TYPE_NORMAL, NULL, NULL, sid_extra_sids_submenu },
     { N_("Second SID base address"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_stereo_address_submenu },
     { N_("Third SID base address"), UI_MENU_TYPE_NORMAL, NULL, NULL, set_sid_triple_address_submenu },
@@ -315,6 +316,8 @@ static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
       (ui_callback_data_t)MACHINE_SYNC_NTSC, NULL },
     { N_("Old NTSC-M"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_NTSCOLD, NULL },
+    { "PAL-N", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineVideoStandard,
+      (ui_callback_data_t)MACHINE_SYNC_PALN, NULL },
     { NULL }
 };
 
