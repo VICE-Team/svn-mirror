@@ -24,6 +24,13 @@
  *
  */
 
+/* #define DEBUG_KCS */
+#ifdef DEBUG_KCS
+#define DBG(_x_)        log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -37,6 +44,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "kcs.h"
+#include "log.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -56,17 +64,21 @@
     io2:
     - cartridge RAM (128 bytes)
     - when reading, if bit 7 of the address is set, freeze mode (nmi)
-      is released and ultimax mapping selected.
+      is released.
     - when writing, and ultimax (freeze) mode is NOT active, then
       16k game mode is selected.
-    - writes go to cartridge RAM 
+    - writes go to cartridge RAM
+
+    FIXME: the above is still not 100% correct
+     - BLOADing a frozen program does not work
 */
 
 static int freeze_flag = 0;
+static int config;
 
 static BYTE kcs_io1_read(WORD addr)
 {
-    BYTE config;
+    DBG(("io1 r %04x (%s)", addr, (addr & 2) ? "cart off" : "to 8k"));
 
     /* A1 switches off roml/romh banks */
     config = (addr & 2) ? CMODE_RAM : CMODE_8KGAME;
@@ -83,14 +95,17 @@ static BYTE kcs_io1_peek(WORD addr)
 
 static void kcs_io1_store(WORD addr, BYTE value)
 {
-    cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_WRITE);
+    DBG(("io1 w %04x %02x (to 16k)", addr, value));
+    config = CMODE_16KGAME;
+    cart_config_changed_slotmain(config, config, CMODE_WRITE);
     freeze_flag = 0;
 }
 
 static BYTE kcs_io2_read(WORD addr)
 {
+    DBG(("io2 r %04x (%s)", addr, (addr & 0x80) ? "release NMI":"-"));
     if (addr & 0x80) {
-        cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ | CMODE_RELEASE_FREEZE);
+        cart_config_changed_slotmain(config, config, CMODE_READ | CMODE_RELEASE_FREEZE);
         freeze_flag = 1;
     }
     return export_ram0[0x1f00 + (addr & 0x7f)];
@@ -103,8 +118,10 @@ static BYTE kcs_io2_peek(WORD addr)
 
 static void kcs_io2_store(WORD addr, BYTE value)
 {
+    DBG(("io2 w %04x %02x (%s)", addr, value, (freeze_flag == 0)?"to 16k":"-"));
     if (freeze_flag == 0) {
-        cart_config_changed_slotmain(CMODE_16KGAME, CMODE_16KGAME, CMODE_WRITE);
+        config = CMODE_16KGAME;
+        cart_config_changed_slotmain(config, config, CMODE_WRITE);
     }
     export_ram0[0x1f00 + (addr & 0x7f)] = value;
 }
@@ -152,12 +169,14 @@ static const c64export_resource_t export_res_kcs = {
 
 void kcs_freeze(void)
 {
+    config = CMODE_ULTIMAX;
     cart_config_changed_slotmain(CMODE_ULTIMAX, CMODE_ULTIMAX, CMODE_READ);
     freeze_flag = 1;
 }
 
 void kcs_config_init(void)
 {
+    config = CMODE_8KGAME;
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     freeze_flag = 0;
 }
@@ -166,6 +185,7 @@ void kcs_config_setup(BYTE *rawcart)
 {
     memcpy(roml_banks, rawcart, 0x2000);
     memcpy(romh_banks, &rawcart[0x2000], 0x2000);
+    config = CMODE_8KGAME;
     cart_config_changed_slotmain(CMODE_8KGAME, CMODE_8KGAME, CMODE_READ);
     freeze_flag = 0;
 }
@@ -225,7 +245,7 @@ void kcs_detach(void)
 /* ---------------------------------------------------------------------*/
 
 #define CART_DUMP_VER_MAJOR   0
-#define CART_DUMP_VER_MINOR   1
+#define CART_DUMP_VER_MINOR   2
 #define SNAP_MODULE_NAME  "CARTKCS"
 
 int kcs_snapshot_write_module(snapshot_t *s)
@@ -240,6 +260,7 @@ int kcs_snapshot_write_module(snapshot_t *s)
 
     if (0
         || (SMW_B(m, (BYTE)freeze_flag) < 0)
+        || (SMW_B(m, (BYTE)config) < 0)
         || (SMW_BA(m, roml_banks, 0x2000) < 0)
         || (SMW_BA(m, romh_banks, 0x2000) < 0)
         || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
@@ -268,6 +289,7 @@ int kcs_snapshot_read_module(snapshot_t *s)
 
     if (0
         || (SMR_B_INT(m, &freeze_flag) < 0)
+        || (SMR_B_INT(m, &config) < 0)
         || (SMR_BA(m, roml_banks, 0x2000) < 0)
         || (SMR_BA(m, romh_banks, 0x2000) < 0)
         || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
