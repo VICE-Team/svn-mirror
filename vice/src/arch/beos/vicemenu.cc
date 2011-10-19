@@ -254,6 +254,9 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("DirectWindow", new BMessage(MENU_TOGGLE_DIRECTWINDOW)));
         uppermenu->AddItem(new BMenuItem("Video Cache", new BMessage(MENU_TOGGLE_VIDEOCACHE)));
         uppermenu->AddItem(new BMenuItem("Double Size", new BMessage(MENU_TOGGLE_DOUBLESIZE),'D'));
+        if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_CBM6x0) {
+            uppermenu->AddItem(new BMenuItem("Stretch Vertically", new BMessage(MENU_TOGGLE_STRETCHVERTICAL)));
+        }
         uppermenu->AddItem(new BMenuItem("Double Scan", new BMessage(MENU_TOGGLE_DOUBLESCAN)));
 
         uppermenu->AddItem(menu = new BMenu("Render filter"));
@@ -261,14 +264,16 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("None", new BMessage(MENU_RENDER_FILTER_NONE)));
             menu->AddItem(new BMenuItem("CRT emulation", new BMessage(MENU_RENDER_FILTER_CRT_EMULATION)));
             if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {
-                    menu->AddItem(new BMenuItem("Scale2x", new BMessage(MENU_RENDER_FILTER_SCALE2X)));
+                menu->AddItem(new BMenuItem("Scale2x", new BMessage(MENU_RENDER_FILTER_SCALE2X)));
             }
     }
 
     if (machine_class == VICE_MACHINE_C128) {
         /* VDC options */
         uppermenu->AddItem(menu = new BMenu("VDC"));
+            menu->AddItem(new BMenuItem("Video Cache", new BMessage(MENU_TOGGLE_VDC_VIDEOCACHE)));
             menu->AddItem(new BMenuItem("Double Size", new BMessage(MENU_TOGGLE_VDC_DOUBLESIZE)));
+            menu->AddItem(new BMenuItem("Stretch Vertically", new BMessage(MENU_TOGGLE_STRETCHVERTICAL)));
             menu->AddItem(new BMenuItem("Double Scan", new BMessage(MENU_TOGGLE_VDC_DOUBLESCAN)));
             menu->AddSeparatorItem();
             menu->AddItem(new BMenuItem("64KB video memory", new BMessage(MENU_TOGGLE_VDC64KB)));
@@ -302,6 +307,10 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("Handle TDE for autostart", new BMessage(MENU_TOGGLE_HANDLE_TDE_AUTOSTART)));
         uppermenu->AddItem(new BMenuItem("Virtual Devices", new BMessage(MENU_TOGGLE_VIRTUAL_DEVICES)));
         uppermenu->AddSeparatorItem();
+    }
+
+    if (machine_class == VICE_MACHINE_VSID) {
+        uppermenu->AddItem(new BMenuItem("Override PSID settings", new BMessage(MENU_TOGGLE_KEEP_ENV)));
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64DTV ||
@@ -651,8 +660,16 @@ BMenuBar *menu_create(int machine_class)
         }
     }
 
-    if (machine_class != VICE_MACHINE_VSID) {
+    if (machine_class == VICE_MACHINE_C128) {
+        uppermenu->AddItem(new BMenuItem("Video (VIC-II) ...", new BMessage(MENU_VIDEO_SETTINGS)));
+        uppermenu->AddItem(new BMenuItem("Video (VDC) ...", new BMessage(MENU_VIDEO_VDC_SETTINGS)));
+    }
+
+    if (machine_class != VICE_MACHINE_C128 && machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("Video ...", new BMessage(MENU_VIDEO_SETTINGS)));
+    }
+
+    if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("Device ...", new BMessage(MENU_DEVICE_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Drive ...", new BMessage(MENU_DRIVE_SETTINGS)));
 

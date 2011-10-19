@@ -54,6 +54,11 @@ static BTextControl *tc_time;
 static BTextControl *tc_irqtype;
 static ViceWindow   *vsidwindow;
 
+ui_menu_toggle  vsid_ui_menu_toggles[] = {
+    { "PSIDKeepEnv", MENU_TOGGLE_KEEP_ENV },
+    { NULL, 0 }
+};
+
 static void vsid_play_vsid(const char *filename)
 {
     int tunes, default_tune, i;
@@ -175,6 +180,7 @@ int vsid_ui_init(void)
     window->AddChild(view);
 
     ui_register_machine_specific(vsid_ui_specific);
+    ui_register_menu_toggles(vsid_ui_menu_toggles);
     ui_update_menus();
 
     return 0;

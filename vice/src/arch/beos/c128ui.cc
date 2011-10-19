@@ -51,6 +51,7 @@ extern "C" {
 #include "ui_ide64.h"
 #include "ui_sid.h"
 #include "ui_vicii.h"
+#include "ui_video.h"
 #include "util.h"
 #include "video.h"
 }
@@ -69,7 +70,9 @@ ui_menu_toggle  c128_ui_menu_toggles[] = {
     { "IEEE488", MENU_TOGGLE_IEEE488 },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "VDCDoubleSize", MENU_TOGGLE_VDC_DOUBLESIZE },
+    { "VDCStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
     { "VDCDoubleScan", MENU_TOGGLE_VDC_DOUBLESCAN },
+    { "VDCVideoCache", MENU_TOGGLE_VDC_VIDEOCACHE },
     { "VDC64KB", MENU_TOGGLE_VDC64KB },
     { "C128FullBanks", MENU_TOGGLE_C128FULLBANKS },
     { "SFXSoundExpander", MENU_TOGGLE_SFX_SE },
@@ -197,6 +200,9 @@ static int c128sidaddressbase[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_VIDEO_VDC_SETTINGS:
+            ui_video(1);
+            break;
           case MENU_VICII_SETTINGS:
             ui_vicii();
             break;

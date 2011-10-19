@@ -40,6 +40,7 @@ extern "C" {
 
 ui_menu_toggle  cbm2_ui_menu_toggles[] = {
     { "CRTCDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "CRTCStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
     { "CRTCDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "CRTCVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { NULL, 0 }

@@ -178,17 +178,18 @@ const uint32 MENU_PASTE                           = 'M162';
 const uint32 MENU_TOGGLE_SOUND                    = 'M100';
 const uint32 MENU_TOGGLE_WARP_MODE                = 'M101';
 const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION     = 'M102';
-const uint32 MENU_TOGGLE_HANDLE_TDE_AUTOSTART     = 'M169';
-const uint32 MENU_TOGGLE_VIRTUAL_DEVICES          = 'M103';
-const uint32 MENU_TOGGLE_DOUBLESIZE               = 'M106';
+const uint32 MENU_TOGGLE_HANDLE_TDE_AUTOSTART     = 'M103';
+const uint32 MENU_TOGGLE_VIRTUAL_DEVICES          = 'M104';
+const uint32 MENU_TOGGLE_DOUBLESIZE               = 'M105';
+const uint32 MENU_TOGGLE_STRETCHVERTICAL          = 'M106';
 const uint32 MENU_TOGGLE_DOUBLESCAN               = 'M107';
 const uint32 MENU_TOGGLE_VIDEOCACHE               = 'M108';
 const uint32 MENU_TOGGLE_REU                      = 'M109';
-const uint32 MENU_TOGGLE_GEORAM                   = 'M213';
-const uint32 MENU_TOGGLE_RAMCART                  = 'M145';
-const uint32 MENU_TOGGLE_DQBB                     = 'M165';
+const uint32 MENU_TOGGLE_GEORAM                   = 'M096';
+const uint32 MENU_TOGGLE_RAMCART                  = 'M097';
+const uint32 MENU_TOGGLE_DQBB                     = 'M098';
 
-const uint32 MENU_TOGGLE_MAGICVOICE               = 'M104';
+const uint32 MENU_TOGGLE_MAGICVOICE               = 'M165';
 const uint32 MENU_TOGGLE_IDE64_V4                 = 'M262';
 const uint32 MENU_TOGGLE_IDE64_AUTODETECT         = 'M263';
 const uint32 MENU_TOGGLE_ISEPIC                   = 'M166';
@@ -196,12 +197,12 @@ const uint32 MENU_TOGGLE_ISEPIC_SWITCH            = 'M167';
 
 const uint32 MENU_TOGGLE_ISEPIC_SWC               = 'M316';
 
-const uint32 MENU_TOGGLE_PLUS60K                  = 'M146';
-const uint32 MENU_TOGGLE_PLUS256K                 = 'M148';
-const uint32 MENU_TOGGLE_C64_256K                 = 'M144';
+const uint32 MENU_TOGGLE_PLUS60K                  = 'M144';
+const uint32 MENU_TOGGLE_PLUS256K                 = 'M145';
+const uint32 MENU_TOGGLE_C64_256K                 = 'M146';
 const uint32 MENU_TOGGLE_PETREU                   = 'M147';
-const uint32 MENU_TOGGLE_PETDWW                   = 'M241';
-const uint32 MENU_TOGGLE_PET_USERPORT_DAC         = 'M212';
+const uint32 MENU_TOGGLE_PETDWW                   = 'M148';
+const uint32 MENU_TOGGLE_PET_USERPORT_DAC         = 'M241';
 const uint32 MENU_TOGGLE_V364SPEECH               = 'M258';
 const uint32 MENU_TOGGLE_DIGIMAX                  = 'M149';
 const uint32 MENU_TOGGLE_MMC64                    = 'M039';
@@ -223,6 +224,7 @@ const uint32 MENU_TOGGLE_IEEE488                  = 'M112';
 const uint32 MENU_TOGGLE_VDC64KB                  = 'M113';
 const uint32 MENU_TOGGLE_VDC_DOUBLESIZE           = 'M114';
 const uint32 MENU_TOGGLE_VDC_DOUBLESCAN           = 'M115';
+const uint32 MENU_TOGGLE_VDC_VIDEOCACHE           = 'M116';
 const uint32 MENU_TOGGLE_SFX_SE                   = 'M178';
 const uint32 MENU_TOGGLE_SFX_SS                   = 'M176';
 const uint32 MENU_TOGGLE_EASYFLASH_JUMPER         = 'M187';
@@ -238,10 +240,10 @@ const uint32 MENU_VDC_REV_2                       = 'M174';
 
 const uint32 MENU_TOGGLE_C128FULLBANKS            = 'M175';
 
-const uint32 MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT    = 'M116';
-const uint32 MENU_TOGGLE_CONFIRM_ON_EXIT          = 'M117';
+const uint32 MENU_TOGGLE_SAVE_SETTINGS_ON_EXIT    = 'M890';
+const uint32 MENU_TOGGLE_CONFIRM_ON_EXIT          = 'M891';
 
-const uint32 MENU_RENDER_FILTER_NONE              = 'M312';
+const uint32 MENU_RENDER_FILTER_NONE              = 'M117';
 const uint32 MENU_RENDER_FILTER_CRT_EMULATION     = 'M118';
 const uint32 MENU_RENDER_FILTER_SCALE2X           = 'M119';
 
@@ -297,8 +299,9 @@ const uint32 MENU_PET_SETTINGS                    = 'M206';
 const uint32 MENU_VICII_SETTINGS                  = 'M207';
 const uint32 MENU_VIC20_SETTINGS                  = 'M208';
 const uint32 MENU_VIDEO_SETTINGS                  = 'M209';
-const uint32 MENU_SID_SETTINGS                    = 'M210';
-const uint32 MENU_RAM_SETTINGS                    = 'M211';
+const uint32 MENU_VIDEO_VDC_SETTINGS              = 'M210';
+const uint32 MENU_SID_SETTINGS                    = 'M211';
+const uint32 MENU_RAM_SETTINGS                    = 'M212';
 
 const uint32 MENU_C64_MODEL_C64_PAL               = 'M216';
 const uint32 MENU_C64_MODEL_C64C_PAL              = 'M217';
@@ -334,6 +337,7 @@ const uint32 MENU_SETTINGS_DEFAULT                = 'M222';
 const uint32 MENU_VSID_LOAD                       = 'M300';
 const uint32 PLAY_VSID                            = 'M301';
 const uint32 MENU_VSID_TUNE                       = 'M302';
+const uint32 MENU_TOGGLE_KEEP_ENV                 = 'M323';
 
 const uint32 MENU_REU_SIZE_128                    = 'M400';
 const uint32 MENU_REU_SIZE_256                    = 'M401';
@@ -450,7 +454,7 @@ const uint32 MENU_C64DTV_REVISION_3               = 'M138';
 
 const uint32 MENU_C64DTV_ROM_FILE                 = 'M151';
 
-const uint32 MENU_HUMMER_USERPORT_ADC             = 'M105';
+const uint32 MENU_HUMMER_USERPORT_ADC             = 'M169';
 
 const uint32 MENU_SOUND_RECORD_AIFF               = 'M069';
 const uint32 MENU_SOUND_RECORD_IFF                = 'M080';

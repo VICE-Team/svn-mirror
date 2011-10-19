@@ -165,6 +165,15 @@ VideoWindow::VideoWindow(int chipno)
     chip_no = chipno;
     chip_name = chip_name_table[chip[chipno]];
 
+    if (machine_class == VICE_MACHINE_C128) {
+        if (chipno == 0) {
+            SetTitle("Video settings (VIC-II)");
+        } else {
+            SetTitle("Video settings (VDC)");
+        }
+    }
+
+
     r = Bounds();
     background = new BView(r, NULL,  B_FOLLOW_NONE, B_WILL_DRAW);
     background->SetViewColor(220, 220, 220, 0);

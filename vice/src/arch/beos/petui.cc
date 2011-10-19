@@ -52,9 +52,10 @@ extern "C" {
 }
 
 ui_menu_toggle  pet_ui_menu_toggles[] = {
-    { "CrtcDoubleSize", MENU_TOGGLE_DOUBLESIZE },
-    { "CrtcDoubleScan", MENU_TOGGLE_DOUBLESCAN },
-    { "CrtcVideoCache", MENU_TOGGLE_VIDEOCACHE },
+    { "CRTCDoubleSize", MENU_TOGGLE_DOUBLESIZE },
+    { "CRTCStretchVertical", MENU_TOGGLE_STRETCHVERTICAL },
+    { "CRTCDoubleScan", MENU_TOGGLE_DOUBLESCAN },
+    { "CRTCVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "PETREU", MENU_TOGGLE_PETREU },
     { "PETDWW", MENU_TOGGLE_PETDWW },
     { "SidCart", MENU_TOGGLE_SIDCART },
