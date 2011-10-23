@@ -62,9 +62,9 @@
 #include "monitor.h"
 
 #ifdef IDE64_DEBUG
-#define debug(...) log_debug(__VA_ARGS__)
+#define debug1(x) log_debug(x)
 #else
-#define debug(...) {}
+#define debug1(x)
 #endif
 
 /* Current IDE64 bank */
@@ -295,7 +295,7 @@ static void detect_ide64_image(struct drive_s *drive)
         drive->type = ATA_DRIVE_NONE;
         return;
     }
-    debug("IDE64 detect");
+    debug1("IDE64 detect");
     geometry->cylinders = drive->settings.cylinders;
     geometry->heads = drive->settings.heads;
     geometry->sectors = drive->settings.sectors;
@@ -537,7 +537,7 @@ int ide64_resources_init(void)
 {
     int i;
 
-    debug("IDE64 resource init");
+    debug1("IDE64 resource init");
     for (i = 0; i < 4; i++) {
         drives[i].drv = NULL;
         drives[i].filename = NULL;
@@ -556,7 +556,7 @@ int ide64_resources_shutdown(void)
 {
     int i;
 
-    debug("IDE64 resource shutdown");
+    debug1("IDE64 resource shutdown");
 
     for (i = 0; i < 4; i++) {
         if (drives[i].filename) {
@@ -976,7 +976,7 @@ void ide64_config_init(void)
     int i;
     struct drive_s *drive;
 
-    debug("IDE64 init");
+    debug1("IDE64 init");
     cart_config_changed_slotmain(0, 0, CMODE_READ | CMODE_PHI2_RAM);
     current_bank = 0;
     current_cfg = 0;
@@ -997,7 +997,7 @@ void ide64_config_init(void)
 
 void ide64_config_setup(BYTE *rawcart)
 {
-    debug("IDE64 setup");
+    debug1("IDE64 setup");
     memcpy(roml_banks, rawcart, 0x20000);
     memcpy(romh_banks, rawcart, 0x20000);
     memset(export_ram0, 0, 0x8000);
@@ -1018,7 +1018,7 @@ void ide64_detach(void)
     }
 
     ide64_unregister();
-    debug("IDE64 detached");
+    debug1("IDE64 detached");
 }
 
 static int ide64_common_attach(BYTE *rawcart, int detect)
@@ -1047,7 +1047,7 @@ static int ide64_common_attach(BYTE *rawcart, int detect)
         drives[i].update_needed = 1;
     }
 
-    debug("IDE64 attached");
+    debug1("IDE64 attached");
     return ide64_register();
 }
 
