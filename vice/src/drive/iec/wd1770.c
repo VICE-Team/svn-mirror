@@ -40,10 +40,15 @@
 #include "fdd.h"
 #include "lib.h"
 
+/* FIXME: msvc sux at var arg defines */
 #ifdef WD1770_DEBUG
-#define debug(...) log_message(wd1770_log, __VA_ARGS__)
+#define debug1(x) log_message(wd1770_log, x)
+#define debug2(x, y) log_message(wd1770_log, x, y)
+#degine debug3(x, y, z) log_message(wd1770_log, x, y, z)
 #else
-#define debug(...) {}
+#define debug1(x)
+#define debug2(x, y)
+#define debug3(x, y, z)
 #endif
 
 const static int wd1770_step_rate[2][4] = {
@@ -796,37 +801,37 @@ static void wd1770_store(wd1770_t *drv, WORD addr, BYTE byte)
         drv->step = 0;
         switch (drv->command) {
         case WD_RESTORE:
-            debug("RESTORE");
+            debug1("RESTORE");
             break;
         case WD_SEEK:
-            debug("SEEK %d", drv->data);
+            debug2("SEEK %d", drv->data);
             break;
         case WD_STEP:
-            debug("STEP %d", drv->direction ? 1 : -1);
+            debug2("STEP %d", drv->direction ? 1 : -1);
             break;
         case WD_STEP_IN:
-            debug("STEP IN");
+            debug1("STEP IN");
             break;
         case WD_STEP_OUT:
-            debug("STEP OUT");
+            debug1("STEP OUT");
             break;
         case WD_READ_SECTOR:
-            debug("READ SECTOR %d/%d", drv->track, drv->sector);
+            debug3("READ SECTOR %d/%d", drv->track, drv->sector);
             break;
         case WD_WRITE_SECTOR:
-            debug("WRITE SECTOR %d/%d", drv->track, drv->sector);
+            debug3("WRITE SECTOR %d/%d", drv->track, drv->sector);
             break;
         case WD_READ_ADDRESS:
-            debug("READ ADDRESS");
+            debug1("READ ADDRESS");
             break;
         case WD_READ_TRACK:
-            debug("READ TRACK");
+            debug1("READ TRACK");
             break;
         case WD_FORCE_INTERRUPT:
-            debug("FORCE INTERRUPT");
+            debug1("FORCE INTERRUPT");
             break;
         case WD_WRITE_TRACK:
-            debug("WRITE TRACK");
+            debug1("WRITE TRACK");
             break;
         }
         wd1770_execute(drv);
