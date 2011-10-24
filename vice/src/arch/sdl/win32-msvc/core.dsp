@@ -82,6 +82,10 @@ LIB32=link.exe -lib
 # Name "core - Win32 Debug"
 # Begin Source File
 
+SOURCE="..\..\..\core\ata.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\core\ciacore.c"
 # End Source File
 # Begin Source File

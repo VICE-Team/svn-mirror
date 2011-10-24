@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="c64sc" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="vsidlib" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=c64sc - Win32 Debug
+CFG=vsidlib - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "c64sc.mak".
+!MESSAGE NMAKE /f "vsidlib.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "c64sc.mak" CFG="c64sc - Win32 Debug"
+!MESSAGE NMAKE /f "vsidlib.mak" CFG="vsidlib - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "c64sc - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "c64sc - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "vsidlib - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "vsidlib - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=c64sc - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "c64sc - Win32 Release"
+!IF  "$(CFG)" == "vsidlib - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -37,11 +37,11 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "libs\c64sc\Release"
-# PROP Intermediate_Dir "libs\c64sc\Release"
+# PROP Output_Dir "libs\vsidlib\Release"
+# PROP Intermediate_Dir "libs\vsidlib\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\viciisc" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\rs232drv" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\rs232drv" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -51,7 +51,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "c64sc - Win32 Debug"
+!ELSEIF  "$(CFG)" == "vsidlib - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -60,11 +60,11 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "libs\c64sc\Debug"
-# PROP Intermediate_Dir "libs\c64sc\Debug"
+# PROP Output_Dir "libs\vsidlib\Debug"
+# PROP Intermediate_Dir "libs\vsidlib\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\viciisc" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\rs232drv" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\rs232drv" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -78,8 +78,8 @@ LIB32=link.exe -lib
 
 # Begin Target
 
-# Name "c64sc - Win32 Release"
-# Name "c64sc - Win32 Debug"
+# Name "vsidlib - Win32 Release"
+# Name "vsidlib - Win32 Debug"
 # Begin Source File
 
 SOURCE="..\..\..\c64\c64-cmdline-options.c"
@@ -91,14 +91,6 @@ SOURCE="..\..\..\c64\c64-resources.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\c64-snapshot.c"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64_256k.c
 # End Source File
 # Begin Source File
 
@@ -114,25 +106,7 @@ SOURCE=..\..\..\c64\c64cia2.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\c64cpu.c
-
-!IF  "$(CFG)" == "c64sc - Win32 Release"
-
-# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy
-# SUBTRACT CPP /Os
-
-!ELSEIF  "$(CFG)" == "c64sc - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\c64datasette.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64drive.c
 # End Source File
 # Begin Source File
 
@@ -160,10 +134,6 @@ SOURCE=..\..\..\c64\c64keyboard.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\c64memsc.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\c64meminit.c
 # End Source File
 # Begin Source File
@@ -181,10 +151,6 @@ SOURCE=..\..\..\c64\c64memsnapshot.c
 # Begin Source File
 
 SOURCE=..\..\..\c64\c64model.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64parallel.c
 # End Source File
 # Begin Source File
 
@@ -220,19 +186,23 @@ SOURCE=..\..\..\c64\patchrom.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\plus256k.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\plus60k.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\psid.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\..\c64\reloc65.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\vsid.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\vsidmem.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\vsidstubs.c
 # End Source File
 # End Target
 # End Project

@@ -206,6 +206,10 @@ SOURCE="..\..\..\c64\cart\kcs.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\kingsoft.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\mach5.c"
 # End Source File
 # Begin Source File
@@ -267,6 +271,10 @@ SOURCE="..\..\..\c64\cart\rexutility.c"
 # Begin Source File
 
 SOURCE="..\..\..\c64\cart\ross.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\cart\silverrock128.c"
 # End Source File
 # Begin Source File
 

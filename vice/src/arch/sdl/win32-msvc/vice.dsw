@@ -12,6 +12,9 @@ Package=<5>
 Package=<4>
 {{{
     Begin Project Dependency
+    Project_Dep_Name vsid
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name x64
     End Project Dependency
     Begin Project Dependency
@@ -25,6 +28,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name xcbm2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name xcbm5x0
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name xpet
@@ -139,6 +145,21 @@ Package=<4>
 ###############################################################################
 
 Project: "c64"=".\c64.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "vsidlib"=".\vsidlib.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -301,6 +322,36 @@ Package=<4>
 ###############################################################################
 
 Project: "cbm2"=".\cbm2.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "cbm2common"=".\cbm2common.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "cbm5x0"=".\cbm5x0.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
@@ -777,6 +828,21 @@ Package=<4>
 
 ###############################################################################
 
+Project: "userport"=".\userport.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "vdc"=".\vdc.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -921,6 +987,9 @@ Package=<4>
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
@@ -1014,6 +1083,120 @@ Package=<4>
 
 ###############################################################################
 
+Project: "vsid"=".\vsid.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vsidlib
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iec
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64exp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name parallel
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name printerdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name resid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name residfp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rs232drv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vicii
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name video
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64cart
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64commoncart
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name c64cartsystem
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name core
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iecbus
+    End Project Dependency
+}}}
+
+###############################################################################
+
 Project: "x64"=".\x64.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -1042,6 +1225,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name userport
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
@@ -1153,6 +1339,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name userport
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
@@ -1272,6 +1461,12 @@ Package=<4>
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
@@ -1359,6 +1554,9 @@ Package=<4>
     Project_Dep_Name cbm2
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name cbm2common
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name drive
     End Project Dependency
     Begin Project Dependency
@@ -1369,6 +1567,114 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name iecieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name ieee
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name parallel
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name printerdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name resid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name residfp
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rs232drv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name serial
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sid
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name sounddrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vicii
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name raster
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name crtc
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name vdrive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name video
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name monitor
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name diskimage
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name tape
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name imagecontents
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name core
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "xcbm5x0"=".\xcbm5x0.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name arch
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cbm5x0
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name cbm2common
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name drive
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fileio
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name fsdevice
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iecieee
@@ -1461,6 +1767,12 @@ Package=<4>
     Project_Dep_Name gfxoutputdrv
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name iecieee
     End Project Dependency
     Begin Project Dependency
@@ -1549,6 +1861,12 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
@@ -1642,6 +1960,12 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name gfxoutputdrv
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name rtc
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec

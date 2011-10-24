@@ -23,6 +23,8 @@ EXTRA_DIST = \
 	c64sc.dsp \
 	cartconv.dsp \
 	cbm2.dsp \
+	cbm2common.dsp \
+	cbm5x0.dsp \
 	core.dsp \
 	crtc.dsp \
 	diskimage.dsp \
@@ -56,6 +58,7 @@ EXTRA_DIST = \
 	sounddrv.dsp \
 	tape.dsp \
 	tcbm.dsp \
+	userport.dsp \
 	vdc.dsp \
 	vdrive.dsp \
 	vic20.dsp \
@@ -66,11 +69,14 @@ EXTRA_DIST = \
 	viciidtv.dsp \
 	viciisc.dsp \
 	video.dsp \
+	vsid.dsp \
+	vsidlib.dsp \
 	x128.dsp \
 	x64.dsp \
 	x64dtv.dsp \
 	x64sc.dsp \
 	xcbm2.dsp \
+	xcbm5x0.dsp \
 	xpet.dsp \
 	xplus4.dsp \
 	xvic.dsp

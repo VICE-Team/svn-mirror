@@ -39,6 +39,7 @@
 #include "system.h"
 #include "translate.h"
 #include "types.h"
+#include "ui.h"
 #include "uiide64.h"
 #include "uilib.h"
 #include "winmain.h"

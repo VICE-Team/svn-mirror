@@ -106,11 +106,23 @@ SOURCE="..\..\..\video\render2x2.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\video\render2x2crt.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\video\render2x2ntsc.c"
 # End Source File
 # Begin Source File
 
 SOURCE="..\..\..\video\render2x2pal.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\video\render2x4.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\video\render2x4crt.c"
 # End Source File
 # Begin Source File
 
@@ -151,10 +163,6 @@ SOURCE="..\..\..\video\video-render.c"
 # Begin Source File
 
 SOURCE="..\..\..\video\video-render-crt.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\..\video\video-resources-pal.c"
 # End Source File
 # Begin Source File
 
