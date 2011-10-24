@@ -26,7 +26,9 @@
 
 #include "vice.h"
 
+#ifdef HAVE_STRINGS_H
 #include <strings.h>
+#endif
 
 #include "plus4-resources.h"
 #include "plus4cart.h"

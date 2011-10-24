@@ -48,6 +48,7 @@
 #define HAVE_SYS_STAT_H         1
 #define HAVE_SIGNAL_H           1
 #define HAVE_WINIOCTL_H         1
+#define HAVE_DSOUND_LIB         1
 
 #ifndef WINIA64
 #define HAVE_GUIDLIB            1

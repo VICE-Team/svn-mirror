@@ -27,7 +27,10 @@
 #include "vice.h"
 
 #include <time.h>
+
+#ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
+#endif
 
 #include "rtc.h"
 
@@ -53,7 +56,7 @@ BYTE rtc_get_centisecond(int bcd)
     return (BYTE)((bcd) ? int_to_bcd(t.tv_usec / 10000) : t.tv_usec / 10000);
 #else
     /* FIXME: arch-dependent implementation will need to be made */
-    #error not implemented
+    return 0;
 #endif
 }
 

@@ -26,7 +26,9 @@
 
 #include "vice.h"
 
+#ifdef HAVE_STRINGS_H
 #include <strings.h>
+#endif
 
 #include "c64dtv-resources.h"
 #include "c64dtvmem.h"

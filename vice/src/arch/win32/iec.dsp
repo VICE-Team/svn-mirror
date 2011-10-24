@@ -90,6 +90,10 @@ SOURCE=..\..\drive\iec\cia1581d.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\iec\fdd.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iec\glue1571.c
 # End Source File
 # Begin Source File
@@ -114,7 +118,15 @@ SOURCE=..\..\drive\iec\memiec.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\iec\pc8477.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\iec\via1d1541.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\iec\via4000.c
 # End Source File
 # Begin Source File
 

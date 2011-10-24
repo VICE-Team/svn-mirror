@@ -42,9 +42,9 @@
 #include "fdd.h"
 
 #ifdef PC8477_DEBUG
-#define debug(...) log_message(pc8477_log, __VA_ARGS__)
+#define debug(_x_) log_message _x_
 #else
-#define debug(...) {}
+#define debug(_x_)
 #endif
 
 #define STEP_RATE ((16 - drv->step_rate) * drv->mycontext->drive->clock_frequency * 500000 / drv->rate)
@@ -420,7 +420,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
 
     switch (drv->command) {
     case PC8477_CMD_SPECIFY:
-        debug("SPECIFY %d, %d, %d, %d", drv->cmd[1] >> 4, drv->cmd[1] & 0xf, drv->cmd[2] >> 1, drv->cmd[2] & 1);
+        debug((pc8477_log, "SPECIFY %d, %d, %d, %d", drv->cmd[1] >> 4, drv->cmd[1] & 0xf, drv->cmd[2] >> 1, drv->cmd[2] & 1));
         drv->step_rate = drv->cmd[1] >> 4;
         drv->motor_off_time = drv->cmd[1] & 0xf;
         drv->motor_on_time = drv->cmd[2] >> 1;
@@ -430,25 +430,25 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         if (!drv->irq) {
             break;
         }
-        debug("SENSE INTERRUPT");
+        debug((pc8477_log, "SENSE INTERRUPT"));
         drv->irq = 0;
         drv->current->seeking = 0; /* TODO: Too early */
         return PC8477_RESULT;
     case PC8477_CMD_VERSION:
         if (!drv->is8477) break;
-        debug("VERSION");
+        debug((pc8477_log, "VERSION"));
         return PC8477_RESULT;
     case PC8477_CMD_NSC:
         if (!drv->is8477) break;
-        debug("NSC");
+        debug((pc8477_log, "NSC"));
         return PC8477_RESULT;
     case PC8477_CMD_SENSE_DRIVE_STATUS:
-        debug("SENSE DRIVE STATUS #%d", drv->current->num);
+        debug((pc8477_log, "SENSE DRIVE STATUS #%d", drv->current->num));
         return PC8477_RESULT;
     case PC8477_CMD_READ_ID:
         switch (drv->int_step) {
         case 0:
-            debug("READ ID #%d", drv->current->num);
+            debug((pc8477_log, "READ ID #%d", drv->current->num));
             drv->st[1] |= PC8477_ST1_MA;
             drv->sub_step = 0;
             drv->int_step++;
@@ -480,7 +480,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         }
         return PC8477_EXEC;
     case PC8477_CMD_RECALIBRATE:
-        debug("RECALIBRATE #%d", drv->current->num);
+        debug((pc8477_log, "RECALIBRATE #%d", drv->current->num));
         drv->current->seek_pulses = drv->is8477 ? -77 : -85;
         drv->current->track = 0;
         drv->current->recalibrating = 1;
@@ -490,7 +490,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         }
         return PC8477_WAIT;
     case PC8477_CMD_SEEK:
-        debug("SEEK #%d %d", drv->current->num, drv->cmd[2]);
+        debug((pc8477_log, "SEEK #%d %d", drv->current->num, drv->cmd[2]));
         drv->current->seek_pulses = drv->cmd[2] - drv->current->track;
         drv->current->track = drv->cmd[2];
         drv->current->recalibrating = 0;
@@ -501,11 +501,11 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         return PC8477_WAIT;
     case PC8477_CMD_DUMPREG:
         if (!drv->is8477) break;
-        debug("DUMPREG");
+        debug((pc8477_log, "DUMPREG"));
         return PC8477_RESULT;
     case PC8477_CMD_PERPENDICULAR_MODE:
         if (!drv->is8477) break;
-        debug("PERPENDICULAR MODE %02x", drv->cmd[1]);
+        debug((pc8477_log, "PERPENDICULAR MODE %02x", drv->cmd[1]));
         if (drv->cmd[1] & 0x80) {
             for (res = 0; res < 4; res++) {
                 drv->fdds[res].perpendicular = (drv->cmd[1] >> (2 + res)) & 1;
@@ -514,7 +514,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         return PC8477_WAIT;
     case PC8477_CMD_SET_TRACK:
         if ((drv->cmd[1] & 0xf8) != 0x30) break;
-        debug("SET TRACK #%d %d", drv->current->num, drv->cmd[2]);
+        debug((pc8477_log, "SET TRACK #%d %d", drv->current->num, drv->cmd[2]));
         if (drv->cmd[0] & 0x40) {
             if (drv->cmd[1] & 4) {
                 drv->current->track = (drv->current->track & 0xff) | (drv->cmd[2] << 8);
@@ -527,7 +527,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         while (*drv->mycontext->clk_ptr >= drv->clk + BYTE_RATE) {
             switch (drv->int_step) {
             case 0:
-                debug("READ DATA #%d (%d/%d/%d)-%d %d", drv->current->num, drv->cmd[2], drv->cmd[3], drv->cmd[4], drv->cmd[6], 128 << drv->cmd[5]);
+                debug((pc8477_log, "READ DATA #%d (%d/%d/%d)-%d %d", drv->current->num, drv->cmd[2], drv->cmd[3], drv->cmd[4], drv->cmd[6], 128 << drv->cmd[5]));
                 drv->sector = drv->cmd[4];
                 drv->st[1] |= PC8477_ST1_MA;
                 drv->sub_step = 0;
@@ -603,7 +603,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                     drv->fifop2 = 0;
                 }
                 if (drv->fifo_fill >= drv->fifo_size) {
-                    debug("Overrun");
+                    debug((pc8477_log, "Overrun"));
                     drv->st[1] |= PC8477_ST1_OR;
                     drv->st[0] |= 0x40;
                     return PC8477_RESULT;
@@ -637,7 +637,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         while (*drv->mycontext->clk_ptr >= drv->clk + BYTE_RATE) {
             switch (drv->int_step) {
             case 0:
-                debug("WRITE DATA #%d (%d/%d/%d)-%d %d", drv->current->num, drv->cmd[2], drv->cmd[3], drv->cmd[4], drv->cmd[6], 128 << drv->cmd[5]);
+                debug((pc8477_log, "WRITE DATA #%d (%d/%d/%d)-%d %d", drv->current->num, drv->cmd[2], drv->cmd[3], drv->cmd[4], drv->cmd[6], 128 << drv->cmd[5]));
                 drv->st[1] |= PC8477_ST1_MA;
                 drv->sector = drv->cmd[4];
                 drv->sub_step = 0;
@@ -707,7 +707,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                 break;
             case 4:
                 if (drv->fifo_fill == 0) {
-                    debug("Underrun");
+                    debug((pc8477_log, "Underrun"));
                     drv->st[1] |= PC8477_ST1_OR;
                     drv->st[0] |= 0x40;
                     return PC8477_RESULT;
@@ -742,7 +742,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
         while (*drv->mycontext->clk_ptr >= drv->clk + BYTE_RATE) {
             switch (drv->int_step) {
             case 0:
-                debug("FORMAT TRACK #%d %d %d*%d %d %02x", drv->current->num, (drv->cmd[1] >> 2) & 1, 128 << drv->cmd[2], drv->cmd[3], drv->cmd[4], drv->cmd[5]);
+                debug((pc8477_log, "FORMAT TRACK #%d %d %d*%d %d %02x", drv->current->num, (drv->cmd[1] >> 2) & 1, 128 << drv->cmd[2], drv->cmd[3], drv->cmd[4], drv->cmd[5]));
                 drv->sector = 0;
                 drv->sub_step = 0;
                 drv->int_step++;
@@ -832,7 +832,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                 break;
             case 10:
                 if (drv->fifo_fill == 0) {
-                    debug("Underrun");
+                    debug((pc8477_log, "Underrun"));
                     drv->st[1] |= PC8477_ST1_OR;
                     drv->st[0] |= 0x40;
                     return PC8477_RESULT;
@@ -937,7 +937,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
     default:
         break;
     }
-    debug("invalid command %02x", drv->cmd[0]);
+    debug((pc8477_log, "invalid command %02x", drv->cmd[0]));
     drv->command = PC8477_CMD_INVALID;
     drv->st[0] = drv->st[3] | 0x80; /* invalid command */
     drv->res_size = 1;
@@ -956,7 +956,7 @@ static void pc8477_store(pc8477_t *drv, WORD addr, BYTE byte)
     case 2: /* DCR */
         if (byte & 0x04) {
             if (!(drv->dor & 0x04)) {
-                debug("RESET");
+                debug((pc8477_log, "RESET"));
             }
             pc8477_software_reset(drv);
         }

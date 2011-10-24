@@ -57,9 +57,9 @@
 #define ATA_REVISION &"$Revision::          $"[12]
 
 #ifdef ATA_DEBUG
-#define debug(...) log_message(drv->log, __VA_ARGS__)
+#define debug(_x_) log_message _x_
 #else
-#define debug(...) {}
+#define debug(_x_)
 #endif
 #define putw(a,b) {result[(a) * 2] = (b) & 0xff;result[(a) * 2 + 1] = (b) >> 8;}
 #define setb(a,b,c) {result[(a) * 2 + (b) / 8] |= (c) ? (1 << ((b) & 7)) : 0;}
@@ -252,9 +252,9 @@ static int seek_sector(ata_drive_t *drv)
 static void debug_addr(ata_drive_t *drv, char *cmd)
 {
     if (drv->lbamode && drv->lba) {
-        debug("%s (%d)*%d", cmd, (drv->head << 24) | (drv->cylinder << 8) | drv->sector, drv->sector_count ? drv->sector_count : 256);
+        debug((drv->log, "%s (%d)*%d", cmd, (drv->head << 24) | (drv->cylinder << 8) | drv->sector, drv->sector_count ? drv->sector_count : 256));
     } else {
-        debug("%s (%d/%d/%d)*%d", cmd, drv->cylinder, drv->head, drv->sector, drv->sector_count ? drv->sector_count : 256);
+        debug((drv->log, "%s (%d/%d/%d)*%d", cmd, drv->cylinder, drv->head, drv->sector, drv->sector_count ? drv->sector_count : 256));
     }
 }
 
@@ -560,7 +560,7 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
     drv->cmd = 0x00;
     switch (value) {
         case 0x00:
-            debug("NOP");
+            debug((drv->log, "NOP"));
             drv->error = ATA_ABRT;
             return;
         case 0x20:
@@ -600,14 +600,14 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0x70:
             if (drv->lbamode && drv->lba) {
-                debug("SEEK (%d)", (drv->head << 24) | (drv->cylinder << 8) | drv->sector);
+                debug((drv->log, "SEEK (%d)", (drv->head << 24) | (drv->cylinder << 8) | drv->sector));
             } else {
-                debug("SEEK (%d/%d/%d)", drv->cylinder, drv->head, drv->sector);
+                debug((drv->log, "SEEK (%d/%d/%d)", drv->cylinder, drv->head, drv->sector));
             }
             seek_sector(drv);
             return;
         case 0x90:
-            debug("EXECUTE DEVICE DIAGNOSTIC");
+            debug((drv->log, "EXECUTE DEVICE DIAGNOSTIC"));
             drive_diag(drv);
             return;
         case 0x91:
@@ -621,7 +621,7 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
                 size /= drv->heads * drv->sectors;
                 drv->cylinders = (size > 65535) ? 65535 : size;
             }
-            debug("INITIALIZE DEVICE PARAMETERS (%d/%d/%d)", drv->cylinders, drv->heads, drv->sectors);
+            debug((drv->log, "INITIALIZE DEVICE PARAMETERS (%d/%d/%d)", drv->cylinders, drv->heads, drv->sectors));
             if (drv->cylinders == 0) {
                 drv->heads = 0;
                 drv->sectors = 0;
@@ -632,19 +632,19 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
         case 0x94:
         case 0xe0:
             if (!drv->pmcommands) break;
-            debug("STANDBY IMMEDIATE");
+            debug((drv->log, "STANDBY IMMEDIATE"));
             ata_change_power_mode(drv, 0x00);
             return;
         case 0x95:
         case 0xe1:
             if (!drv->pmcommands) break;
-            debug("IDLE IMMEDIATE");
+            debug((drv->log, "IDLE IMMEDIATE"));
             ata_change_power_mode(drv, 0x80);
             return;
         case 0x96:
         case 0xe2:
             if (!drv->pmcommands) break;
-            debug("STANDBY %02x", drv->sector_count);
+            debug((drv->log, "STANDBY %02x", drv->sector_count));
             if (ata_set_standby(drv, drv->sector_count)) {
                 break;
             }
@@ -653,7 +653,7 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
         case 0x97:
         case 0xe3:
             if (!drv->pmcommands) break;
-            debug("IDLE %02x", drv->sector_count);
+            debug((drv->log, "IDLE %02x", drv->sector_count));
             if (ata_set_standby(drv, drv->sector_count)) {
                 break;
             }
@@ -661,7 +661,7 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0xe4:
             if (!drv->rbuffer) break;
-            debug("READ BUFFER");
+            debug((drv->log, "READ BUFFER"));
             drv->sector_count_internal = 1;
             drv->bufp = 0;
             drv->cmd = 0xe4;
@@ -669,14 +669,14 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
         case 0x98:
         case 0xe5:
             if (!drv->pmcommands) break;
-            debug("CHECK POWER MODE");
+            debug((drv->log, "CHECK POWER MODE"));
             drv->sector_count = drv->power;
             drv->cmd = 0xe5;
             return;
         case 0x99:
         case 0xe6:
             if (!drv->pmcommands) break;
-            debug("SLEEP");
+            debug((drv->log, "SLEEP"));
             if (drv->type != ATA_DRIVE_CF) {
                 drv->cmd = 0xe6;
             }
@@ -684,7 +684,7 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0xe7:
             if (!drv->flush) break;
-            debug("FLUSH CACHE");
+            debug((drv->log, "FLUSH CACHE"));
             if (drv->file) {
                 if (fflush(drv->file)) {
                     drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
@@ -693,14 +693,14 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0xe8:
             if (!drv->wbuffer) break;
-            debug("WRITE BUFFER");
+            debug((drv->log, "WRITE BUFFER"));
             drv->sector_count_internal = 1;
             drv->bufp = 0;
             drv->cmd = 0xe8;
             return;
         case 0xec:
             memset(result, 0, sizeof(result));
-            debug("IDENTIFY DEVICE");
+            debug((drv->log, "IDENTIFY DEVICE"));
             putw(0, (drv->type == ATA_DRIVE_HDD) ? 0x0040 : 0x848a);
             putw(1, drv->geometry.cylinders);
             putw(3, drv->geometry.heads);
@@ -767,43 +767,43 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
         case 0xef:
             switch (drv->features) {
             case 0x02:
-                debug("SET ENABLE WRITE CACHE");
+                debug((drv->log, "SET ENABLE WRITE CACHE"));
                 drv->wcache = 1;
                 return;
             case 0x03:
-                debug("SET TRANSFER MODE %02x", drv->sector_count);
+                debug((drv->log, "SET TRANSFER MODE %02x", drv->sector_count));
                 if (drv->sector_count > 1 && drv->sector_count != 8) {
                     drv->error = ATA_ABRT;
                 }
                 return;
             case 0x33:
-                debug("SET DISABLE RETRY");
+                debug((drv->log, "SET DISABLE RETRY"));
                 return;
             case 0x55:
-                debug("SET DISABLE LOOK-AHEAD");
+                debug((drv->log, "SET DISABLE LOOK-AHEAD"));
                 drv->lookahead = 0;
                 return;
             case 0x82:
-                debug("SET DISABLE WRITE CACHE");
+                debug((drv->log, "SET DISABLE WRITE CACHE"));
                 drv->wcache = 0;
                 if (drv->file) {
                     fflush(drv->file);
                 }
                 return;
             case 0x99:
-                debug("SET ENABLE RETRY");
+                debug((drv->log, "SET ENABLE RETRY"));
                 return;
             case 0xaa:
-                debug("SET ENABLE LOOK-AHEAD");
+                debug((drv->log, "SET ENABLE LOOK-AHEAD"));
                 drv->lookahead = 1;
                 return;
             default:
-                debug("SET FEATURES %02x", drv->features);
+                debug((drv->log, "SET FEATURES %02x", drv->features));
                 drv->error = ATA_ABRT;
             }
             return;
     }
-    debug("COMMAND %02x", value);
+    debug((drv->log, "COMMAND %02x", value));
     drv->error = ATA_ABRT;
     return;
 }
@@ -824,7 +824,7 @@ static void atapi_execute_command(ata_drive_t *drv, BYTE value)
             ata_execute_command(drv, value);
             return;
         case 0x08:
-            debug("DEVICE RESET");
+            debug((drv->log, "DEVICE RESET"));
             drive_diag(drv);
             return;
         case 0x20:
@@ -840,7 +840,7 @@ static void atapi_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0xa1:
             memset(result, 0, sizeof(result));
-            debug("IDENTIFY PACKET DEVICE");
+            debug((drv->log, "IDENTIFY PACKET DEVICE"));
             putw(0, (drv->type == ATA_DRIVE_FDD) ? 0x8180: 0x8580);
             ident_update_string(result + 20, ATA_SERIAL_NUMBER, 20);
             putw(21, BUFSIZ / drv->sector_size);
@@ -891,7 +891,7 @@ static void atapi_execute_command(ata_drive_t *drv, BYTE value)
             ata_execute_command(drv, value);
             return;
     }
-    debug("COMMAND %02x", value);
+    debug((drv->log, "COMMAND %02x", value));
     drv->error = ATA_ABRT;
     return;
 }
@@ -911,10 +911,10 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
     }
     switch (drv->packet[0]) {
     case 0x00:
-        debug("TEST UNIT READY");
+        debug((drv->log, "TEST UNIT READY"));
         return;
     case 0x1b:
-        debug("START/STOP UNIT (%d)", drv->packet[4] & 3);
+        debug((drv->log, "START/STOP UNIT (%d)", drv->packet[4] & 3));
         switch (drv->packet[4] & 3) {
         case 0:
             ata_change_power_mode(drv, 0x00);
@@ -945,12 +945,12 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
         }
         return;
     case 0x1e:
-        debug("PREVENT/ALLOW MEDIUM REMOVAL (%d)", drv->packet[4] & 1);
+        debug((drv->log, "PREVENT/ALLOW MEDIUM REMOVAL (%d)", drv->packet[4] & 1));
         drv->locked = drv->packet[4] & 1;
         return;
     case 0x23:
         memset(result, 0, sizeof(result));
-        debug("READ FORMAT CAPACITIES");
+        debug((drv->log, "READ FORMAT CAPACITIES"));
         result[3] = 8;
         result[4] = drv->geometry.size >> 24;
         result[5] = drv->geometry.size >> 16;
@@ -969,7 +969,7 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
         }
         return;
     case 0x28:
-        debug("READ 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]);
+        debug((drv->log, "READ 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]));
         drv->sector_count_internal = drv->packet[8];
         if (seek_sector(drv)) {
             return;
@@ -978,7 +978,7 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
         read_sector(drv);
         return;
     case 0x2a:
-        debug("WRITE 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]);
+        debug((drv->log, "WRITE 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]));
         drv->sector_count_internal = drv->packet[8];
         if (seek_sector(drv)) {
             return;
@@ -991,13 +991,13 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
         drv->cmd = 0x2a;
         return;
     case 0xbb:
-        debug("SET CD SPEED %d/%d", drv->packet[2] | (drv->packet[3] << 8), drv->packet[4] | (drv->packet[5] << 8));
+        debug((drv->log, "SET CD SPEED %d/%d", drv->packet[2] | (drv->packet[3] << 8), drv->packet[4] | (drv->packet[5] << 8)));
         if (drv->type != ATA_DRIVE_CD) {
             drv->error = 0xB4;
         }
         return;
     }
-    debug("PACKET COMMAND %02x", drv->packet[0]);
+    debug((drv->log, "PACKET COMMAND %02x", drv->packet[0]));
     drv->error = 0xB4;
     return;
 }
@@ -1203,7 +1203,7 @@ void ata_register_store(ata_drive_t *drv, BYTE addr, WORD value)
             drv->busy = (drv->busy & ~0x04) | (value & 0x04);
             if ((drv->control & 0x04) && ((value ^ 0x04) & 0x04)) {
                 ata_reset(drv);
-                debug("SOFTWARE RESET");
+                debug((drv->log, "SOFTWARE RESET"));
             }
             drv->control = (BYTE)value;
             return;

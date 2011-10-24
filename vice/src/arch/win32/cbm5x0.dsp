@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="cbm2" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="cbm5x0" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=cbm2 - Win32 Debug
+CFG=cbm5x0 - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "cbm2.mak".
+!MESSAGE NMAKE /f "cbm5x0.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "cbm2.mak" CFG="cbm2 - Win32 Debug"
+!MESSAGE NMAKE /f "cbm5x0.mak" CFG="cbm5x0 - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "cbm2 - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "cbm2 - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "cbm5x0 - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "cbm5x0 - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=cbm2 - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "cbm2 - Win32 Release"
+!IF  "$(CFG)" == "cbm5x0 - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -37,8 +37,8 @@ RSC=rc.exe
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "libs\cbm2\Release"
-# PROP Intermediate_Dir "libs\cbm2\Release"
+# PROP Output_Dir "libs\cbm5x0\Release"
+# PROP Intermediate_Dir "libs\cbm5x0\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\userport" /I "..\..\tape" /I "..\..\sid" /I "..\..\crtc" /I "..\..\vicii" /I "..\..\raster" /I "..\..\monitor" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
@@ -51,7 +51,7 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
-!ELSEIF  "$(CFG)" == "cbm2 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "cbm5x0 - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -60,8 +60,8 @@ LIB32=link.exe -lib
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 1
-# PROP Output_Dir "libs\cbm2\Debug"
-# PROP Intermediate_Dir "libs\cbm2\Debug"
+# PROP Output_Dir "libs\cbm5x0\Debug"
+# PROP Intermediate_Dir "libs\cbm5x0\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\userport" /I "..\..\tape" /I "..\..\sid" /I "..\..\crtc" /I "..\..\vicii" /I "..\..\raster" /I "..\..\monitor" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
@@ -78,11 +78,11 @@ LIB32=link.exe -lib
 
 # Begin Target
 
-# Name "cbm2 - Win32 Release"
-# Name "cbm2 - Win32 Debug"
+# Name "cbm5x0 - Win32 Release"
+# Name "cbm5x0 - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\cbm2\cbm2.c
+SOURCE=..\..\cbm2\cbm5x0.c
 # End Source File
 # End Target
 # End Project

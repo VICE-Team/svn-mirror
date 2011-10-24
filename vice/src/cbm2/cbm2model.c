@@ -34,7 +34,9 @@
 
 #include "vice.h"
 
+#ifdef HAVE_STRINGS_H
 #include <strings.h>
+#endif
 
 #include "archdep.h"
 #include "cbm2-resources.h"

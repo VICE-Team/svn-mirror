@@ -41,8 +41,7 @@
 #include "viciitypes.h"
 #include "video.h"
 
-
-vicii_resources_t vicii_resources = {};
+vicii_resources_t vicii_resources = { 0, 0, 0, 0 };
 static video_chip_cap_t video_chip_cap;
 
 
