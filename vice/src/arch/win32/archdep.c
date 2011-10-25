@@ -660,3 +660,11 @@ void archdep_shutdown(void)
 void archdep_workaround_nop(const char *otto)
 {
 }
+
+int archdep_rtc_get_centisecond(void)
+{
+    SYSTEMTIME t;
+
+    GetSystemTime(&t);
+    return (int)(t.wMilliseconds / 10);
+}

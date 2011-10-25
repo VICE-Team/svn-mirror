@@ -55,8 +55,7 @@ BYTE rtc_get_centisecond(int bcd)
     gettimeofday(&t, NULL);
     return (BYTE)((bcd) ? int_to_bcd(t.tv_usec / 10000) : t.tv_usec / 10000);
 #else
-    /* FIXME: arch-dependent implementation will need to be made */
-    return 0;
+    return (BYTE)((bcd) ? int_to_bcd(archdep_rtc_get_centisecond()) : archdep_rtc_get_centisecond());
 #endif
 }
 

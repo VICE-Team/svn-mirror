@@ -100,4 +100,8 @@ extern void archdep_network_shutdown(void);
 /* Free everything on exit.  */
 extern void archdep_shutdown(void);
 
+/* RTC. */
+extern int archdep_rtc_get_centisecond(void);
+
 #endif
+
