@@ -1,5 +1,5 @@
 /*
- * c64io.c - C64 io handling ($DE00-$DFFF).
+ * c64io.c - C64 io handling ($D000-$DFFF).
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -378,17 +378,31 @@ static inline BYTE io_peek(io_source_list_t *list, WORD addr)
 
 static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
 {
+    int writes = 0;
+    WORD addy = 0xffff;
     io_source_list_t *current = list->next;
+    void (*store)(WORD address, BYTE data);
 
     vicii_handle_pending_alarms_external_write();
 
     while (current) {
         if (current->device->store != NULL) {
             if (addr >= current->device->start_address && addr <= current->device->end_address) {
-                current->device->store((WORD)(addr & current->device->address_mask), value);
+                /* delay mirror writes, ensuring real device writes in mirror area */
+                if (current->device->io_source_prio != IO_PRIO_LOW) {
+                    current->device->store((WORD)(addr & current->device->address_mask), value);
+                    writes++;
+                } else {
+                    addy = (WORD)(addr & current->device->address_mask);
+                    store = current->device->store;
+                }
             }
         }
         current = current->next;
+    }
+    /* if a mirror write needed to be done and no real device write was done */
+    if (!writes && addy != 0xffff) {
+        store(addy, value);
     }
 }
 

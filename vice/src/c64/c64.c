@@ -227,7 +227,7 @@ static io_source_t sid_d400_device = {
     "SID",
     IO_DETACH_CART, /* dummy */
     NULL,           /* dummy */
-    0xd400, 0xd4ff, 0x1f,
+    0xd400, 0xd41f, 0x1f,
     1, /* read is always valid */
     sid_store,
     sid_read,
@@ -235,6 +235,21 @@ static io_source_t sid_d400_device = {
     NULL, /* TODO: dump */
     0, /* dummy (not a cartridge) */
     IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
+    0
+};
+
+static io_source_t sid_d420_device = {
+    "SID $D420-$D4FF mirrors",
+    IO_DETACH_CART, /* dummy */
+    NULL,           /* dummy */
+    0xd420, 0xd4ff, 0x1f,
+    1, /* read is always valid */
+    sid_store,
+    sid_read,
+    sid_peek,
+    NULL, /* TODO: dump */
+    0, /* dummy (not a cartridge) */
+    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -249,7 +264,7 @@ static io_source_t sid_d500_device = {
     sid_peek,
     NULL, /* TODO: dump */
     0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
+    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -264,7 +279,7 @@ static io_source_t sid_d600_device = {
     sid_peek,
     NULL, /* TODO: dump */
     0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
+    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -279,7 +294,7 @@ static io_source_t sid_d700_device = {
     sid_peek,
     NULL, /* TODO: dump */
     0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
+    IO_PRIO_LOW, /* low priority, device and mirrors never involved in collisions */
     0
 };
 
@@ -288,6 +303,7 @@ static io_source_list_t *vicii_d100_list_item = NULL;
 static io_source_list_t *vicii_d200_list_item = NULL;
 static io_source_list_t *vicii_d300_list_item = NULL;
 static io_source_list_t *sid_d400_list_item = NULL;
+static io_source_list_t *sid_d420_list_item = NULL;
 static io_source_list_t *sid_d500_list_item = NULL;
 static io_source_list_t *sid_d600_list_item = NULL;
 static io_source_list_t *sid_d700_list_item = NULL;
@@ -328,6 +344,7 @@ static void c64io_init(void)
 {
     c64io_vicii_init();
     sid_d400_list_item = io_source_register(&sid_d400_device);
+    sid_d420_list_item = io_source_register(&sid_d420_device);
     sid_d500_list_item = io_source_register(&sid_d500_device);
     sid_d600_list_item = io_source_register(&sid_d600_device);
     sid_d700_list_item = io_source_register(&sid_d700_device);
