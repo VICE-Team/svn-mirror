@@ -83,7 +83,7 @@ static BYTE kcs_io1_read(WORD addr)
     /* A1 switches off roml/romh banks */
     config = (addr & 2) ? CMODE_RAM : CMODE_8KGAME;
 
-    cart_config_changed_slotmain(config, config, CMODE_READ);
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ);
     freeze_flag = 0;
     return roml_banks[0x1e00 + (addr & 0xff)];
 }
@@ -97,7 +97,7 @@ static void kcs_io1_store(WORD addr, BYTE value)
 {
     DBG(("io1 w %04x %02x (to 16k)", addr, value));
     config = CMODE_16KGAME;
-    cart_config_changed_slotmain(config, config, CMODE_WRITE);
+    cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE);
     freeze_flag = 0;
 }
 
@@ -105,7 +105,7 @@ static BYTE kcs_io2_read(WORD addr)
 {
     DBG(("io2 r %04x (%s)", addr, (addr & 0x80) ? "release NMI":"-"));
     if (addr & 0x80) {
-        cart_config_changed_slotmain(config, config, CMODE_READ | CMODE_RELEASE_FREEZE);
+        cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ | CMODE_RELEASE_FREEZE);
         freeze_flag = 1;
     }
     return export_ram0[0x1f00 + (addr & 0x7f)];
@@ -121,7 +121,7 @@ static void kcs_io2_store(WORD addr, BYTE value)
     DBG(("io2 w %04x %02x (%s)", addr, value, (freeze_flag == 0)?"to 16k":"-"));
     if (freeze_flag == 0) {
         config = CMODE_16KGAME;
-        cart_config_changed_slotmain(config, config, CMODE_WRITE);
+        cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE);
     }
     export_ram0[0x1f00 + (addr & 0x7f)] = value;
 }

@@ -43,6 +43,7 @@
 #include "system.h"
 #include "translate.h"
 #include "ui.h"
+#include "uiapi.h"
 #include "uisiddtv.h"
 #include "winmain.h"
 #include "uilib.h"

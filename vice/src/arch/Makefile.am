@@ -89,11 +89,13 @@ EXTRA_DIST = \
 	watcom-source-wrappers/viciisc-resources.c \
 	watcom-source-wrappers/viciisc-snapshot.c \
 	watcom-source-wrappers/viciisc-timing.c \
+	watcom-source-wrappers/vsid-main.c \
 	watcom-source-wrappers/x128-main.c \
 	watcom-source-wrappers/x64-main.c \
 	watcom-source-wrappers/x64dtv-main.c \
 	watcom-source-wrappers/x64sc-main.c \
 	watcom-source-wrappers/xcbm2-main.c \
+	watcom-source-wrappers/xcbm5x0-main.c \
 	watcom-source-wrappers/xpet-main.c \
 	watcom-source-wrappers/xplus4-main.c \
 	watcom-source-wrappers/xvic-main.c

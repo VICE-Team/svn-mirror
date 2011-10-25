@@ -303,16 +303,22 @@ EXTRA_DIST = \
 	watcom/c1541.tgt \
 	watcom/c64.tgt \
 	watcom/c64cart.tgt \
-	watcom/c64commonc128.tgt \
-	watcom/c64commonc128c64dtv.tgt \
-	watcom/c64commonc64dtv.tgt \
+	watcom/c64commonall.tgt \
 	watcom/c64commoncart.tgt \
 	watcom/c64commonsc.tgt \
+	watcom/c64commondscdtv.tgt \
+	watcom/c64commonscdtv128.tgt \
+	watcom/c64commonscdtvvsid.tgt \
+	watcom/c64commonscvsid.tgt \
+	watcom/c64commonscvsid128.tgt \
+	watcom/c64commonvsid.tgt \
 	watcom/c64dtv.tgt \
 	watcom/c64exp.tgt \
 	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
+	watcom/cbm2common.tgt \
+	watcom/cbm5x0.tgt \
 	watcom/core.tgt \
 	watcom/crtc.tgt \
 	watcom/dirent.h \
@@ -359,6 +365,7 @@ EXTRA_DIST = \
 	watcom/system.h \
 	watcom/tape.tgt \
 	watcom/tcbm.tgt \
+	watcom/userport.tgt \
 	watcom/vdc.tgt \
 	watcom/vdrive.tgt \
 	watcom/vic20.tgt \
@@ -369,12 +376,15 @@ EXTRA_DIST = \
 	watcom/viciidtv.tgt \
 	watcom/viciinew.tgt \
 	watcom/video.tgt \
+	watcom/vsid.tgt \
+	watcom/vsidlib.tgt \
 	watcom/watcom-ar.sh \
 	watcom/x128.tgt \
 	watcom/x64.tgt \
 	watcom/x64dtv.tgt \
 	watcom/x64sc.tgt \
 	watcom/xcbm2.tgt \
+	watcom/xcbm5x0.tgt \
 	watcom/xpet.tgt \
 	watcom/xplus4.tgt \
 	watcom/xvic.tgt \
