@@ -88,7 +88,7 @@ s/@b{Dirk Jagdmann}/Dirk Jagdmann <doj@cubic.org>/g
 s/@b{Maciej Witkowiak}/Maciej Witkowiak <ytm@elysium.pl>/g
 s/@b{Roberto Muscedere}/Roberto Muscedere <cococommie@cogeco.ca>/g
 s/@b{Rami Rasanen}/Rami Rasanen <raipe@neutech.fi>/g
-s/@b{iAN CooG}/iAN CooG <ian7102@libero.it>/g
+s/@b{iAN CooG}/iAN CooG <iancoog@email.it>/g
 s/@b{Mike Dawson}/Mike Dawson <mike@gp2x.org>/g
 s/@b{Mathias Roslund}/Mathias Roslund <vice.emu@amidog.se>/g
 s/@b{Eliseo Bianchi}/Eliseo Bianchi <e.bianchi@libero.it>/g
