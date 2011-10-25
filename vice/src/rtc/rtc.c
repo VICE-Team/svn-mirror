@@ -32,6 +32,7 @@
 #include <sys/time.h>
 #endif
 
+#include "archapi.h"
 #include "rtc.h"
 
 inline static int int_to_bcd(int dec)
