@@ -1002,7 +1002,7 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
     return;
 }
 
-WORD ata_register_read(ata_drive_t *drv, BYTE addr, WORD bus)
+WORD ata_register_read(ata_drive_t *drv, WORD addr, WORD bus)
 {
     WORD res;
 
@@ -1100,7 +1100,7 @@ WORD ata_register_read(ata_drive_t *drv, BYTE addr, WORD bus)
     }
 }
 
-WORD ata_register_peek(ata_drive_t *drv, BYTE addr)
+WORD ata_register_peek(ata_drive_t *drv, WORD addr)
 {
     if (addr == 0) {
         return 0;
@@ -1112,7 +1112,7 @@ WORD ata_register_peek(ata_drive_t *drv, BYTE addr)
 }
 
 
-void ata_register_store(ata_drive_t *drv, BYTE addr, WORD value)
+void ata_register_store(ata_drive_t *drv, WORD addr, WORD value)
 {
     if (drv->type == ATA_DRIVE_NONE) {
         return;
