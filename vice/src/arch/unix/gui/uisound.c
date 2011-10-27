@@ -66,9 +66,9 @@ ui_menu_entry_t set_sound_sample_rate_submenu[] = {
 static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
     { "0.35 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)350, NULL },
-    { "0.30 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
+    { "0.25 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)250, NULL },
-    { "0.20 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
+    { "0.15 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)150, NULL },
     { "0.10 s", UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundBufferSize,
       (ui_callback_data_t)100, NULL },
