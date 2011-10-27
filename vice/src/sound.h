@@ -108,6 +108,7 @@ static inline SWORD sound_audio_mix(int ch1, int ch2)
 }
 
 /* Sound adjustment types.  */
+#define SOUND_ADJUST_DEFAULT   -1
 #define SOUND_ADJUST_FLEXIBLE   0
 #define SOUND_ADJUST_ADJUSTING  1
 #define SOUND_ADJUST_EXACT      2

@@ -152,27 +152,13 @@ int main_program(int argc, char **argv)
     translate_arch_language_init();
 #endif
 
-    if (machine_class == VICE_MACHINE_VSID) {
-        /* FIXME: handle these elsewhere */
-        resources_set_int("SoundSpeedAdjustment", 2);
-        resources_set_int("SoundBufferSize", 1000);
-    }
-
     /* Load the user's default configuration file.  */
-    {
-        int retval;
-
-        retval = resources_load(NULL);
-
-        /* Do not reset to defaults on vsid mode. This would override
-           the settings made above when the config file is not available. */
-        if ((retval < 0) && (machine_class != VICE_MACHINE_VSID)) {
-            /* The resource file might contain errors, and thus certain
-               resources might have been initialized anyway.  */
-            if (resources_set_defaults() < 0) {
-                archdep_startup_log_error("Cannot set defaults.\n");
-                return -1;
-            }
+    if (resources_load(NULL) < 0) {
+        /* The resource file might contain errors, and thus certain
+           resources might have been initialized anyway.  */
+        if (resources_set_defaults() < 0) {
+            archdep_startup_log_error("Cannot set defaults.\n");
+            return -1;
         }
     }
 

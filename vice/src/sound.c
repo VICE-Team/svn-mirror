@@ -286,7 +286,16 @@ static int set_recorddevice_arg(const char *val, void *param)
 
 static int set_buffer_size(int val, void *param)
 {
-    buffer_size   = val;
+    if (val > 0) {
+        buffer_size = val;
+    } else {
+        if (machine_class == VICE_MACHINE_VSID) {
+            buffer_size = 1000;
+        } else {
+            buffer_size = SOUND_SAMPLE_BUFFER_SIZE;
+        }
+    }
+
     sound_state_changed = TRUE;
     return 0;
 }
@@ -311,7 +320,16 @@ static int set_suspend_time(int val, void *param)
 
 static int set_speed_adjustment_setting(int val, void *param)
 {
-    speed_adjustment_setting = val;
+    if (val == SOUND_ADJUST_DEFAULT) {
+        if (machine_class == VICE_MACHINE_VSID) {
+            speed_adjustment_setting = SOUND_ADJUST_EXACT;
+        } else {
+            speed_adjustment_setting = SOUND_ADJUST_FLEXIBLE;
+        }
+    } else {
+        speed_adjustment_setting = val;
+    }
+
     return 0;
 }
 
@@ -347,13 +365,13 @@ static const resource_int_t resources_int[] = {
       (void *)&playback_enabled, set_playback_enabled, NULL },
     { "SoundSampleRate", SOUND_SAMPLE_RATE, RES_EVENT_NO, NULL,
       (void *)&sample_rate, set_sample_rate, NULL },
-    { "SoundBufferSize", SOUND_SAMPLE_BUFFER_SIZE, RES_EVENT_NO, NULL,
+    { "SoundBufferSize", 0, RES_EVENT_NO, NULL,
       (void *)&buffer_size, set_buffer_size, NULL },
     { "SoundFragmentSize", ARCHDEP_SOUND_FRAGMENT_SIZE, RES_EVENT_NO, NULL,
       (void *)&fragment_size, set_fragment_size, NULL },
     { "SoundSuspendTime", 0, RES_EVENT_NO, NULL,
       (void *)&suspend_time, set_suspend_time, NULL },
-    { "SoundSpeedAdjustment", SOUND_ADJUST_FLEXIBLE, RES_EVENT_NO, NULL,
+    { "SoundSpeedAdjustment", SOUND_ADJUST_DEFAULT, RES_EVENT_NO, NULL,
       (void *)&speed_adjustment_setting, set_speed_adjustment_setting, NULL },
     { "SoundVolume", 100, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },
@@ -1180,7 +1198,7 @@ double sound_flush()
                 drained_warning_count++;
             } else {
                 if (drained_warning_count == 25) {
-                    log_warning(sound_log, "Buffer drainded warning repeated 25 times, will now be ignored");
+                    log_warning(sound_log, "Buffer drained warning repeated 25 times, will now be ignored");
                     drained_warning_count++;
                 }
             }
