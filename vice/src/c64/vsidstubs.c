@@ -520,6 +520,10 @@ midi_interface_t midi_interface[] = {
     { NULL }
 };
 
+void digimax_userport_store(WORD addr, BYTE value)
+{
+}
+
 /*******************************************************************************
     FIXME: this "function" is never called, the functions referenced here cause
            the linker to pull in certain other modules early (else we get linker
