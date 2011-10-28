@@ -28,7 +28,7 @@ CFG=geninfocontrib - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "genmsvcver - Win32 Release"
+!IF  "$(CFG)" == "geninfocontrib - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
