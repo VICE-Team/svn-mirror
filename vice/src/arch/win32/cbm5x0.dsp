@@ -84,5 +84,25 @@ LIB32=link.exe -lib
 
 SOURCE=..\..\cbm2\cbm5x0.c
 # End Source File
+# Begin Source File
+
+SOURCE="..\..\cbm2\cbm5x0-resources.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\cbm2\cbm5x0-snapshot.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\cbm2\cbm5x0mem.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\cbm2\cbm5x0rom.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\cbm2\cbm5x0video.c
+# End Source File
 # End Target
 # End Project

@@ -86,14 +86,6 @@ SOURCE="..\..\..\cbm2\cbm2-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\cbm2\cbm2-resources.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\..\cbm2\cbm2-snapshot.c"
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\cbm2\cbm2acia1.c
 # End Source File
 # Begin Source File
@@ -126,10 +118,6 @@ SOURCE=..\..\..\cbm2\cbm2iec.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\cbm2\cbm2mem.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\cbm2\cbm2memsnapshot.c
 # End Source File
 # Begin Source File
@@ -139,10 +127,6 @@ SOURCE=..\..\..\cbm2\cbm2model.c
 # Begin Source File
 
 SOURCE=..\..\..\cbm2\cbm2printer.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\cbm2\cbm2rom.c
 # End Source File
 # Begin Source File
 
@@ -159,10 +143,6 @@ SOURCE=..\..\..\cbm2\cbm2tpi1.c
 # Begin Source File
 
 SOURCE=..\..\..\cbm2\cbm2tpi2.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\cbm2\cbm2video.c
 # End Source File
 # End Target
 # End Project

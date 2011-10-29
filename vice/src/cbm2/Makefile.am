@@ -53,9 +53,9 @@ libcbm2_a_SOURCES = \
 libcbm5x0_a_SOURCES = \
 	cbm2-cmdline-options.c \
 	cbm2-cmdline-options.h \
-	cbm2-resources.c \
+	cbm5x0-resources.c \
 	cbm2-resources.h \
-	cbm2-snapshot.c \
+	cbm5x0-snapshot.c \
 	cbm2-snapshot.h \
 	cbm5x0.c \
 	cbm2.h \
@@ -72,18 +72,18 @@ libcbm5x0_a_SOURCES = \
 	cbm2embedded.c \
 	cbm2iec.c \
 	cbm2iec.h \
-	cbm2mem.c \
+	cbm5x0mem.c \
 	cbm2mem.h \
 	cbm2memsnapshot.c \
 	cbm2memsnapshot.h \
 	cbm2model.c \
 	cbm2model.h \
 	cbm2printer.c \
-	cbm2rom.c \
+	cbm5x0rom.c \
 	cbm2rom.h \
 	cbm2romset.c \
 	cbm2sound.c \
 	cbm2tpi.h \
 	cbm2tpi1.c \
 	cbm2tpi2.c \
-	cbm2video.c
+	cbm5x0video.c

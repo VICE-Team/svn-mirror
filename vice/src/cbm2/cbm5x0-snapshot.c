@@ -1,5 +1,5 @@
 /*
- * cbm2-snapshot.c - CBM-6x0/7x0 snapshot handling.
+ * cbm5x0-snapshot.c - CBM-5x0 snapshot handling.
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
@@ -34,7 +34,6 @@
 #include "cbm2acia.h"
 #include "cbm2memsnapshot.h"
 #include "cia.h"
-#include "crtc.h"
 #include "drive-snapshot.h"
 #include "drive.h"
 #include "drivecpu.h"
@@ -51,6 +50,7 @@
 #include "tpi.h"
 #include "types.h"
 #include "vice-event.h"
+#include "vicii.h"
 
 
 #define SNAP_MAJOR          0
@@ -70,13 +70,14 @@ int cbm2_snapshot_write(const char *name, int save_roms, int save_disks,
 
     if (maincpu_snapshot_write_module(s) < 0
         || cbm2_snapshot_write_module(s, save_roms) < 0
-        || crtc_snapshot_write_module(s) < 0
         || ciacore_snapshot_write_module(machine_context.cia1, s) < 0
         || tpicore_snapshot_write_module(machine_context.tpi1, s) < 0
         || tpicore_snapshot_write_module(machine_context.tpi2, s) < 0
         || acia1_snapshot_write_module(s) < 0
         || sid_snapshot_write_module(s) < 0
         || drive_snapshot_write_module(s, save_disks, save_roms) < 0
+        || vicii_snapshot_write_module(s) < 0
+        || cbm2_c500_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
         || tape_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s)
@@ -107,8 +108,11 @@ int cbm2_snapshot_read(const char *name, int event_mode)
         goto fail;
     }
 
+    vicii_snapshot_prepare();
+
     if (maincpu_snapshot_read_module(s) < 0
-        || crtc_snapshot_read_module(s) < 0
+        || vicii_snapshot_read_module(s) < 0
+        || cbm2_c500_snapshot_read_module(s) < 0
         || cbm2_snapshot_read_module(s) < 0
         || ciacore_snapshot_read_module(machine_context.cia1, s) < 0
         || tpicore_snapshot_read_module(machine_context.tpi1, s) < 0

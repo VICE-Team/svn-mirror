@@ -1362,7 +1362,6 @@ xcbm2_libs = \
 	$(driver_libs) \
 	$(sid_lib) \
 	$(crtc_lib) \
-	$(vicii_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
 	$(video_lib) \
@@ -1395,7 +1394,6 @@ xcbm2-all: \
 	libvdrive \
 	libraster \
 	libcrtc \
-	libvicii \
 	libvideo \
 	libmonitor \
 	libdiskimage \
@@ -1421,7 +1419,6 @@ xcbm5x0_libs = \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(sid_lib) \
-	$(crtc_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(rtc_lib) \
@@ -1454,7 +1451,6 @@ xcbm5x0-all: \
 	libparallel \
 	libvdrive \
 	libraster \
-	libcrtc \
 	libvicii \
 	libvideo \
 	libmonitor \

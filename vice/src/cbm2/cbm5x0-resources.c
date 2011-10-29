@@ -1,5 +1,5 @@
 /*
- * cbm2-resources.c - CBM-6x0/7x0 resources.
+ * cbm5x0-resources.c - CBM-5x0 resources.
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
@@ -36,7 +36,6 @@
 #include "cbm2mem.h"
 #include "cbm2rom.h"
 #include "cbm2tpi.h"
-#include "crtc.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -44,6 +43,8 @@
 #include "resources.h"
 #include "sid-resources.h"
 #include "util.h"
+#include "vicii-resources.h"
+#include "vicii.h"
 #include "vsync.h"
 
 
@@ -77,8 +78,7 @@ static int set_cbm2_model_line(int val, void *param)
 
     set_cbm2_model_port_mask(model_port_mask[cbm2_model_line]);
 
-    crtc_set_screen_options(80, 25 * (cbm2_model_line ? 10 : 14));
-
+    /* FIXME: VIC-II config */
     return 0;
 }
 
@@ -129,9 +129,10 @@ static int set_basic_rom_name(const char *val, void *param)
     return cbm2rom_load_basic(basic_rom_name);
 }
 
-static int cbm6x0_set_sync_factor(int val, void *param)
+static int cbm5x0_set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
+    int border_mode = VICII_BORDER_MODE(vicii_resources.border_mode);
 
     if (sync_factor != val)
         change_timing = 1;
@@ -140,12 +141,12 @@ static int cbm6x0_set_sync_factor(int val, void *param)
       case MACHINE_SYNC_PAL:
         sync_factor = val;
         if (change_timing)
-            machine_change_timing(MACHINE_SYNC_PAL);
+            machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
         break;
       case MACHINE_SYNC_NTSC:
         sync_factor = val;
         if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSC);
+            machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
         break;
       default:
         return -1;
@@ -162,12 +163,12 @@ static int set_romset_firmware(int val, void *param)
     return 0;
 }
 
-static const resource_string_t cbm6x0_resources_string[] = {
-    { "ChargenName", CBM2_CHARGEN600, RES_EVENT_NO, NULL,
+static const resource_string_t cbm5x0_resources_string[] = {
+    { "ChargenName", CBM2_CHARGEN500, RES_EVENT_NO, NULL,
       &chargen_name, set_chargen_rom_name, NULL },
-    { "KernalName", CBM2_KERNAL, RES_EVENT_NO, NULL,
+    { "KernalName", CBM2_KERNAL500, RES_EVENT_NO, NULL,
       &kernal_rom_name, set_kernal_rom_name, NULL },
-    { "BasicName", CBM2_BASIC128, RES_EVENT_NO, NULL,
+    { "BasicName", CBM2_BASIC500, RES_EVENT_NO, NULL,
       &basic_rom_name, set_basic_rom_name, NULL },
     { NULL }
 };
@@ -190,10 +191,10 @@ static const resource_string_t resources_string[] = {
     { NULL }
 };
 
-static const resource_int_t cbm6x0_resources_int[] = {
+static const resource_int_t cbm5x0_resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
-      &sync_factor, cbm6x0_set_sync_factor, NULL },
-    { "RamSize", 128, RES_EVENT_SAME, NULL,
+      &sync_factor, cbm5x0_set_sync_factor, NULL },
+    { "RamSize", 64, RES_EVENT_SAME, NULL,
       &ramsize, set_ramsize, NULL },
     { "ModelLine", 2, RES_EVENT_SAME, NULL,
       &cbm2_model_line, set_cbm2_model_line, NULL },
@@ -232,11 +233,10 @@ int cbm2_resources_init(void)
         return -1;
     }
 
-    if (resources_register_string(cbm6x0_resources_string) < 0) {
+    if (resources_register_string(cbm5x0_resources_string) < 0) {
         return -1;
     }
-
-    return resources_register_int(cbm6x0_resources_int);
+    return resources_register_int(cbm5x0_resources_int);
 }
 
 void cbm2_resources_shutdown(void)

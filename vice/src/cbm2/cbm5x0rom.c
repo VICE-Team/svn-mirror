@@ -1,5 +1,5 @@
 /*
- * cbm2rom.c - CBM-6x0/7x0 rom code.
+ * cbm5x0rom.c - CBM-5x0 rom code.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -34,7 +34,6 @@
 #include "cbm2.h"
 #include "cbm2mem.h"
 #include "cbm2rom.h"
-#include "crtc.h"
 #include "kbdbuf.h"
 #include "log.h"
 #include "machine.h"
@@ -90,16 +89,18 @@ int cbm2rom_load_chargen(const char *rom_name)
             return -1;
         }
 
-        memmove(mem_chargen_rom + 4096, mem_chargen_rom + 2048, 2048);
+        if (machine_class != VICE_MACHINE_CBM5x0) {
+            memmove(mem_chargen_rom + 4096, mem_chargen_rom + 2048, 2048);
 
-        /* Inverted chargen into second half. This is a hardware feature.*/
-        for (i = 0; i < 2048; i++) {
-            mem_chargen_rom[i + 2048] = mem_chargen_rom[i] ^ 0xff;
-            mem_chargen_rom[i + 6144] = mem_chargen_rom[i + 4096] ^ 0xff;
+            /* Inverted chargen into second half. This is a hardware feature.*/
+            for (i = 0; i < 2048; i++) {
+                mem_chargen_rom[i + 2048] = mem_chargen_rom[i] ^ 0xff;
+                mem_chargen_rom[i + 6144] = mem_chargen_rom[i + 4096] ^ 0xff;
+            }
         }
     }
 
-    crtc_set_chargen_addr(mem_chargen_rom, CBM2_CHARGEN_ROM_SIZE >> 4);
+    /* FIXME: VIC-II config */
 
     return 0;
 }
@@ -275,7 +276,8 @@ int mem_load(void)
     if (cbm2rom_load_cart_6(rom_name) < 0)
         return -1;
 
-    crtc_set_screen_addr(mem_rom + 0xd000);
+    /* FIXME: VIC-II config */
 
     return 0;
 }
+
