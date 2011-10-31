@@ -49,7 +49,7 @@ GMOFILES = @GMOFILES@
 DISTFILES = ChangeLog ChangeLog.1 Makefile.in.in POTFILES.in $(PACKAGE).pot \
 stamp-cat-id $(POFILES) $(GMOFILES) $(SOURCES) po2tbl.sed intl2po.c \
 gen_amiga_intl_c.c gen_translate_c.c gen_win32_rc.c po2table.c \
-gen_win32_files.sh check_obsolete.sh
+gen_win32_files.sh check_obsolete.sh translations-status.txt
 
 POTFILES = \
 
