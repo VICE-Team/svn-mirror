@@ -278,8 +278,10 @@ int init_main(void)
     }
 
     /* FIXME: what's about uimon_init??? */
-    /* FIXME: is this really correct? monitor IS available in VSID! */
-    if ((machine_class != VICE_MACHINE_VSID) && console_init() < 0) {
+    /* the monitor console MUST be available, because of for example cpujam,
+       or -initbreak from cmdline.
+    */
+    if (console_init() < 0) {
         log_error(LOG_DEFAULT, "Console initialization failed.");
         return -1;
     }
