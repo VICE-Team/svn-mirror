@@ -469,6 +469,9 @@ void psid_init_tune(void)
     addr += psid_set_cbm80(reloc_addr, addr);
 
     ram_store(addr, (BYTE)(start_song));
+
+    /* force flag in c64 memory, many sids reads it and must be set AFTER the sid flag is read */
+    ram_store((WORD)(0x02a6), (sync == MACHINE_SYNC_NTSC ? 0 : 1) );
 }
 
 void psid_set_tune(int tune)
