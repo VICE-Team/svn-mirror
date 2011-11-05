@@ -26,11 +26,6 @@
 
 intl_translate_t intl_string_table[] = {
 
-
-
-
-
-
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -52,7 +47,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_AUTOSTART_IMAGE_FR, "Démarrer automatiquement une image de disque/datassette..." },
 /* hu */ { IDMS_AUTOSTART_IMAGE_HU, "Lemez/szalag képmás automatikus indítása..." },
 /* it */ { IDMS_AUTOSTART_IMAGE_IT, "Avvia automaticamente immagine disco/cassetta..." },
-/* ko */ { IDMS_AUTOSTART_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_AUTOSTART_IMAGE_KO, "ÀÚµ¿ ½ÃÀÛ µð½ºÅ©/Å×ÀÌÇÁ ÀÌ¹ÌÁö..." },
 /* nl */ { IDMS_AUTOSTART_IMAGE_NL, "Autostart disk-/tapebestand..." },
 /* pl */ { IDMS_AUTOSTART_IMAGE_PL, "Automatycznie startuj z obrazu dysku lub ta¶my..." },
 /* ru */ { IDMS_AUTOSTART_IMAGE_RU, "" },  /* fuzzy */
@@ -2138,7 +2133,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_VIDEO_SETTINGS_FR, "Paramètres vidéo..." },
 /* hu */ { IDMS_VIDEO_SETTINGS_HU, "Videó beállításai..." },
 /* it */ { IDMS_VIDEO_SETTINGS_IT, "Impostazioni video..." },
-/* ko */ { IDMS_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_VIDEO_SETTINGS_KO, "ºñµð·Î ¼ÂÆÃ..." },
 /* nl */ { IDMS_VIDEO_SETTINGS_NL, "Video instellingen..." },
 /* pl */ { IDMS_VIDEO_SETTINGS_PL, "Ustawienia wideo..." },
 /* ru */ { IDMS_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
@@ -3118,7 +3113,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMS_COMMAND_LINE_OPTIONS_FR, "Options de ligne de commande" },
 /* hu */ { IDMS_COMMAND_LINE_OPTIONS_HU, "Parancssori opciók" },
 /* it */ { IDMS_COMMAND_LINE_OPTIONS_IT, "Parametri della riga di comando" },
-/* ko */ { IDMS_COMMAND_LINE_OPTIONS_KO, "" },  /* fuzzy */
+/* ko */ { IDMS_COMMAND_LINE_OPTIONS_KO, "Ä¿¸Çµå ¶óÀÎ ¿É¼Ç" },
 /* nl */ { IDMS_COMMAND_LINE_OPTIONS_NL, "Commando opties" },
 /* pl */ { IDMS_COMMAND_LINE_OPTIONS_PL, "Opcje wiersza poleceñ" },
 /* ru */ { IDMS_COMMAND_LINE_OPTIONS_RU, "" },  /* fuzzy */
@@ -3225,14 +3220,14 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_LANGUAGE_SPANISH,    "Spanish" },
 /* da */ { IDMS_LANGUAGE_SPANISH_DA, "" },  /* fuzzy */
-/* de */ { IDMS_LANGUAGE_SPANISH_DE, "" },  /* fuzzy */
+/* de */ { IDMS_LANGUAGE_SPANISH_DE, "Spanisch" },
 /* es */ { IDMS_LANGUAGE_SPANISH_ES, "" },  /* fuzzy */
 /* fr */ { IDMS_LANGUAGE_SPANISH_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_LANGUAGE_SPANISH_HU, "" },  /* fuzzy */
 /* it */ { IDMS_LANGUAGE_SPANISH_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_LANGUAGE_SPANISH_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_LANGUAGE_SPANISH_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_LANGUAGE_SPANISH_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_LANGUAGE_SPANISH_NL, "Spaans" },
+/* pl */ { IDMS_LANGUAGE_SPANISH_PL, "Hiszpañski" },
 /* ru */ { IDMS_LANGUAGE_SPANISH_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_LANGUAGE_SPANISH_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_LANGUAGE_SPANISH_TR, "" },  /* fuzzy */
@@ -3330,7 +3325,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDMS_LANGUAGE_POLISH_IT, "Polacco" },
 /* ko */ { IDMS_LANGUAGE_POLISH_KO, "Æú¶õµå¾î" },
 /* nl */ { IDMS_LANGUAGE_POLISH_NL, "Pools" },
-/* pl */ { IDMS_LANGUAGE_POLISH_PL, "" },  /* fuzzy */
+/* pl */ { IDMS_LANGUAGE_POLISH_PL, "Polski" },
 /* ru */ { IDMS_LANGUAGE_POLISH_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_LANGUAGE_POLISH_SV, "Polska" },
 /* tr */ { IDMS_LANGUAGE_POLISH_TR, "Polonyaca" },
@@ -3510,7 +3505,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMES_SETTINGS_LOAD_SUCCESS_FR, "Chargement des paramètres réussi." },
 /* hu */ { IDMES_SETTINGS_LOAD_SUCCESS_HU, "Beállítások sikeresen elmentve." },
 /* it */ { IDMES_SETTINGS_LOAD_SUCCESS_IT, "Impostazioni caricate con successo." },
-/* ko */ { IDMES_SETTINGS_LOAD_SUCCESS_KO, "" },  /* fuzzy */
+/* ko */ { IDMES_SETTINGS_LOAD_SUCCESS_KO, "¼ÂÆÃÀÌ ¼º°øÀûÀ¸·Î ºÒ·¯¿À±â ‰ç½À´Ï´Ù" },
 /* nl */ { IDMES_SETTINGS_LOAD_SUCCESS_NL, "Instellingen met succes geladen." },
 /* pl */ { IDMES_SETTINGS_LOAD_SUCCESS_PL, "Wczytywanie ustawieñ powiod³o siê." },
 /* ru */ { IDMES_SETTINGS_LOAD_SUCCESS_RU, "" },  /* fuzzy */
@@ -3608,7 +3603,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMES_WHICH_COMMANDS_AVAILABLE_FR, "Quelles sont les lignes de commandes disponibles?" },
 /* hu */ { IDMES_WHICH_COMMANDS_AVAILABLE_HU, "Milyen parancssori opciók lehetségesek?" },
 /* it */ { IDMES_WHICH_COMMANDS_AVAILABLE_IT, "Quali parametri della riga di comando sono disponibili?" },
-/* ko */ { IDMES_WHICH_COMMANDS_AVAILABLE_KO, "" },  /* fuzzy */
+/* ko */ { IDMES_WHICH_COMMANDS_AVAILABLE_KO, "¾î¶² Ä¿¸Çµå ¶óÀÎ ¿É¼ÇÀÌ °¡´ÉÇÕ´Ï±î?" },
 /* nl */ { IDMES_WHICH_COMMANDS_AVAILABLE_NL, "Welke commando opties zijn beschikbaar?" },
 /* pl */ { IDMES_WHICH_COMMANDS_AVAILABLE_PL, "Które opcje wiersza poleceñ s± dostêpne?" },
 /* ru */ { IDMES_WHICH_COMMANDS_AVAILABLE_RU, "" },  /* fuzzy */
@@ -3734,7 +3729,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMES_BAD_CART_CONFIG_IN_UI_FR, "Mauvaise configuration de la cartouche dans l'interface utilisateur!" },
 /* hu */ { IDMES_BAD_CART_CONFIG_IN_UI_HU, "Rossz cartridge konfiguráció!" },
 /* it */ { IDMES_BAD_CART_CONFIG_IN_UI_IT, "Configurazione della cartuccia errata nell'IU!" },
-/* ko */ { IDMES_BAD_CART_CONFIG_IN_UI_KO, "" },  /* fuzzy */
+/* ko */ { IDMES_BAD_CART_CONFIG_IN_UI_KO, "UI ¿¡ Àß¸øµÈ Ä«Æ®¸®Áö°¡ ÀÖ½À´Ï´Ù" },
 /* nl */ { IDMES_BAD_CART_CONFIG_IN_UI_NL, "Slechte cartridge configuratie in UI!" },
 /* pl */ { IDMES_BAD_CART_CONFIG_IN_UI_PL, "Z³a konfiguracja kartrid¿a w UI!" },
 /* ru */ { IDMES_BAD_CART_CONFIG_IN_UI_RU, "" },  /* fuzzy */
@@ -3762,7 +3757,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDMES_CANNOT_CREATE_IMAGE_FR, "Impossible de créer le fichier image!" },
 /* hu */ { IDMES_CANNOT_CREATE_IMAGE_HU, "Nem sikerült a képmás fájlt létrehozni!" },
 /* it */ { IDMES_CANNOT_CREATE_IMAGE_IT, "Non è possibile creare il file immagine!" },
-/* ko */ { IDMES_CANNOT_CREATE_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDMES_CANNOT_CREATE_IMAGE_KO, "ÀÌ¹ÌÁö ÆÄÀÏÀ» »ý¼ºÇÒ¼ö ¾ø½À´Ï´Ù!" },
 /* nl */ { IDMES_CANNOT_CREATE_IMAGE_NL, "Kan bestand niet maken!" },
 /* pl */ { IDMES_CANNOT_CREATE_IMAGE_PL, "Nie mo¿na utworzyæ pliku obrazu!" },
 /* ru */ { IDMES_CANNOT_CREATE_IMAGE_RU, "" },  /* fuzzy */
@@ -4044,7 +4039,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_NETPLAY_SETTINGS_IT, "Impostazioni Netplay" },
 /* ko */ { IDS_NETPLAY_SETTINGS_KO, "³ÝÇÃ·¹ÀÌ ¼³Á¤" },
 /* nl */ { IDS_NETPLAY_SETTINGS_NL, "Netplay instellingen" },
-/* pl */ { IDS_NETPLAY_SETTINGS_PL, "Ustawienia Netplay" },
+/* pl */ { IDS_NETPLAY_SETTINGS_PL, "Ustawienia netplay" },
 /* ru */ { IDS_NETPLAY_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_NETPLAY_SETTINGS_SV, "Inställningar för nätverksspel" },
 /* tr */ { IDS_NETPLAY_SETTINGS_TR, "Netplay Ayarlarý" },
@@ -4210,7 +4205,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SELECT_START_SNAPSHOT_FR, "Sélectionner l'instantané de départ pour l'historique des événements" },
 /* hu */ { IDS_SELECT_START_SNAPSHOT_HU, "Válasszon kezdeti pillanatképet az esemény rögzítéshez" },
 /* it */ { IDS_SELECT_START_SNAPSHOT_IT, "Seleziona snapshot iniziale per la cronologia degli eventi" },
-/* ko */ { IDS_SELECT_START_SNAPSHOT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SELECT_START_SNAPSHOT_KO, "ÀÌº¥Æ® È÷½ºÅä¸® ½º³À¼¦À» ¼±ÅÃ ½ÃÀÛ ÇÏ¼¼¿ä" },
 /* nl */ { IDS_SELECT_START_SNAPSHOT_NL, "Selecteer start momentopname voor gebeurtenis geschiedenis" },
 /* pl */ { IDS_SELECT_START_SNAPSHOT_PL, "Wybierz pocz±tkowy zrzut historii zdarzeñ" },
 /* ru */ { IDS_SELECT_START_SNAPSHOT_RU, "" },  /* fuzzy */
@@ -4224,7 +4219,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_SELECT_END_SNAPSHOT_FR, "Sélectionner l'instantané de départ pour l'historique des événements" },
 /* hu */ { IDS_SELECT_END_SNAPSHOT_HU, "Válasszon végsõ pillanatképet az esemény rögzítéshez" },
 /* it */ { IDS_SELECT_END_SNAPSHOT_IT, "Seleziona snapshot finale per la cronologia degli eventi" },
-/* ko */ { IDS_SELECT_END_SNAPSHOT_KO, "" },  /* fuzzy */
+/* ko */ { IDS_SELECT_END_SNAPSHOT_KO, "ÀÌº¥Æ® È÷½ºÅä¸® ½º³À¼¦À» ¼±ÅÃ Á¾·á ÇÏ¼¼¿ä" },
 /* nl */ { IDS_SELECT_END_SNAPSHOT_NL, "Selecteer eind momentopname voor gebeurtenis geschiedenis" },
 /* pl */ { IDS_SELECT_END_SNAPSHOT_PL, "Wybierz koñcowy zrzut historii zdarzeñ" },
 /* ru */ { IDS_SELECT_END_SNAPSHOT_RU, "" },  /* fuzzy */
@@ -4252,7 +4247,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_ATTACH_CRT_IMAGE_FR, "Insérer une cartouche CRT" },
 /* hu */ { IDS_ATTACH_CRT_IMAGE_HU, "CRT cartridge képmás csatolása" },
 /* it */ { IDS_ATTACH_CRT_IMAGE_IT, "Seleziona immagine cartuccia CRT" },
-/* ko */ { IDS_ATTACH_CRT_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_ATTACH_CRT_IMAGE_KO, "CRT Ä«Æ®¸®Áö ÀÌ¹ÌÁö¸¦ ºÙ¿©³ÖÀ¸½Ã¿À" },
 /* nl */ { IDS_ATTACH_CRT_IMAGE_NL, "Koppel CRT cartridge bestand aan" },
 /* pl */ { IDS_ATTACH_CRT_IMAGE_PL, "Zamontuj obraz kartrid¿a CRT" },
 /* ru */ { IDS_ATTACH_CRT_IMAGE_RU, "" },  /* fuzzy */
@@ -4378,7 +4373,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_ATTACH_IEEE488_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ATTACH_IEEE488_IMAGE_HU, "" },  /* fuzzy */
 /* it */ { IDS_ATTACH_IEEE488_IMAGE_IT, "Seleziona immagine cartuccia interfaccia IEEE" },
-/* ko */ { IDS_ATTACH_IEEE488_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_ATTACH_IEEE488_IMAGE_KO, "IEEE-488 ÀÎÅÍÆÐÀÌ½º Ä«Æ®¸®Áö ÀÌ¹ÌÁö¸¦ ºÙ¿©³ÖÀ¸¼¼¿ä" },
 /* nl */ { IDS_ATTACH_IEEE488_IMAGE_NL, "Koppel IEEE-488 Interface cartridge bestand" },
 /* pl */ { IDS_ATTACH_IEEE488_IMAGE_PL, "Zamontuj obraz kartrid¿a IEEE-488 Interface" },
 /* ru */ { IDS_ATTACH_IEEE488_IMAGE_RU, "" },  /* fuzzy */
@@ -4658,7 +4653,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_OVERWRITE_EXISTING_IMAGE_FR, "Écraser les images existantes?" },
 /* hu */ { IDS_OVERWRITE_EXISTING_IMAGE_HU, "Felülírjam a meglévõ képmást?" },
 /* it */ { IDS_OVERWRITE_EXISTING_IMAGE_IT, "Sovrascrivo l'immagine esistente?" },
-/* ko */ { IDS_OVERWRITE_EXISTING_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_OVERWRITE_EXISTING_IMAGE_KO, "ÇöÁ¦ ÀÌ¹ÌÁö¸¦ µ¤¾î ¾²±â ÇÒ±î¿ä?" },
 /* nl */ { IDS_OVERWRITE_EXISTING_IMAGE_NL, "Bestaand bestand overschrijven?" },
 /* pl */ { IDS_OVERWRITE_EXISTING_IMAGE_PL, "Nadpisaæ istniej±cy obraz?" },
 /* ru */ { IDS_OVERWRITE_EXISTING_IMAGE_RU, "" },  /* fuzzy */
@@ -6873,7 +6868,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_IT, "Seleziona file su cui stampare" },
 /* ko */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_KO, "ÇÁ¸°ÅÍ ´ýÇÁ ÆÄÀÏÀ» ¼±ÅÃÇÏ¼¼¿ä" },
 /* nl */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_NL, "Selecteer printerdumpbestand" },
-/* pl */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_PL, "Wybierz drukarkê do dump'owania pliku" },
+/* pl */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_PL, "Wybierz plik zrzutu drukarki" },
 /* ru */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_SV, "Välj utskriftsdumpfil" },
 /* tr */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_TR, "Yazýcý döküm dosyasýný seçin" },
@@ -7627,7 +7622,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_AUTOSTART_IMAGE_FR, "Démarrer automatiquement une image de disque/datassette" },
 /* hu */ { IDS_AUTOSTART_IMAGE_HU, "Lemez/szalag képmás automatikus indítása" },
 /* it */ { IDS_AUTOSTART_IMAGE_IT, "Avvia automaticamente immagine disco/cassetta" },
-/* ko */ { IDS_AUTOSTART_IMAGE_KO, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_IMAGE_KO, "ÀÚµ¿ ½ÃÀÛ µð½ºÅ©/Å×ÀÌÇÁ ÀÌ¹ÌÁö" },
 /* nl */ { IDS_AUTOSTART_IMAGE_NL, "Autostart disk-/tapebestand" },
 /* pl */ { IDS_AUTOSTART_IMAGE_PL, "Automatycznie startuj z obrazu dysku lub ta¶my" },
 /* ru */ { IDS_AUTOSTART_IMAGE_RU, "" },  /* fuzzy */
@@ -8161,7 +8156,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SID_ENGINE_MODEL_IT, "Modello SID" },
 /* ko */ { IDS_SID_ENGINE_MODEL_KO, "SID ¸ðµ¨" },
 /* nl */ { IDS_SID_ENGINE_MODEL_NL, "SID model" },
-/* pl */ { IDS_SID_ENGINE_MODEL_PL, "Model SID" },
+/* pl */ { IDS_SID_ENGINE_MODEL_PL, "Model SID-a" },
 /* ru */ { IDS_SID_ENGINE_MODEL_RU, "ÜÞÔÕÛì ×ÒãÚÞÓÕÝÕàÐâÞàÐ SID" },
 /* sv */ { IDS_SID_ENGINE_MODEL_SV, "SID-modell" },
 /* tr */ { IDS_SID_ENGINE_MODEL_TR, "SID modeli" },
@@ -8203,7 +8198,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SID_DIGIBLASTER_IT, "Estensione digiblaster" },
 /* ko */ { IDS_SID_DIGIBLASTER_KO, "Digiblaster ¿¡µå ¿Â" },
 /* nl */ { IDS_SID_DIGIBLASTER_NL, "Digiblaster add-on" },
-/* pl */ { IDS_SID_DIGIBLASTER_PL, "Dodatek Digiblaster" },
+/* pl */ { IDS_SID_DIGIBLASTER_PL, "Dodatek digiblaster" },
 /* ru */ { IDS_SID_DIGIBLASTER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SID_DIGIBLASTER_SV, "Digiblaster-tillägg" },
 /* tr */ { IDS_SID_DIGIBLASTER_TR, "Digiblaster eklentisi" },
@@ -8243,7 +8238,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CANNOT_READ_FLIP_LIST_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CANNOT_READ_FLIP_LIST_HU, "Nem lehet olvasni a lemezlista fájlt" },
 /* it */ { IDS_CANNOT_READ_FLIP_LIST_IT, "Non è possibile caricare il file della flip list" },
-/* ko */ { IDS_CANNOT_READ_FLIP_LIST_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CANNOT_READ_FLIP_LIST_KO, "ÇÃ¸³ ¸®½ºÆ® ÆÄÀÏÀ» ÀÐÀ»¼ö ¾ø½À´Ï´Ù" },
 /* nl */ { IDS_CANNOT_READ_FLIP_LIST_NL, "Kan het fliplijstbestand niet lezen" },
 /* pl */ { IDS_CANNOT_READ_FLIP_LIST_PL, "Nie mo¿na odczytaæ pliku listy podmiany no¶ników" },
 /* ru */ { IDS_CANNOT_READ_FLIP_LIST_RU, "" },  /* fuzzy */
@@ -8271,7 +8266,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CANNOT_WRITE_FLIP_LIST_FR, "Impossible d'écrire le fichier de groupement de disques" },
 /* hu */ { IDS_CANNOT_WRITE_FLIP_LIST_HU, "Nem sikerült a lemezlistát fájlba írni" },
 /* it */ { IDS_CANNOT_WRITE_FLIP_LIST_IT, "Non è possibile scrivere il file della flip list" },
-/* ko */ { IDS_CANNOT_WRITE_FLIP_LIST_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CANNOT_WRITE_FLIP_LIST_KO, "ÇÃ¸³ ¸®½ºÆ® ÆÄÀÏÀ» ¾µ¼ö ¾ø½À´Ï´Ù" },
 /* nl */ { IDS_CANNOT_WRITE_FLIP_LIST_NL, "Kan fliplijstbestand niet schrijven" },
 /* pl */ { IDS_CANNOT_WRITE_FLIP_LIST_PL, "Nie mo¿na zapisaæ pliku listy wymiany no¶ników" },
 /* ru */ { IDS_CANNOT_WRITE_FLIP_LIST_RU, "" },  /* fuzzy */
@@ -8425,7 +8420,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CANNOT_WRITE_SNAPSHOT_S_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CANNOT_WRITE_SNAPSHOT_S_HU, "Nem sikerült a pillanatkép írása %s fájlba." },
 /* it */ { IDS_CANNOT_WRITE_SNAPSHOT_S_IT, "Non è possibile scrivere il file di snapshot `%s'." },
-/* ko */ { IDS_CANNOT_WRITE_SNAPSHOT_S_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CANNOT_WRITE_SNAPSHOT_S_KO, "½º³À¼¦ ÆÄÀÏ `%s' ¸¦ ¾µ¼ö ¾ø½À´Ï´Ù." },
 /* nl */ { IDS_CANNOT_WRITE_SNAPSHOT_S_NL, "Kan momentopnamebestand `%s' niet schrijven." },
 /* pl */ { IDS_CANNOT_WRITE_SNAPSHOT_S_PL, "Nie mo¿na zapisaæ pliku zrzutu '%s'" },
 /* ru */ { IDS_CANNOT_WRITE_SNAPSHOT_S_RU, "" },  /* fuzzy */
@@ -8439,7 +8434,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_CANNOT_READ_SNAPSHOT_IMG_FR, "Impossible de charger l'instantané." },
 /* hu */ { IDS_CANNOT_READ_SNAPSHOT_IMG_HU, "A pillanatkép fájl nem olvasható" },
 /* it */ { IDS_CANNOT_READ_SNAPSHOT_IMG_IT, "Non è possibile leggere l'immagine dello snapshot" },
-/* ko */ { IDS_CANNOT_READ_SNAPSHOT_IMG_KO, "" },  /* fuzzy */
+/* ko */ { IDS_CANNOT_READ_SNAPSHOT_IMG_KO, "½ºÅÇ¼¦ ÆÄÀÏÀ» ÀÐÀ»¼ö ¾ø½À´Ï´Ù" },
 /* nl */ { IDS_CANNOT_READ_SNAPSHOT_IMG_NL, "Kan momentopnamebestand niet lezen" },
 /* pl */ { IDS_CANNOT_READ_SNAPSHOT_IMG_PL, "Nie mo¿na wczytaæ obrazu zrzutu" },
 /* ru */ { IDS_CANNOT_READ_SNAPSHOT_IMG_RU, "" },  /* fuzzy */
@@ -8803,7 +8798,7 @@ intl_translate_t intl_string_table[] = {
 /* fr */ { IDS_VIDEO_SETTINGS_FR, "Paramètres vidéo" },
 /* hu */ { IDS_VIDEO_SETTINGS_HU, "Videó beállításai" },
 /* it */ { IDS_VIDEO_SETTINGS_IT, "Impostazioni video" },
-/* ko */ { IDS_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
+/* ko */ { IDS_VIDEO_SETTINGS_KO, "ºñµð·Î ¼ÂÆÃ" },
 /* nl */ { IDS_VIDEO_SETTINGS_NL, "Video instellingen" },
 /* pl */ { IDS_VIDEO_SETTINGS_PL, "Ustawienia wideo" },
 /* ru */ { IDS_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
@@ -8973,7 +8968,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_IO_SIZE_IT, "Dimensione I/O" },
 /* ko */ { IDS_IO_SIZE_KO, "I/O Å©±â" },
 /* nl */ { IDS_IO_SIZE_NL, "I/O grootte" },
-/* pl */ { IDS_IO_SIZE_PL, "Rozmiar I/O" },
+/* pl */ { IDS_IO_SIZE_PL, "Rozmiar we/wy" },
 /* ru */ { IDS_IO_SIZE_RU, "ÀÐ×ÜÕà I/O" },
 /* sv */ { IDS_IO_SIZE_SV, "I/O-utrymme" },
 /* tr */ { IDS_IO_SIZE_TR, "G/Ç boyutu" },
@@ -9680,28 +9675,28 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_MOUSE_CX22,    "Atari CX-22 trackball" },
 /* da */ { IDS_MOUSE_CX22_DA, "" },  /* fuzzy */
-/* de */ { IDS_MOUSE_CX22_DE, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_CX22_DE, "Atari CX-22 Trackball" },
 /* es */ { IDS_MOUSE_CX22_ES, "" },  /* fuzzy */
 /* fr */ { IDS_MOUSE_CX22_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MOUSE_CX22_HU, "" },  /* fuzzy */
 /* it */ { IDS_MOUSE_CX22_IT, "" },  /* fuzzy */
 /* ko */ { IDS_MOUSE_CX22_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_CX22_NL, "" },  /* fuzzy */
-/* pl */ { IDS_MOUSE_CX22_PL, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_CX22_NL, "Atari CX-22 trackball" },
+/* pl */ { IDS_MOUSE_CX22_PL, "Trackball Atari CX-22" },
 /* ru */ { IDS_MOUSE_CX22_RU, "" },  /* fuzzy */
 /* sv */ { IDS_MOUSE_CX22_SV, "" },  /* fuzzy */
 /* tr */ { IDS_MOUSE_CX22_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_MOUSE_ST,    "Atari ST mouse" },
 /* da */ { IDS_MOUSE_ST_DA, "" },  /* fuzzy */
-/* de */ { IDS_MOUSE_ST_DE, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_ST_DE, "Amiga ST Maus" },
 /* es */ { IDS_MOUSE_ST_ES, "" },  /* fuzzy */
 /* fr */ { IDS_MOUSE_ST_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MOUSE_ST_HU, "" },  /* fuzzy */
 /* it */ { IDS_MOUSE_ST_IT, "" },  /* fuzzy */
 /* ko */ { IDS_MOUSE_ST_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_ST_NL, "" },  /* fuzzy */
-/* pl */ { IDS_MOUSE_ST_PL, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_ST_NL, "Atari ST muis" },
+/* pl */ { IDS_MOUSE_ST_PL, "Mysz z Atari ST" },
 /* ru */ { IDS_MOUSE_ST_RU, "" },  /* fuzzy */
 /* sv */ { IDS_MOUSE_ST_SV, "" },  /* fuzzy */
 /* tr */ { IDS_MOUSE_ST_TR, "" },  /* fuzzy */

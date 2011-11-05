@@ -2,7 +2,7 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
@@ -8950,7 +8950,9 @@ msgstr "Zet disk bestand voor het autostarten van PRG bestanden"
 
 #: src/translate_text.c.po.c:3168
 msgid "Set initial autostart delay (0: use default)"
-msgstr "Zet de vertraging bij begin van het autostarten (0: gebruik de standaard waarde)"
+msgstr ""
+"Zet de vertraging bij begin van het autostarten (0: gebruik de standaard "
+"waarde)"
 
 #: src/translate_text.c.po.c:3185
 msgid "Enable random initial autostart delay."
@@ -9132,7 +9134,9 @@ msgstr "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 msgid ""
 "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
 "c232)"
-msgstr "Zet Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"
+msgstr ""
+"Zet Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
+"c232)"
 
 #: src/translate_text.c.po.c:4090
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"

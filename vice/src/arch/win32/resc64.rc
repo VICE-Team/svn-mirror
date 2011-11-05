@@ -853,7 +853,7 @@ BEGIN
   IDS_C64_MODEL            "Model C64"
   IDS_VICII_MODEL          "Model VIC-II"
   IDS_NEW_LUMINANCES       "Nowy typ jaskrawo¶ci"
-  IDS_SID_MODEL            "Model SID"
+  IDS_SID_MODEL            "Model SID-a"
   IDS_CIA1_MODEL           "Model CIA 1"
   IDS_CIA2_MODEL           "Model CIA 2"
   IDS_GLUE_LOGIC           "Glue logic"

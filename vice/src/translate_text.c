@@ -26,11 +26,6 @@
 
 translate_t string_table[] = {
 
-
-
-
-
-
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -74,7 +69,7 @@ translate_t string_table[] = {
 /* fr */ {IDGS_CANNOT_CREATE_IMAGE_FR, "Impossible de créer le fichier image!"},
 /* hu */ {IDGS_CANNOT_CREATE_IMAGE_HU, "Nem sikerült a képmás fájlt létrehozni!"},
 /* it */ {IDGS_CANNOT_CREATE_IMAGE_IT, "Non è possibile creare il file immagine!"},
-/* ko */ {IDGS_CANNOT_CREATE_IMAGE_KO, ""},  /* fuzzy */
+/* ko */ {IDGS_CANNOT_CREATE_IMAGE_KO, "ÀÌ¹ÌÁö ÆÄÀÏÀ» »ý¼ºÇÒ¼ö ¾ø½À´Ï´Ù!"},
 /* nl */ {IDGS_CANNOT_CREATE_IMAGE_NL, "Kan bestand niet maken!"},
 /* pl */ {IDGS_CANNOT_CREATE_IMAGE_PL, "Nie mo¿na utworzyæ pliku obrazu!"},
 /* ru */ {IDGS_CANNOT_CREATE_IMAGE_RU, ""},  /* fuzzy */
@@ -2075,7 +2070,7 @@ translate_t string_table[] = {
 /* it */ {IDGS_COMMAND_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_COMMAND_KO, "¸í·É"},
 /* nl */ {IDGS_COMMAND_NL, "Commando"},
-/* pl */ {IDGS_COMMAND_PL, "Komenda"},
+/* pl */ {IDGS_COMMAND_PL, "Polecenie"},
 /* ru */ {IDGS_COMMAND_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_COMMAND_SV, "Kommando"},
 /* tr */ {IDGS_COMMAND_TR, ""},  /* fuzzy */
@@ -3220,7 +3215,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_AUTOSTART_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_AUTOSTART_DELAY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_AUTOSTART_DELAY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_AUTOSTART_DELAY_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_AUTOSTART_DELAY_NL, "Zet de vertraging bij begin van het autostarten (0: gebruik de standaard waarde)"},
 /* pl */ {IDCLS_SET_AUTOSTART_DELAY_PL, "Okre¶l pocz±tkowe opó¼nienie autostartu (0: domy¶lne)"},
 /* ru */ {IDCLS_SET_AUTOSTART_DELAY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_AUTOSTART_DELAY_SV, ""},  /* fuzzy */
@@ -3320,14 +3315,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_BURST_MOD,    N_("Burst modification (0 = None, 1 = CIA1, 2 = CIA2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BURST_MOD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_BURST_MOD_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_BURST_MOD_DE, "Burst Modifikation (0 = Kein, 1 = CIA1, 2 = CIA2)"},
 /* es */ {IDCLS_SET_BURST_MOD_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SET_BURST_MOD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BURST_MOD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_BURST_MOD_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_BURST_MOD_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_BURST_MOD_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SET_BURST_MOD_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_BURST_MOD_NL, "Burst modificatie (0 = Geen, 1 = CIA1, 2 = CIA2)"},
+/* pl */ {IDCLS_SET_BURST_MOD_PL, "Modyfikacja trybu synchronicznego (0 = Brak, 1 = CIA1, 2 = CIA2)"},
 /* ru */ {IDCLS_SET_BURST_MOD_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_BURST_MOD_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_BURST_MOD_TR, ""},  /* fuzzy */
@@ -3696,7 +3691,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_P_REVISION_IT, "<Revisione>"},
 /* ko */ {IDCLS_P_REVISION_KO, "<¼öÁ¤>"},
 /* nl */ {IDCLS_P_REVISION_NL, "<Revisie>"},
-/* pl */ {IDCLS_P_REVISION_PL, "<Wersja>"},
+/* pl */ {IDCLS_P_REVISION_PL, "<Poprawka>"},
 /* ru */ {IDCLS_P_REVISION_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_REVISION_SV, "<Utgåva>"},
 /* tr */ {IDCLS_P_REVISION_TR, "<Revizyon>"},
@@ -4147,7 +4142,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_PLUS4_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_PLUS4_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_PLUS4_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_PLUS4_MODEL_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_PLUS4_MODEL_NL, "Zet Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
 /* pl */ {IDCLS_SET_PLUS4_MODEL_PL, "Ustaw model Plus4 (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
 /* ru */ {IDCLS_SET_PLUS4_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_PLUS4_MODEL_SV, ""},  /* fuzzy */
@@ -4164,7 +4159,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DTV_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DTV_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DTV_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DTV_MODEL_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DTV_MODEL_NL, "Zet DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
 /* pl */ {IDCLS_SET_DTV_MODEL_PL, "Ustaw model DTV (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
 /* ru */ {IDCLS_SET_DTV_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DTV_MODEL_SV, ""},  /* fuzzy */
@@ -5583,7 +5578,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ATTACH_CRT_CART_FR, "Insérer une cartouche CRT"},
 /* hu */ {IDCLS_ATTACH_CRT_CART_HU, "CRT cartridge képmás csatolása"},
 /* it */ {IDCLS_ATTACH_CRT_CART_IT, "Seleziona immagine cartuccia CRT"},
-/* ko */ {IDCLS_ATTACH_CRT_CART_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_ATTACH_CRT_CART_KO, "CRT Ä«Æ®¸®Áö ÀÌ¹ÌÁö¸¦ ºÙ¿©³ÖÀ¸½Ã¿À"},
 /* nl */ {IDCLS_ATTACH_CRT_CART_NL, "Koppel CRT cartridge bestand aan"},
 /* pl */ {IDCLS_ATTACH_CRT_CART_PL, "Zamontuj obraz kartrid¿a CRT"},
 /* ru */ {IDCLS_ATTACH_CRT_CART_RU, ""},  /* fuzzy */
@@ -6161,7 +6156,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ATTACH_CBM_IEEE488_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_CBM_IEEE488_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_CBM_IEEE488_CART_IT, "Seleziona immagine cartuccia interfaccia IEEE"},
-/* ko */ {IDCLS_ATTACH_CBM_IEEE488_CART_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_ATTACH_CBM_IEEE488_CART_KO, "IEEE-488 ÀÎÅÍÆÐÀÌ½º Ä«Æ®¸®Áö ÀÌ¹ÌÁö¸¦ ºÙ¿©³ÖÀ¸¼¼¿ä"},
 /* nl */ {IDCLS_ATTACH_CBM_IEEE488_CART_NL, "Koppel IEEE-488 Interface cartridge bestand"},
 /* pl */ {IDCLS_ATTACH_CBM_IEEE488_CART_PL, "Zamontuj obraz kartrid¿a IEEE-488 Interface"},
 /* ru */ {IDCLS_ATTACH_CBM_IEEE488_CART_RU, ""},  /* fuzzy */
@@ -7648,7 +7643,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_NL, "Geef de naam van het 2000 DOS ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM DOS-a 2000"},
 /* ru */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_TR, ""},  /* fuzzy */
@@ -7665,7 +7660,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_NL, "Geef de naam van het 4000 DOS ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM DOS-a 4000"},
 /* ru */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_TR, ""},  /* fuzzy */
@@ -9627,14 +9622,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SPECIFY_SID_3_ADDRESS,    N_("Specify base address for 3rd SID")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_3_ADDRESS_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SID_3_ADDRESS_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SID_3_ADDRESS_DE, "Basis Adresse für dritten SID definieren"},
 /* es */ {IDCLS_SPECIFY_SID_3_ADDRESS_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SPECIFY_SID_3_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_3_ADDRESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_3_ADDRESS_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SPECIFY_SID_3_ADDRESS_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SPECIFY_SID_3_ADDRESS_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SPECIFY_SID_3_ADDRESS_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SID_3_ADDRESS_NL, "Geef het basisadres van de 3e SID"},
+/* pl */ {IDCLS_SPECIFY_SID_3_ADDRESS_PL, "Okre¶l adres bazowy 3. SID-a"},
 /* ru */ {IDCLS_SPECIFY_SID_3_ADDRESS_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SID_3_ADDRESS_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SPECIFY_SID_3_ADDRESS_TR, ""},  /* fuzzy */
@@ -9703,7 +9698,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_P_PERCENT_IT, "<percento>"},
 /* ko */ {IDCLS_P_PERCENT_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_PERCENT_NL, "<procent>"},
-/* pl */ {IDCLS_P_PERCENT_PL, "<percent>"},
+/* pl */ {IDCLS_P_PERCENT_PL, "<procent>"},
 /* ru */ {IDCLS_P_PERCENT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_PERCENT_SV, "<procent>"},
 /* tr */ {IDCLS_P_PERCENT_TR, "<yüzde>"},
@@ -11550,7 +11545,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"},
-/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrêt³a, 4 = CX-22, 5 = ST)"},
 /* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
@@ -12009,7 +12004,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, "<codice iso lingua>"},
 /* ko */ {IDCLS_P_ISO_LANGUAGE_CODE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ISO_LANGUAGE_CODE_NL, "<iso taalcode>"},
-/* pl */ {IDCLS_P_ISO_LANGUAGE_CODE_PL, "<kod jêzykowy iso>"},
+/* pl */ {IDCLS_P_ISO_LANGUAGE_CODE_PL, "<Kod jêzykowy iso>"},
 /* ru */ {IDCLS_P_ISO_LANGUAGE_CODE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_ISO_LANGUAGE_CODE_SV, "<iso-språkkod>"},
 /* tr */ {IDCLS_P_ISO_LANGUAGE_CODE_TR, "<iso dil kodu>"},
@@ -12274,14 +12269,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART,    N_("Attach raw Silverrock 128 cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_DE, "Silverrock 128 Erweiterungsmodul (raw) Image einlegen"},
 /* es */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_NL, "Koppel binair Silverrock 128 cartridge bestand"},
+/* pl */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_PL, "Zamontuj surowy obraz kartrid¿a Silverrock 128"},
 /* ru */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_TR, ""},  /* fuzzy */
@@ -12725,7 +12720,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_IT, "Seleziona immagine Speech ROM"},
 /* ko */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_NL, "Koppel spraak ROM bestand aan"},
-/* pl */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_PL, "Zamontuj obraz Speech ROM"},
+/* pl */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_PL, "Zamontuj obraz ROM mowy"},
 /* ru */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_SV, "Anslut röst-ROM-avbildning"},
 /* tr */ {IDCLS_ATTACH_SPEECH_ROM_IMAGE_TR, "Speech ROM imajýný yerleþtir"},

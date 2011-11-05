@@ -690,7 +690,7 @@ BEGIN
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "생성"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
-  IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
+  IDS_MI_AUTOSTART_DISK           "자동 시작 디스크 이미지..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
   IDS_MI_CREATE_DTV_FLASH         "Create DTV Flash Image"
