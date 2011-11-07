@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-11-05 12:43-0700\n"
-"PO-Revision-Date: 2011-10-03 22:11+0200\n"
+"PO-Revision-Date: 2011-11-07 20:35+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -78,9 +78,8 @@ msgstr "Baudrate für viertes RS232 Gerät definieren"
 
 #: src/arch/unix/gui/c128ui.c:266 src/arch/unix/gui/c64scui.c:365
 #: src/arch/unix/gui/c64ui.c:425 src/arch/unix/gui/vsidui.c:232
-#, fuzzy
 msgid "Extra SIDs"
-msgstr "SID aktivieren"
+msgstr "Extra SIDs"
 
 #: src/arch/unix/gui/c128ui.c:267 src/arch/unix/gui/c64scui.c:366
 #: src/arch/unix/gui/c64ui.c:426 src/arch/unix/gui/cbm2ui.c:361
@@ -90,9 +89,8 @@ msgstr "Zweiter SID Chip Basisadresse"
 
 #: src/arch/unix/gui/c128ui.c:268 src/arch/unix/gui/c64scui.c:367
 #: src/arch/unix/gui/c64ui.c:427 src/arch/unix/gui/vsidui.c:234
-#, fuzzy
 msgid "Third SID base address"
-msgstr "Zweiter SID Chip Basisadresse"
+msgstr "Dritter SID Chip Basisadresse"
 
 #: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64dtvui.c:76
 #: src/arch/unix/gui/c64scui.c:369 src/arch/unix/gui/c64ui.c:429
@@ -633,16 +631,15 @@ msgstr "Kein"
 
 #: src/arch/unix/gui/c64scui.c:391 src/arch/unix/gui/c64ui.c:451
 msgid "CIA1"
-msgstr ""
+msgstr "CIA1"
 
 #: src/arch/unix/gui/c64scui.c:393 src/arch/unix/gui/c64ui.c:453
 msgid "CIA2"
-msgstr ""
+msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:440 src/arch/unix/gui/c64ui.c:500
-#, fuzzy
 msgid "Burst Mode Modification"
-msgstr "Emulator Identifikation"
+msgstr "Burst Modus Modifikation"
 
 #: src/arch/unix/gui/c64ui.c:209
 msgid "Old PAL-G"
@@ -3531,13 +3528,12 @@ msgid "Passband percentage"
 msgstr "Passband Prozent"
 
 #: src/arch/unix/gui/uisid.c:255
-#, fuzzy
 msgid "One"
-msgstr "Ein"
+msgstr "Einen"
 
 #: src/arch/unix/gui/uisid.c:256
 msgid "Two"
-msgstr ""
+msgstr "Zwei"
 
 #: src/arch/unix/gui/uisound.c:49 src/arch/unix/gui/uisound.c:147
 msgid "Sound driver argument"
@@ -3598,18 +3594,16 @@ msgid "Exact"
 msgstr "Exakt"
 
 #: src/arch/unix/gui/uisound.c:128
-#, fuzzy
 msgid "System"
-msgstr "Dateisystem"
+msgstr "System"
 
 #: src/arch/unix/gui/uisound.c:131
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/arch/unix/gui/uisound.c:134
-#, fuzzy
 msgid "Stereo"
-msgstr "SID Stereo"
+msgstr "Stereo"
 
 #: src/arch/unix/gui/uisound.c:141 src/translate_text.c.po.c:11585
 msgid "Enable sound playback"
@@ -3621,9 +3615,8 @@ msgid "Sound device name"
 msgstr "Sound Gerätename"
 
 #: src/arch/unix/gui/uisound.c:151
-#, fuzzy
 msgid "Output mode"
-msgstr "Ausgabe"
+msgstr "Ausgabe Modus"
 
 #: src/arch/unix/gui/uisound.c:153
 msgid "Sound synchronization"
@@ -5275,12 +5268,10 @@ msgid "Set input device for extra joystick #2"
 msgstr "Input Gerät für extra Joystick #2 definieren"
 
 #: src/arch/win32/res.rc.po.c:1145
-#, fuzzy
 msgid "Confirm quitting VICE"
 msgstr "Bestätige beenden von VICE"
 
 #: src/arch/win32/res.rc.po.c:1146
-#, fuzzy
 msgid "Never confirm quitting VICE"
 msgstr "Keine Bestätigung beim Beenden von VICE"
 
