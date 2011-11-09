@@ -85,6 +85,7 @@ int ieee_cmdline_options_init(void)
             return -1;
 
         lib_free((char *)cmd_drive[0].name);
+        lib_free((char *)cmd_drive[0].resource_name);
     }
 
     return cmdline_register_options(cmdline_options);
