@@ -1,5 +1,865 @@
 ------------------------------------------------------------------------------
 
+2011-11-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.hlp, doc/vice.txt, doc/vice.guide,
+	doc/vice.chm, configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, po/es.po, po/ko.po, po/fr.po,
+	po/da.po, po/tr.po, po/de.po, po/sv.po, po/hu.po, po/ru.po,
+	po/translations-status.txt, po/nl.po, po/pl.po, po/it.po: VICE 2.3.11
+
+2011-11-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated.
+
+2011-11-07  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+
+2011-11-06 Dag Lem <resid@nimrod.no>
+
+	* src/resid/wave.cc: Zero (ground) bit 0 of triangle waveform - bug
+	found by Frank Wolf
+
+2011-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt, src/arch/amigaos/intl_text.c,
+	src/arch/unix/gui/vsidui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resc64dtv.rc,
+	src/translate_text.c: Did a make trans-update.
+
+2011-11-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-11-02  groepaz <groepaz@gmx.net>
+
+	* src/init.c: always init console, patch by ian coog
+
+2011-11-02  groepaz <groepaz@gmx.net>
+
+	* src/c64/psid.c: properly set pal/ntsc flag, patch by ian coog
+
+2011-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in, po/translations-status.txt: Added a translations
+	status text file, this can be used to show the translators how much
+	work is still left and/or to motivate translators to catch up
+	regularly, this file will be updated with every development release.
+
+2011-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data, src/Makefile.am, src/arch/sdl/win32-msvc/cbm2.dsp,
+	src/arch/sdl/win32-msvc/cbm2common.dsp,
+	src/arch/sdl/win32-msvc/cbm5x0.dsp, src/arch/sdl/win32-msvc/vice.dsw,
+	src/arch/win32/cbm2.dsp, src/arch/win32/cbm2common.dsp,
+	src/arch/win32/cbm5x0.dsp, src/arch/win32/vice.dsw,
+	src/arch/win32/watcom/cbm2.tgt, src/arch/win32/watcom/cbm2common.tgt,
+	src/arch/win32/watcom/cbm5x0.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/xcbm2.tgt, src/arch/win32/watcom/xcbm5x0.tgt,
+	src/cbm2/Makefile.am, src/cbm2/cbm2-resources.c,
+	src/cbm2/cbm2-snapshot.c, src/cbm2/cbm2mem.c, src/cbm2/cbm2rom.c,
+	src/cbm2/cbm2video.c, src/cbm2/cbm5x0-resources.c,
+	src/cbm2/cbm5x0-snapshot.c, src/cbm2/cbm5x0mem.c,
+	src/cbm2/cbm5x0rom.c, src/cbm2/cbm5x0video.c: Better separation of
+	xcbm5x0 and xcbm2, xcbm2 now compiles without vicii lib and xcbm5x0
+	now compiles without crtc lib.
+
+2011-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/geninfocontrib.dsp: Fixed for release build.
+
+2011-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsidstubs.c: Added vsid crash fix, patch supplied by
+	iAN_CooG.
+
+2011-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed a very long outstanding typo.
+
+2011-10-26  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/gui/uisound.c: Corrected some unix menu item text.
+
+2011-10-26  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/main.c, src/sound.c, src/sound.h: Fixed default resource
+	settings for vsid.
+
+2011-10-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/ata.h: Use word address, not byte. And
+	remove the CR/LF hell.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/infocontrib.sed: Updated an email addy.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc.c: Added missing include.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c, src/archapi.h, src/rtc/rtc.c: Added
+	archdep_rtc_get_centisecond() for windows compilers that don't have
+	gettimeofday, based on a patch by iAN_CooG.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/psid.c: Applied fix for vsid as provided by iAN_CooG.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsid.c: Fixed vsid for the sid mirror problem.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/c64io.c: Fix for sid mirror
+	problem.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added sys/time.h check for all platforms.
+
+2011-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/watcom-source-wrappers/vsid-main.c,
+	src/arch/watcom-source-wrappers/xcbm5x0-main.c,
+	src/arch/win32/Makefile.am, src/arch/win32/uisiddtv.c,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/base.tgt,
+	src/arch/win32/watcom/c128.tgt, src/arch/win32/watcom/c64cart.tgt,
+	src/arch/win32/watcom/c64commonall.tgt,
+	src/arch/win32/watcom/c64commonc128.tgt,
+	src/arch/win32/watcom/c64commonc128c64dtv.tgt,
+	src/arch/win32/watcom/c64commonc64dtv.tgt,
+	src/arch/win32/watcom/c64commondscdtv.tgt,
+	src/arch/win32/watcom/c64commonsc.tgt,
+	src/arch/win32/watcom/c64commonscdtv128.tgt,
+	src/arch/win32/watcom/c64commonscdtvvsid.tgt,
+	src/arch/win32/watcom/c64commonscvsid.tgt,
+	src/arch/win32/watcom/c64commonscvsid128.tgt,
+	src/arch/win32/watcom/c64commonvsid.tgt,
+	src/arch/win32/watcom/c64dtv.tgt, src/arch/win32/watcom/c64sc.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/cbm2.tgt,
+	src/arch/win32/watcom/cbm2common.tgt,
+	src/arch/win32/watcom/cbm5x0.tgt, src/arch/win32/watcom/core.tgt,
+	src/arch/win32/watcom/drive.tgt, src/arch/win32/watcom/iec.tgt,
+	src/arch/win32/watcom/pet.tgt, src/arch/win32/watcom/plus4.tgt,
+	src/arch/win32/watcom/userport.tgt, src/arch/win32/watcom/vic20.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/watcom/video.tgt,
+	src/arch/win32/watcom/vsid.tgt, src/arch/win32/watcom/vsidlib.tgt,
+	src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	src/arch/win32/watcom/x64dtv.tgt, src/arch/win32/watcom/x64sc.tgt,
+	src/arch/win32/watcom/xcbm2.tgt, src/arch/win32/watcom/xcbm5x0.tgt,
+	src/arch/win32/watcom/xpet.tgt, src/arch/win32/watcom/xplus4.tgt,
+	src/arch/win32/watcom/xvic.tgt, src/c64/cart/kcs.c,
+	src/c64/cart/silverrock128.c, src/machine.h, src/mouse.c,
+	src/sid/sid-resources.c, src/sid/sid.h: Fixed win32 ow project files
+	(unbreak win32 ow compilation).
+
+2011-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Makefile.am,
+	src/arch/sdl/win32-msvc/arch.dsp, src/arch/sdl/win32-msvc/base.dsp,
+	src/arch/sdl/win32-msvc/c128.dsp, src/arch/sdl/win32-msvc/c64.dsp,
+	src/arch/sdl/win32-msvc/c64c128.dsp,
+	src/arch/sdl/win32-msvc/c64cart.dsp,
+	src/arch/sdl/win32-msvc/c64dtv.dsp, src/arch/sdl/win32-msvc/c64sc.dsp,
+	src/arch/sdl/win32-msvc/cbm2.dsp,
+	src/arch/sdl/win32-msvc/cbm2common.dsp,
+	src/arch/sdl/win32-msvc/cbm5x0.dsp, src/arch/sdl/win32-msvc/core.dsp,
+	src/arch/sdl/win32-msvc/drive.dsp, src/arch/sdl/win32-msvc/iec.dsp,
+	src/arch/sdl/win32-msvc/pet.dsp, src/arch/sdl/win32-msvc/plus4.dsp,
+	src/arch/sdl/win32-msvc/userport.dsp,
+	src/arch/sdl/win32-msvc/vic20.dsp, src/arch/sdl/win32-msvc/vice.dsw,
+	src/arch/sdl/win32-msvc/video.dsp, src/arch/sdl/win32-msvc/vsid.dsp,
+	src/arch/sdl/win32-msvc/vsidlib.dsp,
+	src/arch/sdl/win32-msvc/xcbm5x0.dsp, src/arch/win32/uiide64.c,
+	src/gfxoutputdrv/ffmpeglib.h: Fixed win32 sdl msvc project files
+	(unbreak win32 sdl msvc compilation).
+
+2011-10-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/base.dsp, src/arch/win32/c128.dsp,
+	src/arch/win32/c64.dsp, src/arch/win32/c64c128.dsp,
+	src/arch/win32/c64cart.dsp, src/arch/win32/c64dtv.dsp,
+	src/arch/win32/c64sc.dsp, src/arch/win32/cbm2.dsp,
+	src/arch/win32/cbm2common.dsp, src/arch/win32/cbm5x0.dsp,
+	src/arch/win32/core.dsp, src/arch/win32/drive.dsp,
+	src/arch/win32/iec.dsp, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/pet.dsp, src/arch/win32/plus4.dsp,
+	src/arch/win32/userport.dsp, src/arch/win32/vic20.dsp,
+	src/arch/win32/vice.dsw, src/arch/win32/video.dsp,
+	src/arch/win32/vsid.dsp, src/arch/win32/vsidlib.dsp,
+	src/arch/win32/xcbm5x0.dsp, src/c64/cart/ide64.c,
+	src/c64dtv/c64dtvmodel.c, src/cbm2/cbm2model.c, src/core/ata.c,
+	src/drive/iec/pc8477.c, src/plus4/plus4model.c, src/rtc/rtc.c,
+	src/vicii/vicii-resources.c: Fixed win32 msvc project files (unbreak
+	win32 msvc compilation).
+
+2011-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ide64.c: debug define fixed for msvc.
+
+2011-10-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/iec/wd1770.c: debug define fixed for msvc.
+
+2011-21-19  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: updated
+
+2011-10-19  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/petui.cc,
+	src/arch/beos/ui_video.cc, src/arch/beos/vicemenu.cc,
+	src/arch/beos/vsidui.cc: Add several new machine-specific menu items
+	and a video settings dialog for VDC to BeVICE.
+
+2011-10-18  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/kcs.c: fix mapping, add debug stuff
+
+2011-10-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_c64hw.c, src/arch/sdl/menu_cbm2cart.c,
+	src/arch/sdl/menu_cbm2hw.c, src/arch/sdl/menu_sid.c,
+	src/arch/sdl/menu_sound.c, src/arch/sdl/xcbm2_ui.c, src/cbm2/cbm5x0.c:
+	updated sdl ui
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vsidui.c: added missing sid type and pal-n items
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/reu.c: give reu high io prio so it always works with
+	RR and SS5 etc
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c: added unix gui items for 3rd SID (x128)
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/dingoo-files/vicerc-native: fix resource name
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiide64.c, src/arch/unix/gui/uilib.h,
+	src/arch/unix/x11/gnome/uifileentry.c: updated filter in file selector
+	for hd images
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c: added unix
+	gui items for burst mode mod
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uisound.c: added unix gui items for sound output
+	mode
+
+2011-10-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/uisid.c, src/arch/unix/gui/uisid.h,
+	src/arch/unix/gui/vsidui.c: added unix gui items for 3rd SID
+
+2011-10-16  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64dtvui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/arch/beos/petui.cc,
+	src/arch/beos/plus4ui.cc, src/arch/beos/ui.cc, arch/beos/ui_file.cc,
+	src/arch/beos/ui_file.h, src/arch/beos/vic20ui.cc,
+	src/arch/beos/vsidui.cc: Change BeVICE's render filter handling and
+	ui_select_file() calls, and remove its SID stereo UI elements
+	from xcbm2 and xcbm5x0.
+
+2011-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed SDL dsound issue.
+
+2011-10-15  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-10-08  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/viciisc/vicii-mem.c: Reading the collision the registers does
+	not affect the interrupt register.
+
+2011-10-08  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/arch/win32/resmenu.txt: Fixed a compilation issue on win32
+	(missing menu definitions for Spanish).
+
+2011-10-08  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c: 1 cycle is correct. Unfortunately this is not enough
+	for the drive emulation as the reading bitrate is wrong. But this
+	should not be worked around here.
+
+2011-10-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicemenu.cc, src/arch/beos/vsidui.cc: BeVICE vsid/menu
+	fixes.
+
+2011-10-03  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2011-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/NLS-Howto.txt: Updated.
+
+2011-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in, doc/vice.texi, po/Makefile.in.in,
+	po/da.po, po/de.po, po/es.po, po/fr.po, po/gen_amiga_intl_c.c,
+	po/gen_translate_c.c, po/gen_win32_files.sh, po/gen_win32_rc.c,
+	po/hu.po, po/intl2po.c, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/po2table.c, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/genintl_h.sh, src/arch/amigaos/genintl_h.sh.in,
+	src/arch/amigaos/genintltable.sh, src/arch/amigaos/intl.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/ui.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20uires.h, src/arch/unix/x11/gnome/about.c,
+	src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/intl.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/resdigimax.rc,
+	src/arch/win32/resdqbb.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/reslightpen.rc, src/arch/win32/resmagicvoice.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmmc64.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resreu.rc, src/arch/win32/resrs232user.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/restfe.rc, src/arch/win32/resv364speech.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/arch/win32/ui.c, src/arch/win32/utils/gentranslate.c,
+	src/arch/win32/vic20ui.c, src/gentranslate_h.sh,
+	src/gentranslate_h.sh.in, src/gentranslatetable.sh,
+	src/infocontrib.sed, src/translate_languages.h, src/translate_text.c:
+	Added spanish support, will be officially maintained by Manuel Antonio
+	Rodriguez Bas.
+
+2011-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Added missing cartio.h
+
+2011-10-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/gcr.c, src/gcr.h: these functions don't need to be exported
+
+2011-10-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vic20/vic20via2.c: I'm sure this was not tested with rs232...
+
+2011-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20via2.c: Fixed the vic20 via2 port B read, it now
+	returns 0xff when the userport is not used for rs232.
+
+2011-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Fixed typo.
+
+2011-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/Makefile.am, src/arch/unix/vsid: Got rid of the vsid
+	script since vsid is now a program with its own gui.
+
+2011-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/rotation.c: These divisions are a small but measurable
+	performance hit
+
+2011-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/wd1770.c: Correction for FM
+
+2011-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po: Updated.
+
+2011-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64sound.c, src/c64dtv/c64dtvsound.c, src/pet/petsound.c,
+	src/plus4/ted-sound.c, src/sid/sid-cmdline-options.c,
+	src/sid/sid-resources.c, src/sound.c, src/vic20/vic20sound.c: Fixed
+	3rd sid support.
+
+2011-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2-resources.c, src/cbm2/cbm2mem.c, src/cbm2/cbm2sound.c:
+	Removed triple and stereo sid support from cbm2.
+
+2011-09-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128cpu.c, src/plus4/plus4cpu.c, src/vic20/vic20cpu.c:
+	Fixed some typos.
+
+2011-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2mem.c: Fix for 3rd sid on cbm2.
+
+2011-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-resources.c, src/c64/c64-resources.c,
+	src/c64/c64sound.c, src/cbm2/cbm2-resources.c, src/cbm2/cbm2sound.c,
+	src/sid/sid-cmdline-options.c, src/sid/sid-resources.c,
+	src/sid/sid-resources.h, src/sid/sid.c, src/sid/sid.h, src/sound.c,
+	src/sound.h, src/translate.txt, src/translate_text.c: Added
+	experimental 3rd sid support.
+
+2011-09-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ciacore.c, src/drive/iec/via1d1541.c,
+	src/drive/ieee/via1d2031.c: Unused stuff
+
+2011-09-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Style
+
+2011-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/digimax.c, src/c64/cart/magicvoice.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/pet/petsound.c, src/plus4/digiblaster.c, src/plus4/plus4speech.c,
+	src/plus4/ted-sound.c, src/sid/sid.c, src/sid/sid.h, src/sound.c,
+	src/sound.h, src/userport/userport_dac.c, src/vic20/vic20sound.c:
+	Changed the call of the calculate samples code a bit, will make it
+	easier to implement the (soon to come) 3rd sid emulation.
+
+2011-09-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/wd1770.c: Remove mycontext
+
+2011-09-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/wd1770.c: step in/out reversed
+
+2011-09-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, README, doc/html/index.html, src/arch/amigaos/mui/mui.c,
+	src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/sdl/menu_help.c,
+	src/arch/unix/x11/gnome/about.c, src/arch/unix/x11/xaw/about.c,
+	src/arch/win32/res.rc, src/main.c: Added the latest core members to
+	the various lists.
+
+2011-09-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/menu_drive.c, src/arch/sdl/menu_drive_rom.c: Add
+	2000/4000 to UI
+
+2011-09-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.h: Unused headers
+
+2011-09-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c: Buffer was too short
+
+2011-09-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/fdd.c: Also return bytes when no disk in drive
+
+2011-09-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128drive.c, src/c64/c64drive.c, src/drive/drive.c,
+	src/drive/drivetypes.h, src/drive/iec/cia1581d.c, src/drive/iec/fdd.c,
+	src/drive/iec/fdd.h, src/drive/iec/iec.c, src/drive/iec/wd1770.c,
+	src/drive/iec/wd1770.h, src/drive/iec.h, src/machine-drive.h,
+	src/plus4/plus4drive.c, src/vic20/vic20drive.c: Rewrite of the wd1770
+	emulation. Now using FDD for raw MFM floppy handling and rotation, and
+	all functions are microcoded and implemented. Emulation speed should
+	now match the real drive. The FDD emulation now gained CRC handling.
+	Vsync index hack gone is now. The 1581 emulation is using wd1770 and
+	not 1772 to match the expectation of ROM code. That's because the TOD
+	emulation in CIA is too "expensive" to be used at phi2 speed, and the
+	J1 jumper is detected as open on boot.
+
+2011-09-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c: Wrong pointer
+
+2011-09-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c, src/drive/iec/pc8477.h: Clean up includes
+
+2011-09-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/iec.c, src/drive/iec/pc8477.c, src/drive/iec/pc8477.h,
+	src/drive/iec/via4000.c: Move around stuff
+
+2011-09-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivesync.c, src/drive/drivesync.h, src/drive/iec/fdd.c,
+	src/drive/iec/fdd.h, src/drive/iec/pc8477.c, src/drive/iec/pc8477.h:
+	Rotation, 4MHz mode, and low level disk representation
+
+2011-09-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/cbm2ui.cc,
+	src/arch/beos/cbm5x0ui.cc, src/cbm2/cbm5x0.c, src/cbm2ui.h: xcbm5x0 UI
+	separation/fixes for BeVICE
+
+2011-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/make-bindist.sh, src/arch/beos/make-bindist.sh,
+	src/arch/msdos/make-bindist.sh, src/arch/os2/install.cmd,
+	src/arch/os2/makedist.cmd, src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_dingoo_native.sh,
+	src/arch/sdl/make-bindist_gp2x.sh, src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/make-bindist_scosol.sh,
+	src/arch/sdl/make-bindist_skyos.sh,
+	src/arch/sdl/make-bindist_syllable.sh,
+	src/arch/sdl/make-bindist_win32.sh,
+	src/arch/sdl/syllable-files/Makefile.am,
+	src/arch/sdl/syllable-files/vsid.sh,
+	src/arch/sdl/syllable-files/xcbm5x0.sh,
+	src/arch/sdl/win32-msvc/make-bindist.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/win64-msvc/make-bindist.bat,
+	src/arch/sdl/winmips-msvc/make-bindist.bat, src/arch/unix/Makefile.am,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/next_open_rhap/make-bindist.sh,
+	src/arch/unix/qnx4/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/sco_sol/make-bindist.sh,
+	src/arch/unix/skyos/icons/vsid.ico,
+	src/arch/unix/skyos/icons/xcbm5x0.ico,
+	src/arch/unix/skyos/make-bindist.sh,
+	src/arch/win32/make-msvc-bindist.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat,
+	src/arch/win64/make-msvc-bindist.bat: Added xcbm5x0 and vsid to the
+	various make-bindist scripts.
+
+2011-09-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/sid.c, src/sound.c: Make stereo mode work again.
+
+2011-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/digimax.c, src/c64/cart/magicvoice.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/pet/petsound.c, src/plus4/digiblaster.c, src/plus4/plus4speech.c,
+	src/plus4/ted-sound.c, src/sid/sid.c, src/sid/sid.h, src/sound.c,
+	src/sound.h, src/userport/userport_dac.c, src/vic20/vic20sound.c:
+	Added switchable sound output (mono/stereo) selection,
+	resource/cmdline only for now.
+
+2011-09-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/fdd.c, src/drive/iec/fdd.h, src/drive/iec/pc8477.c:
+	Use the same data rate for the complete disk
+
+2011-09-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/view/viceglview.h,
+	src/arch/unix/macosx/cocoa/view/viceglview.m: cocoa: release all emu
+	modifiers while command key is pressed to ensure sane emu key state
+	during cmd execution
+
+2011-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/digimax.c, src/c64/cart/magicvoice.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/pet/petsound.c, src/plus4/digiblaster.c, src/plus4/plus4speech.c,
+	src/plus4/ted-sound.c, src/sid/sid.c, src/sid/sid.h, src/sound.c,
+	src/sound.h, src/userport/userport_dac.c, src/vic20/vic20sound.c:
+	Fixed the sound system for proper stereo sound generation.
+
+2011-09-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/vicemachine.m: cocoa: improved entering
+	the monitor during pause
+
+2011-09-21  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/uimon.m: cocoa: fixed regain focus after
+	monitor exit
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Style
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c: Indent
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c: Style
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c: Style
+
+2011-09-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/c64/psid.c: fix gtk warnings
+	and possible segfault on startup
+
+2011-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/video/render1x2crt.c: Warning fixes.
+
+2011-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64io.c, src/vic20/vic20io.c: warning fixes.
+
+2011-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64fastiec.c: return a value on a non-void function.
+
+2011-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64fastiec.c: coding style.
+
+2011-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vdrive/vdrive-dir.c: Removed unneeded vars.
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driverom.c: Move local variables out
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/wd1770.c: Add back CRC calculation
+
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driverom.c: Retab
+
+2011-09-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driverom.c: Use explicit types, maybe it helps on some
+	clang version
+
+2011-09-20  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/c64/cart/ide64.c, src/core/ata.c: fix for missing off_t
+
+2011-09-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_c64cart.c, src/c64/cart/Makefile.am,
+	src/c64/cart/c64carthooks.c, src/c64/cart/crt.c,
+	src/c64/cart/silverrock128.c, src/c64/cart/silverrock128.h,
+	src/cartconv.c, src/cartridge.h, src/translate.txt,
+	src/translate_text.c: support for Silverrock 128K ROM cartridge
+	(eg Hugo), patch by Uffe Jakobsen.
+
+2011-09-19  pottendo <pottendo@aon.at>
+
+	* src/gfxoutputdrv/ffmpeglib.h: Fixed again, to make *nix and
+	win32(mingw32) builds happy.
+
+2011-09-19  pottendo <pottendo@aon.at>
+
+	* src/gfxoutputdrv/ffmpeglib.h: Fixed build issue. Hopefully the
+	checked libav* version numbers are the ones intended.
+
+
+2011-09-19  pottendo <pottendo@aon.at>
+
+	* de.po: Updated.
+
+2011-09-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/VideoSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/videosettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: cocoa: adapted
+	chip specific color and crt emulation settings (from 24298)
+
+2011-09-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/x128.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x128.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64dtv.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/x64sc.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m: cocoa: adapted to
+	new video filters (from r24298)
+
+2011-09-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/cocoa/vicemachine.h,
+	src/arch/unix/macosx/cocoa/vicemachine.m: cocoa: added frame stepping
+	in pause mode. press space for a single frame step or keys a, s, d, f,
+	g, h for stepping in different speeds
+
+2011-09-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/xpet.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xpet.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xplus4.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xvic.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.m:
+	cocoa: added SID settings UI for xvic, xpet, xplus4
+
+2011-09-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.h,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m, src/sid/sid.h:
+	macosx: applied patch by Marcus Sutton that uses the generic
+	enumeration feature in the SID config dialog
+
+2011-09-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/cocoa/video.m: macosx: adapted proper handling
+	for double size and y-stretching (r24284)
+
+2011-09-19  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/cocoa/viceapplication.m,
+	src/arch/unix/macosx/cocoa/vicemachine.h,
+	src/arch/unix/macosx/cocoa/vicemachine.m,
+	src/arch/unix/macosx/cocoa/view/statusview.m: macosx: fixed entering
+	monitor during pause
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/uidrivepetcbm2.c: Add idle method control for
+	pet/cbm unix UI
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-check.c, src/drive/drive.h: Report idle method in
+	gui correctly
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driverom.c, src/drive/ieee/ieee-cmdline-options.c,
+	src/drive/ieee/ieee-resources.c: Idle for 2031 drive
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/iec-resources.c: Missing include
+
+2011-09-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uic64.c, src/arch/win32/uisid.c,
+	src/arch/win32/uisiddtv.c: Extend the dynamically generated SID
+	engine/model list to the WinVICE C64 model settings dialog and
+	refactor the SID and SID-DTV settings dialogs.
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/DRIVES/dos2000, data/DRIVES/dos4000,
+	src/drive/drive-resources.c, src/drive/drive-snapshot.c,
+	src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/driverom.c, src/drive/driverom.h,
+	src/drive/iec/iec-resources.c: Cleaned up drive idle traps, traps for
+	more drive types, and rom checksum correction after modification
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uimouse.c, src/arch/beos/c128ui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc,
+	src/arch/sdl/menu_mouse.c, src/arch/unix/gui/uimouse.c,
+	src/arch/win32/uimouse.c: Add Atari CX-22 and ST mouses to UIs
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi, src/c128/c128fastiec.c, src/c128/c128fastiec.h,
+	src/c64/c64-cmdline-options.c, src/c64/c64-resources.c,
+	src/c64/c64cia1.c, src/c64/c64cia2.c, src/c64/c64fastiec.c,
+	src/c64/c64fastiec.h, src/translate.txt, src/translate_text.c: Add
+	burst modification emulation (http://www.cs.tut.fi/~albert/Dev/burst/)
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.c,
+	src/gfxoutputdrv/ffmpeglib.h: Now with less ifdef hacks
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.c,
+	src/gfxoutputdrv/ffmpeglib.h: Submitted: Moiree ( hootee7ieyie7s ) -
+	2011-07-13 19:05:57 UTC. Patch to support libavformat version >= 51
+	against -r24284
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128fastiec.c: Add missing include
+
+2011-09-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdc/vdc-draw.c: Fix cursor draw when screen base is not 0 for
+	uncached mode too
+
 2011-09-17  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, ChangeLog, src/version.h,
