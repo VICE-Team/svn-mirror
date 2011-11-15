@@ -216,7 +216,7 @@ static void silverrock128_io1_store(WORD addr, BYTE value)
         bank_index = ((value & 0xf0) >> 4);
         bank_number = bank_seq[bank_index];
     } else {
-        if ((addr >= 0x0) && (addr <= 0x0f)) {
+        if (addr <= 0x0f) {
             /* Cartridge HW rev02 */
             bank_number = (BYTE)addr;
             /* safe check that we've done things right... */

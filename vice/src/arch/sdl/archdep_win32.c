@@ -573,6 +573,14 @@ void archdep_workaround_nop(const char *otto)
 {
 }
 
+int archdep_rtc_get_centisecond(void)
+{
+    SYSTEMTIME t;
+
+    GetSystemTime(&t);
+    return (int)(t.wMilliseconds / 10);
+}
+
 #if defined(_MSC_VER) && !defined(WATCOM_COMPILE)
 #include "dirent.h"
 

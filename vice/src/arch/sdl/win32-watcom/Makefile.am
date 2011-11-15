@@ -9,16 +9,22 @@ EXTRA_DIST = \
 	c1541.tgt \
 	c64.tgt \
 	c64cart.tgt \
-	c64commonc128.tgt \
-	c64commonc128c64dtv.tgt \
-	c64commonc64dtv.tgt \
+	c64commonall.tgt \
 	c64commoncart.tgt \
 	c64commonsc.tgt \
+	c64commonsc128vsid.tgt \
+	c64commonscdtv.tgt \
+	c64commonscdtv128.tgt \
+	c64commonscdtvvsid.tgt \
+	c64commonscvsid.tgt \
+	c64commonvsid.tgt \
 	c64dtv.tgt \
 	c64exp.tgt \
 	c64sc.tgt \
 	cartconv.tgt \
 	cbm2.tgt \
+	cbm2common.tgt \
+	cbm5x0.tgt \
 	core.tgt \
 	crtc.tgt \
 	diskimage.tgt \
@@ -56,6 +62,7 @@ EXTRA_DIST = \
 	sounddrv.tgt \
 	tape.tgt \
 	tcbm.tgt \
+	userport.tgt \
 	vdc.tgt \
 	vdrive.tgt \
 	vic20.tgt \
@@ -66,11 +73,14 @@ EXTRA_DIST = \
 	viciidtv.tgt \
 	viciinew.tgt \
 	video.tgt \
+	vsid.tgt \
+	vsidlib.tgt \
 	x128.tgt \
 	x64.tgt \
 	x64dtv.tgt \
 	x64sc.tgt \
 	xcbm2.tgt \
+	xcbm5x0.tgt \
 	xpet.tgt \
 	xplus4.tgt \
 	xvic.tgt

@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-274
-"../../..;.;../../../sid;../../../c64dtv;../../../cbm2;../../../arch;../../../drive;../../../vdrive;../../../pet;../../../plus4;../../../rs232drv;../../../raster;../../../c128;../../../c64;../../../c64/cart;../../../vic20;../../win32/msvc/wpcap;$(%watcom)/h;$(%watcom)/h/nt"
+292
+"../../..;.;../../../sid;../../../c64dtv;../../../cbm2;../../../arch;../../../drive;../../../vdrive;../../../userport;../../../pet;../../../plus4;../../../rs232drv;../../../raster;../../../c128;../../../c64;../../../c64/cart;../../../vic20;../../win32/msvc/wpcap;$(%watcom)/h;$(%watcom)/h/nt"
 0
 18
 MVState
