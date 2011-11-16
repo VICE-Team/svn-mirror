@@ -18,6 +18,8 @@ EXTRA_DIST = \
 	c64sc.vcproj \
 	cartconv.vcproj \
 	cbm2.vcproj \
+	cbm2common.vcproj \
+	cbm5x0.vcproj \
 	core.vcproj \
 	crtc.vcproj \
 	diskimage.vcproj \
@@ -53,6 +55,7 @@ EXTRA_DIST = \
 	sounddrv.vcproj \
 	tape.vcproj \
 	tcbm.vcproj \
+	userport.vcproj \
 	vdc.vcproj \
 	vdrive.vcproj \
 	vic20.vcproj \
@@ -61,11 +64,14 @@ EXTRA_DIST = \
 	viciidtv.vcproj \
 	viciinew.vcproj \
 	video.vcproj \
+	vsid.vcproj \
+	vsidlib.vcproj \
 	x128.vcproj \
 	x64.vcproj \
 	x64dtv.vcproj \
 	x64sc.vcproj \
 	xcbm2.vcproj \
+	xcbm5x0.vcproj \
 	xpet.vcproj \
 	xplus4.vcproj \
 	xvic.vcproj \

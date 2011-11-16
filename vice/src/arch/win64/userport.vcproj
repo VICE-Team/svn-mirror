@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="cbm2"
-	ProjectGUID="{CF450AB1-DF6F-4780-B08A-6C90CBAC0E4A}"
+	Name="userport"
+	ProjectGUID="{C61A260C-0E95-47CE-BE6E-9DD8E4AB666E}"
 	>
 	<Platforms>
 		<Platform
@@ -44,13 +44,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64\cart"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\cbm2\Debug/cbm2.pch"
-				AssemblerListingLocation=".\libs\cbm2\Debug/"
-				ObjectFile=".\libs\cbm2\Debug/"
-				ProgramDataBaseFileName=".\libs\cbm2\Debug/"
+				PrecompiledHeaderFile=".\libs\userport\Debug/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Debug/"
+				ObjectFile=".\libs\userport\Debug/"
+				ProgramDataBaseFileName=".\libs\userport\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\cbm2\Debug\cbm2.lib"
+				OutputFile=".\libs\userport\Debug\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -79,7 +79,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\cbm2\Debug/cbm2.bsc"
+				OutputFile=".\libs\userport\Debug/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -117,15 +117,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64\cart"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\cbm2\Release/cbm2.pch"
-				AssemblerListingLocation=".\libs\cbm2\Release/"
-				ObjectFile=".\libs\cbm2\Release/"
-				ProgramDataBaseFileName=".\libs\cbm2\Release/"
+				PrecompiledHeaderFile=".\libs\userport\Release/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Release/"
+				ObjectFile=".\libs\userport\Release/"
+				ProgramDataBaseFileName=".\libs\userport\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\cbm2\Release\cbm2.lib"
+				OutputFile=".\libs\userport\Release\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\cbm2\Release/cbm2.bsc"
+				OutputFile=".\libs\userport\Release/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -190,13 +190,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64\cart"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\cbm2\Debug/cbm2.pch"
-				AssemblerListingLocation=".\libs\cbm2\Debug/"
-				ObjectFile=".\libs\cbm2\Debug/"
-				ProgramDataBaseFileName=".\libs\cbm2\Debug/"
+				PrecompiledHeaderFile=".\libs\userport\Debug/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Debug/"
+				ObjectFile=".\libs\userport\Debug/"
+				ProgramDataBaseFileName=".\libs\userport\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -213,7 +213,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\cbm2\Debug\cbm2.lib"
+				OutputFile=".\libs\userport\Debug\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\cbm2\Debug/cbm2.bsc"
+				OutputFile=".\libs\userport\Debug/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -263,15 +263,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64\cart"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\cbm2\Release/cbm2.pch"
-				AssemblerListingLocation=".\libs\cbm2\Release/"
-				ObjectFile=".\libs\cbm2\Release/"
-				ProgramDataBaseFileName=".\libs\cbm2\Release/"
+				PrecompiledHeaderFile=".\libs\userport\Release/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Release/"
+				ObjectFile=".\libs\userport\Release/"
+				ProgramDataBaseFileName=".\libs\userport\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\cbm2\Release\cbm2.lib"
+				OutputFile=".\libs\userport\Release\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -299,7 +299,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\cbm2\Release/cbm2.bsc"
+				OutputFile=".\libs\userport\Release/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -313,7 +313,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\cbm2\cbm2.c"
+			RelativePath="..\..\userport\userport_dac.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -353,7 +353,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\cbm2\cbm2-resources.c"
+			RelativePath="..\..\userport\userport_digimax.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -393,127 +393,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\cbm2\cbm2-snapshot.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\cbm2\cbm2mem.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\cbm2\cbm2rom.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\cbm2\cbm2video.c"
+			RelativePath="..\..\userport\userport_joystick.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="core"
-	ProjectGUID="{73C850E8-76E5-4EB7-B5AF-423CED1B0D96}"
+	Name="cbm5x0"
+	ProjectGUID="{CF450AB1-DF6F-4780-B08A-6C90CBAC0E4C}"
 	>
 	<Platforms>
 		<Platform
@@ -44,13 +44,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\core\Debug/core.pch"
-				AssemblerListingLocation=".\libs\core\Debug/"
-				ObjectFile=".\libs\core\Debug/"
-				ProgramDataBaseFileName=".\libs\core\Debug/"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Debug/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Debug/"
+				ObjectFile=".\libs\cbm5x0\Debug/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\core\Debug\core.lib"
+				OutputFile=".\libs\cbm5x0\Debug\cbm5x0.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -79,7 +79,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\core\Debug/core.bsc"
+				OutputFile=".\libs\cbm5x0\Debug/cbm5x0.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -117,15 +117,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\core\Release/core.pch"
-				AssemblerListingLocation=".\libs\core\Release/"
-				ObjectFile=".\libs\core\Release/"
-				ProgramDataBaseFileName=".\libs\core\Release/"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Release/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Release/"
+				ObjectFile=".\libs\cbm5x0\Release/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\core\Release\core.lib"
+				OutputFile=".\libs\cbm5x0\Release\cbm5x0.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\core\Release/core.bsc"
+				OutputFile=".\libs\cbm5x0\Release/cbm5x0.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -190,13 +190,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\core\Debug/core.pch"
-				AssemblerListingLocation=".\libs\core\Debug/"
-				ObjectFile=".\libs\core\Debug/"
-				ProgramDataBaseFileName=".\libs\core\Debug/"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Debug/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Debug/"
+				ObjectFile=".\libs\cbm5x0\Debug/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -213,7 +213,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\core\Debug\core.lib"
+				OutputFile=".\libs\cbm5x0\Debug\cbm5x0.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\core\Debug/core.bsc"
+				OutputFile=".\libs\cbm5x0\Debug/cbm5x0.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -263,15 +263,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\core,..\..\monitor"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\userport,..\..\tape,..\..\sid,..\..\crtc,..\..\vicii,..\..\raster,..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\core\Release/core.pch"
-				AssemblerListingLocation=".\libs\core\Release/"
-				ObjectFile=".\libs\core\Release/"
-				ProgramDataBaseFileName=".\libs\core\Release/"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Release/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Release/"
+				ObjectFile=".\libs\cbm5x0\Release/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\core\Release\core.lib"
+				OutputFile=".\libs\cbm5x0\Release\cbm5x0.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -299,7 +299,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\core\Release/core.bsc"
+				OutputFile=".\libs\cbm5x0\Release/cbm5x0.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -313,7 +313,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\core\ata.c"
+			RelativePath="..\..\cbm2\cbm5x0.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -353,7 +353,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\core\ciacore.c"
+			RelativePath="..\..\cbm2\cbm5x0-resources.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -393,7 +393,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\core\ciatimer.c"
+			RelativePath="..\..\cbm2\cbm5x0-snapshot.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -433,7 +433,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\core\cs8900.c"
+			RelativePath="..\..\cbm2\cbm5x0mem.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -473,7 +473,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\core\flash040core.c"
+			RelativePath="..\..\cbm2\cbm5x0rom.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -513,247 +513,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\core\fmopl.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\core\riotcore.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\core\ser-eeprom.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\core\spi-sdcard.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\core\t6721.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\core\tpicore.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\core\viacore.c"
+			RelativePath="..\..\cbm2\cbm5x0video.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
