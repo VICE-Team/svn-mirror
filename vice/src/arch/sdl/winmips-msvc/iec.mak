@@ -50,14 +50,17 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\cia1571d.obj"
 	-@erase "$(INTDIR)\cia1581d.obj"
+	-@erase "$(INTDIR)\fdd.obj"
 	-@erase "$(INTDIR)\glue1571.obj"
 	-@erase "$(INTDIR)\iec-cmdline-options.obj"
 	-@erase "$(INTDIR)\iec-resources.obj"
 	-@erase "$(INTDIR)\iec.obj"
 	-@erase "$(INTDIR)\iecrom.obj"
 	-@erase "$(INTDIR)\memiec.obj"
+	-@erase "$(INTDIR)\pc8477.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\via1d1541.obj"
+	-@erase "$(INTDIR)\via4000.obj"
 	-@erase "$(INTDIR)\wd1770.obj"
 	-@erase "$(OUTDIR)\iec.lib"
 
@@ -107,13 +110,16 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\iec.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\cia1571d.obj" \
 	"$(INTDIR)\cia1581d.obj" \
+	"$(INTDIR)\fdd.obj" \
 	"$(INTDIR)\glue1571.obj" \
 	"$(INTDIR)\iec-cmdline-options.obj" \
 	"$(INTDIR)\iec-resources.obj" \
 	"$(INTDIR)\iec.obj" \
 	"$(INTDIR)\iecrom.obj" \
 	"$(INTDIR)\memiec.obj" \
+	"$(INTDIR)\pc8477.obj" \
 	"$(INTDIR)\via1d1541.obj" \
+	"$(INTDIR)\via4000.obj" \
 	"$(INTDIR)\wd1770.obj" \
 	".\libs\base\Release\base.lib"
 
@@ -147,14 +153,17 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\cia1571d.obj"
 	-@erase "$(INTDIR)\cia1581d.obj"
+	-@erase "$(INTDIR)\fdd.obj"
 	-@erase "$(INTDIR)\glue1571.obj"
 	-@erase "$(INTDIR)\iec-cmdline-options.obj"
 	-@erase "$(INTDIR)\iec-resources.obj"
 	-@erase "$(INTDIR)\iec.obj"
 	-@erase "$(INTDIR)\iecrom.obj"
 	-@erase "$(INTDIR)\memiec.obj"
+	-@erase "$(INTDIR)\pc8477.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(INTDIR)\via1d1541.obj"
+	-@erase "$(INTDIR)\via4000.obj"
 	-@erase "$(INTDIR)\wd1770.obj"
 	-@erase "$(OUTDIR)\iec.lib"
 
@@ -204,13 +213,16 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\iec.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\cia1571d.obj" \
 	"$(INTDIR)\cia1581d.obj" \
+	"$(INTDIR)\fdd.obj" \
 	"$(INTDIR)\glue1571.obj" \
 	"$(INTDIR)\iec-cmdline-options.obj" \
 	"$(INTDIR)\iec-resources.obj" \
 	"$(INTDIR)\iec.obj" \
 	"$(INTDIR)\iecrom.obj" \
 	"$(INTDIR)\memiec.obj" \
+	"$(INTDIR)\pc8477.obj" \
 	"$(INTDIR)\via1d1541.obj" \
+	"$(INTDIR)\via4000.obj" \
 	"$(INTDIR)\wd1770.obj" \
 	".\libs\base\Debug\base.lib"
 
@@ -262,6 +274,12 @@ SOURCE=..\..\..\drive\iec\cia1581d.c
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE=..\..\..\drive\iec\fdd.c
+
+"$(INTDIR)\fdd.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE=..\..\..\drive\iec\glue1571.c
 
 "$(INTDIR)\glue1571.obj" : $(SOURCE) "$(INTDIR)"
@@ -298,9 +316,21 @@ SOURCE=..\..\..\drive\iec\memiec.c
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE=..\..\..\drive\iec\pc8477.c
+
+"$(INTDIR)\pc8477.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE=..\..\..\drive\iec\via1d1541.c
 
 "$(INTDIR)\via1d1541.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\drive\iec\via4000.c
+
+"$(INTDIR)\via4000.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

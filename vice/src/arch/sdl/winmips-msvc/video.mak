@@ -54,8 +54,11 @@ CLEAN :
 	-@erase "$(INTDIR)\render1x2.obj"
 	-@erase "$(INTDIR)\render1x2crt.obj"
 	-@erase "$(INTDIR)\render2x2.obj"
+	-@erase "$(INTDIR)\render2x2crt.obj"
 	-@erase "$(INTDIR)\render2x2ntsc.obj"
 	-@erase "$(INTDIR)\render2x2pal.obj"
+	-@erase "$(INTDIR)\render2x4.obj"
+	-@erase "$(INTDIR)\render2x4crt.obj"
 	-@erase "$(INTDIR)\renderscale2x.obj"
 	-@erase "$(INTDIR)\renderyuv.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -67,7 +70,6 @@ CLEAN :
 	-@erase "$(INTDIR)\video-render-crt.obj"
 	-@erase "$(INTDIR)\video-render-pal.obj"
 	-@erase "$(INTDIR)\video-render.obj"
-	-@erase "$(INTDIR)\video-resources-pal.obj"
 	-@erase "$(INTDIR)\video-resources.obj"
 	-@erase "$(INTDIR)\video-viewport.obj"
 	-@erase "$(OUTDIR)\video.lib"
@@ -122,8 +124,11 @@ LIB32_OBJS= \
 	"$(INTDIR)\render1x2.obj" \
 	"$(INTDIR)\render1x2crt.obj" \
 	"$(INTDIR)\render2x2.obj" \
+	"$(INTDIR)\render2x2crt.obj" \
 	"$(INTDIR)\render2x2ntsc.obj" \
 	"$(INTDIR)\render2x2pal.obj" \
+	"$(INTDIR)\render2x4.obj" \
+	"$(INTDIR)\render2x4crt.obj" \
 	"$(INTDIR)\renderscale2x.obj" \
 	"$(INTDIR)\renderyuv.obj" \
 	"$(INTDIR)\video-canvas.obj" \
@@ -134,7 +139,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\video-render-pal.obj" \
 	"$(INTDIR)\video-render.obj" \
 	"$(INTDIR)\video-render-crt.obj" \
-	"$(INTDIR)\video-resources-pal.obj" \
 	"$(INTDIR)\video-resources.obj" \
 	"$(INTDIR)\video-viewport.obj" \
 	".\libs\base\Release\base.lib"
@@ -173,8 +177,11 @@ CLEAN :
 	-@erase "$(INTDIR)\render1x2.obj"
 	-@erase "$(INTDIR)\render1x2crt.obj"
 	-@erase "$(INTDIR)\render2x2.obj"
+	-@erase "$(INTDIR)\render2x2crt.obj"
 	-@erase "$(INTDIR)\render2x2ntsc.obj"
 	-@erase "$(INTDIR)\render2x2pal.obj"
+	-@erase "$(INTDIR)\render2x4.obj"
+	-@erase "$(INTDIR)\render2x4crt.obj"
 	-@erase "$(INTDIR)\renderscale2x.obj"
 	-@erase "$(INTDIR)\renderyuv.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -186,7 +193,6 @@ CLEAN :
 	-@erase "$(INTDIR)\video-render-crt.obj"
 	-@erase "$(INTDIR)\video-render-pal.obj"
 	-@erase "$(INTDIR)\video-render.obj"
-	-@erase "$(INTDIR)\video-resources-pal.obj"
 	-@erase "$(INTDIR)\video-resources.obj"
 	-@erase "$(INTDIR)\video-viewport.obj"
 	-@erase "$(OUTDIR)\video.lib"
@@ -241,8 +247,11 @@ LIB32_OBJS= \
 	"$(INTDIR)\render1x2.obj" \
 	"$(INTDIR)\render1x2crt.obj" \
 	"$(INTDIR)\render2x2.obj" \
+	"$(INTDIR)\render2x2crt.obj" \
 	"$(INTDIR)\render2x2ntsc.obj" \
 	"$(INTDIR)\render2x2pal.obj" \
+	"$(INTDIR)\render2x4.obj" \
+	"$(INTDIR)\render2x4crt.obj" \
 	"$(INTDIR)\renderscale2x.obj" \
 	"$(INTDIR)\renderyuv.obj" \
 	"$(INTDIR)\video-canvas.obj" \
@@ -253,7 +262,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\video-render-pal.obj" \
 	"$(INTDIR)\video-render.obj" \
 	"$(INTDIR)\video-render-crt.obj" \
-	"$(INTDIR)\video-resources-pal.obj" \
 	"$(INTDIR)\video-resources.obj" \
 	"$(INTDIR)\video-viewport.obj" \
 	".\libs\base\Debug\base.lib"
@@ -330,6 +338,12 @@ SOURCE="..\..\..\video\render2x2.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE="..\..\..\video\render2x2crt.c"
+
+"$(INTDIR)\render2x2crt.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE="..\..\..\video\render2x2ntsc.c"
 
 "$(INTDIR)\render2x2ntsc.obj" : $(SOURCE) "$(INTDIR)"
@@ -339,6 +353,18 @@ SOURCE="..\..\..\video\render2x2ntsc.c"
 SOURCE="..\..\..\video\render2x2pal.c"
 
 "$(INTDIR)\render2x2pal.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\video\render2x4.c"
+
+"$(INTDIR)\render2x4.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\video\render2x4crt.c"
+
+"$(INTDIR)\render2x4crt.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -399,12 +425,6 @@ SOURCE="..\..\..\video\video-render-pal.c"
 SOURCE="..\..\..\video\video-render.c"
 
 "$(INTDIR)\video-render.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\video\video-resources-pal.c"
-
-"$(INTDIR)\video-resources-pal.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

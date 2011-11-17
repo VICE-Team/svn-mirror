@@ -67,6 +67,7 @@ CLEAN :
 	-@erase "$(INTDIR)\plus4memlimit.obj"
 	-@erase "$(INTDIR)\plus4memrom.obj"
 	-@erase "$(INTDIR)\plus4memsnapshot.obj"
+	-@erase "$(INTDIR)\plus4model.obj"
 	-@erase "$(INTDIR)\plus4parallel.obj"
 	-@erase "$(INTDIR)\plus4pio1.obj"
 	-@erase "$(INTDIR)\plus4pio2.obj"
@@ -155,6 +156,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\plus4memlimit.obj" \
 	"$(INTDIR)\plus4memrom.obj" \
 	"$(INTDIR)\plus4memsnapshot.obj" \
+	"$(INTDIR)\plus4model.obj" \
 	"$(INTDIR)\plus4parallel.obj" \
 	"$(INTDIR)\plus4pio1.obj" \
 	"$(INTDIR)\plus4pio2.obj" \
@@ -226,6 +228,7 @@ CLEAN :
 	-@erase "$(INTDIR)\plus4memlimit.obj"
 	-@erase "$(INTDIR)\plus4memrom.obj"
 	-@erase "$(INTDIR)\plus4memsnapshot.obj"
+	-@erase "$(INTDIR)\plus4model.obj"
 	-@erase "$(INTDIR)\plus4parallel.obj"
 	-@erase "$(INTDIR)\plus4pio1.obj"
 	-@erase "$(INTDIR)\plus4pio2.obj"
@@ -314,6 +317,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\plus4memlimit.obj" \
 	"$(INTDIR)\plus4memrom.obj" \
 	"$(INTDIR)\plus4memsnapshot.obj" \
+	"$(INTDIR)\plus4model.obj" \
 	"$(INTDIR)\plus4parallel.obj" \
 	"$(INTDIR)\plus4pio1.obj" \
 	"$(INTDIR)\plus4pio2.obj" \
@@ -503,6 +507,12 @@ SOURCE=..\..\..\plus4\plus4memrom.c
 SOURCE=..\..\..\plus4\plus4memsnapshot.c
 
 "$(INTDIR)\plus4memsnapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\plus4\plus4model.c
+
+"$(INTDIR)\plus4model.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

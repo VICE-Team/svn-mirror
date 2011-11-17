@@ -1,20 +1,20 @@
-# Microsoft Developer Studio Generated NMAKE File, Based on cbm2.dsp
+# Microsoft Developer Studio Generated NMAKE File, Based on cbm5x0.dsp
 !IF "$(CFG)" == ""
-CFG=cbm2 - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to cbm2 - Win32 Debug.
+CFG=cbm5x0 - Win32 Debug
+!MESSAGE No configuration specified. Defaulting to cbm5x0 - Win32 Debug.
 !ENDIF 
 
-!IF "$(CFG)" != "cbm2 - Win32 Release" && "$(CFG)" != "cbm2 - Win32 Debug"
+!IF "$(CFG)" != "cbm5x0 - Win32 Release" && "$(CFG)" != "cbm5x0 - Win32 Debug"
 !MESSAGE Invalid configuration "$(CFG)" specified.
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "cbm2.mak" CFG="cbm2 - Win32 Debug"
+!MESSAGE NMAKE /f "cbm5x0.mak" CFG="cbm5x0 - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "cbm2 - Win32 Release" (based on "Win32 (x86) Static Library")
-!MESSAGE "cbm2 - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "cbm5x0 - Win32 Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "cbm5x0 - Win32 Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 !ERROR An invalid configuration is specified.
 !ENDIF 
@@ -25,21 +25,21 @@ NULL=
 NULL=nul
 !ENDIF 
 
-!IF  "$(CFG)" == "cbm2 - Win32 Release"
+!IF  "$(CFG)" == "cbm5x0 - Win32 Release"
 
-OUTDIR=.\libs\cbm2\Release
-INTDIR=.\libs\cbm2\Release
+OUTDIR=.\libs\cbm5x0\Release
+INTDIR=.\libs\cbm5x0\Release
 # Begin Custom Macros
-OutDir=.\libs\cbm2\Release
+OutDir=.\libs\cbm5x0\Release
 # End Custom Macros
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : "$(OUTDIR)\cbm2.lib"
+ALL : "$(OUTDIR)\cbm5x0.lib"
 
 !ELSE 
 
-ALL : "base - Win32 Release" "cbm2common - Win32 Release" "$(OUTDIR)\cbm2.lib"
+ALL : "base - Win32 Release" "cbm2common - Win32 Release" "$(OUTDIR)\cbm5x0.lib"
 
 !ENDIF 
 
@@ -48,20 +48,20 @@ CLEAN :"base - Win32 ReleaseCLEAN" "cbm2common - Win32 ReleaseCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
-	-@erase "$(INTDIR)\cbm2-resources.obj"
-	-@erase "$(INTDIR)\cbm2-snapshot.obj"
-	-@erase "$(INTDIR)\cbm2.obj"
-	-@erase "$(INTDIR)\cbm2mem.obj"
-	-@erase "$(INTDIR)\cbm2rom.obj"
-	-@erase "$(INTDIR)\cbm2video.obj"
+	-@erase "$(INTDIR)\cbm5x0-resources.obj"
+	-@erase "$(INTDIR)\cbm5x0-snapshot.obj"
+	-@erase "$(INTDIR)\cbm5x0.obj"
+	-@erase "$(INTDIR)\cbm5x0mem.obj"
+	-@erase "$(INTDIR)\cbm5x0rom.obj"
+	-@erase "$(INTDIR)\cbm5x0video.obj"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(OUTDIR)\cbm2.lib"
+	-@erase "$(OUTDIR)\cbm5x0.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\crtc" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\cbm2.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\crtc" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\cbm5x0.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -95,41 +95,41 @@ CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..
 
 RSC=rc.exe
 BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\cbm2.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\cbm5x0.bsc" 
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"$(OUTDIR)\cbm2.lib" 
+LIB32_FLAGS=/nologo /out:"$(OUTDIR)\cbm5x0.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\cbm2-resources.obj" \
-	"$(INTDIR)\cbm2-snapshot.obj" \
-	"$(INTDIR)\cbm2.obj" \
-	"$(INTDIR)\cbm2mem.obj" \
-	"$(INTDIR)\cbm2rom.obj" \
-	"$(INTDIR)\cbm2video.obj" \
+	"$(INTDIR)\cbm5x0-resources.obj" \
+	"$(INTDIR)\cbm5x0-snapshot.obj" \
+	"$(INTDIR)\cbm5x0.obj" \
+	"$(INTDIR)\cbm5x0mem.obj" \
+	"$(INTDIR)\cbm5x0rom.obj" \
+	"$(INTDIR)\cbm5x0video.obj" \
 	".\libs\base\Release\base.lib" \
 	".\libs\base\Release\cbm2common.lib"
 
-"$(OUTDIR)\cbm2.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"$(OUTDIR)\cbm5x0.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
 
-!ELSEIF  "$(CFG)" == "cbm2 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "cbm5x0 - Win32 Debug"
 
-OUTDIR=.\libs\cbm2\Debug
-INTDIR=.\libs\cbm2\Debug
+OUTDIR=.\libs\cbm5x0\Debug
+INTDIR=.\libs\cbm5x0\Debug
 # Begin Custom Macros
-OutDir=.\libs\cbm2\Debug
+OutDir=.\libs\cbm5x0\Debug
 # End Custom Macros
 
 !IF "$(RECURSE)" == "0" 
 
-ALL : "$(OUTDIR)\cbm2.lib"
+ALL : "$(OUTDIR)\cbm5x0.lib"
 
 !ELSE 
 
-ALL : "base - Win32 Debug" "cbm2common - Win32 Debug" "$(OUTDIR)\cbm2.lib"
+ALL : "base - Win32 Debug" "cbm2common - Win32 Debug" "$(OUTDIR)\cbm5x0.lib"
 
 !ENDIF 
 
@@ -138,20 +138,20 @@ CLEAN :"base - Win32 DebugCLEAN" "cbm2common - Win32 DebugCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
-	-@erase "$(INTDIR)\cbm2-resources.obj"
-	-@erase "$(INTDIR)\cbm2-snapshot.obj"
-	-@erase "$(INTDIR)\cbm2.obj"
-	-@erase "$(INTDIR)\cbm2mem.obj"
-	-@erase "$(INTDIR)\cbm2rom.obj"
-	-@erase "$(INTDIR)\cbm2video.obj"
+	-@erase "$(INTDIR)\cbm5x0-resources.obj"
+	-@erase "$(INTDIR)\cbm5x0-snapshot.obj"
+	-@erase "$(INTDIR)\cbm5x0.obj"
+	-@erase "$(INTDIR)\cbm5x0mem.obj"
+	-@erase "$(INTDIR)\cbm5x0rom.obj"
+	-@erase "$(INTDIR)\cbm5x0video.obj"
 	-@erase "$(INTDIR)\vc60.idb"
-	-@erase "$(OUTDIR)\cbm2.lib"
+	-@erase "$(OUTDIR)\cbm5x0.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\crtc" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\cbm2.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\crtc" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\cbm5x0.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -185,22 +185,22 @@ CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\
 
 RSC=rc.exe
 BSC32=bscmake.exe
-BSC32_FLAGS=/nologo /o"$(OUTDIR)\cbm2.bsc" 
+BSC32_FLAGS=/nologo /o"$(OUTDIR)\cbm5x0.bsc" 
 BSC32_SBRS= \
 	
 LIB32=link.exe -lib
-LIB32_FLAGS=/nologo /out:"$(OUTDIR)\cbm2.lib" 
+LIB32_FLAGS=/nologo /out:"$(OUTDIR)\cbm5x0.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\cbm2-resources.obj" \
-	"$(INTDIR)\cbm2-snapshot.obj" \
-	"$(INTDIR)\cbm2.obj" \
-	"$(INTDIR)\cbm2mem.obj" \
-	"$(INTDIR)\cbm2rom.obj" \
-	"$(INTDIR)\cbm2video.obj" \
+	"$(INTDIR)\cbm5x0-resources.obj" \
+	"$(INTDIR)\cbm5x0-snapshot.obj" \
+	"$(INTDIR)\cbm5x0.obj" \
+	"$(INTDIR)\cbm5x0mem.obj" \
+	"$(INTDIR)\cbm5x0rom.obj" \
+	"$(INTDIR)\cbm5x0video.obj" \
 	".\libs\base\Debug\base.lib" \
 	".\libs\base\Debug\cbm2common.lib"
 
-"$(OUTDIR)\cbm2.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
+"$(OUTDIR)\cbm5x0.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
   $(LIB32_FLAGS) $(DEF_FLAGS) $(LIB32_OBJS)
 <<
@@ -208,9 +208,9 @@ LIB32_OBJS= \
 !ENDIF 
 
 
-!IF "$(CFG)" == "cbm2 - Win32 Release" || "$(CFG)" == "cbm2 - Win32 Debug"
+!IF "$(CFG)" == "cbm5x0 - Win32 Release" || "$(CFG)" == "cbm5x0 - Win32 Debug"
 
-!IF  "$(CFG)" == "cbm2 - Win32 Release"
+!IF  "$(CFG)" == "cbm5x0 - Win32 Release"
 
 "base - Win32 Release" : 
    cd "."
@@ -232,7 +232,7 @@ LIB32_OBJS= \
    $(MAKE) /$(MAKEFLAGS) /F ".\cbm2common.mak" CFG="cbm2common - Win32 Release" RECURSE=1 CLEAN 
    cd "."
 
-!ELSEIF  "$(CFG)" == "cbm2 - Win32 Debug"
+!ELSEIF  "$(CFG)" == "cbm5x0 - Win32 Debug"
 
 "base - Win32 Debug" : 
    cd "."
@@ -256,39 +256,39 @@ LIB32_OBJS= \
 
 !ENDIF 
 
-SOURCE="..\..\..\cbm2\cbm2-resources.c"
+SOURCE="..\..\..\cbm2\cbm5x0-resources.c"
 
-"$(INTDIR)\cbm2-resources.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cbm5x0-resources.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\cbm2\cbm2-snapshot.c"
+SOURCE="..\..\..\cbm2\cbm5x0-snapshot.c"
 
-"$(INTDIR)\cbm2-snapshot.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cbm5x0-snapshot.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\cbm2\cbm2.c
+SOURCE=..\..\..\cbm2\cbm5x0.c
 
-"$(INTDIR)\cbm2.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cbm5x0.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\cbm2\cbm2mem.c
+SOURCE=..\..\..\cbm2\cbm5x0mem.c
 
-"$(INTDIR)\cbm2mem.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cbm5x0mem.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\cbm2\cbm2rom.c
+SOURCE=..\..\..\cbm2\cbm5x0rom.c
 
-"$(INTDIR)\cbm2rom.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cbm5x0rom.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\cbm2\cbm2video.c
+SOURCE=..\..\..\cbm2\cbm5x0video.c
 
-"$(INTDIR)\cbm2video.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\cbm5x0video.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

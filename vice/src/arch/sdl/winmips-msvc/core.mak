@@ -37,6 +37,7 @@ ALL : "$(OUTDIR)\core.lib"
 
 
 CLEAN :
+	-@erase "$(INTDIR)\ata.obj"
 	-@erase "$(INTDIR)\ciacore.obj"
 	-@erase "$(INTDIR)\ciatimer.obj"
 	-@erase "$(INTDIR)\flash040core.obj"
@@ -94,6 +95,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\core.lib" 
 LIB32_OBJS= \
+	"$(INTDIR)\ata.obj" \
 	"$(INTDIR)\ciacore.obj" \
 	"$(INTDIR)\ciatimer.obj" \
 	"$(INTDIR)\flash040core.obj" \
@@ -122,6 +124,7 @@ ALL : "$(OUTDIR)\core.lib"
 
 
 CLEAN :
+	-@erase "$(INTDIR)\ata.obj"
 	-@erase "$(INTDIR)\ciacore.obj"
 	-@erase "$(INTDIR)\ciatimer.obj"
 	-@erase "$(INTDIR)\flash040core.obj"
@@ -179,6 +182,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\core.lib" 
 LIB32_OBJS= \
+	"$(INTDIR)\ata.obj" \
 	"$(INTDIR)\ciacore.obj" \
 	"$(INTDIR)\ciatimer.obj" \
 	"$(INTDIR)\flash040core.obj" \
@@ -199,6 +203,12 @@ LIB32_OBJS= \
 
 
 !IF "$(CFG)" == "core - Win32 Release" || "$(CFG)" == "core - Win32 Debug"
+SOURCE="..\..\..\core\ata.c"
+
+"$(INTDIR)\ata.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE="..\..\..\core\ciacore.c"
 
 "$(INTDIR)\ciacore.obj" : $(SOURCE) "$(INTDIR)"

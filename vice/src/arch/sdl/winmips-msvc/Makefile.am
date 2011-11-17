@@ -19,6 +19,8 @@ EXTRA_DIST = \
 	c64sc.mak \
 	cartconv.mak \
 	cbm2.mak \
+	cbm2common.mak \
+	cbm5x0.mak \
 	core.mak \
 	crtc.mak \
 	diskimage.mak \
@@ -49,6 +51,7 @@ EXTRA_DIST = \
 	sounddrv.mak \
 	tape.mak \
 	tcbm.mak \
+	userport.mak \
 	vdc.mak \
 	vdrive.mak \
 	vic20.mak \
@@ -57,11 +60,14 @@ EXTRA_DIST = \
 	viciidtv.mak \
 	viciisc.mak \
 	video.mak \
+	vsid.mak \
+	vsidlib.mak \
 	x128.mak \
 	x64.mak \
 	x64dtv.mak \
 	x64sc.mak \
 	xcbm2.mak \
+	xcbm5x0.mak \
 	xpet.mak \
 	xplus4.mak \
 	xvic.mak

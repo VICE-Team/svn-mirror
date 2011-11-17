@@ -63,6 +63,7 @@ CLEAN :
 	-@erase "$(INTDIR)\c64dtvmeminit.obj"
 	-@erase "$(INTDIR)\c64dtvmemrom.obj"
 	-@erase "$(INTDIR)\c64dtvmemsnapshot.obj"
+	-@erase "$(INTDIR)\c64dtvmodel.obj"
 	-@erase "$(INTDIR)\c64dtvpla.obj"
 	-@erase "$(INTDIR)\c64dtvsound.obj"
 	-@erase "$(INTDIR)\flash-trap.obj"
@@ -74,7 +75,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\c64" /I "..\..\..\raster" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64dtv.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\c64" /I "..\..\..\raster" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64dtv.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -129,6 +130,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64dtvmeminit.obj" \
 	"$(INTDIR)\c64dtvmemrom.obj" \
 	"$(INTDIR)\c64dtvmemsnapshot.obj" \
+	"$(INTDIR)\c64dtvmodel.obj" \
 	"$(INTDIR)\c64dtvpla.obj" \
 	"$(INTDIR)\c64dtvsound.obj" \
 	"$(INTDIR)\flash-trap.obj" \
@@ -178,6 +180,7 @@ CLEAN :
 	-@erase "$(INTDIR)\c64dtvmeminit.obj"
 	-@erase "$(INTDIR)\c64dtvmemrom.obj"
 	-@erase "$(INTDIR)\c64dtvmemsnapshot.obj"
+	-@erase "$(INTDIR)\c64dtvmodel.obj"
 	-@erase "$(INTDIR)\c64dtvpla.obj"
 	-@erase "$(INTDIR)\c64dtvsound.obj"
 	-@erase "$(INTDIR)\flash-trap.obj"
@@ -189,7 +192,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\c64" /I "..\..\..\raster" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64dtv.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\c64" /I "..\..\..\raster" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64dtv.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -244,6 +247,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64dtvmeminit.obj" \
 	"$(INTDIR)\c64dtvmemrom.obj" \
 	"$(INTDIR)\c64dtvmemsnapshot.obj" \
+	"$(INTDIR)\c64dtvmodel.obj" \
 	"$(INTDIR)\c64dtvpla.obj" \
 	"$(INTDIR)\c64dtvsound.obj" \
 	"$(INTDIR)\flash-trap.obj" \
@@ -373,6 +377,12 @@ SOURCE="..\..\..\c64dtv\c64dtvmemrom.c"
 SOURCE="..\..\..\c64dtv\c64dtvmemsnapshot.c"
 
 "$(INTDIR)\c64dtvmemsnapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\c64dtv\c64dtvmodel.c"
+
+"$(INTDIR)\c64dtvmodel.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

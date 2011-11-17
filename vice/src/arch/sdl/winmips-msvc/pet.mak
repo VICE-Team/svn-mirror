@@ -53,7 +53,6 @@ CLEAN :
 	-@erase "$(INTDIR)\pet-sidcart.obj"
 	-@erase "$(INTDIR)\pet-snapshot.obj"
 	-@erase "$(INTDIR)\pet.obj"
-	-@erase "$(INTDIR)\pet_userport_dac.obj"
 	-@erase "$(INTDIR)\petacia1.obj"
 	-@erase "$(INTDIR)\petbus.obj"
 	-@erase "$(INTDIR)\petdatasette.obj"
@@ -78,7 +77,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\crtc" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\pet.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\crtc" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\pet.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -123,7 +122,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\pet-sidcart.obj" \
 	"$(INTDIR)\pet-snapshot.obj" \
 	"$(INTDIR)\pet.obj" \
-	"$(INTDIR)\pet_userport_dac.obj" \
 	"$(INTDIR)\petacia1.obj" \
 	"$(INTDIR)\petbus.obj" \
 	"$(INTDIR)\petdatasette.obj" \
@@ -176,7 +174,6 @@ CLEAN :
 	-@erase "$(INTDIR)\pet-sidcart.obj"
 	-@erase "$(INTDIR)\pet-snapshot.obj"
 	-@erase "$(INTDIR)\pet.obj"
-	-@erase "$(INTDIR)\pet_userport_dac.obj"
 	-@erase "$(INTDIR)\petacia1.obj"
 	-@erase "$(INTDIR)\petbus.obj"
 	-@erase "$(INTDIR)\petdatasette.obj"
@@ -201,7 +198,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\tape" /I "..\..\..\crtc" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\pet.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\crtc" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\sid" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\pet.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -246,7 +243,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\pet-sidcart.obj" \
 	"$(INTDIR)\pet-snapshot.obj" \
 	"$(INTDIR)\pet.obj" \
-	"$(INTDIR)\pet_userport_dac.obj" \
 	"$(INTDIR)\petacia1.obj" \
 	"$(INTDIR)\petbus.obj" \
 	"$(INTDIR)\petdatasette.obj" \
@@ -329,12 +325,6 @@ SOURCE="..\..\..\pet\pet-snapshot.c"
 SOURCE=..\..\..\pet\pet.c
 
 "$(INTDIR)\pet.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\pet\pet_userport_dac.c
-
-"$(INTDIR)\pet_userport_dac.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

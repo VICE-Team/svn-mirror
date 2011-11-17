@@ -79,6 +79,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ide64.obj"
 	-@erase "$(INTDIR)\isepic.obj"
 	-@erase "$(INTDIR)\kcs.obj"
+	-@erase "$(INTDIR)\kingsoft.obj"
 	-@erase "$(INTDIR)\mach5.obj"
 	-@erase "$(INTDIR)\magicdesk.obj"
 	-@erase "$(INTDIR)\magicformel.obj"
@@ -95,6 +96,7 @@ CLEAN :
 	-@erase "$(INTDIR)\rexep256.obj"
 	-@erase "$(INTDIR)\rexutility.obj"
 	-@erase "$(INTDIR)\ross.obj"
+	-@erase "$(INTDIR)\silverrock128.obj"
 	-@erase "$(INTDIR)\simonsbasic.obj"
 	-@erase "$(INTDIR)\snapshot64.obj"
 	-@erase "$(INTDIR)\stardos.obj"
@@ -184,6 +186,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\ide64.obj" \
 	"$(INTDIR)\isepic.obj" \
 	"$(INTDIR)\kcs.obj" \
+	"$(INTDIR)\kingsoft.obj" \
 	"$(INTDIR)\mach5.obj" \
 	"$(INTDIR)\magicdesk.obj" \
 	"$(INTDIR)\magicformel.obj" \
@@ -200,6 +203,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\rexep256.obj" \
 	"$(INTDIR)\rexutility.obj" \
 	"$(INTDIR)\ross.obj" \
+	"$(INTDIR)\silverrock128.obj" \
 	"$(INTDIR)\simonsbasic.obj" \
 	"$(INTDIR)\snapshot64.obj" \
 	"$(INTDIR)\stardos.obj" \
@@ -272,6 +276,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ide64.obj"
 	-@erase "$(INTDIR)\isepic.obj"
 	-@erase "$(INTDIR)\kcs.obj"
+	-@erase "$(INTDIR)\kingsoft.obj"
 	-@erase "$(INTDIR)\mach5.obj"
 	-@erase "$(INTDIR)\magicdesk.obj"
 	-@erase "$(INTDIR)\magicformel.obj"
@@ -288,6 +293,7 @@ CLEAN :
 	-@erase "$(INTDIR)\rexep256.obj"
 	-@erase "$(INTDIR)\rexutility.obj"
 	-@erase "$(INTDIR)\ross.obj"
+	-@erase "$(INTDIR)\silverrock128.obj"
 	-@erase "$(INTDIR)\simonsbasic.obj"
 	-@erase "$(INTDIR)\snapshot64.obj"
 	-@erase "$(INTDIR)\stardos.obj"
@@ -377,6 +383,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\ide64.obj" \
 	"$(INTDIR)\isepic.obj" \
 	"$(INTDIR)\kcs.obj" \
+	"$(INTDIR)\kingsoft.obj" \
 	"$(INTDIR)\mach5.obj" \
 	"$(INTDIR)\magicdesk.obj" \
 	"$(INTDIR)\magicformel.obj" \
@@ -393,6 +400,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\rexep256.obj" \
 	"$(INTDIR)\rexutility.obj" \
 	"$(INTDIR)\ross.obj" \
+	"$(INTDIR)\silverrock128.obj" \
 	"$(INTDIR)\simonsbasic.obj" \
 	"$(INTDIR)\snapshot64.obj" \
 	"$(INTDIR)\stardos.obj" \
@@ -628,6 +636,12 @@ SOURCE="..\..\..\c64\cart\kcs.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE="..\..\..\c64\cart\kingsoft.c"
+
+"$(INTDIR)\kingsoft.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE="..\..\..\c64\cart\mach5.c"
 
 "$(INTDIR)\mach5.obj" : $(SOURCE) "$(INTDIR)"
@@ -721,6 +735,12 @@ SOURCE="..\..\..\c64\cart\rexutility.c"
 SOURCE="..\..\..\c64\cart\ross.c"
 
 "$(INTDIR)\ross.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c64\cart\silverrock128.c
+
+"$(INTDIR)\silverrock128.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
