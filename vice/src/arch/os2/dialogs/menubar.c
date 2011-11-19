@@ -1446,16 +1446,16 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_IDE64_VER_4, val == 1);
             return;
         case IDM_IDE64_HD1:
-            WinCheckRes(hwnd, IDM_AUTO1, "IDE64AutodetectSize1");
+            WinCheckRes(hwnd, IDM_IDE64_AUTO1, "IDE64AutodetectSize1");
             return;
         case IDM_IDE64_HD2:
-            WinCheckRes(hwnd, IDM_AUTO2, "IDE64AutodetectSize2");
+            WinCheckRes(hwnd, IDM_IDE64_AUTO2, "IDE64AutodetectSize2");
             return;
         case IDM_IDE64_HD3:
-            WinCheckRes(hwnd, IDM_AUTO3, "IDE64AutodetectSize3");
+            WinCheckRes(hwnd, IDM_IDE64_AUTO3, "IDE64AutodetectSize3");
             return;
         case IDM_IDE64_HD4:
-            WinCheckRes(hwnd, IDM_AUTO4, "IDE64AutodetectSize4");
+            WinCheckRes(hwnd, IDM_IDE64_AUTO4, "IDE64AutodetectSize4");
             return;
 
         case IDM_MMC64_SETTINGS:
