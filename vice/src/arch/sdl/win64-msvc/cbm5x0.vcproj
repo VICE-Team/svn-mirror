@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="drive"
-	ProjectGUID="{32DE0A55-A9E0-4B71-884A-D56DB10306C7}"
+	Name="cbm5x0"
+	ProjectGUID="{7CAB3764-2BAB-4E40-AB25-B85CF9193680}"
 	>
 	<Platforms>
 		<Platform
@@ -16,6 +16,78 @@
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
+		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Debug/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Debug/"
+				ObjectFile=".\libs\cbm5x0\Debug/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\cbm5x0\Debug\cbm5x0.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\cbm5x0\Debug/cbm5x0.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -45,15 +117,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\drive\Release/drive.pch"
-				AssemblerListingLocation=".\libs\drive\Release/"
-				ObjectFile=".\libs\drive\Release/"
-				ProgramDataBaseFileName=".\libs\drive\Release/"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Release/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Release/"
+				ObjectFile=".\libs\cbm5x0\Release/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -69,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\drive\Release\drive.lib"
+				OutputFile=".\libs\cbm5x0\Release\cbm5x0.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -81,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\drive\Release/drive.bsc"
+				OutputFile=".\libs\cbm5x0\Release/cbm5x0.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -91,7 +163,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|x64"
+			Name="Debug|Itanium"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
@@ -113,18 +185,18 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TargetEnvironment="3"
+				TargetEnvironment="2"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor"
-				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
+				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\drive\Debug/drive.pch"
-				AssemblerListingLocation=".\libs\drive\Debug/"
-				ObjectFile=".\libs\drive\Debug/"
-				ProgramDataBaseFileName=".\libs\drive\Debug/"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Debug/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Debug/"
+				ObjectFile=".\libs\cbm5x0\Debug/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -141,7 +213,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\drive\Debug\drive.lib"
+				OutputFile=".\libs\cbm5x0\Debug\cbm5x0.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +225,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\drive\Debug/drive.bsc"
+				OutputFile=".\libs\cbm5x0\Debug/cbm5x0.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -191,15 +263,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\drive\Release/drive.pch"
-				AssemblerListingLocation=".\libs\drive\Release/"
-				ObjectFile=".\libs\drive\Release/"
-				ProgramDataBaseFileName=".\libs\drive\Release/"
+				PrecompiledHeaderFile=".\libs\cbm5x0\Release/cbm5x0.pch"
+				AssemblerListingLocation=".\libs\cbm5x0\Release/"
+				ObjectFile=".\libs\cbm5x0\Release/"
+				ProgramDataBaseFileName=".\libs\cbm5x0\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -215,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\drive\Release\drive.lib"
+				OutputFile=".\libs\cbm5x0\Release\cbm5x0.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -227,79 +299,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\drive\Release/drive.bsc"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug|Itanium"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="2"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor"
-				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
-				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\drive\Debug/drive.pch"
-				AssemblerListingLocation=".\libs\drive\Debug/"
-				ObjectFile=".\libs\drive\Debug/"
-				ProgramDataBaseFileName=".\libs\drive\Debug/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\libs\drive\Debug\drive.lib"
-				SuppressStartupBanner="true"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\libs\drive\Debug/drive.bsc"
+				OutputFile=".\libs\cbm5x0\Release/cbm5x0.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -313,17 +313,8 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\drive\drive-check.c"
+			RelativePath="..\..\..\cbm2\cbm5x0-resources.c"
 			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
@@ -334,7 +325,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -344,6 +335,15 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -353,17 +353,8 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\drive\drive-cmdline-options.c"
+			RelativePath="..\..\..\cbm2\cbm5x0-snapshot.c"
 			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
@@ -374,7 +365,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -384,6 +375,15 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -393,17 +393,8 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\drive\drive-overflow.c"
+			RelativePath="..\..\..\cbm2\cbm5x0.c"
 			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
@@ -414,7 +405,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -424,6 +415,15 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -433,17 +433,8 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\drive\drive-resources.c"
+			RelativePath="..\..\..\cbm2\cbm5x0mem.c"
 			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
@@ -454,7 +445,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -464,6 +455,15 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -473,17 +473,8 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\drive\drive-snapshot.c"
+			RelativePath="..\..\..\cbm2\cbm5x0rom.c"
 			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
@@ -494,7 +485,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -504,6 +495,15 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -513,17 +513,8 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\drive\drive-writeprotect.c"
+			RelativePath="..\..\..\cbm2\cbm5x0video.c"
 			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
@@ -534,7 +525,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -551,279 +542,8 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\drive\drive.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\drive\drivecpu.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\drive\driveimage.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\drive\drivemem.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\drive\driverom.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\drive\drivesync.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\drive\rotation.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="c64"
-	ProjectGUID="{7B8332A7-97A8-4A65-8ED2-015D08416CC5}"
+	Name="vsidlib"
+	ProjectGUID="{7B8332A7-97A8-4A65-8ED2-015D08416CC7}"
 	>
 	<Platforms>
 		<Platform
@@ -47,10 +47,10 @@
 				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\vicii,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\c64\Debug/c64.pch"
-				AssemblerListingLocation=".\libs\c64\Debug/"
-				ObjectFile=".\libs\c64\Debug/"
-				ProgramDataBaseFileName=".\libs\c64\Debug/"
+				PrecompiledHeaderFile=".\libs\vsidlib\Debug/vsidlib.pch"
+				AssemblerListingLocation=".\libs\vsidlib\Debug/"
+				ObjectFile=".\libs\vsidlib\Debug/"
+				ProgramDataBaseFileName=".\libs\vsidlib\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\c64\Debug\c64.lib"
+				OutputFile=".\libs\vsidlib\Debug\vsidlib.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -79,7 +79,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\c64\Debug/c64.bsc"
+				OutputFile=".\libs\vsidlib\Debug/vsidlib.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -122,10 +122,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\c64\Release/c64.pch"
-				AssemblerListingLocation=".\libs\c64\Release/"
-				ObjectFile=".\libs\c64\Release/"
-				ProgramDataBaseFileName=".\libs\c64\Release/"
+				PrecompiledHeaderFile=".\libs\vsidlib\Release/vsidlib.pch"
+				AssemblerListingLocation=".\libs\vsidlib\Release/"
+				ObjectFile=".\libs\vsidlib\Release/"
+				ProgramDataBaseFileName=".\libs\vsidlib\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\c64\Release\c64.lib"
+				OutputFile=".\libs\vsidlib\Release\vsidlib.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\c64\Release/c64.bsc"
+				OutputFile=".\libs\vsidlib\Release/vsidlib.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -193,10 +193,10 @@
 				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\c64\cart,..\..\..\tape,..\..\..\sid,..\..\..\vicii,..\..\..\raster,..\..\..\monitor,..\..\..\rs232drv"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\c64\Debug/c64.pch"
-				AssemblerListingLocation=".\libs\c64\Debug/"
-				ObjectFile=".\libs\c64\Debug/"
-				ProgramDataBaseFileName=".\libs\c64\Debug/"
+				PrecompiledHeaderFile=".\libs\vsidlib\Debug/vsidlib.pch"
+				AssemblerListingLocation=".\libs\vsidlib\Debug/"
+				ObjectFile=".\libs\vsidlib\Debug/"
+				ProgramDataBaseFileName=".\libs\vsidlib\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -213,7 +213,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\c64\Debug\c64.lib"
+				OutputFile=".\libs\vsidlib\Debug\vsidlib.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\c64\Debug/c64.bsc"
+				OutputFile=".\libs\vsidlib\Debug/vsidlib.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -268,10 +268,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\c64\Release/c64.pch"
-				AssemblerListingLocation=".\libs\c64\Release/"
-				ObjectFile=".\libs\c64\Release/"
-				ProgramDataBaseFileName=".\libs\c64\Release/"
+				PrecompiledHeaderFile=".\libs\vsidlib\Release/vsidlib.pch"
+				AssemblerListingLocation=".\libs\vsidlib\Release/"
+				ObjectFile=".\libs\vsidlib\Release/"
+				ProgramDataBaseFileName=".\libs\vsidlib\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\c64\Release\c64.lib"
+				OutputFile=".\libs\vsidlib\Release\vsidlib.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -299,7 +299,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\c64\Release/c64.bsc"
+				OutputFile=".\libs\vsidlib\Release/vsidlib.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -394,86 +394,6 @@
 		</File>
 		<File
 			RelativePath="..\..\..\c64\c64-snapshot.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\c64.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\c64_256k.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -634,46 +554,6 @@
 		</File>
 		<File
 			RelativePath="..\..\..\c64\c64datasette.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\c64drive.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -953,46 +833,6 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\c64\c64mem.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
 			RelativePath="..\..\..\c64\c64meminit.c"
 			>
 			<FileConfiguration
@@ -1154,46 +994,6 @@
 		</File>
 		<File
 			RelativePath="..\..\..\c64\c64model.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\c64parallel.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -1553,86 +1353,6 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\c64\plus256k.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\c64\plus60k.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
 			RelativePath="..\..\..\c64\psid.c"
 			>
 			<FileConfiguration
@@ -1674,6 +1394,126 @@
 		</File>
 		<File
 			RelativePath="..\..\..\c64\reloc65.c"
+			>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\c64\vsid.c"
+			>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\c64\vsidmem.c"
+			>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\c64\vsidstubs.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"

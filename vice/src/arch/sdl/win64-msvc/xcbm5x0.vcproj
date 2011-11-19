@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="xcbm5x0"
-	ProjectGUID="{57011F51-E9DD-418D-A333-5CFE7FF986F2}"
+	Name="xcbm2"
+	ProjectGUID="{57011F51-E9DD-418D-A333-5CFE7FF986F1}"
 	>
 	<Platforms>
 		<Platform
@@ -43,7 +43,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="3"
-				TypeLibraryName=".\..\..\..\..\data/xcbm5x0.tlb"
+				TypeLibraryName=".\..\..\..\..\data/xcbm2.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -55,10 +55,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\xcbm5x0\Release/xcbm5x0.pch"
-				AssemblerListingLocation=".\libs\xcbm5x0\Release/"
-				ObjectFile=".\libs\xcbm5x0\Release/"
-				ProgramDataBaseFileName=".\libs\xcbm5x0\Release/"
+				PrecompiledHeaderFile=".\libs\xcbm2\Release/xcbm2.pch"
+				AssemblerListingLocation=".\libs\xcbm2\Release/"
+				ObjectFile=".\libs\xcbm2\Release/"
+				ProgramDataBaseFileName=".\libs\xcbm2\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -75,10 +75,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib winmm.lib wsock32.lib version.lib SDLmain.lib SDL.lib opengl32.lib"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.exe"
+				OutputFile=".\..\..\..\..\data/xcbm2.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				ProgramDatabaseFile=".\..\..\..\..\data/xcbm5x0.pdb"
+				ProgramDatabaseFile=".\..\..\..\..\data/xcbm2.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -94,7 +94,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.bsc"
+				OutputFile=".\..\..\..\..\data/xcbm2.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -136,7 +136,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="3"
-				TypeLibraryName=".\..\..\..\..\data/xcbm5x0.tlb"
+				TypeLibraryName=".\..\..\..\..\data/xcbm2.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -145,10 +145,10 @@
 				AdditionalIncludeDirectories=".\,..\,..\..\,..\..\..\,..\..\..\drive,..\..\..\vdrive,..\..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\xcbm5x0\Debug/xcbm5x0.pch"
-				AssemblerListingLocation=".\libs\xcbm5x0\Debug/"
-				ObjectFile=".\libs\xcbm5x0\Debug/"
-				ProgramDataBaseFileName=".\libs\xcbm5x0\Debug/"
+				PrecompiledHeaderFile=".\libs\xcbm2\Debug/xcbm2.pch"
+				AssemblerListingLocation=".\libs\xcbm2\Debug/"
+				ObjectFile=".\libs\xcbm2\Debug/"
+				ProgramDataBaseFileName=".\libs\xcbm2\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -166,12 +166,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib winmm.lib wsock32.lib version.lib SDLmain.lib SDL.lib opengl32.lib"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.exe"
+				OutputFile=".\..\..\..\..\data/xcbm2.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="msvcrt.lib"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\..\..\data/xcbm5x0.pdb"
+				ProgramDatabaseFile=".\..\..\..\..\data/xcbm2.pdb"
 				SubSystem="2"
 				TargetMachine="17"
 			/>
@@ -187,7 +187,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.bsc"
+				OutputFile=".\..\..\..\..\data/xcbm2.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -229,7 +229,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="2"
-				TypeLibraryName=".\..\..\..\..\data/xcbm5x0.tlb"
+				TypeLibraryName=".\..\..\..\..\data/xcbm2.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -241,10 +241,10 @@
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\xcbm5x0\Release/xcbm5x0.pch"
-				AssemblerListingLocation=".\libs\xcbm5x0\Release/"
-				ObjectFile=".\libs\xcbm5x0\Release/"
-				ProgramDataBaseFileName=".\libs\xcbm5x0\Release/"
+				PrecompiledHeaderFile=".\libs\xcbm2\Release/xcbm2.pch"
+				AssemblerListingLocation=".\libs\xcbm2\Release/"
+				ObjectFile=".\libs\xcbm2\Release/"
+				ProgramDataBaseFileName=".\libs\xcbm2\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -261,10 +261,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib winmm.lib wsock32.lib version.lib SDLmain.lib SDL.lib opengl32.lib"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.exe"
+				OutputFile=".\..\..\..\..\data/xcbm2.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				ProgramDatabaseFile=".\..\..\..\..\data/xcbm5x0.pdb"
+				ProgramDatabaseFile=".\..\..\..\..\data/xcbm2.pdb"
 				SubSystem="2"
 				TargetMachine="5"
 			/>
@@ -280,7 +280,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.bsc"
+				OutputFile=".\..\..\..\..\data/xcbm2.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -322,7 +322,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="2"
-				TypeLibraryName=".\..\..\..\..\data/xcbm5x0.tlb"
+				TypeLibraryName=".\..\..\..\..\data/xcbm2.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -331,10 +331,10 @@
 				AdditionalIncludeDirectories=".\,..\,..\..\,..\..\..\,..\..\..\drive,..\..\..\vdrive,..\..\..\monitor"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\xcbm5x0\Debug/xcbm5x0.pch"
-				AssemblerListingLocation=".\libs\xcbm5x0\Debug/"
-				ObjectFile=".\libs\xcbm5x0\Debug/"
-				ProgramDataBaseFileName=".\libs\xcbm5x0\Debug/"
+				PrecompiledHeaderFile=".\libs\xcbm2\Debug/xcbm2.pch"
+				AssemblerListingLocation=".\libs\xcbm2\Debug/"
+				ObjectFile=".\libs\xcbm2\Debug/"
+				ProgramDataBaseFileName=".\libs\xcbm2\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -352,12 +352,12 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="comctl32.lib winmm.lib wsock32.lib version.lib SDLmain.lib SDL.lib opengl32.lib"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.exe"
+				OutputFile=".\..\..\..\..\data/xcbm2.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				IgnoreDefaultLibraryNames="msvcrt.lib"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\..\..\..\..\data/xcbm5x0.pdb"
+				ProgramDatabaseFile=".\..\..\..\..\data/xcbm2.pdb"
 				SubSystem="2"
 				TargetMachine="5"
 			/>
@@ -373,7 +373,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\..\..\..\..\data/xcbm5x0.bsc"
+				OutputFile=".\..\..\..\..\data/xcbm2.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

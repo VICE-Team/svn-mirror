@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="pet"
-	ProjectGUID="{D6DBAA2A-4C81-4419-8FE4-48695F2218E2}"
+	Name="cbm2common"
+	ProjectGUID="{7CAB3764-2BAB-4E40-AB25-B85CF919367F}"
 	>
 	<Platforms>
 		<Platform
@@ -44,13 +44,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\crtc,..\..\..\raster,..\..\..\monitor,..\..\..\sid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\pet\Debug/pet.pch"
-				AssemblerListingLocation=".\libs\pet\Debug/"
-				ObjectFile=".\libs\pet\Debug/"
-				ProgramDataBaseFileName=".\libs\pet\Debug/"
+				PrecompiledHeaderFile=".\libs\cbm2common\Debug/cbm2common.pch"
+				AssemblerListingLocation=".\libs\cbm2common\Debug/"
+				ObjectFile=".\libs\cbm2common\Debug/"
+				ProgramDataBaseFileName=".\libs\cbm2common\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\pet\Debug\pet.lib"
+				OutputFile=".\libs\cbm2common\Debug\cbm2common.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -79,7 +79,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\pet\Debug/pet.bsc"
+				OutputFile=".\libs\cbm2common\Debug/cbm2common.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -117,15 +117,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\crtc,..\..\..\raster,..\..\..\monitor,..\..\..\sid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\pet\Release/pet.pch"
-				AssemblerListingLocation=".\libs\pet\Release/"
-				ObjectFile=".\libs\pet\Release/"
-				ProgramDataBaseFileName=".\libs\pet\Release/"
+				PrecompiledHeaderFile=".\libs\cbm2common\Release/cbm2common.pch"
+				AssemblerListingLocation=".\libs\cbm2common\Release/"
+				ObjectFile=".\libs\cbm2common\Release/"
+				ProgramDataBaseFileName=".\libs\cbm2common\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\pet\Release\pet.lib"
+				OutputFile=".\libs\cbm2common\Release\cbm2common.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\pet\Release/pet.bsc"
+				OutputFile=".\libs\cbm2common\Release/cbm2common.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -190,13 +190,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\crtc,..\..\..\raster,..\..\..\monitor,..\..\..\sid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\pet\Debug/pet.pch"
-				AssemblerListingLocation=".\libs\pet\Debug/"
-				ObjectFile=".\libs\pet\Debug/"
-				ProgramDataBaseFileName=".\libs\pet\Debug/"
+				PrecompiledHeaderFile=".\libs\cbm2common\Debug/cbm2common.pch"
+				AssemblerListingLocation=".\libs\cbm2common\Debug/"
+				ObjectFile=".\libs\cbm2common\Debug/"
+				ProgramDataBaseFileName=".\libs\cbm2common\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -213,7 +213,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\pet\Debug\pet.lib"
+				OutputFile=".\libs\cbm2common\Debug\cbm2common.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\pet\Debug/pet.bsc"
+				OutputFile=".\libs\cbm2common\Debug/cbm2common.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -263,15 +263,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\crtc,..\..\..\raster,..\..\..\monitor,..\..\..\sid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\drive,..\..\..\userport,..\..\..\tape,..\..\..\sid,..\..\..\crtc,..\..\..\vicii,..\..\..\raster,..\..\..\monitor"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\pet\Release/pet.pch"
-				AssemblerListingLocation=".\libs\pet\Release/"
-				ObjectFile=".\libs\pet\Release/"
-				ProgramDataBaseFileName=".\libs\pet\Release/"
+				PrecompiledHeaderFile=".\libs\cbm2common\Release/cbm2common.pch"
+				AssemblerListingLocation=".\libs\cbm2common\Release/"
+				ObjectFile=".\libs\cbm2common3\Release/"
+				ProgramDataBaseFileName=".\libs\cbm2common\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\pet\Release\pet.lib"
+				OutputFile=".\libs\cbm2common\Release\cbm2common.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -299,7 +299,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\pet\Release/pet.bsc"
+				OutputFile=".\libs\cbm2common\Release/cbm2common.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -313,7 +313,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\pet\pet-cmdline-options.c"
+			RelativePath="..\..\..\cbm2\cbm2-cmdline-options.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -353,7 +353,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\pet-resources.c"
+			RelativePath="..\..\..\cbm2\cbm2acia1.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -393,7 +393,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\pet-sidcart.c"
+			RelativePath="..\..\..\cbm2\cbm2bus.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -433,7 +433,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\pet-snapshot.c"
+			RelativePath="..\..\..\cbm2\cbm2cia1.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -473,7 +473,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\pet.c"
+			RelativePath="..\..\..\cbm2\cbm2cpu.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -513,7 +513,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petacia1.c"
+			RelativePath="..\..\..\cbm2\cbm2datasette.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -553,7 +553,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petbus.c"
+			RelativePath="..\..\..\cbm2\cbm2drive.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -593,7 +593,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petdatasette.c"
+			RelativePath="..\..\..\cbm2\cbm2iec.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -633,7 +633,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petdrive.c"
+			RelativePath="..\..\..\cbm2\cbm2memsnapshot.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -673,7 +673,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petdww.c"
+			RelativePath="..\..\..\cbm2\cbm2printer.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -713,7 +713,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petiec.c"
+			RelativePath="..\..\..\cbm2\cbm2romset.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -753,7 +753,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petmem.c"
+			RelativePath="..\..\..\cbm2\cbm2sound.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -793,7 +793,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petmemsnapshot.c"
+			RelativePath="..\..\..\cbm2\cbm2tpi1.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -833,327 +833,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\pet\petpia1.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petpia2.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petprinter.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petreu.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petrom.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petromset.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petsound.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petvia.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\pet\petvideo.c"
+			RelativePath="..\..\..\cbm2\cbm2tpi2.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
