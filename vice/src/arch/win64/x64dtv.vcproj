@@ -530,7 +530,7 @@
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions=""
+					PreprocessorDefinitions="IDE_COMPILE"
 					AdditionalIncludeDirectories=""
 				/>
 			</FileConfiguration>
@@ -539,7 +539,7 @@
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions=""
+					PreprocessorDefinitions="IDE_COMPILE"
 					AdditionalIncludeDirectories=""
 				/>
 			</FileConfiguration>
@@ -548,7 +548,7 @@
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions=""
+					PreprocessorDefinitions="IDE_COMPILE"
 					AdditionalIncludeDirectories=""
 				/>
 			</FileConfiguration>
@@ -557,7 +557,7 @@
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions=""
+					PreprocessorDefinitions="IDE_COMPILE"
 					AdditionalIncludeDirectories=""
 				/>
 			</FileConfiguration>
