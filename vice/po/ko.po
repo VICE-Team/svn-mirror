@@ -5146,15 +5146,15 @@ msgstr "디스크 이미지 파일 (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1113
 msgid "Tape image files (*.t64;*.tap)"
-msgstr ""
+msgstr "태이프 이미지 파일 (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:1114
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
-msgstr ""
+msgstr "압축 파일 (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 
 #: src/arch/win32/res.rc.po.c:1115
 msgid "CRT cartridge image files (*.crt)"
-msgstr ""
+msgstr "CRT 카트리지 이미지 파일 (*.crt)"
 
 #: src/arch/win32/res.rc.po.c:1116
 msgid "Raw cartridge image files (*.bin)"
@@ -5162,37 +5162,37 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1117
 msgid "VICE flip list files (*.vfl)"
-msgstr ""
+msgstr "VICE 플립 리스트 파일 (*.vfl)"
 
 #: src/arch/win32/res.rc.po.c:1118
 msgid "VICE romset files (*.vrs)"
-msgstr ""
+msgstr "VICE 롬셋 파일 (*.vrs)"
 
 #: src/arch/win32/res.rc.po.c:1119
 msgid "VICE romset archives (*.vra)"
-msgstr ""
+msgstr "VICE 롬셋 아카이브 (*.vra)"
 
 #: src/arch/win32/res.rc.po.c:1120
 msgid "VICE keymap files (*.vkm)"
-msgstr ""
+msgstr "VICE 키맾 파일 (*.vkm)"
 
 #: src/arch/win32/res.rc.po.c:1121
 msgid "Commodore emulator files (*.prg;*.p00)"
-msgstr ""
+msgstr "코모도 에뮬레이터 파일 (*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1125
 msgid "Sound driver: DirectX"
-msgstr ""
+msgstr "사운드 드라이버: DirectX"
 
 #: src/arch/win32/res.rc.po.c:1126
 msgid "Sound driver: WMM"
-msgstr ""
+msgstr "사운드 드라이버: WMM"
 
 #: src/arch/win32/res.rc.po.c:1127
 msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
-msgstr ""
+msgstr "미디어 파일 (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
 
 #: src/arch/win32/res.rc.po.c:1128
 msgid " kB"
@@ -5200,16 +5200,16 @@ msgstr " kb"
 
 #: src/arch/win32/res.rc.po.c:1129 src/arch/win32/res.rc.po.c:1199
 msgid "Configure Keyset A"
-msgstr ""
+msgstr "키셋 A 를 설정 하세요"
 
 #: src/arch/win32/res.rc.po.c:1130 src/arch/win32/res.rc.po.c:1200
 msgid "Configure Keyset B"
-msgstr ""
+msgstr "키셋 B 를 설정 하세요"
 
 #: src/arch/win32/res.rc.po.c:1132 src/arch/amigaos/intl_text.c.po.c:4513
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
-msgstr ""
+msgstr "%s 를 %d%% 스피드, %d fps%$s"
 
 #: src/arch/win32/res.rc.po.c:1133
 msgid "Tape"
@@ -5234,7 +5234,7 @@ msgstr ""
 msgid ""
 "Playback\n"
 "%02d:%02d (%02d:%02d)"
-msgstr ""
+msgstr "재생\n%02d:%02d (%02d:%02d)"
 
 #: src/arch/win32/res.rc.po.c:1138 src/translate_text.c.po.c:1317
 #: src/translate_text.c.po.c:3726
@@ -5243,45 +5243,43 @@ msgstr "숫자"
 
 #: src/arch/win32/res.rc.po.c:1139
 msgid "Set input device for joystick #1"
-msgstr ""
+msgstr "인풋 디바이스를 조이스틱 #1 으로 설정 하세요"
 
 #: src/arch/win32/res.rc.po.c:1140
 msgid "Set input device for joystick #2"
-msgstr ""
+msgstr "인풋 디바이스를 조이스틱 #2 으로 설정 하세요"
 
 #: src/arch/win32/res.rc.po.c:1141
 msgid "Set input device for extra joystick #1"
-msgstr ""
+msgstr "인풋 디바이스를 여분 조이스틱 #1 으로 설정 하세요"
 
 #: src/arch/win32/res.rc.po.c:1142
 msgid "Set input device for extra joystick #2"
-msgstr ""
+msgstr "인풋 디바이스를 여분 조이스틱 #2 으로 설정 하세요"
 
 #: src/arch/win32/res.rc.po.c:1145
-#, fuzzy
 msgid "Confirm quitting VICE"
 msgstr "VICE 확인 종료"
 
 #: src/arch/win32/res.rc.po.c:1146
-#, fuzzy
 msgid "Never confirm quitting VICE"
 msgstr "VICE 를 절대 끝내지 않습니다"
 
 #: src/arch/win32/res.rc.po.c:1147
 msgid "Use all CPU on SMP systems"
-msgstr ""
+msgstr "모든 CPU 를 SMP 시스템에 사용하세"
 
 #: src/arch/win32/res.rc.po.c:1148
 msgid "Use only first CPU on SMP systems"
-msgstr ""
+msgstr "하나의 CPU 를 SMP 시스템에 사용사세요"
 
 #: src/arch/win32/res.rc.po.c:1149
 msgid "Start VICE in fullscreen mode"
-msgstr ""
+msgstr "VICE 전체화면 모드를 시작 합니다"
 
 #: src/arch/win32/res.rc.po.c:1150 src/arch/win32/res.rc.po.c:1466
 msgid "Disable DirectX9 video driver"
-msgstr ""
+msgstr "DirectX9 비디로 드라이버를 사용하지 않습니다"
 
 #: src/arch/win32/res.rc.po.c:1152
 #, c-format
@@ -5295,11 +5293,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1162 src/arch/amigaos/intl_text.c.po.c:3743
 msgid "An error occured starting the server."
-msgstr ""
+msgstr "서버를 시작하던중 에러가 발생했습니다"
 
 #: src/arch/win32/res.rc.po.c:1163 src/arch/amigaos/intl_text.c.po.c:3757
 msgid "An error occured connecting the client."
-msgstr ""
+msgstr "크라이언트에 접속중 에러가 발생했습니다"
 
 #: src/arch/win32/res.rc.po.c:1173 src/arch/amigaos/intl_text.c.po.c:9820
 msgid "Error saving EasyFlash crt file"
