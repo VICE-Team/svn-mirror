@@ -1,5 +1,5 @@
 /*
- * xcbm2-kbd-pet.c - Watcom kbd-pet.c for xcbm2 wrapper.
+ * xcbm5x0-kbd-pet.c - Watcom kbd-pet.c for xcbm5x0 wrapper.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

@@ -1,8 +1,8 @@
 /*
- * xcbm2-kbd-pet.c - Watcom kbd-pet.c for xcbm2 wrapper.
+ * c510kbd.c - C510 keyboard implementation.
  *
  * Written by
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Ettore Perazzoli <ettore@comm2000.it>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,4 +24,11 @@
  *
  */
 
-#include "kbd-pet.c"
+#include "vice.h"
+
+#include "kbd.h"
+
+int cbm2_kbd_init(void)
+{
+    return kbd_init();
+}

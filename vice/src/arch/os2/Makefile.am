@@ -114,6 +114,8 @@ EXTRA_DIST = \
 	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
+	watcom/cbm2common.tgt \
+	watcom/cbm5x0.tgt \
 	watcom/core.tgt \
 	watcom/crtc.tgt \
 	watcom/dialogs.tgt \
@@ -170,6 +172,7 @@ EXTRA_DIST = \
 	watcom/sounddrv.tgt \
 	watcom/tape.tgt \
 	watcom/tcbm.tgt \
+	watcom/userport.tgt \
 	watcom/vdc.tgt \
 	watcom/vdrive.tgt \
 	watcom/vic20.tgt \
@@ -181,6 +184,7 @@ EXTRA_DIST = \
 	watcom/viciisc.tgt \
 	watcom/video.tgt \
 	watcom/vsid.tgt \
+	watcom/vsidlib.tgt \
 	watcom/x128-dlg-fileio.c \
 	watcom/x128-menubar.c \
 	watcom/x128-specific.tgt \
@@ -209,6 +213,8 @@ EXTRA_DIST = \
 	watcom/xcbm2-menubar.c \
 	watcom/xcbm2-specific.tgt \
 	watcom/xcbm2.tgt \
+	watcom/xcbm5x0.tgt \
+	watcom/xcbm5x0-kbd-pet.c \
 	watcom/xpet-dlg-fileio.c \
 	watcom/xpet-maincpu.c \
 	watcom/xpet-menubar.c \

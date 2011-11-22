@@ -153,6 +153,7 @@
 #define HAVE_REGEXP_H         1   /* Define if you have the <regexp.h> header file.   */
 #define HAVE_SYS_TIME_H       1   /* Define if you have the <sys/time.h> header file. */
 #define HAVE_GETCWD           1
+#define HAVE_SYS_TYPES_H      1
 
 /* #undef HAVE_USLEEP *//* Define if you have the usleep function.  */
 /* #undef HAVE_REGEX_H *//* Define if you have the <regex.h> header file.  */
