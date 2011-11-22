@@ -3,6 +3,7 @@
  *
  * Written by
  *  groepaz <groepaz@gmx.net> 
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -34,6 +35,7 @@
 #include "c64-cmdline-options.h"
 #include "cartridge.h"
 #include "drive.h"
+#include "gfxoutput.h"   /* FIXME: this include can be removed once the structs defined in this include are no longer used in stubs */
 #include "midi.h"
 #include "machine-printer.h"
 #include "vicii-phi1.h"
@@ -523,6 +525,67 @@ midi_interface_t midi_interface[] = {
 void digimax_userport_store(WORD addr, BYTE value)
 {
 }
+
+/*******************************************************************************
+    gfxoutput drivers
+*******************************************************************************/
+
+int gfxoutput_early_init(void)
+{
+    return 0;
+}
+
+int gfxoutput_resources_init(void)
+{
+    return 0;
+}
+
+int gfxoutput_cmdline_options_init(void)
+{
+    return 0;
+}
+
+int gfxoutput_init(void)
+{
+    return 0;
+}
+
+void gfxoutput_shutdown(void)
+{
+}
+
+int gfxoutput_num_drivers(void)
+{
+    return 0;
+}
+
+/* FIXME: this stub can be removed once all GUI's have been adapted to
+          not use this call for vsid */
+gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname)
+{
+    return NULL;
+}
+
+/* FIXME: this stub can be removed once all GUI's have been adapted to
+          not use this call for vsid */
+gfxoutputdrv_t *gfxoutput_drivers_iter_next(void)
+{
+    return NULL;
+}
+
+/* FIXME: this stub can be removed once all GUI's have been adapted to
+          not use this call for vsid */
+gfxoutputdrv_t *gfxoutput_drivers_iter_init(void)
+{
+    return NULL;
+}
+
+/* FIXME: this table can be removed once all GUI's have been adapted to
+          not use this table for vsid */
+gfxoutputdrv_format_t ffmpegdrv_formatlist[] =
+{
+    { NULL, NULL, NULL }
+};
 
 /*******************************************************************************
     FIXME: this "function" is never called, the functions referenced here cause

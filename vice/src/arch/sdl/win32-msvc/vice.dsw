@@ -1110,9 +1110,6 @@ Package=<4>
     Project_Dep_Name fsdevice
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name gfxoutputdrv
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name userport
     End Project Dependency
     Begin Project Dependency

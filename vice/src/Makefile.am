@@ -818,13 +818,11 @@ bla =
 vsid_libs =  \
 	@X64_WINRES@ \
 	$(vsid_lib) \
-	\
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
-	\
 	$(iecbus_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
@@ -850,19 +848,16 @@ vsid-all: \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	libvsid \
-	\
 	libdriveiec \
 	libdriveiecieee \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
-	\
 	libparallel \
 	libvdrive \
 	libraster \
 	libsid \
 	libsounddrv \
-	libgfxoutputdrv \
 	libprinterdrv \
 	librs232drv \
 	libvicii \
