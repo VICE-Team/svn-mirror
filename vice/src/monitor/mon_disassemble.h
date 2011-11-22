@@ -39,5 +39,7 @@ extern void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr);
 
 extern unsigned mon_disassemble_instr(MON_ADDR addr);
 
+extern const char* mon_disassemble_instr_ex(unsigned *opc_size, MON_ADDR addr);
+
 #endif
 

@@ -358,10 +358,15 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
     checkpoint_list_t *ptr;
     checkpoint_t *cp;
     checkpoint_list_t *list;
+    monitor_cpu_type_t *monitor_cpu;
     bool must_stop = FALSE;
     MON_ADDR instpc;
     const char *op_str;
     const char *action_str;
+    const char *dis_inst;
+    unsigned opc_size;
+
+    monitor_cpu = monitor_cpu_for_memspace[mem];
 
     switch (op) {
         case e_load:
@@ -379,7 +384,7 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
         default: /* e_exec */
             list = breakpoints[mem];
             op_str = "exec";
-            instpc = new_addr(mem, (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC));
+            instpc = new_addr(mem, (monitor_cpu->mon_register_get_val)(mem, e_PC));
             break;
     }
 
@@ -412,9 +417,14 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
                 action_str = "Trace";
             }
 
-            /*archdep_open_monitor_console(&mon_input, &mon_output);*/
-            mon_out("#%d (%s %s %04x) ", cp->checknum, action_str, op_str, addr);
-            mon_disassemble_instr(instpc);
+            dis_inst = mon_disassemble_instr_ex(&opc_size, instpc);
+            mon_out("#%d (%s %5s %04x)\n", cp->checknum, action_str, op_str, addr);
+            if (monitor_cpu->mon_register_print_ex) {
+                mon_out("%-40s - %s\n", dis_inst,
+                        monitor_cpu->mon_register_print_ex(mem));
+            } else {
+                mon_out("%s\n", dis_inst);
+            }
 
             if (cp->command) {
                 mon_out("Executing: %s\n", cp->command);
@@ -468,9 +478,8 @@ int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
 {
     checkpoint_t *new_cp;
     MEMSPACE mem;
-    long len;
 
-    len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
+    mon_evaluate_address_range(&start_addr, &end_addr, FALSE, 0);
     new_cp = lib_malloc(sizeof(checkpoint_t));
 
     new_cp->checknum = breakpoint_count++;

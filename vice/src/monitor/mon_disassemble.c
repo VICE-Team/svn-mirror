@@ -351,13 +351,34 @@ const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
 
 unsigned mon_disassemble_instr(MON_ADDR addr)
 {
+    MEMSPACE mem;
+    WORD loc;
+    char *label;
+    unsigned opc_size;
+
+    mem = addr_memspace(addr);
+    loc = addr_location(addr);
+
+    /* Print the label for this location - if we have one */
+    label = mon_symbol_table_lookup_name(mem, loc);
+    if (label)
+        mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
+
+    /* Print the disassembled instruction */
+    mon_out("%s\n", mon_disassemble_instr_ex(&opc_size, addr));
+
+    return opc_size;
+    /* asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode); */
+}
+
+const char* mon_disassemble_instr_ex(unsigned *opc_size, MON_ADDR addr)
+{
+    static char buff[256];
     BYTE op, p1, p2, p3;
     MEMSPACE mem;
     WORD loc;
     int hex_mode = 1;
-    char *label;
     const char *dis_inst;
-    unsigned opc_size;
 
     mem = addr_memspace(addr);
     loc = addr_location(addr);
@@ -367,25 +388,17 @@ unsigned mon_disassemble_instr(MON_ADDR addr)
     p2 = mon_get_mem_val(mem, (WORD)(loc + 2));
     p3 = mon_get_mem_val(mem, (WORD)(loc + 3));
 
-    /* Print the label for this location - if we have one */
-    label = mon_symbol_table_lookup_name(mem, loc);
-    if (label)
-        mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
-
     dis_inst = mon_disassemble_to_string_internal(mem, loc, op, p1, p2, p3, hex_mode,
-                                                  &opc_size, monitor_cpu_for_memspace[mem]);
+                                                  opc_size, monitor_cpu_for_memspace[mem]);
 
-    /* Print the disassembled instruction */
-    mon_out(".%s:%04x   %s\n", mon_memspace_string[mem], loc, dis_inst);
+    sprintf(buff, ".%s:%04x  %s", mon_memspace_string[mem], loc, dis_inst);
 
-    return opc_size;
-    /* asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode); */
+    return buff;
 }
 
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 {
     MEMSPACE mem;
-    unsigned end_loc;
     long len, i, bytes;
 
     len = mon_evaluate_address_range(&start_addr, &end_addr, FALSE,
@@ -398,7 +411,6 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 
     mem = addr_memspace(start_addr);
     dot_addr[mem] = start_addr;
-    end_loc = addr_location(end_addr);
 
     i = 0;
     while (i <= len) {
