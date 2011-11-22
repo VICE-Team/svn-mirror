@@ -732,8 +732,6 @@ void mon_cpuhistory(int count)
     const char *dis_inst;
     unsigned opc_size;
     int i, pos;
-    static const char padding[] = "                              ";
-    size_t padlen;              /* 0123456789012345678901234567890 */
 
     if ((count<1)||(count>CPUHISTORY_SIZE)) {
         count = CPUHISTORY_SIZE;
@@ -753,15 +751,9 @@ void mon_cpuhistory(int count)
         dis_inst = mon_disassemble_to_string_ex(mem, loc, op, p1, p2, p3, hex_mode,
                                                 &opc_size);
 
-
-        padlen = strlen(dis_inst);
-        if (padlen > 30) {
-            padlen = 30;
-        }
-
         /* Print the disassembled instruction */
-        mon_out("%04x  %s%s :A$%02x X$%02x Y$%02x SP$%02x %c%c-%c%c%c%c%c\n", 
-            loc, dis_inst, &(padding[padlen]),
+        mon_out("%04x  %-30s - A:%02X Y:%02X Y:%02X SP:%02x %c%c-%c%c%c%c%c\n",
+            loc, dis_inst,
             cpuhistory[pos].reg_a, cpuhistory[pos].reg_x, cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
             ((cpuhistory[pos].reg_st & (1<<7))!=0)?'N':' ',
             ((cpuhistory[pos].reg_st & (1<<6))!=0)?'V':' ',
