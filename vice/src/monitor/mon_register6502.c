@@ -165,6 +165,37 @@ static void mon_register_print(int mem)
     }
 }
 
+static const char* mon_register_print_ex(int mem)
+{
+    static char buff[80];
+    mos6510_regs_t *regs;
+
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+            return "";
+    } else if (mem != e_comp_space) {
+        log_error(LOG_ERR, "Unknown memory space!");
+        return "";
+    }
+
+    regs = mon_interfaces[mem]->cpu_regs;
+
+    sprintf(buff, "A:%02X X:%02X Y:%02X SP:%02x %c%c-%c%c%c%c%c",
+            mon_register_get_val(mem, e_A),
+            mon_register_get_val(mem, e_X),
+            mon_register_get_val(mem, e_Y),
+            mon_register_get_val(mem, e_SP),
+            MOS6510_REGS_GET_SIGN(regs)     ? 'N' : '.',
+            MOS6510_REGS_GET_OVERFLOW(regs) ? 'V' : '.',
+            MOS6510_REGS_GET_BREAK(regs)    ? 'B' : '.',
+            MOS6510_REGS_GET_DECIMAL(regs)  ? 'D' : '.',
+            MOS6510_REGS_GET_INTERRUPT(regs)? 'I' : '.',
+            MOS6510_REGS_GET_ZERO(regs)     ? 'Z' : '.',
+            MOS6510_REGS_GET_CARRY(regs)    ? 'C' : '.');
+
+    return buff;
+}
+
 static mon_reg_list_t *mon_register_list_get6502(int mem)
 {
     mon_reg_list_t *mon_reg_list;
@@ -270,6 +301,7 @@ void mon_register6502_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_get_val = mon_register_get_val;
     monitor_cpu_type->mon_register_set_val = mon_register_set_val;
     monitor_cpu_type->mon_register_print = mon_register_print;
+    monitor_cpu_type->mon_register_print_ex = mon_register_print_ex;
     monitor_cpu_type->mon_register_list_get = mon_register_list_get6502;
     monitor_cpu_type->mon_register_list_set = mon_register_list_set6502;
 }
