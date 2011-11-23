@@ -779,6 +779,7 @@ image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
     return NULL;
 }
 
+
 /*******************************************************************************
     fileio
 *******************************************************************************/
@@ -820,6 +821,42 @@ unsigned int fileio_rename(const char *src_name, const char *dest_name, const ch
 unsigned int fileio_scratch(const char *file_name, const char *path, unsigned int format)
 {
     return 0;
+}
+
+
+/*******************************************************************************
+    fileio
+*******************************************************************************/
+
+int fsdevice_resources_init(void)
+{
+    return 0;
+}
+
+int fsdevice_cmdline_options_init(void)
+{
+    return 0;
+}
+
+void fsdevice_init(void)
+{
+}
+
+void fsdevice_shutdown(void)
+{
+}
+
+int fsdevice_attach(unsigned int device, const char *name)
+{
+    return 0;
+}
+
+void fsdevice_set_directory(char *filename, unsigned int unit)
+{
+}
+
+void fsdevice_resources_shutdown(void)
+{
 }
 
 /*******************************************************************************
