@@ -35,6 +35,7 @@
 #include "c64-cmdline-options.h"
 #include "cartridge.h"
 #include "drive.h"
+#include "fileio.h"
 #include "gfxoutput.h"
 #include "imagecontents.h"
 #include "midi.h"
@@ -776,6 +777,49 @@ image_contents_t *tapecontents_read(const char *file_name)
 image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
 {
     return NULL;
+}
+
+/*******************************************************************************
+    fileio
+*******************************************************************************/
+
+void fileio_close(fileio_info_t *info)
+{
+}
+
+fileio_info_t *fileio_open(const char *file_name, const char *path, unsigned int format, unsigned int command, unsigned int type)
+{
+    return NULL;
+}
+
+unsigned int fileio_read(fileio_info_t *info, BYTE *buf, unsigned int len)
+{
+    return 0;
+}
+
+unsigned int fileio_get_bytes_left(fileio_info_t *info)
+{
+    return 0;
+}
+
+unsigned int fileio_ferror(fileio_info_t *info)
+{
+    return 0;
+}
+
+unsigned int fileio_write(fileio_info_t *info, BYTE *buf, unsigned int len)
+{
+    return 0;
+}
+
+unsigned int fileio_rename(const char *src_name, const char *dest_name, const char *path, unsigned int format)
+{
+    return 0;
+}
+
+unsigned int fileio_scratch(const char *file_name, const char *path, unsigned int format)
+{
+    return 0;
 }
 
 /*******************************************************************************

@@ -864,7 +864,6 @@ vsid-all: \
 	libiecbus \
 	libserial \
 	libfsdevice \
-	libfileio \
 	libcore \
 	vsid$(EXEEXT)
 
