@@ -832,7 +832,6 @@ vsid_libs =  \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs) \
-	$(imagecontents_lib) \
 	$(resid_libs)
 
 vsid_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
@@ -865,7 +864,6 @@ vsid-all: \
 	libiecbus \
 	libserial \
 	libfsdevice \
-	libimagecontents \
 	libfileio \
 	libcore \
 	vsid$(EXEEXT)

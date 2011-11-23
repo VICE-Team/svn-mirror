@@ -35,7 +35,8 @@
 #include "c64-cmdline-options.h"
 #include "cartridge.h"
 #include "drive.h"
-#include "gfxoutput.h"   /* FIXME: this include can be removed once the structs defined in this include are no longer used in stubs */
+#include "gfxoutput.h"
+#include "imagecontents.h"
 #include "midi.h"
 #include "machine-printer.h"
 #include "snapshot.h"
@@ -736,6 +737,45 @@ int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
 
 void tape_get_header(tape_image_t *tape_image, BYTE *name)
 {
+}
+
+
+/*******************************************************************************
+    imagecontents
+*******************************************************************************/
+
+char *image_contents_filename_by_number(image_contents_t *contents, unsigned int file_index)
+{
+    return NULL;
+}
+
+image_contents_t *diskcontents_filesystem_read(const char *file_name)
+{
+    return NULL;
+}
+
+void image_contents_destroy(image_contents_t *contents)
+{
+}
+
+char *image_contents_file_to_string(image_contents_file_list_t * p, char convert_to_ascii)
+{
+    return NULL;
+}
+
+char *image_contents_to_string(image_contents_t * contents, char convert_to_ascii)
+{
+    return NULL;
+}
+
+image_contents_t *tapecontents_read(const char *file_name)
+{
+    return NULL;
+}
+
+image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
+{
+    return NULL;
 }
 
 /*******************************************************************************
