@@ -417,14 +417,8 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
                 action_str = "Trace";
             }
 
-            dis_inst = mon_disassemble_instr_ex(&opc_size, instpc);
             mon_out("#%d (%s %5s %04x)\n", cp->checknum, action_str, op_str, addr);
-            if (monitor_cpu->mon_register_print_ex) {
-                mon_out("%-40s - %s\n", dis_inst,
-                        monitor_cpu->mon_register_print_ex(mem));
-            } else {
-                mon_out("%s\n", dis_inst);
-            }
+            mon_disassemble_with_regdump(mem, instpc);
 
             if (cp->command) {
                 mon_out("Executing: %s\n", cp->command);
@@ -471,7 +465,7 @@ static void add_to_checkpoint_list(checkpoint_list_t **head, checkpoint_t *cp)
     new_entry->next = cur_entry;
 }
 
-static 
+static
 int breakpoint_add_checkpoint(MON_ADDR start_addr, MON_ADDR end_addr,
                               bool stop, MEMORY_OP memory_op,
                               bool is_temp, bool do_print)
@@ -529,7 +523,7 @@ mon_breakpoint_type_t mon_breakpoint_is(MON_ADDR address)
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
-    
+
     if (!ptr)
         return BP_NONE;
 
@@ -543,7 +537,7 @@ void mon_breakpoint_set(MON_ADDR address)
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
-    
+
     if (ptr) {
         /* there's a breakpoint, so enable it */
         ptr->checkpt->enabled = e_ON;
@@ -561,7 +555,7 @@ void mon_breakpoint_unset(MON_ADDR address)
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
-    
+
     if (ptr) {
         /* there's a breakpoint, so remove it */
         remove_checkpoint_from_list( &breakpoints[mem], ptr->checkpt );
@@ -575,7 +569,7 @@ void mon_breakpoint_enable(MON_ADDR address)
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
-    
+
     if (ptr) {
         /* there's a breakpoint, so enable it */
         ptr->checkpt->enabled = e_ON;
@@ -589,7 +583,7 @@ void mon_breakpoint_disable(MON_ADDR address)
     checkpoint_list_t *ptr;
 
     ptr = search_checkpoint_list(breakpoints[mem], addr);
-    
+
     if (ptr) {
         /* there's a breakpoint, so disable it */
         ptr->checkpt->enabled = e_OFF;

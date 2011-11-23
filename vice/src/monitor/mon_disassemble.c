@@ -38,9 +38,11 @@
 #include "types.h"
 #include "uimon.h"
 
-const char *mon_disassemble_to_string_internal(MEMSPACE memspace, unsigned int addr,
-                                               unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
-                                               int hex_mode, unsigned *opc_size_p, monitor_cpu_type_t *mon_cpu_type)
+
+static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
+        unsigned int addr, unsigned int x, unsigned int p1, unsigned int p2,
+        unsigned int p3, int hex_mode, unsigned *opc_size_p,
+        monitor_cpu_type_t *mon_cpu_type)
 {
     static char buff[256];
     const char *string;
@@ -333,45 +335,8 @@ const char *mon_disassemble_to_string_internal(MEMSPACE memspace, unsigned int a
     return buff;
 }
 
-const char *mon_disassemble_to_string(MEMSPACE memspace, unsigned int addr,
-                                      unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
-                                      int hex_mode, const char *cpu_type)
-{
-    return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3, 
-        hex_mode, NULL, monitor_find_cpu_type_from_string(cpu_type));
-}
-
-const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
-                                         unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
-                                         int hex_mode, unsigned *opc_size_p)
-{
-    return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3, 
-        hex_mode, opc_size_p, monitor_cpu_for_memspace[memspace]);
-}
-
-unsigned mon_disassemble_instr(MON_ADDR addr)
-{
-    MEMSPACE mem;
-    WORD loc;
-    char *label;
-    unsigned opc_size;
-
-    mem = addr_memspace(addr);
-    loc = addr_location(addr);
-
-    /* Print the label for this location - if we have one */
-    label = mon_symbol_table_lookup_name(mem, loc);
-    if (label)
-        mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
-
-    /* Print the disassembled instruction */
-    mon_out("%s\n", mon_disassemble_instr_ex(&opc_size, addr));
-
-    return opc_size;
-    /* asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode); */
-}
-
-const char* mon_disassemble_instr_ex(unsigned *opc_size, MON_ADDR addr)
+static const char* mon_disassemble_instr_interal(unsigned *opc_size,
+                                                 MON_ADDR addr)
 {
     static char buff[256];
     BYTE op, p1, p2, p3;
@@ -395,6 +360,64 @@ const char* mon_disassemble_instr_ex(unsigned *opc_size, MON_ADDR addr)
 
     return buff;
 }
+
+const char *mon_disassemble_to_string(MEMSPACE memspace, unsigned int addr,
+                                      unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
+                                      int hex_mode, const char *cpu_type)
+{
+    return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3,
+        hex_mode, NULL, monitor_find_cpu_type_from_string(cpu_type));
+}
+
+const char *mon_disassemble_to_string_ex(MEMSPACE memspace, unsigned int addr,
+                                         unsigned int x, unsigned int p1, unsigned int p2, unsigned int p3,
+                                         int hex_mode, unsigned *opc_size_p)
+{
+    return mon_disassemble_to_string_internal(memspace, addr, x, p1, p2, p3,
+        hex_mode, opc_size_p, monitor_cpu_for_memspace[memspace]);
+}
+
+
+unsigned mon_disassemble_instr(MON_ADDR addr)
+{
+    MEMSPACE mem;
+    WORD loc;
+    char *label;
+    unsigned opc_size;
+
+    mem = addr_memspace(addr);
+    loc = addr_location(addr);
+
+    /* Print the label for this location - if we have one */
+    label = mon_symbol_table_lookup_name(mem, loc);
+    if (label)
+        mon_out(".%s:%04x   %s:\n", mon_memspace_string[mem], loc, label);
+
+    /* Print the disassembled instruction */
+    mon_out("%s\n", mon_disassemble_instr_interal(&opc_size, addr));
+
+    return opc_size;
+    /* asm_addr_mode_get_size(asm_opcode_info_get(op)->addr_mode); */
+}
+
+
+void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr)
+{
+    monitor_cpu_type_t *monitor_cpu;
+    const char *dis_inst;
+    unsigned opc_size;
+
+    monitor_cpu = monitor_cpu_for_memspace[mem];
+
+    dis_inst = mon_disassemble_instr_interal(&opc_size, addr);
+    if (monitor_cpu->mon_register_print_ex) {
+        mon_out("%-40s - %s\n", dis_inst,
+                monitor_cpu->mon_register_print_ex(mem));
+    } else {
+        mon_out("%s\n", dis_inst);
+    }
+}
+
 
 void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
 {
@@ -421,4 +444,3 @@ void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr)
             break;
     }
 }
-

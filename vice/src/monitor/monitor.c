@@ -6,6 +6,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
  *  Daniel Kahlin <daniel@kahlin.net>
+ *  Thomas Giesel <skoe@directbox.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -511,7 +512,7 @@ const char *mon_get_current_bank_name(MEMSPACE mem)
     if (!mon_interfaces[mem]->mem_bank_list) {
         return NULL;
     }
-    
+
     bnp = mon_interfaces[mem]->mem_bank_list();
     while (*bnp) {
         if (mon_interfaces[mem]->mem_bank_from_name(*bnp) == mon_interfaces[mem]->current_bank) {
@@ -704,7 +705,7 @@ void monitor_cpuhistory_store(unsigned int addr, unsigned int op,
                               BYTE reg_a,
                               BYTE reg_x,
                               BYTE reg_y,
-                              BYTE reg_sp, 
+                              BYTE reg_sp,
                               unsigned int reg_st)
 {
     ++cpuhistory_i;
@@ -738,7 +739,7 @@ void mon_cpuhistory(int count)
     }
 
     pos = (cpuhistory_i + 1 - count) & (CPUHISTORY_SIZE-1);
-    
+
     for (i=0; i < count; ++i) {
         addr = cpuhistory[pos].addr;
         op = cpuhistory[pos].op;
@@ -860,7 +861,7 @@ void monitor_memmap_store(unsigned int addr, unsigned int type)
 
     if (inside_monitor) return;
 
-    /* Ignore reg_pc+2 reads on branches & JSR 
+    /* Ignore reg_pc+2 reads on branches & JSR
        and return address read on RTS */
     if (type & (MEMMAP_ROM_R|MEMMAP_RAM_R)
       &&(((op & 0x1f) == 0x10)||(op == OP_JSR)
@@ -1157,7 +1158,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     find_supported_monitor_cpu_types(&monitor_cpu_type_supported[e_comp_space], maincpu_interface_init);
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        find_supported_monitor_cpu_types(&monitor_cpu_type_supported[monitor_diskspace_mem(dnr)], 
+        find_supported_monitor_cpu_types(&monitor_cpu_type_supported[monitor_diskspace_mem(dnr)],
                                          drive_interface_init[dnr]);
     }
 
@@ -1170,7 +1171,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     }
     /* Safety precaution */
     monitor_cpu_for_memspace[e_default_space]=monitor_cpu_for_memspace[e_comp_space];
-        
+
     watch_load_occurred = FALSE;
     watch_store_occurred = FALSE;
 
@@ -1229,8 +1230,8 @@ void monitor_shutdown(void)
         }
     }
 
-#ifdef FEATURE_CPUMEMHISTORY                                                                                                                                                                         
-   lib_free(mon_memmap);                                                                                                                                                                            
+#ifdef FEATURE_CPUMEMHISTORY
+   lib_free(mon_memmap);
 #endif
 }
 
@@ -2096,7 +2097,7 @@ int monitor_diskspace_dnr(int mem)
 {
     switch (mem) {
       case e_disk8_space:
-       return 0; 
+       return 0;
       case e_disk9_space:
        return 1;
       case e_disk10_space:
@@ -2202,25 +2203,8 @@ static void monitor_open(void)
             ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
     }
 
-    mon_out("\n** Monitor");
-
-    if (caller_space == e_comp_space
-        && mon_interfaces[caller_space]->get_line_cycle != NULL) {
-        unsigned int line, cycle;
-        int half_cycle;
-
-        mon_interfaces[caller_space]->get_line_cycle(&line, &cycle, &half_cycle);
-
-        if (half_cycle==-1)
-          mon_out(" %03i %03i\n", line, cycle);
-        else
-          mon_out(" %03i %03i %i\n", line, cycle, half_cycle);
-    } else {
-        mon_out("\n");
-    }
-
     if (disassemble_on_entry) {
-        mon_disassemble_instr(dot_addr[caller_space]);
+        mon_disassemble_with_regdump(caller_space, dot_addr[caller_space]);
         disassemble_on_entry = 0;
     }
 }

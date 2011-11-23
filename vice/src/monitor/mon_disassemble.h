@@ -35,11 +35,12 @@
 extern const char *mon_disassemble_to_string_ex(MEMSPACE, unsigned int addr, unsigned int x,
                                              unsigned int p1, unsigned int p2, unsigned int p3,
                                              int hex_mode, unsigned *len);
+
+extern void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr);
+
 extern void mon_disassemble_lines(MON_ADDR start_addr, MON_ADDR end_addr);
 
 extern unsigned mon_disassemble_instr(MON_ADDR addr);
-
-extern const char* mon_disassemble_instr_ex(unsigned *opc_size, MON_ADDR addr);
 
 #endif
 
