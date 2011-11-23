@@ -135,7 +135,6 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
             vbank = new_vbank;
             c64_glue_set_vbank(new_vbank, pa_ddr_change);
         }
-        (*iecbus_callback_write)((BYTE)tmp, maincpu_clk + !(cia_context->write_offset));
     }
 }
 
@@ -143,8 +142,6 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     vbank = (byte ^ 3) & 3;
     c64_glue_undump(vbank);
-
-    iecbus_cpu_undump((BYTE)(byte ^ 0xff));
 }
 
 
@@ -169,7 +166,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE value;
 
-    value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
+    value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f);
 
     return value;
 }

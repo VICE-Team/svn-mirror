@@ -52,7 +52,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64-resources.obj"
 	-@erase "$(INTDIR)\c64-snapshot.obj"
 	-@erase "$(INTDIR)\c64.obj"
-	-@erase "$(INTDIR)\c64bus.obj"
 	-@erase "$(INTDIR)\c64cia1.obj"
 	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64export.obj"
@@ -130,7 +129,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64-resources.obj" \
 	"$(INTDIR)\c64-snapshot.obj" \
 	"$(INTDIR)\c64.obj" \
-	"$(INTDIR)\c64bus.obj" \
 	"$(INTDIR)\c64cia1.obj" \
 	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64export.obj" \
@@ -191,7 +189,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64-resources.obj"
 	-@erase "$(INTDIR)\c64-snapshot.obj"
 	-@erase "$(INTDIR)\c64.obj"
-	-@erase "$(INTDIR)\c64bus.obj"
 	-@erase "$(INTDIR)\c64cia1.obj"
 	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64export.obj"
@@ -269,7 +266,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64-resources.obj" \
 	"$(INTDIR)\c64-snapshot.obj" \
 	"$(INTDIR)\c64.obj" \
-	"$(INTDIR)\c64bus.obj" \
 	"$(INTDIR)\c64cia1.obj" \
 	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64export.obj" \
@@ -355,12 +351,6 @@ SOURCE="..\..\..\c64\c64-snapshot.c"
 SOURCE=..\..\..\c64\c64.c
 
 "$(INTDIR)\c64.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\c64bus.c
-
-"$(INTDIR)\c64bus.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

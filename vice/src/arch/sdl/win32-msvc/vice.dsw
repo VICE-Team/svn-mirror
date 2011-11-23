@@ -1148,9 +1148,6 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name core
     End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name iecbus
-    End Project Dependency
 }}}
 
 ###############################################################################

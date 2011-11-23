@@ -822,7 +822,6 @@ vsid_libs =  \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
-	$(iecbus_lib) \
 	$(vdrive_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
@@ -857,7 +856,6 @@ vsid-all: \
 	libvideo \
 	libarch \
 	libmonitor \
-	libiecbus \
 	libserial \
 	libcore \
 	vsid$(EXEEXT)

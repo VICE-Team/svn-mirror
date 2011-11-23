@@ -22,7 +22,6 @@ libvsid_a_SOURCES = \
 	c64-snapshot.c \
 	c64-snapshot.h \
 	c64.h \
-	c64bus.c \
 	c64cart.h \
 	c64cia.h \
 	c64datasette.c \

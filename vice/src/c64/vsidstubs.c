@@ -38,6 +38,7 @@
 #include "drive.h"
 #include "fileio.h"
 #include "gfxoutput.h"
+#include "iecbus.h"
 #include "imagecontents.h"
 #include "midi.h"
 #include "machine-printer.h"
@@ -988,6 +989,75 @@ void disk_image_name_set(disk_image_t *image, char *name)
 void *disk_image_fsimage_fd_get(disk_image_t *image)
 {
     return NULL;
+}
+
+/*******************************************************************************
+    c64bus
+*******************************************************************************/
+
+int machine_bus_lib_directory(unsigned int unit, const char *pattern, BYTE **buf)
+{
+    return 0;
+}
+
+int machine_bus_lib_read_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
+{
+    return 0;
+}
+
+int machine_bus_lib_write_sector(unsigned int unit, unsigned int track, unsigned int sector, BYTE *buf)
+{
+    return 0;
+}
+
+unsigned int machine_bus_device_type_get(unsigned int unit)
+{
+    return 0;
+}
+
+void machine_bus_status_truedrive_set(unsigned int enable)
+{
+}
+
+void machine_bus_status_drivetype_set(unsigned int unit, unsigned int enable)
+{
+}
+
+void machine_bus_status_virtualdevices_set(unsigned int enable)
+{
+}
+
+void machine_bus_eof_callback_set(void (*func)(void))
+{
+}
+
+void machine_bus_attention_callback_set(void (*func)(void))
+{
+}
+
+void machine_bus_init_machine(void)
+{
+}
+
+/*******************************************************************************
+    iecbus
+*******************************************************************************/
+
+iecbus_t iecbus;
+void (*iecbus_update_ports)(void) = NULL;
+
+void iecbus_status_set(unsigned int type, unsigned int unit, unsigned int enable)
+{
+}
+
+int iecbus_device_write(unsigned int unit, BYTE data)
+{
+    return 0;
+}
+
+BYTE iecbus_device_read(void)
+{
+    return 0;
 }
 
 /*******************************************************************************
