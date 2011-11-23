@@ -1038,9 +1038,6 @@ Package=<4>
     Project_Dep_Name video
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name diskimage
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name core
     End Project Dependency
     Begin Project Dependency

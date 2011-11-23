@@ -857,7 +857,6 @@ vsid-all: \
 	libvideo \
 	libarch \
 	libmonitor \
-	libdiskimage \
 	libiecbus \
 	libserial \
 	libcore \

@@ -39,12 +39,12 @@ ALL : "$(OUTDIR)\vsid.exe"
 
 !ELSE 
 
-ALL : "iecbus - Win32 Release" "core - Win32 Release" "diskimage - Win32 Release" "monitor - Win32 Release" "video - Win32 Release" "vdrive - Win32 Release" "raster - Win32 Release" "vicii - Win32 Release" "sounddrv - Win32 Release" "sid - Win32 Release" "serial - Win32 Release" "parallel - Win32 Release" "ieee - Win32 Release" "iecieee - Win32 Release" "iec - Win32 Release" "drive - Win32 Release" "vsidlib - Win32 Release" "base - Win32 Release" "arch - Win32 Release" "$(OUTDIR)\vsid.exe"
+ALL : "iecbus - Win32 Release" "core - Win32 Release" "monitor - Win32 Release" "video - Win32 Release" "vdrive - Win32 Release" "raster - Win32 Release" "vicii - Win32 Release" "sounddrv - Win32 Release" "sid - Win32 Release" "serial - Win32 Release" "parallel - Win32 Release" "ieee - Win32 Release" "iecieee - Win32 Release" "iec - Win32 Release" "drive - Win32 Release" "vsidlib - Win32 Release" "base - Win32 Release" "arch - Win32 Release" "$(OUTDIR)\vsid.exe"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"arch - Win32 ReleaseCLEAN" "base - Win32 ReleaseCLEAN" "vsidlib - Win32 ReleaseCLEAN" "drive - Win32 ReleaseCLEAN" "iec - Win32 ReleaseCLEAN" "iecieee - Win32 ReleaseCLEAN" "ieee - Win32 ReleaseCLEAN" "parallel - Win32 ReleaseCLEAN" "serial - Win32 ReleaseCLEAN" "sid - Win32 ReleaseCLEAN" "sounddrv - Win32 ReleaseCLEAN" "vicii - Win32 ReleaseCLEAN" "raster - Win32 ReleaseCLEAN" "vdrive - Win32 ReleaseCLEAN" "video - Win32 ReleaseCLEAN" "monitor - Win32 ReleaseCLEAN" "diskimage - Win32 ReleaseCLEAN" "core - Win32 ReleaseCLEAN" "iecbus - Win32 ReleaseCLEAN" 
+CLEAN :"arch - Win32 ReleaseCLEAN" "base - Win32 ReleaseCLEAN" "vsidlib - Win32 ReleaseCLEAN" "drive - Win32 ReleaseCLEAN" "iec - Win32 ReleaseCLEAN" "iecieee - Win32 ReleaseCLEAN" "ieee - Win32 ReleaseCLEAN" "parallel - Win32 ReleaseCLEAN" "serial - Win32 ReleaseCLEAN" "sid - Win32 ReleaseCLEAN" "sounddrv - Win32 ReleaseCLEAN" "vicii - Win32 ReleaseCLEAN" "raster - Win32 ReleaseCLEAN" "vdrive - Win32 ReleaseCLEAN" "video - Win32 ReleaseCLEAN" "monitor - Win32 ReleaseCLEAN" "core - Win32 ReleaseCLEAN" "iecbus - Win32 ReleaseCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -120,7 +120,6 @@ LINK32_OBJS= \
 	".\libs\vdrive\Release\vdrive.lib" \
 	".\libs\video\Release\video.lib" \
 	".\libs\monitor\Release\monitor.lib" \
-	".\libs\diskimage\Release\diskimage.lib" \
 	".\libs\core\Release\core.lib" \
 	".\libs\iecbus\Release\iecbus.lib"
 
@@ -143,12 +142,12 @@ ALL : "$(OUTDIR)\vsid.exe"
 
 !ELSE 
 
-ALL : "iecbus - Win32 Debug" "core - Win32 Debug" "diskimage - Win32 Debug" "monitor - Win32 Debug" "video - Win32 Debug" "vdrive - Win32 Debug" "raster - Win32 Debug" "vicii - Win32 Debug" "sounddrv - Win32 Debug" "sid - Win32 Debug" "serial - Win32 Debug" "parallel - Win32 Debug" "ieee - Win32 Debug" "iecieee - Win32 Debug" "iec - Win32 Debug" "drive - Win32 Debug" "vsidlib - Win32 Debug" "base - Win32 Debug" "arch - Win32 Debug" "$(OUTDIR)\vsid.exe"
+ALL : "iecbus - Win32 Debug" "core - Win32 Debug" "monitor - Win32 Debug" "video - Win32 Debug" "vdrive - Win32 Debug" "raster - Win32 Debug" "vicii - Win32 Debug" "sounddrv - Win32 Debug" "sid - Win32 Debug" "serial - Win32 Debug" "parallel - Win32 Debug" "ieee - Win32 Debug" "iecieee - Win32 Debug" "iec - Win32 Debug" "drive - Win32 Debug" "vsidlib - Win32 Debug" "base - Win32 Debug" "arch - Win32 Debug" "$(OUTDIR)\vsid.exe"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"arch - Win32 DebugCLEAN" "base - Win32 DebugCLEAN" "vsidlib - Win32 DebugCLEAN" "drive - Win32 DebugCLEAN" "iec - Win32 DebugCLEAN" "iecieee - Win32 DebugCLEAN" "ieee - Win32 DebugCLEAN" "parallel - Win32 DebugCLEAN" "serial - Win32 DebugCLEAN" "sid - Win32 DebugCLEAN" "sounddrv - Win32 DebugCLEAN" "vicii - Win32 DebugCLEAN" "raster - Win32 DebugCLEAN" "vdrive - Win32 DebugCLEAN" "video - Win32 DebugCLEAN" "monitor - Win32 DebugCLEAN" "diskimage - Win32 DebugCLEAN" "core - Win32 DebugCLEAN" "iecbus - Win32 DebugCLEAN" 
+CLEAN :"arch - Win32 DebugCLEAN" "base - Win32 DebugCLEAN" "vsidlib - Win32 DebugCLEAN" "drive - Win32 DebugCLEAN" "iec - Win32 DebugCLEAN" "iecieee - Win32 DebugCLEAN" "ieee - Win32 DebugCLEAN" "parallel - Win32 DebugCLEAN" "serial - Win32 DebugCLEAN" "sid - Win32 DebugCLEAN" "sounddrv - Win32 DebugCLEAN" "vicii - Win32 DebugCLEAN" "raster - Win32 DebugCLEAN" "vdrive - Win32 DebugCLEAN" "video - Win32 DebugCLEAN" "monitor - Win32 DebugCLEAN" "core - Win32 DebugCLEAN" "iecbus - Win32 DebugCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -226,7 +225,6 @@ LINK32_OBJS= \
 	".\libs\vdrive\Debug\vdrive.lib" \
 	".\libs\video\Debug\video.lib" \
 	".\libs\monitor\Debug\monitor.lib" \
-	".\libs\diskimage\Debug\diskimage.lib" \
 	".\libs\core\Debug\core.lib" \
 	".\libs\iecbus\Debug\iecbus.lib"
 
@@ -652,32 +650,6 @@ LINK32_OBJS= \
 "monitor - Win32 DebugCLEAN" : 
    cd "."
    $(MAKE) /$(MAKEFLAGS) /F ".\monitor.mak" CFG="monitor - Win32 Debug" RECURSE=1 CLEAN 
-   cd "."
-
-!ENDIF 
-
-!IF  "$(CFG)" == "vsid - Win32 Release"
-
-"diskimage - Win32 Release" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\diskimage.mak" CFG="diskimage - Win32 Release" 
-   cd "."
-
-"diskimage - Win32 ReleaseCLEAN" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\diskimage.mak" CFG="diskimage - Win32 Release" RECURSE=1 CLEAN 
-   cd "."
-
-!ELSEIF  "$(CFG)" == "vsid - Win32 Debug"
-
-"diskimage - Win32 Debug" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\diskimage.mak" CFG="diskimage - Win32 Debug" 
-   cd "."
-
-"diskimage - Win32 DebugCLEAN" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\diskimage.mak" CFG="diskimage - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 
