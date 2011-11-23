@@ -363,8 +363,6 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
     MON_ADDR instpc;
     const char *op_str;
     const char *action_str;
-    const char *dis_inst;
-    unsigned opc_size;
 
     monitor_cpu = monitor_cpu_for_memspace[mem];
 
