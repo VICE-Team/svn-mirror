@@ -820,7 +820,6 @@ vsid_libs =  \
 	$(vsid_lib) \
 	$(driveiec_lib) \
 	$(driveiecieee_lib) \
-	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
 	$(iecbus_lib) \
@@ -847,7 +846,6 @@ vsid-all: \
 	libvsid \
 	libdriveiec \
 	libdriveiecieee \
-	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
 	libparallel \

@@ -996,9 +996,6 @@ Package=<4>
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name c64exp
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name iecieee
     End Project Dependency
     Begin Project Dependency
