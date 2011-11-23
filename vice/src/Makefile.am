@@ -853,7 +853,6 @@ vsid-all: \
 	libraster \
 	libsid \
 	libsounddrv \
-	librs232drv \
 	libvicii \
 	libvideo \
 	libarch \
