@@ -865,7 +865,6 @@ vsid-all: \
 	libiecbus \
 	libserial \
 	libfsdevice \
-	libtape \
 	libimagecontents \
 	libfileio \
 	libcore \

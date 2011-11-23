@@ -1062,9 +1062,6 @@ Package=<4>
     Project_Dep_Name diskimage
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name tape
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name imagecontents
     End Project Dependency
     Begin Project Dependency
