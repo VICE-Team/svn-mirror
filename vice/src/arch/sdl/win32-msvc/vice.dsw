@@ -1158,15 +1158,6 @@ Package=<4>
     Project_Dep_Name monitor
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name c64cart
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name c64commoncart
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name c64cartsystem
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name diskimage
     End Project Dependency
     Begin Project Dependency
