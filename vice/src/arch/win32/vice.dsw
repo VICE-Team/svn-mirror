@@ -1014,9 +1014,6 @@ Package=<4>
     Project_Dep_Name parallel
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name printerdrv
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name monitor
     End Project Dependency
     Begin Project Dependency
@@ -1032,9 +1029,6 @@ Package=<4>
     Project_Dep_Name rs232drv
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name rtc
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name serial
     End Project Dependency
     Begin Project Dependency
@@ -1045,9 +1039,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name vicii
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name userport
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name raster

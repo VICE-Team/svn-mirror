@@ -25,8 +25,6 @@ libvsid_a_SOURCES = \
 	c64bus.c \
 	c64cart.h \
 	c64cia.h \
-	c64cia1.c \
-	c64cia2.c \
 	c64datasette.c \
 	c64embedded.c \
 	c64export.c \
@@ -54,7 +52,6 @@ libvsid_a_SOURCES = \
 	c64parallel.h \
 	c64pla.c \
 	c64pla.h \
-	c64printer.c \
 	c64rom.c \
 	c64rom.h \
 	c64romset.c \
@@ -70,6 +67,8 @@ libvsid_a_SOURCES = \
 	psiddrv.h \
 	reloc65.c \
 	vsid.c \
+	vsidcia1.c \
+	vsidcia2.c \
 	vsidmem.c \
 	vsidstubs.c
 

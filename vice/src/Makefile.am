@@ -830,8 +830,6 @@ vsid_libs =  \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
-	$(rtc_lib) \
-	$(userport_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
@@ -858,7 +856,6 @@ vsid-all: \
 	libraster \
 	libsid \
 	libsounddrv \
-	libprinterdrv \
 	librs232drv \
 	libvicii \
 	libvideo \
@@ -872,8 +869,6 @@ vsid-all: \
 	libimagecontents \
 	libfileio \
 	libcore \
-	librtc \
-	libuserport \
 	vsid$(EXEEXT)
 
 # x64

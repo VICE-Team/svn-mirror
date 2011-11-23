@@ -588,6 +588,55 @@ gfxoutputdrv_format_t ffmpegdrv_formatlist[] =
 };
 
 /*******************************************************************************
+    printers
+*******************************************************************************/
+
+void printer_shutdown(void)
+{
+}
+
+int printer_serial_late_init(void)
+{
+    return 0;
+}
+
+/* FIXME: this stub can be removed once all GUI's have been adapted to
+          not use this call for vsid */
+void printer_formfeed(unsigned int prnr)
+{
+}
+
+
+/*******************************************************************************
+    rtc
+*******************************************************************************/
+
+/* FIXME: this stub can be removed once the drive code has been stubbed */
+rtc_ds1216e_t *ds1216e_init(time_t *offset)
+{
+    return NULL;
+}
+
+/* FIXME: this stub can be removed once the drive code has been stubbed */
+void ds1216e_destroy(rtc_ds1216e_t *context)
+{
+}
+
+BYTE ds1216e_read(rtc_ds1216e_t *context, WORD address, BYTE origbyte)
+{
+    return 0;
+}
+
+
+/*******************************************************************************
+    userport
+*******************************************************************************/
+
+/* FIXME: these can be removed once the GUI's have been adapted for vsid */
+int userport_joystick_enable = 0;
+int userport_joystick_type = 0;
+
+/*******************************************************************************
     FIXME: this "function" is never called, the functions referenced here cause
            the linker to pull in certain other modules early (else we get linker
            errors).
@@ -599,6 +648,5 @@ void dummy(void)
 {
     c64iec_init();
     c64fastiec_init();
-    machine_printer_setup_context(&machine_context);
     c64_cmdline_options_init();
 }

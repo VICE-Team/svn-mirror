@@ -54,7 +54,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64.obj"
 	-@erase "$(INTDIR)\c64bus.obj"
 	-@erase "$(INTDIR)\c64cia1.obj"
-	-@erase "$(INTDIR)\c64cia2.obj"
 	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64export.obj"
 	-@erase "$(INTDIR)\c64fastiec.obj"
@@ -68,7 +67,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64memsnapshot.obj"
 	-@erase "$(INTDIR)\c64model.obj"
 	-@erase "$(INTDIR)\c64pla.obj"
-	-@erase "$(INTDIR)\c64printer.obj"
 	-@erase "$(INTDIR)\c64rom.obj"
 	-@erase "$(INTDIR)\c64romset.obj"
 	-@erase "$(INTDIR)\c64rsuser.obj"
@@ -78,6 +76,7 @@ CLEAN :
 	-@erase "$(INTDIR)\psid.obj"
 	-@erase "$(INTDIR)\reloc65.obj"
 	-@erase "$(INTDIR)\vsid.obj"
+	-@erase "$(INTDIR)\vsidcia2.obj"
 	-@erase "$(INTDIR)\vsidmem.obj"
 	-@erase "$(INTDIR)\vsidstubs.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -133,7 +132,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64.obj" \
 	"$(INTDIR)\c64bus.obj" \
 	"$(INTDIR)\c64cia1.obj" \
-	"$(INTDIR)\c64cia2.obj" \
 	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64export.obj" \
 	"$(INTDIR)\c64fastiec.obj" \
@@ -147,7 +145,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64memsnapshot.obj" \
 	"$(INTDIR)\c64model.obj" \
 	"$(INTDIR)\c64pla.obj" \
-	"$(INTDIR)\c64printer.obj" \
 	"$(INTDIR)\c64rom.obj" \
 	"$(INTDIR)\c64romset.obj" \
 	"$(INTDIR)\c64rsuser.obj" \
@@ -157,6 +154,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\psid.obj" \
 	"$(INTDIR)\reloc65.obj" \
 	"$(INTDIR)\vsid.obj" \
+	"$(INTDIR)\vsidcia2.obj" \
 	"$(INTDIR)\vsidmem.obj" \
 	"$(INTDIR)\vsidstubs.obj" \
 	".\libs\base\Release\base.lib"
@@ -195,7 +193,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64.obj"
 	-@erase "$(INTDIR)\c64bus.obj"
 	-@erase "$(INTDIR)\c64cia1.obj"
-	-@erase "$(INTDIR)\c64cia2.obj"
 	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64export.obj"
 	-@erase "$(INTDIR)\c64fastiec.obj"
@@ -209,7 +206,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64memsnapshot.obj"
 	-@erase "$(INTDIR)\c64model.obj"
 	-@erase "$(INTDIR)\c64pla.obj"
-	-@erase "$(INTDIR)\c64printer.obj"
 	-@erase "$(INTDIR)\c64rom.obj"
 	-@erase "$(INTDIR)\c64romset.obj"
 	-@erase "$(INTDIR)\c64rsuser.obj"
@@ -219,6 +215,7 @@ CLEAN :
 	-@erase "$(INTDIR)\psid.obj"
 	-@erase "$(INTDIR)\reloc65.obj"
 	-@erase "$(INTDIR)\vsid.obj"
+	-@erase "$(INTDIR)\vsidcia2.obj"
 	-@erase "$(INTDIR)\vsidmem.obj"
 	-@erase "$(INTDIR)\vsidstubs.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -274,7 +271,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64.obj" \
 	"$(INTDIR)\c64bus.obj" \
 	"$(INTDIR)\c64cia1.obj" \
-	"$(INTDIR)\c64cia2.obj" \
 	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64export.obj" \
 	"$(INTDIR)\c64fastiec.obj" \
@@ -288,7 +284,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64memsnapshot.obj" \
 	"$(INTDIR)\c64model.obj" \
 	"$(INTDIR)\c64pla.obj" \
-	"$(INTDIR)\c64printer.obj" \
 	"$(INTDIR)\c64rom.obj" \
 	"$(INTDIR)\c64romset.obj" \
 	"$(INTDIR)\c64rsuser.obj" \
@@ -298,6 +293,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\psid.obj" \
 	"$(INTDIR)\reloc65.obj" \
 	"$(INTDIR)\vsid.obj" \
+	"$(INTDIR)\vsidcia2.obj" \
 	"$(INTDIR)\vsidmem.obj" \
 	"$(INTDIR)\vsidstubs.obj" \
 	".\libs\base\Debug\base.lib"
@@ -374,9 +370,9 @@ SOURCE=..\..\..\c64\c64cia1.c
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\c64\c64cia2.c
+SOURCE=..\..\..\c64\vsidcia2.c
 
-"$(INTDIR)\c64cia2.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\vsidcia2.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -455,12 +451,6 @@ SOURCE=..\..\..\c64\c64model.c
 SOURCE=..\..\..\c64\c64pla.c
 
 "$(INTDIR)\c64pla.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\c64printer.c
-
-"$(INTDIR)\c64printer.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
