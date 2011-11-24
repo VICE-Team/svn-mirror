@@ -841,7 +841,6 @@ vsid-all: \
 	@RESID_FP_DEP@ \
 	libvsid \
 	libdrive \
-	libparallel \
 	libvdrive \
 	libraster \
 	libsid \
