@@ -818,7 +818,6 @@ bla =
 vsid_libs =  \
 	@X64_WINRES@ \
 	$(vsid_lib) \
-	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
 	$(vdrive_lib) \
@@ -842,7 +841,6 @@ vsid-all: \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	libvsid \
-	libdriveiecieee \
 	libdriveieee \
 	libdrive \
 	libparallel \
