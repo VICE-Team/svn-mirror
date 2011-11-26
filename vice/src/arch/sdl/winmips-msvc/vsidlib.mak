@@ -49,15 +49,9 @@ CLEAN :"base - Win32 ReleaseCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64-cmdline-options.obj"
-	-@erase "$(INTDIR)\c64-resources.obj"
-	-@erase "$(INTDIR)\c64-snapshot.obj"
 	-@erase "$(INTDIR)\c64.obj"
-	-@erase "$(INTDIR)\c64cia1.obj"
-	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64export.obj"
-	-@erase "$(INTDIR)\c64fastiec.obj"
 	-@erase "$(INTDIR)\c64gluelogic.obj"
-	-@erase "$(INTDIR)\c64iec.obj"
 	-@erase "$(INTDIR)\c64io.obj"
 	-@erase "$(INTDIR)\c64keyboard.obj"
 	-@erase "$(INTDIR)\c64meminit.obj"
@@ -75,6 +69,9 @@ CLEAN :
 	-@erase "$(INTDIR)\psid.obj"
 	-@erase "$(INTDIR)\reloc65.obj"
 	-@erase "$(INTDIR)\vsid.obj"
+	-@erase "$(INTDIR)\vsid-resources.obj"
+	-@erase "$(INTDIR)\vsid-snapshot.obj"
+	-@erase "$(INTDIR)\vsidcia1.obj"
 	-@erase "$(INTDIR)\vsidcia2.obj"
 	-@erase "$(INTDIR)\vsidmem.obj"
 	-@erase "$(INTDIR)\vsidstubs.obj"
@@ -126,15 +123,9 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vsidlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\c64-cmdline-options.obj" \
-	"$(INTDIR)\c64-resources.obj" \
-	"$(INTDIR)\c64-snapshot.obj" \
 	"$(INTDIR)\c64.obj" \
-	"$(INTDIR)\c64cia1.obj" \
-	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64export.obj" \
-	"$(INTDIR)\c64fastiec.obj" \
 	"$(INTDIR)\c64gluelogic.obj" \
-	"$(INTDIR)\c64iec.obj" \
 	"$(INTDIR)\c64io.obj" \
 	"$(INTDIR)\c64keyboard.obj" \
 	"$(INTDIR)\c64meminit.obj" \
@@ -152,6 +143,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\psid.obj" \
 	"$(INTDIR)\reloc65.obj" \
 	"$(INTDIR)\vsid.obj" \
+	"$(INTDIR)\vsid-resources.obj" \
+	"$(INTDIR)\vsid-snapshot.obj" \
+	"$(INTDIR)\vsidcia1.obj" \
 	"$(INTDIR)\vsidcia2.obj" \
 	"$(INTDIR)\vsidmem.obj" \
 	"$(INTDIR)\vsidstubs.obj" \
@@ -186,15 +180,9 @@ CLEAN :"base - Win32 DebugCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64-cmdline-options.obj"
-	-@erase "$(INTDIR)\c64-resources.obj"
-	-@erase "$(INTDIR)\c64-snapshot.obj"
 	-@erase "$(INTDIR)\c64.obj"
-	-@erase "$(INTDIR)\c64cia1.obj"
-	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64export.obj"
-	-@erase "$(INTDIR)\c64fastiec.obj"
 	-@erase "$(INTDIR)\c64gluelogic.obj"
-	-@erase "$(INTDIR)\c64iec.obj"
 	-@erase "$(INTDIR)\c64io.obj"
 	-@erase "$(INTDIR)\c64keyboard.obj"
 	-@erase "$(INTDIR)\c64meminit.obj"
@@ -212,6 +200,9 @@ CLEAN :
 	-@erase "$(INTDIR)\psid.obj"
 	-@erase "$(INTDIR)\reloc65.obj"
 	-@erase "$(INTDIR)\vsid.obj"
+	-@erase "$(INTDIR)\vsid-resources.obj"
+	-@erase "$(INTDIR)\vsid-snapshot.obj"
+	-@erase "$(INTDIR)\vsidcia1.obj"
 	-@erase "$(INTDIR)\vsidcia2.obj"
 	-@erase "$(INTDIR)\vsidmem.obj"
 	-@erase "$(INTDIR)\vsidstubs.obj"
@@ -263,15 +254,9 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vsidlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\c64-cmdline-options.obj" \
-	"$(INTDIR)\c64-resources.obj" \
-	"$(INTDIR)\c64-snapshot.obj" \
 	"$(INTDIR)\c64.obj" \
-	"$(INTDIR)\c64cia1.obj" \
-	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64export.obj" \
-	"$(INTDIR)\c64fastiec.obj" \
 	"$(INTDIR)\c64gluelogic.obj" \
-	"$(INTDIR)\c64iec.obj" \
 	"$(INTDIR)\c64io.obj" \
 	"$(INTDIR)\c64keyboard.obj" \
 	"$(INTDIR)\c64meminit.obj" \
@@ -289,6 +274,9 @@ LIB32_OBJS= \
 	"$(INTDIR)\psid.obj" \
 	"$(INTDIR)\reloc65.obj" \
 	"$(INTDIR)\vsid.obj" \
+	"$(INTDIR)\vsid-resources.obj" \
+	"$(INTDIR)\vsid-snapshot.obj" \
+	"$(INTDIR)\vsidcia1.obj" \
 	"$(INTDIR)\vsidcia2.obj" \
 	"$(INTDIR)\vsidmem.obj" \
 	"$(INTDIR)\vsidstubs.obj" \
@@ -336,39 +324,9 @@ SOURCE="..\..\..\c64\c64-cmdline-options.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\c64\c64-resources.c"
-
-"$(INTDIR)\c64-resources.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\c64\c64-snapshot.c"
-
-"$(INTDIR)\c64-snapshot.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 SOURCE=..\..\..\c64\c64.c
 
 "$(INTDIR)\c64.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\c64cia1.c
-
-"$(INTDIR)\c64cia1.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\vsidcia2.c
-
-"$(INTDIR)\vsidcia2.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\c64datasette.c
-
-"$(INTDIR)\c64datasette.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -378,21 +336,9 @@ SOURCE=..\..\..\c64\c64export.c
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\c64\c64fastiec.c
-
-"$(INTDIR)\c64fastiec.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
 SOURCE=..\..\..\c64\c64gluelogic.c
 
 "$(INTDIR)\c64gluelogic.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\c64iec.c
-
-"$(INTDIR)\c64iec.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -494,6 +440,30 @@ SOURCE=..\..\..\c64\reloc65.c
 SOURCE=..\..\..\c64\vsid.c
 
 "$(INTDIR)\vsid.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\c64\vsid-resources.c"
+
+"$(INTDIR)\c64-resources.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\c64\vsid-snapshot.c"
+
+"$(INTDIR)\c64-snapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c64\vsidcia1.c
+
+"$(INTDIR)\c64cia1.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c64\vsidcia2.c
+
+"$(INTDIR)\vsidcia2.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

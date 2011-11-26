@@ -818,8 +818,6 @@ bla =
 vsid_libs =  \
 	@X64_WINRES@ \
 	$(vsid_lib) \
-	$(drive_lib) \
-	$(vdrive_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
@@ -840,8 +838,6 @@ vsid-all: \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	libvsid \
-	libdrive \
-	libvdrive \
 	libraster \
 	libsid \
 	libsounddrv \

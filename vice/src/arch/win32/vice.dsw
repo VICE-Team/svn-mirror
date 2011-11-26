@@ -996,9 +996,6 @@ Package=<4>
     Project_Dep_Name monitor
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name drive
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name resid
     End Project Dependency
     Begin Project Dependency
@@ -1018,9 +1015,6 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name raster
-    End Project Dependency
-    Begin Project Dependency
-    Project_Dep_Name vdrive
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name video

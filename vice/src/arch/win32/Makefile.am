@@ -306,6 +306,7 @@ EXTRA_DIST = \
 	watcom/c64commonall.tgt \
 	watcom/c64commoncart.tgt \
 	watcom/c64commonsc.tgt \
+	watcom/c64commonsc128.tgt \
 	watcom/c64commondscdtv.tgt \
 	watcom/c64commonscdtv128.tgt \
 	watcom/c64commonscdtvvsid.tgt \

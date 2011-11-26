@@ -147,18 +147,15 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    parallel_cable_cpu_write((BYTE)byte);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-    parallel_cable_cpu_pulse();
 }
 
 /* FIXME! */
 static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    parallel_cable_cpu_undump((BYTE)byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -185,24 +182,14 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
-    if (burst_mod == BURST_MOD_CIA2) {
-        drivecpu_execute_all(maincpu_clk);
-    }
-    parallel_cable_cpu_execute();
 }
 
 static void read_sdr(cia_context_t *cia_context)
 {
-    if (burst_mod == BURST_MOD_CIA2) {
-        drivecpu_execute_all(maincpu_clk);
-    }
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
-    if (burst_mod == BURST_MOD_CIA2) {
-        c64fastiec_fast_cpu_write((BYTE)byte);
-    }
 }
 
 /* Temporary!  */

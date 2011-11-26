@@ -86,35 +86,11 @@ SOURCE="..\..\..\c64\c64-cmdline-options.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\c64\c64-resources.c"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\..\c64\c64-snapshot.c"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64cia1.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64datasette.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\c64export.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\c64\c64fastiec.c
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\..\c64\c64gluelogic.c
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\..\c64\c64iec.c
 # End Source File
 # Begin Source File
 
@@ -183,6 +159,18 @@ SOURCE=..\..\..\c64\reloc65.c
 # Begin Source File
 
 SOURCE=..\..\..\c64\vsid.c
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\vsid-resources.c"
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\..\c64\vsid-snapshot.c"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\..\c64\vsidcia1.c
 # End Source File
 # Begin Source File
 

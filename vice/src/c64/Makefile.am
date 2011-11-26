@@ -17,27 +17,14 @@ noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a
 libvsid_a_SOURCES = \
 	c64-cmdline-options.c \
 	c64-cmdline-options.h \
-	c64-resources.c \
-	c64-resources.h \
-	c64-snapshot.c \
-	c64-snapshot.h \
-	c64.h \
-	c64cart.h \
-	c64cia.h \
-	c64datasette.c \
 	c64embedded.c \
 	c64export.c \
 	c64export.h \
-	c64fastiec.c \
-	c64fastiec.h \
 	c64gluelogic.c \
 	c64gluelogic.h \
-	c64iec.c \
-	c64iec.h \
 	c64io.c \
 	c64keyboard.c \
 	c64keyboard.h \
-	c64mem.h \
 	c64meminit.c \
 	c64meminit.h \
 	c64memlimit.c \
@@ -63,9 +50,10 @@ libvsid_a_SOURCES = \
 	psid.c \
 	psid.h \
 	psiddrv.a65 \
-	psiddrv.h \
 	reloc65.c \
 	vsid.c \
+	vsid-resources.c \
+	vsid-snapshot.c \
 	vsidcia1.c \
 	vsidcia2.c \
 	vsidmem.c \

@@ -50,6 +50,7 @@
 #define HAVE_STRNCASECMP           1
 #define HAVE_PROCESS_H             1
 #define HAVE_GETCWD                1
+#define HAVE_DSOUND_LIB            1
 
 #define USE_DXSOUND                1
 
@@ -72,6 +73,7 @@
 /* begin: for FFMPEG: common.h */
 #define CONFIG_WIN32
 #define _WIN32
+#define WIN32
 
 #define WATCOM_COMPILE          1
 #define _MSC_VER                1

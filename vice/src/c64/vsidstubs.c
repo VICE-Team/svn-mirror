@@ -34,8 +34,11 @@
 #include "c64mem.h"
 #include "c64-cmdline-options.h"
 #include "cartridge.h"
+#include "cbmdos.h"
+#include "cia.h"
 #include "diskimage.h"
 #include "drive.h"
+#include "drivetypes.h"
 #include "fileio.h"
 #include "gfxoutput.h"
 #include "iecbus.h"
@@ -45,6 +48,7 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
+#include "vdrive.h"
 #include "vicii-phi1.h"
 
 /*******************************************************************************
@@ -1060,17 +1064,144 @@ BYTE iecbus_device_read(void)
     return 0;
 }
 
-/*******************************************************************************
-    FIXME: this "function" is never called, the functions referenced here cause
-           the linker to pull in certain other modules early (else we get linker
-           errors).
 
-           more stubs should be created so these can later be removed (hopefully)
+/*******************************************************************************
+    drive
 *******************************************************************************/
 
-void dummy(void)
+drive_context_t *drive_context[DRIVE_NUM];
+
+void drive_setup_context(void)
 {
-    c64iec_init();
-    c64fastiec_init();
-    c64_cmdline_options_init();
+}
+
+void drivecpu_early_init_all(void)
+{
+}
+
+void drivecpu_trigger_reset(unsigned int dnr)
+{
+}
+
+void drive_shutdown(void)
+{
+}
+
+int drive_image_detach(disk_image_t *image, unsigned int unit)
+{
+    return 0;
+}
+
+int drive_image_attach(disk_image_t *image, unsigned int unit)
+{
+    return 0;
+}
+
+void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer, struct drive_context_s *drv)
+{
+}
+
+void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector, struct drive_context_s *drv)
+{
+}
+
+void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
+{
+}
+
+void drivecpu_execute_all(CLOCK clk_value)
+{
+}
+
+/*******************************************************************************
+    vdrive
+*******************************************************************************/
+
+void vdrive_init(void)
+{
+}
+
+int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit)
+{
+    return 0;
+}
+
+void vdrive_device_shutdown(vdrive_t *vdrive)
+{
+}
+
+int vdrive_iec_attach(unsigned int unit, const char *name)
+{
+    return 0;
+}
+
+int vdrive_bam_get_disk_id(unsigned int unit, BYTE *id)
+{
+   return 0;
+}
+
+int vdrive_bam_set_disk_id(unsigned int unit, BYTE *id)
+{
+    return 0;
+}
+
+void vdrive_detach_image(disk_image_t *image, unsigned int unit, vdrive_t *vdrive)
+{
+}
+
+int vdrive_attach_image(disk_image_t *image, unsigned int unit, vdrive_t *vdrive)
+{
+    return 0;
+}
+
+void vdrive_get_last_read(unsigned int *track, unsigned int *sector, BYTE **buffer)
+{
+}
+
+int vdrive_internal_create_format_disk_image(const char *filename, const char *diskname, unsigned int type)
+{
+    return 0;
+}
+
+int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
+{
+    return 0;
+}
+
+int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
+{
+    return 0;
+}
+
+int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length, unsigned int secondary, cbmdos_cmd_parse_t *cmd_parse_ext)
+{
+    return 0;
+}
+
+int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
+{
+    return 0;
+}
+
+int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf, unsigned int length)
+{
+    return 0;
+}
+
+/*******************************************************************************
+    c64 stuff
+*******************************************************************************/
+
+void datasette_trigger_flux_change(unsigned int on)
+{
+    ciacore_set_flag(machine_context.cia1);
+}
+
+void datasette_set_tape_sense(int sense)
+{
+}
+
+int iec_available_busses(void)
+{
+    return 0;
 }

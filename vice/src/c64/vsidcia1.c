@@ -208,23 +208,14 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
-    if (burst_mod == BURST_MOD_CIA1) {
-        drivecpu_execute_all(maincpu_clk);
-    }
 }
 
 static void read_sdr(cia_context_t *cia_context)
 {
-    if (burst_mod == BURST_MOD_CIA1) {
-        drivecpu_execute_all(maincpu_clk);
-    }
 }
 
 static void store_sdr(cia_context_t *cia_context, BYTE byte)
 {
-    if (burst_mod == BURST_MOD_CIA1) {
-        c64fastiec_fast_cpu_write((BYTE)byte);
-    }
 }
 
 void cia1_init(cia_context_t *cia_context)
