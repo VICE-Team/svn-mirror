@@ -48,7 +48,6 @@
 #include "snapshot.h"
 #include "tap.h"
 #include "tape.h"
-#include "vdrive.h"
 #include "vicii-phi1.h"
 
 /*******************************************************************************
@@ -1116,6 +1115,9 @@ void drivecpu_execute_all(CLOCK clk_value)
 /*******************************************************************************
     vdrive
 *******************************************************************************/
+
+struct vdrive_s;
+typedef struct vdrive_s vdrive_t;
 
 void vdrive_init(void)
 {
