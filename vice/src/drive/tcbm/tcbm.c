@@ -36,7 +36,7 @@
 #include "tpi.h"
 #include "tpid.h"
 #include "types.h"
-
+#include "drive-sound.h"
 
 int tcbm_drive_resources_init(void)
 {
@@ -69,6 +69,7 @@ void tcbm_drive_reset(struct drive_context_s *drv)
 {
     tpicore_reset(drv->tpid);
     glue1551_reset(drv);
+    drive_sound_update(DRIVE_SOUND_MOTOR_ON, drv->mynumber);
 }
 
 void tcbm_drive_mem_init(struct drive_context_s *drv, unsigned int type)

@@ -2954,6 +2954,12 @@ Strings specifying the names of the ROM images for the drive emulation.
 Turns true drive emulation on (@code{DriveTrueEmulation=1}) and off
 (@code{DriveTrueEmulation=0}), respectively.
 
+@cindex -drivesound, +drivesound
+@item -drivesound
+@itemx +drivesound
+Turns drive sound emulation on (@code{DriveSoundEmulation=1}) and off
+(@code{DriveSoundEmulation=0}), respectively.
+
 @cindex -drive8type
 @cindex -drive9type
 @cindex -drive10type

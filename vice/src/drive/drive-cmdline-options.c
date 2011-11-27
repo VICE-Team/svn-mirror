@@ -47,6 +47,16 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
       IDCLS_UNUSED, IDCLS_DISABLE_TRUE_DRIVE,
       NULL, NULL },
+    { "-drivesound", SET_RESOURCE, 0,
+      NULL, NULL, "DriveSoundEmulation", (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_DRIVE_SOUND,
+      NULL, NULL },
+    { "+drivesound", SET_RESOURCE, 0,
+      NULL, NULL, "DriveSoundEmulation", (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_DRIVE_SOUND,
+      NULL, NULL },
     { NULL }
 };
 

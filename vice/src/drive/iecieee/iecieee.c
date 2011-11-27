@@ -32,7 +32,7 @@
 #include "types.h"
 #include "via.h"
 #include "viad.h"
-
+#include "drive-sound.h"
 
 void iecieee_drive_init(struct drive_context_s *drv)
 {
@@ -54,6 +54,7 @@ void iecieee_drive_reset(struct drive_context_s *drv)
         || drv->drive->type == DRIVE_TYPE_2031)
     {
         viacore_reset(drv->via2);
+        drive_sound_update(DRIVE_SOUND_MOTOR_ON, drv->mynumber);
     } else {
         viacore_disable(drv->via2);
     }

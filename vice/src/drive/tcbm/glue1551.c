@@ -35,7 +35,7 @@
 #include "lib.h"
 #include "rotation.h"
 #include "types.h"
-
+#include "drive-sound.h"
 
 /*-----------------------------------------------------------------------*/
 
@@ -71,6 +71,7 @@ static void glue_pport_update(drive_context_t *drv)
 
     /* Motor on/off.  */
     if ((old_output ^ output) & 0x04) {
+        drive_sound_update((output & 4) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, drv->mynumber);
         drv->drive->byte_ready_active = (output & 0x04) ? 0x06 : 0;
         if (drv->drive->byte_ready_active == 0x06) {
             rotation_begins(drv->drive);

@@ -7391,6 +7391,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_TRUE_DRIVE_TR, "Disk sürücülerinin donaným seviyesinde emülasyonunu pasifleþtir"},
 #endif
 
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_DRIVE_SOUND,    N_("Enable sound emulation of disk drives")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DRIVE_SOUND_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DRIVE_SOUND_DE, "Sound Emulation für Disklaufwerke aktivieren"},
+/* es */ {IDCLS_ENABLE_DRIVE_SOUND_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DRIVE_SOUND_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DRIVE_SOUND_HU, "Lemezegységek hang emulációjának engedélyezése"},
+/* it */ {IDCLS_ENABLE_DRIVE_SOUND_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_DRIVE_SOUND_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DRIVE_SOUND_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DRIVE_SOUND_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_DRIVE_SOUND_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DRIVE_SOUND_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DRIVE_SOUND_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_DRIVE_SOUND,    N_("Disable sound emulation of disk drives")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DRIVE_SOUND_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DRIVE_SOUND_DE, "Sound Emulation für Disklaufwerke deaktivieren"},
+/* es */ {IDCLS_DISABLE_DRIVE_SOUND_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DRIVE_SOUND_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DRIVE_SOUND_HU, "Lemezegységek hang emulációjának tiltása"},
+/* it */ {IDCLS_DISABLE_DRIVE_SOUND_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_DRIVE_SOUND_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DRIVE_SOUND_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DRIVE_SOUND_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_DRIVE_SOUND_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DRIVE_SOUND_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DRIVE_SOUND_TR, ""},  /* fuzzy */
+#endif
+
 /* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
    attach.c, drive/iec/iec-cmdline-options.c, c64/c64gluelogic.c */
 /* en */ {IDCLS_P_TYPE,    N_("<Type>")},

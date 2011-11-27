@@ -54,6 +54,7 @@
 #include "types.h"
 #include "via.h"
 #include "viad.h"
+#include "drive-sound.h"
 
 typedef struct drivevia2_context_s {
     unsigned int number;
@@ -188,6 +189,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     if ((poldpb ^ byte) & 0x60)     /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
     if ((poldpb ^ byte) & 0x04) {   /* Motor on/off */
+        drive_sound_update((byte & 4) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, via2p->number);
         bra = via2p->drive->byte_ready_active;
         via2p->drive->byte_ready_active = (bra & ~0x04) | (byte & 0x04);
         if ((byte & 0x04) != 0) {

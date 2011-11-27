@@ -46,6 +46,8 @@ libdrive_a_SOURCES = \
 	iec128dcr.h \
 	iecieee.h \
 	ieee.h \
+	drive-sound.c \
+	drive-sound.h \
 	rotation.c \
 	rotation.h \
 	tcbm.h \

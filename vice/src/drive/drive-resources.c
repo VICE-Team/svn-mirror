@@ -47,6 +47,9 @@
 /* Is true drive emulation switched on?  */
 static int drive_true_emulation;
 
+/* Is drive sound emulation switched on?  */
+int drive_sound_emulation;
+
 static int set_drive_true_emulation(int val, void *param)
 {
     unsigned int dnr;
@@ -77,6 +80,11 @@ static int set_drive_true_emulation(int val, void *param)
         }
     }
     return 0;
+}
+
+static int set_drive_sound_emulation(int val, void *param)
+{
+    drive_sound_emulation = val;
 }
 
 static int set_drive_extend_image_policy(int val, void *param)
@@ -221,6 +229,8 @@ int drive_resources_type_init(unsigned int default_type)
 static const resource_int_t resources_int[] = {
     { "DriveTrueEmulation", 1, RES_EVENT_STRICT, (resource_value_t)1,
       &drive_true_emulation, set_drive_true_emulation, NULL },
+    { "DriveSoundEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
+      &drive_sound_emulation, set_drive_sound_emulation, NULL },
     { NULL }
 };
 

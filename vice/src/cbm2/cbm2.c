@@ -81,6 +81,7 @@
 #include "types.h"
 #include "video.h"
 #include "vsync.h"
+#include "drive-sound.h"
 
 machine_context_t machine_context;
 
@@ -271,6 +272,8 @@ int machine_specific_init(void)
 
     /* Initialize native sound chip */
     sid_sound_chip_init();
+
+    drive_sound_init();
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */

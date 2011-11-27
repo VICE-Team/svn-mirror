@@ -86,6 +86,7 @@
 #include "vic20via.h"
 #include "video.h"
 #include "vsync.h"
+#include "drive-sound.h"
 
 #ifdef HAVE_MOUSE
 #include "lightpen.h"
@@ -420,6 +421,8 @@ int machine_specific_init(void)
 
     /* Initialize cartridge based sound chips */
     cartridge_sound_chip_init();
+
+    drive_sound_init();
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */

@@ -68,7 +68,7 @@
 #include "types.h"
 #include "uiapi.h"
 #include "ds1216e.h"
-
+#include "drive-sound.h"
 
 drive_context_t *drive_context[DRIVE_NUM];
 
@@ -493,6 +493,7 @@ void drive_move_head(int step, drive_t *drive)
         if (drive->current_half_track + step == 71)
             return;
     }
+    drive_sound_head(drive->current_half_track, step, drive->mynumber);
     drive_set_half_track(drive->current_half_track + step, drive);
 }
 
