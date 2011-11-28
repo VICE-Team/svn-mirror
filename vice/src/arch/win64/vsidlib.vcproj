@@ -1114,8 +1114,7 @@
 		</File>
 		<File
 			RelativePath="..\..\c64\vsid-resources.c"
-			>ot
-
+			>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
