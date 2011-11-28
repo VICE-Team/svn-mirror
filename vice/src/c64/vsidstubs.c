@@ -1136,6 +1136,16 @@ int drive_num_leds(unsigned int dnr)
     return 1;
 }
 
+int drive_check_type(unsigned int drive_type, unsigned int dnr)
+{
+    return 0;
+}
+
+int drive_check_extend_policy(int drive_type)
+{
+    return 0;
+}
+
 /*******************************************************************************
     vdrive
 *******************************************************************************/
