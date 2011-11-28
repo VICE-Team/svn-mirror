@@ -784,6 +784,25 @@ image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
     return NULL;
 }
 
+image_contents_t *diskcontents_read_unit8(const char *file_name)
+{
+    return NULL;
+}
+
+image_contents_t *diskcontents_read_unit9(const char *file_name)
+{
+    return NULL;
+}
+
+image_contents_t *diskcontents_read_unit10(const char *file_name)
+{
+    return NULL;
+}
+
+image_contents_t *diskcontents_read_unit11(const char *file_name)
+{
+    return NULL;
+}
 
 /*******************************************************************************
     fileio
@@ -1110,6 +1129,11 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 void drivecpu_execute_all(CLOCK clk_value)
 {
+}
+
+int drive_num_leds(unsigned int dnr)
+{
+    return 1;
 }
 
 /*******************************************************************************
