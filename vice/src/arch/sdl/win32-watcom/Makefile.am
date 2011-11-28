@@ -12,6 +12,7 @@ EXTRA_DIST = \
 	c64commonall.tgt \
 	c64commoncart.tgt \
 	c64commonsc.tgt \
+	c64commonsc128.tgt \
 	c64commonsc128vsid.tgt \
 	c64commonscdtv.tgt \
 	c64commonscdtv128.tgt \

@@ -143,8 +143,8 @@ WVList
 0
 35
 MItem
-22
-..\..\..\c64\c64cia2.c
+21
+..\..\..\c64\c64bus.c
 36
 WString
 4
