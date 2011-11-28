@@ -292,6 +292,12 @@ SOURCE="..\..\..\drive\drive-snapshot.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE="..\..\..\drive\drive-sound.c"
+
+"$(INTDIR)\drive-sound.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE="..\..\..\drive\drive-writeprotect.c"
 
 "$(INTDIR)\drive-writeprotect.obj" : $(SOURCE) "$(INTDIR)"
