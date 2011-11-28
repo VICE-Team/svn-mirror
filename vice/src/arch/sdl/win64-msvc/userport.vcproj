@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="sid"
-	ProjectGUID="{7A3652B8-793F-4830-859C-A3DE5E3C4300}"
+	Name="userport"
+	ProjectGUID="{5872E155-295D-4FFF-AFDC-85AB0B926736}"
 	>
 	<Platforms>
 		<Platform
@@ -44,13 +44,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\resid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\raster,..\..\..\c64\cart,..\..\..\vicii"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\sid\Debug/sid.pch"
-				AssemblerListingLocation=".\libs\sid\Debug/"
-				ObjectFile=".\libs\sid\Debug/"
-				ProgramDataBaseFileName=".\libs\sid\Debug/"
+				PrecompiledHeaderFile=".\libs\userport\Debug/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Debug/"
+				ObjectFile=".\libs\userport\Debug/"
+				ProgramDataBaseFileName=".\libs\userport\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -67,7 +67,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\sid\Debug\sid.lib"
+				OutputFile=".\libs\userport\Debug\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -79,7 +79,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\sid\Debug/sid.bsc"
+				OutputFile=".\libs\userport\Debug/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -117,15 +117,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\resid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\raster,..\..\..\c64\cart,..\..\..\vicii"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\sid\Release/sid.pch"
-				AssemblerListingLocation=".\libs\sid\Release/"
-				ObjectFile=".\libs\sid\Release/"
-				ProgramDataBaseFileName=".\libs\sid\Release/"
+				PrecompiledHeaderFile=".\libs\userport\Release/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Release/"
+				ObjectFile=".\libs\userport\Release/"
+				ProgramDataBaseFileName=".\libs\userport\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\sid\Release\sid.lib"
+				OutputFile=".\libs\userport\Release\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\sid\Release/sid.bsc"
+				OutputFile=".\libs\userport\Release/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -190,13 +190,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\resid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\raster,..\..\..\c64\cart,..\..\..\vicii"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\sid\Debug/sid.pch"
-				AssemblerListingLocation=".\libs\sid\Debug/"
-				ObjectFile=".\libs\sid\Debug/"
-				ProgramDataBaseFileName=".\libs\sid\Debug/"
+				PrecompiledHeaderFile=".\libs\userport\Debug/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Debug/"
+				ObjectFile=".\libs\userport\Debug/"
+				ProgramDataBaseFileName=".\libs\userport\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -213,7 +213,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\sid\Debug\sid.lib"
+				OutputFile=".\libs\userport\Debug\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\sid\Debug/sid.bsc"
+				OutputFile=".\libs\userport\Debug/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -263,15 +263,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\resid"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\raster,..\..\..\c64\cart,..\..\..\vicii"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\sid\Release/sid.pch"
-				AssemblerListingLocation=".\libs\sid\Release/"
-				ObjectFile=".\libs\sid\Release/"
-				ProgramDataBaseFileName=".\libs\sid\Release/"
+				PrecompiledHeaderFile=".\libs\userport\Release/userport.pch"
+				AssemblerListingLocation=".\libs\userport\Release/"
+				ObjectFile=".\libs\userport\Release/"
+				ProgramDataBaseFileName=".\libs\userport\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\sid\Release\sid.lib"
+				OutputFile=".\libs\userport\Release\userport.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -299,7 +299,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\sid\Release/sid.bsc"
+				OutputFile=".\libs\userport\Release/userport.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -313,7 +313,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\sid\fastsid.c"
+			RelativePath="..\..\..\userport\userport_dac.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -353,87 +353,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\sid\resid-fp.cc"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Debug/$(InputName).obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;NDEBUG&quot; /D &quot;IDE_COMPILE&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid-fp&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Release/$(InputName).obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid-fp&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Debug/$(InputName).obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;IDE_COMPILE&quot; /D &quot;NDEBUG&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid-fp&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Release/$(InputName).obj"
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\sid\resid.cc"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Debug/$(InputName).obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;IDE_COMPILE&quot; /D &quot;NDEBUG&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Release/$(InputName).obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MDd /W3 /EHsc /Z7 /Od /I &quot;.\\&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_DEBUG&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Debug/sid.pch&quot; /Fo&quot;libs\sid\Debug/&quot; /Fd&quot;libs\sid\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Debug/$(InputName).obj"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MD /W3 /EHsc /I &quot;.\\&quot; /D &quot;IDE_COMPILE&quot; /D &quot;NDEBUG&quot; /I &quot;..\\&quot; /I &quot;..\..\..\\&quot; /I &quot;..\..\..\resid&quot; /D &quot;WINIA64&quot; /D &quot;WIN32&quot; /D &quot;_WINDOWS&quot; /Fp&quot;libs\sid\Release/sid.pch&quot; /Fo&quot;libs\sid\Release/&quot; /Fd&quot;libs\sid\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\sid\Release/$(InputName).obj"
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\sid\sid-cmdline-options.c"
+			RelativePath="..\..\..\userport\userport_digimax.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
@@ -473,87 +393,7 @@
 			</FileConfiguration>
 		</File>
 		<File
-			RelativePath="..\..\..\sid\sid-resources.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\sid\sid-snapshot.c"
-			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\..\sid\sid.c"
+			RelativePath="..\..\..\userport\userport_joystick.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"
