@@ -53,6 +53,7 @@ CLEAN :
 	-@erase "$(INTDIR)\drive-overflow.obj"
 	-@erase "$(INTDIR)\drive-resources.obj"
 	-@erase "$(INTDIR)\drive-snapshot.obj"
+	-@erase "$(INTDIR)\drive-sound.obj"
 	-@erase "$(INTDIR)\drive-writeprotect.obj"
 	-@erase "$(INTDIR)\drive.obj"
 	-@erase "$(INTDIR)\drivecpu.obj"
@@ -113,6 +114,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\drive-overflow.obj" \
 	"$(INTDIR)\drive-resources.obj" \
 	"$(INTDIR)\drive-snapshot.obj" \
+	"$(INTDIR)\drive-sound.obj" \
 	"$(INTDIR)\drive-writeprotect.obj" \
 	"$(INTDIR)\drive.obj" \
 	"$(INTDIR)\drivecpu.obj" \
@@ -156,6 +158,7 @@ CLEAN :
 	-@erase "$(INTDIR)\drive-overflow.obj"
 	-@erase "$(INTDIR)\drive-resources.obj"
 	-@erase "$(INTDIR)\drive-snapshot.obj"
+	-@erase "$(INTDIR)\drive-sound.obj"
 	-@erase "$(INTDIR)\drive-writeprotect.obj"
 	-@erase "$(INTDIR)\drive.obj"
 	-@erase "$(INTDIR)\drivecpu.obj"
@@ -216,6 +219,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\drive-overflow.obj" \
 	"$(INTDIR)\drive-resources.obj" \
 	"$(INTDIR)\drive-snapshot.obj" \
+	"$(INTDIR)\drive-sound.obj" \
 	"$(INTDIR)\drive-writeprotect.obj" \
 	"$(INTDIR)\drive.obj" \
 	"$(INTDIR)\drivecpu.obj" \
