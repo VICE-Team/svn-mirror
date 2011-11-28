@@ -67,8 +67,8 @@ AM_MAKEINFOHTMLFLAGS =
 AM_MAKEINFOFLAGS = --no-split
 
 $(srcdir)/vice.txt:	vice.texi
-	$(MAKEINFO) -o vicetmp.txt --no-headers $(srcdir)/vice.texi
-	$(srcdir)/fixdox.sh txt <vicetmp.txt >$(srcdir)/vice.txt
+	LANG=C $(MAKEINFO) -o vicetmp.txt --no-headers $(srcdir)/vice.texi
+	$(srcdir)/fixdox.sh txt <vicetmp.txt | sed 's/ \+$$//' >$(srcdir)/vice.txt
 	rm -f vicetmp.txt
 
 $(srcdir)/vice.pdf:	vice.texi
