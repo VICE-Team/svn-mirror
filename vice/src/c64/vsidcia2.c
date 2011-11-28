@@ -48,8 +48,6 @@
 #include "maincpu.h"
 #include "printer.h"
 #include "types.h"
-#include "userport_digimax.h"
-#include "userport_joystick.h"
 #include "vicii.h"
 
 /* Flag for recording port A DDR changes (for c64gluelogic) */
