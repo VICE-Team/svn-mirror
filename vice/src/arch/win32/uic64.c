@@ -53,7 +53,7 @@ enum {
     CONTROL_UPDATE_MODELCHANGE
 };
 
-static uilib_localize_dialog_param c64_model_dialog[] = {
+static uilib_localize_dialog_param c64sc_model_dialog[] = {
     { 0, IDS_C64_MODEL_CAPTION, -1 },
     { IDC_C64MODEL_LABEL, IDS_C64_MODEL, 0 },
     { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
@@ -67,13 +67,46 @@ static uilib_localize_dialog_param c64_model_dialog[] = {
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group c64_model_leftgroup[] = {
+static uilib_localize_dialog_param c64_model_dialog[] = {
+    { 0, IDS_C64_MODEL_CAPTION, -1 },
+    { IDC_C64MODEL_LABEL, IDS_C64_MODEL, 0 },
+    { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
+    { IDC_C64LUMINANCES, IDS_NEW_LUMINANCES, 0 },
+    { IDC_C64SID_LABEL, IDS_SID_MODEL, 0 },
+    { IDC_C64CIA1_LABEL, IDS_CIA1_MODEL, 0 },
+    { IDC_C64CIA2_LABEL, IDS_CIA2_MODEL, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
+static uilib_dialog_group c64sc_model_leftgroup[] = {
     { IDC_C64MODEL_LABEL, 0 },
     { IDC_C64VICII_LABEL, 0 },
     { IDC_C64SID_LABEL, 0 },
     { IDC_C64CIA1_LABEL, 0 },
     { IDC_C64CIA2_LABEL, 0 },
     { IDC_C64GLUELOGIC_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c64_model_leftgroup[] = {
+    { IDC_C64MODEL_LABEL, 0 },
+    { IDC_C64VICII_LABEL, 0 },
+    { IDC_C64SID_LABEL, 0 },
+    { IDC_C64CIA1_LABEL, 0 },
+    { IDC_C64CIA2_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group c64sc_model_rightgroup[] = {
+    { IDC_C64MODEL_LIST, 0 },
+    { IDC_C64VICII_LIST, 0 },
+    { IDC_C64LUMINANCES, 1 },
+    { IDC_C64SID_LIST, 0 },
+    { IDC_C64CIA1_LIST, 0 },
+    { IDC_C64CIA2_LIST, 0 },
+    { IDC_C64GLUELOGIC_LIST, 0 },
     { 0, 0 }
 };
 
@@ -84,7 +117,6 @@ static uilib_dialog_group c64_model_rightgroup[] = {
     { IDC_C64SID_LIST, 0 },
     { IDC_C64CIA1_LIST, 0 },
     { IDC_C64CIA2_LIST, 0 },
-    { IDC_C64GLUELOGIC_LIST, 0 },
     { 0, 0 }
 };
 
@@ -263,9 +295,9 @@ static void uic64_update_controls(HWND hwnd, int mode)
         }
         SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
-        sub_hwnd = GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST);
-        EnableWindow(sub_hwnd, is_sc);
         if (is_sc) {
+            sub_hwnd = GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST);
+            EnableWindow(sub_hwnd, 1);
             SendMessage(sub_hwnd, CB_RESETCONTENT, 0, 0);
             for (i = 0; ui_c64gluelogic[i] != 0; i++) {
                 _stprintf(st, TEXT("%s"), translate_text(ui_c64gluelogic[i]));
@@ -286,20 +318,37 @@ static void init_c64model_dialog(HWND hwnd)
     int xpos;
     RECT rect;
 
-     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, c64_model_dialog);
+    if (is_sc) {
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, c64sc_model_dialog);
 
-    /* adjust the size of the elements in the left group */
-    uilib_adjust_group_width(hwnd, c64_model_leftgroup);
+        /* adjust the size of the elements in the left group */
+        uilib_adjust_group_width(hwnd, c64sc_model_leftgroup);
 
-    /* get the max x of the left group */
-    uilib_get_group_max_x(hwnd, c64_model_leftgroup, &xpos);
+        /* get the max x of the left group */
+        uilib_get_group_max_x(hwnd, c64sc_model_leftgroup, &xpos);
 
-    /* move the right group to the correct position */
-    uilib_move_group(hwnd, c64_model_rightgroup, xpos + 30);
+        /* move the right group to the correct position */
+        uilib_move_group(hwnd, c64sc_model_rightgroup, xpos + 30);
 
-    /* get the max x of the right group */
-    uilib_get_group_max_x(hwnd, c64_model_rightgroup, &xpos);
+        /* get the max x of the right group */
+        uilib_get_group_max_x(hwnd, c64sc_model_rightgroup, &xpos);
+    } else {
+        /* translate all dialog items */
+        uilib_localize_dialog(hwnd, c64sc_model_dialog);
+
+        /* adjust the size of the elements in the left group */
+        uilib_adjust_group_width(hwnd, c64_model_leftgroup);
+
+        /* get the max x of the left group */
+        uilib_get_group_max_x(hwnd, c64_model_leftgroup, &xpos);
+
+        /* move the right group to the correct position */
+        uilib_move_group(hwnd, c64_model_rightgroup, xpos + 30);
+
+        /* get the max x of the right group */
+        uilib_get_group_max_x(hwnd, c64_model_rightgroup, &xpos);
+    }
 
     /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
@@ -320,15 +369,11 @@ static void init_c64model_dialog(HWND hwnd)
         resources_get_int("MachineVideoStandard", &machine_video_standard);
         c64_model = c64model_get_temp(machine_video_standard, sid_model, glue_logic,
                                   cia1_model, cia2_model, new_luma);
-        is_sc = 0;
     } else {
         resources_get_int("GlueLogic", &glue_logic);
         c64_model = c64model_get_temp(vicii_model, sid_model, glue_logic,
                                   cia1_model, cia2_model, new_luma);
-        is_sc = 1;
     }
-
-
     uic64_update_controls(hwnd, CONTROL_UPDATE_EVERYTHING);
 }
 
@@ -460,5 +505,11 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_c64model_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_C64MODEL_SETTINGS_DIALOG), hwnd, dialog_proc);
+    if (resources_get_int("VICIIModel", &vicii_model) < 0) {
+        is_sc = 0;
+        DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_C64MODEL_SETTINGS_DIALOG), hwnd, dialog_proc);
+    } else {
+        is_sc = 1;
+        DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_C64SCMODEL_SETTINGS_DIALOG), hwnd, dialog_proc);
+    }
 }
