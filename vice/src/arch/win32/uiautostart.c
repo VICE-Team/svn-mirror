@@ -111,6 +111,9 @@ static void init_autostart_dialog(HWND hwnd)
     /* get the max x of the rightgroup3 elements */
     uilib_get_group_max_x(hwnd, autostart_rightgroup3, &xsize);
 
+    /* resize the text fill-in box */
+    uilib_move_and_set_element_width(hwnd, IDC_AUTOSTART_DISK_IMAGE_FILE, 9, xsize - 9);
+
     /* set the width of the dialog to 'surround' all the elements */
     GetWindowRect(hwnd, &rect);
     MoveWindow(hwnd, rect.left, rect.top, xsize + 20, rect.bottom - rect.top, TRUE);
