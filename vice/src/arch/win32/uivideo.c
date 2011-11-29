@@ -91,27 +91,49 @@ typedef struct {
     const char **palette_names;
     char *res_PaletteFile_name;
     char *res_ExternalPalette_name;
-    int page_title;
+    int palette_title;
     int external_pal;
     char *file_name;
+    int color_title;
+    char *res_colors_gamma;
+    char *res_colors_tint;
+    char *res_colors_saturation;
+    char *res_colors_contrast;
+    char *res_colors_brightness;
     char *scale2x_resource;
 } Chip_Parameters;
 
 static Chip_Parameters chip_param_table[] =
 {
     { vicii_palettes, "VICIIPaletteFile", "VICIIExternalPalette",
-      IDS_VICII_PALETTE, 0, NULL, "VICIIScale2x" },
+      IDS_VICII_PALETTE, 0, NULL,
+      IDS_VICII_COLORS, "VICIIColorGamma", "VICIIColorTint",
+      "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness",
+      "VICIIScale2x" },
     { vic_palettes, "VICPaletteFile", "VICExternalPalette",
-      IDS_VIC_PALETTE, 0, NULL, "VICScale2x" },
+      IDS_VIC_PALETTE, 0, NULL,
+      IDS_VIC_COLORS, "VICColorGamma", "VICColorTint",
+      "VICColorSaturation", "VICColorContrast", "VICColorBrightness",
+      "VICScale2x" },
     { crtc_palettes, "CRTCPaletteFile", "CRTCExternalPalette",
-      IDS_CRTC_PALETTE, 0, NULL, NULL },
+      IDS_CRTC_PALETTE, 0, NULL,
+      IDS_CRTC_COLORS, "CRTCColorGamma", "CRTCColorTint",
+      "CRTCColorSaturation", "CRTCColorContrast", "CRTCColorBrightness",
+      NULL },
     { vdc_palettes, "VDCPaletteFile", "VDCExternalPalette",
-      IDS_VDC_PALETTE, 0, NULL, NULL },
+      IDS_VDC_PALETTE, 0, NULL,
+      IDS_VDC_COLORS, "VDCColorGamma", "VDCColorTint",
+      "VDCColorSaturation", "VDCColorContrast", "VDCColorBrightness",
+      NULL },
     { ted_palettes, "TEDPaletteFile", "TEDExternalPalette",
-      IDS_TED_PALETTE, 0, NULL, "TEDScale2x" },
+      IDS_TED_PALETTE, 0, NULL,
+      IDS_TED_COLORS, "TEDColorGamma", "TEDColorTint",
+      "TEDColorSaturation", "TEDColorContrast", "TEDColorBrightness",
+      "TEDScale2x" },
 };
 
 static HWND palette_dialog_1 = NULL;
+static HWND color_dialog_1 = NULL;
 static Chip_Parameters *current_chip_1 = NULL;
 static Chip_Parameters *current_chip_2 = NULL;
 
@@ -142,12 +164,16 @@ static uilib_dialog_group color_right_group[] = {
     { 0, 0 }
 };
 
-static void init_color_dialog(HWND hwnd)
+static void init_color_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int val;
     double fval;
     TCHAR newval[64];
     int xpos;
+
+    if (chip_type == current_chip_1) {
+        color_dialog_1 = hwnd;
+    }
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, color_dialog_trans);
@@ -161,27 +187,27 @@ static void init_color_dialog(HWND hwnd)
     /* move the right group to the correct position */
     uilib_move_group(hwnd, color_right_group, xpos + 10);
 
-    resources_get_int("ColorGamma", &val);
+    resources_get_int(chip_type->res_colors_gamma, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_GAMMA, newval);
 
-    resources_get_int("ColorTint", &val);
+    resources_get_int(chip_type->res_colors_tint, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_TINT, newval);
 
-    resources_get_int("ColorSaturation", &val);
+    resources_get_int(chip_type->res_colors_saturation, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_SATURATION, newval);
 
-    resources_get_int("ColorContrast", &val);
+    resources_get_int(chip_type->res_colors_contrast, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_CONTRAST, newval);
 
-    resources_get_int("ColorBrightness", &val);
+    resources_get_int(chip_type->res_colors_brightness, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_COLORS_BRIGHTNESS, newval);
@@ -377,6 +403,8 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
     float tf;
     TCHAR s[100];
 
+    Chip_Parameters *chip_type = (hwnd == color_dialog_1) ? current_chip_1 : current_chip_2;
+
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
@@ -440,18 +468,19 @@ static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
                     ivalbrightness = 2000;
                 }
 
-                resources_set_int("ColorGamma", ivalgamma);
-                resources_set_int("ColorTint", ivaltint);
-                resources_set_int("ColorSaturation", ivalsaturation);
-                resources_set_int("ColorContrast", ivalcontrast);
-                resources_set_int("ColorBrightness", ivalbrightness);
+                resources_set_int(chip_type->res_colors_gamma, ivalgamma);
+                resources_set_int(chip_type->res_colors_tint, ivaltint);
+                resources_set_int(chip_type->res_colors_saturation, ivalsaturation);
+                resources_set_int(chip_type->res_colors_contrast, ivalcontrast);
+                resources_set_int(chip_type->res_colors_brightness, ivalbrightness);
                 querynewpalette = 1;
+                color_dialog_1 = NULL;
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
             return FALSE;
         case WM_INITDIALOG:
-            init_color_dialog(hwnd);
+            init_color_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
             return TRUE;
         case WM_COMMAND:
             type = LOWORD(wparam);
@@ -682,12 +711,12 @@ static INT_PTR CALLBACK dialog_render_filter_proc(HWND hwnd, UINT msg, WPARAM wp
 
 void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 {
-    PROPSHEETPAGE psp[6];
+    PROPSHEETPAGE psp[7];
     PROPSHEETHEADER psh;
     int i;
     Chip_Parameters *chip_param;
 
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 7; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -705,13 +734,14 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psp[0].pfnDlgProc = dialog_fullscreen_proc;
     psp[0].pszTitle = translate_text(IDS_FULLSCREEN);
     psp[1].pfnDlgProc = dialog_palette_proc;
-    psp[1].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->page_title));
+    psp[1].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->palette_title));
     psp[1].lParam = (LPARAM)chip_param;
     current_chip_1 = chip_param;
     psp[2].pfnDlgProc = dialog_crt_emulation_proc;
     psp[2].pszTitle = translate_text(IDS_CRT_EMULATION);
     psp[3].pfnDlgProc = dialog_color_proc;
-    psp[3].pszTitle = translate_text(IDS_COLORS);
+    psp[3].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->color_title));
+    psp[3].lParam = (LPARAM)chip_param;
     psp[4].pfnDlgProc = dialog_render_filter_proc;
     psp[4].pszTitle = translate_text(IDS_RENDER_FILTER);
     psp[4].lParam = (LPARAM)chip_param;
@@ -744,7 +774,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         current_chip_2 = chip_param;
 
         psp[5].pfnDlgProc = dialog_palette_proc;
-        psp[5].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->page_title));
+        psp[5].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->palette_title));
         psp[5].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
@@ -752,7 +782,18 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 #else
         psp[5].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #endif
-        psh.nPages++;
+
+        psp[6].pfnDlgProc = dialog_color_proc;
+        psp[6].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->color_title));
+        psp[6].lParam = (LPARAM)chip_param;
+
+#ifdef _ANONYMOUS_UNION
+        psp[6].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+#else
+        psp[6].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+#endif
+
+        psh.nPages += 2;
     }
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
