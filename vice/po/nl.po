@@ -5497,79 +5497,64 @@ msgid "TED Palette"
 msgstr "TED palet"
 
 #: src/arch/win32/res.rc.po.c:1249
-#, fuzzy
 msgid "VICII Colors"
-msgstr "Kleuren"
+msgstr "VICII Kleuren"
 
 #: src/arch/win32/res.rc.po.c:1250
-#, fuzzy
 msgid "VIC Colors"
-msgstr "Kleuren"
+msgstr "VIC Kleuren"
 
 #: src/arch/win32/res.rc.po.c:1251
-#, fuzzy
 msgid "CRTC Colors"
-msgstr "Kleuren"
+msgstr "CRTC Kleuren"
 
 #: src/arch/win32/res.rc.po.c:1252
-#, fuzzy
 msgid "VDC Colors"
-msgstr "Kleuren"
+msgstr "VDC Kleuren"
 
 #: src/arch/win32/res.rc.po.c:1253
-#, fuzzy
 msgid "TED Colors"
-msgstr "Kleuren"
+msgstr "TED Kleuren"
 
 #: src/arch/win32/res.rc.po.c:1254
-#, fuzzy
 msgid "VICII CRT emulation"
-msgstr "CRT emulatie"
+msgstr "VICII CRT emulatie"
 
 #: src/arch/win32/res.rc.po.c:1255
-#, fuzzy
 msgid "VIC CRT emulation"
-msgstr "CRT emulatie"
+msgstr "VIC CRT emulatie"
 
 #: src/arch/win32/res.rc.po.c:1256
-#, fuzzy
 msgid "CRTC CRT emulation"
-msgstr "CRT emulatie"
+msgstr "CRTC CRT emulatie"
 
 #: src/arch/win32/res.rc.po.c:1257
-#, fuzzy
 msgid "VDC CRT emulation"
-msgstr "CRT emulatie"
+msgstr "VDC CRT emulatie"
 
 #: src/arch/win32/res.rc.po.c:1258
-#, fuzzy
 msgid "TED CRT emulation"
-msgstr "CRT emulatie"
+msgstr "TED CRT emulatie"
 
 #: src/arch/win32/res.rc.po.c:1259
-#, fuzzy
 msgid "VICII Render filter"
-msgstr "Render filter"
+msgstr "VICII Render filter"
 
 #: src/arch/win32/res.rc.po.c:1260
-#, fuzzy
 msgid "VIC Render filter"
-msgstr "Render filter"
+msgstr "VIC Render filter"
 
 #: src/arch/win32/res.rc.po.c:1261
-#, fuzzy
 msgid "CRTC Render filter"
-msgstr "Render filter"
+msgstr "CRTC Render filter"
 
 #: src/arch/win32/res.rc.po.c:1262
-#, fuzzy
 msgid "VDC Render filter"
-msgstr "Render filter"
+msgstr "VDC Render filter"
 
 #: src/arch/win32/res.rc.po.c:1263
-#, fuzzy
 msgid "TED Render filter"
-msgstr "Render filter"
+msgstr "TED Render filter"
 
 #: src/arch/win32/res.rc.po.c:1264
 msgid "External Palette"
@@ -9840,14 +9825,12 @@ msgid "Disable hardware-level emulation of disk drives"
 msgstr "Hardwarematige emulatie van diskdrives uitschakelen"
 
 #: src/translate_text.c.po.c:7321
-#, fuzzy
 msgid "Enable sound emulation of disk drives"
-msgstr "Activeer hardwarematige emulatie van diskdrives"
+msgstr "Activeer geluidsemulatie van diskdrives"
 
 #: src/translate_text.c.po.c:7338
-#, fuzzy
 msgid "Disable sound emulation of disk drives"
-msgstr "Hardwarematige emulatie van diskdrives uitschakelen"
+msgstr "Geluidsemulatie van diskdrives uitschakelen"
 
 #: src/translate_text.c.po.c:7372
 msgid "Set drive type (0: no drive)"
