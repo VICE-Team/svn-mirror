@@ -100,7 +100,13 @@ typedef struct {
     char *res_colors_saturation;
     char *res_colors_contrast;
     char *res_colors_brightness;
-    char *scale2x_resource;
+    int crt_emu_title;
+    char *res_crt_emu_scanlineshade;
+    char *res_crt_emu_blur;
+    char *res_crt_emu_oddlinephase;
+    char *res_crt_emu_oddlineoffset;
+    int render_filter_title;
+    char *res_render_filter;
 } Chip_Parameters;
 
 static Chip_Parameters chip_param_table[] =
@@ -109,31 +115,43 @@ static Chip_Parameters chip_param_table[] =
       IDS_VICII_PALETTE, 0, NULL,
       IDS_VICII_COLORS, "VICIIColorGamma", "VICIIColorTint",
       "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness",
-      "VICIIScale2x" },
+      IDS_VICII_CRT_EMULATION, "VICIIPALScanLineShade", "VICIIPALBlur",
+      "VICIIPALOddLinePhase", "VICIIPALOddLineOffset",
+      IDS_VICII_RENDER_FILTER, "VICIIFilter" },
     { vic_palettes, "VICPaletteFile", "VICExternalPalette",
       IDS_VIC_PALETTE, 0, NULL,
       IDS_VIC_COLORS, "VICColorGamma", "VICColorTint",
       "VICColorSaturation", "VICColorContrast", "VICColorBrightness",
-      "VICScale2x" },
+      IDS_VIC_CRT_EMULATION, "VICPALScanLineShade", "VICPALBlur",
+      "VICPALOddLinePhase", "VICPALOddLineOffset",
+      IDS_VIC_RENDER_FILTER, "VICFilter" },
     { crtc_palettes, "CRTCPaletteFile", "CRTCExternalPalette",
       IDS_CRTC_PALETTE, 0, NULL,
       IDS_CRTC_COLORS, "CRTCColorGamma", "CRTCColorTint",
       "CRTCColorSaturation", "CRTCColorContrast", "CRTCColorBrightness",
-      NULL },
+      IDS_CRTC_CRT_EMULATION, "CRTCPALScanLineShade", "CRTCPALBlur",
+      "CRTCPALOddLinePhase", "CRTCPALOddLineOffset",
+      IDS_CRTC_RENDER_FILTER, "CRTCFilter" },
     { vdc_palettes, "VDCPaletteFile", "VDCExternalPalette",
       IDS_VDC_PALETTE, 0, NULL,
       IDS_VDC_COLORS, "VDCColorGamma", "VDCColorTint",
       "VDCColorSaturation", "VDCColorContrast", "VDCColorBrightness",
-      NULL },
+      IDS_VDC_CRT_EMULATION, "VDCPALScanLineShade", "VDCPALBlur",
+      "VDCPALOddLinePhase", "VDCPALOddLineOffset",
+      IDS_VDC_RENDER_FILTER, "VDCFilter" },
     { ted_palettes, "TEDPaletteFile", "TEDExternalPalette",
       IDS_TED_PALETTE, 0, NULL,
       IDS_TED_COLORS, "TEDColorGamma", "TEDColorTint",
       "TEDColorSaturation", "TEDColorContrast", "TEDColorBrightness",
-      "TEDScale2x" },
+      IDS_TED_CRT_EMULATION, "TEDPALScanLineShade", "TEDPALBlur",
+      "TEDPALOddLinePhase", "TEDPALOddLineOffset",
+      IDS_TED_RENDER_FILTER, "TEDFilter" },
 };
 
 static HWND palette_dialog_1 = NULL;
 static HWND color_dialog_1 = NULL;
+static HWND crt_emu_dialog_1 = NULL;
+static HWND render_filter_dialog_1 = NULL;
 static Chip_Parameters *current_chip_1 = NULL;
 static Chip_Parameters *current_chip_2 = NULL;
 
@@ -237,12 +255,16 @@ static uilib_dialog_group crt_emulation_right_group[] = {
     { 0, 0 }
 };
 
-static void init_crt_emulation_dialog(HWND hwnd)
+static void init_crt_emulation_dialog(HWND hwnd, Chip_Parameters *chip_type)
 {
     int val;
     double fval;
     TCHAR newval[64];
     int xpos;
+
+    if (chip_type == current_chip_1) {
+        crt_emu_dialog_1 = hwnd;
+    }
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, crt_emulation_dialog_trans);
@@ -256,22 +278,22 @@ static void init_crt_emulation_dialog(HWND hwnd)
     /* move the right group to the correct position */
     uilib_move_group(hwnd, crt_emulation_right_group, xpos + 10);
 
-    resources_get_int("PALScanLineShade", &val);
+    resources_get_int(chip_type->res_crt_emu_scanlineshade, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_SCANLINE_SHADE, newval);
 
-    resources_get_int("PALBlur", &val);
+    resources_get_int(chip_type->res_crt_emu_blur, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_BLUR, newval);
 
-    resources_get_int("PALOddLinePhase", &val);
+    resources_get_int(chip_type->res_crt_emu_oddlinephase, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_PHASE, newval);
 
-    resources_get_int("PALOddLineOffset", &val);
+    resources_get_int(chip_type->res_crt_emu_oddlineoffset, &val);
     fval = ((double)val) / 1000.0;
     _stprintf(newval, TEXT("%.3f"), (float)fval);
     SetDlgItemText(hwnd, IDC_VIDEO_CRT_ODDLINE_OFFSET, newval);
@@ -355,6 +377,10 @@ static void init_render_filter_dialog(HWND hwnd, Chip_Parameters *chip_type)
     int xpos;
     int res_value;
 
+    if (chip_type == current_chip_1) {
+        render_filter_dialog_1 = hwnd;
+    }
+
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, render_filter_dialog_trans);
 
@@ -370,25 +396,10 @@ static void init_render_filter_dialog(HWND hwnd, Chip_Parameters *chip_type)
     setting_hwnd = GetDlgItem(hwnd, IDC_VIDEO_RENDER_FILTER);
     SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
     SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_CRT_EMULATION));
-    if (chip_type->scale2x_resource != NULL) {
-        SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SCALE2X));
-    }
+    SendMessage(setting_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SCALE2X));
 
-    resources_get_int("PALEmulation", &res_value);
-    if (res_value == 1) {
-        SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)1, 0);
-    } else {
-        if (chip_type->scale2x_resource != NULL) {
-            resources_get_int(chip_type->scale2x_resource, &res_value);
-            if (res_value == 1) {
-                SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)2, 0);
-            } else {
-                SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)0, 0);
-            }
-        } else {
-            SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)0, 0);
-        }
-    }
+    resources_get_int(chip_type->res_render_filter, &res_value);
+    SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
 static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -507,6 +518,8 @@ static INT_PTR CALLBACK dialog_crt_emulation_proc(HWND hwnd, UINT msg, WPARAM wp
     float tf;
     TCHAR s[100];
 
+    Chip_Parameters *chip_type = (hwnd == crt_emu_dialog_1) ? current_chip_1 : current_chip_2;
+
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == PSN_APPLY) {
@@ -558,17 +571,18 @@ static INT_PTR CALLBACK dialog_crt_emulation_proc(HWND hwnd, UINT msg, WPARAM wp
                     ivaloddlineoffset = 2000;
                 }
 
-                resources_set_int("PALScanLineShade", ivalscanlineshade);
-                resources_set_int("PALBlur", ivalblur);
-                resources_set_int("PALOddLinePhase", ivaloddlinephase);
-                resources_set_int("PALOddLineOffset", ivaloddlineoffset);
+                resources_set_int(chip_type->res_crt_emu_scanlineshade, ivalscanlineshade);
+                resources_set_int(chip_type->res_crt_emu_blur, ivalblur);
+                resources_set_int(chip_type->res_crt_emu_oddlinephase, ivaloddlinephase);
+                resources_set_int(chip_type->res_crt_emu_oddlineoffset, ivaloddlineoffset);
                 querynewpalette = 1;
+                crt_emu_dialog_1 = NULL;
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
             return FALSE;
         case WM_INITDIALOG:
-            init_crt_emulation_dialog(hwnd);
+            init_crt_emulation_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
             return TRUE;
         case WM_COMMAND:
             type = LOWORD(wparam);
@@ -665,32 +679,15 @@ static INT_PTR CALLBACK dialog_render_filter_proc(HWND hwnd, UINT msg, WPARAM wp
 {
     int type;
     int index;
-    int crt;
-    int scale2x;
+
+    Chip_Parameters *chip_type = (hwnd == render_filter_dialog_1) ? current_chip_1 : current_chip_2;
 
     switch (msg) {
         case WM_NOTIFY:
             if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
                 index = (int)SendMessage(GetDlgItem(hwnd, IDC_VIDEO_RENDER_FILTER), CB_GETCURSEL, 0, 0);
-                switch (index) {
-                    case 0:
-                    default:
-                        crt = 0;
-                        scale2x = 0;
-                        break;
-                    case 1:
-                        crt = 1;
-                        scale2x = 0;
-                        break;
-                    case 2:
-                        crt = 0;
-                        scale2x = 1;
-                        break;
-                }
-                resources_set_int("PALEmulation", crt);
-                if (current_chip_1->scale2x_resource != NULL) {
-                    resources_set_int(current_chip_1->scale2x_resource, scale2x);
-                }
+                resources_set_int(chip_type->res_render_filter, index);
+                render_filter_dialog_1 = NULL;
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
@@ -702,7 +699,7 @@ static INT_PTR CALLBACK dialog_render_filter_proc(HWND hwnd, UINT msg, WPARAM wp
             type = LOWORD(wparam);
             switch (type) {
                 case IDC_VIDEO_RENDER_FILTER:
-                    return FALSE;
+                break;
             }
             return TRUE;
     }
@@ -711,12 +708,12 @@ static INT_PTR CALLBACK dialog_render_filter_proc(HWND hwnd, UINT msg, WPARAM wp
 
 void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 {
-    PROPSHEETPAGE psp[7];
+    PROPSHEETPAGE psp[9];
     PROPSHEETHEADER psh;
     int i;
     Chip_Parameters *chip_param;
 
-    for (i = 0; i < 7; i++) {
+    for (i = 0; i < 9; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -738,12 +735,13 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psp[1].lParam = (LPARAM)chip_param;
     current_chip_1 = chip_param;
     psp[2].pfnDlgProc = dialog_crt_emulation_proc;
-    psp[2].pszTitle = translate_text(IDS_CRT_EMULATION);
+    psp[2].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->crt_emu_title));
+    psp[2].lParam = (LPARAM)chip_param;
     psp[3].pfnDlgProc = dialog_color_proc;
     psp[3].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->color_title));
     psp[3].lParam = (LPARAM)chip_param;
     psp[4].pfnDlgProc = dialog_render_filter_proc;
-    psp[4].pszTitle = translate_text(IDS_RENDER_FILTER);
+    psp[4].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->render_filter_title));
     psp[4].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
@@ -793,7 +791,27 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
         psp[6].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 #endif
 
-        psh.nPages += 2;
+        psp[7].pfnDlgProc = dialog_crt_emulation_proc;
+        psp[7].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->crt_emu_title));
+        psp[7].lParam = (LPARAM)chip_param;
+
+#ifdef _ANONYMOUS_UNION
+        psp[7].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
+#else
+        psp[7].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
+#endif
+
+        psp[8].pfnDlgProc = dialog_render_filter_proc;
+        psp[8].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->render_filter_title));
+        psp[8].lParam = (LPARAM)chip_param;
+
+#ifdef _ANONYMOUS_UNION
+        psp[8].pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+#else
+        psp[8].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+#endif
+
+        psh.nPages += 4;
     }
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
