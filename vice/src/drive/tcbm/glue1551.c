@@ -63,10 +63,7 @@ static void glue_pport_update(drive_context_t *drv)
 
     /* Stepper motor.  */
     if (((old_output ^ output) & 0x3) && (output & 0x4)) {
-        if ((old_output & 0x3) == ((output + 1) & 0x3))
-            drive_move_head(-1, drv->drive);
-        else if ((old_output & 0x3) == ((output - 1) & 0x3))
-            drive_move_head(+1, drv->drive);
+        drive_move_head(((output - drv->drive->current_half_track + 3) & 3) - 1, drv->drive);
     }
 
     /* Motor on/off.  */

@@ -484,13 +484,13 @@ void drive_set_half_track(int num, drive_t *dptr)
 /*-------------------------------------------------------------------------- */
 
 /* Increment the head position by `step' half-tracks. Valid values
-   for `step' are `+1' and `-1'.  */
+   for `step' are `+1', '+2' and `-1'.  */
 void drive_move_head(int step, drive_t *drive)
 {
     drive_gcr_data_writeback(drive);
     if (drive->type == DRIVE_TYPE_1571
         || drive->type == DRIVE_TYPE_1571CR) {
-        if (drive->current_half_track + step == 71)
+        if (drive->current_half_track + step >= 71)
             return;
     }
     drive_sound_head(drive->current_half_track, step, drive->mynumber);

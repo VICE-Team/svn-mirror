@@ -181,10 +181,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
 
     if (((poldpb ^ byte) & 0x3) && (byte & 0x4)) {
         /* Stepper motor */
-        if ((poldpb & 0x3) == ((byte + 1) & 0x3))
-            drive_move_head(-1, via2p->drive);
-        else if ((poldpb & 0x3) == ((byte - 1) & 0x3))
-            drive_move_head(+1, via2p->drive);
+        drive_move_head(((byte - via2p->drive->current_half_track + 3) & 3) - 1, via2p->drive);
     }
     if ((poldpb ^ byte) & 0x60)     /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
