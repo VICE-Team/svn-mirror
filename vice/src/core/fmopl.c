@@ -1426,6 +1426,7 @@ static void OPLResetChip(FM_OPL *OPL)
             CH->SLOT[s].wavetable = 0;
             CH->SLOT[s].state = EG_OFF;
             CH->SLOT[s].volume = MAX_ATT_INDEX;
+            CH->SLOT[s].connect1 = &output[0];
         }
     }
 }

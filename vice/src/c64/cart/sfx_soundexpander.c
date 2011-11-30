@@ -330,9 +330,9 @@ static int sfx_soundexpander_sound_machine_calculate_samples(sound_t **psid, SWO
 
     buffer = lib_malloc(nr * 2);
 
-    if (sfx_soundexpander_chip == 3812) {
+    if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
         ym3812_update_one(YM3812_chip, buffer, nr);
-    } else {
+    } else if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
         ym3526_update_one(YM3526_chip, buffer, nr);
     }
 
@@ -373,7 +373,7 @@ static void sfx_soundexpander_sound_machine_close(sound_t *psid)
     }
     if (YM3812_chip != NULL) {
         ym3812_shutdown(YM3812_chip);
-        YM3526_chip = NULL;
+        YM3812_chip = NULL;
     }
 }
 
@@ -381,26 +381,29 @@ static void sfx_soundexpander_sound_machine_store(sound_t *psid, WORD addr, BYTE
 {
     snd.command = val;
 
-    if (sfx_soundexpander_chip == 3812) {
+    if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
         ym3812_write(YM3812_chip, 1, val);
-    } else {
+    } else if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
         ym3526_write(YM3526_chip, 1, val);
     }
 }
 
 static BYTE sfx_soundexpander_sound_machine_read(sound_t *psid, WORD addr)
 {
-    if (sfx_soundexpander_chip == 3812) {
+    if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
         return ym3812_read(YM3812_chip, 1);
     }
-    return ym3526_read(YM3526_chip, 1);
+    if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
+        return ym3526_read(YM3526_chip, 1);
+    }
+    return 0;
 }
 
 static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    if (sfx_soundexpander_chip == 3812) {
+    if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
         ym3812_reset_chip(YM3812_chip);
-    } else {
+    } else if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
         ym3526_reset_chip(YM3526_chip);
     }
 }
@@ -410,9 +413,9 @@ static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk)
 static void sfx_soundexpander_sound_store(WORD addr, BYTE value)
 {
     if (addr == 0x40) {
-        if (sfx_soundexpander_chip == 3812) {
+        if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
             ym3812_write(YM3812_chip, 0, value);
-        } else {
+        } else if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
             ym3526_write(YM3526_chip, 0, value);
         }
     }
@@ -428,8 +431,11 @@ static BYTE sfx_soundexpander_sound_read(WORD addr)
     sfx_soundexpander_sound_device.io_source_valid = 0;
 
     if (addr == 0x60) {
-        sfx_soundexpander_sound_device.io_source_valid = 1;
-        value = sound_read(sfx_soundexpander_sound_chip_offset, 0);
+        if ((sfx_soundexpander_chip == 3812 && YM3812_chip)
+             || (sfx_soundexpander_chip == 3526 && YM3526_chip)) {
+            sfx_soundexpander_sound_device.io_source_valid = 1;
+            value = sound_read(sfx_soundexpander_sound_chip_offset, 0);
+        }
     }
     return value;
 }
@@ -439,9 +445,9 @@ static BYTE sfx_soundexpander_sound_peek(WORD addr)
     BYTE value = 0;
 
     if (addr == 0x40) {
-        if (sfx_soundexpander_chip == 3812) {
+        if (sfx_soundexpander_chip == 3812 && YM3812_chip) {
             value = ym3812_peek(YM3812_chip, value);
-        } else {
+        } else if (sfx_soundexpander_chip == 3526 && YM3526_chip) {
             value = ym3526_peek(YM3526_chip, value);
         }
     }
@@ -470,6 +476,10 @@ int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
     FM_OPL *chip = (sfx_soundexpander_chip == 3526) ? YM3526_chip : YM3812_chip;
     snapshot_module_t *m;
     int x, y;
+
+    if (chip == NULL) {
+        return 0;
+    }
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
                           CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
