@@ -197,7 +197,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
+  IDS_SIDCART_ENABLE                         "Permitir cartucho SID"
   IDS_SIDCART_ADDRESS_LABEL                  "Dirección SID"
   IDS_SIDCART_CLOCK_LABEL                    "Reloj SID"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "Selección periférico HardSID"

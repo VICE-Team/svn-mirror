@@ -620,7 +620,7 @@ BEGIN
   IDS_CART_4                "Cart 4"
   IDS_CART_6                "Cart 6"
   IDS_MACHINE_DEFAULTS      "Valores por defecto"
-  IDS_MODEL_LINE            "Model line"
+  IDS_MODEL_LINE            "Linea modelo"
   IDS_SELECT_CBMII_MEM_128  "128 kByte"
   IDS_SELECT_CBMII_MEM_256  "256 kByte"
   IDS_SELECT_CBMII_MEM_512  "512 kByte"

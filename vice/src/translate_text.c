@@ -26,6 +26,7 @@
 
 translate_t string_table[] = {
 
+
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -525,7 +526,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_TESTING_BEST_FRAME_DELAY_DA, "Tester bedste billed-forsinkelse..."},
 /* de */ {IDGS_TESTING_BEST_FRAME_DELAY_DE, "Teste optimale Framerate..."},
-/* es */ {IDGS_TESTING_BEST_FRAME_DELAY_ES, ""},  /* fuzzy */
+/* es */ {IDGS_TESTING_BEST_FRAME_DELAY_ES, "Probando mejor demora de cuadro..."},
 /* fr */ {IDGS_TESTING_BEST_FRAME_DELAY_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_TESTING_BEST_FRAME_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDGS_TESTING_BEST_FRAME_DELAY_IT, "Rileva il miglior ritardo tra frame..."},
@@ -576,7 +577,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DA, "Sender snapshot til klient..."},
 /* de */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_DE, "Sende Snapshot zu Client..."},
-/* es */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_ES, ""},  /* fuzzy */
+/* es */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_ES, "Remitiendo volcado memoria a cliente..."},
 /* fr */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SENDING_SNAPSHOT_TO_CLIENT_IT, "Invio snapshot al client in corso..."},
@@ -644,7 +645,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DA, "Server venter på en klient..."},
 /* de */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_DE, "Server wartet auf Client..."},
-/* es */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_ES, ""},  /* fuzzy */
+/* es */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_ES, "El servidor está esperando al cliente..."},
 /* fr */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SERVER_IS_WAITING_FOR_CLIENT_IT, "Il server è in attesa di un client..."},
@@ -712,7 +713,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DA, "Modtager snapshot fra server..."},
 /* de */ {IDGS_RECEIVING_SNAPSHOT_SERVER_DE, "Empfange Snapshot von Server..."},
-/* es */ {IDGS_RECEIVING_SNAPSHOT_SERVER_ES, ""},  /* fuzzy */
+/* es */ {IDGS_RECEIVING_SNAPSHOT_SERVER_ES, "Recibiendo volcado memoria desde el servidor..."},
 /* fr */ {IDGS_RECEIVING_SNAPSHOT_SERVER_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RECEIVING_SNAPSHOT_SERVER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_RECEIVING_SNAPSHOT_SERVER_IT, "Ricezione dello snapshot dal server in corso..."},
@@ -763,7 +764,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_REMOTE_HOST_SUSPENDING_DA, "Fjernmaskine pauser..."},
 /* de */ {IDGS_REMOTE_HOST_SUSPENDING_DE, "Entfernter Rechner angehaltedn..."},
-/* es */ {IDGS_REMOTE_HOST_SUSPENDING_ES, ""},  /* fuzzy */
+/* es */ {IDGS_REMOTE_HOST_SUSPENDING_ES, "Host remoto suspendido..."},
 /* fr */ {IDGS_REMOTE_HOST_SUSPENDING_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_REMOTE_HOST_SUSPENDING_HU, ""},  /* fuzzy */
 /* it */ {IDGS_REMOTE_HOST_SUSPENDING_IT, "Sospesione host remoto in corso..."},
@@ -1053,7 +1054,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_AVAILABLE_COMMANDS_ARE_DA, "Tilgængelige kommandoer:"},
 /* de */ {IDGS_AVAILABLE_COMMANDS_ARE_DE, "Zulässige Kommandos sind:"},
-/* es */ {IDGS_AVAILABLE_COMMANDS_ARE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_AVAILABLE_COMMANDS_ARE_ES, "Los comandos disponibles son:"},
 /* fr */ {IDGS_AVAILABLE_COMMANDS_ARE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_AVAILABLE_COMMANDS_ARE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_AVAILABLE_COMMANDS_ARE_IT, "I comandi disponibili sono:"},
@@ -1070,7 +1071,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MACHINE_STATE_COMMANDS_DA, "Kommandoer for maskinstatus:"},
 /* de */ {IDGS_MACHINE_STATE_COMMANDS_DE, "Maschinen Zustandskommandos:"},
-/* es */ {IDGS_MACHINE_STATE_COMMANDS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MACHINE_STATE_COMMANDS_ES, "Comandos estado máquina:"},
 /* fr */ {IDGS_MACHINE_STATE_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MACHINE_STATE_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MACHINE_STATE_COMMANDS_IT, "Comandi di stato del computer:"},
@@ -1087,7 +1088,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MEMSPACE_DA, "huk.område"},
 /* de */ {IDGS_MEMSPACE_DE, "Speicherbereich"},
-/* es */ {IDGS_MEMSPACE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MEMSPACE_ES, "espacio de memoria"},
 /* fr */ {IDGS_MEMSPACE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MEMSPACE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MEMSPACE_IT, "spazio di memoria"},
@@ -1104,7 +1105,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_BANKNAME_DA, "banknavn"},
 /* de */ {IDGS_BANKNAME_DE, "Speicherbank"},
-/* es */ {IDGS_BANKNAME_ES, ""},  /* fuzzy */
+/* es */ {IDGS_BANKNAME_ES, "Nombre de banco"},
 /* fr */ {IDGS_BANKNAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_BANKNAME_HU, ""},  /* fuzzy */
 /* it */ {IDGS_BANKNAME_IT, "nome banco"},
@@ -1172,7 +1173,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_COUNT_DA, "antal"},
 /* de */ {IDGS_COUNT_DE, "Zähler"},
-/* es */ {IDGS_COUNT_ES, ""},  /* fuzzy */
+/* es */ {IDGS_COUNT_ES, "contador"},
 /* fr */ {IDGS_COUNT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_COUNT_HU, ""},  /* fuzzy */
 /* it */ {IDGS_COUNT_IT, "contatore"},
@@ -1206,7 +1207,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_FILENAME_DA, "filnavn"},
 /* de */ {IDGS_FILENAME_DE, "Dateiname"},
-/* es */ {IDGS_FILENAME_ES, ""},  /* fuzzy */
+/* es */ {IDGS_FILENAME_ES, "Nombre fichero"},
 /* fr */ {IDGS_FILENAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_FILENAME_HU, ""},  /* fuzzy */
 /* it */ {IDGS_FILENAME_IT, "nome file"},
@@ -1240,7 +1241,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ADDRESS_DA, "adresse"},
 /* de */ {IDGS_ADDRESS_DE, "Adresse"},
-/* es */ {IDGS_ADDRESS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_ADDRESS_ES, "dirección"},
 /* fr */ {IDGS_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ADDRESS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ADDRESS_IT, "indirizzo"},
@@ -1325,7 +1326,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_REG_NAME_DA, "regnavn"},
 /* de */ {IDGS_REG_NAME_DE, "Register Name"},
-/* es */ {IDGS_REG_NAME_ES, ""},  /* fuzzy */
+/* es */ {IDGS_REG_NAME_ES, "Nombre registro"},
 /* fr */ {IDGS_REG_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_REG_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDGS_REG_NAME_IT, "nome registro"},
@@ -1342,7 +1343,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_NUMBER_DA, "nummer"},
 /* de */ {IDGS_NUMBER_DE, "Nummer"},
-/* es */ {IDGS_NUMBER_ES, ""},  /* fuzzy */
+/* es */ {IDGS_NUMBER_ES, "número"},
 /* fr */ {IDGS_NUMBER_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_NUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDGS_NUMBER_IT, "numero"},
@@ -1461,7 +1462,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SYMBOL_TABLE_COMMANDS_DA, "Symboltabel-kommandoer:"},
 /* de */ {IDGS_SYMBOL_TABLE_COMMANDS_DE, "Symbol Tabellen Kommandos:"},
-/* es */ {IDGS_SYMBOL_TABLE_COMMANDS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_SYMBOL_TABLE_COMMANDS_ES, "Tabla símbolo comando:"},
 /* fr */ {IDGS_SYMBOL_TABLE_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SYMBOL_TABLE_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SYMBOL_TABLE_COMMANDS_IT, "Comandi tabella dei simboli:"},
@@ -1478,7 +1479,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_LABEL_DA, "etiket"},
 /* de */ {IDGS_LABEL_DE, "Bezeichner"},
-/* es */ {IDGS_LABEL_ES, ""},  /* fuzzy */
+/* es */ {IDGS_LABEL_ES, "Etiqueta"},
 /* fr */ {IDGS_LABEL_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_LABEL_HU, ""},  /* fuzzy */
 /* it */ {IDGS_LABEL_IT, "etichetta"},
@@ -1580,7 +1581,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_DA, "Assembler- og hukommelseskommandoer:"},
 /* de */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_DE, "Assembler und Speicher Kommandos:"},
-/* es */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_ES, "Comandos Ensamblador y de memoria:"},
 /* fr */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ASSEMBLER_AND_MEMORY_COMMANDS_IT, "Comandi assembler e memoria:"},
@@ -1597,7 +1598,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_DATA_LIST_DA, "dataliste"},
 /* de */ {IDGS_DATA_LIST_DE, "Datenliste"},
-/* es */ {IDGS_DATA_LIST_ES, ""},  /* fuzzy */
+/* es */ {IDGS_DATA_LIST_ES, "lista datos"},
 /* fr */ {IDGS_DATA_LIST_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DATA_LIST_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DATA_LIST_IT, "lista di dati"},
@@ -1631,7 +1632,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_INSTRUCTION_DA, "instruktion"},
 /* de */ {IDGS_INSTRUCTION_DE, "Instruktion"},
-/* es */ {IDGS_INSTRUCTION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_INSTRUCTION_ES, "Insturcción"},
 /* fr */ {IDGS_INSTRUCTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_INSTRUCTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_INSTRUCTION_IT, "istruzione"},
@@ -1665,7 +1666,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ADDRESS_RANGE_DA, "adresseområde"},
 /* de */ {IDGS_ADDRESS_RANGE_DE, "Adressbereich"},
-/* es */ {IDGS_ADDRESS_RANGE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_ADDRESS_RANGE_ES, "Rango de dirección"},
 /* fr */ {IDGS_ADDRESS_RANGE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ADDRESS_RANGE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ADDRESS_RANGE_IT, "intervallo indirizzi"},
@@ -1699,7 +1700,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CHECKNUM_DA, "checknum"},
 /* de */ {IDGS_CHECKNUM_DE, "Checknummer"},
-/* es */ {IDGS_CHECKNUM_ES, ""},  /* fuzzy */
+/* es */ {IDGS_CHECKNUM_ES, "número comprobación"},
 /* fr */ {IDGS_CHECKNUM_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_CHECKNUM_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CHECKNUM_IT, "checknum"},
@@ -1784,7 +1785,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ADDRESS_OPT_RANGE_DA, "adresse_evt_område"},
 /* de */ {IDGS_ADDRESS_OPT_RANGE_DE, "Optionaler Adressbereich"},
-/* es */ {IDGS_ADDRESS_OPT_RANGE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_ADDRESS_OPT_RANGE_ES, "Rango dirección"},
 /* fr */ {IDGS_ADDRESS_OPT_RANGE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ADDRESS_OPT_RANGE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_ADDRESS_OPT_RANGE_IT, "intervallo di indirizzi opzionale"},
@@ -1835,7 +1836,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_DATA_TYPE_DA, "datatype"},
 /* de */ {IDGS_DATA_TYPE_DE, "Datentyp"},
-/* es */ {IDGS_DATA_TYPE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_DATA_TYPE_ES, "tipo datos"},
 /* fr */ {IDGS_DATA_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DATA_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DATA_TYPE_IT, "dati"},
@@ -1920,7 +1921,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MASK_DA, "maske"},
 /* de */ {IDGS_MASK_DE, "Maske"},
-/* es */ {IDGS_MASK_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MASK_ES, "máscara"},
 /* fr */ {IDGS_MASK_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MASK_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MASK_IT, "maschera"},
@@ -2005,7 +2006,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_CHECKPOINT_COMMANDS_DA, "Checkpoint-kommandoer:"},
 /* de */ {IDGS_CHECKPOINT_COMMANDS_DE, "Checkpoint Kommandos:"},
-/* es */ {IDGS_CHECKPOINT_COMMANDS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_CHECKPOINT_COMMANDS_ES, "Comandos de control:"},
 /* fr */ {IDGS_CHECKPOINT_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_CHECKPOINT_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_CHECKPOINT_COMMANDS_IT, "Comandi punti di controllo:"},
@@ -2022,7 +2023,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_COND_EXPR_DA, "betingelse"},
 /* de */ {IDGS_COND_EXPR_DE, "bedingter Ausdruck"},
-/* es */ {IDGS_COND_EXPR_ES, ""},  /* fuzzy */
+/* es */ {IDGS_COND_EXPR_ES, "Expr_cond"},
 /* fr */ {IDGS_COND_EXPR_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_COND_EXPR_HU, ""},  /* fuzzy */
 /* it */ {IDGS_COND_EXPR_IT, "espressione condizione"},
@@ -2047,7 +2048,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_BREAK_DESCRIPTION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_MON_BREAK_DESCRIPTION_DE, "Setze einen Breakpoint. Wenn keine Adresse angegeben wurde, werden die\naktuellen gültigen Breakpoints gezeigt. \nWenn eine Adresse angegebene wurde, wird ein Breakpoint auf diese Adresse\ngesetzt und die Breakpoint Nummer wird ausgegeben.\n`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\nKombination) und dient zur Angabe, bei welcher Operation der Monitor\nanhalten soll. Wenn keine Angabe gemacht wird, stoppt der Monitor bei\n`exec'.\nEin bedingter Ausdruck kann zu Breakpoints zugeordnet werden. Für\nmehr Informations über bedingte Ausdrücke, bitte Kommando CONDITION\nansehen."},
-/* es */ {IDGS_MON_BREAK_DESCRIPTION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MON_BREAK_DESCRIPTION_ES, "Poner punto de ruptura. Si no se dá dirección, se imprime el actual punto\nde control. Si se dá una dirección, se activa un punto de ruptura en la misma\ny se imprime el número de punto de ruptura.\n`load|store|exec' es cualquiera de `load', `store' or `exec' (o combinación\nde ellos) a especificar en que operacion el monitor se detiene. Si no se\nespecifica, el monitor se detiene en `exec'.\nSe puede especificar tambien una condición para el punto de ruptura.\nPara más información sobre condiciones, ver el comandoa CONDITION."},
 /* fr */ {IDGS_MON_BREAK_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_BREAK_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_BREAK_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2064,7 +2065,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_COMMAND_DA, ""},  /* fuzzy */
 /* de */ {IDGS_COMMAND_DE, "Kommando"},
-/* es */ {IDGS_COMMAND_ES, ""},  /* fuzzy */
+/* es */ {IDGS_COMMAND_ES, "Comando"},
 /* fr */ {IDGS_COMMAND_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_COMMAND_HU, ""},  /* fuzzy */
 /* it */ {IDGS_COMMAND_IT, ""},  /* fuzzy */
@@ -2187,7 +2188,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_LOADSTORE_DA, ""},  /* fuzzy */
 /* de */ {IDGS_LOADSTORE_DE, "load|store|exec"},
-/* es */ {IDGS_LOADSTORE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_LOADSTORE_ES, "Carga|almacenamiento|ejecución"},
 /* fr */ {IDGS_LOADSTORE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_LOADSTORE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_LOADSTORE_IT, ""},  /* fuzzy */
@@ -2213,7 +2214,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_WATCH_DESCRIPTION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_MON_WATCH_DESCRIPTION_DE, "Setze einen Watchpoint. Wenn eine einzelne Adresse angegeben wurde, setze \nden Watchpoint für diese Adresse. Wenn zwei Adressen angegeben wurden, \nsetze den Watchpoint auf die Adressen zwischen den beiden Adressen.\n`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\nKombination) und dient zur Angabe, bei welcher Operation der Monitor\nanhalten soll. Wenn keine Angabe gemacht wird, stoppt der Monitor bei\n`exec'.\nWenn keine Angabe gemacht wurde, hält der Monitor bei bei `load' und\n`store' Operationen an.\n"},
-/* es */ {IDGS_MON_WATCH_DESCRIPTION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MON_WATCH_DESCRIPTION_ES, "Poner punto de visualización. Si no se dá dirección se mostrará el\nactualmente válido. Si se dá una dirección simple, se pondrá un punto\nde visualización en la misma\nSi se dán dos direcciones se activará un punto de visualización para las\nlocalizaciones de memoria entre ambas direcciones.\n`load|store|exec' es cualquiera de `load', `store' or `exec' (o alguna com-\nbinación de ellos) para especificar en que operación el monitor se detiene\nSi no se especifica, Se detiene en  `load' y `store'.\n"},
 /* fr */ {IDGS_MON_WATCH_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_WATCH_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_WATCH_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2239,7 +2240,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_TRACE_DESCRIPTION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_MON_TRACE_DESCRIPTION_DE, "Setze einen Tracepoint. Wenn keine Adresse angegeben wird, werden die\naktuellen gültigen Tracepoints ausgegeben. Wenn eine einzelne Adresse\nangegeben wurde, setze den Watchpoint für diese Adresse. Wenn zwei\nAdressen angegeben wurden, setze den Watchpoint auf die Adressen\nzwischen den beiden Adressen.\n`load|store|exec' ist entweder `load', `store' oder `exec' (oder eine\nKombination) und dient zur Angabe, bei welcher Operation der Monitor\nanhalten soll. Wenn keine Angabe gemacht wird, beobachtet der Monitor\nalle Operationen.\n"},
-/* es */ {IDGS_MON_TRACE_DESCRIPTION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MON_TRACE_DESCRIPTION_ES, "Poner punto rastreo. Si no se dá dirección, Se mostrará el actualmente\nválido. Si se dá una sóla dirección, se activa un punto para esa dirección.\nSi se dán dos, se activa el punto para las localizaciones de memoria entre\nlas dos direcciones.\n`load|store|exec' es cualquiera `load', `store' or `exec' (o una combina-\nción de ellas) para indicar en cual de ellas se detiene el monitor. Si no se\nespecifican el monitor rastrea todas las tres operaciones.\n"},
 /* fr */ {IDGS_MON_TRACE_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_TRACE_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_TRACE_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2256,7 +2257,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MONITOR_STATE_COMMANDS_DA, "Monitorstatuskommandoer:"},
 /* de */ {IDGS_MONITOR_STATE_COMMANDS_DE, "Monitor Zustand Kommandos:"},
-/* es */ {IDGS_MONITOR_STATE_COMMANDS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MONITOR_STATE_COMMANDS_ES, "Comandos de estado del Monitor:"},
 /* fr */ {IDGS_MONITOR_STATE_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MONITOR_STATE_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MONITOR_STATE_COMMANDS_IT, "Comandi stato monitor:"},
@@ -2358,7 +2359,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_DISK_COMMANDS_DA, "Diskettekommandoer:"},
 /* de */ {IDGS_DISK_COMMANDS_DE, "Disk Kommandos:"},
-/* es */ {IDGS_DISK_COMMANDS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_DISK_COMMANDS_ES, "Comandos de disco:"},
 /* fr */ {IDGS_DISK_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DISK_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DISK_COMMANDS_IT, "Comandi disco:"},
@@ -2375,7 +2376,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_DISK_COMMAND_DA, "diskkommando"},
 /* de */ {IDGS_DISK_COMMAND_DE, "Disk Kommando"},
-/* es */ {IDGS_DISK_COMMAND_ES, ""},  /* fuzzy */
+/* es */ {IDGS_DISK_COMMAND_ES, "comando disco"},
 /* fr */ {IDGS_DISK_COMMAND_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DISK_COMMAND_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DISK_COMMAND_IT, "comando disco"},
@@ -2409,7 +2410,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_DEVICE_DA, "enhed"},
 /* de */ {IDGS_DEVICE_DE, "Gerät"},
-/* es */ {IDGS_DEVICE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_DEVICE_ES, "periférico"},
 /* fr */ {IDGS_DEVICE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DEVICE_IT, "dispositivo"},
@@ -2426,7 +2427,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_FILE_INDEX_DA, ""},  /* fuzzy */
 /* de */ {IDGS_FILE_INDEX_DE, "Datei_Index"},
-/* es */ {IDGS_FILE_INDEX_ES, ""},  /* fuzzy */
+/* es */ {IDGS_FILE_INDEX_ES, "Índice de fichero"},
 /* fr */ {IDGS_FILE_INDEX_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_FILE_INDEX_HU, ""},  /* fuzzy */
 /* it */ {IDGS_FILE_INDEX_IT, ""},  /* fuzzy */
@@ -2443,7 +2444,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_AUTOSTART_DESCRIPTION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_MON_AUTOSTART_DESCRIPTION_DE, "Autostart ein Disk/Band Image oder Programm"},
-/* es */ {IDGS_MON_AUTOSTART_DESCRIPTION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MON_AUTOSTART_DESCRIPTION_ES, "Autoarranque imagen de disco/cinta ó programa"},
 /* fr */ {IDGS_MON_AUTOSTART_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_AUTOSTART_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_AUTOSTART_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2460,7 +2461,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_AUTOLOAD_DESCRIPTION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_MON_AUTOLOAD_DESCRIPTION_DE, "Autoload ein Disk/Band Image oder Programm"},
-/* es */ {IDGS_MON_AUTOLOAD_DESCRIPTION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MON_AUTOLOAD_DESCRIPTION_ES, "Autocarga imagen de disco/cinta ó programa"},
 /* fr */ {IDGS_MON_AUTOLOAD_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_AUTOLOAD_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_AUTOLOAD_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2511,7 +2512,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_TRACK_DA, "spor"},
 /* de */ {IDGS_TRACK_DE, "Spur"},
-/* es */ {IDGS_TRACK_ES, ""},  /* fuzzy */
+/* es */ {IDGS_TRACK_ES, "Pista"},
 /* fr */ {IDGS_TRACK_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_TRACK_HU, ""},  /* fuzzy */
 /* it */ {IDGS_TRACK_IT, "traccia"},
@@ -2528,7 +2529,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_SECTOR_DA, "sektor"},
 /* de */ {IDGS_SECTOR_DE, "Sektor"},
-/* es */ {IDGS_SECTOR_ES, ""},  /* fuzzy */
+/* es */ {IDGS_SECTOR_ES, "sector"},
 /* fr */ {IDGS_SECTOR_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_SECTOR_HU, ""},  /* fuzzy */
 /* it */ {IDGS_SECTOR_IT, "settore"},
@@ -2596,7 +2597,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_DIRECTORY_DA, "Katalog"},
 /* de */ {IDGS_DIRECTORY_DE, "Verzeichnis"},
-/* es */ {IDGS_DIRECTORY_ES, ""},  /* fuzzy */
+/* es */ {IDGS_DIRECTORY_ES, "Directorio"},
 /* fr */ {IDGS_DIRECTORY_FR, "Répertoire"},
 /* hu */ {IDGS_DIRECTORY_HU, ""},  /* fuzzy */
 /* it */ {IDGS_DIRECTORY_IT, "Directory"},
@@ -2613,7 +2614,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_P_DIRECTORY_DA, "<Katalog>"},
 /* de */ {IDGS_P_DIRECTORY_DE, "<Verzeichnis>"},
-/* es */ {IDGS_P_DIRECTORY_ES, ""},  /* fuzzy */
+/* es */ {IDGS_P_DIRECTORY_ES, "<Directorio>"},
 /* fr */ {IDGS_P_DIRECTORY_FR, "<Répertoire>"},
 /* hu */ {IDGS_P_DIRECTORY_HU, ""},  /* fuzzy */
 /* it */ {IDGS_P_DIRECTORY_IT, "<Directory>"},
@@ -2630,7 +2631,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_CD_DESCRIPTION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_MON_CD_DESCRIPTION_DE, "Arbeitsverzeichnis ändern."},
-/* es */ {IDGS_MON_CD_DESCRIPTION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_MON_CD_DESCRIPTION_ES, "Cambiar directorio de trabajo actual."},
 /* fr */ {IDGS_MON_CD_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_CD_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_CD_DESCRIPTION_IT, ""},  /* fuzzy */
@@ -2749,7 +2750,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_OTHER_COMMANDS_DA, "Andre kommandoer:"},
 /* de */ {IDGS_OTHER_COMMANDS_DE, "Andere Kommandos:"},
-/* es */ {IDGS_OTHER_COMMANDS_ES, ""},  /* fuzzy */
+/* es */ {IDGS_OTHER_COMMANDS_ES, "Otros comandos:"},
 /* fr */ {IDGS_OTHER_COMMANDS_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_OTHER_COMMANDS_HU, ""},  /* fuzzy */
 /* it */ {IDGS_OTHER_COMMANDS_IT, "Altri comandi:"},
@@ -2817,7 +2818,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_STRING_DA, "streng"},
 /* de */ {IDGS_STRING_DE, "String"},
-/* es */ {IDGS_STRING_ES, ""},  /* fuzzy */
+/* es */ {IDGS_STRING_ES, "cadena"},
 /* fr */ {IDGS_STRING_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_STRING_HU, ""},  /* fuzzy */
 /* it */ {IDGS_STRING_IT, "stringa"},
@@ -2868,7 +2869,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_EXPRESSION_DA, ""},  /* fuzzy */
 /* de */ {IDGS_EXPRESSION_DE, "Ausdruck"},
-/* es */ {IDGS_EXPRESSION_ES, ""},  /* fuzzy */
+/* es */ {IDGS_EXPRESSION_ES, "expresión"},
 /* fr */ {IDGS_EXPRESSION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_EXPRESSION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_EXPRESSION_IT, "espressione"},
@@ -2919,7 +2920,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_RESOURCE_DA, "resource"},
 /* de */ {IDGS_RESOURCE_DE, "Ressource"},
-/* es */ {IDGS_RESOURCE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_RESOURCE_ES, "fuente"},
 /* fr */ {IDGS_RESOURCE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_RESOURCE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_RESOURCE_IT, "risorsa"},
@@ -2953,7 +2954,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_VALUE_DA, "værdi"},
 /* de */ {IDGS_VALUE_DE, "Wert"},
-/* es */ {IDGS_VALUE_ES, ""},  /* fuzzy */
+/* es */ {IDGS_VALUE_ES, "valor"},
 /* fr */ {IDGS_VALUE_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_VALUE_HU, ""},  /* fuzzy */
 /* it */ {IDGS_VALUE_IT, "valore"},
@@ -3210,7 +3211,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_AUTOSTART_DELAY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_AUTOSTART_DELAY_DE, "Setze initiale Autostart Verzögerung (0: benutze Standard)"},
-/* es */ {IDCLS_SET_AUTOSTART_DELAY_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_AUTOSTART_DELAY_ES, "Seleccionar retardo inicial autoarranque (Por defecto 0)"},
 /* fr */ {IDCLS_SET_AUTOSTART_DELAY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_AUTOSTART_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_AUTOSTART_DELAY_IT, ""},  /* fuzzy */
@@ -3227,7 +3228,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_DE, "Zufälle Verzögerung während Autostart aktivieren,"},
-/* es */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_ES, "Permitir retardo arranque inicial aleatorio."},
 /* fr */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_AUTOSTART_RANDOM_DELAY_IT, ""},  /* fuzzy */
@@ -3244,7 +3245,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DE, "Zufälle Verzögerung während Autostart deaktivieren."},
-/* es */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_ES, "deshabilitar retardo arranque inicial aleatorio."},
 /* fr */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_IT, ""},  /* fuzzy */
@@ -3316,7 +3317,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BURST_MOD_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_BURST_MOD_DE, "Burst Modifikation (0 = Kein, 1 = CIA1, 2 = CIA2)"},
-/* es */ {IDCLS_SET_BURST_MOD_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_BURST_MOD_ES, "Modificación arranque (0=No, 1=CIA1, 2=CIA2)"},
 /* fr */ {IDCLS_SET_BURST_MOD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_BURST_MOD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_BURST_MOD_IT, ""},  /* fuzzy */
@@ -3720,7 +3721,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA RS232 Schnittstellen-Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_ES, "Permitir emulación interface ACIA RS232"},
 /* fr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
@@ -3737,7 +3738,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DE, "ACIA RS232 Schnittstellen-Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_ES, "Deshabilitar emulación interface ACIA RS232"},
 /* fr */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_IT, ""},  /* fuzzy */
@@ -3755,7 +3756,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_ACIA_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_ACIA_EMU_DE, "ACIA Emulation aktivieren"},
-/* es */ {IDCLS_ENABLE_ACIA_EMU_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_ACIA_EMU_ES, "Habilitar emulación ACIA"},
 /* fr */ {IDCLS_ENABLE_ACIA_EMU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_ACIA_EMU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_ACIA_EMU_IT, ""},  /* fuzzy */
@@ -3772,7 +3773,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_ACIA_EMU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_ACIA_EMU_DE, "ACIA Emulation deaktivieren"},
-/* es */ {IDCLS_DISABLE_ACIA_EMU_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_ACIA_EMU_ES, "Deshabilitar emulación ACIA"},
 /* fr */ {IDCLS_DISABLE_ACIA_EMU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_ACIA_EMU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_ACIA_EMU_IT, ""},  /* fuzzy */
@@ -3792,7 +3793,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NUMBER_DA, "<nummer>"},
 /* de */ {IDCLS_P_NUMBER_DE, "<Nummer>"},
-/* es */ {IDCLS_P_NUMBER_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_NUMBER_ES, "<número>"},
 /* fr */ {IDCLS_P_NUMBER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_NUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_NUMBER_IT, "<numero>"},
@@ -4137,7 +4138,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_PLUS4_MODEL_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_PLUS4_MODEL_DE, "Setze Plus4 Modell (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
-/* es */ {IDCLS_SET_PLUS4_MODEL_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_PLUS4_MODEL_ES, "Seleccionar Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
 /* fr */ {IDCLS_SET_PLUS4_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_PLUS4_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_PLUS4_MODEL_IT, ""},  /* fuzzy */
@@ -4154,7 +4155,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DTV_MODEL_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_DTV_MODEL_DE, "Setze DTV Modell (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
-/* es */ {IDCLS_SET_DTV_MODEL_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DTV_MODEL_ES, "Seleccionar DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"},
 /* fr */ {IDCLS_SET_DTV_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DTV_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DTV_MODEL_IT, ""},  /* fuzzy */
@@ -4365,7 +4366,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_GEORAM_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_GEORAM_DE, "GEO-RAM Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_GEORAM_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_GEORAM_ES, "Permitir unidad expansión GEO-RAM"},
 /* fr */ {IDCLS_ENABLE_GEORAM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_GEORAM_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_GEORAM_IT, ""},  /* fuzzy */
@@ -4382,7 +4383,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_GEORAM_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_GEORAM_DE, "GEO-RAM Erweiterung deaktivieren"},
-/* es */ {IDCLS_DISABLE_GEORAM_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_GEORAM_ES, "Deshabilitar unidad expansión GEO-RAM"},
 /* fr */ {IDCLS_DISABLE_GEORAM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_GEORAM_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_GEORAM_IT, ""},  /* fuzzy */
@@ -4450,7 +4451,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SIZE_IN_KB_DA, "<størrelse i KB>"},
 /* de */ {IDCLS_P_SIZE_IN_KB_DE, "<Größe in KB>"},
-/* es */ {IDCLS_P_SIZE_IN_KB_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_SIZE_IN_KB_ES, "<tamaño en KB>"},
 /* fr */ {IDCLS_P_SIZE_IN_KB_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_SIZE_IN_KB_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SIZE_IN_KB_IT, "<dimensione in KB>"},
@@ -4688,7 +4689,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_RAMCART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_RAMCART_DE, "RamCart Erweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_RAMCART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_RAMCART_ES, "Permitir expansión RAMCART"},
 /* fr */ {IDCLS_ENABLE_RAMCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_RAMCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_RAMCART_IT, ""},  /* fuzzy */
@@ -4705,7 +4706,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_RAMCART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_RAMCART_DE, "RamCart Erweiterung deaktivieren"},
-/* es */ {IDCLS_DISABLE_RAMCART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_RAMCART_ES, "Deshabilitar expansión RamCart"},
 /* fr */ {IDCLS_DISABLE_RAMCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_RAMCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_RAMCART_IT, ""},  /* fuzzy */
@@ -4875,7 +4876,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_ISEPIC_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_ISEPIC_DE, "ISEPIC Modul aktivieren"},
-/* es */ {IDCLS_ENABLE_ISEPIC_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_ISEPIC_ES, "Permitir cartucho ISEPIC"},
 /* fr */ {IDCLS_ENABLE_ISEPIC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_ISEPIC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_ISEPIC_IT, ""},  /* fuzzy */
@@ -4892,7 +4893,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_ISEPIC_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_ISEPIC_DE, "ISEPIC Modul deaktivieren"},
-/* es */ {IDCLS_DISABLE_ISEPIC_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_ISEPIC_ES, "Deshabilitar cartucho ISEPIC"},
 /* fr */ {IDCLS_DISABLE_ISEPIC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_ISEPIC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_ISEPIC_IT, ""},  /* fuzzy */
@@ -5351,7 +5352,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_REU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_REU_DE, "RAM Speichererweiterung aktivieren"},
-/* es */ {IDCLS_ENABLE_REU_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_REU_ES, "Permitir unidad RAM expansion"},
 /* fr */ {IDCLS_ENABLE_REU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_REU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_REU_IT, ""},  /* fuzzy */
@@ -5368,7 +5369,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_REU_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_REU_DE, "RAM Speichererweiterung deaktivieren"},
-/* es */ {IDCLS_DISABLE_REU_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_REU_ES, "Deshabilitar unidad RAM Expansion"},
 /* fr */ {IDCLS_DISABLE_REU_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_REU_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_REU_IT, ""},  /* fuzzy */
@@ -6203,7 +6204,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_DE, "24kB Kingsoft Image einlegen"},
-/* es */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_ES, "Insertar imagen cartucho 24KB Kingsoft"},
 /* fr */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_KINGSOFT_CART_IT, ""},  /* fuzzy */
@@ -6407,7 +6408,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_DE, "Pagefox Erweiterungsmodul Image einlegen"},
-/* es */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_ES, "Insertar imagen cartucho 64KB Pagefox"},
 /* fr */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_PAGEFOX_CART_IT, ""},  /* fuzzy */
@@ -6662,7 +6663,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SMART_ATTACH_CART_DA, "Smart-tilslut cartridge-image"},
 /* de */ {IDCLS_SMART_ATTACH_CART_DE, "Smart-Einlegen Modul Image"},
-/* es */ {IDCLS_SMART_ATTACH_CART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SMART_ATTACH_CART_ES, "Insertar imagen cartucho inteligentemente"},
 /* fr */ {IDCLS_SMART_ATTACH_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SMART_ATTACH_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SMART_ATTACH_CART_IT, "Seleziona una cartuccia"},
@@ -6697,7 +6698,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_VALUE_DA, "<værdi>"},
 /* de */ {IDCLS_P_VALUE_DE, "<Wert>"},
-/* es */ {IDCLS_P_VALUE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_VALUE_ES, "<valor>"},
 /* fr */ {IDCLS_P_VALUE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_VALUE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_VALUE_IT, "<valore>"},
@@ -6833,7 +6834,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_MODELNUMBER_DA, "<modelnummer>"},
 /* de */ {IDCLS_P_MODELNUMBER_DE, "<Modell Nummer>"},
-/* es */ {IDCLS_P_MODELNUMBER_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_MODELNUMBER_ES, "<número modelo>"},
 /* fr */ {IDCLS_P_MODELNUMBER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_MODELNUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_MODELNUMBER_IT, "<numero di modello>"},
@@ -6901,7 +6902,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_LINENUMBER_DA, "<linjenummer>"},
 /* de */ {IDCLS_P_LINENUMBER_DE, "<Zeilennummer>"},
-/* es */ {IDCLS_P_LINENUMBER_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_LINENUMBER_ES, "<número linea>"},
 /* fr */ {IDCLS_P_LINENUMBER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_LINENUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_LINENUMBER_IT, "<numero di linea>"},
@@ -6935,7 +6936,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_RAMSIZE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_P_RAMSIZE_DE, "<RAM Größe>"},
-/* es */ {IDCLS_P_RAMSIZE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_RAMSIZE_ES, "<Tamaño RAM>"},
 /* fr */ {IDCLS_P_RAMSIZE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_RAMSIZE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_RAMSIZE_IT, ""},  /* fuzzy */
@@ -7395,13 +7396,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DRIVE_SOUND,    N_("Enable sound emulation of disk drives")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DRIVE_SOUND_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DRIVE_SOUND_DE, "Sound Emulation für Disklaufwerke aktivieren"},
+/* de */ {IDCLS_ENABLE_DRIVE_SOUND_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_ENABLE_DRIVE_SOUND_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_DRIVE_SOUND_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_DRIVE_SOUND_HU, "Lemezegységek hang emulációjának engedélyezése"},
+/* hu */ {IDCLS_ENABLE_DRIVE_SOUND_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DRIVE_SOUND_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DRIVE_SOUND_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DRIVE_SOUND_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DRIVE_SOUND_NL, "Activeer geluidsemulatie van diskdrives"},
 /* pl */ {IDCLS_ENABLE_DRIVE_SOUND_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_DRIVE_SOUND_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DRIVE_SOUND_SV, ""},  /* fuzzy */
@@ -7412,13 +7413,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DRIVE_SOUND,    N_("Disable sound emulation of disk drives")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DRIVE_SOUND_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DRIVE_SOUND_DE, "Sound Emulation für Disklaufwerke deaktivieren"},
+/* de */ {IDCLS_DISABLE_DRIVE_SOUND_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_DISABLE_DRIVE_SOUND_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_DRIVE_SOUND_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_DRIVE_SOUND_HU, "Lemezegységek hang emulációjának tiltása"},
+/* hu */ {IDCLS_DISABLE_DRIVE_SOUND_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DRIVE_SOUND_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DRIVE_SOUND_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DRIVE_SOUND_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DRIVE_SOUND_NL, "Geluidsemulatie van diskdrives uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DRIVE_SOUND_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_DRIVE_SOUND_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DRIVE_SOUND_SV, ""},  /* fuzzy */
@@ -7467,7 +7468,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_METHOD_DA, "<metode>"},
 /* de */ {IDCLS_P_METHOD_DE, "<Methode>"},
-/* es */ {IDCLS_P_METHOD_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_METHOD_ES, "<método>"},
 /* fr */ {IDCLS_P_METHOD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_METHOD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_METHOD_IT, "<metodo>"},
@@ -7484,7 +7485,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_COLOR_DA, "<farve>"},
 /* de */ {IDCLS_P_COLOR_DE, "<Farbe>"},
-/* es */ {IDCLS_P_COLOR_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_COLOR_ES, "<color>"},
 /* fr */ {IDCLS_P_COLOR_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_COLOR_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_COLOR_IT, "<colore>"},
@@ -7671,7 +7672,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_DE, "Name der 2000 DOS ROM Datei definieren"},
-/* es */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_ES, "Especificar nombre imagen 2000 DOS ROM"},
 /* fr */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_2000_DOS_ROM_NAME_IT, ""},  /* fuzzy */
@@ -7688,7 +7689,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_DE, "Name der 4000 DOS ROM Datei definieren"},
-/* es */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_ES, "Especificar nombre imagen 4000 DOS ROM"},
 /* fr */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_4000_DOS_ROM_NAME_IT, ""},  /* fuzzy */
@@ -8999,7 +9000,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SPECIFY_TEXT_DEVICE_4_DE, "Drucker #4 Gerät für Textausgabe definieren"},
-/* es */ {IDCLS_SPECIFY_TEXT_DEVICE_4_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_TEXT_DEVICE_4_ES, "Especificar periférico salida impresión texto impresora #4"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_4_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_4_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_TEXT_DEVICE_4_IT, ""},  /* fuzzy */
@@ -9016,7 +9017,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SPECIFY_TEXT_DEVICE_5_DE, "Drucker #5 Gerät für Textausgabe definieren"},
-/* es */ {IDCLS_SPECIFY_TEXT_DEVICE_5_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_TEXT_DEVICE_5_ES, "Especificar periférico salida impresión texto impresora #5"},
 /* fr */ {IDCLS_SPECIFY_TEXT_DEVICE_5_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_TEXT_DEVICE_5_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_TEXT_DEVICE_5_IT, ""},  /* fuzzy */
@@ -9188,7 +9189,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_BAUD_DA, "<baud>"},
 /* de */ {IDCLS_P_BAUD_DE, "<Baud>"},
-/* es */ {IDCLS_P_BAUD_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_BAUD_ES, "<baudios>"},
 /* fr */ {IDCLS_P_BAUD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_BAUD_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_BAUD_IT, "<baud>"},
@@ -9443,7 +9444,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ENGINE_MODEL_DA, "<motor og model>"},
 /* de */ {IDCLS_P_ENGINE_MODEL_DE, "<Engine und Modell>"},
-/* es */ {IDCLS_P_ENGINE_MODEL_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_ENGINE_MODEL_ES, "<motor y modelo>"},
 /* fr */ {IDCLS_P_ENGINE_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_ENGINE_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ENGINE_MODEL_IT, "<motore e modello>"},
@@ -9589,7 +9590,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SIDCART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_SIDCART_DE, "SID Modul aktivieren"},
-/* es */ {IDCLS_ENABLE_SIDCART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_SIDCART_ES, "Permitir cartucho SID"},
 /* fr */ {IDCLS_ENABLE_SIDCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SIDCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SIDCART_IT, ""},  /* fuzzy */
@@ -9606,7 +9607,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SIDCART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_SIDCART_DE, "SID Modul deaktivieren"},
-/* es */ {IDCLS_DISABLE_SIDCART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_SIDCART_ES, "Deshabilitar cartucho SID"},
 /* fr */ {IDCLS_DISABLE_SIDCART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SIDCART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SIDCART_IT, ""},  /* fuzzy */
@@ -9657,7 +9658,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SID_3_ADDRESS_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SPECIFY_SID_3_ADDRESS_DE, "Basis Adresse für dritten SID definieren"},
-/* es */ {IDCLS_SPECIFY_SID_3_ADDRESS_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SPECIFY_SID_3_ADDRESS_ES, "Especificar dirección base para el tercer SID"},
 /* fr */ {IDCLS_SPECIFY_SID_3_ADDRESS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SID_3_ADDRESS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SPECIFY_SID_3_ADDRESS_IT, ""},  /* fuzzy */
@@ -9726,7 +9727,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_PERCENT_DA, "<procent>"},
 /* de */ {IDCLS_P_PERCENT_DE, "<prozent>"},
-/* es */ {IDCLS_P_PERCENT_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_PERCENT_ES, "<porcentaje>"},
 /* fr */ {IDCLS_P_PERCENT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_PERCENT_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_PERCENT_IT, "<percento>"},
@@ -9795,7 +9796,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_STRETCH_VERTICAL_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_STRETCH_VERTICAL_DE, "Aktiviere zusätzliche Vertikalstreckung."},
-/* es */ {IDCLS_ENABLE_STRETCH_VERTICAL_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_STRETCH_VERTICAL_ES, "Permitir extensión vertical adicional"},
 /* fr */ {IDCLS_ENABLE_STRETCH_VERTICAL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_STRETCH_VERTICAL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_STRETCH_VERTICAL_IT, ""},  /* fuzzy */
@@ -9812,7 +9813,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_STRETCH_VERTICAL_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_STRETCH_VERTICAL_DE, "Deaktiviere zusätzliche Vertikalstreckung."},
-/* es */ {IDCLS_DISABLE_STRETCH_VERTICAL_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_STRETCH_VERTICAL_ES, "Inhabilitar extensión vertical adicional"},
 /* fr */ {IDCLS_DISABLE_STRETCH_VERTICAL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_STRETCH_VERTICAL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_STRETCH_VERTICAL_IT, ""},  /* fuzzy */
@@ -9863,7 +9864,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_VDC_REVISION_DA, "Angiv VDC-revision (0..2)"},
 /* de */ {IDCLS_SET_VDC_REVISION_DE, "VDC Revision setzen (0..2)"},
-/* es */ {IDCLS_SET_VDC_REVISION_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_VDC_REVISION_ES, "Poner revisión VDC (0..2)"},
 /* fr */ {IDCLS_SET_VDC_REVISION_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_VDC_REVISION_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_VDC_REVISION_IT, "Imposta la revisione del VDC (0..2)"},
@@ -9880,7 +9881,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SPEC_DA, "<spec>"},
 /* de */ {IDCLS_P_SPEC_DE, "<Spec>"},
-/* es */ {IDCLS_P_SPEC_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_SPEC_ES, "<especificaciones>"},
 /* fr */ {IDCLS_P_SPEC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_SPEC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SPEC_IT, "<spec>"},
@@ -10441,7 +10442,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_VIDEO_FILTER_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SET_VIDEO_FILTER_DE, "Wähle Rendering Filter, 0:kein, 1:CRT Emulation, 2: Scale2x"},
-/* es */ {IDCLS_SET_VIDEO_FILTER_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_VIDEO_FILTER_ES, "Seleccionar filtro de renderizador, 0:no, 1:emulación CRT, 2: escala2x"},
 /* fr */ {IDCLS_SET_VIDEO_FILTER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_VIDEO_FILTER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_VIDEO_FILTER_IT, ""},  /* fuzzy */
@@ -10509,7 +10510,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_DEVICE_DA, "<enhed>"},
 /* de */ {IDCLS_P_DEVICE_DE, "<Gerät>"},
-/* es */ {IDCLS_P_DEVICE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_DEVICE_ES, "<periférico>"},
 /* fr */ {IDCLS_P_DEVICE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_DEVICE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_DEVICE_IT, "<dispositivo>"},
@@ -11301,7 +11302,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_FILE_DA, "<filnavn>"},
 /* de */ {IDCLS_P_FILE_DE, "<Dateiname>"},
-/* es */ {IDCLS_P_FILE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_FILE_ES, "<Nombre fichero>"},
 /* fr */ {IDCLS_P_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_FILE_IT, "<nome file>"},
@@ -11454,7 +11455,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_STRING_DA, "<streng>"},
 /* de */ {IDCLS_P_STRING_DE, "<String>"},
-/* es */ {IDCLS_P_STRING_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_STRING_ES, "<cadena>"},
 /* fr */ {IDCLS_P_STRING_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_STRING_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_STRING_IT, "<stringa>"},
@@ -11573,7 +11574,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"},
-/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratón  (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST)"},
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
@@ -11641,7 +11642,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NUM_OF_BYTES_DA, "<antal bytes>"},
 /* de */ {IDCLS_P_NUM_OF_BYTES_DE, "<Anzahl an Bytes>"},
-/* es */ {IDCLS_P_NUM_OF_BYTES_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_NUM_OF_BYTES_ES, "<número de bytes>"},
 /* fr */ {IDCLS_P_NUM_OF_BYTES_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_NUM_OF_BYTES_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_NUM_OF_BYTES_IT, "<numero di byte>"},
@@ -11794,7 +11795,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ARGS_DA, "<argumenter>"},
 /* de */ {IDCLS_P_ARGS_DE, "<Argumente>"},
-/* es */ {IDCLS_P_ARGS_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_ARGS_ES, "<argumentos>"},
 /* fr */ {IDCLS_P_ARGS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_ARGS_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ARGS_IT, "<argomenti>"},
@@ -11862,7 +11863,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_SYNC_DA, "<sync>"},
 /* de */ {IDCLS_P_SYNC_DE, "<Sync>"},
-/* es */ {IDCLS_P_SYNC_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_SYNC_ES, "<sincronía>"},
 /* fr */ {IDCLS_P_SYNC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_SYNC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_SYNC_IT, "<sync>"},
@@ -11896,7 +11897,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_PATH_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_P_PATH_DE, "<Pfad>"},
-/* es */ {IDCLS_P_PATH_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_PATH_ES, "<Camino>"},
 /* fr */ {IDCLS_P_PATH_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_PATH_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_PATH_IT, ""},  /* fuzzy */
@@ -12032,7 +12033,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ISO_LANGUAGE_CODE_DA, "<iso-sprogkode>"},
 /* de */ {IDCLS_P_ISO_LANGUAGE_CODE_DE, "<iso Sprachcode>"},
-/* es */ {IDCLS_P_ISO_LANGUAGE_CODE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_ISO_LANGUAGE_CODE_ES, "<código ISO idioma>"},
 /* fr */ {IDCLS_P_ISO_LANGUAGE_CODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_ISO_LANGUAGE_CODE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ISO_LANGUAGE_CODE_IT, "<codice iso lingua>"},
@@ -12304,7 +12305,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_DE, "Silverrock 128 Erweiterungsmodul (raw) Image einlegen"},
-/* es */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_ES, "Insertar imagen cartucho Silverrock 128"},
 /* fr */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ATTACH_RAW_SILVERROCK_128_CART_IT, ""},  /* fuzzy */
@@ -12525,7 +12526,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_C64DTVROM_RW_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_C64DTVROM_RW_DE, "Schreibzugriff auf C64DTV ROM Image verhindern"},
-/* es */ {IDCLS_DISABLE_C64DTVROM_RW_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_C64DTVROM_RW_ES, "Deshabilitar grabación en imagen  C64DTV ROM"},
 /* fr */ {IDCLS_DISABLE_C64DTVROM_RW_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_C64DTVROM_RW_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_C64DTVROM_RW_IT, ""},  /* fuzzy */
@@ -12769,7 +12770,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_SIDCARTJOY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SIDCARTJOY_HU, "SID cartridge botkormány engedélyezése"},
 /* it */ {IDCLS_ENABLE_SIDCARTJOY_IT, "Attiva joystick su cartuccia SID"},
-/* ko */ {IDCLS_ENABLE_SIDCARTJOY_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_SIDCARTJOY_KO, "SID Ä«Æ®¸®Áö Á¶ÀÌ½ºÆ½ »ç¿ëÇÏ±â"},
 /* nl */ {IDCLS_ENABLE_SIDCARTJOY_NL, "Activeer SID cartridge joystick"},
 /* pl */ {IDCLS_ENABLE_SIDCARTJOY_PL, "W³±cz joystick kartrid¿a SID"},
 /* ru */ {IDCLS_ENABLE_SIDCARTJOY_RU, ""},  /* fuzzy */
@@ -12786,7 +12787,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_DISABLE_SIDCARTJOY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SIDCARTJOY_HU, "SID cartridge botkormány tiltása"},
 /* it */ {IDCLS_DISABLE_SIDCARTJOY_IT, "Disattiva joystick su cartuccia SID"},
-/* ko */ {IDCLS_DISABLE_SIDCARTJOY_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_SIDCARTJOY_KO, "SID Ä«Æ®¸®Áö Á¶ÀÌ½ºÆ½ »ç¿ëÇÏÁö ¾Ê±â"},
 /* nl */ {IDCLS_DISABLE_SIDCARTJOY_NL, "De SID cartridge joystick uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SIDCARTJOY_PL, "Wy³±cz joystick kartrid¿a SID"},
 /* ru */ {IDCLS_DISABLE_SIDCARTJOY_RU, ""},  /* fuzzy */
@@ -12799,7 +12800,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SFX_SE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_ENABLE_SFX_SE_DE, "SFX Soundexpander Modul aktivieren"},
-/* es */ {IDCLS_ENABLE_SFX_SE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_SFX_SE_ES, "Permitir cartucho SFX Sound Expander"},
 /* fr */ {IDCLS_ENABLE_SFX_SE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SFX_SE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SFX_SE_IT, ""},  /* fuzzy */
@@ -12816,7 +12817,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SFX_SE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_SFX_SE_DE, "SFX Soundexpander Modul deaktivieren"},
-/* es */ {IDCLS_DISABLE_SFX_SE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_SFX_SE_ES, "Deshabilitar cartucho SFX Sound Expander"},
 /* fr */ {IDCLS_DISABLE_SFX_SE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SFX_SE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SFX_SE_IT, ""},  /* fuzzy */

@@ -87,7 +87,7 @@ STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "Ajustes REU"
-  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
+  IDS_REU_ENABLE       "Permitir unidad RAM expansion"
   IDS_REU_SIZE         "Tamaño REU"
   IDS_REU_WRITE_ENABLE "Grabar imagen REU cuando cambie"
   IDS_REU_FILE         "Fichero REU"

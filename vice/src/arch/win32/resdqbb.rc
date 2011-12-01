@@ -81,7 +81,7 @@ STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_DQBB  "Seleccionar fichero para DQBB"
-  IDS_DQBB_CAPTION      "Double Quick Brown Box settings"
+  IDS_DQBB_CAPTION      "Ajustes Double Quick Brown Box"
   IDS_DQBB_ENABLE       "Permitir Double Quick Brown Box"
   IDS_DQBB_WRITE_ENABLE "Grabar imagen DQBB cuando cambie"
   IDS_DQBB_FILE_LABEL   "Fichero DQBB"

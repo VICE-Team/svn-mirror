@@ -65,7 +65,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_V364SPEECH_CAPTION     "V364 Speech settings"
+  IDS_V364SPEECH_CAPTION     "Ajustes V364 Speech"
   IDS_V364SPEECH_ENABLE      "Permitir complementos v364 speech"
   IDS_V364SPEECH_FILE        "Fichero ROM  V364 Speech"
   IDS_V364SPEECH_SELECT_FILE "Seleccionar fichero ROM para  V364 Speech"

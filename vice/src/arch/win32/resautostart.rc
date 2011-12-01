@@ -102,7 +102,7 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_AUTOSTART_CAPTION                    "Ajustes de autoinicio"
     IDS_AUTOSTART_WARP                       "Autoarranque Warp"
-    IDS_AUTOSTART_COLON_RUN                  "Usar ':' with RUN"
+    IDS_AUTOSTART_COLON_RUN                  "Usar ':' con RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Cargar a inicio BASIC"
     IDS_AUTOSTART_PRG_MODE                   "Modo autoarranque PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "Autoarranque imagen disco PRG"

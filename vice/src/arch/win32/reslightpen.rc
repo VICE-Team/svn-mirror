@@ -60,7 +60,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "Lightpen settings"
+    IDS_LIGHTPEN_CAPTION "Ajustes lápiz óptico"
     IDS_LIGHTPEN_ENABLE  "Permitir emulación lápiz óptico"
     IDS_LIGHTPEN_TYPE    "Tipo de lápiz óptico"
 END

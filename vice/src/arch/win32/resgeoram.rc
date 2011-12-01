@@ -117,7 +117,7 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_GEORAM  "Seleccionar fichero para GEO-RAM"
   IDS_GEORAM_CAPTION      "Ajustes GEO-RAM"
-  IDS_GEORAM_ENABLE       "Enable the GEO-RAM expansion unit"
+  IDS_GEORAM_ENABLE       "Permitir unidad expansión GEO-RAM"
   IDS_GEORAM_SIZE_LABEL   "Tamaño GEO-RAM"
   IDS_GEORAM_WRITE_ENABLE "Grabar imagen GEO-RAM cuando cambie"
   IDS_GEORAM_FILE_LABEL   "Fihcero GEO-RAM"

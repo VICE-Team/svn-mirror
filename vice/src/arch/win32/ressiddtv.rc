@@ -132,7 +132,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Remuestreo rápido"
   IDS_SID_RESID_GROUP    "Opciones reSID/reSID-fp"
   IDS_SID_RESID_SAMPLE   "Método de muestreo"
-  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
+  IDS_SID_RESID_PASSBAND "Pasabanda (0..90%)"
   IDS_HARDSID_GROUP      "Selección de periférico"
   IDS_HARDSID_LEFT_LABEL "Periférico principal"
 END

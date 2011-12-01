@@ -107,7 +107,7 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MMC64_ENABLE           "Permitir expansión MMC64"
   IDS_MMC64_REVISION_LABEL   "Revisión BIOS"
-  IDS_MMC64_FLASHJUMPER      "Enable BIOS Flash Jumper"
+  IDS_MMC64_FLASHJUMPER      "Permitir BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Grabar BIOS cuando cambien"
   IDS_MMC64_BIOS_FILE_LABEL  "Fichero BIOS"
   IDS_MMC64_IMAGE_RO         "Imagen MMC/SD de sólo lectura"

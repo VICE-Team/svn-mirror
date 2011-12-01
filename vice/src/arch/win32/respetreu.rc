@@ -81,7 +81,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU settings"
+    IDS_PETREU_CAPTION     "Ajustes PET REU"
     IDS_PETREU_ENABLE      "Permitir PET ram y Unidad Expansión"
     IDS_PETREU_SIZE        "Tamaño REU PET"
     IDS_PETREU_FILE        "Fichero REU PET"
