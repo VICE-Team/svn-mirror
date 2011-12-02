@@ -1214,17 +1214,9 @@ static int magicvoice_common_attach(void)
 
 int magicvoice_bin_attach(const char *filename, BYTE *rawcart)
 {
-    FILE *fd;
-
-    fd = fopen(filename, MODE_READ);
-    if (!fd) {
+    if (util_file_load(filename, rawcart, MV_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
-    if (fread(rawcart, MV_ROM_SIZE, 1, fd) < 1) {
-        fclose(fd);
-        return -1;
-    }
-    fclose(fd);
     return magicvoice_common_attach();
 }
 

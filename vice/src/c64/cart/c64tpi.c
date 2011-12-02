@@ -592,19 +592,11 @@ static int tpi_common_attach(void)
 
 int tpi_bin_attach(const char *filename, BYTE *rawcart)
 {
-    FILE *fd;
     DBG(("TPI: tpi_bin_attach\n"));
 
-    fd = fopen(filename, MODE_READ);
-    if (!fd) {
+    if (util_file_load(filename, rawcart, TPI_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
-    if (fread(rawcart, TPI_ROM_SIZE, 1, fd) < 1) {
-        fclose(fd);
-        return -1;
-    }
-    fclose(fd);
-
     return tpi_common_attach();
 }
 

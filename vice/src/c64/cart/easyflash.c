@@ -50,6 +50,7 @@
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"
+#include "util.h"
 
 #define EASYFLASH_N_BANK_BITS 6
 #define EASYFLASH_N_BANKS     (1 << (EASYFLASH_N_BANK_BITS))
@@ -345,24 +346,12 @@ static int easyflash_common_attach(const char *filename)
 
 int easyflash_bin_attach(const char *filename, BYTE *rawcart)
 {
-    FILE *fd;
-
     easyflash_filetype = 0;
 
-    if (filename == NULL) {
+    if (util_file_load(filename, rawcart, 0x4000 * EASYFLASH_N_BANKS, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
 
-    fd = fopen(filename, MODE_READ);
-    if (fd == NULL) {
-        return -1;
-    }
-
-    if ((fread(rawcart, 0x4000 * EASYFLASH_N_BANKS, 1, fd) < 1)) {
-        fclose(fd);
-        return -1;
-    }
-    fclose(fd);
     easyflash_filetype = CARTRIDGE_FILETYPE_BIN;
     return easyflash_common_attach(filename);
 }
