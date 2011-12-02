@@ -366,6 +366,7 @@ static BYTE tfe_read(WORD io_address)
     if (tfe_as_rr_net) {
         /* rr status register is handled by rr cartidge */
         if (io_address < 0x02) {
+            tfe_current_device->io_source_valid = 0;
             return 0;
         }
         io_address ^= 0x08;
