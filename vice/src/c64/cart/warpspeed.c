@@ -41,6 +41,7 @@
 #include "types.h"
 #include "util.h"
 #include "warpspeed.h"
+#include "crt.h"
 
 /*
     Warpspeed
@@ -160,17 +161,17 @@ int warpspeed_bin_attach(const char *filename, BYTE *rawcart)
 
 int warpspeed_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (chipheader[0xc] != 0x80 || chipheader[0xe] != 0x40) {
+    if (chip.start != 0x8000 || chip.size != 0x4000) {
         return -1;
     }
 
-    if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 

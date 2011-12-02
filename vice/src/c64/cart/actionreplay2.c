@@ -40,6 +40,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /*
     FIXME: everything here is purely guesswork and doesnt quite work like it should
@@ -473,19 +474,19 @@ int actionreplay2_bin_attach(const char *filename, BYTE *rawcart)
 
 int actionreplay2_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
     int i;
 
     for (i = 0; i <= 1; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             return -1;
         }
 
-        if (chipheader[0xb] > 1) {
+        if (chip.bank > 1 || chip.size != 0x2000) {
             return -1;
         }
 
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+        if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
     }

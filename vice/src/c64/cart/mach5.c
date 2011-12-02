@@ -40,6 +40,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /*
     This cart has 8Kb ROM mapped at $8000-$9FFF.
@@ -158,21 +159,23 @@ int mach5_bin_attach(const char *filename, BYTE *rawcart)
 
 int mach5_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (chipheader[6] == 0x10) {
-        if (fread(rawcart, 0x1000, 1, fd) < 1) {
+    if (chip.size == 0x1000) {
+        if (crt_read_chip(rawcart, 0, &chip, fd)) {
             return -1;
         }
         memcpy(&rawcart[0x1000], rawcart, 0x1000);
-    } else {
-        if (fread(rawcart, 0x2000, 1, fd) < 1) {
+    } else if (chip.size == 0x2000) {
+        if (crt_read_chip(rawcart, 0, &chip, fd)) {
             return -1;
         }
+    } else {
+        return -1;
     }
 
     return mach5_common_attach();

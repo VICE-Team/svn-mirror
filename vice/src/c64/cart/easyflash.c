@@ -374,38 +374,33 @@ int easyflash_bin_attach(const char *filename, BYTE *rawcart)
 
 int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename)
 {
-    BYTE chipheader[0x10];
-    WORD bank, offset, length;
+    crt_chip_header_t chip;
+    BYTE temp[0x4000];
 
     easyflash_filetype = 0;
     memset(rawcart, 0xff, 0x100000);
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
 
-        bank = (chipheader[0xa] << 8) | chipheader[0xb];
-        offset = (chipheader[0xc] << 8) | chipheader[0xd];
-        length = (chipheader[0xe] << 8) | chipheader[0xf];
-
-        if (length == 0x2000) {
-            if (bank >= EASYFLASH_N_BANKS || !(offset == 0x8000 || offset == 0xa000 || offset == 0xe000)) {
+        if (chip.size == 0x2000) {
+            if (chip.bank >= EASYFLASH_N_BANKS || !(chip.start == 0x8000 || chip.start == 0xa000 || chip.start == 0xe000)) {
                 return -1;
             }
-            if (fread(&rawcart[(bank << 13) | (offset == 0x8000 ? 0<<19 : 1<<19)], 0x2000, 1, fd) < 1) {
+            if (crt_read_chip(rawcart, (chip.bank << 13) | (chip.start == 0x8000 ? 0<<19 : 1<<19), &chip, fd)) {
                 return -1;
             }
-        } else if (length == 0x4000) {
-            if (bank >= EASYFLASH_N_BANKS || offset != 0x8000) {
+        } else if (chip.size == 0x4000) {
+            if (chip.bank >= EASYFLASH_N_BANKS || chip.start != 0x8000) {
                 return -1;
             }
-            if (fread(&rawcart[(bank << 13) | (0<<19)], 0x2000, 1, fd) < 1) {
+            if (crt_read_chip(temp, 0, &chip, fd)) {
                 return -1;
             }
-            if (fread(&rawcart[(bank << 13) | (1<<19)], 0x2000, 1, fd) < 1) {
-                return -1;
-            }
+            memcpy(&rawcart[(chip.bank << 13) | (0<<19)], temp, 0x2000);
+            memcpy(&rawcart[(chip.bank << 13) | (1<<19)], temp + 0x2000, 0x2000);
         } else {
             return -1;
         }

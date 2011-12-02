@@ -226,24 +226,23 @@ int generic_ultimax_bin_attach(const char *filename, BYTE *rawcart)
 */
 int generic_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
-    int crttype = -1;
+    crt_chip_header_t chip;
+    int crttype;
 
     export_res_ultimax.game = 0;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    DBG(("chip1 at %02x len %02x\n", chipheader[0xc], chipheader[0xe]));
-    if (chipheader[0xc] == 0x80 && chipheader[0xe] != 0 && chipheader[0xe] <= 0x40) {
-        if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
+    DBG(("chip1 at %02x len %02x\n", chip.start, chip.size));
+    if (chip.start == 0x8000 && chip.size > 0 && chip.size <= 0x4000) {
+        if (crt_read_chip(rawcart, 0, &chip, fd)) {
             return -1;
         }
-        crttype = (chipheader[0xe] <= 0x20) ? CARTRIDGE_GENERIC_8KB : CARTRIDGE_GENERIC_16KB;
-        DBG(("type %d\n", crttype));
         /* try to read next CHIP header in case of 16k Ultimax cart */
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
+            crttype = (chip.size <= 0x2000) ? CARTRIDGE_GENERIC_8KB : CARTRIDGE_GENERIC_16KB;
             DBG(("type %d (generic game)\n", crttype));
             if (generic_common_attach(crttype) < 0) {
                 return -1;
@@ -252,11 +251,11 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
         } else {
             export_res_ultimax.game = 1;
         }
-        DBG(("chip2 at %02x len %02x\n", chipheader[0xc], chipheader[0xe]));
+        DBG(("chip2 at %02x len %02x\n", chip.start, chip.size));
     }
 
-    if (chipheader[0xc] >= 0xe0 && chipheader[0xe] != 0 && (chipheader[0xe] + chipheader[0xc]) == 0x100) {
-        if (fread(rawcart + ((chipheader[0xc] << 8) & 0x3fff), chipheader[0xe] << 8, 1, fd) < 1) {
+    if (chip.start >= 0xe000 && chip.size > 0 && (chip.size + chip.start) == 0x10000) {
+        if (crt_read_chip(rawcart, chip.start & 0x3fff, &chip, fd)) {
             return -1;
         }
         if (generic_common_attach(CARTRIDGE_ULTIMAX) < 0) {

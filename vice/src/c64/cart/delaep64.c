@@ -42,6 +42,7 @@
 #include "types.h"
 #include "util.h"
 #include "vicii-phi1.h"
+#include "crt.h"
 
 /*
  * for cart schematics, see http://a98.shuttle.de/~michael/dela-ep64/
@@ -211,10 +212,8 @@ int delaep64_bin_attach(const char *filename, BYTE *rawcart)
 
 int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    WORD chip;
-    WORD size;
-    WORD rom_size = 0;
-    BYTE chipheader[0x10];
+    int rom_size = -1;
+    crt_chip_header_t chip;
 
     /*
      * 0x00000-0x01fff: 2764
@@ -223,52 +222,45 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
      */
     memset(rawcart, 0xff, 0x12000);
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
-
-    chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
-    size = (chipheader[0x0e] << 8) + chipheader[0x0f];
 
     /* First handle the base image */
-    if (size != 0x2000) {
+    if (chip.size != 0x2000) {
         return -1;
     }
 
-    if (fread(rawcart, 0x2000, 1, fd) < 1) {
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
 
-        chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
-        size = (chipheader[0x0e] << 8) + chipheader[0x0f];
-
         /* check for the size of the following rom images,
            they can be of either 0x2000 or 0x8000 */
-        if (size != 0x2000 && size != 0x8000) {
+        if (chip.size != 0x2000 && chip.size != 0x8000) {
             return -1;
         }
 
         /* make sure all rom images are of the same size */
-        if (rom_size == 0) {
-            rom_size = size;
-        } else {
-            if (size != rom_size) {
-                return -1;
-            }
+        if (rom_size < 0) {
+            rom_size = chip.size;
+        } 
+        if (chip.size != rom_size) {
+            return -1;
         }
 
         /* maximum of 2 32kb or 8 8kb images allowed */
-        if ((rom_size == 0x8000 && chip > 2) || (rom_size == 0x2000 && chip > 8)) {
+        if ((rom_size == 0x8000 && chip.bank > 2) || (rom_size == 0x2000 && chip.bank > 8)) {
             return -1;
         }
 
         /* put the images in the right place */
-        if (fread(rawcart + 0x2000 + ((chip - 1) * rom_size), size , 1, fd) < 1) {
+        if (crt_read_chip(rawcart, 0x2000 + ((chip.bank - 1) * rom_size), &chip, fd)) {
             return -1;
         }
     }

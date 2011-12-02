@@ -46,6 +46,7 @@
 #include "stardos.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /*  the stardos hardware is kindof perverted. it has two "registers", which
     are nothing more than the IO1 and/or IO2 line connected to a capacitor.
@@ -340,22 +341,21 @@ int stardos_bin_attach(const char *filename, BYTE *rawcart)
 
 int stardos_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
+    int i;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
-        return -1;
-    }
+    for (i = 0; i < 2; i++) {
+        if (crt_read_chip_header(fd, &chip)) {
+            return -1;
+        }
 
-    if (fread(&rawcart[0x0000], 0x2000, 1, fd) < 1) {
-        return -1;
-    }
+        if (chip.size != 0x2000 || (chip.start != 0x8000 && chip.start != 0xe000)) {
+            return -1;
+        }
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
-        return -1;
-    }
-
-    if (fread(&rawcart[0x2000], 0x2000, 1, fd) < 1) {
-        return -1;
+        if (crt_read_chip(rawcart, chip.start & 0x2000, &chip, fd)) {
+            return -1;
+        }
     }
 
     return stardos_common_attach();

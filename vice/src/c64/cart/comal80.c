@@ -42,6 +42,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /*
     Comal80 Cartridge
@@ -142,18 +143,18 @@ int comal80_bin_attach(const char *filename, BYTE *rawcart)
 
 int comal80_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
 
-        if (chipheader[0xc] != 0x80 && chipheader[0xe] != 0x40 && chipheader[0xb] > 3) {
+        if (chip.start != 0x8000 || chip.size != 0x4000 || chip.bank > 3) {
             return -1;
         }
 
-        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
+        if (crt_read_chip(rawcart, chip.bank << 14, &chip, fd)) {
             return -1;
         }
     }

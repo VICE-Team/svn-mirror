@@ -34,6 +34,7 @@
 #include "crt.h"
 #include "resources.h"
 #include "types.h"
+#include "c64cart.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "actionreplay.h"
@@ -145,6 +146,59 @@ int crt_getid(const char *filename)
     fclose(fd);
 
     return header[0x17] + header[0x16] * 256;
+}
+
+/*
+    Read and pharse chip header, return -1 on fault
+*/
+int crt_read_chip_header(FILE *fd, crt_chip_header_t *header)
+{
+    BYTE chipheader[0x10];
+
+    if (fread(chipheader, sizeof(chipheader), 1, fd) < 1) {
+        return -1; /* couldn't read header */
+    }
+    if (memcmp(chipheader, CHIP_HEADER, 4)) {
+        return -1; /* invalid header signature */
+    }
+
+    header->skip = (chipheader[4] << 24) | chipheader[5] << 16;
+    header->skip |= (chipheader[6] << 8) | chipheader[7];
+
+    if (header->skip < sizeof(chipheader)) {
+        return -1; /* invalid packet size */
+    }
+    header->skip -= sizeof(chipheader); /* without header */
+
+    header->size = (chipheader[14] << 8) | chipheader[15];
+    if (header->size > header->skip) {
+        return -1; /* rom bigger then total size?! */
+    }
+    header->skip -= header->size; /* skip size after image */
+    header->type = (chipheader[8] << 8) | chipheader[9];
+    header->bank = (chipheader[10] << 8) | chipheader[11];
+    header->start = (chipheader[12] << 8) | chipheader[13];
+
+    if (header->start + header->size > 0x10000) {
+        return -1; /* rom crossing the 64k boundary?! */
+    }
+
+    return 0;
+}
+/*
+    Read chip data, return -1 on error
+*/
+int crt_read_chip(BYTE *rawcart, int offset, crt_chip_header_t *chip, FILE *fd)
+{
+    if (offset + chip->size > C64CART_IMAGE_LIMIT) {
+        return -1; /* overflow */
+    }
+    if (fread(&rawcart[offset], chip->size, 1, fd) < 1) {
+        return -1; /* eof?! */
+    }
+    fseek(fd, chip->skip, SEEK_CUR); /* skip the rest */
+
+    return 0;
 }
 
 /*

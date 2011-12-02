@@ -48,6 +48,7 @@
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "expert.h"
@@ -658,13 +659,17 @@ int expert_bin_save(const char *filename)
 
 static int expert_crt_load(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (fread(rawcart, EXPERT_RAM_SIZE, 1, fd) < 1) {
+    if (chip.size != EXPERT_RAM_SIZE) {
+        return -1;
+    }
+
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
     expert_filetype = CARTRIDGE_FILETYPE_CRT;

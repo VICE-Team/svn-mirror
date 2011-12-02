@@ -42,6 +42,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /*
     32 banks, 8k each == 256kb
@@ -150,20 +151,20 @@ int p64_bin_attach(const char *filename, BYTE *rawcart)
 
 int p64_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
     int i, cnt = 0;
 
     for (i = 0; i <= 0x1f; i++) {
 
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
 
-        if (chipheader[0xb] > 0x1f) {
+        if (chip.bank > 0x1f || chip.size != 0x2000) {
             return -1;
         }
 
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+        if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
         cnt++;

@@ -42,6 +42,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /* This eprom system by REX is similair to the EP64. It can handle
    what the EP64 can handle, plus the following features :
@@ -201,9 +202,7 @@ int rexep256_bin_attach(const char *filename, BYTE *rawcart)
 
 int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    WORD chip;
-    WORD size;
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
     int rexep256_total_size = 0;
     int i;
 
@@ -214,45 +213,39 @@ int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
         rexep256_eprom_roml_bank_offset[i] = 0x1f;
     }
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
-    size = (chipheader[0x0e] << 8) + chipheader[0x0f];
-
-    if (size != 0x2000) {
+    if (chip.size != 0x2000) {
         return -1;
     }
 
-    if (fread(rawcart, 0x2000, 1, fd) < 1) {
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
 
-        chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
-        size = (chipheader[0x0e] << 8) + chipheader[0x0f];
-
-        if (size != 0x2000 && size != 0x4000 && size != 0x8000) {
+        if (chip.size != 0x2000 && chip.size != 0x4000 && chip.size != 0x8000) {
             return -1;
         }
 
-        if (chip > 8) {
+        if (chip.bank > 8) {
             return -1;
         }
 
-        rexep256_eprom[chip - 1] = size;
-        rexep256_eprom_roml_bank_offset[chip - 1] = rexep256_total_size >> 13;
+        rexep256_eprom[chip.bank - 1] = chip.size;
+        rexep256_eprom_roml_bank_offset[chip.bank - 1] = rexep256_total_size >> 13;
 
-        if (fread(rawcart + 0x2000 + rexep256_total_size, size, 1, fd) < 1) {
+        if (crt_read_chip(rawcart, 0x2000 + rexep256_total_size, &chip, fd)) {
             return -1;
         }
 
-        rexep256_total_size = rexep256_total_size + size;
+        rexep256_total_size = rexep256_total_size + chip.size;
     }
     return rexep256_common_attach();
 }

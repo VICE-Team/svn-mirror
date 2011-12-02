@@ -2505,7 +2505,7 @@ int mmcreplay_bin_attach(const char *filename, BYTE *rawcart)
 
 int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
     int i;
 
     mmcr_filetype = 0;
@@ -2514,15 +2514,15 @@ int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
     memset(rawcart, 0xff, 0x80000);
 
     for (i = 0; i <= 63; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
 
-        if (chipheader[0xb] > 63) {
+        if (chip.bank > 63) {
             return -1;
         }
 
-        if (fread(&rawcart[chipheader[0xb] << 13], 0x2000, 1, fd) < 1) {
+        if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
     }

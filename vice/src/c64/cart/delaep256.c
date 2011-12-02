@@ -41,6 +41,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /* This eprom system by DELA is similair to the EP64. It can handle
    what the EP64 can handle, plus the following features :
@@ -170,29 +171,20 @@ int delaep256_bin_attach(const char *filename, BYTE *rawcart)
 
 int delaep256_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    WORD chip;
-    WORD size;
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
     memset(rawcart, 0xff, 0x42000);
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
 
-        chip = (chipheader[0x0a] << 8) + chipheader[0x0b];
-        size = (chipheader[0x0e] << 8) + chipheader[0x0f];
-
-        if (size != 0x2000) {
+        if (chip.bank > 32 || chip.size != 0x2000) {
             return -1;
         }
 
-        if (chip > 32) {
-            return -1;
-        }
-
-        if (fread(rawcart + (chip << 13), 0x2000, 1, fd) < 1) {
+        if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
     }

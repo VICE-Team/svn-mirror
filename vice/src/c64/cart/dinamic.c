@@ -40,6 +40,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /* #define DBGDINAMIC */
 
@@ -142,19 +143,18 @@ int dinamic_bin_attach(const char *filename, BYTE *rawcart)
 
 int dinamic_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
-    int bank;
+    crt_chip_header_t chip;
 
     while (1) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             break;
         }
-        bank = chipheader[0xb];
 
-        if ((bank >= 16) || (chipheader[0xc] != 0x80)) {
+        if (chip.bank > 15 || chip.size != 0x2000 || chip.start != 0x8000) {
             return -1;
         }
-        if (fread(&rawcart[bank << 13], 0x2000, 1, fd) < 1) {
+
+        if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
     }

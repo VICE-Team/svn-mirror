@@ -40,6 +40,7 @@
 #include "types.h"
 #include "util.h"
 #include "zaxxon.h"
+#include "crt.h"
 
 /*
     this cart uses 4Kb mapped in at $8000-$8FFF and mirrored at $9000-$9FFF
@@ -108,30 +109,38 @@ int zaxxon_bin_attach(const char *filename, BYTE *rawcart)
 
 int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
     int i;
 
     /* first CHIP header holds $8000-$a000 data */
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (chipheader[0xc] != 0x80 || (chipheader[0xe] != 0x10 && chipheader[0xe] != 0x20) || fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
+    if (chip.start != 0x8000 || (chip.size != 0x1000 && chip.size != 0x2000)) {
+        return -1;
+    }
+
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 
     /* 4kB ROM is mirrored to $9000 */
-    if (chipheader[0xe] == 0x10) {
+    if (chip.size == 0x1000) {
         memcpy(&rawcart[0x1000], &rawcart[0x0000], 0x1000);
     }
 
     /* second/third CHIP headers hold $a000-$c000 banked data */
     for (i = 0; i <= 1; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             return -1;
         }
 
-        if (chipheader[0xc] != 0xa0 || chipheader[0xe] != 0x20 || fread(&rawcart[0x2000+(chipheader[0xb] << 13)], 0x2000, 1, fd) < 1) {
+        if (chip.start != 0xa000 || chip.size != 0x2000 || chip.bank > 1) {
+            return -1;
+        }
+
+        if (crt_read_chip(rawcart, 0x2000 + (chip.bank << 13), &chip, fd)) {
             return -1;
         }
     }

@@ -41,6 +41,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /* #define GKDEBUG */
 
@@ -188,17 +189,17 @@ int gamekiller_bin_attach(const char *filename, BYTE *rawcart)
 
 int gamekiller_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (chipheader[0xb] > 0) {
+    if (chip.bank > 0 || chip.size != GAME_KILLER_CART_SIZE) {
         return -1;
     }
 
-    if (fread(rawcart, GAME_KILLER_CART_SIZE, 1, fd) < 1) {
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 

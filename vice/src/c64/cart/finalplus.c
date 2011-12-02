@@ -41,6 +41,7 @@
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 /* #define DEBUGFC */
 
@@ -246,18 +247,18 @@ int final_plus_bin_attach(const char *filename, BYTE *rawcart)
 
 int final_plus_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
     DBG(("fc+ crt attach\n"));
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (chipheader[0xe] != 0x80) {
+    if (chip.size != 0x8000) {
         return -1;
     }
 
-    if (fread(rawcart, chipheader[0xe] << 8, 1, fd) < 1) {
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 

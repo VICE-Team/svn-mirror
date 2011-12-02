@@ -642,13 +642,17 @@ int isepic_bin_save(const char *filename)
 
 static int isepic_crt_load(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (fread(rawcart, ISEPIC_RAM_SIZE, 1, fd) < 1) {
+    if (chip.size != ISEPIC_RAM_SIZE) {
+        return -1;
+    }
+
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 

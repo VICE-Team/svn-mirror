@@ -60,6 +60,7 @@
 #include "vicii-phi1.h"
 #include "ata.h"
 #include "monitor.h"
+#include "crt.h"
 
 #ifdef IDE64_DEBUG
 #define debug(x) log_debug(x)
@@ -1062,26 +1063,26 @@ int ide64_bin_attach(const char *filename, BYTE *rawcart)
 
 int ide64_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
     int i;
 
     for (i = 0; i <= 7; i++) {
-        if (fread(chipheader, 0x10, 1, fd) < 1) {
+        if (crt_read_chip_header(fd, &chip)) {
             if (i == 4) {
                 break;
             }
             return -1;
         }
 
-        if (chipheader[0xc] != 0x80 || chipheader[0xe] != 0x40) {
+        if (chip.start != 0x8000 || chip.size != 0x4000) {
             return -1;
         }
 
-        if (chipheader[0xb] > 7) {
+        if (chip.bank > 7) {
             return -1;
         }
 
-        if (fread(&rawcart[chipheader[0xb] << 14], 0x4000, 1, fd) < 1) {
+        if (crt_read_chip(rawcart, chip.bank << 14, &chip, fd)) {
             return -1;
         }
     }

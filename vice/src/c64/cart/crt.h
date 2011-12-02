@@ -29,8 +29,18 @@
 
 #include "types.h"
 
+typedef struct crt_chip_header_s {
+    unsigned int skip;       /* bytes to skip after ROM */
+    int type;                /* chip type */
+    int bank;                /* bank number */
+    int start;               /* start address of ROM */
+    int size;                /* size of ROM in bytes */
+} crt_chip_header_t;
+
 extern int crt_attach(const char *filename, BYTE *rawcart);
 extern int crt_getid(const char *filename);
+extern int crt_read_chip_header(FILE *fd, crt_chip_header_t *header);
+extern int crt_read_chip(BYTE *rawcart, int offset, crt_chip_header_t *chip, FILE *fd);
 
 extern const char CRT_HEADER[];
 extern const char CHIP_HEADER[];

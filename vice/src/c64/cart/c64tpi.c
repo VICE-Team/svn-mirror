@@ -52,6 +52,7 @@
 #include "translate.h"
 #include "types.h"
 #include "util.h"
+#include "crt.h"
 
 #define CARTRIDGE_INCLUDE_PRIVATE_API
 #include "c64tpi.h"
@@ -609,13 +610,17 @@ int tpi_bin_attach(const char *filename, BYTE *rawcart)
 
 int tpi_crt_attach(FILE *fd, BYTE *rawcart)
 {
-    BYTE chipheader[0x10];
+    crt_chip_header_t chip;
 
-    if (fread(chipheader, 0x10, 1, fd) < 1) {
+    if (crt_read_chip_header(fd, &chip)) {
         return -1;
     }
 
-    if (fread(rawcart, TPI_ROM_SIZE, 1, fd) < 1) {
+    if (chip.size != TPI_ROM_SIZE) {
+        return -1;
+    }
+
+    if (crt_read_chip(rawcart, 0, &chip, fd)) {
         return -1;
     }
 
