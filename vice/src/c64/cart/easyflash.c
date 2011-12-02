@@ -313,14 +313,18 @@ void easyflash_config_init(void)
 
 void easyflash_config_setup(BYTE *rawcart)
 {
+    int i;
+
     easyflash_state_low = lib_malloc(sizeof(flash040_context_t));
     easyflash_state_high = lib_malloc(sizeof(flash040_context_t));
 
     flash040core_init(easyflash_state_low, maincpu_alarm_context, FLASH040_TYPE_B, roml_banks);
-    memcpy(easyflash_state_low->flash_data, rawcart, 0x80000);
-
     flash040core_init(easyflash_state_high, maincpu_alarm_context, FLASH040_TYPE_B, romh_banks);
-    memcpy(easyflash_state_high->flash_data, rawcart + 0x80000, 0x80000);
+
+    for (i = 0; i < EASYFLASH_N_BANKS; i++) { /* split interleaved low and high banks */
+        memcpy(easyflash_state_low->flash_data + i * 0x2000, rawcart + i * 0x4000, 0x2000);
+        memcpy(easyflash_state_high->flash_data + i * 0x2000, rawcart + i * 0x4000 + 0x2000, 0x2000);
+    }
 }
 
 /* ---------------------------------------------------------------------*/
@@ -342,12 +346,8 @@ static int easyflash_common_attach(const char *filename)
 int easyflash_bin_attach(const char *filename, BYTE *rawcart)
 {
     FILE *fd;
-    unsigned int i;
-    BYTE *low;
-    BYTE *high;
 
     easyflash_filetype = 0;
-    memset(rawcart, 0xff, 0x100000);
 
     if (filename == NULL) {
         return -1;
@@ -358,14 +358,9 @@ int easyflash_bin_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    low = rawcart;
-    high = rawcart + 0x80000;
-
-    for (i = 0; i < EASYFLASH_N_BANKS; i++, low += 0x2000, high += 0x2000) {
-        if ((fread(low, 0x2000, 1, fd) < 1) || (fread(high, 0x2000, 1, fd) < 1)) {
-            fclose(fd);
-            return -1;
-        }
+    if ((fread(rawcart, 0x4000 * EASYFLASH_N_BANKS, 1, fd) < 1)) {
+        fclose(fd);
+        return -1;
     }
     fclose(fd);
     easyflash_filetype = CARTRIDGE_FILETYPE_BIN;
@@ -375,10 +370,9 @@ int easyflash_bin_attach(const char *filename, BYTE *rawcart)
 int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename)
 {
     crt_chip_header_t chip;
-    BYTE temp[0x4000];
 
     easyflash_filetype = 0;
-    memset(rawcart, 0xff, 0x100000);
+    memset(rawcart, 0xff, 0x100000); /* empty flash */
 
     while (1) {
         if (crt_read_chip_header(fd, &chip)) {
@@ -389,18 +383,16 @@ int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *file
             if (chip.bank >= EASYFLASH_N_BANKS || !(chip.start == 0x8000 || chip.start == 0xa000 || chip.start == 0xe000)) {
                 return -1;
             }
-            if (crt_read_chip(rawcart, (chip.bank << 13) | (chip.start == 0x8000 ? 0<<19 : 1<<19), &chip, fd)) {
+            if (crt_read_chip(rawcart, (chip.bank << 14) | (chip.start & 0x2000), &chip, fd)) {
                 return -1;
             }
         } else if (chip.size == 0x4000) {
             if (chip.bank >= EASYFLASH_N_BANKS || chip.start != 0x8000) {
                 return -1;
             }
-            if (crt_read_chip(temp, 0, &chip, fd)) {
+            if (crt_read_chip(rawcart, chip.bank << 14, &chip, fd)) {
                 return -1;
             }
-            memcpy(&rawcart[(chip.bank << 13) | (0<<19)], temp, 0x2000);
-            memcpy(&rawcart[(chip.bank << 13) | (1<<19)], temp + 0x2000, 0x2000);
         } else {
             return -1;
         }
