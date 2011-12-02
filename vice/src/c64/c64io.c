@@ -325,8 +325,6 @@ static inline BYTE io_read(io_source_list_t *list, WORD addr)
                         io_source_counter++;
                     }
                 }
-            } else {
-                current->device->io_source_valid = 0;
             }
         }
         current = current->next;
