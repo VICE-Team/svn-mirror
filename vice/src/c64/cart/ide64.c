@@ -722,7 +722,7 @@ static BYTE ide64_idebus_read(WORD addr)
         idebus = in_d030;
     }
     ide64_idebus_device.io_source_valid = 0;
-    return vicii_read_phi1();
+    return 0;
 }
 
 static BYTE ide64_idebus_peek(WORD addr)
@@ -767,7 +767,7 @@ static BYTE ide64_io_read(WORD addr)
             return (settings_version4 ? 0x20 : 0x10) | (current_bank << 2) | (((current_cfg & 1) ^ 1) << 1) | (current_cfg >> 1);
     }
     ide64_io_device.io_source_valid = 0;
-    return vicii_read_phi1();
+    return 0;
 }
 
 static BYTE ide64_io_peek(WORD addr)
@@ -821,7 +821,7 @@ static BYTE ide64_ft245_read(WORD addr)
         }
     }
     ide64_ft245_device.io_source_valid = 0;
-    return vicii_read_phi1();
+    return 0;
 }
 
 static BYTE ide64_ft245_peek(WORD addr)
@@ -848,7 +848,7 @@ static BYTE ide64_ds1302_read(WORD addr)
 
     if (kill_port & 1) {
         ide64_ds1302_device.io_source_valid = 0;
-        return vicii_read_phi1();
+        return 0;
     }
 
     i = vicii_read_phi1() & ~1;
@@ -880,7 +880,7 @@ static BYTE ide64_rom_read(WORD addr)
 {
     if (kill_port & 1) {
         ide64_rom_device.io_source_valid = 0;
-        return vicii_read_phi1();
+        return 0;
     }
 
     ide64_rom_device.io_source_valid = 1;
