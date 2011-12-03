@@ -106,6 +106,12 @@ static uilib_dialog_group digimax_leftgroup[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group digimax_left_total_group[] = {
+    { IDC_DIGIMAX_ENABLE, 1 },
+    { IDC_DIGIMAX_BASE_LABEL, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group digimax_rightgroup[] = {
     { IDC_DIGIMAX_BASE, 0 },
     { 0, 0 }
@@ -121,6 +127,7 @@ static void init_digimax_dialog(HWND hwnd)
     int *ui_digimax_base = (machine_class == VICE_MACHINE_VIC20) ? ui_vic20_digimax_base : ui_c64_digimax_base;
 
     uilib_localize_dialog(hwnd, digimax_dialog);
+    uilib_adjust_group_width(hwnd, digimax_left_total_group);
     uilib_get_group_extent(hwnd, digimax_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, digimax_leftgroup);
     uilib_move_group(hwnd, digimax_rightgroup, xsize + 30);
