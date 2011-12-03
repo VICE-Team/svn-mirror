@@ -76,6 +76,13 @@ static uilib_dialog_group plus60k_leftgroup[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group plus60k_left_total_group[] = {
+    { IDC_PLUS60K_ENABLE, 1 },
+    { IDC_PLUS60K_BASE_LABEL, 0 },
+    { IDC_PLUS60K_FILE_LABEL, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group plus60k_rightgroup[] = {
     { IDC_PLUS60K_BASE, 0 },
     { IDC_PLUS60K_BROWSE, 0 },
@@ -93,6 +100,7 @@ static void init_plus60k_dialog(HWND hwnd)
     int xsize, ysize;
 
     uilib_localize_dialog(hwnd, plus60k_dialog);
+    uilib_adjust_group_width(hwnd, plus60k_left_total_group);
     uilib_get_group_extent(hwnd, plus60k_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, plus60k_leftgroup);
     uilib_move_group(hwnd, plus60k_rightgroup, xsize + 30);
