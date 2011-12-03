@@ -120,7 +120,6 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     int n;
     HWND parent_hwnd;
     HWND element;
-    RECT rect;
 
     parent_hwnd = GetParent(hwnd);
 
@@ -162,17 +161,6 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     
     /* resize and move the middle group boxes to the correct position */
     uilib_move_and_set_element_width(hwnd, IDC_40_TRACK_HANDLING, xstart - 10, xpos - xstart + 20);
-
-    /* get the max x of the middle group element */
-    uilib_get_element_max_x(hwnd, IDC_DRIVE_EXPANSION, &xpos);
-
-    /* set the width of the dialog to 'surround' all the elements */
-    GetWindowRect(hwnd, &rect);
-    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
-
-    /* set the width of the dialog to 'surround' all the elements */
-    GetWindowRect(parent_hwnd, &rect);
-    MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
 
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(parent_hwnd, move_buttons_group, 0);

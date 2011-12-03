@@ -247,7 +247,6 @@ static void init_dialog(HWND hwnd, int num)
     int xstart;
     HWND parent_hwnd;
     HWND element;
-    RECT rect;
 
     parent_hwnd = GetParent(hwnd);
 
@@ -306,17 +305,6 @@ static void init_dialog(HWND hwnd, int num)
 
     /* resize and move the right group element to the correct position */
     uilib_move_and_set_element_width(hwnd, IDC_IDLE_METHOD, xstart - 10, xpos - xstart + 20);
-
-    /* get the max x of the right window group */
-    uilib_get_group_max_x(hwnd, drive_right_window_group, &xpos);
-
-    /* set the width of the dialog to 'surround' all the elements */
-    GetWindowRect(hwnd, &rect);
-    MoveWindow(hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
-
-    /* set the width of the dialog to 'surround' all the elements */
-    GetWindowRect(parent_hwnd, &rect);
-    MoveWindow(parent_hwnd, rect.left, rect.top, xpos + 10, rect.bottom - rect.top, TRUE);
 
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
