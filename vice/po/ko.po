@@ -5307,11 +5307,11 @@ msgstr "크라이언트에 접속중 에러가 발생했습니다"
 
 #: src/arch/win32/res.rc.po.c:1172 src/arch/amigaos/intl_text.c.po.c:9821
 msgid "Error saving EasyFlash crt file"
-msgstr ""
+msgstr "EasyFlash crt 파일 저장 에러가 발생했습니다"
 
 #: src/arch/win32/res.rc.po.c:1173
 msgid "No EasyFlash cartridge inserted"
-msgstr ""
+msgstr "EasyFlash 카트리지 가 삽입되지 않았습니다"
 
 #: src/arch/win32/res.rc.po.c:1174 src/arch/win32/res.rc.po.c:1498
 #: src/arch/amigaos/intl_text.c.po.c:2218
@@ -5321,15 +5321,15 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1176
 msgid "Speed of motor while reading"
-msgstr ""
+msgstr "읽기중 모니터의 속도"
 
 #: src/arch/win32/res.rc.po.c:1177
 msgid "cycle(s) additional delay each trigger"
-msgstr ""
+msgstr "트리거 마다 걸리는 순환 주기 "
 
 #: src/arch/win32/res.rc.po.c:1179
 msgid "Use IEC Device"
-msgstr ""
+msgstr "IEC 디바이스를 사용하세요"
 
 #: src/arch/win32/res.rc.po.c:1181 src/translate_text.c.po.c:2550
 #: src/translate_text.c.po.c:2567
@@ -5338,31 +5338,31 @@ msgstr "디렉토리"
 
 #: src/arch/win32/res.rc.po.c:1189
 msgid "Read P00 files"
-msgstr ""
+msgstr "P00 파일 읽기"
 
 #: src/arch/win32/res.rc.po.c:1190
 msgid "Write P00 files"
-msgstr ""
+msgstr "P00 파일 쓰기"
 
 #: src/arch/win32/res.rc.po.c:1194
 msgid "Select fire button"
-msgstr ""
+msgstr "파이어 버튼 선택"
 
 #: src/arch/win32/res.rc.po.c:1195
 msgid "Auto fire button settings"
-msgstr ""
+msgstr "자동 파이어 버튼 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1196
 msgid "Autofire speed"
-msgstr ""
+msgstr "오토파이어 속도"
 
 #: src/arch/win32/res.rc.po.c:1200
 msgid "Calibrate Joystick(s)"
-msgstr ""
+msgstr "칼리브레이트 조이스틱"
 
 #: src/arch/win32/res.rc.po.c:1201
 msgid "Extra joystick settings"
-msgstr ""
+msgstr "여분 조이스틱 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1204
 msgid "South West"
@@ -5398,31 +5398,31 @@ msgstr "북동"
 
 #: src/arch/win32/res.rc.po.c:1212
 msgid "Fire button"
-msgstr ""
+msgstr "파이어 버튼"
 
 #: src/arch/win32/res.rc.po.c:1213
 msgid "Configure Sound Device Settings"
-msgstr ""
+msgstr "사운드 디바이스 환경 설정 하기"
 
 #: src/arch/win32/res.rc.po.c:1214
 msgid "DirectX driver"
-msgstr ""
+msgstr "DirextX 드라이버"
 
 #: src/arch/win32/res.rc.po.c:1215
 msgid "WMM driver"
-msgstr ""
+msgstr "WMM 드라이버"
 
 #: src/arch/win32/res.rc.po.c:1217
 msgid "Sound Buffer Size"
-msgstr ""
+msgstr "사운드 버퍼 사이즈"
 
 #: src/arch/win32/res.rc.po.c:1218
 msgid "Sound Fragment Size"
-msgstr ""
+msgstr "사운드 프래그먼트 사이즈"
 
 #: src/arch/win32/res.rc.po.c:1222
 msgid "Synchronization Method"
-msgstr ""
+msgstr "동기화 방법"
 
 #: src/arch/win32/res.rc.po.c:1226
 msgid "Bitdepth"
@@ -5434,7 +5434,7 @@ msgstr "해상도"
 
 #: src/arch/win32/res.rc.po.c:1229
 msgid "VBLANK synchronization"
-msgstr ""
+msgstr "VBLANK 동기화"
 
 #: src/arch/win32/res.rc.po.c:1230
 msgid "Render to DX Primary surface"
@@ -5452,7 +5452,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1244
 msgid "VICII Palette"
-msgstr ""
+msgstr "VICII 팔레트"
 
 #: src/arch/win32/res.rc.po.c:1245
 msgid "VIC Palette"
