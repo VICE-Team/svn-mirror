@@ -79,6 +79,13 @@ static uilib_dialog_group petreu_leftgroup[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group petreu_left_total_group[] = {
+    { IDC_PETREU_ENABLE, 1 },
+    { IDC_PETREU_SIZE_LABEL, 0 },
+    { IDC_PETREU_FILE_LABEL, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group petreu_rightgroup[] = {
     { IDC_PETREU_SIZE, 0 },
     { IDC_PETREU_BROWSE, 0 },
@@ -96,6 +103,7 @@ static void init_petreu_dialog(HWND hwnd)
     int xsize, ysize;
 
     uilib_localize_dialog(hwnd, petreu_dialog);
+    uilib_adjust_group_width(hwnd, petreu_left_total_group);
     uilib_get_group_extent(hwnd, petreu_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, petreu_leftgroup);
     uilib_move_group(hwnd, petreu_rightgroup, xsize + 30);
