@@ -100,6 +100,24 @@ static uilib_dialog_group ramcart_rightgroup2[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group ramcart_total_group[] = {
+    { IDC_RAMCART_ENABLE, 0 },
+    { IDC_RAMCART_RO, 0 },
+    { IDC_RAMCART_WRITE_ENABLE, 0 },
+    { IDC_RAMCART_SIZE_LABEL, 0 },
+    { IDC_RAMCART_FILE_LABEL, 0 },
+    { IDC_RAMCART_BROWSE, 0 },
+    { IDOK, 0 },
+    { IDCANCEL, 0 },
+    { 0, 0 }
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
+
 static void init_ramcart_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
@@ -110,6 +128,7 @@ static void init_ramcart_dialog(HWND hwnd)
     int active_value;
     int xsize, ysize;
     int xsize2;
+    RECT rect;
 
     uilib_localize_dialog(hwnd, ramcart_dialog);
     uilib_get_group_extent(hwnd, ramcart_leftgroup1, &xsize, &ysize);
@@ -119,6 +138,14 @@ static void init_ramcart_dialog(HWND hwnd)
     uilib_get_group_extent(hwnd, ramcart_leftgroup2, &xsize2, &ysize);
     uilib_adjust_group_width(hwnd, ramcart_leftgroup2);
     uilib_move_group(hwnd, ramcart_rightgroup2, xsize2 + 30);
+    uilib_get_group_max_x(hwnd, ramcart_total_group, &xsize);
+    
+    /* set the size of the dialog window */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xsize + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_int("RAMCART", &res_value);
     CheckDlgButton(hwnd, IDC_RAMCART_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
