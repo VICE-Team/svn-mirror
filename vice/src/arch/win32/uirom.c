@@ -301,23 +301,32 @@ static uilib_localize_dialog_param romset_dialog_trans[] = {
 static uilib_dialog_group romset_main_group[] = {
     { IDC_ROMSET_SELECT_ARCHIVE, 1 },
     { IDC_ROMSET_ARCHIVE_BROWSE, 1 },
-    { IDC_ROMSET_ARCHIVE_LOAD, 1 },
-    { IDC_ROMSET_ARCHIVE_SAVE, 1 },
     { IDC_ROMSET_ARCHIVE_APPLY, 1 },
     { IDC_ROMSET_ARCHIVE_NEW, 1 },
     { IDC_ROMSET_ARCHIVE_DELETE, 1 },
     { IDC_ROMSET_SELECT_FILE, 1 },
     { IDC_ROMSET_FILE_BROWSE, 1 },
-    { IDC_ROMSET_FILE_LOAD, 1 },
-    { IDC_ROMSET_FILE_SAVE, 1 },
     { IDC_ROMSET_RESOURCE_COMPUTER, 1 },
     { IDC_ROMSET_RESOURCE_DRIVE, 1 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group romset_archive_loadsave_group[] = {
+    { IDC_ROMSET_ARCHIVE_LOAD, 1 },
+    { IDC_ROMSET_ARCHIVE_SAVE, 1 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group romset_loadsave_group[] = {
+    { IDC_ROMSET_FILE_LOAD, 1 },
+    { IDC_ROMSET_FILE_SAVE, 1 },
     { 0, 0 }
 };
 
 static void init_romset_dialog(HWND hwnd)
 {
     int res_value, idc_active;
+    int dist, xmax, xmin;
     const char *name;
     TCHAR *st_name;
 
@@ -326,6 +335,42 @@ static void init_romset_dialog(HWND hwnd)
 
     /* adjust the size of the elements in the main group */
     uilib_adjust_group_width(hwnd, romset_main_group);
+
+    /* get the max x of the romset archive load button */
+    uilib_get_element_max_x(hwnd, IDC_ROMSET_ARCHIVE_LOAD, &xmax);
+
+    /* get the min x of the romset archive save button */
+    uilib_get_element_min_x(hwnd, IDC_ROMSET_ARCHIVE_SAVE, &xmin);
+
+    /* calculate the distance between buttons */
+    dist = xmin - xmax;
+
+    /* adjust the size of the load/save buttons group */
+    uilib_adjust_group_width(hwnd, romset_archive_loadsave_group);
+
+    /* get the max x of the romset archive load button */
+    uilib_get_element_max_x(hwnd, IDC_ROMSET_ARCHIVE_LOAD, &xmax);
+
+    /* move the romset archive save button */
+    uilib_move_element(hwnd, IDC_ROMSET_ARCHIVE_SAVE, xmax + dist);
+
+    /* get the max x of the romset load button */
+    uilib_get_element_max_x(hwnd, IDC_ROMSET_FILE_LOAD, &xmax);
+
+    /* get the min x of the romset save button */
+    uilib_get_element_min_x(hwnd, IDC_ROMSET_FILE_SAVE, &xmin);
+
+    /* calculate the distance between buttons */
+    dist = xmin - xmax;
+
+    /* adjust the size of the load/save buttons group */
+    uilib_adjust_group_width(hwnd, romset_loadsave_group);
+
+    /* get the max x of the romset load button */
+    uilib_get_element_max_x(hwnd, IDC_ROMSET_FILE_LOAD, &xmax);
+
+    /* move the romset save button */
+    uilib_move_element(hwnd, IDC_ROMSET_FILE_SAVE, xmax + dist);
 
     resources_get_int("RomsetSourceFile", &res_value);
     idc_active = IDC_ROMSET_SELECT_ARCHIVE + res_value;
