@@ -36,6 +36,7 @@
 #include "uimenu.h"
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
 
 static ui_menu_entry_t uidrivevic20_drive0_expansion_submenu[] = {
     { "", UI_MENU_TYPE_NONE,
@@ -64,6 +65,8 @@ static ui_menu_entry_t uidrivevic20_drive3_expansion_submenu[] = {
 static ui_menu_entry_t drivevic20_settings_submenu[] = {
     { N_("True drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
+    { N_("Drive sound emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DriveSoundEmulation, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #8 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uidrivec64vic20_set_drive0_type_submenu },

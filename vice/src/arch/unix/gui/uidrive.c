@@ -35,6 +35,7 @@
 #include "uimenu.h"
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
 UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 UI_MENU_DEFINE_RADIO(Drive8ExtendImagePolicy)
 UI_MENU_DEFINE_RADIO(Drive9ExtendImagePolicy)
@@ -181,6 +182,8 @@ UI_CALLBACK(radio_Drive11Type)
 ui_menu_entry_t ui_drive_options_submenu[] = {
     { N_("True drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
+    { N_("Drive sound emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DriveSoundEmulation, NULL, NULL },
     { NULL }
 };
 

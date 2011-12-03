@@ -37,11 +37,14 @@
 #include "uimenu.h"
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
 UI_MENU_DEFINE_TOGGLE(FlashTrueFS)
 
 static ui_menu_entry_t drivec64dtv_settings_submenu[] = {
     { N_("True drive emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveTrueEmulation, NULL, NULL },
+    { N_("Drive sound emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_DriveSoundEmulation, NULL, NULL },
     { N_("Enable true hardware flash file system"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
