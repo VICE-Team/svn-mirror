@@ -201,6 +201,7 @@ static char *get_drive_type_string(int drive)
 }
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
+UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
 UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 
 static UI_MENU_CALLBACK(set_hide_p00_files_callback)
@@ -998,6 +999,10 @@ const ui_menu_entry_t drive_menu[] = {
     { "True drive emulation",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_DriveTrueEmulation_callback,
+      NULL },
+    { "Drive sound emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DriveSoundEmulation_callback,
       NULL },
     { "Virtual device traps",
       MENU_ENTRY_RESOURCE_TOGGLE,
