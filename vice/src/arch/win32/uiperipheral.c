@@ -227,6 +227,9 @@ static void init_dialog(HWND hwnd, unsigned int num)
         /* move the autostart element to the right position */
         uilib_move_element(hwnd, IDC_AUTOSTART, xpos + distance1);
 
+        /* resize the autostart element */
+        uilib_adjust_element_width(hwnd, IDC_AUTOSTART);
+
         /* get the max x of the autostart element */
         uilib_get_element_max_x(hwnd, IDC_AUTOSTART, &xpos);
 
