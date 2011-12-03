@@ -17,6 +17,7 @@ if not exist petcat.exe goto missingwatcom
 echo generating OPENWATCOM OS/2 binary port distribution
 if exist %VICEDIR% goto removedir
 
+:makevicedir
 mkdir %VICEDIR%
 type ..\install.cmd > %VICEDIR%\install.cmd
 copy x64.exe      %VICEDIR%
@@ -217,7 +218,13 @@ echo executables are missing, please build the project first.
 goto end
 
 :removedir
-echo %VICEDIR% already exists, please remove %VICEDIR% and run this batch file again.
+echo y | del %VICEDIR%\*.* /S
+rd %VICEDIR% /s /q
+if exist %VICEDIR% goto cannotremovedir
+goto makevicedir
+
+:cannotremovedir
+echo can't delete the %VICEDIR% directory, please remove %VICEDIR% manually and run this batch file again.
 
 :end
 pause
