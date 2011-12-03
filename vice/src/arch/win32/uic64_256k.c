@@ -78,6 +78,13 @@ static uilib_dialog_group c64_256k_leftgroup[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group c64_256k_left_total_group[] = {
+    { IDC_C64_256K_ENABLE, 1 },
+    { IDC_C64_256K_BASE_LABEL, 0 },
+    { IDC_C64_256K_FILE_LABEL, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group c64_256k_rightgroup[] = {
     { IDC_C64_256K_BASE, 0 },
     { IDC_C64_256K_BROWSE, 0 },
@@ -95,6 +102,7 @@ static void init_c64_256k_dialog(HWND hwnd)
     int xsize, ysize;
 
     uilib_localize_dialog(hwnd, c64_256k_dialog);
+    uilib_adjust_group_width(hwnd, c64_256k_left_total_group);
     uilib_get_group_extent(hwnd, c64_256k_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, c64_256k_leftgroup);
     uilib_move_group(hwnd, c64_256k_rightgroup, xsize + 30);
