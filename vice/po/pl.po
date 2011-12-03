@@ -1,16 +1,16 @@
 # Polish Translation for VICE
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Mariusz Młynek <flooder@poczta.onet.pl>, 2002.
-#
+# Jarek Sobolewski <r@sledinmay.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-01 11:41-0800\n"
-"PO-Revision-Date: 2011-10-21 21:10+0100\n"
+"POT-Creation-Date: 2011-12-03 06:32+0100\n"
+"PO-Revision-Date: 2011-12-03 06:36+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
-"Language: \n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -126,7 +126,7 @@ msgstr "Model SID-a"
 
 #: src/arch/unix/gui/c128ui.c:303
 msgid "Function ROM image"
-msgstr "Funkcje obrazu ROM"
+msgstr "Obraz Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:307
 #, c-format
@@ -134,30 +134,30 @@ msgid ""
 "Could not load function ROM image\n"
 "'%s'"
 msgstr ""
-"Nie można wczytać obrazu funkcji ROM\n"
+"Nie można wczytać obrazu Function ROM\n"
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:313 src/arch/win32/resc128.rc.po.c:688
 #: src/translate_text.c.po.c:3899
 msgid "Enable the internal Function ROM"
-msgstr "Włącz wewnętrzną funkcję ROM"
+msgstr "Włącz wewnętrzny Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:315 src/arch/amigaos/intl_text.c.po.c:9135
 msgid "Internal Function ROM file"
-msgstr "Plik wewnętrznej funkcji ROM"
+msgstr "Plik wewnętrznego Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:319 src/arch/win32/resc128.rc.po.c:691
 #: src/translate_text.c.po.c:3933
 msgid "Enable the external Function ROM"
-msgstr "Włącz zewnętrzną funkcję ROM"
+msgstr "Włącz zewnętrzny Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:321 src/arch/amigaos/intl_text.c.po.c:9163
 msgid "External Function ROM file"
-msgstr "Plik zewnętrznej funkcji ROM"
+msgstr "Plik zewnętrznego Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:328 src/arch/win32/resc128.rc.po.c:649
 msgid "Function ROM"
-msgstr "Funkcja ROM"
+msgstr "Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:330
 msgid "Banks 2 & 3"
@@ -211,7 +211,7 @@ msgstr "Wczytaj nowy międzynarodowy ROM Kernala"
 
 #: src/arch/unix/gui/c128ui.c:405
 msgid "Load new German Kernal ROM"
-msgstr "Wczytaj nowy Niemiecki Kernal ROM"
+msgstr "Wczytaj nowy Niemiecki ROM Kernala"
 
 #: src/arch/unix/gui/c128ui.c:408
 msgid "Load new Basic Lo ROM"
@@ -257,7 +257,7 @@ msgstr "Wczytaj nowy ROM napędu"
 #: src/arch/unix/gui/petui.c:264 src/arch/unix/gui/plus4ui.c:179
 #: src/arch/unix/gui/vic20ui.c:188
 msgid "ROM set type"
-msgstr "typ zestawu ROM-ów"
+msgstr "Typ zestawu ROM-ów"
 
 #: src/arch/unix/gui/c128ui.c:433 src/arch/unix/gui/c64dtvui.c:116
 #: src/arch/unix/gui/c64scui.c:496 src/arch/unix/gui/c64ui.c:556
@@ -290,7 +290,7 @@ msgstr "Zrzuty ekranu"
 #: src/arch/unix/gui/c128ui.c:477 src/arch/win32/resc128.rc.po.c:680
 #: src/arch/amigaos/intl_text.c.po.c:3142
 msgid "International"
-msgstr "Międzynarodowa"
+msgstr "Międzynarodowy"
 
 #: src/arch/unix/gui/c128ui.c:479 src/arch/win32/resc128.rc.po.c:681
 #: src/arch/amigaos/intl_text.c.po.c:3212
@@ -1219,7 +1219,7 @@ msgstr "Zamontuj surowy obraz kartridża EasyFlash"
 #: src/arch/unix/gui/uic64cart.c:126 src/arch/win32/res.rc.po.c:1062
 #: src/arch/amigaos/intl_text.c.po.c:4332 src/translate_text.c.po.c:5892
 msgid "Attach raw 8KB Epyx FastLoad cartridge image"
-msgstr "Zamontuj obraz kartridża 8KB Epyx FastLoad"
+msgstr "Zamontuj surowy obraz kartridża 8KB Epyx FastLoad"
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:130 src/arch/win32/res.rc.po.c:1066
@@ -1613,7 +1613,7 @@ msgstr "Podwójne skanowanie"
 #: src/arch/unix/gui/uivicii.c:169 src/arch/win32/res.rc.po.c:1414
 #: src/arch/amigaos/intl_text.c.po.c:1546
 msgid "Video cache"
-msgstr "Cache video"
+msgstr "Cache wideo"
 
 #: src/arch/unix/gui/uicrtc.c:150 src/arch/unix/gui/uited.c:137
 #: src/arch/unix/gui/uivdc.c:167 src/arch/unix/gui/uivic.c:136
@@ -3905,7 +3905,7 @@ msgstr "Nadpisz ustawienia PSID"
 #: src/arch/win32/resplus4.rc.po.c:183 src/arch/win32/resvic20.rc.po.c:193
 #: src/arch/amigaos/intl_text.c.po.c:1826
 msgid "Video standard"
-msgstr "Standard video"
+msgstr "Standard wideo"
 
 #: src/arch/unix/gui/vsidui.c:481
 msgid "Default Tune"
@@ -4367,7 +4367,7 @@ msgstr "wartość"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
 msgid "Specify X display depth (1..32)"
-msgstr "POdaj głębię ekranu X-ów (1..32)"
+msgstr "Podaj głębię ekranu X-ów (1..32)"
 
 #: src/arch/unix/x11/xrandr.c:280
 msgid "Desktop"
@@ -5158,8 +5158,8 @@ msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
 "*.p00)"
 msgstr ""
-"Pliki CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
-"*.p00)"
+"Pliki CBM "
+"(*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1111
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
@@ -5215,8 +5215,8 @@ msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
 msgstr ""
-"Pliki multimedialne (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*."
-"avi;*.mpg)"
+"Pliki multimedialne "
+"(*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
 
 #: src/arch/win32/res.rc.po.c:1127
 msgid " kB"
@@ -5284,12 +5284,10 @@ msgid "Set input device for extra joystick #2"
 msgstr "Ustaw urządzenie wejścia dodatkowego joysticka #2"
 
 #: src/arch/win32/res.rc.po.c:1144
-#, fuzzy
 msgid "Confirm quitting VICE"
 msgstr "Potwierdzaj zamknięcie VICE"
 
 #: src/arch/win32/res.rc.po.c:1145
-#, fuzzy
 msgid "Never confirm quitting VICE"
 msgstr "Nigdy nie potwierdzaj zamknięcia VICE"
 
@@ -5493,79 +5491,64 @@ msgid "TED Palette"
 msgstr "Paleta TED"
 
 #: src/arch/win32/res.rc.po.c:1249
-#, fuzzy
 msgid "VICII Colors"
-msgstr "Kolory"
+msgstr "Kolory VICII"
 
 #: src/arch/win32/res.rc.po.c:1250
-#, fuzzy
 msgid "VIC Colors"
-msgstr "Kolory"
+msgstr "Kolory VIC"
 
 #: src/arch/win32/res.rc.po.c:1251
-#, fuzzy
 msgid "CRTC Colors"
-msgstr "Kolory"
+msgstr "Kolory CRTC"
 
 #: src/arch/win32/res.rc.po.c:1252
-#, fuzzy
 msgid "VDC Colors"
-msgstr "Kolory"
+msgstr "Kolory VDC"
 
 #: src/arch/win32/res.rc.po.c:1253
-#, fuzzy
 msgid "TED Colors"
-msgstr "Kolory"
+msgstr "Kolory TED"
 
 #: src/arch/win32/res.rc.po.c:1254
-#, fuzzy
 msgid "VICII CRT emulation"
-msgstr "Emulacja CRT"
+msgstr "Emulacja CRT VICII"
 
 #: src/arch/win32/res.rc.po.c:1255
-#, fuzzy
 msgid "VIC CRT emulation"
-msgstr "Emulacja CRT"
+msgstr "Emulacja CRT VIC"
 
 #: src/arch/win32/res.rc.po.c:1256
-#, fuzzy
 msgid "CRTC CRT emulation"
-msgstr "Emulacja CRT"
+msgstr "Emulacja CRT CRTC"
 
 #: src/arch/win32/res.rc.po.c:1257
-#, fuzzy
 msgid "VDC CRT emulation"
-msgstr "Emulacja CRT"
+msgstr "Emulacja CRT VDC"
 
 #: src/arch/win32/res.rc.po.c:1258
-#, fuzzy
 msgid "TED CRT emulation"
-msgstr "Emulacja CRT"
+msgstr "Emulacja CRT TED"
 
 #: src/arch/win32/res.rc.po.c:1259
-#, fuzzy
 msgid "VICII Render filter"
-msgstr "Filtr renderera"
+msgstr "Filtr renderera VICII"
 
 #: src/arch/win32/res.rc.po.c:1260
-#, fuzzy
 msgid "VIC Render filter"
-msgstr "Filtr renderera"
+msgstr "Filtr renderera VIC"
 
 #: src/arch/win32/res.rc.po.c:1261
-#, fuzzy
 msgid "CRTC Render filter"
-msgstr "Filtr renderera"
+msgstr "Filtr renderera CRTC"
 
 #: src/arch/win32/res.rc.po.c:1262
-#, fuzzy
 msgid "VDC Render filter"
-msgstr "Filtr renderera"
+msgstr "Filtr renderera VDC"
 
 #: src/arch/win32/res.rc.po.c:1263
-#, fuzzy
 msgid "TED Render filter"
-msgstr "Filtr renderera"
+msgstr "Filtr renderera TED"
 
 #: src/arch/win32/res.rc.po.c:1264
 msgid "External Palette"
@@ -6539,7 +6522,7 @@ msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:12108
 msgid "Enable the 256K RAM expansion"
-msgstr "Włącz rozszerzenie 256K RAM"
+msgstr "Włącz rozszerzenie RAM 256K"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:4920
@@ -6922,7 +6905,7 @@ msgstr "Wybierz plik PET REU"
 
 #: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:11989
 msgid "Enable the PLUS256K RAM expansion"
-msgstr "Włącz rozszerzenie PLUS256K RAM"
+msgstr "Włącz rozszerzenie RAM PLUS256K"
 
 #: src/arch/win32/resplus256k.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:2582
@@ -7643,16 +7626,16 @@ msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
 "AI)"
 msgstr ""
-"Emulacja dodatkowego joysticka #1: (0: brak, 1: numeryczna, 2: klawisze A/"
-"AI, 3: klawisze B/AI)"
+"Emulacja dodatkowego joysticka #1: (0: brak, 1: numeryczna, 2: klawisze "
+"A/AI, 3: klawisze B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6265
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
 msgstr ""
-"Emulacja dodatkowego joysticka #2: (0: brak, 1: numeryczna, 2: klawisze A/"
-"AI, 3: klawisze B/AI)"
+"Emulacja dodatkowego joysticka #2: (0: brak, 1: numeryczna, 2: klawisze "
+"A/AI, 3: klawisze B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6279
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -8625,8 +8608,8 @@ msgstr ""
 "jest stan. Jeśli jest oszacowany na 'prawda', punkt kontrolny jest\n"
 "uaktywniany. W innym razie jest ignorowany. Jeśli w wyrażeniu\n"
 "podano rejestry, używane są wartości z czasu szacowania punktu\n"
-"kontrolnego, nie z czasu ustawienia stanu.Stan może korzystać z rejestrów (."
-"A, .X, .Y, .PC, .SP) i porównywać je\n"
+"kontrolnego, nie z czasu ustawienia stanu.Stan może korzystać z rejestrów "
+"(.A, .X, .Y, .PC, .SP) i porównywać je\n"
 "(==, !=, <, >, <=, >=) z innymi rejestrami lub stałymi. Rejestry mogą być\n"
 "rejestrami innych urządzeń, co jest określone przedrostkiem przestrzeni\n"
 "pamięci (np. c:, 8:, 9:, 10:, 11)\n"
@@ -8894,7 +8877,7 @@ msgstr "string"
 
 #: src/translate_text.c.po.c:2788 src/translate_text.c.po.c:11394
 msgid "Put the specified string into the keyboard buffer."
-msgstr "Umieść dany ciąg znaków w buforze klawiatury."
+msgstr "Umieść dany ciąg znaków w buforze klawiatury"
 
 #: src/translate_text.c.po.c:2805
 msgid ""
@@ -9192,11 +9175,11 @@ msgstr "Określ nazwę obrazu BASIC ROM"
 
 #: src/translate_text.c.po.c:4137
 msgid "Specify name of character generator ROM image"
-msgstr "Określ nazwę obrazu ROM-u tworzenia znaków"
+msgstr "Określ nazwę obrazu ROM tworzenia znaków"
 
 #: src/translate_text.c.po.c:4155
 msgid "Specify index of keymap file (0=sym, 1=symDE, 2=pos)"
-msgstr "Podaj indeks dla ukłądu klawiatury (0=symbol, 1=symbolDE, 2=pozycja)"
+msgstr "Podaj indeks dla układu klawiatury (0=symbol, 1=symbolDE, 2=pozycja)"
 
 #: src/translate_text.c.po.c:4172
 msgid "Specify name of symbolic German keymap file"
@@ -9212,7 +9195,7 @@ msgstr "Wyłącz Hummer ADC"
 
 #: src/translate_text.c.po.c:4275
 msgid "specify IEEE488 interface image name"
-msgstr "określ nazwę obrazu interfejsu IEEE488"
+msgstr "Określ nazwę obrazu interfejsu IEEE488"
 
 #: src/translate_text.c.po.c:4309
 msgid "Disable the GEO-RAM expansion unit"
@@ -9276,7 +9259,7 @@ msgstr "Określ ton PSID <numer>"
 
 #: src/translate_text.c.po.c:4632
 msgid "Disable the RamCart expansion"
-msgstr "Wyłącz rozszerzenie Ram Cart"
+msgstr "Wyłącz rozszerzenie RamCart"
 
 #: src/translate_text.c.po.c:4649
 msgid "Specify name of RAMCART image"
@@ -9448,7 +9431,7 @@ msgstr "Wyłącz tryb RRNet emulacji TFE"
 
 #: src/translate_text.c.po.c:5467
 msgid "Reset machine if a cartridge is attached or detached"
-msgstr "Reset maszyny przy zamontowaniu i odmontowaniu kartridża"
+msgstr "Resetuj maszynę przy zamontowaniu i odmontowaniu kartridża"
 
 #: src/translate_text.c.po.c:5484
 msgid "Do not reset machine if a cartridge is attached or detached"
@@ -9777,8 +9760,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7236
 msgid "Specify name of UK business keyboard positional keymap file"
-msgstr ""
-"Określ nazwę pliku pozycyjnego układu angielskiej klawiatury biznesowej"
+msgstr "Określ nazwę pliku pozycyjnego układu angielskiej klawiatury biznesowej"
 
 #: src/translate_text.c.po.c:7253
 msgid "Specify name of German business keyboard symbolic keymap file"
@@ -9787,8 +9769,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7270
 msgid "Specify name of German business keyboard positional keymap file"
-msgstr ""
-"Określ nazwę pliku pozycyjnego układu niemieckiej klawiatury biznesowej"
+msgstr "Określ nazwę pliku pozycyjnego układu niemieckiej klawiatury biznesowej"
 
 #: src/translate_text.c.po.c:7288
 msgid "Enable hardware-level emulation of disk drives"
@@ -9799,14 +9780,12 @@ msgid "Disable hardware-level emulation of disk drives"
 msgstr "Wyłącz sprzętową emulację stacji dysków"
 
 #: src/translate_text.c.po.c:7322
-#, fuzzy
 msgid "Enable sound emulation of disk drives"
-msgstr "Włącz sprzętową emulację stacji dysków"
+msgstr "Włącz emulację odgłosów stacji dysków"
 
 #: src/translate_text.c.po.c:7339
-#, fuzzy
 msgid "Disable sound emulation of disk drives"
-msgstr "Wyłącz sprzętową emulację stacji dysków"
+msgstr "Wyłącz emulację odgłosów stacji dysków"
 
 #: src/translate_text.c.po.c:7373
 msgid "Set drive type (0: no drive)"
@@ -9814,11 +9793,11 @@ msgstr "Ustaw typ stacji (0: brak stacji)"
 
 #: src/translate_text.c.po.c:7390
 msgid "method"
-msgstr "method"
+msgstr "metoda"
 
 #: src/translate_text.c.po.c:7407
 msgid "color"
-msgstr "color"
+msgstr "kolor"
 
 #: src/translate_text.c.po.c:7424
 msgid ""
@@ -9837,8 +9816,9 @@ msgid ""
 "Select the way the multicolor to hires should be handled, (0: b&w, 1: 2 "
 "colors, 2: 4 colors, 3: gray scale,  4: best cell colors)"
 msgstr ""
-"Wybiera sposób obsługi multikoloru do hires (0: czarno-biały, 1: 2 kolory, "
-"2: 4 kolory, 3: skala szarości, 4: najlepsze kolory komórek)"
+"Wybiera sposób obsługi wielu kolorów w wysokiej rozdzielczości (0: czarno-"
+"biały, 1: 2 kolory, 2: 4 kolory, 3: skala szarości, 4: najlepsze kolory "
+"komórek)"
 
 #: src/translate_text.c.po.c:7458
 msgid ""
@@ -9857,23 +9837,23 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7509
 msgid "Specify name of 1541 DOS ROM image"
-msgstr "Określ nazwę obrazu 1541 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1541"
 
 #: src/translate_text.c.po.c:7526
 msgid "Specify name of 1541-II DOS ROM image"
-msgstr "Określ nazwę obrazu 1541-II DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1541-II"
 
 #: src/translate_text.c.po.c:7543
 msgid "Specify name of 1570 DOS ROM image"
-msgstr "Określ nazwę obrazu 1570 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1570"
 
 #: src/translate_text.c.po.c:7560
 msgid "Specify name of 1571 DOS ROM image"
-msgstr "Określ nazwę obrazu 1571 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1571"
 
 #: src/translate_text.c.po.c:7577
 msgid "Specify name of 1581 DOS ROM image"
-msgstr "Określ nazwę obrazu 1581 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1581"
 
 #: src/translate_text.c.po.c:7594
 msgid "Specify name of 2000 DOS ROM image"
@@ -9947,31 +9927,31 @@ msgstr "Ustaw typ kabla portu równoległego (0: brak, 1: typowy)"
 
 #: src/translate_text.c.po.c:7900
 msgid "Specify name of 1571CR DOS ROM image"
-msgstr "Określ nazwę obrazu 1571CR DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1571CR"
 
 #: src/translate_text.c.po.c:7917
 msgid "Specify name of 2031 DOS ROM image"
-msgstr "Określ nazwę obrazu 2031 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 2031"
 
 #: src/translate_text.c.po.c:7934
 msgid "Specify name of 2040 DOS ROM image"
-msgstr "Określ nazwę obrazu 2040 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 2040"
 
 #: src/translate_text.c.po.c:7951
 msgid "Specify name of 3040 DOS ROM image"
-msgstr "Określ nazwę obrazu 3040 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 3040"
 
 #: src/translate_text.c.po.c:7968
 msgid "Specify name of 4040 DOS ROM image"
-msgstr "Określ nazwę obrazu 4040 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 4040"
 
 #: src/translate_text.c.po.c:7985
 msgid "Specify name of 1001/8050/8250 DOS ROM image"
-msgstr "Określ nazwę obrazu 1001/8050/8250 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1001/8050/8250"
 
 #: src/translate_text.c.po.c:8002
 msgid "Specify name of 1551 DOS ROM image"
-msgstr "Określ nazwę obrazu 1551 DOS ROM"
+msgstr "Określ nazwę obrazu ROM DOS-a 1551"
 
 #: src/translate_text.c.po.c:8019
 msgid "Use <name> as directory for file system device #8"
@@ -10043,11 +10023,11 @@ msgstr "Wyłącz we/wy SuperPET"
 
 #: src/translate_text.c.po.c:8310
 msgid "Enable ROM 1 Kernal patches"
-msgstr "Włącz łatki ROM 1 Kernala"
+msgstr "Włącz łatki Kernala ROM 1"
 
 #: src/translate_text.c.po.c:8327
 msgid "Disable ROM 1 Kernal patches"
-msgstr "Włącz łatki ROM 1 Kernala"
+msgstr "Wyłącz łatki Kernala ROM 1"
 
 #: src/translate_text.c.po.c:8344
 msgid "Switch upper/lower case charset"
@@ -10203,7 +10183,7 @@ msgstr "Włącz cache wideo"
 
 #: src/translate_text.c.po.c:8990
 msgid "Disable the video cache"
-msgstr "Wyłacz cache wideo"
+msgstr "Wyłącz cache wideo"
 
 #: src/translate_text.c.po.c:9008
 msgid "Specify name of first RS232 device"
@@ -10341,7 +10321,7 @@ msgstr "Określ adres bazowy drugiego SID-a"
 
 #: src/translate_text.c.po.c:9580
 msgid "Specify base address for 3rd SID"
-msgstr "Określ adres bazowy 3. SID-a"
+msgstr "Określ adres bazowy trzeciego SID-a"
 
 #: src/translate_text.c.po.c:9597
 msgid "Emulate SID filters"
@@ -10366,14 +10346,14 @@ msgstr "procent"
 #: src/translate_text.c.po.c:9666
 msgid "reSID resampling passband in percentage of total bandwidth (0 - 90)"
 msgstr ""
-"Pasmo resamplowania reSID w procentach całkowitej przepustowośći (0 - 90)"
+"Pasmo resamplowania reSID w procentach całkowitej przepustowości (0 - 90)"
 
 #: src/translate_text.c.po.c:9683
 msgid ""
 "reSID filter bias setting, which can be used to adjust DAC bias in "
 "millivolts."
 msgstr ""
-"Ustawienie filtra reSID, używane do regulacji nastawienia DAC w miliwoltach."
+"Ustawienie filtra reSID, używane do regulacji nastawienia DAC w miliwoltach"
 
 #: src/translate_text.c.po.c:9700
 msgid "reSID gain in percent (90 - 100)"
@@ -10513,7 +10493,7 @@ msgstr "Wyłącz podwójne skanowanie"
 
 #: src/translate_text.c.po.c:10330
 msgid "Enable hardware scaling"
-msgstr "yłącz skalowanie sprzętowe"
+msgstr "Włącz skalowanie sprzętowe"
 
 #: src/translate_text.c.po.c:10347
 msgid "Disable hardware scaling"
@@ -10769,7 +10749,7 @@ msgstr "Określ nazwę pliku z logiem"
 
 #: src/translate_text.c.po.c:11428
 msgid "Enable verbose log output."
-msgstr "Włącz drobiazgowy zapis do loga."
+msgstr "Włącz szczegółowy zapis do loga"
 
 #: src/translate_text.c.po.c:11462
 msgid "Disable mouse grab"
@@ -10891,7 +10871,7 @@ msgstr "Określ kod iso języka"
 
 #: src/translate_text.c.po.c:12006
 msgid "Disable the PLUS256K RAM expansion"
-msgstr "Wyłącz rozszerzenie PLUS256K RAM"
+msgstr "Wyłącz rozszerzenie RAM PLUS256K"
 
 #: src/translate_text.c.po.c:12023
 msgid "Specify name of PLUS256K image"
@@ -10899,7 +10879,7 @@ msgstr "Określ nazwę obrazu PLUS256K"
 
 #: src/translate_text.c.po.c:12057
 msgid "Disable the PLUS60K RAM expansion"
-msgstr "Wyłącz rozszerzenie PLUS60K RAM"
+msgstr "Wyłącz rozszerzenie RAM PLUS60K"
 
 #: src/translate_text.c.po.c:12074
 msgid "Specify name of PLUS60K image"
@@ -10911,7 +10891,7 @@ msgstr "Adres bazowy rozszerzenia PLUS60K"
 
 #: src/translate_text.c.po.c:12125
 msgid "Disable the 256K RAM expansion"
-msgstr "Wyłącz rozszerzenie 256K RAM"
+msgstr "Wyłącz rozszerzenie RAM 256K"
 
 #: src/translate_text.c.po.c:12142
 msgid "Specify name of 256K image"
@@ -10939,11 +10919,11 @@ msgstr "Zamontuj surowy obraz kartridża 16kB Simons Basic"
 
 #: src/translate_text.c.po.c:12261
 msgid "Enable the CSORY 256K RAM expansion"
-msgstr "Włącz rozszerzenie CSORY 256K RAM"
+msgstr "Włącz rozszerzenie RAM CSORY 256K"
 
 #: src/translate_text.c.po.c:12278
 msgid "Enable the HANNES 256K RAM expansion"
-msgstr "Włącz rozszerzenie HANNES 256K RAM"
+msgstr "Włącz rozszerzenie RAM HANNES 256K"
 
 #: src/translate_text.c.po.c:12295
 msgid "Enable the HANNES 1024K RAM expansion"
@@ -10963,7 +10943,7 @@ msgstr "Włącz logi blittera DTV."
 
 #: src/translate_text.c.po.c:12363
 msgid "Disable DTV blitter logs."
-msgstr "Wyłącz logi blittera DTV."
+msgstr "Wyłącz logi blittera DTV"
 
 #: src/translate_text.c.po.c:12380
 msgid "Enable DTV DMA logs."
@@ -10987,7 +10967,7 @@ msgstr "Włącz logi układu flash DTV."
 
 #: src/translate_text.c.po.c:12482
 msgid "Disable DTV flash chip logs."
-msgstr "Wyłącz logi układu flash DTV."
+msgstr "Wyłącz logi układu flash DTV"
 
 #: src/translate_text.c.po.c:12499
 msgid "Use <name> as directory for flash file system device"
