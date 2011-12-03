@@ -74,6 +74,12 @@ static uilib_dialog_group soundexpander_leftgroup[] = {
     { 0, 0 }
 };
 
+static uilib_dialog_group soundexpander_left_total_group[] = {
+    { IDC_SFX_SOUNDEXPANDER_ENABLE, 1 },
+    { IDC_SFX_SOUNDEXPANDER_TYPE_LABEL, 0 },
+    { 0, 0 }
+};
+
 static uilib_dialog_group soundexpander_rightgroup[] = {
     { IDC_SFX_SOUNDEXPANDER_TYPE, 0 },
     { 0, 0 }
@@ -92,7 +98,7 @@ static void init_soundexpander_dialog(HWND hwnd)
     }
 
     uilib_get_group_extent(hwnd, soundexpander_leftgroup, &xsize, &ysize);
-    uilib_adjust_group_width(hwnd, soundexpander_leftgroup);
+    uilib_adjust_group_width(hwnd, soundexpander_left_total_group);
     uilib_move_group(hwnd, soundexpander_rightgroup, xsize + 30);
 
     resources_get_int("SFXSoundExpander", &res_value);
