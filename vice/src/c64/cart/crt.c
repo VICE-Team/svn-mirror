@@ -93,6 +93,7 @@
 #include "warpspeed.h"
 #include "westermann.h"
 #include "zaxxon.h"
+#include "util.h"
 #undef CARTRIDGE_INCLUDE_PRIVATE_API
 
 /* #define DEBUGCRT */
@@ -162,22 +163,21 @@ int crt_read_chip_header(FILE *fd, crt_chip_header_t *header)
         return -1; /* invalid header signature */
     }
 
-    header->skip = (chipheader[4] << 24) | chipheader[5] << 16;
-    header->skip |= (chipheader[6] << 8) | chipheader[7];
+    header->skip = util_be_buf_to_dword(&chipheader[4]);
 
     if (header->skip < sizeof(chipheader)) {
         return -1; /* invalid packet size */
     }
     header->skip -= sizeof(chipheader); /* without header */
 
-    header->size = (chipheader[14] << 8) | chipheader[15];
+    header->size = util_be_buf_to_word(&chipheader[14]);
     if (header->size > header->skip) {
         return -1; /* rom bigger then total size?! */
     }
     header->skip -= header->size; /* skip size after image */
-    header->type = (chipheader[8] << 8) | chipheader[9];
-    header->bank = (chipheader[10] << 8) | chipheader[11];
-    header->start = (chipheader[12] << 8) | chipheader[13];
+    header->type = util_be_buf_to_word(&chipheader[8]);
+    header->bank = util_be_buf_to_word(&chipheader[10]);
+    header->start = util_be_buf_to_word(&chipheader[12]);
 
     if (header->start + header->size > 0x10000) {
         return -1; /* rom crossing the 64k boundary?! */

@@ -30,11 +30,11 @@
 #include "types.h"
 
 typedef struct crt_chip_header_s {
-    unsigned int skip;       /* bytes to skip after ROM */
-    int type;                /* chip type */
-    int bank;                /* bank number */
-    int start;               /* start address of ROM */
-    int size;                /* size of ROM in bytes */
+    DWORD skip;               /* bytes to skip after ROM */
+    WORD type;                /* chip type */
+    WORD bank;                /* bank number */
+    WORD start;               /* start address of ROM */
+    WORD size;                /* size of ROM in bytes */
 } crt_chip_header_t;
 
 extern int crt_attach(const char *filename, BYTE *rawcart);
