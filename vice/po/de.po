@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-01 11:41-0800\n"
-"PO-Revision-Date: 2011-11-07 20:35+0100\n"
+"PO-Revision-Date: 2011-12-04 15:37+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -5475,79 +5475,64 @@ msgid "TED Palette"
 msgstr "TED Palette"
 
 #: src/arch/win32/res.rc.po.c:1249
-#, fuzzy
 msgid "VICII Colors"
-msgstr "Farben"
+msgstr "VICII Farben"
 
 #: src/arch/win32/res.rc.po.c:1250
-#, fuzzy
 msgid "VIC Colors"
-msgstr "Farben"
+msgstr "VIC Farben"
 
 #: src/arch/win32/res.rc.po.c:1251
-#, fuzzy
 msgid "CRTC Colors"
-msgstr "Farben"
+msgstr "CRTC Farben"
 
 #: src/arch/win32/res.rc.po.c:1252
-#, fuzzy
 msgid "VDC Colors"
-msgstr "Farben"
+msgstr "VDC Farben"
 
 #: src/arch/win32/res.rc.po.c:1253
-#, fuzzy
 msgid "TED Colors"
-msgstr "Farben"
+msgstr "TED Farben"
 
 #: src/arch/win32/res.rc.po.c:1254
-#, fuzzy
 msgid "VICII CRT emulation"
-msgstr "CRT Emulation"
+msgstr "VICII CRT Emulation"
 
 #: src/arch/win32/res.rc.po.c:1255
-#, fuzzy
 msgid "VIC CRT emulation"
-msgstr "CRT Emulation"
+msgstr "VIC CRT Emulation"
 
 #: src/arch/win32/res.rc.po.c:1256
-#, fuzzy
 msgid "CRTC CRT emulation"
-msgstr "CRT Emulation"
+msgstr "CRTC CRT Emulation"
 
 #: src/arch/win32/res.rc.po.c:1257
-#, fuzzy
 msgid "VDC CRT emulation"
-msgstr "CRT Emulation"
+msgstr "VDC CRT Emulation"
 
 #: src/arch/win32/res.rc.po.c:1258
-#, fuzzy
 msgid "TED CRT emulation"
-msgstr "CRT Emulation"
+msgstr "TED CRT Emulation"
 
 #: src/arch/win32/res.rc.po.c:1259
-#, fuzzy
 msgid "VICII Render filter"
-msgstr "Render Filter"
+msgstr "VICII Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1260
-#, fuzzy
 msgid "VIC Render filter"
-msgstr "Render Filter"
+msgstr "VIC Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1261
-#, fuzzy
 msgid "CRTC Render filter"
-msgstr "Render Filter"
+msgstr "CRTC Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1262
-#, fuzzy
 msgid "VDC Render filter"
-msgstr "Render Filter"
+msgstr "VDC Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1263
-#, fuzzy
 msgid "TED Render filter"
-msgstr "Render Filter"
+msgstr "TED Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1264
 msgid "External Palette"
@@ -9802,14 +9787,12 @@ msgid "Disable hardware-level emulation of disk drives"
 msgstr "Hardware Emulation für Disklaufwerke deaktivieren"
 
 #: src/translate_text.c.po.c:7322
-#, fuzzy
 msgid "Enable sound emulation of disk drives"
-msgstr "Hardware Emulation für Disklaufwerke aktivieren"
+msgstr "Sound Emulation für Disklaufwerke aktivieren"
 
 #: src/translate_text.c.po.c:7339
-#, fuzzy
 msgid "Disable sound emulation of disk drives"
-msgstr "Hardware Emulation für Disklaufwerke deaktivieren"
+msgstr "Sound Emulation für Disklaufwerke deaktivieren"
 
 #: src/translate_text.c.po.c:7373
 msgid "Set drive type (0: no drive)"
