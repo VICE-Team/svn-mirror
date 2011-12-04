@@ -264,6 +264,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_MMC64              "MMC64" /* see manual */
 #define CARTRIDGE_NAME_MMC_REPLAY         "MMC Replay" /* see manual */
 #define CARTRIDGE_NAME_MIDI_NAMESOFT      "Namesoft MIDI"
+#define CARTRIDGE_NAME_NORDIC_REPLAY      "Nordic Replay" /* "Retro Replay v2" see manual */
 #define CARTRIDGE_NAME_OCEAN              "Ocean"
 #define CARTRIDGE_NAME_MIDI_PASSPORT      "Passport MIDI"
 #define CARTRIDGE_NAME_PAGEFOX            "Pagefox"

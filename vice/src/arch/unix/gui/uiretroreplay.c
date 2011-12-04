@@ -38,15 +38,26 @@
 UI_MENU_DEFINE_TOGGLE(RRFlashJumper)
 UI_MENU_DEFINE_TOGGLE(RRBankJumper)
 UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
+UI_MENU_DEFINE_RADIO(RRrevision)
 
 static UI_CALLBACK(retroreplay_flush_callback);
 static UI_CALLBACK(retroreplay_save_callback);
+
+static ui_menu_entry_t retroreplay_revision_submenu[] = {
+    { CARTRIDGE_NAME_RETRO_REPLAY, UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRrevision,
+      (ui_callback_data_t)0, NULL },
+    { CARTRIDGE_NAME_NORDIC_REPLAY, UI_MENU_TYPE_TICK, (ui_callback_t)radio_RRrevision,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
 
 ui_menu_entry_t retroreplay_submenu[] = {
     { N_("Enable flashjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRFlashJumper, NULL, NULL },
     { N_("Enable bankjumper"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRBankJumper, NULL, NULL },
+    { N_("Revision"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, retroreplay_revision_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Save image when changed"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_RRBiosWrite, NULL, NULL },

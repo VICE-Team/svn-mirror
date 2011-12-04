@@ -1001,7 +1001,10 @@ void romh_no_ultimax_store(WORD addr, BYTE value)
             break;
         case CARTRIDGE_PAGEFOX:
             pagefox_romh_store(addr, value);
-            return;
+            break;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_romh_store(addr, value);
+            break;
         case CARTRIDGE_CRT: /* invalid */
             DBG(("CARTMEM: BUG! invalid type %d for main cart (addr %04x)\n", mem_cartridge_type, addr));
             break;
