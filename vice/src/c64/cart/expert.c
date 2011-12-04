@@ -690,7 +690,6 @@ int expert_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 int expert_crt_save(const char *filename)
 {
     FILE *fd;
-    BYTE header[0x40];
     crt_chip_header_t chip;
 
     DBG(("EXPERT: save crt '%s'\n", filename));
@@ -700,76 +699,16 @@ int expert_crt_save(const char *filename)
         return -1;
     }
 
-    fd = fopen(filename, MODE_WRITE);
+    fd = crt_create(filename, CARTRIDGE_EXPERT, 1, 1, STRING_EXPERT);
 
     if (fd == NULL) {
         return -1;
     }
 
-    /*
-     * Initialize headers to zero.
-     */
-    memset(header, 0x0, 0x40);
-
-    /*
-     * Construct CRT header.
-     */
-    strcpy((char *)header, CRT_HEADER);
-
-    /*
-     * fileheader-length (= 0x0040)
-     */
-    header[0x10] = 0x00;
-    header[0x11] = 0x00;
-    header[0x12] = 0x00;
-    header[0x13] = 0x40;
-
-    /*
-     * Version (= 0x0100)
-     */
-    header[0x14] = 0x01;
-    header[0x15] = 0x00;
-
-    /*
-     * Hardware type (= CARTRIDGE_EXPERT)
-     */
-    header[0x16] = 0x00;
-    header[0x17] = CARTRIDGE_EXPERT;
-
-    /*
-     * Exrom line
-     */
-    header[0x18] = 0x01;            /* ? */
-
-    /*
-     * Game line
-     */
-    header[0x19] = 0x01;            /* ? */
-
-    /*
-     * Set name.
-     */
-    strcpy((char *)&header[0x20], STRING_EXPERT);
-
-    /*
-     * Write CRT header.
-     */
-    if (fwrite(header, sizeof(BYTE), 0x40, fd) != 0x40) {
-        fclose(fd);
-        return -1;
-    }
-
-    /* Chip type. (= FlashROM?) */
-    chip.type = 2;
-
-    /* Bank nr. (= 0) */
-    chip.bank = 0;
-
-    /* Address. (= 0x8000) */
-    chip.start = 0x8000;
-
-    /* Length. (= 0x2000) */
-    chip.size = EXPERT_RAM_SIZE;
+    chip.type = 2;               /* Chip type. (= FlashROM?) */
+    chip.bank = 0;               /* Bank nr. (= 0) */
+    chip.start = 0x8000;         /* Address. (= 0x8000) */
+    chip.size = EXPERT_RAM_SIZE; /* Length. (= 0x2000) */
 
     /* Write CHIP packet data. */
     if (crt_write_chip(expert_ram, &chip, fd)) {

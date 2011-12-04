@@ -860,32 +860,13 @@ int retroreplay_bin_save(const char *filename)
 int retroreplay_crt_save(const char *filename)
 {
     FILE *fd;
-    BYTE header[0x40];
     crt_chip_header_t chip;
     BYTE *data;
     int i;
 
-    if (filename == NULL) {
-        return -1;
-    }
-
-    fd = fopen(filename, MODE_WRITE);
+    fd = crt_create(filename, CARTRIDGE_RETRO_REPLAY, 1, 0, STRING_RETRO_REPLAY);
 
     if (fd == NULL) {
-        return -1;
-    }
-
-    memset(header, 0x0, 0x40);
-
-    strcpy((char *)header, CRT_HEADER);
-
-    header[0x13] = 0x40;
-    header[0x14] = 0x01;
-    header[0x17] = CARTRIDGE_RETRO_REPLAY;
-    header[0x18] = 0x01;
-    strcpy((char *)&header[0x20], STRING_RETRO_REPLAY);
-    if (fwrite(header, 1, 0x40, fd) != 0x40) {
-        fclose(fd);
         return -1;
     }
 
