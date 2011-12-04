@@ -340,7 +340,7 @@ static void detect_ide64_image(struct drive_s *drive)
         }
 
         if (memcmp(header, "C64-IDE V", 9) == 0) { /* old filesystem always CHS */
-            geometry->cylinders = ((header[0x10] << 8) | header[0x11]) + 1;
+            geometry->cylinders = util_be_buf_to_word(&header[0x10]) + 1;
             geometry->heads = (header[0x12] & 0x0f) + 1;
             geometry->sectors = header[0x13];
             geometry->size = geometry->cylinders * geometry->heads * geometry->sectors;
@@ -349,9 +349,9 @@ static void detect_ide64_image(struct drive_s *drive)
                 geometry->cylinders = 0;
                 geometry->heads = 0;
                 geometry->sectors = 0;
-                geometry->size = ((header[0x04] & 0x0f) << 24) | (header[0x05] << 16) | (header[0x06] << 8) | header[0x07];
+                geometry->size = util_be_buf_to_dword(&header[0x04]) & 0x0fffffff;
             } else { /* CHS */
-                geometry->cylinders = ((header[0x05] << 8) | header[0x06]) + 1;
+                geometry->cylinders = util_be_buf_to_word(&header[0x05]) + 1;
                 geometry->heads = (header[0x04] & 0x0f) + 1;
                 geometry->sectors = header[0x07];
                 geometry->size = geometry->cylinders * geometry->heads * geometry->sectors;
