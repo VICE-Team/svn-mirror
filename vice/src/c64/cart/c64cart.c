@@ -595,7 +595,7 @@ void cartridge_set_default(void)
 int cartridge_save_image(int type, const char *filename)
 {
     char *ext = util_get_extension((char *)filename);
-    if (!strcmp(ext, "crt")) {
+    if (ext != NULL && !strcmp(ext, "crt")) {
         return cartridge_crt_save(type, filename);
     }
     return cartridge_bin_save(type, filename);
