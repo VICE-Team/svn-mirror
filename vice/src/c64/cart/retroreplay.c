@@ -860,7 +860,8 @@ int retroreplay_bin_save(const char *filename)
 int retroreplay_crt_save(const char *filename)
 {
     FILE *fd;
-    BYTE header[0x40], chipheader[0x10];
+    BYTE header[0x40];
+    crt_chip_header_t chip;
     BYTE *data;
     int i;
 
@@ -875,7 +876,6 @@ int retroreplay_crt_save(const char *filename)
     }
 
     memset(header, 0x0, 0x40);
-    memset(chipheader, 0x0, 0x10);
 
     strcpy((char *)header, CRT_HEADER);
 
@@ -889,25 +889,17 @@ int retroreplay_crt_save(const char *filename)
         return -1;
     }
 
+    chip.type = 2;
+    chip.size = 0x2000;
+    chip.start = 0x8000;
+
     if (!checkempty(1)) {
         data = &roml_banks[0x10000];
 
-        strcpy((char *)chipheader, CHIP_HEADER);
-        chipheader[0x06] = 0x20;
-        chipheader[0x07] = 0x10;
-        chipheader[0x09] = 0x02;
-        chipheader[0x0e] = 0x20;
-
         for (i = 0; i < 8; i++) {
-            chipheader[0x0c] = 0x80;
-            chipheader[0x0b] = i; /* bank */
+            chip.bank = i; /* bank */
 
-            if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
-                fclose(fd);
-                return -1;
-            }
-
-            if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+            if (crt_write_chip(data, &chip, fd)) {
                 fclose(fd);
                 return -1;
             }
@@ -918,22 +910,10 @@ int retroreplay_crt_save(const char *filename)
     if (!checkempty(0)) {
         data = &roml_banks[0x00000];
 
-        strcpy((char *)chipheader, CHIP_HEADER);
-        chipheader[0x06] = 0x20;
-        chipheader[0x07] = 0x10;
-        chipheader[0x09] = 0x02;
-        chipheader[0x0e] = 0x20;
-
         for (i = 0; i < 8; i++) {
-            chipheader[0x0c] = 0x80;
-            chipheader[0x0b] = 8 + i; /* bank */
+            chip.bank = 8 + i; /* bank */
 
-            if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
-                fclose(fd);
-                return -1;
-            }
-
-            if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
+            if (crt_write_chip(data, &chip, fd)) {
                 fclose(fd);
                 return -1;
             }
