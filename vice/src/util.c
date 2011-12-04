@@ -613,7 +613,7 @@ DWORD util_be_buf_to_dword(BYTE *buf)
 {
     DWORD data;
 
-    data = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
+    data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
 
     return data;
 }
@@ -655,6 +655,15 @@ WORD util_le_buf_to_word(BYTE *buf)
     WORD data;
 
     data = buf[0] | (buf[1] << 8);
+
+    return data;
+}
+
+WORD util_be_buf_to_word(BYTE *buf)
+{
+    WORD data;
+
+    data = buf[1] | (buf[0] << 8);
 
     return data;
 }
