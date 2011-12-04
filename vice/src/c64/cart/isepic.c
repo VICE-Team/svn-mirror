@@ -675,7 +675,8 @@ int isepic_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 int isepic_crt_save(const char *filename)
 {
     FILE *fd;
-    BYTE header[0x40], chipheader[0x10];
+    BYTE header[0x40];
+    crt_chip_header_t chip;
 
     fd = fopen(filename, MODE_WRITE);
 
@@ -687,7 +688,6 @@ int isepic_crt_save(const char *filename)
      * Initialize headers to zero.
      */
     memset(header, 0x0, 0x40);
-    memset(chipheader, 0x0, 0x10);
 
     /*
      * Construct CRT header.
@@ -737,55 +737,20 @@ int isepic_crt_save(const char *filename)
         return -1;
     }
 
-    /*
-     * Construct chip packet.
-     */
-    strcpy((char *)chipheader, CHIP_HEADER);
+    /* Chip type. (= FlashROM?) */
+    chip.type = 2;
 
-    /*
-     * Packet length. (= 0x0810; 0x10 + 0x0800)
-     */
-    chipheader[0x04] = 0x00;
-    chipheader[0x05] = 0x00;
-    chipheader[0x06] = 0x08;
-    chipheader[0x07] = 0x10;
+    /* Bank nr. (= 0) */
+    chip.bank = 0;
 
-    /*
-     * Chip type. (= FlashROM?)
-     */
-    chipheader[0x08] = 0x00;
-    chipheader[0x09] = 0x02;
+    /* Address. (= 0x8000) */
+    chip.start = 0x8000;
 
-    /*
-     * Bank nr. (= 0)
-     */
-    chipheader[0x0a] = 0x00;
-    chipheader[0x0b] = 0x00;
+    /* Length. (= 0x0800) */
+    chip.size = ISEPIC_RAM_SIZE;
 
-    /*
-     * Address. (= 0x8000)
-     */
-    chipheader[0x0c] = 0x80;
-    chipheader[0x0d] = 0x00;
-
-    /*
-     * Length. (= 0x0800)
-     */
-    chipheader[0x0e] = 0x08;
-    chipheader[0x0f] = 0x00;
-
-    /*
-     * Write CHIP header.
-     */
-    if (fwrite(chipheader, sizeof(BYTE), 0x10, fd) != 0x10) {
-        fclose(fd);
-        return -1;
-    }
-
-    /*
-     * Write CHIP packet data.
-     */
-    if (fwrite(isepic_ram, sizeof(char), ISEPIC_RAM_SIZE, fd) != ISEPIC_RAM_SIZE) {
+    /* Write CHIP packet data. */
+    if (crt_write_chip(isepic_ram, &chip, fd)) {
         fclose(fd);
         return -1;
     }

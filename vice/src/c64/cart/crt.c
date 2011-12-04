@@ -108,7 +108,7 @@
  * CRT image "strings".
  */
 const char CRT_HEADER[] = "C64 CARTRIDGE   ";
-const char CHIP_HEADER[] = "CHIP";
+const static char CHIP_HEADER[] = "CHIP";
 
 static int crt_read_header(FILE *fd, crt_header_t *header)
 {
@@ -120,7 +120,7 @@ static int crt_read_header(FILE *fd, crt_header_t *header)
         return -1;
     }
 
-    if (memcmp(header, CRT_HEADER, 16)) {
+    if (memcmp(crt_header, CRT_HEADER, 16)) {
         DBG(("CRT: header invalid\n"));
         return -1;
     }
@@ -214,6 +214,30 @@ int crt_read_chip(BYTE *rawcart, int offset, crt_chip_header_t *chip, FILE *fd)
         return -1; /* eof?! */
     }
     fseek(fd, chip->skip, SEEK_CUR); /* skip the rest */
+
+    return 0;
+}
+/*
+    Write chip header and data, return -1 on fault
+*/
+int crt_write_chip(BYTE *data, crt_chip_header_t *header, FILE *fd)
+{
+    BYTE chipheader[0x10];
+
+    memcpy(chipheader, CHIP_HEADER, 4);
+    util_dword_to_be_buf(&chipheader[4], header->size + sizeof(chipheader));
+    util_word_to_be_buf(&chipheader[8], header->type);
+    util_word_to_be_buf(&chipheader[10], header->bank);
+    util_word_to_be_buf(&chipheader[12], header->start);
+    util_word_to_be_buf(&chipheader[14], header->size);
+
+    if (fwrite(chipheader, sizeof(chipheader), 1, fd) < 1) {
+        return -1; /* could not write chip header */
+    }
+
+    if (fwrite(data, header->size, 1, fd) < 1) {
+        return -1; /* could not write chip content */
+    }
 
     return 0;
 }

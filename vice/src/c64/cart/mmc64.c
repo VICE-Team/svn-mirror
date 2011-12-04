@@ -1040,7 +1040,8 @@ int mmc64_bin_save(const char *filename)
 int mmc64_crt_save(const char *filename)
 {
     FILE *fd;
-    BYTE header[0x40], chipheader[0x10];
+    BYTE header[0x40];
+    crt_chip_header_t chip;
 
     if (filename == NULL) {
         return -1;
@@ -1053,7 +1054,6 @@ int mmc64_crt_save(const char *filename)
     }
 
     memset(header, 0x0, 0x40);
-    memset(chipheader, 0x0, 0x10);
 
     strcpy((char *)header, CRT_HEADER);
 
@@ -1067,21 +1067,12 @@ int mmc64_crt_save(const char *filename)
         return -1;
     }
 
-    strcpy((char *)chipheader, CHIP_HEADER);
-    chipheader[0x06] = 0x20;
-    chipheader[0x07] = 0x10;
-    chipheader[0x09] = 0x02;
-    chipheader[0x0e] = 0x20;
+    chip.type = 2;
+    chip.size = 0x2000;
+    chip.start = 0x8000;
+    chip.bank = 0;
 
-    chipheader[0x0c] = 0x80;
-    chipheader[0x0b] = 0; /* bank */
-
-    if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
-        fclose(fd);
-        return -1;
-    }
-
-    if (fwrite(mmc64_bios, 1, 0x2000, fd) != 0x2000) {
+    if (crt_write_chip(mmc64_bios, &chip, fd)) {
         fclose(fd);
         return -1;
     }

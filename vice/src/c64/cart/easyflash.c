@@ -192,18 +192,6 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-static int easyflash_check_empty(const BYTE *data)
-{
-    int i;
-
-    for (i = 0; i < 0x2000; i++) {
-        if (data[i] != 0xff) {
-            return 0;
-        }
-    }
-    return 1;
-}
-
 static int set_easyflash_jumper(int val, void *param)
 {
     easyflash_jumper = val;
@@ -216,16 +204,16 @@ static int set_easyflash_crt_write(int val, void *param)
     return 0;
 }
 
-static int easyflash_write_chip_if_not_empty(FILE* fd, const BYTE* chipheader, const BYTE* data)
+static int easyflash_write_chip_if_not_empty(FILE* fd, crt_chip_header_t *chip, BYTE* data)
 {
-    if (easyflash_check_empty(data) == 0) {
+    int i;
 
-        if (fwrite(chipheader, 1, 0x10, fd) != 0x10) {
-            return -1;
-        }
-
-        if (fwrite(data, 1, 0x2000, fd) != 0x2000) {
-            return -1;
+    for (i = 0; i < chip->size; i++) {
+        if (data[i] != 0xff) {
+            if (crt_write_chip(data, chip, fd)) {
+                return -1;
+            }
+            return 0;
         }
     }
     return 0;
@@ -456,7 +444,8 @@ int easyflash_bin_save(const char *filename)
 int easyflash_crt_save(const char *filename)
 {
     FILE *fd;
-    BYTE header[0x40], chipheader[0x10];
+    BYTE header[0x40];
+    crt_chip_header_t chip;
     BYTE *data;
     int bank;
 
@@ -471,7 +460,6 @@ int easyflash_crt_save(const char *filename)
     }
 
     memset(header, 0x0, 0x40);
-    memset(chipheader, 0x0, 0x10);
 
     strcpy((char *)header, CRT_HEADER);
 
@@ -485,25 +473,22 @@ int easyflash_crt_save(const char *filename)
         return -1;
     }
 
-    strcpy((char *)chipheader, CHIP_HEADER);
-    chipheader[0x06] = 0x20;
-    chipheader[0x07] = 0x10;
-    chipheader[0x09] = 0x02;
-    chipheader[0x0e] = 0x20;
+    chip.type = 2;
+    chip.size = 0x2000;
 
     for (bank = 0; bank < EASYFLASH_N_BANKS; bank++) {
-        chipheader[0x0b] = bank;
+        chip.bank = bank;
 
         data = easyflash_state_low->flash_data + bank * 0x2000;
-        chipheader[0x0c] = 0x80;
-        if (easyflash_write_chip_if_not_empty(fd, chipheader, data) != 0) {
+        chip.start = 0x8000;
+        if (easyflash_write_chip_if_not_empty(fd, &chip, data) != 0) {
             fclose(fd);
             return -1;
         }
 
         data = easyflash_state_high->flash_data + bank * 0x2000;
-        chipheader[0x0c] = 0xa0;
-        if (easyflash_write_chip_if_not_empty(fd, chipheader, data) != 0) {
+        chip.start = 0xa000;
+        if (easyflash_write_chip_if_not_empty(fd, &chip, data) != 0) {
             fclose(fd);
             return -1;
         }
