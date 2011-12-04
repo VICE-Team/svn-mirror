@@ -184,7 +184,7 @@ int ross_crt_attach(FILE *fd, BYTE *rawcart)
 
         amount++;
 
-        if (chip.start != 0x8000 || chip.size != 0x4000 && chip.bank > 1) {
+        if ((chip.start != 0x8000 && chip.size != 0x4000) || chip.bank > 1) {
             return -1;
         }
 
