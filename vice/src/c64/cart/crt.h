@@ -31,7 +31,7 @@
 
 typedef struct crt_header_s {
     WORD version;             /* version */
-    SWORD type;               /* type of cartridge */
+    WORD type;                /* type of cartridge */
     int exrom;                /* exrom line status */
     int game;                 /* game line status */
     char name[33];            /* name of cartridge */

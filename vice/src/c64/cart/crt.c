@@ -133,7 +133,7 @@ static int crt_read_header(FILE *fd, crt_header_t *header)
     skip -= sizeof(crt_header); /* without header */
 
     header->version = util_be_buf_to_word(&crt_header[0x14]);
-    header->type = (SWORD)util_be_buf_to_word(&crt_header[0x16]);
+    header->type = util_be_buf_to_word(&crt_header[0x16]);
     header->exrom = crt_header[0x18];
     header->game = crt_header[0x19];
     memset(header->name, 0, sizeof(header->name));
@@ -268,6 +268,10 @@ int crt_attach(const char *filename, BYTE *rawcart)
     }
 
     new_crttype = header.type;
+    if (new_crttype & 0x8000) {
+        /* handle our negative test IDs */
+        new_crttype -= 0x10000;
+    }
     DBG(("crt_attach ID: %d\n", new_crttype));
 
 /*  cart should always be detached. there is no reason for doing fancy checks
