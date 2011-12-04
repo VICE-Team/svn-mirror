@@ -356,7 +356,7 @@ int easyflash_bin_attach(const char *filename, BYTE *rawcart)
     return easyflash_common_attach(filename);
 }
 
-int easyflash_crt_attach(FILE *fd, BYTE *rawcart, BYTE *header, const char *filename)
+int easyflash_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
 {
     crt_chip_header_t chip;
 

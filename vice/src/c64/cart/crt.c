@@ -110,20 +110,36 @@
 const char CRT_HEADER[] = "C64 CARTRIDGE   ";
 const char CHIP_HEADER[] = "CHIP";
 
-static int crt_read_header(FILE *fd, BYTE *header)
+static int crt_read_header(FILE *fd, crt_header_t *header)
 {
-    if (fread(header, 0x40, 1, fd) < 1) {
+    BYTE crt_header[0x40];
+    DWORD skip;
+
+    if (fread(crt_header, sizeof(crt_header), 1, fd) < 1) {
         DBG(("CRT: could not read header\n"));
-        fclose(fd);
         return -1;
     }
 
-    if (strncmp((char*)header, CRT_HEADER, 16)) {
+    if (memcmp(header, CRT_HEADER, 16)) {
         DBG(("CRT: header invalid\n"));
-        fclose(fd);
         return -1;
     }
 
+    skip = util_be_buf_to_dword(&crt_header[0x10]);
+
+    if (skip < sizeof(crt_header)) {
+        return -1; /* invalid header size */
+    }
+    skip -= sizeof(crt_header); /* without header */
+
+    header->version = util_be_buf_to_word(&crt_header[0x14]);
+    header->type = (SWORD)util_be_buf_to_word(&crt_header[0x16]);
+    header->exrom = crt_header[0x18];
+    header->game = crt_header[0x19];
+    memset(header->name, 0, sizeof(header->name));
+    strncpy(header->name, (char*)&crt_header[0x20], sizeof(header->name) - 1);
+
+    fseek(fd, skip, SEEK_CUR); /* skip the rest */
     return 0;
 }
 /*
@@ -131,7 +147,7 @@ static int crt_read_header(FILE *fd, BYTE *header)
 */
 int crt_getid(const char *filename)
 {
-    BYTE header[0x40];
+    crt_header_t header;
     FILE *fd;
 
     fd = fopen(filename, MODE_READ);
@@ -140,13 +156,14 @@ int crt_getid(const char *filename)
         return -1;
     }
 
-    if (crt_read_header(fd, header) == -1) {
+    if (crt_read_header(fd, &header)) {
+        fclose(fd);
         return -1;
     }
 
     fclose(fd);
 
-    return header[0x17] + header[0x16] * 256;
+    return header.type;
 }
 
 /*
@@ -209,7 +226,7 @@ int crt_read_chip(BYTE *rawcart, int offset, crt_chip_header_t *chip, FILE *fd)
 */
 int crt_attach(const char *filename, BYTE *rawcart)
 {
-    BYTE header[0x40];
+    crt_header_t header;
     int rc, new_crttype;
     FILE *fd;
 
@@ -221,15 +238,12 @@ int crt_attach(const char *filename, BYTE *rawcart)
         return -1;
     }
 
-    if (crt_read_header(fd, header) == -1) {
+    if (crt_read_header(fd, &header)) {
+        fclose(fd);
         return -1;
     }
 
-    new_crttype = (header[0x17] + (header[0x16] * 256));
-    if (header[0x17] & 0x80) {
-        /* handle our negative test IDs */
-        new_crttype -= 0x10000;
-    }
+    new_crttype = header.type;
     DBG(("crt_attach ID: %d\n", new_crttype));
 
 /*  cart should always be detached. there is no reason for doing fancy checks
@@ -285,7 +299,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
             rc = dinamic_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_EASYFLASH:
-            rc = easyflash_crt_attach(fd, rawcart, header, filename);
+            rc = easyflash_crt_attach(fd, rawcart, filename);
             break;
         case CARTRIDGE_EPYX_FASTLOAD:
             rc = epyxfastload_crt_attach(fd, rawcart);
