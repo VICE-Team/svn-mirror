@@ -290,6 +290,7 @@ static void detect_ide64_image(struct drive_s *drive)
     FILE *file;
     unsigned char header[24];
     int res;
+    char *ext;
     ata_drive_geometry_t *geometry = &drive->detected;
 
     if (!ide64_rom_list_item) {
@@ -315,14 +316,15 @@ static void detect_ide64_image(struct drive_s *drive)
     }
 
     drive->type = ATA_DRIVE_CF;
-    if (res > 4) {
-        if (!strcasecmp(drive->filename + res - 4, ".cfa")) {
+    ext = util_get_extension(drive->filename);
+    if (ext) {
+        if (!strcasecmp(ext, ".cfa")) {
             drive->type = ATA_DRIVE_CF;
-        } else if (!strcasecmp(drive->filename + res - 4, ".hdd")) {
+        } else if (!strcasecmp(ext, ".hdd")) {
             drive->type = ATA_DRIVE_HDD;
-        } else if (!strcasecmp(drive->filename + res - 4, ".fdd")) {
+        } else if (!strcasecmp(ext, ".fdd")) {
             drive->type = ATA_DRIVE_FDD;
-        } else if (!strcasecmp(drive->filename + res - 4, ".iso")) {
+        } else if (!strcasecmp(ext, ".iso")) {
             drive->type = ATA_DRIVE_CD;
         }
     }
