@@ -47,7 +47,7 @@ typedef struct crt_chip_header_s {
 
 extern int crt_attach(const char *filename, BYTE *rawcart);
 extern int crt_getid(const char *filename);
-extern int crt_read_chip_header(FILE *fd, crt_chip_header_t *header);
+extern int crt_read_chip_header(crt_chip_header_t *header, FILE *fd);
 extern int crt_read_chip(BYTE *rawcart, int offset, crt_chip_header_t *chip, FILE *fd);
 extern FILE *crt_create(const char *filename, int type, int exrom, int game, const char *name);
 extern int crt_write_chip(BYTE *data, crt_chip_header_t *header, FILE *fd);

@@ -156,7 +156,7 @@ int p64_crt_attach(FILE *fd, BYTE *rawcart)
 
     for (i = 0; i <= 0x1f; i++) {
 
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 

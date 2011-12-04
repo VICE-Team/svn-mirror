@@ -2514,7 +2514,7 @@ int mmcreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
     memset(rawcart, 0xff, 0x80000);
 
     for (i = 0; i <= 63; i++) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 

@@ -352,7 +352,7 @@ int easyflash_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
     memset(rawcart, 0xff, 0x100000); /* empty flash */
 
     while (1) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 

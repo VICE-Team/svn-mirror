@@ -742,7 +742,7 @@ int magicformel_crt_attach(FILE *fd, BYTE *rawcart)
     int i, cnt = 0;
 
     for (i = 0; i <= 15; i++) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 

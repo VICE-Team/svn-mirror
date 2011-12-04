@@ -180,7 +180,7 @@ int crt_getid(const char *filename)
 /*
     Read and pharse chip header, return -1 on fault
 */
-int crt_read_chip_header(FILE *fd, crt_chip_header_t *header)
+int crt_read_chip_header(crt_chip_header_t *header, FILE *fd)
 {
     BYTE chipheader[0x10];
 

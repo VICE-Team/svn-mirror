@@ -213,7 +213,7 @@ int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
         rexep256_eprom_roml_bank_offset[i] = 0x1f;
     }
 
-    if (crt_read_chip_header(fd, &chip)) {
+    if (crt_read_chip_header(&chip, fd)) {
         return -1;
     }
 
@@ -226,7 +226,7 @@ int rexep256_crt_attach(FILE *fd, BYTE *rawcart)
     }
 
     while (1) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 

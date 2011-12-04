@@ -231,7 +231,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
 
     export_res_ultimax.game = 0;
 
-    if (crt_read_chip_header(fd, &chip)) {
+    if (crt_read_chip_header(&chip, fd)) {
         return -1;
     }
 
@@ -241,7 +241,7 @@ int generic_crt_attach(FILE *fd, BYTE *rawcart)
             return -1;
         }
         /* try to read next CHIP header in case of 16k Ultimax cart */
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             crttype = (chip.size <= 0x2000) ? CARTRIDGE_GENERIC_8KB : CARTRIDGE_GENERIC_16KB;
             DBG(("type %d (generic game)\n", crttype));
             if (generic_common_attach(crttype) < 0) {

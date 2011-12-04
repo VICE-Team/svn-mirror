@@ -113,7 +113,7 @@ int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     /* first CHIP header holds $8000-$a000 data */
-    if (crt_read_chip_header(fd, &chip)) {
+    if (crt_read_chip_header(&chip, fd)) {
         return -1;
     }
 
@@ -132,7 +132,7 @@ int zaxxon_crt_attach(FILE *fd, BYTE *rawcart)
 
     /* second/third CHIP headers hold $a000-$c000 banked data */
     for (i = 0; i <= 1; i++) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             return -1;
         }
 

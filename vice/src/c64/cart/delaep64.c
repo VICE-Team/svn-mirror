@@ -222,7 +222,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
      */
     memset(rawcart, 0xff, 0x12000);
 
-    if (crt_read_chip_header(fd, &chip)) {
+    if (crt_read_chip_header(&chip, fd)) {
         return -1;
     }
 
@@ -236,7 +236,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
     }
 
     while (1) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 

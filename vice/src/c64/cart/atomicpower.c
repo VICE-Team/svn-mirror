@@ -293,7 +293,7 @@ int atomicpower_crt_attach(FILE *fd, BYTE *rawcart)
     int i;
 
     for (i = 0; i <= 3; i++) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             return -1;
         }
 

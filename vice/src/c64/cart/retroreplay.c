@@ -786,7 +786,7 @@ int retroreplay_crt_attach(FILE *fd, BYTE *rawcart, const char *filename)
     retroreplay_filename = NULL;
 
     for (i = 0; i <= 15; i++) {
-        if (crt_read_chip_header(fd, &chip)) {
+        if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 

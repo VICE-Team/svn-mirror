@@ -604,7 +604,7 @@ int tpi_crt_attach(FILE *fd, BYTE *rawcart)
 {
     crt_chip_header_t chip;
 
-    if (crt_read_chip_header(fd, &chip)) {
+    if (crt_read_chip_header(&chip, fd)) {
         return -1;
     }
 
