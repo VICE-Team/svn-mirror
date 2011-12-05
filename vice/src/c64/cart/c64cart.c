@@ -573,14 +573,18 @@ void cartridge_set_default(void)
 {
     int type = CARTRIDGE_NONE;
 
-    if (util_file_exists(cartfile)) {
-        if (crt_getid(cartfile) > 0) {
-            type = CARTRIDGE_CRT;
+    if (cartfile != NULL) {
+        if (util_file_exists(cartfile)) {
+            if (crt_getid(cartfile) > 0) {
+                type = CARTRIDGE_CRT;
+            } else {
+                type = c64cart_type;
+            }
         } else {
-            type = c64cart_type;
+            DBG(("cartridge_set_default: file does not exist: '%s'\n", cartfile));
         }
     } else {
-        DBG(("cartridge_set_default: file does not exist: '%s'\n", cartfile));
+        DBG(("cartridge_set_default: no filename\n"));
     }
     DBG(("cartridge_set_default: id %d '%s'\n", type, cartfile));
 
