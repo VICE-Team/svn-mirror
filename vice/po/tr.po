@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-01 11:41-0800\n"
-"PO-Revision-Date: 2011-02-16 20:45+0100\n"
+"PO-Revision-Date: 2011-12-06 18:41+0100\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
 "Language: \n"
@@ -80,9 +80,8 @@ msgstr "Dördüncü RS232 aygýtýnýn Baudrate'ini belirleyin"
 
 #: src/arch/unix/gui/c128ui.c:266 src/arch/unix/gui/c64scui.c:365
 #: src/arch/unix/gui/c64ui.c:425 src/arch/unix/gui/vsidui.c:232
-#, fuzzy
 msgid "Extra SIDs"
-msgstr "SID'i aktif et"
+msgstr "Ekstra SIDler"
 
 #: src/arch/unix/gui/c128ui.c:267 src/arch/unix/gui/c64scui.c:366
 #: src/arch/unix/gui/c64ui.c:426 src/arch/unix/gui/cbm2ui.c:361
@@ -92,9 +91,8 @@ msgstr "Ýkinci SID taban adresi"
 
 #: src/arch/unix/gui/c128ui.c:268 src/arch/unix/gui/c64scui.c:367
 #: src/arch/unix/gui/c64ui.c:427 src/arch/unix/gui/vsidui.c:234
-#, fuzzy
 msgid "Third SID base address"
-msgstr "Ýkinci SID taban adresi"
+msgstr "Üçüncü SID taban adresi"
 
 #: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64dtvui.c:76
 #: src/arch/unix/gui/c64scui.c:369 src/arch/unix/gui/c64ui.c:429
@@ -384,9 +382,8 @@ msgstr "Model ayarlarý"
 #: src/arch/unix/gui/c64scui.c:546 src/arch/unix/gui/c64ui.c:606
 #: src/arch/unix/gui/cbm2ui.c:395 src/arch/unix/gui/petui.c:393
 #: src/arch/unix/gui/plus4ui.c:311 src/arch/unix/gui/vic20ui.c:537
-#, fuzzy
 msgid "RAM reset pattern"
-msgstr "ROM set tipi"
+msgstr "RAM reset deseni"
 
 #: src/arch/unix/gui/c128ui.c:560 src/arch/unix/gui/c64dtvui.c:183
 #: src/arch/unix/gui/c64scui.c:548 src/arch/unix/gui/c64ui.c:608
@@ -544,9 +541,8 @@ msgid "Save media file"
 msgstr "Ortam dosyasý kaydet"
 
 #: src/arch/unix/gui/c64dtvui.c:150 src/arch/unix/gui/c64dtvui.c:285
-#, fuzzy
 msgid "DTV model"
-msgstr "SID modeli"
+msgstr "DTV modeli"
 
 #: src/arch/unix/gui/c64dtvui.c:153 src/arch/win32/resc64dtv.rc.po.c:439
 #: src/arch/amigaos/intl_text.c.po.c:5004
@@ -637,16 +633,15 @@ msgstr "Yok"
 
 #: src/arch/unix/gui/c64scui.c:391 src/arch/unix/gui/c64ui.c:451
 msgid "CIA1"
-msgstr ""
+msgstr "CIA1"
 
 #: src/arch/unix/gui/c64scui.c:393 src/arch/unix/gui/c64ui.c:453
 msgid "CIA2"
-msgstr ""
+msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:440 src/arch/unix/gui/c64ui.c:500
-#, fuzzy
 msgid "Burst Mode Modification"
-msgstr "Emülatör tespiti"
+msgstr "Burst Mod Deðiþikliði"
 
 #: src/arch/unix/gui/c64ui.c:209
 msgid "Old PAL-G"
@@ -931,29 +926,24 @@ msgid "Load new 3 plus 1 HI ROM"
 msgstr "Yeni 3 plus 1 HI ROM yükle"
 
 #: src/arch/unix/gui/plus4ui.c:158
-#, fuzzy
 msgid "Load new c1 LO ROM"
-msgstr "Yeni Basic Lo ROM yükle"
+msgstr "Yeni c1 LO ROM yükle"
 
 #: src/arch/unix/gui/plus4ui.c:160
-#, fuzzy
 msgid "Load new c1 HI ROM"
-msgstr "Yeni Basic Hi ROM yükle"
+msgstr "Yeni c1 HI ROM yükle"
 
 #: src/arch/unix/gui/plus4ui.c:162
-#, fuzzy
 msgid "Load new c2 LO ROM"
-msgstr "Yeni Basic Lo ROM yükle"
+msgstr "Yeni c2 LO ROM yükle"
 
 #: src/arch/unix/gui/plus4ui.c:164
-#, fuzzy
 msgid "Load new c2 HI ROM"
-msgstr "Yeni Basic Hi ROM yükle"
+msgstr "Yeni c2 HI ROM yükle"
 
 #: src/arch/unix/gui/plus4ui.c:254
-#, fuzzy
 msgid "ACIA"
-msgstr "ACIA modu"
+msgstr "ACIA"
 
 #: src/arch/unix/gui/plus4ui.c:256 src/arch/amigaos/intl_text.c.po.c:8169
 msgid "Digiblaster add-on"
@@ -1139,9 +1129,8 @@ msgid "Autostart warp"
 msgstr "Warp modunda otomatik baþlat"
 
 #: src/arch/unix/gui/uiautostart.c:68
-#, fuzzy
 msgid "Autostart random delay"
-msgstr "PRG modunda otomatik baþlat"
+msgstr "Rastgele gecikmeyle otomatik baþlat"
 
 #: src/arch/unix/gui/uiautostart.c:70 src/arch/win32/resautostart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:9751
@@ -1610,9 +1599,8 @@ msgid "Double size"
 msgstr "Çift boyut"
 
 #: src/arch/unix/gui/uicrtc.c:143 src/arch/unix/gui/uivdc.c:160
-#, fuzzy
 msgid "Stretch vertically"
-msgstr "Dikey döþe"
+msgstr "Dikey uzat"
 
 #: src/arch/unix/gui/uicrtc.c:145 src/arch/unix/gui/uited.c:132
 #: src/arch/unix/gui/uivdc.c:162 src/arch/unix/gui/uivic.c:131
@@ -1637,9 +1625,8 @@ msgstr "Renkler"
 #: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:140
 #: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:139
 #: src/arch/unix/gui/uivicii.c:177
-#, fuzzy
 msgid "Color settings"
-msgstr "Model ayarlarý"
+msgstr "Renk ayarlarý"
 
 #: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:144
 #: src/arch/unix/gui/uivdc.c:174 src/arch/unix/gui/uivic.c:143
@@ -1962,15 +1949,13 @@ msgstr "Yeni 1581 ROM'u yükle"
 
 #: src/arch/unix/gui/uidrivec128.c:239 src/arch/unix/gui/uidrivec64vic20.c:162
 #: src/arch/unix/gui/uidriveplus4.c:306
-#, fuzzy
 msgid "Load new 2000 ROM"
-msgstr "Yeni 2040 ROM'u yükle"
+msgstr "Yeni 2000 ROM'u yükle"
 
 #: src/arch/unix/gui/uidrivec128.c:242 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:309
-#, fuzzy
 msgid "Load new 4000 ROM"
-msgstr "Yeni 4040 ROM'u yükle"
+msgstr "Yeni 4000 ROM'u yükle"
 
 #: src/arch/unix/gui/uidrivec128.c:245 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidrivepetcbm2.c:142
@@ -2171,7 +2156,6 @@ msgstr "Çýkart #%d"
 
 #: src/arch/unix/gui/uifliplist.c:208 src/arch/unix/gui/uiramcart.c:58
 #: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:6671
-#, fuzzy
 msgid "Read-only"
 msgstr "Salt okunur"
 
@@ -2228,9 +2212,8 @@ msgstr "Boyut"
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
 #: src/arch/unix/gui/uitfe.c:70 src/arch/amigaos/intl_text.c.po.c:5452
-#, fuzzy
 msgid "MasC=uerade I/O swap"
-msgstr "SuperPET G/Ç'ý aktif et"
+msgstr "MasC=uerade G/Ç deðiþimi"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:5466
@@ -2285,9 +2268,8 @@ msgstr "Versiyon 4"
 
 #: src/arch/unix/gui/uiide64.c:180 src/arch/unix/gui/uiide64.c:199
 #: src/arch/unix/gui/uiide64.c:218 src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "HD image name"
-msgstr "HD imajý 1 ismi"
+msgstr "HD imajý ismi"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2302,24 +2284,20 @@ msgid "Revision"
 msgstr "Revizyon"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "HD 1 settings"
-msgstr "VDC ayarlarý"
+msgstr "HD 1 ayarlarý"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "HD 2 settings"
-msgstr "VDC ayarlarý"
+msgstr "HD 2 ayarlarý"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "HD 3 settings"
-msgstr "VDC ayarlarý"
+msgstr "HD 3 ayarlarý"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "HD 4 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "HD 4 ayarlarý"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2626,9 +2604,8 @@ msgstr "Flashjumperý aktif et"
 #: src/arch/unix/gui/uimmc64.c:91 src/arch/unix/gui/uimmcreplay.c:76
 #: src/arch/win32/resmmcreplay.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:7945
-#, fuzzy
 msgid "Card image file"
-msgstr "Kart Imaj Dosyasý"
+msgstr "Kart imaj dosyasý"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:95 src/arch/unix/gui/uimmcreplay.c:80
@@ -2656,9 +2633,8 @@ msgstr "Kurtarma modunu aktif et"
 
 #: src/arch/unix/gui/uimmcreplay.c:86 src/arch/win32/resmmcreplay.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:7973
-#, fuzzy
 msgid "EEPROM image file"
-msgstr "EEPROM Ýmaj Dosyasý"
+msgstr "EEPROM imaj dosyasý"
 
 #: src/arch/unix/gui/uimmcreplay.c:89 src/translate_text.c.po.c:5074
 msgid "Enable writes to MMC Replay EEPROM image"
@@ -2809,7 +2785,6 @@ msgid "Odd lines offset"
 msgstr "Tek satýr ofseti"
 
 #: src/arch/unix/gui/uipalemu.c:93
-#, fuzzy
 msgid "in percent"
 msgstr "yüzde"
 
@@ -2827,9 +2802,8 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/uiperipheral.c:48 src/translate_text.c.po.c:11819
-#, fuzzy
 msgid "Path"
-msgstr "Yol:"
+msgstr "Yol"
 
 #: src/arch/unix/gui/uiperipheral.c:63 src/arch/unix/gui/uiperipheral.c:79
 #: src/arch/unix/gui/uiperipheral.c:95 src/arch/unix/gui/uiperipheral.c:111
@@ -3007,9 +2981,8 @@ msgstr "Yazýcý döküm dosyasýný seçin"
 
 #: src/arch/unix/gui/uiprinter.c:130 src/arch/unix/gui/uirs232.c:120
 #: src/arch/unix/x11/ui-cmdline-options.c:42 src/translate_text.c.po.c:2034
-#, fuzzy
 msgid "Command"
-msgstr "Komut:"
+msgstr "Komut"
 
 #: src/arch/unix/gui/uiprinter.c:132
 msgid "Command to execute for printing (preceed with '|')"
@@ -3023,9 +2996,8 @@ msgstr "Yazýcý #4 emülasyonu"
 
 #: src/arch/unix/gui/uiprinteriec.c:42
 #: src/arch/unix/gui/uiprinteriecplus4.c:41
-#, fuzzy
 msgid "Printer #4 enable IEC device"
-msgstr "IEC yazýcý #4 IEC aygýtýný aktif et"
+msgstr "Yazýcý #4 IEC aygýtýný aktif et"
 
 #: src/arch/unix/gui/uiprinteriec.c:44
 #: src/arch/unix/gui/uiprinteriecplus4.c:43
@@ -3036,16 +3008,14 @@ msgstr "Yazýcý #4 sürücüsü"
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 text output device"
-msgstr "Yazýcý #4 çýktý aygýtý"
+msgstr "Yazýcý #4 metin çýktý aygýtý"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
 #: src/arch/unix/gui/uiprinterieee.c:45
-#, fuzzy
 msgid "Printer #4 formfeed"
-msgstr "IEC yazýcý #4 sayfa ilerletme"
+msgstr "Yazýcý #4 sayfa ilerletme"
 
 #: src/arch/unix/gui/uiprinteriec.c:52
 #: src/arch/unix/gui/uiprinteriecplus4.c:51
@@ -3055,9 +3025,8 @@ msgstr "Yazýcý #5 emülasyonu"
 
 #: src/arch/unix/gui/uiprinteriec.c:54
 #: src/arch/unix/gui/uiprinteriecplus4.c:53
-#, fuzzy
 msgid "Printer #5 enable IEC device"
-msgstr "IEC yazýcý #5 IEC aygýtýný aktif et"
+msgstr "Yazýcý #5 IEC aygýtýný aktif et"
 
 #: src/arch/unix/gui/uiprinteriec.c:56
 #: src/arch/unix/gui/uiprinteriecplus4.c:55
@@ -3068,16 +3037,14 @@ msgstr "Yazýcý #5 sürücüsü"
 #: src/arch/unix/gui/uiprinteriec.c:58
 #: src/arch/unix/gui/uiprinteriecplus4.c:57
 #: src/arch/unix/gui/uiprinterieee.c:53
-#, fuzzy
 msgid "Printer #5 text output device"
-msgstr "Yazýcý #5 çýktý aygýtý"
+msgstr "Yazýcý #5 metin çýktý aygýtý"
 
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 formfeed"
-msgstr "IEC yazýcý #5 sayfa ilerletme"
+msgstr "Yazýcý #5 sayfa ilerletme"
 
 #: src/arch/unix/gui/uiprinteriec.c:64 src/arch/unix/gui/uiprinterieee.c:59
 #: src/arch/amigaos/intl_text.c.po.c:6881
@@ -3285,9 +3252,8 @@ msgstr "Normal"
 
 #: src/arch/unix/gui/uirs232c64c128.c:94
 #: src/arch/unix/gui/uirs232c64c128.c:131
-#, fuzzy
 msgid "ACIA RS232 interface emulation"
-msgstr "ACIA $DExx RS232 arabirim emülasyonu"
+msgstr "ACIA RS232 arabirim emülasyonu"
 
 #: src/arch/unix/gui/uirs232c64c128.c:96
 #: src/arch/unix/gui/uirs232c64c128.c:133
@@ -3301,9 +3267,8 @@ msgstr "ACIA aygýtý"
 #: src/arch/unix/gui/uirs232c64c128.c:135
 #: src/arch/unix/gui/uirs232c64c128.c:172
 #: src/arch/amigaos/intl_text.c.po.c:4850
-#, fuzzy
 msgid "ACIA base address"
-msgstr "taban adresi"
+msgstr "ACIA taban adresi"
 
 #: src/arch/unix/gui/uirs232c64c128.c:100
 #: src/arch/unix/gui/uirs232c64c128.c:137
@@ -3315,9 +3280,8 @@ msgstr "ACIA kesmesi"
 #: src/arch/unix/gui/uirs232c64c128.c:102
 #: src/arch/unix/gui/uirs232c64c128.c:139
 #: src/arch/unix/gui/uirs232c64c128.c:176
-#, fuzzy
 msgid "ACIA emulation mode"
-msgstr "ACIA $DExx Emülasyonu Modu"
+msgstr "ACIA emülasyonu modu"
 
 #: src/arch/unix/gui/uirs232c64c128.c:105
 #: src/arch/unix/gui/uirs232c64c128.c:142
@@ -3375,9 +3339,8 @@ msgid "Program name to exec"
 msgstr "Çalýþtýrýlacak program ismi"
 
 #: src/arch/unix/gui/uirs232c64c128.c:168
-#, fuzzy
 msgid "ACIA RS232 interface emulation (MasC=uerade)"
-msgstr "ACIA $DExx RS232 arabirim emülasyonu"
+msgstr "ACIA RS232 arabirim emülasyonu (MasC=uerade)"
 
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:46
 msgid "Serial 2 device"
@@ -3579,13 +3542,12 @@ msgid "Passband percentage"
 msgstr "Passband yüzdesi"
 
 #: src/arch/unix/gui/uisid.c:255
-#, fuzzy
 msgid "One"
-msgstr "Açýk"
+msgstr "Bir"
 
 #: src/arch/unix/gui/uisid.c:256
 msgid "Two"
-msgstr ""
+msgstr "Ýki"
 
 #: src/arch/unix/gui/uisound.c:49 src/arch/unix/gui/uisound.c:147
 msgid "Sound driver argument"
@@ -3646,18 +3608,16 @@ msgid "Exact"
 msgstr "Aynen"
 
 #: src/arch/unix/gui/uisound.c:128
-#, fuzzy
 msgid "System"
-msgstr "Dosya sistemi"
+msgstr "Sistem"
 
 #: src/arch/unix/gui/uisound.c:131
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/arch/unix/gui/uisound.c:134
-#, fuzzy
 msgid "Stereo"
-msgstr "Stereo SID"
+msgstr "Stereo"
 
 #: src/arch/unix/gui/uisound.c:141 src/translate_text.c.po.c:11615
 msgid "Enable sound playback"
@@ -3669,9 +3629,8 @@ msgid "Sound device name"
 msgstr "Ses sürücüsü ismi"
 
 #: src/arch/unix/gui/uisound.c:151
-#, fuzzy
 msgid "Output mode"
-msgstr "Çýktý"
+msgstr "Çýktý modu"
 
 #: src/arch/unix/gui/uisound.c:153
 msgid "Sound synchronization"
@@ -3913,9 +3872,8 @@ msgid "Memory expansions"
 msgstr "Bellek geniþletmeleri"
 
 #: src/arch/unix/gui/vic20ui.c:498
-#, fuzzy
 msgid "Ethernet emulation (MasC=uerade)"
-msgstr "Ethernet emülasyonu"
+msgstr "Ethernet emülasyonu (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:502
 msgid "Paddle emulation"
@@ -3936,9 +3894,8 @@ msgid "Load PSID file"
 msgstr "PSID dosyasý yükle"
 
 #: src/arch/unix/gui/vsidui.c:376
-#, fuzzy
 msgid "Sound recording"
-msgstr "Ses kayýt ayarlarý"
+msgstr "Ses kaydý"
 
 #: src/arch/unix/gui/vsidui.c:384
 msgid "Override PSID settings"
@@ -3987,7 +3944,6 @@ msgid "Official VICE homepage:"
 msgstr "Resmi VICE web sitesi:"
 
 #: src/arch/unix/x11/gnome/about.c:102
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -4002,15 +3958,18 @@ msgid ""
 "Peter Krefting - Swedish\n"
 "Emir Akaydin (aka: Skate) - Turkish\n"
 msgstr ""
-"Martin Pottendorfer - Almanca\n"
-"Peter Krefting - Ýsveççe\n"
-"Andrea Musuruane - Ýtalyanca\n"
-"Paul Dube - Fransýzca\n"
-"Marco van den Heuvel - Felemenkçe\n"
-"Flooder - Polonyaca\n"
-"Czirkos Zoltan, Karai Csaba - Macarca\n"
-"Emir Akaydýn (aka: Skate) - Türkçe\n"
 "Mikkel Holm Olsen - Danimarkaca\n"
+"Martin Pottendorfer - Almanca\n"
+"Manuel Antonio Rodriguez Bas - Ýspanyolca\n"
+"Paul Dube - Fransýzca\n"
+"Czirkos Zoltan, Karai Csaba - Macarca\n"
+"Andrea Musuruane - Ýtalyanca\n"
+"Jesse Lee - Korece\n"
+"Marco van den Heuvel - Felemenkçe\n"
+"Jarek Sobolewski - Polonyaca\n"
+"Mihail Litvinov - Rusça\n"
+"Peter Krefting - Ýsveççe\n"
+"Emir Akaydýn (aka: Skate) - Türkçe\n"
 
 #: src/arch/unix/x11/gnome/about.c:121
 msgid "(c) 1998 - 2011 The VICE Team"
@@ -4395,14 +4354,12 @@ msgstr "VICE'dan çýkarken asla teyit etme"
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
 #: src/arch/win32/res.rc.po.c:1143 src/arch/amigaos/intl_text.c.po.c:6349
-#, fuzzy
 msgid "Never save settings on exit"
-msgstr "Çýkýþta ayarlarý kaydet"
+msgstr "Çýkýþta ayarlarý asla kaydetme"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:84
-#, fuzzy
 msgid "Disable fullscreen"
-msgstr "Tam ekran modunu pasifleþtir"
+msgstr "Tam ekraný pasifleþtir"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90 src/translate_text.c.po.c:2907
 #: src/translate_text.c.po.c:6623
@@ -4442,9 +4399,8 @@ msgid "Cancel"
 msgstr "Ýptal"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:98
-#, fuzzy
 msgid "Save empty disk file"
-msgstr "Boþ disk imajýný kaydet"
+msgstr "Boþ disk dosyasýný kaydet"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
@@ -4468,9 +4424,8 @@ msgid "%d: Track %.1f"
 msgstr "%d: Track %.1f"
 
 #: src/arch/unix/x11/xaw/x11video.c:191 src/arch/unix/x11/xaw/x11video.c:284
-#, fuzzy
 msgid "Aspect ratio"
-msgstr "en boy oraný"
+msgstr "En boy oraný"
 
 #: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Custom aspect ratio"
@@ -4698,29 +4653,24 @@ msgid "Copyright (c) 2010-2011 Olaf Seibert"
 msgstr "Copyright (c) 2010-2011 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011      Marcus Sutton"
-msgstr "Copyright (c) 1999-2011 Martin Pottendorfer"
+msgstr "Copyright (c) 2011      Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011      Ulrich Schulz"
-msgstr "Copyright (c) 2009-2011 Error Smith"
+msgstr "Copyright (c) 2011      Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011      Stefan Haubenthal"
-msgstr "Copyright (c) 2005-2011 Marco van den Heuvel"
+msgstr "Copyright (c) 2011      Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011      Thomas Giesel"
-msgstr "Copyright (c) 1999-2011 Andreas Matthies"
+msgstr "Copyright (c) 2011      Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2011      Kajtar Zsolt"
-msgstr "Copyright (c) 2009-2011 Error Smith"
+msgstr "Copyright (c) 2011      Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:963 src/arch/amigaos/intl_text.c.po.c:4108
 msgid "VICE Question"
@@ -5337,14 +5287,12 @@ msgid "Set input device for extra joystick #2"
 msgstr "Ekstra joystick #2 için giriþ aygýtý belirle"
 
 #: src/arch/win32/res.rc.po.c:1144
-#, fuzzy
 msgid "Confirm quitting VICE"
-msgstr "VICE'dan çýkarken teyit et"
+msgstr "VICE'dan çýkýþý teyit et"
 
 #: src/arch/win32/res.rc.po.c:1145
-#, fuzzy
 msgid "Never confirm quitting VICE"
-msgstr "VICE'dan çýkarken asla teyit etme"
+msgstr "VICE'dan çýkýþý asla teyit etme"
 
 #: src/arch/win32/res.rc.po.c:1146
 msgid "Use all CPU on SMP systems"
@@ -5385,9 +5333,8 @@ msgid "Error saving EasyFlash crt file"
 msgstr "EasyFlash crt dosyasý kayýt hatasý"
 
 #: src/arch/win32/res.rc.po.c:1173
-#, fuzzy
 msgid "No EasyFlash cartridge inserted"
-msgstr "EasyFlash kartuþu"
+msgstr "EasyFlash kartuþu takýlmamýþ"
 
 #: src/arch/win32/res.rc.po.c:1174 src/arch/win32/res.rc.po.c:1498
 #: src/arch/amigaos/intl_text.c.po.c:2218
@@ -5547,79 +5494,64 @@ msgid "TED Palette"
 msgstr "TED Paleti"
 
 #: src/arch/win32/res.rc.po.c:1249
-#, fuzzy
 msgid "VICII Colors"
-msgstr "Renkler"
+msgstr "VICII Renkleri"
 
 #: src/arch/win32/res.rc.po.c:1250
-#, fuzzy
 msgid "VIC Colors"
-msgstr "Renkler"
+msgstr "VIC Renkleri"
 
 #: src/arch/win32/res.rc.po.c:1251
-#, fuzzy
 msgid "CRTC Colors"
-msgstr "Renkler"
+msgstr "CRTC Renkleri"
 
 #: src/arch/win32/res.rc.po.c:1252
-#, fuzzy
 msgid "VDC Colors"
-msgstr "Renkler"
+msgstr "VDC Renkleri"
 
 #: src/arch/win32/res.rc.po.c:1253
-#, fuzzy
 msgid "TED Colors"
-msgstr "Renkler"
+msgstr "TED Renkleri"
 
 #: src/arch/win32/res.rc.po.c:1254
-#, fuzzy
 msgid "VICII CRT emulation"
-msgstr "CRT emülasyonu"
+msgstr "VICII CRT emülasyonu"
 
 #: src/arch/win32/res.rc.po.c:1255
-#, fuzzy
 msgid "VIC CRT emulation"
-msgstr "CRT emülasyonu"
+msgstr "VIC CRT emülasyonu"
 
 #: src/arch/win32/res.rc.po.c:1256
-#, fuzzy
 msgid "CRTC CRT emulation"
-msgstr "CRT emülasyonu"
+msgstr "CRTC CRT emülasyonu"
 
 #: src/arch/win32/res.rc.po.c:1257
-#, fuzzy
 msgid "VDC CRT emulation"
-msgstr "CRT emülasyonu"
+msgstr "VDC CRT emülasyonu"
 
 #: src/arch/win32/res.rc.po.c:1258
-#, fuzzy
 msgid "TED CRT emulation"
-msgstr "CRT emülasyonu"
+msgstr "TED CRT emülasyonu"
 
 #: src/arch/win32/res.rc.po.c:1259
-#, fuzzy
 msgid "VICII Render filter"
-msgstr "Ýmge oluþturma filtresi"
+msgstr "VICII imge oluþturma filtresi"
 
 #: src/arch/win32/res.rc.po.c:1260
-#, fuzzy
 msgid "VIC Render filter"
-msgstr "Ýmge oluþturma filtresi"
+msgstr "VIC imge oluþturma filtresi"
 
 #: src/arch/win32/res.rc.po.c:1261
-#, fuzzy
 msgid "CRTC Render filter"
-msgstr "Ýmge oluþturma filtresi"
+msgstr "CRTC imge oluþturma filtresi"
 
 #: src/arch/win32/res.rc.po.c:1262
-#, fuzzy
 msgid "VDC Render filter"
-msgstr "Ýmge oluþturma filtresi"
+msgstr "VDC imge oluþturma filtresi"
 
 #: src/arch/win32/res.rc.po.c:1263
-#, fuzzy
 msgid "TED Render filter"
-msgstr "Ýmge oluþturma filtresi"
+msgstr "TED imge oluþturma filtresi"
 
 #: src/arch/win32/res.rc.po.c:1264
 msgid "External Palette"
@@ -6253,9 +6185,8 @@ msgid "Danish"
 msgstr "Danimarkaca"
 
 #: src/arch/win32/res.rc.po.c:1534 src/arch/amigaos/intl_text.c.po.c:3198
-#, fuzzy
 msgid "Spanish"
-msgstr "Danimarkaca"
+msgstr "Ýspanyolca"
 
 #: src/arch/win32/res.rc.po.c:1536 src/arch/amigaos/intl_text.c.po.c:3240
 msgid "Hungarian"
@@ -6263,7 +6194,7 @@ msgstr "Macarca"
 
 #: src/arch/win32/res.rc.po.c:1538 src/arch/amigaos/intl_text.c.po.c:3268
 msgid "Korean"
-msgstr ""
+msgstr "Korece"
 
 #: src/arch/win32/res.rc.po.c:1539 src/arch/amigaos/intl_text.c.po.c:3282
 msgid "Dutch"
@@ -6275,7 +6206,7 @@ msgstr "Polonyaca"
 
 #: src/arch/win32/res.rc.po.c:1541 src/arch/amigaos/intl_text.c.po.c:3324
 msgid "Russian"
-msgstr ""
+msgstr "Rusça"
 
 #: src/arch/win32/res.rc.po.c:1543 src/arch/amigaos/intl_text.c.po.c:3352
 msgid "Turkish"
@@ -6387,9 +6318,8 @@ msgid "Turbo232"
 msgstr "Turbo232"
 
 #: src/arch/win32/resacia.rc.po.c:66 src/translate_text.c.po.c:3658
-#, fuzzy
 msgid "Enable the ACIA RS232 interface emulation"
-msgstr "$DE** ACIA RS232 arabirim emülasyonunu aktif et"
+msgstr "ACIA RS232 arabirim emülasyonunu aktif et"
 
 #: src/arch/win32/resacia.rc.po.c:68
 msgid "ACIA location"
@@ -6754,9 +6684,8 @@ msgid "Select file for GEO-RAM"
 msgstr "GEO-RAM için dosya seçin"
 
 #: src/arch/win32/resgeoram.rc.po.c:67 src/translate_text.c.po.c:4292
-#, fuzzy
 msgid "Enable the GEO-RAM expansion unit"
-msgstr "GEORAM geniþletme birimini aktif et"
+msgstr "GEO-RAM geniþletme birimini aktif et"
 
 #: src/arch/win32/resgeoram.rc.po.c:68 src/arch/amigaos/intl_text.c.po.c:5438
 msgid "GEO-RAM size"
@@ -6767,29 +6696,24 @@ msgid "Save GEO-RAM image when changed"
 msgstr "GEO-RAM imajý deðiþtiðinde kaydet"
 
 #: src/arch/win32/reside64.rc.po.c:54
-#, fuzzy
 msgid "IDE64 V4 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 V4 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 HD image #1 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD imajý #1 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 HD image #2 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD imajý #2 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 HD image #3 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD imajý #3 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 HD image #4 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD imajý #4 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
@@ -6817,9 +6741,8 @@ msgid "Select file for ISEPIC"
 msgstr "ISEPIC için dosya seçin"
 
 #: src/arch/win32/resisepic.rc.po.c:39 src/translate_text.c.po.c:4802
-#, fuzzy
 msgid "Enable the ISEPIC cartridge"
-msgstr "ISEPIC kartýný aktif et"
+msgstr "ISEPIC kartuþunu aktif et"
 
 #: src/arch/win32/resisepic.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:5704
 msgid "ISEPIC switch"
@@ -7101,9 +7024,8 @@ msgid "Select file for PLUS60K"
 msgstr "PLUS60K için dosya seçin"
 
 #: src/arch/win32/resramcart.rc.po.c:42 src/translate_text.c.po.c:4615
-#, fuzzy
 msgid "Enable the RamCart expansion"
-msgstr "RAMCART geniþlemesini aktif et"
+msgstr "RamCart geniþlemesini aktif et"
 
 #: src/arch/win32/resramcart.rc.po.c:44 src/arch/amigaos/intl_text.c.po.c:6699
 msgid "RamCart size"
@@ -7122,9 +7044,8 @@ msgid "REU Settings"
 msgstr "REU Ayarlarý"
 
 #: src/arch/win32/resreu.rc.po.c:40 src/translate_text.c.po.c:5278
-#, fuzzy
 msgid "Enable the RAM Expansion Unit"
-msgstr "RAM geniþletme birimini aktif et"
+msgstr "RAM Geniþletme Birimi'ni aktif et"
 
 #: src/arch/win32/resreu.rc.po.c:41 src/arch/amigaos/intl_text.c.po.c:6769
 msgid "REU size"
@@ -7177,9 +7098,8 @@ msgstr "Örnekleme metodu"
 
 #: src/arch/win32/ressid.rc.po.c:75 src/arch/win32/ressiddtv.rc.po.c:62
 #: src/arch/amigaos/intl_text.c.po.c:7357
-#, fuzzy
 msgid "Passband"
-msgstr "Passband (0-90%)"
+msgstr "Passband"
 
 #: src/arch/win32/ressid.rc.po.c:76 src/arch/win32/ressiddtv.rc.po.c:63
 msgid "Device selection"
@@ -7194,9 +7114,8 @@ msgid "Right device"
 msgstr "Sað aygýt"
 
 #: src/arch/win32/ressidcart.rc.po.c:138 src/translate_text.c.po.c:9512
-#, fuzzy
 msgid "Enable the SID cartridge"
-msgstr "ISEPIC kartýný aktif et"
+msgstr "SID kartuþunu aktif et"
 
 #: src/arch/win32/ressidcart.rc.po.c:141
 msgid "HardSID device selection"
@@ -7211,16 +7130,14 @@ msgid "Enable the digiblaster add-on"
 msgstr "Digiblaster eklentisini aktif et"
 
 #: src/arch/win32/ressoundexpander.rc.po.c:43 src/translate_text.c.po.c:12722
-#, fuzzy
 msgid "Enable the SFX Sound Expander cartridge"
-msgstr "SFX soundexpander kartuþunu aktif et"
+msgstr "SFX Sound Expander kartuþunu aktif et"
 
 #: src/arch/win32/ressoundsampler.rc.po.c:20
 #: src/arch/win32/resvic20.rc.po.c:549 src/arch/amigaos/intl_text.c.po.c:2722
 #: src/arch/amigaos/intl_text.c.po.c:9345
-#, fuzzy
 msgid "SFX Sound Sampler settings"
-msgstr "SFX Sound Expander Ayarlarý"
+msgstr "SFX Sound Sampler ayarlarý"
 
 #: src/arch/win32/restfe.rc.po.c:62
 msgid "Ethernet"
@@ -7264,9 +7181,8 @@ msgid "Select cartridge file"
 msgstr "Kartuþ dosyasýný seç"
 
 #: src/arch/win32/resvic20.rc.po.c:523
-#, fuzzy
 msgid "Enable MasC=uerade I/O swap"
-msgstr "SuperPET G/Ç'ý aktif et"
+msgstr "MasC=uerade G/Ç deðiþimini aktif et"
 
 #: src/arch/win32/resvic20.rc.po.c:524 src/arch/amigaos/intl_text.c.po.c:1882
 msgid "VIC-1112 IEEE-488 module"
@@ -7562,9 +7478,8 @@ msgid "Writes to C64DTV ROM"
 msgstr "C64DTV ROM'una yazar"
 
 #: src/arch/amigaos/intl_text.c.po.c:5074 src/translate_text.c.po.c:6861
-#, fuzzy
 msgid "RAM size"
-msgstr "RAM Boyutu"
+msgstr "RAM boyutu"
 
 #: src/arch/amigaos/intl_text.c.po.c:5088
 msgid "RAM Block $0400-$0FFF"
@@ -7825,24 +7740,20 @@ msgid "Speed Adjustment"
 msgstr "Hýz Ayarlamasý"
 
 #: src/arch/amigaos/intl_text.c.po.c:7637
-#, fuzzy
 msgid "IDE64 HD 1 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD 1 ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:7651
-#, fuzzy
 msgid "IDE64 HD 2 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD 2 ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:7665
-#, fuzzy
 msgid "IDE64 HD 3 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD 3 ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:7679
-#, fuzzy
 msgid "IDE64 HD 4 settings"
-msgstr "IDE64 ayarlarý"
+msgstr "IDE64 HD 4 ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:7693
 msgid "IDE64 V4"
@@ -7973,9 +7884,8 @@ msgid "SFX Sound Expander Chip"
 msgstr "SFX Sound Expander Çipi"
 
 #: src/arch/amigaos/intl_text.c.po.c:9317
-#, fuzzy
 msgid "SFX Sound Sampler Enabled"
-msgstr "SFX Sound Expander Aktif"
+msgstr "SFX Sound Sampler Aktif"
 
 #: src/arch/amigaos/intl_text.c.po.c:9387
 msgid "Select Sound Record File"
@@ -7999,12 +7909,11 @@ msgstr "Amiga mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9653
 msgid "Atari CX-22 trackball"
-msgstr ""
+msgstr "Atari CX-22 trackball"
 
 #: src/arch/amigaos/intl_text.c.po.c:9667
-#, fuzzy
 msgid "Atari ST mouse"
-msgstr "Amiga mouse"
+msgstr "Atari ST mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9849
 msgid "Save to EasyFlash CRT file on detach"
@@ -8503,7 +8412,6 @@ msgstr ""
 "boþ bir satýr girin)."
 
 #: src/translate_text.c.po.c:1641
-#, fuzzy
 msgid "address_range"
 msgstr "adres_aralýðý"
 
@@ -8656,7 +8564,6 @@ msgid "cond_expr"
 msgstr "koþul_idafesi"
 
 #: src/translate_text.c.po.c:2017
-#, fuzzy
 msgid ""
 "Set a breakpoint, If no address is given, the currently valid break-\n"
 "points are printed.\n"
@@ -8668,11 +8575,16 @@ msgid ""
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
 msgstr ""
-"Eðer adres girilmemiþse, geçerli mevcut izleme noktalarý yazdýrýlýr.\n"
+"Kesme noktasý koy, eðer adres girilmemiþse, geçerli mevcut izleme\n"
+"noktalarý yazdýrýlýr.\n"
 "Eðer bir adres girilmiþse, o adres için bir kesme noktasý iþaretlenir\n"
-"ve kesme noktasý sayýsý yazdýrýlýr.  Ayný zamanda kesme noktasý için bir\n"
-"koþul ifadesi de belirtilebilir.  Koþullar ile ilgili daha çok bilgi almak\n"
-"için, CONDITION komutuna bakabilirsiniz."
+"ve kesme noktasý sayýsý yazdýrýlýr.\n"
+"`yükle|depola|yürüt' için `yükle', `depola' ya da `yürüt' (ya da herhangi\n"
+"bir kombinasyonu) takip edilmek istenen operasyona göre belirtilmelidir.\n"
+"Eðer belirtilmemiþse, takip iþlemi `yürüt'de sona erer.\n"
+"Ayný zamanda kesme noktasý için bir koþul ifadesi de belirtilebilir.\n"
+"Koþullar ile ilgili daha çok bilgi almak için, CONDITION komutuna\n"
+"bakabilirsiniz."
 
 #: src/translate_text.c.po.c:2051
 msgid ""
@@ -8739,12 +8651,10 @@ msgstr ""
 "emülatöre döndürülür.  Bir kere eriþildiði zaman kesme noktasý silinir."
 
 #: src/translate_text.c.po.c:2155
-#, fuzzy
 msgid "load|store|exec"
-msgstr "yükle/depola"
+msgstr "yükle|depola|yürüt"
 
 #: src/translate_text.c.po.c:2174
-#, fuzzy
 msgid ""
 "Set a watchpoint. If no address is given, the currently valid watch-\n"
 "points are printed. If a single address is specified, set a watchpoint\n"
@@ -8754,15 +8664,15 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor breaks on `load' and `store'.\n"
 msgstr ""
-"Bir izleme noktasý koy.  Eðer tek bir adres belirtilmiþse, izleme\n"
-"noktasýný o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\n"
-"o iki adres arasýnda kalan adreslere koy.\n"
-"`yükle/depola' monitörün kesildiði operatöre baðlý olarak `yükle' ya da\n"
-"`depola' iþlemlerinde çalýþabilir. Eðer belirtilmemiþse, her iki iþlemde de\n"
-"monitör kesilecektir."
+"Bir görüntüleme noktasý koy. Eðer hiç adres verilmemiþse, mevcut geçerli\n"
+"görüntüleme noktalarý yazdýrýlýr. Eðer tek bir adres belirtilmiþse,\n"
+"görüntüleme noktasýný o adrese koy.  Eðer iki adres belirtilmiþse, görüntüleme\n"
+"noktasýný o iki adres arasýnda kalan adreslere koy.\n"
+"`yükle|depola|yürüt' monitörün kesildiði operatöre baðlý olarak `yükle'\n"
+"`depola' ya da `yürüt' (ya da herhangi bir kombinasyonunda) iþlemlerinde\n"
+"çalýþabilir. Eðer belirtilmemiþse, monitör `yükle' ve `depola'da kesilecektir."
 
 #: src/translate_text.c.po.c:2193
-#, fuzzy
 msgid ""
 "Set a tracepoint. If no address is given, the currently valid trace-\n"
 "points are printed. If a single address is specified, set a tracepoint\n"
@@ -8772,12 +8682,13 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor traces all three operations.\n"
 msgstr ""
-"Bir izleme noktasý koy.  Eðer tek bir adres belirtilmiþse, izleme\n"
+"Bir izleme noktasý koy. Eðer bir adres belirtilmemiþse, mevcut geçerli\n"
+"izleme noktalarý yazdýrýlýr. Eðer tek bir adres belirtilmiþse, izleme\n"
 "noktasýný o adrese koy.  Eðer iki adres belirtilmiþse, izleme noktasýný\n"
 "o iki adres arasýnda kalan adreslere koy.\n"
-"`yükle/depola' monitörün kesildiði operatöre baðlý olarak `yükle' ya da\n"
-"`depola' iþlemlerinde çalýþabilir. Eðer belirtilmemiþse, her iki iþlemde de\n"
-"monitör kesilecektir."
+"`yükle|depola|yürüt' monitörün kesildiði operatöre baðlý olarak `yükle'\n"
+"`depola' ya da `yürüt' (ya da herhangi bir kombinasyonunda) iþlemlerinde\n"
+"çalýþabilir. Eðer belirtilmemiþse, monitör her üç iþlemi de izleyecektir."
 
 #: src/translate_text.c.po.c:2210
 msgid "Monitor state commands"
@@ -8843,19 +8754,16 @@ msgid "device"
 msgstr "aygýt"
 
 #: src/translate_text.c.po.c:2380
-#, fuzzy
 msgid "file_index"
-msgstr "<dosyaismi>"
+msgstr "dosya_indeksi"
 
 #: src/translate_text.c.po.c:2397
-#, fuzzy
 msgid "autostart a given disk/tape image or program"
-msgstr "Disk/Teyp imajýný otomatik baþlat"
+msgstr "verilen disk/teyp imajýný ya da programý otomatik baþlat"
 
 #: src/translate_text.c.po.c:2414
-#, fuzzy
 msgid "autoload given disk/tape image or program"
-msgstr "Disk/Teyp imajýný otomatik baþlat"
+msgstr "verilen disk/teyp imajýný ya da programý otomatik yüklet"
 
 #: src/translate_text.c.po.c:2431
 msgid "Attach file to device. (device 32 = cart)"
@@ -8904,9 +8812,8 @@ msgstr ""
 "numaralý sürücüdeki diske yaz."
 
 #: src/translate_text.c.po.c:2584
-#, fuzzy
 msgid "Change current working directory."
-msgstr "Geçerli çalýþma dizinini deðiþtir"
+msgstr "Geçerli çalýþma dizinini deðiþtir."
 
 #: src/translate_text.c.po.c:2601
 msgid "Detach file from device. (device 32 = cart)"
@@ -9072,17 +8979,15 @@ msgstr "PRG dosyalarýnýn otomatik baþlatýlmasý için disk imajý ayarla"
 
 #: src/translate_text.c.po.c:3164
 msgid "Set initial autostart delay (0: use default)"
-msgstr ""
+msgstr "Otomatik baþlatmada rastgele gecikmeyi ayarla (0: varsayýlaný kullan)"
 
 #: src/translate_text.c.po.c:3181
-#, fuzzy
 msgid "Enable random initial autostart delay."
-msgstr "Otomatik baþlatma esnasýnda warp modu aktif et"
+msgstr "Otomatik baþlatmada rastgele gecikmeyi aktif et"
 
 #: src/translate_text.c.po.c:3198
-#, fuzzy
 msgid "Disable random initial autostart delay."
-msgstr "Otomatik baþlatma esnasýnda warp modu pasifleþtir"
+msgstr "Otomatik baþlatmada rastgele gecikmeyi pasifleþtir"
 
 #: src/translate_text.c.po.c:3215
 msgid "Use PAL sync factor"
@@ -9098,7 +9003,7 @@ msgstr "PAL-N senkron faktörü kullan"
 
 #: src/translate_text.c.po.c:3266
 msgid "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
-msgstr ""
+msgstr "Burst deðiþikliði (0 = Yok, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3300
 msgid "Specify name of international Kernal ROM image"
@@ -9181,19 +9086,16 @@ msgid "Patch the Kernal ROM to the specified <revision>"
 msgstr "Kernal ROM'u belirtilmiþ <revizyon>'a yama"
 
 #: src/translate_text.c.po.c:3675
-#, fuzzy
 msgid "Disable the ACIA RS232 interface emulation"
-msgstr "$DE** ACIA RS232 arabirim emülasyonunu pasifleþtir"
+msgstr "ACIA RS232 arabirim emülasyonunu pasifleþtir"
 
 #: src/translate_text.c.po.c:3693
-#, fuzzy
 msgid "Enable the ACIA emulation"
-msgstr "MIDI emülasyonunu aktif et"
+msgstr "ACIA emülasyonunu aktif et"
 
 #: src/translate_text.c.po.c:3710
-#, fuzzy
 msgid "Disable the ACIA emulation"
-msgstr "MIDI emülasyonunu pasifleþtir"
+msgstr "ACIA emülasyonunu pasifleþtir"
 
 #: src/translate_text.c.po.c:3745
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -9260,10 +9162,12 @@ msgid ""
 "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
 "c232)"
 msgstr ""
+"Plus4 modelini ayarla (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
+"c232)"
 
 #: src/translate_text.c.po.c:4086
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
-msgstr ""
+msgstr "DTV modelini ayarla (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
 
 #: src/translate_text.c.po.c:4103
 msgid "Specify name of Kernal ROM image"
@@ -9300,9 +9204,8 @@ msgid "specify IEEE488 interface image name"
 msgstr "IEEE488 arabirimi imaj ismini belirleyin"
 
 #: src/translate_text.c.po.c:4309
-#, fuzzy
 msgid "Disable the GEO-RAM expansion unit"
-msgstr "GEORAM geniþletme birimini pasifleþtir"
+msgstr "GEO-RAM geniþletme birimini pasifleþtir"
 
 #: src/translate_text.c.po.c:4326
 msgid "Specify name of GEORAM image"
@@ -9361,9 +9264,8 @@ msgid "Specify PSID tune <number>"
 msgstr "PSID parça <numara>'sýný belirt"
 
 #: src/translate_text.c.po.c:4632
-#, fuzzy
 msgid "Disable the RamCart expansion"
-msgstr "RAMCART geniþlemesini pasifleþtir"
+msgstr "RamCart geniþlemesini pasifleþtir"
 
 #: src/translate_text.c.po.c:4649
 msgid "Specify name of RAMCART image"
@@ -9398,9 +9300,8 @@ msgid "Do not write to DQBB image"
 msgstr "DQBB imajýna yazma"
 
 #: src/translate_text.c.po.c:4819
-#, fuzzy
 msgid "Disable the ISEPIC cartridge"
-msgstr "ISEPIC kartýný pasifleþtir"
+msgstr "ISEPIC kartuþunu pasifleþtir"
 
 #: src/translate_text.c.po.c:4836
 msgid "Set ISEPIC image name"
@@ -9495,9 +9396,8 @@ msgid "Set RR Flash Jumper"
 msgstr "RR Flash Jumper'ý tak"
 
 #: src/translate_text.c.po.c:5295
-#, fuzzy
 msgid "Disable the RAM Expansion Unit"
-msgstr "RAM geniþletme birimini pasifleþtir"
+msgstr "RAM Geniþletme Birimi'ni pasifleþtir"
 
 #: src/translate_text.c.po.c:5312
 msgid "Specify name of REU image"
@@ -9632,9 +9532,8 @@ msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr "Düz 16kB KCS Power kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:6130
-#, fuzzy
 msgid "Attach raw 24kB Kingsoft cartridge image"
-msgstr "Düz 4kB Snapshot 64 kartuþ imajý yerleþtir"
+msgstr "Düz 24kB Kingsoft kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:6147
 msgid "Attach raw 8kB MACH 5 cartridge image"
@@ -9673,9 +9572,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Düz 16kB Zaxxon kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:6334
-#, fuzzy
 msgid "Attach raw 64KB Pagefox cartridge image"
-msgstr "Düz 16KB kartuþ imajý yerleþtir"
+msgstr "Düz 64KB Pagefox kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:6351
 msgid "Attach raw 256KB Prophet 64 cartridge image"
@@ -9886,14 +9784,12 @@ msgid "Disable hardware-level emulation of disk drives"
 msgstr "Disk sürücülerinin donaným seviyesinde emülasyonunu pasifleþtir"
 
 #: src/translate_text.c.po.c:7322
-#, fuzzy
 msgid "Enable sound emulation of disk drives"
-msgstr "Disk sürücülerinin donaným seviyesinde emülasyonunu aktif et"
+msgstr "Disk sürücülerinin ses emülasyonunu aktif et"
 
 #: src/translate_text.c.po.c:7339
-#, fuzzy
 msgid "Disable sound emulation of disk drives"
-msgstr "Disk sürücülerinin donaným seviyesinde emülasyonunu pasifleþtir"
+msgstr "Disk sürücülerinin ses emülasyonunu pasifleþtir"
 
 #: src/translate_text.c.po.c:7373
 msgid "Set drive type (0: no drive)"
@@ -9963,14 +9859,12 @@ msgid "Specify name of 1581 DOS ROM image"
 msgstr "1581 DOS ROM imajýnýn ismini belirt"
 
 #: src/translate_text.c.po.c:7594
-#, fuzzy
 msgid "Specify name of 2000 DOS ROM image"
-msgstr "2040 DOS ROM imaj ismini belirt"
+msgstr "2000 DOS ROM imaj ismini belirt"
 
 #: src/translate_text.c.po.c:7611
-#, fuzzy
 msgid "Specify name of 4000 DOS ROM image"
-msgstr "4040 DOS ROM imaj ismini belirt"
+msgstr "4000 DOS ROM imaj ismini belirt"
 
 #: src/translate_text.c.po.c:7628
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
@@ -10275,14 +10169,12 @@ msgid "Specify name of printer text device or dump file"
 msgstr "Metin aygýtý yazýcýsý ya da döküm dosyasýnýn ismini belirt"
 
 #: src/translate_text.c.po.c:8922
-#, fuzzy
 msgid "Specify printer text output device for printer #4"
-msgstr "IEC yazýcýsý #4 için metin çýktý aygýtý yazýcýsý belirt"
+msgstr "Yazýcý #4 için metin çýktý aygýtý yazýcýsý belirt"
 
 #: src/translate_text.c.po.c:8939
-#, fuzzy
 msgid "Specify printer text output device for printer #5"
-msgstr "IEC yazýcýsý #5 için metin çýktý aygýtý yazýcýsý belirt"
+msgstr "Yazýcý #5 için metin çýktý aygýtý yazýcýsý belirt"
 
 #: src/translate_text.c.po.c:8956
 msgid "Specify printer text output device for userport printer"
@@ -10423,18 +10315,16 @@ msgstr ""
 "1489D"
 
 #: src/translate_text.c.po.c:9529
-#, fuzzy
 msgid "Disable the SID cartridge"
-msgstr "ISEPIC kartýný pasifleþtir"
+msgstr "SID kartuþunu pasifleþtir"
 
 #: src/translate_text.c.po.c:9563
 msgid "Specify base address for 2nd SID"
 msgstr "2nci SID için taban adresini belirt"
 
 #: src/translate_text.c.po.c:9580
-#, fuzzy
 msgid "Specify base address for 3rd SID"
-msgstr "2nci SID için taban adresini belirt"
+msgstr "3üncü SID için taban adresini belirt"
 
 #: src/translate_text.c.po.c:9597
 msgid "Emulate SID filters"
@@ -10476,11 +10366,11 @@ msgstr "reSID gain yüzdesi (90 - 100)"
 
 #: src/translate_text.c.po.c:9718
 msgid "Enable additional vertical stretching."
-msgstr ""
+msgstr "Ek dikey uzatmayý aktif et."
 
 #: src/translate_text.c.po.c:9735
 msgid "Disable additional vertical stretching."
-msgstr ""
+msgstr "Ek dikey uzatmayý pasifleþtir."
 
 #: src/translate_text.c.po.c:9752
 msgid "Set the VDC memory size to 16KB"
@@ -10618,7 +10508,7 @@ msgstr "Donaným destekli ölçeklendirmeyi pasifleþtir"
 
 #: src/translate_text.c.po.c:10364
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr ""
+msgstr "Görüntü oluþturma filitresini seç, 0:yok, 1:CRT emülasyonu, 2: geniþlet2x"
 
 #: src/translate_text.c.po.c:10381
 msgid "Use an internal calculated palette"
@@ -10871,11 +10761,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Mouse'un baðlý olduðu joystick portunu seçin"
 
 #: src/translate_text.c.po.c:11496
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST)"
-msgstr "Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddle)"
+msgstr ""
+"Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
+"CX-22, 5 = ST)"
 
 #: src/translate_text.c.po.c:11513
 msgid "Enable PS/2 mouse on userport"
@@ -11018,9 +10909,8 @@ msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "Düz 64kB Super Games kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:12227
-#, fuzzy
 msgid "Attach raw Silverrock 128 cartridge image"
-msgstr "Düz 8KB kartuþ imajý yerleþtir"
+msgstr "Düz Silverrock 128 kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:12244
 msgid "Attach raw 16kB Simons Basic cartridge image"
@@ -11067,7 +10957,6 @@ msgid "Specify name of C64DTV ROM image"
 msgstr "C64DTV ROM imajýnýn ismini belirt"
 
 #: src/translate_text.c.po.c:12448
-#, fuzzy
 msgid "Disable writes to C64DTV ROM image"
 msgstr "C64DTV ROM imajýna yazmayý pasifleþtir"
 
@@ -11112,9 +11001,8 @@ msgid "Attach Speech ROM image"
 msgstr "Speech ROM imajýný yerleþtir"
 
 #: src/translate_text.c.po.c:12739
-#, fuzzy
 msgid "Disable the SFX Sound Expander cartridge"
-msgstr "SFX soundexpander kartuþunu pasifleþtir"
+msgstr "SFX Sound Expander kartuþunu pasifleþtir"
 
 #: src/translate_text.c.po.c:12756
 msgid "Set YM chip type (3526 / 3812)"
@@ -11156,9 +11044,8 @@ msgstr "DigiMAX kartuþunu pasifleþtir"
 msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
 
-#, fuzzy
 #~ msgid "SID Model"
-#~ msgstr "SID modeli"
+#~ msgstr "SID Modeli"
 
 #~ msgid " "
 #~ msgstr " "
@@ -11214,9 +11101,8 @@ msgstr "DigiMAX kartuþunun taban adresi"
 #~ msgid "Offset in percent"
 #~ msgstr "Yüzdesel ofset"
 
-#, fuzzy
 #~ msgid "Blur in percent"
-#~ msgstr "Yüzdesel Bulanýklýk"
+#~ msgstr "Yüzdesel bulanýklýk"
 
 #~ msgid "IEC printer #4 emulation"
 #~ msgstr "IEC yazýcý #4 emülasyonu"
@@ -11263,9 +11149,8 @@ msgstr "DigiMAX kartuþunun taban adresi"
 #~ msgid "Disable Scale2x"
 #~ msgstr "2x Geniþlet'i pasifleþtir"
 
-#, fuzzy
 #~ msgid "TCP Port"
-#~ msgstr "TCP portu"
+#~ msgstr "TCP Portu"
 
 #~ msgid "Successfully wrote `%s'."
 #~ msgstr "`%s' baþarýyla yazýldý."
@@ -11993,44 +11878,35 @@ msgstr "DigiMAX kartuþunun taban adresi"
 #~ msgid "<value>"
 #~ msgstr "<deðer>"
 
-#, fuzzy
 #~ msgid "<number"
-#~ msgstr "<sayý>"
+#~ msgstr "<sayý"
 
-#, fuzzy
 #~ msgid "<directory"
-#~ msgstr "<dizin>"
+#~ msgstr "<dizin"
 
-#, fuzzy
 #~ msgid "<value"
-#~ msgstr "<deðer>"
+#~ msgstr "<deðer"
 
-#, fuzzy
 #~ msgid "<type"
-#~ msgstr "<tip>"
+#~ msgstr "<tip"
 
-#, fuzzy
 #~ msgid "<device"
-#~ msgstr "<aygýt>"
+#~ msgstr "<aygýt"
 
-#, fuzzy
 #~ msgid "<filename"
-#~ msgstr "<dosyaismi>"
+#~ msgstr "<dosyaismi"
 
-#, fuzzy
 #~ msgid "<string"
-#~ msgstr "<yazý>"
+#~ msgstr "<yazý"
 
 #~ msgid "<address_range> <address>"
 #~ msgstr "<adres_aralýðý> <adres>"
 
-#, fuzzy
 #~ msgid "on"
-#~ msgstr "Yok"
+#~ msgstr "açýk"
 
-#, fuzzy
 #~ msgid "off"
-#~ msgstr "Kapalý"
+#~ msgstr "kapalý"
 
 #~ msgid "[<memspace>] [bankname]"
 #~ msgstr "[<bellekalaný>] [bankismi]"
@@ -12131,41 +12007,32 @@ msgstr "DigiMAX kartuþunun taban adresi"
 #~ msgid "\"<filename>\" [<format>]"
 #~ msgstr "\"<dosyaismi>\" [<biçim>]"
 
-#, fuzzy
 #~ msgid "Keep aspect ratio)"
-#~ msgstr "En boy oraný koru"
+#~ msgstr "En boy oraný koru)"
 
-#, fuzzy
 #~ msgid "Gamma)"
-#~ msgstr "Gama"
+#~ msgstr "Gama)"
 
-#, fuzzy
 #~ msgid "Tint)"
-#~ msgstr "Ton"
+#~ msgstr "Ton)"
 
-#, fuzzy
 #~ msgid "Saturation)"
-#~ msgstr "Doygunluk"
+#~ msgstr "Doygunluk)"
 
-#, fuzzy
 #~ msgid "Contrast)"
-#~ msgstr "Karþýtlýk"
+#~ msgstr "Karþýtlýk)"
 
-#, fuzzy
 #~ msgid "Brightness)"
-#~ msgstr "Parlaklýk"
+#~ msgstr "Parlaklýk)"
 
-#, fuzzy
 #~ msgid "Odd lines phase)"
-#~ msgstr "Tek satýr fazý"
+#~ msgstr "Tek satýr fazý)"
 
-#, fuzzy
 #~ msgid "Odd lines offset)"
-#~ msgstr "Tek satýr ofseti"
+#~ msgstr "Tek satýr ofseti)"
 
-#, fuzzy
 #~ msgid "Scanline shade)"
-#~ msgstr "Tarama satýrý nüansý"
+#~ msgstr "Tarama satýrý nüansý)"
 
 #~ msgid "Keep aspect ratio (0,5..2)"
 #~ msgstr "En boy oraný koru (0,5..2)"
