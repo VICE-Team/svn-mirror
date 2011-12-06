@@ -409,10 +409,18 @@ cleantrans:
 	rm `find $(top_srcdir) -name "*.po.c"`
 
 # Manually define the dist targets so the correct tar usage will be used.
-dist-gzip: distdir
+dist-gzip:
+	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
+	$(DOS2UNIX) $(top_srcdir)/src/translate.txt
+	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
+	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)
 
-dist dist-all: distdir
+dist dist-all:
+	$(DOS2UNIX) `find $(top_srcdir) -name "*.sh"`
+	$(DOS2UNIX) $(top_srcdir)/src/translate.txt
+	$(DOS2UNIX) $(top_srcdir)/doc/vice.texi
+	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)

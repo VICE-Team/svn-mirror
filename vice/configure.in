@@ -295,6 +295,8 @@ else
   AM_CONDITIONAL(BUILD_PDF, true)
 fi
 
+AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
+
 dnl Setup crosscompiling.
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then
 
