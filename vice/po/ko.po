@@ -91,9 +91,8 @@ msgstr "세컨드 SID 에서 사용가능한 주소"
 
 #: src/arch/unix/gui/c128ui.c:268 src/arch/unix/gui/c64scui.c:367
 #: src/arch/unix/gui/c64ui.c:427 src/arch/unix/gui/vsidui.c:234
-#, fuzzy
 msgid "Third SID base address"
-msgstr "세컨드 SID 에서 사용가능한 주소"
+msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:270 src/arch/unix/gui/c64dtvui.c:76
 #: src/arch/unix/gui/c64scui.c:369 src/arch/unix/gui/c64ui.c:429
@@ -381,9 +380,8 @@ msgstr "모델 설정"
 #: src/arch/unix/gui/c64scui.c:546 src/arch/unix/gui/c64ui.c:606
 #: src/arch/unix/gui/cbm2ui.c:395 src/arch/unix/gui/petui.c:393
 #: src/arch/unix/gui/plus4ui.c:311 src/arch/unix/gui/vic20ui.c:537
-#, fuzzy
 msgid "RAM reset pattern"
-msgstr "ROM 셋 종류"
+msgstr ""
 
 #: src/arch/unix/gui/c128ui.c:560 src/arch/unix/gui/c64dtvui.c:183
 #: src/arch/unix/gui/c64scui.c:548 src/arch/unix/gui/c64ui.c:608
@@ -541,9 +539,8 @@ msgid "Save media file"
 msgstr "미디어 파일을 저장하세요"
 
 #: src/arch/unix/gui/c64dtvui.c:150 src/arch/unix/gui/c64dtvui.c:285
-#, fuzzy
 msgid "DTV model"
-msgstr "SID 모델"
+msgstr ""
 
 #: src/arch/unix/gui/c64dtvui.c:153 src/arch/win32/resc64dtv.rc.po.c:439
 #: src/arch/amigaos/intl_text.c.po.c:5004
@@ -927,24 +924,20 @@ msgid "Load new 3 plus 1 HI ROM"
 msgstr "세로운 3 플러스 1 높은 ROM 을 불러오세요"
 
 #: src/arch/unix/gui/plus4ui.c:158
-#, fuzzy
 msgid "Load new c1 LO ROM"
-msgstr "세로운 Basic Lo ROM 을 불러오세요"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:160
-#, fuzzy
 msgid "Load new c1 HI ROM"
-msgstr "세로운 Basic Hi ROM 을 불러오세요"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:162
-#, fuzzy
 msgid "Load new c2 LO ROM"
-msgstr "세로운 Basic Lo ROM 을 불러오세요"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:164
-#, fuzzy
 msgid "Load new c2 HI ROM"
-msgstr "세로운 Basic Hi ROM 을 불러오세요"
+msgstr ""
 
 #: src/arch/unix/gui/plus4ui.c:254
 msgid "ACIA"
@@ -1134,9 +1127,8 @@ msgid "Autostart warp"
 msgstr "자동 시작 warp"
 
 #: src/arch/unix/gui/uiautostart.c:68
-#, fuzzy
 msgid "Autostart random delay"
-msgstr "자동 시작 warp"
+msgstr ""
 
 #: src/arch/unix/gui/uiautostart.c:70 src/arch/win32/resautostart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:9751
@@ -1631,9 +1623,8 @@ msgstr "섹상"
 #: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:140
 #: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:139
 #: src/arch/unix/gui/uivicii.c:177
-#, fuzzy
 msgid "Color settings"
-msgstr "모델 설정"
+msgstr ""
 
 #: src/arch/unix/gui/uicrtc.c:157 src/arch/unix/gui/uited.c:144
 #: src/arch/unix/gui/uivdc.c:174 src/arch/unix/gui/uivic.c:143
@@ -1956,15 +1947,13 @@ msgstr "세로운 1581 ROM 불러오기"
 
 #: src/arch/unix/gui/uidrivec128.c:239 src/arch/unix/gui/uidrivec64vic20.c:162
 #: src/arch/unix/gui/uidriveplus4.c:306
-#, fuzzy
 msgid "Load new 2000 ROM"
-msgstr "세로운 2040 ROM 불러오기"
+msgstr ""
 
 #: src/arch/unix/gui/uidrivec128.c:242 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:309
-#, fuzzy
 msgid "Load new 4000 ROM"
-msgstr "세로운 4040 ROM 불러오기"
+msgstr ""
 
 #: src/arch/unix/gui/uidrivec128.c:245 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidrivepetcbm2.c:142
@@ -2277,9 +2266,8 @@ msgstr "버전4"
 
 #: src/arch/unix/gui/uiide64.c:180 src/arch/unix/gui/uiide64.c:199
 #: src/arch/unix/gui/uiide64.c:218 src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "HD image name"
-msgstr "하드 드라이브 이미지 1 이름"
+msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2294,24 +2282,20 @@ msgid "Revision"
 msgstr "수정"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "HD 1 settings"
-msgstr "VDC 설정"
+msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "HD 2 settings"
-msgstr "VDC 설정"
+msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "HD 3 settings"
-msgstr "VDC 설정"
+msgstr ""
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "HD 4 settings"
-msgstr "VDC 설정"
+msgstr ""
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2799,9 +2783,8 @@ msgid "Odd lines offset"
 msgstr "홀수 라인 오프셋"
 
 #: src/arch/unix/gui/uipalemu.c:93
-#, fuzzy
 msgid "in percent"
-msgstr "틴트 확률"
+msgstr ""
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
@@ -3274,9 +3257,8 @@ msgstr ""
 #: src/arch/unix/gui/uirs232c64c128.c:135
 #: src/arch/unix/gui/uirs232c64c128.c:172
 #: src/arch/amigaos/intl_text.c.po.c:4850
-#, fuzzy
 msgid "ACIA base address"
-msgstr "베이스 주소"
+msgstr ""
 
 #: src/arch/unix/gui/uirs232c64c128.c:100
 #: src/arch/unix/gui/uirs232c64c128.c:137
@@ -3544,9 +3526,8 @@ msgid "Passband percentage"
 msgstr "패스밴드 확률"
 
 #: src/arch/unix/gui/uisid.c:255
-#, fuzzy
 msgid "One"
-msgstr "켜짐"
+msgstr ""
 
 #: src/arch/unix/gui/uisid.c:256
 msgid "Two"
@@ -3611,9 +3592,8 @@ msgid "Exact"
 msgstr "정확한"
 
 #: src/arch/unix/gui/uisound.c:128
-#, fuzzy
 msgid "System"
-msgstr "파일시스템"
+msgstr ""
 
 #: src/arch/unix/gui/uisound.c:131
 msgid "Mono"
@@ -3633,9 +3613,8 @@ msgid "Sound device name"
 msgstr "사운드 디바이스 이름"
 
 #: src/arch/unix/gui/uisound.c:151
-#, fuzzy
 msgid "Output mode"
-msgstr "출력"
+msgstr ""
 
 #: src/arch/unix/gui/uisound.c:153
 msgid "Sound synchronization"
@@ -3899,9 +3878,8 @@ msgid "Load PSID file"
 msgstr "PSID 파일 불러오기"
 
 #: src/arch/unix/gui/vsidui.c:376
-#, fuzzy
 msgid "Sound recording"
-msgstr "사운드 레코드 WAV"
+msgstr ""
 
 #: src/arch/unix/gui/vsidui.c:384
 msgid "Override PSID settings"
@@ -4391,9 +4369,8 @@ msgid "Cancel"
 msgstr "취소"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:98
-#, fuzzy
 msgid "Save empty disk file"
-msgstr "미디어 파일을 저장하세요"
+msgstr ""
 
 #: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
@@ -5456,102 +5433,87 @@ msgstr "VICII 팔레트"
 
 #: src/arch/win32/res.rc.po.c:1245
 msgid "VIC Palette"
-msgstr ""
+msgstr "VIC 팔레트"
 
 #: src/arch/win32/res.rc.po.c:1246
 msgid "CRTC Palette"
-msgstr ""
+msgstr "CRTC 팔레트"
 
 #: src/arch/win32/res.rc.po.c:1247
 msgid "VDC Palette"
-msgstr ""
+msgstr "VDC 팔레트"
 
 #: src/arch/win32/res.rc.po.c:1248
 msgid "TED Palette"
-msgstr ""
+msgstr "TED 팔레트"
 
 #: src/arch/win32/res.rc.po.c:1249
-#, fuzzy
 msgid "VICII Colors"
-msgstr "섹상"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1250
-#, fuzzy
 msgid "VIC Colors"
-msgstr "섹상"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1251
-#, fuzzy
 msgid "CRTC Colors"
-msgstr "섹상"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1252
-#, fuzzy
 msgid "VDC Colors"
-msgstr "섹상"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1253
-#, fuzzy
 msgid "TED Colors"
-msgstr "섹상"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1254
-#, fuzzy
 msgid "VICII CRT emulation"
-msgstr "케토드 레이 터미널 에뮬레이터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1255
-#, fuzzy
 msgid "VIC CRT emulation"
-msgstr "케토드 레이 터미널 에뮬레이터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1256
-#, fuzzy
 msgid "CRTC CRT emulation"
-msgstr "케토드 레이 터미널 에뮬레이터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1257
-#, fuzzy
 msgid "VDC CRT emulation"
-msgstr "케토드 레이 터미널 에뮬레이터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1258
-#, fuzzy
 msgid "TED CRT emulation"
-msgstr "케토드 레이 터미널 에뮬레이터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1259
-#, fuzzy
 msgid "VICII Render filter"
-msgstr "랜더 필터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1260
-#, fuzzy
 msgid "VIC Render filter"
-msgstr "랜더 필터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1261
-#, fuzzy
 msgid "CRTC Render filter"
-msgstr "랜더 필터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1262
-#, fuzzy
 msgid "VDC Render filter"
-msgstr "랜더 필터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1263
-#, fuzzy
 msgid "TED Render filter"
-msgstr "랜더 필터"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1264
 msgid "External Palette"
-msgstr ""
+msgstr "외장 팔레트"
 
 #: src/arch/win32/res.rc.po.c:1266
 msgid "Initialization at powerup"
-msgstr ""
+msgstr "전원이 들어오때 초기화를 합니다"
 
 #: src/arch/win32/res.rc.po.c:1267 src/arch/amigaos/intl_text.c.po.c:6601
 msgid "Value of first byte"
@@ -5567,19 +5529,19 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1270
 msgid "Printer emulation"
-msgstr ""
+msgstr "프린트 에뮬레이션"
 
 #: src/arch/win32/res.rc.po.c:1271
 msgid "Send Formfeed"
-msgstr ""
+msgstr "를 보냅니다"
 
 #: src/arch/win32/res.rc.po.c:1272
 msgid "File system printer"
-msgstr ""
+msgstr "파일 시스템 프린터"
 
 #: src/arch/win32/res.rc.po.c:1273
 msgid "Printer driver"
-msgstr ""
+msgstr "프린터 드라이버"
 
 #: src/arch/win32/res.rc.po.c:1274
 msgid "Output"
@@ -5587,31 +5549,31 @@ msgstr "출력"
 
 #: src/arch/win32/res.rc.po.c:1275
 msgid "Output to file #"
-msgstr ""
+msgstr "파일 # 에 출력"
 
 #: src/arch/win32/res.rc.po.c:1276
 msgid "Output file #1 name"
-msgstr ""
+msgstr "파일 #1 이름 출력"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "Output file #2 name"
-msgstr ""
+msgstr "파일 #2 이름 출력"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "Output file #3 name"
-msgstr ""
+msgstr "파일 #3 이름 출력"
 
 #: src/arch/win32/res.rc.po.c:1279
 msgid "Romset archive"
-msgstr ""
+msgstr "롬셋 아카이브"
 
 #: src/arch/win32/res.rc.po.c:1280
 msgid "Load archive"
-msgstr ""
+msgstr "불러오기 아카이브"
 
 #: src/arch/win32/res.rc.po.c:1281
 msgid "Save archive"
-msgstr ""
+msgstr "저장 아카이브"
 
 #: src/arch/win32/res.rc.po.c:1282
 msgid "Configuration"
@@ -5631,31 +5593,31 @@ msgstr "삭제"
 
 #: src/arch/win32/res.rc.po.c:1286
 msgid "Romset file"
-msgstr ""
+msgstr "롬셋 파일"
 
 #: src/arch/win32/res.rc.po.c:1287
 msgid "Load romset"
-msgstr ""
+msgstr "롬셋 불러오기"
 
 #: src/arch/win32/res.rc.po.c:1288
 msgid "Save romset"
-msgstr ""
+msgstr "롬셋 저장하기"
 
 #: src/arch/win32/res.rc.po.c:1289
 msgid "Custom speed"
-msgstr ""
+msgstr "커스텀 속도"
 
 #: src/arch/win32/res.rc.po.c:1290
 msgid "Enter custom speed [%]"
-msgstr ""
+msgstr "커스텀 속도를 [%] 넣으세요"
 
 #: src/arch/win32/res.rc.po.c:1291
 msgid "New configuration"
-msgstr ""
+msgstr "세로운 환경 설정"
 
 #: src/arch/win32/res.rc.po.c:1292
 msgid "Enter configuration name"
-msgstr ""
+msgstr "환경설정 이름을 넣으세요"
 
 #: src/arch/win32/res.rc.po.c:1294 src/arch/amigaos/intl_text.c.po.c:4696
 msgid "RS232 device 1"
@@ -6177,9 +6139,8 @@ msgid "Danish"
 msgstr "덴마크어"
 
 #: src/arch/win32/res.rc.po.c:1534 src/arch/amigaos/intl_text.c.po.c:3198
-#, fuzzy
 msgid "Spanish"
-msgstr "덴마크어"
+msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1536 src/arch/amigaos/intl_text.c.po.c:3240
 msgid "Hungarian"
@@ -6689,38 +6650,32 @@ msgid "Save GEO-RAM image when changed"
 msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:54
-#, fuzzy
 msgid "IDE64 V4 settings"
-msgstr "SID 설정"
+msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 HD image #1 settings"
-msgstr "드라이브 셋팅"
+msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 HD image #2 settings"
-msgstr "드라이브 셋팅"
+msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 HD image #3 settings"
-msgstr "드라이브 셋팅"
+msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 HD image #4 settings"
-msgstr "드라이브 셋팅"
+msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
 msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:61 src/arch/amigaos/intl_text.c.po.c:7609
-#, fuzzy
 msgid "HD image file"
-msgstr "카드 이미지 파일"
+msgstr ""
 
 #: src/arch/win32/reside64.rc.po.c:62
 msgid "Geometry"
@@ -7135,9 +7090,8 @@ msgstr ""
 #: src/arch/win32/ressoundsampler.rc.po.c:20
 #: src/arch/win32/resvic20.rc.po.c:549 src/arch/amigaos/intl_text.c.po.c:2722
 #: src/arch/amigaos/intl_text.c.po.c:9345
-#, fuzzy
 msgid "SFX Sound Sampler settings"
-msgstr "모델 설정"
+msgstr ""
 
 #: src/arch/win32/restfe.rc.po.c:62
 msgid "Ethernet"
@@ -7727,24 +7681,20 @@ msgid "Speed Adjustment"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:7637
-#, fuzzy
 msgid "IDE64 HD 1 settings"
-msgstr "SID 설정"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:7651
-#, fuzzy
 msgid "IDE64 HD 2 settings"
-msgstr "SID 설정"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:7665
-#, fuzzy
 msgid "IDE64 HD 3 settings"
-msgstr "SID 설정"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:7679
-#, fuzzy
 msgid "IDE64 HD 4 settings"
-msgstr "SID 설정"
+msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:7693
 msgid "IDE64 V4"
@@ -8916,14 +8866,12 @@ msgid "Disable the ACIA RS232 interface emulation"
 msgstr ""
 
 #: src/translate_text.c.po.c:3693
-#, fuzzy
 msgid "Enable the ACIA emulation"
-msgstr "라이트펜 에물레어터 사용가능케 하기"
+msgstr ""
 
 #: src/translate_text.c.po.c:3710
-#, fuzzy
 msgid "Disable the ACIA emulation"
-msgstr "라이트펜 에물레어터 사용가능케 하기"
+msgstr ""
 
 #: src/translate_text.c.po.c:3745
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -9356,9 +9304,8 @@ msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr ""
 
 #: src/translate_text.c.po.c:6130
-#, fuzzy
 msgid "Attach raw 24kB Kingsoft cartridge image"
-msgstr "카트리지 이미지 붙이기"
+msgstr ""
 
 #: src/translate_text.c.po.c:6147
 msgid "Attach raw 8kB MACH 5 cartridge image"
@@ -9397,9 +9344,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr ""
 
 #: src/translate_text.c.po.c:6334
-#, fuzzy
 msgid "Attach raw 64KB Pagefox cartridge image"
-msgstr "카트리지 이미지 붙이기"
+msgstr ""
 
 #: src/translate_text.c.po.c:6351
 msgid "Attach raw 256KB Prophet 64 cartridge image"
@@ -10698,9 +10644,8 @@ msgid "Attach raw 64kB Super Games cartridge image"
 msgstr ""
 
 #: src/translate_text.c.po.c:12227
-#, fuzzy
 msgid "Attach raw Silverrock 128 cartridge image"
-msgstr "8kb 카트리지 이미지를 붙이세요"
+msgstr ""
 
 #: src/translate_text.c.po.c:12244
 msgid "Attach raw 16kB Simons Basic cartridge image"
@@ -10831,82 +10776,3 @@ msgstr ""
 #: src/translate_text.c.po.c:12960
 msgid "Base address of the DigiMAX cartridge"
 msgstr ""
-
-#, fuzzy
-#~ msgid "SID Model"
-#~ msgstr "SID 모델"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Load new Cart $1***"
-#~ msgstr "세로운 카트리지 $1*** 불러오기"
-
-#~ msgid "Unload Cart $1***"
-#~ msgstr "언로드 카트리지 $1***"
-
-#~ msgid "Load new Cart $2-3***"
-#~ msgstr "세로운 카트리지 $2-3*** 불러오기"
-
-#~ msgid "Unload Cart $2-3***"
-#~ msgstr "언로드 카트리지 $2-3***"
-
-#~ msgid "Load new Cart $4-5***"
-#~ msgstr "세로운 카트리지 $4-5*** 불러오기"
-
-#~ msgid "Unload Cart $4-5***"
-#~ msgstr "언로드 카트리지 $4-5***"
-
-#~ msgid "Load new Cart $6-7***"
-#~ msgstr "세로운 카트리지 $6-7*** 불러오기"
-
-#~ msgid "Unload Cart $6-7***"
-#~ msgstr "언로드 카트리지 $6-7***"
-
-#~ msgid "CBM-II model settings"
-#~ msgstr "CBM-II 모델 설정"
-
-#~ msgid "HD image 2 name"
-#~ msgstr "하드 드라이브 이미지 2 이름"
-
-#~ msgid "HD image 3 name"
-#~ msgstr "하드 드라이브 이미지 3 이름"
-
-#~ msgid "HD image 4 name"
-#~ msgstr "하드 드라이브 이미지 4 이름"
-
-#~ msgid "Scanline Shade in percent"
-#~ msgstr "주사선 가리게 확률"
-
-#~ msgid "Phase in percent"
-#~ msgstr "단계 확률"
-
-#~ msgid "Offset in percent"
-#~ msgstr "오프셋 확률"
-
-#~ msgid "Blur in percent"
-#~ msgstr "흐릿함 확률"
-
-#~ msgid "type"
-#~ msgstr "종류"
-
-#~ msgid "revision"
-#~ msgstr "수정"
-
-#~ msgid "path"
-#~ msgstr "길"
-
-#~ msgid "name"
-#~ msgstr "이름"
-
-#~ msgid "Name:"
-#~ msgstr "이름:"
-
-#~ msgid "Keyset 1"
-#~ msgstr "키셋1"
-
-#~ msgid "Keyset 2"
-#~ msgstr "키셋2"
-
-#~ msgid "driver"
-#~ msgstr "드라이버"
