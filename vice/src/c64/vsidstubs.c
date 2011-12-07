@@ -1146,6 +1146,16 @@ int drive_check_extend_policy(int drive_type)
     return 0;
 }
 
+int drive_check_idle_method(int drive_type)
+{
+    return 0;
+}
+
+int drive_check_parallel_cable(int drive_type)
+{
+    return 0;
+}
+
 /*******************************************************************************
     vdrive
 *******************************************************************************/

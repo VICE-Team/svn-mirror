@@ -85,6 +85,7 @@ static int set_drive_true_emulation(int val, void *param)
 static int set_drive_sound_emulation(int val, void *param)
 {
     drive_sound_emulation = val;
+    return 0;
 }
 
 static int set_drive_extend_image_policy(int val, void *param)
