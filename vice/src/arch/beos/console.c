@@ -31,11 +31,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "console.h"
 #include "lib.h"
-#include "ui.h"
+#include "log.h"
 
+int console_init( void )
+{
+    return 0;
+}
+
+console_t *console_open(const char *id)
+{
+    console_t *console;
+
+    if (!isatty(fileno(stdin))) {
+        log_error(LOG_DEFAULT, "console_open: stdin is not a tty.");
+        return NULL;
+    }
+    if (!isatty(fileno(stdout))) {
+        log_error(LOG_DEFAULT, "console_open: stdout is not a tty.");
+        return NULL;
+    }
+
+    console = lib_malloc(sizeof(console_t));
+
+    console->console_xres = 80;
+    console->console_yres = 25;
+    console->console_can_stay_open = 1;
+    console->console_cannot_output = 0;
+
+    return console;
+}
 
 int console_out(console_t *log, const char *format, ...)
 {
@@ -90,34 +118,12 @@ char *console_in(console_t *log, const char *prompt)
     return p;
 }
 
-
-console_t *console_open(const char *id)
-{
-    console_t *console;
-
-    console = lib_malloc(sizeof(console_t));
-
-    console->console_xres = 80;
-    console->console_yres = 25;
-    console->console_can_stay_open = 0;
-    console->console_cannot_output = 0;
-
-    return console;
-}
-
 int console_close(console_t *log)
 {
     lib_free(log);
 
     return 0;
 }
-
-
-int console_init( void )
-{
-    return 0;
-}
-
 
 int console_close_all( void )
 {

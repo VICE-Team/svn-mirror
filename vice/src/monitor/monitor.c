@@ -2177,6 +2177,7 @@ static void monitor_open(void)
     if (console_log == NULL) {
         log_error(LOG_DEFAULT, "monitor_open: could not open monitor console.");
         exit_mon = 1;
+        monitor_trap_triggered = FALSE;
         return;
     }
 

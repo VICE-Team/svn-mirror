@@ -26,15 +26,15 @@
 
 #include "vice.h"
 
-#include "console.h"
-#include "lib.h"
-#include "monitor.h"
-#include "mon_util.h"
-#include "uimon.h"
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "console.h"
+#include "lib.h"
+#include "log.h"
+#include "monitor.h"
+#include "uimon.h"
 
 static console_t *console_log_local = NULL;
 
@@ -47,16 +47,22 @@ void uimon_window_close(void)
 console_t *uimon_window_open(void)
 {
     console_log_local = console_open("Monitor");
+    if (!console_log_local) {
+        ui_error("BeVICE must be started from a Terminal to use the Monitor.");
+    }
     return console_log_local;
 }
 
 void uimon_window_suspend(void)
 {
-    uimon_window_close();
 }
 
 console_t *uimon_window_resume(void)
 {
+    if (console_log_local) {
+        return console_log_local;
+    }
+    log_error(LOG_DEFAULT, "uimon_window_resume: log was not opened.");
     return uimon_window_open();
 }
 
@@ -72,15 +78,7 @@ int uimon_out(const char *buffer)
 
 char *uimon_get_in( char **ppchCommandLine, const char *prompt )
 {
-    char *p;
-
-    p = console_in(console_log_local, prompt);
-    if (!p) {
-        ui_error("BeVICE must be started from a Terminal to use the Monitor.");
-        mon_set_command(console_log_local, "x", NULL);
-    }
-
-    return p;
+    return console_in(console_log_local, prompt);
 }
 
 void uimon_notify_change( void )
