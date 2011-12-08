@@ -37,6 +37,8 @@
 
 #include "vice.h"
 
+/* #define DEBUG_DRIVE */
+
 #include <stdio.h>
 #include <string.h>
 
@@ -237,6 +239,9 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
 {
     static BYTE return_slot[32];
 
+#ifdef DEBUG_DRIVE
+    log_debug("DIR: vdrive_dir_find_next_slot start (%d/%d) #%d", vdrive->Curr_track, vdrive->Curr_sector, vdrive->SlotNumber);
+#endif
     /*
      * Loop all directory blocks starting from track 18, sector 1 (1541).
      */
@@ -251,8 +256,10 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
         if (vdrive->SlotNumber >= 8) {
             int status;
 
-            if (vdrive->Dir_buffer[0] == 0)
-                return NULL;
+            /* end of current directory? */
+            if (vdrive->Dir_buffer[0] == 0) {
+                break;
+            }
 
             vdrive->SlotNumber = 0;
             vdrive->Curr_track  = (int)vdrive->Dir_buffer[0];
@@ -261,8 +268,9 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
             status = disk_image_read_sector(vdrive->image, vdrive->Dir_buffer,
                                             vdrive->Curr_track,
                                             vdrive->Curr_sector);
-            if (status != 0)
-                break;
+            if (status != 0) {
+                return NULL; /* error */
+            }
         }
         if (vdrive_dir_name_match(&vdrive->Dir_buffer[vdrive->SlotNumber * 32],
                                   vdrive->find_nslot, vdrive->find_length,
@@ -272,31 +280,28 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
         }
     } while (1);
 
+#ifdef DEBUG_DRIVE
+    log_debug("DIR: vdrive_dir_find_next_slot (%d/%d) #%d", vdrive->Curr_track, vdrive->Curr_sector, vdrive->SlotNumber);
+#endif
+
     /*
      * If length < 0, create new directory-entry if possible
      */
-
     if (vdrive->find_length < 0) {
         int i, sector;
         BYTE *dirbuf;
 
-        sector = vdrive->Curr_sector +
-            vdrive_dir_get_interleave(vdrive->image_format);
+        sector = vdrive->Curr_sector + vdrive_dir_get_interleave(vdrive->image_format);
 
-        for (i = 0;
-             i < vdrive_get_max_sectors(vdrive,
-                                        vdrive->Curr_track);
-             i++) {
-            dirbuf = find_next_directory_sector(vdrive,
-                                                vdrive->Curr_track,
-                                                sector);
+        for (i = 0; i < vdrive_get_max_sectors(vdrive, vdrive->Curr_track); i++) {
+
+            dirbuf = find_next_directory_sector(vdrive, vdrive->Curr_track, sector);
             if (dirbuf != NULL) {
                 return dirbuf;
             }
 
             sector++;
-            if (sector >= vdrive_get_max_sectors(vdrive,
-                                                 vdrive->Curr_track)) {
+            if (sector >= vdrive_get_max_sectors(vdrive, vdrive->Curr_track)) {
                 sector = 0;
             }
         }
