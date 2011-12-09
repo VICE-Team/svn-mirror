@@ -550,7 +550,7 @@
 				<string>KeymapIndex,e,Symbolic,Positional</string>
 			</dict>
 		</dict>
-		<key>_C128_C64_C64DTV_CBM-II_</key>
+		<key>_C128_C64_C64DTV_5_</key>
 		<dict>
 			<key>VIC II</key>
 			<dict>
@@ -682,13 +682,29 @@
 		<dict>
 			<key>CBM-II</key>
 			<dict>
-				<key>Model Line</key>
-				<string>ModelLine,e,7x0 (50 Hz),6x0 60 Hz,6x0 50 Hz</string>
-				<key>Use VIC II</key>
-				<string>UseVicII,b</string>
+				<key>_6_</key>
+				<dict>
+					<key>Model Line</key>
+					<string>ModelLine,e,7x0 (50 Hz),6x0 60 Hz,6x0 50 Hz</string>
+				</dict>
+				<key>_5_</key>
+				<dict>
+					<key>Model Line</key>
+					<string>ModelLine,m,6x0 60 Hz=1,6x0 50 Hz=2</string>
+				</dict>
 			</dict>
 			<key>RAM</key>
 			<dict>
+				<key>_6_</key>
+				<dict>
+					<key>Size (KiB)</key>
+					<string>RamSize,E,128,256,512,1024</string>
+				</dict>
+				<key>_5_</key>
+				<dict>
+					<key>Size (KiB)</key>
+					<string>RamSize,E,64,128,256,512,1024</string>
+				</dict>
 				<key>Bank 15 $0800-$0FFF RAM</key>
 				<string>Ram08,b</string>
 				<key>Bank 15 $1000-$1FFF RAM</key>
@@ -701,8 +717,6 @@
 				<string>Ram6,b</string>
 				<key>Bank 15 $C000-$CFFF RAM</key>
 				<string>RamC,b</string>
-				<key>Size (KiB)</key>
-				<string>RamSize,E,128,256,512,1024</string>
 			</dict>
 			<key>ROM</key>
 			<dict>
@@ -733,7 +747,7 @@
 				<string>KeymapGraphicsSymFile,fo</string>
 			</dict>
 		</dict>
-		<key>_CBM-II_PET_</key>
+		<key>_6_PET_</key>
 		<dict>
 			<key>CRTC</key>
 			<dict>

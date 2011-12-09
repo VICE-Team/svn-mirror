@@ -133,6 +133,16 @@
                         if(![self addFromDictionaryLoop:value]) {
                             return FALSE;
                         }
+                    } else {
+                        // try to get machine_class as a number
+                        NSString *machineClass = [NSString stringWithFormat:@"_%d_", machine_class];
+                        NSRange range = [key rangeOfString:machineClass];
+                        if(range.location != NSNotFound) {
+                            // add machine dependent entries to this item
+                            if(![self addFromDictionaryLoop:value]) {
+                                return FALSE;
+                            }
+                        }
                     }
                 }
             }
