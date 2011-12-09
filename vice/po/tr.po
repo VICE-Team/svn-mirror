@@ -8670,7 +8670,7 @@ msgstr ""
 "noktasýný o iki adres arasýnda kalan adreslere koy.\n"
 "`yükle|depola|yürüt' monitörün kesildiði operatöre baðlý olarak `yükle'\n"
 "`depola' ya da `yürüt' (ya da herhangi bir kombinasyonunda) iþlemlerinde\n"
-"çalýþabilir. Eðer belirtilmemiþse, monitör `yükle' ve `depola'da kesilecektir."
+"çalýþabilir. Eðer belirtilmemiþse, monitör `yükle' ve `depola'da kesilecektir.\n"
 
 #: src/translate_text.c.po.c:2193
 msgid ""
@@ -8688,7 +8688,7 @@ msgstr ""
 "o iki adres arasýnda kalan adreslere koy.\n"
 "`yükle|depola|yürüt' monitörün kesildiði operatöre baðlý olarak `yükle'\n"
 "`depola' ya da `yürüt' (ya da herhangi bir kombinasyonunda) iþlemlerinde\n"
-"çalýþabilir. Eðer belirtilmemiþse, monitör her üç iþlemi de izleyecektir."
+"çalýþabilir. Eðer belirtilmemiþse, monitör her üç iþlemi de izleyecektir.\n"
 
 #: src/translate_text.c.po.c:2210
 msgid "Monitor state commands"
