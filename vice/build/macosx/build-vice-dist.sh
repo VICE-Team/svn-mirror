@@ -46,15 +46,23 @@ for A in $MULTI_ARCH ; do
   fi
 done
 SDK_VERSION="$2"
-if [ "$SDK_VERSION" != "10.4" -a "$SDK_VERSION" != "10.5" -a "$SDK_VERSION" != "10.6" ]; then
-  echo "Wrong SDK version given: $SDK_VERSION"
-  exit 1
-fi
+case "$SDK_VERSION" in
+  10.[4-9]) ;;
+  *)
+    echo "Wrong SDK version given: $SDK_VERSION"
+    exit 1
+    ;;
+esac
 COMPILER="$3"
-if [ "$COMPILER" != "gcc40" -a "$COMPILER" != "gcc42" -a "$COMPILER" != "clang" ]; then
-  echo "Wrong compiler given: $COMPILER"
-  exit 1
-fi
+case "$COMPILER" in
+  gcc40) ;;
+  gcc42) ;;
+  clang*) ;;
+  *)
+    echo "Wrong compiler given: $COMPILER"
+    exit 1
+    ;;
+esac
 UI_TYPE="$4"
 if [ "$UI_TYPE" != "x11" -a "$UI_TYPE" != "gtk" -a "$UI_TYPE" != "cocoa" -a "$UI_TYPE" != "sdl" ]; then
   echo "Wrong UI Type given: use 'x11' or 'gtk', or 'cocoa'!"
@@ -80,18 +88,18 @@ if [ "x$DEBUG" = "x" ]; then
   DEBUG=0
 fi
 
-echo "  architecture: $ARCH [$MULTI_ARCH]"
-echo "  sdk version:  $SDK_VERSION"
-echo "  compiler:     $COMPILER"
-echo "  ui type:      $UI_TYPE"
-echo "  dist type:    $DIST_TYPE"
-echo "  ext lib dir:  $EXTLIB_DIR"
-echo "  build dir:    $BUILD_DIR"
-echo "  debug:        $DEBUG"
+echo "+  architecture: $ARCH [$MULTI_ARCH]"
+echo "+  sdk version:  $SDK_VERSION"
+echo "+  compiler:     $COMPILER"
+echo "+  ui type:      $UI_TYPE"
+echo "+  dist type:    $DIST_TYPE"
+echo "+  ext lib dir:  $EXTLIB_DIR"
+echo "+  build dir:    $BUILD_DIR"
+echo "+  debug:        $DEBUG"
 
 # ----- determine number of CPUs -----
 NUM_CPUS=`hostinfo | grep 'processors are logically available' | awk '{print $1}'`
-echo "  cpu cores:    $NUM_CPUS"
+echo "+  cpu cores:    $NUM_CPUS"
 echo
 
 # ----- determine build options -----
@@ -137,7 +145,7 @@ fi
 # check for hidutil
 check_lib "libHIDUtilities.a"
 if [ "$?" = "0" ]; then
-  echo "  +++ With Joystick Support +++"
+  echo "+++ With Joystick Support +++"
   CONFIGURE_OPTS="Joystick $CONFIGURE_OPTS"
 fi
 
@@ -149,7 +157,7 @@ if [ "$UI_TYPE" != "sdl" ]; then
     if [ "$?" = "0" ]; then
       CONFIGURE_FLAGS="--enable-ethernet $CONFIGURE_FLAGS"
       CONFIGURE_OPTS="Ethernet $CONFIGURE_OPTS"
-      echo "  +++ With Ethernet Support +++"
+      echo "+++ With Ethernet Support +++"
     fi
   fi
 fi
@@ -161,13 +169,13 @@ if [ "$?" = "0" ]; then
   if [ "$?" = "0" ]; then
     CONFIGURE_FLAGS="--enable-ffmpeg $CONFIGURE_FLAGS"
     CONFIGURE_OPTS="FFMPEG $CONFIGURE_OPTS"
-    echo "  +++ With FFMPEG + Lame Support +++"
+    echo "+++ With FFMPEG + Lame Support +++"
   fi
 fi
 
-# clang flags
+# clang workarounds for now 
 if [ "$COMPILER" = "clang" ]; then
-  CONFIGURE_FLAGS="--disable-no-pic $CONFIGURE_FLAGS"
+  CONFIGURE_FLAGS="--disable-sse $CONFIGURE_FLAGS"
 fi
 
 # ----- setup build dir -----
@@ -233,11 +241,11 @@ build_vice () {
   local HOST_TAG="`uname -p`-$BUILD_SDK_VERSION-$BUILD_COMPILER"
 
   echo
-  echo "----- Bulding VICE [$BUILD_TAG] -----"
-  echo "  host:         $HOST_TAG"
-  echo "  sdk path:     $BUILD_SDK"
-  echo "  c compiler:   $BUILD_CC"
-  echo "  c++ compiler: $BUILD_CXX"
+  echo "+----- Bulding VICE [$BUILD_TAG] -----"
+  echo "+  host:         $HOST_TAG"
+  echo "+  sdk path:     $BUILD_SDK"
+  echo "+  c compiler:   $BUILD_CC ($BUILD_CC_VERSION)"
+  echo "+  c++ compiler: $BUILD_CXX ($BUILD_CXX_VERSION)"
 
   # already here?
   if [ -f "$BUILD_DIR/$BUILD_ARCH/src/x64" ]; then
@@ -339,47 +347,62 @@ fix_ref () {
   echo
 }
 
-# setup SDK paths
-SDK_BASE=/Developer/SDKs
-SDK_BASE_OLD=/Developer3/SDKs
-if [ ! -d "$SDK_BASE_OLD" ]; then
-  SDK_BASE_OLD="$SDK_BASE"
-fi
-case "$SDK_VERSION" in
-10.4) SDK_PATH=$SDK_BASE_OLD/MacOSX10.4u.sdk;;
-10.5) SDK_PATH=$SDK_BASE_OLD/MacOSX10.5.sdk;;
-10.6) SDK_PATH=$SDK_BASE/MacOSX10.6.sdk;;
-esac
-if [ ! -d "$SDK_PATH" ]; then
-  echo "ERROR: SDK directory not found: $SDK_PATH"
-  exit 1
-fi
-
-# setup compiler
-GCC_BASE=/Developer/usr/bin
-GCC_BASE_OLD=/Developer3/usr/bin
-if [ ! -d "$GCC_BASE_OLD" ]; then
-  GCC_BASE_OLD="$GCC_BASE"
-fi
+# determine compiler name
 case "$COMPILER" in
 gcc40) 
-  BUILD_CC=$GCC_BASE_OLD/gcc-4.0
-  BUILD_CXX=$GCC_BASE_OLD/g++-4.0;;
+  CC_NAME=gcc-4.0
+  CXX_NAME=g++-4.0
+  ;;
 gcc42)
-  BUILD_CC=$GCC_BASE/gcc-4.2
-  BUILD_CXX=$GCC_BASE/g++-4.2;;
+  CC_NAME=gcc-4.2
+  CXX_NAME=g++-4.2
+  ;;
+clang_gcc)
+  CC_NAME=clang
+  CXX_NAME=llvm-g++
+  ;;
 clang)
-  BUILD_CC=$GCC_BASE/clang
-  BUILD_CXX=$GCC_BASE/llvm-g++-4.2;;
+  CC_NAME=clang
+  CXX_NAME=clang++
+  ;;
+*)
+  CC_NAME="$COMPILER"
+  CXX_NAME="$COMPILER"
+  ;;
 esac
-if [ ! -x "$BUILD_CC" ]; then
-  echo "ERROR: C compiler not found: $BUILD_CC"
+
+# get SDK name
+case "$SDK_VERSION" in
+10.4) SDK_NAME=MacOSX10.4u.sdk;;
+*) SDK_NAME=MacOSX${SDK_VERSION}.sdk;;
+esac
+
+# search compiler and SDK
+FOUND=0
+if [ "$DEV_BASES" = "" ]; then
+  DEV_BASES="/Developer /Developer3"
+fi
+for BASE in $DEV_BASES ; do
+  if [ $FOUND -eq 0 ]; then
+    TRY_CC="$BASE/usr/bin/$CC_NAME"
+    TRY_CXX="$BASE/usr/bin/$CXX_NAME"
+    TRY_SDK="$BASE/SDKs/$SDK_NAME"
+    echo "TRY_CC=$TRY_CC, TRY_CXX=$TRY_CXX, TRY_SDK=$TRY_SDK"
+    if [ -x "$TRY_CC" -a -x "$TRY_CXX" -a -d "$TRY_SDK" ]; then
+      BUILD_CC="$TRY_CC"
+      BUILD_CXX="$TRY_CXX"
+      SDK_PATH="$TRY_SDK"
+      FOUND=1
+    fi
+  fi
+done
+if [ $FOUND -eq 0 ]; then
+  echo "ERROR: C compiler, C++ compiler, or SDK not found!"
   exit 1
 fi
-if [ ! -x "$BUILD_CXX" ]; then
-  echo "ERROR: C++ compiler not found: $BUILD_CXX"
-  exit 1
-fi
+# get versions of compiler
+BUILD_CC_VERSION=$($BUILD_CC --version | head -1)
+BUILD_CXX_VERSION=$($BUILD_CXX --version | head -1)
 
 # build vice
 for A in $MULTI_ARCH ; do

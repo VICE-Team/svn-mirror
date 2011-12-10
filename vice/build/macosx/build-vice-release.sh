@@ -21,7 +21,7 @@ DEFAULT_UI="cocoa"
 DEFAULT_ARCH="i386+ppc"
 DEFAULT_SDK_VERSION="10.4"
 DEFAULT_COMPILER="gcc40"
-JOBS="sdl x11 gtk cocoa cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang"
+JOBS="sdl x11 gtk cocoa cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang_gcc cocoa-i386+x86_64-10.6-clang"
 
 usage() {
   cat <<EOF
@@ -223,13 +223,11 @@ if [ "x$JOBS" != "x" ]; then
         x86_64) ARCH=x86_64;;
         *+*)    ARCH="$PARAM";;
         
-        10.4)   SDK_VERSION=10.4;;
-        10.5)   SDK_VERSION=10.5;;
-        10.6)   SDK_VERSION=10.6;;
+        10.[4-9])   SDK_VERSION="$PARAM";;
 
         gcc40)  COMPILER=gcc40;;
         gcc42)  COMPILER=gcc42;;
-        clang)  COMPILER=clang;;
+        clang*) COMPILER="$PARAM";;
         
         ?) echo "Unknown Job Parameter!"; exit 1;;
       esac
@@ -248,7 +246,9 @@ if [ "x$JOBS" != "x" ]; then
     
     # do build
     echo "--- building binaries [$UI-$ARCH-$SDK_VERSION-$COMPILER] ---"
-    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh "$ARCH" "$SDK_VERSION" "$COMPILER" "$UI" "$DIST_TYPE" "$EXTLIB" "$BUILD_DIR" "$DEBUG") >"$LOG" 2>&1 
+    (cd "$SRC_DIR" && $BASH build/macosx/build-vice-dist.sh \
+     "$ARCH" "$SDK_VERSION" "$COMPILER" "$UI" "$DIST_TYPE" "$EXTLIB" "$BUILD_DIR" "$DEBUG") \
+     2>&1 | tee "$LOG" | grep ^+
 
     # check generated files
     if [ $DIR_DIST = 1 ]; then
@@ -263,7 +263,6 @@ if [ "x$JOBS" != "x" ]; then
     fi
 
     # show warnings
-    fgrep +++ "$LOG"
     echo " -warnings begin-"
     fgrep warning: "$LOG" | sort | uniq
     echo " -warnings end-"
