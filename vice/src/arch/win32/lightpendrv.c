@@ -33,6 +33,7 @@
 #include "lightpendrv.h"
 #include "statusbar.h"
 #include "ui.h"
+#include "video.h"
 #include "videoarch.h"
 
 /* ------------------------------------------------------------------ */
