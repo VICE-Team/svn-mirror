@@ -249,7 +249,7 @@ int main(int argc, char **argv)
         fprintf(soutput, "\n");
         fprintf(soutput, "static struct { char *str; int cmd; } idslist[] = {\n");
 
-        for (i = 3; i < argc; i++) {
+        for (i = 4; i < argc; i++) {
             fprintf(houtput, "/*  Definitions from %s  */\n\n", argv[i]);
             process_file(argv[i], houtput, moutput, soutput);
             fprintf(houtput, "\n");
