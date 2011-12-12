@@ -1550,16 +1550,25 @@ if test x"$enable_ffmpeg" != "xno"; then
 
        CFLAGS=$old_CFLAGS
        CPPFLAGS=$old_CPPFLAGS
-      
-       AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
-       FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
-       GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"],
+
+      PKG_CHECK_MODULES(FFMPEG_SWSCALE, [libswscale],
+        [have_swscale=yes],
+        [echo "no. trying img_convert"]
+        [old_LIBS=$LIBS]
+        [AC_CHECK_LIB(avcodec, img_convert,[have_imgconvert=yes])]
+        [LIBS=$old_LIBS]
+      )
+      if (test x"${have_swscale}" = x"yes") || (test x"${have_imgconvert}" = x"yes") ; then
+        AC_DEFINE([HAVE_FFMPEG],,[Have FFMPEG av* libs available])
+        FFMPEG_INCLUDES="$FFMPEG_AV_CFLAGS"
+        GFXOUTPUT_DRIVERS="$GFXOUTPUT_DRIVERS ffmpegdrv.o ffmpeglib.o"
+      fi
+      if (test x"${have_swscale}" = x"yes") ; then
+        AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
+        FFMPEG_INCLUDES="$FFMPEG_INCLUDES $FFMPEG_SWSCALE_CFLAGS"
+      fi
+       ],
       [echo "no. disabled."]
-    )
-    PKG_CHECK_MODULES(FFMPEG_SWSCALE, [libswscale],
-      [AC_DEFINE([HAVE_FFMPEG_SWSCALE],,[Have FFMPEG swscale lib available])
-       FFMPEG_INCLUDES="$FFMPEG_INCLUDES $FFMPEG_SWSCALE_CFLAGS"],
-      [echo "no. using img_convert"]
     )
   else
     AC_MSG_RESULT([not available])
