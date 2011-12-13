@@ -46,8 +46,6 @@ libarch_a_SOURCES = \
 	dynlib.c \
 	fullscrn.c \
 	fullscrn.h \
-	fullscrn-ddraw.c \
-	fullscrn-dx9.c \
 	gifdrv.c \
 	hardsid.c \
 	intl.c \
