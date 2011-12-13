@@ -72,9 +72,12 @@
 #define HAVE_HTONS              1
 #define HAVE_NETWORK            1
 #define HAVE_GETCWD             1
-#define HAVE_DINPUT             1
 
+#ifndef NODIRECTX
+#define HAVE_DINPUT             1
+#define HAVE_D3D9_H             1
 #define USE_DXSOUND             1
+#endif
 
 #define __i386__                1
 

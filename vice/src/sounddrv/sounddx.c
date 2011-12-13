@@ -36,6 +36,10 @@
 #define INITGUID
 #endif
 
+#ifndef HAVE_DSOUND_LIB
+#define _WIN32_DCOM
+#endif
+
 #if __GNUC__>2 || (__GNUC__==2 && __GNUC_MINOR__>=95)
 #include <windows.h>
 #include <mmsystem.h>
@@ -69,7 +73,6 @@ HWND ui_get_main_hwnd(void)
     return info.window;
 }
 #endif
-
 
 /* ------------------------------------------------------------------------ */
 

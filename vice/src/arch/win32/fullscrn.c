@@ -32,12 +32,14 @@
 
 #include "fullscrn.h"
 #include "lib.h"
+#include "log.h"
 #include "res.h"
 #include "resources.h"
 #include "statusbar.h"
 #include "translate.h"
 #include "ui.h"
 #include "uilib.h"
+#include "util.h"
 #include "videoarch.h"
 #include "viewport.h"
 #include "winlong.h"
@@ -48,9 +50,33 @@ static int dx_primary;
 static int keep_aspect_ratio, true_aspect_ratio, aspect_ratio;
 static int ui_setup_finished = 0;
 
+#ifdef HAVE_D3D9_H
+#include <d3d9.h>
+
+static HMENU old_menu;
+static RECT old_rect;
+static DWORD old_style;
+static float old_refreshrate;
+
+typedef struct _DDL {
+    struct _DDL *next;
+    int isNullGUID;
+    GUID guid;
+    LPSTR desc;
+} DirectDrawDeviceList;
+
+typedef struct _ML {
+    struct _ML *next;
+    int devicenumber;
+    int width;
+    int height;
+    int bitdepth;
+    int refreshrate;
+} DirectDrawModeList;
+
 static DirectDrawDeviceList *devices = NULL;
 static DirectDrawModeList *modes = NULL;
-
+#endif
 
 void fullscreen_setup_finished(void)
 {
@@ -62,29 +88,6 @@ void fullscreen_setup_finished(void)
     }
 }
 
-void fullscreen_devices_and_modes_free(void)
-{
-    DirectDrawModeList *m1, *m2;
-    DirectDrawDeviceList *d1, *d2;
-
-    m1 = modes;
-    while (m1 != NULL) {
-        m2 = m1->next;
-        lib_free(m1);
-        m1 = m2;
-    }
-    modes = NULL;
-
-    d1 = devices;
-    while (d1 != NULL) {
-        d2 = d1->next;
-        lib_free(d1->desc);
-        lib_free(d1);
-        d1 = d2;
-    }
-    devices = NULL;
-}
-
 int fullscreen_get_nesting_level(void)
 {
     return fullscreen_nesting_level;
@@ -92,18 +95,32 @@ int fullscreen_get_nesting_level(void)
 
 static void fullscreen_set_res_from_current_display(void)
 {
+#ifdef HAVE_D3D9_H
     int bitdepth, width, height, refreshrate;
 
     if (video_dx9_enabled()) {
-        fullscreen_get_current_display_dx9(&bitdepth, &width, &height, &refreshrate);
-    } else {
-        fullscreen_get_current_display_ddraw(&bitdepth, &width, &height, &refreshrate);
+        D3DDISPLAYMODE mode;
+
+        if (S_OK == IDirect3D9_GetAdapterDisplayMode(d3d, D3DADAPTER_DEFAULT , &mode)) {
+            bitdepth = 32;
+            width = mode.Width;
+            height = mode.Height;
+            refreshrate = mode.RefreshRate;
+        } else {
+            /* provide defaults if GetDisplayMode fails for some reason */
+            log_debug("fullscreen_get_current_display_dx9 failed to get mode!");
+            bitdepth = 32;
+            width = 640;
+            height = 480;
+            refreshrate = 0;
+        }
     }
 
     resources_set_int("FullscreenBitdepth", bitdepth);
     resources_set_int("FullscreenWidth", width);
     resources_set_int("FullscreenHeight", height);
     resources_set_int("FullscreenRefreshRate", refreshrate);
+#endif
 }
 
 /* check if the fullscreen resource values are valid */
@@ -121,13 +138,72 @@ static int fullscrn_res_valid(void)
     return 0;
 }
 
+#ifdef HAVE_D3D9_H
+static void fullscreen_use_devices_dx9(DirectDrawDeviceList **devices,
+                                DirectDrawModeList **modes)
+{
+    if (devices == NULL) {
+        int adapter, numAdapter, mode, numAdapterModes;
+        D3DADAPTER_IDENTIFIER9 d3didentifier;
+        D3DDISPLAYMODE displayMode;
+        DirectDrawDeviceList *new_device;
+        DirectDrawDeviceList *search_device;
+        DirectDrawModeList *new_mode;
+        DirectDrawModeList *search_mode;
+
+        numAdapter = 0;
+        while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
+            new_device = lib_malloc(sizeof(DirectDrawDeviceList));
+            new_device->next = NULL;
+            new_device->desc = util_concat(d3didentifier.DeviceName, " - ", d3didentifier.Description, NULL);
+            if (devices == NULL) {
+                *devices = new_device;
+            } else {
+                search_device = *devices;
+                while (search_device->next != NULL) {
+                    search_device = search_device->next;
+                }
+                search_device->next = new_device;
+            }
+            numAdapter++;
+        }
+
+        for (adapter = 0; adapter < numAdapter; adapter++) {
+            numAdapterModes = IDirect3D9_GetAdapterModeCount(d3d, adapter, D3DFMT_X8R8G8B8);
+
+            for (mode = 0; mode < numAdapterModes; mode++) {
+                if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, D3DFMT_X8R8G8B8, mode, &displayMode)) {
+                    new_mode = lib_malloc(sizeof(DirectDrawModeList));
+                    new_mode->next = NULL;
+                    new_mode->devicenumber = adapter;
+                    new_mode->width = displayMode.Width;
+                    new_mode->height = displayMode.Height;
+                    new_mode->bitdepth = 32;
+                    new_mode->refreshrate = displayMode.RefreshRate;
+
+                    if (modes == NULL) {
+                        *modes = new_mode;
+                    } else {
+                        search_mode = *modes;
+                        while (search_mode->next != NULL) {
+                            search_mode = search_mode->next;
+                        }
+                        search_mode->next = new_mode;
+                    }
+                }
+            }
+        }
+    }
+}
+#endif
+
 void fullscreen_getmodes(void)
 {
+#ifdef HAVE_D3D9_H
     if (video_dx9_enabled()) {
         fullscreen_use_devices_dx9(&devices, &modes);
-    } else {
-        fullscreen_use_devices_ddraw(&devices, &modes);
     }
+#endif
     
     /* Use current display parameters if resources are not valid */
     if (fullscrn_res_valid() < 0) {
@@ -137,20 +213,89 @@ void fullscreen_getmodes(void)
 
 void ui_fullscreen_init(void)
 {
-    fullscreen_getmodes_ddraw();
+#ifdef HAVE_D3D9_H
     if (video_dx9_enabled()) {
-        fullscreen_getmodes_dx9();
+        int adapter, numAdapter, mode, numAdapterModes;
+        D3DADAPTER_IDENTIFIER9 d3didentifier;
+        D3DDISPLAYMODE displayMode;
+        DirectDrawDeviceList *new_device;
+        DirectDrawDeviceList *search_device;
+        DirectDrawModeList *new_mode;
+        DirectDrawModeList *search_mode;
+
+        numAdapter = 0;
+        while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
+            new_device = lib_malloc(sizeof(DirectDrawDeviceList));
+            new_device->next = NULL;
+            new_device->desc = util_concat(d3didentifier.DeviceName, " - ", d3didentifier.Description, NULL);
+            if (devices == NULL) {
+                devices = new_device;
+            } else {
+                search_device = devices;
+                while (search_device->next != NULL) {
+                    search_device = search_device->next;
+                }
+                search_device->next = new_device;
+            }
+            numAdapter++;
+        }
+
+        for (adapter = 0; adapter < numAdapter; adapter++) {
+            numAdapterModes = IDirect3D9_GetAdapterModeCount(d3d, adapter, D3DFMT_X8R8G8B8);
+
+            for (mode = 0; mode < numAdapterModes; mode++) {
+                if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, D3DFMT_X8R8G8B8, mode, &displayMode)) {
+                    new_mode = lib_malloc(sizeof(DirectDrawModeList));
+                    new_mode->next = NULL;
+                    new_mode->devicenumber = adapter;
+                    new_mode->width = displayMode.Width;
+                    new_mode->height = displayMode.Height;
+                    new_mode->bitdepth = 32;
+                    new_mode->refreshrate = displayMode.RefreshRate;
+
+                    if (modes == NULL) {
+                        modes = new_mode;
+                    } else {
+                        search_mode = modes;
+                        while (search_mode->next != NULL) {
+                            search_mode = search_mode->next;
+                        }
+                        search_mode->next = new_mode;
+                    }
+                }
+            }
+        }
     }
+#endif
 }
 
 void ui_fullscreen_shutdown(void)
 {
+#ifdef HAVE_D3D9_H
     if (video_dx9_available()) {
+        DirectDrawModeList *m1, *m2;
+        DirectDrawDeviceList *d1, *d2;
+
         fullscreen_use_devices_dx9(&devices, &modes);
-        fullscreen_devices_and_modes_free();
+
+        m1 = modes;
+        while (m1 != NULL) {
+            m2 = m1->next;
+            lib_free(m1);
+            m1 = m2;
+        }
+        modes = NULL;
+
+        d1 = devices;
+        while (d1 != NULL) {
+            d2 = d1->next;
+            lib_free(d1->desc);
+            lib_free(d1);
+            d1 = d2;
+        }
+        devices = NULL;
     }
-    fullscreen_use_devices_ddraw(&devices, &modes);
-    fullscreen_devices_and_modes_free();
+#endif
 }
 
 void GetCurrentModeParameters(int *device, int *width, int *height, int *bitdepth, int *refreshrate)
@@ -181,11 +326,29 @@ void SwitchToFullscreenMode(HWND hwnd)
         fullscreen_set_res_from_current_display();
     }
 
+#ifdef HAVE_D3D9_H
     if (video_dx9_enabled()) {
-        SwitchToFullscreenModeDx9(hwnd);
-    } else {
-        SwitchToFullscreenModeDDraw(hwnd);
+        video_canvas_t *c;
+
+        c = video_canvas_for_hwnd(hwnd);
+
+        video_device_release_dx9(c);
+
+        statusbar_destroy(hwnd);
+
+        /*  Remove Window stuff that prevents fullscreen display */
+        old_style = GetWindowLong(hwnd, GWL_STYLE);
+        GetWindowRect(hwnd, &old_rect);
+        SetWindowLong(hwnd, GWL_STYLE, old_style & ~WS_SYSMENU & ~WS_CAPTION);
+        old_menu = GetMenu(hwnd);
+        SetMenu(hwnd, NULL);
+        ShowCursor(FALSE);
+
+        ui_set_render_window(c, 1);
+        video_device_create_dx9(c, 1);
+        video_canvas_refresh_all(c);
     }
+#endif
 }
 
 void SwitchToWindowedMode(HWND hwnd)
@@ -195,11 +358,33 @@ void SwitchToWindowedMode(HWND hwnd)
     if (!ui_setup_finished)
         return;
 
+#ifdef HAVE_D3D9_H
     if (video_dx9_enabled()) {
-        SwitchToWindowedModeDx9(hwnd);
-    } else {
-        SwitchToWindowedModeDDraw(hwnd);
+        video_canvas_t *c;
+
+        c = video_canvas_for_hwnd(hwnd);
+
+        video_device_release_dx9(c);
+
+        /* Create statusbar here to get correct dimensions for client window */
+        statusbar_create(hwnd);
+        ui_set_render_window(c, 0);
+
+        LockWindowUpdate(hwnd);
+        SetWindowLong(hwnd, GWL_STYLE, old_style);
+        /* Restore  Menu */
+        SetMenu(hwnd,old_menu);
+        ui_show_menu();
+        SetWindowPos(hwnd, HWND_NOTOPMOST, old_rect.left, old_rect.top, old_rect.right - old_rect.left, old_rect.bottom - old_rect.top, SWP_NOCOPYBITS);
+        ShowCursor(TRUE);
+        LockWindowUpdate(NULL);
+
+        video_device_create_dx9(c, 0);
+        video_canvas_refresh_all(c);
+
+        c->refreshrate = old_refreshrate;
     }
+#endif
     resources_get_int("AlwaysOnTop", &alwaysontop);
     ui_set_alwaysontop(alwaysontop);
 }
@@ -298,6 +483,7 @@ int fullscreen_width = 0;
 int fullscreen_height = 0;
 int fullscreen_refreshrate = 0;
 
+#ifdef HAVE_D3D9_H
 static void validate_mode(int *device, int *width, int *height, int *bitdepth, int *rate)
 {
     DirectDrawModeList  *mode;
@@ -517,10 +703,11 @@ static void get_resolutionlist(int device, int bitdepth)
         mode = mode->next;
     }
 }
+#endif
 
 static int vblank_sync;
 
-static uilib_localize_dialog_param fullscreen_dialog_dx9_trans[] = {
+static uilib_localize_dialog_param fullscreen_dialog_trans[] = {
     {IDC_FULLSCREEN_DRIVER, IDS_FULLSCREEN_DRIVER, 0},
     {IDC_FULLSCREEN_DRIVER_BITDEPTH, IDS_FULLSCREEN_DRVR_BITDEPTH, 0},
     {IDC_FULLSCREEN_DRIVER_RESOLUTION, IDS_FULLSCREEN_DRVR_RESOLUTION, 0},
@@ -532,17 +719,7 @@ static uilib_localize_dialog_param fullscreen_dialog_dx9_trans[] = {
     {0, 0, 0}
 };
 
-static uilib_localize_dialog_param fullscreen_dialog_ddraw_trans[] = {
-    {IDC_FULLSCREEN_DRIVER, IDS_FULLSCREEN_DRIVER, 0},
-    {IDC_FULLSCREEN_DRIVER_BITDEPTH, IDS_FULLSCREEN_DRVR_BITDEPTH, 0},
-    {IDC_FULLSCREEN_DRIVER_RESOLUTION, IDS_FULLSCREEN_DRVR_RESOLUTION, 0},
-    {IDC_FULLSCREEN_DRIVER_REFRESHRATE, IDS_FULLSCREEN_DRVR_REFRESHRATE, 0},
-    {IDC_TOGGLE_VIDEO_VBLANK_SYNC, IDS_TOGGLE_VIDEO_VBLANK_SYNC, 0},
-    {IDC_TOGGLE_VIDEO_DX_PRIMARY, IDS_TOGGLE_VIDEO_DX_PRIMARY, 0},
-    {0, 0, 0}
-};
-
-static uilib_dialog_group fullscreen_left_dx9_group[] = {
+static uilib_dialog_group fullscreen_left_group[] = {
     {IDC_FULLSCREEN_DRIVER_BITDEPTH,  0},
     {IDC_FULLSCREEN_DRIVER_RESOLUTION, 0},
     {IDC_FULLSCREEN_DRIVER_REFRESHRATE, 0},
@@ -551,26 +728,12 @@ static uilib_dialog_group fullscreen_left_dx9_group[] = {
     {0, 0}
 };
 
-static uilib_dialog_group fullscreen_left_ddraw_group[] = {
-    {IDC_FULLSCREEN_DRIVER_BITDEPTH,  0},
-    {IDC_FULLSCREEN_DRIVER_RESOLUTION, 0},
-    {IDC_FULLSCREEN_DRIVER_REFRESHRATE, 0},
-    {0, 0}
-};
-
-static uilib_dialog_group fullscreen_right_dx9_group[] = {
+static uilib_dialog_group fullscreen_right_group[] = {
     {IDC_FULLSCREEN_BITDEPTH,  0},
     {IDC_FULLSCREEN_RESOLUTION, 0},
     {IDC_FULLSCREEN_REFRESHRATE, 0},
     {IDC_ASPECT_RATIO, 0},
     {IDC_GEOMETRY_ASPECT_RATIO, 0},
-    {0, 0}
-};
-
-static uilib_dialog_group fullscreen_right_ddraw_group[] = {
-    {IDC_FULLSCREEN_BITDEPTH,  0},
-    {IDC_FULLSCREEN_RESOLUTION, 0},
-    {IDC_FULLSCREEN_REFRESHRATE, 0},
     {0, 0}
 };
 
@@ -592,7 +755,9 @@ void enable_aspect_ratio(HWND hwnd)
 static void init_fullscreen_dialog(HWND hwnd)
 {
     HWND setting_hwnd;
+#ifdef HAVE_D3D9_H
     DirectDrawDeviceList *dev;
+#endif
     ValueList *value;
     int xpos;
     int xstart;
@@ -602,9 +767,6 @@ static void init_fullscreen_dialog(HWND hwnd)
     double fval;
     TCHAR newval[64];
     video_canvas_t *canvas;
-    uilib_localize_dialog_param *fullscreen_dialog_trans = (video_dx9_enabled()) ? fullscreen_dialog_dx9_trans : fullscreen_dialog_ddraw_trans;
-    uilib_dialog_group *fullscreen_left_group = (video_dx9_enabled()) ? fullscreen_left_dx9_group : fullscreen_left_ddraw_group;
-    uilib_dialog_group *fullscreen_right_group = (video_dx9_enabled()) ? fullscreen_right_dx9_group : fullscreen_right_ddraw_group;
 
     canvas = video_canvas_for_hwnd(GetParent(GetParent(hwnd)));
     fullscreen_getmodes();
@@ -644,6 +806,7 @@ static void init_fullscreen_dialog(HWND hwnd)
         uilib_set_element_width(hwnd, IDC_FULLSCREEN_DEVICE, size + distance);
     }
 
+#ifdef HAVE_D3D9_H
     validate_mode(&fullscreen_device, &fullscreen_width, &fullscreen_height, &fullscreen_bitdepth, &fullscreen_refreshrate);
     setting_hwnd = GetDlgItem(hwnd, IDC_FULLSCREEN_DEVICE);
     SendMessage(setting_hwnd, CB_RESETCONTENT, 0, 0);
@@ -683,6 +846,7 @@ static void init_fullscreen_dialog(HWND hwnd)
         value = value->next;
     }
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)GetIndexFromList(refresh_rates, fullscreen_refreshrate), 0);
+#endif
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC), !video_dx9_enabled());
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_VBLANK_SYNC, vblank_sync ? BST_CHECKED : BST_UNCHECKED);
     CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_DX_PRIMARY, dx_primary ? BST_CHECKED : BST_UNCHECKED);
@@ -716,7 +880,6 @@ static void fullscreen_dialog_end(void)
         resources_set_int("KeepAspectRatio", keep_aspect_ratio);
         resources_set_int("AspectRatio", aspect_ratio);
     }
-    fullscrn_invalidate_refreshrate();
 }
 
 static void fullscreen_dialog_init(HWND hwnd)
@@ -770,6 +933,7 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
         case WM_COMMAND:
             notifycode = HIWORD(wparam);
             item = LOWORD(wparam);
+#ifdef HAVE_D3D9_H
             if (notifycode == CBN_SELENDOK) {
                 if (item == IDC_FULLSCREEN_DEVICE) { 
                     fullscreen_device = (int)SendMessage(GetDlgItem(hwnd, IDC_FULLSCREEN_DEVICE), CB_GETCURSEL, 0, 0);
@@ -786,7 +950,9 @@ INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPAR
                     fullscreen_refreshrate = GetValueFromList(refresh_rates, index);
                 }
                 init_fullscreen_dialog(hwnd);
-            } else {
+            } else
+#endif
+            {
                 command = LOWORD(wparam);
                 switch (command) {
                     case IDC_TOGGLE_VIDEO_VBLANK_SYNC:

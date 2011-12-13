@@ -200,6 +200,188 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Debug no DirectX|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+				TypeLibraryName=".\..\..\..\data/petcat.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive"
+				PreprocessorDefinitions="DONT_USE_UNISTD_H;WIN32;IDE_COMPILE;NODIRECTX;_DEBUG;_CONSOLE"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\libs\petcat\Debug no DirectX/petcat.pch"
+				AssemblerListingLocation=".\libs\petcat\Debug no DirectX/"
+				ObjectFile=".\libs\petcat\Debug no DirectX/"
+				ProgramDataBaseFileName=".\libs\petcat\Debug no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="wsock32.lib version.lib"
+				OutputFile=".\..\..\..\data/petcat.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				ProgramDatabaseFile=".\..\..\..\data/petcat.pdb"
+				SubSystem="1"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\..\..\..\data/petcat.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release no DirectX|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+				TypeLibraryName=".\..\..\..\data/petcat.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\vdrive"
+				PreprocessorDefinitions="DONT_USE_UNISTD_H;WIN32;IDE_COMPILE;NODIRECTX;NDEBUG;_CONSOLE"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\petcat\Release no DirectX/petcat.pch"
+				AssemblerListingLocation=".\libs\petcat\Release no DirectX/"
+				ObjectFile=".\libs\petcat\Release no DirectX/"
+				ProgramDataBaseFileName=".\libs\petcat\Release no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="wsock32.lib version.lib"
+				OutputFile=".\..\..\..\data/petcat.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				ProgramDatabaseFile=".\..\..\..\data/petcat.pdb"
+				SubSystem="1"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\..\..\..\data/petcat.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Debug|Itanium"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -408,6 +590,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Debug|Itanium"
 				>
 				<Tool
@@ -440,6 +640,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -488,6 +706,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Debug|Itanium"
 				>
 				<Tool
@@ -520,6 +756,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -568,6 +822,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Debug|Itanium"
 				>
 				<Tool
@@ -600,6 +872,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -648,6 +938,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Debug|Itanium"
 				>
 				<Tool
@@ -680,6 +988,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -728,6 +1054,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Debug|Itanium"
 				>
 				<Tool
@@ -768,6 +1112,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Debug|Itanium"
 				>
 				<Tool
@@ -800,6 +1162,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

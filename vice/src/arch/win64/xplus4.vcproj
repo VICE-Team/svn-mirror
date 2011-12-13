@@ -17,6 +17,100 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="_DEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="3"
+				TypeLibraryName=".\..\..\..\data/xplus4.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\,..\..\,..\..\drive,..\..\vdrive,..\..\monitor,..\..\sid"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\libs\xplus4\Debug/xplus4.pch"
+				AssemblerListingLocation=".\libs\xplus4\Debug/"
+				ObjectFile=".\libs\xplus4\Debug/"
+				ProgramDataBaseFileName=".\libs\xplus4\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="_DEBUG;IDE_COMPILE"
+				Culture="1033"
+				AdditionalIncludeDirectories="..\win32\msvc;..\win32;..\..\"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="dxguid.lib comctl32.lib winmm.lib dsound.lib wsock32.lib version.lib"
+				OutputFile=".\..\..\..\data/xplus4.exe"
+				LinkIncremental="2"
+				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile=".\..\..\..\data/xplus4.pdb"
+				SubSystem="2"
+				TargetMachine="17"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\..\..\..\data/xplus4.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -67,7 +161,7 @@
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="NDEBUG;IDE_COMPILE"
 				Culture="1033"
 				AdditionalIncludeDirectories="..\win32\msvc;..\win32;..\..\"
 			/>
@@ -76,7 +170,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib winmm.lib ddraw.lib dsound.lib dxguid.lib wsock32.lib version.lib"
+				AdditionalDependencies="comctl32.lib winmm.lib dsound.lib dxguid.lib wsock32.lib version.lib"
 				OutputFile=".\..\..\..\data/xplus4.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -112,7 +206,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Itanium"
+			Name="Debug no DirectX|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
@@ -137,32 +231,30 @@
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
-				TargetEnvironment="2"
+				TargetEnvironment="3"
 				TypeLibraryName=".\..\..\..\data/xplus4.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
-				InlineFunctionExpansion="1"
+				Optimization="0"
 				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\,..\..\,..\..\drive,..\..\vdrive,..\..\monitor,..\..\sid"
-				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS;WINIA64"
-				StringPooling="true"
-				RuntimeLibrary="0"
-				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\xplus4\Release/xplus4.pch"
-				AssemblerListingLocation=".\libs\xplus4\Release/"
-				ObjectFile=".\libs\xplus4\Release/"
-				ProgramDataBaseFileName=".\libs\xplus4\Release/"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;_DEBUG;_WINDOWS"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\libs\xplus4\Debug no DirectX/xplus4.pch"
+				AssemblerListingLocation=".\libs\xplus4\Debug no DirectX/"
+				ObjectFile=".\libs\xplus4\Debug no DirectX/"
+				ProgramDataBaseFileName=".\libs\xplus4\Debug no DirectX/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="NDEBUG"
+				PreprocessorDefinitions="_DEBUG;NODIRECTX;IDE_COMPILE"
 				Culture="1033"
 				AdditionalIncludeDirectories="..\win32\msvc;..\win32;..\..\"
 			/>
@@ -171,13 +263,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib winmm.lib ddraw.lib dsound.lib wsock32.lib version.lib"
+				AdditionalDependencies="comctl32.lib winmm.lib wsock32.lib version.lib"
 				OutputFile=".\..\..\..\data/xplus4.exe"
-				LinkIncremental="1"
+				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\..\..\..\data/xplus4.pdb"
 				SubSystem="2"
-				TargetMachine="5"
+				TargetMachine="17"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -207,7 +300,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|x64"
+			Name="Release no DirectX|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="1"
@@ -229,7 +322,7 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="3"
@@ -238,24 +331,26 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="0"
+				Optimization="2"
+				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\,..\..\,..\..\drive,..\..\vdrive,..\..\monitor,..\..\sid"
-				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
-				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\xplus4\Debug/xplus4.pch"
-				AssemblerListingLocation=".\libs\xplus4\Debug/"
-				ObjectFile=".\libs\xplus4\Debug/"
-				ProgramDataBaseFileName=".\libs\xplus4\Debug/"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;NDEBUG;_WINDOWS"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\xplus4\Release no DirectX/xplus4.pch"
+				AssemblerListingLocation=".\libs\xplus4\Release no DirectX/"
+				ObjectFile=".\libs\xplus4\Release no DirectX/"
+				ProgramDataBaseFileName=".\libs\xplus4\Release no DirectX/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="1"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
 			/>
 			<Tool
 				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
+				PreprocessorDefinitions="NDEBUG;NODIRECTX;IDE_COMPILE"
 				Culture="1033"
 				AdditionalIncludeDirectories="..\win32\msvc;..\win32;..\..\"
 			/>
@@ -264,11 +359,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxguid.lib comctl32.lib winmm.lib ddraw.lib dsound.lib wsock32.lib version.lib"
+				AdditionalDependencies="comctl32.lib winmm.lib wsock32.lib version.lib"
 				OutputFile=".\..\..\..\data/xplus4.exe"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\..\..\..\data/xplus4.pdb"
 				SubSystem="2"
 				TargetMachine="17"
@@ -394,6 +488,101 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Release|Itanium"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="1"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				PreprocessorDefinitions="NDEBUG"
+				MkTypLibCompatible="true"
+				SuppressStartupBanner="true"
+				TargetEnvironment="2"
+				TypeLibraryName=".\..\..\..\data/xplus4.tlb"
+				HeaderFileName=""
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\,..\..\,..\..\drive,..\..\vdrive,..\..\monitor,..\..\sid"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS;WINIA64"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\xplus4\Release/xplus4.pch"
+				AssemblerListingLocation=".\libs\xplus4\Release/"
+				ObjectFile=".\libs\xplus4\Release/"
+				ProgramDataBaseFileName=".\libs\xplus4\Release/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="NDEBUG"
+				Culture="1033"
+				AdditionalIncludeDirectories="..\win32\msvc;..\win32;..\..\"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="comctl32.lib winmm.lib ddraw.lib dsound.lib wsock32.lib version.lib"
+				OutputFile=".\..\..\..\data/xplus4.exe"
+				LinkIncremental="1"
+				SuppressStartupBanner="true"
+				ProgramDatabaseFile=".\..\..\..\data/xplus4.pdb"
+				SubSystem="2"
+				TargetMachine="5"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\..\..\..\data/xplus4.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCWebDeploymentTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -411,7 +600,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Debug|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -420,7 +609,25 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Debug|x64"
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -452,7 +659,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|Itanium"
+				Name="Debug|x64"
 				>
 				<Tool
 					Name="VCCustomBuildTool"
@@ -462,7 +669,27 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Debug|x64"
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					Outputs="..\win32\resplus4cat.rc"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					Outputs="..\win32\resplus4cat.rc"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
 				>
 				<Tool
 					Name="VCCustomBuildTool"
@@ -490,16 +717,7 @@
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions="IDE_COMPILE"
-					AdditionalIncludeDirectories=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions="IDE_COMPILE"
+					PreprocessorDefinitions=""
 					AdditionalIncludeDirectories=""
 				/>
 			</FileConfiguration>
@@ -508,7 +726,34 @@
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions="IDE_COMPILE"
+					PreprocessorDefinitions=""
+					AdditionalIncludeDirectories=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCResourceCompilerTool"
+					PreprocessorDefinitions=""
+					AdditionalIncludeDirectories=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCResourceCompilerTool"
+					PreprocessorDefinitions=""
+					AdditionalIncludeDirectories=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCResourceCompilerTool"
+					PreprocessorDefinitions=""
 					AdditionalIncludeDirectories=""
 				/>
 			</FileConfiguration>
@@ -517,7 +762,7 @@
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
-					PreprocessorDefinitions="IDE_COMPILE"
+					PreprocessorDefinitions=""
 					AdditionalIncludeDirectories=""
 				/>
 			</FileConfiguration>

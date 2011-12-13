@@ -32,7 +32,6 @@
 #include <string.h>
 
 #include <windows.h>
-#include <ddraw.h>
 #include <mmsystem.h>
 
 #include "cmdline.h"
@@ -54,10 +53,6 @@
 #include "vsyncapi.h"
 
 void video_resize(void);
-
-#ifndef HAVE_GUIDLIB
-//! \todo extern const GUID IID_IDirectDraw2;
-#endif
 
 #define EXIT_REASON(reason)             \
     {                                   \
@@ -88,467 +83,18 @@ static void video_debug(const char *format, ...)
 
 /* ------------------------------------------------------------------------ */
 
-/* DirectDraw errors.  This is shamelessly copied from `win32.c' in UAE,
-   althouigh some values were missing there and I wrote my own.  */
-const char *dd_error(HRESULT ddrval)
-{
-    switch (ddrval) {
-        case DDERR_NODIRECTDRAWHW:
-            return "No DirectDraw hardware available";
-        case DDERR_NOEMULATION:
-            return "No emulation layer available";
-        case DDERR_NOEXCLUSIVEMODE:
-            return "No exclusive mode";
-        case DDERR_NOFLIPHW:
-            return "No flipping hardware";
-        case DDERR_NOZBUFFERHW:
-            return "No ZBuffer hardware";
-        case DDERR_NOCOOPERATIVELEVELSET:
-            return "No cooperative level set";
-        case DDERR_ALREADYINITIALIZED:
-            return "This object is already initialized.";
-        case DDERR_BLTFASTCANTCLIP:
-            return "Cannot use BLTFAST with Clipper attached to surface.";
-        case DDERR_CANNOTATTACHSURFACE:
-            return "Cannot attach surface.";
-        case DDERR_CANNOTDETACHSURFACE:
-            return "Cannot detach surface.";
-        case DDERR_CANTCREATEDC:
-            return "Cannot create DC Device Context.";
-        case DDERR_CANTDUPLICATE:
-            return "Cannot duplicate.";
-        case DDERR_CANTLOCKSURFACE:
-            return "Access to surface refused (no DCI provider).";
-        case DDERR_CANTPAGELOCK:
-            return "PageLock failure.";
-        case DDERR_CANTPAGEUNLOCK:
-            return "PageUnlock failure.";
-        case DDERR_CLIPPERISUSINGHWND:
-            return "Can't set a clip-list for a Clipper which is attached to an HWND.";
-        case DDERR_COLORKEYNOTSET:
-            return "No source colour-key provided.";
-        case DDERR_CURRENTLYNOTAVAIL:
-            return "Support unavailable.";
-        case DDERR_DCALREADYCREATED:
-            return "Surface already has a Device Context.";
-        case DDERR_DIRECTDRAWALREADYCREATED:
-            return "DirectDraw already bound to this process.";
-        case DDERR_EXCEPTION:
-            return "Unexpected exception.";
-        case DDERR_EXCLUSIVEMODEALREADYSET:
-            return "Already in exclusive mode.";
-        case DDERR_GENERIC:
-            return "Undefined";
-        case DDERR_HEIGHTALIGN:
-            return "Height needs to be aligned.";
-        case DDERR_HWNDALREADYSET:
-            return "HWND already set for cooperative level.";
-        case DDERR_HWNDSUBCLASSED:
-            return "HWND has been subclassed.";
-        case DDERR_IMPLICITLYCREATED:
-            return "Can't restore an implicitly created surface.";
-        case DDERR_INCOMPATIBLEPRIMARY:
-            return "New params doesn't match existing primary surface.";
-        case DDERR_INVALIDCAPS:
-            return "Device doesn't have requested capabilities.";
-        case DDERR_INVALIDCLIPLIST:
-            return "Provided clip-list not supported.";
-        case DDERR_INVALIDDIRECTDRAWGUID:
-            return "Invalid GUID.";
-        case DDERR_INVALIDMODE:
-            return "Mode not supported.";
-        case DDERR_INVALIDOBJECT:
-            return "Invalid object.";
-        case DDERR_INVALIDPARAMS:
-            return "Invalid params.";
-        case DDERR_INVALIDPIXELFORMAT:
-            return "Device doesn't support requested pixel format.";
-        case DDERR_INVALIDPOSITION:
-            return "Overlay position illegal.";
-        case DDERR_INVALIDRECT:
-            return "Invalid RECT.";
-        case DDERR_INVALIDSURFACETYPE:
-            return "Wrong type of surface.";
-        case DDERR_LOCKEDSURFACES:
-            return "Surface locked.";
-        case DDERR_NO3D:
-            return "No 3d capabilities.";
-        case DDERR_NOALPHAHW:
-            return "No alpha h/w.";
-        case DDERR_NOBLTHW:
-            return "No blit h/w.";
-        case DDERR_NOCLIPLIST:
-            return "No clip-list.";
-        case DDERR_NOCLIPPERATTACHED:
-            return "No Clipper attached.";
-        case DDERR_NOCOLORCONVHW:
-            return "No colour-conversion h/w.";
-        case DDERR_NOCOLORKEY:
-            return "No colour-key.";
-        case DDERR_NOTLOCKED:
-            return "Not locked.";
-        case DDERR_NOTPAGELOCKED:
-            return "Not page-locked.";
-        case DDERR_NOTPALETTIZED:
-            return "Not palette-based.";
-        case DDERR_OUTOFCAPS:
-            return "out of caps";
-        case DDERR_OUTOFMEMORY:
-            return "Out of memory.";
-        case DDERR_OUTOFVIDEOMEMORY:
-            return "out of video memory.";
-        case DDERR_PALETTEBUSY:
-            return "Palette busy.";
-        case DDERR_PRIMARYSURFACEALREADYEXISTS:
-            return "Already a primary surface.";
-        case DDERR_SURFACEBUSY:
-            return "Surface busy.";
-        case DDERR_SURFACELOST:
-            return "Surface lost.";
-        case DDERR_UNSUPPORTED:
-            return "Unsupported.";
-        case DDERR_UNSUPPORTEDMODE:
-            return "Unsupported mode.";
-        case DDERR_UNSUPPORTEDFORMAT:
-            return "Unsupported format.";
-        case DDERR_WASSTILLDRAWING:
-           return "Was still drawing.";
-    }
-    return "???";
-}
-
-/* Set the palettes for canvas `c'.  */
-void init_palette(const palette_t *p, PALETTEENTRY *ape)
-{
-    unsigned int i;
-
-    /* Default to a 332 palette.  */
-    for (i = 0; i < 256; i++) {
-        ape[i].peRed = (BYTE)(((i >> 5) & 0x07) * 255 / 7);
-        ape[i].peGreen = (BYTE)(((i >> 2) & 0x07) * 255 / 7);
-        ape[i].peBlue = (BYTE)(((i >> 0) & 0x03) * 255 / 3);
-        ape[i].peFlags = (BYTE)0;
-    }
-
-    /* Overwrite first colors with the palette ones.  */
-    for (i = 0; i < p->num_entries; i++) {
-        ape[i].peRed = p->entries[i].red;
-        ape[i].peGreen = p->entries[i].green;
-        ape[i].peBlue = p->entries[i].blue;
-        ape[i].peFlags = 0;
-    }
-}
-
-void video_canvas_set_palette_ddraw_8bit(video_canvas_t *canvas)
-{
-    PALETTEENTRY ape[256];
-    HRESULT result;
-
-    init_palette(canvas->palette, ape);
-
-    result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT, ape, &canvas->dd_palette, NULL);
-}
-
-/* Set the palettes for canvas `c'.  */
-int video_set_palette(video_canvas_t *c)
-{
-    if (c->depth == 8) {
-        HRESULT result;
-
-        /* FIXME: Surface lost errors?  */
-        result = IDirectDrawSurface_SetPalette(c->primary_surface, c->dd_palette);
-        if (result == DDERR_SURFACELOST) {
-            IDirectDrawSurface_Restore(c->primary_surface);
-            result = IDirectDrawSurface_SetPalette(c->primary_surface, c->dd_palette);
-        }
-        if (result != DD_OK) {
-            ui_error("Cannot set palette on primary DirectDraw surface:\n%s", dd_error(result));
-            return -1;
-        }
-    }
-    return 0;
-}
-
-
-void video_set_physical_colors_get_format_ddraw(video_canvas_t *c, int *rshift, int *rbits, DWORD *rmask, int *gshift, int *gbits, DWORD *gmask, int *bshift, int *bbits, DWORD *bmask)
-{
-    DDPIXELFORMAT format;
-    DWORD mask;
-
-    format.dwSize = sizeof(DDPIXELFORMAT);
-    IDirectDrawSurface_GetPixelFormat(c->primary_surface, &format);
-    if (format.dwFlags & DDPF_RGB) {
-        log_debug("RGB surface...");
-#ifdef _ANONYMOUS_UNION
-        log_debug("dwRGBBitCount: %d", (int)format.dwRGBBitCount);
-        log_debug("dwRBitMask: %08x", (unsigned int)format.dwRBitMask);
-        log_debug("dwGBitMask: %08x", (unsigned int)format.dwGBitMask);
-        log_debug("dwBBitMask: %08x", (unsigned int)format.dwBBitMask);
-#else
-        log_debug("dwRGBBitCount: %d", (int)format.u1.dwRGBBitCount);
-        log_debug("dwRBitMask: %08x", (unsigned int)format.u2.dwRBitMask);
-        log_debug("dwGBitMask: %08x", (unsigned int)format.u3.dwGBitMask);
-        log_debug("dwBBitMask: %08x", (unsigned int)format.u4.dwBBitMask);
-#endif
-        if (c->depth != 8) {
-
-#ifdef _ANONYMOUS_UNION
-            mask = format.dwRBitMask;
-#else
-            mask = format.u2.dwRBitMask;
-#endif
-            *rshift = 0;
-            while (!(mask & 1)) {
-                (*rshift)++;
-                mask >>= 1;
-            }
-            *rmask = mask;
-            *rbits = 8;
-            while (mask & 1) {
-                (*rbits)--;
-                mask >>= 1;
-            }
-#ifdef _ANONYMOUS_UNION
-            mask = format.dwGBitMask;
-#else
-            mask = format.u3.dwGBitMask;
-#endif
-            *gshift = 0;
-            while (!(mask & 1)) {
-                (*gshift)++;
-                mask >>= 1;
-            }
-            *gmask = mask;
-            *gbits = 8;
-            while (mask & 1) {
-                (*gbits)--;
-                mask >>= 1;
-            }
-#ifdef _ANONYMOUS_UNION
-            mask = format.dwBBitMask;
-#else
-            mask = format.u4.dwBBitMask;
-#endif
-            *bshift = 0;
-            while (!(mask & 1)) {
-                (*bshift)++;
-                mask >>= 1;
-            }
-            *bmask = mask;
-            *bbits = 8;
-            while (mask & 1) {
-                (*bbits)--;
-                mask >>= 1;
-            }
-        }
-    } else {
-        log_debug("Non RGB surface...");
-    }
-}
-
-
-DWORD video_get_color_from_palette_ddraw(video_canvas_t *c, unsigned int i)
-{
-    HDC hdc;
-    DDSURFACEDESC ddsd;
-    HRESULT result;
-    COLORREF oldcolor;
-    DWORD p;
-
-    result = IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
-    if (result == DDERR_SURFACELOST) {
-        IDirectDrawSurface_Restore(c->primary_surface);
-        result = IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
-    }
-    if (result != DD_OK) {
-        ui_error("Cannot get DC on DirectDraw surface while allocating colors:\n%s", dd_error(result));
-        return -1;
-    }
-    oldcolor = GetPixel(hdc, 0, 0);
-    SetPixel(hdc, 0, 0, PALETTERGB(c->palette->entries[i].red, c->palette->entries[i].green, c->palette->entries[i].blue));
-    IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc);
-
-    ddsd.dwSize = sizeof(ddsd);
-    while ((result = IDirectDrawSurface_Lock(c->primary_surface, NULL, &ddsd, 0, NULL)) == DDERR_WASSTILLDRAWING) {
-    }
-    if (result == DDERR_SURFACELOST) {
-        IDirectDrawSurface_Restore(c->primary_surface);
-        result = IDirectDrawSurface_Lock(c->primary_surface, NULL, &ddsd, 0, NULL);
-    }
-    if (result != DD_OK) {
-        ui_error("Cannot lock temporary surface:\n%s", dd_error(result));
-        return -1;
-    }
-
-    p = *(DWORD *)ddsd.lpSurface;
-
-    if (IDirectDrawSurface_Unlock(c->primary_surface, NULL) == DDERR_SURFACELOST) {
-        IDirectDrawSurface_Restore(c->primary_surface);
-        IDirectDrawSurface_Unlock(c->primary_surface, NULL);
-    }
-    IDirectDrawSurface_GetDC(c->primary_surface, &hdc);
-    SetPixel(hdc, 0, 0, oldcolor);
-    IDirectDrawSurface_ReleaseDC(c->primary_surface, hdc); 
-
-    return p;
-}
-
-
-static int attach_clipper(video_canvas_t *canvas)
-{
-    HRESULT ddresult;
-
-    ddresult = IDirectDraw2_CreateClipper(canvas->dd_object2, 0, &canvas->clipper, NULL);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot create clipper for primary surface:\n%s", dd_error(ddresult));
-        return FALSE;
-    }
-    ddresult = IDirectDrawSurface_SetClipper(canvas->primary_surface, canvas->clipper);
-    if (ddresult != DD_OK) {
-        ui_error("Cannot set clipper for primary surface:\n%s", dd_error(ddresult));
-        return FALSE;
-    }
-    return TRUE;
-}
-
-static int create_temporary_surface(video_canvas_t *canvas, int width, int height, int force_videomem)
-{
-    HRESULT ddresult;
-    DDSURFACEDESC desc;
-
-    /* Create the temporary surface.  */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-    desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_VIDEOMEMORY;
-    desc.dwWidth = width;
-    desc.dwHeight = height;
-    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc, &canvas->temporary_surface, NULL);
-    if (ddresult != DD_OK) {
-        if (!force_videomem) {
-            /* if failed to create temporary videomemory surface, try in systemmemory */
-            memset(&desc, 0, sizeof(desc));
-            desc.dwSize = sizeof(desc);
-            desc.dwFlags = DDSD_CAPS | DDSD_HEIGHT | DDSD_WIDTH;
-            desc.ddsCaps.dwCaps = DDSCAPS_OFFSCREENPLAIN | DDSCAPS_SYSTEMMEMORY;
-            desc.dwWidth = width;
-            desc.dwHeight = height;
-            ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc, &canvas->temporary_surface, NULL);
-        }
-        if (ddresult != DD_OK) {
-            ui_error("Cannot create temporary DirectDraw surface:\n%s", dd_error(ddresult));
-            canvas->temporary_surface = NULL;
-            return FALSE;
-        }
-    }
-    canvas->render_surface = canvas->temporary_surface;
-    return TRUE;
-}
-
-/* Try to allocate a single buffer and a temporary buffer in video or system
-   memory.   */
-int video_create_single_surface(video_canvas_t *canvas, int width, int height)
-{
-    HRESULT ddresult;
-    DDSURFACEDESC desc;
-
-    /*  Create Primary surface */
-    memset(&desc, 0, sizeof(desc));
-    desc.dwSize = sizeof(desc);
-    desc.dwFlags = DDSD_CAPS;
-    desc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-
-    ddresult = IDirectDraw2_CreateSurface(canvas->dd_object2, &desc, &canvas->primary_surface, NULL);
-    if (ddresult != DD_OK) {
-        return FALSE;
-    }
-
-    attach_clipper(canvas);
-
-    if (!create_temporary_surface(canvas, width, height, FALSE)) {
-        canvas->render_surface = canvas->primary_surface;
-    } else {
-        canvas->render_surface = canvas->temporary_surface;
-    }
-
-    return TRUE;
-}
-
 /* Create a video canvas.  If specified width/height is not possible,
    return an alternative in `*width' and `*height'.  */
 video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
 {
-    HRESULT ddresult;
-    DDSURFACEDESC desc2;
-    GUID *device_guid;
-
     ui_make_resizable(canvas, 0);
-
-    /*  Create the DirectDraw object */
-    device_guid = NULL;
-    ddresult = DirectDrawCreate(device_guid, &canvas->dd_object, NULL);
-
-    if (ddresult != DD_OK) {
-        return NULL;
-    }
-    {
-        ddresult = IDirectDraw_SetCooperativeLevel(canvas->dd_object, NULL, DDSCL_NORMAL);
-        if (ddresult != DD_OK) {
-            ui_error("Cannot set DirectDraw cooperative level:\n%s", dd_error(ddresult));
-            return NULL;
-        }
-    }
-
-    ddresult = IDirectDraw_QueryInterface(canvas->dd_object, (GUID *)&IID_IDirectDraw2, (LPVOID *)&canvas->dd_object2);
-    if (ddresult != DD_OK) {
-        log_debug("Can't get DirectDraw2 interface");
-    }
 
     {
         canvas->client_width = canvas->width;
         canvas->client_height = canvas->height;
-        fullscreen_active = 0;
     }
 
-    canvas->refreshrate = video_refresh_rate(canvas);
-
-    /* For now, the back surface is always NULL because we have not
-       implemented the full-screen mode yet.  */
-    canvas->render_surface = NULL;
-    canvas->primary_surface = NULL;
-    canvas->back_surface = NULL;
-    canvas->temporary_surface = NULL;
-
-    memset(&desc2, 0, sizeof(desc2));
-    desc2.dwSize = sizeof(desc2);
-    ddresult = IDirectDraw2_GetDisplayMode(canvas->dd_object2, &desc2);
-
-    video_create_single_surface(canvas, desc2.dwWidth, desc2.dwHeight);
-
-   /* Find the color depth.  */
-#ifdef _ANONYMOUS_UNION
-    canvas->depth = desc2.ddpfPixelFormat.dwRGBBitCount;
-#else
-    canvas->depth = desc2.ddpfPixelFormat.u1.dwRGBBitCount;
-#endif
-
-    /* Create palette.  */
-    if (canvas->depth == 8) {
-        PALETTEENTRY ape[256];
-        HRESULT result;
-
-        init_palette(canvas->palette, ape);
-
-        result = IDirectDraw2_CreatePalette(canvas->dd_object2, DDPCAPS_8BIT, ape, &canvas->dd_palette, NULL);
-        if (result != DD_OK) {
-            DEBUG(("Cannot create palette: %s", dd_error(result)));
-            goto error;
-        }
-    }
-
-    if (video_set_palette(canvas) < 0) {
-        goto error;
-    }
+    canvas->depth = 24;
 
     if (video_set_physical_colors(canvas) < 0) {
         goto error;
@@ -559,7 +105,6 @@ video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, unsigned int *
     if (IsFullscreenEnabled()) {
         SwitchToFullscreenMode(canvas->hwnd);
     }
-    fullscreen_transition = 0;
 
     return canvas;
 
@@ -605,16 +150,10 @@ error:
 
 */
 
-char Region[2048];
-
 static void clear(HDC hdc, int x1, int y1, int x2, int y2)
 {
     static HBRUSH back_color;
     RECT clear_rect;
-
-    if (fullscreen_transition) {
-        return;
-    }
 
     if (back_color == NULL) {
         back_color = CreateSolidBrush(0);
@@ -657,10 +196,6 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
     }
 
     GetClientRect(hwnd, &rect);
-    if (fullscreen_active) {
-        rect.right = c->client_width;
-        rect.bottom = c->client_height;
-    }
 
     /*  Calculate upperleft point's framebuffer coords */
     xs = xclient - ((rect.right - window_canvas_xsize[window_index]) / 2) + (c->viewport->first_x - c->viewport->x_offset + c->geometry->extra_offscreen_border_left) * pixel_width;
@@ -758,10 +293,6 @@ void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigne
     client_y = yi;
 
     GetClientRect(canvas->hwnd, &rect);
-    if (fullscreen_active) {
-        rect.right = canvas->client_width;
-        rect.bottom = canvas->client_height;
-    }
     client_x += (rect.right - window_canvas_xsize[window_index]) / 2;
     client_y += (rect.bottom - statusbar_get_status_height() - window_canvas_ysize[window_index]) / 2;
 
@@ -770,29 +301,13 @@ void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigne
 
 static void real_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
-    HRESULT result;
-    DDSURFACEDESC desc;
-    LPDIRECTDRAWSURFACE surface = NULL;
-    RECT rect;
-    RECT trect;
-    int depth, pitch;
+    HDC hdc;
 
-    DWORD starttime;
-    int bytesmoved;
-    DWORD clipsize;
-    int regioncount, j;
-
-    int px, py, ph, pw;
     if (IsIconic(c->hwnd)) {
         return;
     }
 
-    if (fullscreen_transition) {
-        return;
-    }
-
-    starttime = timeGetTime();
-    bytesmoved = 0;
+    hdc = GetDC(c->hwnd);
 
     {
         if (syscolorchanged) {
@@ -810,256 +325,11 @@ static void real_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, un
         }
     }
 
-    rect.right = c->client_width;
-    rect.bottom = c->client_height;
-    rect.left = xi;
-    rect.top = yi;
-    ClientToScreen(c->hwnd, (LPPOINT) &rect);
-    rect.right = rect.left + w;
-    rect.bottom = rect.top + h;
-
-    if (c->back_surface != NULL) {
-        desc.dwSize = sizeof(desc);
-        do {
-            result = IDirectDrawSurface_Lock(c->back_surface, NULL, &desc, DDLOCK_WAIT, NULL);
-            if (result == DDERR_SURFACELOST) {
-                if (IDirectDrawSurface_Restore(c->back_surface) != DD_OK) {
-                    break;
-                }
-            }
-        } while (result == DDERR_SURFACELOST);
-        if (result == DD_OK) {
-            surface = c->back_surface;
-        }
-    }
-
-    if ((surface == NULL) && (dx_primary_surface_rendering)) {
-        desc.dwSize = sizeof(desc);
-        do {
-            result = IDirectDrawSurface_Lock(c->primary_surface, NULL, &desc,
-                                             0, NULL);
-            if (result == DDERR_SURFACELOST) {
-                if (IDirectDrawSurface_Restore(c->primary_surface) != DD_OK) {
-                    break;
-                }
-            }
-        } while (result == DDERR_SURFACELOST);
-        if (result == DD_OK) {
-            surface = c->primary_surface;
-        } else {
-            static int no_primary_lock_reported;
-
-            if (!no_primary_lock_reported && result == DDERR_CANTLOCKSURFACE) {
-                log_debug("WARNING: Lock on primary DirectX surface is not possible, slight performance degradation to be expected!");
-                no_primary_lock_reported = 1;
-            }
-        }
-    }
-    if (surface == NULL) {
-        /* Try to lock the temporary surface (last resort).  */
-        desc.dwSize = sizeof(desc);
-        do {
-            result = IDirectDrawSurface_Lock(c->temporary_surface, NULL, &desc,
-                                             0, NULL);
-            if (result == DDERR_SURFACELOST) {
-                if (IDirectDrawSurface_Restore(c->temporary_surface) != DD_OK) {
-                    break;
-                }
-            }
-        } while (result == DDERR_WASSTILLDRAWING);
-        if (result == DD_OK) {
-            surface = c->temporary_surface;
-        }
-    }
-
-    if (surface == NULL) {
-        DEBUG(("Can't lock surface"));
-        return;
-    }
-
-#ifdef _ANONYMOUS_UNION
-    depth = desc.ddpfPixelFormat.dwRGBBitCount;
-    pitch = desc.lPitch;
-#else
-    depth = desc.ddpfPixelFormat.u1.dwRGBBitCount;
-    pitch = desc.u1.lPitch;
-#endif
-
-    result = IDirectDrawClipper_SetHWnd(c->clipper, 0, c->hwnd);
-    if (result != DD_OK) {
-        ui_error("Cannot set HWND for primary surface clipper:\n%s", dd_error(result));
-    }
-
-    clipsize = 2048;
-    IDirectDrawClipper_GetClipList(c->clipper, &rect, (LPRGNDATA)&Region, &clipsize);
-    regioncount = ((RGNDATA*)Region)->rdh.nCount;
-    DEBUG(("REGION count: %d",regioncount));
-
-    for (j = 0; j < regioncount; j++) {
-        BYTE *scrn_orig = (BYTE *)(desc.lpSurface);
-
-        trect.top = ((RECT*)((RGNDATA*)Region)->Buffer)[j].top;
-        trect.bottom = ((RECT*)((RGNDATA*)Region)->Buffer)[j].bottom;
-        trect.left = ((RECT*)((RGNDATA*)Region)->Buffer)[j].left;
-        trect.right = ((RECT*)((RGNDATA*)Region)->Buffer)[j].right;
-        DEBUG(("RECT: %d %d %d %d", trect.left, trect.top, trect.right, trect.bottom));
-        px = xs + trect.left - rect.left;
-        py = ys + trect.top - rect.top;
-
-        if (c->videoconfig->doublesizex) {
-            /* FIXME: ugly hack to make pixel start on even coordinate */
-            if ((trect.left & 1) != (px & 1)) {
-                scrn_orig += (depth >>3);
-                trect.left--;
-            }
-            px /= 2;
-        }
-
-        if (c->videoconfig->doublesizey) {
-            /* FIXME: ugly hack to make pixel start on even coordinate */
-            if ((trect.top & 1) != (py & 1)) {
-                scrn_orig += pitch;
-                trect.top--;
-            }
-
-            /* The palemu renderer is broken and can't deal with rendering
-                that begins on scanline (odd lines). Hence, we workaround 
-                it here until renderer is fixed. */
-            if ((trect.top > 0) && (py & 1)) {
-                 trect.top--;            
-            }
-
-            py /= 2;
-        }
-
-        pw = trect.right - trect.left;
-        ph = trect.bottom - trect.top;
-
-        video_canvas_render(c, scrn_orig, pw, ph, px, py, trect.left, trect.top, pitch, depth);
-    }
-
-    if (IDirectDrawSurface_Unlock(surface, NULL) == DDERR_SURFACELOST) {
-        IDirectDrawSurface_Restore(surface);
-        IDirectDrawSurface_Unlock(surface, NULL);
-    }
-    if (surface == c->back_surface) {
-        /* Back surface: we can flip.  */
-    } else if (surface == c->primary_surface) {
-        /* Nothing to do...  the window has already been updated.  */
-    } else {
-        /* Temporary surface: we have to blit.  */
-        for (j = 0; j < regioncount; j++) {
-            trect.top = ((RECT*)((RGNDATA*)Region)->Buffer)[j].top;
-            trect.bottom = ((RECT*)((RGNDATA*)Region)->Buffer)[j].bottom;
-            trect.left = ((RECT*)((RGNDATA*)Region)->Buffer)[j].left;
-            trect.right = ((RECT*)((RGNDATA*)Region)->Buffer)[j].right;
-            result = IDirectDrawSurface_Blt(c->primary_surface, &trect, surface, &trect, DDBLT_WAIT, NULL);
-            if (result == DD_OK) {
-            } else if (result == DDERR_INVALIDRECT) {
-                DEBUG(("INVALID rect %d, %d, %d, %d", rect.left, rect.top, rect.right, rect.bottom));
-            } else if (result == DDERR_SURFACELOST) {
-                result = IDirectDrawSurface_Restore(c->primary_surface);
-            } else if (result == DDERR_SURFACEBUSY) {
-            } else {
-                ui_error("Cannot update emulation window:\n%s", dd_error(result));
-            }
-        }
-    }
-}
-
-
-#define TIME_MEASUREMENTS 16
-
-float video_refresh_rate(video_canvas_t *c)
-{
-    HANDLE prc;
-    DWORD cls;
-    int priok;
-    unsigned long frq;
-    unsigned long table[TIME_MEASUREMENTS];
-
-    /* get performance counter frequency */
-    vsyncarch_init();
-    frq = vsyncarch_frequency();
-
-    /* get current process and its priority */
-    prc = GetCurrentProcess();
-    cls = GetPriorityClass(prc);
-
-    /* try to set realtime priority */
-    priok = SetPriorityClass(prc, REALTIME_PRIORITY_CLASS);
-
-    /* if failed, try to set high priority */
-    if (!priok) {
-        priok = SetPriorityClass(prc, HIGH_PRIORITY_CLASS);
-    }
-
-    /* only measure refresh rate with a high priority */
-    if (priok) {
-        unsigned int i, k, m;
-        unsigned long old;
-        unsigned long now;
-        double frequency, time, mult;
-        float retval;
-
-        IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
-        now = vsyncarch_gettime();
-        for (i = 0; i < TIME_MEASUREMENTS; i++) {
-            old = now;
-            IDirectDraw2_WaitForVerticalBlank(c->dd_object2, DDWAITVB_BLOCKBEGIN, 0);
-            now = vsyncarch_gettime();
-            table[i] = now - old;
-        }
-
-        /* turn back to old priority */
-        SetPriorityClass(prc, cls);
-
-        for (i = 0; i < (TIME_MEASUREMENTS / 4); i++) {
-            old = 0;
-            m = 0;
-            for (k = 0; k < TIME_MEASUREMENTS; k++) {
-                if ((old < table[k]) && (table[k] != 0)) {
-                    old = table[k];
-                    m = k;
-                }
-            }
-            table[m] = 0;
-
-            old = 0x7FFFFFFF;
-            m = 0;
-            for (k = 0; k < TIME_MEASUREMENTS; k++) {
-                if ((old > table[k]) && (table[k] != 0)) {
-                    old = table[k];
-                    m = k;
-                }
-            }
-            table[m] = 0;
-        }
-
-        old = 0;
-        m = 0;
-        for (i = 0; i < TIME_MEASUREMENTS; i++) {
-            if (table[i] != 0) {
-                old += table[i] + 1;
-                m++;
-            }
-        }
-        if (m == 0) {
-            return 0.0f;
-        }
-
-        frequency = (double)frq;
-        time = (double)old;
-        mult = (double)m;
-
-        retval = (float)((frequency * mult) / time);
-
-        log_debug("Refresh rate: %08lX / %.2f = %.3f", frq, (float)(time / mult), retval);
-
-        return retval;
-    }
-
-    return 0.0f;
+    video_canvas_render(c, c->pixels, w, h, xs, ys, xi, yi, c->depth / 8 * c->width, c->depth);
+    SetDIBitsToDevice(hdc,
+        xi, yi, w, h, xi, yi, yi, yi+h,
+        c->pixels, &c->bmp_info, DIB_RGB_COLORS);
+    ReleaseDC(c->hwnd, hdc);
 }
 
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)

@@ -17,6 +17,78 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
+			Name="Debug|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\libs\c64commoncart\Debug/c64commoncart.pch"
+				AssemblerListingLocation=".\libs\c64commoncart\Debug/"
+				ObjectFile=".\libs\c64commoncart\Debug/"
+				ProgramDataBaseFileName=".\libs\c64commoncart\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\c64commoncart\Debug\c64commoncart.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\c64commoncart\Debug/c64commoncart.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -91,7 +163,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|x64"
+			Name="Debug no DirectX|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
@@ -119,7 +191,154 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
-				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;_DEBUG;_WINDOWS"
+				RuntimeLibrary="1"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\c64commoncart\Debug no DirectX/c64commoncart.pch"
+				AssemblerListingLocation=".\libs\c64commoncart\Debug no DirectX/"
+				ObjectFile=".\libs\c64commoncart\Debug no DirectX/"
+				ProgramDataBaseFileName=".\libs\c64commoncart\Debug no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\c64commoncart\Debug no DirectX\c64commoncart.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\c64commoncart\Debug no DirectX/c64commoncart.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release no DirectX|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;NDEBUG;_WINDOWS"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\c64commoncart\Release no DirectX/c64commoncart.pch"
+				AssemblerListingLocation=".\libs\c64commoncart\Release no DirectX/"
+				ObjectFile=".\libs\c64commoncart\Release no DirectX/"
+				ProgramDataBaseFileName=".\libs\c64commoncart\Release no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\c64commoncart\Release no DirectX\c64commoncart.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\c64commoncart\Release no DirectX/c64commoncart.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Itanium"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="2"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
 				PrecompiledHeaderFile=".\libs\c64commoncart\Debug/c64commoncart.pch"
 				AssemblerListingLocation=".\libs\c64commoncart\Debug/"
@@ -236,78 +455,6 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
-		<Configuration
-			Name="Debug|Itanium"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="2"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\monitor,..\..\core"
-				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS;WINIA64"
-				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\c64commoncart\Debug/c64commoncart.pch"
-				AssemblerListingLocation=".\libs\c64commoncart\Debug/"
-				ObjectFile=".\libs\c64commoncart\Debug/"
-				ProgramDataBaseFileName=".\libs\c64commoncart\Debug/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\libs\c64commoncart\Debug\c64commoncart.lib"
-				SuppressStartupBanner="true"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\libs\c64commoncart\Debug/c64commoncart.bsc"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -315,6 +462,15 @@
 		<File
 			RelativePath="..\..\c64\cart\c64acia1.c"
 			>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
 				>
@@ -325,7 +481,16 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|x64"
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -374,6 +539,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Release|Itanium"
 				>
 				<Tool
@@ -406,6 +589,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -454,6 +655,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Release|Itanium"
 				>
 				<Tool
@@ -494,6 +713,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Release|Itanium"
 				>
 				<Tool
@@ -516,6 +753,15 @@
 			RelativePath="..\..\c64\cart\tfe.c"
 			>
 			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Debug|x64"
 				>
 				<Tool
@@ -525,7 +771,16 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Release|x64"
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

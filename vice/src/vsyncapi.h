@@ -48,12 +48,14 @@ extern void vsyncarch_display_speed(double speed, double fps, int warp_enabled);
 /* sleep the given amount of timer units */
 extern void vsyncarch_sleep(signed long delay);
 
+#if defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI)
 /* synchronize with vertical blanks */
 extern void vsyncarch_verticalblank(struct video_canvas_s *c, float rate,
                                     int frames);
 
 /* keep vertical blank sync prepared */
 extern void vsyncarch_prepare_vbl(void);
+#endif
 
 /* this is called before vsync_do_vsync does the synchroniation */
 extern void vsyncarch_presync(void);
@@ -66,7 +68,9 @@ extern void_hook_t vsync_set_event_dispatcher(void_hook_t hook);
 
 extern int vsyncarch_vbl_sync_enabled(void);
 
+#if defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI)
 /* wait for next vertical retrace */
 extern void vsyncarch_sync_with_raster(struct video_canvas_s *c);
+#endif
 
 #endif

@@ -163,6 +163,151 @@
 			/>
 		</Configuration>
 		<Configuration
+			Name="Debug no DirectX|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\win32\msvc"
+				PreprocessorDefinitions="_DEBUG;WIN32;IDE_COMPILE;_WINDOWS;PACKAGE=\&quot;residdtv\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\libs\residdtv\Debug no DirectX/residdtv.pch"
+				AssemblerListingLocation=".\libs\residdtv\Debug no DirectX/"
+				ObjectFile=".\libs\residdtv\Debug no DirectX/"
+				ProgramDataBaseFileName=".\libs\residdtv\Debug no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\residdtv\Debug no DirectX\residdtv.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\residdtv\Debug no DirectX/residdtv.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release no DirectX|x64"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="3"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\win32\msvc"
+				PreprocessorDefinitions="NDEBUG;WIN32;IDE_COMPILE;_WINDOWS;PACKAGE=\&quot;residdtv\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\residdtv\Release no DirectX/residdtv.pch"
+				AssemblerListingLocation=".\libs\residdtv\Release no DirectX/"
+				ObjectFile=".\libs\residdtv\Release no DirectX/"
+				ProgramDataBaseFileName=".\libs\residdtv\Release no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\residdtv\Release no DirectX\residdtv.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\residdtv\Release no DirectX/residdtv.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
 			Name="Release|Itanium"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -334,6 +479,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug no DirectX/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug no DirectX/&quot; /Fd&quot;libs\residdtv\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Release/residdtv.pch&quot; /Fo&quot;libs\residdtv\Release/&quot; /Fd&quot;libs\residdtv\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Release/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Release|Itanium"
 				>
 				<Tool
@@ -375,6 +538,24 @@
 					Name="VCCustomBuildTool"
 					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug/&quot; /Fd&quot;libs\residdtv\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residdtv\Debug/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug no DirectX/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug no DirectX/&quot; /Fd&quot;libs\residdtv\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Release/residdtv.pch&quot; /Fo&quot;libs\residdtv\Release/&quot; /Fd&quot;libs\residdtv\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -422,6 +603,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug no DirectX/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug no DirectX/&quot; /Fd&quot;libs\residdtv\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Release/residdtv.pch&quot; /Fo&quot;libs\residdtv\Release/&quot; /Fd&quot;libs\residdtv\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Release/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Release|Itanium"
 				>
 				<Tool
@@ -463,6 +662,24 @@
 					Name="VCCustomBuildTool"
 					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residdtv\Debug/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug/&quot; /Fd&quot;libs\residdtv\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residdtv\Debug/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug no DirectX/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug no DirectX/&quot; /Fd&quot;libs\residdtv\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Release/residdtv.pch&quot; /Fo&quot;libs\residdtv\Release/&quot; /Fd&quot;libs\residdtv\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -514,6 +731,24 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug no DirectX/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug no DirectX/&quot; /Fd&quot;libs\residdtv\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Release/residdtv.pch&quot; /Fo&quot;libs\residdtv\Release/&quot; /Fd&quot;libs\residdtv\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Release/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
 				Name="Release|Itanium"
 				>
 				<Tool
@@ -551,6 +786,24 @@
 					Name="VCCustomBuildTool"
 					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residdtv\Debug/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug/&quot; /Fd&quot;libs\residdtv\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residdtv\Debug/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug no DirectX/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug no DirectX/&quot; /Fd&quot;libs\residdtv\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Release/residdtv.pch&quot; /Fo&quot;libs\residdtv\Release/&quot; /Fd&quot;libs\residdtv\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -595,6 +848,24 @@
 					Name="VCCustomBuildTool"
 					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residdtv\Debug/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug/&quot; /Fd&quot;libs\residdtv\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residdtv\Debug/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;_DEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Debug no DirectX/residdtv.pch&quot; /Fo&quot;libs\residdtv\Debug no DirectX/&quot; /Fd&quot;libs\residdtv\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residdtv\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\residdtv\Release/residdtv.pch&quot; /Fo&quot;libs\residdtv\Release/&quot; /Fd&quot;libs\residdtv\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residdtv\Release/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration

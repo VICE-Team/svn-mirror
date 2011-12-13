@@ -227,8 +227,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 {
     video_canvas_t *canvas_temp;
 
-    fullscreen_transition = 1;
-
     canvas->title = lib_stralloc(canvas->viewport->title);
     canvas->width = *width;
     canvas->height = *height;
@@ -268,6 +266,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
             DestroyWindow(canvas->hwnd);
         }
         lib_free(canvas->title);
+        lib_free(canvas->pixels);
         canvas->title = NULL;
     }
 }
@@ -275,11 +274,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
 int video_canvas_set_palette(video_canvas_t *canvas, palette_t *p)
 {
     canvas->palette = p;
-    if (canvas->depth == 8) {
-        video_canvas_set_palette_ddraw_8bit(canvas);
-    }
 
-    video_set_palette(canvas);
     video_set_physical_colors(canvas);
     return 0;
 }
@@ -297,22 +292,18 @@ int video_set_physical_colors(video_canvas_t *c)
     DWORD gmask;
     DWORD bmask;
 
-    if (video_dx9_enabled()) {
-        /* Use hard coded D3DFMT_X8R8G8B8 format, driver does conversion */
-        rshift = 16;
-        rmask = 0xff;
-        rbits = 0;
+    /* Use hard coded D3DFMT_X8R8G8B8 format, driver does conversion */
+    rshift = 16;
+    rmask = 0xff;
+    rbits = 0;
 
-        gshift = 8;
-        gmask = 0xff;
-        gbits = 0;
+    gshift = 8;
+    gmask = 0xff;
+    gbits = 0;
 
-        bshift = 0;
-        bmask = 0xff;
-        bbits = 0;
-    } else {
-        video_set_physical_colors_get_format_ddraw(c, &rshift, &rbits, &rmask, &gshift, &gbits, &gmask, &bshift, &bbits, &bmask);
-    }
+    bshift = 0;
+    bmask = 0xff;
+    bbits = 0;
 
     if (c->depth > 8) {
         for (i = 0; i < 256; i++) {
@@ -322,15 +313,9 @@ int video_set_physical_colors(video_canvas_t *c)
     }
 
     for (i = 0; i < c->palette->num_entries; i++) {
-        DWORD p;
-
-        if (c->depth == 8 /*&& !dx9_enabled*/) {
-            p = video_get_color_from_palette_ddraw(c, i);
-        } else {
-            p = (((c->palette->entries[i].red&(rmask << rbits)) >> rbits) << rshift) +
+        DWORD p = (((c->palette->entries[i].red&(rmask << rbits)) >> rbits) << rshift) +
                 (((c->palette->entries[i].green&(gmask << gbits)) >> gbits) << gshift) +
                 (((c->palette->entries[i].blue&(bmask << bbits)) >> bbits) << bshift);
-        }
         video_render_setphysicalcolor(c->videoconfig, i, p, c->depth);
     }
     return 0;
@@ -365,6 +350,17 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
 
     if (video_dx9_enabled()) {
         video_canvas_reset_dx9(canvas);
+    }
+    else {
+        canvas->bmp_info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+        canvas->bmp_info.bmiHeader.biWidth = width;
+        canvas->bmp_info.bmiHeader.biHeight = -(LONG)height;
+        canvas->bmp_info.bmiHeader.biPlanes = 1;
+        canvas->bmp_info.bmiHeader.biBitCount = canvas->depth;
+        canvas->bmp_info.bmiHeader.biCompression = BI_RGB;
+        canvas->bmp_info.bmiHeader.biSizeImage = canvas->depth / 8 * width * height;
+        lib_free(canvas->pixels);
+        canvas->pixels = lib_malloc(canvas->bmp_info.bmiHeader.biSizeImage);
     }
 }
 

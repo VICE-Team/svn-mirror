@@ -81,7 +81,9 @@ static void parsid_outb(unsigned int addrint, short value)
         Out32(addr, value);
 #endif
     } else {
+#ifdef  _M_IX86
         _outp(addr, value);
+#endif
     }
 }
 
@@ -99,7 +101,9 @@ static short parsid_inb(unsigned int addrint)
         return Inp32(addr);
 #endif
     } else {
+#ifdef  _M_IX86
         return _inp(addr);
+#endif
     }
 }
 
