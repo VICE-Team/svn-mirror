@@ -231,24 +231,33 @@ const char *archdep_boot_path(void)
     if (boot_path == NULL) {
         hkernel = LoadLibrary(TEXT("kernel32.dll"));
         if (hkernel) {
-            OutputDebugString(TEXT("DLL: kernel32.dll loaded"));
+            OutputDebugString(TEXT("DLL: kernel32.dll loaded\n"));
 
             OutputDebugString(TEXT("DLL: getting address for CreateToolhelp32Snapshot"));
             func_CreateToolhelp32Snapshot = (_CreateToolhelp32Snapshot)GetProcAddress(hkernel, TEXT("CreateToolhelp32Snapshot"));
             if (func_CreateToolhelp32Snapshot) {
-                OutputDebugString(TEXT("CreateToolhelp32Snaphshot success"));
+                OutputDebugString(TEXT("CreateToolhelp32Snaphshot success\n"));
+            }
+            else {
+                OutputDebugString(TEXT("CreateToolhelp32Snaphshot fail\n"));
             }
 
             OutputDebugString(TEXT("DLL: getting address for Module32First"));
             func_Module32First = (_Module32First)GetProcAddress(hkernel, TEXT("Module32First"));
             if (func_Module32First) {
-                OutputDebugString(TEXT("Module32First success"));
+                OutputDebugString(TEXT("Module32First success\n"));
+            }
+            else {
+                OutputDebugString(TEXT("Module32First fail\n"));
             }
 
             OutputDebugString(TEXT("DLL: getting address for Module32Next"));
             func_Module32Next = (_Module32Next)GetProcAddress(hkernel, TEXT("Module32Next"));
             if (func_Module32Next) {
-                OutputDebugString(TEXT("Module32Next success"));
+                OutputDebugString(TEXT("Module32Next success\n"));
+            }
+            else {
+                OutputDebugString(TEXT("Module32Next fail\n"));
             }
         }
 
@@ -259,18 +268,24 @@ const char *archdep_boot_path(void)
             OutputDebugString(TEXT("DLL: getting address for EnumProcessModules"));
             func_EnumProcessModules = (_EnumProcessModules)GetProcAddress(hpsapi, TEXT("EnumProcessModules"));
             if (func_EnumProcessModules) {
-                OutputDebugString(TEXT("EnumProcessModules success"));
+                OutputDebugString(TEXT("EnumProcessModules success\n"));
+            }
+            else {
+                OutputDebugString(TEXT("EnumProcessModules fail\n"));
             }
 
             OutputDebugString(TEXT("DLL: getting address for GetModuleFileNameEx"));
             func_GetModuleFileNameEx = (_GetModuleFileNameEx)GetProcAddress(hpsapi, TEXT("GetModuleFileNameExA"));
             if (func_GetModuleFileNameEx) {
-                OutputDebugString(TEXT("GetModuleFileNameEx success"));
+                OutputDebugString(TEXT("GetModuleFileNameEx success\n"));
+            }
+            else {
+                OutputDebugString(TEXT("GetModuleFileNameEx fail\n"));
             }
         }
 
         if (func_EnumProcessModules) {
-            OutputDebugString(TEXT("BOOT path NT method"));
+            OutputDebugString(TEXT("BOOT path NT method\n"));
             hproc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, GetCurrentProcessId());
             cbneed = 0;
             func_EnumProcessModules(hproc, NULL, 0, (LPDWORD)&cbneed);
@@ -297,7 +312,7 @@ const char *archdep_boot_path(void)
             }
             CloseHandle(hproc);
         } else if (func_CreateToolhelp32Snapshot && func_Module32First && func_Module32Next) {
-            OutputDebugString(TEXT("BOOT path Win9x method"));
+            OutputDebugString(TEXT("BOOT path Win9x method\n"));
             snap = func_CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, GetCurrentProcessId());
             memset(&ment, 0, sizeof(MODULEENTRY32));
             ment.dwSize = sizeof(MODULEENTRY32);
@@ -319,7 +334,7 @@ const char *archdep_boot_path(void)
         } else {
             TCHAR st_temp[MAX_PATH];
             char temp[MAX_PATH];
-            OutputDebugString(TEXT("BOOT path NT4 without PSAPI"));
+            OutputDebugString(TEXT("BOOT path NT4 without PSAPI\n"));
             if (GetModuleFileName(NULL, st_temp, MAX_PATH)) {
                 system_wcstombs(temp, st_temp, MAX_PATH);
                 if (!verify_exe(temp)) {
@@ -327,11 +342,12 @@ const char *archdep_boot_path(void)
                 }
                 util_fname_split(temp, &boot_path, NULL);
             } else {
-                OutputDebugString(TEXT("Module file name could not be obtained"));
+                OutputDebugString(TEXT("Module file name could not be obtained\n"));
             }
         }
         OutputDebugString(TEXT("boot path:"));
         OutputDebugString(boot_path);
+        OutputDebugString(TEXT("\n"));
 
         /* This should not happen, but you never know...  */
         if (boot_path == NULL) {
