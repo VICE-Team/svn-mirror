@@ -48,6 +48,10 @@ static D3DTEXTUREFILTERTYPE d3dpreffilter;
 
 LPDIRECT3D9 d3d;
 
+#ifndef D3D_SDK_VERSION
+#define D3D_SDK_VERSION 31
+#endif
+
 int video_setup_dx9(void)
 {
     d3d9dll = LoadLibrary("d3d9.dll");

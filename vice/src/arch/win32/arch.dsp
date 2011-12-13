@@ -130,14 +130,6 @@ SOURCE=.\fullscrn.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\fullscrn-ddraw.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\fullscrn-dx9.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\gifdrv.c
 # End Source File
 # Begin Source File

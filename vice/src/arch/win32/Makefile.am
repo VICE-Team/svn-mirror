@@ -59,6 +59,7 @@ libarch_a_SOURCES = \
 	mididrv.c \
 	mousedrv.c \
 	mousedrv.h \
+	msvc-d3d.h \
 	parsid.c \
 	petui.c \
 	plus4ui.c \

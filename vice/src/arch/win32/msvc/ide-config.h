@@ -75,7 +75,6 @@
 
 #ifndef NODIRECTX
 #define HAVE_DINPUT             1
-#define HAVE_D3D9_H             1
 #define USE_DXSOUND             1
 #endif
 
