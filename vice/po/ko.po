@@ -5621,23 +5621,23 @@ msgstr "환경설정 이름을 넣으세요"
 
 #: src/arch/win32/res.rc.po.c:1294 src/arch/amigaos/intl_text.c.po.c:4696
 msgid "RS232 device 1"
-msgstr ""
+msgstr "RS232 디바이스 1"
 
 #: src/arch/win32/res.rc.po.c:1295 src/arch/amigaos/intl_text.c.po.c:4710
 msgid "RS232 device 2"
-msgstr ""
+msgstr "RS232 디바이스 2"
 
 #: src/arch/win32/res.rc.po.c:1296 src/arch/amigaos/intl_text.c.po.c:4724
 msgid "RS232 device 3"
-msgstr ""
+msgstr "RS232 디바이스 3"
 
 #: src/arch/win32/res.rc.po.c:1297 src/arch/amigaos/intl_text.c.po.c:4738
 msgid "RS232 device 4"
-msgstr ""
+msgstr "RS232 디바이스 4"
 
 #: src/arch/win32/res.rc.po.c:1300 src/arch/amigaos/intl_text.c.po.c:3912
 msgid "Server Bind"
-msgstr ""
+msgstr "서버 바인드"
 
 #: src/arch/win32/res.rc.po.c:1313
 msgid "Append log to existing file"
@@ -5645,11 +5645,11 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1314 src/arch/amigaos/intl_text.c.po.c:4654
 msgid "Image Contents"
-msgstr ""
+msgstr "이미지 콘텐츠"
 
 #: src/arch/win32/res.rc.po.c:1315 src/arch/amigaos/intl_text.c.po.c:4598
 msgid "New Image"
-msgstr ""
+msgstr "세로운 이미지"
 
 #: src/arch/win32/res.rc.po.c:1317
 msgid "ID"
@@ -5657,19 +5657,19 @@ msgstr "ID"
 
 #: src/arch/win32/res.rc.po.c:1319 src/arch/amigaos/intl_text.c.po.c:4584
 msgid "Create Image"
-msgstr ""
+msgstr "이미지 생성"
 
 #: src/arch/win32/res.rc.po.c:1320 src/arch/amigaos/intl_text.c.po.c:4612
 msgid "New TAP Image"
-msgstr ""
+msgstr "세로운 TAP 이미지"
 
 #: src/arch/win32/res.rc.po.c:1322
 msgid "Select Driver"
-msgstr ""
+msgstr "드라이버 선택"
 
 #: src/arch/win32/res.rc.po.c:1323
 msgid "FFMPEG settings"
-msgstr ""
+msgstr "FFMPEG 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1326
 msgid "bitrate"
@@ -5677,15 +5677,15 @@ msgstr "비트 심도"
 
 #: src/arch/win32/res.rc.po.c:1328 src/arch/amigaos/intl_text.c.po.c:9429
 msgid "Sound record settings"
-msgstr ""
+msgstr "사운드 레코드 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1329 src/arch/amigaos/intl_text.c.po.c:9401
 msgid "Sound Record Format"
-msgstr ""
+msgstr "사운드 레코드 포맷"
 
 #: src/arch/win32/res.rc.po.c:1330 src/arch/amigaos/intl_text.c.po.c:9415
 msgid "Sound Record File"
-msgstr ""
+msgstr "사운드 레코드 파일"
 
 #: src/arch/win32/res.rc.po.c:1331
 msgid "Kernal"
@@ -5701,19 +5701,19 @@ msgstr "케릭터"
 
 #: src/arch/win32/res.rc.po.c:1334
 msgid "Computer resources"
-msgstr ""
+msgstr "컴퓨터 리소스"
 
 #: src/arch/win32/res.rc.po.c:1335
 msgid "Computer resources saved to romset"
-msgstr ""
+msgstr "컴퓨터 리소스를 롬셋에 저장"
 
 #: src/arch/win32/res.rc.po.c:1336
 msgid "Drive resources"
-msgstr ""
+msgstr "드라이브 리소스"
 
 #: src/arch/win32/res.rc.po.c:1337
 msgid "Drive resources saved to romset"
-msgstr ""
+msgstr "드라이브 리소스를 롬셋에 저장"
 
 #: src/arch/win32/res.rc.po.c:1338
 msgid "Symbolic"
@@ -5725,43 +5725,43 @@ msgstr "위치상의"
 
 #: src/arch/win32/res.rc.po.c:1340
 msgid "Dump keyset"
-msgstr ""
+msgstr "덤프 키셋"
 
 #: src/arch/win32/res.rc.po.c:1341
 msgid "Dump shortcuts"
-msgstr ""
+msgstr "덤프 단축 아이콘"
 
 #: src/arch/win32/res.rc.po.c:1342
 msgid "Symbolic US"
-msgstr ""
+msgstr "심볼릭 US"
 
 #: src/arch/win32/res.rc.po.c:1343
 msgid "Symbolic DE"
-msgstr ""
+msgstr "심볼릭 DE"
 
 #: src/arch/win32/res.rc.po.c:1344
 msgid "Gr Sym."
-msgstr ""
+msgstr "Gr Sym."
 
 #: src/arch/win32/res.rc.po.c:1345
 msgid "Gr Pos."
-msgstr ""
+msgstr "Gr Pos."
 
 #: src/arch/win32/res.rc.po.c:1346
 msgid "UK Sym."
-msgstr ""
+msgstr "UK Sym."
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "UK Pos."
-msgstr ""
+msgstr "UK Pos."
 
 #: src/arch/win32/res.rc.po.c:1348
 msgid "DE Sym."
-msgstr ""
+msgstr "DE Sym."
 
 #: src/arch/win32/res.rc.po.c:1349
 msgid "DE Pos."
-msgstr ""
+msgstr "DE Pos."
 
 #: src/arch/win32/res.rc.po.c:1350 src/arch/win32/res.rc.po.c:1366
 #: src/arch/win32/rescbm2.rc.po.c:494 src/arch/win32/respet.rc.po.c:547
