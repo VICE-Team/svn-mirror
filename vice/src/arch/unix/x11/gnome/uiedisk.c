@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "charset.h"
 #include "lib.h"
 #include "uiedisk.h"
 #include "ui.h"
@@ -129,6 +130,7 @@ int ui_empty_disk_dialog(char *name)
     char *format_text;
     char *fname;
     const char *dname, *id;
+    char dname2[16+1], id2[2+1];
     int i, type = 0, ret = 0;
 
     if (edisk_dialog) {
@@ -160,14 +162,20 @@ int ui_empty_disk_dialog(char *name)
     /* format label */
     dname = gtk_entry_get_text(GTK_ENTRY(diskname));
     if (!dname) {
-        dname = "";
+        dname2[0] = 0;
+    } else {
+        strcpy(dname2, dname);
+        charset_petconvstring((unsigned char*)dname2, 0);
     }
-
     /* disk ID */
     id = gtk_entry_get_text(GTK_ENTRY(diskid));
     if (!id) {
-        id = "00";
+        strcpy(id2, "00");
+    } else {
+        strcpy(id2, id);
+        charset_petconvstring((unsigned char*)id2, 0);
     }
+    format_text = util_concat(dname2, ",", id2, NULL);
 
     /* type radio button */
     for (i = 0; type_radio[i].label; i++) {
@@ -177,7 +185,6 @@ int ui_empty_disk_dialog(char *name)
         }
     }
 
-    format_text = util_concat(dname, ",", id, NULL);
     if (vdrive_internal_create_format_disk_image(name, format_text, type) < 0) {
         ui_error(_("Can't create image `%s'."));
         ret = -1;
