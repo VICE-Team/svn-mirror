@@ -36,6 +36,7 @@
 #include "tapecontents.h"
 #include "diskcontents.h"
 #include "lib.h"
+#include "log.h"
 #include "resources.h"
 #include "tape.h"
 #include "uiapi.h"
@@ -72,17 +73,22 @@ UI_CALLBACK(attach_disk)
     int unit = vice_ptr_to_int(UI_MENU_CB_PARAM);
     char *filename, *title;
     ui_button_t button;
-    int attach_wp = 0;
+    int attach_wp, old_attach_wp;
     uilib_file_filter_enum_t filter[] = { UILIB_FILTER_DISK, UILIB_FILTER_COMPRESSED, UILIB_FILTER_ALL };
 
     vsync_suspend_speed_eval();
+
+    resources_get_int_sprintf("AttachDevice%dReadonly", &attach_wp, unit);
+    old_attach_wp = attach_wp;
+
     title = lib_msprintf(_("Attach Disk Image as unit #%d"), unit);
     filename = ui_select_file(title, funcs[unit - 8], unit == 8 ? 1 : 0, attach_disk_last_dir,
                               filter, sizeof(filter) / sizeof(*filter), &button,  1, &attach_wp, UI_FC_LOAD);
 
     lib_free(title);
-    if (attach_wp) {
-        printf("Write protect attach requested.\n");
+
+    if ((button == UI_BUTTON_OK) || (button == UI_BUTTON_AUTOSTART)) {
+        log_message(LOG_DEFAULT, "Attaching '%s' %s...", filename, attach_wp ? "read only" : "writable");
         resources_set_int_sprintf("AttachDevice%dReadonly", attach_wp, unit);
     }
 
@@ -90,6 +96,7 @@ UI_CALLBACK(attach_disk)
         case UI_BUTTON_OK:
             if (file_system_attach_disk(unit, filename) < 0) {
                 ui_error(_("Invalid Disk Image"));
+                resources_set_int_sprintf("AttachDevice%dReadonly", old_attach_wp, unit);
             }
             lib_free(attach_disk_last_dir);
             util_fname_split(filename, &attach_disk_last_dir, NULL);
@@ -97,6 +104,7 @@ UI_CALLBACK(attach_disk)
         case UI_BUTTON_AUTOSTART:
             if (autostart_disk(filename, NULL, selection_from_image, AUTOSTART_MODE_RUN) < 0) {
                 ui_error(_("Invalid Disk Image or Filename"));
+                resources_set_int_sprintf("AttachDevice%dReadonly", old_attach_wp, unit);
             }
             lib_free(attach_disk_last_dir);
             util_fname_split(filename, &attach_disk_last_dir, NULL);

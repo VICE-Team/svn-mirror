@@ -2321,6 +2321,7 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
 
     if (attach_wp) {
         file_selector = build_file_selector(title, &wp, allow_autostart, show_preview, patterns, num_patterns, default_dir, action, read_contents_func);
+        GTK_TOGGLE_BUTTON(wp)->active = *attach_wp;
     } else {
         file_selector = build_file_selector(title, NULL, allow_autostart, show_preview, patterns, num_patterns, default_dir, action, read_contents_func);
     }
