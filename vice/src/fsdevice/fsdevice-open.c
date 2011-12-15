@@ -35,6 +35,8 @@
 
 #include "vice.h"
 
+/* #define DEBUG_DRIVE */
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -291,6 +293,10 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     cbmdos_cmd_parse_t cmd_parse;
     bufinfo_t *bufinfo;
 
+#ifdef DEBUG_DRIVE
+    log_debug("fsdevice_open name:'%s'", name);
+#endif
+    
     bufinfo = fsdevice_dev[vdrive->unit - 8].bufinfo;
 
     if (bufinfo[secondary].fileio_info != NULL) {

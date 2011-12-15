@@ -63,6 +63,11 @@ static int fsdevice_flush_cd(vdrive_t* vdrive, char *arg)
 {
     int er;
 
+    /* arrow left also works for dir up */
+    if (!strcmp("_", arg)) {
+        arg = "..";
+    }
+
     er = CBMDOS_IPE_OK;
     if (ioutil_chdir(fsdevice_get_path(vdrive->unit)) || ioutil_chdir(arg)) {
         er = CBMDOS_IPE_NOT_FOUND;
