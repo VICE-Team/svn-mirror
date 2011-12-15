@@ -362,8 +362,8 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
       case VDRIVE_IMAGE_FORMAT_1581:
         vdrive->Bam_Track     = BAM_TRACK_1581;
         vdrive->Bam_Sector    = BAM_SECTOR_1581;
-        vdrive->Header_Track  = BAM_TRACK_1571;
-        vdrive->Header_Sector = BAM_SECTOR_1571;
+        vdrive->Header_Track  = BAM_TRACK_1581;
+        vdrive->Header_Sector = BAM_SECTOR_1581;
         vdrive->bam_name      = BAM_NAME_1581;
         vdrive->bam_id        = BAM_ID_1581;
         vdrive->Dir_Track     = DIR_TRACK_1581;
