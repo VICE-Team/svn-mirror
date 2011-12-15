@@ -415,7 +415,22 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
                 action_str = "Trace";
             }
 
-            mon_out("#%d (%s %5s %04x)\n", cp->checknum, action_str, op_str, addr);
+            mon_out("#%d (%s %5s %04x) ", cp->checknum, action_str, op_str, addr);
+
+            if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
+                unsigned int line, cycle;
+                int half_cycle;
+
+                mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
+
+                if (half_cycle==-1)
+                mon_out(" %03i %03i\n", line, cycle);
+                else
+                mon_out(" %03i %03i %i\n", line, cycle, half_cycle);
+            } else {
+                mon_out("\n");
+            }
+
             mon_disassemble_with_regdump(mem, instpc);
 
             if (cp->command) {
