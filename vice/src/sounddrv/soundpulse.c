@@ -34,6 +34,21 @@
 
 static pa_simple *s = NULL;
 
+static pa_sample_spec ss = {
+    .format = PA_SAMPLE_S16LE,
+    .rate = (uint32_t) -1,
+    .channels = 0,
+};
+
+static pa_buffer_attr attr = {
+    .maxlength = (uint32_t) -1,
+    .tlength = (uint32_t) -1,
+    .prebuf = (uint32_t) -1,
+    .minreq = (uint32_t) -1,
+    .fragsize = (uint32_t) -1,
+};
+
+
 /* This driver does not use the bufferspace function because it should be
  * unnecessary. Pulse is already going to do its own thing regarding latency
  * and hopefully just does the right thing for us without forcing us to
@@ -41,21 +56,14 @@ static pa_simple *s = NULL;
 static int pulsedrv_init(const char *param, int *speed,
 		         int *fragsize, int *fragnr, int *channels)
 {
-    const pa_sample_spec ss = {
-        .format = PA_SAMPLE_S16NE,
-        .rate = *speed,
-        .channels = *channels,
-    };
-
-    const pa_buffer_attr attr = {
-        .maxlength = (uint32_t) -1,
-        .tlength = *fragsize * *fragnr * 2,
-        .prebuf = (uint32_t) -1,
-        .minreq = (uint32_t) -1,
-        .fragsize = (uint32_t) -1,
-    };
-
     int error = 0;
+
+    ss.rate = *speed;
+    ss.channels = *channels;
+
+    attr.fragsize = *fragsize * 2;
+    attr.tlength = *fragsize * *fragnr * 2;
+
     s = pa_simple_new(NULL, "VICE", PA_STREAM_PLAYBACK, NULL, "playback", &ss, NULL, &attr, &error);
     if (s == NULL) {
         log_error(LOG_DEFAULT, "pa_simple_new(): %s", pa_strerror(error));
@@ -69,18 +77,28 @@ static int pulsedrv_write(SWORD *pbuf, size_t nr)
 {
     int error = 0;
     if (pa_simple_write(s, pbuf, nr * 2, &error)) {
-        log_error(LOG_DEFAULT, "pa_simple_write(): %s", pa_strerror(error));
+        log_error(LOG_DEFAULT, "pa_simple_write(,%d): %s", (int)nr, pa_strerror(error));
         return 1;
     }
-    
+
+    return 0;
+}
+
+static int pulsedrv_suspend(void)
+{
+    int error = 0;
+    if (pa_simple_flush(s, &error)) {
+        log_error(LOG_DEFAULT, "pa_simple_flush(): %s", pa_strerror(error));
+        return 1;
+    }
     return 0;
 }
 
 static void pulsedrv_close(void)
 {
     int error = 0;
-    if (pa_simple_drain(s, &error)) {
-        log_error(LOG_DEFAULT, "pa_simple_drain(): %s", pa_strerror(error));
+    if (pa_simple_flush(s, &error)) {
+        log_error(LOG_DEFAULT, "pa_simple_flush(): %s", pa_strerror(error));
         /* don't stop */
     }
     pa_simple_free(s);
@@ -96,7 +114,7 @@ static sound_device_t pulsedrv_device =
     NULL,
     NULL,
     pulsedrv_close,
-    NULL,
+    pulsedrv_suspend,
     NULL,
     1
 };
