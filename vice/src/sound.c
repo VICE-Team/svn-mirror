@@ -1243,20 +1243,23 @@ double sound_flush()
         /* Not all sound drivers block during writing. We must avoid
          * overwriting. */
         if (nr > space) {
-            nr = space;
+            nr = space; /* warning: "space" may have become 0 due to fragment size
+                           alignment */
         }
     }
 
-    /* Flush buffer, all channels are already mixed into it. */
-    if (snddata.playdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
-        sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
-        return 0;
-    }
-
-    if (snddata.recdev) {
-        if (snddata.recdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
+    if (nr) {
+        /* Flush buffer, all channels are already mixed into it. */
+        if (snddata.playdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
             sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
             return 0;
+        }
+
+        if (snddata.recdev) {
+            if (snddata.recdev->write(snddata.buffer, nr * snddata.sound_output_channels)) {
+                sound_error(translate_text(IDGS_WRITE_TO_SOUND_DEVICE_FAILED));
+                return 0;
+            }
         }
     }
 
