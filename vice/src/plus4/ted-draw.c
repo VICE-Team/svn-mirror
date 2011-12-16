@@ -219,6 +219,7 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
     return r;
 }
 
+/* without video cache */
 inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe)
 {
     DWORD *table_ptr;
@@ -245,10 +246,9 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe)
             } else {
                 d = *(char_ptr + ted.vbuf[i] * 8);
             }
-
-            if ((int)i == cursor_pos)
+            if ((int)i == cursor_pos) {
                 d ^= 0xff;
-
+            }
             *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
             *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
         }
@@ -258,14 +258,14 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe)
             DWORD *ptr = table_ptr + ((ted.cbuf[i] & 0x7f) << 11);
 
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
-                d = 0;
+                d = (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             } else {
                 d = *(char_ptr + (ted.vbuf[i] & 0x7f) * 8)
                     ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             }
-            if ((int)i == cursor_pos)
+            if ((int)i == cursor_pos) {
                 d ^= 0xff;
-
+            }
             *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
             *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
         }
@@ -277,6 +277,7 @@ static void draw_std_text(void)
     ALIGN_DRAW_FUNC(_draw_std_text, 0, TED_SCREEN_TEXTCOLS - 1);
 }
 
+/* with video cache */
 inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
                                          unsigned int xe,
                                          raster_cache_t *cache)
@@ -348,8 +349,9 @@ static void draw_std_text_foreground(unsigned int start_char,
             } else {
                 b = char_ptr[ted.vbuf[i] * 8];
             }
-            if ((int)i == cursor_pos)
+            if ((int)i == cursor_pos) {
                 b ^= 0xff;
+            }
             f = ted.cbuf[i] & 0x7f;
 
             DRAW_STD_TEXT_BYTE(p, b, f);
@@ -359,13 +361,14 @@ static void draw_std_text_foreground(unsigned int start_char,
             BYTE b, f;
 
             if ((ted.cbuf[i] & 0x80) && (!ted.cursor_visible)) {
-                b=0;
+                b= (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             } else {
                 b = char_ptr[(ted.vbuf[i] & 0x7f) * 8]
                     ^ (ted.vbuf[i] & 0x80 ? 0xff : 0x00);
             }
-            if ((int)i == cursor_pos)
+            if ((int)i == cursor_pos) {
                 b ^= 0xff;
+            }
             f = ted.cbuf[i] & 0x7f;
 
             DRAW_STD_TEXT_BYTE(p, b, f);
