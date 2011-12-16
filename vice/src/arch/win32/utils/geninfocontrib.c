@@ -243,7 +243,7 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
                 if (checklineignore() == 0) {
                     replacetags();
 #ifdef WINMIPS
-                    fprintf(outfile, "\"  %s\\n\",\n", line_buffer­);
+                    fprintf(outfile, "\"  %s\\n\",\n", line_buffer);
 #else
                     fprintf(outfile, "\"  %s\\n\"\n", line_buffer);
 #endif
