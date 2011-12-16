@@ -1359,6 +1359,12 @@ static int list_match_pattern(char *pat, char *str)
     return 1;
 }
 
+/*
+    FIXME: diskcontents_read internally opens/closes the disk image, including
+           a complete reset of internal vdrive variables. this makes things like
+           changing sub partitions and sub directories inside images impossible
+           from the c1541 shell.
+*/
 static int list_cmd(int nargs, char **args)
 {
     char *pattern, *name;
@@ -2970,8 +2976,9 @@ static int raw_cmd(int nargs, char **args)
 {
     vdrive_t *vdrive = drives[drive_number];
 
-    if (vdrive == NULL || vdrive->buffers[15].buffer == NULL)
+    if (vdrive == NULL || vdrive->buffers[15].buffer == NULL) {
         return FD_NOTREADY;
+    }
 
     /* Write to the command channel.  */
     if (nargs >= 2) {

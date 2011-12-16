@@ -49,7 +49,9 @@
 #include "vdrive-command.h"
 #include "vdrive.h"
 
-
+/*
+    FIXME: partition support
+*/
 int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive, BYTE *bam,
                                        unsigned int *track,
                                        unsigned int *sector)
@@ -146,6 +148,9 @@ static int vdrive_bam_alloc_up(vdrive_t *vdrive, BYTE *bam,
     return -1;
 }
 
+/*
+    FIXME: partition support
+*/
 int vdrive_bam_alloc_next_free_sector(vdrive_t *vdrive, BYTE *bam,
                                       unsigned int *track,
                                       unsigned int *sector)
@@ -257,6 +262,9 @@ int vdrive_bam_allocate_chain(vdrive_t *vdrive, unsigned int t, unsigned int s)
     return CBMDOS_IPE_OK;
 }
 
+/*
+    FIXME: partition support
+*/
 static BYTE *vdrive_bam_calculate_track(unsigned int type, BYTE *bam,
                                         unsigned int track)
 {
@@ -608,6 +616,9 @@ int vdrive_bam_get_interleave(unsigned int type)
 /*
  * Load/Store BAM Image.
  */
+/*
+    FIXME: partition support
+*/
 
 /* probably we should make a list with BAM blocks for each drive type... (AF)*/
 int vdrive_bam_read_bam(vdrive_t *vdrive)
@@ -690,6 +701,9 @@ int vdrive_bam_reread_bam(unsigned int unit)
 {
     return vdrive_bam_read_bam(file_system_get_vdrive(unit));
 }
+/*
+    FIXME: partition support
+*/
 
 int vdrive_bam_write_bam(vdrive_t *vdrive)
 {

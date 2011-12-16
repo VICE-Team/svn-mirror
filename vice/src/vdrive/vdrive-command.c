@@ -59,6 +59,7 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
 static int vdrive_command_initialize(vdrive_t *vdrive);
 static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length);
 static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *dest, int length);
+static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *dest, int length);
 static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length);
 static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length);
 static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
@@ -111,7 +112,7 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
     name = (char *)memchr(p, ':', length);
 
 #ifdef DEBUG_DRIVE
-    log_debug("Command %c.", *p);
+    log_debug("Command '%c' (%s).", *p, p);
 #endif
 
     switch (*p) {
@@ -133,6 +134,17 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
             status = vdrive_command_chdir(vdrive, (BYTE *)name, length);
         } else {
             status = vdrive_command_copy(vdrive, (char *)name, length);
+        }
+        break;
+
+      case '/':         /* change partition */
+        if ((vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) ||
+            (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000)) {
+            if (!name) { /* handle "/dir" */
+                name = (char *)(p + 1);
+                --length;
+            }
+            status = vdrive_command_chpart(vdrive, (BYTE *)name, length);
         }
         break;
 
@@ -660,6 +672,9 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
     return status;
 }
 
+/*
+    CMD style subdir support (using DIR filetype)
+*/
 static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
 {
     int status, rc;
@@ -691,18 +706,21 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
             rc = disk_image_read_sector(vdrive->image, buffer,
                                         slot[SLOT_FIRST_TRACK],
                                         slot[SLOT_FIRST_SECTOR]);
-            if (rc > 0)
+            if (rc > 0) {
                 return rc;
-            if (rc < 0)
+            }
+            if (rc < 0) {
                 return CBMDOS_IPE_NOT_READY;
+            }
 
             vdrive->Header_Track = slot[SLOT_FIRST_TRACK];
             vdrive->Header_Sector = slot[SLOT_FIRST_SECTOR];
             vdrive->Dir_Track = buffer[0];
             vdrive->Dir_Sector = buffer[1];
             status = CBMDOS_IPE_OK;
-        } else
+        } else {
             status = CBMDOS_IPE_PATH_NOT_FOUND;
+        }
 
         vdrive_command_set_error(vdrive, status, 0, 0);
     }
@@ -712,17 +730,129 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
     return status;
 }
 
+/*
+    CBM style sub partition support (using CBM filetype)
+
+    on 1581 dos command "/dirname" enters a partition, "i" will go back to root
+
+    FIXME: this works only for .d81
+*/
+static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
+{
+    int status, rc;
+    int ts,ss,te,len;
+    BYTE *slot, buffer[256];
+    cbmdos_cmd_parse_t cmd_parse;
+
+    cmd_parse.cmd = name;
+    cmd_parse.cmdlength = length;
+    cmd_parse.readmode = 0;
+
+    rc = cbmdos_command_parse(&cmd_parse);
+
+    if (rc != SERIAL_OK) {
+        status = CBMDOS_IPE_NO_NAME;
+    } else {
+/*#ifdef DEBUG_DRIVE*/
+        log_debug("chpart name='%s', len=%d (%d), type= %d.",
+                  cmd_parse.parsecmd, cmd_parse.parselength,
+                  length, cmd_parse.filetype);
+/*#endif*/
+
+        vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
+                                   cmd_parse.parselength, CBMDOS_FT_CBM);
+
+        slot = vdrive_dir_find_next_slot(vdrive);
+
+        status = CBMDOS_IPE_BAD_PARTN; /* FIXME: is this correct ? */
+        if (slot) {
+            slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
+            /*
+            In order to use a partition as a sub-directory, it  must  adhere  to  
+            the following four rules:
+
+            1. It must start on sector 0
+            2. It's size must be in multiples of 40 sectors (which means the 
+               last sector is 39)
+            3. It must be a minimum of 120 sectors long (3 tracks)
+            4. It must not start on or cross  track 40
+            */
+            ts = slot[SLOT_FIRST_TRACK];
+            ss = slot[SLOT_FIRST_SECTOR];
+            len = slot[SLOT_NR_BLOCKS] + (slot[SLOT_NR_BLOCKS + 1] * 256);
+
+            if ((ss == 0) && ((len % 40) == 0) && (len >= 120) && (ts != 40)) {
+                te = ts + (len / 40);
+                if (((ts < 40) && (te >= 40)) || (te >= vdrive->num_tracks)) {
+                    return CBMDOS_IPE_BAD_PARTN; /* FIXME: is this correct ? */
+                }
+
+                /* read the first BAM sector to get the DIR start 
+                   The BAM track for the sub-directory exists on  the  first  
+                   track  of  the partition, and has the same layout as the disk 
+                   BAM on track 40.
+                 */
+                rc = disk_image_read_sector(vdrive->image, buffer, ts, 0);
+
+                if (rc > 0) {
+                    return rc;
+                }
+                if (rc < 0) {
+                    return CBMDOS_IPE_NOT_READY;
+                }
+
+                /* more sanity checks */
+                if ((buffer[0] < ts) || (buffer[1] > 39)) {
+                    return CBMDOS_IPE_BAD_PARTN; /* FIXME: is this correct ? */
+                }
+
+/*#ifdef DEBUG_DRIVE*/
+                log_debug("Partition Trk %d Sec %d - Trk %d len: %d", ts, ss, te, len);
+/*#endif*/
+                /* setup BAM location */
+                vdrive->Header_Track = ts;
+                vdrive->Header_Sector = 0;
+                vdrive->Bam_Track = ts;
+                vdrive->Bam_Sector = 0;
+                /* set area for active partition */
+                vdrive->Part_Start = ts;
+                vdrive->Part_End = te;
+                /* start of directory */
+                vdrive->Dir_Track = buffer[0];
+                vdrive->Dir_Sector = buffer[1];
+
+                status = CBMDOS_IPE_OK;
+            }
+        }
+    }
+
+    vdrive_command_set_error(vdrive, status, 0, 0);
+    lib_free(cmd_parse.parsecmd);
+
+    return status;
+}
+
 static int vdrive_command_initialize(vdrive_t *vdrive)
 {
     vdrive_close_all_channels(vdrive);
 
+    if ((vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) ||
+        (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000)) {
+        /* reset BAM/Dir/Partition to root */
+        vdrive_set_disk_geometry(vdrive);
+    }
+
     /* Update BAM in memory.  */
-    if (vdrive->image != NULL)
+    if (vdrive->image != NULL) {
         vdrive_bam_read_bam(vdrive);
+    }
 
     return CBMDOS_IPE_OK;
 }
 
+/*
+    FIXME: partition support
+ */
 int vdrive_command_validate(vdrive_t *vdrive)
 {
     unsigned int t, s;
@@ -816,6 +946,9 @@ int vdrive_command_validate(vdrive_t *vdrive)
     return status;
 }
 
+/*
+    FIXME: partition support
+ */
 int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
 {
     BYTE tmp[256];

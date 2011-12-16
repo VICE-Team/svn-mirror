@@ -62,8 +62,6 @@
 
 static log_t vdrive_log = LOG_ERR;
 
-static void vdrive_set_disk_geometry(vdrive_t *vdrive);
-
 void vdrive_init(void)
 {
     vdrive_log = log_open("VDrive");
@@ -174,9 +172,13 @@ void vdrive_close_all_channels(vdrive_t *vdrive)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+    return Maximum distance from dir track to start/end of disk.  
+
+    FIXME: partition support
+*/
 int vdrive_calculate_disk_half(vdrive_t *vdrive)
 {
-    /* Maximum distance from dir track to start/end of disk.  */
     switch (vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
       case VDRIVE_IMAGE_FORMAT_2040:
@@ -197,6 +199,9 @@ int vdrive_calculate_disk_half(vdrive_t *vdrive)
     return -1;
 }
 
+/*
+    get number of sectors for given track
+ */
 int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track)
 {
     switch (vdrive->image_format) {
@@ -326,7 +331,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
  * Initialise format constants
  */
 
-static void vdrive_set_disk_geometry(vdrive_t *vdrive)
+void vdrive_set_disk_geometry(vdrive_t *vdrive)
 {
     switch (vdrive->image_format) {
       case VDRIVE_IMAGE_FORMAT_1541:
@@ -404,6 +409,10 @@ static void vdrive_set_disk_geometry(vdrive_t *vdrive)
                   "Unknown disk type %i.  Cannot set disk geometry.",
                   vdrive->image_format);
     }
+
+    /* set area for active root partition */
+    vdrive->Part_Start = 1;
+    vdrive->Part_End = vdrive->num_tracks;
 }
 
 /* ------------------------------------------------------------------------- */

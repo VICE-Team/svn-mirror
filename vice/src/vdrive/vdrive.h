@@ -131,6 +131,10 @@ typedef struct vdrive_s {
     unsigned int Dir_Track;    /* First directory sector location */
     unsigned int Dir_Sector;
     unsigned int num_tracks;
+    /* CBM partition first and last track (1581) 
+     * Part_Start is 1, Part_End = num_tracks if no partition is used
+     */
+    unsigned int Part_Start, Part_End;
 
     unsigned int bam_size;
     BYTE *bam;
@@ -207,6 +211,7 @@ extern void vdrive_set_last_read(unsigned int track, unsigned int sector,
 
 extern void vdrive_alloc_buffer(struct bufferinfo_s *p, int mode);
 extern void vdrive_free_buffer(struct bufferinfo_s *p);
+extern void vdrive_set_disk_geometry(vdrive_t *vdrive);
 
 #endif
 

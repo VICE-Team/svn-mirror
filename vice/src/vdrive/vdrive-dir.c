@@ -210,6 +210,9 @@ void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot)
     }
 }
 
+/*
+   read first dir buffer into Dir_buffer
+*/
 void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
                                 int length, unsigned int type)
 {
