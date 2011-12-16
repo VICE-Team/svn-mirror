@@ -48,11 +48,9 @@ extern "C" {
 #include "util.h"
 }
 
-/* Notice that this has to be `int' to make resources work.  */
+#if 0
+/* Notice that these are never set.  */
 static int keyset1[9], keyset2[9];
-
-#ifdef COMMON_KBD
-int arch_joystick_port_map[4];
 #endif
 /* ------------------------------------------------------------------------ */
 
@@ -78,6 +76,7 @@ static int joystick_initialized = 0;
 hardware_joystick_t hardware_joystick[MAX_HARDWARE_JOYSTICK];
 int hardware_joystick_count = 0;
 
+#if 0
 #define KEYSET_FIRE 0
 #define KEYSET_SW   1
 #define KEYSET_S    2
@@ -87,13 +86,14 @@ int hardware_joystick_count = 0;
 #define KEYSET_NW   6
 #define KEYSET_N    7
 #define KEYSET_NE   8
+#endif
 
 static void joystick_close_device(int dev_index)
 {
     int device_num;
     int used_by;
-    int joy_dev = arch_joystick_port_map[dev_index];
-	
+    int joy_dev = joystick_port_map[dev_index];
+
     if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
         /* it's a hardware-stick; close the device if necessary */
         device_num = hardware_joystick[joy_dev - NUM_OF_SOFTDEVICES].device_num;
@@ -108,12 +108,12 @@ static void joystick_close_device(int dev_index)
         }
     }
 }
-	
+
 
 static void joystick_open_device(int dev_index)
 {
     int used_by;
-    int joy_dev = arch_joystick_port_map[dev_index];
+    int joy_dev = joystick_port_map[dev_index];
 
     if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
         /* is the needed device already open? */
@@ -146,8 +146,8 @@ static int set_joystick_device(int val, void *param)
         joystick_close_device((int)param);
     }
 
-    arch_joystick_port_map[(int)param] = (joystick_device_t)val;
-	
+    joystick_port_map[(int)param] = (joystick_device_t)val;
+
     if (joystick_initialized) {
         joystick_open_device((int)param);
     }
@@ -158,13 +158,13 @@ static int set_joystick_device(int val, void *param)
 
 static const resource_int_t resources_int[] = {
     { "JoyDevice1", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&arch_joystick_port_map[0], set_joystick_device, (void *)0 },
+      (int *)&joystick_port_map[0], set_joystick_device, (void *)0 },
     { "JoyDevice2", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&arch_joystick_port_map[1], set_joystick_device, (void *)1 },
+      (int *)&joystick_port_map[1], set_joystick_device, (void *)1 },
     { "JoyDevice3", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&arch_joystick_port_map[2], set_joystick_device, (void *)2 },
+      (int *)&joystick_port_map[2], set_joystick_device, (void *)2 },
     { "JoyDevice4", JOYDEV_NONE, RES_EVENT_NO, NULL,
-      (int *)&arch_joystick_port_map[3], set_joystick_device, (void *)3 },
+      (int *)&joystick_port_map[3], set_joystick_device, (void *)3 },
     { NULL }
 };
 
@@ -294,9 +294,9 @@ int joy_arch_init(void)
                         return 0;
                     }
                 }
-            }			
+            }
             testbjoystick.Close();
-        }		
+        }
     }
     joystick_initialized = 1;
     joystick_open_device(0);
@@ -310,7 +310,7 @@ int joy_arch_init(void)
 int joystick_close(void)
 {
     int i;
-	
+
     for (i = 0; i < 4; i++) {
         if (device_used_by[i]) {
             delete bjoystick[device_used_by[i] >> 1];
@@ -327,13 +327,13 @@ void joystick_update(void)
     int joy_dev;
     uint32 buttons;
     BJoystick *last_joy = NULL;
-	
+
     for (dev_index = 0; dev_index < 4; dev_index++) {
-    	  value = 0;
-    	  joy_dev = arch_joystick_port_map[dev_index];
+        value = 0;
+        joy_dev = joystick_port_map[dev_index];
  
-        if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {	
-    		if (!last_joy) {
+        if (joy_dev >= NUM_OF_SOFTDEVICES && joy_dev < NUM_OF_SOFTDEVICES+hardware_joystick_count) {
+            if (!last_joy) {
                 if (bjoystick[dev_index]->Update() == B_ERROR) {
                     log_error(LOG_DEFAULT,"Joystick: Warning. Couldn't get Joystick value for device %d", dev_index + 1);
                     break;
@@ -365,12 +365,16 @@ void joystick_update(void)
     }
 }
 
-/* Joystick-through-keyboard.  */
+#if 0
+/* Joystick-through-keyboard.
+   This code has done nothing since VICE 1.21, but was still executed as
+   recently as 2.3.12
+*/
 int handle_keyset_mapping(joystick_device_t device, int *set,
                           kbd_code_t kcode, int pressed)
 {
-    if (arch_joystick_port_map[0] == device || arch_joystick_port_map[1] == device ||
-        arch_joystick_port_map[2] == device || arch_joystick_port_map[3] == device) {
+    if (joystick_port_map[0] == device || joystick_port_map[1] == device ||
+        joystick_port_map[2] == device || joystick_port_map[3] == device) {
         BYTE value = 0;
 
         if (kcode == set[KEYSET_NW]) {    /* North-West */
@@ -396,29 +400,29 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
         }
 
         if (pressed) {
-            if (arch_joystick_port_map[0] == device) {
+            if (joystick_port_map[0] == device) {
                 joystick_set_value_or(1, value);
             }
-            if (arch_joystick_port_map[1] == device) {
+            if (joystick_port_map[1] == device) {
                 joystick_set_value_or(2, value);
             }
-            if (arch_joystick_port_map[2] == device) {
+            if (joystick_port_map[2] == device) {
                 joystick_set_value_or(3, value);
             }
-            if (arch_joystick_port_map[3] == device) {
+            if (joystick_port_map[3] == device) {
                 joystick_set_value_or(4, value);
             }
         } else {
-            if (arch_joystick_port_map[0] == device) {
+            if (joystick_port_map[0] == device) {
                 joystick_set_value_and(1, ~value);
             }
-            if (arch_joystick_port_map[1] == device) {
+            if (joystick_port_map[1] == device) {
                 joystick_set_value_and(2, ~value);
             }
-            if (arch_joystick_port_map[2] == device) {
+            if (joystick_port_map[2] == device) {
                 joystick_set_value_and(3, ~value);
             }
-            if (arch_joystick_port_map[3] == device) {
+            if (joystick_port_map[3] == device) {
                 joystick_set_value_and(4, ~value);
             }
         }
@@ -426,15 +430,19 @@ int handle_keyset_mapping(joystick_device_t device, int *set,
     }
     return 0;
 }
+#endif
 
+/* FIXME: src/joystick.c has code which handles keysets and also numpad.
+   The numpad code here functions slightly differently and overrides the
+   common code. The two should be merged. */
 int joystick_handle_key(kbd_code_t kcode, int pressed)
 {
     int value = 0;
 
     /* The numpad case is handled specially because it allows users to use
        both `5' and `2' for "down".  */
-    if (arch_joystick_port_map[0] == JOYDEV_NUMPAD || arch_joystick_port_map[1] == JOYDEV_NUMPAD ||
-        arch_joystick_port_map[2] == JOYDEV_NUMPAD || arch_joystick_port_map[3] == JOYDEV_NUMPAD) {
+    if (joystick_port_map[0] == JOYDEV_NUMPAD || joystick_port_map[1] == JOYDEV_NUMPAD ||
+        joystick_port_map[2] == JOYDEV_NUMPAD || joystick_port_map[3] == JOYDEV_NUMPAD) {
 
         switch (kcode) {
             case K_KP7:               /* North-West */
@@ -472,36 +480,40 @@ int joystick_handle_key(kbd_code_t kcode, int pressed)
         }
 
         if (pressed) {
-            if (arch_joystick_port_map[0] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(1, value);
             }
-            if (arch_joystick_port_map[1] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(2, value);
             }
-            if (arch_joystick_port_map[2] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[2] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(3, value);
             }
-            if (arch_joystick_port_map[3] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[3] == JOYDEV_NUMPAD) {
                 joystick_set_value_or(4, value);
             }
         } else {
-            if (arch_joystick_port_map[0] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[0] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(1, ~value);
             }
-            if (arch_joystick_port_map[1] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[1] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(2, ~value);
             }
-            if (arch_joystick_port_map[2] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[2] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(3, ~value);
             }
-            if (arch_joystick_port_map[3] == JOYDEV_NUMPAD) {
+            if (joystick_port_map[3] == JOYDEV_NUMPAD) {
                 joystick_set_value_and(4, ~value);
             }
         }
     }
 
+    return value;
+
+#if 0
     /* (Notice we have to handle all the keysets even when one key is used
        more than once (the most intuitive behavior), so we use `|' instead of
        `||'.)  */
     return (value | handle_keyset_mapping(JOYDEV_KEYSET1, keyset1, kcode, pressed) | handle_keyset_mapping(JOYDEV_KEYSET2, keyset2, kcode, pressed));
+#endif
 }
