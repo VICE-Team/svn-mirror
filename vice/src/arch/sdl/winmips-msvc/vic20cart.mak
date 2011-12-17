@@ -294,7 +294,7 @@ SOURCE="..\..\..\vic20\cart\vic20-midi.c"
 
 SOURCE="..\..\..\vic20\cart\vic20-sidcart.c"
 
-"$(INTDIR)\vic20-midi.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\vic20-sidcart.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
