@@ -84,15 +84,21 @@
 #    define PLATFORM_OS "WIN64"
 #    define PLATFORM_COMPILER "MSVC"
 #  else
-#    ifdef MSVC_RC
-#      ifdef WATCOM_COMPILE
-#        define PLATFORM_COMPILER "WATCOM"
-#      else
-#        define PLATFORM_COMPILER "MSVC"
+#    ifdef WINMIPS
+#      define PLATFORM_CPU "MIPS"
+#      define PLATFORM_OS "WIN32"
+#      define PLATFORM_COMPILER "MSVC"
+#    else
+#      ifdef MSVC_RC
+#        ifdef WATCOM_COMPILE
+#          define PLATFORM_COMPILER "WATCOM"
+#        else
+#          define PLATFORM_COMPILER "MSVC"
+#        endif
 #      endif
+#      define PLATFORM_OS "WIN32"
+#      define FIND_X86_CPU
 #    endif
-#    define PLATFORM_OS "WIN32"
-#    define FIND_X86_CPU
 #  endif
 #endif
 
