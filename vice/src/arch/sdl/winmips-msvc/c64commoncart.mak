@@ -252,13 +252,13 @@ SOURCE=..\..\..\c64\cart\georam.c
 
 SOURCE=..\..\..\c64\cart\sfx_soundexpander.c
 
-"$(INTDIR)\georam.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\sfx_soundexpander.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\..\c64\cart\sfx_soundsampler.c
 
-"$(INTDIR)\georam.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\sfx_soundsampler.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
