@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <stdlib.h>
+
 #include "infocontrib.h"
 
 #ifdef WINMIPS
