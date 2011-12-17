@@ -285,16 +285,19 @@ void mon_breakpoint_set_checkpoint_condition(int cp_num,
                                              cond_node_t *cnode)
 {
     checkpoint_t *cp;
-    cp = find_checkpoint(cp_num);
 
-    if (!cp) {
-        mon_out("#%d not a valid checkpoint\n", cp_num);
-    } else {
-        cp->condition = cnode;
+    if (cnode) {
+        cp = find_checkpoint(cp_num);
 
-        mon_out("Setting checkpoint %d condition to: ", cp_num);
-        mon_print_conditional(cnode);
-        mon_out("\n");
+        if (!cp) {
+            mon_out("#%d not a valid checkpoint\n", cp_num);
+        } else {
+            cp->condition = cnode;
+
+            mon_out("Setting checkpoint %d condition to: ", cp_num);
+            mon_print_conditional(cnode);
+            mon_out("\n");
+        }
     }
 }
 
