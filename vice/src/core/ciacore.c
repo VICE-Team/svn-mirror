@@ -761,8 +761,8 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
             t = cia_context->irqflags;
 
             CIAT_LOG(("read intfl gives ciaint=%02x -> %02x "
-                      "sr_bits=%d, clk=%d",
-                      cia_context->irqflags, t, cia_context->sr_bits, clk));
+                      "sr_bits=%d, rclk=%d",
+                      cia_context->irqflags, t, cia_context->sr_bits, rclk));
 
             cia_context->irqflags = 0;
             my_set_int(cia_context, 0, rclk);
@@ -886,8 +886,8 @@ BYTE ciacore_peek(cia_context_t *cia_context, WORD addr)
             t = cia_context->irqflags;
 
             CIAT_LOG(("peek intfl gives ciaint=%02x -> %02x "
-                     "sr_bits=%d, clk=%d",
-                     cia_context->irqflags, t, cia_context->sr_bits, clk));
+                     "sr_bits=%d, rclk=%d",
+                     cia_context->irqflags, t, cia_context->sr_bits, rclk));
 /*
             cia_context->irqflags = 0;
             my_set_int(0, rclk + 1);
@@ -930,7 +930,7 @@ static void ciacore_intta(CLOCK offset, void *data)
 
     CIAT_LOG((
           "ciacore_intta(rclk = %u, tal = %u, cra=%02x, int=%02x, ier=%02x.",
-          rclk, ciat_read_latch(cia_context->ta, rclk), cia[CIA_CRA],
+          rclk, ciat_read_latch(cia_context->ta, rclk), cia_context->c_cia[CIA_CRA],
           cia_context->irqflags, cia_context->c_cia[CIA_ICR]));
 
     /* cia_context->tat = (cia_context->tat + 1) & 1; */
@@ -1000,7 +1000,7 @@ static void ciacore_inttb(CLOCK offset, void *data)
 
     CIAT_LOG((
              "timer B ciacore_inttb(rclk=%d, crb=%d, int=%02x, ier=%02x).",
-             rclk, cia[CIA_CRB], cia_context->irqflags,
+             rclk, cia_context->c_cia[CIA_CRB], cia_context->irqflags,
              cia_context->c_cia[CIA_ICR]));
 
     /* cia_context->tbt = (cia_context->tbt + 1) & 1; */
@@ -1152,6 +1152,45 @@ void ciacore_setup_context(cia_context_t *cia_context)
     cia_context->model = 0;
 }
 
+#define USE_IDLE_CALLBACK
+
+#ifdef USE_IDLE_CALLBACK
+/*
+    we must take care to choose a value which is small enough so the counters do
+    not fall behind too much to cause a significant peak in cpu usage, and one
+    that is big enough so the overall performance impact is not too big.
+    it seems reasonable to also consider how peaks in cpu usage interact with
+    automatic framerate adjustment, so choosing a value that makes sure a more
+    or less constant amount of cpu time per frame is consumed is a good idea.
+    (about 20000 cycles are a full PAL frame on the C64, making sure that we do
+    not fall behind one frame at all seems a good idea.)
+ */
+#define CIA_MAX_IDLE_CYCLES     5000
+/*
+    this callback takes care of the problem that when ciat_update has to catch
+    up with an excessive amount of clock cycles it will consume a lot of cpu
+    time, in the worst case leading to a noticeable stall of the entire emulation
+    (see bug #3424428)
+
+    FIXME: maybe other stuff must be handled here
+ */
+static void ciacore_idle(CLOCK offset, void *data)
+{
+    CLOCK clk, rclk;
+    cia_context_t *cia_context = (cia_context_t *)data;
+
+    clk = *(cia_context->clk_ptr);
+    rclk = clk - offset;
+
+/* printf("ciacore_idle: clk=%d rclk=%d\n", clk, rclk); */
+
+    cia_update_ta(cia_context, rclk);
+    cia_update_tb(cia_context, rclk);
+
+    alarm_set(cia_context->idle_alarm, rclk + CIA_MAX_IDLE_CYCLES);
+}
+#endif
+
 void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
                   interrupt_cpu_status_t *int_status, clk_guard_t *clk_guard)
 {
@@ -1163,7 +1202,13 @@ void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
     ciat_init_table();
 
     cia_context->log = log_open(cia_context->myname);
-
+#ifdef USE_IDLE_CALLBACK
+    buffer = lib_msprintf("%s_IDLE", cia_context->myname);
+    cia_context->idle_alarm = alarm_new(alarm_context, buffer, ciacore_idle,
+                                      (void *)cia_context);
+    lib_free(buffer);
+    alarm_set(cia_context->idle_alarm, *(cia_context->clk_ptr) + CIA_MAX_IDLE_CYCLES);
+#endif
     buffer = lib_msprintf("%s_TA", cia_context->myname);
     cia_context->ta_alarm = alarm_new(alarm_context, buffer, ciacore_intta,
                                       (void *)cia_context);

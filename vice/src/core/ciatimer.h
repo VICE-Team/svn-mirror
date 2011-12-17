@@ -241,8 +241,8 @@ _CIAT_FUNC int ciat_update(ciat_t *state, CLOCK cclk)
     int n, m;
     ciat_tstate_t t = state->state;
 
-/*printf("%s update: cclk=%d, state=%d, cnt=%d, latch=%d\n",
-                state->name, cclk, t, state->cnt, state->latch);*/
+/* printf("%s update: state->clk=%d cclk=%d, state=%d, cnt=%d, latch=%d\n",
+                state->name, state->clk, cclk, t, state->cnt, state->latch); */
 
 #if 0
     if (cclk > clk && cclk - clk > 0x10000) {
