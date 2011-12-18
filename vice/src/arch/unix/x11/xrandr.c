@@ -141,7 +141,7 @@ void xrandr_resume(void)
         return;
     }
     xrandr_is_suspended = 0;
-    (void) set_xrandr(1);
+    set_xrandr(1);
     x11ui_fullscreen(1);
 }
 

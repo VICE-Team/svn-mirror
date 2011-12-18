@@ -263,6 +263,9 @@ static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
 static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
 extern GtkWidget* build_pal_ctrl_widget(video_canvas_t *canvas);
 
+static void toggle_aspect(video_canvas_t *canvas);
+static void setup_aspect(video_canvas_t *canvas);
+
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -1034,7 +1037,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     GtkAccelGroup* accel;
     GdkColor black = { 0, 0, 0, 255 };
     int i;
-    gint window_width, window_height;
+    gint window_width, window_height, window_xpos, window_ypos;
 
     DBG(("ui_open_canvas_window (w: %d h: %d)", w, h));
 
@@ -1108,12 +1111,23 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     if (machine_class == VICE_MACHINE_VSID) {
         gtk_window_resize(GTK_WINDOW(new_window), VSID_WINDOW_MINW, VSID_WINDOW_MINH);
     } else {
+        /*
+            FIXME: WindowXXX should be per window (for x128)
+         */
         resources_get_int("WindowWidth", &window_width);
         resources_get_int("WindowHeight", &window_height);
         DBG(("ui_open_canvas_window (winw: %d winh: %d)", window_width, window_height));
         if (window_width > 0 && window_height > 0) {
             gtk_window_resize(GTK_WINDOW(new_window), window_width, window_height);
         }
+        resources_get_int("WindowXpos", &window_xpos);
+        resources_get_int("WindowYpos", &window_ypos);
+        DBG(("ui_open_canvas_window (winx: %d winy: %d)", window_xpos, window_ypos));
+        if ((window_xpos < 0) || (window_ypos < 0)) {
+            window_xpos = 0;
+            window_ypos = 0;
+        }
+        gtk_window_move(GTK_WINDOW(new_window), window_xpos, window_ypos);
 
         if (!app_gc) {
             app_gc = gdk_gc_new(new_window->window);
@@ -1681,7 +1695,7 @@ void x11ui_fullscreen(int i)
         resources_get_int("40/80ColumnKey", &key);
     }
     s = _ui_top_level = gtk_widget_get_toplevel(app_shells[key].shell);
-    
+
     if (i) {
         /* window managers (bug detected on compiz 0.7.4) may ignore
          * fullscreen requests for windows not visible inside the screen.
@@ -1695,6 +1709,8 @@ void x11ui_fullscreen(int i)
         gtk_window_unfullscreen(GTK_WINDOW(s));
         mouse_cursor_grab(0, NULL);
     }
+
+    DBG(("x11ui_fullscreen done"));
 }
 
 int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
@@ -2736,26 +2752,46 @@ gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
     return FALSE;
 }
 
+/*
+  connected to "configure-event" of the window, which is emitted to size, 
+  position and stack order events. 
+*/
 gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
         /* DBG(("configure_callback_app skipped")); */
         return 0;
     }
-    DBG(("configure_callback_app (e->width %d e->height %d)",e->width, e->height));
+    DBG(("configure_callback_app (x %d y %d w %d h %d)",e->x, e->y,e->width, e->height));
+
     resources_set_int("WindowWidth", e->width);
     resources_set_int("Windowheight", e->height);
+
+    if ((e->x < 0) || (e->x < 0)) {
+        resources_set_int("WindowXpos", 0);
+        resources_set_int("WindowYpos", 0);
+        return 0;
+    }
+    resources_set_int("WindowXpos", e->x);
+    resources_set_int("WindowYpos", e->y);
+
     return 0;
 }
 
 gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
-    video_canvas_t *c = (video_canvas_t *) client_data;
+    video_canvas_t *canvas = (video_canvas_t *) client_data;
+    float ow, oh;
+#ifdef HAVE_HWSCALE
+    GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
+    GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
+#endif
 
     if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
         /* DBG(("configure_callback_canvas skipped")); */
         return 0;
     }
+
     DBG(("configure_callback_canvas (e->width %d e->height %d)",e->width, e->height));
 
     /* This should work, but doesn't... Sigh...
@@ -2771,34 +2807,63 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
     */
 
 #ifdef HAVE_HWSCALE
-    GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
-    GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
+    /* get size of drawing buffer */
+    ow = canvas->draw_buffer->canvas_width;
+    oh = canvas->draw_buffer->canvas_height;
+    if (canvas->videoconfig->doublesizex) {
+        ow *= (canvas->videoconfig->doublesizex + 1);
+    }
+    if (canvas->videoconfig->doublesizey) {
+        oh *= (canvas->videoconfig->doublesizey + 1);
+    }
+
+    /* in fullscreen mode, scale with aspect ratio */
+    if (canvas->fullscreenconfig->enable) {
+        if ((float)e->height >= (oh / get_aspect(canvas)) * ((float)e->width / ow)) {
+            /* full width, scale height */
+            oh = (float)e->height / ((float)e->width / ow);
+            oh *= get_aspect(canvas);
+        } else {
+            /* full height, scale width */
+            ow = (float)e->width / ((float)e->height / oh);
+            ow /= get_aspect(canvas);
+        }
+    }
 
     if (gl_context != NULL && gl_drawable != NULL) {
         gdk_gl_drawable_gl_begin(gl_drawable, gl_context);
-
+        /* setup viewport */
         glViewport(0, 0, e->width, e->height);
+        /* projection and model view matrix */
+        glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+        glOrtho(-(ow/2),(ow/2),-(oh/2),(oh/2),-100,100);
+        glMatrixMode(GL_MODELVIEW);
+        glLoadIdentity();
 
         gdk_gl_drawable_gl_end(gl_drawable);
     }
 #endif
-
     /* maintain aspect ratio */
-    setup_aspect(c);
-    toggle_aspect(c);
+    setup_aspect(canvas);
+    toggle_aspect(canvas);
+
     return 0;
 }
 
 gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
-    
+
     if (canvas == NULL) {
         return 0;
     }
 
+    DBG(("exposure_callback_canvas canvas w/h %d/%d", canvas->gdk_image->width, canvas->gdk_image->height));
+
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
+        int tw, th;
         GdkGLContext *gl_context = gtk_widget_get_gl_context(w);
         GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable(w);
         gdk_gl_drawable_gl_begin(gl_drawable, gl_context);
@@ -2824,31 +2889,28 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, canvas->screen_texture);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+        tw = canvas->gdk_image->width;
+        th = canvas->gdk_image->height;
 #ifdef __BIG_ENDIAN__
 #ifndef GL_ABGR_EXT
     #error "Your headers do not supply GL_ABGR_EXT. Disable HWSCALE and try again."
 #endif
-        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, canvas->gdk_image->width, canvas->gdk_image->height, 0, GL_ABGR_EXT, GL_UNSIGNED_BYTE, canvas->hwscale_image);
+        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_ABGR_EXT, GL_UNSIGNED_BYTE, canvas->hwscale_image);
 #else
-        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, canvas->gdk_image->width, canvas->gdk_image->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, canvas->hwscale_image);
+        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, canvas->hwscale_image);
 #endif
+
         glBegin (GL_QUADS);
 
         /* Lower Right Of Texture */
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex2f(-1.0f, 1.0f);
-
+        glTexCoord2f(0.0f, 0.0f); glVertex2f(-(tw/2), (th/2));
         /* Upper Right Of Texture */
-        glTexCoord2f(0.0f, canvas->gdk_image->height);
-        glVertex2f(-1.0f, -1.0f);
-
+        glTexCoord2f(0.0f, th); glVertex2f(-(tw/2), -(th/2));
         /* Upper Left Of Texture */
-        glTexCoord2f(canvas->gdk_image->width, canvas->gdk_image->height);
-        glVertex2f(1.0f, -1.0f);
-
+        glTexCoord2f(tw, th); glVertex2f((tw/2), -(th/2));
         /* Lower Left Of Texture */
-        glTexCoord2f(canvas->gdk_image->width, 0.0f);
-        glVertex2f(1.0f, 1.0f);
+        glTexCoord2f(tw, 0.0f); glVertex2f((tw/2), (th/2));
 
         glEnd ();
 

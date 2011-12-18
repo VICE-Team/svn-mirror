@@ -28,6 +28,14 @@
 
 #include "vice.h"
 
+/* #define DEBUG_GNOMEUI */
+
+#ifdef DEBUG_GNOMEUI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -166,6 +174,8 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
     if (console_mode || video_disabled_mode) {
         return;
     }
+
+    DBG(("video_canvas_resize (w:%d h:%d)", width, height));
 
     if (canvas->videoconfig->doublesizex) {
         width *= (canvas->videoconfig->doublesizex + 1);
