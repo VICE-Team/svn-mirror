@@ -1282,7 +1282,9 @@ static void GotoDeepestLegalDirectory(XfwfFileSelectorWidget fsw)
              */
             ParentizeDirectory(dir);
         } else if (!*dir) {
-            getcwd(FSCurrentDirectory(fsw), MAXPATHLEN);     /* ignore error */
+            if (getcwd(FSCurrentDirectory(fsw), MAXPATHLEN) == NULL) {
+                /* ignore error */
+            }
             strcat(FSCurrentDirectory(fsw), "/");
             break;
         } else {
