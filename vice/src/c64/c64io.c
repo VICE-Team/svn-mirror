@@ -379,7 +379,7 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
     int writes = 0;
     WORD addy = 0xffff;
     io_source_list_t *current = list->next;
-    void (*store)(WORD address, BYTE data);
+    void (*store)(WORD address, BYTE data) = NULL;
 
     vicii_handle_pending_alarms_external_write();
 
@@ -399,7 +399,7 @@ static inline void io_store(io_source_list_t *list, WORD addr, BYTE value)
         current = current->next;
     }
     /* if a mirror write needed to be done and no real device write was done */
-    if (!writes && addy != 0xffff) {
+    if (store && !writes && addy != 0xffff) {
         store(addy, value);
     }
 }
