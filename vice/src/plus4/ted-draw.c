@@ -213,6 +213,12 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
                             1,
                             xs, xe,
                             rr);
+    r |= raster_cache_data_fill(cache->color_data_2,
+                            ted.vbuf,
+                            TED_SCREEN_TEXTCOLS,
+                            1,
+                            xs, xe,
+                            rr);
 
 
 
@@ -283,19 +289,20 @@ inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
                                          raster_cache_t *cache)
 {
     DWORD *table_ptr;
-    BYTE *foreground_data, *color_data;
+    BYTE *foreground_data, *color_data, *vbuf;
     unsigned int i;
 
     table_ptr = hr_table + (cache->background_data[0] << 4);
-    foreground_data = cache->foreground_data;
+    foreground_data = cache->foreground_data; /* contains both vbuf and cbuf */
     color_data = cache->color_data_1;
+    vbuf = cache->color_data_2;
 
     for (i = xs; i <= xe; i++) {
         int d;
         DWORD *ptr = table_ptr + ((color_data[i] & 0x7f) << 11);
 
         if ((color_data[i] & 0x80) && (!ted.cursor_visible)) {
-            d = 0;
+            d = (vbuf[i] & 0x80 ? 0xff : 0x00);
         } else {
             d = foreground_data[i];
         }
