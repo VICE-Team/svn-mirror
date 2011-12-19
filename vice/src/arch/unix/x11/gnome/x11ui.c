@@ -667,6 +667,7 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
     } else {
         gtk_widget_hide(appshell->pal_ctrl);
     }
+
 }
 
 static void ui_update_video_checkbox (GtkWidget *w, gpointer data)
@@ -1747,12 +1748,10 @@ static void toggle_aspect(video_canvas_t *canvas)
     int keep_aspect_ratio, flags = 0;
     app_shell_type *appshell = &app_shells[canvas->app_shell];
 
-    /* printf("toggle_aspect fs:%d\n", canvas->fullscreenconfig->enable); */
+    DBG(("toggle_aspect fs:%d", canvas->fullscreenconfig->enable));
     if ((appshell != NULL) && (appshell->shell != NULL)) {
 #ifdef HAVE_FULLSCREEN
-        if (canvas->fullscreenconfig->enable) {
-            gtk_window_set_geometry_hints (GTK_WINDOW(appshell->shell), NULL, &appshell->geo, GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE);
-        } else {
+        if (!canvas->fullscreenconfig->enable) {
 #endif
             resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
             if (keep_aspect_ratio) {
@@ -1796,7 +1795,7 @@ static void setup_aspect(video_canvas_t *canvas)
     GtkWidget *sb;
     GtkWidget *palctrl;
 
-    /* printf("setup_aspect:%d\n", canvas->fullscreenconfig->enable); */
+    DBG(("setup_aspect fullscreen:%d", canvas->fullscreenconfig->enable));
 
     if (appshell == NULL) {
         return;
@@ -1907,6 +1906,7 @@ void ui_resize_canvas_window(video_canvas_t *canvas, int width, int height)
 
 void x11ui_move_canvas_window(ui_window_t w, int x, int y)
 {
+    DBG(("x11ui_move_canvas_window x:%d y:%d", x, y));
     gdk_window_move(gdk_window_get_toplevel(w->window), x, y);
     gdk_flush();
 }
@@ -1920,6 +1920,7 @@ void x11ui_canvas_position(ui_window_t w, int *x, int *y)
     gdk_window_get_position(w->window, &pos_x, &pos_y);
     *x = (pos_x + tl_x);
     *y = (pos_y + tl_y);
+    DBG(("x11ui_canvas_position x:%d y:%d", *x, *y));
     gdk_window_raise(gdk_window_get_toplevel(w->window));
 }
 
@@ -2792,7 +2793,8 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
         return 0;
     }
 
-    DBG(("configure_callback_canvas (e->width %d e->height %d)",e->width, e->height));
+    DBG(("configure_callback_canvas (e->width %d e->height %d canvas_width %d canvas_height %d)",
+         e->width, e->height, canvas->draw_buffer->canvas_width, canvas->draw_buffer->canvas_height));
 
     /* This should work, but doesn't... Sigh...
     c->draw_buffer->canvas_width = e->width;
