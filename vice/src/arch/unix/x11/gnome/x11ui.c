@@ -2783,6 +2783,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
     float ow, oh;
+    int keep_aspect_ratio;
 #ifdef HAVE_HWSCALE
     GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
     GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
@@ -2821,14 +2822,17 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 
     /* in fullscreen mode, scale with aspect ratio */
     if (canvas->fullscreenconfig->enable) {
-        if ((float)e->height >= (oh / get_aspect(canvas)) * ((float)e->width / ow)) {
-            /* full width, scale height */
-            oh = (float)e->height / ((float)e->width / ow);
-            oh *= get_aspect(canvas);
-        } else {
-            /* full height, scale width */
-            ow = (float)e->width / ((float)e->height / oh);
-            ow /= get_aspect(canvas);
+        resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
+        if (keep_aspect_ratio) {
+            if ((float)e->height >= (oh / get_aspect(canvas)) * ((float)e->width / ow)) {
+                /* full width, scale height */
+                oh = (float)e->height / ((float)e->width / ow);
+                oh *= get_aspect(canvas);
+            } else {
+                /* full height, scale width */
+                ow = (float)e->width / ((float)e->height / oh);
+                ow /= get_aspect(canvas);
+            }
         }
     }
 
