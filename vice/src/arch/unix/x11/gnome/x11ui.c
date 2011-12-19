@@ -1124,11 +1124,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         resources_get_int("WindowXpos", &window_xpos);
         resources_get_int("WindowYpos", &window_ypos);
         DBG(("ui_open_canvas_window (winx: %d winy: %d)", window_xpos, window_ypos));
-        if ((window_xpos < 0) || (window_ypos < 0)) {
-            window_xpos = 0;
-            window_ypos = 0;
+        if (!((window_xpos < 0) || (window_ypos < 0))) {
+            gtk_window_move(GTK_WINDOW(new_window), window_xpos, window_ypos);
         }
-        gtk_window_move(GTK_WINDOW(new_window), window_xpos, window_ypos);
 
         if (!app_gc) {
             app_gc = gdk_gc_new(new_window->window);
@@ -1689,6 +1687,7 @@ void x11ui_fullscreen(int i)
 {
     GtkWidget *s;
     int key = 0;
+    int window_xpos, window_ypos;
 
     /* special case of x128, where we have 2 shells is handled
        by checking the related resource */
@@ -1709,6 +1708,12 @@ void x11ui_fullscreen(int i)
     } else {
         gtk_window_unfullscreen(GTK_WINDOW(s));
         mouse_cursor_grab(0, NULL);
+        resources_get_int("WindowXpos", &window_xpos);
+        resources_get_int("WindowYpos", &window_ypos);
+        DBG(("x11ui_fullscreen (winx: %d winy: %d)", window_xpos, window_ypos));
+        if (!((window_xpos < 0) || (window_ypos < 0))) {
+            gtk_window_move(GTK_WINDOW(s), window_xpos, window_ypos);
+        }
     }
 
     DBG(("x11ui_fullscreen done"));
@@ -2839,6 +2844,10 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
+#ifdef HAVE_FULLSCREEN
+    app_shell_type *appshell = &app_shells[canvas->app_shell];
+#endif
+    GdkEventConfigure e2;
 
     if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
         /* DBG(("configure_callback_app skipped")); */
@@ -2846,22 +2855,47 @@ gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer cli
     }
     DBG(("configure_callback_app (x %d y %d w %d h %d)",e->x, e->y,e->width, e->height));
 
-    resources_set_int("WindowWidth", e->width);
-    resources_set_int("Windowheight", e->height);
+#ifdef HAVE_FULLSCREEN
+    if (!canvas->fullscreenconfig->enable) {
+#endif
+        resources_set_int("WindowWidth", e->width);
+        resources_set_int("Windowheight", e->height);
 
-    if ((e->x < 0) || (e->x < 0)) {
-        resources_set_int("WindowXpos", 0);
-        resources_set_int("WindowYpos", 0);
-        return 0;
+        if ((e->x < 0) || (e->x < 0)) {
+            resources_set_int("WindowXpos", 0);
+            resources_set_int("WindowYpos", 0);
+            return 0;
+        }
+        resources_set_int("WindowXpos", e->x);
+        resources_set_int("WindowYpos", e->y);
+#ifdef HAVE_FULLSCREEN
     }
-    resources_set_int("WindowXpos", e->x);
-    resources_set_int("WindowYpos", e->y);
-
+#endif
     /* HACK: propagate the event to the canvas widget to make ui_trigger_resize
      *       work.
      */
-    configure_callback_canvas(canvas->emuwindow, e, canvas);
 
+    e2.width = e->width;
+
+#ifdef HAVE_FULLSCREEN
+    if (canvas->fullscreenconfig->enable) {
+        e2.height = e->height - (canvas->fullscreenconfig->ui_border_top + canvas->fullscreenconfig->ui_border_bottom);
+    } else {
+#endif
+        e2.height = e->height - (appshell->topmenu->allocation.height + appshell->status_bar->allocation.height);
+#ifdef HAVE_FULLSCREEN
+    }
+#endif
+#if GTK_CHECK_VERSION(2,18,0)
+    if (gtk_widget_get_visible(appshell->pal_ctrl)) {
+        e2.height -= appshell->pal_ctrl->allocation.height;
+    }
+#else
+    if (GTK_WIDGET_VISIBLE(appshell->pal_ctrl)) {
+        e2.height -= appshell->pal_ctrl->allocation.height;
+    }
+#endif
+    configure_callback_canvas(canvas->emuwindow, &e2, canvas);
     return 0;
 }
 

@@ -93,22 +93,12 @@ static int set_height(int d, void *param)
 
 static int set_xpos(int d, void *param)
 {
-    /* Minimal sanity check.  */
-    if (d < 0) {
-        return -1;
-    }
-
     ui_resources.window_xpos = d;
     return 0;
 }
 
 static int set_ypos(int d, void *param)
 {
-    /* Minimal sanity check.  */
-    if (d < 0) {
-        return -1;
-    }
-
     ui_resources.window_ypos = d;
     return 0;
 }
@@ -174,9 +164,9 @@ static const resource_int_t resources_int[] = {
       &ui_resources.window_width, set_width, NULL },
     { "WindowHeight", 0, RES_EVENT_NO, NULL,
       &ui_resources.window_height, set_height, NULL },
-    { "WindowXpos", 0, RES_EVENT_NO, NULL,
+    { "WindowXpos", -1, RES_EVENT_NO, NULL,
       &ui_resources.window_xpos, set_xpos, NULL },
-    { "WindowYpos", 0, RES_EVENT_NO, NULL,
+    { "WindowYpos", -1, RES_EVENT_NO, NULL,
       &ui_resources.window_ypos, set_ypos, NULL },
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     { "UseFullscreen", 0, RES_EVENT_NO, NULL,
