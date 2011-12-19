@@ -2753,32 +2753,6 @@ gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
     return FALSE;
 }
 
-/*
-  connected to "configure-event" of the window, which is emitted to size, 
-  position and stack order events. 
-*/
-gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
-{
-    if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
-        /* DBG(("configure_callback_app skipped")); */
-        return 0;
-    }
-    DBG(("configure_callback_app (x %d y %d w %d h %d)",e->x, e->y,e->width, e->height));
-
-    resources_set_int("WindowWidth", e->width);
-    resources_set_int("Windowheight", e->height);
-
-    if ((e->x < 0) || (e->x < 0)) {
-        resources_set_int("WindowXpos", 0);
-        resources_set_int("WindowYpos", 0);
-        return 0;
-    }
-    resources_set_int("WindowXpos", e->x);
-    resources_set_int("WindowYpos", e->y);
-
-    return 0;
-}
-
 gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
@@ -2835,6 +2809,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
             }
         }
     }
+    DBG(("configure_callback_canvas (ow: %f oh:%f)", ow, oh));
 
     if (gl_context != NULL && gl_drawable != NULL) {
         gdk_gl_drawable_gl_begin(gl_drawable, gl_context);
@@ -2856,6 +2831,40 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 
     return 0;
 }
+
+/*
+  connected to "configure-event" of the window, which is emitted to size, 
+  position and stack order events. 
+*/
+gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
+{
+    video_canvas_t *canvas = (video_canvas_t *) client_data;
+
+    if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
+        /* DBG(("configure_callback_app skipped")); */
+        return 0;
+    }
+    DBG(("configure_callback_app (x %d y %d w %d h %d)",e->x, e->y,e->width, e->height));
+
+    resources_set_int("WindowWidth", e->width);
+    resources_set_int("Windowheight", e->height);
+
+    if ((e->x < 0) || (e->x < 0)) {
+        resources_set_int("WindowXpos", 0);
+        resources_set_int("WindowYpos", 0);
+        return 0;
+    }
+    resources_set_int("WindowXpos", e->x);
+    resources_set_int("WindowYpos", e->y);
+
+    /* HACK: propagate the event to the canvas widget to make ui_trigger_resize
+     *       work.
+     */
+    configure_callback_canvas(canvas->emuwindow, e, canvas);
+
+    return 0;
+}
+
 
 gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data)
 {
@@ -2967,5 +2976,18 @@ void ui_display_statustext(const char *text, int fade_out)
         statustext_display_time = 5;
     } else {
         statustext_display_time = 0;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+/*
+    trigger recalculation of screen/window dimensions
+ */
+void ui_trigger_resize(void)
+{
+    if ((_ui_top_level) && (_ui_top_level->window)) {
+        DBG(("ui_trigger_resize"));
+        gdk_flush();
+        gdk_window_raise(_ui_top_level->window);
     }
 }

@@ -58,19 +58,23 @@
 
 static log_t gnomevideo_log = LOG_ERR;
 
-/* FIXME: a resize event should be triggered
-          when any of these two is changed
+/* FIXME: a resize event should be triggered when any of these two is changed
+          ui_trigger_resize() is a kind of ugly hack :)
 */
+extern void ui_trigger_resize(void); /* src/arch/unix/x11/gnome/x11ui.c */
+
 static int keepaspect, trueaspect;
 static int set_keepaspect(int val, void *param)
 {
     keepaspect = val;
+    ui_trigger_resize();
     return 0;
 }
 
 static int set_trueaspect(int val, void *param)
 {
     trueaspect = val;
+    ui_trigger_resize();
     return 0;
 }
 
