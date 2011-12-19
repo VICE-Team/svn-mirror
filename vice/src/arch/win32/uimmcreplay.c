@@ -64,19 +64,102 @@ static uilib_localize_dialog_param mmcreplay_dialog_trans[] = {
     { 0, 0, 0 }
 };
 
+static uilib_dialog_group mmcreplay_main_group[] = {
+    { IDC_MMCREPLAY_CARDIMAGE_LABEL, 0 },
+    { IDC_MMCREPLAY_CARDIMAGE_BROWSE, 1 },
+    { IDC_MMCREPLAY_CARDRW, 1 },
+    { IDC_MMCREPLAY_EEPROMIMAGE_LABEL, 0 },
+    { IDC_MMCREPLAY_EEPROMIMAGE_BROWSE, 1 },
+    { IDC_MMCREPLAY_EEPROMRW, 1 },
+    { IDC_MMCREPLAY_WRITE_ENABLE, 1 },
+    { IDC_MMCREPLAY_RESCUEMODE, 1 },
+    { IDC_MMCREPLAY_SDTYPE_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group mmcreplay_top_left_group[] = {
+    { IDC_MMCREPLAY_CARDIMAGE_LABEL, 0 },
+    { IDC_MMCREPLAY_EEPROMIMAGE_LABEL, 0 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group mmcreplay_top_middle_group[] = {
+    { IDC_MMCREPLAY_CARDIMAGE_BROWSE, 1 },
+    { IDC_MMCREPLAY_EEPROMIMAGE_BROWSE, 1 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group mmcreplay_top_right_group[] = {
+    { IDC_MMCREPLAY_CARDRW, 1 },
+    { IDC_MMCREPLAY_EEPROMRW, 1 },
+    { 0, 0 }
+};
+
+static uilib_dialog_group mmcreplay_right_group[] = {
+    { IDC_MMCREPLAY_CARDRW, 1 },
+    { IDC_MMCREPLAY_EEPROMRW, 1 },
+    { IDC_MMCREPLAY_WRITE_ENABLE, 1 },
+    { IDC_MMCREPLAY_SDTYPE, 0 },
+    { 0, 0 }
+};
+
+static int move_buttons_group[] = {
+    IDOK,
+    IDCANCEL,
+    0
+};
 
 static void init_mmcreplay_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
     int res_value;
     int res_value_loop;
+    int xpos;
     const char *mmcreplay_cardimage_file;
     TCHAR *st_mmcreplay_cardimage_file;
     const char *mmcreplay_eeprom_file;
     TCHAR *st_mmcreplay_eeprom_file;
+    RECT rect;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, mmcreplay_dialog_trans);
+
+    /* adjust the size of the elements in the main group */
+    uilib_adjust_group_width(hwnd, mmcreplay_main_group);
+
+    /* get the max x of the top left group */
+    uilib_get_group_max_x(hwnd, mmcreplay_top_left_group, &xpos);
+
+    /* move the top middle group to the correct location */
+    uilib_move_group(hwnd, mmcreplay_top_middle_group, xpos + 10);
+
+    /* get the max x of the top middle group */
+    uilib_get_group_max_x(hwnd, mmcreplay_top_middle_group, &xpos);
+
+    /* move the top right group to the correct location */
+    uilib_move_group(hwnd, mmcreplay_top_right_group, xpos + 10);
+
+    /* get the max x of the rescue mode element */
+    uilib_get_element_max_x(hwnd, IDC_MMCREPLAY_RESCUEMODE, &xpos);
+
+    /* move the card type label to the correct position */
+    uilib_move_element(hwnd, IDC_MMCREPLAY_SDTYPE_LABEL, xpos + 10);
+
+    /* get the max x of the card type label */
+    uilib_get_element_max_x(hwnd, IDC_MMCREPLAY_SDTYPE_LABEL, &xpos);
+
+    /* move the card type element to the correct position */
+    uilib_move_element(hwnd, IDC_MMCREPLAY_SDTYPE, xpos + 10);
+
+    /* get the max x of the right group */
+    uilib_get_group_max_x(hwnd, mmcreplay_right_group, &xpos);
+
+    /* set the width of the dialog to 'surround' all the elements */
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, xpos + 20, rect.bottom - rect.top, TRUE);
+
+    /* recenter the buttons in the newly resized dialog window */
+    uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     resources_get_string("MMCRCardImage", &mmcreplay_cardimage_file);
     st_mmcreplay_cardimage_file = system_mbstowcs_alloc(mmcreplay_cardimage_file);
