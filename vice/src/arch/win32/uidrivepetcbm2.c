@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "uidrivepetcbm2.h"
 #include "uilib.h"
+#include "winlong.h"
 #include "winmain.h"
 
 static uilib_localize_dialog_param drive_dialog_trans[] = {
@@ -194,6 +195,9 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_EXTEND_ACCESS), drive_check_extend_policy(drive_type));
 }
 
+static int dialog_drive_type[4];
+static int dialog_drive_extend[4];
+
 static void init_dialog(HWND hwnd, int num)
 {
     int drive_type, drive_extend_image_policy, n = 0;
@@ -209,6 +213,7 @@ static void init_dialog(HWND hwnd, int num)
     resources_get_int_sprintf("Drive%dType", &drive_type, num);
     resources_get_int_sprintf("Drive%dExtendImagePolicy", &drive_extend_image_policy, num);
 
+    dialog_drive_type[num - 8] = drive_type;
     switch (drive_type) {
         case DRIVE_TYPE_NONE:
             n = IDC_SELECT_DRIVE_TYPE_NONE;
@@ -240,6 +245,7 @@ static void init_dialog(HWND hwnd, int num)
 
     enable_controls_for_drive_settings(hwnd, n);
 
+    dialog_drive_extend[num - 8] = drive_extend_image_policy;
     switch (drive_extend_image_policy) {
         case DRIVE_EXTEND_NEVER:
             n = IDC_SELECT_DRIVE_EXTEND_NEVER;
@@ -257,55 +263,64 @@ static void init_dialog(HWND hwnd, int num)
 
 static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+    int type;
+
     switch (msg) {
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+                resources_set_int_sprintf("Drive%dType", dialog_drive_type[num - 8], num);
+                resources_set_int_sprintf("Drive%dExtendImagePolicy", dialog_drive_extend[num - 8], num);
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
         case WM_INITDIALOG:
             init_dialog(hwnd, num);
             return TRUE;
         case WM_COMMAND:
-            switch (LOWORD(wparam)) {
+            type = LOWORD(wparam);
+            switch (type) {
                 case IDC_SELECT_DRIVE_TYPE_NONE:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_NONE, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_NONE;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_2031:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_2031, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_2031;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_2040:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_2040, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_2040;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_3040:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_3040, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_3040;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_4040:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_4040, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_4040;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_1001:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_1001, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_1001;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_8050:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_8050, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_8050;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_8250:
-                    resources_set_int_sprintf("Drive%dType", DRIVE_TYPE_8250, num);
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_8250;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_EXTEND_NEVER:
-                    resources_set_int_sprintf("Drive%dExtendImagePolicy", DRIVE_EXTEND_NEVER, num);
+                    dialog_drive_extend[num - 8] = DRIVE_EXTEND_NEVER;
                     break;
                 case IDC_SELECT_DRIVE_EXTEND_ASK:
-                    resources_set_int_sprintf("Drive%dExtendImagePolicy", DRIVE_EXTEND_ASK, num);
+                    dialog_drive_extend[num - 8] = DRIVE_EXTEND_ASK;
                     break;
                 case IDC_SELECT_DRIVE_EXTEND_ACCESS:
-                    resources_set_int_sprintf("Drive%dExtendImagePolicy", DRIVE_EXTEND_ACCESS, num);
+                    dialog_drive_extend[num - 8] = DRIVE_EXTEND_ACCESS;
                     break;
-                default:
-                    return FALSE;
             }
             return TRUE;
     }
