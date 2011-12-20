@@ -1694,6 +1694,7 @@ void ui_dispatch_events(void)
  */
 void x11ui_fullscreen(int enable)
 {
+#ifdef HAVE_FULLSCREEN
     video_canvas_t *canvas = (video_canvas_t *) ui_cached_video_canvas;
     GtkWidget *s;
     int key = 0;
@@ -1750,6 +1751,7 @@ void x11ui_fullscreen(int enable)
         gdk_flush();
     }
     DBG(("x11ui_fullscreen done"));
+#endif
 }
 
 void ui_trigger_resize(void);
@@ -2812,8 +2814,10 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
     float ow, oh;
-    int keep_aspect_ratio;
 #ifdef HAVE_HWSCALE
+#ifdef HAVE_FULLSCREEN
+    int keep_aspect_ratio;
+#endif
     GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
     GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
 #endif
@@ -2849,6 +2853,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
         oh *= (canvas->videoconfig->doublesizey + 1);
     }
 
+#ifdef HAVE_FULLSCREEN
     /* in fullscreen mode, scale with aspect ratio */
     if (canvas->fullscreenconfig->enable) {
         resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
@@ -2865,6 +2870,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
         }
     }
     DBG(("configure_callback_canvas (ow: %f oh:%f)", ow, oh));
+#endif
 
     if (gl_context != NULL && gl_drawable != NULL) {
         gdk_gl_drawable_gl_begin(gl_drawable, gl_context);
@@ -2894,9 +2900,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
-#ifdef HAVE_FULLSCREEN
     app_shell_type *appshell = &app_shells[canvas->app_shell];
-#endif
     GdkEventConfigure e2;
 
     if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
