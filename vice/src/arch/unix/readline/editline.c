@@ -107,7 +107,9 @@ STATIC CHAR *editinput(void);
 STATIC void TTYflush(void)
 {
     if (ScreenCount) {
-        write(1, Screen, ScreenCount);
+        if (write(1, Screen, ScreenCount) != 1) {
+            /* FIXME: handle error */
+        }
         ScreenCount = 0;
     }
 }

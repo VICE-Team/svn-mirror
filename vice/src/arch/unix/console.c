@@ -105,7 +105,9 @@ char *readline(const char *prompt)
     console_out(NULL, "%s", prompt);
 
     fflush(mon_output);
-    fgets(p, 1024, mon_input);
+    if (fgets(p, 1024, mon_input) == NULL) {
+        /* FIXME: handle error */
+    }
 
     /* Remove trailing newlines.  */
     {
