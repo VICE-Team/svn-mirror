@@ -13,6 +13,7 @@
 # '!LSHIFT row col'      left shift keyboard row/column
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
+# '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
 # '!UNDEF keysym'        remove keysym from table
 #
 # Shiftflag can have the values:
@@ -23,6 +24,7 @@
 # 8      key can be shifted or not with this keysym/scancode
 # 16     deshift key for this keysym/scancode
 # 32     another definition for this keysym/scancode follows
+# 64     shift lock
 # 256    key is used for an alternative keyboard mapping
 #
 # Negative row values:
@@ -60,6 +62,7 @@
 !LSHIFT 1 7
 !RSHIFT 6 4
 !VSHIFT RSHIFT
+!SHIFTL LSHIFT
 
 # keys that can't be mapped symbolically are:
 # (row0) arrow left (-> end), pound (-> ), clr/home (-> home)
@@ -126,6 +129,8 @@ numbersign     1 0 1
 dollar         1 3 8
 # left shift
 Shift_L        1 7 2
+# shift lock
+Caps_Lock      1 7 64
 
 #####################
 # |Bit 2| 5 % |  R  |  D  | 6 & |  C  |  F  |  T  |  X  |

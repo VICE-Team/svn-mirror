@@ -13,6 +13,7 @@
 # '!LSHIFT row col'      left shift keyboard row/column
 # '!RSHIFT row col'      right shift keyboard row/column
 # '!VSHIFT shiftkey'     virtual shift key (RSHIFT or LSHIFT)
+# '!SHIFTL shiftkey'     shift lock key (RSHIFT or LSHIFT)
 # '!UNDEF keysym'        remove keysym from table
 #
 # Shiftflag can have the values:
@@ -23,6 +24,7 @@
 # 8      key can be shifted or not with this keysym/scancode
 # 16     deshift key for this keysym/scancode
 # 32     another definition for this keysym/scancode follows
+# 64     shift lock
 #
 # Negative row values:
 # 'keysym -1 n' joystick #1, direction n
@@ -59,6 +61,7 @@
 !LSHIFT 1 7
 !RSHIFT 6 4
 !VSHIFT RSHIFT
+!SHIFTL LSHIFT
 
 #####################
 # |Bit 0| DEL |Retrn|C_L/R|  F7 |  F1 |  F3 |  F5 |C_U/D|
@@ -90,6 +93,8 @@ Up              0 7 1
 numbersign      1 0 1
 dollar          1 3 1
 Shift_L         1 7 2
+# shift lock
+Caps_Lock       1 7 64
 
 #####################
 # |Bit 2| 5 % |  R  |  D  | 6 & |  C  |  F  |  T  |  X  |
