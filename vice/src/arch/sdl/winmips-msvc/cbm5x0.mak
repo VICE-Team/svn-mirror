@@ -107,8 +107,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\cbm5x0mem.obj" \
 	"$(INTDIR)\cbm5x0rom.obj" \
 	"$(INTDIR)\cbm5x0video.obj" \
-	".\libs\base\Release\base.lib" \
-	".\libs\base\Release\cbm2common.lib"
+	".\libs\base\Release\base.lib"
 
 "$(OUTDIR)\cbm5x0.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<
@@ -197,8 +196,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\cbm5x0mem.obj" \
 	"$(INTDIR)\cbm5x0rom.obj" \
 	"$(INTDIR)\cbm5x0video.obj" \
-	".\libs\base\Debug\base.lib" \
-	".\libs\base\Debug\cbm2common.lib"
+	".\libs\base\Debug\base.lib"
 
 "$(OUTDIR)\cbm5x0.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
     $(LIB32) @<<

@@ -51,12 +51,14 @@ CLEAN :
 	-@erase "$(INTDIR)\cbm2-cmdline-options.obj"
 	-@erase "$(INTDIR)\cbm2acia1.obj"
 	-@erase "$(INTDIR)\cbm2bus.obj"
+	-@erase "$(INTDIR)\cbm2cart.obj"
 	-@erase "$(INTDIR)\cbm2cia1.obj"
 	-@erase "$(INTDIR)\cbm2cpu.obj"
 	-@erase "$(INTDIR)\cbm2datasette.obj"
 	-@erase "$(INTDIR)\cbm2drive.obj"
 	-@erase "$(INTDIR)\cbm2iec.obj"
 	-@erase "$(INTDIR)\cbm2memsnapshot.obj"
+	-@erase "$(INTDIR)\cbm2model.obj"
 	-@erase "$(INTDIR)\cbm2printer.obj"
 	-@erase "$(INTDIR)\cbm2romset.obj"
 	-@erase "$(INTDIR)\cbm2sound.obj"
@@ -112,12 +114,14 @@ LIB32_OBJS= \
 	"$(INTDIR)\cbm2-cmdline-options.obj" \
 	"$(INTDIR)\cbm2acia1.obj" \
 	"$(INTDIR)\cbm2bus.obj" \
+	"$(INTDIR)\cbm2cart.obj" \
 	"$(INTDIR)\cbm2cia1.obj" \
 	"$(INTDIR)\cbm2cpu.obj" \
 	"$(INTDIR)\cbm2datasette.obj" \
 	"$(INTDIR)\cbm2drive.obj" \
 	"$(INTDIR)\cbm2iec.obj" \
 	"$(INTDIR)\cbm2memsnapshot.obj" \
+	"$(INTDIR)\cbm2model.obj" \
 	"$(INTDIR)\cbm2printer.obj" \
 	"$(INTDIR)\cbm2romset.obj" \
 	"$(INTDIR)\cbm2sound.obj" \
@@ -156,12 +160,14 @@ CLEAN :
 	-@erase "$(INTDIR)\cbm2-cmdline-options.obj"
 	-@erase "$(INTDIR)\cbm2acia1.obj"
 	-@erase "$(INTDIR)\cbm2bus.obj"
+	-@erase "$(INTDIR)\cbm2cart.obj"
 	-@erase "$(INTDIR)\cbm2cia1.obj"
 	-@erase "$(INTDIR)\cbm2cpu.obj"
 	-@erase "$(INTDIR)\cbm2datasette.obj"
 	-@erase "$(INTDIR)\cbm2drive.obj"
 	-@erase "$(INTDIR)\cbm2iec.obj"
 	-@erase "$(INTDIR)\cbm2memsnapshot.obj"
+	-@erase "$(INTDIR)\cbm2model.obj"
 	-@erase "$(INTDIR)\cbm2printer.obj"
 	-@erase "$(INTDIR)\cbm2romset.obj"
 	-@erase "$(INTDIR)\cbm2sound.obj"
@@ -217,12 +223,14 @@ LIB32_OBJS= \
 	"$(INTDIR)\cbm2-cmdline-options.obj" \
 	"$(INTDIR)\cbm2acia1.obj" \
 	"$(INTDIR)\cbm2bus.obj" \
+	"$(INTDIR)\cbm2cart.obj" \
 	"$(INTDIR)\cbm2cia1.obj" \
 	"$(INTDIR)\cbm2cpu.obj" \
 	"$(INTDIR)\cbm2datasette.obj" \
 	"$(INTDIR)\cbm2drive.obj" \
 	"$(INTDIR)\cbm2iec.obj" \
 	"$(INTDIR)\cbm2memsnapshot.obj" \
+	"$(INTDIR)\cbm2model.obj" \
 	"$(INTDIR)\cbm2printer.obj" \
 	"$(INTDIR)\cbm2romset.obj" \
 	"$(INTDIR)\cbm2sound.obj" \
@@ -284,6 +292,12 @@ SOURCE=..\..\..\cbm2\cbm2bus.c
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE=..\..\..\cbm2\cbm2cart.c
+
+"$(INTDIR)\cbm2cart.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE=..\..\..\cbm2\cbm2cia1.c
 
 "$(INTDIR)\cbm2cia1.obj" : $(SOURCE) "$(INTDIR)"
@@ -317,6 +331,12 @@ SOURCE=..\..\..\cbm2\cbm2iec.c
 SOURCE=..\..\..\cbm2\cbm2memsnapshot.c
 
 "$(INTDIR)\cbm2memsnapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\cbm2\cbm2model.c
+
+"$(INTDIR)\cbm2model.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
