@@ -2712,10 +2712,21 @@ static GtkWidget* build_show_text(const gchar *text, int width, int height)
     gchar *utf8_text;
     GError *error = NULL;
 
-    utf8_text = g_convert(text, strlen(text), "UTF-8", "ISO-8859-1", NULL, NULL, &error);
-    if (error) {
-        util_string_set(&utf8_text, _("Text cannot be displayed.\n"));
+    /*
+        convert text to UTF-8 for GTK+. Try first using the locale, since that
+        allows to display text translated by the translation system. Use
+        ISO-8859-1 as a fallback if that fails.
+     */
+    utf8_text = g_locale_to_utf8(text, strlen(text), NULL, NULL, &error);
+    if (utf8_text == NULL) {
+        log_warning(LOG_DEFAULT, "Can not convert text to UTF-8 using locale, using ISO-8859-1 as fallback.");
         g_error_free(error);
+        utf8_text = g_convert(text, strlen(text), "UTF-8", "ISO-8859-1", NULL, NULL, &error);
+        if (utf8_text == NULL) {
+            log_error(LOG_ERR, "Can not convert text to UTF-8.");
+            g_error_free(error);
+            util_string_set(&utf8_text, _("Text cannot be displayed.\n"));
+        }
     }
 
     show_text = gtk_dialog_new_with_buttons("", NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
@@ -2725,6 +2736,7 @@ static GtkWidget* build_show_text(const gchar *text, int width, int height)
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrollw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
     textw = gtk_text_view_new();
+    gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW(textw), GTK_WRAP_WORD);
     tb = gtk_text_view_get_buffer(GTK_TEXT_VIEW(textw));
     gtk_text_buffer_set_text(tb, utf8_text, -1);
     gtk_container_add(GTK_CONTAINER(scrollw), textw);

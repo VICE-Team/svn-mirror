@@ -225,6 +225,11 @@ void cmdline_show_help(void *userparam)
     ui_cmdline_show_help(num_options, options, userparam);
 }
 
+char *cmdline_options_get_name(int counter)
+{
+    return (char *)_(options[counter].name);
+}
+
 char *cmdline_options_get_param(int counter)
 {
     if (options[counter].use_param_name_id == USE_PARAM_ID)

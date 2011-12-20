@@ -33,6 +33,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "drivecpu.h"
 #include "fullscreenarch.h"
 #include "interrupt.h"
@@ -565,9 +566,37 @@ ui_menu_entry_t ui_tool_commands_monitor_menu[] = {
 
 extern ui_callback_t about;
 
+static UI_CALLBACK(ui_about_cmdline)
+{
+    unsigned int i, num_options;
+    char *text;
+    num_options = cmdline_get_num_options();
+    text = lib_malloc(num_options * 0x100);
+    text[0] = 0;
+    for (i = 0; i < num_options; i++) {
+        strcat(text, cmdline_options_get_name(i));
+        if (cmdline_options_get_param(i) != NULL) {
+            strcat(text, " ");
+            strcat(text, cmdline_options_get_param(i));
+        }
+        strcat(text, "\n\t");
+        strcat(text, cmdline_options_get_description(i));
+        strcat(text, "\n");
+        if (strlen(text) > ((num_options - 1) * 0x100)) {
+            log_error(LOG_ERR, "ui_about_cmdline: string buffer not big enough!");
+            break;
+        }
+    }
+
+    ui_show_text(_("Available command-line options:"), text, 600, 400);
+    lib_free(text);
+}
+
 ui_menu_entry_t ui_help_commands_menu[] = {
     { N_("Browse manuals"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)browse_manual, NULL, NULL },
+    { N_("Commandline options"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)ui_about_cmdline, NULL, NULL },
     { N_("About VICE"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)ui_about, NULL, NULL },
     { NULL }
