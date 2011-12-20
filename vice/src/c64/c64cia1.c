@@ -192,21 +192,45 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     byte = (val & (cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
 
 #ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2)) {
-        byte &= neos_mouse_read();
-    }
-    if (_mouse_enabled && (mouse_kind == MOUSE_KIND_POLLED) && (mouse_port == 2)) {
-        byte &= mouse_poll();
+    if (_mouse_enabled && (mouse_port == 2)) {
+        if (mouse_type == MOUSE_TYPE_NEOS) {
+            byte &= neos_mouse_read();
+        }
+        if (mouse_kind == MOUSE_KIND_POLLED) {
+            byte &= mouse_poll();
+        }
     }
 #endif
 
     return byte;
 }
 
+inline static int ciapb_forcelow(int i)
+{
+    BYTE v;
+
+    /* Check for shift lock.
+       FIXME: keyboard_shiftlock state may be inconsistent
+              with the (rev_)keyarr state. */
+    if ((i == 7) && keyboard_shiftlock) {
+        return 1;
+    }
+
+    /* Check if two or more keys are pressed. */
+    v = rev_keyarr[i];
+    if ((v & (v - 1)) != 0) {
+        return 1;
+    }
+
+    /* TODO: check joysticks? */
+    return 0;
+}
+
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
     BYTE val = 0xff;
+    BYTE val_outhi = ((cia_context->c_cia[CIA_DDRA]) & (cia_context->c_cia[CIA_DDRB])) & (cia_context->c_cia[CIA_PRB]);
     BYTE msk = cia_context->old_pa & ~joystick_value[2];
     BYTE m;
     int i;
@@ -214,37 +238,37 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
         if (!(msk & m)) {
             val &= ~keyarr[i];
+
+            /*
+                Handle the special case when both port A and port B are programmed as output,
+                port A outputs (active) low, and port B outputs high.
+
+                In this case pressing either shift-lock or two or more keys of the same column
+                is required to drive port B low, pressing a single key is not enough (and the
+                port will read back as high). (see testprogs/CIA/ciaports)
+
+                The initial value for val_outhi will drive the respective port B
+                bits high if the above mentioned condition is met, which gives the
+                expected result for single key presses.
+            */
+            if (ciapb_forcelow(i)) {
+                val_outhi &= ~m;
+            }
         }
     }
 
-    byte = (val & (cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
+    byte = val & (cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]));
+    byte |= val_outhi;
+    byte &= ~joystick_value[1];
 
-    /*
-        handle the special case when both port a and port b are programmed as output,
-        port a outputs (active) low, and port b outputs high.
-
-        in this case pressing either shift-lock or two or more keys of the same column
-        is required to drive port b low, pressing a single key is not enough (and the
-        port will read back as high). (see testprogs/CIA/ciaports)
-
-        FIXME: this is not emulated yet. the line below will drive the respective port b
-               bits high if the above mentioned condition is met, which atleast gives the
-               expected result for single key presses.
-    */
-    byte |= ((cia_context->c_cia[CIA_DDRA]) & (cia_context->c_cia[CIA_DDRB])) & (cia_context->c_cia[CIA_PRB]);
-/*
-    if(val!=0xff) {
-        printf("keyval (PA) %02x   PA %02x DDRA %02x  PB %02x DDRB %02x  res: %02x\n",
-        val, cia_context->c_cia[CIA_PRA], cia_context->c_cia[CIA_DDRA],
-        cia_context->c_cia[CIA_PRB], cia_context->c_cia[CIA_DDRB], byte);
-    }
-*/
 #ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1)) {
-        byte &= neos_mouse_read();
-    }
-    if (_mouse_enabled && (mouse_kind == MOUSE_KIND_POLLED) && (mouse_port == 1)) {
-        byte &= mouse_poll();
+    if (_mouse_enabled && (mouse_port == 1)) {
+        if (mouse_type == MOUSE_TYPE_NEOS) {
+            byte &= neos_mouse_read();
+        }
+        if (mouse_kind == MOUSE_KIND_POLLED) {
+            byte &= mouse_poll();
+        }
     }
 #endif
 
