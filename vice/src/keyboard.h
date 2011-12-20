@@ -80,6 +80,7 @@ extern void keyboard_alternative_set(int alternative);
 /* These ugly externs will go away sooner or later.  */
 extern int keyarr[KBD_ROWS];
 extern int rev_keyarr[KBD_COLS];
+extern int keyboard_shiftlock;
 
 extern BYTE joystick_value[JOYSTICK_NUM + 1];
 
