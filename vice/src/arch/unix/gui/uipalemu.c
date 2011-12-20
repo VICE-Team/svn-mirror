@@ -146,7 +146,7 @@ ui_menu_entry_t *build_color_menu(char *cp)
     m = lib_malloc(sizeof(ui_menu_entry_t) * 6);
     DBG(("build_color_menu %s", cp));
 
-    for (i = 0; i < 4 ; i++) {
+    for (i = 0; i < 5 ; i++) {
         p = lib_malloc(sizeof(palopt_t));
         p->chip = cp;
         p->idx = i;
@@ -165,7 +165,7 @@ ui_menu_entry_t *build_crt_menu(char *cp)
     m = lib_malloc(sizeof(ui_menu_entry_t) * 5);
     DBG(("build_crt_menu %s", cp));
 
-    for (i = 0; i < 3 ; i++) {
+    for (i = 0; i < 4 ; i++) {
         p = lib_malloc(sizeof(palopt_t));
         p->chip = cp;
         p->idx = i + 5;
