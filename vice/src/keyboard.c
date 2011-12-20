@@ -480,6 +480,8 @@ void keyboard_key_pressed(signed long key)
 
 static int keyboard_key_released_matrix(int row, int column, int shift)
 {
+    int skip_release = 0;
+
     if (row >= 0) {
         key_latch_row = row;
         key_latch_column = column;
@@ -489,12 +491,22 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
         }
         if (shift & LEFT_SHIFT) {
             left_shift_down = 0;
+            if (keyboard_shiftlock && (shiftl == KEY_LSHIFT)) {
+                skip_release = 1;
+            }
         }
         if (shift & RIGHT_SHIFT) {
             right_shift_down = 0;
+            if (keyboard_shiftlock && (shiftl == KEY_RSHIFT)) {
+                skip_release = 1;
+            }
         }
         if (shift & SHIFT_LOCK) {
             keyboard_shiftlock = 0;
+            if (((shiftl == KEY_RSHIFT) && right_shift_down)
+             || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
+                skip_release = 1;
+            }
         }
 
         /* Map shift keys. */
@@ -514,7 +526,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
             keyboard_set_latch_keyarr(kbd_lshiftrow, kbd_lshiftcol, 0);
         }
 
-        return 1;
+        return !skip_release;
     }
 
     return 0;
