@@ -451,13 +451,13 @@ SOURCE="..\..\..\c64\vsid-resources.c"
 
 SOURCE="..\..\..\c64\vsid-snapshot.c"
 
-"$(INTDIR)\c64-snapshot.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\vsid-snapshot.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
 SOURCE=..\..\..\c64\vsidcia1.c
 
-"$(INTDIR)\c64cia1.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\vsidcia1.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
