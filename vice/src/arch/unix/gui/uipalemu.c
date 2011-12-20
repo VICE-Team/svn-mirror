@@ -111,19 +111,7 @@ static UI_CALLBACK(PAL_control_cb)
     lib_free(resource);
 }
 
-ui_menu_entry_t PALMode_submenu[] = {
-    { N_("Scanline shade"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)PAL_control_cb, NULL, NULL },
-    { N_("Blur"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)PAL_control_cb, NULL, NULL },
-    { N_("Odd lines phase"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)PAL_control_cb, NULL, NULL },
-    { N_("Odd lines offset"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)PAL_control_cb, NULL, NULL },
-    { NULL }
-};
-
-ui_menu_entry_t PALColor_submenu[] = {
+static ui_menu_entry_t PALColor_submenu[] = {
     { N_("Saturation"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)PAL_control_cb, NULL, NULL },
     { N_("Contrast"), UI_MENU_TYPE_NORMAL,
@@ -137,22 +125,39 @@ ui_menu_entry_t PALColor_submenu[] = {
     { NULL }
 };
 
+#define PALColor_submenu_size	util_arraysize(PALColor_submenu)
+
+static ui_menu_entry_t PALCrt_submenu[] = {
+    { N_("Scanline shade"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)PAL_control_cb, NULL, NULL },
+    { N_("Blur"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)PAL_control_cb, NULL, NULL },
+    { N_("Odd lines phase"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)PAL_control_cb, NULL, NULL },
+    { N_("Odd lines offset"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)PAL_control_cb, NULL, NULL },
+    { NULL }
+};
+
+#define PALCrt_submenu_size	util_arraysize(PALCrt_submenu)
+
 ui_menu_entry_t *build_color_menu(char *cp)
 {
     int i;
     palopt_t *p;
     ui_menu_entry_t *m;
     
-    m = lib_malloc(sizeof(ui_menu_entry_t) * 6);
+    m = lib_malloc(sizeof(ui_menu_entry_t) * PALColor_submenu_size);
     DBG(("build_color_menu %s", cp));
 
-    for (i = 0; i < 5 ; i++) {
+    /* Loop over all elements, except the last one */
+    for (i = 0; i < PALColor_submenu_size - 1 ; i++) {
         p = lib_malloc(sizeof(palopt_t));
         p->chip = cp;
         p->idx = i;
         PALColor_submenu[i].callback_data = p;
     }
-    memcpy (m, PALColor_submenu, sizeof(ui_menu_entry_t) * 6);
+    memcpy (m, PALColor_submenu, sizeof(ui_menu_entry_t) * PALColor_submenu_size);
     return m;
 }
 
@@ -162,16 +167,17 @@ ui_menu_entry_t *build_crt_menu(char *cp)
     palopt_t *p;
     ui_menu_entry_t *m;
 
-    m = lib_malloc(sizeof(ui_menu_entry_t) * 5);
+    m = lib_malloc(sizeof(ui_menu_entry_t) * PALCrt_submenu_size);
     DBG(("build_crt_menu %s", cp));
 
-    for (i = 0; i < 4 ; i++) {
+    /* Loop over all elements, except the last one */
+    for (i = 0; i < PALCrt_submenu_size - 1 ; i++) {
         p = lib_malloc(sizeof(palopt_t));
         p->chip = cp;
-        p->idx = i + 5;
-        PALMode_submenu[i].callback_data = p;
+        p->idx = i + PALColor_submenu_size - 1;
+        PALCrt_submenu[i].callback_data = p;
     }
-    memcpy (m, PALMode_submenu, sizeof(ui_menu_entry_t) * 5);
+    memcpy (m, PALCrt_submenu, sizeof(ui_menu_entry_t) * PALCrt_submenu_size);
     return m;
 }
 
@@ -180,7 +186,7 @@ void shutdown_color_menu(ui_menu_entry_t *m)
     int i;
     DBG(("shutdown_color_menu"));
     if (m) {
-        for (i = 0; i < 5 ; i++) {
+        for (i = 0; i < PALColor_submenu_size - 1 ; i++) {
             lib_free(m[i].callback_data);
         }
         lib_free(m);
@@ -192,7 +198,7 @@ void shutdown_crt_menu(ui_menu_entry_t *m)
     int i;
     DBG(("shutdown_crt_menu"));
     if (m) {
-        for (i = 0; i < 4 ; i++) {
+        for (i = 0; i < PALCrt_submenu_size - 1 ; i++) {
             lib_free(m[i].callback_data);
         }
         lib_free(m);

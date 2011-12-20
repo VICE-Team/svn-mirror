@@ -29,9 +29,6 @@
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s PALMode_submenu[];
-extern struct ui_menu_entry_s PALColor_submenu[];
-
 extern ui_menu_entry_t *build_color_menu(char *cp);
 extern ui_menu_entry_t *build_crt_menu(char *cp);
 extern void shutdown_color_menu(ui_menu_entry_t *m);
