@@ -42,6 +42,7 @@
 #include "ui.h"
 #include "uiide64.h"
 #include "uilib.h"
+#include "winlong.h"
 #include "winmain.h"
 
 static void enable_ide64_controls(HWND hwnd)
@@ -131,13 +132,13 @@ static void init_ide64_v4_dialog(HWND hwnd)
 static void init_ide64_dialog(HWND hwnd, int num)
 {
     int res_value, index;
-    const char *ide64file;
-    TCHAR *st_ide64file;
     TCHAR memb[20];
     HWND ide64_hwnd;
     HWND parent_hwnd;
     int xsize, ysize;
     char tmp[256];
+    const char *ide64file;
+    TCHAR *st_ide64file;
 
     parent_hwnd = GetParent(hwnd);
 
@@ -192,17 +193,23 @@ static void init_ide64_dialog(HWND hwnd, int num)
 
 static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
+    int type;
 
     switch (msg) {
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+                resources_set_int("IDE64version4", (IsDlgButtonChecked(hwnd, IDC_IDE64_V4) == BST_CHECKED ? 1 : 0));
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
         case WM_INITDIALOG:
             init_ide64_v4_dialog(hwnd);
             return TRUE;
         case WM_COMMAND:
-            command = LOWORD(wparam);
-            switch (command) {
+            type = LOWORD(wparam);
+            switch (type) {
                 case IDC_IDE64_V4:
-                    resources_set_int("IDE64version4", (IsDlgButtonChecked(hwnd, IDC_IDE64_V4) == BST_CHECKED ? 1 : 0));
                     break;
             }
             return TRUE;
@@ -212,7 +219,7 @@ static INT_PTR CALLBACK dialog_v4_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARA
 
 static INT_PTR CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
+    int type;
     char tmp[256];
     char s[MAX_PATH];
     TCHAR st[MAX_PATH];
@@ -220,40 +227,42 @@ static INT_PTR CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam,
     int res_value;
 
     switch (msg) {
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+                sprintf(tmp, "IDE64Image%d", num);
+                GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, st, MAX_PATH);
+                system_wcstombs(s, st, MAX_PATH);
+                resources_set_string(tmp, s);
+                resources_set_int_sprintf("IDE64AutodetectSize%i", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_IDE64_SIZEAUTODETECT) == BST_CHECKED ? 1 : 0), num);
+                ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_CYLINDERS);
+                res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+                resources_set_int_sprintf("IDE64Cylinders%i", res_value + 1, num);
+                ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_HEADS);
+                res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+                resources_set_int_sprintf("IDE64Heads%i", res_value + 1, num);
+                ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
+                res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
+                resources_set_int_sprintf("IDE64Sectors%i", res_value, num);
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
         case WM_INITDIALOG:
             init_ide64_dialog(hwnd, num);
             return TRUE;
         case WM_COMMAND:
-            command = LOWORD(wparam);
-            switch (command) {
-                case IDC_IDE64_HDIMAGE_BROWSE:
-                    sprintf(tmp, "IDE64Image%d", num);
-                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_FILE);
-                    GetDlgItemText(hwnd, IDC_IDE64_HDIMAGE_FILE, st, MAX_PATH);
-                    system_wcstombs(s, st, MAX_PATH);
-                    resources_set_string(tmp, s);
-                    break;
+            type = LOWORD(wparam);
+            switch (type) {
                 case IDC_TOGGLE_IDE64_SIZEAUTODETECT:
-                    resources_set_int_sprintf("IDE64AutodetectSize%i", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_IDE64_SIZEAUTODETECT) == BST_CHECKED ? 1 : 0), num);
                     enable_ide64_controls(hwnd);
                     break;
                 case IDC_IDE64_CYLINDERS:
-                    ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_CYLINDERS);
-                    res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
-                    resources_set_int_sprintf("IDE64Cylinders%i", res_value + 1,num);
-                    update_text(hwnd);
-                    break;
                 case IDC_IDE64_HEADS:
-                    ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_HEADS);
-                    res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
-                    resources_set_int_sprintf("IDE64Heads%i", res_value + 1, num);
+                case IDC_IDE64_SECTORS:
                     update_text(hwnd);
                     break;
-                case IDC_IDE64_SECTORS:
-                    ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
-                    res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
-                    resources_set_int_sprintf("IDE64Sectors%i", res_value, num);
-                    update_text(hwnd);
+                case IDC_IDE64_HDIMAGE_BROWSE:
+                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_FILE);
                     break;
             }
             return TRUE;
