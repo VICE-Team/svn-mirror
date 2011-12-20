@@ -445,7 +445,7 @@ SOURCE=..\..\..\c64\vsid.c
 
 SOURCE="..\..\..\c64\vsid-resources.c"
 
-"$(INTDIR)\c64-resources.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\vsid-resources.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
