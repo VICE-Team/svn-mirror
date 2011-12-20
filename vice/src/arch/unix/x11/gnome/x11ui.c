@@ -2906,7 +2906,7 @@ gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer cli
     DBG(("configure_callback_app (fullscreen: %d x %d y %d w %d h %d)",canvas->fullscreenconfig->enable, e->x, e->y,e->width, e->height));
 
 #ifdef HAVE_FULLSCREEN
-    if (!canvas->fullscreenconfig->enable) {
+    if ((machine_class == VICE_MACHINE_VSID) || (!canvas->fullscreenconfig->enable)) {
 #endif
         resources_set_int("WindowWidth", e->width);
         resources_set_int("Windowheight", e->height);
@@ -2921,32 +2921,34 @@ gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer cli
 #ifdef HAVE_FULLSCREEN
     }
 #endif
-    /* HACK: propagate the event to the canvas widget to make ui_trigger_resize
-     *       work.
-     */
-    e2.x = e2.y = 0;
-    e2.width = e->width;
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* HACK: propagate the event to the canvas widget to make ui_trigger_resize
+        *       work.
+        */
+        e2.x = e2.y = 0;
+        e2.width = e->width;
 
 #ifdef HAVE_FULLSCREEN
-    if (canvas->fullscreenconfig->enable) {
-        e2.height = e->height - (canvas->fullscreenconfig->ui_border_top + canvas->fullscreenconfig->ui_border_bottom);
-    } else {
+        if (canvas->fullscreenconfig->enable) {
+            e2.height = e->height - (canvas->fullscreenconfig->ui_border_top + canvas->fullscreenconfig->ui_border_bottom);
+        } else {
 #endif
-        e2.height = e->height - (appshell->topmenu->allocation.height + appshell->status_bar->allocation.height);
+            e2.height = e->height - (appshell->topmenu->allocation.height + appshell->status_bar->allocation.height);
 #ifdef HAVE_FULLSCREEN
-    }
+        }
 #endif
 #if GTK_CHECK_VERSION(2,18,0)
-    if (gtk_widget_get_visible(appshell->pal_ctrl)) {
-        e2.height -= appshell->pal_ctrl->allocation.height;
-    }
+        if (gtk_widget_get_visible(appshell->pal_ctrl)) {
+            e2.height -= appshell->pal_ctrl->allocation.height;
+        }
 #else
-    if (GTK_WIDGET_VISIBLE(appshell->pal_ctrl)) {
-        e2.height -= appshell->pal_ctrl->allocation.height;
-    }
+        if (GTK_WIDGET_VISIBLE(appshell->pal_ctrl)) {
+            e2.height -= appshell->pal_ctrl->allocation.height;
+        }
 #endif
-    DBG(("configure_callback_app2 (x %d y %d w %d h %d)", e2.x, e2.y, e2.width, e2.height));
-    configure_callback_canvas(canvas->emuwindow, &e2, canvas);
+        DBG(("configure_callback_app2 (x %d y %d w %d h %d)", e2.x, e2.y, e2.width, e2.height));
+        configure_callback_canvas(canvas->emuwindow, &e2, canvas);
+    }
     return 0;
 }
 
