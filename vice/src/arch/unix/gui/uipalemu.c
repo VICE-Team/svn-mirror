@@ -180,7 +180,7 @@ void shutdown_color_menu(ui_menu_entry_t *m)
     int i;
     DBG(("shutdown_color_menu"));
     if (m) {
-        for (i = 0; i < 4 ; i++) {
+        for (i = 0; i < 5 ; i++) {
             lib_free(m[i].callback_data);
         }
         lib_free(m);
@@ -192,7 +192,7 @@ void shutdown_crt_menu(ui_menu_entry_t *m)
     int i;
     DBG(("shutdown_crt_menu"));
     if (m) {
-        for (i = 0; i < 3 ; i++) {
+        for (i = 0; i < 4 ; i++) {
             lib_free(m[i].callback_data);
         }
         lib_free(m);
