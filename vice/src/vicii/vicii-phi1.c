@@ -58,29 +58,32 @@ inline static BYTE gfx_data_hires_bitmap(unsigned int num)
 
         j = ((vicii.memptr << 3) + vicii.raster.ycounter + num * 8);
 
-        if (j & 0x1000)
+        if (j & 0x1000) {
             return vicii.bitmap_high_ptr[j & 0xfff];
-        else
+        } else {
             return vicii.bitmap_low_ptr[j & 0xfff];
+        }
     }
 }
 
 inline static BYTE gfx_data_extended_text(unsigned int num)
 {
-    if (vicii.idle_state)
+    if (vicii.idle_state) {
         return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x39ff];
-    else
+    } else {
         return vicii.chargen_ptr[(vicii.vbuf[num] & 0x3f) * 8
                                  + vicii.raster.ycounter];
+    }
 }
 
 inline static BYTE gfx_data_normal_text(unsigned int num)
 {
-    if (vicii.idle_state)
+    if (vicii.idle_state) {
         return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3fff];
-    else
+    } else {
         return vicii.chargen_ptr[vicii.vbuf[num] * 8
                                  + vicii.raster.ycounter];
+    }
 }
 
 static BYTE gfx_data(unsigned int num)
@@ -139,128 +142,183 @@ static BYTE refresh_counter(unsigned int num)
     return vicii.ram_base_phi1[vicii.vbank_phi1 + 0x3f00 + offset];
 }
 
+inline static BYTE phi1_pal(unsigned int cycle)
+{
+    switch (cycle) {
+        case 0:
+            return sprite_pointer(3);
+        case 1:
+            return sprite_data(3);
+        case 2:
+            return sprite_pointer(4);
+        case 3:
+            return sprite_data(4);
+        case 4:
+            return sprite_pointer(5);
+        case 5:
+            return sprite_data(5);
+        case 6:
+            return sprite_pointer(6);
+        case 7:
+            return sprite_data(6);
+        case 8:
+            return sprite_pointer(7);
+        case 9:
+            return sprite_data(7);
+
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            return refresh_counter(cycle - 10);
+
+        default: /* 15 .. 54 */
+            return gfx_data(cycle - 15);
+
+        case 55:
+        case 56:
+            return idle_gap();
+
+        case 57:
+            return sprite_pointer(0);
+        case 58:
+            return sprite_data(0);
+        case 59:
+            return sprite_pointer(1);
+        case 60:
+            return sprite_data(1);
+        case 61:
+            return sprite_pointer(2);
+        case 62:
+            return sprite_data(2);
+    }
+}
+
+inline static BYTE phi1_ntsc_old(unsigned int cycle)
+{
+    switch (cycle) {
+        case 0:
+            return sprite_pointer(3);
+        case 1:
+            return sprite_data(3);
+        case 2:
+            return sprite_pointer(4);
+        case 3:
+            return sprite_data(4);
+        case 4:
+            return sprite_pointer(5);
+        case 5:
+            return sprite_data(5);
+        case 6:
+            return sprite_pointer(6);
+        case 7:
+            return sprite_data(6);
+        case 8:
+            return sprite_pointer(7);
+        case 9:
+            return sprite_data(7);
+
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            return refresh_counter(cycle - 10);
+
+        default: /* 15 .. 54 */
+            return gfx_data(cycle - 15);
+
+        case 55:
+        case 56:
+        case 57:
+            return idle_gap();
+
+        case 58:
+            return sprite_pointer(0);
+        case 59:
+            return sprite_data(0);
+        case 60:
+            return sprite_pointer(1);
+        case 61:
+            return sprite_data(1);
+        case 62:
+            return sprite_pointer(2);
+        case 63:
+            return sprite_data(2);
+    }
+}
+
+inline static BYTE phi1_ntsc(unsigned int cycle)
+{
+    switch (cycle) {
+        case 0:
+            return sprite_data(3);
+        case 1:
+            return sprite_pointer(4);
+        case 2:
+            return sprite_data(4);
+        case 3:
+            return sprite_pointer(5);
+        case 4:
+            return sprite_data(5);
+        case 5:
+            return sprite_pointer(6);
+        case 6:
+            return sprite_data(6);
+        case 7:
+            return sprite_pointer(7);
+        case 8:
+            return sprite_data(7);
+
+        case 9:
+            return idle_gap();
+
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+            return refresh_counter(cycle - 10);
+
+        default: /* 15 .. 54 */
+            return gfx_data(cycle - 15);
+
+        case 55:
+        case 56:
+        case 57:
+            return idle_gap();
+
+        case 58:
+            return sprite_pointer(0);
+        case 59:
+            return sprite_data(0);
+        case 60:
+            return sprite_pointer(1);
+        case 61:
+            return sprite_data(1);
+        case 62:
+            return sprite_pointer(2);
+        case 63:
+            return sprite_data(2);
+        case 64:
+            return sprite_pointer(3);
+    }
+}
+
 BYTE vicii_read_phi1_lowlevel(void)
 {
-    BYTE value = 0x40;
-    unsigned int cycle;
+    unsigned int cycle = VICII_RASTER_CYCLE(maincpu_clk);
 
-    cycle = VICII_RASTER_CYCLE(maincpu_clk);
-
-    switch (cycle) {
-      case 0:
-        value = sprite_pointer(3);
-        break;
-      case 1:
-        value = sprite_data(3);
-        break;
-      case 2:
-        value = sprite_pointer(4);
-        break;
-      case 3:
-        value = sprite_data(4);
-        break;
-      case 4:
-        value = sprite_pointer(5);
-        break;
-      case 5:
-        value = sprite_data(5);
-        break;
-      case 6:
-        value = sprite_pointer(6);
-        break;
-      case 7:
-        value = sprite_data(6);
-        break;
-      case 8:
-        value = sprite_pointer(7);
-        break;
-      case 9:
-        value = sprite_data(7);
-        break;
-      case 10:
-        value = refresh_counter(0);
-        break;
-      case 11:
-        value = refresh_counter(1);
-        break;
-      case 12:
-        value = refresh_counter(2);
-        break;
-      case 13:
-        value = refresh_counter(3);
-        break;
-      case 14:
-        value = refresh_counter(4);
-        break;
-      case 15:
-      case 16:
-      case 17:
-      case 18:
-      case 19:
-      case 20:
-      case 21:
-      case 22:
-      case 23:
-      case 24:
-      case 25:
-      case 26:
-      case 27:
-      case 28:
-      case 29:
-      case 30:
-      case 31:
-      case 32:
-      case 33:
-      case 34:
-      case 35:
-      case 36:
-      case 37:
-      case 38:
-      case 39:
-      case 40:
-      case 41:
-      case 42:
-      case 43:
-      case 44:
-      case 45:
-      case 46:
-      case 47:
-      case 48:
-      case 49:
-      case 50:
-      case 51:
-      case 52:
-      case 53:
-      case 54:
-        value = gfx_data(cycle - 15);
-        break;
-      case 55:
-        value = idle_gap();
-        break;
-      case 56:
-        value = idle_gap();
-        break;
-      case 57:
-        value = sprite_pointer(0);
-        break;
-      case 58:
-        value = sprite_data(0);
-        break;
-      case 59:
-        value = sprite_pointer(1);
-        break;
-      case 60:
-        value = sprite_data(1);
-        break;
-      case 61:
-        value = sprite_pointer(2);
-        break;
-      case 62:
-        value = sprite_data(2);
-        break;
+    switch (vicii.cycles_per_line) {
+        case 63:
+        default:
+            return phi1_pal(cycle);
+        case 64:
+            return phi1_ntsc_old(cycle);
+        case 65:
+            return phi1_ntsc(cycle);
     }
-
-    return value;
 }
 
 BYTE vicii_read_phi1(void)
