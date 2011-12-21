@@ -61,7 +61,7 @@ static int sid_resid_passband;
 static int sid_resid_gain;
 static int sid_resid_filter_bias;
 #endif
-int sid_stereo;
+int sid_stereo = 0;
 int checking_sid_stereo;
 unsigned int sid_stereo_address_start;
 unsigned int sid_stereo_address_end;
@@ -149,7 +149,12 @@ static int set_sid_filters_enabled(int val, void *param)
 
 static int set_sid_stereo(int val, void *param)
 {
-    if (machine_class == VICE_MACHINE_C64DTV) {
+    if ((machine_class == VICE_MACHINE_C64DTV) ||
+        (machine_class == VICE_MACHINE_VIC20) ||
+        (machine_class == VICE_MACHINE_PLUS4) ||
+        (machine_class == VICE_MACHINE_PET) ||
+        (machine_class == VICE_MACHINE_CBM5x0) ||
+        (machine_class == VICE_MACHINE_CBM6x0)) {
         sid_stereo = 0;
     } else {
         if (val != sid_stereo) {
@@ -335,8 +340,6 @@ static const resource_int_t common_resources_int[] = {
       &sid_filters_enabled, set_sid_filters_enabled, NULL },
     { "SidModel", SID_MODEL_DEFAULT, RES_EVENT_SAME, NULL,
       &sid_model, set_sid_model, NULL },
-    { "SidStereo", 0, RES_EVENT_SAME, NULL,
-      &sid_stereo, set_sid_stereo, NULL },
 #ifdef HAVE_HARDSID
     { "SidHardSIDMain", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &sid_hardsid_main, set_sid_hardsid_main, NULL },

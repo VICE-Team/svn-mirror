@@ -102,7 +102,7 @@ static const cmdline_option_t resid_cmdline_options[] = {
 };
 #endif
 
-static const cmdline_option_t common_cmdline_options[] = {
+static const cmdline_option_t stereo_cmdline_options[] = {
     { "-sidstereo", SET_RESOURCE, 1,
       NULL, NULL, "SidStereo", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING,
@@ -118,6 +118,10 @@ static const cmdline_option_t common_cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_BASE_ADDRESS, IDCLS_SPECIFY_SID_3_ADDRESS,
       NULL, NULL },
+    { NULL }
+};
+
+static const cmdline_option_t common_cmdline_options[] = {
     { "-sidfilters", SET_RESOURCE, 0,
       NULL, NULL, "SidFilters", (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -155,5 +159,15 @@ int sid_cmdline_options_init(void)
     }
 #endif
 
+    if ((machine_class != VICE_MACHINE_C64DTV) &&
+        (machine_class != VICE_MACHINE_VIC20) &&
+        (machine_class != VICE_MACHINE_PLUS4) &&
+        (machine_class != VICE_MACHINE_PET) &&
+        (machine_class != VICE_MACHINE_CBM5x0) &&
+        (machine_class != VICE_MACHINE_CBM6x0)) {
+        if (cmdline_register_options(stereo_cmdline_options) < 0) {
+            return -1;
+        }
+    }
     return cmdline_register_options(common_cmdline_options);
 }
