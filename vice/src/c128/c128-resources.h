@@ -30,11 +30,12 @@
 extern int c128_resources_init(void);
 extern void c128_resources_shutdown(void);
 
-extern int emu_id_enabled;
 extern int ieee488_enabled;
 extern int reu_enabled;
 extern int acia_de_enabled;
 extern int acia_d7_enabled;
 extern int c128_full_banks;
+extern int cia1_model;
+extern int cia2_model;
 
 #endif

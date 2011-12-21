@@ -33,6 +33,18 @@
 #include "machine.h"
 #include "translate.h"
 
+/* TODO
+int set_cia_model(const char *value, void *extra_param)
+{
+    int model;
+
+    model = atoi(value);
+    c128_resources_update_cia_models(model);
+
+    return 0;
+}
+*/
+
 static const cmdline_option_t cmdline_options[] = {
     { "-pal", SET_RESOURCE, 0,
       NULL, NULL, "MachineVideoStandard", (void *)MACHINE_SYNC_PAL,
@@ -163,6 +175,23 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
       NULL, NULL },
 #endif
+/* TODO
+    { "-ciamodel", CALL_FUNCTION, 1,
+      set_cia_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODEL, IDCLS_SET_BOTH_CIA_MODELS,
+      NULL, NULL },
+*/
+    { "-cia1model", SET_RESOURCE, 1,
+      NULL, NULL, "CIA1Model", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODEL, IDCLS_SET_CIA1_MODEL,
+      NULL, NULL },
+    { "-cia2model", SET_RESOURCE, 1,
+      NULL, NULL, "CIA2Model", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODEL, IDCLS_SET_CIA2_MODEL,
+      NULL, NULL },
     { NULL }
 };
 

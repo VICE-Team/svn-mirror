@@ -31,8 +31,10 @@
 
 #include "c128-resources.h"
 #include "c128.h"
+#include "c64cia.h"
 #include "c128mem.h"
 #include "c128rom.h"
+#include "cia.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -107,9 +109,8 @@ static char *kernal64_rom_name = NULL;
 int c128_full_banks;
 
 /* Flag: Emulate new CIA (6526A)? */
-/* FIXME not switchable yet */
-int cia1_model = 0;
-int cia2_model = 0;
+int cia1_model = CIA_MODEL_6526A;
+int cia2_model = CIA_MODEL_6526A;
 
 static int set_c128_full_banks(int val, void *param)
 {
@@ -367,6 +368,46 @@ static int set_basic64_rom_name(const char *val, void *param)
     return c128rom_load_basic64(basic64_rom_name);
 }
 
+static int set_cia1_model(int val, void *param)
+{
+    int old_cia_model = cia1_model;
+
+    switch (val) {
+        case CIA_MODEL_6526:
+        case CIA_MODEL_6526A:
+            cia1_model = val;
+            break;
+        default:
+            return -1;
+    }
+
+    if (old_cia_model != cia1_model) {
+        cia1_update_model();
+    }
+
+    return 0;
+}
+
+static int set_cia2_model(int val, void *param)
+{
+    int old_cia_model = cia2_model;
+
+    switch (val) {
+        case CIA_MODEL_6526:
+        case CIA_MODEL_6526A:
+            cia2_model = val;
+            break;
+        default:
+            return -1;
+    }
+
+    if (old_cia_model != cia2_model) {
+        cia2_update_model();
+    }
+
+    return 0;
+}
+
 static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
@@ -480,6 +521,10 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[13], set_romset_firmware, (void *)13 },
     { "RomsetBasic64Name", 0, RES_EVENT_NO, NULL,
       &romset_firmware[14], set_romset_firmware, (void *)14 },
+    { "CIA1Model", CIA_MODEL_6526A, RES_EVENT_SAME, NULL,
+      &cia1_model, set_cia1_model, NULL },
+    { "CIA2Model", CIA_MODEL_6526A, RES_EVENT_SAME, NULL,
+      &cia2_model, set_cia2_model, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_C128_SYM, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

@@ -493,8 +493,6 @@ static ui_menu_entry_t machine_type_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(Go64Mode)
 
-/* FIXME: enable resources in c128 port */
-#if 0
 UI_MENU_DEFINE_RADIO(CIA1Model)
 static ui_menu_entry_t set_cia1model_submenu[] = {
     { N_("6526 (old)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
@@ -512,7 +510,6 @@ static ui_menu_entry_t set_cia2model_submenu[] = {
       (ui_callback_data_t)1, NULL },
     { NULL }
 };
-#endif
 
 ui_menu_entry_t c128_model_submenu[] = {
     { N_("Machine type"), UI_MENU_TYPE_NORMAL,
@@ -523,13 +520,10 @@ ui_menu_entry_t c128_model_submenu[] = {
       NULL, NULL, sid_model_submenu },
     { N_("VDC model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_vdcmodel_submenu },
-/* FIXME: enable resources in c128 port */
-#if 0
     { N_("CIA 1 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_cia1model_submenu },
     { N_("CIA 2 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_cia2model_submenu },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Always switch to C64 mode on reset"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Go64Mode, NULL, NULL },
