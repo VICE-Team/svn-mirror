@@ -231,6 +231,11 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_P_NAME, IDCLS_SPECIFY_BDE_POS_KEYMAP_NAME,
       NULL, NULL },
 #endif
+    { "-cia1model", SET_RESOURCE, 1,
+      NULL, NULL, "CIA1Model", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODEL, IDCLS_SET_CIA1_MODEL,
+      NULL, NULL },
     { NULL }
 };
 

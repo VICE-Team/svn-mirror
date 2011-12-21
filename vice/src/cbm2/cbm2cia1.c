@@ -35,6 +35,7 @@
 
 #include <stdio.h>
 
+#include "cbm2-resources.h"
 #include "cbm2.h"
 #include "cbm2cia.h"
 #include "cia.h"
@@ -82,6 +83,13 @@ BYTE cia1_read(WORD addr)
 BYTE cia1_peek(WORD addr)
 {
     return ciacore_peek(machine_context.cia1, addr);
+}
+
+void cia1_update_model(void)
+{
+    if (machine_context.cia1) {
+        machine_context.cia1->model = cia1_model;
+    }
 }
 
 static void cia_set_int_clk(cia_context_t *cia_context, int value, CLOCK clk)
@@ -239,9 +247,10 @@ void cia1_setup_context(machine_context_t *machine_context)
     } else {
         cia1_set_timing(cia, C610_NTSC_CYCLES_PER_RFSH);
     }
-    cia->model = CIA_MODEL_6526;
 
     ciacore_setup_context(cia);
+
+    cia->model = cia1_model;
 
     cia->debugFlag = 0;
     cia->irq_line = IK_IRQ;

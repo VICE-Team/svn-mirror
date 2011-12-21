@@ -259,6 +259,15 @@ static ui_menu_entry_t cbm2_keybd_submenu[] = {
 
 #endif
 
+UI_MENU_DEFINE_RADIO(CIA1Model)
+static ui_menu_entry_t set_cia1model_submenu[] = {
+    { N_("6526 (old)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)0, NULL },
+    { N_("6526A (new)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_CIA1Model,
+      (ui_callback_data_t)1, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(Ram08)
 UI_MENU_DEFINE_TOGGLE(Ram1)
 UI_MENU_DEFINE_TOGGLE(Ram2)
@@ -274,6 +283,8 @@ static ui_menu_entry_t cbm5x0_model_settings_submenu[] = {
       NULL, NULL, set_viciimodel_submenu },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_model_submenu },
+    { N_("CIA model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_cia1model_submenu },
     { N_("Memory size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_memsize_submenu },
     { N_("Hardwired switches"), UI_MENU_TYPE_NORMAL,
@@ -305,6 +316,8 @@ static ui_menu_entry_t cbm6x0_model_settings_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SID model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_model_submenu },
+    { N_("CIA 1 model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_cia1model_submenu },
     { N_("Memory size"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_memsize_submenu },
     { N_("Hardwired switches"), UI_MENU_TYPE_NORMAL,
@@ -331,7 +344,7 @@ static ui_menu_entry_t cbm6x0_model_settings_submenu[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-
+/*
 UI_MENU_DEFINE_RADIO(SidStereoAddressStart)
 
 static ui_menu_entry_t set_sid_stereo_address_daxx_submenu[] = {
@@ -353,14 +366,17 @@ static ui_menu_entry_t set_sid_stereo_address_daxx_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(SidStereo)
+*/
 UI_MENU_DEFINE_TOGGLE(SidFilters)
 
 static ui_menu_entry_t sid_submenu[] = {
+/*
     { N_("Second SID"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidStereo, NULL, NULL },
     { N_("Second SID base address"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_sid_stereo_address_daxx_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
+*/
     { N_("SID filters"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SidFilters, NULL, NULL },
 #ifdef HAVE_RESID

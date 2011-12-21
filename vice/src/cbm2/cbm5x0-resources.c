@@ -33,9 +33,11 @@
 #include "archdep.h"
 #include "cbm2-resources.h"
 #include "cbm2.h"
+#include "cbm2cia.h"
 #include "cbm2mem.h"
 #include "cbm2rom.h"
 #include "cbm2tpi.h"
+#include "cia.h"
 #include "kbd.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -67,6 +69,8 @@ static char *basic_rom_name = NULL;
 static const BYTE model_port_mask[] = { 0xc0, 0x40, 0x00 };
 
 int cbm2_model_line = 0;
+
+int cia1_model = CIA_MODEL_6526;
 
 static int set_cbm2_model_line(int val, void *param)
 {
@@ -127,6 +131,26 @@ static int set_basic_rom_name(const char *val, void *param)
         return 0;
 
     return cbm2rom_load_basic(basic_rom_name);
+}
+
+static int set_cia1_model(int val, void *param)
+{
+    int old_cia_model = cia1_model;
+
+    switch (val) {
+        case CIA_MODEL_6526:
+        case CIA_MODEL_6526A:
+            cia1_model = val;
+            break;
+        default:
+            return -1;
+    }
+
+    if (old_cia_model != cia1_model) {
+        cia1_update_model();
+    }
+
+    return 0;
 }
 
 static int cbm5x0_set_sync_factor(int val, void *param)
@@ -216,6 +240,8 @@ static const resource_int_t resources_int[] = {
       &romset_firmware[5], set_romset_firmware, (void *)5 },
     { "RomsetCart6Name", 0, RES_EVENT_NO, NULL,
       &romset_firmware[6], set_romset_firmware, (void *)6 },
+    { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
+      &cia1_model, set_cia1_model, NULL },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_CBM2_DEFAULT, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

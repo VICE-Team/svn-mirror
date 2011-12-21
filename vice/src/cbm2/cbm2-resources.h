@@ -39,6 +39,7 @@ extern int cartC_ram;
 
 extern int cbm2_model_line;
 extern int ramsize;
+extern int cia1_model;
 
 #endif
 
