@@ -265,13 +265,13 @@ int video_canvas_refresh_dx9(video_canvas_t *canvas, unsigned int xs, unsigned i
     D3DLOCKED_RECT lockedrect;
 
     if (canvas->videoconfig->doublesizex) {
-        xi *= 2;
-        w *= 2;
+        xi *= (canvas->videoconfig->doublesizex + 1);
+        w *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        yi *= 2;
-        h *= 2;
+        yi *= (canvas->videoconfig->doublesizey + 1);
+        h *= (canvas->videoconfig->doublesizey + 1);
     }
     
     if (S_OK != video_canvas_prepare_for_update(canvas)) {

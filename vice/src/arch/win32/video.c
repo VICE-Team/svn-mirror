@@ -232,11 +232,11 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     canvas->height = *height;
 
     if (canvas->videoconfig->doublesizex) {
-        canvas->width *= 2;
+        canvas->width *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        canvas->height *= 2;
+        canvas->height *= (canvas->videoconfig->doublesizey + 1);
     }
 
     ui_open_canvas_window(canvas);
@@ -331,11 +331,11 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
     int refreshrate;
 
     if (canvas->videoconfig->doublesizex) {
-        width *= 2;
+        width *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        height *= 2;
+        height *= (canvas->videoconfig->doublesizey + 1);
     }
 
     canvas->width = width;

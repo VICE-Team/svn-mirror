@@ -97,12 +97,12 @@ void win32_lightpen_update(void)
 
         /* double x size */
         if (lp_canvas->videoconfig->doublesizex) {
-            x /= 2;
+            x /= (lp_canvas->videoconfig->doublesizex + 1);
         }
 
         /* double y size */
         if (lp_canvas->videoconfig->doublesizey) {
-            y /= 2;
+            y /= (lp_canvas->videoconfig->doublesizey + 1);
         }
     }
 
