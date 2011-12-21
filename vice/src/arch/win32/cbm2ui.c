@@ -57,6 +57,7 @@ static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
 static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_CRTCDOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
+    { "CrtcStretchVertical", IDM_TOGGLE_CRTCDOUBLEVERTICAL },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
     { NULL, 0 }
 };
@@ -223,6 +224,7 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_TOGGLE_SOUND, IDS_MI_TOGGLE_SOUND },
     { IDM_TOGGLE_CRTCDOUBLESIZE, IDS_MI_TOGGLE_DOUBLESIZE },
     { IDM_TOGGLE_CRTCDOUBLESCAN, IDS_MI_TOGGLE_DOUBLESCAN },
+    { IDM_TOGGLE_CRTCDOUBLEVERTICAL, IDS_MI_TOGGLE_DOUBLEVERTICAL },
     { IDM_TOGGLE_DRIVE_TRUE_EMULATION, IDS_MI_DRIVE_TRUE_EMULATION },
     { IDM_TOGGLE_AUTOSTART_HANDLE_TDE, IDS_MI_AUTOSTART_HANDLE_TDE },
     { IDM_TOGGLE_CRTCVIDEOCACHE, IDS_MI_TOGGLE_VIDEOCACHE },
