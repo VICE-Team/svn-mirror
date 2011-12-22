@@ -538,6 +538,12 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
+void c128_resources_update_cia_models(int model)
+{
+    set_cia1_model(model, NULL);
+    set_cia2_model(model, NULL);
+}
+
 int c128_resources_init(void)
 {
     if (resources_register_string(resources_string) < 0) {

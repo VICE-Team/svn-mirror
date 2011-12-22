@@ -63,7 +63,7 @@ static int set_vdc_revision(int val, void *param)
 
     revision = (unsigned int)val;
 
-    if (revision > 2) {
+    if (revision >= VDC_NUM_REVISIONS) {
         return -1;
     }
 
@@ -105,7 +105,7 @@ static const resource_int_t resources_int[] =
 {
     { "VDC64KB", 1, RES_EVENT_SAME, NULL,
       &vdc_resources.vdc_64kb_expansion, set_64kb_expansion, NULL },
-    { "VDCRevision", 2, RES_EVENT_SAME, NULL,
+    { "VDCRevision", VDC_REVISION_2, RES_EVENT_SAME, NULL,
       (int *)&vdc.revision, set_vdc_revision, NULL },
     { "VDCStretchVertical", 1, RES_EVENT_SAME, NULL,
       &vdc_resources.stretchy, set_stretch, NULL },

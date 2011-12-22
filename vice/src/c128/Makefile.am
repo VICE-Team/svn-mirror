@@ -41,6 +41,8 @@ libc128_a_SOURCES = \
 	c128memsnapshot.h \
 	c128mmu.c \
 	c128mmu.h \
+	c128model.c \
+	c128model.h \
 	c128rom.c \
 	c128rom.h \
 	c128romset.c \

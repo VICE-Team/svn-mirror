@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "c128.h"
+#include "c128model.h"
 #include "cartridge.h"
 #include "debug.h"
 #include "icon.h"
@@ -276,12 +277,6 @@ static ui_menu_entry_t sid_submenu[] = {
     { NULL },
 };
 
-static ui_menu_entry_t sid_options_submenu[] = {
-    { N_("SID model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sid_model_submenu },
-    { NULL }
-};
-
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
@@ -471,6 +466,44 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 /* ------------------------------------------------------------------------- */
 
+static UI_CALLBACK(radio_c128model)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        c128model_set(selected);
+        ui_update_menus();
+    } else {
+        model = c128model_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
+
+static ui_menu_entry_t set_c128_model_submenu[] = {
+    { "C128 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c128model,
+      (ui_callback_data_t)C128MODEL_C128_PAL, NULL },
+    { "C128DCR PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c128model,
+      (ui_callback_data_t)C128MODEL_C128DCR_PAL, NULL },
+    { "C128 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c128model,
+      (ui_callback_data_t)C128MODEL_C128_NTSC, NULL },
+    { "C128DCR NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c128model,
+      (ui_callback_data_t)C128MODEL_C128DCR_NTSC, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t model_options_submenu[] = {
+    { N_("C128 model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_c128_model_submenu },
+    { NULL }
+};
+
 UI_MENU_DEFINE_RADIO(MachineType)
 
 static ui_menu_entry_t machine_type_submenu[] = {
@@ -512,6 +545,9 @@ static ui_menu_entry_t set_cia2model_submenu[] = {
 };
 
 ui_menu_entry_t c128_model_submenu[] = {
+    { N_("C128 model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_c128_model_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Machine type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, machine_type_submenu },
     { N_("VIC-II model"), UI_MENU_TYPE_NORMAL,
@@ -666,7 +702,7 @@ static ui_menu_entry_t c128_options_menu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_options_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, sid_options_submenu },
+      NULL, NULL, model_options_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, io_extensions_submenu },
     { NULL }

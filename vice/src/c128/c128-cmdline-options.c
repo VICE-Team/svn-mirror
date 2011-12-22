@@ -27,13 +27,16 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "c128-cmdline-options.h"
+#include "c128-resources.h"
+#include "c128model.h"
 #include "cmdline.h"
 #include "machine.h"
 #include "translate.h"
 
-/* TODO
 int set_cia_model(const char *value, void *extra_param)
 {
     int model;
@@ -43,7 +46,44 @@ int set_cia_model(const char *value, void *extra_param)
 
     return 0;
 }
-*/
+
+struct model_s {
+    const char *name;
+    int model;
+};
+
+static struct model_s model_match[] = {
+    { "c128", C128MODEL_C128_PAL },
+    { "c128dcr", C128MODEL_C128DCR_PAL },
+    { "pal", C128MODEL_C128_PAL },
+    { "ntsc", C128MODEL_C128_NTSC },
+    { NULL, C128MODEL_UNKNOWN }
+};
+
+static int set_c128_model(const char *param, void *extra_param)
+{
+    int model = C128MODEL_UNKNOWN;
+    int i = 0;
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(model_match[i].name, param) == 0) {
+            model = model_match[i].model;
+        }
+        i++;
+    } while ((model == C128MODEL_UNKNOWN) && (model_match[i].name != NULL));
+
+    if (model == C128MODEL_UNKNOWN) {
+        return -1;
+    }
+
+    c128model_set(model);
+
+    return 0;
+}
 
 static const cmdline_option_t cmdline_options[] = {
     { "-pal", SET_RESOURCE, 0,
@@ -175,13 +215,11 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
       NULL, NULL },
 #endif
-/* TODO
     { "-ciamodel", CALL_FUNCTION, 1,
       set_cia_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODEL, IDCLS_SET_BOTH_CIA_MODELS,
       NULL, NULL },
-*/
     { "-cia1model", SET_RESOURCE, 1,
       NULL, NULL, "CIA1Model", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
@@ -191,6 +229,11 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "CIA2Model", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODEL, IDCLS_SET_CIA2_MODEL,
+      NULL, NULL },
+   { "-model", CALL_FUNCTION, 1,
+      set_c128_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODEL, IDCLS_SET_C128_MODEL,
       NULL, NULL },
     { NULL }
 };

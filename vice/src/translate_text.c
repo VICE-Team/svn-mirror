@@ -4121,7 +4121,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_C64_MODEL_DA, "Vælg C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
 /* de */ {IDCLS_SET_C64_MODEL_DE, "Wähle C64 Modell (c64/c64c/c64alt/c64ntsc/c64cntsc/c64oldntsc/drean)"},
-/* es */ {IDCLS_SET_C64_MODEL_ES, "Seleccionar modelo C64 (c64/c64c/c64antiguo, ntsc/nuevontsc/antiguontsc, drean)"},
+/* es */ {IDCLS_SET_C64_MODEL_ES, "Seleccionar modelo C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
 /* fr */ {IDCLS_SET_C64_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_C64_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_C64_MODEL_IT, "Imposta modello C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
@@ -4130,7 +4130,24 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_C64_MODEL_PL, "Okre¶l model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
 /* ru */ {IDCLS_SET_C64_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_C64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
-/* tr */ {IDCLS_SET_C64_MODEL_TR, "C64 modelini belirle (c64/c64c/c64eski, ntsc/yenintsc/eskintsc, drean)"},
+/* tr */ {IDCLS_SET_C64_MODEL_TR, "C64 modelini belirle (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
+#endif
+
+/* c128/c128-cmdline-options.c */
+/* en */ {IDCLS_SET_C128_MODEL,    N_("Set C128 model (c128/c128dcr, pal/ntsc)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_C128_MODEL_DA, "Vælg C128 model (c128/c128dcr, pal/ntsc)"},
+/* de */ {IDCLS_SET_C128_MODEL_DE, "Wähle C128 Modell (c128/c128dcr, pal/ntsc)"},
+/* es */ {IDCLS_SET_C128_MODEL_ES, "Seleccionar modelo C128 (c128/c128dcr, pal/ntsc)"},
+/* fr */ {IDCLS_SET_C128_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_C128_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_C128_MODEL_IT, "Imposta modello C128 (c128/c128dcr, pal/ntsc)"},
+/* ko */ {IDCLS_SET_C128_MODEL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_C128_MODEL_NL, "Zet C128 model (c128/c128dcr, pal/ntsc)"},
+/* pl */ {IDCLS_SET_C128_MODEL_PL, "Okre¶l model C128 (c128/c128dcr, pal/ntsc)"},
+/* ru */ {IDCLS_SET_C128_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_C128_MODEL_SV, "Välj C128-modell (c128/c128dcr, pal/ntsc)"},
+/* tr */ {IDCLS_SET_C128_MODEL_TR, "C128 modelini belirle (c128/c128dcr, pal/ntsc)"},
 #endif
 
 /* plus4/plus4-cmdline-options.c */

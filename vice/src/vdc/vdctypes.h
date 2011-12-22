@@ -88,6 +88,12 @@ typedef struct vdc_light_pen_s vdc_light_pen_t;
 struct alarm_s;
 struct video_chip_cap_s;
 
+#define VDC_REVISION_0  0 /* 8563 R7A */
+#define VDC_REVISION_1  1 /* 8563 R8/R9 */
+#define VDC_REVISION_2  2 /* 8568 */
+
+#define VDC_NUM_REVISIONS 3
+
 struct vdc_s {
     /* Flag: Are we initialized?  */
     int initialized;            /* = 0; */

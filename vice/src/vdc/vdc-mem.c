@@ -337,7 +337,7 @@ void vdc_store(WORD addr, BYTE value)
             /* Horizontal smooth scroll */
 #ifdef ALLOW_UNALIGNED_ACCESS
             /* Smooth scroll behaviour differs between VDC versions */
-            if (vdc.revision == 0) {
+            if (vdc.revision == VDC_REVISION_0) {
                 /* v0 VDC, incrementing HSS moves screen to the left, so xsmooth should decrease */
                 vdc.xsmooth = ((vdc.regs[22] >> 4) - (vdc.regs[25] & 0x0F)) & 0x0F;
             } else {
