@@ -134,6 +134,10 @@ SOURCE=..\..\c128\c128memsnapshot.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\c128\c128model.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\c128\c128mmu.c
 # End Source File
 # Begin Source File
