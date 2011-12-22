@@ -170,7 +170,6 @@ static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 static char *fixedfontname="CBM 10";
 static PangoFontDescription *fixed_font_desc;
 static int have_cbm_font = 0;
-static video_canvas_t *ui_cached_video_canvas;
 static int statustext_display_time = 0;
 static int popped_up_count = 0;
 
@@ -178,7 +177,6 @@ static int popped_up_count = 0;
 static GtkWidget *left_menu, *right_menu;
 
 /* Toplevel widget. */
-GtkWidget * _ui_top_level = NULL;
 static GdkGC *app_gc = NULL;
 
 /* Our colormap. */
@@ -230,6 +228,7 @@ typedef struct {
     drive_status_widget drive_status[NUM_DRIVES];
     tape_status_widget tape_status;
     GdkGeometry geo;
+    video_canvas_t *canvas;
 } app_shell_type;
 
 static app_shell_type app_shells[MAX_APP_SHELLS];
@@ -268,6 +267,70 @@ static void setup_aspect(video_canvas_t *canvas);
 
 /* ------------------------------------------------------------------------- */
 
+static int active_shell = 0;
+static void set_active_shell(int shell)
+{
+    DBG(("set_active_shell (%d)", shell));
+    active_shell = shell;
+}
+static int get_active_shell(void)
+{
+    return active_shell;
+}
+GtkWidget *get_active_toplevel(void)
+{
+    int key = get_active_shell();
+    if (app_shells[key].shell) {
+        return gtk_widget_get_toplevel(app_shells[key].shell);
+    }
+    return NULL;
+}
+
+static video_canvas_t *get_active_canvas(void)
+{
+    int key = get_active_shell();
+    return app_shells[key].canvas;
+}
+
+static char windowres[4][14] = { "Window0Xpos", "Window0Ypos", "Window0Width", "Window0height" };
+
+static void set_window_resources(video_canvas_t *canvas, int x, int y, int w, int h)
+{
+    int i;
+
+    if ((canvas == NULL) || (x < 0) || (y < 0) || (w < WINDOW_MINW) || (h < WINDOW_MINH)) {
+        return;
+    }
+
+    for (i = 0; i < 4; i++) {
+        windowres[i][6] = '0' + canvas->app_shell;
+    }
+    resources_set_int(windowres[0], x);
+    resources_set_int(windowres[1], y);
+    resources_set_int(windowres[2], w);
+    resources_set_int(windowres[3], h);
+}
+
+static void get_window_resources(video_canvas_t *canvas, int *x, int *y, int *w, int *h)
+{
+    int i;
+
+    if ((canvas == NULL) || (x == NULL) || (y == NULL) || (w == NULL) || (h == NULL)) {
+        return;
+    }
+
+    for (i = 0; i < 4; i++) {
+        windowres[i][6] = '0' + canvas->app_shell;
+    }
+    resources_get_int(windowres[0], x);
+    resources_get_int(windowres[1], y);
+    resources_get_int(windowres[2], w);
+    resources_get_int(windowres[3], h);
+    DBG(("get_window_resources x:%d y:%d w:%d h:%d", *x, *y, *w, *h));
+}
+
+/* ------------------------------------------------------------------------- */
+
 /*
     grab pointer and keyboard, set mouse pointer shape
 
@@ -276,22 +339,22 @@ static void setup_aspect(video_canvas_t *canvas);
 static int mouse_grabbed = 0;
 static void mouse_cursor_grab(int grab, GdkCursor *cursor)
 {
+    GdkWindow *window = get_active_toplevel()->window;
     if (mouse_grabbed) {
         gdk_keyboard_ungrab(GDK_CURRENT_TIME);
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
         mouse_grabbed = 0;
     }
-    if (grab) {
-        gdk_keyboard_grab(_ui_top_level->window, 1, GDK_CURRENT_TIME);
-        /* XXX check this -- latter _ui_top_level->window used to be
-         * canvas->emuwindow->window... */
-        gdk_pointer_grab(_ui_top_level->window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, _ui_top_level->window, cursor, GDK_CURRENT_TIME);
+    if ((window) && (grab)) {
+        gdk_keyboard_grab(window, 1, GDK_CURRENT_TIME);
+        gdk_pointer_grab(window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, window, cursor, GDK_CURRENT_TIME);
         mouse_grabbed = 1;
     }
 }
 
 void ui_check_mouse_cursor(void)
 {
+    video_canvas_t *canvas = get_active_canvas();
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled) {
         if (_mouse_enabled) {
@@ -304,19 +367,19 @@ void ui_check_mouse_cursor(void)
         return;
     }
 #endif
-    if (ui_cached_video_canvas == NULL) {
+    if (canvas == NULL) {
         return;
     }
 
     if (_mouse_enabled) {
-        if (ui_cached_video_canvas->videoconfig->doublesizex) {
-            mouse_accelx = 4 / (ui_cached_video_canvas->videoconfig->doublesizex + 1);
+        if (canvas->videoconfig->doublesizex) {
+            mouse_accelx = 4 / (canvas->videoconfig->doublesizex + 1);
         } else {
             mouse_accelx = 4;
         }
 
-        if (ui_cached_video_canvas->videoconfig->doublesizey) {
-            mouse_accely = 4 / (ui_cached_video_canvas->videoconfig->doublesizey + 1);
+        if (canvas->videoconfig->doublesizey) {
+            mouse_accely = 4 / (canvas->videoconfig->doublesizey + 1);
         } else {
             mouse_accely = 4;
         }
@@ -413,7 +476,9 @@ gboolean delete_event(GtkWidget *w, GdkEvent *e, gpointer data)
 static gint mouse_posx, mouse_posy;
 static gint mouse_lasteventx, mouse_lasteventy;
 static gint mouse_warped = 0;
-#define MOUSE_WRAP_MARGIN  40
+static gint mouse_warpx = 0;
+static gint mouse_warpy = 0;
+#define MOUSE_WRAP_MARGIN  50
 
 static gfloat get_aspect(video_canvas_t *canvas);
 
@@ -444,76 +509,111 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
         GdkEventMotion *mevent = (GdkEventMotion*)event;
         if (_mouse_enabled) {
             /* handle pointer motion events for mouse emulation */
-            if (mouse_warped) {
+            gint x=0, y=0, w=0, h=0, warp=0;
+            gint xoff=0, yoff=0;
+            gint ptrx, ptry;
+            GdkDisplay *display = NULL;
+            GdkScreen *screen = NULL;
+            gfloat taspect;
+
+            /* get default display and screen */
+            display = gdk_display_get_default ();
+            screen = gdk_display_get_default_screen (display);
+
+            /* get cursor position */
+            gdk_display_get_pointer (display, NULL, &x, &y, NULL);
+
+            ptrx = (int)mevent->x;
+            ptry = (int)mevent->y;
+            xoff = x - ptrx;
+            yoff = y - ptry;
+  
+            w = canvas->geometry->screen_size.width;
+            h = appshell->shell->allocation.height -
+                (appshell->topmenu->allocation.height + 
+                 appshell->status_bar->allocation.height);
+
+            if (canvas->videoconfig->doublesizex) {
+                w *= (canvas->videoconfig->doublesizex + 1);
+            }
+            taspect = get_aspect(canvas);
+            if (taspect > 0.0f) {
+                w = ((float)w) * taspect;
+            }
+
+            /* DBG(("ptrx:%d ptry:%d x:%d y:%d w:%d h:%d", ptrx, ptry, x, y, w, h)); */
+
+            if (mouse_warpx == 1) {
+                /* from left to right */
+                if ((ptrx > mouse_lasteventx) && (ptrx >= (w - (MOUSE_WRAP_MARGIN * 2))) && (ptrx <= (w - MOUSE_WRAP_MARGIN))) {
+                    mouse_warpx = 0;
+                    mouse_lasteventx = ptrx;
+                }
+            } else if (mouse_warpx == 2) {
+                /* from right to left */
+                if ((ptrx < mouse_lasteventx) && (ptrx <= (MOUSE_WRAP_MARGIN * 2)) && (ptrx >= MOUSE_WRAP_MARGIN)) {
+                    mouse_warpx = 0;
+                    mouse_lasteventx = ptrx;
+                }
+            }
+
+            if (mouse_warpy == 1) {
+                /* from top to bottom */
+                if ((ptry > mouse_lasteventy) && (ptry >= (h - (MOUSE_WRAP_MARGIN * 2))) && (ptry <= (h - MOUSE_WRAP_MARGIN))) {
+                    mouse_warpy = 0;
+                    mouse_lasteventy = ptry;
+                }
+            } else if (mouse_warpy == 2) {
+                /* from bottom to top */
+                if ((ptry < mouse_lasteventy) && (ptry <= (MOUSE_WRAP_MARGIN * 2)) && (ptry >= MOUSE_WRAP_MARGIN)) {
+                    mouse_warpy = 0;
+                    mouse_lasteventy = ptry;
+                }
+            }
+
+            if (mouse_warped || mouse_warpx || mouse_warpy) {
                 /* ignore this event, its the result of us having moved the pointer */
-                mouse_warped = 0;
-                /* printf("warped!\n"); */
+                /* DBG(("warped!:%d/%d/%d ptrx:%d ptry:%d lastx:%d lasty:%d", mouse_warped, mouse_warpx, mouse_warpy, ptrx, ptry, mouse_lasteventx, mouse_lasteventy)); */
+                if (mouse_warped) {
+                    --mouse_warped;
+                }
             } else {
-                gint x=0, y=0, w=0, h=0, warp=0;
-                gint ptrx, ptry;
-                GdkDisplay *display = NULL;
-                GdkScreen *screen = NULL;
-                gfloat taspect;
-
-                /* get default display and screen */
-                display = gdk_display_get_default ();
-                screen = gdk_display_get_default_screen (display);
-
-                /* get cursor position */
-                gdk_display_get_pointer (display, NULL, &x, &y, NULL);
-
-                ptrx = (int)mevent->x;
-                ptry = (int)mevent->y;
-                ptry += appshell->topmenu->allocation.height;
-
-                w = canvas->geometry->screen_size.width;
-                h = canvas->geometry->screen_size.height;
-
-                if (canvas->videoconfig->doublesizex) {
-                    w *= (canvas->videoconfig->doublesizex + 1);
-                }
-                if (canvas->videoconfig->doublesizey) {
-                    h *= (canvas->videoconfig->doublesizey + 1);
-                }
-
-                taspect = get_aspect(canvas);
-                if (taspect > 0.0f) {
-                    w = ((float)w) * taspect;
-                }
 
                 if (ptrx < MOUSE_WRAP_MARGIN) {
-                    x = mouse_lasteventx = w - (MOUSE_WRAP_MARGIN + 10);
+                    /* from left to right */
+                    mouse_lasteventx = ptrx;
+                    ptrx = w - (MOUSE_WRAP_MARGIN + 10);
+                    mouse_warpx = 1;
                     warp = 1;
                 }
                 else if (ptrx > (w - MOUSE_WRAP_MARGIN)) {
-                    x = mouse_lasteventx = (MOUSE_WRAP_MARGIN + 10);
+                    /* from right to left */
+                    mouse_lasteventx = ptrx;
+                    ptrx = (MOUSE_WRAP_MARGIN + 10);
+                    mouse_warpx = 2;
                     warp = 1;
                 }
 
-                h -= (appshell->topmenu->allocation.height + appshell->status_bar->allocation.height);
-
-                if (ptry < (appshell->topmenu->allocation.height + MOUSE_WRAP_MARGIN)) {
-#ifdef HAVE_FULLSCREEN
-                    if (canvas->fullscreenconfig->enable) {
-                        mouse_lasteventy = h - ((MOUSE_WRAP_MARGIN + 10) *2); /* FIXME */
-                    } else {
-#endif
-                        mouse_lasteventy = h - (MOUSE_WRAP_MARGIN + 10);
-#ifdef HAVE_FULLSCREEN
-                    }
-#endif
-                    y = mouse_lasteventy + appshell->topmenu->allocation.height;
+                if (ptry < (MOUSE_WRAP_MARGIN)) {
+                    /* from top to bottom */
+                    mouse_lasteventy = ptry;
+                    ptry = (h - (MOUSE_WRAP_MARGIN + 10));
+                    mouse_warpy = 1;
                     warp = 1;
                 } else if (ptry > (h - MOUSE_WRAP_MARGIN)) {
-                    mouse_lasteventy = (MOUSE_WRAP_MARGIN + 10) + appshell->topmenu->allocation.height;
-                    y = mouse_lasteventy + appshell->topmenu->allocation.height;
+                    /* from bottom to top */
+                    mouse_lasteventy = ptry;
+                    ptry = (MOUSE_WRAP_MARGIN + 10);
+                    mouse_warpy = 2;
                     warp = 1;
                 }
+                /* DBG(("warp:%d ptrx:%d ptry:%d x:%d y:%d w:%d h:%d", warp, ptrx, ptry, x, y, w, h)); */
 
                 if (warp) {
                     /* set new cusor position */
-                    mouse_warped = 1;
-                    gdk_display_warp_pointer (display, screen, x, y);
+                    ++mouse_warped;
+                    /* DBG(("warp to: x:%d y:%d", ptrx, ptry)); */
+                    gdk_display_warp_pointer (display, screen, ptrx + xoff, ptry + yoff);
                 } else {
                     mouse_posx += ptrx - mouse_lasteventx;
                     mouse_posy += ptry - mouse_lasteventy;
@@ -697,6 +797,7 @@ static void statusbar_setstatustext(const char *t)
 static GtkWidget *ui_create_status_bar(GtkWidget *pane)
 {
     /* Create the status bar on the bottom.  */
+    GdkWindow *window = get_active_toplevel()->window;
     GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp, *pal_ctrl_checkbox, *status_bar;
     int i;
     app_shell_type *as;
@@ -833,21 +934,21 @@ static GtkWidget *ui_create_status_bar(GtkWidget *pane)
             gtk_widget_show(as->drive_status[i].track_label);      
 
             /* Single Led */
-            as->drive_status[i].led_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH, LED_HEIGHT, -1);
+            as->drive_status[i].led_pixmap = gdk_pixmap_new(window, LED_WIDTH, LED_HEIGHT, -1);
             as->drive_status[i].led = gtk_image_new_from_pixmap(as->drive_status[i].led_pixmap, NULL);
             gtk_widget_set_size_request(as->drive_status[i].led, LED_WIDTH, LED_HEIGHT);
             gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led, FALSE, FALSE, 4);
             gtk_widget_show(as->drive_status[i].led);
 
             /* Led1 for double Led drive */
-            as->drive_status[i].led1_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH / 2, LED_HEIGHT, -1);
+            as->drive_status[i].led1_pixmap = gdk_pixmap_new(window, LED_WIDTH / 2, LED_HEIGHT, -1);
             as->drive_status[i].led1 = gtk_image_new_from_pixmap(as->drive_status[i].led1_pixmap, NULL);
             gtk_widget_set_size_request(as->drive_status[i].led1, LED_WIDTH / 2, LED_HEIGHT);
             gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led1, FALSE, FALSE, 1);
             gtk_widget_show(as->drive_status[i].led1);
 
             /* Led2 for double Led drive */
-            as->drive_status[i].led2_pixmap = gdk_pixmap_new(_ui_top_level->window, LED_WIDTH / 2, LED_HEIGHT, -1);
+            as->drive_status[i].led2_pixmap = gdk_pixmap_new(window, LED_WIDTH / 2, LED_HEIGHT, -1);
             as->drive_status[i].led2 = gtk_image_new_from_pixmap(as->drive_status[i].led2_pixmap, NULL);
             gtk_widget_set_size_request(as->drive_status[i].led2, LED_WIDTH / 2, LED_HEIGHT);
             gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led2, FALSE, FALSE, 1);
@@ -886,7 +987,7 @@ static GtkWidget *ui_create_status_bar(GtkWidget *pane)
         gtk_widget_show(as->tape_status.label);
 
         /* Tape control */
-        as->tape_status.control_pixmap = gdk_pixmap_new(_ui_top_level->window, CTRL_WIDTH, CTRL_HEIGHT, -1);
+        as->tape_status.control_pixmap = gdk_pixmap_new(window, CTRL_WIDTH, CTRL_HEIGHT, -1);
         as->tape_status.control = gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
         gtk_widget_set_size_request(as->tape_status.control, CTRL_WIDTH, CTRL_HEIGHT);
         gtk_box_pack_start(GTK_BOX(as->tape_status.box), as->tape_status.control, FALSE, FALSE, 4);
@@ -934,8 +1035,9 @@ Display *x11ui_get_display_ptr(void)
 
 Window x11ui_get_X11_window(void)
 {
-    if (_ui_top_level->window) {
-        return GDK_WINDOW_XID(_ui_top_level->window);
+    GdkWindow *window = get_active_toplevel()->window;
+    if (window) {
+        return GDK_WINDOW_XID(window);
     } else {
         return 0;
     }
@@ -1046,15 +1148,18 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         log_error(ui_log, "Maximum number of toplevel windows reached.");
         return -1;
     }
+    memset(&app_shells[num_app_shells - 1], 0, sizeof(app_shell_type));
 
     new_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 
     /* supress events, add mask later */
     gtk_widget_set_events(new_window, 0);
 
-    if (!_ui_top_level) {
-        _ui_top_level = new_window;
-    }
+    set_active_shell(num_app_shells - 1);
+
+    app_shells[num_app_shells - 1].shell = new_window;
+    app_shells[num_app_shells - 1].canvas = c;
+    c->app_shell = num_app_shells - 1;
 
     panelcontainer = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(new_window), panelcontainer);
@@ -1077,7 +1182,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         gtk_widget_show(new_canvas);
     } else {
         build_screen_canvas_widget(c);
-        c->app_shell = num_app_shells - 1;
     }
 
     sb = ui_create_status_bar(panelcontainer);
@@ -1100,7 +1204,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     accel = gtk_accel_group_new();
     gtk_window_add_accel_group(GTK_WINDOW(new_window), accel);
 
-    app_shells[num_app_shells - 1].shell = new_window;
     app_shells[num_app_shells - 1].title = lib_stralloc(title);
     app_shells[num_app_shells - 1].topmenu = topmenu;
     app_shells[num_app_shells - 1].accel = accel;
@@ -1115,15 +1218,12 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         /*
             FIXME: WindowXXX should be per window (for x128)
          */
-        resources_get_int("WindowWidth", &window_width);
-        resources_get_int("WindowHeight", &window_height);
-        DBG(("ui_open_canvas_window (winw: %d winh: %d)", window_width, window_height));
-        if (window_width > 0 && window_height > 0) {
+        get_window_resources(c, &window_xpos, &window_ypos, &window_width, &window_height);
+        DBG(("ui_open_canvas_window (winx: %d winy: %d winw: %d winh: %d)", 
+             window_xpos, window_ypos, window_width, window_height));
+        if (!((window_width < WINDOW_MINW) || (window_height < WINDOW_MINH))) {
             gtk_window_resize(GTK_WINDOW(new_window), window_width, window_height);
         }
-        resources_get_int("WindowXpos", &window_xpos);
-        resources_get_int("WindowYpos", &window_ypos);
-        DBG(("ui_open_canvas_window (winx: %d winy: %d)", window_xpos, window_ypos));
         if (!((window_xpos < 0) || (window_ypos < 0))) {
             gtk_window_move(GTK_WINDOW(new_window), window_xpos, window_ypos);
         }
@@ -1165,7 +1265,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         gtk_init_lightpen();
 
         c->offx = c->geometry->screen_size.width - w;
-        ui_cached_video_canvas = c;
     }
 
     gtk_widget_add_events(new_window,
@@ -1252,8 +1351,9 @@ void ui_set_application_icon(const char *icon_data[])
 {
     int i;
     GdkPixmap *icon;
-    
-    icon = gdk_pixmap_create_from_xpm_d(_ui_top_level->window, NULL, NULL, (char **)icon_data);
+    GdkWindow *window = get_active_toplevel()->window;
+
+    icon = gdk_pixmap_create_from_xpm_d(window, NULL, NULL, (char **)icon_data);
 
     for (i = 0; i < num_app_shells; i++) {
         gdk_window_set_icon(app_shells[i].shell->window, NULL, icon, NULL);
@@ -1695,22 +1795,20 @@ void ui_dispatch_events(void)
 void x11ui_fullscreen(int enable)
 {
 #ifdef HAVE_FULLSCREEN
-    video_canvas_t *canvas = (video_canvas_t *) ui_cached_video_canvas;
+    video_canvas_t *canvas = get_active_canvas();
     GtkWidget *s;
-    int key = 0;
-    int x, y;
+    int x, y, w, h;
     int current_enable;
 
+    if (canvas == NULL) {
+        return;
+    }
+
+    set_active_shell(canvas->app_shell);
+    s = get_active_toplevel();
     current_enable = canvas->fullscreenconfig->enable;
 
-    /* special case of x128, where we have 2 shells is handled
-       by checking the related resource */
-    if (strncmp(machine_name, "C128", 4) == 0) {
-        resources_get_int("40/80ColumnKey", &key);
-    }
-    s = _ui_top_level = gtk_widget_get_toplevel(app_shells[key].shell);
-
-    DBG(("x11ui_fullscreen (key: %d fullscreen: %d->%d)", key, current_enable, i));
+    DBG(("x11ui_fullscreen (shell: %d fullscreen: %d->%d)", canvas->app_shell, current_enable, enable));
 
     if ((enable) && (!current_enable)) {
         /* when switching to fullscreen, set the flag first */
@@ -1731,18 +1829,15 @@ void x11ui_fullscreen(int enable)
         gdk_flush();
         mouse_cursor_grab(0, NULL);
 
-        resources_get_int("WindowXpos", &x);
-        resources_get_int("WindowYpos", &y);
-        DBG(("x11ui_fullscreen (winx: %d winy: %d)", x, y));
+        get_window_resources(canvas, &x, &y, &w, &h);
+        DBG(("x11ui_fullscreen (winx: %d winy: %d winw: %d winh: %d)", x, y, w, h));
+        if (!((w < WINDOW_MINW) || (h < WINDOW_MINH))) {
+            gtk_window_resize(GTK_WINDOW(s), w, h);
+        }
         if (!((x < 0) || (y < 0))) {
             gtk_window_move(GTK_WINDOW(s), x, y);
         }
-        resources_get_int("WindowWidth", &x);
-        resources_get_int("WindowHeight", &y);
-        DBG(("x11ui_fullscreen (winw: %d winh: %d)", x, y));
-        if (x > 0 && y > 0) {
-            gtk_window_resize(GTK_WINDOW(s), x, y);
-        }
+
         ui_dispatch_events();
         gdk_flush();
         canvas->fullscreenconfig->enable = 0;
@@ -1910,12 +2005,11 @@ static void setup_aspect(video_canvas_t *canvas)
 /* Resize one window. */
 void ui_resize_canvas_window(video_canvas_t *canvas, int width, int height)
 {
-    gint window_width, window_height;
+    int window_xpos, window_ypos, window_width, window_height;
     app_shell_type *appshell;
     int def;
 
-    resources_get_int("WindowWidth", &window_width);
-    resources_get_int("WindowHeight", &window_height);
+    get_window_resources(canvas, &window_xpos, &window_ypos, &window_width, &window_height);
 
     DBG(("ui_resize_canvas_window (width: %d height: %d  winw: %d winh: %d hwscale:%d)", width, height, window_width, window_height,canvas->videoconfig->hwscale));
 
@@ -1943,8 +2037,7 @@ void ui_resize_canvas_window(video_canvas_t *canvas, int width, int height)
     }
     gtk_window_resize(GTK_WINDOW(appshell->shell), window_width, window_height);
 
-    resources_set_int("WindowWidth", window_width);
-    resources_set_int("WindowHeight", window_height);
+    set_window_resources(canvas, window_xpos, window_ypos, window_width, window_height);
 
     DBG(("ui_resize_canvas_window exit (w:%d h:%d)", window_width, window_height));
 }
@@ -2023,7 +2116,7 @@ static void ui_message2(const GtkMessageType type, const char *msg, const char *
     static GtkWidget* msgdlg;
 
     vsync_suspend_speed_eval();
-    msgdlg = gtk_message_dialog_new(GTK_WINDOW(_ui_top_level), GTK_DIALOG_DESTROY_WITH_PARENT, type, GTK_BUTTONS_OK, msg, NULL);
+    msgdlg = gtk_message_dialog_new(GTK_WINDOW(get_active_toplevel()), GTK_DIALOG_DESTROY_WITH_PARENT, type, GTK_BUTTONS_OK, msg, NULL);
 
     ui_popup(msgdlg, title, FALSE);
     gtk_dialog_run(GTK_DIALOG(msgdlg));
@@ -2518,7 +2611,7 @@ ui_button_t ui_change_dir(const char *title, const char *prompt, char *buf, unsi
     gchar *fname = NULL;
     ui_button_t r;
 
-    fc = gtk_file_chooser_dialog_new(title, GTK_WINDOW(_ui_top_level), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+    fc = gtk_file_chooser_dialog_new(title, GTK_WINDOW(get_active_toplevel()), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
     ui_popup(fc, title, FALSE);
     res = gtk_dialog_run(GTK_DIALOG(fc));
     ui_popdown(fc);
@@ -2552,6 +2645,7 @@ void ui_block_shells(void)
 
 void ui_unblock_shells(void)
 {
+    video_canvas_t *canvas = get_active_canvas();
     int i;
 
     for (i = 0; i < num_app_shells; i++) {
@@ -2562,9 +2656,9 @@ void ui_unblock_shells(void)
        this is neither correct nor elegant, as it messes with the mousecursor,
        which is evil UI design, imho; unfortunately I don't know a "better" way :( - pottendo */
     keyboard_key_clear();
-    if (ui_cached_video_canvas) {
-	gdk_pointer_grab(ui_cached_video_canvas->emuwindow->window, 1, 0, 
-			 ui_cached_video_canvas->emuwindow->window, 
+    if (canvas) {
+	gdk_pointer_grab(canvas->emuwindow->window, 1, 0, 
+			 canvas->emuwindow->window, 
 			 blankCursor, GDK_CURRENT_TIME);
 	gdk_pointer_ungrab(GDK_CURRENT_TIME);
 	ui_check_mouse_cursor();
@@ -2584,7 +2678,7 @@ void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown)
     ui_dispatch_events();
     gtk_window_set_title(GTK_WINDOW(w),title);
 
-    gtk_window_set_transient_for(GTK_WINDOW(w),GTK_WINDOW(_ui_top_level));
+    gtk_window_set_transient_for(GTK_WINDOW(w),GTK_WINDOW(get_active_toplevel()));
     gtk_widget_show(w);
     gtk_window_present(GTK_WINDOW(w));
 
@@ -2643,7 +2737,7 @@ static GtkWidget *build_file_selector(const char *title, GtkWidget **attach_writ
     GtkTreeViewColumn *column;
     GtkListStore *store;
 
-    fileselect = vice_file_entry(title, _ui_top_level, default_dir, patterns, num_patterns, action);
+    fileselect = vice_file_entry(title, get_active_toplevel(), default_dir, patterns, num_patterns, action);
 
     /* Contents preview */
     if (show_preview) {
@@ -2768,7 +2862,7 @@ static GtkWidget *build_confirm_dialog(GtkWidget **confirm_dialog_message)
 
 gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 {
-    _ui_top_level = gtk_widget_get_toplevel(w);
+    set_active_shell(((video_canvas_t *)p)->app_shell);
 
     /* cv: ensure focus after dialogs were opened */
     gtk_widget_grab_focus(w);
@@ -2912,16 +3006,7 @@ gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer cli
 #ifdef HAVE_FULLSCREEN
     if ((machine_class == VICE_MACHINE_VSID) || (!canvas->fullscreenconfig->enable)) {
 #endif
-        resources_set_int("WindowWidth", e->width);
-        resources_set_int("Windowheight", e->height);
-
-        if ((e->x < 0) || (e->x < 0)) {
-            resources_set_int("WindowXpos", 0);
-            resources_set_int("WindowYpos", 0);
-            return 0;
-        }
-        resources_set_int("WindowXpos", e->x);
-        resources_set_int("WindowYpos", e->y);
+        set_window_resources(canvas, e->x, e->y, e->width, e->height);
 #ifdef HAVE_FULLSCREEN
     }
 #endif
@@ -3076,9 +3161,10 @@ void ui_display_statustext(const char *text, int fade_out)
  */
 void ui_trigger_resize(void)
 {
-    if ((_ui_top_level) && (_ui_top_level->window)) {
+    GtkWidget *toplevel = get_active_toplevel();
+    if ((toplevel) && (toplevel->window)) {
         DBG(("ui_trigger_resize"));
         gdk_flush();
-        gdk_window_raise(_ui_top_level->window);
+        gdk_window_raise(toplevel->window);
     }
 }

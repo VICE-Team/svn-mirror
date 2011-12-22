@@ -137,6 +137,6 @@ void ui_about(gpointer data)
         gdk_window_raise(about->window);
     }
 
-    ui_make_window_transient(_ui_top_level, about);
+    ui_make_window_transient(get_active_toplevel(), about);
     gtk_widget_show(about);
 }

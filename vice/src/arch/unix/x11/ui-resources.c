@@ -31,6 +31,7 @@
 #include <stdio.h>
 
 #include "lib.h"
+#include "machine.h"
 #include "resources.h"
 #include "log.h"
 #include "ui.h"
@@ -42,10 +43,14 @@ struct ui_resources_s {
     int save_resources_on_exit;
     int confirm_on_exit;
     int depth;
-    int window_width;
-    int window_height;
-    int window_xpos;
-    int window_ypos;
+    int window0_width;
+    int window0_height;
+    int window0_xpos;
+    int window0_ypos;
+    int window1_width;
+    int window1_height;
+    int window1_xpos;
+    int window1_ypos;
 #if defined (USE_XF86_EXTENSIONS) && \
     (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     int fs_enabled_pending;
@@ -69,37 +74,71 @@ static int set_depth(int d, void *param)
     return 0;
 }
 
-static int set_width(int d, void *param)
+static int set_width0(int d, void *param)
 {
     /* Minimal sanity check.  */
     if (d < 0) {
         return -1;
     }
 
-    ui_resources.window_width = d;
+    ui_resources.window0_width = d;
     return 0;
 }
 
-static int set_height(int d, void *param)
+static int set_height0(int d, void *param)
 {
     /* Minimal sanity check.  */
     if (d < 0) {
         return -1;
     }
 
-    ui_resources.window_height = d;
+    ui_resources.window0_height = d;
     return 0;
 }
 
-static int set_xpos(int d, void *param)
+static int set_xpos0(int d, void *param)
 {
-    ui_resources.window_xpos = d;
+    ui_resources.window0_xpos = d;
     return 0;
 }
 
-static int set_ypos(int d, void *param)
+static int set_ypos0(int d, void *param)
 {
-    ui_resources.window_ypos = d;
+    ui_resources.window0_ypos = d;
+    return 0;
+}
+
+static int set_width1(int d, void *param)
+{
+    /* Minimal sanity check.  */
+    if (d < 0) {
+        return -1;
+    }
+
+    ui_resources.window1_width = d;
+    return 0;
+}
+
+static int set_height1(int d, void *param)
+{
+    /* Minimal sanity check.  */
+    if (d < 0) {
+        return -1;
+    }
+
+    ui_resources.window1_height = d;
+    return 0;
+}
+
+static int set_xpos1(int d, void *param)
+{
+    ui_resources.window1_xpos = d;
+    return 0;
+}
+
+static int set_ypos1(int d, void *param)
+{
+    ui_resources.window1_ypos = d;
     return 0;
 }
 
@@ -160,18 +199,30 @@ static const resource_int_t resources_int[] = {
       &ui_resources.confirm_on_exit, set_confirm_on_exit, NULL },
     { "DisplayDepth", 0, RES_EVENT_NO, NULL,
       &ui_resources.depth, set_depth, NULL },
-    { "WindowWidth", 0, RES_EVENT_NO, NULL,
-      &ui_resources.window_width, set_width, NULL },
-    { "WindowHeight", 0, RES_EVENT_NO, NULL,
-      &ui_resources.window_height, set_height, NULL },
-    { "WindowXpos", -1, RES_EVENT_NO, NULL,
-      &ui_resources.window_xpos, set_xpos, NULL },
-    { "WindowYpos", -1, RES_EVENT_NO, NULL,
-      &ui_resources.window_ypos, set_ypos, NULL },
+    { "Window0Width", 0, RES_EVENT_NO, NULL,
+      &ui_resources.window0_width, set_width0, NULL },
+    { "Window0Height", 0, RES_EVENT_NO, NULL,
+      &ui_resources.window0_height, set_height0, NULL },
+    { "Window0Xpos", -1, RES_EVENT_NO, NULL,
+      &ui_resources.window0_xpos, set_xpos0, NULL },
+    { "Window0Ypos", -1, RES_EVENT_NO, NULL,
+      &ui_resources.window0_ypos, set_ypos0, NULL },
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     { "UseFullscreen", 0, RES_EVENT_NO, NULL,
       &ui_resources.fs_enabled_pending, fullscreen_set_fs, NULL },
 #endif
+    { NULL }
+};
+
+static const resource_int_t extra_resources_int[] = {
+    { "Window1Width", 0, RES_EVENT_NO, NULL,
+      &ui_resources.window1_width, set_width1, NULL },
+    { "Window1Height", 0, RES_EVENT_NO, NULL,
+      &ui_resources.window1_height, set_height1, NULL },
+    { "Window1Xpos", -1, RES_EVENT_NO, NULL,
+      &ui_resources.window1_xpos, set_xpos1, NULL },
+    { "Window1Ypos", -1, RES_EVENT_NO, NULL,
+      &ui_resources.window1_ypos, set_ypos1, NULL },
     { NULL }
 };
 
@@ -181,6 +232,12 @@ int ui_resources_init(void)
 
     if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
+
+    if (machine_class == VICE_MACHINE_C128) {
+        if (resources_register_int(extra_resources_int) < 0) {
+            return -1;
+        }
     }
 
     return resources_register_int(resources_int);

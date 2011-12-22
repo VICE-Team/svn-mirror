@@ -84,7 +84,7 @@ typedef enum ui_keysym_s ui_keysym_t;
 #define CHECK_MENUS      (((ui_menu_cb_obj*)event_data)->status != CB_NORMAL)
 #define UI_MENU_CB_PARAM (((ui_menu_cb_obj*)event_data)->value) 
 
-extern GtkWidget *_ui_top_level;
+extern GtkWidget *get_active_toplevel(void);
 extern GdkVisual *visual;
 
 extern int ui_open_canvas_window(struct video_canvas_s *c, const char *title, int width, int heigth, int no_autorepeat);
