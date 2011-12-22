@@ -277,9 +277,10 @@ static int read_sector(ata_drive_t *drv)
         return drv->error;
     }
 
-    memset(drv->buffer, 0, drv->sector_size);
     clearerr(drv->file);
-    fread(drv->buffer, 1, drv->sector_size, drv->file);
+    if (fread(drv->buffer, drv->sector_size, 1, drv->file) != 1) {
+        memset(drv->buffer, 0, drv->sector_size);
+    }
 
     if (ferror(drv->file)) {
         ata_set_command_block(drv);
