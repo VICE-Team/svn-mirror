@@ -44,6 +44,7 @@
 #include "uilib.h"
 #include "uiplus4cart.h"
 #include "uiplus4mem.h"
+#include "uiplus4model.h"
 #include "uirom.h"
 #include "uisidcart.h"
 #include "uiv364speech.h"
@@ -251,6 +252,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_ALLOW_JOY_OPPOSITE_TOGGLE, IDS_MI_ALLOW_JOY_OPPOSITE },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
+    { IDM_PLUS4MODEL_SETTINGS, IDS_MI_PLUS4MODEL_SETTINGS },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
@@ -432,6 +434,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
     uiplus4cart_proc(wparam, hwnd);
 
     switch (wparam) {
+        case IDM_PLUS4MODEL_SETTINGS:
+            ui_plus4model_settings_dialog(hwnd);
+            break;
         case IDM_PLUS4_SETTINGS:
             ui_plus4_memory_dialog(hwnd);
             break;

@@ -215,6 +215,8 @@ libarch_a_SOURCES = \
 	uiplus4cart.h \
 	uiplus4mem.c \
 	uiplus4mem.h \
+	uiplus4model.c \
+	uiplus4model.h \
 	uiplus60k.c \
 	uiplus60k.h \
 	uiquicksnapshot.c \
