@@ -61,6 +61,7 @@ CLEAN :
 	-@erase "$(INTDIR)\c128memlimit.obj"
 	-@erase "$(INTDIR)\c128memrom.obj"
 	-@erase "$(INTDIR)\c128memsnapshot.obj"
+	-@erase "$(INTDIR)\c128model.obj"
 	-@erase "$(INTDIR)\c128mmu.obj"
 	-@erase "$(INTDIR)\c128rom.obj"
 	-@erase "$(INTDIR)\c128romset.obj"
@@ -129,6 +130,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\c128memlimit.obj" \
 	"$(INTDIR)\c128memrom.obj" \
 	"$(INTDIR)\c128memsnapshot.obj" \
+	"$(INTDIR)\c128model.obj" \
 	"$(INTDIR)\c128mmu.obj" \
 	"$(INTDIR)\c128rom.obj" \
 	"$(INTDIR)\c128romset.obj" \
@@ -180,6 +182,7 @@ CLEAN :
 	-@erase "$(INTDIR)\c128memlimit.obj"
 	-@erase "$(INTDIR)\c128memrom.obj"
 	-@erase "$(INTDIR)\c128memsnapshot.obj"
+	-@erase "$(INTDIR)\c128model.obj"
 	-@erase "$(INTDIR)\c128mmu.obj"
 	-@erase "$(INTDIR)\c128rom.obj"
 	-@erase "$(INTDIR)\c128romset.obj"
@@ -248,6 +251,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\c128memlimit.obj" \
 	"$(INTDIR)\c128memrom.obj" \
 	"$(INTDIR)\c128memsnapshot.obj" \
+	"$(INTDIR)\c128model.obj" \
 	"$(INTDIR)\c128mmu.obj" \
 	"$(INTDIR)\c128rom.obj" \
 	"$(INTDIR)\c128romset.obj" \
@@ -369,6 +373,12 @@ SOURCE=..\..\..\c128\c128memrom.c
 SOURCE=..\..\..\c128\c128memsnapshot.c
 
 "$(INTDIR)\c128memsnapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c128\c128model.c
+
+"$(INTDIR)\c128mmu.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
