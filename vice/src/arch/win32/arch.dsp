@@ -431,6 +431,10 @@ SOURCE=.\uiplus4mem.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiplus4model.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uiplus60k.c
 # End Source File
 # Begin Source File
