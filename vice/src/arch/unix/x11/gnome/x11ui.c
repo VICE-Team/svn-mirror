@@ -532,7 +532,7 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
                 h -= appshell->pal_ctrl->allocation.height;
             }
 #else
-            if (GTK_WIDGET_VISIBLE(palctrl)) {
+            if (GTK_WIDGET_VISIBLE(appshell->pal_ctrl)) {
                 h -= appshell->pal_ctrl->allocation.height;
             }
 #endif
