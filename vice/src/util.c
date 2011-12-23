@@ -885,7 +885,6 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
         && (strcasecmp(&((name)[name_len - ext_len]), extension) == 0))
         return;
 
-    
     sprintf(name,"%s%c%s",name,FSDEV_EXT_SEP_CHR,extension);
 }
 
@@ -893,14 +892,16 @@ char *util_get_extension(char *filename)
 {
     char *s;
 
-    if (filename == NULL)
+    if (filename == NULL) {
         return NULL;
+    }
 
     s = strrchr(filename, FSDEV_EXT_SEP_CHR);
-    if (s)
+    if (s) {
         return s + 1;
-    else
+    } else {
         return NULL;
+    }
 }
 
 /* char to char tolower function, still uses tolower,

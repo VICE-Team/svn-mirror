@@ -236,6 +236,13 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
 
     vdrive->Dir_buffer[0] = vdrive->Dir_Track;
     vdrive->Dir_buffer[1] = vdrive->Dir_Sector;
+
+#ifdef DEBUG_DRIVE
+    log_debug("DIR: vdrive_dir_find_first_slot (curr t:%d/s:%d dir t:%d/s:%d)", 
+              vdrive->Curr_track, vdrive->Curr_sector,
+              vdrive->Dir_Track, vdrive->Dir_Sector
+             );
+#endif
 }
 
 BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
@@ -243,7 +250,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
     static BYTE return_slot[32];
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot start (%d/%d) #%d", vdrive->Curr_track, vdrive->Curr_sector, vdrive->SlotNumber);
+    log_debug("DIR: vdrive_dir_find_next_slot start (t:%d/s:%d) #%d", vdrive->Curr_track, vdrive->Curr_sector, vdrive->SlotNumber);
 #endif
     /*
      * Loop all directory blocks starting from track 18, sector 1 (1541).
@@ -284,7 +291,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_t *vdrive)
     } while (1);
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_next_slot (%d/%d) #%d", vdrive->Curr_track, vdrive->Curr_sector, vdrive->SlotNumber);
+    log_debug("DIR: vdrive_dir_find_next_slot (t:%d/s:%d) #%d", vdrive->Curr_track, vdrive->Curr_sector, vdrive->SlotNumber);
 #endif
 
     /*

@@ -34,8 +34,16 @@
 #define D67_FILE_SIZE      176640        /* D67 image, 35 tracks DOS1 */
 #define D71_FILE_SIZE      349696        /* D71 image, 70 tracks */
 #define D71_FILE_SIZE_E   (349696+1366)  /* D71 image, 70 tracks with errors */
+
 #define D81_FILE_SIZE      819200        /* D81 image, 80 tracks */
 #define D81_FILE_SIZE_E    822400        /* D81 image, 80 tracks with errors */
+#define D81_FILE_SIZE_81   829440        /* D81 image, 81 tracks (! sams as D1M) */
+#define D81_FILE_SIZE_81E  832680        /* D81 image, 81 tracks with errors (! sams as D1M) */
+#define D81_FILE_SIZE_82   839680        /* D81 image, 82 tracks */
+#define D81_FILE_SIZE_82E  842960        /* D81 image, 82 tracks with errors */
+#define D81_FILE_SIZE_83   849920        /* D81 image, 83 tracks */
+#define D81_FILE_SIZE_83E  853240        /* D81 image, 83 tracks with errors */
+
 #define D80_FILE_SIZE      533248        /* D80 image, 77 tracks */
 #define D82_FILE_SIZE     1066496        /* D82 image, 77 tracks */
 #define D1M_FILE_SIZE      829440        /* D1M image, 81 tracks */

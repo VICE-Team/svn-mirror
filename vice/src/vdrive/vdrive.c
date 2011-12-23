@@ -35,7 +35,13 @@
 
 #include "vice.h"
 
-/* #define DEBUG_DRIVE */
+#define DEBUG_DRIVE
+
+#ifdef DEBUG_DRIVE
+#define DBG(x) log_debug x
+#else
+#define DBG(x)
+#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -311,6 +317,8 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
       default:
         return -1;
     }
+    DBG(("vdrive_attach_image image type:%d vdrive format:%d num_tracks:%d bam_size:%d",
+         image->type, vdrive->image_format, vdrive->num_tracks, vdrive->bam_size));
 
     /* Initialise format constants */
     vdrive_set_disk_geometry(vdrive);

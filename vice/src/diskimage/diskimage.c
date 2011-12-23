@@ -26,6 +26,14 @@
 
 #include "vice.h"
 
+/* #define DEBUG_DISKIMAGE */
+
+#ifdef DEBUG_DISKIMAGE
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -357,6 +365,8 @@ void disk_image_media_destroy(disk_image_t *image)
 int disk_image_open(disk_image_t *image)
 {
     int rc = 0;
+
+    DBG(("disk_image_open"));
 
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:

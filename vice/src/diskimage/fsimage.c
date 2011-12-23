@@ -134,8 +134,9 @@ int fsimage_open(disk_image_t *image)
         return -1;
     }
 
-    if (fsimage_probe(image) == 0)
+    if (fsimage_probe(image) == 0) {
         return 0;
+    }
 
     zfile_fclose(fsimage->fd);
     log_message(fsimage_log, "Unknown disk image `%s'.", fsimage->name);
