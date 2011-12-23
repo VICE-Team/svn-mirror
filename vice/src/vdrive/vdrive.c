@@ -35,7 +35,7 @@
 
 #include "vice.h"
 
-#define DEBUG_DRIVE
+/* #define DEBUG_DRIVE */
 
 #ifdef DEBUG_DRIVE
 #define DBG(x) log_debug x
