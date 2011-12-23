@@ -27,9 +27,19 @@
 /* This is a first rough implementation of mouse emulation for MS-DOS.
    A smarter and less buggy emulation is of course possible. */
 
+/* #define DEBUG_MOUSE */
+
+#ifdef DEBUG_MOUSE
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
 #include "mouse.h"
 #include "mousedrv.h"
@@ -39,9 +49,12 @@
 
 #ifndef MACOSX_COCOA
 
-int mouse_x, mouse_y;
 int mouse_accelx = 2, mouse_accely = 2;
+
+/* last mouse position set by gui frontend */
+int mouse_x = 0, mouse_y = 0;
 static unsigned long mouse_timestamp = 0;
+
 
 void mousedrv_mouse_changed(void)
 {
@@ -78,37 +91,61 @@ void mouse_button(int bnumber, int state)
     }
 }
 
+/* ------------------------------------------------------------------------- */
+
+/*
+    to avoid strange side effects two things are done here:
+
+    - max delta is limited to MOUSE_MAX_DIFF
+    - if the delta is limited, then the current position is linearly 
+      interpolated towards the real position using MOUSE_MAX_DIFF for the axis
+      with the largest delta
+*/
+#define MOUSE_MAX_DIFF  16
+
+static int last_mouse_x = 0;
+static int last_mouse_y = 0;
+
+static void domove(void)
+{
+    float dx, dy, ax, ay;
+    float f;
+
+    dx = mouse_x - last_mouse_x;
+    dy = mouse_y - last_mouse_y;
+    ax = fabs(dx); ay = fabs(dy);
+
+    if ((ax > MOUSE_MAX_DIFF) || (ay > MOUSE_MAX_DIFF)) {
+        if (ay > ax) {
+            /* do big step in Y */
+            f = ay / MOUSE_MAX_DIFF;
+        } else {
+            /* do big step in X */
+            f = ax / MOUSE_MAX_DIFF;
+        }
+        last_mouse_x += (dx / f);
+        last_mouse_y += (dy / f);
+        DBG(("mousex %8d y %8d lastx %8d y %8d dx %f dy %f f:%f dxf:%f dxy:%f",
+            mouse_x, mouse_y, last_mouse_x, last_mouse_y, dx, dy, f, (dx / f), (dy / f)));
+    } else {
+        last_mouse_x = mouse_x;
+        last_mouse_y = mouse_y;
+    }
+}
+
 BYTE mousedrv_get_x(void)
 {
-    static int last_mouse_x = 0;
-
-    if (last_mouse_x - mouse_x > 16) {
-        last_mouse_x -= 16;
-        return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
-    }
-    if (last_mouse_x - mouse_x < -16) {
-        last_mouse_x += 16;
-        return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
-    }
-    last_mouse_x = mouse_x;
+    domove();
     return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
 }
 
 BYTE mousedrv_get_y(void)
 {
-    static int last_mouse_y = 0;
-
-    if (last_mouse_y - mouse_y > 16) {
-        last_mouse_y -= 16;
-        return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
-    }
-    if (last_mouse_y - mouse_y < -16) {
-        last_mouse_y += 16;
-        return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
-    }
-    last_mouse_y = mouse_y;
+    domove();
     return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
 }
+
+/* ------------------------------------------------------------------------- */
 
 void mouse_move(int x, int y)
 {
