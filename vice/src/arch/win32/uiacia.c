@@ -87,6 +87,18 @@ static void enable_acia_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_ACIA_MODE), enabled);
 }
 
+static void enable_plus4_acia_controls(HWND hwnd)
+{
+    int enabled = 1;
+
+    if (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) != BST_CHECKED) {
+        enabled = 0;
+    }
+
+    EnableWindow(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_ACIA_DEVICE), enabled);
+}
+
 static void enable_nonc64_acia_controls(HWND hwnd)
 {
     EnableWindow(GetDlgItem(hwnd, IDC_ACIA_DEVICE), 1);
@@ -260,6 +272,100 @@ static void init_acia_dialog(HWND hwnd)
     enable_acia_controls(hwnd);
 }
 
+static void init_plus4_acia_dialog(HWND hwnd)
+{
+    HWND temp_hwnd;
+    int res_value;
+    unsigned int i;
+    RECT rect;
+    RECT child_rect;
+    int min_width;
+    int xpos;
+    int xsize, ysize;
+    int res_value_loop;
+    int active_value;
+    int *current_base_address;
+
+    SetWindowText(hwnd, translate_text(IDS_ACIA_CAPTION));
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);
+    SetWindowText(temp_hwnd, translate_text(IDS_ACIA_ENABLE));
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE_LABEL);
+    SetWindowText(temp_hwnd, translate_text(IDS_ACIA_DEVICE));
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT_LABEL);
+    SetWindowText(temp_hwnd, translate_text(IDS_ACIA_INTERRUPT));
+    temp_hwnd = GetDlgItem(hwnd, IDOK);
+    SetWindowText(temp_hwnd, translate_text(IDS_OK));
+    temp_hwnd = GetDlgItem(hwnd, IDCANCEL);
+    SetWindowText(temp_hwnd, translate_text(IDS_CANCEL));
+
+    GetClientRect(hwnd, &rect);
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    xsize += 20;
+    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    min_width = child_rect.left + xsize + 10;
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE_LABEL);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    xpos = child_rect.left + xsize + 10;
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT_LABEL);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    uilib_get_general_window_extents(temp_hwnd, &xsize, &ysize);
+    MoveWindow(temp_hwnd, child_rect.left, child_rect.top, xsize, child_rect.bottom - child_rect.top, TRUE);
+    if (xpos < child_rect.left + xsize + 10) {
+        xpos = child_rect.left + xsize + 10;
+    }
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    MoveWindow(temp_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    if (min_width < xpos + child_rect.right - child_rect.left) {
+        min_width = xpos + child_rect.right - child_rect.left;
+    }
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT);
+    GetClientRect(temp_hwnd, &child_rect);
+    MapWindowPoints(temp_hwnd, hwnd, (POINT*)&child_rect, 2);
+    MoveWindow(temp_hwnd, xpos, child_rect.top, child_rect.right - child_rect.left, child_rect.bottom - child_rect.top, TRUE);
+    if (min_width < xpos + child_rect.right - child_rect.left) {
+        min_width = xpos + child_rect.right - child_rect.left;
+    }
+
+    GetWindowRect(hwnd, &rect);
+    MoveWindow(hwnd, rect.left, rect.top, min_width + 20, rect.bottom - rect.top, TRUE);
+
+    resources_get_int("Acia1Enable", &res_value);
+    CheckDlgButton(hwnd, IDC_ACIA_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+
+    resources_get_int("Acia1Dev", &res_value);
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_DEVICE);
+    for (i = 0; i < RS232_NUM_DEVICES; i++) {
+        TCHAR st[20];
+        _stprintf(st, translate_text(IDS_RS232_DEVICE_I), i + 1);
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    resources_get_int("Acia1Irq", &res_value);
+    temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_INTERRUPT);
+    for (res_value_loop = 0; interrupt_names[res_value_loop];
+        res_value_loop++) {
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)(TCHAR *)translate_text(interrupt_names[res_value_loop]));
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+
+    enable_plus4_acia_controls(hwnd);
+}
+
 static void init_nonc64_acia_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
@@ -364,6 +470,13 @@ static void end_acia_dialog(HWND hwnd)
     resources_set_int("Acia1Base", current_base_address[base]);
 }
 
+static void end_plus4_acia_dialog(HWND hwnd)
+{
+    resources_set_int("Acia1Enable", (IsDlgButtonChecked(hwnd, IDC_ACIA_ENABLE) == BST_CHECKED ? 1 : 0 ));
+    resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
+    resources_set_int("Acia1Irq", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_INTERRUPT), CB_GETCURSEL, 0, 0));
+}
+
 static void end_nonc64_acia_dialog(HWND hwnd)
 {
     resources_set_int("Acia1Dev", (int)SendMessage(GetDlgItem(hwnd, IDC_ACIA_DEVICE), CB_GETCURSEL, 0, 0));
@@ -393,6 +506,34 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
             return TRUE;
         case WM_INITDIALOG:
             init_acia_dialog(hwnd);
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static INT_PTR CALLBACK plus4_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    int command;
+
+    switch (msg) {
+        case WM_COMMAND:
+            command = LOWORD(wparam);
+            switch (command) {
+                case IDC_ACIA_ENABLE:
+                    enable_plus4_acia_controls(hwnd);
+                    break;
+                case IDOK:
+                    end_plus4_acia_dialog(hwnd);
+                case IDCANCEL:
+                    EndDialog(hwnd, 0);
+                    return TRUE;
+            }
+            return FALSE;
+        case WM_CLOSE:
+            EndDialog(hwnd, 0);
+            return TRUE;
+        case WM_INITDIALOG:
+            init_plus4_acia_dialog(hwnd);
             return TRUE;
     }
     return FALSE;
@@ -431,6 +572,9 @@ void ui_acia_settings_dialog(HWND hwnd)
         case VICE_MACHINE_C128:
         case VICE_MACHINE_VIC20:
             DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd, dialog_proc);
+            break;
+        case VICE_MACHINE_PLUS4:
+            DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_PLUS4_DIALOG, hwnd, plus4_dialog_proc);
             break;
         default:
             DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_NONC64_DIALOG, hwnd, nonc64_dialog_proc);
