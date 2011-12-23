@@ -30,6 +30,7 @@
  */
 
 /* #define DEBUG_X11UI */
+/* #define DEBUGMOUSECURSOR */
 
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
@@ -354,36 +355,29 @@ static void mouse_cursor_grab(int grab, GdkCursor *cursor)
 
 void ui_check_mouse_cursor(void)
 {
-    video_canvas_t *canvas = get_active_canvas();
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled) {
         if (_mouse_enabled) {
-            mouse_accelx = 2;
-            mouse_accely = 2;
+#ifdef DEBUGMOUSECURSOR
+            /* dont blank cursor for debuging */
+            mouse_cursor_grab(1, NULL);
+#else
             mouse_cursor_grab(1, blankCursor);
+#endif
         } else {
+            /* FIXME: this case seems odd */
             mouse_cursor_grab(1, NULL);
         }
         return;
     }
 #endif
-    if (canvas == NULL) {
-        return;
-    }
-
     if (_mouse_enabled) {
-        if (canvas->videoconfig->doublesizex) {
-            mouse_accelx = 4 / (canvas->videoconfig->doublesizex + 1);
-        } else {
-            mouse_accelx = 4;
-        }
-
-        if (canvas->videoconfig->doublesizey) {
-            mouse_accely = 4 / (canvas->videoconfig->doublesizey + 1);
-        } else {
-            mouse_accely = 4;
-        }
+#ifdef DEBUGMOUSECURSOR
+        /* dont blank cursor for debuging */
+        mouse_cursor_grab(1, NULL);
+#else
         mouse_cursor_grab(1, blankCursor);
+#endif
     } else {
         mouse_cursor_grab(0, NULL);
     }
@@ -473,12 +467,13 @@ gboolean delete_event(GtkWidget *w, GdkEvent *e, gpointer data)
     return TRUE;
 }
 
-static gint mouse_posx, mouse_posy;
-static gint mouse_lasteventx, mouse_lasteventy;
+static gint mouse_posx = 0, mouse_posy = 0;
+static gint mouse_dx = 0, mouse_dy = 0;
+static gint mouse_lasteventx = 0, mouse_lasteventy = 0;
 static gint mouse_warped = 0;
-static gint mouse_warpx = 0;
-static gint mouse_warpy = 0;
+static gint mouse_warpx = 0, mouse_warpy = 0;
 #define MOUSE_WRAP_MARGIN  50
+#define MOUSE_MAX_DIFF     127  /* +/- */
 
 static gfloat get_aspect(video_canvas_t *canvas);
 
@@ -527,11 +522,20 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
             ptry = (int)mevent->y;
             xoff = x - ptrx;
             yoff = y - ptry;
-  
+
             w = canvas->geometry->screen_size.width;
             h = appshell->shell->allocation.height -
                 (appshell->topmenu->allocation.height + 
                  appshell->status_bar->allocation.height);
+#if GTK_CHECK_VERSION(2,18,0)
+            if (gtk_widget_get_visible(appshell->pal_ctrl)) {
+                h -= appshell->pal_ctrl->allocation.height;
+            }
+#else
+            if (GTK_WIDGET_VISIBLE(palctrl)) {
+                h -= appshell->pal_ctrl->allocation.height;
+            }
+#endif
 
             if (canvas->videoconfig->doublesizex) {
                 w *= (canvas->videoconfig->doublesizex + 1);
@@ -615,9 +619,15 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
                     /* DBG(("warp to: x:%d y:%d", ptrx, ptry)); */
                     gdk_display_warp_pointer (display, screen, ptrx + xoff, ptry + yoff);
                 } else {
-                    mouse_posx += ptrx - mouse_lasteventx;
-                    mouse_posy += ptry - mouse_lasteventy;
-                    mouse_move(mouse_posx, mouse_posy);
+                    mouse_dx = ptrx - mouse_lasteventx;
+                    mouse_dy = ptry - mouse_lasteventy;
+                    if ((abs(mouse_dx) <= MOUSE_MAX_DIFF) &&
+                        (abs(mouse_dy) <= MOUSE_MAX_DIFF)) {
+                        mouse_posx += mouse_dx;
+                        mouse_posy += mouse_dy;
+                        DBG(("mouse move dx:%8d dy:%8d x:%8d y:%8d", mouse_dx, mouse_dy, mouse_posx, mouse_posy));
+                        mouse_move(mouse_posx, mouse_posy);
+                    }
                     mouse_lasteventx = ptrx;
                     mouse_lasteventy = ptry;
                 }
@@ -628,6 +638,36 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 #endif
    }
 }
+
+/*
+    connected to the "leave-notify-event" of the pane, generates an extra mouse
+    event to make sure the cursor can not escape the wraparound area. needed
+    because the area handled by mouse grab includes the menu and statusbar.
+*/
+static gboolean mouse_handler_wrap(GtkWidget *w, GdkEventCrossing *e, gpointer p)
+{
+    if (_mouse_enabled)
+    {
+        GdkEventMotion mevent;
+
+        DBG(("mouse_handler_wrap"));
+
+        mevent.x = e->x;
+        mevent.y = e->y;
+        mevent.type = GDK_MOTION_NOTIFY;
+
+        mouse_warped = 0;
+        mouse_warpx = 0;
+        mouse_warpy = 0;
+
+        mouse_handler(w, (GdkEvent*)&mevent, p);
+    }
+    return 0;
+}
+
+/*******************************************************************************
+    Event handlers for various popup menus
+*******************************************************************************/
 
 static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
@@ -824,6 +864,7 @@ static GtkWidget *ui_create_status_bar(GtkWidget *pane)
     gtk_container_add(GTK_CONTAINER(frame), speed_label);
     gtk_widget_show(speed_label);
 
+    /* spacer */
     frame = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 
@@ -835,9 +876,10 @@ static GtkWidget *ui_create_status_bar(GtkWidget *pane)
     gtk_box_pack_start(GTK_BOX(status_bar), frame, TRUE, TRUE,0);
     gtk_widget_show(frame);
 
-    as = &app_shells[num_app_shells - 1];
-
+    /* additional controls */
     if (machine_class != VICE_MACHINE_VSID) {
+        as = &app_shells[num_app_shells - 1];
+
         /* PAL Control checkbox */
         pal_ctrl_checkbox = gtk_frame_new(NULL);
         gtk_frame_set_shadow_type(GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
@@ -1174,6 +1216,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     gtk_widget_modify_bg(c->pane, GTK_STATE_NORMAL, &black);
     gtk_box_pack_start(GTK_BOX(panelcontainer), c->pane, TRUE, TRUE, 0);
     gtk_widget_show(c->pane);
+    g_signal_connect(G_OBJECT(c->pane), "leave-notify-event", G_CALLBACK(mouse_handler_wrap), (void*)c);
 
     gtk_widget_show(new_window);
     if (machine_class == VICE_MACHINE_VSID) {
@@ -3050,7 +3093,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         return 0;
     }
 
-    DBG(("exposure_callback_canvas canvas w/h %d/%d", canvas->gdk_image->width, canvas->gdk_image->height));
+    /* DBG(("exposure_callback_canvas canvas w/h %d/%d", canvas->gdk_image->width, canvas->gdk_image->height)); */
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
