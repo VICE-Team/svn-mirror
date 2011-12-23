@@ -61,6 +61,7 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
 
@@ -202,6 +203,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_CART_ATTACH_C2HI, IDS_MI_CART_ATTACH_C2HI },
     { IDM_CART_ATTACH_FUNCLO, IDS_MI_CART_ATTACH_FUNCLO },
     { IDM_CART_ATTACH_FUNCHI, IDS_MI_CART_ATTACH_FUNCHI },
+    { IDM_TOGGLE_CART_RESET, IDS_MI_TOGGLE_CART_RESET },
     { IDM_FLIP_ADD, IDS_MI_FLIP_ADD },
     { IDM_FLIP_REMOVE, IDS_MI_FLIP_REMOVE },
     { IDM_FLIP_NEXT, IDS_MI_FLIP_NEXT },
