@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-132
-.;..;..\..\..;..\..\..\crtc;..\..\..\drive;..\..\..\userport;..\..\..\tape;..\..\..\sid;..\..\..\raster;$(%watcom)\h;$(%watcom)\h\nt
+147
+.;..;..\..\..;..\..\..\crtc;..\..\..\drive;..\..\..\userport;..\..\..\video;..\..\..\tape;..\..\..\sid;..\..\..\raster;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MVState

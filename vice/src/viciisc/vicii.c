@@ -154,11 +154,11 @@ static float vicii_get_pixel_aspect(void)
         case MACHINE_SYNC_PAL:
             return 0.93650794f;
         case MACHINE_SYNC_PALN:
-            return 0.90769231;
+            return 0.90769231f;
         case MACHINE_SYNC_NTSC:
-            return 0.75000000;
+            return 0.75000000f;
         case MACHINE_SYNC_NTSCOLD:
-            return 0.76171875;
+            return 0.76171875f;
         default:
             return 1.0f;
     }
