@@ -269,7 +269,7 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
         /*  Update remaining area from framebuffer.... */
 
         if ((w > 0) && (h > 0)) {
-            real_refresh(c, xs, ys, xi, yi, w, h);
+            real_refresh(c, xs / pixel_width, ys / pixel_width, xi, yi, w, h);
         }
     }
 }
@@ -282,13 +282,11 @@ void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigne
     RECT rect;
 
     if (canvas->videoconfig->doublesizex) {
-        xs *= (canvas->videoconfig->doublesizex + 1);
         xi *= (canvas->videoconfig->doublesizex + 1);
         w *= (canvas->videoconfig->doublesizex + 1);
     }
 
     if (canvas->videoconfig->doublesizey) {
-        ys *= (canvas->videoconfig->doublesizey + 1);
         yi *= (canvas->videoconfig->doublesizey + 1);
         h *= (canvas->videoconfig->doublesizey + 1);
     }
