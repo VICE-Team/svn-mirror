@@ -91,6 +91,7 @@ UI_MENU_DEFINE_TOGGLE(CrtcDoubleSize)
 UI_MENU_DEFINE_TOGGLE(CrtcStretchVertical)
 UI_MENU_DEFINE_TOGGLE(CrtcDoubleScan)
 UI_MENU_DEFINE_TOGGLE(CrtcVideoCache)
+UI_MENU_DEFINE_TOGGLE(CrtcAudioLeak)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(CrtcHwScale, HwScalePossible, NOTHING)
@@ -160,6 +161,9 @@ ui_menu_entry_t crtc_submenu[] = {
     { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
 #endif
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_CrtcAudioLeak, NULL, NULL },
 #ifdef HAVE_HWSCALE
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Hardware scaling"), UI_MENU_TYPE_TICK,

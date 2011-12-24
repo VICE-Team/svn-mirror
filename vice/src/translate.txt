@@ -1498,6 +1498,12 @@ IDCLS_ENABLE_DOUBLE_SCAN
 IDCLS_DISABLE_DOUBLE_SCAN
 
 /* video/video-cmdline-options.c */
+IDCLS_ENABLE_AUDIO_LEAK
+
+/* video/video-cmdline-options.c */
+IDCLS_DISABLE_AUDIO_LEAK
+
+/* video/video-cmdline-options.c */
 IDCLS_ENABLE_HARDWARE_SCALING
 
 /* video/video-cmdline-options.c */

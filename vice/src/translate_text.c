@@ -10421,6 +10421,40 @@ translate_t string_table[] = {
 #endif
 
 /* video/video-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_AUDIO_LEAK,    N_("Enable audio leak emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_AUDIO_LEAK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_AUDIO_LEAK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_AUDIO_LEAK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_AUDIO_LEAK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_AUDIO_LEAK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_AUDIO_LEAK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_AUDIO_LEAK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_AUDIO_LEAK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_AUDIO_LEAK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_AUDIO_LEAK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_AUDIO_LEAK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_AUDIO_LEAK_TR, ""},  /* fuzzy */
+#endif
+
+/* video/video-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_AUDIO_LEAK,    N_("Disable audio leak emulation")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_AUDIO_LEAK_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_AUDIO_LEAK_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_AUDIO_LEAK_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_AUDIO_LEAK_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_AUDIO_LEAK_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_AUDIO_LEAK_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_AUDIO_LEAK_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_AUDIO_LEAK_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_AUDIO_LEAK_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_AUDIO_LEAK_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_AUDIO_LEAK_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_AUDIO_LEAK_TR, ""},  /* fuzzy */
+#endif
+
+/* video/video-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_HARDWARE_SCALING,    N_("Enable hardware scaling")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_HARDWARE_SCALING_DA, "Aktivér hardware-skalering"},

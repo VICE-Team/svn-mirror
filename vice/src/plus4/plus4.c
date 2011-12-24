@@ -37,6 +37,7 @@
 #include "digiblaster.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
+#include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "imagecontents.h"
@@ -80,8 +81,8 @@
 #include "traps.h"
 #include "types.h"
 #include "video.h"
+#include "video-sound.h"
 #include "vsync.h"
-#include "drive-sound.h"
 
 machine_context_t machine_context;
 
@@ -386,6 +387,7 @@ int machine_specific_init(void)
     speech_sound_chip_init();
 
     drive_sound_init();
+    video_sound_init();
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */

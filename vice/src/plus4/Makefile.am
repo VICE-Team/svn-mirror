@@ -7,6 +7,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/monitor \
+	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/raster
 
 noinst_LIBRARIES = libplus4.a

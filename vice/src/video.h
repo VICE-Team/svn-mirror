@@ -156,6 +156,8 @@ typedef struct video_resources_s
     int pal_blur;               /* luma blur */
     int pal_oddlines_phase;     /* oddlines UV phase offset */
     int pal_oddlines_offset;    /* oddlines UV multiplier */
+
+    int audioleak;              /* flag: enable video->audio leak emulation */
 } video_resources_t;
 
 /* render config for a specific canvas and video chip */

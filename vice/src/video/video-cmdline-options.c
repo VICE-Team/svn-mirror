@@ -80,6 +80,28 @@ static cmdline_option_t cmdline_options_chip_scan[] =
     CMDLINE_LIST_END
 };
 
+static const char *cname_chip_audioleak[] =
+{
+    "-", "audioleak", "AudioLeak",
+    "+", "audioleak", "AudioLeak",
+    NULL
+};
+
+static cmdline_option_t cmdline_options_chip_audioleak[] =
+{
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_AUDIO_LEAK,
+      NULL, NULL },
+    { NULL, SET_RESOURCE, 0,
+      NULL, NULL, NULL, (void *)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_AUDIO_LEAK,
+      NULL, NULL },
+    CMDLINE_LIST_END
+};
+
 static const char *cname_chip_hwscale[] =
 {
     "-", "hwscale", "HwScale",
@@ -329,6 +351,23 @@ int video_cmdline_options_chip_init(const char *chipname,
             lib_free((char *)cmdline_options_chip_scan[i].name);
             lib_free((char *)cmdline_options_chip_scan[i].resource_name);
         }
+    }
+
+    for (i = 0; cname_chip_audioleak[i * 3] != NULL; i++) {
+        cmdline_options_chip_audioleak[i].name
+            = util_concat(cname_chip_audioleak[i * 3], chipname,
+            cname_chip_audioleak[i * 3 + 1], NULL);
+        cmdline_options_chip_audioleak[i].resource_name
+            = util_concat(chipname, cname_chip_audioleak[i * 3 + 2], NULL);
+    }
+
+    if (cmdline_register_options(cmdline_options_chip_audioleak) < 0) {
+        return -1;
+    }
+
+    for (i = 0; cname_chip_audioleak[i * 3] != NULL; i++) {
+        lib_free((char *)cmdline_options_chip_audioleak[i].name);
+        lib_free((char *)cmdline_options_chip_audioleak[i].resource_name);
     }
 
     if (video_chip_cap->hwscale_allowed) {

@@ -98,6 +98,7 @@ UI_MENU_DEFINE_TOGGLE(VDCDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VDCStretchVertical)
 UI_MENU_DEFINE_TOGGLE(VDCDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VDCVideoCache)
+UI_MENU_DEFINE_TOGGLE(VDCAudioLeak)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE_COND(VDCHwScale, HwScalePossible, NOTHING)
@@ -177,6 +178,9 @@ ui_menu_entry_t vdc_submenu[] = {
     { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
 #endif
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_VDCAudioLeak, NULL, NULL },
 #ifdef HAVE_HWSCALE
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Hardware scaling"), UI_MENU_TYPE_TICK,

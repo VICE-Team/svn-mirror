@@ -80,6 +80,7 @@ static ui_menu_entry_t renderer_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(TEDDoubleSize)
 UI_MENU_DEFINE_TOGGLE(TEDDoubleScan)
 UI_MENU_DEFINE_TOGGLE(TEDVideoCache)
+UI_MENU_DEFINE_TOGGLE(TEDAudioLeak)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(TEDHwScale)
@@ -147,6 +148,9 @@ ui_menu_entry_t ted_submenu[] = {
     { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, NULL },
 #endif
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_TEDAudioLeak, NULL, NULL },
 #ifdef HAVE_HWSCALE
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Hardware scaling"), UI_MENU_TYPE_TICK,

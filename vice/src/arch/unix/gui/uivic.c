@@ -80,6 +80,7 @@ static ui_menu_entry_t renderer_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(VICDoubleScan)
 UI_MENU_DEFINE_TOGGLE(VICDoubleSize)
 UI_MENU_DEFINE_TOGGLE(VICVideoCache)
+UI_MENU_DEFINE_TOGGLE(VICAudioLeak)
 
 #ifdef HAVE_HWSCALE
 UI_MENU_DEFINE_TOGGLE(VICHwScale)
@@ -147,7 +148,10 @@ ui_menu_entry_t vic_submenu[] = {
       NULL, NULL, NULL },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_VICAudioLeak, NULL, NULL },
 #ifdef HAVE_HWSCALE
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Hardware scaling"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICHwScale, NULL, NULL },
     { N_("Keep aspect ratio"), UI_MENU_TYPE_TICK,

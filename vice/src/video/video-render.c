@@ -112,6 +112,8 @@ void video_render_main(video_render_config_t *config, BYTE *src, BYTE *trg,
         return; /* some render routines don't like invalid width */
     }
 
+    video_sound_update(config, src, width, height, xs, ys, pitchs, viewport);
+
     rendermode = config->rendermode;
     colortab = &config->color_tables;
 

@@ -5,6 +5,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/crtc \
 	-I$(top_srcdir)/src/vicii \
+	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/userport \

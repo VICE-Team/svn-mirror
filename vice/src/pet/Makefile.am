@@ -7,6 +7,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/tape
 
 noinst_LIBRARIES = libpet.a

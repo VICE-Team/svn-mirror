@@ -50,6 +50,7 @@
 #include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
+#include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "iecdrive.h"
@@ -81,8 +82,8 @@
 #include "vicii.h"
 #include "vicii-resources.h"
 #include "video.h"
+#include "video-sound.h"
 #include "vsync.h"
-#include "drive-sound.h"
 
 machine_context_t machine_context;
 
@@ -347,13 +348,14 @@ int machine_specific_init(void)
     sid_sound_chip_init();
 
     drive_sound_init();
+    video_sound_init();
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize the CBM-II-specific part of the UI.  */
-#if defined(__BEOS__) || defined(USE_SDLUI)
+#if defined(__BEOS__) || defined(USE_SDLUI) || defined(USE_GNOMEUI) /* XAW? */
     /* FIXME make this available on other ports */
     cbm5x0ui_init();
 #else
@@ -419,10 +421,11 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vicii_shutdown();
 
-#if defined(__BEOS__) && !defined(USE_SDLUI)
+#if (defined(__BEOS__) || defined(USE_GNOMEUI) /* XAW? */) && !defined(USE_SDLUI)
     /* FIXME make this available on other ports too */
     cbm5x0ui_shutdown();
 #else
+    /* ...and remove this */
     cbm2ui_shutdown();
 #endif
 }

@@ -724,13 +724,8 @@ int cbm2ui_init(void)
     cbm2ui_dynamic_menu_create();
     ui_set_left_menu(cbm2_left_menu);
 
-    if (machine_class == VICE_MACHINE_CBM5x0) {
-        ui_set_right_menu(cbm5x0_right_menu);
-        ui_set_topmenu(cbm5x0_top_menu);
-    } else {
-        ui_set_right_menu(cbm6x0_right_menu);
-        ui_set_topmenu(cbm6x0_top_menu);
-    }
+    ui_set_right_menu(cbm6x0_right_menu);
+    ui_set_topmenu(cbm6x0_top_menu);
 
     ui_set_tape_menu(cbm2_tape_menu);
     ui_set_speedmenu(ui_performance_settings_menu);
@@ -740,6 +735,29 @@ int cbm2ui_init(void)
 }
 
 void cbm2ui_shutdown(void)
+{
+    cbm2ui_dynamic_menu_shutdown();
+}
+
+/* ------------------------------------------------------------------------- */
+
+int cbm5x0ui_init(void)
+{
+    ui_set_application_icon(cbm2_icon_data);
+    cbm2ui_dynamic_menu_create();
+    ui_set_left_menu(cbm2_left_menu);
+
+    ui_set_right_menu(cbm5x0_right_menu);
+    ui_set_topmenu(cbm5x0_top_menu);
+
+    ui_set_tape_menu(cbm2_tape_menu);
+    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_update_menus();
+
+    return 0;
+}
+
+void cbm5x0ui_shutdown(void)
 {
     cbm2ui_dynamic_menu_shutdown();
 }

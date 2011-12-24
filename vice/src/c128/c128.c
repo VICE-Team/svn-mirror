@@ -60,6 +60,7 @@
 #include "debug.h"
 #include "drive-cmdline-options.h"
 #include "drive-resources.h"
+#include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "functionrom.h"
@@ -93,12 +94,12 @@
 #include "vicii.h"
 #include "vicii-mem.h"
 #include "video.h"
+#include "video-sound.h"
 #include "vdc.h"
 #include "vdc-mem.h"
 #include "vsync.h"
 #include "z80.h"
 #include "z80mem.h"
-#include "drive-sound.h"
 
 #ifdef HAVE_MOUSE
 #include "lightpen.h"
@@ -622,6 +623,7 @@ int machine_specific_init(void)
     cartridge_sound_chip_init();
 
     drive_sound_init();
+    video_sound_init();
 
     /* Initialize sound.  Notice that this does not really open the audio
        device yet.  */
