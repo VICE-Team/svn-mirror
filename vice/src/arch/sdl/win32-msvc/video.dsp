@@ -170,6 +170,10 @@ SOURCE="..\..\..\video\video-resources.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\video\video-sound.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\video\video-viewport.c"
 # End Source File
 # End Target

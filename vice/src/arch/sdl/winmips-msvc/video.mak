@@ -71,6 +71,7 @@ CLEAN :
 	-@erase "$(INTDIR)\video-render-pal.obj"
 	-@erase "$(INTDIR)\video-render.obj"
 	-@erase "$(INTDIR)\video-resources.obj"
+	-@erase "$(INTDIR)\video-sound.obj"
 	-@erase "$(INTDIR)\video-viewport.obj"
 	-@erase "$(OUTDIR)\video.lib"
 
@@ -140,6 +141,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\video-render.obj" \
 	"$(INTDIR)\video-render-crt.obj" \
 	"$(INTDIR)\video-resources.obj" \
+	"$(INTDIR)\video-sound.obj" \
 	"$(INTDIR)\video-viewport.obj" \
 	".\libs\base\Release\base.lib"
 
@@ -194,6 +196,7 @@ CLEAN :
 	-@erase "$(INTDIR)\video-render-pal.obj"
 	-@erase "$(INTDIR)\video-render.obj"
 	-@erase "$(INTDIR)\video-resources.obj"
+	-@erase "$(INTDIR)\video-sound.obj"
 	-@erase "$(INTDIR)\video-viewport.obj"
 	-@erase "$(OUTDIR)\video.lib"
 
@@ -263,6 +266,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\video-render.obj" \
 	"$(INTDIR)\video-render-crt.obj" \
 	"$(INTDIR)\video-resources.obj" \
+	"$(INTDIR)\video-sound.obj" \
 	"$(INTDIR)\video-viewport.obj" \
 	".\libs\base\Debug\base.lib"
 
@@ -431,6 +435,12 @@ SOURCE="..\..\..\video\video-render.c"
 SOURCE="..\..\..\video\video-resources.c"
 
 "$(INTDIR)\video-resources.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\video\video-sound.c"
+
+"$(INTDIR)\video-sound.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
