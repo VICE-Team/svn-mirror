@@ -68,13 +68,15 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Attach cartridge image..."
         BEGIN
+            MENUITEM "", IDM_CART_SMART_ATTACH
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_CART_ATTACH_C0LO
+            MENUITEM "", IDM_CART_ATTACH_C0HI
             MENUITEM "", IDM_CART_ATTACH_C1LO
             MENUITEM "", IDM_CART_ATTACH_C1HI
             MENUITEM "", IDM_CART_ATTACH_C2LO
             MENUITEM "", IDM_CART_ATTACH_C2HI
             MENUITEM SEPARATOR
-            MENUITEM "", IDM_CART_ATTACH_FUNCLO
-            MENUITEM "", IDM_CART_ATTACH_FUNCHI
             MENUITEM "", IDM_TOGGLE_CART_RESET
         END
         MENUITEM "", IDM_CART_DETACH
@@ -279,18 +281,18 @@ BEGIN
     PUSHBUTTON  "", IDC_PLUS4ROM_BASIC_BROWSE,
                 185, 27, 50, 14, 0
 
-    LTEXT       "", IDC_3_PLUS_1_LO,
+    LTEXT       "", IDC_FUNCTION_LO,
                 9, 48, 40, 8
-    EDITTEXT    IDC_PLUS4ROM_3P1LO_FILE,
+    EDITTEXT    IDC_PLUS4ROM_FUNCTION_LO_FILE,
                 55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_PLUS4ROM_3P1LO_BROWSE,
+    PUSHBUTTON  "", IDC_PLUS4ROM_FUNCTION_LO_BROWSE,
                 185, 47, 50, 14, 0
 
-    LTEXT       "", IDC_3_PLUS_1_HI,
+    LTEXT       "", IDC_FUNCTION_HI,
                 9, 68, 40, 8
-    EDITTEXT    IDC_PLUS4ROM_3P1HI_FILE,
+    EDITTEXT    IDC_PLUS4ROM_FUNCTION_HI_FILE,
                 55, 67, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON  "", IDC_PLUS4ROM_3P1HI_BROWSE,
+    PUSHBUTTON  "", IDC_PLUS4ROM_FUNCTION_HI_BROWSE,
                 185, 67, 50, 14, 0
 END
 
@@ -359,9 +361,9 @@ BEGIN
                     11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "", IDC_PLUS4ROM_BASIC_RESOURCE,
                     11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_PLUS4ROM_3P1LO_RESOURCE,
+    AUTOCHECKBOX    "", IDC_PLUS4ROM_FUNCTION_LO_RESOURCE,
                     11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX    "", IDC_PLUS4ROM_3P1HI_RESOURCE,
+    AUTOCHECKBOX    "", IDC_PLUS4ROM_FUNCTION_HI_RESOURCE,
                     11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON   "", IDOK,
@@ -491,14 +493,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Attach cartridge image for Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Attach cartridge image for Function High"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Attach cartridge image for Cartridge1 Low"
   IDS_ATTACH_CART1_HIGH           "Attach cartridge image for Cartridge1 High"
   IDS_ATTACH_CART2_LOW            "Attach cartridge image for Cartridge2 Low"
   IDS_ATTACH_CART2_HIGH           "Attach cartridge image for Cartridge2 High"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -508,12 +510,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -525,14 +527,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Tilslut cartridge for Function Lav"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Tilslut cartridge for Function Høj"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Tilslut cartridge image for Cartridge1 Lav"
   IDS_ATTACH_CART1_HIGH           "Tilslut cartridge image for Cartridge1 Høj"
   IDS_ATTACH_CART2_LOW            "Tilslut cartridge image for Cartridge2 Lav"
   IDS_ATTACH_CART2_HIGH           "Tilslut cartridge image for Cartridge2 Høj"
-  IDS_3_PLUS_1_LO                 "3+1 Lav"
-  IDS_3_PLUS_1_HI                 "3+1 Høj"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4-indstillinger"
   IDS_SELECT_PLUS4_MEM_16         "16 kbyte"
   IDS_SELECT_PLUS4_MEM_32         "32 kbyte"
@@ -542,12 +544,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024KB (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096KB (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 lav-image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 høj-image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 lav-image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 høj-image..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Funktion lav-image (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Funktion høj-image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4-indstillinger..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 tale-indstillinger..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -559,14 +561,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Funktions ROM (low) Erweiterungsmodul einlegen"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Funktions ROM (high) Erweiterungsmodul einlegen"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Cartridge1 (low) Erweiterungsmodul einlegen"
   IDS_ATTACH_CART1_HIGH           "Cartridge1 (high) Erweiterungsmodul einlegen"
   IDS_ATTACH_CART2_LOW            "Cartridge2 (low) Erweiterungsmodul einlegen"
   IDS_ATTACH_CART2_HIGH           "Cartridge1 (high) Erweiterungsmodul einlegen"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 Einstellungen"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -576,12 +578,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low Image Datei..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high Image Datei..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  Image Datei..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high Image Datei..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Funktions ROM Image Datei low (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Funktions ROM Image Datei high (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 Einstellungen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Stimme Einstellungen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -593,14 +595,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Insertar imagen cartucho para función baja"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Insertar imagen cartucho para función alta"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Insertar imagen cartucho para cartucho1 bajo"
   IDS_ATTACH_CART1_HIGH           "Insertar imagen cartucho para cartucho1 alto"
   IDS_ATTACH_CART2_LOW            "Insertar imagen cartucho para cartucho2 bajo"
   IDS_ATTACH_CART2_HIGH           "Insertar imagen cartucho para cartucho2 alto"
-  IDS_3_PLUS_1_LO                 "3+1 bajo"
-  IDS_3_PLUS_1_HI                 "3+1 alto"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Ajustes Plus4"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -610,12 +612,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kBytes (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kBytes (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 imagen bajo..."
   IDS_MI_CART_ATTACH_C1HI         "C1 imagen alto..."
   IDS_MI_CART_ATTACH_C2LO         "C2 imagen bajo..."
   IDS_MI_CART_ATTACH_C2HI         "C2 imagen alto..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Función imagen bajo (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Función imagen alto (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Ajustes Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "Ajustes V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -627,14 +629,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Insérer une cartouche Fonction basse"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Insérer une cartouche Fonction haute"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Insérer une cartouche pour Cartouche1 basse"
   IDS_ATTACH_CART1_HIGH           "Insérer une cartouche pour Cartouche1 haute"
   IDS_ATTACH_CART2_LOW            "Insérer une cartouche pour Cartouche2 basse"
   IDS_ATTACH_CART2_HIGH           "Insérer une cartouche pour Cartouche2 haute"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Paramètres Plus4"
   IDS_SELECT_PLUS4_MEM_16         "16 kOctets"
   IDS_SELECT_PLUS4_MEM_32         "32 kOctets"
@@ -644,12 +646,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kOctets (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Paramètres Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -664,14 +666,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Cartridge képmás csatolása Function Low-hoz"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Cartridge képmás csatolása Function High-hez"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Cartridge képmás csatolása alsó Cartridge1-hez"
   IDS_ATTACH_CART1_HIGH           "Cartridge képmás csatolása felsõ Cartridge1-hez"
   IDS_ATTACH_CART2_LOW            "Cartridge képmás csatolása alsó Cartridge2-höz"
   IDS_ATTACH_CART2_HIGH           "Cartridge képmás csatolása felsõ Cartridge2-höz"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 beállításai"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -681,12 +683,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 beállításai..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -701,14 +703,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Seleziona immagine cartuccia per la Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Seleziona immagine cartuccia per la Function High"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Seleziona immagine cartuccia per la Cartridge Low"
   IDS_ATTACH_CART1_HIGH           "Seleziona immagine cartuccia per la Cartridge1 High"
   IDS_ATTACH_CART2_LOW            "Seleziona immagine cartuccia per la Cartridge2 Low"
   IDS_ATTACH_CART2_HIGH           "Seleziona immagine cartuccia per la Cartridge2 High"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Impostazioni Plus4"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -718,12 +720,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "Immagine C1 bassa..."
   IDS_MI_CART_ATTACH_C1HI         "Immagine C1 alta..."
   IDS_MI_CART_ATTACH_C2LO         "Immagine C2 bassa..."
   IDS_MI_CART_ATTACH_C2HI         "Immagine C2 alta..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Immagine Function low (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Immagine Function high (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Impostazioni Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "Impostazioni V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -738,14 +740,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Attach cartridge image for Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Attach cartridge image for Function High"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Attach cartridge image for Cartridge1 Low"
   IDS_ATTACH_CART1_HIGH           "Attach cartridge image for Cartridge1 High"
   IDS_ATTACH_CART2_LOW            "Attach cartridge image for Cartridge2 Low"
   IDS_ATTACH_CART2_HIGH           "Attach cartridge image for Cartridge2 High"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
   IDS_SELECT_PLUS4_MEM_16         "16 kbyte"
   IDS_SELECT_PLUS4_MEM_32         "32 kbyte"
@@ -755,12 +757,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kbyte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kbyte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -775,14 +777,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Koppel cartridge bestand voor 'Function Low'"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Koppel cartridge bestand voor 'Function High'"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Koppel cartridge bestand voor 'Cartridge1 Low'"
   IDS_ATTACH_CART1_HIGH           "Koppel cartridge bestand voor 'Cartridge1 High'"
   IDS_ATTACH_CART2_LOW            "Koppel cartridge bestand voor 'Cartridge2 Low'"
   IDS_ATTACH_CART2_HIGH           "Koppel cartridge bestand voor 'Cartridge2 High'"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 instellingen"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -792,12 +794,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low bestand..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high bestand..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low bestand..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high bestand..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Function low bestand (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Function high bestand (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 instellingen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -812,14 +814,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Zamontuj obraz kartrid¿a do Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Zamontuj obraz kartrid¿a do Function High"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Zamontuj obraz kartrid¿a do Cartridge1 Low"
   IDS_ATTACH_CART1_HIGH           "Zamontuj obraz kartrid¿a do Cartridge1 High"
   IDS_ATTACH_CART2_LOW            "Zamontuj obraz kartrid¿a do Cartridge2 Low"
   IDS_ATTACH_CART2_HIGH           "Zamontuj obraz kartrid¿a do Cartridge2 High"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Ustawienia Plus4"
   IDS_SELECT_PLUS4_MEM_16         "16 kBajtów"
   IDS_SELECT_PLUS4_MEM_32         "32 kBajty"
@@ -829,12 +831,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kBajty (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kBajtów (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "Obraz C1 low..."
   IDS_MI_CART_ATTACH_C1HI         "Obraz C1 high..."
   IDS_MI_CART_ATTACH_C2LO         "Obraz C2 low..."
   IDS_MI_CART_ATTACH_C2HI         "Obraz C2 low..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Obraz Function low (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Obraz Function High (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Ustawienia Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "Ustawienia mowy V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -852,14 +854,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Attach cartridge image for Function Low"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Attach cartridge image for Function High"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Attach cartridge image for Cartridge1 Low"
   IDS_ATTACH_CART1_HIGH           "Attach cartridge image for Cartridge1 High"
   IDS_ATTACH_CART2_LOW            "Attach cartridge image for Cartridge2 Low"
   IDS_ATTACH_CART2_HIGH           "Attach cartridge image for Cartridge2 High"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 settings"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -869,12 +871,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low  image..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high image..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low  image..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high image..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Function low  image (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Function high image (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
   IDS_MI_V364SPEECH_SETTINGS      "¿ÐàÐÜÕâàë àÕçØ V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -889,14 +891,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Anslut insticksmodulfil för funktion låg"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Anslut insticksmodulfil för funktion hög"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Anslut insticksmodulfil för modul1 låg"
   IDS_ATTACH_CART1_HIGH           "Anslut insticksmodulfil för modul1 hög"
   IDS_ATTACH_CART2_LOW            "Anslut insticksmodulfil för modul2 låg"
   IDS_ATTACH_CART2_HIGH           "Anslut insticksmodulfil för modul2 hög"
-  IDS_3_PLUS_1_LO                 "3+1 Lå"
-  IDS_3_PLUS_1_HI                 "3+1 Hö"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4-inställningar"
   IDS_SELECT_PLUS4_MEM_16         "16 kbyte"
   IDS_SELECT_PLUS4_MEM_32         "32 kbyte"
@@ -906,12 +908,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024KB (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096KB (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 låg-avbildning..."
   IDS_MI_CART_ATTACH_C1HI         "C1 hög-avbildning..."
   IDS_MI_CART_ATTACH_C2LO         "C2 låg-avbildning..."
   IDS_MI_CART_ATTACH_C2HI         "C2 hög-avbildning..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Funktion låg-avbildning (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Funktion hög-avbildning (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4-inställningar..."
   IDS_MI_V364SPEECH_SETTINGS      "V364-röstinställningar..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
@@ -926,14 +928,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_FUNCTION_LOW_CART    "Function Low için kartuþ imajý yerleþtirin"
-  IDS_ATTACH_FUNCTION_HIGH_CART   "Function High için kartuþ imajý yerleþtirin"
+  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
+  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
   IDS_ATTACH_CART1_LOW            "Kartuþ1 Low için kartuþ imajý yerleþtirin"
   IDS_ATTACH_CART1_HIGH           "Kartuþ1 High için kartuþ imajý yerleþtirin"
   IDS_ATTACH_CART2_LOW            "Kartuþ2 Low için kartuþ imajý yerleþtirin"
   IDS_ATTACH_CART2_HIGH           "Kartuþ2 High için kartuþ imajý yerleþtirin"
-  IDS_3_PLUS_1_LO                 "3+1 Lo"
-  IDS_3_PLUS_1_HI                 "3+1 Hi"
+  IDS_FUNCTION_LO                 "Function Lo"
+  IDS_FUNCTION_HI                 "Function Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 ayarlarý"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -943,12 +945,12 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
+  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low imajý..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high imajý..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low imajý..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high imajý..."
-  IDS_MI_CART_ATTACH_FUNCLO       "Function low  imajý (3plus1)..."
-  IDS_MI_CART_ATTACH_FUNCHI       "Function high imajý (3plus1)..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 ayarlarý..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech ayarlarý..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."

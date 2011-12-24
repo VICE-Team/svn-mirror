@@ -46,8 +46,9 @@
 #include "resources.h"
 
 static const uicart_params_t plus4_ui_cartridges[] = {
-    { IDM_CART_ATTACH_FUNCLO, 0, IDS_ATTACH_FUNCTION_LOW_CART, UILIB_FILTER_ALL | UILIB_FILTER_CRT },
-    { IDM_CART_ATTACH_FUNCHI, 0, IDS_ATTACH_FUNCTION_HIGH_CART, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
+    { IDM_CART_SMART_ATTACH, 0, IDS_SELECT_CARTRIDGE_IMAGE, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
+    { IDM_CART_ATTACH_C0LO, 0, IDS_ATTACH_CART0_LOW, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
+    { IDM_CART_ATTACH_C0HI, 0, IDS_ATTACH_CART0_HIGH, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
     { IDM_CART_ATTACH_C1LO, 0, IDS_ATTACH_CART1_LOW, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
     { IDM_CART_ATTACH_C1HI, 0, IDS_ATTACH_CART1_HIGH, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
     { IDM_CART_ATTACH_C2LO, 0, IDS_ATTACH_CART2_LOW, UILIB_FILTER_ALL | UILIB_FILTER_BIN },
@@ -58,24 +59,20 @@ static const uicart_params_t plus4_ui_cartridges[] = {
 static int uiplus4cart_attach_image(int type, char *s)
 {
     switch (type) {
-        case IDM_CART_ATTACH_FUNCLO:
-            resources_set_string("FunctionLowName", s);
-            return plus4cart_load_func_lo(s);
-        case IDM_CART_ATTACH_FUNCHI:
-            resources_set_string("FunctionHighName", s);
-            return plus4cart_load_func_hi(s);
+        case IDM_CART_SMART_ATTACH:
+            return cartridge_attach_image(CARTRIDGE_PLUS4_DETECT, s);
+        case IDM_CART_ATTACH_C0LO:
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C0LO, s);
+        case IDM_CART_ATTACH_C0HI:
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C0HI, s);
         case IDM_CART_ATTACH_C1LO:
-            resources_set_string("c1loName", s);
-            return plus4cart_load_c1lo(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C1LO, s);
         case IDM_CART_ATTACH_C1HI:
-            resources_set_string("c1hiName", s);
-            return plus4cart_load_c1hi(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C1HI, s);
         case IDM_CART_ATTACH_C2LO:
-            resources_set_string("c2loName", s);
-            return plus4cart_load_c2lo(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C2LO, s);
         case IDM_CART_ATTACH_C2HI:
-            resources_set_string("c2hiName", s);
-            return plus4cart_load_c2hi(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C2HI, s);
     }
     return -1;
 }
@@ -111,8 +108,9 @@ static void uiplus4cart_attach(WPARAM wparam, HWND hwnd, const uicart_params_t *
 void uiplus4cart_proc(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
-        case IDM_CART_ATTACH_FUNCLO:
-        case IDM_CART_ATTACH_FUNCHI:
+        case IDM_CART_SMART_ATTACH:
+        case IDM_CART_ATTACH_C0LO:
+        case IDM_CART_ATTACH_C0HI:
         case IDM_CART_ATTACH_C1LO:
         case IDM_CART_ATTACH_C1HI:
         case IDM_CART_ATTACH_C2LO:
@@ -120,7 +118,7 @@ void uiplus4cart_proc(WPARAM wparam, HWND hwnd)
             uiplus4cart_attach(wparam, hwnd, plus4_ui_cartridges);
             break;
         case IDM_CART_DETACH:
-            plus4cart_detach_cartridges();
+            cartridge_detach_image(-1);
             break;
     }
 }
