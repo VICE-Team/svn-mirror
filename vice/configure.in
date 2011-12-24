@@ -2707,9 +2707,9 @@ elif test x"$is_win32" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   dnl On Windows, we already know what we want.
 
   if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then
-    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -lws2_32 -lversion"
+    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lws2_32 -lversion"
   else
-    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lddraw -lwsock32 -lversion"
+    LIBS="$LIBS -lkernel32 -luser32 -lgdi32 -lwinmm -lcomdlg32 -lcomctl32 -lwsock32 -lversion"
   fi
 
   AC_CHECK_HEADER(d3d9.h,

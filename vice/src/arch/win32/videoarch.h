@@ -99,6 +99,7 @@ extern int video_dx9_available(void);
 
 /* DDraw functions */
 extern video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, unsigned int *width, unsigned int *height);
+extern void video_canvas_reset_ddraw(video_canvas_t *canvas);
 extern void video_canvas_destroy_ddraw(video_canvas_t *canvas);
 extern void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h);
 extern void video_canvas_set_palette_ddraw_8bit(video_canvas_t *canvas);

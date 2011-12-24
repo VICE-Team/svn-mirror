@@ -352,15 +352,7 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
         video_canvas_reset_dx9(canvas);
     }
     else {
-        canvas->bmp_info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-        canvas->bmp_info.bmiHeader.biWidth = width;
-        canvas->bmp_info.bmiHeader.biHeight = -(LONG)height;
-        canvas->bmp_info.bmiHeader.biPlanes = 1;
-        canvas->bmp_info.bmiHeader.biBitCount = canvas->depth;
-        canvas->bmp_info.bmiHeader.biCompression = BI_RGB;
-        canvas->bmp_info.bmiHeader.biSizeImage = canvas->depth / 8 * width * height;
-        lib_free(canvas->pixels);
-        canvas->pixels = lib_malloc(canvas->bmp_info.bmiHeader.biSizeImage);
+        video_canvas_reset_ddraw(canvas);
     }
 }
 

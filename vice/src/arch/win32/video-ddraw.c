@@ -106,6 +106,7 @@ video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, unsigned int *
         SwitchToFullscreenMode(canvas->hwnd);
     }
 
+    video_canvas_reset_ddraw(canvas);
     return canvas;
 
 error:
@@ -113,6 +114,18 @@ error:
     return NULL;
 }
 
+void video_canvas_reset_ddraw(video_canvas_t *canvas)
+{
+    canvas->bmp_info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    canvas->bmp_info.bmiHeader.biWidth = canvas->width;
+    canvas->bmp_info.bmiHeader.biHeight = -(LONG)canvas->height;
+    canvas->bmp_info.bmiHeader.biPlanes = 1;
+    canvas->bmp_info.bmiHeader.biBitCount = canvas->depth;
+    canvas->bmp_info.bmiHeader.biCompression = BI_RGB;
+    canvas->bmp_info.bmiHeader.biSizeImage = canvas->depth / 8 * canvas->width * canvas->height;
+    lib_free(canvas->pixels);
+    canvas->pixels = lib_malloc(canvas->bmp_info.bmiHeader.biSizeImage);
+}
 
 /* ------------------------------------------------------------------------ */
 /*
