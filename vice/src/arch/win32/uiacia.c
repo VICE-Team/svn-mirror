@@ -283,8 +283,6 @@ static void init_plus4_acia_dialog(HWND hwnd)
     int xpos;
     int xsize, ysize;
     int res_value_loop;
-    int active_value;
-    int *current_base_address;
 
     SetWindowText(hwnd, translate_text(IDS_ACIA_CAPTION));
     temp_hwnd = GetDlgItem(hwnd, IDC_ACIA_ENABLE);

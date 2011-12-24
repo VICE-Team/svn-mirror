@@ -754,11 +754,11 @@ void enable_aspect_ratio(HWND hwnd)
 
 static void init_fullscreen_dialog(HWND hwnd)
 {
-    HWND setting_hwnd;
 #ifdef HAVE_D3D9_H
+    HWND setting_hwnd;
     DirectDrawDeviceList *dev;
-#endif
     ValueList *value;
+#endif
     int xpos;
     int xstart;
     int xend;
@@ -901,10 +901,12 @@ static void fullscreen_dialog_init(HWND hwnd)
 
 INT_PTR CALLBACK dialog_fullscreen_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+#ifdef HAVE_D3D9_H
+    int value;
+    int index;
+#endif
     int notifycode;
     int item;
-    int index;
-    int value;
     int command;
     TCHAR s[100];
     float tf;

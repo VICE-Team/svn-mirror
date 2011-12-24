@@ -84,8 +84,8 @@ static int video_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, in
 
     for (i = 0; i < nr; i++) {
         for (num = 0; num < numchips; num++) {
-            smpval1 = ((float)(*chip[num].sampleptr) * chip[num].avglum * NOISE_VOLUME) / (1 << 19);
-            smpval2 = ((*chip[num].lumaptr) * LUMALINES_VOLUME) / (1 << 16);
+            smpval1 = (int)((float)(*chip[num].sampleptr) * chip[num].avglum * NOISE_VOLUME) / (1 << 19);
+            smpval2 = (int)((*chip[num].lumaptr) * LUMALINES_VOLUME) / (1 << 16);
             switch (soc) {
                 default:
                 case 1:

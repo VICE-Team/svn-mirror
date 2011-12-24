@@ -41,6 +41,7 @@
 #include "renderyuv.h"
 #include "types.h"
 #include "video-render.h"
+#include "video-sound.h"
 #include "video.h"
 
 static void(*render_1x2_func)(video_render_config_t *, const BYTE *, BYTE *,
