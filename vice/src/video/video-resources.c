@@ -74,7 +74,6 @@ static int set_double_size_enabled(int val, void *param)
     video_canvas_t *canvas = (video_canvas_t *)param;
     int old_doublesizex, old_doublesizey;
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
-    int doublesize_ok = 0;
 
     if (val) {
         cap_render = &video_chip_cap->double_mode;
@@ -82,40 +81,31 @@ static int set_double_size_enabled(int val, void *param)
         cap_render = &video_chip_cap->single_mode;
     }
 
+    canvas->videoconfig->rendermode = cap_render->rmode;
+
     old_doublesizex = canvas->videoconfig->doublesizex;
     old_doublesizey = canvas->videoconfig->doublesizey;
 
     if (cap_render->sizex > 1
         && (video_chip_cap->dsize_limit_width == 0
-            || (canvas->draw_buffer->canvas_width > 0
-                && canvas->draw_buffer->canvas_width
+            || (canvas->draw_buffer->canvas_width
                    <= video_chip_cap->dsize_limit_width))
         ) {
-        doublesize_ok = 1;
+        canvas->videoconfig->doublesizex = (cap_render->sizex - 1);
     } else {
-        doublesize_ok = 0;
+        canvas->videoconfig->doublesizex = 0;
     }
 
     if (cap_render->sizey > 1
         && (video_chip_cap->dsize_limit_height == 0
-            || (canvas->draw_buffer->canvas_height > 0
-                && canvas->draw_buffer->canvas_height
+            || (canvas->draw_buffer->canvas_height
                    <= video_chip_cap->dsize_limit_height))
         ) {
-        /* leave doublesize_ok at 1 */
-    } else {
-        doublesize_ok = 0;
-    }
-
-    if (val && doublesize_ok) {
-        canvas->videoconfig->doublesizex = (cap_render->sizex - 1);
         canvas->videoconfig->doublesizey = (cap_render->sizey - 1);
     } else {
-        cap_render = &video_chip_cap->single_mode;
-        canvas->videoconfig->doublesizex = 0;
         canvas->videoconfig->doublesizey = 0;
     }
-    canvas->videoconfig->rendermode = cap_render->rmode;
+
 
     DBG(("set_double_size_enabled sizex:%d sizey:%d doublesizex:%d doublesizey:%d rendermode:%d", cap_render->sizex, cap_render->sizey, canvas->videoconfig->doublesizex, canvas->videoconfig->doublesizey, canvas->videoconfig->rendermode));
 
