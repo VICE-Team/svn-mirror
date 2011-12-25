@@ -1077,7 +1077,10 @@ static void draw_sprite_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
     }
 }
 
-
+/*
+    draw sprites for part of a scanline. make sure not to draw outside the
+    actually visible part of the line, see note below.
+*/
 static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
                                      int xs, int xe)
 {
@@ -1130,11 +1133,25 @@ static void draw_all_sprites_partial(BYTE *line_ptr, BYTE *gfx_msk_ptr,
     }
 }
 
+/*
+    draw all sprites for a complete line. 
+
+    NOTE: make sure not to draw more than the actually visible part of the line,
+    because also only that part will get overdrawn by the border color and
+    excessive pixels will show up as artefacts in renderers which rely on the
+    offscreen area properly being updated (such as Scale2x and CRT emulation).
+ */
 static void draw_all_sprites(BYTE *line_ptr, BYTE *gfx_msk_ptr)
 {
+/*
     draw_all_sprites_partial(line_ptr, gfx_msk_ptr,
                     VICII_RASTER_X(0),
                     vicii.cycles_per_line * 8 + VICII_RASTER_X(0) - 1);
+*/
+    draw_all_sprites_partial(line_ptr, gfx_msk_ptr,
+                    VICII_RASTER_X(0) + vicii.raster.geometry->extra_offscreen_border_left,
+                    VICII_RASTER_X(0) + vicii.raster.geometry->extra_offscreen_border_left +
+                    (vicii.raster.geometry->screen_size.width - 1));
 }
 
 static void update_cached_sprite_collisions(raster_cache_t *cache)

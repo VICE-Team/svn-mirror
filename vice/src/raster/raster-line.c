@@ -179,9 +179,10 @@ static void handle_blank_line(raster_t *raster)
 inline static void draw_sprites(raster_t *raster)
 {
     if (raster->sprite_status != NULL
-        && raster->sprite_status->draw_function != NULL)
+        && raster->sprite_status->draw_function != NULL) {
         raster->sprite_status->draw_function(raster->draw_buffer_ptr,
                                              raster->gfx_msk);
+    }
 }
 
 inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
@@ -189,12 +190,13 @@ inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
     if (raster->sprite_status != NULL
         && raster->sprite_status->draw_partial_function != NULL)
     {
-        if (raster->sprite_xsmooth_shift_right > 0)
+        if (raster->sprite_xsmooth_shift_right > 0) {
             raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
                                              raster->zero_gfx_msk, xs, xe);
-        else
+        } else {
             raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
                                              raster->gfx_msk, xs, xe);
+        }
         raster->sprite_xsmooth_shift_right = 0;
     }
 }
@@ -202,19 +204,22 @@ inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
 void raster_line_draw_borders(raster_t *raster)
 {
     if (!raster->border_disable) {
-        if (!raster->open_left_border)
+        if (!raster->open_left_border) {
             raster_line_draw_blank(raster, 0, raster->display_xstart - 1);
-        if (!raster->open_right_border)
+        }
+        if (!raster->open_right_border) {
             raster_line_draw_blank(raster, raster->display_xstop,
                                    raster->geometry->screen_size.width - 1);
+        }
     }
 }
 
 void raster_line_fill_xsmooth_region(raster_t *raster)
 {
-    if (raster->xsmooth != 0)
+    if (raster->xsmooth != 0) {
         memset(raster->draw_buffer_ptr + raster->geometry->gfx_position.x,
                raster->xsmooth_color, raster->xsmooth);
+    }
 }
 
 inline static int update_for_minor_changes(raster_t *raster,
@@ -500,24 +505,33 @@ static void handle_visible_line_with_changes(raster_t *raster)
 
     raster->xsmooth_shift_left = 0;
 
-    /* Draw the sprites.  */
+/* 
+    Draw the sprites.
+
+    NOTE: make sure not to draw more than the actually visible part of the line,
+    because also only that part will get overdrawn by the border color and
+    excessive pixels will show up as artefacts in renderers which rely on the
+    offscreen area properly being updated (such as Scale2x and CRT emulation).
+*/
 #if 0
     draw_sprites(raster);
 #else
-    for (xs = 0 - geometry->extra_offscreen_border_left, i = 0;
-        i < changes->sprites->count; i++) {
+    xs = 0;
+    for (i = 0; i < changes->sprites->count; i++) {
         int xe = changes->sprites->actions[i].where;
 
+        if (xe >= geometry->screen_size.width) {
+            xe = geometry->screen_size.width - 1;
+        }
         if (xs < xe) {
             draw_sprites_partial(raster, xs, xe - 1);
             xs = xe;
         }
         raster_changes_apply(changes->sprites, i);
     }
-    if (xs <= (int)(geometry->screen_size.width
-        + geometry->extra_offscreen_border_right) - 1)
-        draw_sprites_partial(raster, xs, geometry->screen_size.width
-                             + geometry->extra_offscreen_border_right - 1);
+    if (xs <= geometry->screen_size.width - 1) {
+        draw_sprites_partial(raster, xs, geometry->screen_size.width - 1);
+    }
 #endif
 
     /* If this is really a blanked line, draw border over all of the line
