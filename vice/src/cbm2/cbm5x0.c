@@ -1,5 +1,5 @@
 /*
- * cbm2.c
+ * cbm5x0.c
  *
  * Written by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
@@ -354,6 +354,10 @@ int machine_specific_init(void)
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
+    /* Initialize keyboard buffer.
+       This appears to work but doesn't account for banking. */
+    kbdbuf_init(939, 209, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
+
     /* Initialize the CBM-II-specific part of the UI.  */
 #if defined(__BEOS__) || defined(USE_SDLUI) || defined(USE_GNOMEUI) /* XAW? */
     /* FIXME make this available on other ports */
@@ -421,7 +425,7 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vicii_shutdown();
 
-#if (defined(__BEOS__) || defined(USE_GNOMEUI) /* XAW? */) && !defined(USE_SDLUI)
+#if defined(__BEOS__) || defined(USE_SDLUI) || defined(USE_GNOMEUI) /* XAW? */
     /* FIXME make this available on other ports too */
     cbm5x0ui_shutdown();
 #else
@@ -486,8 +490,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
     *half_cycle = (int)-1;
 }
 
-/* note: function splitted to prepare binary splitting */
-static void machine_change_timing_c500(int timeval)
+void machine_change_timing(int timeval)
 {
    int border_mode;
 
@@ -543,11 +546,6 @@ static void machine_change_timing_c500(int timeval)
 
     vicii_change_timing(&machine_timing, border_mode);
     cia1_set_timing(machine_context.cia1, machine_timing.cycles_per_rfsh);
-}
-
-void machine_change_timing(int timeval)
-{
-    machine_change_timing_c500(timeval);
 }
 
 /* Set the screen refresh rate, as this is variable in the CRTC */
