@@ -540,6 +540,11 @@ void machine_change_timing(int timeval)
         timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
         border_mode = VICII_DEBUG_BORDERS;
         break;
+      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
+      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
+        timeval ^= VICII_BORDER_MODE(VICII_NO_BORDERS);
+        border_mode = VICII_NO_BORDERS;
+        break;
    }
 
     switch (timeval) {

@@ -88,6 +88,10 @@ NTSC display ranges:
   - one less for old ntsc (?)
 - makes 263 lines total (262 for old ntsc)
 */
+
+#define VICII_NO_BORDER_FIRST_DISPLAYED_LINE         51
+#define VICII_NO_BORDER_LAST_DISPLAYED_LINE          250
+
 #define VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE       0x1c   /* 8 + 20 */
 #define VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE        0x112  /* 254 + 20 */
 #define VICII_NTSC_FULL_FIRST_DISPLAYED_LINE         0x16   /* 2 + 20 */

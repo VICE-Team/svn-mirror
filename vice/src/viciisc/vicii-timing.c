@@ -39,6 +39,12 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
 
     resources_get_int("MachineVideoStandard", &mode);
 
+    /* only the text window, will be used if VICII_NO_BORDERS */
+    vicii.screen_leftborderwidth = 0;
+    vicii.screen_rightborderwidth = 0;
+    vicii.first_displayed_line = VICII_NO_BORDER_FIRST_DISPLAYED_LINE;
+    vicii.last_displayed_line = VICII_NO_BORDER_LAST_DISPLAYED_LINE;
+
     switch (mode) {
       case MACHINE_SYNC_NTSC:
         switch (border_mode) {
@@ -60,6 +66,8 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_DEBUG_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_NTSC_DEBUG_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_NTSC_DEBUG_LAST_DISPLAYED_LINE;
+            break;
+          case VICII_NO_BORDERS:
             break;
         }
         break;
@@ -84,6 +92,8 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.first_displayed_line = VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE;
             break;
+          case VICII_NO_BORDERS:
+            break;
         }
         break;
       case MACHINE_SYNC_PALN:
@@ -106,6 +116,8 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.screen_rightborderwidth = VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_PALN_DEBUG_LAST_DISPLAYED_LINE;
+            break;
+          case VICII_NO_BORDERS:
             break;
         }
         break;
@@ -130,6 +142,8 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.screen_rightborderwidth = VICII_SCREEN_PAL_DEBUG_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_PAL_DEBUG_LAST_DISPLAYED_LINE;
+            break;
+          case VICII_NO_BORDERS:
             break;
         }
         break;

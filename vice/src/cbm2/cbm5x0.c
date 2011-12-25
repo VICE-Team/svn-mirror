@@ -494,20 +494,28 @@ static void machine_change_timing_c500(int timeval)
     /* log_message(LOG_DEFAULT, "machine_change_timing_c500 %d", timeval); */
 
     switch (timeval) {
-      default:
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
-        border_mode = VICII_NORMAL_BORDERS;
-        break;
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
-        border_mode = VICII_FULL_BORDERS;
-        break;
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
-        border_mode = VICII_DEBUG_BORDERS;
-        break;
-   }
+        default:
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
+            border_mode = VICII_NORMAL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
+            border_mode = VICII_FULL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
+            border_mode = VICII_DEBUG_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_NO_BORDERS);
+            border_mode = VICII_NO_BORDERS;
+            break;
+    }
 
     switch (timeval) {
         case MACHINE_SYNC_PAL:

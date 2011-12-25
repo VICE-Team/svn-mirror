@@ -44,6 +44,7 @@ struct snapshot_s;
 #define VICII_NORMAL_BORDERS 0
 #define VICII_FULL_BORDERS   1
 #define VICII_DEBUG_BORDERS  2
+#define VICII_NO_BORDERS     3
 #define VICII_BORDER_MODE(v) (v << 12)
 
 /* VICII model defines (for viciisc/) FIXME enum instead? */
