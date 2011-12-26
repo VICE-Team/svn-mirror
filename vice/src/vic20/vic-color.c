@@ -32,6 +32,7 @@
 
 #include "vic-color.h"
 #include "vic.h"
+#include "victypes.h"
 #include "video.h"
 
 

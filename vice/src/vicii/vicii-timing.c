@@ -94,7 +94,7 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
             vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_NORMAL_RIGHTBORDERWIDTH;
             vicii.first_displayed_line = VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE;
             vicii.last_displayed_line = VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE;
-            break;       
+            break;
           case VICII_FULL_BORDERS:
             vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_FULL_LEFTBORDERWIDTH;
             vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_FULL_RIGHTBORDERWIDTH;

@@ -30,15 +30,39 @@
 
 #include "archdep.h"
 #include "fullscreen.h"
+#include "machine.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "vic-resources.h"
 #include "vic.h"
+#include "victypes.h"
 #include "video.h"
 
-
+vic_resources_t vic_resources = { 0 };
 static video_chip_cap_t video_chip_cap;
 
+static int set_border_mode(int val, void *param)
+{
+    int sync;
+
+    if (resources_get_int("MachineVideoStandard", &sync) < 0) {
+        sync = MACHINE_SYNC_PAL;
+    }
+
+    if (vic_resources.border_mode != val) {
+        vic_resources.border_mode = val;
+        machine_change_timing(sync ^ VIC_BORDER_MODE(vic_resources.border_mode));
+    }
+   return 0;
+}
+
+static const resource_int_t resources_int[] =
+{
+    { "VICBorderMode", VIC_NORMAL_BORDERS, RES_EVENT_SAME, NULL,
+      &vic_resources.border_mode,
+      set_border_mode, NULL },
+    { NULL }
+};
 
 int vic_resources_init(void)
 {
@@ -64,9 +88,10 @@ int vic_resources_init(void)
 
     vic.video_chip_cap = &video_chip_cap;
 
-    if (raster_resources_chip_init("VIC", &vic.raster, &video_chip_cap) < 0)
+    if (raster_resources_chip_init("VIC", &vic.raster, &video_chip_cap) < 0) {
         return -1;
+    }
 
-    return 0;
+    return resources_register_int(resources_int);
 }
 

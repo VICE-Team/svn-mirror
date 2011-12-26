@@ -37,6 +37,7 @@
 #include "uipalemu.h"
 #include "uipalette.h"
 #include "util.h"
+#include "vic.h"
 #include "video.h"
 
 #ifdef HAVE_OPENGL_SYNC
@@ -62,6 +63,20 @@ static ui_menu_entry_t palette_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"VIC", NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(VICBorderMode)
+
+static ui_menu_entry_t bordermode_submenu[] = {
+    { N_("Normal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICBorderMode,
+      (ui_callback_data_t)VIC_NORMAL_BORDERS, NULL },
+    { N_("Full"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICBorderMode,
+      (ui_callback_data_t)VIC_FULL_BORDERS, NULL },
+    { N_("Debug"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICBorderMode,
+      (ui_callback_data_t)VIC_DEBUG_BORDERS, NULL },
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICBorderMode,
+      (ui_callback_data_t)VIC_NO_BORDERS, NULL },
     { NULL }
 };
 
@@ -148,6 +163,8 @@ ui_menu_entry_t vic_submenu[] = {
       NULL, NULL, NULL },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Border mode"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, bordermode_submenu },
     { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VICAudioLeak, NULL, NULL },
 #ifdef HAVE_HWSCALE

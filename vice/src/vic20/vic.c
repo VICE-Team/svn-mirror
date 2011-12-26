@@ -54,8 +54,10 @@
 #include "vic-mem.h"
 #include "vic-resources.h"
 #include "vic-snapshot.h"
+#include "vic-timing.h"
 #include "vic-color.h"
 #include "vic.h"
+#include "victypes.h"
 #include "vic20.h"
 #include "vic20-resources.h"
 #include "vic20mem.h"
@@ -76,36 +78,9 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     }
 }
 
-void vic_change_timing(void)
+void vic_change_timing(machine_timing_t *machine_timing, int border_mode)
 {
-    int mode;
-
-    resources_get_int("MachineVideoStandard", &mode);
-
-    switch (mode) {
-      case MACHINE_SYNC_NTSC:
-        vic.screen_height = VIC20_NTSC_SCREEN_LINES;
-        vic.screen_width = VIC_NTSC_SCREEN_WIDTH;
-        vic.display_width = VIC_NTSC_DISPLAY_WIDTH;
-        vic.first_displayed_line = VIC20_NTSC_FIRST_DISPLAYED_LINE;
-        vic.last_displayed_line = VIC20_NTSC_LAST_DISPLAYED_LINE;
-        vic.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
-        vic.cycle_offset = VIC20_NTSC_CYCLE_OFFSET;
-        vic.max_text_cols = VIC_NTSC_MAX_TEXT_COLS;
-        break;
-      case MACHINE_SYNC_PAL:
-      default:
-        vic.screen_height = VIC20_PAL_SCREEN_LINES;
-        vic.screen_width = VIC_PAL_SCREEN_WIDTH;
-        vic.display_width = VIC_PAL_DISPLAY_WIDTH;
-        vic.first_displayed_line = VIC20_PAL_FIRST_DISPLAYED_LINE;
-        vic.last_displayed_line = VIC20_PAL_LAST_DISPLAYED_LINE;
-        vic.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
-        vic.cycle_offset = VIC20_PAL_CYCLE_OFFSET;
-        vic.max_text_cols = VIC_PAL_MAX_TEXT_COLS;
-        break;
-    }
-
+    vic_timing_set(machine_timing, border_mode);
     if (vic.initialized) {
         vic_set_geometry();
         raster_mode_change();
@@ -244,7 +219,7 @@ raster_t *vic_init(void)
 {
     vic.log = log_open("VIC");
 
-    vic_change_timing();
+    /* vic_change_timing(); */
 
     if (init_raster() < 0) {
         return NULL;

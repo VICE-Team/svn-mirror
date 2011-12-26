@@ -49,8 +49,9 @@ static int set_border_mode(int val, void *param)
 {
     int sync;
 
-    if (resources_get_int("MachineVideoStandard", &sync) < 0)
+    if (resources_get_int("MachineVideoStandard", &sync) < 0) {
         sync = MACHINE_SYNC_PAL;
+    }
 
     if (vicii_resources.border_mode != val) {
         vicii_resources.border_mode = val;

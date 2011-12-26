@@ -28,62 +28,47 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cmdline.h"
+#include "machine.h"
 #include "raster-cmdline-options.h"
 #include "resources.h"
 #include "translate.h"
 #include "vic-cmdline-options.h"
+#include "vic-resources.h"
 #include "vic.h"
+#include "victypes.h"
+
+int border_set_func(const char *value, void *extra_param)
+{
+   int video;
+
+   resources_get_int("MachineVideoStandard", &video);
+
+   if (strcmp(value, "1") == 0 || strcmp(value, "full") == 0) {
+       vic_resources.border_mode = VIC_FULL_BORDERS;
+   } else if (strcmp(value, "2") == 0 || strcmp(value, "debug") == 0) {
+       vic_resources.border_mode = VIC_DEBUG_BORDERS;
+   } else if (strcmp(value, "3") == 0 || strcmp(value, "none") == 0) {
+       vic_resources.border_mode = VIC_NO_BORDERS;
+   } else {
+       vic_resources.border_mode = VIC_NORMAL_BORDERS;
+   }
+
+   machine_change_timing(video ^ VIC_BORDER_MODE(vic_resources.border_mode));
+
+   return 0;
+}
 
 /* VIC command-line options.  */
 static const cmdline_option_t cmdline_options[] =
 {
-    { "-saturation", SET_RESOURCE, 1,
-      NULL, NULL, "ColorSaturation", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_SATURATION,
-      "<0-2000>", NULL },
-    { "-contrast", SET_RESOURCE, 1,
-      NULL, NULL, "ColorContrast", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_CONTRAST,
-      "<0-2000>", NULL },
-    { "-brightness", SET_RESOURCE, 1,
-      NULL, NULL, "ColorBrightness", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_BRIGHTNESS,
-      "<0-2000>", NULL },
-    { "-gamma", SET_RESOURCE, 1,
-      NULL, NULL, "ColorGamma", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_GAMMA,
-      "<0-4000>", NULL },
-    { "-tint", SET_RESOURCE, 1,
-      NULL, NULL, "ColorTint", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_TINT,
-      "<0-2000>", NULL },
-    { "-oddlinesphase", SET_RESOURCE, 1,
-      NULL, NULL, "PALOddLinePhase", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_ODDLINES_PHASE,
-      "<0-2000>", NULL },
-    { "-oddlinesoffset", SET_RESOURCE, 1,
-      NULL, NULL, "PALOddLineOffset", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_ODDLINES_OFFSET,
-      "<0-2000>", NULL },
-    { "-crtblur", SET_RESOURCE, 1,
-      NULL, NULL, "PALBlur", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_BLUR,
-      "<0-1000>", NULL },
-    { "-crtscanlineshade", SET_RESOURCE, 1,
-      NULL, NULL, "PALScanLineShade", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_SET_SCANLINE_SHADE,
-      "<0-1000>", NULL },
+    { "-VICborders", CALL_FUNCTION, 1,
+      border_set_func, NULL, "VICBorderMode", (void *)0,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SET_BORDER_MODE,
+      NULL, NULL },
     { NULL }
 };
 

@@ -35,8 +35,8 @@
 #include "mem.h"
 #include "raster.h"
 #include "types.h"
-#include "vic-cycle.h"
 #include "vic.h"
+#include "victypes.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
 

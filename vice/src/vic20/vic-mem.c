@@ -36,6 +36,7 @@
 #include "raster.h"
 #include "types.h"
 #include "vic.h"
+#include "victypes.h"
 #include "vic-mem.h"
 #include "vic20mem.h"
 #include "vic20sound.h"
