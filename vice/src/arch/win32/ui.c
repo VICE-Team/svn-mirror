@@ -739,7 +739,6 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
 
     GetClientRect(w, &wrect);
     ClientToScreen(w, (LPPOINT)&wrect);
-    ClientToScreen(w, ((LPPOINT)&wrect) + 1);
     wrect.right = wrect.left + width;
     wrect.bottom = wrect.top + height + statusbar_get_status_height();
     adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
@@ -769,7 +768,12 @@ static void ui_resize_render_window(video_canvas_t *canvas)
     }
 
     GetClientRect(canvas->hwnd, &wrect);
-    MoveWindow(canvas->render_hwnd, 0, 0, wrect.right - wrect.left, wrect.bottom - wrect.top - statusbar_get_status_height(), TRUE);
+    if (video_dx9_enabled()) {
+        MoveWindow(canvas->render_hwnd, 0, 0, wrect.right - wrect.left, wrect.bottom - wrect.top - statusbar_get_status_height(), TRUE);
+    }
+    else if (wrect.right > wrect.left && wrect.bottom > wrect.top) {
+        video_canvas_redraw_size(canvas, wrect.right - wrect.left, wrect.bottom - wrect.top - statusbar_get_status_height());
+    }
 }
 
 void ui_set_alwaysontop(int alwaysontop)

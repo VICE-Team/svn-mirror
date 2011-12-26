@@ -178,8 +178,6 @@ static void clear(HDC hdc, int x1, int y1, int x2, int y2)
     FillRect(hdc, &clear_rect, back_color);
 }
 
-static void real_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h);
-
 void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int w, int h)
 {
     video_canvas_t *c;
@@ -189,8 +187,7 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
     int yi;   //  upperleft y in client space
     int window_index;
     RECT rect;
-    int safex, safey, safey2;
-    int cut_rightline, cut_bottomline;
+    int safex, safex2, safey, safey2;
     unsigned int pixel_width, pixel_height;
 
     c = video_canvas_for_hwnd(hwnd);
@@ -218,22 +215,15 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
     xi = xclient;
     yi = yclient;
 
-    safex = (c->viewport->first_x - c->viewport->x_offset + c->geometry->extra_offscreen_border_left) * pixel_width;
-    safey = (c->viewport->first_line - c->viewport->y_offset) * pixel_height;
-    safey2 = (c->viewport->last_line - c->viewport->y_offset + 1) * pixel_height;
+    safex = (c->viewport->first_x + c->geometry->extra_offscreen_border_left) * pixel_width;
+    safex2 = c->draw_buffer->draw_buffer_width * pixel_width;
+    safey = c->viewport->first_line * pixel_height;
+    safey2 = (c->viewport->last_line + 1) * pixel_height;
 
     if (c->draw_buffer->draw_buffer) {
-        cut_rightline = safex + c->draw_buffer->canvas_width * pixel_width;
-        cut_bottomline = safey + c->draw_buffer->canvas_height * pixel_height;
-        if (cut_rightline > (int)(c->draw_buffer->draw_buffer_width * pixel_width)) {
-            cut_rightline = (int)(c->draw_buffer->draw_buffer_width * pixel_width);
-        }
-        if (cut_bottomline > (int)(c->draw_buffer->draw_buffer_height * pixel_height)) {
-            cut_bottomline = c->draw_buffer->draw_buffer_height * pixel_height;
-        }
-
         /*  Check if it's out */
-        if ((xs + w <= safex) || (xs >= cut_rightline) || (ys + h <= safey) || (ys >= cut_bottomline)) {
+        if ((xs + w <= safex) || (xs >= safex2) || (ys + h <= safey) ||
+(ys >= safey2)) {
             clear(hdc, xi, yi, xi + w, yi + h);
             return;
         }
@@ -261,15 +251,37 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
         }
 
         /*  Cut right */
-        if (xs + w > cut_rightline) {
-            clear(hdc, xi + cut_rightline - xs, yi, xi + w, yi + h);
-            w = cut_rightline - xs;
+        if (xs + w > safex2) {
+            clear(hdc, xi + safex2 - xs, yi, xi + w, yi + h);
+            w = safex2 - xs;
         }
 
         /*  Update remaining area from framebuffer.... */
 
-        if ((w > 0) && (h > 0)) {
-            real_refresh(c, xs / pixel_width, ys / pixel_width, xi, yi, w, h);
+        if ((w > 0) && (h > 0) && !IsIconic(c->hwnd)) {
+            HDC hdc = GetDC(c->hwnd);
+
+            xs /= pixel_width;
+            ys /= pixel_height;
+            if (syscolorchanged) {
+                ui_error("System colors changed!\n(not implemented yet)");
+                syscolorchanged = 0;
+            }
+            if (displaychanged) {
+                displaychanged = 0;
+            }
+            if (querynewpalette) {
+                querynewpalette = 0;
+            }
+            if (palettechanged) {
+                palettechanged = 0;
+            }
+
+            video_canvas_render(c, c->pixels, w, h, xs, ys, xi, yi, c->depth / 8 * c->width, c->depth);
+            SetDIBitsToDevice(hdc,
+                xi, yi, w, h, xi, yi, yi, yi+h,
+                c->pixels, &c->bmp_info, DIB_RGB_COLORS);
+            ReleaseDC(c->hwnd, hdc);
         }
     }
 }
@@ -277,8 +289,6 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
 void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
     int window_index;
-    unsigned int client_x;
-    unsigned int client_y;
     RECT rect;
 
     if (canvas->videoconfig->doublesizex) {
@@ -300,47 +310,14 @@ void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigne
         DEBUG(("PANIC: can't find window"));
         return;
     }
-    client_x = xi;
-    client_y = yi;
 
     GetClientRect(canvas->hwnd, &rect);
-    client_x += (rect.right - window_canvas_xsize[window_index]) / 2;
-    client_y += (rect.bottom - statusbar_get_status_height() - window_canvas_ysize[window_index]) / 2;
+    rect.left = xi + (rect.right - window_canvas_xsize[window_index]) / 2;
+    rect.top = yi + (rect.bottom - statusbar_get_status_height() - window_canvas_ysize[window_index]) / 2;
+    rect.right = w + rect.left;
+    rect.bottom = w + rect.top;
 
-    real_refresh(canvas, xs, ys, client_x, client_y, w, h);
-}
-
-static void real_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
-{
-    HDC hdc;
-
-    if (IsIconic(c->hwnd)) {
-        return;
-    }
-
-    hdc = GetDC(c->hwnd);
-
-    {
-        if (syscolorchanged) {
-            ui_error("System colors changed!\n(not implemented yet)");
-            syscolorchanged = 0;
-        }
-        if (displaychanged) {
-            displaychanged = 0;
-        }
-        if (querynewpalette) {
-            querynewpalette = 0;
-        }
-        if (palettechanged) {
-            palettechanged = 0;
-        }
-    }
-
-    video_canvas_render(c, c->pixels, w, h, xs, ys, xi, yi, c->depth / 8 * c->width, c->depth);
-    SetDIBitsToDevice(hdc,
-        xi, yi, w, h, xi, yi, yi, yi+h,
-        c->pixels, &c->bmp_info, DIB_RGB_COLORS);
-    ReleaseDC(c->hwnd, hdc);
+    InvalidateRect(canvas->hwnd, &rect, FALSE);
 }
 
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
