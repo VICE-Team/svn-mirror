@@ -165,7 +165,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_GEORAM  "Seleziona file per GEO-RAM"
   IDS_GEORAM_CAPTION      "Impostazioni GEO-RAM"
-  IDS_GEORAM_ENABLE       "Enable the GEO-RAM expansion unit"
+  IDS_GEORAM_ENABLE       "Attiva l'espansione GEO-RAM"
   IDS_GEORAM_SIZE_LABEL   "Dimensione GEO-RAM"
   IDS_GEORAM_WRITE_ENABLE "Salva immagine GEO-RAM al cambio"
   IDS_GEORAM_FILE_LABEL   "File GEO-RAM"
@@ -270,7 +270,7 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_GEORAM  "GEO-RAM için dosya seçin"
   IDS_GEORAM_CAPTION      "GEO-RAM ayarlarý"
-  IDS_GEORAM_ENABLE       "Enable the GEO-RAM expansion unit"
+  IDS_GEORAM_ENABLE       "GEO-RAM geniþletme birimini aktif et"
   IDS_GEORAM_SIZE_LABEL   "GEO-RAM boyutu"
   IDS_GEORAM_WRITE_ENABLE "GEO-RAM imajý deðiþtiðinde kaydet"
   IDS_GEORAM_FILE_LABEL   "GEO-RAM dosyasý"

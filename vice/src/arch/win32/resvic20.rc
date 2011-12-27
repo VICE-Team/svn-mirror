@@ -899,7 +899,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000          "Seleziona immagine cartuccia di 4/8/16KB a $6000"
     IDS_ATTACH_4_8_CART_A000             "Seleziona immagine cartuccia di 4/8KB a $A000"
     IDS_ATTACH_4_CART_B000               "Seleziona immagine cartuccia di 4KB a $B000"
-    IDS_IO_SWAP                          "Enable MasC=uerade I/O swap"
+    IDS_IO_SWAP                          "Attiva I/O swap MasC=uerade"
     IDS_MI_IEEE488                       "Modulo VIC-1112 IEEE-488"
     IDS_MI_PADDLES                       "Attiva paddle"
     IDS_MI_CART_VIC20_GENERIC            "Immagine generica..."
@@ -924,7 +924,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Impostazioni Ethernet (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Impostazioni SFX Sound Expander (MasC=uerade)..."
-    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "Impostazioni SFX Sound Sampler (MasC=uerade)..."
 END
 
 
@@ -1256,7 +1256,7 @@ BEGIN
     IDS_ATTACH_4_8_16_CART_6000          "$6000 adresine 4/8/16KB kartuþ imajý yerleþtir"
     IDS_ATTACH_4_8_CART_A000             "$A000 adresine 4/8KB kartuþ imajý yerleþtir"
     IDS_ATTACH_4_CART_B000               "$B000 adresine 4KB kartuþ imajý yerleþtir"
-    IDS_IO_SWAP                          "Enable MasC=uerade I/O swap"
+    IDS_IO_SWAP                          "MasC=uerade G/Ç deðiþimini aktif et"
     IDS_MI_IEEE488                       "VIC-1112 IEEE-488 modülü"
     IDS_MI_PADDLES                       "Paddlelarý aktif et"
     IDS_MI_CART_VIC20_GENERIC            "Jenerik imaj..."
@@ -1281,7 +1281,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet Ayarlarý (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander Ayarlarý (MasC=uerade)..."
-    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler ayarlarý (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

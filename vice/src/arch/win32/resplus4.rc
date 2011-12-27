@@ -777,14 +777,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_ATTACH_CART0_LOW            "Attach cartridge image for Cartridge0 Low"
-  IDS_ATTACH_CART0_HIGH           "Attach cartridge image for Cartridge0 High"
+  IDS_ATTACH_CART0_LOW            "Koppel cartridge bestand voor 'Cartridge0 Low'"
+  IDS_ATTACH_CART0_HIGH           "Koppel cartridge bestand voor 'Cartridge0 High'"
   IDS_ATTACH_CART1_LOW            "Koppel cartridge bestand voor 'Cartridge1 Low'"
   IDS_ATTACH_CART1_HIGH           "Koppel cartridge bestand voor 'Cartridge1 High'"
   IDS_ATTACH_CART2_LOW            "Koppel cartridge bestand voor 'Cartridge2 Low'"
   IDS_ATTACH_CART2_HIGH           "Koppel cartridge bestand voor 'Cartridge2 High'"
-  IDS_FUNCTION_LO                 "Function Lo"
-  IDS_FUNCTION_HI                 "Function Hi"
+  IDS_FUNCTION_LO                 "Functie Lo"
+  IDS_FUNCTION_HI                 "Functie Hi"
   IDS_PLUS4_SETTINGS_CAPTION      "Plus4 instellingen"
   IDS_SELECT_PLUS4_MEM_16         "16 kByte"
   IDS_SELECT_PLUS4_MEM_32         "32 kByte"
@@ -794,15 +794,15 @@ BEGIN
   IDS_SELECT_PLUS4_MEM_1M_HANNES  "1024 kByte (HANNES)"
   IDS_SELECT_PLUS4_MEM_4M_HANNES  "4096 kByte (HANNES)"
   IDS_PLUS4MODEL                  "Plus4 model"
-  IDS_MI_CART_ATTACH_C0LO         "C0 low  image..."
-  IDS_MI_CART_ATTACH_C0HI         "C0 high image..."
+  IDS_MI_CART_ATTACH_C0LO         "C0 low bestand..."
+  IDS_MI_CART_ATTACH_C0HI         "C0 high bestand..."
   IDS_MI_CART_ATTACH_C1LO         "C1 low bestand..."
   IDS_MI_CART_ATTACH_C1HI         "C1 high bestand..."
   IDS_MI_CART_ATTACH_C2LO         "C2 low bestand..."
   IDS_MI_CART_ATTACH_C2HI         "C2 high bestand..."
   IDS_MI_PLUS4_SETTINGS           "Plus4 instellingen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
-  IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
+  IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model instellingen..."
 END
 
 
@@ -958,3 +958,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

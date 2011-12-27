@@ -135,7 +135,7 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "Impostazioni REU"
-  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
+  IDS_REU_ENABLE       "Attiva l'espansione di RAM"
   IDS_REU_SIZE         "Dimensione REU"
   IDS_REU_WRITE_ENABLE "Salva immagine REU al cambio"
   IDS_REU_FILE         "File del REU"
@@ -240,7 +240,7 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU Ayarlarý"
-  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
+  IDS_REU_ENABLE       "RAM Geniþletme Birimi'ni aktif et"
   IDS_REU_SIZE         "REU boyutu"
   IDS_REU_WRITE_ENABLE "REU imajý deðiþtiðinde kaydet"
   IDS_REU_FILE         "REU dosyasý"

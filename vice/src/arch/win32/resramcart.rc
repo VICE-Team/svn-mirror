@@ -143,8 +143,8 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "Impostazioni RamCart "
-  IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
+  IDS_RAMCART_ENABLE       "Attiva l'espansione RamCart"
+  IDS_RAMCART_READONLY     "Sola lettura"
   IDS_RAMCART_SIZE         "Dimensione RamCart"
   IDS_RAMCART_WRITE_ENABLE "Salva immagine RamCart al cambio"
   IDS_RAMCART_FILE         "File RamCart"
@@ -254,8 +254,8 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "RamCart ayarlarý"
-  IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
+  IDS_RAMCART_ENABLE       "RamCart geniþlemesini aktif et"
+  IDS_RAMCART_READONLY     "Salt okunur"
   IDS_RAMCART_SIZE         "RamCart boyutu"
   IDS_RAMCART_WRITE_ENABLE "Deðistiðinde RamCart imajýna kaydet"
   IDS_RAMCART_FILE         "RamCart dosyasý"

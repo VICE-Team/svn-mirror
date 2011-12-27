@@ -216,7 +216,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Autostart warp"
     IDS_AUTOSTART_COLON_RUN                  "Gebruik ':' met RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Laad naar BASIC start"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Willekeurige vertraging"
     IDS_AUTOSTART_PRG_MODE                   "PRG autostart modus"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk bestand"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Selecteer bestand voor PRG autostart disk"
@@ -318,3 +318,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

@@ -245,7 +245,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
+  IDS_SIDCART_ENABLE                         "Attiva cartuccia SID"
   IDS_SIDCART_ADDRESS_LABEL                  "Indirizzo SID"
   IDS_SIDCART_CLOCK_LABEL                    "Clock SID"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "Selezione dispositivo HardSID"
@@ -350,7 +350,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
+  IDS_SIDCART_ENABLE                         "SID kartuþunu aktif et"
   IDS_SIDCART_ADDRESS_LABEL                  "SID adresi"
   IDS_SIDCART_CLOCK_LABEL                    "SID saati"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID aygýt seçimi"

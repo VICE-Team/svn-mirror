@@ -134,7 +134,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_ISEPIC  "Seleziona file per ISEPIC"
   IDS_ISEPIC_CAPTION      "Impostazioni ISEPIC"
-  IDS_ISEPIC_ENABLE       "Enable the ISEPIC cartridge"
+  IDS_ISEPIC_ENABLE       "Attiva la cartuccia ISEPIC"
   IDS_ISEPIC_SWITCH       "Interruttore ISEPIC"
   IDS_ISEPIC_WRITE_ENABLE "Salva immagine ISEPIC al cambio"
   IDS_ISEPIC_FILE_LABEL   "File ISEPIC"
@@ -239,7 +239,7 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_ISEPIC  "ISEPIC için dosya seçin"
   IDS_ISEPIC_CAPTION      "ISEPIC ayarlarý"
-  IDS_ISEPIC_ENABLE       "Enable the ISEPIC cartridge"
+  IDS_ISEPIC_ENABLE       "ISEPIC kartuþunu aktif et"
   IDS_ISEPIC_SWITCH       "ISEPIC anahtarý"
   IDS_ISEPIC_WRITE_ENABLE "ISEPIC imajý deðiþtiðinde kaydet"
   IDS_ISEPIC_FILE_LABEL   "ISEPIC dosyasý"

@@ -207,11 +207,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD image #1 settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD image #2 settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD image #3 settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
+    IDS_IDE64_V4_SETTINGS           "Impostazioni IDE64 C4"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "Impostazioni immagine HD  #1 IDE64"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "Impostazioni immagine HD  #2 IDE64"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "Impostazioni immagine HD  #3 IDE64"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "Impostazioni immagine HD  #4 IDE64"
     IDS_IDE64_SETTINGS              "Impostazioni IDE64"
     IDS_IDE64_V4                    "Attiva IDE64 V4"
     IDS_IDE64_IMAGE                 "File immagine HD"
@@ -366,11 +366,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD image #1 settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD image #2 settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD image #3 settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
+    IDS_IDE64_V4_SETTINGS           "IDE64 V4 ayarlarý"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD imajý #1 ayarlarý"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD imajý #2 ayarlarý"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD imajý #3 ayarlarý"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD imajý #4 ayarlarý"
     IDS_IDE64_SETTINGS              "IDE64 ayarlarý"
     IDS_IDE64_V4                    "IDE64 V4'ü aktif et"
     IDS_IDE64_IMAGE                 "HD imaj dosyasý"
