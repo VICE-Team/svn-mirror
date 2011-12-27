@@ -56,6 +56,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vic-mem.obj"
 	-@erase "$(INTDIR)\vic-resources.obj"
 	-@erase "$(INTDIR)\vic-snapshot.obj"
+	-@erase "$(INTDIR)\vic-timing.obj"
 	-@erase "$(INTDIR)\vic.obj"
 	-@erase "$(INTDIR)\vic20-cmdline-options.obj"
 	-@erase "$(INTDIR)\vic20-resources.obj"
@@ -133,6 +134,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\vic-mem.obj" \
 	"$(INTDIR)\vic-resources.obj" \
 	"$(INTDIR)\vic-snapshot.obj" \
+	"$(INTDIR)\vic-timing.obj" \
 	"$(INTDIR)\vic.obj" \
 	"$(INTDIR)\vic20-cmdline-options.obj" \
 	"$(INTDIR)\vic20-resources.obj" \
@@ -195,6 +197,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vic-mem.obj"
 	-@erase "$(INTDIR)\vic-resources.obj"
 	-@erase "$(INTDIR)\vic-snapshot.obj"
+	-@erase "$(INTDIR)\vic-timing.obj"
 	-@erase "$(INTDIR)\vic.obj"
 	-@erase "$(INTDIR)\vic20-cmdline-options.obj"
 	-@erase "$(INTDIR)\vic20-resources.obj"
@@ -272,6 +275,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\vic-mem.obj" \
 	"$(INTDIR)\vic-resources.obj" \
 	"$(INTDIR)\vic-snapshot.obj" \
+	"$(INTDIR)\vic-timing.obj" \
 	"$(INTDIR)\vic.obj" \
 	"$(INTDIR)\vic20-cmdline-options.obj" \
 	"$(INTDIR)\vic20-resources.obj" \
@@ -373,6 +377,12 @@ SOURCE="..\..\..\vic20\vic-resources.c"
 SOURCE="..\..\..\vic20\vic-snapshot.c"
 
 "$(INTDIR)\vic-snapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\vic20\vic-timing.c"
+
+"$(INTDIR)\vic-timing.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

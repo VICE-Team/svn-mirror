@@ -110,6 +110,10 @@ SOURCE="..\..\..\vic20\vic-snapshot.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\vic20\vic-timing.c"
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\vic20\vic.c
 # End Source File
 # Begin Source File
