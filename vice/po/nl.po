@@ -286,9 +286,8 @@ msgid "Screenshots"
 msgstr "Schermopnamen"
 
 #: src/arch/unix/gui/c128ui.c:502 src/arch/unix/gui/c128ui.c:548
-#, fuzzy
 msgid "C128 model"
-msgstr "CIA 1 model"
+msgstr "C128 model"
 
 #: src/arch/unix/gui/c128ui.c:510 src/arch/win32/resc128.rc.po.c:681
 #: src/arch/amigaos/intl_text.c.po.c:3142
@@ -701,9 +700,8 @@ msgid "Model defaults"
 msgstr "Model standaard instellingen"
 
 #: src/arch/unix/gui/cbm2ui.c:286
-#, fuzzy
 msgid "CIA model"
-msgstr "CIA 1 model"
+msgstr "CIA model"
 
 #: src/arch/unix/gui/cbm2ui.c:288 src/arch/unix/gui/cbm2ui.c:321
 #: src/arch/unix/gui/petui.c:313
@@ -1517,21 +1515,16 @@ msgid "Run C1541"
 msgstr "Start C1541"
 
 #: src/arch/unix/gui/uicommands.c:591
-#, fuzzy
 msgid "Available command-line options:"
-msgstr ""
-"\n"
-"Beschikbare command-line opties:\n"
-"\n"
+msgstr "Beschikbare command-line opties:"
 
 #: src/arch/unix/gui/uicommands.c:596
 msgid "Browse manuals"
 msgstr "Blader handboeken"
 
 #: src/arch/unix/gui/uicommands.c:598
-#, fuzzy
 msgid "Commandline options"
-msgstr "Commando opties"
+msgstr "Command-line opties"
 
 #: src/arch/unix/gui/uicommands.c:600 src/arch/win32/res.rc.po.c:176
 #: src/arch/win32/res.rc.po.c:1396 src/arch/amigaos/intl_text.c.po.c:3072
@@ -1674,9 +1667,8 @@ msgstr "CRT emulatie instellingen"
 #: src/arch/unix/gui/uicrtc.c:165 src/arch/unix/gui/uited.c:152
 #: src/arch/unix/gui/uivdc.c:182 src/arch/unix/gui/uivic.c:168
 #: src/arch/unix/gui/uivicii.c:193
-#, fuzzy
 msgid "Audio leak emulation"
-msgstr "Paddle emulatie"
+msgstr "Audio lek emulatie"
 
 #: src/arch/unix/gui/uicrtc.c:169 src/arch/unix/gui/uited.c:156
 #: src/arch/unix/gui/uivdc.c:186 src/arch/unix/gui/uivic.c:172
@@ -1849,9 +1841,8 @@ msgstr "Hardwarematige driveemulatie"
 #: src/arch/unix/gui/uidrivec64.c:45 src/arch/unix/gui/uidrivec64dtv.c:46
 #: src/arch/unix/gui/uidrivepetcbm2.c:95 src/arch/unix/gui/uidriveplus4.c:229
 #: src/arch/unix/gui/uidrivevic20.c:68
-#, fuzzy
 msgid "Drive sound emulation"
-msgstr "Printer emulatie"
+msgstr "Drive geluiden emulatie"
 
 #: src/arch/unix/gui/uidrive.c:191 src/arch/unix/gui/uidrivec64dtv.c:48
 #: src/translate_text.c.po.c:12567
@@ -5949,9 +5940,8 @@ msgid "Sound playback"
 msgstr "Geluidsuitvoer"
 
 #: src/arch/win32/res.rc.po.c:1413
-#, fuzzy
 msgid "Double vertical"
-msgstr "Naast elkaar"
+msgstr "Dubbel vertikaal"
 
 #: src/arch/win32/res.rc.po.c:1418 src/arch/amigaos/intl_text.c.po.c:454
 msgid "Smart-attach image"
@@ -6392,9 +6382,8 @@ msgid "ACIA mode"
 msgstr "ACIA modus"
 
 #: src/arch/win32/resautostart.rc.po.c:47
-#, fuzzy
 msgid "Random delay"
-msgstr "Willekeurige vertraging van de autostart"
+msgstr "Willekeurige vertraging"
 
 #: src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:9723
@@ -6989,14 +6978,12 @@ msgid "Plus4 settings"
 msgstr "Plus4 instellingen"
 
 #: src/arch/win32/resplus4.rc.po.c:458
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 Low"
-msgstr "Koppel cartridge bestand voor 'Cartridge1 Low'"
+msgstr "Koppel cartridge bestand voor 'Cartridge0 Low'"
 
 #: src/arch/win32/resplus4.rc.po.c:459
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 High"
-msgstr "Koppel cartridge bestand voor 'Cartridge1 High'"
+msgstr "Koppel cartridge bestand voor 'Cartridge0 High'"
 
 #: src/arch/win32/resplus4.rc.po.c:460 src/arch/amigaos/intl_text.c.po.c:8281
 msgid "Attach cartridge image for Cartridge1 Low"
@@ -7015,14 +7002,12 @@ msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Koppel cartridge bestand voor 'Cartridge2 High'"
 
 #: src/arch/win32/resplus4.rc.po.c:464
-#, fuzzy
 msgid "Function Lo"
-msgstr "Functie ROM"
+msgstr "Functie Lo"
 
 #: src/arch/win32/resplus4.rc.po.c:465
-#, fuzzy
 msgid "Function Hi"
-msgstr "Functie ROM"
+msgstr "Functie Hi"
 
 #: src/arch/win32/resplus4.rc.po.c:467
 msgid "16 kByte"
@@ -7053,19 +7038,16 @@ msgid "4096 kByte (HANNES)"
 msgstr "4096 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:474
-#, fuzzy
 msgid "Plus4 model"
-msgstr "C64 model"
+msgstr "Plus4 model"
 
 #: src/arch/win32/resplus4.rc.po.c:475
-#, fuzzy
 msgid "C0 low  image"
-msgstr "C1 low bestand"
+msgstr "C0 low bestand"
 
 #: src/arch/win32/resplus4.rc.po.c:476
-#, fuzzy
 msgid "C0 high image"
-msgstr "C1 high bestand"
+msgstr "C0 high bestand"
 
 #: src/arch/win32/resplus4.rc.po.c:477 src/arch/amigaos/intl_text.c.po.c:552
 msgid "C1 low  image"
@@ -7090,9 +7072,8 @@ msgid "V364 Speech settings"
 msgstr "V364 Spraak instellingen"
 
 #: src/arch/win32/resplus4.rc.po.c:483
-#, fuzzy
 msgid "Plus4 model settings"
-msgstr "C64 model instellingen"
+msgstr "Plus4 model instellingen"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:12091
 msgid "Enable the PLUS60K RAM expansion"
@@ -9280,7 +9261,7 @@ msgstr "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 
 #: src/translate_text.c.po.c:4069
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
-msgstr ""
+msgstr "Zet C128 model (c128/c128dcr, pal/ntsc)"
 
 #: src/translate_text.c.po.c:4086
 msgid ""
@@ -10632,14 +10613,12 @@ msgid "Disable double scan"
 msgstr "Dubbele scan uitschakelen"
 
 #: src/translate_text.c.po.c:10347
-#, fuzzy
 msgid "Enable audio leak emulation"
-msgstr "Activeer de lichtpen emulatie"
+msgstr "Activeer audio lek emulatie"
 
 #: src/translate_text.c.po.c:10364
-#, fuzzy
 msgid "Disable audio leak emulation"
-msgstr "De lichtpen emulatie uitschakelen"
+msgstr "De audio lek emulatie uitschakelen"
 
 #: src/translate_text.c.po.c:10381
 msgid "Enable hardware scaling"

@@ -2,8 +2,8 @@ This document show the current status of the translations:
 
 file   language   % done   fuzzy   untranslated items
 ----   --------   ------   -----   ------------------
+nl     Dutch       100        0           0
 pl     Polish       99       17           1
-nl     Dutch        99       18           1
 es     Spanish      99       18           1
 de     German       99       18           1
 it     Italian      99       18           1
