@@ -2848,6 +2848,7 @@ if test x"$is_unix" = "xyes"; then
       if test x"$enable_gnomeui" != "xyes" ; then
         ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a $ARCH_DIR/x11/xaw/libxawui.a $ARCH_DIR/x11/xaw/widgets/libwidgets.a $ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/libx11ui.a"
         ARCH_INCLUDES="-I$ARCH_SRC_DIR"
+        AC_DEFINE(USE_XAWUI,,[Are we using the Unix/X11/Xaw ui?])
       else
         ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a"
         ARCH_INCLUDES="-I$ARCH_SRC_DIR $GTK_CFLAGS $GTKGL_CFLAGS"
