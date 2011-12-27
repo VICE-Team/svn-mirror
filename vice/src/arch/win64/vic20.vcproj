@@ -865,6 +865,10 @@
 			</FileConfiguration>
 		</File>
 		<File
+			RelativePath="..\..\vic20\vic-timing.c"
+			>
+		</File>
+		<File
 			RelativePath="..\..\vic20\vic.c"
 			>
 			<FileConfiguration

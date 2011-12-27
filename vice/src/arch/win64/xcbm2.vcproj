@@ -74,7 +74,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxguid.lib comctl32.lib winmm.lib ddraw.lib dsound.lib wsock32.lib version.lib"
+				AdditionalDependencies="dxguid.lib comctl32.lib winmm.lib dsound.lib wsock32.lib version.lib"
 				OutputFile=".\..\..\..\data/xcbm2.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -591,7 +591,7 @@
 			RelativePath="..\..\main.c"
 			>
 			<FileConfiguration
-				Name="Release|x64"
+				Name="Debug|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -600,7 +600,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Debug|x64"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -649,22 +649,22 @@
 			RelativePath="..\win32\rescbm2.rc"
 			>
 			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressid.rc + ..\win32\resautostart.rc + ..\win32\resvicii.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressid.rc;..\win32\resautostart.rc;..\win32\resvicii.rc;"
-					Outputs="..\win32\rescbm2cat.rc"
-				/>
-			</FileConfiguration>
-			<FileConfiguration
 				Name="Debug|x64"
 				>
 				<Tool
 					Name="VCCustomBuildTool"
 					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressid.rc + ..\win32\resautostart.rc + ..\win32\resvicii.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
 					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\resautostart.rc;..\win32\ressid.rc;..\win32\resvicii.rc;"
+					Outputs="..\win32\rescbm2cat.rc"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressid.rc + ..\win32\resautostart.rc + ..\win32\resvicii.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressid.rc;..\win32\resautostart.rc;..\win32\resvicii.rc;"
 					Outputs="..\win32\rescbm2cat.rc"
 				/>
 			</FileConfiguration>
@@ -713,7 +713,7 @@
 			RelativePath="..\win32\rescbm2cat.rc"
 			>
 			<FileConfiguration
-				Name="Release|x64"
+				Name="Debug|x64"
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
@@ -722,7 +722,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Debug|x64"
+				Name="Release|x64"
 				>
 				<Tool
 					Name="VCResourceCompilerTool"
