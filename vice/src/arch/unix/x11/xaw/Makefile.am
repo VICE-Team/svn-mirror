@@ -28,6 +28,7 @@ libxawui_a_SOURCES = \
 	uicartridge.c \
 	uicolor.c \
 	uiedisk.c \
+	uiedit.c \
 	uimenu.c \
 	uimenu.h \
 	uiscreenshot.c \

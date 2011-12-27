@@ -32,7 +32,9 @@
 
 #ifdef USE_GNOMEUI
 #include "x11/gnome/uiarch.h"
-#else
+#endif
+
+#ifdef USE_XAWUI
 #ifdef VMS
 #include "xawuiarch.h"
 #else
@@ -48,7 +50,7 @@ extern void x11ui_map_canvas_window(ui_window_t w);
 extern void x11ui_unmap_canvas_window(ui_window_t w);
 extern void x11ui_destroy_widget(ui_window_t w);
 
-#if (defined USE_XF86_EXTENSIONS || !defined USE_GNOMEUI)
+#if (defined USE_XF86_EXTENSIONS || defined USE_XAWUI)
 extern int x11ui_get_display_depth(void);
 extern int x11ui_get_screen(void);
 extern void x11ui_fullscreen(int enable);
