@@ -1,5 +1,1088 @@
 ------------------------------------------------------------------------------
 
+2011-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.hlp, doc/vice.txt, doc/vice.guide,
+	doc/vice.chm, configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, src/monitor/mon_lex.c, po/es.po,
+	po/ko.po, po/fr.po, po/da.po, po/tr.po, po/sv.po, po/de.po, po/hu.po,
+	po/ru.po, po/nl.po, po/pl.po, po/it.po: VICE 2.3.13
+
+2011-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64_256k.rc,
+	src/arch/win32/resgeoram.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/resisepic.rc, src/arch/win32/resmmcreplay.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resramcart.rc, src/arch/win32/resreu.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2011-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2011-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2011-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/vic20.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/vic20.dsp,
+	src/arch/sdl/win32-watcom/vic20.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/vic20.vcproj,
+	src/arch/sdl/winmips-msvc/vic20.mak, src/arch/win32/vic20.dsp,
+	src/arch/win32/watcom/vic20.tgt, src/arch/win32/watcom/vice.wpj: Added
+	vic-timing.c to the msvc/ow project files.
+
+2011-12-27  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/x11/x11ui.h, src/arch/unix/x11/xaw/Makefile.am,
+	src/arch/unix/x11/xaw/uiedit.c: Add copy/paste support to Xaw gui
+	(like gnome).
+
+
+2011-12-27  Olaf Seibert <rhialto@falu.nl>
+
+	* configure.in, src/cbm2/cbm5x0.c: Introduce a #define USE_XAWUI, for
+	affirmative checking for Xaw
+ (rather than Unix + X11 but without
+	USE_GNOMEUI). Use this in cbm5x0 ui.
+
+
+2011-12-27  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win64/vic20.vcproj, src/arch/win64/vsid.vcproj,
+	src/arch/win64/xcbm2.vcproj: Fixes to project files
+
+2011-12-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uivic.c, src/vic20/Makefile.am,
+	src/vic20/vic-cmdline-options.c, src/vic20/vic-color.c,
+	src/vic20/vic-cycle.c, src/vic20/vic-draw.c, src/vic20/vic-mem.c,
+	src/vic20/vic-resources.c, src/vic20/vic-resources.h,
+	src/vic20/vic-snapshot.c, src/vic20/vic-timing.c,
+	src/vic20/vic-timing.h, src/vic20/vic.c, src/vic20/vic.h,
+	src/vic20/vic20.c, src/vic20/vic20.h, src/vic20/victypes.h,
+	src/vicii/vicii-resources.c, src/vicii/vicii-resources.h,
+	src/vicii/vicii-timing.c: added border mode selection to xvic
+	(see devlog)
+
+2011-12-25  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/ui.c, src/arch/win32/video-ddraw.c: Fix crashes when
+	minimizing and maximizing in GDI mode
+
+2011-12-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/cbm2/cbm2.c, src/cbm2/cbm5x0.c: Enable kbdbuf functionality for
+	xcbm2/xcbm5x0
+
+2011-12-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uivicii.c, src/c128/c128.c, src/c64/c64.c,
+	src/c64/vsid.c, src/c64dtv/c64dtv.c, src/cbm2/cbm5x0.c,
+	src/vicii/vicii-cmdline-options.c, src/vicii/vicii-timing.c,
+	src/vicii/vicii-timing.h, src/vicii.h,
+	src/viciisc/vicii-cmdline-options.c, src/viciisc/vicii-timing.c,
+	src/viciisc/vicii-timing.h: added 'no borders' mode to vicii
+
+2011-12-25  Olaf Seibert <rhialto@falu.nl>
+
+	* src/video/video-resources.c: Relax previous changes to
+	double-size-related values; just remove the check now that 
+caused them
+	not to set up at startup-time, when there is no canvas yet.
+
+
+2011-12-25  groepaz <groepaz@gmx.net>
+
+	* src/raster/raster-line.c, src/vicii/vicii-sprites.c: add/fix check
+	to not draw sprites outside the visible area. fixes bug #3165976
+
+2011-12-24  Olaf Seibert <rhialto@falu.nl>
+
+	* src/video/video-resources.c: set_double_size_enabled() could leave 3
+	key settings (regarding double
+size rendering) in an inconsistent
+	state, in particular at startup time. 
+Now check all conditions first
+	and set the settings consistently. They 
+are
+	canvas->videoconfig->doublesizex, ...y, and ->rendermode. 
+Fixes a YUV
+	buffer overflow when using XVideo hardware scaling.
+
+
+2011-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c128.tgt, src/arch/os2/watcom/c64commonsc.tgt,
+	src/arch/os2/watcom/c64dtv.tgt, src/arch/os2/watcom/cbm2.tgt,
+	src/arch/os2/watcom/cbm5x0.tgt, src/arch/os2/watcom/pet.tgt,
+	src/arch/os2/watcom/plus4.tgt, src/arch/os2/watcom/vic20.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/video.tgt,
+	src/arch/sdl/win32-msvc/c128.dsp, src/arch/sdl/win32-msvc/c64.dsp,
+	src/arch/sdl/win32-msvc/c64dtv.dsp, src/arch/sdl/win32-msvc/c64sc.dsp,
+	src/arch/sdl/win32-msvc/cbm2.dsp, src/arch/sdl/win32-msvc/cbm5x0.dsp,
+	src/arch/sdl/win32-msvc/pet.dsp, src/arch/sdl/win32-msvc/plus4.dsp,
+	src/arch/sdl/win32-msvc/vic20.dsp, src/arch/sdl/win32-watcom/c128.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc.tgt,
+	src/arch/sdl/win32-watcom/c64dtv.tgt,
+	src/arch/sdl/win32-watcom/cbm2.tgt,
+	src/arch/sdl/win32-watcom/cbm5x0.tgt,
+	src/arch/sdl/win32-watcom/pet.tgt,
+	src/arch/sdl/win32-watcom/plus4.tgt,
+	src/arch/sdl/win32-watcom/vic20.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/c128.vcproj,
+	src/arch/sdl/win64-msvc/c64.vcproj,
+	src/arch/sdl/win64-msvc/c64dtv.vcproj,
+	src/arch/sdl/win64-msvc/c64sc.vcproj,
+	src/arch/sdl/win64-msvc/cbm2.vcproj,
+	src/arch/sdl/win64-msvc/cbm5x0.vcproj,
+	src/arch/sdl/win64-msvc/pet.vcproj,
+	src/arch/sdl/win64-msvc/plus4.vcproj,
+	src/arch/sdl/win64-msvc/vic20.vcproj,
+	src/arch/sdl/winmips-msvc/c128.mak, src/arch/sdl/winmips-msvc/c64.mak,
+	src/arch/sdl/winmips-msvc/c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64sc.mak,
+	src/arch/sdl/winmips-msvc/cbm2.mak,
+	src/arch/sdl/winmips-msvc/cbm5x0.mak,
+	src/arch/sdl/winmips-msvc/pet.mak,
+	src/arch/sdl/winmips-msvc/plus4.mak,
+	src/arch/sdl/winmips-msvc/vic20.mak, src/arch/win32/c128.dsp,
+	src/arch/win32/c64.dsp, src/arch/win32/c64dtv.dsp,
+	src/arch/win32/c64sc.dsp, src/arch/win32/cbm2.dsp,
+	src/arch/win32/cbm5x0.dsp, src/arch/win32/pet.dsp,
+	src/arch/win32/plus4.dsp, src/arch/win32/vic20.dsp,
+	src/arch/win32/watcom/c128.tgt, src/arch/win32/watcom/c64commonsc.tgt,
+	src/arch/win32/watcom/c64dtv.tgt, src/arch/win32/watcom/cbm2.tgt,
+	src/arch/win32/watcom/cbm5x0.tgt, src/arch/win32/watcom/pet.tgt,
+	src/arch/win32/watcom/plus4.tgt, src/arch/win32/watcom/vic20.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/c128.vcproj,
+	src/arch/win64/c64.vcproj, src/arch/win64/c64dtv.vcproj,
+	src/arch/win64/c64sc.vcproj, src/arch/win64/cbm2.vcproj,
+	src/arch/win64/cbm5x0.vcproj, src/arch/win64/pet.vcproj,
+	src/arch/win64/plus4.vcproj, src/arch/win64/vic20.vcproj,
+	src/vicii/vicii.c, src/viciisc/vicii.c: Fixed the project files.
+
+2011-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/uiacia.c,
+	src/drive/drive-sound.c, src/video/video-render.c,
+	src/video/video-sound.c: Some warning fixes.
+
+2011-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/uiplus4cart.c,
+	src/arch/win32/vic20ui.c: Fixed the windows plus4 cartridge menus.
+
+2011-12-24  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/video-ddraw.c: Fix crashes and misalignments in GDI
+	mode
+
+2011-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/video.dsp,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/video.tgt,
+	src/arch/sdl/win64-msvc/video.vcproj,
+	src/arch/sdl/winmips-msvc/video.mak, src/arch/win32/video.dsp,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/watcom/video.tgt,
+	src/arch/win64/video.vcproj: Added video-sound.c to the msvc/ow
+	project files.
+
+2011-12-24  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in, src/arch/win32/video-ddraw.c, src/arch/win32/video.c,
+	src/arch/win32/videoarch.h: Fix crash when D3D was enabled at startup
+	then disabled
+
+2011-12-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uited.c, src/arch/unix/gui/uivdc.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	src/c128/Makefile.am, src/c128/c128.c, src/c64/Makefile.am,
+	src/c64/c64.c, src/c64dtv/Makefile.am, src/c64dtv/c64dtv.c,
+	src/cbm2/Makefile.am, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c,
+	src/pet/Makefile.am, src/pet/pet.c, src/plus4/Makefile.am,
+	src/plus4/plus4.c, src/translate.txt, src/translate_text.c,
+	src/vic20/Makefile.am, src/vic20/vic20.c, src/video/Makefile.am,
+	src/video/video-cmdline-options.c, src/video/video-render.c,
+	src/video/video-resources.c, src/video/video-sound.c,
+	src/video/video-sound.h, src/video.h: added video to audio leak
+	emulation, makes the "vicious sid" "vic samples" work and gives a warm
+	and fuzzy feeling at the reset screen at full volume.
+	merry christmas :)
+
+2011-12-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: fix cut'n'paste failure
+
+2011-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/plus4ui.c, src/arch/win32/resplus4.rc: Added 'reset
+	on cart change' to the windows plus4 menu.
+
+2011-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resacia.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/uiacia.c: Added 'enable' element to the windows plus4
+	acia settings dialog.
+
+2011-12-23  groepaz <groepaz@gmx.net>
+
+	* src/vdrive/vdrive.c: forgotten debug stuff
+
+2011-12-23  groepaz <groepaz@gmx.net>
+
+	* src/diskconstants.h, src/diskimage/diskimage.c,
+	src/diskimage/fsimage-probe.c, src/diskimage/fsimage.c,
+	src/diskimage.h, src/util.c, src/vdrive/vdrive-dir.c,
+	src/vdrive/vdrive.c: accept various differently sized d81 images, load
+	error info if present
+
+2011-12-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/mousedrv.c: interpolate on both axis at the same time,
+	fixes obscure side effects
+
+2011-12-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: better handling of mouse wrap
+
+2011-12-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/drive/drive-sound.c: Fix some warnings
+
+
+2011-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/arch.dsp, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/arch.vcproj: Updated
+	the win32/win64 project files.
+
+2011-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/plus4ui.c,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resplus4.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uiplus4model.c, src/arch/win32/uiplus4model.h: Added
+	plus4 model selection to the windows ui, msvc/ow project files have
+	not been updated yet.
+
+2011-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c128.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/c128.dsp, src/arch/sdl/win32-watcom/c128.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/c128.vcproj,
+	src/arch/sdl/winmips-msvc/c128.mak, src/arch/win32/watcom/c128.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/c128.vcproj: Fixed
+	other project files for recent c128 model addition.
+
+2011-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128.dsp: Fixed win32 msvc project files for recent
+	c128 model addition.
+
+2011-12-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/about.c, src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/ui-resources.c:
+	better support for 2nd shell window (x128), mouse driver improvements
+
+2011-12-21  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/c128/Makefile.am,
+	src/c128/c128-cmdline-options.c, src/c128/c128-resources.c,
+	src/c128/c128-resources.h, src/c128/c128model.c, src/c128/c128model.h,
+	src/translate.txt, src/translate_text.c, vdc/vdc-mem.c,
+	src/vdc/vdc-resources.c, src/vdc/vdctypes.h: added model switching for
+	x128 (see devlog)
+
+2011-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+	* src/arch/win32/lightpendrv.c, src/arch/win32/video-ddraw.c,
+	src/arch/win32/video-dx9.c, src/arch/win32/video.c: Added proper
+	handling of the magnification factor to the windows port.
+
+2011-12-21  groepaz <groepaz@gmx.net>
+
+	* src/sid/sid-cmdline-options.c, src/sid/sid-resources.c: do not
+	register stereo sid commandline options for machines that dont have
+	it. force SidStereo = 0 for these.
+
+2011-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/petui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/respet.rc,
+	src/arch/win32/resstrings.txt: Added windows 'double vertical' menu
+	items for x128-vdc and xpet/xcbm2 crtc.
+
+2011-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resautostart.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiautostart.c: Added
+	'random delay' element to the windows autostart settings dialog.
+
+2011-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/cbm2ui.c, src/cbm2/cbm2-cmdline-options.c,
+	src/cbm2/cbm2-resources.c, src/cbm2/cbm2-resources.h,
+	src/cbm2/cbm2cia.h, src/cbm2/cbm2cia1.c, src/cbm2/cbm5x0-resources.c:
+	made CIA type switchable in cbm2/cbm5x0 (see devlog)
+
+2011-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/c128/c128-cmdline-options.c,
+	src/c128/c128-resources.c, c128/c128-resources.h, src/c128/c128cia1.c:
+	Applied CIA1 many keys/shift lock patch to x128. also made CIA types
+	switchable in x128 (see devlog)
+
+2011-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/vsidlib.mak: Fixed more typos.
+
+2011-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/vsidlib.mak: Fixed a typo.
+
+2011-12-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uipalemu.h:
+	Eliminated some magic constants. Re-ordered menu arrays for
+	consistency
+ with the order of their use, and made them static.
+
+
+2011-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	src/arch/win32/uidrivepetcbm2.c, src/arch/win32/uidriveplus4.c,
+	src/arch/win32/uidrivevic20.c: Fixed the windows drive dialogs.
+
+2011-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiide64.c: Fixed the windows ide64 dialog.
+
+2011-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/cbm2.mak,
+	src/arch/sdl/winmips-msvc/cbm2common.mak,
+	src/arch/sdl/winmips-msvc/cbm5x0.mak: More msvc project files updates.
+
+2011-12-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uipalemu.c: Corresponding change on cleanup.
+
+
+2011-12-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uipalemu.c: Fix 2 off-by-ones, causing a crash
+	when the bottom item of the
+ PALColor_submenu or PALMode_submenu is
+	selected. Noticable in Xaw only.
+
+
+2011-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/console.c, src/arch/unix/readline/editline.c,
+	src/arch/unix/readline/editline2.c: fix warnings
+
+2011-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: fix for when HAVE_FULLSCREEN is not
+	defined
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: fix vsid
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64cia1.c: Emulate the CIA1 DDRA/B=1/PB=1/read PB shiftlock
+	/ many keys cases. patch from vice-minus.
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* data/C64/x11_pos.vkm, data/C64/x11_posger.vkm, data/C64/x11_sym.vkm,
+	data/C64/x11_symger.vkm: updated x11 keymaps for shift lock
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii-phi1.c: "Fix x64 phi1 fetches for NTSC and old NTSC.
+	patch from vice-minus"
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/keyboard.c: "Fix releasing shift while shiftlock is pressed
+	(and vice versa) patch from vice-minus"
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* data/C64/sdl_sym.vkm, data/C64/sdl_sym_da.vkm,
+	data/C64/sdl_sym_de.vkm, data/C64/sdl_sym_fi.vkm,
+	data/C64/sdl_sym_no.vkm, data/C64DTV/sdl_sym.vkm,
+	data/C64DTV/sdl_sym_da.vkm, data/C64DTV/sdl_sym_de.vkm,
+	data/C64DTV/sdl_sym_fi.vkm, data/C64DTV/sdl_sym_no.vkm,
+	data/VIC20/sdl_pos_fi.vkm, data/VIC20/sdl_sym.vkm, src/keyboard.c,
+	src/keyboard.h: basic shift-lock emulation. patch from vice-minus
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/cmdline.c, src/cmdline.h: added command-line options help dialog
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: slightly better event handling when
+	switching from/to fullscreen mode. also restore window size.
+
+2011-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/x128.mak,
+	src/arch/sdl/winmips-msvc/x64.mak,
+	src/arch/sdl/winmips-msvc/x64dtv.mak,
+	src/arch/sdl/winmips-msvc/x64sc.mak,
+	src/arch/sdl/winmips-msvc/xcbm2.mak,
+	src/arch/sdl/winmips-msvc/xcbm5x0.mak,
+	src/arch/sdl/winmips-msvc/xpet.mak,
+	src/arch/sdl/winmips-msvc/xplus4.mak,
+	src/arch/sdl/winmips-msvc/xvic.mak: Added userport and rtc
+	dependencies.
+
+2011-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimmcreplay.c: Added automatic win32 mmcreplay dialog
+	item resizing.
+
+2011-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h: Fixed for msvc
+	compile.
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/ui-resources.c:
+	restore window position when switching back from fullscreen, improve
+	propagation of app resize event
+
+2011-12-19  groepaz <groepaz@gmx.net>
+
+	* src/plus4/ted-draw.c: fix bug #3459761 also with video cache
+
+2011-12-18  groepaz <groepaz@gmx.net>
+
+	* src/attach.c: add sanity check/fix obscure warning
+
+2011-12-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c: hack to trigger recalculation of
+	window scaling when KeepAspectRatio or TrueAspectRatio are changed.
+	Fixes related problems in both windowed and fullscreen mode.
+
+2011-12-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: stretch to full screen size if
+	KeepAspectRatio is 0
+
+2011-12-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: fix funky behaviour when switching
+	to fullscreen. also fixes toggling crt-emulation control in fullscreen
+	mode.
+
+2011-12-17  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64io.c: only do extra store if actually found
+
+2011-12-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/xaw/widgets/FileSel.c: fix warning
+
+2011-12-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/ui-resources.c,
+	src/arch/unix/x11/xrandr.c: save/restore last window position, proper
+	scaling in fullscreen mode with hw rendering enabled
+
+2011-12-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/c64commoncart.mak: Fixed a copy/paste
+	error.
+
+2011-12-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/vic20cart.mak: Fixed a copy/paste error.
+
+2011-12-17  Thomas Giesel <skoe@directbox.com>
+
+	* src/monitor/mon_breakpoint.c, src/monitor/mon_lex.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y: Fixed shift/reduce conflicts by removing
+	redundant grammar rules
+
+2011-12-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h: Fixed for mips.
+
+2011-12-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/info.c: Added stdlib.h include for NULL.
+
+2011-12-17  Thomas Giesel <skoe@directbox.com>
+
+	* src/Makefile.am: Fixed wrong dependency (bad path) to
+	gentranslate_h.sh
+
+2011-12-16  groepaz <groepaz@gmx.net>
+
+	* src/cia.h, src/core/ciacore.c, src/core/ciatimer.c,
+	src/core/ciatimer.h: added callback that takes care of the problem
+	that when ciat_update has to catch up with an excessive amount of
+	clock cycles it will consume a lot of cpu time, in the worst case
+	leading to a noticeable stall of the entire emulation (fixes bug
+	#3424428) PLEASE TEST FOR REGRESSIONS!
+
+2011-12-16  groepaz <groepaz@gmx.net>
+
+	* src/vicii/vicii-timing.c: fix sprite fetch cycle for old ntsc, patch
+	from vice-minus
+
+2011-12-15  groepaz <groepaz@gmx.net>
+
+	* man/petcat.1: fix typo
+
+2011-12-15  groepaz <groepaz@gmx.net>
+
+	* src/plus4/ted-draw.c: attempt to fix bug #3459761
+
+2011-12-15  groepaz <groepaz@gmx.net>
+
+	* src/c1541.c, src/vdrive/vdrive-bam.c, src/vdrive/vdrive-command.c,
+	src/vdrive/vdrive-dir.c, src/vdrive/vdrive.c, src/vdrive/vdrive.h:
+	rudimentary support for 1581 CBM sub partitions
+
+2011-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Fixed a typo.
+
+2011-12-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/joy.cc, src/arch/beos/joy.h: Reverted part of r21751,
+	deleted a duplicate definition, and #if 0'ed unneeded code. BeVICE
+	joystick keysets now work again.
+
+2011-12-15  Ingo Korb <ingo@akana.de>
+
+	* src/vdrive/vdrive.c: Fix a c&p error that resulted in incorrect disk
+	labels for d81 images
+
+
+2011-12-14  groepaz <groepaz@gmx.net>
+
+	* src/fsdevice/fsdevice-flush.c, src/fsdevice/fsdevice-open.c: support
+	cd:_ to go dir up. fixes bug 3388943
+
+2011-12-14  groepaz <groepaz@gmx.net>
+
+	* src/sound.c: dont call driver when there are no samples to write
+
+2011-12-14  groepaz <groepaz@gmx.net>
+
+	* src/sounddrv/soundpulse.c: added suspend call, use flush instead of
+	drain. improves behaviour when switching from/to warpmode
+
+2011-12-14  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_breakpoint.c: show cycle count
+
+2011-12-14  groepaz <groepaz@gmx.net>
+
+	* src/drive/iecieee/via2d.c: revert r24916 - it breaks the AR loader
+
+2011-12-14  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-12-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiedisk.c: convert disk name and id to
+	petscii before creating disk image
+
+2011-12-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiattach.c, src/arch/unix/x11/gnome/x11ui.c:
+	handle read only flag properly
+
+2011-12-13  groepaz <groepaz@gmx.net>
+
+	* src/vdrive/vdrive-command.c: Fix colon bugs in VDrive REL Position
+	command. Patch by Greg King
+
+2011-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/msvc-d3d.h,
+	src/arch/win32/video-dx9.c, src/arch/win32/videoarch.h,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/ide-config.h,
+	src/arch/win32/watcom/vice.wpj: Fixed for recent win32 changes.
+
+2011-12-13  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/Makefile.am: Fix MinGW compilation
+
+
+2011-12-13  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/archdep.c: Add newlines at end of debug strings
+
+2011-12-13  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/fullscrn-ddraw.c, src/arch/win32/fullscrn-dx9.c,
+	src/arch/win32/fullscrn.c, src/arch/win32/fullscrn.h,
+	src/arch/win32/msvc/ide-config.h, src/arch/win32/parsid.c,
+	src/arch/win32/video-ddraw.c, src/arch/win32/video.c,
+	src/arch/win32/videoarch.h, src/arch/win32/vsyncarch.c,
+	src/arch/win64/_vice.vcproj, src/arch/win64/arch.vcproj,
+	src/arch/win64/base.vcproj, src/arch/win64/c128.vcproj,
+	src/arch/win64/c1541.vcproj, src/arch/win64/c64.vcproj,
+	src/arch/win64/c64c128.vcproj, src/arch/win64/c64c64dtv.vcproj,
+	src/arch/win64/c64cart.vcproj, src/arch/win64/c64cartsystem.vcproj,
+	src/arch/win64/c64commoncart.vcproj, src/arch/win64/c64dtv.vcproj,
+	src/arch/win64/c64dtvstubs.vcproj, src/arch/win64/c64exp.vcproj,
+	src/arch/win64/c64sc.vcproj, src/arch/win64/cartconv.vcproj,
+	src/arch/win64/cbm2.vcproj, src/arch/win64/cbm2common.vcproj,
+	src/arch/win64/cbm5x0.vcproj, src/arch/win64/core.vcproj,
+	src/arch/win64/crtc.vcproj, src/arch/win64/diskimage.vcproj,
+	src/arch/win64/drive.vcproj, src/arch/win64/fileio.vcproj,
+	src/arch/win64/fsdevice.vcproj, src/arch/win64/geninfocontrib.vcproj,
+	src/arch/win64/genmsvcver.vcproj, src/arch/win64/gentranslate.vcproj,
+	src/arch/win64/genwinres.vcproj, src/arch/win64/gfxoutputdrv.vcproj,
+	src/arch/win64/iec.vcproj, src/arch/win64/iec128dcr.vcproj,
+	src/arch/win64/iecbus.vcproj, src/arch/win64/iecieee.vcproj,
+	src/arch/win64/ieee.vcproj, src/arch/win64/imagecontents.vcproj,
+	src/arch/win64/monitor.vcproj, src/arch/win64/parallel.vcproj,
+	src/arch/win64/pet.vcproj, src/arch/win64/petcat.vcproj,
+	src/arch/win64/plus4.vcproj, src/arch/win64/plus4exp.vcproj,
+	src/arch/win64/printerdrv.vcproj, src/arch/win64/raster.vcproj,
+	src/arch/win64/resid.vcproj, src/arch/win64/residdtv.vcproj,
+	src/arch/win64/residfp.vcproj, src/arch/win64/rs232drv.vcproj,
+	src/arch/win64/rtc.vcproj, src/arch/win64/serial.vcproj,
+	src/arch/win64/sid.vcproj, src/arch/win64/sounddrv.vcproj,
+	src/arch/win64/tape.vcproj, src/arch/win64/tcbm.vcproj,
+	src/arch/win64/userport.vcproj, src/arch/win64/vdc.vcproj,
+	src/arch/win64/vdrive.vcproj, src/arch/win64/vic20.vcproj,
+	src/arch/win64/vic20cart.vcproj, src/arch/win64/vice.sln,
+	src/arch/win64/vicii.vcproj, src/arch/win64/viciidtv.vcproj,
+	src/arch/win64/viciinew.vcproj, src/arch/win64/video.vcproj,
+	src/arch/win64/vsid.vcproj, src/arch/win64/vsidlib.vcproj,
+	src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj,
+	src/arch/win64/x64dtv.vcproj, src/arch/win64/x64sc.vcproj,
+	src/arch/win64/xcbm2.vcproj, src/arch/win64/xcbm5x0.vcproj,
+	src/arch/win64/xpet.vcproj, src/arch/win64/xplus4.vcproj,
+	src/arch/win64/xvic.vcproj, src/sounddrv/sounddx.c, src/vsync.c,
+	src/vsyncapi.h: Remove DirectDraw support. Add GDI support for
+	low-end machines, everything else is already using Direct3D instead.
+	This also allows for a full DirectX-less Windows build
+
+2011-12-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in: If swscale is not available, fall back to
+	img_convert... but recent versions of libavcodec do not have
+	img_convert!
+
+
+2011-12-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/lightpendrv.c, src/arch/win32/videoarch.h: Remove
+	hack to check if d3d9.h is present, the check is done at configure
+	time
+
+
+2011-12-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/Makefile.am, src/arch/win32/Makefile.am: Fix build when
+	builddir!=srcdir (that is, configure is not run in its own dir)
+
+
+2011-12-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/utils/genwinres.c: Arg 1:res.h Arg 2:menuid.h
+	Arg 3:stringid.h. Therefore, first input file is arg 4
+
+
+2011-12-10  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh, build/macosx/build-vice-release.sh:
+	macosx: improved build scripts. added clang++ variant. added support
+	for newer SDKs
+
+2011-12-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/tr.po: Some line-ending fixing.
+
+2011-12-09  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: macosx: added missing app entry
+
+2011-12-09  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm2.nib/keyedobjects.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm5x0.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm5x0.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm5x0.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/resourcetreeitem.m,
+	src/arch/unix/macosx/make-bindist.sh,
+	src/arch/unix/macosx/x11-launcher.sh: macosx: added cbm5x0 emulator
+	app
+
+2011-12-08  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2011-12-07  groepaz <groepaz@gmx.net>
+
+	* src/vdrive/vdrive-dir.c: fix extending directory when adding files
+	to an image
+
+2011-12-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	src/arch/beos/console.c, src/arch/beos/uimon.c, src/monitor/monitor.c:
+	Make the BeVICE monitor use isatty() and console_can_stay_open just
+	like the X11 one.
+
+2011-12-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/c64/vsidstubs.c, src/drive/drive-resources.c: BeVICE fixes:
+	stubs so vsid compiles and set_drive_sound_emulation() returns 0 so
+	the other machines start up.
+
+2011-12-06  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-12-06  Emir Akaydin <emir@akaydin.com>
+
+	* po/tr.po: Updated.
+
+2011-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in: Added automatic 'dos2unix' of some files
+	before making a source dist.
+
+2011-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/c64cart.c: Fixed a crash for x64/x128 when no cart is
+	attached and 'set cart as default' is selected.
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ross.c: Never mind, this is the right one
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ross.c: Fix compare mistake
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/actionreplay.c, src/c64/cart/actionreplay2.c,
+	src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay4.c,
+	src/c64/cart/atomicpower.c, src/c64/cart/c64-generic.c,
+	src/c64/cart/c64tpi.c, src/c64/cart/capture.c, src/c64/cart/comal80.c,
+	src/c64/cart/crt.c, src/c64/cart/crt.h, src/c64/cart/delaep256.c,
+	src/c64/cart/delaep64.c, src/c64/cart/delaep7x8.c,
+	src/c64/cart/diashowmaker.c, src/c64/cart/dinamic.c,
+	src/c64/cart/easyflash.c, src/c64/cart/epyxfastload.c,
+	src/c64/cart/exos.c, src/c64/cart/expert.c, src/c64/cart/final.c,
+	src/c64/cart/final3.c, src/c64/cart/finalplus.c,
+	src/c64/cart/freezeframe.c, src/c64/cart/freezemachine.c,
+	src/c64/cart/funplay.c, src/c64/cart/gamekiller.c, src/c64/cart/gs.c,
+	src/c64/cart/ide64.c, src/c64/cart/isepic.c, src/c64/cart/kcs.c,
+	src/c64/cart/kingsoft.c, src/c64/cart/mach5.c,
+	src/c64/cart/magicdesk.c, src/c64/cart/magicformel.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/mikroass.c,
+	src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c, src/c64/cart/ocean.c,
+	src/c64/cart/pagefox.c, src/c64/cart/prophet64.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/rexep256.c,
+	src/c64/cart/rexutility.c, src/c64/cart/ross.c,
+	src/c64/cart/silverrock128.c, src/c64/cart/simonsbasic.c,
+	src/c64/cart/snapshot64.c, src/c64/cart/stardos.c, src/c64/cart/stb.c,
+	src/c64/cart/superexplode5.c, src/c64/cart/supergames.c,
+	src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot4.c,
+	src/c64/cart/warpspeed.c, src/c64/cart/westermann.c,\
+	src/c64/cart/zaxxon.c: Swap argument order
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/crt.c: Simplify
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Extensions are returned without a dot
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/crt.c, src/c64/cart/crt.h, src/c64/cart/easyflash.c,
+	src/c64/cart/expert.c, src/c64/cart/isepic.c, src/c64/cart/mmc64.c,
+	src/c64/cart/mmcreplay.c, src/c64/cart/retroreplay.c: Use crt_create
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/crt.c, src/c64/cart/crt.h: More in line with the
+	original code
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Use util_get_extension
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64cart.c: Do not crash if no extension is supplied
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/retroreplay.c: Use crt_write_chip also in retroreplay
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/crt.c, src/c64/cart/crt.h, src/c64/cart/easyflash.c,
+	src/c64/cart/expert.c, src/c64/cart/isepic.c, src/c64/cart/mmc64.c,
+	src/c64/cart/mmcreplay.c: Use crt_write_chip, fix crt header check
+	mistake
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/crt.c, src/c64/cart/crt.h, src/c64/cart/easyflash.c,
+	src/c64/cart/easyflash.h: Use struct for crt header as well
+
+
+2011-12-04  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Use util be functions for converting data
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/crt.c, src/c64/cart/crt.h: Use util to convert be word
+	and dword
+
+
+2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/util.c, src/util.h: til_be_buf_to_dword and util_be_buf4_to_int
+	were still
+ little endian. I wonder why nobody used them ;)
+ Add
+	util_be_buf_to_word.
+
+
+2011-12-03  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiretroreplay.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h,
+	src/cartridge.h: added support for nordic replay
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc: Fixed the windows help/about dialog size.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uipetreu.c: Autosize the enable element of the
+	windows petreu dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisoundexpander.c: Autosize the enable element of
+	the windows sfx soundexpander dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uidigimax.c: Autosize the enable element of the
+	windows digimax dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiplus60k.c: Autosize the enable element of the
+	windows plus60k dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/win32-msvc/make-bindist.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/win64-msvc/make-bindist.bat,
+	src/arch/sdl/winmips-msvc/make-bindist.bat,
+	src/arch/win32/make-msvc-bindist.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat: Changed the windows/os2
+	batch files so that the bindist directory doesn't have to be removed manually.
+
+2011-12-03  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_drive.c: added ui item for drive sound emulation
+
+2011-12-03  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uidrive.c, src/arch/unix/gui/uidrivec128.c,
+	src/arch/unix/gui/uidrivec64.c, src/arch/unix/gui/uidrivec64dtv.c,
+	src/arch/unix/gui/uidrivepetcbm2.c, src/arch/unix/gui/uidriveplus4.c,
+	src/arch/unix/gui/uidrivevic20.c: added gui items for drive sound
+	emulation
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uic64_256k.c: Autosize the enable element of the
+	windows c64_256k dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiramcart.c: Added auto-sizing of the windows
+	ramcart settings dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uirom.c: Fixed the overlapping buttons issue in the
+	windows rom settings dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdrivec128.rc, src/arch/win32/resdrivec64.rc,
+	src/arch/win32/resdriveplus4.rc, src/arch/win32/resdrivevic20.rc,
+	src/arch/win32/uidrivec128.c, src/arch/win32/uidrivec64.c,
+	src/arch/win32/uidrivepetcbm2.c, src/arch/win32/uidriveplus4.c,
+	src/arch/win32/uidrivevic20.c: Fixed the size of the windows drive
+	settings dialog.
+
+2011-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiperipheral.c: Automatically resize the autostart
+	button in the win32 peripheral dialog.
+
+2011-12-03  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po: Updated.
+
+2011-12-03  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po: Updated.
+
+2011-12-03  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2011-12-02  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2011-12-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Remove unnecessary vicii_read_phi1 calls
+
+
+2011-12-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/tfe.c: Make sure it's not a valid i/o source by
+	mistake
+
+
+2011-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64io.c: Don't reset the valid flag, let the called routine
+	deal with the flag.
+
+2011-12-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64tpi.c, src/c64/cart/easyflash.c,
+	src/c64/cart/magicvoice.c: Use util_file_load
+
+
+2011-12-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/easyflash.c: If bank splitting is done at the right
+	place, loading is simpler
+
+
+2011-12-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/actionreplay.c, src/c64/cart/actionreplay2.c,
+	src/c64/cart/actionreplay3.c, src/c64/cart/actionreplay4.c,
+	src/c64/cart/atomicpower.c, src/c64/cart/c64-generic.c,
+	src/c64/cart/c64tpi.c, src/c64/cart/capture.c, src/c64/cart/comal80.c,
+	src/c64/cart/crt.c, src/c64/cart/crt.h, src/c64/cart/delaep256.c,
+	src/c64/cart/delaep64.c, src/c64/cart/delaep7x8.c,
+	src/c64/cart/diashowmaker.c, src/c64/cart/dinamic.c,
+	src/c64/cart/easyflash.c, src/c64/cart/epyxfastload.c,
+	src/c64/cart/exos.c, src/c64/cart/expert.c, src/c64/cart/final.c,
+	src/c64/cart/final3.c, src/c64/cart/finalplus.c,
+	src/c64/cart/freezeframe.c, src/c64/cart/freezemachine.c,
+	src/c64/cart/funplay.c, src/c64/cart/gamekiller.c, src/c64/cart/gs.c,
+	src/c64/cart/ide64.c, src/c64/cart/isepic.c, src/c64/cart/kcs.c,
+	src/c64/cart/kingsoft.c, src/c64/cart/mach5.c,
+	src/c64/cart/magicdesk.c, src/c64/cart/magicformel.c,
+	src/c64/cart/magicvoice.c, src/c64/cart/mikroass.c,
+	src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c, src/c64/cart/ocean.c,
+	src/c64/cart/pagefox.c, src/c64/cart/prophet64.c,
+	src/c64/cart/retroreplay.c, src/c64/cart/rexep256.c,
+	src/c64/cart/rexutility.c, src/c64/cart/ross.c,
+	src/c64/cart/silverrock128.c, src/c64/cart/simonsbasic.c,
+	src/c64/cart/snapshot64.c, src/c64/cart/stardos.c, src/c64/cart/stb.c,
+	src/c64/cart/superexplode5.c, src/c64/cart/supergames.c,
+	src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot4.c,
+	src/c64/cart/warpspeed.c, src/c64/cart/westermann.c,
+	src/c64/cart/zaxxon.c: Introduce crt_read_chip_header for pharsing
+	chip headers,
+and crt_read_chip for reading chip data. Then convert
+all
+	c64 cartridges to use this instead of fread().
+
+This gives better error
+	checking and parsing of header,
+and more readability for the cartridge
+	loading code.
+
+
 2011-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, doc/vice.hlp, doc/vice.guide, doc/vice.chm, configure.in,
@@ -38,8 +1121,7 @@
 
 	* src/c64/cart/sfx_soundexpander.c, src/core/fmopl.c: Make sfx
 	soundexpander to crash not that often. Actually now it's 
-possible to
-	use it.
+	possible to use it.
 
 
 2011-11-30  Marco van den Heuvel <blackystardust68@yahoo.com>
