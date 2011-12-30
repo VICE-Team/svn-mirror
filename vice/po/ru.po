@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2011-12-29 23:05+0200\n"
+"PO-Revision-Date: 2011-12-30 21:39+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -175,23 +175,23 @@ msgstr ""
 #: src/arch/win32/resc128.rc.po.c:689
 #: src/translate_text.c.po.c:3900
 msgid "Enable the internal Function ROM"
-msgstr ""
+msgstr "Enable the internal Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:310
 #: src/arch/amigaos/intl_text.c.po.c:9136
 msgid "Internal Function ROM file"
-msgstr ""
+msgstr "Internal Function ROM file"
 
 #: src/arch/unix/gui/c128ui.c:314
 #: src/arch/win32/resc128.rc.po.c:692
 #: src/translate_text.c.po.c:3934
 msgid "Enable the external Function ROM"
-msgstr ""
+msgstr "Enable the external Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:316
 #: src/arch/amigaos/intl_text.c.po.c:9164
 msgid "External Function ROM file"
-msgstr ""
+msgstr "External Function ROM file"
 
 #: src/arch/unix/gui/c128ui.c:323
 #: src/arch/win32/resc128.rc.po.c:650
@@ -258,7 +258,7 @@ msgstr "Эмуляция MIDI"
 #: src/arch/win32/res.rc.po.c:1449
 #: src/arch/amigaos/intl_text.c.po.c:875
 msgid "Reset on cart change"
-msgstr ""
+msgstr "Reset on cart change"
 
 #: src/arch/unix/gui/c128ui.c:397
 msgid "Load new Int. Kernal ROM"
@@ -441,7 +441,7 @@ msgstr "шведский"
 #: src/arch/win32/resc64.rc.po.c:571
 #: src/arch/amigaos/intl_text.c.po.c:9976
 msgid "6526 (old)"
-msgstr ""
+msgstr "6526 (old)"
 
 #: src/arch/unix/gui/c128ui.c:533
 #: src/arch/unix/gui/c128ui.c:542
@@ -449,7 +449,7 @@ msgstr ""
 #: src/arch/win32/resc64.rc.po.c:572
 #: src/arch/amigaos/intl_text.c.po.c:9990
 msgid "6526A (new)"
-msgstr ""
+msgstr "6526A (new)"
 
 #: src/arch/unix/gui/c128ui.c:551
 #: src/arch/win32/resc128.rc.po.c:649
@@ -507,7 +507,7 @@ msgstr "Модель CIA 2"
 #: src/arch/unix/gui/c128ui.c:564
 #: src/translate_text.c.po.c:3832
 msgid "Always switch to C64 mode on reset"
-msgstr ""
+msgstr "Always switch to C64 mode on reset"
 
 #: src/arch/unix/gui/c128ui.c:586
 #: src/arch/unix/gui/c64dtvui.c:179
@@ -733,7 +733,7 @@ msgstr "Настройки"
 #: src/arch/win32/resvicii.rc.po.c:42
 #: src/arch/amigaos/intl_text.c.po.c:9528
 msgid "Debug"
-msgstr ""
+msgstr "Debug"
 
 #. Translators: RJ means right justify and should be
 #. saved in your tranlation! e.g. german "RJHilfe"
@@ -792,7 +792,7 @@ msgstr "модель звукогенератора SID"
 #: src/arch/win32/resc64dtv.rc.po.c:439
 #: src/arch/amigaos/intl_text.c.po.c:5005
 msgid "DTV revision"
-msgstr ""
+msgstr "DTV revision"
 
 #: src/arch/unix/gui/c64dtvui.c:189
 msgid "Flash settings"
@@ -818,7 +818,7 @@ msgstr "Модель C64"
 #: src/arch/unix/gui/c64ui.c:179
 #: src/arch/amigaos/intl_text.c.po.c:2051
 msgid "C64 old NTSC"
-msgstr ""
+msgstr "C64 old NTSC"
 
 #: src/arch/unix/gui/c64scui.c:135
 #: src/arch/win32/resc64.rc.po.c:577
@@ -846,13 +846,13 @@ msgstr "*6526 (новый)"
 #: src/arch/win32/resc64.rc.po.c:573
 #: src/arch/amigaos/intl_text.c.po.c:10004
 msgid "Discrete"
-msgstr ""
+msgstr "Discrete"
 
 #: src/arch/unix/gui/c64scui.c:173
 #: src/arch/win32/resc64.rc.po.c:574
 #: src/arch/amigaos/intl_text.c.po.c:10018
 msgid "Custom IC"
-msgstr ""
+msgstr "Custom IC"
 
 #: src/arch/unix/gui/c64scui.c:179
 #: src/arch/unix/gui/c64scui.c:379
@@ -866,7 +866,7 @@ msgstr "Модель C64"
 #: src/arch/win32/resc64.rc.po.c:570
 #: src/arch/amigaos/intl_text.c.po.c:10074
 msgid "Glue logic"
-msgstr ""
+msgstr "Glue logic"
 
 #: src/arch/unix/gui/c64scui.c:389
 #: src/arch/unix/gui/c64ui.c:449
@@ -912,22 +912,22 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1186
 #: src/arch/amigaos/intl_text.c.po.c:4753
 msgid "None"
-msgstr ""
+msgstr "None"
 
 #: src/arch/unix/gui/c64scui.c:391
 #: src/arch/unix/gui/c64ui.c:451
 msgid "CIA1"
-msgstr ""
+msgstr "CIA1"
 
 #: src/arch/unix/gui/c64scui.c:393
 #: src/arch/unix/gui/c64ui.c:453
 msgid "CIA2"
-msgstr ""
+msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:440
 #: src/arch/unix/gui/c64ui.c:500
 msgid "Burst Mode Modification"
-msgstr ""
+msgstr "Burst Mode Modification"
 
 #: src/arch/unix/gui/c64ui.c:209
 #, fuzzy
@@ -938,7 +938,7 @@ msgstr "*PAL-G"
 #: src/arch/unix/gui/vsidui.c:317
 #: src/arch/amigaos/intl_text.c.po.c:1869
 msgid "Old NTSC-M"
-msgstr ""
+msgstr "Old NTSC-M"
 
 #: src/arch/unix/gui/cbm2ui.c:119
 msgid "Basic 128k, low chars"
@@ -968,7 +968,7 @@ msgstr "Графика"
 #: src/arch/win32/respet.rc.po.c:559
 #: src/arch/amigaos/intl_text.c.po.c:8884
 msgid "Business (UK)"
-msgstr ""
+msgstr "Business (UK)"
 
 #: src/arch/unix/gui/cbm2ui.c:279
 #: src/arch/unix/gui/cbm2ui.c:314
@@ -1090,7 +1090,7 @@ msgstr "Настройки RAM"
 #: src/arch/unix/gui/vic20ui.c:151
 #: src/arch/amigaos/intl_text.c.po.c:847
 msgid "Enable"
-msgstr ""
+msgstr "Включить"
 
 #: src/arch/unix/gui/petui.c:129
 #: src/arch/unix/gui/plus4ui.c:141
@@ -1118,7 +1118,7 @@ msgstr "*Бизнес (Германия)"
 #: src/arch/win32/respet.rc.po.c:550
 #: src/arch/amigaos/intl_text.c.po.c:8786
 msgid "Auto (from ROM)"
-msgstr ""
+msgstr "Auto (from ROM)"
 
 #: src/arch/unix/gui/petui.c:174
 #: src/arch/win32/respet.rc.po.c:551
@@ -1249,7 +1249,7 @@ msgstr "*Активировать CRTC чип"
 #: src/arch/win32/respet.rc.po.c:561
 #: src/arch/amigaos/intl_text.c.po.c:8982
 msgid "SuperPET I/O enable (disables 8x96)"
-msgstr ""
+msgstr "SuperPET I/O enable (disables 8x96)"
 
 #: src/arch/unix/gui/petui.c:322
 msgid "SuperPET ACIA"
@@ -1299,12 +1299,12 @@ msgstr "Загрузить нов. Basic Hi ROM"
 
 #: src/arch/unix/gui/plus4ui.c:254
 msgid "ACIA"
-msgstr ""
+msgstr "ACIA"
 
 #: src/arch/unix/gui/plus4ui.c:256
 #: src/arch/amigaos/intl_text.c.po.c:8170
 msgid "Digiblaster add-on"
-msgstr ""
+msgstr "Digiblaster add-on"
 
 #. Translators: "V364 Speech" is the speech extension present in the V364 prototype
 #: src/arch/unix/gui/plus4ui.c:261
@@ -1317,7 +1317,7 @@ msgstr "Параметры речи V364"
 #: src/arch/win32/res.rc.po.c:1071
 #: src/translate_text.c.po.c:3985
 msgid "Model"
-msgstr ""
+msgstr "Модель"
 
 #: src/arch/unix/gui/plus4ui.c:285
 msgid "TED model"
@@ -1342,17 +1342,17 @@ msgstr "*Серийный 2"
 #: src/arch/unix/gui/uiacia1.c:42
 #: src/arch/unix/gui/uirs232user.c:42
 msgid "Dump to file"
-msgstr ""
+msgstr "Dump to file"
 
 #: src/arch/unix/gui/uiacia1.c:44
 #: src/arch/unix/gui/uirs232user.c:44
 msgid "Exec process"
-msgstr ""
+msgstr "Exec process"
 
 #: src/arch/unix/gui/uiattach.c:84
 #, c-format
 msgid "Attach Disk Image as unit #%d"
-msgstr ""
+msgstr "Attach Disk Image as unit #%d"
 
 #: src/arch/unix/gui/uiattach.c:98
 #: src/arch/unix/gui/uiattach.c:153
@@ -1368,28 +1368,28 @@ msgstr "Неверный(ое) образ диска или имя файла"
 #: src/arch/unix/gui/uiattach.c:178
 #: src/arch/unix/gui/uicommands.c:456
 msgid "Unit #8"
-msgstr ""
+msgstr "Unit #8"
 
 #: src/arch/unix/gui/uiattach.c:124
 #: src/arch/unix/gui/uiattach.c:160
 #: src/arch/unix/gui/uiattach.c:180
 #: src/arch/unix/gui/uicommands.c:458
 msgid "Unit #9"
-msgstr ""
+msgstr "Unit #9"
 
 #: src/arch/unix/gui/uiattach.c:127
 #: src/arch/unix/gui/uiattach.c:162
 #: src/arch/unix/gui/uiattach.c:182
 #: src/arch/unix/gui/uicommands.c:460
 msgid "Unit #10"
-msgstr ""
+msgstr "Unit #10"
 
 #: src/arch/unix/gui/uiattach.c:130
 #: src/arch/unix/gui/uiattach.c:164
 #: src/arch/unix/gui/uiattach.c:184
 #: src/arch/unix/gui/uicommands.c:462
 msgid "Unit #11"
-msgstr ""
+msgstr "Unit #11"
 
 #: src/arch/unix/gui/uiattach.c:187
 #: src/arch/win32/res.rc.po.c:1409
@@ -1439,7 +1439,7 @@ msgstr "Убрать образ диска"
 #: src/arch/win32/resvic20.rc.po.c:38
 #: src/arch/amigaos/intl_text.c.po.c:133
 msgid "Flip list"
-msgstr ""
+msgstr "Flip list"
 
 #: src/arch/unix/gui/uiattach.c:215
 #: src/arch/unix/gui/uiattach.c:279
@@ -1476,7 +1476,7 @@ msgstr "Убрать образ записи"
 
 #: src/arch/unix/gui/uiattach.c:320
 msgid "Smart-attach a file"
-msgstr ""
+msgstr "Smart-attach a file"
 
 #: src/arch/unix/gui/uiattach.c:328
 #: src/arch/unix/gui/uiattach.c:335
@@ -1486,7 +1486,7 @@ msgstr "Неизвестный тип образа"
 
 #: src/arch/unix/gui/uiattach.c:348
 msgid "Smart-attach disk/tape"
-msgstr ""
+msgstr "Smart-attach disk/tape"
 
 #: src/arch/unix/gui/uiattach.c:351
 #: src/arch/win32/res.rc.po.c:1491
@@ -1498,19 +1498,19 @@ msgstr "Настройки автозапуска"
 
 #: src/arch/unix/gui/uiautostart.c:49
 msgid "Disk image for PRG autostart"
-msgstr ""
+msgstr "Disk image for PRG autostart"
 
 #: src/arch/unix/gui/uiautostart.c:54
 #: src/arch/win32/resautostart.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:9682
 msgid "Virtual FS"
-msgstr ""
+msgstr "Virtual FS"
 
 #: src/arch/unix/gui/uiautostart.c:56
 #: src/arch/win32/resautostart.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:9696
 msgid "Inject to RAM"
-msgstr ""
+msgstr "Inject to RAM"
 
 #: src/arch/unix/gui/uiautostart.c:58
 #: src/arch/win32/res.rc.po.c:1181
@@ -1524,23 +1524,23 @@ msgstr "Образ диска"
 #: src/arch/amigaos/intl_text.c.po.c:1757
 #: src/translate_text.c.po.c:3063
 msgid "Handle True Drive Emulation on autostart"
-msgstr ""
+msgstr "Handle True Drive Emulation on autostart"
 
 #: src/arch/unix/gui/uiautostart.c:66
 #: src/arch/win32/resautostart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:9738
 msgid "Autostart warp"
-msgstr ""
+msgstr "Autostart warp"
 
 #: src/arch/unix/gui/uiautostart.c:68
 msgid "Autostart random delay"
-msgstr ""
+msgstr "Autostart random delay"
 
 #: src/arch/unix/gui/uiautostart.c:70
 #: src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:9752
 msgid "Use ':' with RUN"
-msgstr ""
+msgstr "Use ':' with RUN"
 
 #: src/arch/unix/gui/uiautostart.c:72
 #: src/arch/win32/resautostart.rc.po.c:46
@@ -1553,19 +1553,19 @@ msgstr "Загрузить новое BASIC ПЗУ"
 #: src/arch/win32/resautostart.rc.po.c:48
 #: src/arch/amigaos/intl_text.c.po.c:9766
 msgid "PRG autostart mode"
-msgstr ""
+msgstr "PRG autostart mode"
 
 #: src/arch/unix/gui/uiautostart.c:76
 #: src/arch/win32/resautostart.rc.po.c:49
 #: src/arch/amigaos/intl_text.c.po.c:9794
 msgid "PRG autostart disk image"
-msgstr ""
+msgstr "PRG autostart disk image"
 
 #: src/arch/unix/gui/uic64_256k.c:40
 #: src/arch/win32/resc64_256k.rc.po.c:31
 #: src/arch/amigaos/intl_text.c.po.c:4935
 msgid "256K file"
-msgstr ""
+msgstr "256K file"
 
 #: src/arch/unix/gui/uic64_256k.c:58
 #: src/arch/unix/gui/uidigimax.c:115
@@ -1614,26 +1614,26 @@ msgstr "Не удаётся добавить картридж"
 
 #: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image"
-msgstr ""
+msgstr "Smart attach CRT image"
 
 #: src/arch/unix/gui/uic64cart.c:106
 #: src/arch/win32/res.rc.po.c:1055
 #: src/arch/amigaos/intl_text.c.po.c:4235
 #: src/translate_text.c.po.c:5536
 msgid "Attach raw 8KB cartridge image"
-msgstr ""
+msgstr "Прикрепить проект образа 8Кб картриджа"
 
 #: src/arch/unix/gui/uic64cart.c:109
 #: src/arch/win32/res.rc.po.c:1056
 #: src/arch/amigaos/intl_text.c.po.c:4249
 #: src/translate_text.c.po.c:5553
 msgid "Attach raw 16KB cartridge image"
-msgstr ""
+msgstr "Прикрепить проект образа 16Кб картриджа"
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:114
 msgid "Attach Action Replay V5 image"
-msgstr ""
+msgstr "Attach Action Replay V5 image"
 
 #. Translators: "Atomic Power" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:118
@@ -1641,7 +1641,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:4319
 #: src/translate_text.c.po.c:5893
 msgid "Attach raw 32KB Atomic Power cartridge image"
-msgstr ""
+msgstr "Attach raw 32KB Atomic Power cartridge image"
 
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:122
@@ -1656,7 +1656,7 @@ msgstr "Картридж EasyFlash"
 #: src/arch/amigaos/intl_text.c.po.c:4333
 #: src/translate_text.c.po.c:5910
 msgid "Attach raw 8KB Epyx FastLoad cartridge image"
-msgstr ""
+msgstr "Attach raw 8KB Epyx FastLoad cartridge image"
 
 #. Translators: "IDE64" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:130
@@ -1664,20 +1664,20 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:4375
 #: src/translate_text.c.po.c:5876
 msgid "Attach raw 64KB IDE64 cartridge image"
-msgstr ""
+msgstr "Attach raw 64KB IDE64 cartridge image"
 
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:134
 #: src/translate_text.c.po.c:6199
 msgid "Attach raw Magic Formel cartridge image"
-msgstr ""
+msgstr "Attach raw Magic Formel cartridge image"
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:138
 #: src/arch/win32/res.rc.po.c:1065
 #: src/translate_text.c.po.c:6250
 msgid "Attach raw 512kB MMC Replay cartridge image"
-msgstr ""
+msgstr "Attach raw 512kB MMC Replay cartridge image"
 
 #. Translators: "Retro Replay" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:142
@@ -1685,7 +1685,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:4361
 #: src/translate_text.c.po.c:5825
 msgid "Attach raw 64KB Retro Replay cartridge image"
-msgstr ""
+msgstr "Attach raw 64KB Retro Replay cartridge image"
 
 #. Translators: "Super Snapshot V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:146
@@ -1693,7 +1693,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:4403
 #: src/translate_text.c.po.c:6080
 msgid "Attach raw 64KB Super Snapshot V5 cartridge image"
-msgstr ""
+msgstr "Attach raw 64KB Super Snapshot V5 cartridge image"
 
 #: src/arch/unix/gui/uic64cart.c:150
 #: src/arch/unix/gui/vic20ui.c:323
@@ -1713,30 +1713,30 @@ msgstr "Убрать образы картриджей"
 #: src/arch/win32/res.rc.po.c:1451
 #: src/arch/amigaos/intl_text.c.po.c:889
 msgid "Cartridge freeze"
-msgstr ""
+msgstr "Cartridge freeze"
 
 #: src/arch/unix/gui/uic64dtv.c:91
 #: src/arch/unix/gui/uic64dtv.c:115
 #: src/arch/amigaos/intl_text.c.po.c:4991
 msgid "C64DTV ROM file"
-msgstr ""
+msgstr "C64DTV ROM file"
 
 #: src/arch/unix/gui/uic64dtv.c:118
 #: src/arch/win32/resc64dtv.rc.po.c:437
 #: src/translate_text.c.po.c:12483
 msgid "Enable writes to C64DTV ROM image"
-msgstr ""
+msgstr "Enable writes to C64DTV ROM image"
 
 #: src/arch/unix/gui/uic64dtv.c:132
 #: src/arch/amigaos/intl_text.c.po.c:5033
 msgid "Hummer ADC"
-msgstr ""
+msgstr "Hummer ADC"
 
 #: src/arch/unix/gui/uic64dtv.c:135
 #: src/arch/win32/resc64dtv.rc.po.c:451
 #: src/arch/amigaos/intl_text.c.po.c:1939
 msgid "PS/2 mouse on Userport"
-msgstr ""
+msgstr "PS/2 mouse on Userport"
 
 #: src/arch/unix/gui/uicmdline.c:37
 #: src/arch/amigaos/intl_text.c.po.c:4431
@@ -1746,48 +1746,51 @@ msgid ""
 "Available command-line options:\n"
 "\n"
 msgstr ""
+"\n"
+"Возможные опции командной строки:\n"
+"\n"
 
 #: src/arch/unix/gui/uicommands.c:70
 #: src/arch/unix/gui/uicommands.c:342
 #: src/arch/unix/gui/uikeyboard.c:111
 msgid "VICE setting"
-msgstr ""
+msgstr "Настройки VICE"
 
 #: src/arch/unix/gui/uicommands.c:70
 #: src/arch/unix/gui/uicommands.c:468
 msgid "Change current working directory"
-msgstr ""
+msgstr "Сменить текущую рабочую директорию"
 
 #: src/arch/unix/gui/uicommands.c:72
 #: src/arch/unix/gui/uicommands.c:345
 msgid "Directory not found"
-msgstr ""
+msgstr "Директория не найдена"
 
 #: src/arch/unix/gui/uicommands.c:110
 msgid "Couldn't run /bin/sh???"
-msgstr ""
+msgstr "Couldn't run /bin/sh???"
 
 #: src/arch/unix/gui/uicommands.c:113
 msgid "Couldn't run xterm"
-msgstr ""
+msgstr "Couldn't run xterm"
 
 #: src/arch/unix/gui/uicommands.c:118
 msgid "Unknown error while running c1541"
-msgstr ""
+msgstr "Неизвестная ошибка при запуске c1541"
 
 #: src/arch/unix/gui/uicommands.c:147
 msgid "No HTML browser is defined."
-msgstr ""
+msgstr "Не определен HTML браузер"
 
 #: src/arch/unix/gui/uicommands.c:176
 #: src/arch/unix/gui/uicommands.c:190
 #: src/arch/unix/gui/uicommands.c:203
 msgid "Browser command too long."
-msgstr ""
+msgstr "Слишком длинная команда браузера"
 
 #: src/arch/unix/gui/uicommands.c:218
 msgid "Cannot run HTML browser."
-msgstr ""
+msgstr "Не удается запустить HTML браузер."
 
 #: src/arch/unix/gui/uicommands.c:266
 #: src/arch/unix/gui/uicommands.c:488
@@ -1796,7 +1799,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:1029
 #: src/arch/amigaos/intl_text.c.po.c:8352
 msgid "Load snapshot image"
-msgstr ""
+msgstr "Загрузить снепшот"
 
 #: src/arch/unix/gui/uicommands.c:276
 #, c-format
@@ -1804,6 +1807,8 @@ msgid ""
 "Cannot load snapshot file\n"
 "`%s'"
 msgstr ""
+"Не удается запустить файл снепшота\n"
+"`%s'"
 
 #: src/arch/unix/gui/uicommands.c:309
 #: src/arch/unix/x11/gnome/uisnapshot.c:105
@@ -1813,64 +1818,66 @@ msgid ""
 "Cannot write snapshot file\n"
 "`%s'\n"
 msgstr ""
+"Cannot write snapshot file\n"
+"`%s'\n"
 
 #: src/arch/unix/gui/uicommands.c:342
 #: src/arch/unix/gui/uicommands.c:502
 msgid "Select history directory"
-msgstr ""
+msgstr "Выбрать директорию истории"
 
 #: src/arch/unix/gui/uicommands.c:388
 #: src/arch/win32/res.rc.po.c:1166
 #: src/arch/amigaos/intl_text.c.po.c:9360
 msgid "Sound Recording stopped"
-msgstr ""
+msgstr "Запись звука острановлена"
 
 #: src/arch/unix/gui/uicommands.c:404
 #: src/arch/win32/res.rc.po.c:1476
 msgid "Record sound to file"
-msgstr ""
+msgstr "Записать звук в файл"
 
 #: src/arch/unix/gui/uicommands.c:413
 #: src/arch/win32/res.rc.po.c:1165
 #: src/arch/amigaos/intl_text.c.po.c:9374
 msgid "Sound Recording started"
-msgstr ""
+msgstr "Запись звука начата"
 
 #: src/arch/unix/gui/uicommands.c:449
 #: src/arch/unix/gui/vsidui.c:337
 #: src/arch/win32/res.rc.po.c:1402
 #: src/arch/amigaos/intl_text.c.po.c:945
 msgid "Soft"
-msgstr ""
+msgstr "Soft"
 
 #: src/arch/unix/gui/uicommands.c:452
 #: src/arch/unix/gui/vsidui.c:340
 #: src/arch/win32/res.rc.po.c:1401
 #: src/arch/amigaos/intl_text.c.po.c:931
 msgid "Hard"
-msgstr ""
+msgstr "Hard"
 
 #: src/arch/unix/gui/uicommands.c:476
 #: src/arch/win32/res.rc.po.c:1470
 #: src/arch/amigaos/intl_text.c.po.c:1127
 msgid "Save new snapshot"
-msgstr ""
+msgstr "Сохранить новый снепшот"
 
 #: src/arch/unix/gui/uicommands.c:478
 #: src/arch/win32/res.rc.po.c:1471
 #: src/arch/amigaos/intl_text.c.po.c:1141
 msgid "Load existing snapshot"
-msgstr ""
+msgstr "Загрузить существующий снепшот"
 
 #: src/arch/unix/gui/uicommands.c:480
 #: src/arch/win32/res.rc.po.c:1472
 #: src/arch/amigaos/intl_text.c.po.c:1155
 msgid "Start with reset"
-msgstr ""
+msgstr "Start with reset"
 
 #: src/arch/unix/gui/uicommands.c:482
 msgid "Overwrite running playback"
-msgstr ""
+msgstr "Overwrite running playback"
 
 #: src/arch/unix/gui/uicommands.c:491
 #: src/arch/unix/x11/gnome/uisnapshot.c:46
@@ -1881,43 +1888,43 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:1043
 #: src/arch/amigaos/intl_text.c.po.c:8338
 msgid "Save snapshot image"
-msgstr ""
+msgstr "Сохранить снепшот"
 
 #: src/arch/unix/gui/uicommands.c:495
 msgid "Quickload snapshot"
-msgstr ""
+msgstr "Quickload snapshot"
 
 #: src/arch/unix/gui/uicommands.c:498
 msgid "Quicksave snapshot"
-msgstr ""
+msgstr "Quicksave snapshot"
 
 #: src/arch/unix/gui/uicommands.c:504
 msgid "Start recording events"
-msgstr ""
+msgstr "Начать запись событий"
 
 #: src/arch/unix/gui/uicommands.c:506
 msgid "Stop recording events"
-msgstr ""
+msgstr "Закончить запись событий"
 
 #: src/arch/unix/gui/uicommands.c:508
 msgid "Start playing back events"
-msgstr ""
+msgstr "Start playing back events"
 
 #: src/arch/unix/gui/uicommands.c:510
 msgid "Stop playing back events"
-msgstr ""
+msgstr "Stop playing back events"
 
 #: src/arch/unix/gui/uicommands.c:512
 #: src/arch/win32/res.rc.po.c:1468
 #: src/arch/amigaos/intl_text.c.po.c:1085
 msgid "Set recording milestone"
-msgstr ""
+msgstr "Установить точку записи"
 
 #: src/arch/unix/gui/uicommands.c:514
 #: src/arch/win32/res.rc.po.c:1469
 #: src/arch/amigaos/intl_text.c.po.c:1099
 msgid "Return to milestone"
-msgstr ""
+msgstr "Return to milestone"
 
 #: src/arch/unix/gui/uicommands.c:517
 #: src/arch/win32/res.rc.po.c:1383
@@ -1930,65 +1937,65 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:130
 #: src/arch/amigaos/intl_text.c.po.c:1113
 msgid "Recording start mode"
-msgstr ""
+msgstr "Recording start mode"
 
 #: src/arch/unix/gui/uicommands.c:521
 #: src/arch/unix/gui/uinetplay.c:109
 #: src/arch/win32/resc64.rc.po.c:560
 #: src/arch/amigaos/intl_text.c.po.c:1211
 msgid "Netplay (experimental)"
-msgstr ""
+msgstr "Netplay (experimental)"
 
 #: src/arch/unix/gui/uicommands.c:528
 msgid "Snapshot commands"
-msgstr ""
+msgstr "Снепшот команды"
 
 #: src/arch/unix/gui/uicommands.c:534
 msgid "Sound record WAV"
-msgstr ""
+msgstr "Запись звука WAV"
 
 #: src/arch/unix/gui/uicommands.c:536
 msgid "Sound record AIFF"
-msgstr ""
+msgstr "Запись звука AIFF"
 
 #: src/arch/unix/gui/uicommands.c:538
 msgid "Sound record VOC"
-msgstr ""
+msgstr "Запись звука VOC"
 
 #: src/arch/unix/gui/uicommands.c:540
 msgid "Sound record IFF"
-msgstr ""
+msgstr "Запись звука IFF"
 
 #: src/arch/unix/gui/uicommands.c:543
 msgid "Sound record MP3"
-msgstr ""
+msgstr "Запись звука MP3"
 
 #: src/arch/unix/gui/uicommands.c:546
 #: src/arch/win32/res.rc.po.c:1477
 #: src/arch/amigaos/intl_text.c.po.c:3423
 msgid "Stop Sound record"
-msgstr ""
+msgstr "Остановить запись звука"
 
 #: src/arch/unix/gui/uicommands.c:552
 #: src/arch/unix/gui/uicommands.c:561
 msgid "Activate monitor"
-msgstr ""
+msgstr "Активировать монитор"
 
 #: src/arch/unix/gui/uicommands.c:555
 msgid "Run C1541"
-msgstr ""
+msgstr "Запустить C1541"
 
 #: src/arch/unix/gui/uicommands.c:591
 msgid "Available command-line options:"
-msgstr ""
+msgstr "Возможные опции командной строки"
 
 #: src/arch/unix/gui/uicommands.c:596
 msgid "Browse manuals"
-msgstr ""
+msgstr "Browse manuals"
 
 #: src/arch/unix/gui/uicommands.c:598
 msgid "Commandline options"
-msgstr ""
+msgstr "Опции коммандной строки"
 
 #: src/arch/unix/gui/uicommands.c:600
 #: src/arch/win32/res.rc.po.c:176
@@ -1996,7 +2003,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:3073
 #: src/arch/amigaos/intl_text.c.po.c:4641
 msgid "About VICE"
-msgstr ""
+msgstr "Подробнее о VICE"
 
 #: src/arch/unix/gui/uicommands.c:606
 #: src/arch/unix/gui/uidatasette.c:99
@@ -2014,18 +2021,18 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:86
 #: src/arch/amigaos/intl_text.c.po.c:343
 msgid "Reset"
-msgstr ""
+msgstr "Reset"
 
 #: src/arch/unix/gui/uicommands.c:608
 #: src/arch/unix/gui/vsidui.c:363
 #: src/arch/win32/res.rc.po.c:1397
 #: src/arch/amigaos/intl_text.c.po.c:903
 msgid "Pause"
-msgstr ""
+msgstr "Пауза"
 
 #: src/arch/unix/gui/uicommands.c:615
 msgid "Exit emulator"
-msgstr ""
+msgstr "Выйти из эмулятора"
 
 #: src/arch/unix/gui/uicrtc.c:58
 #: src/arch/unix/gui/uited.c:57
@@ -2038,15 +2045,15 @@ msgstr "*Международный"
 
 #: src/arch/unix/gui/uicrtc.c:61
 msgid "Default (Green)"
-msgstr ""
+msgstr "Default (Green)"
 
 #: src/arch/unix/gui/uicrtc.c:63
 msgid "Amber"
-msgstr ""
+msgstr "Amber"
 
 #: src/arch/unix/gui/uicrtc.c:65
 msgid "White"
-msgstr ""
+msgstr "White"
 
 #: src/arch/unix/gui/uicrtc.c:68
 #: src/arch/unix/gui/uited.c:63
@@ -2054,7 +2061,7 @@ msgstr ""
 #: src/arch/unix/gui/uivic.c:64
 #: src/arch/unix/gui/uivicii.c:80
 msgid "Load custom"
-msgstr ""
+msgstr "Load custom"
 
 #: src/arch/unix/gui/uicrtc.c:76
 #: src/arch/unix/gui/uited.c:71
@@ -2062,7 +2069,7 @@ msgstr ""
 #: src/arch/unix/gui/uivic.c:86
 #: src/arch/unix/gui/uivicii.c:102
 msgid "Unfiltered"
-msgstr ""
+msgstr "Unfiltered"
 
 #: src/arch/unix/gui/uicrtc.c:78
 #: src/arch/unix/gui/uited.c:73
@@ -2083,7 +2090,7 @@ msgstr "Эмуляция MMC64"
 #: src/arch/win32/res.rc.po.c:1047
 #: src/arch/amigaos/intl_text.c.po.c:8464
 msgid "Scale2x"
-msgstr ""
+msgstr "Scale2x"
 
 #: src/arch/unix/gui/uicrtc.c:105
 #: src/arch/unix/gui/uisettings.c:121
@@ -2092,7 +2099,7 @@ msgstr ""
 #: src/arch/unix/gui/uivic.c:117
 #: src/arch/unix/gui/uivicii.c:128
 msgid "Enter refresh rate"
-msgstr ""
+msgstr "Enter refresh rate"
 
 #: src/arch/unix/gui/uicrtc.c:106
 #: src/arch/unix/gui/uisettings.c:122
@@ -2112,7 +2119,7 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:146
 #: src/arch/amigaos/intl_text.c.po.c:1239
 msgid "Refresh rate"
-msgstr ""
+msgstr "Частота обновления"
 
 #: src/arch/unix/gui/uicrtc.c:142
 #: src/arch/unix/gui/uited.c:131
@@ -2122,12 +2129,12 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1411
 #: src/arch/amigaos/intl_text.c.po.c:1561
 msgid "Double size"
-msgstr ""
+msgstr "Двойной размер"
 
 #: src/arch/unix/gui/uicrtc.c:144
 #: src/arch/unix/gui/uivdc.c:161
 msgid "Stretch vertically"
-msgstr ""
+msgstr "Растянуть по вертикали"
 
 #: src/arch/unix/gui/uicrtc.c:146
 #: src/arch/unix/gui/uited.c:133
@@ -2137,7 +2144,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1412
 #: src/arch/amigaos/intl_text.c.po.c:1575
 msgid "Double scan"
-msgstr ""
+msgstr "Double scan"
 
 #: src/arch/unix/gui/uicrtc.c:148
 #: src/arch/unix/gui/uited.c:135
@@ -2147,7 +2154,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1416
 #: src/arch/amigaos/intl_text.c.po.c:1547
 msgid "Video cache"
-msgstr ""
+msgstr "Видео кеш"
 
 #: src/arch/unix/gui/uicrtc.c:151
 #: src/arch/unix/gui/uited.c:138
@@ -2155,7 +2162,7 @@ msgstr ""
 #: src/arch/unix/gui/uivic.c:152
 #: src/arch/unix/gui/uivicii.c:177
 msgid "Colors"
-msgstr ""
+msgstr "Цвета"
 
 #: src/arch/unix/gui/uicrtc.c:154
 #: src/arch/unix/gui/uited.c:141
@@ -2174,7 +2181,7 @@ msgstr "Настройки модели"
 #: src/arch/win32/res.rc.po.c:1046
 #: src/arch/amigaos/intl_text.c.po.c:8478
 msgid "Render filter"
-msgstr ""
+msgstr "Render filter"
 
 #: src/arch/unix/gui/uicrtc.c:161
 #: src/arch/unix/gui/uited.c:148
@@ -2201,7 +2208,7 @@ msgstr "*Эмуляция мыши"
 #: src/arch/unix/gui/uivic.c:172
 #: src/arch/unix/gui/uivicii.c:202
 msgid "Hardware scaling"
-msgstr ""
+msgstr "Hardware scaling"
 
 #: src/arch/unix/gui/uicrtc.c:171
 #: src/arch/unix/gui/uited.c:158
@@ -2210,7 +2217,7 @@ msgstr ""
 #: src/arch/unix/gui/uivicii.c:204
 #: src/arch/win32/res.rc.po.c:1232
 msgid "Keep aspect ratio"
-msgstr ""
+msgstr "Keep aspect ratio"
 
 #: src/arch/unix/gui/uicrtc.c:173
 #: src/arch/unix/gui/uited.c:160
@@ -2219,7 +2226,7 @@ msgstr ""
 #: src/arch/unix/gui/uivicii.c:206
 #: src/arch/win32/res.rc.po.c:1233
 msgid "True aspect ratio"
-msgstr ""
+msgstr "True aspect ratio"
 
 #: src/arch/unix/gui/uicrtc.c:176
 #: src/arch/unix/gui/uited.c:163
@@ -2227,7 +2234,7 @@ msgstr ""
 #: src/arch/unix/gui/uivic.c:179
 #: src/arch/unix/gui/uivicii.c:209
 msgid "Set custom aspect ratio"
-msgstr ""
+msgstr "Set custom aspect ratio"
 
 #: src/arch/unix/gui/uicrtc.c:183
 #: src/arch/unix/gui/uited.c:170
@@ -2235,7 +2242,7 @@ msgstr ""
 #: src/arch/unix/gui/uivic.c:186
 #: src/arch/unix/gui/uivicii.c:216
 msgid "OpenGL Rastersynchronization"
-msgstr ""
+msgstr "OpenGL Rastersynchronization"
 
 #: src/arch/unix/gui/uicrtc.c:185
 #: src/arch/unix/gui/uited.c:172
@@ -2243,7 +2250,7 @@ msgstr ""
 #: src/arch/unix/gui/uivic.c:188
 #: src/arch/unix/gui/uivicii.c:218
 msgid "Desktop Refreshrate"
-msgstr ""
+msgstr "Desktop Refreshrate"
 
 #: src/arch/unix/gui/uicrtc.c:190
 #: src/arch/unix/gui/uited.c:177
@@ -2260,59 +2267,59 @@ msgstr "Флеш настройки"
 #: src/arch/unix/gui/uivic.c:196
 #: src/arch/unix/gui/uivicii.c:227
 msgid "Use XSync()"
-msgstr ""
+msgstr "Use XSync()"
 
 #: src/arch/unix/gui/uidatasette.c:55
 #: src/arch/unix/gui/uidatasette.c:86
 msgid "Datasette speed tuning"
-msgstr ""
+msgstr "Datasette speed tuning"
 
 #: src/arch/unix/gui/uidatasette.c:58
 #: src/arch/unix/gui/uidatasette.c:84
 #: src/arch/win32/res.rc.po.c:1179
 #: src/arch/amigaos/intl_text.c.po.c:5243
 msgid "Datasette zero gap delay"
-msgstr ""
+msgstr "Datasette zero gap delay"
 
 #: src/arch/unix/gui/uidatasette.c:69
 #: src/arch/unix/gui/uipalemu.c:99
 #, c-format
 msgid "Invalid value: %s"
-msgstr ""
+msgstr "Неверное значение: %s"
 
 #: src/arch/unix/gui/uidatasette.c:82
 #: src/arch/win32/res.rc.po.c:1176
 #: src/arch/amigaos/intl_text.c.po.c:5215
 msgid "Reset Datasette with CPU"
-msgstr ""
+msgstr "Reset Datasette with CPU"
 
 #: src/arch/unix/gui/uidatasette.c:89
 #: src/arch/win32/res.rc.po.c:1441
 #: src/arch/amigaos/intl_text.c.po.c:273
 msgid "Stop"
-msgstr ""
+msgstr "Остановить"
 
 #: src/arch/unix/gui/uidatasette.c:91
 msgid "Play"
-msgstr ""
+msgstr "Пуск"
 
 #: src/arch/unix/gui/uidatasette.c:93
 #: src/arch/win32/res.rc.po.c:1443
 #: src/arch/amigaos/intl_text.c.po.c:301
 msgid "Forward"
-msgstr ""
+msgstr "Перемотка вперед"
 
 #: src/arch/unix/gui/uidatasette.c:95
 #: src/arch/win32/res.rc.po.c:1444
 #: src/arch/amigaos/intl_text.c.po.c:315
 msgid "Rewind"
-msgstr ""
+msgstr "Перемотка назад"
 
 #: src/arch/unix/gui/uidatasette.c:97
 #: src/arch/win32/res.rc.po.c:1445
 #: src/arch/amigaos/intl_text.c.po.c:329
 msgid "Record"
-msgstr ""
+msgstr "Запись"
 
 #: src/arch/unix/gui/uidatasette.c:105
 #: src/arch/win32/res.rc.po.c:1374
@@ -2324,7 +2331,7 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:259
 msgid "Datassette control"
-msgstr ""
+msgstr "Datassette control"
 
 #: src/arch/unix/gui/uidigimax.c:39
 #, fuzzy
@@ -2343,7 +2350,7 @@ msgstr "*Userport DAC"
 #: src/arch/unix/gui/uiretroreplay.c:62
 #: src/arch/unix/gui/uireu.c:75
 msgid "Save image when changed"
-msgstr ""
+msgstr "Save image when changed"
 
 #: src/arch/unix/gui/uidqbb.c:54
 #: src/arch/unix/gui/uieasyflash.c:51
@@ -2356,7 +2363,7 @@ msgstr ""
 #: src/arch/unix/gui/uiretroreplay.c:64
 #: src/arch/unix/gui/uireu.c:77
 msgid "Save image now"
-msgstr ""
+msgstr "Сохранить образ сейчас"
 
 #: src/arch/unix/gui/uidqbb.c:56
 #: src/arch/unix/gui/uieasyflash.c:53
@@ -2369,13 +2376,13 @@ msgstr ""
 #: src/arch/unix/gui/uiretroreplay.c:66
 #: src/arch/unix/gui/uireu.c:79
 msgid "Save image as"
-msgstr ""
+msgstr "Сохранить образ как"
 
 #: src/arch/unix/gui/uidqbb.c:63
 #: src/arch/win32/resdqbb.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:5635
 msgid "DQBB file"
-msgstr ""
+msgstr "Файл DQBB"
 
 #: src/arch/unix/gui/uidqbb.c:72
 #: src/arch/unix/gui/uieasyflash.c:64
@@ -2398,7 +2405,7 @@ msgstr "Картридж EasyFlash"
 #: src/arch/win32/res.rc.po.c:1354
 #: src/arch/amigaos/intl_text.c.po.c:5271
 msgid "Never extend"
-msgstr ""
+msgstr "Never extend"
 
 #: src/arch/unix/gui/uidrive.c:65
 #: src/arch/unix/gui/uidrive.c:75
@@ -2407,7 +2414,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1355
 #: src/arch/amigaos/intl_text.c.po.c:5285
 msgid "Ask on extend"
-msgstr ""
+msgstr "Ask on extend"
 
 #: src/arch/unix/gui/uidrive.c:67
 #: src/arch/unix/gui/uidrive.c:77
@@ -2416,7 +2423,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1356
 #: src/arch/amigaos/intl_text.c.po.c:5299
 msgid "Extend on access"
-msgstr ""
+msgstr "Extend on access"
 
 #: src/arch/unix/gui/uidrive.c:183
 #: src/arch/unix/gui/uidrivec128.c:160
@@ -2428,7 +2435,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1414
 #: src/arch/amigaos/intl_text.c.po.c:1743
 msgid "True drive emulation"
-msgstr ""
+msgstr "True drive emulation"
 
 #: src/arch/unix/gui/uidrive.c:185
 #: src/arch/unix/gui/uidrivec128.c:162
@@ -2445,7 +2452,7 @@ msgstr "Эмуляция Ethernet"
 #: src/arch/unix/gui/uidrivec64dtv.c:48
 #: src/translate_text.c.po.c:12568
 msgid "Enable true hardware flash file system"
-msgstr ""
+msgstr "Enable true hardware flash file system"
 
 #: src/arch/unix/gui/uidrivec128.c:165
 #: src/arch/unix/gui/uidrivec64.c:48
@@ -2453,7 +2460,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:232
 #: src/arch/unix/gui/uidrivevic20.c:71
 msgid "Drive #8 model"
-msgstr ""
+msgstr "Drive #8 model"
 
 #: src/arch/unix/gui/uidrivec128.c:167
 #: src/arch/unix/gui/uidrivec64.c:50
@@ -2461,7 +2468,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:234
 #: src/arch/unix/gui/uidrivevic20.c:73
 msgid "Drive #8 expansion"
-msgstr ""
+msgstr "Drive #8 expansion"
 
 #: src/arch/unix/gui/uidrivec128.c:170
 #: src/arch/unix/gui/uidrivec64.c:53
@@ -2470,7 +2477,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:237
 #: src/arch/unix/gui/uidrivevic20.c:76
 msgid "Drive #8 40-track image support"
-msgstr ""
+msgstr "Drive #8 40-track image support"
 
 #: src/arch/unix/gui/uidrivec128.c:173
 #: src/arch/unix/gui/uidrivec64.c:56
@@ -2479,7 +2486,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:240
 #: src/arch/unix/gui/uidrivevic20.c:79
 msgid "Drive #8 idle method"
-msgstr ""
+msgstr "Drive #8 idle method"
 
 #: src/arch/unix/gui/uidrivec128.c:177
 #: src/arch/unix/gui/uidrivec64.c:60
@@ -2487,7 +2494,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:244
 #: src/arch/unix/gui/uidrivevic20.c:83
 msgid "Drive #9 model"
-msgstr ""
+msgstr "Drive #9 model"
 
 #: src/arch/unix/gui/uidrivec128.c:179
 #: src/arch/unix/gui/uidrivec64.c:62
@@ -2495,7 +2502,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:246
 #: src/arch/unix/gui/uidrivevic20.c:85
 msgid "Drive #9 expansion"
-msgstr ""
+msgstr "Drive #9 expansion"
 
 #: src/arch/unix/gui/uidrivec128.c:182
 #: src/arch/unix/gui/uidrivec64.c:65
@@ -2504,7 +2511,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:249
 #: src/arch/unix/gui/uidrivevic20.c:88
 msgid "Drive #9 40-track image support"
-msgstr ""
+msgstr "Drive #9 40-track image support"
 
 #: src/arch/unix/gui/uidrivec128.c:185
 #: src/arch/unix/gui/uidrivec64.c:68
@@ -2513,7 +2520,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:252
 #: src/arch/unix/gui/uidrivevic20.c:91
 msgid "Drive #9 idle method"
-msgstr ""
+msgstr "Drive #9 idle method"
 
 #: src/arch/unix/gui/uidrivec128.c:189
 #: src/arch/unix/gui/uidrivec64.c:72
@@ -2521,7 +2528,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:256
 #: src/arch/unix/gui/uidrivevic20.c:95
 msgid "Drive #10 model"
-msgstr ""
+msgstr "Drive #10 model"
 
 #: src/arch/unix/gui/uidrivec128.c:191
 #: src/arch/unix/gui/uidrivec64.c:74
@@ -2529,7 +2536,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:258
 #: src/arch/unix/gui/uidrivevic20.c:97
 msgid "Drive #10 expansion"
-msgstr ""
+msgstr "Drive #10 expansion"
 
 #: src/arch/unix/gui/uidrivec128.c:194
 #: src/arch/unix/gui/uidrivec64.c:77
@@ -2538,7 +2545,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:261
 #: src/arch/unix/gui/uidrivevic20.c:100
 msgid "Drive #10 40-track image support"
-msgstr ""
+msgstr "Drive #10 40-track image support"
 
 #: src/arch/unix/gui/uidrivec128.c:197
 #: src/arch/unix/gui/uidrivec64.c:80
@@ -2547,7 +2554,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:264
 #: src/arch/unix/gui/uidrivevic20.c:103
 msgid "Drive #10 idle method"
-msgstr ""
+msgstr "Drive #10 idle method"
 
 #: src/arch/unix/gui/uidrivec128.c:201
 #: src/arch/unix/gui/uidrivec64.c:84
@@ -2555,7 +2562,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:268
 #: src/arch/unix/gui/uidrivevic20.c:107
 msgid "Drive #11 model"
-msgstr ""
+msgstr "Drive #11 model"
 
 #: src/arch/unix/gui/uidrivec128.c:203
 #: src/arch/unix/gui/uidrivec64.c:86
@@ -2563,7 +2570,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:270
 #: src/arch/unix/gui/uidrivevic20.c:109
 msgid "Drive #11 expansion"
-msgstr ""
+msgstr "Drive #11 expansion"
 
 #: src/arch/unix/gui/uidrivec128.c:206
 #: src/arch/unix/gui/uidrivec64.c:89
@@ -2572,7 +2579,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:273
 #: src/arch/unix/gui/uidrivevic20.c:112
 msgid "Drive #11 40-track image support"
-msgstr ""
+msgstr "Drive #11 40-track image support"
 
 #: src/arch/unix/gui/uidrivec128.c:209
 #: src/arch/unix/gui/uidrivec64.c:92
@@ -2581,7 +2588,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:276
 #: src/arch/unix/gui/uidrivevic20.c:115
 msgid "Drive #11 idle method"
-msgstr ""
+msgstr "Drive #11 idle method"
 
 #: src/arch/unix/gui/uidrivec128.c:216
 #: src/arch/unix/gui/uidrivec64.c:99
@@ -2594,41 +2601,41 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:2191
 #: src/arch/amigaos/intl_text.c.po.c:5425
 msgid "Drive settings"
-msgstr ""
+msgstr "Drive settings"
 
 #: src/arch/unix/gui/uidrivec128.c:224
 #: src/arch/unix/gui/uidrivec64vic20.c:147
 #: src/arch/unix/gui/uidriveplus4.c:291
 msgid "Load new 1541 ROM"
-msgstr ""
+msgstr "Загрузить новый 1541 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:227
 #: src/arch/unix/gui/uidrivec64vic20.c:150
 #: src/arch/unix/gui/uidriveplus4.c:294
 msgid "Load new 1541-II ROM"
-msgstr ""
+msgstr "Загрузить новый 1541-II ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:230
 #: src/arch/unix/gui/uidrivec64vic20.c:153
 #: src/arch/unix/gui/uidriveplus4.c:300
 msgid "Load new 1570 ROM"
-msgstr ""
+msgstr "Загрузить новый 1570 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:233
 #: src/arch/unix/gui/uidrivec64vic20.c:156
 #: src/arch/unix/gui/uidriveplus4.c:303
 msgid "Load new 1571 ROM"
-msgstr ""
+msgstr "Загрузить новый 1571 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:236
 msgid "Load new 1571CR ROM"
-msgstr ""
+msgstr "Загрузить новый 1571CR ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:239
 #: src/arch/unix/gui/uidrivec64vic20.c:159
 #: src/arch/unix/gui/uidriveplus4.c:306
 msgid "Load new 1581 ROM"
-msgstr ""
+msgstr "Загрузить новый 1581 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:242
 #: src/arch/unix/gui/uidrivec64vic20.c:162
@@ -2648,31 +2655,31 @@ msgstr "Загрузить новое привод. ПЗУ"
 #: src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidrivepetcbm2.c:145
 msgid "Load new 2031 ROM"
-msgstr ""
+msgstr "Загрузить новый 2031 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:251
 #: src/arch/unix/gui/uidrivec64vic20.c:171
 #: src/arch/unix/gui/uidrivepetcbm2.c:148
 msgid "Load new 2040 ROM"
-msgstr ""
+msgstr "Загрузить новый 2040 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:254
 #: src/arch/unix/gui/uidrivec64vic20.c:174
 #: src/arch/unix/gui/uidrivepetcbm2.c:151
 msgid "Load new 3040 ROM"
-msgstr ""
+msgstr "Загрузить новый 3040 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:257
 #: src/arch/unix/gui/uidrivec64vic20.c:177
 #: src/arch/unix/gui/uidrivepetcbm2.c:154
 msgid "Load new 4040 ROM"
-msgstr ""
+msgstr "Загрузить новый 4040 ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:260
 #: src/arch/unix/gui/uidrivec64vic20.c:180
 #: src/arch/unix/gui/uidrivepetcbm2.c:157
 msgid "Load new 1001 ROM"
-msgstr ""
+msgstr "Загрузить новый 1001 ROM"
 
 #: src/arch/unix/gui/uidrivec64c128.c:67
 #: src/arch/unix/gui/uidrivec64c128.c:77
@@ -2683,14 +2690,14 @@ msgstr ""
 #: src/arch/unix/gui/uidriveplus4.c:83
 #: src/arch/unix/gui/uidriveplus4.c:91
 msgid "Standard Userport"
-msgstr ""
+msgstr "Standard Userport"
 
 #: src/arch/unix/gui/uidrivec64c128.c:69
 #: src/arch/unix/gui/uidrivec64c128.c:79
 #: src/arch/unix/gui/uidrivec64c128.c:89
 #: src/arch/unix/gui/uidrivec64c128.c:99
 msgid "Dolphin DOS 3"
-msgstr ""
+msgstr "Dolphin DOS 3"
 
 #: src/arch/unix/gui/uidrivec64c128.c:105
 #: src/arch/unix/gui/uidrivec64c128.c:118
@@ -2703,7 +2710,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1360
 #: src/arch/amigaos/intl_text.c.po.c:5411
 msgid "Parallel cable"
-msgstr ""
+msgstr "Parallel cable"
 
 #: src/arch/unix/gui/uidrivec64c128.c:112
 #: src/arch/unix/gui/uidrivec64c128.c:125
@@ -2711,7 +2718,7 @@ msgstr ""
 #: src/arch/unix/gui/uidrivec64c128.c:151
 #: src/translate_text.c.po.c:7850
 msgid "Enable Professional DOS"
-msgstr ""
+msgstr "Enable Professional DOS"
 
 #: src/arch/unix/gui/uidriveiec.c:153
 #: src/arch/unix/gui/uidriveiec.c:163
@@ -2719,7 +2726,7 @@ msgstr ""
 #: src/arch/unix/gui/uidriveiec.c:183
 #: src/arch/amigaos/intl_text.c.po.c:5313
 msgid "No traps"
-msgstr ""
+msgstr "No traps"
 
 #: src/arch/unix/gui/uidriveiec.c:155
 #: src/arch/unix/gui/uidriveiec.c:165
@@ -2728,7 +2735,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1359
 #: src/arch/amigaos/intl_text.c.po.c:5327
 msgid "Skip cycles"
-msgstr ""
+msgstr "Skip cycles"
 
 #: src/arch/unix/gui/uidriveiec.c:157
 #: src/arch/unix/gui/uidriveiec.c:167
@@ -2737,37 +2744,37 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1358
 #: src/arch/amigaos/intl_text.c.po.c:5341
 msgid "Trap idle"
-msgstr ""
+msgstr "Trap idle"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:98
 msgid "Drive #8 floppy disk type"
-msgstr ""
+msgstr "Drive #8 floppy disk type"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:107
 msgid "Drive #9 floppy disk type"
-msgstr ""
+msgstr "Drive #9 floppy disk type"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:116
 msgid "Drive #10 floppy disk type"
-msgstr ""
+msgstr "Drive #10 floppy disk type"
 
 #: src/arch/unix/gui/uidrivepetcbm2.c:125
 msgid "Drive #11 floppy disk type"
-msgstr ""
+msgstr "Drive #11 floppy disk type"
 
 #: src/arch/unix/gui/uidriveplus4.c:297
 msgid "Load new 1551 ROM"
-msgstr ""
+msgstr "Загрузить новый 1551 ROM"
 
 #: src/arch/unix/gui/uieasyflash.c:46
 msgid "Enable jumper"
-msgstr ""
+msgstr "Enable jumper"
 
 #: src/arch/unix/gui/uiexpert.c:53
 #: src/arch/win32/resexpert.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:5551
 msgid "Prg"
-msgstr ""
+msgstr "Prg"
 
 #: src/arch/unix/gui/uiexpert.c:55
 #: src/arch/unix/x11/xaw/uisnapshot.c:224
@@ -2775,7 +2782,7 @@ msgstr ""
 #: src/arch/win32/resexpert.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:5537
 msgid "Off"
-msgstr ""
+msgstr "Off"
 
 #: src/arch/unix/gui/uiexpert.c:57
 #: src/arch/unix/x11/xaw/uisnapshot.c:235
@@ -2783,7 +2790,7 @@ msgstr ""
 #: src/arch/win32/resexpert.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:5565
 msgid "On"
-msgstr ""
+msgstr "On"
 
 #: src/arch/unix/gui/uiexpert.c:74
 #: src/arch/win32/resexpert.rc.po.c:44
@@ -2794,7 +2801,7 @@ msgstr "Эксперт картридж"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Load "
-msgstr ""
+msgstr "Загрузить"
 
 #: src/arch/unix/gui/uifliplist.c:88
 #: src/arch/unix/x11/xaw/uicartridge.c:171
@@ -2805,7 +2812,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1554
 #: src/arch/amigaos/intl_text.c.po.c:3843
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: src/arch/unix/gui/uifliplist.c:88
 #, fuzzy
@@ -2815,48 +2822,48 @@ msgstr "Файл установки ПЗУ"
 #: src/arch/unix/gui/uifliplist.c:95
 #, c-format
 msgid "Successfully read `%s'."
-msgstr ""
+msgstr "Успешно прочтено `%s'."
 
 #: src/arch/unix/gui/uifliplist.c:97
 #, c-format
 msgid "Error reading `%s'."
-msgstr ""
+msgstr "Ошибка при чтении `%s'."
 
 #: src/arch/unix/gui/uifliplist.c:101
 #: src/arch/unix/x11/gnome/uicartridge.c:74
 #: src/arch/unix/x11/gnome/uiscreenshot.c:522
 #, c-format
 msgid "Successfully wrote `%s'"
-msgstr ""
+msgstr "Успешно записано `%s'"
 
 #: src/arch/unix/gui/uifliplist.c:103
 #, c-format
 msgid "Error writing `%s'."
-msgstr ""
+msgstr "Ошибка при записи"
 
 #: src/arch/unix/gui/uifliplist.c:115
 #: src/arch/win32/res.rc.po.c:1435
 #: src/arch/amigaos/intl_text.c.po.c:147
 msgid "Add current image (Unit 8)"
-msgstr ""
+msgstr "Add current image (Unit 8)"
 
 #: src/arch/unix/gui/uifliplist.c:118
 #: src/arch/win32/res.rc.po.c:1436
 #: src/arch/amigaos/intl_text.c.po.c:161
 msgid "Remove current image (Unit 8)"
-msgstr ""
+msgstr "Remove current image (Unit 8)"
 
 #: src/arch/unix/gui/uifliplist.c:121
 #: src/arch/win32/res.rc.po.c:1437
 #: src/arch/amigaos/intl_text.c.po.c:175
 msgid "Attach next image (Unit 8)"
-msgstr ""
+msgstr "Attach next image (Unit 8)"
 
 #: src/arch/unix/gui/uifliplist.c:124
 #: src/arch/win32/res.rc.po.c:1438
 #: src/arch/amigaos/intl_text.c.po.c:189
 msgid "Attach previous image (Unit 8)"
-msgstr ""
+msgstr "Attach previous image (Unit 8)"
 
 #: src/arch/unix/gui/uifliplist.c:127
 #: src/arch/win32/res.rc.po.c:997
@@ -2864,7 +2871,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:203
 #: src/arch/amigaos/intl_text.c.po.c:8198
 msgid "Load flip list file"
-msgstr ""
+msgstr "Load flip list file"
 
 #: src/arch/unix/gui/uifliplist.c:129
 #: src/arch/win32/res.rc.po.c:999
@@ -2872,17 +2879,17 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:217
 #: src/arch/amigaos/intl_text.c.po.c:8226
 msgid "Save flip list file"
-msgstr ""
+msgstr "Save flip list file"
 
 #: src/arch/unix/gui/uifliplist.c:184
 #, c-format
 msgid "Attach #%d"
-msgstr ""
+msgstr "Добавить #%d"
 
 #: src/arch/unix/gui/uifliplist.c:192
 #, c-format
 msgid "Detach #%d"
-msgstr ""
+msgstr "Убрать #%d"
 
 #: src/arch/unix/gui/uifliplist.c:208
 #: src/arch/unix/gui/uiramcart.c:58
