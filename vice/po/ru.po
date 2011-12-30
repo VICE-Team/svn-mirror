@@ -2839,7 +2839,7 @@ msgstr "Успешно записано `%s'"
 #: src/arch/unix/gui/uifliplist.c:103
 #, c-format
 msgid "Error writing `%s'."
-msgstr "Ошибка при записи"
+msgstr ""
 
 #: src/arch/unix/gui/uifliplist.c:115
 #: src/arch/win32/res.rc.po.c:1435
