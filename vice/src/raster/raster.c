@@ -52,7 +52,7 @@
 #include "viewport.h"
 
 
-int raster_calc_frame_buffer_width(raster_t *raster)
+static int raster_calc_frame_buffer_width(raster_t *raster)
 {
     return raster->geometry->screen_size.width
         + raster->geometry->extra_offscreen_border_left

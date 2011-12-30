@@ -222,7 +222,6 @@ extern void raster_screenshot(raster_t *raster,
                               struct screenshot_s *screenshot);
 extern void raster_async_refresh(raster_t *raster,
                                  struct canvas_refresh_s *ref);
-extern int raster_calc_frame_buffer_width(raster_t *raster);
 extern void raster_line_changes_init(raster_t *raster);
 extern void raster_line_changes_sprite_init(raster_t *raster);
 
