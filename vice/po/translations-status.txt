@@ -13,4 +13,4 @@ da     Danish       93      144          16
 hu     Hungarian    61      773         133
 fr     French       50      973         199
 ko     Korean       42        0        1344
-ru     Russian      14      227        1784
+ru     Russian      22      227        1582
