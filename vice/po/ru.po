@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2011-12-30 21:39+0200\n"
+"PO-Revision-Date: 2011-12-31 21:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -2839,7 +2839,7 @@ msgstr "Успешно записано `%s'"
 #: src/arch/unix/gui/uifliplist.c:103
 #, c-format
 msgid "Error writing `%s'."
-msgstr ""
+msgstr "Ошибка при записи `%s'."
 
 #: src/arch/unix/gui/uifliplist.c:115
 #: src/arch/win32/res.rc.po.c:1435
@@ -2896,55 +2896,55 @@ msgstr "Убрать #%d"
 #: src/arch/win32/resramcart.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:6672
 msgid "Read-only"
-msgstr ""
+msgstr "Только чтение"
 
 #: src/arch/unix/gui/uifliplist.c:240
 #: src/arch/unix/gui/uifliplist.c:242
 msgid "Next: "
-msgstr ""
+msgstr "Следующий: "
 
 #: src/arch/unix/gui/uifliplist.c:242
 #: src/arch/unix/gui/uifliplist.c:261
 #: src/arch/unix/x11/gnome/x11ui.c:844
 #: src/arch/unix/x11/gnome/x11ui.c:1607
 msgid "empty"
-msgstr ""
+msgstr "пустой"
 
 #: src/arch/unix/gui/uifliplist.c:259
 #: src/arch/unix/gui/uifliplist.c:261
 msgid "Previous: "
-msgstr ""
+msgstr "Предидущий: "
 
 #: src/arch/unix/gui/uifliplist.c:277
 msgid "Add: "
-msgstr ""
+msgstr "Добавить: "
 
 #: src/arch/unix/gui/uifliplist.c:292
 msgid "Remove: "
-msgstr ""
+msgstr "Удалить: "
 
 #. Translators: 'VidMode' must remain in the beginning          of the translation e.g. German: "VidMode Aufloesungen"
 #: src/arch/unix/gui/uifullscreen-menu.h:37
 msgid "VidMode Resolutions"
-msgstr ""
+msgstr "VidMode Resolutions"
 
 #. Translators: `XRandR' must remain in the beginning of the translation:        e.g. German: "XRandR Aufloesungen"
 #: src/arch/unix/gui/uifullscreen-menu.h:58
 msgid "XRandR Resolutions"
-msgstr ""
+msgstr "XRandR Resolutions"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:92
 #: src/arch/unix/x11/ui-cmdline-options.c:79
 msgid "Enable fullscreen"
-msgstr ""
+msgstr "Включить полноэкранный режим"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:95
 msgid "Show Statusbar/Menu"
-msgstr ""
+msgstr "Show Statusbar/Menu"
 
 #: src/arch/unix/gui/uifullscreen-menu.h:98
 msgid "Fullscreen device"
-msgstr ""
+msgstr "Fullscreen device"
 
 #: src/arch/unix/gui/uigeoram.c:68
 #: src/arch/unix/gui/uigeoram.c:88
@@ -2952,7 +2952,7 @@ msgstr ""
 #: src/arch/unix/gui/uiramcart.c:60
 #: src/arch/unix/gui/uireu.c:69
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uigeoram.c:86
@@ -2960,13 +2960,13 @@ msgstr ""
 #: src/arch/unix/gui/uitfe.c:70
 #: src/arch/amigaos/intl_text.c.po.c:5453
 msgid "MasC=uerade I/O swap"
-msgstr ""
+msgstr "MasC=uerade I/O swap"
 
 #: src/arch/unix/gui/uigeoram.c:101
 #: src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:5467
 msgid "GEO-RAM file"
-msgstr ""
+msgstr "GEO-RAM file"
 
 #: src/arch/unix/gui/uiide64.c:48
 #: src/arch/win32/res.rc.po.c:1431
@@ -2977,7 +2977,7 @@ msgstr "Интерфейс IEEE 488"
 
 #: src/arch/unix/gui/uiide64.c:78
 msgid "Enter number of cylinders"
-msgstr ""
+msgstr "Enter number of cylinders"
 
 #: src/arch/unix/gui/uiide64.c:79
 #: src/arch/unix/gui/uiide64.c:186
@@ -2987,11 +2987,11 @@ msgstr ""
 #: src/arch/win32/reside64.rc.po.c:64
 #: src/arch/amigaos/intl_text.c.po.c:7722
 msgid "Cylinders"
-msgstr ""
+msgstr "Cylinders"
 
 #: src/arch/unix/gui/uiide64.c:118
 msgid "Enter number of heads"
-msgstr ""
+msgstr "Enter number of heads"
 
 #: src/arch/unix/gui/uiide64.c:119
 #: src/arch/unix/gui/uiide64.c:189
@@ -3001,11 +3001,11 @@ msgstr ""
 #: src/arch/win32/reside64.rc.po.c:65
 #: src/arch/amigaos/intl_text.c.po.c:7736
 msgid "Heads"
-msgstr ""
+msgstr "Heads"
 
 #: src/arch/unix/gui/uiide64.c:158
 msgid "Enter number of sectors"
-msgstr ""
+msgstr "Enter number of sectors"
 
 #: src/arch/unix/gui/uiide64.c:159
 #: src/arch/unix/gui/uiide64.c:192
@@ -3015,22 +3015,22 @@ msgstr ""
 #: src/arch/win32/reside64.rc.po.c:66
 #: src/arch/amigaos/intl_text.c.po.c:7750
 msgid "Sectors"
-msgstr ""
+msgstr "Sectors"
 
 #: src/arch/unix/gui/uiide64.c:172
 msgid "Version 3"
-msgstr ""
+msgstr "Version 3"
 
 #: src/arch/unix/gui/uiide64.c:174
 msgid "Version 4"
-msgstr ""
+msgstr "Версия 4"
 
 #: src/arch/unix/gui/uiide64.c:180
 #: src/arch/unix/gui/uiide64.c:199
 #: src/arch/unix/gui/uiide64.c:218
 #: src/arch/unix/gui/uiide64.c:237
 msgid "HD image name"
-msgstr ""
+msgstr "Имя HD изображения"
 
 #: src/arch/unix/gui/uiide64.c:184
 #: src/arch/unix/gui/uiide64.c:203
@@ -3040,7 +3040,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:7708
 #: src/translate_text.c.po.c:6709
 msgid "Autodetect image size"
-msgstr ""
+msgstr "Автоматическое определение размера изображения"
 
 #: src/arch/unix/gui/uiide64.c:256
 #: src/arch/unix/gui/uimmc64.c:77
@@ -3048,7 +3048,7 @@ msgstr ""
 #: src/arch/unix/gui/uivdc.c:153
 #: src/translate_text.c.po.c:3624
 msgid "Revision"
-msgstr ""
+msgstr "Revision"
 
 #: src/arch/unix/gui/uiide64.c:259
 #, fuzzy
@@ -3072,7 +3072,7 @@ msgstr "Настройки VDC"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
-msgstr ""
+msgstr "Enable switch"
 
 #: src/arch/unix/gui/uiisepic.c:65
 #, fuzzy
@@ -3083,30 +3083,30 @@ msgstr "Картридж ISEPIC"
 #: src/arch/unix/gui/uijoystick2.c:142
 #: src/arch/win32/res.rc.po.c:1095
 msgid "CGA userport joy adapter"
-msgstr ""
+msgstr "CGA userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:130
 #: src/arch/unix/gui/uijoystick2.c:144
 #: src/arch/win32/res.rc.po.c:1096
 msgid "PET userport joy adapter"
-msgstr ""
+msgstr "PET userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:132
 #: src/arch/unix/gui/uijoystick2.c:146
 #: src/arch/win32/res.rc.po.c:1097
 msgid "Hummer userport joy adapter"
-msgstr ""
+msgstr "Hummer userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:134
 #: src/arch/unix/gui/uijoystick2.c:148
 #: src/arch/win32/res.rc.po.c:1098
 msgid "OEM userport joy adapter"
-msgstr ""
+msgstr "OEM userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:136
 #: src/arch/win32/res.rc.po.c:1099
 msgid "HIT userport joy adapter"
-msgstr ""
+msgstr "HIT userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:157
 #: src/arch/unix/gui/uijoystick2.c:209
@@ -3115,7 +3115,7 @@ msgstr ""
 #: src/arch/unix/gui/vic20ui.c:387
 #: src/arch/amigaos/intl_text.c.po.c:5916
 msgid "Numpad"
-msgstr ""
+msgstr "Numpad"
 
 #: src/arch/unix/gui/uijoystick2.c:160
 #: src/arch/unix/gui/uijoystick2.c:212
@@ -3124,7 +3124,7 @@ msgstr ""
 #: src/arch/unix/gui/vic20ui.c:390
 #: src/arch/win32/res.rc.po.c:1103
 msgid "Keyset A"
-msgstr ""
+msgstr "Набор клавиш A"
 
 #: src/arch/unix/gui/uijoystick2.c:163
 #: src/arch/unix/gui/uijoystick2.c:215
@@ -3133,7 +3133,7 @@ msgstr ""
 #: src/arch/unix/gui/vic20ui.c:393
 #: src/arch/win32/res.rc.po.c:1104
 msgid "Keyset B"
-msgstr ""
+msgstr "Набор клавиш B"
 
 #: src/arch/unix/gui/uijoystick2.c:167
 #: src/arch/unix/gui/uijoystick2.c:219
@@ -3141,7 +3141,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:323
 #: src/arch/unix/gui/vic20ui.c:397
 msgid "Analog Joystick 0"
-msgstr ""
+msgstr "Аналоговый джойстик 0"
 
 #: src/arch/unix/gui/uijoystick2.c:170
 #: src/arch/unix/gui/uijoystick2.c:222
@@ -3149,35 +3149,35 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:326
 #: src/arch/unix/gui/vic20ui.c:400
 msgid "Analog Joystick 1"
-msgstr ""
+msgstr "Аналоговый джойстик 1"
 
 #: src/arch/unix/gui/uijoystick2.c:173
 #: src/arch/unix/gui/uijoystick2.c:225
 #: src/arch/unix/gui/uijoystick2.c:277
 #: src/arch/unix/gui/uijoystick2.c:329
 msgid "Analog Joystick 2"
-msgstr ""
+msgstr "Аналоговый джойстик 2"
 
 #: src/arch/unix/gui/uijoystick2.c:176
 #: src/arch/unix/gui/uijoystick2.c:228
 #: src/arch/unix/gui/uijoystick2.c:280
 #: src/arch/unix/gui/uijoystick2.c:332
 msgid "Analog Joystick 3"
-msgstr ""
+msgstr "Аналоговый джойстик 3"
 
 #: src/arch/unix/gui/uijoystick2.c:179
 #: src/arch/unix/gui/uijoystick2.c:231
 #: src/arch/unix/gui/uijoystick2.c:283
 #: src/arch/unix/gui/uijoystick2.c:335
 msgid "Analog Joystick 4"
-msgstr ""
+msgstr "Аналоговый джойстик 4"
 
 #: src/arch/unix/gui/uijoystick2.c:182
 #: src/arch/unix/gui/uijoystick2.c:234
 #: src/arch/unix/gui/uijoystick2.c:286
 #: src/arch/unix/gui/uijoystick2.c:338
 msgid "Analog Joystick 5"
-msgstr ""
+msgstr "Аналоговый джойстик"
 
 #: src/arch/unix/gui/uijoystick2.c:186
 #: src/arch/unix/gui/uijoystick2.c:238
@@ -3185,7 +3185,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:342
 #: src/arch/unix/gui/vic20ui.c:404
 msgid "Digital Joystick 0"
-msgstr ""
+msgstr "Цифровой джойстик 0"
 
 #: src/arch/unix/gui/uijoystick2.c:189
 #: src/arch/unix/gui/uijoystick2.c:241
@@ -3193,7 +3193,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:345
 #: src/arch/unix/gui/vic20ui.c:407
 msgid "Digital Joystick 1"
-msgstr ""
+msgstr "Цифровой джойстик 1"
 
 #: src/arch/unix/gui/uijoystick2.c:194
 #: src/arch/unix/gui/uijoystick2.c:246
@@ -3201,7 +3201,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:350
 #: src/arch/unix/gui/vic20ui.c:412
 msgid "USB Joystick 0"
-msgstr ""
+msgstr "USB джойстик 0"
 
 #: src/arch/unix/gui/uijoystick2.c:197
 #: src/arch/unix/gui/uijoystick2.c:249
@@ -3209,7 +3209,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:353
 #: src/arch/unix/gui/vic20ui.c:415
 msgid "USB Joystick 1"
-msgstr ""
+msgstr "USB джойстик 1"
 
 #: src/arch/unix/gui/uijoystick2.c:362
 #: src/arch/unix/gui/uijoystick2.c:393
@@ -3219,7 +3219,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1194
 #: src/arch/amigaos/intl_text.c.po.c:5789
 msgid "Joystick in port #1"
-msgstr ""
+msgstr "Джойстик в порте 1"
 
 #: src/arch/unix/gui/uijoystick2.c:364
 #: src/arch/unix/gui/uijoystick2.c:395
@@ -3228,7 +3228,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1198
 #: src/arch/amigaos/intl_text.c.po.c:5803
 msgid "Joystick in port #2"
-msgstr ""
+msgstr "Джойстик в порте 2"
 
 #: src/arch/unix/gui/uijoystick2.c:368
 #: src/arch/unix/gui/uijoystick2.c:399
@@ -3237,7 +3237,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:472
 #: src/arch/unix/gui/uijoystick2.c:501
 msgid "Define keysets"
-msgstr ""
+msgstr "Назначить набор клавиш"
 
 #: src/arch/unix/gui/uijoystick2.c:372
 #: src/arch/unix/gui/uijoystick2.c:403
@@ -3248,7 +3248,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1486
 #: src/arch/amigaos/intl_text.c.po.c:1715
 msgid "Allow opposite directions"
-msgstr ""
+msgstr "Allow opposite directions"
 
 #: src/arch/unix/gui/uijoystick2.c:374
 #: src/arch/unix/gui/uijoystick2.c:405
@@ -3257,7 +3257,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:478
 #: src/arch/unix/gui/uijoystick2.c:507
 msgid "Allow keyset joystick"
-msgstr ""
+msgstr "Allow keyset joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:376
 #: src/arch/unix/gui/uijoystick2.c:407
@@ -3267,7 +3267,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1484
 #: src/arch/amigaos/intl_text.c.po.c:1673
 msgid "Swap joysticks"
-msgstr ""
+msgstr "Swap joysticks"
 
 #: src/arch/unix/gui/uijoystick2.c:379
 #: src/arch/unix/gui/uijoystick2.c:410
@@ -3275,7 +3275,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:481
 #: src/arch/amigaos/intl_text.c.po.c:5817
 msgid "Userport joystick adapter"
-msgstr ""
+msgstr "Userport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:381
 #: src/arch/unix/gui/uijoystick2.c:412
@@ -3283,7 +3283,7 @@ msgstr ""
 #: src/arch/unix/gui/uijoystick2.c:483
 #: src/arch/amigaos/intl_text.c.po.c:5831
 msgid "Userport joystick adapter type"
-msgstr ""
+msgstr "Userport joystick adapter type"
 
 #: src/arch/unix/gui/uijoystick2.c:383
 #: src/arch/unix/gui/uijoystick2.c:414
@@ -3293,7 +3293,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1203
 #: src/arch/amigaos/intl_text.c.po.c:5845
 msgid "Joystick in extra port #1"
-msgstr ""
+msgstr "Джойстик в дополнительном порте 1"
 
 #: src/arch/unix/gui/uijoystick2.c:385
 #: src/arch/unix/gui/uijoystick2.c:416
@@ -3302,7 +3302,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1204
 #: src/arch/amigaos/intl_text.c.po.c:5859
 msgid "Joystick in extra port #2"
-msgstr ""
+msgstr "Джойстик в дополнительном порте 2"
 
 #: src/arch/unix/gui/uijoystick2.c:387
 #: src/arch/unix/gui/uijoystick2.c:418
@@ -3311,12 +3311,12 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1485
 #: src/arch/amigaos/intl_text.c.po.c:1687
 msgid "Swap userport joysticks"
-msgstr ""
+msgstr "Swap userport joysticks"
 
 #: src/arch/unix/gui/uijoystick2.c:512
 #: src/arch/amigaos/intl_text.c.po.c:5873
 msgid "SIDcart joystick"
-msgstr ""
+msgstr "SIDcart joystick"
 
 #: src/arch/unix/gui/uijoystick2.c:526
 #: src/arch/unix/gui/uijoystick2.c:532
@@ -3330,85 +3330,85 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:2261
 #: src/arch/amigaos/intl_text.c.po.c:5902
 msgid "Joystick settings"
-msgstr ""
+msgstr "Настройки джойстика"
 
 #: src/arch/unix/gui/uikeyboard.c:66
 msgid "Symbolic mapping"
-msgstr ""
+msgstr "Symbolic mapping"
 
 #: src/arch/unix/gui/uikeyboard.c:68
 msgid "Positional mapping"
-msgstr ""
+msgstr "Positional mapping"
 
 #: src/arch/unix/gui/uikeyboard.c:87
 msgid "Read Keymap File"
-msgstr ""
+msgstr "Read Keymap File"
 
 #: src/arch/unix/gui/uikeyboard.c:111
 msgid "Write to Keymap File:"
-msgstr ""
+msgstr "Write to Keymap File:"
 
 #: src/arch/unix/gui/uikeyboard.c:171
 msgid "Set symbolic keymap file"
-msgstr ""
+msgstr "Set symbolic keymap file"
 
 #: src/arch/unix/gui/uikeyboard.c:179
 msgid "Set positional keymap file"
-msgstr ""
+msgstr "Set positional keymap file"
 
 #: src/arch/unix/gui/uikeyboard.c:185
 msgid "Keyboard mapping type"
-msgstr ""
+msgstr "Keyboard mapping type"
 
 #: src/arch/unix/gui/uikeyboard.c:187
 msgid "Select symbolic keymap"
-msgstr ""
+msgstr "Select symbolic keymap"
 
 #: src/arch/unix/gui/uikeyboard.c:188
 msgid "Select positional keymap"
-msgstr ""
+msgstr "Select positional keymap"
 
 #: src/arch/unix/gui/uikeyboard.c:190
 msgid "Dump keymap to file"
-msgstr ""
+msgstr "Dump keymap to file"
 
 #: src/arch/unix/gui/uikeyboard.c:195
 #: src/arch/win32/res.rc.po.c:1007
 #: src/arch/win32/res.rc.po.c:1497
 #: src/arch/amigaos/intl_text.c.po.c:2303
 msgid "Keyboard settings"
-msgstr ""
+msgstr "Настройки клавиатуры"
 
 #: src/arch/unix/gui/uilightpen.c:40
 msgid "Pen with button Up"
-msgstr ""
+msgstr "Pen with button Up"
 
 #: src/arch/unix/gui/uilightpen.c:42
 msgid "Pen with button Left"
-msgstr ""
+msgstr "Pen with button Left"
 
 #: src/arch/unix/gui/uilightpen.c:44
 msgid "Datel Pen"
-msgstr ""
+msgstr "Datel Pen"
 
 #: src/arch/unix/gui/uilightpen.c:46
 msgid "Magnum Light Phaser"
-msgstr ""
+msgstr "Magnum Light Phaser"
 
 #: src/arch/unix/gui/uilightpen.c:48
 msgid "Stack Light Rifle"
-msgstr ""
+msgstr "Stack Light Rifle"
 
 #: src/arch/unix/gui/uilightpen.c:68
 #: src/arch/win32/reslightpen.rc.po.c:23
 #: src/translate_text.c.po.c:12859
 msgid "Enable lightpen emulation"
-msgstr ""
+msgstr "Enable lightpen emulation"
 
 #: src/arch/unix/gui/uilightpen.c:70
 #: src/arch/win32/reslightpen.rc.po.c:24
 msgid "Lightpen type"
-msgstr ""
+msgstr "Lightpen type"
 
 #: src/arch/unix/gui/uimagicvoice.c:43
 #: src/arch/win32/resmagicvoice.rc.po.c:26
@@ -3438,15 +3438,15 @@ msgstr "Указать MIDI устройство вывода"
 #: src/translate_text.c.po.c:945
 #: src/translate_text.c.po.c:7374
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: src/arch/unix/gui/uimmc64.c:53
 msgid "Rev. A"
-msgstr ""
+msgstr "Rev. A"
 
 #: src/arch/unix/gui/uimmc64.c:55
 msgid "Rev. B"
-msgstr ""
+msgstr "Rev. B"
 
 #: src/arch/unix/gui/uimmc64.c:61
 #: src/arch/unix/gui/uimmcreplay.c:52
@@ -3454,12 +3454,12 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1478
 #: src/arch/amigaos/intl_text.c.po.c:1253
 msgid "Auto"
-msgstr ""
+msgstr "Авто"
 
 #: src/arch/unix/gui/uimmc64.c:75
 #: src/arch/unix/gui/uiretroreplay.c:55
 msgid "Enable flashjumper"
-msgstr ""
+msgstr "Enable flashjumper"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:91
@@ -3474,7 +3474,7 @@ msgstr "Сохранить медиа файл"
 #: src/arch/unix/gui/uimmc64.c:95
 #: src/arch/unix/gui/uimmcreplay.c:80
 msgid "Enable writes to card image"
-msgstr ""
+msgstr "Enable writes to card image"
 
 #. Translators: this means card as in SD/MMC card, not a cartridge!
 #: src/arch/unix/gui/uimmc64.c:98
@@ -3488,15 +3488,15 @@ msgstr "Тип клавиатуры"
 
 #: src/arch/unix/gui/uimmc64.c:117
 msgid "MMC64 BIOS name"
-msgstr ""
+msgstr "MMC64 BIOS name"
 
 #: src/arch/unix/gui/uimmc64.c:142
 msgid "MMC64 image"
-msgstr ""
+msgstr "MMC64 image"
 
 #: src/arch/unix/gui/uimmcreplay.c:65
 msgid "Enable rescue mode"
-msgstr ""
+msgstr "Enable rescue mode"
 
 #: src/arch/unix/gui/uimmcreplay.c:86
 #: src/arch/win32/resmmcreplay.rc.po.c:49
@@ -3508,7 +3508,7 @@ msgstr "Файл установки ПЗУ"
 #: src/arch/unix/gui/uimmcreplay.c:89
 #: src/translate_text.c.po.c:5092
 msgid "Enable writes to MMC Replay EEPROM image"
-msgstr ""
+msgstr "Enable writes to MMC Replay EEPROM image"
 
 #: src/arch/unix/gui/uimmcreplay.c:116
 #, fuzzy
@@ -3517,100 +3517,100 @@ msgstr "Эмуляция MMC Replay"
 
 #: src/arch/unix/gui/uimmcreplay.c:122
 msgid "MMC Replay EEPROM image filename"
-msgstr ""
+msgstr "MMC Replay EEPROM image filename"
 
 #: src/arch/unix/gui/uimouse.c:46
 #: src/arch/amigaos/intl_text.c.po.c:9640
 msgid "Paddles"
-msgstr ""
+msgstr "Paddles"
 
 #: src/arch/unix/gui/uimouse.c:56
 msgid "Port 1"
-msgstr ""
+msgstr "Порт 1"
 
 #: src/arch/unix/gui/uimouse.c:58
 msgid "Port 2"
-msgstr ""
+msgstr "Порт 2"
 
 #: src/arch/unix/gui/uimouse.c:66
 #: src/translate_text.c.po.c:11497
 msgid "Enable mouse grab"
-msgstr ""
+msgstr "Enable mouse grab"
 
 #: src/arch/unix/gui/uimouse.c:68
 #: src/arch/win32/resmouse.rc.po.c:31
 #: src/arch/amigaos/intl_text.c.po.c:9556
 msgid "Mouse type"
-msgstr ""
+msgstr "Тип мыши"
 
 #: src/arch/unix/gui/uimouse.c:70
 #: src/arch/win32/resmouse.rc.po.c:32
 #: src/arch/amigaos/intl_text.c.po.c:9584
 msgid "Mouse port"
-msgstr ""
+msgstr "Порт мыши"
 
 #: src/arch/unix/gui/uimouse.c:76
 #: src/arch/win32/resvic20.rc.po.c:524
 #: src/arch/amigaos/intl_text.c.po.c:1897
 msgid "Enable paddles"
-msgstr ""
+msgstr "Enable paddles"
 
 #: src/arch/unix/gui/uinetplay.c:67
 msgid "Enter port"
-msgstr ""
+msgstr "Enter port"
 
 #: src/arch/unix/gui/uinetplay.c:68
 msgid "Netplay TCP port"
-msgstr ""
+msgstr "Netplay TCP port"
 
 #: src/arch/unix/gui/uinetplay.c:77
 msgid "Invalid TCP port"
-msgstr ""
+msgstr "Неверный TCP порт"
 
 #: src/arch/unix/gui/uinetplay.c:85
 msgid "Error starting the netplay server."
-msgstr ""
+msgstr "Error starting the netplay server."
 
 #: src/arch/unix/gui/uinetplay.c:91
 msgid "Netplay Server name"
-msgstr ""
+msgstr "Netplay Server name"
 
 #: src/arch/unix/gui/uinetplay.c:91
 msgid "Hostname:"
-msgstr ""
+msgstr "Hostname:"
 
 #: src/arch/unix/gui/uinetplay.c:97
 msgid "Error connecting to server."
-msgstr ""
+msgstr "Ошибка при соединении с сервером"
 
 #: src/arch/unix/gui/uinetplay.c:112
 #: src/arch/unix/x11/gnome/uinetplay.c:208
 #: src/arch/win32/res.rc.po.c:1302
 #: src/arch/amigaos/intl_text.c.po.c:3885
 msgid "TCP port"
-msgstr ""
+msgstr "TCP порт"
 
 #: src/arch/unix/gui/uinetplay.c:114
 #: src/arch/unix/x11/gnome/uinetplay.c:231
 #: src/arch/win32/res.rc.po.c:1303
 #: src/arch/amigaos/intl_text.c.po.c:3899
 msgid "Start server"
-msgstr ""
+msgstr "Start server"
 
 #: src/arch/unix/gui/uinetplay.c:116
 msgid "Server to connect to"
-msgstr ""
+msgstr "Server to connect to"
 
 #: src/arch/unix/gui/uinetplay.c:119
 msgid "Connect to server"
-msgstr ""
+msgstr "Connect to server"
 
 #: src/arch/unix/gui/uinetplay.c:121
 #: src/arch/unix/x11/gnome/uinetplay.c:322
 #: src/arch/win32/res.rc.po.c:1305
 #: src/arch/amigaos/intl_text.c.po.c:3941
 msgid "Disconnect"
-msgstr ""
+msgstr "Disconnect"
 
 #: src/arch/unix/gui/uipalemu.c:57
 #: src/arch/unix/gui/uipalemu.c:115
@@ -3618,7 +3618,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1238
 #: src/arch/amigaos/intl_text.c.po.c:8730
 msgid "Saturation"
-msgstr ""
+msgstr "Saturation"
 
 #: src/arch/unix/gui/uipalemu.c:58
 #: src/arch/unix/gui/uipalemu.c:117
@@ -3626,7 +3626,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1239
 #: src/arch/amigaos/intl_text.c.po.c:8744
 msgid "Contrast"
-msgstr ""
+msgstr "Контрастность"
 
 #: src/arch/unix/gui/uipalemu.c:59
 #: src/arch/unix/gui/uipalemu.c:119
@@ -3634,7 +3634,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1240
 #: src/arch/amigaos/intl_text.c.po.c:8758
 msgid "Brightness"
-msgstr ""
+msgstr "Яркость"
 
 #: src/arch/unix/gui/uipalemu.c:60
 #: src/arch/unix/gui/uipalemu.c:121
@@ -3642,7 +3642,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1236
 #: src/arch/amigaos/intl_text.c.po.c:8506
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: src/arch/unix/gui/uipalemu.c:61
 #: src/arch/unix/gui/uipalemu.c:123
@@ -3650,7 +3650,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1237
 #: src/arch/amigaos/intl_text.c.po.c:8548
 msgid "Tint"
-msgstr ""
+msgstr "Оттенок"
 
 #: src/arch/unix/gui/uipalemu.c:62
 #: src/arch/unix/gui/uipalemu.c:131
@@ -3658,7 +3658,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1241
 #: src/arch/amigaos/intl_text.c.po.c:8520
 msgid "Scanline shade"
-msgstr ""
+msgstr "Scanline shade"
 
 #: src/arch/unix/gui/uipalemu.c:63
 #: src/arch/unix/gui/uipalemu.c:133
@@ -3666,7 +3666,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1242
 #: src/arch/amigaos/intl_text.c.po.c:8534
 msgid "Blur"
-msgstr ""
+msgstr "Blur"
 
 #: src/arch/unix/gui/uipalemu.c:64
 #: src/arch/unix/gui/uipalemu.c:135
@@ -3674,7 +3674,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1243
 #: src/arch/amigaos/intl_text.c.po.c:8562
 msgid "Odd lines phase"
-msgstr ""
+msgstr "Odd lines phase"
 
 #: src/arch/unix/gui/uipalemu.c:65
 #: src/arch/unix/gui/uipalemu.c:137
@@ -3682,15 +3682,15 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1244
 #: src/arch/amigaos/intl_text.c.po.c:8576
 msgid "Odd lines offset"
-msgstr ""
+msgstr "Odd lines offset"
 
 #: src/arch/unix/gui/uipalemu.c:93
 msgid "in percent"
-msgstr ""
+msgstr "in percent"
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
-msgstr ""
+msgstr "Load custom palette"
 
 #: src/arch/unix/gui/uipalette.c:62
 #, c-format
@@ -3698,11 +3698,13 @@ msgid ""
 "Could not load palette file\n"
 "'%s'"
 msgstr ""
+"Не удается загрузить фал палитры\n"
+"'%s'"
 
 #: src/arch/unix/gui/uiperipheral.c:48
 #: src/translate_text.c.po.c:11871
 msgid "Path"
-msgstr ""
+msgstr "Путь"
 
 #: src/arch/unix/gui/uiperipheral.c:63
 #: src/arch/unix/gui/uiperipheral.c:79
@@ -3711,7 +3713,7 @@ msgstr ""
 #: src/arch/unix/gui/uiprinter.c:144
 #: src/arch/unix/gui/uiprinter.c:156
 msgid "File system access"
-msgstr ""
+msgstr "File system access"
 
 #: src/arch/unix/gui/uiperipheral.c:66
 #: src/arch/unix/gui/uiperipheral.c:82
@@ -3720,14 +3722,14 @@ msgstr ""
 #: src/arch/unix/gui/uiprinter.c:147
 #: src/arch/unix/gui/uiprinter.c:159
 msgid "Real device access"
-msgstr ""
+msgstr "Real device access"
 
 #: src/arch/unix/gui/uiperipheral.c:70
 #: src/arch/unix/gui/uiperipheral.c:86
 #: src/arch/unix/gui/uiperipheral.c:102
 #: src/arch/unix/gui/uiperipheral.c:118
 msgid "Raw device access"
-msgstr ""
+msgstr "Raw device access"
 
 #: src/arch/unix/gui/uiperipheraliec.c:65
 #: src/arch/unix/gui/uiperipheraliec.c:84
@@ -3738,7 +3740,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:94
 #: src/arch/unix/gui/uiperipheralieee.c:111
 msgid "Device type"
-msgstr ""
+msgstr "Device type"
 
 #: src/arch/unix/gui/uiperipheraliec.c:67
 #: src/arch/unix/gui/uiperipheraliec.c:86
@@ -3757,7 +3759,7 @@ msgstr "*Подключить картридж SID"
 #: src/arch/unix/gui/uiperipheralieee.c:96
 #: src/arch/unix/gui/uiperipheralieee.c:113
 msgid "Read only access"
-msgstr ""
+msgstr "Read only access"
 
 #: src/arch/unix/gui/uiperipheraliec.c:72
 #: src/arch/unix/gui/uiperipheraliec.c:91
@@ -3768,7 +3770,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:99
 #: src/arch/unix/gui/uiperipheralieee.c:116
 msgid "File system directory"
-msgstr ""
+msgstr "File system directory"
 
 #: src/arch/unix/gui/uiperipheraliec.c:74
 #: src/arch/unix/gui/uiperipheraliec.c:93
@@ -3779,7 +3781,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:101
 #: src/arch/unix/gui/uiperipheralieee.c:118
 msgid "Convert P00 file names"
-msgstr ""
+msgstr "Convert P00 file names"
 
 #: src/arch/unix/gui/uiperipheraliec.c:76
 #: src/arch/unix/gui/uiperipheraliec.c:95
@@ -3790,7 +3792,7 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:103
 #: src/arch/unix/gui/uiperipheralieee.c:120
 msgid "Create P00 files on save"
-msgstr ""
+msgstr "Create P00 files on save"
 
 #: src/arch/unix/gui/uiperipheraliec.c:78
 #: src/arch/unix/gui/uiperipheraliec.c:97
@@ -3802,31 +3804,31 @@ msgstr ""
 #: src/arch/unix/gui/uiperipheralieee.c:122
 #: src/arch/win32/res.rc.po.c:1192
 msgid "Hide non-P00 files"
-msgstr ""
+msgstr "Hide non-P00 files"
 
 #: src/arch/unix/gui/uiperipheraliec.c:141
 #: src/arch/unix/gui/uiperipheraliec.c:154
 #: src/arch/unix/gui/uiperipheralieee.c:128
 msgid "Device #8"
-msgstr ""
+msgstr "Device #8"
 
 #: src/arch/unix/gui/uiperipheraliec.c:142
 #: src/arch/unix/gui/uiperipheraliec.c:155
 #: src/arch/unix/gui/uiperipheralieee.c:129
 msgid "Device #9"
-msgstr ""
+msgstr "Device #9"
 
 #: src/arch/unix/gui/uiperipheraliec.c:143
 #: src/arch/unix/gui/uiperipheraliec.c:156
 #: src/arch/unix/gui/uiperipheralieee.c:130
 msgid "Device #10"
-msgstr ""
+msgstr "Device #10"
 
 #: src/arch/unix/gui/uiperipheraliec.c:144
 #: src/arch/unix/gui/uiperipheraliec.c:157
 #: src/arch/unix/gui/uiperipheralieee.c:131
 msgid "Device #11"
-msgstr ""
+msgstr "Device #11"
 
 #: src/arch/unix/gui/uiperipheraliec.c:146
 #: src/arch/unix/gui/uiperipheraliec.c:159
@@ -3834,13 +3836,13 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:2205
 #: src/arch/amigaos/intl_text.c.po.c:7134
 msgid "Printer settings"
-msgstr ""
+msgstr "Настройки принтера"
 
 #: src/arch/unix/gui/uiperipheraliec.c:148
 #: src/arch/unix/gui/uiperipheraliec.c:161
 #: src/arch/unix/gui/uiperipheralieee.c:135
 msgid "Enable Virtual Devices"
-msgstr ""
+msgstr "Enable Virtual Devices"
 
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheraliec.c:173
@@ -3849,65 +3851,65 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1493
 #: src/arch/amigaos/intl_text.c.po.c:2177
 msgid "Peripheral settings"
-msgstr ""
+msgstr "Peripheral settings"
 
 #: src/arch/unix/gui/uipetdww.c:39
 #: src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:6490
 msgid "PET DWW file"
-msgstr ""
+msgstr "PET DWW file"
 
 #: src/arch/unix/gui/uipetreu.c:40
 #: src/arch/win32/respetreu.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:6406
 msgid "PET REU file"
-msgstr ""
+msgstr "PET REU file"
 
 #: src/arch/unix/gui/uiplus256k.c:39
 #: src/arch/win32/resplus256k.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:2569
 msgid "PLUS256K file"
-msgstr ""
+msgstr "PLUS256K file"
 
 #: src/arch/unix/gui/uiplus60k.c:40
 #: src/arch/win32/resplus60k.rc.po.c:31
 #: src/arch/amigaos/intl_text.c.po.c:6560
 msgid "PLUS60K file"
-msgstr ""
+msgstr "PLUS60K file"
 
 #: src/arch/unix/gui/uiprinter.c:85
 #: src/arch/unix/gui/uiprinter.c:100
 #: src/arch/unix/gui/uiprinter.c:112
 msgid "Printer 1 (file dump)"
-msgstr ""
+msgstr "Printer 1 (file dump)"
 
 #: src/arch/unix/gui/uiprinter.c:88
 #: src/arch/unix/gui/uiprinter.c:102
 #: src/arch/unix/gui/uiprinter.c:114
 msgid "Printer 2 (exec)"
-msgstr ""
+msgstr "Printer 2 (exec)"
 
 #: src/arch/unix/gui/uiprinter.c:91
 #: src/arch/unix/gui/uiprinter.c:104
 #: src/arch/unix/gui/uiprinter.c:116
 msgid "Printer 3 (exec)"
-msgstr ""
+msgstr "Printer 3 (exec)"
 
 #: src/arch/unix/gui/uiprinter.c:124
 #: src/arch/amigaos/intl_text.c.po.c:6840
 msgid "Select printer dump file"
-msgstr ""
+msgstr "Select printer dump file"
 
 #: src/arch/unix/gui/uiprinter.c:130
 #: src/arch/unix/gui/uirs232.c:120
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 #: src/translate_text.c.po.c:2035
 msgid "Command"
-msgstr ""
+msgstr "Command"
 
 #: src/arch/unix/gui/uiprinter.c:132
 msgid "Command to execute for printing (preceed with '|')"
-msgstr ""
+msgstr "Command to execute for printing (preceed with '|')"
 
 #: src/arch/unix/gui/uiprinteriec.c:40
 #: src/arch/unix/gui/uiprinteriecplus4.c:39
@@ -3928,7 +3930,7 @@ msgstr "*Подключить картридж SID"
 #: src/arch/unix/gui/uiprinterieee.c:41
 #: src/arch/amigaos/intl_text.c.po.c:6896
 msgid "Printer #4 driver"
-msgstr ""
+msgstr "Printer #4 driver"
 
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
@@ -3963,7 +3965,7 @@ msgstr "*Подключить картридж SID"
 #: src/arch/unix/gui/uiprinterieee.c:51
 #: src/arch/amigaos/intl_text.c.po.c:6910
 msgid "Printer #5 driver"
-msgstr ""
+msgstr "Printer #5 driver"
 
 #: src/arch/unix/gui/uiprinteriec.c:58
 #: src/arch/unix/gui/uiprinteriecplus4.c:57
@@ -3990,61 +3992,61 @@ msgstr "Эмуляция Ethernet"
 #: src/arch/unix/gui/uiprinterieee.c:61
 #: src/arch/amigaos/intl_text.c.po.c:6924
 msgid "Userport printer driver"
-msgstr ""
+msgstr "Userport printer driver"
 
 #: src/arch/unix/gui/uiprinteriec.c:68
 #: src/arch/unix/gui/uiprinterieee.c:63
 msgid "Userport printer text output device"
-msgstr ""
+msgstr "Userport printer text output device"
 
 #: src/arch/unix/gui/uiprinteriec.c:70
 #: src/arch/unix/gui/uiprinterieee.c:65
 msgid "Userport printer formfeed"
-msgstr ""
+msgstr "Userport printer formfeed"
 
 #: src/arch/unix/gui/uiprinteriec.c:73
 #: src/arch/unix/gui/uiprinteriecplus4.c:63
 #: src/arch/unix/gui/uiprinterieee.c:68
 msgid "Printer text device 1"
-msgstr ""
+msgstr "Printer text device 1"
 
 #: src/arch/unix/gui/uiprinteriec.c:75
 #: src/arch/unix/gui/uiprinteriecplus4.c:65
 #: src/arch/unix/gui/uiprinterieee.c:70
 msgid "Printer text device 2"
-msgstr ""
+msgstr "Printer text device 2"
 
 #: src/arch/unix/gui/uiprinteriec.c:77
 #: src/arch/unix/gui/uiprinteriecplus4.c:67
 #: src/arch/unix/gui/uiprinterieee.c:72
 msgid "Printer text device 3"
-msgstr ""
+msgstr "Printer text device 3"
 
 #: src/arch/unix/gui/uips2mouse.c:42
 #: src/arch/win32/res.rc.po.c:1489
 #: src/arch/amigaos/intl_text.c.po.c:1925
 msgid "Grab mouse events"
-msgstr ""
+msgstr "Grab mouse events"
 
 #: src/arch/unix/gui/uiramcart.c:77
 #: src/arch/win32/resramcart.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:6714
 msgid "RamCart file"
-msgstr ""
+msgstr "RamCart file"
 
 #: src/arch/unix/gui/uiretroreplay.c:57
 msgid "Enable bankjumper"
-msgstr ""
+msgstr "Enable bankjumper"
 
 #: src/arch/unix/gui/uireu.c:86
 #: src/arch/win32/resreu.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:6784
 msgid "REU file"
-msgstr ""
+msgstr "REU file"
 
 #: src/arch/unix/gui/uiromset.c:59
 msgid "Load ROM file"
-msgstr ""
+msgstr "Load ROM file"
 
 #: src/arch/unix/gui/uiromset.c:64
 #, c-format
@@ -4052,14 +4054,16 @@ msgid ""
 "Could not load ROM file\n"
 "'%s'"
 msgstr ""
+"Не удается загрузить файл ROM \n"
+"'%s'"
 
 #: src/arch/unix/gui/uiromset.c:85
 msgid "Archive"
-msgstr ""
+msgstr "Архив"
 
 #: src/arch/unix/gui/uiromset.c:101
 msgid "Load custom ROM set archive"
-msgstr ""
+msgstr "Load custom ROM set archive"
 
 #: src/arch/unix/gui/uiromset.c:106
 #, c-format
@@ -4067,63 +4071,65 @@ msgid ""
 "Could not load ROM set archive\n"
 "'%s'"
 msgstr ""
+"Could not load ROM set archive\n"
+"'%s'"
 
 #: src/arch/unix/gui/uiromset.c:133
 msgid "File to save ROM set archive to"
-msgstr ""
+msgstr "File to save ROM set archive to"
 
 #: src/arch/unix/gui/uiromset.c:149
 msgid "Current ROM set archive"
-msgstr ""
+msgstr "Current ROM set archive"
 
 #: src/arch/unix/gui/uiromset.c:165
 msgid "ROM set item name to create"
-msgstr ""
+msgstr "ROM set item name to create"
 
 #: src/arch/unix/gui/uiromset.c:165
 msgid "ROM set name:"
-msgstr ""
+msgstr "ROM set name:"
 
 #: src/arch/unix/gui/uiromset.c:181
 msgid "Delete configuration"
-msgstr ""
+msgstr "Delete configuration"
 
 #: src/arch/unix/gui/uiromset.c:181
 #: src/arch/unix/gui/uiromset.c:204
 msgid "Enter name"
-msgstr ""
+msgstr "Ввести имя"
 
 #: src/arch/unix/gui/uiromset.c:204
 msgid "Active configuration"
-msgstr ""
+msgstr "Active configuration"
 
 #: src/arch/unix/gui/uiromset.c:213
 msgid "Load ROM set archive"
-msgstr ""
+msgstr "Load ROM set archive"
 
 #: src/arch/unix/gui/uiromset.c:215
 msgid "Save ROM set archive"
-msgstr ""
+msgstr "Save ROM set archive"
 
 #: src/arch/unix/gui/uiromset.c:217
 msgid "List current ROM set archive"
-msgstr ""
+msgstr "List current ROM set archive"
 
 #: src/arch/unix/gui/uiromset.c:220
 msgid "Create ROM set item"
-msgstr ""
+msgstr "Create ROM set item"
 
 #: src/arch/unix/gui/uiromset.c:222
 msgid "Delete ROM set item"
-msgstr ""
+msgstr "Delete ROM set item"
 
 #: src/arch/unix/gui/uiromset.c:224
 msgid "Select ROM set item"
-msgstr ""
+msgstr "Select ROM set item"
 
 #: src/arch/unix/gui/uiromset.c:242
 msgid "Load custom ROM set file"
-msgstr ""
+msgstr "Load custom ROM set file"
 
 #: src/arch/unix/gui/uiromset.c:247
 #, c-format
@@ -4131,57 +4137,59 @@ msgid ""
 "Could not load ROM set file\n"
 "'%s'"
 msgstr ""
+"Could not load ROM set file\n"
+"'%s'"
 
 #: src/arch/unix/gui/uiromset.c:274
 msgid "File to save ROM set definition to"
-msgstr ""
+msgstr "File to save ROM set definition to"
 
 #: src/arch/unix/gui/uiromset.c:290
 msgid "Current ROM set"
-msgstr ""
+msgstr "Current ROM set"
 
 #: src/arch/unix/gui/uiromset.c:296
 msgid "Load custom ROM set from file"
-msgstr ""
+msgstr "Load custom ROM set from file"
 
 #: src/arch/unix/gui/uiromset.c:298
 msgid "Dump ROM set definition to file"
-msgstr ""
+msgstr "Dump ROM set definition to file"
 
 #: src/arch/unix/gui/uiromset.c:300
 msgid "List current ROM set"
-msgstr ""
+msgstr "List current ROM set"
 
 #: src/arch/unix/gui/uirs232.c:54
 #: src/arch/unix/gui/uirs232.c:90
 msgid "38400 (Swiftlink/Turbo232 only)"
-msgstr ""
+msgstr "38400 (Swiftlink/Turbo232 only)"
 
 #: src/arch/unix/gui/uirs232.c:56
 #: src/arch/unix/gui/uirs232.c:92
 msgid "57600 (Turbo232 only)"
-msgstr ""
+msgstr "57600 (Turbo232 only)"
 
 #: src/arch/unix/gui/uirs232.c:58
 #: src/arch/unix/gui/uirs232.c:94
 msgid "115200 (Turbo232 only)"
-msgstr ""
+msgstr "115200 (Turbo232 only)"
 
 #: src/arch/unix/gui/uirs232.c:115
 msgid "Select RS232 device file"
-msgstr ""
+msgstr "Select RS232 device file"
 
 #: src/arch/unix/gui/uirs232.c:122
 msgid "Command to execute for RS232 (preceed with '|')"
-msgstr ""
+msgstr "Command to execute for RS232 (preceed with '|')"
 
 #: src/arch/unix/gui/uirs232.c:128
 msgid "File to dump RS232 to"
-msgstr ""
+msgstr "File to dump RS232 to"
 
 #: src/arch/unix/gui/uirs232c64c128.c:41
 msgid "No IRQ/NMI"
-msgstr ""
+msgstr "No IRQ/NMI"
 
 #: src/arch/unix/gui/uirs232c64c128.c:53
 #: src/arch/unix/gui/uivic.c:72
@@ -4191,7 +4199,7 @@ msgstr ""
 #: src/arch/win32/resvicii.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:9500
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: src/arch/unix/gui/uirs232c64c128.c:94
 #: src/arch/unix/gui/uirs232c64c128.c:131
@@ -4206,7 +4214,7 @@ msgstr "Эмуляция MMC Replay"
 #: src/arch/win32/resacia.rc.po.c:86
 #: src/arch/amigaos/intl_text.c.po.c:4837
 msgid "ACIA device"
-msgstr ""
+msgstr "ACIA device"
 
 #: src/arch/unix/gui/uirs232c64c128.c:98
 #: src/arch/unix/gui/uirs232c64c128.c:135
@@ -4222,7 +4230,7 @@ msgstr "Адрес SID"
 #: src/arch/win32/resacia.rc.po.c:88
 #: src/arch/amigaos/intl_text.c.po.c:4865
 msgid "ACIA interrupt"
-msgstr ""
+msgstr "ACIA interrupt"
 
 #: src/arch/unix/gui/uirs232c64c128.c:102
 #: src/arch/unix/gui/uirs232c64c128.c:139
@@ -4243,14 +4251,14 @@ msgstr "Эмуляция Ethernet"
 #: src/arch/unix/gui/uirs232c64c128.c:181
 #: src/arch/amigaos/intl_text.c.po.c:7218
 msgid "Userport RS232 baud rate"
-msgstr ""
+msgstr "Userport RS232 baud rate"
 
 #: src/arch/unix/gui/uirs232c64c128.c:109
 #: src/arch/unix/gui/uirs232c64c128.c:146
 #: src/arch/unix/gui/uirs232c64c128.c:183
 #: src/arch/amigaos/intl_text.c.po.c:7204
 msgid "Userport RS232 device"
-msgstr ""
+msgstr "Userport RS232 device"
 
 #: src/arch/unix/gui/uirs232c64c128.c:112
 #: src/arch/unix/gui/uirs232c64c128.c:149
@@ -4265,28 +4273,28 @@ msgstr "*Серийный 1"
 #: src/arch/unix/gui/uirs232c64c128.c:188
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:43
 msgid "Serial 1 baudrate"
-msgstr ""
+msgstr "Serial 1 baudrate"
 
 #: src/arch/unix/gui/uirs232c64c128.c:119
 #: src/arch/unix/gui/uirs232c64c128.c:156
 #: src/arch/unix/gui/uirs232c64c128.c:193
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:48
 msgid "Serial 2 baudrate"
-msgstr ""
+msgstr "Serial 2 baudrate"
 
 #: src/arch/unix/gui/uirs232c64c128.c:122
 #: src/arch/unix/gui/uirs232c64c128.c:159
 #: src/arch/unix/gui/uirs232c64c128.c:196
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:51
 msgid "Dump filename"
-msgstr ""
+msgstr "Dump filename"
 
 #: src/arch/unix/gui/uirs232c64c128.c:125
 #: src/arch/unix/gui/uirs232c64c128.c:162
 #: src/arch/unix/gui/uirs232c64c128.c:199
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:54
 msgid "Program name to exec"
-msgstr ""
+msgstr "Program name to exec"
 
 #: src/arch/unix/gui/uirs232c64c128.c:168
 #, fuzzy
@@ -4300,7 +4308,7 @@ msgstr "*Серийный 2"
 
 #: src/arch/unix/gui/uisettings.c:195
 msgid "Enter speed"
-msgstr ""
+msgstr "Enter speed"
 
 #: src/arch/unix/gui/uisettings.c:196
 #: src/arch/unix/gui/uisettings.c:385
@@ -4314,11 +4322,11 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:160
 #: src/arch/amigaos/intl_text.c.po.c:1407
 msgid "Maximum speed"
-msgstr ""
+msgstr "Максимальная скорость"
 
 #: src/arch/unix/gui/uisettings.c:208
 msgid "Invalid speed value"
-msgstr ""
+msgstr "Неверное значение скорости"
 
 #: src/arch/unix/gui/uisettings.c:222
 #: src/arch/unix/gui/uisettings.c:275
@@ -4327,14 +4335,14 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:966
 #: src/arch/amigaos/intl_text.c.po.c:3591
 msgid "Cannot save settings."
-msgstr ""
+msgstr "Не удается сохранить настройки"
 
 #: src/arch/unix/gui/uisettings.c:225
 #: src/arch/unix/gui/uisettings.c:278
 #: src/arch/win32/res.rc.po.c:986
 #: src/arch/amigaos/intl_text.c.po.c:3465
 msgid "Settings saved successfully."
-msgstr ""
+msgstr "Настройки успешно сохранены"
 
 #: src/arch/unix/gui/uisettings.c:243
 #: src/arch/unix/gui/uisettings.c:303
