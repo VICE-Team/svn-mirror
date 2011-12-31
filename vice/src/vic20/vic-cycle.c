@@ -39,6 +39,7 @@
 #include "victypes.h"
 #include "vic20mem.h"
 #include "vic20memrom.h"
+#include "viewport.h"
 
 /* ------------------------------------------------------------------------- */
 

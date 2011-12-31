@@ -52,6 +52,7 @@
 #include "vdc.h"
 #include "vdctypes.h"
 #include "video.h"
+#include "viewport.h"
 
 #if defined(__MSDOS__) || defined(GP2X) || defined(WIZ)
 #include "videoarch.h"

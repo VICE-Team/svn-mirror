@@ -55,6 +55,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "raster-canvas.h"
+#include "raster-changes.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"
@@ -62,6 +63,7 @@
 #include "types.h"
 #include "vsync.h"
 #include "video.h"
+#include "viewport.h"
 
 
 #define crtc_min(a,b)   (((a)<(b))?(a):(b))

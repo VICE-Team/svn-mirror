@@ -41,6 +41,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "raster-changes.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "raster.h"

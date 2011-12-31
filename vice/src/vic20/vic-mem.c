@@ -33,7 +33,7 @@
 #include <string.h>
 
 #include "maincpu.h"
-#include "raster.h"
+#include "raster-changes.h"
 #include "types.h"
 #include "vic.h"
 #include "victypes.h"

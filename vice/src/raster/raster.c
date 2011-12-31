@@ -39,6 +39,7 @@
 #include "machine.h"
 #include "raster-cache.h"
 #include "raster-canvas.h"
+#include "raster-changes.h"
 #include "raster-modes.h"
 #include "raster-resources.h"
 #include "raster-sprite-status.h"

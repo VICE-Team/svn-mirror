@@ -40,6 +40,7 @@
 #include "mem.h"
 #include "plus4mem.h"
 #include "plus4pio2.h"
+#include "raster-changes.h"
 #include "ted-badline.h"
 #include "ted-fetch.h"
 #include "ted-irq.h"

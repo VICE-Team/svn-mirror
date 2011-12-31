@@ -43,6 +43,7 @@
 #include "plus4.h"
 #include "plus4mem.h"
 #include "raster-canvas.h"
+#include "raster-changes.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "resources.h"

@@ -63,6 +63,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
+#include "raster-changes.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"

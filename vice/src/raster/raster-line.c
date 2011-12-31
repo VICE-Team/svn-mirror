@@ -35,6 +35,7 @@
 
 #include "raster-cache.h"
 #include "raster-canvas.h"
+#include "raster-changes.h"
 #include "raster-line.h"
 #include "raster-modes.h"
 #include "raster-sprite-status.h"

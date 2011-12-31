@@ -33,11 +33,13 @@
 
 #include "lib.h"
 #include "raster-cache.h"
+#include "raster-changes.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
 #include "vicii-sprites.h"
 #include "viciitypes.h"
+#include "viewport.h"
 
 
 /* margin definitions of where sprite data fetches interfere with */

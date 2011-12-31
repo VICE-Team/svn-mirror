@@ -40,6 +40,7 @@
 #include "debug.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "raster-changes.h"
 #include "raster-sprite-status.h"
 #include "raster-sprite.h"
 #include "types.h"
@@ -51,6 +52,7 @@
 #include "vicii-mem.h"
 #include "vicii.h"
 #include "viciitypes.h"
+#include "viewport.h"
 
 
 /* Unused bits in VIC-II registers: these are always 1 when read.  */
