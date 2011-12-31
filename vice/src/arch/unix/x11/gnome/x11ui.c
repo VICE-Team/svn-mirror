@@ -340,7 +340,8 @@ static void get_window_resources(video_canvas_t *canvas, int *x, int *y, int *w,
 static int mouse_grabbed = 0;
 static void mouse_cursor_grab(int grab, GdkCursor *cursor)
 {
-    GdkWindow *window = get_active_toplevel()->window;
+    GtkWidget *widget = get_active_toplevel();
+    GdkWindow *window = widget ? widget->window : NULL;
     if (mouse_grabbed) {
         gdk_keyboard_ungrab(GDK_CURRENT_TIME);
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
