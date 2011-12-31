@@ -745,6 +745,10 @@ void tape_get_header(tape_image_t *tape_image, BYTE *name)
 {
 }
 
+const char *tape_get_file_name(void)
+{
+    return NULL;
+}
 
 /*******************************************************************************
     imagecontents
