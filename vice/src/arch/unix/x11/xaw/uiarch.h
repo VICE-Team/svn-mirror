@@ -98,8 +98,6 @@ extern Visual *visual;
 /* Prototypes */
 
 extern int ui_open_canvas_window(struct video_canvas_s *c, const char *title, int width, int height, int no_autorepeat);
-extern void ui_set_drive8_menu(Widget w);
-extern void ui_set_drive9_menu(Widget w);
 extern Widget ui_create_shell(Widget parent, const char *name, WidgetClass class);
 extern Widget ui_create_transient_shell(Widget parent, const char *name);
 extern void ui_popdown(Widget w);

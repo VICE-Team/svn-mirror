@@ -768,6 +768,44 @@ Widget ui_menu_create(const char *menu_name, ...)
     return w;
 }
 
+static void tick_destroy(Widget w, XtPointer client_data, XtPointer call_data)
+{
+    int index = (int)(long)client_data;
+
+    if (index >= num_checkmark_menu_items) {
+        index = num_checkmark_menu_items - 1;
+    }
+
+    /*
+     * Invariant: the callback receives the position that was originally
+     * assigned to the menu item. This is an upper bound to the actual
+     * position, because this function may move a menu item to a lower
+     * position in the list, but not to a higher one.
+     *
+     * This is also efficient because the dynamic menus tend to be at
+     * the end of the list, certainly after the first destroy/create
+     * iteration.
+     */
+    while (index > 0) {
+        if (checkmark_menu_items[index] == w) {
+            if (index == num_checkmark_menu_items - 1) {
+                /* The last item in the list: just forget it. */
+            } else {
+                /*
+                 * Put the last item from the list in the destroyed
+                 * location.
+                 */
+                checkmark_menu_items[index] =
+                    checkmark_menu_items[num_checkmark_menu_items - 1];
+            }
+            num_checkmark_menu_items--;
+            checkmark_menu_items[num_checkmark_menu_items] = 0;
+            break;
+        }
+        index--;
+    }
+}
+
 static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list)
 {
     unsigned int i, j;
@@ -801,6 +839,7 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                             num_checkmark_menu_items_max += 100;
                             checkmark_menu_items = lib_realloc(checkmark_menu_items, num_checkmark_menu_items_max * sizeof(Widget));
                         }
+                        XtAddCallback(new_item, XtNdestroyCallback, tick_destroy, (XtPointer)num_checkmark_menu_items);
                         checkmark_menu_items[num_checkmark_menu_items++] = new_item;
                     }
                     j++;

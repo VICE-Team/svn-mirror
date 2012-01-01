@@ -62,6 +62,7 @@ typedef struct ui_menu_entry_s {
 } ui_menu_entry_t;
 
 extern void ui_set_drive_menu(int drvnr, ui_menu_entry_t *menu);
+extern void ui_destroy_drive_menu(int drive);
 extern void ui_set_tape_menu(ui_menu_entry_t *menu);
 extern void ui_set_topmenu(ui_menu_entry_t *menu);
 extern void ui_set_speedmenu(ui_menu_entry_t *menu);

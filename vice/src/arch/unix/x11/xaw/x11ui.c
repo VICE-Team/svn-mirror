@@ -102,6 +102,7 @@
 #include "x11ui.h"
 #include "lightpen.h"
 #include "lightpendrv.h"
+#include "uipalcontrol.h"
 
 /* FIXME: We want these to be static.  */
 Visual *visual;
@@ -126,12 +127,14 @@ static void ui_display_drive_current_image2(void);
 static int popped_up_count = 0;
 
 /* Left-button and right-button menu.  */
-static Widget left_menu, right_menu, drive8_menu, drive9_menu;
+static Widget left_menu, right_menu;
 
 /* Translations for the left and right menus.  */
 static XtTranslations left_menu_translations, right_menu_translations;
 static XtTranslations left_menu_disabled_translations, right_menu_disabled_translations;
-static XtTranslations drive8_menu_translations = NULL, drive9_menu_translations = NULL;
+
+static Widget drive_menu[NUM_DRIVES];
+static XtTranslations drive_menu_translations[NUM_DRIVES];
 
 /* Application context. */
 static XtAppContext app_context;
@@ -806,6 +809,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
     Widget pane;
     Widget canvas;
+    Widget pal_ctrl_widget = 0;
     XSetWindowAttributes attr;
     int i;
     char *button_title;
@@ -874,7 +878,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     {
         Dimension height;
         Dimension led_width = 14, led_height = 5;
-        
+
         speed_label = XtVaCreateManagedWidget("speedStatus",
                                               labelWidgetClass, pane,
                                               XtNlabel, "",
@@ -891,6 +895,17 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         XtVaGetValues(speed_label, XtNheight, &height, NULL);
 
         if (machine_class != VICE_MACHINE_VSID) {
+            pal_ctrl_widget = build_pal_ctrl_widget(c, pane);
+            XtVaSetValues(pal_ctrl_widget,
+                          XtNwidth, width / 3,
+                          XtNfromVert, speed_label,
+                          XtNfromHoriz, NULL,
+                          XtNtop, XawChainBottom,
+                          XtNbottom, XawChainBottom,
+                          XtNleft, XawChainLeft,
+                          XtNright, XawChainRight,
+                          NULL);
+
             for (i = 0; i < NUM_DRIVES; i++) {
                 char *name;
 
@@ -916,7 +931,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                                             labelWidgetClass, pane,
                                                             XtNlabel, "",
                                                             XtNwidth, (width / 3) - led_width - 2,
-                                                            XtNfromVert, canvas,
                                                             XtNfromVert, i == 0 ? canvas : drive_track_label[i - 1],
                                                             XtNfromHoriz, drive_current_image[i],
                                                             XtNhorizDistance, 0,
@@ -942,7 +956,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                                     XtNbottom, XawChainBottom,
                                                     XtNleft, XawChainRight,
                                                     XtNright, XawChainRight,
-                                                    XtNjustify, XtJustifyRight,
                                                     XtNborderWidth, 1,
                                                     NULL);
                 lib_free(name);
@@ -962,7 +975,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                                         XtNbottom, XawChainBottom,
                                                         XtNleft, XawChainRight,
                                                         XtNright, XawChainRight,
-                                                        XtNjustify, XtJustifyRight,
                                                         XtNborderWidth, 1,
                                                         NULL);
                 lib_free(name);
@@ -980,7 +992,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                                         XtNbottom, XawChainBottom,
                                                         XtNleft, XawChainRight,
                                                         XtNright, XawChainRight,
-                                                        XtNjustify, XtJustifyRight,
                                                         XtNborderWidth, 1,
                                                         NULL);
                 lib_free(name);
@@ -989,7 +1000,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         statustext_label = XtVaCreateManagedWidget("statustext",
                                                    labelWidgetClass, pane,
                                                    XtNwidth, width / 3 - 2,
-                                                   XtNfromVert, speed_label,
+                                                   XtNfromVert, pal_ctrl_widget ? pal_ctrl_widget : speed_label,
                                                    XtNjustify, XtJustifyLeft,
                                                    XtNlabel, "",
                                                    XtNborderWidth, 0,
@@ -1057,21 +1068,21 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     status_bar = speed_label;
 
     if (machine_class != VICE_MACHINE_VSID) {
-    for (i = 0; i < NUM_DRIVES; i++) {
-        app_shells[num_app_shells - 1].drive_widgets[i].track_label = drive_track_label[i];
-        app_shells[num_app_shells - 1].drive_widgets[i].driveled = drive_led[i];
-        XtUnrealizeWidget(drive_led[i]);
-        app_shells[num_app_shells - 1].drive_widgets[i].driveled1 = drive_led1[i];
-        app_shells[num_app_shells - 1].drive_widgets[i].driveled2 = drive_led2[i];
-        XtUnrealizeWidget(drive_led1[i]);
-        XtUnrealizeWidget(drive_led2[i]);
-        app_shells[num_app_shells - 1].drive_widgets[i].current_image = drive_current_image[i];
-        strcpy(&(last_attached_images[i][0]), ""); 
-        /* the `current_image' widgets are never `UnRealized'. */
-        XtRealizeWidget(app_shells[num_app_shells - 1].drive_widgets[i].current_image);
-        XtManageChild(app_shells[num_app_shells - 1].drive_widgets[i].current_image);
+        for (i = 0; i < NUM_DRIVES; i++) {
+            app_shells[num_app_shells - 1].drive_widgets[i].track_label = drive_track_label[i];
+            app_shells[num_app_shells - 1].drive_widgets[i].driveled = drive_led[i];
+            XtUnrealizeWidget(drive_led[i]);
+            app_shells[num_app_shells - 1].drive_widgets[i].driveled1 = drive_led1[i];
+            app_shells[num_app_shells - 1].drive_widgets[i].driveled2 = drive_led2[i];
+            XtUnrealizeWidget(drive_led1[i]);
+            XtUnrealizeWidget(drive_led2[i]);
+            app_shells[num_app_shells - 1].drive_widgets[i].current_image = drive_current_image[i];
+            strcpy(&(last_attached_images[i][0]), ""); 
+            /* the `current_image' widgets are never `UnRealized'. */
+            XtRealizeWidget(app_shells[num_app_shells - 1].drive_widgets[i].current_image);
+            XtManageChild(app_shells[num_app_shells - 1].drive_widgets[i].current_image);
 
-    }
+        }
     }
     XtUnrealizeWidget(rec_button);
     XtUnrealizeWidget(event_recording_button);
@@ -1166,76 +1177,56 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
     right_menu = w;
 }
 
-void ui_destroy_drive8_menu(void)
+void ui_destroy_drive_menu(int drive)
 {
-    if (drive8_menu != NULL) {
-        XtDestroyWidget(drive8_menu);
-        drive8_menu = NULL;
-    }
-}
-
-void ui_destroy_drive9_menu(void)
-{
-    if (drive9_menu != NULL) {
-        XtDestroyWidget(drive9_menu);
-        drive9_menu = NULL;
-    }
-}
-
-void ui_set_drive8_menu(Widget w)
-{
-    int i;
-
-    for (i = 0; i < num_app_shells; i++) {
-        if (app_shells[i].drive_mapping[0] < 0) {
-            XtDestroyWidget(w);
-            return;
+    if (drive >= 0 && drive < NUM_DRIVES) {
+        if (drive_menu[drive]) {
+            /* pop down the menu if it is still up */
+            XtPopdown(drive_menu[drive]);
+            XtDestroyWidget(drive_menu[drive]);
+            drive_menu[drive] = 0;
         }
     }
-
-    if (!drive8_menu_translations) {
-        char *translation_table;
-        char *name = XtName(w);
-
-        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n",
-                                        NULL);
-        drive8_menu_translations = XtParseTranslationTable(translation_table);
-        lib_free(translation_table);
-    }
-
-    for (i = 0; i < num_app_shells; i++) {
-        XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[0]].current_image, drive8_menu_translations);
-    }
-
-    drive8_menu = w;
 }
 
-void ui_set_drive9_menu(Widget w)
+void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
 {
+    char *menuname;
     int i;
+    Widget w;
 
-    for (i = 0; i < num_app_shells; i++) {
-        if (app_shells[i].drive_mapping[1] < 0) {
-            XtDestroyWidget(w);
-            return;
-        }
+    if (drive < 0 || drive >= NUM_DRIVES) {
+        return;
     }
 
-    if (!drive9_menu_translations) {
-        char *translation_table;
-        char *name = XtName(w);
+    menuname = lib_msprintf("LeftDrive%iMenu", drive + 8);
+    if (flipmenu != NULL) {
+        w = ui_menu_create(menuname, flipmenu, NULL);
+        drive_menu[drive] = w;
+    }
 
-        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(", name, ") XtMenuPopup(", name, ")\n",
+    if (!drive_menu_translations[drive]) {
+        char *translation_table;
+
+        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(",
+                                                        menuname, ") "
+                                                    "XtMenuPopup(",
+                                                        menuname, ")\n",
                                         NULL);
-        drive9_menu_translations = XtParseTranslationTable(translation_table);
+        drive_menu_translations[drive] =
+                                XtParseTranslationTable(translation_table);
         lib_free(translation_table);
     }
+    lib_free(menuname);
 
     for (i = 0; i < num_app_shells; i++) {
-        XtOverrideTranslations(app_shells[i].drive_widgets[app_shells[i].drive_mapping[1]].current_image, drive9_menu_translations);
+        int n = app_shells[i].drive_mapping[drive];
+        if (n >= 0) {
+            XtOverrideTranslations(app_shells[i].
+                                        drive_widgets[n].current_image,
+                                   drive_menu_translations[drive]);
+        }
     }
-
-    drive9_menu = w;
 }
 
 void ui_set_topmenu(ui_menu_entry_t *menu)
@@ -1510,7 +1501,6 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
         return;
     }
 
-    /* FIXME: Allow more than two drives.  */
     if (drive_number >= NUM_DRIVES) {
         return;
     }

@@ -154,10 +154,10 @@ static UI_CALLBACK(attach_from_fliplist)
     fliplist_attach_head(((struct cb_data_t *)UI_MENU_CB_PARAM)->unit, (int)((struct cb_data_t *)UI_MENU_CB_PARAM)->data);
 }
 
-#ifdef USE_GNOMEUI
 UI_MENU_DEFINE_TOGGLE(AttachDevice8Readonly)
 UI_MENU_DEFINE_TOGGLE(AttachDevice9Readonly)
-#endif
+UI_MENU_DEFINE_TOGGLE(AttachDevice10Readonly)
+UI_MENU_DEFINE_TOGGLE(AttachDevice11Readonly)
 
 #define FLIPLIST_MENU_LIMIT 256
 
@@ -171,8 +171,6 @@ void uifliplist_update_menus(int from_unit, int to_unit)
     char *t4 = NULL, *t5 = NULL, *dir;
     void *fl_iterator;
     int i, drive, true_emu, fliplist_start = 0;
-    static int name_count = 0;
-    char *menuname;
 
     resources_get_int("DriveTrueEmulation", &true_emu);
 
@@ -196,7 +194,6 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         flipmenu[drive][i].callback_data = (ui_callback_data_t)(long)(drive + 8);
         i++;
 
-#ifdef USE_GNOMEUI
         /* drivesettings */
         /* this won't work so far for Xaw, because the checkmarks
            aren't updated when a menu is destroyed, as the flipmenu is
@@ -207,13 +204,23 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         flipmenu[drive][i].string = _("Read-only");
         flipmenu[drive][i].type = UI_MENU_TYPE_TICK;
-        if (drive == 0) {
-            flipmenu[drive][i].callback = G_CALLBACK(toggle_AttachDevice8Readonly);
-        } else {
-            flipmenu[drive][i].callback = G_CALLBACK(toggle_AttachDevice9Readonly);
+        ui_callback_t callback = NULL;
+        switch (drive) {
+        case 0:
+            callback = (ui_callback_t)toggle_AttachDevice8Readonly;
+            break;
+        case 1:
+            callback = (ui_callback_t)toggle_AttachDevice9Readonly;
+            break;
+        case 2:
+            callback = (ui_callback_t)toggle_AttachDevice10Readonly;
+            break;
+        case 3:
+            callback = (ui_callback_t)toggle_AttachDevice11Readonly;
+            break;
         }
+        flipmenu[drive][i].callback = callback;
         i++;
-#endif
 
         fliplist_start = i;     /* if we take the goto don't free anything */
 
@@ -335,25 +342,8 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         /* make sure the menu is well terminated */
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
 
-        menuname = lib_msprintf("LeftDrive%iMenu%i", drive + 8, name_count);
-
-#ifdef USE_GNOMEUI
         ui_destroy_drive_menu(drive);
         ui_set_drive_menu(drive, flipmenu[drive]);
-#else
-        /* ugly ... */
-        if (drive == 0) {
-            ui_destroy_drive8_menu();
-            /* FIXME: Make sure the widget is really destroyed! */
-            ui_set_drive8_menu(ui_menu_create(menuname, flipmenu[drive], NULL));
-        } else {
-            ui_destroy_drive9_menu();
-            /* FIXME: Make sure the widget is really destroyed! */
-            ui_set_drive9_menu(ui_menu_create(menuname, flipmenu[drive], NULL));
-        }
-#endif
-
-        lib_free(menuname);
 
         lib_free(t0);
         lib_free(t1);
