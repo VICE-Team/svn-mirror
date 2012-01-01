@@ -518,7 +518,7 @@ Graphics keyboard decoding table:
 row |  7  6  5  4  3  2  1  0
 ----+------------------------
  9  | 3D 2E FF 03 3C 20 5B 12
-    |  =  . -- ^C  < sp  [ ^S	^C = STOP, ^S = HOME
+    |  =  . -- ^C  < sp  [ ^R	^C = STOP, ^R = RVS
     |
  8  | 2D 30 00 3E FF 5D 40 00
     |  -  0 rs  > --  ] @  ls	rs = right shift, ls = left shift
