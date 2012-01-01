@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2011-12-31 21:53+0200\n"
+"PO-Revision-Date: 2012-01-01 23:16+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -4350,6 +4350,8 @@ msgid ""
 "Cannot load settings:\n"
 "resource file not valid."
 msgstr ""
+"Cannot load settings:\n"
+"resource file not valid."
 
 #: src/arch/unix/gui/uisettings.c:245
 #: src/arch/unix/gui/uisettings.c:305
@@ -4357,14 +4359,16 @@ msgid ""
 "Cannot load settings:\n"
 "resource file not found."
 msgstr ""
+"Cannot load settings:\n"
+"resource file not found."
 
 #: src/arch/unix/gui/uisettings.c:271
 msgid "File to save settings to"
-msgstr ""
+msgstr "Файл для сохранения настроек"
 
 #: src/arch/unix/gui/uisettings.c:297
 msgid "Resource file name"
-msgstr ""
+msgstr "Resource file name"
 
 #: src/arch/unix/gui/uisettings.c:356
 #: src/arch/unix/gui/uisettings.c:375
@@ -4372,26 +4376,26 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:507
 #: src/arch/amigaos/intl_text.c.po.c:1505
 msgid "Custom"
-msgstr ""
+msgstr "Custom"
 
 #: src/arch/unix/gui/uisettings.c:372
 #: src/arch/win32/res.rc.po.c:1479
 #: src/arch/amigaos/intl_text.c.po.c:1491
 msgid "No limit"
-msgstr ""
+msgstr "No limit"
 
 #: src/arch/unix/gui/uisettings.c:387
 #: src/translate_text.c.po.c:11973
 msgid "Enable warp mode"
-msgstr ""
+msgstr "Enable warp mode"
 
 #: src/arch/unix/gui/uisettings.c:393
 msgid "Save settings"
-msgstr ""
+msgstr "Сохранить настройки"
 
 #: src/arch/unix/gui/uisettings.c:395
 msgid "Load settings"
-msgstr ""
+msgstr "Загрузить настройки"
 
 #: src/arch/unix/gui/uisettings.c:397
 #, fuzzy
@@ -4400,12 +4404,12 @@ msgstr "Сохранить медиа файл"
 
 #: src/arch/unix/gui/uisettings.c:399
 msgid "Load settings from file"
-msgstr ""
+msgstr "Загрузить настройки из файла"
 
 #: src/arch/unix/gui/uisettings.c:401
 #: src/translate_text.c.po.c:11259
 msgid "Restore default settings"
-msgstr ""
+msgstr "Восстановить настройки по умолчанию"
 
 #: src/arch/unix/gui/uisettings.c:404
 #: src/arch/unix/x11/ui-cmdline-options.c:57
@@ -4415,7 +4419,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:3031
 #: src/arch/amigaos/intl_text.c.po.c:6336
 msgid "Save settings on exit"
-msgstr ""
+msgstr "Сохранить настройки после выхода"
 
 #: src/arch/unix/gui/uisettings.c:406
 #: src/arch/unix/x11/ui-cmdline-options.c:67
@@ -4424,86 +4428,86 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:3045
 #: src/arch/amigaos/intl_text.c.po.c:6364
 msgid "Confirm quiting VICE"
-msgstr ""
+msgstr "Подтвердить закрытие VICE"
 
 #: src/arch/unix/gui/uisid.c:74
 msgid "8580 + digi boost (ReSID)"
-msgstr ""
+msgstr "8580 + digi boost (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:79
 #: src/arch/unix/gui/uisid.c:134
 msgid "6581R3 4885 (very light)"
-msgstr ""
+msgstr "6581R3 4885 (very light)"
 
 #: src/arch/unix/gui/uisid.c:81
 #: src/arch/unix/gui/uisid.c:136
 msgid "6581R3 0486S (light)"
-msgstr ""
+msgstr "6581R3 0486S (light)"
 
 #: src/arch/unix/gui/uisid.c:83
 #: src/arch/unix/gui/uisid.c:138
 msgid "6581R3 3984 (light avg)"
-msgstr ""
+msgstr "6581R3 3984 (light avg)"
 
 #: src/arch/unix/gui/uisid.c:85
 #: src/arch/unix/gui/uisid.c:140
 msgid "6581R4AR 3789 (avg)"
-msgstr ""
+msgstr "6581R4AR 3789 (avg)"
 
 #: src/arch/unix/gui/uisid.c:87
 #: src/arch/unix/gui/uisid.c:142
 msgid "6581R3 4485 (dark)"
-msgstr ""
+msgstr "6581R3 4485 (dark)"
 
 #: src/arch/unix/gui/uisid.c:89
 #: src/arch/unix/gui/uisid.c:144
 msgid "6581R4 1986S (very dark)"
-msgstr ""
+msgstr "6581R4 1986S (very dark)"
 
 #: src/arch/unix/gui/uisid.c:91
 #: src/arch/unix/gui/uisid.c:146
 msgid "8580 3691 (light)"
-msgstr ""
+msgstr "8580 3691 (светлый)"
 
 #: src/arch/unix/gui/uisid.c:93
 #: src/arch/unix/gui/uisid.c:148
 msgid "8580 3691 + digi boost"
-msgstr ""
+msgstr "8580 3691 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:95
 #: src/arch/unix/gui/uisid.c:150
 msgid "8580 1489 (dark)"
-msgstr ""
+msgstr "8580 1489 (темный)"
 
 #: src/arch/unix/gui/uisid.c:97
 #: src/arch/unix/gui/uisid.c:152
 msgid "8580 1489 + digi boost"
-msgstr ""
+msgstr "8580 1489 + digi boost"
 
 #: src/arch/unix/gui/uisid.c:111
 #: src/arch/unix/gui/uisid.c:166
 #: src/arch/unix/gui/uisid.c:194
 msgid "ParSID Port 1"
-msgstr ""
+msgstr "ParSID Порт 1"
 
 #: src/arch/unix/gui/uisid.c:113
 #: src/arch/unix/gui/uisid.c:168
 #: src/arch/unix/gui/uisid.c:196
 msgid "ParSID Port 2"
-msgstr ""
+msgstr "ParSID Порт 2"
 
 #: src/arch/unix/gui/uisid.c:115
 #: src/arch/unix/gui/uisid.c:170
 #: src/arch/unix/gui/uisid.c:198
 msgid "ParSID Port 3"
-msgstr ""
+msgstr "ParSID Порт 3"
 
 #: src/arch/unix/gui/uisid.c:210
 #: src/arch/win32/ressid.rc.po.c:67
 #: src/arch/win32/ressiddtv.rc.po.c:56
 #: src/arch/amigaos/intl_text.c.po.c:7246
 msgid "Fast"
-msgstr ""
+msgstr "Fast"
 
 #: src/arch/unix/gui/uisid.c:212
 #: src/arch/win32/ressid.rc.po.c:68
@@ -4518,148 +4522,150 @@ msgstr "*Международный"
 #: src/arch/win32/ressiddtv.rc.po.c:58
 #: src/arch/amigaos/intl_text.c.po.c:7274
 msgid "Resampling"
-msgstr ""
+msgstr "Resampling"
 
 #: src/arch/unix/gui/uisid.c:216
 #: src/arch/win32/ressid.rc.po.c:70
 #: src/arch/win32/ressiddtv.rc.po.c:59
 #: src/arch/amigaos/intl_text.c.po.c:7288
 msgid "Fast resampling"
-msgstr ""
+msgstr "Fast resampling"
 
 #: src/arch/unix/gui/uisid.c:233
 msgid ""
 "Enter passband in percentage of total bandwidth\n"
 "(0 - 90, lower is faster, higher is better)"
 msgstr ""
+"Enter passband in percentage of total bandwidth\n"
+"(0 - 90, lower is faster, higher is better)"
 
 #: src/arch/unix/gui/uisid.c:234
 msgid "Passband percentage"
-msgstr ""
+msgstr "Passband percentage"
 
 #: src/arch/unix/gui/uisid.c:255
 msgid "One"
-msgstr ""
+msgstr "Один"
 
 #: src/arch/unix/gui/uisid.c:256
 msgid "Two"
-msgstr ""
+msgstr "Два"
 
 #: src/arch/unix/gui/uisound.c:49
 #: src/arch/unix/gui/uisound.c:147
 msgid "Sound driver argument"
-msgstr ""
+msgstr "Sound driver argument"
 
 #: src/arch/unix/gui/uisound.c:49
 msgid "Argument:"
-msgstr ""
+msgstr "Argument:"
 
 #: src/arch/unix/gui/uisound.c:91
 #: src/arch/win32/res.rc.po.c:1220
 #: src/arch/win32/res.rc.po.c:1455
 #: src/arch/amigaos/intl_text.c.po.c:9444
 msgid "Small"
-msgstr ""
+msgstr "Малый"
 
 #: src/arch/unix/gui/uisound.c:93
 #: src/arch/win32/res.rc.po.c:1221
 #: src/arch/amigaos/intl_text.c.po.c:9458
 msgid "Medium"
-msgstr ""
+msgstr "Средний"
 
 #: src/arch/unix/gui/uisound.c:95
 #: src/arch/win32/res.rc.po.c:1222
 #: src/arch/amigaos/intl_text.c.po.c:9472
 msgid "Large"
-msgstr ""
+msgstr "Большой"
 
 #: src/arch/unix/gui/uisound.c:101
 msgid "Keep going"
-msgstr ""
+msgstr "Keep going"
 
 #: src/arch/unix/gui/uisound.c:103
 msgid "1 s suspend"
-msgstr ""
+msgstr "1 s suspend"
 
 #: src/arch/unix/gui/uisound.c:105
 msgid "2 s suspend"
-msgstr ""
+msgstr "2 s suspend"
 
 #: src/arch/unix/gui/uisound.c:107
 msgid "5 s suspend"
-msgstr ""
+msgstr "5 s suspend"
 
 #: src/arch/unix/gui/uisound.c:109
 msgid "10 s suspend"
-msgstr ""
+msgstr "10 s suspend"
 
 #: src/arch/unix/gui/uisound.c:115
 #: src/arch/win32/res.rc.po.c:1122
 #: src/arch/amigaos/intl_text.c.po.c:7400
 msgid "Flexible"
-msgstr ""
+msgstr "Flexible"
 
 #: src/arch/unix/gui/uisound.c:118
 #: src/arch/win32/res.rc.po.c:1123
 #: src/arch/amigaos/intl_text.c.po.c:7414
 msgid "Adjusting"
-msgstr ""
+msgstr "Adjusting"
 
 #: src/arch/unix/gui/uisound.c:121
 #: src/arch/win32/res.rc.po.c:1124
 #: src/arch/amigaos/intl_text.c.po.c:7428
 msgid "Exact"
-msgstr ""
+msgstr "Exact"
 
 #: src/arch/unix/gui/uisound.c:128
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: src/arch/unix/gui/uisound.c:131
 msgid "Mono"
-msgstr ""
+msgstr "Моно"
 
 #: src/arch/unix/gui/uisound.c:134
 msgid "Stereo"
-msgstr ""
+msgstr "Стерео"
 
 #: src/arch/unix/gui/uisound.c:141
 #: src/translate_text.c.po.c:11667
 msgid "Enable sound playback"
-msgstr ""
+msgstr "Enable sound playback"
 
 #. Do not change position as position 2 is hard coded.
 #: src/arch/unix/gui/uisound.c:145
 msgid "Sound device name"
-msgstr ""
+msgstr "Название звукового устройства"
 
 #: src/arch/unix/gui/uisound.c:151
 msgid "Output mode"
-msgstr ""
+msgstr "Output mode"
 
 #: src/arch/unix/gui/uisound.c:153
 msgid "Sound synchronization"
-msgstr ""
+msgstr "Sound synchronization"
 
 #: src/arch/unix/gui/uisound.c:156
 #: src/arch/win32/res.rc.po.c:1217
 #: src/arch/amigaos/intl_text.c.po.c:7442
 msgid "Sample rate"
-msgstr ""
+msgstr "Sample rate"
 
 #: src/arch/unix/gui/uisound.c:158
 #: src/arch/amigaos/intl_text.c.po.c:7456
 msgid "Buffer size"
-msgstr ""
+msgstr "Buffer size"
 
 #: src/arch/unix/gui/uisound.c:160
 #: src/arch/amigaos/intl_text.c.po.c:7470
 msgid "Fragment size"
-msgstr ""
+msgstr "Fragment size"
 
 #: src/arch/unix/gui/uisound.c:162
 msgid "Suspend time"
-msgstr ""
+msgstr "Suspend time"
 
 #: src/arch/unix/gui/uisound.c:168
 #: src/arch/unix/gui/vsidui.c:370
@@ -4667,32 +4673,32 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:2331
 #: src/arch/amigaos/intl_text.c.po.c:7498
 msgid "Sound settings"
-msgstr ""
+msgstr "Настройки звука"
 
 #: src/arch/unix/gui/uisoundexpander.c:51
 #: src/arch/unix/gui/uisoundexpander.c:61
 #: src/arch/win32/ressoundexpander.rc.po.c:44
 msgid "YM chip type"
-msgstr ""
+msgstr "YM chip type"
 
 #: src/arch/unix/gui/uited.c:60
 #: src/arch/unix/gui/uivdc.c:59
 #: src/arch/unix/gui/uivic.c:61
 #: src/arch/unix/gui/uivicii.c:63
 msgid "Default"
-msgstr ""
+msgstr "По умолчанию"
 
 #. FIXME: might actually make some sense to use the file browser on *nix systems which
 #. actually DO have /dev/eth0. linux doesn't however
 #. uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Ethernet interface"), UILIB_FILTER_ETH);
 #: src/arch/unix/gui/uitfe.c:50
 msgid "Ethernet interface"
-msgstr ""
+msgstr "Ethernet interface"
 
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uitfe.c:58
 msgid "RR-Net compatibility mode"
-msgstr ""
+msgstr "RR-Net compatibility mode"
 
 #: src/arch/unix/gui/uitfe.c:60
 #: src/arch/win32/restfe.rc.po.c:63
@@ -4713,102 +4719,102 @@ msgstr "Образ функционального ПЗУ"
 
 #: src/arch/unix/gui/uivdc.c:61
 msgid "Composite"
-msgstr ""
+msgstr "Composite"
 
 #: src/arch/unix/gui/uivdc.c:86
 #: src/arch/win32/resc128.rc.po.c:194
 #: src/arch/amigaos/intl_text.c.po.c:1631
 msgid "Rev 0"
-msgstr ""
+msgstr "Rev 0"
 
 #: src/arch/unix/gui/uivdc.c:88
 #: src/arch/win32/resc128.rc.po.c:195
 #: src/arch/amigaos/intl_text.c.po.c:1645
 msgid "Rev 1"
-msgstr ""
+msgstr "Rev 1"
 
 #: src/arch/unix/gui/uivdc.c:90
 #: src/arch/win32/resc128.rc.po.c:196
 #: src/arch/amigaos/intl_text.c.po.c:1659
 msgid "Rev 2"
-msgstr ""
+msgstr "Rev 2"
 
 #: src/arch/unix/gui/uivdc.c:151
 #: src/arch/win32/resc128.rc.po.c:696
 #: src/arch/amigaos/intl_text.c.po.c:1603
 msgid "64KB video memory"
-msgstr ""
+msgstr "64KB video memory"
 
 #: src/arch/unix/gui/uivic.c:74
 #: src/arch/unix/gui/uivicii.c:90
 #: src/arch/win32/resvicii.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:9514
 msgid "Full"
-msgstr ""
+msgstr "Full"
 
 #: src/arch/unix/gui/uivic.c:166
 #: src/arch/unix/gui/uivicii.c:191
 #: src/arch/win32/resvicii.rc.po.c:39
 #: src/arch/amigaos/intl_text.c.po.c:9486
 msgid "Border mode"
-msgstr ""
+msgstr "Border mode"
 
 #: src/arch/unix/gui/uivicii.c:175
 #: src/arch/win32/resc64.rc.po.c:566
 #: src/arch/win32/resvicii.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:7554
 msgid "New luminances"
-msgstr ""
+msgstr "New luminances"
 
 #: src/arch/unix/gui/uivicii.c:196
 #: src/arch/win32/resvicii.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:7526
 msgid "Sprite-sprite collisions"
-msgstr ""
+msgstr "Sprite-sprite collisions"
 
 #: src/arch/unix/gui/uivicii.c:198
 #: src/arch/win32/resvicii.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:7540
 msgid "Sprite-background collisions"
-msgstr ""
+msgstr "Sprite-background collisions"
 
 #: src/arch/unix/gui/vic20ui.c:199
 #: src/arch/win32/resvic20.rc.po.c:501
 msgid "No expansion memory"
-msgstr ""
+msgstr "No expansion memory"
 
 #: src/arch/unix/gui/vic20ui.c:203
 #: src/arch/win32/resvic20.rc.po.c:502
 msgid "3K (block 0)"
-msgstr ""
+msgstr "3K (block 0)"
 
 #: src/arch/unix/gui/vic20ui.c:206
 #: src/arch/win32/resvic20.rc.po.c:503
 msgid "8K (block 1)"
-msgstr ""
+msgstr "8K (block 1)"
 
 #: src/arch/unix/gui/vic20ui.c:209
 #: src/arch/win32/resvic20.rc.po.c:504
 msgid "16K (blocks 1/2)"
-msgstr ""
+msgstr "16K (blocks 1/2)"
 
 #: src/arch/unix/gui/vic20ui.c:212
 #: src/arch/win32/resvic20.rc.po.c:505
 msgid "24K (blocks 1/2/3)"
-msgstr ""
+msgstr "24K (blocks 1/2/3)"
 
 #: src/arch/unix/gui/vic20ui.c:216
 msgid "All (blocks 0/1/2/3/5)"
-msgstr ""
+msgstr "All (blocks 0/1/2/3/5)"
 
 #: src/arch/unix/gui/vic20ui.c:229
 msgid "Common configurations"
-msgstr ""
+msgstr "Common configurations"
 
 #: src/arch/unix/gui/vic20ui.c:232
 #: src/arch/win32/resvic20.rc.po.c:508
 msgid "Block 0 (3K at $0400-$0FFF)"
-msgstr ""
+msgstr "Block 0 (3K at $0400-$0FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:234
 #: src/arch/win32/resvic20.rc.po.c:509
@@ -4819,17 +4825,17 @@ msgstr "*Bank 15 $2000-$3FFF RAM"
 #: src/arch/unix/gui/vic20ui.c:236
 #: src/arch/win32/resvic20.rc.po.c:510
 msgid "Block 2 (8K at $4000-$5FFF)"
-msgstr ""
+msgstr "Block 2 (8K at $4000-$5FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:238
 #: src/arch/win32/resvic20.rc.po.c:511
 msgid "Block 3 (8K at $6000-$7FFF)"
-msgstr ""
+msgstr "Block 3 (8K at $6000-$7FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:240
 #: src/arch/win32/resvic20.rc.po.c:512
 msgid "Block 5 (8K at $A000-$BFFF)"
-msgstr ""
+msgstr "Block 5 (8K at $A000-$BFFF)"
 
 #: src/arch/unix/gui/vic20ui.c:260
 #: src/arch/win32/res.rc.po.c:991
@@ -4837,78 +4843,78 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:3689
 #: src/arch/amigaos/intl_text.c.po.c:3717
 msgid "Invalid cartridge image"
-msgstr ""
+msgstr "Неверный образ картриджа"
 
 #: src/arch/unix/gui/vic20ui.c:274
 #: src/translate_text.c.po.c:6607
 msgid "Smart-attach cartridge image"
-msgstr ""
+msgstr "Smart-attach cartridge image"
 
 #: src/arch/unix/gui/vic20ui.c:278
 #: src/arch/win32/resvic20.rc.po.c:517
 #: src/arch/amigaos/intl_text.c.po.c:4445
 msgid "Attach 4/8/16KB cartridge image at $2000"
-msgstr ""
+msgstr "Attach 4/8/16KB cartridge image at $2000"
 
 #: src/arch/unix/gui/vic20ui.c:281
 #: src/arch/win32/resvic20.rc.po.c:518
 #: src/arch/amigaos/intl_text.c.po.c:4459
 msgid "Attach 4/8/16KB cartridge image at $4000"
-msgstr ""
+msgstr "Attach 4/8/16KB cartridge image at $4000"
 
 #: src/arch/unix/gui/vic20ui.c:284
 #: src/arch/win32/resvic20.rc.po.c:519
 #: src/arch/amigaos/intl_text.c.po.c:4473
 msgid "Attach 4/8/16KB cartridge image at $6000"
-msgstr ""
+msgstr "Attach 4/8/16KB cartridge image at $6000"
 
 #: src/arch/unix/gui/vic20ui.c:287
 #: src/arch/win32/resvic20.rc.po.c:520
 #: src/arch/amigaos/intl_text.c.po.c:4487
 msgid "Attach 4/8KB cartridge image at $A000"
-msgstr ""
+msgstr "Attach 4/8KB cartridge image at $A000"
 
 #: src/arch/unix/gui/vic20ui.c:290
 #: src/arch/win32/resvic20.rc.po.c:521
 #: src/arch/amigaos/intl_text.c.po.c:4501
 msgid "Attach 4KB cartridge image at $B000"
-msgstr ""
+msgstr "Attach 4KB cartridge image at $B000"
 
 #: src/arch/unix/gui/vic20ui.c:307
 msgid "Attach generic image"
-msgstr ""
+msgstr "Attach generic image"
 
 #: src/arch/unix/gui/vic20ui.c:310
 msgid "Attach Mega-Cart image"
-msgstr ""
+msgstr "Attach Mega-Cart image"
 
 #: src/arch/unix/gui/vic20ui.c:313
 msgid "Attach Final Expansion image"
-msgstr ""
+msgstr "Attach Final Expansion image"
 
 #: src/arch/unix/gui/vic20ui.c:316
 msgid "Attach Vic Flash Plugin image"
-msgstr ""
+msgstr "Attach Vic Flash Plugin image"
 
 #: src/arch/unix/gui/vic20ui.c:320
 #: src/arch/win32/resvic20.rc.po.c:69
 #: src/arch/win32/resvic20.rc.po.c:529
 #: src/arch/amigaos/intl_text.c.po.c:441
 msgid "Add to generic cartridge"
-msgstr ""
+msgstr "Add to generic cartridge"
 
 #: src/arch/unix/gui/vic20ui.c:335
 msgid "Mega-Cart NvRAM image"
-msgstr ""
+msgstr "Mega-Cart NvRAM image"
 
 #: src/arch/unix/gui/vic20ui.c:339
 #: src/arch/unix/gui/vic20ui.c:345
 msgid "Enable image write back"
-msgstr ""
+msgstr "Enable image write back"
 
 #: src/arch/unix/gui/vic20ui.c:351
 msgid "Enable NvRAM image write back"
-msgstr ""
+msgstr "Enable NvRAM image write back"
 
 #: src/arch/unix/gui/vic20ui.c:353
 #, fuzzy
@@ -4917,11 +4923,11 @@ msgstr "Файл установки ПЗУ"
 
 #: src/arch/unix/gui/vic20ui.c:472
 msgid "VIC model"
-msgstr ""
+msgstr "VIC model"
 
 #: src/arch/unix/gui/vic20ui.c:474
 msgid "Memory expansions"
-msgstr ""
+msgstr "Memory expansions"
 
 #: src/arch/unix/gui/vic20ui.c:498
 #, fuzzy
@@ -4930,7 +4936,7 @@ msgstr "Эмуляция Ethernet"
 
 #: src/arch/unix/gui/vic20ui.c:502
 msgid "Paddle emulation"
-msgstr ""
+msgstr "Paddle emulation"
 
 #: src/arch/unix/gui/vic20ui.c:541
 #: src/arch/win32/resvic20.rc.po.c:500
@@ -4938,21 +4944,21 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:2121
 #: src/arch/amigaos/intl_text.c.po.c:7512
 msgid "VIC settings"
-msgstr ""
+msgstr "VIC settings"
 
 #: src/arch/unix/gui/vsidui.c:253
 #: src/arch/unix/gui/vsidui.c:453
 msgid "Tunes"
-msgstr ""
+msgstr "Tunes"
 
 #: src/arch/unix/gui/vsidui.c:266
 #: src/arch/unix/gui/vsidui.c:301
 msgid "Load PSID file"
-msgstr ""
+msgstr "Load PSID file"
 
 #: src/arch/unix/gui/vsidui.c:376
 msgid "Sound recording"
-msgstr ""
+msgstr "Запись звука"
 
 #: src/arch/unix/gui/vsidui.c:384
 #, fuzzy
@@ -4967,25 +4973,25 @@ msgstr "Настройки SID"
 #: src/arch/win32/resvic20.rc.po.c:193
 #: src/arch/amigaos/intl_text.c.po.c:1827
 msgid "Video standard"
-msgstr ""
+msgstr "Видео стандарт"
 
 #: src/arch/unix/gui/vsidui.c:481
 msgid "Default Tune"
-msgstr ""
+msgstr "Мелодия по умолчанию"
 
 #: src/arch/unix/gui/vsidui.c:501
 #, c-format
 msgid "Tune %d"
-msgstr ""
+msgstr "Tune %d"
 
 #: src/arch/unix/gui/vsidui.c:530
 msgid "VSID: The SID Emulator"
-msgstr ""
+msgstr "VSID: The SID Emulator"
 
 #: src/arch/unix/x11/gnome/about.c:38
 #: src/arch/unix/x11/xaw/about.c:62
 msgid "VICE is FREE software!"
-msgstr ""
+msgstr "VICE - бесплатное ПО!"
 
 #: src/arch/unix/x11/gnome/about.c:43
 #: src/arch/unix/x11/xaw/about.c:67
@@ -4993,21 +4999,21 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1550
 #: src/arch/amigaos/intl_text.c.po.c:3129
 msgid "No warranty!"
-msgstr ""
+msgstr "Без гарантии!"
 
 #: src/arch/unix/x11/gnome/about.c:48
 #: src/arch/unix/x11/xaw/about.c:72
 msgid "Contributors to the VICE project"
-msgstr ""
+msgstr "Contributors to the VICE project"
 
 #: src/arch/unix/x11/gnome/about.c:64
 msgid "The VICE Team"
-msgstr ""
+msgstr "Команда VICE"
 
 #: src/arch/unix/x11/gnome/about.c:88
 #: src/arch/unix/x11/xaw/about.c:165
 msgid "Official VICE homepage:"
-msgstr ""
+msgstr "Официальный сайт VICE:"
 
 #: src/arch/unix/x11/gnome/about.c:102
 msgid ""
@@ -5024,40 +5030,52 @@ msgid ""
 "Peter Krefting - Swedish\n"
 "Emir Akaydin (aka: Skate) - Turkish\n"
 msgstr ""
+"Mikkel Holm Olsen - датский\n"
+"Martin Pottendorfer - немецкий\n"
+"Manuel Antonio Rodriguez Bas - испанский\n"
+"Paul Dube - французский\n"
+"Czirkos Zoltan, Karai Csaba - венгерский\n"
+"Andrea Musuruane - итальянский\n"
+"Jesse Lee - корейский\n"
+"Marco van den Heuvel - голландский\n"
+"Jarek Sobolewski - польский\n"
+"Mihail Litvinov - русский\n"
+"Peter Krefting - шведский\n"
+"Emir Akaydin (aka: Skate) - турецкий\n"
 
 #: src/arch/unix/x11/gnome/about.c:121
 msgid "(c) 1998 - 2011 The VICE Team"
-msgstr ""
+msgstr "(c) 1998 - 2011 The VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:128
 #: src/arch/win32/res.rc.po.c:1082
 #: src/arch/win32/res.rc.po.c:1549
 #: src/arch/amigaos/intl_text.c.po.c:3115
 msgid "License"
-msgstr ""
+msgstr "Лицензия"
 
 #: src/arch/unix/x11/gnome/about.c:130
 msgid "Warranty"
-msgstr ""
+msgstr "Гарантия"
 
 #: src/arch/unix/x11/gnome/about.c:132
 #: src/arch/win32/res.rc.po.c:1548
 #: src/arch/amigaos/intl_text.c.po.c:3101
 msgid "Contributors"
-msgstr ""
+msgstr "Contributors"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:53
 #: src/arch/unix/x11/gnome/uicartridge.c:57
 #: src/arch/unix/x11/xaw/uicartridge.c:83
 #: src/arch/unix/x11/xaw/uicartridge.c:188
 msgid "Save cartridge image"
-msgstr ""
+msgstr "Сохранить образ картриджа"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:67
 #: src/arch/unix/x11/gnome/uiscreenshot.c:468
 #: src/arch/unix/x11/gnome/uisnapshot.c:99
 msgid "Invalid filename"
-msgstr ""
+msgstr "Неверное имя файла"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:72
 #: src/arch/unix/x11/xaw/uicartridge.c:106
@@ -5066,60 +5084,62 @@ msgid ""
 "Cannot write cartridge image file\n"
 "`%s'\n"
 msgstr ""
+"Не удается записать файл образа картриджа\n"
+"`%s'\n"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:67
 #: src/arch/unix/x11/gnome/uiedisk.c:145
 #: src/arch/unix/x11/xaw/uiedisk.c:429
 msgid "Create empty disk"
-msgstr ""
+msgstr "Создать пустой диск"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:70
 msgid "Disk options"
-msgstr ""
+msgstr "Опции диска"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:75
 #: src/arch/unix/x11/xaw/uiedisk.c:264
 msgid "Disk name:"
-msgstr ""
+msgstr "Название диска:"
 
 #: src/arch/unix/x11/gnome/uiedisk.c:189
 #, c-format
 msgid "Can't create image `%s'."
-msgstr ""
+msgstr "Не удается создать образ `%s'."
 
 #: src/arch/unix/x11/gnome/uiedit.c:77
 #: src/arch/win32/res.rc.po.c:1398
 #: src/arch/amigaos/intl_text.c.po.c:987
 msgid "Copy"
-msgstr ""
+msgstr "Копировать"
 
 #: src/arch/unix/x11/gnome/uiedit.c:78
 #: src/arch/win32/res.rc.po.c:1399
 #: src/arch/amigaos/intl_text.c.po.c:1001
 msgid "Paste"
-msgstr ""
+msgstr "Вставить"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:56
 #: src/arch/win32/res.rc.po.c:1309
 #: src/arch/win32/respet.rc.po.c:557
 #: src/arch/amigaos/intl_text.c.po.c:8954
 msgid "Keyboard"
-msgstr ""
+msgstr "Клавиатура"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:59
 #: src/arch/win32/res.rc.po.c:1310
 msgid "Joystick 1"
-msgstr ""
+msgstr "Джойстик 1"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:62
 #: src/arch/win32/res.rc.po.c:1311
 msgid "Joystick 2"
-msgstr ""
+msgstr "Джойстик 2"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:65
 #: src/arch/win32/res.rc.po.c:1312
 msgid "Devices"
-msgstr ""
+msgstr "Устройства"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:121
 #: src/arch/win32/res.rc.po.c:1161
