@@ -288,7 +288,7 @@ static void Initialize(Widget request, Widget new)
 {
     int i;
     XfwfFileSelectorWidget fsw;
-    char *str, *initial_file, *pathp;
+    char *str, *initial_file;
     static char *star = "*";
 
     fsw = (XfwfFileSelectorWidget)new;
@@ -311,7 +311,7 @@ static void Initialize(Widget request, Widget new)
     if (FSCurrentDirectory(fsw) != NULL) {
         strcpy(str,FSCurrentDirectory(fsw));
     } else {
-        pathp = getcwd(str, MAXPATHLEN);
+        (void)getcwd(str, MAXPATHLEN);
     }
     FSCurrentDirectory(fsw) = str;
 
@@ -730,7 +730,7 @@ static void ChildrenRecalculate(XfwfFileSelectorWidget fsw)
 {
     BOX *coords;
     Widget widget;
-    int i, w, h, empty_space, gap, orig_path_list_h, orig_file_list_h, top;
+    int i, w, h, empty_space, gap, orig_path_list_h, top;
     int boxh, boxw;
     XtWidgetGeometry parent_idea, child_idea;
 
@@ -798,7 +798,6 @@ static void ChildrenRecalculate(XfwfFileSelectorWidget fsw)
     BoxH(FSNthCoords(fsw, FS_I_PATH_LIST)) = boxh;
     BoxH(FSNthCoords(fsw, FS_I_FILE_LIST)) = boxh;
     orig_path_list_h = BoxH(FSNthCoords(fsw, FS_I_PATH_LIST));
-    orig_file_list_h = BoxH(FSNthCoords(fsw, FS_I_FILE_LIST));
 
     /* Listen To Child Height Requests For Lists */
 
@@ -922,8 +921,6 @@ static void ChildrenUpdate(XfwfFileSelectorWidget fsw)
     int i;
     Widget widget;
     BOX *coords;
-    Boolean not_at_root;
-    XfwfScrolledListWidget file_list;
 
     ChildrenRecalculate(fsw);
 
@@ -935,15 +932,6 @@ static void ChildrenUpdate(XfwfFileSelectorWidget fsw)
             XtResizeWidget(widget, BoxW(coords), BoxH(coords), CoreBorderWidth(widget));
         }
     }
-
-    file_list = (XfwfScrolledListWidget)FSNthWidget(fsw, FS_I_FILE_LIST);
-
-    if (FSPathListCount(fsw) != 1) {
-        not_at_root = True;
-    } else {
-        not_at_root = False;
-    }
-
 } /* End ChildrenUpdate */
 
 /*---------------------------------------------------------------------------*
