@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-01 23:16+0200\n"
+"PO-Revision-Date: 2012-01-02 21:56+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -5145,103 +5145,103 @@ msgstr "Устройства"
 #: src/arch/win32/res.rc.po.c:1161
 #: src/arch/amigaos/intl_text.c.po.c:3773
 msgid "Invalid port number"
-msgstr ""
+msgstr "Неверный порт"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:141
 #: src/arch/win32/res.rc.po.c:1157
 #: src/arch/amigaos/intl_text.c.po.c:3955
 msgid "Idle"
-msgstr ""
+msgstr "Idle"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:146
 #: src/arch/win32/res.rc.po.c:1158
 #: src/arch/amigaos/intl_text.c.po.c:3969
 msgid "Server listening"
-msgstr ""
+msgstr "Server listening"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:151
 #: src/arch/win32/res.rc.po.c:1159
 #: src/arch/amigaos/intl_text.c.po.c:3983
 msgid "Connected server"
-msgstr ""
+msgstr "Connected server"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:156
 #: src/arch/win32/res.rc.po.c:1160
 #: src/arch/amigaos/intl_text.c.po.c:3997
 msgid "Connected client"
-msgstr ""
+msgstr "Connected client"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:178
 msgid "Couldn't start netplay server."
-msgstr ""
+msgstr "Couldn't start netplay server."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:188
 msgid "Couldn't connect client."
-msgstr ""
+msgstr "Couldn't connect client."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:205
 #: src/arch/win32/res.rc.po.c:1137
 msgid "Unknown"
-msgstr ""
+msgstr "Unknown"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:206
 #: src/arch/win32/res.rc.po.c:1304
 #: src/arch/amigaos/intl_text.c.po.c:3927
 msgid "Connect to"
-msgstr ""
+msgstr "Подключиться к"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:207
 #: src/arch/win32/res.rc.po.c:1300
 #: src/arch/amigaos/intl_text.c.po.c:3871
 msgid "Current mode"
-msgstr ""
+msgstr "Текущий режим"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:210
 #: src/arch/unix/x11/gnome/uinetplay.c:212
 #: src/arch/win32/res.rc.po.c:1299
 #: src/arch/amigaos/intl_text.c.po.c:4011
 msgid "Netplay Settings"
-msgstr ""
+msgstr "Настройки сетевой игры"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:288
 #: src/arch/win32/res.rc.po.c:1306
 msgid "Control"
-msgstr ""
+msgstr "Control"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:293
 #: src/arch/win32/res.rc.po.c:1307
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:296
 #: src/arch/win32/res.rc.po.c:1308
 msgid "Client"
-msgstr ""
+msgstr "Client"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:296
 #: src/arch/unix/x11/xaw/uiscreenshot.c:152
 msgid "Image Format"
-msgstr ""
+msgstr "Формат образа"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:362
 #: src/arch/win32/res.rc.po.c:1325
 #: src/translate_text.c.po.c:1863
 msgid "Format"
-msgstr ""
+msgstr "Формат"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:376
 #: src/arch/win32/res.rc.po.c:1326
 msgid "Audio codec"
-msgstr ""
+msgstr "Аудио кодек"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:390
 #: src/arch/win32/res.rc.po.c:1328
 msgid "Video codec"
-msgstr ""
+msgstr "Видео кодек"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:402
 msgid "Audio bitrate"
-msgstr ""
+msgstr "Audio bitrate"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:412
 #, fuzzy
@@ -5252,36 +5252,36 @@ msgstr "Размер видео"
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
 #: src/arch/amigaos/intl_text.c.po.c:4025
 msgid "Save screenshot file"
-msgstr ""
+msgstr "Сохранить файл скриншота"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:515
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
-msgstr ""
+msgstr "Couldn't write screenshot to `%s' with driver `%s'."
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:51
 #: src/arch/unix/x11/xaw/uisnapshot.c:128
 msgid "Snapshot options"
-msgstr ""
+msgstr "Опции снепшота"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:54
 #: src/arch/unix/x11/xaw/uisnapshot.c:126
 #: src/arch/win32/res.rc.po.c:1224
 #: src/arch/amigaos/intl_text.c.po.c:8366
 msgid "Save currently attached disk images"
-msgstr ""
+msgstr "Сохранить используемые образы дисков"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:58
 #: src/arch/unix/x11/xaw/uisnapshot.c:127
 #: src/arch/win32/res.rc.po.c:1225
 #: src/arch/amigaos/intl_text.c.po.c:8380
 msgid "Save currently loaded ROM images"
-msgstr ""
+msgstr "Сохранить загруженные ROM образы"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:107
 #, c-format
 msgid "Successfully wrote `%s'\n"
-msgstr ""
+msgstr "Записано успешно `%s'\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:44
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:63
@@ -5297,200 +5297,207 @@ msgid ""
 "Model: %s\n"
 "IRQ: %s"
 msgstr ""
+"Имя: %s\n"
+"Мелодия: %d\n"
+"Автор: %s\n"
+"Копирайт: %s\n"
+"%s\n"
+"Модель: %s\n"
+"IRQ: %s"
 
 #: src/arch/unix/x11/gnome/x11ui.c:886
 msgid "CRT Controls"
-msgstr ""
+msgstr "CRT Controls"
 
 #: src/arch/unix/x11/gnome/x11ui.c:898
 msgid "audio/video recording"
-msgstr ""
+msgstr "запись аудио/видео"
 
 #: src/arch/unix/x11/gnome/x11ui.c:907
 #: src/arch/unix/x11/gnome/x11ui.c:922
 msgid "click to stop recording"
-msgstr ""
+msgstr "щелкните для остановки записи"
 
 #: src/arch/unix/x11/gnome/x11ui.c:913
 #: src/arch/unix/x11/xaw/x11ui.c:1010
 msgid "event recording"
-msgstr ""
+msgstr "event recording"
 
 #: src/arch/unix/x11/gnome/x11ui.c:928
 msgid "event playback"
-msgstr ""
+msgstr "event playback"
 
 #: src/arch/unix/x11/gnome/x11ui.c:937
 msgid "click to stop playback"
-msgstr ""
+msgstr "щелкните для остановки воспроизведения"
 
 #: src/arch/unix/x11/gnome/x11ui.c:949
 #, c-format
 msgid "Drive %d: "
-msgstr ""
+msgstr "Устройство %d: "
 
 #. Tape Label
 #: src/arch/unix/x11/gnome/x11ui.c:1026
 msgid "Tape 000"
-msgstr ""
+msgstr "Кассета 000"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1412
 #: src/arch/unix/x11/xaw/x11ui.c:1274
 msgid " emulator"
-msgstr ""
+msgstr "эмулятор"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1419
 #: src/arch/unix/x11/xaw/x11ui.c:1278
 msgid "Do you really want to exit?"
-msgstr ""
+msgstr "Вы действительно хотите выйти?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1427
 #: src/arch/unix/x11/xaw/x11ui.c:1286
 msgid "Save the current settings?"
-msgstr ""
+msgstr "Сохранить текущие настройки?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1463
 #: src/arch/unix/x11/gnome/x11ui.c:1465
 #: src/arch/unix/x11/xaw/x11ui.c:1354
 #: src/arch/unix/x11/xaw/x11ui.c:1357
 msgid "(warp)"
-msgstr ""
+msgstr "(warp)"
 
 #. Translators: the string is fixed with 1024 byte! Don't exceed this
 #. limit !
 #: src/arch/unix/x11/gnome/x11ui.c:1758
 #, c-format
 msgid "Tape %03d"
-msgstr ""
+msgstr "Кассета %03d"
 
 #: src/arch/unix/x11/gnome/x11ui.c:1807
 #: src/arch/unix/x11/xaw/x11ui.c:1603
 #, c-format
 msgid "%s (paused)"
-msgstr ""
+msgstr "%s (приостановить)"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2183
 #: src/arch/amigaos/intl_text.c.po.c:3507
 msgid "VICE Message"
-msgstr ""
+msgstr "Сообщение VICE"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2195
 #: src/arch/unix/x11/xaw/x11ui.c:1797
 #: src/arch/win32/res.rc.po.c:961
 #: src/arch/amigaos/intl_text.c.po.c:3619
 msgid "VICE Error!"
-msgstr ""
+msgstr "Ошибка VICE!"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2222
 msgid "Hard Reset"
-msgstr ""
+msgstr "Hard Reset"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2222
 #: src/arch/win32/res.rc.po.c:1452
 #: src/arch/amigaos/intl_text.c.po.c:917
 msgid "Monitor"
-msgstr ""
+msgstr "Монитор"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2222
 msgid "Continue"
-msgstr ""
+msgstr "Продолжить"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2266
 #: src/arch/unix/x11/xaw/x11ui.c:1928
 msgid "Extend disk image"
-msgstr ""
+msgstr "Extend disk image"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2266
 msgid "Do you want to extend the disk image to 40 tracks?"
-msgstr ""
+msgstr "Do you want to extend the disk image to 40 tracks?"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2277
 #, c-format
 msgid "Autostart not possible for unit %d"
-msgstr ""
+msgstr "Autostart not possible for unit %d"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2282
 #: src/arch/unix/x11/gnome/x11ui.c:2288
 #, c-format
 msgid "Can't autostart selection %d in image %s"
-msgstr ""
+msgstr "Can't autostart selection %d in image %s"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2459
 msgid "NO IMAGE CONTENTS AVAILABLE"
-msgstr ""
+msgstr "НЕТ СОДЕРЖАНИЯ ОБРАЗА"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2793
 msgid "Contents"
-msgstr ""
+msgstr "Contents"
 
 #. write-protect checkbox
 #: src/arch/unix/x11/gnome/x11ui.c:2824
 #: src/arch/win32/res.rc.po.c:1189
 #: src/arch/amigaos/intl_text.c.po.c:4557
 msgid "Attach read only"
-msgstr ""
+msgstr "Attach read only"
 
 #. show hidden files
 #: src/arch/unix/x11/gnome/x11ui.c:2831
 msgid "Show hidden files"
-msgstr ""
+msgstr "Показать скрытые файлы"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2840
 #: src/arch/win32/res.rc.po.c:1187
 msgid "Autostart"
-msgstr ""
+msgstr "Autostart"
 
 #: src/arch/unix/x11/gnome/x11ui.c:2867
 msgid "Text cannot be displayed.\n"
-msgstr ""
+msgstr "Не удается отобразить текст.\n"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
-msgstr ""
+msgstr "Укажите HTML броузер для помощи он-лайн"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:47
 msgid "Install a private colormap"
-msgstr ""
+msgstr "Install a private colormap"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:52
 msgid "Use the default colormap"
-msgstr ""
+msgstr "Use the default colormap"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:62
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:50
 #: src/arch/amigaos/intl_text.c.po.c:6378
 msgid "Never confirm quiting VICE"
-msgstr ""
+msgstr "Никогда не подтверждать закрытие VICE"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:72
 #: src/arch/unix/macosx/cocoa/ui-cmdline-options.c:45
 #: src/arch/win32/res.rc.po.c:1144
 #: src/arch/amigaos/intl_text.c.po.c:6350
 msgid "Never save settings on exit"
-msgstr ""
+msgstr "Никогда не сохранять настройки при выходе"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:84
 msgid "Disable fullscreen"
-msgstr ""
+msgstr "Отключить полноэкранный режим"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
 #: src/translate_text.c.po.c:2908
 #: src/translate_text.c.po.c:6641
 msgid "value"
-msgstr ""
+msgstr "value"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:90
 msgid "Specify X display depth (1..32)"
-msgstr ""
+msgstr "Specify X display depth (1..32)"
 
 #: src/arch/unix/x11/xrandr.c:280
 msgid "Desktop"
-msgstr ""
+msgstr "Desktop"
 
 #: src/arch/unix/x11/xaw/about.c:171
 #: src/arch/win32/res.rc.po.c:962
 msgid "VICE Information"
-msgstr ""
+msgstr "VICE Information"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:113
 #: src/arch/unix/x11/xaw/uiedisk.c:204
@@ -5498,7 +5505,7 @@ msgstr ""
 #: src/arch/unix/x11/xaw/uisnapshot.c:125
 #: src/arch/win32/resc128.rc.po.c:690
 msgid "File name"
-msgstr ""
+msgstr "Имя файла"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155
 #: src/arch/unix/x11/xaw/uiedisk.c:247
@@ -5508,7 +5515,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1188
 #: src/arch/amigaos/intl_text.c.po.c:3857
 msgid "Browse"
-msgstr ""
+msgstr "Обзор"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:177
 #: src/arch/unix/x11/xaw/uiedisk.c:409
@@ -5518,7 +5525,7 @@ msgstr ""
 #: src/arch/win32/res.rc.po.c:1168
 #: src/arch/amigaos/intl_text.c.po.c:4039
 msgid "Cancel"
-msgstr ""
+msgstr "Отменить"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:98
 #, fuzzy
@@ -5527,156 +5534,156 @@ msgstr "Сохранить медиа файл"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:182
 msgid "Couldn't create disk image"
-msgstr ""
+msgstr "Не удается создать образ диска"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:299
 msgid "Disk format:"
-msgstr ""
+msgstr "Disk format:"
 
 #: src/arch/unix/x11/xaw/uiscreenshot.c:279
 msgid "Screen Snapshot"
-msgstr ""
+msgstr "Screen Snapshot"
 
 #: src/arch/unix/x11/xaw/x11ui.c:998
 msgid "recording"
-msgstr ""
+msgstr "запись"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1458
 #, c-format
 msgid "%d: Track %.1f"
-msgstr ""
+msgstr "%d: Track %.1f"
 
 #: src/arch/unix/x11/xaw/x11video.c:191
 #: src/arch/unix/x11/xaw/x11video.c:284
 msgid "Aspect ratio"
-msgstr ""
+msgstr "Aspect ratio"
 
 #: src/arch/unix/x11/xaw/x11video.c:193
 msgid "Custom aspect ratio"
-msgstr ""
+msgstr "Custom aspect ratio"
 
 #: src/arch/unix/x11/xaw/x11video.c:258
 msgid "Call `XSync()' after updating the emulation window"
-msgstr ""
+msgstr "Call `XSync()' after updating the emulation window"
 
 #: src/arch/unix/x11/xaw/x11video.c:263
 msgid "Do not call `XSync()' after updating the emulation window"
-msgstr ""
+msgstr "Do not call `XSync()' after updating the emulation window"
 
 #: src/arch/unix/x11/xaw/x11video.c:268
 msgid "Use shared memory"
-msgstr ""
+msgstr "Use shared memory"
 
 #: src/arch/unix/x11/xaw/x11video.c:273
 msgid "Never use shared memory (slower)"
-msgstr ""
+msgstr "Never use shared memory (slower)"
 
 #: src/arch/unix/x11/xaw/x11video.c:279
 msgid "fourcc"
-msgstr ""
+msgstr "fourcc"
 
 #: src/arch/unix/x11/xaw/x11video.c:279
 msgid "Request YUV FOURCC format"
-msgstr ""
+msgstr "Request YUV FOURCC format"
 
 #: src/arch/unix/x11/xaw/x11video.c:284
 msgid "Set aspect ratio (0.5 - 2.0)"
-msgstr ""
+msgstr "Set aspect ratio (0.5 - 2.0)"
 
 #: src/arch/unix/x11/xaw/x11video.c:289
 #: src/arch/unix/macosx/cocoa/video.m:172
 msgid "Enable true aspect ratio"
-msgstr ""
+msgstr "Enable true aspect ratio"
 
 #: src/arch/unix/x11/xaw/x11video.c:294
 #: src/arch/unix/macosx/cocoa/video.m:177
 msgid "Disable true aspect ratio"
-msgstr ""
+msgstr "Disable true aspect ratio"
 
 #: src/arch/unix/x11/xaw/x11video.c:368
 #, c-format
 msgid "MITSHM extensions version %d.%d detected."
-msgstr ""
+msgstr "MITSHM extensions version %d.%d detected."
 
 #: src/arch/unix/x11/xaw/x11video.c:639
 msgid "MITSHM initialization succeed.\n"
-msgstr ""
+msgstr "MITSHM initialization succeed.\n"
 
 #: src/arch/unix/macosx/joy.c:304
 msgid "Set HID A device"
-msgstr ""
+msgstr "Set HID A device"
 
 #: src/arch/unix/macosx/joy.c:309
 msgid "Set X Axis for HID A device"
-msgstr ""
+msgstr "Set X Axis for HID A device"
 
 #: src/arch/unix/macosx/joy.c:314
 msgid "Set Y Axis for HID A device"
-msgstr ""
+msgstr "Set Y Axis for HID A device"
 
 #: src/arch/unix/macosx/joy.c:319
 msgid "Set Buttons for HID A device"
-msgstr ""
+msgstr "Set Buttons for HID A device"
 
 #: src/arch/unix/macosx/joy.c:324
 msgid "Set Auto Fire Buttons for HID A device"
-msgstr ""
+msgstr "Set Auto Fire Buttons for HID A device"
 
 #: src/arch/unix/macosx/joy.c:329
 msgid "Set X Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Set X Axis Threshold in Percent of HID A device"
 
 #: src/arch/unix/macosx/joy.c:334
 msgid "Set Y Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Set Y Axis Threshold in Percent of HID A device"
 
 #: src/arch/unix/macosx/joy.c:339
 msgid "Set HID B device"
-msgstr ""
+msgstr "Set HID B device"
 
 #: src/arch/unix/macosx/joy.c:344
 msgid "Set X Axis for HID B device"
-msgstr ""
+msgstr "Set X Axis for HID B device"
 
 #: src/arch/unix/macosx/joy.c:349
 msgid "Set Y Axis for HID B device"
-msgstr ""
+msgstr "Set Y Axis for HID B device"
 
 #: src/arch/unix/macosx/joy.c:354
 msgid "Set Buttons for HID B device"
-msgstr ""
+msgstr "Set Buttons for HID B device"
 
 #: src/arch/unix/macosx/joy.c:359
 msgid "Set Auto Fire Buttons for HID B device"
-msgstr ""
+msgstr "Set Auto Fire Buttons for HID B device"
 
 #: src/arch/unix/macosx/joy.c:364
 msgid "Set X Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Set X Axis Threshold in Percent of HID B device"
 
 #: src/arch/unix/macosx/joy.c:369
 msgid "Set Y Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Set Y Axis Threshold in Percent of HID B device"
 
 #: src/arch/unix/macosx/joy.c:374
 msgid "Set Hat Switch for Joystick of HID A device"
-msgstr ""
+msgstr "Set Hat Switch for Joystick of HID A device"
 
 #: src/arch/unix/macosx/joy.c:379
 msgid "Set Hat Switch for Joystick of HID B device"
-msgstr ""
+msgstr "Set Hat Switch for Joystick of HID B device"
 
 #: src/arch/unix/macosx/mididrv.c:120
 msgid "Name of MIDI Client"
-msgstr ""
+msgstr "Name of MIDI Client"
 
 #: src/arch/unix/macosx/mididrv.c:125
 msgid "Name of MIDI-In Port"
-msgstr ""
+msgstr "Name of MIDI-In Port"
 
 #: src/arch/unix/macosx/mididrv.c:130
 msgid "Name of MIDI-Out Port"
-msgstr ""
+msgstr "Name of MIDI-Out Port"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:76
 msgid "Set scaling factor for mouse movement along X"
