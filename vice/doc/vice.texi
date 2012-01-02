@@ -58,19 +58,24 @@ notice identical to this one.
 
 @page
 @vskip 0pt plus 1filll
-Copyright @copyright{} 1998-2011 Dag Lem
-Copyright @copyright{} 1999-2011 Andreas Matthies
-Copyright @copyright{} 1999-2011 Martin Pottendorfer
-Copyright @copyright{} 2000-2011 Spiro Trikaliotis
-Copyright @copyright{} 2005-2011 Marco van den Heuvel
-Copyright @copyright{} 2006-2011 Christian Vogelgsang
-Copyright @copyright{} 2007-2011 Fabrizio Gennari
-Copyright @copyright{} 2007-2011 Daniel Kahlin
-Copyright @copyright{} 2008-2011 Antti S. Lankila
-Copyright @copyright{} 2009-2011 Groepaz
-Copyright @copyright{} 2009-2011 Ingo Korb
-Copyright @copyright{} 2009-2011 Errol Smith
-Copyright @copyright{} 2010-2011 Olaf Seibert
+Copyright @copyright{} 1998-2012 Dag Lem
+Copyright @copyright{} 1999-2012 Andreas Matthies
+Copyright @copyright{} 1999-2012 Martin Pottendorfer
+Copyright @copyright{} 2000-2012 Spiro Trikaliotis
+Copyright @copyright{} 2005-2012 Marco van den Heuvel
+Copyright @copyright{} 2006-2012 Christian Vogelgsang
+Copyright @copyright{} 2007-2012 Fabrizio Gennari
+Copyright @copyright{} 2007-2012 Daniel Kahlin
+Copyright @copyright{} 2008-2012 Antti S. Lankila
+Copyright @copyright{} 2009-2012 Groepaz
+Copyright @copyright{} 2009-2012 Ingo Korb
+Copyright @copyright{} 2009-2012 Errol Smith
+Copyright @copyright{} 2010-2012 Olaf Seibert
+Copyright @copyright{} 2011-2012 Marcus Sutton
+Copyright @copyright{} 2011-2012 Ulrich Schulz
+Copyright @copyright{} 2011-2012 Stefan Haubenthal
+Copyright @copyright{} 2011-2012 Thomas Giesel
+Copyright @copyright{} 2011-2012 Kajtar Zsolt
 
 Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 1998-2010 Andreas Boose
@@ -15220,23 +15225,39 @@ cool emulators to compete with.  @t{:-)}
 
 @itemize @bullet
 @item
-Copyright @copyright{} 1998-2011 Dag Lem
+Copyright @copyright{} 1998-2012 Dag Lem
 @item
-Copyright @copyright{} 1999-2011 Andreas Matthies
+Copyright @copyright{} 1999-2012 Andreas Matthies
 @item
-Copyright @copyright{} 1999-2011 Martin Pottendorfer
+Copyright @copyright{} 1999-2012 Martin Pottendorfer
 @item
-Copyright @copyright{} 2000-2011 Spiro Trikaliotis
+Copyright @copyright{} 2000-2012 Spiro Trikaliotis
 @item
-Copyright @copyright{} 2005-2011 Marco van den Heuvel
+Copyright @copyright{} 2005-2012 Marco van den Heuvel
 @item
-Copyright @copyright{} 2006-2011 Christian Vogelgsang
+Copyright @copyright{} 2006-2012 Christian Vogelgsang
 @item
-Copyright @copyright{} 2007-2011 Fabrizio Gennari
+Copyright @copyright{} 2007-2012 Fabrizio Gennari
 @item
-Copyright @copyright{} 2007-2011 Daniel Kahlin
+Copyright @copyright{} 2007-2012 Daniel Kahlin
 @item
-Copyright @copyright{} 2008-2011 Antti S. Lankila
+Copyright @copyright{} 2009-2012 Groepaz
+@item
+Copyright @copyright{} 2009-2012 Ingo Korb
+@item
+Copyright @copyright{} 2009-2012 Errol Smith
+@item
+Copyright @copyright{} 2010-2012 Olaf Seibert
+@item
+Copyright @copyright{} 2011-2012 Marcus Sutton
+@item
+Copyright @copyright{} 2011-2012 Ulrich Schulz
+@item
+Copyright @copyright{} 2011-2012 Stefan Haubenthal
+@item
+Copyright @copyright{} 2011-2012 Thomas Giesel
+@item
+Copyright @copyright{} 2011-2012 Kajtar Zsolt <soci@c64.rulez.org>
 
 @item
 Copyright @copyright{} 1998-2010 Tibor Biczo
@@ -15265,8 +15286,6 @@ Copyright @copyright{} 1996-1999 André Fachat
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 @item
 Copyright @copyright{} 1993-1996 Jouko Valta
-@item
-Copyright @copyright{} 1993-1994 Jarkko Sonninen
 @end itemize
 
 
