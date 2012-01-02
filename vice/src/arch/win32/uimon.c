@@ -163,31 +163,53 @@ static HWND hwndActive = NULL;
 
 static void update_shown(void);
 
-#if defined(__GNUC__) && defined(__i386__) && !defined(__x86_64__)
-static inline void *uimon_icep(void **dest, void *xchg, void *compare)
+#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+extern inline void *uimon_icep(void **dest, void *xchg, void *compare)
 {
     void *ret;
+#ifdef __x86_64__
+    __asm__ __volatile__( "lock; cmpxchgq %2,(%1)"
+                          : "=a" (ret) : "r" (dest), "r" (xchg), "0" (compare) : "memory" );
+#else
+    __asm__ __volatile__( "lock; cmpxchgl %2,(%1)"
+                          : "=a" (ret) : "r" (dest), "r" (xchg), "0" (compare) : "memory" );
+#endif
+    return ret;
+}
 
-    __asm__ __volatile__ ("lock; cmpxchgl %2,%0"
-        : "=m" (*dest), "=a" (ret)
-        : "r" (xchg), "m" (*dest), "a" (compare));
-
-    return (ret);
+#elif defined(_MSC_VER) && defined(__i386__)
+__declspec(naked) void *uimon_icep(void **dest, void *xchg, void *compare)
+{
+    __asm mov eax, 12[esp];
+    __asm mov ecx, 8[esp];
+    __asm mov edx, 4[esp];
+    __asm lock cmpxchg [edx], ecx;
+    __asm ret;
 }
 #else
 #define uimon_icep(x, y, z) InterlockedCompareExchangePointer(x, y, z)
 #endif
 
-#if defined(__GNUC__) && defined(__i386__) && !defined(__x86_64__)
-static inline void *uimon_iep(volatile void **dest, void *val)
+#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
+static inline void *uimon_iep(void **dest, void *val)
 {
     void *ret;
-
-    __asm__ __volatile__ ("1:;lock; cmpxchgl %2,%0; jne 1b"
-        : "=m" (*dest), "=a" (ret)
-        : "r" (val), "m" (*dest), "a" (*dest));
-
-    return (ret);
+#ifdef __x86_64__
+    __asm__ __volatile__( "lock; xchgq %0,(%1)"
+                          : "=r" (ret) :"r" (dest), "0" (val) : "memory" );
+#else
+    __asm__ __volatile__( "lock; xchgl %0,(%1)"
+                          : "=r" (ret) : "r" (dest), "0" (val) : "memory" );
+#endif
+    return ret;
+}
+#elif defined(_MSC_VER) && defined(__i386__)
+__declspec(naked) void *uimon_iep(void **dest, void *val)
+{
+    __asm mov eax, 8[esp];
+    __asm mov edx, 4[esp];
+    __asm lock xchg [edx], eax;
+    __asm ret;
 }
 #else
 #define uimon_iep(x, y) InterlockedExchangePointer(x, y)
