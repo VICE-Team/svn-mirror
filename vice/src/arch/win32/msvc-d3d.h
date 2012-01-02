@@ -27,7 +27,7 @@
 #ifndef VICE_MSVC_D3D_H
 #define VICE_MSVC_D3D_H
 
-#if defined(IDE_COMPILE) && !defined(WATCOM_COMPILE)
+#if defined(IDE_COMPILE) && !defined(WATCOM_COMPILE) && !defined(NODIRECTX)
 #define _WINSOCKAPI_
 #include <dsound.h>
 #undef _WINSOCKAPI_

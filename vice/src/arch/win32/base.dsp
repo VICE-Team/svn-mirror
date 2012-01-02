@@ -19,6 +19,8 @@ CFG=base - Win32 Debug
 !MESSAGE 
 !MESSAGE "base - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "base - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "base - Win32 DX Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "base - Win32 DX Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -41,7 +43,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\base\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "NODIRECTX" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,6 +66,52 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\base\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "NODIRECTX" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
+!ELSEIF  "$(CFG)" == "base - Win32 DX Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "DXRelease"
+# PROP BASE Intermediate_Dir "DXRelease"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "libs\base\DXRelease"
+# PROP Intermediate_Dir "libs\base\DXRelease"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
+!ELSEIF  "$(CFG)" == "base - Win32 DX Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "DXDebug"
+# PROP BASE Intermediate_Dir "DXDebug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "libs\base\DXDebug"
+# PROP Intermediate_Dir "libs\base\DXDebug"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\rs232drv" /I "..\..\imagecontents" /I "..\..\monitor" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -80,6 +128,8 @@ LIB32=link.exe -lib
 
 # Name "base - Win32 Release"
 # Name "base - Win32 Debug"
+# Name "base - Win32 DX Release"
+# Name "base - Win32 DX Debug"
 # Begin Source File
 
 SOURCE="..\..\alarm.c"
@@ -90,11 +140,11 @@ SOURCE="..\..\attach.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\autostart.c"
+SOURCE="..\..\autostart-prg.c"
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\autostart-prg.c"
+SOURCE="..\..\autostart.c"
 # End Source File
 # Begin Source File
 
@@ -281,7 +331,7 @@ SOURCE=..\..\translate.txt
 # PROP Ignore_Default_Tool 1
 USERDEP__TRANS="..\..\translate.txt"	
 # Begin Custom Build - Generating translate.h and translate_table.h
-InputDir=..\..
+InputDir=\cygwin\home\blacky\vice-trunk\vice\src
 InputPath=..\..\translate.txt
 
 "$(InputDir)\translate_table.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
@@ -294,7 +344,35 @@ InputPath=..\..\translate.txt
 # PROP Ignore_Default_Tool 1
 USERDEP__TRANS="..\..\translate.txt"	
 # Begin Custom Build - Generating translate.h and translate_table.h
-InputDir=\cygwin\home\tri\cbm\vice.svn\src
+InputDir=\cygwin\home\blacky\vice-trunk\vice\src
+InputPath=..\..\translate.txt
+
+"$(InputDir)\translate_table.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "base - Win32 DX Release"
+
+# PROP BASE Ignore_Default_Tool 1
+# PROP Ignore_Default_Tool 1
+USERDEP__TRANS="..\..\translate.txt"	
+# Begin Custom Build - Generating translate.h and translate_table.h
+InputDir=\cygwin\home\blacky\vice-trunk\vice\src
+InputPath=..\..\translate.txt
+
+"$(InputDir)\translate_table.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\gentranslate ..\..\translate.txt ..\..\translate.h ..\..\translate_table.h
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "base - Win32 DX Debug"
+
+# PROP BASE Ignore_Default_Tool 1
+# PROP Ignore_Default_Tool 1
+USERDEP__TRANS="..\..\translate.txt"	
+# Begin Custom Build - Generating translate.h and translate_table.h
+InputDir=\cygwin\home\blacky\vice-trunk\vice\src
 InputPath=..\..\translate.txt
 
 "$(InputDir)\translate_table.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"

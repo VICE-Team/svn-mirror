@@ -48,11 +48,6 @@
 #define HAVE_SYS_STAT_H         1
 #define HAVE_SIGNAL_H           1
 #define HAVE_WINIOCTL_H         1
-#define HAVE_DSOUND_LIB         1
-
-#ifndef WINIA64
-#define HAVE_GUIDLIB            1
-#endif
 
 #define DWORD_IS_LONG           1
 #define HAVE_TFE                1
@@ -76,6 +71,10 @@
 #ifndef NODIRECTX
 #define HAVE_DINPUT             1
 #define USE_DXSOUND             1
+#define HAVE_DSOUND_LIB         1
+#ifndef WINIA64
+#define HAVE_GUIDLIB            1
+#endif
 #endif
 
 #define __i386__                1

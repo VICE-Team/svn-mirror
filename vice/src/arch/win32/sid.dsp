@@ -19,6 +19,8 @@ CFG=sid - Win32 Debug
 !MESSAGE 
 !MESSAGE "sid - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "sid - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "sid - Win32 DX Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "sid - Win32 DX Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -41,7 +43,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\sid\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "NODIRECTX" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,6 +66,52 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\sid\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "NODIRECTX" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
+!ELSEIF  "$(CFG)" == "sid - Win32 DX Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "DXRelease"
+# PROP BASE Intermediate_Dir "DXRelease"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "libs\sid\DXRelease"
+# PROP Intermediate_Dir "libs\sid\DXRelease"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
+!ELSEIF  "$(CFG)" == "sid - Win32 DX Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "DXDebug"
+# PROP BASE Intermediate_Dir "DXDebug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "libs\sid\DXDebug"
+# PROP Intermediate_Dir "libs\sid\DXDebug"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -80,6 +128,8 @@ LIB32=link.exe -lib
 
 # Name "sid - Win32 Release"
 # Name "sid - Win32 Debug"
+# Name "sid - Win32 DX Release"
+# Name "sid - Win32 DX Debug"
 # Begin Source File
 
 SOURCE=..\..\sid\fastsid.c
@@ -110,6 +160,28 @@ InputName=resid-fp
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "sid - Win32 DX Release"
+
+# Begin Custom Build
+InputPath="..\..\sid\resid-fp.cc"
+InputName=resid-fp
+
+"libs\sid\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /I ".\\" /I "..\..\\" /I "..\..\resid-fp" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /Fp"libs\sid\DXRelease/sid.pch" /Fo"libs\sid\DXRelease/" /Fd"libs\sid\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sid - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath="..\..\sid\resid-fp.cc"
+InputName=resid-fp
+
+"libs\sid\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid-fp" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"libs\sid\DXDebug/sid.pch" /Fo"libs\sid\DXDebug/" /Fd"libs\sid\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
@@ -136,6 +208,28 @@ InputName=resid
 
 "libs\sid\Debug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
 	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"libs\sid\Debug/sid.pch" /Fo"libs\sid\Debug/" /Fd"libs\sid\Debug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sid - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\sid\resid.cc
+InputName=resid
+
+"libs\sid\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /Fp"libs\sid\DXRelease/sid.pch" /Fo"libs\sid\DXRelease/" /Fd"libs\sid\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "sid - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\sid\resid.cc
+InputName=resid
+
+"libs\sid\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\resid" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"libs\sid\DXDebug/sid.pch" /Fo"libs\sid\DXDebug/" /Fd"libs\sid\DXDebug/" /FD /TP /c "$(InputPath)"
 
 # End Custom Build
 

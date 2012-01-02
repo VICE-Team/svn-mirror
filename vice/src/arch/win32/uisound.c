@@ -71,8 +71,10 @@ static int ui_sound_adjusting[] = {
 
 static uilib_localize_dialog_param sound_dialog[] = {
     { 0, IDS_SOUND_CAPTION, -1 },
+#ifndef NODIRECTX
     { IDC_SOUND_DIRECTX, IDS_SOUND_DIRECTX, 0 },
     { IDC_SOUND_WMM, IDS_SOUND_WMM, 0 },
+#endif
     { IDC_SOUND_SAMPLE_FREQUENCY, IDS_SOUND_SAMPLE_FREQUENCY, 0 },
     { IDC_SOUND_BUFFER_SIZE, IDS_SOUND_BUFFER_SIZE, 0 },
     { IDC_SOUND_FRAGMENT_SIZE_LABEL, IDS_SOUND_FRAGMENT_SIZE_LABEL, 0 },
@@ -82,11 +84,13 @@ static uilib_localize_dialog_param sound_dialog[] = {
     { 0, 0, 0 }
 };
 
+#ifndef NODIRECTX
 static uilib_dialog_group sound_driver_group[] = {
     { IDC_SOUND_DIRECTX, 1 },
     { IDC_SOUND_WMM, 1 },
     { 0, 0 }
 };
+#endif
 
 static uilib_dialog_group sound_left_group[] = {
     { IDC_SOUND_SAMPLE_FREQUENCY, 0 },
@@ -105,7 +109,9 @@ static uilib_dialog_group sound_right_group[] = {
 };
 
 static uilib_dialog_group sound_filling_group[] = {
+#ifndef NODIRECTX
     { IDC_SOUND_WMM, 0 },
+#endif
     { IDC_SOUND_FREQ, 0 },
     { IDC_SOUND_BUFFER, 0 },
     { IDC_SOUND_FRAGMENT_SIZE, 0 },
@@ -131,6 +137,7 @@ static void init_sound_dialog(HWND hwnd)
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, sound_dialog);
 
+#ifndef NODIRECTX
     /* adjust the size of the elements in the driver group */
     uilib_adjust_group_width(hwnd, sound_driver_group);
 
@@ -139,6 +146,7 @@ static void init_sound_dialog(HWND hwnd)
 
     /* move the wmm driver element to the correct location */
     uilib_move_element(hwnd, IDC_SOUND_WMM, xpos + 10);
+#endif
 
     /* adjust the size of the elements in the left group */
     uilib_adjust_group_width(hwnd, sound_left_group);
@@ -198,6 +206,7 @@ static void init_sound_dialog(HWND hwnd)
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
+#ifndef NODIRECTX
     resources_get_string("SoundDeviceName", (void *)&devicename);
     if (devicename && !strcasecmp("wmm", devicename)) {
         res_value = IDC_SOUND_WMM;
@@ -205,6 +214,7 @@ static void init_sound_dialog(HWND hwnd)
         res_value = IDC_SOUND_DIRECTX;
     }
     CheckRadioButton(hwnd, IDC_SOUND_DIRECTX, IDC_SOUND_WMM, res_value);
+#endif
         
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE);
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_SMALL));
@@ -212,7 +222,6 @@ static void init_sound_dialog(HWND hwnd)
     SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_LARGE));
     resources_get_int("SoundFragmentSize", &res_value);
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
-
 }
 
 static void end_sound_dialog(HWND hwnd)
@@ -223,6 +232,7 @@ static void end_sound_dialog(HWND hwnd)
     resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }
 
+#ifndef NODIRECTX
 static void select_dx(void)
 {
     resources_set_string("SoundDeviceName", "dx");
@@ -234,6 +244,7 @@ static void select_wmm(void)
     resources_set_string("SoundDeviceName", "wmm");
     ui_display_statustext(translate_text(IDS_SOUND_DRIVER_WMM), 1);
 }
+#endif
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -247,12 +258,14 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
         case WM_COMMAND:
             command = LOWORD(wparam);
                 switch (command) {
-                    case IDC_SOUND_DIRECTX:
+#ifndef NODIRECTX
+                case IDC_SOUND_DIRECTX:
                     select_dx();
                     break;
                 case IDC_SOUND_WMM:
                     select_wmm();
                     break;
+#endif
                 case IDOK:
                     end_sound_dialog(hwnd);
                 case IDCANCEL:

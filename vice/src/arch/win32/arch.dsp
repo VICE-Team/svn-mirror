@@ -19,6 +19,8 @@ CFG=arch - Win32 Debug
 !MESSAGE 
 !MESSAGE "arch - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "arch - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "arch - Win32 DX Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "arch - Win32 DX Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -41,7 +43,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "libs\arch\Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
-# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\c64" /I "..\..\c64\cart" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\rs232drv" /I "..\..\sid" /I "..\..\imagecontents" /I ".\msvc\wpcap" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\c64" /I "..\..\c64\cart" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\rs232drv" /I "..\..\sid" /I "..\..\imagecontents" /I ".\msvc\wpcap" /D "WIN32" /D "NODIRECTX" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
 BSC32=bscmake.exe
@@ -64,6 +66,52 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "libs\arch\Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /Z7 /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\c64" /I "..\..\c64\cart" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\rs232drv" /I "..\..\sid" /I "..\..\imagecontents" /I ".\msvc\wpcap" /D "WIN32" /D "NODIRECTX" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
+!ELSEIF  "$(CFG)" == "arch - Win32 DX Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "DXRelease"
+# PROP BASE Intermediate_Dir "DXRelease"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "libs\arch\DXRelease"
+# PROP Intermediate_Dir "libs\arch\DXRelease"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\c64" /I "..\..\c64\cart" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\rs232drv" /I "..\..\sid" /I "..\..\imagecontents" /I ".\msvc\wpcap" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\c64" /I "..\..\c64\cart" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\rs232drv" /I "..\..\sid" /I "..\..\imagecontents" /I ".\msvc\wpcap" /D "WIN32" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
+!ELSEIF  "$(CFG)" == "arch - Win32 DX Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "DXDebug"
+# PROP BASE Intermediate_Dir "DXDebug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "libs\arch\DXDebug"
+# PROP Intermediate_Dir "libs\arch\DXDebug"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\c64" /I "..\..\c64\cart" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\rs232drv" /I "..\..\sid" /I "..\..\imagecontents" /I ".\msvc\wpcap" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /I ".\\" /I "..\..\\" /I "..\..\drive" /I "..\..\vdrive" /I "..\..\userport" /I "..\..\c64" /I "..\..\c64\cart" /I "..\..\c64dtv" /I "..\..\c128" /I "..\..\vic20" /I "..\..\pet" /I "..\..\cbm2" /I "..\..\raster" /I "..\..\monitor" /I "..\..\lib\libffmpeg" /I "..\..\plus4" /I "..\..\rs232drv" /I "..\..\sid" /I "..\..\imagecontents" /I ".\msvc\wpcap" /D "WIN32" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /YX /FD /c
 # ADD BASE RSC /l 0x409
 # ADD RSC /l 0x409
@@ -80,6 +128,8 @@ LIB32=link.exe -lib
 
 # Name "arch - Win32 Release"
 # Name "arch - Win32 Debug"
+# Name "arch - Win32 DX Release"
+# Name "arch - Win32 DX Debug"
 # Begin Source File
 
 SOURCE=.\archdep.c
@@ -174,6 +224,10 @@ SOURCE=.\plus4ui.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\rawnetarch.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\res.txt
 
 !IF  "$(CFG)" == "arch - Win32 Release"
@@ -202,6 +256,34 @@ InputPath=.\res.txt
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "arch - Win32 DX Release"
+
+# PROP BASE Ignore_Default_Tool 1
+# PROP Ignore_Default_Tool 1
+USERDEP__RES_T="res.txt"	"resdialogs.txt"	"resmenu.txt"	"resstrings.txt"	
+# Begin Custom Build - Generating res.h
+InputDir=.
+InputPath=.\res.txt
+
+"$(InputDir)\res.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\genwinres res.h menuid.h stringid.h res.txt resdialogs.txt resmenu.txt resstrings.txt
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "arch - Win32 DX Debug"
+
+# PROP BASE Ignore_Default_Tool 1
+# PROP Ignore_Default_Tool 1
+USERDEP__RES_T="res.txt"	"resdialogs.txt"	"resmenu.txt"	"resstrings.txt"	
+# Begin Custom Build - Generating res.h
+InputDir=.
+InputPath=.\res.txt
+
+"$(InputDir)\res.h" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	..\..\..\data\genwinres res.h menuid.h stringid.h res.txt resdialogs.txt resmenu.txt resstrings.txt
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
@@ -216,10 +298,6 @@ SOURCE=.\rs232dev.c
 # Begin Source File
 
 SOURCE=.\rs232net.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\rawnetarch.c
 # End Source File
 # Begin Source File
 
@@ -523,15 +601,15 @@ SOURCE=.\vic20ui.c
 # End Source File
 # Begin Source File
 
+SOURCE=".\video-ddraw.c"
+# End Source File
+# Begin Source File
+
+SOURCE=".\video-dx9.c"
+# End Source File
+# Begin Source File
+
 SOURCE=.\video.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\video-ddraw.c
-# End Source File
-# Begin Source File
-
-SOURCE=.\video-dx9.c
 # End Source File
 # Begin Source File
 

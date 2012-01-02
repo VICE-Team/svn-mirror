@@ -4,7 +4,7 @@
 
 # TARGTYPE "Win32 (x86) Static Library" 0x0104
 
-CFG=resid - Win32 Debug
+CFG=residdtv - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
@@ -19,6 +19,8 @@ CFG=resid - Win32 Debug
 !MESSAGE 
 !MESSAGE "residdtv - Win32 Release" (based on "Win32 (x86) Static Library")
 !MESSAGE "residdtv - Win32 Debug" (based on "Win32 (x86) Static Library")
+!MESSAGE "residdtv - Win32 DX Release" (based on "Win32 (x86) Static Library")
+!MESSAGE "residdtv - Win32 DX Debug" (based on "Win32 (x86) Static Library")
 !MESSAGE 
 
 # Begin Project
@@ -74,15 +76,63 @@ LIB32=link.exe -lib
 # ADD BASE LIB32 /nologo
 # ADD LIB32 /nologo
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 0
+# PROP BASE Output_Dir "DXRelease"
+# PROP BASE Intermediate_Dir "DXRelease"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 0
+# PROP Output_Dir "libs\residdtv\DXRelease"
+# PROP Intermediate_Dir "libs\residdtv\DXRelease"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# PROP BASE Use_MFC 0
+# PROP BASE Use_Debug_Libraries 1
+# PROP BASE Output_Dir "DXDebug"
+# PROP BASE Intermediate_Dir "DXDebug"
+# PROP BASE Target_Dir ""
+# PROP Use_MFC 0
+# PROP Use_Debug_Libraries 1
+# PROP Output_Dir "libs\residdtv\DXDebug"
+# PROP Intermediate_Dir "libs\residdtv\DXDebug"
+# PROP Target_Dir ""
+# ADD BASE CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /D "_DEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /YX /FD /c
+# ADD CPP /nologo /MTd /W3 /GX /Z7 /Od /I ".\msvc" /D "_DEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /YX /FD /c
+# ADD BASE RSC /l 0x409
+# ADD RSC /l 0x409
+BSC32=bscmake.exe
+# ADD BASE BSC32 /nologo
+# ADD BSC32 /nologo
+LIB32=link.exe -lib
+# ADD BASE LIB32 /nologo
+# ADD LIB32 /nologo
+
 !ENDIF 
 
 # Begin Target
 
 # Name "residdtv - Win32 Release"
 # Name "residdtv - Win32 Debug"
+# Name "residdtv - Win32 DX Release"
+# Name "residdtv - Win32 DX Debug"
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\envelope.cc
+SOURCE="..\..\resid-dtv\envelope.cc"
 
 !IF  "$(CFG)" == "residdtv - Win32 Release"
 
@@ -106,16 +156,38 @@ InputName=envelope
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\envelope.cc
+InputName=envelope
+
+"libs\residdtv\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXRelease/residdtv.pch" /Fo"libs\residdtv\DXRelease/" /Fd"libs\residdtv\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\envelope.cc
+InputName=envelope
+
+"libs\residdtv\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "_DEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXDebug/residdtv.pch" /Fo"libs\residdtv\DXDebug/" /Fd"libs\residdtv\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\envelope.h
+SOURCE="..\..\resid-dtv\envelope.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\extfilt.cc
+SOURCE="..\..\resid-dtv\extfilt.cc"
 
 !IF  "$(CFG)" == "residdtv - Win32 Release"
 
@@ -139,16 +211,38 @@ InputName=extfilt
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\extfilt.cc
+InputName=extfilt
+
+"libs\residdtv\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXRelease/residdtv.pch" /Fo"libs\residdtv\DXRelease/" /Fd"libs\residdtv\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\extfilt.cc
+InputName=extfilt
+
+"libs\residdtv\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "_DEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXDebug/residdtv.pch" /Fo"libs\residdtv\DXDebug/" /Fd"libs\residdtv\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\extfilt.h
+SOURCE="..\..\resid-dtv\extfilt.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\filter.cc
+SOURCE="..\..\resid-dtv\filter.cc"
 
 !IF  "$(CFG)" == "residdtv - Win32 Release"
 
@@ -172,16 +266,38 @@ InputName=filter
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\filter.cc
+InputName=filter
+
+"libs\residdtv\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXRelease/residdtv.pch" /Fo"libs\residdtv\DXRelease/" /Fd"libs\residdtv\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\filter.cc
+InputName=filter
+
+"libs\residdtv\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "_DEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXDebug/residdtv.pch" /Fo"libs\residdtv\DXDebug/" /Fd"libs\residdtv\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\filter.h
+SOURCE="..\..\resid-dtv\filter.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\sid.cc
+SOURCE="..\..\resid-dtv\sid.cc"
 
 !IF  "$(CFG)" == "residdtv - Win32 Release"
 
@@ -205,20 +321,42 @@ InputName=sid
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\sid.cc
+InputName=sid
+
+"libs\residdtv\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXRelease/residdtv.pch" /Fo"libs\residdtv\DXRelease/" /Fd"libs\residdtv\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\sid.cc
+InputName=sid
+
+"libs\residdtv\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residdtv\DXDebug/residdtv.pch" /Fo"libs\residdtv\DXDebug/" /Fd"libs\residdtv\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\sid.h
+SOURCE="..\..\resid-dtv\sid.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\siddtvdefs.h
+SOURCE="..\..\resid-dtv\siddtvdefs.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\version.cc
+SOURCE="..\..\resid-dtv\version.cc"
 
 !IF  "$(CFG)" == "residdtv - Win32 Release"
 
@@ -242,12 +380,34 @@ InputName=version
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\version.cc
+InputName=version
+
+"libs\residdtv\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXRelease/residdtv.pch" /Fo"libs\residdtv\DXRelease/" /Fd"libs\residdtv\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\version.cc
+InputName=version
+
+"libs\residdtv\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residdtv\DXDebug/residdtv.pch" /Fo"libs\residdtv\DXDebug/" /Fd"libs\residdtv\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\voice.cc
+SOURCE="..\..\resid-dtv\voice.cc"
 
 !IF  "$(CFG)" == "residdtv - Win32 Release"
 
@@ -271,16 +431,38 @@ InputName=voice
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\voice.cc
+InputName=voice
+
+"libs\residdtv\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXRelease/residdtv.pch" /Fo"libs\residdtv\DXRelease/" /Fd"libs\residdtv\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\voice.cc
+InputName=voice
+
+"libs\residdtv\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residdtv\DXDebug/residdtv.pch" /Fo"libs\residdtv\DXDebug/" /Fd"libs\residdtv\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\voice.h
+SOURCE="..\..\resid-dtv\voice.h"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\wave.cc
+SOURCE="..\..\resid-dtv\wave.cc"
 
 !IF  "$(CFG)" == "residdtv - Win32 Release"
 
@@ -304,12 +486,34 @@ InputName=wave
 
 # End Custom Build
 
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Release"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\wave.cc
+InputName=wave
+
+"libs\residdtv\DXRelease/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MT /W3 /EHsc /I ".\msvc" /D "NDEBUG" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /Fp"libs\residdtv\DXRelease/residdtv.pch" /Fo"libs\residdtv\DXRelease/" /Fd"libs\residdtv\DXRelease/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
+!ELSEIF  "$(CFG)" == "residdtv - Win32 DX Debug"
+
+# Begin Custom Build
+InputPath=..\..\resid-dtv\wave.cc
+InputName=wave
+
+"libs\residdtv\DXDebug/$(InputName).obj" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
+	cl /nologo /MTd /W3 /EHsc /Z7 /Od /I ".\msvc" /D "WIN32" /D "IDE_COMPILE" /D "_WINDOWS" /D PACKAGE=\"residdtv\" /D VERSION=\"0.7\" /D SIZEOF_INT=4 /D "_DEBUG" /Fp"libs\residdtv\DXDebug/residdtv.pch" /Fo"libs\residdtv\DXDebug/" /Fd"libs\residdtv\DXDebug/" /FD /TP /c "$(InputPath)"
+
+# End Custom Build
+
 !ENDIF 
 
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\resid-dtv\wave.h
+SOURCE="..\..\resid-dtv\wave.h"
 # End Source File
 # End Target
 # End Project
