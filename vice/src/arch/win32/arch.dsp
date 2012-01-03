@@ -353,6 +353,10 @@ SOURCE=.\uic64dtv.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uic64dtvmodel.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uicart.c
 # End Source File
 # Begin Source File

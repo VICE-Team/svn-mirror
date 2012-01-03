@@ -1,5 +1,5 @@
 /*
- * c64ui.c - C64-specific user interface.
+ * c64dtvui.c - C64DTV-specific user interface.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
@@ -39,6 +39,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uic64dtv.h"
+#include "uic64dtvmodel.h"
 #include "uidrivec64.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
@@ -240,6 +241,7 @@ ui_menu_translation_table_t c64dtvui_menu_translation_table[] = {
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_MOUSE, IDS_MI_MOUSE },
+    { IDM_C64DTVMODEL_SETTINGS, IDS_MI_C64DTVMODEL_SETTINGS },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
@@ -404,6 +406,9 @@ static generic_trans_table_t c64dtv_generic_res_trans[] = {
 static void c64dtv_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
+        case IDM_C64DTVMODEL_SETTINGS:
+            ui_c64dtvmodel_settings_dialog(hwnd);
+            break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog(hwnd);
             break;

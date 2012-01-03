@@ -181,6 +181,7 @@ BEGIN
     END
     POPUP "Settings"
     BEGIN
+        MENUITEM "", IDM_C64DTVMODEL_SETTINGS
         MENUITEM "", IDM_AUTOSTART_SETTINGS
         MENUITEM "", IDM_VIDEO_SETTINGS
         MENUITEM "", IDM_DEVICEMANAGER
@@ -232,6 +233,26 @@ BEGIN
         MENUITEM "", IDM_LICENSE
         MENUITEM "", IDM_WARRANTY
     END
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_C64DTVMODEL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 150, 80
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION ""
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT         "", IDC_C64DTVMODEL_LABEL,
+                  4, 12, 60, 8
+    COMBOBOX      IDC_C64DTVMODEL_LIST,
+                  45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    20, 60, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    80, 60, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -478,13 +499,16 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to C64DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
-  IDS_DTV_REVISION_LABEL          "DTV revision"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
+  IDS_JOYSTICK                    "Joystick"
+  IDS_C64DTVMODEL                 "C64DTV model"
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
   IDS_MI_DETACH_DTV_FLASH         "Detach flash rom image"
@@ -492,7 +516,6 @@ BEGIN
   IDS_MI_FLASH_TRUE_FILESYSTEM    "True flash filesystem"
   IDS_MI_PS2MOUSE                 "PS/2 mouse on Userport"
   IDS_MI_C64DTV_SETTINGS          "C64DTV settings..."
-  IDS_JOYSTICK                    "Joystick"
 END
 
 
@@ -506,12 +529,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-imagefil"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Tillad skrivning til DTV-ROM-image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-indstillinger"
-  IDS_DTV_REVISION_LABEL          "DTV-revision"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Aktivér Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Opret DTV-flashimage"
   IDS_DTV_ROM_CREATION            "DTV-ROM oprettelse"
   IDS_C64DTV_ROM_COPY_C64         "Kopiér C64-ROM'mer til image"
   IDS_CREATE                      "Opret"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM-imagefil"
   IDS_MI_AUTOSTART_DISK           "Autostart disk-image..."
   IDS_MI_ATTACH_DTV_FLASH         "Tilslut flash-rom-image"
@@ -534,12 +559,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM Image Name"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Erlaube Schreibzugriff auf DTV ROM Datei"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Einstellungen"
-  IDS_DTV_REVISION_LABEL          "DTV Revision"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Hummer ADC Aktivieren"
   IDS_CREATE_FLASH_CAPTION        "DTV Image Datei erzeugen"
   IDS_DTV_ROM_CREATION            "DTV ROM Erzeugung"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROMS auf Image kopieren"
   IDS_CREATE                      "Erzeugen"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM Image Name"
   IDS_MI_AUTOSTART_DISK           "Autostart Disk Image..."
   IDS_MI_ATTACH_DTV_FLASH         "Flash ROM Image einlegen"
@@ -562,12 +589,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "Fichero imagen DTV ROM"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Permitir escritura en la imagen C64DTV ROM"
   IDS_C64DTV_SETTINGS_CAPTION     "Ajustes C64DTV"
-  IDS_DTV_REVISION_LABEL          "Revisión DTV"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Permitir Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Crear Imagen DTV Flash"
   IDS_DTV_ROM_CREATION            "Creación DTV ROM"
   IDS_C64DTV_ROM_COPY_C64         "Copiar C64 ROMS en imagen"
   IDS_CREATE                      "Crear"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Fichero imagen DTV ROM"
   IDS_MI_AUTOSTART_DISK           "Autoarranque de imagen de disco..."
   IDS_MI_ATTACH_DTV_FLASH         "Insertar imagen rom flash"
@@ -589,13 +618,14 @@ BEGIN
   IDS_DTV_ROM                     "DTV ROM"
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to C64DTV ROM image"
-  IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
   IDS_DTV_REVISION_LABEL          "DTV revision"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_AUTOSTART_DISK           "Démarrer automatiquement une image de disque..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
@@ -621,12 +651,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to C64DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
-  IDS_DTV_REVISION_LABEL          "DTV revision"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Hummer ADC engedélyezése"
   IDS_CREATE_FLASH_CAPTION        "DTV Flash képmás létrehozása"
   IDS_DTV_ROM_CREATION            "DTV ROM létrehozás"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROM-ok másolása a képmásba"
   IDS_CREATE                      "Létrehozás"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_AUTOSTART_DISK           "Lemezképmás automatikus indítása..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
@@ -652,12 +684,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "File immagine ROM DTV"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Attiva scrittura su immagini ROM C64DTV"
   IDS_C64DTV_SETTINGS_CAPTION     "Impostazioni C64DTV"
-  IDS_DTV_REVISION_LABEL          "Revisione DTV"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Attiva Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Crea immagine memoria flash DTV"
   IDS_DTV_ROM_CREATION            "Creazione ROM DTV"
   IDS_C64DTV_ROM_COPY_C64         "Copia ROM C64 in un'immagine"
   IDS_CREATE                      "Crea"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "File immagine ROM DTV"
   IDS_MI_AUTOSTART_DISK           "Avvia automaticamente immagine disco..."
   IDS_MI_ATTACH_DTV_FLASH         "Seleziona immagine flash rom"
@@ -683,12 +717,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "C64DTV ROM ÀÌ¹ÌÁö¿¡ ¾²±â °¡´ÉÇÏ°Ô ÇÏ±â"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
-  IDS_DTV_REVISION_LABEL          "DTV ¼öÁ¤"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "»ý¼º"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_AUTOSTART_DISK           "ÀÚµ¿ ½ÃÀÛ µð½ºÅ© ÀÌ¹ÌÁö..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
@@ -714,12 +750,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM bestand"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Aktiveer schrijven naar DTV ROM bestand"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Instellingen"
-  IDS_DTV_REVISION_LABEL          "DTV revisie"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Activeer Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Maak DTV Flash Bestand"
   IDS_DTV_ROM_CREATION            "Maak DTV Flash Bestand"
   IDS_C64DTV_ROM_COPY_C64         "Kopieer C64 ROMS naar bestand"
   IDS_CREATE                      "Maak"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM bestand"
   IDS_MI_AUTOSTART_DISK           "Autostart schijfbestand..."
   IDS_MI_ATTACH_DTV_FLASH         "Koppel flash rom bestand"
@@ -745,12 +783,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "Plik obrazu DTV ROM"
   IDS_C64DTV_ROM_WRITE_ENABLE     "W³±cz zapis do obrazu ROM C64DTV"
   IDS_C64DTV_SETTINGS_CAPTION     "Ustawienia C64DTV"
-  IDS_DTV_REVISION_LABEL          "Wersja DRV"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "W³±cz Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Utwórz obraz flash DTV"
   IDS_DTV_ROM_CREATION            "Tworzenie ROM-u DTV"
   IDS_C64DTV_ROM_COPY_C64         "Kopiuj ROM-y C64 do obrazu"
   IDS_CREATE                      "Utwórz"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "Plik obrazu DTV ROM"
   IDS_MI_AUTOSTART_DISK           "Automatycznie startuj z obrazu dyskietki..."
   IDS_MI_ATTACH_DTV_FLASH         "Zamontuj obraz flash rom"
@@ -779,12 +819,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM image File"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Enable writes to C64DTV ROM image"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV settings"
-  IDS_DTV_REVISION_LABEL          "DTV revision"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Enable Hummer ADC"
   IDS_CREATE_FLASH_CAPTION        "Create DTV Flash Image"
   IDS_DTV_ROM_CREATION            "DTV ROM Creation"
   IDS_C64DTV_ROM_COPY_C64         "Copy C64 ROMS into image"
   IDS_CREATE                      "Create"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM image File"
   IDS_MI_AUTOSTART_DISK           "Autostart disk image..."
   IDS_MI_ATTACH_DTV_FLASH         "Attach flash rom image"
@@ -810,12 +852,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM-avbildningsfil"
   IDS_C64DTV_ROM_WRITE_ENABLE     "Aktivera skrivning till C64DTV-ROM-avbildning"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV-inställningar"
-  IDS_DTV_REVISION_LABEL          "DTV-utgåva"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Aktivera Hummer-A/D-omvandlare"
   IDS_CREATE_FLASH_CAPTION        "Skapa DTV-flashavbildning"
   IDS_DTV_ROM_CREATION            "Skapa DTV-ROM"
   IDS_C64DTV_ROM_COPY_C64         "Kopiera C64-ROM:ar till avbild"
   IDS_CREATE                      "Skapa"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM-avbildningsfil"
   IDS_MI_AUTOSTART_DISK           "Autostarta diskettavbildning..."
   IDS_MI_ATTACH_DTV_FLASH         "Anslut flash-rom-avbildningsfil"
@@ -841,12 +885,14 @@ BEGIN
   IDS_C64DTV_ROM_IMAGE_FILE_LABEL "DTV ROM imaj Dosyasý"
   IDS_C64DTV_ROM_WRITE_ENABLE     "C64DTV ROM imajýnda yazmalarý aktif et"
   IDS_C64DTV_SETTINGS_CAPTION     "C64DTV Ayarlarý"
-  IDS_DTV_REVISION_LABEL          "DTV revizyonu"
+  IDS_DTV_REVISION_LABEL          "C64DTV model"
   IDS_ENABLE_HUMMER_ADC           "Hummer ADC'yi aktif et"
   IDS_CREATE_FLASH_CAPTION        "DTV Flash Imajý Oluþtur"
   IDS_DTV_ROM_CREATION            "DTV ROM Yaratma"
   IDS_C64DTV_ROM_COPY_C64         "C64 ROMlarýný imaja kopyala"
   IDS_CREATE                      "Yarat"
+  IDS_C64DTVMODEL                 "C64DTV model"
+  IDS_MI_C64DTVMODEL_SETTINGS     "C64DTV model settings..."
   IDS_MP_DTV_FLASH_ROM_IMAGE      "DTV ROM imaj Dosyasý"
   IDS_MI_AUTOSTART_DISK           "Disk imajýný otomatik baþlat..."
   IDS_MI_ATTACH_DTV_FLASH         "Flash rom imajý yerleþtir"
@@ -860,5 +906,3 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
