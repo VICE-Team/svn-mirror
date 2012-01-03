@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-02 21:56+0200\n"
+"PO-Revision-Date: 2012-01-03 22:15+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -5687,154 +5687,154 @@ msgstr "Name of MIDI-Out Port"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:76
 msgid "Set scaling factor for mouse movement along X"
-msgstr ""
+msgstr "Set scaling factor for mouse movement along X"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:81
 msgid "Set scaling factor for mouse movement along Y"
-msgstr ""
+msgstr "Set scaling factor for mouse movement along Y"
 
 #: src/arch/unix/macosx/cocoa/video.m:152
 msgid "Enable draw synchronization to vertical blank"
-msgstr ""
+msgstr "Enable draw synchronization to vertical blank"
 
 #: src/arch/unix/macosx/cocoa/video.m:157
 msgid "Set number of buffers used for sync draw (0=use default)"
-msgstr ""
+msgstr "Set number of buffers used for sync draw (0=use default)"
 
 #: src/arch/unix/macosx/cocoa/video.m:162
 #: src/arch/unix/macosx/cocoa/video.m:167
 msgid "Enable flicker fixing in sync draw"
-msgstr ""
+msgstr "Enable flicker fixing in sync draw"
 
 #: src/arch/win32/res.rc.po.c:104
 #: src/arch/win32/res.rc.po.c:1393
 msgid "View"
-msgstr ""
+msgstr "Вид"
 
 #: src/arch/win32/res.rc.po.c:120
 #: src/arch/win32/res.rc.po.c:1394
 msgid "Window"
-msgstr ""
+msgstr "Окно"
 
 #: src/arch/win32/res.rc.po.c:178
 #: src/arch/win32/res.rc.po.c:735
 #: src/arch/win32/res.rc.po.c:1167
 #: src/arch/amigaos/intl_text.c.po.c:3521
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/arch/win32/res.rc.po.c:179
 msgid "VICE"
-msgstr ""
+msgstr "VICE"
 
 #: src/arch/win32/res.rc.po.c:180
 msgid "Versatile Commodore Emulator"
-msgstr ""
+msgstr "Versatile Commodore Emulator"
 
 #: src/arch/win32/res.rc.po.c:181
 msgid "Version 0.0"
-msgstr ""
+msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
 msgid "Copyright (c) 1998-2011 Dag Lem"
-msgstr ""
+msgstr "Copyright (c) 1998-2011 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:183
 msgid "Copyright (c) 1999-2011 Andreas Matthies"
-msgstr ""
+msgstr "Copyright (c) 1999-2011 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:184
 msgid "Copyright (c) 1999-2011 Martin Pottendorfer"
-msgstr ""
+msgstr "Copyright (c) 1999-2011 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:185
 msgid "Copyright (c) 2000-2011 Spiro Trikaliotis"
-msgstr ""
+msgstr "Copyright (c) 2000-2011 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:186
 msgid "Copyright (c) 2005-2011 Marco van den Heuvel"
-msgstr ""
+msgstr "Copyright (c) 2005-2011 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:187
 msgid "Copyright (c) 2006-2011 Christian Vogelgsang"
-msgstr ""
+msgstr "Copyright (c) 2006-2011 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:188
 msgid "Copyright (c) 2007-2011 Fabrizio Gennari"
-msgstr ""
+msgstr "Copyright (c) 2007-2011 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:189
 msgid "Copyright (c) 2007-2011 Daniel Kahlin"
-msgstr ""
+msgstr "Copyright (c) 2007-2011 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:190
 msgid "Copyright (c) 2008-2011 Antti S. Lankila"
-msgstr ""
+msgstr "Copyright (c) 2008-2011 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:191
 msgid "Copyright (c) 2009-2011 Groepaz"
-msgstr ""
+msgstr "Copyright (c) 2009-2011 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:192
 msgid "Copyright (c) 2009-2011 Ingo Korb"
-msgstr ""
+msgstr "Copyright (c) 2009-2011 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:193
 msgid "Copyright (c) 2009-2011 Errol Smith"
-msgstr ""
+msgstr "Copyright (c) 2009-2011 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:194
 msgid "Copyright (c) 2010-2011 Olaf Seibert"
-msgstr ""
+msgstr "Copyright (c) 2010-2011 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:195
 msgid "Copyright (c) 2011      Marcus Sutton"
-msgstr ""
+msgstr "Copyright (c) 2011      Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:196
 msgid "Copyright (c) 2011      Ulrich Schulz"
-msgstr ""
+msgstr "Copyright (c) 2011      Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:197
 msgid "Copyright (c) 2011      Stefan Haubenthal"
-msgstr ""
+msgstr "Copyright (c) 2011      Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:198
 msgid "Copyright (c) 2011      Thomas Giesel"
-msgstr ""
+msgstr "Copyright (c) 2011      Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:199
 msgid "Copyright (c) 2011      Kajtar Zsolt"
-msgstr ""
+msgstr "Copyright (c) 2011      Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:963
 #: src/arch/amigaos/intl_text.c.po.c:4109
 msgid "VICE Question"
-msgstr ""
+msgstr "VICE Question"
 
 #: src/arch/win32/res.rc.po.c:964
 msgid "Your ffmpeg dll version doesn't match."
-msgstr ""
+msgstr "Your ffmpeg dll version doesn't match."
 
 #: src/arch/win32/res.rc.po.c:965
 #, c-format
 msgid "DirectDraw error: Code:%8x Error:%s"
-msgstr ""
+msgstr "DirectDraw error: Code:%8x Error:%s"
 
 #: src/arch/win32/res.rc.po.c:967
 #: src/arch/amigaos/intl_text.c.po.c:3605
 msgid "Cannot load settings."
-msgstr ""
+msgstr "Не удается загрузить настройки."
 
 #: src/arch/win32/res.rc.po.c:968
 #: src/arch/amigaos/intl_text.c.po.c:3493
 msgid "Default settings restored."
-msgstr ""
+msgstr "Настройки по умолчанию восстановлены"
 
 #: src/arch/win32/res.rc.po.c:969
 #: src/arch/amigaos/intl_text.c.po.c:3675
 msgid "Cannot attach specified file"
-msgstr ""
+msgstr "Не удается прикрепить указанный файл"
 
 #: src/arch/win32/res.rc.po.c:970
 #, c-format
@@ -5843,51 +5843,54 @@ msgid ""
 "\n"
 "Start monitor? (No will reset, cancel will continue)"
 msgstr ""
+"%s\n"
+"\n"
+"Start monitor? (No will reset, cancel will continue)"
 
 #: src/arch/win32/res.rc.po.c:971
 msgid "VICE CPU JAM"
-msgstr ""
+msgstr "VICE CPU JAM"
 
 #: src/arch/win32/res.rc.po.c:972
 #: src/arch/amigaos/intl_text.c.po.c:4123
 msgid "Extend image to 40-track format?"
-msgstr ""
+msgstr "Extend image to 40-track format?"
 
 #: src/arch/win32/res.rc.po.c:973
 #, c-format
 msgid "Detached device %s"
-msgstr ""
+msgstr "Отключенное устройство %s"
 
 #: src/arch/win32/res.rc.po.c:974
 #, c-format
 msgid "Attached %s to device#%s"
-msgstr ""
+msgstr "Подключено %s к устройству#%s"
 
 #: src/arch/win32/res.rc.po.c:975
 #: src/arch/amigaos/intl_text.c.po.c:4151
 msgid "Detached tape"
-msgstr ""
+msgstr "Detached tape"
 
 #: src/arch/win32/res.rc.po.c:976
 msgid "History recorded with unknown release"
-msgstr ""
+msgstr "History recorded with unknown release"
 
 #: src/arch/win32/res.rc.po.c:977
 #, c-format
 msgid "History recorded with VICE-%s"
-msgstr ""
+msgstr "History recorded with VICE-%s"
 
 #: src/arch/win32/res.rc.po.c:978
 msgid "paused"
-msgstr ""
+msgstr "остановлено"
 
 #: src/arch/win32/res.rc.po.c:979
 msgid "frame #"
-msgstr ""
+msgstr "frame #"
 
 #: src/arch/win32/res.rc.po.c:980
 msgid "resumed"
-msgstr ""
+msgstr "resumed"
 
 #: src/arch/win32/res.rc.po.c:981
 #: src/arch/amigaos/intl_text.c.po.c:4207
@@ -5896,6 +5899,9 @@ msgid ""
 "\n"
 "All the data present in the emulated RAM will be lost."
 msgstr ""
+"Do you really want to exit?\n"
+"\n"
+"All the data present in the emulated RAM will be lost."
 
 #: src/arch/win32/res.rc.po.c:982
 msgid ""
@@ -5907,315 +5913,322 @@ msgid ""
 "\n"
 "for possible reasons and to activate networking with VICE."
 msgstr ""
+"TFE/RR-Net support is not available on your system,\n"
+"there is some important part missing. Please have a\n"
+"look at the VICE knowledge base support page\n"
+"\n"
+"      http://vicekb.trikaliotis.net/13-005\n"
+"\n"
+"for possible reasons and to activate networking with VICE."
 
 #: src/arch/win32/res.rc.po.c:983
 msgid "TFE/RR-Net support"
-msgstr ""
+msgstr "TFE/RR-Net support"
 
 #: src/arch/win32/res.rc.po.c:984
 #: src/arch/amigaos/intl_text.c.po.c:3661
 msgid "Cannot autostart specified file."
-msgstr ""
+msgstr "Cannot autostart specified file."
 
 #: src/arch/win32/res.rc.po.c:985
 #: src/arch/amigaos/intl_text.c.po.c:4165
 #, c-format
 msgid "Attached tape %s"
-msgstr ""
+msgstr "Attached tape %s"
 
 #: src/arch/win32/res.rc.po.c:987
 #: src/arch/amigaos/intl_text.c.po.c:3479
 msgid "Settings loaded successfully."
-msgstr ""
+msgstr "Настройки успешно загружены."
 
 #: src/arch/win32/res.rc.po.c:990
 #: src/arch/win32/res.rc.po.c:1400
 #: src/arch/amigaos/intl_text.c.po.c:21
 #: src/arch/amigaos/intl_text.c.po.c:7596
 msgid "Autostart disk/tape image"
-msgstr ""
+msgstr "Автоматически запустить образ диска/кассеты"
 
 #: src/arch/win32/res.rc.po.c:992
 #: src/arch/amigaos/intl_text.c.po.c:3703
 msgid "Bad cartridge config in UI!"
-msgstr ""
+msgstr "Bad cartridge config in UI!"
 
 #: src/arch/win32/res.rc.po.c:994
 msgid "Logging console output image"
-msgstr ""
+msgstr "Logging console output image"
 
 #: src/arch/win32/res.rc.po.c:995
 msgid "VICE console logging files (*.dbg)"
-msgstr ""
+msgstr "VICE console logging files (*.dbg)"
 
 #: src/arch/win32/res.rc.po.c:996
 #, c-format
 msgid "Cannot write log file `%s'."
-msgstr ""
+msgstr "Cannot write log file `%s'."
 
 #: src/arch/win32/res.rc.po.c:998
 #: src/arch/amigaos/intl_text.c.po.c:8212
 msgid "Cannot read flip list file"
-msgstr ""
+msgstr "Cannot read flip list file"
 
 #: src/arch/win32/res.rc.po.c:1000
 #: src/arch/amigaos/intl_text.c.po.c:8240
 msgid "Cannot write flip list file"
-msgstr ""
+msgstr "Cannot write flip list file"
 
 #: src/arch/win32/res.rc.po.c:1001
 msgid "Select keymap file"
-msgstr ""
+msgstr "Select keymap file"
 
 #: src/arch/win32/res.rc.po.c:1002
 msgid "Save keymap file"
-msgstr ""
+msgstr "Save keymap file"
 
 #: src/arch/win32/res.rc.po.c:1003
 msgid "Cannot write keymap file"
-msgstr ""
+msgstr "Cannot write keymap file"
 
 #: src/arch/win32/res.rc.po.c:1004
 msgid "Save config file"
-msgstr ""
+msgstr "Save config file"
 
 #: src/arch/win32/res.rc.po.c:1005
 msgid "Load config file"
-msgstr ""
+msgstr "Load config file"
 
 #: src/arch/win32/res.rc.po.c:1006
 msgid "Mapping"
-msgstr ""
+msgstr "Mapping"
 
 #: src/arch/win32/res.rc.po.c:1008
 #: src/arch/amigaos/intl_text.c.po.c:4529
 msgid "Attach"
-msgstr ""
+msgstr "Attach"
 
 #: src/arch/win32/res.rc.po.c:1009
 msgid "Please enter a filename."
-msgstr ""
+msgstr "Пожалуйста введите имя файла."
 
 #: src/arch/win32/res.rc.po.c:1010
 #: src/arch/amigaos/intl_text.c.po.c:4627
 msgid "Overwrite existing image?"
-msgstr ""
+msgstr "Переписать имеющийся образ?"
 
 #: src/arch/win32/res.rc.po.c:1011
 #: src/arch/amigaos/intl_text.c.po.c:3731
 #: src/translate_text.c.po.c:42
 msgid "Cannot create image file!"
-msgstr ""
+msgstr "Не удается создать файл образа!"
 
 #: src/arch/win32/res.rc.po.c:1012
 #: src/arch/win32/res.rc.po.c:1547
 #: src/arch/amigaos/intl_text.c.po.c:3087
 msgid "Command line options"
-msgstr ""
+msgstr "Опции командной строки"
 
 #: src/arch/win32/res.rc.po.c:1013
 #: src/arch/amigaos/intl_text.c.po.c:3577
 msgid "Which command line options are available?"
-msgstr ""
+msgstr "Какие опции командной строки есть в наличии?"
 
 #: src/arch/win32/res.rc.po.c:1014
 msgid "No driver selected or selected driver not supported"
-msgstr ""
+msgstr "Драйвер не выбран или выбранный драйвер не поддерживается"
 
 #: src/arch/win32/res.rc.po.c:1015
 #, c-format
 msgid "Cannot write screenshot file `%s'."
-msgstr ""
+msgstr "Cannot write screenshot file `%s'."
 
 #: src/arch/win32/res.rc.po.c:1016
 #: src/arch/win32/resc64dtv.rc.po.c:446
 msgid "Autostart disk image"
-msgstr ""
+msgstr "Autostart disk image"
 
 #: src/arch/win32/res.rc.po.c:1017
 msgid "Select file system directory"
-msgstr ""
+msgstr "Select file system directory"
 
 #: src/arch/win32/res.rc.po.c:1018
 msgid "Printer Userport"
-msgstr ""
+msgstr "Printer Userport"
 
 #: src/arch/win32/res.rc.po.c:1019
 msgid "Printer 4"
-msgstr ""
+msgstr "Принтер 4"
 
 #: src/arch/win32/res.rc.po.c:1020
 msgid "Printer 5"
-msgstr ""
+msgstr "Принтер 5"
 
 #: src/arch/win32/res.rc.po.c:1021
 #: src/arch/win32/res.rc.po.c:1403
 #: src/arch/win32/res.rc.po.c:1571
 #: src/arch/amigaos/intl_text.c.po.c:49
 msgid "Drive 8"
-msgstr ""
+msgstr "Устройство 8"
 
 #: src/arch/win32/res.rc.po.c:1022
 #: src/arch/win32/res.rc.po.c:1404
 #: src/arch/win32/res.rc.po.c:1572
 #: src/arch/amigaos/intl_text.c.po.c:63
 msgid "Drive 9"
-msgstr ""
+msgstr "Устройство 9"
 
 #: src/arch/win32/res.rc.po.c:1023
 #: src/arch/win32/res.rc.po.c:1405
 #: src/arch/amigaos/intl_text.c.po.c:77
 msgid "Drive 10"
-msgstr ""
+msgstr "Устройство 10"
 
 #: src/arch/win32/res.rc.po.c:1024
 #: src/arch/win32/res.rc.po.c:1406
 #: src/arch/amigaos/intl_text.c.po.c:91
 msgid "Drive 11"
-msgstr ""
+msgstr "Устройство 11"
 
 #: src/arch/win32/res.rc.po.c:1026
 msgid "Can't write snapshot file."
-msgstr ""
+msgstr "Can't write snapshot file."
 
 #: src/arch/win32/res.rc.po.c:1027
 #: src/arch/amigaos/intl_text.c.po.c:8408
 msgid "Cannot read snapshot image"
-msgstr ""
+msgstr "Не удается прочитать образ снепшота"
 
 #: src/arch/win32/res.rc.po.c:1028
 #, c-format
 msgid "Load %s ROM image"
-msgstr ""
+msgstr "Загрузить %s ROM образ"
 
 #: src/arch/win32/res.rc.po.c:1029
 msgid "Select romset archive"
-msgstr ""
+msgstr "Select romset archive"
 
 #: src/arch/win32/res.rc.po.c:1030
 msgid "Cannot load romset archive!"
-msgstr ""
+msgstr "Cannot load romset archive!"
 
 #: src/arch/win32/res.rc.po.c:1031
 msgid "Cannot save romset archive!"
-msgstr ""
+msgstr "Cannot save romset archive!"
 
 #: src/arch/win32/res.rc.po.c:1032
 msgid "Cannot load romset file!"
-msgstr ""
+msgstr "Cannot load romset file!"
 
 #: src/arch/win32/res.rc.po.c:1033
 msgid "Cannot save romset file!"
-msgstr ""
+msgstr "Cannot save romset file!"
 
 #: src/arch/win32/res.rc.po.c:1034
 msgid "Select romset file"
-msgstr ""
+msgstr "Select romset file"
 
 #: src/arch/win32/res.rc.po.c:1035
 msgid "Romset"
-msgstr ""
+msgstr "Romset"
 
 #: src/arch/win32/res.rc.po.c:1036
 #: src/arch/win32/res.rc.po.c:1570
 msgid "Computer"
-msgstr ""
+msgstr "Компьютер"
 
 #: src/arch/win32/res.rc.po.c:1037
 msgid "Drive"
-msgstr ""
+msgstr "Устройство"
 
 #: src/arch/win32/res.rc.po.c:1040
 #: src/arch/amigaos/intl_text.c.po.c:8394
 #, c-format
 msgid "Cannot write snapshot file `%s'."
-msgstr ""
+msgstr "Cannot write snapshot file `%s'."
 
 #: src/arch/win32/res.rc.po.c:1042
 msgid "Could not load palette file."
-msgstr ""
+msgstr "Не удается загрузить файл палитры."
 
 #: src/arch/win32/res.rc.po.c:1043
 msgid "Load VICE palette file"
-msgstr ""
+msgstr "Load VICE palette file"
 
 #: src/arch/win32/res.rc.po.c:1044
 msgid "Fullscreen/DirectX"
-msgstr ""
+msgstr "Fullscreen/DirectX"
 
 #: src/arch/win32/res.rc.po.c:1048
 #: src/arch/win32/res.rc.po.c:1492
 #: src/arch/amigaos/intl_text.c.po.c:2107
 #: src/arch/amigaos/intl_text.c.po.c:8772
 msgid "Video settings"
-msgstr ""
+msgstr "Настройки видео"
 
 #: src/arch/win32/res.rc.po.c:1049
 msgid "File system"
-msgstr ""
+msgstr "Файловая система"
 
 #: src/arch/win32/res.rc.po.c:1051
 #: src/arch/win32/res.rc.po.c:1184
 msgid "Real IEC device"
-msgstr ""
+msgstr "Real IEC device"
 
 #: src/arch/win32/res.rc.po.c:1053
 #, c-format
 msgid "RS232 device %i"
-msgstr ""
+msgstr "RS232 device %i"
 
 #: src/arch/win32/res.rc.po.c:1054
 #: src/arch/amigaos/intl_text.c.po.c:4221
 #: src/translate_text.c.po.c:5519
 msgid "Attach CRT cartridge image"
-msgstr ""
+msgstr "Attach CRT cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1057
 #: src/arch/amigaos/intl_text.c.po.c:4263
 #: src/translate_text.c.po.c:5655
 msgid "Attach raw 32KB Action Replay cartridge image"
-msgstr ""
+msgstr "Attach raw 32KB Action Replay cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1058
 #: src/arch/amigaos/intl_text.c.po.c:4277
 #: src/translate_text.c.po.c:5638
 msgid "Attach raw 16KB Action Replay MK3 cartridge image"
-msgstr ""
+msgstr "Attach raw 16KB Action Replay MK3 cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1059
 #: src/arch/amigaos/intl_text.c.po.c:4291
 #: src/translate_text.c.po.c:5604
 msgid "Attach raw 32KB Action Replay MK4 cartridge image"
-msgstr ""
+msgstr "Attach raw 32KB Action Replay MK4 cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1060
 #: src/arch/amigaos/intl_text.c.po.c:4305
 #: src/translate_text.c.po.c:5587
 msgid "Attach raw 16KB Stardos cartridge image"
-msgstr ""
+msgstr "Attach raw 16KB Stardos cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1063
 #: src/arch/amigaos/intl_text.c.po.c:4347
 #: src/translate_text.c.po.c:6097
 msgid "Attach IEEE-488 Interface cartridge image"
-msgstr ""
+msgstr "Attach IEEE-488 Interface cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1067
 #: src/arch/amigaos/intl_text.c.po.c:4389
 #: src/translate_text.c.po.c:6063
 msgid "Attach raw 32KB Super Snapshot V4 cartridge image"
-msgstr ""
+msgstr "Attach raw 32KB Super Snapshot V4 cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1069
 #: src/arch/amigaos/intl_text.c.po.c:4417
 #: src/translate_text.c.po.c:12228
 msgid "Attach raw Structured Basic cartridge image"
-msgstr ""
+msgstr "Attach raw Structured Basic cartridge image"
 
 #: src/arch/win32/res.rc.po.c:1070
 #: src/arch/amigaos/intl_text.c.po.c:8100
 msgid "Select cartridge file"
-msgstr ""
+msgstr "Выберите файл картриджа"
 
 #: src/arch/win32/res.rc.po.c:1073
 #: src/arch/amigaos/intl_text.c.po.c:4179
