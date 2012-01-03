@@ -102,14 +102,6 @@ static void init_c64dtvmodel_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"DTV3 NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Hummer NTSC");
     res_value = dtvmodel_get();
-
-    /* Unknown model, pal hummer, which can be selected by
-       enabling the hummer userport dac when in dtv3-pal mode,
-       but not from the model selection (??) */
-    if (res_value == 99) {
-        res_value = 0;
-    }
-
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
