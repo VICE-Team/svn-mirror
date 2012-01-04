@@ -15257,7 +15257,7 @@ Copyright @copyright{} 2011-2012 Stefan Haubenthal
 @item
 Copyright @copyright{} 2011-2012 Thomas Giesel
 @item
-Copyright @copyright{} 2011-2012 Kajtar Zsolt <soci@c64.rulez.org>
+Copyright @copyright{} 2011-2012 Kajtar Zsolt <soci@@c64.rulez.org>
 
 @item
 Copyright @copyright{} 1998-2010 Tibor Biczo
