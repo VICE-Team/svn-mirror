@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-03 22:15+0200\n"
+"PO-Revision-Date: 2012-01-04 23:47+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -6233,201 +6233,201 @@ msgstr "Выберите файл картриджа"
 #: src/arch/win32/res.rc.po.c:1073
 #: src/arch/amigaos/intl_text.c.po.c:4179
 msgid "Select start snapshot for event history"
-msgstr ""
+msgstr "Select start snapshot for event history"
 
 #: src/arch/win32/res.rc.po.c:1074
 #: src/arch/amigaos/intl_text.c.po.c:4193
 msgid "Select end snapshot for event history"
-msgstr ""
+msgstr "Select end snapshot for event history"
 
 #: src/arch/win32/res.rc.po.c:1076
 #, c-format
 msgid "Version %s *UNSTABLE* (%s)"
-msgstr ""
+msgstr "Version %s *UNSTABLE* (%s)"
 
 #: src/arch/win32/res.rc.po.c:1078
 #, c-format
 msgid "Version %s (%s)"
-msgstr ""
+msgstr "Version %s (%s)"
 
 #: src/arch/win32/res.rc.po.c:1080
 #: src/arch/amigaos/intl_text.c.po.c:3535
 msgid "VICE contributors"
-msgstr ""
+msgstr "VICE contributors"
 
 #: src/arch/win32/res.rc.po.c:1081
 #: src/arch/amigaos/intl_text.c.po.c:3549
 msgid "Who made what?"
-msgstr ""
+msgstr "Who made what?"
 
 #: src/arch/win32/res.rc.po.c:1084
 #: src/arch/amigaos/intl_text.c.po.c:3563
 msgid "VICE is distributed WITHOUT ANY WARRANTY!"
-msgstr ""
+msgstr "VICE распространяется БЕЗ ГАРАНТИИ!"
 
 #: src/arch/win32/res.rc.po.c:1085
 msgid "Press key for NorthWest"
-msgstr ""
+msgstr "Press key for NorthWest"
 
 #: src/arch/win32/res.rc.po.c:1086
 msgid "Press key for North"
-msgstr ""
+msgstr "Press key for North"
 
 #: src/arch/win32/res.rc.po.c:1087
 msgid "Press key for NorthEast"
-msgstr ""
+msgstr "Press key for NorthEast"
 
 #: src/arch/win32/res.rc.po.c:1088
 msgid "Press key for East"
-msgstr ""
+msgstr "Press key for East"
 
 #: src/arch/win32/res.rc.po.c:1089
 msgid "Press key for SouthEast"
-msgstr ""
+msgstr "Press key for SouthEast"
 
 #: src/arch/win32/res.rc.po.c:1090
 msgid "Press key for South"
-msgstr ""
+msgstr "Press key for South"
 
 #: src/arch/win32/res.rc.po.c:1091
 msgid "Press key for SouthWest"
-msgstr ""
+msgstr "Press key for SouthWest"
 
 #: src/arch/win32/res.rc.po.c:1092
 msgid "Press key for West"
-msgstr ""
+msgstr "Press key for West"
 
 #: src/arch/win32/res.rc.po.c:1093
 msgid "Press key for Fire"
-msgstr ""
+msgstr "Press key for Fire"
 
 #: src/arch/win32/res.rc.po.c:1094
 msgid "No userport joy adapter"
-msgstr ""
+msgstr "No userport joy adapter"
 
 #: src/arch/win32/res.rc.po.c:1100
 #: src/translate_text.c.po.c:12757
 msgid "Disable SID cartridge joystick"
-msgstr ""
+msgstr "Disable SID cartridge joystick"
 
 #: src/arch/win32/res.rc.po.c:1101
 #: src/translate_text.c.po.c:12740
 msgid "Enable SID cartridge joystick"
-msgstr ""
+msgstr "Enable SID cartridge joystick"
 
 #: src/arch/win32/res.rc.po.c:1102
 msgid "Numpad + RCtrl"
-msgstr ""
+msgstr "Numpad + RCtrl"
 
 #: src/arch/win32/res.rc.po.c:1105
 msgid "All buttons used as fire"
-msgstr ""
+msgstr "All buttons used as fire"
 
 #: src/arch/win32/res.rc.po.c:1106
 msgid "numeric (see above)"
-msgstr ""
+msgstr "numeric (see above)"
 
 #: src/arch/win32/res.rc.po.c:1107
 msgid "No button - Autofire disabled"
-msgstr ""
+msgstr "No button - Autofire disabled"
 
 #: src/arch/win32/res.rc.po.c:1108
 msgid "All files (*.*)"
-msgstr ""
+msgstr "все файлы (*.*)"
 
 #: src/arch/win32/res.rc.po.c:1109
 msgid "VICE palette files (*.vpl)"
-msgstr ""
+msgstr "VICE palette files (*.vpl)"
 
 #: src/arch/win32/res.rc.po.c:1110
 msgid "VICE snapshot files (*.vsf)"
-msgstr ""
+msgstr "VICE snapshot files (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1111
 msgid "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
-msgstr ""
+msgstr "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1112
 msgid "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
-msgstr ""
+msgstr "Файлы образа диска (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1113
 msgid "Tape image files (*.t64;*.tap)"
-msgstr ""
+msgstr "Файлы образа кассеты (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:1114
 msgid "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
-msgstr ""
+msgstr "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
 
 #: src/arch/win32/res.rc.po.c:1115
 msgid "CRT cartridge image files (*.crt)"
-msgstr ""
+msgstr "CRT cartridge image files (*.crt)"
 
 #: src/arch/win32/res.rc.po.c:1116
 msgid "Raw cartridge image files (*.bin)"
-msgstr ""
+msgstr "Raw cartridge image files (*.bin)"
 
 #: src/arch/win32/res.rc.po.c:1117
 msgid "VICE flip list files (*.vfl)"
-msgstr ""
+msgstr "VICE flip list files (*.vfl)"
 
 #: src/arch/win32/res.rc.po.c:1118
 msgid "VICE romset files (*.vrs)"
-msgstr ""
+msgstr "VICE romset files (*.vrs)"
 
 #: src/arch/win32/res.rc.po.c:1119
 msgid "VICE romset archives (*.vra)"
-msgstr ""
+msgstr "VICE romset archives (*.vra)"
 
 #: src/arch/win32/res.rc.po.c:1120
 msgid "VICE keymap files (*.vkm)"
-msgstr ""
+msgstr "VICE keymap files (*.vkm)"
 
 #: src/arch/win32/res.rc.po.c:1121
 msgid "Commodore emulator files (*.prg;*.p00)"
-msgstr ""
+msgstr "Commodore emulator files (*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1125
 msgid "Sound driver: DirectX"
-msgstr ""
+msgstr "Sound driver: DirectX"
 
 #: src/arch/win32/res.rc.po.c:1126
 msgid "Sound driver: WMM"
-msgstr ""
+msgstr "Sound driver: WMM"
 
 #: src/arch/win32/res.rc.po.c:1127
 msgid "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
-msgstr ""
+msgstr "Медиа файлы (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
 
 #: src/arch/win32/res.rc.po.c:1128
 msgid " kB"
-msgstr ""
+msgstr "кБ"
 
 #: src/arch/win32/res.rc.po.c:1129
 #: src/arch/win32/res.rc.po.c:1199
 msgid "Configure Keyset A"
-msgstr ""
+msgstr "Указать набор клавиш А"
 
 #: src/arch/win32/res.rc.po.c:1130
 #: src/arch/win32/res.rc.po.c:1200
 msgid "Configure Keyset B"
-msgstr ""
+msgstr "Указать набор клавиш В"
 
 #: src/arch/win32/res.rc.po.c:1132
 #: src/arch/amigaos/intl_text.c.po.c:4515
 #, c-format
 msgid "%s at %d%% speed, %d fps%s"
-msgstr ""
+msgstr "%s at %d%% speed, %d fps%s"
 
 #: src/arch/win32/res.rc.po.c:1133
 msgid "Tape"
-msgstr ""
+msgstr "Кассета"
 
 #: src/arch/win32/res.rc.po.c:1134
 #: src/arch/win32/resc64dtv.rc.po.c:453
 #: src/arch/amigaos/intl_text.c.po.c:4795
 msgid "Joystick"
-msgstr ""
+msgstr "Джойстик"
 
 #: src/arch/win32/res.rc.po.c:1135
 #, c-format
@@ -6435,6 +6435,8 @@ msgid ""
 "Recording\n"
 "%02d:%02d"
 msgstr ""
+"Запись\n"
+"%02d:%02d"
 
 #: src/arch/win32/res.rc.po.c:1136
 #, c-format
@@ -6442,36 +6444,38 @@ msgid ""
 "Playback\n"
 "%02d:%02d (%02d:%02d)"
 msgstr ""
+"Воспроизведение\n"
+"%02d:%02d (%02d:%02d)"
 
 #: src/arch/win32/res.rc.po.c:1138
 #: src/translate_text.c.po.c:1319
 #: src/translate_text.c.po.c:3728
 msgid "number"
-msgstr ""
+msgstr "number"
 
 #: src/arch/win32/res.rc.po.c:1139
 msgid "Set input device for joystick #1"
-msgstr ""
+msgstr "Set input device for joystick #1"
 
 #: src/arch/win32/res.rc.po.c:1140
 msgid "Set input device for joystick #2"
-msgstr ""
+msgstr "Установить устройство ввода для джойстика 2"
 
 #: src/arch/win32/res.rc.po.c:1141
 msgid "Set input device for extra joystick #1"
-msgstr ""
+msgstr "Установить устройство ввода для дополнительного джойстика 1"
 
 #: src/arch/win32/res.rc.po.c:1142
 msgid "Set input device for extra joystick #2"
-msgstr ""
+msgstr "Установить устройство ввода для дополнительного джойстика 2"
 
 #: src/arch/win32/res.rc.po.c:1145
 msgid "Confirm quitting VICE"
-msgstr ""
+msgstr "Подтвердить закрытие VICE"
 
 #: src/arch/win32/res.rc.po.c:1146
 msgid "Never confirm quitting VICE"
-msgstr ""
+msgstr "Никогда не подтверждать закрытие VICE"
 
 #: src/arch/win32/res.rc.po.c:1147
 msgid "Use all CPU on SMP systems"
