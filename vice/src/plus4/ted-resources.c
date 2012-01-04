@@ -31,15 +31,39 @@
 #include "archdep.h"
 #include "fullscreen.h"
 #include "lib.h"
+#include "machine.h"
 #include "raster-resources.h"
 #include "resources.h"
 #include "ted-resources.h"
+#include "ted.h"
 #include "tedtypes.h"
 #include "video.h"
 
-
+ted_resources_t ted_resources = { 0 };
 static video_chip_cap_t video_chip_cap;
 
+static int set_border_mode(int val, void *param)
+{
+    int sync;
+
+    if (resources_get_int("MachineVideoStandard", &sync) < 0) {
+        sync = MACHINE_SYNC_PAL;
+    }
+
+    if (ted_resources.border_mode != val) {
+        ted_resources.border_mode = val;
+        machine_change_timing(sync ^ TED_BORDER_MODE(ted_resources.border_mode));
+    }
+   return 0;
+}
+
+static const resource_int_t resources_int[] =
+{
+    { "TEDBorderMode", TED_NORMAL_BORDERS, RES_EVENT_SAME, NULL,
+      &ted_resources.border_mode,
+      set_border_mode, NULL },
+    { NULL }
+};
 
 int ted_resources_init(void)
 {
@@ -65,9 +89,10 @@ int ted_resources_init(void)
 
     ted.video_chip_cap = &video_chip_cap;
 
-    if (raster_resources_chip_init("TED", &ted.raster, &video_chip_cap) < 0)
+    if (raster_resources_chip_init("TED", &ted.raster, &video_chip_cap) < 0) {
         return -1;
+    }
 
-    return 0;
+    return resources_register_int(resources_int);
 }
 

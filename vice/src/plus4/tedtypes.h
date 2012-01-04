@@ -33,33 +33,26 @@
 #include "types.h"
 
 /* Screen constants.  */
-/* Sizes */
-#define TED_PAL_SCREEN_HEIGHT           312
-#define TED_NTSC_SCREEN_HEIGHT          262
-
-#define TED_SCREEN_WIDTH                384
-
-/* FIXME don't need */
-#define TED_PAL_OFFSET                  48
-#define TED_NTSC_OFFSET                 0 /* FIXME */
-
-/* Sizes */
 #define TED_SCREEN_XPIX                 320
 #define TED_SCREEN_YPIX                 200
 #define TED_SCREEN_TEXTCOLS             40
 #define TED_SCREEN_TEXTLINES            25
-#define TED_SCREEN_PAL_BORDERWIDTH      32
-/* FIXME Not used */
-#define TED_SCREEN_PAL_BORDERHEIGHT     51
-#define TED_SCREEN_NTSC_BORDERWIDTH     32
-/* FIXME Not used */
-#define TED_SCREEN_NTSC_BORDERHEIGHT    27
 
-/* values in the coordinate system of the Raster object */
-        /* 0x113 in TED raster counter */
-#define TED_PAL_FIRST_DISPLAYED_LINE    19
-        /* 0x0FA in TED raster counter */
-#define TED_PAL_LAST_DISPLAYED_LINE     306
+/*
+#define TED_40COL_START_PIXEL           0x20
+#define TED_40COL_STOP_PIXEL            0x160
+#define TED_38COL_START_PIXEL           0x28
+#define TED_38COL_STOP_PIXEL            0x158
+*/
+
+#define TED_40COL_START_PIXEL ted.screen_leftborderwidth
+#define TED_40COL_STOP_PIXEL  (ted.screen_leftborderwidth + TED_SCREEN_XPIX)
+#define TED_38COL_START_PIXEL (ted.screen_leftborderwidth + 7)
+#define TED_38COL_STOP_PIXEL  (ted.screen_leftborderwidth + 311)
+
+/* FIXME don't need */
+#define TED_PAL_OFFSET                  48
+#define TED_NTSC_OFFSET                 0 /* FIXME */
 
 /* values in TED raster counter */
         /* 0x004 in TED raster counter */
@@ -73,29 +66,15 @@
 
 /* FIXME calculate NTSC values */
 /*
-#define TED_NTSC_FIRST_DISPLAYED_LINE   (0x20 - TED_NTSC_OFFSET)
-#define TED_NTSC_LAST_DISPLAYED_LINE    0x102
 #define TED_NTSC_25ROW_START_LINE       (0x33 - TED_NTSC_OFFSET)
 #define TED_NTSC_25ROW_STOP_LINE        (0xfb - TED_NTSC_OFFSET)
 #define TED_NTSC_24ROW_START_LINE       (0x37 - TED_NTSC_OFFSET)
 #define TED_NTSC_24ROW_STOP_LINE        (0xf7 - TED_NTSC_OFFSET)
 */
-#define TED_NTSC_FIRST_DISPLAYED_LINE   19
-#define TED_NTSC_LAST_DISPLAYED_LINE    260
 #define TED_NTSC_25ROW_START_LINE       4
 #define TED_NTSC_25ROW_STOP_LINE        0xcb
 #define TED_NTSC_24ROW_START_LINE       8
 #define TED_NTSC_24ROW_STOP_LINE        0xc7
-
-#define TED_40COL_START_PIXEL           0x20
-#define TED_40COL_STOP_PIXEL            0x160
-#define TED_38COL_START_PIXEL           0x28
-#define TED_38COL_STOP_PIXEL            0x158
-
-#define TED_SCREEN_PAL_NORMAL_WIDTH  (TED_SCREEN_PAL_BORDERWIDTH + TED_SCREEN_XPIX)
-#define TED_SCREEN_PAL_NORMAL_HEIGHT (TED_PAL_LAST_DISPLAYED_LINE - TED_PAL_FIRST_DISPLAYED_LINE)
-#define TED_SCREEN_NTSC_NORMAL_WIDTH  (TED_SCREEN_NTSC_BORDERWIDTH + TED_SCREEN_XPIX)
-#define TED_SCREEN_NTSC_NORMAL_HEIGHT (TED_NTSC_LAST_DISPLAYED_LINE - TED_NTSC_FIRST_DISPLAYED_LINE)
 
 /* TED raster counter values */
 #define TED_PAL_VSYNC_LINE              257
@@ -104,9 +83,6 @@
 /* FIXME add negated colors as well */
 #define TED_NUM_COLORS                  128
 
-/* for small displays */
-#define TED_TINY_FIRST_DISPLAYED_LINE   40
-#define TED_TINY_LAST_DISPLAYED_LINE    279
 
 /* Available video modes.  The number is given by TED registers.  */
 enum ted_video_mode_s {
@@ -143,7 +119,8 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 
 /* Current horizontal position (in pixels) of the raster.  < 0 or >=
    SCREEN_WIDTH if outside the visible range.  */
-#define TED_RASTER_X(cycle)         (((int)(cycle) - 7) * 4)
+/* #define TED_RASTER_X(cycle)         (((int)(cycle) - 7) * 4) */
+#define TED_RASTER_X(cycle)         ((((int)(cycle) - 15) * 4) + ted.screen_leftborderwidth)
 
 /* Current vertical position of the raster.  Unlike `rasterline', which is
    only accurate if a pending drawing event has been served, this is
@@ -263,10 +240,10 @@ struct ted_s {
 
     /* Internal memory counter (VC).  */
     int mem_counter;
-	/* For bitmap fetch */
-	int chr_pos_reload;
-	int chr_pos_count;
-	int chr_pos_inc_enable;
+    /* For bitmap fetch */
+    int chr_pos_reload;
+    int chr_pos_count;
+    int chr_pos_inc_enable;
 
     /* Value to add to `mem_counter' after the graphics has been painted.  */
     int mem_counter_inc;
@@ -335,8 +312,9 @@ struct ted_s {
     unsigned int row_24_start_line;
     unsigned int row_24_stop_line;
 
-    int screen_borderwidth;
-    int screen_borderheight;
+    int screen_leftborderwidth;
+    int screen_rightborderwidth;
+
     int cycles_per_line;
     int draw_cycle;
 

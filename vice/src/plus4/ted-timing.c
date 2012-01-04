@@ -31,6 +31,7 @@
 #include "plus4.h"
 #include "resources.h"
 #include "ted-timing.h"
+#include "ted.h"
 #include "tedtypes.h"
 
 /* Number of cycles per line.  */
@@ -43,58 +44,94 @@
 #define TED_PAL_DRAW_CYCLE          TED_PAL_CYCLES_PER_LINE
 #define TED_NTSC_DRAW_CYCLE         TED_NTSC_CYCLES_PER_LINE
 
-void ted_timing_set(machine_timing_t *machine_timing)
+void ted_timing_set(machine_timing_t *machine_timing, int border_mode)
 {
     int mode;
 
     resources_get_int("MachineVideoStandard", &mode);
 
     switch (mode) {
-      case MACHINE_SYNC_NTSC:
-        ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
-#ifdef DINGOO_NATIVE
-        ted.first_displayed_line = TED_TINY_FIRST_DISPLAYED_LINE;
-        ted.last_displayed_line = TED_TINY_LAST_DISPLAYED_LINE;
-#else
-        ted.first_displayed_line = TED_NTSC_FIRST_DISPLAYED_LINE;
-        ted.last_displayed_line = TED_NTSC_LAST_DISPLAYED_LINE;
-#endif
-        ted.row_25_start_line = TED_NTSC_25ROW_START_LINE;
-        ted.row_25_stop_line = TED_NTSC_25ROW_STOP_LINE;
-        ted.row_24_start_line = TED_NTSC_24ROW_START_LINE;
-        ted.row_24_stop_line = TED_NTSC_24ROW_STOP_LINE;
-        ted.screen_borderwidth = TED_SCREEN_NTSC_BORDERWIDTH;
-        ted.screen_borderheight = TED_SCREEN_NTSC_BORDERHEIGHT;
-        ted.cycles_per_line = TED_NTSC_CYCLES_PER_LINE;
-        ted.draw_cycle = TED_NTSC_DRAW_CYCLE;
-        ted.first_dma_line = TED_NTSC_FIRST_DMA_LINE;
-        ted.last_dma_line = TED_NTSC_LAST_DMA_LINE;
-        ted.offset = TED_NTSC_OFFSET;
-        ted.vsync_line = TED_NTSC_VSYNC_LINE;
-        break;
-      case MACHINE_SYNC_PAL:
-      default:
-        ted.screen_height = TED_PAL_SCREEN_HEIGHT;
-#ifdef DINGOO_NATIVE
-        ted.first_displayed_line = TED_TINY_FIRST_DISPLAYED_LINE;
-        ted.last_displayed_line = TED_TINY_LAST_DISPLAYED_LINE;
-#else
-        ted.first_displayed_line = TED_PAL_FIRST_DISPLAYED_LINE;
-        ted.last_displayed_line = TED_PAL_LAST_DISPLAYED_LINE;
-#endif
-        ted.row_25_start_line = TED_PAL_25ROW_START_LINE;
-        ted.row_25_stop_line = TED_PAL_25ROW_STOP_LINE;
-        ted.row_24_start_line = TED_PAL_24ROW_START_LINE;
-        ted.row_24_stop_line = TED_PAL_24ROW_STOP_LINE;
-        ted.screen_borderwidth = TED_SCREEN_PAL_BORDERWIDTH;
-        ted.screen_borderheight = TED_SCREEN_PAL_BORDERHEIGHT;
-        ted.cycles_per_line = TED_PAL_CYCLES_PER_LINE;
-        ted.draw_cycle = TED_PAL_DRAW_CYCLE;
-        ted.first_dma_line = TED_PAL_FIRST_DMA_LINE;
-        ted.last_dma_line = TED_PAL_LAST_DMA_LINE;
-        ted.offset = TED_PAL_OFFSET;
-        ted.vsync_line = TED_PAL_VSYNC_LINE;
-        break;
+        case MACHINE_SYNC_NTSC:
+            ted.screen_height = TED_NTSC_SCREEN_HEIGHT;
+            switch (border_mode) {
+                default:
+                case TED_NORMAL_BORDERS:
+                    ted.first_displayed_line = TED_NTSC_NORMAL_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_NTSC_NORMAL_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = TED_SCREEN_NTSC_NORMAL_LEFTBORDERWIDTH;
+                    ted.screen_leftborderwidth = TED_SCREEN_NTSC_NORMAL_RIGHTBORDERWIDTH;
+                    break;
+                case TED_FULL_BORDERS:
+                    ted.first_displayed_line = TED_NTSC_FULL_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_NTSC_FULL_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = TED_SCREEN_NTSC_FULL_LEFTBORDERWIDTH;
+                    ted.screen_leftborderwidth = TED_SCREEN_NTSC_FULL_RIGHTBORDERWIDTH;
+                    break;
+                case TED_DEBUG_BORDERS:
+                    ted.first_displayed_line = TED_NTSC_DEBUG_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_NTSC_DEBUG_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = TED_SCREEN_NTSC_DEBUG_LEFTBORDERWIDTH;
+                    ted.screen_leftborderwidth = TED_SCREEN_NTSC_DEBUG_RIGHTBORDERWIDTH;
+                    break;
+                case TED_NO_BORDERS:
+                    ted.first_displayed_line = TED_NTSC_NO_BORDER_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_NTSC_NO_BORDER_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = 0;
+                    ted.screen_leftborderwidth = 0;
+                    break;
+            }
+            ted.row_25_start_line = TED_NTSC_25ROW_START_LINE;
+            ted.row_25_stop_line = TED_NTSC_25ROW_STOP_LINE;
+            ted.row_24_start_line = TED_NTSC_24ROW_START_LINE;
+            ted.row_24_stop_line = TED_NTSC_24ROW_STOP_LINE;
+            ted.cycles_per_line = TED_NTSC_CYCLES_PER_LINE;
+            ted.draw_cycle = TED_NTSC_DRAW_CYCLE;
+            ted.first_dma_line = TED_NTSC_FIRST_DMA_LINE;
+            ted.last_dma_line = TED_NTSC_LAST_DMA_LINE;
+            ted.offset = TED_NTSC_OFFSET;
+            ted.vsync_line = TED_NTSC_VSYNC_LINE;
+            break;
+        case MACHINE_SYNC_PAL:
+        default:
+            ted.screen_height = TED_PAL_SCREEN_HEIGHT;
+            switch (border_mode) {
+                default:
+                case TED_NORMAL_BORDERS:
+                    ted.first_displayed_line = TED_PAL_NORMAL_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_PAL_NORMAL_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = TED_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH;
+                    ted.screen_leftborderwidth = TED_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH;
+                    break;
+                case TED_FULL_BORDERS:
+                    ted.first_displayed_line = TED_PAL_FULL_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_PAL_FULL_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = TED_SCREEN_PAL_FULL_LEFTBORDERWIDTH;
+                    ted.screen_leftborderwidth = TED_SCREEN_PAL_FULL_RIGHTBORDERWIDTH;
+                    break;
+                case TED_DEBUG_BORDERS:
+                    ted.first_displayed_line = TED_PAL_DEBUG_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_PAL_DEBUG_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = TED_SCREEN_PAL_DEBUG_LEFTBORDERWIDTH;
+                    ted.screen_leftborderwidth = TED_SCREEN_PAL_DEBUG_RIGHTBORDERWIDTH;
+                    break;
+                case TED_NO_BORDERS:
+                    ted.first_displayed_line = TED_PAL_NO_BORDER_FIRST_DISPLAYED_LINE;
+                    ted.last_displayed_line = TED_PAL_NO_BORDER_LAST_DISPLAYED_LINE;
+                    ted.screen_rightborderwidth = 0;
+                    ted.screen_leftborderwidth = 0;
+                    break;
+            }
+            ted.row_25_start_line = TED_PAL_25ROW_START_LINE;
+            ted.row_25_stop_line = TED_PAL_25ROW_STOP_LINE;
+            ted.row_24_start_line = TED_PAL_24ROW_START_LINE;
+            ted.row_24_stop_line = TED_PAL_24ROW_STOP_LINE;
+            ted.cycles_per_line = TED_PAL_CYCLES_PER_LINE;
+            ted.draw_cycle = TED_PAL_DRAW_CYCLE;
+            ted.first_dma_line = TED_PAL_FIRST_DMA_LINE;
+            ted.last_dma_line = TED_PAL_LAST_DMA_LINE;
+            ted.offset = TED_PAL_OFFSET;
+            ted.vsync_line = TED_PAL_VSYNC_LINE;
+            break;
     }
 }
 

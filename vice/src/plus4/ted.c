@@ -87,9 +87,9 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     old_maincpu_clk -= sub;
 }
 
-void ted_change_timing(machine_timing_t *machine_timing)
+void ted_change_timing(machine_timing_t *machine_timing, int bordermode)
 {
-    ted_timing_set(machine_timing);
+    ted_timing_set(machine_timing, bordermode);
 
     if (ted.initialized) {
         ted_set_geometry();
@@ -282,9 +282,9 @@ static void ted_set_geometry(void)
 {
     unsigned int width, height;
 
-    width = TED_SCREEN_XPIX + ted.screen_borderwidth * 2;
-    height = ted.last_displayed_line - ted.first_displayed_line + 1;
-
+    width = TED_SCREEN_XPIX + ted.screen_rightborderwidth + ted.screen_leftborderwidth;
+    height = (ted.last_displayed_line - ted.first_displayed_line) + 1;
+#if 0
     raster_set_geometry(&ted.raster,
                         width, height,
                         TED_SCREEN_WIDTH, ted.screen_height,
@@ -295,6 +295,19 @@ static void ted_set_geometry(void)
                         ted.first_displayed_line,
                         ted.last_displayed_line,
                         0, 0);
+#endif
+    raster_set_geometry(&ted.raster,
+                        width, height, /* canvas dimensions */
+                        width, ted.screen_height, /* screen dimensions */
+                        TED_SCREEN_XPIX, TED_SCREEN_YPIX, /* gfx dimensions */
+                        TED_SCREEN_TEXTCOLS, TED_SCREEN_TEXTLINES, /* text dimensions */
+                        ted.screen_leftborderwidth, ted.row_25_start_line, /* gfx position */
+                        0, /* gfx area doesn't move */
+                        ted.first_displayed_line,
+                        ted.last_displayed_line,
+                        - TED_RASTER_X(0), /* extra offscreen border left */
+                        0 + TED_SCREEN_XPIX -
+                        ted.screen_leftborderwidth - ted.screen_rightborderwidth + TED_RASTER_X(0)) /* extra offscreen border right */;
 #ifdef __MSDOS__
     video_ack_vga_mode();
 #endif
@@ -349,12 +362,13 @@ raster_t *ted_init(void)
                                       ted_raster_draw_alarm_handler, NULL);
 
     /* For now.  */
-    ted_change_timing(NULL);
+    /* ted_change_timing(NULL); */
 
     ted_timer_init();
 
-    if (init_raster() < 0)
+    if (init_raster() < 0) {
         return NULL;
+    }    
 
     ted_powerup();
 

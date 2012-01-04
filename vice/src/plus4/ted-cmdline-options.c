@@ -27,16 +27,46 @@
 #include "vice.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "cmdline.h"
+#include "machine.h"
 #include "raster-cmdline-options.h"
+#include "resources.h"
 #include "ted-cmdline-options.h"
+#include "ted-resources.h"
+#include "ted.h"
 #include "tedtypes.h"
 #include "translate.h"
+
+int border_set_func(const char *value, void *extra_param)
+{
+   int video;
+
+   resources_get_int("MachineVideoStandard", &video);
+
+   if (strcmp(value, "1") == 0 || strcmp(value, "full") == 0) {
+       ted_resources.border_mode = TED_FULL_BORDERS;
+   } else if (strcmp(value, "2") == 0 || strcmp(value, "debug") == 0) {
+       ted_resources.border_mode = TED_DEBUG_BORDERS;
+   } else if (strcmp(value, "3") == 0 || strcmp(value, "none") == 0) {
+       ted_resources.border_mode = TED_NO_BORDERS;
+   } else {
+       ted_resources.border_mode = TED_NORMAL_BORDERS;
+   }
+
+   machine_change_timing(video ^ TED_BORDER_MODE(ted_resources.border_mode));
+
+   return 0;
+}
 
 /* TED command-line options.  */
 static const cmdline_option_t cmdline_options[] =
 {
+    { "-TEDborders", CALL_FUNCTION, 1,
+      border_set_func, NULL, "TEDBorderMode", (void *)0,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODE, IDCLS_SET_BORDER_MODE },
     CMDLINE_LIST_END
 };
 

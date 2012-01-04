@@ -74,7 +74,7 @@ static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
 /* Pointer to the start of the graphics area on the frame buffer.  */
 #define GFX_PTR()               \
     (ted.raster.draw_buffer_ptr \
-    + (ted.screen_borderwidth + ted.raster.xsmooth))
+    + (ted.screen_leftborderwidth + ted.raster.xsmooth))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
 #define ALIGN_DRAW_FUNC(name, xs, xe) \

@@ -32,6 +32,7 @@
 #include "lib.h"
 #include "machine.h"
 #include "resources.h"
+#include "ted.h"
 #include "uiapi.h"
 #include "uimenu.h"
 #include "uipalemu.h"
@@ -62,6 +63,20 @@ static ui_menu_entry_t palette_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"TED", NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_RADIO(TEDBorderMode)
+
+static ui_menu_entry_t bordermode_submenu[] = {
+    { N_("Normal"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDBorderMode,
+      (ui_callback_data_t)TED_NORMAL_BORDERS, NULL },
+    { N_("Full"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDBorderMode,
+      (ui_callback_data_t)TED_FULL_BORDERS, NULL },
+    { N_("Debug"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDBorderMode,
+      (ui_callback_data_t)TED_DEBUG_BORDERS, NULL },
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_TEDBorderMode,
+      (ui_callback_data_t)TED_NO_BORDERS, NULL },
     { NULL }
 };
 
@@ -149,6 +164,8 @@ ui_menu_entry_t ted_submenu[] = {
       NULL, NULL, NULL },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Border mode"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, bordermode_submenu },
     { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TEDAudioLeak, NULL, NULL },
 #ifdef HAVE_HWSCALE

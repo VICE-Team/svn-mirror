@@ -30,6 +30,13 @@
 
 #include "types.h"
 
+/* TED border mode defines */
+#define TED_NORMAL_BORDERS 0
+#define TED_FULL_BORDERS   1
+#define TED_DEBUG_BORDERS  2
+#define TED_NO_BORDERS     3
+#define TED_BORDER_MODE(v) (v << 12)
+
 struct canvas_refresh_s;
 struct machine_timing_s;
 struct snapshot_s;
@@ -50,7 +57,7 @@ extern void ted_handle_pending_alarms(int num_write_cycles);
 extern void ted_screenshot(struct screenshot_s *screenshot);
 extern void ted_async_refresh(struct canvas_refresh_s *r);
 extern void ted_shutdown(void);
-extern void ted_change_timing(struct machine_timing_s *machine_timing);
+extern void ted_change_timing(struct machine_timing_s *machine_timing, int bordermode);
 
 extern void ted_snapshot_prepare(void);
 extern int ted_snapshot_write_module(struct snapshot_s *s);

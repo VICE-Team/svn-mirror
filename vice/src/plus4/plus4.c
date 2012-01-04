@@ -320,8 +320,9 @@ static void plus4_monitor_init(void)
 
     asm6502_init(&asm6502);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+    }
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
@@ -393,14 +394,16 @@ int machine_specific_init(void)
        device yet.  */
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
-    if (ted_init() == NULL)
+    if (ted_init() == NULL) {
         return -1;
+    }
 
     acia_init();
 
 #ifndef COMMON_KBD
-    if (plus4_kbd_init() < 0)
+    if (plus4_kbd_init() < 0) {
         return -1;
+    }
 #endif
 
     plus4_monitor_init();
@@ -537,6 +540,32 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 
 void machine_change_timing(int timeval)
 {
+    int border_mode;
+
+    switch (timeval) {
+        default:
+        case MACHINE_SYNC_PAL ^ TED_BORDER_MODE(TED_NORMAL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ TED_BORDER_MODE(TED_NORMAL_BORDERS):
+            timeval ^= TED_BORDER_MODE(TED_NORMAL_BORDERS);
+            border_mode = TED_NORMAL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ TED_BORDER_MODE(TED_FULL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ TED_BORDER_MODE(TED_FULL_BORDERS):
+            timeval ^= TED_BORDER_MODE(TED_FULL_BORDERS);
+            border_mode = TED_FULL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ TED_BORDER_MODE(TED_DEBUG_BORDERS):
+        case MACHINE_SYNC_NTSC ^ TED_BORDER_MODE(TED_DEBUG_BORDERS):
+            timeval ^= TED_BORDER_MODE(TED_DEBUG_BORDERS);
+            border_mode = TED_DEBUG_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ TED_BORDER_MODE(TED_NO_BORDERS):
+        case MACHINE_SYNC_NTSC ^ TED_BORDER_MODE(TED_NO_BORDERS):
+            timeval ^= TED_BORDER_MODE(TED_NO_BORDERS);
+            border_mode = TED_NO_BORDERS;
+            break;
+    }
+
     switch (timeval) {
       case MACHINE_SYNC_PAL:
         machine_timing.cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
@@ -566,7 +595,7 @@ void machine_change_timing(int timeval)
     serial_iec_device_set_machine_parameter(machine_timing.cycles_per_sec);
     clk_guard_set_clk_base(maincpu_clk_guard, machine_timing.cycles_per_rfsh);
 
-    ted_change_timing(&machine_timing);
+    ted_change_timing(&machine_timing, border_mode);
 
     machine_trigger_reset(MACHINE_RESET_MODE_HARD);
 }
@@ -593,8 +622,9 @@ int machine_autodetect_psid(const char *name)
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
-    if (canvas != ted_get_canvas())
+    if (canvas != ted_get_canvas()) {
         return -1;
+    }
 
     ted_screenshot(screenshot);
 
@@ -604,8 +634,9 @@ int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas != ted_get_canvas())
+    if (canvas != ted_get_canvas()) {
         return -1;
+    }
 
     ted_async_refresh(refresh);
 
