@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-04 23:47+0200\n"
+"PO-Revision-Date: 2012-01-05 22:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -6479,45 +6479,45 @@ msgstr "Никогда не подтверждать закрытие VICE"
 
 #: src/arch/win32/res.rc.po.c:1147
 msgid "Use all CPU on SMP systems"
-msgstr ""
+msgstr "Use all CPU on SMP systems"
 
 #: src/arch/win32/res.rc.po.c:1148
 msgid "Use only first CPU on SMP systems"
-msgstr ""
+msgstr "Use only first CPU on SMP systems"
 
 #: src/arch/win32/res.rc.po.c:1149
 msgid "Start VICE in fullscreen mode"
-msgstr ""
+msgstr "Запустить VICE в полноэкранном режиме"
 
 #: src/arch/win32/res.rc.po.c:1150
 #: src/arch/win32/res.rc.po.c:1483
 msgid "Disable DirectX9 video driver"
-msgstr ""
+msgstr "Отключить видео драйвер DirectX9"
 
 #: src/arch/win32/res.rc.po.c:1152
 #, c-format
 msgid "An unexpected error occured. Received signal %d (%s)."
-msgstr ""
+msgstr "An unexpected error occured. Received signal %d (%s)."
 
 #: src/arch/win32/res.rc.po.c:1154
 #, c-format
 msgid "An unexpected error occured. Received signal %d."
-msgstr ""
+msgstr "An unexpected error occured. Received signal %d."
 
 #: src/arch/win32/res.rc.po.c:1162
 #: src/arch/amigaos/intl_text.c.po.c:3745
 msgid "An error occured starting the server."
-msgstr ""
+msgstr "An error occured starting the server."
 
 #: src/arch/win32/res.rc.po.c:1163
 #: src/arch/amigaos/intl_text.c.po.c:3759
 msgid "An error occured connecting the client."
-msgstr ""
+msgstr "An error occured connecting the client."
 
 #: src/arch/win32/res.rc.po.c:1173
 #: src/arch/amigaos/intl_text.c.po.c:9822
 msgid "Error saving EasyFlash crt file"
-msgstr ""
+msgstr "Error saving EasyFlash crt file"
 
 #: src/arch/win32/res.rc.po.c:1174
 #, fuzzy
@@ -6534,135 +6534,135 @@ msgstr "Флеш настройки"
 
 #: src/arch/win32/res.rc.po.c:1177
 msgid "Speed of motor while reading"
-msgstr ""
+msgstr "Speed of motor while reading"
 
 #: src/arch/win32/res.rc.po.c:1178
 msgid "cycle(s) additional delay each trigger"
-msgstr ""
+msgstr "cycle(s) additional delay each trigger"
 
 #: src/arch/win32/res.rc.po.c:1180
 msgid "Use IEC Device"
-msgstr ""
+msgstr "Use IEC Device"
 
 #: src/arch/win32/res.rc.po.c:1182
 #: src/translate_text.c.po.c:2551
 #: src/translate_text.c.po.c:2568
 msgid "Directory"
-msgstr ""
+msgstr "Папка"
 
 #: src/arch/win32/res.rc.po.c:1190
 msgid "Read P00 files"
-msgstr ""
+msgstr "Read P00 files"
 
 #: src/arch/win32/res.rc.po.c:1191
 msgid "Write P00 files"
-msgstr ""
+msgstr "Write P00 files"
 
 #: src/arch/win32/res.rc.po.c:1195
 msgid "Select fire button"
-msgstr ""
+msgstr "Выберите кнопку Огонь"
 
 #: src/arch/win32/res.rc.po.c:1196
 msgid "Auto fire button settings"
-msgstr ""
+msgstr "Настройки кнопки Auto fire"
 
 #: src/arch/win32/res.rc.po.c:1197
 msgid "Autofire speed"
-msgstr ""
+msgstr "Скорость Autofire"
 
 #: src/arch/win32/res.rc.po.c:1201
 msgid "Calibrate Joystick(s)"
-msgstr ""
+msgstr "Calibrate Joystick(s)"
 
 #: src/arch/win32/res.rc.po.c:1202
 msgid "Extra joystick settings"
-msgstr ""
+msgstr "Настройки дополнительного джойстика"
 
 #: src/arch/win32/res.rc.po.c:1205
 msgid "South West"
-msgstr ""
+msgstr "South West"
 
 #: src/arch/win32/res.rc.po.c:1206
 msgid "South"
-msgstr ""
+msgstr "South"
 
 #: src/arch/win32/res.rc.po.c:1207
 msgid "South East"
-msgstr ""
+msgstr "South East"
 
 #: src/arch/win32/res.rc.po.c:1208
 msgid "West"
-msgstr ""
+msgstr "West"
 
 #: src/arch/win32/res.rc.po.c:1209
 msgid "East"
-msgstr ""
+msgstr "East"
 
 #: src/arch/win32/res.rc.po.c:1210
 msgid "North West"
-msgstr ""
+msgstr "North West"
 
 #: src/arch/win32/res.rc.po.c:1211
 msgid "North"
-msgstr ""
+msgstr "North"
 
 #: src/arch/win32/res.rc.po.c:1212
 msgid "North East"
-msgstr ""
+msgstr "North East"
 
 #: src/arch/win32/res.rc.po.c:1213
 msgid "Fire button"
-msgstr ""
+msgstr "Кнопка Fire"
 
 #: src/arch/win32/res.rc.po.c:1214
 msgid "Configure Sound Device Settings"
-msgstr ""
+msgstr "Определить настройки звукового устройства"
 
 #: src/arch/win32/res.rc.po.c:1215
 msgid "DirectX driver"
-msgstr ""
+msgstr "Драйвер DirectX"
 
 #: src/arch/win32/res.rc.po.c:1216
 msgid "WMM driver"
-msgstr ""
+msgstr "WMM driver"
 
 #: src/arch/win32/res.rc.po.c:1218
 msgid "Sound Buffer Size"
-msgstr ""
+msgstr "Sound Buffer Size"
 
 #: src/arch/win32/res.rc.po.c:1219
 msgid "Sound Fragment Size"
-msgstr ""
+msgstr "Sound Fragment Size"
 
 #: src/arch/win32/res.rc.po.c:1223
 msgid "Synchronization Method"
-msgstr ""
+msgstr "Synchronization Method"
 
 #: src/arch/win32/res.rc.po.c:1227
 msgid "Bitdepth"
-msgstr ""
+msgstr "Bitdepth"
 
 #: src/arch/win32/res.rc.po.c:1228
 msgid "Resolution"
-msgstr ""
+msgstr "Разрешение"
 
 #: src/arch/win32/res.rc.po.c:1230
 msgid "VBLANK synchronization"
-msgstr ""
+msgstr "VBLANK synchronization"
 
 #: src/arch/win32/res.rc.po.c:1231
 msgid "Render to DX Primary surface"
-msgstr ""
+msgstr "Render to DX Primary surface"
 
 #: src/arch/win32/res.rc.po.c:1234
 #, c-format
 msgid "Value %.3f for %s is out of range, using %.3f instead"
-msgstr ""
+msgstr "Value %.3f for %s is out of range, using %.3f instead"
 
 #: src/arch/win32/res.rc.po.c:1235
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
-msgstr ""
+msgstr "Value %d for %s is out of range, using %d instead"
 
 #: src/arch/win32/res.rc.po.c:1245
 #, fuzzy
@@ -6671,7 +6671,7 @@ msgstr "Настройки VIC-II"
 
 #: src/arch/win32/res.rc.po.c:1246
 msgid "VIC Palette"
-msgstr ""
+msgstr "VIC Palette"
 
 #: src/arch/win32/res.rc.po.c:1247
 #, fuzzy
@@ -6690,15 +6690,15 @@ msgstr "Настройки TED"
 
 #: src/arch/win32/res.rc.po.c:1250
 msgid "VICII Colors"
-msgstr ""
+msgstr "VICII Colors"
 
 #: src/arch/win32/res.rc.po.c:1251
 msgid "VIC Colors"
-msgstr ""
+msgstr "VIC Colors"
 
 #: src/arch/win32/res.rc.po.c:1252
 msgid "CRTC Colors"
-msgstr ""
+msgstr "CRTC Colors"
 
 #: src/arch/win32/res.rc.po.c:1253
 #, fuzzy
@@ -6757,278 +6757,278 @@ msgstr "Сохранить медиа файл VDC"
 
 #: src/arch/win32/res.rc.po.c:1264
 msgid "TED Render filter"
-msgstr ""
+msgstr "TED Render filter"
 
 #: src/arch/win32/res.rc.po.c:1265
 msgid "External Palette"
-msgstr ""
+msgstr "External Palette"
 
 #: src/arch/win32/res.rc.po.c:1267
 msgid "Initialization at powerup"
-msgstr ""
+msgstr "Initialization at powerup"
 
 #: src/arch/win32/res.rc.po.c:1268
 #: src/arch/amigaos/intl_text.c.po.c:6602
 msgid "Value of first byte"
-msgstr ""
+msgstr "Value of first byte"
 
 #: src/arch/win32/res.rc.po.c:1269
 #: src/arch/amigaos/intl_text.c.po.c:6616
 msgid "Length of constant values"
-msgstr ""
+msgstr "Length of constant values"
 
 #: src/arch/win32/res.rc.po.c:1270
 #: src/arch/amigaos/intl_text.c.po.c:6630
 msgid "Length of constant pattern"
-msgstr ""
+msgstr "Length of constant pattern"
 
 #: src/arch/win32/res.rc.po.c:1271
 msgid "Printer emulation"
-msgstr ""
+msgstr "Эмуляция принтера"
 
 #: src/arch/win32/res.rc.po.c:1272
 msgid "Send Formfeed"
-msgstr ""
+msgstr "Send Formfeed"
 
 #: src/arch/win32/res.rc.po.c:1273
 msgid "File system printer"
-msgstr ""
+msgstr "File system printer"
 
 #: src/arch/win32/res.rc.po.c:1274
 msgid "Printer driver"
-msgstr ""
+msgstr "Драйвер принтера"
 
 #: src/arch/win32/res.rc.po.c:1275
 msgid "Output"
-msgstr ""
+msgstr "Output"
 
 #: src/arch/win32/res.rc.po.c:1276
 msgid "Output to file #"
-msgstr ""
+msgstr "Output to file #"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "Output file #1 name"
-msgstr ""
+msgstr "Output file #1 name"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "Output file #2 name"
-msgstr ""
+msgstr "Output file #2 name"
 
 #: src/arch/win32/res.rc.po.c:1279
 msgid "Output file #3 name"
-msgstr ""
+msgstr "Output file #3 name"
 
 #: src/arch/win32/res.rc.po.c:1280
 msgid "Romset archive"
-msgstr ""
+msgstr "Romset archive"
 
 #: src/arch/win32/res.rc.po.c:1281
 msgid "Load archive"
-msgstr ""
+msgstr "Load archive"
 
 #: src/arch/win32/res.rc.po.c:1282
 msgid "Save archive"
-msgstr ""
+msgstr "Сохранить архив"
 
 #: src/arch/win32/res.rc.po.c:1283
 msgid "Configuration"
-msgstr ""
+msgstr "Configuration"
 
 #: src/arch/win32/res.rc.po.c:1284
 msgid "Apply"
-msgstr ""
+msgstr "Применить"
 
 #: src/arch/win32/res.rc.po.c:1285
 msgid "New"
-msgstr ""
+msgstr "New"
 
 #: src/arch/win32/res.rc.po.c:1286
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: src/arch/win32/res.rc.po.c:1287
 msgid "Romset file"
-msgstr ""
+msgstr "Romset file"
 
 #: src/arch/win32/res.rc.po.c:1288
 msgid "Load romset"
-msgstr ""
+msgstr "Load romset"
 
 #: src/arch/win32/res.rc.po.c:1289
 msgid "Save romset"
-msgstr ""
+msgstr "Save romset"
 
 #: src/arch/win32/res.rc.po.c:1290
 msgid "Custom speed"
-msgstr ""
+msgstr "Custom speed"
 
 #: src/arch/win32/res.rc.po.c:1291
 msgid "Enter custom speed [%]"
-msgstr ""
+msgstr "Enter custom speed [%]"
 
 #: src/arch/win32/res.rc.po.c:1292
 msgid "New configuration"
-msgstr ""
+msgstr "New configuration"
 
 #: src/arch/win32/res.rc.po.c:1293
 msgid "Enter configuration name"
-msgstr ""
+msgstr "Enter configuration name"
 
 #: src/arch/win32/res.rc.po.c:1295
 #: src/arch/amigaos/intl_text.c.po.c:4697
 msgid "RS232 device 1"
-msgstr ""
+msgstr "RS232 device 1"
 
 #: src/arch/win32/res.rc.po.c:1296
 #: src/arch/amigaos/intl_text.c.po.c:4711
 msgid "RS232 device 2"
-msgstr ""
+msgstr "RS232 device 2"
 
 #: src/arch/win32/res.rc.po.c:1297
 #: src/arch/amigaos/intl_text.c.po.c:4725
 msgid "RS232 device 3"
-msgstr ""
+msgstr "RS232 device 3"
 
 #: src/arch/win32/res.rc.po.c:1298
 #: src/arch/amigaos/intl_text.c.po.c:4739
 msgid "RS232 device 4"
-msgstr ""
+msgstr "RS232 device 4"
 
 #: src/arch/win32/res.rc.po.c:1301
 #: src/arch/amigaos/intl_text.c.po.c:3913
 msgid "Server Bind"
-msgstr ""
+msgstr "Server Bind"
 
 #: src/arch/win32/res.rc.po.c:1314
 msgid "Append log to existing file"
-msgstr ""
+msgstr "Append log to existing file"
 
 #: src/arch/win32/res.rc.po.c:1315
 #: src/arch/amigaos/intl_text.c.po.c:4655
 msgid "Image Contents"
-msgstr ""
+msgstr "Image Contents"
 
 #: src/arch/win32/res.rc.po.c:1316
 #: src/arch/amigaos/intl_text.c.po.c:4599
 msgid "New Image"
-msgstr ""
+msgstr "New Image"
 
 #: src/arch/win32/res.rc.po.c:1318
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: src/arch/win32/res.rc.po.c:1320
 #: src/arch/amigaos/intl_text.c.po.c:4585
 msgid "Create Image"
-msgstr ""
+msgstr "Create Image"
 
 #: src/arch/win32/res.rc.po.c:1321
 #: src/arch/amigaos/intl_text.c.po.c:4613
 msgid "New TAP Image"
-msgstr ""
+msgstr "New TAP Image"
 
 #: src/arch/win32/res.rc.po.c:1323
 msgid "Select Driver"
-msgstr ""
+msgstr "Select Driver"
 
 #: src/arch/win32/res.rc.po.c:1324
 msgid "FFMPEG settings"
-msgstr ""
+msgstr "FFMPEG settings"
 
 #: src/arch/win32/res.rc.po.c:1327
 msgid "bitrate"
-msgstr ""
+msgstr "bitrate"
 
 #: src/arch/win32/res.rc.po.c:1329
 #: src/arch/amigaos/intl_text.c.po.c:9430
 msgid "Sound record settings"
-msgstr ""
+msgstr "Настройки записи звука"
 
 #: src/arch/win32/res.rc.po.c:1330
 #: src/arch/amigaos/intl_text.c.po.c:9402
 msgid "Sound Record Format"
-msgstr ""
+msgstr "Sound Record Format"
 
 #: src/arch/win32/res.rc.po.c:1331
 #: src/arch/amigaos/intl_text.c.po.c:9416
 msgid "Sound Record File"
-msgstr ""
+msgstr "Sound Record File"
 
 #: src/arch/win32/res.rc.po.c:1332
 msgid "Kernal"
-msgstr ""
+msgstr "Kernal"
 
 #: src/arch/win32/res.rc.po.c:1333
 msgid "Basic"
-msgstr ""
+msgstr "Basic"
 
 #: src/arch/win32/res.rc.po.c:1334
 msgid "Character"
-msgstr ""
+msgstr "Character"
 
 #: src/arch/win32/res.rc.po.c:1335
 msgid "Computer resources"
-msgstr ""
+msgstr "Computer resources"
 
 #: src/arch/win32/res.rc.po.c:1336
 msgid "Computer resources saved to romset"
-msgstr ""
+msgstr "Computer resources saved to romset"
 
 #: src/arch/win32/res.rc.po.c:1337
 msgid "Drive resources"
-msgstr ""
+msgstr "Drive resources"
 
 #: src/arch/win32/res.rc.po.c:1338
 msgid "Drive resources saved to romset"
-msgstr ""
+msgstr "Drive resources saved to romset"
 
 #: src/arch/win32/res.rc.po.c:1339
 msgid "Symbolic"
-msgstr ""
+msgstr "Symbolic"
 
 #: src/arch/win32/res.rc.po.c:1340
 msgid "Positional"
-msgstr ""
+msgstr "Positional"
 
 #: src/arch/win32/res.rc.po.c:1341
 msgid "Dump keyset"
-msgstr ""
+msgstr "Dump keyset"
 
 #: src/arch/win32/res.rc.po.c:1342
 msgid "Dump shortcuts"
-msgstr ""
+msgstr "Dump shortcuts"
 
 #: src/arch/win32/res.rc.po.c:1343
 msgid "Symbolic US"
-msgstr ""
+msgstr "Symbolic US"
 
 #: src/arch/win32/res.rc.po.c:1344
 msgid "Symbolic DE"
-msgstr ""
+msgstr "Symbolic DE"
 
 #: src/arch/win32/res.rc.po.c:1345
 msgid "Gr Sym."
-msgstr ""
+msgstr "Gr Sym."
 
 #: src/arch/win32/res.rc.po.c:1346
 msgid "Gr Pos."
-msgstr ""
+msgstr "Gr Pos."
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "UK Sym."
-msgstr ""
+msgstr "UK Sym."
 
 #: src/arch/win32/res.rc.po.c:1348
 msgid "UK Pos."
-msgstr ""
+msgstr "UK Pos."
 
 #: src/arch/win32/res.rc.po.c:1349
 msgid "DE Sym."
-msgstr ""
+msgstr "DE Sym."
 
 #: src/arch/win32/res.rc.po.c:1350
 msgid "DE Pos."
-msgstr ""
+msgstr "DE Pos."
 
 #: src/arch/win32/res.rc.po.c:1351
 #: src/arch/win32/res.rc.po.c:1367
@@ -7036,27 +7036,27 @@ msgstr ""
 #: src/arch/win32/respet.rc.po.c:548
 #: src/arch/amigaos/intl_text.c.po.c:8912
 msgid "Memory"
-msgstr ""
+msgstr "Память"
 
 #: src/arch/win32/res.rc.po.c:1352
 #: src/arch/amigaos/intl_text.c.po.c:5355
 msgid "Drive type"
-msgstr ""
+msgstr "Drive type"
 
 #: src/arch/win32/res.rc.po.c:1353
 #: src/arch/amigaos/intl_text.c.po.c:5369
 msgid "40 track handling"
-msgstr ""
+msgstr "40 track handling"
 
 #: src/arch/win32/res.rc.po.c:1357
 #: src/arch/amigaos/intl_text.c.po.c:5397
 msgid "Idle method"
-msgstr ""
+msgstr "Idle method"
 
 #: src/arch/win32/res.rc.po.c:1361
 #: src/arch/amigaos/intl_text.c.po.c:5383
 msgid "Drive expansion"
-msgstr ""
+msgstr "Drive expansion"
 
 #: src/arch/win32/res.rc.po.c:1362
 #, fuzzy
@@ -7094,14 +7094,14 @@ msgstr "*Bank 15 $0800-$0FFF RAM"
 #: src/arch/win32/resvic20.rc.po.c:99
 #: src/translate_text.c.po.c:10518
 msgid "Mode"
-msgstr ""
+msgstr "Mode"
 
 #: src/arch/win32/res.rc.po.c:1388
 #: src/arch/win32/rescbm2.rc.po.c:171
 #: src/arch/win32/respet.rc.po.c:171
 #: src/arch/amigaos/intl_text.c.po.c:1785
 msgid "Drive sync factor"
-msgstr ""
+msgstr "Drive sync factor"
 
 #: src/arch/win32/res.rc.po.c:1390
 #: src/arch/win32/resc128.rc.po.c:239
@@ -7112,7 +7112,7 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:218
 #: src/arch/amigaos/intl_text.c.po.c:2429
 msgid "Cartridge/IO settings"
-msgstr ""
+msgstr "Cartridge/IO settings"
 
 #: src/arch/win32/res.rc.po.c:1391
 #: src/arch/win32/resc128.rc.po.c:270
@@ -7124,7 +7124,7 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:246
 #: src/arch/amigaos/intl_text.c.po.c:3367
 msgid "Language"
-msgstr ""
+msgstr "Язык"
 
 #: src/arch/win32/res.rc.po.c:1392
 #: src/arch/win32/resc128.rc.po.c:286
@@ -7136,41 +7136,41 @@ msgstr ""
 #: src/arch/win32/resvic20.rc.po.c:262
 #: src/arch/amigaos/intl_text.c.po.c:3059
 msgid "Help"
-msgstr ""
+msgstr "Помощь"
 
 #: src/arch/win32/res.rc.po.c:1395
 #: src/arch/amigaos/intl_text.c.po.c:959
 msgid "Exit"
-msgstr ""
+msgstr "Выход"
 
 #: src/arch/win32/res.rc.po.c:1410
 #: src/arch/amigaos/intl_text.c.po.c:1729
 msgid "Sound playback"
-msgstr ""
+msgstr "Sound playback"
 
 #: src/arch/win32/res.rc.po.c:1413
 msgid "Double vertical"
-msgstr ""
+msgstr "Double vertical"
 
 #: src/arch/win32/res.rc.po.c:1418
 #: src/arch/amigaos/intl_text.c.po.c:455
 msgid "Smart-attach image"
-msgstr ""
+msgstr "Smart-attach image"
 
 #: src/arch/win32/res.rc.po.c:1419
 #: src/arch/amigaos/intl_text.c.po.c:637
 msgid "CRT image"
-msgstr ""
+msgstr "CRT image"
 
 #: src/arch/win32/res.rc.po.c:1420
 #: src/arch/amigaos/intl_text.c.po.c:651
 msgid "Generic 8KB image"
-msgstr ""
+msgstr "Generic 8KB image"
 
 #: src/arch/win32/res.rc.po.c:1421
 #: src/arch/amigaos/intl_text.c.po.c:665
 msgid "Generic 16KB image"
-msgstr ""
+msgstr "Generic 16KB image"
 
 #: src/arch/win32/res.rc.po.c:1422
 #: src/arch/amigaos/intl_text.c.po.c:679
@@ -7193,17 +7193,17 @@ msgstr "Образ функционального ПЗУ"
 #: src/arch/win32/res.rc.po.c:1425
 #: src/arch/amigaos/intl_text.c.po.c:721
 msgid "Stardos image"
-msgstr ""
+msgstr "Stardos image"
 
 #: src/arch/win32/res.rc.po.c:1426
 #: src/arch/amigaos/intl_text.c.po.c:735
 msgid "Atomic Power image"
-msgstr ""
+msgstr "Atomic Power image"
 
 #: src/arch/win32/res.rc.po.c:1427
 #: src/arch/amigaos/intl_text.c.po.c:749
 msgid "Epyx FastLoad image"
-msgstr ""
+msgstr "Epyx FastLoad image"
 
 #: src/arch/win32/res.rc.po.c:1428
 #, fuzzy
@@ -7224,75 +7224,75 @@ msgstr "Эмуляция MMC Replay"
 #: src/arch/win32/res.rc.po.c:1432
 #: src/arch/amigaos/intl_text.c.po.c:805
 msgid "Super Snapshot V4 image"
-msgstr ""
+msgstr "Super Snapshot V4 image"
 
 #: src/arch/win32/res.rc.po.c:1433
 #: src/arch/amigaos/intl_text.c.po.c:819
 msgid "Super Snapshot V5 image"
-msgstr ""
+msgstr "Super Snapshot V5 image"
 
 #: src/arch/win32/res.rc.po.c:1434
 #: src/arch/amigaos/intl_text.c.po.c:833
 msgid "Structured BASIC image"
-msgstr ""
+msgstr "Structured BASIC image"
 
 #: src/arch/win32/res.rc.po.c:1442
 #: src/arch/amigaos/intl_text.c.po.c:287
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: src/arch/win32/res.rc.po.c:1447
 #: src/arch/amigaos/intl_text.c.po.c:357
 msgid "Reset Counter"
-msgstr ""
+msgstr "Reset Counter"
 
 #: src/arch/win32/res.rc.po.c:1456
 msgid "History"
-msgstr ""
+msgstr "История"
 
 #: src/arch/win32/res.rc.po.c:1457
 msgid "History Autoplay"
-msgstr ""
+msgstr "History Autoplay"
 
 #: src/arch/win32/res.rc.po.c:1458
 msgid "Main CPU Trace"
-msgstr ""
+msgstr "Main CPU Trace"
 
 #: src/arch/win32/res.rc.po.c:1459
 msgid "Drive0 CPU Trace"
-msgstr ""
+msgstr "Drive0 CPU Trace"
 
 #: src/arch/win32/res.rc.po.c:1460
 msgid "Drive1 CPU Trace"
-msgstr ""
+msgstr "Drive1 CPU Trace"
 
 #: src/arch/win32/res.rc.po.c:1464
 msgid "Load quicksnapshot image"
-msgstr ""
+msgstr "Load quicksnapshot image"
 
 #: src/arch/win32/res.rc.po.c:1465
 msgid "Save quicksnapshot image"
-msgstr ""
+msgstr "Save quicksnapshot image"
 
 #: src/arch/win32/res.rc.po.c:1466
 #: src/arch/amigaos/intl_text.c.po.c:1057
 msgid "Start/Stop Recording History"
-msgstr ""
+msgstr "Start/Stop Recording History"
 
 #: src/arch/win32/res.rc.po.c:1467
 #: src/arch/amigaos/intl_text.c.po.c:1071
 msgid "Start/Stop Playback History"
-msgstr ""
+msgstr "Start/Stop Playback History"
 
 #: src/arch/win32/res.rc.po.c:1473
 #: src/arch/amigaos/intl_text.c.po.c:1169
 msgid "Overwrite Playback"
-msgstr ""
+msgstr "Overwrite Playback"
 
 #: src/arch/win32/res.rc.po.c:1474
 #: src/arch/amigaos/intl_text.c.po.c:1183
 msgid "Select History files/directory"
-msgstr ""
+msgstr "Select History files/directory"
 
 #: src/arch/win32/res.rc.po.c:1475
 #: src/arch/amigaos/intl_text.c.po.c:1197
@@ -7303,32 +7303,32 @@ msgstr "Сохранить медиа файл"
 #: src/arch/win32/res.rc.po.c:1481
 #: src/arch/amigaos/intl_text.c.po.c:1519
 msgid "Warp mode"
-msgstr ""
+msgstr "Warp mode"
 
 #: src/arch/win32/res.rc.po.c:1482
 msgid "Always on Top"
-msgstr ""
+msgstr "Always on Top"
 
 #: src/arch/win32/res.rc.po.c:1487
 #: src/arch/amigaos/intl_text.c.po.c:1701
 msgid "Enable Joy Keys"
-msgstr ""
+msgstr "Enable Joy Keys"
 
 #: src/arch/win32/res.rc.po.c:1488
 #: src/arch/amigaos/intl_text.c.po.c:1771
 msgid "Virtual device traps"
-msgstr ""
+msgstr "Virtual device traps"
 
 #: src/arch/win32/res.rc.po.c:1490
 #: src/arch/win32/resc64.rc.po.c:582
 #: src/arch/amigaos/intl_text.c.po.c:1967
 #: src/arch/amigaos/intl_text.c.po.c:10088
 msgid "C64 model settings"
-msgstr ""
+msgstr "C64 model settings"
 
 #: src/arch/win32/res.rc.po.c:1495
 msgid "Userport joystick settings"
-msgstr ""
+msgstr "Userport joystick settings"
 
 #: src/arch/win32/res.rc.po.c:1496
 #, fuzzy
@@ -7396,7 +7396,7 @@ msgstr "Настройки SID"
 #: src/arch/amigaos/intl_text.c.po.c:2639
 #: src/arch/amigaos/intl_text.c.po.c:7904
 msgid "MMC64 settings"
-msgstr ""
+msgstr "MMC64 settings"
 
 #: src/arch/win32/res.rc.po.c:1513
 #: src/arch/win32/resmmcreplay.rc.po.c:47
@@ -7441,7 +7441,7 @@ msgstr "*Эмуляция светового пера"
 #: src/arch/amigaos/intl_text.c.po.c:2625
 #: src/arch/amigaos/intl_text.c.po.c:7764
 msgid "IDE64 settings"
-msgstr ""
+msgstr "IDE64 settings"
 
 #: src/arch/win32/res.rc.po.c:1520
 #: src/arch/win32/restfe.rc.po.c:61
@@ -7492,17 +7492,17 @@ msgstr "*Эмуляция расширения SFX"
 #: src/arch/amigaos/intl_text.c.po.c:2751
 #: src/translate_text.c.po.c:12825
 msgid "Enable the SFX Sound Sampler cartridge"
-msgstr ""
+msgstr "Enable the SFX Sound Sampler cartridge"
 
 #: src/arch/win32/res.rc.po.c:1527
 #: src/arch/amigaos/intl_text.c.po.c:2961
 msgid "Save current settings to specified file"
-msgstr ""
+msgstr "Сохранить текущие настройки в указанном файле"
 
 #: src/arch/win32/res.rc.po.c:1528
 #: src/arch/amigaos/intl_text.c.po.c:2975
 msgid "Load settings from specified file"
-msgstr ""
+msgstr "Загрузить настройки из указанного файла"
 
 #: src/arch/win32/res.rc.po.c:1529
 #: src/arch/amigaos/intl_text.c.po.c:2989
