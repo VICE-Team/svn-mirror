@@ -11,7 +11,7 @@ s/@b{Christian Vogelgsang}/Christian Vogelgsang <chris@vogelgsang.org>/g
 s/@b{Fabrizio Gennari}/Fabrizio Gennari <fabrizio.ge@tiscalinet.it>/g
 s/@b{Daniel Kahlin}/Daniel Kahlin <daniel@kahlin.net>/g
 s/@b{Antti S. Lankila}/Antti S. Lankila <alankila@bel.fi>/g
-s/@b{Groepaz\/Hitmen}/Groepaz\/Hitmen <groepaz@gmx.net>/g
+s/@b{Groepaz}/Groepaz <groepaz@gmx.net>/g
 s/@b{Ingo Korb}/Ingo Korb <ingo@akana.de>/g
 s/@b{Errol Smith}/Errol Smith <strobey@users.sourceforge.net>/g
 s/@b{Olaf Seibert}/Olaf Seibert <rhialto@falu.nl>/g
@@ -145,6 +145,7 @@ s/@b{Gary Glenn}/Gary Glenn/g
 s/@b{Jarek Sobolewski}/Jarek Sobolewski <r@sledinmay.com>/g
 s/@b{Magnus Lind}/Magnus Lind/g
 s/@b{Manuel Antonio Rodriguez Bas}/Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>/g
+s/@b{Helfried Peyrl}/Helfried Peyrl/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g

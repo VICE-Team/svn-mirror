@@ -14621,7 +14621,7 @@ the sound core for lower latency. Rewrote DTV SID support
 x64sc.
 
 @item
-@b{Groepaz/Hitmen}
+@b{Groepaz}
 Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
 cartconv. Implemented many bug fixes. Wrote test programs.

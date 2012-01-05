@@ -155,6 +155,51 @@ static void replacetags(void)
     free(temp);
 }
 
+static void strip_name_slashes(char *text)
+{
+    int i = 0;
+    int j = 0;
+
+    while (text[i] != 0) {
+        if (text[i] == '\\') {
+            i++;
+        } else {
+            text[j++] = text[i++];
+        }
+    }
+    text[j] = 0;
+}
+
+static void strip_emailname_slashes(char *text)
+{
+    int i = 0;
+    int j = 0;
+
+    while (text[i] != 0) {
+        if (text[i] == '\\' && text[i + 1] != '"') {
+            i++;
+        } else {
+            text[j++] = text[i++];
+        }
+    }
+    text[j] = 0;
+}
+
+static void replace_tokens(void)
+{
+    int i = 0;
+    char *found = NULL;
+
+    while (name[i] != NULL) {
+        found = strstr(name[i], "\\");
+        if (found != NULL) {
+            strip_name_slashes(name[i]);
+            strip_emailname_slashes(emailname[i]);
+        }
+        i++;
+    }
+}
+
 static void generate_infocontrib(char *in_filename, char *out_filename, char *sed_filename)
 {
     int found_start = 0;
@@ -183,6 +228,7 @@ static void generate_infocontrib(char *in_filename, char *out_filename, char *se
     }
 
     read_sed_file(sedfile);
+    replace_tokens();
 
     fprintf(outfile, "/*\n");
     fprintf(outfile, " * infocontrib.h - Text of contributors to VICE, as used in info.c\n");
