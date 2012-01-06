@@ -383,7 +383,9 @@ static void draw_std_text_foreground(unsigned int start_char,
     }
 }
 
-/* Hires Bitmap mode.  */
+/*
+    Hires Bitmap mode.
+*/
 
 static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
                             unsigned int *xe, int rr)
@@ -463,7 +465,9 @@ static void draw_hires_bitmap_foreground(unsigned int start_char,
     ALIGN_DRAW_FUNC(_draw_hires_bitmap, start_char, end_char);
 }
 
-/* Multicolor text mode.  */
+/*
+    Multicolor text mode.  
+*/
 
 static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
                        unsigned int *xe, int rr)
@@ -500,30 +504,32 @@ static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
 
 inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe)
 {
-     BYTE c[12];
-     BYTE *char_ptr;
-     WORD *ptmp;
-     unsigned int i;
+    BYTE c[12];
+    BYTE *char_ptr;
+    WORD *ptmp;
+    unsigned int i, v, d;
 
-     char_ptr = ted.chargen_ptr + ted.raster.ycounter;
+    char_ptr = ted.chargen_ptr + ted.raster.ycounter;
 
-     c[1] = c[0] = ted.raster.background_color;
-     c[3] = c[2] = ted.ext_background_color[0];
-     c[5] = c[4] = ted.ext_background_color[1];
-     c[11] = c[8] = ted.raster.background_color;
+    c[1] = c[0] = ted.raster.background_color;
+    c[3] = c[2] = ted.ext_background_color[0];
+    c[5] = c[4] = ted.ext_background_color[1];
+    c[11] = c[8] = ted.raster.background_color;
 
-     ptmp = (WORD *)(p + xs * 8);
-     for (i = xs; i <= xe; i++) {
-         unsigned int d = (*(char_ptr + ted.vbuf[i] * 8))
-                          | ((ted.cbuf[i] & 0x8) << 5);
+    ptmp = (WORD *)(p + xs * 8);
+    for (i = xs; i <= xe; i++) {
+/*         unsigned int d = (*(char_ptr + ted.vbuf[i] * 8))
+                          | ((ted.cbuf[i] & 0x8) << 5); */
+        v = ted.vbuf[i] & (ted.reverse_mode ? 0xff : 0x7f);
+        d = char_ptr[v * 8] | ((ted.cbuf[i] & 0x8) << 5);
 
-         c[10] = c[9] = c[7] = c[6] = ted.cbuf[i] & 0x77;
+        c[10] = c[9] = c[7] = c[6] = ted.cbuf[i] & 0x77;
 
-         ptmp[0] = ((WORD *)c)[mc_table[d]];
-         ptmp[1] = ((WORD *)c)[mc_table[0x200 + d]];
-         ptmp[2] = ((WORD *)c)[mc_table[0x400 + d]];
-         ptmp[3] = ((WORD *)c)[mc_table[0x600 + d]];
-         ptmp += 4;
+        ptmp[0] = ((WORD *)c)[mc_table[d]];
+        ptmp[1] = ((WORD *)c)[mc_table[0x200 + d]];
+        ptmp[2] = ((WORD *)c)[mc_table[0x400 + d]];
+        ptmp[3] = ((WORD *)c)[mc_table[0x600 + d]];
+        ptmp += 4;
     }
 }
 

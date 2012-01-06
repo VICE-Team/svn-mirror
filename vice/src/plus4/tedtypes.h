@@ -216,7 +216,7 @@ struct ted_s {
     /* Extended background colors (1, 2 and 3).  */
     int ext_background_color[3];
 
-    /* Flag: is reverse mode enabled or not */
+    /* Flag: is reverse mode enabled or not (bit 7 of $ff07) */
     int reverse_mode;
 
     /* Flag: are we in idle state? */
