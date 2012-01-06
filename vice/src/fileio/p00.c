@@ -105,17 +105,20 @@ static int p00_read_header(struct rawfile_info_s *info, BYTE *cbmname_return,
 {
     BYTE hdr[P00_HDR_LEN];
 
-    if (rawfile_read(info, hdr, P00_HDR_LEN) != P00_HDR_LEN)
+    if (rawfile_read(info, hdr, P00_HDR_LEN) != P00_HDR_LEN) {
         return -1;
+    }
 
     if (memcmp(hdr + P00_HDR_MAGIC_OFFSET, p00_hdr_magic_string,
-               P00_HDR_MAGIC_LEN) != 0)
+               P00_HDR_MAGIC_LEN) != 0) {
         return -1;
+    }
 
     memcpy(cbmname_return, hdr + P00_HDR_CBMNAME_OFFSET, P00_HDR_CBMNAME_LEN);
 
-    if (recsize_return != NULL)
+    if (recsize_return != NULL) {
         *recsize_return = (unsigned int)hdr[P00_HDR_RECORDSIZE_OFFSET];
+    }
 
     return 0;
 }
@@ -349,6 +352,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
         fname = lib_stralloc(file_name);
     } else {
         switch (command & FILEIO_COMMAND_MASK) {
+          case FILEIO_COMMAND_STAT:
           case FILEIO_COMMAND_READ:
           case FILEIO_COMMAND_APPEND:
           case FILEIO_COMMAND_APPEND_READ:
@@ -372,6 +376,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
         return NULL;
 
     switch (command & FILEIO_COMMAND_MASK) {
+      case FILEIO_COMMAND_STAT:
       case FILEIO_COMMAND_READ:
         if (type < 0 || p00_read_header(rawfile, (BYTE *)rname, NULL) < 0) {
             rawfile_destroy(rawfile);

@@ -166,10 +166,12 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
     bufinfo->bufp = bufinfo->name;
 
-    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8])
+    if (fsdevice_convert_p00_enabled[(vdrive->unit) - 8]) {
         format |= FILEIO_FORMAT_P00;
-    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8])
+    }
+    if (!fsdevice_hide_cbm_files_enabled[vdrive->unit - 8]) {
         format |= FILEIO_FORMAT_RAW;
+    }
 
     /*
      * Find the next directory entry and return it as a CBM
@@ -181,24 +183,27 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
     f = 1;
     do {
         BYTE *p;
-        finfo = NULL; /* iAN CooG 31/08 */
+        finfo = NULL;
 
         direntry = ioutil_readdir(bufinfo->ioutil_dir);
 
-        if (direntry == NULL)
+        if (direntry == NULL) {
             break;
+        }
 
         finfo = fileio_open(direntry, bufinfo->dir, format,
-                            FILEIO_COMMAND_READ | FILEIO_COMMAND_FSNAME,
+                            FILEIO_COMMAND_STAT | FILEIO_COMMAND_FSNAME,
                             FILEIO_TYPE_PRG);
 
-        if (finfo == NULL)
+        if (finfo == NULL) {
             continue;
+        }
 
         bufinfo->type = finfo->type;
 
-        if (bufinfo->dirmask[0] == '\0')
+        if (bufinfo->dirmask[0] == '\0') {
             break;
+        }
 
         l = (int)strlen(bufinfo->dirmask);
 
@@ -211,11 +216,13 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
                     f = 0;
                     break;
                 } /* end mask */
-                while (*p && (*p != bufinfo->dirmask[i + 1]))
+                while (*p && (*p != bufinfo->dirmask[i + 1])) {
                     p++;
+                }
             } else {
-                if (*p != bufinfo->dirmask[i])
+                if (*p != bufinfo->dirmask[i]) {
                     break;
+                }
                 p++;
             }
             if ((!*p) && (!(bufinfo->dirmask[i + 1]))) {
@@ -223,8 +230,9 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
                 break;
             }
         }
-        if (f > 0)
+        if (f > 0) {
             fileio_close(finfo);
+        }
     } while (f);
 
     if (direntry != NULL) {
@@ -240,22 +248,27 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         *p++ = 1;
 
         statrc = ioutil_stat(buf, &filelen, &isdir);
-        if (statrc == 0)
+        if (statrc == 0) {
             blocks = (filelen + 253) / 254;
-        else
+        } else {
             blocks = 0;   /* this file can't be opened */
+        }
 
-        if (blocks > 0xffff)
+        if (blocks > 0xffff) {
             blocks = 0xffff; /* Limit file size to 16 bits.  */
+        }
 
         SET_LO_HI(p, blocks);
 
-        if (blocks < 10)
+        if (blocks < 10) {
             *p++ = ' ';
-        if (blocks < 100)
+        }
+        if (blocks < 100) {
             *p++ = ' ';
-        if (blocks < 1000)
+        }
+        if (blocks < 1000) {
             *p++ = ' ';
+        }
 
         /*
          * Filename
@@ -263,11 +276,14 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
         *p++ = '"';
 
-        for (i = 0; finfo->name[i] && (*p = finfo->name[i]); ++i, ++p);
+        for (i = 0; finfo->name[i] && (*p = finfo->name[i]); ++i, ++p) {
+            ;
+        }
 
         *p++ = '"';
-        for (; i < 16; i++)
+        for (; i < 16; i++) {
             *p++ = ' ';
+        }
 
         if (isdir != 0) {
             *p++ = ' '; /* normal file */
@@ -275,10 +291,11 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
             *p++ = 'I';
             *p++ = 'R';
         } else {
-            if (blocks)
+            if (blocks) {
                 *p++ = ' '; /* normal file */
-            else
+            } else {
                 *p++ = '*'; /* splat file */
+            }
             switch(bufinfo->type) {
               case CBMDOS_FT_DEL:
                 *p++ = 'D';
@@ -308,8 +325,9 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
             }
         }
 
-        if (ioutil_access(buf, IOUTIL_ACCESS_W_OK))
+        if (ioutil_access(buf, IOUTIL_ACCESS_W_OK)) {
             *p++ = '<'; /* read-only file */
+        }
 
         *p = '\0';        /* to allow strlen */
 
@@ -344,8 +362,9 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         bufinfo->eof++;
     }
 
-    if (finfo != NULL) /* iAN CooG 31/08 */
+    if (finfo != NULL) {
         fileio_close(finfo);
+    }
 
     lib_free(buf);
 }
