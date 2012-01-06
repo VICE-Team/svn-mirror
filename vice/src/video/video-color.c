@@ -471,57 +471,39 @@ static void video_cbm_palette_to_ycbcr_oddlines(video_resources_t *video_resourc
     }
 }
 
-/* Calculate a RGB palette out of VIC/VIC-II/TED colors.  */
+/*
+    Calculate a RGB palette out of VIC/VIC-II/TED colors (in ycbcr format),
+    apply saturation, brightness, contrast, tint and gamma settings.
+
+    this palette will be used for screenshots and by renderers if CRT emulation 
+    is disabled.
+*/
 static palette_t *video_calc_palette(struct video_canvas_s *canvas, const video_ycbcr_palette_t *p)
 {
     palette_t *prgb;
-    video_ycbcr_color_t primary;
-    unsigned int i, j, index;
-    float sat, bri, con, gam, cb, cr,tin;
+    unsigned int i;
+    float sat, bri, con, gam, tin;
     video_resources_t *video_resources = &(canvas->videoconfig->video_resources);
 
     DBG(("video_calc_palette"));
 
-    sat = ((float)(video_resources->color_saturation     )) / 1000.0f;
-    bri = ((float)(video_resources->color_brightness-1000)) * (128.0f / 1000.0f);
-    con = ((float)(video_resources->color_contrast       )) / 1000.0f;
+    sat = ((float)(video_resources->color_saturation)) / 1000.0f;
+    bri = ((float)(video_resources->color_brightness - 1000)) * (128.0f / 1000.0f);
+    con = ((float)(video_resources->color_contrast)) / 1000.0f;
     gam = video_get_gamma(video_resources);
-    tin = (((float)(video_resources->color_tint           )) / (2000.0f / 50.0f))-25.0f;
+    tin = (((float)(video_resources->color_tint)) / (2000.0f / 50.0f)) - 25.0f;
 
-    if ((canvas->videoconfig->filter != VIDEO_FILTER_CRT) || (p->num_entries > 16)) {
-        /* create RGB palette with the base colors of the video chip */
-
-        prgb = palette_create(p->num_entries, NULL);
-        if (prgb == NULL)
-            return NULL;
-
-        for (i = 0; i <p->num_entries; i++) {
-            video_convert_ycbcr_to_rgb(&p->entries[i], sat, bri, con, gam, tin,
-                                       &prgb->entries[i]);
-        }
-    } else {
-        /* create RGB palette with the mixed base colors of the video chip */
-        /* this is for the fake pal emu only, maximum 16 colors allowed */
-
-        prgb = palette_create(p->num_entries * p->num_entries, NULL);
-        if (prgb == NULL) {
-            return NULL;
-        }
-        index = 0;
-        for (j = 0; j < p->num_entries; j++) {
-            primary = p->entries[j];
-            cb = primary.cb;
-            cr = primary.cr;
-            for (i = 0; i < p->num_entries; i++) {
-                primary = p->entries[i];
-                primary.cb = (primary.cb + cb) * 0.5f;
-                primary.cr = (primary.cr + cr) * 0.5f;
-                video_convert_ycbcr_to_rgb(&primary, sat, bri, con, gam, tin,
-                                           &prgb->entries[index]);
-                index++;
-            }
-        }
+    /* create RGB palette with the base colors of the video chip */
+    prgb = palette_create(p->num_entries, NULL);
+    if (prgb == NULL) {
+        return NULL;
     }
+
+    for (i = 0; i < p->num_entries; i++) {
+        video_convert_ycbcr_to_rgb(&p->entries[i], sat, bri, con, gam, tin,
+                                    &prgb->entries[i]);
+    }
+
     return prgb;
 }
 
