@@ -1,5 +1,5 @@
 /*
- * vsidui.c - Implementation of the C64-specific part of the UI.
+ * vsidui.c - Implementation of the VSID-specific part of the UI.
  *
  * Written by
  *  Dag Lem <resid@nimrod.no>
