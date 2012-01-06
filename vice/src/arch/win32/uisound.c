@@ -127,9 +127,11 @@ static int move_buttons_group[] = {
 
 static void init_sound_dialog(HWND hwnd)
 {
+#ifndef NODIRECTX
+    const char *devicename;
+#endif
     HWND snd_hwnd;
     int i, res_value;
-    const char *devicename;
     char tmp[20];
     int xpos;
     RECT rect;
