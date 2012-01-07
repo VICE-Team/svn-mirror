@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2011-12-04 15:37+0100\n"
+"PO-Revision-Date: 2012-01-07 18:48+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -283,9 +283,8 @@ msgid "Screenshots"
 msgstr "Screenshots"
 
 #: src/arch/unix/gui/c128ui.c:502 src/arch/unix/gui/c128ui.c:548
-#, fuzzy
 msgid "C128 model"
-msgstr "CIA 1 Modell"
+msgstr "C128 Modell"
 
 #: src/arch/unix/gui/c128ui.c:510 src/arch/win32/resc128.rc.po.c:681
 #: src/arch/amigaos/intl_text.c.po.c:3143
@@ -698,9 +697,8 @@ msgid "Model defaults"
 msgstr "Modell Standardeinstellungen"
 
 #: src/arch/unix/gui/cbm2ui.c:286
-#, fuzzy
 msgid "CIA model"
-msgstr "CIA 1 Modell"
+msgstr "CIA Modell"
 
 #: src/arch/unix/gui/cbm2ui.c:288 src/arch/unix/gui/cbm2ui.c:321
 #: src/arch/unix/gui/petui.c:313
@@ -1510,21 +1508,16 @@ msgid "Run C1541"
 msgstr "C1541 starten"
 
 #: src/arch/unix/gui/uicommands.c:591
-#, fuzzy
 msgid "Available command-line options:"
-msgstr ""
-"\n"
-"Zulässige Kommandozeilen Optionen:\n"
-"\n"
+msgstr "Zulässige Kommandozeilen Optionen:"
 
 #: src/arch/unix/gui/uicommands.c:596
 msgid "Browse manuals"
 msgstr "Dokumentation durchstöbern"
 
 #: src/arch/unix/gui/uicommands.c:598
-#, fuzzy
 msgid "Commandline options"
-msgstr "Kommandozeilen Paramteter"
+msgstr "Kommandozeilen Parameter"
 
 #: src/arch/unix/gui/uicommands.c:600 src/arch/win32/res.rc.po.c:176
 #: src/arch/win32/res.rc.po.c:1396 src/arch/amigaos/intl_text.c.po.c:3073
@@ -1667,9 +1660,8 @@ msgstr "CRT Emulator Einstellungen"
 #: src/arch/unix/gui/uicrtc.c:165 src/arch/unix/gui/uited.c:152
 #: src/arch/unix/gui/uivdc.c:182 src/arch/unix/gui/uivic.c:168
 #: src/arch/unix/gui/uivicii.c:193
-#, fuzzy
 msgid "Audio leak emulation"
-msgstr "Paddle Emulation"
+msgstr "Audio Leak Emulation"
 
 #: src/arch/unix/gui/uicrtc.c:169 src/arch/unix/gui/uited.c:156
 #: src/arch/unix/gui/uivdc.c:186 src/arch/unix/gui/uivic.c:172
@@ -1842,9 +1834,8 @@ msgstr "Präzise Floppy Emulation"
 #: src/arch/unix/gui/uidrivec64.c:45 src/arch/unix/gui/uidrivec64dtv.c:46
 #: src/arch/unix/gui/uidrivepetcbm2.c:95 src/arch/unix/gui/uidriveplus4.c:229
 #: src/arch/unix/gui/uidrivevic20.c:68
-#, fuzzy
 msgid "Drive sound emulation"
-msgstr "Drucke Emulation"
+msgstr "Laufwerk Geräuschemulation"
 
 #: src/arch/unix/gui/uidrive.c:191 src/arch/unix/gui/uidrivec64dtv.c:48
 #: src/translate_text.c.po.c:12568
@@ -5927,9 +5918,8 @@ msgid "Sound playback"
 msgstr "Sound Wiedergabe"
 
 #: src/arch/win32/res.rc.po.c:1413
-#, fuzzy
 msgid "Double vertical"
-msgstr "Vertical anordnen"
+msgstr "Vertical verdpoppeln"
 
 #: src/arch/win32/res.rc.po.c:1418 src/arch/amigaos/intl_text.c.po.c:455
 msgid "Smart-attach image"
@@ -6370,9 +6360,8 @@ msgid "ACIA mode"
 msgstr "ACIA Modus"
 
 #: src/arch/win32/resautostart.rc.po.c:47
-#, fuzzy
 msgid "Random delay"
-msgstr "Autostart Zufallsverzögerung"
+msgstr "Zufallsverzögerung"
 
 #: src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:9724
@@ -6967,14 +6956,12 @@ msgid "Plus4 settings"
 msgstr "Plus4 Einstellungen"
 
 #: src/arch/win32/resplus4.rc.po.c:458
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 Low"
-msgstr "Cartridge1 (low) Erweiterungsmodul einlegen"
+msgstr "Cartridge0 (low) Erweiterungsmodul einlegen"
 
 #: src/arch/win32/resplus4.rc.po.c:459
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 High"
-msgstr "Cartridge1 (high) Erweiterungsmodul einlegen"
+msgstr "Cartridge0 (high) Erweiterungsmodul einlegen"
 
 #: src/arch/win32/resplus4.rc.po.c:460 src/arch/amigaos/intl_text.c.po.c:8282
 msgid "Attach cartridge image for Cartridge1 Low"
@@ -6993,14 +6980,12 @@ msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Cartridge1 (high) Erweiterungsmodul einlegen"
 
 #: src/arch/win32/resplus4.rc.po.c:464
-#, fuzzy
 msgid "Function Lo"
-msgstr "Function ROM"
+msgstr "Function Lo"
 
 #: src/arch/win32/resplus4.rc.po.c:465
-#, fuzzy
 msgid "Function Hi"
-msgstr "Function ROM"
+msgstr "Function Hi"
 
 #: src/arch/win32/resplus4.rc.po.c:467
 msgid "16 kByte"
@@ -7031,19 +7016,16 @@ msgid "4096 kByte (HANNES)"
 msgstr "4096 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:474
-#, fuzzy
 msgid "Plus4 model"
-msgstr "C64 Modell"
+msgstr "Plus4 Modell"
 
 #: src/arch/win32/resplus4.rc.po.c:475
-#, fuzzy
 msgid "C0 low  image"
-msgstr "C1 low Image Datei"
+msgstr "C0 low Image Datei"
 
 #: src/arch/win32/resplus4.rc.po.c:476
-#, fuzzy
 msgid "C0 high image"
-msgstr "C1 high Image Datei"
+msgstr "C0 high Image Datei"
 
 #: src/arch/win32/resplus4.rc.po.c:477 src/arch/amigaos/intl_text.c.po.c:553
 msgid "C1 low  image"
@@ -7068,9 +7050,8 @@ msgid "V364 Speech settings"
 msgstr "V364 Stimme Einstellungen"
 
 #: src/arch/win32/resplus4.rc.po.c:483
-#, fuzzy
 msgid "Plus4 model settings"
-msgstr "C64 Modell Einstellungen"
+msgstr "Plus4 Modell Einstellungen"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:12092
 msgid "Enable the PLUS60K RAM expansion"
@@ -9249,7 +9230,7 @@ msgstr "Wähle C64 Modell (c64/c64c/c64alt/c64ntsc/c64cntsc/c64oldntsc/drean)"
 
 #: src/translate_text.c.po.c:4070
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
-msgstr ""
+msgstr "Wähle C128 Modell (c128/c128dcr, pal/ntsc)"
 
 #: src/translate_text.c.po.c:4087
 msgid ""
@@ -10590,14 +10571,12 @@ msgid "Disable double scan"
 msgstr "Doppelt Scan deaktivieren"
 
 #: src/translate_text.c.po.c:10348
-#, fuzzy
 msgid "Enable audio leak emulation"
-msgstr "Lichtgriffel Emulation aktivieren"
+msgstr "Audio Leak Emulation aktivieren"
 
 #: src/translate_text.c.po.c:10365
-#, fuzzy
 msgid "Disable audio leak emulation"
-msgstr "Lichtgriffel Emulation deaktivieren"
+msgstr "Audio Leak Emulation deaktivieren"
 
 #: src/translate_text.c.po.c:10382
 msgid "Enable hardware scaling"
