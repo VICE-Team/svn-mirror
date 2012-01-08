@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-05 22:49+0200\n"
+"PO-Revision-Date: 2012-01-09 00:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -7507,37 +7507,37 @@ msgstr "Загрузить настройки из указанного файла"
 #: src/arch/win32/res.rc.po.c:1529
 #: src/arch/amigaos/intl_text.c.po.c:2989
 msgid "Save current settings"
-msgstr ""
+msgstr "Сохранить текущие настройки"
 
 #: src/arch/win32/res.rc.po.c:1530
 #: src/arch/amigaos/intl_text.c.po.c:3003
 msgid "Load saved settings"
-msgstr ""
+msgstr "Загрузить сохраненные настройки"
 
 #: src/arch/win32/res.rc.po.c:1531
 #: src/arch/amigaos/intl_text.c.po.c:3017
 msgid "Set default settings"
-msgstr ""
+msgstr "Установить настройки по умолчанию"
 
 #: src/arch/win32/res.rc.po.c:1534
 #: src/arch/amigaos/intl_text.c.po.c:3157
 msgid "English"
-msgstr ""
+msgstr "английский"
 
 #: src/arch/win32/res.rc.po.c:1535
 #: src/arch/amigaos/intl_text.c.po.c:3171
 msgid "Danish"
-msgstr ""
+msgstr "датский"
 
 #: src/arch/win32/res.rc.po.c:1537
 #: src/arch/amigaos/intl_text.c.po.c:3199
 msgid "Spanish"
-msgstr ""
+msgstr "испанский"
 
 #: src/arch/win32/res.rc.po.c:1539
 #: src/arch/amigaos/intl_text.c.po.c:3241
 msgid "Hungarian"
-msgstr ""
+msgstr "венгерский"
 
 #: src/arch/win32/res.rc.po.c:1541
 #: src/arch/amigaos/intl_text.c.po.c:3269
@@ -7548,85 +7548,85 @@ msgstr "*Норвежский"
 #: src/arch/win32/res.rc.po.c:1542
 #: src/arch/amigaos/intl_text.c.po.c:3283
 msgid "Dutch"
-msgstr ""
+msgstr "голландский"
 
 #: src/arch/win32/res.rc.po.c:1543
 #: src/arch/amigaos/intl_text.c.po.c:3297
 msgid "Polish"
-msgstr ""
+msgstr "польский"
 
 #: src/arch/win32/res.rc.po.c:1544
 #: src/arch/amigaos/intl_text.c.po.c:3325
 msgid "Russian"
-msgstr ""
+msgstr "русский"
 
 #: src/arch/win32/res.rc.po.c:1546
 #: src/arch/amigaos/intl_text.c.po.c:3353
 msgid "Turkish"
-msgstr ""
+msgstr "турецкий"
 
 #: src/arch/win32/res.rc.po.c:1551
 #: src/arch/amigaos/intl_text.c.po.c:1533
 msgid "Fullscreen"
-msgstr ""
+msgstr "Во весь экран"
 
 #: src/arch/win32/res.rc.po.c:1552
 #: src/arch/amigaos/intl_text.c.po.c:2849
 #: src/arch/amigaos/intl_text.c.po.c:8184
 msgid "SID cart settings"
-msgstr ""
+msgstr "SID cart settings"
 
 #: src/arch/win32/res.rc.po.c:1553
 msgid "Open"
-msgstr ""
+msgstr "Открыть"
 
 #: src/arch/win32/res.rc.po.c:1555
 msgid "Print"
-msgstr ""
+msgstr "Печать"
 
 #: src/arch/win32/res.rc.po.c:1556
 msgid "Exit        Alt+F4"
-msgstr ""
+msgstr "Выйти        Alt+F4"
 
 #: src/arch/win32/res.rc.po.c:1557
 msgid "Stop Debug"
-msgstr ""
+msgstr "Stop Debug"
 
 #: src/arch/win32/res.rc.po.c:1558
 msgid "Stop Execution"
-msgstr ""
+msgstr "Прекратить выполнение"
 
 #: src/arch/win32/res.rc.po.c:1559
 msgid "Step into"
-msgstr ""
+msgstr "Step into"
 
 #: src/arch/win32/res.rc.po.c:1560
 msgid "Step over"
-msgstr ""
+msgstr "Step over"
 
 #: src/arch/win32/res.rc.po.c:1561
 msgid "Step until return"
-msgstr ""
+msgstr "Step until return"
 
 #: src/arch/win32/res.rc.po.c:1562
 msgid "Go to cursor"
-msgstr ""
+msgstr "Go to cursor"
 
 #: src/arch/win32/res.rc.po.c:1563
 msgid "Evaluate"
-msgstr ""
+msgstr "Evaluate"
 
 #: src/arch/win32/res.rc.po.c:1564
 msgid "Current instruction"
-msgstr ""
+msgstr "Current instruction"
 
 #: src/arch/win32/res.rc.po.c:1565
 msgid "Evaluation window"
-msgstr ""
+msgstr "Evaluation window"
 
 #: src/arch/win32/res.rc.po.c:1566
 msgid "Register window"
-msgstr ""
+msgstr "Register window"
 
 #: src/arch/win32/res.rc.po.c:1567
 #, fuzzy
@@ -7635,222 +7635,222 @@ msgstr "Объём памяти"
 
 #: src/arch/win32/res.rc.po.c:1568
 msgid "Disassembly window"
-msgstr ""
+msgstr "Disassembly window"
 
 #: src/arch/win32/res.rc.po.c:1569
 msgid "Console window"
-msgstr ""
+msgstr "Console window"
 
 #: src/arch/win32/res.rc.po.c:1573
 msgid "Cascade"
-msgstr ""
+msgstr "Cascade"
 
 #: src/arch/win32/res.rc.po.c:1574
 msgid "Tile vertically"
-msgstr ""
+msgstr "Tile vertically"
 
 #: src/arch/win32/res.rc.po.c:1575
 msgid "Tile horizontally"
-msgstr ""
+msgstr "Tile horizontally"
 
 #: src/arch/win32/res.rc.po.c:1576
 msgid "Arrange icons"
-msgstr ""
+msgstr "Упорядочить значки"
 
 #: src/arch/win32/resacia.rc.po.c:79
 #: src/arch/amigaos/intl_text.c.po.c:4809
 msgid "IRQ"
-msgstr ""
+msgstr "IRQ"
 
 #: src/arch/win32/resacia.rc.po.c:80
 #: src/arch/amigaos/intl_text.c.po.c:4823
 msgid "NMI"
-msgstr ""
+msgstr "NMI"
 
 #: src/arch/win32/resacia.rc.po.c:82
 msgid "Swiftlink"
-msgstr ""
+msgstr "Swiftlink"
 
 #: src/arch/win32/resacia.rc.po.c:83
 msgid "Turbo232"
-msgstr ""
+msgstr "Turbo232"
 
 #: src/arch/win32/resacia.rc.po.c:85
 #: src/translate_text.c.po.c:3659
 msgid "Enable the ACIA RS232 interface emulation"
-msgstr ""
+msgstr "Enable the ACIA RS232 interface emulation"
 
 #: src/arch/win32/resacia.rc.po.c:87
 msgid "ACIA location"
-msgstr ""
+msgstr "ACIA location"
 
 #: src/arch/win32/resacia.rc.po.c:89
 #: src/arch/amigaos/intl_text.c.po.c:4879
 msgid "ACIA mode"
-msgstr ""
+msgstr "ACIA mode"
 
 #: src/arch/win32/resautostart.rc.po.c:47
 msgid "Random delay"
-msgstr ""
+msgstr "Random delay"
 
 #: src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:9724
 msgid "Select file for PRG autostart disk"
-msgstr ""
+msgstr "Select file for PRG autostart disk"
 
 #: src/arch/win32/resc128.rc.po.c:192
 #: src/arch/win32/resc128.rc.po.c:695
 #: src/arch/amigaos/intl_text.c.po.c:1617
 msgid "VDC revision"
-msgstr ""
+msgstr "VDC revision"
 
 #: src/arch/win32/resc128.rc.po.c:647
 #: src/arch/amigaos/intl_text.c.po.c:9080
 msgid "Select Internal Function ROM file"
-msgstr ""
+msgstr "Select Internal Function ROM file"
 
 #: src/arch/win32/resc128.rc.po.c:648
 #: src/arch/amigaos/intl_text.c.po.c:9094
 msgid "Select External Function ROM file"
-msgstr ""
+msgstr "Select External Function ROM file"
 
 #: src/arch/win32/resc128.rc.po.c:651
 #: src/arch/win32/rescbm2.rc.po.c:507
 msgid "RAM banks"
-msgstr ""
+msgstr "RAM banks"
 
 #: src/arch/win32/resc128.rc.po.c:652
 #: src/arch/win32/resc128.rc.po.c:698
 #: src/arch/amigaos/intl_text.c.po.c:2415
 #: src/arch/amigaos/intl_text.c.po.c:9192
 msgid "C128 settings"
-msgstr ""
+msgstr "Настройки C128"
 
 #: src/arch/win32/resc128.rc.po.c:653
 msgid "Kernal Int."
-msgstr ""
+msgstr "Kernal Int."
 
 #: src/arch/win32/resc128.rc.po.c:654
 msgid "Kernal DE"
-msgstr ""
+msgstr "Kernal DE"
 
 #: src/arch/win32/resc128.rc.po.c:655
 msgid "Kernal FI"
-msgstr ""
+msgstr "Kernal FI"
 
 #: src/arch/win32/resc128.rc.po.c:656
 msgid "Kernal FR"
-msgstr ""
+msgstr "Kernal FR"
 
 #: src/arch/win32/resc128.rc.po.c:657
 msgid "Kernal IT"
-msgstr ""
+msgstr "Kernal IT"
 
 #: src/arch/win32/resc128.rc.po.c:658
 msgid "Kernal NO"
-msgstr ""
+msgstr "Kernal NO"
 
 #: src/arch/win32/resc128.rc.po.c:659
 msgid "Kernal SE"
-msgstr ""
+msgstr "Kernal SE"
 
 #: src/arch/win32/resc128.rc.po.c:660
 msgid "Basic LO"
-msgstr ""
+msgstr "Basic LO"
 
 #: src/arch/win32/resc128.rc.po.c:661
 msgid "Basic HI"
-msgstr ""
+msgstr "Basic HI"
 
 #: src/arch/win32/resc128.rc.po.c:662
 msgid "Char. Int."
-msgstr ""
+msgstr "Char. Int."
 
 #: src/arch/win32/resc128.rc.po.c:663
 msgid "Char. DE"
-msgstr ""
+msgstr "Char. DE"
 
 #: src/arch/win32/resc128.rc.po.c:664
 msgid "Char. FR"
-msgstr ""
+msgstr "Char. FR"
 
 #: src/arch/win32/resc128.rc.po.c:665
 msgid "Char. SE"
-msgstr ""
+msgstr "Char. SE"
 
 #: src/arch/win32/resc128.rc.po.c:666
 msgid "Kernal C64"
-msgstr ""
+msgstr "Kernal C64"
 
 #: src/arch/win32/resc128.rc.po.c:667
 msgid "Basic C64"
-msgstr ""
+msgstr "Basic C64"
 
 #: src/arch/win32/resc128.rc.po.c:668
 msgid "International Kernal"
-msgstr ""
+msgstr "International Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:669
 msgid "German Kernal"
-msgstr ""
+msgstr "German Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:670
 msgid "Finnish Kernal"
-msgstr ""
+msgstr "Finnish Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:671
 msgid "French Kernal"
-msgstr ""
+msgstr "French Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:672
 msgid "Italian Kernal"
-msgstr ""
+msgstr "Italian Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:673
 msgid "Norwegian Kernal"
-msgstr ""
+msgstr "Norwegian Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:674
 msgid "Swedish Kernal"
-msgstr ""
+msgstr "Swedish Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:675
 msgid "International Character"
-msgstr ""
+msgstr "International Character"
 
 #: src/arch/win32/resc128.rc.po.c:676
 msgid "German Character"
-msgstr ""
+msgstr "German Character"
 
 #: src/arch/win32/resc128.rc.po.c:677
 msgid "French Character"
-msgstr ""
+msgstr "French Character"
 
 #: src/arch/win32/resc128.rc.po.c:678
 msgid "Swedish Character"
-msgstr ""
+msgstr "Swedish Character"
 
 #: src/arch/win32/resc128.rc.po.c:679
 msgid "C64 mode Kernal"
-msgstr ""
+msgstr "C64 mode Kernal"
 
 #: src/arch/win32/resc128.rc.po.c:680
 msgid "C64 mode Basic"
-msgstr ""
+msgstr "C64 mode Basic"
 
 #: src/arch/win32/resc128.rc.po.c:688
 #: src/arch/amigaos/intl_text.c.po.c:9122
 msgid "Internal Function ROM"
-msgstr ""
+msgstr "Internal Function ROM"
 
 #: src/arch/win32/resc128.rc.po.c:691
 #: src/arch/amigaos/intl_text.c.po.c:9150
 msgid "External Function ROM"
-msgstr ""
+msgstr "External Function ROM"
 
 #: src/arch/win32/resc128.rc.po.c:693
 msgid "Enable RAM banks 2 and 3"
-msgstr ""
+msgstr "Enable RAM banks 2 and 3"
 
 #: src/arch/win32/resc128.rc.po.c:697
 #: src/arch/amigaos/intl_text.c.po.c:1911
@@ -7885,42 +7885,42 @@ msgstr "Настройки RS232"
 #: src/arch/win32/resc64.rc.po.c:575
 #: src/arch/amigaos/intl_text.c.po.c:9878
 msgid "6569 (PAL)"
-msgstr ""
+msgstr "6569 (PAL)"
 
 #: src/arch/win32/resc64.rc.po.c:576
 #: src/arch/amigaos/intl_text.c.po.c:9892
 msgid "8565 (PAL)"
-msgstr ""
+msgstr "8565 (PAL)"
 
 #: src/arch/win32/resc64.rc.po.c:578
 #: src/arch/amigaos/intl_text.c.po.c:9920
 msgid "6567 (NTSC)"
-msgstr ""
+msgstr "6567 (NTSC)"
 
 #: src/arch/win32/resc64.rc.po.c:579
 #: src/arch/amigaos/intl_text.c.po.c:9934
 msgid "8562 (NTSC)"
-msgstr ""
+msgstr "8562 (NTSC)"
 
 #: src/arch/win32/resc64.rc.po.c:581
 #: src/arch/amigaos/intl_text.c.po.c:9962
 msgid "6572 (PAL-N)"
-msgstr ""
+msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64_256k.rc.po.c:29
 #: src/translate_text.c.po.c:12160
 msgid "Enable the 256K RAM expansion"
-msgstr ""
+msgstr "Enable the 256K RAM expansion"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:4921
 msgid "256K base address"
-msgstr ""
+msgstr "256K base address"
 
 #: src/arch/win32/resc64_256k.rc.po.c:32
 #: src/arch/amigaos/intl_text.c.po.c:4949
 msgid "Select file for 256K"
-msgstr ""
+msgstr "Select file for 256K"
 
 #: src/arch/win32/resc64dtv.rc.po.c:38
 #: src/arch/win32/resc64dtv.rc.po.c:436
@@ -7931,11 +7931,11 @@ msgstr "Файл установки ПЗУ"
 
 #: src/arch/win32/resc64dtv.rc.po.c:434
 msgid "Attach DTV Flash Image"
-msgstr ""
+msgstr "Attach DTV Flash Image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:435
 msgid "DTV ROM"
-msgstr ""
+msgstr "DTV ROM"
 
 #: src/arch/win32/resc64dtv.rc.po.c:438
 #: src/arch/win32/resc64dtv.rc.po.c:452
@@ -7948,64 +7948,64 @@ msgstr "Настройки CRTC"
 #: src/arch/win32/resc64dtv.rc.po.c:440
 #: src/translate_text.c.po.c:4225
 msgid "Enable Hummer ADC"
-msgstr ""
+msgstr "Enable Hummer ADC"
 
 #: src/arch/win32/resc64dtv.rc.po.c:441
 #: src/arch/win32/resc64dtv.rc.po.c:449
 msgid "Create DTV Flash Image"
-msgstr ""
+msgstr "Create DTV Flash Image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:442
 msgid "DTV ROM Creation"
-msgstr ""
+msgstr "DTV ROM Creation"
 
 #: src/arch/win32/resc64dtv.rc.po.c:443
 msgid "Copy C64 ROMS into image"
-msgstr ""
+msgstr "Copy C64 ROMS into image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:444
 msgid "Create"
-msgstr ""
+msgstr "Создать"
 
 #: src/arch/win32/resc64dtv.rc.po.c:447
 msgid "Attach flash rom image"
-msgstr ""
+msgstr "Attach flash rom image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:448
 msgid "Detach flash rom image"
-msgstr ""
+msgstr "Detach flash rom image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:450
 msgid "True flash filesystem"
-msgstr ""
+msgstr "True flash filesystem"
 
 #: src/arch/win32/rescbm2.rc.po.c:496
 #: src/arch/win32/rescbm2.rc.po.c:514
 #: src/arch/amigaos/intl_text.c.po.c:2135
 #: src/arch/amigaos/intl_text.c.po.c:5201
 msgid "CBM2 settings"
-msgstr ""
+msgstr "CBM2 settings"
 
 #: src/arch/win32/rescbm2.rc.po.c:497
 msgid "Cart 1"
-msgstr ""
+msgstr "Cart 1"
 
 #: src/arch/win32/rescbm2.rc.po.c:498
 msgid "Cart 2"
-msgstr ""
+msgstr "Cart 2"
 
 #: src/arch/win32/rescbm2.rc.po.c:499
 msgid "Cart 4"
-msgstr ""
+msgstr "Cart 4"
 
 #: src/arch/win32/rescbm2.rc.po.c:500
 msgid "Cart 6"
-msgstr ""
+msgstr "Cart 6"
 
 #: src/arch/win32/rescbm2.rc.po.c:501
 #: src/arch/win32/respet.rc.po.c:547
 msgid "Machine defaults"
-msgstr ""
+msgstr "Machine defaults"
 
 #: src/arch/win32/rescbm2.rc.po.c:502
 #: src/arch/amigaos/intl_text.c.po.c:5061
@@ -8036,40 +8036,40 @@ msgstr "*1024 Кбайт"
 #: src/arch/win32/resdigimax.rc.po.c:23
 #: src/translate_text.c.po.c:12978
 msgid "Enable the DigiMAX cartridge"
-msgstr ""
+msgstr "Enable the DigiMAX cartridge"
 
 #: src/arch/win32/resdigimax.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:9262
 msgid "DigiMAX base"
-msgstr ""
+msgstr "DigiMAX base"
 
 #: src/arch/win32/resdqbb.rc.po.c:36
 #: src/arch/amigaos/intl_text.c.po.c:5663
 msgid "Select file for DQBB"
-msgstr ""
+msgstr "Select file for DQBB"
 
 #: src/arch/win32/resdqbb.rc.po.c:38
 #: src/translate_text.c.po.c:4735
 msgid "Enable Double Quick Brown Box"
-msgstr ""
+msgstr "Enable Double Quick Brown Box"
 
 #: src/arch/win32/resdqbb.rc.po.c:39
 #: src/arch/amigaos/intl_text.c.po.c:5649
 msgid "Save DQBB image when changed"
-msgstr ""
+msgstr "Save DQBB image when changed"
 
 #: src/arch/win32/reseasyflash.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:9836
 msgid "EasyFlash jumper"
-msgstr ""
+msgstr "EasyFlash jumper"
 
 #: src/arch/win32/reseasyflash.rc.po.c:31
 msgid "Save CRT on detach"
-msgstr ""
+msgstr "Save CRT on detach"
 
 #: src/arch/win32/reseasyflash.rc.po.c:32
 msgid "Save CRT now"
-msgstr ""
+msgstr "Save CRT now"
 
 #: src/arch/win32/resexpert.rc.po.c:39
 #: src/arch/amigaos/intl_text.c.po.c:5607
@@ -8086,12 +8086,12 @@ msgstr "Эксперт картридж"
 #: src/arch/win32/resexpert.rc.po.c:43
 #: src/arch/amigaos/intl_text.c.po.c:5593
 msgid "Save Expert Cartridge image when changed"
-msgstr ""
+msgstr "Save Expert Cartridge image when changed"
 
 #: src/arch/win32/resgeoram.rc.po.c:65
 #: src/arch/amigaos/intl_text.c.po.c:5495
 msgid "Select file for GEO-RAM"
-msgstr ""
+msgstr "Select file for GEO-RAM"
 
 #: src/arch/win32/resgeoram.rc.po.c:67
 #: src/translate_text.c.po.c:4310
@@ -8108,7 +8108,7 @@ msgstr "Размер I/O"
 #: src/arch/win32/resgeoram.rc.po.c:69
 #: src/arch/amigaos/intl_text.c.po.c:5481
 msgid "Save GEO-RAM image when changed"
-msgstr ""
+msgstr "Save GEO-RAM image when changed"
 
 #: src/arch/win32/reside64.rc.po.c:54
 #, fuzzy
@@ -8117,19 +8117,19 @@ msgstr "Настройки SID"
 
 #: src/arch/win32/reside64.rc.po.c:55
 msgid "IDE64 HD image #1 settings"
-msgstr ""
+msgstr "IDE64 HD image #1 settings"
 
 #: src/arch/win32/reside64.rc.po.c:56
 msgid "IDE64 HD image #2 settings"
-msgstr ""
+msgstr "IDE64 HD image #2 settings"
 
 #: src/arch/win32/reside64.rc.po.c:57
 msgid "IDE64 HD image #3 settings"
-msgstr ""
+msgstr "IDE64 HD image #3 settings"
 
 #: src/arch/win32/reside64.rc.po.c:58
 msgid "IDE64 HD image #4 settings"
-msgstr ""
+msgstr "IDE64 HD image #4 settings"
 
 #: src/arch/win32/reside64.rc.po.c:60
 #, fuzzy
@@ -8144,22 +8144,22 @@ msgstr "Сохранить медиа файл"
 
 #: src/arch/win32/reside64.rc.po.c:62
 msgid "Geometry"
-msgstr ""
+msgstr "Geometry"
 
 #: src/arch/win32/reside64.rc.po.c:67
 #, c-format
 msgid "Total size: %iKB"
-msgstr ""
+msgstr "Общий размер: %iKB"
 
 #: src/arch/win32/reside64.rc.po.c:68
 #: src/arch/amigaos/intl_text.c.po.c:7624
 msgid "Select HD image file"
-msgstr ""
+msgstr "Select HD image file"
 
 #: src/arch/win32/resisepic.rc.po.c:37
 #: src/arch/amigaos/intl_text.c.po.c:5747
 msgid "Select file for ISEPIC"
-msgstr ""
+msgstr "Select file for ISEPIC"
 
 #: src/arch/win32/resisepic.rc.po.c:39
 #: src/translate_text.c.po.c:4820
@@ -8170,12 +8170,12 @@ msgstr "Картридж ISEPIC"
 #: src/arch/win32/resisepic.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:5705
 msgid "ISEPIC switch"
-msgstr ""
+msgstr "ISEPIC switch"
 
 #: src/arch/win32/resisepic.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:5733
 msgid "Save ISEPIC image when changed"
-msgstr ""
+msgstr "Save ISEPIC image when changed"
 
 #: src/arch/win32/resisepic.rc.po.c:42
 #: src/arch/amigaos/intl_text.c.po.c:5719
@@ -8191,91 +8191,91 @@ msgstr "Magic Voice"
 #: src/arch/win32/resmagicvoice.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:7162
 msgid "Select file for Magic Voice"
-msgstr ""
+msgstr "Select file for Magic Voice"
 
 #: src/arch/win32/resmidi.rc.po.c:39
 #: src/translate_text.c.po.c:12603
 msgid "Enable MIDI emulation"
-msgstr ""
+msgstr "Включить эмуляцию MIDI"
 
 #: src/arch/win32/resmidi.rc.po.c:40
 msgid "MIDI type"
-msgstr ""
+msgstr "Тип MIDI"
 
 #: src/arch/win32/resmmc64.rc.po.c:52
 #: src/translate_text.c.po.c:4905
 msgid "Enable the MMC64 expansion"
-msgstr ""
+msgstr "Enable the MMC64 expansion"
 
 #: src/arch/win32/resmmc64.rc.po.c:53
 #: src/arch/amigaos/intl_text.c.po.c:7778
 msgid "BIOS Revision"
-msgstr ""
+msgstr "BIOS Revision"
 
 #: src/arch/win32/resmmc64.rc.po.c:54
 msgid "Enable BIOS Flash Jumper"
-msgstr ""
+msgstr "Enable BIOS Flash Jumper"
 
 #: src/arch/win32/resmmc64.rc.po.c:55
 #: src/arch/amigaos/intl_text.c.po.c:7806
 msgid "Save BIOS when changed"
-msgstr ""
+msgstr "Save BIOS when changed"
 
 #: src/arch/win32/resmmc64.rc.po.c:56
 #: src/arch/amigaos/intl_text.c.po.c:7820
 msgid "BIOS File"
-msgstr ""
+msgstr "BIOS File"
 
 #: src/arch/win32/resmmc64.rc.po.c:57
 #: src/arch/amigaos/intl_text.c.po.c:7848
 msgid "MMC/SD Image read-only"
-msgstr ""
+msgstr "MMC/SD Image read-only"
 
 #: src/arch/win32/resmmc64.rc.po.c:58
 #: src/arch/amigaos/intl_text.c.po.c:7862
 msgid "MMC/SD Image File"
-msgstr ""
+msgstr "MMC/SD Image File"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:8016
 msgid "Rescue mode"
-msgstr ""
+msgstr "Rescue mode"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:6658
 msgid "read/write"
-msgstr ""
+msgstr "read/write"
 
 #: src/arch/win32/resmmcreplay.rc.po.c:53
 msgid "Save MMC Replay EEPROM when changed"
-msgstr ""
+msgstr "Save MMC Replay EEPROM when changed"
 
 #: src/arch/win32/respet.rc.po.c:541
 msgid "Input/Output"
-msgstr ""
+msgstr "Ввод/Вывод"
 
 #: src/arch/win32/respet.rc.po.c:542
 #: src/arch/win32/respet.rc.po.c:565
 #: src/arch/amigaos/intl_text.c.po.c:2163
 #: src/arch/amigaos/intl_text.c.po.c:9024
 msgid "PET settings"
-msgstr ""
+msgstr "PET settings"
 
 #: src/arch/win32/respet.rc.po.c:543
 msgid "Editor"
-msgstr ""
+msgstr "Editor"
 
 #: src/arch/win32/respet.rc.po.c:544
 msgid "ROM 9"
-msgstr ""
+msgstr "ROM 9"
 
 #: src/arch/win32/respet.rc.po.c:545
 msgid "ROM A"
-msgstr ""
+msgstr "ROM A"
 
 #: src/arch/win32/respet.rc.po.c:546
 msgid "ROM B"
-msgstr ""
+msgstr "ROM B"
 
 #: src/arch/win32/respet.rc.po.c:549
 #, fuzzy
@@ -8290,12 +8290,12 @@ msgstr "Размер I/O"
 #: src/arch/win32/respet.rc.po.c:554
 #: src/arch/amigaos/intl_text.c.po.c:8828
 msgid "256 Byte"
-msgstr ""
+msgstr "256 Byte"
 
 #: src/arch/win32/respet.rc.po.c:555
 #: src/arch/amigaos/intl_text.c.po.c:8842
 msgid "2 kByte"
-msgstr ""
+msgstr "2 kByte"
 
 #: src/arch/win32/respet.rc.po.c:560
 #, fuzzy
@@ -8305,12 +8305,12 @@ msgstr "Настройки"
 #: src/arch/win32/respet.rc.po.c:563
 #: src/arch/amigaos/intl_text.c.po.c:8996
 msgid "$9*** as RAM"
-msgstr ""
+msgstr "$9*** as RAM"
 
 #: src/arch/win32/respet.rc.po.c:564
 #: src/arch/amigaos/intl_text.c.po.c:9010
 msgid "$A*** as RAM"
-msgstr ""
+msgstr "$A*** as RAM"
 
 #: src/arch/win32/respet.rc.po.c:566
 #: src/arch/win32/respetdww.rc.po.c:24
@@ -8332,42 +8332,42 @@ msgstr "Настройки TED"
 #: src/arch/amigaos/intl_text.c.po.c:2765
 #: src/translate_text.c.po.c:4548
 msgid "Enable Userport DAC for sound output"
-msgstr ""
+msgstr "Enable Userport DAC for sound output"
 
 #: src/arch/win32/respetdww.rc.po.c:25
 #: src/translate_text.c.po.c:4514
 msgid "Enable the PET DWW hi-res board"
-msgstr ""
+msgstr "Enable the PET DWW hi-res board"
 
 #: src/arch/win32/respetdww.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:6504
 msgid "Select file for PET DWW"
-msgstr ""
+msgstr "Select file for PET DWW"
 
 #: src/arch/win32/respetreu.rc.po.c:38
 #: src/translate_text.c.po.c:4429
 msgid "Enable the PET Ram and Expansion Unit"
-msgstr ""
+msgstr "Enable the PET Ram and Expansion Unit"
 
 #: src/arch/win32/respetreu.rc.po.c:39
 #: src/arch/amigaos/intl_text.c.po.c:6392
 msgid "PET REU size"
-msgstr ""
+msgstr "PET REU size"
 
 #: src/arch/win32/respetreu.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:6420
 msgid "Select file for PET REU"
-msgstr ""
+msgstr "Select file for PET REU"
 
 #: src/arch/win32/resplus256k.rc.po.c:25
 #: src/translate_text.c.po.c:12041
 msgid "Enable the PLUS256K RAM expansion"
-msgstr ""
+msgstr "Enable the PLUS256K RAM expansion"
 
 #: src/arch/win32/resplus256k.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:2583
 msgid "Select file for PLUS256K"
-msgstr ""
+msgstr "Select file for PLUS256K"
 
 #: src/arch/win32/resplus4.rc.po.c:384
 #: src/arch/win32/resplus4.rc.po.c:466
@@ -8375,7 +8375,7 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:2233
 #: src/arch/amigaos/intl_text.c.po.c:9066
 msgid "Plus4 settings"
-msgstr ""
+msgstr "Plus4 settings"
 
 #: src/arch/win32/resplus4.rc.po.c:458
 #, fuzzy
@@ -8390,22 +8390,22 @@ msgstr "Картридж ISEPIC"
 #: src/arch/win32/resplus4.rc.po.c:460
 #: src/arch/amigaos/intl_text.c.po.c:8282
 msgid "Attach cartridge image for Cartridge1 Low"
-msgstr ""
+msgstr "Attach cartridge image for Cartridge1 Low"
 
 #: src/arch/win32/resplus4.rc.po.c:461
 #: src/arch/amigaos/intl_text.c.po.c:8296
 msgid "Attach cartridge image for Cartridge1 High"
-msgstr ""
+msgstr "Attach cartridge image for Cartridge1 High"
 
 #: src/arch/win32/resplus4.rc.po.c:462
 #: src/arch/amigaos/intl_text.c.po.c:8310
 msgid "Attach cartridge image for Cartridge2 Low"
-msgstr ""
+msgstr "Attach cartridge image for Cartridge2 Low"
 
 #: src/arch/win32/resplus4.rc.po.c:463
 #: src/arch/amigaos/intl_text.c.po.c:8324
 msgid "Attach cartridge image for Cartridge2 High"
-msgstr ""
+msgstr "Attach cartridge image for Cartridge2 High"
 
 #: src/arch/win32/resplus4.rc.po.c:464
 #, fuzzy
@@ -8464,27 +8464,27 @@ msgstr "Эмуляция MMC Replay"
 
 #: src/arch/win32/resplus4.rc.po.c:476
 msgid "C0 high image"
-msgstr ""
+msgstr "C0 high image"
 
 #: src/arch/win32/resplus4.rc.po.c:477
 #: src/arch/amigaos/intl_text.c.po.c:553
 msgid "C1 low  image"
-msgstr ""
+msgstr "C1 low  image"
 
 #: src/arch/win32/resplus4.rc.po.c:478
 #: src/arch/amigaos/intl_text.c.po.c:567
 msgid "C1 high image"
-msgstr ""
+msgstr "C1 high image"
 
 #: src/arch/win32/resplus4.rc.po.c:479
 #: src/arch/amigaos/intl_text.c.po.c:581
 msgid "C2 low  image"
-msgstr ""
+msgstr "C2 low  image"
 
 #: src/arch/win32/resplus4.rc.po.c:480
 #: src/arch/amigaos/intl_text.c.po.c:595
 msgid "C2 high image"
-msgstr ""
+msgstr "C2 high image"
 
 #: src/arch/win32/resplus4.rc.po.c:482
 #: src/arch/win32/resv364speech.rc.po.c:24
@@ -8501,22 +8501,22 @@ msgstr "Настройки модели PET"
 #: src/arch/win32/resplus60k.rc.po.c:29
 #: src/translate_text.c.po.c:12092
 msgid "Enable the PLUS60K RAM expansion"
-msgstr ""
+msgstr "Enable the PLUS60K RAM expansion"
 
 #: src/arch/win32/resplus60k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:6546
 msgid "PLUS60K base address"
-msgstr ""
+msgstr "PLUS60K base address"
 
 #: src/arch/win32/resplus60k.rc.po.c:32
 #: src/arch/amigaos/intl_text.c.po.c:6574
 msgid "Select file for PLUS60K"
-msgstr ""
+msgstr "Select file for PLUS60K"
 
 #: src/arch/win32/resramcart.rc.po.c:42
 #: src/translate_text.c.po.c:4633
 msgid "Enable the RamCart expansion"
-msgstr ""
+msgstr "Enable the RamCart expansion"
 
 #: src/arch/win32/resramcart.rc.po.c:44
 #: src/arch/amigaos/intl_text.c.po.c:6700
