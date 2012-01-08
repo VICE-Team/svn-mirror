@@ -816,7 +816,7 @@ bla =
 
 # vsid
 vsid_libs =  \
-	@X64_WINRES@ \
+	@VSID_WINRES@ \
 	$(vsid_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \

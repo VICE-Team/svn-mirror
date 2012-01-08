@@ -1,0 +1,375 @@
+// VSID specific resources.
+//
+
+#include "vice.h"
+
+#include "debug.h"
+#include "res.h"
+#include "rescommon.h"
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+#define FILE_DESCRIPTION  "VSID - the VICE SID player"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+// template of menu for all languages
+
+IDR_MENUVSID MENU DISCARDABLE
+BEGIN
+    POPUP "File"
+    BEGIN
+        MENUITEM "", IDM_LOAD_PSID_FILE
+        MENUITEM "", IDM_SELECT_TUNE
+        MENUITEM "", IDM_NEXT_TUNE
+        MENUITEM "", IDM_PREVIOUS_TUNE
+        POPUP "Reset"
+        BEGIN
+            MENUITEM "", IDM_RESET_HARD
+            MENUITEM "", IDM_RESET_SOFT
+        END
+        MENUITEM "", IDM_EXIT
+    END
+    POPUP "Media"
+    BEGIN
+        MENUITEM "", IDM_SOUND_RECORD_START
+        MENUITEM "", IDM_SOUND_RECORD_STOP
+    END
+    POPUP "Options"
+    BEGIN
+        POPUP "Refresh rate"
+        BEGIN
+            MENUITEM "", IDM_REFRESH_RATE_AUTO
+            MENUITEM "", IDM_REFRESH_RATE_1
+            MENUITEM "", IDM_REFRESH_RATE_2
+            MENUITEM "", IDM_REFRESH_RATE_3
+            MENUITEM "", IDM_REFRESH_RATE_4
+            MENUITEM "", IDM_REFRESH_RATE_5
+            MENUITEM "", IDM_REFRESH_RATE_6
+            MENUITEM "", IDM_REFRESH_RATE_7
+            MENUITEM "", IDM_REFRESH_RATE_8
+            MENUITEM "", IDM_REFRESH_RATE_9
+            MENUITEM "", IDM_REFRESH_RATE_10
+        END
+        POPUP "Maximum speed"
+        BEGIN
+            MENUITEM "", IDM_MAXIMUM_SPEED_200
+            MENUITEM "", IDM_MAXIMUM_SPEED_100
+            MENUITEM "", IDM_MAXIMUM_SPEED_50
+            MENUITEM "", IDM_MAXIMUM_SPEED_20
+            MENUITEM "", IDM_MAXIMUM_SPEED_10
+            MENUITEM "", IDM_MAXIMUM_SPEED_NO_LIMIT
+            MENUITEM SEPARATOR
+            MENUITEM "", IDM_MAXIMUM_SPEED_CUSTOM
+        END
+        MENUITEM "", IDM_TOGGLE_WARP_MODE,            CHECKED
+        MENUITEM "", IDM_TOGGLE_ALWAYSONTOP
+        MENUITEM "", IDM_TOGGLE_SOUND,                CHECKED
+    END
+    POPUP "Settings"
+    BEGIN
+        MENUITEM "", IDM_PSID_OVERRIDE,               CHECKED
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_VIDEO_SETTINGS
+        MENUITEM "", IDM_SOUND_SETTINGS
+        MENUITEM "", IDM_SID_SETTINGS
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_SETTINGS_SAVE_FILE
+        MENUITEM "", IDM_SETTINGS_LOAD_FILE
+        MENUITEM "", IDM_SETTINGS_SAVE
+        MENUITEM "", IDM_SETTINGS_LOAD
+        MENUITEM "", IDM_SETTINGS_DEFAULT
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT
+        MENUITEM "", IDM_TOGGLE_CONFIRM_ON_EXIT
+    END
+    POPUP "Language"
+    BEGIN
+        MENUITEM "", IDM_LANG_EN
+        MENUITEM "", IDM_LANG_DA
+        MENUITEM "", IDM_LANG_DE
+        MENUITEM "", IDM_LANG_ES
+        MENUITEM "", IDM_LANG_FR
+        MENUITEM "", IDM_LANG_HU
+        MENUITEM "", IDM_LANG_IT
+        MENUITEM "", IDM_LANG_KO
+        MENUITEM "", IDM_LANG_NL
+        MENUITEM "", IDM_LANG_PL
+        MENUITEM "", IDM_LANG_RU
+        MENUITEM "", IDM_LANG_SV
+        MENUITEM "", IDM_LANG_TR
+    END
+    POPUP "Help"
+    BEGIN
+        MENUITEM "", IDM_HELP
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_ABOUT
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_CMDLINE
+        MENUITEM SEPARATOR
+        MENUITEM "", IDM_CONTRIBUTORS
+        MENUITEM "", IDM_LICENSE
+        MENUITEM "", IDM_WARRANTY
+    END
+END
+
+// -----------------------------------------------------------------------------
+
+// template of dialog for all languages
+
+IDD_VSID_TUNE_DIALOG DIALOG DISCARDABLE  0, 0, 180, 75
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "", IDC_VSID_TUNE_LABEL,
+                    9, 6, 53, 8
+    COMBOBOX        IDC_VSID_TUNE,
+                    70, 5, 80, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 30, 50, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 90, 50, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// HUNGARIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+
+
+// TURKISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28599)
+#endif
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_PSID_FILE           "Select PSID file"
+  IDS_TUNE_NR             "Tune number"
+  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_SELECT_TUNE      "Select tune"
+  IDS_MI_NEXT_TUNE        "Next tune"
+  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MP_MEDIA            "Media"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif

@@ -174,29 +174,29 @@ SOURCE=..\..\maincpu.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\resc64.rc
+SOURCE=.\resvsid.rc
 
 !IF  "$(CFG)" == "vsid - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="..\..\debug.h"	"resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus256k.rc"	"resplus60k.rc"	"resc64_256k.rc"	"resmmc64.rc"	"resmmcreplay.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdigimax.rc"	"resmouse.rc"	"resmidi.rc"	"resdqbb.rc"	"resisepic.rc"	"reslightpen.rc"	"ressoundexpander.rc"	"reseasyflash.rc"	"resautostart.rc"	"resmagicvoice.rc"	"resexpert.rc"	"restfe.rc"	
+USERDEP__RESC6="..\..\debug.h"	"resvsid.rc"	"res.rc"	"ressid.rc"	"resvicii.rc"
 # Begin Custom Build
-InputPath=.\resc64.rc
+InputPath=.\resvsid.rc
 
 "resvsidcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus256k.rc + resplus60k.rc + resc64_256k.rc + resmmc64.rc + resmmcreplay.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdigimax.rc + resmouse.rc + resmidi.rc + resdqbb.rc + resisepic.rc + reslightpen.rc + ressoundexpander.rc + reseasyflash.rc + resautostart.rc + resmagicvoice.rc + resexpert.rc + restfe.rc resvsidcat.rc /b
+	copy /b resvsid.rc + ressid.rc + resvicii.rc resvsidcat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "vsid - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="..\..\debug.h"	"resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus256k.rc"	"resplus60k.rc"	"resc64_256k.rc"	"resmmc64.rc"	"resmmcreplay.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdigimax.rc"	"resmouse.rc"	"resmidi.rc"	"resdqbb.rc"	"resisepic.rc"	"reslightpen.rc"	"ressoundexpander.rc"	"reseasyflash.rc"	"resautostart.rc"	"resmagicvoice.rc"	"resexpert.rc"	"restfe.rc"	
+USERDEP__RESC6="..\..\debug.h"	"resvsid.rc"	"res.rc"	"ressid.rc"	"resvicii.rc"
 # Begin Custom Build
-InputPath=.\resc64.rc
+InputPath=.\resvsid.rc
 
 "resvsidcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus256k.rc + resplus60k.rc + resc64_256k.rc + resmmc64.rc + resmmcreplay.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdigimax.rc + resmouse.rc + resmidi.rc + resdqbb.rc + resisepic.rc + reslightpen.rc + ressoundexpander.rc + reseasyflash.rc + resautostart.rc + resmagicvoice.rc + resexpert.rc + restfe.rc resvsidcat.rc /b
+	copy /b resvsid.rc + res.rc + ressid.rc + resvicii.rc resvsidcat.rc /b
 
 # End Custom Build
 
@@ -215,12 +215,12 @@ InputPath=.\resc64.rc
 !ELSEIF  "$(CFG)" == "vsid - Win32 DX Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESC6="..\..\debug.h"	"resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64.rc"	"reside64.rc"	"resreu.rc"	"resgeoram.rc"	"resramcart.rc"	"resplus256k.rc"	"resplus60k.rc"	"resc64_256k.rc"	"resmmc64.rc"	"resmmcreplay.rc"	"resrs232user.rc"	"ressid.rc"	"resvicii.rc"	"resdigimax.rc"	"resmouse.rc"	"resmidi.rc"	"resdqbb.rc"	"resisepic.rc"	"reslightpen.rc"	"ressoundexpander.rc"	"reseasyflash.rc"	"resautostart.rc"	"resmagicvoice.rc"	"resexpert.rc"	"restfe.rc"	
+USERDEP__RESC6="..\..\debug.h"	"resvsid.rc"	"res.rc"	"ressid.rc"	"resvicii.rc"
 # Begin Custom Build
-InputPath=.\resc64.rc
+InputPath=.\resvsid.rc
 
 "resvsidcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus256k.rc + resplus60k.rc + resc64_256k.rc + resmmc64.rc + resmmcreplay.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdigimax.rc + resmouse.rc + resmidi.rc + resdqbb.rc + resisepic.rc + reslightpen.rc + ressoundexpander.rc + reseasyflash.rc + resautostart.rc + resmagicvoice.rc + resexpert.rc + restfe.rc resvsidcat.rc /b
+	copy /b resvsid.rc + res.rc + ressid.rc + resvicii.rc resvsidcat.rc /b
 
 # End Custom Build
 

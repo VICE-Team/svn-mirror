@@ -108,6 +108,7 @@ libarch_a_SOURCES = \
 	resv364speech.rc \
 	resvic20.rc \
 	resvicii.rc \
+	resvsid.rc \
 	rs232.c \
 	rs232dev.c \
 	rs232dev.h \
@@ -277,10 +278,10 @@ libarch_a_SOURCES = \
 
 if OWCC
 libarch_a_DEPENDENCIES = \
-	resc128.res resc64.res resc64dtv.res rescbm2.res respet.res resplus4.res resvic20.res
+	resc128.res resc64.res resc64dtv.res rescbm2.res respet.res resplus4.res resvic20.res resvsid.res
 else
 libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o resc64dtv.o rescbm2.o respet.o resplus4.o resvic20.o
+	resc128.o resc64.o resc64dtv.o rescbm2.o respet.o resplus4.o resvic20.o resvsid.o
 endif
 
 EXTRA_DIST = \
@@ -587,6 +588,11 @@ resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc
 
+resvsidcat.rc: $(srcdir)/resvsid.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc \
+	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h
+	cat >resvsidcat.rc $(srcdir)/resvsid.rc $(srcdir)/res.rc \
+	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc
+
 if OWCC
 resc128.res: resc128cat.rc
 	wrc -fo=resc128.res -r -bt=nt \
@@ -697,6 +703,22 @@ resvic20.o: resvic20cat.rc
 	--include-dir $(top_srcdir)/src/arch/win32 \
 	--include-dir $(top_srcdir)/src
 	$(WINDRES) -i resvic20.res -o $@
+endif
+
+if OWCC
+resvsid.res: resvsidcat.rc
+	wrc -fo=resvsid.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	resvsidcat.rc
+else
+resvsid.o: resvsidcat.rc
+	$(WRC) -i resvsidcat.rc -o resvsid.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32  \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i resvsid.res -o $@
 endif
 
 .PHONY: utils

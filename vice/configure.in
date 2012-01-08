@@ -2736,6 +2736,7 @@ unsigned long test; ],
   xcbm2_LDFLAGS="-mwindows"
 
   if test x"$CC" != "xowcc"; then
+    VSID_WINRES="\$(top_builddir)/src/arch/win32/resvsid.o"
     X64_WINRES="\$(top_builddir)/src/arch/win32/resc64.o"
     X64DTV_WINRES="\$(top_builddir)/src/arch/win32/resc64dtv.o"
     X128_WINRES="\$(top_builddir)/src/arch/win32/resc128.o"
@@ -2786,6 +2787,7 @@ AC_SUBST(xpet_LDFLAGS)
 AC_SUBST(xplus4_LDFLAGS)
 AC_SUBST(xcbm2_LDFLAGS)
 
+AC_SUBST(VSID_WINRES)
 AC_SUBST(X64_WINRES)
 AC_SUBST(X64DTV_WINRES)
 AC_SUBST(X128_WINRES)

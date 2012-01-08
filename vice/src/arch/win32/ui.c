@@ -91,6 +91,7 @@
 #include "util.h"
 #include "version.h"
 #include "vice-event.h"
+#include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
 #include "vsync.h"
