@@ -810,6 +810,8 @@ int c64ui_init(void)
     ui_set_speedmenu(x64_speed_menu);
     ui_set_tape_menu(x64_tape_menu);
 
+    ui_set_drop_callback(uiattach_autostart_file);
+
     ui_update_menus();
 
     return 0;

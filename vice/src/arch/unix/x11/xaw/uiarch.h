@@ -105,4 +105,6 @@ extern void ui_popup(Widget w, const char *title, Boolean wait_popdown);
 extern void ui_about (Widget w, ui_callback_data_t cd, ui_callback_data_t cl);
 extern int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable);
 
+extern void ui_set_drop_callback(void *cb);
+
 #endif

@@ -729,6 +729,9 @@ int vic20ui_init(void)
     ui_set_tape_menu(vic20_tape_menu);
     ui_set_topmenu(vic20_top_menu);
     ui_set_speedmenu(ui_performance_settings_menu);
+
+    ui_set_drop_callback(uiattach_autostart_file);
+
     ui_update_menus();
 
     return 0;

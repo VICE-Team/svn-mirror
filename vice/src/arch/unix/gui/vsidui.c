@@ -257,6 +257,21 @@ static ui_menu_entry_t ui_tune_menu[] = {
 
 static char *psidpath = NULL;
 
+static int vsid_ui_load_psid(char *filename)
+{
+    if (machine_autodetect_psid(filename) < 0) {
+        log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
+        return -1;
+    }
+    lib_free(psidpath);
+    util_fname_split(filename, &psidpath, NULL);
+    psid_init_driver();
+    machine_play_psid(0);
+    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+    vsid_create_menus();
+    return 0;
+}
+
 static UI_CALLBACK(psid_load)
 {
     char *filename;
@@ -269,16 +284,7 @@ static UI_CALLBACK(psid_load)
 
     switch (button) {
         case UI_BUTTON_OK:
-            if (machine_autodetect_psid(filename) < 0) {
-                log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
-                return;
-            }
-            lib_free(psidpath);
-            util_fname_split(filename, &psidpath, NULL);
-            psid_init_driver();
-            machine_play_psid(0);
-            machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-            vsid_create_menus();
+            vsid_ui_load_psid(filename);
             break;
         default:
             /* Do nothing special.  */
@@ -535,6 +541,8 @@ int vsid_ui_init(void)
     /* FIXME: There might be a separte vsid icon.  */
     ui_set_application_icon(c64_icon_data);
     uisound_menu_create();
+
+    ui_set_drop_callback(vsid_ui_load_psid);
 
     vsid_create_menus();
     return 0;

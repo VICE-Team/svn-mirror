@@ -756,6 +756,9 @@ int cbm5x0ui_init(void)
 
     ui_set_tape_menu(cbm2_tape_menu);
     ui_set_speedmenu(ui_performance_settings_menu);
+
+    ui_set_drop_callback(uiattach_autostart_file);
+
     ui_update_menus();
 
     return 0;

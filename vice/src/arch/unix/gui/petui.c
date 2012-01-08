@@ -605,6 +605,9 @@ int petui_init(void)
     ui_set_tape_menu(petui_tape_menu);
     ui_set_topmenu(petui_top_menu);
     ui_set_speedmenu(ui_performance_settings_menu);
+
+    ui_set_drop_callback(uiattach_autostart_file);
+
     ui_update_menus();
 
     return 0;

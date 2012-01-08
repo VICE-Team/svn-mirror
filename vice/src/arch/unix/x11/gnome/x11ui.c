@@ -101,6 +101,7 @@
 #include "vsync.h"
 #include "video.h"
 #include "videoarch.h"
+#include "vsidui.h"
 #include "vsiduiunix.h"
 #include "screenshot.h"
 #include "vice-event.h"
@@ -303,6 +304,12 @@ static void set_window_resources(video_canvas_t *canvas, int x, int y, int w, in
         return;
     }
 
+    DBG(("set_window_resources (%d) x:%d y:%d w:%d h:%d", canvas->app_shell, x, y, w, h));
+    if ((canvas->app_shell >= num_app_shells) || (canvas != app_shells[canvas->app_shell].canvas)) {
+        log_error(ui_log, "set_window_resources: bad params");
+        return;
+    }
+
     for (i = 0; i < 4; i++) {
         windowres[i][6] = '0' + canvas->app_shell;
     }
@@ -317,6 +324,11 @@ static void get_window_resources(video_canvas_t *canvas, int *x, int *y, int *w,
     int i;
 
     if ((canvas == NULL) || (x == NULL) || (y == NULL) || (w == NULL) || (h == NULL)) {
+        return;
+    }
+
+    if ((canvas->app_shell >= num_app_shells) || (canvas != app_shells[canvas->app_shell].canvas)) {
+        log_error(ui_log, "get_window_resources: bad params");
         return;
     }
 
@@ -1092,6 +1104,141 @@ int x11ui_get_screen(void)
 }
 #endif
 
+/*******************************************************************************
+ * Drag and Drop support
+ *******************************************************************************/
+
+/* Define a list of data types called "targets" that a destination widget will
+ * accept. The string type is arbitrary, and negotiated between DnD widgets by
+ * the developer. An enum or GQuark can serve as the integer target id. */
+enum {
+    TARGET_STRING,
+};
+
+#if 0
+/* datatype (string), restrictions on DnD (GtkTargetFlags), datatype (int) */
+static GtkTargetEntry target_list[] = {
+        { "STRING",     0, TARGET_STRING },
+        { "text/plain", 0, TARGET_STRING },
+};
+#endif
+
+static int dropdata = 0;
+static int (*drop_cb)(char*) = NULL; 
+
+/* Emitted when the user releases (drops) the selection. It should check that
+ * the drop is over a valid part of the widget (if its a complex widget), and
+ * itself to return true if the operation should continue. Next choose the
+ * target type it wishes to ask the source for. Finally call gtk_drag_get_data
+ * which will emit "drag-data-get" on the source. */
+static gboolean drag_drop_handler(GtkWidget *widget, GdkDragContext *context, 
+    gint x, gint y, guint time, gpointer user_data)
+{
+    GdkAtom target_type;
+
+    DBG(("drag_drop_handler"));
+
+    /* If the source offers a target */
+    if (context-> targets) {
+        /* Choose the best target type */
+        target_type = GDK_POINTER_TO_ATOM(g_list_nth_data (context->targets, TARGET_STRING));
+
+        dropdata = 1;
+        /* Request the data from the source. */
+        gtk_drag_get_data(
+            widget,         /* will receive 'drag-data-received' signal */
+            context,        /* represents the current state of the DnD */
+            target_type,    /* the target type we want */
+            time            /* time stamp */
+        );
+        return TRUE;
+    }
+    /* No target offered by source => error */
+    return FALSE;
+}
+
+/* Emitted when the data has been received from the source. It should check
+ * the GtkSelectionData sent by the source, and do something with it. Finally
+ * it needs to finish the operation by calling gtk_drag_finish, which will emit
+ * the "data-delete" signal if told to. */
+static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *context, 
+    gint x, gint y, GtkSelectionData *selection_data, guint target_type, guint time,
+    gpointer data)
+{
+    char *filename, *p;
+    gboolean dnd_success = FALSE;
+    gboolean delete_selection_data = FALSE;
+
+    DBG(("drag_data_received_handler"));
+
+    /* Deal with what we are given from source */
+    if(dropdata && (selection_data != NULL) && (selection_data->length >= 0))
+    {
+        dropdata = 0;
+        if (context->action == GDK_ACTION_MOVE) {
+            delete_selection_data = TRUE;
+        }
+
+        /* FIXME; Check that we got a format we can use */
+        filename = (char*)selection_data->data;
+        DBG(("DnD got string: %s", filename));
+        dnd_success = TRUE;
+
+        /* the filename may be an URI starting with file: and/or a varying
+           number of forward slashes (skip them) */
+        if (strncasecmp("file:", filename, 5) == 0) {
+            filename += 5;
+        }
+        while ((filename[0] == '/') && (filename[1] == '/')) {
+            filename++;
+        }
+        /* incase we got a list of files, terminate the list after the first
+           file */
+        p = filename;
+        while (p) {
+            if ((*p == '\n') || (*p == '\r')) {
+                *p = 0;
+                break;
+            }
+            p++;
+        }
+        DBG(("DnD using filename: '%s'", filename));
+        /* finally call the drop callback set by the individual ui */
+        if (drop_cb) {
+            drop_cb(filename);
+        }
+    }
+
+    if (dnd_success == FALSE) {
+        DBG(("DnD data transfer failed!"));
+    }
+
+    gtk_drag_finish (context, dnd_success, delete_selection_data, time);
+}
+
+static void set_drop_target_widget(GtkWidget *w)
+{
+    gtk_drag_dest_set(w, 
+        GTK_DEST_DEFAULT_ALL, 
+        NULL, /* set targets to NULL */
+        0, 
+        GDK_ACTION_COPY | GDK_ACTION_MOVE /* must be copy AND move or it won't 
+                                             work with all WMs / Filemanagers */
+    );
+    gtk_drag_dest_add_text_targets(w); /* add text targets */
+    gtk_drag_dest_add_uri_targets(w); /* add uri targets, to eg include nautilus list view drops */
+
+    g_signal_connect (G_OBJECT(w), "drag-data-received", G_CALLBACK(drag_data_received_handler), NULL);
+    g_signal_connect (G_OBJECT(w), "drag-drop", G_CALLBACK(drag_drop_handler), NULL);
+}
+
+void ui_set_drop_callback(void *cb)
+{
+    drop_cb = cb;
+}
+
+/******************************************************************************/
+
 gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 static void build_screen_canvas_widget(video_canvas_t *c)
@@ -1245,6 +1392,8 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     g_signal_connect(G_OBJECT(new_window), "delete_event", G_CALLBACK(delete_event), NULL);
     g_signal_connect(G_OBJECT(new_window), "destroy_event", G_CALLBACK(delete_event), NULL);
 
+    set_drop_target_widget(new_window);
+
     accel = gtk_accel_group_new();
     gtk_window_add_accel_group(GTK_WINDOW(new_window), accel);
 
@@ -1256,15 +1405,15 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     gtk_window_set_title(GTK_WINDOW(new_window), title);
 
+    get_window_resources(c, &window_xpos, &window_ypos, &window_width, &window_height);
+    DBG(("ui_open_canvas_window (winx: %d winy: %d winw: %d winh: %d)", 
+            window_xpos, window_ypos, window_width, window_height));
     if (machine_class == VICE_MACHINE_VSID) {
         gtk_window_resize(GTK_WINDOW(new_window), VSID_WINDOW_MINW, VSID_WINDOW_MINH);
+        if (!((window_xpos < 0) || (window_ypos < 0))) {
+            gtk_window_move(GTK_WINDOW(new_window), window_xpos, window_ypos);
+        }
     } else {
-        /*
-            FIXME: WindowXXX should be per window (for x128)
-         */
-        get_window_resources(c, &window_xpos, &window_ypos, &window_width, &window_height);
-        DBG(("ui_open_canvas_window (winx: %d winy: %d winw: %d winh: %d)", 
-             window_xpos, window_ypos, window_width, window_height));
         if (!((window_width < WINDOW_MINW) || (window_height < WINDOW_MINH))) {
             gtk_window_resize(GTK_WINDOW(new_window), window_width, window_height);
         }
@@ -2965,6 +3114,12 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
         return 0;
     }
 
+    if ((canvas == NULL) || (canvas->app_shell >= num_app_shells) || 
+        (canvas != app_shells[canvas->app_shell].canvas)) {
+        log_error(ui_log, "configure_callback_canvas: bad params");
+        return 0;
+    }
+
     DBG(("configure_callback_canvas (e->width %d e->height %d canvas_width %d canvas_height %d)",
          e->width, e->height, canvas->draw_buffer->canvas_width, canvas->draw_buffer->canvas_height));
 
@@ -3045,7 +3200,23 @@ gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer cli
         /* DBG(("configure_callback_app skipped")); */
         return 0;
     }
-    DBG(("configure_callback_app (fullscreen: %d x %d y %d w %d h %d)",canvas->fullscreenconfig->enable, e->x, e->y,e->width, e->height));
+
+    if ((canvas->app_shell >= num_app_shells) || (canvas != appshell->canvas)) {
+        log_error(ui_log, "configure_callback_app: bad params");
+        return 0;
+    }
+
+#ifdef DEBUG_X11UI
+#ifdef HAVE_FULLSCREEN
+    if ((machine_class != VICE_MACHINE_VSID) && (canvas->fullscreenconfig)) {
+        DBG(("configure_callback_app (fullscreen: %d x %d y %d w %d h %d)",canvas->fullscreenconfig->enable, e->x, e->y,e->width, e->height));
+    } else {
+#endif
+        DBG(("configure_callback_app (fullscreen: -- x %d y %d w %d h %d)", e->x, e->y,e->width, e->height));
+#ifdef HAVE_FULLSCREEN
+    }
+#endif
+#endif
 
 #ifdef HAVE_FULLSCREEN
     if ((machine_class == VICE_MACHINE_VSID) || (!canvas->fullscreenconfig->enable)) {
@@ -3090,7 +3261,9 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
-    if (canvas == NULL) {
+    if ((canvas == NULL) || (canvas->app_shell >= num_app_shells) || 
+        (canvas != app_shells[canvas->app_shell].canvas)) {
+        log_error(ui_log, "exposure_callback_canvas: bad params");
         return 0;
     }
 

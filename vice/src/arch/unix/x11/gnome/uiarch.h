@@ -99,4 +99,6 @@ extern void ui_block_shells(void);
 extern void ui_unblock_shells(void);
 extern int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable);
 
+extern void ui_set_drop_callback(void *cb);
+
 #endif /* !defined (_UIARCH_H) */

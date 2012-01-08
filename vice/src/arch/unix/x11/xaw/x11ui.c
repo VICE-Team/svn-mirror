@@ -201,6 +201,15 @@ static void mouse_cursor_grab(int grab, Cursor cursor);
 
 /* ------------------------------------------------------------------------- */
 
+static int (*drop_cb)(char*) = NULL; 
+
+void ui_set_drop_callback(void *cb)
+{
+    drop_cb = cb;
+}
+
+/* ------------------------------------------------------------------------- */
+
 void ui_restore_mouse(void)
 {
     mouse_cursor_grab(0, None);

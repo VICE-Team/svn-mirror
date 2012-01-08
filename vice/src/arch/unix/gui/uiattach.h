@@ -34,5 +34,6 @@ extern struct ui_menu_entry_s uiattach_tape_menu[];
 extern struct ui_menu_entry_s uiattach_smart_attach_menu[];
 
 extern void uiattach_shutdown(void);
+extern int uiattach_autostart_file(char *filename);
 
 #endif

@@ -300,6 +300,11 @@ static image_contents_t *read_disk_or_tape_image_contents(const char *fname)
 
 static char *smart_attach_last_dir = NULL;
 
+int uiattach_autostart_file(char *filename)
+{
+    return autostart_autodetect(filename, NULL, 0, AUTOSTART_MODE_RUN);
+}
+
 static UI_CALLBACK(smart_attach)
 {
     char *filename;
