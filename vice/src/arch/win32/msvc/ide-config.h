@@ -77,7 +77,9 @@
 #endif
 #endif
 
+#ifndef _M_AMD64
 #define __i386__                1
+#endif
 
 #define inline                  _inline
 
